@@ -51,7 +51,7 @@ import sgtmelon.scriptum.screen.ui.callback.note.roll.IRollNoteFragment
 import java.util.*
 
 /**
- * Фрагмент для отображения заметки списка
+ * Fragment for display roll note
  */
 class RollNoteFragment : ParentFragment(), IRollNoteFragment {
 

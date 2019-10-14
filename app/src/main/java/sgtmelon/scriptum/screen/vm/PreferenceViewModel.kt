@@ -15,8 +15,12 @@ import sgtmelon.scriptum.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.room.converter.IntConverter
 import sgtmelon.scriptum.screen.ui.callback.IPreferenceFragment
+import sgtmelon.scriptum.screen.ui.preference.PreferenceFragment
 import sgtmelon.scriptum.screen.vm.callback.IPreferenceViewModel
 
+/**
+ * ViewModel for [PreferenceFragment]
+ */
 class PreferenceViewModel(private val context: Context, var callback: IPreferenceFragment?) :
         IPreferenceViewModel {
 

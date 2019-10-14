@@ -13,9 +13,9 @@ import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.screen.vm.DevelopViewModel
 
 /**
- * Репозиторий обработки данных [RoomDb] для [DevelopViewModel]
+ * Repository of [RoomDb] for [DevelopViewModel]
  *
- * @param context для открытия [RoomDb]
+ * @param context for open [RoomDb]
  */
 class DevelopRepo(override val context: Context) : IDevelopRepo, IRoomWork {
 

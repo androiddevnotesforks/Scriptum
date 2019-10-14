@@ -16,21 +16,21 @@ import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.dao.IRankDao
 import sgtmelon.scriptum.room.entity.AlarmEntity
 import sgtmelon.scriptum.room.entity.NoteEntity
+import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.screen.vm.main.NotesViewModel
 
 /**
- * Репозиторий обработки данных [RoomDb]
+ * Repository of [RoomDb]
  *
- * @param context для открытия [RoomDb] и получения данных из [PreferenceRepo]
+ * @param context for open [RoomDb] and get data from [PreferenceRepo]
  */
 class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
 
-    // TODO #RELEASE2 убрать отсюда методы связанные с rank в RankRepo
-    // TODO #RELEASE2 убрать throws
-    // TODO #RELEASE2 Разнести по отдельным repo
+    // TODO #RELEASE2 remove to RankRepo funcs which related with rank
+    // TODO #RELEASE2 cut to small repos
 
-    // TODO подумай, как лучше убрать от сюда iPreferenceRepo
+    // TODO think, how remove it
     private val iPreferenceRepo: IPreferenceRepo = PreferenceRepo(context)
 
     override fun getNoteModelList(bin: Boolean): MutableList<NoteModel> {
@@ -240,7 +240,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
     override fun saveRollNote(noteModel: NoteModel, isCreate: Boolean) = with(noteModel) {
         if (noteEntity.type != NoteType.ROLL) return@with
 
-        //TODO !! Оптимизировать
+        //TODO !! Refactor
         val rollListTemp = rollList.filterNot { it.text.isEmpty() }
         rollList.clear()
         rollList.addAll(rollListTemp)
@@ -251,7 +251,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
                 alarmEntity.noteId = noteEntity.id
 
                 /**
-                 * Запись в пунктов в БД
+                 * Write roll to db
                  */
                 rollList.forEachIndexed { i, item ->
                     item.apply {
@@ -278,7 +278,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
                 }
 
                 /**
-                 * Удаление пунктов, которые swipe
+                 * Remove swiped rolls
                  */
                 iRollDao.delete(noteEntity.id, idSaveList)
             }
@@ -304,10 +304,10 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
     override fun updateNote(noteEntity: NoteEntity) = inRoom { iNoteDao.update(noteEntity) }
 
 
-    // TODO прибрать private
+    // TODO clean up private
 
     /**
-     * Добавление или удаление id заметки к категорииё
+     * Add or remove [NoteEntity.id] from [RankEntity.noteId]
      */
     private fun updateRank(noteEntity: NoteEntity) = inRoom {
         val list = iRankDao.get()
@@ -326,10 +326,9 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
     }
 
     /**
-     * Удаление связи между Rank и Note
+     * Remove relation between [RankEntity] and [NoteEntity] which will be delete
      *
-     * @param rankDao передаётся таким образом, чтобы не закрыть db
-     * @param noteEntity заметка, которая будет удалена
+     * [rankDao] pass via parameter because don't need close [RoomDb]
      */
     private fun clearRankConnection(rankDao: IRankDao, noteEntity: NoteEntity) {
         if (noteEntity.rankId == NoteEntity.ND_RANK_ID) return

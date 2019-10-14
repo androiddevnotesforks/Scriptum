@@ -7,18 +7,12 @@ import java.text.SimpleDateFormat
 import java.util.*
 import android.text.format.DateFormat as DateFormatAndroid
 
-// TODO #RELEASE2 объединить с форматированием строки (посмотреть нужно ли всезде)
-fun getDateFormat(): SimpleDateFormat {
-    return SimpleDateFormat(BuildConfig.DATE_FORMAT_DB, Locale.getDefault())
-}
+private fun getDateFormat() = SimpleDateFormat(BuildConfig.DATE_FORMAT_DB, Locale.getDefault())
 
 fun Context?.is24Format(): Boolean {
     return if (this != null) DateFormatAndroid.is24HourFormat(this) else true
 }
 
-/**
- * Текущее время в нужном формате
- */
 fun getTime(): String = Calendar.getInstance().getString()
 
 fun Calendar.isToday() = DateUtils.isToday(timeInMillis)

@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.model.state
 
 /**
- * Состояние контроля анимации иконок
+ * State for control icon animation
  */
 class IconState {
 

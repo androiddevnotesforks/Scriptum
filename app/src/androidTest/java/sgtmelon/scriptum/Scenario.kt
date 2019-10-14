@@ -1,6 +1,8 @@
 package sgtmelon.scriptum
 
 /**
+ * TODO remove
+ *
  * Описание сценариев для UI тестов
  *
  * Значения:

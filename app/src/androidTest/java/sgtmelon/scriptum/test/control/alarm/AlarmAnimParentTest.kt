@@ -9,7 +9,7 @@ import sgtmelon.scriptum.test.ParentUiTest
 import kotlin.random.Random
 
 /**
- * Родительский класс для тестов [AlarmActivity] с разными темами
+ * Parent class for tests of [AlarmActivity] with different themes
  */
 abstract class AlarmAnimParentTest(@Theme private val theme: Int) : ParentUiTest(), IColorTest {
 

@@ -16,7 +16,7 @@ import sgtmelon.scriptum.repository.preference.PreferenceRepo
 class ColorAdapter(context: Context, private val clickListener: ItemListener.Click)
     : ParentAdapter<Int, ColorHolder>() {
 
-    // TODO !! убрать iPreferenceRepo
+    // TODO #RELEASE remove iPreferenceRepo
 
     private val theme = PreferenceRepo(context).theme
 

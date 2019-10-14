@@ -4,20 +4,19 @@ import sgtmelon.scriptum.room.entity.RollEntity
 
 
 /**
- * Состояние для отметок, определяющее отмечено ли всё в списке с элементами [RollEntity]
+ * State which determining everything is checked or not in [RollEntity] list
  */
 class CheckState {
 
     var isAll: Boolean = false
         private set
 
-    fun setAll(rollList: MutableList<RollEntity>) {
-        isAll = rollList.isAllCheck()
+    fun setAll(list: MutableList<RollEntity>) {
+        isAll = list.isAllCheck()
     }
 
     /**
-     * Проверка произошло ли изменение состояния отметки всех пунктов
-     * [check] - Количество отметок, [size] - размер списка
+     * Check changes of [isAll], [check] - all checks, [size] - list size
      */
     fun setAll(check: Int, size: Int): Boolean {
         val all = check == size

@@ -6,7 +6,7 @@ import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.ColorItem
 
 /**
- * Описание цветов заметок
+ * Data of note colors
  */
 object ColorData {
 

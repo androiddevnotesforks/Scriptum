@@ -23,7 +23,7 @@ class RankInteractor(context: Context, private var callback: IRankBridge?) :
 
 
     /**
-     * Обновление по категориям всех прикреплённых заметок в статус баре
+     * Update all bind notes in status bar rely on rank visibility
      */
     override fun notifyBind() {
         val rankIdVisibleList = iRoomRepo.getRankIdVisibleList()

@@ -24,7 +24,7 @@ interface IRoomRepo {
     suspend fun restoreNote(noteModel: NoteModel)
 
     /**
-     * Полное удаление заметки из базы данных и очистка категорий от неё
+     * Delete of note from data base and clear categories
      */
     suspend fun clearNote(noteModel: NoteModel)
 
@@ -38,7 +38,7 @@ interface IRoomRepo {
     fun getNoteModel(id: Long): NoteModel?
 
     /**
-     * @return Список с именами всех категорий
+     * Return array with all rank names
      */
     fun getRankDialogItemArray(): Array<String>
 
@@ -56,16 +56,8 @@ interface IRoomRepo {
     fun saveRollNote(noteModel: NoteModel, isCreate: Boolean)
 
 
-    /**
-     * Обновление конкретного пункта списка
-     */
     fun updateRollCheck(noteEntity: NoteEntity, rollEntity: RollEntity)
 
-    /**
-     * Обновление всех пунктов списка
-     *
-     * @param check состояние для всех пунктов
-     */
     fun updateRollCheck(noteEntity: NoteEntity, check: Boolean)
 
     fun updateNote(noteEntity: NoteEntity)

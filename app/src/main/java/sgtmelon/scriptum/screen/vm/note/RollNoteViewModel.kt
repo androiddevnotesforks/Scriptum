@@ -418,11 +418,11 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         }
 
         /**
-         * Переход в режим просмотра
+         * Change to read mode
          */
         if (changeMode) {
             callback?.hideKeyboard()
-            onMenuEdit(false)
+            onMenuEdit(isEdit = false)
             inputControl.reset()
         }
 

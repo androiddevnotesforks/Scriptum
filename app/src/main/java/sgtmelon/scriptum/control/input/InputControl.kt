@@ -7,18 +7,18 @@ import sgtmelon.scriptum.model.item.InputItem
 import java.util.*
 
 /**
- * Класс предназначенный для контроля ввода данных в заметку, применения undo и redo
- * Модель для хранения данных: [InputItem]
+ * Class for control input data inside note and work with undo/redo
+ * Model for store data: [InputItem]
  *
- * [InputAction] - Значения, которые будут содержаться в списке:
- * Name change  - Текст (до/после)
- * Rank change  - Отмеченные id (до/после)
- * Color change - Отмеченный цвет (до/после)
- * Text change  - Текст (до/после)
- * Roll change  - Текст (пункт/до/после)
- * Roll add     - Номер пункта : значение
- * Roll swipe   - Номер пункта : значение
- * Roll move    - Перемещение (до/после)
+ * [InputAction] - Value which describes action:
+ * Name change  - Text (before/after)
+ * Rank change  - Checked id's (before/after)
+ * Color change - Checked color (before/after)
+ * Text change  - Text (before/after)
+ * Roll change  - Text (text/before/after)
+ * Roll add     - Roll number: value
+ * Roll swipe   - Roll number: value
+ * Roll move    - Move position (before/after)
  */
 class InputControl : IInputControl {
 
@@ -27,22 +27,11 @@ class InputControl : IInputControl {
     private val inputList = ArrayList<InputItem>()
 
     /**
-     * Позиция в массиве
+     * Position in [inputList]
      */
     private var position = -1
 
-    /**
-     * Проверка доступна ли отмена
-     *
-     * @return - Есть куда возвращаться или нет
-     */
     val isUndoAccess get() = inputList.size != 0 && position != -1
-
-    /**
-     * Проверка доступен ли возврат
-     *
-     * @return - Есть куда возвращаться или нет
-     */
     val isRedoAccess get() = inputList.size != 0 && position != inputList.size - 1
 
     val access get() = Access(isUndoAccess, isRedoAccess)
@@ -72,12 +61,12 @@ class InputControl : IInputControl {
         listAll()
     }
 
-    /**
-     * Если позиция не в конце, то удаление ненужной информации перед добавлением новой
-     */
     private fun remove() {
         val endPosition = inputList.size - 1
 
+        /**
+         * If position not at end, when remove unused information before add new
+         */
         if (position != endPosition) {
             (endPosition downTo position + 1).forEach { inputList.removeAt(it) }
         }
@@ -91,7 +80,7 @@ class InputControl : IInputControl {
     }
 
     /**
-     * Переменная для предотвращения записи каких-либо изменений
+     * Variable for prevent changes
      */
     override var isEnabled = false
 
@@ -143,7 +132,7 @@ class InputControl : IInputControl {
     }
 
     /**
-     * Класс для контроля возможности отмены/возврата действий
+     * Class for control undo/redo call access
      */
     data class Access(val isUndo: Boolean, val isRedo: Boolean)
 

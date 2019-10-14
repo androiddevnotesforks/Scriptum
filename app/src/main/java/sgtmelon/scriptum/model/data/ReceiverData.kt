@@ -3,7 +3,7 @@ package sgtmelon.scriptum.model.data
 import android.content.BroadcastReceiver
 
 /**
- * Ключи для работы с [BroadcastReceiver]
+ * Keys for work with [BroadcastReceiver]
  */
 object ReceiverData {
 

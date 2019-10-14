@@ -3,7 +3,7 @@ package sgtmelon.scriptum.model.state
 import android.os.Bundle
 
 /**
- * Состояние для диалогов, сохраняющее открыт ли он
+ * State for dialogs which give us know open them or not
  */
 class OpenState {
 

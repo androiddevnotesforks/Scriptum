@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.data
 
 /**
- * Класс идентифицирующий состояния заметки
+ * Class identifying state of note
  */
 enum class State { READ, BIN, EDIT, NEW }

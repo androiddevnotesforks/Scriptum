@@ -8,7 +8,7 @@ import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
 import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
 
 /**
- * Управление перетаскиванием для [RollNoteFragment], реализовывать в [RollNoteViewModel]
+ * Control drag and swipe for [RollNoteFragment], setup in [RollNoteViewModel]
  */
 class RollTouchControl(private val callback: Callback) : ItemTouchHelper.Callback(),
         ItemListener.Drag {
@@ -62,12 +62,12 @@ class RollTouchControl(private val callback: Callback) : ItemTouchHelper.Callbac
                              actionState: Int, isCurrentlyActive: Boolean) {
         if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
             /**
-             * Конечная точка, где альфа = 0
+             * End position where alpha equal 0
              */
             val targetX = viewHolder.itemView.width.toFloat() / 2
 
             /**
-             * Сдвиг, между начальной точкой и конечной
+             * Shift between start and end position
              */
             val translationX = Math.abs(
                     if (dX > 0) Math.min(dX, targetX) else Math.max(dX, -targetX)

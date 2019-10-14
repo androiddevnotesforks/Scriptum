@@ -15,14 +15,17 @@ import sgtmelon.scriptum.model.key.NoteType
 object DialogFactory {
 
     object Main {
-        fun getRenameDialog(fm: FragmentManager?): RenameDialog =
-                fm?.findFragmentByTag(RENAME) as? RenameDialog ?: RenameDialog()
+        fun getRenameDialog(fm: FragmentManager?): RenameDialog {
+            return fm?.findFragmentByTag(RENAME) as? RenameDialog ?: RenameDialog()
+        }
 
-        fun getAddDialog(fm: FragmentManager?): SheetAddDialog =
-                fm?.findFragmentByTag(ADD) as? SheetAddDialog ?: SheetAddDialog()
+        fun getAddDialog(fm: FragmentManager?): SheetAddDialog {
+            return fm?.findFragmentByTag(ADD) as? SheetAddDialog ?: SheetAddDialog()
+        }
 
-        fun getOptionsDialog(fm: FragmentManager?): OptionsDialog =
-                fm?.findFragmentByTag(OPTIONS) as? OptionsDialog ?: OptionsDialog()
+        fun getOptionsDialog(fm: FragmentManager?): OptionsDialog {
+            return fm?.findFragmentByTag(OPTIONS) as? OptionsDialog ?: OptionsDialog()
+        }
 
         fun getClearBinDialog(context: Context?, fm: FragmentManager?): MessageDialog {
             val dialog = fm?.findFragmentByTag(CLEAR_BIN) as? MessageDialog ?: MessageDialog()
@@ -81,11 +84,9 @@ object DialogFactory {
             return dialog
         }
 
-        fun getDateDialog(): DateDialog =
-                fm?.findFragmentByTag(DATE) as? DateDialog ?: DateDialog()
+        fun getDateDialog(): DateDialog = fm?.findFragmentByTag(DATE) as? DateDialog ?: DateDialog()
 
-        fun getTimeDialog(): TimeDialog =
-                fm?.findFragmentByTag(TIME) as? TimeDialog ?: TimeDialog()
+        fun getTimeDialog(): TimeDialog = fm?.findFragmentByTag(TIME) as? TimeDialog ?: TimeDialog()
 
         companion object {
             private const val PREFIX = "DIALOG_NOTE"
@@ -204,8 +205,9 @@ object DialogFactory {
             return dialog
         }
 
-        fun getAboutDialog(): AboutDialog =
-                fm?.findFragmentByTag(ABOUT) as? AboutDialog ?: AboutDialog()
+        fun getAboutDialog(): AboutDialog {
+            return fm?.findFragmentByTag(ABOUT) as? AboutDialog ?: AboutDialog()
+        }
 
         companion object {
             private const val PREFIX = "DIALOG_PREF"

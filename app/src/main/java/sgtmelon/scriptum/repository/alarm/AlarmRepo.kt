@@ -7,9 +7,9 @@ import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.entity.AlarmEntity
 
 /**
- * Репозиторий обработки данных [RoomDb] для работы с будильником
+ * Repository of [RoomDb] which work with alarm
  *
- * @param context для открытия [RoomDb]
+ * @param context for open [RoomDb]
  */
 class AlarmRepo(override val context: Context) : IAlarmRepo, IRoomWork {
 

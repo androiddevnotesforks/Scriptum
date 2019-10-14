@@ -9,7 +9,7 @@ import sgtmelon.scriptum.extension.getTintDrawable
 import sgtmelon.scriptum.screen.ui.AppActivity
 
 /**
- * Активити для отображения [PreferenceFragment]
+ * Screen for display [PreferenceFragment]
  */
 class PreferenceActivity : AppActivity() {
 
@@ -19,7 +19,7 @@ class PreferenceActivity : AppActivity() {
 
         setupToolbar()
 
-        // TODO исправить
+        // TODO fix
         fragmentManager
                 .beginTransaction()
                 .replace(R.id.preference_fragment_container, PreferenceFragment())

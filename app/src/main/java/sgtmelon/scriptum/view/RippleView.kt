@@ -19,7 +19,7 @@ class RippleView(context: Context) : View(context) {
     }
 
     /**
-     * Из радиуса вычетается небольшой отступ, чтобы круг не был обрезанным
+     * Remove from radius small space for better performance
      */
     override fun onDraw(canvas: Canvas) = (min(width, height) / 2).toFloat().let {
         canvas.drawCircle(it, it, it - resources.getDimension(R.dimen.radius_2dp), paint ?: return@let)

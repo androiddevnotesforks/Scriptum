@@ -14,11 +14,13 @@ object FragmentFactory {
 
     class Note(private val fm: FragmentManager) {
 
-        fun getTextNoteFragment(): TextNoteFragment? =
-                fm.findFragmentByTag(TEXT) as? TextNoteFragment
+        fun getTextNoteFragment(): TextNoteFragment? {
+            return fm.findFragmentByTag(TEXT) as? TextNoteFragment
+        }
 
-        fun getRollNoteFragment(): RollNoteFragment? =
-                fm.findFragmentByTag(ROLL) as? RollNoteFragment
+        fun getRollNoteFragment(): RollNoteFragment? {
+            return fm.findFragmentByTag(ROLL) as? RollNoteFragment
+        }
 
         companion object {
             private const val PREFIX = "FRAGMENT_NOTE"
@@ -31,14 +33,17 @@ object FragmentFactory {
 
     class Main(private val fm: FragmentManager) {
 
-        fun getRankFragment(): RankFragment =
-                fm.findFragmentByTag(RANK) as? RankFragment ?: RankFragment()
+        fun getRankFragment(): RankFragment {
+            return fm.findFragmentByTag(RANK) as? RankFragment ?: RankFragment()
+        }
 
-        fun getNotesFragment(): NotesFragment =
-                fm.findFragmentByTag(NOTES) as? NotesFragment ?: NotesFragment()
+        fun getNotesFragment(): NotesFragment {
+            return fm.findFragmentByTag(NOTES) as? NotesFragment ?: NotesFragment()
+        }
 
-        fun getBinFragment(): BinFragment =
-                fm.findFragmentByTag(BIN) as? BinFragment ?: BinFragment()
+        fun getBinFragment(): BinFragment {
+            return fm.findFragmentByTag(BIN) as? BinFragment ?: BinFragment()
+        }
 
         companion object {
             private const val PREFIX = "FRAGMENT_MAIN"

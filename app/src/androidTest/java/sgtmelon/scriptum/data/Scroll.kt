@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.data
 
 /**
- * Класс идентифицирующий направление прокрутки списка
+ * Class identifying scroll direction
  */
 enum class Scroll { START, END }

@@ -72,8 +72,7 @@ class MainActivity : AppActivity(), IMainActivity {
             })
 
     /**
-     * Если нажатие произошло за пределами контейнера [RankFragment.enterCard], то нужно
-     * скрыть клавиатуру
+     * If touch was outside of [RankFragment.enterCard], when need hide keyboard
      */
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
         if (ev?.action != MotionEvent.ACTION_DOWN) return super.dispatchTouchEvent(ev)
@@ -158,7 +157,7 @@ class MainActivity : AppActivity(), IMainActivity {
     }
 
     /**
-     * Функция определяет произошёл ли [MotionEvent] на объекте
+     * Func return was [MotionEvent] happen on [view]
      */
     private fun MotionEvent?.onView(view: View?): Boolean {
         if (view == null || this == null) return false

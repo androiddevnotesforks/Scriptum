@@ -2,7 +2,7 @@ package sgtmelon.scriptum.factory
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import sgtmelon.scriptum.screen.ui.callback.IAppActivity
 import sgtmelon.scriptum.screen.ui.callback.IDevelopActivity
 import sgtmelon.scriptum.screen.ui.callback.IIntroActivity
@@ -53,79 +53,92 @@ object ViewModelFactory {
 
     // ---------------------------
 
-    fun getAppViewModel(activity: AppCompatActivity): IAppViewModel =
-            ViewModelProviders.of(activity).get(AppViewModel::class.java).apply {
-                callback = activity as? IAppActivity
-            }
+    fun getAppViewModel(activity: AppCompatActivity): IAppViewModel {
+        return ViewModelProvider(activity).get(AppViewModel::class.java).apply {
+            callback = activity as? IAppActivity
+        }
+    }
 
-    fun getSplashViewModel(activity: AppCompatActivity): ISplashViewModel =
-            ViewModelProviders.of(activity).get(SplashViewModel::class.java).apply {
-                callback = activity as? ISplashActivity
-            }
+    fun getSplashViewModel(activity: AppCompatActivity): ISplashViewModel {
+        return ViewModelProvider(activity).get(SplashViewModel::class.java).apply {
+            callback = activity as? ISplashActivity
+        }
+    }
 
-    fun getIntroViewModel(activity: AppCompatActivity): IIntroViewModel =
-            ViewModelProviders.of(activity).get(IntroViewModel::class.java).apply {
-                callback = activity as? IIntroActivity
-            }
-
-    // ---------------------------
-
-    fun getNoteViewModel(activity: AppCompatActivity): INoteViewModel =
-            ViewModelProviders.of(activity).get(NoteViewModel::class.java).apply {
-                callback = activity as? INoteActivity
-            }
-
-    fun getTextNoteViewModel(fragment: Fragment): ITextNoteViewModel =
-            ViewModelProviders.of(fragment).get(TextNoteViewModel::class.java).apply {
-                callback = fragment as? TextNoteFragment
-                parentCallback = fragment.context as? INoteChild
-            }
-
-    fun getRollNoteViewModel(fragment: Fragment): IRollNoteViewModel =
-            ViewModelProviders.of(fragment).get(RollNoteViewModel::class.java).apply {
-                callback = fragment as? RollNoteFragment
-                parentCallback = fragment.context as? INoteChild
-            }
+    fun getIntroViewModel(activity: AppCompatActivity): IIntroViewModel {
+        return ViewModelProvider(activity).get(IntroViewModel::class.java).apply {
+            callback = activity as? IIntroActivity
+        }
+    }
 
     // ---------------------------
 
-    fun getMainViewModel(activity: AppCompatActivity): IMainViewModel =
-            ViewModelProviders.of(activity).get(MainViewModel::class.java).apply {
-                callback = activity as? IMainActivity
-            }
+    fun getNoteViewModel(activity: AppCompatActivity): INoteViewModel {
+        return ViewModelProvider(activity).get(NoteViewModel::class.java).apply {
+            callback = activity as? INoteActivity
+        }
+    }
 
-    fun getRankViewModel(fragment: Fragment): IRankViewModel =
-            ViewModelProviders.of(fragment).get(RankViewModel::class.java).apply {
-                callback = fragment as? IRankFragment
-            }
+    fun getTextNoteViewModel(fragment: Fragment): ITextNoteViewModel {
+        return ViewModelProvider(fragment).get(TextNoteViewModel::class.java).apply {
+            callback = fragment as? TextNoteFragment
+            parentCallback = fragment.context as? INoteChild
+        }
+    }
 
-    fun getNotesViewModel(fragment: Fragment): INotesViewModel =
-            ViewModelProviders.of(fragment).get(NotesViewModel::class.java).apply {
-                callback = fragment as? INotesFragment
-            }
-
-    fun getBinViewModel(fragment: Fragment): IBinViewModel =
-            ViewModelProviders.of(fragment).get(BinViewModel::class.java).apply {
-                callback = fragment as? IBinFragment
-            }
-
-    // ---------------------------
-
-    fun getNotificationViewModel(activity: AppCompatActivity): INotificationViewModel =
-            ViewModelProviders.of(activity).get(NotificationViewModel::class.java).apply {
-                callback = activity as? INotificationActivity
-            }
-
-    fun getAlarmViewModel(activity: AppCompatActivity): IAlarmViewModel =
-            ViewModelProviders.of(activity).get(AlarmViewModel::class.java).apply {
-                callback = activity as? IAlarmActivity
-            }
+    fun getRollNoteViewModel(fragment: Fragment): IRollNoteViewModel {
+        return ViewModelProvider(fragment).get(RollNoteViewModel::class.java).apply {
+            callback = fragment as? RollNoteFragment
+            parentCallback = fragment.context as? INoteChild
+        }
+    }
 
     // ---------------------------
 
-    fun getDevelopViewModel(activity: AppCompatActivity): IDevelopViewModel =
-            ViewModelProviders.of(activity).get(DevelopViewModel::class.java).apply {
-                callback = activity as? IDevelopActivity
-            }
+    fun getMainViewModel(activity: AppCompatActivity): IMainViewModel {
+        return ViewModelProvider(activity).get(MainViewModel::class.java).apply {
+            callback = activity as? IMainActivity
+        }
+    }
+
+    fun getRankViewModel(fragment: Fragment): IRankViewModel {
+        return ViewModelProvider(fragment).get(RankViewModel::class.java).apply {
+            callback = fragment as? IRankFragment
+        }
+    }
+
+    fun getNotesViewModel(fragment: Fragment): INotesViewModel {
+        return ViewModelProvider(fragment).get(NotesViewModel::class.java).apply {
+            callback = fragment as? INotesFragment
+        }
+    }
+
+    fun getBinViewModel(fragment: Fragment): IBinViewModel {
+        return ViewModelProvider(fragment).get(BinViewModel::class.java).apply {
+            callback = fragment as? IBinFragment
+        }
+    }
+
+    // ---------------------------
+
+    fun getNotificationViewModel(activity: AppCompatActivity): INotificationViewModel {
+        return ViewModelProvider(activity).get(NotificationViewModel::class.java).apply {
+            callback = activity as? INotificationActivity
+        }
+    }
+
+    fun getAlarmViewModel(activity: AppCompatActivity): IAlarmViewModel {
+        return ViewModelProvider(activity).get(AlarmViewModel::class.java).apply {
+            callback = activity as? IAlarmActivity
+        }
+    }
+
+    // ---------------------------
+
+    fun getDevelopViewModel(activity: AppCompatActivity): IDevelopViewModel {
+        return ViewModelProvider(activity).get(DevelopViewModel::class.java).apply {
+            callback = activity as? IDevelopActivity
+        }
+    }
 
 }

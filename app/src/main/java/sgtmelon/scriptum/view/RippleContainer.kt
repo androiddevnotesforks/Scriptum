@@ -37,8 +37,9 @@ class RippleContainer : RelativeLayout {
     constructor (context: Context, attrs: AttributeSet, style: Int) : super(context, attrs, style)
 
     /**
-     * Вызывать метод перед [startAnimation]
-     * Элемент, относительно которого будет расчитываться центр для ripple, передавать через [hookView]
+     * Call func before [startAnimation]
+     *
+     * Element which center will be start position for ripple pass throw [hookView]
      */
     fun setupAnimation(@Theme theme: Int, @ColorInt fillColor: Int, hookView: View) = apply {
         params = RippleParams(theme, parentView = this, hookView = hookView)

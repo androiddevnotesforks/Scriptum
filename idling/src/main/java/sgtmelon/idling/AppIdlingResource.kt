@@ -4,13 +4,12 @@ import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.IdlingResource
 
 /**
- * Класс для поддержки работоспособности тестов, во время ожидания операции
- * Замена для Thread.sleep(...)
+ * Class for maintain test work while app is freeze without Thread.sleep(...)
  */
 class AppIdlingResource : IdlingResource, AppIdlingCallback {
 
     /**
-     * true - не надо ждать операции, false - надо ждать окончание операции
+     * true - don't need wait operation, false - need wait end of operation
      */
     private var idle = true
 

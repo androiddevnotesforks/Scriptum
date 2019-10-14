@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.model.state
 
 /**
- * Состояние для фрагментов с заметками, необходимое для управления её редактированием
+ * State for fragments with notes, need for control editing
  */
 class NoteState(var isCreate: Boolean = false, var isBin: Boolean = false) {
 
@@ -17,10 +17,5 @@ class NoteState(var isCreate: Boolean = false, var isBin: Boolean = false) {
             func()
         }
     }
-
-    /**
-     * @return - Строка для Log
-     */
-    override fun toString() = "create = $isCreate | edit = $isEdit | bin = $isBin"
 
 }

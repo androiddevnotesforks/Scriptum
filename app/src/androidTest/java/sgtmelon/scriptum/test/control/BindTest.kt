@@ -13,7 +13,7 @@ class BindTest : ParentUiTest() {
     /**
      * TODO Check where use BindControl and test this pieces
      *
-     * TODO проверка обновления ui при откреплении заметки через шторку
+     * TODO Check UI update on unbind note by notification button via status bar
      * - NotesScreen
      * - Text/RollNoteScreen
      */

@@ -1,9 +1,10 @@
 package sgtmelon.scriptum.model.data
 
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.screen.ui.intro.IntroActivity
 
 /**
- * Аннотация для отображения информации во вступлении
+ * Data for [IntroActivity]
  */
 object IntroData {
 

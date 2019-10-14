@@ -30,14 +30,12 @@ interface IRollNoteInteractor : IParentInteractor {
 
 
     /**
-     * Обновление конкретного пункта списка
+     * Update single roll
      */
     fun updateRollCheck(noteModel: NoteModel, rollEntity: RollEntity)
 
     /**
-     * Обновление всех пунктов списка
-     *
-     * @param check состояние для всех пунктов
+     * Update all rolls
      */
     fun updateRollCheck(noteModel: NoteModel, check: Boolean)
 

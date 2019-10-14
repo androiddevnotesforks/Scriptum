@@ -20,17 +20,11 @@ import sgtmelon.scriptum.model.item.ColorItem
 
 //region Color and Theme
 
-/**
- * Установка цвета карточки в соответствии с цветом заметки
- */
 @BindingAdapter("noteColor")
 fun CardView.bindNoteColor(@Color color: Int) {
     setCardBackgroundColor(context.getAppThemeColor(color, needDark = false))
 }
 
-/**
- * Установка цвета для индикатора на основании темы
- */
 @BindingAdapter(value = ["indicatorTheme", "indicatorColor"])
 fun View.bindIndicatorColor(@Theme theme: Int, @Color color: Int): ColorItem {
     val colorItem = ColorData.getColorItem(theme, color)
@@ -41,7 +35,7 @@ fun View.bindIndicatorColor(@Theme theme: Int, @Color color: Int): ColorItem {
 }
 
 /**
- * Установка видимости элемента только на конкретной теме
+ * Set visibility rely on current theme
  */
 @BindingAdapter(value = ["visibleTheme", "visibleOn"])
 fun View.bindVisibleTheme(@Theme visibleOn: Int, @Theme currentTheme: Int) {
@@ -59,11 +53,7 @@ fun ImageView.bindDrawable(@DrawableRes drawableId: Int, @AttrRes color: Int) {
 //region Boolean bind
 
 /**
- * Установка цветового фильтра на основании результата логического выражения
- *
- * @param boolExpression - Логическое выражение
- * @param trueColor      - Цвет при истине
- * @param falseColor     - Цвет если ложь
+ * Set tint rely on [boolExpression]
  */
 @BindingAdapter(value = ["boolExpression", "trueColor", "falseColor"])
 fun ImageButton.bindBoolTint(boolExpression: Boolean,
@@ -72,16 +62,13 @@ fun ImageButton.bindBoolTint(boolExpression: Boolean,
     setColorFilter(context.getColorAttr(if (boolExpression) trueColor else falseColor))
 }
 
-/**
- * Установка доступа к [ImageButton]
- */
 @BindingAdapter("enabled")
 fun ImageButton.bindEnabled(enabled: Boolean) {
     isEnabled = enabled
 }
 
 /**
- * Изменение состояния [CheckBox] с анимацией или установка значения [checkState]
+ * Change state of [CheckBox] with anim or simple value set
  */
 @BindingAdapter(value = ["checkToggle", "checkState"])
 fun CheckBox.bindCheck(checkToggle: Boolean, checkState: Boolean) {
@@ -92,9 +79,6 @@ fun CheckBox.bindCheck(checkToggle: Boolean, checkState: Boolean) {
 
 //region Time
 
-/**
- * Форматировение строки с прошедшим временем в подобающий вид
- */
 @BindingAdapter(value = ["pastTime"])
 fun TextView.bindPastTime(dateTime: String) {
     text = try {
@@ -105,9 +89,6 @@ fun TextView.bindPastTime(dateTime: String) {
     }
 }
 
-/**
- * Форматировение строки с будущим временем в подобающий вид
- */
 @BindingAdapter(value = ["futureTime"])
 fun TextView.bindFutureTime(dateTime: String) {
     text = try {

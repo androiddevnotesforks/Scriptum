@@ -12,7 +12,7 @@ import java.util.*
  */
 abstract class ParentAdapter<T, VH : RecyclerView.ViewHolder>() : RecyclerView.Adapter<VH>() {
 
-    // TODO сделать list NotMutable
+    // TODO make list not mutable
 
     protected val list: MutableList<T> = ArrayList()
 

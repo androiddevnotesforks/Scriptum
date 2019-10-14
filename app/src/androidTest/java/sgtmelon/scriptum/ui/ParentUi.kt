@@ -15,7 +15,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
 
 /**
- * Родительский класс для доступа к стандартному функционалу ui
+ * Parent class for access standard UI functions
  */
 abstract class ParentUi {
 

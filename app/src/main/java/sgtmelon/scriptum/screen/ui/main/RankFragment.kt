@@ -186,7 +186,7 @@ class RankFragment : ParentFragment(), IRankFragment {
             bindList(list.size)
         } else {
             val fastScroll = with(layoutManager) {
-                if (simpleClick) {
+                return@with if (simpleClick) {
                     findLastVisibleItemPosition() == p - 2
                 } else {
                     findFirstVisibleItemPosition() == p

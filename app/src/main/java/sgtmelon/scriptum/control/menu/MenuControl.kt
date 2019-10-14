@@ -33,7 +33,7 @@ open class MenuControl(
         private val indicator: View?
 ) : IconCallback {
 
-    // TODO сделать общение с классом через Interface
+    // TODO add interface for communication
 
     private val statusOnDark = Build.VERSION.SDK_INT < Build.VERSION_CODES.M
 
@@ -68,9 +68,7 @@ open class MenuControl(
     }
 
     /**
-     * Set colors for UI
-     *
-     * @param color - Начальный цвет
+     * Set colors for UI, [color] - startColor
      */
     fun setColor(@Color color: Int) = apply {
         if (theme != Theme.DARK) {

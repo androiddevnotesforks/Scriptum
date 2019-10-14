@@ -1,7 +1,7 @@
 package sgtmelon.idling
 
 /**
- * Интерфейс для управления [AppIdlingResource]
+ * Interface for [AppIdlingResource]
  */
 interface AppIdlingCallback {
 

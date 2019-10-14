@@ -4,9 +4,10 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.screen.ui.main.RankFragment
+import sgtmelon.scriptum.screen.vm.main.RankViewModel
 
 /**
- * Управление перетаскиванием для [RankFragment]
+ * Control drag for [RankFragment], setup in [RankViewModel]
  */
 class RankTouchControl(private val callback: Callback) : ItemTouchHelper.Callback(),
         ItemListener.Drag {

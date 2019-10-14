@@ -12,7 +12,7 @@ import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NotificationItem
 
 /**
- * Держатель уведомления для [NotificationAdapter]
+ * Holder for notification, use in [NotificationAdapter]
  */
 class NotificationHolder(private val binding: ItemNotificationBinding,
                          private val clickListener: ItemListener.Click

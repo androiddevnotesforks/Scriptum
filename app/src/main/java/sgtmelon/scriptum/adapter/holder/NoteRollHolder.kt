@@ -11,7 +11,7 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 
 /**
- * Держатель заметки-списка для [NoteAdapter]
+ * Holder for roll note, use in [NoteAdapter]
  */
 class NoteRollHolder(private val binding: ItemNoteRollBinding,
                      private val clickListener: ItemListener.Click,

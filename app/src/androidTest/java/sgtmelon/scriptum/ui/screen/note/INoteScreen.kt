@@ -6,11 +6,11 @@ import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.NoteModel
 
 /**
- * Interface for communication дочерних ui абстракций с [TextNoteScreen] и [RollNoteScreen]
+ * Interface for communication child ui abstractions with [TextNoteScreen] and [RollNoteScreen]
  */
 interface INoteScreen {
 
-    // TODO #TEST добавить контроль выхода с экрана
+    // TODO #TEST add exit from screen control
 
     var state: State
 

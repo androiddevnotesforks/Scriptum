@@ -7,14 +7,14 @@ import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RollEntity
 
 /**
- * Репозиторий обработки данных [RoomDb] для работы с закреплением заметки в StatusBar'е
+ * Repository of [RoomDb] which work with notes bind in status bar
  *
- * @param context для открытия [RoomDb]
+ * @param context for open [RoomDb]
  */
 class BindRepo(override val context: Context) : IBindRepo, IRoomWork {
 
     /**
-     * Возвращает пустой список если нет пунктов по данному id
+     * Return empty list if don't have [RollEntity] for this [noteId]
      */
     override fun getRollList(noteId: Long) = ArrayList<RollEntity>().apply {
         inRoom { addAll(iRollDao[noteId]) }

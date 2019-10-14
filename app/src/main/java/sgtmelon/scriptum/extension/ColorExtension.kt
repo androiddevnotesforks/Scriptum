@@ -23,8 +23,8 @@ import sgtmelon.scriptum.model.key.ColorShade
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
 
 /**
- * Получение цвета заметки в зависимости от темы и заднего фона
- * [needDark] - Если элемент находится на тёмном фоне (например индикатор цвета заметки
+ * Get note color rely on theme and background
+ * [needDark] - If element place on dark background (e.g. note color indicator)
  */
 @ColorInt fun Context.getAppThemeColor(@Color color: Int, needDark: Boolean) =
         if (PreferenceRepo(context = this).theme == Theme.LIGHT) {
@@ -35,9 +35,6 @@ import sgtmelon.scriptum.repository.preference.PreferenceRepo
             else getColorAttr(R.attr.clPrimary)
         }
 
-/**
- * Получение цвета по аттрибуту, [attr] - аттрибут цвета
- */
 @ColorInt fun Context.getColorAttr(@AttrRes attr: Int): Int {
     val typedValue = TypedValue()
 
@@ -55,9 +52,6 @@ fun Context.getCompatColor(@ColorRes id: Int) = ContextCompat.getColor(this, id)
             ColorShade.DARK -> dark[color]
         })
 
-/**
- * Покараска элемента меню в стандартный цвет
- */
 fun MenuItem.tintIcon(context: Context) {
     val drawable = this.icon
     val wrapDrawable = DrawableCompat.wrap(drawable)
@@ -67,9 +61,6 @@ fun MenuItem.tintIcon(context: Context) {
     this.icon = wrapDrawable
 }
 
-/**
- * Получение покрашенного изображения
- */
 fun Context.getTintDrawable(@DrawableRes id: Int): Drawable? {
     val drawable = ContextCompat.getDrawable(this, id) ?: return null
     drawable.setColorFilter(getColorAttr(R.attr.clContent), PorterDuff.Mode.SRC_ATOP)

@@ -40,7 +40,7 @@ import java.util.*
 
 
 /**
- * Фрагмент для отображения тектовой заметки
+ * Fragment for display text note
  */
 class TextNoteFragment : ParentFragment(), ITextNoteFragment {
 

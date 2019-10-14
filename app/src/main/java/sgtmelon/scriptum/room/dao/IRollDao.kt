@@ -26,10 +26,7 @@ interface IRollDao {
     fun updateAllCheck(noteId: Long, check: Boolean)
 
     /**
-     * Удаление пунктов при сохранении после свайпа
-     *
-     * @param noteId - Id заметки
-     * @param idSaveList - Id, которые остались в заметке
+     * [idSaveList] - list of rolls which don't need delete
      */
     @Query(value = "DELETE FROM ROLL_TABLE WHERE RL_NOTE_ID = :noteId AND RL_ID NOT IN (:idSaveList)")
     fun delete(noteId: Long, idSaveList: List<Long>)

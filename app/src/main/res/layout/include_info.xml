@@ -11,7 +11,7 @@
         <variable name="details" type="int"/>
     </data>
 
-    <!-- TODO #RELEASE2 добавить contentDescription и на основании него делать тесты -->
+    <!-- TODO #RELEASE2 add contentDescription and add them to assertion in tests -->
 
     <LinearLayout
             android:id="@+id/info_parent_container"

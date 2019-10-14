@@ -11,7 +11,7 @@ import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.model.data.IntroData
 
 /**
- * Фрагмент страницы для вступления [IntroActivity]
+ * Fragment page for [IntroActivity]
  */
 class IntroFragment : Fragment() {
 
@@ -43,7 +43,7 @@ class IntroFragment : Fragment() {
             super.onSaveInstanceState(outState.apply { putInt(PAGE_CURRENT, page) })
 
     /**
-     * Обновление отображения контента страницы
+     * Update screen content display
      */
     fun setChange(alpha: Float, scale: Float) = parentContainer?.apply {
         this.alpha = alpha

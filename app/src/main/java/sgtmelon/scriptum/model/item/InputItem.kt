@@ -4,7 +4,7 @@ import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.model.annotation.InputAction
 
 /**
- * Модель для [InputControl]
+ * Model for [InputControl]
  */
 class InputItem(
         @InputAction val tag: Int,
@@ -39,7 +39,7 @@ class InputItem(
     }
 
     /**
-     * Модель для сохранения в [InputItem] курсора текста
+     * Model for save text cursor inside [InputItem]
      */
     class Cursor(val valueFrom: Int, val valueTo: Int) {
 

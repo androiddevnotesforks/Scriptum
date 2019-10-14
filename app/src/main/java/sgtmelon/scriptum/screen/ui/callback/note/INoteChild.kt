@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.screen.ui.callback.note
 
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
+import sgtmelon.scriptum.screen.vm.note.NoteViewModel
 import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
 import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel
 
@@ -10,7 +11,7 @@ import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel
 interface INoteChild {
 
     /**
-     * После сохранения новой заметки необходимо обновить id
+     * After save new note need update [NoteViewModel.id]
      */
     fun onUpdateNoteId(id: Long)
 

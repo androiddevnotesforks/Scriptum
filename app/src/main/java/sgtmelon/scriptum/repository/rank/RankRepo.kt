@@ -7,9 +7,9 @@ import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RankEntity
 
 /**
- * Репозиторий обработки данных [RoomDb] для работы с категориями
+ * Repository of [RoomDb] for work with ranks
  *
- * @param context для открытия [RoomDb]
+ * @param context for open [RoomDb]
  */
 class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
 
@@ -52,8 +52,8 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
     }
 
     /**
-     * @param noteIdList - Id заметок, которые нужно обновить
-     * @param rankList   - Новый список категорий, с новыми позициями у категорий
+     * [noteIdList] - id of notes, which need update
+     * [rankList] - new rank list, with need rank positions
      */
     private fun updateNoteRankPosition(noteIdList: List<Long>, rankList: List<RankEntity>, db: RoomDb) =
             with(db.iNoteDao) {

@@ -10,12 +10,12 @@ import sgtmelon.scriptum.screen.vm.note.NoteViewModel
 interface INoteActivity {
 
     /**
-     * [checkCache] - пытаться найти фрагмент по тегу или пропустить этот шаг и создать новый
+     * [checkCache] - find fragment by tag or create new
      */
     fun showTextFragment(id: Long, checkCache: Boolean)
 
     /**
-     * [checkCache] - пытаться найти фрагмент по тегу или пропустить этот шаг и создать новый
+     * [checkCache] - find fragment by tag or create new
      */
     fun showRollFragment(id: Long, checkCache: Boolean)
 

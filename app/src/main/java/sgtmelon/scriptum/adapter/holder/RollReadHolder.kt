@@ -12,7 +12,7 @@ import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.room.entity.RollEntity
 
 /**
- * Держатель пункта списка в состоянии просмотра для [RollAdapter]
+ * Holder of note roll row read state, use in [RollAdapter]
  */
 class RollReadHolder(private val binding: ItemRollReadBinding,
                      private val clickListener: ItemListener.Click,
@@ -20,7 +20,7 @@ class RollReadHolder(private val binding: ItemRollReadBinding,
 ) : RecyclerView.ViewHolder(binding.root) {
 
     /**
-     * Кнопка, которая идёт поверх rollCheck, для полноценного эффекта нажатия
+     * Button which displays above [rollCheck] for ripple effect on click
      */
     private val clickView: View = itemView.findViewById(R.id.roll_read_click_button)
     private val rollCheck: CheckBox = itemView.findViewById(R.id.roll_read_check)

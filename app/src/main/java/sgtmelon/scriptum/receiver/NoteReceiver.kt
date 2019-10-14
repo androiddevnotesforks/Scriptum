@@ -8,7 +8,7 @@ import sgtmelon.scriptum.model.data.ReceiverData.Values
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 
 /**
- * Ресивер обработки комманд для [NoteActivity]
+ * Receiver for [NoteActivity] commands
  */
 class NoteReceiver(private val callback: Callback) : BroadcastReceiver() {
 

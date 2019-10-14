@@ -8,7 +8,7 @@ import sgtmelon.scriptum.model.data.ReceiverData.Values
 import sgtmelon.scriptum.screen.ui.main.MainActivity
 
 /**
- * Ресивер обработки комманд для [MainActivity]
+ * Receiver for [MainActivity] commands
  */
 class MainReceiver(private val callback: Callback) : BroadcastReceiver() {
 

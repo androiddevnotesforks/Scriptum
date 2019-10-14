@@ -19,7 +19,7 @@ import sgtmelon.scriptum.model.item.InputItem
 import sgtmelon.scriptum.room.entity.RollEntity
 
 /**
- * Держатель пункта списка в состоянии редактирования для [RollAdapter]
+ * Holder of note roll row edit state, use in [RollAdapter]
  */
 class RollWriteHolder(
         private val binding: ItemRollWriteBinding,
@@ -31,7 +31,7 @@ class RollWriteHolder(
         TextWatcher {
 
     /**
-     * Кнопка для перетаскивания
+     * Button fro drag
      */
     private val dragView: View = itemView.findViewById(R.id.roll_write_drag_button)
     private val rollEnter: EditText = itemView.findViewById(R.id.roll_write_enter)
@@ -57,7 +57,7 @@ class RollWriteHolder(
     }
 
     /**
-     * TODO ошибка при быстром добавлении / удалении
+     * TODO #ERROR error on fast add/remove
      * java.lang.IndexOutOfBoundsException: setSpan (6 ... 6) ends beyond length 5
      */
 

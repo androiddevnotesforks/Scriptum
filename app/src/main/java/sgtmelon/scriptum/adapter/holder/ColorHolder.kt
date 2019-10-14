@@ -14,7 +14,7 @@ import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 
 /**
- * Держатель цвета приложения для [ColorAdapter]
+ * Holder for app color, use in [ColorAdapter]
  */
 class ColorHolder(view: View) : RecyclerView.ViewHolder(view) {
 

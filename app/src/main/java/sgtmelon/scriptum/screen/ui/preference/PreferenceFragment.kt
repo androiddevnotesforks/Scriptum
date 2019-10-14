@@ -32,7 +32,7 @@ import sgtmelon.scriptum.screen.vm.callback.IPreferenceViewModel
 import android.preference.PreferenceFragment as OldPreferenceFragment
 
 /**
- * Экран настроек приложения
+ * Fragment of preference
  */
 class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
 

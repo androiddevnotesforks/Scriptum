@@ -13,7 +13,7 @@ import sgtmelon.scriptum.repository.bind.BindRepo
 import sgtmelon.scriptum.room.entity.NoteEntity
 
 /**
- * Ресивер обработки нажатий по кнопкам для [BindControl]
+ * Receiver for handle click on unbind button in [BindControl]
  */
 class UnbindReceiver : BroadcastReceiver() {
 

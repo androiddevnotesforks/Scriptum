@@ -19,7 +19,7 @@ data class NoteModel(
         @Embedded val alarmEntity: AlarmEntity = AlarmEntity(noteId = noteEntity.id)
 ) {
 
-    // TODO заменить получение модели через один query
+    // TODO replace model get by one query
 
     constructor(model: NoteModel) :
             this(model.noteEntity.copy(), model.rollList.toMutableList(), model.alarmEntity.copy())
