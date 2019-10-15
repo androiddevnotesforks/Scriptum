@@ -4,10 +4,13 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
+import android.view.WindowManager
 import android.widget.Button
 import androidx.annotation.ColorInt
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -78,6 +81,19 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+            setShowWhenLocked(true)
+            setTurnScreenOn(true)
+        } else {
+            window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED)
+            window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON)
+        }
+
+        window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD)
+
         setContentView(R.layout.activity_alarm)
 
         iViewModel.onSetup(bundle = savedInstanceState ?: intent.extras)
