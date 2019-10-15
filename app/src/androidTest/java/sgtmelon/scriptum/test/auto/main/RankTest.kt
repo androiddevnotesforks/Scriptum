@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.test.auto.main
 
 import org.junit.Test
+import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.screen.ui.main.RankFragment
 import sgtmelon.scriptum.test.ParentUiTest
 
@@ -47,10 +48,33 @@ class RankTest : ParentUiTest() {
         }
     }
 
+    @Test fun toolbarEnterAddOnEmpty() = data.uniqueString.let {
+        launch {
+            mainScreen {
+                rankScreen(empty = true){
+                    toolbar { onEnterName(it).onClickAdd() }
+                    openRenameDialog(it, p = 0) { onCloseSoft() }
+
+                    onClickCancel(p = 0)
+
+                    toolbar { onEnterName(it).onLongClickAdd() }
+                    openRenameDialog(it, p = 0)
+                }
+            }
+        }
+    }
+
     @Test fun toolbarEnterAddStart() = data.uniqueString.let {
-        launch({ data.insertRank() }) {
+        launch({ data.fillRank() }) {
             mainScreen {
                 rankScreen {
+                    onScroll(Scroll.END)
+
+                    toolbar { onEnterName(it).onLongClickAdd() }
+                    openRenameDialog(it, p = 0) { onCloseSoft() }
+
+                    onClickCancel(p = 0)
+
                     toolbar { onEnterName(it).onLongClickAdd() }
                     openRenameDialog(it, p = 0)
                 }
@@ -59,9 +83,14 @@ class RankTest : ParentUiTest() {
     }
 
     @Test fun toolbarEnterAddEnd() = data.uniqueString.let {
-        launch({ data.insertRank() }) {
+        launch({ data.fillRank() }) {
             mainScreen {
                 rankScreen {
+                    toolbar { onEnterName(it).onClickAdd() }
+                    openRenameDialog(it, p = count - 1) { onCloseSoft() }
+
+                    onClickCancel(p = count - 1)
+
                     toolbar { onEnterName(it).onClickAdd() }
                     openRenameDialog(it, p = count - 1)
                 }

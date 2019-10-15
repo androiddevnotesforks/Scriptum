@@ -12,7 +12,6 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -328,7 +327,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment {
 
     override fun scrollToItem(simpleClick: Boolean, p: Int, list: MutableList<RollEntity>) {
         val fastScroll = with(layoutManager) {
-            if (simpleClick) {
+            return@with if (simpleClick) {
                 findLastVisibleItemPosition() == p - 1
             } else {
                 findFirstVisibleItemPosition() == p

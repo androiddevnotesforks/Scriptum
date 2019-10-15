@@ -178,16 +178,14 @@ class RankFragment : ParentFragment(), IRankFragment {
         return name
     }
 
-    override fun scrollToItem(simpleClick: Boolean, list: MutableList<RankEntity>) {
-        val p = if (simpleClick) list.size else 0
-
+    override fun scrollToItem(simpleClick: Boolean, p: Int, list: MutableList<RankEntity>) {
         if (list.size == 1) {
-            adapter.notifyItemInserted(p, list)
+            adapter.notifyItemInserted(0, list)
             bindList(list.size)
         } else {
             val fastScroll = with(layoutManager) {
                 return@with if (simpleClick) {
-                    findLastVisibleItemPosition() == p - 2
+                    findLastVisibleItemPosition() == p - 1
                 } else {
                     findFirstVisibleItemPosition() == p
                 }

@@ -6,6 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
 import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
+import kotlin.math.abs
+import kotlin.math.max
+import kotlin.math.min
 
 /**
  * Control drag and swipe for [RollNoteFragment], setup in [RollNoteViewModel]
@@ -69,12 +72,10 @@ class RollTouchControl(private val callback: Callback) : ItemTouchHelper.Callbac
             /**
              * Shift between start and end position
              */
-            val translationX = Math.abs(
-                    if (dX > 0) Math.min(dX, targetX) else Math.max(dX, -targetX)
-            )
+            val translationX = abs(if (dX > 0) min(dX, targetX) else max(dX, -targetX))
 
             val alpha = (1.0f - translationX / targetX).toDouble()
-            viewHolder.itemView.alpha = Math.max(alpha, 0.2).toFloat()
+            viewHolder.itemView.alpha = max(alpha, b = 0.2).toFloat()
         }
 
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)

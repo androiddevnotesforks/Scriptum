@@ -23,7 +23,7 @@ interface IRankFragment : IRankBridge {
 
     fun clearEnter(): String
 
-    fun scrollToItem(simpleClick: Boolean, list: MutableList<RankEntity>)
+    fun scrollToItem(simpleClick: Boolean, p: Int, list: MutableList<RankEntity>)
 
     fun showRenameDialog(p: Int, name: String, nameList: List<String>)
 

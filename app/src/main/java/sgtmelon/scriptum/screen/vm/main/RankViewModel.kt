@@ -97,7 +97,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
 
         iInteractor.update(itemList)
 
-        callback?.scrollToItem(simpleClick, itemList)
+        callback?.scrollToItem(simpleClick, p, itemList)
     }
 
     override fun onClickVisible(p: Int) {
