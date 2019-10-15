@@ -9,7 +9,7 @@ import sgtmelon.scriptum.screen.vm.main.RankViewModel
 /**
  * Control drag for [RankFragment], setup in [RankViewModel]
  */
-class RankTouchControl(private val callback: Callback) : ParentTouchControl(), ItemListener.Drag {
+class RankTouchControl(private val callback: Callback) : EdgeDragTouchHelper(), ItemListener.Drag {
 
     private var drag = false
 

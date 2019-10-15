@@ -5,9 +5,9 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 
 /**
- * Parent class for common functional
+ * Class with custom [onChildDraw], which prevent item dragging outside of recyclerView
  */
-abstract class ParentTouchControl : ItemTouchHelper.Callback() {
+abstract class EdgeDragTouchHelper : ItemTouchHelper.Callback() {
 
     /**
      * Variable need for best performance and more productive, because

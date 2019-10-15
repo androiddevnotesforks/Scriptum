@@ -13,7 +13,7 @@ import kotlin.math.min
 /**
  * Control drag and swipe for [RollNoteFragment], setup in [RollNoteViewModel]
  */
-class RollTouchControl(private val callback: Callback) : ParentTouchControl(),
+class RollTouchControl(private val callback: Callback) : EdgeDragTouchHelper(),
         ItemListener.Drag {
 
     private var drag = false
