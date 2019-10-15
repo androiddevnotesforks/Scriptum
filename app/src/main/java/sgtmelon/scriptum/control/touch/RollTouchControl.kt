@@ -13,7 +13,7 @@ import kotlin.math.min
 /**
  * Control drag and swipe for [RollNoteFragment], setup in [RollNoteViewModel]
  */
-class RollTouchControl(private val callback: Callback) : ItemTouchHelper.Callback(),
+class RollTouchControl(private val callback: Callback) : ParentTouchControl(),
         ItemListener.Drag {
 
     private var drag = false
@@ -24,8 +24,10 @@ class RollTouchControl(private val callback: Callback) : ItemTouchHelper.Callbac
 
     private var dragFrom = RecyclerView.NO_POSITION
 
-    override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) =
-            callback.onTouchGetFlags(drag)
+    override fun getMovementFlags(recyclerView: RecyclerView,
+                                  viewHolder: RecyclerView.ViewHolder): Int {
+        return callback.onTouchGetFlags(drag)
+    }
 
     override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
         super.onSelectedChanged(viewHolder, actionState)
@@ -33,7 +35,7 @@ class RollTouchControl(private val callback: Callback) : ItemTouchHelper.Callbac
         if (dragFrom != RecyclerView.NO_POSITION) return
 
         dragFrom = if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
-            viewHolder?.adapterPosition ?: RecyclerView.NO_POSITION
+            movePosition
         } else {
             RecyclerView.NO_POSITION
         }
@@ -53,12 +55,16 @@ class RollTouchControl(private val callback: Callback) : ItemTouchHelper.Callbac
         dragFrom = RecyclerView.NO_POSITION
     }
 
-    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) =
-            callback.onTouchSwipe(viewHolder.adapterPosition)
+    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
+        callback.onTouchSwipe(viewHolder.adapterPosition)
+    }
 
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
-                        target: RecyclerView.ViewHolder) =
-            callback.onTouchMove(viewHolder.adapterPosition, target.adapterPosition)
+                        target: RecyclerView.ViewHolder) : Boolean {
+        super.onMove(recyclerView, viewHolder, target)
+
+        return callback.onTouchMove(viewHolder.adapterPosition, target.adapterPosition)
+    }
 
     override fun onChildDraw(c: Canvas, recyclerView: RecyclerView,
                              viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float,

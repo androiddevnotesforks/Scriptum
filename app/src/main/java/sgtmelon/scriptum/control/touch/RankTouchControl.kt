@@ -9,8 +9,7 @@ import sgtmelon.scriptum.screen.vm.main.RankViewModel
 /**
  * Control drag for [RankFragment], setup in [RankViewModel]
  */
-class RankTouchControl(private val callback: Callback) : ItemTouchHelper.Callback(),
-        ItemListener.Drag {
+class RankTouchControl(private val callback: Callback) : ParentTouchControl(), ItemListener.Drag {
 
     private var drag = false
 
@@ -32,7 +31,7 @@ class RankTouchControl(private val callback: Callback) : ItemTouchHelper.Callbac
         super.onSelectedChanged(viewHolder, actionState)
 
         if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
-            dragFrom = viewHolder?.adapterPosition ?: RecyclerView.NO_POSITION
+            dragFrom = movePosition
         }
     }
 
@@ -46,8 +45,11 @@ class RankTouchControl(private val callback: Callback) : ItemTouchHelper.Callbac
     }
 
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
-                        target: RecyclerView.ViewHolder) =
-            callback.onTouchMove(viewHolder.adapterPosition, target.adapterPosition)
+                        target: RecyclerView.ViewHolder): Boolean {
+        super.onMove(recyclerView, viewHolder, target)
+
+        return callback.onTouchMove(viewHolder.adapterPosition, movePosition)
+    }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
 
