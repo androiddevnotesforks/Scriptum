@@ -14,7 +14,7 @@ abstract class ParentTouchControl : ItemTouchHelper.Callback() {
      * get [RecyclerView.ViewHolder.getAdapterPosition] inside [onChildDraw]
      * is hard calculating operation
      */
-    var movePosition = RecyclerView.NO_POSITION
+    protected var movePosition = RecyclerView.NO_POSITION
 
     override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
         super.onSelectedChanged(viewHolder, actionState)
@@ -38,6 +38,9 @@ abstract class ParentTouchControl : ItemTouchHelper.Callback() {
 
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
                         target: RecyclerView.ViewHolder): Boolean {
+        /**
+         * Get position on drag
+         */
         movePosition = target.adapterPosition
         return false
     }
