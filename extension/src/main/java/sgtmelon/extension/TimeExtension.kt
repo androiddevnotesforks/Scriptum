@@ -47,6 +47,8 @@ fun Calendar.formatFuture(context: Context,
     ).toString()
 }
 
+fun Calendar.clearSeconds() = apply { set(Calendar.SECOND, 0) }
+
 fun Calendar.formatPast(): String {
     return when {
         isToday() -> DateFormat.getTimeInstance(DateFormat.SHORT).format(time)

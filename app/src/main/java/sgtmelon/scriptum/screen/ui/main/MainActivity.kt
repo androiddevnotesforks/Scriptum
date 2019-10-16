@@ -10,7 +10,6 @@ import android.view.MotionEvent
 import android.view.View
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
@@ -43,7 +42,7 @@ class MainActivity : AppActivity(), IMainActivity {
     private val binFragment by lazy { fragmentFactory.getBinFragment() }
 
     private val openState = OpenState()
-    private val addDialog by lazy { DialogFactory.Main.getAddDialog(supportFragmentManager) }
+    private val addDialog by lazy { DialogFactory.Main(this, supportFragmentManager).getAddDialog() }
 
     private val fab by lazy { findViewById<FloatingActionButton?>(R.id.main_add_fab) }
 

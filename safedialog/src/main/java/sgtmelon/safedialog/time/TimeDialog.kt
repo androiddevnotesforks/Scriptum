@@ -5,6 +5,7 @@ import android.app.TimePickerDialog
 import android.content.Context
 import android.os.Bundle
 import sgtmelon.extension.afterNow
+import sgtmelon.extension.clearSeconds
 import sgtmelon.extension.getString
 import sgtmelon.extension.is24Format
 import sgtmelon.safedialog.BuildConfig
@@ -19,12 +20,20 @@ class TimeDialog : DateTimeBlankDialog(), ITimeDialog {
     private var dateList: ArrayList<String> = ArrayList()
 
     /**
+     * Save item position in list for next operations
+     */
+    var position: Int = ND_POSITION
+        private set
+
+    /**
      * Call before [show]
      */
-    fun setArguments(calendar: Calendar, dateList: List<String>) = apply {
+    fun setArguments(calendar: Calendar, dateList: List<String>,
+                     p: Int = ND_POSITION) = apply {
         arguments = Bundle().apply {
-            putLong(INIT, calendar.apply { set(Calendar.SECOND, 0) }.timeInMillis)
+            putLong(INIT, calendar.clearSeconds().timeInMillis)
             putStringArrayList(VALUE, ArrayList(dateList))
+            putInt(POSITION, p)
         }
     }
 
@@ -36,6 +45,9 @@ class TimeDialog : DateTimeBlankDialog(), ITimeDialog {
 
         dateList = savedInstanceState?.getStringArrayList(VALUE)
                 ?: arguments?.getStringArrayList(VALUE) ?: ArrayList()
+
+        position = savedInstanceState?.getInt(POSITION)
+                ?: arguments?.getInt(POSITION) ?: ND_POSITION
 
         val changeListener = TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
@@ -55,6 +67,7 @@ class TimeDialog : DateTimeBlankDialog(), ITimeDialog {
         super.onSaveInstanceState(outState.apply {
             putLong(INIT, calendar.timeInMillis)
             putStringArrayList(VALUE, dateList)
+            putInt(POSITION, position)
         })
     }
 

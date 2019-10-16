@@ -4,6 +4,9 @@ import android.app.Application
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import sgtmelon.extension.beforeNow
+import sgtmelon.extension.getCalendar
+import sgtmelon.extension.getString
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.clearAndAdd
 import sgtmelon.scriptum.interactor.callback.main.INotesInteractor
@@ -14,6 +17,8 @@ import sgtmelon.scriptum.screen.ui.callback.main.INotesFragment
 import sgtmelon.scriptum.screen.ui.main.NotesFragment
 import sgtmelon.scriptum.screen.vm.ParentViewModel
 import sgtmelon.scriptum.screen.vm.callback.main.INotesViewModel
+import java.util.*
+import kotlin.collections.ArrayList
 import sgtmelon.scriptum.model.annotation.Options.Notes as Options
 
 /**
@@ -30,6 +35,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
         callback?.apply {
             setupToolbar()
             setupRecycler(iInteractor.theme)
+            setupDialog()
         }
     }
 
@@ -48,19 +54,27 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
         if (updateStatus) updateStatus = false
     }
 
+
     override fun onClickNote(p: Int) {
         callback?.startNoteActivity(itemList[p].noteEntity)
     }
 
     override fun onShowOptionsDialog(p: Int) {
-        val noteEntity = itemList[p].noteEntity
+        val noteModel = itemList[p]
+        val noteEntity = noteModel.noteEntity
 
         val itemArray: Array<String> = context.resources.getStringArray(when (noteEntity.type) {
             NoteType.TEXT -> R.array.dialog_menu_text
             NoteType.ROLL -> R.array.dialog_menu_roll
         })
 
-        itemArray[0] = if (noteEntity.isStatus) {
+        itemArray[Options.NOTIFICATION] = if (noteModel.alarmEntity.date.isEmpty()) {
+            context.getString(R.string.dialog_menu_notification_set)
+        } else {
+            context.getString(R.string.dialog_menu_notification_update)
+        }
+
+        itemArray[Options.BIND] = if (noteEntity.isStatus) {
             context.getString(R.string.dialog_menu_status_unbind)
         } else {
             context.getString(R.string.dialog_menu_status_bind)
@@ -69,8 +83,12 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
         callback?.showOptionsDialog(itemArray, p)
     }
 
+
     override fun onResultOptionsDialog(p: Int, which: Int) {
         when (which) {
+            Options.NOTIFICATION -> itemList[p].alarmEntity.date.let {
+                callback?.showDateDialog(it.getCalendar(), it.isNotEmpty(), p)
+            }
             Options.BIND -> callback?.notifyItemChanged(p, onMenuBind(p))
             Options.CONVERT -> callback?.notifyItemChanged(p, onMenuConvert(p))
             Options.COPY -> viewModelScope.launch { iInteractor.copy(itemList[p].noteEntity) }
@@ -91,6 +109,31 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
     private fun onMenuDelete(p: Int) = itemList.apply {
         get(p).let { viewModelScope.launch { iInteractor.deleteNote(it) } }
         removeAt(p)
+    }
+
+    override fun onResultDateDialog(calendar: Calendar, p: Int) {
+        viewModelScope.launch { callback?.showTimeDialog(calendar, iInteractor.getDateList(), p) }
+    }
+
+    override fun onResultDateDialogClear(p: Int) {
+        val noteModel = itemList[p]
+
+        viewModelScope.launch { iInteractor.clearDate(noteModel) }
+
+        noteModel.alarmEntity.clear()
+
+        callback?.notifyItemChanged(p, itemList)
+    }
+
+    override fun onResultTimeDialog(calendar: Calendar, p: Int) {
+        if (calendar.beforeNow()) return
+
+        val noteModel = itemList[p]
+        noteModel.alarmEntity.date = calendar.getString()
+
+        viewModelScope.launch { iInteractor.setDate(noteModel, calendar) }
+
+        callback?.notifyItemChanged(p, itemList)
     }
 
 

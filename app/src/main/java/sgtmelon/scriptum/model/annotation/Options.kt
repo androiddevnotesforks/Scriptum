@@ -14,10 +14,11 @@ object Options {
     @IntDef(Notes.BIND, Notes.CONVERT, Notes.COPY, Notes.DELETE)
     annotation class Notes {
         companion object {
-            const val BIND = 0
-            const val CONVERT = 1
-            const val COPY = 2
-            const val DELETE = 3
+            const val NOTIFICATION = 0
+            const val BIND = 1
+            const val CONVERT = 2
+            const val COPY = 3
+            const val DELETE = 4
         }
     }
 

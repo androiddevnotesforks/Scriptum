@@ -9,6 +9,6 @@ import sgtmelon.scriptum.screen.ui.main.NotesFragment
 /**
  * Interface for communication [NotesInteractor] with [NotesFragment]
  */
-interface INotesBridge : AlarmControl.Bridge.Cancel,
+interface INotesBridge : AlarmControl.Bridge.Full,
         BindControl.Bridge.Full,
         ClipboardControl.Bridge

@@ -4,7 +4,6 @@ import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
 import android.text.InputType
-import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
-import sgtmelon.extension.formatFuture
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.RollAdapter
 import sgtmelon.scriptum.control.alarm.AlarmControl
@@ -396,11 +394,11 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment {
         dateDialog.setArguments(calendar, resetVisible).show(fm, DialogFactory.Note.DATE)
     }
 
-    override fun showTimeDialog(calendar: Calendar, dateList: List<String>) = openState.tryInvoke({
-        clear()
-    }) {
-        hideKeyboard()
-        timeDialog.setArguments(calendar, dateList).show(fm, DialogFactory.Note.TIME)
+    override fun showTimeDialog(calendar: Calendar, dateList: List<String>) {
+        openState.tryInvoke({ clear() }) {
+            hideKeyboard()
+            timeDialog.setArguments(calendar, dateList).show(fm, DialogFactory.Note.TIME)
+        }
     }
 
     override fun showConvertDialog() = openState.tryInvoke {
@@ -411,11 +409,6 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment {
 
     override fun setAlarm(calendar: Calendar, model: AlarmReceiver.Model) {
         iAlarmControl.set(calendar, model)
-
-        context?.let {
-            val date = calendar.formatFuture(it, DateUtils.DAY_IN_MILLIS).toLowerCase()
-            it.showToast(it.getString(R.string.toast_alarm_set, date))
-        }
     }
 
     override fun cancelAlarm(model: AlarmReceiver.Model) = iAlarmControl.cancel(model)

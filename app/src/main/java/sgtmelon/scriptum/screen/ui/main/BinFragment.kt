@@ -41,8 +41,10 @@ class BinFragment : ParentFragment(), IBinFragment {
     private val iClipboardCompiler: IClipboardControl by lazy { ClipboardControl(context) }
 
     private val openState = OpenState()
-    private val optionsDialog by lazy { DialogFactory.Main.getOptionsDialog(fm) }
-    private val clearBinDialog by lazy { DialogFactory.Main.getClearBinDialog(context, fm) }
+    private val dialogFactory by lazy { DialogFactory.Main(context, fm) }
+
+    private val optionsDialog by lazy { dialogFactory.getOptionsDialog() }
+    private val clearBinDialog by lazy { dialogFactory.getClearBinDialog() }
 
     private val adapter: NoteAdapter by lazy {
         NoteAdapter(object : ItemListener.Click {
@@ -127,8 +129,11 @@ class BinFragment : ParentFragment(), IBinFragment {
             it.adapter = adapter
         }
 
-        optionsDialog.onClickListener = DialogInterface.OnClickListener { _, which ->
-            iViewModel.onResultOptionsDialog(optionsDialog.position, which)
+        optionsDialog.apply {
+            itemListener = DialogInterface.OnClickListener { _, which ->
+                iViewModel.onResultOptionsDialog(optionsDialog.position, which)
+            }
+            dismissListener = DialogInterface.OnDismissListener { openState.clear() }
         }
     }
 
@@ -148,7 +153,7 @@ class BinFragment : ParentFragment(), IBinFragment {
         startActivity(NoteActivity[context ?: return, noteEntity])
     }
 
-    override fun showOptionsDialog(itemArray: Array<String>, p: Int) {
+    override fun showOptionsDialog(itemArray: Array<String>, p: Int) = openState.tryInvoke {
         optionsDialog.setArguments(itemArray, p).show(fm, DialogFactory.Main.OPTIONS)
     }
 

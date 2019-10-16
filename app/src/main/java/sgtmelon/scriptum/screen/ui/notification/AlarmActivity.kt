@@ -193,7 +193,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     override fun vibrateCancel() = iVibratorControl.cancel()
 
     override fun setAlarm(calendar: Calendar, model: AlarmReceiver.Model) {
-        iAlarmControl.set(calendar, model)
+        iAlarmControl.set(calendar, model, showToast = false)
     }
 
     override fun showPostponeToast(select: Int) {

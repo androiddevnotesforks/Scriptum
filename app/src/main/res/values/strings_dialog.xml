@@ -39,6 +39,8 @@
     <string name="dialog_menu_clear">Delete forever</string>
     <string name="dialog_menu_copy">Copy text</string>
 
+    <string name="dialog_menu_notification_set">Setup notification</string>
+    <string name="dialog_menu_notification_update">Update notification</string>
     <string name="dialog_menu_status_bind">Bind to status bar</string>
     <string name="dialog_menu_status_unbind">Unbind from status bar</string>
     <string name="dialog_menu_convert_to_text">Convert to text</string>
@@ -46,12 +48,14 @@
 
     <string-array name="dialog_menu_text">
         <item/>
+        <item/>
         <item>@string/dialog_menu_convert_to_roll</item>
         <item>@string/dialog_menu_copy</item>
         <item>@string/dialog_menu_delete</item>
     </string-array>
 
     <string-array name="dialog_menu_roll">
+        <item/>
         <item/>
         <item>@string/dialog_menu_convert_to_text</item>
         <item>@string/dialog_menu_copy</item>

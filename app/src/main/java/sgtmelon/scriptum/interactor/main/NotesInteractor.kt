@@ -9,11 +9,14 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.receiver.AlarmReceiver
+import sgtmelon.scriptum.repository.alarm.AlarmRepo
+import sgtmelon.scriptum.repository.alarm.IAlarmRepo
 import sgtmelon.scriptum.repository.bind.BindRepo
 import sgtmelon.scriptum.repository.bind.IBindRepo
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.ui.callback.main.INotesBridge
 import sgtmelon.scriptum.screen.vm.main.NotesViewModel
+import java.util.*
 
 /**
  * Interactor for [NotesViewModel]
@@ -22,6 +25,7 @@ class NotesInteractor(context: Context, private var callback: INotesBridge?) :
         ParentInteractor(context),
         INotesInteractor {
 
+    private val iAlarmRepo: IAlarmRepo = AlarmRepo(context)
     private val iBindRepo: IBindRepo = BindRepo(context)
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy { callback = null }
@@ -57,6 +61,20 @@ class NotesInteractor(context: Context, private var callback: INotesBridge?) :
 
         return noteModel
     }
+
+
+    override suspend fun getDateList() = iAlarmRepo.getList().map { it.alarm.date }
+
+    override suspend fun clearDate(noteModel: NoteModel) {
+        iAlarmRepo.delete(noteModel.alarmEntity.noteId)
+        callback?.cancelAlarm(AlarmReceiver[noteModel.noteEntity])
+    }
+
+    override suspend fun setDate(noteModel: NoteModel, calendar: Calendar) {
+        iAlarmRepo.insertOrUpdate(noteModel.alarmEntity)
+        callback?.setAlarm(calendar, AlarmReceiver[noteModel.noteEntity])
+    }
+
 
     override suspend fun copy(noteEntity: NoteEntity) {
         callback?.copyClipboard(iRoomRepo.getCopyText(noteEntity))

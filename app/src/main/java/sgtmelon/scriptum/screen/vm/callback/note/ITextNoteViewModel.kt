@@ -35,7 +35,7 @@ interface ITextNoteViewModel : IParentViewModel,
 
     fun onResultDateDialog(calendar: Calendar)
 
-    fun  onResultDateDialogClear()
+    fun onResultDateDialogClear()
 
     fun onResultTimeDialog(calendar: Calendar)
 

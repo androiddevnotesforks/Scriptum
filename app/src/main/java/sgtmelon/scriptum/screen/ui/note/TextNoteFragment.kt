@@ -3,7 +3,6 @@ package sgtmelon.scriptum.screen.ui.note
 import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
-import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,6 @@ import android.widget.EditText
 import androidx.appcompat.widget.Toolbar
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
-import sgtmelon.extension.formatFuture
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.alarm.AlarmControl
 import sgtmelon.scriptum.control.bind.BindControl
@@ -277,11 +275,11 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment {
         dateDialog.setArguments(calendar, resetVisible).show(fm, DialogFactory.Note.DATE)
     }
 
-    override fun showTimeDialog(calendar: Calendar, dateList: List<String>) = openState.tryInvoke({
-        clear()
-    }) {
-        hideKeyboard()
-        timeDialog.setArguments(calendar, dateList).show(fm, DialogFactory.Note.TIME)
+    override fun showTimeDialog(calendar: Calendar, dateList: List<String>) {
+        openState.tryInvoke({ clear() }) {
+            hideKeyboard()
+            timeDialog.setArguments(calendar, dateList).show(fm, DialogFactory.Note.TIME)
+        }
     }
 
     override fun showConvertDialog() = openState.tryInvoke {
@@ -292,11 +290,6 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment {
 
     override fun setAlarm(calendar: Calendar, model: AlarmReceiver.Model) {
         iAlarmControl.set(calendar, model)
-
-        context?.let {
-            val date = calendar.formatFuture(it, DateUtils.DAY_IN_MILLIS).toLowerCase()
-            it.showToast(it.getString(R.string.toast_alarm_set, date))
-        }
     }
 
     override fun cancelAlarm(model: AlarmReceiver.Model) = iAlarmControl.cancel(model)

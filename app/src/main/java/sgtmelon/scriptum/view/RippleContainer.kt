@@ -28,7 +28,7 @@ class RippleContainer : RelativeLayout {
 
     private val viewList = ArrayList<RippleView>()
 
-    private lateinit var params: RippleParams
+    private var params: RippleParams? = null
 
     constructor (context: Context) : super(context)
 
@@ -42,33 +42,33 @@ class RippleContainer : RelativeLayout {
      * Element which center will be start position for ripple pass throw [hookView]
      */
     fun setupAnimation(@Theme theme: Int, @ColorInt fillColor: Int, hookView: View) = apply {
-        params = RippleParams(theme, parentView = this, hookView = hookView)
-
-        animatorList.apply {
-            add(hookView.getAnimator(Anim.SCALE_X, NO_DELAY, params.delay, *LOGO_PULSE))
-            add(hookView.getAnimator(Anim.SCALE_Y, NO_DELAY, params.delay, *LOGO_PULSE))
-        }
-
-        val paint = Paint().apply {
-            isAntiAlias = true
-
-            style = if (theme == Theme.LIGHT) Paint.Style.STROKE else Paint.Style.FILL
-            strokeWidth = resources.getDimension(R.dimen.stroke_4dp)
-            color = fillColor
-        }
-
-        for (i in 0 until params.count) {
-            val view = RippleView(context).apply { this.paint = paint }
-
-            addView(view, params.childParams)
-            viewList.add(view)
-
-            val delay = i * params.delay
-
+        params = RippleParams(theme, parentView = this, hookView = hookView).also {
             animatorList.apply {
-                add(view.getAnimator(Anim.SCALE_X, delay, params.duration, SCALE_FROM, params.scaleTo))
-                add(view.getAnimator(Anim.SCALE_Y, delay, params.duration, SCALE_FROM, params.scaleTo))
-                add(view.getAnimator(Anim.ALPHA, delay, params.duration, ALPHA_FROM, ALPHA_TO))
+                add(hookView.getAnimator(Anim.SCALE_X, NO_DELAY, it.delay, *LOGO_PULSE))
+                add(hookView.getAnimator(Anim.SCALE_Y, NO_DELAY, it.delay, *LOGO_PULSE))
+            }
+
+            val paint = Paint().apply {
+                isAntiAlias = true
+
+                style = if (theme == Theme.LIGHT) Paint.Style.STROKE else Paint.Style.FILL
+                strokeWidth = resources.getDimension(R.dimen.stroke_4dp)
+                color = fillColor
+            }
+
+            for (i in 0 until it.count) {
+                val view = RippleView(context).apply { this.paint = paint }
+
+                addView(view, it.childParams)
+                viewList.add(view)
+
+                val delay = i * it.delay
+
+                animatorList.apply {
+                    add(view.getAnimator(Anim.SCALE_X, delay, it.duration, SCALE_FROM, it.scaleTo))
+                    add(view.getAnimator(Anim.SCALE_Y, delay, it.duration, SCALE_FROM, it.scaleTo))
+                    add(view.getAnimator(Anim.ALPHA, delay, it.duration, ALPHA_FROM, ALPHA_TO))
+                }
             }
         }
 
@@ -99,9 +99,11 @@ class RippleContainer : RelativeLayout {
     fun invalidate(hookView: View?) {
         if (hookView == null) return
 
-        params.hookView = hookView
+        params?.let {
+            it.hookView = hookView
 
-        viewList.forEach { it.layoutParams = params.childParams }
+            viewList.forEach { view -> view.layoutParams = it.childParams }
+        }
     }
 
 

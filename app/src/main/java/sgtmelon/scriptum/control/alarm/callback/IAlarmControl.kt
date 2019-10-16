@@ -9,7 +9,7 @@ import java.util.*
  */
 interface IAlarmControl {
 
-    fun set(calendar: Calendar, model: AlarmReceiver.Model)
+    fun set(calendar: Calendar, model: AlarmReceiver.Model, showToast: Boolean = true)
 
     fun cancel(model: AlarmReceiver.Model)
 

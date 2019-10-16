@@ -6,6 +6,7 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.vm.main.NotesViewModel
+import java.util.*
 
 /**
  * Interface for communication [NotesViewModel] with [NotesInteractor]
@@ -21,6 +22,14 @@ interface INotesInteractor : IParentInteractor {
     fun updateNote(noteEntity: NoteEntity)
 
     fun convert(noteModel: NoteModel): NoteModel
+
+
+    suspend fun getDateList(): List<String>
+
+    suspend fun clearDate(noteModel: NoteModel)
+
+    suspend fun setDate(noteModel: NoteModel, calendar: Calendar)
+
 
     suspend fun copy(noteEntity: NoteEntity)
 

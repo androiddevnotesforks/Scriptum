@@ -22,7 +22,6 @@ import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.IconState
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.room.converter.StringConverter
-import sgtmelon.scriptum.room.entity.AlarmEntity
 import sgtmelon.scriptum.screen.ui.callback.note.INoteChild
 import sgtmelon.scriptum.screen.ui.callback.note.text.ITextNoteFragment
 import sgtmelon.scriptum.screen.ui.note.TextNoteFragment
@@ -193,10 +192,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     override fun onResultDateDialogClear() {
         viewModelScope.launch { iInteractor.clearDate(noteModel) }
 
-        noteModel.alarmEntity.apply {
-            id = AlarmEntity.ND_ID
-            date = AlarmEntity.ND_DATE
-        }
+        noteModel.alarmEntity.clear()
 
         callback?.bindNote(noteModel)
     }

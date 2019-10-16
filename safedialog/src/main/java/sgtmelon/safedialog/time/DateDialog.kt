@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
+import sgtmelon.extension.clearSeconds
 import sgtmelon.safedialog.BuildConfig
 import sgtmelon.safedialog.R
 import java.util.*
@@ -20,12 +21,20 @@ class DateDialog : DateTimeBlankDialog(), IDateDialog {
     private var neutralVisible: Boolean = false
 
     /**
+     * Save item position in list for next operations
+     */
+    var position: Int = ND_POSITION
+        private set
+
+    /**
      * Call before [show]
      */
-    fun setArguments(calendar: Calendar, neutralVisible: Boolean) = apply {
+    fun setArguments(calendar: Calendar, neutralVisible: Boolean,
+                     p: Int = ND_POSITION) = apply {
         arguments = Bundle().apply {
-            putLong(INIT, calendar.apply { set(Calendar.SECOND, 0) }.timeInMillis)
+            putLong(INIT, calendar.clearSeconds().timeInMillis)
             putBoolean(VALUE, neutralVisible)
+            putInt(POSITION, p)
         }
     }
 
@@ -37,6 +46,9 @@ class DateDialog : DateTimeBlankDialog(), IDateDialog {
 
         neutralVisible = savedInstanceState?.getBoolean(VALUE) ?: arguments?.getBoolean(VALUE)
                 ?: false
+
+        position = savedInstanceState?.getInt(POSITION)
+                ?: arguments?.getInt(POSITION) ?: ND_POSITION
 
         return DatePickerDialog(context as Context, this,
                 calendar.get(Calendar.YEAR),
@@ -53,6 +65,7 @@ class DateDialog : DateTimeBlankDialog(), IDateDialog {
         super.onSaveInstanceState(outState.apply {
             putLong(INIT, calendar.timeInMillis)
             putBoolean(VALUE, neutralVisible)
+            putInt(POSITION, position)
         })
     }
 

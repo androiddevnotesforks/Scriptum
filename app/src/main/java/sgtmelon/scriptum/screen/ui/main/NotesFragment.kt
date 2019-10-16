@@ -34,6 +34,7 @@ import sgtmelon.scriptum.screen.ui.callback.main.INotesFragment
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.ui.notification.NotificationActivity
 import sgtmelon.scriptum.screen.ui.preference.PreferenceActivity
+import java.util.*
 
 /**
  * Fragment which displays list of notes - [NoteEntity]
@@ -51,7 +52,11 @@ class NotesFragment : ParentFragment(), INotesFragment {
     private val iClipboardCompiler: IClipboardControl by lazy { ClipboardControl(context) }
 
     private val openState = OpenState()
-    private val optionsDialog by lazy { DialogFactory.Main.getOptionsDialog(fm) }
+    private val dialogFactory by lazy { DialogFactory.Main(context, fm) }
+
+    private val optionsDialog by lazy { dialogFactory.getOptionsDialog() }
+    private val dateDialog by lazy { dialogFactory.getDateDialog() }
+    private val timeDialog by lazy { dialogFactory.getTimeDialog() }
 
     private val adapter: NoteAdapter by lazy {
         NoteAdapter(object : ItemListener.Click {
@@ -141,9 +146,31 @@ class NotesFragment : ParentFragment(), INotesFragment {
                 }
             })
         }
+    }
 
-        optionsDialog.onClickListener = DialogInterface.OnClickListener { _, which ->
-            iViewModel.onResultOptionsDialog(optionsDialog.position, which)
+    override fun setupDialog() {
+        optionsDialog.apply {
+            itemListener = DialogInterface.OnClickListener { _, which ->
+                iViewModel.onResultOptionsDialog(optionsDialog.position, which)
+            }
+            dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+        }
+
+        dateDialog.apply {
+            positiveListener = DialogInterface.OnClickListener { _, _ ->
+                iViewModel.onResultDateDialog(dateDialog.calendar, dateDialog.position)
+            }
+            dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+            neutralListener = DialogInterface.OnClickListener { _, _ ->
+                iViewModel.onResultDateDialogClear(dateDialog.position)
+            }
+        }
+
+        timeDialog.apply {
+            positiveListener = DialogInterface.OnClickListener { _, _ ->
+                iViewModel.onResultTimeDialog(timeDialog.calendar, timeDialog.position)
+            }
+            dismissListener = DialogInterface.OnDismissListener { openState.clear() }
         }
     }
 
@@ -167,9 +194,23 @@ class NotesFragment : ParentFragment(), INotesFragment {
         startActivity(NoteActivity[context ?: return, noteEntity])
     }
 
-    override fun showOptionsDialog(itemArray: Array<String>, p: Int) {
+
+    override fun showOptionsDialog(itemArray: Array<String>, p: Int) = openState.tryInvoke {
         optionsDialog.setArguments(itemArray, p).show(fm, DialogFactory.Main.OPTIONS)
     }
+
+    override fun showDateDialog(calendar: Calendar, resetVisible: Boolean, p: Int) {
+        openState.tryInvoke({ openState.clear() }) {
+            dateDialog.setArguments(calendar, resetVisible, p).show(fm, DialogFactory.Main.DATE)
+        }
+    }
+
+    override fun showTimeDialog(calendar: Calendar, dateList: List<String>, p: Int) {
+        openState.tryInvoke({ clear() }) {
+            timeDialog.setArguments(calendar, dateList, p).show(fm, DialogFactory.Main.TIME)
+        }
+    }
+
 
     override fun notifyDataSetChanged(list: MutableList<NoteModel>) {
         adapter.notifyDataSetChanged(list)
@@ -185,6 +226,10 @@ class NotesFragment : ParentFragment(), INotesFragment {
 
 
     override fun cancelAlarm(model: AlarmReceiver.Model) = iAlarmControl.cancel(model)
+
+    override fun setAlarm(calendar: Calendar, model: AlarmReceiver.Model) {
+        iAlarmControl.set(calendar, model)
+    }
 
     override fun notifyBind(noteModel: NoteModel, rankIdVisibleList: List<Long>) {
         iBindControl.notify(noteModel, rankIdVisibleList)

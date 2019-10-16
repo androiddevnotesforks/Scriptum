@@ -75,6 +75,8 @@ abstract class BlankDialog : DialogFragment() {
         const val POSITION = "${PREFIX}_POSITION"
         const val INIT = "${PREFIX}_INIT"
         const val VALUE = "${PREFIX}_VALUE"
+
+        const val ND_POSITION = -1
     }
 
 }

@@ -14,21 +14,25 @@ import sgtmelon.scriptum.model.key.NoteType
  */
 object DialogFactory {
 
-    object Main {
-        fun getRenameDialog(fm: FragmentManager?): RenameDialog {
-            return fm?.findFragmentByTag(RENAME) as? RenameDialog ?: RenameDialog()
+    class Main(private val context: Context?, private val fm: FragmentManager) {
+        fun getRenameDialog(): RenameDialog {
+            return fm.findFragmentByTag(RENAME) as? RenameDialog ?: RenameDialog()
         }
 
-        fun getAddDialog(fm: FragmentManager?): SheetAddDialog {
-            return fm?.findFragmentByTag(ADD) as? SheetAddDialog ?: SheetAddDialog()
+        fun getAddDialog(): SheetAddDialog {
+            return fm.findFragmentByTag(ADD) as? SheetAddDialog ?: SheetAddDialog()
         }
 
-        fun getOptionsDialog(fm: FragmentManager?): OptionsDialog {
-            return fm?.findFragmentByTag(OPTIONS) as? OptionsDialog ?: OptionsDialog()
+        fun getOptionsDialog(): OptionsDialog {
+            return fm.findFragmentByTag(OPTIONS) as? OptionsDialog ?: OptionsDialog()
         }
 
-        fun getClearBinDialog(context: Context?, fm: FragmentManager?): MessageDialog {
-            val dialog = fm?.findFragmentByTag(CLEAR_BIN) as? MessageDialog ?: MessageDialog()
+        fun getDateDialog(): DateDialog = fm.findFragmentByTag(DATE) as? DateDialog ?: DateDialog()
+
+        fun getTimeDialog(): TimeDialog = fm.findFragmentByTag(TIME) as? TimeDialog ?: TimeDialog()
+
+        fun getClearBinDialog(): MessageDialog {
+            val dialog = fm.findFragmentByTag(CLEAR_BIN) as? MessageDialog ?: MessageDialog()
 
             if (context == null) return dialog
 
@@ -39,18 +43,24 @@ object DialogFactory {
             return dialog
         }
 
-        private const val PREFIX = "DIALOG_MAIN"
+        companion object {
+            private const val PREFIX = "DIALOG_MAIN"
 
-        const val RENAME = "${PREFIX}_RENAME"
-        const val ADD = "${PREFIX}_ADD"
-        const val OPTIONS = "${PREFIX}_OPTIONS"
-        const val CLEAR_BIN = "${PREFIX}_CLEAR_BIN"
+            const val RENAME = "${PREFIX}_RENAME"
+
+            const val ADD = "${PREFIX}_ADD"
+            const val OPTIONS = "${PREFIX}_OPTIONS"
+            const val DATE = "${PREFIX}_DATE"
+            const val TIME = "${PREFIX}_TIME"
+
+            const val CLEAR_BIN = "${PREFIX}_CLEAR_BIN"
+        }
     }
 
-    class Note(private val context: Context?, private val fm: FragmentManager?) {
+    class Note(private val context: Context?, private val fm: FragmentManager) {
 
         fun getConvertDialog(type: NoteType): MessageDialog {
-            val dialog = fm?.findFragmentByTag(CONVERT) as? MessageDialog ?: MessageDialog()
+            val dialog = fm.findFragmentByTag(CONVERT) as? MessageDialog ?: MessageDialog()
 
             if (context == null) return dialog
 
@@ -65,7 +75,7 @@ object DialogFactory {
         }
 
         fun getRankDialog(): SingleDialog {
-            val dialog = fm?.findFragmentByTag(RANK) as? SingleDialog ?: SingleDialog()
+            val dialog = fm.findFragmentByTag(RANK) as? SingleDialog ?: SingleDialog()
 
             if (context == null) return dialog
 
@@ -75,7 +85,7 @@ object DialogFactory {
         }
 
         fun getColorDialog(): ColorDialog {
-            val dialog = fm?.findFragmentByTag(COLOR) as? ColorDialog ?: ColorDialog()
+            val dialog = fm.findFragmentByTag(COLOR) as? ColorDialog ?: ColorDialog()
 
             if (context == null) return dialog
 
@@ -84,9 +94,9 @@ object DialogFactory {
             return dialog
         }
 
-        fun getDateDialog(): DateDialog = fm?.findFragmentByTag(DATE) as? DateDialog ?: DateDialog()
+        fun getDateDialog(): DateDialog = fm.findFragmentByTag(DATE) as? DateDialog ?: DateDialog()
 
-        fun getTimeDialog(): TimeDialog = fm?.findFragmentByTag(TIME) as? TimeDialog ?: TimeDialog()
+        fun getTimeDialog(): TimeDialog = fm.findFragmentByTag(TIME) as? TimeDialog ?: TimeDialog()
 
         companion object {
             private const val PREFIX = "DIALOG_NOTE"
@@ -101,10 +111,10 @@ object DialogFactory {
 
     }
 
-    class Preference(private val context: Context?, private val fm: FragmentManager?) {
+    class Preference(private val context: Context?, private val fm: FragmentManager) {
 
         fun getThemeDialog(): SingleDialog {
-            val dialog = fm?.findFragmentByTag(THEME) as? SingleDialog ?: SingleDialog()
+            val dialog = fm.findFragmentByTag(THEME) as? SingleDialog ?: SingleDialog()
 
             if (context == null) return dialog
 
@@ -116,7 +126,7 @@ object DialogFactory {
 
 
         fun getSortDialog(): SingleDialog {
-            val dialog = fm?.findFragmentByTag(SORT) as? SingleDialog ?: SingleDialog()
+            val dialog = fm.findFragmentByTag(SORT) as? SingleDialog ?: SingleDialog()
 
             if (context == null) return dialog
 
@@ -127,7 +137,7 @@ object DialogFactory {
         }
 
         fun getColorDialog(): ColorDialog {
-            val dialog = fm?.findFragmentByTag(COLOR) as? ColorDialog ?: ColorDialog()
+            val dialog = fm.findFragmentByTag(COLOR) as? ColorDialog ?: ColorDialog()
 
             if (context == null) return dialog
 
@@ -138,7 +148,7 @@ object DialogFactory {
 
 
         fun getRepeatDialog(): SingleDialog {
-            val dialog = fm?.findFragmentByTag(REPEAT) as? SingleDialog ?: SingleDialog()
+            val dialog = fm.findFragmentByTag(REPEAT) as? SingleDialog ?: SingleDialog()
 
             if (context == null) return dialog
 
@@ -149,7 +159,7 @@ object DialogFactory {
         }
 
         fun getSignalDialog(): MultipleDialog {
-            val dialog = fm?.findFragmentByTag(SIGNAL) as? MultipleDialog ?: MultipleDialog()
+            val dialog = fm.findFragmentByTag(SIGNAL) as? MultipleDialog ?: MultipleDialog()
 
             if (context == null) return dialog
 
@@ -161,7 +171,7 @@ object DialogFactory {
         }
 
         fun getMelodyPermissionDialog(): MessageDialog {
-            val dialog  = fm?.findFragmentByTag(MELODY_PERMISSION) as? MessageDialog
+            val dialog  = fm.findFragmentByTag(MELODY_PERMISSION) as? MessageDialog
                     ?: MessageDialog()
 
             if (context == null) return dialog
@@ -174,7 +184,7 @@ object DialogFactory {
         }
 
         fun getMelodyDialog(): SingleDialog {
-            val dialog = fm?.findFragmentByTag(MELODY) as? SingleDialog ?: SingleDialog()
+            val dialog = fm.findFragmentByTag(MELODY) as? SingleDialog ?: SingleDialog()
 
             if (context == null) return dialog
 
@@ -184,7 +194,7 @@ object DialogFactory {
         }
 
         fun getVolumeDialog(): VolumeDialog {
-            val dialog = fm?.findFragmentByTag(VOLUME) as? VolumeDialog ?: VolumeDialog()
+            val dialog = fm.findFragmentByTag(VOLUME) as? VolumeDialog ?: VolumeDialog()
 
             if (context == null) return dialog
 
@@ -195,7 +205,7 @@ object DialogFactory {
 
 
         fun getSaveTimeDialog(): SingleDialog {
-            val dialog = fm?.findFragmentByTag(SAVE_TIME) as? SingleDialog ?: SingleDialog()
+            val dialog = fm.findFragmentByTag(SAVE_TIME) as? SingleDialog ?: SingleDialog()
 
             if (context == null) return dialog
 
@@ -206,7 +216,7 @@ object DialogFactory {
         }
 
         fun getAboutDialog(): AboutDialog {
-            return fm?.findFragmentByTag(ABOUT) as? AboutDialog ?: AboutDialog()
+            return fm.findFragmentByTag(ABOUT) as? AboutDialog ?: AboutDialog()
         }
 
         companion object {

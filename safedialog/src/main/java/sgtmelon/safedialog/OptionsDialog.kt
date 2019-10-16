@@ -14,7 +14,9 @@ import sgtmelon.safedialog.BlankDialog.Companion.VALUE
  */
 class OptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
 
-    var onClickListener: DialogInterface.OnClickListener? = null
+    var itemListener: DialogInterface.OnClickListener? = null
+
+    var dismissListener: DialogInterface.OnDismissListener? = null
 
     private var itemList: List<String> = ArrayList()
 
@@ -54,8 +56,13 @@ class OptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
         })
     }
 
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        dismissListener?.onDismiss(dialog)
+    }
+
     override fun onClick(dialogInterface: DialogInterface, i: Int) {
-        onClickListener?.onClick(dialogInterface, i)
+        itemListener?.onClick(dialogInterface, i)
     }
 
 }

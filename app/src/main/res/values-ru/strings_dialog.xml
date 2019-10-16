@@ -38,6 +38,8 @@
     <string name="dialog_menu_restore">Восстановить</string>
     <string name="dialog_menu_copy">Копировать текст</string>
 
+    <string name="dialog_menu_notification_set">Установить уведомление</string>
+    <string name="dialog_menu_notification_update">Изменить уведомление</string>
     <string name="dialog_menu_status_bind">Закрепить в статус баре</string>
     <string name="dialog_menu_status_unbind">Открепить от статус бара</string>
     <string name="dialog_menu_convert_to_text">Конвертировать в текст</string>
@@ -45,12 +47,14 @@
 
     <string-array name="dialog_menu_text">
         <item/>
+        <item/>
         <item>@string/dialog_menu_convert_to_roll</item>
         <item>@string/dialog_menu_copy</item>
         <item>@string/dialog_menu_delete</item>
     </string-array>
 
     <string-array name="dialog_menu_roll">
+        <item/>
         <item/>
         <item>@string/dialog_menu_convert_to_text</item>
         <item>@string/dialog_menu_copy</item>
