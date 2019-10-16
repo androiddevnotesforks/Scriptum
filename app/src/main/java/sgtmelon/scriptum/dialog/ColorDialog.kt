@@ -62,11 +62,12 @@ class ColorDialog : BlankDialog() {
                 .create()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) =
-            super.onSaveInstanceState(outState.apply {
-                putInt(INIT, init)
-                putInt(VALUE, check)
-            })
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState.apply {
+            putInt(INIT, init)
+            putInt(VALUE, check)
+        })
+    }
 
     override fun setEnable() {
         super.setEnable()

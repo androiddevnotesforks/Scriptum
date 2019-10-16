@@ -76,8 +76,9 @@ class NotificationActivity : AppActivity(), INotificationActivity {
         iViewModel.onDestroy()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) =
-            super.onSaveInstanceState(outState.apply { openState.save(bundle = this) })
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState.apply { openState.save(bundle = this) })
+    }
 
     override fun setupToolbar() {
         findViewById<Toolbar>(R.id.toolbar_container).apply {

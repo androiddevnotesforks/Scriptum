@@ -51,8 +51,9 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild {
         unregisterReceiver(noteReceiver)
     }
 
-    override fun onSaveInstanceState(outState: Bundle) =
-            super.onSaveInstanceState(outState.apply { iViewModel.onSaveData(bundle = this) })
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState.apply { iViewModel.onSaveData(bundle = this) })
+    }
 
     override fun onBackPressed() {
         if (!iViewModel.onPressBack()) super.onBackPressed()

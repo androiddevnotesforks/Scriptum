@@ -86,8 +86,9 @@ class BinFragment : ParentFragment(), IBinFragment {
         iViewModel.onDestroy()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) =
-            super.onSaveInstanceState(outState.apply { openState.save(bundle = this) })
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState.apply { openState.save(bundle = this) })
+    }
 
     override fun setupToolbar() {
         toolbar = view?.findViewById(R.id.toolbar_container)

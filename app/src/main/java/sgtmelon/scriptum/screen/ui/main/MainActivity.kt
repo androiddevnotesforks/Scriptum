@@ -65,11 +65,12 @@ class MainActivity : AppActivity(), IMainActivity {
         unregisterReceiver(mainReceiver)
     }
 
-    override fun onSaveInstanceState(outState: Bundle) =
-            super.onSaveInstanceState(outState.apply {
-                openState.save(bundle = this)
-                iViewModel.onSaveData(bundle = this)
-            })
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState.apply {
+            openState.save(bundle = this)
+            iViewModel.onSaveData(bundle = this)
+        })
+    }
 
     /**
      * If touch was outside of [RankFragment.enterCard], when need hide keyboard

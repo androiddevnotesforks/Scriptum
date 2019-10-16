@@ -52,12 +52,13 @@ class RenameDialog : BlankDialog(), TextView.OnEditorActionListener {
                 .apply { window?.setSoftInputMode(SOFT_INPUT_STATE_VISIBLE) }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) =
-            super.onSaveInstanceState(outState.apply {
-                putInt(POSITION, position)
-                putString(INIT, title)
-                putStringArrayList(VALUE, nameList)
-            })
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState.apply {
+            putInt(POSITION, position)
+            putString(INIT, title)
+            putStringArrayList(VALUE, nameList)
+        })
+    }
 
     override fun setupView() {
         super.setupView()

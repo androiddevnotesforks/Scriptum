@@ -97,11 +97,12 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment {
         iViewModel.onDestroy()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) =
-            super.onSaveInstanceState(outState.apply {
-                openState.save(bundle = this)
-                iViewModel.onSaveData(bundle = this)
-            })
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState.apply {
+            openState.save(bundle = this)
+            iViewModel.onSaveData(bundle = this)
+        })
+    }
 
     fun onCancelNoteBind() = iViewModel.onCancelNoteBind()
 

@@ -39,8 +39,9 @@ class IntroFragment : Fragment() {
         if (page != ND_PAGE) binding?.bind(page)
     }
 
-    override fun onSaveInstanceState(outState: Bundle) =
-            super.onSaveInstanceState(outState.apply { putInt(PAGE_CURRENT, page) })
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState.apply { putInt(PAGE_CURRENT, page) })
+    }
 
     /**
      * Update screen content display

@@ -114,8 +114,9 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
     // TODO #RELEASE2 check permission update
     override fun onResume() = super.onResume()
 
-    override fun onSaveInstanceState(outState: Bundle) =
-            super.onSaveInstanceState(outState.apply { openState.save(bundle = this) })
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState.apply { openState.save(bundle = this) })
+    }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>,
                                             grantResults: IntArray) {

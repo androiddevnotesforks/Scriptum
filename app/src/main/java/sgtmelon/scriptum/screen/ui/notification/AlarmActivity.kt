@@ -122,8 +122,9 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         iMelodyControl.release()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) =
-            super.onSaveInstanceState(outState.apply { iViewModel.onSaveData(bundle = this) })
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState.apply { iViewModel.onSaveData(bundle = this) })
+    }
 
     /**
      * It calls when orientation changes
