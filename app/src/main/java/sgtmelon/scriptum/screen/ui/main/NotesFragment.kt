@@ -2,7 +2,6 @@ package sgtmelon.scriptum.screen.ui.main
 
 import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +19,7 @@ import sgtmelon.scriptum.control.clipboard.IClipboardControl
 import sgtmelon.scriptum.databinding.FragmentNotesBinding
 import sgtmelon.scriptum.extension.createVisibleAnim
 import sgtmelon.scriptum.extension.inflateBinding
+import sgtmelon.scriptum.extension.initLazy
 import sgtmelon.scriptum.extension.tintIcon
 import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.factory.ViewModelFactory
@@ -50,7 +50,7 @@ class NotesFragment : ParentFragment(), INotesFragment {
 
     private val iAlarmControl by lazy { AlarmControl[context] }
     private val iBindControl: IBindControl by lazy { BindControl(context) }
-    private val iClipboardCompiler: IClipboardControl by lazy { ClipboardControl(context) }
+    private val iClipboardControl: IClipboardControl by lazy { ClipboardControl(context) }
 
     private val openState = OpenState()
     private val dialogFactory by lazy { DialogFactory.Main(context, fm) }
@@ -69,6 +69,9 @@ class NotesFragment : ParentFragment(), INotesFragment {
         })
     }
 
+    /**
+     * Setup variable that way because onRotate can happen shit and view is gone.
+     */
     private var parentContainer: ViewGroup? = null
     private var emptyInfoView: View? = null
     private var recyclerView: RecyclerView? = null
@@ -81,6 +84,12 @@ class NotesFragment : ParentFragment(), INotesFragment {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        iAlarmControl.initLazy()
+        iBindControl.initLazy()
+        iClipboardControl.initLazy()
+
+        openState.get(savedInstanceState)
 
         iViewModel.onSetup()
     }
@@ -95,6 +104,10 @@ class NotesFragment : ParentFragment(), INotesFragment {
     override fun onDestroy() {
         super.onDestroy()
         iViewModel.onDestroy()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState.apply { openState.save(bundle = this) })
     }
 
     fun onCancelNoteBind(id: Long) = iViewModel.onCancelNoteBind(id)
@@ -201,7 +214,7 @@ class NotesFragment : ParentFragment(), INotesFragment {
     }
 
     override fun showDateDialog(calendar: Calendar, resetVisible: Boolean, p: Int) {
-        openState.tryInvoke({ openState.clear() }) {
+        openState.tryInvoke({ clear() }) {
             dateDialog.setArguments(calendar, resetVisible, p).show(fm, DialogFactory.Main.DATE)
         }
     }
@@ -238,6 +251,6 @@ class NotesFragment : ParentFragment(), INotesFragment {
 
     override fun cancelBind(id: Int) = iBindControl.cancel(id)
 
-    override fun copyClipboard(text: String) = iClipboardCompiler.copy(text)
+    override fun copyClipboard(text: String) = iClipboardControl.copy(text)
 
 }

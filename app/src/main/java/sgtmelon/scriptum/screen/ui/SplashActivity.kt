@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.alarm.AlarmControl
 import sgtmelon.scriptum.extension.beforeFinish
+import sgtmelon.scriptum.extension.initLazy
 import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.OpenFrom
@@ -36,6 +37,9 @@ class SplashActivity : AppCompatActivity(), ISplashActivity {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        iAlarmControl.initLazy()
+
         beforeFinish { iViewModel.onSetup(intent.extras) }
     }
 

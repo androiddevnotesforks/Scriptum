@@ -64,7 +64,6 @@ class IntroActivity : AppCompatActivity(), IIntroActivity, ViewPager.OnPageChang
     override fun startMainActivity() = startActivity(MainActivity[this])
 
 
-
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
         pagerAdapter.notifyItem(position, 1 - positionOffset)
 

@@ -21,6 +21,7 @@ import sgtmelon.scriptum.databinding.FragmentRankBinding
 import sgtmelon.scriptum.extension.addTextChangedListener
 import sgtmelon.scriptum.extension.createVisibleAnim
 import sgtmelon.scriptum.extension.inflateBinding
+import sgtmelon.scriptum.extension.initLazy
 import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.listener.ItemListener
@@ -76,6 +77,7 @@ class RankFragment : ParentFragment(), IRankFragment {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        iBindControl.initLazy()
         openState.get(savedInstanceState)
 
         iViewModel.onSetup()

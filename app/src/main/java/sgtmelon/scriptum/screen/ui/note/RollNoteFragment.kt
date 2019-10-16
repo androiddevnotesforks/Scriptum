@@ -95,6 +95,8 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        iAlarmControl.initLazy()
+        iBindControl.initLazy()
         openState.get(savedInstanceState)
 
         iViewModel.onSetup(bundle = arguments ?: savedInstanceState)

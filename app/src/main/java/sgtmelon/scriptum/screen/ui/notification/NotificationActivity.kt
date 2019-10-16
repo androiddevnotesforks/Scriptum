@@ -16,6 +16,7 @@ import sgtmelon.scriptum.databinding.ActivityNotificationBinding
 import sgtmelon.scriptum.extension.createVisibleAnim
 import sgtmelon.scriptum.extension.getTintDrawable
 import sgtmelon.scriptum.extension.inflateBinding
+import sgtmelon.scriptum.extension.initLazy
 import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.annotation.Theme
@@ -60,7 +61,9 @@ class NotificationActivity : AppActivity(), INotificationActivity {
         super.onCreate(savedInstanceState)
         binding = inflateBinding(R.layout.activity_notification)
 
+        iAlarmControl.initLazy()
         openState.get(savedInstanceState)
+
         iViewModel.onSetup()
     }
 

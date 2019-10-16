@@ -22,6 +22,14 @@ import androidx.transition.TransitionManager
 import sgtmelon.scriptum.model.data.ReceiverData
 import java.util.*
 
+/**
+ * Function for lazy property, call inside onCreate/onViewCreated.
+ *
+ * If lazy property not initialized and rotation happen it comes to troubles.
+ * Value will be wrong.
+ */
+fun Any.initLazy() = this.run {}
+
 fun <T : ViewDataBinding> Activity.inflateBinding(@LayoutRes layoutId: Int): T =
         DataBindingUtil.setContentView(this, layoutId)
 

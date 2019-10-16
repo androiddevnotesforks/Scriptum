@@ -17,6 +17,7 @@ import sgtmelon.scriptum.control.clipboard.IClipboardControl
 import sgtmelon.scriptum.databinding.FragmentBinBinding
 import sgtmelon.scriptum.extension.createVisibleAnim
 import sgtmelon.scriptum.extension.inflateBinding
+import sgtmelon.scriptum.extension.initLazy
 import sgtmelon.scriptum.extension.tintIcon
 import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.factory.ViewModelFactory
@@ -38,7 +39,7 @@ class BinFragment : ParentFragment(), IBinFragment {
 
     private val iViewModel by lazy { ViewModelFactory.getBinViewModel(fragment = this) }
 
-    private val iClipboardCompiler: IClipboardControl by lazy { ClipboardControl(context) }
+    private val iClipboardControl: IClipboardControl by lazy { ClipboardControl(context) }
 
     private val openState = OpenState()
     private val dialogFactory by lazy { DialogFactory.Main(context, fm) }
@@ -72,7 +73,9 @@ class BinFragment : ParentFragment(), IBinFragment {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        iClipboardControl.initLazy()
         openState.get(savedInstanceState)
+
         iViewModel.onSetup()
     }
 
@@ -170,6 +173,6 @@ class BinFragment : ParentFragment(), IBinFragment {
     }
 
 
-    override fun copyClipboard(text: String) = iClipboardCompiler.copy(text)
+    override fun copyClipboard(text: String) = iClipboardControl.copy(text)
 
 }

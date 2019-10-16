@@ -17,6 +17,7 @@ import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.alarm.MelodyControl
 import sgtmelon.scriptum.control.alarm.callback.IMelodyControl
+import sgtmelon.scriptum.extension.initLazy
 import sgtmelon.scriptum.extension.isGranted
 import sgtmelon.scriptum.extension.toUri
 import sgtmelon.scriptum.factory.DialogFactory
@@ -95,6 +96,7 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
         super.onCreate(savedInstanceState)
         addPreferencesFromResource(R.xml.preference)
 
+        iMelodyControl.initLazy()
         openState.get(savedInstanceState)
     }
 
