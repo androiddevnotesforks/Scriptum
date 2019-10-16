@@ -6,7 +6,6 @@ import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
@@ -92,8 +91,6 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
             window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON)
         }
 
-        window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD)
-
         setContentView(R.layout.activity_alarm)
 
         iViewModel.onSetup(bundle = savedInstanceState ?: intent.extras)
@@ -104,6 +101,16 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
          * If keyboard was open in another app
          */
         hideKeyboard()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (!iPowerControl.isScreenOn) finish()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        finish()
     }
 
     override fun onDestroy() {

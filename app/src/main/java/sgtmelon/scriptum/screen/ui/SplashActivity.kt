@@ -58,7 +58,7 @@ class SplashActivity : AppCompatActivity(), ISplashActivity {
     }
 
     override fun startAlarmActivity(id: Long, @Color color: Int) {
-        startActivity(AlarmActivity[this, id, color])
+        startActivities(arrayOf(MainActivity[this], AlarmActivity[this, id, color]))
     }
 
 

@@ -13,7 +13,7 @@ class PowerControl(context: Context?) : IPowerControl {
 
     private val powerManager = context?.getSystemService(Context.POWER_SERVICE) as? PowerManager
 
-    private val isScreenOn: Boolean
+    override val isScreenOn: Boolean
         get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
             powerManager?.isInteractive == true
         } else {

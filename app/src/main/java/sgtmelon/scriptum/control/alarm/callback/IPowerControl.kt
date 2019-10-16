@@ -7,6 +7,8 @@ import sgtmelon.scriptum.control.alarm.PowerControl
  */
 interface IPowerControl {
 
+    val isScreenOn: Boolean
+
     fun acquire(timeout: Long)
 
     fun release()
