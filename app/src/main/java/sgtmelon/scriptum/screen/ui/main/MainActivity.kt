@@ -36,13 +36,15 @@ class MainActivity : AppActivity(), IMainActivity {
 
     private val mainReceiver by lazy { MainReceiver(iViewModel) }
 
-    private val fragmentFactory = FragmentFactory.Main(supportFragmentManager)
+    private val fragmentFactory = FragmentFactory.Main(fm)
     private val rankFragment by lazy { fragmentFactory.getRankFragment() }
     private val notesFragment by lazy { fragmentFactory.getNotesFragment() }
     private val binFragment by lazy { fragmentFactory.getBinFragment() }
 
     private val openState = OpenState()
-    private val addDialog by lazy { DialogFactory.Main(this, supportFragmentManager).getAddDialog() }
+    private val dialogFactory by lazy { DialogFactory.Main(context = this, fm = fm) }
+
+    private val addDialog by lazy { dialogFactory.getAddDialog() }
 
     private val fab by lazy { findViewById<FloatingActionButton?>(R.id.main_add_fab) }
 
@@ -84,7 +86,7 @@ class MainActivity : AppActivity(), IMainActivity {
 
     override fun setupNavigation(@IdRes itemId: Int) {
         fab?.setOnClickListener {
-            openState.tryInvoke { addDialog.show(supportFragmentManager, DialogFactory.Main.ADD) }
+            openState.tryInvoke { addDialog.show(fm, DialogFactory.Main.ADD) }
         }
 
         findViewById<BottomNavigationView>(R.id.main_menu_navigation).apply {
@@ -111,7 +113,7 @@ class MainActivity : AppActivity(), IMainActivity {
     }
 
     override fun showPage(pageFrom: MainPage, pageTo: MainPage) {
-        with(supportFragmentManager) {
+        with(fm) {
             beginTransaction().apply {
                 setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
 

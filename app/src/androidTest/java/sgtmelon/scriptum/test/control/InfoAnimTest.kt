@@ -30,7 +30,7 @@ class InfoAnimTest : ParentUiTest() {
     @Test fun notesShow() = data.insertText().let {
         launch {
             mainScreen {
-                waitAfter(TIME) { notesScreen { openNoteDialog(it) { onClickDelete() } } }
+                waitAfter(TIME) { notesScreen { openNoteDialog(it) { onDelete() } } }
             }
         }
     }
@@ -38,7 +38,7 @@ class InfoAnimTest : ParentUiTest() {
     @Test fun notesHide() = data.insertTextToBin().let {
         launch {
             mainScreen {
-                binScreen { openNoteDialog(it) { onClickRestore() } }
+                binScreen { openNoteDialog(it) { onRestore() } }
                 waitAfter(TIME) { notesScreen() }
             }
         }
@@ -47,14 +47,14 @@ class InfoAnimTest : ParentUiTest() {
 
     @Test fun binShow() = data.insertTextToBin().let {
         launch {
-            mainScreen { waitAfter(TIME) { binScreen { openNoteDialog(it) { onClickClear() } } } }
+            mainScreen { waitAfter(TIME) { binScreen { openNoteDialog(it) { onClear() } } } }
         }
     }
 
     @Test fun binHide() = data.insertText().let {
         launch {
             mainScreen {
-                notesScreen { openNoteDialog(it) { onClickDelete() } }
+                notesScreen { openNoteDialog(it) { onDelete() } }
                 waitAfter(TIME) { binScreen() }
             }
         }

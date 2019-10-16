@@ -15,6 +15,8 @@ abstract class AppActivity : AppCompatActivity(), IAppActivity {
 
     private val iViewModel by lazy { ViewModelFactory.getAppViewModel(activity = this) }
 
+    protected val fm get() = supportFragmentManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         iViewModel.onSetup()

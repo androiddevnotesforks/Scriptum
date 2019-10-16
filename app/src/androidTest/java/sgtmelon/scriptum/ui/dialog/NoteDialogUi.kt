@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.ui.dialog
 
+import sgtmelon.extension.getString
 import sgtmelon.extension.getTime
 import sgtmelon.safedialog.MultipleDialog
 import sgtmelon.scriptum.R
@@ -8,16 +9,24 @@ import sgtmelon.scriptum.basic.extension.isDisplayed
 import sgtmelon.scriptum.basic.extension.isEnabled
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.key.NoteType
+import sgtmelon.scriptum.room.entity.AlarmEntity
 import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.ui.IDialogUi
 import sgtmelon.scriptum.ui.ParentUi
+import java.util.*
 
 /**
  * Class for UI control of [MultipleDialog] when cause long click on note.
  */
-class NoteDialogUi(private val noteModel: NoteModel) : ParentUi(), IDialogUi {
+class NoteDialogUi(private val noteModel: NoteModel) : ParentUi(), IDialogUi, DateTimeCallback {
 
     //region Views
+
+    private val notificationButton = getViewByText(if (noteModel.alarmEntity.date.isEmpty()) {
+        R.string.dialog_menu_notification_set
+    } else {
+        R.string.dialog_menu_notification_update
+    })
 
     private val bindButton = getViewByText(if (noteModel.noteEntity.isStatus) {
         R.string.dialog_menu_status_unbind
@@ -38,13 +47,19 @@ class NoteDialogUi(private val noteModel: NoteModel) : ParentUi(), IDialogUi {
 
     //endregion
 
-    fun onClickBind() = waitClose {
+    fun onNotification(func: DateDialogUi.() -> Unit) = waitClose {
+        notificationButton.click()
+
+        DateDialogUi.invoke(func, noteModel.alarmEntity.date.isNotEmpty(), callback = this)
+    }
+
+    fun oBind() = waitClose {
         bindButton.click()
 
         noteModel.noteEntity.apply { isStatus = !isStatus }
     }
 
-    fun onClickConvert() = waitClose {
+    fun onConvert() = waitClose {
         convertButton.click()
 
         noteModel.noteEntity.apply {
@@ -74,9 +89,9 @@ class NoteDialogUi(private val noteModel: NoteModel) : ParentUi(), IDialogUi {
         }
     }
 
-    fun onClickCopy() = waitClose { copyButton.click() }
+    fun onCopy() = waitClose { copyButton.click() }
 
-    fun onClickDelete() = waitClose {
+    fun onDelete() = waitClose {
         deleteButton.click()
 
         noteModel.noteEntity.apply {
@@ -86,7 +101,7 @@ class NoteDialogUi(private val noteModel: NoteModel) : ParentUi(), IDialogUi {
         }
     }
 
-    fun onClickRestore() = waitClose {
+    fun onRestore() = waitClose {
         restoreButton.click()
 
         noteModel.noteEntity.apply {
@@ -95,8 +110,16 @@ class NoteDialogUi(private val noteModel: NoteModel) : ParentUi(), IDialogUi {
         }
     }
 
-    fun onClickClear() = waitClose { clearButton.click() }
+    fun onClear() = waitClose { clearButton.click() }
 
+
+    override fun onDateDialogResetResult() {
+        noteModel.alarmEntity.date = AlarmEntity.ND_DATE
+    }
+
+    override fun onTimeDialogResult(calendar: Calendar) {
+        noteModel.alarmEntity.date = calendar.getString()
+    }
 
     fun assert() {
         if (noteModel.noteEntity.isBin) {

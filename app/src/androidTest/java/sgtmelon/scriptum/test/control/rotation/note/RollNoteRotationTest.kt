@@ -76,6 +76,18 @@ class RollNoteRotationTest : ParentRotationTest() {
         }
     }
 
+    @Test fun timeDialog() = data.insertRoll().let {
+        launch {
+            mainScreen {
+                notesScreen {
+                    openRollNote(it) {
+                        controlPanel { onNotification { onClickApply { onRotate { assert() } } } }
+                    }
+                }
+            }
+        }
+    }
+
 
     @Test fun convertDialog() = data.insertRoll().let {
         launch {

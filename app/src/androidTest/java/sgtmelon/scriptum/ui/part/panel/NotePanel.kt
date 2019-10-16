@@ -1,25 +1,31 @@
 package sgtmelon.scriptum.ui.part.panel
 
 import androidx.annotation.AttrRes
+import sgtmelon.extension.getString
 import sgtmelon.extension.getTime
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.key.NoteType
+import sgtmelon.scriptum.room.entity.AlarmEntity
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.dialog.ColorDialogUi
 import sgtmelon.scriptum.ui.dialog.ConvertDialogUi
 import sgtmelon.scriptum.ui.dialog.DateDialogUi
+import sgtmelon.scriptum.ui.dialog.DateTimeCallback
 import sgtmelon.scriptum.ui.screen.main.BinScreen
 import sgtmelon.scriptum.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
+import java.util.*
 
 /**
  * Part of UI abstraction for [TextNoteScreen] и [RollNoteScreen]
  */
-class NotePanel(private val callback: INoteScreen) : ParentUi(), ColorDialogUi.Callback {
+class NotePanel(private val callback: INoteScreen) : ParentUi(),
+        ColorDialogUi.Callback,
+        DateTimeCallback {
 
     //region Views
 
@@ -116,7 +122,7 @@ class NotePanel(private val callback: INoteScreen) : ParentUi(), ColorDialogUi.C
     fun onNotification(updateDate: Boolean = false, func: DateDialogUi.() -> Unit = {}) {
         callback.throwOnWrongState(State.READ) {
             notificationButton.click()
-            DateDialogUi.invoke(updateDate, callback, func)
+            DateDialogUi.invoke(func, updateDate, callback = this)
         }
     }
 
@@ -147,6 +153,17 @@ class NotePanel(private val callback: INoteScreen) : ParentUi(), ColorDialogUi.C
                 inputControl.reset()
             }.fullAssert()
         }
+    }
+
+
+    override fun onDateDialogResetResult() = with(callback) {
+        noteModel.alarmEntity.date = AlarmEntity.ND_DATE
+        fullAssert()
+    }
+
+    override fun onTimeDialogResult(calendar: Calendar) = with(callback) {
+        noteModel.alarmEntity.date = calendar.getString()
+        fullAssert()
     }
 
     override fun onColorDialogResult(check: Int) = callback.apply {

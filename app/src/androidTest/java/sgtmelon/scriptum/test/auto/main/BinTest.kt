@@ -74,7 +74,7 @@ class BinTest : ParentUiTest() {
         launch {
             mainScreen {
                 notesScreen(empty = true)
-                binScreen { openNoteDialog(it) { onClickRestore() }.assert(empty = true) }
+                binScreen { openNoteDialog(it) { onRestore() }.assert(empty = true) }
                 notesScreen()
             }
         }
@@ -83,7 +83,7 @@ class BinTest : ParentUiTest() {
     @Test fun textNoteDialogClear() = data.insertTextToBin().let {
         launch {
             mainScreen {
-                binScreen { openNoteDialog(it) { onClickClear() }.assert(empty = true) }
+                binScreen { openNoteDialog(it) { onClear() }.assert(empty = true) }
                 notesScreen(empty = true)
             }
         }
@@ -104,7 +104,7 @@ class BinTest : ParentUiTest() {
         launch {
             mainScreen {
                 notesScreen(empty = true)
-                binScreen { openNoteDialog(it) { onClickRestore() }.assert(empty = true) }
+                binScreen { openNoteDialog(it) { onRestore() }.assert(empty = true) }
                 notesScreen()
             }
         }
@@ -113,7 +113,7 @@ class BinTest : ParentUiTest() {
     @Test fun rollNoteDialogClear() = data.insertRollToBin().let {
         launch {
             mainScreen {
-                binScreen { openNoteDialog(it) { onClickClear() }.assert(empty = true) }
+                binScreen { openNoteDialog(it) { onClear() }.assert(empty = true) }
                 notesScreen(empty = true)
             }
         }

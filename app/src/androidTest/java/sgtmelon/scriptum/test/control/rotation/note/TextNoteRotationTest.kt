@@ -76,6 +76,18 @@ class TextNoteRotationTest : ParentRotationTest() {
         }
     }
 
+    @Test fun timeDialog() = data.insertText().let {
+        launch {
+            mainScreen {
+                notesScreen {
+                    openTextNote(it) {
+                        controlPanel { onNotification { onClickApply { onRotate { assert() } } } }
+                    }
+                }
+            }
+        }
+    }
+
 
     @Test fun convertDialog() = data.insertText().let {
         launch {

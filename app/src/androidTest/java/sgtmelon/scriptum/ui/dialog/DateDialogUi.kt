@@ -6,10 +6,8 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
 import sgtmelon.scriptum.basic.extension.isDisplayed
 import sgtmelon.scriptum.basic.extension.isEnabled
-import sgtmelon.scriptum.room.entity.AlarmEntity
 import sgtmelon.scriptum.ui.IDialogUi
 import sgtmelon.scriptum.ui.ParentUi
-import sgtmelon.scriptum.ui.screen.note.INoteScreen
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -17,9 +15,10 @@ import kotlin.collections.ArrayList
  * Class for UI control [DateDialog]
  */
 class DateDialogUi(
-        private val callback: INoteScreen,
+        private val callback: DateTimeCallback,
         private val updateDate: Boolean
-) : ParentUi(), IDialogUi {
+) : ParentUi(),
+        IDialogUi {
 
     //region Views
 
@@ -53,25 +52,17 @@ class DateDialogUi(
 
     fun onClickReset() {
         waitClose { resetButton.click() }
-
-        callback.noteModel.alarmEntity.apply {
-            date = AlarmEntity.ND_DATE
-        }
-
-        callback.fullAssert()
+        callback.onDateDialogResetResult()
     }
 
-    fun onClickCancel() {
-        waitClose { cancelButton.click() }
-
-        callback.fullAssert()
-    }
+    fun onClickCancel() = waitClose { cancelButton.click() }
 
     fun onClickApply(dateList: List<String> = ArrayList(),
                      func: TimeDialogUi.() -> Unit = {}) = waitClose {
         applyButton.click()
-        TimeDialogUi.invoke(callback, calendar, dateList, func)
+        TimeDialogUi.invoke(func, calendar, dateList, callback)
     }
+
 
     fun assert() {
         resetButton.isDisplayed(updateDate).isEnabled()
@@ -81,8 +72,8 @@ class DateDialogUi(
     }
 
     companion object {
-        operator fun invoke(updateDate: Boolean, callback: INoteScreen,
-                            func: DateDialogUi.() -> Unit) =
+        operator fun invoke(func: DateDialogUi.() -> Unit, updateDate: Boolean,
+                            callback: DateTimeCallback) =
                 DateDialogUi(callback, updateDate).apply { waitOpen { assert() } }.apply(func)
     }
 

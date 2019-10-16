@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.factory.FragmentFactory
 import sgtmelon.scriptum.factory.ViewModelFactory
@@ -26,7 +25,7 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild {
 
     private val iViewModel by lazy { ViewModelFactory.getNoteViewModel(activity = this) }
 
-    private val fragmentFactory = FragmentFactory.Note(supportFragmentManager)
+    private val fragmentFactory = FragmentFactory.Note(fm)
     private val textNoteFragment get() = fragmentFactory.getTextNoteFragment()
     private val rollNoteFragment get() = fragmentFactory.getRollNoteFragment()
 
@@ -91,8 +90,7 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild {
     override fun onConvertNote() = iViewModel.onConvertNote()
 
 
-    private fun showFragment(key: String, fragment: Fragment) = supportFragmentManager
-            .beginTransaction()
+    private fun showFragment(key: String, fragment: Fragment) = fm.beginTransaction()
             .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
             .replace(R.id.note_fragment_container, fragment, key)
             .commit()

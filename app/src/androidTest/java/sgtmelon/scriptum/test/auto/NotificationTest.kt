@@ -44,7 +44,7 @@ class NotificationTest : ParentUiTest() {
         launch {
             mainScreen {
                 notesScreen { 
-                    openNoteDialog(it) { onClickDelete() }.openNotification(empty = true)
+                    openNoteDialog(it) { onDelete() }.openNotification(empty = true)
                 }
             }
         }

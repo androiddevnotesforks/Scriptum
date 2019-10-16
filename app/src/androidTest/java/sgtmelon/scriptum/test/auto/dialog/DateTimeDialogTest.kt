@@ -10,6 +10,14 @@ import sgtmelon.scriptum.test.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class DateTimeDialogTest : ParentUiTest() {
 
+    @Test fun mainDataReset() = data.insertNotification(data.insertNote()).let {
+        launch {
+            mainScreen {
+                notesScreen { openNoteDialog(it) { onNotification { onClickReset() } } }
+            }
+        }
+    }
+
     @Test fun textNoteDateReset() = data.insertNotification(data.insertText()).let {
         launch {
             mainScreen {
@@ -35,7 +43,24 @@ class DateTimeDialogTest : ParentUiTest() {
     }
 
 
-    @Test fun toastToday() = data.insertText().let {
+    @Test fun mainToastToday() = data.insertNote().let {
+        launch {
+            mainScreen {
+                notesScreen {
+                    openNoteDialog(it) {
+                        onNotification {
+                            onClickApply {
+                                onTime(min = 2)
+                                waitAfter(TOAST_TIME) { onClickApply() }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Test fun noteToastToday() = data.insertText().let {
         launch {
             mainScreen {
                 notesScreen {
@@ -54,7 +79,24 @@ class DateTimeDialogTest : ParentUiTest() {
         }
     }
 
-    @Test fun toastOther() = data.insertText().let {
+    @Test fun mainToastOther() = data.insertNote().let {
+        launch {
+            mainScreen {
+                notesScreen {
+                    openNoteDialog(it) {
+                        onNotification {
+                            onDate(day = 1).onClickApply {
+                                onTime(min = 2)
+                                waitAfter(TOAST_TIME) { onClickApply() }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Test fun noteToastOther() = data.insertText().let {
         launch {
             mainScreen {
                 notesScreen {
