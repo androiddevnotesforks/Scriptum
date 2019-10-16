@@ -297,10 +297,10 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment {
     override fun cancelAlarm(model: AlarmReceiver.Model) = iAlarmControl.cancel(model)
 
     override fun notifyBind(noteModel: NoteModel, rankIdVisibleList: List<Long>) {
-        iBindControl.notify(noteModel, rankIdVisibleList)
+        iBindControl.notifyNote(noteModel, rankIdVisibleList)
     }
 
-    override fun cancelBind(id: Int) = iBindControl.cancel(id)
+    override fun cancelBind(id: Int) = iBindControl.cancelNote(id)
 
     companion object {
         operator fun get(id: Long) = TextNoteFragment().apply {

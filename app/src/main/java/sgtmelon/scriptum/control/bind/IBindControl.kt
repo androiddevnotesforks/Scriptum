@@ -7,8 +7,8 @@ import sgtmelon.scriptum.model.NoteModel
  */
 interface IBindControl {
 
-    fun notify(noteModel: NoteModel, rankIdVisibleList: List<Long>)
+    fun notifyNote(noteModel: NoteModel, rankIdVisibleList: List<Long>)
 
-    fun cancel(id: Int)
+    fun cancelNote(id: Int)
 
 }

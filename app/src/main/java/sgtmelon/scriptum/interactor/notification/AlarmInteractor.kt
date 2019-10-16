@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.interactor.notification
 
 import android.content.Context
+import sgtmelon.extension.clearSeconds
 import sgtmelon.extension.getString
 import sgtmelon.scriptum.interactor.ParentInteractor
 import sgtmelon.scriptum.interactor.callback.notification.IAlarmInteractor
@@ -42,7 +43,7 @@ class AlarmInteractor(context: Context, private var callback: IAlarmBridge?) :
     }
 
     override fun setupRepeat(noteModel: NoteModel, valueArray: IntArray) {
-        val calendar = Calendar.getInstance().apply {
+        val calendar = Calendar.getInstance().clearSeconds().apply {
             add(Calendar.MINUTE, valueArray[repeat])
         }
 

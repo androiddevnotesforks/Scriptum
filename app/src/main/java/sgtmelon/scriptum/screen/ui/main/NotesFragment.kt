@@ -246,10 +246,10 @@ class NotesFragment : ParentFragment(), INotesFragment {
     }
 
     override fun notifyBind(noteModel: NoteModel, rankIdVisibleList: List<Long>) {
-        iBindControl.notify(noteModel, rankIdVisibleList)
+        iBindControl.notifyNote(noteModel, rankIdVisibleList)
     }
 
-    override fun cancelBind(id: Int) = iBindControl.cancel(id)
+    override fun cancelBind(id: Int) = iBindControl.cancelNote(id)
 
     override fun copyClipboard(text: String) = iClipboardControl.copy(text)
 

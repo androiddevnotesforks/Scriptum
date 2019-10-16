@@ -23,6 +23,6 @@ fun getFutureTime(): String = Calendar.getInstance().clearSeconds().apply {
 /**
  * Add minutes for current time
  */
-fun getTime(minute: Int): Calendar = Calendar.getInstance().apply {
+fun getTime(minute: Int): Calendar = Calendar.getInstance().clearSeconds().apply {
     add(Calendar.MINUTE, minute)
 }

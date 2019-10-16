@@ -30,7 +30,7 @@ class BindControl(private val context: Context?) : IBindControl {
     /**
      * Update notification if note isStatus and isVisible, otherwise cancel notification
      */
-    override fun notify(noteModel: NoteModel, rankIdVisibleList: List<Long>) {
+    override fun notifyNote(noteModel: NoteModel, rankIdVisibleList: List<Long>) {
         if (context == null) return
 
         val id = noteModel.noteEntity.id.toInt()
@@ -39,14 +39,14 @@ class BindControl(private val context: Context?) : IBindControl {
         }
 
         if (notify) {
-            manager?.notify(id, NotificationFactory[context, noteModel])
+            manager?.notify(TAG_NOTE, id, NotificationFactory[context, noteModel])
         } else {
-            cancel(id)
+            cancelNote(id)
         }
     }
 
-    override fun cancel(id: Int) {
-        manager?.cancel(id)
+    override fun cancelNote(id: Int) {
+        manager?.cancel(TAG_NOTE, id)
     }
 
     /**
@@ -63,6 +63,12 @@ class BindControl(private val context: Context?) : IBindControl {
         interface Cancel {
             fun cancelBind(id: Int)
         }
+    }
+
+    companion object {
+        private const val PREFIX = "TAG_BIND"
+
+        private const val TAG_NOTE = "${PREFIX}_NOTE"
     }
 
 }

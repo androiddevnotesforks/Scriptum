@@ -49,11 +49,11 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
                     val bindControl = BindControl(context)
 
                     if (!bin && it.isNotVisible(rankIdVisibleList)) {
-                        bindControl.cancel(it.id.toInt())
+                        bindControl.cancelNote(it.id.toInt())
                     } else {
                         if (NotesViewModel.updateStatus) {
                             val noteModel = NoteModel(it, BindRepo(context).getRollList(it.id))
-                            bindControl.notify(noteModel, rankIdVisibleList)
+                            bindControl.notifyNote(noteModel, rankIdVisibleList)
                         }
 
                         add(NoteModel(

@@ -24,7 +24,7 @@ class UnbindReceiver : BroadcastReceiver() {
 
         if (id == Values.ND_NOTE_ID) return
 
-        BindRepo(context).unbindNote(id)?.let { BindControl(context).cancel(it.id.toInt()) }
+        BindRepo(context).unbindNote(id)?.let { BindControl(context).cancelNote(it.id.toInt()) }
 
         context.apply {
             sendTo(Filter.MAIN, Command.UNBIND_NOTE) { putExtra(Values.NOTE_ID, id) }

@@ -27,7 +27,7 @@ object NotificationFactory {
      * Don't care about [NoteModel.rollList] if:
      * - If note type is [NoteType.TEXT]
      * - If type is [NoteType.ROLL] and [NoteModel.rollList] is completely load
-     * - If you need only call [BindControl.cancel]
+     * - If you need only call [BindControl.cancelNote]
      */
     operator fun get(context: Context, noteModel: NoteModel): Notification {
         val icon = when (noteModel.noteEntity.type) {

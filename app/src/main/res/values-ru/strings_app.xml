@@ -32,7 +32,6 @@
     <string name="menu_note_clear">Удалить навсегда</string>
 
     <!-- Notifications -->
-    <string name="notification_channel">Заметки</string>
     <string name="notification_group">Заметки</string>
 
     <string name="notification_button_unbind">Открепить</string>
