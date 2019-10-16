@@ -98,7 +98,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         longWaitHandler.removeCallbacksAndMessages(null)
 
         if (needRepeat) {
-            noteModel?.let {
+            noteModel?.also {
                 val valueArray = context.resources.getIntArray(R.array.value_alarm_repeat_array)
                 iInteractor.setupRepeat(it, valueArray)
             }

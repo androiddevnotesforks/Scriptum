@@ -22,6 +22,9 @@ interface IAlarmInteractor : IParentInteractor {
 
     fun getModel(id: Long): NoteModel?
 
+    /**
+     * Return postpone time
+     */
     fun setupRepeat(noteModel: NoteModel, valueArray: IntArray)
 
 }

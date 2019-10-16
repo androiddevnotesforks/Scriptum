@@ -47,11 +47,21 @@ class AlarmInteractor(context: Context, private var callback: IAlarmBridge?) :
             add(Calendar.MINUTE, valueArray[repeat])
         }
 
+        checkDateExist(calendar)
+
         iAlarmRepo.insertOrUpdate(noteModel.alarmEntity.apply {
             date = calendar.getString()
         })
 
         callback?.setAlarm(calendar, AlarmReceiver[noteModel.noteEntity])
+    }
+
+    private fun checkDateExist(calendar: Calendar) {
+        val dateList = iAlarmRepo.getList().map { it.alarm.date }
+
+        while (dateList.contains(calendar.getString())) {
+            calendar.add(Calendar.MINUTE, 1)
+        }
     }
 
 }
