@@ -23,7 +23,7 @@ class RollNoteScreen(
         override var state: State,
         override var noteModel: NoteModel,
         override val isRankEmpty: Boolean
-) : ParentRecyclerScreen(R.id.roll_note_recycler), INoteScreen, IPressBack{
+) : ParentRecyclerScreen(R.id.roll_note_recycler), INoteScreen, IPressBack {
 
     //region Views
 

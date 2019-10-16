@@ -16,23 +16,15 @@ import sgtmelon.scriptum.test.ParentUiTest
 class AlarmTest : ParentUiTest() {
 
     @Test fun openTextNote() = data.insertText().let {
-        launchAlarm(it) { openAlarm(it) { openTextNote() } }
-    }
-
-    @Test fun backTextNote() = data.insertText().let {
-        launchAlarm(it) { openAlarm(it) { openTextNote { onPressClose() }} }
+        launchAlarm(it) { openAlarm(it) { openTextNote { onPressBack() } }.mainScreen() }
     }
 
     @Test fun openRollNote() = data.insertRoll().let {
-        launchAlarm(it) { openAlarm(it) { openRollNote() } }
-    }
-
-    @Test fun backRollNote() = data.insertRoll().let {
-        launchAlarm(it) { openAlarm(it) { openRollNote { onPressClose() }} }
+        launchAlarm(it) { openAlarm(it) { openRollNote { onPressBack() } }.mainScreen() }
     }
 
     @Test fun clickDisable() = data.insertNote().let {
-        launchAlarm(it) { openAlarm(it) { onClickDisable() } }
+        launchAlarm(it) { openAlarm(it) { onClickDisable() }.mainScreen() }
     }
 
 
@@ -45,7 +37,9 @@ class AlarmTest : ParentUiTest() {
     private fun startPostponeTest(@Repeat repeat: Int) {
         iPreferenceRepo.repeat = repeat
 
-        data.insertNote().let { launchAlarm(it) { openAlarm(it) { onClickPostpone() } } }
+        data.insertNote().let {
+            launchAlarm(it) { openAlarm(it) { onClickPostpone() }.mainScreen() }
+        }
     }
 
 
@@ -59,7 +53,10 @@ class AlarmTest : ParentUiTest() {
         iPreferenceRepo.repeat = repeat
 
         data.insertNote().let {
-            launchAlarm(it) { waitAfter(AlarmViewModel.CANCEL_DELAY) { openAlarm(it) } }
+            launchAlarm(it) {
+                waitAfter(AlarmViewModel.CANCEL_DELAY) { openAlarm(it) }
+                mainScreen()
+            }
         }
     }
 
@@ -73,7 +70,9 @@ class AlarmTest : ParentUiTest() {
     private fun startBackPostponeTest(@Repeat repeat: Int) {
         iPreferenceRepo.repeat = repeat
 
-        data.insertNote().let { launchAlarm(it) { openAlarm(it) { onPressClose() } } }
+        data.insertNote().let {
+            launchAlarm(it) { openAlarm(it) { onPressBack() }.mainScreen() }
+        }
     }
 
 }

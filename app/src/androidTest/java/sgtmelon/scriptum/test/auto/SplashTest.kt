@@ -17,17 +17,11 @@ class SplashTest : ParentUiTest() {
     @Test fun mainScreenOpen() = launch { mainScreen() }
 
     @Test fun bindTextNoteOpen() = data.insertText().let {
-        launchBind(it) {
-            openTextNoteBind(it) { onPressBack() }
-            mainScreen()
-        }
+        launchBind(it) { openTextNoteBind(it) { onPressBack() }.mainScreen() }
     }
 
     @Test fun bindRollNoteOpen() = data.insertRoll().let {
-        launchBind(it) {
-            openRollNoteBind(it) { onPressBack() }
-            mainScreen()
-        }
+        launchBind(it) { openRollNoteBind(it) { onPressBack() }.mainScreen() }
     }
 
     @Test fun alarmTextNoteOpen() = data.insertText().let { launchAlarm(it) { openAlarm(it) } }

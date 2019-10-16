@@ -23,7 +23,7 @@ abstract class AlarmAnimParentTest(@Theme private val theme: Int) : ParentUiTest
         }
 
         val noteModel = data.clear().let {
-            if (Random.nextBoolean()) {
+            return@let if (Random.nextBoolean()) {
                 it.insertText(it.textNote.apply { this.color = color })
             } else {
                 it.insertRoll(it.rollNote.apply { this.color = color })

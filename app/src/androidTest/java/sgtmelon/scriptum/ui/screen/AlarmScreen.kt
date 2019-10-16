@@ -7,7 +7,7 @@ import sgtmelon.scriptum.basic.extension.waitBefore
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
-import sgtmelon.scriptum.ui.IPressClose
+import sgtmelon.scriptum.ui.IPressBack
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
@@ -15,7 +15,7 @@ import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 /**
  * Class for UI control of [AlarmActivity].
  */
-class AlarmScreen(private val noteModel: NoteModel) : ParentUi(), IPressClose {
+class AlarmScreen(private val noteModel: NoteModel) : ParentUi(), IPressBack {
 
     //region Views
 
