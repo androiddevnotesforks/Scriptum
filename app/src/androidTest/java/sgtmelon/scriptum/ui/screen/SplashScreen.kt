@@ -25,8 +25,9 @@ class SplashScreen : ParentUi() {
         RollNoteScreen.invoke(func, State.READ, noteModel)
     }
 
-    fun openAlarm(noteModel: NoteModel, func: AlarmScreen.() -> Unit = {}) = apply {
-        AlarmScreen.invoke(func, noteModel)
+    fun openAlarm(noteModel: NoteModel, dateList: List<String>? = null,
+                  func: AlarmScreen.() -> Unit = {}) = apply {
+        AlarmScreen.invoke(func, noteModel, dateList)
     }
 
 
