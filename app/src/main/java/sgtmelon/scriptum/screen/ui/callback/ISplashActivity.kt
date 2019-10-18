@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.screen.ui.callback
 
+import sgtmelon.scriptum.control.bind.BindControl
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.ui.SplashActivity

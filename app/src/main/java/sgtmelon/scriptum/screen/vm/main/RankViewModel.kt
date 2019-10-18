@@ -8,6 +8,8 @@ import kotlinx.coroutines.launch
 import sgtmelon.scriptum.extension.clearAndAdd
 import sgtmelon.scriptum.extension.clearSpace
 import sgtmelon.scriptum.extension.toUpperCase
+import sgtmelon.scriptum.interactor.BindInteractor
+import sgtmelon.scriptum.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.interactor.main.RankInteractor
 import sgtmelon.scriptum.room.entity.RankEntity
@@ -22,7 +24,8 @@ import sgtmelon.scriptum.screen.vm.callback.main.IRankViewModel
 class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(application),
         IRankViewModel {
 
-    private val iInteractor: IRankInteractor by lazy { RankInteractor(context, callback) }
+    private val iInteractor: IRankInteractor by lazy { RankInteractor(context) }
+    private val iBindInteractor: IBindInteractor by lazy { BindInteractor(context, callback) }
 
     private val itemList: MutableList<RankEntity> = ArrayList()
     private val nameList: List<String> get() = itemList.map { it.name.toUpperCase() }
@@ -34,7 +37,10 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         }
     }
 
-    override fun onDestroy(func: () -> Unit) = super.onDestroy { iInteractor.onDestroy() }
+    override fun onDestroy(func: () -> Unit) = super.onDestroy {
+        iInteractor.onDestroy()
+        iBindInteractor.onDestroy()
+    }
 
 
     override fun onUpdateData() {
@@ -103,10 +109,8 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     override fun onClickVisible(p: Int) {
         val item = itemList[p].apply { isVisible = !isVisible }
 
-        viewModelScope.launch {
-            iInteractor.update(item)
-            iInteractor.notifyBind()
-        }
+        viewModelScope.launch { iInteractor.update(item) }
+        viewModelScope.launch { iBindInteractor.notifyBind() }
 
         callback?.notifyVisible(p, item)
     }
@@ -131,7 +135,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         callback?.notifyVisible(startAnim, itemList)
 
         iInteractor.update(itemList)
-        iInteractor.notifyBind()
+        viewModelScope.launch { iBindInteractor.notifyBind() }
     }
 
     override fun onClickCancel(p: Int) {
@@ -140,7 +144,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         itemList.removeAt(p)
 
         iInteractor.update(itemList)
-        viewModelScope.launch { iInteractor.notifyBind() }
+        viewModelScope.launch { iBindInteractor.notifyBind() }
 
         callback?.notifyItemRemoved(p, itemList)
     }

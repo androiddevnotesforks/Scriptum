@@ -11,8 +11,6 @@ import sgtmelon.scriptum.screen.vm.main.RankViewModel
  */
 interface IRankInteractor : IParentInteractor {
 
-    fun notifyBind()
-
     fun insert(name: String): RankEntity
 
     fun getList(): MutableList<RankEntity>

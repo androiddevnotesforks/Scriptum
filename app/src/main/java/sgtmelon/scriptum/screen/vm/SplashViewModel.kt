@@ -4,7 +4,9 @@ import android.app.Application
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import sgtmelon.scriptum.interactor.BindInteractor
 import sgtmelon.scriptum.interactor.SplashInteractor
+import sgtmelon.scriptum.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.interactor.callback.ISplashInteractor
 import sgtmelon.scriptum.model.annotation.OpenFrom
 import sgtmelon.scriptum.model.data.NoteData
@@ -20,8 +22,10 @@ class SplashViewModel(application: Application) : ParentViewModel<ISplashActivit
         ISplashViewModel {
 
     private val iInteractor: ISplashInteractor by lazy { SplashInteractor(context, callback) }
+    private val iBindInteractor: IBindInteractor by lazy { BindInteractor(context, callback) }
 
     override fun onSetup(bundle: Bundle?) {
+        viewModelScope.launch { iBindInteractor.notifyBind() }
         viewModelScope.launch { iInteractor.clearPastAlarm() }
 
         if (bundle == null) {
@@ -36,7 +40,10 @@ class SplashViewModel(application: Application) : ParentViewModel<ISplashActivit
         }
     }
 
-    override fun onDestroy(func: () -> Unit) = super.onDestroy { iInteractor.onDestroy() }
+    override fun onDestroy(func: () -> Unit) = super.onDestroy {
+        iInteractor.onDestroy()
+        iBindInteractor.onDestroy()
+    }
 
 
     private fun onSimpleStart() = if (iInteractor.firstStart) {

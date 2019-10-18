@@ -3,12 +3,10 @@ package sgtmelon.scriptum.repository.room
 import android.content.Context
 import sgtmelon.extension.getTime
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.control.bind.BindControl
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.repository.bind.BindRepo
 import sgtmelon.scriptum.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.room.IRoomWork
@@ -18,7 +16,6 @@ import sgtmelon.scriptum.room.entity.AlarmEntity
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.room.entity.RollEntity
-import sgtmelon.scriptum.screen.vm.main.NotesViewModel
 
 /**
  * Repository of [RoomDb]
@@ -45,22 +42,11 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
                     Sort.CREATE -> iNoteDao.getByCreate(bin)
                     Sort.RANK -> iNoteDao.getByRank(bin)
                     else -> iNoteDao.getByColor(bin)
-                }.forEach {
-                    val bindControl = BindControl(context)
-
-                    if (!bin && it.isNotVisible(rankIdVisibleList)) {
-                        bindControl.cancelNote(it.id.toInt())
-                    } else {
-                        if (NotesViewModel.updateStatus) {
-                            val noteModel = NoteModel(it, BindRepo(context).getRollList(it.id))
-                            bindControl.notifyNote(noteModel, rankIdVisibleList)
-                        }
-
-                        add(NoteModel(
-                                it, iRollDao.getView(it.id),
-                                alarmEntity = iAlarmDao[it.id] ?: AlarmEntity(noteId = it.id))
-                        )
-                    }
+                }.filter { it.isVisible(rankIdVisibleList) }.forEach {
+                    add(NoteModel(
+                            it, iRollDao.getView(it.id),
+                            alarmEntity = iAlarmDao[it.id] ?: AlarmEntity(noteId = it.id)
+                    ))
                 }
             }
         }

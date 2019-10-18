@@ -43,7 +43,7 @@ class BindTest : ParentNotificationTest() {
         }
     }
 
-    @Test fun rollNoteUnbindReceiver() = data.insertText(data.rollNote.copy(isStatus = true)).let {
+    @Test fun rollNoteUnbindReceiver() = data.insertRoll(data.rollNote.copy(isStatus = true)).let {
         launch {
             mainScreen {
                 notesScreen {

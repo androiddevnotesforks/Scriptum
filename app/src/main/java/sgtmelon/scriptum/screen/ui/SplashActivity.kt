@@ -7,9 +7,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.alarm.AlarmControl
+import sgtmelon.scriptum.control.bind.BindControl
+import sgtmelon.scriptum.control.bind.IBindControl
 import sgtmelon.scriptum.extension.beforeFinish
 import sgtmelon.scriptum.extension.initLazy
 import sgtmelon.scriptum.factory.ViewModelFactory
+import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.OpenFrom
 import sgtmelon.scriptum.model.data.NoteData
@@ -35,11 +38,13 @@ class SplashActivity : AppCompatActivity(), ISplashActivity {
     private val iViewModel by lazy { ViewModelFactory.getSplashViewModel(activity = this) }
 
     private val iAlarmControl by lazy { AlarmControl[this] }
+    private val iBindControl: IBindControl by lazy { BindControl(context = this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         iAlarmControl.initLazy()
+        iBindControl.initLazy()
 
         beforeFinish { iViewModel.onSetup(intent.extras) }
     }
@@ -72,6 +77,10 @@ class SplashActivity : AppCompatActivity(), ISplashActivity {
 
 
     override fun cancelAlarm(model: AlarmReceiver.Model) = iAlarmControl.cancel(model)
+
+    override fun notifyBind(noteModel: NoteModel, rankIdVisibleList: List<Long>) {
+        iBindControl.notifyNote(noteModel, rankIdVisibleList)
+    }
 
     companion object {
         fun getAlarmInstance(context: Context, noteEntity: NoteEntity) =
