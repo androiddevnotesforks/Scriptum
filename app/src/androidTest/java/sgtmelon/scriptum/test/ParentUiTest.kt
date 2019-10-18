@@ -44,6 +44,10 @@ abstract class ParentUiTest : ParentTest() {
             intent = SplashActivity.getBindInstance(context, noteModel.noteEntity), after = func
     )
 
+    protected fun launchInfo(func: SplashScreen.() -> Unit) = launch(
+            intent = SplashActivity.getNotificationInstance(context), after = func
+    )
+
     protected fun launchAlarm(noteModel: NoteModel, func: SplashScreen.() -> Unit) = launch(
             intent = SplashActivity.getAlarmInstance(context, noteModel.noteEntity), after = func
     )

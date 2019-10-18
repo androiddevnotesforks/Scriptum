@@ -28,8 +28,9 @@ class SplashViewModel(application: Application) : ParentViewModel<ISplashActivit
             onSimpleStart()
         } else {
             when (bundle.getString(OpenFrom.INTENT_KEY) ?: "") {
-                OpenFrom.BIND -> onBindStart(bundle)
                 OpenFrom.ALARM -> onAlarmStart(bundle)
+                OpenFrom.BIND -> onBindStart(bundle)
+                OpenFrom.INFO -> callback?.startNotificationActivity()
                 else -> onSimpleStart()
             }
         }
@@ -44,18 +45,18 @@ class SplashViewModel(application: Application) : ParentViewModel<ISplashActivit
         callback?.startMainActivity()
     }
 
-    private fun onBindStart(bundle: Bundle) {
-        val id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
-        val type = NoteType.values()[bundle.getInt(NoteData.Intent.TYPE, NoteData.Default.TYPE)]
-
-        callback?.startNoteActivity(id, type)
-    }
-
     private fun onAlarmStart(bundle: Bundle) {
         val id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
         val color = bundle.getInt(NoteData.Intent.COLOR, NoteData.Default.COLOR)
 
         callback?.startAlarmActivity(id, color)
+    }
+
+    private fun onBindStart(bundle: Bundle) {
+        val id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
+        val type = NoteType.values()[bundle.getInt(NoteData.Intent.TYPE, NoteData.Default.TYPE)]
+
+        callback?.startNoteActivity(id, type)
     }
 
 }

@@ -17,11 +17,11 @@ abstract class ParentRotationTest : ParentUiTest() {
 
     protected fun onRotate(afterFunc: () -> Unit) {
         testRule.activity?.runOnUiThread { context.showToast(TOAST_TEXT) }
-        waitBefore(TIME) { afterFunc() }
+        waitBefore(ROTATE_TIME) { afterFunc() }
     }
 
     private companion object {
-        const val TIME = 5000L
+        const val ROTATE_TIME = 5000L
         const val TOAST_TEXT = "ROTATE NOW!!!"
     }
 

@@ -22,14 +22,14 @@ import sgtmelon.scriptum.screen.ui.SplashActivity
 object NotificationFactory {
 
     /**
-     * Model for [BindControl]
+     * Model for [BindControl.notifyNote]
      *
      * Don't care about [NoteModel.rollList] if:
      * - If note type is [NoteType.TEXT]
      * - If type is [NoteType.ROLL] and [NoteModel.rollList] is completely load
      * - If you need only call [BindControl.cancelNote]
      */
-    operator fun get(context: Context, noteModel: NoteModel): Notification {
+    fun getBind(context: Context, noteModel: NoteModel): Notification {
         val icon = when (noteModel.noteEntity.type) {
             NoteType.TEXT -> R.drawable.notif_bind_text
             NoteType.ROLL -> R.drawable.notif_bind_roll
@@ -62,7 +62,7 @@ object NotificationFactory {
                 .setOngoing(true)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder.setGroup(context.getString(R.string.notification_group))
+            builder.setGroup(context.getString(R.string.notification_group_notes))
         }
 
         return builder.build()
@@ -75,6 +75,30 @@ object NotificationFactory {
 
     private fun List<RollEntity>.toStatusText() = joinToString(separator = "\n") {
         "${if (it.isCheck) "\u25CF" else "\u25CB"} ${it.text}"
+    }
+
+
+    fun getInfo(context: Context, count: Int): Notification {
+        val contentIntent = TaskStackBuilder.create(context)
+                .addNextIntent(SplashActivity.getNotificationInstance(context))
+                .getPendingIntent(BindControl.INFO_ID, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val builder = NotificationCompat.Builder(context, context.getString(R.string.notification_channel_id))
+                .setSmallIcon(R.drawable.notif_info)
+                .setContentTitle(context.resources.getQuantityString(R.plurals.notification_info_title, count, count))
+                .setContentText(context.getString(R.string.notification_info_description))
+                .setCategory(NotificationCompat.CATEGORY_EVENT)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(contentIntent)
+                .setAutoCancel(false)
+                .setOngoing(true)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder.setGroup(context.getString(R.string.notification_group_info))
+        }
+
+        return builder.build()
     }
 
 }

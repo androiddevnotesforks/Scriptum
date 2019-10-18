@@ -40,9 +40,21 @@
     <string name="notification_channel_id" translatable="false">scriptum_channel_id</string>
     <string name="notification_channel" translatable="false">Scriptum</string>
 
-    <string name="notification_group">Notes</string>
+    <string name="notification_group_notes">Notes</string>
+    <string name="notification_group_info">Info</string>
 
     <string name="notification_button_unbind">Unbind</string>
+
+    <plurals name="notification_info_title">
+        <item quantity="zero">You have %1$d notifications</item>
+        <item quantity="one">You have %1$d notification</item>
+        <item quantity="two">You have %1$d notifications</item>
+        <item quantity="few">You have %1$d notifications</item>
+        <item quantity="many">You have %1$d notifications</item>
+        <item quantity="other">You have %1$d notifications</item>
+    </plurals>
+
+    <string name="notification_info_description">Press for details</string>
 
     <!-- Alarm -->
     <string name="button_postpone">Postpone</string>

@@ -39,7 +39,7 @@ class BindControl(private val context: Context?) : IBindControl {
         }
 
         if (notify) {
-            manager?.notify(TAG_NOTE, id, NotificationFactory[context, noteModel])
+            manager?.notify(TAG_NOTE, id, NotificationFactory.getBind(context, noteModel))
         } else {
             cancelNote(id)
         }
@@ -49,11 +49,21 @@ class BindControl(private val context: Context?) : IBindControl {
         manager?.cancel(TAG_NOTE, id)
     }
 
+    override fun notifyInfo(count: Int) {
+        if (context == null) return
+
+        if (count != 0) {
+            manager?.notify(TAG_INFO, INFO_ID, NotificationFactory.getInfo(context, count))
+        } else {
+            manager?.cancel(TAG_INFO, INFO_ID)
+        }
+    }
+
     /**
      * Callback which need implement in interface what pass to Interactor
-     * It's need to get access [BindControl] inside Interactor
+     * Use when needs get access to [notifyNote] and [cancelNote] inside Interactor
      */
-    interface Bridge {
+    interface NoteBridge {
         interface Full : Notify, Cancel
 
         interface Notify {
@@ -69,6 +79,9 @@ class BindControl(private val context: Context?) : IBindControl {
         private const val PREFIX = "TAG_BIND"
 
         private const val TAG_NOTE = "${PREFIX}_NOTE"
+        private const val TAG_INFO = "${PREFIX}_INFO"
+
+        const val INFO_ID = 0
     }
 
 }

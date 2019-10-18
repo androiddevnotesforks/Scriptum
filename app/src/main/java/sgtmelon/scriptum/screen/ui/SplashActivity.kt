@@ -21,6 +21,7 @@ import sgtmelon.scriptum.screen.ui.intro.IntroActivity
 import sgtmelon.scriptum.screen.ui.main.MainActivity
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
+import sgtmelon.scriptum.screen.ui.notification.NotificationActivity
 
 /**
  * Start screen of application
@@ -57,12 +58,16 @@ class SplashActivity : AppCompatActivity(), ISplashActivity {
 
     override fun startMainActivity() = startActivity(MainActivity[this])
 
+    override fun startAlarmActivity(id: Long, @Color color: Int) {
+        startActivities(arrayOf(MainActivity[this], AlarmActivity[this, id, color]))
+    }
+
     override fun startNoteActivity(id: Long, type: NoteType) {
         startActivities(arrayOf(MainActivity[this], NoteActivity[this, type, id]))
     }
 
-    override fun startAlarmActivity(id: Long, @Color color: Int) {
-        startActivities(arrayOf(MainActivity[this], AlarmActivity[this, id, color]))
+    override fun startNotificationActivity() {
+        startActivities(arrayOf(MainActivity[this], NotificationActivity[this]))
     }
 
 
@@ -85,6 +90,9 @@ class SplashActivity : AppCompatActivity(), ISplashActivity {
                         .putExtra(NoteData.Intent.ID, noteEntity.id)
                         .putExtra(NoteData.Intent.TYPE, noteEntity.type.ordinal)
 
+        fun getNotificationInstance(context: Context): Intent =
+                Intent(context, SplashActivity::class.java)
+                        .putExtra(OpenFrom.INTENT_KEY, OpenFrom.INFO)
     }
 
 }

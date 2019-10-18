@@ -5,11 +5,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.extension.getString
 import sgtmelon.scriptum.basic.extension.getTime
-import sgtmelon.scriptum.basic.extension.waitAfter
 import sgtmelon.scriptum.model.annotation.Repeat
 import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.screen.ui.intro.IntroActivity
-import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
 import sgtmelon.scriptum.test.ParentUiTest
 
 /**

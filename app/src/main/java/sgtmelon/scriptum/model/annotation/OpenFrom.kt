@@ -14,8 +14,9 @@ annotation class OpenFrom {
 
         const val INTENT_KEY = "${PREFIX}_INTENT_KEY"
 
-        const val BIND = "${PREFIX}_BIND"
         const val ALARM = "${PREFIX}_ALARM"
+        const val BIND = "${PREFIX}_BIND"
+        const val INFO = "${PREFIX}_INFO"
     }
 
 }

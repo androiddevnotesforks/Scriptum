@@ -7,4 +7,4 @@ import sgtmelon.scriptum.screen.ui.main.RankFragment
 /**
  * Interface for communication [RankInteractor] with [RankFragment]
  */
-interface IRankBridge : BindControl.Bridge.Notify
+interface IRankBridge : BindControl.NoteBridge.Notify

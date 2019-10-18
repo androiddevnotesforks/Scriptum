@@ -30,6 +30,11 @@ class SplashScreen : ParentUi() {
         AlarmScreen.invoke(func, noteModel, dateList)
     }
 
+    fun openNotification(empty: Boolean = false,
+                         func: NotificationScreen.() -> Unit = {}) = apply {
+        NotificationScreen.invoke(func, empty)
+    }
+
 
     companion object {
         operator fun invoke(func: SplashScreen.() -> Unit) = SplashScreen().apply(func)

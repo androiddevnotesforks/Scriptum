@@ -14,8 +14,10 @@ interface ISplashActivity : ISplashBridge {
 
     fun startMainActivity()
 
+    fun startAlarmActivity(id: Long, @Color color: Int)
+
     fun startNoteActivity(id: Long, type: NoteType)
 
-    fun startAlarmActivity(id: Long, @Color color: Int)
+    fun startNotificationActivity()
 
 }

@@ -32,9 +32,19 @@
     <string name="menu_note_clear">Удалить навсегда</string>
 
     <!-- Notifications -->
-    <string name="notification_group">Заметки</string>
+    <string name="notification_group_notes">Заметки</string>
+    <string name="notification_group_info">Информация</string>
 
     <string name="notification_button_unbind">Открепить</string>
+
+    <plurals name="notification_info_title">
+        <item quantity="one">У вас %1$d уведомление</item>  <!-- 1, 21, 31, 41 -->
+        <item quantity="few">У вас %1$d уведомления</item>  <!-- 2, 3, 4, 24 -->
+        <item quantity="many">У вас %1$d уведомлений</item> <!-- 5, 6, 10, 19 -->
+        <item quantity="other">У вас %1$d уведомлений</item>
+    </plurals>
+
+    <string name="notification_info_description">Нажмите, чтобы посмотреть подробности</string>
 
     <!-- Alarm -->
     <string name="button_postpone">Отложить</string>

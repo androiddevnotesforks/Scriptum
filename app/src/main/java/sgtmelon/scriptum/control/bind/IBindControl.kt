@@ -11,4 +11,6 @@ interface IBindControl {
 
     fun cancelNote(id: Int)
 
+    fun notifyInfo(count: Int)
+
 }

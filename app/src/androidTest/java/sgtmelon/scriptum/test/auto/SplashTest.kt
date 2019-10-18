@@ -28,4 +28,9 @@ class SplashTest : ParentUiTest() {
 
     @Test fun alarmRollNoteOpen() = data.insertRoll().let { launchAlarm(it) { openAlarm(it) } }
 
+    @Test fun infoOpen() = launchInfo {
+        openNotification(empty = true) { onPressBack() }
+        mainScreen()
+    }
+
 }
