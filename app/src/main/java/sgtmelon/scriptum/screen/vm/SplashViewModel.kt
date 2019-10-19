@@ -22,12 +22,12 @@ class SplashViewModel(application: Application) : ParentViewModel<ISplashActivit
         ISplashViewModel {
 
     private val iInteractor: ISplashInteractor by lazy { SplashInteractor(context, callback) }
-    private val iBindInteractor: IBindInteractor by lazy { BindInteractor(context, callback) }
+    private val iBindInteractor: IBindInteractor by lazy { BindInteractor(context) }
 
     override fun onSetup(bundle: Bundle?) {
         viewModelScope.launch {
             iInteractor.clearPastAlarm()
-            iBindInteractor.notifyBind()
+            iBindInteractor.notifyNoteBind(callback)
         }
 
         if (bundle == null) {
@@ -42,10 +42,7 @@ class SplashViewModel(application: Application) : ParentViewModel<ISplashActivit
         }
     }
 
-    override fun onDestroy(func: () -> Unit) = super.onDestroy {
-        iInteractor.onDestroy()
-        iBindInteractor.onDestroy()
-    }
+    override fun onDestroy(func: () -> Unit) = super.onDestroy { iInteractor.onDestroy() }
 
 
     private fun onSimpleStart() = if (iInteractor.firstStart) {

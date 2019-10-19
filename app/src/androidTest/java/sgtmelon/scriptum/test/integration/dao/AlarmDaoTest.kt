@@ -64,6 +64,16 @@ class AlarmDaoTest : ParentIntegrationTest() {
         assertEquals(notificationList, iAlarmDao.get())
     }
 
+    @Test fun getCount() = inRoom {
+        assertEquals(iAlarmDao.getCount(), 0)
+
+        insertAlarmRelation(noteFirst, alarmFirst)
+        assertEquals(iAlarmDao.getCount(), 1)
+
+        insertAlarmRelation(noteSecond, alarmSecond)
+        assertEquals(iAlarmDao.getCount(), 2)
+    }
+
     private companion object {
         val noteFirst = NoteEntity(
                 id = 1, create = DATE_1, change = DATE_1, text = "123", name = "456",

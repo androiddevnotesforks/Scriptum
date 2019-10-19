@@ -41,7 +41,7 @@ class NotesInteractor(context: Context, private var callback: INotesBridge?) :
         iRoomRepo.updateNote(noteEntity)
 
         val noteModel = NoteModel(noteEntity, iBindRepo.getRollList(noteEntity.id))
-        callback?.notifyBind(noteModel, iRoomRepo.getRankIdVisibleList())
+        callback?.notifyNoteBind(noteModel, iRoomRepo.getRankIdVisibleList())
     }
 
     override fun convert(noteModel: NoteModel): NoteModel {
@@ -50,7 +50,7 @@ class NotesInteractor(context: Context, private var callback: INotesBridge?) :
             NoteType.ROLL -> iRoomRepo.convertToText(noteModel)
         }
 
-        callback?.notifyBind(noteModel, iRoomRepo.getRankIdVisibleList())
+        callback?.notifyNoteBind(noteModel, iRoomRepo.getRankIdVisibleList())
 
         /**
          * Optimisation for get only first 4 items
@@ -84,7 +84,7 @@ class NotesInteractor(context: Context, private var callback: INotesBridge?) :
         iRoomRepo.deleteNote(noteModel)
 
         callback?.cancelAlarm(AlarmReceiver[noteModel.noteEntity])
-        callback?.cancelBind(noteModel.noteEntity.id.toInt())
+        callback?.cancelNoteBind(noteModel.noteEntity.id.toInt())
     }
 
 }

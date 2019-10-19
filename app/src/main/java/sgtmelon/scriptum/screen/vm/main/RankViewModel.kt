@@ -25,7 +25,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         IRankViewModel {
 
     private val iInteractor: IRankInteractor by lazy { RankInteractor(context) }
-    private val iBindInteractor: IBindInteractor by lazy { BindInteractor(context, callback) }
+    private val iBindInteractor: IBindInteractor by lazy { BindInteractor(context) }
 
     private val itemList: MutableList<RankEntity> = ArrayList()
     private val nameList: List<String> get() = itemList.map { it.name.toUpperCase() }
@@ -37,10 +37,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         }
     }
 
-    override fun onDestroy(func: () -> Unit) = super.onDestroy {
-        iInteractor.onDestroy()
-        iBindInteractor.onDestroy()
-    }
+    override fun onDestroy(func: () -> Unit) = super.onDestroy { iInteractor.onDestroy() }
 
 
     override fun onUpdateData() {
@@ -111,7 +108,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
 
         viewModelScope.launch {
             iInteractor.update(item)
-            iBindInteractor.notifyBind()
+            iBindInteractor.notifyNoteBind(callback)
         }
 
         callback?.notifyVisible(p, item)
@@ -137,7 +134,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         callback?.notifyVisible(startAnim, itemList)
 
         iInteractor.update(itemList)
-        iBindInteractor.notifyBind()
+        iBindInteractor.notifyNoteBind(callback)
     }
 
     override fun onClickCancel(p: Int) {
@@ -146,7 +143,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         itemList.removeAt(p)
 
         iInteractor.update(itemList)
-        iBindInteractor.notifyBind()
+        iBindInteractor.notifyNoteBind(callback)
 
         callback?.notifyItemRemoved(p, itemList)
     }

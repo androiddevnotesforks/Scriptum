@@ -415,11 +415,11 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment {
 
     override fun cancelAlarm(model: AlarmReceiver.Model) = iAlarmControl.cancel(model)
 
-    override fun notifyBind(noteModel: NoteModel, rankIdVisibleList: List<Long>) {
+    override fun notifyNoteBind(noteModel: NoteModel, rankIdVisibleList: List<Long>) {
         iBindControl.notifyNote(noteModel, rankIdVisibleList)
     }
 
-    override fun cancelBind(id: Int) = iBindControl.cancelNote(id)
+    override fun cancelNoteBind(id: Int) = iBindControl.cancelNote(id)
 
     companion object {
         operator fun get(id: Long) = RollNoteFragment().apply {

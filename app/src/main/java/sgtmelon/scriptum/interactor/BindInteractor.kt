@@ -7,25 +7,26 @@ import sgtmelon.scriptum.repository.bind.BindRepo
 import sgtmelon.scriptum.repository.bind.IBindRepo
 
 /**
- * Interactor for
+ * Interactor for binding notification in status bar
  */
-class BindInteractor(context: Context, private var callback: BindControl.NoteBridge.Notify?) :
-        ParentInteractor(context),
+class BindInteractor(context: Context) : ParentInteractor(context),
         IBindInteractor {
 
     private val iBindRepo: IBindRepo = BindRepo(context)
 
-    override fun onDestroy(func: () -> Unit) = super.onDestroy { callback = null }
-
     /**
      * Update all bind notes in status bar rely on rank visibility
      */
-    override fun notifyBind() {
+    override fun notifyNoteBind(callback: BindControl.NoteBridge.Notify?) {
         val rankIdVisibleList = iRoomRepo.getRankIdVisibleList()
 
         iBindRepo.getNoteList().forEach {
-            callback?.notifyBind(it, rankIdVisibleList)
+            callback?.notifyNoteBind(it, rankIdVisibleList)
         }
+    }
+
+    override fun notifyInfoBind(callback: BindControl.InfoBridge?) {
+        callback?.notifyInfoBind(iBindRepo.getNotificationCount())
     }
 
 }

@@ -43,7 +43,7 @@ class TextNoteInteractor(context: Context, private var callback: ITextNoteBridge
     override fun getModel(id: Long, updateBind: Boolean): NoteModel? {
         val model = iRoomRepo.getNoteModel(id)
 
-        if (updateBind && model != null) callback?.notifyBind(model, rankIdVisibleList)
+        if (updateBind && model != null) callback?.notifyNoteBind(model, rankIdVisibleList)
 
         return model
     }
@@ -76,19 +76,19 @@ class TextNoteInteractor(context: Context, private var callback: ITextNoteBridge
 
     override suspend fun updateNote(noteModel: NoteModel, updateBind: Boolean) {
         iRoomRepo.updateNote(noteModel.noteEntity)
-        if (updateBind) callback?.notifyBind(noteModel, rankIdVisibleList)
+        if (updateBind) callback?.notifyNoteBind(noteModel, rankIdVisibleList)
     }
 
     override suspend fun clearNote(noteModel: NoteModel) = iRoomRepo.clearNote(noteModel)
 
     override fun saveNote(noteModel: NoteModel, isCreate: Boolean) {
         iRoomRepo.saveTextNote(noteModel, isCreate)
-        callback?.notifyBind(noteModel, rankIdVisibleList)
+        callback?.notifyNoteBind(noteModel, rankIdVisibleList)
     }
 
     override suspend fun deleteNote(noteModel: NoteModel) {
         callback?.cancelAlarm(AlarmReceiver[noteModel.noteEntity])
-        callback?.cancelBind(noteModel.noteEntity.id.toInt())
+        callback?.cancelNoteBind(noteModel.noteEntity.id.toInt())
 
         iRoomRepo.deleteNote(noteModel)
     }

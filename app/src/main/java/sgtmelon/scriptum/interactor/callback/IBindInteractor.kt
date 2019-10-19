@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.interactor.callback
 
+import sgtmelon.scriptum.control.bind.BindControl
 import sgtmelon.scriptum.interactor.BindInteractor
 
 /**
@@ -7,6 +8,8 @@ import sgtmelon.scriptum.interactor.BindInteractor
  */
 interface IBindInteractor : IParentInteractor {
 
-    fun notifyBind()
+    fun notifyNoteBind(callback: BindControl.NoteBridge.Notify?)
+
+    fun notifyInfoBind(callback: BindControl.InfoBridge?)
 
 }

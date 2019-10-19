@@ -245,11 +245,11 @@ class NotesFragment : ParentFragment(), INotesFragment {
         iAlarmControl.set(calendar, model)
     }
 
-    override fun notifyBind(noteModel: NoteModel, rankIdVisibleList: List<Long>) {
+    override fun notifyNoteBind(noteModel: NoteModel, rankIdVisibleList: List<Long>) {
         iBindControl.notifyNote(noteModel, rankIdVisibleList)
     }
 
-    override fun cancelBind(id: Int) = iBindControl.cancelNote(id)
+    override fun cancelNoteBind(id: Int) = iBindControl.cancelNote(id)
 
     override fun copyClipboard(text: String) = iClipboardControl.copy(text)
 

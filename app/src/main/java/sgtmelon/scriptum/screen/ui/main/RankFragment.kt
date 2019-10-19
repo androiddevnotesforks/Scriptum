@@ -234,7 +234,7 @@ class RankFragment : ParentFragment(), IRankFragment {
     }
 
 
-    override fun notifyBind(noteModel: NoteModel, rankIdVisibleList: List<Long>) {
+    override fun notifyNoteBind(noteModel: NoteModel, rankIdVisibleList: List<Long>) {
         iBindControl.notifyNote(noteModel, rankIdVisibleList)
     }
 

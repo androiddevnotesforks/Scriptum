@@ -27,6 +27,7 @@ class BindControl(private val context: Context?) : IBindControl {
         }
     }
 
+
     /**
      * Update notification if note isStatus and isVisible, otherwise cancel notification
      */
@@ -59,6 +60,7 @@ class BindControl(private val context: Context?) : IBindControl {
         }
     }
 
+
     /**
      * Callback which need implement in interface what pass to Interactor
      * Use when needs get access to [notifyNote] and [cancelNote] inside Interactor
@@ -67,12 +69,19 @@ class BindControl(private val context: Context?) : IBindControl {
         interface Full : Notify, Cancel
 
         interface Notify {
-            fun notifyBind(noteModel: NoteModel, rankIdVisibleList: List<Long>)
+            fun notifyNoteBind(noteModel: NoteModel, rankIdVisibleList: List<Long>)
         }
 
         interface Cancel {
-            fun cancelBind(id: Int)
+            fun cancelNoteBind(id: Int)
         }
+    }
+
+    /**
+     * Use when needs get access to [notifyInfo] inside Interactor
+     */
+    interface InfoBridge {
+        fun notifyInfoBind(count: Int)
     }
 
     companion object {

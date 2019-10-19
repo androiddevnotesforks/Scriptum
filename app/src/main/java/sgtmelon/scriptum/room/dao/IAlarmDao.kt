@@ -30,4 +30,7 @@ interface IAlarmDao {
     @Query(value = "SELECT * FROM ALARM_TABLE WHERE AL_NOTE_ID = :noteId")
     operator fun get(noteId: Long): AlarmEntity?
 
+    @Query(value = """SELECT COUNT(AL_ID) FROM ALARM_TABLE""")
+    fun getCount(): Int
+
 }

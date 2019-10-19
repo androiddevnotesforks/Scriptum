@@ -15,4 +15,6 @@ interface IBindRepo {
 
     fun unbindNote(id: Long): NoteEntity?
 
+    fun getNotificationCount(): Int
+
 }

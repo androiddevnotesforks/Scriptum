@@ -13,10 +13,6 @@ import kotlin.random.Random
 @RunWith(AndroidJUnit4::class)
 class BindTest : ParentNotificationTest() {
 
-    /**
-     * TODO Check where use BindControl and test this pieces
-     */
-
     @Test fun notesUnbindReceiver() = with(data) {
         insertText(textNote.copy(isStatus = true))
     }.let {
