@@ -3,6 +3,8 @@ package sgtmelon.scriptum.interactor
 import android.content.Context
 import sgtmelon.scriptum.control.bind.BindControl
 import sgtmelon.scriptum.interactor.callback.IBindInteractor
+import sgtmelon.scriptum.repository.bind.BindRepo
+import sgtmelon.scriptum.repository.bind.IBindRepo
 
 /**
  * Interactor for
@@ -11,15 +13,17 @@ class BindInteractor(context: Context, private var callback: BindControl.NoteBri
         ParentInteractor(context),
         IBindInteractor {
 
+    private val iBindRepo: IBindRepo = BindRepo(context)
+
     override fun onDestroy(func: () -> Unit) = super.onDestroy { callback = null }
 
     /**
      * Update all bind notes in status bar rely on rank visibility
      */
-    override suspend fun notifyBind() {
+    override fun notifyBind() {
         val rankIdVisibleList = iRoomRepo.getRankIdVisibleList()
 
-        iRoomRepo.getNoteModelList(bin = false).forEach {
+        iBindRepo.getNoteList().forEach {
             callback?.notifyBind(it, rankIdVisibleList)
         }
     }

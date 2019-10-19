@@ -25,8 +25,10 @@ class SplashViewModel(application: Application) : ParentViewModel<ISplashActivit
     private val iBindInteractor: IBindInteractor by lazy { BindInteractor(context, callback) }
 
     override fun onSetup(bundle: Bundle?) {
-        viewModelScope.launch { iBindInteractor.notifyBind() }
-        viewModelScope.launch { iInteractor.clearPastAlarm() }
+        viewModelScope.launch {
+            iInteractor.clearPastAlarm()
+            iBindInteractor.notifyBind()
+        }
 
         if (bundle == null) {
             onSimpleStart()

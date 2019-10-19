@@ -53,7 +53,7 @@ class NoteDialogUi(private val noteModel: NoteModel) : ParentUi(), IDialogUi, Da
         DateDialogUi.invoke(func, noteModel.alarmEntity.date.isNotEmpty(), callback = this)
     }
 
-    fun oBind() = waitClose {
+    fun onBind() = waitClose {
         bindButton.click()
 
         noteModel.noteEntity.apply { isStatus = !isStatus }

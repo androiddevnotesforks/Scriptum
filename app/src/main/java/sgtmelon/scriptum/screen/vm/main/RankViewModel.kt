@@ -109,8 +109,10 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     override fun onClickVisible(p: Int) {
         val item = itemList[p].apply { isVisible = !isVisible }
 
-        viewModelScope.launch { iInteractor.update(item) }
-        viewModelScope.launch { iBindInteractor.notifyBind() }
+        viewModelScope.launch {
+            iInteractor.update(item)
+            iBindInteractor.notifyBind()
+        }
 
         callback?.notifyVisible(p, item)
     }
@@ -135,7 +137,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         callback?.notifyVisible(startAnim, itemList)
 
         iInteractor.update(itemList)
-        viewModelScope.launch { iBindInteractor.notifyBind() }
+        iBindInteractor.notifyBind()
     }
 
     override fun onClickCancel(p: Int) {
@@ -144,7 +146,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         itemList.removeAt(p)
 
         iInteractor.update(itemList)
-        viewModelScope.launch { iBindInteractor.notifyBind() }
+        iBindInteractor.notifyBind()
 
         callback?.notifyItemRemoved(p, itemList)
     }

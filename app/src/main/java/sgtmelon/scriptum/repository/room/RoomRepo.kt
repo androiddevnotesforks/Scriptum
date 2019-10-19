@@ -53,6 +53,9 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
 
         if (sortType != Sort.RANK) return list
 
+        /**
+         * TODO упростить (заметки без категорий стоят в самом конце, а не в начале, функция исправляет это)
+         */
         if (list.any { it.noteEntity.rankId != NoteEntity.ND_RANK_ID }) {
             while (list.first().noteEntity.rankId == NoteEntity.ND_RANK_ID) {
                 val noteModel = list.first()

@@ -1,8 +1,10 @@
 package sgtmelon.scriptum.repository.bind
 
 import android.content.Context
+import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.room.IRoomWork
 import sgtmelon.scriptum.room.RoomDb
+import sgtmelon.scriptum.room.entity.AlarmEntity
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RollEntity
 
@@ -12,6 +14,18 @@ import sgtmelon.scriptum.room.entity.RollEntity
  * @param context for open [RoomDb]
  */
 class BindRepo(override val context: Context) : IBindRepo, IRoomWork {
+
+    /**
+     * TODO Правилоьное положение заметок
+     * Не получает информацию о будильнике, потому что она не нужна при биндинге
+     */
+    override fun getNoteList(): List<NoteModel> = ArrayList<NoteModel>().apply {
+        inRoom {
+            iNoteDao.getByChange(bin = false).forEach {
+                add(NoteModel(it, iRollDao.getView(it.id), AlarmEntity(noteId = it.id)))
+            }
+        }
+    }
 
     /**
      * Return empty list if don't have [RollEntity] for this [noteId]

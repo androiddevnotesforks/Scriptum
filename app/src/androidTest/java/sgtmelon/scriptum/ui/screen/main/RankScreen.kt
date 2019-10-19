@@ -53,6 +53,10 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
         waitAfter(ANIM_TIME) { getItem(rankEntity).visibleButton.longClick() }
     }
 
+    fun onLongClickVisible(p: Int = random) = apply {
+        waitAfter(ANIM_TIME) { getItem(p).visibleButton.longClick() }
+    }
+
     fun onClickCancel(p: Int = random) = apply {
         waitAfter(ANIM_TIME) { getItem(p).cancelButton.click() }
     }
