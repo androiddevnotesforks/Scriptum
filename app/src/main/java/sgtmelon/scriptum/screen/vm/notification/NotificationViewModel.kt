@@ -37,6 +37,8 @@ class NotificationViewModel(application: Application) :
         itemList.clearAndAdd(iInteractor.getList())
 
         callback?.apply {
+            notifyInfoBind(itemList.size)
+
             notifyDataSetChanged(itemList)
             bind()
         }
@@ -48,8 +50,12 @@ class NotificationViewModel(application: Application) :
 
     override fun onClickCancel(p: Int) {
         itemList[p].let { viewModelScope.launch { iInteractor.cancelNotification(it) } }
+        itemList.removeAt(p)
 
-        callback?.notifyItemRemoved(p, itemList.apply { removeAt(p) })
+        callback?.apply {
+            notifyInfoBind(itemList.size)
+            notifyItemRemoved(p, itemList)
+        }
     }
 
 }

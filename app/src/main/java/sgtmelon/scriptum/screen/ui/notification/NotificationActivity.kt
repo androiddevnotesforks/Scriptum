@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.NotificationAdapter
 import sgtmelon.scriptum.control.alarm.AlarmControl
+import sgtmelon.scriptum.control.bind.BindControl
+import sgtmelon.scriptum.control.bind.IBindControl
 import sgtmelon.scriptum.databinding.ActivityNotificationBinding
 import sgtmelon.scriptum.extension.createVisibleAnim
 import sgtmelon.scriptum.extension.getTintDrawable
@@ -37,6 +39,7 @@ class NotificationActivity : AppActivity(), INotificationActivity {
     private val iViewModel by lazy { ViewModelFactory.getNotificationViewModel(activity = this) }
 
     private val iAlarmControl by lazy { AlarmControl[this] }
+    private val iBindControl: IBindControl by lazy { BindControl(context = this) }
 
     private val openState = OpenState()
 
@@ -62,6 +65,7 @@ class NotificationActivity : AppActivity(), INotificationActivity {
         binding = inflateBinding(R.layout.activity_notification)
 
         iAlarmControl.initLazy()
+        iBindControl.initLazy()
         openState.get(savedInstanceState)
 
         iViewModel.onSetup()
@@ -123,7 +127,10 @@ class NotificationActivity : AppActivity(), INotificationActivity {
     override fun notifyItemRemoved(p: Int, list: MutableList<NotificationItem>) =
             adapter.notifyItemRemoved(p, list)
 
+
     override fun cancelAlarm(model: AlarmReceiver.Model) = iAlarmControl.cancel(model)
+
+    override fun notifyInfoBind(count: Int) = iBindControl.notifyInfo(count)
 
     companion object {
         operator fun get(context: Context) = Intent(context, NotificationActivity::class.java)
