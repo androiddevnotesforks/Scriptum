@@ -9,6 +9,8 @@ import sgtmelon.extension.getCalendar
 import sgtmelon.extension.getString
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.clearAndAdd
+import sgtmelon.scriptum.interactor.BindInteractor
+import sgtmelon.scriptum.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.interactor.main.NotesInteractor
 import sgtmelon.scriptum.model.NoteModel
@@ -28,6 +30,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
         INotesViewModel {
 
     private val iInteractor: INotesInteractor by lazy { NotesInteractor(context, callback) }
+    private val iBindInteractor: IBindInteractor by lazy { BindInteractor(context) }
 
     private val itemList: MutableList<NoteModel> = ArrayList()
 
@@ -107,7 +110,13 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
     }
 
     private fun onMenuDelete(p: Int) = itemList.apply {
-        get(p).let { viewModelScope.launch { iInteractor.deleteNote(it) } }
+        val item = get(p)
+
+        viewModelScope.launch {
+            iInteractor.deleteNote(item)
+            iBindInteractor.notifyInfoBind(callback)
+        }
+
         removeAt(p)
     }
 
@@ -118,7 +127,10 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
     override fun onResultDateDialogClear(p: Int) {
         val noteModel = itemList[p]
 
-        viewModelScope.launch { iInteractor.clearDate(noteModel) }
+        viewModelScope.launch {
+            iInteractor.clearDate(noteModel)
+            iBindInteractor.notifyInfoBind(callback)
+        }
 
         noteModel.alarmEntity.clear()
 
@@ -131,7 +143,10 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
         val noteModel = itemList[p]
         noteModel.alarmEntity.date = calendar.getString()
 
-        viewModelScope.launch { iInteractor.setDate(noteModel, calendar) }
+        viewModelScope.launch {
+            iInteractor.setDate(noteModel, calendar)
+            iBindInteractor.notifyInfoBind(callback)
+        }
 
         callback?.notifyItemChanged(p, itemList)
     }

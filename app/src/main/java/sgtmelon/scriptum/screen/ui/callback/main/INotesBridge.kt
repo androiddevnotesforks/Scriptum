@@ -11,4 +11,5 @@ import sgtmelon.scriptum.screen.ui.main.NotesFragment
  */
 interface INotesBridge : AlarmControl.Bridge.Full,
         BindControl.NoteBridge.Full,
+        BindControl.InfoBridge,
         ClipboardControl.Bridge
