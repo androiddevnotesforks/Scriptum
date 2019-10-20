@@ -78,7 +78,7 @@ class SplashActivity : AppCompatActivity(), ISplashActivity {
 
 
     override fun setAlarm(calendar: Calendar, model: AlarmReceiver.Model) {
-        iAlarmControl.set(calendar, model)
+        iAlarmControl.set(calendar, model, showToast = false)
     }
 
     override fun cancelAlarm(model: AlarmReceiver.Model) = iAlarmControl.cancel(model)

@@ -12,6 +12,10 @@ import sgtmelon.scriptum.test.ParentNotificationTest
 class InfoTest : ParentNotificationTest() {
 
     /**
+     * Notify on start is implied
+     */
+
+    /**
      * Will cancel notification
      */
     @Test fun displayInfoZero() = startDisplayTest(count = 0)
@@ -25,9 +29,45 @@ class InfoTest : ParentNotificationTest() {
     @Test fun displayInfoMany() = startDisplayTest(count = 7)
 
     private fun startDisplayTest(count: Int) {
-        iBindControl.notifyInfo(count)
+        repeat(count) { data.insertNotification() }
 
         launch { onSee { mainScreen() } }
+    }
+
+
+    @Test fun notificationNotifyOnCancel() = data.fillNotification(NOTIFICATION_COUNT).let {
+        launch {
+            mainScreen {
+                notesScreen {
+                    openNotification { repeat(NOTIFICATION_COUNT) { onSee { onClickCancel() } } }
+                }
+            }
+        }
+    }
+
+
+    @Test fun notesNotifyOnDate() = data.insertNote().let {
+        launch {
+            mainScreen {
+                notesScreen {
+                    openNoteDialog(it) {
+                        onNotification { onClickApply { onTime(min = 3).onClickApply() } }
+                    }
+                    onSee()
+                    openNoteDialog(it) { onNotification { onClickReset() } }
+                    onSee()
+                }
+            }
+        }
+    }
+
+    @Test fun notesNotifyOnDelete() = data.insertNotification().let {
+        launch { mainScreen { notesScreen { openNoteDialog(it) { onDelete() } } } }
+        onSee()
+    }
+
+    private companion object {
+        const val NOTIFICATION_COUNT = 7
     }
 
 }

@@ -13,6 +13,10 @@ import kotlin.random.Random
 @RunWith(AndroidJUnit4::class)
 class BindTest : ParentNotificationTest() {
 
+    /**
+     * Notify on start is implied
+     */
+
     @Test fun notesUnbindReceiver() = with(data) {
         insertText(textNote.copy(isStatus = true))
     }.let {

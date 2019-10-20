@@ -24,8 +24,10 @@ class AlarmControl(private val context: Context?) : IAlarmControl {
         val intent = AlarmReceiver[context, model]
         alarmManager?.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, intent)
 
-        val date = calendar.formatFuture(context, DateUtils.DAY_IN_MILLIS).toLowerCase()
-        context.showToast(context.getString(R.string.toast_alarm_set, date))
+        if (showToast) {
+            val date = calendar.formatFuture(context, DateUtils.DAY_IN_MILLIS).toLowerCase()
+            context.showToast(context.getString(R.string.toast_alarm_set, date))
+        }
     }
 
     override fun cancel(model: AlarmReceiver.Model) {
