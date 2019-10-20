@@ -8,4 +8,6 @@ import sgtmelon.scriptum.screen.ui.SplashActivity
 /**
  * Interface for communication [SplashInteractor] with [SplashActivity]
  */
-interface ISplashBridge : AlarmControl.Bridge.Cancel, BindControl.NoteBridge.Notify
+interface ISplashBridge : AlarmControl.Bridge.Full,
+        BindControl.NoteBridge.Notify,
+        BindControl.InfoBridge

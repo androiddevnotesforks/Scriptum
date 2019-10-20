@@ -26,8 +26,9 @@ class SplashViewModel(application: Application) : ParentViewModel<ISplashActivit
 
     override fun onSetup(bundle: Bundle?) {
         viewModelScope.launch {
-            iInteractor.clearPastAlarm()
+            iInteractor.tidyUpAlarm()
             iBindInteractor.notifyNoteBind(callback)
+            iBindInteractor.notifyInfoBind(callback)
         }
 
         if (bundle == null) {

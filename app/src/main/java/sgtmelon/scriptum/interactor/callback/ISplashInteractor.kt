@@ -10,6 +10,6 @@ interface ISplashInteractor : IParentInteractor {
 
     val firstStart: Boolean
 
-    suspend fun clearPastAlarm()
+    suspend fun tidyUpAlarm()
 
 }

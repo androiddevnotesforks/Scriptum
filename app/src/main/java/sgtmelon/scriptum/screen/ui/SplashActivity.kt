@@ -25,6 +25,7 @@ import sgtmelon.scriptum.screen.ui.main.MainActivity
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
 import sgtmelon.scriptum.screen.ui.notification.NotificationActivity
+import java.util.*
 
 /**
  * Start screen of application
@@ -76,11 +77,17 @@ class SplashActivity : AppCompatActivity(), ISplashActivity {
     }
 
 
+    override fun setAlarm(calendar: Calendar, model: AlarmReceiver.Model) {
+        iAlarmControl.set(calendar, model)
+    }
+
     override fun cancelAlarm(model: AlarmReceiver.Model) = iAlarmControl.cancel(model)
 
     override fun notifyNoteBind(noteModel: NoteModel, rankIdVisibleList: List<Long>) {
         iBindControl.notifyNote(noteModel, rankIdVisibleList)
     }
+
+    override fun notifyInfoBind(count: Int) = iBindControl.notifyInfo(count)
 
     companion object {
         fun getAlarmInstance(context: Context, noteEntity: NoteEntity) =
