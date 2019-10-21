@@ -16,6 +16,8 @@ import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.extension.getCheck
 import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.extension.swap
+import sgtmelon.scriptum.interactor.BindInteractor
+import sgtmelon.scriptum.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.interactor.note.RollNoteInteractor
 import sgtmelon.scriptum.model.NoteModel
@@ -44,6 +46,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     var parentCallback: INoteChild? = null
 
     private val iInteractor: IRollNoteInteractor by lazy { RollNoteInteractor(context, callback) }
+    private val iBindInteractor: IBindInteractor by lazy { BindInteractor(context) }
 
     private val saveControl by lazy { SaveControl(context, iInteractor.getSaveModel(), callback = this) }
     private val inputControl = InputControl()
@@ -280,7 +283,10 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     override fun onResultDateDialogClear() {
-        viewModelScope.launch { iInteractor.clearDate(noteModel) }
+        viewModelScope.launch {
+            iInteractor.clearDate(noteModel)
+            iBindInteractor.notifyInfoBind(callback)
+        }
 
         noteModel.alarmEntity.clear()
 
@@ -292,7 +298,10 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
         noteModel.alarmEntity.date = calendar.getString()
 
-        viewModelScope.launch { iInteractor.setDate(noteModel, calendar) }
+        viewModelScope.launch {
+            iInteractor.setDate(noteModel, calendar)
+            iBindInteractor.notifyInfoBind(callback)
+        }
 
         callback?.bindNote(noteModel)
     }
@@ -455,7 +464,11 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     override fun onMenuDelete() {
-        viewModelScope.launch { iInteractor.deleteNote(noteModel) }
+        viewModelScope.launch {
+            iInteractor.deleteNote(noteModel)
+            iBindInteractor.notifyInfoBind(callback)
+        }
+
         parentCallback?.finish()
     }
 

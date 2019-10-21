@@ -302,6 +302,8 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment {
 
     override fun cancelNoteBind(id: Int) = iBindControl.cancelNote(id)
 
+    override fun notifyInfoBind(count: Int) = iBindControl.notifyInfo(count)
+
     companion object {
         operator fun get(id: Long) = TextNoteFragment().apply {
             arguments = Bundle().apply { putLong(NoteData.Intent.ID, id) }

@@ -8,4 +8,6 @@ import sgtmelon.scriptum.screen.ui.note.TextNoteFragment
 /**
  * Interface for communication [TextNoteInteractor] with [TextNoteFragment]
  */
-interface ITextNoteBridge : AlarmControl.Bridge.Full, BindControl.NoteBridge.Full
+interface ITextNoteBridge : AlarmControl.Bridge.Full,
+        BindControl.NoteBridge.Full,
+        BindControl.InfoBridge

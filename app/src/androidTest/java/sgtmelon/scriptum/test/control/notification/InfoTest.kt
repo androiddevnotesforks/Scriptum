@@ -66,6 +66,52 @@ class InfoTest : ParentNotificationTest() {
         onSee()
     }
 
+
+    @Test fun textNoteNotifyOnDate() = data.insertText().let {
+        launch {
+            mainScreen {
+                notesScreen {
+                    openTextNote(it) {
+                        controlPanel {
+                            onNotification { onClickApply { onTime(min = 3).onClickApply() } }
+                            onSee()
+                            onNotification(updateDate = true) { onClickReset() }
+                            onSee()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Test fun textNoteNotifyOnDelete() = with(data) { insertNotification(insertText()) }.let {
+        launch { mainScreen { notesScreen { openTextNote(it) { controlPanel { onDelete() } } } } }
+        onSee()
+    }
+
+    @Test fun rollNoteNotifyOnDate() = data.insertRoll().let {
+        launch {
+            mainScreen {
+                notesScreen {
+                    openRollNote(it) {
+                        controlPanel {
+                            onNotification { onClickApply { onTime(min = 3).onClickApply() } }
+                            onSee()
+                            onNotification(updateDate = true) { onClickReset() }
+                            onSee()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Test fun rollNoteNotifyOnDelete() = with(data) { insertNotification(insertRoll()) }.let {
+        launch { mainScreen { notesScreen { openRollNote(it) { controlPanel { onDelete() } } } } }
+        onSee()
+    }
+
+
     private companion object {
         const val NOTIFICATION_COUNT = 7
     }

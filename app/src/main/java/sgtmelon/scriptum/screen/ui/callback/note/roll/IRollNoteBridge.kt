@@ -8,4 +8,6 @@ import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
 /**
  * Interface for communication [RollNoteInteractor] with [RollNoteFragment]
  */
-interface IRollNoteBridge : AlarmControl.Bridge.Full, BindControl.NoteBridge.Full
+interface IRollNoteBridge : AlarmControl.Bridge.Full,
+        BindControl.NoteBridge.Full,
+        BindControl.InfoBridge
