@@ -9,7 +9,7 @@ class OpenState {
 
     var value: Boolean = false
 
-    inline fun tryInvoke(before: OpenState.() -> Unit = {}, func: () -> Unit) {
+    fun tryInvoke(before: OpenState.() -> Unit = {}, func: () -> Unit) {
         apply(before)
 
         if (!value) {

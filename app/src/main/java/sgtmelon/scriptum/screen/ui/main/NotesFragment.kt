@@ -26,7 +26,6 @@ import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.receiver.AlarmReceiver
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.ui.ParentFragment
@@ -42,7 +41,7 @@ import java.util.*
  */
 class NotesFragment : ParentFragment(), INotesFragment {
 
-    private val mainCallback: IMainActivity? by lazy { context as? IMainActivity }
+    private val callback: IMainActivity? by lazy { context as? IMainActivity }
 
     private var binding: FragmentNotesBinding? = null
 
@@ -52,7 +51,7 @@ class NotesFragment : ParentFragment(), INotesFragment {
     private val iBindControl: IBindControl by lazy { BindControl(context) }
     private val iClipboardControl: IClipboardControl by lazy { ClipboardControl(context) }
 
-    private val openState = OpenState()
+    private val openState get() = callback?.openState
     private val dialogFactory by lazy { DialogFactory.Main(context, fm) }
 
     private val optionsDialog by lazy { dialogFactory.getOptionsDialog() }
@@ -61,8 +60,8 @@ class NotesFragment : ParentFragment(), INotesFragment {
 
     private val adapter: NoteAdapter by lazy {
         NoteAdapter(object : ItemListener.Click {
-            override fun onItemClick(view: View, p: Int) = openState.tryInvoke {
-                iViewModel.onClickNote(p)
+            override fun onItemClick(view: View, p: Int) {
+                openState?.tryInvoke { iViewModel.onClickNote(p) }
             }
         }, object : ItemListener.LongClick {
             override fun onItemLongClick(view: View, p: Int) = iViewModel.onShowOptionsDialog(p)
@@ -89,15 +88,13 @@ class NotesFragment : ParentFragment(), INotesFragment {
         iBindControl.initLazy()
         iClipboardControl.initLazy()
 
-        openState.get(savedInstanceState)
-
         iViewModel.onSetup()
     }
 
     override fun onResume() {
         super.onResume()
 
-        openState.clear()
+        openState?.clear()
         iViewModel.onUpdateData()
     }
 
@@ -106,9 +103,6 @@ class NotesFragment : ParentFragment(), INotesFragment {
         iViewModel.onDestroy()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState.apply { openState.save(bundle = this) })
-    }
 
     fun onCancelNoteBind(id: Long) = iViewModel.onCancelNoteBind(id)
 
@@ -118,7 +112,7 @@ class NotesFragment : ParentFragment(), INotesFragment {
             inflateMenu(R.menu.fragment_notes)
 
             setOnMenuItemClickListener {
-                openState.tryInvoke {
+                openState?.tryInvoke {
                     startActivity(when (it.itemId) {
                         R.id.item_notification -> NotificationActivity[context]
                         else -> PreferenceActivity[context]
@@ -146,7 +140,7 @@ class NotesFragment : ParentFragment(), INotesFragment {
         recyclerView = view?.findViewById(R.id.notes_recycler)
         recyclerView?.let {
             it.itemAnimator = object : DefaultItemAnimator() {
-                override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) = bind()
+                override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) = bindList()
             }
 
             it.setHasFixedSize(true)
@@ -156,7 +150,7 @@ class NotesFragment : ParentFragment(), INotesFragment {
             it.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
-                    mainCallback?.changeFabState(state = dy <= 0)
+                    callback?.changeFabState(state = dy <= 0)
                 }
             })
         }
@@ -167,14 +161,14 @@ class NotesFragment : ParentFragment(), INotesFragment {
             itemListener = DialogInterface.OnClickListener { _, which ->
                 iViewModel.onResultOptionsDialog(optionsDialog.position, which)
             }
-            dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+            dismissListener = DialogInterface.OnDismissListener { openState?.clear() }
         }
 
         dateDialog.apply {
             positiveListener = DialogInterface.OnClickListener { _, _ ->
                 iViewModel.onResultDateDialog(dateDialog.calendar, dateDialog.position)
             }
-            dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+            dismissListener = DialogInterface.OnDismissListener { openState?.clear() }
             neutralListener = DialogInterface.OnClickListener { _, _ ->
                 iViewModel.onResultDateDialogClear(dateDialog.position)
             }
@@ -184,7 +178,7 @@ class NotesFragment : ParentFragment(), INotesFragment {
             positiveListener = DialogInterface.OnClickListener { _, _ ->
                 iViewModel.onResultTimeDialog(timeDialog.calendar, timeDialog.position)
             }
-            dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+            dismissListener = DialogInterface.OnDismissListener { openState?.clear() }
         }
     }
 
@@ -192,9 +186,15 @@ class NotesFragment : ParentFragment(), INotesFragment {
         binding?.isListHide = isListHide
     }
 
-    override fun bind() {
+    override fun bindList() {
         val isListEmpty = adapter.itemCount == 0
 
+        /**
+         * Use time equal 0
+         *
+         * Because you on another screen and restore item to that screen, after return you will
+         * cause [bindList]. Zero time need for best performance, without freeze
+         */
         parentContainer?.createVisibleAnim(emptyInfoView, isListEmpty, if (!isListEmpty) 0 else 200)
 
         binding?.apply { this.isListEmpty = isListEmpty }?.executePendingBindings()
@@ -209,18 +209,20 @@ class NotesFragment : ParentFragment(), INotesFragment {
     }
 
 
-    override fun showOptionsDialog(itemArray: Array<String>, p: Int) = openState.tryInvoke {
-        optionsDialog.setArguments(itemArray, p).show(fm, DialogFactory.Main.OPTIONS)
+    override fun showOptionsDialog(itemArray: Array<String>, p: Int) {
+        openState?.tryInvoke {
+            optionsDialog.setArguments(itemArray, p).show(fm, DialogFactory.Main.OPTIONS)
+        }
     }
 
     override fun showDateDialog(calendar: Calendar, resetVisible: Boolean, p: Int) {
-        openState.tryInvoke({ clear() }) {
+        openState?.tryInvoke({ clear() }) {
             dateDialog.setArguments(calendar, resetVisible, p).show(fm, DialogFactory.Main.DATE)
         }
     }
 
     override fun showTimeDialog(calendar: Calendar, dateList: List<String>, p: Int) {
-        openState.tryInvoke({ clear() }) {
+        openState?.tryInvoke({ clear() }) {
             timeDialog.setArguments(calendar, dateList, p).show(fm, DialogFactory.Main.TIME)
         }
     }

@@ -41,7 +41,7 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
         callback?.apply {
             notifyDataSetChanged(itemList)
             notifyMenuClearBin()
-            bind()
+            bindList()
         }
     }
 
@@ -53,7 +53,7 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
         callback?.apply {
             notifyDataSetChanged(itemList)
             notifyMenuClearBin()
-            bind()
+            bindList()
         }
     }
 

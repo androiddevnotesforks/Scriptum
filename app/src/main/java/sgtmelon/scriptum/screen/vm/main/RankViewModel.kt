@@ -45,7 +45,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
 
         callback?.apply {
             notifyDataSetChanged(itemList)
-            bindList(itemList.size)
+            bindList()
         }
     }
 

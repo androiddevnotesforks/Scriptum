@@ -51,7 +51,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
         callback?.apply {
             notifyDataSetChanged(itemList)
             setupBinding(iInteractor.isListHide())
-            bind()
+            bindList()
         }
     }
 

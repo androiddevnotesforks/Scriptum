@@ -6,6 +6,7 @@ import android.view.MenuItem
 import androidx.annotation.IdRes
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.data.NoteData
+import sgtmelon.scriptum.model.data.ReceiverData.Filter.MAIN
 import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.screen.ui.main.MainActivity
@@ -18,11 +19,18 @@ import sgtmelon.scriptum.screen.vm.callback.main.IMainViewModel
 class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(application),
         IMainViewModel {
 
+    /**
+     * Key for detect application start and pageTo == [pageFrom] inside [onSelectItem]
+     */
     private var firstStart: Boolean = true
+
     private var pageFrom: MainPage = MainPage.NOTES
 
     override fun onSetup(bundle: Bundle?) {
-        bundle?.let { pageFrom = MainPage.values()[it.getInt(PAGE_CURRENT)] }
+        bundle?.let {
+            firstStart = it.getBoolean(FIRST_START)
+            pageFrom = MainPage.values()[it.getInt(PAGE_CURRENT)]
+        }
 
         callback?.setupNavigation(pageFrom.getMenuId())
 
@@ -30,10 +38,13 @@ class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(a
     }
 
 
-    override fun onSaveData(bundle: Bundle) = bundle.putInt(PAGE_CURRENT, pageFrom.ordinal)
+    override fun onSaveData(bundle: Bundle) = bundle.let {
+        it.putBoolean(FIRST_START, firstStart)
+        it.putInt(PAGE_CURRENT, pageFrom.ordinal)
+    }
 
-    override fun onSelectItem(@IdRes itemId: Int): Boolean {
-        val pageTo = itemId.getPageById() ?: return true
+    override fun onSelectItem(@IdRes itemId: Int) {
+        val pageTo = itemId.getPageById() ?: return
 
         if (!firstStart && pageTo == pageFrom) {
             callback?.scrollTop(pageTo)
@@ -47,8 +58,6 @@ class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(a
         }
 
         pageFrom = pageTo
-
-        return true
     }
 
     override fun onResultAddDialog(menuItem: MenuItem) {
@@ -74,8 +83,11 @@ class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(a
         else -> null
     }
 
-    companion object {
-        private const val PAGE_CURRENT = "MAIN_PAGE_CURRENT"
+    private companion object {
+        const val PREFIX = "MAIN"
+
+        const val FIRST_START = "${PREFIX}_FIRST_START"
+        const val PAGE_CURRENT = "${PREFIX}_PAGE_CURRENT"
     }
 
 }

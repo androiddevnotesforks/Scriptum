@@ -41,7 +41,8 @@ class MainActivity : AppActivity(), IMainActivity {
     private val notesFragment by lazy { fragmentFactory.getNotesFragment() }
     private val binFragment by lazy { fragmentFactory.getBinFragment() }
 
-    private val openState = OpenState()
+    override val openState = OpenState()
+
     private val dialogFactory by lazy { DialogFactory.Main(context = this, fm = fm) }
 
     private val addDialog by lazy { dialogFactory.getAddDialog() }
@@ -53,7 +54,6 @@ class MainActivity : AppActivity(), IMainActivity {
         setContentView(R.layout.activity_main)
 
         openState.get(savedInstanceState)
-
         iViewModel.onSetup(savedInstanceState)
 
         registerReceiver(mainReceiver, IntentFilter(ReceiverData.Filter.MAIN))
@@ -90,16 +90,22 @@ class MainActivity : AppActivity(), IMainActivity {
         }
 
         findViewById<BottomNavigationView>(R.id.main_menu_navigation).apply {
-            setOnNavigationItemSelectedListener { iViewModel.onSelectItem(it.itemId) }
+            setOnNavigationItemSelectedListener {
+                iViewModel.onSelectItem(it.itemId)
+                return@setOnNavigationItemSelectedListener true
+            }
+
             selectedItemId = itemId
         }
 
-        addDialog.itemSelectedListener = NavigationView.OnNavigationItemSelectedListener {
-            addDialog.dismiss()
-            iViewModel.onResultAddDialog(it)
-            return@OnNavigationItemSelectedListener true
+        addDialog.apply {
+            itemSelectedListener = NavigationView.OnNavigationItemSelectedListener {
+                dismiss()
+                iViewModel.onResultAddDialog(it)
+                return@OnNavigationItemSelectedListener true
+            }
+            dismissListener = DialogInterface.OnDismissListener { openState.clear() }
         }
-        addDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }
 
     override fun changeFabState(state: Boolean) {

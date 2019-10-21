@@ -38,7 +38,7 @@ class NotificationViewModel(application: Application) :
 
         callback?.apply {
             notifyDataSetChanged(itemList)
-            bind()
+            bindList()
         }
     }
 

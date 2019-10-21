@@ -26,9 +26,9 @@ import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.NoteModel
-import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.screen.ui.ParentFragment
+import sgtmelon.scriptum.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.screen.ui.callback.main.IRankFragment
 
 /**
@@ -36,13 +36,15 @@ import sgtmelon.scriptum.screen.ui.callback.main.IRankFragment
  */
 class RankFragment : ParentFragment(), IRankFragment {
 
+    private val callback: IMainActivity? by lazy { context as? IMainActivity }
+
     private var binding: FragmentRankBinding? = null
 
     private val iViewModel by lazy { ViewModelFactory.getRankViewModel(fragment = this) }
 
     private val iBindControl: IBindControl by lazy { BindControl(context) }
 
-    private val openState = OpenState()
+    private val openState get() = callback?.openState
     private val renameDialog by lazy { DialogFactory.Main(context, fm).getRenameDialog() }
 
     private val adapter by lazy {
@@ -50,8 +52,12 @@ class RankFragment : ParentFragment(), IRankFragment {
             override fun onItemClick(view: View, p: Int) {
                 when (view.id) {
                     R.id.rank_visible_button -> iViewModel.onClickVisible(p)
-                    R.id.rank_click_container -> iViewModel.onShowRenameDialog(p)
-                    R.id.rank_cancel_button -> iViewModel.onClickCancel(p)
+                    R.id.rank_click_container -> openState?.tryInvoke {
+                        iViewModel.onShowRenameDialog(p)
+                    }
+                    R.id.rank_cancel_button -> openState?.tryInvoke {
+                        iViewModel.onClickCancel(p)
+                    }
                 }
             }
         }, object : ItemListener.LongClick {
@@ -78,7 +84,6 @@ class RankFragment : ParentFragment(), IRankFragment {
         super.onViewCreated(view, savedInstanceState)
 
         iBindControl.initLazy()
-        openState.get(savedInstanceState)
 
         iViewModel.onSetup()
     }
@@ -91,10 +96,6 @@ class RankFragment : ParentFragment(), IRankFragment {
     override fun onDestroy() {
         super.onDestroy()
         iViewModel.onDestroy()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState.apply { openState.save(bundle = this) })
     }
 
 
@@ -133,8 +134,10 @@ class RankFragment : ParentFragment(), IRankFragment {
         recyclerView = view?.findViewById(R.id.rank_recycler)
         recyclerView?.let {
             it.itemAnimator = object : DefaultItemAnimator() {
-                override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) =
-                        bindList(adapter.itemCount)
+                override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) {
+                    bindList()
+                    openState?.clear()
+                }
             }
 
             it.setHasFixedSize(true)
@@ -148,16 +151,17 @@ class RankFragment : ParentFragment(), IRankFragment {
             positiveListener = DialogInterface.OnClickListener { _, _ ->
                 iViewModel.onRenameDialog(position, name)
             }
-            dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+            dismissListener = DialogInterface.OnDismissListener { openState?.clear() }
         }
     }
 
-    override fun bindList(size: Int) {
-        val empty = size == 0
+    override fun bindList() {
+        val isListEmpty = adapter.itemCount == 0
 
-        parentContainer?.createVisibleAnim(emptyInfoView, empty)
+        parentContainer?.createVisibleAnim(emptyInfoView, isListEmpty)
 
-        binding?.isListEmpty = empty
+        binding?.isListEmpty = isListEmpty
+
         iViewModel.onUpdateToolbar()
     }
 
@@ -183,7 +187,7 @@ class RankFragment : ParentFragment(), IRankFragment {
     override fun scrollToItem(simpleClick: Boolean, p: Int, list: MutableList<RankEntity>) {
         if (list.size == 1) {
             adapter.notifyItemInserted(0, list)
-            bindList(list.size)
+            bindList()
         } else {
             val fastScroll = with(layoutManager) {
                 return@with if (simpleClick) {
@@ -204,9 +208,7 @@ class RankFragment : ParentFragment(), IRankFragment {
     }
 
     override fun showRenameDialog(p: Int, name: String, nameList: List<String>) {
-        openState.tryInvoke {
-            renameDialog.setArguments(p, name, nameList).show(fm, DialogFactory.Main.RENAME)
-        }
+        renameDialog.setArguments(p, name, nameList).show(fm, DialogFactory.Main.RENAME)
     }
 
 

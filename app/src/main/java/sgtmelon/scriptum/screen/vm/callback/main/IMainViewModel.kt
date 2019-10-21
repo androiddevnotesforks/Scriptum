@@ -15,7 +15,7 @@ interface IMainViewModel : IParentViewModel, MainReceiver.Callback {
 
     fun onSaveData(bundle: Bundle)
 
-    fun onSelectItem(@IdRes itemId: Int): Boolean
+    fun onSelectItem(@IdRes itemId: Int)
 
     fun onResultAddDialog(menuItem: MenuItem)
 

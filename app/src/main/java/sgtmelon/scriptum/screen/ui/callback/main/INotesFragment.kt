@@ -21,7 +21,7 @@ interface INotesFragment : INotesBridge {
 
     fun setupBinding(isListHide: Boolean)
 
-    fun bind()
+    fun bindList()
 
     fun scrollTop()
 

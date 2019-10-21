@@ -24,10 +24,10 @@ import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.ui.ParentFragment
 import sgtmelon.scriptum.screen.ui.callback.main.IBinFragment
+import sgtmelon.scriptum.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 
 /**
@@ -35,13 +35,15 @@ import sgtmelon.scriptum.screen.ui.note.NoteActivity
  */
 class BinFragment : ParentFragment(), IBinFragment {
 
+    private val callback: IMainActivity? by lazy { context as? IMainActivity }
+
     private var binding: FragmentBinBinding? = null
 
     private val iViewModel by lazy { ViewModelFactory.getBinViewModel(fragment = this) }
 
     private val iClipboardControl: IClipboardControl by lazy { ClipboardControl(context) }
 
-    private val openState = OpenState()
+    private val openState get() = callback?.openState
     private val dialogFactory by lazy { DialogFactory.Main(context, fm) }
 
     private val optionsDialog by lazy { dialogFactory.getOptionsDialog() }
@@ -49,8 +51,8 @@ class BinFragment : ParentFragment(), IBinFragment {
 
     private val adapter: NoteAdapter by lazy {
         NoteAdapter(object : ItemListener.Click {
-            override fun onItemClick(view: View, p: Int) = openState.tryInvoke {
-                iViewModel.onClickNote(p)
+            override fun onItemClick(view: View, p: Int) {
+                openState?.tryInvoke { iViewModel.onClickNote(p) }
             }
         }, object : ItemListener.LongClick {
             override fun onItemLongClick(view: View, p: Int) = iViewModel.onShowOptionsDialog(p)
@@ -74,7 +76,6 @@ class BinFragment : ParentFragment(), IBinFragment {
         super.onViewCreated(view, savedInstanceState)
 
         iClipboardControl.initLazy()
-        openState.get(savedInstanceState)
 
         iViewModel.onSetup()
     }
@@ -82,7 +83,7 @@ class BinFragment : ParentFragment(), IBinFragment {
     override fun onResume() {
         super.onResume()
 
-        openState.clear()
+        openState?.clear()
         iViewModel.onUpdateData()
     }
 
@@ -91,9 +92,6 @@ class BinFragment : ParentFragment(), IBinFragment {
         iViewModel.onDestroy()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState.apply { openState.save(bundle = this) })
-    }
 
     override fun setupToolbar() {
         toolbar = view?.findViewById(R.id.toolbar_container)
@@ -101,7 +99,7 @@ class BinFragment : ParentFragment(), IBinFragment {
             title = getString(R.string.title_bin)
             inflateMenu(R.menu.fragment_bin)
             setOnMenuItemClickListener {
-                openState.tryInvoke { clearBinDialog.show(fm, DialogFactory.Main.CLEAR_BIN) }
+                openState?.tryInvoke { clearBinDialog.show(fm, DialogFactory.Main.CLEAR_BIN) }
                 return@setOnMenuItemClickListener true
             }
         }
@@ -111,7 +109,7 @@ class BinFragment : ParentFragment(), IBinFragment {
 
         clearBinDialog.apply {
             positiveListener = DialogInterface.OnClickListener { _, _ -> iViewModel.onClickClearBin() }
-            dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+            dismissListener = DialogInterface.OnDismissListener { openState?.clear() }
         }
     }
 
@@ -124,7 +122,7 @@ class BinFragment : ParentFragment(), IBinFragment {
         recyclerView = view?.findViewById(R.id.bin_recycler)
         recyclerView?.let {
             it.itemAnimator = object : DefaultItemAnimator() {
-                override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) = bind()
+                override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) = bindList()
             }
 
             it.setHasFixedSize(true)
@@ -136,13 +134,19 @@ class BinFragment : ParentFragment(), IBinFragment {
             itemListener = DialogInterface.OnClickListener { _, which ->
                 iViewModel.onResultOptionsDialog(optionsDialog.position, which)
             }
-            dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+            dismissListener = DialogInterface.OnDismissListener { openState?.clear() }
         }
     }
 
-    override fun bind() {
+    override fun bindList() {
         val isListEmpty = adapter.itemCount == 0
 
+        /**
+         * Use time equal 0
+         *
+         * Because you on another screen and restore item to that screen, after return you will
+         * cause [bindList]. Zero time need for best performance, without freeze
+         */
         parentContainer?.createVisibleAnim(emptyInfoView, isListEmpty, if (!isListEmpty) 0 else 200)
 
         binding?.apply { this.isListEmpty = isListEmpty }?.executePendingBindings()
@@ -156,8 +160,10 @@ class BinFragment : ParentFragment(), IBinFragment {
         startActivity(NoteActivity[context ?: return, noteEntity])
     }
 
-    override fun showOptionsDialog(itemArray: Array<String>, p: Int) = openState.tryInvoke {
-        optionsDialog.setArguments(itemArray, p).show(fm, DialogFactory.Main.OPTIONS)
+    override fun showOptionsDialog(itemArray: Array<String>, p: Int) {
+        openState?.tryInvoke {
+            optionsDialog.setArguments(itemArray, p).show(fm, DialogFactory.Main.OPTIONS)
+        }
     }
 
     override fun notifyMenuClearBin() {

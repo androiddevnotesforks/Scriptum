@@ -99,8 +99,8 @@ class NotificationActivity : AppActivity(), INotificationActivity {
         recyclerView?.let {
             it.itemAnimator = object : DefaultItemAnimator() {
                 override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) {
+                    bindList()
                     openState.clear()
-                    bind()
                 }
             }
 
@@ -110,12 +110,12 @@ class NotificationActivity : AppActivity(), INotificationActivity {
         }
     }
 
-    override fun bind() {
-        val empty = adapter.itemCount == 0
+    override fun bindList() {
+        val isListEmpty = adapter.itemCount == 0
 
-        parentContainer?.createVisibleAnim(emptyInfoView, empty, if (!empty) 0 else 200)
+        parentContainer?.createVisibleAnim(emptyInfoView, isListEmpty)
 
-        binding?.apply { isListEmpty = empty }?.executePendingBindings()
+        binding?.apply { this.isListEmpty = isListEmpty }?.executePendingBindings()
     }
 
     override fun startNoteActivity(notificationItem: NotificationItem) {
