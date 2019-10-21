@@ -47,7 +47,9 @@ class NotificationViewModel(application: Application) :
     }
 
     override fun onClickCancel(p: Int) {
-        itemList[p].let { viewModelScope.launch { iInteractor.cancelNotification(it) } }
+        val item = itemList[p]
+
+        viewModelScope.launch { iInteractor.cancelNotification(item) }
         itemList.removeAt(p)
 
         callback?.apply {

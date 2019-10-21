@@ -2,6 +2,7 @@ package sgtmelon.scriptum.screen.ui.callback.notification
 
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NotificationItem
+import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.screen.ui.notification.NotificationActivity
 import sgtmelon.scriptum.screen.vm.notification.NotificationViewModel
 

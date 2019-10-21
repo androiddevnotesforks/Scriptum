@@ -22,11 +22,11 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
     override fun getList() = ArrayList<RankEntity>().apply { inRoom { addAll(iRankDao.get()) } }
 
     override fun delete(rankEntity: RankEntity) = inRoom {
-        rankEntity.noteId.forEach {
-            val noteEntity = iNoteDao[it]?.apply {
+        for (id in rankEntity.noteId) {
+            val noteEntity = iNoteDao[id]?.apply {
                 rankId = NoteEntity.ND_RANK_ID
                 rankPs = NoteEntity.ND_RANK_PS
-            } ?: return@forEach
+            } ?: continue
 
             iNoteDao.update(noteEntity)
         }

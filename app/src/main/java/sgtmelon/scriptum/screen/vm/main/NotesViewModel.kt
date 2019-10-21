@@ -53,8 +53,6 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
             setupBinding(iInteractor.isListHide())
             bind()
         }
-
-        if (updateStatus) updateStatus = false
     }
 
 
@@ -159,15 +157,9 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
         if (it.noteEntity.id == id) {
             it.noteEntity.isStatus = false
             callback?.notifyItemChanged(i, itemList)
+
             return@forEachIndexed
         }
-    }
-
-    companion object {
-        /**
-         * For one-time update statusBar binds
-         */
-        var updateStatus = true
     }
 
 }

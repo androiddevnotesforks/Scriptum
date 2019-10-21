@@ -45,11 +45,9 @@ class NotificationActivity : AppActivity(), INotificationActivity {
 
     private val adapter: NotificationAdapter by lazy {
         NotificationAdapter(object: ItemListener.Click {
-            override fun onItemClick(view: View, p: Int) {
+            override fun onItemClick(view: View, p: Int) = openState.tryInvoke {
                 when (view.id) {
-                    R.id.notification_click_container -> openState.tryInvoke {
-                        iViewModel.onClickNote(p)
-                    }
+                    R.id.notification_click_container -> iViewModel.onClickNote(p)
                     R.id.notification_cancel_button -> iViewModel.onClickCancel(p)
                 }
             }
@@ -100,7 +98,10 @@ class NotificationActivity : AppActivity(), INotificationActivity {
 
         recyclerView?.let {
             it.itemAnimator = object : DefaultItemAnimator() {
-                override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) = bind()
+                override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) {
+                    openState.clear()
+                    bind()
+                }
             }
 
             it.setHasFixedSize(true)
