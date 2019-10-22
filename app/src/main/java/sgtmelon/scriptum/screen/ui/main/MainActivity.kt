@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Rect
 import android.os.Bundle
+import android.os.Handler
 import android.view.MotionEvent
 import android.view.View
 import androidx.annotation.IdRes
@@ -42,6 +43,7 @@ class MainActivity : AppActivity(), IMainActivity {
     private val binFragment by lazy { fragmentFactory.getBinFragment() }
 
     override val openState = OpenState()
+    private val openPageHandler = Handler()
 
     private val dialogFactory by lazy { DialogFactory.Main(context = this, fm = fm) }
 
@@ -59,8 +61,16 @@ class MainActivity : AppActivity(), IMainActivity {
         registerReceiver(mainReceiver, IntentFilter(ReceiverData.Filter.MAIN))
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        openState.changeEnabled = true
+    }
+
     override fun onDestroy() {
         super.onDestroy()
+
+        openPageHandler.removeCallbacksAndMessages(null)
 
         iViewModel.onDestroy()
         unregisterReceiver(mainReceiver)
@@ -91,8 +101,22 @@ class MainActivity : AppActivity(), IMainActivity {
 
         findViewById<BottomNavigationView>(R.id.main_menu_navigation).apply {
             setOnNavigationItemSelectedListener {
-                iViewModel.onSelectItem(it.itemId)
-                return@setOnNavigationItemSelectedListener true
+                openPageHandler.removeCallbacksAndMessages(null)
+
+                if (!openState.value) {
+                    openState.value = true
+                    openState.changeEnabled = false
+
+                    openPageHandler.postDelayed({
+                        openState.changeEnabled = true
+                        openState.clear()
+                    }, 200)
+
+                    iViewModel.onSelectItem(it.itemId)
+                    return@setOnNavigationItemSelectedListener true
+                } else {
+                    return@setOnNavigationItemSelectedListener false
+                }
             }
 
             selectedItemId = itemId

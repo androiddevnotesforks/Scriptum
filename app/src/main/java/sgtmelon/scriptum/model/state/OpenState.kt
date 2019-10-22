@@ -7,9 +7,12 @@ import android.os.Bundle
  */
 class OpenState {
 
+    var changeEnabled: Boolean = true
     var value: Boolean = false
 
     fun tryInvoke(before: OpenState.() -> Unit = {}, func: () -> Unit) {
+        if (!changeEnabled) return
+
         apply(before)
 
         if (!value) {
@@ -19,11 +22,14 @@ class OpenState {
     }
 
     fun clear() {
+        if (!changeEnabled) return
+
         value = false
     }
 
     fun get(bundle: Bundle?) {
         if(bundle == null) return
+
         value = bundle.getBoolean(KEY)
     }
 
