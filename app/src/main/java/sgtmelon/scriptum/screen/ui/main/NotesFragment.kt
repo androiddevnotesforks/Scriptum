@@ -17,15 +17,14 @@ import sgtmelon.scriptum.control.bind.IBindControl
 import sgtmelon.scriptum.control.clipboard.ClipboardControl
 import sgtmelon.scriptum.control.clipboard.IClipboardControl
 import sgtmelon.scriptum.databinding.FragmentNotesBinding
-import sgtmelon.scriptum.extension.createVisibleAnim
-import sgtmelon.scriptum.extension.inflateBinding
-import sgtmelon.scriptum.extension.initLazy
-import sgtmelon.scriptum.extension.tintIcon
+import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.NoteModel
+import sgtmelon.scriptum.model.annotation.Options
 import sgtmelon.scriptum.model.annotation.Theme
+import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.receiver.AlarmReceiver
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.ui.ParentFragment
@@ -159,6 +158,8 @@ class NotesFragment : ParentFragment(), INotesFragment {
     override fun setupDialog() {
         optionsDialog.apply {
             itemListener = DialogInterface.OnClickListener { _, which ->
+                if (which == Options.Notes.NOTIFICATION) openState?.skipClear = true
+
                 iViewModel.onResultOptionsDialog(optionsDialog.position, which)
             }
             dismissListener = DialogInterface.OnDismissListener { openState?.clear() }
@@ -166,12 +167,13 @@ class NotesFragment : ParentFragment(), INotesFragment {
 
         dateDialog.apply {
             positiveListener = DialogInterface.OnClickListener { _, _ ->
+                openState?.skipClear = true
                 iViewModel.onResultDateDialog(dateDialog.calendar, dateDialog.position)
             }
-            dismissListener = DialogInterface.OnDismissListener { openState?.clear() }
             neutralListener = DialogInterface.OnClickListener { _, _ ->
                 iViewModel.onResultDateDialogClear(dateDialog.position)
             }
+            dismissListener = DialogInterface.OnDismissListener { openState?.clear() }
         }
 
         timeDialog.apply {
@@ -211,18 +213,21 @@ class NotesFragment : ParentFragment(), INotesFragment {
 
     override fun showOptionsDialog(itemArray: Array<String>, p: Int) {
         openState?.tryInvoke {
+            openState?.tag = OpenState.TAG_OPTIONS
+
             optionsDialog.setArguments(itemArray, p).show(fm, DialogFactory.Main.OPTIONS)
         }
     }
 
     override fun showDateDialog(calendar: Calendar, resetVisible: Boolean, p: Int) {
-        openState?.tryInvoke({ clear() }) {
+        openState?.tryInvoke(OpenState.TAG_OPTIONS) {
             dateDialog.setArguments(calendar, resetVisible, p).show(fm, DialogFactory.Main.DATE)
         }
     }
 
     override fun showTimeDialog(calendar: Calendar, dateList: List<String>, p: Int) {
-        openState?.tryInvoke({ clear() }) {
+        openState?.tryInvoke(OpenState.TAG_OPTIONS) {
+            activity?.hideKeyboard()
             timeDialog.setArguments(calendar, dateList, p).show(fm, DialogFactory.Main.TIME)
         }
     }

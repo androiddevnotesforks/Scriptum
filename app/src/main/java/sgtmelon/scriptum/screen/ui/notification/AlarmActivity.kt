@@ -96,11 +96,6 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         iViewModel.onSetup(bundle = savedInstanceState ?: intent.extras)
 
         parentContainer?.afterLayoutConfiguration { iViewModel.onStart() }
-
-        /**
-         * If keyboard was open in another app
-         */
-        hideKeyboard()
     }
 
     override fun onPause() {

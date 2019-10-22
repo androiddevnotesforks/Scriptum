@@ -175,6 +175,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment {
 
         dateDialog.apply {
             positiveListener = DialogInterface.OnClickListener { _, _ ->
+                openState.skipClear = true
                 iViewModel.onResultDateDialog(dateDialog.calendar)
             }
             dismissListener = DialogInterface.OnDismissListener { openState.clear() }
@@ -392,12 +393,14 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment {
     }
 
     override fun showDateDialog(calendar: Calendar, resetVisible: Boolean) = openState.tryInvoke {
+        openState.tag = OpenState.TAG_DATE_TIME
+
         hideKeyboard()
         dateDialog.setArguments(calendar, resetVisible).show(fm, DialogFactory.Note.DATE)
     }
 
     override fun showTimeDialog(calendar: Calendar, dateList: List<String>) {
-        openState.tryInvoke({ clear() }) {
+        openState.tryInvoke(OpenState.TAG_DATE_TIME) {
             hideKeyboard()
             timeDialog.setArguments(calendar, dateList).show(fm, DialogFactory.Note.TIME)
         }

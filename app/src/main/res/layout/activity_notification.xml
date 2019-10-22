@@ -21,13 +21,11 @@
 
         <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
 
-            <!-- TODO replace icon -->
-
             <include
                     android:id="@+id/notification_info_include"
                     layout="@layout/include_info"
                     app:details='@{R.string.info_notification_empty_details}'
-                    app:icon='@{R.drawable.ic_notifications_none}'
+                    app:icon='@{R.mipmap.img_info_notifications}'
                     app:title='@{R.string.info_notification_empty_title}'/>
 
             <androidx.recyclerview.widget.RecyclerView

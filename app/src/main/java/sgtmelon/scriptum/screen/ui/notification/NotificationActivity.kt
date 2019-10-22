@@ -34,6 +34,8 @@ import sgtmelon.scriptum.screen.ui.note.NoteActivity
  */
 class NotificationActivity : AppActivity(), INotificationActivity {
 
+    // TODO rename to NotificationsActivity
+
     private var binding: ActivityNotificationBinding? = null
 
     private val iViewModel by lazy { ViewModelFactory.getNotificationViewModel(activity = this) }

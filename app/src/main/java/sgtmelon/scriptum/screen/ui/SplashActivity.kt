@@ -10,6 +10,7 @@ import sgtmelon.scriptum.control.alarm.AlarmControl
 import sgtmelon.scriptum.control.bind.BindControl
 import sgtmelon.scriptum.control.bind.IBindControl
 import sgtmelon.scriptum.extension.beforeFinish
+import sgtmelon.scriptum.extension.hideKeyboard
 import sgtmelon.scriptum.extension.initLazy
 import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.model.NoteModel
@@ -46,6 +47,11 @@ class SplashActivity : AppCompatActivity(), ISplashActivity {
 
         iAlarmControl.initLazy()
         iBindControl.initLazy()
+
+        /**
+         * If keyboard was open in another app
+         */
+        hideKeyboard()
 
         beforeFinish { iViewModel.onSetup(intent.extras) }
     }
