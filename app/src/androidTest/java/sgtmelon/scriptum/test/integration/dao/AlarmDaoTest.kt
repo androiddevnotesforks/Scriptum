@@ -26,9 +26,9 @@ class AlarmDaoTest : ParentIntegrationTest() {
 
     @Test fun insertWithUnique() = inRoom {
         insertAlarmRelation(noteFirst, alarmFirst)
-        iAlarmDao.insert(alarmFirst)
+        iAlarmDao.insert(alarmFirst.copy(id = 2))
 
-        assertTrue(iAlarmDao.get().size == 1)
+        assertEquals(iAlarmDao.get().size, 1)
     }
 
     @Test fun delete() = inRoom {

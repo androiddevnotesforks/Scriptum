@@ -9,7 +9,10 @@ import sgtmelon.scriptum.room.converter.StringConverter
 /**
  * Element of list in [RankAdapter]
  */
-@Entity(tableName = Rank.TABLE, indices = [Index(value = [Rank.NAME], unique = true)])
+@Entity(
+        tableName = Rank.TABLE,
+        indices = [Index(value = [Rank.NAME], name = Rank.INDEX_NAME, unique = true)]
+)
 @TypeConverters(BoolConverter::class, StringConverter::class)
 data class RankEntity(
         @ColumnInfo(name = Rank.ID) @PrimaryKey(autoGenerate = true) var id: Long = ND_ID,

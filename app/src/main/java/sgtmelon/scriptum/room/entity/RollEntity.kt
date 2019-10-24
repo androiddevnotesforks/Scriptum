@@ -11,7 +11,8 @@ import sgtmelon.scriptum.room.converter.BoolConverter
 /**
  * Element of list in [NoteModel]
  */
-@Entity(tableName = Roll.TABLE,
+@Entity(
+        tableName = Roll.TABLE,
         foreignKeys = [ForeignKey(
                 entity = NoteEntity::class,
                 parentColumns = arrayOf(Note.ID),
@@ -19,7 +20,7 @@ import sgtmelon.scriptum.room.converter.BoolConverter
                 onUpdate = CASCADE,
                 onDelete = CASCADE
         )],
-        indices = [Index(Roll.NOTE_ID)]
+        indices = [Index(value = [Roll.NOTE_ID], name = Roll.INDEX_NOTE_ID)]
 )
 @TypeConverters(BoolConverter::class)
 data class RollEntity(

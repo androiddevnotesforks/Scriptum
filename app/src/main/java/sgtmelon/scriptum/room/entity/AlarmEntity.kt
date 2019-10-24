@@ -9,7 +9,8 @@ import sgtmelon.scriptum.model.data.DbData.Note
 /**
  * Element of alarm for [NoteModel]
  */
-@Entity(tableName = Alarm.TABLE,
+@Entity(
+        tableName = Alarm.TABLE,
         foreignKeys = [ForeignKey(
                 entity = NoteEntity::class,
                 parentColumns = arrayOf(Note.ID),
@@ -17,7 +18,7 @@ import sgtmelon.scriptum.model.data.DbData.Note
                 onUpdate = CASCADE,
                 onDelete = CASCADE
         )],
-        indices = [Index(Alarm.NOTE_ID)]
+        indices = [Index(value = [Alarm.NOTE_ID], name = Alarm.INDEX_NOTE_ID, unique = true)]
 )
 data class AlarmEntity(
         @ColumnInfo(name = Alarm.ID) @PrimaryKey(autoGenerate = true) var id: Long = ND_ID,

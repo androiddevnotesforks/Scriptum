@@ -34,7 +34,7 @@ abstract class RoomDb : RoomDatabase() {
     abstract val iAlarmDao: IAlarmDao
 
     companion object {
-        const val VERSION = 5
+        const val VERSION = 6
 
         operator fun get(context: Context): RoomDb =
                 Room.databaseBuilder(context, RoomDb::class.java, BuildConfig.DB_NAME)
