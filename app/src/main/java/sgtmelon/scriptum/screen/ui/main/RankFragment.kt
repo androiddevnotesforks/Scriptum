@@ -105,13 +105,15 @@ class RankFragment : ParentFragment(), IRankFragment {
         }
 
         view?.findViewById<ImageButton>(R.id.toolbar_rank_clear_button)?.apply {
-            setOnClickListener { iViewModel.onClickEnterCancel() }
+            setOnClickListener { openState?.tryInvoke { iViewModel.onClickEnterCancel() } }
         }
 
         view?.findViewById<ImageButton>(R.id.toolbar_rank_add_button)?.apply {
-            setOnClickListener { iViewModel.onClickEnterAdd(simpleClick = true) }
+            setOnClickListener {
+                openState?.tryInvoke {  iViewModel.onClickEnterAdd(simpleClick = true) }
+            }
             setOnLongClickListener {
-                iViewModel.onClickEnterAdd(simpleClick = false)
+                openState?.tryInvoke { iViewModel.onClickEnterAdd(simpleClick = false) }
                 return@setOnLongClickListener true
             }
         }
@@ -119,7 +121,9 @@ class RankFragment : ParentFragment(), IRankFragment {
         nameEnter = view?.findViewById(R.id.toolbar_rank_enter)
         nameEnter?.apply {
             addTextChangedListener(on = { iViewModel.onUpdateToolbar() })
-            setOnEditorActionListener { _, i, _ -> iViewModel.onEditorClick(i) }
+            setOnEditorActionListener { _, i, _ ->
+                openState?.tryReturnInvoke { iViewModel.onEditorClick(i) } ?: false
+            }
         }
     }
 

@@ -37,6 +37,17 @@ class OpenState {
         }
     }
 
+    fun <T> tryReturnInvoke(func: () -> T): T? {
+        if (!changeEnabled) return null
+
+        if (!value) {
+            value = true
+            return func()
+        }
+
+        return null
+    }
+
     fun clear() {
         if (skipClear) {
             skipClear = false

@@ -100,23 +100,26 @@ class MainActivity : AppActivity(), IMainActivity {
         }
 
         findViewById<BottomNavigationView>(R.id.main_menu_navigation).apply {
-            setOnNavigationItemSelectedListener {
-                openPageHandler.removeCallbacksAndMessages(null)
+            val animTime = resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
 
-                if (!openState.value) {
-                    openState.value = true
+            setOnNavigationItemSelectedListener {
+                /**
+                 * For best performance on fast pages click.
+                 */
+                if (it.isChecked) return@setOnNavigationItemSelectedListener false
+
+                return@setOnNavigationItemSelectedListener openState.tryReturnInvoke {
                     openState.changeEnabled = false
 
                     openPageHandler.postDelayed({
                         openState.changeEnabled = true
                         openState.clear()
-                    }, 200)
+                    }, animTime)
 
                     iViewModel.onSelectItem(it.itemId)
-                    return@setOnNavigationItemSelectedListener true
-                } else {
-                    return@setOnNavigationItemSelectedListener false
-                }
+
+                    return@tryReturnInvoke true
+                } ?: false
             }
 
             selectedItemId = itemId
