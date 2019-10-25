@@ -41,7 +41,7 @@ class ColorDialog : BlankDialog() {
             overScrollMode = View.OVER_SCROLL_NEVER
 
             setHasFixedSize(true)
-            layoutManager = GridLayoutManager(context, resources.getInteger(R.integer.column_color))
+            layoutManager = GridLayoutManager(context, resources.getInteger(R.integer.color_column_count))
 
             (itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
 

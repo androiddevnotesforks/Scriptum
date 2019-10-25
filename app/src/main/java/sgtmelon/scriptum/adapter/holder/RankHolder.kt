@@ -17,10 +17,11 @@ import sgtmelon.scriptum.room.entity.RankEntity
  * Holder for rank, use in [RankAdapter]
  */
 @SuppressLint("ClickableViewAccessibility")
-class RankHolder(private val binding: ItemRankBinding,
-                 private val clickListener: ItemListener.Click,
-                 private val longClickListener: ItemListener.LongClick,
-                 private val dragListener: ItemListener.Drag?
+class RankHolder(
+        private val binding: ItemRankBinding,
+        private val clickListener: ItemListener.ActionClick,
+        private val longClickListener: ItemListener.LongClick,
+        private val dragListener: ItemListener.Drag?
 ) : RecyclerView.ViewHolder(binding.root),
         View.OnTouchListener {
 
@@ -39,8 +40,11 @@ class RankHolder(private val binding: ItemRankBinding,
 
         visibleButton.setOnClickListener { v ->
             checkNoPosition {
-                visibleButton.setDrawable(!binding.rankEntity?.isVisible!!, true)
-                clickListener.onItemClick(v, adapterPosition)
+                clickListener.onItemClick(v, adapterPosition) {
+                    val isVisible = binding.rankEntity?.isVisible
+
+                    if (isVisible != null) visibleButton.setDrawable(!isVisible, needAnim = true)
+                }
             }
         }
 

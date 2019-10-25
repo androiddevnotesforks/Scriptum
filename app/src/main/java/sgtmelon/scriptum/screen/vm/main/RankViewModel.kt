@@ -106,12 +106,12 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     override fun onClickVisible(p: Int) {
         val item = itemList[p].apply { isVisible = !isVisible }
 
+        callback?.notifyVisible(p, item)
+
         viewModelScope.launch {
             iInteractor.update(item)
             iBindInteractor.notifyNoteBind(callback)
         }
-
-        callback?.notifyVisible(p, item)
     }
 
     override fun onLongClickVisible(p: Int) {

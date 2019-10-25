@@ -47,21 +47,33 @@ class RankFragment : ParentFragment(), IRankFragment {
     private val openState get() = callback?.openState
     private val renameDialog by lazy { DialogFactory.Main(context, fm).getRenameDialog() }
 
+    private val visibleAnimTime: Long? by lazy {
+        context?.resources?.getInteger(R.integer.visible_anim_time)?.toLong()
+    }
+
     private val adapter by lazy {
-        RankAdapter(object: ItemListener.Click {
-            override fun onItemClick(view: View, p: Int) {
-                when (view.id) {
-                    R.id.rank_visible_button -> iViewModel.onClickVisible(p)
-                    R.id.rank_click_container -> openState?.tryInvoke {
-                        iViewModel.onShowRenameDialog(p)
-                    }
-                    R.id.rank_cancel_button -> openState?.tryInvoke {
-                        iViewModel.onClickCancel(p)
+        RankAdapter(object: ItemListener.ActionClick {
+            override fun onItemClick(view: View, p: Int, action: () -> Unit) {
+                openState?.tryInvoke {
+                    when (view.id) {
+                        R.id.rank_visible_button -> {
+                            openState?.block(visibleAnimTime)
+
+                            action()
+                            iViewModel.onClickVisible(p)
+                        }
+                        R.id.rank_click_container -> iViewModel.onShowRenameDialog(p)
+                        R.id.rank_cancel_button -> iViewModel.onClickCancel(p)
                     }
                 }
             }
         }, object : ItemListener.LongClick {
-            override fun onItemLongClick(view: View, p: Int) = iViewModel.onLongClickVisible(p)
+            override fun onItemLongClick(view: View, p: Int) {
+                openState?.tryInvoke {
+                    openState?.block(visibleAnimTime)
+                    iViewModel.onLongClickVisible(p)
+                }
+            }
         })
     }
     private val layoutManager by lazy { LinearLayoutManager(context) }

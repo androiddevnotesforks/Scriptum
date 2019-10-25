@@ -59,7 +59,7 @@
                             android:imeOptions="flagNoFullscreen|actionDone"
                             android:importantForAutofill="noExcludeDescendants"
                             android:inputType="textCapSentences|textAutoCorrect|textAutoComplete"
-                            android:maxLength="@integer/length_rank_name"
+                            android:maxLength="@integer/rank_name_max_length"
                             android:maxLines="1"
                             tools:targetApi="o"/>
 

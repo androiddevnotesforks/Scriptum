@@ -14,8 +14,9 @@ import sgtmelon.scriptum.model.item.NotificationItem
 /**
  * Holder for notification, use in [NotificationAdapter]
  */
-class NotificationHolder(private val binding: ItemNotificationBinding,
-                         private val clickListener: ItemListener.Click
+class NotificationHolder(
+        private val binding: ItemNotificationBinding,
+        private val clickListener: ItemListener.Click
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private val clickView: View = itemView.findViewById(R.id.notification_click_container)

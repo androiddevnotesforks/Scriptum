@@ -13,9 +13,10 @@ import sgtmelon.scriptum.model.annotation.Theme
 /**
  * Holder for text note, use in [NoteAdapter]
  */
-class NoteTextHolder(private val binding: ItemNoteTextBinding,
-                     private val clickListener: ItemListener.Click,
-                     private val longClickListener: ItemListener.LongClick?
+class NoteTextHolder(
+        private val binding: ItemNoteTextBinding,
+        private val clickListener: ItemListener.Click,
+        private val longClickListener: ItemListener.LongClick?
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private val clickView: View = itemView.findViewById(R.id.note_text_click_container)

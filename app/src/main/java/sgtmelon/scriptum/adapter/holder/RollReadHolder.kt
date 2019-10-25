@@ -14,9 +14,10 @@ import sgtmelon.scriptum.room.entity.RollEntity
 /**
  * Holder of note roll row read state, use in [RollAdapter]
  */
-class RollReadHolder(private val binding: ItemRollReadBinding,
-                     private val clickListener: ItemListener.Click,
-                     private val longClickListener: ItemListener.LongClick
+class RollReadHolder(
+        private val binding: ItemRollReadBinding,
+        private val clickListener: ItemListener.Click,
+        private val longClickListener: ItemListener.LongClick
 ) : RecyclerView.ViewHolder(binding.root) {
 
     /**

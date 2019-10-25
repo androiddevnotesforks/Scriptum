@@ -15,6 +15,10 @@ interface ItemListener {
         fun onItemLongClick(view: View, p: Int)
     }
 
+    interface ActionClick {
+        fun onItemClick(view: View, p: Int, action: () -> Unit = {})
+    }
+
     interface Drag {
         fun setDrag(drag: Boolean)
     }

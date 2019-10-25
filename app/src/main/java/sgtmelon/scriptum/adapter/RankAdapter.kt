@@ -12,7 +12,7 @@ import sgtmelon.scriptum.screen.ui.main.RankFragment
  * Adapter which displays list of ranks for [RankFragment]
  */
 class RankAdapter(
-        private val clickListener: ItemListener.Click,
+        private val clickListener: ItemListener.ActionClick,
         private val longClickListener: ItemListener.LongClick
 ) : ParentAdapter<RankEntity, RankHolder>() {
 

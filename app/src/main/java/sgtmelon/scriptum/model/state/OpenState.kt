@@ -1,11 +1,16 @@
 package sgtmelon.scriptum.model.state
 
+import android.app.Activity
 import android.os.Bundle
+import android.os.Handler
+import androidx.fragment.app.Fragment
 
 /**
  * State for dialogs which give us know open them or not
  */
 class OpenState {
+
+    private val handler = Handler()
 
     var changeEnabled: Boolean = true
     var value: Boolean = false
@@ -48,6 +53,23 @@ class OpenState {
         return null
     }
 
+    /**
+     * Use when need block [OpenState] for [time]
+     */
+    fun block(time: Long?) {
+        if (time == null) return
+
+        /**
+         * Need deny any changes in [OpenState] what can happen in postDelayed time
+         */
+        changeEnabled = false
+
+        handler.postDelayed({
+            changeEnabled = true
+            clear()
+        }, time)
+    }
+
     fun clear() {
         if (skipClear) {
             skipClear = false
@@ -59,6 +81,11 @@ class OpenState {
         value = false
         tag = TAG_ND
     }
+
+    /**
+     * Call in [Activity.onDestroy]/[Fragment.onDestroy] where use [block]
+     */
+    fun clearBlockCallback() = handler.removeCallbacksAndMessages(null)
 
     fun get(bundle: Bundle?) {
         bundle?.let {

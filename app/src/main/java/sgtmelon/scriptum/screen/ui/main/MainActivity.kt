@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Rect
 import android.os.Bundle
-import android.os.Handler
 import android.view.MotionEvent
 import android.view.View
 import androidx.annotation.IdRes
@@ -43,7 +42,6 @@ class MainActivity : AppActivity(), IMainActivity {
     private val binFragment by lazy { fragmentFactory.getBinFragment() }
 
     override val openState = OpenState()
-    private val openPageHandler = Handler()
 
     private val dialogFactory by lazy { DialogFactory.Main(context = this, fm = fm) }
 
@@ -65,12 +63,13 @@ class MainActivity : AppActivity(), IMainActivity {
         super.onResume()
 
         openState.changeEnabled = true
+        openState.clear()
     }
 
     override fun onDestroy() {
         super.onDestroy()
 
-        openPageHandler.removeCallbacksAndMessages(null)
+        openState.clearBlockCallback()
 
         iViewModel.onDestroy()
         unregisterReceiver(mainReceiver)
@@ -100,7 +99,7 @@ class MainActivity : AppActivity(), IMainActivity {
         }
 
         findViewById<BottomNavigationView>(R.id.main_menu_navigation).apply {
-            val animTime = resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
+            val animTime = resources.getInteger(R.integer.fade_anim_time).toLong()
 
             setOnNavigationItemSelectedListener {
                 /**
@@ -109,13 +108,7 @@ class MainActivity : AppActivity(), IMainActivity {
                 if (it.isChecked) return@setOnNavigationItemSelectedListener false
 
                 return@setOnNavigationItemSelectedListener openState.tryReturnInvoke {
-                    openState.changeEnabled = false
-
-                    openPageHandler.postDelayed({
-                        openState.changeEnabled = true
-                        openState.clear()
-                    }, animTime)
-
+                    openState.block(animTime)
                     iViewModel.onSelectItem(it.itemId)
 
                     return@tryReturnInvoke true

@@ -92,8 +92,6 @@ class NotesFragment : ParentFragment(), INotesFragment {
 
     override fun onResume() {
         super.onResume()
-
-        openState?.clear()
         iViewModel.onUpdateData()
     }
 

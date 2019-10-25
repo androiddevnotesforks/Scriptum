@@ -82,8 +82,6 @@ class BinFragment : ParentFragment(), IBinFragment {
 
     override fun onResume() {
         super.onResume()
-
-        openState?.clear()
         iViewModel.onUpdateData()
     }
 
