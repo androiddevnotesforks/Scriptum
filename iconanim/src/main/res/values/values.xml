@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <integer name="cancel_anim_time">@android:integer/config_shortAnimTime</integer>
+    <integer name="visible_anim_time">@android:integer/config_shortAnimTime</integer>
+    
+</resources>

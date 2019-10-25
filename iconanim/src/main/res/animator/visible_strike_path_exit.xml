@@ -2,7 +2,7 @@
 <set xmlns:android="http://schemas.android.com/apk/res/android">
 
     <objectAnimator
-            android:duration="@android:integer/config_shortAnimTime"
+            android:duration="@integer/visible_anim_time"
             android:interpolator="@android:anim/accelerate_decelerate_interpolator"
             android:propertyName="pathData"
             android:valueFrom="M 2 4.27 L 3.27 3 L 3.27 3 L 2 4.27 Z"
