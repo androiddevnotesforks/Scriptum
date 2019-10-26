@@ -72,12 +72,12 @@ class RollNoteInteractor(context: Context, private var callback: IRollNoteBridge
 
     override suspend fun clearDate(noteModel: NoteModel) {
         iAlarmRepo.delete(noteModel.alarmEntity.noteId)
-        callback?.cancelAlarm(AlarmReceiver[noteModel.noteEntity])
+        callback?.cancelAlarm(noteModel.noteEntity.id)
     }
 
     override suspend fun setDate(noteModel: NoteModel, calendar: Calendar) {
         iAlarmRepo.insertOrUpdate(noteModel.alarmEntity)
-        callback?.setAlarm(calendar, AlarmReceiver[noteModel.noteEntity])
+        callback?.setAlarm(calendar, noteModel.noteEntity.id)
     }
 
     override fun convert(noteModel: NoteModel) = iRoomRepo.convertToText(noteModel)
@@ -98,7 +98,7 @@ class RollNoteInteractor(context: Context, private var callback: IRollNoteBridge
     }
 
     override suspend fun deleteNote(noteModel: NoteModel) {
-        callback?.cancelAlarm(AlarmReceiver[noteModel.noteEntity])
+        callback?.cancelAlarm(noteModel.noteEntity.id)
         callback?.cancelNoteBind(noteModel.noteEntity.id.toInt())
 
         iRoomRepo.deleteNote(noteModel)

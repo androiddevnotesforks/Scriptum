@@ -25,16 +25,13 @@ import sgtmelon.scriptum.control.alarm.VibratorControl
 import sgtmelon.scriptum.control.alarm.callback.IMelodyControl
 import sgtmelon.scriptum.control.alarm.callback.IPowerControl
 import sgtmelon.scriptum.control.alarm.callback.IVibratorControl
-import sgtmelon.scriptum.extension.hideKeyboard
 import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.NoteModel
-import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.receiver.AlarmReceiver
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.ui.AppActivity
 import sgtmelon.scriptum.screen.ui.callback.notification.IAlarmActivity
@@ -187,8 +184,8 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
     override fun vibrateCancel() = iVibratorControl.cancel()
 
-    override fun setAlarm(calendar: Calendar, model: AlarmReceiver.Model) {
-        iAlarmControl.set(calendar, model, showToast = false)
+    override fun setAlarm(calendar: Calendar, id: Long) {
+        iAlarmControl.set(calendar, id, showToast = false)
     }
 
     override fun showPostponeToast(select: Int) {
@@ -209,10 +206,9 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     }
 
     companion object {
-        operator fun get(context: Context, id: Long, @Color color: Int): Intent =
+        operator fun get(context: Context, id: Long): Intent =
                 Intent(context, AlarmActivity::class.java)
                         .putExtra(NoteData.Intent.ID, id)
-                        .putExtra(NoteData.Intent.COLOR, color)
     }
 
 }

@@ -29,4 +29,6 @@ interface INotesViewModel : IParentViewModel {
 
     fun onCancelNoteBind(id: Long)
 
+    fun onUpdateAlarm(id: Long)
+
 }

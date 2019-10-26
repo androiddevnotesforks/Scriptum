@@ -65,22 +65,31 @@ class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(a
         callback?.startNoteActivity(noteType)
     }
 
+
     override fun onReceiveUnbindNote(id: Long) {
         if (pageFrom == MainPage.NOTES) callback?.onCancelNoteBind(id)
     }
 
-
-    private fun MainPage.getMenuId(): Int = when(this) {
-        MainPage.RANK -> R.id.item_page_rank
-        MainPage.NOTES -> R.id.item_page_notes
-        MainPage.BIN -> R.id.item_page_bin
+    override fun onReceiveUpdateAlarm(id: Long) {
+        if (pageFrom == MainPage.NOTES) callback?.onUpdateAlarm(id)
     }
 
-    private fun Int.getPageById(): MainPage? = when (this) {
-        R.id.item_page_rank -> MainPage.RANK
-        R.id.item_page_notes -> MainPage.NOTES
-        R.id.item_page_bin -> MainPage.BIN
-        else -> null
+
+    private fun MainPage.getMenuId(): Int = let {
+        return@let when (it) {
+            MainPage.RANK -> R.id.item_page_rank
+            MainPage.NOTES -> R.id.item_page_notes
+            MainPage.BIN -> R.id.item_page_bin
+        }
+    }
+
+    private fun Int.getPageById(): MainPage? = let {
+        return@let when (it) {
+            R.id.item_page_rank -> MainPage.RANK
+            R.id.item_page_notes -> MainPage.NOTES
+            R.id.item_page_bin -> MainPage.BIN
+            else -> null
+        }
     }
 
     private companion object {

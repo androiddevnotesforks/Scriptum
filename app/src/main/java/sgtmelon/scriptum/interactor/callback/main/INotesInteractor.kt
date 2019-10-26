@@ -4,6 +4,7 @@ import sgtmelon.scriptum.interactor.callback.IParentInteractor
 import sgtmelon.scriptum.interactor.main.NotesInteractor
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
+import sgtmelon.scriptum.room.entity.AlarmEntity
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.vm.main.NotesViewModel
 import java.util.*
@@ -34,5 +35,8 @@ interface INotesInteractor : IParentInteractor {
     suspend fun copy(noteEntity: NoteEntity)
 
     suspend fun deleteNote(noteModel: NoteModel)
+
+
+    suspend fun getAlarm(id: Long): AlarmEntity
 
 }

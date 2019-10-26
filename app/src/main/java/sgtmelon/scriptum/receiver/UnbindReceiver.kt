@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import sgtmelon.scriptum.control.bind.BindControl
 import sgtmelon.scriptum.extension.sendTo
+import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.data.ReceiverData.Command
 import sgtmelon.scriptum.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.model.data.ReceiverData.Values
@@ -20,9 +21,9 @@ class UnbindReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         if (context == null || intent == null) return
 
-        val id = intent.getLongExtra(Values.NOTE_ID, Values.ND_NOTE_ID)
+        val id = intent.getLongExtra(Values.NOTE_ID, NoteData.Default.ID)
 
-        if (id == Values.ND_NOTE_ID) return
+        if (id == NoteData.Default.ID) return
 
         BindRepo(context).unbindNote(id)?.let { BindControl(context).cancelNote(it.id.toInt()) }
 

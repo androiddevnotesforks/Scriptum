@@ -14,11 +14,9 @@ import sgtmelon.scriptum.extension.hideKeyboard
 import sgtmelon.scriptum.extension.initLazy
 import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.model.NoteModel
-import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.OpenFrom
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.receiver.AlarmReceiver
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.ui.callback.ISplashActivity
 import sgtmelon.scriptum.screen.ui.intro.IntroActivity
@@ -70,8 +68,8 @@ class SplashActivity : AppCompatActivity(), ISplashActivity {
 
     override fun startMainActivity() = startActivity(MainActivity[this])
 
-    override fun startAlarmActivity(id: Long, @Color color: Int) {
-        startActivities(arrayOf(MainActivity[this], AlarmActivity[this, id, color]))
+    override fun startAlarmActivity(id: Long) {
+        startActivities(arrayOf(MainActivity[this], AlarmActivity[this, id]))
     }
 
     override fun startNoteActivity(id: Long, type: NoteType) {
@@ -83,11 +81,11 @@ class SplashActivity : AppCompatActivity(), ISplashActivity {
     }
 
 
-    override fun setAlarm(calendar: Calendar, model: AlarmReceiver.Model) {
-        iAlarmControl.set(calendar, model, showToast = false)
+    override fun setAlarm(calendar: Calendar, id: Long) {
+        iAlarmControl.set(calendar, id, showToast = false)
     }
 
-    override fun cancelAlarm(model: AlarmReceiver.Model) = iAlarmControl.cancel(model)
+    override fun cancelAlarm(id: Long) = iAlarmControl.cancel(id)
 
     override fun notifyNoteBind(noteModel: NoteModel, rankIdVisibleList: List<Long>) {
         iBindControl.notifyNote(noteModel, rankIdVisibleList)
@@ -97,14 +95,13 @@ class SplashActivity : AppCompatActivity(), ISplashActivity {
 
     companion object {
         fun getAlarmInstance(context: Context, noteEntity: NoteEntity) =
-                getAlarmInstance(context, noteEntity.id, noteEntity.color)
+                getAlarmInstance(context, noteEntity.id)
 
-        fun getAlarmInstance(context: Context, id: Long, @Color color: Int): Intent =
+        fun getAlarmInstance(context: Context, id: Long): Intent =
                 Intent(context, SplashActivity::class.java)
                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         .putExtra(OpenFrom.INTENT_KEY, OpenFrom.ALARM)
                         .putExtra(NoteData.Intent.ID, id)
-                        .putExtra(NoteData.Intent.COLOR, color)
 
         fun getBindInstance(context: Context, noteEntity: NoteEntity): Intent =
                 Intent(context, SplashActivity::class.java)

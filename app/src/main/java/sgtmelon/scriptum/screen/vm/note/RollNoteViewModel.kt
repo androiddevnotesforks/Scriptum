@@ -314,7 +314,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     //endregion
 
     /**
-     * Calls on cancel note bind from status bar and need update UI
+     * Calls on cancel note bind from status bar for update bind indicator
      */
     override fun onCancelNoteBind() {
         callback?.bindNote(noteModel.apply { noteEntity.isStatus = false })

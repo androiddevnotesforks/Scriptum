@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.control.alarm.callback
 
 import sgtmelon.scriptum.control.alarm.AlarmControl
-import sgtmelon.scriptum.receiver.AlarmReceiver
 import java.util.*
 
 /**
@@ -9,8 +8,8 @@ import java.util.*
  */
 interface IAlarmControl {
 
-    fun set(calendar: Calendar, model: AlarmReceiver.Model, showToast: Boolean = true)
+    fun set(calendar: Calendar, id: Long, showToast: Boolean = true)
 
-    fun cancel(model: AlarmReceiver.Model)
+    fun cancel(id: Long)
 
 }

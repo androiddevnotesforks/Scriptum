@@ -54,9 +54,8 @@ class SplashViewModel(application: Application) : ParentViewModel<ISplashActivit
 
     private fun onAlarmStart(bundle: Bundle) {
         val id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
-        val color = bundle.getInt(NoteData.Intent.COLOR, NoteData.Default.COLOR)
 
-        callback?.startAlarmActivity(id, color)
+        callback?.startAlarmActivity(id)
     }
 
     private fun onBindStart(bundle: Bundle) {

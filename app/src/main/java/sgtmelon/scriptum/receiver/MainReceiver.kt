@@ -3,6 +3,7 @@ package sgtmelon.scriptum.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.data.ReceiverData.Command
 import sgtmelon.scriptum.model.data.ReceiverData.Values
 import sgtmelon.scriptum.screen.ui.main.MainActivity
@@ -13,12 +14,13 @@ import sgtmelon.scriptum.screen.ui.main.MainActivity
 class MainReceiver(private val callback: Callback) : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        when (intent?.getStringExtra(Values.COMMAND)) {
-            Command.UNBIND_NOTE -> {
-                val id = intent.getLongExtra(Values.NOTE_ID, Values.ND_NOTE_ID)
+        val id = intent?.getLongExtra(Values.NOTE_ID, NoteData.Default.ID) ?: return
 
-                if (id != Values.ND_NOTE_ID) callback.onReceiveUnbindNote(id)
-            }
+        if (id == NoteData.Default.ID) return
+
+        when (intent.getStringExtra(Values.COMMAND)) {
+            Command.UNBIND_NOTE -> callback.onReceiveUnbindNote(id)
+            Command.UPDATE_ALARM -> callback.onReceiveUpdateAlarm(id)
         }
     }
 
@@ -27,6 +29,7 @@ class MainReceiver(private val callback: Callback) : BroadcastReceiver() {
      */
     interface Callback {
         fun onReceiveUnbindNote(id: Long)
+        fun onReceiveUpdateAlarm(id: Long)
     }
 
 }

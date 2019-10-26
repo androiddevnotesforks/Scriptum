@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.getAppSimpleColor
+import sgtmelon.scriptum.extension.sendTo
 import sgtmelon.scriptum.extension.toUri
 import sgtmelon.scriptum.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.interactor.callback.notification.ISignalInteractor
@@ -13,6 +14,7 @@ import sgtmelon.scriptum.interactor.notification.SignalInteractor
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.NoteData
+import sgtmelon.scriptum.model.data.ReceiverData
 import sgtmelon.scriptum.model.key.ColorShade
 import sgtmelon.scriptum.model.state.SignalState
 import sgtmelon.scriptum.screen.ui.callback.notification.IAlarmActivity
@@ -30,7 +32,6 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     private val iSignalInteractor: ISignalInteractor = SignalInteractor(context)
 
     private var id: Long = NoteData.Default.ID
-    private var color: Int = NoteData.Default.COLOR
 
     private var noteModel: NoteModel? = null
     private var signalState: SignalState? = null
@@ -65,7 +66,6 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
 
         if (bundle != null) {
             id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
-            color = bundle.getInt(NoteData.Intent.COLOR, NoteData.Default.COLOR)
         }
 
         /**
@@ -104,6 +104,10 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
             }
 
             callback?.showPostponeToast(iInteractor.repeat)
+
+            context.sendTo(ReceiverData.Filter.MAIN, ReceiverData.Command.UPDATE_ALARM) {
+                putExtra(ReceiverData.Values.NOTE_ID, id)
+            }
         }
 
         callback?.releasePhone()
@@ -114,10 +118,11 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
 
     override fun onSaveData(bundle: Bundle) = with(bundle) {
         putLong(NoteData.Intent.ID, id)
-        putInt(NoteData.Intent.COLOR, color)
     }
 
     override fun onStart() {
+        val color = noteModel?.noteEntity?.color ?: return
+
         callback?.apply {
             val theme = iInteractor.theme
             startRippleAnimation(theme, context.getAppSimpleColor(color,

@@ -41,7 +41,6 @@ import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.receiver.AlarmReceiver
 import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.screen.ui.ParentFragment
 import sgtmelon.scriptum.screen.ui.callback.note.roll.IRollNoteFragment
@@ -128,7 +127,11 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment {
         })
     }
 
+    //region Receiver functions
+
     fun onCancelNoteBind() = iViewModel.onCancelNoteBind()
+
+    //endregion
 
     override fun setupBinding(@Theme theme: Int, rankEmpty: Boolean) {
         binding?.apply {
@@ -412,11 +415,11 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment {
     }
 
 
-    override fun setAlarm(calendar: Calendar, model: AlarmReceiver.Model) {
-        iAlarmControl.set(calendar, model)
+    override fun setAlarm(calendar: Calendar, id: Long) {
+        iAlarmControl.set(calendar, id)
     }
 
-    override fun cancelAlarm(model: AlarmReceiver.Model) = iAlarmControl.cancel(model)
+    override fun cancelAlarm(id: Long) = iAlarmControl.cancel(id)
 
     override fun notifyNoteBind(noteModel: NoteModel, rankIdVisibleList: List<Long>) {
         iBindControl.notifyNote(noteModel, rankIdVisibleList)

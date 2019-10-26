@@ -151,14 +151,33 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
 
 
     /**
-     * Calls on cancel note bind from status bar and need update UI
+     * Calls on cancel note bind from status bar for update bind indicator
      */
-    override fun onCancelNoteBind(id: Long) = itemList.forEachIndexed { i, it ->
-        if (it.noteEntity.id == id) {
-            it.noteEntity.isStatus = false
-            callback?.notifyItemChanged(i, itemList)
+    override fun onCancelNoteBind(id: Long) {
+        val p = itemList.indexOfFirst { it.noteEntity.id == id }
+        val item = itemList.getOrNull(p) ?: return
 
-            return@forEachIndexed
+        item.noteEntity.isStatus = false
+        callback?.notifyItemChanged(p, itemList)
+    }
+
+    /**
+     * Calls on alarm postpone for update alarm indicator
+     */
+    override fun onUpdateAlarm(id: Long) {
+        /**
+         * TODO #RELEASE refactor model set
+         */
+        viewModelScope.launch {
+            val alarm = iInteractor.getAlarm(id)
+
+            val p = itemList.indexOfFirst { it.noteEntity.id == id }
+            val item = itemList.getOrNull(p)
+
+            item?.alarmEntity?.id = alarm.id
+            item?.alarmEntity?.date = alarm.date
+
+            callback?.notifyItemChanged(p, itemList)
         }
     }
 

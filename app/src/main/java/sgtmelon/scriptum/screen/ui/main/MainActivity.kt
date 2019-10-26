@@ -132,10 +132,12 @@ class MainActivity : AppActivity(), IMainActivity {
         fab?.setState(state)
     }
 
-    override fun scrollTop(mainPage: MainPage) = when (mainPage) {
-        MainPage.RANK -> rankFragment.scrollTop()
-        MainPage.NOTES -> notesFragment.scrollTop()
-        MainPage.BIN -> binFragment.scrollTop()
+    override fun scrollTop(mainPage: MainPage) {
+        when (mainPage) {
+            MainPage.RANK -> rankFragment.scrollTop()
+            MainPage.NOTES -> notesFragment.scrollTop()
+            MainPage.BIN -> binFragment.scrollTop()
+        }
     }
 
     override fun showPage(pageFrom: MainPage, pageTo: MainPage) {
@@ -166,19 +168,26 @@ class MainActivity : AppActivity(), IMainActivity {
         startActivity(NoteActivity[this, noteType])
     }
 
+
     override fun onCancelNoteBind(id: Long) = notesFragment.onCancelNoteBind(id)
 
+    override fun onUpdateAlarm(id: Long) = notesFragment.onUpdateAlarm(id)
 
-    private fun MainPage.getFragmentByName(): Fragment = when (this) {
-        MainPage.RANK -> rankFragment
-        MainPage.NOTES -> notesFragment
-        MainPage.BIN -> binFragment
+
+    private fun MainPage.getFragmentByName(): Fragment = let {
+        return@let when (it) {
+            MainPage.RANK -> rankFragment
+            MainPage.NOTES -> notesFragment
+            MainPage.BIN -> binFragment
+        }
     }
 
-    private fun MainPage.getFragmentTag(): String = when (this) {
-        MainPage.RANK -> FragmentFactory.Main.RANK
-        MainPage.NOTES -> FragmentFactory.Main.NOTES
-        MainPage.BIN -> FragmentFactory.Main.BIN
+    private fun MainPage.getFragmentTag(): String = let {
+        return@let when (it) {
+            MainPage.RANK -> FragmentFactory.Main.RANK
+            MainPage.NOTES -> FragmentFactory.Main.NOTES
+            MainPage.BIN -> FragmentFactory.Main.BIN
+        }
     }
 
     private fun FloatingActionButton.setState(state: Boolean) {

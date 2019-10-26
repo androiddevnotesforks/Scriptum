@@ -29,8 +29,10 @@ class NotificationInteractor(context: Context, private var callback: INotificati
     override fun getList() = iAlarmRepo.getList()
 
     override suspend fun cancelNotification(item: NotificationItem) {
-        iAlarmRepo.delete(item.note.id)
-        callback?.cancelAlarm(AlarmReceiver[item])
+        val id = item.note.id
+
+        iAlarmRepo.delete(id)
+        callback?.cancelAlarm(id)
     }
 
 }

@@ -53,7 +53,7 @@ class AlarmInteractor(context: Context, private var callback: IAlarmBridge?) :
             date = calendar.getString()
         })
 
-        callback?.setAlarm(calendar, AlarmReceiver[noteModel.noteEntity])
+        callback?.setAlarm(calendar, noteModel.noteEntity.id)
     }
 
     private fun checkDateExist(calendar: Calendar) {

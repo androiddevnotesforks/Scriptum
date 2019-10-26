@@ -24,6 +24,9 @@ interface IMainActivity {
 
     fun startNoteActivity(noteType: NoteType)
 
+
     fun onCancelNoteBind(id: Long)
+
+    fun onUpdateAlarm(id: Long)
 
 }

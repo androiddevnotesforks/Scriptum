@@ -18,10 +18,10 @@ class AlarmControl(private val context: Context?) : IAlarmControl {
 
     private val alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as? AlarmManager
 
-    override fun set(calendar: Calendar, model: AlarmReceiver.Model, showToast: Boolean) {
+    override fun set(calendar: Calendar, id: Long, showToast: Boolean) {
         if (context == null) return
 
-        val intent = AlarmReceiver[context, model]
+        val intent = AlarmReceiver[context, id]
         alarmManager?.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, intent)
 
         if (showToast) {
@@ -30,10 +30,10 @@ class AlarmControl(private val context: Context?) : IAlarmControl {
         }
     }
 
-    override fun cancel(model: AlarmReceiver.Model) {
+    override fun cancel(id: Long) {
         if (context == null) return
 
-        alarmManager?.cancel(AlarmReceiver[context, model])
+        alarmManager?.cancel(AlarmReceiver[context, id])
     }
 
 
@@ -45,11 +45,11 @@ class AlarmControl(private val context: Context?) : IAlarmControl {
         interface Full : Set, Cancel
 
         interface Set {
-            fun setAlarm(calendar: Calendar, model: AlarmReceiver.Model)
+            fun setAlarm(calendar: Calendar, id: Long)
         }
 
         interface Cancel {
-            fun cancelAlarm(model: AlarmReceiver.Model)
+            fun cancelAlarm(id: Long)
         }
     }
 

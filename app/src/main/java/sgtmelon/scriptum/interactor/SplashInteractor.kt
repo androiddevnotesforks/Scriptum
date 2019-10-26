@@ -26,12 +26,13 @@ class SplashInteractor(context: Context, private var callback: ISplashBridge?) :
 
     override suspend fun tidyUpAlarm() = iAlarmRepo.getList().forEach {
         val calendar = it.alarm.date.getCalendar()
+        val id = it.note.id
 
         if (calendar.beforeNow()) {
-            callback?.cancelAlarm(AlarmReceiver[it])
-            iAlarmRepo.delete(it.note.id)
+            callback?.cancelAlarm(id)
+            iAlarmRepo.delete(id)
         } else {
-            callback?.setAlarm(calendar, AlarmReceiver[it])
+            callback?.setAlarm(calendar, id)
         }
     }
 

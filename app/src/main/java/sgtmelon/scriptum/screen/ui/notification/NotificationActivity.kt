@@ -24,7 +24,6 @@ import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.receiver.AlarmReceiver
 import sgtmelon.scriptum.screen.ui.AppActivity
 import sgtmelon.scriptum.screen.ui.callback.notification.INotificationActivity
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
@@ -131,7 +130,7 @@ class NotificationActivity : AppActivity(), INotificationActivity {
             adapter.notifyItemRemoved(p, list)
 
 
-    override fun cancelAlarm(model: AlarmReceiver.Model) = iAlarmControl.cancel(model)
+    override fun cancelAlarm(id: Long) = iAlarmControl.cancel(id)
 
     override fun notifyInfoBind(count: Int) = iBindControl.notifyInfo(count)
 

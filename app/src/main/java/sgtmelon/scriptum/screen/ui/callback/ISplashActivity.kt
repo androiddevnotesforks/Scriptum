@@ -1,7 +1,5 @@
 package sgtmelon.scriptum.screen.ui.callback
 
-import sgtmelon.scriptum.control.bind.BindControl
-import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.ui.SplashActivity
 import sgtmelon.scriptum.screen.vm.SplashViewModel
@@ -15,7 +13,7 @@ interface ISplashActivity : ISplashBridge {
 
     fun startMainActivity()
 
-    fun startAlarmActivity(id: Long, @Color color: Int)
+    fun startAlarmActivity(id: Long)
 
     fun startNoteActivity(id: Long, type: NoteType)
 

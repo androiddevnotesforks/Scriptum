@@ -12,6 +12,8 @@ interface IAlarmRepo {
 
     fun delete(noteId: Long)
 
+    fun get(noteId: Long): AlarmEntity
+
     fun getList(): MutableList<NotificationItem>
 
 }

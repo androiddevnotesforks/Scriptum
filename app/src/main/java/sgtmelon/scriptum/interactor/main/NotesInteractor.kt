@@ -1,18 +1,16 @@
 package sgtmelon.scriptum.interactor.main
 
 import android.content.Context
-
-
 import sgtmelon.scriptum.interactor.ParentInteractor
 import sgtmelon.scriptum.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.receiver.AlarmReceiver
 import sgtmelon.scriptum.repository.alarm.AlarmRepo
 import sgtmelon.scriptum.repository.alarm.IAlarmRepo
 import sgtmelon.scriptum.repository.bind.BindRepo
 import sgtmelon.scriptum.repository.bind.IBindRepo
+import sgtmelon.scriptum.room.entity.AlarmEntity
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.ui.callback.main.INotesBridge
 import sgtmelon.scriptum.screen.vm.main.NotesViewModel
@@ -67,12 +65,12 @@ class NotesInteractor(context: Context, private var callback: INotesBridge?) :
 
     override suspend fun clearDate(noteModel: NoteModel) {
         iAlarmRepo.delete(noteModel.alarmEntity.noteId)
-        callback?.cancelAlarm(AlarmReceiver[noteModel.noteEntity])
+        callback?.cancelAlarm(noteModel.noteEntity.id)
     }
 
     override suspend fun setDate(noteModel: NoteModel, calendar: Calendar) {
         iAlarmRepo.insertOrUpdate(noteModel.alarmEntity)
-        callback?.setAlarm(calendar, AlarmReceiver[noteModel.noteEntity])
+        callback?.setAlarm(calendar, noteModel.noteEntity.id)
     }
 
 
@@ -83,8 +81,11 @@ class NotesInteractor(context: Context, private var callback: INotesBridge?) :
     override suspend fun deleteNote(noteModel: NoteModel) {
         iRoomRepo.deleteNote(noteModel)
 
-        callback?.cancelAlarm(AlarmReceiver[noteModel.noteEntity])
+        callback?.cancelAlarm(noteModel.noteEntity.id)
         callback?.cancelNoteBind(noteModel.noteEntity.id.toInt())
     }
+
+
+    override suspend fun getAlarm(id: Long) = iAlarmRepo.get(id)
 
 }

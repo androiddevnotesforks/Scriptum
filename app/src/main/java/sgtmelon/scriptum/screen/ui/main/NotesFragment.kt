@@ -25,7 +25,6 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Options
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.receiver.AlarmReceiver
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.ui.ParentFragment
 import sgtmelon.scriptum.screen.ui.callback.main.IMainActivity
@@ -100,8 +99,13 @@ class NotesFragment : ParentFragment(), INotesFragment {
         iViewModel.onDestroy()
     }
 
+    //region Receiver functions
 
     fun onCancelNoteBind(id: Long) = iViewModel.onCancelNoteBind(id)
+
+    fun onUpdateAlarm(id: Long) = iViewModel.onUpdateAlarm(id)
+
+    //endregion
 
     override fun setupToolbar() {
         view?.findViewById<Toolbar>(R.id.toolbar_container)?.apply {
@@ -244,10 +248,10 @@ class NotesFragment : ParentFragment(), INotesFragment {
     }
 
 
-    override fun cancelAlarm(model: AlarmReceiver.Model) = iAlarmControl.cancel(model)
+    override fun cancelAlarm(id: Long) = iAlarmControl.cancel(id)
 
-    override fun setAlarm(calendar: Calendar, model: AlarmReceiver.Model) {
-        iAlarmControl.set(calendar, model)
+    override fun setAlarm(calendar: Calendar, id: Long) {
+        iAlarmControl.set(calendar, id)
     }
 
     override fun notifyNoteBind(noteModel: NoteModel, rankIdVisibleList: List<Long>) {

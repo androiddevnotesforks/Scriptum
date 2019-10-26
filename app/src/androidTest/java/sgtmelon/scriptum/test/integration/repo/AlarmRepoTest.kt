@@ -52,6 +52,15 @@ class AlarmRepoTest : ParentIntegrationTest() {
         assertTrue(iAlarmRepo.getList().isEmpty())
     }
 
+    @Test fun get() = inRoom {
+        val alarmEntity = alarmEntity.copy()
+
+        iNoteDao.insert(noteEntity)
+        alarmEntity.let { it.id = iAlarmDao.insert(it) }
+
+        assertEquals(alarmEntity, iAlarmRepo.get(noteEntity.id))
+    }
+
     @Test fun getList() = inRoom {
         val alarmEntity = alarmEntity
 

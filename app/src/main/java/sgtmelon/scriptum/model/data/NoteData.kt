@@ -16,13 +16,11 @@ object NoteData {
 
         const val ID = "${PREFIX}_ID"
         const val TYPE = "${PREFIX}_TYPE"
-        const val COLOR = "${PREFIX}_COLOR"
     }
 
     object Default {
         const val ID = -1L
         const val TYPE = -1
-        const val COLOR = 0
     }
 
 }

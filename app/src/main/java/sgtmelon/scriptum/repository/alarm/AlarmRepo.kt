@@ -23,6 +23,16 @@ class AlarmRepo(override val context: Context) : IAlarmRepo, IRoomWork {
 
     override fun delete(noteId: Long) = inRoom { iAlarmDao.delete(noteId) }
 
+    override fun get(noteId: Long): AlarmEntity {
+        val item: AlarmEntity
+
+        openRoom().apply {
+            item = iAlarmDao[noteId] ?: AlarmEntity(noteId = noteId)
+        }.close()
+
+        return item
+    }
+
     override fun getList() = ArrayList<NotificationItem>().apply {
         inRoom { addAll(iAlarmDao.get()) }
     }
