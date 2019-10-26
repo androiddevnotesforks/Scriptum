@@ -5,9 +5,13 @@ import android.os.Bundle
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.ui.callback.note.INoteActivity
+import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.vm.ParentViewModel
 import sgtmelon.scriptum.screen.vm.callback.note.INoteViewModel
 
+/**
+ * ViewModel for [NoteActivity]
+ */
 class NoteViewModel(application: Application) : ParentViewModel<INoteActivity>(application),
         INoteViewModel {
 

@@ -34,24 +34,6 @@ class MelodyControl(private val context: Context) : IMelodyControl,
 
     private var mediaPlayer: MediaPlayer? = null
 
-    init {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val audioAttributes = AudioAttributes.Builder()
-                    .setUsage(AudioAttributes.USAGE_ALARM)
-                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                    .build()
-
-            audioManager?.requestAudioFocus(AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
-                    .setAudioAttributes(audioAttributes)
-                    .setAcceptsDelayedFocusGain(true)
-                    .setOnAudioFocusChangeListener(this).build())
-        } else {
-            audioManager?.requestAudioFocus(
-                    this, AudioManager.STREAM_ALARM, AudioManager.AUDIOFOCUS_GAIN
-            )
-        }
-    }
-
     private var increaseCurrent = 0
     private var increaseMax = 0
 
@@ -103,6 +85,7 @@ class MelodyControl(private val context: Context) : IMelodyControl,
     }
 
     override fun start() {
+        requestAudioFocus()
         mediaPlayer?.start()
     }
 
@@ -124,6 +107,24 @@ class MelodyControl(private val context: Context) : IMelodyControl,
     // TODO #RELEASE2
     override fun onAudioFocusChange(focusChange: Int) = Unit
 
+
+    private fun requestAudioFocus() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val audioAttributes = AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_ALARM)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .build()
+
+            audioManager?.requestAudioFocus(AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
+                    .setAudioAttributes(audioAttributes)
+                    .setAcceptsDelayedFocusGain(true)
+                    .setOnAudioFocusChangeListener(this).build())
+        } else {
+            audioManager?.requestAudioFocus(
+                    this, AudioManager.STREAM_ALARM, AudioManager.AUDIOFOCUS_GAIN
+            )
+        }
+    }
 
     /**
      * Set volume for device
