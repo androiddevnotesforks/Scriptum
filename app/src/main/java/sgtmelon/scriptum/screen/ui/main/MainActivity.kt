@@ -162,7 +162,9 @@ class MainActivity : AppActivity(), IMainActivity {
         }
     }
 
-    override fun startNoteActivity(noteType: NoteType) = startActivity(NoteActivity[this, noteType])
+    override fun startNoteActivity(noteType: NoteType) = openState.tryInvoke {
+        startActivity(NoteActivity[this, noteType])
+    }
 
     override fun onCancelNoteBind(id: Long) = notesFragment.onCancelNoteBind(id)
 
