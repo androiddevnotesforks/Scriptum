@@ -20,6 +20,8 @@ class MelodyControl(private val context: Context) : IMelodyControl,
 
     private val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as? AudioManager
 
+    private var audioFocusRequest: AudioFocusRequest? = null
+
     /**
      * [startVolume] it is start volume for reset in [release]
      */
@@ -90,6 +92,7 @@ class MelodyControl(private val context: Context) : IMelodyControl,
     }
 
     override fun stop() {
+        abandonAudioFocus()
         mediaPlayer?.stop()
     }
 
@@ -115,14 +118,25 @@ class MelodyControl(private val context: Context) : IMelodyControl,
                     .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
                     .build()
 
-            audioManager?.requestAudioFocus(AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
+            audioFocusRequest = AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN_TRANSIENT)
                     .setAudioAttributes(audioAttributes)
                     .setAcceptsDelayedFocusGain(true)
-                    .setOnAudioFocusChangeListener(this).build())
+                    .setOnAudioFocusChangeListener(this)
+                    .build()
+
+            audioFocusRequest?.let { audioManager?.requestAudioFocus(it) }
         } else {
             audioManager?.requestAudioFocus(
-                    this, AudioManager.STREAM_ALARM, AudioManager.AUDIOFOCUS_GAIN
+                    this, AudioManager.STREAM_ALARM, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT
             )
+        }
+    }
+
+    private fun abandonAudioFocus() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            audioFocusRequest?.let { audioManager?.abandonAudioFocusRequest(it) }
+        } else {
+            audioManager?.abandonAudioFocus(this)
         }
     }
 
