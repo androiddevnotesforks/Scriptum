@@ -4,6 +4,8 @@ import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Build
+import android.os.Build.VERSION_CODES
+import android.os.Build.VERSION
 import android.view.View
 import android.view.Window
 import androidx.appcompat.widget.Toolbar
@@ -35,7 +37,7 @@ open class MenuControl(
 
     // TODO add interface for communication
 
-    private val statusOnDark = Build.VERSION.SDK_INT < Build.VERSION_CODES.M
+    private val statusOnDark = VERSION.SDK_INT < VERSION_CODES.M
 
     private val colorAnimator: ValueAnimator = ValueAnimator.ofFloat(0F, 1F)
 
@@ -51,7 +53,7 @@ open class MenuControl(
             val position = it.animatedFraction
             var blended: Int
 
-            if (theme != Theme.DARK && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (theme != Theme.DARK && VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
                 blended = statusState.blend(position)
                 window.statusBarColor = blended
             }
@@ -72,7 +74,7 @@ open class MenuControl(
      */
     fun setColor(@Color color: Int) = apply {
         if (theme != Theme.DARK) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
                 window.statusBarColor = context.getAppThemeColor(color, statusOnDark)
             }
             toolbar?.setBackgroundColor(context.getAppThemeColor(color, false))

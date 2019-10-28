@@ -6,7 +6,8 @@ import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.net.Uri
-import android.os.Build
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
 import android.os.Handler
 import sgtmelon.scriptum.control.alarm.callback.IMelodyControl
 
@@ -16,19 +17,37 @@ import sgtmelon.scriptum.control.alarm.callback.IMelodyControl
 class MelodyControl(private val context: Context) : IMelodyControl,
         AudioManager.OnAudioFocusChangeListener {
 
-    // TODO #RELEASE2 when melody ends return melody which play before
-
     private val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as? AudioManager
 
-    private var audioFocusRequest: AudioFocusRequest? = null
+    private val audioAttributes = if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
+        AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_ALARM)
+                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                .build()
+    } else {
+        null
+    }
+
+    private val audioFocusRequest = if (VERSION.SDK_INT >= VERSION_CODES.O) {
+        audioAttributes?.let {
+            AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN_TRANSIENT)
+                    .setAudioAttributes(it)
+                    .setAcceptsDelayedFocusGain(true)
+                    .setOnAudioFocusChangeListener(this)
+                    .build()
+        }
+    } else {
+        null
+    }
+
 
     /**
-     * [startVolume] it is start volume for reset in [release]
+     * This value need for reset in [release]
      */
     private val startVolume = audioManager?.getStreamVolume(AudioManager.STREAM_ALARM)
 
     private val maxVolume = audioManager?.getStreamMaxVolume(AudioManager.STREAM_ALARM)
-    private val minVolume = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+    private val minVolume = if (VERSION.SDK_INT >= VERSION_CODES.P) {
         audioManager?.getStreamMinVolume(AudioManager.STREAM_ALARM)
     } else {
         0
@@ -68,12 +87,7 @@ class MelodyControl(private val context: Context) : IMelodyControl,
 
     override fun setupPlayer(uri: Uri, isLooping: Boolean) {
         mediaPlayer = MediaPlayer().apply {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                val audioAttributes = AudioAttributes.Builder()
-                        .setUsage(AudioAttributes.USAGE_ALARM)
-                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                        .build()
-
+            if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
                 setAudioAttributes(audioAttributes)
             } else {
                 setAudioStreamType(AudioManager.STREAM_ALARM)
@@ -86,13 +100,26 @@ class MelodyControl(private val context: Context) : IMelodyControl,
         }
     }
 
+
     override fun start() {
-        requestAudioFocus()
+        if (VERSION.SDK_INT >= VERSION_CODES.O) {
+            audioFocusRequest?.let { audioManager?.requestAudioFocus(it) }
+        } else {
+            audioManager?.requestAudioFocus(
+                    this, AudioManager.STREAM_ALARM, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT
+            )
+        }
+
         mediaPlayer?.start()
     }
 
     override fun stop() {
-        abandonAudioFocus()
+        if (VERSION.SDK_INT >= VERSION_CODES.O) {
+            audioFocusRequest?.let { audioManager?.abandonAudioFocusRequest(it) }
+        } else {
+            audioManager?.abandonAudioFocus(this)
+        }
+
         mediaPlayer?.stop()
     }
 
@@ -107,38 +134,8 @@ class MelodyControl(private val context: Context) : IMelodyControl,
         setVolume(startVolume)
     }
 
-    // TODO #RELEASE2
-    override fun onAudioFocusChange(focusChange: Int) = Unit
+    override fun onAudioFocusChange(focusChange: Int) {}
 
-
-    private fun requestAudioFocus() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val audioAttributes = AudioAttributes.Builder()
-                    .setUsage(AudioAttributes.USAGE_ALARM)
-                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                    .build()
-
-            audioFocusRequest = AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN_TRANSIENT)
-                    .setAudioAttributes(audioAttributes)
-                    .setAcceptsDelayedFocusGain(true)
-                    .setOnAudioFocusChangeListener(this)
-                    .build()
-
-            audioFocusRequest?.let { audioManager?.requestAudioFocus(it) }
-        } else {
-            audioManager?.requestAudioFocus(
-                    this, AudioManager.STREAM_ALARM, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT
-            )
-        }
-    }
-
-    private fun abandonAudioFocus() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            audioFocusRequest?.let { audioManager?.abandonAudioFocusRequest(it) }
-        } else {
-            audioManager?.abandonAudioFocus(this)
-        }
-    }
 
     /**
      * Set volume for device

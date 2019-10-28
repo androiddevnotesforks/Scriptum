@@ -3,7 +3,8 @@ package sgtmelon.scriptum.factory
 import android.app.Notification
 import android.app.PendingIntent
 import android.content.Context
-import android.os.Build
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
 import androidx.core.app.NotificationCompat
 import androidx.core.app.TaskStackBuilder
 import sgtmelon.scriptum.R
@@ -61,7 +62,7 @@ object NotificationFactory {
                 .setAutoCancel(false)
                 .setOngoing(true)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
             builder.setGroup(context.getString(R.string.notification_group_notes))
         }
 
@@ -94,7 +95,7 @@ object NotificationFactory {
                 .setAutoCancel(false)
                 .setOngoing(true)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
             builder.setGroup(context.getString(R.string.notification_group_info))
         }
 

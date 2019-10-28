@@ -1,7 +1,8 @@
 package sgtmelon.scriptum.model.state
 
 import android.app.Activity
-import android.os.Build
+import android.os.Build.VERSION_CODES
+import android.os.Build.VERSION
 import sgtmelon.scriptum.extension.isGranted
 import sgtmelon.scriptum.model.key.PermissionResult
 
@@ -11,7 +12,7 @@ import sgtmelon.scriptum.model.key.PermissionResult
 class PermissionState(private val activity: Activity, val permission: String) {
 
     fun getResult(): PermissionResult {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return PermissionResult.LOW_API
+        if (VERSION.SDK_INT < VERSION_CODES.M) return PermissionResult.LOW_API
 
         return if (!activity.checkSelfPermission(permission).isGranted()) {
             if (activity.shouldShowRequestPermissionRationale(permission)) {
