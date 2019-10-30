@@ -6,6 +6,7 @@ import org.json.JSONObject
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.data.DbData.Note
 import sgtmelon.scriptum.model.data.DbData.Roll
+import sgtmelon.scriptum.model.data.DbData.Roll.Default
 import sgtmelon.scriptum.room.converter.BoolConverter
 
 /**
@@ -24,11 +25,11 @@ import sgtmelon.scriptum.room.converter.BoolConverter
 )
 @TypeConverters(BoolConverter::class)
 data class RollEntity(
-        @ColumnInfo(name = Roll.ID) @PrimaryKey(autoGenerate = true) var id: Long? = null,
-        @ColumnInfo(name = Roll.NOTE_ID) var noteId: Long = ND_NOTE_ID,
-        @ColumnInfo(name = Roll.POSITION) var position: Int = ND_POSITION,
-        @ColumnInfo(name = Roll.CHECK) var isCheck: Boolean = ND_CHECK,
-        @ColumnInfo(name = Roll.TEXT) var text: String = ND_TEXT
+        @ColumnInfo(name = Roll.ID) @PrimaryKey(autoGenerate = true) var id: Long? = Default.ID,
+        @ColumnInfo(name = Roll.NOTE_ID) var noteId: Long = Default.NOTE_ID,
+        @ColumnInfo(name = Roll.POSITION) var position: Int = Default.POSITION,
+        @ColumnInfo(name = Roll.CHECK) var isCheck: Boolean = Default.CHECK,
+        @ColumnInfo(name = Roll.TEXT) var text: String = Default.TEXT
 ) {
 
     /**
@@ -43,11 +44,6 @@ data class RollEntity(
     }.toString()
 
     companion object {
-        const val ND_NOTE_ID = 0L
-        const val ND_POSITION = 0
-        const val ND_CHECK = false
-        const val ND_TEXT = ""
-
         operator fun get(data: String): RollEntity? = try {
             JSONObject(data).let {
                 val id = it.getLong(Roll.ID)

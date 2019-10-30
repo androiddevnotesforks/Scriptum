@@ -7,6 +7,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.NoteModel
+import sgtmelon.scriptum.model.data.DbData
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.room.entity.AlarmEntity
 import sgtmelon.scriptum.ui.ParentUi
@@ -157,7 +158,7 @@ class NotePanel(private val callback: INoteScreen) : ParentUi(),
 
 
     override fun onDateDialogResetResult() = with(callback) {
-        noteModel.alarmEntity.date = AlarmEntity.ND_DATE
+        noteModel.alarmEntity.date = DbData.Alarm.Default.DATE
         fullAssert()
     }
 

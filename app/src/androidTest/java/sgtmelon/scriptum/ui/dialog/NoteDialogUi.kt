@@ -8,6 +8,7 @@ import sgtmelon.scriptum.basic.extension.click
 import sgtmelon.scriptum.basic.extension.isDisplayed
 import sgtmelon.scriptum.basic.extension.isEnabled
 import sgtmelon.scriptum.model.NoteModel
+import sgtmelon.scriptum.model.data.DbData
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.room.entity.AlarmEntity
 import sgtmelon.scriptum.room.entity.RollEntity
@@ -114,7 +115,7 @@ class NoteDialogUi(private val noteModel: NoteModel) : ParentUi(), IDialogUi, Da
 
 
     override fun onDateDialogResetResult() {
-        noteModel.alarmEntity.date = AlarmEntity.ND_DATE
+        noteModel.alarmEntity.date = DbData.Alarm.Default.DATE
     }
 
     override fun onTimeDialogResult(calendar: Calendar) {

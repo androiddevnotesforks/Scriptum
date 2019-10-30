@@ -7,10 +7,9 @@ import sgtmelon.scriptum.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.receiver.AlarmReceiver
+import sgtmelon.scriptum.model.data.DbData
 import sgtmelon.scriptum.repository.alarm.AlarmRepo
 import sgtmelon.scriptum.repository.alarm.IAlarmRepo
-import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.screen.ui.callback.note.roll.IRollNoteBridge
 import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
@@ -62,10 +61,10 @@ class RollNoteInteractor(context: Context, private var callback: IRollNoteBridge
         callback?.notifyNoteBind(noteModel, rankIdVisibleList)
     }
 
-    override fun getRankId(check: Int): Long = if (check != NoteEntity.ND_RANK_PS) {
+    override fun getRankId(check: Int): Long = if (check != DbData.Note.Default.RANK_PS) {
         iRoomRepo.getRankIdList()[check]
     } else {
-        NoteEntity.ND_RANK_ID
+        DbData.Note.Default.RANK_ID
     }
 
     override suspend fun getDateList() = iAlarmRepo.getList().map { it.alarm.date }

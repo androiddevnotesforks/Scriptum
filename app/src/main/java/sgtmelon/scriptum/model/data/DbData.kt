@@ -23,6 +23,19 @@ object DbData {
         const val RANK_PS = "${PREFIX}_RANK_PS"
         const val BIN = "${PREFIX}_BIN"
         const val STATUS = "${PREFIX}_STATUS"
+
+        object Default {
+            const val ID = 0L
+            const val CREATE = ""
+            const val CHANGE = ""
+            const val NAME = ""
+            const val TEXT = ""
+            const val COLOR = 0
+            const val RANK_ID = -1L
+            const val RANK_PS = -1
+            const val BIN = false
+            const val STATUS = false
+        }
     }
 
     object Roll {
@@ -37,6 +50,14 @@ object DbData {
         const val TEXT = "${PREFIX}_TEXT"
 
         const val INDEX_NOTE_ID = "${TABLE}_NOTE_ID_INDEX"
+
+        object Default {
+            val ID = null
+            const val NOTE_ID = 0L
+            const val POSITION = 0
+            const val CHECK = false
+            const val TEXT = ""
+        }
     }
 
     object Rank {
@@ -51,6 +72,14 @@ object DbData {
         const val VISIBLE = "${PREFIX}_VISIBLE"
 
         const val INDEX_NAME = "${TABLE}_NAME_INDEX"
+
+        object Default {
+            const val ID = 0L
+            val NOTE_ID = ArrayList<Long>()
+            const val POSITION = 0
+            const val NAME = ""
+            const val VISIBLE = true
+        }
     }
 
     object Alarm {
@@ -63,6 +92,12 @@ object DbData {
         const val DATE = "${PREFIX}_DATE"
 
         const val INDEX_NOTE_ID = "${TABLE}_NOTE_ID_INDEX"
+
+        object Default {
+            const val ID = 0L
+            const val NOTE_ID = 0L
+            const val DATE = ""
+        }
     }
 
 }
