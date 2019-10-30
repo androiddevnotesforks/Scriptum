@@ -14,7 +14,7 @@ android {
         applicationId "sgtmelon.scriptum"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 9
+        versionCode 10
         versionName git.version.windows.execute().text.trim()
 
         testInstrumentationRunner androidx.test.instrumentationRunner
