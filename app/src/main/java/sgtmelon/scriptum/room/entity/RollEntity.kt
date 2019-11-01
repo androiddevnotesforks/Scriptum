@@ -7,6 +7,7 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.data.DbData.Note
 import sgtmelon.scriptum.model.data.DbData.Roll
 import sgtmelon.scriptum.model.data.DbData.Roll.Default
+import sgtmelon.scriptum.model.data.DbData.Roll.Room
 import sgtmelon.scriptum.room.converter.BoolConverter
 
 /**
@@ -25,11 +26,11 @@ import sgtmelon.scriptum.room.converter.BoolConverter
 )
 @TypeConverters(BoolConverter::class)
 data class RollEntity(
-        @ColumnInfo(name = Roll.ID) @PrimaryKey(autoGenerate = true) var id: Long? = Default.ID,
-        @ColumnInfo(name = Roll.NOTE_ID) var noteId: Long = Default.NOTE_ID,
-        @ColumnInfo(name = Roll.POSITION) var position: Int = Default.POSITION,
-        @ColumnInfo(name = Roll.CHECK) var isCheck: Boolean = Default.CHECK,
-        @ColumnInfo(name = Roll.TEXT) var text: String = Default.TEXT
+        @ColumnInfo(name = Roll.ID, defaultValue = Room.ID) @PrimaryKey(autoGenerate = true) var id: Long? = Default.ID,
+        @ColumnInfo(name = Roll.NOTE_ID, defaultValue = Room.NOTE_ID) var noteId: Long = Default.NOTE_ID,
+        @ColumnInfo(name = Roll.POSITION, defaultValue = Room.POSITION) var position: Int = Default.POSITION,
+        @ColumnInfo(name = Roll.CHECK, defaultValue = Room.CHECK) var isCheck: Boolean = Default.CHECK,
+        @ColumnInfo(name = Roll.TEXT, defaultValue = Room.TEXT) var text: String = Default.TEXT
 ) {
 
     /**

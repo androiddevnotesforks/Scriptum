@@ -1,5 +1,9 @@
 package sgtmelon.scriptum.model.data
 
+import sgtmelon.scriptum.model.key.NoteType
+import sgtmelon.scriptum.room.converter.NoteTypeConverter
+import sgtmelon.scriptum.room.converter.StringConverter
+
 /**
  * Constants for DataBase
  * Naming of tables and columns for DataBase
@@ -31,10 +35,25 @@ object DbData {
             const val NAME = ""
             const val TEXT = ""
             const val COLOR = 0
+            val TYPE = NoteType.TEXT
             const val RANK_ID = -1L
             const val RANK_PS = -1
             const val BIN = false
             const val STATUS = false
+        }
+
+        object Room {
+            const val ID = "0"
+            const val CREATE = ""
+            const val CHANGE = ""
+            const val NAME = ""
+            const val TEXT = ""
+            const val COLOR = "0"
+            const val TYPE = "0"
+            const val RANK_ID = "-1"
+            const val RANK_PS = "-1"
+            const val BIN = "0"
+            const val STATUS = "0"
         }
     }
 
@@ -56,6 +75,14 @@ object DbData {
             const val NOTE_ID = 0L
             const val POSITION = 0
             const val CHECK = false
+            const val TEXT = ""
+        }
+
+        object Room {
+            const val ID = "0"
+            const val NOTE_ID = "0"
+            const val POSITION = "0"
+            const val CHECK = "0"
             const val TEXT = ""
         }
     }
@@ -80,6 +107,14 @@ object DbData {
             const val NAME = ""
             const val VISIBLE = true
         }
+
+        object Room {
+            const val ID = "0"
+            const val NOTE_ID = StringConverter.NONE
+            const val POSITION = "0"
+            const val NAME = ""
+            const val VISIBLE = "1"
+        }
     }
 
     object Alarm {
@@ -96,6 +131,12 @@ object DbData {
         object Default {
             const val ID = 0L
             const val NOTE_ID = 0L
+            const val DATE = ""
+        }
+
+        object Room {
+            const val ID = "0"
+            const val NOTE_ID = "0"
             const val DATE = ""
         }
     }
