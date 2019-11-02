@@ -2,6 +2,7 @@ package sgtmelon.scriptum.room
 
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import sgtmelon.scriptum.room.converter.StringConverter
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RankEntity
 import java.util.UUID.randomUUID
@@ -124,11 +125,81 @@ object Migrate {
              * Rank table:
              *
              * Expected:
-             * TableInfo{name='RANK_TABLE', columns={RK_NAME=Column{name='RK_NAME', type='TEXT', affinity='2', notNull=true, primaryKeyPosition=0, defaultValue=''''}, RK_VISIBLE=Column{name='RK_VISIBLE', type='INTEGER', affinity='3', notNull=true, primaryKeyPosition=0, defaultValue='1'}, RK_POSITION=Column{name='RK_POSITION', type='INTEGER', affinity='3', notNull=true, primaryKeyPosition=0, defaultValue='0'}, RK_NOTE_ID=Column{name='RK_NOTE_ID', type='TEXT', affinity='2', notNull=true, primaryKeyPosition=0, defaultValue=''NONE''}, RK_ID=Column{name='RK_ID', type='INTEGER', affinity='3', notNull=true, primaryKeyPosition=1, defaultValue='0'}}, foreignKeys=[], indices=[Index{name='RANK_TABLE_NAME_INDEX', unique=true, columns=[RK_NAME]}]}
+             * TableInfo{name='RANK_TABLE', columns={
+             *      RK_NAME=Column{name='RK_NAME', type='TEXT', affinity='2', notNull=true, primaryKeyPosition=0, defaultValue=''''},
+             *      RK_VISIBLE=Column{name='RK_VISIBLE', type='INTEGER', affinity='3', notNull=true, primaryKeyPosition=0, defaultValue='1'},
+             *      RK_POSITION=Column{name='RK_POSITION', type='INTEGER', affinity='3', notNull=true, primaryKeyPosition=0, defaultValue='0'},
+             *      RK_NOTE_ID=Column{name='RK_NOTE_ID', type='TEXT', affinity='2', notNull=true, primaryKeyPosition=0, defaultValue=''NONE''},
+             *      RK_ID=Column{name='RK_ID', type='INTEGER', affinity='3', notNull=true, primaryKeyPosition=1, defaultValue='0'}
+             * }, foreignKeys=[], indices=[Index{name='RANK_TABLE_NAME_INDEX', unique=true, columns=[RK_NAME]}]}
              *
              * Found:
-             * TableInfo{name='RANK_TABLE', columns={RK_VISIBLE=Column{name='RK_VISIBLE', type='INTEGER', affinity='3', notNull=true, primaryKeyPosition=0, defaultValue='null'}, RK_NOTE_ID=Column{name='RK_NOTE_ID', type='TEXT', affinity='2', notNull=true, primaryKeyPosition=0, defaultValue='null'}, RK_ID=Column{name='RK_ID', type='INTEGER', affinity='3', notNull=true, primaryKeyPosition=1, defaultValue='null'}, RK_NAME=Column{name='RK_NAME', type='TEXT', affinity='2', notNull=true, primaryKeyPosition=0, defaultValue='null'}, RK_POSITION=Column{name='RK_POSITION', type='INTEGER', affinity='3', notNull=true, primaryKeyPosition=0, defaultValue='null'}}, foreignKeys=[], indices=[Index{name='RANK_TABLE_NAME_INDEX', unique=true, columns=[RK_NAME]}]}
+             * TableInfo{name='RANK_TABLE', columns={
+             *      RK_VISIBLE=Column{name='RK_VISIBLE', type='INTEGER', affinity='3', notNull=true, primaryKeyPosition=0, defaultValue='null'},
+             *      RK_NOTE_ID=Column{name='RK_NOTE_ID', type='TEXT', affinity='2', notNull=true, primaryKeyPosition=0, defaultValue='null'},
+             *      RK_ID=Column{name='RK_ID', type='INTEGER', affinity='3', notNull=true, primaryKeyPosition=1, defaultValue='null'},
+             *      RK_NAME=Column{name='RK_NAME', type='TEXT', affinity='2', notNull=true, primaryKeyPosition=0, defaultValue='null'},
+             *      RK_POSITION=Column{name='RK_POSITION', type='INTEGER', affinity='3', notNull=true, primaryKeyPosition=0, defaultValue='null'
+             * }}, foreignKeys=[], indices=[Index{name='RANK_TABLE_NAME_INDEX', unique=true, columns=[RK_NAME]}]}
              */
+            val tempRankTable = "tempRankTable"
+            execSQL("ALTER TABLE RANK_TABLE RENAME TO $tempRankTable")
+
+            execSQL("""CREATE TABLE RANK_TABLE (
+                    RK_ID INTEGER PRIMARY KEY NOT NULL DEFAULT 0,
+                    RK_NOTE_ID TEXT NOT NULL DEFAULT '${StringConverter.NONE}',
+                    RK_POSITION INTEGER NOT NULL DEFAULT 0,
+                    RK_NAME TEXT NOT NULL DEFAULT '',
+                    RK_VISIBLE INTEGER NOT NULL DEFAULT 1)""")
+
+            execSQL("DROP INDEX RANK_TABLE_NAME_INDEX")
+            execSQL("CREATE UNIQUE INDEX RANK_TABLE_NAME_INDEX ON RANK_TABLE(RK_NAME)")
+
+            execSQL("""INSERT INTO RANK_TABLE(
+                RK_ID, RK_NOTE_ID, RK_POSITION, RK_NAME, RK_VISIBLE) SELECT
+                RK_ID, RK_NOTE_ID, RK_POSITION, RK_NAME, RK_VISIBLE FROM $tempRankTable""")
+
+            execSQL("DROP TABLE $tempRankTable")
+
+            /**
+             * Alarm table:
+             *
+             * Expected:
+             * TableInfo{name='ALARM_TABLE', columns={
+             *      AL_ID=Column{name='AL_ID', type='INTEGER', affinity='3', notNull=true, primaryKeyPosition=1, defaultValue='0'},
+             *      AL_DATE=Column{name='AL_DATE', type='TEXT', affinity='2', notNull=true, primaryKeyPosition=0, defaultValue=''''},
+             *      AL_NOTE_ID=Column{name='AL_NOTE_ID', type='INTEGER', affinity='3', notNull=true, primaryKeyPosition=0, defaultValue='0'}
+             * },
+             * foreignKeys=[ForeignKey{referenceTable='NOTE_TABLE', onDelete='CASCADE', onUpdate='CASCADE', columnNames=[AL_NOTE_ID], referenceColumnNames=[NT_ID]}],
+             * indices=[Index{name='ALARM_TABLE_NOTE_ID_INDEX', unique=true, columns=[AL_NOTE_ID]}]}
+             *
+             * Found:
+             * TableInfo{name='ALARM_TABLE', columns={
+             *      AL_ID=Column{name='AL_ID', type='INTEGER', affinity='3', notNull=true, primaryKeyPosition=1, defaultValue='null'},
+             *      AL_DATE=Column{name='AL_DATE', type='TEXT', affinity='2', notNull=true, primaryKeyPosition=0, defaultValue='null'},
+             *      AL_NOTE_ID=Column{name='AL_NOTE_ID', type='INTEGER', affinity='3', notNull=true, primaryKeyPosition=0, defaultValue='null'}
+             * },
+             * foreignKeys=[ForeignKey{referenceTable='NOTE_TABLE', onDelete='CASCADE', onUpdate='CASCADE', columnNames=[AL_NOTE_ID], referenceColumnNames=[NT_ID]}],
+             * indices=[Index{name='ALARM_TABLE_NOTE_ID_INDEX', unique=true, columns=[AL_NOTE_ID]}]}
+             */
+            val tempAlarmTable = "tempAlarmTable"
+            execSQL("ALTER TABLE ALARM_TABLE RENAME TO $tempAlarmTable")
+
+            execSQL("""CREATE TABLE ALARM_TABLE (
+                    AL_ID INTEGER NOT NULL PRIMARY KEY DEFAULT 0,
+                    AL_NOTE_ID INTEGER NOT NULL DEFAULT 0,
+                    AL_DATE TEXT NOT NULL DEFAULT '',
+                    FOREIGN KEY (AL_NOTE_ID) REFERENCES NOTE_TABLE(NT_ID)
+                    ON UPDATE CASCADE ON DELETE CASCADE)""")
+
+            execSQL("DROP INDEX ALARM_TABLE_NOTE_ID_INDEX")
+            execSQL("CREATE UNIQUE INDEX ALARM_TABLE_NOTE_ID_INDEX ON ALARM_TABLE(AL_NOTE_ID)")
+
+            execSQL("""INSERT INTO ALARM_TABLE(
+                AL_ID, AL_NOTE_ID, AL_DATE) SELECT
+                AL_ID, AL_NOTE_ID, AL_DATE FROM $tempAlarmTable""")
+
+            execSQL("DROP TABLE $tempAlarmTable")
         }
     }
 
@@ -388,7 +459,6 @@ object Migrate {
              * foreignKeys=[ForeignKey{referenceTable='NOTE_TABLE', onDelete='CASCADE', onUpdate='CASCADE', columnNames=[AL_NOTE_ID], referenceColumnNames=[NT_ID]}],
              * indices=[Index{name='index_ALARM_TABLE_AL_NOTE_ID', unique=false, columns=[AL_NOTE_ID]}]}
              */
-
             execSQL("""CREATE TABLE ALARM_TABLE (
                     AL_ID INTEGER NOT NULL PRIMARY KEY,
                     AL_NOTE_ID INTEGER NOT NULL,

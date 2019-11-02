@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.model.data
 
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.room.converter.NoteTypeConverter
 import sgtmelon.scriptum.room.converter.StringConverter
 
 /**
