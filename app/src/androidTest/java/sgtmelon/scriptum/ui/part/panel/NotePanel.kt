@@ -210,13 +210,13 @@ class NotePanel(private val callback: INoteScreen) : ParentUi(),
 
                     inputControl.isUndoAccess.let { undo ->
                         undoButton.isDisplayed()
-                                .withDrawableAttr(R.drawable.ic_undo, getTint(undo))
+                                .withDrawableAttr(R.drawable.ic_undo, getEnableTint(undo))
                                 .isEnabled(undo)
                     }
 
                     inputControl.isRedoAccess.let { redo ->
                         redoButton.isDisplayed()
-                                .withDrawableAttr(R.drawable.ic_redo, getTint(redo))
+                                .withDrawableAttr(R.drawable.ic_redo, getEnableTint(redo))
                                 .isEnabled(redo)
                     }
 
@@ -237,6 +237,7 @@ class NotePanel(private val callback: INoteScreen) : ParentUi(),
     }
 
     @AttrRes private fun getTint(b: Boolean) = if (b) R.attr.clAccent else R.attr.clContent
+    @AttrRes private fun getEnableTint(b: Boolean) = if (b) R.attr.clContent else R.attr.clDisable
 
     companion object {
         operator fun invoke(func: NotePanel.() -> Unit, callback: INoteScreen) =
