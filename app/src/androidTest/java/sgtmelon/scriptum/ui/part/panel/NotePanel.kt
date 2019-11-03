@@ -222,7 +222,7 @@ class NotePanel(private val callback: INoteScreen) : ParentUi(),
 
                     rankButton.isDisplayed()
                             .withDrawableAttr(R.drawable.ic_rank, if (isRankEmpty) {
-                                R.attr.clDisable
+                                getEnableTint(b = false)
                             } else {
                                 getTint(noteModel.noteEntity.haveRank())
                             })

@@ -7,6 +7,7 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.room.dao.IRankDao
 import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.test.ParentIntegrationTest
+import kotlin.random.Random
 
 /**
  * Integration test for [IRankDao]
@@ -35,7 +36,7 @@ class RankDaoTest : ParentIntegrationTest() {
     @Test fun delete() = inRankDao {
         insert(rankFirst)
         delete(rankFirst.name)
-        assertNull(get(rankFirst.name))
+        assertNull(get(rankFirst.id))
     }
 
     @Test fun update() = inRankDao {
@@ -43,7 +44,7 @@ class RankDaoTest : ParentIntegrationTest() {
 
         rankFirst.copy(name = "12345", isVisible = false).let {
             update(it)
-            assertEquals(it, get(it.name))
+            assertEquals(it, get(it.id))
         }
     }
 
@@ -63,42 +64,31 @@ class RankDaoTest : ParentIntegrationTest() {
 
         rankSecond.copy(id = rankFirst.id).let {
             update(it)
-            assertEquals(rankSecond, get(rankSecond.name))
+            assertEquals(rankSecond, get(rankSecond.id))
 
             update(arrayListOf(rankFirst, it))
-            assertEquals(rankSecond, get(rankSecond.name))
+            assertEquals(rankSecond, get(rankSecond.id))
         }
 
         rankSecond.copy(name = rankFirst.name).let {
             update(it)
-            assertEquals(rankSecond, get(rankSecond.name))
+            assertEquals(rankSecond, get(rankSecond.id))
 
             update(arrayListOf(rankFirst, it))
-            assertEquals(rankSecond, get(rankSecond.name))
+            assertEquals(rankSecond, get(rankSecond.id))
         }
     }
 
-    @Test fun getOnWrongId() = inRankDao { assertNull(get(data.uniqueString)) }
+    @Test fun getOnWrongId() = inRankDao { assertNull(get(Random.nextLong())) }
 
     @Test fun getOnCorrectId() = inRankDao {
-        insert(rankFirst)
-        assertEquals(rankFirst, get(rankFirst.name))
-
-        insert(rankSecond)
-        assertEquals(rankSecond, get(rankSecond.name))
-
-        insert(rankThird)
-        assertEquals(rankThird, get(rankThird.name))
-    }
-
-    @Test fun getList() = inRankDao { assertEquals(insertAll(), get()) }
-
-    @Test fun getById() = inRankDao {
         insertAll()
 
         assertEquals(rankSecond, get(rankSecond.id))
         assertEquals(rankThird, get(rankThird.id))
     }
+
+    @Test fun getList() = inRankDao { assertEquals(insertAll(), get()) }
 
     @Test fun getIdVisibleList() = inRankDao {
         assertEquals(insertAll().filter { it.isVisible }.map { it.id }, getIdVisibleList())
