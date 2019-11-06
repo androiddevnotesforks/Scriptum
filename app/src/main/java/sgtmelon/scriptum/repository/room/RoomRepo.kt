@@ -37,13 +37,19 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
         val list = ArrayList<NoteModel>().apply {
             inRoom {
                 val rankIdVisibleList = iRankDao.getIdVisibleList()
-
-                when (sortType) {
+                var list = when (sortType) {
                     Sort.CHANGE -> iNoteDao.getByChange(bin)
                     Sort.CREATE -> iNoteDao.getByCreate(bin)
                     Sort.RANK -> iNoteDao.getByRank(bin)
                     else -> iNoteDao.getByColor(bin)
-                }.filter { it.isVisible(rankIdVisibleList) }.forEach {
+                }
+
+                /**
+                 * Notes must be showed in list if [bin] != true even if rank not visible.
+                 */
+                if (!bin) list = list.filter { it.isVisible(rankIdVisibleList) }
+
+                list.forEach {
                     add(NoteModel(
                             it, iRollDao.getView(it.id),
                             alarmEntity = iAlarmDao[it.id] ?: AlarmEntity(noteId = it.id)
