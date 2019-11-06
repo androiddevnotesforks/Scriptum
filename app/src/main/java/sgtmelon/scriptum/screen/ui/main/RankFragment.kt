@@ -117,7 +117,7 @@ class RankFragment : ParentFragment(), IRankFragment {
         }
 
         view?.findViewById<ImageButton>(R.id.toolbar_rank_clear_button)?.apply {
-            setOnClickListener { openState?.tryInvoke { iViewModel.onClickEnterCancel() } }
+            setOnClickListener { iViewModel.onClickEnterCancel() }
         }
 
         view?.findViewById<ImageButton>(R.id.toolbar_rank_add_button)?.apply {
@@ -201,6 +201,8 @@ class RankFragment : ParentFragment(), IRankFragment {
     }
 
     override fun scrollToItem(simpleClick: Boolean, p: Int, list: MutableList<RankEntity>) {
+        openState?.clear()
+
         if (list.size == 1) {
             adapter.notifyItemInserted(0, list)
             bindList()
