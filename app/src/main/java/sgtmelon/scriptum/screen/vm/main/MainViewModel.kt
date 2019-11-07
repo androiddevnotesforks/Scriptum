@@ -2,7 +2,6 @@ package sgtmelon.scriptum.screen.vm.main
 
 import android.app.Application
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import androidx.annotation.IdRes
 import sgtmelon.scriptum.R
@@ -60,8 +59,10 @@ class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(a
         pageFrom = pageTo
     }
 
+    /**
+     * Change FAB state consider [pageFrom].
+     */
     override fun onFabStateChange(state: Boolean) {
-        Log.i("HERE", "onFabStateChange: pageFrom=${pageFrom.name}, state=$state")
         callback?.setFabState(pageFrom.isStartPage() && state)
     }
 

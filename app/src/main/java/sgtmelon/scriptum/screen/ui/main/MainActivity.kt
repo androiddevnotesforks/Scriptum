@@ -64,6 +64,11 @@ class MainActivity : AppActivity(), IMainActivity {
 
         openState.changeEnabled = true
         openState.clear()
+
+        /**
+         * Show FAB on return to screen if it possible.
+         */
+        onFabStateChange(state = true)
     }
 
     override fun onDestroy() {
