@@ -128,7 +128,10 @@ class MainActivity : AppActivity(), IMainActivity {
         }
     }
 
-    override fun changeFabState(state: Boolean) {
+
+    override fun onFabStateChange(state: Boolean) = iViewModel.onFabStateChange(state)
+
+    override fun setFabState(state: Boolean) {
         fab?.setState(state)
     }
 
@@ -190,9 +193,9 @@ class MainActivity : AppActivity(), IMainActivity {
         }
     }
 
-    private fun FloatingActionButton.setState(state: Boolean) {
-        if (state) show() else hide()
-        isEnabled = state
+    private fun FloatingActionButton.setState(isVisible: Boolean) {
+        if (isVisible) show() else hide()
+        isEnabled = isVisible
     }
 
     /**

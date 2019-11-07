@@ -150,8 +150,12 @@ class NotesFragment : ParentFragment(), INotesFragment {
 
             it.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    super.onScrolled(recyclerView, dx, dy)
-                    callback?.changeFabState(state = dy <= 0)
+                    /**
+                     * Visible only if scroll to top
+                     */
+                    val isTopScroll = dy <= 0
+
+                    callback?.onFabStateChange(isTopScroll)
                 }
             })
         }

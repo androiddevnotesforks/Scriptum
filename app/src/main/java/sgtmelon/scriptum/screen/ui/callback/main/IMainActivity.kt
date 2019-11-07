@@ -16,7 +16,10 @@ interface IMainActivity {
 
     fun setupNavigation(@IdRes itemId: Int)
 
-    fun changeFabState(state: Boolean)
+
+    fun onFabStateChange(state: Boolean)
+
+    fun setFabState(state: Boolean)
 
     fun scrollTop(mainPage: MainPage)
 
