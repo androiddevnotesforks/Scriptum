@@ -171,7 +171,7 @@ class NotesFragment : ParentFragment(), INotesFragment {
                     fabHandler.removeCallbacksAndMessages(null)
                     fabHandler.postDelayed({
                         callback?.onFabStateChange(state = true)
-                    }, STANDSTILL_TIME)
+                    }, FAB_STANDSTILL_TIME)
                 }
             })
         }
@@ -286,7 +286,7 @@ class NotesFragment : ParentFragment(), INotesFragment {
 
 
     companion object {
-        const val STANDSTILL_TIME = 7000L
+        const val FAB_STANDSTILL_TIME = 7000L
     }
 
 }

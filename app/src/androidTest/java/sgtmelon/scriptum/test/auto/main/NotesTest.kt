@@ -3,6 +3,7 @@ package sgtmelon.scriptum.test.auto.main
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.scriptum.basic.extension.waitBefore
 import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.screen.ui.main.NotesFragment
@@ -38,6 +39,29 @@ class NotesTest : ParentUiTest() {
                 assert(fabVisible = false)
                 onNavigateTo(MainPage.NOTES)
             }
+        }
+    }
+
+    @Test fun addFabOnResume() = launch({ data.fillNotes() }) {
+        mainScreen {
+            notesScreen { onScroll(Scroll.END, time = 1) }
+            assert(fabVisible = false)
+            notesScreen { openPreference { onClickClose() } }
+            assert(fabVisible = true)
+        }
+    }
+
+    @Test fun addFabStandstill() = launch({ data.fillNotes() }) {
+        mainScreen {
+            notesScreen { onScroll(Scroll.END, time = 1) }
+            assert(fabVisible = false)
+            waitBefore(NotesFragment.FAB_STANDSTILL_TIME) { assert(fabVisible = true) }
+
+            onScrollTop()
+            notesScreen { onScroll(Scroll.END, time = 1) }
+            assert(fabVisible = false)
+            onNavigateTo(MainPage.BIN)
+            waitBefore(NotesFragment.FAB_STANDSTILL_TIME) { assert(fabVisible = false) }
         }
     }
 

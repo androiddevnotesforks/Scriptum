@@ -2,6 +2,7 @@ package sgtmelon.scriptum.screen.vm.main
 
 import android.app.Application
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.annotation.IdRes
 import sgtmelon.scriptum.R

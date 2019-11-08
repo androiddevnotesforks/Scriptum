@@ -184,9 +184,13 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
         }
     }
 
-    fun fillNotes(count: Int = 10) = repeat(count) { insertNote() }
+    fun fillNotes(count: Int = 10) = ArrayList<NoteModel>().apply {
+        repeat(count) { add(insertNote()) }
+    }
 
-    fun fillBin(count: Int = 10) = repeat(count) { insertNoteToBin() }
+    fun fillBin(count: Int = 10) = ArrayList<NoteModel>().apply {
+        repeat(count) { add(insertNoteToBin()) }
+    }
 
     fun fillNotification(count: Int = 10) = repeat(count) {
         insertNotification(date = getFutureTime())

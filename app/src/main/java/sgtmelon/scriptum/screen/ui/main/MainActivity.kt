@@ -107,11 +107,6 @@ class MainActivity : AppActivity(), IMainActivity {
             val animTime = resources.getInteger(R.integer.fade_anim_time).toLong()
 
             setOnNavigationItemSelectedListener {
-                /**
-                 * For best performance on fast pages click.
-                 */
-                if (it.isChecked) return@setOnNavigationItemSelectedListener false
-
                 return@setOnNavigationItemSelectedListener openState.tryReturnInvoke {
                     openState.block(animTime)
                     iViewModel.onSelectItem(it.itemId)
