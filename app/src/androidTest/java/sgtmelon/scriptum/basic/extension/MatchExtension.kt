@@ -57,7 +57,3 @@ fun Matcher<View>.withColorIndicator(resourceId: Int = -1,
                                      @Color color: Int) = also {
     matchOnView(it, ColorIndicatorMatcher(resourceId, theme, color))
 }
-
-// TODO #TEST match textColor
-// TODO #TEST match textSize
-// TODO #TEST match backgroundColor

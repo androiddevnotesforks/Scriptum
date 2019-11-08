@@ -17,8 +17,6 @@ import sgtmelon.scriptum.test.ParentUiTest
  */
 abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest() {
 
-    // TODO #TEST create sort test
-
     open fun colorTextLight() = startColorTest(NoteType.TEXT, Theme.LIGHT)
 
     open fun colorTextDark() = startColorTest(NoteType.TEXT, Theme.DARK)
@@ -135,15 +133,15 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
             })
         })
 
-        TODO("#TEST write test")
+        TODO(reason = "#TEST write test")
     }
 
     open fun rankTextCancel() {
-        TODO("#TEST write test")
+        TODO(reason = "#TEST write test")
     }
 
     open fun rankRollCancel() {
-        TODO("#TEST write test")
+        TODO(reason = "#TEST write test")
     }
 
     private fun onAssertList(list: List<NoteModel>) {

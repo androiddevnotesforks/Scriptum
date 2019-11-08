@@ -62,7 +62,7 @@ class NoteToolbar(private val callback: INoteScreen) : ParentUi() {
 
 
     // TODO #TEST (focus on title check)
-    // TODO assert color (set contentDescription may be, or tag)
+    // TODO #TEST assert color (set contentDescription may be, or tag)
     fun assert() {
         parentContainer.isDisplayed()
         nameScroll.isDisplayed()

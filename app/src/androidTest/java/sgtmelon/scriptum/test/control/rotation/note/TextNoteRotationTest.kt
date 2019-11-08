@@ -107,7 +107,7 @@ class TextNoteRotationTest : ParentRotationTest() {
                         controlPanel {
                             onConvert { onClickYes() }
                             onRotate {
-                                // TODO #TEST convert assert
+                                TODO(reason = "#TEST write test")
                             }
                         }
                     }

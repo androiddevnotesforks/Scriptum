@@ -208,11 +208,13 @@ class RollNoteTest : ParentUiTest() {
     }
 
 
-    // TODO #TEST write test
-    @Test fun actionOnEditUndoRedo() {}
+    @Test fun actionOnEditUndoRedo() {
+        TODO(reason = "#TEST write test")
+    }
 
-    // TODO #TEST write test
-    @Test fun actionOnEditRank() {}
+    @Test fun actionOnEditRank() {
+        TODO(reason = "#TEST write test")
+    }
 
     @Test fun actionOnCreateColor() = data.createRoll().let {
         launch { mainScreen { addDialog { createRoll(it) { controlPanel { onColor() } } } } }
@@ -275,7 +277,6 @@ class RollNoteTest : ParentUiTest() {
         }
     }
 
-    // TODO #TEST end assert
     @Test fun convertDialogCloseAndWork() = data.insertRoll().let {
         launch {
             mainScreen {
@@ -284,14 +285,16 @@ class RollNoteTest : ParentUiTest() {
                         controlPanel { onConvert { onCloseSoft() } }.assert()
                         controlPanel { onConvert { onClickNo() } }.assert()
                         controlPanel { onConvert { onClickYes() } }
+                        TODO(reason = "#TEST write test")
                     }
                 }
             }
         }
     }
 
-    // TODO #TEST add note to rank and check it hide
-    @Test fun rankDialogCloseAndWork() {}
+    @Test fun rankDialogCloseAndWork() {
+        TODO(reason = "#TEST write test")
+    }
 
     @Test fun colorDialogCloseAndWork() = data.createRoll().let {
         launch {
