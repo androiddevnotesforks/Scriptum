@@ -70,7 +70,7 @@ abstract class BlankDialog : DialogFragment() {
     @CallSuper protected open fun setEnable() {}
 
     companion object {
-        private const val PREFIX = "SAFE_DIALOG"
+        const val PREFIX = "SAFE_DIALOG"
 
         const val POSITION = "${PREFIX}_POSITION"
         const val INIT = "${PREFIX}_INIT"

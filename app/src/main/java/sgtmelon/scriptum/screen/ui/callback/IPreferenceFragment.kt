@@ -33,7 +33,7 @@ interface IPreferenceFragment {
 
     fun updateColorSummary(summary: String)
 
-    fun showColorDialog(@Color value: Int)
+    fun showColorDialog(@Color color: Int, @Theme theme: Int)
 
 
     fun updateRepeatSummary(summary: String)

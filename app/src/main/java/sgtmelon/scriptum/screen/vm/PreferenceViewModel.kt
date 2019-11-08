@@ -78,7 +78,7 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
     }
 
     override fun onClickNoteColor() = alwaysTrue {
-        callback?.showColorDialog(iPreferenceRepo.defaultColor)
+        callback?.showColorDialog(iPreferenceRepo.defaultColor, iPreferenceRepo.theme)
     }
 
     override fun onResultNoteColor(@Color value: Int) {

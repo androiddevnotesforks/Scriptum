@@ -51,7 +51,7 @@ interface ITextNoteFragment : ITextNoteBridge {
 
     fun showRankDialog(check: Int)
 
-    fun showColorDialog(@Color color: Int)
+    fun showColorDialog(@Color color: Int, @Theme theme: Int)
 
     fun showDateDialog(calendar: Calendar, resetVisible: Boolean)
 

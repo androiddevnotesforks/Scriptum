@@ -388,11 +388,11 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment {
         rankDialog.setArguments(check).show(fm, DialogFactory.Note.RANK)
     }
 
-    override fun showColorDialog(color: Int) = openState.tryInvoke {
+    override fun showColorDialog(@Color color: Int, @Theme theme: Int) = openState.tryInvoke {
         menuControl?.setColorFrom(color)
 
         hideKeyboard()
-        colorDialog.setArguments(color).show(fm, DialogFactory.Note.COLOR)
+        colorDialog.setArguments(color, theme).show(fm, DialogFactory.Note.COLOR)
     }
 
     override fun showDateDialog(calendar: Calendar, resetVisible: Boolean) = openState.tryInvoke {

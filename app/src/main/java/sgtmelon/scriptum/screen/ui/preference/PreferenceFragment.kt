@@ -288,8 +288,8 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
         colorPreference.summary = summary
     }
 
-    override fun showColorDialog(@Color value: Int) = openState.tryInvoke {
-        colorDialog.setArguments(value).show(fm, DialogFactory.Preference.COLOR)
+    override fun showColorDialog(@Color color: Int, @Theme theme: Int) = openState.tryInvoke {
+        colorDialog.setArguments(color, theme).show(fm, DialogFactory.Preference.COLOR)
     }
 
 

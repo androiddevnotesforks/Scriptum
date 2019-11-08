@@ -12,8 +12,6 @@ import java.util.*
  */
 abstract class ParentAdapter<T, VH : RecyclerView.ViewHolder>() : RecyclerView.Adapter<VH>() {
 
-    // TODO make list not mutable
-
     protected val list: MutableList<T> = ArrayList()
 
     @CallSuper open fun setList(list: List<T>) {

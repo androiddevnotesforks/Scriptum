@@ -80,7 +80,7 @@ interface IRollNoteFragment : IRollNoteBridge {
 
     fun showRankDialog(check: Int)
 
-    fun showColorDialog(color: Int)
+    fun showColorDialog(@Color color: Int, @Theme theme: Int)
 
     fun showDateDialog(calendar: Calendar, resetVisible: Boolean)
 

@@ -293,7 +293,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     }
 
     override fun onMenuColor() {
-        callback?.showColorDialog(noteModel.noteEntity.color)
+        callback?.showColorDialog(noteModel.noteEntity.color, iInteractor.theme)
     }
 
     override fun onMenuSave(changeMode: Boolean): Boolean {

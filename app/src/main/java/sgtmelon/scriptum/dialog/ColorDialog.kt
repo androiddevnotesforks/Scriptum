@@ -12,6 +12,8 @@ import sgtmelon.safedialog.BlankDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.ColorAdapter
 import sgtmelon.scriptum.listener.ItemListener
+import sgtmelon.scriptum.model.annotation.Color
+import sgtmelon.scriptum.model.annotation.Theme
 
 class ColorDialog : BlankDialog() {
 
@@ -20,16 +22,23 @@ class ColorDialog : BlankDialog() {
     var check: Int = 0
         private set
 
-    fun setArguments(check: Int) = apply {
+    /**
+     * Variable for pass into [ColorAdapter].
+     */
+    @Theme private var appTheme: Int = Theme.UNDEFINED
+
+    fun setArguments(@Color check: Int, @Theme theme: Int) = apply {
         arguments = Bundle().apply {
             putInt(INIT, check)
             putInt(VALUE, check)
+            putInt(THEME, theme)
         }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         init = savedInstanceState?.getInt(INIT) ?: arguments?.getInt(INIT) ?: 0
         check = savedInstanceState?.getInt(VALUE) ?: arguments?.getInt(VALUE) ?: 0
+        appTheme = savedInstanceState?.getInt(THEME) ?: arguments?.getInt(THEME) ?: Theme.UNDEFINED
 
         val context = context as Context
 
@@ -45,7 +54,7 @@ class ColorDialog : BlankDialog() {
 
             (itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
 
-            adapter = ColorAdapter(context, object : ItemListener.Click {
+            adapter = ColorAdapter(appTheme, object : ItemListener.Click {
                 override fun onItemClick(view: View, p: Int) {
                     check = p
                     setEnable()
@@ -66,12 +75,17 @@ class ColorDialog : BlankDialog() {
         super.onSaveInstanceState(outState.apply {
             putInt(INIT, init)
             putInt(VALUE, check)
+            putInt(THEME, appTheme)
         })
     }
 
     override fun setEnable() {
         super.setEnable()
         positiveButton?.isEnabled = init != check
+    }
+
+    companion object {
+        const val THEME = "${PREFIX}_THEME"
     }
 
 }
