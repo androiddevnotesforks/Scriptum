@@ -286,7 +286,7 @@ class NotesFragment : ParentFragment(), INotesFragment {
 
 
     companion object {
-        const val FAB_STANDSTILL_TIME = 7000L
+        const val FAB_STANDSTILL_TIME = 2000L
     }
 
 }
