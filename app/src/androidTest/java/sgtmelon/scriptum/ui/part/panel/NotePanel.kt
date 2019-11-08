@@ -7,6 +7,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.NoteModel
+import sgtmelon.scriptum.model.data.DbData
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.room.entity.AlarmEntity
 import sgtmelon.scriptum.ui.ParentUi
@@ -157,7 +158,7 @@ class NotePanel(private val callback: INoteScreen) : ParentUi(),
 
 
     override fun onDateDialogResetResult() = with(callback) {
-        noteModel.alarmEntity.date = AlarmEntity.ND_DATE
+        noteModel.alarmEntity.date = DbData.Alarm.Default.DATE
         fullAssert()
     }
 
@@ -209,19 +210,19 @@ class NotePanel(private val callback: INoteScreen) : ParentUi(),
 
                     inputControl.isUndoAccess.let { undo ->
                         undoButton.isDisplayed()
-                                .withDrawableAttr(R.drawable.ic_undo, getTint(undo))
+                                .withDrawableAttr(R.drawable.ic_undo, getEnableTint(undo))
                                 .isEnabled(undo)
                     }
 
                     inputControl.isRedoAccess.let { redo ->
                         redoButton.isDisplayed()
-                                .withDrawableAttr(R.drawable.ic_redo, getTint(redo))
+                                .withDrawableAttr(R.drawable.ic_redo, getEnableTint(redo))
                                 .isEnabled(redo)
                     }
 
                     rankButton.isDisplayed()
                             .withDrawableAttr(R.drawable.ic_rank, if (isRankEmpty) {
-                                R.attr.clDisable
+                                getEnableTint(b = false)
                             } else {
                                 getTint(noteModel.noteEntity.haveRank())
                             })
@@ -236,6 +237,7 @@ class NotePanel(private val callback: INoteScreen) : ParentUi(),
     }
 
     @AttrRes private fun getTint(b: Boolean) = if (b) R.attr.clAccent else R.attr.clContent
+    @AttrRes private fun getEnableTint(b: Boolean) = if (b) R.attr.clContent else R.attr.clDisable
 
     companion object {
         operator fun invoke(func: NotePanel.() -> Unit, callback: INoteScreen) =

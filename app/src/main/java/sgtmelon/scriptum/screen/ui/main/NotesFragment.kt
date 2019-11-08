@@ -2,6 +2,7 @@ package sgtmelon.scriptum.screen.ui.main
 
 import android.content.DialogInterface
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -73,6 +74,11 @@ class NotesFragment : ParentFragment(), INotesFragment {
     private var emptyInfoView: View? = null
     private var recyclerView: RecyclerView? = null
 
+    /**
+     * Handler for show addFab after long standstill.
+     */
+    private val fabHandler = Handler()
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         binding = inflater.inflateBinding(R.layout.fragment_notes, container)
@@ -92,6 +98,11 @@ class NotesFragment : ParentFragment(), INotesFragment {
     override fun onResume() {
         super.onResume()
         iViewModel.onUpdateData()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        fabHandler.removeCallbacksAndMessages(null)
     }
 
     override fun onDestroy() {
@@ -150,8 +161,17 @@ class NotesFragment : ParentFragment(), INotesFragment {
 
             it.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    super.onScrolled(recyclerView, dx, dy)
-                    callback?.changeFabState(state = dy <= 0)
+                    /**
+                     * Visible only if scroll to top.
+                     */
+                    val isTopScroll = dy <= 0
+
+                    callback?.onFabStateChange(isTopScroll)
+
+                    fabHandler.removeCallbacksAndMessages(null)
+                    fabHandler.postDelayed({
+                        callback?.onFabStateChange(state = true)
+                    }, FAB_STANDSTILL_TIME)
                 }
             })
         }
@@ -263,5 +283,10 @@ class NotesFragment : ParentFragment(), INotesFragment {
     override fun notifyInfoBind(count: Int) = iBindControl.notifyInfo(count)
 
     override fun copyClipboard(text: String) = iClipboardControl.copy(text)
+
+
+    companion object {
+        const val FAB_STANDSTILL_TIME = 2000L
+    }
 
 }

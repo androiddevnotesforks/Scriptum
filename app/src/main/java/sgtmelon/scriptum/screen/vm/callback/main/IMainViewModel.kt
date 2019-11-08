@@ -17,6 +17,8 @@ interface IMainViewModel : IParentViewModel, MainReceiver.Callback {
 
     fun onSelectItem(@IdRes itemId: Int)
 
+    fun onFabStateChange(state: Boolean)
+
     fun onResultAddDialog(menuItem: MenuItem)
 
 }

@@ -7,6 +7,7 @@ import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.screen.ui.main.MainActivity
 import sgtmelon.scriptum.test.ParentUiTest
+import sgtmelon.scriptum.ui.ParentRecyclerItem.Companion.PREVENT_SCROLL
 
 /**
  * Test for [MainActivity]
@@ -49,18 +50,35 @@ class MainTest : ParentUiTest() {
      * Page Scroll Top
      */
 
-    @Test fun rankScreenScrollTop() = launch({ data.fillRank() }) {
-        mainScreen { rankScreen { onScroll(Scroll.END) }.onScrollTop() }
+    @Test fun rankScreenScrollTop() = data.fillRank().let {
+        launch {
+            mainScreen {
+                rankScreen { onScroll(Scroll.END) }.onScrollTop()
+                PREVENT_SCROLL = true
+                rankScreen { openRenameDialog(it.first().name, p = 0) }
+            }
+        }
     }
 
-    @Test fun notesScreenScrollTop() = launch({ data.fillNotes() }) {
-        mainScreen { notesScreen { onScroll(Scroll.END) }.onScrollTop() }
+    @Test fun notesScreenScrollTop() = data.fillNotes().let {
+        launch {
+            mainScreen {
+                notesScreen { onScroll(Scroll.END) }.onScrollTop()
+                PREVENT_SCROLL = true
+                notesScreen { openNoteDialog(it.first(), p = 0) }
+            }
+        }
     }
 
-    @Test fun binScreenScrollTop() = launch({ data.fillBin() }) {
-        mainScreen { binScreen { onScroll(Scroll.END) }.onScrollTop() }
+    @Test fun binScreenScrollTop() = data.fillBin().let {
+        launch {
+            mainScreen {
+                binScreen { onScroll(Scroll.END) }.onScrollTop()
+                PREVENT_SCROLL = true
+                binScreen { openNoteDialog(it.first(), p = 0) }
+            }
+        }
     }
-
 
     private companion object {
         val pageList = arrayListOf(

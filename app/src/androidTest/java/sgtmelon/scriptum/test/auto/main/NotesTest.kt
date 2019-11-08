@@ -3,7 +3,9 @@ package sgtmelon.scriptum.test.auto.main
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.scriptum.basic.extension.waitBefore
 import sgtmelon.scriptum.data.Scroll
+import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.screen.ui.main.NotesFragment
 import sgtmelon.scriptum.test.ParentUiTest
 
@@ -25,12 +27,41 @@ class NotesTest : ParentUiTest() {
         mainScreen { notesScreen { onScrollThrough() } }
     }
 
-    @Test fun addFabVisibleOnScroll() = launch({ data.fillNotes() }) {
+    @Test fun addFabOnScrollAndPageChange() = launch({ data.fillNotes(count = 45) }) {
+        mainScreen {
+            listOf(MainPage.RANK, MainPage.BIN).forEach { pageTo ->
+                notesScreen { onScroll(Scroll.END, time = 5) }
+                assert(fabVisible = false)
+                notesScreen { onScroll(Scroll.START, time = 1) }
+                assert(fabVisible = true)
+                notesScreen { onScroll(Scroll.START, time = 2) }
+                onNavigateTo(pageTo)
+                assert(fabVisible = false)
+                onNavigateTo(MainPage.NOTES)
+            }
+        }
+    }
+
+    @Test fun addFabOnResume() = launch({ data.fillNotes() }) {
         mainScreen {
             notesScreen { onScroll(Scroll.END, time = 1) }
             assert(fabVisible = false)
-            notesScreen { onScroll(Scroll.START, time = 1) }
+            notesScreen { openPreference { onClickClose() } }
             assert(fabVisible = true)
+        }
+    }
+
+    @Test fun addFabStandstill() = launch({ data.fillNotes() }) {
+        mainScreen {
+            notesScreen { onScroll(Scroll.END, time = 1) }
+            assert(fabVisible = false)
+            waitBefore(NotesFragment.FAB_STANDSTILL_TIME) { assert(fabVisible = true) }
+
+            onScrollTop()
+            notesScreen { onScroll(Scroll.END, time = 1) }
+            assert(fabVisible = false)
+            onNavigateTo(MainPage.BIN)
+            waitBefore(NotesFragment.FAB_STANDSTILL_TIME) { assert(fabVisible = false) }
         }
     }
 

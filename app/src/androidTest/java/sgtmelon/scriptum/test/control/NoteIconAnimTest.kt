@@ -15,8 +15,6 @@ import sgtmelon.scriptum.test.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class NoteIconAnimTest : ParentUiTest() {
 
-    // TODO #TEST animation from arrow to cross on text/roll auto save
-
     @Test fun arrowBackOnCreateTextNote() = data.createText().let {
         launch { mainScreen { addDialog { waitAfter(TIME) { createText(it) } } } }
     }

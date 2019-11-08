@@ -2,11 +2,11 @@ package sgtmelon.scriptum.screen.vm.main
 
 import android.app.Application
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.annotation.IdRes
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.data.NoteData
-import sgtmelon.scriptum.model.data.ReceiverData.Filter.MAIN
 import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.screen.ui.main.MainActivity
@@ -24,7 +24,7 @@ class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(a
      */
     private var firstStart: Boolean = true
 
-    private var pageFrom: MainPage = MainPage.NOTES
+    private var pageFrom: MainPage = START_PAGE
 
     override fun onSetup(bundle: Bundle?) {
         bundle?.let {
@@ -34,7 +34,7 @@ class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(a
 
         callback?.setupNavigation(pageFrom.getMenuId())
 
-        bundle?.let { callback?.changeFabState(state = pageFrom == MainPage.NOTES) }
+        bundle?.let { callback?.setFabState(state = pageFrom == MainPage.NOTES) }
     }
 
 
@@ -52,12 +52,19 @@ class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(a
             if (firstStart) firstStart = false
 
             callback?.apply {
-                changeFabState(state = pageTo == MainPage.NOTES)
+                setFabState(pageTo.isStartPage())
                 showPage(pageFrom, pageTo)
             }
         }
 
         pageFrom = pageTo
+    }
+
+    /**
+     * Change FAB state consider [pageFrom].
+     */
+    override fun onFabStateChange(state: Boolean) {
+        callback?.setFabState(pageFrom.isStartPage() && state)
     }
 
     override fun onResultAddDialog(menuItem: MenuItem) {
@@ -67,11 +74,11 @@ class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(a
 
 
     override fun onReceiveUnbindNote(id: Long) {
-        if (pageFrom == MainPage.NOTES) callback?.onCancelNoteBind(id)
+        if (pageFrom.isStartPage()) callback?.onCancelNoteBind(id)
     }
 
     override fun onReceiveUpdateAlarm(id: Long) {
-        if (pageFrom == MainPage.NOTES) callback?.onUpdateAlarm(id)
+        if (pageFrom.isStartPage()) callback?.onUpdateAlarm(id)
     }
 
 
@@ -92,7 +99,11 @@ class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(a
         }
     }
 
+    private fun MainPage.isStartPage() = this == START_PAGE
+
     private companion object {
+        val START_PAGE = MainPage.NOTES
+
         const val PREFIX = "MAIN"
 
         const val FIRST_START = "${PREFIX}_FIRST_START"

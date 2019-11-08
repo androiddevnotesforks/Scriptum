@@ -1,9 +1,9 @@
 package sgtmelon.scriptum.repository.rank
 
 import android.content.Context
+import sgtmelon.scriptum.model.data.DbData
 import sgtmelon.scriptum.room.IRoomWork
 import sgtmelon.scriptum.room.RoomDb
-import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RankEntity
 
 /**
@@ -24,8 +24,8 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
     override fun delete(rankEntity: RankEntity) = inRoom {
         for (id in rankEntity.noteId) {
             val noteEntity = iNoteDao[id]?.apply {
-                rankId = NoteEntity.ND_RANK_ID
-                rankPs = NoteEntity.ND_RANK_PS
+                rankId = DbData.Note.Default.RANK_ID
+                rankPs = DbData.Note.Default.RANK_PS
             } ?: continue
 
             iNoteDao.update(noteEntity)

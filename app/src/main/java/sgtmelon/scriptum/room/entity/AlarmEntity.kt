@@ -4,6 +4,8 @@ import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.data.DbData.Alarm
+import sgtmelon.scriptum.model.data.DbData.Alarm.Default
+import sgtmelon.scriptum.model.data.DbData.Alarm.Room
 import sgtmelon.scriptum.model.data.DbData.Note
 
 /**
@@ -21,22 +23,16 @@ import sgtmelon.scriptum.model.data.DbData.Note
         indices = [Index(value = [Alarm.NOTE_ID], name = Alarm.INDEX_NOTE_ID, unique = true)]
 )
 data class AlarmEntity(
-        @ColumnInfo(name = Alarm.ID) @PrimaryKey(autoGenerate = true) var id: Long = ND_ID,
-        @ColumnInfo(name = Alarm.NOTE_ID) var noteId: Long = ND_NOTE_ID,
-        @ColumnInfo(name = Alarm.DATE) var date: String = ND_DATE
+        @ColumnInfo(name = Alarm.ID, defaultValue = Room.ID) @PrimaryKey(autoGenerate = true) var id: Long = Default.ID,
+        @ColumnInfo(name = Alarm.NOTE_ID, defaultValue = Room.NOTE_ID) var noteId: Long = Default.NOTE_ID,
+        @ColumnInfo(name = Alarm.DATE, defaultValue = Room.DATE) var date: String = Default.DATE
 ) {
 
-    fun needInsert() = id == ND_ID
+    fun needInsert() = id == Default.ID
 
     fun clear() = apply {
-        id = ND_ID
-        date = ND_DATE
-    }
-
-    companion object {
-        const val ND_ID = 0L
-        const val ND_NOTE_ID = 0L
-        const val ND_DATE = ""
+        id = Default.ID
+        date = Default.DATE
     }
 
 }

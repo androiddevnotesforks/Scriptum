@@ -8,6 +8,8 @@ import sgtmelon.scriptum.extension.getCheck
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.data.DbData.Note
+import sgtmelon.scriptum.model.data.DbData.Note.Default
+import sgtmelon.scriptum.model.data.DbData.Note.Room
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.room.converter.BoolConverter
 import sgtmelon.scriptum.room.converter.NoteTypeConverter
@@ -18,17 +20,17 @@ import sgtmelon.scriptum.room.converter.NoteTypeConverter
 @Entity(tableName = Note.TABLE)
 @TypeConverters(BoolConverter::class, NoteTypeConverter::class)
 data class NoteEntity(
-        @ColumnInfo(name = Note.ID) @PrimaryKey(autoGenerate = true) var id: Long = ND_ID,
-        @ColumnInfo(name = Note.CREATE) var create: String = ND_CREATE,
-        @ColumnInfo(name = Note.CHANGE) var change: String = ND_CHANGE,
-        @ColumnInfo(name = Note.NAME) var name: String = ND_NAME,
-        @ColumnInfo(name = Note.TEXT) var text: String = ND_TEXT,
-        @ColumnInfo(name = Note.COLOR) @Color var color: Int = ND_COLOR,
-        @ColumnInfo(name = Note.TYPE) var type: NoteType = NoteType.TEXT,
-        @ColumnInfo(name = Note.RANK_ID) var rankId: Long = ND_RANK_ID,
-        @ColumnInfo(name = Note.RANK_PS) var rankPs: Int = ND_RANK_PS,
-        @ColumnInfo(name = Note.BIN) var isBin: Boolean = ND_BIN,
-        @ColumnInfo(name = Note.STATUS) var isStatus: Boolean = ND_STATUS
+        @ColumnInfo(name = Note.ID, defaultValue = Room.ID) @PrimaryKey(autoGenerate = true) var id: Long = Default.ID,
+        @ColumnInfo(name = Note.CREATE, defaultValue = Room.CREATE) var create: String = Default.CREATE,
+        @ColumnInfo(name = Note.CHANGE, defaultValue = Room.CHANGE) var change: String = Default.CHANGE,
+        @ColumnInfo(name = Note.NAME, defaultValue = Room.NAME) var name: String = Default.NAME,
+        @ColumnInfo(name = Note.TEXT, defaultValue = Room.TEXT) var text: String = Default.TEXT,
+        @ColumnInfo(name = Note.COLOR, defaultValue = Room.COLOR) @Color var color: Int = Default.COLOR,
+        @ColumnInfo(name = Note.TYPE, defaultValue = Room.TYPE) var type: NoteType = Default.TYPE,
+        @ColumnInfo(name = Note.RANK_ID, defaultValue = Room.RANK_ID) var rankId: Long = Default.RANK_ID,
+        @ColumnInfo(name = Note.RANK_PS, defaultValue = Room.RANK_PS) var rankPs: Int = Default.RANK_PS,
+        @ColumnInfo(name = Note.BIN, defaultValue = Room.BIN) var isBin: Boolean = Default.BIN,
+        @ColumnInfo(name = Note.STATUS, defaultValue = Room.STATUS) var isStatus: Boolean = Default.STATUS
 ) {
 
     fun setCompleteText(check: Int, size: Int) {
@@ -48,24 +50,11 @@ data class NoteEntity(
     }
 
     fun isVisible(rankIdVisibleList: List<Long>) =
-            rankId == ND_RANK_ID || rankIdVisibleList.contains(rankId)
+            rankId == Default.RANK_ID || rankIdVisibleList.contains(rankId)
 
     fun isNotVisible(rankIdVisibleList: List<Long>) =
-            rankId != ND_RANK_ID && !rankIdVisibleList.contains(rankId)
+            rankId != Default.RANK_ID && !rankIdVisibleList.contains(rankId)
 
-    fun haveRank() = rankId != ND_RANK_ID
-
-    companion object {
-        const val ND_ID = 0L
-        const val ND_CREATE = ""
-        const val ND_CHANGE = ""
-        const val ND_NAME = ""
-        const val ND_TEXT = ""
-        const val ND_COLOR = 0
-        const val ND_RANK_ID = -1L
-        const val ND_RANK_PS = -1
-        const val ND_BIN = false
-        const val ND_STATUS = false
-    }
+    fun haveRank() = rankId != Default.RANK_ID
 
 }

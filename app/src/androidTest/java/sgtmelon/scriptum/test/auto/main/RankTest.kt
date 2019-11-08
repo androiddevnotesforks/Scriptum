@@ -43,8 +43,16 @@ class RankTest : ParentUiTest() {
     }
 
     @Test fun toolbarEnterClear() = launch {
+        val name = data.uniqueString
+
         mainScreen {
-            rankScreen(empty = true) { toolbar { onEnterName(data.uniqueString).onClickClear() } }
+            rankScreen(empty = true) {
+                toolbar {
+                    onEnterName(data.uniqueString).onClickClear()
+                    onEnterName(name).onClickAdd()
+                }
+                openRenameDialog(name) { onCloseSoft() }
+            }
         }
     }
 

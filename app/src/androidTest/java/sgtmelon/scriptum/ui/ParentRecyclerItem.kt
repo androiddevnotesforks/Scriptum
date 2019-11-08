@@ -31,7 +31,7 @@ abstract class ParentRecyclerItem<T> protected constructor(
             ?: throw NullPointerException(PROVIDE_ERROR_TEXT)
 
     init {
-        scrollToItem()
+        if (!PREVENT_SCROLL) scrollToItem() else PREVENT_SCROLL = false
     }
 
     abstract fun assert(model: T)
@@ -50,6 +50,11 @@ abstract class ParentRecyclerItem<T> protected constructor(
 
     companion object {
         private const val PROVIDE_ERROR_TEXT = "You didn't provide itemMatcher OR position."
+
+        /**
+         * Variable for prevent auto-scroll to item on class init
+         */
+        var PREVENT_SCROLL = false
     }
 
 }

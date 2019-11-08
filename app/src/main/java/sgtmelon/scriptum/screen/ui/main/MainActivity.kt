@@ -64,6 +64,11 @@ class MainActivity : AppActivity(), IMainActivity {
 
         openState.changeEnabled = true
         openState.clear()
+
+        /**
+         * Show FAB on return to screen if it possible.
+         */
+        onFabStateChange(state = true)
     }
 
     override fun onDestroy() {
@@ -102,11 +107,6 @@ class MainActivity : AppActivity(), IMainActivity {
             val animTime = resources.getInteger(R.integer.fade_anim_time).toLong()
 
             setOnNavigationItemSelectedListener {
-                /**
-                 * For best performance on fast pages click.
-                 */
-                if (it.isChecked) return@setOnNavigationItemSelectedListener false
-
                 return@setOnNavigationItemSelectedListener openState.tryReturnInvoke {
                     openState.block(animTime)
                     iViewModel.onSelectItem(it.itemId)
@@ -128,7 +128,10 @@ class MainActivity : AppActivity(), IMainActivity {
         }
     }
 
-    override fun changeFabState(state: Boolean) {
+
+    override fun onFabStateChange(state: Boolean) = iViewModel.onFabStateChange(state)
+
+    override fun setFabState(state: Boolean) {
         fab?.setState(state)
     }
 
@@ -190,9 +193,9 @@ class MainActivity : AppActivity(), IMainActivity {
         }
     }
 
-    private fun FloatingActionButton.setState(state: Boolean) {
-        if (state) show() else hide()
-        isEnabled = state
+    private fun FloatingActionButton.setState(isVisible: Boolean) {
+        if (isVisible) show() else hide()
+        isEnabled = isVisible
     }
 
     /**

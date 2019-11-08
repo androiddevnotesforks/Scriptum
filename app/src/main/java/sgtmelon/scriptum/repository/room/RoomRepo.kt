@@ -5,6 +5,7 @@ import sgtmelon.extension.getTime
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Sort
+import sgtmelon.scriptum.model.data.DbData
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.repository.preference.IPreferenceRepo
@@ -36,13 +37,19 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
         val list = ArrayList<NoteModel>().apply {
             inRoom {
                 val rankIdVisibleList = iRankDao.getIdVisibleList()
-
-                when (sortType) {
+                var list = when (sortType) {
                     Sort.CHANGE -> iNoteDao.getByChange(bin)
                     Sort.CREATE -> iNoteDao.getByCreate(bin)
                     Sort.RANK -> iNoteDao.getByRank(bin)
                     else -> iNoteDao.getByColor(bin)
-                }.filter { it.isVisible(rankIdVisibleList) }.forEach {
+                }
+
+                /**
+                 * Notes must be showed in list if [bin] != true even if rank not visible.
+                 */
+                if (!bin) list = list.filter { it.isVisible(rankIdVisibleList) }
+
+                list.forEach {
                     add(NoteModel(
                             it, iRollDao.getView(it.id),
                             alarmEntity = iAlarmDao[it.id] ?: AlarmEntity(noteId = it.id)
@@ -56,8 +63,8 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
         /**
          * TODO упростить (заметки без категорий стоят в самом конце, а не в начале, функция исправляет это)
          */
-        if (list.any { it.noteEntity.rankId != NoteEntity.ND_RANK_ID }) {
-            while (list.first().noteEntity.rankId == NoteEntity.ND_RANK_ID) {
+        if (list.any { it.noteEntity.rankId != DbData.Note.Default.RANK_ID }) {
+            while (list.first().noteEntity.rankId == DbData.Note.Default.RANK_ID) {
                 val noteModel = list.first()
                 list.removeAt(0)
                 list.add(noteModel)
@@ -320,9 +327,12 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
      * [rankDao] pass via parameter because don't need close [RoomDb]
      */
     private fun clearRankConnection(rankDao: IRankDao, noteEntity: NoteEntity) {
-        if (noteEntity.rankId == NoteEntity.ND_RANK_ID) return
+        if (noteEntity.rankId == DbData.Note.Default.RANK_ID) return
 
-        val rankEntity = rankDao[noteEntity.rankId].apply { noteId.remove(noteEntity.id) }
+        val rankEntity = rankDao[noteEntity.rankId]?.apply {
+            noteId.remove(noteEntity.id)
+        } ?: return
+
         rankDao.update(rankEntity)
     }
 
