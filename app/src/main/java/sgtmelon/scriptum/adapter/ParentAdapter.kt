@@ -55,4 +55,6 @@ abstract class ParentAdapter<T, VH : RecyclerView.ViewHolder>() : RecyclerView.A
         notifyItemMoved(from, to)
     }
 
+    // TODO #REFACTOR add interfaces for implement in ui classes
+
 }

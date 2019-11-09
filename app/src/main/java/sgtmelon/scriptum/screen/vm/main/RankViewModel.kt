@@ -2,6 +2,7 @@ package sgtmelon.scriptum.screen.vm.main
 
 import android.app.Application
 import android.os.Bundle
+import android.util.Log
 import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
@@ -12,7 +13,7 @@ import sgtmelon.scriptum.interactor.BindInteractor
 import sgtmelon.scriptum.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.interactor.main.RankInteractor
-import sgtmelon.scriptum.room.entity.RankEntity
+import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.screen.ui.callback.main.IRankFragment
 import sgtmelon.scriptum.screen.ui.main.RankFragment
 import sgtmelon.scriptum.screen.vm.ParentViewModel
@@ -27,7 +28,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     private val iInteractor: IRankInteractor by lazy { RankInteractor(context) }
     private val iBindInteractor: IBindInteractor by lazy { BindInteractor(context) }
 
-    private val itemList: MutableList<RankEntity> = ArrayList()
+    private val itemList: MutableList<RankItem> = ArrayList()
     private val nameList: List<String> get() = itemList.map { it.name.toUpperCase() }
 
     override fun onSetup(bundle: Bundle?) {
@@ -101,6 +102,8 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         iInteractor.update(itemList)
 
         callback?.scrollToItem(simpleClick, p, itemList)
+
+        Log.i("HERE", "list:\n${itemList.joinToString("\n")}")
     }
 
     override fun onClickVisible(p: Int) {

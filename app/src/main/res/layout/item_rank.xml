@@ -4,7 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="rankEntity" type="sgtmelon.scriptum.room.entity.RankEntity"/>
+        <variable name="item" type="sgtmelon.scriptum.model.item.RankItem"/>
     </data>
 
     <androidx.cardview.widget.CardView
@@ -52,7 +52,7 @@
                 <TextView
                         android:id="@+id/rank_name_text"
                         style="@style/Text.SmallCard.Title"
-                        android:text='@{rankEntity.name}'
+                        android:text='@{item.name}'
                         tools:text="@string/preview_rank_name"/>
 
                 <TextView
@@ -60,7 +60,7 @@
                         style="@style/Text.SmallCard.Subtitle"
                         android:layout_marginEnd="@dimen/layout_4dp"
                         android:layout_marginRight="@dimen/layout_4dp"
-                        android:text='@{@string/list_item_rank_count + " " + rankEntity.noteId.size()}'
+                        android:text='@{@string/list_item_rank_count + " " + item.noteId.size()}'
                         tools:text="@string/preview_rank_count"/>
 
             </LinearLayout>

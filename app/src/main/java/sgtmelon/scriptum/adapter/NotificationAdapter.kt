@@ -21,6 +21,6 @@ class NotificationAdapter(private val clickListener: ItemListener.Click) :
             NotificationHolder(parent.inflateBinding(R.layout.item_notification), clickListener)
 
     override fun onBindViewHolder(holder: NotificationHolder, position: Int) =
-            holder.bind(theme, list[position])
+            holder.bind(list[position], theme)
 
 }

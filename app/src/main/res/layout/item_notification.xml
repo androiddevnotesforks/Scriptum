@@ -4,8 +4,8 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable name="item" type="sgtmelon.scriptum.model.item.NotificationItem"/>
         <variable name="currentTheme" type="int"/>
-        <variable name="notificationItem" type="sgtmelon.scriptum.model.item.NotificationItem"/>
     </data>
 
     <androidx.cardview.widget.CardView
@@ -29,7 +29,7 @@
                     style="@style/Image.Color.Vertical.Start"
                     android:contentDescription="@null"
                     app:indicatorTheme='@{currentTheme}'
-                    app:indicatorColor='@{notificationItem.note.color}'
+                    app:indicatorColor='@{item.note.color}'
                     tools:visibility="visible"/>
 
             <LinearLayout
@@ -46,7 +46,7 @@
                 <TextView
                         android:id="@+id/notification_name_text"
                         style="@style/Text.SmallCard.Title"
-                        android:text='@{notificationItem.note.name.isEmpty() ? @string/hint_text_name : notificationItem.note.name}'
+                        android:text='@{item.note.name.isEmpty() ? @string/hint_text_name : item.note.name}'
                         tools:text="@string/preview_notification_name"/>
 
                 <TextView
@@ -54,7 +54,7 @@
                         style="@style/Text.SmallCard.Subtitle"
                         android:layout_marginEnd="@dimen/layout_4dp"
                         android:layout_marginRight="@dimen/layout_4dp"
-                        app:futureTime='@{notificationItem.alarm.date}'
+                        app:futureTime='@{item.alarm.date}'
                         tools:text="@string/preview_notification_date"/>
 
             </LinearLayout>

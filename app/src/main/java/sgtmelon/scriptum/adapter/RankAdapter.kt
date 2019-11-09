@@ -5,7 +5,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.holder.RankHolder
 import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.listener.ItemListener
-import sgtmelon.scriptum.room.entity.RankEntity
+import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.screen.ui.main.RankFragment
 
 /**
@@ -14,13 +14,13 @@ import sgtmelon.scriptum.screen.ui.main.RankFragment
 class RankAdapter(
         private val clickListener: ItemListener.ActionClick,
         private val longClickListener: ItemListener.LongClick
-) : ParentAdapter<RankEntity, RankHolder>() {
+) : ParentAdapter<RankItem, RankHolder>() {
 
     var dragListener: ItemListener.Drag? = null
 
     var startAnim: BooleanArray = BooleanArray(size = 0)
 
-    override fun setList(list: List<RankEntity>) {
+    override fun setList(list: List<RankItem>) {
         super.setList(list)
         startAnim = BooleanArray(list.size)
     }

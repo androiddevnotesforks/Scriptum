@@ -4,6 +4,7 @@ import android.content.Context
 
 import sgtmelon.scriptum.interactor.ParentInteractor
 import sgtmelon.scriptum.interactor.callback.main.IRankInteractor
+import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.repository.rank.IRankRepo
 import sgtmelon.scriptum.repository.rank.RankRepo
 import sgtmelon.scriptum.room.entity.RankEntity
@@ -17,16 +18,19 @@ class RankInteractor(context: Context) : ParentInteractor(context), IRankInterac
     private val iRankRepo: IRankRepo = RankRepo(context)
 
 
-    override fun insert(name: String) = RankEntity(name = name).apply {
+    override fun insert(name: String): RankItem = RankEntity(name = name).apply {
         id = iRankRepo.insert(rankEntity = this)
     }
 
-    override fun getList() = iRankRepo.getList()
+    override fun getList(): MutableList<RankItem> {
+        iRankRepo.getList()
+        return arrayListOf()
+    }
 
-    override fun delete(rankEntity: RankEntity) = iRankRepo.delete(rankEntity)
+    override fun delete(rankEntity: RankItem) = iRankRepo.delete(rankEntity)
 
-    override suspend fun update(rankEntity: RankEntity) = iRankRepo.update(rankEntity)
+    override suspend fun update(rankEntity: RankItem) = iRankRepo.update(rankEntity)
 
-    override fun update(list: List<RankEntity>) = iRankRepo.update(list)
+    override fun update(list: List<RankItem>) = iRankRepo.update(list)
 
 }

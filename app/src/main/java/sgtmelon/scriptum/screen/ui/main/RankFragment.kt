@@ -26,6 +26,7 @@ import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.NoteModel
+import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.screen.ui.ParentFragment
 import sgtmelon.scriptum.screen.ui.callback.main.IMainActivity
@@ -200,7 +201,7 @@ class RankFragment : ParentFragment(), IRankFragment {
         return name
     }
 
-    override fun scrollToItem(simpleClick: Boolean, p: Int, list: MutableList<RankEntity>) {
+    override fun scrollToItem(simpleClick: Boolean, p: Int, list: MutableList<RankItem>) {
         openState?.clear()
 
         if (list.size == 1) {
@@ -230,26 +231,26 @@ class RankFragment : ParentFragment(), IRankFragment {
     }
 
 
-    override fun notifyVisible(p: Int, item: RankEntity) = adapter.setListItem(p, item)
+    override fun notifyVisible(p: Int, item: RankItem) = adapter.setListItem(p, item)
 
-    override fun notifyVisible(startAnim: BooleanArray, list: MutableList<RankEntity>) {
+    override fun notifyVisible(startAnim: BooleanArray, list: MutableList<RankItem>) {
         adapter.apply {
             setList(list)
             this.startAnim = startAnim
         }.notifyDataSetChanged()
     }
 
-    override fun notifyDataSetChanged(list: MutableList<RankEntity>) {
+    override fun notifyDataSetChanged(list: MutableList<RankItem>) {
         adapter.notifyDataSetChanged(list)
     }
 
-    override fun notifyItemChanged(p: Int, item: RankEntity) = adapter.notifyItemChanged(item, p)
+    override fun notifyItemChanged(p: Int, item: RankItem) = adapter.notifyItemChanged(item, p)
 
-    override fun notifyItemRemoved(p: Int, list: MutableList<RankEntity>) {
+    override fun notifyItemRemoved(p: Int, list: MutableList<RankItem>) {
         adapter.notifyItemRemoved(p, list)
     }
 
-    override fun notifyItemMoved(from: Int, to: Int, list: MutableList<RankEntity>) {
+    override fun notifyItemMoved(from: Int, to: Int, list: MutableList<RankItem>) {
         adapter.notifyItemMoved(from, to, list)
     }
 

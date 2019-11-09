@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.screen.ui.callback.main
 
-import sgtmelon.scriptum.room.entity.RankEntity
+import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.screen.ui.main.RankFragment
 import sgtmelon.scriptum.screen.vm.main.RankViewModel
 
@@ -23,21 +23,21 @@ interface IRankFragment : IRankBridge {
 
     fun clearEnter(): String
 
-    fun scrollToItem(simpleClick: Boolean, p: Int, list: MutableList<RankEntity>)
+    fun scrollToItem(simpleClick: Boolean, p: Int, list: MutableList<RankItem>)
 
     fun showRenameDialog(p: Int, name: String, nameList: List<String>)
 
 
-    fun notifyVisible(p: Int, item: RankEntity)
+    fun notifyVisible(p: Int, item: RankItem)
 
-    fun notifyVisible(startAnim: BooleanArray, list: MutableList<RankEntity>)
+    fun notifyVisible(startAnim: BooleanArray, list: MutableList<RankItem>)
 
-    fun notifyDataSetChanged(list: MutableList<RankEntity>)
+    fun notifyDataSetChanged(list: MutableList<RankItem>)
 
-    fun notifyItemChanged(p: Int, item: RankEntity)
+    fun notifyItemChanged(p: Int, item: RankItem)
 
-    fun notifyItemRemoved(p: Int, list: MutableList<RankEntity>)
+    fun notifyItemRemoved(p: Int, list: MutableList<RankItem>)
 
-    fun notifyItemMoved(from: Int, to: Int, list: MutableList<RankEntity>)
+    fun notifyItemMoved(from: Int, to: Int, list: MutableList<RankItem>)
 
 }

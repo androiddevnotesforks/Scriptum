@@ -11,7 +11,7 @@ import sgtmelon.scriptum.adapter.RankAdapter
 import sgtmelon.scriptum.databinding.ItemRankBinding
 import sgtmelon.scriptum.extension.checkNoPosition
 import sgtmelon.scriptum.listener.ItemListener
-import sgtmelon.scriptum.room.entity.RankEntity
+import sgtmelon.scriptum.model.item.RankItem
 
 /**
  * Holder for rank, use in [RankAdapter]
@@ -58,10 +58,10 @@ class RankHolder(
         visibleButton.setOnTouchListener(this)
     }
 
-    fun bind(rankEntity: RankEntity, startAnim: Boolean) {
-        visibleButton.setDrawable(rankEntity.isVisible, startAnim)
+    fun bind(item: RankItem, startAnim: Boolean) {
+        visibleButton.setDrawable(item.isVisible, startAnim)
 
-        binding.rankEntity = rankEntity
+        binding.item = item
         binding.executePendingBindings()
     }
 
