@@ -7,6 +7,7 @@ import sgtmelon.scriptum.room.IRoomWork
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.converter.RankConverter
 import sgtmelon.scriptum.room.dao.INoteDao
+import sgtmelon.scriptum.room.entity.RankEntity
 
 /**
  * Repository of [RoomDb] for work with ranks
@@ -19,7 +20,7 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
 
     override fun insert(name: String): RankItem {
         val id: Long
-        openRoom().apply { id = iRankDao.insert(name) }.close()
+        openRoom().apply { id = iRankDao.insert(RankEntity(name = name)) }.close()
 
         return RankItem(id, name = name)
     }
