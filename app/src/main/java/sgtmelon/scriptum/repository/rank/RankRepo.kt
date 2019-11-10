@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.repository.rank
 
 import android.content.Context
+import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.data.DbData
 import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.room.IRoomWork
@@ -27,8 +28,8 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
 
     override fun getList() = ArrayList<RankItem>().apply { inRoom { addAll(iRankDao.get()) } }
 
-    override fun delete(rankItem: RankItem) = inRoom {
-        for (id in rankItem.noteId) {
+    override fun delete(item: RankItem) = inRoom {
+        for (id in item.noteId) {
             val noteEntity = iNoteDao[id]?.apply {
                 rankId = DbData.Note.Default.RANK_ID
                 rankPs = DbData.Note.Default.RANK_PS
@@ -37,7 +38,7 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
             iNoteDao.update(noteEntity)
         }
 
-        iRankDao.delete(rankItem.name)
+        iRankDao.delete(item.name)
     }
 
     override fun update(item: RankItem) = inRoom { iRankDao.update(converter.toEntity(item)) }
@@ -74,6 +75,34 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
         }
 
         update(noteList)
+    }
+
+    /**
+     * Add note to [RankItem] or remove after some changes
+     */
+    override fun updateConnection(noteModel: NoteModel) = inRoom {
+        val list = iRankDao.get()
+        val checkArray = calculateCheckArray(list, noteModel)
+
+        val id = noteModel.noteEntity.id
+        list.forEachIndexed { i, item ->
+            when {
+                checkArray[i] && !item.noteId.contains(id) -> item.noteId.add(id)
+                !checkArray[i] -> item.noteId.remove(id)
+            }
+        }
+
+        iRankDao.update(converter.toEntity(list))
+    }
+
+    // TODO refactor without forEach
+    private fun calculateCheckArray(list: List<RankItem>, noteModel: NoteModel): BooleanArray {
+        val array = BooleanArray(list.size)
+
+        val rankId = noteModel.noteEntity.rankId
+        list.forEachIndexed { i, item -> array[i] = rankId == item.id }
+
+        return array
     }
 
 }

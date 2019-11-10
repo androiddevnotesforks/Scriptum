@@ -95,7 +95,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
     }
 
     override suspend fun clearBin() = inRoom {
-        val noteList = iNoteDao.getByChange(true).apply {
+        val noteList = iNoteDao.getByChange(bin = true).apply {
             forEach { iRankDao.clearConnection(it) }
         }
 
@@ -232,8 +232,6 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
                 iNoteDao.update(noteEntity)
             }
         }
-
-        updateRank(noteEntity)
     }
 
     override fun saveRollNote(noteModel: NoteModel, isCreate: Boolean) = with(noteModel) {
@@ -282,8 +280,6 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
                 iRollDao.delete(noteEntity.id, idSaveList)
             }
         }
-
-        updateRank(noteEntity)
     }
 
     override fun updateRollCheck(noteEntity: NoteEntity, rollEntity: RollEntity) {
@@ -302,28 +298,6 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
 
     override fun updateNote(noteEntity: NoteEntity) = inRoom { iNoteDao.update(noteEntity) }
 
-
-    // TODO clean up private
-
-    /**
-     * Add or remove [NoteEntity.id] from [RankItem.noteId]
-     */
-    private fun updateRank(noteEntity: NoteEntity) = inRoom {
-        val list = iRankDao.get()
-        val checkArray = calculateCheckArray(list, noteEntity)
-
-        val id = noteEntity.id
-        list.forEachIndexed { i, item ->
-            if (checkArray[i] && !item.noteId.contains(id)) {
-                item.noteId.add(id)
-            } else if (!checkArray[i]) {
-                item.noteId.remove(id)
-            }
-        }
-
-        iRankDao.update(rankConverter.toEntity(list))
-    }
-
     /**
      * Remove relation between [RankItem] and [NoteEntity] which will be delete
      */
@@ -335,15 +309,6 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
         } ?: return
 
         update(rankConverter.toEntity(rankItem))
-    }
-
-    // TODO refactor without forEach
-    private fun calculateCheckArray(list: List<RankItem>, noteEntity: NoteEntity): BooleanArray {
-        val array = BooleanArray(list.size)
-
-        list.forEachIndexed { i, item -> array[i] = noteEntity.rankId == item.id }
-
-        return array
     }
 
 }

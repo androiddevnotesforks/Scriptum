@@ -10,6 +10,8 @@ import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.DbData
 import sgtmelon.scriptum.repository.alarm.AlarmRepo
 import sgtmelon.scriptum.repository.alarm.IAlarmRepo
+import sgtmelon.scriptum.repository.rank.IRankRepo
+import sgtmelon.scriptum.repository.rank.RankRepo
 import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.screen.ui.callback.note.roll.IRollNoteBridge
 import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
@@ -23,6 +25,7 @@ class RollNoteInteractor(context: Context, private var callback: IRollNoteBridge
         IRollNoteInteractor {
 
     private val iAlarmRepo: IAlarmRepo = AlarmRepo(context)
+    private val iRankRepo: IRankRepo = RankRepo(context)
 
     private val rankIdVisibleList: List<Long> = iRoomRepo.getRankIdVisibleList()
 
@@ -93,6 +96,8 @@ class RollNoteInteractor(context: Context, private var callback: IRollNoteBridge
 
     override fun saveNote(noteModel: NoteModel, isCreate: Boolean) {
         iRoomRepo.saveRollNote(noteModel, isCreate)
+        iRankRepo.updateConnection(noteModel)
+
         callback?.notifyNoteBind(noteModel, rankIdVisibleList)
     }
 

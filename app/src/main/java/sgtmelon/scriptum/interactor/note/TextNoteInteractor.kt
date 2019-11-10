@@ -10,6 +10,8 @@ import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.DbData
 import sgtmelon.scriptum.repository.alarm.AlarmRepo
 import sgtmelon.scriptum.repository.alarm.IAlarmRepo
+import sgtmelon.scriptum.repository.rank.IRankRepo
+import sgtmelon.scriptum.repository.rank.RankRepo
 import sgtmelon.scriptum.screen.ui.callback.note.text.ITextNoteBridge
 import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel
 import java.util.*
@@ -22,6 +24,7 @@ class TextNoteInteractor(context: Context, private var callback: ITextNoteBridge
         ITextNoteInteractor {
 
     private val iAlarmRepo: IAlarmRepo = AlarmRepo(context)
+    private val iRankRepo: IRankRepo = RankRepo(context)
 
     private val rankIdVisibleList: List<Long> = iRoomRepo.getRankIdVisibleList()
 
@@ -82,6 +85,8 @@ class TextNoteInteractor(context: Context, private var callback: ITextNoteBridge
 
     override fun saveNote(noteModel: NoteModel, isCreate: Boolean) {
         iRoomRepo.saveTextNote(noteModel, isCreate)
+        iRankRepo.updateConnection(noteModel)
+
         callback?.notifyNoteBind(noteModel, rankIdVisibleList)
     }
 
