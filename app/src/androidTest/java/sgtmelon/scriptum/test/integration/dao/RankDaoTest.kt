@@ -47,7 +47,7 @@ class RankDaoTest : ParentIntegrationTest() {
 
         rankFirst.copy(name = "12345", isVisible = false).let {
             update(it)
-            assertEquals(converter.toItem(it), get(it.id))
+            assertEquals(it, get(it.id))
         }
     }
 
@@ -58,7 +58,7 @@ class RankDaoTest : ParentIntegrationTest() {
         val updateList = arrayListOf(rankFirst.copy(position = 0), rankSecond.copy(position = 1))
 
         update(updateList)
-        updateList.forEach { assertEquals(converter.toItem(it), get(it.id)) }
+        updateList.forEach { assertEquals(it, get(it.id)) }
     }
 
     @Test fun updateWithUnique() = inRankDao {
@@ -67,18 +67,18 @@ class RankDaoTest : ParentIntegrationTest() {
 
         rankSecond.copy(id = rankFirst.id).let {
             update(it)
-            assertEquals(converter.toItem(rankSecond), get(rankSecond.id))
+            assertEquals(rankSecond, get(rankSecond.id))
 
             update(arrayListOf(rankFirst, it))
-            assertEquals(converter.toItem(rankSecond), get(rankSecond.id))
+            assertEquals(rankSecond, get(rankSecond.id))
         }
 
         rankSecond.copy(name = rankFirst.name).let {
             update(it)
-            assertEquals(converter.toItem(rankSecond), get(rankSecond.id))
+            assertEquals(rankSecond, get(rankSecond.id))
 
             update(arrayListOf(rankFirst, it))
-            assertEquals(converter.toItem(rankSecond), get(rankSecond.id))
+            assertEquals(rankSecond, get(rankSecond.id))
         }
     }
 
@@ -87,11 +87,13 @@ class RankDaoTest : ParentIntegrationTest() {
     @Test fun getOnCorrectId() = inRankDao {
         insertAll()
 
-        assertEquals(converter.toItem(rankSecond), get(rankSecond.id))
-        assertEquals(converter.toItem(rankThird), get(rankThird.id))
+        assertEquals(rankSecond, get(rankSecond.id))
+        assertEquals(rankThird, get(rankThird.id))
     }
 
-    @Test fun getList() = inRankDao { assertEquals(converter.toItem(insertAll()), get()) }
+    @Test fun getList() = inRankDao { assertEquals(insertAll(), get()) }
+
+    @Test fun getDisplayList() = inRankDao { assertEquals(converter.toItem(insertAll()), getDisplay()) }
 
     @Test fun getIdVisibleList() = inRankDao {
         assertEquals(insertAll().filter { it.isVisible }.map { it.id }, getIdVisibleList())

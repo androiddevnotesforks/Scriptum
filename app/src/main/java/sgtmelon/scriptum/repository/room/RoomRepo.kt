@@ -7,7 +7,6 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.data.DbData
 import sgtmelon.scriptum.model.data.NoteData
-import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
@@ -17,6 +16,7 @@ import sgtmelon.scriptum.room.converter.RankConverter
 import sgtmelon.scriptum.room.dao.IRankDao
 import sgtmelon.scriptum.room.entity.AlarmEntity
 import sgtmelon.scriptum.room.entity.NoteEntity
+import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.room.entity.RollEntity
 
 /**
@@ -299,16 +299,16 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
     override fun updateNote(noteEntity: NoteEntity) = inRoom { iNoteDao.update(noteEntity) }
 
     /**
-     * Remove relation between [RankItem] and [NoteEntity] which will be delete
+     * Remove relation between [RankEntity] and [NoteEntity] which will be delete
      */
     private fun IRankDao.clearConnection(noteEntity: NoteEntity) {
         if (noteEntity.rankId == DbData.Note.Default.RANK_ID) return
 
-        val rankItem = get(noteEntity.rankId)?.apply {
+        val rankEntity = get(noteEntity.rankId)?.apply {
             noteId.remove(noteEntity.id)
         } ?: return
 
-        update(rankConverter.toEntity(rankItem))
+        update(rankEntity)
     }
 
 }
