@@ -7,15 +7,16 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.data.DbData
 import sgtmelon.scriptum.model.data.NoteData
+import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.room.IRoomWork
 import sgtmelon.scriptum.room.RoomDb
+import sgtmelon.scriptum.room.converter.RankConverter
 import sgtmelon.scriptum.room.dao.IRankDao
 import sgtmelon.scriptum.room.entity.AlarmEntity
 import sgtmelon.scriptum.room.entity.NoteEntity
-import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.room.entity.RollEntity
 
 /**
@@ -30,6 +31,8 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
 
     // TODO think, how remove it
     private val iPreferenceRepo: IPreferenceRepo = PreferenceRepo(context)
+
+    private val rankConverter = RankConverter()
 
     override fun getNoteModelList(bin: Boolean): MutableList<NoteModel> {
         val sortType = iPreferenceRepo.sort
@@ -93,7 +96,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
 
     override suspend fun clearBin() = inRoom {
         val noteList = iNoteDao.getByChange(true).apply {
-            forEach { clearRankConnection(iRankDao, it) }
+            forEach { iRankDao.clearConnection(it) }
         }
 
         iNoteDao.delete(noteList)
@@ -117,7 +120,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
     }
 
     override suspend fun clearNote(noteModel: NoteModel) = inRoom {
-        clearRankConnection(iRankDao, noteModel.noteEntity)
+        iRankDao.clearConnection(noteModel.noteEntity)
         iNoteDao.delete(noteModel.noteEntity)
     }
 
@@ -303,46 +306,44 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
     // TODO clean up private
 
     /**
-     * Add or remove [NoteEntity.id] from [RankEntity.noteId]
+     * Add or remove [NoteEntity.id] from [RankItem.noteId]
      */
     private fun updateRank(noteEntity: NoteEntity) = inRoom {
         val list = iRankDao.get()
-        val check = calculateRankCheckArray(noteEntity, db = this)
+        val checkArray = calculateCheckArray(list, noteEntity)
 
         val id = noteEntity.id
         list.forEachIndexed { i, item ->
-            if (check[i] && !item.noteId.contains(id)) {
+            if (checkArray[i] && !item.noteId.contains(id)) {
                 item.noteId.add(id)
-            } else if (!check[i]) {
+            } else if (!checkArray[i]) {
                 item.noteId.remove(id)
             }
         }
 
-        iRankDao.update(list)
+        iRankDao.update(rankConverter.toEntity(list))
     }
 
     /**
-     * Remove relation between [RankEntity] and [NoteEntity] which will be delete
-     *
-     * [rankDao] pass via parameter because don't need close [RoomDb]
+     * Remove relation between [RankItem] and [NoteEntity] which will be delete
      */
-    private fun clearRankConnection(rankDao: IRankDao, noteEntity: NoteEntity) {
+    private fun IRankDao.clearConnection(noteEntity: NoteEntity) {
         if (noteEntity.rankId == DbData.Note.Default.RANK_ID) return
 
-        val rankEntity = rankDao[noteEntity.rankId]?.apply {
+        val rankItem = get(noteEntity.rankId)?.apply {
             noteId.remove(noteEntity.id)
         } ?: return
 
-        rankDao.update(rankEntity)
+        update(rankConverter.toEntity(rankItem))
     }
 
-    private fun calculateRankCheckArray(noteEntity: NoteEntity, db: RoomDb): BooleanArray {
-        val rankList = db.iRankDao.get()
-        val check = BooleanArray(rankList.size)
+    // TODO refactor without forEach
+    private fun calculateCheckArray(list: List<RankItem>, noteEntity: NoteEntity): BooleanArray {
+        val array = BooleanArray(list.size)
 
-        rankList.forEachIndexed { i, item -> check[i] = noteEntity.rankId == item.id }
+        list.forEachIndexed { i, item -> array[i] = noteEntity.rankId == item.id }
 
-        return check
+        return array
     }
 
 }

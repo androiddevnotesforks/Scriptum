@@ -2,7 +2,6 @@ package sgtmelon.scriptum.screen.vm.main
 
 import android.app.Application
 import android.os.Bundle
-import android.util.Log
 import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
@@ -99,11 +98,9 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         val p = if (simpleClick) itemList.size else 0
         itemList.add(p, iInteractor.insert(name))
 
-        iInteractor.update(itemList)
+        iInteractor.updatePosition(itemList)
 
         callback?.scrollToItem(simpleClick, p, itemList)
-
-        Log.i("HERE", "list:\n${itemList.joinToString("\n")}")
     }
 
     override fun onClickVisible(p: Int) {
@@ -136,7 +133,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
 
         callback?.notifyVisible(startAnim, itemList)
 
-        iInteractor.update(itemList)
+        iInteractor.updatePosition(itemList)
         iBindInteractor.notifyNoteBind(callback)
     }
 
@@ -145,7 +142,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
 
         itemList.removeAt(p)
 
-        iInteractor.update(itemList)
+        iInteractor.updatePosition(itemList)
         iBindInteractor.notifyNoteBind(callback)
 
         callback?.notifyItemRemoved(p, itemList)
@@ -164,7 +161,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     }
 
     override fun onTouchMoveResult(from: Int, to: Int) {
-        iInteractor.update(itemList)
+        iInteractor.updatePosition(itemList)
 
         callback?.notifyDataSetChanged(itemList)
     }

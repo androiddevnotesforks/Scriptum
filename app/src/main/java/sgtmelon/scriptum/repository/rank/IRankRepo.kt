@@ -1,20 +1,20 @@
 package sgtmelon.scriptum.repository.rank
 
-import sgtmelon.scriptum.room.entity.RankEntity
+import sgtmelon.scriptum.model.item.RankItem
 
 /**
  * Interface for communicate with [RankRepo]
  */
 interface IRankRepo {
 
-    fun insert(rankEntity: RankEntity): Long
+    fun insert(name: String): RankItem
 
-    fun getList(): MutableList<RankEntity>
+    fun getList(): MutableList<RankItem>
 
-    fun delete(rankEntity: RankEntity)
+    fun delete(rankItem: RankItem)
 
-    fun update(rankEntity: RankEntity)
+    fun update(item: RankItem)
 
-    fun update(list: List<RankEntity>)
+    fun updatePosition(list: List<RankItem>)
 
 }

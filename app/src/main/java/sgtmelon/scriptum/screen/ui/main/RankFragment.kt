@@ -27,13 +27,12 @@ import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.item.RankItem
-import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.screen.ui.ParentFragment
 import sgtmelon.scriptum.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.screen.ui.callback.main.IRankFragment
 
 /**
- * Fragment which displays list of categories - [RankEntity]
+ * Fragment which displays list of categories - [RankItem]
  */
 class RankFragment : ParentFragment(), IRankFragment {
 

@@ -2,6 +2,7 @@ package sgtmelon.scriptum.room.dao
 
 import androidx.room.*
 import sgtmelon.scriptum.model.data.DbData
+import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.converter.BoolConverter
 import sgtmelon.scriptum.room.entity.RankEntity
@@ -13,6 +14,8 @@ import sgtmelon.scriptum.room.entity.RankEntity
 @TypeConverters(BoolConverter::class)
 interface IRankDao {
 
+    fun insert(name: String) = insert(RankEntity(name = name))
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(rankEntity: RankEntity): Long
 
@@ -20,16 +23,16 @@ interface IRankDao {
     fun delete(name: String)
 
     @Update(onConflict = OnConflictStrategy.IGNORE)
-    fun update(item: RankEntity)
+    fun update(rankEntity: RankEntity)
 
     @Update(onConflict = OnConflictStrategy.IGNORE)
     fun update(list: List<RankEntity>)
 
     @Query(value = "SELECT * FROM RANK_TABLE WHERE RK_ID == :id")
-    operator fun get(id: Long): RankEntity?
+    operator fun get(id: Long): RankItem?
 
     @Query(value = "SELECT * FROM RANK_TABLE ORDER BY RK_POSITION ASC")
-    fun get(): MutableList<RankEntity>
+    fun get(): MutableList<RankItem>
 
     @Query(value = "SELECT RK_ID FROM RANK_TABLE WHERE RK_VISIBLE = 1 ORDER BY RK_POSITION")
     fun getIdVisibleList(): List<Long>

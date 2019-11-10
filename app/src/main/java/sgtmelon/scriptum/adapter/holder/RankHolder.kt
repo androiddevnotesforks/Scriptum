@@ -41,9 +41,10 @@ class RankHolder(
         visibleButton.setOnClickListener { v ->
             checkNoPosition {
                 clickListener.onItemClick(v, adapterPosition) {
-                    val isVisible = binding.rankEntity?.isVisible
-
-                    if (isVisible != null) visibleButton.setDrawable(!isVisible, needAnim = true)
+                    val isVisible = binding.item?.isVisible
+                    if (isVisible != null) {
+                        visibleButton.setDrawable(!isVisible, needAnim = true)
+                    }
                 }
             }
         }

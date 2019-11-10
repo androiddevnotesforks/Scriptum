@@ -2,9 +2,11 @@ package sgtmelon.scriptum.repository.rank
 
 import android.content.Context
 import sgtmelon.scriptum.model.data.DbData
+import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.room.IRoomWork
 import sgtmelon.scriptum.room.RoomDb
-import sgtmelon.scriptum.room.entity.RankEntity
+import sgtmelon.scriptum.room.converter.RankConverter
+import sgtmelon.scriptum.room.dao.INoteDao
 
 /**
  * Repository of [RoomDb] for work with ranks
@@ -13,16 +15,19 @@ import sgtmelon.scriptum.room.entity.RankEntity
  */
 class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
 
-    override fun insert(rankEntity: RankEntity): Long {
+    private val converter = RankConverter()
+
+    override fun insert(name: String): RankItem {
         val id: Long
-        openRoom().apply { id = iRankDao.insert(rankEntity) }.close()
-        return id
+        openRoom().apply { id = iRankDao.insert(name) }.close()
+
+        return RankItem(id, name = name)
     }
 
-    override fun getList() = ArrayList<RankEntity>().apply { inRoom { addAll(iRankDao.get()) } }
+    override fun getList() = ArrayList<RankItem>().apply { inRoom { addAll(iRankDao.get()) } }
 
-    override fun delete(rankEntity: RankEntity) = inRoom {
-        for (id in rankEntity.noteId) {
+    override fun delete(rankItem: RankItem) = inRoom {
+        for (id in rankItem.noteId) {
             val noteEntity = iNoteDao[id]?.apply {
                 rankId = DbData.Note.Default.RANK_ID
                 rankPs = DbData.Note.Default.RANK_PS
@@ -31,43 +36,43 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
             iNoteDao.update(noteEntity)
         }
 
-        iRankDao.delete(rankEntity.name)
+        iRankDao.delete(rankItem.name)
     }
 
-    override fun update(rankEntity: RankEntity) = inRoom { iRankDao.update(rankEntity) }
+    override fun update(item: RankItem) = inRoom { iRankDao.update(converter.toEntity(item)) }
 
-    override fun update(list: List<RankEntity>) = inRoom {
-        val noteIdSet: MutableSet<Long> = mutableSetOf()
+    override fun updatePosition(list: List<RankItem>) = inRoom {
+        val noteIdSet = mutableSetOf<Long>()
 
         list.forEachIndexed { i, item ->
             if (item.position != i) {
-                item.noteId.forEach { noteIdSet.add(it) }
                 item.position = i
+                item.noteId.forEach { noteIdSet.add(it) }
             }
         }
 
-        if (noteIdSet.isNotEmpty()) updateNoteRankPosition(noteIdSet.toList(), list, db = this)
-
-        iRankDao.update(list)
+        iNoteDao.updateRankInformation(noteIdSet.toList(), list)
+        iRankDao.update(converter.toEntity(list))
     }
 
     /**
-     * [noteIdList] - id of notes, which need update
+     * [idList] - id of notes, which need update
      * [rankList] - new rank list, with need rank positions
      */
-    private fun updateNoteRankPosition(noteIdList: List<Long>, rankList: List<RankEntity>, db: RoomDb) =
-            with(db.iNoteDao) {
-                val noteList = get(noteIdList)
+    private fun INoteDao.updateRankInformation(idList: List<Long>, rankList: List<RankItem>) {
+        if (idList.isEmpty()) return
 
-                noteList.forEach { item ->
-                    rankList.forEach {
-                        if (item.rankId == it.id) {
-                            item.rankPs = it.position
-                        }
-                    }
+        val noteList = get(idList)
+
+        noteList.forEach { item ->
+            rankList.forEach {
+                if (item.rankId == it.id) {
+                    item.rankPs = it.position
                 }
-
-                update(noteList)
             }
+        }
+
+        update(noteList)
+    }
 
 }

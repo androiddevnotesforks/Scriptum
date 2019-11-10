@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.repository.develop
 
 import android.content.Context
+import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
@@ -8,7 +9,6 @@ import sgtmelon.scriptum.room.IRoomWork
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.converter.StringConverter
 import sgtmelon.scriptum.room.entity.NoteEntity
-import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.screen.vm.DevelopViewModel
 
@@ -77,7 +77,7 @@ class DevelopRepo(override val context: Context) : IDevelopRepo, IRoomWork {
     }.toString()
 
     override suspend fun getRankTablePrint() = StringBuilder().apply {
-        val list: MutableList<RankEntity>
+        val list: MutableList<RankItem>
 
         openRoom().apply { list = iRankDao.get() }.close()
 
