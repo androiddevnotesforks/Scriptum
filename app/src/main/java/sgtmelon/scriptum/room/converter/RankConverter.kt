@@ -12,12 +12,12 @@ class RankConverter {
         RankItem(id, noteId, position, name, isVisible)
     }
 
-    fun toItem(list: List<RankEntity>) = list.map { toItem(it) }
+    fun toItem(list: List<RankEntity>) = list.map { toItem(it) }.toMutableList()
 
     fun toEntity(item: RankItem) = with(item) {
         RankEntity(id, noteId, position, name, isVisible)
     }
 
-    fun toEntity(list: List<RankItem>) = list.map { toEntity(it) }
+    fun toEntity(list: List<RankItem>) = list.map { toEntity(it) }.toMutableList()
 
 }

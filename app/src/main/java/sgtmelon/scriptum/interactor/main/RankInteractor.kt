@@ -26,7 +26,7 @@ class RankInteractor(context: Context) : ParentInteractor(context), IRankInterac
         return RankItem(id, name = name)
     }
 
-    override fun getList() = iRankRepo.getList()
+    override fun getList() = converter.toItem(iRankRepo.getList())
 
     override fun delete(item: RankItem) = iRankRepo.delete(converter.toEntity(item))
 

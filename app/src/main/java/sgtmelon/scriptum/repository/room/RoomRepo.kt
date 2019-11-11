@@ -12,7 +12,6 @@ import sgtmelon.scriptum.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.room.IRoomWork
 import sgtmelon.scriptum.room.RoomDb
-import sgtmelon.scriptum.room.converter.RankConverter
 import sgtmelon.scriptum.room.dao.IRankDao
 import sgtmelon.scriptum.room.entity.AlarmEntity
 import sgtmelon.scriptum.room.entity.NoteEntity
@@ -31,8 +30,6 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
 
     // TODO think, how remove it
     private val iPreferenceRepo: IPreferenceRepo = PreferenceRepo(context)
-
-    private val rankConverter = RankConverter()
 
     override fun getNoteModelList(bin: Boolean): MutableList<NoteModel> {
         val sortType = iPreferenceRepo.sort

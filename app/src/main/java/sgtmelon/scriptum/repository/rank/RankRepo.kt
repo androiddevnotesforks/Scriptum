@@ -3,7 +3,6 @@ package sgtmelon.scriptum.repository.rank
 import android.content.Context
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.data.DbData
-import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.room.IRoomWork
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.dao.INoteDao
@@ -11,7 +10,7 @@ import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RankEntity
 
 /**
- * Repository of [RoomDb] for work with ranks
+ * Repository of [RoomDb] for work with ranks.
  *
  * @param context for open [RoomDb]
  */
@@ -25,14 +24,14 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
         return id
     }
 
-    override fun getList() = ArrayList<RankItem>().apply {
-        inRoom { addAll(iRankDao.getDisplay()) }
+    override fun getList() = ArrayList<RankEntity>().apply {
+        inRoom { addAll(iRankDao.get()) }
     }
 
     override fun delete(rankEntity: RankEntity) = inRoom {
         for (id in rankEntity.noteId) {
             /**
-             * Remove rank from note
+             * Remove rank from note.
              */
             val noteEntity = iNoteDao[id]?.apply {
                 rankId = DbData.Note.Default.RANK_ID
@@ -70,7 +69,7 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
     }
 
     /**
-     * Add [NoteEntity.id] to [RankEntity.noteId] or remove after some changes
+     * Add [NoteEntity.id] to [RankEntity.noteId] or remove after some changes.
      */
     override fun updateConnection(noteModel: NoteModel) = inRoom {
         val list = iRankDao.get()
