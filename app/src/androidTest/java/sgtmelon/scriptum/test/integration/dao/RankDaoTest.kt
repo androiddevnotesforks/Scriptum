@@ -4,7 +4,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.room.converter.RankConverter
 import sgtmelon.scriptum.room.dao.IRankDao
 import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.test.ParentIntegrationTest
@@ -16,8 +15,6 @@ import kotlin.random.Random
 @RunWith(AndroidJUnit4::class)
 class RankDaoTest : ParentIntegrationTest() {
 
-    private val converter = RankConverter()
-
     private fun inRankDao(func: IRankDao.() -> Unit) = inRoom { iRankDao.apply(func) }
 
     private fun IRankDao.insertAll(): List<RankEntity> =
@@ -27,13 +24,9 @@ class RankDaoTest : ParentIntegrationTest() {
             }
 
     @Test fun insertWithUnique() = inRankDao {
-        insert(rankFirst)
-
-        insert(rankSecond.copy(id = rankFirst.id))
-        assertTrue(getCount() == 1)
-
-        insert(rankSecond.copy(name = rankFirst.name))
-        assertTrue(getCount() == 1)
+        assertEquals(1, insert(rankFirst))
+        assertEquals(-1, insert(rankSecond.copy(id = rankFirst.id)))
+        assertEquals(-1, insert(rankSecond.copy(name = rankFirst.name)))
     }
 
     @Test fun delete() = inRankDao {

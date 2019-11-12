@@ -31,8 +31,8 @@ class NoteDaoTest : ParentIntegrationTest() {
     }
 
     @Test fun insertWithUnique() = inNoteDao {
-        repeat(times = 2) { insert(noteFirst) }
-        assertTrue(getByChange(bin = false).size == 1)
+        assertEquals(1, insert(noteFirst))
+        assertEquals(-1, insert(noteFirst))
     }
 
     @Test fun delete() = inNoteDao {

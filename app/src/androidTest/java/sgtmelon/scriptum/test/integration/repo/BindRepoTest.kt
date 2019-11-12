@@ -19,13 +19,17 @@ import sgtmelon.scriptum.test.ParentIntegrationTest
 @RunWith(AndroidJUnit4::class)
 class BindRepoTest : ParentIntegrationTest() {
 
-    private val iBindRepo: IBindRepo = BindRepo(context)
+    private val iRepo: IBindRepo = BindRepo(context)
+
+    @Test fun getNoteList() = inRoom {
+        TODO(reason = "#TEST write test")
+    }
 
     @Test fun getRollListOnTextNote() = inRoom {
         textNote.let {
             iNoteDao.insert(it)
 
-            assertTrue(iBindRepo.getRollList(it.id).isEmpty())
+            assertTrue(iRepo.getRollList(it.id).isEmpty())
         }
     }
 
@@ -33,11 +37,11 @@ class BindRepoTest : ParentIntegrationTest() {
         rollNote.let {
             iNoteDao.insert(it)
 
-            assertTrue(iBindRepo.getRollList(it.id).isEmpty())
+            assertTrue(iRepo.getRollList(it.id).isEmpty())
 
             rollList.forEach { item -> iRollDao.insert(item) }
 
-            assertEquals(rollList, iBindRepo.getRollList(it.id))
+            assertEquals(rollList, iRepo.getRollList(it.id))
         }
     }
 
@@ -45,7 +49,7 @@ class BindRepoTest : ParentIntegrationTest() {
         textNote.let {
             iNoteDao.insert(it)
 
-            assertEquals(it.apply { isStatus = false }, iBindRepo.unbindNote(it.id))
+            assertEquals(it.apply { isStatus = false }, iRepo.unbindNote(it.id))
             assertEquals(it, iNoteDao[it.id])
         }
     }

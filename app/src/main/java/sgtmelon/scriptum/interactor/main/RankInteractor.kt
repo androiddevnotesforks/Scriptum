@@ -16,6 +16,8 @@ import sgtmelon.scriptum.screen.vm.main.RankViewModel
  */
 class RankInteractor(context: Context) : ParentInteractor(context), IRankInteractor {
 
+    // TODO #TEST write unit test
+
     private val converter = RankConverter()
 
     private val iRankRepo: IRankRepo = RankRepo(context)
