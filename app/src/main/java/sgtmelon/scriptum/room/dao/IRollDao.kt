@@ -45,7 +45,7 @@ interface IRollDao {
      */
     @Query(value = """SELECT * FROM ROLL_TABLE
             WHERE RL_NOTE_ID = :noteId AND RL_POSITION BETWEEN 0 AND 3
-            ORDER BY RL_POSITION ASC""")
+            ORDER BY RL_POSITION""")
     fun getView(noteId: Long): MutableList<RollEntity>
 
 }

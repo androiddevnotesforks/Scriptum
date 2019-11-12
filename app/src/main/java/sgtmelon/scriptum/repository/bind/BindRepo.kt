@@ -22,7 +22,7 @@ class BindRepo(override val context: Context) : IBindRepo, IRoomWork {
     override fun getNoteList(): List<NoteModel> = ArrayList<NoteModel>().apply {
         inRoom {
             iNoteDao.getByChange(bin = false).forEach {
-                add(NoteModel(it, iRollDao.getView(it.id), AlarmEntity(noteId = it.id)))
+                add(NoteModel(it, iRollDao.get(it.id), AlarmEntity(noteId = it.id)))
             }
         }
     }
