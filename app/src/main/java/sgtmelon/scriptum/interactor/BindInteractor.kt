@@ -5,6 +5,8 @@ import sgtmelon.scriptum.control.bind.BindControl
 import sgtmelon.scriptum.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.repository.bind.BindRepo
 import sgtmelon.scriptum.repository.bind.IBindRepo
+import sgtmelon.scriptum.repository.rank.IRankRepo
+import sgtmelon.scriptum.repository.rank.RankRepo
 
 /**
  * Interactor for binding notification in status bar
@@ -13,15 +15,16 @@ class BindInteractor(context: Context) : ParentInteractor(context),
         IBindInteractor {
 
     private val iBindRepo: IBindRepo = BindRepo(context)
+    private val iRankRepo: IRankRepo = RankRepo(context)
 
     /**
      * Update all bind notes in status bar rely on rank visibility
      */
     override fun notifyNoteBind(callback: BindControl.NoteBridge.Notify?) {
-        val rankIdVisibleList = iRoomRepo.getRankIdVisibleList()
+        val idVisibleList = iRankRepo.getIdVisibleList()
 
         iBindRepo.getNoteList().forEach {
-            callback?.notifyNoteBind(it, rankIdVisibleList)
+            callback?.notifyNoteBind(it, idVisibleList)
         }
     }
 

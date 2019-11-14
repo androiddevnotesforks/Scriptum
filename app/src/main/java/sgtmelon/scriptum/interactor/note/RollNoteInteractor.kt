@@ -7,7 +7,6 @@ import sgtmelon.scriptum.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.model.data.DbData
 import sgtmelon.scriptum.repository.alarm.AlarmRepo
 import sgtmelon.scriptum.repository.alarm.IAlarmRepo
 import sgtmelon.scriptum.repository.rank.IRankRepo
@@ -27,7 +26,7 @@ class RollNoteInteractor(context: Context, private var callback: IRollNoteBridge
     private val iAlarmRepo: IAlarmRepo = AlarmRepo(context)
     private val iRankRepo: IRankRepo = RankRepo(context)
 
-    private val rankIdVisibleList: List<Long> = iRoomRepo.getRankIdVisibleList()
+    private val rankIdVisibleList: List<Long> = iRankRepo.getIdVisibleList()
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy { callback = null }
 
@@ -41,7 +40,7 @@ class RollNoteInteractor(context: Context, private var callback: IRollNoteBridge
     @Color override val defaultColor: Int get() = iPreferenceRepo.defaultColor
 
 
-    override fun isRankEmpty() = iRoomRepo.isRankEmpty()
+    override fun isRankEmpty() = iRankRepo.isEmpty()
 
     override fun getModel(id: Long, updateBind: Boolean): NoteModel? {
         val model = iRoomRepo.getNoteModel(id)
@@ -51,7 +50,7 @@ class RollNoteInteractor(context: Context, private var callback: IRollNoteBridge
         return model
     }
 
-    override fun getRankDialogItemArray() = iRoomRepo.getRankDialogItemArray()
+    override fun getRankDialogItemArray() = iRankRepo.getDialogItemArray()
 
 
     override fun updateRollCheck(noteModel: NoteModel, rollEntity: RollEntity) {
@@ -64,11 +63,7 @@ class RollNoteInteractor(context: Context, private var callback: IRollNoteBridge
         callback?.notifyNoteBind(noteModel, rankIdVisibleList)
     }
 
-    override fun getRankId(check: Int): Long = if (check != DbData.Note.Default.RANK_PS) {
-        iRoomRepo.getRankIdList()[check]
-    } else {
-        DbData.Note.Default.RANK_ID
-    }
+    override fun getRankId(check: Int): Long = iRankRepo.getId(check)
 
     override suspend fun getDateList() = iAlarmRepo.getList().map { it.alarm.date }
 
@@ -89,6 +84,7 @@ class RollNoteInteractor(context: Context, private var callback: IRollNoteBridge
 
     override suspend fun updateNote(noteModel: NoteModel, updateBind: Boolean) {
         iRoomRepo.updateNote(noteModel.noteEntity)
+
         if (updateBind) callback?.notifyNoteBind(noteModel, rankIdVisibleList)
     }
 
@@ -102,10 +98,10 @@ class RollNoteInteractor(context: Context, private var callback: IRollNoteBridge
     }
 
     override suspend fun deleteNote(noteModel: NoteModel) {
+        iRoomRepo.deleteNote(noteModel)
+
         callback?.cancelAlarm(noteModel.noteEntity.id)
         callback?.cancelNoteBind(noteModel.noteEntity.id.toInt())
-
-        iRoomRepo.deleteNote(noteModel)
     }
 
 }

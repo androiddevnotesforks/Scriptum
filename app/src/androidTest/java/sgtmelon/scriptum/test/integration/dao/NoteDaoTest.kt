@@ -79,6 +79,14 @@ class NoteDaoTest : ParentIntegrationTest() {
         assertEquals(noteThird, get(noteThird.id))
     }
 
+    @Test fun getByIdList() = inNoteDao {
+        TODO(reason = "#TEST write test")
+    }
+
+    @Test fun getByBin() = inNoteDao {
+        TODO(reason = "#TEST write test")
+    }
+
     @Test fun getByChange() = inNoteDao {
         insertAllTo(bin = false)
 

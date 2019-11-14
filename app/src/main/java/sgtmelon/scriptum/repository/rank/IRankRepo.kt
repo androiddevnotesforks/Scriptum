@@ -8,9 +8,14 @@ import sgtmelon.scriptum.room.entity.RankEntity
  */
 interface IRankRepo {
 
-    fun insert(name: String): Long
+    fun isEmpty(): Boolean
 
     fun getList(): MutableList<RankEntity>
+
+    fun getIdVisibleList(): List<Long>
+
+
+    fun insert(name: String): Long
 
     fun delete(rankEntity: RankEntity)
 
@@ -19,5 +24,10 @@ interface IRankRepo {
     fun updatePosition(rankList: List<RankEntity>, noteIdList: List<Long>)
 
     fun updateConnection(noteModel: NoteModel)
+
+
+    fun getDialogItemArray(): Array<String>
+
+    fun getId(check: Int): Long
 
 }

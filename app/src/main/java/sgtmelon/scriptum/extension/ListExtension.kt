@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.extension
 
+import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.room.entity.RollEntity
 
 fun <T> MutableList<T>.swap(from: Int, to: Int) {
@@ -18,3 +19,7 @@ fun List<RollEntity>.getCheck(): Int {
     this.forEach { if (it.isCheck) rollCheck++ }
     return rollCheck
 }
+
+fun List<RollItem>.getCheck2(): Int = filter { it.isCheck }.size
+
+fun List<RollItem>.getText(): String = joinToString(separator = "\n") { it.text }

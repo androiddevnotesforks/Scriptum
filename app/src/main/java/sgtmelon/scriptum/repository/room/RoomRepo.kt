@@ -2,7 +2,6 @@ package sgtmelon.scriptum.repository.room
 
 import android.content.Context
 import sgtmelon.extension.getTime
-import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.data.DbData
@@ -122,18 +121,6 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
     }
 
 
-    override fun getRankIdVisibleList() = ArrayList<Long>().apply {
-        inRoom { addAll(iRankDao.getIdVisibleList()) }
-    }
-
-    override fun isRankEmpty(): Boolean {
-        val count: Int
-
-        openRoom().apply { count = iRankDao.getCount() }.close()
-
-        return count == 0
-    }
-
     override fun getNoteModel(id: Long): NoteModel? {
         if (id == NoteData.Default.ID) return null
 
@@ -153,10 +140,6 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
         return noteModel
     }
 
-    override fun getRankDialogItemArray(): Array<String> = ArrayList<String>().apply {
-        add(context.getString(R.string.dialog_item_rank))
-        inRoom { addAll(iRankDao.getNameList()) }
-    }.toTypedArray()
 
     override fun convertToRoll(noteModel: NoteModel) = with(noteModel) {
         if (noteEntity.type != NoteType.TEXT) return
@@ -213,10 +196,6 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
             }
         }
     }.toString()
-
-    override fun getRankIdList() = ArrayList<Long>().apply {
-        inRoom { addAll(iRankDao.getIdList()) }
-    }
 
     override fun saveTextNote(noteModel: NoteModel, isCreate: Boolean) = with(noteModel) {
         if (noteEntity.type != NoteType.TEXT) return@with
@@ -294,6 +273,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
     }
 
     override fun updateNote(noteEntity: NoteEntity) = inRoom { iNoteDao.update(noteEntity) }
+
 
     /**
      * Remove relation between [RankEntity] and [NoteEntity] which will be delete

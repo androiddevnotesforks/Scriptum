@@ -31,6 +31,9 @@ interface INoteDao {
     @Query(value = "SELECT * FROM NOTE_TABLE WHERE NT_ID IN(:idList)")
     operator fun get(idList: List<Long>): List<NoteEntity>
 
+    @Query(value = "SELECT * FROM NOTE_TABLE WHERE NT_BIN = :bin")
+    operator fun get(bin: Boolean): List<NoteEntity>
+
 
     @Query(value = """SELECT * FROM NOTE_TABLE
         WHERE NT_BIN = :bin

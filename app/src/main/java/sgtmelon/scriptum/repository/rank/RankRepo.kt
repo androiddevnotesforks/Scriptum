@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.repository.rank
 
 import android.content.Context
+import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.data.DbData
 import sgtmelon.scriptum.room.IRoomWork
@@ -16,16 +17,32 @@ import sgtmelon.scriptum.room.entity.RankEntity
  */
 class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
 
+    override fun isEmpty(): Boolean {
+        val count: Int
+
+        openRoom().apply { count = iRankDao.getCount() }.close()
+
+        return count == 0
+    }
+
+    override fun getList() = ArrayList<RankEntity>().apply {
+        inRoom { addAll(iRankDao.get()) }
+    }
+
+    /**
+     * Return list of rank id's which is visible.
+     */
+    override fun getIdVisibleList() = ArrayList<Long>().apply {
+        inRoom { addAll(iRankDao.getIdVisibleList()) }
+    }
+
+
     override fun insert(name: String): Long {
         val id: Long
 
         openRoom().apply { id = iRankDao.insert(RankEntity(name = name)) }.close()
 
         return id
-    }
-
-    override fun getList() = ArrayList<RankEntity>().apply {
-        inRoom { addAll(iRankDao.get()) }
     }
 
     override fun delete(rankEntity: RankEntity) = inRoom {
@@ -93,6 +110,31 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
         if (index != -1) array[index] = true
 
         return array
+    }
+
+    /**
+     * Return array with all rank names
+     */
+    override fun getDialogItemArray() = ArrayList<String>().apply {
+        add(context.getString(R.string.dialog_item_rank))
+        inRoom { addAll(iRankDao.getNameList()) }
+    }.toTypedArray()
+
+    /**
+     * Return rank id by check (position)
+     */
+    override fun getId(check: Int): Long {
+        val id: Long
+
+        if (check != DbData.Note.Default.RANK_PS) {
+            openRoom().apply {
+                id = iRankDao.getIdList().getOrNull(check) ?: DbData.Note.Default.RANK_ID
+            }.close()
+        } else {
+            id = DbData.Note.Default.RANK_ID
+        }
+
+        return id
     }
 
 }

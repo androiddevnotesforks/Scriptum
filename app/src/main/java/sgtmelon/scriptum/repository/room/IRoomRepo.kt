@@ -28,19 +28,12 @@ interface IRoomRepo {
      */
     suspend fun clearNote(noteModel: NoteModel)
 
-    fun getRankIdVisibleList(): List<Long>
-
-    fun isRankEmpty(): Boolean
 
     /**
      * Return null if note not found in DataBase or [NoteEntity.id] == [NoteData.Default.ID]
      */
     fun getNoteModel(id: Long): NoteModel?
 
-    /**
-     * Return array with all rank names
-     */
-    fun getRankDialogItemArray(): Array<String>
 
     fun convertToRoll(noteModel: NoteModel)
 
@@ -48,8 +41,6 @@ interface IRoomRepo {
 
     // TODO to another repo
     suspend fun getCopyText(noteEntity: NoteEntity):String
-
-    fun getRankIdList(): List<Long>
 
     fun saveTextNote(noteModel: NoteModel, isCreate: Boolean)
 

@@ -10,7 +10,8 @@ import sgtmelon.scriptum.repository.alarm.AlarmRepo
 import sgtmelon.scriptum.repository.alarm.IAlarmRepo
 import sgtmelon.scriptum.repository.bind.BindRepo
 import sgtmelon.scriptum.repository.bind.IBindRepo
-import sgtmelon.scriptum.room.entity.AlarmEntity
+import sgtmelon.scriptum.repository.rank.IRankRepo
+import sgtmelon.scriptum.repository.rank.RankRepo
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.ui.callback.main.INotesBridge
 import sgtmelon.scriptum.screen.vm.main.NotesViewModel
@@ -25,6 +26,8 @@ class NotesInteractor(context: Context, private var callback: INotesBridge?) :
 
     private val iAlarmRepo: IAlarmRepo = AlarmRepo(context)
     private val iBindRepo: IBindRepo = BindRepo(context)
+    private val iRankRepo: IRankRepo = RankRepo(context)
+
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy { callback = null }
 
@@ -39,7 +42,7 @@ class NotesInteractor(context: Context, private var callback: INotesBridge?) :
         iRoomRepo.updateNote(noteEntity)
 
         val noteModel = NoteModel(noteEntity, iBindRepo.getRollList(noteEntity.id))
-        callback?.notifyNoteBind(noteModel, iRoomRepo.getRankIdVisibleList())
+        callback?.notifyNoteBind(noteModel, iRankRepo.getIdVisibleList())
     }
 
     override fun convert(noteModel: NoteModel): NoteModel {
@@ -48,7 +51,7 @@ class NotesInteractor(context: Context, private var callback: INotesBridge?) :
             NoteType.ROLL -> iRoomRepo.convertToText(noteModel)
         }
 
-        callback?.notifyNoteBind(noteModel, iRoomRepo.getRankIdVisibleList())
+        callback?.notifyNoteBind(noteModel, iRankRepo.getIdVisibleList())
 
         /**
          * Optimisation for get only first 4 items
