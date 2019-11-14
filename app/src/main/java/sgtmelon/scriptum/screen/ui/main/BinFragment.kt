@@ -22,16 +22,15 @@ import sgtmelon.scriptum.extension.tintIcon
 import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.listener.ItemListener
-import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.room.entity.NoteEntity
+import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.screen.ui.ParentFragment
 import sgtmelon.scriptum.screen.ui.callback.main.IBinFragment
 import sgtmelon.scriptum.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 
 /**
- * Fragment which displays list of deleted notes - [NoteEntity]
+ * Fragment which displays list of deleted notes - [NoteItem]
  */
 class BinFragment : ParentFragment(), IBinFragment {
 
@@ -154,8 +153,10 @@ class BinFragment : ParentFragment(), IBinFragment {
         recyclerView?.smoothScrollToPosition(0)
     }
 
-    override fun startNoteActivity(noteEntity: NoteEntity) {
-        startActivity(NoteActivity[context ?: return, noteEntity])
+    override fun startNoteActivity(noteItem: NoteItem) {
+        val context = context ?: return
+
+        startActivity(NoteActivity[context, noteItem])
     }
 
     override fun showOptionsDialog(itemArray: Array<String>, p: Int) {
@@ -168,11 +169,11 @@ class BinFragment : ParentFragment(), IBinFragment {
         itemClearBin?.isVisible = adapter.itemCount != 0
     }
 
-    override fun notifyDataSetChanged(list: MutableList<NoteModel>) {
+    override fun notifyDataSetChanged(list: MutableList<NoteItem>) {
         adapter.notifyDataSetChanged(list)
     }
 
-    override fun notifyItemRemoved(p: Int, list: MutableList<NoteModel>) {
+    override fun notifyItemRemoved(p: Int, list: MutableList<NoteItem>) {
         adapter.notifyItemRemoved(p, list)
     }
 

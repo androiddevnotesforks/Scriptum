@@ -2,11 +2,11 @@ package sgtmelon.scriptum.screen.ui.callback.note.roll
 
 import sgtmelon.scriptum.control.input.IInputControl
 import sgtmelon.scriptum.control.input.InputControl
-import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
+import sgtmelon.scriptum.model.item.NoteItem
+import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.state.NoteState
-import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
 import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
 import java.util.*
@@ -29,13 +29,13 @@ interface IRollNoteFragment : IRollNoteBridge {
 
     fun setupRecycler(iInputControl: IInputControl)
 
-    fun bindEdit(editMode: Boolean, noteModel: NoteModel)
+    fun bindEdit(editMode: Boolean, noteItem: NoteItem)
 
-    fun bindNote(noteModel: NoteModel)
+    fun bindNote(noteItem: NoteItem)
 
     fun bindEnter()
 
-    fun bindInput(inputAccess: InputControl.Access, noteModel: NoteModel)
+    fun bindInput(inputAccess: InputControl.Access, noteItem: NoteItem)
 
     fun onPressBack(): Boolean
 
@@ -55,25 +55,25 @@ interface IRollNoteFragment : IRollNoteBridge {
 
     fun clearEnterText()
 
-    fun scrollToItem(simpleClick: Boolean, p: Int, list: MutableList<RollEntity>)
+    fun scrollToItem(simpleClick: Boolean, p: Int, list: MutableList<RollItem>)
 
     fun changeCheckToggle(state: Boolean)
 
     fun updateNoteState(noteState: NoteState)
 
-    fun notifyListItem(p: Int, rollEntity: RollEntity)
+    fun notifyListItem(p: Int, rollItem: RollItem)
 
-    fun notifyList(list: MutableList<RollEntity>)
+    fun notifyList(list: MutableList<RollItem>)
 
-    fun notifyDataSetChanged(list: MutableList<RollEntity>)
+    fun notifyDataSetChanged(list: MutableList<RollItem>)
 
-    fun notifyItemInserted(p: Int, cursor: Int, list: MutableList<RollEntity>)
+    fun notifyItemInserted(p: Int, cursor: Int, list: MutableList<RollItem>)
 
-    fun notifyItemChanged(p: Int, list: MutableList<RollEntity>, cursor: Int)
+    fun notifyItemChanged(p: Int, cursor: Int, list: MutableList<RollItem>)
 
-    fun notifyItemRemoved(p: Int, list: MutableList<RollEntity>)
+    fun notifyItemRemoved(p: Int, list: MutableList<RollItem>)
 
-    fun notifyItemMoved(from: Int, to: Int, list: MutableList<RollEntity>)
+    fun notifyItemMoved(from: Int, to: Int, list: MutableList<RollItem>)
 
     fun hideKeyboard()
 

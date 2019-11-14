@@ -2,10 +2,8 @@ package sgtmelon.scriptum.interactor.callback.main
 
 import sgtmelon.scriptum.interactor.callback.IParentInteractor
 import sgtmelon.scriptum.interactor.main.NotesInteractor
-import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.room.entity.AlarmEntity
-import sgtmelon.scriptum.room.entity.NoteEntity
+import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.screen.vm.main.NotesViewModel
 import java.util.*
 
@@ -16,27 +14,27 @@ interface INotesInteractor : IParentInteractor {
 
     @Theme val theme: Int
 
-    fun getList(): MutableList<NoteModel>
+    fun getList(): MutableList<NoteItem>
 
     fun isListHide(): Boolean
 
-    fun updateNote(noteEntity: NoteEntity)
+    fun updateNote(noteItem: NoteItem)
 
-    fun convert(noteModel: NoteModel): NoteModel
+    fun convert(noteItem: NoteItem)
 
 
     suspend fun getDateList(): List<String>
 
-    suspend fun clearDate(noteModel: NoteModel)
+    suspend fun clearDate(noteItem: NoteItem)
 
-    suspend fun setDate(noteModel: NoteModel, calendar: Calendar)
-
-
-    suspend fun copy(noteEntity: NoteEntity)
-
-    suspend fun deleteNote(noteModel: NoteModel)
+    suspend fun setDate(noteItem: NoteItem, calendar: Calendar)
 
 
-    suspend fun getAlarm(id: Long): AlarmEntity
+    suspend fun copy(noteItem: NoteItem)
+
+    suspend fun deleteNote(noteItem: NoteItem)
+
+
+    suspend fun updateAlarm(noteItem: NoteItem)
 
 }

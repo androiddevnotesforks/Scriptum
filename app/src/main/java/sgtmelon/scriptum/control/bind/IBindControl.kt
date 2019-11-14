@@ -1,13 +1,13 @@
 package sgtmelon.scriptum.control.bind
 
-import sgtmelon.scriptum.model.NoteModel
+import sgtmelon.scriptum.model.item.NoteItem
 
 /**
  * Interface for communicate with [BindControl]
  */
 interface IBindControl {
 
-    fun notifyNote(noteModel: NoteModel, rankIdVisibleList: List<Long>)
+    fun notifyNote(noteItem: NoteItem, rankIdVisibleList: List<Long>)
 
     fun cancelNote(id: Int)
 

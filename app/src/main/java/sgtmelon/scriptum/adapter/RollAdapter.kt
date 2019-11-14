@@ -8,8 +8,8 @@ import sgtmelon.scriptum.adapter.holder.RollWriteHolder
 import sgtmelon.scriptum.control.input.IInputControl
 import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.listener.ItemListener
+import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.state.NoteState
-import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
 
 /**
@@ -19,7 +19,7 @@ class RollAdapter(
         private val rollWriteCallback: RollWriteHolder.Callback,
         private val clickListener: ItemListener.Click,
         private val longClickListener: ItemListener.LongClick
-) : ParentAdapter<RollEntity, RecyclerView.ViewHolder>() {
+) : ParentAdapter<RollItem, RecyclerView.ViewHolder>() {
 
     var dragListener: ItemListener.Drag? = null
     var iInputControl: IInputControl? = null
@@ -29,15 +29,17 @@ class RollAdapter(
     var checkToggle: Boolean = false
     var cursorPosition = ND_CURSOR
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = if (viewType == TYPE_READ) {
-        RollReadHolder(
-                parent.inflateBinding(R.layout.item_roll_read), clickListener, longClickListener
-        )
-    } else {
-        RollWriteHolder(
-                parent.inflateBinding(R.layout.item_roll_write),
-                dragListener, rollWriteCallback, iInputControl
-        )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return if (viewType == TYPE_READ) {
+            RollReadHolder(
+                    parent.inflateBinding(R.layout.item_roll_read), clickListener, longClickListener
+            )
+        } else {
+            RollWriteHolder(
+                    parent.inflateBinding(R.layout.item_roll_write),
+                    dragListener, rollWriteCallback, iInputControl
+            )
+        }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -56,8 +58,9 @@ class RollAdapter(
         }
     }
 
-    override fun getItemViewType(position: Int) =
-            if (noteState?.isEdit == true) TYPE_WRITE else TYPE_READ
+    override fun getItemViewType(position: Int): Int {
+        return if (noteState?.isEdit == true) TYPE_WRITE else TYPE_READ
+    }
 
     private companion object {
         const val ND_CURSOR = -1

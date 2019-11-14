@@ -3,9 +3,9 @@ package sgtmelon.scriptum.interactor.callback.note
 import sgtmelon.scriptum.control.SaveControl
 import sgtmelon.scriptum.interactor.callback.IParentInteractor
 import sgtmelon.scriptum.interactor.note.TextNoteInteractor
-import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
+import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel
 import java.util.*
 
@@ -23,7 +23,7 @@ interface ITextNoteInteractor : IParentInteractor {
 
     fun isRankEmpty(): Boolean
 
-    fun getModel(id: Long, updateBind: Boolean): NoteModel?
+    fun getItem(id: Long, updateBind: Boolean): NoteItem?
 
     fun getRankDialogItemArray(): Array<String>
 
@@ -32,21 +32,21 @@ interface ITextNoteInteractor : IParentInteractor {
 
     suspend fun getDateList(): List<String>
 
-    suspend fun clearDate(noteModel: NoteModel)
+    suspend fun clearDate(noteItem: NoteItem)
 
-    suspend fun setDate(noteModel: NoteModel, calendar: Calendar)
+    suspend fun setDate(noteItem: NoteItem, calendar: Calendar)
 
-    fun convert(noteModel: NoteModel)
+    fun convert(noteItem: NoteItem)
 
 
-    suspend fun restoreNote(noteModel: NoteModel)
+    suspend fun restoreNote(noteItem: NoteItem)
 
-    suspend fun updateNote(noteModel: NoteModel, updateBind: Boolean)
+    suspend fun updateNote(noteItem: NoteItem, updateBind: Boolean)
 
-    suspend fun clearNote(noteModel: NoteModel)
+    suspend fun clearNote(noteItem: NoteItem)
 
-    fun saveNote(noteModel: NoteModel, isCreate: Boolean)
+    fun saveNote(noteItem: NoteItem, isCreate: Boolean)
 
-    suspend fun deleteNote(noteModel: NoteModel)
+    suspend fun deleteNote(noteItem: NoteItem)
 
 }

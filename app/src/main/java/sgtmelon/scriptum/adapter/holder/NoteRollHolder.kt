@@ -7,8 +7,8 @@ import sgtmelon.scriptum.adapter.NoteAdapter
 import sgtmelon.scriptum.databinding.ItemNoteRollBinding
 import sgtmelon.scriptum.extension.checkNoPosition
 import sgtmelon.scriptum.listener.ItemListener
-import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
+import sgtmelon.scriptum.model.item.NoteItem
 
 /**
  * Holder for roll note, use in [NoteAdapter]
@@ -35,9 +35,9 @@ class NoteRollHolder(private val binding: ItemNoteRollBinding,
         }
     }
 
-    fun bind(@Theme theme: Int, noteModel: NoteModel) = binding.apply {
+    fun bind(@Theme theme: Int, noteItem: NoteItem) = binding.apply {
         this.currentTheme = theme
-        this.noteModel = noteModel
+        this.noteItem = noteItem
     }.executePendingBindings()
 
 }

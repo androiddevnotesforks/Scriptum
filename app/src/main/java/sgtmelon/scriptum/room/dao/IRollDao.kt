@@ -2,6 +2,7 @@ package sgtmelon.scriptum.room.dao
 
 import androidx.room.*
 import sgtmelon.scriptum.model.data.DbData
+import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.converter.BoolConverter
 import sgtmelon.scriptum.room.entity.RollEntity
@@ -44,7 +45,7 @@ interface IRollDao {
      * Get only first 4 items for preview
      */
     @Query(value = """SELECT * FROM ROLL_TABLE
-            WHERE RL_NOTE_ID = :noteId AND RL_POSITION BETWEEN 0 AND 3
+            WHERE RL_NOTE_ID = :noteId AND RL_POSITION BETWEEN 0 AND ${NoteItem.ROLL_OPTIMAL_SIZE - 1}
             ORDER BY RL_POSITION""")
     fun getView(noteId: Long): MutableList<RollEntity>
 

@@ -2,14 +2,13 @@ package sgtmelon.scriptum.room.entity
 
 import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
-import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.data.DbData.Alarm
 import sgtmelon.scriptum.model.data.DbData.Alarm.Default
 import sgtmelon.scriptum.model.data.DbData.Alarm.Room
 import sgtmelon.scriptum.model.data.DbData.Note
 
 /**
- * Element of alarm for [NoteModel]
+ * Entity of note alarm.
  */
 @Entity(
         tableName = Alarm.TABLE,

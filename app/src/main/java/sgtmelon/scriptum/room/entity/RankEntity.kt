@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.room.entity
 
 import androidx.room.*
-import sgtmelon.scriptum.adapter.RankAdapter
 import sgtmelon.scriptum.model.data.DbData.Rank
 import sgtmelon.scriptum.model.data.DbData.Rank.Default
 import sgtmelon.scriptum.model.data.DbData.Rank.Room
@@ -9,7 +8,7 @@ import sgtmelon.scriptum.room.converter.BoolConverter
 import sgtmelon.scriptum.room.converter.StringConverter
 
 /**
- * Element of list in [RankAdapter]
+ * Entity of category.
  */
 @Entity(
         tableName = Rank.TABLE,

@@ -6,10 +6,10 @@ import android.content.Context
 import android.os.Build
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.factory.NotificationFactory
-import sgtmelon.scriptum.model.NoteModel
+import sgtmelon.scriptum.model.item.NoteItem
 
 /**
- * Class for help control [NoteModel] notification bind in statusBar
+ * Class for help control [NoteItem] notification bind in statusBar
  */
 class BindControl(private val context: Context?) : IBindControl {
 
@@ -31,16 +31,16 @@ class BindControl(private val context: Context?) : IBindControl {
     /**
      * Update notification if note isStatus and isVisible, otherwise cancel notification
      */
-    override fun notifyNote(noteModel: NoteModel, rankIdVisibleList: List<Long>) {
+    override fun notifyNote(noteItem: NoteItem, rankIdVisibleList: List<Long>) {
         if (context == null) return
 
-        val id = noteModel.noteEntity.id.toInt()
-        val notify = with(noteModel.noteEntity) {
+        val id = noteItem.id.toInt()
+        val notify = with(noteItem) {
             !isBin && isStatus && isVisible(rankIdVisibleList)
         }
 
         if (notify) {
-            manager?.notify(TAG_NOTE, id, NotificationFactory.getBind(context, noteModel))
+            manager?.notify(TAG_NOTE, id, NotificationFactory.getBind(context, noteItem))
         } else {
             cancelNote(id)
         }
@@ -69,7 +69,7 @@ class BindControl(private val context: Context?) : IBindControl {
         interface Full : Notify, Cancel
 
         interface Notify {
-            fun notifyNoteBind(noteModel: NoteModel, rankIdVisibleList: List<Long>)
+            fun notifyNoteBind(noteItem: NoteItem, rankIdVisibleList: List<Long>)
         }
 
         interface Cancel {

@@ -23,11 +23,11 @@ import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
 import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.factory.ViewModelFactory
-import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.InputAction
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.NoteData
+import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.model.state.OpenState
@@ -202,11 +202,11 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment {
         )
     }
 
-    override fun bindNote(noteModel: NoteModel) {
-        binding?.apply { this.noteModel = noteModel }?.executePendingBindings()
+    override fun bindNote(noteItem: NoteItem) {
+        binding?.apply { this.noteItem = noteItem }?.executePendingBindings()
     }
 
-    override fun bindEdit(editMode: Boolean, noteModel: NoteModel) {
+    override fun bindEdit(editMode: Boolean, noteItem: NoteItem) {
         panelContainer?.let {
             TransitionManager.beginDelayedTransition(it,
                     AutoTransition().setOrdering(AutoTransition.ORDERING_TOGETHER).setDuration(100)
@@ -215,14 +215,14 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment {
 
         binding?.apply {
             this.editMode = editMode
-            this.noteModel = noteModel
+            this.noteItem = noteItem
         }?.executePendingBindings()
     }
 
-    override fun bindInput(inputAccess: InputControl.Access, noteModel: NoteModel) {
+    override fun bindInput(inputAccess: InputControl.Access, noteItem: NoteItem) {
         binding?.apply {
             this.inputAccess = inputAccess
-            this.noteModel = noteModel
+            this.noteItem = noteItem
         }?.executePendingBindings()
     }
 
@@ -302,8 +302,8 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment {
 
     override fun cancelAlarm(id: Long) = iAlarmControl.cancel(id)
 
-    override fun notifyNoteBind(noteModel: NoteModel, rankIdVisibleList: List<Long>) {
-        iBindControl.notifyNote(noteModel, rankIdVisibleList)
+    override fun notifyNoteBind(noteItem: NoteItem, rankIdVisibleList: List<Long>) {
+        iBindControl.notifyNote(noteItem, rankIdVisibleList)
     }
 
     override fun cancelNoteBind(id: Int) = iBindControl.cancelNote(id)

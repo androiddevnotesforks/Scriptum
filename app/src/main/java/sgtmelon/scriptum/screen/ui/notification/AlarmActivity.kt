@@ -28,11 +28,10 @@ import sgtmelon.scriptum.control.alarm.callback.IVibratorControl
 import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.listener.ItemListener
-import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.NoteData
+import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.ui.AppActivity
 import sgtmelon.scriptum.screen.ui.callback.notification.IAlarmActivity
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
@@ -148,8 +147,8 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         setupPlayer(uri, isLooping = true)
     }
 
-    override fun notifyDataSetChanged(noteModel: NoteModel) =
-            adapter.notifyDataSetChanged(arrayListOf(noteModel))
+    override fun notifyDataSetChanged(noteItem: NoteItem) =
+            adapter.notifyDataSetChanged(arrayListOf(noteItem))
 
 
     override fun startRippleAnimation(@Theme theme: Int, @ColorInt fillColor: Int) {
@@ -171,8 +170,8 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         buttonContainer?.visibility = View.VISIBLE
     }
 
-    override fun startNoteActivity(noteEntity: NoteEntity) {
-        startActivity(NoteActivity[this, noteEntity])
+    override fun startNoteActivity(noteItem: NoteItem) {
+        startActivity(NoteActivity[this, noteItem])
     }
 
 

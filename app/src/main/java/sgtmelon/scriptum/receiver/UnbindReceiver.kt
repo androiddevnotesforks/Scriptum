@@ -10,8 +10,8 @@ import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.data.ReceiverData.Command
 import sgtmelon.scriptum.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.model.data.ReceiverData.Values
+import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.repository.bind.BindRepo
-import sgtmelon.scriptum.room.entity.NoteEntity
 
 /**
  * Receiver for handle click on unbind button in [BindControl]
@@ -25,7 +25,9 @@ class UnbindReceiver : BroadcastReceiver() {
 
         if (id == NoteData.Default.ID) return
 
-        BindRepo(context).unbindNote(id)?.let { BindControl(context).cancelNote(it.id.toInt()) }
+        if (BindRepo(context).unbindNote(id)) {
+            BindControl(context).cancelNote(id.toInt())
+        }
 
         context.apply {
             sendTo(Filter.MAIN, Command.UNBIND_NOTE) { putExtra(Values.NOTE_ID, id) }
@@ -34,12 +36,12 @@ class UnbindReceiver : BroadcastReceiver() {
     }
 
     companion object {
-        operator fun get(context: Context, noteEntity: NoteEntity): PendingIntent {
+        operator fun get(context: Context, noteItem: NoteItem): PendingIntent {
             val intent = Intent(context, UnbindReceiver::class.java)
-                    .putExtra(Values.NOTE_ID, noteEntity.id)
+                    .putExtra(Values.NOTE_ID, noteItem.id)
 
             return PendingIntent.getBroadcast(
-                    context, noteEntity.id.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT
+                    context, noteItem.id.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT
             )
         }
     }

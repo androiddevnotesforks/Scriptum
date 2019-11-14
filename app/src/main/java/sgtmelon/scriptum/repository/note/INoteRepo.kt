@@ -11,7 +11,9 @@ interface INoteRepo {
 
     fun getList(@Sort sort: Int, bin: Boolean, optimisation: Boolean): MutableList<NoteItem>
 
-    fun getItem(id: Long): NoteItem?
+    fun getItem(id: Long, optimisation: Boolean): NoteItem?
+
+    fun getRollList(noteId: Long): MutableList<RollItem>
 
 
     fun isListHide(): Boolean

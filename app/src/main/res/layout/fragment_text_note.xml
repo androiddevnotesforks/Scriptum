@@ -12,7 +12,7 @@
                   type="sgtmelon.scriptum.screen.ui.callback.note.text.ITextNoteMenu"/>
         <variable name="rankEmpty" type="boolean"/>
 
-        <variable name="noteModel" type="sgtmelon.scriptum.model.NoteModel"/>
+        <variable name="noteItem" type="sgtmelon.scriptum.model.item.NoteItem"/>
         <variable name="editMode" type="boolean"/>
 
         <variable name="inputAccess" type="sgtmelon.scriptum.control.input.InputControl.Access"/>
@@ -28,7 +28,7 @@
                 layout="@layout/include_toolbar_note"
                 app:currentTheme='@{currentTheme}'
                 app:editMode='@{editMode}'
-                app:noteModel='@{noteModel}'/>
+                app:noteItem='@{noteItem}'/>
 
         <FrameLayout
                 android:layout_width="match_parent"
@@ -60,17 +60,16 @@
                                 style="@style/EditText.TextNote.Enter"
                                 android:hint="@string/hint_enter_text"
                                 android:importantForAutofill="noExcludeDescendants"
-                                android:text='@={noteModel.noteEntity.text}'
+                                android:text='@={noteItem.text}'
                                 android:visibility='@{editMode ? v.VISIBLE : v.INVISIBLE}'
                                 tools:targetApi="o"
                                 tools:visibility="invisible"/>
 
-                        <!-- Установка текста делается с условием, чтобы ничего не мешало editText менять размер -->
-
+                        <!-- Set empty text need for editText may change size -->
                         <TextView
                                 android:id="@+id/text_note_content_text"
                                 style="@style/EditText.TextNote.Read"
-                                android:text='@{editMode ? "" : noteModel.noteEntity.text}'
+                                android:text='@{editMode ? "" : noteItem.text}'
                                 android:visibility='@{editMode ? v.INVISIBLE : v.VISIBLE}'
                                 tools:text="@string/preview_note_text"/>
 
@@ -86,7 +85,7 @@
                  app:editMode='@{editMode}'
                  app:inputAccess='@{inputAccess}'
                  app:menuCallback='@{menuCallback}'
-                 app:noteModel='@{noteModel}'
+                 app:noteItem='@{noteItem}'
                  app:rankEmpty='@{rankEmpty}'/>
 
     </LinearLayout>

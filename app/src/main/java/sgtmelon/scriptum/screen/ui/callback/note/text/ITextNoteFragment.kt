@@ -2,9 +2,9 @@ package sgtmelon.scriptum.screen.ui.callback.note.text
 
 import sgtmelon.scriptum.control.input.IInputControl
 import sgtmelon.scriptum.control.input.InputControl
-import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
+import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.screen.ui.note.TextNoteFragment
 import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel
@@ -26,11 +26,11 @@ interface ITextNoteFragment : ITextNoteBridge {
 
     fun setupEnter(iInputControl: IInputControl)
 
-    fun bindNote(noteModel: NoteModel)
+    fun bindNote(noteItem: NoteItem)
 
-    fun bindEdit(editMode: Boolean, noteModel: NoteModel)
+    fun bindEdit(editMode: Boolean, noteItem: NoteItem)
 
-    fun bindInput(inputAccess: InputControl.Access, noteModel: NoteModel)
+    fun bindInput(inputAccess: InputControl.Access, noteItem: NoteItem)
 
     fun onPressBack(): Boolean
 

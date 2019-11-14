@@ -8,7 +8,7 @@
         <import alias="v" type="android.view.View"/>
         <import alias="noteType" type="sgtmelon.scriptum.model.key.NoteType"/>
 
-        <variable name="noteModel" type="sgtmelon.scriptum.model.NoteModel"/>
+        <variable name="noteItem" type="sgtmelon.scriptum.model.item.NoteItem"/>
     </data>
 
     <LinearLayout
@@ -22,7 +22,7 @@
                 android:id="@+id/note_info_notification_image"
                 style="@style/Image.Note.Info"
                 android:contentDescription="@null"
-                android:visibility='@{noteModel.alarmEntity.date.isEmpty() ? v.GONE : v.VISIBLE}'
+                android:visibility='@{noteItem.haveAlarm() ? v.VISIBLE : v.GONE }'
                 app:srcCompat="@drawable/ic_notifications"
                 tools:visibility="visible"/>
 
@@ -30,8 +30,8 @@
                 android:id="@+id/note_info_bind_image"
                 style="@style/Image.Note.Info"
                 android:contentDescription="@null"
-                android:src='@{noteModel.noteEntity.type == noteType.TEXT ? @drawable/ic_bind_text : @drawable/ic_bind_roll}'
-                android:visibility='@{noteModel.noteEntity.status ? v.VISIBLE : v.GONE}'
+                android:src='@{noteItem.type == noteType.TEXT ? @drawable/ic_bind_text : @drawable/ic_bind_roll}'
+                android:visibility='@{noteItem.status ? v.VISIBLE : v.GONE}'
                 tools:srcCompat="@drawable/ic_bind_roll"
                 tools:visibility="visible"/>
 
@@ -39,7 +39,7 @@
                 android:id="@+id/note_info_rank_image"
                 style="@style/Image.Note.Info"
                 android:contentDescription="@null"
-                android:visibility='@{noteModel.noteEntity.rankId == -1 ? v.GONE : v.VISIBLE}'
+                android:visibility='@{noteItem.haveRank() ? v.VISIBLE : v.GONE}'
                 app:srcCompat="@drawable/ic_rank"
                 tools:visibility="visible"/>
 
@@ -47,8 +47,8 @@
                 android:id="@+id/note_info_progress_text"
                 style="@style/Text.Note.Info"
                 android:layout_width="wrap_content"
-                android:text='@{noteModel.noteEntity.type == noteType.ROLL ? noteModel.noteEntity.text : ""}'
-                android:visibility='@{noteModel.noteEntity.type == noteType.ROLL ?  v.VISIBLE : v.GONE}'
+                android:text='@{noteItem.type == noteType.ROLL ? noteItem.text : ""}'
+                android:visibility='@{noteItem.type == noteType.ROLL ?  v.VISIBLE : v.GONE}'
                 tools:text="@string/preview_note_done"
                 tools:visibility="visible"/>
 
@@ -57,14 +57,14 @@
                 style="@style/Text.Note.Info"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                app:pastTime='@{noteModel.noteEntity.change}'
+                app:pastTime='@{noteItem.change}'
                 tools:text="@string/preview_note_time"/>
 
         <TextView
                 android:id="@+id/note_info_create_text"
                 style="@style/Text.Note.Info"
                 android:layout_width="wrap_content"
-                app:pastTime='@{noteModel.noteEntity.create}'
+                app:pastTime='@{noteItem.create}'
                 tools:text="@string/preview_note_time"/>
 
     </LinearLayout>

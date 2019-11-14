@@ -11,7 +11,7 @@
 
         <variable name="currentTheme" type="int"/>
 
-        <variable name="noteModel" type="sgtmelon.scriptum.model.NoteModel"/>
+        <variable name="noteItem" type="sgtmelon.scriptum.model.item.NoteItem"/>
         <variable name="editMode" type="boolean"/>
     </data>
 
@@ -46,18 +46,17 @@
                             style="@style/EditText.ToolbarNote"
                             android:hint="@string/hint_enter_name"
                             android:importantForAutofill="noExcludeDescendants"
-                            android:text='@={noteModel.noteEntity.name}'
+                            android:text='@={noteItem.name}'
                             android:visibility='@{editMode ? v.VISIBLE : v.INVISIBLE}'
                             tools:targetApi="o"
                             tools:visibility="invisible"/>
 
-                    <!-- Установка текста делается с условием, чтобы ничего не мешало editText менять размер -->
-
+                    <!-- Set empty text need for editText may change size -->
                     <TextView
                             android:id="@+id/toolbar_note_text"
                             style="@style/Text.ToolbarNote"
                             android:hint="@string/hint_text_name"
-                            android:text='@{editMode ? "" : noteModel.noteEntity.name}'
+                            android:text='@{editMode ? "" : noteItem.name}'
                             android:visibility='@{!editMode ? v.VISIBLE : v.INVISIBLE}'
                             tools:text="@string/preview_note_name"/>
 

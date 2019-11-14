@@ -8,7 +8,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.clearAndAdd
 import sgtmelon.scriptum.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.interactor.main.BinInteractor
-import sgtmelon.scriptum.model.NoteModel
+import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.screen.ui.callback.main.IBinFragment
 import sgtmelon.scriptum.screen.ui.main.BinFragment
 import sgtmelon.scriptum.screen.vm.ParentViewModel
@@ -23,7 +23,7 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
 
     private val iInteractor: IBinInteractor by lazy { BinInteractor(context, callback) }
 
-    private val itemList: MutableList<NoteModel> = ArrayList()
+    private val itemList: MutableList<NoteItem> = ArrayList()
 
     override fun onSetup(bundle: Bundle?) {
         callback?.apply {
@@ -58,7 +58,7 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
     }
 
     override fun onClickNote(p: Int) {
-        callback?.startNoteActivity(itemList[p].noteEntity)
+        callback?.startNoteActivity(itemList[p])
     }
 
     override fun onShowOptionsDialog(p: Int) {
@@ -68,7 +68,7 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
     override fun onResultOptionsDialog(p: Int, which: Int) {
         when (which) {
             Options.RESTORE -> callback?.notifyItemRemoved(p, restoreItem(p))
-            Options.COPY -> viewModelScope.launch { iInteractor.copy(itemList[p].noteEntity) }
+            Options.COPY -> viewModelScope.launch { iInteractor.copy(itemList[p]) }
             Options.CLEAR -> callback?.notifyItemRemoved(p, clearItem(p))
         }
 

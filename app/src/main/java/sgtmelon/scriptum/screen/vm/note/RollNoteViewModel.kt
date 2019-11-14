@@ -8,28 +8,27 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import kotlinx.coroutines.launch
 import sgtmelon.extension.beforeNow
 import sgtmelon.extension.getCalendar
-import sgtmelon.extension.getString
 import sgtmelon.extension.getTime
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.SaveControl
 import sgtmelon.scriptum.control.input.InputControl
-import sgtmelon.scriptum.extension.getCheck
 import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.extension.swap
 import sgtmelon.scriptum.interactor.BindInteractor
 import sgtmelon.scriptum.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.interactor.note.RollNoteInteractor
-import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.InputAction
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.item.InputItem.Cursor.Companion.get
+import sgtmelon.scriptum.model.item.NoteItem
+import sgtmelon.scriptum.model.item.RollItem
+import sgtmelon.scriptum.model.key.Complete
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.CheckState
 import sgtmelon.scriptum.model.state.IconState
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.room.converter.StringConverter
-import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.screen.ui.callback.note.INoteChild
 import sgtmelon.scriptum.screen.ui.callback.note.roll.IRollNoteFragment
 import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
@@ -52,7 +51,11 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     private val inputControl = InputControl()
 
     private var id: Long = NoteData.Default.ID
-    private lateinit var noteModel: NoteModel
+
+    /**
+     * TODO replace with nullable
+     */
+    private lateinit var noteItem: NoteItem
     private var noteState: NoteState = NoteState()
     private var isRankEmpty: Boolean = true
 
@@ -65,30 +68,27 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         /**
          * If first open
          */
-        if (!::noteModel.isInitialized) {
+        if (!::noteItem.isInitialized) {
             isRankEmpty = iInteractor.isRankEmpty()
 
             if (id == NoteData.Default.ID) {
-                noteModel = NoteModel.getCreate(
-                        getTime(), iInteractor.defaultColor, NoteType.ROLL
-                )
-
+                noteItem = NoteItem.getCreate(getTime(), iInteractor.defaultColor, NoteType.ROLL)
                 noteState = NoteState(isCreate = true)
             } else {
                 iInteractor.getModel(id, updateBind = true)?.let {
-                    noteModel = it
+                    noteItem = it
                 } ?: run {
                     parentCallback?.finish()
                     return
                 }
 
-                noteState = NoteState(isBin = noteModel.noteEntity.isBin)
+                noteState = NoteState(isBin = noteItem.isBin)
             }
         }
 
         callback?.apply {
             setupBinding(iInteractor.theme, isRankEmpty)
-            setupToolbar(iInteractor.theme, noteModel.noteEntity.color, noteState)
+            setupToolbar(iInteractor.theme, noteItem.color, noteState)
             setupDialog(iInteractor.getRankDialogItemArray())
             setupEnter(inputControl)
             setupRecycler(inputControl)
@@ -120,10 +120,10 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     override fun onUpdateData() {
-        checkState.setAll(noteModel.rollList)
+        checkState.setAll(noteItem.rollList)
 
         callback?.apply {
-            notifyDataSetChanged(noteModel.rollList)
+            notifyDataSetChanged(noteItem.rollList)
             changeCheckToggle(state = false)
         }
     }
@@ -156,18 +156,18 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     private fun onRestoreData(): Boolean {
         if (id == NoteData.Default.ID) return false
 
-        val colorFrom = noteModel.noteEntity.color
+        val colorFrom = noteItem.color
 
         iInteractor.getModel(id, updateBind = false)?.let {
-            noteModel = it
+            noteItem = it
         } ?: run {
             parentCallback?.finish()
             return false
         }
 
-        callback?.notifyDataSetChanged(noteModel.rollList)
+        callback?.notifyDataSetChanged(noteItem.rollList)
         onMenuEdit(isEdit = false)
-        callback?.tintToolbar(colorFrom, noteModel.noteEntity.color)
+        callback?.tintToolbar(colorFrom, noteItem.color)
 
         inputControl.reset()
 
@@ -187,60 +187,52 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         return true
     }
 
+    /**
+     * TODO check rollItem position
+     */
     override fun onClickAdd(simpleClick: Boolean) {
         val enterText = callback?.getEnterText() ?: ""
         callback?.clearEnterText()
 
         if (enterText.isEmpty()) return
 
-        val p = if (simpleClick) noteModel.rollList.size else 0
-        val rollEntity = RollEntity().apply {
-            noteId = noteModel.noteEntity.id
-            text = enterText
-        }
+        val p = if (simpleClick) noteItem.rollList.size else 0
+        val rollItem = RollItem(position = p, text = enterText)
 
-        inputControl.onRollAdd(p, rollEntity.toString())
+        inputControl.onRollAdd(p, rollItem.toString())
 
-        noteModel.rollList.add(p, rollEntity)
+        noteItem.rollList.add(p, rollItem)
 
         callback?.apply {
-            bindInput(inputControl.access, noteModel)
-            scrollToItem(simpleClick, p, noteModel.rollList)
+            bindInput(inputControl.access, noteItem)
+            scrollToItem(simpleClick, p, noteItem.rollList)
         }
     }
 
     override fun onClickItemCheck(p: Int) {
-        val rollList = noteModel.rollList
-        val rollEntity = rollList[p].apply { isCheck = !isCheck }
+        val rollItem = noteItem.rollList[p].apply { isCheck = !isCheck }
 
-        callback?.notifyListItem(p, rollEntity)
+        callback?.notifyListItem(p, rollItem)
 
-        val check = rollList.getCheck()
+        val check = noteItem.apply { change = getTime() }.updateComplete()
 
-        noteModel.noteEntity.apply {
-            change = getTime()
-            setCompleteText(check, rollList.size)
-        }
+        if (checkState.setAll(check, noteItem.rollList.size)) callback?.bindNote(noteItem)
 
-        if (checkState.setAll(check, rollList.size)) callback?.bindNote(noteModel)
-
-        iInteractor.updateRollCheck(noteModel, rollEntity)
+        iInteractor.updateRollCheck(noteItem, rollItem)
     }
 
     override fun onLongClickItemCheck() {
-        val size: Int = noteModel.rollList.size
         val isAll = checkState.isAll
 
-        noteModel.updateCheck(!isAll)
-        noteModel.noteEntity.apply {
-            change = getTime()
-            setCompleteText(if (isAll) 0 else size, size)
-        }
+        noteItem.updateCheck(!isAll)
 
-        iInteractor.updateRollCheck(noteModel, !isAll)
+        val complete = if (isAll) Complete.EMPTY else Complete.FULL
+        noteItem.apply { change = getTime() }.updateComplete(complete)
+
+        iInteractor.updateRollCheck(noteItem, !isAll)
 
         callback?.apply {
-            bindNote(noteModel)
+            bindNote(noteItem)
             changeCheckToggle(state = true)
         }
 
@@ -250,31 +242,28 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     //region Results of dialogs
 
     override fun onResultColorDialog(check: Int) {
-        val noteEntity = noteModel.noteEntity
-        inputControl.onColorChange(noteEntity.color, check)
-        noteEntity.color = check
+        inputControl.onColorChange(noteItem.color, check)
+        noteItem.color = check
 
         callback?.apply {
-            bindInput(inputControl.access, noteModel)
+            bindInput(inputControl.access, this@RollNoteViewModel.noteItem)
             tintToolbar(check)
         }
     }
 
     override fun onResultRankDialog(check: Int) {
-        val noteEntity = noteModel.noteEntity
-
         val rankId = iInteractor.getRankId(check)
 
-        inputControl.onRankChange(noteEntity.rankId, noteEntity.rankPs, rankId, check)
+        inputControl.onRankChange(noteItem.rankId, noteItem.rankPs, rankId, check)
 
-        noteEntity.apply {
+        noteItem.apply {
             this.rankId = rankId
             this.rankPs = check
         }
 
         callback?.apply {
-            bindInput(inputControl.access, noteModel)
-            bindNote(noteModel)
+            bindInput(inputControl.access, this@RollNoteViewModel.noteItem)
+            bindNote(this@RollNoteViewModel.noteItem)
         }
     }
 
@@ -284,30 +273,30 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
     override fun onResultDateDialogClear() {
         viewModelScope.launch {
-            iInteractor.clearDate(noteModel)
+            iInteractor.clearDate(noteItem)
             iBindInteractor.notifyInfoBind(callback)
         }
 
-        noteModel.alarmEntity.clear()
+        noteItem.clearAlarm()
 
-        callback?.bindNote(noteModel)
+        callback?.bindNote(noteItem)
     }
 
     override fun onResultTimeDialog(calendar: Calendar) {
         if (calendar.beforeNow()) return
 
-        noteModel.alarmEntity.date = calendar.getString()
-
+        /**
+         * TODO check callback успевает ли получить данные
+         */
         viewModelScope.launch {
-            iInteractor.setDate(noteModel, calendar)
+            iInteractor.setDate(noteItem, calendar)
             iBindInteractor.notifyInfoBind(callback)
+            callback?.bindNote(noteItem)
         }
-
-        callback?.bindNote(noteModel)
     }
 
     override fun onResultConvertDialog() {
-        iInteractor.convert(noteModel)
+        iInteractor.convert(noteItem)
         parentCallback?.onConvertNote()
     }
 
@@ -317,31 +306,28 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
      * Calls on cancel note bind from status bar for update bind indicator
      */
     override fun onCancelNoteBind() {
-        callback?.bindNote(noteModel.apply { noteEntity.isStatus = false })
+        callback?.bindNote(noteItem.apply { isStatus = false })
     }
 
     //region Menu click
 
     override fun onMenuRestore() {
-        noteModel.let { viewModelScope.launch { iInteractor.restoreNote(it) } }
+        noteItem.let { viewModelScope.launch { iInteractor.restoreNote(it) } }
         parentCallback?.finish()
     }
 
     override fun onMenuRestoreOpen() {
         noteState.isBin = false
 
-        noteModel.noteEntity.apply {
-            change = getTime()
-            isBin = false
-        }
+        noteItem.restore()
 
         iconState.notAnimate { onMenuEdit(isEdit = false) }
 
-        viewModelScope.launch { iInteractor.updateNote(noteModel, updateBind = false) }
+        viewModelScope.launch { iInteractor.updateNote(noteItem, updateBind = false) }
     }
 
     override fun onMenuClear() {
-        noteModel.let { viewModelScope.launch { iInteractor.clearNote(it) } }
+        noteItem.let { viewModelScope.launch { iInteractor.clearNote(it) } }
         parentCallback?.finish()
     }
 
@@ -354,27 +340,26 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         val item = if (isUndo) inputControl.undo() else inputControl.redo()
 
         if (item != null) inputControl.makeNotEnabled {
-            val noteEntity = noteModel.noteEntity
-            val rollList = noteModel.rollList
+            val rollList = noteItem.rollList
 
             when (item.tag) {
                 InputAction.RANK -> {
                     val list = StringConverter().toList(item[isUndo])
-                    noteEntity.rankId = list[0]
-                    noteEntity.rankPs = list[1].toInt()
+                    noteItem.rankId = list[0]
+                    noteItem.rankPs = list[1].toInt()
                 }
                 InputAction.COLOR -> {
-                    val colorFrom = noteEntity.color
+                    val colorFrom = noteItem.color
                     val colorTo = item[isUndo].toInt()
 
-                    noteEntity.color = colorTo
+                    noteItem.color = colorTo
 
                     callback?.tintToolbar(colorFrom, colorTo)
                 }
                 InputAction.NAME -> callback?.changeName(item[isUndo], cursor = item.cursor[isUndo])
                 InputAction.ROLL -> {
                     rollList[item.p].text = item[isUndo]
-                    callback?.notifyItemChanged(item.p, rollList, cursor = item.cursor[isUndo])
+                    callback?.notifyItemChanged(item.p, cursor = item.cursor[isUndo], list = rollList)
                 }
                 InputAction.ROLL_ADD, InputAction.ROLL_REMOVE -> {
                     val isAddUndo = isUndo && item.tag == InputAction.ROLL_ADD
@@ -384,10 +369,10 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
                         rollList.removeAt(item.p)
                         callback?.notifyItemRemoved(item.p, rollList)
                     } else {
-                        val rollEntity = RollEntity[item[isUndo]]
-                        if (rollEntity != null) {
-                            rollList.add(item.p, rollEntity)
-                            callback?.notifyItemInserted(item.p, rollEntity.text.length, rollList)
+                        val rollItem = RollItem[item[isUndo]]
+                        if (rollItem != null) {
+                            rollList.add(item.p, rollItem)
+                            callback?.notifyItemInserted(item.p, rollItem.text.length, rollList)
                         }
                     }
                 }
@@ -401,29 +386,24 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             }
         }
 
-        callback?.bindInput(inputControl.access, noteModel)
+        callback?.bindInput(inputControl.access, noteItem)
     }
 
     override fun onMenuRank() {
-        callback?.showRankDialog(check = noteModel.noteEntity.rankPs + 1)
+        callback?.showRankDialog(check = noteItem.rankPs + 1)
     }
 
     override fun onMenuColor() {
-        callback?.showColorDialog(noteModel.noteEntity.color, iInteractor.theme)
+        callback?.showColorDialog(noteItem.color, iInteractor.theme)
     }
 
     override fun onMenuSave(changeMode: Boolean): Boolean {
-        val rollList = noteModel.rollList
+        if (!noteItem.isSaveEnabled()) return false
 
-        if (!noteModel.isSaveEnabled()) return false
-
-        noteModel.noteEntity.apply {
-            change = getTime()
-            setCompleteText(rollList)
-        }
+        noteItem.apply { change = getTime() }.updateComplete()
 
         /**
-         * Change to read mode
+         * Change to read mode.
          */
         if (changeMode) {
             callback?.hideKeyboard()
@@ -431,32 +411,31 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             inputControl.reset()
         }
 
-        iInteractor.saveNote(noteModel, noteState.isCreate)
+        iInteractor.saveNote(noteItem, noteState.isCreate)
 
         noteState.ifCreate {
-            id = noteModel.noteEntity.id
+            id = noteItem.id
             parentCallback?.onUpdateNoteId(id)
 
             if (!changeMode) callback?.changeToolbarIcon(drawableOn = true, needAnim = true)
         }
 
-        callback?.notifyList(rollList)
+        callback?.notifyList(noteItem.rollList)
 
         return true
     }
 
 
     override fun onMenuNotification() {
-        val date = noteModel.alarmEntity.date
-        callback?.showDateDialog(date.getCalendar(), date.isNotEmpty())
+        callback?.showDateDialog(noteItem.alarmDate.getCalendar(), noteItem.haveAlarm())
     }
 
     override fun onMenuBind() {
-        noteModel.noteEntity.apply { isStatus = !isStatus }
+        noteItem.apply { isStatus = !isStatus }
 
-        callback?.bindEdit(noteState.isEdit, noteModel)
+        callback?.bindEdit(noteState.isEdit, noteItem)
 
-        viewModelScope.launch { iInteractor.updateNote(noteModel, updateBind = true) }
+        viewModelScope.launch { iInteractor.updateNote(noteItem, updateBind = true) }
     }
 
     override fun onMenuConvert() {
@@ -465,7 +444,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
     override fun onMenuDelete() {
         viewModelScope.launch {
-            iInteractor.deleteNote(noteModel)
+            iInteractor.deleteNote(noteItem)
             iBindInteractor.notifyInfoBind(callback)
         }
 
@@ -481,8 +460,8 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
                     needAnim = !noteState.isCreate && iconState.animate
             )
 
-            bindEdit(isEdit, noteModel)
-            bindInput(inputControl.access, noteModel)
+            bindEdit(isEdit, noteItem)
+            bindInput(inputControl.access, noteItem)
             updateNoteState(noteState)
 
             if (isEdit) focusOnEdit()
@@ -498,13 +477,13 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     )
 
     override fun onInputTextChange() {
-        callback?.bindInput(inputControl.access, noteModel)
+        callback?.bindInput(inputControl.access, noteItem)
     }
 
     override fun onInputRollChange(p: Int, text: String) {
         callback?.apply {
-            notifyListItem(p, noteModel.rollList[p].apply { this.text = text })
-            bindInput(inputControl.access, noteModel)
+            notifyListItem(p, noteItem.rollList[p].apply { this.text = text })
+            bindInput(inputControl.access, noteItem)
         }
     }
 
@@ -520,25 +499,25 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     )
 
     override fun onTouchSwipe(p: Int) {
-        val rollEntity = noteModel.rollList[p]
-        noteModel.rollList.removeAt(p)
+        val rollItem = noteItem.rollList[p]
+        noteItem.rollList.removeAt(p)
 
-        inputControl.onRollRemove(p, rollEntity.toString())
+        inputControl.onRollRemove(p, rollItem.toString())
 
         callback?.apply {
-            bindInput(inputControl.access, noteModel)
-            notifyItemRemoved(p, noteModel.rollList)
+            bindInput(inputControl.access, noteItem)
+            notifyItemRemoved(p, noteItem.rollList)
         }
     }
 
     override fun onTouchMove(from: Int, to: Int): Boolean {
-        callback?.notifyItemMoved(from, to, noteModel.rollList.apply { swap(from, to) })
+        callback?.notifyItemMoved(from, to, noteItem.rollList.apply { swap(from, to) })
         return true
     }
 
     override fun onTouchMoveResult(from: Int, to: Int) {
         inputControl.onRollMove(from, to)
-        callback?.bindInput(inputControl.access, noteModel)
+        callback?.bindInput(inputControl.access, noteItem)
     }
 
     //endregion

@@ -11,10 +11,10 @@ import sgtmelon.scriptum.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.interactor.notification.AlarmInteractor
 import sgtmelon.scriptum.interactor.notification.SignalInteractor
-import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.data.ReceiverData
+import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.ColorShade
 import sgtmelon.scriptum.model.state.SignalState
 import sgtmelon.scriptum.screen.ui.callback.notification.IAlarmActivity
@@ -33,7 +33,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
 
     private var id: Long = NoteData.Default.ID
 
-    private var noteModel: NoteModel? = null
+    private var noteItem: NoteItem? = null
     private var signalState: SignalState? = null
 
     private val vibratorHandler = Handler()
@@ -71,9 +71,9 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         /**
          * If first open
          */
-        if (noteModel == null) {
+        if (noteItem == null) {
             iInteractor.getModel(id)?.let {
-                noteModel = it
+                noteItem = it
             } ?: run {
                 callback?.finish()
                 return
@@ -82,7 +82,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
             signalState = iSignalInteractor.signalState
         }
 
-        noteModel?.let { callback?.notifyDataSetChanged(it) }
+        noteItem?.let { callback?.notifyDataSetChanged(it) }
     }
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy {
@@ -98,7 +98,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         longWaitHandler.removeCallbacksAndMessages(null)
 
         if (needRepeat) {
-            noteModel?.also {
+            noteItem?.also {
                 val valueArray = context.resources.getIntArray(R.array.value_alarm_repeat_array)
                 iInteractor.setupRepeat(it, valueArray)
             }
@@ -121,7 +121,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     }
 
     override fun onStart() {
-        val color = noteModel?.noteEntity?.color ?: return
+        val color = noteItem?.color ?: return
 
         callback?.apply {
             val theme = iInteractor.theme
@@ -144,12 +144,12 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     }
 
     override fun onClickNote() {
-        val noteModel = noteModel ?: return
+        val noteItem = noteItem ?: return
 
         needRepeat = false
 
         callback?.apply {
-            startNoteActivity(noteModel.noteEntity)
+            startNoteActivity(noteItem)
             finish()
         }
     }

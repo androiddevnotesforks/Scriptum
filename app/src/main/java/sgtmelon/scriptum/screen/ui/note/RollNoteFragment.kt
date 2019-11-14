@@ -33,15 +33,15 @@ import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.listener.ItemListener
-import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.InputAction
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.NoteData
+import sgtmelon.scriptum.model.item.NoteItem
+import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.screen.ui.ParentFragment
 import sgtmelon.scriptum.screen.ui.callback.note.roll.IRollNoteFragment
 import java.util.*
@@ -256,7 +256,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment {
         ItemTouchHelper(touchCallback).attachToRecyclerView(recyclerView)
     }
 
-    override fun bindEdit(editMode: Boolean, noteModel: NoteModel) {
+    override fun bindEdit(editMode: Boolean, noteItem: NoteItem) {
         panelContainer?.let {
             TransitionManager.beginDelayedTransition(it,
                     AutoTransition()
@@ -268,14 +268,14 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment {
 
         binding?.apply {
             this.editMode = editMode
-            this.noteModel = noteModel
+            this.noteItem = noteItem
         }
 
         bindEnter()
     }
 
-    override fun bindNote(noteModel: NoteModel) {
-        binding?.apply { this.noteModel = noteModel }?.executePendingBindings()
+    override fun bindNote(noteItem: NoteItem) {
+        binding?.apply { this.noteItem = noteItem }?.executePendingBindings()
     }
 
     override fun bindEnter() {
@@ -283,10 +283,10 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment {
         binding?.executePendingBindings()
     }
 
-    override fun bindInput(inputAccess: InputControl.Access, noteModel: NoteModel) {
+    override fun bindInput(inputAccess: InputControl.Access, noteItem: NoteItem) {
         binding?.apply {
             this.inputAccess = inputAccess
-            this.noteModel = noteModel
+            this.noteItem = noteItem
         }?.executePendingBindings()
     }
 
@@ -329,7 +329,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment {
         rollEnter?.setText("")
     }
 
-    override fun scrollToItem(simpleClick: Boolean, p: Int, list: MutableList<RollEntity>) {
+    override fun scrollToItem(simpleClick: Boolean, p: Int, list: MutableList<RollItem>) {
         val fastScroll = with(layoutManager) {
             return@with if (simpleClick) {
                 findLastVisibleItemPosition() == p - 1
@@ -355,27 +355,27 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment {
         adapter.apply { this.noteState = noteState }.notifyDataSetChanged()
     }
 
-    override fun notifyListItem(p: Int, rollEntity: RollEntity) = adapter.setListItem(p, rollEntity)
+    override fun notifyListItem(p: Int, rollItem: RollItem) = adapter.setListItem(p, rollItem)
 
-    override fun notifyList(list: MutableList<RollEntity>) = adapter.setList(list)
+    override fun notifyList(list: MutableList<RollItem>) = adapter.setList(list)
 
-    override fun notifyDataSetChanged(list: MutableList<RollEntity>) {
+    override fun notifyDataSetChanged(list: MutableList<RollItem>) {
         adapter.apply { setList(list) }.notifyItemRangeChanged(0, list.size)
     }
 
-    override fun notifyItemInserted(p: Int, cursor: Int, list: MutableList<RollEntity>) {
+    override fun notifyItemInserted(p: Int, cursor: Int, list: MutableList<RollItem>) {
         adapter.apply { cursorPosition = cursor }.notifyItemInserted(p, list)
     }
 
-    override fun notifyItemChanged(p: Int, list: MutableList<RollEntity>, cursor: Int) {
+    override fun notifyItemChanged(p: Int, cursor: Int, list: MutableList<RollItem>) {
         adapter.apply { cursorPosition = cursor }.notifyItemChanged(p, list)
     }
 
-    override fun notifyItemRemoved(p: Int, list: MutableList<RollEntity>) {
+    override fun notifyItemRemoved(p: Int, list: MutableList<RollItem>) {
         adapter.notifyItemRemoved(p, list)
     }
 
-    override fun notifyItemMoved(from: Int, to: Int, list: MutableList<RollEntity>) {
+    override fun notifyItemMoved(from: Int, to: Int, list: MutableList<RollItem>) {
         adapter.notifyItemMoved(from, to, list)
     }
 
@@ -421,8 +421,8 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment {
 
     override fun cancelAlarm(id: Long) = iAlarmControl.cancel(id)
 
-    override fun notifyNoteBind(noteModel: NoteModel, rankIdVisibleList: List<Long>) {
-        iBindControl.notifyNote(noteModel, rankIdVisibleList)
+    override fun notifyNoteBind(noteItem: NoteItem, rankIdVisibleList: List<Long>) {
+        iBindControl.notifyNote(noteItem, rankIdVisibleList)
     }
 
     override fun cancelNoteBind(id: Int) = iBindControl.cancelNote(id)

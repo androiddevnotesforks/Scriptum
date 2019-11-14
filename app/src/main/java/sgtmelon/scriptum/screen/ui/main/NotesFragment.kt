@@ -22,11 +22,10 @@ import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.listener.ItemListener
-import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Options
 import sgtmelon.scriptum.model.annotation.Theme
+import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.ui.ParentFragment
 import sgtmelon.scriptum.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.screen.ui.callback.main.INotesFragment
@@ -36,7 +35,7 @@ import sgtmelon.scriptum.screen.ui.preference.PreferenceActivity
 import java.util.*
 
 /**
- * Fragment which displays list of notes - [NoteEntity]
+ * Fragment which displays list of notes - [NoteItem]
  */
 class NotesFragment : ParentFragment(), INotesFragment {
 
@@ -228,8 +227,8 @@ class NotesFragment : ParentFragment(), INotesFragment {
         recyclerView?.smoothScrollToPosition(0)
     }
 
-    override fun startNoteActivity(noteEntity: NoteEntity) {
-        startActivity(NoteActivity[context ?: return, noteEntity])
+    override fun startNoteActivity(noteItem: NoteItem) {
+        startActivity(NoteActivity[context ?: return, noteItem])
     }
 
 
@@ -255,15 +254,15 @@ class NotesFragment : ParentFragment(), INotesFragment {
     }
 
 
-    override fun notifyDataSetChanged(list: MutableList<NoteModel>) {
+    override fun notifyDataSetChanged(list: MutableList<NoteItem>) {
         adapter.notifyDataSetChanged(list)
     }
 
-    override fun notifyItemChanged(p: Int, list: MutableList<NoteModel>) {
+    override fun notifyItemChanged(p: Int, list: MutableList<NoteItem>) {
         adapter.notifyItemChanged(p, list)
     }
 
-    override fun notifyItemRemoved(p: Int, list: MutableList<NoteModel>) {
+    override fun notifyItemRemoved(p: Int, list: MutableList<NoteItem>) {
         adapter.notifyItemRemoved(p, list)
     }
 
@@ -274,8 +273,8 @@ class NotesFragment : ParentFragment(), INotesFragment {
         iAlarmControl.set(calendar, id)
     }
 
-    override fun notifyNoteBind(noteModel: NoteModel, rankIdVisibleList: List<Long>) {
-        iBindControl.notifyNote(noteModel, rankIdVisibleList)
+    override fun notifyNoteBind(noteItem: NoteItem, rankIdVisibleList: List<Long>) {
+        iBindControl.notifyNote(noteItem, rankIdVisibleList)
     }
 
     override fun cancelNoteBind(id: Int) = iBindControl.cancelNote(id)

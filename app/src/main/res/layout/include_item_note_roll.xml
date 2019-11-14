@@ -4,7 +4,7 @@
         tools:showIn="@layout/item_note_roll">
 
     <data>
-        <variable name="rollEntity" type="sgtmelon.scriptum.room.entity.RollEntity"/>
+        <variable name="rollItem" type="sgtmelon.scriptum.model.item.RollItem"/>
     </data>
 
     <LinearLayout
@@ -17,13 +17,13 @@
                 android:id="@+id/note_roll_check_image"
                 style="@style/Image.Note.Check"
                 android:contentDescription="@null"
-                android:src='@{rollEntity != null &amp;&amp; rollEntity.check ? @drawable/ic_check_done : @drawable/ic_check_outline}'
+                android:src='@{rollItem != null &amp;&amp; rollItem.check ? @drawable/ic_check_done : @drawable/ic_check_outline}'
                 tools:srcCompat="@drawable/ic_check_done"/>
 
         <TextView
                 android:id="@+id/note_roll_content_text"
                 style="@style/Text.Note.Roll"
-                android:text='@{rollEntity != null ? rollEntity.text : ""}'
+                android:text='@{rollItem != null ? rollItem.text : ""}'
                 tools:text="@string/preview_note_roll"/>
 
     </LinearLayout>

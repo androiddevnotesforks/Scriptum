@@ -1,14 +1,12 @@
 package sgtmelon.scriptum.interactor.main
 
 import android.content.Context
-
 import sgtmelon.scriptum.interactor.ParentInteractor
 import sgtmelon.scriptum.interactor.callback.main.IRankInteractor
+import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.repository.rank.IRankRepo
 import sgtmelon.scriptum.repository.rank.RankRepo
-import sgtmelon.scriptum.room.converter.RankConverter
-import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.vm.main.RankViewModel
 
 /**
@@ -18,8 +16,6 @@ class RankInteractor(context: Context) : ParentInteractor(context), IRankInterac
 
     // TODO #TEST write unit test
 
-    private val converter = RankConverter()
-
     private val iRankRepo: IRankRepo = RankRepo(context)
 
     override fun insert(name: String): RankItem {
@@ -28,11 +24,11 @@ class RankInteractor(context: Context) : ParentInteractor(context), IRankInterac
         return RankItem(id, name = name)
     }
 
-    override fun getList() = converter.toItem(iRankRepo.getList())
+    override fun getList() = iRankRepo.getList()
 
-    override fun delete(item: RankItem) = iRankRepo.delete(converter.toEntity(item))
+    override fun delete(item: RankItem) = iRankRepo.delete(item)
 
-    override suspend fun update(item: RankItem) = iRankRepo.update(converter.toEntity(item))
+    override suspend fun update(item: RankItem) = iRankRepo.update(item)
 
     override fun updatePosition(list: List<RankItem>) {
         val noteIdSet = mutableSetOf<Long>()
@@ -45,13 +41,13 @@ class RankInteractor(context: Context) : ParentInteractor(context), IRankInterac
                 item.position = i
 
                 /**
-                 * Add id to [Set] of [NoteEntity.id] where need update [NoteEntity.rankPs].
+                 * Add id to [Set] of [NoteItem.id] where need update [NoteItem.rankPs].
                  */
                 item.noteId.forEach { noteIdSet.add(it) }
             }
         }
 
-        iRankRepo.updatePosition(converter.toEntity(list), noteIdSet.toList())
+        iRankRepo.updatePosition(list, noteIdSet.toList())
     }
 
 }

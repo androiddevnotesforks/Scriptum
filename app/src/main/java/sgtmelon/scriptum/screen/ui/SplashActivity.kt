@@ -13,11 +13,10 @@ import sgtmelon.scriptum.extension.beforeFinish
 import sgtmelon.scriptum.extension.hideKeyboard
 import sgtmelon.scriptum.extension.initLazy
 import sgtmelon.scriptum.factory.ViewModelFactory
-import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.OpenFrom
 import sgtmelon.scriptum.model.data.NoteData
+import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.ui.callback.ISplashActivity
 import sgtmelon.scriptum.screen.ui.intro.IntroActivity
 import sgtmelon.scriptum.screen.ui.main.MainActivity
@@ -87,27 +86,24 @@ class SplashActivity : AppCompatActivity(), ISplashActivity {
 
     override fun cancelAlarm(id: Long) = iAlarmControl.cancel(id)
 
-    override fun notifyNoteBind(noteModel: NoteModel, rankIdVisibleList: List<Long>) {
-        iBindControl.notifyNote(noteModel, rankIdVisibleList)
+    override fun notifyNoteBind(noteItem: NoteItem, rankIdVisibleList: List<Long>) {
+        iBindControl.notifyNote(noteItem, rankIdVisibleList)
     }
 
     override fun notifyInfoBind(count: Int) = iBindControl.notifyInfo(count)
 
     companion object {
-        fun getAlarmInstance(context: Context, noteEntity: NoteEntity) =
-                getAlarmInstance(context, noteEntity.id)
-
         fun getAlarmInstance(context: Context, id: Long): Intent =
                 Intent(context, SplashActivity::class.java)
                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         .putExtra(OpenFrom.INTENT_KEY, OpenFrom.ALARM)
                         .putExtra(NoteData.Intent.ID, id)
 
-        fun getBindInstance(context: Context, noteEntity: NoteEntity): Intent =
+        fun getBindInstance(context: Context, noteItem: NoteItem): Intent =
                 Intent(context, SplashActivity::class.java)
                         .putExtra(OpenFrom.INTENT_KEY, OpenFrom.BIND)
-                        .putExtra(NoteData.Intent.ID, noteEntity.id)
-                        .putExtra(NoteData.Intent.TYPE, noteEntity.type.ordinal)
+                        .putExtra(NoteData.Intent.ID, noteItem.id)
+                        .putExtra(NoteData.Intent.TYPE, noteItem.type.ordinal)
 
         fun getNotificationInstance(context: Context): Intent =
                 Intent(context, SplashActivity::class.java)

@@ -8,8 +8,8 @@ import sgtmelon.scriptum.adapter.RollAdapter
 import sgtmelon.scriptum.databinding.ItemRollReadBinding
 import sgtmelon.scriptum.extension.checkNoPosition
 import sgtmelon.scriptum.listener.ItemListener
+import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.state.NoteState
-import sgtmelon.scriptum.room.entity.RollEntity
 
 /**
  * Holder of note roll row read state, use in [RollAdapter]
@@ -42,8 +42,8 @@ class RollReadHolder(
         }
     }
 
-    fun bind(rollEntity: RollEntity, noteState: NoteState?, checkToggle: Boolean) {
-        binding.rollEntity = rollEntity
+    fun bind(rollItem: RollItem, noteState: NoteState?, checkToggle: Boolean) {
+        binding.rollItem = rollItem
         binding.keyBin = noteState?.isBin == true
         binding.checkToggle = checkToggle
 

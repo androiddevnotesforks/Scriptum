@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.extension.beforeNow
 import sgtmelon.extension.getCalendar
-import sgtmelon.extension.getString
 import sgtmelon.extension.getTime
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.SaveControl
@@ -16,10 +15,10 @@ import sgtmelon.scriptum.interactor.BindInteractor
 import sgtmelon.scriptum.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.interactor.note.TextNoteInteractor
-import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.InputAction
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.item.InputItem.Cursor.Companion.get
+import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.IconState
 import sgtmelon.scriptum.model.state.NoteState
@@ -47,7 +46,11 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     private val inputControl = InputControl()
 
     private var id: Long = NoteData.Default.ID
-    private lateinit var noteModel: NoteModel
+
+    /**
+     * TODO replace with nullable
+     */
+    private lateinit var noteItem: NoteItem
     private var noteState: NoteState = NoteState()
     private var isRankEmpty: Boolean = true
 
@@ -59,30 +62,27 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         /**
          * If first open
          */
-        if (!::noteModel.isInitialized) {
+        if (!::noteItem.isInitialized) {
             isRankEmpty = iInteractor.isRankEmpty()
 
             if (id == NoteData.Default.ID) {
-                noteModel = NoteModel.getCreate(
-                        getTime(), iInteractor.defaultColor, NoteType.TEXT
-                )
-
+                noteItem = NoteItem.getCreate(getTime(), iInteractor.defaultColor, NoteType.TEXT)
                 noteState = NoteState(isCreate = true)
             } else {
-                iInteractor.getModel(id, updateBind = true)?.let {
-                    noteModel = it
+                iInteractor.getItem(id, updateBind = true)?.let {
+                    noteItem = it
                 } ?: run {
                     parentCallback?.finish()
                     return
                 }
 
-                noteState = NoteState(isBin = noteModel.noteEntity.isBin)
+                noteState = NoteState(isBin = noteItem.isBin)
             }
         }
 
         callback?.apply {
             setupBinding(iInteractor.theme, isRankEmpty)
-            setupToolbar(iInteractor.theme, noteModel.noteEntity.color, noteState)
+            setupToolbar(iInteractor.theme, noteItem.color, noteState)
             setupDialog(iInteractor.getRankDialogItemArray())
             setupEnter(inputControl)
         }
@@ -140,17 +140,17 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     private fun onRestoreData(): Boolean {
         if (id == NoteData.Default.ID) return false
 
-        val colorFrom = noteModel.noteEntity.color
+        val colorFrom = noteItem.color
 
-        iInteractor.getModel(id, updateBind = false)?.let {
-            noteModel = it
+        iInteractor.getItem(id, updateBind = false)?.let {
+            noteItem = it
         } ?: run {
             parentCallback?.finish()
             return false
         }
 
         onMenuEdit(isEdit = false)
-        callback?.tintToolbar(colorFrom, noteModel.noteEntity.color)
+        callback?.tintToolbar(colorFrom, noteItem.color)
 
         inputControl.reset()
 
@@ -160,31 +160,28 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     //region Results of dialogs
 
     override fun onResultColorDialog(check: Int) {
-        val noteEntity = noteModel.noteEntity
-        inputControl.onColorChange(noteEntity.color, check)
-        noteEntity.color = check
+        inputControl.onColorChange(noteItem.color, check)
+        noteItem.color = check
 
         callback?.apply {
-            bindInput(inputControl.access, noteModel)
+            bindInput(inputControl.access, this@TextNoteViewModel.noteItem)
             tintToolbar(check)
         }
     }
 
     override fun onResultRankDialog(check: Int) {
-        val noteEntity = noteModel.noteEntity
-
         val rankId = iInteractor.getRankId(check)
 
-        inputControl.onRankChange(noteEntity.rankId, noteEntity.rankPs, rankId, check)
+        inputControl.onRankChange(noteItem.rankId, noteItem.rankPs, rankId, check)
 
-        noteEntity.apply {
+        noteItem.apply {
             this.rankId = rankId
             this.rankPs = check
         }
 
         callback?.apply {
-            bindInput(inputControl.access, noteModel)
-            bindNote(noteModel)
+            bindInput(inputControl.access, this@TextNoteViewModel.noteItem)
+            bindNote(this@TextNoteViewModel.noteItem)
         }
     }
 
@@ -194,30 +191,30 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
     override fun onResultDateDialogClear() {
         viewModelScope.launch {
-            iInteractor.clearDate(noteModel)
+            iInteractor.clearDate(noteItem)
             iBindInteractor.notifyInfoBind(callback)
         }
 
-        noteModel.alarmEntity.clear()
+        noteItem.clearAlarm()
 
-        callback?.bindNote(noteModel)
+        callback?.bindNote(noteItem)
     }
 
     override fun onResultTimeDialog(calendar: Calendar) {
         if (calendar.beforeNow()) return
 
-        noteModel.alarmEntity.date = calendar.getString()
-
+        /**
+         * TODO check callback успевает ли получить данные
+         */
         viewModelScope.launch {
-            iInteractor.setDate(noteModel, calendar)
+            iInteractor.setDate(noteItem, calendar)
             iBindInteractor.notifyInfoBind(callback)
+            callback?.bindNote(noteItem)
         }
-
-        callback?.bindNote(noteModel)
     }
 
     override fun onResultConvertDialog() {
-        iInteractor.convert(noteModel)
+        iInteractor.convert(noteItem)
         parentCallback?.onConvertNote()
     }
 
@@ -227,31 +224,28 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
      * Calls on cancel note bind from status bar for update bind indicator
      */
     override fun onCancelNoteBind() {
-        callback?.bindNote(noteModel.apply { noteEntity.isStatus = false })
+        callback?.bindNote(noteItem.apply { isStatus = false })
     }
 
     //region Menu click
 
     override fun onMenuRestore() {
-        noteModel.let { viewModelScope.launch { iInteractor.restoreNote(it) } }
+        noteItem.let { viewModelScope.launch { iInteractor.restoreNote(it) } }
         parentCallback?.finish()
     }
 
     override fun onMenuRestoreOpen() {
         noteState.isBin = false
 
-        noteModel.noteEntity.apply {
-            change = getTime()
-            isBin = false
-        }
+        noteItem.restore()
 
         iconState.notAnimate { onMenuEdit(isEdit = false) }
 
-        viewModelScope.launch { iInteractor.updateNote(noteModel, updateBind = false) }
+        viewModelScope.launch { iInteractor.updateNote(noteItem, updateBind = false) }
     }
 
     override fun onMenuClear() {
-        noteModel.let { viewModelScope.launch { iInteractor.clearNote(it) } }
+        noteItem.let { viewModelScope.launch { iInteractor.clearNote(it) } }
         parentCallback?.finish()
     }
 
@@ -264,19 +258,17 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         val item = if (isUndo) inputControl.undo() else inputControl.redo()
 
         if (item != null) inputControl.makeNotEnabled {
-            val noteEntity = noteModel.noteEntity
-
             when (item.tag) {
                 InputAction.RANK -> {
                     val list = StringConverter().toList(item[isUndo])
-                    noteEntity.rankId = list[0]
-                    noteEntity.rankPs = list[1].toInt()
+                    noteItem.rankId = list[0]
+                    noteItem.rankPs = list[1].toInt()
                 }
                 InputAction.COLOR -> {
-                    val colorFrom = noteEntity.color
+                    val colorFrom = noteItem.color
                     val colorTo = item[isUndo].toInt()
 
-                    noteEntity.color = colorTo
+                    noteItem.color = colorTo
 
                     callback?.tintToolbar(colorFrom, colorTo)
                 }
@@ -285,21 +277,21 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
             }
         }
 
-        callback?.bindInput(inputControl.access, noteModel)
+        callback?.bindInput(inputControl.access, noteItem)
     }
 
     override fun onMenuRank() {
-        callback?.showRankDialog(check = noteModel.noteEntity.rankPs + 1)
+        callback?.showRankDialog(check = noteItem.rankPs + 1)
     }
 
     override fun onMenuColor() {
-        callback?.showColorDialog(noteModel.noteEntity.color, iInteractor.theme)
+        callback?.showColorDialog(noteItem.color, iInteractor.theme)
     }
 
     override fun onMenuSave(changeMode: Boolean): Boolean {
-        if (!noteModel.isSaveEnabled()) return false
+        if (!noteItem.isSaveEnabled()) return false
 
-        noteModel.noteEntity.change = getTime()
+        noteItem.change = getTime()
 
         if (changeMode) {
             callback?.hideKeyboard()
@@ -307,10 +299,10 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
             inputControl.reset()
         }
 
-        iInteractor.saveNote(noteModel, noteState.isCreate)
+        iInteractor.saveNote(noteItem, noteState.isCreate)
 
         noteState.ifCreate {
-            id = noteModel.noteEntity.id
+            id = noteItem.id
             parentCallback?.onUpdateNoteId(id)
 
             if (!changeMode) callback?.changeToolbarIcon(drawableOn = true, needAnim = true)
@@ -321,16 +313,15 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
 
     override fun onMenuNotification() {
-        val date = noteModel.alarmEntity.date
-        callback?.showDateDialog(date.getCalendar(), date.isNotEmpty())
+        callback?.showDateDialog(noteItem.alarmDate.getCalendar(), noteItem.haveAlarm())
     }
 
     override fun onMenuBind() {
-        noteModel.noteEntity.apply { isStatus = !isStatus }
+        noteItem.apply { isStatus = !isStatus }
 
-        callback?.bindEdit(noteState.isEdit, noteModel)
+        callback?.bindEdit(noteState.isEdit, noteItem)
 
-        viewModelScope.launch { iInteractor.updateNote(noteModel, updateBind = true) }
+        viewModelScope.launch { iInteractor.updateNote(noteItem, updateBind = true) }
     }
 
     override fun onMenuConvert() {
@@ -339,7 +330,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
     override fun onMenuDelete() {
         viewModelScope.launch {
-            iInteractor.deleteNote(noteModel)
+            iInteractor.deleteNote(noteItem)
             iBindInteractor.notifyInfoBind(callback)
         }
 
@@ -355,8 +346,8 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
                     needAnim = !noteState.isCreate && iconState.animate
             )
 
-            bindEdit(isEdit, noteModel)
-            bindInput(inputControl.access, noteModel)
+            bindEdit(isEdit, noteItem)
+            bindInput(inputControl.access, noteItem)
 
             if (isEdit) focusOnEdit()
         }
@@ -371,7 +362,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     )
 
     override fun onInputTextChange() {
-        callback?.bindInput(inputControl.access, noteModel)
+        callback?.bindInput(inputControl.access, noteItem)
     }
 
 }

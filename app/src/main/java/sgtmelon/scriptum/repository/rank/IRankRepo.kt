@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.repository.rank
 
-import sgtmelon.scriptum.model.NoteModel
-import sgtmelon.scriptum.room.entity.RankEntity
+import sgtmelon.scriptum.model.item.NoteItem
+import sgtmelon.scriptum.model.item.RankItem
 
 /**
  * Interface for communicate with [RankRepo]
@@ -10,20 +10,20 @@ interface IRankRepo {
 
     fun isEmpty(): Boolean
 
-    fun getList(): MutableList<RankEntity>
+    fun getList(): MutableList<RankItem>
 
     fun getIdVisibleList(): List<Long>
 
 
     fun insert(name: String): Long
 
-    fun delete(rankEntity: RankEntity)
+    fun delete(rankItem: RankItem)
 
-    fun update(rankEntity: RankEntity)
+    fun update(rankItem: RankItem)
 
-    fun updatePosition(rankList: List<RankEntity>, noteIdList: List<Long>)
+    fun updatePosition(rankList: List<RankItem>, noteIdList: List<Long>)
 
-    fun updateConnection(noteModel: NoteModel)
+    fun updateConnection(noteItem: NoteItem)
 
 
     fun getDialogItemArray(): Array<String>

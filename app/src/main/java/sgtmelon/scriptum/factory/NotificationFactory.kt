@@ -11,10 +11,11 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.bind.BindControl
 import sgtmelon.scriptum.extension.getAppSimpleColor
 import sgtmelon.scriptum.model.NoteModel
+import sgtmelon.scriptum.model.item.NoteItem
+import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.key.ColorShade
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.receiver.UnbindReceiver
-import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.screen.ui.SplashActivity
 
 /**
@@ -25,27 +26,27 @@ object NotificationFactory {
     /**
      * Model for [BindControl.notifyNote]
      *
-     * Don't care about [NoteModel.rollList] if:
+     * Don't care about [NoteItem.rollList] if:
      * - If note type is [NoteType.TEXT]
-     * - If type is [NoteType.ROLL] and [NoteModel.rollList] is completely load
+     * - If type is [NoteType.ROLL] and [NoteItem.rollList] is completely load
      * - If you need only call [BindControl.cancelNote]
      */
-    fun getBind(context: Context, noteModel: NoteModel): Notification {
-        val icon = when (noteModel.noteEntity.type) {
+    fun getBind(context: Context, noteItem: NoteItem): Notification {
+        val icon = when (noteItem.type) {
             NoteType.TEXT -> R.drawable.notif_bind_text
             NoteType.ROLL -> R.drawable.notif_bind_roll
         }
 
-        val color = context.getAppSimpleColor(noteModel.noteEntity.color, ColorShade.DARK)
-        val title = noteModel.getStatusTitle(context)
-        val text = when (noteModel.noteEntity.type) {
-            NoteType.TEXT -> noteModel.noteEntity.text
-            NoteType.ROLL -> noteModel.rollList.toStatusText()
+        val color = context.getAppSimpleColor(noteItem.color, ColorShade.DARK)
+        val title = noteItem.getStatusTitle(context)
+        val text = when (noteItem.type) {
+            NoteType.TEXT -> noteItem.text
+            NoteType.ROLL -> noteItem.rollList.toStatusText()
         }
 
-        val id = noteModel.noteEntity.id.toInt()
+        val id = noteItem.id.toInt()
         val contentIntent = TaskStackBuilder.create(context)
-                .addNextIntent(SplashActivity.getBindInstance(context, noteModel.noteEntity))
+                .addNextIntent(SplashActivity.getBindInstance(context, noteItem))
                 .getPendingIntent(id, PendingIntent.FLAG_UPDATE_CURRENT)
 
         val builder = NotificationCompat.Builder(context, context.getString(R.string.notification_channel_id))
@@ -58,7 +59,7 @@ object NotificationFactory {
                 .setStyle(NotificationCompat.BigTextStyle().bigText(text))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(contentIntent)
-                .addAction(0, context.getString(R.string.notification_button_unbind), UnbindReceiver[context, noteModel.noteEntity])
+                .addAction(0, context.getString(R.string.notification_button_unbind), UnbindReceiver[context, noteItem])
                 .setAutoCancel(false)
                 .setOngoing(true)
 
@@ -69,12 +70,12 @@ object NotificationFactory {
         return builder.build()
     }
 
-    private fun NoteModel.getStatusTitle(context: Context): String = with(noteEntity) {
-        (if (type == NoteType.ROLL) "$text | " else "")
+    private fun NoteItem.getStatusTitle(context: Context): String {
+        return (if (type == NoteType.ROLL) "$text | " else "")
                 .plus(if (name.isEmpty()) context.getString(R.string.hint_text_name) else name)
     }
 
-    private fun List<RollEntity>.toStatusText() = joinToString(separator = "\n") {
+    private fun List<RollItem>.toStatusText() = joinToString(separator = "\n") {
         "${if (it.isCheck) "\u25CF" else "\u25CB"} ${it.text}"
     }
 

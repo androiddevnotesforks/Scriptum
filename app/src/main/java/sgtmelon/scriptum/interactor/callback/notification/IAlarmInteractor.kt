@@ -2,9 +2,9 @@ package sgtmelon.scriptum.interactor.callback.notification
 
 import sgtmelon.scriptum.interactor.callback.IParentInteractor
 import sgtmelon.scriptum.interactor.notification.AlarmInteractor
-import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Repeat
 import sgtmelon.scriptum.model.annotation.Theme
+import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
 
 /**
@@ -20,8 +20,8 @@ interface IAlarmInteractor : IParentInteractor {
 
     val volumeIncrease: Boolean
 
-    fun getModel(id: Long): NoteModel?
+    fun getModel(id: Long): NoteItem?
 
-    fun setupRepeat(noteModel: NoteModel, valueArray: IntArray)
+    fun setupRepeat(noteItem: NoteItem, valueArray: IntArray)
 
 }

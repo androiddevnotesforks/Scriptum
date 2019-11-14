@@ -5,7 +5,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import sgtmelon.scriptum.extension.getCheck
-import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.data.DbData.Note
 import sgtmelon.scriptum.model.data.DbData.Note.Default
@@ -15,7 +14,7 @@ import sgtmelon.scriptum.room.converter.BoolConverter
 import sgtmelon.scriptum.room.converter.NoteTypeConverter
 
 /**
- * Element of information about note for [NoteModel]
+ * Entity with common information about note.
  */
 @Entity(tableName = Note.TABLE)
 @TypeConverters(BoolConverter::class, NoteTypeConverter::class)
@@ -38,7 +37,7 @@ data class NoteEntity(
     }
 
     fun setCompleteText(rollList: List<RollEntity>) {
-        setCompleteText(rollList.getCheck(), rollList.size)
+        setCompleteText(rollList.filter { it.isCheck }.size, rollList.size)
     }
 
     fun splitTextForRoll() =

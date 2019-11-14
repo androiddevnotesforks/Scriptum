@@ -40,16 +40,19 @@ abstract class ParentUiTest : ParentTest() {
         SplashScreen().apply(after)
     }
 
-    protected fun launchBind(noteModel: NoteModel, func: SplashScreen.() -> Unit) = launch(
-            intent = SplashActivity.getBindInstance(context, noteModel.noteEntity), after = func
-    )
+    protected fun launchBind(noteModel: NoteModel, func: SplashScreen.() -> Unit) {
+        TODO("REFACTOR")
+//        launch(
+//                intent = SplashActivity.getBindInstance(context, noteModel.noteEntity), after = func
+//        )
+    }
 
     protected fun launchInfo(func: SplashScreen.() -> Unit) = launch(
             intent = SplashActivity.getNotificationInstance(context), after = func
     )
 
     protected fun launchAlarm(noteModel: NoteModel, func: SplashScreen.() -> Unit) = launch(
-            intent = SplashActivity.getAlarmInstance(context, noteModel.noteEntity), after = func
+            intent = SplashActivity.getAlarmInstance(context, noteModel.noteEntity.id), after = func
     )
 
 }

@@ -1,9 +1,8 @@
 package sgtmelon.scriptum.screen.ui.callback.main
 
 
-import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.room.entity.NoteEntity
+import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.screen.ui.main.NotesFragment
 import sgtmelon.scriptum.screen.vm.main.NotesViewModel
 import java.util.*
@@ -25,7 +24,7 @@ interface INotesFragment : INotesBridge {
 
     fun scrollTop()
 
-    fun startNoteActivity(noteEntity: NoteEntity)
+    fun startNoteActivity(noteItem: NoteItem)
 
 
     fun showOptionsDialog(itemArray: Array<String>, p: Int)
@@ -35,10 +34,10 @@ interface INotesFragment : INotesBridge {
     fun showTimeDialog(calendar: Calendar, dateList: List<String>, p: Int)
 
 
-    fun notifyDataSetChanged(list: MutableList<NoteModel>)
+    fun notifyDataSetChanged(list: MutableList<NoteItem>)
 
-    fun notifyItemChanged(p: Int, list: MutableList<NoteModel>)
+    fun notifyItemChanged(p: Int, list: MutableList<NoteItem>)
 
-    fun notifyItemRemoved(p: Int, list: MutableList<NoteModel>)
+    fun notifyItemRemoved(p: Int, list: MutableList<NoteItem>)
 
 }

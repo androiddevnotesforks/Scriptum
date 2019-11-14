@@ -2,9 +2,8 @@ package sgtmelon.scriptum.screen.ui.callback.notification
 
 import android.net.Uri
 import androidx.annotation.ColorInt
-import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.room.entity.NoteEntity
+import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
 import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
 
@@ -28,13 +27,13 @@ interface IAlarmActivity : IAlarmBridge {
 
     fun setupPlayer(volume: Int, increase: Boolean, uri: Uri)
 
-    fun notifyDataSetChanged(noteModel: NoteModel)
+    fun notifyDataSetChanged(noteItem: NoteItem)
 
     fun startRippleAnimation(@Theme theme: Int, @ColorInt fillColor: Int)
 
     fun startButtonFadeInAnimation()
 
-    fun startNoteActivity(noteEntity: NoteEntity)
+    fun startNoteActivity(noteItem: NoteItem)
 
 
     fun melodyStart()

@@ -8,7 +8,7 @@
         <import alias="theme" type="sgtmelon.scriptum.model.annotation.Theme"/>
 
         <variable name="currentTheme" type="int"/>
-        <variable name="noteModel" type="sgtmelon.scriptum.model.NoteModel"/>
+        <variable name="noteItem" type="sgtmelon.scriptum.model.item.NoteItem"/>
     </data>
 
     <androidx.cardview.widget.CardView
@@ -16,7 +16,7 @@
             style="@style/Card"
             app:cardCornerRadius="@dimen/radius_4dp"
             app:cardUseCompatPadding="false"
-            app:noteColor='@{noteModel.noteEntity.color}'
+            app:noteColor='@{noteItem.color}'
             tools:cardBackgroundColor="?attr/clPrimary">
 
         <FrameLayout
@@ -34,37 +34,37 @@
                     <TextView
                             android:id="@+id/note_roll_name_text"
                             style="@style/Text.Note.Name"
-                            android:text='@{noteModel.noteEntity.name}'
-                            android:visibility='@{noteModel.noteEntity.name.isEmpty() ? v.GONE : v.VISIBLE}'
+                            android:text='@{noteItem.name}'
+                            android:visibility='@{noteItem.name.isEmpty() ? v.GONE : v.VISIBLE}'
                             tools:text="@string/preview_note_name"/>
 
                     <include
                             android:id="@+id/note_roll_row0_container"
                             layout="@layout/include_item_note_roll"
-                            android:visibility='@{noteModel.rollList.size() &gt;= 1 ? v.VISIBLE : v.GONE}'
-                            app:rollEntity='@{noteModel.rollList.size() &gt;= 1 ? noteModel.rollList.get(0) : null}'/>
+                            android:visibility='@{noteItem.rollList.size() &gt;= 1 ? v.VISIBLE : v.GONE}'
+                            app:rollItem='@{noteItem.rollList.size() &gt;= 1 ? noteItem.rollList.get(0) : null}'/>
 
                     <include
                             android:id="@+id/note_roll_row1_container"
                             layout="@layout/include_item_note_roll"
-                            android:visibility='@{noteModel.rollList.size() &gt;= 2 ? v.VISIBLE : v.GONE}'
-                            app:rollEntity='@{noteModel.rollList.size() &gt;= 2 ? noteModel.rollList.get(1) : null}'/>
+                            android:visibility='@{noteItem.rollList.size() &gt;= 2 ? v.VISIBLE : v.GONE}'
+                            app:rollItem='@{noteItem.rollList.size() &gt;= 2 ? noteItem.rollList.get(1) : null}'/>
 
                     <include
                             android:id="@+id/note_roll_row2_container"
                             layout="@layout/include_item_note_roll"
-                            android:visibility='@{noteModel.rollList.size() &gt;= 3 ? v.VISIBLE : v.GONE}'
-                            app:rollEntity='@{noteModel.rollList.size() &gt;= 3 ? noteModel.rollList.get(2) : null}'/>
+                            android:visibility='@{noteItem.rollList.size() &gt;= 3 ? v.VISIBLE : v.GONE}'
+                            app:rollItem='@{noteItem.rollList.size() &gt;= 3 ? noteItem.rollList.get(2) : null}'/>
 
                     <include
                             android:id="@+id/note_roll_row3_container"
                             layout="@layout/include_item_note_roll"
-                            android:visibility='@{noteModel.rollList.size() &gt;= 4 ? v.VISIBLE : v.GONE}'
-                            app:rollEntity='@{noteModel.rollList.size() &gt;= 4 ? noteModel.rollList.get(3) : null}'/>
+                            android:visibility='@{noteItem.rollList.size() &gt;= 4 ? v.VISIBLE : v.GONE}'
+                            app:rollItem='@{noteItem.rollList.size() &gt;= 4 ? noteItem.rollList.get(3) : null}'/>
 
                     <include
                             layout="@layout/include_item_note_info"
-                            app:noteModel='@{noteModel}'/>
+                            app:noteItem='@{noteItem}'/>
 
                 </LinearLayout>
 
@@ -73,7 +73,7 @@
                         style="@style/Image.Color.Vertical.End"
                         android:contentDescription="@null"
                         app:indicatorTheme='@{currentTheme}'
-                        app:indicatorColor='@{noteModel.noteEntity.color}'
+                        app:indicatorColor='@{noteItem.color}'
                         app:visibleTheme='@{currentTheme}'
                         app:visibleOn='@{theme.DARK}'
                         tools:tint="@color/note_green_dark"

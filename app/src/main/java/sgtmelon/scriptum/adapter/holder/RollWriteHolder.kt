@@ -16,7 +16,7 @@ import sgtmelon.scriptum.databinding.ItemRollWriteBinding
 import sgtmelon.scriptum.extension.addOnNextAction
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.item.InputItem
-import sgtmelon.scriptum.room.entity.RollEntity
+import sgtmelon.scriptum.model.item.RollItem
 
 /**
  * Holder of note roll row edit state, use in [RollAdapter]
@@ -52,8 +52,8 @@ class RollWriteHolder(
         dragView.setOnTouchListener(this)
     }
 
-    fun bind(rollEntity: RollEntity) = iInputControl?.makeNotEnabled {
-        binding.apply { this.rollEntity = rollEntity }.executePendingBindings()
+    fun bind(rollItem: RollItem) = iInputControl?.makeNotEnabled {
+        binding.apply { this.rollItem = rollItem }.executePendingBindings()
     }
 
     /**

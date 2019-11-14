@@ -10,10 +10,10 @@ import sgtmelon.scriptum.factory.FragmentFactory
 import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.data.ReceiverData
+import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.receiver.NoteReceiver
-import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.ui.AppActivity
 import sgtmelon.scriptum.screen.ui.callback.note.INoteActivity
 import sgtmelon.scriptum.screen.ui.callback.note.INoteChild
@@ -99,8 +99,8 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild {
         operator fun get(context: Context, notificationItem: NotificationItem) =
                 get(context, notificationItem.note.type, notificationItem.note.id)
 
-        operator fun get(context: Context, noteEntity: NoteEntity) =
-                get(context, noteEntity.type, noteEntity.id)
+        operator fun get(context: Context, noteItem: NoteItem) =
+                get(context, noteItem.type, noteItem.id)
 
         operator fun get(context: Context, type: NoteType, id: Long? = NoteData.Default.ID): Intent =
                 Intent(context, NoteActivity::class.java)

@@ -3,7 +3,6 @@ package sgtmelon.scriptum.room.entity
 import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
 import org.json.JSONObject
-import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.data.DbData.Note
 import sgtmelon.scriptum.model.data.DbData.Roll
 import sgtmelon.scriptum.model.data.DbData.Roll.Default
@@ -11,7 +10,7 @@ import sgtmelon.scriptum.model.data.DbData.Roll.Room
 import sgtmelon.scriptum.room.converter.BoolConverter
 
 /**
- * Element of list in [NoteModel]
+ * Entity of element in check list note.
  */
 @Entity(
         tableName = Roll.TABLE,

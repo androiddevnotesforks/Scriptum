@@ -25,7 +25,7 @@ import sgtmelon.scriptum.extension.initLazy
 import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.listener.ItemListener
-import sgtmelon.scriptum.model.NoteModel
+import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.screen.ui.ParentFragment
 import sgtmelon.scriptum.screen.ui.callback.main.IMainActivity
@@ -254,8 +254,8 @@ class RankFragment : ParentFragment(), IRankFragment {
     }
 
 
-    override fun notifyNoteBind(noteModel: NoteModel, rankIdVisibleList: List<Long>) {
-        iBindControl.notifyNote(noteModel, rankIdVisibleList)
+    override fun notifyNoteBind(noteItem: NoteItem, rankIdVisibleList: List<Long>) {
+        iBindControl.notifyNote(noteItem, rankIdVisibleList)
     }
 
 }

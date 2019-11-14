@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.model.state
 
+import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.room.entity.RollEntity
 
 
@@ -11,7 +12,7 @@ class CheckState {
     var isAll: Boolean = false
         private set
 
-    fun setAll(list: MutableList<RollEntity>) {
+    fun setAll(list: MutableList<RollItem>) {
         isAll = list.isAllCheck()
     }
 
@@ -29,14 +30,12 @@ class CheckState {
         return false
     }
 
-    companion object {
-        private fun MutableList<RollEntity>.isAllCheck(): Boolean {
-            if (isEmpty()) return false
+    private fun List<RollItem>.isAllCheck(): Boolean {
+        if (isEmpty()) return false
 
-            this.forEach { if (!it.isCheck) return false }
+        forEach { if (!it.isCheck) return false }
 
-            return true
-        }
+        return true
     }
 
 }

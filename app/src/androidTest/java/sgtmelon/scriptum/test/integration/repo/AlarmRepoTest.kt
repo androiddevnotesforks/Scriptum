@@ -58,7 +58,8 @@ class AlarmRepoTest : ParentIntegrationTest() {
         iNoteDao.insert(noteEntity)
         alarmEntity.let { it.id = iAlarmDao.insert(it) }
 
-        assertEquals(alarmEntity, iAlarmRepo.get(noteEntity.id))
+        TODO ("REFACTOR")
+//        assertEquals(alarmEntity, iAlarmRepo.get(noteEntity.id))
     }
 
     @Test fun getList() = inRoom {

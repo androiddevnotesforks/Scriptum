@@ -12,6 +12,7 @@ import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.converter.NoteConverter
 import sgtmelon.scriptum.room.converter.RollConverter
 import sgtmelon.scriptum.room.dao.IRankDao
+import sgtmelon.scriptum.room.dao.IRollDao
 import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.room.entity.RollEntity
 
@@ -47,10 +48,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
                 if (!bin) list = list.filter { it.isVisible(rankIdVisibleList) }
 
                 list.forEach {
-                    val rollList = rollConverter.toItem(with(iRollDao) {
-                        if (optimisation) getView(it.id) else get(it.id)
-                    })
-
+                    val rollList = rollConverter.toItem(iRollDao.getOptimal(it.id, optimisation))
                     add(noteConverter.toItem(it, rollList, iAlarmDao[it.id]))
                 }
             }
@@ -71,20 +69,33 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
     }
 
     /**
-     * Return null if note doesn't exist
+     * Return null if note doesn't exist.
+     *
+     * [optimisation] - need for note lists where displays short information.
      */
-    override fun getItem(id: Long): NoteItem? {
+    override fun getItem(id: Long, optimisation: Boolean): NoteItem? {
         val item: NoteItem?
 
         openRoom().apply {
             item = iNoteDao[id]?.let {
-                noteConverter.toItem(it, rollConverter.toItem(iRollDao[id]), iAlarmDao[id])
+                val rollList = rollConverter.toItem(iRollDao.getOptimal(it.id, optimisation))
+                return@let noteConverter.toItem(it, rollList, iAlarmDao[id])
             }
         }.close()
 
         return item
     }
 
+    private fun IRollDao.getOptimal(id: Long, optimisation: Boolean): MutableList<RollEntity> {
+        return if (optimisation) getView(id) else get(id)
+    }
+
+    /**
+     * Return empty list if don't have [RollEntity] for this [noteId]
+     */
+    override fun getRollList(noteId: Long) = ArrayList<RollItem>().apply {
+        inRoom { addAll(rollConverter.toItem(iRollDao[noteId])) }
+    }
 
     /**
      * Have hide notes in list or not.
