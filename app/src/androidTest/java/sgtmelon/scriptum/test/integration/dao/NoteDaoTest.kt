@@ -30,9 +30,10 @@ class NoteDaoTest : ParentIntegrationTest() {
         update(noteThird.copy(isBin = bin))
     }
 
+
     @Test fun insertWithUnique() = inNoteDao {
         assertEquals(1, insert(noteFirst))
-        assertEquals(-1, insert(noteFirst))
+        assertEquals(UNIQUE_ERROR_ID, insert(noteFirst))
     }
 
     @Test fun delete() = inNoteDao {
@@ -66,9 +67,10 @@ class NoteDaoTest : ParentIntegrationTest() {
         }
     }
 
-    @Test fun getOnWrongId() = inNoteDao { assertNull(get(Random.nextLong())) }
 
-    @Test fun getOnCorrectId() = inNoteDao {
+    @Test fun getByWrongId() = inNoteDao { assertNull(get(Random.nextLong())) }
+
+    @Test fun getByCorrectId() = inNoteDao {
         insert(noteFirst)
         assertEquals(noteFirst, get(noteFirst.id))
 
@@ -80,12 +82,26 @@ class NoteDaoTest : ParentIntegrationTest() {
     }
 
     @Test fun getByIdList() = inNoteDao {
-        TODO(reason = "#TEST write test")
+        insertAllTo(bin = false)
+
+        assertEquals(listOf(noteFirst, noteThird), get(listOf(
+                noteFirst.id, noteThird.id, Random.nextLong()
+        )))
+
+        assertEquals(listOf(noteSecond.copy(isBin = false), noteThird), get(listOf(
+                noteSecond.id, noteThird.id
+        )))
     }
 
     @Test fun getByBin() = inNoteDao {
-        TODO(reason = "#TEST write test")
+        insert(noteFirst)
+        insert(noteSecond)
+        insert(noteThird)
+
+        assertEquals(listOf(noteFirst, noteThird), get(bin = false))
+        assertEquals(listOf(noteSecond), get(bin = true))
     }
+
 
     @Test fun getByChange() = inNoteDao {
         insertAllTo(bin = false)
@@ -142,6 +158,7 @@ class NoteDaoTest : ParentIntegrationTest() {
                 noteSecond, noteFirst.copy(isBin = true), noteThird.copy(isBin = true)
         ), getByColor(bin = true))
     }
+
 
     private companion object {
         val noteFirst = NoteEntity(

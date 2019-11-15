@@ -25,8 +25,8 @@ class RankDaoTest : ParentIntegrationTest() {
 
     @Test fun insertWithUnique() = inRankDao {
         assertEquals(1, insert(rankFirst))
-        assertEquals(-1, insert(rankSecond.copy(id = rankFirst.id)))
-        assertEquals(-1, insert(rankSecond.copy(name = rankFirst.name)))
+        assertEquals(UNIQUE_ERROR_ID, insert(rankSecond.copy(id = rankFirst.id)))
+        assertEquals(UNIQUE_ERROR_ID, insert(rankSecond.copy(name = rankFirst.name)))
     }
 
     @Test fun delete() = inRankDao {

@@ -25,6 +25,7 @@ interface INoteDao {
 
     @Update fun update(list: List<NoteEntity>)
 
+
     @Query(value = "SELECT * FROM NOTE_TABLE WHERE NT_ID = :id")
     operator fun get(id: Long): NoteEntity?
 

@@ -21,7 +21,7 @@ class RankRepoTest : ParentIntegrationTest()  {
         val name = data.uniqueString
 
         assertEquals(1, iRepo.insert(name))
-        assertEquals(-1, iRepo.insert(name))
+        assertEquals(UNIQUE_ERROR_ID, iRepo.insert(name))
     }
 
     @Test fun getList() {
