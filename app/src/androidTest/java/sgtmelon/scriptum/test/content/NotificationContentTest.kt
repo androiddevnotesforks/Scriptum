@@ -29,8 +29,12 @@ class NotificationContentTest : ParentUiTest() {
         iPreferenceRepo.theme = theme
 
         onAssertList(ArrayList<NoteItem>().also { list ->
-            Color.list.forEach {
-                with(data) { list.add(insertNotification(insertText(textNote.copy(color = it)))) }
+            Color.list.forEachIndexed { i, it ->
+                val date = getTime(min = NEXT_HOUR + i * NEXT_HOUR).getString()
+
+                with(data) {
+                    list.add(insertNotification(insertText(textNote.copy(color = it)), date))
+                }
             }
         })
     }

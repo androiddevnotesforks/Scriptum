@@ -28,7 +28,7 @@ class DrawableAttrMatcher(@IdRes resourceId: Int, @AttrRes private val attrColor
 
         if (resourceId == -1) return item.drawable == null
 
-        val context = item.context
+        val context = item.context ?: return false
 
         val expected = ContextCompat.getDrawable(context, resourceId) ?: return false
 

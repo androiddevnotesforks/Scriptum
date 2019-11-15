@@ -31,6 +31,9 @@ fun String.getCalendar(): Calendar = let {
     return calendar
 }
 
+/**
+ * TODO rename to getText()
+ */
 fun Calendar.getString(): String = let { getDateFormat().format(it.time) }
 
 fun Calendar.beforeNow() = this.before(Calendar.getInstance())

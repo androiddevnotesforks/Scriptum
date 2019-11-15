@@ -161,7 +161,9 @@ class NotePanel(private val callback: INoteScreen) : ParentUi(),
     }
 
     override fun onTimeDialogResult(calendar: Calendar) = with(callback) {
+        noteItem.alarmId = 1
         noteItem.alarmDate = calendar.getString()
+
         fullAssert()
     }
 

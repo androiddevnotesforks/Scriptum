@@ -65,11 +65,15 @@ class NoteDialogUi(private val noteItem: NoteItem) : ParentUi(), IDialogUi, Date
         convertButton.click()
 
         noteItem.convert()
-        noteItem.rollList.clear()
 
+        /**
+         * Type after convert.
+         */
         when (noteItem.type) {
-            NoteType.TEXT -> {
+            NoteType.ROLL -> {
                 val converter = RollConverter()
+
+                noteItem.rollList.clear()
 
                 var p = 0
                 noteItem.textToList().forEach {
@@ -82,7 +86,10 @@ class NoteDialogUi(private val noteItem: NoteItem) : ParentUi(), IDialogUi, Date
 
                 noteItem.updateComplete(Complete.EMPTY)
             }
-            NoteType.ROLL -> noteItem.text = noteItem.rollList.getText()
+            NoteType.TEXT -> {
+                noteItem.text = noteItem.rollList.getText()
+                noteItem.rollList.clear()
+            }
         }
     }
 

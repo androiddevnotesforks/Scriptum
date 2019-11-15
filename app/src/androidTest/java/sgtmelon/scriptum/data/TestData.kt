@@ -133,7 +133,14 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
             }
         }
 
-        return noteConverter.toItem(note, rollConverter.toItem(list)).apply { updateComplete() }
+        // TODO REFACTOR
+        val item = noteConverter.toItem(note, rollConverter.toItem(list)).apply {
+            updateComplete()
+        }
+
+        inRoom { iNoteDao.update(noteConverter.toEntity(item)) }
+
+        return item
     }
 
     fun insertRollToBin(note: NoteEntity = rollNote, list: ArrayList<RollEntity> = rollList) =

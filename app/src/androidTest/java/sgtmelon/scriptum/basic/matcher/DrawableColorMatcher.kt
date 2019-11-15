@@ -29,7 +29,7 @@ class DrawableColorMatcher(@IdRes resourceId: Int, @ColorRes private val colorId
 
         if (resourceId == -1) return item.drawable == null
 
-        val context = item.context
+        val context = item.context ?: return false
 
         val expected = ContextCompat.getDrawable(context, resourceId) ?: return false
 

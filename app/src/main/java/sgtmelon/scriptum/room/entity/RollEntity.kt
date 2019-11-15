@@ -2,7 +2,6 @@ package sgtmelon.scriptum.room.entity
 
 import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
-import org.json.JSONObject
 import sgtmelon.scriptum.model.data.DbData.Note
 import sgtmelon.scriptum.model.data.DbData.Roll
 import sgtmelon.scriptum.model.data.DbData.Roll.Default

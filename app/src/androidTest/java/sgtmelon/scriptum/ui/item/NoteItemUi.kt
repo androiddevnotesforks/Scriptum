@@ -109,6 +109,9 @@ class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
             NoteType.ROLL -> R.id.note_roll_color_view
         }))
 
+        /**
+         * TODO #TEST assert card background color
+         */
         open fun assert(model: NoteItem) {
             parentCard.isDisplayed()
             clickContainer.isDisplayed()

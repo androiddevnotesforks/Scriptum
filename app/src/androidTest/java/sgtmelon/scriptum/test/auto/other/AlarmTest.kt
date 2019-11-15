@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.test.auto
+package sgtmelon.scriptum.test.auto.other
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
@@ -72,7 +72,8 @@ class AlarmTest : ParentUiTest() {
             openAlarm(it) { onClickPostpone() }
             mainScreen {
                 notesScreen {
-                    openNoteDialog(note) {
+                    onAssertItem(note, p = 0)
+                    openNoteDialog(note, p = 0) {
                         onNotification {
                             onClickApply(listOf(getTime(min = 10).getString())) {
                                 onTime(min = 10).assert()
