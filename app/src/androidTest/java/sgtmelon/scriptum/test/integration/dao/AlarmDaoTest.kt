@@ -26,7 +26,9 @@ class AlarmDaoTest : ParentIntegrationTest() {
 
     @Test fun insertWithUnique() = inRoom {
         insertAlarmRelation(noteFirst, alarmFirst)
-        assertEquals(-1, iAlarmDao.insert(alarmFirst.copy(id = 2)))
+
+        val newAlarm = alarmSecond.copy(noteId = alarmFirst.noteId)
+        assertEquals(newAlarm.id, iAlarmDao.insert(newAlarm))
     }
 
     @Test fun delete() = inRoom {
@@ -63,13 +65,15 @@ class AlarmDaoTest : ParentIntegrationTest() {
     }
 
     @Test fun getCount() = inRoom {
-        assertEquals(iAlarmDao.getCount(), 0)
+        var size = 0
+
+        assertEquals(iAlarmDao.getCount(), size)
 
         insertAlarmRelation(noteFirst, alarmFirst)
-        assertEquals(iAlarmDao.getCount(), 1)
+        assertEquals(iAlarmDao.getCount(), ++size)
 
         insertAlarmRelation(noteSecond, alarmSecond)
-        assertEquals(iAlarmDao.getCount(), 2)
+        assertEquals(iAlarmDao.getCount(), ++size)
     }
 
     private companion object {

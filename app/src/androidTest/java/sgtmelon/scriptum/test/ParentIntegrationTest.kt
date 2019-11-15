@@ -12,4 +12,8 @@ abstract class ParentIntegrationTest : ParentTest(), IRoomWork {
         inRoom { clearAllTables() }
     }
 
+    internal companion object {
+        const val UNIQUE_ERROR_ID = -1L
+    }
+
 }
