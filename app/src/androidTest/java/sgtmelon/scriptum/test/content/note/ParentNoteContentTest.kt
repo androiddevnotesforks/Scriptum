@@ -3,10 +3,10 @@ package sgtmelon.scriptum.test.content.note
 import sgtmelon.extension.getString
 import sgtmelon.scriptum.adapter.NoteAdapter
 import sgtmelon.scriptum.basic.extension.getTime
-import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.annotation.Theme
+import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.room.entity.RollEntity
@@ -29,7 +29,7 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
         iPreferenceRepo.theme = theme
         iPreferenceRepo.sort = Sort.COLOR
 
-        onAssertList(ArrayList<NoteModel>().also { list ->
+        onAssertList(ArrayList<NoteItem>().also { list ->
             Color.list.forEach {
                 val note = when(type) {
                     NoteType.TEXT -> data.textNote.copy(color = it)
@@ -63,7 +63,7 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
     private fun startTimeTest(type: NoteType, @Sort sort: Int) {
         iPreferenceRepo.sort = sort
 
-        onAssertList(ArrayList<NoteModel>().also { list ->
+        onAssertList(ArrayList<NoteItem>().also { list ->
             lastArray.forEach {
                 val time = getTime(it).getString()
 
@@ -104,7 +104,7 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
 
     open fun rollRow4() = startRowTest(count = 4)
 
-    private fun startRowTest(count: Int) = onAssertList(ArrayList<NoteModel>().also { list ->
+    private fun startRowTest(count: Int) = onAssertList(ArrayList<NoteItem>().also { list ->
         val rollList = ArrayList<RollEntity>()
 
         (0 until count).forEach {
@@ -125,7 +125,7 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
     open fun rankSort() {
         iPreferenceRepo.sort = Sort.RANK
 
-        onAssertList(ArrayList<NoteModel>().also { list ->
+        onAssertList(ArrayList<NoteItem>().also { list ->
             list.add(when (page) {
                 MainPage.RANK -> throw IllegalAccessException(PAGE_ERROR_TEXT)
                 MainPage.NOTES -> data.insertText(data.textNote)
@@ -144,7 +144,7 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
         TODO(reason = "#TEST write test")
     }
 
-    private fun onAssertList(list: List<NoteModel>) {
+    private fun onAssertList(list: List<NoteItem>) {
         launch {
             mainScreen {
                 when (page) {

@@ -6,7 +6,7 @@ import sgtmelon.scriptum.basic.extension.swipeItem
 import sgtmelon.scriptum.basic.extension.waitAfter
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.data.State
-import sgtmelon.scriptum.model.NoteModel
+import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
@@ -21,7 +21,7 @@ import sgtmelon.scriptum.ui.part.toolbar.NoteToolbar
  */
 class RollNoteScreen(
         override var state: State,
-        override var noteModel: NoteModel,
+        override var noteItem: NoteItem,
         override val isRankEmpty: Boolean
 ) : ParentRecyclerScreen(R.id.roll_note_recycler), INoteScreen, IPressBack {
 
@@ -32,7 +32,7 @@ class RollNoteScreen(
 
     //endregion
 
-    override var shadowModel = NoteModel(noteModel)
+    override var shadowItem: NoteItem = noteItem.copy()
 
     override val inputControl = InputControl().apply { isEnabled = true }
 
@@ -66,14 +66,14 @@ class RollNoteScreen(
         super.onPressBack()
 
         if (state == State.EDIT || state == State.NEW) {
-            if (shadowModel.isSaveEnabled()) {
+            if (shadowItem.isSaveEnabled()) {
                 state = State.READ
-                noteModel = NoteModel(shadowModel)
+                noteItem = shadowItem.copy()
                 inputControl.reset()
                 fullAssert()
             } else if (state == State.EDIT) {
                 state = State.READ
-                shadowModel = NoteModel(noteModel)
+                shadowItem = noteItem.copy()
                 inputControl.reset()
                 fullAssert()
             }
@@ -92,12 +92,12 @@ class RollNoteScreen(
         private const val SWIPE_TIME = 150L
 
         operator fun invoke(func: RollNoteScreen.() -> Unit, state: State,
-                            noteModel: NoteModel, isRankEmpty: Boolean = true): RollNoteScreen {
-            if (noteModel.noteEntity.type != NoteType.ROLL) {
+                            noteItem: NoteItem, isRankEmpty: Boolean = true): RollNoteScreen {
+            if (noteItem.type != NoteType.ROLL) {
                 throw IllegalAccessException("Wrong note type!")
             }
 
-            return RollNoteScreen(state, noteModel, isRankEmpty).apply { fullAssert() }.apply(func)
+            return RollNoteScreen(state, noteItem, isRankEmpty).apply { fullAssert() }.apply(func)
         }
     }
 

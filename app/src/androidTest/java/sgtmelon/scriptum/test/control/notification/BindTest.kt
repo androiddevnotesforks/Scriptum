@@ -3,7 +3,8 @@ package sgtmelon.scriptum.test.control.notification
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.model.NoteModel
+import sgtmelon.scriptum.model.item.NoteItem
+import sgtmelon.scriptum.room.converter.NoteConverter
 import sgtmelon.scriptum.test.ParentNotificationTest
 import kotlin.random.Random
 
@@ -23,7 +24,7 @@ class BindTest : ParentNotificationTest() {
         launch {
             mainScreen {
                 notesScreen {
-                    onOpen { onAssertItem(it.apply { noteEntity.isStatus = false }) }
+                    onOpen { onAssertItem(it.apply { isStatus = false }) }
                 }
             }
         }
@@ -36,7 +37,7 @@ class BindTest : ParentNotificationTest() {
             mainScreen {
                 notesScreen {
                     openTextNote(it) {
-                        onOpen { apply { it.noteEntity.isStatus = false }.fullAssert() }
+                        onOpen { apply { it.isStatus = false }.fullAssert() }
                     }
                 }
             }
@@ -50,7 +51,7 @@ class BindTest : ParentNotificationTest() {
             mainScreen {
                 notesScreen {
                     openRollNote(it) {
-                        onOpen { apply { it.noteEntity.isStatus = false }.fullAssert() }
+                        onOpen { apply { it.isStatus = false }.fullAssert() }
                     }
                 }
             }
@@ -62,11 +63,11 @@ class BindTest : ParentNotificationTest() {
 
     @Test fun notesRollBindUnbind() = startNotesBindUnbindTest(data.insertRoll())
 
-    private fun startNotesBindUnbindTest(model: NoteModel) = launch {
+    private fun startNotesBindUnbindTest(item: NoteItem) = launch {
         mainScreen {
             notesScreen {
-                apply { onSee() }.openNoteDialog(model) { onBind() }
-                apply { onSee() }.openNoteDialog(model) { onBind() }
+                apply { onSee() }.openNoteDialog(item) { onBind() }
+                apply { onSee() }.openNoteDialog(item) { onBind() }
             }
         }
     }
@@ -80,11 +81,11 @@ class BindTest : ParentNotificationTest() {
         insertRoll(rollNote.copy(isStatus = true))
     })
 
-    private fun startNotesUpdateOnConvertText(model: NoteModel) = launch {
+    private fun startNotesUpdateOnConvertText(item: NoteItem) = launch {
         mainScreen {
             notesScreen {
-                apply { onSee() }.openNoteDialog(model) { onConvert() }
-                apply { onSee() }.openNoteDialog(model) { onDelete() }
+                apply { onSee() }.openNoteDialog(item) { onConvert() }
+                apply { onSee() }.openNoteDialog(item) { onDelete() }
             }
         }
     }
@@ -98,10 +99,10 @@ class BindTest : ParentNotificationTest() {
         insertRoll(rollNote.copy(isStatus = true))
     })
 
-    private fun startNotesUnbindOnDeleteTest(model: NoteModel) = launch {
+    private fun startNotesUnbindOnDeleteTest(item: NoteItem) = launch {
         mainScreen {
-            notesScreen { openNoteDialog(model) { onSee { onDelete() } } }
-            binScreen { onSee { onAssertItem(0, model) } }
+            notesScreen { openNoteDialog(item) { onSee { onDelete() } } }
+            binScreen { onSee { onAssertItem(0, item) } }
         }
     }
 
@@ -141,8 +142,8 @@ class BindTest : ParentNotificationTest() {
         }
     }
 
-    private fun insertRankWithStatusNote(): NoteModel {
-        val noteModel = with(data) {
+    private fun insertRankWithStatusNote(): NoteItem {
+        val noteItem = with(data) {
             return@with if (Random.nextBoolean()) {
                 insertText(textNote.copy(isStatus = true))
             } else {
@@ -151,17 +152,18 @@ class BindTest : ParentNotificationTest() {
         }
 
         val rankEntity = with(data) {
-            insertRank(rankEntity.copy(noteId = arrayListOf(noteModel.noteEntity.id)))
+            insertRank(rankEntity.copy(noteId = arrayListOf(noteItem.id)))
         }
 
+        val converter = NoteConverter()
         data.inRoom {
-            iNoteDao.update(noteModel.noteEntity.apply {
+            iNoteDao.update(converter.toEntity(noteItem.apply {
                 rankId = rankEntity.id
                 rankPs = rankEntity.position
-            })
+            }))
         }
 
-        return noteModel
+        return noteItem
     }
 
 

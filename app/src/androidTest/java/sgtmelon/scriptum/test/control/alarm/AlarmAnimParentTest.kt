@@ -22,7 +22,7 @@ abstract class AlarmAnimParentTest(@Theme private val theme: Int) : ParentUiTest
             volumeIncrease = Random.nextBoolean()
         }
 
-        val noteModel = data.clear().let {
+        val noteItem = data.clear().let {
             return@let if (Random.nextBoolean()) {
                 it.insertText(it.textNote.apply { this.color = color })
             } else {
@@ -30,7 +30,7 @@ abstract class AlarmAnimParentTest(@Theme private val theme: Int) : ParentUiTest
             }
         }
 
-        launchAlarm(noteModel) { waitAfter(TEST_TIME) { openAlarm(noteModel) } }
+        launchAlarm(noteItem) { waitAfter(TEST_TIME) { openAlarm(noteItem) } }
     }
 
     private companion object {

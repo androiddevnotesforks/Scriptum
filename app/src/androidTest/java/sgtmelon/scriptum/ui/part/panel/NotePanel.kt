@@ -6,10 +6,8 @@ import sgtmelon.extension.getTime
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.State
-import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.data.DbData
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.room.entity.AlarmEntity
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.dialog.ColorDialogUi
 import sgtmelon.scriptum.ui.dialog.ConvertDialogUi
@@ -58,14 +56,14 @@ class NotePanel(private val callback: INoteScreen) : ParentUi(),
      */
     fun onRestore() = callback.throwOnWrongState(State.BIN) {
         restoreButton.click()
-        callback.noteModel.noteEntity.change = getTime()
+        callback.noteItem.change = getTime()
     }
 
     fun onRestoreOpen() = apply {
         callback.throwOnWrongState(State.BIN) {
             restoreOpenButton.click()
             callback.apply {
-                noteModel.noteEntity.change = getTime()
+                noteItem.change = getTime()
                 state = State.READ
             }.fullAssert()
         }
@@ -80,7 +78,7 @@ class NotePanel(private val callback: INoteScreen) : ParentUi(),
         callback.throwOnWrongState(State.EDIT, State.NEW) {
             undoButton.click()
             callback.apply {
-                //            shadowModel = inputControl.undo()
+                //            shadowItem = inputControl.undo()
             }.fullAssert()
         }
     }
@@ -89,7 +87,7 @@ class NotePanel(private val callback: INoteScreen) : ParentUi(),
         callback.throwOnWrongState(State.EDIT, State.NEW) {
             redoButton.click()
             callback.apply {
-                //            shadowModel = inputControl.redo()
+                //            shadowItem = inputControl.redo()
             }.fullAssert()
         }
     }
@@ -100,7 +98,7 @@ class NotePanel(private val callback: INoteScreen) : ParentUi(),
         callback.throwOnWrongState(State.EDIT, State.NEW) {
             colorButton.click()
 
-            val check = callback.noteModel.noteEntity.color
+            val check = callback.noteItem.color
             ColorDialogUi.invoke(func, ColorDialogUi.Place.NOTE, check, callback = this)
         }
     }
@@ -112,8 +110,8 @@ class NotePanel(private val callback: INoteScreen) : ParentUi(),
             callback.apply {
                 state = State.READ
 
-                noteModel = NoteModel(shadowModel)
-                noteModel.noteEntity.change = getTime()
+                noteItem = shadowItem.copy()
+                noteItem.change = getTime()
 
                 inputControl.reset()
             }.fullAssert()
@@ -130,18 +128,18 @@ class NotePanel(private val callback: INoteScreen) : ParentUi(),
     fun onBind() = apply {
         callback.throwOnWrongState(State.READ) {
             bindButton.click()
-            with(callback.noteModel.noteEntity) { isStatus = !isStatus }
+            with(callback.noteItem) { isStatus = !isStatus }
         }
     }
 
     fun onConvert(func: ConvertDialogUi.() -> Unit = {}) = callback.throwOnWrongState(State.READ) {
         convertButton.click()
-        ConvertDialogUi.invoke(func, callback.noteModel)
+        ConvertDialogUi.invoke(func, callback.noteItem)
     }
 
     fun onDelete() = callback.throwOnWrongState(State.READ) {
         deleteButton.click()
-        callback.noteModel.noteEntity.change = getTime()
+        callback.noteItem.change = getTime()
     }
 
     fun onEdit() = apply {
@@ -150,7 +148,7 @@ class NotePanel(private val callback: INoteScreen) : ParentUi(),
 
             callback.apply {
                 state = State.EDIT
-                shadowModel = NoteModel(noteModel)
+                shadowItem = noteItem.copy()
                 inputControl.reset()
             }.fullAssert()
         }
@@ -158,18 +156,18 @@ class NotePanel(private val callback: INoteScreen) : ParentUi(),
 
 
     override fun onDateDialogResetResult() = with(callback) {
-        noteModel.alarmEntity.date = DbData.Alarm.Default.DATE
+        noteItem.alarmDate = DbData.Alarm.Default.DATE
         fullAssert()
     }
 
     override fun onTimeDialogResult(calendar: Calendar) = with(callback) {
-        noteModel.alarmEntity.date = calendar.getString()
+        noteItem.alarmDate = calendar.getString()
         fullAssert()
     }
 
     override fun onColorDialogResult(check: Int) = callback.apply {
-        inputControl.onColorChange(shadowModel.noteEntity.color, check)
-        shadowModel.noteEntity.color = check
+        inputControl.onColorChange(shadowItem.color, check)
+        shadowItem.color = check
     }.fullAssert()
 
 
@@ -183,14 +181,14 @@ class NotePanel(private val callback: INoteScreen) : ParentUi(),
 
                     notificationButton.isDisplayed().withDrawableAttr(
                             R.drawable.ic_notifications,
-                            getTint(noteModel.alarmEntity.date.isNotEmpty())
+                            getTint(noteItem.haveAlarm())
                     )
 
                     bindButton.isDisplayed().withDrawableAttr(
-                            when (noteModel.noteEntity.type) {
+                            when (noteItem.type) {
                                 NoteType.TEXT -> R.drawable.ic_bind_text
                                 NoteType.ROLL -> R.drawable.ic_bind_roll
-                            }, getTint(noteModel.noteEntity.isStatus)
+                            }, getTint(noteItem.isStatus)
                     )
 
                     convertButton.isDisplayed().withDrawableAttr(R.drawable.ic_convert, R.attr.clContent)
@@ -224,13 +222,13 @@ class NotePanel(private val callback: INoteScreen) : ParentUi(),
                             .withDrawableAttr(R.drawable.ic_rank, if (isRankEmpty) {
                                 getEnableTint(b = false)
                             } else {
-                                getTint(noteModel.noteEntity.haveRank())
+                                getTint(noteItem.haveRank())
                             })
                             .isEnabled(!isRankEmpty)
 
                     colorButton.isDisplayed().withDrawableAttr(R.drawable.ic_palette, R.attr.clContent)
 
-                    saveButton.haveText(R.string.menu_note_save).isDisplayed().isEnabled(shadowModel.isSaveEnabled())
+                    saveButton.haveText(R.string.menu_note_save).isDisplayed().isEnabled(shadowItem.isSaveEnabled())
                 }
             }
         }

@@ -5,9 +5,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.extension.getString
 import sgtmelon.scriptum.basic.extension.getTime
-import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
+import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.test.ParentUiTest
 import sgtmelon.scriptum.ui.screen.NotificationScreen
 
@@ -17,7 +17,7 @@ import sgtmelon.scriptum.ui.screen.NotificationScreen
 @RunWith(AndroidJUnit4::class)
 class NotificationContentTest : ParentUiTest() {
 
-    @Test fun time() = onAssertList(ArrayList<NoteModel>().also { list ->
+    @Test fun time() = onAssertList(ArrayList<NoteItem>().also { list ->
         nextArray.forEach { list.add(data.insertNotification(date = getTime(it).getString())) }
     })
 
@@ -28,7 +28,7 @@ class NotificationContentTest : ParentUiTest() {
     private fun startColorTest(@Theme theme: Int) {
         iPreferenceRepo.theme = theme
 
-        onAssertList(ArrayList<NoteModel>().also { list ->
+        onAssertList(ArrayList<NoteItem>().also { list ->
             Color.list.forEach {
                 with(data) { list.add(insertNotification(insertText(textNote.copy(color = it)))) }
             }
@@ -36,7 +36,7 @@ class NotificationContentTest : ParentUiTest() {
     }
 
 
-    private fun onAssertList(list: List<NoteModel>) {
+    private fun onAssertList(list: List<NoteItem>) {
         launch {
             mainScreen {
                 notesScreen {

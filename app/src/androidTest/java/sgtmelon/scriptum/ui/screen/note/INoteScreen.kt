@@ -3,7 +3,7 @@ package sgtmelon.scriptum.ui.screen.note
 import org.junit.Assert.assertTrue
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.data.State
-import sgtmelon.scriptum.model.NoteModel
+import sgtmelon.scriptum.model.item.NoteItem
 
 /**
  * Interface for communication child ui abstractions with [TextNoteScreen] and [RollNoteScreen]
@@ -14,9 +14,9 @@ interface INoteScreen {
 
     var state: State
 
-    var noteModel: NoteModel
+    var noteItem: NoteItem
 
-    var shadowModel: NoteModel
+    var shadowItem: NoteItem
 
     val isRankEmpty: Boolean
 

@@ -25,13 +25,4 @@ data class AlarmEntity(
         @ColumnInfo(name = Alarm.ID, defaultValue = Room.ID) @PrimaryKey(autoGenerate = true) var id: Long = Default.ID,
         @ColumnInfo(name = Alarm.NOTE_ID, defaultValue = Room.NOTE_ID) var noteId: Long = Default.NOTE_ID,
         @ColumnInfo(name = Alarm.DATE, defaultValue = Room.DATE) var date: String = Default.DATE
-) {
-
-    fun needInsert() = id == Default.ID
-
-    fun clear() = apply {
-        id = Default.ID
-        date = Default.DATE
-    }
-
-}
+)

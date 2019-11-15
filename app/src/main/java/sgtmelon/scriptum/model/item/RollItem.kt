@@ -20,6 +20,10 @@ data class RollItem(
 ) {
 
     /**
+     * TODO #TEST write unit test
+     */
+
+    /**
      * Replace [id] null value to -1 for [get] function
      */
     override fun toString() = JSONObject().apply {

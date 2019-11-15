@@ -3,11 +3,16 @@ package sgtmelon.scriptum.data
 import android.content.Context
 import sgtmelon.extension.getTime
 import sgtmelon.scriptum.basic.extension.getFutureTime
-import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.data.ColorData
+import sgtmelon.scriptum.model.item.NoteItem
+import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.room.IRoomWork
+import sgtmelon.scriptum.room.converter.AlarmConverter
+import sgtmelon.scriptum.room.converter.NoteConverter
+import sgtmelon.scriptum.room.converter.RankConverter
+import sgtmelon.scriptum.room.converter.RollConverter
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.room.entity.RollEntity
@@ -16,6 +21,11 @@ import kotlin.random.Random
 
 class TestData(override val context: Context, private val iPreferenceRepo: IPreferenceRepo) :
         IRoomWork {
+
+    private val noteConverter = NoteConverter()
+    private val rollConverter = RollConverter()
+    private val rankConverter = RankConverter()
+    private val alarmConverter = AlarmConverter()
 
     val uniqueString get() = randomUUID().toString().substring(0, 16)
 
@@ -57,65 +67,63 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
     val rankEntity: RankEntity get() = RankEntity(name = uniqueString)
 
 
-    fun createText() = NoteModel.getCreate(getTime(), iPreferenceRepo.defaultColor, NoteType.TEXT)
+    fun createText() = NoteItem.getCreate(getTime(), iPreferenceRepo.defaultColor, NoteType.TEXT)
 
-    fun createRoll() = NoteModel.getCreate(getTime(), iPreferenceRepo.defaultColor, NoteType.ROLL)
+    fun createRoll() = NoteItem.getCreate(getTime(), iPreferenceRepo.defaultColor, NoteType.ROLL)
 
 
-    fun insertRank(rank: RankEntity = rankEntity): RankEntity {
-        inRoom { rank.id = iRankDao.insert(rank) }
+    fun insertRank(entity: RankEntity = rankEntity): RankItem {
+        inRoom { entity.id = iRankDao.insert(entity) }
 
-        return rank
+        return rankConverter.toItem(entity)
     }
 
-    fun insertRankForNotes(): RankEntity {
-        val noteModel = insertNote()
+    fun insertRankForNotes(): RankItem {
+        val noteItem = insertNote()
 
-        val rankEntity = insertRank(rankEntity.apply {
-            noteId.add(noteModel.noteEntity.id)
+        val rankItem = insertRank(rankEntity.apply {
+            noteId.add(noteItem.id)
         })
 
         inRoom {
-            iNoteDao.update(noteModel.noteEntity.apply {
-                rankId = rankEntity.id
-                rankPs = rankEntity.position
-            })
+            iNoteDao.update(noteConverter.toEntity(noteItem.apply {
+                rankId = rankItem.id
+                rankPs = rankItem.position
+            }))
         }
 
-        return rankEntity
+        return rankItem
     }
 
-    fun insertRankForBin(): RankEntity {
-        val noteModel = insertNoteToBin()
+    fun insertRankForBin(): RankItem {
+        val noteItem = insertNoteToBin()
 
-        val rankEntity = insertRank(rankEntity.apply {
-            noteId.add(noteModel.noteEntity.id)
+        val rankItem = insertRank(rankEntity.apply {
+            noteId.add(noteItem.id)
         })
 
         inRoom {
-            iNoteDao.update(noteModel.noteEntity.apply {
-                rankId = rankEntity.id
-                rankPs = rankEntity.position
-            })
+            iNoteDao.update(noteConverter.toEntity(noteItem.apply {
+                rankId = rankItem.id
+                rankPs = rankItem.position
+            }))
         }
 
-        return rankEntity
+        return rankItem
     }
 
-    fun insertText(note: NoteEntity = textNote): NoteModel {
-        if (note.type != NoteType.TEXT) throw IllegalAccessException("Wrong note type")
+    fun insertText(entity: NoteEntity = textNote): NoteItem {
+        if (entity.type != NoteType.TEXT) throw IllegalAccessException("Wrong note type")
 
-        inRoom { note.id = iNoteDao.insert(note) }
+        inRoom { entity.id = iNoteDao.insert(entity) }
 
-        return NoteModel(note)
+        return noteConverter.toItem(entity)
     }
 
     fun insertTextToBin(note: NoteEntity = textNote) = insertText(note.apply { isBin = true })
 
-    fun insertRoll(note: NoteEntity = rollNote, list: ArrayList<RollEntity> = rollList): NoteModel {
+    fun insertRoll(note: NoteEntity = rollNote, list: ArrayList<RollEntity> = rollList): NoteItem {
         if (note.type != NoteType.ROLL) throw IllegalAccessException("Wrong note type")
-
-        note.setCompleteText(list)
 
         inRoom {
             note.id = iNoteDao.insert(note)
@@ -125,28 +133,29 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
             }
         }
 
-        return NoteModel(note, list)
+        return noteConverter.toItem(note, rollConverter.toItem(list)).apply { updateComplete() }
     }
 
     fun insertRollToBin(note: NoteEntity = rollNote, list: ArrayList<RollEntity> = rollList) =
             insertRoll(note.apply { isBin = true }, list)
 
 
-    fun insertNote(): NoteModel = if (Random.nextBoolean()) insertText() else insertRoll()
+    fun insertNote(): NoteItem = if (Random.nextBoolean()) insertText() else insertRoll()
 
-    fun insertNoteToBin(): NoteModel =
+    fun insertNoteToBin(): NoteItem =
             if (Random.nextBoolean()) insertTextToBin() else insertRollToBin()
 
-    fun insertNotification(noteModel: NoteModel = insertNote(), date: String = getFutureTime()): NoteModel {
-        noteModel.alarmEntity.date = date
+    fun insertNotification(noteItem: NoteItem = insertNote(),
+                           date: String = getFutureTime()): NoteItem {
+        noteItem.alarmDate = date
 
-        inRoom { noteModel.alarmEntity.id = iAlarmDao.insert(noteModel.alarmEntity) }
+        inRoom { noteItem.alarmId = iAlarmDao.insert(alarmConverter.toEntity(noteItem)) }
 
-        return noteModel
+        return noteItem
     }
 
 
-    fun fillRank(count: Int = 10) = ArrayList<RankEntity>().apply {
+    fun fillRank(count: Int = 10) = ArrayList<RankItem>().apply {
         (0 until count).forEach {
             add(insertRank(rankEntity.apply {
                 name = "$it | $name"
@@ -156,10 +165,10 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
         }
     }
 
-    fun fillRankRelation(count: Int = 10) = ArrayList<RankEntity>().apply {
+    fun fillRankRelation(count: Int = 10) = ArrayList<RankItem>().apply {
         (0 until count).forEach {
             val noteCount = (0 until 5).random()
-            val noteList = ArrayList<NoteModel>().apply {
+            val noteList = ArrayList<NoteItem>().apply {
                 repeat(noteCount) { add(insertNote()) }
             }
 
@@ -168,27 +177,27 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
                 position = it
                 isVisible = Random.nextBoolean()
 
-                noteList.map { it.noteEntity.id }.forEach { noteId.add(it) }
+                noteList.map { it.id }.forEach { noteId.add(it) }
             })
 
             add(rankEntity)
 
             inRoom {
-                noteList.map { it.noteEntity }.forEach {
-                    iNoteDao.update(it.apply {
+                noteList.forEach {
+                    iNoteDao.update(noteConverter.toEntity(it.apply {
                         rankId = rankEntity.id
                         rankPs = rankEntity.position
-                    })
+                    }))
                 }
             }
         }
     }
 
-    fun fillNotes(count: Int = 10) = ArrayList<NoteModel>().apply {
+    fun fillNotes(count: Int = 10) = ArrayList<NoteItem>().apply {
         repeat(count) { add(insertNote()) }
     }
 
-    fun fillBin(count: Int = 10) = ArrayList<NoteModel>().apply {
+    fun fillBin(count: Int = 10) = ArrayList<NoteItem>().apply {
         repeat(count) { add(insertNoteToBin()) }
     }
 

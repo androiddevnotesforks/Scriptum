@@ -7,7 +7,7 @@ import sgtmelon.scriptum.basic.extension.isEnabled
 import sgtmelon.scriptum.basic.extension.swipeDown
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.dialog.SheetAddDialog
-import sgtmelon.scriptum.model.NoteModel
+import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.ui.IDialogUi
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
@@ -26,14 +26,14 @@ class AddDialogUi : ParentUi(), IDialogUi {
 
     //endregion
 
-    fun createText(noteModel: NoteModel, func: TextNoteScreen.() -> Unit = {}) {
+    fun createText(noteItem: NoteItem, func: TextNoteScreen.() -> Unit = {}) {
         textButton.click()
-        TextNoteScreen.invoke(func, State.NEW, noteModel)
+        TextNoteScreen.invoke(func, State.NEW, noteItem)
     }
 
-    fun createRoll(noteModel: NoteModel, func: RollNoteScreen.() -> Unit = {}) {
+    fun createRoll(noteItem: NoteItem, func: RollNoteScreen.() -> Unit = {}) {
         rollButton.click()
-        RollNoteScreen.invoke(func, State.NEW, noteModel)
+        RollNoteScreen.invoke(func, State.NEW, noteItem)
     }
 
     fun onCloseSwipe() = waitClose { navigationView.swipeDown() }

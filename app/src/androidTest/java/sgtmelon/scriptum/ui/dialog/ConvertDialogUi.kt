@@ -5,7 +5,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
 import sgtmelon.scriptum.basic.extension.isDisplayed
 import sgtmelon.scriptum.basic.extension.isEnabled
-import sgtmelon.scriptum.model.NoteModel
+import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.ui.IDialogUi
@@ -14,14 +14,14 @@ import sgtmelon.scriptum.ui.ParentUi
 /**
  * Class for UI control of [MessageDialog] which open from [NoteActivity] on convert.
  */
-class ConvertDialogUi(private val noteModel: NoteModel) : ParentUi(), IDialogUi {
+class ConvertDialogUi(noteItem: NoteItem) : ParentUi(), IDialogUi {
 
     // TODO #TEST add callback for getting result in [NotePanel]
 
     //region Views
 
     private val titleText = getViewByText(R.string.dialog_title_convert)
-    private val messageText = getViewByText(when (noteModel.noteEntity.type) {
+    private val messageText = getViewByText(when (noteItem.type) {
         NoteType.TEXT -> R.string.dialog_text_convert_to_roll
         NoteType.ROLL -> R.string.dialog_roll_convert_to_text
     })
@@ -45,8 +45,8 @@ class ConvertDialogUi(private val noteModel: NoteModel) : ParentUi(), IDialogUi 
     }
 
     companion object {
-        operator fun invoke(func: ConvertDialogUi.() -> Unit, noteModel: NoteModel) =
-                ConvertDialogUi(noteModel).apply { waitOpen { assert() } }.apply(func)
+        operator fun invoke(func: ConvertDialogUi.() -> Unit, noteItem: NoteItem) =
+                ConvertDialogUi(noteItem).apply { waitOpen { assert() } }.apply(func)
     }
 
 }

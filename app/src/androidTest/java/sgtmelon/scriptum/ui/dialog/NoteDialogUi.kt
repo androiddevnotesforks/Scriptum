@@ -1,16 +1,17 @@
 package sgtmelon.scriptum.ui.dialog
 
 import sgtmelon.extension.getString
-import sgtmelon.extension.getTime
 import sgtmelon.safedialog.MultipleDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
 import sgtmelon.scriptum.basic.extension.isDisplayed
 import sgtmelon.scriptum.basic.extension.isEnabled
-import sgtmelon.scriptum.model.NoteModel
+import sgtmelon.scriptum.extension.getText
 import sgtmelon.scriptum.model.data.DbData
+import sgtmelon.scriptum.model.item.NoteItem
+import sgtmelon.scriptum.model.key.Complete
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.room.entity.AlarmEntity
+import sgtmelon.scriptum.room.converter.RollConverter
 import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.ui.IDialogUi
 import sgtmelon.scriptum.ui.ParentUi
@@ -19,23 +20,23 @@ import java.util.*
 /**
  * Class for UI control of [MultipleDialog] when cause long click on note.
  */
-class NoteDialogUi(private val noteModel: NoteModel) : ParentUi(), IDialogUi, DateTimeCallback {
+class NoteDialogUi(private val noteItem: NoteItem) : ParentUi(), IDialogUi, DateTimeCallback {
 
     //region Views
 
-    private val notificationButton = getViewByText(if (noteModel.alarmEntity.date.isEmpty()) {
-        R.string.dialog_menu_notification_set
-    } else {
+    private val notificationButton = getViewByText(if (noteItem.haveAlarm()) {
         R.string.dialog_menu_notification_update
+    } else {
+        R.string.dialog_menu_notification_set
     })
 
-    private val bindButton = getViewByText(if (noteModel.noteEntity.isStatus) {
+    private val bindButton = getViewByText(if (noteItem.isStatus) {
         R.string.dialog_menu_status_unbind
     } else {
         R.string.dialog_menu_status_bind
     })
 
-    private val convertButton = getViewByText(when (noteModel.noteEntity.type) {
+    private val convertButton = getViewByText(when (noteItem.type) {
         NoteType.TEXT -> R.string.dialog_menu_convert_to_roll
         NoteType.ROLL -> R.string.dialog_menu_convert_to_text
     })
@@ -51,42 +52,37 @@ class NoteDialogUi(private val noteModel: NoteModel) : ParentUi(), IDialogUi, Da
     fun onNotification(func: DateDialogUi.() -> Unit) = waitClose {
         notificationButton.click()
 
-        DateDialogUi.invoke(func, noteModel.alarmEntity.date.isNotEmpty(), callback = this)
+        DateDialogUi.invoke(func, noteItem.haveAlarm(), callback = this)
     }
 
     fun onBind() = waitClose {
         bindButton.click()
 
-        noteModel.noteEntity.apply { isStatus = !isStatus }
+        noteItem.apply { isStatus = !isStatus }
     }
 
     fun onConvert() = waitClose {
         convertButton.click()
 
-        noteModel.noteEntity.apply {
-            change = getTime()
-            when (type) {
-                NoteType.TEXT -> {
-                    type = NoteType.ROLL
+        noteItem.convert()
+        noteItem.rollList.clear()
 
-                    // TODO #TEST optimization
-                    var p = 0
-                    splitTextForRoll().forEach {
-                        if (it.isNotEmpty()) noteModel.rollList.add(RollEntity().apply {
-                            noteId = noteModel.noteEntity.id
-                            position = p++
-                            text = it
-                        })
-                    }
+        when (noteItem.type) {
+            NoteType.TEXT -> {
+                val converter = RollConverter()
 
-                    setCompleteText(check = 0, size = noteModel.rollList.size)
+                var p = 0
+                noteItem.textToList().forEach {
+                    noteItem.rollList.add(converter.toItem(RollEntity().apply {
+                        noteId = noteItem.id
+                        position = p++
+                        text = it
+                    }))
                 }
-                NoteType.ROLL -> {
-                    type = NoteType.TEXT
-                    setText(noteModel.rollList)
-                }
+
+                noteItem.updateComplete(Complete.EMPTY)
             }
-
+            NoteType.ROLL -> noteItem.text = noteItem.rollList.getText()
         }
     }
 
@@ -95,35 +91,28 @@ class NoteDialogUi(private val noteModel: NoteModel) : ParentUi(), IDialogUi, Da
     fun onDelete() = waitClose {
         deleteButton.click()
 
-        noteModel.noteEntity.apply {
-            change = getTime()
-            isBin = true
-            isStatus = false
-        }
+        noteItem.delete()
     }
 
     fun onRestore() = waitClose {
         restoreButton.click()
 
-        noteModel.noteEntity.apply {
-            change = getTime()
-            isBin = false
-        }
+        noteItem.restore()
     }
 
     fun onClear() = waitClose { clearButton.click() }
 
 
     override fun onDateDialogResetResult() {
-        noteModel.alarmEntity.date = DbData.Alarm.Default.DATE
+        noteItem.alarmDate = DbData.Alarm.Default.DATE
     }
 
     override fun onTimeDialogResult(calendar: Calendar) {
-        noteModel.alarmEntity.date = calendar.getString()
+        noteItem.alarmDate = calendar.getString()
     }
 
     fun assert() {
-        if (noteModel.noteEntity.isBin) {
+        if (noteItem.isBin) {
             restoreButton.isDisplayed().isEnabled()
             copyButton.isDisplayed().isEnabled()
             clearButton.isDisplayed().isEnabled()
@@ -136,8 +125,8 @@ class NoteDialogUi(private val noteModel: NoteModel) : ParentUi(), IDialogUi, Da
     }
 
     companion object {
-        operator fun invoke(func: NoteDialogUi.() -> Unit, noteModel: NoteModel) =
-                NoteDialogUi(noteModel).apply { waitOpen { assert() } }.apply(func)
+        operator fun invoke(func: NoteDialogUi.() -> Unit, noteItem: NoteItem) =
+                NoteDialogUi(noteItem).apply { waitOpen { assert() } }.apply(func)
     }
 
 }

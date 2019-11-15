@@ -4,11 +4,11 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.model.key.MainPage
-import sgtmelon.scriptum.ui.item.NoteItem
+import sgtmelon.scriptum.ui.item.NoteItemUi
 import sgtmelon.scriptum.ui.screen.main.BinScreen
 
 /**
- * Test for [NoteItem] inside [BinScreen]
+ * Test for [NoteItemUi] inside [BinScreen]
  */
 @RunWith(AndroidJUnit4::class)
 class BinContentTest : ParentNoteContentTest(MainPage.BIN) {

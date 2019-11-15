@@ -30,30 +30,4 @@ data class NoteEntity(
         @ColumnInfo(name = Note.RANK_PS, defaultValue = Room.RANK_PS) var rankPs: Int = Default.RANK_PS,
         @ColumnInfo(name = Note.BIN, defaultValue = Room.BIN) var isBin: Boolean = Default.BIN,
         @ColumnInfo(name = Note.STATUS, defaultValue = Room.STATUS) var isStatus: Boolean = Default.STATUS
-) {
-
-    fun setCompleteText(check: Int, size: Int) {
-        text = "$check/$size"
-    }
-
-    fun setCompleteText(rollList: List<RollEntity>) {
-        setCompleteText(rollList.filter { it.isCheck }.size, rollList.size)
-    }
-
-    fun splitTextForRoll() =
-            text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-
-    // TODO #RELEASE rename
-    fun setText(list: List<RollEntity>) {
-        text = list.joinToString(separator = "\n") { it.text }
-    }
-
-    fun isVisible(rankIdVisibleList: List<Long>) =
-            rankId == Default.RANK_ID || rankIdVisibleList.contains(rankId)
-
-    fun isNotVisible(rankIdVisibleList: List<Long>) =
-            rankId != Default.RANK_ID && !rankIdVisibleList.contains(rankId)
-
-    fun haveRank() = rankId != Default.RANK_ID
-
-}
+)

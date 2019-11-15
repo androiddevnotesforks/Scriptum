@@ -45,7 +45,9 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
                 /**
                  * Notes must be showed in list if [bin] != true even if rank not visible.
                  */
-                if (!bin) list = list.filter { it.isVisible(rankIdVisibleList) }
+                if (!bin) list = list.filter {
+                    noteConverter.toItem(it).isVisible(rankIdVisibleList)
+                }
 
                 list.forEach {
                     val rollList = rollConverter.toItem(iRollDao.getOptimal(it.id, optimisation))
@@ -104,7 +106,9 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
         val isListHide: Boolean
 
         openRoom().apply {
-            isListHide = iNoteDao[false].any { it.isNotVisible(iRankDao.getIdVisibleList()) }
+            isListHide = iNoteDao[false].any {
+                noteConverter.toItem(it).isNotVisible(iRankDao.getIdVisibleList())
+            }
         }.close()
 
         return isListHide

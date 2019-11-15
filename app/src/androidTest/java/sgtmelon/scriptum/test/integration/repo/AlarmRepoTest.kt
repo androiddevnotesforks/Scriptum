@@ -25,7 +25,7 @@ class AlarmRepoTest : ParentIntegrationTest() {
         val alarmEntity = alarmEntity.copy()
 
         iNoteDao.insert(noteEntity)
-        iAlarmRepo.insertOrUpdate(alarmEntity)
+        TODO("REFACTOR insertOrUpdate")
 
         assertEquals(arrayListOf(getNotificationItem(alarmEntity)), iAlarmRepo.getList())
     }
@@ -38,7 +38,7 @@ class AlarmRepoTest : ParentIntegrationTest() {
             it.id = iAlarmDao.insert(it)
             it.date = ""
 
-            iAlarmRepo.insertOrUpdate(it)
+            TODO("REFACTOR insertOrUpdate")
             assertEquals(arrayListOf(getNotificationItem(it)), iAlarmRepo.getList())
         }
     }

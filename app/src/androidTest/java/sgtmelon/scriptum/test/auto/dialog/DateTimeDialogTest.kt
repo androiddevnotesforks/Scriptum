@@ -135,7 +135,7 @@ class DateTimeDialogTest : ParentUiTest() {
             mainScreen {
                 notesScreen {
                     openTextNote(it) {
-                        val date = data.insertNotification().alarmEntity.date
+                        val date = data.insertNotification().alarmDate
                         val calendar = date.getCalendar()
                         val dateList = arrayListOf(date)
 

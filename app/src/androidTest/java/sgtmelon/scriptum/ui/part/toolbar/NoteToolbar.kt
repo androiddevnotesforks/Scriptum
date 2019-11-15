@@ -3,7 +3,6 @@ package sgtmelon.scriptum.ui.part.toolbar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.State
-import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.InputItem
 import sgtmelon.scriptum.ui.ParentUi
@@ -34,7 +33,7 @@ class NoteToolbar(private val callback: INoteScreen) : ParentUi() {
 
             callback.apply {
                 name.forEachIndexed { i, c ->
-                    val valueFrom = if (i == 0) shadowModel.noteEntity.text else name[i - 1].toString()
+                    val valueFrom = if (i == 0) shadowItem.text else name[i - 1].toString()
                     val valueTo = c.toString()
 
                     inputControl.onNameChange(
@@ -42,7 +41,7 @@ class NoteToolbar(private val callback: INoteScreen) : ParentUi() {
                     )
                 }
 
-                shadowModel.noteEntity.name = name
+                shadowItem.name = name
             }.fullAssert()
         }
     }
@@ -53,7 +52,7 @@ class NoteToolbar(private val callback: INoteScreen) : ParentUi() {
         with(callback) {
             if (state == State.EDIT) {
                 state = State.READ
-                shadowModel = NoteModel(noteModel)
+                shadowItem = noteItem.copy()
                 inputControl.reset()
                 fullAssert()
             }
@@ -72,7 +71,7 @@ class NoteToolbar(private val callback: INoteScreen) : ParentUi() {
         callback.apply {
             when (state) {
                 State.READ, State.BIN -> {
-                    val name = noteModel.noteEntity.name
+                    val name = noteItem.name
 
                     nameEnter.isDisplayed(visible = false)
                     nameText.isDisplayed().apply {
@@ -80,7 +79,7 @@ class NoteToolbar(private val callback: INoteScreen) : ParentUi() {
                     }
                 }
                 State.EDIT, State.NEW -> {
-                    val name = shadowModel.noteEntity.name
+                    val name = shadowItem.name
 
                     nameText.isDisplayed(visible = false)
                     nameEnter.isDisplayed().apply {

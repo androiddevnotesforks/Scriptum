@@ -7,7 +7,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.RankAdapter
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.InfoPage
-import sgtmelon.scriptum.room.entity.RankEntity
+import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.screen.ui.main.RankFragment
 import sgtmelon.scriptum.ui.ParentRecyclerItem
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
@@ -25,8 +25,8 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
     private val parentContainer = getViewById(R.id.rank_parent_container)
     private val infoContainer = InfoContainer(InfoPage.RANK)
 
-    private fun getItem(rankEntity: RankEntity): Item {
-        return Item(recyclerView, hasDescendant(getView(R.id.rank_name_text, rankEntity.name)))
+    private fun getItem(rankItem: RankItem): Item {
+        return Item(recyclerView, hasDescendant(getView(R.id.rank_name_text, rankItem.name)))
     }
 
     private fun getItem(position: Int) = Item(recyclerView, position)
@@ -41,16 +41,16 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
         RenameDialogUi.invoke(func, title)
     }
 
-    fun onClickVisible(rankEntity: RankEntity) = apply {
-        waitAfter(ANIM_TIME) { getItem(rankEntity).visibleButton.click() }
+    fun onClickVisible(rankItem: RankItem) = apply {
+        waitAfter(ANIM_TIME) { getItem(rankItem).visibleButton.click() }
     }
 
     fun onClickVisible(p: Int = random) = apply {
         waitAfter(ANIM_TIME) { getItem(p).visibleButton.click() }
     }
 
-    fun onLongClickVisible(rankEntity: RankEntity) = apply {
-        waitAfter(ANIM_TIME) { getItem(rankEntity).visibleButton.longClick() }
+    fun onLongClickVisible(rankItem: RankItem) = apply {
+        waitAfter(ANIM_TIME) { getItem(rankItem).visibleButton.longClick() }
     }
 
     fun onLongClickVisible(p: Int = random) = apply {
@@ -62,8 +62,8 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
     }
 
 
-    fun onAssertItem(rankEntity: RankEntity) {
-        getItem(rankEntity).assert(rankEntity)
+    fun onAssertItem(rankItem: RankItem) {
+        getItem(rankItem).assert(rankItem)
     }
 
     fun assert(empty: Boolean) {
@@ -82,7 +82,7 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
             listMatcher: Matcher<View>,
             itemMatcher: Matcher<View>?,
             position: Int?
-    ) : ParentRecyclerItem<RankEntity>(listMatcher, itemMatcher, position) {
+    ) : ParentRecyclerItem<RankItem>(listMatcher, itemMatcher, position) {
 
         constructor(listMatcher: Matcher<View>, position: Int) :
                 this(listMatcher, null, position)
@@ -96,7 +96,7 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
         private val nameText by lazy { getChild(getViewById(R.id.rank_name_text)) }
         private val countText by lazy { getChild(getViewById(R.id.rank_text_count_text)) }
 
-        override fun assert(model: RankEntity) {
+        override fun assert(model: RankItem) {
             val isVisible = model.isVisible
             visibleButton.isDisplayed().withDrawableAttr(
                     if (isVisible) R.drawable.ic_visible_exit else R.drawable.ic_visible_enter,

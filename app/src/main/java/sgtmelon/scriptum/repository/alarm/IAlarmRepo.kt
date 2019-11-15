@@ -9,8 +9,6 @@ import sgtmelon.scriptum.room.entity.AlarmEntity
  */
 interface IAlarmRepo {
 
-    fun insertOrUpdate(alarmEntity: AlarmEntity)
-
     fun insertOrUpdate(noteItem: NoteItem, date: String)
 
     fun delete(noteId: Long)

@@ -9,7 +9,7 @@ import sgtmelon.scriptum.adapter.NotificationAdapter
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.InfoPage
 import sgtmelon.scriptum.data.State
-import sgtmelon.scriptum.model.NoteModel
+import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.screen.ui.notification.NotificationActivity
 import sgtmelon.scriptum.ui.IPressBack
 import sgtmelon.scriptum.ui.ParentRecyclerItem
@@ -38,21 +38,21 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler), IPr
         getToolbarButton().click()
     }
 
-    fun openText(noteModel: NoteModel, p: Int = random, func: TextNoteScreen.() -> Unit = {}) {
+    fun openText(noteItem: NoteItem, p: Int = random, func: TextNoteScreen.() -> Unit = {}) {
         getItem(p).view.click()
-        TextNoteScreen.invoke(func, State.READ, noteModel)
+        TextNoteScreen.invoke(func, State.READ, noteItem)
     }
 
-    fun openRoll(noteModel: NoteModel, p: Int = random, func: RollNoteScreen.() -> Unit = {}) {
+    fun openRoll(noteItem: NoteItem, p: Int = random, func: RollNoteScreen.() -> Unit = {}) {
         getItem(p).view.click()
-        RollNoteScreen.invoke(func, State.READ, noteModel)
+        RollNoteScreen.invoke(func, State.READ, noteItem)
     }
 
     fun onClickCancel(p: Int = random) = apply { getItem(p).cancelButton.click() }
 
 
-    fun onAssertItem(p: Int, noteModel: NoteModel) {
-        getItem(p).assert(noteModel)
+    fun onAssertItem(p: Int, noteItem: NoteItem) {
+        getItem(p).assert(noteItem)
     }
 
     fun assert(empty: Boolean) {
@@ -67,7 +67,7 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler), IPr
      * Class for UI control of [NotificationAdapter].
      */
     private class Item(listMatcher: Matcher<View>, p: Int) :
-            ParentRecyclerItem<NoteModel>(listMatcher, p) {
+            ParentRecyclerItem<NoteItem>(listMatcher, p) {
 
         private val colorView by lazy { getChild(getViewById(R.id.notification_color_view)) }
 
@@ -76,14 +76,14 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler), IPr
 
         val cancelButton by lazy { getChild(getViewById(R.id.notification_cancel_button)) }
 
-        override fun assert(model: NoteModel) {
+        override fun assert(model: NoteItem) {
             colorView.isDisplayed().withColorIndicator(
-                    R.drawable.ic_color_indicator, theme, model.noteEntity.color
+                    R.drawable.ic_color_indicator, theme, model.color
             )
 
-            nameText.isDisplayed().haveText(model.noteEntity.name)
+            nameText.isDisplayed().haveText(model.name)
 
-            val date = model.alarmEntity.date.getCalendar().formatFuture(context)
+            val date = model.alarmDate.getCalendar().formatFuture(context)
             dateText.isDisplayed().haveText(date)
 
             cancelButton.isDisplayed().withDrawableAttr(

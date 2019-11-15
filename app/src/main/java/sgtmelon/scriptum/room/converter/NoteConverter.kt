@@ -12,8 +12,8 @@ import sgtmelon.scriptum.room.entity.RollEntity
 class NoteConverter {
 
     fun toItem(noteEntity: NoteEntity,
-               rollList: MutableList<RollItem>,
-               alarmEntity: AlarmEntity?): NoteItem = with(noteEntity){
+               rollList: MutableList<RollItem> = ArrayList(),
+               alarmEntity: AlarmEntity? = null): NoteItem = with(noteEntity){
         return@with if (alarmEntity == null) {
             NoteItem(
                     id, create, change, name, text, color, type, rankId, rankPs, isBin, isStatus,

@@ -7,7 +7,7 @@ import sgtmelon.scriptum.basic.extension.getTime
 import sgtmelon.scriptum.basic.extension.isDisplayed
 import sgtmelon.scriptum.basic.extension.waitBefore
 import sgtmelon.scriptum.data.State
-import sgtmelon.scriptum.model.NoteModel
+import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
 import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
 import sgtmelon.scriptum.ui.IPressBack
@@ -20,7 +20,7 @@ import java.util.*
  * Class for UI control of [AlarmActivity].
  */
 class AlarmScreen(
-        private val noteModel: NoteModel,
+        private val noteItem: NoteItem,
         private val dateList: List<String>?
 ) : ParentUi(), IPressBack {
 
@@ -41,12 +41,12 @@ class AlarmScreen(
 
     fun openTextNote(func: TextNoteScreen.() -> Unit = {}) {
         recyclerView.click(p = 0)
-        TextNoteScreen.invoke(func, State.READ, noteModel)
+        TextNoteScreen.invoke(func, State.READ, noteItem)
     }
 
     fun openRollNote(func: RollNoteScreen.() -> Unit = {}) {
         recyclerView.click(p = 0)
-        RollNoteScreen.invoke(func, State.READ, noteModel)
+        RollNoteScreen.invoke(func, State.READ, noteItem)
     }
 
     fun onClickDisable() {
@@ -67,7 +67,7 @@ class AlarmScreen(
             calendar.add(Calendar.MINUTE, 1)
         }
 
-        noteModel.alarmEntity.date = calendar.getString()
+        noteItem.alarmDate = calendar.getString()
     }
 
     fun assert() {
@@ -82,9 +82,9 @@ class AlarmScreen(
     }
 
     companion object {
-        operator fun invoke(func: AlarmScreen.() -> Unit, noteModel: NoteModel,
+        operator fun invoke(func: AlarmScreen.() -> Unit, noteItem: NoteItem,
                             dateList: List<String>? = null) =
-                AlarmScreen(noteModel, dateList).apply {
+                AlarmScreen(noteItem, dateList).apply {
                     waitBefore(time = 500) { assert() }
                 }.apply(func)
     }

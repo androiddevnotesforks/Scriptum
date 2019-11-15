@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.ui.screen
 
 import sgtmelon.scriptum.data.State
-import sgtmelon.scriptum.model.NoteModel
+import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.screen.ui.SplashActivity
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.screen.main.MainScreen
@@ -17,17 +17,17 @@ class SplashScreen : ParentUi() {
 
     fun mainScreen(func: MainScreen.() -> Unit = {}) = MainScreen.invoke(func)
 
-    fun openTextNoteBind(noteModel: NoteModel, func: TextNoteScreen.() -> Unit = {}) = apply {
-        TextNoteScreen.invoke(func, State.READ, noteModel)
+    fun openTextNoteBind(noteItem: NoteItem, func: TextNoteScreen.() -> Unit = {}) = apply {
+        TextNoteScreen.invoke(func, State.READ, noteItem)
     }
 
-    fun openRollNoteBind(noteModel: NoteModel, func: RollNoteScreen.() -> Unit = {}) = apply {
-        RollNoteScreen.invoke(func, State.READ, noteModel)
+    fun openRollNoteBind(noteItem: NoteItem, func: RollNoteScreen.() -> Unit = {}) = apply {
+        RollNoteScreen.invoke(func, State.READ, noteItem)
     }
 
-    fun openAlarm(noteModel: NoteModel, dateList: List<String>? = null,
+    fun openAlarm(noteItem: NoteItem, dateList: List<String>? = null,
                   func: AlarmScreen.() -> Unit = {}) = apply {
-        AlarmScreen.invoke(func, noteModel, dateList)
+        AlarmScreen.invoke(func, noteItem, dateList)
     }
 
     fun openNotification(empty: Boolean = false,

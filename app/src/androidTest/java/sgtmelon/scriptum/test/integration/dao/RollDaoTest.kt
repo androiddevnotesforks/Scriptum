@@ -5,7 +5,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.dao.IRollDao
@@ -19,51 +18,51 @@ import sgtmelon.scriptum.test.ParentIntegrationTest
 @RunWith(AndroidJUnit4::class)
 class RollDaoTest : ParentIntegrationTest() {
 
-    private fun RoomDb.insertRollRelation(noteModel: NoteModel) = with(noteModel) {
-        iNoteDao.insert(noteEntity)
+    private fun RoomDb.insertRollRelation(model: Model) = with(model) {
+        iNoteDao.insert(entity)
         rollList.forEach { iRollDao.insert(it) }
     }
 
     @Test fun insertWithUnique() = inRoom {
-        noteFirst.let {
-            insertRollRelation(it)
+        insertRollRelation(modelFirst)
 
-            it.rollList.forEach { item -> iRollDao.insert(item) }
-            assertEquals(it.rollList, iRollDao[it.noteEntity.id])
+        with(modelFirst) {
+            rollList.forEach { item -> iRollDao.insert(item) }
+            assertEquals(rollList, iRollDao[entity.id])
         }
     }
 
     @Test fun update() = inRoom {
-        insertRollRelation(noteSecond)
+        insertRollRelation(modelSecond)
 
-        with(noteSecond) {
+        with(modelSecond) {
             rollList[0].copy(position = 4, isCheck = true, text = "00000").let {
                 iRollDao.update(it.id!!, it.position, it.text)
                 iRollDao.update(it.id!!, it.isCheck)
 
-                assertTrue(iRollDao[noteEntity.id].contains(it))
+                assertTrue(iRollDao[entity.id].contains(it))
             }
         }
     }
 
     @Test fun updateCheck() = inRoom {
-        insertRollRelation(noteSecond)
+        insertRollRelation(modelSecond)
 
-        with(noteSecond) {
-            iRollDao.updateAllCheck(noteEntity.id, check = true)
+        with(modelSecond) {
+            iRollDao.updateAllCheck(entity.id, check = true)
             assertEquals(copy().rollList.apply {
                 forEach { it.isCheck = true }
-            }, iRollDao[noteEntity.id])
+            }, iRollDao[entity.id])
         }
     }
 
     @Test fun delete() = inRoom {
-        insertRollRelation(noteFirst)
+        insertRollRelation(modelFirst)
 
-        with(noteFirst) {
+        with(modelFirst) {
             val listSave = rollList.filter { it.isCheck }
 
-            noteEntity.id.let { id ->
+            entity.id.let { id ->
                 iRollDao.delete(id, listSave.map { it.id ?: -1 })
                 assertEquals(listSave, iRollDao[id])
             }
@@ -71,46 +70,48 @@ class RollDaoTest : ParentIntegrationTest() {
     }
 
     @Test fun deleteAll() = inRoom {
-        insertRollRelation(noteFirst)
+        insertRollRelation(modelFirst)
 
-        noteFirst.noteEntity.id.let {
+        modelFirst.entity.id.let {
             iRollDao.delete(it)
             assertTrue(iRollDao[it].isEmpty())
         }
     }
 
     @Test fun get() = inRoom {
-        noteFirst.let {
+        modelFirst.let {
             insertRollRelation(it)
-            assertEquals(it.rollList, iRollDao[it.noteEntity.id])
+            assertEquals(it.rollList, iRollDao[it.entity.id])
         }
 
-        noteSecond.let {
+        modelSecond.let {
             insertRollRelation(it)
-            assertEquals(it.rollList, iRollDao[it.noteEntity.id])
+            assertEquals(it.rollList, iRollDao[it.entity.id])
         }
     }
 
     @Test fun getView() = inRoom {
-        noteFirst.let {
+        modelFirst.let {
             insertRollRelation(it)
             assertEquals(
                     it.rollList.filter { roll -> roll.position < 4 },
-                    iRollDao.getView(it.noteEntity.id)
+                    iRollDao.getView(it.entity.id)
             )
         }
 
-        noteSecond.let {
+        modelSecond.let {
             insertRollRelation(it)
             assertEquals(
                     it.rollList.filter { roll -> roll.position < 4 },
-                    iRollDao.getView(it.noteEntity.id)
+                    iRollDao.getView(it.entity.id)
             )
         }
     }
 
+    private data class Model(val entity: NoteEntity, val rollList: List<RollEntity>)
+
     private companion object {
-        val noteFirst = NoteModel(NoteEntity(
+        val modelFirst = Model(NoteEntity(
                 id = 1, create = DATE_1, change = DATE_2, type = NoteType.ROLL
         ), arrayListOf(
                 RollEntity(id = 1, noteId = 1, position = 0, isCheck = false, text = "01234"),
@@ -119,7 +120,7 @@ class RollDaoTest : ParentIntegrationTest() {
                 RollEntity(id = 4, noteId = 1, position = 3, isCheck = true, text = "34567")
         ))
 
-        val noteSecond = NoteModel(NoteEntity(
+        val modelSecond = Model(NoteEntity(
                 id = 2, create = DATE_3, change = DATE_4, type = NoteType.ROLL
         ), arrayListOf(
                 RollEntity(id = 5, noteId = 2, position = 0, isCheck = false, text = "01234"),

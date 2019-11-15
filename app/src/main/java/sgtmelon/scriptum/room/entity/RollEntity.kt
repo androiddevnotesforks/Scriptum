@@ -30,34 +30,4 @@ data class RollEntity(
         @ColumnInfo(name = Roll.POSITION, defaultValue = Room.POSITION) var position: Int = Default.POSITION,
         @ColumnInfo(name = Roll.CHECK, defaultValue = Room.CHECK) var isCheck: Boolean = Default.CHECK,
         @ColumnInfo(name = Roll.TEXT, defaultValue = Room.TEXT) var text: String = Default.TEXT
-) {
-
-    /**
-     * Replace [id] null value to -1 for [get] function
-     */
-    override fun toString() = JSONObject().apply {
-        put(Roll.ID, if (id != null) id else -1L)
-        put(Roll.NOTE_ID, noteId)
-        put(Roll.POSITION, position)
-        put(Roll.CHECK, isCheck)
-        put(Roll.TEXT, text)
-    }.toString()
-
-    companion object {
-        operator fun get(data: String): RollEntity? = try {
-            JSONObject(data).let {
-                val id = it.getLong(Roll.ID)
-                return@let RollEntity(
-                        if (id != -1L) id else null,
-                        it.getLong(Roll.NOTE_ID),
-                        it.getInt(Roll.POSITION),
-                        it.getBoolean(Roll.CHECK),
-                        it.getString(Roll.TEXT)
-                )
-            }
-        } catch (e: Throwable) {
-            null
-        }
-    }
-
-}
+)

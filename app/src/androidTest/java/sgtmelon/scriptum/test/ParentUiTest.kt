@@ -3,14 +3,14 @@ package sgtmelon.scriptum.test
 import android.content.Intent
 import androidx.test.rule.ActivityTestRule
 import org.junit.Rule
-import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
+import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.screen.ui.SplashActivity
 import sgtmelon.scriptum.ui.screen.SplashScreen
 import kotlin.random.Random
 
 /**
- * Parent class for UI tests
+ * Parent class for UI tests.
  */
 abstract class ParentUiTest : ParentTest() {
 
@@ -40,19 +40,16 @@ abstract class ParentUiTest : ParentTest() {
         SplashScreen().apply(after)
     }
 
-    protected fun launchBind(noteModel: NoteModel, func: SplashScreen.() -> Unit) {
-        TODO("REFACTOR")
-//        launch(
-//                intent = SplashActivity.getBindInstance(context, noteModel.noteEntity), after = func
-//        )
-    }
+    protected fun launchBind(noteItem: NoteItem, func: SplashScreen.() -> Unit) = launch(
+            intent = SplashActivity.getBindInstance(context, noteItem), after = func
+    )
 
     protected fun launchInfo(func: SplashScreen.() -> Unit) = launch(
             intent = SplashActivity.getNotificationInstance(context), after = func
     )
 
-    protected fun launchAlarm(noteModel: NoteModel, func: SplashScreen.() -> Unit) = launch(
-            intent = SplashActivity.getAlarmInstance(context, noteModel.noteEntity.id), after = func
+    protected fun launchAlarm(noteItem: NoteItem, func: SplashScreen.() -> Unit) = launch(
+            intent = SplashActivity.getAlarmInstance(context, noteItem.id), after = func
     )
 
 }

@@ -41,6 +41,10 @@ data class NoteItem(
 ) {
 
     /**
+     * TODO #TEST write unit test
+     */
+
+    /**
      * [complete] - use if you know check count.
      */
     fun updateComplete(complete: Complete? = null): Int = with(rollList) {

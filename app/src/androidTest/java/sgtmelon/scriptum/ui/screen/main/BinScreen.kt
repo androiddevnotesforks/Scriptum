@@ -6,12 +6,12 @@ import sgtmelon.scriptum.basic.extension.isDisplayed
 import sgtmelon.scriptum.basic.extension.longClick
 import sgtmelon.scriptum.data.InfoPage
 import sgtmelon.scriptum.data.State
-import sgtmelon.scriptum.model.NoteModel
+import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.screen.ui.main.BinFragment
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.dialog.ClearDialogUi
 import sgtmelon.scriptum.ui.dialog.NoteDialogUi
-import sgtmelon.scriptum.ui.item.NoteItem
+import sgtmelon.scriptum.ui.item.NoteItemUi
 import sgtmelon.scriptum.ui.part.InfoContainer
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
@@ -30,7 +30,7 @@ class BinScreen : ParentRecyclerScreen(R.id.bin_recycler) {
 
     private val infoContainer = InfoContainer(InfoPage.BIN)
 
-    private fun getItem(p: Int) = NoteItem(recyclerView, p)
+    private fun getItem(p: Int) = NoteItemUi(recyclerView, p)
 
     //endregion
 
@@ -39,27 +39,27 @@ class BinScreen : ParentRecyclerScreen(R.id.bin_recycler) {
         ClearDialogUi.invoke(func)
     }
 
-    fun openNoteDialog(noteModel: NoteModel, p: Int = random,
+    fun openNoteDialog(noteItem: NoteItem, p: Int = random,
                        func: NoteDialogUi.() -> Unit = {}) = apply {
         getItem(p).view.longClick()
-        NoteDialogUi.invoke(func, noteModel)
+        NoteDialogUi.invoke(func, noteItem)
     }
 
-    fun openTextNote(noteModel: NoteModel, p: Int = random,
+    fun openTextNote(noteItem: NoteItem, p: Int = random,
                      func: TextNoteScreen.() -> Unit = {}) = apply {
         getItem(p).view.click()
-        TextNoteScreen.invoke(func, State.BIN, noteModel)
+        TextNoteScreen.invoke(func, State.BIN, noteItem)
     }
 
-    fun openRollNote(noteModel: NoteModel, p: Int = random,
+    fun openRollNote(noteItem: NoteItem, p: Int = random,
                      func: RollNoteScreen.() -> Unit = {}) = apply {
         getItem(p).view.click()
-        RollNoteScreen.invoke(func, State.BIN, noteModel)
+        RollNoteScreen.invoke(func, State.BIN, noteItem)
     }
 
 
-    fun onAssertItem(p: Int, noteModel: NoteModel) {
-        getItem(p).assert(noteModel)
+    fun onAssertItem(p: Int, noteItem: NoteItem) {
+        getItem(p).assert(noteItem)
     }
 
     fun assert(empty: Boolean) {

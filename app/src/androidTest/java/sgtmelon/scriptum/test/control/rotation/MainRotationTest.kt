@@ -3,7 +3,7 @@ package sgtmelon.scriptum.test.control.rotation
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.model.NoteModel
+import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.screen.ui.main.MainActivity
 import sgtmelon.scriptum.test.ParentRotationTest
 
@@ -74,11 +74,11 @@ class MainRotationTest : ParentRotationTest() {
         startDateDialogTest(it)
     }
 
-    private fun startDateDialogTest(noteModel: NoteModel) {
+    private fun startDateDialogTest(noteItem: NoteItem) {
         launch {
             mainScreen {
                 notesScreen {
-                    openNoteDialog(noteModel) { onNotification { onRotate { assert() } } }
+                    openNoteDialog(noteItem) { onNotification { onRotate { assert() } } }
                 }
             }
         }
