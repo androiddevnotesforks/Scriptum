@@ -17,11 +17,13 @@ class RankDaoTest : ParentIntegrationTest() {
 
     private fun inRankDao(func: IRankDao.() -> Unit) = inRoom { iRankDao.apply(func) }
 
-    private fun IRankDao.insertAll(): List<RankEntity> =
-            arrayListOf(rankFirst, rankSecond, rankThird).apply {
-                forEach { insert(it) }
-                sortBy { it.position }
-            }
+    private fun IRankDao.insertAll(): List<RankEntity> {
+        return arrayListOf(rankFirst, rankSecond, rankThird).apply {
+            forEach { insert(it) }
+            sortBy { it.position }
+        }
+    }
+
 
     @Test fun insertWithUnique() = inRankDao {
         assertEquals(1, insert(rankFirst))
@@ -74,6 +76,7 @@ class RankDaoTest : ParentIntegrationTest() {
             assertEquals(rankSecond, get(rankSecond.id))
         }
     }
+
 
     @Test fun getOnWrongId() = inRankDao { assertNull(get(Random.nextLong())) }
 

@@ -38,6 +38,7 @@ interface IRollDao {
     @Query(value = "DELETE FROM ROLL_TABLE WHERE RL_NOTE_ID = :noteId")
     fun delete(noteId: Long)
 
+
     @Query(value = "SELECT * FROM ROLL_TABLE WHERE RL_NOTE_ID = :noteId ORDER BY RL_POSITION")
     operator fun get(noteId: Long): MutableList<RollEntity>
 

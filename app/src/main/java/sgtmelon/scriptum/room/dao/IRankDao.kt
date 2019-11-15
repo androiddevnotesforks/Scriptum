@@ -2,7 +2,6 @@ package sgtmelon.scriptum.room.dao
 
 import androidx.room.*
 import sgtmelon.scriptum.model.data.DbData
-import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.converter.BoolConverter
 import sgtmelon.scriptum.room.entity.RankEntity
@@ -25,6 +24,7 @@ interface IRankDao {
 
     @Update(onConflict = OnConflictStrategy.IGNORE)
     fun update(list: List<RankEntity>)
+
 
     @Query(value = "SELECT * FROM RANK_TABLE WHERE RK_ID == :id")
     operator fun get(id: Long): RankEntity?

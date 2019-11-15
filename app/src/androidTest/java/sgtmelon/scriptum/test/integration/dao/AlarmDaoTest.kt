@@ -24,6 +24,7 @@ class AlarmDaoTest : ParentIntegrationTest() {
         iAlarmDao.insert(alarmEntity)
     }
 
+
     @Test fun insertWithUnique() = inRoom {
         insertAlarmRelation(noteFirst, alarmFirst)
 
@@ -75,6 +76,7 @@ class AlarmDaoTest : ParentIntegrationTest() {
         insertAlarmRelation(noteSecond, alarmSecond)
         assertEquals(iAlarmDao.getCount(), ++size)
     }
+
 
     private companion object {
         val noteFirst = NoteEntity(

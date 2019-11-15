@@ -23,11 +23,12 @@ class RollDaoTest : ParentIntegrationTest() {
         rollList.forEach { iRollDao.insert(it) }
     }
 
+
     @Test fun insertWithUnique() = inRoom {
         insertRollRelation(modelFirst)
 
         with(modelFirst) {
-            rollList.forEach { item -> iRollDao.insert(item) }
+            rollList.forEach { item -> assertEquals(UNIQUE_ERROR_ID, iRollDao.insert(item)) }
             assertEquals(rollList, iRollDao[entity.id])
         }
     }
@@ -56,7 +57,7 @@ class RollDaoTest : ParentIntegrationTest() {
         }
     }
 
-    @Test fun delete() = inRoom {
+    @Test fun deleteAfterSwipe() = inRoom {
         insertRollRelation(modelFirst)
 
         with(modelFirst) {
@@ -77,6 +78,7 @@ class RollDaoTest : ParentIntegrationTest() {
             assertTrue(iRollDao[it].isEmpty())
         }
     }
+
 
     @Test fun get() = inRoom {
         modelFirst.let {
@@ -107,6 +109,7 @@ class RollDaoTest : ParentIntegrationTest() {
             )
         }
     }
+
 
     private data class Model(val entity: NoteEntity, val rollList: List<RollEntity>)
 
