@@ -8,6 +8,7 @@ import sgtmelon.scriptum.adapter.NoteAdapter
 import sgtmelon.scriptum.adapter.RollAdapter
 import sgtmelon.scriptum.extension.getCheck
 import sgtmelon.scriptum.model.annotation.Color
+import sgtmelon.scriptum.model.data.DbData
 import sgtmelon.scriptum.model.data.DbData.Alarm
 import sgtmelon.scriptum.model.data.DbData.Note
 import sgtmelon.scriptum.model.data.DbData.Roll
@@ -92,6 +93,11 @@ data class NoteItem(
     fun clearAlarm() {
         alarmId = Alarm.Default.ID
         alarmDate = Alarm.Default.DATE
+    }
+
+    fun clearRank() {
+        rankId = Note.Default.RANK_ID
+        rankPs = Note.Default.RANK_PS
     }
 
     fun isSaveEnabled(): Boolean = when (type) {

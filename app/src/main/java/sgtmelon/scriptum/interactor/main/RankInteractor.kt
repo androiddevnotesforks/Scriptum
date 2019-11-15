@@ -3,7 +3,6 @@ package sgtmelon.scriptum.interactor.main
 import android.content.Context
 import sgtmelon.scriptum.interactor.ParentInteractor
 import sgtmelon.scriptum.interactor.callback.main.IRankInteractor
-import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.repository.rank.IRankRepo
 import sgtmelon.scriptum.repository.rank.RankRepo
@@ -30,24 +29,6 @@ class RankInteractor(context: Context) : ParentInteractor(context), IRankInterac
 
     override suspend fun update(item: RankItem) = iRankRepo.update(item)
 
-    override fun updatePosition(list: List<RankItem>) {
-        val noteIdSet = mutableSetOf<Long>()
-
-        list.forEachIndexed { i, item ->
-            /**
-             * If [RankItem.position] incorrect (out of order) when update it.
-             */
-            if (item.position != i) {
-                item.position = i
-
-                /**
-                 * Add id to [Set] of [NoteItem.id] where need update [NoteItem.rankPs].
-                 */
-                item.noteId.forEach { noteIdSet.add(it) }
-            }
-        }
-
-        iRankRepo.updatePosition(list, noteIdSet.toList())
-    }
+    override fun updatePosition(list: List<RankItem>) = iRankRepo.updatePosition(list)
 
 }

@@ -19,6 +19,10 @@ import sgtmelon.scriptum.room.entity.RankEntity
  */
 class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
 
+    /**
+     * TODO #TEST write unit tests
+     */
+
     private val converter = RankConverter()
 
     override fun isEmpty(): Boolean {
@@ -69,27 +73,49 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
         iRankDao.update(converter.toEntity(rankItem))
     }
 
-    override fun updatePosition(rankList: List<RankItem>, noteIdList: List<Long>) = inRoom {
-        iNoteDao.updateRankInformation(rankList, noteIdList)
+
+    override fun updatePosition(rankList: List<RankItem>) = inRoom {
+        iNoteDao.updateRankPosition(rankList, rankList.correctPositions())
         iRankDao.update(converter.toEntity(rankList))
+    }
+
+    /**
+     * Return list of [NoteItem.id] which need update
+     */
+    private fun List<RankItem>.correctPositions(): List<Long> {
+        val noteIdSet = mutableSetOf<Long>()
+
+        forEachIndexed { i, item ->
+            /**
+             * If [RankItem.position] incorrect (out of order) when update it.
+             */
+            if (item.position != i) {
+                item.position = i
+
+                /**
+                 * Add id to [Set] of [NoteItem.id] where need update [NoteItem.rankPs].
+                 */
+                item.noteId.forEach { noteIdSet.add(it) }
+            }
+        }
+
+        return noteIdSet.toList()
     }
 
     /**
      * Update [NoteEntity.rankPs] for notes from [noteIdList] which related with [rankList].
      */
-    private fun INoteDao.updateRankInformation(rankList: List<RankItem>,
-                                               noteIdList: List<Long>) {
+    private fun INoteDao.updateRankPosition(rankList: List<RankItem>, noteIdList: List<Long>) {
         if (noteIdList.isEmpty()) return
 
         val noteList = get(noteIdList)
-        noteList.forEach { noteItem ->
-            rankList.forEach {
-                if (noteItem.rankId == it.id) noteItem.rankPs = it.position
-            }
+        for (entity in noteList) {
+            entity.rankPs = rankList.firstOrNull { entity.rankId == it.id }?.position ?: continue
         }
 
         update(noteList)
     }
+
 
     /**
      * Add [NoteEntity.id] to [RankEntity.noteId] or remove after some changes.
@@ -98,15 +124,7 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
         val list = iRankDao.get()
         val checkArray = calculateCheckArray(list, noteItem.rankId)
 
-        val id = noteItem.id
-        list.forEachIndexed { i, item ->
-            when {
-                checkArray[i] && !item.noteId.contains(id) -> item.noteId.add(id)
-                !checkArray[i] -> item.noteId.remove(id)
-            }
-        }
-
-        iRankDao.update(list)
+        iRankDao.update(list.updateNoteId(noteItem.id, checkArray))
     }
 
     private fun calculateCheckArray(rankList: List<RankEntity>, rankId: Long): BooleanArray {
@@ -117,6 +135,16 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
 
         return array
     }
+
+    private fun List<RankEntity>.updateNoteId(noteId: Long, checkArray: BooleanArray) = apply {
+        forEachIndexed { i, item ->
+            when {
+                checkArray[i] && !item.noteId.contains(noteId) -> item.noteId.add(noteId)
+                !checkArray[i] -> item.noteId.remove(noteId)
+            }
+        }
+    }
+
 
     /**
      * Return array with all rank names
@@ -132,12 +160,12 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
     override fun getId(check: Int): Long {
         val id: Long
 
-        if (check != DbData.Note.Default.RANK_PS) {
+        if (check == DbData.Note.Default.RANK_PS) {
+            id = DbData.Note.Default.RANK_ID
+        } else {
             openRoom().apply {
                 id = iRankDao.getIdList().getOrNull(check) ?: DbData.Note.Default.RANK_ID
             }.close()
-        } else {
-            id = DbData.Note.Default.RANK_ID
         }
 
         return id

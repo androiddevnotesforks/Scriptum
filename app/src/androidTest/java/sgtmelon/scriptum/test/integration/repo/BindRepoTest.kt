@@ -17,14 +17,14 @@ import sgtmelon.scriptum.test.ParentIntegrationTest
 @RunWith(AndroidJUnit4::class)
 class BindRepoTest : ParentIntegrationTest() {
 
-    private val iRepo: IBindRepo = BindRepo(context)
+    private val iBindRepo: IBindRepo = BindRepo(context)
 
     @Test fun unbindNote() = inRoom {
         val noteFirst = noteFirst.copy()
 
-        assertFalse(iRepo.unbindNote(noteFirst.id))
+        assertFalse(iBindRepo.unbindNote(noteFirst.id))
         assertNotEquals(UNIQUE_ERROR_ID, iNoteDao.insert(noteFirst))
-        assertTrue(iRepo.unbindNote(noteFirst.id))
+        assertTrue(iBindRepo.unbindNote(noteFirst.id))
 
         assertEquals(noteFirst.apply { isStatus = false }, iNoteDao[noteFirst.id])
     }
@@ -36,13 +36,13 @@ class BindRepoTest : ParentIntegrationTest() {
         }
 
         var size = 0
-        assertEquals(iAlarmDao.getCount(), size)
+        assertEquals(size, iBindRepo.getNotificationCount())
 
         insertAlarmRelation(noteFirst, alarmFirst)
-        assertEquals(iAlarmDao.getCount(), ++size)
+        assertEquals(++size, iBindRepo.getNotificationCount())
 
         insertAlarmRelation(noteSecond, alarmSecond)
-        assertEquals(iAlarmDao.getCount(), ++size)
+        assertEquals(++size, iBindRepo.getNotificationCount())
     }
 
     private companion object {
