@@ -75,4 +75,7 @@ class PreferenceRepo(context: Context) : IPreferenceRepo {
         get() = preferences.getInt(key.SAVE_PERIOD, def.SAVE_PERIOD)
         set(value) = edit { putInt(key.SAVE_PERIOD, value) }
 
+
+    override fun clear() = edit { clear() }
+
 }

@@ -36,4 +36,7 @@ interface IPreferenceRepo {
 
     var savePeriod: Int
 
+
+    fun clear()
+
 }
