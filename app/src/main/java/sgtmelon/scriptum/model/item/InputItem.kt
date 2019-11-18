@@ -10,8 +10,8 @@ class InputItem(
         @InputAction val tag: Int,
         private val valueFrom: String,
         private val valueTo: String,
-        val cursor: Cursor? = null,
-        val p: Int = -1
+        val cursor: Cursor? = ND_CURSOR,
+        val p: Int = ND_POSITION
 ) {
 
     init {
@@ -46,11 +46,18 @@ class InputItem(
         companion object {
             operator fun Cursor?.get(isUndo: Boolean) = if (this != null) {
                 if (isUndo) valueFrom else valueTo
-            } else 0
+            } else ND_VALUE
+
+            const val ND_VALUE = 0
         }
 
         override fun toString() = "valueFrom = $valueFrom | valueTo = $valueTo"
 
+    }
+
+    companion object {
+        val ND_CURSOR = null
+        const val ND_POSITION = -1
     }
 
 }

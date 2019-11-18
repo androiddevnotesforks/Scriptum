@@ -5,8 +5,8 @@ import androidx.room.TypeConverters
 import org.json.JSONObject
 import sgtmelon.scriptum.adapter.RollAdapter
 import sgtmelon.scriptum.model.data.DbData.Roll
+import sgtmelon.scriptum.model.item.RollItem.Companion.get
 import sgtmelon.scriptum.room.converter.BoolConverter
-import sgtmelon.scriptum.room.entity.RollEntity
 
 /**
  * Model for store short information about roll, use in [RollAdapter]
@@ -18,15 +18,10 @@ data class RollItem(
         @ColumnInfo(name = Roll.CHECK) var isCheck: Boolean = Roll.Default.CHECK,
         @ColumnInfo(name = Roll.TEXT) var text: String
 ) {
-
-    /**
-     * TODO #TEST write unit test
-     */
-
     /**
      * Replace [id] null value to -1 for [get] function
      */
-    override fun toString() = JSONObject().apply {
+    fun toJson() = JSONObject().apply {
         put(Roll.ID, if (id != null) id else -1L)
         put(Roll.POSITION, position)
         put(Roll.CHECK, isCheck)

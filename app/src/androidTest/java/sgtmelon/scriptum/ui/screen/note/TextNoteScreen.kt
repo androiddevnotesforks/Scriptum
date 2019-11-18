@@ -38,7 +38,7 @@ class TextNoteScreen(override var state: State,
 
     //endregion
 
-    override var shadowItem: NoteItem = noteItem.copy()
+    override var shadowItem: NoteItem = noteItem.deepCopy()
 
     override val inputControl = InputControl().apply { isEnabled = true }
 
@@ -83,12 +83,12 @@ class TextNoteScreen(override var state: State,
         if (state == State.EDIT || state == State.NEW) {
             if (shadowItem.isSaveEnabled()) {
                 state = State.READ
-                noteItem = shadowItem.copy()
+                noteItem = shadowItem.deepCopy()
                 inputControl.reset()
                 fullAssert()
             } else if (state == State.EDIT) {
                 state = State.READ
-                shadowItem = noteItem.copy()
+                shadowItem = noteItem.deepCopy()
                 inputControl.reset()
                 fullAssert()
             }

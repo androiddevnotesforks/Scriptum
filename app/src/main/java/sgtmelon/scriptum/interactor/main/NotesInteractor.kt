@@ -9,8 +9,6 @@ import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.repository.alarm.AlarmRepo
 import sgtmelon.scriptum.repository.alarm.IAlarmRepo
-import sgtmelon.scriptum.repository.bind.BindRepo
-import sgtmelon.scriptum.repository.bind.IBindRepo
 import sgtmelon.scriptum.repository.note.INoteRepo
 import sgtmelon.scriptum.repository.note.NoteRepo
 import sgtmelon.scriptum.repository.rank.IRankRepo
@@ -45,9 +43,10 @@ class NotesInteractor(context: Context, private var callback: INotesBridge?) :
     override fun updateNote(noteItem: NoteItem) {
         iNoteRepo.updateNote(noteItem)
 
-        val rollList = iNoteRepo.getRollList(noteItem.id)
-        val noteMirror = noteItem.copy(rollList = rollList)
-
+        /**
+         * Need for prevent overriding noteItem rollList in list model
+         */
+        val noteMirror = noteItem.deepCopy(rollList = iNoteRepo.getRollList(noteItem.id))
         callback?.notifyNoteBind(noteMirror, iRankRepo.getIdVisibleList())
     }
 

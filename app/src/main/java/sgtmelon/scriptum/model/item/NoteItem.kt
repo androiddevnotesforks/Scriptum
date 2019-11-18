@@ -8,7 +8,7 @@ import sgtmelon.scriptum.adapter.NoteAdapter
 import sgtmelon.scriptum.adapter.RollAdapter
 import sgtmelon.scriptum.extension.getCheck
 import sgtmelon.scriptum.model.annotation.Color
-import sgtmelon.scriptum.model.data.DbData
+import sgtmelon.scriptum.model.data.ColorData.size
 import sgtmelon.scriptum.model.data.DbData.Alarm
 import sgtmelon.scriptum.model.data.DbData.Note
 import sgtmelon.scriptum.model.data.DbData.Roll
@@ -41,24 +41,42 @@ data class NoteItem(
         @ColumnInfo(name = Alarm.DATE) var alarmDate: String = Alarm.Default.DATE
 ) {
 
-    /**
-     * TODO #TEST write unit test
-     */
+    fun deepCopy(
+            id: Long = this.id,
+            create: String = this.create,
+            change: String = this.change,
+            name: String = this.name,
+            text: String = this.text,
+            color: Int = this.color,
+            type: NoteType = this.type,
+            rankId: Long = this.rankId,
+            rankPs: Int = this.rankPs,
+            isBin: Boolean = this.isBin,
+            isStatus: Boolean = this.isStatus,
+            rollList: MutableList<RollItem> = this.rollList.map { it.copy() }.toMutableList(),
+            alarmId: Long = this.alarmId,
+            alarmDate: String = this.alarmDate
+    ) = NoteItem(
+            id, create, change, name, text, color, type, rankId, rankPs, isBin, isStatus,
+            rollList, alarmId, alarmDate
+    )
 
     /**
      * [complete] - use if you know check count.
      */
-    fun updateComplete(complete: Complete? = null): Int = with(rollList) {
+    fun updateComplete(complete: Complete? = null): Int {
         val check = when(complete){
+            null -> rollList.getCheck()
             Complete.EMPTY -> 0
-            Complete.FULL -> size
-            null -> getCheck()
+            Complete.FULL -> rollList.size
         }
 
-        text = "$check/$size"
+        text = "$check/${rollList.size}"
 
         return check
     }
+
+    private fun List<RollItem>.getCheck(): Int = filter { it.isCheck }.size
 
     /**
      * Check/uncheck all items.

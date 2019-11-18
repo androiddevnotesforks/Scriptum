@@ -110,7 +110,7 @@ class NotePanel(private val callback: INoteScreen) : ParentUi(),
             callback.apply {
                 state = State.READ
 
-                noteItem = shadowItem.copy()
+                noteItem = shadowItem.deepCopy()
                 noteItem.change = getTime()
 
                 inputControl.reset()
@@ -148,7 +148,7 @@ class NotePanel(private val callback: INoteScreen) : ParentUi(),
 
             callback.apply {
                 state = State.EDIT
-                shadowItem = noteItem.copy()
+                shadowItem = noteItem.deepCopy()
                 inputControl.reset()
             }.fullAssert()
         }

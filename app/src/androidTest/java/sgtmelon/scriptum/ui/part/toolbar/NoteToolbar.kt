@@ -52,7 +52,7 @@ class NoteToolbar(private val callback: INoteScreen) : ParentUi() {
         with(callback) {
             if (state == State.EDIT) {
                 state = State.READ
-                shadowItem = noteItem.copy()
+                shadowItem = noteItem.deepCopy()
                 inputControl.reset()
                 fullAssert()
             }

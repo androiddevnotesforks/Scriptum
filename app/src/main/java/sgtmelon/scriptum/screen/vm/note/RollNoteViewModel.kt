@@ -199,7 +199,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         val p = if (simpleClick) noteItem.rollList.size else 0
         val rollItem = RollItem(position = p, text = enterText)
 
-        inputControl.onRollAdd(p, rollItem.toString())
+        inputControl.onRollAdd(p, rollItem.toJson())
 
         noteItem.rollList.add(p, rollItem)
 
@@ -502,7 +502,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         val rollItem = noteItem.rollList[p]
         noteItem.rollList.removeAt(p)
 
-        inputControl.onRollRemove(p, rollItem.toString())
+        inputControl.onRollRemove(p, rollItem.toJson())
 
         callback?.apply {
             bindInput(inputControl.access, noteItem)
