@@ -2,10 +2,10 @@ package sgtmelon.scriptum.model.item
 
 import org.junit.Assert.*
 import org.junit.Test
-import sgtmelon.scriptum.model.annotation.Color.Companion.list
+import sgtmelon.extension.getTime
+import sgtmelon.scriptum.model.item.NoteItem.Companion.getCheck
 import sgtmelon.scriptum.model.key.Complete
 import sgtmelon.scriptum.model.key.NoteType
-import kotlin.random.Random
 
 /**
  * Test for [NoteItem]
@@ -20,6 +20,7 @@ class NoteItemTest {
 
         assertEquals(REAL_POSITION, itemSecond.rollList.first().position)
     }
+
 
     @Test fun updateComplete() {
         val size = rollList.size
@@ -49,6 +50,130 @@ class NoteItemTest {
         assertFalse(item.rollList.any { it.isCheck })
     }
 
+    @Test fun getCheck() = assertEquals(CHECK_COUNT, rollList.getCheck())
+
+
+    @Test fun delete() {
+        val item = noteItem.deepCopy(change = "TIME", isBin = false, isStatus = true)
+
+        with(item.delete()) {
+            assertEquals(getTime(), change)
+            assertEquals(true, isBin)
+            assertEquals(false, isStatus)
+        }
+    }
+
+    @Test fun restore() {
+        val item = noteItem.deepCopy(change = "TIME", isBin = true)
+
+        with(item.restore()) {
+            assertEquals(getTime(), change)
+            assertEquals(false, isBin)
+        }
+    }
+
+    @Test fun convertText() {
+        val item = noteItem.deepCopy(change = "TIME", type = NoteType.TEXT)
+
+        with(item.convert()) {
+            assertEquals(getTime(), change)
+            assertEquals(NoteType.ROLL, type)
+        }
+    }
+
+    @Test fun convertRoll() {
+        val item = noteItem.deepCopy(change = "TIME", type = NoteType.ROLL)
+
+        with(item.convert()) {
+            assertEquals(getTime(), change)
+            assertEquals(NoteType.TEXT, type)
+        }
+    }
+
+    @Test fun textToList() {
+        assertEquals(listOf("1", "2", "34"), noteItem.deepCopy(text = "1\n2\n34").textToList())
+    }
+
+    @Test fun haveRank() {
+        val item = noteItem.deepCopy()
+        assertFalse(item.haveRank())
+
+        item.rankId = 0
+        item.rankPs = 0
+        assertTrue(item.haveRank())
+    }
+
+    @Test fun haveAlarm() {
+        val item = noteItem.deepCopy()
+        assertFalse(item.haveAlarm())
+
+        item.alarmId = 1
+        item.alarmDate = "123"
+        assertTrue(item.haveAlarm())
+    }
+
+    @Test fun clearRank() {
+        val item = noteItem.deepCopy(rankId = 0, rankPs = 0)
+
+        assertTrue(item.haveRank())
+        assertFalse(item.clearRank().haveRank())
+    }
+
+    @Test fun clearAlarm() {
+        val item = noteItem.deepCopy(alarmId = 1, alarmDate = "123")
+
+        assertTrue(item.haveAlarm())
+        assertFalse(item.clearAlarm().haveAlarm())
+    }
+
+    @Test fun `isSaveEnabled for textNote`() {
+        val item = noteItem.deepCopy(type = NoteType.TEXT)
+        assertFalse(item.isSaveEnabled())
+
+        item.text = "123"
+        assertTrue(item.isSaveEnabled())
+    }
+
+    @Test fun `isSaveEnabled for rollNote`() {
+        val item = noteItem.deepCopy()
+        assertTrue(item.isSaveEnabled())
+
+        item.rollList.forEach { it.text = "" }
+        assertFalse(item.isSaveEnabled())
+    }
+
+    @Test fun isVisible() {
+        val item = noteItem.copy()
+
+        assertTrue(item.isVisible(rankVisibleList))
+
+        item.rankId = 1
+        item.rankPs = 1
+
+        assertTrue(item.isVisible(rankVisibleList))
+
+        item.rankId = 4
+        item.rankPs = 4
+
+        assertFalse(item.isVisible(rankVisibleList))
+    }
+
+    @Test fun isNotVisible() {
+        val item = noteItem.copy()
+
+        assertFalse(item.isNotVisible(rankVisibleList))
+
+        item.rankId = 1
+        item.rankPs = 1
+
+        assertFalse(item.isNotVisible(rankVisibleList))
+
+        item.rankId = 4
+        item.rankPs = 4
+
+        assertTrue(item.isNotVisible(rankVisibleList))
+    }
+
 
     private companion object {
         const val COPY_POSITION = 9
@@ -65,6 +190,8 @@ class NoteItemTest {
         val noteItem = NoteItem(
                 create = "12345", color = 0, type = NoteType.ROLL, rollList = rollList
         )
+
+        val rankVisibleList = listOf<Long>(1, 2, 3)
     }
 
 }

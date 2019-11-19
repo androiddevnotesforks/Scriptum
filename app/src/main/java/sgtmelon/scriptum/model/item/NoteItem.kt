@@ -1,14 +1,13 @@
 package sgtmelon.scriptum.model.item
 
+import androidx.annotation.VisibleForTesting
 import androidx.room.ColumnInfo
 import androidx.room.Relation
 import androidx.room.TypeConverters
 import sgtmelon.extension.getTime
 import sgtmelon.scriptum.adapter.NoteAdapter
 import sgtmelon.scriptum.adapter.RollAdapter
-import sgtmelon.scriptum.extension.getCheck
 import sgtmelon.scriptum.model.annotation.Color
-import sgtmelon.scriptum.model.data.ColorData.size
 import sgtmelon.scriptum.model.data.DbData.Alarm
 import sgtmelon.scriptum.model.data.DbData.Note
 import sgtmelon.scriptum.model.data.DbData.Roll
@@ -76,8 +75,6 @@ data class NoteItem(
         return check
     }
 
-    private fun List<RollItem>.getCheck(): Int = filter { it.isCheck }.size
-
     /**
      * Check/uncheck all items.
      */
@@ -104,27 +101,29 @@ data class NoteItem(
 
     fun textToList() = text.split("\n".toRegex()).filter { it.isNotEmpty() }.toList()
 
-    fun haveRank() = rankId != Note.Default.RANK_ID
+    fun haveRank() = rankId != Note.Default.RANK_ID && rankPs != Note.Default.RANK_PS
 
     fun haveAlarm() = alarmId != Alarm.Default.ID && alarmDate != Alarm.Default.DATE
 
-    fun clearAlarm() {
-        alarmId = Alarm.Default.ID
-        alarmDate = Alarm.Default.DATE
-    }
-
-    fun clearRank() {
+    fun clearRank() = apply {
         rankId = Note.Default.RANK_ID
         rankPs = Note.Default.RANK_PS
     }
 
-    fun isSaveEnabled(): Boolean = when (type) {
-        NoteType.TEXT -> text.isNotEmpty()
-        NoteType.ROLL -> rollList.any { it.text.isNotEmpty() }
+    fun clearAlarm() = apply {
+        alarmId = Alarm.Default.ID
+        alarmDate = Alarm.Default.DATE
+    }
+
+    fun isSaveEnabled(): Boolean {
+        return when (type) {
+            NoteType.TEXT -> text.isNotEmpty()
+            NoteType.ROLL -> rollList.any { it.text.isNotEmpty() }
+        }
     }
 
     fun isVisible(rankIdVisibleList: List<Long>): Boolean {
-        return rankId == Note.Default.RANK_ID || rankIdVisibleList.contains(rankId)
+        return !haveRank() || rankIdVisibleList.contains(rankId)
     }
 
     fun isNotVisible(rankIdVisibleList: List<Long>) = !isVisible(rankIdVisibleList)
@@ -135,6 +134,9 @@ data class NoteItem(
         fun getCreate(create: String, @Color color: Int, type: NoteType): NoteItem {
             return NoteItem(create = create, color = color, type = type)
         }
+
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        fun List<RollItem>.getCheck(): Int = filter { it.isCheck }.size
     }
 
 }

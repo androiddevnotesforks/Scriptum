@@ -41,15 +41,9 @@ class InputControl : IInputControl {
         position = -1
     }
 
-    fun undo(): InputItem? {
-        return if (isUndoAccess) inputList[position--]
-        else null
-    }
+    fun undo(): InputItem? = if (isUndoAccess) inputList[position--] else null
 
-    fun redo(): InputItem? {
-        return if (isRedoAccess) inputList[++position]
-        else null
-    }
+    fun redo(): InputItem? = if (isRedoAccess) inputList[++position] else null
 
     private fun add(inputItem: InputItem) {
         if (isEnabled) {
@@ -80,7 +74,7 @@ class InputControl : IInputControl {
     }
 
     /**
-     * Variable for prevent changes
+     * Variable for prevent changes.
      */
     override var isEnabled = false
 
@@ -127,13 +121,13 @@ class InputControl : IInputControl {
         }
     }
 
-    companion object {
-        private val TAG = InputControl::class.java.simpleName
-    }
-
     /**
      * Class for control undo/redo call access
      */
     data class Access(val isUndo: Boolean, val isRedo: Boolean)
+
+    companion object {
+        private val TAG = InputControl::class.java.simpleName
+    }
 
 }

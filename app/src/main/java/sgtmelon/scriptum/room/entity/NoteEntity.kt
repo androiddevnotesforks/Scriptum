@@ -4,7 +4,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
-import sgtmelon.scriptum.extension.getCheck
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.data.DbData.Note
 import sgtmelon.scriptum.model.data.DbData.Note.Default

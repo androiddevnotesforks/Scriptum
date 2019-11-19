@@ -13,6 +13,4 @@ fun <T> MutableList<T>.clearAndAdd(replace: MutableList<T>) {
     addAll(replace)
 }
 
-fun List<RollItem>.getCheck(): Int = filter { it.isCheck }.size
-
 fun List<RollItem>.getText(): String = joinToString(separator = "\n") { it.text }

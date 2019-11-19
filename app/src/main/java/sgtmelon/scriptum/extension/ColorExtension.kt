@@ -43,7 +43,7 @@ import sgtmelon.scriptum.repository.preference.PreferenceRepo
     return ContextCompat.getColor(this, typedValue.resourceId)
 }
 
-fun Context.getCompatColor(@ColorRes id: Int) = ContextCompat.getColor(this, id)
+fun Context.getCompatColor(@ColorRes id: Int) = let { ContextCompat.getColor(it, id) }
 
 @ColorInt fun Context.getAppSimpleColor(@Color color: Int, shade: ColorShade) =
         getCompatColor(when(shade) {
