@@ -7,8 +7,6 @@ import androidx.annotation.StringRes
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.espresso.matcher.ViewMatchers.withHint
-import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matcher
@@ -36,12 +34,14 @@ fun Matcher<View>.isSelected(selected: Boolean = true) = also {
     matchOnView(it, if (selected) ViewMatchers.isSelected() else not(ViewMatchers.isSelected()))
 }
 
-fun Matcher<View>.haveText(string: String) = also { matchOnView(it, withText(string)) }
+fun Matcher<View>.withText(string: String) = also { matchOnView(it, ViewMatchers.withText(string)) }
 
-fun Matcher<View>.haveText(@StringRes stringId: Int) = also { matchOnView(it, withText(stringId)) }
+fun Matcher<View>.withText(@StringRes stringId: Int) = also {
+    matchOnView(it, ViewMatchers.withText(stringId))
+}
 
-fun Matcher<View>.haveHint(@StringRes stringId: Int) = also {
-    matchOnView(it, allOf(withHint(stringId), withText("")))
+fun Matcher<View>.withHint(@StringRes stringId: Int) = also {
+    matchOnView(it, allOf(ViewMatchers.withHint(stringId), ViewMatchers.withText("")))
 }
 
 fun Matcher<View>.withDrawableColor(resourceId: Int = -1, @ColorRes colorId: Int = -1) = also {

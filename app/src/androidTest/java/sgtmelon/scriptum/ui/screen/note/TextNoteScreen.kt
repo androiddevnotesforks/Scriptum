@@ -1,8 +1,8 @@
 package sgtmelon.scriptum.ui.screen.note
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.extension.haveHint
-import sgtmelon.scriptum.basic.extension.haveText
+import sgtmelon.scriptum.basic.extension.withHint
+import sgtmelon.scriptum.basic.extension.withText
 import sgtmelon.scriptum.basic.extension.isDisplayed
 import sgtmelon.scriptum.basic.extension.typeText
 import sgtmelon.scriptum.control.input.InputControl
@@ -103,7 +103,7 @@ class TextNoteScreen(override var state: State,
 
         when (state) {
             State.READ, State.BIN -> {
-                contentText.haveText(noteItem.text).isDisplayed()
+                contentText.withText(noteItem.text).isDisplayed()
                 contentEnter.isDisplayed(visible = false)
             }
             State.EDIT, State.NEW -> {
@@ -111,7 +111,7 @@ class TextNoteScreen(override var state: State,
 
                 val text = shadowItem.text
                 contentEnter.isDisplayed().apply {
-                    if (text.isNotEmpty()) haveText(text) else haveHint(R.string.hint_enter_text)
+                    if (text.isNotEmpty()) withText(text) else withHint(R.string.hint_enter_text)
                 }
             }
         }

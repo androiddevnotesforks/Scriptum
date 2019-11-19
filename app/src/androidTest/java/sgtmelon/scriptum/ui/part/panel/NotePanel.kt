@@ -196,7 +196,7 @@ class NotePanel(private val callback: INoteScreen) : ParentUi(),
                     convertButton.isDisplayed().withDrawableAttr(R.drawable.ic_convert, R.attr.clContent)
                     deleteButton.isDisplayed().withDrawableAttr(R.drawable.ic_bin, R.attr.clContent)
 
-                    editButton.haveText(R.string.menu_note_edit).isDisplayed()
+                    editButton.withText(R.string.menu_note_edit).isDisplayed()
                 }
                 State.BIN -> {
                     binContainer.isDisplayed()
@@ -230,7 +230,7 @@ class NotePanel(private val callback: INoteScreen) : ParentUi(),
 
                     colorButton.isDisplayed().withDrawableAttr(R.drawable.ic_palette, R.attr.clContent)
 
-                    saveButton.haveText(R.string.menu_note_save).isDisplayed().isEnabled(shadowItem.isSaveEnabled())
+                    saveButton.withText(R.string.menu_note_save).isDisplayed().isEnabled(shadowItem.isSaveEnabled())
                 }
             }
         }

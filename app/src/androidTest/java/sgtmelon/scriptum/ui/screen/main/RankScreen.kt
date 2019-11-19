@@ -107,8 +107,8 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
                     R.drawable.ic_cancel_enter, R.attr.clContent
             )
 
-            nameText.isDisplayed().haveText(model.name)
-            countText.isDisplayed().haveText(string = "${context.getString(R.string.list_item_rank_count)} ${model.noteId.size}")
+            nameText.isDisplayed().withText(model.name)
+            countText.isDisplayed().withText(string = "${context.getString(R.string.list_item_rank_count)} ${model.noteId.size}")
         }
 
     }

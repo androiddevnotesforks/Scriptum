@@ -75,7 +75,7 @@ class NoteToolbar(private val callback: INoteScreen) : ParentUi() {
 
                     nameEnter.isDisplayed(visible = false)
                     nameText.isDisplayed().apply {
-                        if (name.isNotEmpty()) haveText(name) else haveHint(R.string.hint_text_name)
+                        if (name.isNotEmpty()) withText(name) else withHint(R.string.hint_text_name)
                     }
                 }
                 State.EDIT, State.NEW -> {
@@ -83,7 +83,7 @@ class NoteToolbar(private val callback: INoteScreen) : ParentUi() {
 
                     nameText.isDisplayed(visible = false)
                     nameEnter.isDisplayed().apply {
-                        if (name.isNotEmpty()) haveText(name) else haveHint(R.string.hint_enter_name)
+                        if (name.isNotEmpty()) withText(name) else withHint(R.string.hint_enter_name)
                     }
                 }
             }
