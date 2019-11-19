@@ -20,7 +20,7 @@ class RecyclerItemMatcher(private val listMatcher: Matcher<View>) {
 
     fun atItem(p: Int): Matcher<View> = object : TypeSafeMatcher<View>() {
         override fun describeTo(description: Description?) {
-            description?.appendText("\nMatch view with position: [$p]")
+            description?.appendText("\nView with position: [$p]")
         }
 
         override fun matchesSafely(item: View?): Boolean {
@@ -34,7 +34,7 @@ class RecyclerItemMatcher(private val listMatcher: Matcher<View>) {
         var childView: View? = null
 
         override fun describeTo(description: Description?) {
-            description?.appendText("\nMatch view with position: [$p]")
+            description?.appendText("\nView with position: [$p]")
             description?.appendText("\nAnd with child matcher: [$childMatcher] ")
         }
 
@@ -55,7 +55,7 @@ class RecyclerItemMatcher(private val listMatcher: Matcher<View>) {
 
     fun atItem(itemMatcher: Matcher<View>): Matcher<View> = object : TypeSafeMatcher<View>() {
         override fun describeTo(description: Description?) {
-            description?.appendText("\nMatch view with matcher: [$itemMatcher] ")
+            description?.appendText("\nView with matcher: [$itemMatcher] ")
         }
 
         override fun matchesSafely(item: View?): Boolean {
@@ -70,7 +70,7 @@ class RecyclerItemMatcher(private val listMatcher: Matcher<View>) {
         var childView: View? = null
 
         override fun describeTo(description: Description?) {
-            description?.appendText("\nMatch view with matcher: [$itemMatcher] ")
+            description?.appendText("\nView with matcher: [$itemMatcher] ")
             description?.appendText("\nAnd with child matcher: [$childMatcher] ")
         }
 
@@ -144,7 +144,7 @@ class RecyclerItemMatcher(private val listMatcher: Matcher<View>) {
                 override fun matchesSafely(item: VH): Boolean = itemMatcher.matches(item.itemView)
 
                 override fun describeTo(description: Description?) {
-                    description?.appendText("\nMatch viewHolder with matcher: [$itemMatcher]")
+                    description?.appendText("\nViewHolder with matcher: [$itemMatcher]")
                 }
             }
 

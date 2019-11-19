@@ -25,7 +25,7 @@ abstract class ParentImageMatcher(@IdRes protected val resourceId: Int) : TypeSa
     }
 
     override fun describeTo(description: Description?) {
-        description?.appendText("\nMatch view with drawable from resource id: [$resourceId]")
+        description?.appendText("\nView with drawable from resource id: [$resourceId]")
     }
 
     protected fun compare(actual: Drawable, expected: Drawable): Boolean {
