@@ -74,16 +74,24 @@ class NoteToolbar(private val callback: INoteScreen) : ParentUi() {
                     val name = noteItem.name
 
                     nameEnter.isDisplayed(visible = false)
-                    nameText.isDisplayed().apply {
-                        if (name.isNotEmpty()) withText(name) else withHint(R.string.hint_text_name)
+                    nameText.isDisplayed {
+                        if (name.isNotEmpty()) {
+                            withText(name, R.attr.clContent)
+                        } else {
+                            withHint(R.string.hint_text_name, R.attr.clContentSecond)
+                        }
                     }
                 }
                 State.EDIT, State.NEW -> {
                     val name = shadowItem.name
 
                     nameText.isDisplayed(visible = false)
-                    nameEnter.isDisplayed().apply {
-                        if (name.isNotEmpty()) withText(name) else withHint(R.string.hint_enter_name)
+                    nameEnter.isDisplayed {
+                        if (name.isNotEmpty()) {
+                            withText(name, R.attr.clContent)
+                        } else {
+                            withHint(R.string.hint_enter_name, R.attr.clContentSecond)
+                        }
                     }
                 }
             }

@@ -38,8 +38,12 @@ class RenameDialogUi(private val title: String) : ParentUi(), IDialogUi {
 
         viewContainer.isDisplayed()
 
-        renameEnter.isDisplayed().apply {
-            if (enter.isNotEmpty()) withText(enter) else withHint(R.string.hint_enter_rank_rename)
+        renameEnter.isDisplayed {
+            if (enter.isNotEmpty()) {
+                withText(enter, dimenId = R.dimen.text_18sp)
+            } else {
+                withHint(R.string.hint_enter_rank_rename, dimenId = R.dimen.text_18sp)
+            }
         }
 
         cancelButton.isDisplayed().isEnabled()

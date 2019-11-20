@@ -57,8 +57,12 @@ class RankToolbar : ParentUi() {
     fun assert(isAddEnabled: Boolean = false) {
         parentContainer.isDisplayed()
 
-        nameEnter.isDisplayed().apply {
-            if (enter.isNotEmpty()) withText(enter) else withHint(R.string.hint_enter_rank_new)
+        nameEnter.isDisplayed {
+            if (enter.isNotEmpty()) {
+                withText(enter, R.attr.clContent, R.dimen.text_18sp)
+            } else {
+                withHint(R.string.hint_enter_rank_new, R.attr.clDisable, R.dimen.text_18sp)
+            }
         }
 
         clearButton.isDisplayed().isEnabled(enter.isNotEmpty())

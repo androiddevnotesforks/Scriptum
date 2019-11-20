@@ -103,15 +103,19 @@ class TextNoteScreen(override var state: State,
 
         when (state) {
             State.READ, State.BIN -> {
-                contentText.withText(noteItem.text).isDisplayed()
+                contentText.isDisplayed().withText(noteItem.text, R.attr.clContent, R.dimen.text_18sp)
                 contentEnter.isDisplayed(visible = false)
             }
             State.EDIT, State.NEW -> {
                 contentText.isDisplayed(visible = false)
 
                 val text = shadowItem.text
-                contentEnter.isDisplayed().apply {
-                    if (text.isNotEmpty()) withText(text) else withHint(R.string.hint_enter_text)
+                contentEnter.isDisplayed {
+                    if (text.isNotEmpty()) {
+                        withText(text, R.attr.clContent, R.dimen.text_18sp)
+                    } else {
+                        withHint(R.string.hint_enter_text, R.attr.clDisable, R.dimen.text_18sp)
+                    }
                 }
             }
         }

@@ -7,10 +7,7 @@ import sgtmelon.extension.formatPast
 import sgtmelon.extension.getCalendar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.NoteAdapter
-import sgtmelon.scriptum.basic.extension.haveText
-import sgtmelon.scriptum.basic.extension.isDisplayed
-import sgtmelon.scriptum.basic.extension.withColorIndicator
-import sgtmelon.scriptum.basic.extension.withDrawableAttr
+import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RollItem
@@ -35,7 +32,7 @@ class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
         override fun assert(model: NoteItem) {
             super.assert(model)
 
-            contentText.haveText(model.text)
+            contentText.isDisplayed().withText(model.text, R.attr.clContent, R.dimen.text_16sp)
         }
 
     }
@@ -79,7 +76,7 @@ class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
                         }, R.attr.clContent
                 )
 
-                contentText.isDisplayed().haveText(model.text)
+                contentText.isDisplayed().withText(model.text, R.attr.clContent, R.dimen.text_16sp)
             }
         }
 
@@ -117,7 +114,7 @@ class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
             clickContainer.isDisplayed()
 
             val name = model.name
-            nameText.isDisplayed(name.isNotEmpty()).haveText(name)
+            nameText.isDisplayed(name.isNotEmpty()).withText(name, R.attr.clContent, R.dimen.text_16sp)
 
             infoLayout.assert(model)
 
@@ -159,12 +156,15 @@ class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
                 )
 
                 val visible = type == NoteType.ROLL
-                progressText.isDisplayed(visible).apply {
-                    if (visible) haveText(model.text)
+                progressText.isDisplayed(visible) {
+                    withText(model.text, R.attr.clContentSecond, R.dimen.text_14sp)
                 }
 
-                changeText.isDisplayed().haveText(model.change.getCalendar().formatPast())
-                createText.isDisplayed().haveText(model.create.getCalendar().formatPast())
+                val change = model.change.getCalendar().formatPast()
+                changeText.isDisplayed().withText(change, R.attr.clContentSecond, R.dimen.text_14sp)
+                
+                val create = model.create.getCalendar().formatPast()
+                createText.isDisplayed().withText(create, R.attr.clContentSecond, R.dimen.text_14sp)
             }
         }
 

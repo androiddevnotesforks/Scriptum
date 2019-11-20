@@ -77,10 +77,10 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler), IPr
         val cancelButton by lazy { getChild(getViewById(R.id.notification_cancel_button)) }
 
         override fun assert(model: NoteItem) {
-            nameText.isDisplayed().withText(model.name)
+            nameText.isDisplayed().withText(model.name, R.attr.clContent, R.dimen.text_16sp)
 
             val date = model.alarmDate.getCalendar().formatFuture(context)
-            dateText.isDisplayed().withText(date)
+            dateText.isDisplayed().withText(date, R.attr.clContentSecond, R.dimen.text_14sp)
 
             colorView.isDisplayed().withColorIndicator(
                     R.drawable.ic_color_indicator, theme, model.color
