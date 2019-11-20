@@ -39,14 +39,15 @@ class PreferenceScreen : ParentUi(), ColorDialogUi.Callback, IPressBack {
     }
 
 
-    fun assert() {
+    fun assert() = apply {
         parentContainer.isDisplayed()
         toolbar.isDisplayed()
     }
 
     companion object {
-        operator fun invoke(func: PreferenceScreen.() -> Unit) =
-                PreferenceScreen().apply { assert() }.apply(func)
+        operator fun invoke(func: PreferenceScreen.() -> Unit): PreferenceScreen {
+            return PreferenceScreen().assert().apply(func)
+        }
     }
 
 }

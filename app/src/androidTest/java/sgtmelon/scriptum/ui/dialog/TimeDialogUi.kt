@@ -58,9 +58,13 @@ class TimeDialogUi(
     }
 
     companion object {
-        operator fun invoke(func: TimeDialogUi.() -> Unit, calendar: Calendar,
-                            dateList: List<String>, callback: DateTimeCallback) =
-                TimeDialogUi(callback, calendar, dateList).apply { waitOpen { assert() } }.apply(func)
+        operator fun invoke(func: TimeDialogUi.() -> Unit,
+                            calendar: Calendar, dateList: List<String>,
+                            callback: DateTimeCallback): TimeDialogUi {
+            return TimeDialogUi(callback, calendar, dateList)
+                    .apply { waitOpen { assert() } }
+                    .apply(func)
+        }
     }
 
 }

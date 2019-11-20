@@ -82,7 +82,7 @@ class MainScreen : ParentUi() {
     }
 
 
-    fun assert(page: MainPage? = null, fabVisible: Boolean? = null) {
+    fun assert(page: MainPage? = null, fabVisible: Boolean? = null) = apply {
         parentContainer.isDisplayed()
         toolbarHolder.isDisplayed()
         menuNavigation.isDisplayed()
@@ -99,8 +99,9 @@ class MainScreen : ParentUi() {
     companion object {
         private const val SCROLL_TIME = 500L
 
-        operator fun invoke(func: MainScreen.() -> Unit) =
-                MainScreen().apply { assert(MainPage.NOTES, fabVisible = true) }.apply(func)
+        operator fun invoke(func: MainScreen.() -> Unit) : MainScreen {
+            return MainScreen().assert(MainPage.NOTES, fabVisible = true).apply(func)
+        }
     }
 
 }

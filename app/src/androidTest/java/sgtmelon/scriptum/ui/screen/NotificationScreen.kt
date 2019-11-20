@@ -55,7 +55,7 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler), IPr
         getItem(p).assert(noteItem)
     }
 
-    fun assert(empty: Boolean) {
+    fun assert(empty: Boolean) = apply {
         parentContainer.isDisplayed()
         toolbar.isDisplayed()
 
@@ -94,8 +94,10 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler), IPr
     }
 
     companion object {
-        operator fun invoke(func: NotificationScreen.() -> Unit, empty: Boolean) =
-                NotificationScreen().apply { assert(empty) }.apply(func)
+        operator fun invoke(func: NotificationScreen.() -> Unit,
+                            empty: Boolean): NotificationScreen {
+            return NotificationScreen().assert(empty).apply(func)
+        }
     }
 
 }

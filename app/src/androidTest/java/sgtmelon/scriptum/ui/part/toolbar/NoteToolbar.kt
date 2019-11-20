@@ -13,7 +13,7 @@ import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 /**
  * Part of UI abstraction for [TextNoteScreen] и [RollNoteScreen]
  */
-class NoteToolbar(private val callback: INoteScreen) : ParentUi() {
+class NoteToolbar<T : ParentUi>(private val callback: INoteScreen<T>) : ParentUi() {
 
     //region Views
 
@@ -62,7 +62,7 @@ class NoteToolbar(private val callback: INoteScreen) : ParentUi() {
 
     // TODO #TEST (focus on title check)
     // TODO #TEST assert color (set contentDescription may be, or tag)
-    fun assert() {
+    fun assert() = apply {
         parentContainer.isDisplayed()
         nameScroll.isDisplayed()
 
@@ -99,8 +99,10 @@ class NoteToolbar(private val callback: INoteScreen) : ParentUi() {
     }
 
     companion object {
-        operator fun invoke(func: NoteToolbar.() -> Unit, callback: INoteScreen) =
-                NoteToolbar(callback).apply { assert() }.apply(func)
+        operator fun <T: ParentUi> invoke(func: NoteToolbar<T>.() -> Unit,
+                                          callback: INoteScreen<T>): NoteToolbar<T> {
+            return NoteToolbar(callback).assert().apply(func)
+        }
     }
 
 }

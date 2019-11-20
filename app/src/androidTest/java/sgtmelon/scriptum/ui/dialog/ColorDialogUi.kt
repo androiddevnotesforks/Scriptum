@@ -117,9 +117,11 @@ class ColorDialogUi(place: Place, @Color private var check: Int, private val cal
     }
 
     companion object {
-        operator fun invoke(func: ColorDialogUi.() -> Unit, place: Place,
-                            @Color check: Int, callback: Callback) =
-                ColorDialogUi(place, check, callback).apply { waitOpen { assert() } }.apply(func)
+        operator fun invoke(func: ColorDialogUi.() -> Unit,
+                            place: Place, @Color check: Int,
+                            callback: Callback): ColorDialogUi {
+            return ColorDialogUi(place, check, callback).apply { waitOpen { assert() } }.apply(func)
+        }
     }
 
 }

@@ -83,10 +83,11 @@ class AlarmScreen(
 
     companion object {
         operator fun invoke(func: AlarmScreen.() -> Unit, noteItem: NoteItem,
-                            dateList: List<String>? = null) =
-                AlarmScreen(noteItem, dateList).apply {
-                    waitBefore(time = 500) { assert() }
-                }.apply(func)
+                            dateList: List<String>? = null): AlarmScreen {
+            return AlarmScreen(noteItem, dateList)
+                    .apply { waitBefore(time = 500) { assert() } }
+                    .apply(func)
+        }
     }
 
 }

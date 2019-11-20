@@ -73,8 +73,9 @@ class DateDialogUi(
 
     companion object {
         operator fun invoke(func: DateDialogUi.() -> Unit, updateDate: Boolean,
-                            callback: DateTimeCallback) =
-                DateDialogUi(callback, updateDate).apply { waitOpen { assert() } }.apply(func)
+                            callback: DateTimeCallback): DateDialogUi {
+            return DateDialogUi(callback, updateDate).apply { waitOpen { assert() } }.apply(func)
+        }
     }
 
 }

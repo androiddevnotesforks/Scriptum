@@ -66,7 +66,7 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
         getItem(rankItem).assert(rankItem)
     }
 
-    fun assert(empty: Boolean) {
+    fun assert(empty: Boolean) = apply {
         toolbar { assert() }
 
         parentContainer.isDisplayed()
@@ -118,8 +118,9 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
     companion object {
         private const val ANIM_TIME = 300L
 
-        operator fun invoke(func: RankScreen.() -> Unit, empty: Boolean) =
-                RankScreen().apply { assert(empty) }.apply(func)
+        operator fun invoke(func: RankScreen.() -> Unit, empty: Boolean): RankScreen {
+            return RankScreen().assert(empty).apply(func)
+        }
     }
 
 }

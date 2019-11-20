@@ -4,11 +4,12 @@ import org.junit.Assert.assertTrue
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.item.NoteItem
+import sgtmelon.scriptum.ui.ParentUi
 
 /**
  * Interface for communication child ui abstractions with [TextNoteScreen] and [RollNoteScreen]
  */
-interface INoteScreen {
+interface INoteScreen<T : ParentUi>  {
 
     // TODO #TEST add exit from screen control
 
@@ -22,7 +23,7 @@ interface INoteScreen {
 
     val inputControl: InputControl
 
-    fun fullAssert()
+    fun fullAssert(): T
 
     fun throwOnWrongState(vararg actual: State, func: () -> Unit) {
         assertTrue(actual.contains(state))

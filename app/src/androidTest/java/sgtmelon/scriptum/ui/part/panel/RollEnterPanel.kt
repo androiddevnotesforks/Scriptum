@@ -11,7 +11,7 @@ import kotlin.random.Random
 /**
  * Part of UI abstraction for [RollNoteScreen]
  */
-class RollEnterPanel(private val callback: INoteScreen) : ParentUi() {
+class RollEnterPanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi() {
 
     //region Views
 
@@ -36,7 +36,7 @@ class RollEnterPanel(private val callback: INoteScreen) : ParentUi() {
     }
 
 
-    fun assert() {
+    fun assert() = apply {
         val visible = with(callback) { state == State.EDIT || state == State.NEW }
 
         enterContainer.isDisplayed(visible)
@@ -45,8 +45,10 @@ class RollEnterPanel(private val callback: INoteScreen) : ParentUi() {
     }
 
     companion object {
-        operator fun invoke(func: RollEnterPanel.() -> Unit, callback: INoteScreen) =
-                RollEnterPanel(callback).apply { assert() }.apply(func)
+        operator fun <T: ParentUi> invoke(func: RollEnterPanel<T>.() -> Unit,
+                                          callback: INoteScreen<T>): RollEnterPanel<T> {
+            return RollEnterPanel(callback).assert().apply(func)
+        }
     }
 
 }

@@ -1,10 +1,10 @@
 package sgtmelon.scriptum.ui.screen.note
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.extension.withHint
-import sgtmelon.scriptum.basic.extension.withText
 import sgtmelon.scriptum.basic.extension.isDisplayed
 import sgtmelon.scriptum.basic.extension.typeText
+import sgtmelon.scriptum.basic.extension.withHint
+import sgtmelon.scriptum.basic.extension.withText
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.item.InputItem
@@ -21,10 +21,11 @@ import sgtmelon.scriptum.ui.part.toolbar.NoteToolbar
 /**
  * Class for UI control of [NoteActivity], [TextNoteFragment].
  */
-class TextNoteScreen(override var state: State,
-                     override var noteItem: NoteItem,
-                     override val isRankEmpty: Boolean
-) : ParentUi(), INoteScreen, IPressBack {
+class TextNoteScreen(
+        override var state: State,
+        override var noteItem: NoteItem,
+        override val isRankEmpty: Boolean
+) : ParentUi(), INoteScreen<TextNoteScreen>, IPressBack {
 
     //region Views
 
@@ -42,17 +43,17 @@ class TextNoteScreen(override var state: State,
 
     override val inputControl = InputControl().apply { isEnabled = true }
 
-    override fun fullAssert() {
+    override fun fullAssert() = apply {
         assert()
         toolbar { assert() }
         controlPanel { assert() }
     }
 
-    fun toolbar(func: NoteToolbar.() -> Unit) = apply {
+    fun toolbar(func: NoteToolbar<TextNoteScreen>.() -> Unit) = apply {
         NoteToolbar.invoke(func, callback = this)
     }
 
-    fun controlPanel(func: NotePanel.() -> Unit) = apply {
+    fun controlPanel(func: NotePanel<TextNoteScreen>.() -> Unit) = apply {
         NotePanel.invoke(func, callback = this)
     }
 
@@ -128,7 +129,7 @@ class TextNoteScreen(override var state: State,
                 throw IllegalAccessException("Wrong note type!")
             }
 
-            return TextNoteScreen(state, noteItem, isRankEmpty).apply { fullAssert() }.apply(func)
+            return TextNoteScreen(state, noteItem, isRankEmpty).fullAssert().apply(func)
         }
     }
 

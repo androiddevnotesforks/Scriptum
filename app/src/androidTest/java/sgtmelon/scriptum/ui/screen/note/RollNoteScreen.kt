@@ -23,7 +23,7 @@ class RollNoteScreen(
         override var state: State,
         override var noteItem: NoteItem,
         override val isRankEmpty: Boolean
-) : ParentRecyclerScreen(R.id.roll_note_recycler), INoteScreen, IPressBack {
+) : ParentRecyclerScreen(R.id.roll_note_recycler), INoteScreen<RollNoteScreen>, IPressBack {
 
     //region Views
 
@@ -36,22 +36,22 @@ class RollNoteScreen(
 
     override val inputControl = InputControl().apply { isEnabled = true }
 
-    override fun fullAssert() {
+    override fun fullAssert() = apply {
         assert()
         toolbar { assert() }
         controlPanel { assert() }
         enterPanel { assert() }
     }
 
-    fun toolbar(func: NoteToolbar.() -> Unit) = apply {
+    fun toolbar(func: NoteToolbar<RollNoteScreen>.() -> Unit) = apply {
         NoteToolbar.invoke(func, callback = this)
     }
 
-    fun enterPanel(func: RollEnterPanel.() -> Unit) = apply {
+    fun enterPanel(func: RollEnterPanel<RollNoteScreen>.() -> Unit) = apply {
         RollEnterPanel.invoke(func, callback = this)
     }
 
-    fun controlPanel(func: NotePanel.() -> Unit) = apply {
+    fun controlPanel(func: NotePanel<RollNoteScreen>.() -> Unit) = apply {
         NotePanel.invoke(func, callback = this)
     }
 
@@ -97,7 +97,7 @@ class RollNoteScreen(
                 throw IllegalAccessException("Wrong note type!")
             }
 
-            return RollNoteScreen(state, noteItem, isRankEmpty).apply { fullAssert() }.apply(func)
+            return RollNoteScreen(state, noteItem, isRankEmpty).fullAssert().apply(func)
         }
     }
 

@@ -37,8 +37,9 @@ class ClearDialogUi : ParentUi(), IDialogUi {
     }
 
     companion object {
-        operator fun invoke(func: ClearDialogUi.() -> Unit) =
-                ClearDialogUi().apply { waitOpen { assert() } }.apply(func)
+        operator fun invoke(func: ClearDialogUi.() -> Unit): ClearDialogUi {
+            return ClearDialogUi().apply { waitOpen { assert() } }.apply(func)
+        }
     }
 
 }

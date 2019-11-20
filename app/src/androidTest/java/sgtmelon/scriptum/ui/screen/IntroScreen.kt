@@ -56,7 +56,7 @@ class IntroScreen : ParentUi() {
     }
 
 
-    fun assert(p: Int = 0, enabled: Boolean = false) {
+    fun assert(p: Int = 0, enabled: Boolean = false) = apply {
         viewPager.isDisplayed()
         pageIndicator.isDisplayed()
 
@@ -69,8 +69,7 @@ class IntroScreen : ParentUi() {
     companion object {
         const val SWIPE_TIME = 150L
 
-        operator fun invoke(func: IntroScreen.() -> Unit) =
-                IntroScreen().apply { assert() }.apply(func)
+        operator fun invoke(func: IntroScreen.() -> Unit) = IntroScreen().assert().apply(func)
     }
 
 }

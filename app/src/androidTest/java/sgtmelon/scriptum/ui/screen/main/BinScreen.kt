@@ -62,7 +62,7 @@ class BinScreen : ParentRecyclerScreen(R.id.bin_recycler) {
         getItem(p).assert(noteItem)
     }
 
-    fun assert(empty: Boolean) {
+    fun assert(empty: Boolean) = apply {
         parentContainer.isDisplayed()
         toolbar.isDisplayed()
 
@@ -73,8 +73,9 @@ class BinScreen : ParentRecyclerScreen(R.id.bin_recycler) {
     }
 
     companion object {
-        operator fun invoke(func: BinScreen.() -> Unit, empty: Boolean) =
-                BinScreen().apply {assert(empty) }.apply(func)
+        operator fun invoke(func: BinScreen.() -> Unit, empty: Boolean): BinScreen {
+            return BinScreen().assert(empty).apply(func)
+        }
     }
 
 }

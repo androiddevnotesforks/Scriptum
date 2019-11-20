@@ -78,8 +78,6 @@ class AutoSave {
 }
 
 class Match {
-    // TODO #TEST match textColor
-    // TODO #TEST match textSize
     // TODO #TEST match backgroundColor
 }
 

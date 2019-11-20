@@ -69,7 +69,7 @@ class NotesScreen(hide: Boolean) : ParentRecyclerScreen(R.id.notes_recycler) {
         getItem(p).assert(noteItem)
     }
 
-    fun assert(empty: Boolean) {
+    fun assert(empty: Boolean) = apply {
         parentContainer.isDisplayed()
         toolbar.isDisplayed()
 
@@ -81,8 +81,10 @@ class NotesScreen(hide: Boolean) : ParentRecyclerScreen(R.id.notes_recycler) {
     }
 
     companion object {
-        operator fun invoke(func: NotesScreen.() -> Unit, empty: Boolean, hide: Boolean) =
-                NotesScreen(hide).apply { assert(empty) }.apply(func)
+        operator fun invoke(func: NotesScreen.() -> Unit,
+                            empty: Boolean, hide: Boolean): NotesScreen {
+            return NotesScreen(hide).assert(empty).apply(func)
+        }
     }
 
 }

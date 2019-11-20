@@ -22,7 +22,7 @@ import java.util.*
 /**
  * Part of UI abstraction for [TextNoteScreen] и [RollNoteScreen]
  */
-class NotePanel(private val callback: INoteScreen) : ParentUi(),
+class NotePanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi(),
         ColorDialogUi.Callback,
         DateTimeCallback {
 
@@ -155,22 +155,30 @@ class NotePanel(private val callback: INoteScreen) : ParentUi(),
     }
 
 
-    override fun onDateDialogResetResult() = with(callback) {
-        noteItem.alarmDate = DbData.Alarm.Default.DATE
-        fullAssert()
+    override fun onDateDialogResetResult() {
+        callback.apply {
+            noteItem.alarmDate = DbData.Alarm.Default.DATE
+            fullAssert()
+        }
     }
 
-    override fun onTimeDialogResult(calendar: Calendar) = with(callback) {
-        noteItem.alarmId = 1
-        noteItem.alarmDate = calendar.getString()
+    override fun onTimeDialogResult(calendar: Calendar) {
+        callback.apply {
+            noteItem.alarmId = 1
+            noteItem.alarmDate = calendar.getString()
 
-        fullAssert()
+            fullAssert()
+        }
     }
 
-    override fun onColorDialogResult(check: Int) = callback.apply {
-        inputControl.onColorChange(shadowItem.color, check)
-        shadowItem.color = check
-    }.fullAssert()
+    override fun onColorDialogResult(check: Int) {
+        callback.apply {
+            inputControl.onColorChange(shadowItem.color, check)
+            shadowItem.color = check
+
+            fullAssert()
+        }
+    }
 
 
     fun assert() {
@@ -240,8 +248,10 @@ class NotePanel(private val callback: INoteScreen) : ParentUi(),
     @AttrRes private fun getEnableTint(b: Boolean) = if (b) R.attr.clContent else R.attr.clDisable
 
     companion object {
-        operator fun invoke(func: NotePanel.() -> Unit, callback: INoteScreen) =
-                NotePanel(callback).apply(func)
+        operator fun <T: ParentUi> invoke(func: NotePanel<T>.() -> Unit,
+                                          callback: INoteScreen<T>): NotePanel<T> {
+            return NotePanel(callback).apply(func)
+        }
     }
 
 }

@@ -45,8 +45,10 @@ class ConvertDialogUi(noteItem: NoteItem) : ParentUi(), IDialogUi {
     }
 
     companion object {
-        operator fun invoke(func: ConvertDialogUi.() -> Unit, noteItem: NoteItem) =
-                ConvertDialogUi(noteItem).apply { waitOpen { assert() } }.apply(func)
+        operator fun invoke(func: ConvertDialogUi.() -> Unit,
+                            noteItem: NoteItem): ConvertDialogUi {
+            return ConvertDialogUi(noteItem).apply { waitOpen { assert() } }.apply(func)
+        }
     }
 
 }
