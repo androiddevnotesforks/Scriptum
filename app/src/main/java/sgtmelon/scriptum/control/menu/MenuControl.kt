@@ -75,19 +75,19 @@ open class MenuControl(
     fun setColor(@Color color: Int) = apply {
         if (theme != Theme.DARK) {
             if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
-                window.statusBarColor = context.getAppThemeColor(color, statusOnDark)
+                window.statusBarColor = context.getAppThemeColor(theme, color, statusOnDark)
             }
-            toolbar?.setBackgroundColor(context.getAppThemeColor(color, false))
+            toolbar?.setBackgroundColor(context.getAppThemeColor(theme, color, needDark = false))
         }
 
-        indicator?.setBackgroundColor(context.getAppThemeColor(color, true))
+        indicator?.setBackgroundColor(context.getAppThemeColor(theme, color, needDark = true))
 
         setColorFrom(color)
     }
 
     fun setColorFrom(@Color color: Int) = apply {
-        statusState.from = context.getAppThemeColor(color, statusOnDark)
-        toolbarState.from = context.getAppThemeColor(color, needDark = false)
+        statusState.from = context.getAppThemeColor(theme, color, statusOnDark)
+        toolbarState.from = context.getAppThemeColor(theme, color, needDark = false)
         indicatorState.from = context.getAppSimpleColor(color, ColorShade.DARK)
     }
 
@@ -95,8 +95,8 @@ open class MenuControl(
      * Set end [color] and start animation if need
      */
     fun startTint(@Color color: Int) {
-        statusState.to = context.getAppThemeColor(color, statusOnDark)
-        toolbarState.to = context.getAppThemeColor(color, needDark = false)
+        statusState.to = context.getAppThemeColor(theme, color, statusOnDark)
+        toolbarState.to = context.getAppThemeColor(theme, color, needDark = false)
         indicatorState.to = context.getAppSimpleColor(color, ColorShade.DARK)
 
         if (statusState.isDifferent()

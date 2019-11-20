@@ -10,8 +10,7 @@ import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.ColorData
 
 /**
- * Matcher for check android:background which pass throw [resourceId].
- * With application color tint which calculate with help of [colorItem].
+ * Matcher for check android:background which gets with [resourceId].
  */
 class ColorIndicatorMatcher(@IdRes resourceId: Int, @Theme theme: Int, @Color color: Int) :
         ParentImageMatcher(resourceId) {

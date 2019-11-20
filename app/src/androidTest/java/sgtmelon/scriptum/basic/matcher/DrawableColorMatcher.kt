@@ -11,7 +11,7 @@ import sgtmelon.scriptum.extension.getCompatColor
 
 
 /**
- * Matcher for check android:src which pass throw [resourceId].
+ * Matcher for check android:src which gets with [resourceId].
  *
  * If [resourceId] is -1 => check what don't have drawable.
  * If [colorId] is -1 => check without colorFilter.

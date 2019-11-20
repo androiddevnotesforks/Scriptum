@@ -12,6 +12,11 @@ import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.basic.matcher.*
+import sgtmelon.scriptum.basic.matcher.card.CardBackgroundAttrMatcher
+import sgtmelon.scriptum.basic.matcher.card.CardBackgroundColorMatcher
+import sgtmelon.scriptum.basic.matcher.text.HintAttrColorMatcher
+import sgtmelon.scriptum.basic.matcher.text.TextAttrColorMatcher
+import sgtmelon.scriptum.basic.matcher.text.TextSizeMatcher
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 
@@ -88,4 +93,12 @@ fun Matcher<View>.withColorIndicator(resourceId: Int = -1,
                                      @Theme theme: Int,
                                      @Color color: Int) = also {
     matchOnView(it, ColorIndicatorMatcher(resourceId, theme, color))
+}
+
+fun Matcher<View>.withBackgroundColor(@Theme theme: Int, @Color color: Int) = also {
+    matchOnView(it, CardBackgroundColorMatcher(theme, color))
+}
+
+fun Matcher<View>.withBackgroundAttr(@AttrRes attrColor: Int) = also {
+    matchOnView(it, CardBackgroundAttrMatcher(attrColor))
 }

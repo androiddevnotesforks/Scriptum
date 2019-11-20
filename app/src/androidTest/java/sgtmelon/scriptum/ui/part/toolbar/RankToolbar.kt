@@ -14,6 +14,7 @@ class RankToolbar : ParentUi() {
     //region Views
 
     private val parentContainer = getViewById(R.id.toolbar_rank_container)
+    private val parentCard = getViewById(R.id.toolbar_rank_card)
     private val nameEnter = getViewById(R.id.toolbar_rank_enter)
 
     private val clearButton = getViewById(R.id.toolbar_rank_clear_button)
@@ -56,6 +57,7 @@ class RankToolbar : ParentUi() {
 
     fun assert(isAddEnabled: Boolean = false) {
         parentContainer.isDisplayed()
+        parentCard.isDisplayed().withBackgroundAttr(R.attr.clBackgroundEnter)
 
         nameEnter.isDisplayed {
             if (enter.isNotEmpty()) {

@@ -90,14 +90,18 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
         constructor(listMatcher: Matcher<View>, itemMatcher: Matcher<View>) :
                 this(listMatcher, itemMatcher, null)
 
+        private val parentCard by lazy { getChild(getViewById(R.id.rank_parent_card)) }
+
         val visibleButton by lazy { getChild(getViewById(R.id.rank_visible_button)) }
         val cancelButton by lazy { getChild(getViewById(R.id.rank_cancel_button)) }
 
         private val nameText by lazy { getChild(getViewById(R.id.rank_name_text)) }
         private val countText by lazy { getChild(getViewById(R.id.rank_text_count_text)) }
 
-        override fun assert(model: RankItem) {
-            val isVisible = model.isVisible
+        override fun assert(item: RankItem) {
+            parentCard.isDisplayed().withBackgroundAttr(R.attr.clBackgroundView)
+
+            val isVisible = item.isVisible
             visibleButton.isDisplayed().withDrawableAttr(
                     if (isVisible) R.drawable.ic_visible_exit else R.drawable.ic_visible_enter,
                     if (isVisible) R.attr.clAccent else R.attr.clContent
@@ -107,9 +111,9 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
                     R.drawable.ic_cancel_enter, R.attr.clContent
             )
 
-            nameText.isDisplayed().withText(model.name, R.attr.clContent, R.dimen.text_16sp)
+            nameText.isDisplayed().withText(item.name, R.attr.clContent, R.dimen.text_16sp)
 
-            val text = "${context.getString(R.string.list_item_rank_count)} ${model.noteId.size}"
+            val text = "${context.getString(R.string.list_item_rank_count)} ${item.noteId.size}"
             countText.isDisplayed().withText(text, R.attr.clContentSecond, R.dimen.text_14sp)
         }
 

@@ -10,7 +10,7 @@ import org.hamcrest.Description
 import sgtmelon.scriptum.extension.getColorAttr
 
 /**
- * Matcher for check android:src which pass throw [resourceId].
+ * Matcher for check android:src which gets with [resourceId].
  *
  * If [resourceId] is -1 => check what don't have drawable.
  * If [attrColor] is -1 => check without colorFilter.

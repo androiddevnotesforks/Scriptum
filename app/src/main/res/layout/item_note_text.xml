@@ -16,6 +16,7 @@
             style="@style/Card"
             app:cardCornerRadius="@dimen/radius_4dp"
             app:cardUseCompatPadding="false"
+            app:noteTheme='@{currentTheme}'
             app:noteColor='@{noteItem.color}'
             tools:cardBackgroundColor="@color/note_green_light">
 

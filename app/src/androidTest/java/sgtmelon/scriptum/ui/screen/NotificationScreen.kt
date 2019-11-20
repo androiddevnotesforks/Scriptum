@@ -69,6 +69,8 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler), IPr
     private class Item(listMatcher: Matcher<View>, p: Int) :
             ParentRecyclerItem<NoteItem>(listMatcher, p) {
 
+        private val parentCard by lazy { getChild(getViewById(R.id.notification_parent_card)) }
+
         private val nameText by lazy { getChild(getViewById(R.id.notification_name_text)) }
         private val dateText by lazy { getChild(getViewById(R.id.notification_date_text)) }
 
@@ -76,14 +78,16 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler), IPr
 
         val cancelButton by lazy { getChild(getViewById(R.id.notification_cancel_button)) }
 
-        override fun assert(model: NoteItem) {
-            nameText.isDisplayed().withText(model.name, R.attr.clContent, R.dimen.text_16sp)
+        override fun assert(item: NoteItem) {
+            parentCard.isDisplayed().withBackgroundAttr(R.attr.clBackgroundView)
 
-            val date = model.alarmDate.getCalendar().formatFuture(context)
+            nameText.isDisplayed().withText(item.name, R.attr.clContent, R.dimen.text_16sp)
+
+            val date = item.alarmDate.getCalendar().formatFuture(context)
             dateText.isDisplayed().withText(date, R.attr.clContentSecond, R.dimen.text_14sp)
 
             colorView.isDisplayed().withColorIndicator(
-                    R.drawable.ic_color_indicator, theme, model.color
+                    R.drawable.ic_color_indicator, theme, item.color
             )
 
             cancelButton.isDisplayed().withDrawableAttr(

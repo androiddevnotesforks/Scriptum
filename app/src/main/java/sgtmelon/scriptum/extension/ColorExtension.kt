@@ -26,8 +26,8 @@ import sgtmelon.scriptum.repository.preference.PreferenceRepo
  * Get note color rely on theme and background
  * [needDark] - If element place on dark background (e.g. note color indicator)
  */
-@ColorInt fun Context.getAppThemeColor(@Color color: Int, needDark: Boolean) =
-        if (PreferenceRepo(context = this).theme == Theme.LIGHT) {
+@ColorInt fun Context.getAppThemeColor(@Theme theme: Int, @Color color: Int, needDark: Boolean) =
+        if (theme == Theme.LIGHT) {
             if (needDark) getCompatColor(dark[color])
             else getCompatColor(light[color])
         } else {

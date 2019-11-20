@@ -11,9 +11,10 @@
     <androidx.cardview.widget.CardView
             android:id="@+id/notification_parent_card"
             style="@style/Card"
-            app:cardBackgroundColor="?attr/clPrimary"
+            app:cardBackgroundColor="?attr/clBackgroundView"
             app:cardCornerRadius="@dimen/radius_4dp"
-            app:cardUseCompatPadding="false">
+            app:cardUseCompatPadding="false"
+            tools:cardBackgroundColor="@color/background_view_light">
 
         <LinearLayout
                 android:id="@+id/notification_click_container"

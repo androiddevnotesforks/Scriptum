@@ -20,19 +20,19 @@ import sgtmelon.scriptum.ui.ParentRecyclerItem
 class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
         ParentRecyclerItem<NoteItem>(listMatcher, p) {
 
-    override fun assert(model: NoteItem) = when (model.type) {
-        NoteType.TEXT -> Text().assert(model)
-        NoteType.ROLL -> Roll().assert(model)
+    override fun assert(item: NoteItem) = when (item.type) {
+        NoteType.TEXT -> Text().assert(item)
+        NoteType.ROLL -> Roll().assert(item)
     }
 
     private inner class Text : Parent(NoteType.TEXT) {
 
         val contentText = getChild(getViewById(R.id.note_text_content_text))
 
-        override fun assert(model: NoteItem) {
-            super.assert(model)
+        override fun assert(item: NoteItem) {
+            super.assert(item)
 
-            contentText.isDisplayed().withText(model.text, R.attr.clContent, R.dimen.text_16sp)
+            contentText.isDisplayed().withText(item.text, R.attr.clContent, R.dimen.text_16sp)
         }
 
     }
@@ -46,10 +46,10 @@ class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
             else -> R.id.note_roll_row3_container
         })
 
-        override fun assert(model: NoteItem) {
-            super.assert(model)
+        override fun assert(item: NoteItem) {
+            super.assert(item)
 
-            (0 until 4).forEach { getRow(it).assert(model.rollList.getOrNull(it)) }
+            (0 until 4).forEach { getRow(it).assert(item.rollList.getOrNull(it)) }
         }
 
         inner class Row(@IdRes parentId: Int) {
@@ -63,20 +63,20 @@ class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
                     getViewById(R.id.note_roll_content_text).includeParent(getViewById(parentId))
             )
 
-            fun assert(model: RollItem?) {
-                parentContainer.isDisplayed(visible = model != null)
+            fun assert(item: RollItem?) {
+                parentContainer.isDisplayed(visible = item != null)
 
-                if (model == null) return
+                if (item == null) return
 
                 checkImage.isDisplayed().withDrawableAttr(
-                        if (model.isCheck) {
+                        if (item.isCheck) {
                             R.drawable.ic_check_done
                         } else {
                             R.drawable.ic_check_outline
                         }, R.attr.clContent
                 )
 
-                contentText.isDisplayed().withText(model.text, R.attr.clContent, R.dimen.text_16sp)
+                contentText.isDisplayed().withText(item.text, R.attr.clContent, R.dimen.text_16sp)
             }
         }
 
@@ -106,21 +106,18 @@ class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
             NoteType.ROLL -> R.id.note_roll_color_view
         }))
 
-        /**
-         * TODO #TEST assert card background color
-         */
-        open fun assert(model: NoteItem) {
-            parentCard.isDisplayed()
+        open fun assert(item: NoteItem) {
+            parentCard.isDisplayed().withBackgroundColor(theme, item.color)
             clickContainer.isDisplayed()
 
-            val name = model.name
+            val name = item.name
             nameText.isDisplayed(name.isNotEmpty()).withText(name, R.attr.clContent, R.dimen.text_16sp)
 
-            infoLayout.assert(model)
+            infoLayout.assert(item)
 
             colorView.isDisplayed(visible = theme == Theme.DARK).apply{
                 if (theme == Theme.DARK) withColorIndicator(
-                        R.drawable.ic_color_indicator, theme, model.color
+                        R.drawable.ic_color_indicator, theme, item.color
                 )
             }
         }
@@ -137,33 +134,33 @@ class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
             private val changeText = getChild(getViewById(R.id.note_info_change_text))
             private val createText = getChild(getViewById(R.id.note_info_create_text))
 
-            fun assert(model: NoteItem) {
-                val type = model.type
+            fun assert(item: NoteItem) {
+                val type = item.type
 
                 parentContainer.isDisplayed()
 
-                notificationImage.isDisplayed(model.haveAlarm()).withDrawableAttr(
+                notificationImage.isDisplayed(item.haveAlarm()).withDrawableAttr(
                         R.drawable.ic_notifications, R.attr.clNoteIndicator
                 )
 
-                bindImage.isDisplayed(model.isStatus).withDrawableAttr(when (type) {
+                bindImage.isDisplayed(item.isStatus).withDrawableAttr(when (type) {
                     NoteType.TEXT -> R.drawable.ic_bind_text
                     NoteType.ROLL -> R.drawable.ic_bind_roll
                 }, R.attr.clNoteIndicator)
 
-                rankImage.isDisplayed(model.haveRank()).withDrawableAttr(
+                rankImage.isDisplayed(item.haveRank()).withDrawableAttr(
                         R.drawable.ic_rank, R.attr.clNoteIndicator
                 )
 
                 val visible = type == NoteType.ROLL
                 progressText.isDisplayed(visible) {
-                    withText(model.text, R.attr.clContentSecond, R.dimen.text_14sp)
+                    withText(item.text, R.attr.clContentSecond, R.dimen.text_14sp)
                 }
 
-                val change = model.change.getCalendar().formatPast()
+                val change = item.change.getCalendar().formatPast()
                 changeText.isDisplayed().withText(change, R.attr.clContentSecond, R.dimen.text_14sp)
                 
-                val create = model.create.getCalendar().formatPast()
+                val create = item.create.getCalendar().formatPast()
                 createText.isDisplayed().withText(create, R.attr.clContentSecond, R.dimen.text_14sp)
             }
         }

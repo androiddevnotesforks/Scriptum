@@ -34,7 +34,7 @@ abstract class ParentRecyclerItem<T> protected constructor(
         if (!PREVENT_SCROLL) scrollToItem() else PREVENT_SCROLL = false
     }
 
-    abstract fun assert(model: T)
+    abstract fun assert(item: T)
 
     private fun scrollToItem(): ParentRecyclerItem<T> = apply {
         itemMatcher?.let { listMatcher.scrollTo(it) }

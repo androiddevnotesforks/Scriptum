@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.basic.matcher
+package sgtmelon.scriptum.basic.matcher.text
 
 import android.view.View
 import android.widget.TextView
@@ -20,7 +20,7 @@ class TextSizeMatcher(@DimenRes private val dimenId: Int) : TypeSafeMatcher<View
     }
 
     override fun describeTo(description: Description?) {
-        description?.appendText("View with dimenId = $dimenId")
+        description?.appendText("\nView with dimenId = $dimenId")
     }
 
 }

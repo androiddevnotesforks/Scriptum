@@ -89,12 +89,12 @@ class ColorDialogUi(place: Place, @Color private var check: Int, private val cal
         private val checkImage by lazy { getChild(getViewById(R.id.color_check_image)) }
         private val clickView by lazy { getChild(getViewById(R.id.color_click_view)) }
 
-        override fun assert(model: ColorItem) {
+        override fun assert(item: ColorItem) {
             parentContainer.isDisplayed()
 
-            backgroundView.isDisplayed().withColorIndicator(R.drawable.ic_color, theme, model.color)
-            checkImage.isDisplayed(model.isCheck).withDrawableColor(
-                    R.drawable.ic_check, ColorData.getColorItem(theme, model.color).content
+            backgroundView.isDisplayed().withColorIndicator(R.drawable.ic_color, theme, item.color)
+            checkImage.isDisplayed(item.isCheck).withDrawableColor(
+                    R.drawable.ic_check, ColorData.getColorItem(theme, item.color).content
             )
 
             clickView.isDisplayed()
