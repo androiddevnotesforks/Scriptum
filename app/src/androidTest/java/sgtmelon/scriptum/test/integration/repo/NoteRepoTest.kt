@@ -28,10 +28,6 @@ class NoteRepoTest : ParentIntegrationTest()  {
         TODO(reason = "#TEST write test")
     }
 
-    @Test fun getOptimal() {
-        TODO(reason = "#TEST write test")
-    }
-
     @Test fun getRollList() {
         TODO(reason = "#TEST write test")
     }
@@ -84,11 +80,6 @@ class NoteRepoTest : ParentIntegrationTest()  {
     }
 
     @Test fun updateNote() {
-        TODO(reason = "#TEST write test")
-    }
-
-
-    @Test fun clearConnection() {
         TODO(reason = "#TEST write test")
     }
 

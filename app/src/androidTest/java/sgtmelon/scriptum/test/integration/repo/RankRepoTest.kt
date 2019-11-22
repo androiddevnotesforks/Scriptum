@@ -112,14 +112,8 @@ class RankRepoTest : ParentIntegrationTest()  {
         assertEquals(1, iNoteDao[noteFirst.id]?.rankPs)
         assertEquals(1, iNoteDao[noteSecond.id]?.rankPs)
         assertEquals(2, iNoteDao[noteThird.id]?.rankPs)
-    }
 
-    @Test fun correctPositions() {
-        TODO(reason = "#TEST write test")
-    }
-
-    @Test fun updateRankPosition() {
-        TODO(reason = "#TEST write test")
+        assertEquals(rankList, rankConverter.toItem(iRankDao.get()))
     }
 
 
@@ -139,14 +133,6 @@ class RankRepoTest : ParentIntegrationTest()  {
         iRankRepo.updateConnection(noteItem)
 
         assertEquals(rankThird, iRankDao[rankThird.id])
-    }
-
-    @Test fun calculateCheckArray() {
-        TODO(reason = "#TEST write test")
-    }
-
-    @Test fun updateNoteId() {
-        TODO(reason = "#TEST write test")
     }
 
 

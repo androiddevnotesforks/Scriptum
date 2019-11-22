@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.repository.note
 
 import android.content.Context
-import androidx.annotation.VisibleForTesting
 import sgtmelon.scriptum.extension.getText
 import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.item.NoteItem
@@ -89,8 +88,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
         return item
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun IRollDao.getOptimal(id: Long, optimisation: Boolean): MutableList<RollEntity> {
+    private fun IRollDao.getOptimal(id: Long, optimisation: Boolean): MutableList<RollEntity> {
         return if (optimisation) getView(id) else get(id)
     }
 
@@ -275,8 +273,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
     /**
      * Remove relation between [RankEntity] and [NoteItem] which will be delete
      */
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun IRankDao.clearConnection(noteId: Long, rankId: Long) {
+    private fun IRankDao.clearConnection(noteId: Long, rankId: Long) {
         val rankEntity = get(rankId)?.apply {
             this.noteId.remove(noteId)
         } ?: return

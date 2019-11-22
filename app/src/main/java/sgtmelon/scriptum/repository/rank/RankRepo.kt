@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.repository.rank
 
 import android.content.Context
-import androidx.annotation.VisibleForTesting
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.data.DbData
 import sgtmelon.scriptum.model.item.NoteItem
@@ -79,8 +78,7 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
     /**
      * Return list of [NoteItem.id] which need update
      */
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun List<RankItem>.correctPositions(): List<Long> {
+    private fun List<RankItem>.correctPositions(): List<Long> {
         val noteIdSet = mutableSetOf<Long>()
 
         forEachIndexed { i, item ->
@@ -103,8 +101,7 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
     /**
      * Update [NoteEntity.rankPs] for notes from [noteIdList] which related with [rankList].
      */
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun INoteDao.updateRankPosition(rankList: List<RankItem>, noteIdList: List<Long>) {
+    private fun INoteDao.updateRankPosition(rankList: List<RankItem>, noteIdList: List<Long>) {
         if (noteIdList.isEmpty()) return
 
         val noteList = get(noteIdList)
@@ -126,8 +123,7 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
         iRankDao.update(list.updateNoteId(noteItem.id, checkArray))
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun calculateCheckArray(rankList: List<RankEntity>, rankId: Long): BooleanArray {
+    private fun calculateCheckArray(rankList: List<RankEntity>, rankId: Long): BooleanArray {
         val array = BooleanArray(rankList.size)
 
         val index = rankList.indexOfFirst { it.id == rankId }
@@ -136,8 +132,7 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
         return array
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun List<RankEntity>.updateNoteId(noteId: Long, checkArray: BooleanArray) = apply {
+    private fun List<RankEntity>.updateNoteId(noteId: Long, checkArray: BooleanArray) = apply {
         forEachIndexed { i, item ->
             when {
                 checkArray[i] && !item.noteId.contains(noteId) -> item.noteId.add(noteId)
