@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.repository.rank
 
 import android.content.Context
+import androidx.annotation.VisibleForTesting
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.data.DbData
 import sgtmelon.scriptum.model.item.NoteItem
@@ -18,10 +19,6 @@ import sgtmelon.scriptum.room.entity.RankEntity
  * @param context for open [RoomDb]
  */
 class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
-
-    /**
-     * TODO #TEST write unit tests
-     */
 
     private val converter = RankConverter()
 
@@ -82,7 +79,8 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
     /**
      * Return list of [NoteItem.id] which need update
      */
-    private fun List<RankItem>.correctPositions(): List<Long> {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun List<RankItem>.correctPositions(): List<Long> {
         val noteIdSet = mutableSetOf<Long>()
 
         forEachIndexed { i, item ->
@@ -105,7 +103,8 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
     /**
      * Update [NoteEntity.rankPs] for notes from [noteIdList] which related with [rankList].
      */
-    private fun INoteDao.updateRankPosition(rankList: List<RankItem>, noteIdList: List<Long>) {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun INoteDao.updateRankPosition(rankList: List<RankItem>, noteIdList: List<Long>) {
         if (noteIdList.isEmpty()) return
 
         val noteList = get(noteIdList)
@@ -127,7 +126,8 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
         iRankDao.update(list.updateNoteId(noteItem.id, checkArray))
     }
 
-    private fun calculateCheckArray(rankList: List<RankEntity>, rankId: Long): BooleanArray {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun calculateCheckArray(rankList: List<RankEntity>, rankId: Long): BooleanArray {
         val array = BooleanArray(rankList.size)
 
         val index = rankList.indexOfFirst { it.id == rankId }
@@ -136,7 +136,8 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
         return array
     }
 
-    private fun List<RankEntity>.updateNoteId(noteId: Long, checkArray: BooleanArray) = apply {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun List<RankEntity>.updateNoteId(noteId: Long, checkArray: BooleanArray) = apply {
         forEachIndexed { i, item ->
             when {
                 checkArray[i] && !item.noteId.contains(noteId) -> item.noteId.add(noteId)
