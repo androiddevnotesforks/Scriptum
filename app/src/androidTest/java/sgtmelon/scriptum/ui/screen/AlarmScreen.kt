@@ -70,6 +70,9 @@ class AlarmScreen(
         noteItem.alarmDate = calendar.getString()
     }
 
+    /**
+     * TODO #TEST assert color
+     */
     fun assert() {
         parentContainer.isDisplayed()
         rippleContainer.isDisplayed()

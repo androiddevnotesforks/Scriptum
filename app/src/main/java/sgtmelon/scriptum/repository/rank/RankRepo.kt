@@ -71,7 +71,9 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
 
 
     override fun updatePosition(rankList: List<RankItem>) = inRoom {
-        iNoteDao.updateRankPosition(rankList, rankList.correctPositions())
+        val noteIdList = rankList.correctPositions()
+
+        iNoteDao.updateRankPosition(rankList, noteIdList)
         iRankDao.update(converter.toEntity(rankList))
     }
 
