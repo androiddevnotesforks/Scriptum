@@ -9,7 +9,7 @@ import sgtmelon.scriptum.model.item.RollItem
  */
 interface INoteRepo {
 
-    fun getList(@Sort sort: Int, bin: Boolean, optimisation: Boolean): MutableList<NoteItem>
+    fun getList(@Sort sort: Int, bin: Boolean, optimal: Boolean): MutableList<NoteItem>
 
     fun getItem(id: Long, optimisation: Boolean): NoteItem?
 

@@ -35,7 +35,7 @@ class NotesInteractor(context: Context, private var callback: INotesBridge?) :
     @Theme override val theme: Int get() = iPreferenceRepo.theme
 
     override fun getList() : MutableList<NoteItem> {
-        return iNoteRepo.getList(iPreferenceRepo.sort, bin = false, optimisation = true)
+        return iNoteRepo.getList(iPreferenceRepo.sort, bin = false, optimal = true)
     }
 
     override fun isListHide() = iNoteRepo.isListHide()

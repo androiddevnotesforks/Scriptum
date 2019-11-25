@@ -214,6 +214,9 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
         callback?.notifyListItem(p, rollItem)
 
+        /**
+         * TODO move it to interactor/repo
+         */
         val check = noteItem.apply { change = getTime() }.updateComplete()
 
         if (checkState.setAll(check, noteItem.rollList.size)) callback?.bindNote(noteItem)
@@ -226,6 +229,9 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
         noteItem.updateCheck(!isAll)
 
+        /**
+         * TODO move it to interactor/repo
+         */
         val complete = if (isAll) Complete.EMPTY else Complete.FULL
         noteItem.apply { change = getTime() }.updateComplete(complete)
 

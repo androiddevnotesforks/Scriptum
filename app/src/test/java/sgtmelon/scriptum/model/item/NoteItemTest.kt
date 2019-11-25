@@ -57,7 +57,7 @@ class NoteItemTest {
         val item = noteItem.deepCopy(change = "TIME", isBin = false, isStatus = true)
 
         with(item.delete()) {
-            assertEquals(getTime(), change)
+            assertCurrentTime(change)
             assertEquals(true, isBin)
             assertEquals(false, isStatus)
         }
@@ -67,7 +67,7 @@ class NoteItemTest {
         val item = noteItem.deepCopy(change = "TIME", isBin = true)
 
         with(item.restore()) {
-            assertEquals(getTime(), change)
+            assertCurrentTime(change)
             assertEquals(false, isBin)
         }
     }
@@ -76,7 +76,7 @@ class NoteItemTest {
         val item = noteItem.deepCopy(change = "TIME", type = NoteType.TEXT)
 
         with(item.convert()) {
-            assertEquals(getTime(), change)
+            assertCurrentTime(change)
             assertEquals(NoteType.ROLL, type)
         }
     }
@@ -85,7 +85,7 @@ class NoteItemTest {
         val item = noteItem.deepCopy(change = "TIME", type = NoteType.ROLL)
 
         with(item.convert()) {
-            assertEquals(getTime(), change)
+            assertCurrentTime(change)
             assertEquals(NoteType.TEXT, type)
         }
     }
@@ -174,6 +174,8 @@ class NoteItemTest {
         assertTrue(item.isNotVisible(rankVisibleList))
     }
 
+
+    fun assertCurrentTime(time: String) = assertEquals(getTime(), time)
 
     private companion object {
         const val COPY_POSITION = 9

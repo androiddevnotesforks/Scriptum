@@ -25,7 +25,7 @@ class BinInteractor(context: Context, private var callback: IBinBridge?) :
     @Theme override val theme: Int get() = iPreferenceRepo.theme
 
     override fun getList() : MutableList<NoteItem> {
-        return iNoteRepo.getList(iPreferenceRepo.sort, bin = true, optimisation = true)
+        return iNoteRepo.getList(iPreferenceRepo.sort, bin = true, optimal = true)
     }
 
     override suspend fun clearBin() = iNoteRepo.clearBin()

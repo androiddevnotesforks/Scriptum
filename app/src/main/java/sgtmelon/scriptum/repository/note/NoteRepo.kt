@@ -11,8 +11,10 @@ import sgtmelon.scriptum.room.IRoomWork
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.converter.NoteConverter
 import sgtmelon.scriptum.room.converter.RollConverter
+import sgtmelon.scriptum.room.dao.INoteDao
 import sgtmelon.scriptum.room.dao.IRankDao
 import sgtmelon.scriptum.room.dao.IRollDao
+import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.room.entity.RollEntity
 
@@ -27,48 +29,68 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
     private val rollConverter = RollConverter()
 
     /**
-     * [optimisation] - need for note lists where displays short information.
+     * [optimal] - need for note lists where displays short information.
      */
-    override fun getList(@Sort sort: Int, bin: Boolean,
-                         optimisation: Boolean): MutableList<NoteItem> {
-        val itemList = ArrayList<NoteItem>().apply {
-            inRoom {
-                val rankIdVisibleList = iRankDao.getIdVisibleList()
-                var list = when (sort) {
-                    Sort.CHANGE -> iNoteDao.getByChange(bin)
-                    Sort.CREATE -> iNoteDao.getByCreate(bin)
-                    Sort.RANK -> iNoteDao.getByRank(bin)
-                    Sort.COLOR -> iNoteDao.getByColor(bin)
-                    else -> return@inRoom
-                }
+    override fun getList(@Sort sort: Int, bin: Boolean, optimal: Boolean): MutableList<NoteItem> {
+        val itemList = ArrayList<NoteItem>()
 
-                /**
-                 * Notes must be showed in list if [bin] != true even if rank not visible.
-                 */
-                if (!bin) list = list.filter {
-                    noteConverter.toItem(it).isVisible(rankIdVisibleList)
-                }
+        inRoom {
+            var list = iNoteDao.getBySort(sort, bin) ?: return@inRoom
 
-                list.forEach {
-                    val rollList = rollConverter.toItem(iRollDao.getOptimal(it.id, optimisation))
-                    add(noteConverter.toItem(it, rollList, iAlarmDao[it.id]))
-                }
+            /**
+             * Notes must be showed in list if [bin] == false even if rank not visible.
+             */
+            if (!bin) list = iRankDao.filterVisible(list)
+
+            list.forEach {
+                val rollEntityList = iRollDao.getOptimal(it.id, optimal)
+                val rollItemList = rollConverter.toItem(rollEntityList)
+
+                itemList.add(noteConverter.toItem(it, rollItemList, iAlarmDao[it.id]))
             }
         }
+
+        return itemList.correctRankSort(sort)
+    }
+
+    private fun INoteDao.getBySort(@Sort sort: Int, bin: Boolean): List<NoteEntity>? {
+        return when (sort) {
+            Sort.CHANGE -> getByChange(bin)
+            Sort.CREATE -> getByCreate(bin)
+            Sort.RANK -> getByRank(bin)
+            Sort.COLOR -> getByColor(bin)
+            else -> null
+        }
+    }
+
+    /**
+     * List must contains only item which isVisible.
+     */
+    private fun IRankDao.filterVisible(list: List<NoteEntity>): List<NoteEntity> {
+        val idVisibleList = getIdVisibleList()
+
+        return list.filter { noteConverter.toItem(it).isVisible(idVisibleList)  }
+    }
+
+    private fun MutableList<NoteItem>.correctRankSort(@Sort sort: Int) = apply {
+        if (sort != Sort.RANK) return@apply
 
         /**
-         * If [Sort.RANK] and list have items with rank them move items without rank to list end.
+         * List must contains item with and without rank.
          */
-        if (sort == Sort.RANK && itemList.any { it.haveRank() } && itemList.any { !it.haveRank() } ) {
-            while(!itemList.first().haveRank()) {
-                val item = itemList.first()
-                itemList.removeAt(0)
-                itemList.add(item)
+        if (any { it.haveRank() } && any { !it.haveRank() } ) {
+
+            /**
+             * Move items without rank to list end.
+             */
+            while(!first().haveRank()) {
+                val item = first()
+                removeAt(0)
+                add(item)
             }
         }
-
-        return itemList
     }
+
 
     /**
      * Return null if note doesn't exist.
@@ -274,11 +296,8 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
      * Remove relation between [RankEntity] and [NoteItem] which will be delete
      */
     private fun IRankDao.clearConnection(noteId: Long, rankId: Long) {
-        val rankEntity = get(rankId)?.apply {
-            this.noteId.remove(noteId)
-        } ?: return
-
-        update(rankEntity)
+        val entity = get(rankId)?.apply { this.noteId.remove(noteId) } ?: return
+        update(entity)
     }
 
 }
