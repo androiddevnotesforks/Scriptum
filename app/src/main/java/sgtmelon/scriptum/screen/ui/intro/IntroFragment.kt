@@ -36,7 +36,7 @@ class IntroFragment : Fragment() {
                 ?: arguments?.getInt(PAGE_CURRENT)
                 ?: ND_PAGE
 
-        if (page != ND_PAGE) binding?.bind(page)
+        if (page != ND_PAGE) binding?.onBindingPage(page)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -53,7 +53,7 @@ class IntroFragment : Fragment() {
     }
 
 
-    private fun IncludeInfoBinding.bind(page: Int) {
+    private fun IncludeInfoBinding.onBindingPage(page: Int) {
         icon = IntroData.icon[page]
         title = IntroData.title[page]
         details = IntroData.details[page]

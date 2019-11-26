@@ -163,7 +163,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         noteItem.color = check
 
         callback?.apply {
-            bindInput(inputControl.access, this@TextNoteViewModel.noteItem)
+            onBindingInput(inputControl.access, this@TextNoteViewModel.noteItem)
             tintToolbar(check)
         }
     }
@@ -179,8 +179,8 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         }
 
         callback?.apply {
-            bindInput(inputControl.access, this@TextNoteViewModel.noteItem)
-            bindNote(this@TextNoteViewModel.noteItem)
+            onBindingInput(inputControl.access, this@TextNoteViewModel.noteItem)
+            onBindingNote(this@TextNoteViewModel.noteItem)
         }
     }
 
@@ -196,7 +196,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
         noteItem.clearAlarm()
 
-        callback?.bindNote(noteItem)
+        callback?.onBindingNote(noteItem)
     }
 
     override fun onResultTimeDialog(calendar: Calendar) {
@@ -208,7 +208,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         viewModelScope.launch {
             iInteractor.setDate(noteItem, calendar)
             iBindInteractor.notifyInfoBind(callback)
-            callback?.bindNote(noteItem)
+            callback?.onBindingNote(noteItem)
         }
     }
 
@@ -223,7 +223,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
      * Calls on cancel note bind from status bar for update bind indicator
      */
     override fun onCancelNoteBind() {
-        callback?.bindNote(noteItem.apply { isStatus = false })
+        callback?.onBindingNote(noteItem.apply { isStatus = false })
     }
 
     //region Menu click
@@ -276,7 +276,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
             }
         }
 
-        callback?.bindInput(inputControl.access, noteItem)
+        callback?.onBindingInput(inputControl.access, noteItem)
     }
 
     override fun onMenuRank() {
@@ -316,7 +316,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     override fun onMenuBind() {
         noteItem.apply { isStatus = !isStatus }
 
-        callback?.bindEdit(noteState.isEdit, noteItem)
+        callback?.onBindingEdit(noteState.isEdit, noteItem)
 
         viewModelScope.launch { iInteractor.updateNote(noteItem, updateBind = true) }
     }
@@ -343,8 +343,8 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
                     needAnim = !noteState.isCreate && iconState.animate
             )
 
-            bindEdit(isEdit, noteItem)
-            bindInput(inputControl.access, noteItem)
+            onBindingEdit(isEdit, noteItem)
+            onBindingInput(inputControl.access, noteItem)
 
             if (isEdit) focusOnEdit()
         }
@@ -359,7 +359,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     )
 
     override fun onInputTextChange() {
-        callback?.bindInput(inputControl.access, noteItem)
+        callback?.onBindingInput(inputControl.access, noteItem)
     }
 
 }

@@ -26,11 +26,11 @@ interface ITextNoteFragment : ITextNoteBridge {
 
     fun setupEnter(iInputControl: IInputControl)
 
-    fun bindNote(noteItem: NoteItem)
+    fun onBindingNote(noteItem: NoteItem)
 
-    fun bindEdit(editMode: Boolean, noteItem: NoteItem)
+    fun onBindingEdit(editMode: Boolean, noteItem: NoteItem)
 
-    fun bindInput(inputAccess: InputControl.Access, noteItem: NoteItem)
+    fun onBindingInput(inputAccess: InputControl.Access, noteItem: NoteItem)
 
     fun onPressBack(): Boolean
 

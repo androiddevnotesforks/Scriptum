@@ -223,7 +223,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment {
             )
             imeOptions = EditorInfo.IME_ACTION_DONE or EditorInfo.IME_FLAG_NO_FULLSCREEN
 
-            addTextChangedListener(on = { bindEnter() })
+            addTextChangedListener(on = { onBindingEnter() })
             setOnEditorActionListener { _, i, _ -> iViewModel.onEditorClick(i) }
         }
 
@@ -271,19 +271,19 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment {
             this.noteItem = noteItem
         }
 
-        bindEnter()
+        onBindingEnter()
     }
 
-    override fun bindNote(noteItem: NoteItem) {
+    override fun onBingingNote(noteItem: NoteItem) {
         binding?.apply { this.noteItem = noteItem }?.executePendingBindings()
     }
 
-    override fun bindEnter() {
+    override fun onBindingEnter() {
         binding?.enterEmpty = rollEnter?.text.toString().isEmpty() == true
         binding?.executePendingBindings()
     }
 
-    override fun bindInput(inputAccess: InputControl.Access, noteItem: NoteItem) {
+    override fun onBindingInput(inputAccess: InputControl.Access, noteItem: NoteItem) {
         binding?.apply {
             this.inputAccess = inputAccess
             this.noteItem = noteItem

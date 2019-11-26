@@ -202,11 +202,11 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment {
         )
     }
 
-    override fun bindNote(noteItem: NoteItem) {
+    override fun onBindingNote(noteItem: NoteItem) {
         binding?.apply { this.noteItem = noteItem }?.executePendingBindings()
     }
 
-    override fun bindEdit(editMode: Boolean, noteItem: NoteItem) {
+    override fun onBindingEdit(editMode: Boolean, noteItem: NoteItem) {
         panelContainer?.let {
             TransitionManager.beginDelayedTransition(it,
                     AutoTransition().setOrdering(AutoTransition.ORDERING_TOGETHER).setDuration(100)
@@ -219,7 +219,7 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment {
         }?.executePendingBindings()
     }
 
-    override fun bindInput(inputAccess: InputControl.Access, noteItem: NoteItem) {
+    override fun onBindingInput(inputAccess: InputControl.Access, noteItem: NoteItem) {
         binding?.apply {
             this.inputAccess = inputAccess
             this.noteItem = noteItem

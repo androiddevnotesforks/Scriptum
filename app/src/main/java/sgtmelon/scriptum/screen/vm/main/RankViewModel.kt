@@ -54,7 +54,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
             val enterName = getEnterText()
             val clearName = enterName.clearSpace().toUpperCase()
 
-            bindToolbar(
+            onBindingToolbar(
                     isClearEnable = enterName.isNotEmpty(),
                     isAddEnable = clearName.isNotEmpty() && !nameList.contains(clearName)
             )

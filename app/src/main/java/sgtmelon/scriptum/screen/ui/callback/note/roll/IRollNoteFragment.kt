@@ -31,11 +31,11 @@ interface IRollNoteFragment : IRollNoteBridge {
 
     fun bindEdit(editMode: Boolean, noteItem: NoteItem)
 
-    fun bindNote(noteItem: NoteItem)
+    fun onBingingNote(noteItem: NoteItem)
 
-    fun bindEnter()
+    fun onBindingEnter()
 
-    fun bindInput(inputAccess: InputControl.Access, noteItem: NoteItem)
+    fun onBindingInput(inputAccess: InputControl.Access, noteItem: NoteItem)
 
     fun onPressBack(): Boolean
 

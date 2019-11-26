@@ -202,7 +202,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         noteItem.rollList.add(p, rollItem)
 
         callback?.apply {
-            bindInput(inputControl.access, noteItem)
+            onBindingInput(inputControl.access, noteItem)
             scrollToItem(simpleClick, p, noteItem.rollList)
         }
     }
@@ -213,7 +213,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         callback?.notifyListItem(p, noteItem.rollList[p])
 
         if (checkAllState.setAll(checkCount, noteItem.rollList.size)) {
-            callback?.bindNote(noteItem)
+            callback?.onBingingNote(noteItem)
         }
     }
 
@@ -223,7 +223,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         iInteractor.updateRollCheck(noteItem, isAll)
 
         callback?.apply {
-            bindNote(noteItem)
+            onBingingNote(noteItem)
             changeCheckToggle(state = true)
         }
 
@@ -237,7 +237,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         noteItem.color = check
 
         callback?.apply {
-            bindInput(inputControl.access, this@RollNoteViewModel.noteItem)
+            onBindingInput(inputControl.access, this@RollNoteViewModel.noteItem)
             tintToolbar(check)
         }
     }
@@ -253,8 +253,8 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         }
 
         callback?.apply {
-            bindInput(inputControl.access, this@RollNoteViewModel.noteItem)
-            bindNote(this@RollNoteViewModel.noteItem)
+            onBindingInput(inputControl.access, this@RollNoteViewModel.noteItem)
+            onBingingNote(this@RollNoteViewModel.noteItem)
         }
     }
 
@@ -270,7 +270,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
         noteItem.clearAlarm()
 
-        callback?.bindNote(noteItem)
+        callback?.onBingingNote(noteItem)
     }
 
     override fun onResultTimeDialog(calendar: Calendar) {
@@ -282,7 +282,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         viewModelScope.launch {
             iInteractor.setDate(noteItem, calendar)
             iBindInteractor.notifyInfoBind(callback)
-            callback?.bindNote(noteItem)
+            callback?.onBingingNote(noteItem)
         }
     }
 
@@ -297,7 +297,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
      * Calls on cancel note bind from status bar for update bind indicator
      */
     override fun onCancelNoteBind() {
-        callback?.bindNote(noteItem.apply { isStatus = false })
+        callback?.onBingingNote(noteItem.apply { isStatus = false })
     }
 
     //region Menu click
@@ -377,7 +377,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             }
         }
 
-        callback?.bindInput(inputControl.access, noteItem)
+        callback?.onBindingInput(inputControl.access, noteItem)
     }
 
     override fun onMenuRank() {
@@ -450,7 +450,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             )
 
             bindEdit(isEdit, noteItem)
-            bindInput(inputControl.access, noteItem)
+            onBindingInput(inputControl.access, noteItem)
             updateNoteState(noteState)
 
             if (isEdit) focusOnEdit()
@@ -466,13 +466,13 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     )
 
     override fun onInputTextChange() {
-        callback?.bindInput(inputControl.access, noteItem)
+        callback?.onBindingInput(inputControl.access, noteItem)
     }
 
     override fun onInputRollChange(p: Int, text: String) {
         callback?.apply {
             notifyListItem(p, noteItem.rollList[p].apply { this.text = text })
-            bindInput(inputControl.access, noteItem)
+            onBindingInput(inputControl.access, noteItem)
         }
     }
 
@@ -494,7 +494,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         inputControl.onRollRemove(p, rollItem.toJson())
 
         callback?.apply {
-            bindInput(inputControl.access, noteItem)
+            onBindingInput(inputControl.access, noteItem)
             notifyItemRemoved(p, noteItem.rollList)
         }
     }
@@ -506,7 +506,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
     override fun onTouchMoveResult(from: Int, to: Int) {
         inputControl.onRollMove(from, to)
-        callback?.bindInput(inputControl.access, noteItem)
+        callback?.onBindingInput(inputControl.access, noteItem)
     }
 
     //endregion

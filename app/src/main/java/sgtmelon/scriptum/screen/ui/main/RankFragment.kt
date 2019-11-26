@@ -181,7 +181,7 @@ class RankFragment : ParentFragment(), IRankFragment {
         iViewModel.onUpdateToolbar()
     }
 
-    override fun bindToolbar(isClearEnable: Boolean, isAddEnable: Boolean) {
+    override fun onBindingToolbar(isClearEnable: Boolean, isAddEnable: Boolean) {
         binding?.apply {
             this.isClearEnable = isClearEnable
             this.isAddEnable = isAddEnable

@@ -15,7 +15,7 @@ interface INotificationActivity : INotificationBridge {
 
     fun setupRecycler(@Theme theme: Int)
 
-    fun bindList()
+    fun onBindingList()
 
     fun startNoteActivity(notificationItem: NotificationItem)
 

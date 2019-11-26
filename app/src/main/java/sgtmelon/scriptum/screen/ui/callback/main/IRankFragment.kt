@@ -15,7 +15,7 @@ interface IRankFragment : IRankBridge {
 
     fun bindList()
 
-    fun bindToolbar(isClearEnable: Boolean, isAddEnable: Boolean)
+    fun onBindingToolbar(isClearEnable: Boolean, isAddEnable: Boolean)
 
     fun scrollTop()
 

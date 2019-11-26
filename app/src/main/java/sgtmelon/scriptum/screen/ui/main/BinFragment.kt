@@ -119,7 +119,7 @@ class BinFragment : ParentFragment(), IBinFragment {
         recyclerView = view?.findViewById(R.id.bin_recycler)
         recyclerView?.let {
             it.itemAnimator = object : DefaultItemAnimator() {
-                override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) = bindList()
+                override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) = onBingingList()
             }
 
             it.setHasFixedSize(true)
@@ -135,14 +135,14 @@ class BinFragment : ParentFragment(), IBinFragment {
         }
     }
 
-    override fun bindList() {
+    override fun onBingingList() {
         val isListEmpty = adapter.itemCount == 0
 
         /**
          * Use time equal 0
          *
          * Because you on another screen and restore item to that screen, after return you will
-         * cause [bindList]. Zero time need for best performance, without freeze
+         * cause [onBingingList]. Zero time need for best performance, without freeze
          */
         parentContainer?.createVisibleAnim(emptyInfoView, isListEmpty, if (!isListEmpty) 0 else 200)
 
