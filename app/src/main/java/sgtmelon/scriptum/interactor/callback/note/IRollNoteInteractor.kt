@@ -6,7 +6,6 @@ import sgtmelon.scriptum.interactor.note.RollNoteInteractor
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
 import java.util.*
 
@@ -29,7 +28,7 @@ interface IRollNoteInteractor : IParentInteractor {
     fun getRankDialogItemArray(): Array<String>
 
 
-    fun updateRollCheck(noteItem: NoteItem, rollItem: RollItem)
+    fun updateRollCheck(noteItem: NoteItem, p: Int): Int
 
     fun updateRollCheck(noteItem: NoteItem, check: Boolean)
 

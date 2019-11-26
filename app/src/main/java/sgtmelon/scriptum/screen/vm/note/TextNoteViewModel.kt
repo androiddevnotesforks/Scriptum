@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.extension.beforeNow
 import sgtmelon.extension.getCalendar
-import sgtmelon.extension.getTime
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.SaveControl
 import sgtmelon.scriptum.control.input.InputControl
@@ -291,7 +290,11 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     override fun onMenuSave(changeMode: Boolean): Boolean {
         if (!noteItem.isSaveEnabled()) return false
 
-        noteItem.change = getTime()
+
+        /**
+         * TODO move to repo
+         */
+        noteItem.updateTime()
 
         if (changeMode) {
             callback?.hideKeyboard()

@@ -2,6 +2,7 @@ package sgtmelon.scriptum.test
 
 import org.junit.Assert.assertEquals
 import sgtmelon.extension.getTime
+import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.room.IRoomWork
 
 /**
@@ -14,7 +15,7 @@ abstract class ParentIntegrationTest : ParentTest(), IRoomWork {
         inRoom { clearAllTables() }
     }
 
-    fun assertCurrentTime(time: String) = assertEquals(getTime(), time)
+    fun assertChangeTime(item: NoteItem) = assertEquals(getTime(), item.change)
 
     companion object {
         const val UNIQUE_ERROR_ID = -1L

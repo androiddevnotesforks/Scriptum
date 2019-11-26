@@ -100,7 +100,7 @@ class NoteRepoTest : ParentIntegrationTest()  {
 
                 iNoteRepo.deleteNote(item)
 
-                assertCurrentTime(item.change)
+                assertChangeTime(item)
                 assertTrue(item.isBin)
                 assertFalse(item.isStatus)
 
@@ -119,7 +119,7 @@ class NoteRepoTest : ParentIntegrationTest()  {
 
                 iNoteRepo.restoreNote(item)
 
-                assertCurrentTime(item.change)
+                assertChangeTime(item)
                 assertFalse(item.isBin)
 
                 assertEquals(noteConverter.toEntity(item), iNoteDao[item.id])
@@ -192,8 +192,48 @@ class NoteRepoTest : ParentIntegrationTest()  {
         TODO(reason = "#TEST write test")
     }
 
-    @Test fun updateRollCheck() {
-        TODO(reason = "#TEST write test")
+    @Test fun updateRollCheckSingle() = inRoom {
+        iNoteDao.insert(noteFirst)
+        rollListFirst.forEach { iRollDao.insert(it) }
+
+        val list = rollConverter.toItem(rollListFirst)
+        val item = noteConverter.toItem(noteFirst, list)
+
+        iNoteRepo.updateRollCheck(item, p = 0)
+
+        assertFalse(list[0].isCheck)
+        assertChangeTime(item)
+        assertEquals("2/5", item.text)
+
+        assertEquals(list, iNoteRepo.getRollList(item.id))
+    }
+
+    @Test fun updateRollCheckAllFalse() = inRoom {
+        iNoteDao.insert(noteFirst)
+        rollListFirst.forEach { iRollDao.insert(it) }
+
+        val list = rollConverter.toItem(rollListFirst)
+        val item = noteConverter.toItem(noteFirst, list)
+
+        iNoteRepo.updateRollCheck(item, check = false)
+
+        assertChangeTime(item)
+        assertFalse(list.any { it.isCheck })
+        assertEquals(list, iNoteRepo.getRollList(item.id))
+    }
+
+    @Test fun updateRollCheckAllTrue() = inRoom {
+        iNoteDao.insert(noteFourth)
+        rollListFourth.forEach { iRollDao.insert(it) }
+
+        val list = rollConverter.toItem(rollListFourth)
+        val item = noteConverter.toItem(noteFourth, list)
+
+        iNoteRepo.updateRollCheck(item, check = true)
+
+        assertChangeTime(item)
+        assertTrue(list.any { it.isCheck })
+        assertEquals(list, iNoteRepo.getRollList(item.id))
     }
 
     @Test fun updateNote() = inRoom {

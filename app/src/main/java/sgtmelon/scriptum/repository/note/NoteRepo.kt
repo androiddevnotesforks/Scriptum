@@ -273,16 +273,25 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
         }
     }
 
-    override fun updateRollCheck(noteItem: NoteItem, rollItem: RollItem) {
-        val rollId = rollItem.id ?: return
+    override fun updateRollCheck(noteItem: NoteItem, p: Int): Int {
+        val rollItem = noteItem.rollList[p].apply { isCheck = !isCheck }
+        val checkCount = noteItem.updateTime().updateComplete()
 
         inRoom {
+            val rollId = rollItem.id ?: return@inRoom
+
             iRollDao.update(rollId, rollItem.isCheck)
             iNoteDao.update(noteConverter.toEntity(noteItem))
         }
+
+        return checkCount
     }
 
     override fun updateRollCheck(noteItem: NoteItem, check: Boolean) = inRoom {
+        noteItem.updateTime()
+                .updateCheck(check)
+                .updateComplete(if (check) Complete.FULL else Complete.EMPTY)
+
         iRollDao.updateAllCheck(noteItem.id, check)
         iNoteDao.update(noteConverter.toEntity(noteItem))
     }

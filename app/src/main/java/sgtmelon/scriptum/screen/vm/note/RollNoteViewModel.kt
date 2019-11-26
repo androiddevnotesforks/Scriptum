@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import kotlinx.coroutines.launch
 import sgtmelon.extension.beforeNow
 import sgtmelon.extension.getCalendar
-import sgtmelon.extension.getTime
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.SaveControl
 import sgtmelon.scriptum.control.input.InputControl
@@ -23,7 +22,6 @@ import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RollItem
-import sgtmelon.scriptum.model.key.Complete
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.CheckState
 import sgtmelon.scriptum.model.state.IconState
@@ -210,32 +208,19 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     override fun onClickItemCheck(p: Int) {
-        val rollItem = noteItem.rollList[p].apply { isCheck = !isCheck }
+        val checkCount = iInteractor.updateRollCheck(noteItem, p)
 
-        callback?.notifyListItem(p, rollItem)
+        callback?.notifyListItem(p, noteItem.rollList[p])
 
-        /**
-         * TODO move it to interactor/repo
-         */
-        val check = noteItem.apply { change = getTime() }.updateComplete()
-
-        if (checkState.setAll(check, noteItem.rollList.size)) callback?.bindNote(noteItem)
-
-        iInteractor.updateRollCheck(noteItem, rollItem)
+        if (checkState.setAll(checkCount, noteItem.rollList.size)) {
+            callback?.bindNote(noteItem)
+        }
     }
 
     override fun onLongClickItemCheck() {
-        val isAll = checkState.isAll
+        val isAll = !checkState.isAll
 
-        noteItem.updateCheck(!isAll)
-
-        /**
-         * TODO move it to interactor/repo
-         */
-        val complete = if (isAll) Complete.EMPTY else Complete.FULL
-        noteItem.apply { change = getTime() }.updateComplete(complete)
-
-        iInteractor.updateRollCheck(noteItem, !isAll)
+        iInteractor.updateRollCheck(noteItem, isAll)
 
         callback?.apply {
             bindNote(noteItem)
@@ -406,7 +391,10 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     override fun onMenuSave(changeMode: Boolean): Boolean {
         if (!noteItem.isSaveEnabled()) return false
 
-        noteItem.apply { change = getTime() }.updateComplete()
+        /**
+         * TODO move to repo
+         */
+        noteItem.updateTime().updateComplete()
 
         /**
          * Change to read mode.

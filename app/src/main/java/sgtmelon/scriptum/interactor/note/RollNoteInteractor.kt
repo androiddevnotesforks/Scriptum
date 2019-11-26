@@ -8,7 +8,6 @@ import sgtmelon.scriptum.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.repository.alarm.AlarmRepo
 import sgtmelon.scriptum.repository.alarm.IAlarmRepo
 import sgtmelon.scriptum.repository.note.INoteRepo
@@ -59,9 +58,12 @@ class RollNoteInteractor(context: Context, private var callback: IRollNoteBridge
     /**
      * Update single roll.
      */
-    override fun updateRollCheck(noteItem: NoteItem, rollItem: RollItem) {
-        iNoteRepo.updateRollCheck(noteItem, rollItem)
+    override fun updateRollCheck(noteItem: NoteItem, p: Int): Int {
+        val checkCount = iNoteRepo.updateRollCheck(noteItem, p)
+
         callback?.notifyNoteBind(noteItem, rankIdVisibleList)
+
+        return checkCount
     }
 
     /**

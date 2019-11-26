@@ -61,38 +61,43 @@ data class NoteItem(
     )
 
     /**
+     * TODO return model - not primitive
+     */
+    /**
      * [complete] - use if you know check count.
      */
     fun updateComplete(complete: Complete? = null): Int {
-        val check = when(complete){
+        val checkCount = when(complete){
             null -> rollList.getCheck()
             Complete.EMPTY -> 0
             Complete.FULL -> rollList.size
         }
 
-        text = "$check/${rollList.size}"
+        text = "$checkCount/${rollList.size}"
 
-        return check
+        return checkCount
     }
 
     /**
      * Check/uncheck all items.
      */
-    fun updateCheck(isCheck: Boolean) = rollList.forEach { it.isCheck = isCheck }
+    fun updateCheck(isCheck: Boolean) = apply { rollList.forEach { it.isCheck = isCheck } }
+
+    fun updateTime() = apply { change = getTime() }
 
     fun delete() = apply {
-        change = getTime()
+        updateTime()
         isBin = true
         isStatus = false
     }
 
     fun restore() = apply {
-        change = getTime()
+        updateTime()
         isBin = false
     }
 
     fun convert() = apply {
-        change = getTime()
+        updateTime()
         type = when(type) {
             NoteType.TEXT -> NoteType.ROLL
             NoteType.ROLL -> NoteType.TEXT

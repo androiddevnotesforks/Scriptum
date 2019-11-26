@@ -53,40 +53,42 @@ class NoteItemTest {
     @Test fun getCheck() = assertEquals(CHECK_COUNT, rollList.getCheck())
 
 
+    @Test fun updateTime() = assertChangeTime(noteItem.copy(change = "TIME").updateTime())
+
     @Test fun delete() {
         val item = noteItem.deepCopy(change = "TIME", isBin = false, isStatus = true)
 
-        with(item.delete()) {
-            assertCurrentTime(change)
-            assertEquals(true, isBin)
-            assertEquals(false, isStatus)
+        item.delete().let {
+            assertChangeTime(it)
+            assertEquals(true, it.isBin)
+            assertEquals(false, it.isStatus)
         }
     }
 
     @Test fun restore() {
         val item = noteItem.deepCopy(change = "TIME", isBin = true)
 
-        with(item.restore()) {
-            assertCurrentTime(change)
-            assertEquals(false, isBin)
+        item.restore().let {
+            assertChangeTime(it)
+            assertEquals(false, it.isBin)
         }
     }
 
     @Test fun convertText() {
         val item = noteItem.deepCopy(change = "TIME", type = NoteType.TEXT)
 
-        with(item.convert()) {
-            assertCurrentTime(change)
-            assertEquals(NoteType.ROLL, type)
+        item.convert().let {
+            assertChangeTime(it)
+            assertEquals(NoteType.ROLL, it.type)
         }
     }
 
     @Test fun convertRoll() {
         val item = noteItem.deepCopy(change = "TIME", type = NoteType.ROLL)
 
-        with(item.convert()) {
-            assertCurrentTime(change)
-            assertEquals(NoteType.TEXT, type)
+        item.convert().let {
+            assertChangeTime(it)
+            assertEquals(NoteType.TEXT, it.type)
         }
     }
 
@@ -175,7 +177,7 @@ class NoteItemTest {
     }
 
 
-    fun assertCurrentTime(time: String) = assertEquals(getTime(), time)
+    private fun assertChangeTime(noteItem: NoteItem) = assertEquals(getTime(), noteItem.change)
 
     private companion object {
         const val COPY_POSITION = 9
