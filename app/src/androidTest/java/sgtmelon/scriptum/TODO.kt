@@ -60,6 +60,11 @@ class Note {
      * 3. [TextNoteTest.rankDialogCloseAndWork]
      * 4. [RollNoteTest.rankDialogCloseAndWork]
      */
+
+    /**
+     * TODO #TEST Error when addItems in rollNote and clear text in them -> updateComplete was before items remove
+     * create roll - add items - clear text on some item - save and return to list -> check noteItem text
+     */
 }
 
 class Rotation {
