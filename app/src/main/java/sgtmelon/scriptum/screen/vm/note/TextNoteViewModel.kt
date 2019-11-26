@@ -290,19 +290,13 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     override fun onMenuSave(changeMode: Boolean): Boolean {
         if (!noteItem.isSaveEnabled()) return false
 
-
-        /**
-         * TODO move to repo
-         */
-        noteItem.updateTime()
+        iInteractor.saveNote(noteItem, noteState.isCreate)
 
         if (changeMode) {
             callback?.hideKeyboard()
             onMenuEdit(isEdit = false)
             inputControl.reset()
         }
-
-        iInteractor.saveNote(noteItem, noteState.isCreate)
 
         noteState.ifCreate {
             id = noteItem.id

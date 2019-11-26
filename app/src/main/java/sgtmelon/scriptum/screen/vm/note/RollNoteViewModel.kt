@@ -23,7 +23,7 @@ import sgtmelon.scriptum.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.model.state.CheckState
+import sgtmelon.scriptum.model.state.CheckAllState
 import sgtmelon.scriptum.model.state.IconState
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.room.converter.StringConverter
@@ -58,7 +58,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     private var isRankEmpty: Boolean = true
 
     private val iconState = IconState()
-    private val checkState = CheckState()
+    private val checkAllState = CheckAllState()
 
     override fun onSetup(bundle: Bundle?) {
         if (bundle != null) id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
@@ -118,7 +118,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     override fun onUpdateData() {
-        checkState.setAll(noteItem.rollList)
+        checkAllState.setAll(noteItem.rollList)
 
         callback?.apply {
             notifyDataSetChanged(noteItem.rollList)
@@ -212,13 +212,13 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
         callback?.notifyListItem(p, noteItem.rollList[p])
 
-        if (checkState.setAll(checkCount, noteItem.rollList.size)) {
+        if (checkAllState.setAll(checkCount, noteItem.rollList.size)) {
             callback?.bindNote(noteItem)
         }
     }
 
     override fun onLongClickItemCheck() {
-        val isAll = !checkState.isAll
+        val isAll = !checkAllState.isAll
 
         iInteractor.updateRollCheck(noteItem, isAll)
 
@@ -391,10 +391,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     override fun onMenuSave(changeMode: Boolean): Boolean {
         if (!noteItem.isSaveEnabled()) return false
 
-        /**
-         * TODO move to repo
-         */
-        noteItem.updateTime().updateComplete()
+        iInteractor.saveNote(noteItem, noteState.isCreate)
 
         /**
          * Change to read mode.
@@ -404,8 +401,6 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             onMenuEdit(isEdit = false)
             inputControl.reset()
         }
-
-        iInteractor.saveNote(noteItem, noteState.isCreate)
 
         noteState.ifCreate {
             id = noteItem.id

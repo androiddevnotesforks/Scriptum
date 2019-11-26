@@ -1,13 +1,11 @@
 package sgtmelon.scriptum.model.state
 
 import sgtmelon.scriptum.model.item.RollItem
-import sgtmelon.scriptum.room.entity.RollEntity
-
 
 /**
- * State which determining everything is checked or not in [RollEntity] list
+ * State which determining everything is checked or not in [RollItem] list
  */
-class CheckState {
+class CheckAllState {
 
     var isAll: Boolean = false
         private set

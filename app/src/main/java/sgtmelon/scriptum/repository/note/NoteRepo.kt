@@ -214,6 +214,8 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
     override fun saveTextNote(noteItem: NoteItem, isCreate: Boolean) {
         if (noteItem.type != NoteType.TEXT) return
 
+        noteItem.updateTime()
+
         inRoom {
             val entity = noteConverter.toEntity(noteItem)
 
@@ -229,6 +231,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
         if (noteItem.type != NoteType.ROLL) return
 
         noteItem.rollList.removeAll { it.text.isEmpty() }
+        noteItem.updateTime().updateComplete()
 
         inRoom {
             val noteEntity = noteConverter.toEntity(noteItem)
