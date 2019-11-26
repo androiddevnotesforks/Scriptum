@@ -131,8 +131,8 @@ data class NoteItem(
     companion object {
         const val ROLL_OPTIMAL_SIZE = 4
 
-        fun getCreate(create: String, @Color color: Int, type: NoteType): NoteItem {
-            return NoteItem(create = create, color = color, type = type)
+        fun getCreate(@Color color: Int, type: NoteType): NoteItem {
+            return NoteItem(create = getTime(), color = color, type = type)
         }
 
         @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)

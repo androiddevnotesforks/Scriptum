@@ -72,7 +72,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             isRankEmpty = iInteractor.isRankEmpty()
 
             if (id == NoteData.Default.ID) {
-                noteItem = NoteItem.getCreate(getTime(), iInteractor.defaultColor, NoteType.ROLL)
+                noteItem = NoteItem.getCreate(iInteractor.defaultColor, NoteType.ROLL)
                 noteState = NoteState(isCreate = true)
             } else {
                 iInteractor.getModel(id, updateBind = true)?.let {

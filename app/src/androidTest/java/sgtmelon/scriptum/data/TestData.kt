@@ -67,9 +67,9 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
     val rankEntity: RankEntity get() = RankEntity(name = uniqueString)
 
 
-    fun createText() = NoteItem.getCreate(getTime(), iPreferenceRepo.defaultColor, NoteType.TEXT)
+    fun createText() = NoteItem.getCreate(iPreferenceRepo.defaultColor, NoteType.TEXT)
 
-    fun createRoll() = NoteItem.getCreate(getTime(), iPreferenceRepo.defaultColor, NoteType.ROLL)
+    fun createRoll() = NoteItem.getCreate(iPreferenceRepo.defaultColor, NoteType.ROLL)
 
 
     fun insertRank(entity: RankEntity = rankEntity): RankItem {

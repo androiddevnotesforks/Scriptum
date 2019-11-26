@@ -66,7 +66,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
             isRankEmpty = iInteractor.isRankEmpty()
 
             if (id == NoteData.Default.ID) {
-                noteItem = NoteItem.getCreate(getTime(), iInteractor.defaultColor, NoteType.TEXT)
+                noteItem = NoteItem.getCreate(iInteractor.defaultColor, NoteType.TEXT)
                 noteState = NoteState(isCreate = true)
             } else {
                 iInteractor.getItem(id, updateBind = true)?.let {
