@@ -11,8 +11,11 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">@dimen/card_margin_vertical</item>
         <item name="android:layout_marginBottom">@dimen/card_margin_vertical</item>
+        <item name="android:layout_marginStart">@dimen/card_margin_horizontal</item>
         <item name="android:layout_marginLeft">@dimen/card_margin_horizontal</item>
+        <item name="android:layout_marginEnd">@dimen/card_margin_horizontal</item>
         <item name="android:layout_marginRight">@dimen/card_margin_horizontal</item>
+
     </style>
 
     <style name="RecyclerView">
@@ -185,6 +188,7 @@
 
     <style name="Text.Note.Info">
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">@dimen/layout_4dp</item>
         <item name="android:layout_marginRight">@dimen/layout_4dp</item>
         <item name="android:ellipsize">end</item>
         <item name="android:maxLines">1</item>
@@ -240,7 +244,9 @@
 
     <style name="EditText.SingleRow">
         <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginStart">@dimen/layout_8dp</item>
         <item name="android:layout_marginLeft">@dimen/layout_8dp</item>
+        <item name="android:layout_marginEnd">@dimen/layout_8dp</item>
         <item name="android:layout_marginRight">@dimen/layout_8dp</item>
         <item name="android:background">@android:color/transparent</item>
         <item name="android:focusable">true</item>
@@ -283,10 +289,10 @@
     <style name="Button.Small">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginLeft">@dimen/layout_4dp</item>
         <item name="android:layout_marginStart">@dimen/layout_4dp</item>
-        <item name="android:layout_marginRight">@dimen/layout_4dp</item>
+        <item name="android:layout_marginLeft">@dimen/layout_4dp</item>
         <item name="android:layout_marginEnd">@dimen/layout_4dp</item>
+        <item name="android:layout_marginRight">@dimen/layout_4dp</item>
         <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
         <item name="android:padding">@dimen/layout_8dp</item>
     </style>
@@ -366,6 +372,7 @@
     </style>
 
     <style name="Image.Note.Info">
+        <item name="android:layout_marginEnd">@dimen/layout_4dp</item>
         <item name="android:layout_marginRight">@dimen/layout_4dp</item>
         <item name="android:tint">?attr/clNoteIndicator</item>
     </style>

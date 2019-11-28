@@ -16,7 +16,7 @@
         Не пустой пункт для макета, ещё и текст длинный. Ваау.
     </string>
     <string name="preview_note_time" translatable="false">25 Авг 2018</string>
-    <string name="preview_note_done" translatable="false">3/5</string>
+    <string name="preview_note_done" translatable="false">90/+99</string>
 
     <string name="preview_rank_name" translatable="false">
         Название какой-нибудь категории, к которой будут привязаны заметки

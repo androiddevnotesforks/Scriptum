@@ -2,9 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
         package="sgtmelon.scriptum">
 
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
             android:allowBackup="true"
@@ -20,8 +20,8 @@
                 android:configChanges="keyboardHidden|orientation|screenSize"
                 android:theme="@style/App.Splash">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
@@ -31,8 +31,8 @@
                 android:parentActivityName=".screen.ui.SplashActivity"
                 android:theme="@style/App.Intro">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
 
@@ -40,8 +40,8 @@
                 android:name=".screen.ui.main.MainActivity"
                 android:windowSoftInputMode="adjustPan">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.HOME" />
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.HOME"/>
             </intent-filter>
         </activity>
 
@@ -49,8 +49,8 @@
                 android:name=".screen.ui.note.NoteActivity"
                 android:parentActivityName=".screen.ui.main.MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.EDIT" />
-                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.intent.action.EDIT"/>
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
 
@@ -59,8 +59,8 @@
                 android:configChanges="keyboardHidden"
                 android:parentActivityName=".screen.ui.main.MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
 
@@ -69,8 +69,8 @@
                 android:configChanges="keyboardHidden"
                 android:parentActivityName=".screen.ui.main.MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
 
@@ -80,8 +80,8 @@
                 android:parentActivityName=".screen.ui.main.MainActivity"
                 android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
 
@@ -91,13 +91,13 @@
                 android:parentActivityName=".screen.ui.preference.PreferenceActivity"
                 android:theme="@style/App.Dark.UI">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
 
-        <receiver android:name=".receiver.UnbindReceiver" />
-        <receiver android:name=".receiver.AlarmReceiver" />
+        <receiver android:name=".receiver.UnbindReceiver"/>
+        <receiver android:name=".receiver.AlarmReceiver"/>
 
     </application>
 
