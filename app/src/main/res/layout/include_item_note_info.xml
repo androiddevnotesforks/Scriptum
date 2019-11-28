@@ -47,6 +47,8 @@
                 android:id="@+id/note_info_progress_text"
                 style="@style/Text.Note.Info"
                 android:layout_width="wrap_content"
+                android:layout_marginEnd="@dimen/layout_4dp"
+                android:layout_marginRight="@dimen/layout_4dp"
                 android:text='@{noteItem.type == noteType.ROLL ? noteItem.text : ""}'
                 android:visibility='@{noteItem.type == noteType.ROLL ?  v.VISIBLE : v.GONE}'
                 tools:text="@string/preview_note_done"
@@ -63,6 +65,8 @@
         <TextView
                 android:id="@+id/note_info_create_text"
                 style="@style/Text.Note.Info"
+                android:layout_marginStart="@dimen/layout_4dp"
+                android:layout_marginLeft="4dp"
                 android:layout_width="wrap_content"
                 app:pastTime='@{noteItem.create}'
                 tools:text="@string/preview_note_time"/>

@@ -104,7 +104,7 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
 
     open fun rollRow4() = startRowTest(count = 4)
 
-    private fun startRowTest(count: Int) = onAssertList(ArrayList<NoteItem>().also { list ->
+    private fun startRowTest(count: Int) {
         val rollList = ArrayList<RollEntity>()
 
         (0 until count).forEach {
@@ -114,19 +114,58 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
             })
         }
 
-        list.add(when (page) {
-            MainPage.RANK -> throw IllegalAccessException(PAGE_ERROR_TEXT)
-            MainPage.NOTES -> data.insertRoll(data.rollNote, rollList)
-            MainPage.BIN -> data.insertRollToBin(data.rollNote, rollList)
+        onAssertList( ArrayList<NoteItem>().apply {
+            add(when (page) {
+                MainPage.RANK -> throw IllegalAccessException(PAGE_ERROR_TEXT)
+                MainPage.NOTES -> data.insertRoll(data.rollNote, rollList)
+                MainPage.BIN -> data.insertRollToBin(data.rollNote, rollList)
+            })
         })
-    })
+    }
+
+
+    open fun progressIndicator1() = startProgressTest(check = 10, size = 99)
+
+    open fun progressIndicator2() = startProgressTest(check = 10, size = 100)
+
+    open fun progressIndicator3() = startProgressTest(check = 99, size = 99)
+
+    open fun progressIndicator4() = startProgressTest(check = 100, size = 100)
+
+    private fun startProgressTest(check: Int, size: Int) {
+        if (size < check) throw IllegalAccessException(OVERFLOW_ERROR_TEXT)
+
+        val rollList = ArrayList<RollEntity>()
+
+        (0 until size).forEach {
+            rollList.add(data.rollEntity.apply {
+                position = it
+                text = "$it | $text"
+            })
+        }
+
+        var done = 0
+        for (entity in rollList) {
+            entity.isCheck = true
+
+            if (++done == check) break
+        }
+
+        onAssertList(ArrayList<NoteItem>().apply {
+            add(when (page) {
+                MainPage.RANK -> throw IllegalAccessException(PAGE_ERROR_TEXT)
+                MainPage.NOTES -> data.insertRoll(data.rollNote, rollList)
+                MainPage.BIN -> data.insertRollToBin(data.rollNote, rollList)
+            })
+        })
+    }
 
 
     open fun rankSort() {
         iPreferenceRepo.sort = Sort.RANK
 
-        onAssertList(ArrayList<NoteItem>().also { list ->
-            list.add(when (page) {
+        onAssertList(ArrayList<NoteItem>().apply {
+            add(when (page) {
                 MainPage.RANK -> throw IllegalAccessException(PAGE_ERROR_TEXT)
                 MainPage.NOTES -> data.insertText(data.textNote)
                 MainPage.BIN -> data.insertTextToBin(data.textNote)
@@ -162,6 +201,7 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
 
     companion object {
         private const val PAGE_ERROR_TEXT = "This class test only screens with [NoteAdapter]"
+        private const val OVERFLOW_ERROR_TEXT = "Check count must be < than size"
         private const val SORT_ERROR_TEXT = "Wrong sort type"
 
         private const val LAST_HOUR = -60

@@ -40,6 +40,15 @@ class BinContentTest : ParentNoteContentTest(MainPage.BIN) {
     @Test override fun rollRow4() = super.rollRow4()
 
 
+    @Test override fun progressIndicator1() = super.progressIndicator1()
+
+    @Test override fun progressIndicator2() = super.progressIndicator2()
+
+    @Test override fun progressIndicator3() = super.progressIndicator3()
+
+    @Test override fun progressIndicator4() = super.progressIndicator4()
+
+
     @Test override fun rankSort() = super.rankSort()
 
     @Test override fun rankTextCancel() = super.rankTextCancel()

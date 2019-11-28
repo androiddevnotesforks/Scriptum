@@ -33,6 +33,28 @@ class NoteItemTest {
 
         item = noteItem.deepCopy()
         assertEquals("${CHECK_COUNT}/${size}", item.updateComplete().text)
+
+        item = noteItem.deepCopy().apply {
+            while (rollList.size != 99) rollList.add(rollList.first())
+        }
+        assertEquals("${CHECK_COUNT}/99", item.updateComplete().text)
+
+        item = noteItem.deepCopy().apply {
+            while (rollList.size != 100) rollList.add(rollList.first())
+        }
+        assertEquals("${CHECK_COUNT}/99", item.updateComplete().text)
+
+        item = noteItem.deepCopy().apply {
+            while (rollList.size != 99) rollList.add(rollList.first())
+            rollList.forEach { it.isCheck = true }
+        }
+        assertEquals("99/99", item.updateComplete().text)
+
+        item = noteItem.deepCopy().apply {
+            while (rollList.size != 100) rollList.add(rollList.first())
+            rollList.forEach { it.isCheck = true }
+        }
+        assertEquals("99/99", item.updateComplete().text)
     }
 
     @Test fun updateCheck() {

@@ -15,6 +15,7 @@ import sgtmelon.scriptum.model.key.Complete
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.room.converter.BoolConverter
 import sgtmelon.scriptum.room.converter.NoteTypeConverter
+import kotlin.math.min
 
 /**
  * Model for store short information about note, use in [NoteAdapter]/[RollAdapter].
@@ -60,6 +61,7 @@ data class NoteItem(
             rollList, alarmId, alarmDate
     )
 
+
     fun updateComplete(complete: Complete? = null) = apply {
         val checkCount = when(complete){
             null -> rollList.getCheck()
@@ -67,7 +69,7 @@ data class NoteItem(
             Complete.FULL -> rollList.size
         }
 
-        text = "$checkCount/${rollList.size}"
+        text = "${min(checkCount, INDICATOR_MAX_COUNT)}/${min(rollList.size, INDICATOR_MAX_COUNT)}"
     }
 
     /**
@@ -77,6 +79,7 @@ data class NoteItem(
         rollList.forEach { it.isCheck = isCheck }
         updateComplete(if (isCheck) Complete.FULL else Complete.EMPTY)
     }
+
 
     fun updateTime() = apply { change = getTime() }
 
@@ -130,6 +133,7 @@ data class NoteItem(
 
     companion object {
         const val ROLL_OPTIMAL_SIZE = 4
+        const val INDICATOR_MAX_COUNT = 99
 
         fun getCreate(@Color color: Int, type: NoteType): NoteItem {
             return NoteItem(create = getTime(), color = color, type = type)
