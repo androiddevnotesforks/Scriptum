@@ -215,10 +215,12 @@ class NoteRepoTest : ParentIntegrationTest()  {
         val list = rollConverter.toItem(rollListFirst)
         val item = noteConverter.toItem(noteFirst, list)
 
-        iNoteRepo.updateRollCheck(item, check = false)
+        list.forEach { it.isCheck = true }
+
+        iNoteRepo.updateRollCheck(item)
 
         assertChangeTime(item)
-        assertFalse(list.any { it.isCheck })
+        assertTrue(list.all { !it.isCheck })
         assertEquals(list, iNoteRepo.getRollList(item.id))
     }
 
@@ -229,10 +231,13 @@ class NoteRepoTest : ParentIntegrationTest()  {
         val list = rollConverter.toItem(rollListFourth)
         val item = noteConverter.toItem(noteFourth, list)
 
-        iNoteRepo.updateRollCheck(item, check = true)
+        list.forEach { it.isCheck = true }
+        list.random().isCheck = false
+
+        iNoteRepo.updateRollCheck(item)
 
         assertChangeTime(item)
-        assertTrue(list.any { it.isCheck })
+        assertTrue(list.all { it.isCheck })
         assertEquals(list, iNoteRepo.getRollList(item.id))
     }
 

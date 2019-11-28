@@ -46,9 +46,6 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
     private var id: Long = NoteData.Default.ID
 
-    /**
-     * TODO replace with nullable
-     */
     private lateinit var noteItem: NoteItem
     private var noteState: NoteState = NoteState()
     private var isRankEmpty: Boolean = true
@@ -139,6 +136,9 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     private fun onRestoreData(): Boolean {
         if (id == NoteData.Default.ID) return false
 
+        /**
+         * Get color before restore data.
+         */
         val colorFrom = noteItem.color
 
         iInteractor.getItem(id, updateBind = false)?.let {
@@ -163,7 +163,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         noteItem.color = check
 
         callback?.apply {
-            onBindingInput(inputControl.access, this@TextNoteViewModel.noteItem)
+            onBindingInput(inputControl.access, noteItem)
             tintToolbar(check)
         }
     }
@@ -179,8 +179,8 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         }
 
         callback?.apply {
-            onBindingInput(inputControl.access, this@TextNoteViewModel.noteItem)
-            onBindingNote(this@TextNoteViewModel.noteItem)
+            onBindingInput(inputControl.access, noteItem)
+            onBindingNote(noteItem)
         }
     }
 

@@ -23,7 +23,6 @@ import sgtmelon.scriptum.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.model.state.CheckAllState
 import sgtmelon.scriptum.model.state.IconState
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.room.converter.StringConverter
@@ -50,15 +49,11 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
     private var id: Long = NoteData.Default.ID
 
-    /**
-     * TODO replace with nullable
-     */
     private lateinit var noteItem: NoteItem
     private var noteState: NoteState = NoteState()
     private var isRankEmpty: Boolean = true
 
     private val iconState = IconState()
-    private val checkAllState = CheckAllState()
 
     override fun onSetup(bundle: Bundle?) {
         if (bundle != null) id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
@@ -118,8 +113,6 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     override fun onUpdateData() {
-        checkAllState.setAll(noteItem.rollList)
-
         callback?.apply {
             notifyDataSetChanged(noteItem.rollList)
             changeCheckToggle(state = false)
@@ -154,6 +147,9 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     private fun onRestoreData(): Boolean {
         if (id == NoteData.Default.ID) return false
 
+        /**
+         * Get color before restore data.
+         */
         val colorFrom = noteItem.color
 
         iInteractor.getModel(id, updateBind = false)?.let {
@@ -186,7 +182,8 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     /**
-     * TODO check rollItem position
+     * All item positions updates after call [onMenuSave], because it's hard
+     * to control in Edit.
      */
     override fun onClickAdd(simpleClick: Boolean) {
         val enterText = callback?.getEnterText() ?: ""
@@ -208,24 +205,13 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     override fun onClickItemCheck(p: Int) {
-        val checkCount = iInteractor.updateRollCheck(noteItem, p)
-
+        iInteractor.updateRollCheck(noteItem, p)
         callback?.notifyListItem(p, noteItem.rollList[p])
-
-        if (checkAllState.setAll(checkCount, noteItem.rollList.size)) {
-            callback?.onBingingNote(noteItem)
-        }
     }
 
     override fun onLongClickItemCheck() {
-        val isAll = !checkAllState.isAll
-
-        iInteractor.updateRollCheck(noteItem, isAll)
-
-        callback?.apply {
-            onBingingNote(noteItem)
-            changeCheckToggle(state = true)
-        }
+        iInteractor.updateRollCheck(noteItem)
+        callback?.changeCheckToggle(state = true)
 
         onUpdateData()
     }
@@ -237,7 +223,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         noteItem.color = check
 
         callback?.apply {
-            onBindingInput(inputControl.access, this@RollNoteViewModel.noteItem)
+            onBindingInput(inputControl.access, noteItem)
             tintToolbar(check)
         }
     }
@@ -253,8 +239,8 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         }
 
         callback?.apply {
-            onBindingInput(inputControl.access, this@RollNoteViewModel.noteItem)
-            onBingingNote(this@RollNoteViewModel.noteItem)
+            onBindingInput(inputControl.access, noteItem)
+            onBingingNote(noteItem)
         }
     }
 
@@ -303,6 +289,9 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     //region Menu click
 
     override fun onMenuRestore() {
+        /**
+         * TODO change workaround
+         */
         noteItem.let { viewModelScope.launch { iInteractor.restoreNote(it) } }
         parentCallback?.finish()
     }
@@ -318,6 +307,9 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     override fun onMenuClear() {
+        /**
+         * TODO change workaround
+         */
         noteItem.let { viewModelScope.launch { iInteractor.clearNote(it) } }
         parentCallback?.finish()
     }
@@ -487,6 +479,10 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             if (noteState.isEdit) ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT else 0
     )
 
+    /**
+     * All item positions updates after call [onMenuSave], because it's hard
+     * to control in Edit.
+     */
     override fun onTouchSwipe(p: Int) {
         val rollItem = noteItem.rollList[p]
         noteItem.rollList.removeAt(p)
@@ -499,6 +495,10 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         }
     }
 
+    /**
+     * All item positions updates after call [onMenuSave], because it's hard
+     * to control in Edit.
+     */
     override fun onTouchMove(from: Int, to: Int): Boolean {
         callback?.notifyItemMoved(from, to, noteItem.rollList.apply { swap(from, to) })
         return true

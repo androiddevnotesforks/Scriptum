@@ -58,19 +58,16 @@ class RollNoteInteractor(context: Context, private var callback: IRollNoteBridge
     /**
      * Update single roll.
      */
-    override fun updateRollCheck(noteItem: NoteItem, p: Int): Int {
-        val checkCount = iNoteRepo.updateRollCheck(noteItem, p)
-
+    override fun updateRollCheck(noteItem: NoteItem, p: Int) {
+        iNoteRepo.updateRollCheck(noteItem, p)
         callback?.notifyNoteBind(noteItem, rankIdVisibleList)
-
-        return checkCount
     }
 
     /**
-     * Update all rolls.
+     * Update all rolls rely on checks.
      */
-    override fun updateRollCheck(noteItem: NoteItem, check: Boolean) {
-        iNoteRepo.updateRollCheck(noteItem, check)
+    override fun updateRollCheck(noteItem: NoteItem) {
+        iNoteRepo.updateRollCheck(noteItem)
         callback?.notifyNoteBind(noteItem, rankIdVisibleList)
     }
 
