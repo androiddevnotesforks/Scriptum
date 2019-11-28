@@ -295,9 +295,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
          */
         val check = noteItem.rollList.any { !it.isCheck }
 
-        noteItem.updateTime()
-                .updateCheck(check)
-                .updateComplete(if (check) Complete.FULL else Complete.EMPTY)
+        noteItem.updateTime().updateCheck(check)
 
         iRollDao.updateAllCheck(noteItem.id, check)
         iNoteDao.update(noteConverter.toEntity(noteItem))

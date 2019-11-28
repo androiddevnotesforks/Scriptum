@@ -26,16 +26,13 @@ class NoteItemTest {
         val size = rollList.size
 
         var item = noteItem.deepCopy()
-        assertEquals(0, item.updateComplete(Complete.EMPTY))
-        assertEquals("0/${size}", item.text)
+        assertEquals("0/${size}", item.updateComplete(Complete.EMPTY).text)
 
         item = noteItem.deepCopy()
-        assertEquals(size, item.updateComplete(Complete.FULL))
-        assertEquals("${size}/${size}", item.text)
+        assertEquals("${size}/${size}", item.updateComplete(Complete.FULL).text)
 
         item = noteItem.deepCopy()
-        assertEquals(CHECK_COUNT, item.updateComplete())
-        assertEquals("${CHECK_COUNT}/${size}", item.text)
+        assertEquals("${CHECK_COUNT}/${size}", item.updateComplete().text)
     }
 
     @Test fun updateCheck() {
