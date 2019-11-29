@@ -11,6 +11,7 @@ import sgtmelon.extension.getCalendar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.SaveControl
 import sgtmelon.scriptum.control.input.InputControl
+import sgtmelon.scriptum.extension.clearSpace
 import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.extension.swap
 import sgtmelon.scriptum.interactor.BindInteractor
@@ -170,14 +171,16 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
 
     override fun onEditorClick(i: Int): Boolean {
-        val enterText = callback?.getEnterText() ?: ""
+        if (i != EditorInfo.IME_ACTION_DONE) return false
 
-        if (enterText.isEmpty() || i != EditorInfo.IME_ACTION_DONE) {
+        val enterText = callback?.getEnterText()?.clearSpace() ?: ""
+
+        if (enterText.isEmpty()) {
             onMenuSave(changeMode = true)
-            return false
+        } else {
+            onClickAdd(simpleClick = true)
         }
 
-        onClickAdd(simpleClick = true)
         return true
     }
 
@@ -186,10 +189,11 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
      * to control in Edit.
      */
     override fun onClickAdd(simpleClick: Boolean) {
-        val enterText = callback?.getEnterText() ?: ""
-        callback?.clearEnterText()
+        val enterText = callback?.getEnterText()?.clearSpace() ?: ""
 
         if (enterText.isEmpty()) return
+
+        callback?.clearEnterText()
 
         val p = if (simpleClick) noteItem.rollList.size else 0
         val rollItem = RollItem(position = p, text = enterText)

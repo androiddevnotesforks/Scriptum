@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.repository.note
 
 import android.content.Context
+import sgtmelon.scriptum.extension.clearSpace
 import sgtmelon.scriptum.extension.getText
 import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.item.NoteItem
@@ -214,6 +215,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
     override fun saveTextNote(noteItem: NoteItem, isCreate: Boolean) {
         if (noteItem.type != NoteType.TEXT) return
 
+        noteItem.name = noteItem.name.clearSpace()
         noteItem.updateTime()
 
         inRoom {
@@ -230,7 +232,12 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
     override fun saveRollNote(noteItem: NoteItem, isCreate: Boolean) {
         if (noteItem.type != NoteType.ROLL) return
 
-        noteItem.rollList.removeAll { it.text.isEmpty() }
+        noteItem.rollList.apply {
+            removeAll { it.text.isEmpty() }
+            forEach { it.text = it.text.clearSpace() }
+        }
+
+        noteItem.name = noteItem.name.clearSpace()
         noteItem.updateTime().updateComplete()
 
         inRoom {

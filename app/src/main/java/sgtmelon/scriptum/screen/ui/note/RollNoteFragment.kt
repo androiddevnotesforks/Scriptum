@@ -279,7 +279,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment {
     }
 
     override fun onBindingEnter() {
-        binding?.enterEmpty = rollEnter?.text.toString().isEmpty() == true
+        binding?.enterEmpty = getEnterText().clearSpace().isEmpty()
         binding?.executePendingBindings()
     }
 

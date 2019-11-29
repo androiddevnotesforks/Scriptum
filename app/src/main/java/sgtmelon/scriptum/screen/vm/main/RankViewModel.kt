@@ -78,12 +78,13 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     override fun onClickEnterCancel() = callback?.clearEnter() ?: ""
 
     override fun onEditorClick(i: Int): Boolean {
-        val enterName = callback?.getEnterText() ?: ""
-        val clearName = enterName.clearSpace().toUpperCase()
+        if (i != EditorInfo.IME_ACTION_DONE) return false
 
-        if (i != EditorInfo.IME_ACTION_DONE || enterName.isEmpty()) return false
+        val name = callback?.getEnterText()?.clearSpace()?.toUpperCase() ?: ""
 
-        if (clearName.isNotEmpty() && !nameList.contains(clearName)) {
+        if (name.isEmpty()) return false
+
+        if (!nameList.contains(name)) {
             onClickEnterAdd(simpleClick = true)
         }
 
