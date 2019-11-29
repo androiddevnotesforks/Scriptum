@@ -11,6 +11,8 @@ import sgtmelon.scriptum.model.data.ColorData
 
 /**
  * Matcher for check android:background which gets with [resourceId].
+ *
+ * * If [resourceId] is -1 => check what don't have drawable.
  */
 class ColorIndicatorMatcher(@IdRes resourceId: Int, @Theme theme: Int, @Color color: Int) :
         ParentImageMatcher(resourceId) {
