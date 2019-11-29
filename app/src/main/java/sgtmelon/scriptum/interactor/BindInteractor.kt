@@ -26,7 +26,8 @@ class BindInteractor(context: Context) : ParentInteractor(context),
     override suspend fun notifyNoteBind(callback: BindControl.NoteBridge.Notify?) {
         val rankIdVisibleList = iRankRepo.getIdVisibleList()
 
-        iNoteRepo.getList(iPreferenceRepo.sort, bin = false, optimal = false).forEach {
+        val sort = iPreferenceRepo.sort
+        iNoteRepo.getList(sort, bin = false, optimal = false, filterVisible = false).forEach {
             callback?.notifyNoteBind(it, rankIdVisibleList)
         }
     }

@@ -32,16 +32,21 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
     /**
      * [optimal] - need for note lists where displays short information.
      */
-    override fun getList(@Sort sort: Int, bin: Boolean, optimal: Boolean): MutableList<NoteItem> {
+    override fun getList(@Sort sort: Int, bin: Boolean, optimal: Boolean,
+                         filterVisible: Boolean): MutableList<NoteItem> {
         val itemList = ArrayList<NoteItem>()
 
         inRoom {
             var list = iNoteDao.getBySort(sort, bin) ?: return@inRoom
 
             /**
-             * Notes must be showed in list if [bin] == false even if rank not visible.
+             * If need get all items.
+             *
+             * For example:
+             * Need get all items for cancel bind in status bar.
+             * Notes must be showed in bin list even if rank not visible.
              */
-            if (!bin) list = iRankDao.filterVisible(list)
+            if (filterVisible) list = iRankDao.filterVisible(list)
 
             list.forEach {
                 val rollEntityList = iRollDao.getOptimal(it.id, optimal)
