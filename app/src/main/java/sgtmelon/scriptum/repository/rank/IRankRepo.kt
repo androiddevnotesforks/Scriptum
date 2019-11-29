@@ -21,6 +21,8 @@ interface IRankRepo {
 
     fun update(rankItem: RankItem)
 
+    suspend fun update(rankList: List<RankItem>)
+
     fun updatePosition(rankList: List<RankItem>)
 
     fun updateConnection(noteItem: NoteItem)

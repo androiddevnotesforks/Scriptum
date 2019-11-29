@@ -69,6 +69,9 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
         iRankDao.update(converter.toEntity(rankItem))
     }
 
+    override suspend fun update(rankList: List<RankItem>) = inRoom {
+        iRankDao.update(converter.toEntity(rankList))
+    }
 
     override fun updatePosition(rankList: List<RankItem>) = inRoom {
         val noteIdList = rankList.correctPositions()

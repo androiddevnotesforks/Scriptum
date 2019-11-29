@@ -39,6 +39,7 @@ abstract class RoomDb : RoomDatabase() {
         operator fun get(context: Context): RoomDb =
                 Room.databaseBuilder(context, RoomDb::class.java, BuildConfig.DB_NAME)
                         .addMigrations(*Migrate.sequence)
+                        .allowMainThreadQueries() // TODO remove
                         .build()
     }
 

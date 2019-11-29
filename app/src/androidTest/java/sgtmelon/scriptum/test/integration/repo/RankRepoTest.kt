@@ -1,6 +1,8 @@
 package sgtmelon.scriptum.test.integration.repo
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -81,7 +83,7 @@ class RankRepoTest : ParentIntegrationTest()  {
         assertTrue(iRankRepo.getList().isEmpty())
     }
 
-    @Test fun update() = inRoom {
+    @Test fun updateItem() = inRoom {
         assertNotEquals(UNIQUE_ERROR_ID, iRankDao.insert(rankFirst))
 
         assertEquals(listOf(rankConverter.toItem(rankFirst)), iRankRepo.getList())
@@ -90,6 +92,25 @@ class RankRepoTest : ParentIntegrationTest()  {
         iRankRepo.update(rankItem)
 
         assertEquals(listOf(rankItem), iRankRepo.getList())
+    }
+
+    @Test fun updateList() = inRoom {
+        runBlocking {
+            launch {
+                assertNotEquals(UNIQUE_ERROR_ID, iRankDao.insert(rankFirst))
+                assertNotEquals(UNIQUE_ERROR_ID, iRankDao.insert(rankSecond))
+
+                assertEquals(rankConverter.toItem(listOf(rankFirst, rankSecond)), iRankRepo.getList())
+
+                val rankList = listOf(
+                        rankConverter.toItem(rankFirst.copy(name = "54321", isVisible = true)),
+                        rankConverter.toItem(rankSecond.copy(name = "98765", isVisible = false))
+                )
+                iRankRepo.update(rankList)
+
+                assertEquals(rankList, iRankRepo.getList())
+            }
+        }
     }
 
 

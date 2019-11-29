@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.extension.clearAndAdd
 import sgtmelon.scriptum.extension.clearSpace
+import sgtmelon.scriptum.extension.swap
 import sgtmelon.scriptum.extension.toUpperCase
 import sgtmelon.scriptum.interactor.BindInteractor
 import sgtmelon.scriptum.interactor.callback.IBindInteractor
@@ -134,11 +135,10 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
 
         callback?.notifyVisible(startAnim, itemList)
 
-        /**
-         * TODO Зачем тут updatePosition? Наверное нужно просто update для всего списка.
-         */
-        iInteractor.updatePosition(itemList)
-        viewModelScope.launch { iBindInteractor.notifyNoteBind(callback) }
+        viewModelScope.launch {
+            iInteractor.update(itemList)
+            iBindInteractor.notifyNoteBind(callback)
+        }
     }
 
     override fun onClickCancel(p: Int) {
@@ -154,19 +154,15 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
 
 
     override fun onTouchMove(from: Int, to: Int): Boolean {
-        val item = itemList[from]
-
-        itemList.removeAt(from)
-        itemList.add(to, item)
+        itemList.swap(from, to)
 
         callback?.notifyItemMoved(from, to, itemList)
 
         return true
     }
 
-    override fun onTouchMoveResult(from: Int, to: Int) {
+    override fun onTouchMoveResult() {
         iInteractor.updatePosition(itemList)
-
         callback?.notifyDataSetChanged(itemList)
     }
 

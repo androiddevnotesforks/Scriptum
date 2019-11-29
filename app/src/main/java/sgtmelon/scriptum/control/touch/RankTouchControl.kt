@@ -40,7 +40,7 @@ class RankTouchControl(private val callback: Callback) : EdgeDragTouchHelper(), 
 
         val dragTo = viewHolder.adapterPosition
         if (dragFrom != dragTo) {
-            callback.onTouchMoveResult(dragFrom, dragTo)
+            callback.onTouchMoveResult()
         }
     }
 
@@ -55,7 +55,7 @@ class RankTouchControl(private val callback: Callback) : EdgeDragTouchHelper(), 
 
     interface Callback {
         fun onTouchMove(from: Int, to: Int): Boolean
-        fun onTouchMoveResult(from: Int, to: Int)
+        fun onTouchMoveResult()
     }
 
 }

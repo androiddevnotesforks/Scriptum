@@ -13,21 +13,18 @@ import sgtmelon.scriptum.screen.vm.main.RankViewModel
  */
 class RankInteractor(context: Context) : ParentInteractor(context), IRankInteractor {
 
-    // TODO #TEST write unit test
-
     private val iRankRepo: IRankRepo = RankRepo(context)
 
-    override fun insert(name: String): RankItem {
-        val id = iRankRepo.insert(name)
 
-        return RankItem(id, name = name)
-    }
+    override fun insert(name: String) = RankItem(iRankRepo.insert(name), name = name)
 
     override fun getList() = iRankRepo.getList()
 
     override fun delete(item: RankItem) = iRankRepo.delete(item)
 
     override suspend fun update(item: RankItem) = iRankRepo.update(item)
+
+    override suspend fun update(list: List<RankItem>) = iRankRepo.update(list)
 
     override fun updatePosition(list: List<RankItem>) = iRankRepo.updatePosition(list)
 
