@@ -23,7 +23,7 @@ class BindInteractor(context: Context) : ParentInteractor(context),
     /**
      * Update all bind notes in status bar rely on rank visibility
      */
-    override fun notifyNoteBind(callback: BindControl.NoteBridge.Notify?) {
+    override suspend fun notifyNoteBind(callback: BindControl.NoteBridge.Notify?) {
         val rankIdVisibleList = iRankRepo.getIdVisibleList()
 
         iNoteRepo.getList(iPreferenceRepo.sort, bin = false, optimal = false).forEach {
@@ -31,7 +31,7 @@ class BindInteractor(context: Context) : ParentInteractor(context),
         }
     }
 
-    override fun notifyInfoBind(callback: BindControl.InfoBridge?) {
+    override suspend fun notifyInfoBind(callback: BindControl.InfoBridge?) {
         callback?.notifyInfoBind(iBindRepo.getNotificationCount())
     }
 

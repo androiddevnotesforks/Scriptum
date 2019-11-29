@@ -134,8 +134,11 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
 
         callback?.notifyVisible(startAnim, itemList)
 
+        /**
+         * TODO Зачем тут updatePosition? Наверное нужно просто update для всего списка.
+         */
         iInteractor.updatePosition(itemList)
-        iBindInteractor.notifyNoteBind(callback)
+        viewModelScope.launch { iBindInteractor.notifyNoteBind(callback) }
     }
 
     override fun onClickCancel(p: Int) {
@@ -144,7 +147,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         itemList.removeAt(p)
 
         iInteractor.updatePosition(itemList)
-        iBindInteractor.notifyNoteBind(callback)
+        viewModelScope.launch { iBindInteractor.notifyNoteBind(callback) }
 
         callback?.notifyItemRemoved(p, itemList)
     }

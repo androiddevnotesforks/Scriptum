@@ -203,7 +203,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         if (calendar.beforeNow()) return
 
         /**
-         * TODO check callback успевает ли получить данные
+         * TODO check callback успевает ли получить данные, прежде чем пользователь сможет открыть диалог
          */
         viewModelScope.launch {
             iInteractor.setDate(noteItem, calendar)

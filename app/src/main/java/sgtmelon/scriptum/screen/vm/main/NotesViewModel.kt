@@ -135,7 +135,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
         if (calendar.beforeNow()) return
 
         /**
-         * TODO check callback успевает ли получить данные
+         * TODO check callback успевает ли получить данные, прежде чем пользователь сможет открыть диалог
          */
         viewModelScope.launch {
             iInteractor.setDate(itemList[p], calendar)

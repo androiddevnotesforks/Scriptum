@@ -8,8 +8,8 @@ import sgtmelon.scriptum.interactor.BindInteractor
  */
 interface IBindInteractor : IParentInteractor {
 
-    fun notifyNoteBind(callback: BindControl.NoteBridge.Notify?)
+    suspend fun notifyNoteBind(callback: BindControl.NoteBridge.Notify?)
 
-    fun notifyInfoBind(callback: BindControl.InfoBridge?)
+    suspend fun notifyInfoBind(callback: BindControl.InfoBridge?)
 
 }

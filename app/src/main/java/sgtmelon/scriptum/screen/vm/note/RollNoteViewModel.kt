@@ -267,7 +267,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         if (calendar.beforeNow()) return
 
         /**
-         * TODO check callback успевает ли получить данные
+         * TODO check callback успевает ли получить данные, прежде чем пользователь сможет открыть диалог
          */
         viewModelScope.launch {
             iInteractor.setDate(noteItem, calendar)
