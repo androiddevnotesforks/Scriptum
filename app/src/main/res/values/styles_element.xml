@@ -109,9 +109,9 @@
     </style>
 
     <style name="Text.Info.Details">
-        <item name="android:paddingLeft">@dimen/icon_16dp</item>
+        <item name="android:paddingLeft">@dimen/layout_16dp</item>
         <item name="android:paddingTop">@dimen/layout_4dp</item>
-        <item name="android:paddingRight">@dimen/icon_16dp</item>
+        <item name="android:paddingRight">@dimen/layout_16dp</item>
         <item name="android:paddingBottom">@dimen/layout_4dp</item>
         <item name="android:textAppearance">@style/Appearance.Second</item>
         <item name="android:textSize">@dimen/text_14sp</item>
@@ -191,7 +191,7 @@
         <item name="android:ellipsize">end</item>
         <item name="android:maxLines">1</item>
         <item name="android:textAppearance">@style/Appearance.Second</item>
-        <item name="android:textSize">@dimen/text_14sp</item>
+        <item name="android:textSize">@dimen/text_12sp</item>
     </style>
 
     <style name="Text.ToolbarNote" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
@@ -362,7 +362,8 @@
     <style name="Image.Note">
         <item name="android:layout_width">@dimen/icon_16dp</item>
         <item name="android:layout_height">@dimen/icon_16dp</item>
-        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:gravity">center_vertical</item>
     </style>
 
     <style name="Image.Note.Check">
@@ -370,8 +371,6 @@
     </style>
 
     <style name="Image.Note.Info">
-        <item name="android:layout_marginEnd">@dimen/layout_4dp</item>
-        <item name="android:layout_marginRight">@dimen/layout_4dp</item>
         <item name="android:tint">?attr/clNoteIndicator</item>
     </style>
 

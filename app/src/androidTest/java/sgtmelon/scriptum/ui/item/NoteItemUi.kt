@@ -154,14 +154,14 @@ class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
 
                 val visible = type == NoteType.ROLL
                 progressText.isDisplayed(visible) {
-                    withText(item.text, R.attr.clContentSecond, R.dimen.text_14sp)
+                    withText(item.text, R.attr.clContentSecond, R.dimen.text_12sp)
                 }
 
                 val change = item.change.getCalendar().formatPast()
-                changeText.isDisplayed().withText(change, R.attr.clContentSecond, R.dimen.text_14sp)
+                changeText.isDisplayed().withText(change, R.attr.clContentSecond, R.dimen.text_12sp)
                 
                 val create = item.create.getCalendar().formatPast()
-                createText.isDisplayed().withText(create, R.attr.clContentSecond, R.dimen.text_14sp)
+                createText.isDisplayed().withText(create, R.attr.clContentSecond, R.dimen.text_12sp)
             }
         }
 

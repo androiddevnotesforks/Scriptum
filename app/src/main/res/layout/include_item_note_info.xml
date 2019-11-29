@@ -16,43 +16,54 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/layout_8dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:showDividers="middle"
+            android:divider="@drawable/div_space_middle">
 
         <TextView
                 android:id="@+id/note_info_progress_text"
                 style="@style/Text.Note.Info"
                 android:layout_width="wrap_content"
-                android:layout_marginEnd="@dimen/layout_4dp"
-                android:layout_marginRight="@dimen/layout_4dp"
                 android:text='@{noteItem.type == noteType.ROLL ? noteItem.text : ""}'
                 android:visibility='@{noteItem.type == noteType.ROLL ?  v.VISIBLE : v.GONE}'
                 tools:text="@string/preview_note_done"
                 tools:visibility="visible"/>
 
-        <ImageView
-                android:id="@+id/note_info_notification_image"
-                style="@style/Image.Note.Info"
-                android:contentDescription="@null"
-                android:visibility='@{noteItem.haveAlarm() ? v.VISIBLE : v.GONE }'
-                app:srcCompat="@drawable/ic_notifications"
-                tools:visibility="visible"/>
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:showDividers="middle"
+                android:divider="@drawable/div_space_small"
+                android:visibility="@{noteItem.haveAlarm() || noteItem.status || noteItem.haveRank() ? v.VISIBLE : v.GONE}"
+                tools:visibility="visible">
 
-        <ImageView
-                android:id="@+id/note_info_bind_image"
-                style="@style/Image.Note.Info"
-                android:contentDescription="@null"
-                android:src='@{noteItem.type == noteType.TEXT ? @drawable/ic_bind_text : @drawable/ic_bind_roll}'
-                android:visibility='@{noteItem.status ? v.VISIBLE : v.GONE}'
-                tools:srcCompat="@drawable/ic_bind_roll"
-                tools:visibility="visible"/>
+            <ImageView
+                    android:id="@+id/note_info_notification_image"
+                    style="@style/Image.Note.Info"
+                    android:contentDescription="@null"
+                    android:visibility='@{noteItem.haveAlarm() ? v.VISIBLE : v.GONE }'
+                    app:srcCompat="@drawable/ic_notifications"
+                    tools:visibility="visible"/>
 
-        <ImageView
-                android:id="@+id/note_info_rank_image"
-                style="@style/Image.Note.Info"
-                android:contentDescription="@null"
-                android:visibility='@{noteItem.haveRank() ? v.VISIBLE : v.GONE}'
-                app:srcCompat="@drawable/ic_rank"
-                tools:visibility="visible"/>
+            <ImageView
+                    android:id="@+id/note_info_bind_image"
+                    style="@style/Image.Note.Info"
+                    android:contentDescription="@null"
+                    android:src='@{noteItem.type == noteType.TEXT ? @drawable/ic_bind_text : @drawable/ic_bind_roll}'
+                    android:visibility='@{noteItem.status ? v.VISIBLE : v.GONE}'
+                    tools:srcCompat="@drawable/ic_bind_roll"
+                    tools:visibility="visible"/>
+
+            <ImageView
+                    android:id="@+id/note_info_rank_image"
+                    style="@style/Image.Note.Info"
+                    android:contentDescription="@null"
+                    android:visibility='@{noteItem.haveRank() ? v.VISIBLE : v.GONE}'
+                    app:srcCompat="@drawable/ic_rank"
+                    tools:visibility="visible"/>
+
+        </LinearLayout>
 
         <TextView
                 android:id="@+id/note_info_change_text"
@@ -65,8 +76,6 @@
         <TextView
                 android:id="@+id/note_info_create_text"
                 style="@style/Text.Note.Info"
-                android:layout_marginStart="@dimen/layout_4dp"
-                android:layout_marginLeft="4dp"
                 android:layout_width="wrap_content"
                 app:pastTime='@{noteItem.create}'
                 tools:text="@string/preview_note_time"/>

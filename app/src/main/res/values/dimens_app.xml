@@ -4,6 +4,7 @@
     <dimen name="text_18sp">18sp</dimen>
     <dimen name="text_16sp">16sp</dimen>
     <dimen name="text_14sp">14sp</dimen>
+    <dimen name="text_12sp">12sp</dimen>
 
     <dimen name="layout_24dp">24dp</dimen>
     <dimen name="layout_16dp">16dp</dimen>
@@ -17,6 +18,7 @@
     <dimen name="icon_48dp">48dp</dimen>
     <dimen name="icon_24dp">24dp</dimen>
     <dimen name="icon_16dp">16dp</dimen>
+    <dimen name="icon_14dp">14dp</dimen>
 
     <dimen name="elevation_0dp">0dp</dimen>
     <dimen name="elevation_4dp">4dp</dimen>
