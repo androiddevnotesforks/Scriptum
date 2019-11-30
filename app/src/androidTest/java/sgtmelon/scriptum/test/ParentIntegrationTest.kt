@@ -1,5 +1,8 @@
 package sgtmelon.scriptum.test
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import sgtmelon.extension.getTime
 import sgtmelon.scriptum.model.item.NoteItem
@@ -15,7 +18,7 @@ abstract class ParentIntegrationTest : ParentTest(), IRoomWork {
         inRoom { clearAllTables() }
     }
 
-    fun assertChangeTime(item: NoteItem) = assertEquals(getTime(), item.change)
+    protected fun assertChangeTime(item: NoteItem) = assertEquals(getTime(), item.change)
 
     companion object {
         const val UNIQUE_ERROR_ID = -1L

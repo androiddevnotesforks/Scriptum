@@ -98,11 +98,13 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         if (name.isEmpty()) return
 
         val p = if (simpleClick) itemList.size else 0
-        itemList.add(p, iInteractor.insert(name))
 
-        iInteractor.updatePosition(itemList)
+        viewModelScope.launch {
+            itemList.add(p, iInteractor.insert(name))
 
-        callback?.scrollToItem(simpleClick, p, itemList)
+            iInteractor.updatePosition(itemList)
+            callback?.scrollToItem(simpleClick, p, itemList)
+        }
     }
 
     override fun onClickVisible(p: Int) {
@@ -153,6 +155,9 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     }
 
 
+    /**
+     * Calls when user hold rank card and move it between another cards.
+     */
     override fun onTouchMove(from: Int, to: Int): Boolean {
         itemList.swap(from, to)
 
@@ -161,6 +166,9 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         return true
     }
 
+    /**
+     * Only after user cancel hold need update positions.
+     */
     override fun onTouchMoveResult() {
         iInteractor.updatePosition(itemList)
         callback?.notifyDataSetChanged(itemList)

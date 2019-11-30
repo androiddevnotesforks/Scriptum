@@ -14,7 +14,7 @@ import sgtmelon.scriptum.room.entity.RankEntity
 interface IRankDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(rankEntity: RankEntity): Long
+    suspend fun insert(rankEntity: RankEntity): Long
 
     @Query(value = "DELETE FROM RANK_TABLE WHERE RK_NAME = :name")
     fun delete(name: String)

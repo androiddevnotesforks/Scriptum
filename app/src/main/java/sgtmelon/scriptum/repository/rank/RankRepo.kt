@@ -41,7 +41,7 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
     }
 
 
-    override fun insert(name: String): Long {
+    override suspend fun insert(name: String): Long {
         val id: Long
 
         openRoom().apply { id = iRankDao.insert(RankEntity(name = name)) }.close()

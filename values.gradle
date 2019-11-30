@@ -27,6 +27,7 @@ ext {
             ],
             room            : [
                     runtime : "androidx.room:room-runtime:2.2.0",
+                    ktx     : "androidx.room:room-ktx:2.2.0",
                     compiler: "androidx.room:room-compiler:2.2.0",
                     testing : "androidx.room:room-testing:2.2.0"
             ],

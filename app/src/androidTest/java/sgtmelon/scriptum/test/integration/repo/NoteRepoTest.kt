@@ -1,8 +1,6 @@
 package sgtmelon.scriptum.test.integration.repo
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -64,85 +62,68 @@ class NoteRepoTest : ParentIntegrationTest()  {
     }
 
     @Test fun clearBin() = inRoom {
-        runBlocking {
-            launch {
-                iNoteDao.insert(noteFirst)
-                iNoteDao.insert(noteSecond)
-                iNoteDao.insert(noteThird)
+        iNoteDao.insert(noteFirst)
+        iNoteDao.insert(noteSecond)
+        iNoteDao.insert(noteThird)
 
-                iRankDao.insert(rankFirst)
-                iRankDao.insert(rankSecond)
+        iRankDao.insert(rankFirst)
+        iRankDao.insert(rankSecond)
 
-                val itemSecond = noteConverter.toItem(noteSecond)
-                val itemThird = noteConverter.toItem(noteThird)
+        val itemSecond = noteConverter.toItem(noteSecond)
+        val itemThird = noteConverter.toItem(noteThird)
 
-                iNoteRepo.clearBin()
+        iNoteRepo.clearBin()
 
-                assertEquals(noteFirst, iNoteDao[noteFirst.id])
+        assertEquals(noteFirst, iNoteDao[noteFirst.id])
 
-                assertEquals(rankFirst.copy(noteId = arrayListOf(4)), iRankDao[rankFirst.id])
-                assertNull(iNoteDao[itemSecond.id])
+        assertEquals(rankFirst.copy(noteId = arrayListOf(4)), iRankDao[rankFirst.id])
+        assertNull(iNoteDao[itemSecond.id])
 
-                assertEquals(rankSecond.copy(noteId = arrayListOf()), iRankDao[rankSecond.id])
-                assertNull(iNoteDao[itemThird.id])
-            }
-        }
+        assertEquals(rankSecond.copy(noteId = arrayListOf()), iRankDao[rankSecond.id])
+        assertNull(iNoteDao[itemThird.id])
     }
 
 
     @Test fun deleteNote() = inRoom {
-        runBlocking {
-            launch {
-                iNoteDao.insert(noteFirst)
-                iAlarmDao.insert(alarmFirst)
+        iNoteDao.insert(noteFirst)
+        iAlarmDao.insert(alarmFirst)
 
-                val item = noteConverter.toItem(noteFirst)
+        val item = noteConverter.toItem(noteFirst)
 
-                iNoteRepo.deleteNote(item)
+        iNoteRepo.deleteNote(item)
 
-                assertChangeTime(item)
-                assertTrue(item.isBin)
-                assertFalse(item.isStatus)
+        assertChangeTime(item)
+        assertTrue(item.isBin)
+        assertFalse(item.isStatus)
 
-                assertEquals(noteConverter.toEntity(item), iNoteDao[item.id])
-                assertNull(iAlarmDao[item.id])
-            }
-        }
+        assertEquals(noteConverter.toEntity(item), iNoteDao[item.id])
+        assertNull(iAlarmDao[item.id])
     }
 
     @Test fun restoreNote() = inRoom {
-        runBlocking {
-            launch {
-                iNoteDao.insert(noteSecond)
+        iNoteDao.insert(noteSecond)
 
-                val item = noteConverter.toItem(noteSecond)
+        val item = noteConverter.toItem(noteSecond)
 
-                iNoteRepo.restoreNote(item)
+        iNoteRepo.restoreNote(item)
 
-                assertChangeTime(item)
-                assertFalse(item.isBin)
+        assertChangeTime(item)
+        assertFalse(item.isBin)
 
-                assertEquals(noteConverter.toEntity(item), iNoteDao[item.id])
-            }
-        }
+        assertEquals(noteConverter.toEntity(item), iNoteDao[item.id])
     }
 
     @Test fun clearNote() = inRoom {
-        runBlocking {
-            launch {
-                iNoteDao.insert(noteSecond)
-                iRankDao.insert(rankFirst)
+        iNoteDao.insert(noteSecond)
+        iRankDao.insert(rankFirst)
 
-                val item = noteConverter.toItem(noteSecond)
+        val item = noteConverter.toItem(noteSecond)
 
-                iNoteRepo.clearNote(item)
+        iNoteRepo.clearNote(item)
 
-                assertEquals(rankFirst.copy(noteId = arrayListOf(4)), iRankDao[rankFirst.id])
-                assertNull(iNoteDao[item.id])
-            }
-        }
+        assertEquals(rankFirst.copy(noteId = arrayListOf(4)), iRankDao[rankFirst.id])
+        assertNull(iNoteDao[item.id])
     }
-
 
     @Test fun convertToRoll() {
         TODO(reason = "#TEST write test")
@@ -174,14 +155,10 @@ class NoteRepoTest : ParentIntegrationTest()  {
         val textThird = with(noteThird) { "$name\n$text" }
         val textFourth = "${noteFourth.name}\n${listFourth.getText()}"
 
-        runBlocking {
-            launch {
-                assertEquals(textFirst, iNoteRepo.getCopyText(itemFirst))
-                assertEquals(textSecond, iNoteRepo.getCopyText(itemSecond))
-                assertEquals(textThird, iNoteRepo.getCopyText(itemThird))
-                assertEquals(textFourth, iNoteRepo.getCopyText(itemFourth))
-            }
-        }
+        assertEquals(textFirst, iNoteRepo.getCopyText(itemFirst))
+        assertEquals(textSecond, iNoteRepo.getCopyText(itemSecond))
+        assertEquals(textThird, iNoteRepo.getCopyText(itemThird))
+        assertEquals(textFourth, iNoteRepo.getCopyText(itemFourth))
     }
 
     @Test fun saveTextNote() {

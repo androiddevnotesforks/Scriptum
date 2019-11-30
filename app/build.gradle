@@ -90,6 +90,7 @@ dependencies {
     kapt androidx.lifecycle.compiler
 
     implementation androidx.room.runtime
+    implementation androidx.room.ktx
     kapt androidx.room.compiler
     testImplementation androidx.room.testing
 

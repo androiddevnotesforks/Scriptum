@@ -1,8 +1,6 @@
 package sgtmelon.scriptum.test.integration.repo
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -56,7 +54,7 @@ class RankRepoTest : ParentIntegrationTest()  {
     }
 
 
-    @Test fun insertWithUnique() {
+    @Test fun insertWithUnique() = inRoom {
         val name = data.uniqueString
 
         assertNotEquals(UNIQUE_ERROR_ID, iRankRepo.insert(name))
@@ -95,22 +93,18 @@ class RankRepoTest : ParentIntegrationTest()  {
     }
 
     @Test fun updateList() = inRoom {
-        runBlocking {
-            launch {
-                assertNotEquals(UNIQUE_ERROR_ID, iRankDao.insert(rankFirst))
-                assertNotEquals(UNIQUE_ERROR_ID, iRankDao.insert(rankSecond))
+        assertNotEquals(UNIQUE_ERROR_ID, iRankDao.insert(rankFirst))
+        assertNotEquals(UNIQUE_ERROR_ID, iRankDao.insert(rankSecond))
 
-                assertEquals(rankConverter.toItem(listOf(rankFirst, rankSecond)), iRankRepo.getList())
+        assertEquals(rankConverter.toItem(listOf(rankFirst, rankSecond)), iRankRepo.getList())
 
-                val rankList = listOf(
-                        rankConverter.toItem(rankFirst.copy(name = "54321", isVisible = true)),
-                        rankConverter.toItem(rankSecond.copy(name = "98765", isVisible = false))
-                )
-                iRankRepo.update(rankList)
+        val rankList = listOf(
+                rankConverter.toItem(rankFirst.copy(name = "54321", isVisible = true)),
+                rankConverter.toItem(rankSecond.copy(name = "98765", isVisible = false))
+        )
+        iRankRepo.update(rankList)
 
-                assertEquals(rankList, iRankRepo.getList())
-            }
-        }
+        assertEquals(rankList, iRankRepo.getList())
     }
 
 
