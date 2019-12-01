@@ -17,13 +17,13 @@ interface IRankRepo {
 
     suspend fun insert(name: String): Long
 
-    fun delete(rankItem: RankItem)
+    suspend fun delete(rankItem: RankItem)
 
-    fun update(rankItem: RankItem)
+    suspend fun update(rankItem: RankItem)
 
     suspend fun update(rankList: List<RankItem>)
 
-    fun updatePosition(rankList: List<RankItem>)
+    suspend fun updatePosition(rankList: List<RankItem>, noteIdList: List<Long>)
 
     fun updateConnection(noteItem: NoteItem)
 

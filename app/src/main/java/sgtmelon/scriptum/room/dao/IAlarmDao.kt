@@ -13,12 +13,12 @@ import sgtmelon.scriptum.room.entity.AlarmEntity
 interface IAlarmDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(alarmEntity: AlarmEntity): Long
+    suspend fun insert(alarmEntity: AlarmEntity): Long
 
     @Query(value = "DELETE FROM ALARM_TABLE WHERE AL_NOTE_ID = :noteId")
-    fun delete(noteId: Long)
+    suspend fun delete(noteId: Long)
 
-    @Update fun update(alarmEntity: AlarmEntity)
+    @Update suspend fun update(alarmEntity: AlarmEntity)
 
     @Transaction
     @Query(value = """SELECT NT_ID, NT_NAME, NT_COLOR, NT_TYPE, AL_ID, AL_DATE
@@ -31,6 +31,6 @@ interface IAlarmDao {
     operator fun get(noteId: Long): AlarmEntity?
 
     @Query(value = """SELECT COUNT(AL_ID) FROM ALARM_TABLE""")
-    fun getCount(): Int
+    suspend fun getCount(): Int
 
 }

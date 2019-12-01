@@ -76,13 +76,13 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
     }
 
     private fun restoreItem(p: Int) = itemList.apply {
-        get(p).let { viewModelScope.launch { iInteractor.restoreNote(it) } }
-        removeAt(p)
+        val item = removeAt(p)
+        viewModelScope.launch { iInteractor.restoreNote(item) }
     }
 
     private fun clearItem(p: Int) = itemList.apply {
-        get(p).let { viewModelScope.launch { iInteractor.clearNote(it) } }
-        removeAt(p)
+        val item = removeAt(p)
+        viewModelScope.launch { iInteractor.clearNote(item) }
     }
 
 }

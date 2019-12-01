@@ -16,12 +16,16 @@ import kotlin.random.Random
 @RunWith(AndroidJUnit4::class)
 class NoteDaoTest : ParentIntegrationTest() {
 
-    private fun inNoteDao(func: INoteDao.() -> Unit) = inRoom { iNoteDao.apply(func) }
+    private fun inNoteDao(func: suspend INoteDao.() -> Unit) = inRoom { iNoteDao.apply { func() } }
 
     private fun INoteDao.insertAllTo(bin: Boolean) {
         insert(noteFirst.copy(isBin = bin))
         insert(noteSecond.copy(isBin = bin))
         insert(noteThird.copy(isBin = bin))
+
+        assertNotNull(get(noteFirst.id))
+        assertNotNull(get(noteSecond.id))
+        assertNotNull(get(noteThird.id))
     }
 
     private fun INoteDao.updateAllTo(bin: Boolean) {
@@ -42,6 +46,15 @@ class NoteDaoTest : ParentIntegrationTest() {
 
         delete(noteFirst)
         assertNull(get(noteFirst.id))
+    }
+
+    @Test fun deleteByList() = inNoteDao {
+        insertAllTo(bin = false)
+
+        val list = listOf(noteFirst, noteSecond, noteThird)
+
+        delete(list)
+        list.forEach { assertNull(get(it.id)) }
     }
 
     @Test fun update() = inNoteDao {

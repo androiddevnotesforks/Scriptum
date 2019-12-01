@@ -17,7 +17,7 @@ interface IRankDao {
     suspend fun insert(rankEntity: RankEntity): Long
 
     @Query(value = "DELETE FROM RANK_TABLE WHERE RK_NAME = :name")
-    fun delete(name: String)
+    suspend fun delete(name: String)
 
     @Update(onConflict = OnConflictStrategy.IGNORE)
     fun update(rankEntity: RankEntity)

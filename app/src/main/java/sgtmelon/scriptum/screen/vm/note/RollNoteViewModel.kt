@@ -488,8 +488,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
      * to control in Edit.
      */
     override fun onTouchSwipe(p: Int) {
-        val rollItem = noteItem.rollList[p]
-        noteItem.rollList.removeAt(p)
+        val rollItem = noteItem.rollList.removeAt(p)
 
         inputControl.onRollRemove(p, rollItem.toJson())
 

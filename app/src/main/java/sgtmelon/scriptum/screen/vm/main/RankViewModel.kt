@@ -3,6 +3,7 @@ package sgtmelon.scriptum.screen.vm.main
 import android.app.Application
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.extension.clearAndAdd
@@ -13,6 +14,7 @@ import sgtmelon.scriptum.interactor.BindInteractor
 import sgtmelon.scriptum.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.interactor.main.RankInteractor
+import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.screen.ui.callback.main.IRankFragment
 import sgtmelon.scriptum.screen.ui.main.RankFragment
@@ -102,7 +104,9 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         viewModelScope.launch {
             itemList.add(p, iInteractor.insert(name))
 
-            iInteractor.updatePosition(itemList)
+            val noteIdList = itemList.correctPositions()
+            iInteractor.updatePosition(itemList, noteIdList)
+
             callback?.scrollToItem(simpleClick, p, itemList)
         }
     }
@@ -144,14 +148,16 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     }
 
     override fun onClickCancel(p: Int) {
-        iInteractor.delete(itemList[p])
+        val item = itemList.removeAt(p)
 
-        itemList.removeAt(p)
-
-        iInteractor.updatePosition(itemList)
-        viewModelScope.launch { iBindInteractor.notifyNoteBind(callback) }
-
+        val noteIdList = itemList.correctPositions()
         callback?.notifyItemRemoved(p, itemList)
+
+        viewModelScope.launch {
+            iInteractor.delete(item)
+            iInteractor.updatePosition(itemList, noteIdList)
+            iBindInteractor.notifyNoteBind(callback)
+        }
     }
 
 
@@ -170,8 +176,37 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
      * Only after user cancel hold need update positions.
      */
     override fun onTouchMoveResult() {
-        iInteractor.updatePosition(itemList)
+        val noteIdList = itemList.correctPositions()
         callback?.notifyDataSetChanged(itemList)
+
+        viewModelScope.launch { iInteractor.updatePosition(itemList, noteIdList) }
+    }
+
+
+    companion object {
+        /**
+         * Return list of [NoteItem.id] which need update
+         */
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        fun List<RankItem>.correctPositions(): List<Long> {
+            val noteIdSet = mutableSetOf<Long>()
+
+            forEachIndexed { i, item ->
+                /**
+                 * If [RankItem.position] incorrect (out of order) when update it.
+                 */
+                if (item.position != i) {
+                    item.position = i
+
+                    /**
+                     * Add id to [Set] of [NoteItem.id] where need update [NoteItem.rankPs].
+                     */
+                    item.noteId.forEach { noteIdSet.add(it) }
+                }
+            }
+
+            return noteIdSet.toList()
+        }
     }
 
 }

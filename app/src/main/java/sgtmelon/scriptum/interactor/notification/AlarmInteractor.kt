@@ -36,15 +36,15 @@ class AlarmInteractor(context: Context, private var callback: IAlarmBridge?) :
 
     override val volumeIncrease: Boolean get() = iPreferenceRepo.volumeIncrease
 
-    override fun getModel(id: Long): NoteItem? {
+    override suspend fun getModel(id: Long): NoteItem? {
         /**
-         * Delete before return noteModel for hide alarm icon
+         * Delete before return noteModel for hide alarm icon.
          */
         iAlarmRepo.delete(id)
         return iNoteRepo.getItem(id, optimisation = true)
     }
 
-    override fun setupRepeat(noteItem: NoteItem, valueArray: IntArray) {
+    override suspend fun setupRepeat(noteItem: NoteItem, valueArray: IntArray) {
         val calendar = Calendar.getInstance().clearSeconds().apply {
             add(Calendar.MINUTE, valueArray[repeat])
         }

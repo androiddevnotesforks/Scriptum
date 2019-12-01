@@ -3,6 +3,8 @@ package sgtmelon.scriptum.screen.vm.notification
 import android.app.Application
 import android.os.Bundle
 import android.os.Handler
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.getAppSimpleColor
 import sgtmelon.scriptum.extension.sendTo
@@ -60,7 +62,9 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
                 setupView(it.theme)
 
                 val uri = iSignalInteractor.melodyUri.toUri()
-                if (uri != null) setupPlayer(it.volume, it.volumeIncrease, uri)
+                if (uri != null) {
+                    setupPlayer(it.volume, it.volumeIncrease, uri)
+                }
             }
         }
 
@@ -68,21 +72,23 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
             id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
         }
 
-        /**
-         * If first open
-         */
-        if (noteItem == null) {
-            iInteractor.getModel(id)?.let {
-                noteItem = it
-            } ?: run {
-                callback?.finish()
-                return
+        viewModelScope.launch {
+            /**
+             * If first open.
+             */
+            if (noteItem == null) {
+                iInteractor.getModel(id)?.let {
+                    noteItem = it
+                } ?: run {
+                    callback?.finish()
+                    return@launch
+                }
+
+                signalState = iSignalInteractor.signalState
             }
 
-            signalState = iSignalInteractor.signalState
+            noteItem?.let { callback?.notifyDataSetChanged(it) }
         }
-
-        noteItem?.let { callback?.notifyDataSetChanged(it) }
     }
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy {
@@ -98,16 +104,17 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         longWaitHandler.removeCallbacksAndMessages(null)
 
         if (needRepeat) {
-            noteItem?.also {
+            viewModelScope.launch {
                 val valueArray = context.resources.getIntArray(R.array.value_alarm_repeat_array)
-                iInteractor.setupRepeat(it, valueArray)
+
+                noteItem?.also { iInteractor.setupRepeat(it, valueArray) }
+
+                context.sendTo(ReceiverData.Filter.MAIN, ReceiverData.Command.UPDATE_ALARM) {
+                    putExtra(ReceiverData.Values.NOTE_ID, id)
+                }
             }
 
             callback?.showPostponeToast(iInteractor.repeat)
-
-            context.sendTo(ReceiverData.Filter.MAIN, ReceiverData.Command.UPDATE_ALARM) {
-                putExtra(ReceiverData.Values.NOTE_ID, id)
-            }
         }
 
         callback?.releasePhone()

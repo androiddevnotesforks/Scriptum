@@ -15,9 +15,11 @@ import kotlin.random.Random
 @RunWith(AndroidJUnit4::class)
 class RankDaoTest : ParentIntegrationTest() {
 
-    private fun inRankDao(func: IRankDao.() -> Unit) = inRoom { iRankDao.apply(func) }
+    private fun inRankDao(func: suspend IRankDao.() -> Unit) = inRoom {
+        iRankDao.apply { func() }
+    }
 
-    private fun IRankDao.insertAll(): List<RankEntity> {
+    private suspend fun IRankDao.insertAll(): List<RankEntity> {
         return arrayListOf(rankFirst, rankSecond, rankThird).apply {
             forEach { insert(it) }
             sortBy { it.position }

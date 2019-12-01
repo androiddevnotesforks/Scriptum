@@ -15,12 +15,12 @@ interface IRankInteractor : IParentInteractor {
 
     fun getList(): MutableList<RankItem>
 
-    fun delete(item: RankItem)
+    suspend fun delete(item: RankItem)
 
     suspend fun update(item: RankItem)
 
     suspend fun update(list: List<RankItem>)
 
-    fun updatePosition(list: List<RankItem>)
+    suspend fun updatePosition(list: List<RankItem>, noteIdList: List<Long>)
 
 }

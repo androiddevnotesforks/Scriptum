@@ -104,14 +104,12 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
     private fun onMenuConvert(p: Int) = itemList.apply { iInteractor.convert(get(p)) }
 
     private fun onMenuDelete(p: Int) = itemList.apply {
-        val item = get(p)
+        val item = removeAt(p)
 
         viewModelScope.launch {
             iInteractor.deleteNote(item)
             iBindInteractor.notifyInfoBind(callback)
         }
-
-        removeAt(p)
     }
 
     override fun onResultDateDialog(calendar: Calendar, p: Int) {

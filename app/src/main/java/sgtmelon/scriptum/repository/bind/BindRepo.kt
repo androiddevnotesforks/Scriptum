@@ -25,7 +25,7 @@ class BindRepo(override val context: Context) : IBindRepo, IRoomWork {
         return result
     }
 
-    override fun getNotificationCount(): Int {
+    override suspend fun getNotificationCount(): Int {
         val count: Int
 
         openRoom().apply { count = iAlarmDao.getCount() }.close()

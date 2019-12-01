@@ -20,12 +20,14 @@ class RankInteractor(context: Context) : ParentInteractor(context), IRankInterac
 
     override fun getList() = iRankRepo.getList()
 
-    override fun delete(item: RankItem) = iRankRepo.delete(item)
+    override suspend fun delete(item: RankItem) = iRankRepo.delete(item)
 
     override suspend fun update(item: RankItem) = iRankRepo.update(item)
 
     override suspend fun update(list: List<RankItem>) = iRankRepo.update(list)
 
-    override fun updatePosition(list: List<RankItem>) = iRankRepo.updatePosition(list)
+    override suspend fun updatePosition(list: List<RankItem>, noteIdList: List<Long>) {
+        iRankRepo.updatePosition(list, noteIdList)
+    }
 
 }

@@ -49,7 +49,7 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
         return id
     }
 
-    override fun delete(rankItem: RankItem) = inRoom {
+    override suspend fun delete(rankItem: RankItem) = inRoom {
         for (id in rankItem.noteId) {
             /**
              * Remove rank from note.
@@ -65,7 +65,7 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
         iRankDao.delete(rankItem.name)
     }
 
-    override fun update(rankItem: RankItem) = inRoom {
+    override suspend fun update(rankItem: RankItem) = inRoom {
         iRankDao.update(converter.toEntity(rankItem))
     }
 
@@ -73,40 +73,17 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
         iRankDao.update(converter.toEntity(rankList))
     }
 
-    override fun updatePosition(rankList: List<RankItem>) = inRoom {
-        val noteIdList = rankList.correctPositions()
-
+    override suspend fun updatePosition(rankList: List<RankItem>,
+                                        noteIdList: List<Long>) = inRoom {
         iNoteDao.updateRankPosition(rankList, noteIdList)
         iRankDao.update(converter.toEntity(rankList))
     }
 
     /**
-     * Return list of [NoteItem.id] which need update
-     */
-    private fun List<RankItem>.correctPositions(): List<Long> {
-        val noteIdSet = mutableSetOf<Long>()
-
-        forEachIndexed { i, item ->
-            /**
-             * If [RankItem.position] incorrect (out of order) when update it.
-             */
-            if (item.position != i) {
-                item.position = i
-
-                /**
-                 * Add id to [Set] of [NoteItem.id] where need update [NoteItem.rankPs].
-                 */
-                item.noteId.forEach { noteIdSet.add(it) }
-            }
-        }
-
-        return noteIdSet.toList()
-    }
-
-    /**
      * Update [NoteEntity.rankPs] for notes from [noteIdList] which related with [rankList].
      */
-    private fun INoteDao.updateRankPosition(rankList: List<RankItem>, noteIdList: List<Long>) {
+    private suspend fun INoteDao.updateRankPosition(rankList: List<RankItem>,
+                                                    noteIdList: List<Long>) {
         if (noteIdList.isEmpty()) return
 
         val noteList = get(noteIdList)

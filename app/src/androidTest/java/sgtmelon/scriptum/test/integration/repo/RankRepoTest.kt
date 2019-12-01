@@ -14,6 +14,7 @@ import sgtmelon.scriptum.room.converter.RankConverter
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.test.ParentIntegrationTest
+import sgtmelon.scriptum.screen.vm.main.RankViewModel.Companion.correctPositions
 
 /**
  * Integration test for [RankRepo]
@@ -118,7 +119,9 @@ class RankRepoTest : ParentIntegrationTest()  {
         assertNotEquals(UNIQUE_ERROR_ID, iRankDao.insert(rankThird))
 
         val rankList = rankConverter.toItem(listOf(rankThird, rankFirst, rankSecond))
-        iRankRepo.updatePosition(rankList)
+        val noteIdList = rankList.correctPositions()
+
+        iRankRepo.updatePosition(rankList, noteIdList)
 
         assertEquals(0, rankList[0].position)
         assertEquals(1, rankList[1].position)
