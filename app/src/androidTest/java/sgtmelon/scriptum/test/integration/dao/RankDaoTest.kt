@@ -15,7 +15,7 @@ import kotlin.random.Random
 @RunWith(AndroidJUnit4::class)
 class RankDaoTest : ParentIntegrationTest() {
 
-    private fun inRankDao(func: suspend IRankDao.() -> Unit) = inRoom {
+    private fun inRankDao(func: suspend IRankDao.() -> Unit) = inRoomTest {
         iRankDao.apply { func() }
     }
 

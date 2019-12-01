@@ -16,7 +16,7 @@ class AlarmRepo(override val context: Context) : IAlarmRepo, IRoomWork {
 
     private val converter = AlarmConverter()
 
-    override suspend fun insertOrUpdate(noteItem: NoteItem, date: String) = inRoom {
+    override suspend fun insertOrUpdate(noteItem: NoteItem, date: String) = inRoom2 {
         noteItem.alarmDate = date
 
         val entity = converter.toEntity(noteItem)
@@ -27,19 +27,21 @@ class AlarmRepo(override val context: Context) : IAlarmRepo, IRoomWork {
         }
     }
 
-    override suspend fun delete(noteId: Long) = inRoom { iAlarmDao.delete(noteId) }
+    override suspend fun delete(noteId: Long) = inRoom2 { iAlarmDao.delete(noteId) }
 
-    override fun update(noteItem: NoteItem) = inRoom {
-        val alarm = iAlarmDao[noteItem.id] ?: return@inRoom
 
-        noteItem.apply {
-            alarmId = alarm.id
-            alarmDate = alarm.date
-        }
+    override suspend fun getItem(noteItem: NoteItem): NotificationItem? {
+        val item: NotificationItem?
+
+        openRoom().apply {
+            item = iAlarmDao.getItem(noteItem.id)
+        }.close()
+
+        return item
     }
 
     override fun getList() = ArrayList<NotificationItem>().apply {
-        inRoom { addAll(iAlarmDao.get()) }
+        inRoom { addAll(iAlarmDao.getList()) }
     }
 
 }

@@ -6,6 +6,7 @@ import sgtmelon.scriptum.interactor.ParentInteractor
 import sgtmelon.scriptum.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
+import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.repository.alarm.AlarmRepo
 import sgtmelon.scriptum.repository.alarm.IAlarmRepo
@@ -94,6 +95,6 @@ class NotesInteractor(context: Context, private var callback: INotesBridge?) :
     }
 
 
-    override suspend fun updateAlarm(noteItem: NoteItem) = iAlarmRepo.update(noteItem)
+    override suspend fun getNotification(noteItem: NoteItem) = iAlarmRepo.getItem(noteItem)
 
 }

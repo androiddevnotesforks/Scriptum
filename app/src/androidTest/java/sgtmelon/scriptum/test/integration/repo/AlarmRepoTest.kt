@@ -27,7 +27,7 @@ class AlarmRepoTest : ParentIntegrationTest() {
     private val noteConverter = NoteConverter()
 
 
-    @Test fun insert() = inRoom {
+    @Test fun insert() = inRoomTest {
         iNoteDao.insert(noteEntity)
 
         val alarmEntity = alarmEntity.copy()
@@ -47,7 +47,7 @@ class AlarmRepoTest : ParentIntegrationTest() {
         assertEquals(arrayListOf(getNotificationItem(alarmEntity)), iAlarmRepo.getList())
     }
 
-    @Test fun update() = inRoom {
+    @Test fun update() = inRoomTest {
         iNoteDao.insert(noteEntity)
 
         val alarmEntity = alarmEntity.copy().apply {
@@ -65,7 +65,7 @@ class AlarmRepoTest : ParentIntegrationTest() {
         assertEquals(arrayListOf(getNotificationItem(alarmEntity)), iAlarmRepo.getList())
     }
 
-    @Test fun delete() = inRoom {
+    @Test fun delete() = inRoomTest {
         iNoteDao.insert(noteEntity)
         iAlarmDao.insert(alarmEntity)
 
@@ -74,7 +74,7 @@ class AlarmRepoTest : ParentIntegrationTest() {
         assertTrue(iAlarmRepo.getList().isEmpty())
     }
 
-    @Test fun getList() = inRoom {
+    @Test fun getList() = inRoomTest {
         val alarmEntity = alarmEntity
 
         iNoteDao.insert(noteEntity)
@@ -83,6 +83,10 @@ class AlarmRepoTest : ParentIntegrationTest() {
         assertEquals(arrayListOf(getNotificationItem(alarmEntity)), iAlarmRepo.getList())
     }
 
+    @Test fun getNotification() = inRoomTest {
+        TODO(reason = "#TEST write test")
+//        iAlarmRepo.getItem()
+    }
 
     private fun getNotificationItem(alarmEntity: AlarmEntity) : NotificationItem {
         return NotificationItem(with(noteEntity) {

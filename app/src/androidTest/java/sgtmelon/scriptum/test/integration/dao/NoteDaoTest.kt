@@ -16,7 +16,7 @@ import kotlin.random.Random
 @RunWith(AndroidJUnit4::class)
 class NoteDaoTest : ParentIntegrationTest() {
 
-    private fun inNoteDao(func: suspend INoteDao.() -> Unit) = inRoom { iNoteDao.apply { func() } }
+    private fun inNoteDao(func: suspend INoteDao.() -> Unit) = inRoomTest { iNoteDao.apply { func() } }
 
     private fun INoteDao.insertAllTo(bin: Boolean) {
         insert(noteFirst.copy(isBin = bin))

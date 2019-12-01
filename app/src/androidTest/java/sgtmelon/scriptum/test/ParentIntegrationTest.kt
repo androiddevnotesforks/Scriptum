@@ -15,7 +15,7 @@ abstract class ParentIntegrationTest : ParentTest(), IRoomWork {
 
     override fun setUp() {
         super.setUp()
-        inRoom { clearAllTables() }
+        inRoomTest { clearAllTables() }
     }
 
     protected fun assertChangeTime(item: NoteItem) = assertEquals(getTime(), item.change)

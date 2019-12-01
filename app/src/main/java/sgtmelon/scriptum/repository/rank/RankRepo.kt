@@ -49,7 +49,7 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
         return id
     }
 
-    override suspend fun delete(rankItem: RankItem) = inRoom {
+    override suspend fun delete(rankItem: RankItem) = inRoom2 {
         for (id in rankItem.noteId) {
             /**
              * Remove rank from note.
@@ -74,7 +74,7 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
     }
 
     override suspend fun updatePosition(rankList: List<RankItem>,
-                                        noteIdList: List<Long>) = inRoom {
+                                        noteIdList: List<Long>) = inRoom2 {
         iNoteDao.updateRankPosition(rankList, noteIdList)
         iRankDao.update(converter.toEntity(rankList))
     }

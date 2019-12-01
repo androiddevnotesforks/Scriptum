@@ -55,7 +55,7 @@ class AlarmInteractor(context: Context, private var callback: IAlarmBridge?) :
         callback?.setAlarm(calendar, noteItem.id)
     }
 
-    private fun checkDateExist(calendar: Calendar) {
+    private suspend fun checkDateExist(calendar: Calendar) {
         val dateList = iAlarmRepo.getList().map { it.alarm.date }
 
         while (dateList.contains(calendar.getString())) {

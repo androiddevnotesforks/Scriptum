@@ -143,7 +143,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
         return isListHide
     }
 
-    override suspend fun clearBin() = inRoom {
+    override suspend fun clearBin() = inRoom2 {
         val noteList = iNoteDao[true].apply {
             forEach { iRankDao.clearConnection(it.id, it.rankId) }
         }
@@ -152,7 +152,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
     }
 
 
-    override suspend fun deleteNote(noteItem: NoteItem) = inRoom {
+    override suspend fun deleteNote(noteItem: NoteItem) = inRoom2 {
         iAlarmDao.delete(noteItem.id)
         iNoteDao.update(noteConverter.toEntity(noteItem.delete()))
     }
@@ -164,7 +164,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
     /**
      * Delete note forever and clear related categories
      */
-    override suspend fun clearNote(noteItem: NoteItem) = inRoom {
+    override suspend fun clearNote(noteItem: NoteItem) = inRoom2 {
         iRankDao.clearConnection(noteItem.id, noteItem.rankId)
         iNoteDao.delete(noteConverter.toEntity(noteItem))
     }

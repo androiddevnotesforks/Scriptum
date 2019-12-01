@@ -156,7 +156,7 @@ class BindTest : ParentNotificationTest() {
         }
 
         val converter = NoteConverter()
-        data.inRoom {
+        data.inRoomTest {
             iNoteDao.update(converter.toEntity(noteItem.apply {
                 rankId = rankEntity.id
                 rankPs = rankEntity.position

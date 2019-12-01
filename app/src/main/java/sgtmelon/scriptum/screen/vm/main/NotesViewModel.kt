@@ -155,14 +155,20 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
     }
 
     /**
-     * Calls on alarm postpone for update alarm indicator
+     * Calls after postpone for update alarm indicator.
      */
     override fun onUpdateAlarm(id: Long) {
         val p = itemList.indexOfFirst { it.id == id }
         val noteItem = itemList.getOrNull(p) ?: return
 
         viewModelScope.launch {
-            iInteractor.updateAlarm(noteItem)
+            val notificationItem = iInteractor.getNotification(noteItem) ?: return@launch
+
+            noteItem.apply {
+                alarmId = notificationItem.alarm.id
+                alarmDate = notificationItem.alarm.date
+            }
+
             callback?.notifyItemChanged(p, itemList)
         }
     }

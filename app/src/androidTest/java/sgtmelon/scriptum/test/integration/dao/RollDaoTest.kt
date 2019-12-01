@@ -24,7 +24,7 @@ class RollDaoTest : ParentIntegrationTest() {
     }
 
 
-    @Test fun insertWithUnique() = inRoom {
+    @Test fun insertWithUnique() = inRoomTest {
         insertRollRelation(modelFirst)
 
         with(modelFirst) {
@@ -33,7 +33,7 @@ class RollDaoTest : ParentIntegrationTest() {
         }
     }
 
-    @Test fun update() = inRoom {
+    @Test fun update() = inRoomTest {
         insertRollRelation(modelSecond)
 
         with(modelSecond) {
@@ -46,7 +46,7 @@ class RollDaoTest : ParentIntegrationTest() {
         }
     }
 
-    @Test fun updateCheck() = inRoom {
+    @Test fun updateCheck() = inRoomTest {
         insertRollRelation(modelSecond)
 
         with(modelSecond) {
@@ -57,7 +57,7 @@ class RollDaoTest : ParentIntegrationTest() {
         }
     }
 
-    @Test fun deleteAfterSwipe() = inRoom {
+    @Test fun deleteAfterSwipe() = inRoomTest {
         insertRollRelation(modelFirst)
 
         with(modelFirst) {
@@ -70,7 +70,7 @@ class RollDaoTest : ParentIntegrationTest() {
         }
     }
 
-    @Test fun deleteAll() = inRoom {
+    @Test fun deleteAll() = inRoomTest {
         insertRollRelation(modelFirst)
 
         modelFirst.entity.id.let {
@@ -80,7 +80,7 @@ class RollDaoTest : ParentIntegrationTest() {
     }
 
 
-    @Test fun get() = inRoom {
+    @Test fun get() = inRoomTest {
         modelFirst.let {
             insertRollRelation(it)
             assertEquals(it.rollList, iRollDao[it.entity.id])
@@ -92,7 +92,7 @@ class RollDaoTest : ParentIntegrationTest() {
         }
     }
 
-    @Test fun getView() = inRoom {
+    @Test fun getView() = inRoomTest {
         modelFirst.let {
             insertRollRelation(it)
             assertEquals(

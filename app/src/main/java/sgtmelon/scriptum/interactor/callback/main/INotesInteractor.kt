@@ -4,6 +4,7 @@ import sgtmelon.scriptum.interactor.callback.IParentInteractor
 import sgtmelon.scriptum.interactor.main.NotesInteractor
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
+import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.screen.vm.main.NotesViewModel
 import java.util.*
 
@@ -35,6 +36,6 @@ interface INotesInteractor : IParentInteractor {
     suspend fun deleteNote(noteItem: NoteItem)
 
 
-    suspend fun updateAlarm(noteItem: NoteItem)
+    suspend fun getNotification(noteItem: NoteItem): NotificationItem?
 
 }

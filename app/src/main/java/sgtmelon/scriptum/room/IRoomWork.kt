@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.room
 
 import android.content.Context
+import androidx.annotation.VisibleForTesting
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
@@ -13,7 +14,20 @@ interface IRoomWork {
 
     fun openRoom() = RoomDb[context]
 
-    fun inRoom(func: suspend RoomDb.() -> Unit) {
+    fun inRoom(func: RoomDb.() -> Unit) = openRoom().apply(func).close()
+
+    /**
+     * TODO remove first
+     */
+    suspend fun inRoom2(func: suspend RoomDb.() -> Unit) {
+        openRoom().apply { func() }.close()
+    }
+
+    /**
+     * Function only integration tests.
+     */
+    @VisibleForTesting(otherwise = VisibleForTesting.NONE)
+    fun inRoomTest(func: suspend RoomDb.() -> Unit) {
         openRoom().apply {
             runBlocking { launch { func() } }
         }.close()

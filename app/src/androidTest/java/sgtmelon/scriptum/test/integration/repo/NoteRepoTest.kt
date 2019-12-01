@@ -37,7 +37,7 @@ class NoteRepoTest : ParentIntegrationTest()  {
         TODO(reason = "#TEST write test")
     }
 
-    @Test fun getRollList() = inRoom {
+    @Test fun getRollList() = inRoomTest {
         assertEquals(listOf<RankItem>(), iNoteRepo.getRollList(Random.nextLong()))
 
         iNoteDao.insert(noteFirst)
@@ -50,7 +50,7 @@ class NoteRepoTest : ParentIntegrationTest()  {
     }
 
 
-    @Test fun isListHide() = inRoom {
+    @Test fun isListHide() = inRoomTest {
         iRankDao.insert(rankFirst)
         iRankDao.insert(rankSecond.copy(isVisible = false))
 
@@ -61,7 +61,7 @@ class NoteRepoTest : ParentIntegrationTest()  {
         assertFalse(iNoteRepo.isListHide())
     }
 
-    @Test fun clearBin() = inRoom {
+    @Test fun clearBin() = inRoomTest {
         iNoteDao.insert(noteFirst)
         iNoteDao.insert(noteSecond)
         iNoteDao.insert(noteThird)
@@ -84,7 +84,7 @@ class NoteRepoTest : ParentIntegrationTest()  {
     }
 
 
-    @Test fun deleteNote() = inRoom {
+    @Test fun deleteNote() = inRoomTest {
         iNoteDao.insert(noteFirst)
         iAlarmDao.insert(alarmFirst)
 
@@ -100,7 +100,7 @@ class NoteRepoTest : ParentIntegrationTest()  {
         assertNull(iAlarmDao[item.id])
     }
 
-    @Test fun restoreNote() = inRoom {
+    @Test fun restoreNote() = inRoomTest {
         iNoteDao.insert(noteSecond)
 
         val item = noteConverter.toItem(noteSecond)
@@ -113,7 +113,7 @@ class NoteRepoTest : ParentIntegrationTest()  {
         assertEquals(noteConverter.toEntity(item), iNoteDao[item.id])
     }
 
-    @Test fun clearNote() = inRoom {
+    @Test fun clearNote() = inRoomTest {
         iNoteDao.insert(noteSecond)
         iRankDao.insert(rankFirst)
 
@@ -133,7 +133,7 @@ class NoteRepoTest : ParentIntegrationTest()  {
         TODO(reason = "#TEST write test")
     }
 
-    @Test fun getCopyText() = inRoom {
+    @Test fun getCopyText() = inRoomTest {
         iNoteDao.insert(noteFirst)
         iNoteDao.insert(noteSecond)
         iNoteDao.insert(noteThird)
@@ -169,7 +169,7 @@ class NoteRepoTest : ParentIntegrationTest()  {
         TODO(reason = "#TEST write test")
     }
 
-    @Test fun updateRollCheckSingle() = inRoom {
+    @Test fun updateRollCheckSingle() = inRoomTest {
         iNoteDao.insert(noteFirst)
         rollListFirst.forEach { iRollDao.insert(it) }
 
@@ -185,7 +185,7 @@ class NoteRepoTest : ParentIntegrationTest()  {
         assertEquals(list, iNoteRepo.getRollList(item.id))
     }
 
-    @Test fun updateRollCheckAllFalse() = inRoom {
+    @Test fun updateRollCheckAllFalse() = inRoomTest {
         iNoteDao.insert(noteFirst)
         rollListFirst.forEach { iRollDao.insert(it) }
 
@@ -201,7 +201,7 @@ class NoteRepoTest : ParentIntegrationTest()  {
         assertEquals(list, iNoteRepo.getRollList(item.id))
     }
 
-    @Test fun updateRollCheckAllTrue() = inRoom {
+    @Test fun updateRollCheckAllTrue() = inRoomTest {
         iNoteDao.insert(noteFourth)
         rollListFourth.forEach { iRollDao.insert(it) }
 
@@ -218,7 +218,7 @@ class NoteRepoTest : ParentIntegrationTest()  {
         assertEquals(list, iNoteRepo.getRollList(item.id))
     }
 
-    @Test fun updateNote() = inRoom {
+    @Test fun updateNote() = inRoomTest {
         val entity = noteFirst.copy()
 
         iNoteDao.insert(entity)

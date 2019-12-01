@@ -27,13 +27,13 @@ class RankRepoTest : ParentIntegrationTest()  {
     private val rankConverter = RankConverter()
     private val noteConverter = NoteConverter()
 
-    @Test fun isEmpty() = inRoom {
+    @Test fun isEmpty() = inRoomTest {
         assertTrue(iRankRepo.isEmpty())
         iRankRepo.insert(data.uniqueString)
         assertFalse(iRankRepo.isEmpty())
     }
 
-    @Test fun getList() = inRoom {
+    @Test fun getList() = inRoomTest {
         val list = mutableListOf<RankItem>()
 
         assertEquals(list, iRankRepo.getList())
@@ -46,7 +46,7 @@ class RankRepoTest : ParentIntegrationTest()  {
         }
     }
 
-    @Test fun getIdVisibleList() = inRoom {
+    @Test fun getIdVisibleList() = inRoomTest {
         val idList = listOf(rankFirst, rankSecond, rankThird).apply {
             forEach { iRankDao.insert(it) }
         }.filter { it.isVisible }.map { it.id }
@@ -55,14 +55,14 @@ class RankRepoTest : ParentIntegrationTest()  {
     }
 
 
-    @Test fun insertWithUnique() = inRoom {
+    @Test fun insertWithUnique() = inRoomTest {
         val name = data.uniqueString
 
         assertNotEquals(UNIQUE_ERROR_ID, iRankRepo.insert(name))
         assertEquals(UNIQUE_ERROR_ID, iRankRepo.insert(name))
     }
 
-    @Test fun delete() = inRoom {
+    @Test fun delete() = inRoomTest {
         assertNotEquals(UNIQUE_ERROR_ID, iNoteDao.insert(noteFirst))
         assertNotEquals(UNIQUE_ERROR_ID, iNoteDao.insert(noteSecond))
         assertNotEquals(UNIQUE_ERROR_ID, iRankDao.insert(rankFirst))
@@ -82,7 +82,7 @@ class RankRepoTest : ParentIntegrationTest()  {
         assertTrue(iRankRepo.getList().isEmpty())
     }
 
-    @Test fun updateItem() = inRoom {
+    @Test fun updateItem() = inRoomTest {
         assertNotEquals(UNIQUE_ERROR_ID, iRankDao.insert(rankFirst))
 
         assertEquals(listOf(rankConverter.toItem(rankFirst)), iRankRepo.getList())
@@ -93,7 +93,7 @@ class RankRepoTest : ParentIntegrationTest()  {
         assertEquals(listOf(rankItem), iRankRepo.getList())
     }
 
-    @Test fun updateList() = inRoom {
+    @Test fun updateList() = inRoomTest {
         assertNotEquals(UNIQUE_ERROR_ID, iRankDao.insert(rankFirst))
         assertNotEquals(UNIQUE_ERROR_ID, iRankDao.insert(rankSecond))
 
@@ -109,7 +109,7 @@ class RankRepoTest : ParentIntegrationTest()  {
     }
 
 
-    @Test fun updatePosition() = inRoom {
+    @Test fun updatePosition() = inRoomTest {
         assertNotEquals(UNIQUE_ERROR_ID, iNoteDao.insert(noteFirst))
         assertNotEquals(UNIQUE_ERROR_ID, iNoteDao.insert(noteSecond))
         assertNotEquals(UNIQUE_ERROR_ID, iNoteDao.insert(noteThird))
@@ -135,7 +135,7 @@ class RankRepoTest : ParentIntegrationTest()  {
     }
 
 
-    @Test fun updateConnection() = inRoom {
+    @Test fun updateConnection() = inRoomTest {
         assertNotEquals(UNIQUE_ERROR_ID, iRankDao.insert(rankFirst))
         assertNotEquals(UNIQUE_ERROR_ID, iRankDao.insert(rankSecond))
         assertNotEquals(UNIQUE_ERROR_ID, iRankDao.insert(rankThird))
@@ -154,7 +154,7 @@ class RankRepoTest : ParentIntegrationTest()  {
     }
 
 
-    @Test fun getDialogItemArray() = inRoom {
+    @Test fun getDialogItemArray() = inRoomTest {
         val nameList = listOf(rankFirst, rankSecond, rankThird).apply {
             forEach { iRankDao.insert(it) }
         }.map { it.name }.toMutableList().apply { add(0, context.getString(R.string.dialog_item_rank)) }
@@ -162,7 +162,7 @@ class RankRepoTest : ParentIntegrationTest()  {
         assertEquals(nameList, iRankRepo.getDialogItemArray().toList())
     }
 
-    @Test fun getId() = inRoom {
+    @Test fun getId() = inRoomTest {
         listOf(rankFirst, rankSecond, rankThird).forEach { iRankDao.insert(it) }
 
         assertEquals(DbData.Note.Default.RANK_ID, iRankRepo.getId(DbData.Note.Default.RANK_PS))

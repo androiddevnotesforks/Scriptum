@@ -7,6 +7,7 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.repository.bind.BindRepo
 import sgtmelon.scriptum.repository.bind.IBindRepo
+import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.entity.AlarmEntity
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.test.ParentIntegrationTest
@@ -19,7 +20,7 @@ class BindRepoTest : ParentIntegrationTest() {
 
     private val iBindRepo: IBindRepo = BindRepo(context)
 
-    @Test fun unbindNote() = inRoom {
+    @Test fun unbindNote() = inRoomTest {
         val noteFirst = noteFirst.copy()
 
         assertFalse(iBindRepo.unbindNote(noteFirst.id))
@@ -29,12 +30,7 @@ class BindRepoTest : ParentIntegrationTest() {
         assertEquals(noteFirst.apply { isStatus = false }, iNoteDao[noteFirst.id])
     }
 
-    @Test fun getNotificationCount() = inRoom {
-        val insertAlarmRelation = { noteEntity: NoteEntity, alarmEntity: AlarmEntity ->
-            iNoteDao.insert(noteEntity)
-            iAlarmDao.insert(alarmEntity)
-        }
-
+    @Test fun getNotificationCount() = inRoomTest {
         var size = 0
         assertEquals(size, iBindRepo.getNotificationCount())
 
@@ -44,6 +40,13 @@ class BindRepoTest : ParentIntegrationTest() {
         insertAlarmRelation(noteSecond, alarmSecond)
         assertEquals(++size, iBindRepo.getNotificationCount())
     }
+
+    private suspend fun RoomDb.insertAlarmRelation(noteEntity: NoteEntity,
+                                                   alarmEntity: AlarmEntity) {
+        iNoteDao.insert(noteEntity)
+        iAlarmDao.insert(alarmEntity)
+    }
+
 
     private companion object {
         val noteFirst = NoteEntity(
