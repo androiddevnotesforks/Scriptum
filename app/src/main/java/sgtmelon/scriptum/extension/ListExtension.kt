@@ -2,10 +2,13 @@ package sgtmelon.scriptum.extension
 
 import sgtmelon.scriptum.model.item.RollItem
 
-fun <T> MutableList<T>.swap(from: Int, to: Int) {
-    val item = get(from)
-    removeAt(from)
-    add(to, item)
+/**
+ * Move item by positions. If [to] is not indicated - move to last position
+ */
+fun <T> MutableList<T>.move(from: Int, to: Int = -1) {
+    val item = removeAt(from)
+
+    if (to == -1) add(item) else add(to, item)
 }
 
 fun <T> MutableList<T>.clearAndAdd(replace: MutableList<T>) {

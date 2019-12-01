@@ -20,8 +20,8 @@ interface IAlarmInteractor : IParentInteractor {
 
     val volumeIncrease: Boolean
 
-    suspend fun getModel(id: Long): NoteItem?
+    fun getModel(id: Long): NoteItem?
 
-    suspend fun setupRepeat(noteItem: NoteItem, valueArray: IntArray)
+    fun setupRepeat(noteItem: NoteItem, valueArray: IntArray)
 
 }

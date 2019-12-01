@@ -3,8 +3,6 @@ package sgtmelon.scriptum.screen.vm.notification
 import android.app.Application
 import android.os.Bundle
 import android.os.Handler
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.getAppSimpleColor
 import sgtmelon.scriptum.extension.sendTo
@@ -72,7 +70,6 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
             id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
         }
 
-        viewModelScope.launch {
             /**
              * If first open.
              */
@@ -81,14 +78,12 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
                     noteItem = it
                 } ?: run {
                     callback?.finish()
-                    return@launch
                 }
 
                 signalState = iSignalInteractor.signalState
             }
 
             noteItem?.let { callback?.notifyDataSetChanged(it) }
-        }
     }
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy {
@@ -104,17 +99,16 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         longWaitHandler.removeCallbacksAndMessages(null)
 
         if (needRepeat) {
-            viewModelScope.launch {
+            noteItem?.also {
                 val valueArray = context.resources.getIntArray(R.array.value_alarm_repeat_array)
-
-                noteItem?.also { iInteractor.setupRepeat(it, valueArray) }
-
-                context.sendTo(ReceiverData.Filter.MAIN, ReceiverData.Command.UPDATE_ALARM) {
-                    putExtra(ReceiverData.Values.NOTE_ID, id)
-                }
+                iInteractor.setupRepeat(it, valueArray)
             }
 
             callback?.showPostponeToast(iInteractor.repeat)
+
+            context.sendTo(ReceiverData.Filter.MAIN, ReceiverData.Command.UPDATE_ALARM) {
+                putExtra(ReceiverData.Values.NOTE_ID, id)
+            }
         }
 
         callback?.releasePhone()

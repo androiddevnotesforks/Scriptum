@@ -19,7 +19,7 @@ interface INotesInteractor : IParentInteractor {
 
     fun isListHide(): Boolean
 
-    fun updateNote(noteItem: NoteItem)
+    suspend fun updateNote(noteItem: NoteItem)
 
     fun convert(noteItem: NoteItem)
 

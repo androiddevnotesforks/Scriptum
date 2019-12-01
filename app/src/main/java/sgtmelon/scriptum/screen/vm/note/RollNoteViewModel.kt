@@ -13,7 +13,7 @@ import sgtmelon.scriptum.control.SaveControl
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.extension.clearSpace
 import sgtmelon.scriptum.extension.showToast
-import sgtmelon.scriptum.extension.swap
+import sgtmelon.scriptum.extension.move
 import sgtmelon.scriptum.interactor.BindInteractor
 import sgtmelon.scriptum.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.interactor.callback.note.IRollNoteInteractor
@@ -367,7 +367,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
                     val from = item[!isUndo].toInt()
                     val to = item[isUndo].toInt()
 
-                    rollList.swap(from, to)
+                    rollList.move(from, to)
                     callback?.notifyItemMoved(from, to, rollList)
                 }
             }
@@ -503,7 +503,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
      * to control in Edit.
      */
     override fun onTouchMove(from: Int, to: Int): Boolean {
-        callback?.notifyItemMoved(from, to, noteItem.rollList.apply { swap(from, to) })
+        callback?.notifyItemMoved(from, to, noteItem.rollList.apply { move(from, to) })
         return true
     }
 

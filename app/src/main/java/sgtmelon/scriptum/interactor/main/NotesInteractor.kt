@@ -6,7 +6,6 @@ import sgtmelon.scriptum.interactor.ParentInteractor
 import sgtmelon.scriptum.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.repository.alarm.AlarmRepo
 import sgtmelon.scriptum.repository.alarm.IAlarmRepo
@@ -42,9 +41,12 @@ class NotesInteractor(context: Context, private var callback: INotesBridge?) :
 
     override fun isListHide() = iNoteRepo.isListHide()
 
-    override fun updateNote(noteItem: NoteItem) {
+    override suspend fun updateNote(noteItem: NoteItem) {
         iNoteRepo.updateNote(noteItem)
 
+        /**
+         * TODO move to another interactor [I/BindInteractor]
+         */
         /**
          * Need for prevent overriding noteItem rollList in list model
          */

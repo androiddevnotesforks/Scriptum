@@ -3,6 +3,7 @@ package sgtmelon.scriptum.repository.note
 import android.content.Context
 import sgtmelon.scriptum.extension.clearSpace
 import sgtmelon.scriptum.extension.getText
+import sgtmelon.scriptum.extension.move
 import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RollItem
@@ -89,11 +90,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
             /**
              * Move items without rank to list end.
              */
-            while(!first().haveRank()) {
-                val item = first()
-                removeAt(0)
-                add(item)
-            }
+            while (!first().haveRank()) move(from = 0)
         }
     }
 

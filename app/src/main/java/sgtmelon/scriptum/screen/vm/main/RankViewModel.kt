@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.extension.clearAndAdd
 import sgtmelon.scriptum.extension.clearSpace
-import sgtmelon.scriptum.extension.swap
+import sgtmelon.scriptum.extension.move
 import sgtmelon.scriptum.extension.toUpperCase
 import sgtmelon.scriptum.interactor.BindInteractor
 import sgtmelon.scriptum.interactor.callback.IBindInteractor
@@ -165,7 +165,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
      * Calls when user hold rank card and move it between another cards.
      */
     override fun onTouchMove(from: Int, to: Int): Boolean {
-        itemList.swap(from, to)
+        itemList.move(from, to)
 
         callback?.notifyItemMoved(from, to, itemList)
 
