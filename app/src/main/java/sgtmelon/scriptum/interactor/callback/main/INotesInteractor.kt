@@ -36,6 +36,6 @@ interface INotesInteractor : IParentInteractor {
     suspend fun deleteNote(noteItem: NoteItem)
 
 
-    suspend fun getNotification(noteItem: NoteItem): NotificationItem?
+    suspend fun getNotification(noteId: Long): NotificationItem?
 
 }

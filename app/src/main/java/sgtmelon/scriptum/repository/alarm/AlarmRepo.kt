@@ -30,11 +30,11 @@ class AlarmRepo(override val context: Context) : IAlarmRepo, IRoomWork {
     override fun delete(noteId: Long) = inRoom { iAlarmDao.delete(noteId) }
 
 
-    override suspend fun getItem(noteItem: NoteItem): NotificationItem? {
+    override suspend fun getItem(noteId: Long): NotificationItem? {
         val item: NotificationItem?
 
         openRoom().apply {
-            item = iAlarmDao.getItem(noteItem.id)
+            item = iAlarmDao.getItem(noteId)
         }.close()
 
         return item

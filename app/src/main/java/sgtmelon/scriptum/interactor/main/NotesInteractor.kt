@@ -97,6 +97,6 @@ class NotesInteractor(context: Context, private var callback: INotesBridge?) :
     }
 
 
-    override suspend fun getNotification(noteItem: NoteItem) = iAlarmRepo.getItem(noteItem)
+    override suspend fun getNotification(noteId: Long) = iAlarmRepo.getItem(noteId)
 
 }

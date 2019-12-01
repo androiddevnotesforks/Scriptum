@@ -162,7 +162,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
         val noteItem = itemList.getOrNull(p) ?: return
 
         viewModelScope.launch {
-            val notificationItem = iInteractor.getNotification(noteItem) ?: return@launch
+            val notificationItem = iInteractor.getNotification(noteItem.id) ?: return@launch
 
             noteItem.apply {
                 alarmId = notificationItem.alarm.id

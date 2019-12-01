@@ -73,7 +73,7 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
 
 
     fun insertRank(entity: RankEntity = rankEntity): RankItem {
-        inRoom { entity.id = iRankDao.insert(entity) }
+        inRoomTest { entity.id = iRankDao.insert(entity) }
 
         return rankConverter.toItem(entity)
     }
@@ -85,7 +85,7 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
             noteId.add(noteItem.id)
         })
 
-        inRoom {
+        inRoomTest {
             iNoteDao.update(noteConverter.toEntity(noteItem.apply {
                 rankId = rankItem.id
                 rankPs = rankItem.position
@@ -102,7 +102,7 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
             noteId.add(noteItem.id)
         })
 
-        inRoom {
+        inRoomTest {
             iNoteDao.update(noteConverter.toEntity(noteItem.apply {
                 rankId = rankItem.id
                 rankPs = rankItem.position
@@ -115,7 +115,7 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
     fun insertText(entity: NoteEntity = textNote): NoteItem {
         if (entity.type != NoteType.TEXT) throw IllegalAccessException("Wrong note type")
 
-        inRoom { entity.id = iNoteDao.insert(entity) }
+        inRoomTest { entity.id = iNoteDao.insert(entity) }
 
         return noteConverter.toItem(entity)
     }
@@ -125,7 +125,7 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
     fun insertRoll(note: NoteEntity = rollNote, list: ArrayList<RollEntity> = rollList): NoteItem {
         if (note.type != NoteType.ROLL) throw IllegalAccessException("Wrong note type")
 
-        inRoom {
+        inRoomTest {
             note.id = iNoteDao.insert(note)
             list.forEach {
                 it.noteId = note.id
@@ -138,7 +138,7 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
             updateComplete()
         }
 
-        inRoom { iNoteDao.update(noteConverter.toEntity(item)) }
+        inRoomTest { iNoteDao.update(noteConverter.toEntity(item)) }
 
         return item
     }
@@ -156,7 +156,7 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
                            date: String = getFutureTime()): NoteItem {
         noteItem.alarmDate = date
 
-        inRoom { noteItem.alarmId = iAlarmDao.insert(alarmConverter.toEntity(noteItem)) }
+        inRoomTest { noteItem.alarmId = iAlarmDao.insert(alarmConverter.toEntity(noteItem)) }
 
         return noteItem
     }
@@ -189,7 +189,7 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
 
             add(rankEntity)
 
-            inRoom {
+            inRoomTest {
                 noteList.forEach {
                     iNoteDao.update(noteConverter.toEntity(it.apply {
                         rankId = rankEntity.id
@@ -213,6 +213,6 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
     }
 
 
-    fun clear() = apply { inRoom { clearAllTables() } }
+    fun clear() = apply { inRoomTest { clearAllTables() } }
 
 }

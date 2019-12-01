@@ -58,8 +58,13 @@ class AlarmDaoTest : ParentIntegrationTest() {
     }
 
     @Test fun getItem() = inRoomTest {
-        TODO(reason = "#TEST write test")
-//        iAlarmDao.getItem()
+        assertNull(iAlarmDao.getItem(Random.nextLong()))
+
+        insertAlarmRelation(noteFirst, alarmFirst)
+        insertAlarmRelation(noteSecond, alarmSecond)
+
+        assertEquals(notificationFirst, iAlarmDao.getItem(noteFirst.id))
+        assertEquals(notificationSecond, iAlarmDao.getItem(noteSecond.id))
     }
 
     @Test fun getList() = inRoomTest {
@@ -98,13 +103,17 @@ class AlarmDaoTest : ParentIntegrationTest() {
         val alarmFirst = AlarmEntity(id = 1, noteId = 1, date = DATE_1)
         val alarmSecond = AlarmEntity(id = 2, noteId = 2, date = DATE_2)
 
-        val notificationList = arrayListOf(NotificationItem(
+        val notificationFirst = NotificationItem(
                 with(noteFirst) { NotificationItem.Note(id, name, color, type) },
                 with(alarmFirst) { NotificationItem.Alarm(id, date) }
-        ), NotificationItem(
+        )
+
+        val notificationSecond = NotificationItem(
                 with(noteSecond) { NotificationItem.Note(id, name, color, type) },
                 with(alarmSecond) { NotificationItem.Alarm(id, date) }
-        ))
+        )
+
+        val notificationList = arrayListOf(notificationFirst, notificationSecond)
     }
 
 }

@@ -1,8 +1,7 @@
 package sgtmelon.scriptum.test.integration.repo
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
+import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.model.item.NoteItem
@@ -15,6 +14,7 @@ import sgtmelon.scriptum.room.dao.IAlarmDao
 import sgtmelon.scriptum.room.entity.AlarmEntity
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.test.ParentIntegrationTest
+import kotlin.random.Random
 
 /**
  * Integration test for [AlarmRepo]
@@ -28,67 +28,84 @@ class AlarmRepoTest : ParentIntegrationTest() {
 
 
     @Test fun insert() = inRoomTest {
-        iNoteDao.insert(noteEntity)
+        iNoteDao.insert(noteFirst)
 
-        val alarmEntity = alarmEntity.copy()
-        val noteItem = noteConverter.toItem(noteEntity)
+        val alarmFirst = alarmFirst.copy()
+        val noteItem = noteConverter.toItem(noteFirst)
 
-        iAlarmRepo.insertOrUpdate(noteItem, alarmEntity.date)
+        iAlarmRepo.insertOrUpdate(noteItem, alarmFirst.date)
 
         /**
          * For insert need default [NoteItem.haveAlarm] == false.
          * It cause [IAlarmDao.insert] return not control [AlarmEntity.id].
          */
-        alarmEntity.id = noteItem.alarmId
+        alarmFirst.id = noteItem.alarmId
 
-        assertEquals(noteItem.alarmDate, alarmEntity.date)
+        assertEquals(noteItem.alarmDate, alarmFirst.date)
         assertTrue(noteItem.haveAlarm())
 
-        assertEquals(arrayListOf(getNotificationItem(alarmEntity)), iAlarmRepo.getList())
+        assertEquals(arrayListOf(getNotificationItem(noteFirst, alarmFirst)), iAlarmRepo.getList())
     }
 
     @Test fun update() = inRoomTest {
-        iNoteDao.insert(noteEntity)
+        iNoteDao.insert(noteFirst)
 
-        val alarmEntity = alarmEntity.copy().apply {
+        val alarmFirst = alarmFirst.copy().apply {
             id = iAlarmDao.insert(alarmEntity = this)
             date = DATE_2
         }
-        val noteItem = noteConverter.toItem(noteEntity, alarmEntity = alarmEntity)
+        val noteItem = noteConverter.toItem(noteFirst, alarmEntity = alarmFirst)
 
-        iAlarmRepo.insertOrUpdate(noteItem, alarmEntity.date)
+        iAlarmRepo.insertOrUpdate(noteItem, alarmFirst.date)
 
-        assertEquals(noteItem.alarmDate, alarmEntity.date)
-        assertEquals(noteItem.alarmId, alarmEntity.id)
+        assertEquals(noteItem.alarmDate, alarmFirst.date)
+        assertEquals(noteItem.alarmId, alarmFirst.id)
         assertTrue(noteItem.haveAlarm())
 
-        assertEquals(arrayListOf(getNotificationItem(alarmEntity)), iAlarmRepo.getList())
+        assertEquals(arrayListOf(getNotificationItem(noteFirst, alarmFirst)), iAlarmRepo.getList())
     }
 
     @Test fun delete() = inRoomTest {
-        iNoteDao.insert(noteEntity)
-        iAlarmDao.insert(alarmEntity)
+        iNoteDao.insert(noteFirst)
+        iAlarmDao.insert(alarmFirst)
 
-        iAlarmRepo.delete(alarmEntity.noteId)
+        iAlarmRepo.delete(alarmFirst.noteId)
 
         assertTrue(iAlarmRepo.getList().isEmpty())
     }
 
+    @Test fun getItem() = inRoomTest {
+        assertNull(iAlarmRepo.getItem(Random.nextLong()))
+
+        iNoteDao.insert(noteFirst)
+        val alarmFirst = alarmFirst.also { it.id = iAlarmDao.insert(it) }
+
+        iNoteDao.insert(noteSecond)
+        val alarmSecond = alarmSecond.also { it.id = iAlarmDao.insert(it) }
+
+        assertEquals(getNotificationItem(noteFirst, alarmFirst), iAlarmRepo.getItem(noteFirst.id))
+        assertEquals(getNotificationItem(noteSecond, alarmSecond), iAlarmRepo.getItem(noteSecond.id))
+    }
+
     @Test fun getList() = inRoomTest {
-        val alarmEntity = alarmEntity
+        assertTrue(iAlarmRepo.getList().isEmpty())
 
-        iNoteDao.insert(noteEntity)
-        alarmEntity.let { it.id = iAlarmDao.insert(it) }
+        iNoteDao.insert(noteFirst)
+        val alarmFirst = alarmFirst.also { it.id = iAlarmDao.insert(it) }
 
-        assertEquals(arrayListOf(getNotificationItem(alarmEntity)), iAlarmRepo.getList())
+        iNoteDao.insert(noteSecond)
+        val alarmSecond = alarmSecond.also { it.id = iAlarmDao.insert(it) }
+
+        val list = arrayListOf(
+                getNotificationItem(noteFirst, alarmFirst),
+                getNotificationItem(noteSecond, alarmSecond)
+        )
+
+        assertEquals(list, iAlarmRepo.getList())
     }
 
-    @Test fun getNotification() = inRoomTest {
-        TODO(reason = "#TEST write test")
-//        iAlarmRepo.getItem()
-    }
-
-    private fun getNotificationItem(alarmEntity: AlarmEntity) : NotificationItem {
+    private fun getNotificationItem(noteEntity: NoteEntity,
+                                    alarmEntity: AlarmEntity) : NotificationItem {
         return NotificationItem(with(noteEntity) {
             NotificationItem.Note(id, name, color, type)
         }, with(alarmEntity) {
@@ -97,12 +114,18 @@ class AlarmRepoTest : ParentIntegrationTest() {
     }
 
     private companion object {
-        val noteEntity = NoteEntity(
+        val noteFirst = NoteEntity(
                 id = 1, create = DATE_1, change = DATE_1, text = "123", name = "456",
-                color = 5, type = NoteType.TEXT
+                color = 1, type = NoteType.TEXT
         )
 
-        val alarmEntity = AlarmEntity(noteId = 1, date = DATE_1)
+        val noteSecond = NoteEntity(
+                id = 2, create = DATE_2, change = DATE_2, text = "654", name = "321",
+                color = 2, type = NoteType.TEXT
+        )
+
+        val alarmFirst = AlarmEntity(id = 1, noteId = 1, date = DATE_1)
+        val alarmSecond = AlarmEntity(id = 2, noteId = 2, date = DATE_2)
     }
 
 }
