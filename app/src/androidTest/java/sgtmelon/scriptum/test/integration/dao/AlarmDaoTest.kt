@@ -19,7 +19,8 @@ import kotlin.random.Random
 @RunWith(AndroidJUnit4::class)
 class AlarmDaoTest : ParentIntegrationTest() {
 
-    private fun RoomDb.insertAlarmRelation(noteEntity: NoteEntity, alarmEntity: AlarmEntity) {
+    private suspend fun RoomDb.insertAlarmRelation(noteEntity: NoteEntity,
+                                                   alarmEntity: AlarmEntity) {
         iNoteDao.insert(noteEntity)
         iAlarmDao.insert(alarmEntity)
     }
