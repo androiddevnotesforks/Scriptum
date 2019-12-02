@@ -132,13 +132,11 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
     override fun onResultTimeDialog(calendar: Calendar, p: Int) {
         if (calendar.beforeNow()) return
 
-        /**
-         * TODO check callback успевает ли получить данные, прежде чем пользователь сможет открыть диалог
-         */
         viewModelScope.launch {
             iInteractor.setDate(itemList[p], calendar)
-            iBindInteractor.notifyInfoBind(callback)
             callback?.notifyItemChanged(p, itemList)
+
+            iBindInteractor.notifyInfoBind(callback)
         }
     }
 

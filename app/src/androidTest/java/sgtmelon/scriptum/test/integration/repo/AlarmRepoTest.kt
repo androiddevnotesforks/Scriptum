@@ -104,6 +104,7 @@ class AlarmRepoTest : ParentIntegrationTest() {
         assertEquals(list, iAlarmRepo.getList())
     }
 
+
     private fun getNotificationItem(noteEntity: NoteEntity,
                                     alarmEntity: AlarmEntity) : NotificationItem {
         return NotificationItem(with(noteEntity) {

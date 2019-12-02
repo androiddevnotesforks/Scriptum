@@ -202,13 +202,11 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     override fun onResultTimeDialog(calendar: Calendar) {
         if (calendar.beforeNow()) return
 
-        /**
-         * TODO check callback успевает ли получить данные, прежде чем пользователь сможет открыть диалог
-         */
         viewModelScope.launch {
             iInteractor.setDate(noteItem, calendar)
-            iBindInteractor.notifyInfoBind(callback)
             callback?.onBindingNote(noteItem)
+
+            iBindInteractor.notifyInfoBind(callback)
         }
     }
 
