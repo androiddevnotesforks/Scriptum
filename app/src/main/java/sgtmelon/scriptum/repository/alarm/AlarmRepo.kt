@@ -27,7 +27,7 @@ class AlarmRepo(override val context: Context) : IAlarmRepo, IRoomWork {
         }
     }
 
-    override fun delete(noteId: Long) = inRoom { iAlarmDao.delete(noteId) }
+    override suspend fun delete(noteId: Long) = inRoom2 { iAlarmDao.delete(noteId) }
 
 
     override suspend fun getItem(noteId: Long): NotificationItem? {

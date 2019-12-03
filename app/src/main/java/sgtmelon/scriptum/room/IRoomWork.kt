@@ -17,7 +17,7 @@ interface IRoomWork {
     fun inRoom(func: RoomDb.() -> Unit) = openRoom().apply(func).close()
 
     /**
-     * TODO remove first
+     * TODO remove first when done all coroutines.
      */
     suspend fun inRoom2(func: suspend RoomDb.() -> Unit) {
         openRoom().apply { func() }.close()

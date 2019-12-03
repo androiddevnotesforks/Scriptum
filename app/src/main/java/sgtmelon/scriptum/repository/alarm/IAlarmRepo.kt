@@ -10,7 +10,7 @@ interface IAlarmRepo {
 
     fun insertOrUpdate(noteItem: NoteItem, date: String)
 
-    fun delete(noteId: Long)
+    suspend fun delete(noteId: Long)
 
     suspend fun getItem(noteId: Long): NotificationItem?
 

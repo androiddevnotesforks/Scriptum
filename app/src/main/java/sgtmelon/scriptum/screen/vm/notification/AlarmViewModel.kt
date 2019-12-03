@@ -3,6 +3,8 @@ package sgtmelon.scriptum.screen.vm.notification
 import android.app.Application
 import android.os.Bundle
 import android.os.Handler
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.getAppSimpleColor
 import sgtmelon.scriptum.extension.sendTo
@@ -70,6 +72,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
             id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
         }
 
+        viewModelScope.launch {
             /**
              * If first open.
              */
@@ -84,6 +87,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
             }
 
             noteItem?.let { callback?.notifyDataSetChanged(it) }
+        }
     }
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy {
