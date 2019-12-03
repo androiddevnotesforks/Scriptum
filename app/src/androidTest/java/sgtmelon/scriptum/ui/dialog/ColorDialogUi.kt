@@ -67,8 +67,10 @@ class ColorDialogUi(place: Place, @Color private var check: Int, private val cal
         titleText.isDisplayed()
         recyclerView.isDisplayed()
 
-        cancelButton.isDisplayed().isEnabled()
-        applyButton.isDisplayed().isEnabled(enabled = check != initCheck)
+        cancelButton.isDisplayed().isEnabled().withTextColor(R.attr.clAccent)
+        applyButton.isDisplayed().isEnabled(enabled = check != initCheck) {
+            withTextColor(R.attr.clAccent)
+        }
     }
 
     /**
@@ -92,12 +94,14 @@ class ColorDialogUi(place: Place, @Color private var check: Int, private val cal
         override fun assert(item: ColorItem) {
             parentContainer.isDisplayed()
 
-            backgroundView.isDisplayed().withColorIndicator(R.drawable.ic_color, theme, item.color)
-            checkImage.isDisplayed(item.isCheck).withDrawableColor(
-                    R.drawable.ic_check, ColorData.getColorItem(theme, item.color).content
-            )
+            backgroundView.isDisplayed()
+                    .withSize(R.dimen.icon_48dp, R.dimen.icon_48dp)
+                    .withColorIndicator(R.drawable.ic_color, theme, item.color)
 
-            clickView.isDisplayed()
+            val colorId = ColorData.getColorItem(theme, item.color).content
+            checkImage.isDisplayed(item.isCheck).withDrawableColor(R.drawable.ic_check, colorId)
+
+            clickView.isDisplayed().withSize(R.dimen.icon_48dp, R.dimen.icon_48dp)
         }
 
     }

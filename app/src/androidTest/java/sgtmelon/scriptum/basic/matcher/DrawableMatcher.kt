@@ -4,23 +4,35 @@ import android.graphics.PorterDuff
 import android.view.View
 import android.widget.ImageView
 import androidx.annotation.AttrRes
+import androidx.annotation.ColorRes
 import androidx.annotation.IdRes
 import androidx.core.content.ContextCompat
 import org.hamcrest.Description
 import sgtmelon.scriptum.extension.getColorAttr
+import sgtmelon.scriptum.extension.getCompatColor
 
 /**
  * Matcher for check android:src which gets with [resourceId].
  *
  * If [resourceId] is -1 => check what don't have drawable.
- * If [attrColor] is -1 => check without colorFilter.
+ * If [colorId]/[attrColor] is -1 => check without colorFilter.
  */
-class DrawableAttrMatcher(@IdRes resourceId: Int, @AttrRes private val attrColor: Int) :
-        ParentImageMatcher(resourceId) {
+class DrawableMatcher(
+        @IdRes resourceId: Int,
+        @ColorRes private val colorId: Int,
+        @AttrRes private val attrColor: Int
+) : ParentImageMatcher(resourceId) {
 
     override fun describeTo(description: Description?) {
         super.describeTo(description)
-        description?.appendText("\nWith attrColor = $attrColor")
+
+        if (colorId != -1) {
+            description?.appendText("\nWith colorId = $colorId")
+        }
+
+        if (attrColor != -1) {
+            description?.appendText("\nWith attrColor = $attrColor")
+        }
     }
 
     override fun matchesSafely(item: View?): Boolean {
@@ -32,8 +44,13 @@ class DrawableAttrMatcher(@IdRes resourceId: Int, @AttrRes private val attrColor
 
         val expected = ContextCompat.getDrawable(context, resourceId) ?: return false
 
-        if (attrColor != -1) {
-            expected.setColorFilter(context.getColorAttr(attrColor), PorterDuff.Mode.SRC_ATOP)
+        when {
+            colorId != -1 -> {
+                expected.setColorFilter(context.getCompatColor(colorId), PorterDuff.Mode.SRC_ATOP)
+            }
+            attrColor != -1 -> {
+                expected.setColorFilter(context.getColorAttr(attrColor), PorterDuff.Mode.SRC_ATOP)
+            }
         }
 
         return compare(item.drawable, expected)

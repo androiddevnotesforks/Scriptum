@@ -5,6 +5,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
 import sgtmelon.scriptum.basic.extension.isDisplayed
 import sgtmelon.scriptum.basic.extension.isEnabled
+import sgtmelon.scriptum.basic.extension.withTextColor
 import sgtmelon.scriptum.ui.IDialogUi
 import sgtmelon.scriptum.ui.ParentUi
 import java.util.*
@@ -53,8 +54,10 @@ class TimeDialogUi(
 
 
     fun assert() {
-        cancelButton.isDisplayed().isEnabled()
-        applyButton.isDisplayed().isEnabled(TimeDialog.getPositiveEnabled(calendar, dateList))
+        cancelButton.isDisplayed().isEnabled().withTextColor(R.attr.clAccent)
+
+        val enabled = TimeDialog.getPositiveEnabled(calendar, dateList)
+        applyButton.isDisplayed().isEnabled(enabled) { withTextColor(R.attr.clAccent) }
     }
 
     companion object {

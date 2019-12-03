@@ -5,6 +5,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
 import sgtmelon.scriptum.basic.extension.isDisplayed
 import sgtmelon.scriptum.basic.extension.isEnabled
+import sgtmelon.scriptum.basic.extension.withTextColor
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
@@ -40,8 +41,8 @@ class ConvertDialogUi(noteItem: NoteItem) : ParentUi(), IDialogUi {
         titleText.isDisplayed()
         messageText.isDisplayed()
 
-        noButton.isDisplayed().isEnabled()
-        yesButton.isDisplayed().isEnabled()
+        noButton.isDisplayed().isEnabled().withTextColor(R.attr.clAccent)
+        yesButton.isDisplayed().isEnabled().withTextColor(R.attr.clAccent)
     }
 
     companion object {

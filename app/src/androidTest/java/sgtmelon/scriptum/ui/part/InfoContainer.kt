@@ -51,7 +51,7 @@ class InfoContainer(private val page: InfoPage, hide: Boolean = false) : ParentU
             InfoPage.NOTES -> R.mipmap.img_info_notes
             InfoPage.BIN -> R.mipmap.img_info_bin
             InfoPage.NOTIFICATION -> R.mipmap.img_info_notifications
-        }, R.attr.clContent)
+        }, attrColor = R.attr.clContent)
 
         infoTitleText.isDisplayed(visible)
         infoDetailsText.isDisplayed(visible)

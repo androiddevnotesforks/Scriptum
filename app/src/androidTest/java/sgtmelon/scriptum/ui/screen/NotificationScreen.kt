@@ -86,9 +86,9 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler), IPr
             val date = item.alarmDate.getCalendar().formatFuture(context)
             dateText.isDisplayed().withText(date, R.attr.clContentSecond, R.dimen.text_14sp)
 
-            colorView.isDisplayed().withColorIndicator(
-                    R.drawable.ic_color_indicator, theme, item.color
-            )
+            colorView.isDisplayed()
+                    .withSize(widthId = R.dimen.layout_8dp)
+                    .withColorIndicator(R.drawable.ic_color_indicator, theme, item.color)
 
             cancelButton.isDisplayed().withDrawableAttr(
                     R.drawable.ic_cancel_enter, R.attr.clContent

@@ -6,6 +6,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
 import sgtmelon.scriptum.basic.extension.isDisplayed
 import sgtmelon.scriptum.basic.extension.isEnabled
+import sgtmelon.scriptum.basic.extension.withTextColor
 import sgtmelon.scriptum.ui.IDialogUi
 import sgtmelon.scriptum.ui.ParentUi
 import java.util.*
@@ -65,10 +66,10 @@ class DateDialogUi(
 
 
     fun assert() {
-        resetButton.isDisplayed(updateDate).isEnabled()
+        resetButton.isDisplayed(updateDate).isEnabled().withTextColor(R.attr.clAccent)
 
-        cancelButton.isDisplayed().isEnabled()
-        applyButton.isDisplayed().isEnabled()
+        cancelButton.isDisplayed().isEnabled().withTextColor(R.attr.clAccent)
+        applyButton.isDisplayed().isEnabled().withTextColor(R.attr.clAccent)
     }
 
     companion object {

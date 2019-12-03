@@ -7,6 +7,7 @@
         android:layout_gravity="bottom">
 
     <FrameLayout
+            android:id="@+id/add_container"
             style="?attr/styleSheetAdd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

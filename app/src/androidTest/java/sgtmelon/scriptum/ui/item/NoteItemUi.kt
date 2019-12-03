@@ -114,10 +114,9 @@ class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
 
             infoLayout.assert(item)
 
-            colorView.isDisplayed(visible = theme == Theme.DARK).apply{
-                if (theme == Theme.DARK) withColorIndicator(
-                        R.drawable.ic_color_indicator, theme, item.color
-                )
+            colorView.isDisplayed(visible = theme == Theme.DARK) {
+                withSize(widthId = R.dimen.layout_8dp)
+                withColorIndicator(R.drawable.ic_color_indicator, theme, item.color)
             }
         }
 

@@ -46,8 +46,10 @@ class RenameDialogUi(private val title: String) : ParentUi(), IDialogUi {
             }
         }
 
-        cancelButton.isDisplayed().isEnabled()
-        applyButton.isDisplayed().isEnabled(enabled)
+        cancelButton.isDisplayed().isEnabled().withTextColor(R.attr.clAccent)
+        applyButton.isDisplayed().isEnabled(enabled) {
+            withTextColor(R.attr.clAccent)
+        }
     }
 
     companion object {

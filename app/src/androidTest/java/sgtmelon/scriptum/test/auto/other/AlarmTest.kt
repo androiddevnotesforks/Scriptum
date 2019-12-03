@@ -16,7 +16,9 @@ import sgtmelon.scriptum.test.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class AlarmTest : ParentUiTest() {
 
-    // TODO #TEST setup for all tests?
+    /**
+     * TODO #TEST may be need setup it in parentUiTest for all tests?
+     */
     override fun setUp() {
         super.setUp()
         iPreferenceRepo.sort = Sort.CHANGE

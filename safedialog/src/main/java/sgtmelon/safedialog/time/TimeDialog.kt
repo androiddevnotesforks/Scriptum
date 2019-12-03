@@ -92,6 +92,9 @@ class TimeDialog : DateTimeBlankDialog(), ITimeDialog {
     companion object {
         var callback: ITimeDialog? = null
 
+        /**
+         * TODO #TEST write unit test
+         */
         fun getPositiveEnabled(calendar: Calendar, dateList: List<String>) : Boolean{
             return calendar.afterNow() && !dateList.contains(calendar.getString())
         }

@@ -33,8 +33,11 @@ fun Matcher<View>.isDisplayed(visible: Boolean = true,
     if (visible) apply(onVisible)
 }
 
-fun Matcher<View>.isEnabled(enabled: Boolean = true) = also {
+fun Matcher<View>.isEnabled(enabled: Boolean = true,
+                            onEnabled: Matcher<View>.() -> Unit = {}) = also {
     matchOnView(it, if (enabled) ViewMatchers.isEnabled() else not(ViewMatchers.isEnabled()))
+
+    if (enabled) apply(onEnabled)
 }
 
 fun Matcher<View>.isSelected(selected: Boolean = true) = also {
@@ -81,13 +84,19 @@ fun Matcher<View>.withHintColor(@AttrRes attrColor: Int) = also {
     matchOnView(it, HintAttrColorMatcher(attrColor))
 }
 
+
+fun Matcher<View>.withDrawable(resourceId: Int = -1) = also {
+    matchOnView(it, DrawableMatcher(resourceId, -1, -1))
+}
+
 fun Matcher<View>.withDrawableColor(resourceId: Int = -1, @ColorRes colorId: Int = -1) = also {
-    matchOnView(it, DrawableColorMatcher(resourceId, colorId))
+    matchOnView(it, DrawableMatcher(resourceId, colorId, -1))
 }
 
 fun Matcher<View>.withDrawableAttr(resourceId: Int, @AttrRes attrColor: Int = -1) = also {
-    matchOnView(it, DrawableAttrMatcher(resourceId, attrColor))
+    matchOnView(it, DrawableMatcher(resourceId, -1, attrColor))
 }
+
 
 fun Matcher<View>.withColorIndicator(resourceId: Int = -1,
                                      @Theme theme: Int,
