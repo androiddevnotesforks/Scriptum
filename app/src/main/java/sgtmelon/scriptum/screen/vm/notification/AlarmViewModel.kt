@@ -86,7 +86,12 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
                 signalState = iSignalInteractor.signalState
             }
 
-            noteItem?.let { callback?.notifyDataSetChanged(it) }
+            val noteItem = noteItem ?: return@launch
+
+            callback?.apply {
+                notifyDataSetChanged(noteItem)
+                waitLayoutConfigure()
+            }
         }
     }
 

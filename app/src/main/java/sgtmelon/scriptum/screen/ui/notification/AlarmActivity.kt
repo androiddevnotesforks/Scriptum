@@ -35,7 +35,6 @@ import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.screen.ui.AppActivity
 import sgtmelon.scriptum.screen.ui.callback.notification.IAlarmActivity
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
-import sgtmelon.scriptum.screen.vm.callback.notification.IAlarmViewModel
 import sgtmelon.scriptum.view.RippleContainer
 import java.util.*
 
@@ -75,8 +74,6 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
     //endregion
 
-    private var layoutConfigure = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -93,11 +90,6 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         setContentView(R.layout.activity_alarm)
 
         iViewModel.onSetup(bundle = savedInstanceState ?: intent.extras)
-
-        parentContainer?.afterLayoutConfiguration {
-            layoutConfigure = true
-            iViewModel.onStart()
-        }
     }
 
     override fun onPause() {
@@ -155,13 +147,15 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
     override fun notifyDataSetChanged(noteItem: NoteItem) {
         adapter.notifyDataSetChanged(arrayListOf(noteItem))
-
-        /**
-         * If layout was configure before coroutine end - need recall [IAlarmViewModel.onStart]
-         */
-        if (layoutConfigure) iViewModel.onStart()
     }
 
+
+    /**
+     * Need call on coroutine end, because layout may be configure before coroutine end.
+     */
+    override fun waitLayoutConfigure() {
+        parentContainer?.afterLayoutConfiguration { iViewModel.onStart() }
+    }
 
     override fun startRippleAnimation(@Theme theme: Int, @ColorInt fillColor: Int) {
         logoView?.let { rippleContainer?.setupAnimation(theme, fillColor, it)?.startAnimation() }

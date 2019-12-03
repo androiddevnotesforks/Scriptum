@@ -29,6 +29,9 @@ interface IAlarmActivity : IAlarmBridge {
 
     fun notifyDataSetChanged(noteItem: NoteItem)
 
+
+    fun waitLayoutConfigure()
+
     fun startRippleAnimation(@Theme theme: Int, @ColorInt fillColor: Int)
 
     fun startButtonFadeInAnimation()
