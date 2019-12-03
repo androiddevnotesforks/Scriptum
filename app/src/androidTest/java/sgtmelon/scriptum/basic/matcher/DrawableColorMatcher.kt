@@ -21,7 +21,7 @@ class DrawableColorMatcher(@IdRes resourceId: Int, @ColorRes private val colorId
 
     override fun describeTo(description: Description?) {
         super.describeTo(description)
-        description?.appendText("\nWith colorId: [$colorId]")
+        description?.appendText("\nWith colorId = $colorId")
     }
 
     override fun matchesSafely(item: View?): Boolean {

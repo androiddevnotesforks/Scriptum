@@ -21,7 +21,7 @@ class ColorIndicatorMatcher(@IdRes resourceId: Int, @Theme theme: Int, @Color co
 
     override fun describeTo(description: Description?) {
         super.describeTo(description)
-        description?.appendText("\nView with colorItem: [$colorItem]")
+        description?.appendText("\nView with colorItem = $colorItem")
     }
 
     override fun matchesSafely(item: View?): Boolean {

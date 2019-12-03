@@ -20,7 +20,7 @@ class DrawableAttrMatcher(@IdRes resourceId: Int, @AttrRes private val attrColor
 
     override fun describeTo(description: Description?) {
         super.describeTo(description)
-        description?.appendText("\nWith attrColor: [$attrColor]")
+        description?.appendText("\nWith attrColor = $attrColor")
     }
 
     override fun matchesSafely(item: View?): Boolean {
