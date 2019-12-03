@@ -84,8 +84,9 @@ class MainScreen : ParentUi() {
 
     fun assert(page: MainPage? = null, fabVisible: Boolean? = null) = apply {
         parentContainer.isDisplayed()
-        toolbarHolder.isDisplayed()
-        menuNavigation.isDisplayed()
+
+        toolbarHolder.isDisplayed().withBackgroundAttr(R.attr.clPrimary)
+        menuNavigation.isDisplayed().withBackgroundAttr(R.attr.clPrimary)
 
         when (page) {
             MainPage.RANK -> rankMenuItem.isSelected()

@@ -106,7 +106,7 @@ class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
         }))
 
         open fun assert(item: NoteItem) {
-            parentCard.isDisplayed().withBackgroundColor(theme, item.color)
+            parentCard.isDisplayed().withCardBackground(theme, item.color)
             clickContainer.isDisplayed()
 
             val name = item.name

@@ -99,7 +99,7 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
         private val countText by lazy { getChild(getViewById(R.id.rank_text_count_text)) }
 
         override fun assert(item: RankItem) {
-            parentCard.isDisplayed().withBackgroundAttr(R.attr.clBackgroundView)
+            parentCard.isDisplayed().withCardBackground(R.attr.clBackgroundView)
 
             val isVisible = item.isVisible
             visibleButton.isDisplayed().withDrawableAttr(

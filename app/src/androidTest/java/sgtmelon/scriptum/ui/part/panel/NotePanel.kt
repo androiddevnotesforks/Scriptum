@@ -29,6 +29,7 @@ class NotePanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi(),
     //region Views
 
     private val parentContainer = getViewById(R.id.note_panel_container)
+    private val buttonContainer = getViewById(R.id.note_panel_button_container)
 
     private val readContainer = getViewById(R.id.note_panel_read_container)
     private val notificationButton = getViewById(R.id.note_panel_notification_button)
@@ -184,10 +185,13 @@ class NotePanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi(),
     fun assert() {
         callback.apply {
             parentContainer.isDisplayed()
+            buttonContainer.isDisplayed().withBackgroundAttr(R.attr.clPrimary)
 
             when (state) {
                 State.READ -> {
                     readContainer.isDisplayed()
+                    binContainer.isDisplayed(visible = false)
+                    editContainer.isDisplayed(visible = false)
 
                     notificationButton.isDisplayed().withDrawableAttr(
                             R.drawable.ic_notifications,
@@ -207,13 +211,17 @@ class NotePanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi(),
                     editButton.withText(R.string.menu_note_edit).isDisplayed()
                 }
                 State.BIN -> {
+                    readContainer.isDisplayed(visible = false)
                     binContainer.isDisplayed()
+                    editContainer.isDisplayed(visible = false)
 
                     restoreButton.isDisplayed().withDrawableAttr(R.drawable.ic_restore, R.attr.clContent)
                     restoreOpenButton.isDisplayed().withDrawableAttr(R.drawable.ic_restore_open, R.attr.clContent)
                     clearButton.isDisplayed().withDrawableAttr(R.drawable.ic_clear, R.attr.clAccent)
                 }
                 State.EDIT, State.NEW -> {
+                    readContainer.isDisplayed(visible = false)
+                    binContainer.isDisplayed(visible = false)
                     editContainer.isDisplayed()
 
                     inputControl.isUndoAccess.let { undo ->

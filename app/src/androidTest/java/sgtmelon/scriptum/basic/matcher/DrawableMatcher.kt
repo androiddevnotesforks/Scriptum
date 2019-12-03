@@ -23,15 +23,19 @@ class DrawableMatcher(
         @AttrRes private val attrColor: Int
 ) : ParentImageMatcher(resourceId) {
 
+    init {
+        if (colorId == -1 && attrColor == -1) throw IllegalAccessException()
+    }
+
     override fun describeTo(description: Description?) {
         super.describeTo(description)
 
         if (colorId != -1) {
-            description?.appendText("\nWith colorId = $colorId")
+            description?.appendText("\nView with colorId = $colorId")
         }
 
         if (attrColor != -1) {
-            description?.appendText("\nWith attrColor = $attrColor")
+            description?.appendText("\nView with attrColor = $attrColor")
         }
     }
 

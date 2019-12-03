@@ -57,18 +57,24 @@ class RankToolbar : ParentUi() {
 
     fun assert(isAddEnabled: Boolean = false) {
         parentContainer.isDisplayed()
-        parentCard.isDisplayed().withBackgroundAttr(R.attr.clBackgroundEnter)
+        parentCard.isDisplayed().withCardBackground(R.attr.clBackgroundEnter)
+
+        val enterEmpty = enter.isEmpty()
 
         nameEnter.isDisplayed {
-            if (enter.isNotEmpty()) {
+            if (!enterEmpty) {
                 withText(enter, R.attr.clContent, R.dimen.text_18sp)
             } else {
                 withHint(R.string.hint_enter_rank_new, R.attr.clDisable, R.dimen.text_18sp)
             }
         }
 
-        clearButton.isDisplayed().isEnabled(enter.isNotEmpty())
-        addButton.isDisplayed().isEnabled(isAddEnabled)
+        clearButton.isDisplayed().isEnabled(!enterEmpty).withDrawableAttr(
+                R.drawable.ic_cancel_enter, if (enterEmpty) R.attr.clDisable else R.attr.clContent
+        )
+        addButton.isDisplayed().isEnabled(isAddEnabled).withDrawableAttr(
+                R.drawable.ic_rank, if (enterEmpty) R.attr.clDisable else R.attr.clAccent
+        )
     }
 
     companion object {

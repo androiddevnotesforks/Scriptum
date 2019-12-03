@@ -1,8 +1,7 @@
 package sgtmelon.scriptum.ui.part
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.extension.isDisplayed
-import sgtmelon.scriptum.basic.extension.withDrawableAttr
+import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.InfoPage
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.screen.NotificationScreen
@@ -46,15 +45,23 @@ class InfoContainer(private val page: InfoPage, hide: Boolean = false) : ParentU
     fun assert(visible: Boolean) {
         infoContainer.isDisplayed(visible)
 
-        infoImage.isDisplayed(visible).withDrawableAttr(when (page) {
-            InfoPage.RANK -> R.mipmap.img_info_rank
-            InfoPage.NOTES -> R.mipmap.img_info_notes
-            InfoPage.BIN -> R.mipmap.img_info_bin
-            InfoPage.NOTIFICATION -> R.mipmap.img_info_notifications
-        }, attrColor = R.attr.clContent)
+        infoImage.isDisplayed(visible)
+                .withSize(R.dimen.icon_128dp, R.dimen.icon_128dp)
+                .withDrawableAttr(when (page) {
+                    InfoPage.RANK -> R.mipmap.img_info_rank
+                    InfoPage.NOTES -> R.mipmap.img_info_notes
+                    InfoPage.BIN -> R.mipmap.img_info_bin
+                    InfoPage.NOTIFICATION -> R.mipmap.img_info_notifications
+                }, R.attr.clContent)
+
 
         infoTitleText.isDisplayed(visible)
+                .withTextColor(R.attr.clContent)
+                .withTextSize(R.dimen.text_18sp)
+
         infoDetailsText.isDisplayed(visible)
+                .withTextColor(R.attr.clContentSecond)
+                .withTextSize(R.dimen.text_14sp)
     }
 
 }

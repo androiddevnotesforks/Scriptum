@@ -11,7 +11,10 @@ import androidx.test.espresso.matcher.ViewMatchers
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matcher
-import sgtmelon.scriptum.basic.matcher.*
+import sgtmelon.scriptum.basic.matcher.BackgroundColorMatcher
+import sgtmelon.scriptum.basic.matcher.ColorIndicatorMatcher
+import sgtmelon.scriptum.basic.matcher.DrawableMatcher
+import sgtmelon.scriptum.basic.matcher.SizeMatcher
 import sgtmelon.scriptum.basic.matcher.card.CardBackgroundAttrMatcher
 import sgtmelon.scriptum.basic.matcher.card.CardBackgroundColorMatcher
 import sgtmelon.scriptum.basic.matcher.text.HintAttrColorMatcher
@@ -85,6 +88,15 @@ fun Matcher<View>.withHintColor(@AttrRes attrColor: Int) = also {
 }
 
 
+fun Matcher<View>.withBackgroundColor(@ColorRes colorId: Int) = also {
+    matchOnView(it, BackgroundColorMatcher(colorId, -1))
+}
+
+fun Matcher<View>.withBackgroundAttr(@AttrRes attrId: Int) = also {
+    matchOnView(it, BackgroundColorMatcher(-1, attrId))
+}
+
+
 fun Matcher<View>.withDrawable(resourceId: Int = -1) = also {
     matchOnView(it, DrawableMatcher(resourceId, -1, -1))
 }
@@ -104,11 +116,11 @@ fun Matcher<View>.withColorIndicator(resourceId: Int = -1,
     matchOnView(it, ColorIndicatorMatcher(resourceId, theme, color))
 }
 
-fun Matcher<View>.withBackgroundColor(@Theme theme: Int, @Color color: Int) = also {
+fun Matcher<View>.withCardBackground(@Theme theme: Int, @Color color: Int) = also {
     matchOnView(it, CardBackgroundColorMatcher(theme, color))
 }
 
-fun Matcher<View>.withBackgroundAttr(@AttrRes attrColor: Int) = also {
+fun Matcher<View>.withCardBackground(@AttrRes attrColor: Int) = also {
     matchOnView(it, CardBackgroundAttrMatcher(attrColor))
 }
 

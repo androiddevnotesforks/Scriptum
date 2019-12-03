@@ -83,7 +83,8 @@ class AutoSave {
 }
 
 class Match {
-    // TODO #TEST match backgroundColor
+    // TODO #TEST match backgroundColor (android:background="")
+    // "android:background">
 }
 
 class Integration {

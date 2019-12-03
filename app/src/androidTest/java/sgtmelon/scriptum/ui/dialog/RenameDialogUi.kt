@@ -38,7 +38,7 @@ class RenameDialogUi(private val title: String) : ParentUi(), IDialogUi {
 
         viewContainer.isDisplayed()
 
-        renameEnter.isDisplayed {
+        renameEnter.isDisplayed().withBackgroundColor(android.R.color.transparent).apply {
             if (enter.isNotEmpty()) {
                 withText(enter, dimenId = R.dimen.text_18sp)
             } else {

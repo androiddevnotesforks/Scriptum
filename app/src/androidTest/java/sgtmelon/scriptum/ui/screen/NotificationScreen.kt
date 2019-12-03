@@ -79,7 +79,7 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler), IPr
         val cancelButton by lazy { getChild(getViewById(R.id.notification_cancel_button)) }
 
         override fun assert(item: NoteItem) {
-            parentCard.isDisplayed().withBackgroundAttr(R.attr.clBackgroundView)
+            parentCard.isDisplayed().withCardBackground(R.attr.clBackgroundView)
 
             nameText.isDisplayed().withText(item.name, R.attr.clContent, R.dimen.text_16sp)
 

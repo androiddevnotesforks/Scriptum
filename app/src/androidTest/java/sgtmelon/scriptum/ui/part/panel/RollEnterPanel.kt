@@ -39,9 +39,23 @@ class RollEnterPanel<T: ParentUi>(private val callback: INoteScreen<T>) : Parent
     fun assert() = apply {
         val visible = with(callback) { state == State.EDIT || state == State.NEW }
 
-        enterContainer.isDisplayed(visible)
-        textEnter.isDisplayed(visible)
-        addButton.isDisplayed(visible).isEnabled(enterText.isNotEmpty())
+        enterContainer.isDisplayed(visible) {
+            withBackgroundColor(android.R.color.transparent)
+        }
+
+        val enterEmpty = enterText.isEmpty()
+
+        textEnter.isDisplayed(visible) {
+            if (!enterEmpty) {
+                withText(enterText, R.attr.clContent, R.dimen.text_18sp)
+            } else {
+                withHint(R.string.hint_enter_roll, R.attr.clDisable, R.dimen.text_18sp)
+            }
+        }
+
+        addButton.isDisplayed(visible).isEnabled(!enterEmpty).withDrawableAttr(
+                R.drawable.ic_add, if (enterEmpty) R.attr.clDisable else R.attr.clAccent
+        )
     }
 
     companion object {
