@@ -45,14 +45,14 @@ class InfoContainer(private val page: InfoPage, hide: Boolean = false) : ParentU
     fun assert(visible: Boolean) {
         infoContainer.isDisplayed(visible)
 
-        infoImage.isDisplayed(visible)
-                .withSize(R.dimen.icon_128dp, R.dimen.icon_128dp)
-                .withDrawableAttr(when (page) {
-                    InfoPage.RANK -> R.mipmap.img_info_rank
-                    InfoPage.NOTES -> R.mipmap.img_info_notes
-                    InfoPage.BIN -> R.mipmap.img_info_bin
-                    InfoPage.NOTIFICATION -> R.mipmap.img_info_notifications
-                }, R.attr.clContent)
+        infoImage.isDisplayed(visible) {
+            withSize(R.dimen.icon_128dp, R.dimen.icon_128dp)
+        }.withDrawableAttr(when (page) {
+            InfoPage.RANK -> R.mipmap.img_info_rank
+            InfoPage.NOTES -> R.mipmap.img_info_notes
+            InfoPage.BIN -> R.mipmap.img_info_bin
+            InfoPage.NOTIFICATION -> R.mipmap.img_info_notifications
+        }, R.attr.clContent)
 
 
         infoTitleText.isDisplayed(visible)

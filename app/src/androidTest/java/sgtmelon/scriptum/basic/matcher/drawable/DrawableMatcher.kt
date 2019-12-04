@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.basic.matcher
+package sgtmelon.scriptum.basic.matcher.drawable
 
 import android.graphics.PorterDuff
 import android.view.View
@@ -23,10 +23,6 @@ class DrawableMatcher(
         @AttrRes private val attrColor: Int
 ) : ParentImageMatcher(resourceId) {
 
-    init {
-        if (colorId == -1 && attrColor == -1) throw IllegalAccessException()
-    }
-
     override fun describeTo(description: Description?) {
         super.describeTo(description)
 
@@ -45,7 +41,6 @@ class DrawableMatcher(
         if (resourceId == -1) return item.drawable == null
 
         val context = item.context ?: return false
-
         val expected = ContextCompat.getDrawable(context, resourceId) ?: return false
 
         when {

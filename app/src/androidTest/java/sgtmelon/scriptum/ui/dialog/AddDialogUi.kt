@@ -41,7 +41,7 @@ class AddDialogUi : ParentUi(), IDialogUi {
 
 
     fun assert() {
-        navigationContainer.isDisplayed().withDrawable(when(theme == Theme.LIGHT) {
+        navigationContainer.isDisplayed().withBackground(when(theme == Theme.LIGHT) {
             true -> R.drawable.bg_dialog_light
             false -> R.drawable.bg_dialog_dark
         })

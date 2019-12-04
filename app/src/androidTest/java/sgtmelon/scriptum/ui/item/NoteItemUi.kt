@@ -68,12 +68,12 @@ class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
 
                 if (item == null) return
 
-                checkImage.isDisplayed()
-                        .withSize(R.dimen.icon_16dp, R.dimen.icon_16dp)
-                        .withDrawableAttr(when (item.isCheck) {
-                            true -> R.drawable.ic_check_done
-                            false -> R.drawable.ic_check_outline
-                        }, R.attr.clContent)
+                checkImage.isDisplayed() {
+                    withSize(R.dimen.icon_16dp, R.dimen.icon_16dp)
+                }.withDrawableAttr(when (item.isCheck) {
+                    true -> R.drawable.ic_check_done
+                    false -> R.drawable.ic_check_outline
+                }, R.attr.clContent)
 
                 contentText.isDisplayed().withText(item.text, R.attr.clContent, R.dimen.text_16sp)
             }
@@ -116,8 +116,7 @@ class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
 
             colorView.isDisplayed(visible = theme == Theme.DARK) {
                 withSize(widthId = R.dimen.layout_8dp)
-                withColorIndicator(R.drawable.ic_color_indicator, theme, item.color)
-            }
+            }.withColorIndicator(R.drawable.ic_color_indicator, theme, item.color)
         }
 
         inner class Info {
@@ -137,20 +136,20 @@ class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
 
                 parentContainer.isDisplayed()
 
-                notificationImage.isDisplayed(item.haveAlarm())
-                        .withSize(R.dimen.icon_16dp, R.dimen.icon_16dp)
-                        .withDrawableAttr(R.drawable.ic_notifications, R.attr.clNoteIndicator)
+                notificationImage.isDisplayed(item.haveAlarm()) {
+                    withSize(R.dimen.icon_16dp, R.dimen.icon_16dp)
+                }.withDrawableAttr(R.drawable.ic_notifications, R.attr.clNoteIndicator)
 
-                bindImage.isDisplayed(item.isStatus)
-                        .withSize(R.dimen.icon_16dp, R.dimen.icon_16dp)
-                        .withDrawableAttr(when (type) {
-                            NoteType.TEXT -> R.drawable.ic_bind_text
-                            NoteType.ROLL -> R.drawable.ic_bind_roll
-                        }, R.attr.clNoteIndicator)
+                bindImage.isDisplayed(item.isStatus) {
+                    withSize(R.dimen.icon_16dp, R.dimen.icon_16dp)
+                }.withDrawableAttr(when (type) {
+                    NoteType.TEXT -> R.drawable.ic_bind_text
+                    NoteType.ROLL -> R.drawable.ic_bind_roll
+                }, R.attr.clNoteIndicator)
 
-                rankImage.isDisplayed(item.haveRank())
-                        .withSize(R.dimen.icon_16dp, R.dimen.icon_16dp)
-                        .withDrawableAttr(R.drawable.ic_rank, R.attr.clNoteIndicator)
+                rankImage.isDisplayed(item.haveRank()) {
+                    withSize(R.dimen.icon_16dp, R.dimen.icon_16dp)
+                }.withDrawableAttr(R.drawable.ic_rank, R.attr.clNoteIndicator)
 
                 val visible = type == NoteType.ROLL
                 progressText.isDisplayed(visible) {
