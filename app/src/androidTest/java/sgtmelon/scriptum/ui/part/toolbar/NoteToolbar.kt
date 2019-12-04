@@ -66,7 +66,9 @@ class NoteToolbar<T : ParentUi>(private val callback: INoteScreen<T>) : ParentUi
         parentContainer.isDisplayed()
         nameScroll.isDisplayed()
 
-        colorView.isDisplayed(visible = theme == Theme.DARK)
+        colorView.isDisplayed(visible = theme == Theme.DARK) {
+
+        }
 
         callback.apply {
             when (state) {

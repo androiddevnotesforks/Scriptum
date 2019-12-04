@@ -39,9 +39,7 @@ class RollEnterPanel<T: ParentUi>(private val callback: INoteScreen<T>) : Parent
     fun assert() = apply {
         val visible = with(callback) { state == State.EDIT || state == State.NEW }
 
-        enterContainer.isDisplayed(visible) {
-            withBackgroundColor(android.R.color.transparent)
-        }
+        enterContainer.isDisplayed(visible).withBackgroundAttr(R.attr.clPrimary)
 
         val enterEmpty = enterText.isEmpty()
 

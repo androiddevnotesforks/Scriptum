@@ -70,10 +70,10 @@ class RankToolbar : ParentUi() {
         }
 
         clearButton.isDisplayed().isEnabled(!enterEmpty).withDrawableAttr(
-                R.drawable.ic_cancel_enter, if (enterEmpty) R.attr.clDisable else R.attr.clContent
+                R.drawable.ic_cancel_enter, if (!enterEmpty) R.attr.clContent else R.attr.clDisable
         )
         addButton.isDisplayed().isEnabled(isAddEnabled).withDrawableAttr(
-                R.drawable.ic_rank, if (enterEmpty) R.attr.clDisable else R.attr.clAccent
+                R.drawable.ic_rank, if (isAddEnabled) R.attr.clAccent else R.attr.clDisable
         )
     }
 
