@@ -57,7 +57,7 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler), IPr
 
     fun assert(empty: Boolean) = apply {
         parentContainer.isDisplayed()
-        toolbar.isDisplayed()
+        toolbar.isDisplayed().withBackgroundAttr(R.attr.colorPrimary)
 
         infoContainer.assert(empty)
         recyclerView.isDisplayed(!empty)

@@ -227,8 +227,10 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     //region Menu click
 
     override fun onMenuRestore() {
-        noteItem.let { viewModelScope.launch { iInteractor.restoreNote(it) } }
-        parentCallback?.finish()
+        viewModelScope.launch {
+            iInteractor.restoreNote(noteItem)
+            parentCallback?.finish()
+        }
     }
 
     override fun onMenuRestoreOpen() {
@@ -242,8 +244,10 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     }
 
     override fun onMenuClear() {
-        noteItem.let { viewModelScope.launch { iInteractor.clearNote(it) } }
-        parentCallback?.finish()
+        viewModelScope.launch {
+            iInteractor.clearNote(noteItem)
+            parentCallback?.finish()
+        }
     }
 
 
@@ -326,10 +330,10 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     override fun onMenuDelete() {
         viewModelScope.launch {
             iInteractor.deleteNote(noteItem)
+            parentCallback?.finish()
+
             iBindInteractor.notifyInfoBind(callback)
         }
-
-        parentCallback?.finish()
     }
 
     override fun onMenuEdit(isEdit: Boolean) = inputControl.makeNotEnabled {

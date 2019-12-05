@@ -3,6 +3,7 @@ package sgtmelon.scriptum.ui.screen
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
 import sgtmelon.scriptum.basic.extension.isDisplayed
+import sgtmelon.scriptum.basic.extension.withBackgroundAttr
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.screen.ui.preference.PreferenceActivity
 import sgtmelon.scriptum.screen.ui.preference.PreferenceFragment
@@ -41,7 +42,7 @@ class PreferenceScreen : ParentUi(), ColorDialogUi.Callback, IPressBack {
 
     fun assert() = apply {
         parentContainer.isDisplayed()
-        toolbar.isDisplayed()
+        toolbar.isDisplayed().withBackgroundAttr(R.attr.colorPrimary)
     }
 
     companion object {

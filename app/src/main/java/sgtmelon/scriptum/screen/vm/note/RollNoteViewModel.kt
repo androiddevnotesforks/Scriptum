@@ -12,8 +12,8 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.SaveControl
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.extension.clearSpace
-import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.extension.move
+import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.interactor.BindInteractor
 import sgtmelon.scriptum.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.interactor.callback.note.IRollNoteInteractor
@@ -291,11 +291,10 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     //region Menu click
 
     override fun onMenuRestore() {
-        /**
-         * TODO change workaround
-         */
-        noteItem.let { viewModelScope.launch { iInteractor.restoreNote(it) } }
-        parentCallback?.finish()
+        viewModelScope.launch {
+            iInteractor.restoreNote(noteItem)
+            parentCallback?.finish()
+        }
     }
 
     override fun onMenuRestoreOpen() {
@@ -309,11 +308,10 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     override fun onMenuClear() {
-        /**
-         * TODO change workaround
-         */
-        noteItem.let { viewModelScope.launch { iInteractor.clearNote(it) } }
-        parentCallback?.finish()
+        viewModelScope.launch {
+            iInteractor.clearNote(noteItem)
+            parentCallback?.finish()
+        }
     }
 
 
@@ -428,10 +426,10 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     override fun onMenuDelete() {
         viewModelScope.launch {
             iInteractor.deleteNote(noteItem)
+            parentCallback?.finish()
+
             iBindInteractor.notifyInfoBind(callback)
         }
-
-        parentCallback?.finish()
     }
 
     override fun onMenuEdit(isEdit: Boolean) = inputControl.makeNotEnabled {

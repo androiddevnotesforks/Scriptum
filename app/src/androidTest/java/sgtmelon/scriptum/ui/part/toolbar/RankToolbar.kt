@@ -56,7 +56,7 @@ class RankToolbar : ParentUi() {
 
 
     fun assert(isAddEnabled: Boolean = false) {
-        parentContainer.isDisplayed()
+        parentContainer.isDisplayed().withBackgroundAttr(R.attr.colorPrimary)
         parentCard.isDisplayed().withCardBackground(R.attr.clBackgroundEnter)
 
         val enterEmpty = enter.isEmpty()
