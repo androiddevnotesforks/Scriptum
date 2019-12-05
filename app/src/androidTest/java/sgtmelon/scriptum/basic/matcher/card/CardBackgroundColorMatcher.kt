@@ -7,7 +7,6 @@ import org.hamcrest.TypeSafeMatcher
 import sgtmelon.scriptum.extension.getAppThemeColor
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.model.data.ColorData
 
 /**
  * Matcher for check app:cardBackground which gets with [theme] and [color].

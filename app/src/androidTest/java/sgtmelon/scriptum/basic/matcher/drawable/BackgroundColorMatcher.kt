@@ -1,9 +1,9 @@
 package sgtmelon.scriptum.basic.matcher.drawable
 
-import android.graphics.PorterDuff
 import android.graphics.drawable.ColorDrawable
 import android.view.View
 import androidx.annotation.AttrRes
+import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
@@ -15,11 +15,12 @@ import sgtmelon.scriptum.extension.getCompatColor
  */
 class BackgroundColorMatcher(
         @ColorRes private val colorId: Int,
-        @AttrRes private val attrColor: Int
+        @AttrRes private val attrColor: Int,
+        @ColorInt private val color: Int
 ): TypeSafeMatcher<View>() {
 
     init {
-        if (colorId == -1 && attrColor == -1) throw IllegalAccessException()
+        if (colorId == -1 && attrColor == -1 && color == -1) throw IllegalAccessException()
     }
 
     override fun matchesSafely(item: View?): Boolean {
@@ -31,6 +32,7 @@ class BackgroundColorMatcher(
         val color = when {
             colorId != -1 -> context.getCompatColor(colorId)
             attrColor != -1 -> context.getColorAttr(attrColor)
+            color != -1 -> color
             else -> throw IllegalAccessException()
         }
 

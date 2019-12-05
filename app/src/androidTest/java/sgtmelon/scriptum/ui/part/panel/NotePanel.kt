@@ -93,9 +93,11 @@ class NotePanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi(),
         }
     }
 
-    fun onRank() = callback.throwOnWrongState(State.EDIT, State.NEW) { rankButton.click() }
+    fun onRank() = apply {
+        callback.throwOnWrongState(State.EDIT, State.NEW) { rankButton.click() }
+    }
 
-    fun onColor(func: ColorDialogUi.() -> Unit = {}) {
+    fun onColor(func: ColorDialogUi.() -> Unit = {}) = apply {
         callback.throwOnWrongState(State.EDIT, State.NEW) {
             colorButton.click()
 

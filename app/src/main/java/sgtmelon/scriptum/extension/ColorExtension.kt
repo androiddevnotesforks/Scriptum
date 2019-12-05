@@ -20,7 +20,6 @@ import sgtmelon.scriptum.model.data.ColorData.dark
 import sgtmelon.scriptum.model.data.ColorData.light
 import sgtmelon.scriptum.model.item.ColorItem
 import sgtmelon.scriptum.model.key.ColorShade
-import sgtmelon.scriptum.repository.preference.PreferenceRepo
 
 /**
  * Get note color rely on theme and background

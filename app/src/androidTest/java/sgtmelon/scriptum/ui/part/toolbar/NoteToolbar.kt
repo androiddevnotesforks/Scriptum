@@ -61,14 +61,14 @@ class NoteToolbar<T : ParentUi>(private val callback: INoteScreen<T>) : ParentUi
 
 
     // TODO #TEST (focus on title check)
-    // TODO #TEST assert color (set contentDescription may be, or tag)
-    // TODO #TEST assert backgroundColor
     fun assert() = apply {
-        parentContainer.isDisplayed()
+        val color = callback.shadowItem.color
+
+        parentContainer.isDisplayed().withBackgroundAppColor(theme, color, needDark = false)
         nameScroll.isDisplayed()
 
         colorView.isDisplayed(visible = theme == Theme.DARK) {
-
+            withBackgroundAppColor(theme, color, needDark = true)
         }
 
         callback.apply {

@@ -9,13 +9,13 @@ import sgtmelon.scriptum.test.ParentUiTest
 import kotlin.random.Random
 
 /**
- * Parent class for tests of [AlarmActivity] with different themes
+ * Parent class for tests of [AlarmActivity] with different themes.
  */
-abstract class AlarmAnimParentTest(@Theme private val theme: Int) : ParentUiTest(), IColorTest {
+abstract class ParentAlarmAnimTest(@Theme private val theme: Int) : ParentUiTest(), IColorTest {
 
     override fun startTest(@Color color: Int) {
         with(iPreferenceRepo) {
-            theme = this@AlarmAnimParentTest.theme
+            theme = this@ParentAlarmAnimTest.theme
 
             signal = Random.nextInt(from = 1, until = 3)
             volume = Random.nextInt(from = 50, until = 100)

@@ -1,23 +1,17 @@
 package sgtmelon.scriptum.basic.extension
 
 import android.view.View
-import androidx.annotation.AttrRes
-import androidx.annotation.ColorRes
-import androidx.annotation.DimenRes
-import androidx.annotation.StringRes
+import androidx.annotation.*
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matcher
-import sgtmelon.scriptum.basic.matcher.drawable.BackgroundColorMatcher
-import sgtmelon.scriptum.basic.matcher.drawable.ColorIndicatorMatcher
-import sgtmelon.scriptum.basic.matcher.drawable.DrawableMatcher
 import sgtmelon.scriptum.basic.matcher.SizeMatcher
 import sgtmelon.scriptum.basic.matcher.card.CardBackgroundAttrMatcher
 import sgtmelon.scriptum.basic.matcher.card.CardBackgroundColorMatcher
-import sgtmelon.scriptum.basic.matcher.drawable.BackgroundMatcher
+import sgtmelon.scriptum.basic.matcher.drawable.*
 import sgtmelon.scriptum.basic.matcher.text.HintAttrColorMatcher
 import sgtmelon.scriptum.basic.matcher.text.TextAttrColorMatcher
 import sgtmelon.scriptum.basic.matcher.text.TextSizeMatcher
@@ -94,11 +88,16 @@ fun Matcher<View>.withBackground(resourceId: Int) = also {
 }
 
 fun Matcher<View>.withBackgroundColor(@ColorRes colorId: Int) = also {
-    matchOnView(it, BackgroundColorMatcher(colorId, -1))
+    matchOnView(it, BackgroundColorMatcher(colorId, -1, -1))
+}
+
+fun Matcher<View>.withBackgroundAppColor(@Theme theme: Int, @Color color: Int,
+                                         needDark: Boolean) = also {
+    matchOnView(it, BackgroundAppColorMatcher(theme, color, needDark))
 }
 
 fun Matcher<View>.withBackgroundAttr(@AttrRes attrId: Int) = also {
-    matchOnView(it, BackgroundColorMatcher(-1, attrId))
+    matchOnView(it, BackgroundColorMatcher(-1, attrId, -1))
 }
 
 

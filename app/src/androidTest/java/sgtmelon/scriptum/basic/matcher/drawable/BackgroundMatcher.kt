@@ -1,8 +1,6 @@
 package sgtmelon.scriptum.basic.matcher.drawable
 
-import android.media.Image
 import android.view.View
-import android.widget.ImageView
 import androidx.annotation.IdRes
 import androidx.core.content.ContextCompat
 

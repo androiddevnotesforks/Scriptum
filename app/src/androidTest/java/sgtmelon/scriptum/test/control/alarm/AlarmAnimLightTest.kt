@@ -10,7 +10,7 @@ import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
  * Test of animation and color scheme of [AlarmActivity] in light theme
  */
 @RunWith(AndroidJUnit4::class)
-class AlarmAnimLightTest : AlarmAnimParentTest(Theme.LIGHT) {
+class AlarmAnimLightTest : ParentAlarmAnimTest(Theme.LIGHT) {
 
     @Test override fun colorRed() = super.colorRed()
 

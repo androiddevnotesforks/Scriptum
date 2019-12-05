@@ -23,18 +23,6 @@ class DrawableMatcher(
         @AttrRes private val attrColor: Int
 ) : ParentImageMatcher(resourceId) {
 
-    override fun describeTo(description: Description?) {
-        super.describeTo(description)
-
-        if (colorId != -1) {
-            description?.appendText("\nView with colorId = $colorId")
-        }
-
-        if (attrColor != -1) {
-            description?.appendText("\nView with attrColor = $attrColor")
-        }
-    }
-
     override fun matchesSafely(item: View?): Boolean {
         if (item !is ImageView) return false
 
@@ -53,6 +41,18 @@ class DrawableMatcher(
         }
 
         return compare(item.drawable, expected)
+    }
+
+    override fun describeTo(description: Description?) {
+        super.describeTo(description)
+
+        if (colorId != -1) {
+            description?.appendText("\nView with colorId = $colorId")
+        }
+
+        if (attrColor != -1) {
+            description?.appendText("\nView with attrColor = $attrColor")
+        }
     }
 
 }

@@ -3,6 +3,7 @@ package sgtmelon.scriptum.test.auto.dialog.color
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.screen.ui.preference.PreferenceFragment
 import sgtmelon.scriptum.test.IColorTest
@@ -36,7 +37,7 @@ class PreferenceDefaultColorTest : ParentUiTest(), IColorTest {
 
     @Test override fun colorWhite() = super.colorWhite()
 
-    override fun startTest(color: Int) {
+    override fun startTest(@Color color: Int) {
         iPreferenceRepo.defaultColor = color
 
         launch {
