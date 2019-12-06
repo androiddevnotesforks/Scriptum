@@ -17,6 +17,7 @@ import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.test.ParentIntegrationTest
 import kotlin.random.Random
+import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel.Companion.onItemCheck
 
 /**
  * Integration test for [NoteRepo]
@@ -176,8 +177,7 @@ class NoteRepoTest : ParentIntegrationTest()  {
         val list = rollConverter.toItem(rollListFirst)
         val item = noteConverter.toItem(noteFirst, list)
 
-        list[0].isCheck = false
-        item.updateTime().updateComplete()
+        item.onItemCheck(p = 0)
 
         iNoteRepo.updateRollCheck(item, p = 0)
 

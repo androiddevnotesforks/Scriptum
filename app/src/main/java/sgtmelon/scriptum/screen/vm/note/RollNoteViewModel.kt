@@ -3,6 +3,7 @@ package sgtmelon.scriptum.screen.vm.note
 import android.app.Application
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import kotlinx.coroutines.launch
@@ -209,9 +210,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     override fun onClickItemCheck(p: Int) {
-        val rollItem = noteItem.rollList[p].apply { isCheck = !isCheck }
-
-        noteItem.updateTime().updateComplete()
+        val rollItem = noteItem.onItemCheck(p)
 
         callback?.notifyListItem(p, rollItem)
 
@@ -221,7 +220,6 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     override fun onLongClickItemCheck() {
         iInteractor.updateRollCheck(noteItem)
         callback?.changeCheckToggle(state = true)
-
         onUpdateData()
     }
 
@@ -514,5 +512,18 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     //endregion
+
+    companion object {
+
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        fun NoteItem.onItemCheck(p: Int): RollItem {
+            val rollItem = rollList[p].apply { isCheck = !isCheck }
+
+            updateTime().updateComplete()
+
+            return rollItem
+        }
+
+    }
 
 }
