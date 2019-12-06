@@ -90,6 +90,8 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         }
 
         iconState.notAnimate { onMenuEdit(noteState.isEdit) }
+
+        callback?.notifyDataSetChanged(noteItem.rollList)
     }
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy {
@@ -114,12 +116,6 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         }
     }
 
-    override fun onUpdateData() {
-        callback?.apply {
-            notifyDataSetChanged(noteItem.rollList)
-            changeCheckToggle(state = false)
-        }
-    }
 
     override fun onClickBackArrow() {
         if (!noteState.isCreate && noteState.isEdit && id != NoteData.Default.ID) {
@@ -218,9 +214,15 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     override fun onLongClickItemCheck() {
-        iInteractor.updateRollCheck(noteItem)
-        callback?.changeCheckToggle(state = true)
-        onUpdateData()
+        val check = noteItem.onItemLongCheck()
+
+        callback?.apply {
+            changeCheckToggle(state = true)
+            notifyDataSetChanged(noteItem.rollList)
+            changeCheckToggle(state = false)
+        }
+
+        viewModelScope.launch { iInteractor.updateRollCheck(noteItem, check) }
     }
 
     //region Results of dialogs
@@ -514,7 +516,6 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     //endregion
 
     companion object {
-
         @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
         fun NoteItem.onItemCheck(p: Int): RollItem {
             val rollItem = rollList[p].apply { isCheck = !isCheck }
@@ -524,6 +525,17 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             return rollItem
         }
 
+        /**
+         * If have some unchecked items - need turn them to true. Otherwise uncheck all items.
+         */
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        fun NoteItem.onItemLongCheck(): Boolean {
+            val check = rollList.any { !it.isCheck }
+
+            updateTime().updateCheck(check)
+
+            return check
+        }
     }
 
 }

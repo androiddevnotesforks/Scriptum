@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.adapter
 
 import android.view.ViewGroup
+import android.widget.CheckBox
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.holder.RollReadHolder
@@ -26,6 +27,12 @@ class RollAdapter(
 
     var noteState: NoteState? = null
 
+    /**
+     * Variable for choose method of set check:
+     *
+     * TRUE for [CheckBox.toggle].
+     * FALSE for [CheckBox.setChecked].
+     */
     var checkToggle: Boolean = false
     var cursorPosition = ND_CURSOR
 

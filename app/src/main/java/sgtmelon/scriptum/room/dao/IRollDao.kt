@@ -24,7 +24,7 @@ interface IRollDao {
     suspend fun update(rollId: Long, check: Boolean)
 
     @Query(value = "UPDATE ROLL_TABLE SET RL_CHECK = :check WHERE RL_NOTE_ID = :noteId")
-    fun updateAllCheck(noteId: Long, check: Boolean)
+    suspend fun updateAllCheck(noteId: Long, check: Boolean)
 
     /**
      * [idSaveList] - list of rolls which don't need delete

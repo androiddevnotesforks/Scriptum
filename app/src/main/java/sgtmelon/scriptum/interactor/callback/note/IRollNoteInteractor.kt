@@ -30,7 +30,7 @@ interface IRollNoteInteractor : IParentInteractor {
 
     suspend fun updateRollCheck(noteItem: NoteItem, p: Int)
 
-    fun updateRollCheck(noteItem: NoteItem)
+    suspend fun updateRollCheck(noteItem: NoteItem, check: Boolean)
 
     fun getRankId(check: Int): Long
 

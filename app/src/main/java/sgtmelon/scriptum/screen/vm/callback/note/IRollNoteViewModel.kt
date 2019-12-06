@@ -28,8 +28,6 @@ interface IRollNoteViewModel : IParentViewModel,
     fun onPause()
 
 
-    fun onUpdateData()
-
     fun onClickBackArrow()
 
     fun onPressBack(): Boolean

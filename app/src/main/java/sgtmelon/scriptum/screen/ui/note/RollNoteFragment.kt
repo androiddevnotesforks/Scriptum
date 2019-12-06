@@ -107,7 +107,6 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment {
     override fun onResume() {
         super.onResume()
         iViewModel.onResume()
-        iViewModel.onUpdateData()
     }
 
     override fun onPause() {
