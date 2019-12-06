@@ -169,18 +169,20 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     }
 
     override fun onResultRankDialog(check: Int) {
-        val rankId = iInteractor.getRankId(check)
+        viewModelScope.launch {
+            val rankId = iInteractor.getRankId(check)
 
-        inputControl.onRankChange(noteItem.rankId, noteItem.rankPs, rankId, check)
+            inputControl.onRankChange(noteItem.rankId, noteItem.rankPs, rankId, check)
 
-        noteItem.apply {
-            this.rankId = rankId
-            this.rankPs = check
-        }
+            noteItem.apply {
+                this.rankId = rankId
+                this.rankPs = check
+            }
 
-        callback?.apply {
-            onBindingInput(inputControl.access, noteItem)
-            onBindingNote(noteItem)
+            callback?.apply {
+                onBindingInput(inputControl.access, noteItem)
+                onBindingNote(noteItem)
+            }
         }
     }
 

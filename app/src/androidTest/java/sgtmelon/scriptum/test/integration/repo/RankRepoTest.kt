@@ -166,9 +166,9 @@ class RankRepoTest : ParentIntegrationTest()  {
         listOf(rankFirst, rankSecond, rankThird).forEach { iRankDao.insert(it) }
 
         assertEquals(DbData.Note.Default.RANK_ID, iRankRepo.getId(DbData.Note.Default.RANK_PS))
-        assertEquals(rankFirst.id, iRankRepo.getId(check = 0))
-        assertEquals(rankSecond.id, iRankRepo.getId(check = 1))
-        assertEquals(rankThird.id, iRankRepo.getId(check = 2))
+        assertEquals(rankFirst.id, iRankRepo.getId(position = 0))
+        assertEquals(rankSecond.id, iRankRepo.getId(position = 1))
+        assertEquals(rankThird.id, iRankRepo.getId(position = 2))
     }
 
     private companion object {

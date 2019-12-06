@@ -56,7 +56,7 @@ class TextNoteInteractor(context: Context, private var callback: ITextNoteBridge
     override fun getRankDialogItemArray() = iRankRepo.getDialogItemArray()
 
 
-    override fun getRankId(check: Int): Long = iRankRepo.getId(check)
+    override suspend fun getRankId(check: Int): Long = iRankRepo.getId(check)
 
     override suspend fun getDateList() = iAlarmRepo.getList().map { it.alarm.date }
 

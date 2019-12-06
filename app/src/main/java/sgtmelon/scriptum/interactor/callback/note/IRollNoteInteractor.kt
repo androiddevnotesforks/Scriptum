@@ -32,7 +32,7 @@ interface IRollNoteInteractor : IParentInteractor {
 
     suspend fun updateRollCheck(noteItem: NoteItem, check: Boolean)
 
-    fun getRankId(check: Int): Long
+    suspend fun getRankId(check: Int): Long
 
     suspend fun getDateList(): List<String>
 

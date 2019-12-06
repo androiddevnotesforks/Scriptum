@@ -133,16 +133,16 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
     }.toTypedArray()
 
     /**
-     * Return rank id by check (position).
+     * Return rank id by [position].
      */
-    override fun getId(check: Int): Long {
+    override suspend fun getId(position: Int): Long {
         val id: Long
 
-        if (check == DbData.Note.Default.RANK_PS) {
+        if (position == DbData.Note.Default.RANK_PS) {
             id = DbData.Note.Default.RANK_ID
         } else {
             openRoom().apply {
-                id = iRankDao.getId(check) ?: DbData.Note.Default.RANK_ID
+                id = iRankDao.getId(position) ?: DbData.Note.Default.RANK_ID
             }.close()
         }
 

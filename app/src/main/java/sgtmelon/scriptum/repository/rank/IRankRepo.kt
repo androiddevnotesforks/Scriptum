@@ -30,6 +30,6 @@ interface IRankRepo {
 
     fun getDialogItemArray(): Array<String>
 
-    fun getId(check: Int): Long
+    suspend fun getId(position: Int): Long
 
 }

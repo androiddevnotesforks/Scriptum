@@ -71,7 +71,7 @@ class RollNoteInteractor(context: Context, private var callback: IRollNoteBridge
         callback?.notifyNoteBind(noteItem, rankIdVisibleList)
     }
 
-    override fun getRankId(check: Int): Long = iRankRepo.getId(check)
+    override suspend fun getRankId(check: Int): Long = iRankRepo.getId(check)
 
     override suspend fun getDateList() = iAlarmRepo.getList().map { it.alarm.date }
 
