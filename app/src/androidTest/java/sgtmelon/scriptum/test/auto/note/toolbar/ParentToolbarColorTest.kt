@@ -6,7 +6,6 @@ import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.test.IColorTest
 import sgtmelon.scriptum.test.ParentUiTest
-import kotlin.random.Random
 
 /**
  * Parent class for tests of [NoteActivity] toolbar color with different themes

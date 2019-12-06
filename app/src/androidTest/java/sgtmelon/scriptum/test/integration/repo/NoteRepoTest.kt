@@ -76,10 +76,10 @@ class NoteRepoTest : ParentIntegrationTest()  {
 
         assertEquals(noteFirst, iNoteDao[noteFirst.id])
 
-        assertEquals(rankFirst.copy(noteId = arrayListOf(4)), iRankDao[rankFirst.id])
+        assertEquals(rankFirst.copy(noteId = arrayListOf(4)), iRankDao.get(rankFirst.id))
         assertNull(iNoteDao[itemSecond.id])
 
-        assertEquals(rankSecond.copy(noteId = arrayListOf()), iRankDao[rankSecond.id])
+        assertEquals(rankSecond.copy(noteId = arrayListOf()), iRankDao.get(rankSecond.id))
         assertNull(iNoteDao[itemThird.id])
     }
 
@@ -121,7 +121,7 @@ class NoteRepoTest : ParentIntegrationTest()  {
 
         iNoteRepo.clearNote(item)
 
-        assertEquals(rankFirst.copy(noteId = arrayListOf(4)), iRankDao[rankFirst.id])
+        assertEquals(rankFirst.copy(noteId = arrayListOf(4)), iRankDao.get(rankFirst.id))
         assertNull(iNoteDao[item.id])
     }
 
@@ -176,12 +176,12 @@ class NoteRepoTest : ParentIntegrationTest()  {
         val list = rollConverter.toItem(rollListFirst)
         val item = noteConverter.toItem(noteFirst, list)
 
+        list[0].isCheck = false
+        item.updateTime().updateComplete()
+
         iNoteRepo.updateRollCheck(item, p = 0)
 
-        assertFalse(list[0].isCheck)
-        assertChangeTime(item)
-        assertEquals("2/5", item.text)
-
+        assertEquals(item, iNoteRepo.getItem(item.id, optimisation = false))
         assertEquals(list, iNoteRepo.getRollList(item.id))
     }
 

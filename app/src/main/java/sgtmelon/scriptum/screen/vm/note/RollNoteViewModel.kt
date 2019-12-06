@@ -209,8 +209,13 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     override fun onClickItemCheck(p: Int) {
-        iInteractor.updateRollCheck(noteItem, p)
-        callback?.notifyListItem(p, noteItem.rollList[p])
+        val rollItem = noteItem.rollList[p].apply { isCheck = !isCheck }
+
+        noteItem.updateTime().updateComplete()
+
+        callback?.notifyListItem(p, rollItem)
+
+        viewModelScope.launch { iInteractor.updateRollCheck(noteItem, p) }
     }
 
     override fun onLongClickItemCheck() {

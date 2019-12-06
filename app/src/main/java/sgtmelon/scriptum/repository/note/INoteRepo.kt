@@ -40,10 +40,10 @@ interface INoteRepo {
     fun saveRollNote(noteItem: NoteItem, isCreate: Boolean)
 
 
-    fun updateRollCheck(noteItem: NoteItem, p: Int)
+    suspend fun updateRollCheck(noteItem: NoteItem, p: Int)
 
     fun updateRollCheck(noteItem: NoteItem)
 
-    fun updateNote(noteItem: NoteItem)
+    suspend fun updateNote(noteItem: NoteItem)
 
 }

@@ -65,7 +65,7 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
         iRankDao.delete(rankItem.name)
     }
 
-    override suspend fun update(rankItem: RankItem) = inRoom {
+    override suspend fun update(rankItem: RankItem) = inRoom2 {
         iRankDao.update(converter.toEntity(rankItem))
     }
 

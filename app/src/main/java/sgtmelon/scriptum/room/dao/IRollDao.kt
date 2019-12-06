@@ -21,7 +21,7 @@ interface IRollDao {
     fun update(id: Long, position: Int, text: String)
 
     @Query(value = "UPDATE ROLL_TABLE SET RL_CHECK = :check WHERE RL_ID = :rollId")
-    fun update(rollId: Long, check: Boolean)
+    suspend fun update(rollId: Long, check: Boolean)
 
     @Query(value = "UPDATE ROLL_TABLE SET RL_CHECK = :check WHERE RL_NOTE_ID = :noteId")
     fun updateAllCheck(noteId: Long, check: Boolean)

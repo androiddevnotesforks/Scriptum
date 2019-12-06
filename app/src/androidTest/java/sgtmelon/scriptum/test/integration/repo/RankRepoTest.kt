@@ -145,12 +145,12 @@ class RankRepoTest : ParentIntegrationTest()  {
         val noteItem = noteConverter.toItem(noteFirst.copy(rankId = 3, rankPs = 2))
         iRankRepo.updateConnection(noteItem)
 
-        assertEquals(rankThird.copy(noteId = mutableListOf(noteItem.id)), iRankDao[rankThird.id])
+        assertEquals(rankThird.copy(noteId = mutableListOf(noteItem.id)), iRankDao.get(rankThird.id))
 
         noteItem.clearRank()
         iRankRepo.updateConnection(noteItem)
 
-        assertEquals(rankThird, iRankDao[rankThird.id])
+        assertEquals(rankThird, iRankDao.get(rankThird.id))
     }
 
 

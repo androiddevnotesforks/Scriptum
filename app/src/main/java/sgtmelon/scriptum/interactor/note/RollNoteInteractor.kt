@@ -58,7 +58,7 @@ class RollNoteInteractor(context: Context, private var callback: IRollNoteBridge
     /**
      * Update single roll.
      */
-    override fun updateRollCheck(noteItem: NoteItem, p: Int) {
+    override suspend fun updateRollCheck(noteItem: NoteItem, p: Int) {
         iNoteRepo.updateRollCheck(noteItem, p)
         callback?.notifyNoteBind(noteItem, rankIdVisibleList)
     }

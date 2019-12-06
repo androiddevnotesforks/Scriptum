@@ -20,14 +20,14 @@ interface IRankDao {
     suspend fun delete(name: String)
 
     @Update(onConflict = OnConflictStrategy.IGNORE)
-    fun update(rankEntity: RankEntity)
+    suspend fun update(rankEntity: RankEntity)
 
     @Update(onConflict = OnConflictStrategy.IGNORE)
     fun update(list: List<RankEntity>)
 
 
     @Query(value = "SELECT * FROM RANK_TABLE WHERE RK_ID == :id")
-    operator fun get(id: Long): RankEntity?
+    suspend fun get(id: Long): RankEntity?
 
     @Query(value = "SELECT * FROM RANK_TABLE ORDER BY RK_POSITION ASC")
     fun get(): List<RankEntity>

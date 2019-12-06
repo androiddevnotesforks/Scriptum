@@ -285,17 +285,13 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
         }
     }
 
-    override fun updateRollCheck(noteItem: NoteItem, p: Int) {
-        val rollItem = noteItem.rollList[p].apply { isCheck = !isCheck }
+    override suspend fun updateRollCheck(noteItem: NoteItem, p: Int) = inRoom2 {
+        val item = noteItem.rollList[p]
 
-        noteItem.updateTime().updateComplete()
+        val rollId = item.id ?: return@inRoom2
 
-        inRoom {
-            val rollId = rollItem.id ?: return@inRoom
-
-            iRollDao.update(rollId, rollItem.isCheck)
-            iNoteDao.update(noteConverter.toEntity(noteItem))
-        }
+        iRollDao.update(rollId, item.isCheck)
+        iNoteDao.update(noteConverter.toEntity(noteItem))
     }
 
     override fun updateRollCheck(noteItem: NoteItem) = inRoom {
@@ -310,7 +306,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
         iNoteDao.update(noteConverter.toEntity(noteItem))
     }
 
-    override fun updateNote(noteItem: NoteItem) = inRoom {
+    override suspend fun updateNote(noteItem: NoteItem) = inRoom {
         iNoteDao.update(noteConverter.toEntity(noteItem))
     }
 
@@ -318,7 +314,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
     /**
      * Remove relation between [RankEntity] and [NoteItem] which will be delete
      */
-    private fun IRankDao.clearConnection(noteId: Long, rankId: Long) {
+    private suspend fun IRankDao.clearConnection(noteId: Long, rankId: Long) {
         val entity = get(rankId)?.apply { this.noteId.remove(noteId) } ?: return
         update(entity)
     }
