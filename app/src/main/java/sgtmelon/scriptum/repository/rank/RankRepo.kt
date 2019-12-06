@@ -133,7 +133,7 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
     }.toTypedArray()
 
     /**
-     * Return rank id by check (position)
+     * Return rank id by check (position).
      */
     override fun getId(check: Int): Long {
         val id: Long
@@ -142,7 +142,7 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
             id = DbData.Note.Default.RANK_ID
         } else {
             openRoom().apply {
-                id = iRankDao.getIdList().getOrNull(check) ?: DbData.Note.Default.RANK_ID
+                id = iRankDao.getId(check) ?: DbData.Note.Default.RANK_ID
             }.close()
         }
 

@@ -44,4 +44,7 @@ interface IRankDao {
     @Query(value = "SELECT RK_ID FROM RANK_TABLE ORDER BY RK_POSITION")
     fun getIdList(): List<Long>
 
+    @Query(value = "SELECT RK_ID FROM RANK_TABLE WHERE RK_POSITION = :position")
+    fun getId(position: Int): Long?
+
 }

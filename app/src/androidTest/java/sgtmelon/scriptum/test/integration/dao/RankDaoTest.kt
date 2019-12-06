@@ -103,8 +103,12 @@ class RankDaoTest : ParentIntegrationTest() {
         assertEquals(insertAll().map { it.name }, getNameList())
     }
 
-    @Test fun getIdList() = inRankDao {
-        assertEquals(insertAll().map { it.id }, getIdList())
+    @Test fun getId() = inRankDao {
+        assertNull(getId(Random.nextInt()))
+
+        insertAll().map { it.id }.forEachIndexed { p, id ->
+            assertEquals(id, getId(p))
+        }
     }
 
     private companion object {
