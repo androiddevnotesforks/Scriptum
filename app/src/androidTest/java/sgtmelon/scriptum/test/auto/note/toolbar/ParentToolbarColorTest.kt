@@ -2,10 +2,11 @@ package sgtmelon.scriptum.test.auto.note.toolbar
 
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
+import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
-import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
 import sgtmelon.scriptum.test.IColorTest
 import sgtmelon.scriptum.test.ParentUiTest
+import kotlin.random.Random
 
 /**
  * Parent class for tests of [NoteActivity] toolbar color with different themes
@@ -19,33 +20,31 @@ abstract class ParentToolbarColorTest(@Theme private val theme: Int) : ParentUiT
         launch {
             mainScreen {
                 notesScreen(empty = true) {
-                    val textNote = data.createText()
-
                     addDialog {
-                        createText(textNote) {
-                            controlPanel {
-                                onColor { onClickItem(color).onClickAccept() }
-                                onEnterText(data.uniqueString)
-                                onSave()
+                        val noteItem = data.createNote()
+                        when(noteItem.type) {
+                            NoteType.TEXT -> {
+                                createText(noteItem) {
+                                    controlPanel {
+                                        onColor { onClickItem(color).onClickAccept() }
+                                        onEnterText(data.uniqueString)
+                                        onSave()
+                                    }
+                                    toolbar { onClickBack() }
+                                }
                             }
-                            toolbar { onClickBack() }
+                            NoteType.ROLL -> {
+                                createRoll(noteItem) {
+                                    controlPanel {
+                                        onColor { onClickItem(color).onClickAccept() }
+                                        enterPanel { onAddRoll(data.uniqueString) }
+                                        onSave()
+                                    }
+                                    toolbar { onClickBack() }
+                                }
+                            }
                         }
                     }
-                    openNoteDialog(textNote) { onDelete() }
-
-                    val rollNote = data.createRoll()
-
-                    addDialog {
-                        createRoll(rollNote) {
-                            controlPanel {
-                                onColor { onClickItem(color).onClickAccept() }
-                                enterPanel { onAddRoll(data.uniqueString) }
-                                onSave()
-                            }
-                            toolbar { onClickBack() }
-                        }
-                    }
-                    openNoteDialog(rollNote) { onDelete() }
                 }
             }
         }

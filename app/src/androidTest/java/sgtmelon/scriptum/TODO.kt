@@ -82,20 +82,9 @@ class AutoSave {
      */
 }
 
-class Match {
-    // TODO #TEST match backgroundColor (android:background="")
-    // "android:background">
-}
-
 class Integration {
 
     // TODO #TEST проверка не удаления скрытых заметок из базы данных
     // TODO #TEST сценарий проверки правильности получения данных при отсутствии их в бд (удалил alarmItem, а noteModel пытается получить её и NPE commit 18.06.19 (62ecee45))
-
-}
-
-class Assert {
-
-    // TODO #TEST assert for note toolbar/indicator color
 
 }
