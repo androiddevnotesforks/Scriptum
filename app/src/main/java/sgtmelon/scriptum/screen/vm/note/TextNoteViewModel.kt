@@ -21,7 +21,7 @@ import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.IconState
 import sgtmelon.scriptum.model.state.NoteState
-import sgtmelon.scriptum.room.converter.StringConverter
+import sgtmelon.scriptum.room.converter.model.StringConverter
 import sgtmelon.scriptum.screen.ui.callback.note.INoteChild
 import sgtmelon.scriptum.screen.ui.callback.note.text.ITextNoteFragment
 import sgtmelon.scriptum.screen.ui.note.TextNoteFragment

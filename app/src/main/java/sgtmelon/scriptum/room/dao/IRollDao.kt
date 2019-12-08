@@ -4,7 +4,7 @@ import androidx.room.*
 import sgtmelon.scriptum.model.data.DbData
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.room.RoomDb
-import sgtmelon.scriptum.room.converter.BoolConverter
+import sgtmelon.scriptum.room.converter.type.BoolConverter
 import sgtmelon.scriptum.room.entity.RollEntity
 
 /**

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.room.converter
+package sgtmelon.scriptum.room.converter.type
 
 import kotlin.math.abs
 import kotlin.math.pow

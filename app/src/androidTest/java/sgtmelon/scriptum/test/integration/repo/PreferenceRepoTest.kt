@@ -10,7 +10,7 @@ import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.provider.PreferenceProvider
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
-import sgtmelon.scriptum.room.converter.IntConverter
+import sgtmelon.scriptum.room.converter.type.IntConverter
 import sgtmelon.scriptum.test.ParentIntegrationTest
 import kotlin.random.Random
 

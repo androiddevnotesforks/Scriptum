@@ -11,8 +11,8 @@ import sgtmelon.scriptum.model.key.Complete
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.room.IRoomWork
 import sgtmelon.scriptum.room.RoomDb
-import sgtmelon.scriptum.room.converter.NoteConverter
-import sgtmelon.scriptum.room.converter.RollConverter
+import sgtmelon.scriptum.room.converter.model.NoteConverter
+import sgtmelon.scriptum.room.converter.model.RollConverter
 import sgtmelon.scriptum.room.dao.INoteDao
 import sgtmelon.scriptum.room.dao.IRankDao
 import sgtmelon.scriptum.room.dao.IRollDao

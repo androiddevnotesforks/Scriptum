@@ -6,7 +6,7 @@ import androidx.room.TypeConverters
 import sgtmelon.scriptum.adapter.NotificationAdapter
 import sgtmelon.scriptum.model.data.DbData
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.room.converter.NoteTypeConverter
+import sgtmelon.scriptum.room.converter.type.NoteTypeConverter
 
 /**
  * Model for store short information about note and alarm, use in [NotificationAdapter]

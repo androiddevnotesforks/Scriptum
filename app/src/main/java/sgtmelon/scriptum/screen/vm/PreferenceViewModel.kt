@@ -13,7 +13,7 @@ import sgtmelon.scriptum.model.key.PermissionResult
 import sgtmelon.scriptum.provider.SummaryProvider
 import sgtmelon.scriptum.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
-import sgtmelon.scriptum.room.converter.IntConverter
+import sgtmelon.scriptum.room.converter.type.IntConverter
 import sgtmelon.scriptum.screen.ui.callback.IPreferenceFragment
 import sgtmelon.scriptum.screen.ui.preference.PreferenceFragment
 import sgtmelon.scriptum.screen.vm.callback.IPreferenceViewModel

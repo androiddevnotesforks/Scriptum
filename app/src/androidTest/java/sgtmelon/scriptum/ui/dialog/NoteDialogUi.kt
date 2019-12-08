@@ -11,7 +11,7 @@ import sgtmelon.scriptum.model.data.DbData
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.Complete
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.room.converter.RollConverter
+import sgtmelon.scriptum.room.converter.model.RollConverter
 import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.ui.IDialogUi
 import sgtmelon.scriptum.ui.ParentUi

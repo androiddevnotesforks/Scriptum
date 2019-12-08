@@ -9,7 +9,7 @@ import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.repository.alarm.AlarmRepo
 import sgtmelon.scriptum.repository.alarm.IAlarmRepo
-import sgtmelon.scriptum.room.converter.NoteConverter
+import sgtmelon.scriptum.room.converter.model.NoteConverter
 import sgtmelon.scriptum.room.dao.IAlarmDao
 import sgtmelon.scriptum.room.entity.AlarmEntity
 import sgtmelon.scriptum.room.entity.NoteEntity

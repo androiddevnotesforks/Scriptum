@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.room.converter
+package sgtmelon.scriptum.room.converter.model
 
 import androidx.room.TypeConverter
 import java.util.*

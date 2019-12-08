@@ -7,7 +7,7 @@ import sgtmelon.scriptum.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.model.annotation.Signal
 import sgtmelon.scriptum.model.item.MelodyItem
 import sgtmelon.scriptum.model.state.SignalState
-import sgtmelon.scriptum.room.converter.IntConverter
+import sgtmelon.scriptum.room.converter.type.IntConverter
 import java.util.*
 
 /**

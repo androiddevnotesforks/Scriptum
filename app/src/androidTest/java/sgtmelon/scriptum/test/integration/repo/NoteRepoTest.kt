@@ -9,8 +9,8 @@ import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.repository.note.INoteRepo
 import sgtmelon.scriptum.repository.note.NoteRepo
-import sgtmelon.scriptum.room.converter.NoteConverter
-import sgtmelon.scriptum.room.converter.RollConverter
+import sgtmelon.scriptum.room.converter.model.NoteConverter
+import sgtmelon.scriptum.room.converter.model.RollConverter
 import sgtmelon.scriptum.room.entity.AlarmEntity
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RankEntity

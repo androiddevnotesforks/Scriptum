@@ -5,7 +5,7 @@ import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.room.IRoomWork
 import sgtmelon.scriptum.room.RoomDb
-import sgtmelon.scriptum.room.converter.AlarmConverter
+import sgtmelon.scriptum.room.converter.model.AlarmConverter
 
 /**
  * Repository of [RoomDb] which work with alarm

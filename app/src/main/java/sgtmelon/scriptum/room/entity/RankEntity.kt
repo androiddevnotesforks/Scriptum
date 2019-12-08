@@ -4,8 +4,8 @@ import androidx.room.*
 import sgtmelon.scriptum.model.data.DbData.Rank
 import sgtmelon.scriptum.model.data.DbData.Rank.Default
 import sgtmelon.scriptum.model.data.DbData.Rank.Room
-import sgtmelon.scriptum.room.converter.BoolConverter
-import sgtmelon.scriptum.room.converter.StringConverter
+import sgtmelon.scriptum.room.converter.type.BoolConverter
+import sgtmelon.scriptum.room.converter.model.StringConverter
 
 /**
  * Entity of category.

@@ -9,8 +9,8 @@ import sgtmelon.scriptum.model.data.DbData
 import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.repository.rank.IRankRepo
 import sgtmelon.scriptum.repository.rank.RankRepo
-import sgtmelon.scriptum.room.converter.NoteConverter
-import sgtmelon.scriptum.room.converter.RankConverter
+import sgtmelon.scriptum.room.converter.model.NoteConverter
+import sgtmelon.scriptum.room.converter.model.RankConverter
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.test.ParentIntegrationTest

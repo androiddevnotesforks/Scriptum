@@ -6,7 +6,7 @@ import sgtmelon.scriptum.model.data.DbData.Note
 import sgtmelon.scriptum.model.data.DbData.Roll
 import sgtmelon.scriptum.model.data.DbData.Roll.Default
 import sgtmelon.scriptum.model.data.DbData.Roll.Room
-import sgtmelon.scriptum.room.converter.BoolConverter
+import sgtmelon.scriptum.room.converter.type.BoolConverter
 
 /**
  * Entity of element in check list note.

@@ -3,8 +3,8 @@ package sgtmelon.scriptum.room.dao
 import androidx.room.*
 import sgtmelon.scriptum.model.data.DbData
 import sgtmelon.scriptum.room.RoomDb
-import sgtmelon.scriptum.room.converter.BoolConverter
-import sgtmelon.scriptum.room.converter.NoteTypeConverter
+import sgtmelon.scriptum.room.converter.type.BoolConverter
+import sgtmelon.scriptum.room.converter.type.NoteTypeConverter
 import sgtmelon.scriptum.room.entity.NoteEntity
 
 /**

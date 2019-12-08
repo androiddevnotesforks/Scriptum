@@ -6,7 +6,7 @@ import org.json.JSONObject
 import sgtmelon.scriptum.adapter.RollAdapter
 import sgtmelon.scriptum.model.data.DbData.Roll
 import sgtmelon.scriptum.model.item.RollItem.Companion.get
-import sgtmelon.scriptum.room.converter.BoolConverter
+import sgtmelon.scriptum.room.converter.type.BoolConverter
 
 /**
  * Model for store short information about roll, use in [RollAdapter]

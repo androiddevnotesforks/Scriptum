@@ -5,7 +5,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.basic.extension.waitBefore
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.room.converter.NoteConverter
+import sgtmelon.scriptum.room.converter.model.NoteConverter
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.test.ParentUiTest
 

@@ -4,7 +4,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.room.converter.NoteConverter
+import sgtmelon.scriptum.room.converter.model.NoteConverter
 import sgtmelon.scriptum.test.ParentNotificationTest
 import kotlin.random.Random
 

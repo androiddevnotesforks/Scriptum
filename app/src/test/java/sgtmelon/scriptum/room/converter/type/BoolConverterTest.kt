@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.room.converter
+package sgtmelon.scriptum.room.converter.type
 
 import org.junit.Assert.*
 import org.junit.Test

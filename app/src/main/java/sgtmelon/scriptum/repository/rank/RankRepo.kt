@@ -7,7 +7,7 @@ import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.room.IRoomWork
 import sgtmelon.scriptum.room.RoomDb
-import sgtmelon.scriptum.room.converter.RankConverter
+import sgtmelon.scriptum.room.converter.model.RankConverter
 import sgtmelon.scriptum.room.dao.INoteDao
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RankEntity

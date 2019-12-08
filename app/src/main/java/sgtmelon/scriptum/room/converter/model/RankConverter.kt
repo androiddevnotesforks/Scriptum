@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.room.converter
+package sgtmelon.scriptum.room.converter.model
 
 import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.room.entity.RankEntity

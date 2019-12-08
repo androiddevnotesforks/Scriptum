@@ -5,8 +5,8 @@ import androidx.room.TypeConverters
 import sgtmelon.scriptum.adapter.RankAdapter
 import sgtmelon.scriptum.model.data.DbData.Rank
 import sgtmelon.scriptum.model.data.DbData.Rank.Default
-import sgtmelon.scriptum.room.converter.BoolConverter
-import sgtmelon.scriptum.room.converter.StringConverter
+import sgtmelon.scriptum.room.converter.type.BoolConverter
+import sgtmelon.scriptum.room.converter.model.StringConverter
 
 /**
  * Model for store short information about rank, use in [RankAdapter]

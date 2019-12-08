@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.room.converter
+package sgtmelon.scriptum.room.converter.model
 
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.room.entity.AlarmEntity

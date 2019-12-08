@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.model.state
 
 import sgtmelon.scriptum.model.annotation.Signal
-import sgtmelon.scriptum.room.converter.IntConverter
+import sgtmelon.scriptum.room.converter.type.IntConverter
 
 /**
  * State for control signal without use [IntConverter]

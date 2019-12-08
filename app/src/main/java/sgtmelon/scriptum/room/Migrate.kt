@@ -2,7 +2,7 @@ package sgtmelon.scriptum.room
 
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import sgtmelon.scriptum.room.converter.StringConverter
+import sgtmelon.scriptum.room.converter.model.StringConverter
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RankEntity
 import java.util.UUID.randomUUID

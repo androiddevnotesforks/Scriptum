@@ -13,8 +13,8 @@ import sgtmelon.scriptum.model.data.DbData.Note
 import sgtmelon.scriptum.model.data.DbData.Roll
 import sgtmelon.scriptum.model.key.Complete
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.room.converter.BoolConverter
-import sgtmelon.scriptum.room.converter.NoteTypeConverter
+import sgtmelon.scriptum.room.converter.type.BoolConverter
+import sgtmelon.scriptum.room.converter.type.NoteTypeConverter
 import kotlin.math.min
 
 /**

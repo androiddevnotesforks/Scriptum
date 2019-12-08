@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.model.data
 
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.room.converter.StringConverter
+import sgtmelon.scriptum.room.converter.model.StringConverter
 
 /**
  * Constants for DataBase

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.room.converter
+package sgtmelon.scriptum.room.converter.type
 
 import androidx.room.TypeConverter
 import sgtmelon.scriptum.model.key.NoteType

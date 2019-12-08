@@ -9,8 +9,8 @@ import sgtmelon.scriptum.model.data.DbData.Note
 import sgtmelon.scriptum.model.data.DbData.Note.Default
 import sgtmelon.scriptum.model.data.DbData.Note.Room
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.room.converter.BoolConverter
-import sgtmelon.scriptum.room.converter.NoteTypeConverter
+import sgtmelon.scriptum.room.converter.type.BoolConverter
+import sgtmelon.scriptum.room.converter.type.NoteTypeConverter
 
 /**
  * Entity with common information about note.
