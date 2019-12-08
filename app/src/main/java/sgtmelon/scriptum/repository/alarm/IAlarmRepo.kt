@@ -8,7 +8,7 @@ import sgtmelon.scriptum.model.item.NotificationItem
  */
 interface IAlarmRepo {
 
-    fun insertOrUpdate(noteItem: NoteItem, date: String)
+    suspend fun insertOrUpdate(noteItem: NoteItem, date: String)
 
     suspend fun delete(noteId: Long)
 

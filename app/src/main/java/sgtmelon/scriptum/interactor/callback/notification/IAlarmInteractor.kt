@@ -22,6 +22,6 @@ interface IAlarmInteractor : IParentInteractor {
 
     suspend fun getModel(id: Long): NoteItem?
 
-    fun setupRepeat(noteItem: NoteItem, valueArray: IntArray)
+    suspend fun setupRepeat(noteItem: NoteItem, valueArray: IntArray)
 
 }

@@ -16,7 +16,7 @@ class AlarmRepo(override val context: Context) : IAlarmRepo, IRoomWork {
 
     private val converter = AlarmConverter()
 
-    override fun insertOrUpdate(noteItem: NoteItem, date: String) = inRoom {
+    override suspend fun insertOrUpdate(noteItem: NoteItem, date: String) = inRoom2 {
         noteItem.alarmDate = date
 
         val entity = converter.toEntity(noteItem)

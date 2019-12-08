@@ -47,12 +47,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     }
 
     private val longWaitHandler = Handler()
-    private val longWaitRunnable = Runnable { callback?.finish() }
-
-    /**
-     * Control setup alarm repeat in [onDestroy].
-     */
-    private var needRepeat = true
+    private val longWaitRunnable = Runnable { postponeFinish() }
 
     override fun onSetup(bundle: Bundle?) {
         callback?.apply {
@@ -107,19 +102,6 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
 
         longWaitHandler.removeCallbacksAndMessages(null)
 
-        if (needRepeat) {
-            noteItem?.also {
-                val valueArray = context.resources.getIntArray(R.array.value_alarm_repeat_array)
-                iInteractor.setupRepeat(it, valueArray)
-            }
-
-            callback?.showPostponeToast(iInteractor.repeat)
-
-            context.sendTo(ReceiverData.Filter.MAIN, ReceiverData.Command.UPDATE_ALARM) {
-                putExtra(ReceiverData.Values.NOTE_ID, id)
-            }
-        }
-
         callback?.releasePhone()
 
         iInteractor.onDestroy()
@@ -156,8 +138,6 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     override fun onClickNote() {
         val noteItem = noteItem ?: return
 
-        needRepeat = false
-
         callback?.apply {
             startNoteActivity(noteItem)
             finish()
@@ -165,12 +145,30 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     }
 
     override fun onClickDisable() {
-        needRepeat = false
         callback?.finish()
     }
 
-    override fun onClickPostpone() {
-        callback?.finish()
+    override fun onClickPostpone() = postponeFinish()
+
+
+    /**
+     * Call this when need setup alarm repeat.
+     */
+    private fun postponeFinish() {
+        viewModelScope.launch {
+            noteItem?.also {
+                val valueArray = context.resources.getIntArray(R.array.value_alarm_repeat_array)
+                iInteractor.setupRepeat(it, valueArray)
+            }
+
+            callback?.showPostponeToast(iInteractor.repeat)
+
+            context.sendTo(ReceiverData.Filter.MAIN, ReceiverData.Command.UPDATE_ALARM) {
+                putExtra(ReceiverData.Values.NOTE_ID, id)
+            }
+
+            callback?.finish()
+        }
     }
 
     companion object {
