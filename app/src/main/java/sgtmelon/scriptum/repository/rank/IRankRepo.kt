@@ -28,7 +28,7 @@ interface IRankRepo {
     suspend fun updateConnection(noteItem: NoteItem)
 
 
-    fun getDialogItemArray(): Array<String>
+    suspend fun getDialogItemArray(): Array<String>
 
     suspend fun getId(position: Int): Long
 

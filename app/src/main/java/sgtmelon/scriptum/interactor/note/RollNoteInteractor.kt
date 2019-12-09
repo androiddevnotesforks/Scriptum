@@ -53,7 +53,7 @@ class RollNoteInteractor(context: Context, private var callback: IRollNoteBridge
         return model
     }
 
-    override fun getRankDialogItemArray() = iRankRepo.getDialogItemArray()
+    override suspend fun getRankDialogItemArray() = iRankRepo.getDialogItemArray()
 
     /**
      * Update single roll.

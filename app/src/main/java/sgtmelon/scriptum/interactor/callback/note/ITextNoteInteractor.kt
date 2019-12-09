@@ -25,7 +25,7 @@ interface ITextNoteInteractor : IParentInteractor {
 
     fun getItem(id: Long, updateBind: Boolean): NoteItem?
 
-    fun getRankDialogItemArray(): Array<String>
+    suspend fun getRankDialogItemArray(): Array<String>
 
 
     suspend fun getRankId(check: Int): Long

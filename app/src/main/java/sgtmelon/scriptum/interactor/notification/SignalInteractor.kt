@@ -76,6 +76,9 @@ class SignalInteractor(private val context: Context) : ParentInteractor(context)
      */
     override val melodyCheck: Int get() = melodyList.map { it.uri }.indexOf(melodyUri)
 
+    /**
+     * TODO #RELEASE add suspend
+     */
     override val melodyList: List<MelodyItem>
         get() = ArrayList<MelodyItem>().apply {
             /**

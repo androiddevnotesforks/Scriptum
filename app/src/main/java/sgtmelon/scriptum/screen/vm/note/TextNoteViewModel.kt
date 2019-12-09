@@ -81,7 +81,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         callback?.apply {
             setupBinding(iInteractor.theme, isRankEmpty)
             setupToolbar(iInteractor.theme, noteItem.color, noteState)
-            setupDialog(iInteractor.getRankDialogItemArray())
+            viewModelScope.launch { setupDialog(iInteractor.getRankDialogItemArray()) }
             setupEnter(inputControl)
         }
 

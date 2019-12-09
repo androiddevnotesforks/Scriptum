@@ -125,11 +125,11 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
 
 
     /**
-     * Return array with all rank names
+     * Return array with all rank names.
      */
-    override fun getDialogItemArray() = ArrayList<String>().apply {
+    override suspend fun getDialogItemArray() = ArrayList<String>().apply {
         add(context.getString(R.string.dialog_item_rank))
-        inRoom { addAll(iRankDao.getNameList()) }
+        inRoom2 { addAll(iRankDao.getNameList()) }
     }.toTypedArray()
 
     /**

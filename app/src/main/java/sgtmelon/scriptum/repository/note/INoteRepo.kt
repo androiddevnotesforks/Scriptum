@@ -29,8 +29,16 @@ interface INoteRepo {
     suspend fun clearNote(noteItem: NoteItem)
 
 
+    /**
+     * TODO #THINK in notes list need add fast convert
+     * (prepare all data - update note - suspend work with db)
+     */
     suspend fun convertToRoll(noteItem: NoteItem)
 
+    /**
+     * TODO #THINK in notes list need add fast convert
+     * (prepare all data - update note - suspend work with db)
+     */
     suspend fun convertToText(noteItem: NoteItem)
 
     suspend fun getCopyText(noteItem: NoteItem): String

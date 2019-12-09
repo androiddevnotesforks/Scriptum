@@ -25,7 +25,7 @@ interface IRollNoteInteractor : IParentInteractor {
 
     fun getItem(id: Long, updateBind: Boolean): NoteItem?
 
-    fun getRankDialogItemArray(): Array<String>
+    suspend fun getRankDialogItemArray(): Array<String>
 
 
     suspend fun updateRollCheck(noteItem: NoteItem, p: Int)

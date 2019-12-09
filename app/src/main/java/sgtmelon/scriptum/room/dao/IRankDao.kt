@@ -39,7 +39,7 @@ interface IRankDao {
     fun getCount(): Int
 
     @Query(value = "SELECT RK_NAME FROM RANK_TABLE ORDER BY RK_POSITION")
-    fun getNameList(): List<String>
+    suspend fun getNameList(): List<String>
 
     @Query(value = "SELECT RK_ID FROM RANK_TABLE WHERE RK_POSITION = :position")
     suspend fun getId(position: Int): Long?
