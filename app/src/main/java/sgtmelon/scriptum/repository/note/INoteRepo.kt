@@ -29,9 +29,9 @@ interface INoteRepo {
     suspend fun clearNote(noteItem: NoteItem)
 
 
-    fun convertToRoll(noteItem: NoteItem)
+    suspend fun convertToRoll(noteItem: NoteItem)
 
-    fun convertToText(noteItem: NoteItem)
+    suspend fun convertToText(noteItem: NoteItem)
 
     suspend fun getCopyText(noteItem: NoteItem): String
 

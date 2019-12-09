@@ -166,7 +166,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
     }
 
 
-    override fun convertToRoll(noteItem: NoteItem) {
+    override suspend fun convertToRoll(noteItem: NoteItem) {
         if (noteItem.type != NoteType.TEXT) return
 
         inRoom {
@@ -188,7 +188,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
         }
     }
 
-    override fun convertToText(noteItem: NoteItem) {
+    override suspend fun convertToText(noteItem: NoteItem) {
         if (noteItem.type != NoteType.ROLL) return
 
         inRoom {

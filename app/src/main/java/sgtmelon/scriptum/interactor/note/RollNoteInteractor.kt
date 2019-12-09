@@ -45,7 +45,7 @@ class RollNoteInteractor(context: Context, private var callback: IRollNoteBridge
 
     override fun isRankEmpty() = iRankRepo.isEmpty()
 
-    override fun getModel(id: Long, updateBind: Boolean): NoteItem? {
+    override fun getItem(id: Long, updateBind: Boolean): NoteItem? {
         val model = iNoteRepo.getItem(id, optimisation = false)
 
         if (updateBind && model != null) callback?.notifyNoteBind(model, rankIdVisibleList)
@@ -85,7 +85,7 @@ class RollNoteInteractor(context: Context, private var callback: IRollNoteBridge
         callback?.setAlarm(calendar, noteItem.id)
     }
 
-    override fun convert(noteItem: NoteItem) = iNoteRepo.convertToText(noteItem)
+    override suspend fun convert(noteItem: NoteItem) = iNoteRepo.convertToText(noteItem)
 
 
     override suspend fun restoreNote(noteItem: NoteItem) = iNoteRepo.restoreNote(noteItem)

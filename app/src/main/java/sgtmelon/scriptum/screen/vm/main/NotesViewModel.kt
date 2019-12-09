@@ -89,7 +89,9 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
                 callback?.showDateDialog(it.alarmDate.getCalendar(), it.haveAlarm(), p)
             }
             Options.BIND -> callback?.notifyItemChanged(p, onMenuBind(p))
-            Options.CONVERT -> callback?.notifyItemChanged(p, onMenuConvert(p))
+            Options.CONVERT -> viewModelScope.launch {
+                callback?.notifyItemChanged(p, onMenuConvert(p))
+            }
             Options.COPY -> viewModelScope.launch { iInteractor.copy(itemList[p]) }
             Options.DELETE -> callback?.notifyItemRemoved(p, onMenuDelete(p))
         }
@@ -101,7 +103,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
         viewModelScope.launch { iInteractor.updateNote(noteItem) }
     }
 
-    private fun onMenuConvert(p: Int) = itemList.apply { iInteractor.convert(get(p)) }
+    private suspend fun onMenuConvert(p: Int) = itemList.apply { iInteractor.convert(get(p)) }
 
     private fun onMenuDelete(p: Int) = itemList.apply {
         val item = removeAt(p)

@@ -70,7 +70,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
                 noteItem = NoteItem.getCreate(iInteractor.defaultColor, NoteType.ROLL)
                 noteState = NoteState(isCreate = true)
             } else {
-                iInteractor.getModel(id, updateBind = true)?.let {
+                iInteractor.getItem(id, updateBind = true)?.let {
                     noteItem = it
                 } ?: run {
                     parentCallback?.finish()
@@ -150,7 +150,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
          */
         val colorFrom = noteItem.color
 
-        iInteractor.getModel(id, updateBind = false)?.let {
+        iInteractor.getItem(id, updateBind = false)?.let {
             noteItem = it
         } ?: run {
             parentCallback?.finish()
@@ -281,8 +281,10 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     override fun onResultConvertDialog() {
-        iInteractor.convert(noteItem)
-        parentCallback?.onConvertNote()
+        viewModelScope.launch {
+            iInteractor.convert(noteItem)
+            parentCallback?.onConvertNote()
+        }
     }
 
     //endregion

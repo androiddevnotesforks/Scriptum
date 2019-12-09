@@ -215,8 +215,10 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     }
 
     override fun onResultConvertDialog() {
-        iInteractor.convert(noteItem)
-        parentCallback?.onConvertNote()
+        viewModelScope.launch {
+            iInteractor.convert(noteItem)
+            parentCallback?.onConvertNote()
+        }
     }
 
     //endregion

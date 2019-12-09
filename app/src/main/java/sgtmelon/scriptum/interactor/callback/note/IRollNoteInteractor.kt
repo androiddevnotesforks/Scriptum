@@ -23,7 +23,7 @@ interface IRollNoteInteractor : IParentInteractor {
 
     fun isRankEmpty(): Boolean
 
-    fun getModel(id: Long, updateBind: Boolean): NoteItem?
+    fun getItem(id: Long, updateBind: Boolean): NoteItem?
 
     fun getRankDialogItemArray(): Array<String>
 
@@ -40,7 +40,7 @@ interface IRollNoteInteractor : IParentInteractor {
 
     suspend fun setDate(noteItem: NoteItem, calendar: Calendar)
 
-    fun convert(noteItem: NoteItem)
+    suspend fun convert(noteItem: NoteItem)
 
 
     suspend fun restoreNote(noteItem: NoteItem)

@@ -54,7 +54,7 @@ class NotesInteractor(context: Context, private var callback: INotesBridge?) :
         callback?.notifyNoteBind(noteMirror, iRankRepo.getIdVisibleList())
     }
 
-    override fun convert(noteItem: NoteItem) {
+    override suspend fun convert(noteItem: NoteItem) {
         when (noteItem.type) {
             NoteType.TEXT -> iNoteRepo.convertToRoll(noteItem)
             NoteType.ROLL -> iNoteRepo.convertToText(noteItem)

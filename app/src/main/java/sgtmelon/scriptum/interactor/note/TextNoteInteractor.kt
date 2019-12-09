@@ -70,7 +70,7 @@ class TextNoteInteractor(context: Context, private var callback: ITextNoteBridge
         callback?.setAlarm(calendar, noteItem.id)
     }
 
-    override fun convert(noteItem: NoteItem) = iNoteRepo.convertToRoll(noteItem)
+    override suspend fun convert(noteItem: NoteItem) = iNoteRepo.convertToRoll(noteItem)
 
 
     override suspend fun restoreNote(noteItem: NoteItem) = iNoteRepo.restoreNote(noteItem)
