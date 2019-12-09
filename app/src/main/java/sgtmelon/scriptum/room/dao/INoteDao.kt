@@ -17,13 +17,17 @@ interface INoteDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(noteEntity: NoteEntity): Long
 
-    @Delete suspend fun delete(noteEntity: NoteEntity)
+    @Delete
+    suspend fun delete(noteEntity: NoteEntity)
 
-    @Delete suspend fun delete(list: List<NoteEntity>)
+    @Delete
+    suspend fun delete(list: List<NoteEntity>)
 
-    @Update fun update(noteEntity: NoteEntity)
+    @Update
+    fun update(noteEntity: NoteEntity)
 
-    @Update suspend fun update(list: List<NoteEntity>)
+    @Update
+    suspend fun update(list: List<NoteEntity>)
 
 
     @Query(value = "SELECT * FROM NOTE_TABLE WHERE NT_ID = :id")

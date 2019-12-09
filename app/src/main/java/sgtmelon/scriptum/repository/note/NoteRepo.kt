@@ -235,8 +235,8 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
         if (noteItem.type != NoteType.ROLL) return
 
         noteItem.rollList.apply {
-            removeAll { it.text.isEmpty() }
             forEach { it.text = it.text.clearSpace() }
+            removeAll { it.text.isEmpty() }
         }
 
         noteItem.name = noteItem.name.clearSpace()

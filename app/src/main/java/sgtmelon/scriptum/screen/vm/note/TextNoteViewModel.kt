@@ -2,6 +2,7 @@ package sgtmelon.scriptum.screen.vm.note
 
 import android.app.Application
 import android.os.Bundle
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.extension.beforeNow
@@ -9,6 +10,7 @@ import sgtmelon.extension.getCalendar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.SaveControl
 import sgtmelon.scriptum.control.input.InputControl
+import sgtmelon.scriptum.extension.clearSpace
 import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.interactor.BindInteractor
 import sgtmelon.scriptum.interactor.callback.IBindInteractor
@@ -364,6 +366,14 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
     override fun onInputTextChange() {
         callback?.onBindingInput(inputControl.access, noteItem)
+    }
+
+    companion object {
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        fun NoteItem.onSave() {
+            name = name.clearSpace()
+            updateTime()
+        }
     }
 
 }
