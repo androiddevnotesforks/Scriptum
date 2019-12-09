@@ -83,7 +83,7 @@ class TextNoteInteractor(context: Context, private var callback: ITextNoteBridge
 
     override suspend fun clearNote(noteItem: NoteItem) = iNoteRepo.clearNote(noteItem)
 
-    override fun saveNote(noteItem: NoteItem, isCreate: Boolean) {
+    override suspend fun saveNote(noteItem: NoteItem, isCreate: Boolean) {
         iNoteRepo.saveTextNote(noteItem, isCreate)
         iRankRepo.updateConnection(noteItem)
 

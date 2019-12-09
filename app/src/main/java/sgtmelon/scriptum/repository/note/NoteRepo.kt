@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.repository.note
 
 import android.content.Context
-import sgtmelon.scriptum.extension.clearSpace
 import sgtmelon.scriptum.extension.getText
 import sgtmelon.scriptum.extension.move
 import sgtmelon.scriptum.model.annotation.Sort
@@ -214,13 +213,10 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
         }
     }.toString()
 
-    override fun saveTextNote(noteItem: NoteItem, isCreate: Boolean) {
+    override suspend fun saveTextNote(noteItem: NoteItem, isCreate: Boolean) {
         if (noteItem.type != NoteType.TEXT) return
 
-        noteItem.name = noteItem.name.clearSpace()
-        noteItem.updateTime()
-
-        inRoom {
+        inRoom2 {
             val entity = noteConverter.toEntity(noteItem)
 
             if (isCreate) {
@@ -231,54 +227,39 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
         }
     }
 
-    override fun saveRollNote(noteItem: NoteItem, isCreate: Boolean) {
+    override suspend fun saveRollNote(noteItem: NoteItem, isCreate: Boolean) {
         if (noteItem.type != NoteType.ROLL) return
 
-        noteItem.rollList.apply {
-            forEach { it.text = it.text.clearSpace() }
-            removeAll { it.text.isEmpty() }
-        }
-
-        noteItem.name = noteItem.name.clearSpace()
-        noteItem.updateTime().updateComplete()
-
-        inRoom {
+        inRoom2 {
             val noteEntity = noteConverter.toEntity(noteItem)
 
             if (isCreate) {
                 noteItem.id = iNoteDao.insert(noteEntity)
-
-                /**
-                 * Write roll to db
-                 */
-                noteItem.rollList.forEachIndexed { i, item ->
-                    val rollEntity = rollConverter.toEntity(noteItem.id, item)
-                    item.apply { position = i }.id = iRollDao.insert(rollEntity)
+                noteItem.rollList.forEach {
+                    it.id = iRollDao.insert(rollConverter.toEntity(noteItem.id, it))
                 }
             } else {
                 iNoteDao.update(noteEntity)
 
                 /**
-                 * List of roll id's, which wasn't swiped
+                 * List of roll id's, which wasn't swiped.
                  */
                 val idSaveList = ArrayList<Long>()
 
-                noteItem.rollList.forEachIndexed { i, item ->
-                    item.position = i
+                noteItem.rollList.forEach {
+                    val id = it.id
 
-                    val id = item.id
                     if (id == null) {
-                        val rollEntity = rollConverter.toEntity(noteItem.id, item)
-                        item.id = iRollDao.insert(rollEntity)
+                        it.id = iRollDao.insert(rollConverter.toEntity(noteItem.id, it))
                     } else {
-                        iRollDao.update(id, i, item.text)
+                        iRollDao.update(id, it.position, it.text)
                     }
 
-                    item.id?.let { idSaveList.add(it) }
+                    it.id?.let { idSaveList.add(it) }
                 }
 
                 /**
-                 * Remove swiped rolls
+                 * Remove swiped rolls.
                  */
                 iRollDao.delete(noteItem.id, idSaveList)
             }

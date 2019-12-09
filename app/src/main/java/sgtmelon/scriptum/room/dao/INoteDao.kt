@@ -15,7 +15,7 @@ import sgtmelon.scriptum.room.entity.NoteEntity
 interface INoteDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(noteEntity: NoteEntity): Long
+    suspend fun insert(noteEntity: NoteEntity): Long
 
     @Delete
     suspend fun delete(noteEntity: NoteEntity)

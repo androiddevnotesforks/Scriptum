@@ -98,7 +98,7 @@ class RollNoteInteractor(context: Context, private var callback: IRollNoteBridge
 
     override suspend fun clearNote(noteItem: NoteItem) = iNoteRepo.clearNote(noteItem)
 
-    override fun saveNote(noteItem: NoteItem, isCreate: Boolean) {
+    override suspend fun saveNote(noteItem: NoteItem, isCreate: Boolean) {
         iNoteRepo.saveRollNote(noteItem, isCreate)
         iRankRepo.updateConnection(noteItem)
 

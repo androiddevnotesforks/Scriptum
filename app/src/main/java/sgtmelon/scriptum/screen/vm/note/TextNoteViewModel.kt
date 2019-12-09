@@ -296,19 +296,28 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     override fun onMenuSave(changeMode: Boolean): Boolean {
         if (!noteItem.isSaveEnabled()) return false
 
-        iInteractor.saveNote(noteItem, noteState.isCreate)
+        noteItem.onSave()
 
         if (changeMode) {
             callback?.hideKeyboard()
             onMenuEdit(isEdit = false)
             inputControl.reset()
+        } else if (noteState.isCreate) {
+            /**
+             * Change toolbar icon from arrow to cancel.
+             */
+            callback?.changeToolbarIcon(drawableOn = true, needAnim = true)
         }
 
-        noteState.ifCreate {
-            id = noteItem.id
-            parentCallback?.onUpdateNoteId(id)
+        viewModelScope.launch {
+            iInteractor.saveNote(noteItem, noteState.isCreate)
 
-            if (!changeMode) callback?.changeToolbarIcon(drawableOn = true, needAnim = true)
+            if (noteState.isCreate) {
+                noteState.isCreate = NoteState.ND_CREATE
+
+                id = noteItem.id
+                parentCallback?.onUpdateNoteId(id)
+            }
         }
 
         return true

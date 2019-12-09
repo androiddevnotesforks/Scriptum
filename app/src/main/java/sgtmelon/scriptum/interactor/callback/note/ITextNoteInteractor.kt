@@ -45,7 +45,7 @@ interface ITextNoteInteractor : IParentInteractor {
 
     suspend fun clearNote(noteItem: NoteItem)
 
-    fun saveNote(noteItem: NoteItem, isCreate: Boolean)
+    suspend fun saveNote(noteItem: NoteItem, isCreate: Boolean)
 
     suspend fun deleteNote(noteItem: NoteItem)
 

@@ -35,9 +35,9 @@ interface INoteRepo {
 
     suspend fun getCopyText(noteItem: NoteItem): String
 
-    fun saveTextNote(noteItem: NoteItem, isCreate: Boolean)
+    suspend fun saveTextNote(noteItem: NoteItem, isCreate: Boolean)
 
-    fun saveRollNote(noteItem: NoteItem, isCreate: Boolean)
+    suspend fun saveRollNote(noteItem: NoteItem, isCreate: Boolean)
 
 
     suspend fun updateRollCheck(noteItem: NoteItem, p: Int)

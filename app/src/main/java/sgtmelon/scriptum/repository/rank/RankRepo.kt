@@ -98,7 +98,7 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
     /**
      * Add [NoteEntity.id] to [RankEntity.noteId] or remove after some changes.
      */
-    override fun updateConnection(noteItem: NoteItem) = inRoom {
+    override suspend fun updateConnection(noteItem: NoteItem) = inRoom {
         val list = iRankDao.get()
         val checkArray = calculateCheckArray(list, noteItem.rankId)
 

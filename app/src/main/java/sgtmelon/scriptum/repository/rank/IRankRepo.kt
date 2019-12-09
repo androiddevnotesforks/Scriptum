@@ -25,7 +25,7 @@ interface IRankRepo {
 
     suspend fun updatePosition(rankList: List<RankItem>, noteIdList: List<Long>)
 
-    fun updateConnection(noteItem: NoteItem)
+    suspend fun updateConnection(noteItem: NoteItem)
 
 
     fun getDialogItemArray(): Array<String>

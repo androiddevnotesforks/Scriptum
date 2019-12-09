@@ -196,7 +196,6 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         val rollItem = RollItem(position = p, text = enterText)
 
         inputControl.onRollAdd(p, rollItem.toJson())
-
         noteItem.rollList.add(p, rollItem)
 
         callback?.apply {
@@ -390,25 +389,31 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     override fun onMenuSave(changeMode: Boolean): Boolean {
         if (!noteItem.isSaveEnabled()) return false
 
-        iInteractor.saveNote(noteItem, noteState.isCreate)
+        noteItem.onSave()
 
-        /**
-         * Change to read mode.
-         */
         if (changeMode) {
             callback?.hideKeyboard()
             onMenuEdit(isEdit = false)
             inputControl.reset()
+        } else if (noteState.isCreate) {
+            /**
+             * Change toolbar icon from arrow to cancel.
+             */
+            callback?.changeToolbarIcon(drawableOn = true, needAnim = true)
         }
 
-        noteState.ifCreate {
-            id = noteItem.id
-            parentCallback?.onUpdateNoteId(id)
+        viewModelScope.launch {
+            iInteractor.saveNote(noteItem, noteState.isCreate)
 
-            if (!changeMode) callback?.changeToolbarIcon(drawableOn = true, needAnim = true)
+            if (noteState.isCreate) {
+                noteState.isCreate = NoteState.ND_CREATE
+
+                id = noteItem.id
+                parentCallback?.onUpdateNoteId(id)
+            }
+
+            callback?.notifyList(noteItem.rollList)
         }
-
-        callback?.notifyList(noteItem.rollList)
 
         return true
     }
@@ -518,6 +523,20 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     //endregion
 
     companion object {
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        fun NoteItem.onSave() {
+            rollList.apply {
+                removeAll { it.text.clearSpace().isEmpty() }
+                forEachIndexed { i, item ->
+                    item.position = i
+                    item.text = item.text.clearSpace()
+                }
+            }
+
+            name = name.clearSpace()
+            updateTime().updateComplete()
+        }
+
         @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
         fun NoteItem.onItemCheck(p: Int): RollItem {
             val rollItem = rollList[p].apply { isCheck = !isCheck }

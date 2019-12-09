@@ -18,7 +18,7 @@ interface IRollDao {
     fun insert(rollEntity: RollEntity): Long
 
     @Query(value = "UPDATE ROLL_TABLE SET RL_POSITION = :position, RL_TEXT = :text WHERE RL_ID = :id")
-    fun update(id: Long, position: Int, text: String)
+    suspend fun update(id: Long, position: Int, text: String)
 
     @Query(value = "UPDATE ROLL_TABLE SET RL_CHECK = :check WHERE RL_ID = :rollId")
     suspend fun update(rollId: Long, check: Boolean)
@@ -30,7 +30,7 @@ interface IRollDao {
      * [idSaveList] - list of rolls which don't need delete
      */
     @Query(value = "DELETE FROM ROLL_TABLE WHERE RL_NOTE_ID = :noteId AND RL_ID NOT IN (:idSaveList)")
-    fun delete(noteId: Long, idSaveList: List<Long>)
+    suspend fun delete(noteId: Long, idSaveList: List<Long>)
 
     /**
      * Delete all items from note

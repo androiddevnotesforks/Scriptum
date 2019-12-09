@@ -11,13 +11,6 @@ class NoteState(var isCreate: Boolean = ND_CREATE, var isBin: Boolean = ND_BIN) 
         isEdit = isCreate
     }
 
-    inline fun ifCreate(func: () -> Unit) {
-        if (isCreate) {
-            isCreate = ND_CREATE
-            func()
-        }
-    }
-
     companion object {
         const val ND_CREATE = false
         const val ND_EDIT = false
