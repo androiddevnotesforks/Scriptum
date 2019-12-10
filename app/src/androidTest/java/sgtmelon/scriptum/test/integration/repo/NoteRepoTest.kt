@@ -99,7 +99,7 @@ class NoteRepoTest : ParentIntegrationTest()  {
         assertFalse(item.isStatus)
 
         assertEquals(noteConverter.toEntity(item), iNoteDao[item.id])
-        assertNull(iAlarmDao[item.id])
+        assertNull(iAlarmDao.get(item.id))
     }
 
     @Test fun restoreNote() = inRoomTest {

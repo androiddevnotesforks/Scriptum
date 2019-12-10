@@ -45,12 +45,14 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
 
 
     override fun onUpdateData() {
-        itemList.clearAndAdd(iInteractor.getList())
+        viewModelScope.launch {
+            itemList.clearAndAdd(iInteractor.getList())
 
-        callback?.apply {
-            notifyDataSetChanged(itemList)
-            setupBinding(iInteractor.isListHide())
-            onBingingList()
+            callback?.apply {
+                notifyDataSetChanged(itemList)
+                setupBinding(iInteractor.isListHide())
+                onBingingList()
+            }
         }
     }
 

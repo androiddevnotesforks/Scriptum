@@ -55,12 +55,12 @@ class DevelopRepo(override val context: Context) : IDevelopRepo, IRoomWork {
             iNoteDao.getByChange(bin = false)
                     .filter { it.type == NoteType.ROLL }
                     .map { it.id }
-                    .forEach {noteId -> iRollDao[noteId].forEach { list.add(it) } }
+                    .forEach {noteId -> iRollDao.get(noteId).forEach { list.add(it) } }
 
             iNoteDao.getByChange(bin = true)
                     .filter { it.type == NoteType.ROLL }
                     .map { it.id }
-                    .forEach {noteId -> iRollDao[noteId].forEach { list.add(it) } }
+                    .forEach {noteId -> iRollDao.get(noteId).forEach { list.add(it) } }
         }
 
         append("Roll table:")

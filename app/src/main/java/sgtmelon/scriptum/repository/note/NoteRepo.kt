@@ -32,12 +32,12 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
     /**
      * [optimal] - need for note lists where displays short information.
      */
-    override fun getList(@Sort sort: Int, bin: Boolean, optimal: Boolean,
+    override suspend fun getList(@Sort sort: Int, bin: Boolean, optimal: Boolean,
                          filterVisible: Boolean): MutableList<NoteItem> {
         val itemList = ArrayList<NoteItem>()
 
-        inRoom {
-            var list = iNoteDao.getBySort(sort, bin) ?: return@inRoom
+        inRoom2 {
+            var list = iNoteDao.getBySort(sort, bin) ?: return@inRoom2
 
             /**
              * If need get all items.
@@ -52,14 +52,14 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
                 val rollEntityList = iRollDao.getOptimal(it.id, optimal)
                 val rollItemList = rollConverter.toItem(rollEntityList)
 
-                itemList.add(noteConverter.toItem(it, rollItemList, iAlarmDao[it.id]))
+                itemList.add(noteConverter.toItem(it, rollItemList, iAlarmDao.get(it.id)))
             }
         }
 
         return itemList.correctRankSort(sort)
     }
 
-    private fun INoteDao.getBySort(@Sort sort: Int, bin: Boolean): List<NoteEntity>? {
+    private suspend fun INoteDao.getBySort(@Sort sort: Int, bin: Boolean): List<NoteEntity>? {
         return when (sort) {
             Sort.CHANGE -> getByChange(bin)
             Sort.CREATE -> getByCreate(bin)
@@ -72,7 +72,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
     /**
      * List must contains only item which isVisible.
      */
-    private fun IRankDao.filterVisible(list: List<NoteEntity>): List<NoteEntity> {
+    private suspend fun IRankDao.filterVisible(list: List<NoteEntity>): List<NoteEntity> {
         val idVisibleList = getIdVisibleList()
 
         return list.filter { noteConverter.toItem(it).isVisible(idVisibleList)  }
@@ -105,7 +105,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
         openRoom().apply {
             item = iNoteDao[id]?.let {
                 val rollList = rollConverter.toItem(iRollDao.getOptimal(it.id, optimisation))
-                return@let noteConverter.toItem(it, rollList, iAlarmDao[id])
+                return@let noteConverter.toItem(it, rollList, iAlarmDao.get(id))
             }
         }.close()
 
@@ -120,18 +120,18 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
      * Return empty list if don't have [RollEntity] for this [noteId]
      */
     override suspend fun getRollList(noteId: Long) = ArrayList<RollItem>().apply {
-        inRoom { addAll(rollConverter.toItem(iRollDao[noteId])) }
+        inRoom2 { addAll(rollConverter.toItem(iRollDao.get(noteId))) }
     }
 
 
     /**
      * Have hide notes in list or not.
      */
-    override fun isListHide(): Boolean {
+    override suspend fun isListHide(): Boolean {
         val isListHide: Boolean
 
         openRoom().apply {
-            isListHide = iNoteDao[false].any {
+            isListHide = iNoteDao.get(false).any {
                 noteConverter.toItem(it).isNotVisible(iRankDao.getIdVisibleList())
             }
         }.close()
@@ -140,7 +140,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
     }
 
     override suspend fun clearBin() = inRoom2 {
-        val noteList = iNoteDao[true].apply {
+        val noteList = iNoteDao.get(true).apply {
             forEach { iRankDao.clearConnection(it.id, it.rankId) }
         }
 
@@ -193,7 +193,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
 
         inRoom2 {
             noteItem.rollList.clear()
-            noteItem.convert().text = rollConverter.toItem(iRollDao[noteItem.id]).getText()
+            noteItem.convert().text = rollConverter.toItem(iRollDao.get(noteItem.id)).getText()
 
             iNoteDao.update(noteConverter.toEntity(noteItem))
             iRollDao.delete(noteItem.id)
@@ -208,7 +208,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
         when (noteItem.type) {
             NoteType.TEXT -> append(noteItem.text)
             NoteType.ROLL -> inRoom2 {
-                append(rollConverter.toItem(iRollDao[noteItem.id]).getText())
+                append(rollConverter.toItem(iRollDao.get(noteItem.id)).getText())
             }
         }
     }.toString()

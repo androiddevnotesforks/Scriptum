@@ -15,9 +15,9 @@ interface INotesInteractor : IParentInteractor {
 
     @Theme val theme: Int
 
-    fun getList(): MutableList<NoteItem>
+    suspend fun getList(): MutableList<NoteItem>
 
-    fun isListHide(): Boolean
+    suspend fun isListHide(): Boolean
 
     suspend fun updateNote(noteItem: NoteItem)
 

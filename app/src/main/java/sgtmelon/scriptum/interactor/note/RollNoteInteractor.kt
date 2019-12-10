@@ -46,11 +46,11 @@ class RollNoteInteractor(context: Context, private var callback: IRollNoteBridge
     override fun isRankEmpty() = iRankRepo.isEmpty()
 
     override fun getItem(id: Long, updateBind: Boolean): NoteItem? {
-        val model = iNoteRepo.getItem(id, optimisation = false)
+        val item = iNoteRepo.getItem(id, optimisation = false)
 
-        if (updateBind && model != null) callback?.notifyNoteBind(model, rankIdVisibleList)
+        if (updateBind && item != null) callback?.notifyNoteBind(item, rankIdVisibleList)
 
-        return model
+        return item
     }
 
     override suspend fun getRankDialogItemArray() = iRankRepo.getDialogItemArray()

@@ -9,7 +9,7 @@ import sgtmelon.scriptum.model.item.RollItem
  */
 interface INoteRepo {
 
-    fun getList(@Sort sort: Int, bin: Boolean, optimal: Boolean,
+    suspend fun getList(@Sort sort: Int, bin: Boolean, optimal: Boolean,
                 filterVisible: Boolean): MutableList<NoteItem>
 
     fun getItem(id: Long, optimisation: Boolean): NoteItem?
@@ -17,7 +17,7 @@ interface INoteRepo {
     suspend fun getRollList(noteId: Long): MutableList<RollItem>
 
 
-    fun isListHide(): Boolean
+    suspend fun isListHide(): Boolean
 
     suspend fun clearBin()
 

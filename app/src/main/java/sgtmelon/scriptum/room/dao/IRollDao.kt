@@ -40,7 +40,7 @@ interface IRollDao {
 
 
     @Query(value = "SELECT * FROM ROLL_TABLE WHERE RL_NOTE_ID = :noteId ORDER BY RL_POSITION")
-    operator fun get(noteId: Long): MutableList<RollEntity>
+    fun get(noteId: Long): MutableList<RollEntity>
 
     /**
      * Get only first 4 items for preview

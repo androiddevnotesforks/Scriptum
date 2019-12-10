@@ -37,7 +37,7 @@ class AlarmDaoTest : ParentIntegrationTest() {
         insertAlarmRelation(noteFirst, alarmFirst)
 
         iAlarmDao.delete(alarmFirst.noteId)
-        assertNull(iAlarmDao[alarmFirst.noteId])
+        assertNull(iAlarmDao.get(alarmFirst.noteId))
     }
 
     @Test fun update() = inRoomTest {
@@ -45,16 +45,16 @@ class AlarmDaoTest : ParentIntegrationTest() {
 
         alarmFirst.copy(date = DATE_2).let {
             iAlarmDao.update(it)
-            assertEquals(it, iAlarmDao[alarmFirst.noteId])
+            assertEquals(it, iAlarmDao.get(alarmFirst.noteId))
         }
     }
 
-    @Test fun getOnWrongId() = inRoomTest { assertNull(iAlarmDao[Random.nextLong()]) }
+    @Test fun getOnWrongId() = inRoomTest { assertNull(iAlarmDao.get(Random.nextLong())) }
 
     @Test fun getOnCorrectId() = inRoomTest {
         insertAlarmRelation(noteFirst, alarmFirst)
 
-        assertEquals(alarmFirst, iAlarmDao[alarmFirst.noteId])
+        assertEquals(alarmFirst, iAlarmDao.get(alarmFirst.noteId))
     }
 
     @Test fun getItem() = inRoomTest {

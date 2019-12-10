@@ -36,7 +36,7 @@ interface IAlarmDao {
     fun getList(): MutableList<NotificationItem>
 
     @Query(value = "SELECT * FROM ALARM_TABLE WHERE AL_NOTE_ID = :noteId")
-    operator fun get(noteId: Long): AlarmEntity?
+    fun get(noteId: Long): AlarmEntity?
 
     @Query(value = """SELECT COUNT(AL_ID) FROM ALARM_TABLE""")
     suspend fun getCount(): Int

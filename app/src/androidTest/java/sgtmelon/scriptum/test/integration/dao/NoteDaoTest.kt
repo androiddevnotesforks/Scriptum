@@ -18,7 +18,7 @@ class NoteDaoTest : ParentIntegrationTest() {
 
     private fun inNoteDao(func: suspend INoteDao.() -> Unit) = inRoomTest { iNoteDao.apply { func() } }
 
-    private fun INoteDao.insertAllTo(bin: Boolean) {
+    private suspend fun INoteDao.insertAllTo(bin: Boolean) {
         insert(noteFirst.copy(isBin = bin))
         insert(noteSecond.copy(isBin = bin))
         insert(noteThird.copy(isBin = bin))
@@ -28,7 +28,7 @@ class NoteDaoTest : ParentIntegrationTest() {
         assertNotNull(get(noteThird.id))
     }
 
-    private fun INoteDao.updateAllTo(bin: Boolean) {
+    private suspend fun INoteDao.updateAllTo(bin: Boolean) {
         update(noteFirst.copy(isBin = bin))
         update(noteSecond.copy(isBin = bin))
         update(noteThird.copy(isBin = bin))

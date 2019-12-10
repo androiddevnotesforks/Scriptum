@@ -18,7 +18,7 @@ import sgtmelon.scriptum.test.ParentIntegrationTest
 @RunWith(AndroidJUnit4::class)
 class RollDaoTest : ParentIntegrationTest() {
 
-    private fun RoomDb.insertRollRelation(model: Model) = with(model) {
+    private suspend fun RoomDb.insertRollRelation(model: Model) = with(model) {
         iNoteDao.insert(entity)
         rollList.forEach { iRollDao.insert(it) }
     }
@@ -29,7 +29,7 @@ class RollDaoTest : ParentIntegrationTest() {
 
         with(modelFirst) {
             rollList.forEach { item -> assertEquals(UNIQUE_ERROR_ID, iRollDao.insert(item)) }
-            assertEquals(rollList, iRollDao[entity.id])
+            assertEquals(rollList, iRollDao.get(entity.id))
         }
     }
 
@@ -41,7 +41,7 @@ class RollDaoTest : ParentIntegrationTest() {
                 iRollDao.update(it.id!!, it.position, it.text)
                 iRollDao.update(it.id!!, it.isCheck)
 
-                assertTrue(iRollDao[entity.id].contains(it))
+                assertTrue(iRollDao.get(entity.id).contains(it))
             }
         }
     }
@@ -53,7 +53,7 @@ class RollDaoTest : ParentIntegrationTest() {
             iRollDao.updateAllCheck(entity.id, check = true)
             assertEquals(copy().rollList.apply {
                 forEach { it.isCheck = true }
-            }, iRollDao[entity.id])
+            }, iRollDao.get(entity.id))
         }
     }
 
@@ -65,7 +65,7 @@ class RollDaoTest : ParentIntegrationTest() {
 
             entity.id.let { id ->
                 iRollDao.delete(id, listSave.map { it.id ?: -1 })
-                assertEquals(listSave, iRollDao[id])
+                assertEquals(listSave, iRollDao.get(id))
             }
         }
     }
@@ -75,7 +75,7 @@ class RollDaoTest : ParentIntegrationTest() {
 
         modelFirst.entity.id.let {
             iRollDao.delete(it)
-            assertTrue(iRollDao[it].isEmpty())
+            assertTrue(iRollDao.get(it).isEmpty())
         }
     }
 
@@ -83,12 +83,12 @@ class RollDaoTest : ParentIntegrationTest() {
     @Test fun get() = inRoomTest {
         modelFirst.let {
             insertRollRelation(it)
-            assertEquals(it.rollList, iRollDao[it.entity.id])
+            assertEquals(it.rollList, iRollDao.get(it.entity.id))
         }
 
         modelSecond.let {
             insertRollRelation(it)
-            assertEquals(it.rollList, iRollDao[it.entity.id])
+            assertEquals(it.rollList, iRollDao.get(it.entity.id))
         }
     }
 
