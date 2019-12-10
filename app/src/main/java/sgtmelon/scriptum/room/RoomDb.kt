@@ -36,11 +36,11 @@ abstract class RoomDb : RoomDatabase() {
     companion object {
         const val VERSION = 7
 
-        operator fun get(context: Context): RoomDb =
-                Room.databaseBuilder(context, RoomDb::class.java, BuildConfig.DB_NAME)
-                        .addMigrations(*Migrate.sequence)
-                        .allowMainThreadQueries() // TODO remove
-                        .build()
+        operator fun get(context: Context): RoomDb {
+            return Room.databaseBuilder(context, RoomDb::class.java, BuildConfig.DB_NAME)
+                    .addMigrations(*Migrate.sequence)
+                    .build()
+        }
     }
 
 }
