@@ -10,7 +10,7 @@ interface IRankRepo {
 
     fun isEmpty(): Boolean
 
-    fun getList(): MutableList<RankItem>
+    suspend fun getList(): MutableList<RankItem>
 
     fun getIdVisibleList(): List<Long>
 

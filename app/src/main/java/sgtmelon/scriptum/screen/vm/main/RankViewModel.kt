@@ -44,11 +44,13 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
 
 
     override fun onUpdateData() {
-        itemList.clearAndAdd(iInteractor.getList())
+        viewModelScope.launch {
+            itemList.clearAndAdd(iInteractor.getList())
 
-        callback?.apply {
-            notifyDataSetChanged(itemList)
-            bindList()
+            callback?.apply {
+                notifyDataSetChanged(itemList)
+                bindList()
+            }
         }
     }
 

@@ -29,8 +29,8 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
         return count == 0
     }
 
-    override fun getList() = ArrayList<RankItem>().apply {
-        inRoom { addAll(converter.toItem(iRankDao.get())) }
+    override suspend fun getList() = ArrayList<RankItem>().apply {
+        inRoom2 { addAll(converter.toItem(iRankDao.get())) }
     }
 
     /**

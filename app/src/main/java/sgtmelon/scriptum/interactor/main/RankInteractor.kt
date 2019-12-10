@@ -18,7 +18,7 @@ class RankInteractor(context: Context) : ParentInteractor(context), IRankInterac
 
     override suspend fun insert(name: String) = RankItem(iRankRepo.insert(name), name = name)
 
-    override fun getList() = iRankRepo.getList()
+    override suspend fun getList() = iRankRepo.getList()
 
     override suspend fun delete(item: RankItem) = iRankRepo.delete(item)
 

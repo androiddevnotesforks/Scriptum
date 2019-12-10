@@ -13,7 +13,7 @@ interface IRankInteractor : IParentInteractor {
 
     suspend fun insert(name: String): RankItem
 
-    fun getList(): MutableList<RankItem>
+    suspend fun getList(): MutableList<RankItem>
 
     suspend fun delete(item: RankItem)
 
