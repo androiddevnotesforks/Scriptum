@@ -69,7 +69,7 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
         iRankDao.update(converter.toEntity(rankItem))
     }
 
-    override suspend fun update(rankList: List<RankItem>) = inRoom {
+    override suspend fun update(rankList: List<RankItem>) = inRoom2 {
         iRankDao.update(converter.toEntity(rankList))
     }
 
@@ -98,7 +98,7 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
     /**
      * Add [NoteEntity.id] to [RankEntity.noteId] or remove after some changes.
      */
-    override suspend fun updateConnection(noteItem: NoteItem) = inRoom {
+    override suspend fun updateConnection(noteItem: NoteItem) = inRoom2 {
         val list = iRankDao.get()
         val checkArray = calculateCheckArray(list, noteItem.rankId)
 

@@ -5,7 +5,7 @@ package sgtmelon.scriptum.repository.bind
  */
 interface IBindRepo {
 
-    fun unbindNote(id: Long): Boolean
+    suspend fun unbindNote(id: Long): Boolean
 
     suspend fun getNotificationCount(): Int
 

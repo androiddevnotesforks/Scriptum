@@ -24,7 +24,7 @@ class DevelopRepo(override val context: Context) : IDevelopRepo, IRoomWork {
     override suspend fun getNoteTablePrint() = StringBuilder().apply {
         val list: MutableList<NoteEntity> = ArrayList()
 
-        inRoom {
+        inRoom2 {
             list.addAll(iNoteDao.getByChange(bin = true))
             list.addAll(iNoteDao.getByChange(bin = false))
         }
@@ -51,7 +51,7 @@ class DevelopRepo(override val context: Context) : IDevelopRepo, IRoomWork {
     override suspend fun getRollTablePrint() = StringBuilder().apply {
         val list: MutableList<RollEntity> = ArrayList()
 
-        inRoom {
+        inRoom2 {
             iNoteDao.getByChange(bin = false)
                     .filter { it.type == NoteType.ROLL }
                     .map { it.id }
@@ -77,7 +77,7 @@ class DevelopRepo(override val context: Context) : IDevelopRepo, IRoomWork {
     }.toString()
 
     override suspend fun getRankTablePrint() = StringBuilder().apply {
-        val list = ArrayList<RankEntity>().apply { inRoom { addAll(iRankDao.get()) } }
+        val list = ArrayList<RankEntity>().apply { inRoom2 { addAll(iRankDao.get()) } }
 
         append("Rank table:")
 

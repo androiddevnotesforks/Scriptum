@@ -15,7 +15,7 @@ import sgtmelon.scriptum.room.entity.RollEntity
 interface IRollDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(rollEntity: RollEntity): Long
+    suspend fun insert(rollEntity: RollEntity): Long
 
     @Query(value = "UPDATE ROLL_TABLE SET RL_POSITION = :position, RL_TEXT = :text WHERE RL_ID = :id")
     suspend fun update(id: Long, position: Int, text: String)
@@ -36,7 +36,7 @@ interface IRollDao {
      * Delete all items from note
      */
     @Query(value = "DELETE FROM ROLL_TABLE WHERE RL_NOTE_ID = :noteId")
-    fun delete(noteId: Long)
+    suspend fun delete(noteId: Long)
 
 
     @Query(value = "SELECT * FROM ROLL_TABLE WHERE RL_NOTE_ID = :noteId ORDER BY RL_POSITION")

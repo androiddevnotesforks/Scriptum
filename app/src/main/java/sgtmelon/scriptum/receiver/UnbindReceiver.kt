@@ -4,6 +4,8 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import sgtmelon.scriptum.control.bind.BindControl
 import sgtmelon.scriptum.extension.sendTo
 import sgtmelon.scriptum.model.data.NoteData
@@ -25,13 +27,15 @@ class UnbindReceiver : BroadcastReceiver() {
 
         if (id == NoteData.Default.ID) return
 
-        if (BindRepo(context).unbindNote(id)) {
-            BindControl(context).cancelNote(id.toInt())
-        }
+        GlobalScope.launch {
+            if (BindRepo(context).unbindNote(id)) {
+                BindControl(context).cancelNote(id.toInt())
+            }
 
-        context.apply {
-            sendTo(Filter.MAIN, Command.UNBIND_NOTE) { putExtra(Values.NOTE_ID, id) }
-            sendTo(Filter.NOTE, Command.UNBIND_NOTE) { putExtra(Values.NOTE_ID, id) }
+            context.apply {
+                sendTo(Filter.MAIN, Command.UNBIND_NOTE) { putExtra(Values.NOTE_ID, id) }
+                sendTo(Filter.NOTE, Command.UNBIND_NOTE) { putExtra(Values.NOTE_ID, id) }
+            }
         }
     }
 

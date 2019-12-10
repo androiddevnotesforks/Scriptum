@@ -24,7 +24,7 @@ interface INoteDao {
     suspend fun delete(list: List<NoteEntity>)
 
     @Update
-    fun update(noteEntity: NoteEntity)
+    suspend fun update(noteEntity: NoteEntity)
 
     @Update
     suspend fun update(list: List<NoteEntity>)

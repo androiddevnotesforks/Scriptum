@@ -12,7 +12,7 @@ import sgtmelon.scriptum.room.entity.NoteEntity
  */
 class BindRepo(override val context: Context) : IBindRepo, IRoomWork {
 
-    override fun unbindNote(id: Long): Boolean {
+    override suspend fun unbindNote(id: Long): Boolean {
         val result: Boolean
 
         openRoom().apply {

@@ -153,7 +153,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
         iNoteDao.update(noteConverter.toEntity(noteItem.delete()))
     }
 
-    override suspend fun restoreNote(noteItem: NoteItem) = inRoom {
+    override suspend fun restoreNote(noteItem: NoteItem) = inRoom2 {
         iNoteDao.update(noteConverter.toEntity(noteItem.restore()))
     }
 
@@ -169,7 +169,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
     override suspend fun convertToRoll(noteItem: NoteItem) {
         if (noteItem.type != NoteType.TEXT) return
 
-        inRoom {
+        inRoom2 {
             noteItem.rollList.clear()
 
             var p = 0
@@ -191,7 +191,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
     override suspend fun convertToText(noteItem: NoteItem) {
         if (noteItem.type != NoteType.ROLL) return
 
-        inRoom {
+        inRoom2 {
             noteItem.rollList.clear()
             noteItem.convert().text = rollConverter.toItem(iRollDao[noteItem.id]).getText()
 
@@ -207,7 +207,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
 
         when (noteItem.type) {
             NoteType.TEXT -> append(noteItem.text)
-            NoteType.ROLL -> inRoom {
+            NoteType.ROLL -> inRoom2 {
                 append(rollConverter.toItem(iRollDao[noteItem.id]).getText())
             }
         }
@@ -280,7 +280,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
         iNoteDao.update(noteConverter.toEntity(noteItem))
     }
 
-    override suspend fun updateNote(noteItem: NoteItem) = inRoom {
+    override suspend fun updateNote(noteItem: NoteItem) = inRoom2 {
         iNoteDao.update(noteConverter.toEntity(noteItem))
     }
 
