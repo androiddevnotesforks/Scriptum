@@ -40,8 +40,8 @@ class AlarmRepo(override val context: Context) : IAlarmRepo, IRoomWork {
         return item
     }
 
-    override fun getList() = ArrayList<NotificationItem>().apply {
-        inRoom { addAll(iAlarmDao.getList()) }
+    override suspend fun getList() = ArrayList<NotificationItem>().apply {
+        inRoom2 { addAll(iAlarmDao.getList()) }
     }
 
 }

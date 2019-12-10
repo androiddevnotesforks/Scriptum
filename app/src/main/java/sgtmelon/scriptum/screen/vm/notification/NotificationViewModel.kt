@@ -34,11 +34,13 @@ class NotificationViewModel(application: Application) :
 
 
     override fun onUpdateData() {
-        itemList.clearAndAdd(iInteractor.getList())
+        viewModelScope.launch {
+            itemList.clearAndAdd(iInteractor.getList())
 
-        callback?.apply {
-            notifyDataSetChanged(itemList)
-            onBindingList()
+            callback?.apply {
+                notifyDataSetChanged(itemList)
+                onBindingList()
+            }
         }
     }
 

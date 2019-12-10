@@ -26,7 +26,7 @@ class NotificationInteractor(context: Context, private var callback: INotificati
 
     @Theme override val theme: Int get() = iPreferenceRepo.theme
 
-    override fun getList() = iAlarmRepo.getList()
+    override suspend fun getList() = iAlarmRepo.getList()
 
     override suspend fun cancelNotification(item: NotificationItem) {
         val id = item.note.id
