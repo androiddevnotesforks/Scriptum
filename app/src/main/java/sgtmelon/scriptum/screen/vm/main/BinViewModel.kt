@@ -36,12 +36,14 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
 
 
     override fun onUpdateData() {
-        itemList.clearAndAdd(iInteractor.getList())
+        viewModelScope.launch {
+            itemList.clearAndAdd(iInteractor.getList())
 
-        callback?.apply {
-            notifyDataSetChanged(itemList)
-            notifyMenuClearBin()
-            onBingingList()
+            callback?.apply {
+                notifyDataSetChanged(itemList)
+                notifyMenuClearBin()
+                onBingingList()
+            }
         }
     }
 
