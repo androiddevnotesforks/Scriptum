@@ -12,7 +12,7 @@ interface INoteRepo {
     suspend fun getList(@Sort sort: Int, bin: Boolean, optimal: Boolean,
                 filterVisible: Boolean): MutableList<NoteItem>
 
-    fun getItem(id: Long, optimisation: Boolean): NoteItem?
+    suspend fun getItem(id: Long, optimisation: Boolean): NoteItem?
 
     suspend fun getRollList(noteId: Long): MutableList<RollItem>
 

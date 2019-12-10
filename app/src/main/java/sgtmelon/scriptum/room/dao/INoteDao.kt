@@ -31,7 +31,7 @@ interface INoteDao {
 
 
     @Query(value = "SELECT * FROM NOTE_TABLE WHERE NT_ID = :id")
-    operator fun get(id: Long): NoteEntity?
+    suspend fun get(id: Long): NoteEntity?
 
     @Query(value = "SELECT * FROM NOTE_TABLE WHERE NT_ID IN(:idList)")
     suspend fun get(idList: List<Long>): List<NoteEntity>

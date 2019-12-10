@@ -16,7 +16,7 @@ class BindRepo(override val context: Context) : IBindRepo, IRoomWork {
         val result: Boolean
 
         openRoom().apply {
-            val noteEntity = iNoteDao[id]?.apply { isStatus = false }
+            val noteEntity = iNoteDao.get(id)?.apply { isStatus = false }
             noteEntity?.let { iNoteDao.update(it) }
 
             result = noteEntity != null

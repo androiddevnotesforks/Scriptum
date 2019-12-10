@@ -40,7 +40,7 @@ interface IRollDao {
 
 
     @Query(value = "SELECT * FROM ROLL_TABLE WHERE RL_NOTE_ID = :noteId ORDER BY RL_POSITION")
-    fun get(noteId: Long): MutableList<RollEntity>
+    suspend fun get(noteId: Long): MutableList<RollEntity>
 
     /**
      * Get only first 4 items for preview
@@ -48,6 +48,6 @@ interface IRollDao {
     @Query(value = """SELECT * FROM ROLL_TABLE
             WHERE RL_NOTE_ID = :noteId AND RL_POSITION BETWEEN 0 AND ${NoteItem.ROLL_OPTIMAL_SIZE - 1}
             ORDER BY RL_POSITION""")
-    fun getView(noteId: Long): MutableList<RollEntity>
+    suspend fun getView(noteId: Long): MutableList<RollEntity>
 
 }

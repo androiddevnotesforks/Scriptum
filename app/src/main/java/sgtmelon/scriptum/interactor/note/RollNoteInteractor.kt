@@ -29,7 +29,11 @@ class RollNoteInteractor(context: Context, private var callback: IRollNoteBridge
     private val iRankRepo: IRankRepo = RankRepo(context)
     private val iNoteRepo: INoteRepo = NoteRepo(context)
 
-    private val rankIdVisibleList: List<Long> = iRankRepo.getIdVisibleList()
+    private var rankIdVisibleList: List<Long>? = null
+
+    private suspend fun getRankIdVisibleList(): List<Long> {
+        return rankIdVisibleList ?: iRankRepo.getIdVisibleList().also { rankIdVisibleList = it }
+    }
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy { callback = null }
 
@@ -43,12 +47,12 @@ class RollNoteInteractor(context: Context, private var callback: IRollNoteBridge
     @Color override val defaultColor: Int get() = iPreferenceRepo.defaultColor
 
 
-    override fun isRankEmpty() = iRankRepo.isEmpty()
+    override suspend fun isRankEmpty() = iRankRepo.isEmpty()
 
-    override fun getItem(id: Long, updateBind: Boolean): NoteItem? {
+    override suspend fun getItem(id: Long, updateBind: Boolean): NoteItem? {
         val item = iNoteRepo.getItem(id, optimisation = false)
 
-        if (updateBind && item != null) callback?.notifyNoteBind(item, rankIdVisibleList)
+        if (updateBind && item != null) callback?.notifyNoteBind(item, getRankIdVisibleList())
 
         return item
     }
@@ -60,7 +64,7 @@ class RollNoteInteractor(context: Context, private var callback: IRollNoteBridge
      */
     override suspend fun updateRollCheck(noteItem: NoteItem, p: Int) {
         iNoteRepo.updateRollCheck(noteItem, p)
-        callback?.notifyNoteBind(noteItem, rankIdVisibleList)
+        callback?.notifyNoteBind(noteItem, getRankIdVisibleList())
     }
 
     /**
@@ -68,7 +72,7 @@ class RollNoteInteractor(context: Context, private var callback: IRollNoteBridge
      */
     override suspend fun updateRollCheck(noteItem: NoteItem, check: Boolean) {
         iNoteRepo.updateRollCheck(noteItem, check)
-        callback?.notifyNoteBind(noteItem, rankIdVisibleList)
+        callback?.notifyNoteBind(noteItem, getRankIdVisibleList())
     }
 
     override suspend fun getRankId(check: Int): Long = iRankRepo.getId(check)
@@ -93,7 +97,7 @@ class RollNoteInteractor(context: Context, private var callback: IRollNoteBridge
     override suspend fun updateNote(noteItem: NoteItem, updateBind: Boolean) {
         iNoteRepo.updateNote(noteItem)
 
-        if (updateBind) callback?.notifyNoteBind(noteItem, rankIdVisibleList)
+        if (updateBind) callback?.notifyNoteBind(noteItem, getRankIdVisibleList())
     }
 
     override suspend fun clearNote(noteItem: NoteItem) = iNoteRepo.clearNote(noteItem)
@@ -102,7 +106,7 @@ class RollNoteInteractor(context: Context, private var callback: IRollNoteBridge
         iNoteRepo.saveRollNote(noteItem, isCreate)
         iRankRepo.updateConnection(noteItem)
 
-        callback?.notifyNoteBind(noteItem, rankIdVisibleList)
+        callback?.notifyNoteBind(noteItem, getRankIdVisibleList())
     }
 
     override suspend fun deleteNote(noteItem: NoteItem) {

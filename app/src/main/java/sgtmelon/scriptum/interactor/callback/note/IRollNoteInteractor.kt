@@ -21,9 +21,9 @@ interface IRollNoteInteractor : IParentInteractor {
     @Color val defaultColor: Int
 
 
-    fun isRankEmpty(): Boolean
+    suspend fun isRankEmpty(): Boolean
 
-    fun getItem(id: Long, updateBind: Boolean): NoteItem?
+    suspend fun getItem(id: Long, updateBind: Boolean): NoteItem?
 
     suspend fun getRankDialogItemArray(): Array<String>
 

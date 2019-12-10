@@ -60,38 +60,40 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     override fun onSetup(bundle: Bundle?) {
         if (bundle != null) id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
 
-        /**
-         * If first open
-         */
-        if (!::noteItem.isInitialized) {
-            isRankEmpty = iInteractor.isRankEmpty()
+        viewModelScope.launch {
+            /**
+             * If first open
+             */
+            if (!::noteItem.isInitialized) {
+                isRankEmpty = iInteractor.isRankEmpty()
 
-            if (id == NoteData.Default.ID) {
-                noteItem = NoteItem.getCreate(iInteractor.defaultColor, NoteType.ROLL)
-                noteState = NoteState(isCreate = true)
-            } else {
-                iInteractor.getItem(id, updateBind = true)?.let {
-                    noteItem = it
-                } ?: run {
-                    parentCallback?.finish()
-                    return
+                if (id == NoteData.Default.ID) {
+                    noteItem = NoteItem.getCreate(iInteractor.defaultColor, NoteType.ROLL)
+                    noteState = NoteState(isCreate = true)
+                } else {
+                    iInteractor.getItem(id, updateBind = true)?.let {
+                        noteItem = it
+                    } ?: run {
+                        parentCallback?.finish()
+                        return@launch
+                    }
+
+                    noteState = NoteState(isBin = noteItem.isBin)
                 }
-
-                noteState = NoteState(isBin = noteItem.isBin)
             }
+
+            callback?.apply {
+                setupBinding(iInteractor.theme, isRankEmpty)
+                setupToolbar(iInteractor.theme, noteItem.color, noteState)
+                setupDialog(iInteractor.getRankDialogItemArray())
+                setupEnter(inputControl)
+                setupRecycler(inputControl)
+            }
+
+            iconState.notAnimate { onMenuEdit(noteState.isEdit) }
+
+            callback?.notifyDataSetChanged(noteItem.rollList)
         }
-
-        callback?.apply {
-            setupBinding(iInteractor.theme, isRankEmpty)
-            setupToolbar(iInteractor.theme, noteItem.color, noteState)
-            viewModelScope.launch { setupDialog(iInteractor.getRankDialogItemArray()) }
-            setupEnter(inputControl)
-            setupRecycler(inputControl)
-        }
-
-        iconState.notAnimate { onMenuEdit(noteState.isEdit) }
-
-        callback?.notifyDataSetChanged(noteItem.rollList)
     }
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy {
@@ -150,18 +152,20 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
          */
         val colorFrom = noteItem.color
 
-        iInteractor.getItem(id, updateBind = false)?.let {
-            noteItem = it
-        } ?: run {
-            parentCallback?.finish()
-            return false
+        viewModelScope.launch {
+            iInteractor.getItem(id, updateBind = false)?.let {
+                noteItem = it
+            } ?: run {
+                parentCallback?.finish()
+                return@launch
+            }
+
+            callback?.notifyDataSetChanged(noteItem.rollList)
+            onMenuEdit(isEdit = false)
+            callback?.tintToolbar(colorFrom, noteItem.color)
+
+            inputControl.reset()
         }
-
-        callback?.notifyDataSetChanged(noteItem.rollList)
-        onMenuEdit(isEdit = false)
-        callback?.tintToolbar(colorFrom, noteItem.color)
-
-        inputControl.reset()
 
         return true
     }

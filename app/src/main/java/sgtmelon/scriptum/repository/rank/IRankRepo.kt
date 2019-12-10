@@ -8,11 +8,11 @@ import sgtmelon.scriptum.model.item.RankItem
  */
 interface IRankRepo {
 
-    fun isEmpty(): Boolean
+    suspend fun isEmpty(): Boolean
 
     suspend fun getList(): MutableList<RankItem>
 
-    fun getIdVisibleList(): List<Long>
+    suspend fun getIdVisibleList(): List<Long>
 
 
     suspend fun insert(name: String): Long

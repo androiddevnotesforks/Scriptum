@@ -99,11 +99,11 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
      *
      * [optimisation] - need for note lists where displays short information.
      */
-    override fun getItem(id: Long, optimisation: Boolean): NoteItem? {
+    override suspend fun getItem(id: Long, optimisation: Boolean): NoteItem? {
         val item: NoteItem?
 
         openRoom().apply {
-            item = iNoteDao[id]?.let {
+            item = iNoteDao.get(id)?.let {
                 val rollList = rollConverter.toItem(iRollDao.getOptimal(it.id, optimisation))
                 return@let noteConverter.toItem(it, rollList, iAlarmDao.get(id))
             }
@@ -112,7 +112,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
         return item
     }
 
-    private fun IRollDao.getOptimal(id: Long, optimisation: Boolean): MutableList<RollEntity> {
+    private suspend fun IRollDao.getOptimal(id: Long, optimisation: Boolean): MutableList<RollEntity> {
         return if (optimisation) getView(id) else get(id)
     }
 

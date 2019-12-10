@@ -21,7 +21,7 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
 
     private val converter = RankConverter()
 
-    override fun isEmpty(): Boolean {
+    override suspend fun isEmpty(): Boolean {
         val count: Int
 
         openRoom().apply { count = iRankDao.getCount() }.close()
@@ -36,8 +36,8 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
     /**
      * Return list of rank id's which is visible.
      */
-    override fun getIdVisibleList() = ArrayList<Long>().apply {
-        inRoom { addAll(iRankDao.getIdVisibleList()) }
+    override suspend fun getIdVisibleList() = ArrayList<Long>().apply {
+        inRoom2 { addAll(iRankDao.getIdVisibleList()) }
     }
 
 
@@ -54,7 +54,7 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
             /**
              * Remove rank from note.
              */
-            val noteEntity = iNoteDao[id]?.apply {
+            val noteEntity = iNoteDao.get(id)?.apply {
                 rankId = DbData.Note.Default.RANK_ID
                 rankPs = DbData.Note.Default.RANK_PS
             } ?: continue
