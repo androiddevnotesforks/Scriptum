@@ -14,7 +14,7 @@ interface INoteRepo {
 
     fun getItem(id: Long, optimisation: Boolean): NoteItem?
 
-    fun getRollList(noteId: Long): MutableList<RollItem>
+    suspend fun getRollList(noteId: Long): MutableList<RollItem>
 
 
     fun isListHide(): Boolean

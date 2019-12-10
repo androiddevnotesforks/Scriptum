@@ -45,9 +45,6 @@ class NotesInteractor(context: Context, private var callback: INotesBridge?) :
         iNoteRepo.updateNote(noteItem)
 
         /**
-         * TODO move to another interactor [I/BindInteractor]
-         */
-        /**
          * Need for prevent overriding noteItem rollList in list model
          */
         val noteMirror = noteItem.deepCopy(rollList = iNoteRepo.getRollList(noteItem.id))

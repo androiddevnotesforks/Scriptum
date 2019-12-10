@@ -119,7 +119,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
     /**
      * Return empty list if don't have [RollEntity] for this [noteId]
      */
-    override fun getRollList(noteId: Long) = ArrayList<RollItem>().apply {
+    override suspend fun getRollList(noteId: Long) = ArrayList<RollItem>().apply {
         inRoom { addAll(rollConverter.toItem(iRollDao[noteId])) }
     }
 
