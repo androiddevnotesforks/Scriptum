@@ -1,10 +1,10 @@
 package sgtmelon.scriptum.screen.ui.callback.note.text
 
-import sgtmelon.scriptum.screen.ui.note.TextNoteFragment
+import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
 import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel
 
 /**
- * Interface for communication [TextNoteViewModel] with [TextNoteFragment]
+ * Interface for communication dataBinding with [TextNoteViewModel]/[RollNoteViewModel]
  */
 interface ITextNoteMenu {
 
