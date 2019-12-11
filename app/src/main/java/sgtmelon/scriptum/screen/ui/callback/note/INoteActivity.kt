@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.screen.ui.callback.note
 
 import sgtmelon.scriptum.model.annotation.Color
+import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.vm.note.NoteViewModel
@@ -9,6 +10,8 @@ import sgtmelon.scriptum.screen.vm.note.NoteViewModel
  * Interface for communication [NoteViewModel] with [NoteActivity]
  */
 interface INoteActivity {
+
+    fun updateHolder(@Theme theme: Int, @Color color: Int)
 
     /**
      * [checkCache] - find fragment by tag or create new

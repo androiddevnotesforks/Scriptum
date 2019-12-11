@@ -32,6 +32,8 @@ class NoteViewModel(application: Application) : ParentViewModel<INoteActivity>(a
         if (color == Default.COLOR) {
             color = iInteractor.defaultColor
         }
+
+        callback?.updateHolder(iInteractor.theme, color)
     }
 
     override fun onSaveData(bundle: Bundle) = with(bundle) {
@@ -60,6 +62,8 @@ class NoteViewModel(application: Application) : ParentViewModel<INoteActivity>(a
 
     override fun onUpdateNoteColor(color: Int) {
         this.color = color
+
+        callback?.updateHolder(iInteractor.theme, color)
     }
 
     override fun onConvertNote() {

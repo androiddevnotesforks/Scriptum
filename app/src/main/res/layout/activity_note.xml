@@ -3,13 +3,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <FrameLayout
+    <View
             android:id="@+id/note_toolbar_holder"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
             android:background="?attr/clPrimary"/>
 
-    <FrameLayout
+    <View
             android:id="@+id/note_panel_holder"
             android:layout_width="match_parent"
             android:layout_height="@dimen/note_panel_height"

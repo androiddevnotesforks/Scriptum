@@ -76,7 +76,7 @@ open class MenuControl(
             if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
                 window.statusBarColor = context.getAppThemeColor(theme, color, statusOnDark)
             }
-            toolbar?.setBackgroundColor(context.getAppThemeColor(theme, color, needDark = false))
+            toolbar?.setBackgroundColor(getToolbarColor(context, theme, color))
         }
 
         indicator?.setBackgroundColor(context.getAppThemeColor(theme, color, needDark = true))
@@ -108,5 +108,11 @@ open class MenuControl(
     }
 
     override fun setEnabled(enabled: Boolean) {}
+
+    companion object {
+        fun getToolbarColor(context: Context, @Theme theme: Int, @Color color: Int): Int {
+            return context.getAppThemeColor(theme, color, needDark = false)
+        }
+    }
 
 }

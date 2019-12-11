@@ -4,8 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.control.menu.MenuControl
 import sgtmelon.scriptum.factory.FragmentFactory
 import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.model.annotation.Color
@@ -32,6 +34,8 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild {
 
     private val noteReceiver by lazy { NoteReceiver(iViewModel) }
 
+    private var toolbarHolder: View? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note)
@@ -42,6 +46,8 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild {
         }
 
         registerReceiver(noteReceiver, IntentFilter(ReceiverData.Filter.NOTE))
+
+        toolbarHolder = findViewById(R.id.note_toolbar_holder)
     }
 
     override fun onDestroy() {
@@ -57,6 +63,11 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild {
 
     override fun onBackPressed() {
         if (!iViewModel.onPressBack()) super.onBackPressed()
+    }
+
+
+    override fun updateHolder(theme: Int, color: Int) {
+        toolbarHolder?.setBackgroundColor(MenuControl.getToolbarColor(this, theme, color))
     }
 
     override fun showTextFragment(id: Long, @Color color: Int, checkCache: Boolean) {
