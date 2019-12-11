@@ -30,7 +30,7 @@
         <FrameLayout
                 android:id="@+id/note_panel_button_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/note_panel_height"
                 android:background="?attr/clPrimary"
                 android:paddingLeft="@dimen/layout_8dp"
                 android:paddingRight="@dimen/layout_8dp">
@@ -72,7 +72,7 @@
             <LinearLayout
                     android:id="@+id/note_panel_edit_container"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:visibility='@{editMode &amp;&amp; !noteItem.bin ? v.VISIBLE : v.INVISIBLE}'
                     tools:visibility="invisible">
@@ -139,7 +139,7 @@
             <LinearLayout
                     android:id="@+id/note_panel_read_container"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:visibility='@{!editMode &amp;&amp; !noteItem.bin ? v.VISIBLE  : v.INVISIBLE}'
                     tools:visibility="visible">

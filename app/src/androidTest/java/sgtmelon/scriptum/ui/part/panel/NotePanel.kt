@@ -188,6 +188,7 @@ class NotePanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi(),
         callback.apply {
             parentContainer.isDisplayed()
             buttonContainer.isDisplayed().withBackgroundAttr(R.attr.clPrimary)
+                    .withSize(heightId = R.dimen.note_panel_height)
 
             when (state) {
                 State.READ -> {

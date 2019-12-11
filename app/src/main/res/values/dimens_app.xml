@@ -28,4 +28,7 @@
 
     <dimen name="stroke_4dp">4dp</dimen>
 
+
+    <dimen name="note_panel_height">48dp</dimen>
+
 </resources>
