@@ -88,7 +88,7 @@ class MainScreen : ParentUi() {
         /**
          * TODO #TEST height attr assert
          */
-        toolbarHolder.isDisplayed().withBackgroundAttr(R.attr.clPrimary)
+        toolbarHolder.withBackgroundAttr(R.attr.clPrimary)
         menuNavigation.isDisplayed().withBackgroundAttr(R.attr.clPrimary)
 
         when (page) {

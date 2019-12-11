@@ -87,8 +87,8 @@ class RollNoteScreen(
         /**
          * TODO #TEST height attr assert
          */
-        toolbarHolder.isDisplayed().withBackgroundAttr(R.attr.clPrimary)
-        panelHolder.isDisplayed().withBackgroundAttr(R.attr.clPrimary)
+        toolbarHolder.withBackgroundAttr(R.attr.clPrimary)
+        panelHolder.withBackgroundAttr(R.attr.clPrimary)
                 .withSize(heightId = R.dimen.note_panel_height)
 
         fragmentContainer.isDisplayed()

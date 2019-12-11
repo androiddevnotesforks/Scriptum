@@ -14,6 +14,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.control.ShowHolderControl
 import sgtmelon.scriptum.extension.hideKeyboard
 import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.factory.FragmentFactory
@@ -34,6 +35,8 @@ class MainActivity : AppActivity(), IMainActivity {
 
     private val iViewModel by lazy { ViewModelFactory.getMainViewModel(activity = this) }
 
+    private val holderControl by lazy { ShowHolderControl(arrayOf(toolbarHolder)) }
+
     private val mainReceiver by lazy { MainReceiver(iViewModel) }
 
     private val fragmentFactory = FragmentFactory.Main(fm)
@@ -44,9 +47,9 @@ class MainActivity : AppActivity(), IMainActivity {
     override val openState = OpenState()
 
     private val dialogFactory by lazy { DialogFactory.Main(context = this, fm = fm) }
-
     private val addDialog by lazy { dialogFactory.getAddDialog() }
 
+    private val toolbarHolder by lazy { findViewById<View?>(R.id.main_toolbar_holder) }
     private val fab by lazy { findViewById<FloatingActionButton?>(R.id.main_add_fab) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,6 +78,8 @@ class MainActivity : AppActivity(), IMainActivity {
         super.onDestroy()
 
         openState.clearBlockCallback()
+
+        holderControl.onDestroy()
 
         iViewModel.onDestroy()
         unregisterReceiver(mainReceiver)
@@ -144,6 +149,8 @@ class MainActivity : AppActivity(), IMainActivity {
     }
 
     override fun showPage(pageFrom: MainPage, pageTo: MainPage) {
+        holderControl.show()
+
         with(fm) {
             beginTransaction().apply {
                 setCustomAnimations(R.anim.fade_in, R.anim.fade_out)

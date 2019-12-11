@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.control.ShowHolderControl
 import sgtmelon.scriptum.control.menu.MenuControl
 import sgtmelon.scriptum.factory.FragmentFactory
 import sgtmelon.scriptum.factory.ViewModelFactory
@@ -28,13 +29,16 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild {
 
     private val iViewModel by lazy { ViewModelFactory.getNoteViewModel(activity = this) }
 
+    private val holderControl by lazy { ShowHolderControl(arrayOf(toolbarHolder, panelHolder)) }
+
     private val fragmentFactory = FragmentFactory.Note(fm)
     private val textNoteFragment get() = fragmentFactory.getTextNoteFragment()
     private val rollNoteFragment get() = fragmentFactory.getRollNoteFragment()
 
     private val noteReceiver by lazy { NoteReceiver(iViewModel) }
 
-    private var toolbarHolder: View? = null
+    private val toolbarHolder by lazy { findViewById<View?>(R.id.note_toolbar_holder) }
+    private val panelHolder by lazy { findViewById<View?>(R.id.note_panel_holder) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,12 +50,12 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild {
         }
 
         registerReceiver(noteReceiver, IntentFilter(ReceiverData.Filter.NOTE))
-
-        toolbarHolder = findViewById(R.id.note_toolbar_holder)
     }
 
     override fun onDestroy() {
         super.onDestroy()
+
+        holderControl.onDestroy()
 
         iViewModel.onDestroy()
         unregisterReceiver(noteReceiver)
@@ -104,10 +108,14 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild {
     override fun onConvertNote() = iViewModel.onConvertNote()
 
 
-    private fun showFragment(key: String, fragment: Fragment) = fm.beginTransaction()
-            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-            .replace(R.id.note_fragment_container, fragment, key)
-            .commit()
+    private fun showFragment(key: String, fragment: Fragment) {
+        holderControl.show()
+
+        fm.beginTransaction()
+                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                .replace(R.id.note_fragment_container, fragment, key)
+                .commit()
+    }
 
     companion object {
         operator fun get(context: Context, item: NotificationItem) =
