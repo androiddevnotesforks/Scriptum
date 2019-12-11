@@ -5,7 +5,7 @@ import sgtmelon.scriptum.adapter.holder.RollWriteHolder
 import sgtmelon.scriptum.control.SaveControl
 import sgtmelon.scriptum.control.input.watcher.InputTextWatcher
 import sgtmelon.scriptum.control.touch.RollTouchControl
-import sgtmelon.scriptum.screen.ui.callback.note.text.ITextNoteMenu
+import sgtmelon.scriptum.screen.ui.callback.note.text.INoteMenu
 import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
 import sgtmelon.scriptum.screen.vm.callback.IParentViewModel
 import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
@@ -15,7 +15,7 @@ import java.util.*
  * Interface for communication [RollNoteFragment] with [RollNoteViewModel]
  */
 interface IRollNoteViewModel : IParentViewModel,
-        ITextNoteMenu,
+        INoteMenu,
         SaveControl.Callback,
         InputTextWatcher.Callback,
         RollWriteHolder.Callback,

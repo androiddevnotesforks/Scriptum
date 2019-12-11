@@ -7,7 +7,7 @@
         <variable name="currentTheme" type="int"/>
 
         <variable name="menuCallback"
-                  type="sgtmelon.scriptum.screen.ui.callback.note.text.ITextNoteMenu"/>
+                  type="sgtmelon.scriptum.screen.ui.callback.note.text.INoteMenu"/>
         <variable name="rankEmpty" type="boolean"/>
 
         <variable name="noteItem" type="sgtmelon.scriptum.model.item.NoteItem"/>
@@ -50,7 +50,7 @@
                      app:editMode='@{editMode}'
                      app:enterEmpty='@{enterEmpty}'/>
 
-            <include layout="@layout/include_text_note_panel"
+            <include layout="@layout/include_note_panel"
                      app:editMode='@{editMode}'
                      app:inputAccess='@{inputAccess}'
                      app:menuCallback='@{menuCallback}'
