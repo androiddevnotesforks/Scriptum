@@ -10,7 +10,7 @@
         <import alias="noteType" type="sgtmelon.scriptum.model.key.NoteType"/>
 
         <variable name="menuCallback"
-                  type="sgtmelon.scriptum.screen.ui.callback.note.text.INoteMenu"/>
+                  type="sgtmelon.scriptum.screen.ui.callback.note.INoteMenu"/>
         <variable name="rankEmpty" type="boolean"/>
 
         <variable name="noteItem" type="sgtmelon.scriptum.model.item.NoteItem"/>

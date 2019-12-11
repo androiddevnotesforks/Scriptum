@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.screen.ui.callback.note.text
+package sgtmelon.scriptum.screen.ui.callback.note
 
 import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
 import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel
