@@ -67,6 +67,13 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             color = iInteractor.defaultColor
         }
 
+        callback?.apply {
+            setupBinding(iInteractor.theme)
+            setupToolbar(iInteractor.theme, color)
+            setupEnter(inputControl)
+            setupRecycler(inputControl)
+        }
+
         viewModelScope.launch {
             /**
              * If first open
@@ -90,11 +97,8 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             }
 
             callback?.apply {
-                setupBinding(iInteractor.theme, isRankEmpty)
-                setupToolbar(iInteractor.theme, noteItem.color)
                 setupDialog(iInteractor.getRankDialogItemArray())
-                setupEnter(inputControl)
-                setupRecycler(inputControl)
+                onBindingLoad(isRankEmpty)
             }
 
             iconState.notAnimate { onMenuEdit(noteState.isEdit) }
@@ -448,7 +452,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     override fun onMenuBind() {
         noteItem.apply { isStatus = !isStatus }
 
-        callback?.bindEdit(noteState.isEdit, noteItem)
+        callback?.onBindingEdit(noteState.isEdit, noteItem)
 
         viewModelScope.launch { iInteractor.updateNote(noteItem, updateBind = true) }
     }
@@ -475,7 +479,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
                     needAnim = !noteState.isCreate && iconState.animate
             )
 
-            bindEdit(isEdit, noteItem)
+            onBindingEdit(isEdit, noteItem)
             onBindingInput(inputControl.access, noteItem)
             updateNoteState(noteState)
 

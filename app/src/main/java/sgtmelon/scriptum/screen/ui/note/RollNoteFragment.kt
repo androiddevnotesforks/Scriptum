@@ -132,7 +132,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment {
 
     //endregion
 
-    override fun setupBinding(@Theme theme: Int, rankEmpty: Boolean) {
+    override fun setupBinding(@Theme theme: Int) {
         binding?.apply {
             currentTheme = theme
             menuCallback = iViewModel
@@ -253,7 +253,15 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment {
         ItemTouchHelper(touchCallback).attachToRecyclerView(recyclerView)
     }
 
-    override fun bindEdit(editMode: Boolean, noteItem: NoteItem) {
+
+    override fun onBindingLoad(rankEmpty: Boolean) {
+        binding?.apply {
+            this.dataLoad = true
+            this.rankEmpty = rankEmpty
+        }?.executePendingBindings()
+    }
+
+    override fun onBindingEdit(editMode: Boolean, noteItem: NoteItem) {
         panelContainer?.let {
             TransitionManager.beginDelayedTransition(it,
                     AutoTransition()
@@ -286,6 +294,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment {
             this.noteItem = noteItem
         }?.executePendingBindings()
     }
+
 
     override fun onPressBack() = iViewModel.onPressBack()
 

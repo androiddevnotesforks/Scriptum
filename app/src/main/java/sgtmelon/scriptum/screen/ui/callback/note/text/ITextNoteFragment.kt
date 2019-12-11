@@ -17,7 +17,7 @@ interface ITextNoteFragment : ITextNoteBridge {
     /**
      * Setup elements for binding which is constants
      */
-    fun setupBinding(@Theme theme: Int, rankEmpty: Boolean)
+    fun setupBinding(@Theme theme: Int)
 
     fun setupToolbar(@Theme theme: Int, @Color color: Int)
 
@@ -25,11 +25,15 @@ interface ITextNoteFragment : ITextNoteBridge {
 
     fun setupEnter(iInputControl: IInputControl)
 
+
+    fun onBindingLoad(rankEmpty: Boolean)
+
     fun onBindingNote(noteItem: NoteItem)
 
     fun onBindingEdit(editMode: Boolean, noteItem: NoteItem)
 
     fun onBindingInput(inputAccess: InputControl.Access, noteItem: NoteItem)
+
 
     fun onPressBack(): Boolean
 

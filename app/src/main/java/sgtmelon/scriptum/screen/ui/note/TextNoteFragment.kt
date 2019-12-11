@@ -108,7 +108,7 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment {
 
     //endregion
 
-    override fun setupBinding(@Theme theme: Int, rankEmpty: Boolean) {
+    override fun setupBinding(@Theme theme: Int) {
         binding?.apply {
             currentTheme = theme
             menuCallback = iViewModel
@@ -199,6 +199,14 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment {
         )
     }
 
+
+    override fun onBindingLoad(rankEmpty: Boolean) {
+        binding?.apply {
+            this.dataLoad = true
+            this.rankEmpty = rankEmpty
+        }?.executePendingBindings()
+    }
+
     override fun onBindingNote(noteItem: NoteItem) {
         binding?.apply { this.noteItem = noteItem }?.executePendingBindings()
     }
@@ -222,6 +230,7 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment {
             this.noteItem = noteItem
         }?.executePendingBindings()
     }
+
 
     override fun onPressBack() = iViewModel.onPressBack()
 

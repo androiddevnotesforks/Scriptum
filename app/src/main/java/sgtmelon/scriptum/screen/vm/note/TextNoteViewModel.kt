@@ -64,6 +64,12 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
             color = iInteractor.defaultColor
         }
 
+        callback?.apply {
+            setupBinding(iInteractor.theme)
+            setupToolbar(iInteractor.theme, color)
+            setupEnter(inputControl)
+        }
+
         viewModelScope.launch {
             /**
              * If first open
@@ -87,10 +93,8 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
             }
 
             callback?.apply {
-                setupBinding(iInteractor.theme, isRankEmpty)
-                setupToolbar(iInteractor.theme, noteItem.color)
                 setupDialog(iInteractor.getRankDialogItemArray())
-                setupEnter(inputControl)
+                onBindingLoad(isRankEmpty)
             }
 
             iconState.notAnimate { onMenuEdit(noteState.isEdit) }

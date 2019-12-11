@@ -5,11 +5,10 @@
 
     <data>
         <variable name="currentTheme" type="int"/>
+        <variable name="menuCallback" type="sgtmelon.scriptum.screen.ui.callback.note.INoteMenu"/>
+        <variable name="dataLoad" type="boolean"/>
 
-        <variable name="menuCallback"
-                  type="sgtmelon.scriptum.screen.ui.callback.note.INoteMenu"/>
         <variable name="rankEmpty" type="boolean"/>
-
         <variable name="noteItem" type="sgtmelon.scriptum.model.item.NoteItem"/>
         <variable name="editMode" type="boolean"/>
 
