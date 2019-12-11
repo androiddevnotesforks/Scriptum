@@ -1,10 +1,7 @@
 package sgtmelon.scriptum.ui.screen.note
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.extension.isDisplayed
-import sgtmelon.scriptum.basic.extension.typeText
-import sgtmelon.scriptum.basic.extension.withHint
-import sgtmelon.scriptum.basic.extension.withText
+import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.item.InputItem
@@ -28,6 +25,10 @@ class TextNoteScreen(
 ) : ParentUi(), INoteScreen<TextNoteScreen>, IPressBack {
 
     //region Views
+
+    private val toolbarHolder = getViewById(R.id.note_toolbar_holder)
+    private val panelHolder = getViewById(R.id.note_panel_holder)
+    private val fragmentContainer = getViewById(R.id.note_fragment_container)
 
     private val parentContainer = getViewById(R.id.text_note_parent_container)
 
@@ -98,6 +99,15 @@ class TextNoteScreen(
 
 
     fun assert() {
+        /**
+         * TODO #TEST height attr assert
+         */
+        toolbarHolder.isDisplayed().withBackgroundAttr(R.attr.clPrimary)
+        panelHolder.isDisplayed().withBackgroundAttr(R.attr.clPrimary)
+                .withSize(heightId = R.dimen.note_panel_height)
+
+        fragmentContainer.isDisplayed()
+
         parentContainer.isDisplayed()
         contentCard.isDisplayed()
         contentScroll.isDisplayed()

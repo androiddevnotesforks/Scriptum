@@ -1,9 +1,7 @@
 package sgtmelon.scriptum.ui.screen.note
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.extension.isDisplayed
-import sgtmelon.scriptum.basic.extension.swipeItem
-import sgtmelon.scriptum.basic.extension.waitAfter
+import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.item.NoteItem
@@ -26,6 +24,10 @@ class RollNoteScreen(
 ) : ParentRecyclerScreen(R.id.roll_note_recycler), INoteScreen<RollNoteScreen>, IPressBack {
 
     //region Views
+
+    private val toolbarHolder = getViewById(R.id.note_toolbar_holder)
+    private val panelHolder = getViewById(R.id.note_panel_holder)
+    private val fragmentContainer = getViewById(R.id.note_fragment_container)
 
     private val parentContainer = getViewById(R.id.roll_note_parent_container)
     private val contentContainer = getViewById(R.id.roll_note_content_container)
@@ -82,6 +84,16 @@ class RollNoteScreen(
 
 
     fun assert() {
+        /**
+         * TODO #TEST height attr assert
+         */
+        toolbarHolder.isDisplayed().withBackgroundAttr(R.attr.clPrimary)
+        panelHolder.isDisplayed().withBackgroundAttr(R.attr.clPrimary)
+                .withSize(heightId = R.dimen.note_panel_height)
+
+        fragmentContainer.isDisplayed()
+
+
         parentContainer.isDisplayed()
         contentContainer.isDisplayed()
 
