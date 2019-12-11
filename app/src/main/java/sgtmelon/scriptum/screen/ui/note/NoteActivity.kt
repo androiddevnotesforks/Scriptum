@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.factory.FragmentFactory
 import sgtmelon.scriptum.factory.ViewModelFactory
+import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.data.ReceiverData
 import sgtmelon.scriptum.model.item.NoteItem
@@ -37,7 +38,7 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild {
 
         iViewModel.apply {
             onSetup(bundle = savedInstanceState ?: intent.extras)
-            onSetupFragment(isSave = savedInstanceState != null)
+            onSetupFragment(checkCache = savedInstanceState != null)
         }
 
         registerReceiver(noteReceiver, IntentFilter(ReceiverData.Filter.NOTE))
@@ -58,19 +59,19 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild {
         if (!iViewModel.onPressBack()) super.onBackPressed()
     }
 
-    override fun showTextFragment(id: Long, checkCache: Boolean) {
+    override fun showTextFragment(id: Long, @Color color: Int, checkCache: Boolean) {
         showFragment(FragmentFactory.Note.TEXT, if (checkCache) {
-            textNoteFragment ?: TextNoteFragment[id]
+            textNoteFragment ?: TextNoteFragment[id, color]
         } else {
-            TextNoteFragment[id]
+            TextNoteFragment[id, color]
         })
     }
 
-    override fun showRollFragment(id: Long, checkCache: Boolean) {
+    override fun showRollFragment(id: Long, @Color color: Int, checkCache: Boolean) {
         showFragment(FragmentFactory.Note.ROLL, if (checkCache) {
-            rollNoteFragment ?: RollNoteFragment[id]
+            rollNoteFragment ?: RollNoteFragment[id, color]
         } else {
-            RollNoteFragment[id]
+            RollNoteFragment[id, color]
         })
     }
 
@@ -87,6 +88,8 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild {
 
     override fun onUpdateNoteId(id: Long) = iViewModel.onUpdateNoteId(id)
 
+    override fun onUpdateNoteColor(@Color color: Int) = iViewModel.onUpdateNoteColor(color)
+
     override fun onConvertNote() = iViewModel.onConvertNote()
 
 
@@ -96,16 +99,24 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild {
             .commit()
 
     companion object {
-        operator fun get(context: Context, notificationItem: NotificationItem) =
-                get(context, notificationItem.note.type, notificationItem.note.id)
+        operator fun get(context: Context, item: NotificationItem) =
+                get(context, item.note.type, item.note.id, item.note.color)
 
-        operator fun get(context: Context, noteItem: NoteItem) =
-                get(context, noteItem.type, noteItem.id)
+        operator fun get(context: Context, item: NoteItem) =
+                get(context, item.type, item.id, item.color)
 
-        operator fun get(context: Context, type: NoteType, id: Long? = NoteData.Default.ID): Intent =
-                Intent(context, NoteActivity::class.java)
-                        .putExtra(NoteData.Intent.ID, id)
-                        .putExtra(NoteData.Intent.TYPE, type.ordinal)
+        /**
+         * If [id] isDefault - it means that note will be create, not open.
+         */
+        operator fun get(context: Context,
+                         type: NoteType,
+                         id: Long? = NoteData.Default.ID,
+                         @Color color: Int? = NoteData.Default.COLOR): Intent {
+            return Intent(context, NoteActivity::class.java)
+                    .putExtra(NoteData.Intent.ID, id)
+                    .putExtra(NoteData.Intent.COLOR, color)
+                    .putExtra(NoteData.Intent.TYPE, type.ordinal)
+        }
     }
 
 }

@@ -20,7 +20,8 @@ import sgtmelon.scriptum.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.interactor.note.RollNoteInteractor
 import sgtmelon.scriptum.model.annotation.InputAction
-import sgtmelon.scriptum.model.data.NoteData
+import sgtmelon.scriptum.model.data.NoteData.Intent
+import sgtmelon.scriptum.model.data.NoteData.Default
 import sgtmelon.scriptum.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RollItem
@@ -49,7 +50,8 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     private val saveControl by lazy { SaveControl(context, iInteractor.getSaveModel(), callback = this) }
     private val inputControl = InputControl()
 
-    private var id: Long = NoteData.Default.ID
+    private var id: Long = Default.ID
+    private var color: Int = Default.COLOR
 
     private lateinit var noteItem: NoteItem
     private var noteState: NoteState = NoteState()
@@ -58,7 +60,8 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     private val iconState = IconState()
 
     override fun onSetup(bundle: Bundle?) {
-        if (bundle != null) id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
+        id = bundle?.getLong(Intent.ID, Default.ID) ?: Default.ID
+        color = bundle?.getInt(Intent.COLOR, iInteractor.defaultColor) ?: iInteractor.defaultColor
 
         viewModelScope.launch {
             /**
@@ -67,7 +70,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             if (!::noteItem.isInitialized) {
                 isRankEmpty = iInteractor.isRankEmpty()
 
-                if (id == NoteData.Default.ID) {
+                if (id == Default.ID) {
                     noteItem = NoteItem.getCreate(iInteractor.defaultColor, NoteType.ROLL)
                     noteState = NoteState(isCreate = true)
                 } else {
@@ -84,7 +87,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
             callback?.apply {
                 setupBinding(iInteractor.theme, isRankEmpty)
-                setupToolbar(iInteractor.theme, noteItem.color, noteState)
+                setupToolbar(iInteractor.theme, noteItem.color)
                 setupDialog(iInteractor.getRankDialogItemArray())
                 setupEnter(inputControl)
                 setupRecycler(inputControl)
@@ -103,7 +106,12 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
 
-    override fun onSaveData(bundle: Bundle) = bundle.putLong(NoteData.Intent.ID, id)
+    override fun onSaveData(bundle: Bundle) {
+        bundle.apply {
+            putLong(Intent.ID, id)
+            putInt(Intent.COLOR, color)
+        }
+    }
 
     override fun onResume() {
         if (noteState.isEdit) {
@@ -120,7 +128,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
 
     override fun onClickBackArrow() {
-        if (!noteState.isCreate && noteState.isEdit && id != NoteData.Default.ID) {
+        if (!noteState.isCreate && noteState.isEdit && id != Default.ID) {
             callback?.hideKeyboard()
             onRestoreData()
         } else {
@@ -145,7 +153,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     private fun onRestoreData(): Boolean {
-        if (id == NoteData.Default.ID) return false
+        if (id == Default.ID) return false
 
         /**
          * Get color before restore data.

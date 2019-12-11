@@ -140,7 +140,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment {
         }
     }
 
-    override fun setupToolbar(@Theme theme: Int, @Color color: Int, noteState: NoteState) {
+    override fun setupToolbar(@Theme theme: Int, @Color color: Int) {
         val toolbar: Toolbar? = view?.findViewById(R.id.toolbar_note_container)
         val indicator: View? = view?.findViewById(R.id.toolbar_note_color_view)
 
@@ -152,9 +152,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment {
             }
         }
 
-        menuControl?.setColor(color)?.setDrawable(
-                drawableOn = noteState.isEdit && !noteState.isCreate, needAnim = false
-        )
+        menuControl?.setColor(color)?.setDrawable(drawableOn = false, needAnim = false)
 
         toolbar?.setNavigationOnClickListener { iViewModel.onClickBackArrow() }
     }
@@ -429,8 +427,11 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment {
     override fun notifyInfoBind(count: Int) = iBindControl.notifyInfo(count)
 
     companion object {
-        operator fun get(id: Long) = RollNoteFragment().apply {
-            arguments = Bundle().apply { putLong(NoteData.Intent.ID, id) }
+        operator fun get(id: Long, @Color color: Int) = RollNoteFragment().apply {
+            arguments = Bundle().apply {
+                putLong(NoteData.Intent.ID, id)
+                putInt(NoteData.Intent.COLOR, color)
+            }
         }
     }
 

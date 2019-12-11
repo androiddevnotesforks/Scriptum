@@ -29,7 +29,6 @@ import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.screen.ui.ParentFragment
 import sgtmelon.scriptum.screen.ui.callback.note.text.ITextNoteFragment
@@ -76,7 +75,7 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment {
         iBindControl.initLazy()
         openState.get(savedInstanceState)
 
-        iViewModel.onSetup(savedInstanceState ?: arguments)
+        iViewModel.onSetup(bundle = savedInstanceState ?: arguments)
 
         panelContainer = view.findViewById(R.id.note_panel_container)
     }
@@ -117,7 +116,7 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment {
         }
     }
 
-    override fun setupToolbar(@Theme theme: Int, @Color color: Int, noteState: NoteState) {
+    override fun setupToolbar(@Theme theme: Int, @Color color: Int) {
         val toolbar: Toolbar? = view?.findViewById(R.id.toolbar_note_container)
         val indicator: View? = view?.findViewById(R.id.toolbar_note_color_view)
 
@@ -129,9 +128,7 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment {
             }
         }
 
-        menuControl?.setColor(color)?.setDrawable(
-                drawableOn = noteState.isEdit && !noteState.isCreate, needAnim = false
-        )
+        menuControl?.setColor(color)?.setDrawable(drawableOn = false, needAnim = false)
 
         toolbar?.setNavigationOnClickListener { iViewModel.onClickBackArrow() }
     }
@@ -311,8 +308,11 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment {
     override fun notifyInfoBind(count: Int) = iBindControl.notifyInfo(count)
 
     companion object {
-        operator fun get(id: Long) = TextNoteFragment().apply {
-            arguments = Bundle().apply { putLong(NoteData.Intent.ID, id) }
+        operator fun get(id: Long, @Color color: Int) = TextNoteFragment().apply {
+            arguments = Bundle().apply {
+                putLong(NoteData.Intent.ID, id)
+                putInt(NoteData.Intent.COLOR, color)
+            }
         }
     }
 

@@ -2,7 +2,8 @@ package sgtmelon.scriptum.screen.vm.note
 
 import android.app.Application
 import android.os.Bundle
-import sgtmelon.scriptum.model.data.NoteData
+import sgtmelon.scriptum.model.data.NoteData.Intent
+import sgtmelon.scriptum.model.data.NoteData.Default
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.ui.callback.note.INoteActivity
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
@@ -15,25 +16,26 @@ import sgtmelon.scriptum.screen.vm.callback.note.INoteViewModel
 class NoteViewModel(application: Application) : ParentViewModel<INoteActivity>(application),
         INoteViewModel {
 
-    private var id: Long = NoteData.Default.ID
+    private var id: Long = Default.ID
+    private var color: Int = Default.COLOR
     private var type: NoteType? = null
 
     override fun onSetup(bundle: Bundle?) {
-        id = bundle?.getLong(NoteData.Intent.ID, NoteData.Default.ID) ?: NoteData.Default.ID
-        type = NoteType.values().getOrNull(
-                index = bundle?.getInt(NoteData.Intent.TYPE) ?: NoteData.Default.TYPE
-        )
+        id = bundle?.getLong(Intent.ID, Default.ID) ?: Default.ID
+        color = bundle?.getInt(Intent.COLOR, Default.COLOR) ?: Default.COLOR
+        type = NoteType.values().getOrNull(index = bundle?.getInt(Intent.TYPE) ?: Default.TYPE)
     }
 
     override fun onSaveData(bundle: Bundle) = with(bundle) {
-        putLong(NoteData.Intent.ID, id)
-        putInt(NoteData.Intent.TYPE, type?.ordinal ?: NoteData.Default.TYPE)
+        putLong(Intent.ID, id)
+        putInt(Intent.COLOR, color)
+        putInt(Intent.TYPE, type?.ordinal ?: Default.TYPE)
     }
 
-    override fun onSetupFragment(isSave: Boolean) {
+    override fun onSetupFragment(checkCache: Boolean) {
         when (type) {
-            NoteType.TEXT -> callback?.showTextFragment(id, isSave)
-            NoteType.ROLL -> callback?.showRollFragment(id, isSave)
+            NoteType.TEXT -> callback?.showTextFragment(id, color, checkCache)
+            NoteType.ROLL -> callback?.showRollFragment(id, color, checkCache)
             else -> callback?.finish()
         }
     }
@@ -48,15 +50,19 @@ class NoteViewModel(application: Application) : ParentViewModel<INoteActivity>(a
         this.id = id
     }
 
+    override fun onUpdateNoteColor(color: Int) {
+        this.color = color
+    }
+
     override fun onConvertNote() {
         when (type) {
             NoteType.TEXT -> {
                 type = NoteType.ROLL
-                callback?.showRollFragment(id, checkCache = true)
+                callback?.showRollFragment(id, color, checkCache = true)
             }
             NoteType.ROLL -> {
                 type = NoteType.TEXT
-                callback?.showTextFragment(id, checkCache = true)
+                callback?.showTextFragment(id, color, checkCache = true)
             }
             else -> callback?.finish()
         }

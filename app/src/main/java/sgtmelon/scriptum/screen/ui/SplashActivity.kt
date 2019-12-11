@@ -13,6 +13,7 @@ import sgtmelon.scriptum.extension.beforeFinish
 import sgtmelon.scriptum.extension.hideKeyboard
 import sgtmelon.scriptum.extension.initLazy
 import sgtmelon.scriptum.factory.ViewModelFactory
+import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.OpenFrom
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.item.NoteItem
@@ -71,8 +72,8 @@ class SplashActivity : AppCompatActivity(), ISplashActivity {
         startActivities(arrayOf(MainActivity[this], AlarmActivity[this, id]))
     }
 
-    override fun startNoteActivity(id: Long, type: NoteType) {
-        startActivities(arrayOf(MainActivity[this], NoteActivity[this, type, id]))
+    override fun startNoteActivity(id: Long, @Color color: Int, type: NoteType) {
+        startActivities(arrayOf(MainActivity[this], NoteActivity[this, type, id, color]))
     }
 
     override fun startNotificationActivity() {
@@ -99,11 +100,12 @@ class SplashActivity : AppCompatActivity(), ISplashActivity {
                         .putExtra(OpenFrom.INTENT_KEY, OpenFrom.ALARM)
                         .putExtra(NoteData.Intent.ID, id)
 
-        fun getBindInstance(context: Context, noteItem: NoteItem): Intent =
+        fun getBindInstance(context: Context, item: NoteItem): Intent =
                 Intent(context, SplashActivity::class.java)
                         .putExtra(OpenFrom.INTENT_KEY, OpenFrom.BIND)
-                        .putExtra(NoteData.Intent.ID, noteItem.id)
-                        .putExtra(NoteData.Intent.TYPE, noteItem.type.ordinal)
+                        .putExtra(NoteData.Intent.ID, item.id)
+                        .putExtra(NoteData.Intent.COLOR, item.color)
+                        .putExtra(NoteData.Intent.TYPE, item.type.ordinal)
 
         fun getNotificationInstance(context: Context): Intent =
                 Intent(context, SplashActivity::class.java)

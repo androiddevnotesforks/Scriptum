@@ -5,7 +5,6 @@ import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.screen.ui.note.TextNoteFragment
 import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel
 import java.util.*
@@ -20,7 +19,7 @@ interface ITextNoteFragment : ITextNoteBridge {
      */
     fun setupBinding(@Theme theme: Int, rankEmpty: Boolean)
 
-    fun setupToolbar(@Theme theme: Int, @Color color: Int, noteState: NoteState)
+    fun setupToolbar(@Theme theme: Int, @Color color: Int)
 
     fun setupDialog(rankNameArray: Array<String>)
 

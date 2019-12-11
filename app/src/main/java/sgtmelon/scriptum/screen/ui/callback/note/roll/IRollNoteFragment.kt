@@ -21,7 +21,7 @@ interface IRollNoteFragment : IRollNoteBridge {
      */
     fun setupBinding(@Theme theme: Int, rankEmpty: Boolean)
 
-    fun setupToolbar(@Theme theme: Int, @Color color: Int, noteState: NoteState)
+    fun setupToolbar(@Theme theme: Int, @Color color: Int)
 
     fun setupDialog(rankNameArray: Array<String>)
 

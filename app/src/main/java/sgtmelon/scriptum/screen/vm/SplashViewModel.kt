@@ -60,9 +60,10 @@ class SplashViewModel(application: Application) : ParentViewModel<ISplashActivit
 
     private fun onBindStart(bundle: Bundle) {
         val id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
+        val color = bundle.getInt(NoteData.Intent.COLOR, NoteData.Default.COLOR)
         val type = NoteType.values()[bundle.getInt(NoteData.Intent.TYPE, NoteData.Default.TYPE)]
 
-        callback?.startNoteActivity(id, type)
+        callback?.startNoteActivity(id, color, type)
     }
 
 }
