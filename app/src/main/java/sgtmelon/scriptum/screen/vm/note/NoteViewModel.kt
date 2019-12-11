@@ -2,8 +2,10 @@ package sgtmelon.scriptum.screen.vm.note
 
 import android.app.Application
 import android.os.Bundle
-import sgtmelon.scriptum.model.data.NoteData.Intent
+import sgtmelon.scriptum.interactor.callback.note.INoteInteractor
+import sgtmelon.scriptum.interactor.note.NoteInteractor
 import sgtmelon.scriptum.model.data.NoteData.Default
+import sgtmelon.scriptum.model.data.NoteData.Intent
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.ui.callback.note.INoteActivity
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
@@ -16,6 +18,8 @@ import sgtmelon.scriptum.screen.vm.callback.note.INoteViewModel
 class NoteViewModel(application: Application) : ParentViewModel<INoteActivity>(application),
         INoteViewModel {
 
+    private val iInteractor: INoteInteractor by lazy { NoteInteractor(context) }
+
     private var id: Long = Default.ID
     private var color: Int = Default.COLOR
     private var type: NoteType? = null
@@ -24,6 +28,10 @@ class NoteViewModel(application: Application) : ParentViewModel<INoteActivity>(a
         id = bundle?.getLong(Intent.ID, Default.ID) ?: Default.ID
         color = bundle?.getInt(Intent.COLOR, Default.COLOR) ?: Default.COLOR
         type = NoteType.values().getOrNull(index = bundle?.getInt(Intent.TYPE) ?: Default.TYPE)
+
+        if (color == Default.COLOR) {
+            color = iInteractor.defaultColor
+        }
     }
 
     override fun onSaveData(bundle: Bundle) = with(bundle) {

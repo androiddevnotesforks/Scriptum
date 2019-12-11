@@ -58,7 +58,11 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
     override fun onSetup(bundle: Bundle?) {
         id = bundle?.getLong(Intent.ID, Default.ID) ?: Default.ID
-        color = bundle?.getInt(Intent.COLOR, iInteractor.defaultColor) ?: iInteractor.defaultColor
+        color = bundle?.getInt(Intent.COLOR, Default.COLOR) ?: Default.COLOR
+
+        if (color == Default.COLOR) {
+            color = iInteractor.defaultColor
+        }
 
         viewModelScope.launch {
             /**
@@ -163,6 +167,8 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
             onMenuEdit(isEdit = false)
             callback?.tintToolbar(colorFrom, noteItem.color)
+
+            parentCallback?.onUpdateNoteColor(noteItem.color)
 
             inputControl.reset()
         }
@@ -322,6 +328,8 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
              */
             callback?.changeToolbarIcon(drawableOn = true, needAnim = true)
         }
+
+        parentCallback?.onUpdateNoteColor(noteItem.color)
 
         viewModelScope.launch {
             iInteractor.saveNote(noteItem, noteState.isCreate)

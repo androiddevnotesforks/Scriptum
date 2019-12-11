@@ -106,12 +106,11 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild {
                 get(context, item.type, item.id, item.color)
 
         /**
-         * If [id] isDefault - it means that note will be create, not open.
+         * If [id] and [color] isDefault - it means that note will be create, not open.
          */
-        operator fun get(context: Context,
-                         type: NoteType,
-                         id: Long? = NoteData.Default.ID,
-                         @Color color: Int? = NoteData.Default.COLOR): Intent {
+        operator fun get(context: Context, type: NoteType,
+                         id: Long = NoteData.Default.ID,
+                         @Color color: Int = NoteData.Default.COLOR): Intent {
             return Intent(context, NoteActivity::class.java)
                     .putExtra(NoteData.Intent.ID, id)
                     .putExtra(NoteData.Intent.COLOR, color)
