@@ -51,6 +51,8 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     private var color: Int = Default.COLOR
 
     private lateinit var noteItem: NoteItem
+    private lateinit var restoreItem: NoteItem
+
     private var noteState: NoteState = NoteState()
     private var isRankEmpty: Boolean = true
 
@@ -79,10 +81,13 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
                 if (id == Default.ID) {
                     noteItem = NoteItem.getCreate(iInteractor.defaultColor, NoteType.TEXT)
+                    restoreItem = noteItem.deepCopy()
+
                     noteState = NoteState(isCreate = true)
                 } else {
-                    iInteractor.getItem(id, updateBind = true)?.let {
+                    iInteractor.getItem(id)?.let {
                         noteItem = it
+                        restoreItem = it.deepCopy()
                     } ?: run {
                         parentCallback?.finish()
                         return@launch
@@ -159,22 +164,14 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
          * Get color before restore data.
          */
         val colorFrom = noteItem.color
+        noteItem = restoreItem.deepCopy()
 
-        viewModelScope.launch {
-            iInteractor.getItem(id, updateBind = false)?.let {
-                noteItem = it
-            } ?: run {
-                parentCallback?.finish()
-                return@launch
-            }
+        onMenuEdit(isEdit = false)
+        callback?.tintToolbar(colorFrom, noteItem.color)
 
-            onMenuEdit(isEdit = false)
-            callback?.tintToolbar(colorFrom, noteItem.color)
+        parentCallback?.onUpdateNoteColor(noteItem.color)
 
-            parentCallback?.onUpdateNoteColor(noteItem.color)
-
-            inputControl.reset()
-        }
+        inputControl.reset()
 
         return true
     }
@@ -336,6 +333,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
         viewModelScope.launch {
             iInteractor.saveNote(noteItem, noteState.isCreate)
+            restoreItem.deepCopy()
 
             if (noteState.isCreate) {
                 noteState.isCreate = NoteState.ND_CREATE

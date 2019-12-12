@@ -20,8 +20,8 @@ import sgtmelon.scriptum.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.interactor.note.RollNoteInteractor
 import sgtmelon.scriptum.model.annotation.InputAction
-import sgtmelon.scriptum.model.data.NoteData.Intent
 import sgtmelon.scriptum.model.data.NoteData.Default
+import sgtmelon.scriptum.model.data.NoteData.Intent
 import sgtmelon.scriptum.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RollItem
@@ -54,6 +54,8 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     private var color: Int = Default.COLOR
 
     private lateinit var noteItem: NoteItem
+    private lateinit var restoreItem: NoteItem
+
     private var noteState: NoteState = NoteState()
     private var isRankEmpty: Boolean = true
 
@@ -83,10 +85,13 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
                 if (id == Default.ID) {
                     noteItem = NoteItem.getCreate(iInteractor.defaultColor, NoteType.ROLL)
+                    restoreItem = noteItem.deepCopy()
+
                     noteState = NoteState(isCreate = true)
                 } else {
-                    iInteractor.getItem(id, updateBind = true)?.let {
+                    iInteractor.getItem(id)?.let {
                         noteItem = it
+                        restoreItem = it.deepCopy()
                     } ?: run {
                         parentCallback?.finish()
                         return@launch
@@ -165,23 +170,15 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
          * Get color before restore data.
          */
         val colorFrom = noteItem.color
+        noteItem = restoreItem.deepCopy()
 
-        viewModelScope.launch {
-            iInteractor.getItem(id, updateBind = false)?.let {
-                noteItem = it
-            } ?: run {
-                parentCallback?.finish()
-                return@launch
-            }
+        callback?.notifyDataSetChanged(noteItem.rollList)
+        onMenuEdit(isEdit = false)
+        callback?.tintToolbar(colorFrom, noteItem.color)
 
-            callback?.notifyDataSetChanged(noteItem.rollList)
-            onMenuEdit(isEdit = false)
-            callback?.tintToolbar(colorFrom, noteItem.color)
+        parentCallback?.onUpdateNoteColor(noteItem.color)
 
-            parentCallback?.onUpdateNoteColor(noteItem.color)
-
-            inputControl.reset()
-        }
+        inputControl.reset()
 
         return true
     }
@@ -428,6 +425,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
         viewModelScope.launch {
             iInteractor.saveNote(noteItem, noteState.isCreate)
+            restoreItem.deepCopy()
 
             if (noteState.isCreate) {
                 noteState.isCreate = NoteState.ND_CREATE
