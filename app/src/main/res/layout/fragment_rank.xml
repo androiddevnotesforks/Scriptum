@@ -37,9 +37,9 @@
                     style="@style/RecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    tools:listitem="@layout/item_rank"
+                    android:visibility='@{!isListEmpty ? v.VISIBLE : v.GONE}'
                     tools:itemCount="3"
-                    android:visibility='@{isListEmpty ? v.GONE : v.VISIBLE}'/>
+                    tools:listitem="@layout/item_rank"/>
 
         </FrameLayout>
 

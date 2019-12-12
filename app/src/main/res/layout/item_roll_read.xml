@@ -37,7 +37,7 @@
                         android:id="@+id/roll_read_click_button"
                         style="@style/Container.Roll.Click"
                         android:contentDescription="@null"
-                        android:visibility='@{keyBin ? v.INVISIBLE : v.VISIBLE}'/>
+                        android:visibility='@{!keyBin ? v.VISIBLE : v.INVISIBLE}'/>
 
             </FrameLayout>
 

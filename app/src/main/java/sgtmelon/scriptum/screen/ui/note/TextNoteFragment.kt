@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.appcompat.widget.Toolbar
 import androidx.transition.AutoTransition
+import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.alarm.AlarmControl
@@ -34,7 +35,6 @@ import sgtmelon.scriptum.screen.ui.ParentFragment
 import sgtmelon.scriptum.screen.ui.callback.note.text.ITextNoteFragment
 import java.util.*
 
-
 /**
  * Fragment for display text note
  */
@@ -58,6 +58,7 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment {
     private val timeDialog by lazy { dialogFactory.getTimeDialog() }
     private val convertDialog by lazy { dialogFactory.getConvertDialog(NoteType.TEXT) }
 
+    private var parentContainer: ViewGroup? = null
     private var nameEnter: EditText? = null
     private var textEnter: EditText? = null
     private var panelContainer: ViewGroup? = null
@@ -77,6 +78,7 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment {
 
         iViewModel.onSetup(bundle = savedInstanceState ?: arguments)
 
+        parentContainer = view.findViewById(R.id.text_note_parent_container)
         panelContainer = view.findViewById(R.id.note_panel_container)
     }
 
@@ -112,7 +114,6 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment {
         binding?.apply {
             currentTheme = theme
             menuCallback = iViewModel
-            this.rankEmpty = rankEmpty
         }
     }
 
@@ -201,6 +202,10 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment {
 
 
     override fun onBindingLoad(rankEmpty: Boolean) {
+        parentContainer?.let {
+            TransitionManager.beginDelayedTransition(it, Fade().setDuration(FADE_ANIM_TIME))
+        }
+
         binding?.apply {
             this.dataLoad = true
             this.rankEmpty = rankEmpty
@@ -213,9 +218,11 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment {
 
     override fun onBindingEdit(editMode: Boolean, noteItem: NoteItem) {
         panelContainer?.let {
-            TransitionManager.beginDelayedTransition(it,
-                    AutoTransition().setOrdering(AutoTransition.ORDERING_TOGETHER).setDuration(100)
-            )
+            val transition = AutoTransition()
+                    .setOrdering(AutoTransition.ORDERING_TOGETHER)
+                    .setDuration(FADE_ANIM_TIME)
+
+            TransitionManager.beginDelayedTransition(it, transition)
         }
 
         binding?.apply {
@@ -317,6 +324,11 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment {
     override fun notifyInfoBind(count: Int) = iBindControl.notifyInfo(count)
 
     companion object {
+        /**
+         * TODO move to dimens
+         */
+        const val FADE_ANIM_TIME = 200L
+
         operator fun get(id: Long, @Color color: Int) = TextNoteFragment().apply {
             arguments = Bundle().apply {
                 putLong(NoteData.Intent.ID, id)

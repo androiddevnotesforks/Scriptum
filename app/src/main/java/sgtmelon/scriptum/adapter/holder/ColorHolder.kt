@@ -19,6 +19,7 @@ import sgtmelon.scriptum.model.annotation.Theme
 class ColorHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     private val context = view.context
+    private val fadeTime = context.resources.getInteger(R.integer.color_anim_time).toLong()
 
     private val parentContainer: ViewGroup = itemView.findViewById(R.id.color_parent_container)
     private val backgroundView: View = itemView.findViewById(R.id.color_background_view)
@@ -44,7 +45,7 @@ class ColorHolder(view: View) : RecyclerView.ViewHolder(view) {
     fun animateCheckHide() = prepareCheckTransition { checkHide() }
 
     private fun prepareCheckTransition(func: () -> Unit) {
-        val fade = Fade().setDuration(200).addTarget(checkImage)
+        val fade = Fade().setDuration(fadeTime).addTarget(checkImage)
         TransitionManager.beginDelayedTransition(parentContainer, fade)
 
         func()

@@ -82,12 +82,11 @@ fun Context.sendTo(place: String, command: String, extras: Intent.() -> Unit = {
             putExtras(Intent().apply(extras))
         })
 
-fun ViewGroup.createVisibleAnim(target: View?, visible: Boolean, duration: Long = 200) {
+fun ViewGroup.createVisibleAnim(target: View?, visible: Boolean, duration: Long = 200) = let {
     if (target == null) return
 
-    TransitionManager.beginDelayedTransition(this,
-            Fade().setDuration(duration).addTarget(target)
-    )
+    val fade = Fade().setDuration(duration).addTarget(target)
+    TransitionManager.beginDelayedTransition(it, fade)
 
     target.visibility = if (visible) View.VISIBLE else View.GONE
 }

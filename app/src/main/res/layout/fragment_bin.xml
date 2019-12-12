@@ -32,9 +32,9 @@
                     style="@style/RecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    tools:listitem="@layout/item_note_text"
+                    android:visibility='@{!isListEmpty ? v.VISIBLE : v.GONE}'
                     tools:itemCount="1"
-                    android:visibility='@{isListEmpty ? v.GONE : v.VISIBLE}'/>
+                    tools:listitem="@layout/item_note_text"/>
 
         </FrameLayout>
 

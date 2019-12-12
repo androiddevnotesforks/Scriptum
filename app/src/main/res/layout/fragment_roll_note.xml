@@ -4,6 +4,8 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import alias="v" type="android.view.View"/>
+
         <variable name="currentTheme" type="int"/>
         <variable name="menuCallback" type="sgtmelon.scriptum.screen.ui.callback.note.INoteMenu"/>
         <variable name="dataLoad" type="boolean"/>
@@ -26,6 +28,7 @@
         <include
                 layout="@layout/include_toolbar_note"
                 app:currentTheme='@{currentTheme}'
+                app:dataLoad='@{dataLoad}'
                 app:editMode='@{editMode}'
                 app:noteItem='@{noteItem}'/>
 
@@ -42,6 +45,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
+                    android:visibility='@{dataLoad ? v.VISIBLE : v.INVISIBLE}'
                     tools:itemCount="3"
                     tools:listitem="@layout/item_roll_write"/>
 
@@ -49,12 +53,14 @@
                      app:editMode='@{editMode}'
                      app:enterEmpty='@{enterEmpty}'/>
 
-            <include layout="@layout/include_note_panel"
-                     app:editMode='@{editMode}'
-                     app:inputAccess='@{inputAccess}'
-                     app:menuCallback='@{menuCallback}'
-                     app:noteItem='@{noteItem}'
-                     app:rankEmpty='@{rankEmpty}'/>
+            <include
+                    layout="@layout/include_note_panel"
+                    app:dataLoad='@{dataLoad}'
+                    app:editMode='@{editMode}'
+                    app:inputAccess='@{inputAccess}'
+                    app:menuCallback='@{menuCallback}'
+                    app:noteItem='@{noteItem}'
+                    app:rankEmpty='@{rankEmpty}'/>
 
         </LinearLayout>
 

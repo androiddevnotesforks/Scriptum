@@ -9,10 +9,10 @@
         <import alias="v" type="android.view.View"/>
         <import alias="noteType" type="sgtmelon.scriptum.model.key.NoteType"/>
 
-        <variable name="menuCallback"
-                  type="sgtmelon.scriptum.screen.ui.callback.note.INoteMenu"/>
-        <variable name="rankEmpty" type="boolean"/>
+        <variable name="menuCallback" type="sgtmelon.scriptum.screen.ui.callback.note.INoteMenu"/>
+        <variable name="dataLoad" type="boolean"/>
 
+        <variable name="rankEmpty" type="boolean"/>
         <variable name="noteItem" type="sgtmelon.scriptum.model.item.NoteItem"/>
         <variable name="editMode" type="boolean"/>
 
@@ -41,7 +41,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:visibility='@{noteItem.bin ? v.VISIBLE : v.INVISIBLE}'
+                    android:visibility='@{dataLoad &amp;&amp; !editMode &amp;&amp; noteItem.bin ? v.VISIBLE : v.INVISIBLE}'
                     tools:visibility="invisible">
 
                 <ImageButton
@@ -75,7 +75,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:visibility='@{editMode &amp;&amp; !noteItem.bin ? v.VISIBLE : v.INVISIBLE}'
+                    android:visibility='@{dataLoad &amp;&amp; editMode &amp;&amp; !noteItem.bin ? v.VISIBLE : v.INVISIBLE}'
                     tools:visibility="invisible">
 
                 <ImageButton
@@ -142,7 +142,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:visibility='@{!editMode &amp;&amp; !noteItem.bin ? v.VISIBLE  : v.INVISIBLE}'
+                    android:visibility='@{dataLoad &amp;&amp; !editMode &amp;&amp; !noteItem.bin ? v.VISIBLE  : v.INVISIBLE}'
                     tools:visibility="visible">
 
                 <ImageButton

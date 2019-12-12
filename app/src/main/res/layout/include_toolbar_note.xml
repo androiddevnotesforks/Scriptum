@@ -10,6 +10,7 @@
         <import alias="theme" type="sgtmelon.scriptum.model.annotation.Theme"/>
 
         <variable name="currentTheme" type="int"/>
+        <variable name="dataLoad" type="boolean"/>
 
         <variable name="noteItem" type="sgtmelon.scriptum.model.item.NoteItem"/>
         <variable name="editMode" type="boolean"/>
@@ -33,7 +34,8 @@
                     android:id="@+id/toolbar_note_scroll"
                     style="@style/Container.ToolbarNote.Scroll"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:visibility='@{dataLoad ? v.VISIBLE : v.INVISIBLE}'>
 
                 <FrameLayout
                         android:layout_width="wrap_content"

@@ -26,6 +26,7 @@
         <include
                 layout="@layout/include_toolbar_note"
                 app:currentTheme='@{currentTheme}'
+                app:dataLoad='@{dataLoad}'
                 app:editMode='@{editMode}'
                 app:noteItem='@{noteItem}'/>
 
@@ -48,7 +49,8 @@
                         android:id="@+id/text_note_content_scroll"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:fillViewport="true">
+                        android:fillViewport="true"
+                        android:visibility='@{dataLoad ? v.VISIBLE : v.INVISIBLE}'>
 
                     <FrameLayout
                             android:layout_width="match_parent"
@@ -69,7 +71,7 @@
                                 android:id="@+id/text_note_content_text"
                                 style="@style/EditText.TextNote.Read"
                                 android:text='@{editMode ? "" : noteItem.text}'
-                                android:visibility='@{editMode ? v.INVISIBLE : v.VISIBLE}'
+                                android:visibility='@{!editMode ? v.VISIBLE : v.INVISIBLE}'
                                 tools:text="@string/preview_note_text"/>
 
                     </FrameLayout>
@@ -80,12 +82,14 @@
 
         </FrameLayout>
 
-        <include layout="@layout/include_note_panel"
-                 app:editMode='@{editMode}'
-                 app:inputAccess='@{inputAccess}'
-                 app:menuCallback='@{menuCallback}'
-                 app:noteItem='@{noteItem}'
-                 app:rankEmpty='@{rankEmpty}'/>
+        <include
+                layout="@layout/include_note_panel"
+                app:dataLoad='@{dataLoad}'
+                app:editMode='@{editMode}'
+                app:inputAccess='@{inputAccess}'
+                app:menuCallback='@{menuCallback}'
+                app:noteItem='@{noteItem}'
+                app:rankEmpty='@{rankEmpty}'/>
 
     </LinearLayout>
 

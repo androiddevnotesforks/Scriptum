@@ -164,8 +164,8 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     override fun startButtonFadeInAnimation() {
         parentContainer?.let { group ->
             TransitionManager.beginDelayedTransition(group, Fade().apply {
-                startDelay = 500
-                duration = 500
+                startDelay = resources.getInteger(R.integer.alarm_show_delay).toLong()
+                duration = resources.getInteger(R.integer.alarm_show_time).toLong()
 
                 recyclerView?.let { addTarget(it) }
                 buttonContainer?.let { addTarget(it) }
@@ -211,9 +211,10 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     }
 
     companion object {
-        operator fun get(context: Context, id: Long): Intent =
-                Intent(context, AlarmActivity::class.java)
-                        .putExtra(NoteData.Intent.ID, id)
+        operator fun get(context: Context, id: Long): Intent {
+            return Intent(context, AlarmActivity::class.java)
+                    .putExtra(NoteData.Intent.ID, id)
+        }
     }
 
 }

@@ -92,12 +92,11 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
                 }
             }
 
-            callback?.apply {
-                setupDialog(iInteractor.getRankDialogItemArray())
-                onBindingLoad(isRankEmpty)
-            }
+            callback?.setupDialog(iInteractor.getRankDialogItemArray())
 
             iconState.notAnimate { onMenuEdit(noteState.isEdit) }
+
+            callback?.onBindingLoad(isRankEmpty)
         }
     }
 

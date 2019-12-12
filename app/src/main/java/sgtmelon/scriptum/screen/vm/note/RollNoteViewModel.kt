@@ -96,14 +96,12 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
                 }
             }
 
-            callback?.apply {
-                setupDialog(iInteractor.getRankDialogItemArray())
-                onBindingLoad(isRankEmpty)
-            }
+            callback?.setupDialog(iInteractor.getRankDialogItemArray())
 
             iconState.notAnimate { onMenuEdit(noteState.isEdit) }
 
             callback?.notifyDataSetChanged(noteItem.rollList)
+            callback?.onBindingLoad(isRankEmpty)
         }
     }
 

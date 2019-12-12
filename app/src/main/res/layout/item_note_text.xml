@@ -36,7 +36,7 @@
                             android:id="@+id/note_text_name_text"
                             style="@style/Text.Note.Name"
                             android:text='@{noteItem.name}'
-                            android:visibility='@{noteItem.name.isEmpty() ? v.GONE : v.VISIBLE}'
+                            android:visibility='@{!noteItem.name.isEmpty() ? v.VISIBLE : v.GONE}'
                             tools:text="@string/preview_note_name"/>
 
                     <TextView

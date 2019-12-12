@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.transition.AutoTransition
+import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.RollAdapter
@@ -83,7 +84,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment {
     private var recyclerView: RecyclerView? = null
 
     private var parentContainer: ViewGroup? = null
-    private var panelContainer: ViewGroup? = null
+    private var contentContainer: ViewGroup? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -101,7 +102,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment {
         iViewModel.onSetup(bundle = arguments ?: savedInstanceState)
 
         parentContainer = view.findViewById(R.id.roll_note_parent_container)
-        panelContainer = view.findViewById(R.id.roll_note_content_container)
+        contentContainer = view.findViewById(R.id.roll_note_content_container)
     }
 
     override fun onResume() {
@@ -136,7 +137,6 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment {
         binding?.apply {
             currentTheme = theme
             menuCallback = iViewModel
-            this.rankEmpty = rankEmpty
         }
     }
 
@@ -255,6 +255,10 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment {
 
 
     override fun onBindingLoad(rankEmpty: Boolean) {
+        parentContainer?.let {
+            TransitionManager.beginDelayedTransition(it, Fade().setDuration(FADE_ANIM_TIME))
+        }
+
         binding?.apply {
             this.dataLoad = true
             this.rankEmpty = rankEmpty
@@ -262,12 +266,12 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment {
     }
 
     override fun onBindingEdit(editMode: Boolean, noteItem: NoteItem) {
-        panelContainer?.let {
+        contentContainer?.let {
             TransitionManager.beginDelayedTransition(it,
                     AutoTransition()
                             .setOrdering(AutoTransition.ORDERING_TOGETHER)
                             .excludeChildren(R.id.roll_note_recycler, true)
-                            .setDuration(100)
+                            .setDuration(FADE_ANIM_TIME)
             )
         }
 
@@ -436,6 +440,11 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment {
     override fun notifyInfoBind(count: Int) = iBindControl.notifyInfo(count)
 
     companion object {
+        /**
+         * TODO move to dimens
+         */
+        const val FADE_ANIM_TIME = 200L
+
         operator fun get(id: Long, @Color color: Int) = RollNoteFragment().apply {
             arguments = Bundle().apply {
                 putLong(NoteData.Intent.ID, id)
