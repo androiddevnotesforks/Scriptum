@@ -36,8 +36,6 @@ open class MenuControl(
 
     // TODO add interface for communication
 
-    private val statusOnDark = VERSION.SDK_INT < VERSION_CODES.M
-
     private val colorAnimator: ValueAnimator = ValueAnimator.ofFloat(0F, 1F)
 
     private val cancelOn: Drawable? = context.getTintDrawable(R.drawable.ic_cancel_enter)
@@ -74,8 +72,9 @@ open class MenuControl(
     fun setColor(@Color color: Int) = apply {
         if (theme != Theme.DARK) {
             if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
-                window.statusBarColor = context.getAppThemeColor(theme, color, statusOnDark)
+                window.statusBarColor = getStatusBarColor(context, theme, color)
             }
+
             toolbar?.setBackgroundColor(getToolbarColor(context, theme, color))
         }
 
@@ -112,6 +111,12 @@ open class MenuControl(
     companion object {
         fun getToolbarColor(context: Context, @Theme theme: Int, @Color color: Int): Int {
             return context.getAppThemeColor(theme, color, needDark = false)
+        }
+
+        private val statusOnDark = VERSION.SDK_INT < VERSION_CODES.M
+
+        fun getStatusBarColor(context: Context, @Theme theme: Int, @Color color: Int): Int {
+            return context.getAppThemeColor(theme, color, statusOnDark)
         }
     }
 

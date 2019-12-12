@@ -3,6 +3,7 @@ package sgtmelon.scriptum.screen.ui.note
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -12,6 +13,7 @@ import sgtmelon.scriptum.control.menu.MenuControl
 import sgtmelon.scriptum.factory.FragmentFactory
 import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.model.annotation.Color
+import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.data.ReceiverData
 import sgtmelon.scriptum.model.item.NoteItem
@@ -71,6 +73,12 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild {
 
 
     override fun updateHolder(theme: Int, color: Int) {
+        if (theme == Theme.DARK) return
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.statusBarColor = MenuControl.getStatusBarColor(this, theme, color)
+        }
+
         toolbarHolder?.setBackgroundColor(MenuControl.getToolbarColor(this, theme, color))
     }
 
