@@ -425,7 +425,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
         viewModelScope.launch {
             iInteractor.saveNote(noteItem, noteState.isCreate)
-            restoreItem.deepCopy()
+            restoreItem = noteItem.deepCopy()
 
             if (noteState.isCreate) {
                 noteState.isCreate = NoteState.ND_CREATE

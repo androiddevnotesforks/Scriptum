@@ -83,7 +83,7 @@ fun Context.sendTo(place: String, command: String, extras: Intent.() -> Unit = {
         })
 
 /**
- * TODO move to dimens
+ * TODO #RELEASE! move to dimens
  */
 fun ViewGroup.createVisibleAnim(target: View?, visible: Boolean, duration: Long = 200) = let {
     if (target == null) return

@@ -333,7 +333,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
         viewModelScope.launch {
             iInteractor.saveNote(noteItem, noteState.isCreate)
-            restoreItem.deepCopy()
+            restoreItem = noteItem.deepCopy()
 
             if (noteState.isCreate) {
                 noteState.isCreate = NoteState.ND_CREATE

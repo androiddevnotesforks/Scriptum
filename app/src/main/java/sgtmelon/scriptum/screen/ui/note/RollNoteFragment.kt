@@ -441,7 +441,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment {
 
     companion object {
         /**
-         * TODO move to dimens
+         * TODO #RELEASE! move to dimens
          */
         const val FADE_ANIM_TIME = 200L
 
