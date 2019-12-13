@@ -27,12 +27,6 @@ class RankRepoTest : ParentIntegrationTest()  {
     private val rankConverter = RankConverter()
     private val noteConverter = NoteConverter()
 
-    @Test fun isEmpty() = inRoomTest {
-        assertTrue(iRankRepo.isEmpty())
-        iRankRepo.insert(data.uniqueString)
-        assertFalse(iRankRepo.isEmpty())
-    }
-
     @Test fun getList() = inRoomTest {
         val list = mutableListOf<RankItem>()
 
@@ -72,12 +66,12 @@ class RankRepoTest : ParentIntegrationTest()  {
         assertEquals(noteFirst.copy(
                 rankId = DbData.Note.Default.RANK_ID,
                 rankPs = DbData.Note.Default.RANK_PS
-        ), iNoteDao[noteFirst.id])
+        ), iNoteDao.get(noteFirst.id))
 
         assertEquals(noteSecond.copy(
                 rankId = DbData.Note.Default.RANK_ID,
                 rankPs = DbData.Note.Default.RANK_PS
-        ), iNoteDao[noteSecond.id])
+        ), iNoteDao.get(noteSecond.id))
 
         assertTrue(iRankRepo.getList().isEmpty())
     }
@@ -127,9 +121,9 @@ class RankRepoTest : ParentIntegrationTest()  {
         assertEquals(1, rankList[1].position)
         assertEquals(2, rankList[2].position)
 
-        assertEquals(1, iNoteDao[noteFirst.id]?.rankPs)
-        assertEquals(1, iNoteDao[noteSecond.id]?.rankPs)
-        assertEquals(2, iNoteDao[noteThird.id]?.rankPs)
+        assertEquals(1, iNoteDao.get(noteFirst.id)?.rankPs)
+        assertEquals(1, iNoteDao.get(noteSecond.id)?.rankPs)
+        assertEquals(2, iNoteDao.get(noteThird.id)?.rankPs)
 
         assertEquals(rankList, rankConverter.toItem(iRankDao.get()))
     }

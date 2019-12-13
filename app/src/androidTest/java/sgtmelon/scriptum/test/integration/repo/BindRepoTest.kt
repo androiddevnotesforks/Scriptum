@@ -27,7 +27,7 @@ class BindRepoTest : ParentIntegrationTest() {
         assertNotEquals(UNIQUE_ERROR_ID, iNoteDao.insert(noteFirst))
         assertTrue(iBindRepo.unbindNote(noteFirst.id))
 
-        assertEquals(noteFirst.apply { isStatus = false }, iNoteDao[noteFirst.id])
+        assertEquals(noteFirst.apply { isStatus = false }, iNoteDao.get(noteFirst.id))
     }
 
     @Test fun getNotificationCount() = inRoomTest {

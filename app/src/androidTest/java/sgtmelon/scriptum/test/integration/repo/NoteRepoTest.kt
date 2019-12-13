@@ -76,13 +76,13 @@ class NoteRepoTest : ParentIntegrationTest()  {
 
         iNoteRepo.clearBin()
 
-        assertEquals(noteFirst, iNoteDao[noteFirst.id])
+        assertEquals(noteFirst, iNoteDao.get(noteFirst.id))
 
         assertEquals(rankFirst.copy(noteId = arrayListOf(4)), iRankDao.get(rankFirst.id))
-        assertNull(iNoteDao[itemSecond.id])
+        assertNull(iNoteDao.get(itemSecond.id))
 
         assertEquals(rankSecond.copy(noteId = arrayListOf()), iRankDao.get(rankSecond.id))
-        assertNull(iNoteDao[itemThird.id])
+        assertNull(iNoteDao.get(itemThird.id))
     }
 
 
@@ -98,7 +98,7 @@ class NoteRepoTest : ParentIntegrationTest()  {
         assertTrue(item.isBin)
         assertFalse(item.isStatus)
 
-        assertEquals(noteConverter.toEntity(item), iNoteDao[item.id])
+        assertEquals(noteConverter.toEntity(item), iNoteDao.get(item.id))
         assertNull(iAlarmDao.get(item.id))
     }
 
@@ -112,7 +112,7 @@ class NoteRepoTest : ParentIntegrationTest()  {
         assertChangeTime(item)
         assertFalse(item.isBin)
 
-        assertEquals(noteConverter.toEntity(item), iNoteDao[item.id])
+        assertEquals(noteConverter.toEntity(item), iNoteDao.get(item.id))
     }
 
     @Test fun clearNote() = inRoomTest {
@@ -124,7 +124,7 @@ class NoteRepoTest : ParentIntegrationTest()  {
         iNoteRepo.clearNote(item)
 
         assertEquals(rankFirst.copy(noteId = arrayListOf(4)), iRankDao.get(rankFirst.id))
-        assertNull(iNoteDao[item.id])
+        assertNull(iNoteDao.get(item.id))
     }
 
     @Test fun convertToRoll() {
@@ -230,7 +230,7 @@ class NoteRepoTest : ParentIntegrationTest()  {
             change = DATE_2
         }))
 
-        assertEquals(entity, iNoteDao[entity.id])
+        assertEquals(entity, iNoteDao.get(entity.id))
     }
 
     private companion object {
