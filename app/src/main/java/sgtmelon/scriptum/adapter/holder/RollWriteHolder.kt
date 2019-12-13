@@ -52,8 +52,8 @@ class RollWriteHolder(
         dragView.setOnTouchListener(this)
     }
 
-    fun bind(rollItem: RollItem) = iInputControl?.makeNotEnabled {
-        binding.apply { this.rollItem = rollItem }.executePendingBindings()
+    fun bind(item: RollItem) = iInputControl?.makeNotEnabled {
+        binding.apply { this.item = item }.executePendingBindings()
     }
 
     /**

@@ -6,7 +6,7 @@
     <data>
         <import type="sgtmelon.scriptum.R"/>
 
-        <variable name="rollItem" type="sgtmelon.scriptum.model.item.RollItem"/>
+        <variable name="item" type="sgtmelon.scriptum.model.item.RollItem"/>
     </data>
 
     <androidx.cardview.widget.CardView
@@ -30,7 +30,7 @@
                         android:id="@+id/roll_write_drag_button"
                         style="@style/Container.Roll.Click"
                         android:contentDescription="@null"
-                        app:boolExpression='@{rollItem.check}'
+                        app:boolExpression='@{item.check}'
                         app:falseColor='@{R.attr.clContent}'
                         app:srcCompat="@drawable/ic_move"
                         app:trueColor='@{R.attr.clAccent}'
@@ -45,7 +45,7 @@
                     android:imeOptions="flagNoFullscreen"
                     android:importantForAutofill="noExcludeDescendants"
                     android:inputType="textCapSentences|textAutoCorrect|textAutoComplete|textMultiLine"
-                    android:text='@{rollItem.text}'
+                    android:text='@{item.text}'
                     tools:targetApi="o"/>
 
         </LinearLayout>
