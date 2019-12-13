@@ -16,7 +16,7 @@ interface ItemListener {
     }
 
     interface ActionClick {
-        fun onItemClick(view: View, p: Int, action: () -> Unit = {})
+        fun onItemClick(view: View, p: Int)
     }
 
     interface Drag {

@@ -53,13 +53,11 @@ class RankFragment : ParentFragment(), IRankFragment {
 
     private val adapter by lazy {
         RankAdapter(object: ItemListener.ActionClick {
-            override fun onItemClick(view: View, p: Int, action: () -> Unit) {
+            override fun onItemClick(view: View, p: Int) {
                 openState?.tryInvoke {
                     when (view.id) {
                         R.id.rank_visible_button -> {
                             openState?.block(visibleAnimTime)
-
-                            action()
                             iViewModel.onClickVisible(p)
                         }
                         R.id.rank_click_container -> iViewModel.onShowRenameDialog(p)
