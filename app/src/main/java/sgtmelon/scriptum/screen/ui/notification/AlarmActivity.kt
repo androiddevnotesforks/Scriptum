@@ -146,7 +146,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     }
 
     override fun notifyDataSetChanged(noteItem: NoteItem) {
-        adapter.notifyDataSetChanged(arrayListOf(noteItem))
+        adapter.notifyData(arrayListOf(noteItem))
     }
 
 

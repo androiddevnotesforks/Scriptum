@@ -33,6 +33,7 @@ import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.ui.notification.NotificationActivity
 import sgtmelon.scriptum.screen.ui.preference.PreferenceActivity
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * Fragment which displays list of notes - [NoteItem]
@@ -255,16 +256,8 @@ class NotesFragment : ParentFragment(), INotesFragment {
     }
 
 
-    override fun notifyDataSetChanged(list: MutableList<NoteItem>) {
-        adapter.notifyDataSetChanged(list)
-    }
-
-    override fun notifyItemChanged(p: Int, list: MutableList<NoteItem>) {
-        adapter.notifyItemChanged(p, list)
-    }
-
-    override fun notifyItemRemoved(p: Int, list: MutableList<NoteItem>) {
-        adapter.notifyItemRemoved(p, list)
+    override fun notifyList(list: List<NoteItem>) {
+        adapter.notifyData(ArrayList(list.map { it.deepCopy() }))
     }
 
 

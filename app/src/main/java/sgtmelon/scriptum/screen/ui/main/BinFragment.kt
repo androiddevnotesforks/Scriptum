@@ -171,7 +171,7 @@ class BinFragment : ParentFragment(), IBinFragment {
     }
 
     override fun notifyDataSetChanged(list: MutableList<NoteItem>) {
-        adapter.notifyDataSetChanged(list)
+        adapter.notifyData(list)
     }
 
     override fun notifyItemRemoved(p: Int, list: MutableList<NoteItem>) {

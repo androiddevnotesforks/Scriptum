@@ -49,7 +49,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
             itemList.clearAndAdd(iInteractor.getList())
 
             callback?.apply {
-                notifyDataSetChanged(itemList)
+                notifyList(itemList)
                 setupBinding(iInteractor.isListHide())
                 onBingingList()
             }
@@ -90,12 +90,12 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
             Options.NOTIFICATION -> itemList[p].let {
                 callback?.showDateDialog(it.alarmDate.getCalendar(), it.haveAlarm(), p)
             }
-            Options.BIND -> callback?.notifyItemChanged(p, onMenuBind(p))
+            Options.BIND -> callback?.notifyList(onMenuBind(p))
             Options.CONVERT -> viewModelScope.launch {
-                callback?.notifyItemChanged(p, onMenuConvert(p))
+                callback?.notifyList(onMenuConvert(p))
             }
             Options.COPY -> viewModelScope.launch { iInteractor.copy(itemList[p]) }
-            Options.DELETE -> callback?.notifyItemRemoved(p, onMenuDelete(p))
+            Options.DELETE -> callback?.notifyList(onMenuDelete(p))
         }
     }
 
@@ -130,7 +130,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
 
         noteItem.clearAlarm()
 
-        callback?.notifyItemChanged(p, itemList)
+        callback?.notifyList(itemList)
     }
 
     override fun onResultTimeDialog(calendar: Calendar, p: Int) {
@@ -138,7 +138,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
 
         viewModelScope.launch {
             iInteractor.setDate(itemList[p], calendar)
-            callback?.notifyItemChanged(p, itemList)
+            callback?.notifyList(itemList)
 
             iBindInteractor.notifyInfoBind(callback)
         }
@@ -153,7 +153,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
         val noteItem = itemList.getOrNull(p) ?: return
 
         noteItem.isStatus = false
-        callback?.notifyItemChanged(p, itemList)
+        callback?.notifyList(itemList)
     }
 
     /**
@@ -171,7 +171,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
                 alarmDate = notificationItem.alarm.date
             }
 
-            callback?.notifyItemChanged(p, itemList)
+            callback?.notifyList(itemList)
         }
     }
 

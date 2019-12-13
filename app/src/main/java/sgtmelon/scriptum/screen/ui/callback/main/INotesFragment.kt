@@ -34,10 +34,6 @@ interface INotesFragment : INotesBridge {
     fun showTimeDialog(calendar: Calendar, dateList: List<String>, p: Int)
 
 
-    fun notifyDataSetChanged(list: MutableList<NoteItem>)
-
-    fun notifyItemChanged(p: Int, list: MutableList<NoteItem>)
-
-    fun notifyItemRemoved(p: Int, list: MutableList<NoteItem>)
+    fun notifyList(list: List<NoteItem>)
 
 }
