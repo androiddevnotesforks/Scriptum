@@ -24,9 +24,11 @@
             <include
                     android:id="@+id/notes_info_include"
                     layout="@layout/include_info"
+                    android:visibility="gone"
                     app:details='@{isListHide ? R.string.info_notes_hide_details : R.string.info_notes_empty_details}'
                     app:icon='@{R.mipmap.img_info_notes}'
-                    app:title='@{isListHide ? R.string.info_notes_hide_title : R.string.info_notes_empty_title}'/>
+                    app:title='@{isListHide ? R.string.info_notes_hide_title : R.string.info_notes_empty_title}'
+                    tools:visibility="visible"/>
 
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/notes_recycler"

@@ -149,7 +149,7 @@ class RankFragment : ParentFragment(), IRankFragment {
         recyclerView?.let {
             it.itemAnimator = object : DefaultItemAnimator() {
                 override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) {
-                    bindList()
+                    onBindingList()
                     openState?.clear()
                 }
             }
@@ -169,7 +169,7 @@ class RankFragment : ParentFragment(), IRankFragment {
         }
     }
 
-    override fun bindList() {
+    override fun onBindingList() {
         val isListEmpty = adapter.itemCount == 0
 
         parentContainer?.createVisibleAnim(emptyInfoView, isListEmpty)
@@ -203,7 +203,7 @@ class RankFragment : ParentFragment(), IRankFragment {
 
         if (list.size == 1) {
             adapter.notifyList(list)
-            bindList()
+            onBindingList()
         } else {
             val fastScroll = with(layoutManager) {
                 return@with if (simpleClick) {

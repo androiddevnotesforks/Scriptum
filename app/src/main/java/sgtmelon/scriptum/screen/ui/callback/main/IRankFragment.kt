@@ -13,7 +13,7 @@ interface IRankFragment : IRankBridge {
 
     fun setupRecycler()
 
-    fun bindList()
+    fun onBindingList()
 
     fun onBindingToolbar(isClearEnable: Boolean, isAddEnable: Boolean)
 

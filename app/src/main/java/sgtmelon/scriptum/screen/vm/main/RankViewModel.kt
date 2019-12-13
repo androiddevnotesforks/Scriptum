@@ -49,7 +49,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
 
             callback?.apply {
                 notifyList(itemList)
-                bindList()
+                onBindingList()
             }
         }
     }
