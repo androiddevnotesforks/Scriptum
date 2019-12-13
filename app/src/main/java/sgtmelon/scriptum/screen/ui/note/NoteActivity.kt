@@ -27,7 +27,7 @@ import sgtmelon.scriptum.screen.ui.callback.note.INoteChild
 /**
  * Screen which display note - [TextNoteFragment], [RollNoteFragment]
  */
-class NoteActivity : AppActivity(), INoteActivity, INoteChild {
+class NoteActivity : AppActivity(), INoteActivity, INoteChild, NoteReceiver.Callback {
 
     private val iViewModel by lazy { ViewModelFactory.getNoteViewModel(activity = this) }
 
@@ -37,7 +37,7 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild {
     private val textNoteFragment get() = fragmentFactory.getTextNoteFragment()
     private val rollNoteFragment get() = fragmentFactory.getRollNoteFragment()
 
-    private val noteReceiver by lazy { NoteReceiver(iViewModel) }
+    private val noteReceiver by lazy { NoteReceiver(callback = this) }
 
     private val toolbarHolder by lazy { findViewById<View?>(R.id.note_toolbar_holder) }
     private val panelHolder by lazy { findViewById<View?>(R.id.note_panel_holder) }
@@ -102,11 +102,9 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild {
 
     override fun onPressBackRoll() = rollNoteFragment?.onPressBack() ?: false
 
-    override fun onCancelNoteBind(type: NoteType) {
-        when (type) {
-            NoteType.TEXT -> textNoteFragment?.onCancelNoteBind()
-            NoteType.ROLL -> rollNoteFragment?.onCancelNoteBind()
-        }
+    override fun onReceiveUnbindNote(id: Long) {
+        textNoteFragment?.onReceiveUnbindNote(id)
+        rollNoteFragment?.onReceiveUnbindNote(id)
     }
 
     override fun onUpdateNoteId(id: Long) = iViewModel.onUpdateNoteId(id)

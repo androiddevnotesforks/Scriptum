@@ -26,6 +26,7 @@ import sgtmelon.scriptum.model.annotation.Options
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.state.OpenState
+import sgtmelon.scriptum.receiver.MainReceiver
 import sgtmelon.scriptum.screen.ui.ParentFragment
 import sgtmelon.scriptum.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.screen.ui.callback.main.INotesFragment
@@ -37,7 +38,7 @@ import java.util.*
 /**
  * Fragment which displays list of notes - [NoteItem]
  */
-class NotesFragment : ParentFragment(), INotesFragment {
+class NotesFragment : ParentFragment(), INotesFragment, MainReceiver.Callback {
 
     private val callback: IMainActivity? by lazy { context as? IMainActivity }
 
@@ -111,9 +112,9 @@ class NotesFragment : ParentFragment(), INotesFragment {
 
     //region Receiver functions
 
-    fun onCancelNoteBind(id: Long) = iViewModel.onCancelNoteBind(id)
+    override fun onReceiveUnbindNote(id: Long) = iViewModel.onReceiveUnbindNote(id)
 
-    fun onUpdateAlarm(id: Long) = iViewModel.onUpdateAlarm(id)
+    override fun onReceiveUpdateAlarm(id: Long) = iViewModel.onReceiveUpdateAlarm(id)
 
     //endregion
 

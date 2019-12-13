@@ -58,6 +58,14 @@ class BindTest : ParentNotificationTest() {
         }
     }
 
+    @Test fun alarmUnbindReceiver() = with(data) {
+        insertText(textNote.copy(isStatus = true))
+    }.let {
+        launchAlarm(it) {
+            openAlarm(it) { onOpen { onAssertItem(it.apply { isStatus = false }) } }
+        }
+    }
+
 
     @Test fun notesTextBindUnbind() = startNotesBindUnbindTest(data.insertText())
 

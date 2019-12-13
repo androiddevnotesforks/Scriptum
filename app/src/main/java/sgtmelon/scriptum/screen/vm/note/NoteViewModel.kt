@@ -80,10 +80,4 @@ class NoteViewModel(application: Application) : ParentViewModel<INoteActivity>(a
         }
     }
 
-    override fun onReceiveUnbindNote(id: Long) {
-        if (this.id != id) return
-
-        type?.let { callback?.onCancelNoteBind(it) }
-    }
-
 }

@@ -179,9 +179,9 @@ class MainActivity : AppActivity(), IMainActivity {
     }
 
 
-    override fun onCancelNoteBind(id: Long) = notesFragment.onCancelNoteBind(id)
+    override fun onReceiveUnbindNote(id: Long) = notesFragment.onReceiveUnbindNote(id)
 
-    override fun onUpdateAlarm(id: Long) = notesFragment.onUpdateAlarm(id)
+    override fun onReceiveUpdateAlarm(id: Long) = notesFragment.onReceiveUpdateAlarm(id)
 
 
     private fun MainPage.getFragmentByName(): Fragment = let {

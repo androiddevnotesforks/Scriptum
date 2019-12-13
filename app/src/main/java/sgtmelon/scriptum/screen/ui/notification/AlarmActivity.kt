@@ -2,6 +2,7 @@ package sgtmelon.scriptum.screen.ui.notification
 
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
@@ -30,8 +31,10 @@ import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.NoteData
+import sgtmelon.scriptum.model.data.ReceiverData
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.state.OpenState
+import sgtmelon.scriptum.receiver.NoteReceiver
 import sgtmelon.scriptum.screen.ui.AppActivity
 import sgtmelon.scriptum.screen.ui.callback.notification.IAlarmActivity
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
@@ -49,6 +52,8 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     private val iVibratorControl: IVibratorControl by lazy { VibratorControl(context = this) }
     private val iAlarmControl by lazy { AlarmControl[this] }
     private val iPowerControl: IPowerControl by lazy { PowerControl(context = this) }
+
+    private val noteReceiver by lazy { NoteReceiver(iViewModel) }
 
     private val openState = OpenState()
 
@@ -90,6 +95,8 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         setContentView(R.layout.activity_alarm)
 
         iViewModel.onSetup(bundle = savedInstanceState ?: intent.extras)
+
+        registerReceiver(noteReceiver, IntentFilter(ReceiverData.Filter.NOTE))
     }
 
     override fun onPause() {
@@ -109,6 +116,8 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         rippleContainer?.stopAnimation()
 
         iMelodyControl.release()
+
+        unregisterReceiver(noteReceiver)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

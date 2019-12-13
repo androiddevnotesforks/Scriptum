@@ -5,6 +5,7 @@ import sgtmelon.scriptum.adapter.holder.RollWriteHolder
 import sgtmelon.scriptum.control.SaveControl
 import sgtmelon.scriptum.control.input.watcher.InputTextWatcher
 import sgtmelon.scriptum.control.touch.RollTouchControl
+import sgtmelon.scriptum.receiver.NoteReceiver
 import sgtmelon.scriptum.screen.ui.callback.note.INoteMenu
 import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
 import sgtmelon.scriptum.screen.vm.callback.IParentViewModel
@@ -19,7 +20,8 @@ interface IRollNoteViewModel : IParentViewModel,
         SaveControl.Callback,
         InputTextWatcher.Callback,
         RollWriteHolder.Callback,
-        RollTouchControl.Callback {
+        RollTouchControl.Callback,
+        NoteReceiver.Callback {
 
     fun onSaveData(bundle: Bundle)
 
@@ -53,8 +55,5 @@ interface IRollNoteViewModel : IParentViewModel,
     fun onResultTimeDialog(calendar: Calendar)
 
     fun onResultConvertDialog()
-
-
-    fun onCancelNoteBind()
 
 }

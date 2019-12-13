@@ -246,9 +246,11 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     //endregion
 
     /**
-     * Calls on cancel note bind from status bar for update bind indicator
+     * Calls on cancel note bind from status bar for update bind indicator.
      */
-    override fun onCancelNoteBind() {
+    override fun onReceiveUnbindNote(id: Long) {
+        if (this.id != id) return
+
         callback?.onBindingNote(noteItem.apply { isStatus = false })
     }
 

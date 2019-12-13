@@ -146,9 +146,9 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
 
 
     /**
-     * Calls on cancel note bind from status bar for update bind indicator
+     * Calls on cancel note bind from status bar for update bind indicator.
      */
-    override fun onCancelNoteBind(id: Long) {
+    override fun onReceiveUnbindNote(id: Long) {
         val p = itemList.indexOfFirst { it.id == id }
         val noteItem = itemList.getOrNull(p) ?: return
 
@@ -159,7 +159,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
     /**
      * Calls after postpone for update alarm indicator.
      */
-    override fun onUpdateAlarm(id: Long) {
+    override fun onReceiveUpdateAlarm(id: Long) {
         val p = itemList.indexOfFirst { it.id == id }
         val noteItem = itemList.getOrNull(p) ?: return
 

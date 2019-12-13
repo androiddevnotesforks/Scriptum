@@ -10,7 +10,7 @@ import sgtmelon.scriptum.screen.vm.note.NoteViewModel
 /**
  * Interface for communication [NoteActivity] with [NoteViewModel]
  */
-interface INoteViewModel : IParentViewModel, NoteReceiver.Callback {
+interface INoteViewModel : IParentViewModel {
 
     fun onSaveData(bundle: Bundle)
 

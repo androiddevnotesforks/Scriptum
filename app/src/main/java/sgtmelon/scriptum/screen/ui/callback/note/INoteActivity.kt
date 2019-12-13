@@ -2,7 +2,6 @@ package sgtmelon.scriptum.screen.ui.callback.note
 
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.vm.note.NoteViewModel
 
@@ -27,7 +26,7 @@ interface INoteActivity {
 
     fun onPressBackRoll(): Boolean
 
-    fun onCancelNoteBind(type: NoteType)
+    fun onReceiveUnbindNote(id: Long)
 
     fun finish()
 

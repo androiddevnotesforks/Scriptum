@@ -8,7 +8,8 @@ import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
 import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
 import sgtmelon.scriptum.ui.IPressBack
-import sgtmelon.scriptum.ui.ParentUi
+import sgtmelon.scriptum.ui.ParentRecyclerScreen
+import sgtmelon.scriptum.ui.item.NoteItemUi
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 import java.util.*
@@ -19,7 +20,7 @@ import java.util.*
 class AlarmScreen(
         private val noteItem: NoteItem,
         private val dateList: List<String>?
-) : ParentUi(), IPressBack {
+) : ParentRecyclerScreen(R.id.alarm_recycler), IPressBack {
 
     private val repeatArray = context.resources.getIntArray(R.array.value_alarm_repeat_array)
 
@@ -28,11 +29,12 @@ class AlarmScreen(
     private val parentContainer = getViewById(R.id.alarm_parent_container)
     private val rippleContainer = getViewById(R.id.alarm_ripple_container)
     private val logoView = getViewById(R.id.alarm_logo_view)
-    private val recyclerView = getViewById(R.id.alarm_recycler)
     private val buttonContainer = getViewById(R.id.alarm_button_container)
 
     private val disableButton = getViewById(R.id.alarm_disable_button)
     private val postponeButton = getViewById(R.id.alarm_postpone_button)
+
+    private fun getItem() = NoteItemUi(recyclerView, p = 0)
 
     //endregion
 
@@ -65,6 +67,11 @@ class AlarmScreen(
         }
 
         noteItem.alarmDate = calendar.getString()
+    }
+
+
+    fun onAssertItem(noteItem: NoteItem) {
+        getItem().assert(noteItem)
     }
 
     /**

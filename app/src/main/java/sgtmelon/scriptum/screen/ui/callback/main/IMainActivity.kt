@@ -28,8 +28,8 @@ interface IMainActivity {
     fun startNoteActivity(noteType: NoteType)
 
 
-    fun onCancelNoteBind(id: Long)
+    fun onReceiveUnbindNote(id: Long)
 
-    fun onUpdateAlarm(id: Long)
+    fun onReceiveUpdateAlarm(id: Long)
 
 }

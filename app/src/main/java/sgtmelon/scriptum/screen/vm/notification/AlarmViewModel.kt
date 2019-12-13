@@ -35,7 +35,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
 
     private var id: Long = NoteData.Default.ID
 
-    private var noteItem: NoteItem? = null
+    private lateinit var noteItem: NoteItem
     private var signalState: SignalState? = null
 
     private val vibratorHandler = Handler()
@@ -71,7 +71,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
             /**
              * If first open.
              */
-            if (noteItem == null) {
+            if (!::noteItem.isInitialized) {
                 iInteractor.getModel(id)?.let {
                     noteItem = it
                 } ?: run {
@@ -80,8 +80,6 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
 
                 signalState = iSignalInteractor.signalState
             }
-
-            val noteItem = noteItem ?: return@launch
 
             callback?.apply {
                 notifyList(noteItem)
@@ -113,7 +111,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     }
 
     override fun onStart() {
-        val color = noteItem?.color ?: return
+        val color = noteItem.color
 
         callback?.apply {
             val theme = iInteractor.theme
@@ -136,8 +134,6 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     }
 
     override fun onClickNote() {
-        val noteItem = noteItem ?: return
-
         callback?.apply {
             startNoteActivity(noteItem)
             finish()
@@ -156,10 +152,8 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
      */
     private fun postponeFinish() {
         viewModelScope.launch {
-            noteItem?.also {
-                val valueArray = context.resources.getIntArray(R.array.value_alarm_repeat_array)
-                iInteractor.setupRepeat(it, valueArray)
-            }
+            val valueArray = context.resources.getIntArray(R.array.value_alarm_repeat_array)
+            iInteractor.setupRepeat(noteItem, valueArray)
 
             callback?.showPostponeToast(iInteractor.repeat)
 
@@ -169,6 +163,15 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
 
             callback?.finish()
         }
+    }
+
+    /**
+     * Calls on cancel note bind from status bar for update bind indicator.
+     */
+    override fun onReceiveUnbindNote(id: Long) {
+        if (this.id != id) return
+
+        callback?.notifyList(noteItem.apply { isStatus = false })
     }
 
     companion object {

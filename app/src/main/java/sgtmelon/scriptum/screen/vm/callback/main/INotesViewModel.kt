@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.screen.vm.callback.main
 
+import sgtmelon.scriptum.receiver.MainReceiver
 import sgtmelon.scriptum.screen.ui.main.NotesFragment
 import sgtmelon.scriptum.screen.vm.callback.IParentViewModel
 import sgtmelon.scriptum.screen.vm.main.NotesViewModel
@@ -8,7 +9,7 @@ import java.util.*
 /**
  * Interface for communication [NotesFragment] with [NotesViewModel]
  */
-interface INotesViewModel : IParentViewModel {
+interface INotesViewModel : IParentViewModel, MainReceiver.Callback {
 
     fun onUpdateData()
 
@@ -25,10 +26,5 @@ interface INotesViewModel : IParentViewModel {
     fun onResultDateDialogClear(p: Int)
 
     fun onResultTimeDialog(calendar: Calendar, p: Int)
-
-
-    fun onCancelNoteBind(id: Long)
-
-    fun onUpdateAlarm(id: Long)
 
 }
