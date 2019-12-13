@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.adapter
 
-import android.util.Log
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -8,6 +7,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.diff.NoteDiff
 import sgtmelon.scriptum.adapter.holder.NoteRollHolder
 import sgtmelon.scriptum.adapter.holder.NoteTextHolder
+import sgtmelon.scriptum.extension.clearAndAdd
 import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.annotation.Theme
@@ -26,7 +26,11 @@ class NoteAdapter(
 
     @Theme var theme: Int = Theme.UNDEFINED
 
-    private val noteDiff = NoteDiff()
+    private val diff = NoteDiff()
+
+    override fun setList(list: List<NoteItem>) {
+        this.list.clearAndAdd(ArrayList(list.map { it.deepCopy() }))
+    }
 
     /**
      * TODO refactor with when
@@ -55,9 +59,9 @@ class NoteAdapter(
     override fun getItemViewType(position: Int) = list[position].type.ordinal
 
     fun notifyData(list: List<NoteItem>) {
-        noteDiff.setList(this.list, list)
+        diff.setList(this.list, list)
 
-        val diffResult = DiffUtil.calculateDiff(noteDiff)
+        val diffResult = DiffUtil.calculateDiff(diff)
         setList(list)
         diffResult.dispatchUpdatesTo(this)
     }

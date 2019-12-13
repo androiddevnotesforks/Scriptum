@@ -48,7 +48,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
             itemList.clearAndAdd(iInteractor.getList())
 
             callback?.apply {
-                notifyDataSetChanged(itemList)
+                notifyList(itemList)
                 bindList()
             }
         }
@@ -76,7 +76,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         viewModelScope.launch { iInteractor.update(item) }
 
         onUpdateToolbar()
-        callback?.notifyItemChanged(p, item)
+        callback?.notifyList(itemList)
     }
 
 
@@ -151,9 +151,9 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
 
     override fun onClickCancel(p: Int) {
         val item = itemList.removeAt(p)
-
         val noteIdList = itemList.correctPositions()
-        callback?.notifyItemRemoved(p, itemList)
+
+        callback?.notifyList(itemList)
 
         viewModelScope.launch {
             iInteractor.delete(item)
@@ -169,7 +169,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     override fun onTouchMove(from: Int, to: Int): Boolean {
         itemList.move(from, to)
 
-        callback?.notifyItemMoved(from, to, itemList)
+        callback?.notifyList(itemList)
 
         return true
     }
@@ -179,7 +179,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
      */
     override fun onTouchMoveResult() {
         val noteIdList = itemList.correctPositions()
-        callback?.notifyDataSetChanged(itemList)
+        callback?.notifyList(itemList)
 
         viewModelScope.launch { iInteractor.updatePosition(itemList, noteIdList) }
     }

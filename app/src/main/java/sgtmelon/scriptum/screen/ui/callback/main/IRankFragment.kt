@@ -32,12 +32,6 @@ interface IRankFragment : IRankBridge {
 
     fun notifyVisible(startAnim: BooleanArray, list: MutableList<RankItem>)
 
-    fun notifyDataSetChanged(list: MutableList<RankItem>)
-
-    fun notifyItemChanged(p: Int, item: RankItem)
-
-    fun notifyItemRemoved(p: Int, list: MutableList<RankItem>)
-
-    fun notifyItemMoved(from: Int, to: Int, list: MutableList<RankItem>)
+    fun notifyList(list: List<RankItem>)
 
 }

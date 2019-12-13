@@ -204,7 +204,7 @@ class RankFragment : ParentFragment(), IRankFragment {
         openState?.clear()
 
         if (list.size == 1) {
-            adapter.notifyItemInserted(0, list)
+            adapter.notifyList(list)
             bindList()
         } else {
             val fastScroll = with(layoutManager) {
@@ -217,11 +217,11 @@ class RankFragment : ParentFragment(), IRankFragment {
 
             if (fastScroll) {
                 recyclerView?.scrollToPosition(p)
-                adapter.notifyItemInserted(p, list)
             } else {
                 recyclerView?.smoothScrollToPosition(p)
-                adapter.notifyDataSetChanged(list)
             }
+
+            adapter.notifyList(list)
         }
     }
 
@@ -239,19 +239,7 @@ class RankFragment : ParentFragment(), IRankFragment {
         }.notifyDataSetChanged()
     }
 
-    override fun notifyDataSetChanged(list: MutableList<RankItem>) {
-        adapter.notifyDataSetChanged(list)
-    }
-
-    override fun notifyItemChanged(p: Int, item: RankItem) = adapter.notifyItemChanged(item, p)
-
-    override fun notifyItemRemoved(p: Int, list: MutableList<RankItem>) {
-        adapter.notifyItemRemoved(p, list)
-    }
-
-    override fun notifyItemMoved(from: Int, to: Int, list: MutableList<RankItem>) {
-        adapter.notifyItemMoved(from, to, list)
-    }
+    override fun notifyList(list: List<RankItem>) = adapter.notifyList(list)
 
 
     override fun notifyNoteBind(item: NoteItem, rankIdVisibleList: List<Long>) {

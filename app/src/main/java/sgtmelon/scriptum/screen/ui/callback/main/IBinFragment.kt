@@ -24,8 +24,6 @@ interface IBinFragment : IBinBridge{
 
     fun notifyMenuClearBin()
 
-    fun notifyDataSetChanged(list: MutableList<NoteItem>)
-
-    fun notifyItemRemoved(p: Int, list: MutableList<NoteItem>)
+    fun notifyList(list: List<NoteItem>)
 
 }

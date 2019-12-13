@@ -40,7 +40,7 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
             itemList.clearAndAdd(iInteractor.getList())
 
             callback?.apply {
-                notifyDataSetChanged(itemList)
+                notifyList(itemList)
                 notifyMenuClearBin()
                 onBingingList()
             }
@@ -53,7 +53,7 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
         itemList.clear()
 
         callback?.apply {
-            notifyDataSetChanged(itemList)
+            notifyList(itemList)
             notifyMenuClearBin()
             onBingingList()
         }
@@ -69,9 +69,9 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
 
     override fun onResultOptionsDialog(p: Int, which: Int) {
         when (which) {
-            Options.RESTORE -> callback?.notifyItemRemoved(p, restoreItem(p))
+            Options.RESTORE -> callback?.notifyList(restoreItem(p))
             Options.COPY -> viewModelScope.launch { iInteractor.copy(itemList[p]) }
-            Options.CLEAR -> callback?.notifyItemRemoved(p, clearItem(p))
+            Options.CLEAR -> callback?.notifyList(clearItem(p))
         }
 
         callback?.notifyMenuClearBin()

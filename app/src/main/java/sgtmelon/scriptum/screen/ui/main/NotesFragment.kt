@@ -255,10 +255,7 @@ class NotesFragment : ParentFragment(), INotesFragment {
         }
     }
 
-
-    override fun notifyList(list: List<NoteItem>) {
-        adapter.notifyData(ArrayList(list.map { it.deepCopy() }))
-    }
+    override fun notifyList(list: List<NoteItem>) = adapter.notifyData(list)
 
 
     override fun cancelAlarm(id: Long) = iAlarmControl.cancel(id)

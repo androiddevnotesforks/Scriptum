@@ -35,11 +35,6 @@ abstract class ParentAdapter<T, VH : RecyclerView.ViewHolder>() : RecyclerView.A
         notifyItemChanged(p)
     }
 
-    fun notifyItemChanged(item: T, p: Int) {
-        setListItem(p, item)
-        notifyItemChanged(p)
-    }
-
     fun notifyItemRemoved(p: Int, list: MutableList<T>) {
         setList(list)
         notifyItemRemoved(p)
