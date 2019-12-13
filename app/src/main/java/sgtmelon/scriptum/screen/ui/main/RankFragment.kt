@@ -230,9 +230,11 @@ class RankFragment : ParentFragment(), IRankFragment {
     }
 
 
-    override fun notifyVisible(p: Int, item: RankItem) = adapter.setListItem(p, item)
+    override fun notifyVisible(p: Int, list: List<RankItem>) = adapter.apply {
+        setList(list)
+    }.notifyItemChanged(p)
 
-    override fun notifyVisible(startAnim: BooleanArray, list: MutableList<RankItem>) {
+    override fun notifyList(list: List<RankItem>, startAnim: BooleanArray) {
         adapter.apply {
             setList(list)
             this.startAnim = startAnim

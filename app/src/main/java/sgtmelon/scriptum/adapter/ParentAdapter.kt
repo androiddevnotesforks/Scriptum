@@ -19,39 +19,8 @@ abstract class ParentAdapter<T, VH : RecyclerView.ViewHolder>() : RecyclerView.A
         this.list.clearAndAdd(list)
     }
 
-    @CallSuper open fun setListItem(p: Int, item: T) {
-        list[p] = item
-    }
-
     override fun getItemCount() = list.size
 
-    open fun notifyDataSetChanged(list: MutableList<T>) {
-        setList(list)
-        notifyDataSetChanged()
-    }
-
-    fun notifyItemChanged(p: Int, list: MutableList<T>) {
-        setList(list)
-        notifyItemChanged(p)
-    }
-
-    fun notifyItemRemoved(p: Int, list: MutableList<T>) {
-        setList(list)
-        notifyItemRemoved(p)
-    }
-
-    fun notifyItemInserted(p: Int, list: MutableList<T>) {
-        setList(list)
-        notifyItemInserted(p)
-    }
-
-    fun notifyItemMoved(from: Int, to: Int, list: MutableList<T>) {
-        setList(list)
-        notifyItemMoved(from, to)
-    }
-
     open fun notifyList(list: List<T>) {}
-
-    // TODO #REFACTOR add interfaces for implement in ui classes
 
 }

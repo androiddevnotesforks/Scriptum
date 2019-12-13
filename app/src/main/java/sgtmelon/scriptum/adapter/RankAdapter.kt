@@ -26,6 +26,8 @@ class RankAdapter(
     private val diff = RankDiff()
 
     override fun setList(list: List<RankItem>) {
+        diff.setList(this.list, list)
+
         this.list.clearAndAdd(ArrayList(list.map { it.copy() }))
         startAnim = BooleanArray(list.size)
     }
