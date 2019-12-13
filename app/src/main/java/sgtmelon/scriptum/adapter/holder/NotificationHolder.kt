@@ -33,8 +33,8 @@ class NotificationHolder(
     }
 
     fun bind(item: NotificationItem, @Theme theme: Int) = binding.apply {
+        this.theme = theme
         this.item = item
-        this.currentTheme = theme
     }.executePendingBindings()
 
 }

@@ -38,8 +38,8 @@ fun View.bindIndicatorColor(@Theme theme: Int, @Color color: Int): ColorItem {
  * Set visibility rely on current theme
  */
 @BindingAdapter(value = ["visibleTheme", "visibleOn"])
-fun View.bindVisibleTheme(@Theme visibleOn: Int, @Theme currentTheme: Int) {
-    visibility = if (visibleOn == currentTheme) View.VISIBLE else View.GONE
+fun View.bindVisibleTheme(@Theme visibleOn: Int, @Theme theme: Int) {
+    visibility = if (visibleOn == theme) View.VISIBLE else View.GONE
 }
 
 @BindingAdapter(value = ["drawableId", "colorAttr"])

@@ -7,7 +7,7 @@
         <import type="android.view.View"/>
         <import type="sgtmelon.scriptum.model.annotation.Theme"/>
 
-        <variable name="currentTheme" type="int"/>
+        <variable name="theme" type="int"/>
         <variable name="noteItem" type="sgtmelon.scriptum.model.item.NoteItem"/>
     </data>
 
@@ -16,7 +16,7 @@
             style="@style/Card"
             app:cardCornerRadius="@dimen/radius_4dp"
             app:cardUseCompatPadding="false"
-            app:noteTheme='@{currentTheme}'
+            app:noteTheme='@{theme}'
             app:noteColor='@{noteItem.color}'
             tools:cardBackgroundColor="@color/note_green_light">
 
@@ -56,9 +56,9 @@
                         style="@style/Image.Color.Vertical.End"
                         android:contentDescription="@null"
                         app:indicatorColor='@{noteItem.color}'
-                        app:indicatorTheme='@{currentTheme}'
+                        app:indicatorTheme='@{theme}'
                         app:visibleOn='@{Theme.DARK}'
-                        app:visibleTheme='@{currentTheme}'
+                        app:visibleTheme='@{theme}'
                         tools:tint="@color/note_green_dark"
                         tools:visibility="gone"/>
 

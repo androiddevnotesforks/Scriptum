@@ -18,15 +18,15 @@ class AppViewModel(application: Application) : ParentViewModel<IAppActivity>(app
 
     private val iInteractor: IAppInteractor = AppInteractor(context)
 
-    @Theme private var currentTheme: Int = iInteractor.theme
+    @Theme private var theme: Int = iInteractor.theme
 
     override fun onSetup(bundle: Bundle?) {
-        when (currentTheme) {
+        when (theme) {
             Theme.LIGHT -> callback?.setTheme(R.style.App_Light_UI)
             Theme.DARK -> callback?.setTheme(R.style.App_Dark_UI)
         }
     }
 
-    override fun isThemeChange() = currentTheme != iInteractor.theme
+    override fun isThemeChange() = theme != iInteractor.theme
 
 }

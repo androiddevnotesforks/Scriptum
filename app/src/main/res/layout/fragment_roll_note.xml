@@ -6,7 +6,7 @@
     <data>
         <import type="android.view.View"/>
 
-        <variable name="currentTheme" type="int"/>
+        <variable name="theme" type="int"/>
         <variable name="menuCallback" type="sgtmelon.scriptum.screen.ui.callback.note.INoteMenu"/>
         <variable name="dataLoad" type="boolean"/>
 
@@ -27,7 +27,7 @@
 
         <include
                 layout="@layout/include_toolbar_note"
-                app:currentTheme='@{currentTheme}'
+                app:theme='@{theme}'
                 app:dataLoad='@{dataLoad}'
                 app:editMode='@{editMode}'
                 app:noteItem='@{noteItem}'/>

@@ -37,7 +37,7 @@ class NoteTextHolder(
     }
 
     fun bind(@Theme theme: Int, noteItem: NoteItem) = binding.apply {
-        this.currentTheme = theme
+        this.theme = theme
         this.noteItem = noteItem
     }.executePendingBindings()
 

@@ -135,7 +135,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment {
 
     override fun setupBinding(@Theme theme: Int) {
         binding?.apply {
-            currentTheme = theme
+            this.theme = theme
             menuCallback = iViewModel
         }
     }
