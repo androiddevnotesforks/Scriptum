@@ -14,6 +14,8 @@ interface INotificationInteractor : IParentInteractor {
 
     @Theme val theme: Int
 
+    suspend fun getCount(): Int
+
     suspend fun getList(): MutableList<NotificationItem>
 
     suspend fun cancelNotification(item: NotificationItem)

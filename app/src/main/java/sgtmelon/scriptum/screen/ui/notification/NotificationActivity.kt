@@ -33,8 +33,6 @@ import sgtmelon.scriptum.screen.ui.note.NoteActivity
  */
 class NotificationActivity : AppActivity(), INotificationActivity {
 
-    // TODO rename to NotificationsActivity
-
     private var binding: ActivityNotificationBinding? = null
 
     private val iViewModel by lazy { ViewModelFactory.getNotificationViewModel(activity = this) }
@@ -57,6 +55,7 @@ class NotificationActivity : AppActivity(), INotificationActivity {
 
     private val parentContainer by lazy { findViewById<ViewGroup?>(R.id.notification_parent_container) }
     private val emptyInfoView by lazy { findViewById<View?>(R.id.notification_info_include) }
+    private val progressBar by lazy { findViewById<View?>(R.id.notification_progress)}
     private val recyclerView by lazy { findViewById<RecyclerView?>(R.id.notification_recycler) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -113,7 +112,13 @@ class NotificationActivity : AppActivity(), INotificationActivity {
         }
     }
 
+    override fun showProgress() {
+        progressBar?.visibility = View.VISIBLE
+    }
+
     override fun onBindingList() {
+        progressBar?.visibility = View.GONE
+
         val isListEmpty = adapter.itemCount == 0
 
         parentContainer?.createVisibleAnim(emptyInfoView, isListEmpty)

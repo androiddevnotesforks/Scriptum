@@ -3,6 +3,7 @@ package sgtmelon.scriptum.screen.vm.notification
 import android.app.Application
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.extension.clearAndAdd
 import sgtmelon.scriptum.interactor.callback.notification.INotificationInteractor
@@ -33,9 +34,19 @@ class NotificationViewModel(application: Application) :
     override fun onDestroy(func: () -> Unit) = super.onDestroy { iInteractor.onDestroy() }
 
 
+    /**
+     * Get count before load all data because it's faster.
+     */
     override fun onUpdateData() {
         viewModelScope.launch {
-            itemList.clearAndAdd(iInteractor.getList())
+            val count = iInteractor.getCount()
+
+            if (count == 0) {
+                itemList.clear()
+            } else {
+                callback?.showProgress()
+                itemList.clearAndAdd(iInteractor.getList())
+            }
 
             callback?.apply {
                 notifyList(itemList)
