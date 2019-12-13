@@ -273,8 +273,8 @@ class NotesFragment : ParentFragment(), INotesFragment {
         iAlarmControl.set(calendar, id)
     }
 
-    override fun notifyNoteBind(noteItem: NoteItem, rankIdVisibleList: List<Long>) {
-        iBindControl.notifyNote(noteItem, rankIdVisibleList)
+    override fun notifyNoteBind(item: NoteItem, rankIdVisibleList: List<Long>) {
+        iBindControl.notifyNote(item, rankIdVisibleList)
     }
 
     override fun cancelNoteBind(id: Int) = iBindControl.cancelNote(id)

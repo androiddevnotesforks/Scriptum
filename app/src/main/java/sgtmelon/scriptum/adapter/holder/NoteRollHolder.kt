@@ -13,9 +13,10 @@ import sgtmelon.scriptum.model.item.NoteItem
 /**
  * Holder for roll note, use in [NoteAdapter]
  */
-class NoteRollHolder(private val binding: ItemNoteRollBinding,
-                     private val clickListener: ItemListener.Click,
-                     private val longClickListener: ItemListener.LongClick?
+class NoteRollHolder(
+        private val binding: ItemNoteRollBinding,
+        private val clickListener: ItemListener.Click,
+        private val longClickListener: ItemListener.LongClick?
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private val clickView: View = itemView.findViewById(R.id.note_roll_click_container)
@@ -35,9 +36,9 @@ class NoteRollHolder(private val binding: ItemNoteRollBinding,
         }
     }
 
-    fun bind(@Theme theme: Int, noteItem: NoteItem) = binding.apply {
+    fun bind(@Theme theme: Int, item: NoteItem) = binding.apply {
         this.theme = theme
-        this.noteItem = noteItem
+        this.item = item
     }.executePendingBindings()
 
 }

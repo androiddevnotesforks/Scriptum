@@ -10,8 +10,8 @@
         <variable name="menuCallback" type="sgtmelon.scriptum.screen.ui.callback.note.INoteMenu"/>
         <variable name="dataLoad" type="boolean"/>
 
+        <variable name="item" type="sgtmelon.scriptum.model.item.NoteItem"/>
         <variable name="rankEmpty" type="boolean"/>
-        <variable name="noteItem" type="sgtmelon.scriptum.model.item.NoteItem"/>
         <variable name="editMode" type="boolean"/>
 
         <variable name="inputAccess" type="sgtmelon.scriptum.control.input.InputControl.Access"/>
@@ -27,10 +27,10 @@
 
         <include
                 layout="@layout/include_toolbar_note"
-                app:theme='@{theme}'
                 app:dataLoad='@{dataLoad}'
                 app:editMode='@{editMode}'
-                app:noteItem='@{noteItem}'/>
+                app:item='@{item}'
+                app:theme='@{theme}'/>
 
         <LinearLayout
                 android:id="@+id/roll_note_content_container"
@@ -58,8 +58,8 @@
                     app:dataLoad='@{dataLoad}'
                     app:editMode='@{editMode}'
                     app:inputAccess='@{inputAccess}'
+                    app:item='@{item}'
                     app:menuCallback='@{menuCallback}'
-                    app:noteItem='@{noteItem}'
                     app:rankEmpty='@{rankEmpty}'/>
 
         </LinearLayout>

@@ -183,7 +183,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         noteItem.color = check
 
         callback?.apply {
-            onBindingInput(inputControl.access, noteItem)
+            onBindingInput(noteItem, inputControl.access)
             tintToolbar(check)
         }
     }
@@ -200,7 +200,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
             }
 
             callback?.apply {
-                onBindingInput(inputControl.access, noteItem)
+                onBindingInput(noteItem, inputControl.access)
                 onBindingNote(noteItem)
             }
         }
@@ -302,7 +302,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
             }
         }
 
-        callback?.onBindingInput(inputControl.access, noteItem)
+        callback?.onBindingInput(noteItem, inputControl.access)
     }
 
     override fun onMenuRank() {
@@ -382,7 +382,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
             )
 
             onBindingEdit(isEdit, noteItem)
-            onBindingInput(inputControl.access, noteItem)
+            onBindingInput(noteItem, inputControl.access)
 
             if (isEdit) focusOnEdit()
         }
@@ -397,7 +397,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     )
 
     override fun onInputTextChange() {
-        callback?.onBindingInput(inputControl.access, noteItem)
+        callback?.onBindingInput(noteItem, inputControl.access)
     }
 
     companion object {

@@ -10,8 +10,8 @@
         <variable name="menuCallback" type="sgtmelon.scriptum.screen.ui.callback.note.INoteMenu"/>
         <variable name="dataLoad" type="boolean"/>
 
+        <variable name="item" type="sgtmelon.scriptum.model.item.NoteItem"/>
         <variable name="rankEmpty" type="boolean"/>
-        <variable name="noteItem" type="sgtmelon.scriptum.model.item.NoteItem"/>
         <variable name="editMode" type="boolean"/>
 
         <variable name="inputAccess" type="sgtmelon.scriptum.control.input.InputControl.Access"/>
@@ -25,10 +25,10 @@
 
         <include
                 layout="@layout/include_toolbar_note"
-                app:theme='@{theme}'
                 app:dataLoad='@{dataLoad}'
                 app:editMode='@{editMode}'
-                app:noteItem='@{noteItem}'/>
+                app:item='@{item}'
+                app:theme='@{theme}'/>
 
         <FrameLayout
                 android:layout_width="match_parent"
@@ -61,7 +61,7 @@
                                 style="@style/EditText.TextNote.Enter"
                                 android:hint="@string/hint_enter_text"
                                 android:importantForAutofill="noExcludeDescendants"
-                                android:text='@={noteItem.text}'
+                                android:text='@={item.text}'
                                 android:visibility='@{editMode ? View.VISIBLE : View.INVISIBLE}'
                                 tools:targetApi="o"
                                 tools:visibility="invisible"/>
@@ -70,7 +70,7 @@
                         <TextView
                                 android:id="@+id/text_note_content_text"
                                 style="@style/EditText.TextNote.Read"
-                                android:text='@{editMode ? "" : noteItem.text}'
+                                android:text='@{editMode ? "" : item.text}'
                                 android:visibility='@{!editMode ? View.VISIBLE : View.INVISIBLE}'
                                 tools:text="@string/preview_note_text"/>
 
@@ -87,8 +87,8 @@
                 app:dataLoad='@{dataLoad}'
                 app:editMode='@{editMode}'
                 app:inputAccess='@{inputAccess}'
+                app:item='@{item}'
                 app:menuCallback='@{menuCallback}'
-                app:noteItem='@{noteItem}'
                 app:rankEmpty='@{rankEmpty}'/>
 
     </LinearLayout>

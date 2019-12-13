@@ -69,7 +69,7 @@ class BindControl(private val context: Context?) : IBindControl {
         interface Full : Notify, Cancel
 
         interface Notify {
-            fun notifyNoteBind(noteItem: NoteItem, rankIdVisibleList: List<Long>)
+            fun notifyNoteBind(item: NoteItem, rankIdVisibleList: List<Long>)
         }
 
         interface Cancel {

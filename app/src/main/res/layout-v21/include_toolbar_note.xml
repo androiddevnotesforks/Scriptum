@@ -12,7 +12,7 @@
         <variable name="theme" type="int"/>
         <variable name="dataLoad" type="boolean"/>
 
-        <variable name="noteItem" type="sgtmelon.scriptum.model.item.NoteItem"/>
+        <variable name="item" type="sgtmelon.scriptum.model.item.NoteItem"/>
         <variable name="editMode" type="boolean"/>
     </data>
 
@@ -49,7 +49,7 @@
                             style="@style/EditText.ToolbarNote"
                             android:hint="@string/hint_enter_name"
                             android:importantForAutofill="noExcludeDescendants"
-                            android:text='@={noteItem.name}'
+                            android:text='@={item.name}'
                             android:visibility='@{editMode ? View.VISIBLE : View.INVISIBLE}'
                             tools:targetApi="o"
                             tools:visibility="invisible"/>
@@ -59,7 +59,7 @@
                             android:id="@+id/toolbar_note_text"
                             style="@style/Text.ToolbarNote"
                             android:hint="@string/hint_text_name"
-                            android:text='@{editMode ? "" : noteItem.name}'
+                            android:text='@{editMode ? "" : item.name}'
                             android:visibility='@{!editMode ? View.VISIBLE : View.INVISIBLE}'
                             tools:text="@string/preview_note_name"/>
 

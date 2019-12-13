@@ -32,13 +32,13 @@ interface IRollNoteFragment : IRollNoteBridge {
 
     fun onBindingLoad(rankEmpty: Boolean)
 
-    fun onBindingEdit(editMode: Boolean, noteItem: NoteItem)
+    fun onBindingEdit(editMode: Boolean, item: NoteItem)
 
-    fun onBingingNote(noteItem: NoteItem)
+    fun onBingingNote(item: NoteItem)
 
     fun onBindingEnter()
 
-    fun onBindingInput(inputAccess: InputControl.Access, noteItem: NoteItem)
+    fun onBindingInput(item: NoteItem, inputAccess: InputControl.Access)
 
 
     fun onPressBack(): Boolean

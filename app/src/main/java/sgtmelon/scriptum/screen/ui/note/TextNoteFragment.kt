@@ -113,7 +113,7 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment {
     override fun setupBinding(@Theme theme: Int) {
         binding?.apply {
             this.theme = theme
-            menuCallback = iViewModel
+            this.menuCallback = iViewModel
         }
     }
 
@@ -212,11 +212,11 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment {
         }?.executePendingBindings()
     }
 
-    override fun onBindingNote(noteItem: NoteItem) {
-        binding?.apply { this.noteItem = noteItem }?.executePendingBindings()
+    override fun onBindingNote(item: NoteItem) {
+        binding?.apply { this.item = item }?.executePendingBindings()
     }
 
-    override fun onBindingEdit(editMode: Boolean, noteItem: NoteItem) {
+    override fun onBindingEdit(editMode: Boolean, item: NoteItem) {
         panelContainer?.let {
             val transition = AutoTransition()
                     .setOrdering(AutoTransition.ORDERING_TOGETHER)
@@ -226,15 +226,15 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment {
         }
 
         binding?.apply {
+            this.item = item
             this.editMode = editMode
-            this.noteItem = noteItem
         }?.executePendingBindings()
     }
 
-    override fun onBindingInput(inputAccess: InputControl.Access, noteItem: NoteItem) {
+    override fun onBindingInput(item: NoteItem, inputAccess: InputControl.Access) {
         binding?.apply {
+            this.item = item
             this.inputAccess = inputAccess
-            this.noteItem = noteItem
         }?.executePendingBindings()
     }
 
@@ -315,8 +315,8 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment {
 
     override fun cancelAlarm(id: Long) = iAlarmControl.cancel(id)
 
-    override fun notifyNoteBind(noteItem: NoteItem, rankIdVisibleList: List<Long>) {
-        iBindControl.notifyNote(noteItem, rankIdVisibleList)
+    override fun notifyNoteBind(item: NoteItem, rankIdVisibleList: List<Long>) {
+        iBindControl.notifyNote(item, rankIdVisibleList)
     }
 
     override fun cancelNoteBind(id: Int) = iBindControl.cancelNote(id)

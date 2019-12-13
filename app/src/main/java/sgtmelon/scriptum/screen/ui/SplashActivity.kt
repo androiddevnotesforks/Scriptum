@@ -87,8 +87,8 @@ class SplashActivity : AppCompatActivity(), ISplashActivity {
 
     override fun cancelAlarm(id: Long) = iAlarmControl.cancel(id)
 
-    override fun notifyNoteBind(noteItem: NoteItem, rankIdVisibleList: List<Long>) {
-        iBindControl.notifyNote(noteItem, rankIdVisibleList)
+    override fun notifyNoteBind(item: NoteItem, rankIdVisibleList: List<Long>) {
+        iBindControl.notifyNote(item, rankIdVisibleList)
     }
 
     override fun notifyInfoBind(count: Int) = iBindControl.notifyInfo(count)

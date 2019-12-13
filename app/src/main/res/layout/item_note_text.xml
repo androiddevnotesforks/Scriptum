@@ -8,7 +8,7 @@
         <import type="sgtmelon.scriptum.model.annotation.Theme"/>
 
         <variable name="theme" type="int"/>
-        <variable name="noteItem" type="sgtmelon.scriptum.model.item.NoteItem"/>
+        <variable name="item" type="sgtmelon.scriptum.model.item.NoteItem"/>
     </data>
 
     <androidx.cardview.widget.CardView
@@ -17,7 +17,7 @@
             app:cardCornerRadius="@dimen/radius_4dp"
             app:cardUseCompatPadding="false"
             app:noteTheme='@{theme}'
-            app:noteColor='@{noteItem.color}'
+            app:noteColor='@{item.color}'
             tools:cardBackgroundColor="@color/note_green_light">
 
         <FrameLayout
@@ -35,19 +35,19 @@
                     <TextView
                             android:id="@+id/note_text_name_text"
                             style="@style/Text.Note.Name"
-                            android:text='@{noteItem.name}'
-                            android:visibility='@{!noteItem.name.isEmpty() ? View.VISIBLE : View.GONE}'
+                            android:text='@{item.name}'
+                            android:visibility='@{!item.name.isEmpty() ? View.VISIBLE : View.GONE}'
                             tools:text="@string/preview_note_name"/>
 
                     <TextView
                             android:id="@+id/note_text_content_text"
                             style="@style/Text.Note.Content"
-                            android:text='@{noteItem.text}'
+                            android:text='@{item.text}'
                             tools:text="@string/preview_note_text"/>
 
                     <include
                             layout="@layout/include_item_note_info"
-                            app:noteItem='@{noteItem}'/>
+                            app:item='@{item}'/>
 
                 </LinearLayout>
 
@@ -55,7 +55,7 @@
                         android:id="@+id/note_text_color_view"
                         style="@style/Image.Color.Vertical.End"
                         android:contentDescription="@null"
-                        app:indicatorColor='@{noteItem.color}'
+                        app:indicatorColor='@{item.color}'
                         app:indicatorTheme='@{theme}'
                         app:visibleOn='@{Theme.DARK}'
                         app:visibleTheme='@{theme}'

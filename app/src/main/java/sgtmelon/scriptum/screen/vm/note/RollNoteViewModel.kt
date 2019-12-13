@@ -216,7 +216,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         noteItem.rollList.add(p, rollItem)
 
         callback?.apply {
-            onBindingInput(inputControl.access, noteItem)
+            onBindingInput(noteItem, inputControl.access)
             scrollToItem(simpleClick, p, noteItem.rollList)
         }
     }
@@ -248,7 +248,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         noteItem.color = check
 
         callback?.apply {
-            onBindingInput(inputControl.access, noteItem)
+            onBindingInput(noteItem, inputControl.access)
             tintToolbar(check)
         }
     }
@@ -265,7 +265,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             }
 
             callback?.apply {
-                onBindingInput(inputControl.access, noteItem)
+                onBindingInput(noteItem, inputControl.access)
                 onBingingNote(noteItem)
             }
         }
@@ -394,7 +394,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             }
         }
 
-        callback?.onBindingInput(inputControl.access, noteItem)
+        callback?.onBindingInput(noteItem, inputControl.access)
     }
 
     override fun onMenuRank() {
@@ -476,7 +476,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             )
 
             onBindingEdit(isEdit, noteItem)
-            onBindingInput(inputControl.access, noteItem)
+            onBindingInput(noteItem, inputControl.access)
             updateNoteState(noteState)
 
             if (isEdit) focusOnEdit()
@@ -492,13 +492,13 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     )
 
     override fun onInputTextChange() {
-        callback?.onBindingInput(inputControl.access, noteItem)
+        callback?.onBindingInput(noteItem, inputControl.access)
     }
 
     override fun onInputRollChange(p: Int, text: String) {
         callback?.apply {
             notifyListItem(p, noteItem.rollList[p].apply { this.text = text })
-            onBindingInput(inputControl.access, noteItem)
+            onBindingInput(noteItem, inputControl.access)
         }
     }
 
@@ -523,7 +523,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         inputControl.onRollRemove(p, rollItem.toJson())
 
         callback?.apply {
-            onBindingInput(inputControl.access, noteItem)
+            onBindingInput(noteItem, inputControl.access)
             notifyItemRemoved(p, noteItem.rollList)
         }
     }
@@ -539,7 +539,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
     override fun onTouchMoveResult(from: Int, to: Int) {
         inputControl.onRollMove(from, to)
-        callback?.onBindingInput(inputControl.access, noteItem)
+        callback?.onBindingInput(noteItem, inputControl.access)
     }
 
     //endregion

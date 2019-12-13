@@ -8,7 +8,7 @@
         <import type="android.view.View"/>
         <import alias="Type" type="sgtmelon.scriptum.model.key.NoteType"/>
 
-        <variable name="noteItem" type="sgtmelon.scriptum.model.item.NoteItem"/>
+        <variable name="item" type="sgtmelon.scriptum.model.item.NoteItem"/>
     </data>
 
     <LinearLayout
@@ -24,8 +24,8 @@
                 android:id="@+id/note_info_progress_text"
                 style="@style/Text.Note.Info"
                 android:layout_width="wrap_content"
-                android:text='@{noteItem.type == Type.ROLL ? noteItem.text : ""}'
-                android:visibility='@{noteItem.type == Type.ROLL ?  View.VISIBLE : View.GONE}'
+                android:text='@{item.type == Type.ROLL ? item.text : ""}'
+                android:visibility='@{item.type == Type.ROLL ?  View.VISIBLE : View.GONE}'
                 tools:text="@string/preview_note_done"
                 tools:visibility="visible"/>
 
@@ -35,14 +35,14 @@
                 android:orientation="horizontal"
                 android:showDividers="middle"
                 android:divider="@drawable/div_space_small"
-                android:visibility="@{noteItem.haveAlarm() || noteItem.status || noteItem.haveRank() ? View.VISIBLE : View.GONE}"
+                android:visibility="@{item.haveAlarm() || item.status || item.haveRank() ? View.VISIBLE : View.GONE}"
                 tools:visibility="visible">
 
             <ImageView
                     android:id="@+id/note_info_notification_image"
                     style="@style/Image.Note.Info"
                     android:contentDescription="@null"
-                    android:visibility='@{noteItem.haveAlarm() ? View.VISIBLE : View.GONE }'
+                    android:visibility='@{item.haveAlarm() ? View.VISIBLE : View.GONE }'
                     app:srcCompat="@drawable/ic_notifications"
                     tools:visibility="visible"/>
 
@@ -50,8 +50,8 @@
                     android:id="@+id/note_info_bind_image"
                     style="@style/Image.Note.Info"
                     android:contentDescription="@null"
-                    android:src='@{noteItem.type == Type.TEXT ? @drawable/ic_bind_text : @drawable/ic_bind_roll}'
-                    android:visibility='@{noteItem.status ? View.VISIBLE : View.GONE}'
+                    android:src='@{item.type == Type.TEXT ? @drawable/ic_bind_text : @drawable/ic_bind_roll}'
+                    android:visibility='@{item.status ? View.VISIBLE : View.GONE}'
                     tools:srcCompat="@drawable/ic_bind_roll"
                     tools:visibility="visible"/>
 
@@ -59,7 +59,7 @@
                     android:id="@+id/note_info_rank_image"
                     style="@style/Image.Note.Info"
                     android:contentDescription="@null"
-                    android:visibility='@{noteItem.haveRank() ? View.VISIBLE : View.GONE}'
+                    android:visibility='@{item.haveRank() ? View.VISIBLE : View.GONE}'
                     app:srcCompat="@drawable/ic_rank"
                     tools:visibility="visible"/>
 
@@ -70,14 +70,14 @@
                 style="@style/Text.Note.Info"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                app:pastTime='@{noteItem.change}'
+                app:pastTime='@{item.change}'
                 tools:text="@string/preview_note_time"/>
 
         <TextView
                 android:id="@+id/note_info_create_text"
                 style="@style/Text.Note.Info"
                 android:layout_width="wrap_content"
-                app:pastTime='@{noteItem.create}'
+                app:pastTime='@{item.create}'
                 tools:text="@string/preview_note_time"/>
 
     </LinearLayout>
