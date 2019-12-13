@@ -218,7 +218,8 @@ class NotesFragment : ParentFragment(), INotesFragment {
          * Because you on another screen and restore item to that screen, after return you will
          * cause [onBingingList]. Zero time need for best performance, without freeze
          */
-        parentContainer?.createVisibleAnim(emptyInfoView, isListEmpty, if (!isListEmpty) 0 else 200)
+        val durationId = if (isListEmpty) R.integer.info_fade_time else R.integer.info_skip_time
+        parentContainer?.createVisibleAnim(emptyInfoView, isListEmpty, durationId)
 
         binding?.apply { this.isListEmpty = isListEmpty }?.executePendingBindings()
     }

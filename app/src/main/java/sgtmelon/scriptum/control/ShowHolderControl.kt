@@ -10,7 +10,7 @@ import sgtmelon.scriptum.R
  */
 class ShowHolderControl(
         private val viewArray: Array<View?>,
-        @IntegerRes private val time: Int = R.integer.holder_anim_time
+        @IntegerRes private val time: Int = R.integer.placeholder_fade_time
 ) {
 
     private val timeValue = viewArray.random()?.context?.resources?.getInteger(time)?.toLong() ?: 0L

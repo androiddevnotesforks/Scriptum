@@ -6,11 +6,13 @@
 
     <integer name="color_column_count">4</integer>
 
-
     <integer name="fade_anim_time">@android:integer/config_shortAnimTime</integer>
-    <integer name="color_anim_time">@android:integer/config_shortAnimTime</integer>
+    <integer name="color_fade_time">200</integer>
 
-    <integer name="holder_anim_time">@android:integer/config_longAnimTime</integer>
+    <integer name="placeholder_fade_time">500</integer>
+
+    <integer name="info_skip_time">0</integer>
+    <integer name="info_fade_time">200</integer>
 
     <integer name="alarm_show_delay">500</integer>
     <integer name="alarm_show_time">500</integer>

@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.annotation.IntegerRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.databinding.DataBindingUtil
@@ -19,6 +20,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
+import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.data.ReceiverData
 import java.util.*
 
@@ -82,14 +84,14 @@ fun Context.sendTo(place: String, command: String, extras: Intent.() -> Unit = {
             putExtras(Intent().apply(extras))
         })
 
-/**
- * TODO #RELEASE! move to dimens
- */
-fun ViewGroup.createVisibleAnim(target: View?, visible: Boolean, duration: Long = 200) = let {
+fun ViewGroup.createVisibleAnim(target: View?, visible: Boolean,
+                                @IntegerRes durationId: Int = R.integer.info_fade_time) = let {
     if (target == null) return
 
-    val fade = Fade().setDuration(duration).addTarget(target)
-    TransitionManager.beginDelayedTransition(it, fade)
+    val time = context.resources.getInteger(durationId)
+    val transition = Fade().setDuration(time.toLong()).addTarget(target)
+
+    TransitionManager.beginDelayedTransition(it, transition)
 
     target.visibility = if (visible) View.VISIBLE else View.GONE
 }
