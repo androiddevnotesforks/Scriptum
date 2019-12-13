@@ -3,6 +3,9 @@ package sgtmelon.scriptum.adapter.diff
 import androidx.recyclerview.widget.DiffUtil
 import sgtmelon.scriptum.extension.clearAndAdd
 
+/**
+ * Parent class of [DiffUtil.Callback].
+ */
 abstract class ParentDiff<T> : DiffUtil.Callback() {
 
     protected val oldList: MutableList<T> = ArrayList()
