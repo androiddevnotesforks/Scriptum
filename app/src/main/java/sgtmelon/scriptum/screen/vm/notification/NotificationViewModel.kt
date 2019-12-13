@@ -43,7 +43,7 @@ class NotificationViewModel(application: Application) :
             if (count == 0) {
                 itemList.clear()
             } else {
-                callback?.showProgress()
+                if (itemList.isEmpty()) callback?.showProgress()
                 itemList.clearAndAdd(iInteractor.getList())
             }
 

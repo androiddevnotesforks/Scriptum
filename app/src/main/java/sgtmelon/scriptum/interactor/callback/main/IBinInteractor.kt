@@ -13,6 +13,8 @@ interface IBinInteractor : IParentInteractor {
 
     @Theme val theme: Int
 
+    suspend fun getCount(): Int
+
     suspend fun getList(): MutableList<NoteItem>
 
     suspend fun clearBin()

@@ -39,6 +39,9 @@ interface IRankDao {
     @Query(value = "SELECT RK_ID FROM RANK_TABLE WHERE RK_VISIBLE = 1 ORDER BY RK_POSITION")
     suspend fun getIdVisibleList(): List<Long>
 
+    @Query(value = "SELECT RK_ID FROM RANK_TABLE ORDER BY RK_POSITION")
+    suspend fun getIdList(): List<Long>
+
     @Query(value = "SELECT RK_NAME FROM RANK_TABLE ORDER BY RK_POSITION")
     suspend fun getNameList(): List<String>
 

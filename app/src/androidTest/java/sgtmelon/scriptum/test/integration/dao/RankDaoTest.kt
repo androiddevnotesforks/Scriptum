@@ -99,6 +99,10 @@ class RankDaoTest : ParentIntegrationTest() {
         assertEquals(insertAll().filter { it.isVisible }.map { it.id }, getIdVisibleList())
     }
 
+    @Test fun getIdList() = inRankDao {
+        assertEquals(insertAll().map { it.id }, getIdList())
+    }
+
     @Test fun getNameList() = inRankDao {
         assertEquals(insertAll().map { it.name }, getNameList())
     }

@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.repository.note
 
 import android.content.Context
+import android.util.Log
 import sgtmelon.scriptum.extension.getText
 import sgtmelon.scriptum.extension.move
 import sgtmelon.scriptum.model.annotation.Sort
@@ -28,6 +29,17 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
 
     private val noteConverter = NoteConverter()
     private val rollConverter = RollConverter()
+
+    override suspend fun getCount(bin: Boolean): Int {
+        val count: Int
+
+        openRoom().apply {
+            val rankIdList = if (bin) iRankDao.getIdList() else iRankDao.getIdVisibleList()
+            count = iNoteDao.getCount(bin, rankIdList)
+        }.close()
+
+        return count
+    }
 
     /**
      * [optimal] - need for note lists where displays short information.

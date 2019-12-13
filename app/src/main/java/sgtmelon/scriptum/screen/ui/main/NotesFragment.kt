@@ -72,6 +72,7 @@ class NotesFragment : ParentFragment(), INotesFragment, MainReceiver.Callback {
      */
     private var parentContainer: ViewGroup? = null
     private var emptyInfoView: View? = null
+    private var progressBar: View? = null
     private var recyclerView: RecyclerView? = null
 
     /**
@@ -148,13 +149,14 @@ class NotesFragment : ParentFragment(), INotesFragment, MainReceiver.Callback {
     override fun setupRecycler(@Theme theme: Int) {
         parentContainer = view?.findViewById(R.id.notes_parent_container)
         emptyInfoView = view?.findViewById(R.id.notes_info_include)
+        progressBar = view?.findViewById(R.id.notes_progress)
 
         adapter.theme = theme
 
         recyclerView = view?.findViewById(R.id.notes_recycler)
         recyclerView?.let {
             it.itemAnimator = object : DefaultItemAnimator() {
-                override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) = onBingingList()
+                override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) = onBindingList()
             }
 
             it.setHasFixedSize(true)
@@ -212,14 +214,20 @@ class NotesFragment : ParentFragment(), INotesFragment, MainReceiver.Callback {
         binding?.isListHide = isListHide
     }
 
-    override fun onBingingList() {
+    override fun showProgress() {
+        progressBar?.visibility = View.VISIBLE
+    }
+
+    override fun onBindingList() {
+        progressBar?.visibility = View.GONE
+
         val isListEmpty = adapter.itemCount == 0
 
         /**
          * Use time equal 0
          *
          * Because you on another screen and restore item to that screen, after return you will
-         * cause [onBingingList]. Zero time need for best performance, without freeze
+         * cause [onBindingList]. Zero time need for best performance, without freeze
          */
         val durationId = if (isListEmpty) R.integer.info_fade_time else R.integer.info_skip_time
         parentContainer?.createVisibleAnim(emptyInfoView, isListEmpty, durationId)

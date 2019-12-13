@@ -3,6 +3,7 @@ package sgtmelon.scriptum.screen.vm.main
 import android.app.Application
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.clearAndAdd
@@ -37,12 +38,19 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
 
     override fun onUpdateData() {
         viewModelScope.launch {
-            itemList.clearAndAdd(iInteractor.getList())
+            val count = iInteractor.getCount()
+
+            if (count == 0) {
+                itemList.clear()
+            } else {
+                if (itemList.isEmpty()) callback?.showProgress()
+                itemList.clearAndAdd(iInteractor.getList())
+            }
 
             callback?.apply {
                 notifyList(itemList)
                 notifyMenuClearBin()
-                onBingingList()
+                onBindingList()
             }
         }
     }
@@ -55,7 +63,7 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
         callback?.apply {
             notifyList(itemList)
             notifyMenuClearBin()
-            onBingingList()
+            onBindingList()
         }
     }
 

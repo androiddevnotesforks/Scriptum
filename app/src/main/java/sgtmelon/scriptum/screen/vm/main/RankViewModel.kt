@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.inputmethod.EditorInfo
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.extension.clearAndAdd
 import sgtmelon.scriptum.extension.clearSpace
@@ -51,7 +50,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
             if (count == 0) {
                 itemList.clear()
             } else {
-                callback?.showProgress()
+                if (itemList.isEmpty()) callback?.showProgress()
                 itemList.clearAndAdd(iInteractor.getList())
             }
 

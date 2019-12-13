@@ -81,6 +81,11 @@ class NoteDaoTest : ParentIntegrationTest() {
     }
 
 
+    @Test fun getCount() = inNoteDao {
+        getCount(bin = false, rankIdList = listOf())
+        TODO(reason = "#TEST write test")
+    }
+
     @Test fun getByWrongId() = inNoteDao { assertNull(get(Random.nextLong())) }
 
     @Test fun getByCorrectId() = inNoteDao {

@@ -14,7 +14,9 @@ interface IBinFragment : IBinBridge{
 
     fun setupRecycler(@Theme theme: Int)
 
-    fun onBingingList()
+    fun showProgress()
+
+    fun onBindingList()
 
     fun scrollTop()
 

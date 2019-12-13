@@ -29,11 +29,15 @@ interface INoteDao {
     @Update
     suspend fun update(list: List<NoteEntity>)
 
+    @Query(value = """SELECT COUNT(NT_ID) FROM NOTE_TABLE
+        WHERE NT_BIN = :bin AND (NT_RANK_ID = -1 OR NT_RANK_ID IN (:rankIdList))
+    """)
+    suspend fun getCount(bin: Boolean, rankIdList: List<Long>): Int
 
     @Query(value = "SELECT * FROM NOTE_TABLE WHERE NT_ID = :id")
     suspend fun get(id: Long): NoteEntity?
 
-    @Query(value = "SELECT * FROM NOTE_TABLE WHERE NT_ID IN(:idList)")
+    @Query(value = "SELECT * FROM NOTE_TABLE WHERE NT_ID IN (:idList)")
     suspend fun get(idList: List<Long>): List<NoteEntity>
 
     @Query(value = "SELECT * FROM NOTE_TABLE WHERE NT_BIN = :bin")

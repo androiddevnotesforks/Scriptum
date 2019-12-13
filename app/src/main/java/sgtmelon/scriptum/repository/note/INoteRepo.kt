@@ -9,6 +9,8 @@ import sgtmelon.scriptum.model.item.RollItem
  */
 interface INoteRepo {
 
+    suspend fun getCount(bin: Boolean): Int
+
     suspend fun getList(@Sort sort: Int, bin: Boolean, optimal: Boolean,
                 filterVisible: Boolean): MutableList<NoteItem>
 

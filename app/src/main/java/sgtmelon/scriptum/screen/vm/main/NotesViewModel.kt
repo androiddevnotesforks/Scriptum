@@ -2,7 +2,9 @@ package sgtmelon.scriptum.screen.vm.main
 
 import android.app.Application
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import sgtmelon.extension.beforeNow
 import sgtmelon.extension.getCalendar
@@ -46,12 +48,19 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
 
     override fun onUpdateData() {
         viewModelScope.launch {
-            itemList.clearAndAdd(iInteractor.getList())
+            val count = iInteractor.getCount()
+
+            if (count == 0) {
+                itemList.clear()
+            } else {
+                if (itemList.isEmpty()) callback?.showProgress()
+                itemList.clearAndAdd(iInteractor.getList())
+            }
 
             callback?.apply {
                 notifyList(itemList)
                 setupBinding(iInteractor.isListHide())
-                onBingingList()
+                onBindingList()
             }
         }
     }

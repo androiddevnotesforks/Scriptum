@@ -5,6 +5,7 @@ import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.extension.getText
+import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.repository.note.INoteRepo
@@ -31,11 +32,18 @@ class NoteRepoTest : ParentIntegrationTest()  {
     private val noteConverter = NoteConverter()
     private val rollConverter = RollConverter()
 
-    @Test fun getListSort() {
+    @Test fun getCount() = inRoomTest {
+        iNoteRepo.getCount(bin = true)
         TODO(reason = "#TEST write test")
     }
 
-    @Test fun getItem() {
+    @Test fun getList() = inRoomTest {
+        iNoteRepo.getList(0, true, false, true)
+        TODO(reason = "#TEST write test")
+    }
+
+    @Test fun getItem() = inRoomTest {
+        iNoteRepo.getItem(0, true)
         TODO(reason = "#TEST write test")
     }
 
@@ -127,11 +135,13 @@ class NoteRepoTest : ParentIntegrationTest()  {
         assertNull(iNoteDao.get(item.id))
     }
 
-    @Test fun convertToRoll() {
+    @Test fun convertToRoll() = inRoomTest {
+        iNoteRepo.convertToRoll(NoteItem(0, "", "", color = 0, type = NoteType.TEXT))
         TODO(reason = "#TEST write test")
     }
 
-    @Test fun convertToText() {
+    @Test fun convertToText() = inRoomTest {
+        iNoteRepo.convertToText(NoteItem(0, "", "", color = 0, type = NoteType.TEXT))
         TODO(reason = "#TEST write test")
     }
 
@@ -163,11 +173,13 @@ class NoteRepoTest : ParentIntegrationTest()  {
         assertEquals(textFourth, iNoteRepo.getCopyText(itemFourth))
     }
 
-    @Test fun saveTextNote() {
+    @Test fun saveTextNote() = inRoomTest {
+        iNoteRepo.saveTextNote(NoteItem(0, "", "", color = 0, type = NoteType.TEXT), true)
         TODO(reason = "#TEST write test")
     }
 
-    @Test fun saveRollNote() {
+    @Test fun saveRollNote() = inRoomTest {
+        iNoteRepo.saveRollNote(NoteItem(0, "", "", color = 0, type = NoteType.TEXT), true)
         TODO(reason = "#TEST write test")
     }
 

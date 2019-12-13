@@ -28,6 +28,12 @@
                     app:icon='@{R.mipmap.img_info_notes}'
                     app:title='@{isListHide ? R.string.info_notes_hide_title : R.string.info_notes_empty_title}'/>
 
+            <ProgressBar
+                    android:id="@+id/notes_progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"/>
+
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/notes_recycler"
                     style="@style/RecyclerView"
