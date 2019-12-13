@@ -4,8 +4,8 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import alias="v" type="android.view.View"/>
-        <import alias="theme" type="sgtmelon.scriptum.model.annotation.Theme"/>
+        <import type="android.view.View"/>
+        <import type="sgtmelon.scriptum.model.annotation.Theme"/>
 
         <variable name="currentTheme" type="int"/>
         <variable name="noteItem" type="sgtmelon.scriptum.model.item.NoteItem"/>
@@ -36,7 +36,7 @@
                             android:id="@+id/note_text_name_text"
                             style="@style/Text.Note.Name"
                             android:text='@{noteItem.name}'
-                            android:visibility='@{!noteItem.name.isEmpty() ? v.VISIBLE : v.GONE}'
+                            android:visibility='@{!noteItem.name.isEmpty() ? View.VISIBLE : View.GONE}'
                             tools:text="@string/preview_note_name"/>
 
                     <TextView
@@ -57,7 +57,7 @@
                         android:contentDescription="@null"
                         app:indicatorColor='@{noteItem.color}'
                         app:indicatorTheme='@{currentTheme}'
-                        app:visibleOn='@{theme.DARK}'
+                        app:visibleOn='@{Theme.DARK}'
                         app:visibleTheme='@{currentTheme}'
                         tools:tint="@color/note_green_dark"
                         tools:visibility="gone"/>

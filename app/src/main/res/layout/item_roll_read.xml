@@ -4,7 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import alias="v" type="android.view.View"/>
+        <import type="android.view.View"/>
 
         <variable name="rollItem" type="sgtmelon.scriptum.model.item.RollItem"/>
         <variable name="keyBin" type="boolean"/>
@@ -37,7 +37,7 @@
                         android:id="@+id/roll_read_click_button"
                         style="@style/Container.Roll.Click"
                         android:contentDescription="@null"
-                        android:visibility='@{!keyBin ? v.VISIBLE : v.INVISIBLE}'/>
+                        android:visibility='@{!keyBin ? View.VISIBLE : View.INVISIBLE}'/>
 
             </FrameLayout>
 

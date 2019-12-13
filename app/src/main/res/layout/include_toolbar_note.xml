@@ -6,8 +6,8 @@
 
     <data>
         <import type="sgtmelon.scriptum.R"/>
-        <import alias="v" type="android.view.View"/>
-        <import alias="theme" type="sgtmelon.scriptum.model.annotation.Theme"/>
+        <import type="android.view.View"/>
+        <import type="sgtmelon.scriptum.model.annotation.Theme"/>
 
         <variable name="currentTheme" type="int"/>
         <variable name="dataLoad" type="boolean"/>
@@ -35,7 +35,7 @@
                     style="@style/Container.ToolbarNote.Scroll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility='@{dataLoad ? v.VISIBLE : v.INVISIBLE}'>
+                    android:visibility='@{dataLoad ? View.VISIBLE : View.INVISIBLE}'>
 
                 <FrameLayout
                         android:layout_width="wrap_content"
@@ -49,7 +49,7 @@
                             android:hint="@string/hint_enter_name"
                             android:importantForAutofill="noExcludeDescendants"
                             android:text='@={noteItem.name}'
-                            android:visibility='@{editMode ? v.VISIBLE : v.INVISIBLE}'
+                            android:visibility='@{editMode ? View.VISIBLE : View.INVISIBLE}'
                             tools:targetApi="o"
                             tools:visibility="invisible"/>
 
@@ -59,7 +59,7 @@
                             style="@style/Text.ToolbarNote"
                             android:hint="@string/hint_text_name"
                             android:text='@{editMode ? "" : noteItem.name}'
-                            android:visibility='@{!editMode ? v.VISIBLE : v.INVISIBLE}'
+                            android:visibility='@{!editMode ? View.VISIBLE : View.INVISIBLE}'
                             tools:text="@string/preview_note_name"/>
 
                 </FrameLayout>
@@ -72,14 +72,14 @@
                 android:id="@+id/toolbar_note_color_view"
                 style="@style/Image.Color.Horizontal"
                 app:visibleTheme='@{currentTheme}'
-                app:visibleOn='@{theme.DARK}'
+                app:visibleOn='@{Theme.DARK}'
                 tools:background="@color/note_red_dark"
                 tools:visibility="gone"/>
 
         <View
                 style="@style/Divider.Horizontal"
                 app:visibleTheme='@{currentTheme}'
-                app:visibleOn='@{theme.LIGHT}'/>
+                app:visibleOn='@{Theme.LIGHT}'/>
 
     </com.google.android.material.appbar.AppBarLayout>
 

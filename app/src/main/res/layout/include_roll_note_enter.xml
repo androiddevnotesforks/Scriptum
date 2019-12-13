@@ -6,7 +6,7 @@
 
     <data>
         <import type="sgtmelon.scriptum.R"/>
-        <import alias="v" type="android.view.View"/>
+        <import type="android.view.View"/>
 
         <variable name="editMode" type="boolean"/>
         <variable name="enterEmpty" type="boolean"/>
@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:background="?attr/clPrimary"
             android:orientation="vertical"
-            android:visibility='@{editMode ? v.VISIBLE : v.GONE}'
+            android:visibility='@{editMode ? View.VISIBLE : View.GONE}'
             tools:layout_gravity="center">
 
         <View style="@style/Divider.Horizontal"/>

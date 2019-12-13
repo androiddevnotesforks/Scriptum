@@ -4,8 +4,8 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import alias="v" type="android.view.View"/>
-        <import alias="theme" type="sgtmelon.scriptum.model.annotation.Theme"/>
+        <import type="android.view.View"/>
+        <import type="sgtmelon.scriptum.model.annotation.Theme"/>
 
         <variable name="currentTheme" type="int"/>
         <variable name="noteItem" type="sgtmelon.scriptum.model.item.NoteItem"/>
@@ -36,31 +36,31 @@
                             android:id="@+id/note_roll_name_text"
                             style="@style/Text.Note.Name"
                             android:text='@{noteItem.name}'
-                            android:visibility='@{noteItem.name.isEmpty() ? v.GONE : v.VISIBLE}'
+                            android:visibility='@{noteItem.name.isEmpty() ? View.GONE : View.VISIBLE}'
                             tools:text="@string/preview_note_name"/>
 
                     <include
                             android:id="@+id/note_roll_row0_container"
                             layout="@layout/include_item_note_roll"
-                            android:visibility='@{noteItem.rollList.size() &gt;= 1 ? v.VISIBLE : v.GONE}'
+                            android:visibility='@{noteItem.rollList.size() &gt;= 1 ? View.VISIBLE : View.GONE}'
                             app:rollItem='@{noteItem.rollList.size() &gt;= 1 ? noteItem.rollList.get(0) : null}'/>
 
                     <include
                             android:id="@+id/note_roll_row1_container"
                             layout="@layout/include_item_note_roll"
-                            android:visibility='@{noteItem.rollList.size() &gt;= 2 ? v.VISIBLE : v.GONE}'
+                            android:visibility='@{noteItem.rollList.size() &gt;= 2 ? View.VISIBLE : View.GONE}'
                             app:rollItem='@{noteItem.rollList.size() &gt;= 2 ? noteItem.rollList.get(1) : null}'/>
 
                     <include
                             android:id="@+id/note_roll_row2_container"
                             layout="@layout/include_item_note_roll"
-                            android:visibility='@{noteItem.rollList.size() &gt;= 3 ? v.VISIBLE : v.GONE}'
+                            android:visibility='@{noteItem.rollList.size() &gt;= 3 ? View.VISIBLE : View.GONE}'
                             app:rollItem='@{noteItem.rollList.size() &gt;= 3 ? noteItem.rollList.get(2) : null}'/>
 
                     <include
                             android:id="@+id/note_roll_row3_container"
                             layout="@layout/include_item_note_roll"
-                            android:visibility='@{noteItem.rollList.size() &gt;= 4 ? v.VISIBLE : v.GONE}'
+                            android:visibility='@{noteItem.rollList.size() &gt;= 4 ? View.VISIBLE : View.GONE}'
                             app:rollItem='@{noteItem.rollList.size() &gt;= 4 ? noteItem.rollList.get(3) : null}'/>
 
                     <include
@@ -76,7 +76,7 @@
                         app:indicatorTheme='@{currentTheme}'
                         app:indicatorColor='@{noteItem.color}'
                         app:visibleTheme='@{currentTheme}'
-                        app:visibleOn='@{theme.DARK}'
+                        app:visibleOn='@{Theme.DARK}'
                         tools:tint="@color/note_green_dark"
                         tools:visibility="visible"/>
 

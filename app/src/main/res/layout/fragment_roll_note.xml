@@ -4,7 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import alias="v" type="android.view.View"/>
+        <import type="android.view.View"/>
 
         <variable name="currentTheme" type="int"/>
         <variable name="menuCallback" type="sgtmelon.scriptum.screen.ui.callback.note.INoteMenu"/>
@@ -45,7 +45,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:visibility='@{dataLoad ? v.VISIBLE : v.INVISIBLE}'
+                    android:visibility='@{dataLoad ? View.VISIBLE : View.INVISIBLE}'
                     tools:itemCount="3"
                     tools:listitem="@layout/item_roll_write"/>
 

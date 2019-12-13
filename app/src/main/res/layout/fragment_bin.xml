@@ -5,7 +5,7 @@
 
     <data>
         <import type="sgtmelon.scriptum.R"/>
-        <import alias="v" type="android.view.View"/>
+        <import type="android.view.View"/>
 
         <variable name="isListEmpty" type="boolean"/>
     </data>
@@ -32,7 +32,7 @@
                     style="@style/RecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:visibility='@{!isListEmpty ? v.VISIBLE : v.GONE}'
+                    android:visibility='@{!isListEmpty ? View.VISIBLE : View.GONE}'
                     tools:itemCount="1"
                     tools:listitem="@layout/item_note_text"/>
 

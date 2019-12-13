@@ -4,7 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import alias="v" type="android.view.View"/>
+        <import type="android.view.View"/>
 
         <variable name="currentTheme" type="int"/>
         <variable name="menuCallback" type="sgtmelon.scriptum.screen.ui.callback.note.INoteMenu"/>
@@ -50,7 +50,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:fillViewport="true"
-                        android:visibility='@{dataLoad ? v.VISIBLE : v.INVISIBLE}'>
+                        android:visibility='@{dataLoad ? View.VISIBLE : View.INVISIBLE}'>
 
                     <FrameLayout
                             android:layout_width="match_parent"
@@ -62,7 +62,7 @@
                                 android:hint="@string/hint_enter_text"
                                 android:importantForAutofill="noExcludeDescendants"
                                 android:text='@={noteItem.text}'
-                                android:visibility='@{editMode ? v.VISIBLE : v.INVISIBLE}'
+                                android:visibility='@{editMode ? View.VISIBLE : View.INVISIBLE}'
                                 tools:targetApi="o"
                                 tools:visibility="invisible"/>
 
@@ -71,7 +71,7 @@
                                 android:id="@+id/text_note_content_text"
                                 style="@style/EditText.TextNote.Read"
                                 android:text='@{editMode ? "" : noteItem.text}'
-                                android:visibility='@{!editMode ? v.VISIBLE : v.INVISIBLE}'
+                                android:visibility='@{!editMode ? View.VISIBLE : View.INVISIBLE}'
                                 tools:text="@string/preview_note_text"/>
 
                     </FrameLayout>
