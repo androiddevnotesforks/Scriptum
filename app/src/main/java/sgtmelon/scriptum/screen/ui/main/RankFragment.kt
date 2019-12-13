@@ -101,6 +101,8 @@ class RankFragment : ParentFragment(), IRankFragment {
 
     override fun onResume() {
         super.onResume()
+
+        emptyInfoView?.visibility = View.GONE
         iViewModel.onUpdateData()
     }
 

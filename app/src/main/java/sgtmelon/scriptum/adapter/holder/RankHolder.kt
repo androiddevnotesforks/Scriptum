@@ -43,6 +43,10 @@ class RankHolder(
                 clickListener.onItemClick(v, adapterPosition) {
                     val item = binding.item ?: return@onItemClick
 
+                    /**
+                     * It's important to update binding item, because adapter notify
+                     * methods will not be called.
+                     */
                     item.isVisible = !item.isVisible
                     visibleButton.setDrawable(item.isVisible, needAnim = true)
                 }

@@ -98,7 +98,7 @@ class NotesFragment : ParentFragment(), INotesFragment, MainReceiver.Callback {
     override fun onResume() {
         super.onResume()
 
-        emptyInfoView?.visibility = View.INVISIBLE
+        emptyInfoView?.visibility = View.GONE
         iViewModel.onUpdateData()
     }
 

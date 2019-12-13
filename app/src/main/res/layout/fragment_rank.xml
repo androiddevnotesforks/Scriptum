@@ -28,11 +28,9 @@
             <include
                     android:id="@+id/rank_info_include"
                     layout="@layout/include_info"
-                    android:visibility="gone"
                     app:details='@{R.string.info_rank_empty_details}'
                     app:icon='@{R.mipmap.img_info_rank}'
-                    app:title='@{R.string.info_rank_empty_title}'
-                    tools:visibility="visible"/>
+                    app:title='@{R.string.info_rank_empty_title}'/>
 
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rank_recycler"

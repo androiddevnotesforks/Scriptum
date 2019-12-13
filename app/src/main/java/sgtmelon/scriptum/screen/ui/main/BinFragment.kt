@@ -82,7 +82,7 @@ class BinFragment : ParentFragment(), IBinFragment {
     override fun onResume() {
         super.onResume()
 
-        emptyInfoView?.visibility = View.INVISIBLE
+        emptyInfoView?.visibility = View.GONE
         iViewModel.onUpdateData()
     }
 

@@ -73,6 +73,8 @@ class NotificationActivity : AppActivity(), INotificationActivity {
     override fun onResume() {
         super.onResume()
 
+        emptyInfoView?.visibility = View.GONE
+
         openState.clear()
         iViewModel.onUpdateData()
     }
