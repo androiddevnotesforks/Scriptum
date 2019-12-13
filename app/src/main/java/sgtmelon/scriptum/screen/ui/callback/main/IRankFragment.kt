@@ -28,8 +28,12 @@ interface IRankFragment : IRankBridge {
     fun showRenameDialog(p: Int, name: String, nameList: List<String>)
 
 
+    fun setList(list: List<RankItem>)
+
     fun notifyList(list: List<RankItem>)
 
     fun notifyList(list: List<RankItem>, startAnim: BooleanArray)
+
+    fun notifyList(list: List<RankItem>, from: Int, to: Int)
 
 }

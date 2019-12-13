@@ -41,7 +41,7 @@ class RollAdapter(
 
     override val diff = RollDiff()
 
-    override fun setList(list: List<RollItem>) {
+    override fun setList(list: List<RollItem>) = apply {
         super.setList(list)
         this.list.clearAndAdd(ArrayList(list.map { it.copy() }))
     }

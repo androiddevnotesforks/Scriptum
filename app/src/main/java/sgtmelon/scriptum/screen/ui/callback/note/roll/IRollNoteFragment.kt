@@ -5,6 +5,7 @@ import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
+import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
@@ -73,7 +74,9 @@ interface IRollNoteFragment : IRollNoteBridge {
 
     fun notifyList(list: List<RollItem>)
 
-    fun notifyList(cursor: Int, list: List<RollItem>)
+    fun notifyList(list: List<RollItem>, cursor: Int)
+
+    fun notifyList(list: List<RollItem>, from: Int, to: Int)
 
 
     fun showRankDialog(check: Int)

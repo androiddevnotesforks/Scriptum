@@ -228,12 +228,19 @@ class RankFragment : ParentFragment(), IRankFragment {
     }
 
 
+    override fun setList(list: List<RankItem>) {
+        adapter.setList(list)
+    }
+
     override fun notifyList(list: List<RankItem>) = adapter.notifyList(list)
 
     override fun notifyList(list: List<RankItem>, startAnim: BooleanArray) {
         adapter.notifyList(list, startAnim)
     }
 
+    override fun notifyList(list: List<RankItem>, from: Int, to: Int) {
+        adapter.setList(list).notifyItemMoved(from, to)
+    }
 
     override fun notifyNoteBind(item: NoteItem, rankIdVisibleList: List<Long>) {
         iBindControl.notifyNote(item, rankIdVisibleList)

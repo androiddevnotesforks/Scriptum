@@ -29,7 +29,7 @@ class NoteAdapter(
 
     override val diff = NoteDiff()
 
-    override fun setList(list: List<NoteItem>) {
+    override fun setList(list: List<NoteItem>) = apply {
         super.setList(list)
         this.list.clearAndAdd(ArrayList(list.map { it.deepCopy() }))
     }

@@ -371,7 +371,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
                 InputAction.NAME -> callback?.changeName(item[isUndo], cursor = item.cursor[isUndo])
                 InputAction.ROLL -> {
                     rollList[item.p].text = item[isUndo]
-                    callback?.notifyList(item.cursor[isUndo], rollList)
+                    callback?.notifyList(rollList, item.cursor[isUndo])
                 }
                 InputAction.ROLL_ADD, InputAction.ROLL_REMOVE -> {
                     val isAddUndo = isUndo && item.tag == InputAction.ROLL_ADD
@@ -384,7 +384,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
                         val rollItem = RollItem[item[isUndo]]
                         if (rollItem != null) {
                             rollList.add(item.p, rollItem)
-                            callback?.notifyList(rollItem.text.length, rollList)
+                            callback?.notifyList(rollList, rollItem.text.length)
                         }
                     }
                 }
@@ -541,7 +541,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
      * to control in Edit.
      */
     override fun onTouchMove(from: Int, to: Int): Boolean {
-        callback?.notifyList(noteItem.rollList.apply { move(from, to) })
+        callback?.notifyList(noteItem.rollList.apply { move(from, to) }, from, to)
         return true
     }
 

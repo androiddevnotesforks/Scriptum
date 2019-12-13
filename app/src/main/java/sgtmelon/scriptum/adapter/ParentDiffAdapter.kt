@@ -26,7 +26,7 @@ abstract class ParentDiffAdapter<T, D : ParentDiff<T>, VH : RecyclerView.ViewHol
     /**
      * Need copy list in implementation.
      */
-    @CallSuper open fun setList(list: List<T>) {
+    @CallSuper open fun setList(list: List<T>) : ParentDiffAdapter<T, D, VH> = apply {
         diff.setList(this.list, list)
         diffResult = DiffUtil.calculateDiff(diff)
     }

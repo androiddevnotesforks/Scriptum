@@ -25,14 +25,14 @@ class RankAdapter(
 
     override val diff = RankDiff()
 
-    override fun setList(list: List<RankItem>) {
+    override fun setList(list: List<RankItem>) = apply {
         super.setList(list)
 
         this.list.clearAndAdd(ArrayList(list.map { it.copy() }))
         this.startAnim = BooleanArray(list.size)
     }
 
-    fun setList(list: List<RankItem>, startAnim: BooleanArray) {
+    fun setList(list: List<RankItem>, startAnim: BooleanArray) = apply {
         super.setList(list)
 
         this.list.clearAndAdd(ArrayList(list.map { it.copy() }))

@@ -22,7 +22,7 @@ class NotificationAdapter(private val clickListener: ItemListener.Click) :
 
     override val diff = NotificationDiff()
 
-    override fun setList(list: List<NotificationItem>) {
+    override fun setList(list: List<NotificationItem>) = apply {
         super.setList(list)
         this.list.clearAndAdd(ArrayList(list.map { it.copy() }))
     }

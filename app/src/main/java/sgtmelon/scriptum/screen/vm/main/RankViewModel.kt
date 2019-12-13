@@ -170,7 +170,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     override fun onTouchMove(from: Int, to: Int): Boolean {
         itemList.move(from, to)
 
-        callback?.notifyList(itemList)
+        callback?.notifyList(itemList, from, to)
 
         return true
     }
@@ -180,7 +180,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
      */
     override fun onTouchMoveResult() {
         val noteIdList = itemList.correctPositions()
-        callback?.notifyList(itemList)
+        callback?.setList(itemList)
 
         viewModelScope.launch { iInteractor.updatePosition(itemList, noteIdList) }
     }
