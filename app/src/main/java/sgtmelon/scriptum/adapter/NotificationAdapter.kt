@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.adapter
 
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.diff.NotificationDiff
 import sgtmelon.scriptum.adapter.holder.NotificationHolder
@@ -16,15 +15,18 @@ import sgtmelon.scriptum.screen.ui.notification.NotificationActivity
  * Adapter which displays list of notifications for [NotificationActivity]
  */
 class NotificationAdapter(private val clickListener: ItemListener.Click) :
-        ParentAdapter<NotificationItem, NotificationHolder>() {
+        ParentDiffAdapter<NotificationItem, NotificationDiff, NotificationHolder>() {
 
     @Theme var theme: Int = Theme.UNDEFINED
 
-    private val diff = NotificationDiff()
+
+    override val diff = NotificationDiff()
 
     override fun setList(list: List<NotificationItem>) {
+        super.setList(list)
         this.list.clearAndAdd(ArrayList(list.map { it.copy() }))
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationHolder {
         return NotificationHolder(parent.inflateBinding(R.layout.item_notification), clickListener)
@@ -32,14 +34,6 @@ class NotificationAdapter(private val clickListener: ItemListener.Click) :
 
     override fun onBindViewHolder(holder: NotificationHolder, position: Int) {
         holder.bind(theme, list[position])
-    }
-
-    override fun notifyList(list: List<NotificationItem>) {
-        diff.setList(this.list, list)
-
-        val diffResult = DiffUtil.calculateDiff(diff)
-        setList(list)
-        diffResult.dispatchUpdatesTo(this)
     }
 
 }

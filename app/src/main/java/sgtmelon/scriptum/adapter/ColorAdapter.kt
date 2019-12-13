@@ -30,8 +30,9 @@ class ColorAdapter(@Theme private val theme: Int, private val clickListener: Ite
         visibleArray[check] = true
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-            ColorHolder(parent.inflateView(R.layout.item_color))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ColorHolder {
+        return ColorHolder(parent.inflateView(R.layout.item_color))
+    }
 
     override fun onBindViewHolder(holder: ColorHolder, position: Int) {
         holder.bindColor(theme, list[position])

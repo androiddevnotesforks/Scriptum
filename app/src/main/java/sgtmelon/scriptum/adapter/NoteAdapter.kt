@@ -22,15 +22,18 @@ import sgtmelon.scriptum.screen.ui.main.NotesFragment
 class NoteAdapter(
         private val clickListener: ItemListener.Click,
         private val longClickListener: ItemListener.LongClick? = null
-) : ParentAdapter<NoteItem, RecyclerView.ViewHolder>() {
+) : ParentDiffAdapter<NoteItem, NoteDiff, RecyclerView.ViewHolder>() {
 
     @Theme var theme: Int = Theme.UNDEFINED
 
-    private val diff = NoteDiff()
+
+    override val diff = NoteDiff()
 
     override fun setList(list: List<NoteItem>) {
+        super.setList(list)
         this.list.clearAndAdd(ArrayList(list.map { it.deepCopy() }))
     }
+
 
     /**
      * TODO refactor with when
@@ -57,13 +60,5 @@ class NoteAdapter(
     }
 
     override fun getItemViewType(position: Int) = list[position].type.ordinal
-
-    override fun notifyList(list: List<NoteItem>) {
-        diff.setList(this.list, list)
-
-        val diffResult = DiffUtil.calculateDiff(diff)
-        setList(list)
-        diffResult.dispatchUpdatesTo(this)
-    }
 
 }

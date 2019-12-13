@@ -230,18 +230,11 @@ class RankFragment : ParentFragment(), IRankFragment {
     }
 
 
-    override fun notifyVisible(p: Int, list: List<RankItem>) = adapter.apply {
-        setList(list)
-    }.notifyItemChanged(p)
+    override fun notifyList(list: List<RankItem>) = adapter.notifyList(list)
 
     override fun notifyList(list: List<RankItem>, startAnim: BooleanArray) {
-        adapter.apply {
-            setList(list)
-            this.startAnim = startAnim
-        }.notifyDataSetChanged()
+        adapter.notifyList(list, startAnim)
     }
-
-    override fun notifyList(list: List<RankItem>) = adapter.notifyList(list)
 
 
     override fun notifyNoteBind(item: NoteItem, rankIdVisibleList: List<Long>) {

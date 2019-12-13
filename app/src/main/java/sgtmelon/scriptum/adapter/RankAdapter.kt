@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.adapter
 
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.diff.RankDiff
 import sgtmelon.scriptum.adapter.holder.RankHolder
@@ -17,39 +16,46 @@ import sgtmelon.scriptum.screen.ui.main.RankFragment
 class RankAdapter(
         private val clickListener: ItemListener.ActionClick,
         private val longClickListener: ItemListener.LongClick
-) : ParentAdapter<RankItem, RankHolder>() {
+) : ParentDiffAdapter<RankItem, RankDiff, RankHolder>() {
 
     var dragListener: ItemListener.Drag? = null
 
     var startAnim: BooleanArray = BooleanArray(size = 0)
 
-    private val diff = RankDiff()
+
+    override val diff = RankDiff()
 
     override fun setList(list: List<RankItem>) {
-        diff.setList(this.list, list)
+        super.setList(list)
 
         this.list.clearAndAdd(ArrayList(list.map { it.copy() }))
-        startAnim = BooleanArray(list.size)
+        this.startAnim = BooleanArray(list.size)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = RankHolder(
-            parent.inflateBinding(R.layout.item_rank),
-            clickListener, longClickListener, dragListener
-    )
+    fun setList(list: List<RankItem>, startAnim: BooleanArray) {
+        super.setList(list)
+
+        this.list.clearAndAdd(ArrayList(list.map { it.copy() }))
+        this.startAnim = startAnim
+    }
+
+    fun notifyList(list: List<RankItem>, startAnim: BooleanArray) {
+        setList(list, startAnim)
+        notifyDataSetChanged()
+    }
+
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RankHolder {
+        return RankHolder(
+                parent.inflateBinding(R.layout.item_rank),
+                clickListener, longClickListener, dragListener
+        )
+    }
 
     override fun onBindViewHolder(holder: RankHolder, position: Int) {
         holder.bind(list[position], startAnim[position])
 
         if (startAnim[position]) startAnim[position] = false
-    }
-
-    override fun notifyList(list: List<RankItem>) {
-        diff.setList(this.list, list)
-
-        val diffResult = DiffUtil.calculateDiff(diff)
-
-        setList(list)
-        diffResult.dispatchUpdatesTo(this)
     }
 
 }

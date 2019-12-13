@@ -116,7 +116,10 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     override fun onClickVisible(p: Int) {
         val item = itemList[p].apply { isVisible = !isVisible }
 
-        callback?.notifyVisible(p, itemList)
+        val startAnim = BooleanArray(itemList.size)
+        startAnim[p] = true
+
+        callback?.notifyList(itemList, startAnim)
 
         viewModelScope.launch {
             iInteractor.update(item)
