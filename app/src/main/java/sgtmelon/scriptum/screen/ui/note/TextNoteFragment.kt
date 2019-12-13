@@ -203,7 +203,10 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment {
 
     override fun onBindingLoad(rankEmpty: Boolean) {
         parentContainer?.let {
-            TransitionManager.beginDelayedTransition(it, Fade().setDuration(FADE_ANIM_TIME))
+            val time = resources.getInteger(R.integer.fade_anim_time)
+            val transition = Fade().setDuration(time.toLong())
+
+            TransitionManager.beginDelayedTransition(it, transition)
         }
 
         binding?.apply {
@@ -218,9 +221,10 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment {
 
     override fun onBindingEdit(editMode: Boolean, item: NoteItem) {
         panelContainer?.let {
+            val time = resources.getInteger(R.integer.fade_anim_time)
             val transition = AutoTransition()
                     .setOrdering(AutoTransition.ORDERING_TOGETHER)
-                    .setDuration(FADE_ANIM_TIME)
+                    .setDuration(time.toLong())
 
             TransitionManager.beginDelayedTransition(it, transition)
         }
@@ -324,11 +328,6 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment {
     override fun notifyInfoBind(count: Int) = iBindControl.notifyInfo(count)
 
     companion object {
-        /**
-         * TODO #RELEASE! move to dimens
-         */
-        const val FADE_ANIM_TIME = 200L
-
         operator fun get(id: Long, @Color color: Int) = TextNoteFragment().apply {
             arguments = Bundle().apply {
                 putLong(NoteData.Intent.ID, id)
