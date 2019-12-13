@@ -39,7 +39,14 @@ class RankHolder(
         }
 
         visibleButton.setOnClickListener { v ->
-            checkNoPosition { clickListener.onItemClick(v, adapterPosition) }
+            checkNoPosition {
+                clickListener.onItemClick(v, adapterPosition) {
+                    val item = binding.item ?: return@onItemClick
+
+                    item.isVisible = !item.isVisible
+                    visibleButton.setDrawable(item.isVisible, needAnim = true)
+                }
+            }
         }
 
         visibleButton.setOnLongClickListener { v ->
