@@ -2,11 +2,14 @@ package sgtmelon.scriptum.adapter
 
 import android.view.ViewGroup
 import android.widget.CheckBox
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.adapter.diff.RollDiff
 import sgtmelon.scriptum.adapter.holder.RollReadHolder
 import sgtmelon.scriptum.adapter.holder.RollWriteHolder
 import sgtmelon.scriptum.control.input.IInputControl
+import sgtmelon.scriptum.extension.clearAndAdd
 import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.item.RollItem
@@ -35,6 +38,17 @@ class RollAdapter(
      */
     var checkToggle: Boolean = false
     var cursorPosition = ND_CURSOR
+
+    private val diff = RollDiff()
+    private var diffResult: DiffUtil.DiffResult? = null
+
+    override fun setList(list: List<RollItem>) {
+        diff.setList(this.list, list)
+        diffResult = DiffUtil.calculateDiff(diff)
+
+        this.list.clearAndAdd(ArrayList(list.map { it.copy() }))
+    }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == TYPE_READ) {
@@ -67,6 +81,12 @@ class RollAdapter(
 
     override fun getItemViewType(position: Int): Int {
         return if (noteState?.isEdit == true) TYPE_WRITE else TYPE_READ
+    }
+
+
+    override fun notifyList(list: List<RollItem>) {
+        setList(list)
+        diffResult?.dispatchUpdatesTo(this)
     }
 
     private companion object {

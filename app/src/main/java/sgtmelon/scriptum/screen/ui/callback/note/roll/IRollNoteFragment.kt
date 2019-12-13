@@ -16,6 +16,9 @@ import java.util.*
  */
 interface IRollNoteFragment : IRollNoteBridge {
 
+    fun hideKeyboard()
+
+
     /**
      * Setup elements for binding which is constants
      */
@@ -59,27 +62,18 @@ interface IRollNoteFragment : IRollNoteBridge {
 
     fun clearEnterText()
 
+
     fun scrollToItem(simpleClick: Boolean, p: Int, list: MutableList<RollItem>)
 
     fun changeCheckToggle(state: Boolean)
 
     fun updateNoteState(noteState: NoteState)
 
-    fun notifyListItem(p: Int, rollItem: RollItem)
+    fun setList(list: List<RollItem>)
 
-    fun notifyList(list: MutableList<RollItem>)
+    fun notifyList(list: List<RollItem>)
 
-    fun notifyDataSetChanged(list: MutableList<RollItem>)
-
-    fun notifyItemInserted(p: Int, cursor: Int, list: MutableList<RollItem>)
-
-    fun notifyItemChanged(p: Int, cursor: Int, list: MutableList<RollItem>)
-
-    fun notifyItemRemoved(p: Int, list: MutableList<RollItem>)
-
-    fun notifyItemMoved(from: Int, to: Int, list: MutableList<RollItem>)
-
-    fun hideKeyboard()
+    fun notifyList(cursor: Int, list: List<RollItem>)
 
 
     fun showRankDialog(check: Int)

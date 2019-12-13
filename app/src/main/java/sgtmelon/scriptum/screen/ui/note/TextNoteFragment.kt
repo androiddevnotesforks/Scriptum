@@ -110,6 +110,11 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment {
 
     //endregion
 
+    override fun hideKeyboard() {
+        activity?.hideKeyboard()
+    }
+
+
     override fun setupBinding(@Theme theme: Int) {
         binding?.apply {
             this.theme = theme
@@ -277,9 +282,6 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment {
         }
     }
 
-    override fun hideKeyboard() {
-        activity?.hideKeyboard()
-    }
 
     override fun showRankDialog(check: Int) = openState.tryInvoke {
         hideKeyboard()

@@ -9,7 +9,6 @@ import sgtmelon.scriptum.extension.clearAndAdd
 import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.screen.ui.notification.NotificationActivity
 

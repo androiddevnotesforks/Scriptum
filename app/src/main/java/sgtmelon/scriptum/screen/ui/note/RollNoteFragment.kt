@@ -133,6 +133,11 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment {
 
     //endregion
 
+    override fun hideKeyboard() {
+        activity?.hideKeyboard()
+    }
+
+
     override fun setupBinding(@Theme theme: Int) {
         binding?.apply {
             this.theme = theme
@@ -343,6 +348,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment {
         rollEnter?.setText("")
     }
 
+
     override fun scrollToItem(simpleClick: Boolean, p: Int, list: MutableList<RollItem>) {
         val fastScroll = with(layoutManager) {
             return@with if (simpleClick) {
@@ -354,11 +360,11 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment {
 
         if (fastScroll) {
             recyclerView?.scrollToPosition(p)
-            adapter.notifyItemInserted(p, list)
         } else {
             recyclerView?.smoothScrollToPosition(p)
-            adapter.notifyDataSetChanged(list)
         }
+
+        adapter.notifyList(list)
     }
 
     override fun changeCheckToggle(state: Boolean) {
@@ -369,33 +375,15 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment {
         adapter.apply { this.noteState = noteState }.notifyDataSetChanged()
     }
 
-    override fun notifyListItem(p: Int, rollItem: RollItem) = adapter.setListItem(p, rollItem)
+    override fun setList(list: List<RollItem>) = adapter.setList(list)
 
-    override fun notifyList(list: MutableList<RollItem>) = adapter.setList(list)
+    override fun notifyList(list: List<RollItem>) = adapter.notifyList(list)
 
-    override fun notifyDataSetChanged(list: MutableList<RollItem>) {
-        adapter.apply { setList(list) }.notifyItemRangeChanged(0, list.size)
+    override fun notifyList(cursor: Int, list: List<RollItem>) {
+        adapter.cursorPosition = cursor
+        adapter.notifyList(list)
     }
 
-    override fun notifyItemInserted(p: Int, cursor: Int, list: MutableList<RollItem>) {
-        adapter.apply { cursorPosition = cursor }.notifyItemInserted(p, list)
-    }
-
-    override fun notifyItemChanged(p: Int, cursor: Int, list: MutableList<RollItem>) {
-        adapter.apply { cursorPosition = cursor }.notifyItemChanged(p, list)
-    }
-
-    override fun notifyItemRemoved(p: Int, list: MutableList<RollItem>) {
-        adapter.notifyItemRemoved(p, list)
-    }
-
-    override fun notifyItemMoved(from: Int, to: Int, list: MutableList<RollItem>) {
-        adapter.notifyItemMoved(from, to, list)
-    }
-
-    override fun hideKeyboard() {
-        activity?.hideKeyboard()
-    }
 
     override fun showRankDialog(check: Int) = openState.tryInvoke {
         hideKeyboard()

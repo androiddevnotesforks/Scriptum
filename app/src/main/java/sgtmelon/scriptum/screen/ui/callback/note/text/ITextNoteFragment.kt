@@ -14,6 +14,9 @@ import java.util.*
  */
 interface ITextNoteFragment : ITextNoteBridge {
 
+    fun hideKeyboard()
+
+
     /**
      * Setup elements for binding which is constants
      */
@@ -48,8 +51,6 @@ interface ITextNoteFragment : ITextNoteBridge {
     fun changeName(text: String, cursor: Int)
 
     fun changeText(text: String, cursor: Int)
-
-    fun hideKeyboard()
 
 
     fun showRankDialog(check: Int)
