@@ -57,7 +57,11 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     private lateinit var restoreItem: NoteItem
 
     private var noteState: NoteState = NoteState()
-    private var isRankEmpty: Boolean = true
+
+    /**
+     * App doesn't have ranks if size == 1.
+     */
+    private var rankDialogItemArray: Array<String> = arrayOf()
 
     private val iconState = IconState()
 
@@ -78,10 +82,10 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
         viewModelScope.launch {
             /**
-             * If first open
+             * If first open.
              */
             if (!::noteItem.isInitialized) {
-                isRankEmpty = iInteractor.isRankEmpty()
+                rankDialogItemArray = iInteractor.getRankDialogItemArray()
 
                 if (id == Default.ID) {
                     noteItem = NoteItem.getCreate(iInteractor.defaultColor, NoteType.ROLL)
@@ -101,12 +105,12 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
                 }
             }
 
-            callback?.setupDialog(iInteractor.getRankDialogItemArray())
+            callback?.setupDialog(rankDialogItemArray)
 
             iconState.notAnimate { onMenuEdit(noteState.isEdit) }
 
             callback?.notifyDataSetChanged(noteItem.rollList)
-            callback?.onBindingLoad(isRankEmpty)
+            callback?.onBindingLoad(rankEmpty = rankDialogItemArray.size == 1)
         }
     }
 

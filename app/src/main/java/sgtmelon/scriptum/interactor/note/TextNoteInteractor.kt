@@ -47,8 +47,6 @@ class TextNoteInteractor(context: Context, private var callback: ITextNoteBridge
     @Color override val defaultColor: Int get() = iPreferenceRepo.defaultColor
 
 
-    override suspend fun isRankEmpty() = iRankRepo.isEmpty()
-
     override suspend fun getItem(id: Long): NoteItem? {
         val item = iNoteRepo.getItem(id, optimisation = false)
 

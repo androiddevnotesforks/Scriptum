@@ -21,11 +21,6 @@ interface ITextNoteInteractor : IParentInteractor {
     @Color val defaultColor: Int
 
 
-    /**
-     * TODO #RELEASE! Optimise and compare with [getRankDialogItemArray]
-     */
-    suspend fun isRankEmpty(): Boolean
-
     suspend fun getItem(id: Long): NoteItem?
 
     suspend fun getRankDialogItemArray(): Array<String>
