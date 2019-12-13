@@ -16,7 +16,7 @@ interface INotificationActivity : INotificationBridge {
 
     fun onBindingList()
 
-    fun startNoteActivity(notificationItem: NotificationItem)
+    fun startNoteActivity(item: NotificationItem)
 
     fun notifyList(list: List<NotificationItem>)
 

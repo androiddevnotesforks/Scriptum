@@ -119,8 +119,8 @@ class NotificationActivity : AppActivity(), INotificationActivity {
         binding?.apply { this.isListEmpty = isListEmpty }?.executePendingBindings()
     }
 
-    override fun startNoteActivity(notificationItem: NotificationItem) {
-        startActivity(NoteActivity[this, notificationItem])
+    override fun startNoteActivity(item: NotificationItem) {
+        startActivity(NoteActivity[this, item])
     }
 
     override fun notifyList(list: List<NotificationItem>) = adapter.notifyList(list)

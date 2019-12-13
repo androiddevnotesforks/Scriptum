@@ -45,10 +45,10 @@ class InputControl : IInputControl {
 
     fun redo(): InputItem? = if (isRedoAccess) inputList[++position] else null
 
-    private fun add(inputItem: InputItem) {
+    private fun add(item: InputItem) {
         if (isEnabled) {
             remove()
-            inputList.add(inputItem)
+            inputList.add(item)
             position++
         }
 

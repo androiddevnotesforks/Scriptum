@@ -154,10 +154,10 @@ class BinFragment : ParentFragment(), IBinFragment {
         recyclerView?.smoothScrollToPosition(0)
     }
 
-    override fun startNoteActivity(noteItem: NoteItem) {
+    override fun startNoteActivity(item: NoteItem) {
         val context = context ?: return
 
-        startActivity(NoteActivity[context, noteItem])
+        startActivity(NoteActivity[context, item])
     }
 
     override fun showOptionsDialog(itemArray: Array<String>, p: Int) {

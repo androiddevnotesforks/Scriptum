@@ -228,8 +228,8 @@ class NotesFragment : ParentFragment(), INotesFragment {
         recyclerView?.smoothScrollToPosition(0)
     }
 
-    override fun startNoteActivity(noteItem: NoteItem) {
-        startActivity(NoteActivity[context ?: return, noteItem])
+    override fun startNoteActivity(item: NoteItem) {
+        startActivity(NoteActivity[context ?: return, item])
     }
 
 

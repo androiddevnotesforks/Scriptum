@@ -27,7 +27,7 @@ interface IAlarmActivity : IAlarmBridge {
 
     fun setupPlayer(volume: Int, increase: Boolean, uri: Uri)
 
-    fun notifyList(noteItem: NoteItem)
+    fun notifyList(item: NoteItem)
 
 
     fun waitLayoutConfigure()
@@ -36,7 +36,7 @@ interface IAlarmActivity : IAlarmBridge {
 
     fun startButtonFadeInAnimation()
 
-    fun startNoteActivity(noteItem: NoteItem)
+    fun startNoteActivity(item: NoteItem)
 
 
     fun melodyStart()

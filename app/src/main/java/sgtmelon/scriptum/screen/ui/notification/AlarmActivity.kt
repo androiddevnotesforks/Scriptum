@@ -145,7 +145,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         setupPlayer(uri, isLooping = true)
     }
 
-    override fun notifyList(noteItem: NoteItem) = adapter.notifyList(arrayListOf(noteItem))
+    override fun notifyList(item: NoteItem) = adapter.notifyList(arrayListOf(item))
 
 
     /**
@@ -174,8 +174,8 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         buttonContainer?.visibility = View.VISIBLE
     }
 
-    override fun startNoteActivity(noteItem: NoteItem) {
-        startActivity(NoteActivity[this, noteItem])
+    override fun startNoteActivity(item: NoteItem) {
+        startActivity(NoteActivity[this, item])
     }
 
 
