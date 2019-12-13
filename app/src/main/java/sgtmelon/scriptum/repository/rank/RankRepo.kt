@@ -21,6 +21,15 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
 
     private val converter = RankConverter()
 
+
+    override suspend fun getCount(): Int {
+        val count: Int
+
+        openRoom().apply { count = iRankDao.getCount() }.close()
+
+        return count
+    }
+
     override suspend fun getList() = ArrayList<RankItem>().apply {
         inRoom { addAll(converter.toItem(iRankDao.get())) }
     }

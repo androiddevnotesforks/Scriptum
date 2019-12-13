@@ -11,9 +11,11 @@ import sgtmelon.scriptum.screen.vm.main.RankViewModel
  */
 interface IRankInteractor : IParentInteractor {
 
-    suspend fun insert(name: String): RankItem
+    suspend fun getCount(): Int
 
     suspend fun getList(): MutableList<RankItem>
+
+    suspend fun insert(name: String): RankItem
 
     suspend fun delete(item: RankItem)
 

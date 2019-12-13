@@ -73,6 +73,7 @@ class NotificationActivity : AppActivity(), INotificationActivity {
         super.onResume()
 
         emptyInfoView?.visibility = View.GONE
+        progressBar?.visibility = View.GONE
 
         openState.clear()
         iViewModel.onUpdateData()

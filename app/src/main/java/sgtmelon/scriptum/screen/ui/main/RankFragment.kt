@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.ProgressBar
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -81,8 +82,9 @@ class RankFragment : ParentFragment(), IRankFragment {
 
     private var nameEnter: EditText? = null
     private var parentContainer: ViewGroup? = null
-    private var emptyInfoView: View? = null
 
+    private var emptyInfoView: View? = null
+    private var progressBar: View? = null
     private var recyclerView: RecyclerView? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -103,6 +105,8 @@ class RankFragment : ParentFragment(), IRankFragment {
         super.onResume()
 
         emptyInfoView?.visibility = View.GONE
+        progressBar?.visibility = View.GONE
+
         iViewModel.onUpdateData()
     }
 
@@ -143,6 +147,7 @@ class RankFragment : ParentFragment(), IRankFragment {
     override fun setupRecycler() {
         parentContainer = view?.findViewById(R.id.rank_parent_container)
         emptyInfoView = view?.findViewById(R.id.rank_info_include)
+        progressBar = view?.findViewById(R.id.rank_progress)
 
         val touchCallback = RankTouchControl(iViewModel)
 
@@ -172,7 +177,13 @@ class RankFragment : ParentFragment(), IRankFragment {
         }
     }
 
+    override fun showProgress() {
+        progressBar?.visibility = View.VISIBLE
+    }
+
     override fun onBindingList() {
+        progressBar?.visibility = View.GONE
+
         val isListEmpty = adapter.itemCount == 0
 
         parentContainer?.createVisibleAnim(emptyInfoView, isListEmpty)

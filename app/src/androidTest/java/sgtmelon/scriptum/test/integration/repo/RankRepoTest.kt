@@ -27,6 +27,13 @@ class RankRepoTest : ParentIntegrationTest()  {
     private val rankConverter = RankConverter()
     private val noteConverter = NoteConverter()
 
+
+    @Test fun getCount() = inRoomTest {
+        assertTrue(iRankRepo.getCount() == 0)
+        iRankRepo.insert(data.uniqueString)
+        assertFalse(iRankRepo.getCount() == 0)
+    }
+
     @Test fun getList() = inRoomTest {
         val list = mutableListOf<RankItem>()
 

@@ -26,6 +26,10 @@ interface IRankDao {
     suspend fun update(list: List<RankEntity>)
 
 
+
+    @Query(value = "SELECT COUNT(RK_ID) FROM RANK_TABLE")
+    suspend fun getCount(): Int
+
     @Query(value = "SELECT * FROM RANK_TABLE WHERE RK_ID == :id")
     suspend fun get(id: Long): RankEntity?
 

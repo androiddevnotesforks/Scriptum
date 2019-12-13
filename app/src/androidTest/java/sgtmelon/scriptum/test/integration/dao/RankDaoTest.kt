@@ -80,6 +80,10 @@ class RankDaoTest : ParentIntegrationTest() {
     }
 
 
+    @Test fun getCount() = inRankDao {
+        assertEquals(insertAll().size, getCount())
+    }
+
     @Test fun getOnWrongId() = inRankDao { assertNull(get(Random.nextLong())) }
 
     @Test fun getOnCorrectId() = inRankDao {
