@@ -58,7 +58,7 @@ class NoteAdapter(
 
     override fun getItemViewType(position: Int) = list[position].type.ordinal
 
-    fun notifyData(list: List<NoteItem>) {
+    override fun notifyList(list: List<NoteItem>) {
         diff.setList(this.list, list)
 
         val diffResult = DiffUtil.calculateDiff(diff)

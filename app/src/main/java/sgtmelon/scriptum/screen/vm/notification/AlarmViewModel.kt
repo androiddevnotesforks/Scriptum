@@ -84,7 +84,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
             val noteItem = noteItem ?: return@launch
 
             callback?.apply {
-                notifyDataSetChanged(noteItem)
+                notifyList(noteItem)
                 waitLayoutConfigure()
             }
         }

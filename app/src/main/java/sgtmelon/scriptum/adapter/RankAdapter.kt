@@ -3,13 +3,11 @@ package sgtmelon.scriptum.adapter
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.adapter.diff.NoteDiff
 import sgtmelon.scriptum.adapter.diff.RankDiff
 import sgtmelon.scriptum.adapter.holder.RankHolder
 import sgtmelon.scriptum.extension.clearAndAdd
 import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.listener.ItemListener
-import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.screen.ui.main.RankFragment
 
@@ -43,7 +41,7 @@ class RankAdapter(
         if (startAnim[position]) startAnim[position] = false
     }
 
-    fun notifyList(list: List<RankItem>) {
+    override fun notifyList(list: List<RankItem>) {
         diff.setList(this.list, list)
 
         val diffResult = DiffUtil.calculateDiff(diff)

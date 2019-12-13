@@ -38,7 +38,7 @@ class NotificationViewModel(application: Application) :
             itemList.clearAndAdd(iInteractor.getList())
 
             callback?.apply {
-                notifyDataSetChanged(itemList)
+                notifyList(itemList)
                 onBindingList()
             }
         }
@@ -55,7 +55,7 @@ class NotificationViewModel(application: Application) :
 
         callback?.apply {
             notifyInfoBind(itemList.size)
-            notifyItemRemoved(p, itemList)
+            notifyList(itemList)
         }
     }
 

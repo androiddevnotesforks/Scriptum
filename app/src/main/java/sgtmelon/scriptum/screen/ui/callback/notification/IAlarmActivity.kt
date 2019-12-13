@@ -27,7 +27,7 @@ interface IAlarmActivity : IAlarmBridge {
 
     fun setupPlayer(volume: Int, increase: Boolean, uri: Uri)
 
-    fun notifyDataSetChanged(noteItem: NoteItem)
+    fun notifyList(noteItem: NoteItem)
 
 
     fun waitLayoutConfigure()

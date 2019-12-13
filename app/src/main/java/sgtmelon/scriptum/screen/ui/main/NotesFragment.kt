@@ -33,7 +33,6 @@ import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.ui.notification.NotificationActivity
 import sgtmelon.scriptum.screen.ui.preference.PreferenceActivity
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * Fragment which displays list of notes - [NoteItem]
@@ -255,7 +254,7 @@ class NotesFragment : ParentFragment(), INotesFragment {
         }
     }
 
-    override fun notifyList(list: List<NoteItem>) = adapter.notifyData(list)
+    override fun notifyList(list: List<NoteItem>) = adapter.notifyList(list)
 
 
     override fun cancelAlarm(id: Long) = iAlarmControl.cancel(id)

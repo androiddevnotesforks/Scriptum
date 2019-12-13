@@ -123,11 +123,7 @@ class NotificationActivity : AppActivity(), INotificationActivity {
         startActivity(NoteActivity[this, notificationItem])
     }
 
-    override fun notifyDataSetChanged(list: MutableList<NotificationItem>) =
-            adapter.notifyDataSetChanged(list)
-
-    override fun notifyItemRemoved(p: Int, list: MutableList<NotificationItem>) =
-            adapter.notifyItemRemoved(p, list)
+    override fun notifyList(list: List<NotificationItem>) = adapter.notifyList(list)
 
 
     override fun cancelAlarm(id: Long) = iAlarmControl.cancel(id)

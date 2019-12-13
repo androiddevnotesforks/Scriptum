@@ -145,9 +145,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         setupPlayer(uri, isLooping = true)
     }
 
-    override fun notifyDataSetChanged(noteItem: NoteItem) {
-        adapter.notifyData(arrayListOf(noteItem))
-    }
+    override fun notifyList(noteItem: NoteItem) = adapter.notifyList(arrayListOf(noteItem))
 
 
     /**
