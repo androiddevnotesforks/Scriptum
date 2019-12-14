@@ -102,7 +102,7 @@ class TextNoteScreen(
         /**
          * TODO #TEST height attr assert
          */
-        toolbarHolder.withBackgroundAttr(R.attr.clPrimary)
+        toolbarHolder.withBackgroundAppColor(theme, noteItem.color, needDark = false)
         panelHolder.withBackgroundAttr(R.attr.clPrimary)
                 .withSize(heightId = R.dimen.note_panel_height)
 
