@@ -2,11 +2,7 @@ package sgtmelon.scriptum.screen.vm
 
 import android.app.Application
 import android.os.Bundle
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.launch
-import sgtmelon.scriptum.interactor.BindInteractor
 import sgtmelon.scriptum.interactor.SplashInteractor
-import sgtmelon.scriptum.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.interactor.callback.ISplashInteractor
 import sgtmelon.scriptum.model.annotation.OpenFrom
 import sgtmelon.scriptum.model.data.NoteData
@@ -21,16 +17,9 @@ import sgtmelon.scriptum.screen.vm.callback.ISplashViewModel
 class SplashViewModel(application: Application) : ParentViewModel<ISplashActivity>(application),
         ISplashViewModel {
 
-    private val iInteractor: ISplashInteractor by lazy { SplashInteractor(context, callback) }
-    private val iBindInteractor: IBindInteractor by lazy { BindInteractor(context) }
+    private val iInteractor: ISplashInteractor by lazy { SplashInteractor(context) }
 
     override fun onSetup(bundle: Bundle?) {
-        viewModelScope.launch {
-            iInteractor.tidyUpAlarm()
-            iBindInteractor.notifyNoteBind(callback)
-            iBindInteractor.notifyInfoBind(callback)
-        }
-
         if (bundle == null) {
             onSimpleStart()
         } else {

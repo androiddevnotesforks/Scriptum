@@ -15,11 +15,16 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.ShowHolderControl
+import sgtmelon.scriptum.control.alarm.AlarmControl
+import sgtmelon.scriptum.control.bind.BindControl
+import sgtmelon.scriptum.control.bind.IBindControl
 import sgtmelon.scriptum.extension.hideKeyboard
+import sgtmelon.scriptum.extension.initLazy
 import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.factory.FragmentFactory
 import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.model.data.ReceiverData
+import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.OpenState
@@ -27,6 +32,7 @@ import sgtmelon.scriptum.receiver.MainReceiver
 import sgtmelon.scriptum.screen.ui.AppActivity
 import sgtmelon.scriptum.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
+import java.util.*
 
 /**
  * Screen which displays main menu and fragments: [RankFragment], [NotesFragment], [BinFragment]
@@ -35,6 +41,8 @@ class MainActivity : AppActivity(), IMainActivity {
 
     private val iViewModel by lazy { ViewModelFactory.getMainViewModel(activity = this) }
 
+    private val iAlarmControl by lazy { AlarmControl[this] }
+    private val iBindControl: IBindControl by lazy { BindControl(context = this) }
     private val holderControl by lazy { ShowHolderControl(arrayOf(toolbarHolder)) }
 
     private val mainReceiver by lazy { MainReceiver(iViewModel) }
@@ -55,6 +63,9 @@ class MainActivity : AppActivity(), IMainActivity {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        iAlarmControl.initLazy()
+        iBindControl.initLazy()
 
         openState.get(savedInstanceState)
         iViewModel.onSetup(savedInstanceState)
@@ -177,6 +188,19 @@ class MainActivity : AppActivity(), IMainActivity {
     override fun startNoteActivity(noteType: NoteType) = openState.tryInvoke {
         startActivity(NoteActivity[this, noteType])
     }
+
+
+    override fun setAlarm(calendar: Calendar, id: Long) {
+        iAlarmControl.set(calendar, id, showToast = false)
+    }
+
+    override fun cancelAlarm(id: Long) = iAlarmControl.cancel(id)
+
+    override fun notifyNoteBind(item: NoteItem, rankIdVisibleList: List<Long>) {
+        iBindControl.notifyNote(item, rankIdVisibleList)
+    }
+
+    override fun notifyInfoBind(count: Int) = iBindControl.notifyInfo(count)
 
 
     override fun onReceiveUnbindNote(id: Long) = notesFragment.onReceiveUnbindNote(id)

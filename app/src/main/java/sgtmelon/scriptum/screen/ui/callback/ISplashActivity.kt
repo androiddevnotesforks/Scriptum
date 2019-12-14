@@ -8,7 +8,7 @@ import sgtmelon.scriptum.screen.vm.SplashViewModel
 /**
  * Interface for communication [SplashViewModel] with [SplashActivity]
  */
-interface ISplashActivity : ISplashBridge {
+interface ISplashActivity {
 
     fun startIntroActivity()
 

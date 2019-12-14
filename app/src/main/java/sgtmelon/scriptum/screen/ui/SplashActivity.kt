@@ -6,12 +6,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.control.alarm.AlarmControl
-import sgtmelon.scriptum.control.bind.BindControl
-import sgtmelon.scriptum.control.bind.IBindControl
 import sgtmelon.scriptum.extension.beforeFinish
 import sgtmelon.scriptum.extension.hideKeyboard
-import sgtmelon.scriptum.extension.initLazy
 import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.OpenFrom
@@ -24,7 +20,6 @@ import sgtmelon.scriptum.screen.ui.main.MainActivity
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
 import sgtmelon.scriptum.screen.ui.notification.NotificationActivity
-import java.util.*
 
 /**
  * Start screen of application
@@ -37,14 +32,8 @@ class SplashActivity : AppCompatActivity(), ISplashActivity {
 
     private val iViewModel by lazy { ViewModelFactory.getSplashViewModel(activity = this) }
 
-    private val iAlarmControl by lazy { AlarmControl[this] }
-    private val iBindControl: IBindControl by lazy { BindControl(context = this) }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        iAlarmControl.initLazy()
-        iBindControl.initLazy()
 
         /**
          * If keyboard was open in another app
@@ -80,18 +69,6 @@ class SplashActivity : AppCompatActivity(), ISplashActivity {
         startActivities(arrayOf(MainActivity[this], NotificationActivity[this]))
     }
 
-
-    override fun setAlarm(calendar: Calendar, id: Long) {
-        iAlarmControl.set(calendar, id, showToast = false)
-    }
-
-    override fun cancelAlarm(id: Long) = iAlarmControl.cancel(id)
-
-    override fun notifyNoteBind(item: NoteItem, rankIdVisibleList: List<Long>) {
-        iBindControl.notifyNote(item, rankIdVisibleList)
-    }
-
-    override fun notifyInfoBind(count: Int) = iBindControl.notifyInfo(count)
 
     companion object {
         fun getAlarmInstance(context: Context, id: Long): Intent =

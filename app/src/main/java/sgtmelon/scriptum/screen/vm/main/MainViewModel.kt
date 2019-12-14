@@ -4,7 +4,13 @@ import android.app.Application
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.annotation.IdRes
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.interactor.BindInteractor
+import sgtmelon.scriptum.interactor.callback.IBindInteractor
+import sgtmelon.scriptum.interactor.callback.main.IMainInteractor
+import sgtmelon.scriptum.interactor.main.MainInteractor
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.screen.ui.callback.main.IMainActivity
@@ -18,6 +24,9 @@ import sgtmelon.scriptum.screen.vm.callback.main.IMainViewModel
 class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(application),
         IMainViewModel {
 
+    private val iInteractor: IMainInteractor by lazy { MainInteractor(context, callback) }
+    private val iBindInteractor: IBindInteractor by lazy { BindInteractor(context) }
+
     /**
      * Key for detect application start and pageTo == [pageFrom] inside [onSelectItem]
      */
@@ -26,9 +35,15 @@ class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(a
     private var pageFrom: MainPage = START_PAGE
 
     override fun onSetup(bundle: Bundle?) {
-        bundle?.let {
-            firstStart = it.getBoolean(FIRST_START)
-            pageFrom = MainPage.values()[it.getInt(PAGE_CURRENT)]
+        if (bundle == null) {
+            viewModelScope.launch {
+                iInteractor.tidyUpAlarm()
+                iBindInteractor.notifyNoteBind(callback)
+                iBindInteractor.notifyInfoBind(callback)
+            }
+        } else {
+            firstStart = bundle.getBoolean(FIRST_START)
+            pageFrom = MainPage.values()[bundle.getInt(PAGE_CURRENT)]
         }
 
         callback?.setupNavigation(pageFrom.getMenuId())

@@ -10,7 +10,7 @@ import sgtmelon.scriptum.screen.vm.main.MainViewModel
 /**
  * Interface for communication [MainViewModel] with [MainActivity]
  */
-interface IMainActivity {
+interface IMainActivity : IMainBridge {
 
     val openState: OpenState
 
