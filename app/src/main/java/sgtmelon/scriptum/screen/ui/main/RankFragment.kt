@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageButton
-import android.widget.ProgressBar
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -216,7 +215,7 @@ class RankFragment : ParentFragment(), IRankFragment {
         openState?.clear()
 
         if (list.size == 1) {
-            adapter.notifyList(list)
+            adapter.setList(list).notifyItemInserted(0)
             onBindingList()
         } else {
             val fastScroll = with(layoutManager) {
@@ -229,11 +228,11 @@ class RankFragment : ParentFragment(), IRankFragment {
 
             if (fastScroll) {
                 recyclerView?.scrollToPosition(p)
+                adapter.setList(list).notifyItemInserted(p)
             } else {
                 recyclerView?.smoothScrollToPosition(p)
+                adapter.setList(list).notifyDataSetChanged()
             }
-
-            adapter.notifyList(list)
         }
     }
 
@@ -248,11 +247,19 @@ class RankFragment : ParentFragment(), IRankFragment {
 
     override fun notifyList(list: List<RankItem>) = adapter.notifyList(list)
 
-    override fun notifyList(list: List<RankItem>, startAnim: BooleanArray) {
-        adapter.notifyList(list, startAnim)
+    override fun notifyDataSetChanged(list: List<RankItem>, startAnim: BooleanArray) {
+        adapter.setList(list).apply { this.startAnim = startAnim }.notifyDataSetChanged()
     }
 
-    override fun notifyList(list: List<RankItem>, from: Int, to: Int) {
+    override fun notifyItemChanged(list: List<RankItem>, p: Int) {
+        adapter.setList(list).notifyItemChanged(p)
+    }
+
+    override fun notifyItemRemoved(list: List<RankItem>, p: Int) {
+        adapter.setList(list).notifyItemRemoved(p)
+    }
+
+    override fun notifyItemMoved(list: List<RankItem>, from: Int, to: Int) {
         adapter.setList(list).notifyItemMoved(from, to)
     }
 

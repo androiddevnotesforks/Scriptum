@@ -32,18 +32,6 @@ class RankAdapter(
         this.startAnim = BooleanArray(list.size)
     }
 
-    fun setList(list: List<RankItem>, startAnim: BooleanArray) = apply {
-        super.setList(list)
-
-        this.list.clearAndAdd(ArrayList(list.map { it.copy() }))
-        this.startAnim = startAnim
-    }
-
-    fun notifyList(list: List<RankItem>, startAnim: BooleanArray) {
-        setList(list, startAnim)
-        notifyDataSetChanged()
-    }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RankHolder {
         return RankHolder(

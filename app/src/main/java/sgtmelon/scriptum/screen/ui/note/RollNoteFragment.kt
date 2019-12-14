@@ -361,7 +361,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment, NoteReceiver.Callb
 
         if (fastScroll) {
             recyclerView?.scrollToPosition(p)
-            notifyItemInserted(list, p, cursor = null)
+            adapter.setList(list).notifyItemInserted(p)
         } else {
             recyclerView?.smoothScrollToPosition(p)
             adapter.setList(list).notifyDataSetChanged()
@@ -394,12 +394,8 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment, NoteReceiver.Callb
         adapter.setList(list).notifyItemMoved(from, to)
     }
 
-    override fun notifyItemInserted(list: List<RollItem>, p: Int, cursor: Int?) {
-        adapter.setList(list)
-
-        if (cursor != null) adapter.cursorPosition = cursor
-
-        adapter.notifyItemInserted(p)
+    override fun notifyItemInserted(list: List<RollItem>, p: Int, cursor: Int) {
+        adapter.apply { cursorPosition = cursor }.setList(list).notifyItemInserted(p)
     }
 
     override fun notifyItemRemoved(list: List<RollItem>, p: Int) {

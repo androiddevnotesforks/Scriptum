@@ -77,7 +77,7 @@ interface IRollNoteFragment : IRollNoteBridge {
 
     fun notifyItemMoved(list: List<RollItem>, from: Int, to: Int)
 
-    fun notifyItemInserted(list: List<RollItem>, p: Int, cursor: Int?)
+    fun notifyItemInserted(list: List<RollItem>, p: Int, cursor: Int)
 
     fun notifyItemRemoved(list: List<RollItem>, p: Int)
 
