@@ -20,6 +20,9 @@ interface INotificationActivity : INotificationBridge {
 
     fun startNoteActivity(item: NotificationItem)
 
+
     fun notifyList(list: List<NotificationItem>)
+
+    fun notifyItemRemoved(list: List<NotificationItem>, p: Int)
 
 }

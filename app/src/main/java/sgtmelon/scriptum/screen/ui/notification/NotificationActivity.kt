@@ -131,8 +131,12 @@ class NotificationActivity : AppActivity(), INotificationActivity {
         startActivity(NoteActivity[this, item])
     }
 
+
     override fun notifyList(list: List<NotificationItem>) = adapter.notifyList(list)
 
+    override fun notifyItemRemoved(list: List<NotificationItem>, p: Int) {
+        adapter.setList(list).notifyItemRemoved(p)
+    }
 
     override fun cancelAlarm(id: Long) = iAlarmControl.cancel(id)
 

@@ -65,7 +65,7 @@ class NotificationViewModel(application: Application) :
 
         callback?.apply {
             notifyInfoBind(itemList.size)
-            notifyList(itemList)
+            notifyItemRemoved(itemList, p)
         }
     }
 
