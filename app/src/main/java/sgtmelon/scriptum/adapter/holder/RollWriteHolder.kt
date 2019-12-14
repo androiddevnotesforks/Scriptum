@@ -60,7 +60,6 @@ class RollWriteHolder(
      * TODO #ERROR error on fast add/remove
      * java.lang.IndexOutOfBoundsException: setSpan (6 ... 6) ends beyond length 5
      */
-
     fun setSelections(@IntRange(from = 0) position: Int) = rollEnter.apply {
         requestFocus()
         setSelection(if (position > text.toString().length) text.toString().length else position)
@@ -98,8 +97,9 @@ class RollWriteHolder(
         }
     }
 
-    override fun afterTextChanged(s: Editable) =
-            callback.onInputRollChange(adapterPosition, s.toString())
+    override fun afterTextChanged(s: Editable) {
+        callback.onInputRollChange(adapterPosition, s.toString())
+    }
 
     interface Callback {
         fun onInputRollChange(p: Int, text: String)

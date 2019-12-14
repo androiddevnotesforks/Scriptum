@@ -176,7 +176,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         val colorFrom = noteItem.color
         noteItem = restoreItem.deepCopy()
 
-        callback?.notifyList(noteItem.rollList)
+        callback?.notifyDataSetChanged(noteItem.rollList)
         onMenuEdit(isEdit = false)
         callback?.tintToolbar(colorFrom, noteItem.color)
 
@@ -373,7 +373,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
                 InputAction.NAME -> callback?.changeName(item[isUndo], cursor = item.cursor[isUndo])
                 InputAction.ROLL -> {
                     rollList[item.p].text = item[isUndo]
-                    callback?.notifyList(rollList, item.cursor[isUndo])
+                    callback?.notifyItemChanged(rollList, item.p, item.cursor[isUndo])
                 }
                 InputAction.ROLL_ADD, InputAction.ROLL_REMOVE -> {
                     val isAddUndo = isUndo && item.tag == InputAction.ROLL_ADD
@@ -381,12 +381,12 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
                     if (isAddUndo || isRemoveRedo) {
                         rollList.removeAt(item.p)
-                        callback?.notifyList(rollList)
+                        callback?.notifyItemRemoved(rollList, item.p)
                     } else {
                         val rollItem = RollItem[item[isUndo]]
                         if (rollItem != null) {
                             rollList.add(item.p, rollItem)
-                            callback?.notifyList(rollList, rollItem.text.length)
+                            callback?.notifyItemInserted(rollList, item.p, rollItem.text.length)
                         }
                     }
                 }
@@ -395,7 +395,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
                     val to = item[isUndo].toInt()
 
                     rollList.move(from, to)
-                    callback?.notifyList(rollList)
+                    callback?.notifyItemMoved(rollList, from, to)
                 }
             }
         }
@@ -507,7 +507,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
                 get(p).text = text
             }
 
-            notifyList(list)
+            setList(list)
             onBindingInput(noteItem, inputControl.access)
         }
     }
@@ -534,7 +534,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
         callback?.apply {
             onBindingInput(noteItem, inputControl.access)
-            notifyList(noteItem.rollList)
+            notifyItemRemoved(noteItem.rollList, p)
         }
     }
 
@@ -543,7 +543,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
      * to control in Edit.
      */
     override fun onTouchMove(from: Int, to: Int): Boolean {
-        callback?.notifyList(noteItem.rollList.apply { move(from, to) }, from, to)
+        callback?.notifyItemMoved(noteItem.rollList.apply { move(from, to) }, from, to)
         return true
     }
 

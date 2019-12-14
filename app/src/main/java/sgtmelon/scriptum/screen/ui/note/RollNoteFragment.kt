@@ -361,11 +361,11 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment, NoteReceiver.Callb
 
         if (fastScroll) {
             recyclerView?.scrollToPosition(p)
+            notifyItemInserted(list, p, cursor = null)
         } else {
             recyclerView?.smoothScrollToPosition(p)
+            adapter.setList(list).notifyDataSetChanged()
         }
-
-        adapter.notifyList(list)
     }
 
     override fun changeCheckToggle(state: Boolean) {
@@ -382,15 +382,29 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment, NoteReceiver.Callb
 
     override fun notifyList(list: List<RollItem>) = adapter.notifyList(list)
 
-    override fun notifyList(list: List<RollItem>, cursor: Int) {
-        adapter.cursorPosition = cursor
-        adapter.notifyList(list)
+    override fun notifyDataSetChanged(list: List<RollItem>) {
+        adapter.setList(list).notifyDataSetChanged()
     }
 
-    override fun notifyList(list: List<RollItem>, from: Int, to: Int) {
+    override fun notifyItemChanged(list: List<RollItem>, p: Int, cursor: Int) {
+        adapter.setList(list).apply { cursorPosition = cursor }.notifyItemChanged(p)
+    }
+
+    override fun notifyItemMoved(list: List<RollItem>, from: Int, to: Int) {
         adapter.setList(list).notifyItemMoved(from, to)
     }
 
+    override fun notifyItemInserted(list: List<RollItem>, p: Int, cursor: Int?) {
+        adapter.setList(list)
+
+        if (cursor != null) adapter.cursorPosition = cursor
+
+        adapter.notifyItemInserted(p)
+    }
+
+    override fun notifyItemRemoved(list: List<RollItem>, p: Int) {
+        adapter.setList(list).notifyItemRemoved(p)
+    }
 
     override fun showRankDialog(check: Int) = openState.tryInvoke {
         hideKeyboard()
