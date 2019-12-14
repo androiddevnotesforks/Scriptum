@@ -179,11 +179,20 @@ class BinFragment : ParentFragment(), IBinFragment {
         }
     }
 
+
     override fun notifyMenuClearBin() {
         itemClearBin?.isVisible = adapter.itemCount != 0
     }
 
     override fun notifyList(list: List<NoteItem>) = adapter.notifyList(list)
+
+    override fun notifyDataSetChanged(list: List<NoteItem>) {
+        adapter.setList(list).notifyDataSetChanged()
+    }
+
+    override fun notifyItemRemoved(list: List<NoteItem>, p: Int) {
+        adapter.setList(list).notifyItemRemoved(p)
+    }
 
 
     override fun copyClipboard(text: String) = iClipboardControl.copy(text)

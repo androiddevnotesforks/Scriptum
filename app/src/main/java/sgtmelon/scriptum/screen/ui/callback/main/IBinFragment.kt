@@ -24,8 +24,13 @@ interface IBinFragment : IBinBridge{
 
     fun showOptionsDialog(itemArray: Array<String>, p: Int)
 
+
     fun notifyMenuClearBin()
 
     fun notifyList(list: List<NoteItem>)
+
+    fun notifyDataSetChanged(list: List<NoteItem>)
+
+    fun notifyItemRemoved(list: List<NoteItem>, p: Int)
 
 }

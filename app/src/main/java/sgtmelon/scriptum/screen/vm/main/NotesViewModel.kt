@@ -97,12 +97,12 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
             Options.NOTIFICATION -> itemList[p].let {
                 callback?.showDateDialog(it.alarmDate.getCalendar(), it.haveAlarm(), p)
             }
-            Options.BIND -> callback?.notifyList(onMenuBind(p))
+            Options.BIND -> callback?.notifyItemChanged(onMenuBind(p), p)
             Options.CONVERT -> viewModelScope.launch {
-                callback?.notifyList(onMenuConvert(p))
+                callback?.notifyItemChanged(onMenuConvert(p), p)
             }
             Options.COPY -> viewModelScope.launch { iInteractor.copy(itemList[p]) }
-            Options.DELETE -> callback?.notifyList(onMenuDelete(p))
+            Options.DELETE -> callback?.notifyItemRemoved(onMenuDelete(p), p)
         }
     }
 
@@ -137,7 +137,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
 
         noteItem.clearAlarm()
 
-        callback?.notifyList(itemList)
+        callback?.notifyItemChanged(itemList, p)
     }
 
     override fun onResultTimeDialog(calendar: Calendar, p: Int) {
@@ -145,7 +145,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
 
         viewModelScope.launch {
             iInteractor.setDate(itemList[p], calendar)
-            callback?.notifyList(itemList)
+            callback?.notifyItemChanged(itemList, p)
 
             iBindInteractor.notifyInfoBind(callback)
         }
@@ -160,7 +160,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
         val noteItem = itemList.getOrNull(p) ?: return
 
         noteItem.isStatus = false
-        callback?.notifyList(itemList)
+        callback?.notifyItemChanged(itemList, p)
     }
 
     /**
@@ -178,7 +178,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
                 alarmDate = notificationItem.alarm.date
             }
 
-            callback?.notifyList(itemList)
+            callback?.notifyItemChanged(itemList, p)
         }
     }
 

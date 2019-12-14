@@ -38,4 +38,8 @@ interface INotesFragment : INotesBridge {
 
     fun notifyList(list: List<NoteItem>)
 
+    fun notifyItemChanged(list: List<NoteItem>, p: Int)
+
+    fun notifyItemRemoved(list: List<NoteItem>, p: Int)
+
 }

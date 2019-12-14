@@ -265,8 +265,16 @@ class NotesFragment : ParentFragment(), INotesFragment, MainReceiver.Callback {
         }
     }
 
+
     override fun notifyList(list: List<NoteItem>) = adapter.notifyList(list)
 
+    override fun notifyItemChanged(list: List<NoteItem>, p: Int) {
+        adapter.setList(list).notifyItemChanged(p)
+    }
+
+    override fun notifyItemRemoved(list: List<NoteItem>, p: Int) {
+        adapter.setList(list).notifyItemRemoved(p)
+    }
 
     override fun cancelAlarm(id: Long) = iAlarmControl.cancel(id)
 
