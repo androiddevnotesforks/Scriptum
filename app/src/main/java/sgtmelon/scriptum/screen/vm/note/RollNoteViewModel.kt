@@ -109,7 +109,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
             iconState.notAnimate { onMenuEdit(noteState.isEdit) }
 
-            callback?.notifyList(noteItem.rollList)
+            callback?.notifyDataSetChanged(noteItem.rollList)
             callback?.onBindingLoad(rankEmpty = rankDialogItemArray.size == 1)
         }
     }
@@ -228,7 +228,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     override fun onClickItemCheck(p: Int) {
         noteItem.onItemCheck(p)
 
-        callback?.notifyList(noteItem.rollList)
+        callback?.notifyItemChanged(noteItem.rollList, p, cursor = null)
 
         viewModelScope.launch { iInteractor.updateRollCheck(noteItem, p) }
     }
@@ -238,7 +238,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
         callback?.apply {
             changeCheckToggle(state = true)
-            notifyList(noteItem.rollList)
+            notifyDataSetChanged(noteItem.rollList)
             changeCheckToggle(state = false)
         }
 

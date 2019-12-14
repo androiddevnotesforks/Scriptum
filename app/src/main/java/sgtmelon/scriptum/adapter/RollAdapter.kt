@@ -4,11 +4,9 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.adapter.diff.RollDiff
 import sgtmelon.scriptum.adapter.holder.RollReadHolder
 import sgtmelon.scriptum.adapter.holder.RollWriteHolder
 import sgtmelon.scriptum.control.input.IInputControl
-import sgtmelon.scriptum.extension.clearAndAdd
 import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.item.RollItem
@@ -22,7 +20,7 @@ class RollAdapter(
         private val rollWriteCallback: RollWriteHolder.Callback,
         private val clickListener: ItemListener.Click,
         private val longClickListener: ItemListener.LongClick
-) : ParentDiffAdapter<RollItem, RollDiff, RecyclerView.ViewHolder>() {
+) : ParentAdapter<RollItem, RecyclerView.ViewHolder>() {
 
     var dragListener: ItemListener.Drag? = null
     var iInputControl: IInputControl? = null
@@ -37,15 +35,6 @@ class RollAdapter(
      */
     var checkToggle: Boolean = false
     var cursorPosition = ND_CURSOR
-
-
-    override val diff = RollDiff()
-
-    override fun setList(list: List<RollItem>) = apply {
-        super.setList(list)
-        this.list.clearAndAdd(ArrayList(list.map { it.copy() }))
-    }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == TYPE_READ) {

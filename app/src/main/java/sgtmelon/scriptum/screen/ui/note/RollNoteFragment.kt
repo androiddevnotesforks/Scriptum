@@ -380,14 +380,14 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment, NoteReceiver.Callb
         adapter.setList(list)
     }
 
-    override fun notifyList(list: List<RollItem>) = adapter.notifyList(list)
-
     override fun notifyDataSetChanged(list: List<RollItem>) {
         adapter.setList(list).notifyDataSetChanged()
     }
 
-    override fun notifyItemChanged(list: List<RollItem>, p: Int, cursor: Int) {
-        adapter.setList(list).apply { cursorPosition = cursor }.notifyItemChanged(p)
+    override fun notifyItemChanged(list: List<RollItem>, p: Int, cursor: Int?) {
+        if (cursor != null) adapter.cursorPosition = cursor
+
+        adapter.setList(list).notifyItemChanged(p)
     }
 
     override fun notifyItemMoved(list: List<RollItem>, from: Int, to: Int) {

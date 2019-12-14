@@ -71,11 +71,9 @@ interface IRollNoteFragment : IRollNoteBridge {
 
     fun setList(list: List<RollItem>)
 
-    fun notifyList(list: List<RollItem>)
-
     fun notifyDataSetChanged(list: List<RollItem>)
 
-    fun notifyItemChanged(list: List<RollItem>, p: Int, cursor: Int)
+    fun notifyItemChanged(list: List<RollItem>, p: Int, cursor: Int?)
 
     fun notifyItemMoved(list: List<RollItem>, from: Int, to: Int)
 
