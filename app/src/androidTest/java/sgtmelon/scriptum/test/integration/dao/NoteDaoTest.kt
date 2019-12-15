@@ -82,8 +82,16 @@ class NoteDaoTest : ParentIntegrationTest() {
 
 
     @Test fun getCount() = inNoteDao {
-        getCount(bin = false, rankIdList = listOf())
-        TODO(reason = "#TEST write test")
+        assertEquals(0, getCount(bin = false, rankIdList = listOf()))
+        assertEquals(0, getCount(bin = true, rankIdList = listOf()))
+
+        insert(noteFirst)
+        insert(noteSecond)
+        insert(noteThird)
+
+        assertEquals(1, getCount(bin = false, rankIdList = listOf()))
+        assertEquals(2, getCount(bin = false, rankIdList = listOf(2)))
+        assertEquals(1, getCount(bin = true, rankIdList = listOf(1)))
     }
 
     @Test fun getByWrongId() = inNoteDao { assertNull(get(Random.nextLong())) }
@@ -153,13 +161,13 @@ class NoteDaoTest : ParentIntegrationTest() {
         insertAllTo(bin = false)
 
         assertEquals(arrayListOf(
-                noteSecond.copy(isBin = false), noteFirst, noteThird
+                noteFirst, noteSecond.copy(isBin = false), noteThird
         ), getByRank(bin = false))
 
         updateAllTo(bin = true)
 
         assertEquals(arrayListOf(
-                noteSecond, noteFirst.copy(isBin = true), noteThird.copy(isBin = true)
+                noteFirst.copy(isBin = true), noteSecond, noteThird.copy(isBin = true)
         ), getByRank(bin = true))
     }
 
@@ -181,17 +189,17 @@ class NoteDaoTest : ParentIntegrationTest() {
     private companion object {
         val noteFirst = NoteEntity(
                 id = 1, create = DATE_1, change = DATE_2, text = "123", name = "456",
-                color = 1, type = NoteType.TEXT, rankPs = 1
+                color = 1, type = NoteType.TEXT, rankId = -1, rankPs = -1, isBin = false
         )
 
         val noteSecond = NoteEntity(
                 id = 2, create = DATE_2, change = DATE_3, text = "654", name = "321",
-                color = 1, type = NoteType.TEXT, rankPs = 1, isBin = true
+                color = 1, type = NoteType.TEXT, rankId = 1, rankPs = 1, isBin = true
         )
 
         val noteThird = NoteEntity(
                 id = 3, create = DATE_3, change = DATE_4, text = "123", name = "",
-                color = 3, type = NoteType.TEXT, rankPs = 2
+                color = 3, type = NoteType.TEXT, rankId = 2, rankPs = 2, isBin = false
         )
     }
 
