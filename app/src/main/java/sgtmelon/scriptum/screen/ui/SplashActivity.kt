@@ -73,7 +73,7 @@ class SplashActivity : AppCompatActivity(), ISplashActivity {
     companion object {
         fun getAlarmInstance(context: Context, id: Long): Intent =
                 Intent(context, SplashActivity::class.java)
-                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                         .putExtra(OpenFrom.INTENT_KEY, OpenFrom.ALARM)
                         .putExtra(NoteData.Intent.ID, id)
 
