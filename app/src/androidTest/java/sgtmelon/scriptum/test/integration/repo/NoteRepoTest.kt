@@ -33,8 +33,23 @@ class NoteRepoTest : ParentIntegrationTest()  {
     private val rollConverter = RollConverter()
 
     @Test fun getCount() = inRoomTest {
-        iNoteRepo.getCount(bin = true)
-        TODO(reason = "#TEST write test")
+        assertEquals(0, iNoteRepo.getCount(bin = false))
+        assertEquals(0, iNoteRepo.getCount(bin = true))
+
+        iNoteDao.insert(noteFirst)
+        iNoteDao.insert(noteSecond)
+        iNoteDao.insert(noteThird)
+        iNoteDao.insert(noteFourth)
+
+        iRankDao.insert(rankFirst)
+        iRankDao.insert(rankSecond)
+
+        assertEquals(2, iNoteRepo.getCount(bin = false))
+        assertEquals(2, iNoteRepo.getCount(bin = true))
+
+        iRankDao.update(rankFirst.copy(isVisible = false))
+
+        assertEquals(1, iNoteRepo.getCount(bin = false))
     }
 
     @Test fun getList() = inRoomTest {
