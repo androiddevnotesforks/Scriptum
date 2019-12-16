@@ -16,6 +16,7 @@ import sgtmelon.scriptum.interactor.main.NotesInteractor
 import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.NoteType
+import sgtmelon.scriptum.room.dao.INoteDao
 import sgtmelon.scriptum.screen.ui.callback.main.INotesFragment
 import sgtmelon.scriptum.screen.ui.main.NotesFragment
 import sgtmelon.scriptum.screen.vm.ParentViewModel
@@ -202,8 +203,9 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
 
 
     companion object {
-
         /**
+         * Sort must be like in [INoteDao] queries.
+         *
          * [1]  - Move to end of list;
          * [-1] - Move to start of list;
          * [0]  - Not move.
