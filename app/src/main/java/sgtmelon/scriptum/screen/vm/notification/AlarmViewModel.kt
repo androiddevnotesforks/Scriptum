@@ -76,6 +76,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
                     noteItem = it
                 } ?: run {
                     callback?.finish()
+                    return@launch
                 }
 
                 signalState = iSignalInteractor.signalState

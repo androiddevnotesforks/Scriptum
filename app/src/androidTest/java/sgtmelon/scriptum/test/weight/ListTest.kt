@@ -58,7 +58,8 @@ class ListTest : ParentUiTest() {
 
     /**
      * Heavy = 30.223s
-     * Simple = 19.78s
+     * Simple = 19.780s
+     * Coroutine = 21.930s
      */
     @Test fun textNoteOpen() = data.insertText(weightData.textNote).let { model ->
         launch {
