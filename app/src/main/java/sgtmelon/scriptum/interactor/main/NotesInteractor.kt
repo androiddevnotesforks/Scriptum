@@ -4,6 +4,7 @@ import android.content.Context
 import sgtmelon.extension.getString
 import sgtmelon.scriptum.interactor.ParentInteractor
 import sgtmelon.scriptum.interactor.callback.main.INotesInteractor
+import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.NoteType
@@ -33,6 +34,9 @@ class NotesInteractor(context: Context, private var callback: INotesBridge?) :
 
 
     @Theme override val theme: Int get() = iPreferenceRepo.theme
+
+    @Sort override val sort: Int get() = iPreferenceRepo.sort
+
 
     override suspend fun getCount() = iNoteRepo.getCount(bin = false)
 

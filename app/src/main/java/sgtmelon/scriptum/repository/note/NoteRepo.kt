@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.repository.note
 
 import android.content.Context
-import android.util.Log
 import sgtmelon.scriptum.extension.getText
 import sgtmelon.scriptum.extension.move
 import sgtmelon.scriptum.model.annotation.Sort
@@ -49,7 +48,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
         val itemList = ArrayList<NoteItem>()
 
         inRoom {
-            var list = iNoteDao.getBySort(sort, bin) ?: return@inRoom
+            var list = iNoteDao.getSortBy(sort, bin) ?: return@inRoom
 
             /**
              * If need get all items.
@@ -71,7 +70,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
         return itemList.correctRankSort(sort)
     }
 
-    private suspend fun INoteDao.getBySort(@Sort sort: Int, bin: Boolean): List<NoteEntity>? {
+    private suspend fun INoteDao.getSortBy(@Sort sort: Int, bin: Boolean): List<NoteEntity>? {
         return when (sort) {
             Sort.CHANGE -> getByChange(bin)
             Sort.CREATE -> getByCreate(bin)

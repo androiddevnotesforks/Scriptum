@@ -119,10 +119,12 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
     private fun onMenuConvert(p: Int) {
         val item = itemList[p]
 
+        /**
+         * TODO #RELEASE! optimise sorting
+         */
         viewModelScope.launch {
             iInteractor.convert(item)
-
-            callback?.notifyItemChanged(itemList, p)
+            onUpdateData()
         }
     }
 

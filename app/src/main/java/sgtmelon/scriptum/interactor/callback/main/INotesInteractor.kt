@@ -2,6 +2,7 @@ package sgtmelon.scriptum.interactor.callback.main
 
 import sgtmelon.scriptum.interactor.callback.IParentInteractor
 import sgtmelon.scriptum.interactor.main.NotesInteractor
+import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.NotificationItem
@@ -14,6 +15,9 @@ import java.util.*
 interface INotesInteractor : IParentInteractor {
 
     @Theme val theme: Int
+
+    @Sort val sort: Int
+
 
     suspend fun getCount(): Int
 

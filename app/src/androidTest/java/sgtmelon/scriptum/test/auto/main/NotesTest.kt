@@ -172,10 +172,13 @@ class NotesTest : ParentUiTest() {
         }
     }
 
-    @Test fun textNoteDialogConvert() = data.insertText().let {
+    @Test fun textNoteDialogConvert() = with(data) {
+        insertRoll(rollNote.copy(change = DATE_2))
+        return@with insertText(textNote.copy(change = DATE_1))
+    }.let {
         launch {
             mainScreen {
-                notesScreen { openNoteDialog(it) { onConvert() }.onAssertItem(it) }
+                notesScreen { openNoteDialog(it, p = 1) { onConvert() }.onAssertItem(it, p = 0) }
             }
         }
     }
@@ -226,10 +229,13 @@ class NotesTest : ParentUiTest() {
         }
     }
 
-    @Test fun rollNoteDialogConvert() = data.insertRoll().let {
+    @Test fun rollNoteDialogConvert() = with(data) {
+        insertText(textNote.copy(change = DATE_2))
+        return@with insertRoll(rollNote.copy(change = DATE_1))
+    }.let {
         launch {
             mainScreen {
-                notesScreen { openNoteDialog(it) { onConvert() }.onAssertItem(it) }
+                notesScreen { openNoteDialog(it, p = 1) { onConvert() }.onAssertItem(it, p = 0) }
             }
         }
     }
