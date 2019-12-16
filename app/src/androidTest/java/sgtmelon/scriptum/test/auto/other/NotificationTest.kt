@@ -50,7 +50,7 @@ class NotificationTest : ParentUiTest() {
         }
     }
 
-    @Test fun itemCancelFromPast() = data.insertNotification(date = DATE_0).let {
+    @Test fun itemCancelFromPast() = data.insertNotification(date = DATE_5).let {
         launch { mainScreen { notesScreen { openNotification(empty = true) } } }
     }
 

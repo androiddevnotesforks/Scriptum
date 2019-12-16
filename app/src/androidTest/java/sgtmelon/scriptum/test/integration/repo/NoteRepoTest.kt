@@ -300,7 +300,7 @@ class NoteRepoTest : ParentIntegrationTest()  {
         val alarmFirst = AlarmEntity(id = 1, noteId = 1, date = DATE_4)
 
         val noteFirst = NoteEntity(id = 1,
-                create = DATE_0, change = DATE_3, name = "NAME 1", text = "3/5", color = 0,
+                create = DATE_5, change = DATE_3, name = "NAME 1", text = "3/5", color = 0,
                 type = NoteType.ROLL, rankId = -1, rankPs = -1, isBin = false, isStatus = true
         )
 
@@ -315,7 +315,7 @@ class NoteRepoTest : ParentIntegrationTest()  {
         )
 
         val noteFourth = NoteEntity(id = 4,
-                create = DATE_3, change = DATE_0, name = "NAME 4", text = "0/2", color = 3,
+                create = DATE_3, change = DATE_5, name = "NAME 4", text = "0/2", color = 3,
                 type = NoteType.ROLL, rankId = 1, rankPs = 0, isBin = false, isStatus = true
         )
 
