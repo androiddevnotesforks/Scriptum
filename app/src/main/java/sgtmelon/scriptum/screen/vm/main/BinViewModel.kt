@@ -76,22 +76,26 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
 
     override fun onResultOptionsDialog(p: Int, which: Int) {
         when (which) {
-            Options.RESTORE -> callback?.notifyItemRemoved(restoreItem(p), p)
+            Options.RESTORE -> restoreItem(p)
             Options.COPY -> viewModelScope.launch { iInteractor.copy(itemList[p]) }
-            Options.CLEAR -> callback?.notifyItemRemoved(clearItem(p), p)
+            Options.CLEAR -> clearItem(p)
         }
+    }
 
+    private fun restoreItem(p: Int) {
+        val item = itemList.removeAt(p)
+        viewModelScope.launch { iInteractor.restoreNote(item) }
+
+        callback?.notifyItemRemoved(itemList, p)
         callback?.notifyMenuClearBin()
     }
 
-    private fun restoreItem(p: Int) = itemList.apply {
-        val item = removeAt(p)
-        viewModelScope.launch { iInteractor.restoreNote(item) }
-    }
-
-    private fun clearItem(p: Int) = itemList.apply {
-        val item = removeAt(p)
+    private fun clearItem(p: Int) {
+        val item = itemList.removeAt(p)
         viewModelScope.launch { iInteractor.clearNote(item) }
+
+        callback?.notifyItemRemoved(itemList, p)
+        callback?.notifyMenuClearBin()
     }
 
 }

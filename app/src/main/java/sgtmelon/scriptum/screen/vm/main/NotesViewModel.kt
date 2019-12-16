@@ -94,33 +94,47 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
 
     override fun onResultOptionsDialog(p: Int, which: Int) {
         when (which) {
-            Options.NOTIFICATION -> itemList[p].let {
-                callback?.showDateDialog(it.alarmDate.getCalendar(), it.haveAlarm(), p)
-            }
-            Options.BIND -> callback?.notifyItemChanged(onMenuBind(p), p)
-            Options.CONVERT -> viewModelScope.launch {
-                callback?.notifyItemChanged(onMenuConvert(p), p)
-            }
+            Options.NOTIFICATION -> onMenuNotification(p)
+            Options.BIND -> onMenuBind(p)
+            Options.CONVERT -> onMenuConvert(p)
             Options.COPY -> viewModelScope.launch { iInteractor.copy(itemList[p]) }
-            Options.DELETE -> callback?.notifyItemRemoved(onMenuDelete(p), p)
+            Options.DELETE -> onMenuDelete(p)
         }
     }
 
-    private fun onMenuBind(p: Int) = itemList.apply {
-        val noteItem = get(p).apply { isStatus = !isStatus }
+    private fun onMenuNotification(p: Int) {
+        val item = itemList[p]
 
-        viewModelScope.launch { iInteractor.updateNote(noteItem) }
+        callback?.showDateDialog(item.alarmDate.getCalendar(), item.haveAlarm(), p)
     }
 
-    private suspend fun onMenuConvert(p: Int) = itemList.apply { iInteractor.convert(get(p)) }
+    private fun onMenuBind(p: Int) {
+        val item = itemList[p].apply { isStatus = !isStatus }
 
-    private fun onMenuDelete(p: Int) = itemList.apply {
-        val item = removeAt(p)
+        viewModelScope.launch { iInteractor.updateNote(item) }
+
+        callback?.notifyItemChanged(itemList, p)
+    }
+
+    private fun onMenuConvert(p: Int) {
+        val item = itemList[p]
+
+        viewModelScope.launch {
+            iInteractor.convert(item)
+
+            callback?.notifyItemChanged(itemList, p)
+        }
+    }
+
+    private fun onMenuDelete(p: Int) {
+        val item = itemList.removeAt(p)
 
         viewModelScope.launch {
             iInteractor.deleteNote(item)
             iBindInteractor.notifyInfoBind(callback)
         }
+
+        callback?.notifyItemRemoved(itemList, p)
     }
 
     override fun onResultDateDialog(calendar: Calendar, p: Int) {
