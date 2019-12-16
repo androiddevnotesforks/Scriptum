@@ -58,8 +58,20 @@ class NoteRepoTest : ParentIntegrationTest()  {
     }
 
     @Test fun getItem() = inRoomTest {
-        iNoteRepo.getItem(0, true)
-        TODO(reason = "#TEST write test")
+        val rollList = rollConverter.toItem(rollListFirst)
+        val noteItem = noteConverter.toItem(noteFirst, rollList, alarmFirst)
+
+        val rollOptimalList = rollList.subList(0, NoteItem.ROLL_OPTIMAL_SIZE)
+        val noteOptimalItem = noteConverter.toItem(noteFirst, rollOptimalList, alarmFirst)
+
+        assertNull(iNoteRepo.getItem(noteItem.id, optimisation = true))
+
+        iNoteDao.insert(noteFirst)
+        rollListFirst.forEach { iRollDao.insert(it) }
+        iAlarmDao.insert(alarmFirst)
+
+        assertEquals(noteItem, iNoteRepo.getItem(noteItem.id, optimisation = false))
+        assertEquals(noteOptimalItem, iNoteRepo.getItem(noteItem.id, optimisation = true))
     }
 
     @Test fun getRollList() = inRoomTest {
