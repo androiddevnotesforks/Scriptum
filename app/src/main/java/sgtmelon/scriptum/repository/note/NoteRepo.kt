@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.repository.note
 
 import android.content.Context
+import androidx.annotation.VisibleForTesting
 import sgtmelon.scriptum.extension.getText
 import sgtmelon.scriptum.extension.move
 import sgtmelon.scriptum.model.annotation.Sort
@@ -180,31 +181,26 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
     override suspend fun convertToRoll(noteItem: NoteItem) {
         if (noteItem.type != NoteType.TEXT) return
 
+        noteItem.onConvertText()
+
         inRoom {
-            noteItem.rollList.clear()
-
-            var p = 0
-            noteItem.textToList().forEach {
-                noteItem.rollList.add(rollConverter.toItem(RollEntity().apply {
-                    noteId = noteItem.id
-                    position = p++
-                    text = it
-                    id = iRollDao.insert(rollEntity = this)
-                }))
+            noteItem.rollList.forEach {
+                it.id = iRollDao.insert(rollConverter.toEntity(noteItem.id, it))
             }
-
-            noteItem.convert().updateComplete(Complete.EMPTY)
 
             iNoteDao.update(noteConverter.toEntity(noteItem))
         }
     }
 
-    override suspend fun convertToText(noteItem: NoteItem) {
+    override suspend fun convertToText(noteItem: NoteItem, useCache: Boolean) {
         if (noteItem.type != NoteType.ROLL) return
 
         inRoom {
-            noteItem.rollList.clear()
-            noteItem.convert().text = rollConverter.toItem(iRollDao.get(noteItem.id)).getText()
+            if (useCache) {
+                noteItem.onConvertRoll()
+            } else {
+                noteItem.onConvertRoll(rollConverter.toItem(iRollDao.get(noteItem.id)))
+            }
 
             iNoteDao.update(noteConverter.toEntity(noteItem))
             iRollDao.delete(noteItem.id)
@@ -302,6 +298,38 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
     private suspend fun IRankDao.clearConnection(noteId: Long, rankId: Long) {
         val entity = get(rankId)?.apply { this.noteId.remove(noteId) } ?: return
         update(entity)
+    }
+
+    companion object {
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        fun NoteItem.onConvertText() {
+            if (type != NoteType.TEXT) return
+
+            rollList.clear()
+
+            var p = 0
+            textToList().forEach {
+                rollList.add(RollItem(position = p++, text = it))
+            }
+
+            convert().updateComplete(Complete.EMPTY)
+        }
+
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        fun NoteItem.onConvertRoll() {
+            if (type != NoteType.ROLL) return
+
+            convert().text = rollList.getText()
+            rollList.clear()
+        }
+
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        fun NoteItem.onConvertRoll(list: List<RollItem>) {
+            if (type != NoteType.ROLL) return
+
+            rollList.clear()
+            convert().text = list.getText()
+        }
     }
 
 }

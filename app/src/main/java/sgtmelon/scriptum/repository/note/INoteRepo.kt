@@ -41,7 +41,7 @@ interface INoteRepo {
      * TODO #THINK in notes list need add fast convert
      * (prepare all data - update note - suspend work with db)
      */
-    suspend fun convertToText(noteItem: NoteItem)
+    suspend fun convertToText(noteItem: NoteItem, useCache: Boolean)
 
     suspend fun getCopyText(noteItem: NoteItem): String
 

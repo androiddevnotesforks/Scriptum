@@ -87,7 +87,9 @@ class RollNoteInteractor(context: Context, private var callback: IRollNoteBridge
         callback?.setAlarm(calendar, noteItem.id)
     }
 
-    override suspend fun convert(noteItem: NoteItem) = iNoteRepo.convertToText(noteItem)
+    override suspend fun convert(noteItem: NoteItem) {
+        iNoteRepo.convertToText(noteItem, useCache = true)
+    }
 
 
     override suspend fun restoreNote(noteItem: NoteItem) = iNoteRepo.restoreNote(noteItem)

@@ -168,7 +168,7 @@ class NoteRepoTest : ParentIntegrationTest()  {
     }
 
     @Test fun convertToText() = inRoomTest {
-        iNoteRepo.convertToText(NoteItem(0, "", "", color = 0, type = NoteType.TEXT))
+        iNoteRepo.convertToText(NoteItem(0, "", "", color = 0, type = NoteType.TEXT), false)
         TODO(reason = "#TEST write test")
     }
 

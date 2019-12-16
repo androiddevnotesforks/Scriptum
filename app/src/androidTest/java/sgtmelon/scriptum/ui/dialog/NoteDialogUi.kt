@@ -6,13 +6,11 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
 import sgtmelon.scriptum.basic.extension.isDisplayed
 import sgtmelon.scriptum.basic.extension.isEnabled
-import sgtmelon.scriptum.extension.getText
 import sgtmelon.scriptum.model.data.DbData
 import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.model.key.Complete
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.room.converter.model.RollConverter
-import sgtmelon.scriptum.room.entity.RollEntity
+import sgtmelon.scriptum.repository.note.NoteRepo.Companion.onConvertRoll
+import sgtmelon.scriptum.repository.note.NoteRepo.Companion.onConvertText
 import sgtmelon.scriptum.ui.IDialogUi
 import sgtmelon.scriptum.ui.ParentUi
 import java.util.*
@@ -64,32 +62,9 @@ class NoteDialogUi(private val noteItem: NoteItem) : ParentUi(), IDialogUi, Date
     fun onConvert() = waitClose {
         convertButton.click()
 
-        noteItem.convert()
-
-        /**
-         * Type after convert.
-         */
         when (noteItem.type) {
-            NoteType.ROLL -> {
-                val converter = RollConverter()
-
-                noteItem.rollList.clear()
-
-                var p = 0
-                noteItem.textToList().forEach {
-                    noteItem.rollList.add(converter.toItem(RollEntity().apply {
-                        noteId = noteItem.id
-                        position = p++
-                        text = it
-                    }))
-                }
-
-                noteItem.updateComplete(Complete.EMPTY)
-            }
-            NoteType.TEXT -> {
-                noteItem.text = noteItem.rollList.getText()
-                noteItem.rollList.clear()
-            }
+            NoteType.TEXT -> noteItem.onConvertText()
+            NoteType.ROLL -> noteItem.onConvertRoll()
         }
     }
 
