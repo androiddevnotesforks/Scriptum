@@ -10,6 +10,7 @@ import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.repository.note.INoteRepo
 import sgtmelon.scriptum.repository.note.NoteRepo
+import sgtmelon.scriptum.repository.note.NoteRepo.Companion.onConvertRoll
 import sgtmelon.scriptum.room.converter.model.NoteConverter
 import sgtmelon.scriptum.room.converter.model.RollConverter
 import sgtmelon.scriptum.room.entity.AlarmEntity
@@ -168,8 +169,31 @@ class NoteRepoTest : ParentIntegrationTest()  {
     }
 
     @Test fun convertToText() = inRoomTest {
-        iNoteRepo.convertToText(NoteItem(0, "", "", color = 0, type = NoteType.TEXT), false)
-        TODO(reason = "#TEST write test")
+        val rollList = rollConverter.toItem(rollListFirst)
+        val noteItem = noteConverter.toItem(noteFirst, rollList, alarmFirst)
+
+        iNoteDao.insert(noteFirst)
+        rollListFirst.forEach { iRollDao.insert(it) }
+        iAlarmDao.insert(alarmFirst)
+
+        iNoteRepo.convertToText(noteItem.deepCopy(), useCache = false)
+        noteItem.onConvertRoll()
+
+        assertEquals(noteItem, iNoteRepo.getItem(noteItem.id, optimisation = false))
+    }
+
+    @Test fun convertToTextUseCache() = inRoomTest {
+        val rollList = rollConverter.toItem(rollListFirst)
+        val noteItem = noteConverter.toItem(noteFirst, rollList, alarmFirst)
+
+        iNoteDao.insert(noteFirst)
+        rollListFirst.forEach { iRollDao.insert(it) }
+        iAlarmDao.insert(alarmFirst)
+
+        iNoteRepo.convertToText(noteItem.deepCopy(), useCache = true)
+        noteItem.onConvertRoll()
+
+        assertEquals(noteItem, iNoteRepo.getItem(noteItem.id, optimisation = false))
     }
 
     @Test fun getCopyText() = inRoomTest {
