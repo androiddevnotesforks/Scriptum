@@ -210,14 +210,14 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
                 Sort.RANK -> list.sortedWith(Comparator<NoteItem> { o1, o2 ->
                     return@Comparator when {
                         !o1.haveRank() && !o2.haveRank() -> -1
-                        o1.rankPs < o2.rankPs -> 1
-                        o1.rankPs > o2.rankPs -> -1
+                        o1.rankPs > o2.rankPs -> 1
+                        o1.rankPs < o2.rankPs -> -1
                         else -> 0
                     }
                 }.thenByDescending {
                     it.create.getCalendar().timeInMillis
                 })
-                Sort.COLOR -> list.sortedWith(compareByDescending<NoteItem> {
+                Sort.COLOR -> list.sortedWith(compareBy<NoteItem> {
                     it.color
                 }.thenByDescending {
                     it.create.getCalendar().timeInMillis
