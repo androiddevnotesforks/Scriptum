@@ -202,6 +202,12 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
 
 
     companion object {
+
+        /**
+         * [1]  - Move to end of list;
+         * [-1] - Move to start of list;
+         * [0]  - Not move.
+         */
         @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
         fun List<NoteItem>.sort(@Sort sort: Int): List<NoteItem> = let { list ->
             return@let when(sort) {
@@ -209,7 +215,8 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
                 Sort.CREATE -> list.sortedByDescending { it.create.getCalendar().timeInMillis }
                 Sort.RANK -> list.sortedWith(Comparator<NoteItem> { o1, o2 ->
                     return@Comparator when {
-                        !o1.haveRank() && !o2.haveRank() -> -1
+                        !o1.haveRank() && o2.haveRank() -> 1
+                        o1.haveRank() && !o2.haveRank() -> -1
                         o1.rankPs > o2.rankPs -> 1
                         o1.rankPs < o2.rankPs -> -1
                         else -> 0
