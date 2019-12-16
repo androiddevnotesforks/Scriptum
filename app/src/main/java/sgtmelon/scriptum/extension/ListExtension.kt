@@ -11,7 +11,7 @@ fun <T> MutableList<T>.move(from: Int, to: Int = -1) {
     if (to == -1) add(item) else add(to, item)
 }
 
-fun <T> MutableList<T>.clearAndAdd(replace: List<T>) {
+fun <T> MutableList<T>.clearAndAdd(replace: List<T>) = apply {
     clear()
     addAll(replace)
 }

@@ -36,17 +36,14 @@ class RollAdapter(
     var checkToggle: Boolean = false
     var cursorPosition = ND_CURSOR
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if (viewType == TYPE_READ) {
-            RollReadHolder(
-                    parent.inflateBinding(R.layout.item_roll_read), clickListener, longClickListener
-            )
-        } else {
-            RollWriteHolder(
-                    parent.inflateBinding(R.layout.item_roll_write),
-                    dragListener, rollWriteCallback, iInputControl
-            )
-        }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
+        TYPE_READ -> RollReadHolder(
+                parent.inflateBinding(R.layout.item_roll_read), clickListener, longClickListener
+        )
+        else -> RollWriteHolder(
+                parent.inflateBinding(R.layout.item_roll_write),
+                dragListener, rollWriteCallback, iInputControl
+        )
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
