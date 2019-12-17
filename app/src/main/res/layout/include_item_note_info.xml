@@ -41,7 +41,7 @@
             <ImageView
                     android:id="@+id/note_info_notification_image"
                     style="@style/Image.Note.Info"
-                    android:contentDescription="@null"
+                    android:importantForAccessibility="no"
                     android:visibility='@{item.haveAlarm() ? View.VISIBLE : View.GONE }'
                     app:srcCompat="@drawable/ic_notifications"
                     tools:visibility="visible"/>
@@ -49,7 +49,7 @@
             <ImageView
                     android:id="@+id/note_info_bind_image"
                     style="@style/Image.Note.Info"
-                    android:contentDescription="@null"
+                    android:importantForAccessibility="no"
                     android:src='@{item.type == Type.TEXT ? @drawable/ic_bind_text : @drawable/ic_bind_roll}'
                     android:visibility='@{item.status ? View.VISIBLE : View.GONE}'
                     tools:srcCompat="@drawable/ic_bind_roll"
@@ -58,7 +58,7 @@
             <ImageView
                     android:id="@+id/note_info_rank_image"
                     style="@style/Image.Note.Info"
-                    android:contentDescription="@null"
+                    android:importantForAccessibility="no"
                     android:visibility='@{item.haveRank() ? View.VISIBLE : View.GONE}'
                     app:srcCompat="@drawable/ic_rank"
                     tools:visibility="visible"/>

@@ -17,4 +17,9 @@
     <string name="description_note_convert_roll">Конвертировать в текст</string>
     <string name="description_note_delete">Удалить</string>
 
+
+    <string name="description_rank_show">Показать категорию с именем: </string>
+    <string name="description_rank_hide">Скрыть категорию с именем: </string>
+    <string name="description_rank_cancel">Убрать категорию с именем: </string>
+
 </resources>

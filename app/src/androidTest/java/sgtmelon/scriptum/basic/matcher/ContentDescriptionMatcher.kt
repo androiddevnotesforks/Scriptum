@@ -8,18 +8,31 @@ import org.hamcrest.TypeSafeMatcher
 /**
  * Matcher for check contentDescription.
  */
-class ContentDescriptionMatcher(@StringRes private val stringId: Int): TypeSafeMatcher<View>() {
+class ContentDescriptionMatcher(
+        @StringRes private val stringId: Int,
+        private val string: String?
+) : TypeSafeMatcher<View>() {
+
+    init {
+        if (stringId == -1 && string == null) throw IllegalAccessException()
+    }
 
     override fun matchesSafely(item: View?): Boolean {
         if (item == null) return false
 
         val context = item.context ?: return false
 
-        return context.getString(stringId) == item.contentDescription
+        val expected = when {
+            stringId != -1 -> context.getString(stringId)
+            string != null -> string
+            else -> return false
+        }
+
+        return expected == item.contentDescription
     }
 
     override fun describeTo(description: Description?) {
-        description?.appendText("\nView with contentDescription stringId = $stringId")
+        description?.appendText("\nView with contentDescription stringId = $stringId | string = $string")
     }
 
 }

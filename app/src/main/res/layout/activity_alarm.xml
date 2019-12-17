@@ -21,7 +21,7 @@
     <ImageView
             android:id="@+id/alarm_logo_view"
             style="@style/Image.Logo"
-            android:contentDescription="@null"
+            android:importantForAccessibility="no"
             app:layout_constraintBottom_toTopOf="@id/alarm_recycler"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -84,7 +84,11 @@ fun Matcher<View>.withHintColor(@AttrRes attrColor: Int) = also {
 }
 
 fun Matcher<View>.withContentDescription(@StringRes stringId: Int) = also {
-    matchOnView(it, ContentDescriptionMatcher(stringId))
+    matchOnView(it, ContentDescriptionMatcher(stringId, null))
+}
+
+fun Matcher<View>.withContentDescription(string: String) = also {
+    matchOnView(it, ContentDescriptionMatcher(-1, string))
 }
 
 

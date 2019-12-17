@@ -72,7 +72,7 @@
                 <View
                         android:id="@+id/note_roll_color_view"
                         style="@style/Image.Color.Vertical.End"
-                        android:contentDescription="@null"
+                        android:importantForAccessibility="no"
                         app:indicatorTheme='@{theme}'
                         app:indicatorColor='@{item.color}'
                         app:visibleTheme='@{theme}'

@@ -20,7 +20,7 @@
         <ImageView
                 android:id="@+id/info_image"
                 style="@style/Image.Info"
-                android:contentDescription="@null"
+                android:importantForAccessibility="no"
                 app:colorAttr='@{R.attr.clContent}'
                 app:drawableId='@{icon}'
                 tools:src="@mipmap/img_info_notes"

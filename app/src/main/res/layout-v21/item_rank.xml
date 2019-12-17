@@ -28,6 +28,7 @@
                     style="@style/Button.Medium"
                     android:layout_marginStart="@dimen/layout_4dp"
                     android:layout_marginEnd="@dimen/layout_8dp"
+                    android:contentDescription='@{(item.visible ? @string/description_rank_hide : @string/description_rank_show) + item.name}'
                     app:srcDisable="@drawable/ic_visible_enter"
                     app:srcDisableAnim="@drawable/anim_visible_exit"
                     app:srcDisableColor="?attr/clContent"
@@ -66,7 +67,7 @@
                     style="@style/Button.Medium"
                     android:layout_marginStart="@dimen/layout_8dp"
                     android:layout_marginEnd="@dimen/layout_4dp"
-                    android:contentDescription="@null"
+                    android:contentDescription='@{@string/description_rank_cancel + item.name}'
                     android:tint="?attr/clContent"
                     app:srcCompat="@drawable/ic_cancel_enter"/>
 

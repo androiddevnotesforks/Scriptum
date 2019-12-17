@@ -16,7 +16,7 @@
             <ImageView
                     android:id="@+id/about_logo_image"
                     style="@style/Image.Logo"
-                    android:contentDescription="@null"/>
+                    android:importantForAccessibility="no"/>
 
         </FrameLayout>
 

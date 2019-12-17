@@ -37,7 +37,7 @@
                 <ImageButton
                         android:id="@+id/roll_read_click_button"
                         style="@style/Container.Roll.Click"
-                        android:contentDescription="@null"
+                        android:importantForAccessibility="no"
                         android:visibility='@{!keyBin ? View.VISIBLE : View.INVISIBLE}'/>
 
             </FrameLayout>

@@ -16,7 +16,7 @@
         <ImageView
                 android:id="@+id/note_roll_check_image"
                 style="@style/Image.Note.Check"
-                android:contentDescription="@null"
+                android:importantForAccessibility="no"
                 android:src='@{item != null &amp;&amp; item.check ? @drawable/ic_check_done : @drawable/ic_check_outline}'
                 tools:srcCompat="@drawable/ic_check_done"/>
 
