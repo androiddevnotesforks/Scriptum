@@ -23,8 +23,8 @@ class ConvertDialogUi(noteItem: NoteItem) : ParentUi(), IDialogUi {
 
     private val titleText = getViewByText(R.string.dialog_title_convert)
     private val messageText = getViewByText(when (noteItem.type) {
-        NoteType.TEXT -> R.string.dialog_text_convert_to_roll
-        NoteType.ROLL -> R.string.dialog_roll_convert_to_text
+        NoteType.TEXT -> R.string.dialog_text_convert_text
+        NoteType.ROLL -> R.string.dialog_roll_convert_roll
     })
 
     private val noButton = getViewByText(R.string.dialog_button_no)

@@ -53,7 +53,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginBottom="@dimen/layout_8dp"
                     android:gravity="center"
-                    android:text="@string/about_app_developer"
+                    android:text="@string/dialog_about_developer"
                     android:textAppearance="@style/Appearance.Main"
                     android:textSize="@dimen/text_16sp"/>
 
@@ -61,7 +61,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="@string/about_app_logo_designer"
+                    android:text="@string/dialog_about_logo_designer"
                     android:textAppearance="@style/Appearance.Main"
                     android:textSize="@dimen/text_16sp"/>
 

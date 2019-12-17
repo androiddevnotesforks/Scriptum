@@ -15,11 +15,11 @@
     <string name="dialog_item_rank">Без категории</string>
 
     <string name="dialog_title_convert">Конвертировать</string>
-    <string name="dialog_roll_convert_to_text">
-        Вы уверены что, хотите конвертировать заметку? Все отметки в списке будут утеряны.
-    </string>
-    <string name="dialog_text_convert_to_roll">
+    <string name="dialog_text_convert_text">
         Вы уверены что, хотите конвертировать заметку? Все пустые строки будут удалены.
+    </string>
+    <string name="dialog_roll_convert_roll">
+        Вы уверены что, хотите конвертировать заметку? Все отметки в списке будут утеряны.
     </string>
 
     <string name="dialog_title_add_note">Создать заметку</string>
@@ -42,13 +42,13 @@
     <string name="dialog_menu_notification_update">Изменить уведомление</string>
     <string name="dialog_menu_status_bind">Закрепить в статус баре</string>
     <string name="dialog_menu_status_unbind">Открепить от статус бара</string>
-    <string name="dialog_menu_convert_to_text">Конвертировать в текст</string>
-    <string name="dialog_menu_convert_to_roll">Конвертировать в список</string>
+    <string name="dialog_menu_convert_text">Конвертировать в список</string>
+    <string name="dialog_menu_convert_roll">Конвертировать в текст</string>
 
     <string-array name="dialog_menu_text">
         <item/>
         <item/>
-        <item>@string/dialog_menu_convert_to_roll</item>
+        <item>@string/dialog_menu_convert_text</item>
         <item>@string/dialog_menu_copy</item>
         <item>@string/dialog_menu_delete</item>
     </string-array>
@@ -56,7 +56,7 @@
     <string-array name="dialog_menu_roll">
         <item/>
         <item/>
-        <item>@string/dialog_menu_convert_to_text</item>
+        <item>@string/dialog_menu_convert_roll</item>
         <item>@string/dialog_menu_copy</item>
         <item>@string/dialog_menu_delete</item>
     </string-array>
@@ -67,7 +67,7 @@
         <item>@string/dialog_menu_clear</item>
     </string-array>
 
-    <string name="about_app_developer">Разработчик:\nКузнецов Алексей</string>
-    <string name="about_app_logo_designer">Дизайнер логотипа:\nПолепкина Арина</string>
+    <string name="dialog_about_developer">Разработчик:\nКузнецов Алексей</string>
+    <string name="dialog_about_logo_designer">Дизайнер логотипа:\nПолепкина Арина</string>
 
 </resources>

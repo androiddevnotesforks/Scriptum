@@ -35,8 +35,8 @@ class NoteDialogUi(private val noteItem: NoteItem) : ParentUi(), IDialogUi, Date
     })
 
     private val convertButton = getViewByText(when (noteItem.type) {
-        NoteType.TEXT -> R.string.dialog_menu_convert_to_roll
-        NoteType.ROLL -> R.string.dialog_menu_convert_to_text
+        NoteType.TEXT -> R.string.dialog_menu_convert_text
+        NoteType.ROLL -> R.string.dialog_menu_convert_roll
     })
 
     private val copyButton = getViewByText(R.string.dialog_menu_copy)

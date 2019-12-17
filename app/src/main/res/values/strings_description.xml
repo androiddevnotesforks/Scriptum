@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="description_note_restore">Restore</string>
+    <string name="description_note_restore_open">Restore and open</string>
+    <string name="description_note_clear">Delete forever</string>
+
+    <string name="description_note_undo">Undo action</string>
+    <string name="description_note_redo">Redo action</string>
+    <string name="description_note_rank">Categories</string>
+    <string name="description_note_color">Color</string>
+
+    <string name="description_note_notification">Notification</string>
+    <string name="description_note_bind">Bind to status bar</string>
+    <string name="description_note_unbind">Unbind from status bar</string>
+    <string name="description_note_convert_text">Convert to roll</string>
+    <string name="description_note_convert_roll">Convert to text</string>
+    <string name="description_note_delete">Delete</string>
+
+</resources>

@@ -1,35 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--  Titles  -->
     <string name="title_rank">Категории</string>
     <string name="title_notes">Заметки</string>
     <string name="title_bin">Корзина</string>
     <string name="title_notification">Уведомления</string>
     <string name="title_preference">Настройки</string>
 
-    <!-- Name of menu items -->
-    <string name="menu_page_notes_preference">Настройки</string>
-    <string name="menu_page_notes_notifications">Уведомления</string>
-
-    <string name="menu_page_bin_clear">Очистить корзину</string>
-
-    <string name="menu_note_edit">Изменить</string>
-    <string name="menu_note_save">Сохранить</string>
-    <string name="menu_note_more">Ещё</string>
-
-    <string name="menu_note_notification">Уведомление</string>
-    <string name="menu_note_status_bind">Закрепить в статус баре</string>
-    <string name="menu_note_status_unbind">Открепить от статус бара</string>
-    <string name="menu_note_convert_to_roll">Конвертировать в список</string>
-    <string name="menu_note_convert_to_text">Конвертировать в текст</string>
-    <string name="menu_note_delete">Удалить</string>
-
-    <string name="menu_note_rank">Категории</string>
-    <string name="menu_note_color">Цвет</string>
-
-    <string name="menu_note_restore">Восстановить</string>
-    <string name="menu_note_restore_open">Восстановить и открыть</string>
-    <string name="menu_note_clear">Удалить навсегда</string>
+    <!-- Menu items -->
+    <string name="menu_notifications">@string/title_notification</string>
+    <string name="menu_preference">@string/title_preference</string>
+    <string name="menu_clear_bin">Очистить корзину</string>
 
     <!-- Notifications -->
     <string name="notification_group_notes">Заметки</string>
@@ -46,9 +28,14 @@
 
     <string name="notification_info_description">Нажмите, чтобы посмотреть подробности</string>
 
-    <!-- Alarm -->
+    <!-- Button -->
     <string name="button_postpone">Отложить</string>
     <string name="button_disable">Отключить</string>
+
+    <string name="button_show_intro">Вступление</string>
+
+    <string name="button_note_edit">Изменить</string>
+    <string name="button_note_save">Сохранить</string>
 
     <!-- Toast -->
     <string name="toast_note_save_done">Изменения сохранены</string>
@@ -59,10 +46,7 @@
     <string name="toast_alarm_postpone">Отложено на %s</string>
     <string name="toast_alarm_set">Установлено на %s</string>
 
-    <!-- Develop -->
-    <string name="button_show_intro">Вступление</string>
-
-    <!-- EditText hint -->
+    <!-- Hint -->
     <string name="hint_enter_rank_new">Новая категория</string>
     <string name="hint_enter_rank_rename">Новое имя для категории</string>
     <string name="hint_enter_name">Название заметки</string>
@@ -72,7 +56,6 @@
     <string name="hind_enter_roll_empty">Этот пункт будет удалён</string>
 
     <!-- Items text -->
-    <!-- Rank -->
     <string name="list_item_rank_count">Заметок:</string>
 
 </resources>

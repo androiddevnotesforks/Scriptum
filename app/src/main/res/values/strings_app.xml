@@ -3,35 +3,17 @@
 
     <string name="app_name" translatable="false">Scriptum</string>
 
+    <!--  Titles  -->
     <string name="title_rank">Categories</string>
     <string name="title_notes">Notes</string>
     <string name="title_bin">Bin</string>
     <string name="title_notification">Notifications</string>
     <string name="title_preference">Settings</string>
 
-    <!-- Name of menu items -->
-    <string name="menu_page_notes_preference">Settings</string>
-    <string name="menu_page_notes_notifications">Notifications</string>
-
-    <string name="menu_page_bin_clear">Clear bin</string>
-
-    <string name="menu_note_edit">Change</string>
-    <string name="menu_note_save">Save</string>
-    <string name="menu_note_more">More</string>
-
-    <string name="menu_note_notification">Notification</string>
-    <string name="menu_note_status_bind">Bind to status bar</string>
-    <string name="menu_note_status_unbind">Unbind from status bar</string>
-    <string name="menu_note_convert_to_roll">Convert to roll</string>
-    <string name="menu_note_convert_to_text">Convert to text</string>
-    <string name="menu_note_delete">Delete</string>
-
-    <string name="menu_note_rank">Categories</string>
-    <string name="menu_note_color">Color</string>
-
-    <string name="menu_note_restore">Restore</string>
-    <string name="menu_note_restore_open">Restore and open</string>
-    <string name="menu_note_clear">Delete forever</string>
+    <!-- Menu items -->
+    <string name="menu_notifications">@string/title_notification</string>
+    <string name="menu_preference">@string/title_preference</string>
+    <string name="menu_clear_bin">Clear bin</string>
 
     <!-- Clipboard -->
     <string name="clipboard_label" translatable="false">Scriptum note</string>
@@ -56,9 +38,14 @@
 
     <string name="notification_info_description">Press for details</string>
 
-    <!-- Alarm -->
+    <!-- Button -->
     <string name="button_postpone">Postpone</string>
     <string name="button_disable">Disable</string>
+
+    <string name="button_show_intro">Show intro</string>
+
+    <string name="button_note_edit">Change</string>
+    <string name="button_note_save">Save</string>
 
     <!-- Toast -->
     <string name="toast_note_save_done">Changes saved</string>
@@ -69,11 +56,7 @@
     <string name="toast_alarm_postpone">Postpone for %s</string>
     <string name="toast_alarm_set">Set for %s</string>
 
-
-    <!-- Develop -->
-    <string name="button_show_intro">Show intro</string>
-
-    <!-- EditText hint -->
+    <!-- Hint -->
     <string name="hint_enter_rank_new">New category</string>
     <string name="hint_enter_rank_rename">New name for category</string>
     <string name="hint_enter_name">Title of note</string>
@@ -83,7 +66,6 @@
     <string name="hind_enter_roll_empty">This item will be removed</string>
 
     <!-- Items text -->
-    <!-- Rank -->
     <string name="list_item_rank_count">Notes:</string>
 
 </resources>

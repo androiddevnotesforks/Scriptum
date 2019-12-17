@@ -47,7 +47,7 @@
                 <ImageButton
                         android:id="@+id/note_panel_restore_button"
                         style="@style/Button.Small"
-                        android:contentDescription="@string/menu_note_restore"
+                        android:contentDescription="@string/description_note_restore"
                         android:onClick='@{() -> menuCallback.onMenuRestore()}'
                         android:tint="?attr/clContent"
                         app:srcCompat="@drawable/ic_restore"/>
@@ -55,7 +55,7 @@
                 <ImageButton
                         android:id="@+id/note_panel_restore_open_button"
                         style="@style/Button.Small"
-                        android:contentDescription="@string/menu_note_restore_open"
+                        android:contentDescription="@string/description_note_restore_open"
                         android:onClick='@{() -> menuCallback.onMenuRestoreOpen()}'
                         android:tint="?attr/clContent"
                         app:srcCompat="@drawable/ic_restore_open"/>
@@ -63,7 +63,7 @@
                 <ImageButton
                         android:id="@+id/note_panel_clear_button"
                         style="@style/Button.Small"
-                        android:contentDescription="@string/menu_note_clear"
+                        android:contentDescription="@string/description_note_clear"
                         android:onClick='@{() -> menuCallback.onMenuClear()}'
                         android:tint="?attr/clAccent"
                         app:srcCompat="@drawable/ic_clear"/>
@@ -81,7 +81,7 @@
                 <ImageButton
                         android:id="@+id/note_panel_undo_button"
                         style="@style/Button.Small"
-                        android:contentDescription="@null"
+                        android:contentDescription="@string/description_note_undo"
                         android:onClick='@{() -> menuCallback.onMenuUndo()}'
                         app:boolExpression='@{inputAccess.isUndo}'
                         app:enabled='@{inputAccess.isUndo}'
@@ -93,7 +93,7 @@
                 <ImageButton
                         android:id="@+id/note_panel_redo_button"
                         style="@style/Button.Small"
-                        android:contentDescription="@null"
+                        android:contentDescription="@string/description_note_redo"
                         android:onClick='@{() -> menuCallback.onMenuRedo()}'
                         app:boolExpression='@{inputAccess.isRedo}'
                         app:enabled='@{inputAccess.isRedo}'
@@ -105,7 +105,7 @@
                 <ImageButton
                         android:id="@+id/note_panel_rank_button"
                         style="@style/Button.Small"
-                        android:contentDescription="@null"
+                        android:contentDescription="@string/description_note_rank"
                         android:onClick='@{() -> menuCallback.onMenuRank()}'
                         app:boolExpression='@{!rankEmpty}'
                         app:enabled='@{!rankEmpty}'
@@ -117,7 +117,7 @@
                 <ImageButton
                         android:id="@+id/note_panel_color_button"
                         style="@style/Button.Small"
-                        android:contentDescription="@null"
+                        android:contentDescription="@string/description_note_color"
                         android:onClick='@{() -> menuCallback.onMenuColor()}'
                         android:tint="?attr/clContent"
                         app:srcCompat="@drawable/ic_palette"/>
@@ -132,7 +132,7 @@
                         style="@style/Button.Small"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:onClick='@{() -> menuCallback.onMenuSave(true)}'
-                        android:text="@string/menu_note_save"
+                        android:text="@string/button_note_save"
                         app:enabled='@{item.isSaveEnabled()}'/>
 
             </LinearLayout>
@@ -148,7 +148,7 @@
                 <ImageButton
                         android:id="@+id/note_panel_notification_button"
                         style="@style/Button.Small"
-                        android:contentDescription="@string/menu_note_notification"
+                        android:contentDescription="@string/description_note_notification"
                         android:onClick='@{() -> menuCallback.onMenuNotification()}'
                         app:srcCompat="@drawable/ic_notifications"
                         app:boolExpression='@{item.haveAlarm()}'
@@ -159,7 +159,7 @@
                 <ImageButton
                         android:id="@+id/note_panel_bind_button"
                         style="@style/Button.Small"
-                        android:contentDescription='@{item.status ? @string/menu_note_status_bind : @string/menu_note_status_unbind}'
+                        android:contentDescription='@{item.status ? @string/description_note_bind : @string/description_note_unbind}'
                         android:onClick='@{() -> menuCallback.onMenuBind()}'
                         android:src='@{item.type == Type.TEXT ? @drawable/ic_bind_text : @drawable/ic_bind_roll}'
                         app:boolExpression='@{item.status}'
@@ -171,7 +171,7 @@
                 <ImageButton
                         android:id="@+id/note_panel_convert_button"
                         style="@style/Button.Small"
-                        android:contentDescription="@string/menu_note_convert_to_roll"
+                        android:contentDescription='@{item.type == Type.TEXT ? @string/description_note_convert_text : @string/description_note_convert_roll}'
                         android:onClick='@{() -> menuCallback.onMenuConvert()}'
                         android:tint="?attr/clContent"
                         app:srcCompat="@drawable/ic_convert"/>
@@ -179,7 +179,7 @@
                 <ImageButton
                         android:id="@+id/note_panel_delete_button"
                         style="@style/Button.Small"
-                        android:contentDescription="@string/menu_note_delete"
+                        android:contentDescription="@string/description_note_delete"
                         android:onClick='@{() -> menuCallback.onMenuDelete()}'
                         android:tint="?attr/clContent"
                         app:srcCompat="@drawable/ic_bin"/>
@@ -194,7 +194,7 @@
                         style="@style/Button.Small"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:onClick='@{() -> menuCallback.onMenuEdit(true)}'
-                        android:text="@string/menu_note_edit"/>
+                        android:text="@string/button_note_edit"/>
 
             </LinearLayout>
 

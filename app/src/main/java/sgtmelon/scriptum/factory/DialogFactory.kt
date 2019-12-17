@@ -67,8 +67,8 @@ object DialogFactory {
             dialog.type = MessageType.CHOICE
             dialog.title = context.getString(R.string.dialog_title_convert)
             dialog.message = when (type) {
-                NoteType.TEXT -> context.getString(R.string.dialog_text_convert_to_roll)
-                NoteType.ROLL -> context.getString(R.string.dialog_roll_convert_to_text)
+                NoteType.TEXT -> context.getString(R.string.dialog_text_convert_text)
+                NoteType.ROLL -> context.getString(R.string.dialog_roll_convert_roll)
             }
 
             return dialog

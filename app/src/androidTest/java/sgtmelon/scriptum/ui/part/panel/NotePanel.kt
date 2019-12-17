@@ -196,48 +196,69 @@ class NotePanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi(),
                     binContainer.isDisplayed(visible = false)
                     editContainer.isDisplayed(visible = false)
 
-                    notificationButton.isDisplayed().withDrawableAttr(
-                            R.drawable.ic_notifications,
-                            getTint(noteItem.haveAlarm())
-                    )
+                    notificationButton.isDisplayed()
+                            .withDrawableAttr(R.drawable.ic_notifications, getTint(noteItem.haveAlarm()))
+                            .withContentDescription(R.string.description_note_notification)
 
-                    bindButton.isDisplayed().withDrawableAttr(
-                            when (noteItem.type) {
-                                NoteType.TEXT -> R.drawable.ic_bind_text
-                                NoteType.ROLL -> R.drawable.ic_bind_roll
-                            }, getTint(noteItem.isStatus)
-                    )
+                    val drawable = when (noteItem.type) {
+                        NoteType.TEXT -> R.drawable.ic_bind_text
+                        NoteType.ROLL -> R.drawable.ic_bind_roll
+                    }
 
-                    convertButton.isDisplayed().withDrawableAttr(R.drawable.ic_convert, R.attr.clContent)
-                    deleteButton.isDisplayed().withDrawableAttr(R.drawable.ic_bin, R.attr.clContent)
+                    bindButton.isDisplayed()
+                            .withDrawableAttr(drawable, getTint(noteItem.isStatus))
+                            .withContentDescription(if (noteItem.isStatus) {
+                                R.string.description_note_unbind
+                            } else {
+                                R.string.description_note_bind
+                            })
 
-                    editButton.withText(R.string.menu_note_edit).isDisplayed()
+                    convertButton.isDisplayed()
+                            .withDrawableAttr(R.drawable.ic_convert, R.attr.clContent)
+                            .withContentDescription(when(noteItem.type) {
+                                NoteType.TEXT -> R.string.description_note_convert_text
+                                NoteType.ROLL -> R.string.description_note_convert_roll
+                            })
+
+                    deleteButton.isDisplayed()
+                            .withDrawableAttr(R.drawable.ic_bin, R.attr.clContent)
+                            .withContentDescription(R.string.description_note_delete)
+
+                    editButton.withText(R.string.button_note_edit).isDisplayed()
                 }
                 State.BIN -> {
                     readContainer.isDisplayed(visible = false)
                     binContainer.isDisplayed()
                     editContainer.isDisplayed(visible = false)
 
-                    restoreButton.isDisplayed().withDrawableAttr(R.drawable.ic_restore, R.attr.clContent)
-                    restoreOpenButton.isDisplayed().withDrawableAttr(R.drawable.ic_restore_open, R.attr.clContent)
-                    clearButton.isDisplayed().withDrawableAttr(R.drawable.ic_clear, R.attr.clAccent)
+                    restoreButton.isDisplayed()
+                            .withDrawableAttr(R.drawable.ic_restore, R.attr.clContent)
+                            .withContentDescription(R.string.description_note_restore)
+
+                    restoreOpenButton.isDisplayed()
+                            .withDrawableAttr(R.drawable.ic_restore_open, R.attr.clContent)
+                            .withContentDescription(R.string.description_note_restore_open)
+
+                    clearButton.isDisplayed()
+                            .withDrawableAttr(R.drawable.ic_clear, R.attr.clAccent)
+                            .withContentDescription(R.string.description_note_clear)
                 }
                 State.EDIT, State.NEW -> {
                     readContainer.isDisplayed(visible = false)
                     binContainer.isDisplayed(visible = false)
                     editContainer.isDisplayed()
 
-                    inputControl.isUndoAccess.let { undo ->
-                        undoButton.isDisplayed()
-                                .withDrawableAttr(R.drawable.ic_undo, getEnableTint(undo))
-                                .isEnabled(undo)
-                    }
+                    val undo = inputControl.isUndoAccess
+                    undoButton.isDisplayed()
+                            .withDrawableAttr(R.drawable.ic_undo, getEnableTint(undo))
+                            .withContentDescription(R.string.description_note_undo)
+                            .isEnabled(undo)
 
-                    inputControl.isRedoAccess.let { redo ->
-                        redoButton.isDisplayed()
-                                .withDrawableAttr(R.drawable.ic_redo, getEnableTint(redo))
-                                .isEnabled(redo)
-                    }
+                    val redo = inputControl.isRedoAccess
+                    redoButton.isDisplayed()
+                            .withDrawableAttr(R.drawable.ic_redo, getEnableTint(redo))
+                            .withContentDescription(R.string.description_note_redo)
+                            .isEnabled(redo)
 
                     rankButton.isDisplayed()
                             .withDrawableAttr(R.drawable.ic_rank, if (isRankEmpty) {
@@ -245,11 +266,14 @@ class NotePanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi(),
                             } else {
                                 getTint(noteItem.haveRank())
                             })
+                            .withContentDescription(R.string.description_note_rank)
                             .isEnabled(!isRankEmpty)
 
-                    colorButton.isDisplayed().withDrawableAttr(R.drawable.ic_palette, R.attr.clContent)
+                    colorButton.isDisplayed()
+                            .withDrawableAttr(R.drawable.ic_palette, R.attr.clContent)
+                            .withContentDescription(R.string.description_note_color)
 
-                    saveButton.withText(R.string.menu_note_save).isDisplayed().isEnabled(shadowItem.isSaveEnabled())
+                    saveButton.withText(R.string.button_note_save).isDisplayed().isEnabled(shadowItem.isSaveEnabled())
                 }
             }
         }

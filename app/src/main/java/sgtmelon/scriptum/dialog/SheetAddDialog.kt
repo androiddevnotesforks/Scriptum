@@ -16,14 +16,15 @@ class SheetAddDialog : BottomSheetDialogFragment(), NavigationView.OnNavigationI
     var dismissListener: DialogInterface.OnDismissListener? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View =
-            inflater.inflate(R.layout.view_sheet_add, container, false)
+                              savedInstanceState: Bundle?): View {
+        return inflater.inflate(R.layout.view_sheet_add, container, false)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.findViewById<NavigationView>(R.id.add_navigation)
-                ?.setNavigationItemSelectedListener(this)
+        val navigationView = view.findViewById<NavigationView>(R.id.add_navigation)
+        navigationView?.setNavigationItemSelectedListener(this)
     }
 
     override fun onDismiss(dialog: DialogInterface) {
