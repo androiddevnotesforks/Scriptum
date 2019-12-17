@@ -17,7 +17,8 @@ class NoteToolbar<T : ParentUi>(private val callback: INoteScreen<T>) : ParentUi
 
     //region Views
 
-    private val parentContainer = getViewById(R.id.toolbar_note_container)
+    private val parentContainer = getViewById(R.id.toolbar_note_parent_container)
+    private val contentContainer = getViewById(R.id.toolbar_note_content_container)
     private val nameScroll = getViewById(R.id.toolbar_note_scroll)
 
     private val colorView = getViewById(R.id.toolbar_note_color_view)
@@ -64,7 +65,8 @@ class NoteToolbar<T : ParentUi>(private val callback: INoteScreen<T>) : ParentUi
     fun assert() = apply {
         val color = callback.shadowItem.color
 
-        parentContainer.isDisplayed().withBackgroundAppColor(theme, color, needDark = false)
+        parentContainer.isDisplayed()
+        contentContainer.isDisplayed().withBackgroundAppColor(theme, color, needDark = false)
         nameScroll.isDisplayed()
 
         colorView.isDisplayed(visible = theme == Theme.DARK) {

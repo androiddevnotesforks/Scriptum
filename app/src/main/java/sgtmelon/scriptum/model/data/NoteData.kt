@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.model.data
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.key.NoteType
 
 object NoteData {

@@ -253,16 +253,16 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
                  */
                 val idSaveList = ArrayList<Long>()
 
-                noteItem.rollList.forEach {
-                    val id = it.id
+                noteItem.rollList.forEach { item ->
+                    val id = item.id
 
                     if (id == null) {
-                        it.id = iRollDao.insert(rollConverter.toEntity(noteItem.id, it))
+                        item.id = iRollDao.insert(rollConverter.toEntity(noteItem.id, item))
                     } else {
-                        iRollDao.update(id, it.position, it.text)
+                        iRollDao.update(id, item.position, item.text)
                     }
 
-                    it.id?.let { idSaveList.add(it) }
+                    item.id?.let { idSaveList.add(it) }
                 }
 
                 /**

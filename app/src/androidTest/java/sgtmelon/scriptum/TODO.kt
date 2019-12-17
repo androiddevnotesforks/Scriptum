@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package sgtmelon.scriptum
 
 import sgtmelon.scriptum.test.auto.note.RollNoteTest

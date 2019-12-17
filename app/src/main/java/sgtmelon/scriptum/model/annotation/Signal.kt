@@ -4,7 +4,7 @@ import androidx.annotation.IntDef
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
 
 /**
- * Describes signals in [PreferenceRepo.signalCheck]
+ * Describes signals in [PreferenceRepo.signal]
  */
 @IntDef(Signal.MELODY, Signal.VIBRATION)
 annotation class Signal {

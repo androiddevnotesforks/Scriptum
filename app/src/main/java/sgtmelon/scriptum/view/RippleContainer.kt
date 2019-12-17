@@ -116,6 +116,7 @@ class RippleContainer : RelativeLayout {
         }
     }
 
+    @Suppress("LiftReturnOrAssignment")
     private fun View.getAnimator(@Anim animName: String, startDelay: Long, duration: Long,
                                  vararg values: Float): ObjectAnimator =
             ObjectAnimator.ofFloat(this, animName, *values).apply {

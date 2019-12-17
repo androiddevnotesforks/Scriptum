@@ -124,7 +124,7 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment, NoteReceiver.Callb
     }
 
     override fun setupToolbar(@Theme theme: Int, @Color color: Int) {
-        val toolbar: Toolbar? = view?.findViewById(R.id.toolbar_note_container)
+        val toolbar: Toolbar? = view?.findViewById(R.id.toolbar_note_content_container)
         val indicator: View? = view?.findViewById(R.id.toolbar_note_color_view)
 
         activity?.let {

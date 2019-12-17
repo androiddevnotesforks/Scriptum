@@ -11,6 +11,7 @@ import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.screen.vm.DevelopViewModel
+import kotlin.math.min
 
 /**
  * Repository of [RoomDb] for [DevelopViewModel]
@@ -32,7 +33,7 @@ class DevelopRepo(override val context: Context) : IDevelopRepo, IRoomWork {
         append("Note table:")
 
         list.forEach {
-            val text = it.text.substring(0, Math.min(it.text.length, 40))
+            val text = it.text.substring(0, min(it.text.length, b = 40))
                     .replace("\n", " ")
 
             append("\n\n")

@@ -3,7 +3,6 @@ package sgtmelon.scriptum.repository.bind
 import android.content.Context
 import sgtmelon.scriptum.room.IRoomWork
 import sgtmelon.scriptum.room.RoomDb
-import sgtmelon.scriptum.room.entity.NoteEntity
 
 /**
  * Repository of [RoomDb] which work with notes bind in status bar

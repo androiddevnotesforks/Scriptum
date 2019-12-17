@@ -68,7 +68,7 @@ class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
 
                 if (item == null) return
 
-                checkImage.isDisplayed() {
+                checkImage.isDisplayed {
                     withSize(R.dimen.icon_16dp, R.dimen.icon_16dp)
                 }.withDrawableAttr(when (item.isCheck) {
                     true -> R.drawable.ic_check_done

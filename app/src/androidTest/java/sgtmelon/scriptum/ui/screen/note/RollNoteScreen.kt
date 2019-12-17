@@ -30,7 +30,6 @@ class RollNoteScreen(
     private val fragmentContainer = getViewById(R.id.note_fragment_container)
 
     private val parentContainer = getViewById(R.id.roll_note_parent_container)
-    private val contentContainer = getViewById(R.id.roll_note_content_container)
 
     //endregion
 
@@ -95,7 +94,6 @@ class RollNoteScreen(
 
 
         parentContainer.isDisplayed()
-        contentContainer.isDisplayed()
 
         recyclerView.isDisplayed()
     }

@@ -80,12 +80,11 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment, NoteReceiver.Callb
     }
     private val layoutManager by lazy { LinearLayoutManager(activity) }
 
+    private var parentContainer: ViewGroup? = null
+
     private var nameEnter: EditText? = null
     private var rollEnter: EditText? = null
     private var recyclerView: RecyclerView? = null
-
-    private var parentContainer: ViewGroup? = null
-    private var contentContainer: ViewGroup? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -103,7 +102,6 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment, NoteReceiver.Callb
         iViewModel.onSetup(bundle = arguments ?: savedInstanceState)
 
         parentContainer = view.findViewById(R.id.roll_note_parent_container)
-        contentContainer = view.findViewById(R.id.roll_note_content_container)
     }
 
     override fun onResume() {
@@ -147,7 +145,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment, NoteReceiver.Callb
     }
 
     override fun setupToolbar(@Theme theme: Int, @Color color: Int) {
-        val toolbar: Toolbar? = view?.findViewById(R.id.toolbar_note_container)
+        val toolbar: Toolbar? = view?.findViewById(R.id.toolbar_note_content_container)
         val indicator: View? = view?.findViewById(R.id.toolbar_note_color_view)
 
         activity?.let {
@@ -275,10 +273,11 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment, NoteReceiver.Callb
     }
 
     override fun onBindingEdit(editMode: Boolean, item: NoteItem) {
-        contentContainer?.let {
+        parentContainer?.let {
             val time = resources.getInteger(R.integer.fade_anim_time)
             val transition = AutoTransition()
                     .setOrdering(AutoTransition.ORDERING_TOGETHER)
+                    .excludeChildren(R.id.toolbar_note_parent_container, true)
                     .excludeChildren(R.id.roll_note_recycler, true)
                     .setDuration(time.toLong())
 

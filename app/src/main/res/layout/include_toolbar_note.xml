@@ -17,12 +17,13 @@
     </data>
 
     <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/toolbar_note_parent_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:elevation="@dimen/elevation_0dp">
 
         <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar_note_container"
+                android:id="@+id/toolbar_note_content_container"
                 style="?attr/styleToolbar"
                 android:layout_gravity="center"
                 android:paddingLeft="@dimen/layout_8dp"

@@ -59,7 +59,7 @@ class MultipleDialog : BlankDialog() {
     override fun setEnable() {
         super.setEnable()
         positiveButton?.isEnabled =
-                !Arrays.equals(init, check) && if (needOneSelect) check.contains(true) else true
+                !init.contentEquals(check) && if (needOneSelect) check.contains(true) else true
     }
 
 }

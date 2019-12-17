@@ -4,10 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import sgtmelon.scriptum.interactor.notification.SignalInteractor
-import sgtmelon.scriptum.model.annotation.Color
-import sgtmelon.scriptum.model.annotation.Repeat
-import sgtmelon.scriptum.model.annotation.Sort
-import sgtmelon.scriptum.model.annotation.Theme
+import sgtmelon.scriptum.model.annotation.*
 import sgtmelon.scriptum.provider.PreferenceProvider
 
 /**
@@ -36,7 +33,7 @@ class PreferenceRepo(context: Context) : IPreferenceRepo {
         get() = preferences.getInt(key.REPEAT, def.REPEAT)
         set(value) = edit { putInt(key.REPEAT, value) }
 
-    override var signal: Int
+    @Signal override var signal: Int
         get() = preferences.getInt(key.SIGNAL, def.SIGNAL)
         set(value) = edit { putInt(key.SIGNAL, value) }
 
