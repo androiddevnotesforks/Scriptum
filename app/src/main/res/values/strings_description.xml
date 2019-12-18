@@ -24,6 +24,11 @@
     <string name="description_item_notification_cancel">Cancel notification with name:</string>
     <string name="description_item_notification_cancel_at">\nWhich setup at:</string>
 
+
+    <string name="description_item_roll_check">Check item with text:</string>
+    <string name="description_item_roll_uncheck">Uncheck item with text:</string>
+    <string name="description_item_roll_move">Move item with text:</string>
+
     <string name="description_enter_rank_clear">Clear category enter</string>
     <string name="description_enter_rank_add">Add category</string>
     <string name="description_enter_roll_add">Add list item</string>

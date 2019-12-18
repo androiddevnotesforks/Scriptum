@@ -29,7 +29,7 @@
                 <ImageButton
                         android:id="@+id/roll_write_drag_button"
                         style="@style/Container.Roll.Click"
-                        android:contentDescription="@null"
+                        android:contentDescription='@{@string/description_item_roll_move + " " + item.text}'
                         app:boolExpression='@{item.check}'
                         app:falseColor='@{R.attr.clContent}'
                         app:srcCompat="@drawable/ic_move"
