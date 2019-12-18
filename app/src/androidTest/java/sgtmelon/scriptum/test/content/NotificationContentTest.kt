@@ -31,10 +31,9 @@ class NotificationContentTest : ParentUiTest() {
         onAssertList(ArrayList<NoteItem>().also { list ->
             Color.list.forEachIndexed { i, it ->
                 val date = getTime(min = NEXT_HOUR + i * NEXT_HOUR).getString()
+                val noteItem = data.insertText(data.textNote.copy(name = "", color = it))
 
-                with(data) {
-                    list.add(insertNotification(insertText(textNote.copy(color = it)), date))
-                }
+                list.add(data.insertNotification(noteItem, date))
             }
         })
     }

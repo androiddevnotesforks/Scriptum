@@ -17,11 +17,12 @@
     <string name="description_note_convert_roll">Конвертировать в текст</string>
     <string name="description_note_delete">Удалить</string>
 
-
     <string name="description_item_rank_show">Показать категорию с именем: </string>
     <string name="description_item_rank_hide">Скрыть категорию с именем: </string>
     <string name="description_item_rank_cancel">Убрать категорию с именем: </string>
 
+    <string name="description_item_notification_cancel">Убрать уведомление с именем:</string>
+    <string name="description_item_notification_cancel_at">\nКоторое установлено на:</string>
 
     <string name="description_enter_rank_clear">Отчистить поле ввода категории</string>
     <string name="description_enter_rank_add">Добавить категорию</string>

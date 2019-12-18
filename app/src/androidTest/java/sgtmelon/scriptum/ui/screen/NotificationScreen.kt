@@ -81,7 +81,9 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler), IPr
         override fun assert(item: NoteItem) {
             parentCard.isDisplayed().withCardBackground(R.attr.clBackgroundView)
 
-            nameText.isDisplayed().withText(item.name, R.attr.clContent, R.dimen.text_16sp)
+            val name = if (item.name.isEmpty()) context.getString(R.string.hint_text_name) else item.name
+
+            nameText.isDisplayed().withText(name, R.attr.clContent, R.dimen.text_16sp)
 
             val date = item.alarmDate.getCalendar().formatFuture(context)
             dateText.isDisplayed().withText(date, R.attr.clContentSecond, R.dimen.text_14sp)
@@ -90,9 +92,12 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler), IPr
                     .withSize(widthId = R.dimen.layout_8dp)
                     .withColorIndicator(R.drawable.ic_color_indicator, theme, item.color)
 
-            cancelButton.isDisplayed().withDrawableAttr(
-                    R.drawable.ic_cancel_enter, R.attr.clContent
-            )
+            val description = context.getString(R.string.description_item_notification_cancel).plus(other = " ").plus(name)
+                    .plus(context.getString(R.string.description_item_notification_cancel_at)).plus(other = " ").plus(item.alarmDate)
+
+            cancelButton.isDisplayed()
+                    .withDrawableAttr(R.drawable.ic_cancel_enter, R.attr.clContent)
+                    .withContentDescription(description)
         }
 
     }
