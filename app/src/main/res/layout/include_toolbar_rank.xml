@@ -41,7 +41,7 @@
                     <ImageButton
                             android:id="@+id/toolbar_rank_clear_button"
                             style="@style/Button.Small"
-                            android:contentDescription="@null"
+                            android:contentDescription="@string/description_enter_rank_clear"
                             app:boolExpression='@{isClearEnable}'
                             app:enabled='@{isClearEnable}'
                             app:falseColor='@{R.attr.clDisable}'
@@ -66,7 +66,7 @@
                     <ImageButton
                             android:id="@+id/toolbar_rank_add_button"
                             style="@style/Button.Small"
-                            android:contentDescription="@null"
+                            android:contentDescription="@string/description_enter_rank_add"
                             app:boolExpression='@{isAddEnable}'
                             app:enabled='@{isAddEnable}'
                             app:falseColor='@{R.attr.clDisable}'

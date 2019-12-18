@@ -69,12 +69,15 @@ class RankToolbar : ParentUi() {
             }
         }
 
-        clearButton.isDisplayed().isEnabled(!enterEmpty).withDrawableAttr(
-                R.drawable.ic_cancel_enter, if (!enterEmpty) R.attr.clContent else R.attr.clDisable
-        )
-        addButton.isDisplayed().isEnabled(isAddEnabled).withDrawableAttr(
-                R.drawable.ic_rank, if (isAddEnabled) R.attr.clAccent else R.attr.clDisable
-        )
+        val clearTint = if (!enterEmpty) R.attr.clContent else R.attr.clDisable
+        clearButton.isDisplayed().isEnabled(!enterEmpty)
+                .withDrawableAttr(R.drawable.ic_cancel_enter, clearTint)
+                .withContentDescription(R.string.description_enter_rank_clear)
+
+        val addTint = if (isAddEnabled) R.attr.clAccent else R.attr.clDisable
+        addButton.isDisplayed().isEnabled(isAddEnabled)
+                .withDrawableAttr(R.drawable.ic_rank, addTint)
+                .withContentDescription(R.string.description_enter_rank_add)
     }
 
     companion object {
