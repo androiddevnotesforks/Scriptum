@@ -105,16 +105,16 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
             val drawable = if (visible) R.drawable.ic_visible_exit else R.drawable.ic_visible_enter
             val tint = if (visible) R.attr.clAccent else R.attr.clContent
             val visibleDescription = if (visible) {
-                context.getString(R.string.description_item_rank_hide) + item.name
+                context.getString(R.string.description_item_rank_hide).plus(other = " ").plus(item.name)
             } else {
-                context.getString(R.string.description_item_rank_show) + item.name
+                context.getString(R.string.description_item_rank_show).plus(other = " ").plus(item.name)
             }
 
             visibleButton.isDisplayed()
                     .withDrawableAttr(drawable, tint)
                     .withContentDescription(visibleDescription)
 
-            val cancelDescription = context.getString(R.string.description_item_rank_cancel) + item.name
+            val cancelDescription = context.getString(R.string.description_item_rank_cancel).plus(other = " ").plus(item.name)
             cancelButton.isDisplayed()
                     .withDrawableAttr(R.drawable.ic_cancel_enter, R.attr.clContent)
                     .withContentDescription(cancelDescription)

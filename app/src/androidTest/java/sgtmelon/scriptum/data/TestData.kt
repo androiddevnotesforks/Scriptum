@@ -181,7 +181,7 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
                 repeat(noteCount) { add(insertNote()) }
             }
 
-            val rankEntity = insertRank(rankEntity.apply {
+            val rankItem = insertRank(rankEntity.apply {
                 name = "$it | $name"
                 position = it
                 isVisible = Random.nextBoolean()
@@ -189,13 +189,13 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
                 noteList.map { it.id }.forEach { noteId.add(it) }
             })
 
-            add(rankEntity)
+            add(rankItem)
 
             inRoomTest {
                 noteList.forEach {
                     iNoteDao.update(noteConverter.toEntity(it.apply {
-                        rankId = rankEntity.id
-                        rankPs = rankEntity.position
+                        rankId = rankItem.id
+                        rankPs = rankItem.position
                     }))
                 }
             }

@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.test.content
 
+import android.util.Log
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -16,17 +17,15 @@ class RankContentTest : ParentUiTest() {
         launch { mainScreen { rankScreen { list.forEach { onAssertItem(it) } } } }
     }
 
-    @Test fun visibleClick() {
-        val rankEntity = data.insertRank()
-
+    @Test fun visibleClick() = data.insertRank().let { item ->
         launch {
             mainScreen {
                 rankScreen {
-                    onAssertItem(rankEntity)
+                    onAssertItem(item)
 
                     repeat(REPEAT_TIMES) {
-                        onClickVisible(rankEntity)
-                        onAssertItem(rankEntity.apply { isVisible = !isVisible })
+                        onClickVisible(item)
+                        onAssertItem(item.apply { isVisible = !isVisible })
                     }
                 }
             }

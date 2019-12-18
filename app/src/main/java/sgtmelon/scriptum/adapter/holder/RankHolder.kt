@@ -49,6 +49,12 @@ class RankHolder(
                      */
                     item.isVisible = !item.isVisible
                     visibleButton.setDrawable(item.isVisible, needAnim = true)
+
+                    /**
+                     * Need update item in binding after changes.
+                     * Because notifyItemChanged will not happen (because of best anim performance).
+                     */
+                    bindItem(item)
                 }
             }
         }
@@ -65,10 +71,12 @@ class RankHolder(
 
     fun bind(item: RankItem, startAnim: Boolean) {
         visibleButton.setDrawable(item.isVisible, startAnim)
-
-        binding.item = item
-        binding.executePendingBindings()
+        bindItem(item)
     }
+
+    private fun bindItem(item: RankItem) = binding.apply {
+        this.item = item
+    }.executePendingBindings()
 
     override fun onTouch(v: View, event: MotionEvent): Boolean {
         if (event.action == MotionEvent.ACTION_DOWN) {
