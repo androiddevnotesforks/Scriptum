@@ -25,5 +25,6 @@
 
     <string name="description_enter_rank_clear">Clear category enter</string>
     <string name="description_enter_rank_add">Add category</string>
+    <string name="description_enter_roll_add">Add list item</string>
 
 </resources>

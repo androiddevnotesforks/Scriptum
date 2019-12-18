@@ -51,9 +51,10 @@ class RollEnterPanel<T: ParentUi>(private val callback: INoteScreen<T>) : Parent
             }
         }
 
-        addButton.isDisplayed(visible).isEnabled(!enterEmpty).withDrawableAttr(
-                R.drawable.ic_add, if (enterEmpty) R.attr.clDisable else R.attr.clAccent
-        )
+        val addTint = if (enterEmpty) R.attr.clDisable else R.attr.clAccent
+        addButton.isDisplayed(visible).isEnabled(!enterEmpty)
+                .withDrawableAttr(R.drawable.ic_add, addTint)
+                .withContentDescription(R.string.description_enter_roll_add)
     }
 
     companion object {

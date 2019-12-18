@@ -52,7 +52,7 @@
                     android:id="@+id/roll_note_add_button"
                     style="@style/Button.Small"
                     android:layout_gravity="bottom"
-                    android:contentDescription="@null"
+                    android:contentDescription="@string/description_enter_roll_add"
                     app:boolExpression='@{!enterEmpty}'
                     app:enabled='@{!enterEmpty}'
                     app:falseColor='@{R.attr.clDisable}'

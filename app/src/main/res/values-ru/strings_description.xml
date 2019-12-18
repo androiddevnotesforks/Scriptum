@@ -25,5 +25,6 @@
 
     <string name="description_enter_rank_clear">Отчистить поле ввода категории</string>
     <string name="description_enter_rank_add">Добавить категорию</string>
+    <string name="description_enter_roll_add">Добавить пункт</string>
 
 </resources>
