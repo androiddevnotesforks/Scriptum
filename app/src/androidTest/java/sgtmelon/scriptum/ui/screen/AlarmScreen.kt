@@ -33,6 +33,7 @@ class AlarmScreen(
 
     private val disableButton = getViewById(R.id.alarm_disable_button)
     private val postponeButton = getViewById(R.id.alarm_postpone_button)
+    private val moreButton = getViewById(R.id.alarm_more_button)
 
     private fun getItem() = NoteItemUi(recyclerView, p = 0)
 
@@ -55,6 +56,11 @@ class AlarmScreen(
     fun onClickPostpone() {
         postponeButton.click()
         onPostpone()
+    }
+
+    fun openMoreDialog(func: AlarmMoreDialog.() -> Unit = {}) = apply {
+        moreButton.click()
+        AlarmMoreDialog.invoke(func)
     }
 
     fun waitPostpone() = waitBefore(AlarmViewModel.CANCEL_DELAY) { onPostpone() }
@@ -88,8 +94,12 @@ class AlarmScreen(
         recyclerView.isDisplayed()
 
         buttonContainer.isDisplayed()
-        disableButton.isDisplayed()
-        postponeButton.isDisplayed()
+
+        disableButton.isDisplayed().withText(R.string.button_disable, R.attr.clAccent)
+        postponeButton.isDisplayed().withText(R.string.button_postpone, R.attr.clAccent)
+        moreButton.isDisplayed()
+                .withDrawableAttr(R.drawable.ic_more, R.attr.clAccent)
+                .withContentDescription(R.string.description_button_alarm_more)
     }
 
     companion object {

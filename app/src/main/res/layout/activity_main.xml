@@ -9,8 +9,6 @@
         android:orientation="vertical"
         tools:context=".screen.ui.main.MainActivity">
 
-    <!-- TODO 13.10.18 добавить везде где надо contentDescription -->
-
     <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"

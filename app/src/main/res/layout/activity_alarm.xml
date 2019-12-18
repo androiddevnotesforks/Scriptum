@@ -49,10 +49,10 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:visibility="invisible"
-            android:padding="@dimen/layout_4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            android:padding="@dimen/layout_4dp"
             tools:alpha="0.5"
             tools:visibility="visible">
 
@@ -70,9 +70,19 @@
                 style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
+                android:layout_weight="0.38"
                 android:text="@string/button_postpone"
                 android:textColor="?attr/clAccent"/>
+
+        <ImageButton
+                android:id="@+id/alarm_more_button"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:contentDescription="@string/description_button_alarm_more"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.12"
+                app:srcCompat="@drawable/ic_more"
+                android:tint="?attr/clAccent"/>
 
     </LinearLayout>
 
