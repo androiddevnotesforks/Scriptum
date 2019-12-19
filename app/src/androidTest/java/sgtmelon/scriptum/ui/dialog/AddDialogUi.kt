@@ -12,9 +12,11 @@ import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 
 /**
- * Class for UI control [SheetAddDialog]
+ * Class for UI control [SheetAddDialog].
  */
 class AddDialogUi : ParentUi(), IDialogUi {
+
+    // TODO #TEST add parent sheet
 
     //region Views
 

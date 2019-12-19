@@ -35,7 +35,7 @@ class TextNoteRotationTest : ParentRotationTest() {
     }
 
     @Test fun contentOnCreate() = data.createText().let {
-        launch { mainScreen { addDialog { createText(it) { onRotate { assert() } } } } }
+        launch { mainScreen { openAddDialog { createText(it) { onRotate { assert() } } } } }
     }
 
     @Test fun contentOnRead() = data.insertText().let {
@@ -119,7 +119,7 @@ class TextNoteRotationTest : ParentRotationTest() {
     @Test fun colorDialog() = data.createText().let {
         launch {
             mainScreen {
-                addDialog {
+                openAddDialog {
                     createText(it) {
                         controlPanel {
                             onColor {

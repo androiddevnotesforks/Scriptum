@@ -85,7 +85,7 @@ class NotesTest : ParentUiTest() {
         launch {
             mainScreen {
                 notesScreen(empty = true)
-                addDialog { createText(it) { onPressBack() } }
+                openAddDialog { createText(it) { onPressBack() } }
                 notesScreen(empty = true)
             }
         }
@@ -95,7 +95,7 @@ class NotesTest : ParentUiTest() {
         launch {
             mainScreen {
                 notesScreen(empty = true)
-                addDialog { createRoll(it) { onPressBack() } }
+                openAddDialog { createRoll(it) { onPressBack() } }
                 notesScreen(empty = true)
             }
         }
@@ -106,7 +106,7 @@ class NotesTest : ParentUiTest() {
             mainScreen {
                 notesScreen(empty = true)
 
-                addDialog {
+                openAddDialog {
                     createText(it) {
                         data.insertText()
                         toolbar { onClickBack() }
@@ -123,7 +123,7 @@ class NotesTest : ParentUiTest() {
             mainScreen {
                 notesScreen(empty = true)
 
-                addDialog {
+                openAddDialog {
                     createRoll(it) {
                         data.insertRoll()
                         toolbar { onClickBack() }

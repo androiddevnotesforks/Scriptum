@@ -183,7 +183,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
     }
 
     /**
-     * Calls after postpone for update alarm indicator.
+     * Calls after alarmRepeat for update indicator.
      */
     override fun onReceiveUpdateAlarm(id: Long) {
         val p = itemList.indexOfFirst { it.id == id }

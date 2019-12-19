@@ -3,6 +3,9 @@ package sgtmelon.scriptum.screen.vm.notification
 import android.app.Application
 import android.os.Bundle
 import android.os.Handler
+import android.view.MenuItem
+import androidx.annotation.IdRes
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
@@ -13,6 +16,7 @@ import sgtmelon.scriptum.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.interactor.notification.AlarmInteractor
 import sgtmelon.scriptum.interactor.notification.SignalInteractor
+import sgtmelon.scriptum.model.annotation.Repeat
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.data.ReceiverData
@@ -47,7 +51,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     }
 
     private val longWaitHandler = Handler()
-    private val longWaitRunnable = Runnable { postponeFinish() }
+    private val longWaitRunnable = Runnable { repeatFinish() }
 
     override fun onSetup(bundle: Bundle?) {
         callback?.apply {
@@ -145,18 +149,22 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         callback?.finish()
     }
 
-    override fun onClickPostpone() = postponeFinish()
+    override fun onClickRepeat() = repeatFinish()
 
+    override fun onResultRepeatDialog(menuItem: MenuItem) {
+        val repeat = getRepeatById(menuItem.itemId) ?: iInteractor.repeat
+        repeatFinish(repeat)
+    }
 
     /**
      * Call this when need setup alarm repeat.
      */
-    private fun postponeFinish() {
+    private fun repeatFinish(@Repeat repeat: Int = iInteractor.repeat) {
         viewModelScope.launch {
             val valueArray = context.resources.getIntArray(R.array.value_alarm_repeat_array)
-            iInteractor.setupRepeat(noteItem, valueArray)
+            iInteractor.setupRepeat(noteItem, valueArray, repeat)
 
-            callback?.showPostponeToast(iInteractor.repeat)
+            callback?.showRepeatToast(repeat)
 
             context.sendTo(ReceiverData.Filter.MAIN, ReceiverData.Command.UPDATE_ALARM) {
                 putExtra(ReceiverData.Values.NOTE_ID, id)
@@ -180,6 +188,16 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         const val CANCEL_DELAY = 20000L
 
         private val vibratorPattern = longArrayOf(500, 750, 500, 750, 500, 0)
+
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        fun getRepeatById(@IdRes itemId: Int): Int? = when(itemId) {
+            R.id.item_repeat_0 -> Repeat.MIN_10
+            R.id.item_repeat_1 -> Repeat.MIN_30
+            R.id.item_repeat_2 -> Repeat.MIN_60
+            R.id.item_repeat_3 -> Repeat.MIN_180
+            R.id.item_repeat_4 -> Repeat.MIN_1440
+            else -> null
+        }
     }
 
 }

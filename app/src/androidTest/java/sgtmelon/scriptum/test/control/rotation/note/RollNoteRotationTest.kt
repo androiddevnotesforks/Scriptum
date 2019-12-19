@@ -35,7 +35,7 @@ class RollNoteRotationTest : ParentRotationTest() {
     }
 
     @Test fun contentOnCreate() = data.createRoll().let {
-        launch { mainScreen { addDialog { createRoll(it) { onRotate { assert() } } } } }
+        launch { mainScreen { openAddDialog { createRoll(it) { onRotate { assert() } } } } }
     }
 
     @Test fun contentOnRead() = data.insertRoll().let {
@@ -117,7 +117,7 @@ class RollNoteRotationTest : ParentRotationTest() {
     @Test fun colorDialog() = data.createRoll().let {
         launch {
             mainScreen {
-                addDialog {
+                openAddDialog {
                     createRoll(it) {
                         controlPanel {
                             onColor {

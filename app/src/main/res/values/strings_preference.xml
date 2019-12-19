@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--  TODO add prefix = pref_...  -->
+
     <string name="header_app">App</string>
     <string name="header_note">Notes</string>
     <string name="header_notification">Notifications</string>
@@ -14,7 +16,7 @@
     <string name="title_note_sort">Sort notes</string>
     <string name="title_note_color">Default note color</string>
 
-    <string name="title_alarm_repeat">Postpone time</string>
+    <string name="title_alarm_repeat">Repeat time</string>
     <string name="title_alarm_signal">Signal type</string>
     <string name="title_alarm_melody">Melody</string>
     <string name="title_alarm_volume">Volume</string>
@@ -53,7 +55,6 @@
         <item>Dark</item>
     </string-array>
 
-
     <string-array name="text_note_sort">
         <item>By time of change</item>
         <item>By time of creation</item>
@@ -76,9 +77,11 @@
     </string-array>
 
     <string-array name="text_alarm_repeat">
-        <item>10 minutes</item>
-        <item>30 minutes</item>
-        <item>1 hour</item>
+        <item>@string/dialog_repeat_0</item>
+        <item>@string/dialog_repeat_1</item>
+        <item>@string/dialog_repeat_2</item>
+        <item>@string/dialog_repeat_3</item>
+        <item>@string/dialog_repeat_4</item>
     </string-array>
 
     <string-array name="text_alarm_signal">

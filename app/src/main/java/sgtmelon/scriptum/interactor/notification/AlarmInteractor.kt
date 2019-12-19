@@ -5,6 +5,7 @@ import sgtmelon.extension.clearSeconds
 import sgtmelon.extension.getString
 import sgtmelon.scriptum.interactor.ParentInteractor
 import sgtmelon.scriptum.interactor.callback.notification.IAlarmInteractor
+import sgtmelon.scriptum.model.annotation.Repeat
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.repository.alarm.AlarmRepo
@@ -44,7 +45,8 @@ class AlarmInteractor(context: Context, private var callback: IAlarmBridge?) :
         return iNoteRepo.getItem(id, optimisation = true)
     }
 
-    override suspend fun setupRepeat(noteItem: NoteItem, valueArray: IntArray) {
+    override suspend fun setupRepeat(noteItem: NoteItem, valueArray: IntArray,
+                                     @Repeat repeat: Int) {
         val calendar = Calendar.getInstance().clearSeconds().apply {
             add(Calendar.MINUTE, valueArray[repeat])
         }

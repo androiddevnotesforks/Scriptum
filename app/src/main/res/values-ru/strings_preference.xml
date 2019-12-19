@@ -58,9 +58,11 @@
     </string-array>
 
     <string-array name="text_alarm_repeat">
-        <item>10 минут</item>
-        <item>30 минут</item>
-        <item>1 час</item>
+        <item>@string/dialog_repeat_0</item>
+        <item>@string/dialog_repeat_1</item>
+        <item>@string/dialog_repeat_2</item>
+        <item>@string/dialog_repeat_3</item>
+        <item>@string/dialog_repeat_4</item>
     </string-array>
 
     <string-array name="text_alarm_signal">

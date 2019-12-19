@@ -25,7 +25,7 @@ class TextNoteTest : ParentUiTest() {
     }
 
     @Test fun contentOnCreate() = data.createText().let {
-        launch { mainScreen { addDialog { createText(it) } } }
+        launch { mainScreen { openAddDialog { createText(it) } } }
     }
 
     @Test fun contentOnReadWithoutName() = data.insertText(data.textNote.copy(name = "")).let {
@@ -52,8 +52,8 @@ class TextNoteTest : ParentUiTest() {
     @Test fun closeOnCreate() = data.createText().let {
         launch {
             mainScreen {
-                addDialog { createText(it) { toolbar { onClickBack() } } }.assert()
-                addDialog { createText(it) { onPressBack() } }.assert()
+                openAddDialog { createText(it) { toolbar { onClickBack() } } }.assert()
+                openAddDialog { createText(it) { onPressBack() } }.assert()
             }
         }
     }
@@ -70,7 +70,7 @@ class TextNoteTest : ParentUiTest() {
     @Test fun saveOnCreate() = data.createText().let {
         launch {
             mainScreen {
-                addDialog {
+                openAddDialog {
                     createText(it) {
                         toolbar { onEnterName(data.uniqueString) }
                         onEnterText(data.uniqueString)
@@ -205,7 +205,7 @@ class TextNoteTest : ParentUiTest() {
     }
 
     @Test fun actionOnCreateColor() = data.createText().let {
-        launch { mainScreen { addDialog { createText(it) { controlPanel { onColor() } } } } }
+        launch { mainScreen { openAddDialog { createText(it) { controlPanel { onColor() } } } } }
     }
 
     @Test fun actionOnEditColor() = data.insertText().let {
@@ -217,7 +217,7 @@ class TextNoteTest : ParentUiTest() {
     @Test fun actionOnCreateSave() = data.createText().let {
         launch {
             mainScreen {
-                addDialog {
+                openAddDialog {
                     createText(it) {
                         toolbar { onEnterName(data.uniqueString) }
                         onEnterText(data.uniqueString).onEnterText().onEnterText(data.uniqueString)
@@ -284,7 +284,7 @@ class TextNoteTest : ParentUiTest() {
     @Test fun colorDialogCloseAndWork() = data.createText().let {
         launch {
             mainScreen {
-                addDialog {
+                openAddDialog {
                     createText(it) {
                         controlPanel { onColor { onCloseSoft() } }.assert()
                         controlPanel { onColor { onClickCancel() } }.assert()

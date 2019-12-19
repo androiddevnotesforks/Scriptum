@@ -43,7 +43,7 @@ class NoteDefaultColorTest : ParentUiTest(), IColorTest {
         data.createText().let {
             launch {
                 mainScreen {
-                    addDialog { createText(it) { controlPanel { onColor { onAssertItem() } } } }
+                    openAddDialog { createText(it) { controlPanel { onColor { onAssertItem() } } } }
                 }
             }
         }

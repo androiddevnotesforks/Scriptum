@@ -39,8 +39,8 @@
     <string name="notification_info_description">Press for details</string>
 
     <!-- Button -->
-    <string name="button_postpone">Postpone</string>
     <string name="button_disable">Disable</string>
+    <string name="button_repeat">Repeat</string>
 
     <string name="button_show_intro">Show intro</string>
 
@@ -53,7 +53,7 @@
 
     <string name="toast_text_copy">Text copied</string>
 
-    <string name="toast_alarm_postpone">Postpone for %s</string>
+    <string name="toast_alarm_repeat">Repeat after %s</string>
     <string name="toast_alarm_set">Set for %s</string>
 
     <!-- Hint -->

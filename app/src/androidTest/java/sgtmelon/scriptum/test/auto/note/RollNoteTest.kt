@@ -25,7 +25,7 @@ class RollNoteTest : ParentUiTest() {
     }
 
     @Test fun contentOnCreate() = data.createRoll().let {
-        launch { mainScreen { addDialog { createRoll(it) } } }
+        launch { mainScreen { openAddDialog { createRoll(it) } } }
     }
 
     @Test fun contentOnReadWithoutName() = data.insertRoll(data.rollNote.copy(name = "")).let {
@@ -52,8 +52,8 @@ class RollNoteTest : ParentUiTest() {
     @Test fun closeOnCreate() = data.createRoll().let {
         launch {
             mainScreen {
-                addDialog { createRoll(it) { toolbar { onClickBack() } } }.assert()
-                addDialog { createRoll(it) { onPressBack() } }.assert()
+                openAddDialog { createRoll(it) { toolbar { onClickBack() } } }.assert()
+                openAddDialog { createRoll(it) { onPressBack() } }.assert()
             }
         }
     }
@@ -70,7 +70,7 @@ class RollNoteTest : ParentUiTest() {
     @Test fun saveOnCreate() = data.createRoll().let {
         launch {
             mainScreen {
-                addDialog {
+                openAddDialog {
                     createRoll(it) {
                         toolbar { onEnterName(data.uniqueString) }
                         enterPanel { onAddRoll(data.uniqueString) }
@@ -217,7 +217,7 @@ class RollNoteTest : ParentUiTest() {
     }
 
     @Test fun actionOnCreateColor() = data.createRoll().let {
-        launch { mainScreen { addDialog { createRoll(it) { controlPanel { onColor() } } } } }
+        launch { mainScreen { openAddDialog { createRoll(it) { controlPanel { onColor() } } } } }
     }
 
     @Test fun actionOnEditColor() = data.insertRoll().let {
@@ -231,7 +231,7 @@ class RollNoteTest : ParentUiTest() {
     @Test fun actionOnCreateSave() = data.createRoll().let {
         launch {
             mainScreen {
-                addDialog {
+                openAddDialog {
                     createRoll(it) {
                         toolbar { onEnterName(data.uniqueString) }
                         repeat(times = 3) { enterPanel { onAddRoll(data.uniqueString) } }
@@ -299,7 +299,7 @@ class RollNoteTest : ParentUiTest() {
     @Test fun colorDialogCloseAndWork() = data.createRoll().let {
         launch {
             mainScreen {
-                addDialog {
+                openAddDialog {
                     createRoll(it) {
                         controlPanel { onColor { onCloseSoft() } }.assert()
                         controlPanel { onColor { onClickCancel() } }.assert()

@@ -56,7 +56,7 @@ class MainScreen : ParentUi() {
         BinScreen.invoke(func, empty)
     }
 
-    fun addDialog(func: AddDialogUi.() -> Unit = {}) = apply {
+    fun openAddDialog(func: AddDialogUi.() -> Unit = {}) = apply {
         addFab.click()
         AddDialogUi.invoke(func)
     }

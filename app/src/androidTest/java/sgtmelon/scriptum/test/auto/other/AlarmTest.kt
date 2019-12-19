@@ -37,41 +37,45 @@ class AlarmTest : ParentUiTest() {
     }
 
 
-    @Test fun clickPostponeMin10() = startPostponeTest(Repeat.MIN_10)
+    @Test fun clickRepeatMin10() = startRepeatTest(Repeat.MIN_10)
 
-    @Test fun clickPostponeMin30() = startPostponeTest(Repeat.MIN_30)
+    @Test fun clickRepeatMin30() = startRepeatTest(Repeat.MIN_30)
 
-    @Test fun clickPostponeMin60() = startPostponeTest(Repeat.MIN_60)
+    @Test fun clickRepeatMin60() = startRepeatTest(Repeat.MIN_60)
 
-    private fun startPostponeTest(@Repeat repeat: Int) {
+    @Test fun clickRepeatMin180() = startRepeatTest(Repeat.MIN_180)
+
+    @Test fun clickRepeatMin1440() = startRepeatTest(Repeat.MIN_1440)
+
+    private fun startRepeatTest(@Repeat repeat: Int) {
         iPreferenceRepo.repeat = repeat
 
         data.insertNote().let {
-            launchAlarm(it) { openAlarm(it) { onClickPostpone() }.mainScreen() }
+            launchAlarm(it) { openAlarm(it) { onClickRepeat() }.mainScreen() }
         }
     }
 
 
-    @Test fun clickPostponeDateExist() = data.insertText().let{
+    @Test fun clickRepeatDateExist() = data.insertText().let{
         iPreferenceRepo.repeat = Repeat.MIN_10
 
         launchAlarm(it) {
             val existDate = getTime(min = 10).getString()
             data.insertNotification(date = existDate)
 
-            openAlarm(it, listOf(existDate)) { onClickPostpone() }
+            openAlarm(it, listOf(existDate)) { onClickRepeat() }
             mainScreen { notesScreen { openNotification { onAssertItem(1, it) } } }
         }
     }
 
-    @Test fun clickPostponeCorrectSeconds() = data.insertText(data.textNote.copy(color = 1)).let {
+    @Test fun clickRepeatCorrectSeconds() = data.insertText(data.textNote.copy(color = 1)).let {
         iPreferenceRepo.sort = Sort.COLOR
         iPreferenceRepo.repeat = Repeat.MIN_10
 
         val note = data.insertRoll(data.rollNote.copy(color = 0))
 
         launchAlarm(it) {
-            openAlarm(it) { onClickPostpone() }
+            openAlarm(it) { onClickRepeat() }
             mainScreen {
                 notesScreen {
                     onAssertItem(note, p = 0)
@@ -88,32 +92,64 @@ class AlarmTest : ParentUiTest() {
     }
 
 
-    @Test fun waitPostponeMin10() = startWaitPostponeTest(Repeat.MIN_10)
+    @Test fun waitRepeatMin10() = startWaitRepeatTest(Repeat.MIN_10)
 
-    @Test fun waitPostponeMin30() = startWaitPostponeTest(Repeat.MIN_30)
+    @Test fun waitRepeatMin30() = startWaitRepeatTest(Repeat.MIN_30)
 
-    @Test fun waitPostponeMin60() = startWaitPostponeTest(Repeat.MIN_60)
+    @Test fun waitRepeatMin60() = startWaitRepeatTest(Repeat.MIN_60)
 
-    private fun startWaitPostponeTest(@Repeat repeat: Int) {
+    @Test fun waitRepeatMin180() = startWaitRepeatTest(Repeat.MIN_180)
+
+    @Test fun waitRepeatMin1440() = startWaitRepeatTest(Repeat.MIN_1440)
+
+    private fun startWaitRepeatTest(@Repeat repeat: Int) {
         iPreferenceRepo.repeat = repeat
 
         data.insertNote().let {
-            launchAlarm(it) { openAlarm(it) { waitPostpone() }.mainScreen() }
+            launchAlarm(it) { openAlarm(it) { waitRepeat() }.mainScreen() }
         }
     }
 
 
-    @Test fun backPostponeMin10() = startBackPostponeTest(Repeat.MIN_10)
+    @Test fun backRepeatMin10() = startBackRepeatTest(Repeat.MIN_10)
 
-    @Test fun backPostponeMin30() = startBackPostponeTest(Repeat.MIN_30)
+    @Test fun backRepeatMin30() = startBackRepeatTest(Repeat.MIN_30)
 
-    @Test fun backPostponeMin60() = startBackPostponeTest(Repeat.MIN_60)
+    @Test fun backRepeatMin60() = startBackRepeatTest(Repeat.MIN_60)
 
-    private fun startBackPostponeTest(@Repeat repeat: Int) {
+    @Test fun backRepeatMin180() = startBackRepeatTest(Repeat.MIN_180)
+
+    @Test fun backRepeatMin1440() = startBackRepeatTest(Repeat.MIN_1440)
+
+    private fun startBackRepeatTest(@Repeat repeat: Int) {
         iPreferenceRepo.repeat = repeat
 
         data.insertNote().let {
             launchAlarm(it) { openAlarm(it) { onPressBack() }.mainScreen() }
+        }
+    }
+
+
+    @Test fun moreRepeatMin10() = startMoreRepeatTest(Repeat.MIN_10)
+
+    @Test fun moreRepeatMin30() = startMoreRepeatTest(Repeat.MIN_30)
+
+    @Test fun moreRepeatMin60() = startMoreRepeatTest(Repeat.MIN_60)
+
+    @Test fun moreRepeatMin180() = startMoreRepeatTest(Repeat.MIN_180)
+
+    @Test fun moreRepeatMin1440() = startMoreRepeatTest(Repeat.MIN_1440)
+
+    private fun startMoreRepeatTest(@Repeat repeat: Int) = data.insertNote().let {
+        launchAlarm(it) { openAlarm(it) { openMoreDialog { onClickRepeat(repeat) } }.mainScreen() }
+    }
+
+    @Test fun moreDialogUse()  = data.insertNote().let {
+        launchAlarm(it) {
+            openAlarm(it) {
+                openMoreDialog { onCloseSoft() }.assert()
+                openMoreDialog { onCloseSwipe() }.assert()
+            }
         }
     }
 

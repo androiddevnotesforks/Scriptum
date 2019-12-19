@@ -1,11 +1,12 @@
 package sgtmelon.scriptum.model.data
 
+import androidx.annotation.IdRes
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.key.NoteType
 
 object NoteData {
 
-    fun getTypeById(id: Int): NoteType? = when (id) {
+    fun getTypeById(@IdRes itemId: Int): NoteType? = when (itemId) {
         R.id.item_add_text -> NoteType.TEXT
         R.id.item_add_roll -> NoteType.ROLL
         else -> null

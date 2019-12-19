@@ -22,7 +22,7 @@ class ColorDialogContentTest : ParentUiTest() {
 
         launch {
             mainScreen {
-                addDialog { createText(it) { controlPanel { onColor { onAssertAll() } } } }
+                openAddDialog { createText(it) { controlPanel { onColor { onAssertAll() } } } }
             }
         }
     }

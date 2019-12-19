@@ -13,7 +13,7 @@ import sgtmelon.scriptum.test.ParentRotationTest
 @RunWith(AndroidJUnit4::class)
 class MainRotationTest : ParentRotationTest() {
 
-    @Test fun addDialog() = launch { mainScreen { addDialog { onRotate { assert() } } } }
+    @Test fun addDialog() = launch { mainScreen { openAddDialog { onRotate { assert() } } } }
 
     /**
      * RankScreen

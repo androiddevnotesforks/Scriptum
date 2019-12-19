@@ -29,21 +29,19 @@ class MainTest : ParentUiTest() {
      * Add Dialog
      */
 
-    @Test fun addDialogOpen() = launch { mainScreen { addDialog() } }
-
-    @Test fun addDialogClose() = launch {
+    @Test fun addDialogUse() = launch {
         mainScreen {
-            addDialog { onCloseSoft() }.assert()
-            addDialog { onCloseSwipe() }.assert()
+            openAddDialog { onCloseSoft() }.assert()
+            openAddDialog { onCloseSwipe() }.assert()
         }
     }
 
     @Test fun addDialogCreateTextNote() = data.createText().let {
-        launch { mainScreen { addDialog { createText(it) } } }
+        launch { mainScreen { openAddDialog { createText(it) } } }
     }
 
     @Test fun addDialogCreateRollNote() = data.createRoll().let {
-        launch { mainScreen { addDialog { createRoll(it) } } }
+        launch { mainScreen { openAddDialog { createRoll(it) } } }
     }
 
     /**

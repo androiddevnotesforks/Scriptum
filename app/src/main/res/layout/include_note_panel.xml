@@ -159,7 +159,7 @@
                 <ImageButton
                         android:id="@+id/note_panel_bind_button"
                         style="@style/Button.Small"
-                        android:contentDescription='@{item.status ? @string/description_note_bind : @string/description_note_unbind}'
+                        android:contentDescription='@{item.status ? @string/description_note_unbind : @string/description_note_bind}'
                         android:onClick='@{() -> menuCallback.onMenuBind()}'
                         android:src='@{item.type == Type.TEXT ? @drawable/ic_bind_text : @drawable/ic_bind_roll}'
                         app:boolExpression='@{item.status}'

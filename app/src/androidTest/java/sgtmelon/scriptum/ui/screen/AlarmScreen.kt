@@ -9,6 +9,7 @@ import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
 import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
 import sgtmelon.scriptum.ui.IPressBack
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
+import sgtmelon.scriptum.ui.dialog.RepeatDialogUi
 import sgtmelon.scriptum.ui.item.NoteItemUi
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
@@ -32,7 +33,7 @@ class AlarmScreen(
     private val buttonContainer = getViewById(R.id.alarm_button_container)
 
     private val disableButton = getViewById(R.id.alarm_disable_button)
-    private val postponeButton = getViewById(R.id.alarm_postpone_button)
+    private val repeatButton = getViewById(R.id.alarm_repeat_button)
     private val moreButton = getViewById(R.id.alarm_more_button)
 
     private fun getItem() = NoteItemUi(recyclerView, p = 0)
@@ -53,19 +54,19 @@ class AlarmScreen(
         disableButton.click()
     }
 
-    fun onClickPostpone() {
-        postponeButton.click()
-        onPostpone()
+    fun onClickRepeat() {
+        repeatButton.click()
+        onRepeat()
     }
 
-    fun openMoreDialog(func: AlarmMoreDialog.() -> Unit = {}) = apply {
+    fun openMoreDialog(func: RepeatDialogUi.() -> Unit = {}) = apply {
         moreButton.click()
-        AlarmMoreDialog.invoke(func)
+        RepeatDialogUi.invoke(func)
     }
 
-    fun waitPostpone() = waitBefore(AlarmViewModel.CANCEL_DELAY) { onPostpone() }
+    fun waitRepeat() = waitBefore(AlarmViewModel.CANCEL_DELAY) { onRepeat() }
 
-    private fun onPostpone() {
+    private fun onRepeat() {
         val calendar = getTime(min = repeatArray[repeat])
 
         while (dateList?.contains(calendar.getString()) == true) {
@@ -96,7 +97,7 @@ class AlarmScreen(
         buttonContainer.isDisplayed()
 
         disableButton.isDisplayed().withText(R.string.button_disable, R.attr.clAccent)
-        postponeButton.isDisplayed().withText(R.string.button_postpone, R.attr.clAccent)
+        repeatButton.isDisplayed().withText(R.string.button_repeat, R.attr.clAccent)
         moreButton.isDisplayed()
                 .withDrawableAttr(R.drawable.ic_more, R.attr.clAccent)
                 .withContentDescription(R.string.description_button_alarm_more)

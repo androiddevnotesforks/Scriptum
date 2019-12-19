@@ -16,18 +16,18 @@ import sgtmelon.scriptum.test.ParentUiTest
 class NoteIconAnimTest : ParentUiTest() {
 
     @Test fun arrowBackOnCreateTextNote() = data.createText().let {
-        launch { mainScreen { addDialog { waitAfter(TIME) { createText(it) } } } }
+        launch { mainScreen { openAddDialog { waitAfter(TIME) { createText(it) } } } }
     }
 
     @Test fun arrowBackOnCreateRollNote() = data.createRoll().let {
-        launch { mainScreen { addDialog { waitAfter(TIME) { createRoll(it) } } } }
+        launch { mainScreen { openAddDialog { waitAfter(TIME) { createRoll(it) } } } }
     }
 
 
     @Test fun notAnimateOnSaveCreateTextNote() = data.createText().let {
         launch {
             mainScreen {
-                addDialog {
+                openAddDialog {
                     createText(it) {
                         waitAfter(TIME) {
                             onEnterText(data.textNote.text).controlPanel { onSave() }
@@ -41,7 +41,7 @@ class NoteIconAnimTest : ParentUiTest() {
     @Test fun notAnimateOnSaveCreateRollNote() = data.createRoll().let {
         launch {
             mainScreen {
-                addDialog {
+                openAddDialog {
                     createRoll(it) {
                         waitAfter(TIME) {
                             enterPanel { onAddRoll(data.rollList.first().text) }

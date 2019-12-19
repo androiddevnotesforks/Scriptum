@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.screen.vm.callback.notification
 
 import android.os.Bundle
+import android.view.MenuItem
 import sgtmelon.scriptum.receiver.NoteReceiver
 import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
 import sgtmelon.scriptum.screen.vm.callback.IParentViewModel
@@ -19,6 +20,8 @@ interface IAlarmViewModel: IParentViewModel, NoteReceiver.Callback {
 
     fun onClickDisable()
 
-    fun onClickPostpone()
+    fun onClickRepeat()
+
+    fun onResultRepeatDialog(menuItem: MenuItem)
 
 }

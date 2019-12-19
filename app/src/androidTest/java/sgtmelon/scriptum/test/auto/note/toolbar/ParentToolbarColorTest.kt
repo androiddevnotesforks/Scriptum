@@ -19,7 +19,7 @@ abstract class ParentToolbarColorTest(@Theme private val theme: Int) : ParentUiT
         launch {
             mainScreen {
                 notesScreen(empty = true) {
-                    addDialog {
+                    openAddDialog {
                         val noteItem = data.createNote()
                         when(noteItem.type) {
                             NoteType.TEXT -> {

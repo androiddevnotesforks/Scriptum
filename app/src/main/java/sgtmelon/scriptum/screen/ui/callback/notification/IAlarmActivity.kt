@@ -47,7 +47,7 @@ interface IAlarmActivity : IAlarmBridge {
 
     fun vibrateCancel()
 
-    fun showPostponeToast(select: Int)
+    fun showRepeatToast(select: Int)
 
     fun finish()
 

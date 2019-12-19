@@ -14,6 +14,18 @@ import sgtmelon.scriptum.model.key.NoteType
  */
 object DialogFactory {
 
+    class Alarm(private val context: Context?, private val fm: FragmentManager) {
+        fun getRepeatDialog(): SheetRepeatDialog {
+            return fm.findFragmentByTag(REPEAT) as? SheetRepeatDialog ?: SheetRepeatDialog()
+        }
+
+        companion object {
+            private const val PREFIX = "DIALOG_ALARM"
+
+            const val REPEAT = "${PREFIX}_REPEAT"
+        }
+    }
+
     class Main(private val context: Context?, private val fm: FragmentManager) {
         fun getRenameDialog(): RenameDialog {
             return fm.findFragmentByTag(RENAME) as? RenameDialog ?: RenameDialog()
