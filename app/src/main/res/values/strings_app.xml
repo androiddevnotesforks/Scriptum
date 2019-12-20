@@ -19,8 +19,13 @@
     <string name="clipboard_label" translatable="false">Scriptum note</string>
 
     <!-- Notifications -->
-    <string name="notification_channel_id" translatable="false">scriptum_channel_id</string>
-    <string name="notification_channel" translatable="false">Scriptum</string>
+    <string name="notification_old_channel_id" translatable="false">scriptum_channel_id</string>
+
+    <string name="notification_notes_channel_id" translatable="false">scriptum_notes_channel_id</string>
+    <string name="notification_info_channel_id" translatable="false">scriptum_info_channel_id</string>
+
+    <string name="notification_notes_channel">Notes</string>
+    <string name="notification_info_channel">Info</string>
 
     <string name="notification_group_notes">Scriptum notes</string>
     <string name="notification_group_info">Scriptum info</string>

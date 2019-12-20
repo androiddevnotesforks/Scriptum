@@ -4,6 +4,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
+import androidx.annotation.RequiresApi
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.factory.NotificationFactory
 import sgtmelon.scriptum.model.item.NoteItem
@@ -18,13 +19,39 @@ class BindControl(private val context: Context?) : IBindControl {
 
     init {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && context != null) {
-            manager?.createNotificationChannel(NotificationChannel(
-                    context.getString(R.string.notification_channel_id), context.getString(R.string.notification_channel), NotificationManager.IMPORTANCE_DEFAULT
-            ).apply {
-                setSound(null, null)
-                vibrationPattern = null
-            })
+            manager?.createNotificationChannel(getInfoChannel(context))
+            manager?.createNotificationChannel(getNotesChannel(context))
+
+            deleteOldChannel(context)
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun getInfoChannel(context: Context) : NotificationChannel {
+        val id = context.getString(R.string.notification_info_channel_id)
+        val name = context.getString(R.string.notification_info_channel)
+
+        return NotificationChannel(id, name, NotificationManager.IMPORTANCE_DEFAULT).apply {
+            setSound(null, null)
+            vibrationPattern = null
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun getNotesChannel(context: Context) : NotificationChannel {
+        val id = context.getString(R.string.notification_notes_channel_id)
+        val name = context.getString(R.string.notification_notes_channel)
+
+        return NotificationChannel(id, name, NotificationManager.IMPORTANCE_DEFAULT).apply {
+            setSound(null, null)
+            vibrationPattern = null
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun deleteOldChannel(context: Context) {
+        val id = context.getString(R.string.notification_old_channel_id)
+        manager?.deleteNotificationChannel(id)
     }
 
 

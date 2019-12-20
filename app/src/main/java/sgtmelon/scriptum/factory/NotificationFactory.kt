@@ -48,7 +48,7 @@ object NotificationFactory {
                 .addNextIntent(SplashActivity.getBindInstance(context, noteItem))
                 .getPendingIntent(id, PendingIntent.FLAG_UPDATE_CURRENT)
 
-        val builder = NotificationCompat.Builder(context, context.getString(R.string.notification_channel_id))
+        val builder = NotificationCompat.Builder(context, context.getString(R.string.notification_notes_channel_id))
                 .setSmallIcon(icon)
                 .setColor(color)
                 .setContentTitle(title)
@@ -84,7 +84,7 @@ object NotificationFactory {
                 .addNextIntent(SplashActivity.getNotificationInstance(context))
                 .getPendingIntent(BindControl.INFO_ID, PendingIntent.FLAG_UPDATE_CURRENT)
 
-        val builder = NotificationCompat.Builder(context, context.getString(R.string.notification_channel_id))
+        val builder = NotificationCompat.Builder(context, context.getString(R.string.notification_info_channel_id))
                 .setSmallIcon(R.drawable.notif_info)
                 .setContentTitle(context.resources.getQuantityString(R.plurals.notification_info_title, count, count))
                 .setContentText(context.getString(R.string.notification_info_description))
