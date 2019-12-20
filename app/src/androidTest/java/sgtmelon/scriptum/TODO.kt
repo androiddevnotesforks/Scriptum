@@ -75,6 +75,10 @@ class Rotation {
      * 1. [TextNoteRotationTest.convertDialogResult]
      * 2. [RollNoteRotationTest.convertDialogResult]
      */
+
+    /**
+     * TODO #TEST for preference screen
+     */
 }
 
 class AutoSave {
