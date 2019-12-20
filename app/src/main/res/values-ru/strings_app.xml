@@ -14,8 +14,8 @@
     <string name="menu_clear_bin">Очистить корзину</string>
 
     <!-- Notifications -->
-    <string name="notification_group_notes">Заметки</string>
-    <string name="notification_group_info">Информация</string>
+    <string name="notification_group_notes">Scriptum заметки</string>
+    <string name="notification_group_info">Scriptum информация</string>
 
     <string name="notification_button_unbind">Открепить</string>
 

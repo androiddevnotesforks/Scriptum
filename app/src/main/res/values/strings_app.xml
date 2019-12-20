@@ -22,8 +22,8 @@
     <string name="notification_channel_id" translatable="false">scriptum_channel_id</string>
     <string name="notification_channel" translatable="false">Scriptum</string>
 
-    <string name="notification_group_notes">Notes</string>
-    <string name="notification_group_info">Info</string>
+    <string name="notification_group_notes">Scriptum notes</string>
+    <string name="notification_group_info">Scriptum info</string>
 
     <string name="notification_button_unbind">Unbind</string>
 
