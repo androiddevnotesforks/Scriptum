@@ -90,7 +90,7 @@ object NotificationFactory {
                 .setContentText(context.getString(R.string.notification_info_description))
                 .setCategory(NotificationCompat.CATEGORY_EVENT)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setContentIntent(contentIntent)
                 .setAutoCancel(false)
                 .setOngoing(true)
