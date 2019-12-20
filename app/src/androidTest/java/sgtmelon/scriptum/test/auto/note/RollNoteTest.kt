@@ -303,7 +303,7 @@ class RollNoteTest : ParentUiTest() {
                     createRoll(it) {
                         controlPanel { onColor { onCloseSoft() } }.assert()
                         controlPanel { onColor { onClickCancel() } }.assert()
-                        controlPanel { onColor { onClickAll().onClickItem().onClickAccept() } }
+                        controlPanel { onColor { onClickAll().onClickItem().onClickApply() } }
                     }
                 }
             }

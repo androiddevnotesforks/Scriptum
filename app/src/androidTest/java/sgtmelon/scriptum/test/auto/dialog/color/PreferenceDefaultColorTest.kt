@@ -43,7 +43,7 @@ class PreferenceDefaultColorTest : ParentUiTest(), IColorTest {
         launch {
             mainScreen {
                 notesScreen(empty = true) {
-                    openPreference { onClickDefaultColor(color) { onAssertItem() } }
+                    openPreference { openColorDialog(color) { onAssertItem() } }
                 }
             }
         }

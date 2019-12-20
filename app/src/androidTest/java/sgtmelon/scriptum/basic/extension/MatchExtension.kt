@@ -43,6 +43,10 @@ fun Matcher<View>.isSelected(selected: Boolean = true) = also {
     matchOnView(it, if (selected) ViewMatchers.isSelected() else not(ViewMatchers.isSelected()))
 }
 
+fun Matcher<View>.isChecked(checked: Boolean = true) = also {
+    matchOnView(it, if (checked) ViewMatchers.isChecked() else not(ViewMatchers.isChecked()))
+}
+
 fun Matcher<View>.withText(@StringRes stringId: Int,
                            @AttrRes attrColor: Int = -1,
                            @DimenRes dimenId: Int = -1) = also {

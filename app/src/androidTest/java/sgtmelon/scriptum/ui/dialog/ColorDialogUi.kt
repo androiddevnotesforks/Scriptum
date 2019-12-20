@@ -46,7 +46,7 @@ class ColorDialogUi(place: Place, @Color private var check: Int, private val cal
 
     fun onClickCancel() = waitClose { cancelButton.click() }
 
-    fun onClickAccept() = waitClose {
+    fun onClickApply() = waitClose {
         applyButton.click()
         callback.onColorDialogResult(check)
     }

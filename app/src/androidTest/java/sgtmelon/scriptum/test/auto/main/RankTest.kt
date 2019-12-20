@@ -114,7 +114,7 @@ class RankTest : ParentUiTest() {
                 rankScreen {
                     toolbar {
                         onEnterName(newName)
-                        openRenameDialog(it.name) { onEnter(newName).onClickAccept() }
+                        openRenameDialog(it.name) { onEnter(newName).onClickApply() }
                         assert(isAddEnabled = false)
                     }
                 }
@@ -224,7 +224,7 @@ class RankTest : ParentUiTest() {
         launch {
             mainScreen {
                 rankScreen {
-                    openRenameDialog(it.name) { onEnter(newName).onClickAccept() }
+                    openRenameDialog(it.name) { onEnter(newName).onClickApply() }
                     openRenameDialog(newName)
                 }
             }

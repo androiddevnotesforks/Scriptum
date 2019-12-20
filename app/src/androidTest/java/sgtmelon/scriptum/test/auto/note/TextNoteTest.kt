@@ -288,7 +288,7 @@ class TextNoteTest : ParentUiTest() {
                     createText(it) {
                         controlPanel { onColor { onCloseSoft() } }.assert()
                         controlPanel { onColor { onClickCancel() } }.assert()
-                        controlPanel { onColor { onClickAll().onClickItem().onClickAccept() } }
+                        controlPanel { onColor { onClickAll().onClickItem().onClickApply() } }
                     }
                 }
             }

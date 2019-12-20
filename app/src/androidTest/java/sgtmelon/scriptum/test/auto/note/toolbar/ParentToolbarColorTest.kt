@@ -25,7 +25,7 @@ abstract class ParentToolbarColorTest(@Theme private val theme: Int) : ParentUiT
                             NoteType.TEXT -> {
                                 createText(noteItem) {
                                     controlPanel {
-                                        onColor { onClickItem(color).onClickAccept() }
+                                        onColor { onClickItem(color).onClickApply() }
                                         onEnterText(data.uniqueString)
                                         onSave()
                                     }
@@ -35,7 +35,7 @@ abstract class ParentToolbarColorTest(@Theme private val theme: Int) : ParentUiT
                             NoteType.ROLL -> {
                                 createRoll(noteItem) {
                                     controlPanel {
-                                        onColor { onClickItem(color).onClickAccept() }
+                                        onColor { onClickItem(color).onClickApply() }
                                         enterPanel { onAddRoll(data.uniqueString) }
                                         onSave()
                                     }

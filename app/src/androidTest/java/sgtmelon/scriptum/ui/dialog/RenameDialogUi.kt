@@ -9,13 +9,13 @@ import sgtmelon.scriptum.ui.ParentUi
 /**
  * Class for UI control of [RenameDialog].
  */
-class RenameDialogUi(private val title: String) : ParentUi(), IDialogUi {
+class RenameDialogUi(title: String) : ParentUi(), IDialogUi {
 
     //region Views
 
-    private fun getTitleText(text: String) = getViewByText(text).excludeParent(viewContainer)
-
     private val viewContainer = getViewById(R.id.rename_parent_container)
+
+    private val titleText = getViewByText(title).excludeParent(viewContainer)
     private val renameEnter = getViewById(R.id.rename_enter)
 
     private val cancelButton = getViewByText(R.string.dialog_button_cancel)
@@ -30,14 +30,13 @@ class RenameDialogUi(private val title: String) : ParentUi(), IDialogUi {
 
     fun onClickCancel() = waitClose { cancelButton.click() }
 
-    fun onClickAccept() = waitClose { applyButton.click() }
+    fun onClickApply() = waitClose { applyButton.click() }
 
 
     fun assert(enter: String = "", enabled: Boolean = false) {
-        getTitleText(title).isDisplayed()
-
         viewContainer.isDisplayed()
 
+        titleText.isDisplayed()
         renameEnter.isDisplayed().withBackgroundColor(android.R.color.transparent).apply {
             if (enter.isNotEmpty()) {
                 withText(enter, dimenId = R.dimen.text_18sp)
