@@ -8,20 +8,16 @@ import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.ui.IDialogUi
 import sgtmelon.scriptum.ui.ParentUi
+import sgtmelon.scriptum.ui.dialog.sheet.ParentSheetDialogUi
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 
 /**
  * Class for UI control [SheetAddDialog].
  */
-class AddDialogUi : ParentUi(), IDialogUi {
-
-    // TODO #TEST add parent sheet
+class AddDialogUi : ParentSheetDialogUi(R.id.add_container, R.id.add_navigation) {
 
     //region Views
-
-    private val navigationContainer = getViewById(R.id.add_container)
-    private val navigationView = getViewById(R.id.add_navigation)
 
     private val titleText = getViewByText(R.string.dialog_title_add_note)
     private val textButton = getViewByText(R.string.dialog_add_text)
@@ -39,16 +35,9 @@ class AddDialogUi : ParentUi(), IDialogUi {
         RollNoteScreen.invoke(func, State.NEW, noteItem)
     }
 
-    fun onCloseSwipe() = waitClose { navigationView.swipeDown() }
 
-
-    fun assert() {
-        navigationContainer.isDisplayed().withBackground(when(theme == Theme.LIGHT) {
-            true -> R.drawable.bg_dialog_light
-            false -> R.drawable.bg_dialog_dark
-        })
-
-        navigationView.isDisplayed()
+    override fun assert() {
+        super.assert()
 
         titleText.isDisplayed().withTextColor(R.attr.clContentSecond)
         textButton.isDisplayed().withTextColor(R.attr.clContent).isEnabled()

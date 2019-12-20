@@ -1,22 +1,20 @@
 package sgtmelon.scriptum.ui.dialog
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.extension.*
+import sgtmelon.scriptum.basic.extension.click
+import sgtmelon.scriptum.basic.extension.isDisplayed
+import sgtmelon.scriptum.basic.extension.isEnabled
+import sgtmelon.scriptum.basic.extension.withTextColor
 import sgtmelon.scriptum.dialog.SheetRepeatDialog
 import sgtmelon.scriptum.model.annotation.Repeat
-import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.ui.IDialogUi
-import sgtmelon.scriptum.ui.ParentUi
+import sgtmelon.scriptum.ui.dialog.sheet.ParentSheetDialogUi
 
 /**
  * Class for UI control [SheetRepeatDialog].
  */
-class RepeatDialogUi : ParentUi(), IDialogUi {
+class RepeatDialogUi : ParentSheetDialogUi(R.id.repeat_container, R.id.repeat_navigation) {
 
-    // TODO #TEST add parent sheet
-
-    private val navigationContainer = getViewById(R.id.repeat_container)
-    private val navigationView = getViewById(R.id.repeat_navigation)
+    //region Views
 
     private val titleText = getViewByText(R.string.dialog_title_repeat)
     private val repeat0Button = getViewByText(R.string.dialog_repeat_0)
@@ -24,6 +22,8 @@ class RepeatDialogUi : ParentUi(), IDialogUi {
     private val repeat2Button = getViewByText(R.string.dialog_repeat_2)
     private val repeat3Button = getViewByText(R.string.dialog_repeat_3)
     private val repeat4Button = getViewByText(R.string.dialog_repeat_4)
+
+    //endregion
 
     fun onClickRepeat(@Repeat repeat: Int) {
         when(repeat) {
@@ -35,15 +35,9 @@ class RepeatDialogUi : ParentUi(), IDialogUi {
         }
     }
 
-    fun onCloseSwipe() = waitClose { navigationView.swipeDown() }
 
-    fun assert() {
-        navigationContainer.isDisplayed().withBackground(when(theme == Theme.LIGHT) {
-            true -> R.drawable.bg_dialog_light
-            false -> R.drawable.bg_dialog_dark
-        })
-
-        navigationView.isDisplayed()
+    override fun assert() {
+        super.assert()
 
         titleText.isDisplayed().withTextColor(R.attr.clContentSecond)
         repeat0Button.isDisplayed().withTextColor(R.attr.clContent).isEnabled()

@@ -16,6 +16,8 @@ import sgtmelon.scriptum.ui.dialog.ColorDialogUi
  */
 class PreferenceScreen : ParentUi(), ColorDialogUi.Callback, IPressBack {
 
+    // TODO #TEST repeat dialog
+
     //region Views
 
     private val parentContainer = getViewById(R.id.preference_parent_container)
