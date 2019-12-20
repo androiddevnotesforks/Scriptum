@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!--  TODO add prefix = pref_...  -->
+    <!-- TODO add prefix = pref_... -->
 
     <string name="header_app">App</string>
     <string name="header_note">Notes</string>

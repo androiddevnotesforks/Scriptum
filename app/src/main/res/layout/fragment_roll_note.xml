@@ -32,18 +32,24 @@
                 app:item='@{item}'
                 app:theme='@{theme}'/>
 
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/roll_note_recycler"
-                style="@style/RecyclerView"
+        <!-- Container for good performance on ItemTouchHelper.ACTION_STATE_DRAG over top bound -->
+        <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                android:visibility='@{dataLoad ? View.VISIBLE : View.INVISIBLE}'
-                tools:itemCount="3"
-                tools:listitem="@layout/item_roll_write"/>
+                android:layout_weight="1">
 
-        <include
-                layout="@layout/include_roll_note_enter"
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/roll_note_recycler"
+                    style="@style/RecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility='@{dataLoad ? View.VISIBLE : View.INVISIBLE}'
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_roll_write"/>
+
+        </FrameLayout>
+
+        <include layout="@layout/include_roll_note_enter"
                 app:editMode='@{editMode}'
                 app:enterEmpty='@{enterEmpty}'/>
 

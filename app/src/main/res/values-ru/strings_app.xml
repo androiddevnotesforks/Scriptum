@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!--  Titles  -->
+    <!-- Titles -->
     <string name="title_rank">Категории</string>
     <string name="title_notes">Заметки</string>
     <string name="title_bin">Корзина</string>

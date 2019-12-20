@@ -3,7 +3,7 @@
 
     <string name="app_name" translatable="false">Scriptum</string>
 
-    <!--  Titles  -->
+    <!-- Titles -->
     <string name="title_rank">Categories</string>
     <string name="title_notes">Notes</string>
     <string name="title_bin">Bin</string>

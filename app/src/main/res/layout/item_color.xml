@@ -26,7 +26,7 @@
 
     <!-- TODO 13.10.18 Сделать область нажатия круглой, для pre API21 -->
 
-    <!--  android:contentDescription - programmatically setup -->
+    <!-- android:contentDescription - programmatically setup -->
     <View
             android:id="@+id/color_click_view"
             android:layout_width="@dimen/icon_48dp"
