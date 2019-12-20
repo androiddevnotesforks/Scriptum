@@ -324,7 +324,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment, NoteReceiver.Callb
     }
 
     override fun focusOnEdit() {
-        nameEnter?.requestSelectionFocus()
+        view?.post { nameEnter?.requestSelectionFocus() }
     }
 
     override fun changeName(text: String, cursor: Int) {
