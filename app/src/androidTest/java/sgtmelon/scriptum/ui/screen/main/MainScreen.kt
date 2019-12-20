@@ -5,7 +5,7 @@ import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.screen.ui.main.MainActivity
 import sgtmelon.scriptum.ui.ParentUi
-import sgtmelon.scriptum.ui.dialog.AddDialogUi
+import sgtmelon.scriptum.ui.dialog.sheet.AddDialogUi
 
 /**
  * Class for UI control of [MainActivity].

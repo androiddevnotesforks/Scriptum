@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.ui.dialog
+package sgtmelon.scriptum.ui.dialog.sheet
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
@@ -7,7 +7,6 @@ import sgtmelon.scriptum.basic.extension.isEnabled
 import sgtmelon.scriptum.basic.extension.withTextColor
 import sgtmelon.scriptum.dialog.SheetRepeatDialog
 import sgtmelon.scriptum.model.annotation.Repeat
-import sgtmelon.scriptum.ui.dialog.sheet.ParentSheetDialogUi
 
 /**
  * Class for UI control [SheetRepeatDialog].
