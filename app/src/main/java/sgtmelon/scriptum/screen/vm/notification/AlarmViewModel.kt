@@ -12,6 +12,8 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.getAppSimpleColor
 import sgtmelon.scriptum.extension.sendTo
 import sgtmelon.scriptum.extension.toUri
+import sgtmelon.scriptum.interactor.BindInteractor
+import sgtmelon.scriptum.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.interactor.notification.AlarmInteractor
@@ -36,6 +38,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
 
     private val iInteractor: IAlarmInteractor by lazy { AlarmInteractor(context, callback) }
     private val iSignalInteractor: ISignalInteractor = SignalInteractor(context)
+    private val iBindInteractor: IBindInteractor by lazy { BindInteractor(context) }
 
     private var id: Long = NoteData.Default.ID
 
@@ -84,6 +87,8 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
                 }
 
                 signalState = iSignalInteractor.signalState
+
+                iBindInteractor.notifyInfoBind(callback)
             }
 
             callback?.apply {

@@ -42,6 +42,8 @@ class AlarmInteractor(context: Context, private var callback: IAlarmBridge?) :
          * Delete before return noteModel for hide alarm icon.
          */
         iAlarmRepo.delete(id)
+
+
         return iNoteRepo.getItem(id, optimisation = true)
     }
 

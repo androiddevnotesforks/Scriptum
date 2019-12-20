@@ -27,6 +27,9 @@ import sgtmelon.scriptum.control.alarm.VibratorControl
 import sgtmelon.scriptum.control.alarm.callback.IMelodyControl
 import sgtmelon.scriptum.control.alarm.callback.IPowerControl
 import sgtmelon.scriptum.control.alarm.callback.IVibratorControl
+import sgtmelon.scriptum.control.bind.BindControl
+import sgtmelon.scriptum.control.bind.IBindControl
+import sgtmelon.scriptum.extension.initLazy
 import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.factory.ViewModelFactory
@@ -50,10 +53,14 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
     private val iViewModel by lazy { ViewModelFactory.getAlarmViewModel(activity = this) }
 
+    /**
+     * [initLazy] not require because activity configChanges under control.
+     */
     private val iMelodyControl: IMelodyControl by lazy { MelodyControl(context = this) }
     private val iVibratorControl: IVibratorControl by lazy { VibratorControl(context = this) }
     private val iAlarmControl by lazy { AlarmControl[this] }
     private val iPowerControl: IPowerControl by lazy { PowerControl(context = this) }
+    private val iBindControl: IBindControl by lazy { BindControl(context = this) }
 
     private val noteReceiver by lazy { NoteReceiver(iViewModel) }
 
@@ -215,14 +222,18 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
     override fun vibrateCancel() = iVibratorControl.cancel()
 
-    override fun setAlarm(calendar: Calendar, id: Long) {
-        iAlarmControl.set(calendar, id, showToast = false)
-    }
-
     override fun showRepeatToast(select: Int) {
         showToast(getString(R.string.toast_alarm_repeat, resources.getStringArray(R.array.text_alarm_repeat)[select]))
     }
 
+
+    override fun setAlarm(calendar: Calendar, id: Long) {
+        iAlarmControl.set(calendar, id, showToast = false)
+    }
+
+    override fun notifyInfoBind(count: Int) {
+        iBindControl.notifyInfo(count)
+    }
 
     /**
      * Function for detect when layout completely configure

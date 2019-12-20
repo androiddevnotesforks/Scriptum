@@ -34,6 +34,15 @@ class InfoTest : ParentNotificationTest() {
         launch { onSee { mainScreen() } }
     }
 
+    /**
+     * Notification in status bar should show - "You have 1 notification".
+     */
+    @Test fun alarmNotify() {
+        val item = data.insertNotification()
+        data.insertNotification()
+
+        launchAlarm(item) { openAlarm(item) { onSee { onClickRepeat() } } }
+    }
 
     @Test fun notificationNotifyOnCancel() = data.fillNotification(NOTIFICATION_COUNT).let {
         launch {
