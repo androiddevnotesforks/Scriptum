@@ -9,7 +9,7 @@ import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
 import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
 import sgtmelon.scriptum.ui.IPressBack
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
-import sgtmelon.scriptum.ui.dialog.sheet.RepeatDialogUi
+import sgtmelon.scriptum.ui.dialog.sheet.RepeatSheetDialogUi
 import sgtmelon.scriptum.ui.item.NoteItemUi
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
@@ -59,9 +59,9 @@ class AlarmScreen(
         onRepeat()
     }
 
-    fun openMoreDialog(func: RepeatDialogUi.() -> Unit = {}) = apply {
+    fun openMoreDialog(func: RepeatSheetDialogUi.() -> Unit = {}) = apply {
         moreButton.click()
-        RepeatDialogUi.invoke(func)
+        RepeatSheetDialogUi.invoke(func)
     }
 
     fun waitRepeat() = waitBefore(AlarmViewModel.CANCEL_DELAY) { onRepeat() }

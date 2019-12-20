@@ -11,7 +11,7 @@ import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 /**
  * Class for UI control [SheetAddDialog].
  */
-class AddDialogUi : ParentSheetDialogUi(R.id.add_container, R.id.add_navigation) {
+class AddSheetDialogUi : ParentSheetDialogUi(R.id.add_container, R.id.add_navigation) {
 
     //region Views
 
@@ -41,8 +41,8 @@ class AddDialogUi : ParentSheetDialogUi(R.id.add_container, R.id.add_navigation)
     }
 
     companion object {
-        operator fun invoke(func: AddDialogUi.() -> Unit): AddDialogUi {
-            return AddDialogUi().apply { waitOpen { assert() } }.apply(func)
+        operator fun invoke(func: AddSheetDialogUi.() -> Unit): AddSheetDialogUi {
+            return AddSheetDialogUi().apply { waitOpen { assert() } }.apply(func)
         }
     }
 

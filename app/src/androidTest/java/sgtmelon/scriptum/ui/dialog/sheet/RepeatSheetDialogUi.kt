@@ -11,7 +11,7 @@ import sgtmelon.scriptum.model.annotation.Repeat
 /**
  * Class for UI control [SheetRepeatDialog].
  */
-class RepeatDialogUi : ParentSheetDialogUi(R.id.repeat_container, R.id.repeat_navigation) {
+class RepeatSheetDialogUi : ParentSheetDialogUi(R.id.repeat_container, R.id.repeat_navigation) {
 
     //region Views
 
@@ -47,8 +47,8 @@ class RepeatDialogUi : ParentSheetDialogUi(R.id.repeat_container, R.id.repeat_na
     }
 
     companion object {
-        operator fun invoke(func: RepeatDialogUi.() -> Unit): RepeatDialogUi {
-            return RepeatDialogUi().apply { waitOpen { assert() } }.apply(func)
+        operator fun invoke(func: RepeatSheetDialogUi.() -> Unit): RepeatSheetDialogUi {
+            return RepeatSheetDialogUi().apply { waitOpen { assert() } }.apply(func)
         }
     }
 
