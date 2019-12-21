@@ -29,6 +29,28 @@ class PreferenceRepo(context: Context) : IPreferenceRepo {
         get() = preferences.getInt(key.THEME, def.THEME)
         set(value) = edit { putInt(key.THEME, value) }
 
+
+    @Sort override var sort: Int
+        get() = preferences.getInt(key.SORT, def.SORT)
+        set(value) = edit { putInt(key.SORT, value) }
+
+    @Color override var defaultColor: Int
+        get() = preferences.getInt(key.DEFAULT_COLOR, def.DEFAULT_COLOR)
+        set(value) = edit { putInt(key.DEFAULT_COLOR, value) }
+
+    override var pauseSaveOn: Boolean
+        get() = preferences.getBoolean(key.PAUSE_SAVE_ON, def.PAUSE_SAVE_ON)
+        set(value) = edit { putBoolean(key.PAUSE_SAVE_ON, value) }
+
+    override var autoSaveOn: Boolean
+        get() = preferences.getBoolean(key.AUTO_SAVE_ON, def.AUTO_SAVE_ON)
+        set(value) = edit { putBoolean(key.AUTO_SAVE_ON, value) }
+
+    override var savePeriod: Int
+        get() = preferences.getInt(key.SAVE_PERIOD, def.SAVE_PERIOD)
+        set(value) = edit { putInt(key.SAVE_PERIOD, value) }
+
+
     @Repeat override var repeat: Int
         get() = preferences.getInt(key.REPEAT, def.REPEAT)
         set(value) = edit { putInt(key.REPEAT, value) }
@@ -51,26 +73,6 @@ class PreferenceRepo(context: Context) : IPreferenceRepo {
     override var volumeIncrease: Boolean
         get() = preferences.getBoolean(key.VOLUME_INCREASE, def.VOLUME_INCREASE)
         set(value) = edit { putBoolean(key.VOLUME_INCREASE, value) }
-
-    @Sort override var sort: Int
-        get() = preferences.getInt(key.SORT, def.SORT)
-        set(value) = edit { putInt(key.SORT, value) }
-
-    @Color override var defaultColor: Int
-        get() = preferences.getInt(key.DEFAULT_COLOR, def.DEFAULT_COLOR)
-        set(value) = edit { putInt(key.DEFAULT_COLOR, value) }
-
-    override var pauseSaveOn: Boolean
-        get() = preferences.getBoolean(key.PAUSE_SAVE_ON, def.PAUSE_SAVE_ON)
-        set(value) = edit { putBoolean(key.PAUSE_SAVE_ON, value) }
-
-    override var autoSaveOn: Boolean
-        get() = preferences.getBoolean(key.AUTO_SAVE_ON, def.AUTO_SAVE_ON)
-        set(value) = edit { putBoolean(key.AUTO_SAVE_ON, value) }
-
-    override var savePeriod: Int
-        get() = preferences.getInt(key.SAVE_PERIOD, def.SAVE_PERIOD)
-        set(value) = edit { putInt(key.SAVE_PERIOD, value) }
 
 
     override fun clear() = edit { clear() }

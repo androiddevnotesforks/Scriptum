@@ -15,17 +15,6 @@ interface IPreferenceRepo {
     @Theme var theme: Int
 
 
-    @Repeat var repeat: Int
-
-    var signal: Int
-
-    var melodyUri: String
-
-    var volume: Int
-
-    var volumeIncrease: Boolean
-
-
     @Sort var sort: Int
 
     @Color var defaultColor: Int
@@ -35,6 +24,17 @@ interface IPreferenceRepo {
     var autoSaveOn: Boolean
 
     var savePeriod: Int
+
+
+    @Repeat var repeat: Int
+
+    var signal: Int
+
+    var melodyUri: String
+
+    var volume: Int
+
+    var volumeIncrease: Boolean
 
 
     fun clear()
