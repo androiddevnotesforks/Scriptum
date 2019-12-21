@@ -85,8 +85,6 @@ dependencies {
 
     //region AndroidX
 
-    implementation "androidx.preference:preference-ktx:1.1.0"
-
     implementation androidx.lifecycle.extensions
     implementation androidx.lifecycle.viewmodel
     kapt androidx.lifecycle.compiler
@@ -96,6 +94,7 @@ dependencies {
     kapt androidx.room.compiler
     testImplementation androidx.room.testing
 
+    implementation androidx.preference
     implementation androidx.appcompat
     implementation androidx.cardview
     implementation androidx.constraintlayout

@@ -31,6 +31,7 @@ ext {
                     compiler: "androidx.room:room-compiler:2.2.0",
                     testing : "androidx.room:room-testing:2.2.0"
             ],
+            preference      : "androidx.preference:preference-ktx:1.1.0",
             appcompat       : "androidx.appcompat:appcompat:1.1.0",
             cardview        : "androidx.cardview:cardview:1.0.0 ",
             constraintlayout: "androidx.constraintlayout:constraintlayout:1.1.3",

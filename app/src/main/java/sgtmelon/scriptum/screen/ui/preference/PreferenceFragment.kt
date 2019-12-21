@@ -102,9 +102,6 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
         iMelodyControl.release()
     }
 
-//     TODO #RELEASE2 check permission update
-//    override fun onResume() = super.onResume()
-
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState.apply { openState.save(bundle = this) })
     }
