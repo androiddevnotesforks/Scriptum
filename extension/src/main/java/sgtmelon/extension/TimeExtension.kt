@@ -22,6 +22,8 @@ fun Calendar.isThisYear() = get(Calendar.YEAR) == Calendar.getInstance().get(Cal
 fun String.getCalendar(): Calendar = let {
     val calendar = Calendar.getInstance()
 
+    if (it.isEmpty()) return calendar
+
     try {
         calendar.time = getDateFormat().parse(it)
     } catch (e: Throwable) {
