@@ -1,7 +1,7 @@
 package sgtmelon.safedialog
 
-import android.app.Activity
 import android.app.Dialog
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
@@ -43,7 +43,7 @@ class OptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
         position = savedInstanceState?.getInt(VALUE)
                 ?: arguments?.getInt(VALUE) ?: 0
 
-        return AlertDialog.Builder(context as Activity)
+        return AlertDialog.Builder(context as Context)
                 .setItems(itemList.toTypedArray(), this)
                 .setCancelable(true)
                 .create()
