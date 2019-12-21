@@ -7,12 +7,13 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.preference.CheckBoxPreference
-import android.preference.Preference
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
+import androidx.preference.CheckBoxPreference
+import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.alarm.MelodyControl
@@ -30,12 +31,11 @@ import sgtmelon.scriptum.screen.ui.DevelopActivity
 import sgtmelon.scriptum.screen.ui.callback.IPreferenceFragment
 import sgtmelon.scriptum.screen.vm.PreferenceViewModel
 import sgtmelon.scriptum.screen.vm.callback.IPreferenceViewModel
-import android.preference.PreferenceFragment as OldPreferenceFragment
 
 /**
  * Fragment of preference
  */
-class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
+class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
 
     private val activity: PreferenceActivity by lazy { getActivity() as PreferenceActivity }
     private val fm: FragmentManager by lazy { activity.supportFragmentManager }
@@ -69,36 +69,46 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
 
     //region Preferences
 
-    private val themePreference: Preference by lazy { findPreference(getString(R.string.key_app_theme)) }
+    private val themePreference by lazy { findPreference<Preference>(getString(R.string.key_app_theme)) }
 
-    private val sortPreference: Preference by lazy { findPreference(getString(R.string.key_note_sort)) }
-    private val colorPreference: Preference by lazy { findPreference(getString(R.string.key_note_color)) }
+    private val sortPreference by lazy { findPreference<Preference>(getString(R.string.key_note_sort)) }
+    private val colorPreference by lazy { findPreference<Preference>(getString(R.string.key_note_color)) }
 
-    private val repeatPreference: Preference by lazy { findPreference(getString(R.string.key_alarm_repeat)) }
-    private val signalPreference: Preference by lazy { findPreference(getString(R.string.key_alarm_signal)) }
-    private val melodyPreference: Preference by lazy { findPreference(getString(R.string.key_alarm_melody)) }
-    private val increasePreference: Preference by lazy { findPreference(getString(R.string.key_alarm_increase)) }
-    private val volumePreference: Preference by lazy { findPreference(getString(R.string.key_alarm_volume)) }
+    private val repeatPreference by lazy { findPreference<Preference>(getString(R.string.key_alarm_repeat)) }
+    private val signalPreference by lazy { findPreference<Preference>(getString(R.string.key_alarm_signal)) }
+    private val melodyPreference by lazy { findPreference<Preference>(getString(R.string.key_alarm_melody)) }
+    private val increasePreference by lazy { findPreference<Preference>(getString(R.string.key_alarm_increase)) }
+    private val volumePreference by lazy { findPreference<Preference>(getString(R.string.key_alarm_volume)) }
 
-    private val saveTimePreference: Preference by lazy { findPreference(getString(R.string.key_save_time)) }
+    private val saveTimePreference by lazy { findPreference<Preference>(getString(R.string.key_save_time)) }
 
     //endregion
 
     private val iMelodyControl: IMelodyControl by lazy { MelodyControl(activity) }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? =
-            super.onCreateView(inflater, container, savedInstanceState)?.apply {
-                findViewById<View>(android.R.id.list).setPadding(0, 0, 0, 0)
-            }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        addPreferencesFromResource(R.xml.preference)
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        setPreferencesFromResource(R.xml.preference, rootKey)
 
         iMelodyControl.initLazy()
         openState.get(savedInstanceState)
     }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        val view = super.onCreateView(inflater, container, savedInstanceState)
+
+        view?.findViewById<View?>(android.R.id.list)?.setPadding(0, 0, 0, 0)
+
+        return view
+    }
+
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        addPreferencesFromResource(R.xml.preference)
+//
+//        iMelodyControl.initLazy()
+//        openState.get(savedInstanceState)
+//    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -113,8 +123,8 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
         iMelodyControl.release()
     }
 
-    // TODO #RELEASE2 check permission update
-    override fun onResume() = super.onResume()
+//     TODO #RELEASE2 check permission update
+//    override fun onResume() = super.onResume()
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState.apply { openState.save(bundle = this) })
@@ -137,7 +147,7 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
 
 
     override fun setupApp() {
-        themePreference.setOnPreferenceClickListener { iViewModel.onClickTheme() }
+        themePreference?.setOnPreferenceClickListener { iViewModel.onClickTheme() }
 
         themeDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             iViewModel.onResultTheme(themeDialog.check)
@@ -147,14 +157,14 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
     }
 
     override fun setupNote() {
-        sortPreference.setOnPreferenceClickListener { iViewModel.onClickSort() }
+        sortPreference?.setOnPreferenceClickListener { iViewModel.onClickSort() }
 
         sortDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             iViewModel.onResultNoteSort(sortDialog.check)
         }
         sortDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
 
-        colorPreference.setOnPreferenceClickListener { iViewModel.onClickNoteColor() }
+        colorPreference?.setOnPreferenceClickListener { iViewModel.onClickNoteColor() }
 
         colorDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             iViewModel.onResultNoteColor(colorDialog.check)
@@ -163,21 +173,21 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
     }
 
     override fun setupNotification(melodyTitleArray: Array<String>) {
-        repeatPreference.setOnPreferenceClickListener { iViewModel.onClickRepeat() }
+        repeatPreference?.setOnPreferenceClickListener { iViewModel.onClickRepeat() }
 
         repeatDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             iViewModel.onResultRepeat(repeatDialog.check)
         }
         repeatDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
 
-        signalPreference.setOnPreferenceClickListener { iViewModel.onClickSignal() }
+        signalPreference?.setOnPreferenceClickListener { iViewModel.onClickSignal() }
 
         signalDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             iViewModel.onResultSignal(signalDialog.check)
         }
         signalDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
 
-        melodyPreference.setOnPreferenceClickListener {
+        melodyPreference?.setOnPreferenceClickListener {
             iViewModel.onClickMelody(externalPermissionState.getResult())
         }
 
@@ -202,7 +212,7 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
             openState.clear()
         }
 
-        volumePreference.setOnPreferenceClickListener { iViewModel.onClickVolume() }
+        volumePreference?.setOnPreferenceClickListener { iViewModel.onClickVolume() }
 
         volumeDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             iViewModel.onResultVolume(volumeDialog.progress)
@@ -211,7 +221,7 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
     }
 
     override fun setupSave() {
-        saveTimePreference.setOnPreferenceClickListener { iViewModel.onClickSaveTime() }
+        saveTimePreference?.setOnPreferenceClickListener { iViewModel.onClickSaveTime() }
 
         saveTimeDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             iViewModel.onResultSaveTime(saveTimeDialog.check)
@@ -220,15 +230,15 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
 
         val autoSavePreference = findPreference(getString(R.string.key_save_auto)) as? CheckBoxPreference
         autoSavePreference?.setOnPreferenceChangeListener { _, newValue ->
-            saveTimePreference.isEnabled = newValue as Boolean
+            saveTimePreference?.isEnabled = newValue as Boolean
             return@setOnPreferenceChangeListener true
         }
 
-        saveTimePreference.isEnabled = autoSavePreference?.isChecked == true
+        saveTimePreference?.isEnabled = autoSavePreference?.isChecked == true
     }
 
     override fun setupOther() {
-        findPreference(getString(R.string.key_other_rate)).setOnPreferenceClickListener {
+        findPreference<Preference>(getString(R.string.key_other_rate))?.setOnPreferenceClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
 
             try {
@@ -244,7 +254,7 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
             return@setOnPreferenceClickListener true
         }
 
-        findPreference(getString(R.string.key_other_privacy_policy)).setOnPreferenceClickListener {
+        findPreference<Preference>(getString(R.string.key_other_privacy_policy))?.setOnPreferenceClickListener {
             startActivity(Intent(Intent.ACTION_VIEW).apply {
                 data = BuildConfig.PRIVACY_POLICY_URL.toUri()
             })
@@ -252,7 +262,7 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
             return@setOnPreferenceClickListener true
         }
 
-        findPreference(getString(R.string.key_other_about)).setOnPreferenceClickListener {
+        findPreference<Preference>(getString(R.string.key_other_about))?.setOnPreferenceClickListener {
             openState.tryInvoke { aboutDialog.show(fm, DialogFactory.Preference.ABOUT) }
             return@setOnPreferenceClickListener true
         }
@@ -268,7 +278,7 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
 
 
     override fun updateThemeSummary(summary: String) {
-        themePreference.summary = summary
+        themePreference?.summary = summary
     }
 
     override fun showThemeDialog(@Theme value: Int) = openState.tryInvoke {
@@ -277,7 +287,7 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
 
 
     override fun updateSortSummary(summary: String) {
-        sortPreference.summary = summary
+        sortPreference?.summary = summary
     }
 
     override fun showSortDialog(value: Int) = openState.tryInvoke {
@@ -285,7 +295,7 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
     }
 
     override fun updateColorSummary(summary: String) {
-        colorPreference.summary = summary
+        colorPreference?.summary = summary
     }
 
     override fun showColorDialog(@Color color: Int, @Theme theme: Int) = openState.tryInvoke {
@@ -294,7 +304,7 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
 
 
     override fun updateRepeatSummary(summary: String) {
-        repeatPreference.summary = summary
+        repeatPreference?.summary = summary
     }
 
     override fun showRepeatDialog(value: Int) = openState.tryInvoke {
@@ -302,7 +312,7 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
     }
 
     override fun updateSignalSummary(summary: String) {
-        signalPreference.summary = summary
+        signalPreference?.summary = summary
     }
 
     override fun showSignalDialog(value: BooleanArray) = openState.tryInvoke {
@@ -314,13 +324,13 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
     }
 
     override fun updateMelodyGroupEnabled(enabled: Boolean) {
-        melodyPreference.isEnabled = enabled
-        increasePreference.isEnabled = enabled
-        volumePreference.isEnabled = enabled
+        melodyPreference?.isEnabled = enabled
+        increasePreference?.isEnabled = enabled
+        volumePreference?.isEnabled = enabled
     }
 
     override fun updateMelodySummary(summary: String) {
-        melodyPreference.summary = summary
+        melodyPreference?.summary = summary
     }
 
     override fun showMelodyDialog(value: Int) = openState.tryInvoke {
@@ -334,7 +344,7 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
     }
 
     override fun updateVolumeSummary(summary: String) {
-        volumePreference.summary = summary
+        volumePreference?.summary = summary
     }
 
     override fun showVolumeDialog(value: Int) = openState.tryInvoke {
@@ -343,7 +353,7 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
 
 
     override fun updateSaveTimeSummary(summary: String) {
-        saveTimePreference.summary = summary
+        saveTimePreference?.summary = summary
     }
 
     override fun showSaveTimeDialog(value: Int) = openState.tryInvoke {

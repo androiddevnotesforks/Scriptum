@@ -19,9 +19,7 @@ class PreferenceActivity : AppActivity() {
 
         setupToolbar()
 
-        // TODO fix
-        fragmentManager
-                .beginTransaction()
+        fm.beginTransaction()
                 .replace(R.id.preference_fragment_container, PreferenceFragment())
                 .commit()
     }
