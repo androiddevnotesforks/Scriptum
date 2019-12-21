@@ -26,8 +26,8 @@ class PreferenceScreen : ParentUi(), ColorDialogUi.Callback, IPressBack {
     private val toolbar = getToolbar(R.string.title_preference)
 
     private val list = getViewById(android.R.id.list)
-    private val colorTitle = getViewByText(R.string.title_note_color)
-    private val repeatTitle = getViewByText(R.string.title_alarm_repeat)
+    private val colorTitle = getViewByText(R.string.pref_title_note_color)
+    private val repeatTitle = getViewByText(R.string.pref_title_alarm_repeat)
 
     //endregion
 

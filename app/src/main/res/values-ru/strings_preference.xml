@@ -1,70 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="header_app">Приложение</string>
-    <string name="header_notification">Уведомления</string>
-    <string name="header_note">Заметки</string>
-    <string name="header_other">Прочее</string>
+    <string name="pref_header_app">Приложение</string>
+    <string name="pref_header_notification">Уведомления</string>
+    <string name="pref_header_note">Заметки</string>
+    <string name="pref_header_other">Прочее</string>
 
     <!---->
 
-    <string name="title_app_theme">Тема</string>
+    <string name="pref_title_app_theme">Тема</string>
 
-    <string name="title_note_sort">Сортировка заметок</string>
-    <string name="title_note_color">Цвет заметки по-умолчанию</string>
-    <string name="title_note_save_pause">Сохранять при остановке</string>
-    <string name="title_note_save_auto">Автоматическое сохранение</string>
-    <string name="title_note_save_time">Период</string>
+    <string name="pref_title_note_sort">Сортировка заметок</string>
+    <string name="pref_title_note_color">Цвет заметки по-умолчанию</string>
+    <string name="pref_title_note_save_pause">Сохранять при остановке</string>
+    <string name="pref_title_note_save_auto">Автоматическое сохранение</string>
+    <string name="pref_title_note_save_time">Период</string>
 
-    <string name="title_alarm_repeat">Время повтора</string>
-    <string name="title_alarm_signal">Тип сигнала</string>
-    <string name="title_alarm_melody">Мелодия</string>
-    <string name="title_alarm_volume">Громкость</string>
-    <string name="title_alarm_increase">Нарастание громкости</string>
+    <string name="pref_title_alarm_repeat">Время повтора</string>
+    <string name="pref_title_alarm_signal">Тип сигнала</string>
+    <string name="pref_title_alarm_melody">Мелодия</string>
+    <string name="pref_title_alarm_volume">Громкость</string>
+    <string name="pref_title_alarm_increase">Нарастание громкости</string>
 
-    <string name="title_other_rate">Оценить</string>
-    <string name="title_other_privacy_policy">Политика конфиденциальности</string>
-    <string name="title_other_about">О приложении</string>
+    <string name="pref_title_other_rate">Оценить</string>
+    <string name="pref_title_other_privacy_policy">Политика конфиденциальности</string>
+    <string name="pref_title_other_about">О приложении</string>
 
     <!---->
 
-    <string name="summary_app_theme">Выбранная тема</string>
+    <string name="pref_summary_app_theme">Выбранная тема</string>
 
-    <string name="summary_note_sort">Будет применяться по-умолчанию</string>
-    <string name="summary_note_color">Будет применяться по-умолчанию</string>
-    <string name="summary_note_save_pause">
+    <string name="pref_summary_note_sort">Будет применяться по-умолчанию</string>
+    <string name="pref_summary_note_color">Будет применяться по-умолчанию</string>
+    <string name="pref_summary_note_save_pause">
         Сохранять изменения в заметке при сворачивании приложения
     </string>
-    <string name="summary_note_save_auto">
+    <string name="pref_summary_note_save_auto">
         Сохранять изменения в заметки после определенного периода времени
     </string>
-    <string name="summary_note_save_time">Количество минут</string>
+    <string name="pref_summary_note_save_time">Количество минут</string>
 
-    <string name="summary_alarm_repeat">
+    <string name="pref_summary_alarm_repeat">
         Будет применяться, чтобы повторить уведомление
     </string>
-    <string name="summary_alarm_signal">Будет применяться, чтобы предупредить вас</string>
-    <string name="summary_alarm_melody">Будет играть в уведомлении</string>
-    <string name="summary_alarm_volume">Процент громкости: %d%%</string>
-    <string name="summary_alarm_increase">
+    <string name="pref_summary_alarm_signal">Будет применяться, чтобы предупредить вас</string>
+    <string name="pref_summary_alarm_melody">Будет играть в уведомлении</string>
+    <string name="pref_summary_alarm_volume">Процент громкости: %d%%</string>
+    <string name="pref_summary_alarm_increase">
         Плавное увеличение громкости начиная с минимальной
     </string>
 
     <!---->
 
-    <string-array name="text_app_theme">
+    <string-array name="pref_text_app_theme">
         <item>Светлая</item>
         <item>Тёмная</item>
     </string-array>
 
-    <string-array name="text_note_sort">
+    <string-array name="pref_text_note_sort">
         <item>По времени изменения</item>
         <item>По времени создания</item>
         <item>По категориям</item>
         <item>По цвету</item>
     </string-array>
 
-    <string-array name="text_note_color">
+    <string-array name="pref_text_note_color">
         <item>Красный</item>
         <item>Фиолетовый</item>
         <item>Индиго</item>
@@ -78,13 +78,13 @@
         <item>Белый</item>
     </string-array>
 
-    <string-array name="text_note_save_time">
+    <string-array name="pref_text_note_save_time">
         <item>1 минута</item>
         <item>3 минуты</item>
         <item>7 минут</item>
     </string-array>
 
-    <string-array name="text_alarm_repeat">
+    <string-array name="pref_text_alarm_repeat">
         <item>@string/dialog_repeat_0</item>
         <item>@string/dialog_repeat_1</item>
         <item>@string/dialog_repeat_2</item>
@@ -92,7 +92,7 @@
         <item>@string/dialog_repeat_4</item>
     </string-array>
 
-    <string-array name="text_alarm_signal">
+    <string-array name="pref_text_alarm_signal">
         <item>Мелодия</item>
         <item>Вибрация</item>
     </string-array>

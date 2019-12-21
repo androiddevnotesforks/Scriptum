@@ -130,8 +130,8 @@ object DialogFactory {
 
             if (context == null) return dialog
 
-            dialog.title = context.getString(R.string.title_app_theme)
-            dialog.itemArray = context.resources.getStringArray(R.array.text_app_theme)
+            dialog.title = context.getString(R.string.pref_title_app_theme)
+            dialog.itemArray = context.resources.getStringArray(R.array.pref_text_app_theme)
 
             return dialog
         }
@@ -142,8 +142,8 @@ object DialogFactory {
 
             if (context == null) return dialog
 
-            dialog.title = context.getString(R.string.title_note_sort)
-            dialog.itemArray = context.resources.getStringArray(R.array.text_note_sort)
+            dialog.title = context.getString(R.string.pref_title_note_sort)
+            dialog.itemArray = context.resources.getStringArray(R.array.pref_text_note_sort)
 
             return dialog
         }
@@ -153,7 +153,7 @@ object DialogFactory {
 
             if (context == null) return dialog
 
-            dialog.title = context.getString(R.string.title_note_color)
+            dialog.title = context.getString(R.string.pref_title_note_color)
 
             return dialog
         }
@@ -164,8 +164,8 @@ object DialogFactory {
 
             if (context == null) return dialog
 
-            dialog.title = context.getString(R.string.title_alarm_repeat)
-            dialog.itemArray = context.resources.getStringArray(R.array.text_alarm_repeat)
+            dialog.title = context.getString(R.string.pref_title_alarm_repeat)
+            dialog.itemArray = context.resources.getStringArray(R.array.pref_text_alarm_repeat)
 
             return dialog
         }
@@ -176,8 +176,8 @@ object DialogFactory {
             if (context == null) return dialog
 
             dialog.needOneSelect = true
-            dialog.title = context.getString(R.string.title_alarm_signal)
-            dialog.itemList = context.resources.getStringArray(R.array.text_alarm_signal).toList()
+            dialog.title = context.getString(R.string.pref_title_alarm_signal)
+            dialog.itemList = context.resources.getStringArray(R.array.pref_text_alarm_signal).toList()
 
             return dialog
         }
@@ -200,7 +200,7 @@ object DialogFactory {
 
             if (context == null) return dialog
 
-            dialog.title = context.getString(R.string.title_alarm_melody)
+            dialog.title = context.getString(R.string.pref_title_alarm_melody)
 
             return dialog
         }
@@ -210,7 +210,7 @@ object DialogFactory {
 
             if (context == null) return dialog
 
-            dialog.title = context.getString(R.string.title_alarm_volume)
+            dialog.title = context.getString(R.string.pref_title_alarm_volume)
 
             return dialog
         }
@@ -221,8 +221,8 @@ object DialogFactory {
 
             if (context == null) return dialog
 
-            dialog.title = context.getString(R.string.title_note_save_time)
-            dialog.itemArray = context.resources.getStringArray(R.array.text_note_save_time)
+            dialog.title = context.getString(R.string.pref_title_note_save_time)
+            dialog.itemArray = context.resources.getStringArray(R.array.pref_text_note_save_time)
 
             return dialog
         }

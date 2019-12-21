@@ -45,7 +45,7 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
             updateSignalSummary(iSignalInteractor.getSignalSummary(summary.signal))
             updateMelodyGroupEnabled(iSignalInteractor.signalState.isMelody)
             updateMelodySummary(melodyList[iSignalInteractor.melodyCheck].title)
-            updateVolumeSummary(context.resources.getString(R.string.summary_alarm_volume, iPreferenceRepo.volume))
+            updateVolumeSummary(context.resources.getString(R.string.pref_summary_alarm_volume, iPreferenceRepo.volume))
 
             updateSortSummary(summary.sort[iPreferenceRepo.sort])
             updateColorSummary(summary.color[iPreferenceRepo.defaultColor])
@@ -131,7 +131,7 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
 
     override fun onResultVolume(value: Int) {
         iPreferenceRepo.volume = value
-        callback?.updateVolumeSummary(context.resources.getString(R.string.summary_alarm_volume, value))
+        callback?.updateVolumeSummary(context.resources.getString(R.string.pref_summary_alarm_volume, value))
     }
 
 

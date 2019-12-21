@@ -65,18 +65,18 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
 
     //region Preferences
 
-    private val themePreference by lazy { findPreference<Preference>(getString(R.string.key_app_theme)) }
+    private val themePreference by lazy { findPreference<Preference>(getString(R.string.pref_key_app_theme)) }
 
-    private val sortPreference by lazy { findPreference<Preference>(getString(R.string.key_note_sort)) }
-    private val colorPreference by lazy { findPreference<Preference>(getString(R.string.key_note_color)) }
+    private val sortPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_note_sort)) }
+    private val colorPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_note_color)) }
 
-    private val repeatPreference by lazy { findPreference<Preference>(getString(R.string.key_alarm_repeat)) }
-    private val signalPreference by lazy { findPreference<Preference>(getString(R.string.key_alarm_signal)) }
-    private val melodyPreference by lazy { findPreference<Preference>(getString(R.string.key_alarm_melody)) }
-    private val increasePreference by lazy { findPreference<Preference>(getString(R.string.key_alarm_increase)) }
-    private val volumePreference by lazy { findPreference<Preference>(getString(R.string.key_alarm_volume)) }
+    private val repeatPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_alarm_repeat)) }
+    private val signalPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_alarm_signal)) }
+    private val melodyPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_alarm_melody)) }
+    private val increasePreference by lazy { findPreference<Preference>(getString(R.string.pref_key_alarm_increase)) }
+    private val volumePreference by lazy { findPreference<Preference>(getString(R.string.pref_key_alarm_volume)) }
 
-    private val saveTimePreference by lazy { findPreference<Preference>(getString(R.string.key_note_time)) }
+    private val saveTimePreference by lazy { findPreference<Preference>(getString(R.string.pref_key_note_time)) }
 
     //endregion
 
@@ -209,7 +209,7 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
     }
 
     override fun setupOther() {
-        findPreference<Preference>(getString(R.string.key_other_rate))?.setOnPreferenceClickListener {
+        findPreference<Preference>(getString(R.string.pref_key_other_rate))?.setOnPreferenceClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
 
             try {
@@ -225,7 +225,7 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
             return@setOnPreferenceClickListener true
         }
 
-        findPreference<Preference>(getString(R.string.key_other_privacy_policy))?.setOnPreferenceClickListener {
+        findPreference<Preference>(getString(R.string.pref_key_other_privacy_policy))?.setOnPreferenceClickListener {
             startActivity(Intent(Intent.ACTION_VIEW).apply {
                 data = BuildConfig.PRIVACY_POLICY_URL.toUri()
             })
@@ -233,7 +233,7 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
             return@setOnPreferenceClickListener true
         }
 
-        findPreference<Preference>(getString(R.string.key_other_about))?.setOnPreferenceClickListener {
+        findPreference<Preference>(getString(R.string.pref_key_other_about))?.setOnPreferenceClickListener {
             openState.tryInvoke { aboutDialog.show(fm, DialogFactory.Preference.ABOUT) }
             return@setOnPreferenceClickListener true
         }

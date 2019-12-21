@@ -31,7 +31,7 @@ class ColorHolder(view: View) : RecyclerView.ViewHolder(view) {
         checkImage.setColorFilter(context.getCompatColor(colorItem.content))
 
         val context = itemView.context ?: return
-        val colorName = context.resources.getStringArray(R.array.text_note_color)[color]
+        val colorName = context.resources.getStringArray(R.array.pref_text_note_color)[color]
 
         clickView.contentDescription = context.getString(R.string.description_item_color, colorName)
     }

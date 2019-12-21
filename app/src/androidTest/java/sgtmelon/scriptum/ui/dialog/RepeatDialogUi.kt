@@ -12,7 +12,7 @@ class RepeatDialogUi : ParentUi(), IDialogUi {
 
     private val preferenceList = getViewById(android.R.id.list)
 
-    private val titleText = getViewByText(R.string.title_alarm_repeat).excludeParent(preferenceList)
+    private val titleText = getViewByText(R.string.pref_title_alarm_repeat).excludeParent(preferenceList)
 
     private val repeat0Button = getViewByText(R.string.dialog_repeat_0).excludeParent(preferenceList)
     private val repeat1Button = getViewByText(R.string.dialog_repeat_1).excludeParent(preferenceList)

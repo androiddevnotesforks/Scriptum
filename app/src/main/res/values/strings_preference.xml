@@ -3,62 +3,62 @@
 
     <!-- TODO add prefix = pref_... -->
 
-    <string name="header_app">App</string>
-    <string name="header_note">Notes</string>
-    <string name="header_notification">Notifications</string>
-    <string name="header_other">Other</string>
+    <string name="pref_header_app">App</string>
+    <string name="pref_header_note">Notes</string>
+    <string name="pref_header_notification">Notifications</string>
+    <string name="pref_header_other">Other</string>
 
     <!---->
 
-    <string name="title_app_theme">Theme</string>
+    <string name="pref_title_app_theme">Theme</string>
 
-    <string name="title_note_sort">Sort notes</string>
-    <string name="title_note_color">Default note color</string>
-    <string name="title_note_save_pause">Save on stop</string>
-    <string name="title_note_save_auto">Auto save</string>
-    <string name="title_note_save_time">Period</string>
+    <string name="pref_title_note_sort">Sort notes</string>
+    <string name="pref_title_note_color">Default note color</string>
+    <string name="pref_title_note_save_pause">Save on stop</string>
+    <string name="pref_title_note_save_auto">Auto save</string>
+    <string name="pref_title_note_save_time">Period</string>
 
-    <string name="title_alarm_repeat">Repeat time</string>
-    <string name="title_alarm_signal">Signal type</string>
-    <string name="title_alarm_melody">Melody</string>
-    <string name="title_alarm_volume">Volume</string>
-    <string name="title_alarm_increase">Volume increase</string>
+    <string name="pref_title_alarm_repeat">Repeat time</string>
+    <string name="pref_title_alarm_signal">Signal type</string>
+    <string name="pref_title_alarm_melody">Melody</string>
+    <string name="pref_title_alarm_volume">Volume</string>
+    <string name="pref_title_alarm_increase">Volume increase</string>
 
-    <string name="title_other_rate">Rate</string>
-    <string name="title_other_privacy_policy">Privacy policy</string>
-    <string name="title_other_about">About app</string>
-
-    <!---->
-
-    <string name="summary_app_theme">Selected theme</string>
-
-    <string name="summary_note_sort">Will be used by default</string>
-    <string name="summary_note_color">Will be used by default</string>
-    <string name="summary_note_save_pause">Will save note changes when you leave application</string>
-    <string name="summary_note_save_auto">Will save note changes after period of time</string>
-    <string name="summary_note_save_time">Number of minutes</string>
-
-    <string name="summary_alarm_repeat">Will be used for repeat notification</string>
-    <string name="summary_alarm_signal">will be used for notify you</string>
-    <string name="summary_alarm_melody">Will be play on notification</string>
-    <string name="summary_alarm_volume">Percent of volume: %d%%</string>
-    <string name="summary_alarm_increase">Smooth volume increase from minimum</string>
+    <string name="pref_title_other_rate">Rate</string>
+    <string name="pref_title_other_privacy_policy">Privacy policy</string>
+    <string name="pref_title_other_about">About app</string>
 
     <!---->
 
-    <string-array name="text_app_theme">
+    <string name="pref_summary_app_theme">Selected theme</string>
+
+    <string name="pref_summary_note_sort">Will be used by default</string>
+    <string name="pref_summary_note_color">Will be used by default</string>
+    <string name="pref_summary_note_save_pause">Will save note changes when you leave application</string>
+    <string name="pref_summary_note_save_auto">Will save note changes after period of time</string>
+    <string name="pref_summary_note_save_time">Number of minutes</string>
+
+    <string name="pref_summary_alarm_repeat">Will be used for repeat notification</string>
+    <string name="pref_summary_alarm_signal">will be used for notify you</string>
+    <string name="pref_summary_alarm_melody">Will be play on notification</string>
+    <string name="pref_summary_alarm_volume">Percent of volume: %d%%</string>
+    <string name="pref_summary_alarm_increase">Smooth volume increase from minimum</string>
+
+    <!---->
+
+    <string-array name="pref_text_app_theme">
         <item>Light</item>
         <item>Dark</item>
     </string-array>
 
-    <string-array name="text_note_sort">
+    <string-array name="pref_text_note_sort">
         <item>By time of change</item>
         <item>By time of creation</item>
         <item>By categories</item>
         <item>By color</item>
     </string-array>
 
-    <string-array name="text_note_color">
+    <string-array name="pref_text_note_color">
         <item>Red</item>
         <item>Purple</item>
         <item>Indigo</item>
@@ -72,13 +72,13 @@
         <item>White</item>
     </string-array>
 
-    <string-array name="text_note_save_time">
+    <string-array name="pref_text_note_save_time">
         <item>1 minute</item>
         <item>3 minutes</item>
         <item>7 minutes</item>
     </string-array>
 
-    <string-array name="text_alarm_repeat">
+    <string-array name="pref_text_alarm_repeat">
         <item>@string/dialog_repeat_0</item>
         <item>@string/dialog_repeat_1</item>
         <item>@string/dialog_repeat_2</item>
@@ -86,31 +86,31 @@
         <item>@string/dialog_repeat_4</item>
     </string-array>
 
-    <string-array name="text_alarm_signal">
+    <string-array name="pref_text_alarm_signal">
         <item>Melody</item>
         <item>Vibration</item>
     </string-array>
 
     <!---->
 
-    <string name="key_first_start" translatable="false">key_first_start</string>
+    <string name="pref_key_first_start" translatable="false">key_first_start</string>
 
-    <string name="key_app_theme" translatable="false">key_theme</string>
+    <string name="pref_key_app_theme" translatable="false">key_theme</string>
 
-    <string name="key_note_sort" translatable="false">key_note_sort</string>
-    <string name="key_note_color" translatable="false">key_color</string>
-    <string name="key_note_pause" translatable="false">key_save_pause</string>
-    <string name="key_note_auto" translatable="false">key_save_auto</string>
-    <string name="key_note_time" translatable="false">key_save_time</string>
+    <string name="pref_key_note_sort" translatable="false">key_note_sort</string>
+    <string name="pref_key_note_color" translatable="false">key_color</string>
+    <string name="pref_key_note_pause" translatable="false">key_save_pause</string>
+    <string name="pref_key_note_auto" translatable="false">key_save_auto</string>
+    <string name="pref_key_note_time" translatable="false">key_save_time</string>
 
-    <string name="key_alarm_repeat" translatable="false">key_alarm_repeat</string>
-    <string name="key_alarm_signal" translatable="false">key_alarm_signal</string>
-    <string name="key_alarm_melody" translatable="false">key_alarm_melody</string>
-    <string name="key_alarm_volume" translatable="false">key_alarm_volume</string>
-    <string name="key_alarm_increase" translatable="false">key_alarm_increase</string>
+    <string name="pref_key_alarm_repeat" translatable="false">key_alarm_repeat</string>
+    <string name="pref_key_alarm_signal" translatable="false">key_alarm_signal</string>
+    <string name="pref_key_alarm_melody" translatable="false">key_alarm_melody</string>
+    <string name="pref_key_alarm_volume" translatable="false">key_alarm_volume</string>
+    <string name="pref_key_alarm_increase" translatable="false">key_alarm_increase</string>
     
-    <string name="key_other_rate" translatable="false">key_rate</string>
-    <string name="key_other_privacy_policy" translatable="false">key_privacy_policy</string>
-    <string name="key_other_about" translatable="false">key_about</string>
+    <string name="pref_key_other_rate" translatable="false">key_rate</string>
+    <string name="pref_key_other_privacy_policy" translatable="false">key_privacy_policy</string>
+    <string name="pref_key_other_about" translatable="false">key_about</string>
 
 </resources>

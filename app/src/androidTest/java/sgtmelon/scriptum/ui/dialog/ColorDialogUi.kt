@@ -22,7 +22,7 @@ class ColorDialogUi(place: Place, @Color private var check: Int, private val cal
 
     private val titleText = getViewByText(when (place) {
         Place.NOTE -> R.string.dialog_title_color
-        Place.PREF -> R.string.title_note_color
+        Place.PREF -> R.string.pref_title_note_color
     })
 
     private val cancelButton = getViewByText(R.string.dialog_button_cancel)
@@ -101,7 +101,7 @@ class ColorDialogUi(place: Place, @Color private var check: Int, private val cal
             val colorId = ColorData.getColorItem(theme, item.color).content
             checkImage.isDisplayed(item.isCheck).withDrawableColor(R.drawable.ic_check, colorId)
 
-            val colorName = context.resources.getStringArray(R.array.text_note_color)[item.color]
+            val colorName = context.resources.getStringArray(R.array.pref_text_note_color)[item.color]
             val description = context.getString(R.string.description_item_color, colorName)
             clickView.isDisplayed()
                     .withSize(R.dimen.icon_48dp, R.dimen.icon_48dp)

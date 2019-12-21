@@ -223,7 +223,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     override fun vibrateCancel() = iVibratorControl.cancel()
 
     override fun showRepeatToast(select: Int) {
-        showToast(getString(R.string.toast_alarm_repeat, resources.getStringArray(R.array.text_alarm_repeat)[select]))
+        showToast(getString(R.string.toast_alarm_repeat, resources.getStringArray(R.array.pref_text_alarm_repeat)[select]))
     }
 
 
