@@ -66,7 +66,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
     private val openState = OpenState()
 
-    private val dialogFactory by lazy { DialogFactory.Alarm(context = this, fm = fm) }
+    private val dialogFactory by lazy { DialogFactory.Alarm(fm = fm) }
     private val repeatDialog by lazy { dialogFactory.getRepeatDialog() }
 
     private val adapter: NoteAdapter by lazy {

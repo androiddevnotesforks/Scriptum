@@ -16,6 +16,6 @@ class SummaryProvider(context: Context) {
     val repeat: Array<String> = context.resources.getStringArray(R.array.text_alarm_repeat)
     val signal: Array<String> = context.resources.getStringArray(R.array.text_alarm_signal)
 
-    val saveTime: Array<String> = context.resources.getStringArray(R.array.text_save_time)
+    val saveTime: Array<String> = context.resources.getStringArray(R.array.text_note_save_time)
 
 }

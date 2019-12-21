@@ -10,7 +10,6 @@ import android.os.Bundle
 import androidx.fragment.app.FragmentManager
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.SwitchPreferenceCompat
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.alarm.MelodyControl
@@ -77,7 +76,7 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
     private val increasePreference by lazy { findPreference<Preference>(getString(R.string.key_alarm_increase)) }
     private val volumePreference by lazy { findPreference<Preference>(getString(R.string.key_alarm_volume)) }
 
-    private val saveTimePreference by lazy { findPreference<Preference>(getString(R.string.key_save_time)) }
+    private val saveTimePreference by lazy { findPreference<Preference>(getString(R.string.key_note_time)) }
 
     //endregion
 

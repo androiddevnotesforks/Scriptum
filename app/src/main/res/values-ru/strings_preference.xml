@@ -4,25 +4,23 @@
     <string name="header_app">Приложение</string>
     <string name="header_notification">Уведомления</string>
     <string name="header_note">Заметки</string>
-    <string name="header_save">Сохранение</string>
     <string name="header_other">Прочее</string>
 
     <!---->
 
     <string name="title_app_theme">Тема</string>
 
+    <string name="title_note_sort">Сортировка заметок</string>
+    <string name="title_note_color">Цвет заметки по-умолчанию</string>
+    <string name="title_note_save_pause">Сохранять при остановке</string>
+    <string name="title_note_save_auto">Автоматическое сохранение</string>
+    <string name="title_note_save_time">Период</string>
+
     <string name="title_alarm_repeat">Время повтора</string>
     <string name="title_alarm_signal">Тип сигнала</string>
     <string name="title_alarm_melody">Мелодия</string>
     <string name="title_alarm_volume">Громкость</string>
     <string name="title_alarm_increase">Нарастание громкости</string>
-
-    <string name="title_note_sort">Сортировка заметок</string>
-    <string name="title_note_color">Цвет заметки по-умолчанию</string>
-
-    <string name="title_save_pause">Сохранение при остановке приложения</string>
-    <string name="title_save_auto">Автоматическое сохранение</string>
-    <string name="title_save_time">Период</string>
 
     <string name="title_other_rate">Оценить</string>
     <string name="title_other_privacy_policy">Политика конфиденциальности</string>
@@ -32,42 +30,31 @@
 
     <string name="summary_app_theme">Выбранная тема</string>
 
+    <string name="summary_note_sort">Будет применяться по-умолчанию</string>
+    <string name="summary_note_color">Будет применяться по-умолчанию</string>
+    <string name="summary_note_save_pause">
+        Сохранять изменения в заметке при сворачивании приложения
+    </string>
+    <string name="summary_note_save_auto">
+        Сохранять изменения в заметки после определенного периода времени
+    </string>
+    <string name="summary_note_save_time">Количество минут</string>
+
     <string name="summary_alarm_repeat">
         Будет применяться, чтобы повторить уведомление
     </string>
     <string name="summary_alarm_signal">Будет применяться, чтобы предупредить вас</string>
     <string name="summary_alarm_melody">Будет играть в уведомлении</string>
-    <!-- TODO #RELEASE2 Другой текст -->
     <string name="summary_alarm_volume">Процент громкости: %d%%</string>
     <string name="summary_alarm_increase">
         Плавное увеличение громкости начиная с минимальной
     </string>
-
-    <string name="summary_note_sort">Будет применяться по-умолчанию</string>
-    <string name="summary_note_color">Будет применяться по-умолчанию</string>
-
-    <string name="summary_save_pause">При редактировании заметки</string>
-    <string name="summary_save_auto">При редактировании заметки</string>
-    <string name="summary_save_time">Количество минут</string>
 
     <!---->
 
     <string-array name="text_app_theme">
         <item>Светлая</item>
         <item>Тёмная</item>
-    </string-array>
-
-    <string-array name="text_alarm_repeat">
-        <item>@string/dialog_repeat_0</item>
-        <item>@string/dialog_repeat_1</item>
-        <item>@string/dialog_repeat_2</item>
-        <item>@string/dialog_repeat_3</item>
-        <item>@string/dialog_repeat_4</item>
-    </string-array>
-
-    <string-array name="text_alarm_signal">
-        <item>Мелодия</item>
-        <item>Вибрация</item>
     </string-array>
 
     <string-array name="text_note_sort">
@@ -91,10 +78,23 @@
         <item>Белый</item>
     </string-array>
 
-    <string-array name="text_save_time">
+    <string-array name="text_note_save_time">
         <item>1 минута</item>
         <item>3 минуты</item>
         <item>7 минут</item>
+    </string-array>
+
+    <string-array name="text_alarm_repeat">
+        <item>@string/dialog_repeat_0</item>
+        <item>@string/dialog_repeat_1</item>
+        <item>@string/dialog_repeat_2</item>
+        <item>@string/dialog_repeat_3</item>
+        <item>@string/dialog_repeat_4</item>
+    </string-array>
+
+    <string-array name="text_alarm_signal">
+        <item>Мелодия</item>
+        <item>Вибрация</item>
     </string-array>
 
 </resources>

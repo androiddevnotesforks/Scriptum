@@ -25,9 +25,9 @@ class PreferenceProvider {
         val VOLUME_INCREASE: String = resources.getString(R.string.key_alarm_increase)
         val SORT: String = resources.getString(R.string.key_note_sort)
         val DEFAULT_COLOR: String = resources.getString(R.string.key_note_color)
-        val PAUSE_SAVE_ON: String = resources.getString(R.string.key_save_pause)
-        val AUTO_SAVE_ON: String = resources.getString(R.string.key_save_auto)
-        val SAVE_PERIOD: String = resources.getString(R.string.key_save_time)
+        val PAUSE_SAVE_ON: String = resources.getString(R.string.key_note_pause)
+        val AUTO_SAVE_ON: String = resources.getString(R.string.key_note_auto)
+        val SAVE_PERIOD: String = resources.getString(R.string.key_note_time)
     }
 
     class Def(context: Context) {

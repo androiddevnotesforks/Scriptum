@@ -14,7 +14,7 @@ import sgtmelon.scriptum.model.key.NoteType
  */
 object DialogFactory {
 
-    class Alarm(private val context: Context?, private val fm: FragmentManager) {
+    class Alarm(private val fm: FragmentManager) {
         fun getRepeatDialog(): SheetRepeatDialog {
             return fm.findFragmentByTag(REPEAT) as? SheetRepeatDialog ?: SheetRepeatDialog()
         }
@@ -221,8 +221,8 @@ object DialogFactory {
 
             if (context == null) return dialog
 
-            dialog.title = context.getString(R.string.title_save_time)
-            dialog.itemArray = context.resources.getStringArray(R.array.text_save_time)
+            dialog.title = context.getString(R.string.title_note_save_time)
+            dialog.itemArray = context.resources.getStringArray(R.array.text_note_save_time)
 
             return dialog
         }
