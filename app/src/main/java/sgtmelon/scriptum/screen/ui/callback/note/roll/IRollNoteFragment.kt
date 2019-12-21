@@ -16,6 +16,8 @@ import java.util.*
  */
 interface IRollNoteFragment : IRollNoteBridge {
 
+    val isDialogOpen: Boolean
+
     fun hideKeyboard()
 
 

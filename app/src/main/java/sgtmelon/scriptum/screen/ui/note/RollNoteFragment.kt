@@ -132,6 +132,8 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment, NoteReceiver.Callb
 
     //endregion
 
+    override val isDialogOpen: Boolean get() = openState.value
+
     override fun hideKeyboard() {
         activity?.hideKeyboard()
     }

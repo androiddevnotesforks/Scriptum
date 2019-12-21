@@ -5,6 +5,7 @@ import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
+import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.screen.ui.note.TextNoteFragment
 import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel
 import java.util.*
@@ -13,6 +14,8 @@ import java.util.*
  * Interface for communication [TextNoteViewModel] with [TextNoteFragment]
  */
 interface ITextNoteFragment : ITextNoteBridge {
+
+    val isDialogOpen: Boolean
 
     fun hideKeyboard()
 

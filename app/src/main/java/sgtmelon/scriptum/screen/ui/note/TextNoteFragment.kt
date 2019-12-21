@@ -111,6 +111,8 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment, NoteReceiver.Callb
 
     //endregion
 
+    override val isDialogOpen: Boolean get() = openState.value
+
     override fun hideKeyboard() {
         activity?.hideKeyboard()
     }

@@ -286,7 +286,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     override fun onMenuRedo() = onMenuUndoRedo(isUndo = false)
 
     private fun onMenuUndoRedo(isUndo: Boolean) {
-        if (!noteState.isEdit) return
+        if (callback?.isDialogOpen == true || !noteState.isEdit) return
 
         val item = if (isUndo) inputControl.undo() else inputControl.redo()
 
@@ -326,6 +326,8 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     }
 
     override fun onMenuSave(changeMode: Boolean): Boolean {
+        if (changeMode && callback?.isDialogOpen == true) return false
+
         if (!noteState.isEdit || !noteItem.isSaveEnabled()) return false
 
         noteItem.onSave()
@@ -366,7 +368,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     }
 
     override fun onMenuBind() {
-        if (noteState.isEdit) return
+        if (callback?.isDialogOpen == true || noteState.isEdit) return
 
         noteItem.apply { isStatus = !isStatus }
 
@@ -382,7 +384,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     }
 
     override fun onMenuDelete() {
-        if (noteState.isEdit) return
+        if (callback?.isDialogOpen == true || noteState.isEdit) return
 
         viewModelScope.launch {
             iInteractor.deleteNote(noteItem)
@@ -393,7 +395,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     }
 
     override fun onMenuEdit() {
-        if (noteState.isEdit) return
+        if (callback?.isDialogOpen == true || noteState.isEdit) return
 
         setupEditMode(isEdit = true)
     }
