@@ -46,10 +46,7 @@ interface INoteMenu {
 
     fun onMenuDelete()
 
-    /**
-     * [isEdit] - setup edit mode
-     */
-    fun onMenuEdit(isEdit: Boolean)
+    fun onMenuEdit()
 
     //endregion
 

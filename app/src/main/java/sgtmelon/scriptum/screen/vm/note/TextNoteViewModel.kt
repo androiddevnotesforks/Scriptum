@@ -32,7 +32,6 @@ import sgtmelon.scriptum.screen.vm.ParentViewModel
 import sgtmelon.scriptum.screen.vm.callback.note.ITextNoteViewModel
 import java.util.*
 
-
 /**
  * ViewModel for [TextNoteFragment]
  */
@@ -53,7 +52,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     private lateinit var noteItem: NoteItem
     private lateinit var restoreItem: NoteItem
 
-    private var noteState: NoteState = NoteState()
+    private var noteState = NoteState()
 
     /**
      * App doesn't have ranks if size == 1.
@@ -103,7 +102,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
             callback?.setupDialog(rankDialogItemArray)
 
-            iconState.notAnimate { onMenuEdit(noteState.isEdit) }
+            iconState.notAnimate { setupEditMode(noteState.isEdit) }
 
             callback?.onBindingLoad(rankEmpty = rankDialogItemArray.size == 1)
         }
@@ -135,6 +134,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
             saveControl.setSaveHandlerEvent(isStart = false)
         }
     }
+
 
     override fun onClickBackArrow() {
         if (!noteState.isCreate && noteState.isEdit && id != Default.ID) {
@@ -170,7 +170,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         val colorFrom = noteItem.color
         noteItem = restoreItem.deepCopy()
 
-        onMenuEdit(isEdit = false)
+        setupEditMode(isEdit = false)
         callback?.tintToolbar(colorFrom, noteItem.color)
 
         parentCallback?.onUpdateNoteColor(noteItem.color)
@@ -268,7 +268,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
         noteItem.restore()
 
-        iconState.notAnimate { onMenuEdit(isEdit = false) }
+        iconState.notAnimate { setupEditMode(isEdit = false) }
 
         viewModelScope.launch { iInteractor.updateNote(noteItem, updateBind = false) }
     }
@@ -286,6 +286,8 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     override fun onMenuRedo() = onMenuUndoRedo(isUndo = false)
 
     private fun onMenuUndoRedo(isUndo: Boolean) {
+        if (!noteState.isEdit) return
+
         val item = if (isUndo) inputControl.undo() else inputControl.redo()
 
         if (item != null) inputControl.makeNotEnabled {
@@ -312,21 +314,25 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     }
 
     override fun onMenuRank() {
+        if (!noteState.isEdit) return
+
         callback?.showRankDialog(check = noteItem.rankPs + 1)
     }
 
     override fun onMenuColor() {
+        if (!noteState.isEdit) return
+
         callback?.showColorDialog(noteItem.color, iInteractor.theme)
     }
 
     override fun onMenuSave(changeMode: Boolean): Boolean {
-        if (!noteItem.isSaveEnabled()) return false
+        if (!noteState.isEdit || !noteItem.isSaveEnabled()) return false
 
         noteItem.onSave()
 
         if (changeMode) {
             callback?.hideKeyboard()
-            onMenuEdit(isEdit = false)
+            setupEditMode(isEdit = false)
             inputControl.reset()
         } else if (noteState.isCreate) {
             /**
@@ -354,10 +360,14 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
 
     override fun onMenuNotification() {
+        if (noteState.isEdit) return
+
         callback?.showDateDialog(noteItem.alarmDate.getCalendar(), noteItem.haveAlarm())
     }
 
     override fun onMenuBind() {
+        if (noteState.isEdit) return
+
         noteItem.apply { isStatus = !isStatus }
 
         callback?.onBindingEdit(noteState.isEdit, noteItem)
@@ -366,10 +376,14 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     }
 
     override fun onMenuConvert() {
+        if (noteState.isEdit) return
+
         callback?.showConvertDialog()
     }
 
     override fun onMenuDelete() {
+        if (noteState.isEdit) return
+
         viewModelScope.launch {
             iInteractor.deleteNote(noteItem)
             parentCallback?.finish()
@@ -378,7 +392,13 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         }
     }
 
-    override fun onMenuEdit(isEdit: Boolean) = inputControl.makeNotEnabled {
+    override fun onMenuEdit() {
+        if (noteState.isEdit) return
+
+        setupEditMode(isEdit = true)
+    }
+
+    private fun setupEditMode(isEdit: Boolean) =  inputControl.makeNotEnabled {
         noteState.isEdit = isEdit
 
         callback?.apply {

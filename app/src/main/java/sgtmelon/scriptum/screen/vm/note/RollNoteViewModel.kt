@@ -56,7 +56,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     private lateinit var noteItem: NoteItem
     private lateinit var restoreItem: NoteItem
 
-    private var noteState: NoteState = NoteState()
+    private var noteState = NoteState()
 
     /**
      * App doesn't have ranks if size == 1.
@@ -107,7 +107,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
             callback?.setupDialog(rankDialogItemArray)
 
-            iconState.notAnimate { onMenuEdit(noteState.isEdit) }
+            iconState.notAnimate { setupEditMode(noteState.isEdit) }
 
             callback?.notifyDataSetChanged(noteItem.rollList)
             callback?.onBindingLoad(rankEmpty = rankDialogItemArray.size == 1)
@@ -177,7 +177,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         noteItem = restoreItem.deepCopy()
 
         callback?.notifyDataSetChanged(noteItem.rollList)
-        onMenuEdit(isEdit = false)
+        setupEditMode(isEdit = false)
         callback?.tintToolbar(colorFrom, noteItem.color)
 
         parentCallback?.onUpdateNoteColor(noteItem.color)
@@ -333,7 +333,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
         noteItem.restore()
 
-        iconState.notAnimate { onMenuEdit(isEdit = false) }
+        iconState.notAnimate { setupEditMode(isEdit = false) }
 
         viewModelScope.launch { iInteractor.updateNote(noteItem, updateBind = false) }
     }
@@ -351,6 +351,8 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     override fun onMenuRedo() = onMenuUndoRedo(isUndo = false)
 
     private fun onMenuUndoRedo(isUndo: Boolean) {
+        if (!noteState.isEdit) return
+
         val item = if (isUndo) inputControl.undo() else inputControl.redo()
 
         if (item != null) inputControl.makeNotEnabled {
@@ -404,21 +406,25 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     override fun onMenuRank() {
+        if (!noteState.isEdit) return
+
         callback?.showRankDialog(check = noteItem.rankPs + 1)
     }
 
     override fun onMenuColor() {
+        if (!noteState.isEdit) return
+
         callback?.showColorDialog(noteItem.color, iInteractor.theme)
     }
 
     override fun onMenuSave(changeMode: Boolean): Boolean {
-        if (!noteItem.isSaveEnabled()) return false
+        if (!noteState.isEdit || !noteItem.isSaveEnabled()) return false
 
         noteItem.onSave()
 
         if (changeMode) {
             callback?.hideKeyboard()
-            onMenuEdit(isEdit = false)
+            setupEditMode(isEdit = false)
             inputControl.reset()
         } else if (noteState.isCreate) {
             /**
@@ -448,10 +454,14 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
 
     override fun onMenuNotification() {
+        if (noteState.isEdit) return
+
         callback?.showDateDialog(noteItem.alarmDate.getCalendar(), noteItem.haveAlarm())
     }
 
     override fun onMenuBind() {
+        if (noteState.isEdit) return
+
         noteItem.apply { isStatus = !isStatus }
 
         callback?.onBindingEdit(noteState.isEdit, noteItem)
@@ -460,10 +470,14 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     override fun onMenuConvert() {
+        if (noteState.isEdit) return
+
         callback?.showConvertDialog()
     }
 
     override fun onMenuDelete() {
+        if (noteState.isEdit) return
+
         viewModelScope.launch {
             iInteractor.deleteNote(noteItem)
             parentCallback?.finish()
@@ -472,7 +486,13 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         }
     }
 
-    override fun onMenuEdit(isEdit: Boolean) = inputControl.makeNotEnabled {
+    override fun onMenuEdit() {
+        if (noteState.isEdit) return
+
+        setupEditMode(isEdit = true)
+    }
+
+    private fun setupEditMode(isEdit: Boolean) = inputControl.makeNotEnabled {
         noteState.isEdit = isEdit
 
         callback?.apply {

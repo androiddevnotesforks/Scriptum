@@ -193,7 +193,7 @@
                         android:id="@+id/note_panel_edit_button"
                         style="@style/Button.Small"
                         android:background="?attr/selectableItemBackgroundBorderless"
-                        android:onClick='@{() -> menuCallback.onMenuEdit(true)}'
+                        android:onClick='@{() -> menuCallback.onMenuEdit()}'
                         android:text="@string/button_note_edit"/>
 
             </LinearLayout>
