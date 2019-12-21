@@ -7,13 +7,10 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
-import androidx.preference.CheckBoxPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.SwitchPreferenceCompat
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.alarm.MelodyControl
@@ -92,23 +89,6 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
         iMelodyControl.initLazy()
         openState.get(savedInstanceState)
     }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        val view = super.onCreateView(inflater, container, savedInstanceState)
-
-        view?.findViewById<View?>(android.R.id.list)?.setPadding(0, 0, 0, 0)
-
-        return view
-    }
-
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        addPreferencesFromResource(R.xml.preference)
-//
-//        iMelodyControl.initLazy()
-//        openState.get(savedInstanceState)
-//    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -227,14 +207,6 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
             iViewModel.onResultSaveTime(saveTimeDialog.check)
         }
         saveTimeDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
-
-        val autoSavePreference = findPreference(getString(R.string.key_save_auto)) as? CheckBoxPreference
-        autoSavePreference?.setOnPreferenceChangeListener { _, newValue ->
-            saveTimePreference?.isEnabled = newValue as Boolean
-            return@setOnPreferenceChangeListener true
-        }
-
-        saveTimePreference?.isEnabled = autoSavePreference?.isChecked == true
     }
 
     override fun setupOther() {

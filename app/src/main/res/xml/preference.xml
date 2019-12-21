@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.preference.PreferenceScreen
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:key="screen">
 
@@ -34,7 +35,7 @@
 
     <PreferenceCategory android:title="@string/header_notification" app:iconSpaceReserved="false">
 
-        <CheckBoxPreference
+        <SwitchPreferenceCompat
                 android:defaultValue="@bool/value_alarm_increase"
                 android:key="@string/key_alarm_increase"
                 android:summary="@string/summary_alarm_increase"
@@ -72,14 +73,14 @@
 
     <PreferenceCategory android:title="@string/header_save" app:iconSpaceReserved="false">
 
-        <CheckBoxPreference
+        <SwitchPreferenceCompat
                 android:defaultValue="@bool/value_save_pause"
                 android:key="@string/key_save_pause"
                 android:summary="@string/summary_save_pause"
                 android:title="@string/title_save_pause"
                 app:iconSpaceReserved="false"/>
 
-        <CheckBoxPreference
+        <SwitchPreferenceCompat
                 android:defaultValue="@bool/value_save_auto"
                 android:key="@string/key_save_auto"
                 android:summary="@string/summary_save_auto"
@@ -91,6 +92,7 @@
                 android:key="@string/key_save_time"
                 android:summary="@string/summary_save_time"
                 android:title="@string/title_save_time"
+                app:dependency="@string/key_save_auto"
                 app:iconSpaceReserved="false"/>
 
     </PreferenceCategory>
@@ -114,4 +116,4 @@
 
     </PreferenceCategory>
 
-</PreferenceScreen>
+</androidx.preference.PreferenceScreen>
