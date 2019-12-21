@@ -12,7 +12,7 @@ class SaveControl(context: Context, private val model: Model, private val callba
     private val saveHandler = Handler()
 
     private val saveTime: Int = if (model.autoSaveOn) {
-        context.resources.getIntArray(R.array.value_save_time_array)[model.savePeriod]
+        context.resources.getIntArray(R.array.pref_note_save_time_array)[model.savePeriod]
     } else {
         0
     }

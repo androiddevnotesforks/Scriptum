@@ -35,20 +35,20 @@ class PreferenceProvider {
     class Def(context: Context) {
         private val resources: Resources = context.resources
 
-        val FIRST_START = resources.getBoolean(R.bool.value_first_start)
-        val THEME = resources.getInteger(R.integer.value_app_theme)
+        val FIRST_START = resources.getBoolean(R.bool.pref_first_start)
+        val THEME = resources.getInteger(R.integer.pref_app_theme)
 
-        val SORT = resources.getInteger(R.integer.value_note_sort)
-        val DEFAULT_COLOR = resources.getInteger(R.integer.value_note_color)
-        val PAUSE_SAVE_ON = resources.getBoolean(R.bool.value_save_pause)
-        val AUTO_SAVE_ON = resources.getBoolean(R.bool.value_save_auto)
-        val SAVE_PERIOD = resources.getInteger(R.integer.value_save_time)
+        val SORT = resources.getInteger(R.integer.pref_note_sort)
+        val DEFAULT_COLOR = resources.getInteger(R.integer.pref_note_color)
+        val PAUSE_SAVE_ON = resources.getBoolean(R.bool.pref_note_save_pause)
+        val AUTO_SAVE_ON = resources.getBoolean(R.bool.pref_note_save_auto)
+        val SAVE_PERIOD = resources.getInteger(R.integer.pref_note_save_time)
 
-        val REPEAT = resources.getInteger(R.integer.value_alarm_repeat)
-        val SIGNAL = resources.getInteger(R.integer.value_alarm_signal)
-        val MELODY_URI: String = resources.getString(R.string.value_alarm_melody)
-        val VOLUME = resources.getInteger(R.integer.value_alarm_volume)
-        val VOLUME_INCREASE = resources.getBoolean(R.bool.value_alarm_increase)
+        val REPEAT = resources.getInteger(R.integer.pref_alarm_repeat)
+        val SIGNAL = resources.getInteger(R.integer.pref_alarm_signal)
+        val MELODY_URI: String = resources.getString(R.string.pref_alarm_melody)
+        val VOLUME = resources.getInteger(R.integer.pref_alarm_volume)
+        val VOLUME_INCREASE = resources.getBoolean(R.bool.pref_alarm_increase)
     }
 
 }

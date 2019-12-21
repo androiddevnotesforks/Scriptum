@@ -42,7 +42,7 @@ class AboutDialog : BlankDialog(), View.OnClickListener {
     }
 
     override fun onClick(v: View) {
-        if (++click == context?.resources?.getInteger(R.integer.value_develop_open)) {
+        if (++click == context?.resources?.getInteger(R.integer.pref_develop_open)) {
             hideOpen = true
             dialog?.cancel()
         }

@@ -23,7 +23,7 @@ class AlarmScreen(
         private val dateList: List<String>?
 ) : ParentRecyclerScreen(R.id.alarm_recycler), IPressBack {
 
-    private val repeatArray = context.resources.getIntArray(R.array.value_alarm_repeat_array)
+    private val repeatArray = context.resources.getIntArray(R.array.pref_alarm_repeat_array)
 
     //region Views
 

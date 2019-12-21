@@ -166,7 +166,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
      */
     private fun repeatFinish(@Repeat repeat: Int = iInteractor.repeat) {
         viewModelScope.launch {
-            val valueArray = context.resources.getIntArray(R.array.value_alarm_repeat_array)
+            val valueArray = context.resources.getIntArray(R.array.pref_alarm_repeat_array)
             iInteractor.setupRepeat(noteItem, valueArray, repeat)
 
             callback?.showRepeatToast(repeat)

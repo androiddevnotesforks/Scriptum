@@ -7,7 +7,7 @@
     <PreferenceCategory android:title="@string/pref_header_app" app:iconSpaceReserved="false">
 
         <Preference
-                android:defaultValue="@integer/value_app_theme"
+                android:defaultValue="@integer/pref_app_theme"
                 android:key="@string/pref_key_app_theme"
                 android:summary="@string/pref_summary_app_theme"
                 android:title="@string/pref_title_app_theme"
@@ -18,35 +18,35 @@
     <PreferenceCategory android:title="@string/pref_header_note" app:iconSpaceReserved="false">
 
         <Preference
-                android:defaultValue="@integer/value_note_sort"
+                android:defaultValue="@integer/pref_note_sort"
                 android:key="@string/pref_key_note_sort"
                 android:summary="@string/pref_summary_note_sort"
                 android:title="@string/pref_title_note_sort"
                 app:iconSpaceReserved="false"/>
 
         <Preference
-                android:defaultValue="@integer/value_note_color"
+                android:defaultValue="@integer/pref_note_color"
                 android:key="@string/pref_key_note_color"
                 android:summary="@string/pref_summary_note_color"
                 android:title="@string/pref_title_note_color"
                 app:iconSpaceReserved="false"/>
 
         <SwitchPreferenceCompat
-                android:defaultValue="@bool/value_save_pause"
+                android:defaultValue="@bool/pref_note_save_pause"
                 android:key="@string/pref_key_note_pause"
                 android:summary="@string/pref_summary_note_save_pause"
                 android:title="@string/pref_title_note_save_pause"
                 app:iconSpaceReserved="false"/>
 
         <SwitchPreferenceCompat
-                android:defaultValue="@bool/value_save_auto"
+                android:defaultValue="@bool/pref_note_save_auto"
                 android:key="@string/pref_key_note_auto"
                 android:summary="@string/pref_summary_note_save_auto"
                 android:title="@string/pref_title_note_save_auto"
                 app:iconSpaceReserved="false"/>
 
         <Preference
-                android:defaultValue="@integer/value_save_time"
+                android:defaultValue="@integer/pref_note_save_time"
                 android:key="@string/pref_key_note_time"
                 android:summary="@string/pref_summary_note_save_time"
                 android:title="@string/pref_title_note_save_time"
@@ -58,14 +58,14 @@
     <PreferenceCategory android:title="@string/pref_header_notification" app:iconSpaceReserved="false">
 
         <Preference
-                android:defaultValue="@integer/value_alarm_repeat"
+                android:defaultValue="@integer/pref_alarm_repeat"
                 android:key="@string/pref_key_alarm_repeat"
                 android:summary="@string/pref_summary_alarm_repeat"
                 android:title="@string/pref_title_alarm_repeat"
                 app:iconSpaceReserved="false"/>
 
         <Preference
-                android:defaultValue="@integer/value_alarm_signal"
+                android:defaultValue="@integer/pref_alarm_signal"
                 android:key="@string/pref_key_alarm_signal"
                 android:summary="@string/pref_summary_alarm_signal"
                 android:title="@string/pref_title_alarm_signal"
@@ -78,14 +78,14 @@
                 app:iconSpaceReserved="false"/>
 
         <Preference
-                android:defaultValue="@integer/value_alarm_volume"
+                android:defaultValue="@integer/pref_alarm_volume"
                 android:key="@string/pref_key_alarm_volume"
                 android:summary="@string/pref_summary_alarm_volume"
                 android:title="@string/pref_title_alarm_volume"
                 app:iconSpaceReserved="false"/>
 
         <SwitchPreferenceCompat
-                android:defaultValue="@bool/value_alarm_increase"
+                android:defaultValue="@bool/pref_alarm_increase"
                 android:key="@string/pref_key_alarm_increase"
                 android:summary="@string/pref_summary_alarm_increase"
                 android:title="@string/pref_title_alarm_increase"
