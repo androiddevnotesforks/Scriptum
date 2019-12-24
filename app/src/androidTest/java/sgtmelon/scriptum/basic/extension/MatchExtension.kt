@@ -138,5 +138,9 @@ fun Matcher<View>.withCardBackground(@AttrRes attrColor: Int) = also {
 }
 
 fun Matcher<View>.withSize(@DimenRes widthId: Int = -1, @DimenRes heightId: Int = -1) = also {
-    matchOnView(it, SizeMatcher(widthId, heightId))
+    matchOnView(it, SizeMatcher(widthId, heightId, -1, -1))
+}
+
+fun Matcher<View>.withSizeAttr(@AttrRes widthAttr: Int = -1, @AttrRes heightAttr: Int = -1) = also {
+    matchOnView(it, SizeMatcher(-1, -1, widthAttr, heightAttr))
 }

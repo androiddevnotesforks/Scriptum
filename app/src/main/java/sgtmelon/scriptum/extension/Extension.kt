@@ -12,9 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.annotation.IntegerRes
-import androidx.annotation.LayoutRes
-import androidx.annotation.StringRes
+import androidx.annotation.*
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
@@ -115,3 +113,11 @@ fun Int.isGranted() = this == PackageManager.PERMISSION_GRANTED
 fun String.toUpperCase() = toUpperCase(Locale.ROOT)
 
 fun String.toLowerCase() = toLowerCase(Locale.ROOT)
+
+@DimenRes fun Context.getDimenAttr(@AttrRes attr: Int): Int {
+    val typedValue = TypedValue()
+
+    theme.resolveAttribute(attr, typedValue, true)
+
+    return typedValue.resourceId
+}
