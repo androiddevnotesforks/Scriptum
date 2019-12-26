@@ -12,7 +12,6 @@ import sgtmelon.scriptum.test.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class MainAddDialogTest : ParentUiTest() {
 
-
     @Test fun dialogClose() = launch {
         mainScreen {
             openAddDialog { onCloseSoft() }.assert()
