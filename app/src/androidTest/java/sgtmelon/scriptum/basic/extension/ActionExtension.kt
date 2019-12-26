@@ -24,6 +24,8 @@ fun Matcher<View>.typeText(text: String) = also {
     actionOnView(it, clearText(), ViewActions.typeText(text))
 }
 
+fun Matcher<View>.imeOption() = also { actionOnView(it, ViewActions.pressImeActionButton()) }
+
 
 fun Matcher<View>.swipeLeft() = also { actionOnView(it, ViewActions.swipeLeft()) }
 

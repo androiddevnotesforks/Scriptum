@@ -1,15 +1,17 @@
 package sgtmelon.scriptum.ui.part.toolbar
 
+import android.view.inputmethod.EditorInfo
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
+import sgtmelon.scriptum.ui.IKeyboardOption
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.screen.main.RankScreen
 
 /**
  * Part of UI abstraction for [RankScreen]
  */
-class RankToolbar : ParentUi() {
+class RankToolbar : ParentUi(), IKeyboardOption {
 
     //region Views
 
@@ -54,6 +56,14 @@ class RankToolbar : ParentUi() {
         assert()
     }
 
+    override fun onImeOptionClick() {
+        nameEnter.imeOption()
+
+        enter = ""
+
+        closeSoftKeyboard()
+        assert()
+    }
 
     fun assert(isAddEnabled: Boolean = false) {
         parentContainer.isDisplayed().withBackgroundAttr(R.attr.colorPrimary)
@@ -61,13 +71,15 @@ class RankToolbar : ParentUi() {
 
         val enterEmpty = enter.isEmpty()
 
-        nameEnter.isDisplayed {
-            if (!enterEmpty) {
-                withText(enter, R.attr.clContent, R.dimen.text_18sp)
-            } else {
-                withHint(R.string.hint_enter_rank_new, R.attr.clDisable, R.dimen.text_18sp)
-            }
-        }
+        nameEnter.isDisplayed()
+                .withImeAction(EditorInfo.IME_ACTION_DONE)
+                .apply {
+                    if (!enterEmpty) {
+                        withText(enter, R.attr.clContent, R.dimen.text_18sp)
+                    } else {
+                        withHint(R.string.hint_enter_rank_new, R.attr.clDisable, R.dimen.text_18sp)
+                    }
+                }
 
         val clearTint = if (!enterEmpty) R.attr.clContent else R.attr.clDisable
         clearButton.isDisplayed().isEnabled(!enterEmpty)

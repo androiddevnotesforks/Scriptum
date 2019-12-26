@@ -65,6 +65,10 @@ fun Matcher<View>.withText(string: String,
     if (dimenId != -1) withTextSize(dimenId)
 }
 
+fun Matcher<View>.withImeAction(action: Int) = also {
+    matchOnView(it, ViewMatchers.hasImeAction(action))
+}
+
 
 fun Matcher<View>.withTextColor(@AttrRes attrColor: Int) = also {
     matchOnView(it, TextAttrColorMatcher(attrColor))
