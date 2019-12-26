@@ -10,9 +10,9 @@ import sgtmelon.scriptum.test.ParentUiTest
  * Test dialogs for [RankFragment].
  */
 @RunWith(AndroidJUnit4::class)
-class RankDialogTest : ParentUiTest() {
+class RankRenameDialogTest : ParentUiTest() {
 
-    @Test fun renameClose() = data.insertRank().let {
+    @Test fun dialogClose() = data.insertRank().let {
         launch {
             mainScreen {
                 rankScreen {
@@ -23,7 +23,7 @@ class RankDialogTest : ParentUiTest() {
         }
     }
 
-    @Test fun renameApplySameName() = data.insertRank().let {
+    @Test fun dialogApplySameName() = data.insertRank().let {
         launch {
             mainScreen {
                 rankScreen { openRenameDialog(it.name) { onEnter(it.name, enabled = false) } }
@@ -31,7 +31,7 @@ class RankDialogTest : ParentUiTest() {
         }
     }
 
-    @Test fun renameApplyFromList() = data.fillRank().let {
+    @Test fun dialogApplyFromList() = data.fillRank().let {
         launch {
             mainScreen {
                 rankScreen {
@@ -41,7 +41,7 @@ class RankDialogTest : ParentUiTest() {
         }
     }
 
-    @Test fun renameApplyRegister()  = data.insertRank().let {
+    @Test fun dialogApplyRegister()  = data.insertRank().let {
         launch {
             mainScreen {
                 rankScreen { openRenameDialog(it.name) { onEnter(it.name.toUpperCase()) } }
@@ -49,7 +49,7 @@ class RankDialogTest : ParentUiTest() {
         }
     }
 
-    @Test fun renameResult() = data.insertRank().let {
+    @Test fun dialogResult() = data.insertRank().let {
         val newName = data.uniqueString
 
         launch {
