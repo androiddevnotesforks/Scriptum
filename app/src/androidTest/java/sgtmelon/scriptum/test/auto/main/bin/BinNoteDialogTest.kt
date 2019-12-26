@@ -7,10 +7,10 @@ import sgtmelon.scriptum.screen.ui.main.BinFragment
 import sgtmelon.scriptum.test.ParentUiTest
 
 /**
- * Test dialog options for [BinFragment].
+ * Test note dialog for [BinFragment].
  */
 @RunWith(AndroidJUnit4::class)
-class BinOptionsDialogTest : ParentUiTest() {
+class BinNoteDialogTest : ParentUiTest() {
 
     @Test fun textDialogClose() = data.insertTextToBin().let {
         launch {

@@ -7,7 +7,7 @@ import sgtmelon.scriptum.screen.ui.main.RankFragment
 import sgtmelon.scriptum.test.ParentUiTest
 
 /**
- * Test dialogs for [RankFragment].
+ * Test rename dialog for [RankFragment].
  */
 @RunWith(AndroidJUnit4::class)
 class RankRenameDialogTest : ParentUiTest() {
