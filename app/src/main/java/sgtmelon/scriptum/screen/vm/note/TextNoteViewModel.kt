@@ -412,7 +412,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
             onBindingEdit(isEdit, noteItem)
             onBindingInput(noteItem, inputControl.access)
 
-            if (isEdit) focusOnEdit()
+            if (isEdit) focusOnEdit(noteState.isCreate)
         }
 
         saveControl.setSaveHandlerEvent(isEdit)

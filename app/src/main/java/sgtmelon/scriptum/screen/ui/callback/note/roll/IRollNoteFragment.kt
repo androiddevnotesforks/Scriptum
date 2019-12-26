@@ -54,7 +54,7 @@ interface IRollNoteFragment : IRollNoteBridge {
 
     fun changeToolbarIcon(drawableOn: Boolean, needAnim: Boolean)
 
-    fun focusOnEdit()
+    fun focusOnEdit(isCreate: Boolean)
 
     fun changeName(text: String, cursor: Int)
 

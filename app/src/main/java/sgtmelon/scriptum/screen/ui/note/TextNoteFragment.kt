@@ -265,8 +265,12 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment, NoteReceiver.Callb
         menuControl?.setDrawable(drawableOn, needAnim)
     }
 
-    override fun focusOnEdit() {
-        view?.post { nameEnter?.requestSelectionFocus() }
+    override fun focusOnEdit(isCreate: Boolean) {
+        if (isCreate) {
+            view?.post { nameEnter?.requestSelectionFocus() }
+        } else {
+            view?.post { textEnter?.requestSelectionFocus() }
+        }
     }
 
     override fun changeName(text: String, cursor: Int) {

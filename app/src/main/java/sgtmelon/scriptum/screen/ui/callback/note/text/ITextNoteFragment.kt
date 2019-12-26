@@ -5,7 +5,6 @@ import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.screen.ui.note.TextNoteFragment
 import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel
 import java.util.*
@@ -49,7 +48,7 @@ interface ITextNoteFragment : ITextNoteBridge {
 
     fun changeToolbarIcon(drawableOn: Boolean, needAnim: Boolean)
 
-    fun focusOnEdit()
+    fun focusOnEdit(isCreate: Boolean)
 
     fun changeName(text: String, cursor: Int)
 

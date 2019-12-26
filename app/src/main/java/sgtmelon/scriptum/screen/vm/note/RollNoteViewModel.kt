@@ -513,7 +513,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             onBindingInput(noteItem, inputControl.access)
             updateNoteState(noteState)
 
-            if (isEdit) focusOnEdit()
+            if (isEdit) focusOnEdit(noteState.isCreate)
         }
 
         saveControl.setSaveHandlerEvent(isEdit)

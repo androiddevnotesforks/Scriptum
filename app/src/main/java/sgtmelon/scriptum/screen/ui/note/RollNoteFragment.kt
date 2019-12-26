@@ -325,8 +325,12 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment, NoteReceiver.Callb
         menuControl?.setDrawable(drawableOn, needAnim)
     }
 
-    override fun focusOnEdit() {
-        view?.post { nameEnter?.requestSelectionFocus() }
+    override fun focusOnEdit(isCreate: Boolean) {
+        if (isCreate) {
+            view?.post { nameEnter?.requestSelectionFocus() }
+        } else {
+            view?.post { rollEnter?.requestSelectionFocus() }
+        }
     }
 
     override fun changeName(text: String, cursor: Int) {
