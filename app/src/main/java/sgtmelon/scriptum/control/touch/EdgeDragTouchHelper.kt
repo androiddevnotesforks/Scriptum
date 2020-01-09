@@ -24,6 +24,11 @@ abstract class EdgeDragTouchHelper : ItemTouchHelper.Callback() {
          */
         if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
             movePosition = viewHolder?.adapterPosition ?: RecyclerView.NO_POSITION
+
+            /**
+             * Change alpha on drag.
+             */
+            viewHolder?.itemView?.animate()?.alpha(ALPHA_DRAG_MIN)?.duration = ALPHA_DURATION
         }
     }
 
@@ -31,9 +36,9 @@ abstract class EdgeDragTouchHelper : ItemTouchHelper.Callback() {
         super.clearView(recyclerView, viewHolder)
 
         /**
-         * Clear alpha if was drag or swipe.
+         * Clear alpha it was changed in drag or swipe.
          */
-        viewHolder.itemView.alpha = ALPHA_DRAG_MAX
+        viewHolder.itemView.animate().alpha(ALPHA_DRAG_MAX).duration = ALPHA_DURATION
 
         /**
          * Clear position on drag end.
@@ -69,13 +74,6 @@ abstract class EdgeDragTouchHelper : ItemTouchHelper.Callback() {
             } else if (movePosition == lastPosition && dY > bottomEdge) {
                 edgeY = bottomEdge
             }
-
-            /**
-             * Change alpha if only [clearView] wasn't called.
-             */
-            if (isCurrentlyActive) {
-                viewHolder.itemView.alpha = ALPHA_DRAG_MIN
-            }
         }
 
         super.onChildDraw(c, recyclerView, viewHolder, dX, edgeY, actionState, isCurrentlyActive)
@@ -84,6 +82,7 @@ abstract class EdgeDragTouchHelper : ItemTouchHelper.Callback() {
     companion object {
         private const val PIECE_RATIO = 1.5f
 
+        private const val ALPHA_DURATION = 200L
         private const val ALPHA_DRAG_MIN = 0.7f
         private const val ALPHA_DRAG_MAX = 1f
     }
