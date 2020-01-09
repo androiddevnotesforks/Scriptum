@@ -80,8 +80,8 @@ class RollTouchControl(private val callback: Callback) : EdgeDragTouchHelper(),
              */
             val translationX = abs(if (dX > 0) min(dX, targetX) else max(dX, -targetX))
 
-            val alpha = (1.0f - translationX / targetX).toDouble()
-            viewHolder.itemView.alpha = max(alpha, b = 0.2).toFloat()
+            val alpha = (ALPHA_SWIPE_MAX - translationX / targetX)
+            viewHolder.itemView.alpha = max(alpha, ALPHA_SWIPE_MIN)
         }
 
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
@@ -92,6 +92,11 @@ class RollTouchControl(private val callback: Callback) : EdgeDragTouchHelper(),
         fun onTouchSwipe(p: Int)
         fun onTouchMove(from: Int, to: Int): Boolean
         fun onTouchMoveResult(from: Int, to: Int)
+    }
+
+    companion object {
+        private const val ALPHA_SWIPE_MIN = 0.2f
+        private const val ALPHA_SWIPE_MAX = 1.0f
     }
 
 }

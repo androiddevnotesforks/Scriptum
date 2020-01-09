@@ -31,7 +31,12 @@ abstract class EdgeDragTouchHelper : ItemTouchHelper.Callback() {
         super.clearView(recyclerView, viewHolder)
 
         /**
-         * Clear position on drag end
+         * Clear alpha if was drag or swipe.
+         */
+        viewHolder.itemView.alpha = ALPHA_DRAG_MAX
+
+        /**
+         * Clear position on drag end.
          */
         movePosition = RecyclerView.NO_POSITION
     }
@@ -50,19 +55,26 @@ abstract class EdgeDragTouchHelper : ItemTouchHelper.Callback() {
                              actionState: Int, isCurrentlyActive: Boolean) {
         var edgeY = dY
 
-        if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
-            val lastPosition = (recyclerView.adapter?.itemCount ?: 0) - 1
-
+        if(actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
             val view = viewHolder.itemView
             val pieceHeight = view.height / PIECE_RATIO
 
             val topEdge = recyclerView.top - pieceHeight
             val bottomEdge = recyclerView.height - view.bottom + pieceHeight
 
+            val lastPosition = (recyclerView.adapter?.itemCount ?: 0) - 1
+
             if (movePosition == 0 && dY < topEdge) {
                 edgeY = topEdge
             } else if (movePosition == lastPosition && dY > bottomEdge) {
                 edgeY = bottomEdge
+            }
+
+            /**
+             * Change alpha if only [clearView] wasn't called.
+             */
+            if (isCurrentlyActive) {
+                viewHolder.itemView.alpha = ALPHA_DRAG_MIN
             }
         }
 
@@ -71,6 +83,9 @@ abstract class EdgeDragTouchHelper : ItemTouchHelper.Callback() {
 
     companion object {
         private const val PIECE_RATIO = 1.5f
+
+        private const val ALPHA_DRAG_MIN = 0.7f
+        private const val ALPHA_DRAG_MAX = 1f
     }
 
 }
