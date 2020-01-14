@@ -72,9 +72,6 @@ class NotificationActivity : AppActivity(), INotificationActivity {
     override fun onResume() {
         super.onResume()
 
-        emptyInfoView?.visibility = View.GONE
-        progressBar?.visibility = View.GONE
-
         openState.clear()
         iViewModel.onUpdateData()
     }
@@ -113,9 +110,16 @@ class NotificationActivity : AppActivity(), INotificationActivity {
         }
     }
 
+
+    override fun beforeLoad() {
+        emptyInfoView?.visibility = View.GONE
+        progressBar?.visibility = View.GONE
+    }
+
     override fun showProgress() {
         progressBar?.visibility = View.VISIBLE
     }
+
 
     override fun onBindingList() {
         progressBar?.visibility = View.GONE

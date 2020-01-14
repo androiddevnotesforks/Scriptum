@@ -14,7 +14,14 @@ interface INotificationActivity : INotificationBridge {
 
     fun setupRecycler(@Theme theme: Int)
 
+
+    /**
+     * Calls before load data inside list.
+     */
+    fun beforeLoad()
+
     fun showProgress()
+
 
     fun onBindingList()
 

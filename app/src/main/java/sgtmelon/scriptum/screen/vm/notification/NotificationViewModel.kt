@@ -37,6 +37,20 @@ class NotificationViewModel(application: Application) :
      * Get count before load all data because it's faster.
      */
     override fun onUpdateData() {
+        callback?.beforeLoad()
+
+        val updateList = {
+            callback?.apply {
+                notifyList(itemList)
+                onBindingList()
+            }
+        }
+
+        /**
+         * If was rotation need show list and after that check for updates.
+         */
+        if (itemList.isNotEmpty()) updateList()
+
         viewModelScope.launch {
             val count = iInteractor.getCount()
 
@@ -47,10 +61,7 @@ class NotificationViewModel(application: Application) :
                 itemList.clearAndAdd(iInteractor.getList())
             }
 
-            callback?.apply {
-                notifyList(itemList)
-                onBindingList()
-            }
+            updateList()
         }
     }
 
