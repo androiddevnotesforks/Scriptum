@@ -21,7 +21,9 @@ class RankTouchControl(private val callback: Callback) : EdgeDragTouchHelper(), 
 
     override fun getMovementFlags(recyclerView: RecyclerView,
                                   viewHolder: RecyclerView.ViewHolder): Int {
-        val flagsDrag = if (drag) ItemTouchHelper.UP or ItemTouchHelper.DOWN else 0
+        val isDrag = callback.onTouchDrag() && drag
+
+        val flagsDrag = if (isDrag) ItemTouchHelper.UP or ItemTouchHelper.DOWN else 0
         val flagsSwipe = 0
 
         return makeMovementFlags(flagsDrag, flagsSwipe)
@@ -54,7 +56,23 @@ class RankTouchControl(private val callback: Callback) : EdgeDragTouchHelper(), 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
 
     interface Callback {
+        /**
+         * Calls inside [getMovementFlags]. Need for check permission for drag.
+         *
+         * @return true if user can drag cards.
+         */
+        fun onTouchDrag(): Boolean
+
+        /**
+         * Calls inside [onMove]. Need for check permission for move card to another position.
+         *
+         * @return true if user cad drag card to another position.
+         */
         fun onTouchMove(from: Int, to: Int): Boolean
+
+        /**
+         * Calls inside [clearView] for description drag result.
+         */
         fun onTouchMoveResult()
     }
 

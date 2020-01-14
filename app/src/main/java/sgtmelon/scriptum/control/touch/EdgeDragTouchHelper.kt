@@ -12,7 +12,7 @@ abstract class EdgeDragTouchHelper : ItemTouchHelper.Callback() {
     /**
      * Variable need for best performance and more productive, because
      * get [RecyclerView.ViewHolder.getAdapterPosition] inside [onChildDraw]
-     * is hard calculating operation
+     * is hard calculating operation.
      */
     protected var movePosition = RecyclerView.NO_POSITION
 
@@ -20,7 +20,7 @@ abstract class EdgeDragTouchHelper : ItemTouchHelper.Callback() {
         super.onSelectedChanged(viewHolder, actionState)
 
         /**
-         * Get position on drag start
+         * Get position on drag start.
          */
         if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
             movePosition = viewHolder?.adapterPosition ?: RecyclerView.NO_POSITION
@@ -49,7 +49,7 @@ abstract class EdgeDragTouchHelper : ItemTouchHelper.Callback() {
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
                         target: RecyclerView.ViewHolder): Boolean {
         /**
-         * Get position on drag
+         * Get position on drag.
          */
         movePosition = target.adapterPosition
         return false

@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.screen.ui.callback.main
 
 import sgtmelon.scriptum.model.item.RankItem
+import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.screen.ui.main.RankFragment
 import sgtmelon.scriptum.screen.vm.main.RankViewModel
 
@@ -8,6 +9,8 @@ import sgtmelon.scriptum.screen.vm.main.RankViewModel
  * Interface for communication [RankViewModel] with [RankFragment]
  */
 interface IRankFragment : IRankBridge {
+
+    val openState: OpenState?
 
     fun setupToolbar()
 

@@ -44,7 +44,7 @@ class RankFragment : ParentFragment(), IRankFragment {
 
     private val iBindControl: IBindControl by lazy { BindControl(context) }
 
-    private val openState get() = callback?.openState
+    override val openState get() = callback?.openState
     private val renameDialog by lazy { DialogFactory.Main(context, fm).getRenameDialog() }
 
     private val visibleAnimTime: Long? by lazy {

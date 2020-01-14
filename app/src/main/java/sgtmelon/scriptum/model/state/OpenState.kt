@@ -6,14 +6,24 @@ import android.os.Handler
 import androidx.fragment.app.Fragment
 
 /**
- * State for dialogs which give us know open them or not
+ * State for dialogs which give us know open them or not.
  */
 class OpenState {
 
+    /**
+     * Value for [block] realisation.
+     */
     private val handler = Handler()
 
-    var changeEnabled: Boolean = true
+    /**
+     * Value for control open. If something open - TRUE, else - FALSE.
+     */
     var value: Boolean = false
+
+    /**
+     * Variable for control changing of [value].
+     */
+    var changeEnabled: Boolean = true
 
     /**
      * Use for open dialog chain (for block actions during dialogs close/open)
@@ -60,7 +70,7 @@ class OpenState {
         if (time == null) return
 
         /**
-         * Need deny any changes in [OpenState] what can happen in postDelayed time
+         * Need deny any changes in [OpenState] what can happen in postDelayed time.
          */
         changeEnabled = false
 
