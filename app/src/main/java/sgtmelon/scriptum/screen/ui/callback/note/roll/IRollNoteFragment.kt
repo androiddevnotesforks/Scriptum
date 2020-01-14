@@ -83,6 +83,8 @@ interface IRollNoteFragment : IRollNoteBridge {
 
     fun notifyItemRemoved(list: List<RollItem>, p: Int)
 
+    fun notifyItemRemoved(p: Int)
+
 
     fun showRankDialog(check: Int)
 

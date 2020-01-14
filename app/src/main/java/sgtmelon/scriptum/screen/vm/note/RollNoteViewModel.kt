@@ -438,6 +438,11 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
         noteItem.onSave()
 
+        /**
+         * Need update adapter after remove rows with empty text.
+         */
+        callback?.setList(noteItem.rollList)
+
         if (changeMode) {
             callback?.hideKeyboard()
             setupEditMode(isEdit = false)
@@ -608,6 +613,9 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             name = name.clearSpace()
             updateTime().updateComplete()
         }
+
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        fun RollItem.isNeedRemove(): Boolean = text.clearSpace().isEmpty()
 
         @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
         fun NoteItem.onItemCheck(p: Int): RollItem {
