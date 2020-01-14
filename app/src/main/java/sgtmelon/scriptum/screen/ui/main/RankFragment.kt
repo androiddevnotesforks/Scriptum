@@ -102,10 +102,6 @@ class RankFragment : ParentFragment(), IRankFragment {
 
     override fun onResume() {
         super.onResume()
-
-        emptyInfoView?.visibility = View.GONE
-        progressBar?.visibility = View.GONE
-
         iViewModel.onUpdateData()
     }
 
@@ -176,9 +172,16 @@ class RankFragment : ParentFragment(), IRankFragment {
         }
     }
 
+
+    override fun beforeLoad() {
+        emptyInfoView?.visibility = View.GONE
+        progressBar?.visibility = View.GONE
+    }
+
     override fun showProgress() {
         progressBar?.visibility = View.VISIBLE
     }
+
 
     override fun onBindingList() {
         progressBar?.visibility = View.GONE

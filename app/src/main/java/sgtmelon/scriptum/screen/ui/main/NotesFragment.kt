@@ -98,8 +98,6 @@ class NotesFragment : ParentFragment(), INotesFragment, MainReceiver.Callback {
 
     override fun onResume() {
         super.onResume()
-
-        emptyInfoView?.visibility = View.GONE
         iViewModel.onUpdateData()
     }
 
@@ -214,9 +212,16 @@ class NotesFragment : ParentFragment(), INotesFragment, MainReceiver.Callback {
         binding?.isListHide = isListHide
     }
 
+
+    override fun beforeLoad() {
+        emptyInfoView?.visibility = View.GONE
+        progressBar?.visibility = View.GONE
+    }
+
     override fun showProgress() {
         progressBar?.visibility = View.VISIBLE
     }
+
 
     override fun onBindingList() {
         progressBar?.visibility = View.GONE

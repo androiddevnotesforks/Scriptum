@@ -20,7 +20,14 @@ interface INotesFragment : INotesBridge {
 
     fun setupBinding(isListHide: Boolean)
 
+
+    /**
+     * Calls before load data inside list.
+     */
+    fun beforeLoad()
+
     fun showProgress()
+
 
     fun onBindingList()
 

@@ -36,6 +36,18 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
 
 
     override fun onUpdateData() {
+        callback?.beforeLoad()
+
+        /**
+         * If was rotation need show list and after that check for updates.
+         */
+        if (itemList.isNotEmpty()) {
+            callback?.apply {
+                notifyList(itemList)
+                onBindingList()
+            }
+        }
+
         viewModelScope.launch {
             val count = iInteractor.getCount()
 

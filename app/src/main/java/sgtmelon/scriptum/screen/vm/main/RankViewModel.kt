@@ -22,7 +22,7 @@ import sgtmelon.scriptum.screen.vm.ParentViewModel
 import sgtmelon.scriptum.screen.vm.callback.main.IRankViewModel
 
 /**
- * ViewModel for [RankFragment]
+ * ViewModel for [RankFragment].
  */
 class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(application),
         IRankViewModel {
@@ -44,20 +44,34 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
 
 
     override fun onUpdateData() {
+        callback?.beforeLoad()
+
+        val updateList = {
+            callback?.apply {
+                notifyList(itemList)
+                onBindingList()
+            }
+        }
+
+        /**
+         * If was rotation need show list and after that check for updates.
+         */
+        if (itemList.isNotEmpty()) updateList()
+
         viewModelScope.launch {
             val count = iInteractor.getCount()
 
             if (count == 0) {
                 itemList.clear()
             } else {
-                if (itemList.isEmpty()) callback?.showProgress()
+                if (itemList.isEmpty()) {
+                    callback?.showProgress()
+                }
+
                 itemList.clearAndAdd(iInteractor.getList())
             }
 
-            callback?.apply {
-                notifyList(itemList)
-                onBindingList()
-            }
+            updateList()
         }
     }
 
@@ -201,7 +215,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
 
     companion object {
         /**
-         * Return list of [NoteItem.id] which need update
+         * Return list of [NoteItem.id] which need update.
          */
         @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
         fun List<RankItem>.correctPositions(): List<Long> {

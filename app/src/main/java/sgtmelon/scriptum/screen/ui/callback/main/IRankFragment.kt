@@ -16,7 +16,14 @@ interface IRankFragment : IRankBridge {
 
     fun setupRecycler()
 
+
+    /**
+     * Calls before load data inside list.
+     */
+    fun beforeLoad()
+
     fun showProgress()
+
 
     fun onBindingList()
 

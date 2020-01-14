@@ -48,13 +48,28 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
 
 
     override fun onUpdateData() {
+        callback?.beforeLoad()
+
+        /**
+         * If was rotation need show list and after that check for updates.
+         */
+        if (itemList.isNotEmpty()) {
+            callback?.apply {
+                notifyList(itemList)
+                onBindingList()
+            }
+        }
+
         viewModelScope.launch {
             val count = iInteractor.getCount()
 
             if (count == 0) {
                 itemList.clear()
             } else {
-                if (itemList.isEmpty()) callback?.showProgress()
+                if (itemList.isEmpty()) {
+                    callback?.showProgress()
+                }
+
                 itemList.clearAndAdd(iInteractor.getList())
             }
 
