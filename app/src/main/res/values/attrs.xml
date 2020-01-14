@@ -12,6 +12,8 @@
 
         <attr name="clContent" format="color"/>
         <attr name="clContentSecond" format="color"/>
+        <attr name="clContentContrast" format="color"/>
+
         <attr name="clDisable" format="color"/>
     </declare-styleable>
 

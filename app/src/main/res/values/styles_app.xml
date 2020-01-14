@@ -14,6 +14,7 @@
 
         <item name="clContent">@color/content_light</item>
         <item name="clContentSecond">@color/content_second_light</item>
+        <item name="clContentContrast">@color/content_contrast_light</item>
         <item name="clDisable">@color/disable_light</item>
 
         <item name="clNoteIndicator">?attr/clContent</item>
@@ -48,6 +49,7 @@
 
         <item name="clContent">@color/content_dark</item>
         <item name="clContentSecond">@color/content_second_dark</item>
+        <item name="clContentContrast">@color/content_contrast_dark</item>
         <item name="clDisable">@color/disable_dark</item>
 
         <item name="clNoteIndicator">?attr/clAccent</item>

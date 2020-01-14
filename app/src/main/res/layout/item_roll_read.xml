@@ -4,6 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="sgtmelon.scriptum.R"/>
         <import type="android.view.View"/>
 
         <variable name="item" type="sgtmelon.scriptum.model.item.RollItem"/>
@@ -46,7 +47,11 @@
                     android:id="@+id/roll_read_text"
                     style="@style/EditText.Roll.Read"
                     android:text='@{item.text}'
-                    tools:text="@string/preview_note_roll"/>
+                    app:boolExpression='@{!item.check}'
+                    app:falseColor='@{R.attr.clContentContrast}'
+                    app:trueColor='@{R.attr.clContent}'
+                    tools:text="@string/preview_note_roll"
+                    tools:textColor="?attr/clContentContrast"/>
 
         </LinearLayout>
 

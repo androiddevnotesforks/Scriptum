@@ -62,6 +62,18 @@ fun ImageButton.bindBoolTint(boolExpression: Boolean,
     setColorFilter(context.getColorAttr(if (boolExpression) trueColor else falseColor))
 }
 
+/**
+ * Set textColor rely on [boolExpression]
+ */
+@BindingAdapter(value = ["boolExpression", "trueColor", "falseColor"])
+fun TextView.bindTextColor(boolExpression: Boolean,
+                             @AttrRes trueColor: Int,
+                             @AttrRes falseColor: Int) {
+    setTextColor(context.getColorAttr(if (boolExpression) trueColor else falseColor))
+}
+
+
+
 @BindingAdapter("enabled")
 fun ImageButton.bindEnabled(enabled: Boolean) {
     isEnabled = enabled
