@@ -230,7 +230,11 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     override fun onClickItemCheck(p: Int) {
         if (callback?.isDialogOpen == true || noteState.isEdit) return
 
+        /**
+         * Change item check and update [restoreItem].
+         */
         noteItem.onItemCheck(p)
+        restoreItem = noteItem.deepCopy()
 
         callback?.notifyItemChanged(noteItem.rollList, p, cursor = null)
 
@@ -240,7 +244,11 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     override fun onLongClickItemCheck() {
         if (callback?.isDialogOpen == true || noteState.isEdit) return
 
+        /**
+         * Change items check and update [restoreItem].
+         */
         val check = noteItem.onItemLongCheck()
+        restoreItem = noteItem.deepCopy()
 
         callback?.apply {
             changeCheckToggle(state = true)
@@ -470,7 +478,11 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     override fun onMenuBind() {
         if (callback?.isDialogOpen == true || noteState.isEdit) return
 
+        /**
+         * Change bind and update [restoreItem].
+         */
         noteItem.apply { isStatus = !isStatus }
+        restoreItem = noteItem.deepCopy()
 
         callback?.onBindingEdit(noteState.isEdit, noteItem)
 
