@@ -51,7 +51,15 @@
 
         <include layout="@layout/include_roll_note_enter"
                 app:editMode='@{editMode}'
-                app:enterEmpty='@{enterEmpty}'/>
+                app:enterEmpty='@{enterEmpty}'
+                tools:visibility="gone"/>
+
+        <ProgressBar
+                style="?attr/styleProgressHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/layout_4dp"
+                android:max="100"
+                android:progress="65"/>
 
         <include
                 layout="@layout/include_note_panel"
