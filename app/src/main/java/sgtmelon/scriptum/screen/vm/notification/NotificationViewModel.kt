@@ -4,7 +4,7 @@ import android.app.Application
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import sgtmelon.scriptum.extension.clearAndAdd
+import sgtmelon.scriptum.extension.clearAddAll
 import sgtmelon.scriptum.interactor.callback.notification.INotificationInteractor
 import sgtmelon.scriptum.interactor.notification.NotificationInteractor
 import sgtmelon.scriptum.model.item.NotificationItem
@@ -58,7 +58,7 @@ class NotificationViewModel(application: Application) :
                 itemList.clear()
             } else {
                 if (itemList.isEmpty()) callback?.showProgress()
-                itemList.clearAndAdd(iInteractor.getList())
+                itemList.clearAddAll(iInteractor.getList())
             }
 
             updateList()

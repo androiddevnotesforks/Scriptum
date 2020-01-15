@@ -6,7 +6,7 @@ import android.view.inputmethod.EditorInfo
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import sgtmelon.scriptum.extension.clearAndAdd
+import sgtmelon.scriptum.extension.clearAddAll
 import sgtmelon.scriptum.extension.clearSpace
 import sgtmelon.scriptum.extension.move
 import sgtmelon.scriptum.extension.toUpperCase
@@ -68,7 +68,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
                     callback?.showProgress()
                 }
 
-                itemList.clearAndAdd(iInteractor.getList())
+                itemList.clearAddAll(iInteractor.getList())
             }
 
             updateList()

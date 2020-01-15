@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.diff.NotificationDiff
 import sgtmelon.scriptum.adapter.holder.NotificationHolder
-import sgtmelon.scriptum.extension.clearAndAdd
+import sgtmelon.scriptum.extension.clearAddAll
 import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.annotation.Theme
@@ -24,7 +24,7 @@ class NotificationAdapter(private val clickListener: ItemListener.Click) :
 
     override fun setList(list: List<NotificationItem>) = apply {
         super.setList(list)
-        this.list.clearAndAdd(ArrayList(list.map { it.copy() }))
+        this.list.clearAddAll(ArrayList(list.map { it.copy() }))
     }
 
 

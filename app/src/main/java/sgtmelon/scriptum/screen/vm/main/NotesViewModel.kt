@@ -8,7 +8,7 @@ import kotlinx.coroutines.launch
 import sgtmelon.extension.beforeNow
 import sgtmelon.extension.getCalendar
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.extension.clearAndAdd
+import sgtmelon.scriptum.extension.clearAddAll
 import sgtmelon.scriptum.interactor.BindInteractor
 import sgtmelon.scriptum.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.interactor.callback.main.INotesInteractor
@@ -70,7 +70,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
                     callback?.showProgress()
                 }
 
-                itemList.clearAndAdd(iInteractor.getList())
+                itemList.clearAddAll(iInteractor.getList())
             }
 
             callback?.apply {
@@ -141,7 +141,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
             iInteractor.convert(item)
 
             val sortList = itemList.sort(iInteractor.sort)
-            callback?.notifyList(itemList.clearAndAdd(sortList))
+            callback?.notifyList(itemList.clearAddAll(sortList))
         }
     }
 

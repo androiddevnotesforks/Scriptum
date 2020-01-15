@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.diff.RankDiff
 import sgtmelon.scriptum.adapter.holder.RankHolder
-import sgtmelon.scriptum.extension.clearAndAdd
+import sgtmelon.scriptum.extension.clearAddAll
 import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.item.RankItem
@@ -28,7 +28,7 @@ class RankAdapter(
     override fun setList(list: List<RankItem>) = apply {
         super.setList(list)
 
-        this.list.clearAndAdd(ArrayList(list.map { it.copy() }))
+        this.list.clearAddAll(ArrayList(list.map { it.copy() }))
         this.startAnim = BooleanArray(list.size)
     }
 

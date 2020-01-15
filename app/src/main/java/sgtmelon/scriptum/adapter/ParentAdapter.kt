@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.adapter
 
 import androidx.recyclerview.widget.RecyclerView
-import sgtmelon.scriptum.extension.clearAndAdd
+import sgtmelon.scriptum.extension.clearAddAll
 import java.util.*
 
 /**
@@ -16,7 +16,7 @@ abstract class ParentAdapter<T, VH : RecyclerView.ViewHolder> :
     protected val list: MutableList<T> = ArrayList()
 
     fun setList(list: List<T>): ParentAdapter<T, VH> = apply {
-        this.list.clearAndAdd(list)
+        this.list.clearAddAll(list)
     }
 
     override fun getItemCount() = list.size

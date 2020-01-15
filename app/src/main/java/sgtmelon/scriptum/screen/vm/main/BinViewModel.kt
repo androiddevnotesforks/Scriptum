@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.extension.clearAndAdd
+import sgtmelon.scriptum.extension.clearAddAll
 import sgtmelon.scriptum.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.interactor.main.BinInteractor
 import sgtmelon.scriptum.model.item.NoteItem
@@ -55,7 +55,7 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
                 itemList.clear()
             } else {
                 if (itemList.isEmpty()) callback?.showProgress()
-                itemList.clearAndAdd(iInteractor.getList())
+                itemList.clearAddAll(iInteractor.getList())
             }
 
             callback?.apply {

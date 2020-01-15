@@ -6,7 +6,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.diff.NoteDiff
 import sgtmelon.scriptum.adapter.holder.NoteRollHolder
 import sgtmelon.scriptum.adapter.holder.NoteTextHolder
-import sgtmelon.scriptum.extension.clearAndAdd
+import sgtmelon.scriptum.extension.clearAddAll
 import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.annotation.Theme
@@ -30,7 +30,7 @@ class NoteAdapter(
 
     override fun setList(list: List<NoteItem>) = apply {
         super.setList(list)
-        this.list.clearAndAdd(ArrayList(list.map { it.deepCopy() }))
+        this.list.clearAddAll(ArrayList(list.map { it.deepCopy() }))
     }
 
 
