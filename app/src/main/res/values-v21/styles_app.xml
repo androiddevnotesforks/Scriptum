@@ -2,13 +2,13 @@
 <resources>
 
     <style name="App.Light.UI">
-        <item name="android:windowBackground">?attr/clBackground</item>
+        <item name="android:windowBackground">?attr/clBackgroundWindow</item>
 
         <item name="android:navigationBarColor">?attr/colorPrimaryDark</item>
     </style>
 
     <style name="App.Dark.UI">
-        <item name="android:windowBackground">?attr/clBackground</item>
+        <item name="android:windowBackground">?attr/clBackgroundWindow</item>
 
         <item name="android:navigationBarColor">?attr/colorPrimary</item>
     </style>

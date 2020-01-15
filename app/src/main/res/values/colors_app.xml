@@ -1,35 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--  Color for splash screen.  -->
     <color name="background_launcher">#1C2024</color>
 
+    <!--  Color for create accent on views: fab, button, image, text, etc.  -->
     <color name="accent_light">#039BE5</color>
     <color name="accent_dark">#FB8C00</color>
 
+    <!--  Color for main app views: toolbar, panels, etc.  -->
     <color name="primary_light">#FAFAFA</color>
     <color name="primary_dark">#353535</color>
 
-    <color name="background_light">#EEEEEE</color>
-    <color name="background_dark">#454545</color>
-
+    <!-- Color for dividers.  -->
     <color name="divider_light">#E0E0E0</color>
     <color name="divider_dark">#282828</color>
 
+    <!-- Color for window background.  -->
+    <color name="background_window_light">#EEEEEE</color>
+    <color name="background_window_dark">#454545</color>
+
+    <!--  Color for views which placed upper background_window_light/dark.  -->
     <color name="background_view_light">#FFFFFF</color>
     <color name="background_view_dark">#353535</color>
 
+    <!--  Color for views which placed upper primary_light/dark.  -->
     <color name="background_enter_light">#FFFFFF</color>
     <color name="background_enter_dark">#454545</color>
 
+    <!--  Color for important content. For give user main information.  -->
     <color name="content_light">#353535</color>
     <color name="content_dark">#E0E0E0</color>
 
-    <color name="content_second_light">#868686</color>  <!-- 767676 / 6e6e6e -->
-    <color name="content_second_dark">#C8C8C8</color>   <!-- c3c3c3 / c8c8c8 -->
+    <!--  Color for information content. For give user second information.  -->
+    <color name="content_second_light">#868686</color>
+    <color name="content_second_dark">#C8C8C8</color>
 
-    <color name="content_contrast_light">#AAAAAA</color>
-    <color name="content_contrast_dark">#999999</color>
+    <!--  Color for create contrast with content_light/dark  -->
+    <color name="contrast_light">#AAAAAA</color>
+    <color name="contrast_dark">#999999</color>
 
+    <!--  Color for not enabled views or hints.  -->
     <color name="disable_light">#CFCFCF</color>
     <color name="disable_dark">#6A6A6A</color>
 

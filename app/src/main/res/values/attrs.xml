@@ -1,26 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--  Attr for control application common colors. (Switch by theme)  -->
     <declare-styleable name="ColorTheme">
+        <!--  Color for create accent on views: fab, utton, image, text, etc.  -->
         <attr name="clAccent" format="color"/>
+
+        <!--  Color for main app views: toolbar, panels, etc.  -->
         <attr name="clPrimary" format="color"/>
 
+        <!--  Color for dividers.  -->
         <attr name="clDivider" format="color"/>
-        <attr name="clBackground" format="color"/>
+
+        <!--  Color for window background.  -->
+        <attr name="clBackgroundWindow" format="color"/>
+
+        <!--  Color for views which placed upper clBackgroundWindow.  -->
         <attr name="clBackgroundView" format="color"/>
+
+        <!--  Color for views which placed upper clPrimary.  -->
         <attr name="clBackgroundEnter" format="color"/>
 
+        <!--  Color for important content. For give user main information.  -->
         <attr name="clContent" format="color"/>
-        <attr name="clContentSecond" format="color"/>
-        <attr name="clContentContrast" format="color"/>
 
+        <!--  Color for information content. For give user second information.  -->
+        <attr name="clContentSecond" format="color"/>
+
+        <!--  Color for create contrast with clContent  -->
+        <attr name="clContrast" format="color"/>
+
+        <!--  Color for not enabled views or hints.  -->
         <attr name="clDisable" format="color"/>
     </declare-styleable>
 
+    <!--  Attr for control note indicators color in list. (Switch by theme)  -->
     <declare-styleable name="NoteTheme">
         <attr name="clNoteIndicator" format="color"/>
     </declare-styleable>
 
+    <!--  Attr for control view styles. (Switch by theme)  -->
     <declare-styleable name="ElementTheme">
         <attr name="styleToolbar" format="integer"/>
         <attr name="themePopup" format="integer"/>

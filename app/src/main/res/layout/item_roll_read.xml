@@ -48,10 +48,10 @@
                     style="@style/EditText.Roll.Read"
                     android:text='@{item.text}'
                     app:boolExpression='@{!item.check}'
-                    app:falseColor='@{R.attr.clContentContrast}'
+                    app:falseColor='@{R.attr.clContrast}'
                     app:trueColor='@{R.attr.clContent}'
                     tools:text="@string/preview_note_roll"
-                    tools:textColor="?attr/clContentContrast"/>
+                    tools:textColor="?attr/clContrast"/>
 
         </LinearLayout>
 

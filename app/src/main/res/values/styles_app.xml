@@ -8,13 +8,13 @@
         <item name="clPrimary">@color/primary_light</item>
 
         <item name="clDivider">@color/divider_light</item>
-        <item name="clBackground">@color/background_light</item>
+        <item name="clBackgroundWindow">@color/background_window_light</item>
         <item name="clBackgroundView">@color/background_view_light</item>
         <item name="clBackgroundEnter">@color/background_enter_light</item>
 
         <item name="clContent">@color/content_light</item>
         <item name="clContentSecond">@color/content_second_light</item>
-        <item name="clContentContrast">@color/content_contrast_light</item>
+        <item name="clContrast">@color/contrast_light</item>
         <item name="clDisable">@color/disable_light</item>
 
         <item name="clNoteIndicator">?attr/clContent</item>
@@ -35,7 +35,7 @@
     </style>
 
     <style name="App.Light.UI">
-        <item name="android:windowBackground">?attr/clBackground</item>
+        <item name="android:windowBackground">?attr/clBackgroundWindow</item>
     </style>
 
     <style name="App.Dark" parent="Theme.AppCompat.NoActionBar">
@@ -43,13 +43,13 @@
         <item name="clPrimary">@color/primary_dark</item>
 
         <item name="clDivider">@color/divider_dark</item>
-        <item name="clBackground">@color/background_dark</item>
+        <item name="clBackgroundWindow">@color/background_window_dark</item>
         <item name="clBackgroundView">@color/background_view_dark</item>
         <item name="clBackgroundEnter">@color/background_enter_dark</item>
 
         <item name="clContent">@color/content_dark</item>
         <item name="clContentSecond">@color/content_second_dark</item>
-        <item name="clContentContrast">@color/content_contrast_dark</item>
+        <item name="clContrast">@color/contrast_dark</item>
         <item name="clDisable">@color/disable_dark</item>
 
         <item name="clNoteIndicator">?attr/clAccent</item>
@@ -70,7 +70,7 @@
     </style>
 
     <style name="App.Dark.UI">
-        <item name="android:windowBackground">?attr/clBackground</item>
+        <item name="android:windowBackground">?attr/clBackgroundWindow</item>
     </style>
 
     <style name="App.Splash" parent="App.Dark.UI">

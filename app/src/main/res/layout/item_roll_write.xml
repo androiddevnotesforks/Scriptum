@@ -47,7 +47,7 @@
                     android:inputType="textCapSentences|textAutoCorrect|textAutoComplete|textMultiLine"
                     android:text='@{item.text}'
                     app:boolExpression='@{!item.check}'
-                    app:falseColor='@{R.attr.clContentContrast}'
+                    app:falseColor='@{R.attr.clContrast}'
                     app:trueColor='@{R.attr.clContent}'
                     tools:targetApi="o"/>
 
