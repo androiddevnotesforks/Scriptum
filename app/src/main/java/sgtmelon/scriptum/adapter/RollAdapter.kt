@@ -29,9 +29,7 @@ class RollAdapter(
 
     /**
      * Variable for choose method of set check:
-     *
-     * TRUE for [CheckBox.toggle].
-     * FALSE for [CheckBox.setChecked].
+     * Set true if need  [CheckBox.toggle] otherwise will call [CheckBox.setChecked].
      */
     var checkToggle: Boolean = false
     var cursorPosition = ND_CURSOR

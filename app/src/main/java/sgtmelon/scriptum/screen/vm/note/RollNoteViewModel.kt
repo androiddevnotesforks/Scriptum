@@ -239,6 +239,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         restoreItem = noteItem.deepCopy()
 
         callback?.notifyItemChanged(noteItem.rollList, p, cursor = null)
+        callback?.updateProgress(noteItem.getCheck(), noteItem.rollList.size)
 
         viewModelScope.launch { iInteractor.updateRollCheck(noteItem, p) }
     }
@@ -257,6 +258,8 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             changeCheckToggle(state = true)
             notifyDataSetChanged(noteItem.rollList)
             changeCheckToggle(state = false)
+
+            updateProgress(noteItem.getCheck(), noteItem.rollList.size)
         }
 
         viewModelScope.launch { iInteractor.updateRollCheck(noteItem, check) }
@@ -623,12 +626,9 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         }
 
         @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-        fun NoteItem.onItemCheck(p: Int): RollItem {
-            val rollItem = rollList[p].apply { isCheck = !isCheck }
-
+        fun NoteItem.onItemCheck(p: Int) {
+            rollList[p].apply { isCheck = !isCheck }
             updateTime().updateComplete()
-
-            return rollItem
         }
 
         /**
