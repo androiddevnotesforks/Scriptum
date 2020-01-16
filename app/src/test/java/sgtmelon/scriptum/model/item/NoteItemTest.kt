@@ -3,7 +3,6 @@ package sgtmelon.scriptum.model.item
 import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.extension.getTime
-import sgtmelon.scriptum.model.item.NoteItem.Companion.getCheck
 import sgtmelon.scriptum.model.key.Complete
 import sgtmelon.scriptum.model.key.NoteType
 
@@ -69,7 +68,7 @@ class NoteItemTest {
         assertFalse(item.rollList.any { it.isCheck })
     }
 
-    @Test fun getCheck() = assertEquals(CHECK_COUNT, rollList.getCheck())
+    @Test fun getCheck() = assertEquals(CHECK_COUNT, noteItem.getCheck())
 
 
     @Test fun updateTime() = assertChangeTime(noteItem.copy(change = "TIME").updateTime())

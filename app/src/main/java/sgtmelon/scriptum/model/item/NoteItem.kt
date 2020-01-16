@@ -64,7 +64,7 @@ data class NoteItem(
 
     fun updateComplete(complete: Complete? = null) = apply {
         val checkCount = when(complete){
-            null -> rollList.getCheck()
+            null -> getCheck()
             Complete.EMPTY -> 0
             Complete.FULL -> rollList.size
         }
@@ -79,6 +79,8 @@ data class NoteItem(
         rollList.forEach { it.isCheck = isCheck }
         updateComplete(if (isCheck) Complete.FULL else Complete.EMPTY)
     }
+
+    fun getCheck(): Int = rollList.filter { it.isCheck }.size
 
 
     fun updateTime() = apply { change = getTime() }
@@ -138,9 +140,6 @@ data class NoteItem(
         fun getCreate(@Color color: Int, type: NoteType): NoteItem {
             return NoteItem(create = getTime(), color = color, type = type)
         }
-
-        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-        fun List<RollItem>.getCheck(): Int = filter { it.isCheck }.size
     }
 
 }

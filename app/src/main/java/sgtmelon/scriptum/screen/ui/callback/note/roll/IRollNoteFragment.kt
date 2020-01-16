@@ -34,6 +34,8 @@ interface IRollNoteFragment : IRollNoteBridge {
 
     fun setupRecycler(iInputControl: IInputControl)
 
+    fun setupProgress()
+
 
     fun onBindingLoad(rankEmpty: Boolean)
 
@@ -70,6 +72,8 @@ interface IRollNoteFragment : IRollNoteBridge {
     fun changeCheckToggle(state: Boolean)
 
     fun updateNoteState(noteState: NoteState)
+
+    fun updateProgress(progress: Int, max: Int)
 
     fun setList(list: List<RollItem>)
 

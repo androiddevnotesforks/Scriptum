@@ -106,6 +106,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             }
 
             callback?.setupDialog(rankDialogItemArray)
+            callback?.setupProgress()
 
             iconState.notAnimate { setupEditMode(noteState.isEdit) }
 
@@ -230,10 +231,11 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     override fun onClickItemCheck(p: Int) {
         if (callback?.isDialogOpen == true || noteState.isEdit) return
 
-        /**
-         * Change item check and update [restoreItem].
-         */
         noteItem.onItemCheck(p)
+
+        /**
+         * If not update [restoreItem] it will cause bug with restore.
+         */
         restoreItem = noteItem.deepCopy()
 
         callback?.notifyItemChanged(noteItem.rollList, p, cursor = null)
@@ -244,10 +246,11 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     override fun onLongClickItemCheck() {
         if (callback?.isDialogOpen == true || noteState.isEdit) return
 
-        /**
-         * Change items check and update [restoreItem].
-         */
         val check = noteItem.onItemLongCheck()
+
+        /**
+         * If not update [restoreItem] it will cause bug with restore.
+         */
         restoreItem = noteItem.deepCopy()
 
         callback?.apply {
@@ -483,10 +486,11 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     override fun onMenuBind() {
         if (callback?.isDialogOpen == true || noteState.isEdit) return
 
-        /**
-         * Change bind and update [restoreItem].
-         */
         noteItem.apply { isStatus = !isStatus }
+
+        /**
+         * If not update [restoreItem] it will cause bug with restore.
+         */
         restoreItem = noteItem.deepCopy()
 
         callback?.onBindingEdit(noteState.isEdit, noteItem)
@@ -530,7 +534,11 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             onBindingInput(noteItem, inputControl.access)
             updateNoteState(noteState)
 
-            if (isEdit) focusOnEdit(noteState.isCreate)
+            if (isEdit) {
+                focusOnEdit(noteState.isCreate)
+            } else {
+                updateProgress(noteItem.getCheck(), noteItem.rollList.size)
+            }
         }
 
         saveControl.setSaveHandlerEvent(isEdit)
@@ -613,9 +621,6 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             name = name.clearSpace()
             updateTime().updateComplete()
         }
-
-        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-        fun RollItem.isNeedRemove(): Boolean = text.clearSpace().isEmpty()
 
         @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
         fun NoteItem.onItemCheck(p: Int): RollItem {

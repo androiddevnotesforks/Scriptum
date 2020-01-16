@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.ProgressBar
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -82,9 +83,14 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment, NoteReceiver.Callb
 
     private var parentContainer: ViewGroup? = null
 
+    /**
+     * Setup manually because after rotation lazy function will return null.
+     */
     private var nameEnter: EditText? = null
     private var rollEnter: EditText? = null
     private var recyclerView: RecyclerView? = null
+    private var rollProgress: ProgressBar? = null
+    private var panelContainer: ViewGroup? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -102,6 +108,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment, NoteReceiver.Callb
         iViewModel.onSetup(bundle = arguments ?: savedInstanceState)
 
         parentContainer = view.findViewById(R.id.roll_note_parent_container)
+        panelContainer = view.findViewById(R.id.note_panel_container)
     }
 
     override fun onResume() {
@@ -259,6 +266,10 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment, NoteReceiver.Callb
         ItemTouchHelper(touchCallback).attachToRecyclerView(recyclerView)
     }
 
+    override fun setupProgress() {
+        rollProgress = view?.findViewById(R.id.roll_note_progress)
+    }
+
 
     override fun onBindingLoad(rankEmpty: Boolean) {
         parentContainer?.let {
@@ -275,12 +286,10 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment, NoteReceiver.Callb
     }
 
     override fun onBindingEdit(editMode: Boolean, item: NoteItem) {
-        parentContainer?.let {
+        panelContainer?.let {
             val time = resources.getInteger(R.integer.fade_anim_time)
             val transition = AutoTransition()
                     .setOrdering(AutoTransition.ORDERING_TOGETHER)
-                    .excludeChildren(R.id.toolbar_note_parent_container, true)
-                    .excludeChildren(R.id.roll_note_recycler, true)
                     .setDuration(time.toLong())
 
             TransitionManager.beginDelayedTransition(it, transition)
@@ -379,6 +388,11 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment, NoteReceiver.Callb
 
     override fun updateNoteState(noteState: NoteState) {
         adapter.apply { this.noteState = noteState }.notifyDataSetChanged()
+    }
+
+    override fun updateProgress(progress: Int, max: Int) {
+        rollProgress?.progress = progress
+        rollProgress?.max = max
     }
 
     override fun setList(list: List<RollItem>) {

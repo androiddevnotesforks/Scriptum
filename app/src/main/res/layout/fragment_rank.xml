@@ -23,6 +23,7 @@
                  app:isAddEnable='@{isAddEnable}'
                  app:isClearEnable='@{isClearEnable}'/>
 
+        <!-- Container for good performance on ItemTouchHelper.ACTION_STATE_DRAG over top bound. -->
         <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
 
             <include

@@ -32,7 +32,7 @@
                 app:item='@{item}'
                 app:theme='@{theme}'/>
 
-        <!-- Container for good performance on ItemTouchHelper.ACTION_STATE_DRAG over top bound -->
+        <!-- Container for good performance on ItemTouchHelper.ACTION_STATE_DRAG over top bound. -->
         <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -55,11 +55,13 @@
                 tools:visibility="gone"/>
 
         <ProgressBar
+                android:id="@+id/roll_note_progress"
                 style="?attr/styleProgressHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/layout_4dp"
-                android:max="100"
-                android:progress="65"/>
+                android:visibility='@{!editMode ? View.VISIBLE : View.GONE}'
+                tools:max="100"
+                tools:progress="65"/>
 
         <include
                 layout="@layout/include_note_panel"

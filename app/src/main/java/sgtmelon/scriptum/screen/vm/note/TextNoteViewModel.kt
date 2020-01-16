@@ -370,10 +370,11 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     override fun onMenuBind() {
         if (callback?.isDialogOpen == true || noteState.isEdit) return
 
-        /**
-         * Change bind and update [restoreItem].
-         */
         noteItem.apply { isStatus = !isStatus }
+
+        /**
+         * If not update [restoreItem] it will cause bug with restore.
+         */
         restoreItem = noteItem.deepCopy()
 
         callback?.onBindingEdit(noteState.isEdit, noteItem)
