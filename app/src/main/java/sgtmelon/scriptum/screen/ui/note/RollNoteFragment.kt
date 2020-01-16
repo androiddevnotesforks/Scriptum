@@ -391,8 +391,13 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment, NoteReceiver.Callb
     }
 
     override fun updateProgress(progress: Int, max: Int) {
-        rollProgress?.progress = progress
         rollProgress?.max = max
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            rollProgress?.setProgress(progress, true)
+        } else {
+            rollProgress?.progress = progress
+        }
     }
 
     override fun setList(list: List<RollItem>) {
