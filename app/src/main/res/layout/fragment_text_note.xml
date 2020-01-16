@@ -85,6 +85,7 @@
         <include
                 layout="@layout/include_note_panel"
                 app:dataLoad='@{dataLoad}'
+                app:dividerVisible='@{true}'
                 app:editMode='@{editMode}'
                 app:inputAccess='@{inputAccess}'
                 app:item='@{item}'

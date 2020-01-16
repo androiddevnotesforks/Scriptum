@@ -29,6 +29,7 @@ class NotePanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi(),
     //region Views
 
     private val parentContainer = getViewById(R.id.note_panel_container)
+    private val dividerView = getViewById(R.id.note_panel_divider_view)
     private val buttonContainer = getViewById(R.id.note_panel_button_container)
 
     private val readContainer = getViewById(R.id.note_panel_read_container)
@@ -187,6 +188,11 @@ class NotePanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi(),
     fun assert() {
         callback.apply {
             parentContainer.isDisplayed()
+
+            dividerView.isDisplayed(visible = noteItem.type != NoteType.ROLL)
+                    .withSize(heightId = R.dimen.layout_1dp)
+                    .withBackgroundAttr(R.attr.clDivider)
+
             buttonContainer.isDisplayed().withBackgroundAttr(R.attr.clPrimary)
                     .withSize(heightId = R.dimen.note_panel_height)
 
