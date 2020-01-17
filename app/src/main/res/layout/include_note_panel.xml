@@ -9,7 +9,7 @@
         <import type="android.view.View"/>
         <import alias="Type" type="sgtmelon.scriptum.model.key.NoteType"/>
 
-        <variable name="dividerVisible" type="boolean"/>
+        <variable name="hideDivider" type="boolean"/>
 
         <variable name="menuCallback" type="sgtmelon.scriptum.screen.ui.callback.note.INoteMenu"/>
         <variable name="dataLoad" type="boolean"/>
@@ -31,7 +31,7 @@
         <View
                 android:id="@+id/note_panel_divider_view"
                 style="@style/Divider.Horizontal"
-                android:visibility='@{dividerVisible ? View.VISIBLE : View.GONE}'/>
+                android:visibility='@{!hideDivider ? View.VISIBLE : View.GONE}'/>
 
         <FrameLayout
                 android:id="@+id/note_panel_button_container"
