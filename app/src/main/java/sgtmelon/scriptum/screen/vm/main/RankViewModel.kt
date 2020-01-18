@@ -112,9 +112,10 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
 
         if (!nameList.contains(name)) {
             onClickEnterAdd(simpleClick = true)
+            return true
         }
 
-        return true
+        return false
     }
 
     override fun onClickEnterAdd(simpleClick: Boolean) {

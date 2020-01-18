@@ -15,13 +15,13 @@ class RankToolbarTest : ParentUiTest() {
 
     @Test fun enterAddEmpty() = launch {
         mainScreen {
-            rankScreen(empty = true) { toolbar { onEnterName(name = " ", addEnabled = false) } }
+            rankScreen(empty = true) { toolbar { onEnterName(name = " ", enabled = false) } }
         }
     }
 
     @Test fun enterAddFromList() = data.insertRank().let {
         launch {
-            mainScreen { rankScreen { toolbar { onEnterName(it.name, addEnabled = false) } } }
+            mainScreen { rankScreen { toolbar { onEnterName(it.name, enabled = false) } } }
         }
     }
 

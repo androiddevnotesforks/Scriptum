@@ -34,7 +34,11 @@ class RenameDialogUi(title: String) : ParentUi(), IDialogUi, IKeyboardOption {
 
     fun onClickApply() = waitClose { applyButton.click() }
 
-    override fun onImeOptionClick() = waitClose { renameEnter.imeOption() }
+    override fun onImeOptionClick(isSuccess: Boolean) {
+        renameEnter.imeOption()
+
+        if  (isSuccess) waitClose()
+    }
 
     fun assert(enter: String = "", enabled: Boolean = false) {
         viewContainer.isDisplayed()

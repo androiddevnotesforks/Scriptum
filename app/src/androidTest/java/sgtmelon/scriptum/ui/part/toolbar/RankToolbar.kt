@@ -26,11 +26,11 @@ class RankToolbar : ParentUi(), IKeyboardOption {
 
     private var enter = ""
 
-    fun onEnterName(name: String, addEnabled: Boolean = true) = apply {
+    fun onEnterName(name: String, enabled: Boolean = true) = apply {
         enter = name
 
         nameEnter.typeText(name)
-        assert(isAddEnabled = addEnabled)
+        assert(isAddEnabled = enabled)
     }
 
     fun onClickClear() {
@@ -56,13 +56,15 @@ class RankToolbar : ParentUi(), IKeyboardOption {
         assert()
     }
 
-    override fun onImeOptionClick() {
+    override fun onImeOptionClick(isSuccess: Boolean) {
         nameEnter.imeOption()
 
-        enter = ""
+        if (isSuccess) {
+            enter = ""
 
-        closeSoftKeyboard()
-        assert()
+            closeSoftKeyboard()
+            assert()
+        }
     }
 
     fun assert(isAddEnabled: Boolean = false) {

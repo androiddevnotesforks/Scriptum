@@ -10,7 +10,7 @@ interface IDialogUi : IPressBack {
 
     fun onCloseSoft() = waitClose { onPressBack() }
 
-    fun waitClose(func: () -> Unit) = waitAfter(TIME_CLOSE) { func() }
+    fun waitClose(func: () -> Unit = {}) = waitAfter(TIME_CLOSE) { func() }
 
     fun waitOpen(func: () -> Unit) = waitBefore(TIME_OPEN) { func() }
 

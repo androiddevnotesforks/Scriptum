@@ -17,8 +17,22 @@ class RankImeTest : ParentUiTest() {
 
         mainScreen {
             rankScreen {
+                /**
+                 * Check ime action with wrong input data. (Empty name)
+                 */
+                toolbar {
+                    onEnterName(name = " ", enabled = false).onImeOptionClick(isSuccess = false)
+                }
+
                 toolbar { onEnterName(name).onImeOptionClick() }
                 openRenameDialog(name, p = count - 1) { onCloseSoft() }
+
+                /**
+                 * Check ime action with wrong input data. (Name from list)
+                 */
+                toolbar {
+                    onEnterName(name, enabled = false).onImeOptionClick(isSuccess = false)
+                }
 
                 onClickCancel(p = count - 1)
 
@@ -34,6 +48,14 @@ class RankImeTest : ParentUiTest() {
         launch {
             mainScreen {
                 rankScreen {
+                    /**
+                     * Check ime action with wrong input data. (Empty name)
+                     */
+                    openRenameDialog(it.name) {
+                        onEnter(name = " ", enabled = false).onImeOptionClick(isSuccess = false)
+                        onCloseSoft()
+                    }
+
                     openRenameDialog(it.name) { onEnter(newName).onImeOptionClick() }
                     openRenameDialog(newName)
                 }

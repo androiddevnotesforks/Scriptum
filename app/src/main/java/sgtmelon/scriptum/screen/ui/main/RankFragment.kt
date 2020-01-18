@@ -134,7 +134,11 @@ class RankFragment : ParentFragment(), IRankFragment {
         nameEnter?.apply {
             addTextChangedListener(on = { iViewModel.onUpdateToolbar() })
             setOnEditorActionListener { _, i, _ ->
-                openState?.tryReturnInvoke { iViewModel.onEditorClick(i) } ?: false
+                val result = openState?.tryReturnInvoke { iViewModel.onEditorClick(i) } ?: false
+
+                if (!result) openState?.clear()
+
+                return@setOnEditorActionListener result
             }
         }
     }
