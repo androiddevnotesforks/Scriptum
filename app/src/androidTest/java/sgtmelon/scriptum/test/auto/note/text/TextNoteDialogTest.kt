@@ -10,7 +10,7 @@ import sgtmelon.scriptum.test.ParentUiTest
  * Test dialogs for [TextNoteFragment].
  */
 @RunWith(AndroidJUnit4::class)
-class TextNoteTest : ParentUiTest() {
+class TextNoteDialogTest : ParentUiTest() {
 
     @Test fun dateDialogCloseAndWork() = data.insertText().let {
         launch {
