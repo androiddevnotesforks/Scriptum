@@ -3,7 +3,7 @@
 package sgtmelon.scriptum
 
 import sgtmelon.scriptum.test.auto.note.RollNoteTest
-import sgtmelon.scriptum.test.auto.note.TextNoteTest
+import sgtmelon.scriptum.test.auto.note.text.TextNoteTest
 import sgtmelon.scriptum.test.content.note.ParentNoteContentTest
 import sgtmelon.scriptum.test.control.anim.NoteIconAnimTest
 import sgtmelon.scriptum.test.control.rotation.note.RollNoteRotationTest

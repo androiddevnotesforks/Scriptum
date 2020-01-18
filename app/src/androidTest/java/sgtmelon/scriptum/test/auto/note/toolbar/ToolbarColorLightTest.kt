@@ -7,7 +7,7 @@ import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 
 /**
- * Test for [NoteActivity] toolbar color wit [Theme.LIGHT].
+ * Test for [NoteActivity] toolbar color with [Theme.LIGHT].
  */
 @RunWith(AndroidJUnit4::class)
 class ToolbarColorLightTest : ParentToolbarColorTest(Theme.LIGHT) {
