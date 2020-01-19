@@ -2,7 +2,7 @@ package sgtmelon.scriptum.interactor.notification
 
 import android.content.Context
 import sgtmelon.extension.clearSeconds
-import sgtmelon.extension.getString
+import sgtmelon.extension.getText
 import sgtmelon.scriptum.interactor.ParentInteractor
 import sgtmelon.scriptum.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.model.annotation.Repeat
@@ -55,14 +55,14 @@ class AlarmInteractor(context: Context, private var callback: IAlarmBridge?) :
 
         checkDateExist(calendar)
         
-        iAlarmRepo.insertOrUpdate(noteItem, calendar.getString())
+        iAlarmRepo.insertOrUpdate(noteItem, calendar.getText())
         callback?.setAlarm(calendar, noteItem.id)
     }
 
     private suspend fun checkDateExist(calendar: Calendar) {
         val dateList = iAlarmRepo.getList().map { it.alarm.date }
 
-        while (dateList.contains(calendar.getString())) {
+        while (dateList.contains(calendar.getText())) {
             calendar.add(Calendar.MINUTE, 1)
         }
     }

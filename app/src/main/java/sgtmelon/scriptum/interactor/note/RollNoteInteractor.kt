@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.interactor.note
 
 import android.content.Context
-import sgtmelon.extension.getString
+import sgtmelon.extension.getText
 import sgtmelon.scriptum.control.SaveControl
 import sgtmelon.scriptum.interactor.ParentInteractor
 import sgtmelon.scriptum.interactor.callback.note.IRollNoteInteractor
@@ -83,7 +83,7 @@ class RollNoteInteractor(context: Context, private var callback: IRollNoteBridge
     }
 
     override suspend fun setDate(noteItem: NoteItem, calendar: Calendar) {
-        iAlarmRepo.insertOrUpdate(noteItem, calendar.getString())
+        iAlarmRepo.insertOrUpdate(noteItem, calendar.getText())
         callback?.setAlarm(calendar, noteItem.id)
     }
 

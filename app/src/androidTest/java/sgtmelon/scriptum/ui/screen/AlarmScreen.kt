@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.ui.screen
 
-import sgtmelon.extension.getString
+import sgtmelon.extension.getText
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.State
@@ -69,11 +69,11 @@ class AlarmScreen(
     private fun onRepeat() {
         val calendar = getTime(min = repeatArray[repeat])
 
-        while (dateList?.contains(calendar.getString()) == true) {
+        while (dateList?.contains(calendar.getText()) == true) {
             calendar.add(Calendar.MINUTE, 1)
         }
 
-        noteItem.alarmDate = calendar.getString()
+        noteItem.alarmDate = calendar.getText()
     }
 
 

@@ -13,7 +13,7 @@ fun Context?.is24Format(): Boolean {
     return if (this != null) DateFormatAndroid.is24HourFormat(this) else true
 }
 
-fun getTime(): String = Calendar.getInstance().getString()
+fun getTime(): String = Calendar.getInstance().getText()
 
 fun Calendar.isToday() = DateUtils.isToday(timeInMillis)
 
@@ -33,10 +33,7 @@ fun String.getCalendar(): Calendar = let {
     return calendar
 }
 
-/**
- * TODO rename to getText()
- */
-fun Calendar.getString(): String = let { getDateFormat().format(it.time) }
+fun Calendar.getText(): String = let { getDateFormat().format(it.time) }
 
 fun Calendar.beforeNow() = this.before(Calendar.getInstance())
 

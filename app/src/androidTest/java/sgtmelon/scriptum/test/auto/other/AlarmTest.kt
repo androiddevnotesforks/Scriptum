@@ -3,7 +3,7 @@ package sgtmelon.scriptum.test.auto.other
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.extension.getString
+import sgtmelon.extension.getText
 import sgtmelon.scriptum.basic.extension.getTime
 import sgtmelon.scriptum.model.annotation.Repeat
 import sgtmelon.scriptum.model.annotation.Sort
@@ -52,7 +52,7 @@ class AlarmTest : ParentUiTest() {
         iPreferenceRepo.repeat = Repeat.MIN_10
 
         launchAlarm(it) {
-            val existDate = getTime(min = 10).getString()
+            val existDate = getTime(min = 10).getText()
             data.insertNotification(date = existDate)
 
             openAlarm(it, listOf(existDate)) { onClickRepeat() }
@@ -73,7 +73,7 @@ class AlarmTest : ParentUiTest() {
                     onAssertItem(note, p = 0)
                     openNoteDialog(note, p = 0) {
                         onNotification {
-                            onClickApply(listOf(getTime(min = 10).getString())) {
+                            onClickApply(listOf(getTime(min = 10).getText())) {
                                 onTime(min = 10).assert()
                             }
                         }

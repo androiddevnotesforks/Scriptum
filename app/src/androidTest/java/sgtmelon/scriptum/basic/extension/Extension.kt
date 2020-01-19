@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.basic.extension
 
 import sgtmelon.extension.clearSeconds
-import sgtmelon.extension.getString
+import sgtmelon.extension.getText
 import java.util.*
 
 fun waitBefore(time: Long, func: () -> Unit = {}) {
@@ -18,7 +18,7 @@ fun getFutureTime(): String = Calendar.getInstance().clearSeconds().apply {
     add(Calendar.MINUTE, (1..60).random())
     add(Calendar.HOUR_OF_DAY, (1..12).random())
     add(Calendar.DAY_OF_YEAR, (10..30).random())
-}.getString()
+}.getText()
 
 /**
  * Add minutes for current time

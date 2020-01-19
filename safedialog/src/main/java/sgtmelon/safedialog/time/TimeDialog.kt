@@ -6,7 +6,7 @@ import android.content.Context
 import android.os.Bundle
 import sgtmelon.extension.afterNow
 import sgtmelon.extension.clearSeconds
-import sgtmelon.extension.getString
+import sgtmelon.extension.getText
 import sgtmelon.extension.is24Format
 import sgtmelon.safedialog.BuildConfig
 import java.util.*
@@ -96,7 +96,7 @@ class TimeDialog : DateTimeBlankDialog(), ITimeDialog {
          * TODO #TEST write unit test
          */
         fun getPositiveEnabled(calendar: Calendar, dateList: List<String>) : Boolean{
-            return calendar.afterNow() && !dateList.contains(calendar.getString())
+            return calendar.afterNow() && !dateList.contains(calendar.getText())
         }
     }
 

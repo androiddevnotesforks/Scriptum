@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.data
 
 import android.content.Context
-import sgtmelon.extension.getString
+import sgtmelon.extension.getText
 import sgtmelon.extension.getTime
 import sgtmelon.scriptum.basic.extension.getFutureTime
 import sgtmelon.scriptum.model.data.ColorData
@@ -228,13 +228,13 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
 
     fun fillNotes(count: Int = 10) = ArrayList<NoteItem>().apply {
         (count downTo 0).forEach {
-            add(insertNote(getCalendarTime(it).getString()))
+            add(insertNote(getCalendarTime(it).getText()))
         }
     }
 
     fun fillBin(count: Int = 10) = ArrayList<NoteItem>().apply {
         (count downTo 0).forEach {
-            add(insertNoteToBin(getCalendarTime(it).getString()))
+            add(insertNoteToBin(getCalendarTime(it).getText()))
         }
     }
 

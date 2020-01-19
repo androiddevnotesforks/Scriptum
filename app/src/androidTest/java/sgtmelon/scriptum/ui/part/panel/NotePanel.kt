@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.ui.part.panel
 
 import androidx.annotation.AttrRes
-import sgtmelon.extension.getString
+import sgtmelon.extension.getText
 import sgtmelon.extension.getTime
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
@@ -169,7 +169,7 @@ class NotePanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi(),
     override fun onTimeDialogResult(calendar: Calendar) {
         callback.apply {
             noteItem.alarmId = 1
-            noteItem.alarmDate = calendar.getString()
+            noteItem.alarmDate = calendar.getText()
 
             fullAssert()
         }
