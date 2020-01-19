@@ -59,6 +59,9 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment, NoteReceiver.Callb
     private val timeDialog by lazy { dialogFactory.getTimeDialog() }
     private val convertDialog by lazy { dialogFactory.getConvertDialog(NoteType.TEXT) }
 
+    /**
+     * Setup manually because after rotation lazy function will return null.
+     */
     private var parentContainer: ViewGroup? = null
     private var nameEnter: EditText? = null
     private var textEnter: EditText? = null

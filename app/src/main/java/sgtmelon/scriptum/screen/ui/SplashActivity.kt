@@ -36,7 +36,7 @@ class SplashActivity : AppCompatActivity(), ISplashActivity {
         super.onCreate(savedInstanceState)
 
         /**
-         * If keyboard was open in another app
+         * If keyboard was open in another app.
          */
         hideKeyboard()
 

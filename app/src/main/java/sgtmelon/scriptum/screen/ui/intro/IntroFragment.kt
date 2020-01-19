@@ -19,6 +19,9 @@ class IntroFragment : Fragment() {
 
     private var page: Int = ND_PAGE
 
+    /**
+     * Setup manually because after rotation lazy function will return null.
+     */
     private var parentContainer: View? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

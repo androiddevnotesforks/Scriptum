@@ -79,6 +79,9 @@ class RankFragment : ParentFragment(), IRankFragment {
 
     val enterCard: View? get() = view?.findViewById(R.id.toolbar_rank_card)
 
+    /**
+     * Setup manually because after rotation lazy function will return null.
+     */
     private var nameEnter: EditText? = null
     private var parentContainer: ViewGroup? = null
 

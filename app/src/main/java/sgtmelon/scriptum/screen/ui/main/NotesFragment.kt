@@ -68,7 +68,7 @@ class NotesFragment : ParentFragment(), INotesFragment, MainReceiver.Callback {
     }
 
     /**
-     * Setup variable that way because onRotate can happen shit and view is gone.
+     * Setup manually because after rotation lazy function will return null.
      */
     private var parentContainer: ViewGroup? = null
     private var emptyInfoView: View? = null

@@ -58,6 +58,9 @@ class BinFragment : ParentFragment(), IBinFragment {
         })
     }
 
+    /**
+     * Setup manually because after rotation lazy function will return null.
+     */
     private var toolbar: Toolbar? = null
     private var itemClearBin: MenuItem? = null
 
