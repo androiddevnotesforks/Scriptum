@@ -3,7 +3,6 @@ package sgtmelon.scriptum.ui.part.panel
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.State
-import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
@@ -12,7 +11,7 @@ import kotlin.random.Random
 /**
  * Part of UI abstraction for [RollNoteScreen]
  */
-class RollEnterPanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi() {
+class RollAddPanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi() {
 
     //region Views
 
@@ -65,9 +64,9 @@ class RollEnterPanel<T: ParentUi>(private val callback: INoteScreen<T>) : Parent
     }
 
     companion object {
-        operator fun <T: ParentUi> invoke(func: RollEnterPanel<T>.() -> Unit,
-                                          callback: INoteScreen<T>): RollEnterPanel<T> {
-            return RollEnterPanel(callback).assert().apply(func)
+        operator fun <T: ParentUi> invoke(func: RollAddPanel<T>.() -> Unit,
+                                          callback: INoteScreen<T>): RollAddPanel<T> {
+            return RollAddPanel(callback).assert().apply(func)
         }
     }
 

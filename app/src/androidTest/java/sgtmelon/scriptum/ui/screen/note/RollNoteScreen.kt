@@ -11,7 +11,7 @@ import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
 import sgtmelon.scriptum.ui.IPressBack
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.part.panel.NotePanel
-import sgtmelon.scriptum.ui.part.panel.RollEnterPanel
+import sgtmelon.scriptum.ui.part.panel.RollAddPanel
 import sgtmelon.scriptum.ui.part.toolbar.NoteToolbar
 
 /**
@@ -48,8 +48,8 @@ class RollNoteScreen(
         NoteToolbar.invoke(func, callback = this)
     }
 
-    fun enterPanel(func: RollEnterPanel<RollNoteScreen>.() -> Unit) = apply {
-        RollEnterPanel.invoke(func, callback = this)
+    fun enterPanel(func: RollAddPanel<RollNoteScreen>.() -> Unit) = apply {
+        RollAddPanel.invoke(func, callback = this)
     }
 
     fun controlPanel(func: NotePanel<RollNoteScreen>.() -> Unit) = apply {
