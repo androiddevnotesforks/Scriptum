@@ -80,7 +80,9 @@
 
         </androidx.appcompat.widget.Toolbar>
 
-        <View style="@style/Divider.Horizontal"/>
+        <View
+                android:id="@+id/toolbar_rank_divider_view"
+                style="@style/Divider.Horizontal"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 

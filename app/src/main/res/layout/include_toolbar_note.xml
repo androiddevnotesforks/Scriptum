@@ -78,6 +78,7 @@
                 tools:visibility="gone"/>
 
         <View
+                android:id="@+id/toolbar_note_divider_view"
                 style="@style/Divider.Horizontal"
                 app:visibleTheme='@{theme}'
                 app:visibleOn='@{Theme.LIGHT}'/>

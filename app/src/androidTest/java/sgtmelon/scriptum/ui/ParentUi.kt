@@ -40,19 +40,6 @@ abstract class ParentUi {
     }
 
 
-    protected fun getToolbar(@StringRes titleId: Int): Matcher<View> {
-        return allOf(getViewById(R.id.toolbar_container), withChild(getViewByText(titleId)))
-    }
-
-    protected fun getToolbarButton(): Matcher<View> = allOf(
-            withParent(withClassName(`is`(Toolbar::class.java.name))),
-            withClassName(anyOf(
-                    `is`(ImageButton::class.java.name),
-                    `is`(AppCompatImageButton::class.java.name)
-            ))
-    )
-
-
     protected fun Matcher<View>.includeParent(parentMatcher: Matcher<View>): Matcher<View> = let {
         allOf(it, withParent(parentMatcher))
     }

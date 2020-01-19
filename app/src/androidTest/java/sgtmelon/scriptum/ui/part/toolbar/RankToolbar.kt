@@ -1,9 +1,11 @@
 package sgtmelon.scriptum.ui.part.toolbar
 
+import android.os.Build
 import android.view.inputmethod.EditorInfo
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
+import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.ui.IKeyboardOption
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.screen.main.RankScreen
@@ -17,8 +19,9 @@ class RankToolbar : ParentUi(), IKeyboardOption {
 
     private val parentContainer = getViewById(R.id.toolbar_rank_container)
     private val parentCard = getViewById(R.id.toolbar_rank_card)
-    private val nameEnter = getViewById(R.id.toolbar_rank_enter)
+    private val dividerView = getViewById(R.id.toolbar_rank_divider_view)
 
+    private val nameEnter = getViewById(R.id.toolbar_rank_enter)
     private val clearButton = getViewById(R.id.toolbar_rank_clear_button)
     private val addButton = getViewById(R.id.toolbar_rank_add_button)
 
@@ -70,6 +73,12 @@ class RankToolbar : ParentUi(), IKeyboardOption {
     fun assert(isAddEnabled: Boolean = false) {
         parentContainer.isDisplayed().withBackgroundAttr(R.attr.colorPrimary)
         parentCard.isDisplayed().withCardBackground(R.attr.clBackgroundEnter)
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            dividerView.isDisplayed()
+                    .withSize(heightId = R.dimen.layout_1dp)
+                    .withBackgroundAttr(R.attr.clDivider)
+        }
 
         val enterEmpty = enter.isEmpty()
 

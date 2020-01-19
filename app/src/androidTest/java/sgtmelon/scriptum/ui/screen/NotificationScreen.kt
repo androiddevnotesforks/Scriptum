@@ -15,6 +15,7 @@ import sgtmelon.scriptum.ui.IPressBack
 import sgtmelon.scriptum.ui.ParentRecyclerItem
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.part.InfoContainer
+import sgtmelon.scriptum.ui.part.toolbar.SimpleToolbar
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 
@@ -26,7 +27,7 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler), IPr
     //region Views
 
     private val parentContainer = getViewById(R.id.notification_parent_container)
-    private val toolbar = getToolbar(R.string.title_notification)
+    private val toolbar = SimpleToolbar(R.string.title_notification)
 
     private val infoContainer = InfoContainer(InfoPage.NOTIFICATION)
 
@@ -35,7 +36,7 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler), IPr
     //endregion
 
     fun onClickClose() {
-        getToolbarButton().click()
+        toolbar.getToolbarButton().click()
     }
 
     fun openText(noteItem: NoteItem, p: Int = random, func: TextNoteScreen.() -> Unit = {}) {
@@ -57,7 +58,7 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler), IPr
 
     fun assert(empty: Boolean) = apply {
         parentContainer.isDisplayed()
-        toolbar.isDisplayed().withBackgroundAttr(R.attr.colorPrimary)
+        toolbar.assert()
 
         infoContainer.assert(empty)
         recyclerView.isDisplayed(!empty)

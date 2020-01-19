@@ -34,6 +34,19 @@ class NotificationTest : ParentUiTest() {
     }
 
 
+    @Test fun textNoteOpen() = data.insertText().let {
+        launch({ data.insertNotification(it) }) {
+            mainScreen { notesScreen { openNotification { openText(it) } } }
+        }
+    }
+
+    @Test fun rollNoteOpen() = data.insertRoll().let {
+        launch({ data.insertNotification(it) }) {
+            mainScreen { notesScreen { openNotification { openRoll(it) } } }
+        }
+    }
+
+
     @Test fun itemCancel() = data.insertNotification().let {
         launch {
             mainScreen { notesScreen { openNotification { onClickCancel().assert(empty = true) } } }
@@ -52,19 +65,6 @@ class NotificationTest : ParentUiTest() {
 
     @Test fun itemCancelFromPast() = data.insertNotification(date = DATE_5).let {
         launch { mainScreen { notesScreen { openNotification(empty = true) } } }
-    }
-
-
-    @Test fun textNoteOpen() = data.insertText().let {
-        launch({ data.insertNotification(it) }) {
-            mainScreen { notesScreen { openNotification { openText(it) } } }
-        }
-    }
-
-    @Test fun rollNoteOpen() = data.insertRoll().let {
-        launch({ data.insertNotification(it) }) {
-            mainScreen { notesScreen { openNotification { openRoll(it) } } }
-        }
     }
 
 }

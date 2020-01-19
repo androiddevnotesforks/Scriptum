@@ -14,6 +14,7 @@ import sgtmelon.scriptum.ui.dialog.ClearDialogUi
 import sgtmelon.scriptum.ui.dialog.NoteDialogUi
 import sgtmelon.scriptum.ui.item.NoteItemUi
 import sgtmelon.scriptum.ui.part.InfoContainer
+import sgtmelon.scriptum.ui.part.toolbar.SimpleToolbar
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 
@@ -26,7 +27,7 @@ class BinScreen : ParentRecyclerScreen(R.id.bin_recycler) {
 
     private val parentContainer = getViewById(R.id.bin_parent_container)
 
-    private val toolbar = getToolbar(R.string.title_bin)
+    private val toolbar = SimpleToolbar(R.string.title_bin)
     private val clearMenuItem = getViewById(R.id.item_clear)
 
     private val infoContainer = InfoContainer(InfoPage.BIN)
@@ -65,7 +66,7 @@ class BinScreen : ParentRecyclerScreen(R.id.bin_recycler) {
 
     fun assert(empty: Boolean) = apply {
         parentContainer.isDisplayed()
-        toolbar.isDisplayed().withBackgroundAttr(R.attr.colorPrimary)
+        toolbar.assert()
 
         if (!empty) clearMenuItem.isDisplayed()
 

@@ -13,6 +13,8 @@
             style="?attr/styleToolbar"
             app:popupTheme="?attr/themePopup"/>
 
-    <View style="@style/Divider.Horizontal"/>
+    <View
+            android:id="@+id/toolbar_divider_view"
+            style="@style/Divider.Horizontal"/>
 
 </com.google.android.material.appbar.AppBarLayout>

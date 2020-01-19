@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.ui.part.toolbar
 
+import android.os.Build
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.State
@@ -13,7 +14,7 @@ import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 /**
  * Part of UI abstraction for [TextNoteScreen] и [RollNoteScreen]
  */
-class NoteToolbar<T : ParentUi>(private val callback: INoteScreen<T>) : ParentUi() {
+class NoteToolbar<T : ParentUi>(private val callback: INoteScreen<T>) : ParentToolbar() {
 
     //region Views
 
@@ -22,6 +23,7 @@ class NoteToolbar<T : ParentUi>(private val callback: INoteScreen<T>) : ParentUi
     private val nameScroll = getViewById(R.id.toolbar_note_scroll)
 
     private val colorView = getViewById(R.id.toolbar_note_color_view)
+    private val dividerView = getViewById(R.id.toolbar_note_divider_view)
 
     private val nameText = getViewById(R.id.toolbar_note_text)
     private val nameEnter = getViewById(R.id.toolbar_note_enter)
@@ -62,7 +64,6 @@ class NoteToolbar<T : ParentUi>(private val callback: INoteScreen<T>) : ParentUi
 
 
     // TODO #TEST (focus on title check)
-    // TODO #TEST divider for preLollipop
     fun assert() = apply {
         val color = callback.shadowItem.color
 
@@ -72,6 +73,12 @@ class NoteToolbar<T : ParentUi>(private val callback: INoteScreen<T>) : ParentUi
 
         colorView.isDisplayed(visible = theme == Theme.DARK) {
             withBackgroundAppColor(theme, color, needDark = true)
+        }
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            dividerView.isDisplayed(visible = theme == Theme.LIGHT) {
+                withSize(heightId = R.dimen.layout_1dp)
+            }.withBackgroundAttr(R.attr.clDivider)
         }
 
         callback.apply {

@@ -13,6 +13,7 @@ import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.dialog.NoteDialogUi
 import sgtmelon.scriptum.ui.item.NoteItemUi
 import sgtmelon.scriptum.ui.part.InfoContainer
+import sgtmelon.scriptum.ui.part.toolbar.SimpleToolbar
 import sgtmelon.scriptum.ui.screen.NotificationScreen
 import sgtmelon.scriptum.ui.screen.PreferenceScreen
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
@@ -26,7 +27,7 @@ class NotesScreen(hide: Boolean) : ParentRecyclerScreen(R.id.notes_recycler) {
     //region Views
 
     private val parentContainer = getViewById(R.id.notes_parent_container)
-    private val toolbar = getToolbar(R.string.title_notes)
+    private val toolbar = SimpleToolbar(R.string.title_notes)
 
     private val notificationMenuItem = getViewById(R.id.item_notification)
     private val preferenceMenuItem = getViewById(R.id.item_preference)
@@ -72,7 +73,7 @@ class NotesScreen(hide: Boolean) : ParentRecyclerScreen(R.id.notes_recycler) {
 
     fun assert(empty: Boolean) = apply {
         parentContainer.isDisplayed()
-        toolbar.isDisplayed().withBackgroundAttr(R.attr.colorPrimary)
+        toolbar.assert()
 
         notificationMenuItem.isDisplayed()
         preferenceMenuItem.isDisplayed()
