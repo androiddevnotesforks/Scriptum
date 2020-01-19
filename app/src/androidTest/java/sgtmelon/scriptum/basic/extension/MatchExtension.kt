@@ -141,10 +141,16 @@ fun Matcher<View>.withCardBackground(@AttrRes attrColor: Int) = also {
     matchOnView(it, CardBackgroundAttrMatcher(attrColor))
 }
 
+/**
+ * Need match if view is visible, otherwise will get exception.
+ */
 fun Matcher<View>.withSize(@DimenRes widthId: Int = -1, @DimenRes heightId: Int = -1) = also {
     matchOnView(it, SizeMatcher(widthId, heightId, -1, -1))
 }
 
+/**
+ * Need match if view is visible, otherwise will get exception.
+ */
 fun Matcher<View>.withSizeAttr(@AttrRes widthAttr: Int = -1, @AttrRes heightAttr: Int = -1) = also {
     matchOnView(it, SizeMatcher(-1, -1, widthAttr, heightAttr))
 }

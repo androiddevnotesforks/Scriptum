@@ -49,10 +49,9 @@
 
         </FrameLayout>
 
-        <include layout="@layout/include_roll_note_enter"
+        <include layout="@layout/include_roll_add_panel"
                 app:editMode='@{editMode}'
-                app:enterEmpty='@{enterEmpty}'
-                tools:visibility="gone"/>
+                app:enterEmpty='@{enterEmpty}'/>
 
         <ProgressBar
                 android:id="@+id/roll_note_progress"

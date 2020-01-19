@@ -3,6 +3,7 @@ package sgtmelon.scriptum.ui.part.panel
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.State
+import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
@@ -15,9 +16,11 @@ class RollEnterPanel<T: ParentUi>(private val callback: INoteScreen<T>) : Parent
 
     //region Views
 
-    private val enterContainer = getViewById(R.id.roll_note_enter_container)
-    private val textEnter = getViewById(R.id.roll_note_enter)
-    private val addButton = getViewById(R.id.roll_note_add_button)
+    private val enterContainer = getViewById(R.id.roll_add_panel_container)
+    private val dividerView = getViewById(R.id.roll_add_panel_divider_view)
+
+    private val textEnter = getViewById(R.id.roll_add_panel_enter)
+    private val addButton = getViewById(R.id.roll_add_panel_button)
 
     //endregion
 
@@ -40,6 +43,10 @@ class RollEnterPanel<T: ParentUi>(private val callback: INoteScreen<T>) : Parent
         val visible = with(callback) { state == State.EDIT || state == State.NEW }
 
         enterContainer.isDisplayed(visible).withBackgroundAttr(R.attr.clPrimary)
+
+        dividerView.isDisplayed(visible) {
+            withSize(heightId = R.dimen.layout_1dp)
+        }.withBackgroundAttr(R.attr.clDivider)
 
         val enterEmpty = enterText.isEmpty()
 

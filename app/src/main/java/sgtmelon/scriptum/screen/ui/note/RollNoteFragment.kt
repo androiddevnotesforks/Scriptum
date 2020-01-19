@@ -224,7 +224,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment, NoteReceiver.Callb
             it.addOnNextAction { onFocusEnter() }
         }
 
-        rollEnter = view?.findViewById(R.id.roll_note_enter)
+        rollEnter = view?.findViewById(R.id.roll_add_panel_enter)
         rollEnter?.apply {
             setRawInputType(InputType.TYPE_CLASS_TEXT
                     or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
@@ -237,7 +237,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment, NoteReceiver.Callb
             setOnEditorActionListener { _, i, _ -> iViewModel.onEditorClick(i) }
         }
 
-        view?.findViewById<ImageButton>(R.id.roll_note_add_button)?.apply {
+        view?.findViewById<ImageButton>(R.id.roll_add_panel_button)?.apply {
             setOnClickListener { iViewModel.onClickAdd(simpleClick = true) }
             setOnLongClickListener {
                 iViewModel.onClickAdd(simpleClick = false)
