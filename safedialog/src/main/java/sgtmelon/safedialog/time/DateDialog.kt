@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.VisibleForTesting
 import sgtmelon.extension.clearSeconds
 import sgtmelon.safedialog.BuildConfig
 import sgtmelon.safedialog.R
@@ -85,6 +86,7 @@ class DateDialog : DateTimeBlankDialog(), IDateDialog {
     }
 
     companion object {
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
         var callback: IDateDialog? = null
     }
 

@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.os.Bundle
+import androidx.annotation.VisibleForTesting
 import sgtmelon.extension.afterNow
 import sgtmelon.extension.clearSeconds
 import sgtmelon.extension.getText
@@ -90,6 +91,7 @@ class TimeDialog : DateTimeBlankDialog(), ITimeDialog {
     }
 
     companion object {
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
         var callback: ITimeDialog? = null
 
         /**
