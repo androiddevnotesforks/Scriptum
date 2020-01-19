@@ -2,7 +2,7 @@
 
 package sgtmelon.scriptum
 
-import sgtmelon.scriptum.test.auto.note.roll.RollNoteTest
+import sgtmelon.scriptum.test.auto.note.roll.RollNoteDialogTest
 import sgtmelon.scriptum.test.auto.note.text.TextNoteDialogTest
 import sgtmelon.scriptum.test.content.note.ParentNoteContentTest
 import sgtmelon.scriptum.test.control.anim.NoteIconAnimTest
@@ -58,9 +58,9 @@ class Note {
     /**
      * TODO #TEST
      * 1. [TextNoteDialogTest.convertDialogCloseAndWork]
-     * 2. [RollNoteTest.convertDialogCloseAndWork]
+     * 2. [RollNoteDialogTest.convertDialogCloseAndWork]
      * 3. [TextNoteDialogTest.rankDialogCloseAndWork]
-     * 4. [RollNoteTest.rankDialogCloseAndWork]
+     * 4. [RollNoteDialogTest.rankDialogCloseAndWork]
      */
 
     /**

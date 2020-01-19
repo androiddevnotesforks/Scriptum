@@ -192,9 +192,7 @@ class NotePanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi(),
             dividerView.isDisplayed(when(noteItem.type) {
                 NoteType.TEXT -> true
                 NoteType.ROLL -> state == State.EDIT || state == State.NEW
-            })
-                    .withSize(heightId = R.dimen.layout_1dp)
-                    .withBackgroundAttr(R.attr.clDivider)
+            }) { withSize(heightId = R.dimen.layout_1dp).withBackgroundAttr(R.attr.clDivider) }
 
             buttonContainer.isDisplayed().withBackgroundAttr(R.attr.clPrimary)
                     .withSize(heightId = R.dimen.note_panel_height)

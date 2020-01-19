@@ -88,6 +88,10 @@ class RollNoteScreen(
         panelHolder.withBackgroundAttr(R.attr.clPrimary)
                 .withSize(heightId = R.dimen.note_panel_height)
 
+        /**
+         * TODO add progress assert with custom matcher which compare max and progress
+         */
+
         fragmentContainer.isDisplayed()
 
 
