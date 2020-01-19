@@ -19,7 +19,7 @@ class MainScrollTopTest : ParentUiTest() {
             mainScreen {
                 rankScreen { onScroll(Scroll.END) }.onScrollTop()
                 PREVENT_SCROLL = true
-                rankScreen { openRenameDialog(it.first().name, p = 0) }
+                rankScreen { onAssertItem(it.first()) }
             }
         }
     }
@@ -29,7 +29,7 @@ class MainScrollTopTest : ParentUiTest() {
             mainScreen {
                 notesScreen { onScroll(Scroll.END) }.onScrollTop()
                 PREVENT_SCROLL = true
-                notesScreen { openNoteDialog(it.first(), p = 0) }
+                notesScreen { onAssertItem(it.first(), p = 0) }
             }
         }
     }
@@ -39,7 +39,7 @@ class MainScrollTopTest : ParentUiTest() {
             mainScreen {
                 binScreen { onScroll(Scroll.END) }.onScrollTop()
                 PREVENT_SCROLL = true
-                binScreen { openNoteDialog(it.first(), p = 0) }
+                binScreen { onAssertItem(it.first(), p = 0) }
             }
         }
     }

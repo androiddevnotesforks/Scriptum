@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.data
 
 import android.content.Context
+import sgtmelon.extension.getString
 import sgtmelon.extension.getTime
 import sgtmelon.scriptum.basic.extension.getFutureTime
 import sgtmelon.scriptum.model.data.ColorData
@@ -18,6 +19,7 @@ import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.room.entity.RollEntity
 import java.util.UUID.randomUUID
 import kotlin.random.Random
+import sgtmelon.scriptum.basic.extension.getTime as getCalendarTime
 
 class TestData(override val context: Context, private val iPreferenceRepo: IPreferenceRepo) :
         IRoomWork {
@@ -149,10 +151,33 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
             insertRoll(note.apply { isBin = true }, list)
 
 
-    fun insertNote(): NoteItem = if (Random.nextBoolean()) insertText() else insertRoll()
+    fun insertNote(time: String? = null): NoteItem {
+        val entity = if (Random.nextBoolean()) textNote else rollNote
 
-    fun insertNoteToBin(): NoteItem =
-            if (Random.nextBoolean()) insertTextToBin() else insertRollToBin()
+        if (time != null) {
+            entity.change = time
+            entity.create = time
+        }
+
+        return when(entity.type) {
+            NoteType.TEXT -> insertText(entity)
+            NoteType.ROLL -> insertRoll(entity)
+        }
+    }
+
+    fun insertNoteToBin(time: String? = null): NoteItem {
+        val entity = if (Random.nextBoolean()) textNote else rollNote
+
+        if (time != null) {
+            entity.change = time
+            entity.create = time
+        }
+
+        return when(entity.type) {
+            NoteType.TEXT -> insertTextToBin(entity)
+            NoteType.ROLL -> insertRollToBin(entity)
+        }
+    }
 
     fun insertNotification(noteItem: NoteItem = insertNote(),
                            date: String = getFutureTime()): NoteItem {
@@ -202,11 +227,15 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
     }
 
     fun fillNotes(count: Int = 10) = ArrayList<NoteItem>().apply {
-        repeat(count) { add(insertNote()) }
+        (count downTo 0).forEach {
+            add(insertNote(getCalendarTime(it).getString()))
+        }
     }
 
     fun fillBin(count: Int = 10) = ArrayList<NoteItem>().apply {
-        repeat(count) { add(insertNoteToBin()) }
+        (count downTo 0).forEach {
+            add(insertNoteToBin(getCalendarTime(it).getString()))
+        }
     }
 
     fun fillNotification(count: Int = 10) = repeat(count) {

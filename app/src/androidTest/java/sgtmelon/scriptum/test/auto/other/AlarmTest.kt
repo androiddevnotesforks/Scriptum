@@ -16,14 +16,6 @@ import sgtmelon.scriptum.test.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class AlarmTest : ParentUiTest() {
 
-    /**
-     * TODO #TEST may be need setup it in parentUiTest for all tests?
-     */
-    override fun setUp() {
-        super.setUp()
-        iPreferenceRepo.sort = Sort.CHANGE
-    }
-
     @Test fun openTextNote() = data.insertText().let {
         launchAlarm(it) { openAlarm(it) { openTextNote { onPressBack() } }.mainScreen() }
     }

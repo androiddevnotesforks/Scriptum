@@ -3,6 +3,7 @@ package sgtmelon.scriptum.test
 import android.content.Intent
 import androidx.test.rule.ActivityTestRule
 import org.junit.Rule
+import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.screen.ui.SplashActivity
@@ -24,6 +25,8 @@ abstract class ParentUiTest : ParentTest() {
         iPreferenceRepo.apply {
             theme = if (Random.nextBoolean()) Theme.LIGHT else Theme.DARK
             firstStart = false
+
+            sort = Sort.CHANGE
 
             autoSaveOn = false
             pauseSaveOn = false
