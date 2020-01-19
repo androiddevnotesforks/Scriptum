@@ -37,6 +37,9 @@ class PreferenceDefaultColorTest : ParentUiTest(), IColorTest {
 
     @Test override fun colorWhite() = super.colorWhite()
 
+    /**
+     * TODO почему-то кнопка цвета меняет размер при onAssertItem()
+     */
     override fun startTest(@Color color: Int) {
         iPreferenceRepo.defaultColor = color
 
