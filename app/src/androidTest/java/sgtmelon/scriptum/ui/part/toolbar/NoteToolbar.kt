@@ -62,7 +62,7 @@ class NoteToolbar<T : ParentUi>(private val callback: INoteScreen<T>) : ParentUi
 
 
     // TODO #TEST (focus on title check)
-    // TODO #TEST divider for prelollipop
+    // TODO #TEST divider for preLollipop
     fun assert() = apply {
         val color = callback.shadowItem.color
 

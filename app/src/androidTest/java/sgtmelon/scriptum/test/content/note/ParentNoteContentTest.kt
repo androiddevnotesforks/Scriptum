@@ -192,7 +192,7 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
                         list.forEachIndexed { p, model -> onAssertItem(model, p) }
                     }
                     MainPage.BIN -> binScreen {
-                        list.forEachIndexed { p, model -> onAssertItem(p, model) }
+                        list.forEachIndexed { p, model -> onAssertItem(model, p) }
                     }
                 }
             }

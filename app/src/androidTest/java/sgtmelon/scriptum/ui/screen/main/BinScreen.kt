@@ -59,7 +59,7 @@ class BinScreen : ParentRecyclerScreen(R.id.bin_recycler) {
     }
 
 
-    fun onAssertItem(p: Int, noteItem: NoteItem) {
+    fun onAssertItem(noteItem: NoteItem, p: Int = random) {
         getItem(p).assert(noteItem)
     }
 

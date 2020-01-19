@@ -110,7 +110,7 @@ class BindTest : ParentNotificationTest() {
     private fun startNotesUnbindOnDeleteTest(item: NoteItem) = launch {
         mainScreen {
             notesScreen { openNoteDialog(item) { onSee { onDelete() } } }
-            binScreen { onSee { onAssertItem(0, item) } }
+            binScreen { onSee { onAssertItem(item, 0) } }
         }
     }
 
