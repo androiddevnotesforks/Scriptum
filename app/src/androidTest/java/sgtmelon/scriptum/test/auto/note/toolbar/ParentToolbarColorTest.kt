@@ -36,7 +36,7 @@ abstract class ParentToolbarColorTest(@Theme private val theme: Int) : ParentUiT
                                 createRoll(noteItem) {
                                     controlPanel {
                                         onColor { onClickItem(color).onClickApply() }
-                                        enterPanel { onAddRoll(data.uniqueString) }
+                                        enterPanel { onAdd(data.uniqueString) }
                                         onSave()
                                     }
                                     toolbar { onClickBack() }

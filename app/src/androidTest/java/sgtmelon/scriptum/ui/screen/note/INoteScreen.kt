@@ -17,6 +17,9 @@ interface INoteScreen<T : ParentUi>  {
 
     var noteItem: NoteItem
 
+    /**
+     * Item for changes in edit mode.
+     */
     var shadowItem: NoteItem
 
     val isRankEmpty: Boolean

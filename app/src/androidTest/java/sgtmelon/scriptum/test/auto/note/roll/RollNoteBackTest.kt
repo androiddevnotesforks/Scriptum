@@ -45,7 +45,7 @@ class RollNoteBackTest : ParentUiTest() {
                 openAddDialog {
                     createRoll(it) {
                         toolbar { onEnterName(data.uniqueString) }
-                        enterPanel { onAddRoll(data.uniqueString) }
+                        enterPanel { onAdd(data.uniqueString) }
                         onPressBack()
                     }
                 }
@@ -60,7 +60,7 @@ class RollNoteBackTest : ParentUiTest() {
                     openRollNote(it) {
                         controlPanel { onEdit() }
                         toolbar { onEnterName(data.uniqueString) }
-                        enterPanel { onAddRoll(data.uniqueString) }
+                        enterPanel { onAdd(data.uniqueString) }
                         onPressBack()
                     }
                 }
@@ -74,7 +74,7 @@ class RollNoteBackTest : ParentUiTest() {
                 notesScreen {
                     openRollNote(it) {
                         controlPanel { onEdit() }
-                        enterPanel { onAddRoll(data.uniqueString) }
+                        enterPanel { onAdd(data.uniqueString) }
                         toolbar {
                             onEnterName(data.uniqueString)
                             onClickBack()

@@ -13,6 +13,8 @@ import sgtmelon.scriptum.repository.note.NoteRepo.Companion.onConvertRoll
 import sgtmelon.scriptum.repository.note.NoteRepo.Companion.onConvertText
 import sgtmelon.scriptum.ui.IDialogUi
 import sgtmelon.scriptum.ui.ParentUi
+import sgtmelon.scriptum.ui.dialog.time.DateDialogUi
+import sgtmelon.scriptum.ui.dialog.time.DateTimeCallback
 import java.util.*
 
 /**

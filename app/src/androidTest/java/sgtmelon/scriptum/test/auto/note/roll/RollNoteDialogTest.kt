@@ -40,8 +40,18 @@ class RollNoteDialogTest : ParentUiTest() {
         }
     }
 
-    @Test fun rankDialogCloseAndWork() {
-        TODO(reason = "#TEST write test")
+    @Test fun rankDialogCloseAndWork() = data.fillRank(count = 3).let {
+        launch {
+            mainScreen {
+                openAddDialog {
+                    createRoll(data.createRoll(), isRankEmpty = false) {
+                        controlPanel { onRank(it) { onCloseSoft() } }.assert()
+                        controlPanel { onRank(it) { onClickCancel() } }.assert()
+                        controlPanel { onRank(it) { onClickItem(p = 1).onClickApply() } }.assert()
+                    }
+                }
+            }
+        }
     }
 
     @Test fun colorDialogCloseAndWork() = data.createRoll().let {

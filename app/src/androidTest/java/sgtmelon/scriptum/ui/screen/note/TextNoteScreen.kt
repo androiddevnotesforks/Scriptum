@@ -83,7 +83,7 @@ class TextNoteScreen(
 
 
     override fun afterConvert(func: RollNoteScreen.() -> Unit) {
-        RollNoteScreen.invoke(func, State.READ, noteItem)
+        RollNoteScreen.invoke(func, State.READ, noteItem, isRankEmpty)
     }
 
     override fun onPressBack() {
@@ -139,7 +139,7 @@ class TextNoteScreen(
 
     companion object {
         operator fun invoke(func: TextNoteScreen.() -> Unit, state: State,
-                            noteItem: NoteItem, isRankEmpty: Boolean = true): TextNoteScreen {
+                            noteItem: NoteItem, isRankEmpty: Boolean): TextNoteScreen {
             if (noteItem.type != NoteType.TEXT) {
                 throw IllegalAccessException("Wrong note type!")
             }

@@ -40,14 +40,14 @@ class AlarmScreen(
 
     //endregion
 
-    fun openTextNote(func: TextNoteScreen.() -> Unit = {}) {
+    fun openTextNote(isRankEmpty: Boolean = true, func: TextNoteScreen.() -> Unit = {}) {
         recyclerView.click(p = 0)
-        TextNoteScreen.invoke(func, State.READ, noteItem)
+        TextNoteScreen.invoke(func, State.READ, noteItem, isRankEmpty)
     }
 
-    fun openRollNote(func: RollNoteScreen.() -> Unit = {}) {
+    fun openRollNote(isRankEmpty: Boolean = true, func: RollNoteScreen.() -> Unit = {}) {
         recyclerView.click(p = 0)
-        RollNoteScreen.invoke(func, State.READ, noteItem)
+        RollNoteScreen.invoke(func, State.READ, noteItem, isRankEmpty)
     }
 
     fun onClickDisable() {

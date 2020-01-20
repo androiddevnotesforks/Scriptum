@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.ui.dialog
+package sgtmelon.scriptum.ui.dialog.time
 
 import sgtmelon.extension.clearSeconds
 import sgtmelon.safedialog.time.DateDialog

@@ -3,6 +3,7 @@ package sgtmelon.scriptum.ui.part.panel
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.State
+import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
@@ -29,11 +30,26 @@ class RollAddPanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi
             assert()
         }
 
-    fun onAddRoll(text: String) {
+    /**
+     * TODO #TEST check add to list
+     */
+    fun onAdd(text: String) {
         textEnter.typeText(text)
 
         enterText = text
-        if (Random.nextBoolean()) addButton.click() else addButton.longClick()
+
+        if (Random.nextBoolean()) {
+            addButton.click()
+
+            callback.shadowItem.rollList.apply {
+                add(size, RollItem(position = size, text = text))
+            }
+        } else {
+            addButton.longClick()
+
+            callback.shadowItem.rollList.add(0, RollItem(position = 0, text = text))
+        }
+
         enterText = ""
     }
 

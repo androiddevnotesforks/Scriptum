@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.ui.dialog
+package sgtmelon.scriptum.ui.dialog.time
 
 import java.util.*
 

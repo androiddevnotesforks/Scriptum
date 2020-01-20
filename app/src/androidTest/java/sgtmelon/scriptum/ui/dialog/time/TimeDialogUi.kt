@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.ui.dialog
+package sgtmelon.scriptum.ui.dialog.time
 
 import sgtmelon.safedialog.time.TimeDialog
 import sgtmelon.scriptum.R
@@ -47,18 +47,20 @@ class TimeDialogUi(
 
     fun onClickCancel() = waitClose { cancelButton.click() }
 
-    fun onClickApply() {
-        waitClose { applyButton.click() }
+    fun onClickApply() = waitClose {
+        if (!applyEnabled) throw IllegalAccessException("Apply button not enabled")
+
+        applyButton.click()
         callback.onTimeDialogResult(calendar)
     }
 
 
     fun assert() {
         cancelButton.isDisplayed().isEnabled().withTextColor(R.attr.clAccent)
-
-        val enabled = TimeDialog.getPositiveEnabled(calendar, dateList)
-        applyButton.isDisplayed().isEnabled(enabled) { withTextColor(R.attr.clAccent) }
+        applyButton.isDisplayed().isEnabled(applyEnabled) { withTextColor(R.attr.clAccent) }
     }
+
+    private val applyEnabled get() = TimeDialog.getPositiveEnabled(calendar, dateList)
 
     companion object {
         operator fun invoke(func: TimeDialogUi.() -> Unit,

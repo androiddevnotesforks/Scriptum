@@ -21,14 +21,16 @@ class AddSheetDialogUi : ParentSheetDialogUi(R.id.add_container, R.id.add_naviga
 
     //endregion
 
-    fun createText(noteItem: NoteItem, func: TextNoteScreen.() -> Unit = {}) {
+    fun createText(noteItem: NoteItem, isRankEmpty: Boolean = true,
+                   func: TextNoteScreen.() -> Unit = {}) {
         textButton.click()
-        TextNoteScreen.invoke(func, State.NEW, noteItem)
+        TextNoteScreen.invoke(func, State.NEW, noteItem, isRankEmpty)
     }
 
-    fun createRoll(noteItem: NoteItem, func: RollNoteScreen.() -> Unit = {}) {
+    fun createRoll(noteItem: NoteItem, isRankEmpty: Boolean = true,
+                   func: RollNoteScreen.() -> Unit = {}) {
         rollButton.click()
-        RollNoteScreen.invoke(func, State.NEW, noteItem)
+        RollNoteScreen.invoke(func, State.NEW, noteItem, isRankEmpty)
     }
 
 

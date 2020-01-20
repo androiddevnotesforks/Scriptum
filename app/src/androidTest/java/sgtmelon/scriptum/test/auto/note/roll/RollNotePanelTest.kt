@@ -129,7 +129,7 @@ class RollNotePanelTest : ParentUiTest() {
                 openAddDialog {
                     createRoll(it) {
                         toolbar { onEnterName(data.uniqueString) }
-                        repeat(times = 3) { enterPanel { onAddRoll(data.uniqueString) } }
+                        repeat(times = 3) { enterPanel { onAdd(data.uniqueString) } }
                         onSwipe()
                         controlPanel { onSave() }
                     }
@@ -146,7 +146,7 @@ class RollNotePanelTest : ParentUiTest() {
                         controlPanel { onEdit() }
                         toolbar { onEnterName(data.uniqueString) }
                         onSwipeAll()
-                        repeat(times = 3) { enterPanel { onAddRoll(data.uniqueString) } }
+                        repeat(times = 3) { enterPanel { onAdd(data.uniqueString) } }
                         controlPanel { onSave() }
                     }
                 }

@@ -40,8 +40,18 @@ class TextNoteDialogTest : ParentUiTest() {
         }
     }
 
-    @Test fun rankDialogCloseAndWork() {
-        TODO(reason = "#TEST write test")
+    @Test fun rankDialogCloseAndWork() = data.fillRank(count = 3).let {
+        launch {
+            mainScreen {
+                openAddDialog {
+                    createText(data.createText(), isRankEmpty = false) {
+                        controlPanel { onRank(it) { onCloseSoft() } }.assert()
+                        controlPanel { onRank(it) { onClickCancel() } }.assert()
+                        controlPanel { onRank(it) { onClickItem(p = 1).onClickApply() } }.assert()
+                    }
+                }
+            }
+        }
     }
 
     @Test fun colorDialogCloseAndWork() = data.createText().let {

@@ -2,11 +2,8 @@ package sgtmelon.scriptum.ui
 
 import android.content.Context
 import android.view.View
-import android.widget.ImageButton
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
-import androidx.appcompat.widget.AppCompatImageButton
-import androidx.appcompat.widget.Toolbar
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.platform.app.InstrumentationRegistry
 import org.hamcrest.Matcher
@@ -15,7 +12,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
 
 /**
- * Parent class for access standard UI functions
+ * Parent class for access standard UI functions.
  */
 abstract class ParentUi {
 

@@ -13,6 +13,8 @@ import sgtmelon.scriptum.ui.ParentUi
  */
 class RenameDialogUi(title: String) : ParentUi(), IDialogUi, IKeyboardOption {
 
+    private var applyEnabled = false
+
     //region Views
 
     private val viewContainer = getViewById(R.id.rename_parent_container)
@@ -26,13 +28,19 @@ class RenameDialogUi(title: String) : ParentUi(), IDialogUi, IKeyboardOption {
     //endregion
 
     fun onEnter(name: String, enabled: Boolean = true) = apply {
+        applyEnabled = enabled
+
         renameEnter.typeText(name)
-        assert(name, enabled)
+        assert(name)
     }
 
     fun onClickCancel() = waitClose { cancelButton.click() }
 
-    fun onClickApply() = waitClose { applyButton.click() }
+    fun onClickApply() = waitClose {
+        if (!applyEnabled) throw IllegalAccessException("Apply button not enabled")
+
+        applyButton.click()
+    }
 
     override fun onImeOptionClick(isSuccess: Boolean) {
         renameEnter.imeOption()
@@ -40,7 +48,7 @@ class RenameDialogUi(title: String) : ParentUi(), IDialogUi, IKeyboardOption {
         if  (isSuccess) waitClose()
     }
 
-    fun assert(enter: String = "", enabled: Boolean = false) {
+    fun assert(enter: String = "") {
         viewContainer.isDisplayed()
 
         titleText.isDisplayed()
@@ -56,7 +64,7 @@ class RenameDialogUi(title: String) : ParentUi(), IDialogUi, IKeyboardOption {
                 }
 
         cancelButton.isDisplayed().isEnabled().withTextColor(R.attr.clAccent)
-        applyButton.isDisplayed().isEnabled(enabled) {
+        applyButton.isDisplayed().isEnabled(applyEnabled) {
             withTextColor(R.attr.clAccent)
         }
     }

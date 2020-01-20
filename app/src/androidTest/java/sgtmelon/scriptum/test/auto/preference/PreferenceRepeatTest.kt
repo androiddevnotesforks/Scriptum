@@ -39,7 +39,7 @@ class PreferenceRepeatTest : ParentUiTest() {
     private fun startSelectRepeat(@Repeat repeat: Int) = launch(before = {checkRepeat(repeat)}) {
         mainScreen {
             notesScreen(empty = true) {
-                openPreference { openRepeatDialog { onClickRepeat(repeat).onClickApply() } }
+                openPreference { openRepeatDialog { onClickItem(repeat).onClickApply() } }
             }
         }
     }

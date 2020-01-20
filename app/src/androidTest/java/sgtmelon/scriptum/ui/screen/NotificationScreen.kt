@@ -39,14 +39,16 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler), IPr
         toolbar.getToolbarButton().click()
     }
 
-    fun openText(noteItem: NoteItem, p: Int = random, func: TextNoteScreen.() -> Unit = {}) {
+    fun openText(noteItem: NoteItem, p: Int = random, isRankEmpty: Boolean = true,
+                 func: TextNoteScreen.() -> Unit = {}) {
         getItem(p).view.click()
-        TextNoteScreen.invoke(func, State.READ, noteItem)
+        TextNoteScreen.invoke(func, State.READ, noteItem, isRankEmpty)
     }
 
-    fun openRoll(noteItem: NoteItem, p: Int = random, func: RollNoteScreen.() -> Unit = {}) {
+    fun openRoll(noteItem: NoteItem, p: Int = random, isRankEmpty: Boolean = true,
+                 func: RollNoteScreen.() -> Unit = {}) {
         getItem(p).view.click()
-        RollNoteScreen.invoke(func, State.READ, noteItem)
+        RollNoteScreen.invoke(func, State.READ, noteItem, isRankEmpty)
     }
 
     fun onClickCancel(p: Int = random) = apply { getItem(p).cancelButton.click() }

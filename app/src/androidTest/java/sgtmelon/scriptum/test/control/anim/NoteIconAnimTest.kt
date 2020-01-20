@@ -44,7 +44,7 @@ class NoteIconAnimTest : ParentUiTest() {
                 openAddDialog {
                     createRoll(it) {
                         waitAfter(TIME) {
-                            enterPanel { onAddRoll(data.rollList.first().text) }
+                            enterPanel { onAdd(data.rollList.first().text) }
                             controlPanel { onSave() }
                         }
                     }

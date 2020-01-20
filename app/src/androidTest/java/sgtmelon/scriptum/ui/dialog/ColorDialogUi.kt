@@ -47,6 +47,8 @@ class ColorDialogUi(place: Place, @Color private var check: Int, private val cal
     fun onClickCancel() = waitClose { cancelButton.click() }
 
     fun onClickApply() = waitClose {
+        if (check == initCheck) throw IllegalAccessException("Apply button not enabled")
+
         applyButton.click()
         callback.onColorDialogResult(check)
     }

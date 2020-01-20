@@ -69,7 +69,7 @@ class RollNoteScreen(
 
 
     override fun afterConvert(func: TextNoteScreen.() -> Unit) {
-        TextNoteScreen.invoke(func, State.READ, noteItem)
+        TextNoteScreen.invoke(func, State.READ, noteItem, isRankEmpty)
     }
 
     override fun onPressBack() {
@@ -112,7 +112,7 @@ class RollNoteScreen(
         private const val SWIPE_TIME = 150L
 
         operator fun invoke(func: RollNoteScreen.() -> Unit, state: State,
-                            noteItem: NoteItem, isRankEmpty: Boolean = true): RollNoteScreen {
+                            noteItem: NoteItem, isRankEmpty: Boolean): RollNoteScreen {
             if (noteItem.type != NoteType.ROLL) {
                 throw IllegalAccessException("Wrong note type!")
             }

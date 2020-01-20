@@ -53,16 +53,16 @@ class NotesScreen(hide: Boolean) : ParentRecyclerScreen(R.id.notes_recycler) {
         NoteDialogUi.invoke(func, noteItem)
     }
 
-    fun openTextNote(noteItem: NoteItem, p: Int = random,
+    fun openTextNote(noteItem: NoteItem, p: Int = random, isRankEmpty: Boolean = true,
                      func: TextNoteScreen.() -> Unit = {}) = apply {
         getItem(p).view.click()
-        TextNoteScreen.invoke(func, State.READ, noteItem)
+        TextNoteScreen.invoke(func, State.READ, noteItem, isRankEmpty)
     }
 
-    fun openRollNote(noteItem: NoteItem, p: Int = random,
+    fun openRollNote(noteItem: NoteItem, p: Int = random, isRankEmpty: Boolean = true,
                      func: RollNoteScreen.() -> Unit = {}) = apply {
         getItem(p).view.click()
-        RollNoteScreen.invoke(func, State.READ, noteItem)
+        RollNoteScreen.invoke(func, State.READ, noteItem, isRankEmpty)
     }
 
 

@@ -7,27 +7,30 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.data.DbData
+import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.model.key.NoteType
+import sgtmelon.scriptum.repository.note.NoteRepo.Companion.onConvertRoll
+import sgtmelon.scriptum.repository.note.NoteRepo.Companion.onConvertText
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.dialog.ColorDialogUi
 import sgtmelon.scriptum.ui.dialog.ConvertDialogUi
-import sgtmelon.scriptum.ui.dialog.DateDialogUi
-import sgtmelon.scriptum.ui.dialog.DateTimeCallback
+import sgtmelon.scriptum.ui.dialog.RankDialogUi
+import sgtmelon.scriptum.ui.dialog.time.DateDialogUi
+import sgtmelon.scriptum.ui.dialog.time.DateTimeCallback
 import sgtmelon.scriptum.ui.screen.main.BinScreen
 import sgtmelon.scriptum.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 import java.util.*
-import sgtmelon.scriptum.repository.note.NoteRepo.Companion.onConvertText
-import sgtmelon.scriptum.repository.note.NoteRepo.Companion.onConvertRoll
 
 /**
  * Part of UI abstraction for [TextNoteScreen] и [RollNoteScreen]
  */
 class NotePanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi(),
         DateTimeCallback,
+        ConvertDialogUi.Callback,
         ColorDialogUi.Callback,
-        ConvertDialogUi.Callback {
+        RankDialogUi.Callback {
 
     //region Views
 
@@ -97,8 +100,12 @@ class NotePanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi(),
         }
     }
 
-    fun onRank() = apply {
-        callback.throwOnWrongState(State.EDIT, State.NEW) { rankButton.click() }
+    fun onRank(rankList: List<RankItem> = listOf(), func: RankDialogUi.() -> Unit = {}) = apply {
+        callback.throwOnWrongState(State.EDIT, State.NEW) {
+            rankButton.click()
+
+            RankDialogUi.invoke(func, callback.shadowItem, rankList, callback = this)
+        }
     }
 
     fun onColor(func: ColorDialogUi.() -> Unit = {}) = apply {
@@ -178,6 +185,15 @@ class NotePanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi(),
         }
     }
 
+    override fun onConvertDialogResult() = with(callback) {
+        when (shadowItem.type) {
+            NoteType.TEXT -> shadowItem.onConvertText()
+            NoteType.ROLL -> shadowItem.onConvertRoll()
+        }
+
+        noteItem = shadowItem.deepCopy()
+    }
+
     override fun onColorDialogResult(check: Int) {
         callback.apply {
             inputControl.onColorChange(shadowItem.color, check)
@@ -187,14 +203,21 @@ class NotePanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi(),
         }
     }
 
-    override fun onConvertDialogResult() = with(callback) {
-        when (noteItem.type) {
-            NoteType.TEXT -> noteItem.onConvertText()
-            NoteType.ROLL -> noteItem.onConvertRoll()
-        }
+    override fun onResultRankDialog(rankItem: RankItem?) {
+        callback.apply {
+            val idTo = rankItem?.id ?: -1
+            val psTo = rankItem?.position ?: -1
 
-        shadowItem = noteItem.deepCopy()
+            inputControl.onRankChange(shadowItem.rankId, shadowItem.rankPs, idTo, psTo)
+            shadowItem.apply {
+                rankId = idTo
+                rankPs = psTo
+            }
+
+            fullAssert()
+        }
     }
+
 
     fun assert() {
         callback.apply {
@@ -284,7 +307,7 @@ class NotePanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi(),
                             .withDrawableAttr(R.drawable.ic_rank, if (isRankEmpty) {
                                 getEnableTint(b = false)
                             } else {
-                                getTint(noteItem.haveRank())
+                                getTint(shadowItem.haveRank())
                             })
                             .withContentDescription(R.string.description_note_rank)
                             .isEnabled(!isRankEmpty)
@@ -300,6 +323,7 @@ class NotePanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi(),
     }
 
     @AttrRes private fun getTint(b: Boolean) = if (b) R.attr.clAccent else R.attr.clContent
+
     @AttrRes private fun getEnableTint(b: Boolean) = if (b) R.attr.clContent else R.attr.clDisable
 
     companion object {

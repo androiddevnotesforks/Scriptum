@@ -4,13 +4,18 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.model.annotation.Repeat
 import sgtmelon.scriptum.ui.IDialogUi
-import sgtmelon.scriptum.ui.ParentUi
+import sgtmelon.scriptum.ui.ParentRecyclerScreen
 
-class RepeatDialogUi : ParentUi(), IDialogUi {
+class RepeatDialogUi : ParentRecyclerScreen(R.id.select_dialog_listview), IDialogUi {
+
+    private var check: Int = repeat
 
     //region Views
 
-    private val preferenceList = getViewById(android.R.id.list)
+    /**
+     * Exclude this parent for prevent match error with summary (similar strings).
+     */
+    private val preferenceList = getViewById(R.id.recycler_view)
 
     private val titleText = getViewByText(R.string.pref_title_alarm_repeat).excludeParent(preferenceList)
 
@@ -25,7 +30,9 @@ class RepeatDialogUi : ParentUi(), IDialogUi {
 
     //endregion
 
-    fun onClickRepeat(@Repeat repeat: Int) = apply {
+    fun onClickItem(@Repeat repeat: Int) = apply {
+        check = repeat
+
         when(repeat) {
             Repeat.MIN_10 -> repeat0Button.click()
             Repeat.MIN_30 -> repeat1Button.click()
@@ -34,25 +41,30 @@ class RepeatDialogUi : ParentUi(), IDialogUi {
             Repeat.MIN_1440 -> repeat4Button.click()
         }
 
-        assert(repeat)
+        assert()
     }
 
     fun onClickCancel() = waitClose { cancelButton.click() }
 
-    fun onClickApply() = waitClose { applyButton.click() }
+    fun onClickApply() = waitClose {
+        if (check == repeat) throw IllegalAccessException("Apply button not enabled")
+
+        applyButton.click()
+    }
 
 
-    fun assert(repeat: Int = this.repeat) {
+    fun assert() {
+        recyclerView.isDisplayed()
         titleText.isDisplayed()
 
-        repeat0Button.isDisplayed().isChecked(checked = repeat == Repeat.MIN_10)
-        repeat1Button.isDisplayed().isChecked(checked = repeat == Repeat.MIN_30)
-        repeat2Button.isDisplayed().isChecked(checked = repeat == Repeat.MIN_60)
-        repeat3Button.isDisplayed().isChecked(checked = repeat == Repeat.MIN_180)
-        repeat4Button.isDisplayed().isChecked(checked = repeat == Repeat.MIN_1440)
+        repeat0Button.isDisplayed().isChecked(checked = check == Repeat.MIN_10)
+        repeat1Button.isDisplayed().isChecked(checked = check == Repeat.MIN_30)
+        repeat2Button.isDisplayed().isChecked(checked = check == Repeat.MIN_60)
+        repeat3Button.isDisplayed().isChecked(checked = check == Repeat.MIN_180)
+        repeat4Button.isDisplayed().isChecked(checked = check == Repeat.MIN_1440)
 
         cancelButton.isDisplayed().isEnabled().withTextColor(R.attr.clAccent)
-        applyButton.isDisplayed().isEnabled(enabled = repeat != this.repeat) {
+        applyButton.isDisplayed().isEnabled(enabled = check != repeat) {
             withTextColor(R.attr.clAccent)
         }
     }
