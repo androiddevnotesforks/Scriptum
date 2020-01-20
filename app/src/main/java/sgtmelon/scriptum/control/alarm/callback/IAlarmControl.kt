@@ -12,4 +12,6 @@ interface IAlarmControl {
 
     fun cancel(id: Long)
 
+    fun clear()
+
 }

@@ -1,9 +1,12 @@
 package sgtmelon.scriptum.control.alarm
 
 import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Context
 import android.text.format.DateUtils
+import androidx.annotation.VisibleForTesting
 import sgtmelon.extension.formatFuture
+import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.alarm.callback.IAlarmControl
 import sgtmelon.scriptum.extension.showToast
@@ -28,6 +31,10 @@ class AlarmControl(private val context: Context?) : IAlarmControl {
             val date = calendar.formatFuture(context, DateUtils.DAY_IN_MILLIS).toLowerCase()
             context.showToast(context.getString(R.string.toast_alarm_set, date))
         }
+
+        if (BuildConfig.DEBUG) {
+            intentList.add(intent)
+        }
     }
 
     override fun cancel(id: Long) {
@@ -36,6 +43,12 @@ class AlarmControl(private val context: Context?) : IAlarmControl {
         alarmManager?.cancel(AlarmReceiver[context, id])
     }
 
+    override fun clear() {
+        if (BuildConfig.DEBUG) {
+            intentList.forEach { alarmManager?.cancel(it) }
+            intentList.clear()
+        }
+    }
 
     /**
      * Callback which need implement in interface what pass to Interactor
@@ -54,7 +67,11 @@ class AlarmControl(private val context: Context?) : IAlarmControl {
     }
 
     companion object {
-        private var callback: IAlarmControl? = null
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        var callback: IAlarmControl? = null
+
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        val intentList: MutableList<PendingIntent> = mutableListOf()
 
         operator fun get(context: Context?): IAlarmControl =
                 callback ?: AlarmControl(context).also { callback = it }

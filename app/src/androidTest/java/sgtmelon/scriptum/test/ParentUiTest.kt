@@ -3,6 +3,7 @@ package sgtmelon.scriptum.test
 import android.content.Intent
 import androidx.test.rule.ActivityTestRule
 import org.junit.Rule
+import sgtmelon.scriptum.control.alarm.AlarmControl
 import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
@@ -33,6 +34,12 @@ abstract class ParentUiTest : ParentTest() {
         }
 
         data.clear()
+    }
+
+    override fun tearDown() {
+        super.tearDown()
+
+        AlarmControl.callback?.clear()
     }
 
     protected fun launch(before: () -> Unit = {},
