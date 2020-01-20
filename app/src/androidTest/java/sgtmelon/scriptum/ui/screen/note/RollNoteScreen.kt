@@ -30,6 +30,7 @@ class RollNoteScreen(
     private val fragmentContainer = getViewById(R.id.note_fragment_container)
 
     private val parentContainer = getViewById(R.id.roll_note_parent_container)
+    private val progressBar = getViewById(R.id.roll_note_progress)
 
     //endregion
 
@@ -88,14 +89,13 @@ class RollNoteScreen(
         panelHolder.withBackgroundAttr(R.attr.clPrimary)
                 .withSize(heightId = R.dimen.note_panel_height)
 
-        /**
-         * TODO add progress assert with custom matcher which compare max and progress
-         */
-
         fragmentContainer.isDisplayed()
 
 
         parentContainer.isDisplayed()
+        progressBar.isDisplayed(visible = state == State.READ || state == State.BIN) {
+            withSize(heightId = R.dimen.layout_4dp)
+        }.withProgress(noteItem.getCheck(), noteItem.rollList.size)
 
         recyclerView.isDisplayed()
     }

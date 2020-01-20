@@ -9,6 +9,7 @@ import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.basic.matcher.ContentDescriptionMatcher
+import sgtmelon.scriptum.basic.matcher.ProgressMatcher
 import sgtmelon.scriptum.basic.matcher.SizeMatcher
 import sgtmelon.scriptum.basic.matcher.card.CardBackgroundAttrMatcher
 import sgtmelon.scriptum.basic.matcher.card.CardBackgroundColorMatcher
@@ -153,4 +154,9 @@ fun Matcher<View>.withSize(@DimenRes widthId: Int = -1, @DimenRes heightId: Int 
  */
 fun Matcher<View>.withSizeAttr(@AttrRes widthAttr: Int = -1, @AttrRes heightAttr: Int = -1) = also {
     matchOnView(it, SizeMatcher(-1, -1, widthAttr, heightAttr))
+}
+
+
+fun Matcher<View>.withProgress(progress: Int, max: Int) = also {
+    matchOnView(it, ProgressMatcher(progress, max))
 }
