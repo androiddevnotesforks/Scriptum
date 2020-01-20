@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.ui.screen
 
+import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.model.annotation.Color
@@ -10,6 +11,8 @@ import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.dialog.ColorDialogUi
 import sgtmelon.scriptum.ui.dialog.RepeatDialogUi
 import sgtmelon.scriptum.ui.part.toolbar.SimpleToolbar
+import androidx.test.espresso.matcher.ViewMatchers.withClassName
+import org.hamcrest.Matchers.`is`
 
 /**
  * Class for UI control of [PreferenceActivity], [PreferenceFragment].
@@ -23,7 +26,7 @@ class PreferenceScreen : ParentUi(), ColorDialogUi.Callback, IPressBack {
     private val parentContainer = getViewById(R.id.preference_parent_container)
     private val toolbar = SimpleToolbar(R.string.title_preference)
 
-    private val list = getViewById(android.R.id.list)
+    private val list = withClassName(`is`(RecyclerView::class.java.name))
     private val colorTitle = getViewByText(R.string.pref_title_note_color)
     private val repeatTitle = getViewByText(R.string.pref_title_alarm_repeat)
 

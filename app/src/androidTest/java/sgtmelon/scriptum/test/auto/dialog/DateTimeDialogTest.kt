@@ -50,7 +50,7 @@ class DateTimeDialogTest : ParentUiTest() {
                     openNoteDialog(it) {
                         onNotification {
                             onClickApply {
-                                onTime(min = 60)
+                                onTime(min = 2)
                                 waitAfter(TOAST_TIME) { onClickApply() }
                             }
                         }
@@ -68,7 +68,7 @@ class DateTimeDialogTest : ParentUiTest() {
                         controlPanel {
                             onNotification {
                                 onClickApply {
-                                    onTime(min = 60)
+                                    onTime(min = 2)
                                     waitAfter(TOAST_TIME) { onClickApply() }
                                 }
                             }
