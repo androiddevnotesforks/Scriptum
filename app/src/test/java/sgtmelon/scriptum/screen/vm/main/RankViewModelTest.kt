@@ -3,13 +3,14 @@ package sgtmelon.scriptum.screen.vm.main
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import sgtmelon.scriptum.ParentTest
 import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.screen.vm.main.RankViewModel.Companion.correctPositions
 
 /**
  * Test for [RankViewModel]
  */
-class RankViewModelTest {
+class RankViewModelTest : ParentTest() {
 
     @Test fun correctPositions() {
         var list = listOf(rankFist.copy(), rankSecond.copy(), rankThird.copy(), rankFourth.copy())

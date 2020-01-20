@@ -2,13 +2,14 @@ package sgtmelon.scriptum.room.converter.model
 
 import org.junit.Assert.*
 import org.junit.Test
+import sgtmelon.scriptum.ParentTest
 import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.room.entity.RankEntity
 
 /**
- * Test for [RankConverter]
+ * Test for [RankConverter].
  */
-class RankConverterTest {
+class RankConverterTest : ParentTest() {
 
     private val converter = RankConverter()
 

@@ -325,12 +325,18 @@ object Migrate {
              */
 
             /**
-             * Remove multiply [NoteEntity.id] from [RankEntity.noteId]
+             * Remove multiply [NoteEntity.id] from [RankEntity.noteId].
+             *
+             * Because from this version note can can be connected only to one rank.
+             * One note - one rank.
              */
             query("""SELECT RK_ID, RK_NOTE_ID FROM RANK_TABLE 
                 WHERE RK_NOTE_ID LIKE '%,%' ORDER BY RK_POSITION ASC""").apply {
                 if (moveToFirst()) {
-                    val noteIdExistSet: MutableSet<Long> = mutableSetOf()
+                    /**
+                     * This set save already used id's.
+                     */
+                    val noteIdUsedSet: MutableSet<Long> = mutableSetOf()
 
                     do {
                         val id = getString(getColumnIndex("RK_ID"))
@@ -341,10 +347,14 @@ object Migrate {
                                 .map { it.toLong() })
 
                         /**
-                         * Remove already used [NoteEntity.id]
+                         * Remove already used [NoteEntity.id].
                          */
-                        noteIdExistSet.apply {
+                        noteIdUsedSet.apply {
                             forEach { if (noteIdList.contains(it)) noteIdList.remove(it) }
+
+                            /**
+                             * Add not deleted id's for next forEach run.
+                             */
                             addAll(noteIdList)
                         }
 
@@ -375,11 +385,13 @@ object Migrate {
 
                         val newRankId: Long = rankId.split(",".toRegex())
                                 .dropLastWhile { it.isEmpty() }
-                                .map { it.toLong() }.first()
+                                .map { it.toLong() }
+                                .first()
 
                         val newRankPs: Int = rankPs.split(",".toRegex())
                                 .dropLastWhile { it.isEmpty() }
-                                .map { it.toInt() }.first()
+                                .map { it.toInt() }
+                                .first()
 
                         execSQL("""UPDATE NOTE_TABLE 
                             SET NT_RANK_ID = $newRankId, NT_RANK_PS = $newRankPs

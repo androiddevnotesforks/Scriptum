@@ -2,11 +2,12 @@ package sgtmelon.scriptum.room.converter.type
 
 import org.junit.Assert.*
 import org.junit.Test
+import sgtmelon.scriptum.ParentTest
 
 /**
- * Test for [BoolConverter]
+ * Test for [BoolConverter].
  */
-class BoolConverterTest {
+class BoolConverterTest : ParentTest() {
 
     private val converter = BoolConverter()
 

@@ -3,12 +3,13 @@ package sgtmelon.scriptum.room.converter.type
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
+import sgtmelon.scriptum.ParentTest
 
 
 /**
- * Test for [IntConverter]
+ * Test for [IntConverter].
  */
-class IntConverterTest {
+class IntConverterTest : ParentTest() {
 
     private val converter = IntConverter()
 

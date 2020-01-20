@@ -2,11 +2,12 @@ package sgtmelon.scriptum.model.item
 
 import org.junit.Assert.*
 import org.junit.Test
+import sgtmelon.scriptum.ParentTest
 
 /**
- * Test for [RollItem]
+ * Test for [RollItem].
  */
-class RollItemTest {
+class RollItemTest : ParentTest() {
 
     @Test fun getJson() {
         assertEquals(itemFirst.toJson(), stringFirst)

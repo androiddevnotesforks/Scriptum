@@ -3,12 +3,13 @@ package sgtmelon.scriptum.room.converter.type
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
+import sgtmelon.scriptum.ParentTest
 import sgtmelon.scriptum.room.converter.model.StringConverter
 
 /**
- * Test for [StringConverter]
+ * Test for [StringConverter].
  */
-class StringConverterTest {
+class StringConverterTest : ParentTest() {
 
     private val converter = StringConverter()
 

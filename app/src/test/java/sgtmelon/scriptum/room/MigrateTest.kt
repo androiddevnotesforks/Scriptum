@@ -2,11 +2,12 @@ package sgtmelon.scriptum.room
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import sgtmelon.scriptum.ParentTest
 
 /**
- * Test for [Migrate]
+ * Test for [Migrate].
  */
-class MigrateTest {
+class MigrateTest : ParentTest() {
 
     @Test fun `FROM 4 TO 5 remove multiply noteId`() {
         val noteIdExistSet: MutableSet<Long> = mutableSetOf()
@@ -23,9 +24,13 @@ class MigrateTest {
                 arrayListOf(5L)
         )
 
-        (0 until 3).forEach {i ->
+        (0 until noteIdList.size).forEach {i ->
             noteIdExistSet.apply {
                 forEach { if (noteIdList[i].contains(it)) noteIdList[i].remove(it) }
+
+                /**
+                 * Add not deleted id's for next forEach run.
+                 */
                 addAll(noteIdList[i])
             }
         }

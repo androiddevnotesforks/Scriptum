@@ -4,14 +4,15 @@ import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException
+import sgtmelon.scriptum.ParentTest
 import sgtmelon.scriptum.model.annotation.InputAction
 import java.lang.NullPointerException
 import sgtmelon.scriptum.model.item.InputItem.Cursor.Companion.get
 
 /**
- * Test for [InputItem]
+ * Test for [InputItem].
  */
-class InputItemTest {
+class InputItemTest : ParentTest() {
 
     @get:Rule val exception: ExpectedException = ExpectedException.none()
 

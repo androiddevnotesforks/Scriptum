@@ -2,13 +2,14 @@ package sgtmelon.scriptum.room.converter.model
 
 import org.junit.Assert.*
 import org.junit.Test
+import sgtmelon.scriptum.ParentTest
 import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.room.entity.RollEntity
 
 /**
- * Test for [RollConverter]
+ * Test for [RollConverter].
  */
-class RollConverterTest {
+class RollConverterTest : ParentTest() {
 
     private val converter = RollConverter()
 

@@ -3,13 +3,14 @@ package sgtmelon.scriptum.model.item
 import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.extension.getTime
+import sgtmelon.scriptum.ParentTest
 import sgtmelon.scriptum.model.key.Complete
 import sgtmelon.scriptum.model.key.NoteType
 
 /**
- * Test for [NoteItem]
+ * Test for [NoteItem].
  */
-class NoteItemTest {
+class NoteItemTest : ParentTest() {
 
     @Test fun deepCopy() {
         val itemFirst = noteItem.deepCopy()

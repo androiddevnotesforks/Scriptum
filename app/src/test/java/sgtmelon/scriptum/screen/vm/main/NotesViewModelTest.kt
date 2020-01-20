@@ -2,6 +2,7 @@ package sgtmelon.scriptum.screen.vm.main
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import sgtmelon.scriptum.ParentTest
 import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.NoteType
@@ -10,7 +11,7 @@ import sgtmelon.scriptum.screen.vm.main.NotesViewModel.Companion.sort
 /**
  * Test for [NotesViewModel].
  */
-class NotesViewModelTest {
+class NotesViewModelTest : ParentTest() {
 
     @Test fun sort() {
         assertEquals(changeList, unsortedList.sort(Sort.CHANGE))

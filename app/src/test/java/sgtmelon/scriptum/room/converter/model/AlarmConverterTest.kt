@@ -2,14 +2,15 @@ package sgtmelon.scriptum.room.converter.model
 
 import org.junit.Assert.*
 import org.junit.Test
+import sgtmelon.scriptum.ParentTest
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.room.entity.AlarmEntity
 
 /**
- * Test for [AlarmConverter]
+ * Test for [AlarmConverter].
  */
-class AlarmConverterTest {
+class AlarmConverterTest : ParentTest() {
 
     private val converter = AlarmConverter()
     

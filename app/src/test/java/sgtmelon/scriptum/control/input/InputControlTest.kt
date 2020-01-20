@@ -1,22 +1,24 @@
 package sgtmelon.scriptum.control.input
 
 import org.junit.Assert.*
-import org.junit.Before
 import org.junit.Test
 import sgtmelon.scriptum.BuildConfig.INPUT_CONTROL_MAX_SIZE
+import sgtmelon.scriptum.ParentTest
 
 /**
- * Test for [InputControl]
+ * Test for [InputControl].
  */
-class InputControlTest {
+class InputControlTest : ParentTest() {
 
     private val inputControl = InputControl()
 
     fun assert(func: Assert.() -> Unit) = Assert(inputControl).apply { func() }
 
-    @Before fun setUp() {
+    override fun setUp() {
+        super.setUp()
         inputControl.logEnabled = false
     }
+
 
     @Test fun `add changes to list and UNDO on not enable`() {
         inputControl.onRankChange(idFrom, psFrom, idTo, psTo)

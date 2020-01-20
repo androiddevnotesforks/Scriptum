@@ -2,12 +2,13 @@ package sgtmelon.scriptum.room.converter.type
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import sgtmelon.scriptum.ParentTest
 import sgtmelon.scriptum.model.key.NoteType
 
 /**
- * Test for [NoteTypeConverter]
+ * Test for [NoteTypeConverter].
  */
-class NoteTypeConverterTest {
+class NoteTypeConverterTest : ParentTest() {
 
     private val converter = NoteTypeConverter()
 

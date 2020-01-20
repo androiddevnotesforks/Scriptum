@@ -2,11 +2,12 @@ package sgtmelon.scriptum.model.item
 
 import org.junit.Assert.*
 import org.junit.Test
+import sgtmelon.scriptum.ParentTest
 
 /**
- * Test for [MelodyItem]
+ * Test for [MelodyItem].
  */
-class MelodyItemTest {
+class MelodyItemTest : ParentTest() {
 
     @Test fun secondConstructor() {
         val item = MelodyItem(TITLE, URI, ID)
