@@ -14,7 +14,6 @@ import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.part.panel.NotePanel
 import sgtmelon.scriptum.ui.part.toolbar.NoteToolbar
 
-
 /**
  * Class for UI control of [NoteActivity], [TextNoteFragment].
  */
@@ -22,7 +21,10 @@ class TextNoteScreen(
         override var state: State,
         override var noteItem: NoteItem,
         override val isRankEmpty: Boolean
-) : ParentUi(), INoteScreen<TextNoteScreen>, IPressBack {
+) : ParentUi(),
+        INoteScreen<TextNoteScreen>,
+        INoteAfterConvert<RollNoteScreen>,
+        IPressBack {
 
     //region Views
 
@@ -77,6 +79,11 @@ class TextNoteScreen(
 
         shadowItem.text = text
         fullAssert()
+    }
+
+
+    override fun afterConvert(func: RollNoteScreen.() -> Unit) {
+        RollNoteScreen.invoke(func, State.READ, noteItem)
     }
 
     override fun onPressBack() {

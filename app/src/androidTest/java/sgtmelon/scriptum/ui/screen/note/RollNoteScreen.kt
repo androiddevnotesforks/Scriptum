@@ -21,7 +21,10 @@ class RollNoteScreen(
         override var state: State,
         override var noteItem: NoteItem,
         override val isRankEmpty: Boolean
-) : ParentRecyclerScreen(R.id.roll_note_recycler), INoteScreen<RollNoteScreen>, IPressBack {
+) : ParentRecyclerScreen(R.id.roll_note_recycler),
+        INoteScreen<RollNoteScreen>,
+        INoteAfterConvert<TextNoteScreen>,
+        IPressBack {
 
     //region Views
 
@@ -62,6 +65,11 @@ class RollNoteScreen(
     fun onSwipe(p: Int = random) {
         waitAfter(SWIPE_TIME) { recyclerView.swipeItem(p) }
         assert()
+    }
+
+
+    override fun afterConvert(func: TextNoteScreen.() -> Unit) {
+        TextNoteScreen.invoke(func, State.READ, noteItem)
     }
 
     override fun onPressBack() {

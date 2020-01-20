@@ -18,13 +18,16 @@ import sgtmelon.scriptum.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 import java.util.*
+import sgtmelon.scriptum.repository.note.NoteRepo.Companion.onConvertText
+import sgtmelon.scriptum.repository.note.NoteRepo.Companion.onConvertRoll
 
 /**
  * Part of UI abstraction for [TextNoteScreen] и [RollNoteScreen]
  */
 class NotePanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi(),
+        DateTimeCallback,
         ColorDialogUi.Callback,
-        DateTimeCallback {
+        ConvertDialogUi.Callback {
 
     //region Views
 
@@ -138,7 +141,7 @@ class NotePanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi(),
 
     fun onConvert(func: ConvertDialogUi.() -> Unit = {}) = callback.throwOnWrongState(State.READ) {
         convertButton.click()
-        ConvertDialogUi.invoke(func, callback.noteItem)
+        ConvertDialogUi.invoke(func, callback.noteItem, callback = this)
     }
 
     fun onDelete() = callback.throwOnWrongState(State.READ) {
@@ -184,6 +187,14 @@ class NotePanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi(),
         }
     }
 
+    override fun onConvertDialogResult() = with(callback) {
+        when (noteItem.type) {
+            NoteType.TEXT -> noteItem.onConvertText()
+            NoteType.ROLL -> noteItem.onConvertRoll()
+        }
+
+        shadowItem = noteItem.deepCopy()
+    }
 
     fun assert() {
         callback.apply {

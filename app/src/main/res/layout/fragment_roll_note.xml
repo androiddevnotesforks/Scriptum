@@ -59,6 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/layout_4dp"
                 android:visibility='@{!editMode ? View.VISIBLE : View.GONE}'
+                android:max="0"
                 tools:max="100"
                 tools:progress="65"/>
 

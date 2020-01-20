@@ -4,7 +4,6 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
 import sgtmelon.scriptum.basic.extension.isDisplayed
 import sgtmelon.scriptum.basic.extension.longClick
-import sgtmelon.scriptum.basic.extension.withBackgroundAttr
 import sgtmelon.scriptum.data.InfoPage
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.item.NoteItem
