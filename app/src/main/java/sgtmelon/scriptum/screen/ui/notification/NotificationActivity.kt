@@ -38,7 +38,7 @@ class NotificationActivity : AppActivity(), INotificationActivity {
     private val iViewModel by lazy { ViewModelFactory.getNotificationViewModel(activity = this) }
 
     private val iAlarmControl by lazy { AlarmControl[this] }
-    private val iBindControl: IBindControl by lazy { BindControl(context = this) }
+    private val iBindControl by lazy { BindControl[this] }
 
     private val openState = OpenState()
 

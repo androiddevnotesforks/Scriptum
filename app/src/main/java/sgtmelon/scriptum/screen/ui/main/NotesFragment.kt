@@ -47,7 +47,7 @@ class NotesFragment : ParentFragment(), INotesFragment, MainReceiver.Callback {
     private val iViewModel by lazy { ViewModelFactory.getNotesViewModel(fragment = this) }
 
     private val iAlarmControl by lazy { AlarmControl[context] }
-    private val iBindControl: IBindControl by lazy { BindControl(context) }
+    private val iBindControl by lazy { BindControl[context] }
     private val iClipboardControl: IClipboardControl by lazy { ClipboardControl(context) }
 
     private val openState get() = callback?.openState

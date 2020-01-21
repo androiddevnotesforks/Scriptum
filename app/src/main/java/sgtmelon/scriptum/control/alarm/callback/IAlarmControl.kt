@@ -12,6 +12,9 @@ interface IAlarmControl {
 
     fun cancel(id: Long)
 
+    /**
+     * Clear alarm on test tearDown.
+     */
     fun clear()
 
 }

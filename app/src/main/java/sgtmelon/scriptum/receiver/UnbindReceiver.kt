@@ -29,7 +29,7 @@ class UnbindReceiver : BroadcastReceiver() {
 
         GlobalScope.launch {
             if (BindRepo(context).unbindNote(id)) {
-                BindControl(context).cancelNote(id.toInt())
+                BindControl[context].cancelNote(id.toInt())
             }
 
             context.apply {

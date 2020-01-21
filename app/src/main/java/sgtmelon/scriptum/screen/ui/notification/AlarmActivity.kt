@@ -28,7 +28,6 @@ import sgtmelon.scriptum.control.alarm.callback.IMelodyControl
 import sgtmelon.scriptum.control.alarm.callback.IPowerControl
 import sgtmelon.scriptum.control.alarm.callback.IVibratorControl
 import sgtmelon.scriptum.control.bind.BindControl
-import sgtmelon.scriptum.control.bind.IBindControl
 import sgtmelon.scriptum.extension.initLazy
 import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.factory.DialogFactory
@@ -60,7 +59,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     private val iVibratorControl: IVibratorControl by lazy { VibratorControl(context = this) }
     private val iAlarmControl by lazy { AlarmControl[this] }
     private val iPowerControl: IPowerControl by lazy { PowerControl(context = this) }
-    private val iBindControl: IBindControl by lazy { BindControl(context = this) }
+    private val iBindControl by lazy { BindControl[this] }
 
     private val noteReceiver by lazy { NoteReceiver(iViewModel) }
 

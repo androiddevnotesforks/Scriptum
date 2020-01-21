@@ -46,7 +46,7 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment, NoteReceiver.Callb
     private val iViewModel by lazy { ViewModelFactory.getTextNoteViewModel(fragment = this) }
 
     private val iAlarmControl by lazy { AlarmControl[context] }
-    private val iBindControl: IBindControl by lazy { BindControl(context) }
+    private val iBindControl by lazy { BindControl[context] }
     private var menuControl: MenuControl? = null
 
     private val openState = OpenState()

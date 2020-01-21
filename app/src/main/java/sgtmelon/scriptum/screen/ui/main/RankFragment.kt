@@ -42,7 +42,7 @@ class RankFragment : ParentFragment(), IRankFragment {
 
     private val iViewModel by lazy { ViewModelFactory.getRankViewModel(fragment = this) }
 
-    private val iBindControl: IBindControl by lazy { BindControl(context) }
+    private val iBindControl by lazy { BindControl[context] }
 
     override val openState get() = callback?.openState
     private val renameDialog by lazy { DialogFactory.Main(context, fm).getRenameDialog() }

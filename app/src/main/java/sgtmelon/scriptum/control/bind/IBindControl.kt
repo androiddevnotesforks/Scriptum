@@ -13,4 +13,9 @@ interface IBindControl {
 
     fun notifyInfo(count: Int)
 
+    /**
+     * Clear notifications on test tearDown.
+     */
+    fun clear()
+
 }

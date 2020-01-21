@@ -43,24 +43,9 @@ class Note {
      */
 
     /**
-     * TODO #TEST - После конвертирования заметки и смены ориентации отображался не тот фрагмент
-     * ... не обновлялся noteType внутри NoteViewModel
-     * # Для текста
-     * # Для списка
-     */
-
-    /**
      * TODO #TEST - Проверка после конвертирования со сменой данных (открыть заметку - конвертировать - сменить данные - конвертировать)
      * # Начать с TextNote
      * # Начать с RollNote
-     */
-
-    /**
-     * TODO #TEST
-     * 1. [TextNoteDialogTest.convertDialogCloseAndWork]
-     * 2. [RollNoteDialogTest.convertDialogCloseAndWork]
-     * 3. [TextNoteDialogTest.rankDialogCloseAndWork]
-     * 4. [RollNoteDialogTest.rankDialogCloseAndWork]
      */
 
     /**
@@ -74,6 +59,13 @@ class Rotation {
      * TODO #TEST Finish tests:
      * 1. [TextNoteRotationTest.convertDialogResult]
      * 2. [RollNoteRotationTest.convertDialogResult]
+     */
+
+    /**
+     * TODO #TEST - После конвертирования заметки и смены ориентации отображался не тот фрагмент
+     * ... не обновлялся noteType внутри NoteViewModel
+     * # Для текста
+     * # Для списка
      */
 
     /**

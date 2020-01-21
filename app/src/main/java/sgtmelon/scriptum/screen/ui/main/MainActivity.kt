@@ -42,7 +42,7 @@ class MainActivity : AppActivity(), IMainActivity {
     private val iViewModel by lazy { ViewModelFactory.getMainViewModel(activity = this) }
 
     private val iAlarmControl by lazy { AlarmControl[this] }
-    private val iBindControl: IBindControl by lazy { BindControl(context = this) }
+    private val iBindControl by lazy { BindControl[this] }
     private val holderControl by lazy { ShowHolderControl(arrayOf(toolbarHolder)) }
 
     private val mainReceiver by lazy { MainReceiver(iViewModel) }

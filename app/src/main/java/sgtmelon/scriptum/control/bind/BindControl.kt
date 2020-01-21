@@ -5,6 +5,8 @@ import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.annotation.VisibleForTesting
+import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.factory.NotificationFactory
 import sgtmelon.scriptum.model.item.NoteItem
@@ -68,6 +70,10 @@ class BindControl(private val context: Context?) : IBindControl {
 
         if (notify) {
             manager?.notify(TAG_NOTE, id, NotificationFactory.getBind(context, noteItem))
+
+            if (BuildConfig.DEBUG) {
+                tagIdMap[TAG_NOTE] = id
+            }
         } else {
             cancelNote(id)
         }
@@ -82,8 +88,19 @@ class BindControl(private val context: Context?) : IBindControl {
 
         if (count != 0) {
             manager?.notify(TAG_INFO, INFO_ID, NotificationFactory.getInfo(context, count))
+
+            if (BuildConfig.DEBUG) {
+                tagIdMap[TAG_INFO] = INFO_ID
+            }
         } else {
             manager?.cancel(TAG_INFO, INFO_ID)
+        }
+    }
+
+    override fun clear() {
+        if (BuildConfig.DEBUG) {
+            tagIdMap.forEach { manager?.cancel(it.key, it.value) }
+            tagIdMap.clear()
         }
     }
 
@@ -118,6 +135,15 @@ class BindControl(private val context: Context?) : IBindControl {
         private const val TAG_INFO = "${PREFIX}_INFO"
 
         const val INFO_ID = 0
+
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        var callback: IBindControl? = null
+
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        val tagIdMap: MutableMap<String, Int> = mutableMapOf()
+
+        operator fun get(context: Context?): IBindControl =
+                callback ?: BindControl(context).also { callback = it }
     }
 
 }
