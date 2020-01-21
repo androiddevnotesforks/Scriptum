@@ -107,8 +107,9 @@ class RollNotePanelTest : ParentUiTest() {
         TODO(reason = "#TEST write test")
     }
 
-    @Test fun actionOnEditRank() {
-        TODO(reason = "#TEST write test")
+    @Test fun actionOnEditRank() = data.fillRank(count = 3).let {
+        val item = data.createRoll()
+        launch { mainScreen { openAddDialog { createRoll(item) { controlPanel { onRank(it) } } } } }
     }
 
     @Test fun actionOnCreateColor() = data.createRoll().let {

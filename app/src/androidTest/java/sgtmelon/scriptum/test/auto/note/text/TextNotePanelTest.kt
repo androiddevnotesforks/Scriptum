@@ -98,8 +98,9 @@ class TextNotePanelTest : ParentUiTest() {
         TODO(reason = "#TEST write test")
     }
 
-    @Test fun actionOnEditRank() {
-        TODO(reason = "#TEST write test")
+    @Test fun actionOnEditRank() = data.fillRank(count = 3).let {
+        val item = data.createText()
+        launch { mainScreen { openAddDialog { createText(item) { controlPanel { onRank(it) } } } } }
     }
 
     @Test fun actionOnCreateColor() = data.createText().let {
