@@ -11,7 +11,7 @@ import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel
 import java.util.*
 
 /**
- * Interface for communication [TextNoteFragment] with [TextNoteViewModel]
+ * Interface for communication [TextNoteFragment] with [TextNoteViewModel].
  */
 interface ITextNoteViewModel : IParentViewModel,
         INoteMenu,

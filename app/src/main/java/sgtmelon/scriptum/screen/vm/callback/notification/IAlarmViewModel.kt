@@ -10,7 +10,7 @@ import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
 /**
  * Interface for communication [AlarmActivity] with [AlarmViewModel]
  */
-interface IAlarmViewModel: IParentViewModel, NoteReceiver.Callback {
+interface IAlarmViewModel : IParentViewModel, NoteReceiver.Callback {
 
     fun onSaveData(bundle: Bundle)
 

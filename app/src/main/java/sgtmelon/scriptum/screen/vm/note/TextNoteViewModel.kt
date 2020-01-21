@@ -38,7 +38,11 @@ import java.util.*
 class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFragment>(application),
         ITextNoteViewModel {
 
-    var parentCallback: INoteChild? = null
+    private var parentCallback: INoteChild? = null
+
+    fun setParentCallback(callback: INoteChild?) {
+        parentCallback = callback
+    }
 
     private val iInteractor: ITextNoteInteractor by lazy { TextNoteInteractor(context, callback) }
     private val iBindInteractor: IBindInteractor by lazy { BindInteractor(context) }

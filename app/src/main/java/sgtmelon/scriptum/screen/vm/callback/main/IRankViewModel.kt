@@ -6,7 +6,7 @@ import sgtmelon.scriptum.screen.vm.callback.IParentViewModel
 import sgtmelon.scriptum.screen.vm.main.RankViewModel
 
 /**
- * Interface for communication [RankFragment] with [RankViewModel]
+ * Interface for communication [RankFragment] with [RankViewModel].
  */
 interface IRankViewModel : IParentViewModel, RankTouchControl.Callback {
 

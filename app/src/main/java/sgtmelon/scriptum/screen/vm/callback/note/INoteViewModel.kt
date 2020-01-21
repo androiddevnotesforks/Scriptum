@@ -2,12 +2,13 @@ package sgtmelon.scriptum.screen.vm.callback.note
 
 import android.os.Bundle
 import sgtmelon.scriptum.model.annotation.Color
+import sgtmelon.scriptum.screen.ui.callback.note.INoteActivity
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.vm.callback.IParentViewModel
 import sgtmelon.scriptum.screen.vm.note.NoteViewModel
 
 /**
- * Interface for communication [NoteActivity] with [NoteViewModel]
+ * Interface for communication [NoteActivity] with [NoteViewModel].
  */
 interface INoteViewModel : IParentViewModel {
 

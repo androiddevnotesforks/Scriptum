@@ -7,7 +7,7 @@ import sgtmelon.scriptum.screen.ui.preference.PreferenceFragment
 import sgtmelon.scriptum.screen.vm.PreferenceViewModel
 
 /**
- * Interface for communication [PreferenceFragment] with [PreferenceViewModel]
+ * Interface for communication [PreferenceFragment] with [PreferenceViewModel].
  */
 interface IPreferenceViewModel : IParentViewModel {
 

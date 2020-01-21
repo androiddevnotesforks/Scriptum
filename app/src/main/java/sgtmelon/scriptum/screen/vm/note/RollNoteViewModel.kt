@@ -42,7 +42,11 @@ import java.util.*
 class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFragment>(application),
         IRollNoteViewModel {
 
-    var parentCallback: INoteChild? = null
+    private var parentCallback: INoteChild? = null
+
+    fun setParentCallback(callback: INoteChild?) {
+        parentCallback = callback
+    }
 
     private val iInteractor: IRollNoteInteractor by lazy { RollNoteInteractor(context, callback) }
     private val iBindInteractor: IBindInteractor by lazy { BindInteractor(context) }

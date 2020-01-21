@@ -55,19 +55,19 @@ object ViewModelFactory {
 
     fun getAppViewModel(activity: AppCompatActivity): IAppViewModel {
         return ViewModelProvider(activity).get(AppViewModel::class.java).apply {
-            callback = activity as? IAppActivity
+            setCallback(activity as? IAppActivity)
         }
     }
 
     fun getSplashViewModel(activity: AppCompatActivity): ISplashViewModel {
         return ViewModelProvider(activity).get(SplashViewModel::class.java).apply {
-            callback = activity as? ISplashActivity
+            setCallback(activity as? ISplashActivity)
         }
     }
 
     fun getIntroViewModel(activity: AppCompatActivity): IIntroViewModel {
         return ViewModelProvider(activity).get(IntroViewModel::class.java).apply {
-            callback = activity as? IIntroActivity
+            setCallback(activity as? IIntroActivity)
         }
     }
 
@@ -75,21 +75,21 @@ object ViewModelFactory {
 
     fun getNoteViewModel(activity: AppCompatActivity): INoteViewModel {
         return ViewModelProvider(activity).get(NoteViewModel::class.java).apply {
-            callback = activity as? INoteActivity
+            setCallback(activity as? INoteActivity)
         }
     }
 
     fun getTextNoteViewModel(fragment: Fragment): ITextNoteViewModel {
         return ViewModelProvider(fragment).get(TextNoteViewModel::class.java).apply {
-            callback = fragment as? TextNoteFragment
-            parentCallback = fragment.context as? INoteChild
+            setCallback(fragment as? TextNoteFragment)
+            setParentCallback(fragment.context as? INoteChild)
         }
     }
 
     fun getRollNoteViewModel(fragment: Fragment): IRollNoteViewModel {
         return ViewModelProvider(fragment).get(RollNoteViewModel::class.java).apply {
-            callback = fragment as? RollNoteFragment
-            parentCallback = fragment.context as? INoteChild
+            setCallback(fragment as? RollNoteFragment)
+            setParentCallback(fragment.context as? INoteChild)
         }
     }
 
@@ -97,25 +97,25 @@ object ViewModelFactory {
 
     fun getMainViewModel(activity: AppCompatActivity): IMainViewModel {
         return ViewModelProvider(activity).get(MainViewModel::class.java).apply {
-            callback = activity as? IMainActivity
+            setCallback(activity as? IMainActivity)
         }
     }
 
     fun getRankViewModel(fragment: Fragment): IRankViewModel {
         return ViewModelProvider(fragment).get(RankViewModel::class.java).apply {
-            callback = fragment as? IRankFragment
+            setCallback(fragment as? IRankFragment)
         }
     }
 
     fun getNotesViewModel(fragment: Fragment): INotesViewModel {
         return ViewModelProvider(fragment).get(NotesViewModel::class.java).apply {
-            callback = fragment as? INotesFragment
+            setCallback(fragment as? INotesFragment)
         }
     }
 
     fun getBinViewModel(fragment: Fragment): IBinViewModel {
         return ViewModelProvider(fragment).get(BinViewModel::class.java).apply {
-            callback = fragment as? IBinFragment
+            setCallback(fragment as? IBinFragment)
         }
     }
 
@@ -123,13 +123,13 @@ object ViewModelFactory {
 
     fun getNotificationViewModel(activity: AppCompatActivity): INotificationViewModel {
         return ViewModelProvider(activity).get(NotificationViewModel::class.java).apply {
-            callback = activity as? INotificationActivity
+            setCallback(activity as? INotificationActivity)
         }
     }
 
     fun getAlarmViewModel(activity: AppCompatActivity): IAlarmViewModel {
         return ViewModelProvider(activity).get(AlarmViewModel::class.java).apply {
-            callback = activity as? IAlarmActivity
+            setCallback(activity as? IAlarmActivity)
         }
     }
 
@@ -137,7 +137,7 @@ object ViewModelFactory {
 
     fun getDevelopViewModel(activity: AppCompatActivity): IDevelopViewModel {
         return ViewModelProvider(activity).get(DevelopViewModel::class.java).apply {
-            callback = activity as? IDevelopActivity
+            setCallback(activity as? IDevelopActivity)
         }
     }
 

@@ -4,9 +4,9 @@ import sgtmelon.scriptum.screen.ui.AppActivity
 import sgtmelon.scriptum.screen.vm.AppViewModel
 
 /**
- * Interface for communication [AppActivity] with [AppViewModel]
+ * Interface for communication [AppActivity] with [AppViewModel].
  */
-interface IAppViewModel : IParentViewModel{
+interface IAppViewModel : IParentViewModel {
 
     fun isThemeChange(): Boolean
 

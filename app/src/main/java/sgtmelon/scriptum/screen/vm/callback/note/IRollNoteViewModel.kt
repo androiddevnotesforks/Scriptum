@@ -13,7 +13,7 @@ import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
 import java.util.*
 
 /**
- * Interface for communication [RollNoteFragment] with [RollNoteViewModel]
+ * Interface for communication [RollNoteFragment] with [RollNoteViewModel].
  */
 interface IRollNoteViewModel : IParentViewModel,
         INoteMenu,
