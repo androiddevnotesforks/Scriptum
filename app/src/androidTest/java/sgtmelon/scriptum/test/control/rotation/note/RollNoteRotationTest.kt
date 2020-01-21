@@ -105,9 +105,7 @@ class RollNoteRotationTest : ParentRotationTest() {
                 notesScreen {
                     openRollNote(it) {
                         controlPanel { onConvert { onClickYes() } }
-                        onRotate {
-                            TODO(reason = "#TEST write test")
-                        }
+                        onRotate { afterConvert() }
                     }
                 }
             }
@@ -121,6 +119,23 @@ class RollNoteRotationTest : ParentRotationTest() {
                     createRoll(it) {
                         controlPanel {
                             onColor {
+                                onClickItem()
+                                onRotate { assert() }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Test fun rankDialog() = data.fillRank(count = 3).let {
+        launch {
+            mainScreen {
+                openAddDialog {
+                    createRoll(data.createRoll()) {
+                        controlPanel {
+                            onRank(it) {
                                 onClickItem()
                                 onRotate { assert() }
                             }

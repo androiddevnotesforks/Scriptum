@@ -106,9 +106,7 @@ class TextNoteRotationTest : ParentRotationTest() {
                     openTextNote(it) {
                         controlPanel {
                             onConvert { onClickYes() }
-                            onRotate {
-                                TODO(reason = "#TEST write test")
-                            }
+                            onRotate { afterConvert() }
                         }
                     }
                 }
@@ -123,6 +121,23 @@ class TextNoteRotationTest : ParentRotationTest() {
                     createText(it) {
                         controlPanel {
                             onColor {
+                                onClickItem()
+                                onRotate { assert() }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Test fun rankDialog() = data.fillRank(count = 3).let {
+        launch {
+            mainScreen {
+                openAddDialog {
+                    createText(data.createText()) {
+                        controlPanel {
+                            onRank(it) {
                                 onClickItem()
                                 onRotate { assert() }
                             }

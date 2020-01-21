@@ -56,12 +56,6 @@ class Note {
 
 class Rotation {
     /**
-     * TODO #TEST Finish tests:
-     * 1. [TextNoteRotationTest.convertDialogResult]
-     * 2. [RollNoteRotationTest.convertDialogResult]
-     */
-
-    /**
      * TODO #TEST - После конвертирования заметки и смены ориентации отображался не тот фрагмент
      * ... не обновлялся noteType внутри NoteViewModel
      * # Для текста
