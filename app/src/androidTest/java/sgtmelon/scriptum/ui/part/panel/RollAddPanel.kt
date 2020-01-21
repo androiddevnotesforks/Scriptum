@@ -30,9 +30,6 @@ class RollAddPanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi
             assert()
         }
 
-    /**
-     * TODO #TEST check add to list
-     */
     fun onAdd(text: String) {
         textEnter.typeText(text)
 

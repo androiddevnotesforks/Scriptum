@@ -133,7 +133,7 @@ class RollNoteRotationTest : ParentRotationTest() {
         launch {
             mainScreen {
                 openAddDialog {
-                    createRoll(data.createRoll()) {
+                    createRoll(data.createRoll(), isRankEmpty = false) {
                         controlPanel {
                             onRank(it) {
                                 onClickItem()

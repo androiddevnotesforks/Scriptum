@@ -135,7 +135,7 @@ class TextNoteRotationTest : ParentRotationTest() {
         launch {
             mainScreen {
                 openAddDialog {
-                    createText(data.createText()) {
+                    createText(data.createText(), isRankEmpty = false) {
                         controlPanel {
                             onRank(it) {
                                 onClickItem()

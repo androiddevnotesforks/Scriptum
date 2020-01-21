@@ -101,14 +101,22 @@ class TextNotePanelTest : ParentUiTest() {
     @Test fun actionOnCreateRank() = data.fillRank(count = 3).let {
         val item = data.createText()
         launch {
-            mainScreen { openAddDialog { createText(item) { controlPanel { onRank(it) } } } }
+            mainScreen {
+                openAddDialog {
+                    createText(item, isRankEmpty = false) { controlPanel { onRank(it) } }
+                }
+            }
         }
     }
 
     @Test fun actionOnEditRank() = data.fillRank(count = 3).let {
         val item = data.insertText()
         launch {
-            mainScreen { notesScreen { openTextNote(item) { controlPanel { onRank(it) } } } }
+            mainScreen {
+                notesScreen {
+                    openTextNote(item, isRankEmpty = false) { controlPanel { onRank(it) } }
+                }
+            }
         }
     }
 

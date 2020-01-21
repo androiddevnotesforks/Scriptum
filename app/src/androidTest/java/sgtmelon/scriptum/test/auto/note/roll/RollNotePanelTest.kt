@@ -110,14 +110,22 @@ class RollNotePanelTest : ParentUiTest() {
     @Test fun actionOnCreateRank() = data.fillRank(count = 3).let {
         val item = data.createRoll()
         launch {
-            mainScreen { openAddDialog { createRoll(item) { controlPanel { onRank(it) } } } }
+            mainScreen {
+                openAddDialog {
+                    createRoll(item, isRankEmpty = false) { controlPanel { onRank(it) } }
+                }
+            }
         }
     }
 
     @Test fun actionOnEditRank() = data.fillRank(count = 3).let {
         val item = data.insertRoll()
         launch {
-            mainScreen { notesScreen { openRollNote(item) { controlPanel { onRank(it) } } } }
+            mainScreen {
+                notesScreen {
+                    openRollNote(item, isRankEmpty = false) { controlPanel { onRank(it) } }
+                }
+            }
         }
     }
 
