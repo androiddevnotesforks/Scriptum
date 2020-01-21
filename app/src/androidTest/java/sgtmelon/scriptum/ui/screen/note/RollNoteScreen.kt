@@ -60,10 +60,15 @@ class RollNoteScreen(
         NotePanel.invoke(func, callback = this)
     }
 
-    fun onSwipeAll() = repeat(times = count) { onSwipe() }
+    fun onSwipeAll() {
+        repeat(times = count) { onSwipe() }
+    }
 
     fun onSwipe(p: Int = random) {
         waitAfter(SWIPE_TIME) { recyclerView.swipeItem(p) }
+
+        shadowItem.rollList.removeAt(p)
+
         assert()
     }
 
