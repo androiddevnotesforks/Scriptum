@@ -14,7 +14,6 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.NoteAdapter
 import sgtmelon.scriptum.control.alarm.AlarmControl
 import sgtmelon.scriptum.control.bind.BindControl
-import sgtmelon.scriptum.control.bind.IBindControl
 import sgtmelon.scriptum.control.clipboard.ClipboardControl
 import sgtmelon.scriptum.control.clipboard.IClipboardControl
 import sgtmelon.scriptum.databinding.FragmentNotesBinding
@@ -44,7 +43,7 @@ class NotesFragment : ParentFragment(), INotesFragment, MainReceiver.Callback {
 
     private var binding: FragmentNotesBinding? = null
 
-    private val iViewModel by lazy { ViewModelFactory.getNotesViewModel(fragment = this) }
+    private val iViewModel by lazy { ViewModelFactory.Main.get(fragment = this) }
 
     private val iAlarmControl by lazy { AlarmControl[context] }
     private val iBindControl by lazy { BindControl[context] }

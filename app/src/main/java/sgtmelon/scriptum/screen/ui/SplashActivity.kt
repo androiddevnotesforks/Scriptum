@@ -30,7 +30,7 @@ class SplashActivity : AppCompatActivity(), ISplashActivity {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
     }
 
-    private val iViewModel by lazy { ViewModelFactory.getSplashViewModel(activity = this) }
+    private val iViewModel by lazy { ViewModelFactory.get(activity = this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

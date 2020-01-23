@@ -26,7 +26,7 @@ class DevelopActivity : AppCompatActivity(), IDevelopActivity {
     // TODO #RELEASE2 activity: toolbar, fragment
     // TODO #RELEASE2 change toolbar text when change fragment
 
-    private val iViewModel by lazy { ViewModelFactory.getDevelopViewModel(activity = this) }
+    private val iViewModel by lazy { ViewModelFactory.get(activity = this) }
 
     private val introButton by lazy { findViewById<Button?>(R.id.develop_intro_button) }
 

@@ -13,7 +13,7 @@ import sgtmelon.scriptum.screen.ui.callback.IAppActivity
  */
 abstract class AppActivity : AppCompatActivity(), IAppActivity {
 
-    private val iViewModel by lazy { ViewModelFactory.getAppViewModel(activity = this) }
+    private val iViewModel by lazy { ViewModelFactory.get(activity = this) }
 
     protected val fm get() = supportFragmentManager
 

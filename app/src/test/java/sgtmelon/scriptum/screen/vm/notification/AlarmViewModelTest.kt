@@ -4,12 +4,10 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.verify
 import org.junit.Assert.*
 import org.junit.Test
-import sgtmelon.scriptum.ParentTest
 import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.annotation.Repeat
 import sgtmelon.scriptum.screen.ui.callback.notification.IAlarmActivity
-import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
 import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel.Companion.getRepeatById
 import kotlin.random.Random
 
@@ -27,6 +25,13 @@ class AlarmViewModelTest : ParentViewModelTest() {
         super.setUp()
 
         viewModel.setCallback(callback)
+        assertEquals(callback, viewModel.callback)
+    }
+
+    @Test override fun onDestroy() {
+        assertNotNull(viewModel.callback)
+//        viewModel.onDestroy()
+//        assertNull(viewModel.callback)
     }
 
 

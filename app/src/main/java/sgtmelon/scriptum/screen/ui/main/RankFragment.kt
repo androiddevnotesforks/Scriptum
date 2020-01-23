@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.RankAdapter
 import sgtmelon.scriptum.control.bind.BindControl
-import sgtmelon.scriptum.control.bind.IBindControl
 import sgtmelon.scriptum.control.touch.RankTouchControl
 import sgtmelon.scriptum.databinding.FragmentRankBinding
 import sgtmelon.scriptum.extension.addTextChangedListener
@@ -40,7 +39,7 @@ class RankFragment : ParentFragment(), IRankFragment {
 
     private var binding: FragmentRankBinding? = null
 
-    private val iViewModel by lazy { ViewModelFactory.getRankViewModel(fragment = this) }
+    private val iViewModel by lazy { ViewModelFactory.Main.get(fragment = this) }
 
     private val iBindControl by lazy { BindControl[context] }
 

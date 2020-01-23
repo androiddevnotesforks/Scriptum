@@ -17,7 +17,6 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.ShowHolderControl
 import sgtmelon.scriptum.control.alarm.AlarmControl
 import sgtmelon.scriptum.control.bind.BindControl
-import sgtmelon.scriptum.control.bind.IBindControl
 import sgtmelon.scriptum.extension.hideKeyboard
 import sgtmelon.scriptum.extension.initLazy
 import sgtmelon.scriptum.factory.DialogFactory
@@ -39,7 +38,7 @@ import java.util.*
  */
 class MainActivity : AppActivity(), IMainActivity {
 
-    private val iViewModel by lazy { ViewModelFactory.getMainViewModel(activity = this) }
+    private val iViewModel by lazy { ViewModelFactory.Main.get(activity = this) }
 
     private val iAlarmControl by lazy { AlarmControl[this] }
     private val iBindControl by lazy { BindControl[this] }

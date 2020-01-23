@@ -21,7 +21,7 @@ import sgtmelon.scriptum.screen.ui.main.MainActivity
  */
 class IntroActivity : AppCompatActivity(), IIntroActivity, ViewPager.OnPageChangeListener {
 
-    private val iViewModel by lazy { ViewModelFactory.getIntroViewModel(activity = this) }
+    private val iViewModel by lazy { ViewModelFactory.get(activity = this) }
 
     private val pagerAdapter = PagerAdapter(supportFragmentManager)
 

@@ -29,7 +29,7 @@ import sgtmelon.scriptum.screen.ui.callback.note.INoteChild
  */
 class NoteActivity : AppActivity(), INoteActivity, INoteChild, NoteReceiver.Callback {
 
-    private val iViewModel by lazy { ViewModelFactory.getNoteViewModel(activity = this) }
+    private val iViewModel by lazy { ViewModelFactory.Note.get(activity = this) }
 
     private val holderControl by lazy { ShowHolderControl(arrayOf(toolbarHolder, panelHolder)) }
 

@@ -38,7 +38,7 @@ class BinFragment : ParentFragment(), IBinFragment {
 
     private var binding: FragmentBinBinding? = null
 
-    private val iViewModel by lazy { ViewModelFactory.getBinViewModel(fragment = this) }
+    private val iViewModel by lazy { ViewModelFactory.Main.get(fragment = this) }
 
     private val iClipboardControl: IClipboardControl by lazy { ClipboardControl(context) }
 

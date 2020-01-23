@@ -27,4 +27,6 @@ abstract class ParentViewModelTest : ParentTest() {
         unmockkAll()
     }
 
+    abstract fun onDestroy()
+
 }

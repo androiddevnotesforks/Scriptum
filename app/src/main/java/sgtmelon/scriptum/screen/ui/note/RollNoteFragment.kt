@@ -23,7 +23,6 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.RollAdapter
 import sgtmelon.scriptum.control.alarm.AlarmControl
 import sgtmelon.scriptum.control.bind.BindControl
-import sgtmelon.scriptum.control.bind.IBindControl
 import sgtmelon.scriptum.control.input.IInputControl
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.control.input.watcher.InputTextWatcher
@@ -56,7 +55,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment, NoteReceiver.Callb
 
     private var binding: FragmentRollNoteBinding? = null
 
-    private val iViewModel by lazy { ViewModelFactory.getRollNoteViewModel(fragment = this) }
+    private val iViewModel by lazy { ViewModelFactory.Note.get(fragment = this) }
 
     private val iAlarmControl by lazy { AlarmControl[context] }
     private val iBindControl by lazy { BindControl[context] }

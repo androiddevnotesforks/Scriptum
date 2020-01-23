@@ -50,7 +50,7 @@ import java.util.*
  */
 class AlarmActivity : AppActivity(), IAlarmActivity {
 
-    private val iViewModel by lazy { ViewModelFactory.getAlarmViewModel(activity = this) }
+    private val iViewModel by lazy { ViewModelFactory.get(activity = this) }
 
     /**
      * [initLazy] not require because activity configChanges under control.

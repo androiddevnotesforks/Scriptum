@@ -18,6 +18,7 @@ import sgtmelon.scriptum.extension.initLazy
 import sgtmelon.scriptum.extension.isGranted
 import sgtmelon.scriptum.extension.toUri
 import sgtmelon.scriptum.factory.DialogFactory
+import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.key.PermissionResult
@@ -25,18 +26,19 @@ import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.model.state.PermissionState
 import sgtmelon.scriptum.screen.ui.DevelopActivity
 import sgtmelon.scriptum.screen.ui.callback.IPreferenceFragment
-import sgtmelon.scriptum.screen.vm.PreferenceViewModel
-import sgtmelon.scriptum.screen.vm.callback.IPreferenceViewModel
 
 /**
  * Fragment of preference
  */
 class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
 
+    /**
+     * TODO nullability.
+     */
     private val activity: PreferenceActivity by lazy { getActivity() as PreferenceActivity }
     private val fm: FragmentManager by lazy { activity.supportFragmentManager }
 
-    private val iViewModel: IPreferenceViewModel by lazy { PreferenceViewModel(activity, callback = this) }
+    private val iViewModel by lazy { ViewModelFactory.get(activity, callback = this) }
 
     private val openState = OpenState()
     private val externalPermissionState by lazy {

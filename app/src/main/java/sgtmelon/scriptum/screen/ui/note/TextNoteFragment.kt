@@ -14,7 +14,6 @@ import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.alarm.AlarmControl
 import sgtmelon.scriptum.control.bind.BindControl
-import sgtmelon.scriptum.control.bind.IBindControl
 import sgtmelon.scriptum.control.input.IInputControl
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.control.input.watcher.InputTextWatcher
@@ -43,7 +42,7 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment, NoteReceiver.Callb
 
     private var binding: FragmentTextNoteBinding? = null
 
-    private val iViewModel by lazy { ViewModelFactory.getTextNoteViewModel(fragment = this) }
+    private val iViewModel by lazy { ViewModelFactory.Note.get(fragment = this) }
 
     private val iAlarmControl by lazy { AlarmControl[context] }
     private val iBindControl by lazy { BindControl[context] }
