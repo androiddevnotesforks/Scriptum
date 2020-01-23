@@ -37,7 +37,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         IAlarmViewModel {
 
     private val iInteractor: IAlarmInteractor by lazy { AlarmInteractor(context, callback) }
-    private val iSignalInteractor: ISignalInteractor = SignalInteractor(context)
+    private val iSignalInteractor: ISignalInteractor by lazy { SignalInteractor(context) }
     private val iBindInteractor: IBindInteractor by lazy { BindInteractor(context) }
 
     private var id: Long = NoteData.Default.ID

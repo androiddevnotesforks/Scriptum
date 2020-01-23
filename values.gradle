@@ -60,11 +60,8 @@ ext {
             core: "junit:junit:4.12"
     ]
 
-    powermock = [
-            module      : "org.powermock:powermock-module-junit4:2.0.2",
-            rule        : "org.powermock:powermock-module-junit4-rule:2.0.2",
-            api         : "org.powermock:powermock-api-mockito:1.7.4",
-            classloading: "org.powermock:powermock-classloading-xstream:2.0.2"
+    mockk = [
+            core: "io.mockk:mockk:1.9.3"
     ]
 
     json = [

@@ -5,7 +5,7 @@ import org.junit.After
 import org.junit.Before
 
 /**
- * Parent class for Unit tests
+ * Parent class for Unit tests.
  */
 abstract class ParentTest {
 

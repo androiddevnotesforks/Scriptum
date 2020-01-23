@@ -120,12 +120,9 @@ dependencies {
 
     androidTestImplementation jetbrains.coroutines.test
 
-    testImplementation powermock.module
-    testImplementation powermock.rule
-    testImplementation powermock.api
-    testImplementation powermock.classloading
-
+    testImplementation mockk.core
     testImplementation json.core
 
     //endregion
+    
 }
