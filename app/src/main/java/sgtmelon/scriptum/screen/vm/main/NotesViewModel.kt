@@ -187,7 +187,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
 
 
     /**
-     * Calls on cancel note bind from status bar for update bind indicator.
+     * Calls on note notification cancel from status bar for update bind indicator.
      */
     override fun onReceiveUnbindNote(id: Long) {
         val p = itemList.indexOfFirst { it.id == id }

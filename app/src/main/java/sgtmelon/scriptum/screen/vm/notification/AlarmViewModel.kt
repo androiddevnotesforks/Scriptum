@@ -161,8 +161,18 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         repeatFinish(repeat)
     }
 
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun getRepeatById(@IdRes itemId: Int): Int? = when(itemId) {
+        R.id.item_repeat_0 -> Repeat.MIN_10
+        R.id.item_repeat_1 -> Repeat.MIN_30
+        R.id.item_repeat_2 -> Repeat.MIN_60
+        R.id.item_repeat_3 -> Repeat.MIN_180
+        R.id.item_repeat_4 -> Repeat.MIN_1440
+        else -> null
+    }
+
     /**
-     * Call this when need setup alarm repeat.
+     * Call this when need set alarm repeat with screen finish.
      */
     private fun repeatFinish(@Repeat repeat: Int = iInteractor.repeat) {
         viewModelScope.launch {
@@ -180,7 +190,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     }
 
     /**
-     * Calls on cancel note bind from status bar for update bind indicator.
+     * Calls on note notification cancel from status bar for update bind indicator.
      */
     override fun onReceiveUnbindNote(id: Long) {
         if (this.id != id) return
@@ -188,21 +198,12 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         callback?.notifyList(noteItem.apply { isStatus = false })
     }
 
+
     companion object {
         private const val START_DELAY = 0L
         const val CANCEL_DELAY = 20000L
 
         private val vibratorPattern = longArrayOf(500, 750, 500, 750, 500, 0)
-
-        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-        fun getRepeatById(@IdRes itemId: Int): Int? = when(itemId) {
-            R.id.item_repeat_0 -> Repeat.MIN_10
-            R.id.item_repeat_1 -> Repeat.MIN_30
-            R.id.item_repeat_2 -> Repeat.MIN_60
-            R.id.item_repeat_3 -> Repeat.MIN_180
-            R.id.item_repeat_4 -> Repeat.MIN_1440
-            else -> null
-        }
     }
 
 }

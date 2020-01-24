@@ -14,7 +14,7 @@ abstract class ParentInteractor(context: Context) {
     protected val iPreferenceRepo: IPreferenceRepo = PreferenceRepo(context)
 
     /**
-     * Same func like in [IParentInteractor] use for clear callback when cause [onDestroy]
+     * Same func like in [IParentInteractor], use for clear callback when cause [onDestroy]
      */
     @CallSuper open fun onDestroy(func: () -> Unit = {}) {}
 
