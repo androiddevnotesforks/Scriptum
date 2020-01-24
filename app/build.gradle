@@ -83,6 +83,9 @@ dependencies {
 
     implementation google.material
 
+    implementation google.dagger.core
+    kapt google.dagger.compiler
+
     //region AndroidX
 
     implementation androidx.lifecycle.extensions
