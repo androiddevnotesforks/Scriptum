@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.interactor.main
 
-import android.content.Context
 import sgtmelon.extension.getText
 import sgtmelon.scriptum.interactor.ParentInteractor
 import sgtmelon.scriptum.interactor.callback.main.INotesInteractor
@@ -8,27 +7,25 @@ import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.repository.room.AlarmRepo
+import sgtmelon.scriptum.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.repository.room.callback.INoteRepo
-import sgtmelon.scriptum.repository.room.NoteRepo
 import sgtmelon.scriptum.repository.room.callback.IRankRepo
-import sgtmelon.scriptum.repository.room.RankRepo
 import sgtmelon.scriptum.screen.ui.callback.main.INotesBridge
 import sgtmelon.scriptum.screen.vm.main.NotesViewModel
 import java.util.*
 
 /**
- * Interactor for [NotesViewModel]
+ * Interactor for [NotesViewModel].
  */
-class NotesInteractor(context: Context, private var callback: INotesBridge?) :
-        ParentInteractor(context),
+class NotesInteractor(
+        private val iPreferenceRepo: IPreferenceRepo,
+        private val iNoteRepo: INoteRepo,
+        private val iAlarmRepo: IAlarmRepo,
+        private val iRankRepo: IRankRepo,
+        private var callback: INotesBridge?
+) : ParentInteractor(),
         INotesInteractor {
-
-    private val iNoteRepo: INoteRepo = NoteRepo(context)
-    private val iAlarmRepo: IAlarmRepo = AlarmRepo(context)
-    private val iRankRepo: IRankRepo = RankRepo(context)
-
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy { callback = null }
 

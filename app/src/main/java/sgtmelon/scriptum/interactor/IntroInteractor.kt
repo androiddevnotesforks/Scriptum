@@ -1,13 +1,13 @@
 package sgtmelon.scriptum.interactor
 
-import android.content.Context
 import sgtmelon.scriptum.interactor.callback.IIntroInteractor
+import sgtmelon.scriptum.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.screen.vm.IntroViewModel
 
 /**
- * Interactor for [IntroViewModel]
+ * Interactor for [IntroViewModel].
  */
-class IntroInteractor(context: Context) : ParentInteractor(context), IIntroInteractor {
+class IntroInteractor(private val iPreferenceRepo: IPreferenceRepo) : ParentInteractor(), IIntroInteractor {
 
     override fun onIntroFinish() {
         iPreferenceRepo.firstStart = false

@@ -1,10 +1,10 @@
 package sgtmelon.scriptum.interactor.notification
 
-import android.content.Context
 import sgtmelon.scriptum.interactor.ParentInteractor
 import sgtmelon.scriptum.interactor.callback.notification.INotificationInteractor
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NotificationItem
+import sgtmelon.scriptum.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.repository.room.AlarmRepo
 import sgtmelon.scriptum.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.repository.room.BindRepo
@@ -13,14 +13,15 @@ import sgtmelon.scriptum.screen.ui.callback.notification.INotificationBridge
 import sgtmelon.scriptum.screen.vm.notification.NotificationViewModel
 
 /**
- * Interactor for [NotificationViewModel]
+ * Interactor for [NotificationViewModel].
  */
-class NotificationInteractor(context: Context, private var callback: INotificationBridge?) :
-        ParentInteractor(context),
+class NotificationInteractor(
+        private val iPreferenceRepo: IPreferenceRepo,
+        private val iAlarmRepo: IAlarmRepo,
+        private val iBindRepo: IBindRepo,
+        private var callback: INotificationBridge?
+) : ParentInteractor(),
         INotificationInteractor {
-
-    private val iAlarmRepo: IAlarmRepo = AlarmRepo(context)
-    private val iBindRepo: IBindRepo = BindRepo(context)
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy { callback = null }
 

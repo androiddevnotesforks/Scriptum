@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.interactor.note
 
-import android.content.Context
 import sgtmelon.extension.getText
 import sgtmelon.scriptum.control.SaveControl
 import sgtmelon.scriptum.interactor.ParentInteractor
@@ -8,26 +7,25 @@ import sgtmelon.scriptum.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.repository.room.AlarmRepo
+import sgtmelon.scriptum.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.repository.room.callback.INoteRepo
-import sgtmelon.scriptum.repository.room.NoteRepo
 import sgtmelon.scriptum.repository.room.callback.IRankRepo
-import sgtmelon.scriptum.repository.room.RankRepo
 import sgtmelon.scriptum.screen.ui.callback.note.text.ITextNoteBridge
 import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel
 import java.util.*
 
 /**
- * Interactor for [TextNoteViewModel]
+ * Interactor for [TextNoteViewModel].
  */
-class TextNoteInteractor(context: Context, private var callback: ITextNoteBridge?) :
-        ParentInteractor(context),
+class TextNoteInteractor(
+        private val iPreferenceRepo: IPreferenceRepo,
+        private val iAlarmRepo: IAlarmRepo,
+        private val iRankRepo: IRankRepo,
+        private val iNoteRepo: INoteRepo,
+        private var callback: ITextNoteBridge?
+) : ParentInteractor(),
         ITextNoteInteractor {
-
-    private val iAlarmRepo: IAlarmRepo = AlarmRepo(context)
-    private val iRankRepo: IRankRepo = RankRepo(context)
-    private val iNoteRepo: INoteRepo = NoteRepo(context)
 
     private var rankIdVisibleList: List<Long>? = null
 

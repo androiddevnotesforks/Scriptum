@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.screen.vm
 
 import android.content.Context
+import android.media.RingtoneManager
 import android.os.Bundle
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.toUri
@@ -24,7 +25,7 @@ import sgtmelon.scriptum.screen.vm.callback.IPreferenceViewModel
 class PreferenceViewModel(private val context: Context, var callback: IPreferenceFragment?) :
         IPreferenceViewModel {
 
-    private val iSignalInteractor : ISignalInteractor = SignalInteractor(context)
+    private val iSignalInteractor : ISignalInteractor = SignalInteractor(PreferenceRepo(context), RingtoneManager(context))
     private val iPreferenceRepo: IPreferenceRepo = PreferenceRepo(context)
 
     private val summary = SummaryProvider(context)

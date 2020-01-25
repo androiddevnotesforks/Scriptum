@@ -1,23 +1,23 @@
 package sgtmelon.scriptum.interactor.main
 
-import android.content.Context
 import sgtmelon.scriptum.interactor.ParentInteractor
 import sgtmelon.scriptum.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
+import sgtmelon.scriptum.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.repository.room.callback.INoteRepo
-import sgtmelon.scriptum.repository.room.NoteRepo
 import sgtmelon.scriptum.screen.ui.callback.main.IBinBridge
 import sgtmelon.scriptum.screen.vm.main.BinViewModel
 
 /**
- * Interactor for [BinViewModel]
+ * Interactor for [BinViewModel].
  */
-class BinInteractor(context: Context, private var callback: IBinBridge?) :
-        ParentInteractor(context),
+class BinInteractor(
+        private val iPreferenceRepo: IPreferenceRepo,
+        private val iNoteRepo: INoteRepo,
+        private var callback: IBinBridge?
+) : ParentInteractor(),
         IBinInteractor {
-
-    private val iNoteRepo: INoteRepo = NoteRepo(context)
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy { callback = null }
 

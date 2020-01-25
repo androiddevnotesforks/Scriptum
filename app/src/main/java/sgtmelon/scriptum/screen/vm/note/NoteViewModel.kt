@@ -7,18 +7,19 @@ import sgtmelon.scriptum.interactor.note.NoteInteractor
 import sgtmelon.scriptum.model.data.NoteData.Default
 import sgtmelon.scriptum.model.data.NoteData.Intent
 import sgtmelon.scriptum.model.key.NoteType
+import sgtmelon.scriptum.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.screen.ui.callback.note.INoteActivity
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.vm.ParentViewModel
 import sgtmelon.scriptum.screen.vm.callback.note.INoteViewModel
 
 /**
- * ViewModel for [NoteActivity]
+ * ViewModel for [NoteActivity].
  */
 class NoteViewModel(application: Application) : ParentViewModel<INoteActivity>(application),
         INoteViewModel {
 
-    private val iInteractor: INoteInteractor by lazy { NoteInteractor(context) }
+    private val iInteractor: INoteInteractor by lazy { NoteInteractor(PreferenceRepo(context)) }
 
     private var id: Long = Default.ID
     private var color: Int = Default.COLOR

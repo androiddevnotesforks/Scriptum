@@ -6,6 +6,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.interactor.AppInteractor
 import sgtmelon.scriptum.interactor.callback.IAppInteractor
 import sgtmelon.scriptum.model.annotation.Theme
+import sgtmelon.scriptum.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.screen.ui.AppActivity
 import sgtmelon.scriptum.screen.ui.callback.IAppActivity
 import sgtmelon.scriptum.screen.vm.callback.IAppViewModel
@@ -16,7 +17,7 @@ import sgtmelon.scriptum.screen.vm.callback.IAppViewModel
 class AppViewModel(application: Application) : ParentViewModel<IAppActivity>(application),
         IAppViewModel {
 
-    private val iInteractor: IAppInteractor = AppInteractor(context)
+    private val iInteractor: IAppInteractor = AppInteractor(PreferenceRepo(context))
 
     @Theme private var theme: Int = iInteractor.theme
 

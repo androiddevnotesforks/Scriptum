@@ -1,19 +1,21 @@
 package sgtmelon.scriptum.interactor.main
 
-import android.content.Context
 import sgtmelon.extension.beforeNow
 import sgtmelon.extension.getCalendar
 import sgtmelon.scriptum.interactor.ParentInteractor
 import sgtmelon.scriptum.interactor.callback.main.IMainInteractor
-import sgtmelon.scriptum.repository.room.AlarmRepo
 import sgtmelon.scriptum.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.screen.ui.callback.main.IMainBridge
+import sgtmelon.scriptum.screen.vm.main.MainViewModel
 
-class MainInteractor(context: Context, private var callback: IMainBridge?) :
-        ParentInteractor(context),
+/**
+ * Interactor for [MainViewModel]
+ */
+class MainInteractor(
+        private val iAlarmRepo: IAlarmRepo,
+        private var callback: IMainBridge?
+) : ParentInteractor(),
         IMainInteractor {
-
-    private val iAlarmRepo: IAlarmRepo = AlarmRepo(context)
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy { callback = null }
 

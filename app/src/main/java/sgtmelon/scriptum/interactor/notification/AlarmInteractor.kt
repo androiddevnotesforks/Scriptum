@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.interactor.notification
 
-import android.content.Context
 import sgtmelon.extension.clearSeconds
 import sgtmelon.extension.getText
 import sgtmelon.scriptum.interactor.ParentInteractor
@@ -8,23 +7,23 @@ import sgtmelon.scriptum.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.model.annotation.Repeat
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.repository.room.AlarmRepo
+import sgtmelon.scriptum.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.repository.room.callback.INoteRepo
-import sgtmelon.scriptum.repository.room.NoteRepo
 import sgtmelon.scriptum.screen.ui.callback.notification.IAlarmBridge
 import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
 import java.util.*
 
 /**
- * Interactor for [AlarmViewModel]
+ * Interactor for [AlarmViewModel].
  */
-class AlarmInteractor(context: Context, private var callback: IAlarmBridge?) :
-        ParentInteractor(context),
+class AlarmInteractor(
+        private val iPreferenceRepo: IPreferenceRepo,
+        private val iAlarmRepo: IAlarmRepo,
+        private val iNoteRepo: INoteRepo,
+        private var callback: IAlarmBridge?
+) : ParentInteractor(),
         IAlarmInteractor {
-
-    private val iAlarmRepo: IAlarmRepo = AlarmRepo(context)
-    private val iNoteRepo: INoteRepo = NoteRepo(context)
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy { callback = null }
 

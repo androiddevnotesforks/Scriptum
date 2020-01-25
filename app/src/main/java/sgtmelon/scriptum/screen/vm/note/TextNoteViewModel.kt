@@ -24,6 +24,11 @@ import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.IconState
 import sgtmelon.scriptum.model.state.NoteState
+import sgtmelon.scriptum.repository.preference.PreferenceRepo
+import sgtmelon.scriptum.repository.room.AlarmRepo
+import sgtmelon.scriptum.repository.room.BindRepo
+import sgtmelon.scriptum.repository.room.NoteRepo
+import sgtmelon.scriptum.repository.room.RankRepo
 import sgtmelon.scriptum.room.converter.model.StringConverter
 import sgtmelon.scriptum.screen.ui.callback.note.INoteChild
 import sgtmelon.scriptum.screen.ui.callback.note.text.ITextNoteFragment
@@ -33,7 +38,7 @@ import sgtmelon.scriptum.screen.vm.callback.note.ITextNoteViewModel
 import java.util.*
 
 /**
- * ViewModel for [TextNoteFragment]
+ * ViewModel for [TextNoteFragment].
  */
 class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFragment>(application),
         ITextNoteViewModel {
@@ -44,8 +49,17 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         parentCallback = callback
     }
 
-    private val iInteractor: ITextNoteInteractor by lazy { TextNoteInteractor(context, callback) }
-    private val iBindInteractor: IBindInteractor by lazy { BindInteractor(context) }
+    private val iInteractor: ITextNoteInteractor by lazy {
+        TextNoteInteractor(
+                PreferenceRepo(context), AlarmRepo(context), RankRepo(context),
+                NoteRepo(context), callback
+        )
+    }
+    private val iBindInteractor: IBindInteractor by lazy {
+        BindInteractor(
+                PreferenceRepo(context), BindRepo(context), RankRepo(context), NoteRepo(context)
+        )
+    }
 
     private val saveControl by lazy { SaveControl(context, iInteractor.getSaveModel(), callback = this) }
     private val inputControl = InputControl()

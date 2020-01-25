@@ -1,14 +1,13 @@
 package sgtmelon.scriptum.interactor
 
-import android.content.Context
 import sgtmelon.scriptum.interactor.callback.ISplashInteractor
+import sgtmelon.scriptum.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.screen.vm.SplashViewModel
 
 /**
- * Interactor for [SplashViewModel]
+ * Interactor for [SplashViewModel].
  */
-class SplashInteractor(context: Context) :
-        ParentInteractor(context),
+class SplashInteractor(private val iPreferenceRepo: IPreferenceRepo) : ParentInteractor(),
         ISplashInteractor {
 
     override val firstStart: Boolean get() = iPreferenceRepo.firstStart

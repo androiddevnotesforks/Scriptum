@@ -1,22 +1,23 @@
 package sgtmelon.scriptum.interactor.notification
 
-import android.content.Context
 import android.media.RingtoneManager
 import sgtmelon.scriptum.interactor.ParentInteractor
 import sgtmelon.scriptum.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.model.annotation.Signal
 import sgtmelon.scriptum.model.item.MelodyItem
 import sgtmelon.scriptum.model.state.SignalState
+import sgtmelon.scriptum.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.room.converter.type.IntConverter
 import java.util.*
 
 /**
- * Interactor for work with alarm signal
+ * Interactor for work with alarm signal.
  */
-class SignalInteractor(private val context: Context) : ParentInteractor(context),
+class SignalInteractor(
+        private val iPreferenceRepo: IPreferenceRepo,
+        private val ringtoneManager: RingtoneManager
+) : ParentInteractor(),
         ISignalInteractor {
-
-    private val ringtoneManager get() = RingtoneManager(context)
 
     override val signalCheck: BooleanArray
         get() = IntConverter().toArray(iPreferenceRepo.signal, Signal.digitCount)

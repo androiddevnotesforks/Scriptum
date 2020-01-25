@@ -9,6 +9,8 @@ import sgtmelon.scriptum.extension.clearAddAll
 import sgtmelon.scriptum.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.interactor.main.BinInteractor
 import sgtmelon.scriptum.model.item.NoteItem
+import sgtmelon.scriptum.repository.preference.PreferenceRepo
+import sgtmelon.scriptum.repository.room.NoteRepo
 import sgtmelon.scriptum.screen.ui.callback.main.IBinFragment
 import sgtmelon.scriptum.screen.ui.main.BinFragment
 import sgtmelon.scriptum.screen.vm.ParentViewModel
@@ -16,12 +18,14 @@ import sgtmelon.scriptum.screen.vm.callback.main.IBinViewModel
 import sgtmelon.scriptum.model.annotation.Options.Bin as Options
 
 /**
- * ViewModel for [BinFragment]
+ * ViewModel for [BinFragment].
  */
 class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(application),
         IBinViewModel {
 
-    private val iInteractor: IBinInteractor by lazy { BinInteractor(context, callback) }
+    private val iInteractor: IBinInteractor by lazy {
+        BinInteractor(PreferenceRepo(context), NoteRepo(context), callback)
+    }
 
     private val itemList: MutableList<NoteItem> = ArrayList()
 

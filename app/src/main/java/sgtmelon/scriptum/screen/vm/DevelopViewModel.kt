@@ -11,7 +11,7 @@ import sgtmelon.scriptum.screen.ui.callback.IDevelopActivity
 import sgtmelon.scriptum.screen.vm.callback.IDevelopViewModel
 
 /**
- * ViewModel for [DevelopActivity]
+ * ViewModel for [DevelopActivity].
  */
 class DevelopViewModel(application: Application) : ParentViewModel<IDevelopActivity>(application),
         IDevelopViewModel {
