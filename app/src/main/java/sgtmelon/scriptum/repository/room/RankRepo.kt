@@ -1,10 +1,11 @@
-package sgtmelon.scriptum.repository.rank
+package sgtmelon.scriptum.repository.room
 
 import android.content.Context
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.data.DbData
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RankItem
+import sgtmelon.scriptum.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.room.IRoomWork
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.converter.model.RankConverter

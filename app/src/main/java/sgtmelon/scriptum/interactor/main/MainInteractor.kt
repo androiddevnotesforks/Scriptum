@@ -5,8 +5,8 @@ import sgtmelon.extension.beforeNow
 import sgtmelon.extension.getCalendar
 import sgtmelon.scriptum.interactor.ParentInteractor
 import sgtmelon.scriptum.interactor.callback.main.IMainInteractor
-import sgtmelon.scriptum.repository.alarm.AlarmRepo
-import sgtmelon.scriptum.repository.alarm.IAlarmRepo
+import sgtmelon.scriptum.repository.room.AlarmRepo
+import sgtmelon.scriptum.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.screen.ui.callback.main.IMainBridge
 
 class MainInteractor(context: Context, private var callback: IMainBridge?) :

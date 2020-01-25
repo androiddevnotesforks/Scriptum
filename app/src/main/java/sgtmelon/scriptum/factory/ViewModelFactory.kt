@@ -128,7 +128,7 @@ object ViewModelFactory {
         }
     }
 
-    fun get(context: Context, callback: IPreferenceFragment?): IPreferenceViewModel {
+    fun get(context: Context, callback: IPreferenceFragment): IPreferenceViewModel {
         return PreferenceViewModel(context, callback)
     }
 

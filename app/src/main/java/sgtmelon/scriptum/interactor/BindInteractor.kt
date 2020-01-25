@@ -3,12 +3,12 @@ package sgtmelon.scriptum.interactor
 import android.content.Context
 import sgtmelon.scriptum.control.bind.BindControl
 import sgtmelon.scriptum.interactor.callback.IBindInteractor
-import sgtmelon.scriptum.repository.bind.BindRepo
-import sgtmelon.scriptum.repository.bind.IBindRepo
-import sgtmelon.scriptum.repository.note.INoteRepo
-import sgtmelon.scriptum.repository.note.NoteRepo
-import sgtmelon.scriptum.repository.rank.IRankRepo
-import sgtmelon.scriptum.repository.rank.RankRepo
+import sgtmelon.scriptum.repository.room.BindRepo
+import sgtmelon.scriptum.repository.room.callback.IBindRepo
+import sgtmelon.scriptum.repository.room.callback.INoteRepo
+import sgtmelon.scriptum.repository.room.NoteRepo
+import sgtmelon.scriptum.repository.room.callback.IRankRepo
+import sgtmelon.scriptum.repository.room.RankRepo
 
 /**
  * Interactor for binding notification in status bar

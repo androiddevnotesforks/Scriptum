@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.repository.note
+package sgtmelon.scriptum.repository.room.callback
 
 import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.item.NoteItem

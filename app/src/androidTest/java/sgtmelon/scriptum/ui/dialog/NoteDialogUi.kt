@@ -9,8 +9,8 @@ import sgtmelon.scriptum.basic.extension.isEnabled
 import sgtmelon.scriptum.model.data.DbData
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.repository.note.NoteRepo.Companion.onConvertRoll
-import sgtmelon.scriptum.repository.note.NoteRepo.Companion.onConvertText
+import sgtmelon.scriptum.repository.room.NoteRepo.Companion.onConvertRoll
+import sgtmelon.scriptum.repository.room.NoteRepo.Companion.onConvertText
 import sgtmelon.scriptum.ui.IDialogUi
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.dialog.time.DateDialogUi

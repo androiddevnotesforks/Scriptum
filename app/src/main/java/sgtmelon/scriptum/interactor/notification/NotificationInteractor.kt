@@ -5,10 +5,10 @@ import sgtmelon.scriptum.interactor.ParentInteractor
 import sgtmelon.scriptum.interactor.callback.notification.INotificationInteractor
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NotificationItem
-import sgtmelon.scriptum.repository.alarm.AlarmRepo
-import sgtmelon.scriptum.repository.alarm.IAlarmRepo
-import sgtmelon.scriptum.repository.bind.BindRepo
-import sgtmelon.scriptum.repository.bind.IBindRepo
+import sgtmelon.scriptum.repository.room.AlarmRepo
+import sgtmelon.scriptum.repository.room.callback.IAlarmRepo
+import sgtmelon.scriptum.repository.room.BindRepo
+import sgtmelon.scriptum.repository.room.callback.IBindRepo
 import sgtmelon.scriptum.screen.ui.callback.notification.INotificationBridge
 import sgtmelon.scriptum.screen.vm.notification.NotificationViewModel
 

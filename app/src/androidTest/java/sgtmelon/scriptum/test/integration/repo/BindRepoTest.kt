@@ -5,8 +5,8 @@ import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.repository.bind.BindRepo
-import sgtmelon.scriptum.repository.bind.IBindRepo
+import sgtmelon.scriptum.repository.room.BindRepo
+import sgtmelon.scriptum.repository.room.callback.IBindRepo
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.entity.AlarmEntity
 import sgtmelon.scriptum.room.entity.NoteEntity

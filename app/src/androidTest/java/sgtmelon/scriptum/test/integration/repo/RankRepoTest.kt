@@ -7,8 +7,8 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.data.DbData
 import sgtmelon.scriptum.model.item.RankItem
-import sgtmelon.scriptum.repository.rank.IRankRepo
-import sgtmelon.scriptum.repository.rank.RankRepo
+import sgtmelon.scriptum.repository.room.callback.IRankRepo
+import sgtmelon.scriptum.repository.room.RankRepo
 import sgtmelon.scriptum.room.converter.model.NoteConverter
 import sgtmelon.scriptum.room.converter.model.RankConverter
 import sgtmelon.scriptum.room.entity.NoteEntity

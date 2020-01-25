@@ -8,8 +8,6 @@ import sgtmelon.scriptum.basic.extension.isEnabled
 import sgtmelon.scriptum.basic.extension.withTextColor
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.repository.note.NoteRepo.Companion.onConvertRoll
-import sgtmelon.scriptum.repository.note.NoteRepo.Companion.onConvertText
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.ui.IDialogUi
 import sgtmelon.scriptum.ui.ParentUi

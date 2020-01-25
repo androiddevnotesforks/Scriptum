@@ -7,8 +7,8 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.repository.alarm.AlarmRepo
-import sgtmelon.scriptum.repository.alarm.IAlarmRepo
+import sgtmelon.scriptum.repository.room.AlarmRepo
+import sgtmelon.scriptum.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.room.converter.model.NoteConverter
 import sgtmelon.scriptum.room.dao.IAlarmDao
 import sgtmelon.scriptum.room.entity.AlarmEntity

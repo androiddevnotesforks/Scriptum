@@ -4,8 +4,8 @@ import android.content.Context
 import sgtmelon.scriptum.interactor.ParentInteractor
 import sgtmelon.scriptum.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.model.item.RankItem
-import sgtmelon.scriptum.repository.rank.IRankRepo
-import sgtmelon.scriptum.repository.rank.RankRepo
+import sgtmelon.scriptum.repository.room.callback.IRankRepo
+import sgtmelon.scriptum.repository.room.RankRepo
 import sgtmelon.scriptum.screen.vm.main.RankViewModel
 
 /**

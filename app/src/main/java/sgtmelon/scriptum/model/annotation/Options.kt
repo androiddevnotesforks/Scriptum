@@ -9,7 +9,7 @@ import sgtmelon.scriptum.screen.vm.main.NotesViewModel
 /**
  * Describes menu options for [NotesFragment]/[NotesViewModel] and [BinFragment]/[BinViewModel]
  */
-object Options {
+annotation class Options {
 
     @IntDef(Notes.BIND, Notes.CONVERT, Notes.COPY, Notes.DELETE)
     annotation class Notes {

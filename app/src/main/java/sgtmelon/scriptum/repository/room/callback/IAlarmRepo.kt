@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.repository.alarm
+package sgtmelon.scriptum.repository.room.callback
 
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.NotificationItem

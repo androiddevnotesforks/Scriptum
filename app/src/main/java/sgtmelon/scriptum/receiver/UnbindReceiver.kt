@@ -13,7 +13,7 @@ import sgtmelon.scriptum.model.data.ReceiverData.Command
 import sgtmelon.scriptum.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.model.data.ReceiverData.Values
 import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.repository.bind.BindRepo
+import sgtmelon.scriptum.repository.room.BindRepo
 
 /**
  * Receiver for handle click on unbind button in [BindControl]

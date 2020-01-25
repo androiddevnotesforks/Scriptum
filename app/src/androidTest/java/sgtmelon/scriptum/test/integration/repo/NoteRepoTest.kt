@@ -8,9 +8,9 @@ import sgtmelon.scriptum.extension.getText
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.repository.note.INoteRepo
-import sgtmelon.scriptum.repository.note.NoteRepo
-import sgtmelon.scriptum.repository.note.NoteRepo.Companion.onConvertRoll
+import sgtmelon.scriptum.repository.room.callback.INoteRepo
+import sgtmelon.scriptum.repository.room.NoteRepo
+import sgtmelon.scriptum.repository.room.NoteRepo.Companion.onConvertRoll
 import sgtmelon.scriptum.room.converter.model.NoteConverter
 import sgtmelon.scriptum.room.converter.model.RollConverter
 import sgtmelon.scriptum.room.entity.AlarmEntity

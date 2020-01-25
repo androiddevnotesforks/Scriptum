@@ -1,4 +1,6 @@
-package sgtmelon.scriptum.repository.develop
+package sgtmelon.scriptum.repository.room.callback
+
+import sgtmelon.scriptum.repository.room.DevelopRepo
 
 /**
  * Interface for communicate with [DevelopRepo]

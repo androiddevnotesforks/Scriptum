@@ -1,7 +1,8 @@
-package sgtmelon.scriptum.repository.rank
+package sgtmelon.scriptum.repository.room.callback
 
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RankItem
+import sgtmelon.scriptum.repository.room.RankRepo
 
 /**
  * Interface for communicate with [RankRepo]

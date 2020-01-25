@@ -1,20 +1,20 @@
-package sgtmelon.scriptum.repository.develop
+package sgtmelon.scriptum.repository.room
 
 import android.content.Context
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
+import sgtmelon.scriptum.repository.room.callback.IDevelopRepo
 import sgtmelon.scriptum.room.IRoomWork
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.converter.model.StringConverter
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.room.entity.RollEntity
-import sgtmelon.scriptum.screen.vm.DevelopViewModel
 import kotlin.math.min
 
 /**
- * Repository of [RoomDb] for [DevelopViewModel]
+ * Repository of [RoomDb] which work with all tables data.
  *
  * @param context for open [RoomDb]
  */

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.repository.note
+package sgtmelon.scriptum.repository.room
 
 import android.content.Context
 import androidx.annotation.VisibleForTesting
@@ -9,6 +9,7 @@ import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.key.Complete
 import sgtmelon.scriptum.model.key.NoteType
+import sgtmelon.scriptum.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.room.IRoomWork
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.converter.model.NoteConverter

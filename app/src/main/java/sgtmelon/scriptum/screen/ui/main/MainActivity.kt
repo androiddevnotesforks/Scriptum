@@ -17,11 +17,11 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.ShowHolderControl
 import sgtmelon.scriptum.control.alarm.AlarmControl
 import sgtmelon.scriptum.control.bind.BindControl
+import sgtmelon.scriptum.dagger.component.DaggerMainComponent
 import sgtmelon.scriptum.extension.hideKeyboard
 import sgtmelon.scriptum.extension.initLazy
 import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.factory.FragmentFactory
-import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.model.data.ReceiverData
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.MainPage
@@ -31,14 +31,16 @@ import sgtmelon.scriptum.receiver.MainReceiver
 import sgtmelon.scriptum.screen.ui.AppActivity
 import sgtmelon.scriptum.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
+import sgtmelon.scriptum.screen.vm.callback.main.IMainViewModel
 import java.util.*
+import javax.inject.Inject
 
 /**
  * Screen which displays main menu and fragments: [RankFragment], [NotesFragment], [BinFragment]
  */
 class MainActivity : AppActivity(), IMainActivity {
 
-    private val iViewModel by lazy { ViewModelFactory.Main.get(activity = this) }
+    @Inject lateinit var iViewModel: IMainViewModel
 
     private val iAlarmControl by lazy { AlarmControl[this] }
     private val iBindControl by lazy { BindControl[this] }
@@ -62,6 +64,8 @@ class MainActivity : AppActivity(), IMainActivity {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        DaggerMainComponent.builder().set(activity = this).build().inject(activity = this)
 
         iAlarmControl.initLazy()
         iBindControl.initLazy()

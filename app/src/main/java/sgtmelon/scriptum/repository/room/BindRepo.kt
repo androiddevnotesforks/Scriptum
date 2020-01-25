@@ -1,6 +1,7 @@
-package sgtmelon.scriptum.repository.bind
+package sgtmelon.scriptum.repository.room
 
 import android.content.Context
+import sgtmelon.scriptum.repository.room.callback.IBindRepo
 import sgtmelon.scriptum.room.IRoomWork
 import sgtmelon.scriptum.room.RoomDb
 

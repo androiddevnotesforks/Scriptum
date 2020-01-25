@@ -9,8 +9,8 @@ import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.data.DbData
 import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.repository.note.NoteRepo.Companion.onConvertRoll
-import sgtmelon.scriptum.repository.note.NoteRepo.Companion.onConvertText
+import sgtmelon.scriptum.repository.room.NoteRepo.Companion.onConvertRoll
+import sgtmelon.scriptum.repository.room.NoteRepo.Companion.onConvertText
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.dialog.ColorDialogUi
 import sgtmelon.scriptum.ui.dialog.ConvertDialogUi

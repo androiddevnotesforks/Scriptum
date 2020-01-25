@@ -1,8 +1,9 @@
-package sgtmelon.scriptum.repository.alarm
+package sgtmelon.scriptum.repository.room
 
 import android.content.Context
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.NotificationItem
+import sgtmelon.scriptum.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.room.IRoomWork
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.converter.model.AlarmConverter
