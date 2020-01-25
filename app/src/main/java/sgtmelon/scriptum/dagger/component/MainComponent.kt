@@ -2,11 +2,11 @@ package sgtmelon.scriptum.dagger.component
 
 import dagger.BindsInstance
 import dagger.Component
-import sgtmelon.scriptum.dagger.ActivityScope
 import sgtmelon.scriptum.dagger.module.MainModule
 import sgtmelon.scriptum.screen.ui.main.MainActivity
+import javax.inject.Singleton
 
-@ActivityScope
+@Singleton
 @Component(modules = [MainModule::class])
 interface MainComponent {
 

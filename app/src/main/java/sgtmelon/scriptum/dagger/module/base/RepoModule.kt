@@ -3,12 +3,19 @@ package sgtmelon.scriptum.dagger.module.base
 import android.content.Context
 import dagger.Module
 import dagger.Provides
+import sgtmelon.scriptum.repository.preference.IPreferenceRepo
+import sgtmelon.scriptum.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.repository.room.*
 import sgtmelon.scriptum.repository.room.callback.*
 import javax.inject.Singleton
 
 @Module
 class RepoModule {
+
+    @Provides
+    @Singleton
+    fun providePreferenceRepo(context: Context): IPreferenceRepo = PreferenceRepo(context)
+
 
     @Provides
     @Singleton

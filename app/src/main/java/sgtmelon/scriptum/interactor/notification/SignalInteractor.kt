@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.interactor.notification
 
+import android.content.Context
 import android.media.RingtoneManager
 import sgtmelon.scriptum.interactor.ParentInteractor
 import sgtmelon.scriptum.interactor.callback.notification.ISignalInteractor
@@ -14,10 +15,12 @@ import java.util.*
  * Interactor for work with alarm signal.
  */
 class SignalInteractor(
-        private val iPreferenceRepo: IPreferenceRepo,
-        private val ringtoneManager: RingtoneManager
+        private val context: Context,
+        private val iPreferenceRepo: IPreferenceRepo
 ) : ParentInteractor(),
         ISignalInteractor {
+
+    private val ringtoneManager get() = RingtoneManager(context)
 
     override val signalCheck: BooleanArray
         get() = IntConverter().toArray(iPreferenceRepo.signal, Signal.digitCount)

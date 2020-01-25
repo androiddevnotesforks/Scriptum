@@ -46,7 +46,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         AlarmInteractor(PreferenceRepo(context), AlarmRepo(context), NoteRepo(context), callback)
     }
     private val iSignalInteractor: ISignalInteractor by lazy {
-        SignalInteractor(PreferenceRepo(context), RingtoneManager(context))
+        SignalInteractor(context, PreferenceRepo(context))
     }
     private val iBindInteractor: IBindInteractor by lazy {
         BindInteractor(
