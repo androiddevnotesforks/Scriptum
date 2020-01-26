@@ -9,9 +9,7 @@ class ScriptumApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        component = DaggerScriptumComponent.builder()
-                .set(application = this)
-                .build()
+        component = DaggerScriptumComponent.builder().set(application = this).build()
     }
 
     companion object {

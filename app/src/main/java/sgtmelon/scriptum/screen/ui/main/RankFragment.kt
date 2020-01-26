@@ -22,13 +22,15 @@ import sgtmelon.scriptum.extension.createVisibleAnim
 import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.extension.initLazy
 import sgtmelon.scriptum.factory.DialogFactory
-import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.screen.ui.ParentFragment
+import sgtmelon.scriptum.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.screen.ui.callback.main.IRankFragment
+import sgtmelon.scriptum.screen.vm.callback.main.IRankViewModel
+import javax.inject.Inject
 
 /**
  * Fragment which displays list of categories - [RankItem]
@@ -39,16 +41,14 @@ class RankFragment : ParentFragment(), IRankFragment {
 
     private var binding: FragmentRankBinding? = null
 
-    private val iViewModel by lazy { ViewModelFactory.Main.get(fragment = this) }
+    @Inject lateinit var iViewModel: IRankViewModel
 
     private val iBindControl by lazy { BindControl[context] }
 
     override val openState get() = callback?.openState
     private val renameDialog by lazy { DialogFactory.Main(context, fm).getRenameDialog() }
 
-    private val iconAnimationTime: Long? by lazy {
-        context?.resources?.getInteger(R.integer.icon_animation_time)?.toLong()
-    }
+    private val iconAnimationTime: Long? by lazy { context?.resources?.getInteger(R.integer.icon_animation_time)?.toLong() }
 
     private val adapter by lazy {
         RankAdapter(object: ItemListener.ActionClick {
@@ -96,6 +96,9 @@ class RankFragment : ParentFragment(), IRankFragment {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        ScriptumApplication.component.getRankBuilder().set(fragment = this).build()
+                .inject(fragment = this)
 
         iBindControl.initLazy()
 

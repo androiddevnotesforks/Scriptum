@@ -13,6 +13,8 @@ interface ScriptumComponent {
 
     fun getMainBuilder(): MainComponent.Builder
 
+    fun getRankBuilder(): RankComponent.Builder
+
     @Component.Builder
     interface Builder {
         @BindsInstance

@@ -28,8 +28,7 @@ class MainModule {
 
     @Provides
     @ActivityScope
-    fun provideViewModel(activity: MainActivity,
-                         iInteractor: IMainInteractor,
+    fun provideViewModel(activity: MainActivity, iInteractor: IMainInteractor,
                          iBindInteractor: IBindInteractor): IMainViewModel {
         return ViewModelProvider(activity).get(MainViewModel::class.java).apply {
             setCallback(activity)

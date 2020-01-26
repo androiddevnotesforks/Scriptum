@@ -65,9 +65,7 @@ class MainActivity : AppActivity(), IMainActivity {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        ScriptumApplication.component.getMainBuilder()
-                .set(activity = this)
-                .build()
+        ScriptumApplication.component.getMainBuilder().set(activity = this).build()
                 .inject(activity = this)
 
         iAlarmControl.initLazy()

@@ -10,16 +10,10 @@ import sgtmelon.scriptum.extension.clearAddAll
 import sgtmelon.scriptum.extension.clearSpace
 import sgtmelon.scriptum.extension.move
 import sgtmelon.scriptum.extension.toUpperCase
-import sgtmelon.scriptum.interactor.BindInteractor
 import sgtmelon.scriptum.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.interactor.callback.main.IRankInteractor
-import sgtmelon.scriptum.interactor.main.RankInteractor
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RankItem
-import sgtmelon.scriptum.repository.preference.PreferenceRepo
-import sgtmelon.scriptum.repository.room.BindRepo
-import sgtmelon.scriptum.repository.room.NoteRepo
-import sgtmelon.scriptum.repository.room.RankRepo
 import sgtmelon.scriptum.screen.ui.callback.main.IRankFragment
 import sgtmelon.scriptum.screen.ui.main.RankFragment
 import sgtmelon.scriptum.screen.vm.ParentViewModel
@@ -31,12 +25,14 @@ import sgtmelon.scriptum.screen.vm.callback.main.IRankViewModel
 class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(application),
         IRankViewModel {
 
-    private val iInteractor: IRankInteractor by lazy { RankInteractor(RankRepo(context)) }
-    private val iBindInteractor: IBindInteractor by lazy {
-        BindInteractor(
-                PreferenceRepo(context), BindRepo(context), RankRepo(context), NoteRepo(context)
-        )
+    private lateinit var iInteractor: IRankInteractor
+    private lateinit var iBindInteractor: IBindInteractor
+
+    fun setInteractor(iInteractor: IRankInteractor, iBindInteractor: IBindInteractor) {
+        this.iInteractor = iInteractor
+        this.iBindInteractor = iBindInteractor
     }
+
 
     private val itemList: MutableList<RankItem> = ArrayList()
     private val nameList: List<String> get() = itemList.map { it.name.toUpperCase() }
