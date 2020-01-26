@@ -25,17 +25,18 @@ class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(a
     private var iInteractor: IMainInteractor? = null
     private var iBindInteractor: IBindInteractor? = null
 
+    fun setInteractor(iInteractor: IMainInteractor, iBindInteractor: IBindInteractor) {
+        this.iInteractor = iInteractor
+        this.iBindInteractor = iBindInteractor
+    }
+
+
     /**
      * Key for detect application start and pageTo == [pageFrom] inside [onSelectItem]
      */
     private var firstStart: Boolean = true
 
     private var pageFrom: MainPage = START_PAGE
-
-    fun setInteractor(iInteractor: IMainInteractor, iBindInteractor: IBindInteractor) {
-        this.iInteractor = iInteractor
-        this.iBindInteractor = iBindInteractor
-    }
 
     override fun onSetup(bundle: Bundle?) {
         if (bundle == null) {

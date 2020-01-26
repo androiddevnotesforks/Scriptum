@@ -17,7 +17,6 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.ShowHolderControl
 import sgtmelon.scriptum.control.alarm.AlarmControl
 import sgtmelon.scriptum.control.bind.BindControl
-import sgtmelon.scriptum.dagger.component.DaggerMainComponent
 import sgtmelon.scriptum.extension.hideKeyboard
 import sgtmelon.scriptum.extension.initLazy
 import sgtmelon.scriptum.factory.DialogFactory
@@ -29,6 +28,7 @@ import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.receiver.MainReceiver
 import sgtmelon.scriptum.screen.ui.AppActivity
+import sgtmelon.scriptum.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.vm.callback.main.IMainViewModel
@@ -65,7 +65,10 @@ class MainActivity : AppActivity(), IMainActivity {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        DaggerMainComponent.builder().set(activity = this).build().inject(activity = this)
+        ScriptumApplication.component.getMainBuilder()
+                .set(activity = this)
+                .build()
+                .inject(activity = this)
 
         iAlarmControl.initLazy()
         iBindControl.initLazy()
