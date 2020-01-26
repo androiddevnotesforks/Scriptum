@@ -8,7 +8,6 @@ import android.os.Build.VERSION_CODES
 import android.view.View
 import android.view.Window
 import androidx.appcompat.widget.Toolbar
-import sgtmelon.extension.getShortAnimTime
 import sgtmelon.iconanim.IconCallback
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.getAppSimpleColor
@@ -63,7 +62,7 @@ open class MenuControl(
         }
 
         colorAnimator.addUpdateListener(updateListener)
-        colorAnimator.duration = context.getShortAnimTime()
+        colorAnimator.duration = context.resources.getInteger(R.integer.color_transition_time).toLong()
     }
 
     /**

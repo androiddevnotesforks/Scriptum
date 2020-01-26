@@ -5,7 +5,6 @@ import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Build
 import android.os.Handler
 import androidx.annotation.RequiresApi
-import sgtmelon.extension.getShortAnimTime
 
 /**
  * Handler for register animation start/end
@@ -20,7 +19,7 @@ class IconAnimControl(
 
     var animState: Boolean = false
 
-    private val time = context.getShortAnimTime()
+    private val animationTime = context.resources.getInteger(R.integer.icon_animation_time).toLong()
 
     private val animHandler = Handler()
     private val animRunnable: Runnable = Runnable {
@@ -36,7 +35,7 @@ class IconAnimControl(
 
     fun waitAnimationEnd() {
         callback.setEnabled(enabled = false)
-        animHandler.postDelayed(animRunnable, time)
+        animHandler.postDelayed(animRunnable, animationTime)
     }
 
 }

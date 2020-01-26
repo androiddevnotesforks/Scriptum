@@ -6,8 +6,9 @@
 
     <integer name="color_column_count">4</integer>
 
-    <integer name="fade_anim_time">@android:integer/config_shortAnimTime</integer>
+    <integer name="fade_anim_time">200</integer>
     <integer name="color_fade_time">200</integer>
+    <integer name="color_transition_time">200</integer>
 
     <integer name="placeholder_fade_time">500</integer>
 

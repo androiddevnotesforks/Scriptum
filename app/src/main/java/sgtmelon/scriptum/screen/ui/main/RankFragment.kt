@@ -46,8 +46,8 @@ class RankFragment : ParentFragment(), IRankFragment {
     override val openState get() = callback?.openState
     private val renameDialog by lazy { DialogFactory.Main(context, fm).getRenameDialog() }
 
-    private val visibleAnimTime: Long? by lazy {
-        context?.resources?.getInteger(R.integer.visible_anim_time)?.toLong()
+    private val iconAnimationTime: Long? by lazy {
+        context?.resources?.getInteger(R.integer.icon_animation_time)?.toLong()
     }
 
     private val adapter by lazy {
@@ -56,7 +56,7 @@ class RankFragment : ParentFragment(), IRankFragment {
                 openState?.tryInvoke {
                     when (view.id) {
                         R.id.rank_visible_button -> {
-                            openState?.block(visibleAnimTime)
+                            openState?.block(iconAnimationTime)
                             action()
                             iViewModel.onClickVisible(p)
                         }
@@ -68,7 +68,7 @@ class RankFragment : ParentFragment(), IRankFragment {
         }, object : ItemListener.LongClick {
             override fun onItemLongClick(view: View, p: Int) {
                 openState?.tryInvoke {
-                    openState?.block(visibleAnimTime)
+                    openState?.block(iconAnimationTime)
                     iViewModel.onLongClickVisible(p)
                 }
             }

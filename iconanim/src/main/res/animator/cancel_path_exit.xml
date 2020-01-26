@@ -2,7 +2,7 @@
 <set xmlns:android="http://schemas.android.com/apk/res/android">
 
     <objectAnimator
-            android:duration="@integer/cancel_anim_time"
+            android:duration="@integer/icon_animation_time"
             android:interpolator="@android:anim/accelerate_decelerate_interpolator"
             android:propertyName="pathData"
             android:valueFrom="M 21 11 L 13 11 L 13 3 L 11 3 L 11 11 L 3 11 L 3 12 L 3 13 L 11 13 L 11 21 L 13 21 L 13 13 L 21 13 L 21 13 L 21 11"
