@@ -37,6 +37,8 @@ interface ScriptumComponent {
     fun getAlarmBuilder(): AlarmComponent.Builder
 
 
+    fun getPreferenceBuilder(): PreferenceComponent.Builder
+
     fun getDevelopBuilder(): DevelopComponent.Builder
 
     @Component.Builder

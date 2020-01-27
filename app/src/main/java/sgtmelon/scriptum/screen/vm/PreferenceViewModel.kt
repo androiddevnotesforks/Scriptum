@@ -21,10 +21,12 @@ import sgtmelon.scriptum.screen.vm.callback.IPreferenceViewModel
 /**
  * ViewModel for [PreferenceFragment]
  */
-class PreferenceViewModel(private val context: Context, var callback: IPreferenceFragment?) :
-        IPreferenceViewModel {
+class PreferenceViewModel(
+        private val context: Context,
+        private val iSignalInteractor: ISignalInteractor,
+        private var callback: IPreferenceFragment?
+) : IPreferenceViewModel {
 
-    private val iSignalInteractor: ISignalInteractor = SignalInteractor(context, PreferenceRepo(context))
     private val iPreferenceRepo: IPreferenceRepo = PreferenceRepo(context)
 
     private val summary = SummaryProvider(context)

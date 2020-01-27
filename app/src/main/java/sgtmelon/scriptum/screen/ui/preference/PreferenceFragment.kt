@@ -18,14 +18,16 @@ import sgtmelon.scriptum.extension.initLazy
 import sgtmelon.scriptum.extension.isGranted
 import sgtmelon.scriptum.extension.toUri
 import sgtmelon.scriptum.factory.DialogFactory
-import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.key.PermissionResult
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.model.state.PermissionState
 import sgtmelon.scriptum.screen.ui.DevelopActivity
+import sgtmelon.scriptum.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.screen.ui.callback.IPreferenceFragment
+import sgtmelon.scriptum.screen.vm.callback.IPreferenceViewModel
+import javax.inject.Inject
 
 /**
  * Fragment of preference
@@ -38,7 +40,7 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
     private val activity: PreferenceActivity by lazy { getActivity() as PreferenceActivity }
     private val fm: FragmentManager by lazy { activity.supportFragmentManager }
 
-    private val iViewModel by lazy { ViewModelFactory.get(activity, callback = this) }
+    @Inject lateinit var iViewModel: IPreferenceViewModel
 
     private val openState = OpenState()
     private val externalPermissionState by lazy {
@@ -86,13 +88,16 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preference, rootKey)
-
-        iMelodyControl.initLazy()
-        openState.get(savedInstanceState)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        ScriptumApplication.component.getPreferenceBuilder().set(fragment = this).build()
+                .inject(fragment = this)
+
+        iMelodyControl.initLazy()
+        openState.get(savedInstanceState)
 
         iViewModel.onSetup()
     }
