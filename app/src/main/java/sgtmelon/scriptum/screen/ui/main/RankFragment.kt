@@ -41,7 +41,7 @@ class RankFragment : ParentFragment(), IRankFragment {
 
     private var binding: FragmentRankBinding? = null
 
-    @Inject lateinit var iViewModel: IRankViewModel
+    @Inject internal lateinit var iViewModel: IRankViewModel
 
     private val iBindControl by lazy { BindControl[context] }
 

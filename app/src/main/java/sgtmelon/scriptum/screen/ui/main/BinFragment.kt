@@ -41,7 +41,7 @@ class BinFragment : ParentFragment(), IBinFragment {
 
     private var binding: FragmentBinBinding? = null
 
-    @Inject lateinit var iViewModel: IBinViewModel
+    @Inject internal lateinit var iViewModel: IBinViewModel
 
     private val iClipboardControl: IClipboardControl by lazy { ClipboardControl(context) }
 

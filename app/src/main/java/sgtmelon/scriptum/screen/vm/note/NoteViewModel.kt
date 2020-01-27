@@ -19,7 +19,12 @@ import sgtmelon.scriptum.screen.vm.callback.note.INoteViewModel
 class NoteViewModel(application: Application) : ParentViewModel<INoteActivity>(application),
         INoteViewModel {
 
-    private val iInteractor: INoteInteractor by lazy { NoteInteractor(PreferenceRepo(context)) }
+    private lateinit var iInteractor: INoteInteractor
+
+    fun setInteractor(iInteractor: INoteInteractor) {
+        this.iInteractor = iInteractor
+    }
+
 
     private var id: Long = Default.ID
     private var color: Int = Default.COLOR

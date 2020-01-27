@@ -11,7 +11,6 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.ShowHolderControl
 import sgtmelon.scriptum.control.menu.MenuControl
 import sgtmelon.scriptum.factory.FragmentFactory
-import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.NoteData
@@ -21,15 +20,18 @@ import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.receiver.NoteReceiver
 import sgtmelon.scriptum.screen.ui.AppActivity
+import sgtmelon.scriptum.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.screen.ui.callback.note.INoteActivity
 import sgtmelon.scriptum.screen.ui.callback.note.INoteChild
+import sgtmelon.scriptum.screen.vm.callback.note.INoteViewModel
+import javax.inject.Inject
 
 /**
  * Screen which display note - [TextNoteFragment], [RollNoteFragment]
  */
 class NoteActivity : AppActivity(), INoteActivity, INoteChild, NoteReceiver.Callback {
 
-    private val iViewModel by lazy { ViewModelFactory.Note.get(activity = this) }
+    @Inject internal lateinit var iViewModel: INoteViewModel
 
     private val holderControl by lazy { ShowHolderControl(arrayOf(toolbarHolder, panelHolder)) }
 
@@ -45,6 +47,9 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild, NoteReceiver.Call
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note)
+
+        ScriptumApplication.component.getNoteBuilder().set(activity = this).build()
+                .inject(activity = this)
 
         iViewModel.apply {
             onSetup(bundle = savedInstanceState ?: intent.extras)

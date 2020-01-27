@@ -25,6 +25,12 @@ interface ScriptumComponent {
     fun getBinBuilder(): BinComponent.Builder
 
 
+    fun getNoteBuilder(): NoteComponent.Builder
+
+    fun getTextNoteBuilder(): TextNoteComponent.Builder
+
+    fun getRollNoteBuilder(): RollNoteComponent.Builder
+
 
     fun getNotificationBuilder(): NotificationComponent.Builder
 

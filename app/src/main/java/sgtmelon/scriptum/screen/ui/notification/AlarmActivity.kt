@@ -52,7 +52,7 @@ import javax.inject.Inject
  */
 class AlarmActivity : AppActivity(), IAlarmActivity {
 
-    @Inject lateinit var iViewModel: IAlarmViewModel
+    @Inject internal lateinit var iViewModel: IAlarmViewModel
 
     /**
      * [initLazy] not require because activity configChanges under control.

@@ -40,7 +40,7 @@ import javax.inject.Inject
  */
 class MainActivity : AppActivity(), IMainActivity {
 
-    @Inject lateinit var iViewModel: IMainViewModel
+    @Inject internal lateinit var iViewModel: IMainViewModel
 
     private val iAlarmControl by lazy { AlarmControl[this] }
     private val iBindControl by lazy { BindControl[this] }

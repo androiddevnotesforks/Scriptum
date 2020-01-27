@@ -31,7 +31,7 @@ class SplashActivity : AppCompatActivity(), ISplashActivity {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
     }
 
-    @Inject lateinit var iViewModel: ISplashViewModel
+    @Inject internal lateinit var iViewModel: ISplashViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -36,7 +36,7 @@ class NotificationActivity : AppActivity(), INotificationActivity {
 
     private var binding: ActivityNotificationBinding? = null
 
-    @Inject lateinit var iViewModel: INotificationViewModel
+    @Inject internal lateinit var iViewModel: INotificationViewModel
 
     private val iAlarmControl by lazy { AlarmControl[this] }
     private val iBindControl by lazy { BindControl[this] }

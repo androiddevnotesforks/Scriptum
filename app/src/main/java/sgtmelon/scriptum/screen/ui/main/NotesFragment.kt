@@ -46,7 +46,7 @@ class NotesFragment : ParentFragment(), INotesFragment, MainReceiver.Callback {
 
     private var binding: FragmentNotesBinding? = null
 
-    @Inject lateinit var iViewModel: INotesViewModel
+    @Inject internal lateinit var iViewModel: INotesViewModel
 
     private val iAlarmControl by lazy { AlarmControl[context] }
     private val iBindControl by lazy { BindControl[context] }

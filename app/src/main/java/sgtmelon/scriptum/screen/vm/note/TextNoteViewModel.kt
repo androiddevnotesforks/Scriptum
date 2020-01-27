@@ -12,10 +12,8 @@ import sgtmelon.scriptum.control.SaveControl
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.extension.clearSpace
 import sgtmelon.scriptum.extension.showToast
-import sgtmelon.scriptum.interactor.BindInteractor
 import sgtmelon.scriptum.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.interactor.callback.note.ITextNoteInteractor
-import sgtmelon.scriptum.interactor.note.TextNoteInteractor
 import sgtmelon.scriptum.model.annotation.InputAction
 import sgtmelon.scriptum.model.data.NoteData.Default
 import sgtmelon.scriptum.model.data.NoteData.Intent
@@ -24,11 +22,6 @@ import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.IconState
 import sgtmelon.scriptum.model.state.NoteState
-import sgtmelon.scriptum.repository.preference.PreferenceRepo
-import sgtmelon.scriptum.repository.room.AlarmRepo
-import sgtmelon.scriptum.repository.room.BindRepo
-import sgtmelon.scriptum.repository.room.NoteRepo
-import sgtmelon.scriptum.repository.room.RankRepo
 import sgtmelon.scriptum.room.converter.model.StringConverter
 import sgtmelon.scriptum.screen.ui.callback.note.INoteChild
 import sgtmelon.scriptum.screen.ui.callback.note.text.ITextNoteFragment
@@ -49,17 +42,14 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         parentCallback = callback
     }
 
-    private val iInteractor: ITextNoteInteractor by lazy {
-        TextNoteInteractor(
-                PreferenceRepo(context), AlarmRepo(context), RankRepo(context),
-                NoteRepo(context), callback
-        )
+    private lateinit var iInteractor: ITextNoteInteractor
+    private lateinit var iBindInteractor: IBindInteractor
+
+    fun setInteractor(iInteractor: ITextNoteInteractor, iBindInteractor: IBindInteractor) {
+        this.iInteractor = iInteractor
+        this.iBindInteractor = iBindInteractor
     }
-    private val iBindInteractor: IBindInteractor by lazy {
-        BindInteractor(
-                PreferenceRepo(context), BindRepo(context), RankRepo(context), NoteRepo(context)
-        )
-    }
+
 
     private val saveControl by lazy { SaveControl(context, iInteractor.getSaveModel(), callback = this) }
     private val inputControl = InputControl()

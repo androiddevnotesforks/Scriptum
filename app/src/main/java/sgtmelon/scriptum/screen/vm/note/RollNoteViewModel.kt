@@ -18,6 +18,7 @@ import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.interactor.BindInteractor
 import sgtmelon.scriptum.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.interactor.callback.note.IRollNoteInteractor
+import sgtmelon.scriptum.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.interactor.note.RollNoteInteractor
 import sgtmelon.scriptum.model.annotation.InputAction
 import sgtmelon.scriptum.model.data.NoteData.Default
@@ -53,17 +54,14 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         parentCallback = callback
     }
 
-    private val iInteractor: IRollNoteInteractor by lazy {
-        RollNoteInteractor(
-                PreferenceRepo(context), AlarmRepo(context), RankRepo(context),
-                NoteRepo(context), callback
-        )
+    private lateinit var iInteractor: IRollNoteInteractor
+    private lateinit var iBindInteractor: IBindInteractor
+
+    fun setInteractor(iInteractor: IRollNoteInteractor, iBindInteractor: IBindInteractor) {
+        this.iInteractor = iInteractor
+        this.iBindInteractor = iBindInteractor
     }
-    private val iBindInteractor: IBindInteractor by lazy {
-        BindInteractor(
-                PreferenceRepo(context), BindRepo(context), RankRepo(context), NoteRepo(context)
-        )
-    }
+
 
     private val saveControl by lazy { SaveControl(context, iInteractor.getSaveModel(), callback = this) }
     private val inputControl = InputControl()

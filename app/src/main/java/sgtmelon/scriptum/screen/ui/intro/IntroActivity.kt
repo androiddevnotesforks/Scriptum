@@ -24,7 +24,7 @@ import javax.inject.Inject
  */
 class IntroActivity : AppCompatActivity(), IIntroActivity, ViewPager.OnPageChangeListener {
 
-    @Inject lateinit var iViewModel: IIntroViewModel
+    @Inject internal lateinit var iViewModel: IIntroViewModel
 
     private val pagerAdapter = PagerAdapter(supportFragmentManager)
 

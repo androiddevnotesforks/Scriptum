@@ -32,7 +32,6 @@ import sgtmelon.scriptum.control.touch.RollTouchControl
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
 import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.factory.DialogFactory
-import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.InputAction
@@ -45,8 +44,11 @@ import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.receiver.NoteReceiver
 import sgtmelon.scriptum.screen.ui.ParentFragment
+import sgtmelon.scriptum.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.screen.ui.callback.note.roll.IRollNoteFragment
+import sgtmelon.scriptum.screen.vm.callback.note.IRollNoteViewModel
 import java.util.*
+import javax.inject.Inject
 
 /**
  * Fragment for display roll note
@@ -55,7 +57,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment, NoteReceiver.Callb
 
     private var binding: FragmentRollNoteBinding? = null
 
-    private val iViewModel by lazy { ViewModelFactory.Note.get(fragment = this) }
+    @Inject internal lateinit var iViewModel: IRollNoteViewModel
 
     private val iAlarmControl by lazy { AlarmControl[context] }
     private val iBindControl by lazy { BindControl[context] }
@@ -99,6 +101,9 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment, NoteReceiver.Callb
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        ScriptumApplication.component.getRollNoteBuilder().set(fragment = this).build()
+                .inject(fragment = this)
 
         iAlarmControl.initLazy()
         iBindControl.initLazy()
