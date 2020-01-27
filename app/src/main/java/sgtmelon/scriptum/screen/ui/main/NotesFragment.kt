@@ -27,12 +27,15 @@ import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.receiver.MainReceiver
 import sgtmelon.scriptum.screen.ui.ParentFragment
+import sgtmelon.scriptum.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.screen.ui.callback.main.INotesFragment
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.ui.notification.NotificationActivity
 import sgtmelon.scriptum.screen.ui.preference.PreferenceActivity
+import sgtmelon.scriptum.screen.vm.callback.main.INotesViewModel
 import java.util.*
+import javax.inject.Inject
 
 /**
  * Fragment which displays list of notes - [NoteItem]
@@ -43,7 +46,7 @@ class NotesFragment : ParentFragment(), INotesFragment, MainReceiver.Callback {
 
     private var binding: FragmentNotesBinding? = null
 
-    private val iViewModel by lazy { ViewModelFactory.Main.get(fragment = this) }
+    @Inject lateinit var iViewModel: INotesViewModel
 
     private val iAlarmControl by lazy { AlarmControl[context] }
     private val iBindControl by lazy { BindControl[context] }
@@ -87,6 +90,9 @@ class NotesFragment : ParentFragment(), INotesFragment, MainReceiver.Callback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        ScriptumApplication.component.getNotesBuilder().set(fragment = this).build()
+                .inject(fragment = this)
 
         iAlarmControl.initLazy()
         iBindControl.initLazy()

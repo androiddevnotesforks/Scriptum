@@ -25,9 +25,12 @@ import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.screen.ui.ParentFragment
+import sgtmelon.scriptum.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.screen.ui.callback.main.IBinFragment
 import sgtmelon.scriptum.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
+import sgtmelon.scriptum.screen.vm.callback.main.IBinViewModel
+import javax.inject.Inject
 
 /**
  * Fragment which displays list of deleted notes - [NoteItem]
@@ -38,7 +41,7 @@ class BinFragment : ParentFragment(), IBinFragment {
 
     private var binding: FragmentBinBinding? = null
 
-    private val iViewModel by lazy { ViewModelFactory.Main.get(fragment = this) }
+    @Inject lateinit var iViewModel: IBinViewModel
 
     private val iClipboardControl: IClipboardControl by lazy { ClipboardControl(context) }
 
@@ -77,6 +80,9 @@ class BinFragment : ParentFragment(), IBinFragment {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        ScriptumApplication.component.getBinBuilder().set(fragment = this).build()
+                .inject(fragment = this)
 
         iClipboardControl.initLazy()
 

@@ -9,18 +9,11 @@ import sgtmelon.extension.beforeNow
 import sgtmelon.extension.getCalendar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.clearAddAll
-import sgtmelon.scriptum.interactor.BindInteractor
 import sgtmelon.scriptum.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.interactor.callback.main.INotesInteractor
-import sgtmelon.scriptum.interactor.main.NotesInteractor
 import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.repository.preference.PreferenceRepo
-import sgtmelon.scriptum.repository.room.AlarmRepo
-import sgtmelon.scriptum.repository.room.BindRepo
-import sgtmelon.scriptum.repository.room.NoteRepo
-import sgtmelon.scriptum.repository.room.RankRepo
 import sgtmelon.scriptum.room.dao.INoteDao
 import sgtmelon.scriptum.screen.ui.callback.main.INotesFragment
 import sgtmelon.scriptum.screen.ui.main.NotesFragment
@@ -36,17 +29,14 @@ import sgtmelon.scriptum.model.annotation.Options.Notes as Options
 class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>(application),
         INotesViewModel {
 
-    private val iInteractor: INotesInteractor by lazy {
-        NotesInteractor(
-                PreferenceRepo(context), NoteRepo(context), AlarmRepo(context),
-                RankRepo(context), callback
-        )
+    private lateinit var iInteractor: INotesInteractor
+    private lateinit var iBindInteractor: IBindInteractor
+
+    fun setInteractor(iInteractor: INotesInteractor, iBindInteractor: IBindInteractor) {
+        this.iInteractor = iInteractor
+        this.iBindInteractor = iBindInteractor
     }
-    private val iBindInteractor: IBindInteractor by lazy {
-        BindInteractor(
-                PreferenceRepo(context), BindRepo(context), RankRepo(context), NoteRepo(context)
-        )
-    }
+
 
     private val itemList: MutableList<NoteItem> = ArrayList()
 

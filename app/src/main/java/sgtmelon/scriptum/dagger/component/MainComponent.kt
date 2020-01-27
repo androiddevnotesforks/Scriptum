@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.dagger.component
 
 import dagger.BindsInstance
-import dagger.Component
 import dagger.Subcomponent
 import sgtmelon.scriptum.dagger.ActivityScope
 import sgtmelon.scriptum.dagger.module.MainModule
