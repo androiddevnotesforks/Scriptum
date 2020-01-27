@@ -42,16 +42,16 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         parentCallback = callback
     }
 
-    private lateinit var iInteractor: ITextNoteInteractor
-    private lateinit var iBindInteractor: IBindInteractor
+    private lateinit var interactor: ITextNoteInteractor
+    private lateinit var bindInteractor: IBindInteractor
 
-    fun setInteractor(iInteractor: ITextNoteInteractor, iBindInteractor: IBindInteractor) {
-        this.iInteractor = iInteractor
-        this.iBindInteractor = iBindInteractor
+    fun setInteractor(interactor: ITextNoteInteractor, bindInteractor: IBindInteractor) {
+        this.interactor = interactor
+        this.bindInteractor = bindInteractor
     }
 
 
-    private val saveControl by lazy { SaveControl(context, iInteractor.getSaveModel(), callback = this) }
+    private val saveControl by lazy { SaveControl(context, interactor.getSaveModel(), callback = this) }
     private val inputControl = InputControl()
 
     private var id: Long = Default.ID
@@ -74,12 +74,12 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         color = bundle?.getInt(Intent.COLOR, Default.COLOR) ?: Default.COLOR
 
         if (color == Default.COLOR) {
-            color = iInteractor.defaultColor
+            color = interactor.defaultColor
         }
 
         callback?.apply {
-            setupBinding(iInteractor.theme)
-            setupToolbar(iInteractor.theme, color)
+            setupBinding(interactor.theme)
+            setupToolbar(interactor.theme, color)
             setupEnter(inputControl)
         }
 
@@ -88,15 +88,15 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
              * If first open
              */
             if (!::noteItem.isInitialized) {
-                rankDialogItemArray = iInteractor.getRankDialogItemArray()
+                rankDialogItemArray = interactor.getRankDialogItemArray()
 
                 if (id == Default.ID) {
-                    noteItem = NoteItem.getCreate(iInteractor.defaultColor, NoteType.TEXT)
+                    noteItem = NoteItem.getCreate(interactor.defaultColor, NoteType.TEXT)
                     restoreItem = noteItem.deepCopy()
 
                     noteState = NoteState(isCreate = true)
                 } else {
-                    iInteractor.getItem(id)?.let {
+                    interactor.getItem(id)?.let {
                         noteItem = it
                         restoreItem = it.deepCopy()
                     } ?: run {
@@ -117,7 +117,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     }
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy {
-        iInteractor.onDestroy()
+        interactor.onDestroy()
         parentCallback = null
         saveControl.setSaveHandlerEvent(isStart = false)
     }
@@ -202,7 +202,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
     override fun onResultRankDialog(check: Int) {
         viewModelScope.launch {
-            val rankId = iInteractor.getRankId(check)
+            val rankId = interactor.getRankId(check)
 
             inputControl.onRankChange(noteItem.rankId, noteItem.rankPs, rankId, check)
 
@@ -219,13 +219,13 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     }
 
     override fun onResultDateDialog(calendar: Calendar) {
-        viewModelScope.launch { callback?.showTimeDialog(calendar, iInteractor.getDateList()) }
+        viewModelScope.launch { callback?.showTimeDialog(calendar, interactor.getDateList()) }
     }
 
     override fun onResultDateDialogClear() {
         viewModelScope.launch {
-            iInteractor.clearDate(noteItem)
-            iBindInteractor.notifyInfoBind(callback)
+            interactor.clearDate(noteItem)
+            bindInteractor.notifyInfoBind(callback)
         }
 
         noteItem.clearAlarm()
@@ -237,16 +237,16 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         if (calendar.beforeNow()) return
 
         viewModelScope.launch {
-            iInteractor.setDate(noteItem, calendar)
+            interactor.setDate(noteItem, calendar)
             callback?.onBindingNote(noteItem)
 
-            iBindInteractor.notifyInfoBind(callback)
+            bindInteractor.notifyInfoBind(callback)
         }
     }
 
     override fun onResultConvertDialog() {
         viewModelScope.launch {
-            iInteractor.convert(noteItem)
+            interactor.convert(noteItem)
             parentCallback?.onConvertNote()
         }
     }
@@ -266,7 +266,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
     override fun onMenuRestore() {
         viewModelScope.launch {
-            iInteractor.restoreNote(noteItem)
+            interactor.restoreNote(noteItem)
             parentCallback?.finish()
         }
     }
@@ -278,12 +278,12 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
         iconState.notAnimate { setupEditMode(isEdit = false) }
 
-        viewModelScope.launch { iInteractor.updateNote(noteItem, updateBind = false) }
+        viewModelScope.launch { interactor.updateNote(noteItem, updateBind = false) }
     }
 
     override fun onMenuClear() {
         viewModelScope.launch {
-            iInteractor.clearNote(noteItem)
+            interactor.clearNote(noteItem)
             parentCallback?.finish()
         }
     }
@@ -330,7 +330,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     override fun onMenuColor() {
         if (!noteState.isEdit) return
 
-        callback?.showColorDialog(noteItem.color, iInteractor.theme)
+        callback?.showColorDialog(noteItem.color, interactor.theme)
     }
 
     override fun onMenuSave(changeMode: Boolean): Boolean {
@@ -354,7 +354,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         parentCallback?.onUpdateNoteColor(noteItem.color)
 
         viewModelScope.launch {
-            iInteractor.saveNote(noteItem, noteState.isCreate)
+            interactor.saveNote(noteItem, noteState.isCreate)
             restoreItem = noteItem.deepCopy()
 
             if (noteState.isCreate) {
@@ -387,7 +387,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
         callback?.onBindingEdit(noteState.isEdit, noteItem)
 
-        viewModelScope.launch { iInteractor.updateNote(noteItem, updateBind = true) }
+        viewModelScope.launch { interactor.updateNote(noteItem, updateBind = true) }
     }
 
     override fun onMenuConvert() {
@@ -400,10 +400,10 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         if (callback?.isDialogOpen == true || noteState.isEdit) return
 
         viewModelScope.launch {
-            iInteractor.deleteNote(noteItem)
+            interactor.deleteNote(noteItem)
             parentCallback?.finish()
 
-            iBindInteractor.notifyInfoBind(callback)
+            bindInteractor.notifyInfoBind(callback)
         }
     }
 

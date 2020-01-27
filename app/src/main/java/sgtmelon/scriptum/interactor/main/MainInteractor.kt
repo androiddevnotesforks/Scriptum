@@ -12,7 +12,7 @@ import sgtmelon.scriptum.screen.vm.main.MainViewModel
  * Interactor for [MainViewModel]
  */
 class MainInteractor(
-        private val iAlarmRepo: IAlarmRepo,
+        private val alarmRepo: IAlarmRepo,
         private var callback: IMainBridge?
 ) : ParentInteractor(),
         IMainInteractor {
@@ -20,13 +20,13 @@ class MainInteractor(
     override fun onDestroy(func: () -> Unit) = super.onDestroy { callback = null }
 
 
-    override suspend fun tidyUpAlarm() = iAlarmRepo.getList().forEach {
+    override suspend fun tidyUpAlarm() = alarmRepo.getList().forEach {
         val calendar = it.alarm.date.getCalendar()
         val id = it.note.id
 
         if (calendar.beforeNow()) {
             callback?.cancelAlarm(id)
-            iAlarmRepo.delete(id)
+            alarmRepo.delete(id)
         } else {
             callback?.setAlarm(calendar, id)
         }

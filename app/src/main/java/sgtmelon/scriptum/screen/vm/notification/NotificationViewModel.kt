@@ -19,10 +19,10 @@ class NotificationViewModel(application: Application) :
         ParentViewModel<INotificationActivity>(application),
         INotificationViewModel {
 
-    private lateinit var iInteractor: INotificationInteractor
+    private lateinit var interactor: INotificationInteractor
 
-    fun setInteractor(iInteractor: INotificationInteractor) {
-        this.iInteractor = iInteractor
+    fun setInteractor(interactor: INotificationInteractor) {
+        this.interactor = interactor
     }
 
 
@@ -31,11 +31,11 @@ class NotificationViewModel(application: Application) :
     override fun onSetup(bundle: Bundle?) {
         callback?.apply {
             setupToolbar()
-            setupRecycler(iInteractor.theme)
+            setupRecycler(interactor.theme)
         }
     }
 
-    override fun onDestroy(func: () -> Unit) = super.onDestroy { iInteractor.onDestroy() }
+    override fun onDestroy(func: () -> Unit) = super.onDestroy { interactor.onDestroy() }
 
 
     /**
@@ -57,13 +57,13 @@ class NotificationViewModel(application: Application) :
         if (itemList.isNotEmpty()) updateList()
 
         viewModelScope.launch {
-            val count = iInteractor.getCount()
+            val count = interactor.getCount()
 
             if (count == 0) {
                 itemList.clear()
             } else {
                 if (itemList.isEmpty()) callback?.showProgress()
-                itemList.clearAddAll(iInteractor.getList())
+                itemList.clearAddAll(interactor.getList())
             }
 
             updateList()
@@ -77,7 +77,7 @@ class NotificationViewModel(application: Application) :
     override fun onClickCancel(p: Int) {
         val item = itemList.removeAt(p)
 
-        viewModelScope.launch { iInteractor.cancelNotification(item) }
+        viewModelScope.launch { interactor.cancelNotification(item) }
 
         callback?.apply {
             notifyInfoBind(itemList.size)

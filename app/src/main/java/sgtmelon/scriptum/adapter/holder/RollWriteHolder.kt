@@ -25,7 +25,7 @@ class RollWriteHolder(
         private val binding: ItemRollWriteBinding,
         private val dragListener: ItemListener.Drag?,
         private val callback: Callback,
-        private val iInputControl: IInputControl?
+        private val inputControl: IInputControl?
 ) : RecyclerView.ViewHolder(binding.root),
         View.OnTouchListener,
         TextWatcher {
@@ -52,7 +52,7 @@ class RollWriteHolder(
         dragView.setOnTouchListener(this)
     }
 
-    fun bind(item: RollItem) = iInputControl?.makeNotEnabled {
+    fun bind(item: RollItem) = inputControl?.makeNotEnabled {
         binding.apply { this.item = item }.executePendingBindings()
     }
 
@@ -90,7 +90,7 @@ class RollWriteHolder(
 
         textFrom?.let {
             val cursorItem = InputItem.Cursor(cursorFrom, cursorTo)
-            iInputControl?.onRollChange(adapterPosition, it, textTo, cursorItem)
+            inputControl?.onRollChange(adapterPosition, it, textTo, cursorItem)
 
             textFrom = textTo
             cursorFrom = cursorTo

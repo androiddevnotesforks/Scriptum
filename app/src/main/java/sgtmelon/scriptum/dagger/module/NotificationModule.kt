@@ -18,19 +18,19 @@ class NotificationModule {
 
     @Provides
     @ActivityScope
-    fun provideInteractor(iPreferenceRepo: IPreferenceRepo,
-                          iAlarmRepo: IAlarmRepo, iBindRepo: IBindRepo,
+    fun provideInteractor(preferenceRepo: IPreferenceRepo,
+                          alarmRepo: IAlarmRepo, bindRepo: IBindRepo,
                           activity: NotificationActivity): INotificationInteractor {
-        return NotificationInteractor(iPreferenceRepo, iAlarmRepo, iBindRepo, activity)
+        return NotificationInteractor(preferenceRepo, alarmRepo, bindRepo, activity)
     }
 
     @Provides
     @ActivityScope
     fun provideViewModel(activity: NotificationActivity,
-                         iInteractor: INotificationInteractor): INotificationViewModel {
+                         interactor: INotificationInteractor): INotificationViewModel {
         return ViewModelProvider(activity).get(NotificationViewModel::class.java).apply {
             setCallback(activity)
-            setInteractor(iInteractor)
+            setInteractor(interactor)
         }
     }
 

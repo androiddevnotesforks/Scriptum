@@ -25,12 +25,12 @@ import sgtmelon.scriptum.screen.vm.callback.main.IRankViewModel
 class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(application),
         IRankViewModel {
 
-    private lateinit var iInteractor: IRankInteractor
-    private lateinit var iBindInteractor: IBindInteractor
+    private lateinit var interactor: IRankInteractor
+    private lateinit var bindInteractor: IBindInteractor
 
-    fun setInteractor(iInteractor: IRankInteractor, iBindInteractor: IBindInteractor) {
-        this.iInteractor = iInteractor
-        this.iBindInteractor = iBindInteractor
+    fun setInteractor(interactor: IRankInteractor, bindInteractor: IBindInteractor) {
+        this.interactor = interactor
+        this.bindInteractor = bindInteractor
     }
 
 
@@ -44,7 +44,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         }
     }
 
-    override fun onDestroy(func: () -> Unit) = super.onDestroy { iInteractor.onDestroy() }
+    override fun onDestroy(func: () -> Unit) = super.onDestroy { interactor.onDestroy() }
 
 
     override fun onUpdateData() {
@@ -63,7 +63,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         if (itemList.isNotEmpty()) updateList()
 
         viewModelScope.launch {
-            val count = iInteractor.getCount()
+            val count = interactor.getCount()
 
             if (count == 0) {
                 itemList.clear()
@@ -72,7 +72,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
                     callback?.showProgress()
                 }
 
-                itemList.clearAddAll(iInteractor.getList())
+                itemList.clearAddAll(interactor.getList())
             }
 
             updateList()
@@ -98,7 +98,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     override fun onRenameDialog(p: Int, name: String) {
         val item = itemList[p].apply { this.name = name }
 
-        viewModelScope.launch { iInteractor.update(item) }
+        viewModelScope.launch { interactor.update(item) }
 
         onUpdateToolbar()
         callback?.notifyItemChanged(itemList, p)
@@ -130,10 +130,10 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         val p = if (simpleClick) itemList.size else 0
 
         viewModelScope.launch {
-            itemList.add(p, iInteractor.insert(name))
+            itemList.add(p, interactor.insert(name))
 
             val noteIdList = itemList.correctPositions()
-            iInteractor.updatePosition(itemList, noteIdList)
+            interactor.updatePosition(itemList, noteIdList)
 
             callback?.scrollToItem(simpleClick, p, itemList)
         }
@@ -145,8 +145,8 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         callback?.setList(itemList)
 
         viewModelScope.launch {
-            iInteractor.update(item)
-            iBindInteractor.notifyNoteBind(callback)
+            interactor.update(item)
+            bindInteractor.notifyNoteBind(callback)
         }
     }
 
@@ -170,8 +170,8 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         callback?.notifyDataSetChanged(itemList, startAnim)
 
         viewModelScope.launch {
-            iInteractor.update(itemList)
-            iBindInteractor.notifyNoteBind(callback)
+            interactor.update(itemList)
+            bindInteractor.notifyNoteBind(callback)
         }
     }
 
@@ -182,9 +182,9 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         callback?.notifyItemRemoved(itemList, p)
 
         viewModelScope.launch {
-            iInteractor.delete(item)
-            iInteractor.updatePosition(itemList, noteIdList)
-            iBindInteractor.notifyNoteBind(callback)
+            interactor.delete(item)
+            interactor.updatePosition(itemList, noteIdList)
+            bindInteractor.notifyNoteBind(callback)
         }
     }
 
@@ -214,7 +214,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         val noteIdList = itemList.correctPositions()
         callback?.setList(itemList)
 
-        viewModelScope.launch { iInteractor.updatePosition(itemList, noteIdList) }
+        viewModelScope.launch { interactor.updatePosition(itemList, noteIdList) }
     }
 
 

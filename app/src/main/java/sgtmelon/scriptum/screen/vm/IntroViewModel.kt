@@ -2,9 +2,7 @@ package sgtmelon.scriptum.screen.vm
 
 import android.app.Application
 import android.os.Bundle
-import sgtmelon.scriptum.interactor.IntroInteractor
 import sgtmelon.scriptum.interactor.callback.IIntroInteractor
-import sgtmelon.scriptum.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.screen.ui.callback.IIntroActivity
 import sgtmelon.scriptum.screen.ui.intro.IntroActivity
 import sgtmelon.scriptum.screen.vm.callback.IIntroViewModel
@@ -15,10 +13,10 @@ import sgtmelon.scriptum.screen.vm.callback.IIntroViewModel
 class IntroViewModel(application: Application) : ParentViewModel<IIntroActivity>(application),
         IIntroViewModel {
 
-    private lateinit var iInteractor: IIntroInteractor
+    private lateinit var interactor: IIntroInteractor
 
-    fun setInteractor(iInteractor: IIntroInteractor) {
-        this.iInteractor = iInteractor
+    fun setInteractor(interactor: IIntroInteractor) {
+        this.interactor = interactor
     }
 
 
@@ -27,7 +25,7 @@ class IntroViewModel(application: Application) : ParentViewModel<IIntroActivity>
     }
 
     override fun onClickEnd() {
-        iInteractor.onIntroFinish()
+        interactor.onIntroFinish()
         callback?.startMainActivity()
     }
 

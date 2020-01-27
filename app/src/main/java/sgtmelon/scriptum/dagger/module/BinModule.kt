@@ -17,17 +17,17 @@ class BinModule {
 
     @Provides
     @ActivityScope
-    fun provideInteractor(iPreferenceRepo: IPreferenceRepo, iNoteRepo: INoteRepo,
+    fun provideInteractor(preferenceRepo: IPreferenceRepo, noteRepo: INoteRepo,
                           fragment: BinFragment): IBinInteractor {
-        return BinInteractor(iPreferenceRepo, iNoteRepo, fragment)
+        return BinInteractor(preferenceRepo, noteRepo, fragment)
     }
 
     @Provides
     @ActivityScope
-    fun provideViewModel(fragment: BinFragment, iInteractor: IBinInteractor): IBinViewModel {
+    fun provideViewModel(fragment: BinFragment, interactor: IBinInteractor): IBinViewModel {
         return ViewModelProvider(fragment).get(BinViewModel::class.java).apply {
             setCallback(fragment)
-            setInteractor(iInteractor)
+            setInteractor(interactor)
         }
     }
 

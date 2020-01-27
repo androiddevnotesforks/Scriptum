@@ -21,20 +21,20 @@ class TextNoteModule {
 
     @Provides
     @ActivityScope
-    fun provideInteractor(iPreferenceRepo: IPreferenceRepo, iAlarmRepo: IAlarmRepo,
-                          iRankRepo: IRankRepo, iNoteRepo: INoteRepo,
+    fun provideInteractor(preferenceRepo: IPreferenceRepo, alarmRepo: IAlarmRepo,
+                          rankRepo: IRankRepo, noteRepo: INoteRepo,
                           fragment: TextNoteFragment): ITextNoteInteractor {
-        return TextNoteInteractor(iPreferenceRepo, iAlarmRepo, iRankRepo, iNoteRepo, fragment)
+        return TextNoteInteractor(preferenceRepo, alarmRepo, rankRepo, noteRepo, fragment)
     }
 
     @Provides
     @ActivityScope
-    fun provideViewModel(fragment: TextNoteFragment, iInteractor: ITextNoteInteractor,
-                         iBindInteractor: IBindInteractor): ITextNoteViewModel {
+    fun provideViewModel(fragment: TextNoteFragment, interactor: ITextNoteInteractor,
+                         bindInteractor: IBindInteractor): ITextNoteViewModel {
         return ViewModelProvider(fragment).get(TextNoteViewModel::class.java).apply {
             setCallback(fragment)
             setParentCallback(fragment.context as? INoteChild)
-            setInteractor(iInteractor, iBindInteractor)
+            setInteractor(interactor, bindInteractor)
         }
     }
 

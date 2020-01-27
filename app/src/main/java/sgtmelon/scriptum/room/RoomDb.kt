@@ -25,13 +25,13 @@ import sgtmelon.scriptum.room.entity.RollEntity
 ], version = RoomDb.VERSION)
 abstract class RoomDb : RoomDatabase() {
 
-    abstract val iNoteDao: INoteDao
+    abstract val noteDao: INoteDao
 
-    abstract val iRollDao: IRollDao
+    abstract val rollDao: IRollDao
 
-    abstract val iRankDao: IRankDao
+    abstract val rankDao: IRankDao
 
-    abstract val iAlarmDao: IAlarmDao
+    abstract val alarmDao: IAlarmDao
 
     companion object {
         const val VERSION = 7

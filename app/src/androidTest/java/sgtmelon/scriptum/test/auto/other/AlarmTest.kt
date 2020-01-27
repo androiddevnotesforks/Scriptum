@@ -40,7 +40,7 @@ class AlarmTest : ParentUiTest() {
     @Test fun clickRepeatMin1440() = startRepeatTest(Repeat.MIN_1440)
 
     private fun startRepeatTest(@Repeat repeat: Int) {
-        iPreferenceRepo.repeat = repeat
+        preferenceRepo.repeat = repeat
 
         data.insertNote().let {
             launchAlarm(it) { openAlarm(it) { onClickRepeat() }.mainScreen() }
@@ -49,7 +49,7 @@ class AlarmTest : ParentUiTest() {
 
 
     @Test fun clickRepeatDateExist() = data.insertText().let{
-        iPreferenceRepo.repeat = Repeat.MIN_10
+        preferenceRepo.repeat = Repeat.MIN_10
 
         launchAlarm(it) {
             val existDate = getTime(min = 10).getText()
@@ -61,8 +61,8 @@ class AlarmTest : ParentUiTest() {
     }
 
     @Test fun clickRepeatCorrectSeconds() = data.insertText(data.textNote.copy(color = 1)).let {
-        iPreferenceRepo.sort = Sort.COLOR
-        iPreferenceRepo.repeat = Repeat.MIN_10
+        preferenceRepo.sort = Sort.COLOR
+        preferenceRepo.repeat = Repeat.MIN_10
 
         val note = data.insertRoll(data.rollNote.copy(color = 0))
 
@@ -95,7 +95,7 @@ class AlarmTest : ParentUiTest() {
     @Test fun waitRepeatMin1440() = startWaitRepeatTest(Repeat.MIN_1440)
 
     private fun startWaitRepeatTest(@Repeat repeat: Int) {
-        iPreferenceRepo.repeat = repeat
+        preferenceRepo.repeat = repeat
 
         data.insertNote().let {
             launchAlarm(it) { openAlarm(it) { waitRepeat() }.mainScreen() }
@@ -114,7 +114,7 @@ class AlarmTest : ParentUiTest() {
     @Test fun backRepeatMin1440() = startBackRepeatTest(Repeat.MIN_1440)
 
     private fun startBackRepeatTest(@Repeat repeat: Int) {
-        iPreferenceRepo.repeat = repeat
+        preferenceRepo.repeat = repeat
 
         data.insertNote().let {
             launchAlarm(it) { openAlarm(it) { onPressBack() }.mainScreen() }

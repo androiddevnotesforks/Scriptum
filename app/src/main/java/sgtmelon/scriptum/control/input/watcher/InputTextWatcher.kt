@@ -15,7 +15,7 @@ class InputTextWatcher(
         private val view: EditText?,
         @InputAction private val tag: Int,
         private val callback: Callback,
-        private val iInputControl: IInputControl
+        private val inputControl: IInputControl
 ) : TextWatcher {
 
     private var textFrom = ""
@@ -35,8 +35,8 @@ class InputTextWatcher(
         val cursorItem = InputItem.Cursor(cursorFrom, cursorTo)
 
         when (tag) {
-            InputAction.NAME -> iInputControl.onNameChange(textFrom, textTo, cursorItem)
-            InputAction.TEXT -> iInputControl.onTextChange(textFrom, textTo, cursorItem)
+            InputAction.NAME -> inputControl.onNameChange(textFrom, textTo, cursorItem)
+            InputAction.TEXT -> inputControl.onTextChange(textFrom, textTo, cursorItem)
         }
 
         textFrom = textTo

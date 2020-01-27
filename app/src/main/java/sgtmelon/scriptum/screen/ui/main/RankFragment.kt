@@ -41,9 +41,9 @@ class RankFragment : ParentFragment(), IRankFragment {
 
     private var binding: FragmentRankBinding? = null
 
-    @Inject internal lateinit var iViewModel: IRankViewModel
+    @Inject internal lateinit var viewModel: IRankViewModel
 
-    private val iBindControl by lazy { BindControl[context] }
+    private val bindControl by lazy { BindControl[context] }
 
     override val openState get() = callback?.openState
     private val renameDialog by lazy { DialogFactory.Main(context, fm).getRenameDialog() }
@@ -58,10 +58,10 @@ class RankFragment : ParentFragment(), IRankFragment {
                         R.id.rank_visible_button -> {
                             openState?.block(iconAnimationTime)
                             action()
-                            iViewModel.onClickVisible(p)
+                            viewModel.onClickVisible(p)
                         }
-                        R.id.rank_click_container -> iViewModel.onShowRenameDialog(p)
-                        R.id.rank_cancel_button -> iViewModel.onClickCancel(p)
+                        R.id.rank_click_container -> viewModel.onShowRenameDialog(p)
+                        R.id.rank_cancel_button -> viewModel.onClickCancel(p)
                     }
                 }
             }
@@ -69,7 +69,7 @@ class RankFragment : ParentFragment(), IRankFragment {
             override fun onItemLongClick(view: View, p: Int) {
                 openState?.tryInvoke {
                     openState?.block(iconAnimationTime)
-                    iViewModel.onLongClickVisible(p)
+                    viewModel.onLongClickVisible(p)
                 }
             }
         })
@@ -100,19 +100,19 @@ class RankFragment : ParentFragment(), IRankFragment {
         ScriptumApplication.component.getRankBuilder().set(fragment = this).build()
                 .inject(fragment = this)
 
-        iBindControl.initLazy()
+        bindControl.initLazy()
 
-        iViewModel.onSetup()
+        viewModel.onSetup()
     }
 
     override fun onResume() {
         super.onResume()
-        iViewModel.onUpdateData()
+        viewModel.onUpdateData()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        iViewModel.onDestroy()
+        viewModel.onDestroy()
     }
 
 
@@ -122,24 +122,24 @@ class RankFragment : ParentFragment(), IRankFragment {
         }
 
         view?.findViewById<ImageButton>(R.id.toolbar_rank_clear_button)?.apply {
-            setOnClickListener { iViewModel.onClickEnterCancel() }
+            setOnClickListener { viewModel.onClickEnterCancel() }
         }
 
         view?.findViewById<ImageButton>(R.id.toolbar_rank_add_button)?.apply {
             setOnClickListener {
-                openState?.tryInvoke {  iViewModel.onClickEnterAdd(simpleClick = true) }
+                openState?.tryInvoke {  viewModel.onClickEnterAdd(simpleClick = true) }
             }
             setOnLongClickListener {
-                openState?.tryInvoke { iViewModel.onClickEnterAdd(simpleClick = false) }
+                openState?.tryInvoke { viewModel.onClickEnterAdd(simpleClick = false) }
                 return@setOnLongClickListener true
             }
         }
 
         nameEnter = view?.findViewById(R.id.toolbar_rank_enter)
         nameEnter?.apply {
-            addTextChangedListener(on = { iViewModel.onUpdateToolbar() })
+            addTextChangedListener(on = { viewModel.onUpdateToolbar() })
             setOnEditorActionListener { _, i, _ ->
-                val result = openState?.tryReturnInvoke { iViewModel.onEditorClick(i) } ?: false
+                val result = openState?.tryReturnInvoke { viewModel.onEditorClick(i) } ?: false
 
                 if (!result) openState?.clear()
 
@@ -153,7 +153,7 @@ class RankFragment : ParentFragment(), IRankFragment {
         emptyInfoView = view?.findViewById(R.id.rank_info_include)
         progressBar = view?.findViewById(R.id.rank_progress)
 
-        val touchCallback = RankTouchControl(iViewModel)
+        val touchCallback = RankTouchControl(viewModel)
 
         adapter.dragListener = touchCallback
 
@@ -175,7 +175,7 @@ class RankFragment : ParentFragment(), IRankFragment {
 
         renameDialog.apply {
             positiveListener = DialogInterface.OnClickListener { _, _ ->
-                iViewModel.onRenameDialog(position, name)
+                viewModel.onRenameDialog(position, name)
             }
             dismissListener = DialogInterface.OnDismissListener { openState?.clear() }
         }
@@ -201,7 +201,7 @@ class RankFragment : ParentFragment(), IRankFragment {
 
         binding?.isListEmpty = isListEmpty
 
-        iViewModel.onUpdateToolbar()
+        viewModel.onUpdateToolbar()
     }
 
     override fun onBindingToolbar(isClearEnable: Boolean, isAddEnable: Boolean) {
@@ -276,7 +276,7 @@ class RankFragment : ParentFragment(), IRankFragment {
     }
 
     override fun notifyNoteBind(item: NoteItem, rankIdVisibleList: List<Long>) {
-        iBindControl.notifyNote(item, rankIdVisibleList)
+        bindControl.notifyNote(item, rankIdVisibleList)
     }
 
 }

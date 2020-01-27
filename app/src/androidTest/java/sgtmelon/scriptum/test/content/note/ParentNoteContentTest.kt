@@ -26,8 +26,8 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
     open fun colorRollDark() = startColorTest(NoteType.ROLL, Theme.DARK)
 
     private fun startColorTest(type: NoteType, @Theme theme: Int) {
-        iPreferenceRepo.theme = theme
-        iPreferenceRepo.sort = Sort.COLOR
+        preferenceRepo.theme = theme
+        preferenceRepo.sort = Sort.COLOR
 
         onAssertList(ArrayList<NoteItem>().also { list ->
             Color.list.forEach {
@@ -61,7 +61,7 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
     open fun timeChangeRoll() = startTimeTest(NoteType.ROLL, Sort.CHANGE)
 
     private fun startTimeTest(type: NoteType, @Sort sort: Int) {
-        iPreferenceRepo.sort = sort
+        preferenceRepo.sort = sort
 
         onAssertList(ArrayList<NoteItem>().also { list ->
             lastArray.forEach {
@@ -162,7 +162,7 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
 
 
     open fun rankSort() {
-        iPreferenceRepo.sort = Sort.RANK
+        preferenceRepo.sort = Sort.RANK
 
         onAssertList(ArrayList<NoteItem>().apply {
             add(when (page) {

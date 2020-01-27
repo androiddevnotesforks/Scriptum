@@ -22,12 +22,12 @@ import sgtmelon.scriptum.screen.vm.callback.main.IMainViewModel
 class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(application),
         IMainViewModel {
 
-    private lateinit var iInteractor: IMainInteractor
-    private lateinit var iBindInteractor: IBindInteractor
+    private lateinit var interactor: IMainInteractor
+    private lateinit var bindInteractor: IBindInteractor
 
-    fun setInteractor(iInteractor: IMainInteractor, iBindInteractor: IBindInteractor) {
-        this.iInteractor = iInteractor
-        this.iBindInteractor = iBindInteractor
+    fun setInteractor(interactor: IMainInteractor, bindInteractor: IBindInteractor) {
+        this.interactor = interactor
+        this.bindInteractor = bindInteractor
     }
 
 
@@ -41,9 +41,9 @@ class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(a
     override fun onSetup(bundle: Bundle?) {
         if (bundle == null) {
             viewModelScope.launch {
-                iInteractor.tidyUpAlarm()
-                iBindInteractor.notifyNoteBind(callback)
-                iBindInteractor.notifyInfoBind(callback)
+                interactor.tidyUpAlarm()
+                bindInteractor.notifyNoteBind(callback)
+                bindInteractor.notifyInfoBind(callback)
             }
         } else {
             firstStart = bundle.getBoolean(FIRST_START)

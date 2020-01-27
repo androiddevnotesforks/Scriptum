@@ -22,154 +22,154 @@ import sgtmelon.scriptum.screen.vm.main.RankViewModel.Companion.correctPositions
 @RunWith(AndroidJUnit4::class)
 class RankRepoTest : ParentIntegrationTest()  {
 
-    private val iRankRepo: IRankRepo = RankRepo(context)
+    private val rankRepo: IRankRepo = RankRepo(context)
 
     private val rankConverter = RankConverter()
     private val noteConverter = NoteConverter()
 
 
     @Test fun getCount() = inRoomTest {
-        assertTrue(iRankRepo.getCount() == 0)
-        iRankRepo.insert(data.uniqueString)
-        assertFalse(iRankRepo.getCount() == 0)
+        assertTrue(rankRepo.getCount() == 0)
+        rankRepo.insert(data.uniqueString)
+        assertFalse(rankRepo.getCount() == 0)
     }
 
     @Test fun getList() = inRoomTest {
         val list = mutableListOf<RankItem>()
 
-        assertEquals(list, iRankRepo.getList())
+        assertEquals(list, rankRepo.getList())
 
         listOf(rankFirst, rankSecond, rankThird).forEach {
-            assertNotEquals(UNIQUE_ERROR_ID, iRankDao.insert(it))
+            assertNotEquals(UNIQUE_ERROR_ID, rankDao.insert(it))
             list.add(rankConverter.toItem(it))
 
-            assertEquals(list, iRankRepo.getList())
+            assertEquals(list, rankRepo.getList())
         }
     }
 
     @Test fun getIdVisibleList() = inRoomTest {
         val idList = listOf(rankFirst, rankSecond, rankThird).apply {
-            forEach { iRankDao.insert(it) }
+            forEach { rankDao.insert(it) }
         }.filter { it.isVisible }.map { it.id }
 
-        assertEquals(idList, iRankRepo.getIdVisibleList())
+        assertEquals(idList, rankRepo.getIdVisibleList())
     }
 
 
     @Test fun insertWithUnique() = inRoomTest {
         val name = data.uniqueString
 
-        assertNotEquals(UNIQUE_ERROR_ID, iRankRepo.insert(name))
-        assertEquals(UNIQUE_ERROR_ID, iRankRepo.insert(name))
+        assertNotEquals(UNIQUE_ERROR_ID, rankRepo.insert(name))
+        assertEquals(UNIQUE_ERROR_ID, rankRepo.insert(name))
     }
 
     @Test fun delete() = inRoomTest {
-        assertNotEquals(UNIQUE_ERROR_ID, iNoteDao.insert(noteFirst))
-        assertNotEquals(UNIQUE_ERROR_ID, iNoteDao.insert(noteSecond))
-        assertNotEquals(UNIQUE_ERROR_ID, iRankDao.insert(rankFirst))
+        assertNotEquals(UNIQUE_ERROR_ID, noteDao.insert(noteFirst))
+        assertNotEquals(UNIQUE_ERROR_ID, noteDao.insert(noteSecond))
+        assertNotEquals(UNIQUE_ERROR_ID, rankDao.insert(rankFirst))
 
-        iRankRepo.delete(rankConverter.toItem(rankFirst))
+        rankRepo.delete(rankConverter.toItem(rankFirst))
 
         assertEquals(noteFirst.copy(
                 rankId = DbData.Note.Default.RANK_ID,
                 rankPs = DbData.Note.Default.RANK_PS
-        ), iNoteDao.get(noteFirst.id))
+        ), noteDao.get(noteFirst.id))
 
         assertEquals(noteSecond.copy(
                 rankId = DbData.Note.Default.RANK_ID,
                 rankPs = DbData.Note.Default.RANK_PS
-        ), iNoteDao.get(noteSecond.id))
+        ), noteDao.get(noteSecond.id))
 
-        assertTrue(iRankRepo.getList().isEmpty())
+        assertTrue(rankRepo.getList().isEmpty())
     }
 
     @Test fun updateItem() = inRoomTest {
-        assertNotEquals(UNIQUE_ERROR_ID, iRankDao.insert(rankFirst))
+        assertNotEquals(UNIQUE_ERROR_ID, rankDao.insert(rankFirst))
 
-        assertEquals(listOf(rankConverter.toItem(rankFirst)), iRankRepo.getList())
+        assertEquals(listOf(rankConverter.toItem(rankFirst)), rankRepo.getList())
 
         val rankItem = rankConverter.toItem(rankFirst.copy(name = "54321", isVisible = true))
-        iRankRepo.update(rankItem)
+        rankRepo.update(rankItem)
 
-        assertEquals(listOf(rankItem), iRankRepo.getList())
+        assertEquals(listOf(rankItem), rankRepo.getList())
     }
 
     @Test fun updateList() = inRoomTest {
-        assertNotEquals(UNIQUE_ERROR_ID, iRankDao.insert(rankFirst))
-        assertNotEquals(UNIQUE_ERROR_ID, iRankDao.insert(rankSecond))
+        assertNotEquals(UNIQUE_ERROR_ID, rankDao.insert(rankFirst))
+        assertNotEquals(UNIQUE_ERROR_ID, rankDao.insert(rankSecond))
 
-        assertEquals(rankConverter.toItem(listOf(rankFirst, rankSecond)), iRankRepo.getList())
+        assertEquals(rankConverter.toItem(listOf(rankFirst, rankSecond)), rankRepo.getList())
 
         val rankList = listOf(
                 rankConverter.toItem(rankFirst.copy(name = "54321", isVisible = true)),
                 rankConverter.toItem(rankSecond.copy(name = "98765", isVisible = false))
         )
-        iRankRepo.update(rankList)
+        rankRepo.update(rankList)
 
-        assertEquals(rankList, iRankRepo.getList())
+        assertEquals(rankList, rankRepo.getList())
     }
 
 
     @Test fun updatePosition() = inRoomTest {
-        assertNotEquals(UNIQUE_ERROR_ID, iNoteDao.insert(noteFirst))
-        assertNotEquals(UNIQUE_ERROR_ID, iNoteDao.insert(noteSecond))
-        assertNotEquals(UNIQUE_ERROR_ID, iNoteDao.insert(noteThird))
+        assertNotEquals(UNIQUE_ERROR_ID, noteDao.insert(noteFirst))
+        assertNotEquals(UNIQUE_ERROR_ID, noteDao.insert(noteSecond))
+        assertNotEquals(UNIQUE_ERROR_ID, noteDao.insert(noteThird))
 
-        assertNotEquals(UNIQUE_ERROR_ID, iRankDao.insert(rankFirst))
-        assertNotEquals(UNIQUE_ERROR_ID, iRankDao.insert(rankSecond))
-        assertNotEquals(UNIQUE_ERROR_ID, iRankDao.insert(rankThird))
+        assertNotEquals(UNIQUE_ERROR_ID, rankDao.insert(rankFirst))
+        assertNotEquals(UNIQUE_ERROR_ID, rankDao.insert(rankSecond))
+        assertNotEquals(UNIQUE_ERROR_ID, rankDao.insert(rankThird))
 
         val rankList = rankConverter.toItem(listOf(rankThird, rankFirst, rankSecond))
         val noteIdList = rankList.correctPositions()
 
-        iRankRepo.updatePosition(rankList, noteIdList)
+        rankRepo.updatePosition(rankList, noteIdList)
 
         assertEquals(0, rankList[0].position)
         assertEquals(1, rankList[1].position)
         assertEquals(2, rankList[2].position)
 
-        assertEquals(1, iNoteDao.get(noteFirst.id)?.rankPs)
-        assertEquals(1, iNoteDao.get(noteSecond.id)?.rankPs)
-        assertEquals(2, iNoteDao.get(noteThird.id)?.rankPs)
+        assertEquals(1, noteDao.get(noteFirst.id)?.rankPs)
+        assertEquals(1, noteDao.get(noteSecond.id)?.rankPs)
+        assertEquals(2, noteDao.get(noteThird.id)?.rankPs)
 
-        assertEquals(rankList, rankConverter.toItem(iRankDao.get()))
+        assertEquals(rankList, rankConverter.toItem(rankDao.get()))
     }
 
 
     @Test fun updateConnection() = inRoomTest {
-        assertNotEquals(UNIQUE_ERROR_ID, iRankDao.insert(rankFirst))
-        assertNotEquals(UNIQUE_ERROR_ID, iRankDao.insert(rankSecond))
-        assertNotEquals(UNIQUE_ERROR_ID, iRankDao.insert(rankThird))
+        assertNotEquals(UNIQUE_ERROR_ID, rankDao.insert(rankFirst))
+        assertNotEquals(UNIQUE_ERROR_ID, rankDao.insert(rankSecond))
+        assertNotEquals(UNIQUE_ERROR_ID, rankDao.insert(rankThird))
 
-        assertNotEquals(UNIQUE_ERROR_ID, iNoteDao.insert(noteFirst))
+        assertNotEquals(UNIQUE_ERROR_ID, noteDao.insert(noteFirst))
 
         val noteItem = noteConverter.toItem(noteFirst.copy(rankId = 3, rankPs = 2))
-        iRankRepo.updateConnection(noteItem)
+        rankRepo.updateConnection(noteItem)
 
-        assertEquals(rankThird.copy(noteId = mutableListOf(noteItem.id)), iRankDao.get(rankThird.id))
+        assertEquals(rankThird.copy(noteId = mutableListOf(noteItem.id)), rankDao.get(rankThird.id))
 
         noteItem.clearRank()
-        iRankRepo.updateConnection(noteItem)
+        rankRepo.updateConnection(noteItem)
 
-        assertEquals(rankThird, iRankDao.get(rankThird.id))
+        assertEquals(rankThird, rankDao.get(rankThird.id))
     }
 
 
     @Test fun getDialogItemArray() = inRoomTest {
         val nameList = listOf(rankFirst, rankSecond, rankThird).apply {
-            forEach { iRankDao.insert(it) }
+            forEach { rankDao.insert(it) }
         }.map { it.name }.toMutableList().apply { add(0, context.getString(R.string.dialog_item_rank)) }
 
-        assertEquals(nameList, iRankRepo.getDialogItemArray().toList())
+        assertEquals(nameList, rankRepo.getDialogItemArray().toList())
     }
 
     @Test fun getId() = inRoomTest {
-        listOf(rankFirst, rankSecond, rankThird).forEach { iRankDao.insert(it) }
+        listOf(rankFirst, rankSecond, rankThird).forEach { rankDao.insert(it) }
 
-        assertEquals(DbData.Note.Default.RANK_ID, iRankRepo.getId(DbData.Note.Default.RANK_PS))
-        assertEquals(rankFirst.id, iRankRepo.getId(position = 0))
-        assertEquals(rankSecond.id, iRankRepo.getId(position = 1))
-        assertEquals(rankThird.id, iRankRepo.getId(position = 2))
+        assertEquals(DbData.Note.Default.RANK_ID, rankRepo.getId(DbData.Note.Default.RANK_PS))
+        assertEquals(rankFirst.id, rankRepo.getId(position = 0))
+        assertEquals(rankSecond.id, rankRepo.getId(position = 1))
+        assertEquals(rankThird.id, rankRepo.getId(position = 2))
     }
 
     private companion object {

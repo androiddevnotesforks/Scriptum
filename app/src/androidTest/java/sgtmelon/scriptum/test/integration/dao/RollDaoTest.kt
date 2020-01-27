@@ -19,8 +19,8 @@ import sgtmelon.scriptum.test.ParentIntegrationTest
 class RollDaoTest : ParentIntegrationTest() {
 
     private suspend fun RoomDb.insertRollRelation(model: Model) = with(model) {
-        iNoteDao.insert(entity)
-        rollList.forEach { iRollDao.insert(it) }
+        noteDao.insert(entity)
+        rollList.forEach { rollDao.insert(it) }
     }
 
 
@@ -28,8 +28,8 @@ class RollDaoTest : ParentIntegrationTest() {
         insertRollRelation(modelFirst)
 
         with(modelFirst) {
-            rollList.forEach { item -> assertEquals(UNIQUE_ERROR_ID, iRollDao.insert(item)) }
-            assertEquals(rollList, iRollDao.get(entity.id))
+            rollList.forEach { item -> assertEquals(UNIQUE_ERROR_ID, rollDao.insert(item)) }
+            assertEquals(rollList, rollDao.get(entity.id))
         }
     }
 
@@ -38,10 +38,10 @@ class RollDaoTest : ParentIntegrationTest() {
 
         with(modelSecond) {
             rollList[0].copy(position = 4, isCheck = true, text = "00000").let {
-                iRollDao.update(it.id!!, it.position, it.text)
-                iRollDao.update(it.id!!, it.isCheck)
+                rollDao.update(it.id!!, it.position, it.text)
+                rollDao.update(it.id!!, it.isCheck)
 
-                assertTrue(iRollDao.get(entity.id).contains(it))
+                assertTrue(rollDao.get(entity.id).contains(it))
             }
         }
     }
@@ -50,10 +50,10 @@ class RollDaoTest : ParentIntegrationTest() {
         insertRollRelation(modelSecond)
 
         with(modelSecond) {
-            iRollDao.updateAllCheck(entity.id, check = true)
+            rollDao.updateAllCheck(entity.id, check = true)
             assertEquals(copy().rollList.apply {
                 forEach { it.isCheck = true }
-            }, iRollDao.get(entity.id))
+            }, rollDao.get(entity.id))
         }
     }
 
@@ -64,8 +64,8 @@ class RollDaoTest : ParentIntegrationTest() {
             val listSave = rollList.filter { it.isCheck }
 
             entity.id.let { id ->
-                iRollDao.delete(id, listSave.map { it.id ?: -1 })
-                assertEquals(listSave, iRollDao.get(id))
+                rollDao.delete(id, listSave.map { it.id ?: -1 })
+                assertEquals(listSave, rollDao.get(id))
             }
         }
     }
@@ -74,8 +74,8 @@ class RollDaoTest : ParentIntegrationTest() {
         insertRollRelation(modelFirst)
 
         modelFirst.entity.id.let {
-            iRollDao.delete(it)
-            assertTrue(iRollDao.get(it).isEmpty())
+            rollDao.delete(it)
+            assertTrue(rollDao.get(it).isEmpty())
         }
     }
 
@@ -83,12 +83,12 @@ class RollDaoTest : ParentIntegrationTest() {
     @Test fun get() = inRoomTest {
         modelFirst.let {
             insertRollRelation(it)
-            assertEquals(it.rollList, iRollDao.get(it.entity.id))
+            assertEquals(it.rollList, rollDao.get(it.entity.id))
         }
 
         modelSecond.let {
             insertRollRelation(it)
-            assertEquals(it.rollList, iRollDao.get(it.entity.id))
+            assertEquals(it.rollList, rollDao.get(it.entity.id))
         }
     }
 
@@ -97,7 +97,7 @@ class RollDaoTest : ParentIntegrationTest() {
             insertRollRelation(it)
             assertEquals(
                     it.rollList.filter { roll -> roll.position < 4 },
-                    iRollDao.getView(it.entity.id)
+                    rollDao.getView(it.entity.id)
             )
         }
 
@@ -105,7 +105,7 @@ class RollDaoTest : ParentIntegrationTest() {
             insertRollRelation(it)
             assertEquals(
                     it.rollList.filter { roll -> roll.position < 4 },
-                    iRollDao.getView(it.entity.id)
+                    rollDao.getView(it.entity.id)
             )
         }
     }

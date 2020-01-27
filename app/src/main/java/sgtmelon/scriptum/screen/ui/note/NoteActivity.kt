@@ -31,7 +31,7 @@ import javax.inject.Inject
  */
 class NoteActivity : AppActivity(), INoteActivity, INoteChild, NoteReceiver.Callback {
 
-    @Inject internal lateinit var iViewModel: INoteViewModel
+    @Inject internal lateinit var viewModel: INoteViewModel
 
     private val holderControl by lazy { ShowHolderControl(arrayOf(toolbarHolder, panelHolder)) }
 
@@ -51,7 +51,7 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild, NoteReceiver.Call
         ScriptumApplication.component.getNoteBuilder().set(activity = this).build()
                 .inject(activity = this)
 
-        iViewModel.apply {
+        viewModel.apply {
             onSetup(bundle = savedInstanceState ?: intent.extras)
             onSetupFragment(checkCache = savedInstanceState != null)
         }
@@ -64,16 +64,16 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild, NoteReceiver.Call
 
         holderControl.onDestroy()
 
-        iViewModel.onDestroy()
+        viewModel.onDestroy()
         unregisterReceiver(noteReceiver)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState.apply { iViewModel.onSaveData(bundle = this) })
+        super.onSaveInstanceState(outState.apply { viewModel.onSaveData(bundle = this) })
     }
 
     override fun onBackPressed() {
-        if (!iViewModel.onPressBack()) super.onBackPressed()
+        if (!viewModel.onPressBack()) super.onBackPressed()
     }
 
 
@@ -112,11 +112,11 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild, NoteReceiver.Call
         rollNoteFragment?.onReceiveUnbindNote(id)
     }
 
-    override fun onUpdateNoteId(id: Long) = iViewModel.onUpdateNoteId(id)
+    override fun onUpdateNoteId(id: Long) = viewModel.onUpdateNoteId(id)
 
-    override fun onUpdateNoteColor(@Color color: Int) = iViewModel.onUpdateNoteColor(color)
+    override fun onUpdateNoteColor(@Color color: Int) = viewModel.onUpdateNoteColor(color)
 
-    override fun onConvertNote() = iViewModel.onConvertNote()
+    override fun onConvertNote() = viewModel.onConvertNote()
 
 
     private fun showFragment(key: String, fragment: Fragment) {

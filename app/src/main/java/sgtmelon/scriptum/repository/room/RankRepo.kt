@@ -26,27 +26,27 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
     override suspend fun getCount(): Int {
         val count: Int
 
-        openRoom().apply { count = iRankDao.getCount() }.close()
+        openRoom().apply { count = rankDao.getCount() }.close()
 
         return count
     }
 
     override suspend fun getList() = ArrayList<RankItem>().apply {
-        inRoom { addAll(converter.toItem(iRankDao.get())) }
+        inRoom { addAll(converter.toItem(rankDao.get())) }
     }
 
     /**
      * Return list of rank id's which is visible.
      */
     override suspend fun getIdVisibleList() = ArrayList<Long>().apply {
-        inRoom { addAll(iRankDao.getIdVisibleList()) }
+        inRoom { addAll(rankDao.getIdVisibleList()) }
     }
 
 
     override suspend fun insert(name: String): Long {
         val id: Long
 
-        openRoom().apply { id = iRankDao.insert(RankEntity(name = name)) }.close()
+        openRoom().apply { id = rankDao.insert(RankEntity(name = name)) }.close()
 
         return id
     }
@@ -56,29 +56,29 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
             /**
              * Remove rank from note.
              */
-            val noteEntity = iNoteDao.get(id)?.apply {
+            val noteEntity = noteDao.get(id)?.apply {
                 rankId = DbData.Note.Default.RANK_ID
                 rankPs = DbData.Note.Default.RANK_PS
             } ?: continue
 
-            iNoteDao.update(noteEntity)
+            noteDao.update(noteEntity)
         }
 
-        iRankDao.delete(rankItem.name)
+        rankDao.delete(rankItem.name)
     }
 
     override suspend fun update(rankItem: RankItem) = inRoom {
-        iRankDao.update(converter.toEntity(rankItem))
+        rankDao.update(converter.toEntity(rankItem))
     }
 
     override suspend fun update(rankList: List<RankItem>) = inRoom {
-        iRankDao.update(converter.toEntity(rankList))
+        rankDao.update(converter.toEntity(rankList))
     }
 
     override suspend fun updatePosition(rankList: List<RankItem>,
                                         noteIdList: List<Long>) = inRoom {
-        iNoteDao.updateRankPosition(rankList, noteIdList)
-        iRankDao.update(converter.toEntity(rankList))
+        noteDao.updateRankPosition(rankList, noteIdList)
+        rankDao.update(converter.toEntity(rankList))
     }
 
     /**
@@ -101,10 +101,10 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
      * Add [NoteEntity.id] to [RankEntity.noteId] or remove after some changes.
      */
     override suspend fun updateConnection(noteItem: NoteItem) = inRoom {
-        val list = iRankDao.get()
+        val list = rankDao.get()
         val checkArray = calculateCheckArray(list, noteItem.rankId)
 
-        iRankDao.update(list.updateNoteId(noteItem.id, checkArray))
+        rankDao.update(list.updateNoteId(noteItem.id, checkArray))
     }
 
     private fun calculateCheckArray(rankList: List<RankEntity>, rankId: Long): BooleanArray {
@@ -131,7 +131,7 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
      */
     override suspend fun getDialogItemArray() = ArrayList<String>().apply {
         add(context.getString(R.string.dialog_item_rank))
-        inRoom { addAll(iRankDao.getNameList()) }
+        inRoom { addAll(rankDao.getNameList()) }
     }.toTypedArray()
 
     /**
@@ -144,7 +144,7 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
             id = DbData.Note.Default.RANK_ID
         } else {
             openRoom().apply {
-                id = iRankDao.getId(position) ?: DbData.Note.Default.RANK_ID
+                id = rankDao.getId(position) ?: DbData.Note.Default.RANK_ID
             }.close()
         }
 

@@ -21,8 +21,8 @@ class AlarmDaoTest : ParentIntegrationTest() {
 
     private suspend fun RoomDb.insertAlarmRelation(noteEntity: NoteEntity,
                                                    alarmEntity: AlarmEntity) {
-        iNoteDao.insert(noteEntity)
-        iAlarmDao.insert(alarmEntity)
+        noteDao.insert(noteEntity)
+        alarmDao.insert(alarmEntity)
     }
 
 
@@ -30,62 +30,62 @@ class AlarmDaoTest : ParentIntegrationTest() {
         insertAlarmRelation(noteFirst, alarmFirst)
 
         val newAlarm = alarmSecond.copy(noteId = alarmFirst.noteId)
-        assertEquals(newAlarm.id, iAlarmDao.insert(newAlarm))
+        assertEquals(newAlarm.id, alarmDao.insert(newAlarm))
     }
 
     @Test fun delete() = inRoomTest {
         insertAlarmRelation(noteFirst, alarmFirst)
 
-        iAlarmDao.delete(alarmFirst.noteId)
-        assertNull(iAlarmDao.get(alarmFirst.noteId))
+        alarmDao.delete(alarmFirst.noteId)
+        assertNull(alarmDao.get(alarmFirst.noteId))
     }
 
     @Test fun update() = inRoomTest {
         insertAlarmRelation(noteFirst, alarmFirst)
 
         alarmFirst.copy(date = DATE_2).let {
-            iAlarmDao.update(it)
-            assertEquals(it, iAlarmDao.get(alarmFirst.noteId))
+            alarmDao.update(it)
+            assertEquals(it, alarmDao.get(alarmFirst.noteId))
         }
     }
 
-    @Test fun getOnWrongId() = inRoomTest { assertNull(iAlarmDao.get(Random.nextLong())) }
+    @Test fun getOnWrongId() = inRoomTest { assertNull(alarmDao.get(Random.nextLong())) }
 
     @Test fun getOnCorrectId() = inRoomTest {
         insertAlarmRelation(noteFirst, alarmFirst)
 
-        assertEquals(alarmFirst, iAlarmDao.get(alarmFirst.noteId))
+        assertEquals(alarmFirst, alarmDao.get(alarmFirst.noteId))
     }
 
     @Test fun getItem() = inRoomTest {
-        assertNull(iAlarmDao.getItem(Random.nextLong()))
+        assertNull(alarmDao.getItem(Random.nextLong()))
 
         insertAlarmRelation(noteFirst, alarmFirst)
         insertAlarmRelation(noteSecond, alarmSecond)
 
-        assertEquals(notificationFirst, iAlarmDao.getItem(noteFirst.id))
-        assertEquals(notificationSecond, iAlarmDao.getItem(noteSecond.id))
+        assertEquals(notificationFirst, alarmDao.getItem(noteFirst.id))
+        assertEquals(notificationSecond, alarmDao.getItem(noteSecond.id))
     }
 
     @Test fun getList() = inRoomTest {
-        assertTrue(iAlarmDao.getList().isEmpty())
+        assertTrue(alarmDao.getList().isEmpty())
 
         insertAlarmRelation(noteFirst, alarmFirst)
         insertAlarmRelation(noteSecond, alarmSecond)
 
-        assertEquals(notificationList, iAlarmDao.getList())
+        assertEquals(notificationList, alarmDao.getList())
     }
 
     @Test fun getCount() = inRoomTest {
         var size = 0
 
-        assertEquals(iAlarmDao.getCount(), size)
+        assertEquals(alarmDao.getCount(), size)
 
         insertAlarmRelation(noteFirst, alarmFirst)
-        assertEquals(iAlarmDao.getCount(), ++size)
+        assertEquals(alarmDao.getCount(), ++size)
 
         insertAlarmRelation(noteSecond, alarmSecond)
-        assertEquals(iAlarmDao.getCount(), ++size)
+        assertEquals(alarmDao.getCount(), ++size)
     }
 
 

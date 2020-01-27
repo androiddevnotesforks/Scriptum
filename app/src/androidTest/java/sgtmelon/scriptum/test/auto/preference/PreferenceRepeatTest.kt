@@ -49,8 +49,8 @@ class PreferenceRepeatTest : ParentUiTest() {
                 Repeat.MIN_10, Repeat.MIN_30, Repeat.MIN_60, Repeat.MIN_180, Repeat.MIN_1440
         )
 
-        while (iPreferenceRepo.repeat == repeat) {
-            iPreferenceRepo.repeat = list.random()
+        while (preferenceRepo.repeat == repeat) {
+            preferenceRepo.repeat = list.random()
         }
     }
 

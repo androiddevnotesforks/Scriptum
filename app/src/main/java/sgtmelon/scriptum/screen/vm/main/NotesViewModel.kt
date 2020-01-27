@@ -29,12 +29,12 @@ import sgtmelon.scriptum.model.annotation.Options.Notes as Options
 class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>(application),
         INotesViewModel {
 
-    private lateinit var iInteractor: INotesInteractor
-    private lateinit var iBindInteractor: IBindInteractor
+    private lateinit var interactor: INotesInteractor
+    private lateinit var bindInteractor: IBindInteractor
 
-    fun setInteractor(iInteractor: INotesInteractor, iBindInteractor: IBindInteractor) {
-        this.iInteractor = iInteractor
-        this.iBindInteractor = iBindInteractor
+    fun setInteractor(interactor: INotesInteractor, bindInteractor: IBindInteractor) {
+        this.interactor = interactor
+        this.bindInteractor = bindInteractor
     }
 
 
@@ -43,12 +43,12 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
     override fun onSetup(bundle: Bundle?) {
         callback?.apply {
             setupToolbar()
-            setupRecycler(iInteractor.theme)
+            setupRecycler(interactor.theme)
             setupDialog()
         }
     }
 
-    override fun onDestroy(func: () -> Unit) = super.onDestroy { iInteractor.onDestroy() }
+    override fun onDestroy(func: () -> Unit) = super.onDestroy { interactor.onDestroy() }
 
 
     override fun onUpdateData() {
@@ -65,7 +65,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
         }
 
         viewModelScope.launch {
-            val count = iInteractor.getCount()
+            val count = interactor.getCount()
 
             if (count == 0) {
                 itemList.clear()
@@ -74,12 +74,12 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
                     callback?.showProgress()
                 }
 
-                itemList.clearAddAll(iInteractor.getList())
+                itemList.clearAddAll(interactor.getList())
             }
 
             callback?.apply {
                 notifyList(itemList)
-                setupBinding(iInteractor.isListHide())
+                setupBinding(interactor.isListHide())
                 onBindingList()
             }
         }
@@ -119,7 +119,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
             Options.NOTIFICATION -> onMenuNotification(p)
             Options.BIND -> onMenuBind(p)
             Options.CONVERT -> onMenuConvert(p)
-            Options.COPY -> viewModelScope.launch { iInteractor.copy(itemList[p]) }
+            Options.COPY -> viewModelScope.launch { interactor.copy(itemList[p]) }
             Options.DELETE -> onMenuDelete(p)
         }
     }
@@ -133,7 +133,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
     private fun onMenuBind(p: Int) {
         val item = itemList[p].apply { isStatus = !isStatus }
 
-        viewModelScope.launch { iInteractor.updateNote(item) }
+        viewModelScope.launch { interactor.updateNote(item) }
 
         callback?.notifyItemChanged(itemList, p)
     }
@@ -142,9 +142,9 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
         val item = itemList[p]
 
         viewModelScope.launch {
-            iInteractor.convert(item)
+            interactor.convert(item)
 
-            val sortList = itemList.sort(iInteractor.sort)
+            val sortList = itemList.sort(interactor.sort)
             callback?.notifyList(itemList.clearAddAll(sortList))
         }
     }
@@ -153,8 +153,8 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
         val item = itemList.removeAt(p)
 
         viewModelScope.launch {
-            iInteractor.deleteNote(item)
-            iBindInteractor.notifyInfoBind(callback)
+            interactor.deleteNote(item)
+            bindInteractor.notifyInfoBind(callback)
         }
 
         callback?.notifyItemRemoved(itemList, p)
@@ -162,15 +162,15 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
 
 
     override fun onResultDateDialog(calendar: Calendar, p: Int) {
-        viewModelScope.launch { callback?.showTimeDialog(calendar, iInteractor.getDateList(), p) }
+        viewModelScope.launch { callback?.showTimeDialog(calendar, interactor.getDateList(), p) }
     }
 
     override fun onResultDateDialogClear(p: Int) {
         val noteItem = itemList[p]
 
         viewModelScope.launch {
-            iInteractor.clearDate(noteItem)
-            iBindInteractor.notifyInfoBind(callback)
+            interactor.clearDate(noteItem)
+            bindInteractor.notifyInfoBind(callback)
         }
 
         noteItem.clearAlarm()
@@ -182,10 +182,10 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
         if (calendar.beforeNow()) return
 
         viewModelScope.launch {
-            iInteractor.setDate(itemList[p], calendar)
+            interactor.setDate(itemList[p], calendar)
             callback?.notifyItemChanged(itemList, p)
 
-            iBindInteractor.notifyInfoBind(callback)
+            bindInteractor.notifyInfoBind(callback)
         }
     }
 
@@ -209,7 +209,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
         val noteItem = itemList.getOrNull(p) ?: return
 
         viewModelScope.launch {
-            val notificationItem = iInteractor.getNotification(noteItem.id) ?: return@launch
+            val notificationItem = interactor.getNotification(noteItem.id) ?: return@launch
 
             noteItem.apply {
                 alarmId = notificationItem.alarm.id

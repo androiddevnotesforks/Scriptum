@@ -17,7 +17,7 @@ class PreferenceRotationTest : ParentRotationTest() {
     }
 
     @Test fun colorDialog() = launch {
-        val color = iPreferenceRepo.defaultColor
+        val color = preferenceRepo.defaultColor
         mainScreen {
             notesScreen(empty = true) {
                 openPreference { openColorDialog(color) { onRotate { assert() } } }

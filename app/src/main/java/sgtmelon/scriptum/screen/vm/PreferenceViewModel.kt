@@ -5,7 +5,6 @@ import android.os.Bundle
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.toUri
 import sgtmelon.scriptum.interactor.callback.notification.ISignalInteractor
-import sgtmelon.scriptum.interactor.notification.SignalInteractor
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.MelodyItem
@@ -23,15 +22,15 @@ import sgtmelon.scriptum.screen.vm.callback.IPreferenceViewModel
  */
 class PreferenceViewModel(
         private val context: Context,
-        private val iSignalInteractor: ISignalInteractor,
+        private val signalInteractor: ISignalInteractor,
         private var callback: IPreferenceFragment?
 ) : IPreferenceViewModel {
 
-    private val iPreferenceRepo: IPreferenceRepo = PreferenceRepo(context)
+    private val preferenceRepo: IPreferenceRepo = PreferenceRepo(context)
 
     private val summary = SummaryProvider(context)
 
-    private val melodyList: List<MelodyItem> = iSignalInteractor.melodyList
+    private val melodyList: List<MelodyItem> = signalInteractor.melodyList
 
     override fun onSetup(bundle: Bundle?) {
         callback?.apply {
@@ -41,17 +40,17 @@ class PreferenceViewModel(
             setupSave()
             setupOther()
 
-            updateThemeSummary(summary.theme[iPreferenceRepo.theme])
+            updateThemeSummary(summary.theme[preferenceRepo.theme])
 
-            updateRepeatSummary(summary.repeat[iPreferenceRepo.repeat])
-            updateSignalSummary(iSignalInteractor.getSignalSummary(summary.signal))
-            updateMelodyGroupEnabled(iSignalInteractor.signalState.isMelody)
-            updateMelodySummary(melodyList[iSignalInteractor.melodyCheck].title)
-            updateVolumeSummary(context.resources.getString(R.string.pref_summary_alarm_volume, iPreferenceRepo.volume))
+            updateRepeatSummary(summary.repeat[preferenceRepo.repeat])
+            updateSignalSummary(signalInteractor.getSignalSummary(summary.signal))
+            updateMelodyGroupEnabled(signalInteractor.signalState.isMelody)
+            updateMelodySummary(melodyList[signalInteractor.melodyCheck].title)
+            updateVolumeSummary(context.resources.getString(R.string.pref_summary_alarm_volume, preferenceRepo.volume))
 
-            updateSortSummary(summary.sort[iPreferenceRepo.sort])
-            updateColorSummary(summary.color[iPreferenceRepo.defaultColor])
-            updateSaveTimeSummary(summary.saveTime[iPreferenceRepo.savePeriod])
+            updateSortSummary(summary.sort[preferenceRepo.sort])
+            updateColorSummary(summary.color[preferenceRepo.defaultColor])
+            updateSaveTimeSummary(summary.saveTime[preferenceRepo.savePeriod])
         }
     }
 
@@ -61,52 +60,52 @@ class PreferenceViewModel(
 
 
     override fun onClickTheme() = alwaysTrue {
-        callback?.showThemeDialog(iPreferenceRepo.theme)
+        callback?.showThemeDialog(preferenceRepo.theme)
     }
 
     override fun onResultTheme(@Theme theme: Int) {
-        iPreferenceRepo.theme = theme
+        preferenceRepo.theme = theme
         callback?.updateThemeSummary(summary.theme[theme])
     }
 
 
     override fun onClickSort() = alwaysTrue {
-        callback?.showSortDialog(iPreferenceRepo.sort)
+        callback?.showSortDialog(preferenceRepo.sort)
     }
 
     override fun onResultNoteSort(value: Int) {
-        iPreferenceRepo.sort = value
+        preferenceRepo.sort = value
         callback?.updateSortSummary(summary.sort[value])
     }
 
     override fun onClickNoteColor() = alwaysTrue {
-        callback?.showColorDialog(iPreferenceRepo.defaultColor, iPreferenceRepo.theme)
+        callback?.showColorDialog(preferenceRepo.defaultColor, preferenceRepo.theme)
     }
 
     override fun onResultNoteColor(@Color value: Int) {
-        iPreferenceRepo.defaultColor = value
+        preferenceRepo.defaultColor = value
         callback?.updateColorSummary(summary.color[value])
     }
 
 
     override fun onClickRepeat() = alwaysTrue {
-        callback?.showRepeatDialog(iPreferenceRepo.repeat)
+        callback?.showRepeatDialog(preferenceRepo.repeat)
     }
 
     override fun onResultRepeat(value: Int) {
-        iPreferenceRepo.repeat = value
+        preferenceRepo.repeat = value
         callback?.updateRepeatSummary(summary.repeat[value])
     }
 
     override fun onClickSignal() = alwaysTrue {
-        callback?.showSignalDialog(iSignalInteractor.signalCheck)
+        callback?.showSignalDialog(signalInteractor.signalCheck)
     }
 
     override fun onResultSignal(array: BooleanArray) {
-        iPreferenceRepo.signal = IntConverter().toInt(array)
+        preferenceRepo.signal = IntConverter().toInt(array)
         callback?.apply {
-            updateSignalSummary(iSignalInteractor.getSignalSummary(summary.signal))
-            updateMelodyGroupEnabled(iSignalInteractor.signalState.isMelody)
+            updateSignalSummary(signalInteractor.getSignalSummary(summary.signal))
+            updateMelodyGroupEnabled(signalInteractor.signalState.isMelody)
         }
     }
 
@@ -114,7 +113,7 @@ class PreferenceViewModel(
         if (result == PermissionResult.ALLOWED) {
             callback?.showMelodyPermissionDialog()
         } else {
-            callback?.showMelodyDialog(iSignalInteractor.melodyCheck)
+            callback?.showMelodyDialog(signalInteractor.melodyCheck)
         }
     }
 
@@ -123,26 +122,26 @@ class PreferenceViewModel(
     }
 
     override fun onResultMelody(value: Int) {
-        iSignalInteractor.melodyUri = melodyList[value].uri
+        signalInteractor.melodyUri = melodyList[value].uri
         callback?.updateMelodySummary(melodyList[value].title)
     }
 
     override fun onClickVolume() = alwaysTrue {
-        callback?.showVolumeDialog(iPreferenceRepo.volume)
+        callback?.showVolumeDialog(preferenceRepo.volume)
     }
 
     override fun onResultVolume(value: Int) {
-        iPreferenceRepo.volume = value
+        preferenceRepo.volume = value
         callback?.updateVolumeSummary(context.resources.getString(R.string.pref_summary_alarm_volume, value))
     }
 
 
     override fun onClickSaveTime() = alwaysTrue {
-        callback?.showSaveTimeDialog(iPreferenceRepo.savePeriod)
+        callback?.showSaveTimeDialog(preferenceRepo.savePeriod)
     }
 
     override fun onResultSaveTime(value: Int) {
-        iPreferenceRepo.savePeriod = value
+        preferenceRepo.savePeriod = value
         callback?.updateSaveTimeSummary(summary.saveTime[value])
     }
 

@@ -2,12 +2,10 @@ package sgtmelon.scriptum.screen.vm
 
 import android.app.Application
 import android.os.Bundle
-import sgtmelon.scriptum.interactor.SplashInteractor
 import sgtmelon.scriptum.interactor.callback.ISplashInteractor
 import sgtmelon.scriptum.model.annotation.OpenFrom
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.screen.ui.SplashActivity
 import sgtmelon.scriptum.screen.ui.callback.ISplashActivity
 import sgtmelon.scriptum.screen.vm.callback.ISplashViewModel
@@ -18,10 +16,10 @@ import sgtmelon.scriptum.screen.vm.callback.ISplashViewModel
 class SplashViewModel(application: Application) : ParentViewModel<ISplashActivity>(application),
         ISplashViewModel {
 
-    private lateinit var iInteractor: ISplashInteractor
+    private lateinit var interactor: ISplashInteractor
 
-    fun setInteractor(iInteractor: ISplashInteractor) {
-        this.iInteractor = iInteractor
+    fun setInteractor(interactor: ISplashInteractor) {
+        this.interactor = interactor
     }
 
 
@@ -38,10 +36,10 @@ class SplashViewModel(application: Application) : ParentViewModel<ISplashActivit
         }
     }
 
-    override fun onDestroy(func: () -> Unit) = super.onDestroy { iInteractor.onDestroy() }
+    override fun onDestroy(func: () -> Unit) = super.onDestroy { interactor.onDestroy() }
 
 
-    private fun onSimpleStart() = if (iInteractor.firstStart) {
+    private fun onSimpleStart() = if (interactor.firstStart) {
         callback?.startIntroActivity()
     } else {
         callback?.startMainActivity()

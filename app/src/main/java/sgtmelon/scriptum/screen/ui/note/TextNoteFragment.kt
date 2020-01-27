@@ -44,10 +44,10 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment, NoteReceiver.Callb
 
     private var binding: FragmentTextNoteBinding? = null
 
-    @Inject internal lateinit var iViewModel: ITextNoteViewModel
+    @Inject internal lateinit var viewModel: ITextNoteViewModel
 
-    private val iAlarmControl by lazy { AlarmControl[context] }
-    private val iBindControl by lazy { BindControl[context] }
+    private val alarmControl by lazy { AlarmControl[context] }
+    private val bindControl by lazy { BindControl[context] }
     private var menuControl: MenuControl? = null
 
     private val openState = OpenState()
@@ -80,11 +80,11 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment, NoteReceiver.Callb
         ScriptumApplication.component.getTextNoteBuilder().set(fragment = this).build()
                 .inject(fragment = this)
 
-        iAlarmControl.initLazy()
-        iBindControl.initLazy()
+        alarmControl.initLazy()
+        bindControl.initLazy()
         openState.get(savedInstanceState)
 
-        iViewModel.onSetup(bundle = savedInstanceState ?: arguments)
+        viewModel.onSetup(bundle = savedInstanceState ?: arguments)
 
         parentContainer = view.findViewById(R.id.text_note_parent_container)
         panelContainer = view.findViewById(R.id.note_panel_container)
@@ -92,29 +92,29 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment, NoteReceiver.Callb
 
     override fun onResume() {
         super.onResume()
-        iViewModel.onResume()
+        viewModel.onResume()
     }
 
     override fun onPause() {
         super.onPause()
-        iViewModel.onPause()
+        viewModel.onPause()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        iViewModel.onDestroy()
+        viewModel.onDestroy()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState.apply {
             openState.save(bundle = this)
-            iViewModel.onSaveData(bundle = this)
+            viewModel.onSaveData(bundle = this)
         })
     }
 
     //region Receiver functions
 
-    override fun onReceiveUnbindNote(id: Long) = iViewModel.onReceiveUnbindNote(id)
+    override fun onReceiveUnbindNote(id: Long) = viewModel.onReceiveUnbindNote(id)
 
     //endregion
 
@@ -128,7 +128,7 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment, NoteReceiver.Callb
     override fun setupBinding(@Theme theme: Int) {
         binding?.apply {
             this.theme = theme
-            this.menuCallback = iViewModel
+            this.menuCallback = viewModel
         }
     }
 
@@ -146,21 +146,21 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment, NoteReceiver.Callb
 
         menuControl?.setColor(color)?.setDrawable(drawableOn = false, needAnim = false)
 
-        toolbar?.setNavigationOnClickListener { iViewModel.onClickBackArrow() }
+        toolbar?.setNavigationOnClickListener { viewModel.onClickBackArrow() }
     }
 
     override fun setupDialog(rankNameArray: Array<String>) {
         rankDialog.apply {
             itemArray = rankNameArray
             positiveListener = DialogInterface.OnClickListener { _, _ ->
-                iViewModel.onResultRankDialog(check = rankDialog.check - 1)
+                viewModel.onResultRankDialog(check = rankDialog.check - 1)
             }
             dismissListener = DialogInterface.OnDismissListener { openState.clear() }
         }
 
         colorDialog.apply {
             positiveListener = DialogInterface.OnClickListener { _, _ ->
-                iViewModel.onResultColorDialog(colorDialog.check)
+                viewModel.onResultColorDialog(colorDialog.check)
             }
             dismissListener = DialogInterface.OnDismissListener { openState.clear() }
         }
@@ -168,24 +168,24 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment, NoteReceiver.Callb
         dateDialog.apply {
             positiveListener = DialogInterface.OnClickListener { _, _ ->
                 openState.skipClear = true
-                iViewModel.onResultDateDialog(dateDialog.calendar)
+                viewModel.onResultDateDialog(dateDialog.calendar)
             }
             dismissListener = DialogInterface.OnDismissListener { openState.clear() }
             neutralListener = DialogInterface.OnClickListener { _, _ ->
-                iViewModel.onResultDateDialogClear()
+                viewModel.onResultDateDialogClear()
             }
         }
 
         timeDialog.apply {
             positiveListener = DialogInterface.OnClickListener { _, _ ->
-                iViewModel.onResultTimeDialog(timeDialog.calendar)
+                viewModel.onResultTimeDialog(timeDialog.calendar)
             }
             dismissListener = DialogInterface.OnDismissListener { openState.clear() }
         }
 
         convertDialog.apply {
             positiveListener = DialogInterface.OnClickListener { _, _ ->
-                iViewModel.onResultConvertDialog()
+                viewModel.onResultConvertDialog()
             }
             dismissListener = DialogInterface.OnDismissListener { openState.clear() }
         }
@@ -197,7 +197,7 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment, NoteReceiver.Callb
 
         nameEnter?.let {
             it.addTextChangedListener(
-                    InputTextWatcher(it, InputAction.NAME, iViewModel, iInputControl)
+                    InputTextWatcher(it, InputAction.NAME, viewModel, iInputControl)
             )
             it.addOnNextAction {
                 textEnter?.apply {
@@ -211,7 +211,7 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment, NoteReceiver.Callb
         view?.findViewById<View>(R.id.text_note_content_scroll)?.requestFocusOnVisible(textEnter)
 
         textEnter?.addTextChangedListener(
-                InputTextWatcher(textEnter, InputAction.TEXT, iViewModel, iInputControl)
+                InputTextWatcher(textEnter, InputAction.TEXT, viewModel, iInputControl)
         )
     }
 
@@ -258,7 +258,7 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment, NoteReceiver.Callb
     }
 
 
-    override fun onPressBack() = iViewModel.onPressBack()
+    override fun onPressBack() = viewModel.onPressBack()
 
     override fun tintToolbar(from: Int, to: Int) {
         menuControl?.setColorFrom(from)?.startTint(to)
@@ -330,18 +330,18 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment, NoteReceiver.Callb
 
 
     override fun setAlarm(calendar: Calendar, id: Long) {
-        iAlarmControl.set(calendar, id)
+        alarmControl.set(calendar, id)
     }
 
-    override fun cancelAlarm(id: Long) = iAlarmControl.cancel(id)
+    override fun cancelAlarm(id: Long) = alarmControl.cancel(id)
 
     override fun notifyNoteBind(item: NoteItem, rankIdVisibleList: List<Long>) {
-        iBindControl.notifyNote(item, rankIdVisibleList)
+        bindControl.notifyNote(item, rankIdVisibleList)
     }
 
-    override fun cancelNoteBind(id: Int) = iBindControl.cancelNote(id)
+    override fun cancelNoteBind(id: Int) = bindControl.cancelNote(id)
 
-    override fun notifyInfoBind(count: Int) = iBindControl.notifyInfo(count)
+    override fun notifyInfoBind(count: Int) = bindControl.notifyInfo(count)
 
     companion object {
         operator fun get(id: Long, @Color color: Int) = TextNoteFragment().apply {

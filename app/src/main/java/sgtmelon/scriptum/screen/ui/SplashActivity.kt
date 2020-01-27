@@ -31,7 +31,7 @@ class SplashActivity : AppCompatActivity(), ISplashActivity {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
     }
 
-    @Inject internal lateinit var iViewModel: ISplashViewModel
+    @Inject internal lateinit var viewModel: ISplashViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,12 +44,12 @@ class SplashActivity : AppCompatActivity(), ISplashActivity {
          */
         hideKeyboard()
 
-        beforeFinish { iViewModel.onSetup(intent.extras) }
+        beforeFinish { viewModel.onSetup(intent.extras) }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        iViewModel.onDestroy()
+        viewModel.onDestroy()
     }
 
     override fun finish() {

@@ -9,22 +9,22 @@ import sgtmelon.scriptum.screen.vm.main.RankViewModel
 /**
  * Interactor for [RankViewModel].
  */
-class RankInteractor(private val iRankRepo: IRankRepo) : ParentInteractor(), IRankInteractor {
+class RankInteractor(private val rankRepo: IRankRepo) : ParentInteractor(), IRankInteractor {
 
-    override suspend fun getCount() = iRankRepo.getCount()
+    override suspend fun getCount() = rankRepo.getCount()
 
-    override suspend fun getList() = iRankRepo.getList()
+    override suspend fun getList() = rankRepo.getList()
 
-    override suspend fun insert(name: String) = RankItem(iRankRepo.insert(name), name = name)
+    override suspend fun insert(name: String) = RankItem(rankRepo.insert(name), name = name)
 
-    override suspend fun delete(item: RankItem) = iRankRepo.delete(item)
+    override suspend fun delete(item: RankItem) = rankRepo.delete(item)
 
-    override suspend fun update(item: RankItem) = iRankRepo.update(item)
+    override suspend fun update(item: RankItem) = rankRepo.update(item)
 
-    override suspend fun update(list: List<RankItem>) = iRankRepo.update(list)
+    override suspend fun update(list: List<RankItem>) = rankRepo.update(list)
 
     override suspend fun updatePosition(list: List<RankItem>, noteIdList: List<Long>) {
-        iRankRepo.updatePosition(list, noteIdList)
+        rankRepo.updatePosition(list, noteIdList)
     }
 
 }

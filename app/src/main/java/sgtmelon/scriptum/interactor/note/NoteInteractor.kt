@@ -10,11 +10,11 @@ import sgtmelon.scriptum.screen.vm.note.NoteViewModel
 /**
  * Interactor for [NoteViewModel].
  */
-class NoteInteractor(private val iPreferenceRepo: IPreferenceRepo) : ParentInteractor(),
+class NoteInteractor(private val preferenceRepo: IPreferenceRepo) : ParentInteractor(),
         INoteInteractor {
 
-    @Theme override val theme: Int get() = iPreferenceRepo.theme
+    @Theme override val theme: Int get() = preferenceRepo.theme
 
-    @Color override val defaultColor: Int get() = iPreferenceRepo.defaultColor
+    @Color override val defaultColor: Int get() = preferenceRepo.defaultColor
 
 }

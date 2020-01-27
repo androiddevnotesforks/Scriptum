@@ -22,27 +22,27 @@ class AlarmRepo(override val context: Context) : IAlarmRepo, IRoomWork {
 
         val entity = converter.toEntity(noteItem)
         if (noteItem.haveAlarm()) {
-            iAlarmDao.update(entity)
+            alarmDao.update(entity)
         } else {
-            noteItem.alarmId = iAlarmDao.insert(entity)
+            noteItem.alarmId = alarmDao.insert(entity)
         }
     }
 
-    override suspend fun delete(noteId: Long) = inRoom { iAlarmDao.delete(noteId) }
+    override suspend fun delete(noteId: Long) = inRoom { alarmDao.delete(noteId) }
 
 
     override suspend fun getItem(noteId: Long): NotificationItem? {
         val item: NotificationItem?
 
         openRoom().apply {
-            item = iAlarmDao.getItem(noteId)
+            item = alarmDao.getItem(noteId)
         }.close()
 
         return item
     }
 
     override suspend fun getList() = ArrayList<NotificationItem>().apply {
-        inRoom { addAll(iAlarmDao.getList()) }
+        inRoom { addAll(alarmDao.getList()) }
     }
 
 }

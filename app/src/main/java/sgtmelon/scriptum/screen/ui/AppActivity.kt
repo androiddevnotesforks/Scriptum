@@ -13,13 +13,13 @@ import sgtmelon.scriptum.screen.ui.callback.IAppActivity
  */
 abstract class AppActivity : AppCompatActivity(), IAppActivity {
 
-    private val iViewModel by lazy { ViewModelFactory.get(activity = this) }
+    private val viewModel by lazy { ViewModelFactory.get(activity = this) }
 
     protected val fm get() = supportFragmentManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        iViewModel.onSetup()
+        viewModel.onSetup()
     }
 
     override fun onResume() {
@@ -34,11 +34,11 @@ abstract class AppActivity : AppCompatActivity(), IAppActivity {
 
     override fun onDestroy() {
         super.onDestroy()
-        iViewModel.onDestroy()
+        viewModel.onDestroy()
     }
 
     fun checkThemeChange() {
-        if (!iViewModel.isThemeChange()) return
+        if (!viewModel.isThemeChange()) return
 
         val intent = intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
 

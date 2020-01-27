@@ -16,16 +16,16 @@ class NoteModule {
 
     @Provides
     @ActivityScope
-    fun provideInteractor(iPreferenceRepo: IPreferenceRepo): INoteInteractor {
-        return NoteInteractor(iPreferenceRepo)
+    fun provideInteractor(preferenceRepo: IPreferenceRepo): INoteInteractor {
+        return NoteInteractor(preferenceRepo)
     }
 
     @Provides
     @ActivityScope
-    fun provideViewModel(activity: NoteActivity, iInteractor: INoteInteractor): INoteViewModel {
+    fun provideViewModel(activity: NoteActivity, interactor: INoteInteractor): INoteViewModel {
         return ViewModelProvider(activity).get(NoteViewModel::class.java).apply {
             setCallback(activity)
-            setInteractor(iInteractor)
+            setInteractor(interactor)
         }
     }
 

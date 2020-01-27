@@ -28,33 +28,33 @@ import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel.Companion.onItemLongCh
 @RunWith(AndroidJUnit4::class)
 class NoteRepoTest : ParentIntegrationTest()  {
 
-    private val iNoteRepo: INoteRepo = NoteRepo(context)
+    private val noteRepo: INoteRepo = NoteRepo(context)
 
     private val noteConverter = NoteConverter()
     private val rollConverter = RollConverter()
 
     @Test fun getCount() = inRoomTest {
-        assertEquals(0, iNoteRepo.getCount(bin = false))
-        assertEquals(0, iNoteRepo.getCount(bin = true))
+        assertEquals(0, noteRepo.getCount(bin = false))
+        assertEquals(0, noteRepo.getCount(bin = true))
 
-        iNoteDao.insert(noteFirst)
-        iNoteDao.insert(noteSecond)
-        iNoteDao.insert(noteThird)
-        iNoteDao.insert(noteFourth)
+        noteDao.insert(noteFirst)
+        noteDao.insert(noteSecond)
+        noteDao.insert(noteThird)
+        noteDao.insert(noteFourth)
 
-        iRankDao.insert(rankFirst)
-        iRankDao.insert(rankSecond)
+        rankDao.insert(rankFirst)
+        rankDao.insert(rankSecond)
 
-        assertEquals(2, iNoteRepo.getCount(bin = false))
-        assertEquals(2, iNoteRepo.getCount(bin = true))
+        assertEquals(2, noteRepo.getCount(bin = false))
+        assertEquals(2, noteRepo.getCount(bin = true))
 
-        iRankDao.update(rankFirst.copy(isVisible = false))
+        rankDao.update(rankFirst.copy(isVisible = false))
 
-        assertEquals(1, iNoteRepo.getCount(bin = false))
+        assertEquals(1, noteRepo.getCount(bin = false))
     }
 
     @Test fun getList() = inRoomTest {
-        iNoteRepo.getList(0, true, false, true)
+        noteRepo.getList(0, true, false, true)
         TODO(reason = "#TEST write test")
     }
 
@@ -65,106 +65,106 @@ class NoteRepoTest : ParentIntegrationTest()  {
         val rollOptimalList = rollList.subList(0, NoteItem.ROLL_OPTIMAL_SIZE)
         val noteOptimalItem = noteConverter.toItem(noteFirst, rollOptimalList, alarmFirst)
 
-        assertNull(iNoteRepo.getItem(noteItem.id, optimisation = true))
+        assertNull(noteRepo.getItem(noteItem.id, optimisation = true))
 
-        iNoteDao.insert(noteFirst)
-        rollListFirst.forEach { iRollDao.insert(it) }
-        iAlarmDao.insert(alarmFirst)
+        noteDao.insert(noteFirst)
+        rollListFirst.forEach { rollDao.insert(it) }
+        alarmDao.insert(alarmFirst)
 
-        assertEquals(noteItem, iNoteRepo.getItem(noteItem.id, optimisation = false))
-        assertEquals(noteOptimalItem, iNoteRepo.getItem(noteItem.id, optimisation = true))
+        assertEquals(noteItem, noteRepo.getItem(noteItem.id, optimisation = false))
+        assertEquals(noteOptimalItem, noteRepo.getItem(noteItem.id, optimisation = true))
     }
 
     @Test fun getRollList() = inRoomTest {
-        assertEquals(listOf<RankItem>(), iNoteRepo.getRollList(Random.nextLong()))
+        assertEquals(listOf<RankItem>(), noteRepo.getRollList(Random.nextLong()))
 
-        iNoteDao.insert(noteFirst)
-        iNoteDao.insert(noteFourth)
-        rollListFirst.forEach { iRollDao.insert(it) }
-        rollListFourth.forEach { iRollDao.insert(it) }
+        noteDao.insert(noteFirst)
+        noteDao.insert(noteFourth)
+        rollListFirst.forEach { rollDao.insert(it) }
+        rollListFourth.forEach { rollDao.insert(it) }
 
-        assertEquals(rollConverter.toItem(rollListFirst), iNoteRepo.getRollList(noteFirst.id))
-        assertEquals(rollConverter.toItem(rollListFourth), iNoteRepo.getRollList(noteFourth.id))
+        assertEquals(rollConverter.toItem(rollListFirst), noteRepo.getRollList(noteFirst.id))
+        assertEquals(rollConverter.toItem(rollListFourth), noteRepo.getRollList(noteFourth.id))
     }
 
 
     @Test fun isListHide() = inRoomTest {
-        iRankDao.insert(rankFirst)
-        iRankDao.insert(rankSecond.copy(isVisible = false))
+        rankDao.insert(rankFirst)
+        rankDao.insert(rankSecond.copy(isVisible = false))
 
-        iNoteDao.insert(noteFirst)
-        assertFalse(iNoteRepo.isListHide())
+        noteDao.insert(noteFirst)
+        assertFalse(noteRepo.isListHide())
 
-        iNoteDao.insert(noteFourth)
-        assertFalse(iNoteRepo.isListHide())
+        noteDao.insert(noteFourth)
+        assertFalse(noteRepo.isListHide())
     }
 
     @Test fun clearBin() = inRoomTest {
-        iNoteDao.insert(noteFirst)
-        iNoteDao.insert(noteSecond)
-        iNoteDao.insert(noteThird)
+        noteDao.insert(noteFirst)
+        noteDao.insert(noteSecond)
+        noteDao.insert(noteThird)
 
-        iRankDao.insert(rankFirst)
-        iRankDao.insert(rankSecond)
+        rankDao.insert(rankFirst)
+        rankDao.insert(rankSecond)
 
         val itemSecond = noteConverter.toItem(noteSecond)
         val itemThird = noteConverter.toItem(noteThird)
 
-        iNoteRepo.clearBin()
+        noteRepo.clearBin()
 
-        assertEquals(noteFirst, iNoteDao.get(noteFirst.id))
+        assertEquals(noteFirst, noteDao.get(noteFirst.id))
 
-        assertEquals(rankFirst.copy(noteId = arrayListOf(4)), iRankDao.get(rankFirst.id))
-        assertNull(iNoteDao.get(itemSecond.id))
+        assertEquals(rankFirst.copy(noteId = arrayListOf(4)), rankDao.get(rankFirst.id))
+        assertNull(noteDao.get(itemSecond.id))
 
-        assertEquals(rankSecond.copy(noteId = arrayListOf()), iRankDao.get(rankSecond.id))
-        assertNull(iNoteDao.get(itemThird.id))
+        assertEquals(rankSecond.copy(noteId = arrayListOf()), rankDao.get(rankSecond.id))
+        assertNull(noteDao.get(itemThird.id))
     }
 
 
     @Test fun deleteNote() = inRoomTest {
-        iNoteDao.insert(noteFirst)
-        iAlarmDao.insert(alarmFirst)
+        noteDao.insert(noteFirst)
+        alarmDao.insert(alarmFirst)
 
         val item = noteConverter.toItem(noteFirst)
 
-        iNoteRepo.deleteNote(item)
+        noteRepo.deleteNote(item)
 
         assertChangeTime(item)
         assertTrue(item.isBin)
         assertFalse(item.isStatus)
 
-        assertEquals(noteConverter.toEntity(item), iNoteDao.get(item.id))
-        assertNull(iAlarmDao.get(item.id))
+        assertEquals(noteConverter.toEntity(item), noteDao.get(item.id))
+        assertNull(alarmDao.get(item.id))
     }
 
     @Test fun restoreNote() = inRoomTest {
-        iNoteDao.insert(noteSecond)
+        noteDao.insert(noteSecond)
 
         val item = noteConverter.toItem(noteSecond)
 
-        iNoteRepo.restoreNote(item)
+        noteRepo.restoreNote(item)
 
         assertChangeTime(item)
         assertFalse(item.isBin)
 
-        assertEquals(noteConverter.toEntity(item), iNoteDao.get(item.id))
+        assertEquals(noteConverter.toEntity(item), noteDao.get(item.id))
     }
 
     @Test fun clearNote() = inRoomTest {
-        iNoteDao.insert(noteSecond)
-        iRankDao.insert(rankFirst)
+        noteDao.insert(noteSecond)
+        rankDao.insert(rankFirst)
 
         val item = noteConverter.toItem(noteSecond)
 
-        iNoteRepo.clearNote(item)
+        noteRepo.clearNote(item)
 
-        assertEquals(rankFirst.copy(noteId = arrayListOf(4)), iRankDao.get(rankFirst.id))
-        assertNull(iNoteDao.get(item.id))
+        assertEquals(rankFirst.copy(noteId = arrayListOf(4)), rankDao.get(rankFirst.id))
+        assertNull(noteDao.get(item.id))
     }
 
     @Test fun convertToRoll() = inRoomTest {
-        iNoteRepo.convertToRoll(NoteItem(0, "", "", color = 0, type = NoteType.TEXT))
+        noteRepo.convertToRoll(NoteItem(0, "", "", color = 0, type = NoteType.TEXT))
         TODO(reason = "#TEST write test")
     }
 
@@ -172,38 +172,38 @@ class NoteRepoTest : ParentIntegrationTest()  {
         val rollList = rollConverter.toItem(rollListFirst)
         val noteItem = noteConverter.toItem(noteFirst, rollList, alarmFirst)
 
-        iNoteDao.insert(noteFirst)
-        rollListFirst.forEach { iRollDao.insert(it) }
-        iAlarmDao.insert(alarmFirst)
+        noteDao.insert(noteFirst)
+        rollListFirst.forEach { rollDao.insert(it) }
+        alarmDao.insert(alarmFirst)
 
-        iNoteRepo.convertToText(noteItem.deepCopy(), useCache = false)
+        noteRepo.convertToText(noteItem.deepCopy(), useCache = false)
         noteItem.onConvertRoll()
 
-        assertEquals(noteItem, iNoteRepo.getItem(noteItem.id, optimisation = false))
+        assertEquals(noteItem, noteRepo.getItem(noteItem.id, optimisation = false))
     }
 
     @Test fun convertToTextUseCache() = inRoomTest {
         val rollList = rollConverter.toItem(rollListFirst)
         val noteItem = noteConverter.toItem(noteFirst, rollList, alarmFirst)
 
-        iNoteDao.insert(noteFirst)
-        rollListFirst.forEach { iRollDao.insert(it) }
-        iAlarmDao.insert(alarmFirst)
+        noteDao.insert(noteFirst)
+        rollListFirst.forEach { rollDao.insert(it) }
+        alarmDao.insert(alarmFirst)
 
-        iNoteRepo.convertToText(noteItem.deepCopy(), useCache = true)
+        noteRepo.convertToText(noteItem.deepCopy(), useCache = true)
         noteItem.onConvertRoll()
 
-        assertEquals(noteItem, iNoteRepo.getItem(noteItem.id, optimisation = false))
+        assertEquals(noteItem, noteRepo.getItem(noteItem.id, optimisation = false))
     }
 
     @Test fun getCopyText() = inRoomTest {
-        iNoteDao.insert(noteFirst)
-        iNoteDao.insert(noteSecond)
-        iNoteDao.insert(noteThird)
-        iNoteDao.insert(noteFourth)
+        noteDao.insert(noteFirst)
+        noteDao.insert(noteSecond)
+        noteDao.insert(noteThird)
+        noteDao.insert(noteFourth)
 
-        rollListFirst.forEach { iRollDao.insert(it) }
-        rollListFourth.forEach { iRollDao.insert(it) }
+        rollListFirst.forEach { rollDao.insert(it) }
+        rollListFourth.forEach { rollDao.insert(it) }
 
         val listFirst = rollConverter.toItem(rollListFirst)
         val listFourth = rollConverter.toItem(rollListFourth)
@@ -218,40 +218,40 @@ class NoteRepoTest : ParentIntegrationTest()  {
         val textThird = with(noteThird) { "$name\n$text" }
         val textFourth = "${noteFourth.name}\n${listFourth.getText()}"
 
-        assertEquals(textFirst, iNoteRepo.getCopyText(itemFirst))
-        assertEquals(textSecond, iNoteRepo.getCopyText(itemSecond))
-        assertEquals(textThird, iNoteRepo.getCopyText(itemThird))
-        assertEquals(textFourth, iNoteRepo.getCopyText(itemFourth))
+        assertEquals(textFirst, noteRepo.getCopyText(itemFirst))
+        assertEquals(textSecond, noteRepo.getCopyText(itemSecond))
+        assertEquals(textThird, noteRepo.getCopyText(itemThird))
+        assertEquals(textFourth, noteRepo.getCopyText(itemFourth))
     }
 
     @Test fun saveTextNote() = inRoomTest {
-        iNoteRepo.saveTextNote(NoteItem(0, "", "", color = 0, type = NoteType.TEXT), true)
+        noteRepo.saveTextNote(NoteItem(0, "", "", color = 0, type = NoteType.TEXT), true)
         TODO(reason = "#TEST write test")
     }
 
     @Test fun saveRollNote() = inRoomTest {
-        iNoteRepo.saveRollNote(NoteItem(0, "", "", color = 0, type = NoteType.TEXT), true)
+        noteRepo.saveRollNote(NoteItem(0, "", "", color = 0, type = NoteType.TEXT), true)
         TODO(reason = "#TEST write test")
     }
 
     @Test fun updateRollCheckSingle() = inRoomTest {
-        iNoteDao.insert(noteFirst)
-        rollListFirst.forEach { iRollDao.insert(it) }
+        noteDao.insert(noteFirst)
+        rollListFirst.forEach { rollDao.insert(it) }
 
         val list = rollConverter.toItem(rollListFirst)
         val item = noteConverter.toItem(noteFirst, list)
 
         item.onItemCheck(p = 0)
 
-        iNoteRepo.updateRollCheck(item, p = 0)
+        noteRepo.updateRollCheck(item, p = 0)
 
-        assertEquals(item, iNoteRepo.getItem(item.id, optimisation = false))
-        assertEquals(list, iNoteRepo.getRollList(item.id))
+        assertEquals(item, noteRepo.getItem(item.id, optimisation = false))
+        assertEquals(list, noteRepo.getRollList(item.id))
     }
 
     @Test fun updateRollCheckAllFalse() = inRoomTest {
-        iNoteDao.insert(noteFirst)
-        rollListFirst.forEach { iRollDao.insert(it) }
+        noteDao.insert(noteFirst)
+        rollListFirst.forEach { rollDao.insert(it) }
 
         val list = rollConverter.toItem(rollListFirst)
         val item = noteConverter.toItem(noteFirst, list)
@@ -260,15 +260,15 @@ class NoteRepoTest : ParentIntegrationTest()  {
 
         val check = item.onItemLongCheck()
 
-        iNoteRepo.updateRollCheck(item, check)
+        noteRepo.updateRollCheck(item, check)
 
-        assertEquals(item, iNoteRepo.getItem(item.id, optimisation = false))
-        assertEquals(list, iNoteRepo.getRollList(item.id))
+        assertEquals(item, noteRepo.getItem(item.id, optimisation = false))
+        assertEquals(list, noteRepo.getRollList(item.id))
     }
 
     @Test fun updateRollCheckAllTrue() = inRoomTest {
-        iNoteDao.insert(noteFourth)
-        rollListFourth.forEach { iRollDao.insert(it) }
+        noteDao.insert(noteFourth)
+        rollListFourth.forEach { rollDao.insert(it) }
 
         val list = rollConverter.toItem(rollListFourth)
         val item = noteConverter.toItem(noteFourth, list)
@@ -278,22 +278,22 @@ class NoteRepoTest : ParentIntegrationTest()  {
 
         val check = item.onItemLongCheck()
 
-        iNoteRepo.updateRollCheck(item, check)
+        noteRepo.updateRollCheck(item, check)
 
-        assertEquals(item, iNoteRepo.getItem(item.id, optimisation = false))
-        assertEquals(list, iNoteRepo.getRollList(item.id))
+        assertEquals(item, noteRepo.getItem(item.id, optimisation = false))
+        assertEquals(list, noteRepo.getRollList(item.id))
     }
 
     @Test fun updateNote() = inRoomTest {
         val entity = noteFirst.copy()
 
-        iNoteDao.insert(entity)
-        iNoteRepo.updateNote(noteConverter.toItem(entity.apply {
+        noteDao.insert(entity)
+        noteRepo.updateNote(noteConverter.toItem(entity.apply {
             create = DATE_1
             change = DATE_2
         }))
 
-        assertEquals(entity, iNoteDao.get(entity.id))
+        assertEquals(entity, noteDao.get(entity.id))
     }
 
     private companion object {

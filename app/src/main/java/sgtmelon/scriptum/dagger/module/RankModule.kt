@@ -17,15 +17,15 @@ class RankModule {
 
     @Provides
     @ActivityScope
-    fun provideInteractor(iRankRepo: IRankRepo): IRankInteractor = RankInteractor(iRankRepo)
+    fun provideInteractor(rankRepo: IRankRepo): IRankInteractor = RankInteractor(rankRepo)
 
     @Provides
     @ActivityScope
-    fun provideViewModel(fragment: RankFragment, iInteractor: IRankInteractor,
-                         iBindInteractor: IBindInteractor): IRankViewModel {
+    fun provideViewModel(fragment: RankFragment, interactor: IRankInteractor,
+                         bindInteractor: IBindInteractor): IRankViewModel {
         return ViewModelProvider(fragment).get(RankViewModel::class.java).apply {
             setCallback(fragment)
-            setInteractor(iInteractor, iBindInteractor)
+            setInteractor(interactor, bindInteractor)
         }
     }
 

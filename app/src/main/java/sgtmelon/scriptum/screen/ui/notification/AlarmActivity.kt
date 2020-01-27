@@ -52,18 +52,22 @@ import javax.inject.Inject
  */
 class AlarmActivity : AppActivity(), IAlarmActivity {
 
-    @Inject internal lateinit var iViewModel: IAlarmViewModel
+    /**
+     * TODO Убрать логику для смены ориентации, её тут нет.
+     */
+
+    @Inject internal lateinit var viewModel: IAlarmViewModel
 
     /**
      * [initLazy] not require because activity configChanges under control.
      */
-    private val iMelodyControl: IMelodyControl by lazy { MelodyControl(context = this) }
-    private val iVibratorControl: IVibratorControl by lazy { VibratorControl(context = this) }
-    private val iAlarmControl by lazy { AlarmControl[this] }
-    private val iPowerControl: IPowerControl by lazy { PowerControl(context = this) }
-    private val iBindControl by lazy { BindControl[this] }
+    private val melodyControl: IMelodyControl by lazy { MelodyControl(context = this) }
+    private val vibratorControl: IVibratorControl by lazy { VibratorControl(context = this) }
+    private val alarmControl by lazy { AlarmControl[this] }
+    private val powerControl: IPowerControl by lazy { PowerControl(context = this) }
+    private val bindControl by lazy { BindControl[this] }
 
-    private val noteReceiver by lazy { NoteReceiver(iViewModel) }
+    private val noteReceiver by lazy { NoteReceiver(viewModel) }
 
     private val openState = OpenState()
 
@@ -73,7 +77,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     private val adapter: NoteAdapter by lazy {
         NoteAdapter(object : ItemListener.Click {
             override fun onItemClick(view: View, p: Int) = openState.tryInvoke {
-                iViewModel.onClickNote()
+                viewModel.onClickNote()
             }
         })
     }
@@ -112,14 +116,14 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         ScriptumApplication.component.getAlarmBuilder().set(activity = this).build()
                 .inject(activity = this)
 
-        iViewModel.onSetup(bundle = savedInstanceState ?: intent.extras)
+        viewModel.onSetup(bundle = savedInstanceState ?: intent.extras)
 
         registerReceiver(noteReceiver, IntentFilter(ReceiverData.Filter.NOTE))
     }
 
     override fun onPause() {
         super.onPause()
-        if (!iPowerControl.isScreenOn) finish()
+        if (!powerControl.isScreenOn) finish()
     }
 
     override fun onStop() {
@@ -130,16 +134,16 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     override fun onDestroy() {
         super.onDestroy()
 
-        iViewModel.onDestroy()
+        viewModel.onDestroy()
         rippleContainer?.stopAnimation()
 
-        iMelodyControl.release()
+        melodyControl.release()
 
         unregisterReceiver(noteReceiver)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState.apply { iViewModel.onSaveData(bundle = this) })
+        super.onSaveInstanceState(outState.apply { viewModel.onSaveData(bundle = this) })
     }
 
     /**
@@ -150,9 +154,9 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         parentContainer?.afterLayoutConfiguration { rippleContainer?.invalidate(logoView) }
     }
 
-    override fun acquirePhone(timeout: Long) = iPowerControl.acquire(timeout)
+    override fun acquirePhone(timeout: Long) = powerControl.acquire(timeout)
 
-    override fun releasePhone() = iPowerControl.release()
+    override fun releasePhone() = powerControl.release()
 
 
     override fun setupView(@Theme theme: Int) {
@@ -163,8 +167,8 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
             it.adapter = adapter
         }
 
-        disableButton?.setOnClickListener { openState.tryInvoke { iViewModel.onClickDisable() } }
-        repeatButton?.setOnClickListener { openState.tryInvoke { iViewModel.onClickRepeat() } }
+        disableButton?.setOnClickListener { openState.tryInvoke { viewModel.onClickDisable() } }
+        repeatButton?.setOnClickListener { openState.tryInvoke { viewModel.onClickRepeat() } }
         moreButton?.setOnClickListener {
             openState.tryInvoke { repeatDialog.show(fm, DialogFactory.Alarm.REPEAT) }
         }
@@ -172,14 +176,14 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         repeatDialog.apply {
             itemSelectedListener = NavigationView.OnNavigationItemSelectedListener {
                 dismiss()
-                iViewModel.onResultRepeatDialog(it)
+                viewModel.onResultRepeatDialog(it)
                 return@OnNavigationItemSelectedListener true
             }
             dismissListener = DialogInterface.OnDismissListener { openState.clear() }
         }
     }
 
-    override fun setupPlayer(volume: Int, increase: Boolean, uri: Uri) = with(iMelodyControl) {
+    override fun setupPlayer(volume: Int, increase: Boolean, uri: Uri) = with(melodyControl) {
         setupVolume(volume, increase)
         setupPlayer(uri, isLooping = true)
     }
@@ -191,7 +195,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
      * Need call on coroutine end, because layout may be configure before coroutine end.
      */
     override fun waitLayoutConfigure() {
-        parentContainer?.afterLayoutConfiguration { iViewModel.onStart() }
+        parentContainer?.afterLayoutConfiguration { viewModel.onStart() }
     }
 
     override fun startRippleAnimation(@Theme theme: Int, @ColorInt fillColor: Int) {
@@ -218,13 +222,13 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     }
 
 
-    override fun melodyStart() = iMelodyControl.start()
+    override fun melodyStart() = melodyControl.start()
 
-    override fun melodyStop() = iMelodyControl.stop()
+    override fun melodyStop() = melodyControl.stop()
 
-    override fun vibrateStart(pattern: LongArray) = iVibratorControl.start(pattern)
+    override fun vibrateStart(pattern: LongArray) = vibratorControl.start(pattern)
 
-    override fun vibrateCancel() = iVibratorControl.cancel()
+    override fun vibrateCancel() = vibratorControl.cancel()
 
     override fun showRepeatToast(select: Int) {
         showToast(getString(R.string.toast_alarm_repeat, resources.getStringArray(R.array.pref_text_alarm_repeat)[select]))
@@ -232,11 +236,11 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
 
     override fun setAlarm(calendar: Calendar, id: Long) {
-        iAlarmControl.set(calendar, id, showToast = false)
+        alarmControl.set(calendar, id, showToast = false)
     }
 
     override fun notifyInfoBind(count: Int) {
-        iBindControl.notifyInfo(count)
+        bindControl.notifyInfo(count)
     }
 
     /**

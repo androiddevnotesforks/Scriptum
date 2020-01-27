@@ -16,14 +16,14 @@ import java.util.*
  */
 class SignalInteractor(
         private val context: Context,
-        private val iPreferenceRepo: IPreferenceRepo
+        private val preferenceRepo: IPreferenceRepo
 ) : ParentInteractor(),
         ISignalInteractor {
 
     private val ringtoneManager get() = RingtoneManager(context)
 
     override val signalCheck: BooleanArray
-        get() = IntConverter().toArray(iPreferenceRepo.signal, Signal.digitCount)
+        get() = IntConverter().toArray(preferenceRepo.signal, Signal.digitCount)
 
     override val signalState: SignalState get() = SignalState(signalCheck)
 
@@ -48,16 +48,16 @@ class SignalInteractor(
     /**
      * If melody not init or was delete - set first melody uri from list
      */
-    override var melodyUri: String = iPreferenceRepo.melodyUri
+    override var melodyUri: String = preferenceRepo.melodyUri
         get() = melodyList.let {
-            var value = iPreferenceRepo.melodyUri
+            var value = preferenceRepo.melodyUri
 
             /**
              * Check uri exist
              */
             if (value.isEmpty() || !it.map { item -> item.uri }.contains(value)) {
                 value = it.first().uri
-                iPreferenceRepo.melodyUri = value
+                preferenceRepo.melodyUri = value
             }
 
             return value
@@ -72,7 +72,7 @@ class SignalInteractor(
                 it.first()
             }
 
-            iPreferenceRepo.melodyUri = field
+            preferenceRepo.melodyUri = field
         }
 
     /**

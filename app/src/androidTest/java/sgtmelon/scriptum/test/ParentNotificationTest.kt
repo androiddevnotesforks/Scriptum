@@ -10,7 +10,7 @@ import sgtmelon.scriptum.extension.showToast
  */
 abstract class ParentNotificationTest : ParentUiTest() {
 
-    protected val iBindControl: IBindControl = BindControl(context)
+    protected val bindControl: IBindControl = BindControl(context)
 
     protected fun onSee(afterFunc: () -> Unit = {}) {
         testRule.activity?.runOnUiThread { context.showToast(SEE_TOAST) }

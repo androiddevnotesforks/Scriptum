@@ -15,11 +15,8 @@ import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.extension.clearSpace
 import sgtmelon.scriptum.extension.move
 import sgtmelon.scriptum.extension.showToast
-import sgtmelon.scriptum.interactor.BindInteractor
 import sgtmelon.scriptum.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.interactor.callback.note.IRollNoteInteractor
-import sgtmelon.scriptum.interactor.callback.note.ITextNoteInteractor
-import sgtmelon.scriptum.interactor.note.RollNoteInteractor
 import sgtmelon.scriptum.model.annotation.InputAction
 import sgtmelon.scriptum.model.data.NoteData.Default
 import sgtmelon.scriptum.model.data.NoteData.Intent
@@ -29,11 +26,6 @@ import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.IconState
 import sgtmelon.scriptum.model.state.NoteState
-import sgtmelon.scriptum.repository.preference.PreferenceRepo
-import sgtmelon.scriptum.repository.room.AlarmRepo
-import sgtmelon.scriptum.repository.room.BindRepo
-import sgtmelon.scriptum.repository.room.NoteRepo
-import sgtmelon.scriptum.repository.room.RankRepo
 import sgtmelon.scriptum.room.converter.model.StringConverter
 import sgtmelon.scriptum.screen.ui.callback.note.INoteChild
 import sgtmelon.scriptum.screen.ui.callback.note.roll.IRollNoteFragment
@@ -54,16 +46,16 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         parentCallback = callback
     }
 
-    private lateinit var iInteractor: IRollNoteInteractor
-    private lateinit var iBindInteractor: IBindInteractor
+    private lateinit var interactor: IRollNoteInteractor
+    private lateinit var bindInteractor: IBindInteractor
 
-    fun setInteractor(iInteractor: IRollNoteInteractor, iBindInteractor: IBindInteractor) {
-        this.iInteractor = iInteractor
-        this.iBindInteractor = iBindInteractor
+    fun setInteractor(interactor: IRollNoteInteractor, bindInteractor: IBindInteractor) {
+        this.interactor = interactor
+        this.bindInteractor = bindInteractor
     }
 
 
-    private val saveControl by lazy { SaveControl(context, iInteractor.getSaveModel(), callback = this) }
+    private val saveControl by lazy { SaveControl(context, interactor.getSaveModel(), callback = this) }
     private val inputControl = InputControl()
 
     private var id: Long = Default.ID
@@ -86,12 +78,12 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         color = bundle?.getInt(Intent.COLOR, Default.COLOR) ?: Default.COLOR
 
         if (color == Default.COLOR) {
-            color = iInteractor.defaultColor
+            color = interactor.defaultColor
         }
 
         callback?.apply {
-            setupBinding(iInteractor.theme)
-            setupToolbar(iInteractor.theme, color)
+            setupBinding(interactor.theme)
+            setupToolbar(interactor.theme, color)
             setupEnter(inputControl)
             setupRecycler(inputControl)
         }
@@ -101,15 +93,15 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
              * If first open.
              */
             if (!::noteItem.isInitialized) {
-                rankDialogItemArray = iInteractor.getRankDialogItemArray()
+                rankDialogItemArray = interactor.getRankDialogItemArray()
 
                 if (id == Default.ID) {
-                    noteItem = NoteItem.getCreate(iInteractor.defaultColor, NoteType.ROLL)
+                    noteItem = NoteItem.getCreate(interactor.defaultColor, NoteType.ROLL)
                     restoreItem = noteItem.deepCopy()
 
                     noteState = NoteState(isCreate = true)
                 } else {
-                    iInteractor.getItem(id)?.let {
+                    interactor.getItem(id)?.let {
                         noteItem = it
                         restoreItem = it.deepCopy()
                     } ?: run {
@@ -132,7 +124,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy {
-        iInteractor.onDestroy()
+        interactor.onDestroy()
         parentCallback = null
         saveControl.setSaveHandlerEvent(isStart = false)
     }
@@ -257,7 +249,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         callback?.notifyItemChanged(noteItem.rollList, p, cursor = null)
         callback?.updateProgress(noteItem.getCheck(), noteItem.rollList.size)
 
-        viewModelScope.launch { iInteractor.updateRollCheck(noteItem, p) }
+        viewModelScope.launch { interactor.updateRollCheck(noteItem, p) }
     }
 
     override fun onLongClickItemCheck() {
@@ -278,7 +270,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             updateProgress(noteItem.getCheck(), noteItem.rollList.size)
         }
 
-        viewModelScope.launch { iInteractor.updateRollCheck(noteItem, check) }
+        viewModelScope.launch { interactor.updateRollCheck(noteItem, check) }
     }
 
     //region Results of dialogs
@@ -295,7 +287,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
     override fun onResultRankDialog(check: Int) {
         viewModelScope.launch {
-            val rankId = iInteractor.getRankId(check)
+            val rankId = interactor.getRankId(check)
 
             inputControl.onRankChange(noteItem.rankId, noteItem.rankPs, rankId, check)
 
@@ -312,13 +304,13 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     override fun onResultDateDialog(calendar: Calendar) {
-        viewModelScope.launch { callback?.showTimeDialog(calendar, iInteractor.getDateList()) }
+        viewModelScope.launch { callback?.showTimeDialog(calendar, interactor.getDateList()) }
     }
 
     override fun onResultDateDialogClear() {
         viewModelScope.launch {
-            iInteractor.clearDate(noteItem)
-            iBindInteractor.notifyInfoBind(callback)
+            interactor.clearDate(noteItem)
+            bindInteractor.notifyInfoBind(callback)
         }
 
         noteItem.clearAlarm()
@@ -330,16 +322,16 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         if (calendar.beforeNow()) return
 
         viewModelScope.launch {
-            iInteractor.setDate(noteItem, calendar)
+            interactor.setDate(noteItem, calendar)
             callback?.onBingingNote(noteItem)
 
-            iBindInteractor.notifyInfoBind(callback)
+            bindInteractor.notifyInfoBind(callback)
         }
     }
 
     override fun onResultConvertDialog() {
         viewModelScope.launch {
-            iInteractor.convert(noteItem)
+            interactor.convert(noteItem)
             parentCallback?.onConvertNote()
         }
     }
@@ -359,7 +351,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
     override fun onMenuRestore() {
         viewModelScope.launch {
-            iInteractor.restoreNote(noteItem)
+            interactor.restoreNote(noteItem)
             parentCallback?.finish()
         }
     }
@@ -371,12 +363,12 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
         iconState.notAnimate { setupEditMode(isEdit = false) }
 
-        viewModelScope.launch { iInteractor.updateNote(noteItem, updateBind = false) }
+        viewModelScope.launch { interactor.updateNote(noteItem, updateBind = false) }
     }
 
     override fun onMenuClear() {
         viewModelScope.launch {
-            iInteractor.clearNote(noteItem)
+            interactor.clearNote(noteItem)
             parentCallback?.finish()
         }
     }
@@ -450,7 +442,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     override fun onMenuColor() {
         if (!noteState.isEdit) return
 
-        callback?.showColorDialog(noteItem.color, iInteractor.theme)
+        callback?.showColorDialog(noteItem.color, interactor.theme)
     }
 
     override fun onMenuSave(changeMode: Boolean): Boolean {
@@ -479,7 +471,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         parentCallback?.onUpdateNoteColor(noteItem.color)
 
         viewModelScope.launch {
-            iInteractor.saveNote(noteItem, noteState.isCreate)
+            interactor.saveNote(noteItem, noteState.isCreate)
             restoreItem = noteItem.deepCopy()
 
             if (noteState.isCreate) {
@@ -514,7 +506,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
         callback?.onBindingEdit(noteState.isEdit, noteItem)
 
-        viewModelScope.launch { iInteractor.updateNote(noteItem, updateBind = true) }
+        viewModelScope.launch { interactor.updateNote(noteItem, updateBind = true) }
     }
 
     override fun onMenuConvert() {
@@ -527,10 +519,10 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         if (callback?.isDialogOpen == true || noteState.isEdit) return
 
         viewModelScope.launch {
-            iInteractor.deleteNote(noteItem)
+            interactor.deleteNote(noteItem)
             parentCallback?.finish()
 
-            iBindInteractor.notifyInfoBind(callback)
+            bindInteractor.notifyInfoBind(callback)
         }
     }
 

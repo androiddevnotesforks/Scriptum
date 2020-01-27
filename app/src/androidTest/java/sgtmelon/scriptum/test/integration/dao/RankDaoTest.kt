@@ -16,7 +16,7 @@ import kotlin.random.Random
 class RankDaoTest : ParentIntegrationTest() {
 
     private fun inRankDao(func: suspend IRankDao.() -> Unit) = inRoomTest {
-        iRankDao.apply { func() }
+        rankDao.apply { func() }
     }
 
     private suspend fun IRankDao.insertAll(): List<RankEntity> {

@@ -18,9 +18,9 @@ import java.util.*
  * Interactor for [AlarmViewModel].
  */
 class AlarmInteractor(
-        private val iPreferenceRepo: IPreferenceRepo,
-        private val iAlarmRepo: IAlarmRepo,
-        private val iNoteRepo: INoteRepo,
+        private val preferenceRepo: IPreferenceRepo,
+        private val alarmRepo: IAlarmRepo,
+        private val noteRepo: INoteRepo,
         private var callback: IAlarmBridge?
 ) : ParentInteractor(),
         IAlarmInteractor {
@@ -28,22 +28,21 @@ class AlarmInteractor(
     override fun onDestroy(func: () -> Unit) = super.onDestroy { callback = null }
 
 
-    @Theme override val theme: Int get() = iPreferenceRepo.theme
+    @Theme override val theme: Int get() = preferenceRepo.theme
 
-    override val repeat: Int get() = iPreferenceRepo.repeat
+    override val repeat: Int get() = preferenceRepo.repeat
 
-    override val volume: Int get() = iPreferenceRepo.volume
+    override val volume: Int get() = preferenceRepo.volume
 
-    override val volumeIncrease: Boolean get() = iPreferenceRepo.volumeIncrease
+    override val volumeIncrease: Boolean get() = preferenceRepo.volumeIncrease
 
     override suspend fun getModel(id: Long): NoteItem? {
         /**
          * Delete before return noteModel for hide alarm icon.
          */
-        iAlarmRepo.delete(id)
+        alarmRepo.delete(id)
 
-
-        return iNoteRepo.getItem(id, optimisation = true)
+        return noteRepo.getItem(id, optimisation = true)
     }
 
     override suspend fun setupRepeat(noteItem: NoteItem, valueArray: IntArray,
@@ -54,12 +53,12 @@ class AlarmInteractor(
 
         checkDateExist(calendar)
         
-        iAlarmRepo.insertOrUpdate(noteItem, calendar.getText())
+        alarmRepo.insertOrUpdate(noteItem, calendar.getText())
         callback?.setAlarm(calendar, noteItem.id)
     }
 
     private suspend fun checkDateExist(calendar: Calendar) {
-        val dateList = iAlarmRepo.getList().map { it.alarm.date }
+        val dateList = alarmRepo.getList().map { it.alarm.date }
 
         while (dateList.contains(calendar.getText())) {
             calendar.add(Calendar.MINUTE, 1)

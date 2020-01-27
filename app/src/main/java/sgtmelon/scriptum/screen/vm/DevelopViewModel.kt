@@ -16,15 +16,15 @@ import sgtmelon.scriptum.screen.vm.callback.IDevelopViewModel
 class DevelopViewModel(application: Application) : ParentViewModel<IDevelopActivity>(application),
         IDevelopViewModel {
 
-    private val iDevelopRepo: IDevelopRepo = DevelopRepo(context)
+    private val developRepo: IDevelopRepo = DevelopRepo(context)
 
     override fun onSetup(bundle: Bundle?) {
         viewModelScope.launch {
             callback?.apply {
-                fillAboutNoteTable(iDevelopRepo.getNoteTablePrint())
-                fillAboutRollTable(iDevelopRepo.getRollTablePrint())
-                fillAboutRankTable(iDevelopRepo.getRankTablePrint())
-                fillAboutPreference(iDevelopRepo.getPreferencePrint())
+                fillAboutNoteTable(developRepo.getNoteTablePrint())
+                fillAboutRollTable(developRepo.getRollTablePrint())
+                fillAboutRankTable(developRepo.getRankTablePrint())
+                fillAboutPreference(developRepo.getPreferencePrint())
             }
         }
     }

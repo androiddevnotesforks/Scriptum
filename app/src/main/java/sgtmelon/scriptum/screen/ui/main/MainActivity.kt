@@ -40,13 +40,13 @@ import javax.inject.Inject
  */
 class MainActivity : AppActivity(), IMainActivity {
 
-    @Inject internal lateinit var iViewModel: IMainViewModel
+    @Inject internal lateinit var viewModel: IMainViewModel
 
-    private val iAlarmControl by lazy { AlarmControl[this] }
-    private val iBindControl by lazy { BindControl[this] }
+    private val alarmControl by lazy { AlarmControl[this] }
+    private val bindControl by lazy { BindControl[this] }
     private val holderControl by lazy { ShowHolderControl(arrayOf(toolbarHolder)) }
 
-    private val mainReceiver by lazy { MainReceiver(iViewModel) }
+    private val mainReceiver by lazy { MainReceiver(viewModel) }
 
     private val fragmentFactory = FragmentFactory.Main(fm)
     private val rankFragment by lazy { fragmentFactory.getRankFragment() }
@@ -68,11 +68,11 @@ class MainActivity : AppActivity(), IMainActivity {
         ScriptumApplication.component.getMainBuilder().set(activity = this).build()
                 .inject(activity = this)
 
-        iAlarmControl.initLazy()
-        iBindControl.initLazy()
+        alarmControl.initLazy()
+        bindControl.initLazy()
 
         openState.get(savedInstanceState)
-        iViewModel.onSetup(savedInstanceState)
+        viewModel.onSetup(savedInstanceState)
 
         registerReceiver(mainReceiver, IntentFilter(ReceiverData.Filter.MAIN))
     }
@@ -96,14 +96,14 @@ class MainActivity : AppActivity(), IMainActivity {
 
         holderControl.onDestroy()
 
-        iViewModel.onDestroy()
+        viewModel.onDestroy()
         unregisterReceiver(mainReceiver)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState.apply {
             openState.save(bundle = this)
-            iViewModel.onSaveData(bundle = this)
+            viewModel.onSaveData(bundle = this)
         })
     }
 
@@ -129,7 +129,7 @@ class MainActivity : AppActivity(), IMainActivity {
             setOnNavigationItemSelectedListener {
                 return@setOnNavigationItemSelectedListener openState.tryReturnInvoke {
                     openState.block(animTime)
-                    iViewModel.onSelectItem(it.itemId)
+                    viewModel.onSelectItem(it.itemId)
 
                     return@tryReturnInvoke true
                 } ?: false
@@ -141,7 +141,7 @@ class MainActivity : AppActivity(), IMainActivity {
         addDialog.apply {
             itemSelectedListener = NavigationView.OnNavigationItemSelectedListener {
                 dismiss()
-                iViewModel.onResultAddDialog(it)
+                viewModel.onResultAddDialog(it)
                 return@OnNavigationItemSelectedListener true
             }
             dismissListener = DialogInterface.OnDismissListener { openState.clear() }
@@ -149,7 +149,7 @@ class MainActivity : AppActivity(), IMainActivity {
     }
 
 
-    override fun onFabStateChange(state: Boolean) = iViewModel.onFabStateChange(state)
+    override fun onFabStateChange(state: Boolean) = viewModel.onFabStateChange(state)
 
     override fun setFabState(state: Boolean) {
         fab?.setState(state)
@@ -195,16 +195,16 @@ class MainActivity : AppActivity(), IMainActivity {
 
 
     override fun setAlarm(calendar: Calendar, id: Long) {
-        iAlarmControl.set(calendar, id, showToast = false)
+        alarmControl.set(calendar, id, showToast = false)
     }
 
-    override fun cancelAlarm(id: Long) = iAlarmControl.cancel(id)
+    override fun cancelAlarm(id: Long) = alarmControl.cancel(id)
 
     override fun notifyNoteBind(item: NoteItem, rankIdVisibleList: List<Long>) {
-        iBindControl.notifyNote(item, rankIdVisibleList)
+        bindControl.notifyNote(item, rankIdVisibleList)
     }
 
-    override fun notifyInfoBind(count: Int) = iBindControl.notifyInfo(count)
+    override fun notifyInfoBind(count: Int) = bindControl.notifyInfo(count)
 
 
     override fun onReceiveUnbindNote(id: Long) = notesFragment.onReceiveUnbindNote(id)

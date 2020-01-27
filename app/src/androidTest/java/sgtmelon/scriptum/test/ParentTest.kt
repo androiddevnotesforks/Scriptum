@@ -16,9 +16,9 @@ abstract class ParentTest {
 
     val context: Context = getInstrumentation().targetContext
 
-    val iPreferenceRepo: IPreferenceRepo = PreferenceRepo(context)
+    val preferenceRepo: IPreferenceRepo = PreferenceRepo(context)
 
-    val data = TestData(context, iPreferenceRepo)
+    val data = TestData(context, preferenceRepo)
 
     @Before @CallSuper open fun setUp() {}
 

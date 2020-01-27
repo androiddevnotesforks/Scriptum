@@ -27,7 +27,7 @@ class DevelopActivity : AppCompatActivity(), IDevelopActivity {
     // TODO #RELEASE2 activity: toolbar, fragment
     // TODO #RELEASE2 change toolbar text when change fragment
 
-    @Inject internal lateinit var iViewModel: IDevelopViewModel
+    @Inject internal lateinit var viewModel: IDevelopViewModel
 
     private val introButton by lazy { findViewById<Button?>(R.id.develop_intro_button) }
 
@@ -38,14 +38,14 @@ class DevelopActivity : AppCompatActivity(), IDevelopActivity {
         ScriptumApplication.component.getDevelopBuilder().set(activity = this).build()
                 .inject(activity = this)
 
-        iViewModel.onSetup()
+        viewModel.onSetup()
 
-        introButton?.setOnClickListener { iViewModel.onIntroClick() }
+        introButton?.setOnClickListener { viewModel.onIntroClick() }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        iViewModel.onDestroy()
+        viewModel.onDestroy()
     }
 
     override fun fillAboutNoteTable(data: String) {

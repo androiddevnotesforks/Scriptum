@@ -13,8 +13,8 @@ import sgtmelon.scriptum.test.ParentUiTest
 abstract class ParentToolbarColorTest(@Theme private val theme: Int) : ParentUiTest(), IColorTest {
 
     override fun startTest(@Color color: Int) {
-        iPreferenceRepo.theme = theme
-        iPreferenceRepo.defaultColor = Color.list.filter { it != color }.random()
+        preferenceRepo.theme = theme
+        preferenceRepo.defaultColor = Color.list.filter { it != color }.random()
 
         launch {
             mainScreen {

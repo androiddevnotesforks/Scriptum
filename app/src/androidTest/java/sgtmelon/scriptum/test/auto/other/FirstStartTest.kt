@@ -18,7 +18,7 @@ class FirstStartTest : ParentUiTest() {
 
     override fun setUp() {}
 
-    @Test fun order0_notFinishIntro() = launch({ iPreferenceRepo.firstStart = true }) {
+    @Test fun order0_notFinishIntro() = launch({ preferenceRepo.firstStart = true }) {
         introScreen()
     }
 

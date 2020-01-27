@@ -24,7 +24,7 @@ abstract class ParentUiTest : ParentTest() {
     override fun setUp() {
         super.setUp()
 
-        iPreferenceRepo.apply {
+        preferenceRepo.apply {
             theme = if (Random.nextBoolean()) Theme.LIGHT else Theme.DARK
             firstStart = false
 

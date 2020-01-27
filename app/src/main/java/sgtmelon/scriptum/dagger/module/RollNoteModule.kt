@@ -21,20 +21,20 @@ class RollNoteModule {
 
     @Provides
     @ActivityScope
-    fun provideInteractor(iPreferenceRepo: IPreferenceRepo, iAlarmRepo: IAlarmRepo,
-                          iRankRepo: IRankRepo, iNoteRepo: INoteRepo,
+    fun provideInteractor(preferenceRepo: IPreferenceRepo, alarmRepo: IAlarmRepo,
+                          rankRepo: IRankRepo, noteRepo: INoteRepo,
                           fragment: RollNoteFragment): IRollNoteInteractor {
-        return RollNoteInteractor(iPreferenceRepo, iAlarmRepo, iRankRepo, iNoteRepo, fragment)
+        return RollNoteInteractor(preferenceRepo, alarmRepo, rankRepo, noteRepo, fragment)
     }
 
     @Provides
     @ActivityScope
-    fun provideViewModel(fragment: RollNoteFragment, iInteractor: IRollNoteInteractor,
-                         iBindInteractor: IBindInteractor): IRollNoteViewModel {
+    fun provideViewModel(fragment: RollNoteFragment, interactor: IRollNoteInteractor,
+                         bindInteractor: IBindInteractor): IRollNoteViewModel {
         return ViewModelProvider(fragment).get(RollNoteViewModel::class.java).apply {
             setCallback(fragment)
             setParentCallback(fragment.context as? INoteChild)
-            setInteractor(iInteractor, iBindInteractor)
+            setInteractor(interactor, bindInteractor)
         }
     }
 

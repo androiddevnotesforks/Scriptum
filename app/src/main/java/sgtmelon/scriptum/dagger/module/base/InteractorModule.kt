@@ -18,16 +18,16 @@ class InteractorModule {
 
     @Provides
     @ActivityScope
-    fun provideBindInteractor(iPreferenceRepo: IPreferenceRepo, iBindRepo: IBindRepo,
-                              iRankRepo: IRankRepo, iNoteRepo: INoteRepo): IBindInteractor {
-        return BindInteractor(iPreferenceRepo, iBindRepo, iRankRepo, iNoteRepo)
+    fun provideBindInteractor(preferenceRepo: IPreferenceRepo, bindRepo: IBindRepo,
+                              rankRepo: IRankRepo, noteRepo: INoteRepo): IBindInteractor {
+        return BindInteractor(preferenceRepo, bindRepo, rankRepo, noteRepo)
     }
 
     @Provides
     @ActivityScope
     fun provideSignalInteractor(context: Context,
-                                iPreferenceRepo: IPreferenceRepo): ISignalInteractor {
-        return SignalInteractor(context, iPreferenceRepo)
+                                preferenceRepo: IPreferenceRepo): ISignalInteractor {
+        return SignalInteractor(context, preferenceRepo)
     }
 
 }

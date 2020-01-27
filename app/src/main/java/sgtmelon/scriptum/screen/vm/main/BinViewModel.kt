@@ -20,10 +20,10 @@ import sgtmelon.scriptum.model.annotation.Options.Bin as Options
 class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(application),
         IBinViewModel {
 
-    private lateinit var iInteractor: IBinInteractor
+    private lateinit var interactor: IBinInteractor
 
-    fun setInteractor(iInteractor: IBinInteractor) {
-        this.iInteractor = iInteractor
+    fun setInteractor(interactor: IBinInteractor) {
+        this.interactor = interactor
     }
 
 
@@ -32,11 +32,11 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
     override fun onSetup(bundle: Bundle?) {
         callback?.apply {
             setupToolbar()
-            setupRecycler(iInteractor.theme)
+            setupRecycler(interactor.theme)
         }
     }
 
-    override fun onDestroy(func: () -> Unit) = super.onDestroy { iInteractor.onDestroy() }
+    override fun onDestroy(func: () -> Unit) = super.onDestroy { interactor.onDestroy() }
 
 
     override fun onUpdateData() {
@@ -53,13 +53,13 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
         }
 
         viewModelScope.launch {
-            val count = iInteractor.getCount()
+            val count = interactor.getCount()
 
             if (count == 0) {
                 itemList.clear()
             } else {
                 if (itemList.isEmpty()) callback?.showProgress()
-                itemList.clearAddAll(iInteractor.getList())
+                itemList.clearAddAll(interactor.getList())
             }
 
             callback?.apply {
@@ -71,7 +71,7 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
     }
 
     override fun onClickClearBin() {
-        viewModelScope.launch { iInteractor.clearBin() }
+        viewModelScope.launch { interactor.clearBin() }
 
         itemList.clear()
 
@@ -93,14 +93,14 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
     override fun onResultOptionsDialog(p: Int, which: Int) {
         when (which) {
             Options.RESTORE -> restoreItem(p)
-            Options.COPY -> viewModelScope.launch { iInteractor.copy(itemList[p]) }
+            Options.COPY -> viewModelScope.launch { interactor.copy(itemList[p]) }
             Options.CLEAR -> clearItem(p)
         }
     }
 
     private fun restoreItem(p: Int) {
         val item = itemList.removeAt(p)
-        viewModelScope.launch { iInteractor.restoreNote(item) }
+        viewModelScope.launch { interactor.restoreNote(item) }
 
         callback?.notifyItemRemoved(itemList, p)
         callback?.notifyMenuClearBin()
@@ -108,7 +108,7 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
 
     private fun clearItem(p: Int) {
         val item = itemList.removeAt(p)
-        viewModelScope.launch { iInteractor.clearNote(item) }
+        viewModelScope.launch { interactor.clearNote(item) }
 
         callback?.notifyItemRemoved(itemList, p)
         callback?.notifyMenuClearBin()

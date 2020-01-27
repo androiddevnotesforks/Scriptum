@@ -19,10 +19,10 @@ import java.util.*
  * Interactor for [RollNoteViewModel].
  */
 class RollNoteInteractor(
-        private val iPreferenceRepo: IPreferenceRepo,
-        private val iAlarmRepo: IAlarmRepo,
-        private val iRankRepo: IRankRepo,
-        private val iNoteRepo: INoteRepo,
+        private val preferenceRepo: IPreferenceRepo,
+        private val alarmRepo: IAlarmRepo,
+        private val rankRepo: IRankRepo,
+        private val noteRepo: INoteRepo,
         private var callback: IRollNoteBridge?
 ) : ParentInteractor(),
         IRollNoteInteractor {
@@ -30,36 +30,36 @@ class RollNoteInteractor(
     private var rankIdVisibleList: List<Long>? = null
 
     private suspend fun getRankIdVisibleList(): List<Long> {
-        return rankIdVisibleList ?: iRankRepo.getIdVisibleList().also { rankIdVisibleList = it }
+        return rankIdVisibleList ?: rankRepo.getIdVisibleList().also { rankIdVisibleList = it }
     }
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy { callback = null }
 
 
-    override fun getSaveModel() = with(iPreferenceRepo) {
+    override fun getSaveModel() = with(preferenceRepo) {
         SaveControl.Model(pauseSaveOn, autoSaveOn, savePeriod)
     }
 
-    @Theme override val theme: Int get() = iPreferenceRepo.theme
+    @Theme override val theme: Int get() = preferenceRepo.theme
 
-    @Color override val defaultColor: Int get() = iPreferenceRepo.defaultColor
+    @Color override val defaultColor: Int get() = preferenceRepo.defaultColor
 
 
     override suspend fun getItem(id: Long): NoteItem? {
-        val item = iNoteRepo.getItem(id, optimisation = false)
+        val item = noteRepo.getItem(id, optimisation = false)
 
         if (item != null) callback?.notifyNoteBind(item, getRankIdVisibleList())
 
         return item
     }
 
-    override suspend fun getRankDialogItemArray() = iRankRepo.getDialogItemArray()
+    override suspend fun getRankDialogItemArray() = rankRepo.getDialogItemArray()
 
     /**
      * Update single roll.
      */
     override suspend fun updateRollCheck(noteItem: NoteItem, p: Int) {
-        iNoteRepo.updateRollCheck(noteItem, p)
+        noteRepo.updateRollCheck(noteItem, p)
         callback?.notifyNoteBind(noteItem, getRankIdVisibleList())
     }
 
@@ -67,48 +67,48 @@ class RollNoteInteractor(
      * Update all rolls rely on checks.
      */
     override suspend fun updateRollCheck(noteItem: NoteItem, check: Boolean) {
-        iNoteRepo.updateRollCheck(noteItem, check)
+        noteRepo.updateRollCheck(noteItem, check)
         callback?.notifyNoteBind(noteItem, getRankIdVisibleList())
     }
 
-    override suspend fun getRankId(check: Int): Long = iRankRepo.getId(check)
+    override suspend fun getRankId(check: Int): Long = rankRepo.getId(check)
 
-    override suspend fun getDateList() = iAlarmRepo.getList().map { it.alarm.date }
+    override suspend fun getDateList() = alarmRepo.getList().map { it.alarm.date }
 
     override suspend fun clearDate(noteItem: NoteItem) {
-        iAlarmRepo.delete(noteItem.id)
+        alarmRepo.delete(noteItem.id)
         callback?.cancelAlarm(noteItem.id)
     }
 
     override suspend fun setDate(noteItem: NoteItem, calendar: Calendar) {
-        iAlarmRepo.insertOrUpdate(noteItem, calendar.getText())
+        alarmRepo.insertOrUpdate(noteItem, calendar.getText())
         callback?.setAlarm(calendar, noteItem.id)
     }
 
     override suspend fun convert(noteItem: NoteItem) {
-        iNoteRepo.convertToText(noteItem, useCache = true)
+        noteRepo.convertToText(noteItem, useCache = true)
     }
 
 
-    override suspend fun restoreNote(noteItem: NoteItem) = iNoteRepo.restoreNote(noteItem)
+    override suspend fun restoreNote(noteItem: NoteItem) = noteRepo.restoreNote(noteItem)
 
     override suspend fun updateNote(noteItem: NoteItem, updateBind: Boolean) {
-        iNoteRepo.updateNote(noteItem)
+        noteRepo.updateNote(noteItem)
 
         if (updateBind) callback?.notifyNoteBind(noteItem, getRankIdVisibleList())
     }
 
-    override suspend fun clearNote(noteItem: NoteItem) = iNoteRepo.clearNote(noteItem)
+    override suspend fun clearNote(noteItem: NoteItem) = noteRepo.clearNote(noteItem)
 
     override suspend fun saveNote(noteItem: NoteItem, isCreate: Boolean) {
-        iNoteRepo.saveRollNote(noteItem, isCreate)
-        iRankRepo.updateConnection(noteItem)
+        noteRepo.saveRollNote(noteItem, isCreate)
+        rankRepo.updateConnection(noteItem)
 
         callback?.notifyNoteBind(noteItem, getRankIdVisibleList())
     }
 
     override suspend fun deleteNote(noteItem: NoteItem) {
-        iNoteRepo.deleteNote(noteItem)
+        noteRepo.deleteNote(noteItem)
 
         callback?.cancelAlarm(noteItem.id)
         callback?.cancelNoteBind(noteItem.id.toInt())

@@ -16,8 +16,8 @@ class BindRepo(override val context: Context) : IBindRepo, IRoomWork {
         val result: Boolean
 
         openRoom().apply {
-            val noteEntity = iNoteDao.get(id)?.apply { isStatus = false }
-            noteEntity?.let { iNoteDao.update(it) }
+            val noteEntity = noteDao.get(id)?.apply { isStatus = false }
+            noteEntity?.let { noteDao.update(it) }
 
             result = noteEntity != null
         }.close()
@@ -28,7 +28,7 @@ class BindRepo(override val context: Context) : IBindRepo, IRoomWork {
     override suspend fun getNotificationCount(): Int {
         val count: Int
 
-        openRoom().apply { count = iAlarmDao.getCount() }.close()
+        openRoom().apply { count = alarmDao.getCount() }.close()
 
         return count
     }

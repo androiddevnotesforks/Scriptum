@@ -14,9 +14,9 @@ class PreferenceModule {
 
     @Provides
     @ActivityScope
-    fun provideViewModel(context: Context, iSignalInteractor: ISignalInteractor,
+    fun provideViewModel(context: Context, signalInteractor: ISignalInteractor,
                          fragment: PreferenceFragment): IPreferenceViewModel {
-        return PreferenceViewModel(context, iSignalInteractor, fragment)
+        return PreferenceViewModel(context, signalInteractor, fragment)
     }
 
 }

@@ -33,15 +33,15 @@ import sgtmelon.scriptum.screen.vm.callback.notification.IAlarmViewModel
 class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>(application),
         IAlarmViewModel {
 
-    private lateinit var iInteractor: IAlarmInteractor
-    private lateinit var iSignalInteractor: ISignalInteractor
-    private lateinit var iBindInteractor: IBindInteractor
+    private lateinit var interactor: IAlarmInteractor
+    private lateinit var signalInteractor: ISignalInteractor
+    private lateinit var bindInteractor: IBindInteractor
 
-    fun setInteractor(iInteractor: IAlarmInteractor, iSignalInteractor: ISignalInteractor,
-                      iBindInteractor: IBindInteractor) {
-        this.iInteractor = iInteractor
-        this.iSignalInteractor = iSignalInteractor
-        this.iBindInteractor = iBindInteractor
+    fun setInteractor(interactor: IAlarmInteractor, signalInteractor: ISignalInteractor,
+                      bindInteractor: IBindInteractor) {
+        this.interactor = interactor
+        this.signalInteractor = signalInteractor
+        this.bindInteractor = bindInteractor
     }
 
 
@@ -65,10 +65,10 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         callback?.apply {
             acquirePhone(CANCEL_DELAY)
 
-            iInteractor.let {
+            interactor.let {
                 setupView(it.theme)
 
-                val uri = iSignalInteractor.melodyUri.toUri()
+                val uri = signalInteractor.melodyUri.toUri()
                 if (uri != null) {
                     setupPlayer(it.volume, it.volumeIncrease, uri)
                 }
@@ -84,16 +84,16 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
              * If first open.
              */
             if (!::noteItem.isInitialized) {
-                iInteractor.getModel(id)?.let {
+                interactor.getModel(id)?.let {
                     noteItem = it
                 } ?: run {
                     callback?.finish()
                     return@launch
                 }
 
-                signalState = iSignalInteractor.signalState
+                signalState = signalInteractor.signalState
 
-                iBindInteractor.notifyInfoBind(callback)
+                bindInteractor.notifyInfoBind(callback)
             }
 
             callback?.apply {
@@ -117,7 +117,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
 
         callback?.releasePhone()
 
-        iInteractor.onDestroy()
+        interactor.onDestroy()
     }
 
 
@@ -129,7 +129,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         val color = noteItem.color
 
         callback?.apply {
-            val theme = iInteractor.theme
+            val theme = interactor.theme
             startRippleAnimation(theme, context.getAppSimpleColor(color,
                     if (theme == Theme.LIGHT) ColorShade.ACCENT else ColorShade.DARK
             ))
@@ -162,7 +162,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     override fun onClickRepeat() = repeatFinish()
 
     override fun onResultRepeatDialog(menuItem: MenuItem) {
-        val repeat = getRepeatById(menuItem.itemId) ?: iInteractor.repeat
+        val repeat = getRepeatById(menuItem.itemId) ?: interactor.repeat
         repeatFinish(repeat)
     }
 
@@ -179,10 +179,10 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     /**
      * Call this when need set alarm repeat with screen finish.
      */
-    private fun repeatFinish(@Repeat repeat: Int = iInteractor.repeat) {
+    private fun repeatFinish(@Repeat repeat: Int = interactor.repeat) {
         viewModelScope.launch {
             val valueArray = context.resources.getIntArray(R.array.pref_alarm_repeat_array)
-            iInteractor.setupRepeat(noteItem, valueArray, repeat)
+            interactor.setupRepeat(noteItem, valueArray, repeat)
 
             callback?.showRepeatToast(repeat)
 

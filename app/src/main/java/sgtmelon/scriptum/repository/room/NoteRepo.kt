@@ -35,8 +35,8 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
         val count: Int
 
         openRoom().apply {
-            val rankIdList = if (bin) iRankDao.getIdList() else iRankDao.getIdVisibleList()
-            count = iNoteDao.getCount(bin, rankIdList)
+            val rankIdList = if (bin) rankDao.getIdList() else rankDao.getIdVisibleList()
+            count = noteDao.getCount(bin, rankIdList)
         }.close()
 
         return count
@@ -50,7 +50,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
         val itemList = ArrayList<NoteItem>()
 
         inRoom {
-            var list = iNoteDao.getSortBy(sort, bin) ?: return@inRoom
+            var list = noteDao.getSortBy(sort, bin) ?: return@inRoom
 
             /**
              * If need get all items.
@@ -59,13 +59,13 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
              * Need get all items for cancel bind in status bar.
              * Notes must be showed in bin list even if rank not visible.
              */
-            if (filterVisible) list = iRankDao.filterVisible(list)
+            if (filterVisible) list = rankDao.filterVisible(list)
 
             list.forEach {
-                val rollEntityList = iRollDao.getOptimal(it.id, optimal)
+                val rollEntityList = rollDao.getOptimal(it.id, optimal)
                 val rollItemList = rollConverter.toItem(rollEntityList)
 
-                itemList.add(noteConverter.toItem(it, rollItemList, iAlarmDao.get(it.id)))
+                itemList.add(noteConverter.toItem(it, rollItemList, alarmDao.get(it.id)))
             }
         }
 
@@ -116,9 +116,9 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
         val item: NoteItem?
 
         openRoom().apply {
-            item = iNoteDao.get(id)?.let {
-                val rollList = rollConverter.toItem(iRollDao.getOptimal(it.id, optimisation))
-                return@let noteConverter.toItem(it, rollList, iAlarmDao.get(id))
+            item = noteDao.get(id)?.let {
+                val rollList = rollConverter.toItem(rollDao.getOptimal(it.id, optimisation))
+                return@let noteConverter.toItem(it, rollList, alarmDao.get(id))
             }
         }.close()
 
@@ -133,7 +133,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
      * Return empty list if don't have [RollEntity] for this [noteId]
      */
     override suspend fun getRollList(noteId: Long) = ArrayList<RollItem>().apply {
-        inRoom { addAll(rollConverter.toItem(iRollDao.get(noteId))) }
+        inRoom { addAll(rollConverter.toItem(rollDao.get(noteId))) }
     }
 
 
@@ -144,8 +144,8 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
         val isListHide: Boolean
 
         openRoom().apply {
-            isListHide = iNoteDao.get(false).any {
-                noteConverter.toItem(it).isNotVisible(iRankDao.getIdVisibleList())
+            isListHide = noteDao.get(false).any {
+                noteConverter.toItem(it).isNotVisible(rankDao.getIdVisibleList())
             }
         }.close()
 
@@ -153,29 +153,29 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
     }
 
     override suspend fun clearBin() = inRoom {
-        val noteList = iNoteDao.get(true).apply {
-            forEach { iRankDao.clearConnection(it.id, it.rankId) }
+        val noteList = noteDao.get(true).apply {
+            forEach { rankDao.clearConnection(it.id, it.rankId) }
         }
 
-        iNoteDao.delete(noteList)
+        noteDao.delete(noteList)
     }
 
 
     override suspend fun deleteNote(noteItem: NoteItem) = inRoom {
-        iAlarmDao.delete(noteItem.id)
-        iNoteDao.update(noteConverter.toEntity(noteItem.delete()))
+        alarmDao.delete(noteItem.id)
+        noteDao.update(noteConverter.toEntity(noteItem.delete()))
     }
 
     override suspend fun restoreNote(noteItem: NoteItem) = inRoom {
-        iNoteDao.update(noteConverter.toEntity(noteItem.restore()))
+        noteDao.update(noteConverter.toEntity(noteItem.restore()))
     }
 
     /**
      * Delete note forever and clear related categories
      */
     override suspend fun clearNote(noteItem: NoteItem) = inRoom {
-        iRankDao.clearConnection(noteItem.id, noteItem.rankId)
-        iNoteDao.delete(noteConverter.toEntity(noteItem))
+        rankDao.clearConnection(noteItem.id, noteItem.rankId)
+        noteDao.delete(noteConverter.toEntity(noteItem))
     }
 
 
@@ -186,10 +186,10 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
 
         inRoom {
             noteItem.rollList.forEach {
-                it.id = iRollDao.insert(rollConverter.toEntity(noteItem.id, it))
+                it.id = rollDao.insert(rollConverter.toEntity(noteItem.id, it))
             }
 
-            iNoteDao.update(noteConverter.toEntity(noteItem))
+            noteDao.update(noteConverter.toEntity(noteItem))
         }
     }
 
@@ -200,11 +200,11 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
             if (useCache) {
                 noteItem.onConvertRoll()
             } else {
-                noteItem.onConvertRoll(rollConverter.toItem(iRollDao.get(noteItem.id)))
+                noteItem.onConvertRoll(rollConverter.toItem(rollDao.get(noteItem.id)))
             }
 
-            iNoteDao.update(noteConverter.toEntity(noteItem))
-            iRollDao.delete(noteItem.id)
+            noteDao.update(noteConverter.toEntity(noteItem))
+            rollDao.delete(noteItem.id)
         }
     }
 
@@ -216,7 +216,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
         when (noteItem.type) {
             NoteType.TEXT -> append(noteItem.text)
             NoteType.ROLL -> inRoom {
-                append(rollConverter.toItem(iRollDao.get(noteItem.id)).getText())
+                append(rollConverter.toItem(rollDao.get(noteItem.id)).getText())
             }
         }
     }.toString()
@@ -228,9 +228,9 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
             val entity = noteConverter.toEntity(noteItem)
 
             if (isCreate) {
-                noteItem.id = iNoteDao.insert(entity)
+                noteItem.id = noteDao.insert(entity)
             } else {
-                iNoteDao.update(entity)
+                noteDao.update(entity)
             }
         }
     }
@@ -242,12 +242,12 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
             val noteEntity = noteConverter.toEntity(noteItem)
 
             if (isCreate) {
-                noteItem.id = iNoteDao.insert(noteEntity)
+                noteItem.id = noteDao.insert(noteEntity)
                 noteItem.rollList.forEach {
-                    it.id = iRollDao.insert(rollConverter.toEntity(noteItem.id, it))
+                    it.id = rollDao.insert(rollConverter.toEntity(noteItem.id, it))
                 }
             } else {
-                iNoteDao.update(noteEntity)
+                noteDao.update(noteEntity)
 
                 /**
                  * List of roll id's, which wasn't swiped.
@@ -258,9 +258,9 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
                     val id = item.id
 
                     if (id == null) {
-                        item.id = iRollDao.insert(rollConverter.toEntity(noteItem.id, item))
+                        item.id = rollDao.insert(rollConverter.toEntity(noteItem.id, item))
                     } else {
-                        iRollDao.update(id, item.position, item.text)
+                        rollDao.update(id, item.position, item.text)
                     }
 
                     item.id?.let { idSaveList.add(it) }
@@ -269,7 +269,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
                 /**
                  * Remove swiped rolls.
                  */
-                iRollDao.delete(noteItem.id, idSaveList)
+                rollDao.delete(noteItem.id, idSaveList)
             }
         }
     }
@@ -279,17 +279,17 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
 
         val rollId = item.id ?: return@inRoom
 
-        iRollDao.update(rollId, item.isCheck)
-        iNoteDao.update(noteConverter.toEntity(noteItem))
+        rollDao.update(rollId, item.isCheck)
+        noteDao.update(noteConverter.toEntity(noteItem))
     }
 
     override suspend fun updateRollCheck(noteItem: NoteItem, check: Boolean) = inRoom {
-        iRollDao.updateAllCheck(noteItem.id, check)
-        iNoteDao.update(noteConverter.toEntity(noteItem))
+        rollDao.updateAllCheck(noteItem.id, check)
+        noteDao.update(noteConverter.toEntity(noteItem))
     }
 
     override suspend fun updateNote(noteItem: NoteItem) = inRoom {
-        iNoteDao.update(noteConverter.toEntity(noteItem))
+        noteDao.update(noteConverter.toEntity(noteItem))
     }
 
 

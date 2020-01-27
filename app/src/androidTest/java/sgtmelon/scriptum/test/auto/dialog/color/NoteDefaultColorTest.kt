@@ -38,7 +38,7 @@ class NoteDefaultColorTest : ParentUiTest(), IColorTest {
     @Test override fun colorWhite() = super.colorWhite()
 
     override fun startTest(@Color color: Int) {
-        iPreferenceRepo.defaultColor = color
+        preferenceRepo.defaultColor = color
 
         data.createText().let {
             launch {

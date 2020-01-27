@@ -16,16 +16,16 @@ class IntroModule {
 
     @Provides
     @ActivityScope
-    fun provideInteractor(iPreferenceRepo: IPreferenceRepo): IIntroInteractor {
-        return IntroInteractor(iPreferenceRepo)
+    fun provideInteractor(preferenceRepo: IPreferenceRepo): IIntroInteractor {
+        return IntroInteractor(preferenceRepo)
     }
 
     @Provides
     @ActivityScope
-    fun provideViewModel(activity: IntroActivity, iInteractor: IIntroInteractor): IIntroViewModel {
+    fun provideViewModel(activity: IntroActivity, interactor: IIntroInteractor): IIntroViewModel {
         return ViewModelProvider(activity).get(IntroViewModel::class.java).apply {
             setCallback(activity)
-            setInteractor(iInteractor)
+            setInteractor(interactor)
         }
     }
 

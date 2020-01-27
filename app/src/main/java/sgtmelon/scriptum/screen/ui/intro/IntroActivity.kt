@@ -11,7 +11,6 @@ import sgtmelon.idling.AppIdlingResource
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.PagerAdapter
 import sgtmelon.scriptum.extension.beforeFinish
-import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.model.data.IntroData
 import sgtmelon.scriptum.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.screen.ui.callback.IIntroActivity
@@ -24,7 +23,7 @@ import javax.inject.Inject
  */
 class IntroActivity : AppCompatActivity(), IIntroActivity, ViewPager.OnPageChangeListener {
 
-    @Inject internal lateinit var iViewModel: IIntroViewModel
+    @Inject internal lateinit var viewModel: IIntroViewModel
 
     private val pagerAdapter = PagerAdapter(supportFragmentManager)
 
@@ -38,12 +37,12 @@ class IntroActivity : AppCompatActivity(), IIntroActivity, ViewPager.OnPageChang
         ScriptumApplication.component.getIntroBuilder().set(activity = this).build()
                 .inject(activity = this)
 
-        iViewModel.onSetup()
+        viewModel.onSetup()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        iViewModel.onDestroy()
+        viewModel.onDestroy()
     }
 
 
@@ -54,7 +53,7 @@ class IntroActivity : AppCompatActivity(), IIntroActivity, ViewPager.OnPageChang
 
             setOnClickListener {
                 AppIdlingResource.worker.startHardWork()
-                beforeFinish { iViewModel.onClickEnd() }
+                beforeFinish { viewModel.onClickEnd() }
             }
         }
 

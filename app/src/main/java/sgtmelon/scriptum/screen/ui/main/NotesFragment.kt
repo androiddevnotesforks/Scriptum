@@ -19,7 +19,6 @@ import sgtmelon.scriptum.control.clipboard.IClipboardControl
 import sgtmelon.scriptum.databinding.FragmentNotesBinding
 import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.factory.DialogFactory
-import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.annotation.Options
 import sgtmelon.scriptum.model.annotation.Theme
@@ -46,11 +45,11 @@ class NotesFragment : ParentFragment(), INotesFragment, MainReceiver.Callback {
 
     private var binding: FragmentNotesBinding? = null
 
-    @Inject internal lateinit var iViewModel: INotesViewModel
+    @Inject internal lateinit var viewModel: INotesViewModel
 
-    private val iAlarmControl by lazy { AlarmControl[context] }
-    private val iBindControl by lazy { BindControl[context] }
-    private val iClipboardControl: IClipboardControl by lazy { ClipboardControl(context) }
+    private val alarmControl by lazy { AlarmControl[context] }
+    private val bindControl by lazy { BindControl[context] }
+    private val clipboardControl: IClipboardControl by lazy { ClipboardControl(context) }
 
     private val openState get() = callback?.openState
     private val dialogFactory by lazy { DialogFactory.Main(context, fm) }
@@ -62,10 +61,10 @@ class NotesFragment : ParentFragment(), INotesFragment, MainReceiver.Callback {
     private val adapter: NoteAdapter by lazy {
         NoteAdapter(object : ItemListener.Click {
             override fun onItemClick(view: View, p: Int) {
-                openState?.tryInvoke { iViewModel.onClickNote(p) }
+                openState?.tryInvoke { viewModel.onClickNote(p) }
             }
         }, object : ItemListener.LongClick {
-            override fun onItemLongClick(view: View, p: Int) = iViewModel.onShowOptionsDialog(p)
+            override fun onItemLongClick(view: View, p: Int) = viewModel.onShowOptionsDialog(p)
         })
     }
 
@@ -94,16 +93,16 @@ class NotesFragment : ParentFragment(), INotesFragment, MainReceiver.Callback {
         ScriptumApplication.component.getNotesBuilder().set(fragment = this).build()
                 .inject(fragment = this)
 
-        iAlarmControl.initLazy()
-        iBindControl.initLazy()
-        iClipboardControl.initLazy()
+        alarmControl.initLazy()
+        bindControl.initLazy()
+        clipboardControl.initLazy()
 
-        iViewModel.onSetup()
+        viewModel.onSetup()
     }
 
     override fun onResume() {
         super.onResume()
-        iViewModel.onUpdateData()
+        viewModel.onUpdateData()
     }
 
     override fun onPause() {
@@ -113,14 +112,14 @@ class NotesFragment : ParentFragment(), INotesFragment, MainReceiver.Callback {
 
     override fun onDestroy() {
         super.onDestroy()
-        iViewModel.onDestroy()
+        viewModel.onDestroy()
     }
 
     //region Receiver functions
 
-    override fun onReceiveUnbindNote(id: Long) = iViewModel.onReceiveUnbindNote(id)
+    override fun onReceiveUnbindNote(id: Long) = viewModel.onReceiveUnbindNote(id)
 
-    override fun onReceiveUpdateAlarm(id: Long) = iViewModel.onReceiveUpdateAlarm(id)
+    override fun onReceiveUpdateAlarm(id: Long) = viewModel.onReceiveUpdateAlarm(id)
 
     //endregion
 
@@ -189,7 +188,7 @@ class NotesFragment : ParentFragment(), INotesFragment, MainReceiver.Callback {
             itemListener = DialogInterface.OnClickListener { _, which ->
                 if (which == Options.Notes.NOTIFICATION) openState?.skipClear = true
 
-                iViewModel.onResultOptionsDialog(optionsDialog.position, which)
+                viewModel.onResultOptionsDialog(optionsDialog.position, which)
             }
             dismissListener = DialogInterface.OnDismissListener { openState?.clear() }
         }
@@ -197,17 +196,17 @@ class NotesFragment : ParentFragment(), INotesFragment, MainReceiver.Callback {
         dateDialog.apply {
             positiveListener = DialogInterface.OnClickListener { _, _ ->
                 openState?.skipClear = true
-                iViewModel.onResultDateDialog(dateDialog.calendar, dateDialog.position)
+                viewModel.onResultDateDialog(dateDialog.calendar, dateDialog.position)
             }
             neutralListener = DialogInterface.OnClickListener { _, _ ->
-                iViewModel.onResultDateDialogClear(dateDialog.position)
+                viewModel.onResultDateDialogClear(dateDialog.position)
             }
             dismissListener = DialogInterface.OnDismissListener { openState?.clear() }
         }
 
         timeDialog.apply {
             positiveListener = DialogInterface.OnClickListener { _, _ ->
-                iViewModel.onResultTimeDialog(timeDialog.calendar, timeDialog.position)
+                viewModel.onResultTimeDialog(timeDialog.calendar, timeDialog.position)
             }
             dismissListener = DialogInterface.OnDismissListener { openState?.clear() }
         }
@@ -286,21 +285,21 @@ class NotesFragment : ParentFragment(), INotesFragment, MainReceiver.Callback {
         adapter.setList(list).notifyItemRemoved(p)
     }
 
-    override fun cancelAlarm(id: Long) = iAlarmControl.cancel(id)
+    override fun cancelAlarm(id: Long) = alarmControl.cancel(id)
 
     override fun setAlarm(calendar: Calendar, id: Long) {
-        iAlarmControl.set(calendar, id)
+        alarmControl.set(calendar, id)
     }
 
     override fun notifyNoteBind(item: NoteItem, rankIdVisibleList: List<Long>) {
-        iBindControl.notifyNote(item, rankIdVisibleList)
+        bindControl.notifyNote(item, rankIdVisibleList)
     }
 
-    override fun cancelNoteBind(id: Int) = iBindControl.cancelNote(id)
+    override fun cancelNoteBind(id: Int) = bindControl.cancelNote(id)
 
-    override fun notifyInfoBind(count: Int) = iBindControl.notifyInfo(count)
+    override fun notifyInfoBind(count: Int) = bindControl.notifyInfo(count)
 
-    override fun copyClipboard(text: String) = iClipboardControl.copy(text)
+    override fun copyClipboard(text: String) = clipboardControl.copy(text)
 
 
     companion object {

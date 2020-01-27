@@ -20,19 +20,19 @@ class AlarmModule {
 
     @Provides
     @ActivityScope
-    fun provideInteractor(iPreferenceRepo: IPreferenceRepo, iAlarmRepo: IAlarmRepo,
-                          iNoteRepo: INoteRepo, activity: AlarmActivity): IAlarmInteractor {
-        return AlarmInteractor(iPreferenceRepo, iAlarmRepo, iNoteRepo, activity)
+    fun provideInteractor(preferenceRepo: IPreferenceRepo, alarmRepo: IAlarmRepo,
+                          noteRepo: INoteRepo, activity: AlarmActivity): IAlarmInteractor {
+        return AlarmInteractor(preferenceRepo, alarmRepo, noteRepo, activity)
     }
 
     @Provides
     @ActivityScope
-    fun provideViewModel(activity: AlarmActivity, iInteractor: IAlarmInteractor,
-                         iSignalInteractor: ISignalInteractor,
-                         iBindInteractor: IBindInteractor): IAlarmViewModel {
+    fun provideViewModel(activity: AlarmActivity, interactor: IAlarmInteractor,
+                         signalInteractor: ISignalInteractor,
+                         bindInteractor: IBindInteractor): IAlarmViewModel {
         return ViewModelProvider(activity).get(AlarmViewModel::class.java).apply {
             setCallback(activity)
-            setInteractor(iInteractor, iSignalInteractor, iBindInteractor)
+            setInteractor(interactor, signalInteractor, bindInteractor)
         }
     }
 

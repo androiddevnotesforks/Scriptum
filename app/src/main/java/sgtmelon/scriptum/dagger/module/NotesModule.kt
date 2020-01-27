@@ -20,19 +20,19 @@ class NotesModule {
 
     @Provides
     @ActivityScope
-    fun provideInteractor(iPreferenceRepo: IPreferenceRepo, iNoteRepo: INoteRepo,
-                          iAlarmRepo: IAlarmRepo, iRankRepo: IRankRepo,
+    fun provideInteractor(preferenceRepo: IPreferenceRepo, noteRepo: INoteRepo,
+                          alarmRepo: IAlarmRepo, rankRepo: IRankRepo,
                           fragment: NotesFragment): INotesInteractor {
-        return NotesInteractor(iPreferenceRepo, iNoteRepo, iAlarmRepo, iRankRepo, fragment)
+        return NotesInteractor(preferenceRepo, noteRepo, alarmRepo, rankRepo, fragment)
     }
 
     @Provides
     @ActivityScope
-    fun provideViewModel(fragment: NotesFragment, iInteractor: INotesInteractor,
-                         iBindInteractor: IBindInteractor): INotesViewModel {
+    fun provideViewModel(fragment: NotesFragment, interactor: INotesInteractor,
+                         bindInteractor: IBindInteractor): INotesViewModel {
         return ViewModelProvider(fragment).get(NotesViewModel::class.java).apply {
             setCallback(fragment)
-            setInteractor(iInteractor, iBindInteractor)
+            setInteractor(interactor, bindInteractor)
         }
     }
 

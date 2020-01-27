@@ -36,10 +36,10 @@ class NotificationActivity : AppActivity(), INotificationActivity {
 
     private var binding: ActivityNotificationBinding? = null
 
-    @Inject internal lateinit var iViewModel: INotificationViewModel
+    @Inject internal lateinit var viewModel: INotificationViewModel
 
-    private val iAlarmControl by lazy { AlarmControl[this] }
-    private val iBindControl by lazy { BindControl[this] }
+    private val alarmControl by lazy { AlarmControl[this] }
+    private val bindControl by lazy { BindControl[this] }
 
     private val openState = OpenState()
 
@@ -47,8 +47,8 @@ class NotificationActivity : AppActivity(), INotificationActivity {
         NotificationAdapter(object: ItemListener.Click {
             override fun onItemClick(view: View, p: Int) = openState.tryInvoke {
                 when (view.id) {
-                    R.id.notification_click_container -> iViewModel.onClickNote(p)
-                    R.id.notification_cancel_button -> iViewModel.onClickCancel(p)
+                    R.id.notification_click_container -> viewModel.onClickNote(p)
+                    R.id.notification_cancel_button -> viewModel.onClickCancel(p)
                 }
             }
         })
@@ -66,24 +66,24 @@ class NotificationActivity : AppActivity(), INotificationActivity {
         ScriptumApplication.component.getNotificationBuilder().set(activity = this).build()
                 .inject(activity = this)
 
-        iAlarmControl.initLazy()
-        iBindControl.initLazy()
+        alarmControl.initLazy()
+        bindControl.initLazy()
 
         openState.get(savedInstanceState)
 
-        iViewModel.onSetup()
+        viewModel.onSetup()
     }
 
     override fun onResume() {
         super.onResume()
 
         openState.clear()
-        iViewModel.onUpdateData()
+        viewModel.onUpdateData()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        iViewModel.onDestroy()
+        viewModel.onDestroy()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -147,9 +147,9 @@ class NotificationActivity : AppActivity(), INotificationActivity {
         adapter.setList(list).notifyItemRemoved(p)
     }
 
-    override fun cancelAlarm(id: Long) = iAlarmControl.cancel(id)
+    override fun cancelAlarm(id: Long) = alarmControl.cancel(id)
 
-    override fun notifyInfoBind(count: Int) = iBindControl.notifyInfo(count)
+    override fun notifyInfoBind(count: Int) = bindControl.notifyInfo(count)
 
     companion object {
         operator fun get(context: Context) = Intent(context, NotificationActivity::class.java)

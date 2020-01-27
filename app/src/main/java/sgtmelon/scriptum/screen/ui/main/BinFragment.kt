@@ -20,7 +20,6 @@ import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.extension.initLazy
 import sgtmelon.scriptum.extension.tintIcon
 import sgtmelon.scriptum.factory.DialogFactory
-import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
@@ -41,9 +40,9 @@ class BinFragment : ParentFragment(), IBinFragment {
 
     private var binding: FragmentBinBinding? = null
 
-    @Inject internal lateinit var iViewModel: IBinViewModel
+    @Inject internal lateinit var viewModel: IBinViewModel
 
-    private val iClipboardControl: IClipboardControl by lazy { ClipboardControl(context) }
+    private val clipboardControl: IClipboardControl by lazy { ClipboardControl(context) }
 
     private val openState get() = callback?.openState
     private val dialogFactory by lazy { DialogFactory.Main(context, fm) }
@@ -54,10 +53,10 @@ class BinFragment : ParentFragment(), IBinFragment {
     private val adapter: NoteAdapter by lazy {
         NoteAdapter(object : ItemListener.Click {
             override fun onItemClick(view: View, p: Int) {
-                openState?.tryInvoke { iViewModel.onClickNote(p) }
+                openState?.tryInvoke { viewModel.onClickNote(p) }
             }
         }, object : ItemListener.LongClick {
-            override fun onItemLongClick(view: View, p: Int) = iViewModel.onShowOptionsDialog(p)
+            override fun onItemLongClick(view: View, p: Int) = viewModel.onShowOptionsDialog(p)
         })
     }
 
@@ -84,19 +83,19 @@ class BinFragment : ParentFragment(), IBinFragment {
         ScriptumApplication.component.getBinBuilder().set(fragment = this).build()
                 .inject(fragment = this)
 
-        iClipboardControl.initLazy()
+        clipboardControl.initLazy()
 
-        iViewModel.onSetup()
+        viewModel.onSetup()
     }
 
     override fun onResume() {
         super.onResume()
-        iViewModel.onUpdateData()
+        viewModel.onUpdateData()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        iViewModel.onDestroy()
+        viewModel.onDestroy()
     }
 
 
@@ -115,7 +114,7 @@ class BinFragment : ParentFragment(), IBinFragment {
         activity?.let { itemClearBin?.tintIcon(it) }
 
         clearBinDialog.apply {
-            positiveListener = DialogInterface.OnClickListener { _, _ -> iViewModel.onClickClearBin() }
+            positiveListener = DialogInterface.OnClickListener { _, _ -> viewModel.onClickClearBin() }
             dismissListener = DialogInterface.OnDismissListener { openState?.clear() }
         }
     }
@@ -141,7 +140,7 @@ class BinFragment : ParentFragment(), IBinFragment {
 
         optionsDialog.apply {
             itemListener = DialogInterface.OnClickListener { _, which ->
-                iViewModel.onResultOptionsDialog(optionsDialog.position, which)
+                viewModel.onResultOptionsDialog(optionsDialog.position, which)
             }
             dismissListener = DialogInterface.OnDismissListener { openState?.clear() }
         }
@@ -207,6 +206,6 @@ class BinFragment : ParentFragment(), IBinFragment {
     }
 
 
-    override fun copyClipboard(text: String) = iClipboardControl.copy(text)
+    override fun copyClipboard(text: String) = clipboardControl.copy(text)
 
 }

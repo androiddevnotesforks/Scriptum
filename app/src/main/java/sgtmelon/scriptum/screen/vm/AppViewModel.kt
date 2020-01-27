@@ -17,9 +17,9 @@ import sgtmelon.scriptum.screen.vm.callback.IAppViewModel
 class AppViewModel(application: Application) : ParentViewModel<IAppActivity>(application),
         IAppViewModel {
 
-    private val iInteractor: IAppInteractor = AppInteractor(PreferenceRepo(context))
+    private val interactor: IAppInteractor = AppInteractor(PreferenceRepo(context))
 
-    @Theme private var theme: Int = iInteractor.theme
+    @Theme private var theme: Int = interactor.theme
 
     override fun onSetup(bundle: Bundle?) {
         when (theme) {
@@ -28,6 +28,6 @@ class AppViewModel(application: Application) : ParentViewModel<IAppActivity>(app
         }
     }
 
-    override fun isThemeChange() = theme != iInteractor.theme
+    override fun isThemeChange() = theme != interactor.theme
 
 }

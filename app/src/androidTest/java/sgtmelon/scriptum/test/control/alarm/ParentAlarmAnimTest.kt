@@ -14,7 +14,7 @@ import kotlin.random.Random
 abstract class ParentAlarmAnimTest(@Theme private val theme: Int) : ParentUiTest(), IColorTest {
 
     override fun startTest(@Color color: Int) {
-        with(iPreferenceRepo) {
+        with(preferenceRepo) {
             theme = this@ParentAlarmAnimTest.theme
 
             signal = Random.nextInt(from = 1, until = 3)

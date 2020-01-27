@@ -24,75 +24,75 @@ class PreferenceRepoTest : ParentIntegrationTest()  {
 
     override fun setUp() {
         super.setUp()
-        iPreferenceRepo.clear()
+        preferenceRepo.clear()
     }
 
     @Test fun defaultValues() {
-        assertEquals(def.FIRST_START, iPreferenceRepo.firstStart)
-        assertEquals(def.THEME, iPreferenceRepo.theme)
+        assertEquals(def.FIRST_START, preferenceRepo.firstStart)
+        assertEquals(def.THEME, preferenceRepo.theme)
 
-        assertEquals(def.REPEAT, iPreferenceRepo.repeat)
-        assertEquals(def.SIGNAL, iPreferenceRepo.signal)
-        assertEquals(def.MELODY_URI, iPreferenceRepo.melodyUri)
-        assertEquals(def.VOLUME, iPreferenceRepo.volume)
-        assertEquals(def.VOLUME_INCREASE, iPreferenceRepo.volumeIncrease)
+        assertEquals(def.REPEAT, preferenceRepo.repeat)
+        assertEquals(def.SIGNAL, preferenceRepo.signal)
+        assertEquals(def.MELODY_URI, preferenceRepo.melodyUri)
+        assertEquals(def.VOLUME, preferenceRepo.volume)
+        assertEquals(def.VOLUME_INCREASE, preferenceRepo.volumeIncrease)
 
-        assertEquals(def.SORT, iPreferenceRepo.sort)
-        assertEquals(def.DEFAULT_COLOR, iPreferenceRepo.defaultColor)
-        assertEquals(def.PAUSE_SAVE_ON, iPreferenceRepo.pauseSaveOn)
-        assertEquals(def.AUTO_SAVE_ON, iPreferenceRepo.autoSaveOn)
-        assertEquals(def.SAVE_PERIOD, iPreferenceRepo.savePeriod)
+        assertEquals(def.SORT, preferenceRepo.sort)
+        assertEquals(def.DEFAULT_COLOR, preferenceRepo.defaultColor)
+        assertEquals(def.PAUSE_SAVE_ON, preferenceRepo.pauseSaveOn)
+        assertEquals(def.AUTO_SAVE_ON, preferenceRepo.autoSaveOn)
+        assertEquals(def.SAVE_PERIOD, preferenceRepo.savePeriod)
     }
 
 
     @Test fun firstStart() = false.let {
-        assertEquals(it, iPreferenceRepo.apply { firstStart = it }.firstStart)
+        assertEquals(it, preferenceRepo.apply { firstStart = it }.firstStart)
     }
 
     @Test fun theme() = Theme.DARK.let {
-        assertEquals(it, iPreferenceRepo.apply { theme = it }.theme)
+        assertEquals(it, preferenceRepo.apply { theme = it }.theme)
     }
 
 
     @Test fun repeat() = Repeat.MIN_60.let {
-        assertEquals(it, iPreferenceRepo.apply { repeat = it }.repeat)
+        assertEquals(it, preferenceRepo.apply { repeat = it }.repeat)
     }
 
     @Test fun signal() = IntConverter().toInt(booleanArrayOf(true, true)).let {
-        assertEquals(it, iPreferenceRepo.apply { signal = it }.signal)
+        assertEquals(it, preferenceRepo.apply { signal = it }.signal)
     }
 
     @Test fun melodyUrl() = data.uniqueString.let {
-        assertEquals(it, iPreferenceRepo.apply { melodyUri = it }.melodyUri)
+        assertEquals(it, preferenceRepo.apply { melodyUri = it }.melodyUri)
     }
 
     @Test fun volume() = Random.nextInt().let {
-        assertEquals(it, iPreferenceRepo.apply { volume = it }.volume)
+        assertEquals(it, preferenceRepo.apply { volume = it }.volume)
     }
 
     @Test fun volumeIncrease() = true.let {
-        assertEquals(it, iPreferenceRepo.apply { volumeIncrease = it }.volumeIncrease)
+        assertEquals(it, preferenceRepo.apply { volumeIncrease = it }.volumeIncrease)
     }
 
 
     @Test fun sort() = Sort.COLOR.let {
-        assertEquals(it, iPreferenceRepo.apply { sort = it }.sort)
+        assertEquals(it, preferenceRepo.apply { sort = it }.sort)
     }
 
     @Test fun defaultColor() = Color.RED.let {
-        assertEquals(it, iPreferenceRepo.apply { defaultColor = it }.defaultColor)
+        assertEquals(it, preferenceRepo.apply { defaultColor = it }.defaultColor)
     }
 
     @Test fun pauseSaveOn() = true.let {
-        assertEquals(it, iPreferenceRepo.apply { pauseSaveOn = it }.pauseSaveOn)
+        assertEquals(it, preferenceRepo.apply { pauseSaveOn = it }.pauseSaveOn)
     }
 
     @Test fun autoSaveOn() = true.let {
-        assertEquals(it, iPreferenceRepo.apply { autoSaveOn = it }.autoSaveOn)
+        assertEquals(it, preferenceRepo.apply { autoSaveOn = it }.autoSaveOn)
     }
 
     @Test fun savePeriod() = 1.let {
-        assertEquals(it, iPreferenceRepo.apply { savePeriod = it }.savePeriod)
+        assertEquals(it, preferenceRepo.apply { savePeriod = it }.savePeriod)
     }
 
 }

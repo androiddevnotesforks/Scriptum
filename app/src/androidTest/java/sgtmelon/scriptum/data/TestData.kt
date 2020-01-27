@@ -21,7 +21,7 @@ import java.util.UUID.randomUUID
 import kotlin.random.Random
 import sgtmelon.scriptum.basic.extension.getTime as getCalendarTime
 
-class TestData(override val context: Context, private val iPreferenceRepo: IPreferenceRepo) :
+class TestData(override val context: Context, private val preferenceRepo: IPreferenceRepo) :
         IRoomWork {
 
     private val noteConverter = NoteConverter()
@@ -71,13 +71,13 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
 
     fun createNote() = if (Random.nextBoolean()) createText() else createRoll()
 
-    fun createText() = NoteItem.getCreate(iPreferenceRepo.defaultColor, NoteType.TEXT)
+    fun createText() = NoteItem.getCreate(preferenceRepo.defaultColor, NoteType.TEXT)
 
-    fun createRoll() = NoteItem.getCreate(iPreferenceRepo.defaultColor, NoteType.ROLL)
+    fun createRoll() = NoteItem.getCreate(preferenceRepo.defaultColor, NoteType.ROLL)
 
 
     fun insertRank(entity: RankEntity = rankEntity): RankItem {
-        inRoomTest { entity.id = iRankDao.insert(entity) }
+        inRoomTest { entity.id = rankDao.insert(entity) }
 
         return rankConverter.toItem(entity)
     }
@@ -90,7 +90,7 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
         })
 
         inRoomTest {
-            iNoteDao.update(noteConverter.toEntity(noteItem.apply {
+            noteDao.update(noteConverter.toEntity(noteItem.apply {
                 rankId = rankItem.id
                 rankPs = rankItem.position
             }))
@@ -107,7 +107,7 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
         })
 
         inRoomTest {
-            iNoteDao.update(noteConverter.toEntity(noteItem.apply {
+            noteDao.update(noteConverter.toEntity(noteItem.apply {
                 rankId = rankItem.id
                 rankPs = rankItem.position
             }))
@@ -119,7 +119,7 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
     fun insertText(entity: NoteEntity = textNote): NoteItem {
         if (entity.type != NoteType.TEXT) throw IllegalAccessException("Wrong note type")
 
-        inRoomTest { entity.id = iNoteDao.insert(entity) }
+        inRoomTest { entity.id = noteDao.insert(entity) }
 
         return noteConverter.toItem(entity)
     }
@@ -130,10 +130,10 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
         if (note.type != NoteType.ROLL) throw IllegalAccessException("Wrong note type")
 
         inRoomTest {
-            note.id = iNoteDao.insert(note)
+            note.id = noteDao.insert(note)
             list.forEach {
                 it.noteId = note.id
-                iRollDao.insert(it)
+                rollDao.insert(it)
             }
         }
 
@@ -142,7 +142,7 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
             updateComplete()
         }
 
-        inRoomTest { iNoteDao.update(noteConverter.toEntity(item)) }
+        inRoomTest { noteDao.update(noteConverter.toEntity(item)) }
 
         return item
     }
@@ -183,7 +183,7 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
                            date: String = getFutureTime()): NoteItem {
         noteItem.alarmDate = date
 
-        inRoomTest { noteItem.alarmId = iAlarmDao.insert(alarmConverter.toEntity(noteItem)) }
+        inRoomTest { noteItem.alarmId = alarmDao.insert(alarmConverter.toEntity(noteItem)) }
 
         return noteItem
     }
@@ -217,7 +217,7 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
 
             inRoomTest {
                 noteList.forEach { item ->
-                    iNoteDao.update(noteConverter.toEntity(item.apply {
+                    noteDao.update(noteConverter.toEntity(item.apply {
                         rankId = rankItem.id
                         rankPs = rankItem.position
                     }))

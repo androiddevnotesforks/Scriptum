@@ -18,33 +18,33 @@ import sgtmelon.scriptum.test.ParentIntegrationTest
 @RunWith(AndroidJUnit4::class)
 class BindRepoTest : ParentIntegrationTest() {
 
-    private val iBindRepo: IBindRepo = BindRepo(context)
+    private val bindRepo: IBindRepo = BindRepo(context)
 
     @Test fun unbindNote() = inRoomTest {
         val noteFirst = noteFirst.copy()
 
-        assertFalse(iBindRepo.unbindNote(noteFirst.id))
-        assertNotEquals(UNIQUE_ERROR_ID, iNoteDao.insert(noteFirst))
-        assertTrue(iBindRepo.unbindNote(noteFirst.id))
+        assertFalse(bindRepo.unbindNote(noteFirst.id))
+        assertNotEquals(UNIQUE_ERROR_ID, noteDao.insert(noteFirst))
+        assertTrue(bindRepo.unbindNote(noteFirst.id))
 
-        assertEquals(noteFirst.apply { isStatus = false }, iNoteDao.get(noteFirst.id))
+        assertEquals(noteFirst.apply { isStatus = false }, noteDao.get(noteFirst.id))
     }
 
     @Test fun getNotificationCount() = inRoomTest {
         var size = 0
-        assertEquals(size, iBindRepo.getNotificationCount())
+        assertEquals(size, bindRepo.getNotificationCount())
 
         insertAlarmRelation(noteFirst, alarmFirst)
-        assertEquals(++size, iBindRepo.getNotificationCount())
+        assertEquals(++size, bindRepo.getNotificationCount())
 
         insertAlarmRelation(noteSecond, alarmSecond)
-        assertEquals(++size, iBindRepo.getNotificationCount())
+        assertEquals(++size, bindRepo.getNotificationCount())
     }
 
     private suspend fun RoomDb.insertAlarmRelation(noteEntity: NoteEntity,
                                                    alarmEntity: AlarmEntity) {
-        iNoteDao.insert(noteEntity)
-        iAlarmDao.insert(alarmEntity)
+        noteDao.insert(noteEntity)
+        alarmDao.insert(alarmEntity)
     }
 
 

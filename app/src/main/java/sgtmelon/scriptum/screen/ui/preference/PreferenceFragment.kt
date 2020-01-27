@@ -40,7 +40,7 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
     private val activity: PreferenceActivity by lazy { getActivity() as PreferenceActivity }
     private val fm: FragmentManager by lazy { activity.supportFragmentManager }
 
-    @Inject lateinit var iViewModel: IPreferenceViewModel
+    @Inject internal lateinit var viewModel: IPreferenceViewModel
 
     private val openState = OpenState()
     private val externalPermissionState by lazy {
@@ -84,7 +84,7 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
 
     //endregion
 
-    private val iMelodyControl: IMelodyControl by lazy { MelodyControl(activity) }
+    private val melodyControl: IMelodyControl by lazy { MelodyControl(activity) }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preference, rootKey)
@@ -96,17 +96,17 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
         ScriptumApplication.component.getPreferenceBuilder().set(fragment = this).build()
                 .inject(fragment = this)
 
-        iMelodyControl.initLazy()
+        melodyControl.initLazy()
         openState.get(savedInstanceState)
 
-        iViewModel.onSetup()
+        viewModel.onSetup()
     }
 
     override fun onDestroy() {
         super.onDestroy()
 
-        iViewModel.onDestroy()
-        iMelodyControl.release()
+        viewModel.onDestroy()
+        melodyControl.release()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -119,7 +119,7 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
 
         when (requestCode) {
             MELODY_REQUEST -> {
-                iViewModel.onClickMelody(if (grantResults.first().isGranted()) {
+                viewModel.onClickMelody(if (grantResults.first().isGranted()) {
                     PermissionResult.GRANTED
                 } else {
                     PermissionResult.FORBIDDEN
@@ -130,48 +130,48 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
 
 
     override fun setupApp() {
-        themePreference?.setOnPreferenceClickListener { iViewModel.onClickTheme() }
+        themePreference?.setOnPreferenceClickListener { viewModel.onClickTheme() }
 
         themeDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            iViewModel.onResultTheme(themeDialog.check)
+            viewModel.onResultTheme(themeDialog.check)
             activity.checkThemeChange()
         }
         themeDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }
 
     override fun setupNote() {
-        sortPreference?.setOnPreferenceClickListener { iViewModel.onClickSort() }
+        sortPreference?.setOnPreferenceClickListener { viewModel.onClickSort() }
 
         sortDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            iViewModel.onResultNoteSort(sortDialog.check)
+            viewModel.onResultNoteSort(sortDialog.check)
         }
         sortDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
 
-        colorPreference?.setOnPreferenceClickListener { iViewModel.onClickNoteColor() }
+        colorPreference?.setOnPreferenceClickListener { viewModel.onClickNoteColor() }
 
         colorDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            iViewModel.onResultNoteColor(colorDialog.check)
+            viewModel.onResultNoteColor(colorDialog.check)
         }
         colorDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }
 
     override fun setupNotification(melodyTitleArray: Array<String>) {
-        repeatPreference?.setOnPreferenceClickListener { iViewModel.onClickRepeat() }
+        repeatPreference?.setOnPreferenceClickListener { viewModel.onClickRepeat() }
 
         repeatDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            iViewModel.onResultRepeat(repeatDialog.check)
+            viewModel.onResultRepeat(repeatDialog.check)
         }
         repeatDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
 
-        signalPreference?.setOnPreferenceClickListener { iViewModel.onClickSignal() }
+        signalPreference?.setOnPreferenceClickListener { viewModel.onClickSignal() }
 
         signalDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            iViewModel.onResultSignal(signalDialog.check)
+            viewModel.onResultSignal(signalDialog.check)
         }
         signalDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
 
         melodyPreference?.setOnPreferenceClickListener {
-            iViewModel.onClickMelody(externalPermissionState.getResult())
+            viewModel.onClickMelody(externalPermissionState.getResult())
         }
 
         melodyPermissionDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
@@ -185,29 +185,29 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
 
         melodyDialog.itemArray = melodyTitleArray
         melodyDialog.itemListener = DialogInterface.OnClickListener { _, i ->
-            iViewModel.onSelectMelody(i)
+            viewModel.onSelectMelody(i)
         }
         melodyDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            iViewModel.onResultMelody(melodyDialog.check)
+            viewModel.onResultMelody(melodyDialog.check)
         }
         melodyDialog.dismissListener = DialogInterface.OnDismissListener {
-            iMelodyControl.stop()
+            melodyControl.stop()
             openState.clear()
         }
 
-        volumePreference?.setOnPreferenceClickListener { iViewModel.onClickVolume() }
+        volumePreference?.setOnPreferenceClickListener { viewModel.onClickVolume() }
 
         volumeDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            iViewModel.onResultVolume(volumeDialog.progress)
+            viewModel.onResultVolume(volumeDialog.progress)
         }
         volumeDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }
 
     override fun setupSave() {
-        saveTimePreference?.setOnPreferenceClickListener { iViewModel.onClickSaveTime() }
+        saveTimePreference?.setOnPreferenceClickListener { viewModel.onClickSaveTime() }
 
         saveTimeDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            iViewModel.onResultSaveTime(saveTimeDialog.check)
+            viewModel.onResultSaveTime(saveTimeDialog.check)
         }
         saveTimeDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }
@@ -312,7 +312,7 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
         melodyDialog.setArguments(value).show(fm, DialogFactory.Preference.MELODY)
     }
 
-    override fun playMelody(uri: Uri) = with(iMelodyControl) {
+    override fun playMelody(uri: Uri) = with(melodyControl) {
         stop()
         setupPlayer(uri, isLooping = false)
         start()

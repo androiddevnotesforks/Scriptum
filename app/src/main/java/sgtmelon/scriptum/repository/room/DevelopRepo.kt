@@ -20,14 +20,14 @@ import kotlin.math.min
  */
 class DevelopRepo(override val context: Context) : IDevelopRepo, IRoomWork {
 
-    private val iPreferenceRepo: IPreferenceRepo = PreferenceRepo(context)
+    private val preferenceRepo: IPreferenceRepo = PreferenceRepo(context)
 
     override suspend fun getNoteTablePrint() = StringBuilder().apply {
         val list: MutableList<NoteEntity> = ArrayList()
 
         inRoom {
-            list.addAll(iNoteDao.getByChange(bin = true))
-            list.addAll(iNoteDao.getByChange(bin = false))
+            list.addAll(noteDao.getByChange(bin = true))
+            list.addAll(noteDao.getByChange(bin = false))
         }
 
         append("Note table:")
@@ -53,15 +53,15 @@ class DevelopRepo(override val context: Context) : IDevelopRepo, IRoomWork {
         val list: MutableList<RollEntity> = ArrayList()
 
         inRoom {
-            iNoteDao.getByChange(bin = false)
+            noteDao.getByChange(bin = false)
                     .filter { it.type == NoteType.ROLL }
                     .map { it.id }
-                    .forEach {noteId -> iRollDao.get(noteId).forEach { list.add(it) } }
+                    .forEach {noteId -> rollDao.get(noteId).forEach { list.add(it) } }
 
-            iNoteDao.getByChange(bin = true)
+            noteDao.getByChange(bin = true)
                     .filter { it.type == NoteType.ROLL }
                     .map { it.id }
-                    .forEach {noteId -> iRollDao.get(noteId).forEach { list.add(it) } }
+                    .forEach {noteId -> rollDao.get(noteId).forEach { list.add(it) } }
         }
 
         append("Roll table:")
@@ -78,7 +78,7 @@ class DevelopRepo(override val context: Context) : IDevelopRepo, IRoomWork {
     }.toString()
 
     override suspend fun getRankTablePrint() = StringBuilder().apply {
-        val list = ArrayList<RankEntity>().apply { inRoom { addAll(iRankDao.get()) } }
+        val list = ArrayList<RankEntity>().apply { inRoom { addAll(rankDao.get()) } }
 
         append("Rank table:")
 
@@ -91,7 +91,7 @@ class DevelopRepo(override val context: Context) : IDevelopRepo, IRoomWork {
     }.toString()
 
     override suspend fun getPreferencePrint()  = StringBuilder().apply {
-        with(iPreferenceRepo) {
+        with(preferenceRepo) {
             append("Preference:\n\n")
             append("Theme: $theme\n")
             append("Repeat: $repeat\n")
