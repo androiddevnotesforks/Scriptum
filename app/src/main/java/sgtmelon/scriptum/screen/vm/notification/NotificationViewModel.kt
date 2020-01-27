@@ -6,11 +6,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.extension.clearAddAll
 import sgtmelon.scriptum.interactor.callback.notification.INotificationInteractor
-import sgtmelon.scriptum.interactor.notification.NotificationInteractor
 import sgtmelon.scriptum.model.item.NotificationItem
-import sgtmelon.scriptum.repository.preference.PreferenceRepo
-import sgtmelon.scriptum.repository.room.AlarmRepo
-import sgtmelon.scriptum.repository.room.BindRepo
 import sgtmelon.scriptum.screen.ui.callback.notification.INotificationActivity
 import sgtmelon.scriptum.screen.ui.notification.NotificationActivity
 import sgtmelon.scriptum.screen.vm.ParentViewModel
@@ -23,9 +19,13 @@ class NotificationViewModel(application: Application) :
         ParentViewModel<INotificationActivity>(application),
         INotificationViewModel {
 
-    private val iInteractor: INotificationInteractor by lazy {
-        NotificationInteractor(PreferenceRepo(context), AlarmRepo(context), BindRepo(context), callback)
+    private lateinit var iInteractor: INotificationInteractor
+
+    fun setInteractor(iInteractor: INotificationInteractor) {
+        this.iInteractor = iInteractor
     }
+
+
     private val itemList: MutableList<NotificationItem> = ArrayList()
 
     override fun onSetup(bundle: Bundle?) {

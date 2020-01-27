@@ -18,23 +18,25 @@ import sgtmelon.scriptum.extension.createVisibleAnim
 import sgtmelon.scriptum.extension.getTintDrawable
 import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.extension.initLazy
-import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.screen.ui.AppActivity
+import sgtmelon.scriptum.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.screen.ui.callback.notification.INotificationActivity
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
+import sgtmelon.scriptum.screen.vm.callback.notification.INotificationViewModel
+import javax.inject.Inject
 
 /**
- * Screen with list of notifications
+ * Screen with list of notifications.
  */
 class NotificationActivity : AppActivity(), INotificationActivity {
 
     private var binding: ActivityNotificationBinding? = null
 
-    private val iViewModel by lazy { ViewModelFactory.get(activity = this) }
+    @Inject lateinit var iViewModel: INotificationViewModel
 
     private val iAlarmControl by lazy { AlarmControl[this] }
     private val iBindControl by lazy { BindControl[this] }
@@ -61,8 +63,12 @@ class NotificationActivity : AppActivity(), INotificationActivity {
         super.onCreate(savedInstanceState)
         binding = inflateBinding(R.layout.activity_notification)
 
+        ScriptumApplication.component.getNotificationBuilder().set(activity = this).build()
+                .inject(activity = this)
+
         iAlarmControl.initLazy()
         iBindControl.initLazy()
+
         openState.get(savedInstanceState)
 
         iViewModel.onSetup()

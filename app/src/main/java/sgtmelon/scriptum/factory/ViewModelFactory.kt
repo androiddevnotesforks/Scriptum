@@ -79,12 +79,6 @@ object ViewModelFactory {
     }
 
 
-    fun get(activity: NotificationActivity): INotificationViewModel {
-        return ViewModelProvider(activity).get(NotificationViewModel::class.java).apply {
-            setCallback(activity as? INotificationActivity)
-        }
-    }
-
     fun get(activity: AlarmActivity): IAlarmViewModel {
         return ViewModelProvider(activity).get(AlarmViewModel::class.java).apply {
             setCallback(activity as? IAlarmActivity)

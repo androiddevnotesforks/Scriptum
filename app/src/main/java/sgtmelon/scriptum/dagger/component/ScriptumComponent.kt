@@ -24,6 +24,10 @@ interface ScriptumComponent {
 
     fun getBinBuilder(): BinComponent.Builder
 
+
+
+    fun getNotificationBuilder(): NotificationComponent.Builder
+
     @Component.Builder
     interface Builder {
         @BindsInstance
