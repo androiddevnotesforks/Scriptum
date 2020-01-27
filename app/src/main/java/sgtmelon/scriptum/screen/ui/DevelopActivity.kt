@@ -8,9 +8,10 @@ import android.widget.ScrollView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.screen.ui.callback.IDevelopActivity
 import sgtmelon.scriptum.screen.ui.intro.IntroActivity
+import sgtmelon.scriptum.screen.vm.callback.IDevelopViewModel
+import javax.inject.Inject
 
 /**
  * Screen which displays information for developer
@@ -26,13 +27,16 @@ class DevelopActivity : AppCompatActivity(), IDevelopActivity {
     // TODO #RELEASE2 activity: toolbar, fragment
     // TODO #RELEASE2 change toolbar text when change fragment
 
-    private val iViewModel by lazy { ViewModelFactory.get(activity = this) }
+    @Inject lateinit var iViewModel: IDevelopViewModel
 
     private val introButton by lazy { findViewById<Button?>(R.id.develop_intro_button) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_develop)
+
+        ScriptumApplication.component.getDevelopBuilder().set(activity = this).build()
+                .inject(activity = this)
 
         iViewModel.onSetup()
 

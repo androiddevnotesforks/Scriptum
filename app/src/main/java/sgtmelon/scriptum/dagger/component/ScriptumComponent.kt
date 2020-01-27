@@ -31,6 +31,8 @@ interface ScriptumComponent {
     fun getAlarmBuilder(): AlarmComponent.Builder
 
 
+    fun getDevelopBuilder(): DevelopComponent.Builder
+
     @Component.Builder
     interface Builder {
         @BindsInstance
