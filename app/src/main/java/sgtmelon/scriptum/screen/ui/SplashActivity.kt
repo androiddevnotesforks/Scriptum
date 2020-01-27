@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.beforeFinish
 import sgtmelon.scriptum.extension.hideKeyboard
-import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.OpenFrom
 import sgtmelon.scriptum.model.data.NoteData
@@ -20,6 +19,8 @@ import sgtmelon.scriptum.screen.ui.main.MainActivity
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
 import sgtmelon.scriptum.screen.ui.notification.NotificationActivity
+import sgtmelon.scriptum.screen.vm.callback.ISplashViewModel
+import javax.inject.Inject
 
 /**
  * Start screen of application
@@ -30,10 +31,13 @@ class SplashActivity : AppCompatActivity(), ISplashActivity {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
     }
 
-    private val iViewModel by lazy { ViewModelFactory.get(activity = this) }
+    @Inject lateinit var iViewModel: ISplashViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        ScriptumApplication.component.getSplashBuilder().set(activity = this).build()
+                .inject(activity = this)
 
         /**
          * If keyboard was open in another app.

@@ -18,7 +18,12 @@ import sgtmelon.scriptum.screen.vm.callback.ISplashViewModel
 class SplashViewModel(application: Application) : ParentViewModel<ISplashActivity>(application),
         ISplashViewModel {
 
-    private val iInteractor: ISplashInteractor by lazy { SplashInteractor(PreferenceRepo(context)) }
+    private lateinit var iInteractor: ISplashInteractor
+
+    fun setInteractor(iInteractor: ISplashInteractor) {
+        this.iInteractor = iInteractor
+    }
+
 
     override fun onSetup(bundle: Bundle?) {
         if (bundle == null) {

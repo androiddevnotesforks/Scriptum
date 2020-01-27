@@ -90,31 +90,6 @@ object ViewModelFactory {
         }
     }
 
-    object Main {
-        fun get(activity: MainActivity): IMainViewModel {
-            return ViewModelProvider(activity).get(MainViewModel::class.java).apply {
-                setCallback(activity as? IMainActivity)
-            }
-        }
-
-        fun get(fragment: RankFragment): IRankViewModel {
-            return ViewModelProvider(fragment).get(RankViewModel::class.java).apply {
-                setCallback(fragment as? IRankFragment)
-            }
-        }
-
-        fun get(fragment: NotesFragment): INotesViewModel {
-            return ViewModelProvider(fragment).get(NotesViewModel::class.java).apply {
-                setCallback(fragment as? INotesFragment)
-            }
-        }
-
-        fun get(fragment: BinFragment): IBinViewModel {
-            return ViewModelProvider(fragment).get(BinViewModel::class.java).apply {
-                setCallback(fragment as? IBinFragment)
-            }
-        }
-    }
 
     fun get(activity: NotificationActivity): INotificationViewModel {
         return ViewModelProvider(activity).get(NotificationViewModel::class.java).apply {
