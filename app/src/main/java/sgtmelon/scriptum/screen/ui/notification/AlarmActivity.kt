@@ -31,7 +31,6 @@ import sgtmelon.scriptum.control.bind.BindControl
 import sgtmelon.scriptum.extension.initLazy
 import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.factory.DialogFactory
-import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.NoteData
@@ -40,17 +39,20 @@ import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.receiver.NoteReceiver
 import sgtmelon.scriptum.screen.ui.AppActivity
+import sgtmelon.scriptum.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.screen.ui.callback.notification.IAlarmActivity
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
+import sgtmelon.scriptum.screen.vm.callback.notification.IAlarmViewModel
 import sgtmelon.scriptum.view.RippleContainer
 import java.util.*
+import javax.inject.Inject
 
 /**
  * Screen with notification opened by timer
  */
 class AlarmActivity : AppActivity(), IAlarmActivity {
 
-    private val iViewModel by lazy { ViewModelFactory.get(activity = this) }
+    @Inject lateinit var iViewModel: IAlarmViewModel
 
     /**
      * [initLazy] not require because activity configChanges under control.
@@ -106,6 +108,9 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         }
 
         setContentView(R.layout.activity_alarm)
+
+        ScriptumApplication.component.getAlarmBuilder().set(activity = this).build()
+                .inject(activity = this)
 
         iViewModel.onSetup(bundle = savedInstanceState ?: intent.extras)
 

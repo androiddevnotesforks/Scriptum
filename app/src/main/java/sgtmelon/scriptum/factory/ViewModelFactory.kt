@@ -79,12 +79,6 @@ object ViewModelFactory {
     }
 
 
-    fun get(activity: AlarmActivity): IAlarmViewModel {
-        return ViewModelProvider(activity).get(AlarmViewModel::class.java).apply {
-            setCallback(activity as? IAlarmActivity)
-        }
-    }
-
     fun get(context: Context, callback: IPreferenceFragment): IPreferenceViewModel {
         return PreferenceViewModel(context, callback)
     }

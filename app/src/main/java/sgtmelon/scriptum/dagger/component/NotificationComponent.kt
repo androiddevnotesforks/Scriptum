@@ -8,7 +8,7 @@ import sgtmelon.scriptum.dagger.module.base.InteractorModule
 import sgtmelon.scriptum.screen.ui.notification.NotificationActivity
 
 @ActivityScope
-@Subcomponent(modules = [InteractorModule::class, NotificationModule::class])
+@Subcomponent(modules = [NotificationModule::class])
 interface NotificationComponent {
 
     fun inject(activity: NotificationActivity)

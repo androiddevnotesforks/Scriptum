@@ -8,7 +8,7 @@ import sgtmelon.scriptum.dagger.module.base.InteractorModule
 import sgtmelon.scriptum.screen.ui.main.BinFragment
 
 @ActivityScope
-@Subcomponent(modules = [InteractorModule::class, BinModule::class])
+@Subcomponent(modules = [BinModule::class])
 interface BinComponent {
 
     fun inject(fragment: BinFragment)

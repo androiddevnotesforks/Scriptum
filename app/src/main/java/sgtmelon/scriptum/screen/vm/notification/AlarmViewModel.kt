@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.screen.vm.notification
 
 import android.app.Application
-import android.media.RingtoneManager
 import android.os.Bundle
 import android.os.Handler
 import android.view.MenuItem
@@ -13,12 +12,9 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.getAppSimpleColor
 import sgtmelon.scriptum.extension.sendTo
 import sgtmelon.scriptum.extension.toUri
-import sgtmelon.scriptum.interactor.BindInteractor
 import sgtmelon.scriptum.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.interactor.callback.notification.ISignalInteractor
-import sgtmelon.scriptum.interactor.notification.AlarmInteractor
-import sgtmelon.scriptum.interactor.notification.SignalInteractor
 import sgtmelon.scriptum.model.annotation.Repeat
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.NoteData
@@ -26,11 +22,6 @@ import sgtmelon.scriptum.model.data.ReceiverData
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.ColorShade
 import sgtmelon.scriptum.model.state.SignalState
-import sgtmelon.scriptum.repository.preference.PreferenceRepo
-import sgtmelon.scriptum.repository.room.AlarmRepo
-import sgtmelon.scriptum.repository.room.BindRepo
-import sgtmelon.scriptum.repository.room.NoteRepo
-import sgtmelon.scriptum.repository.room.RankRepo
 import sgtmelon.scriptum.screen.ui.callback.notification.IAlarmActivity
 import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
 import sgtmelon.scriptum.screen.vm.ParentViewModel
@@ -42,17 +33,17 @@ import sgtmelon.scriptum.screen.vm.callback.notification.IAlarmViewModel
 class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>(application),
         IAlarmViewModel {
 
-    private val iInteractor: IAlarmInteractor by lazy {
-        AlarmInteractor(PreferenceRepo(context), AlarmRepo(context), NoteRepo(context), callback)
+    private lateinit var iInteractor: IAlarmInteractor
+    private lateinit var iSignalInteractor: ISignalInteractor
+    private lateinit var iBindInteractor: IBindInteractor
+
+    fun setInteractor(iInteractor: IAlarmInteractor, iSignalInteractor: ISignalInteractor,
+                      iBindInteractor: IBindInteractor) {
+        this.iInteractor = iInteractor
+        this.iSignalInteractor = iSignalInteractor
+        this.iBindInteractor = iBindInteractor
     }
-    private val iSignalInteractor: ISignalInteractor by lazy {
-        SignalInteractor(context, PreferenceRepo(context))
-    }
-    private val iBindInteractor: IBindInteractor by lazy {
-        BindInteractor(
-                PreferenceRepo(context), BindRepo(context), RankRepo(context), NoteRepo(context)
-        )
-    }
+
 
     private var id: Long = NoteData.Default.ID
 
