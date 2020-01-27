@@ -56,18 +56,6 @@ object ViewModelFactory {
         }
     }
 
-    fun get(activity: SplashActivity): ISplashViewModel {
-        return ViewModelProvider(activity).get(SplashViewModel::class.java).apply {
-            setCallback(activity as? ISplashActivity)
-        }
-    }
-
-    fun get(activity: IntroActivity): IIntroViewModel {
-        return ViewModelProvider(activity).get(IntroViewModel::class.java).apply {
-            setCallback(activity as? IIntroActivity)
-        }
-    }
-
     object Note {
         fun get(activity: NoteActivity): INoteViewModel {
             return ViewModelProvider(activity).get(NoteViewModel::class.java).apply {

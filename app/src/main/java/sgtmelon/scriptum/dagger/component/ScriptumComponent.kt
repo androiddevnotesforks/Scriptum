@@ -13,6 +13,8 @@ interface ScriptumComponent {
 
     fun getSplashBuilder(): SplashComponent.Builder
 
+    fun getIntroBuilder(): IntroComponent.Builder
+
 
     fun getMainBuilder(): MainComponent.Builder
 

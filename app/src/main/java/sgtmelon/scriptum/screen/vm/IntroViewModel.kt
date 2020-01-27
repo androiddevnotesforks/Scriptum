@@ -15,7 +15,12 @@ import sgtmelon.scriptum.screen.vm.callback.IIntroViewModel
 class IntroViewModel(application: Application) : ParentViewModel<IIntroActivity>(application),
         IIntroViewModel {
 
-    private val iInteractor: IIntroInteractor by lazy { IntroInteractor(PreferenceRepo(context)) }
+    private lateinit var iInteractor: IIntroInteractor
+
+    fun setInteractor(iInteractor: IIntroInteractor) {
+        this.iInteractor = iInteractor
+    }
+
 
     override fun onSetup(bundle: Bundle?) {
         callback?.setupViewPager()

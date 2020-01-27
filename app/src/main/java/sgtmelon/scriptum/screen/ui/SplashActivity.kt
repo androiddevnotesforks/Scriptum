@@ -75,22 +75,27 @@ class SplashActivity : AppCompatActivity(), ISplashActivity {
 
 
     companion object {
-        fun getAlarmInstance(context: Context, id: Long): Intent =
-                Intent(context, SplashActivity::class.java)
-                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-                        .putExtra(OpenFrom.INTENT_KEY, OpenFrom.ALARM)
-                        .putExtra(NoteData.Intent.ID, id)
+        fun getAlarmInstance(context: Context, id: Long): Intent {
+            val flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
 
-        fun getBindInstance(context: Context, item: NoteItem): Intent =
-                Intent(context, SplashActivity::class.java)
-                        .putExtra(OpenFrom.INTENT_KEY, OpenFrom.BIND)
-                        .putExtra(NoteData.Intent.ID, item.id)
-                        .putExtra(NoteData.Intent.COLOR, item.color)
-                        .putExtra(NoteData.Intent.TYPE, item.type.ordinal)
+            return Intent(context, SplashActivity::class.java)
+                    .addFlags(flags)
+                    .putExtra(OpenFrom.INTENT_KEY, OpenFrom.ALARM)
+                    .putExtra(NoteData.Intent.ID, id)
+        }
 
-        fun getNotificationInstance(context: Context): Intent =
-                Intent(context, SplashActivity::class.java)
-                        .putExtra(OpenFrom.INTENT_KEY, OpenFrom.INFO)
+        fun getBindInstance(context: Context, item: NoteItem): Intent {
+            return Intent(context, SplashActivity::class.java)
+                    .putExtra(OpenFrom.INTENT_KEY, OpenFrom.BIND)
+                    .putExtra(NoteData.Intent.ID, item.id)
+                    .putExtra(NoteData.Intent.COLOR, item.color)
+                    .putExtra(NoteData.Intent.TYPE, item.type.ordinal)
+        }
+
+        fun getNotificationInstance(context: Context): Intent {
+            return Intent(context, SplashActivity::class.java)
+                    .putExtra(OpenFrom.INTENT_KEY, OpenFrom.INFO)
+        }
     }
 
 }

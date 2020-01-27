@@ -13,15 +13,18 @@ import sgtmelon.scriptum.adapter.PagerAdapter
 import sgtmelon.scriptum.extension.beforeFinish
 import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.model.data.IntroData
+import sgtmelon.scriptum.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.screen.ui.callback.IIntroActivity
 import sgtmelon.scriptum.screen.ui.main.MainActivity
+import sgtmelon.scriptum.screen.vm.callback.IIntroViewModel
+import javax.inject.Inject
 
 /**
  * Activity with start intro
  */
 class IntroActivity : AppCompatActivity(), IIntroActivity, ViewPager.OnPageChangeListener {
 
-    private val iViewModel by lazy { ViewModelFactory.get(activity = this) }
+    @Inject lateinit var iViewModel: IIntroViewModel
 
     private val pagerAdapter = PagerAdapter(supportFragmentManager)
 
@@ -31,6 +34,9 @@ class IntroActivity : AppCompatActivity(), IIntroActivity, ViewPager.OnPageChang
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_intro)
+
+        ScriptumApplication.component.getIntroBuilder().set(activity = this).build()
+                .inject(activity = this)
 
         iViewModel.onSetup()
     }
