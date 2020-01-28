@@ -7,6 +7,9 @@ import sgtmelon.scriptum.dagger.module.base.RepoModule
 import sgtmelon.scriptum.screen.ui.ScriptumApplication
 import javax.inject.Singleton
 
+/**
+ * Parent component for application.
+ */
 @Singleton
 @Component(modules = [ContextModule::class, RepoModule::class])
 interface ScriptumComponent {
