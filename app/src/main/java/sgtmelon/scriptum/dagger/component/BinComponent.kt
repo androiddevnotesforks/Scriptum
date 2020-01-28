@@ -3,11 +3,12 @@ package sgtmelon.scriptum.dagger.component
 import dagger.BindsInstance
 import dagger.Subcomponent
 import sgtmelon.scriptum.dagger.ActivityScope
-import sgtmelon.scriptum.dagger.module.BinModule
+import sgtmelon.scriptum.dagger.module.base.InteractorModule
+import sgtmelon.scriptum.dagger.module.base.ViewModelModule
 import sgtmelon.scriptum.screen.ui.main.BinFragment
 
 @ActivityScope
-@Subcomponent(modules = [BinModule::class])
+@Subcomponent(modules = [InteractorModule::class, ViewModelModule::class])
 interface BinComponent {
 
     fun inject(fragment: BinFragment)

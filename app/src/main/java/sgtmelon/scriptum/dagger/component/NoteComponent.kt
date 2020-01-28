@@ -5,10 +5,11 @@ import dagger.Subcomponent
 import sgtmelon.scriptum.dagger.ActivityScope
 import sgtmelon.scriptum.dagger.module.NoteModule
 import sgtmelon.scriptum.dagger.module.base.InteractorModule
+import sgtmelon.scriptum.dagger.module.base.ViewModelModule
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 
 @ActivityScope
-@Subcomponent(modules = [InteractorModule::class, NoteModule::class])
+@Subcomponent(modules = [InteractorModule::class, ViewModelModule::class, NoteModule::class])
 interface NoteComponent {
 
     fun inject(activity: NoteActivity)

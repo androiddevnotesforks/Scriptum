@@ -14,7 +14,7 @@ class AppModule {
 
     @Provides
     @ActivityScope
-    fun provideViewModel(activity: AppActivity, interactor: IAppInteractor): IAppViewModel {
+    fun provideAppViewModel(activity: AppActivity, interactor: IAppInteractor): IAppViewModel {
         return ViewModelProvider(activity).get(AppViewModel::class.java).apply {
             setCallback(activity)
             setInteractor(interactor)

@@ -3,12 +3,12 @@ package sgtmelon.scriptum.dagger.component
 import dagger.BindsInstance
 import dagger.Subcomponent
 import sgtmelon.scriptum.dagger.ActivityScope
-import sgtmelon.scriptum.dagger.module.NotesModule
 import sgtmelon.scriptum.dagger.module.base.InteractorModule
+import sgtmelon.scriptum.dagger.module.base.ViewModelModule
 import sgtmelon.scriptum.screen.ui.main.NotesFragment
 
 @ActivityScope
-@Subcomponent(modules = [InteractorModule::class, NotesModule::class])
+@Subcomponent(modules = [InteractorModule::class, ViewModelModule::class])
 interface NotesComponent {
 
     fun inject(fragment: NotesFragment)
