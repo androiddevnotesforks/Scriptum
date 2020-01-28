@@ -91,14 +91,15 @@ class RankFragment : ParentFragment(), IRankFragment {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         binding = inflater.inflateBinding(R.layout.fragment_rank, container)
+
+        ScriptumApplication.component.getRankBuilder().set(fragment = this).build()
+                .inject(fragment = this)
+
         return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        ScriptumApplication.component.getRankBuilder().set(fragment = this).build()
-                .inject(fragment = this)
 
         bindControl.initLazy()
 

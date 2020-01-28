@@ -62,16 +62,17 @@ class MainActivity : AppActivity(), IMainActivity {
     private val fab by lazy { findViewById<FloatingActionButton?>(R.id.main_add_fab) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
         ScriptumApplication.component.getMainBuilder().set(activity = this).build()
                 .inject(activity = this)
+
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
         alarmControl.initLazy()
         bindControl.initLazy()
 
         openState.get(savedInstanceState)
+
         viewModel.onSetup(savedInstanceState)
 
         registerReceiver(mainReceiver, IntentFilter(ReceiverData.Filter.MAIN))

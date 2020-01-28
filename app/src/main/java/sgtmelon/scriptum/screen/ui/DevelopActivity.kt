@@ -32,11 +32,11 @@ class DevelopActivity : AppCompatActivity(), IDevelopActivity {
     private val introButton by lazy { findViewById<Button?>(R.id.develop_intro_button) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_develop)
-
         ScriptumApplication.component.getDevelopBuilder().set(activity = this).build()
                 .inject(activity = this)
+
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_develop)
 
         viewModel.onSetup()
 

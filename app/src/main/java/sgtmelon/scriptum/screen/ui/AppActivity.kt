@@ -5,21 +5,25 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import sgtmelon.idling.AppIdlingResource
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.screen.ui.callback.IAppActivity
+import sgtmelon.scriptum.screen.vm.callback.IAppViewModel
+import javax.inject.Inject
 
 /**
- * Parent activity for application, which need extends when need change theme
+ * Parent activity for application, which need extends when need change theme.
  */
 abstract class AppActivity : AppCompatActivity(), IAppActivity {
 
-    private val viewModel by lazy { ViewModelFactory.get(activity = this) }
+    @Inject internal lateinit var appViewModel: IAppViewModel
 
     protected val fm get() = supportFragmentManager
 
+    /**
+     * For children call [onCreate] super after injecting configure.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.onSetup()
+        appViewModel.onSetup()
     }
 
     override fun onResume() {
@@ -34,11 +38,11 @@ abstract class AppActivity : AppCompatActivity(), IAppActivity {
 
     override fun onDestroy() {
         super.onDestroy()
-        viewModel.onDestroy()
+        appViewModel.onDestroy()
     }
 
     fun checkThemeChange() {
-        if (!viewModel.isThemeChange()) return
+        if (!appViewModel.isThemeChange()) return
 
         val intent = intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
 

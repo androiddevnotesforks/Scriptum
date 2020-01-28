@@ -21,9 +21,9 @@ class TextNoteModule {
 
     @Provides
     @ActivityScope
-    fun provideInteractor(preferenceRepo: IPreferenceRepo, alarmRepo: IAlarmRepo,
-                          rankRepo: IRankRepo, noteRepo: INoteRepo,
-                          fragment: TextNoteFragment): ITextNoteInteractor {
+    fun provideInteractor(fragment: TextNoteFragment, preferenceRepo: IPreferenceRepo,
+                          alarmRepo: IAlarmRepo, rankRepo: IRankRepo,
+                          noteRepo: INoteRepo): ITextNoteInteractor {
         return TextNoteInteractor(preferenceRepo, alarmRepo, rankRepo, noteRepo, fragment)
     }
 

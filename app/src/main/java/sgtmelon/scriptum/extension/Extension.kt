@@ -33,19 +33,27 @@ import java.util.*
  */
 fun Any.initLazy() = this.run {}
 
-fun <T : ViewDataBinding> Activity.inflateBinding(@LayoutRes layoutId: Int): T =
-        DataBindingUtil.setContentView(this, layoutId)
 
-fun <T : ViewDataBinding> LayoutInflater.inflateBinding(@LayoutRes layoutId: Int, parent: ViewGroup?,
-                                                        attachToParent: Boolean = false): T =
-        DataBindingUtil.inflate(this, layoutId, parent, attachToParent)
+fun <T : ViewDataBinding> Activity.inflateBinding(@LayoutRes layoutId: Int): T {
+    return DataBindingUtil.setContentView(this, layoutId)
+}
+
+fun <T : ViewDataBinding> LayoutInflater.inflateBinding(@LayoutRes layoutId: Int,
+                                                        parent: ViewGroup?,
+                                                        attachToParent: Boolean = false): T {
+    return DataBindingUtil.inflate(this, layoutId, parent, attachToParent)
+}
 
 fun <T : ViewDataBinding> ViewGroup.inflateBinding(@LayoutRes layoutId: Int,
-                                                   attachToParent: Boolean = false): T =
-        DataBindingUtil.inflate(LayoutInflater.from(context), layoutId, this, attachToParent)
+                                                   attachToParent: Boolean = false): T {
+    val inflater = LayoutInflater.from(context)
+    return DataBindingUtil.inflate(inflater, layoutId, this, attachToParent)
+}
 
-fun ViewGroup.inflateView(@LayoutRes layout: Int, attachToRoot: Boolean = false): View =
-        LayoutInflater.from(context).inflate(layout, this, attachToRoot)
+fun ViewGroup.inflateView(@LayoutRes layout: Int, attachToRoot: Boolean = false): View {
+    return LayoutInflater.from(context).inflate(layout, this, attachToRoot)
+}
+
 
 fun Activity.beforeFinish(func: () -> Unit) {
     func()

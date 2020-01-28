@@ -21,9 +21,9 @@ class RollNoteModule {
 
     @Provides
     @ActivityScope
-    fun provideInteractor(preferenceRepo: IPreferenceRepo, alarmRepo: IAlarmRepo,
-                          rankRepo: IRankRepo, noteRepo: INoteRepo,
-                          fragment: RollNoteFragment): IRollNoteInteractor {
+    fun provideInteractor(fragment: RollNoteFragment, preferenceRepo: IPreferenceRepo,
+                          alarmRepo: IAlarmRepo, rankRepo: IRankRepo,
+                          noteRepo: INoteRepo): IRollNoteInteractor {
         return RollNoteInteractor(preferenceRepo, alarmRepo, rankRepo, noteRepo, fragment)
     }
 

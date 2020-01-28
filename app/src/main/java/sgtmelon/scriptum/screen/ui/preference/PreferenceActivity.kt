@@ -5,15 +5,21 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.extension.getTintDrawable
 import sgtmelon.scriptum.screen.ui.AppActivity
+import sgtmelon.scriptum.screen.ui.ScriptumApplication
+import sgtmelon.scriptum.screen.vm.callback.IAppViewModel
 
 /**
- * Screen for display [PreferenceFragment]
+ * Screen for display [PreferenceFragment].
  */
 class PreferenceActivity : AppActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        ScriptumApplication.component.getAppBuilder().set(activity = this).build()
+                .inject(activity = this)
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_preference)
 

@@ -4,7 +4,9 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import sgtmelon.scriptum.dagger.ActivityScope
+import sgtmelon.scriptum.interactor.AppInteractor
 import sgtmelon.scriptum.interactor.BindInteractor
+import sgtmelon.scriptum.interactor.callback.IAppInteractor
 import sgtmelon.scriptum.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.interactor.notification.SignalInteractor
@@ -15,6 +17,12 @@ import sgtmelon.scriptum.repository.room.callback.IRankRepo
 
 @Module
 class InteractorModule {
+
+    @Provides
+    @ActivityScope
+    fun provideAppInteractor(preferenceRepo: IPreferenceRepo): IAppInteractor {
+        return AppInteractor(preferenceRepo)
+    }
 
     @Provides
     @ActivityScope

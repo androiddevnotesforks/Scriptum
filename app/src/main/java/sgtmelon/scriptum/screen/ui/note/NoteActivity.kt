@@ -45,11 +45,11 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild, NoteReceiver.Call
     private val panelHolder by lazy { findViewById<View?>(R.id.note_panel_holder) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_note)
-
         ScriptumApplication.component.getNoteBuilder().set(activity = this).build()
                 .inject(activity = this)
+
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_note)
 
         viewModel.apply {
             onSetup(bundle = savedInstanceState ?: intent.extras)

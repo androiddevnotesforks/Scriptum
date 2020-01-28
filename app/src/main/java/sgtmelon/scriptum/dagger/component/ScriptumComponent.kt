@@ -11,6 +11,8 @@ import javax.inject.Singleton
 @Component(modules = [ContextModule::class, RepoModule::class])
 interface ScriptumComponent {
 
+    fun getAppBuilder(): AppComponent.Builder
+
     fun getSplashBuilder(): SplashComponent.Builder
 
     fun getIntroBuilder(): IntroComponent.Builder

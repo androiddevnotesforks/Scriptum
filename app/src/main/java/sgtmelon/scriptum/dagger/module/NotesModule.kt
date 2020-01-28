@@ -20,9 +20,9 @@ class NotesModule {
 
     @Provides
     @ActivityScope
-    fun provideInteractor(preferenceRepo: IPreferenceRepo, noteRepo: INoteRepo,
-                          alarmRepo: IAlarmRepo, rankRepo: IRankRepo,
-                          fragment: NotesFragment): INotesInteractor {
+    fun provideInteractor(fragment: NotesFragment, preferenceRepo: IPreferenceRepo,
+                          noteRepo: INoteRepo, alarmRepo: IAlarmRepo,
+                          rankRepo: IRankRepo): INotesInteractor {
         return NotesInteractor(preferenceRepo, noteRepo, alarmRepo, rankRepo, fragment)
     }
 

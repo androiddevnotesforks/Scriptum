@@ -34,10 +34,10 @@ class SplashActivity : AppCompatActivity(), ISplashActivity {
     @Inject internal lateinit var viewModel: ISplashViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
         ScriptumApplication.component.getSplashBuilder().set(activity = this).build()
                 .inject(activity = this)
+
+        super.onCreate(savedInstanceState)
 
         /**
          * If keyboard was open in another app.

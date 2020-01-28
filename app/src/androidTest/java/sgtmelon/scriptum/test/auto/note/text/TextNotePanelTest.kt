@@ -160,5 +160,4 @@ class TextNotePanelTest : ParentUiTest() {
         }
     }
 
-
 }

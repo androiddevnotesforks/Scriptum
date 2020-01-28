@@ -5,7 +5,6 @@ import android.content.Context
 import androidx.annotation.CallSuper
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.AndroidViewModel
-import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.screen.vm.callback.IParentViewModel
 
 /**
@@ -22,7 +21,7 @@ abstract class ParentViewModel<T>(application: Application) : AndroidViewModel(a
         private set
 
     /**
-     * Call this func from [ViewModelFactory].
+     * Call this func from when create viewModel.
      */
     @CallSuper open fun setCallback(callback: T?) {
         this.callback = callback

@@ -84,14 +84,15 @@ class NotesFragment : ParentFragment(), INotesFragment, MainReceiver.Callback {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         binding = inflater.inflateBinding(R.layout.fragment_notes, container)
+
+        ScriptumApplication.component.getNotesBuilder().set(fragment = this).build()
+                .inject(fragment = this)
+
         return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        ScriptumApplication.component.getNotesBuilder().set(fragment = this).build()
-                .inject(fragment = this)
 
         alarmControl.initLazy()
         bindControl.initLazy()

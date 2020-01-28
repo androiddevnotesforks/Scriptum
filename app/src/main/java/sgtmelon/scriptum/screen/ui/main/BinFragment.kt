@@ -74,14 +74,15 @@ class BinFragment : ParentFragment(), IBinFragment {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         binding = inflater.inflateBinding(R.layout.fragment_bin, container)
+
+        ScriptumApplication.component.getBinBuilder().set(fragment = this).build()
+                .inject(fragment = this)
+
         return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        ScriptumApplication.component.getBinBuilder().set(fragment = this).build()
-                .inject(fragment = this)
 
         clipboardControl.initLazy()
 

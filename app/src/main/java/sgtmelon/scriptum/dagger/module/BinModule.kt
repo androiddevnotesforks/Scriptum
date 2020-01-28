@@ -17,8 +17,8 @@ class BinModule {
 
     @Provides
     @ActivityScope
-    fun provideInteractor(preferenceRepo: IPreferenceRepo, noteRepo: INoteRepo,
-                          fragment: BinFragment): IBinInteractor {
+    fun provideInteractor(fragment: BinFragment, preferenceRepo: IPreferenceRepo,
+                          noteRepo: INoteRepo): IBinInteractor {
         return BinInteractor(preferenceRepo, noteRepo, fragment)
     }
 
@@ -30,6 +30,5 @@ class BinModule {
             setInteractor(interactor)
         }
     }
-
 
 }

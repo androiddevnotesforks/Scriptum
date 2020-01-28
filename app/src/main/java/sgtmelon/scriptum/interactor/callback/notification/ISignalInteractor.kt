@@ -21,5 +21,4 @@ interface ISignalInteractor {
 
     val melodyList: List<MelodyItem>
 
-
 }

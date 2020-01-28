@@ -88,13 +88,13 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preference, rootKey)
+
+        ScriptumApplication.component.getPreferenceBuilder().set(fragment = this).build()
+                .inject(fragment = this)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        ScriptumApplication.component.getPreferenceBuilder().set(fragment = this).build()
-                .inject(fragment = this)
 
         melodyControl.initLazy()
         openState.get(savedInstanceState)

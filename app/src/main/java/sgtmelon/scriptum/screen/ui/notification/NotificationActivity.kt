@@ -26,6 +26,7 @@ import sgtmelon.scriptum.screen.ui.AppActivity
 import sgtmelon.scriptum.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.screen.ui.callback.notification.INotificationActivity
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
+import sgtmelon.scriptum.screen.vm.callback.IAppViewModel
 import sgtmelon.scriptum.screen.vm.callback.notification.INotificationViewModel
 import javax.inject.Inject
 
@@ -60,11 +61,11 @@ class NotificationActivity : AppActivity(), INotificationActivity {
     private val recyclerView by lazy { findViewById<RecyclerView?>(R.id.notification_recycler) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = inflateBinding(R.layout.activity_notification)
-
         ScriptumApplication.component.getNotificationBuilder().set(activity = this).build()
                 .inject(activity = this)
+
+        super.onCreate(savedInstanceState)
+        binding = inflateBinding(R.layout.activity_notification)
 
         alarmControl.initLazy()
         bindControl.initLazy()

@@ -31,11 +31,11 @@ class IntroActivity : AppCompatActivity(), IIntroActivity, ViewPager.OnPageChang
     private val endButton by lazy { findViewById<Button?>(R.id.intro_end_button) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_intro)
-
         ScriptumApplication.component.getIntroBuilder().set(activity = this).build()
                 .inject(activity = this)
+
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_intro)
 
         viewModel.onSetup()
     }

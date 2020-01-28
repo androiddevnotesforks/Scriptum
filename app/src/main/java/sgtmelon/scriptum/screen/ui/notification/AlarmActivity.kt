@@ -42,6 +42,7 @@ import sgtmelon.scriptum.screen.ui.AppActivity
 import sgtmelon.scriptum.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.screen.ui.callback.notification.IAlarmActivity
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
+import sgtmelon.scriptum.screen.vm.callback.IAppViewModel
 import sgtmelon.scriptum.screen.vm.callback.notification.IAlarmViewModel
 import sgtmelon.scriptum.view.RippleContainer
 import java.util.*
@@ -99,6 +100,9 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
     @Suppress("DEPRECATION")
     override fun onCreate(savedInstanceState: Bundle?) {
+        ScriptumApplication.component.getAlarmBuilder().set(activity = this).build()
+                .inject(activity = this)
+
         super.onCreate(savedInstanceState)
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
@@ -112,9 +116,6 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         }
 
         setContentView(R.layout.activity_alarm)
-
-        ScriptumApplication.component.getAlarmBuilder().set(activity = this).build()
-                .inject(activity = this)
 
         viewModel.onSetup(bundle = savedInstanceState ?: intent.extras)
 
