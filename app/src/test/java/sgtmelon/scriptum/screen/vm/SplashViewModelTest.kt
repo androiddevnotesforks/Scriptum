@@ -35,6 +35,15 @@ class SplashViewModelTest : ParentViewModelTest() {
         viewModel.setInteractor(interactor)
     }
 
+    @Test override fun onDestroy() {
+        assertNotNull(viewModel.callback)
+
+        viewModel.onDestroy()
+
+        assertNull(viewModel.callback)
+        verify(exactly = 1) { interactor.onDestroy() }
+    }
+
 
     @Test fun onSetup_introStart() {
         every { bundle.getString(OpenFrom.INTENT_KEY) } returns null
@@ -85,15 +94,6 @@ class SplashViewModelTest : ParentViewModelTest() {
         verify(exactly = 1) { callback.startNotificationActivity() }
     }
 
-
-    @Test override fun onDestroy() {
-        assertNotNull(viewModel.callback)
-
-        viewModel.onDestroy()
-
-        assertNull(viewModel.callback)
-        verify(exactly = 1) { interactor.onDestroy() }
-    }
 
     private companion object {
         const val ID = 33L

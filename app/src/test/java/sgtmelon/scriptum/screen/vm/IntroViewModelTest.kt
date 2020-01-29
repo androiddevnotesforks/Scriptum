@@ -34,14 +34,12 @@ class IntroViewModelTest : ParentViewModelTest() {
         viewModel.setInteractor(interactor)
     }
 
-
     @Test override fun onDestroy() {
         assertNotNull(viewModel.callback)
-
         viewModel.onDestroy()
-
         assertNull(viewModel.callback)
     }
+
 
     @Test fun onSetup() {
         viewModel.onSetup()
