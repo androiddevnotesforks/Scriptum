@@ -5,7 +5,6 @@ import android.os.Bundle
 import sgtmelon.scriptum.interactor.callback.ISplashInteractor
 import sgtmelon.scriptum.model.annotation.OpenFrom
 import sgtmelon.scriptum.model.data.NoteData
-import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.ui.SplashActivity
 import sgtmelon.scriptum.screen.ui.callback.ISplashActivity
 import sgtmelon.scriptum.screen.vm.callback.ISplashViewModel
@@ -27,7 +26,7 @@ class SplashViewModel(application: Application) : ParentViewModel<ISplashActivit
         if (bundle == null) {
             onSimpleStart()
         } else {
-            when (bundle.getString(OpenFrom.INTENT_KEY) ?: "") {
+            when (bundle.getString(OpenFrom.INTENT_KEY)) {
                 OpenFrom.ALARM -> onAlarmStart(bundle)
                 OpenFrom.BIND -> onBindStart(bundle)
                 OpenFrom.INFO -> callback?.startNotificationActivity()
@@ -54,7 +53,7 @@ class SplashViewModel(application: Application) : ParentViewModel<ISplashActivit
     private fun onBindStart(bundle: Bundle) {
         val id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
         val color = bundle.getInt(NoteData.Intent.COLOR, NoteData.Default.COLOR)
-        val type = NoteType.values()[bundle.getInt(NoteData.Intent.TYPE, NoteData.Default.TYPE)]
+        val type = bundle.getInt(NoteData.Intent.TYPE, NoteData.Default.TYPE)
 
         callback?.startNoteActivity(id, color, type)
     }

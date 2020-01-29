@@ -130,21 +130,21 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild, NoteReceiver.Call
 
     companion object {
         operator fun get(context: Context, item: NotificationItem) =
-                get(context, item.note.type, item.note.id, item.note.color)
+                get(context, item.note.type.ordinal, item.note.id, item.note.color)
 
         operator fun get(context: Context, item: NoteItem) =
-                get(context, item.type, item.id, item.color)
+                get(context, item.type.ordinal, item.id, item.color)
 
         /**
          * If [id] and [color] isDefault - it means that note will be create, not open.
          */
-        operator fun get(context: Context, type: NoteType,
+        operator fun get(context: Context, type: Int,
                          id: Long = NoteData.Default.ID,
                          @Color color: Int = NoteData.Default.COLOR): Intent {
             return Intent(context, NoteActivity::class.java)
                     .putExtra(NoteData.Intent.ID, id)
                     .putExtra(NoteData.Intent.COLOR, color)
-                    .putExtra(NoteData.Intent.TYPE, type.ordinal)
+                    .putExtra(NoteData.Intent.TYPE, type)
         }
     }
 

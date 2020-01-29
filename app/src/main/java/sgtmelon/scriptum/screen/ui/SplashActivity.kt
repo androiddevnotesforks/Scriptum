@@ -12,7 +12,6 @@ import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.OpenFrom
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.ui.callback.ISplashActivity
 import sgtmelon.scriptum.screen.ui.intro.IntroActivity
 import sgtmelon.scriptum.screen.ui.main.MainActivity
@@ -65,7 +64,7 @@ class SplashActivity : AppCompatActivity(), ISplashActivity {
         startActivities(arrayOf(MainActivity[this], AlarmActivity[this, id]))
     }
 
-    override fun startNoteActivity(id: Long, @Color color: Int, type: NoteType) {
+    override fun startNoteActivity(id: Long, @Color color: Int, type: Int) {
         startActivities(arrayOf(MainActivity[this], NoteActivity[this, type, id, color]))
     }
 

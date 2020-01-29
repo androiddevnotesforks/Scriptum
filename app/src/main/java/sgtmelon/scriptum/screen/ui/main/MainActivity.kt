@@ -191,7 +191,7 @@ class MainActivity : AppActivity(), IMainActivity {
     }
 
     override fun startNoteActivity(noteType: NoteType) = openState.tryInvoke {
-        startActivity(NoteActivity[this, noteType])
+        startActivity(NoteActivity[this, noteType.ordinal])
     }
 
 
