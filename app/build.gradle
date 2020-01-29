@@ -111,8 +111,6 @@ dependencies {
 
     //region Testing
 
-    androidTestImplementation junit.core
-
     androidTestImplementation androidx.test.runner
     androidTestImplementation androidx.test.rules
     androidTestImplementation androidx.test.junit
@@ -121,7 +119,8 @@ dependencies {
     androidTestImplementation androidx.test.espresso.core
     androidTestImplementation androidx.test.espresso.contrib
 
-    androidTestImplementation jetbrains.coroutines.test
+    debugImplementation junit.core
+    debugImplementation jetbrains.coroutines.test
 
     testImplementation mockk.core
     testImplementation json.core

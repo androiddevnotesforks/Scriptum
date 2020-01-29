@@ -1,22 +1,20 @@
 package sgtmelon.scriptum.screen.vm
 
-import android.os.Bundle
-import io.mockk.Ordering
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockkClass
 import io.mockk.verify
-import org.junit.Test
-
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.junit.Assert.*
+import org.junit.Test
 import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.interactor.callback.IIntroInteractor
-import sgtmelon.scriptum.interactor.callback.ISplashInteractor
 import sgtmelon.scriptum.screen.ui.callback.IIntroActivity
-import sgtmelon.scriptum.screen.ui.callback.ISplashActivity
 
 /**
- * Test for [IntroViewModel]
+ * Test for [IntroViewModel].
  */
+@ObsoleteCoroutinesApi
+@ExperimentalCoroutinesApi
 class IntroViewModelTest : ParentViewModelTest() {
 
     @MockK lateinit var callback: IIntroActivity

@@ -2,9 +2,11 @@ package sgtmelon.scriptum.screen.vm.notification
 
 import android.app.Application
 import android.os.Bundle
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.extension.clearAddAll
+import sgtmelon.scriptum.extension.removeAtOrNull
 import sgtmelon.scriptum.interactor.callback.notification.INotificationInteractor
 import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.screen.ui.callback.notification.INotificationActivity
@@ -26,13 +28,12 @@ class NotificationViewModel(application: Application) :
     }
 
 
-    private val itemList: MutableList<NotificationItem> = ArrayList()
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    val itemList: MutableList<NotificationItem> = ArrayList()
 
     override fun onSetup(bundle: Bundle?) {
-        callback?.apply {
-            setupToolbar()
-            setupRecycler(interactor.theme)
-        }
+        callback?.setupToolbar()
+        callback?.setupRecycler(interactor.theme)
     }
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy { interactor.onDestroy() }
@@ -44,7 +45,7 @@ class NotificationViewModel(application: Application) :
     override fun onUpdateData() {
         callback?.beforeLoad()
 
-        val updateList = {
+        fun updateList() {
             callback?.apply {
                 notifyList(itemList)
                 onBindingList()
@@ -62,7 +63,10 @@ class NotificationViewModel(application: Application) :
             if (count == 0) {
                 itemList.clear()
             } else {
-                if (itemList.isEmpty()) callback?.showProgress()
+                if (itemList.isEmpty()) {
+                    callback?.showProgress()
+                }
+
                 itemList.clearAddAll(interactor.getList())
             }
 
@@ -71,11 +75,12 @@ class NotificationViewModel(application: Application) :
     }
 
     override fun onClickNote(p: Int) {
-        callback?.startNoteActivity(itemList[p])
+        val item = itemList.getOrNull(p) ?: return
+        callback?.startNoteActivity(item)
     }
 
     override fun onClickCancel(p: Int) {
-        val item = itemList.removeAt(p)
+        val item = itemList.removeAtOrNull(p) ?: return
 
         viewModelScope.launch { interactor.cancelNotification(item) }
 

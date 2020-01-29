@@ -58,7 +58,10 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
             if (count == 0) {
                 itemList.clear()
             } else {
-                if (itemList.isEmpty()) callback?.showProgress()
+                if (itemList.isEmpty()) {
+                    callback?.showProgress()
+                }
+
                 itemList.clearAddAll(interactor.getList())
             }
 

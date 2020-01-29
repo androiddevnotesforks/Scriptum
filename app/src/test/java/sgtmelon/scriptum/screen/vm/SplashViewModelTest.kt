@@ -5,6 +5,8 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkClass
 import io.mockk.verify
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.scriptum.ParentViewModelTest
@@ -14,8 +16,10 @@ import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.screen.ui.callback.ISplashActivity
 
 /**
- * Test for [SplashViewModel]
+ * Test for [SplashViewModel].
  */
+@ObsoleteCoroutinesApi
+@ExperimentalCoroutinesApi
 class SplashViewModelTest : ParentViewModelTest() {
 
     @MockK lateinit var callback: ISplashActivity

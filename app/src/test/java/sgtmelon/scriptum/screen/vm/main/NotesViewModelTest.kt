@@ -1,5 +1,7 @@
 package sgtmelon.scriptum.screen.vm.main
 
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.ParentTest
@@ -11,6 +13,8 @@ import sgtmelon.scriptum.screen.vm.main.NotesViewModel.Companion.sort
 /**
  * Test for [NotesViewModel].
  */
+@ObsoleteCoroutinesApi
+@ExperimentalCoroutinesApi
 class NotesViewModelTest : ParentTest() {
 
     @Test fun sort() {
