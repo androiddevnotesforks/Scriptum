@@ -22,10 +22,9 @@ class SplashViewModelTest : ParentViewModelTest() {
 
     @MockK lateinit var interactor: ISplashInteractor
 
-    private val viewModel by lazy { SplashViewModel(application) }
-
-
     private val bundle = mockkClass(Bundle::class)
+
+    private val viewModel by lazy { SplashViewModel(application) }
 
     override fun setUp() {
         super.setUp()
