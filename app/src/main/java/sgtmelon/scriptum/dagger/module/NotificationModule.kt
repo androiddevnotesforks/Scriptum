@@ -9,6 +9,9 @@ import sgtmelon.scriptum.screen.ui.notification.NotificationActivity
 import sgtmelon.scriptum.screen.vm.AppViewModel
 import sgtmelon.scriptum.screen.vm.callback.IAppViewModel
 
+/**
+ * Module for [NotificationActivity].
+ */
 @Module
 class NotificationModule {
 

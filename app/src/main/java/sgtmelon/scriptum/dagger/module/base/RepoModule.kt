@@ -9,6 +9,9 @@ import sgtmelon.scriptum.repository.room.*
 import sgtmelon.scriptum.repository.room.callback.*
 import javax.inject.Singleton
 
+/**
+ * Module for provide repo's
+ */
 @Module
 class RepoModule {
 

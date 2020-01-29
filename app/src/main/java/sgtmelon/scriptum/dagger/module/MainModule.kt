@@ -9,6 +9,9 @@ import sgtmelon.scriptum.screen.ui.main.MainActivity
 import sgtmelon.scriptum.screen.vm.AppViewModel
 import sgtmelon.scriptum.screen.vm.callback.IAppViewModel
 
+/**
+ * Module for [MainActivity].
+ */
 @Module
 class MainModule {
 

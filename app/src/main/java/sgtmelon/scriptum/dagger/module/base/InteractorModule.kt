@@ -45,6 +45,9 @@ import sgtmelon.scriptum.screen.ui.note.TextNoteFragment
 import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
 import sgtmelon.scriptum.screen.ui.notification.NotificationActivity
 
+/**
+ * Module for provide interactor's
+ */
 @Module
 class InteractorModule {
 

@@ -7,6 +7,9 @@ import sgtmelon.scriptum.dagger.module.base.InteractorModule
 import sgtmelon.scriptum.dagger.module.base.ViewModelModule
 import sgtmelon.scriptum.screen.ui.note.TextNoteFragment
 
+/**
+ * Component for [TextNoteFragment].
+ */
 @ActivityScope
 @Subcomponent(modules = [InteractorModule::class, ViewModelModule::class])
 interface TextNoteComponent {

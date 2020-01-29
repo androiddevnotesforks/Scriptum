@@ -9,6 +9,9 @@ import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
 import sgtmelon.scriptum.screen.vm.AppViewModel
 import sgtmelon.scriptum.screen.vm.callback.IAppViewModel
 
+/**
+ * Module for [AlarmActivity].
+ */
 @Module
 class AlarmModule {
 

@@ -8,6 +8,9 @@ import sgtmelon.scriptum.dagger.module.base.InteractorModule
 import sgtmelon.scriptum.dagger.module.base.ViewModelModule
 import sgtmelon.scriptum.screen.ui.notification.NotificationActivity
 
+/**
+ * Component for [NotificationActivity].
+ */
 @ActivityScope
 @Subcomponent(modules = [
     InteractorModule::class, ViewModelModule::class, NotificationModule::class

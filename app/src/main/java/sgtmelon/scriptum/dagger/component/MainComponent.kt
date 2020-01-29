@@ -8,6 +8,9 @@ import sgtmelon.scriptum.dagger.module.base.InteractorModule
 import sgtmelon.scriptum.dagger.module.base.ViewModelModule
 import sgtmelon.scriptum.screen.ui.main.MainActivity
 
+/**
+ * Component for [MainActivity].
+ */
 @ActivityScope
 @Subcomponent(modules = [InteractorModule::class, ViewModelModule::class, MainModule::class])
 interface MainComponent {

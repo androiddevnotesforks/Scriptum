@@ -9,6 +9,9 @@ import sgtmelon.scriptum.screen.ui.AppActivity
 import sgtmelon.scriptum.screen.vm.AppViewModel
 import sgtmelon.scriptum.screen.vm.callback.IAppViewModel
 
+/**
+ * Module for [AppActivity].
+ */
 @Module
 class AppModule {
 

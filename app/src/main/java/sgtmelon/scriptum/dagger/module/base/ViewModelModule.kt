@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModelProvider
 import dagger.Module
 import dagger.Provides
 import sgtmelon.scriptum.dagger.ActivityScope
-import sgtmelon.scriptum.interactor.callback.IAppInteractor
 import sgtmelon.scriptum.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.interactor.callback.IIntroInteractor
 import sgtmelon.scriptum.interactor.callback.ISplashInteractor
@@ -19,7 +18,6 @@ import sgtmelon.scriptum.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.interactor.callback.notification.INotificationInteractor
 import sgtmelon.scriptum.interactor.callback.notification.ISignalInteractor
-import sgtmelon.scriptum.screen.ui.AppActivity
 import sgtmelon.scriptum.screen.ui.DevelopActivity
 import sgtmelon.scriptum.screen.ui.SplashActivity
 import sgtmelon.scriptum.screen.ui.callback.note.INoteChild
@@ -34,8 +32,14 @@ import sgtmelon.scriptum.screen.ui.note.TextNoteFragment
 import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
 import sgtmelon.scriptum.screen.ui.notification.NotificationActivity
 import sgtmelon.scriptum.screen.ui.preference.PreferenceFragment
-import sgtmelon.scriptum.screen.vm.*
-import sgtmelon.scriptum.screen.vm.callback.*
+import sgtmelon.scriptum.screen.vm.DevelopViewModel
+import sgtmelon.scriptum.screen.vm.IntroViewModel
+import sgtmelon.scriptum.screen.vm.PreferenceViewModel
+import sgtmelon.scriptum.screen.vm.SplashViewModel
+import sgtmelon.scriptum.screen.vm.callback.IDevelopViewModel
+import sgtmelon.scriptum.screen.vm.callback.IIntroViewModel
+import sgtmelon.scriptum.screen.vm.callback.IPreferenceViewModel
+import sgtmelon.scriptum.screen.vm.callback.ISplashViewModel
 import sgtmelon.scriptum.screen.vm.callback.main.IBinViewModel
 import sgtmelon.scriptum.screen.vm.callback.main.IMainViewModel
 import sgtmelon.scriptum.screen.vm.callback.main.INotesViewModel
@@ -54,8 +58,10 @@ import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
 import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel
 import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
 import sgtmelon.scriptum.screen.vm.notification.NotificationViewModel
-import javax.inject.Named
 
+/**
+ * Module for provide viewModel's.
+ */
 @Module
 class ViewModelModule {
 

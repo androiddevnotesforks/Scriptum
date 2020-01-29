@@ -9,6 +9,9 @@ import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.vm.AppViewModel
 import sgtmelon.scriptum.screen.vm.callback.IAppViewModel
 
+/**
+ * Module for [NoteActivity].
+ */
 @Module
 class NoteModule {
 

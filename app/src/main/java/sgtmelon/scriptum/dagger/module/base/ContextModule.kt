@@ -6,6 +6,9 @@ import dagger.Provides
 import sgtmelon.scriptum.screen.ui.ScriptumApplication
 import javax.inject.Singleton
 
+/**
+ * Module for provide applicationContext.
+ */
 @Module
 class ContextModule {
 
