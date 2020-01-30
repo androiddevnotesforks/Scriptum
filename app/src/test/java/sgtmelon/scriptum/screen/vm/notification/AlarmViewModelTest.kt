@@ -3,7 +3,6 @@ package sgtmelon.scriptum.screen.vm.notification
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.scriptum.ParentViewModelTest
@@ -19,7 +18,6 @@ import kotlin.random.Random
 /**
  * Test for [AlarmViewModel].
  */
-@ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 class AlarmViewModelTest : ParentViewModelTest() {
 
@@ -35,8 +33,6 @@ class AlarmViewModelTest : ParentViewModelTest() {
         super.setUp()
 
         viewModel.setCallback(callback)
-        assertEquals(callback, viewModel.callback)
-
         viewModel.setInteractor(interactor, signalInteractor, bindInteractor)
     }
 

@@ -1,11 +1,8 @@
 package sgtmelon.scriptum.screen.vm.notification
 
-import io.mockk.coVerify
-import io.mockk.every
+import io.mockk.*
 import io.mockk.impl.annotations.MockK
-import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.scriptum.ParentViewModelTest
@@ -21,7 +18,6 @@ import kotlin.random.Random
 /**
  * Test for [NotificationViewModel].
  */
-@ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 class NotificationViewModelTest : ParentViewModelTest() {
 
@@ -35,8 +31,6 @@ class NotificationViewModelTest : ParentViewModelTest() {
         super.setUp()
 
         viewModel.setCallback(callback)
-        assertEquals(callback, viewModel.callback)
-
         viewModel.setInteractor(interactor)
     }
 
@@ -56,58 +50,134 @@ class NotificationViewModelTest : ParentViewModelTest() {
 
         viewModel.onSetup()
 
-        verify(exactly = 1) {
+        verify(ordering = Ordering.ALL) {
             callback.setupToolbar()
             callback.setupRecycler(interactor.theme)
         }
     }
 
-    @Test fun onUpdateData() {
+    @Test fun onUpdateData_startEmpty_getNotEmpty() = startCoTest {
+        coEvery { interactor.getCount() } returns itemList.size
+        coEvery { interactor.getList() } returns itemList.toMutableList()
 
+        viewModel.onUpdateData()
+
+        coVerify(ordering = Ordering.SEQUENCE) {
+            callback.beforeLoad()
+
+            interactor.getCount()
+            callback.showProgress()
+            interactor.getList()
+            updateList(itemList)
+        }
     }
+
+    @Test fun onUpdateData_startEmpty_getEmpty() = startCoTest {
+        coEvery { interactor.getCount() } returns 0
+        coEvery { interactor.getList() } returns mutableListOf()
+
+        viewModel.onUpdateData()
+
+        coVerify(ordering = Ordering.SEQUENCE) {
+            callback.beforeLoad()
+
+            interactor.getCount()
+            updateList(mutableListOf())
+        }
+    }
+
+    @Test fun onUpdateData_startNotEmpty_getNotEmpty() = startCoTest {
+        coEvery { interactor.getCount() } returns itemList.size
+        coEvery { interactor.getList() } returns itemList.toMutableList()
+
+        viewModel.itemList.addAll(itemList)
+        assertEquals(itemList, viewModel.itemList)
+
+        viewModel.onUpdateData()
+
+
+        coVerify(ordering = Ordering.SEQUENCE) {
+            callback.beforeLoad()
+            updateList(itemList)
+
+            interactor.getCount()
+            interactor.getList()
+            updateList(itemList)
+        }
+    }
+
+    @Test fun onUpdateData_startNotEmpty_getEmpty() = startCoTest {
+        coEvery { interactor.getCount() } returns 0
+        coEvery { interactor.getList() } returns mutableListOf()
+
+        viewModel.itemList.addAll(itemList)
+        assertEquals(itemList, viewModel.itemList)
+
+        viewModel.onUpdateData()
+
+        coVerify(ordering = Ordering.SEQUENCE) {
+            callback.beforeLoad()
+            updateList(mutableListOf())
+            interactor.getCount()
+            updateList(mutableListOf())
+        }
+    }
+
+    private fun updateList(itemList: List<NotificationItem>) {
+        callback.notifyList(itemList)
+        callback.onBindingList()
+    }
+
 
     @Test fun onClickNote() {
         viewModel.onClickNote(Random.nextInt())
 
         viewModel.itemList.addAll(itemList)
+        assertEquals(itemList, viewModel.itemList)
+
         val index = itemList.indices.random()
 
         viewModel.onClickNote(index)
         verify(exactly = 1) { callback.startNoteActivity(itemList[index]) }
     }
 
-    @Test fun onClickCancel() {
+    @Test fun onClickCancel() = startCoTest {
         viewModel.onClickCancel(Random.nextInt())
 
         val itemList = itemList.toMutableList()
+
         viewModel.itemList.addAll(itemList)
+        assertEquals(itemList, viewModel.itemList)
 
         val index = itemList.indices.random()
-        viewModel.onClickCancel(index)
-
         val item = itemList.removeAt(index)
 
-        coVerify { interactor.cancelNotification(item) }
-        verify(exactly = 1) {
+        viewModel.onClickCancel(index)
+
+        coVerify(ordering = Ordering.ALL) {
+            interactor.cancelNotification(item)
+
             callback.notifyInfoBind(itemList.size)
             callback.notifyItemRemoved(itemList, index)
         }
     }
 
 
-    private val itemList = listOf(
-            NotificationItem(
-                    Note(id = 0, name = "testName1", color = 5, type = NoteType.TEXT),
-                    Alarm(id = 0, date = "123")
-            ),
-            NotificationItem(
-                    Note(id = 1, name = "testName2", color = 3, type = NoteType.ROLL),
-                    Alarm(id = 1, date = "456")
-            ),
-            NotificationItem(
-                    Note(id = 2, name = "testName3", color = 8, type = NoteType.TEXT),
-                    Alarm(id = 2, date = "789")
-            )
+    private val itemFirst = NotificationItem(
+            Note(id = 0, name = "testName1", color = 5, type = NoteType.TEXT),
+            Alarm(id = 0, date = "123")
     )
+
+    private val itemSecond = NotificationItem(
+            Note(id = 1, name = "testName2", color = 3, type = NoteType.ROLL),
+            Alarm(id = 1, date = "456")
+    )
+
+    private val itemThird = NotificationItem(
+            Note(id = 2, name = "testName3", color = 8, type = NoteType.TEXT),
+            Alarm(id = 2, date = "789")
+    )
+
+    private val itemList = listOf(itemFirst, itemSecond, itemThird)
 
 }

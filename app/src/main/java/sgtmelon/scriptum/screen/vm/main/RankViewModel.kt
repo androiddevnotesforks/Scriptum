@@ -58,7 +58,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         }
 
         /**
-         * If was rotation need show list and after that check for updates.
+         * If was rotation need show list. After that fetch updates.
          */
         if (itemList.isNotEmpty()) updateList()
 

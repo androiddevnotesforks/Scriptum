@@ -53,14 +53,12 @@ class NotificationViewModel(application: Application) :
         }
 
         /**
-         * If was rotation need show list and after that check for updates.
+         * If was rotation need show list. After that fetch updates.
          */
         if (itemList.isNotEmpty()) updateList()
 
         viewModelScope.launch {
-            val count = interactor.getCount()
-
-            if (count == 0) {
+            if (interactor.getCount() == 0) {
                 itemList.clear()
             } else {
                 if (itemList.isEmpty()) {

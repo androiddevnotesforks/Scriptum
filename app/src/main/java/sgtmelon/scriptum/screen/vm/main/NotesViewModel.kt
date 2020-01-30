@@ -55,7 +55,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
         callback?.beforeLoad()
 
         /**
-         * If was rotation need show list and after that check for updates.
+         * If was rotation need show list. After that fetch updates.
          */
         if (itemList.isNotEmpty()) {
             callback?.apply {

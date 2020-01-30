@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.screen.vm.main
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -12,7 +11,6 @@ import sgtmelon.scriptum.screen.vm.main.RankViewModel.Companion.correctPositions
 /**
  * Test for [RankViewModel]
  */
-@ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 class RankViewModelTest : ParentTest() {
 

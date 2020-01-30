@@ -3,7 +3,6 @@ package sgtmelon.scriptum.screen.vm
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.scriptum.ParentViewModelTest
@@ -13,7 +12,6 @@ import sgtmelon.scriptum.screen.ui.callback.IIntroActivity
 /**
  * Test for [IntroViewModel].
  */
-@ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 class IntroViewModelTest : ParentViewModelTest() {
 
@@ -27,8 +25,6 @@ class IntroViewModelTest : ParentViewModelTest() {
         super.setUp()
 
         viewModel.setCallback(callback)
-        assertEquals(callback, viewModel.callback)
-
         viewModel.setInteractor(interactor)
     }
 

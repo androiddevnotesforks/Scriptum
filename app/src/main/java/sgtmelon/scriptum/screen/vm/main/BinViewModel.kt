@@ -43,7 +43,7 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
         callback?.beforeLoad()
 
         /**
-         * If was rotation need show list and after that check for updates.
+         * If was rotation need show list. After that fetch updates.
          */
         if (itemList.isNotEmpty()) {
             callback?.apply {

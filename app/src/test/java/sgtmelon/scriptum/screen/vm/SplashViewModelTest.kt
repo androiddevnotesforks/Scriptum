@@ -6,7 +6,6 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockkClass
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.scriptum.ParentViewModelTest
@@ -18,7 +17,6 @@ import sgtmelon.scriptum.screen.ui.callback.ISplashActivity
 /**
  * Test for [SplashViewModel].
  */
-@ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 class SplashViewModelTest : ParentViewModelTest() {
 
@@ -34,8 +32,6 @@ class SplashViewModelTest : ParentViewModelTest() {
         super.setUp()
 
         viewModel.setCallback(callback)
-        assertEquals(callback, viewModel.callback)
-
         viewModel.setInteractor(interactor)
     }
 
