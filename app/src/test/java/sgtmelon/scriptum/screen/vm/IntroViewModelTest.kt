@@ -1,9 +1,10 @@
 package sgtmelon.scriptum.screen.vm
 
 import io.mockk.impl.annotations.MockK
-import io.mockk.verify
+import io.mockk.verifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.Assert.*
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.interactor.callback.IIntroInteractor
@@ -37,12 +38,12 @@ class IntroViewModelTest : ParentViewModelTest() {
 
     @Test fun onSetup() {
         viewModel.onSetup()
-        verify(exactly = 1) { callback.setupViewPager() }
+        verifySequence { callback.setupViewPager() }
     }
 
     @Test fun onClickEnd() {
         viewModel.onClickEnd()
-        verify(exactly = 1) {
+        verifySequence {
             interactor.onIntroFinish()
             callback.startMainActivity()
         }

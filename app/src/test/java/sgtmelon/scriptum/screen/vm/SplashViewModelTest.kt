@@ -4,9 +4,10 @@ import android.os.Bundle
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkClass
-import io.mockk.verify
+import io.mockk.verifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.Assert.*
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.interactor.callback.ISplashInteractor
@@ -41,7 +42,7 @@ class SplashViewModelTest : ParentViewModelTest() {
         viewModel.onDestroy()
 
         assertNull(viewModel.callback)
-        verify(exactly = 1) { interactor.onDestroy() }
+        verifySequence { interactor.onDestroy() }
     }
 
 
@@ -50,10 +51,12 @@ class SplashViewModelTest : ParentViewModelTest() {
         every { interactor.firstStart } returns true
 
         viewModel.onSetup(bundle = null)
-        verify(exactly = 1) { callback.startIntroActivity() }
-
         viewModel.onSetup(bundle)
-        verify(exactly = 2) { callback.startIntroActivity() }
+
+        verifySequence {
+            callback.startIntroActivity()
+            callback.startIntroActivity()
+        }
     }
 
     @Test fun onSetup_mainStart() {
@@ -61,10 +64,12 @@ class SplashViewModelTest : ParentViewModelTest() {
         every { interactor.firstStart } returns false
 
         viewModel.onSetup(bundle = null)
-        verify(exactly = 1) { callback.startMainActivity() }
-
         viewModel.onSetup(bundle)
-        verify(exactly = 2) { callback.startMainActivity() }
+
+        verifySequence {
+            callback.startMainActivity()
+            callback.startMainActivity()
+        }
     }
 
     @Test fun onSetup_alarmStart() {
@@ -73,7 +78,7 @@ class SplashViewModelTest : ParentViewModelTest() {
         every { bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID) } returns ID
 
         viewModel.onSetup(bundle)
-        verify(exactly = 1) { callback.startAlarmActivity(ID) }
+        verifySequence { callback.startAlarmActivity(ID) }
     }
 
     @Test fun onSetup_bindStart() {
@@ -84,14 +89,14 @@ class SplashViewModelTest : ParentViewModelTest() {
         every { bundle.getInt(NoteData.Intent.TYPE, NoteData.Default.TYPE) } returns TYPE
 
         viewModel.onSetup(bundle)
-        verify(exactly = 1) { callback.startNoteActivity(ID, COLOR, TYPE) }
+        verifySequence { callback.startNoteActivity(ID, COLOR, TYPE) }
     }
 
     @Test fun onSetup_notificationStart() {
         every { bundle.getString(OpenFrom.INTENT_KEY) } returns OpenFrom.INFO
 
         viewModel.onSetup(bundle)
-        verify(exactly = 1) { callback.startNotificationActivity() }
+        verifySequence { callback.startNotificationActivity() }
     }
 
 

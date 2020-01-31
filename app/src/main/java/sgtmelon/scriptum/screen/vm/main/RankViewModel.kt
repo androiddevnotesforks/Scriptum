@@ -63,9 +63,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         if (itemList.isNotEmpty()) updateList()
 
         viewModelScope.launch {
-            val count = interactor.getCount()
-
-            if (count == 0) {
+            if (interactor.getCount() == 0) {
                 itemList.clear()
             } else {
                 if (itemList.isEmpty()) {

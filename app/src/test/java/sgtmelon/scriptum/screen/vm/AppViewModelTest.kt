@@ -2,7 +2,7 @@ package sgtmelon.scriptum.screen.vm
 
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.verify
+import io.mockk.verifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
@@ -40,14 +40,15 @@ class AppViewModelTest : ParentViewModelTest() {
 
     @Test fun onSetup() {
         every { interactor.theme } returns Theme.LIGHT
-
         viewModel.onSetup()
-        verify(exactly = 1) { callback.setTheme(R.style.App_Light_UI) }
 
         every { interactor.theme } returns Theme.DARK
-
         viewModel.onSetup()
-        verify(exactly = 1) { callback.setTheme(R.style.App_Dark_UI) }
+
+        verifySequence {
+            callback.setTheme(R.style.App_Light_UI)
+            callback.setTheme(R.style.App_Dark_UI)
+        }
     }
 
     @Test fun isThemeChange() {

@@ -21,6 +21,9 @@ import java.util.UUID.randomUUID
 import kotlin.random.Random
 import sgtmelon.scriptum.basic.extension.getTime as getCalendarTime
 
+/**
+ * Class which fill db and provide data for tests.
+ */
 class TestData(override val context: Context, private val preferenceRepo: IPreferenceRepo) :
         IRoomWork {
 

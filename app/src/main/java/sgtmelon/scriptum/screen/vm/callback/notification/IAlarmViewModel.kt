@@ -2,6 +2,7 @@ package sgtmelon.scriptum.screen.vm.callback.notification
 
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.annotation.IdRes
 import sgtmelon.scriptum.receiver.NoteReceiver
 import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
 import sgtmelon.scriptum.screen.vm.callback.IParentViewModel
@@ -22,6 +23,6 @@ interface IAlarmViewModel : IParentViewModel, NoteReceiver.Callback {
 
     fun onClickRepeat()
 
-    fun onResultRepeatDialog(menuItem: MenuItem)
+    fun onResultRepeatDialog(@IdRes itemId: Int)
 
 }

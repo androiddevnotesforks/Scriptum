@@ -177,7 +177,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         repeatDialog.apply {
             itemSelectedListener = NavigationView.OnNavigationItemSelectedListener {
                 dismiss()
-                viewModel.onResultRepeatDialog(it)
+                viewModel.onResultRepeatDialog(it.itemId)
                 return@OnNavigationItemSelectedListener true
             }
             dismissListener = DialogInterface.OnDismissListener { openState.clear() }

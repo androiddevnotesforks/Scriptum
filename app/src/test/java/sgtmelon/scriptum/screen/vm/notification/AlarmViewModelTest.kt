@@ -1,12 +1,13 @@
 package sgtmelon.scriptum.screen.vm.notification
 
 import io.mockk.impl.annotations.MockK
-import io.mockk.verify
+import io.mockk.verifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.interactor.callback.notification.ISignalInteractor
@@ -20,6 +21,8 @@ import kotlin.random.Random
  */
 @ExperimentalCoroutinesApi
 class AlarmViewModelTest : ParentViewModelTest() {
+
+    private val data = TestData.Note
 
     @MockK lateinit var callback: IAlarmActivity
 
@@ -43,11 +46,34 @@ class AlarmViewModelTest : ParentViewModelTest() {
     }
 
 
-    @Test fun onClickDisable() {
-        viewModel.onClickDisable()
-        verify(exactly = 1) { callback.finish() }
+    @Test fun onSetup() {
+        TODO()
     }
 
+    @Test fun onSaveData() {
+        TODO()
+    }
+
+    @Test fun onStart() {
+        TODO()
+    }
+
+    @Test fun onClickNote() {
+        TODO()
+    }
+
+    @Test fun onClickDisable() {
+        viewModel.onClickDisable()
+        verifySequence { callback.finish() }
+    }
+
+    @Test fun onClickRepeat() {
+        TODO()
+    }
+
+    @Test fun onResultRepeatDialog() {
+        TODO()
+    }
 
     @Test fun getRepeatById() {
         assertEquals(Repeat.MIN_10, viewModel.getRepeatById(R.id.item_repeat_0))
@@ -55,7 +81,11 @@ class AlarmViewModelTest : ParentViewModelTest() {
         assertEquals(Repeat.MIN_60, viewModel.getRepeatById(R.id.item_repeat_2))
         assertEquals(Repeat.MIN_180, viewModel.getRepeatById(R.id.item_repeat_3))
         assertEquals(Repeat.MIN_1440, viewModel.getRepeatById(R.id.item_repeat_4))
-        assertNull(viewModel.getRepeatById(Random.nextInt()))
+        assertNull(viewModel.getRepeatById(itemId = -1))
     }
-    
+
+    @Test fun onReceiveUnbindNote() {
+        TODO()
+    }
+
 }

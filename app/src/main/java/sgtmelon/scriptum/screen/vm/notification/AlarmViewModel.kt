@@ -3,7 +3,6 @@ package sgtmelon.scriptum.screen.vm.notification
 import android.app.Application
 import android.os.Bundle
 import android.os.Handler
-import android.view.MenuItem
 import androidx.annotation.IdRes
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.viewModelScope
@@ -45,9 +44,12 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     }
 
 
-    private var id: Long = NoteData.Default.ID
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    var id: Long = NoteData.Default.ID
 
-    private lateinit var noteItem: NoteItem
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    lateinit var noteItem: NoteItem
+
     private var signalState: SignalState? = null
 
     private val vibratorHandler = Handler()
@@ -65,13 +67,11 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         callback?.apply {
             acquirePhone(CANCEL_DELAY)
 
-            interactor.let {
-                setupView(it.theme)
+            setupView(interactor.theme)
 
-                val uri = signalInteractor.melodyUri.toUri()
-                if (uri != null) {
-                    setupPlayer(it.volume, it.volumeIncrease, uri)
-                }
+            val uri = signalInteractor.melodyUri.toUri()
+            if (uri != null) {
+                setupPlayer(interactor.volume, interactor.volumeIncrease, uri)
             }
         }
 
@@ -161,8 +161,8 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
 
     override fun onClickRepeat() = repeatFinish()
 
-    override fun onResultRepeatDialog(menuItem: MenuItem) {
-        val repeat = getRepeatById(menuItem.itemId) ?: interactor.repeat
+    override fun onResultRepeatDialog(@IdRes itemId: Int) {
+        val repeat = getRepeatById(itemId) ?: interactor.repeat
         repeatFinish(repeat)
     }
 

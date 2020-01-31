@@ -5,6 +5,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import sgtmelon.scriptum.ParentTest
+import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.screen.vm.main.RankViewModel.Companion.correctPositions
 
@@ -14,7 +15,9 @@ import sgtmelon.scriptum.screen.vm.main.RankViewModel.Companion.correctPositions
 @ExperimentalCoroutinesApi
 class RankViewModelTest : ParentTest() {
 
-    @Test fun correctPositions() {
+    private val data = TestData.Rank
+
+    @Test fun correctPositions() = with(data) {
         var list = listOf(rankFist.copy(), rankSecond.copy(), rankThird.copy(), rankFourth.copy())
         var noteIdList = list.correctPositions()
 
@@ -36,21 +39,6 @@ class RankViewModelTest : ParentTest() {
 
     private fun assertPositions(list: List<RankItem>) = list.forEachIndexed { i, item ->
         assertEquals(i, item.position)
-    }
-
-    private companion object {
-        val rankFist = RankItem(
-                id = 1, noteId = mutableListOf(1, 2), position = 0, name = "1", isVisible = true
-        )
-        val rankSecond = RankItem(
-                id = 2, noteId = mutableListOf(2, 3), position = 1, name = "2", isVisible = false
-        )
-        val rankThird = RankItem(
-                id = 3, noteId = mutableListOf(1, 5), position = 2, name = "3", isVisible = true
-        )
-        val rankFourth = RankItem(
-                id = 4, noteId = mutableListOf(4, 6), position = 3, name = "4", isVisible = false
-        )
     }
 
 }
