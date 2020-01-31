@@ -58,7 +58,7 @@ class NotificationViewModelTest : ParentViewModelTest() {
 
     @Test fun onUpdateData_startEmpty_getNotEmpty() = startCoTest {
         coEvery { interactor.getCount() } returns itemList.size
-        coEvery { interactor.getList() } returns itemList.toMutableList()
+        coEvery { interactor.getList() } returns itemList
 
         viewModel.onUpdateData()
 
@@ -87,22 +87,23 @@ class NotificationViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onUpdateData_startNotEmpty_getNotEmpty() = startCoTest {
-        coEvery { interactor.getCount() } returns itemList.size
-        coEvery { interactor.getList() } returns itemList.toMutableList()
+        val returnList = mutableListOf(itemList.first())
+
+        coEvery { interactor.getCount() } returns returnList.size
+        coEvery { interactor.getList() } returns returnList
 
         viewModel.itemList.addAll(itemList)
         assertEquals(itemList, viewModel.itemList)
 
         viewModel.onUpdateData()
 
-
         coVerify(ordering = Ordering.SEQUENCE) {
             callback.beforeLoad()
-            updateList(itemList)
+            updateList(any())
 
             interactor.getCount()
             interactor.getList()
-            updateList(itemList)
+            updateList(returnList)
         }
     }
 
@@ -117,7 +118,8 @@ class NotificationViewModelTest : ParentViewModelTest() {
 
         coVerify(ordering = Ordering.SEQUENCE) {
             callback.beforeLoad()
-            updateList(mutableListOf())
+            updateList(any())
+
             interactor.getCount()
             updateList(mutableListOf())
         }
@@ -178,6 +180,6 @@ class NotificationViewModelTest : ParentViewModelTest() {
             Alarm(id = 2, date = "789")
     )
 
-    private val itemList = listOf(itemFirst, itemSecond, itemThird)
+    private val itemList = mutableListOf(itemFirst, itemSecond, itemThird)
 
 }
