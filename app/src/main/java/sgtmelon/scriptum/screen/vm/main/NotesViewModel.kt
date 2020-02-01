@@ -227,7 +227,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
          * [-1] - Move to start of list;
          * [0]  - Not move.
          */
-        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        @VisibleForTesting
         fun List<NoteItem>.sort(@Sort sort: Int): List<NoteItem> = let { list ->
             return@let when(sort) {
                 Sort.CHANGE -> list.sortedByDescending { it.change.getCalendar().timeInMillis }

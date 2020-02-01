@@ -44,12 +44,13 @@ import sgtmelon.scriptum.model.key.ColorShade
 
 fun Context.getCompatColor(@ColorRes id: Int) = let { ContextCompat.getColor(it, id) }
 
-@ColorInt fun Context.getAppSimpleColor(@Color color: Int, shade: ColorShade) =
-        getCompatColor(when(shade) {
-            ColorShade.LIGHT -> light[color]
-            ColorShade.ACCENT -> accent[color]
-            ColorShade.DARK -> dark[color]
-        })
+@ColorInt fun Context.getAppSimpleColor(@Color color: Int, shade: ColorShade): Int {
+    return getCompatColor(when(shade) {
+        ColorShade.LIGHT -> light[color]
+        ColorShade.ACCENT -> accent[color]
+        ColorShade.DARK -> dark[color]
+    })
+}
 
 fun MenuItem.tintIcon(context: Context) {
     val drawable = this.icon

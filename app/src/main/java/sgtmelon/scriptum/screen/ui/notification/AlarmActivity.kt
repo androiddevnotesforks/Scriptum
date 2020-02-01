@@ -4,15 +4,13 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.IntentFilter
-import android.content.res.Configuration
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.view.WindowManager
-import androidx.annotation.ColorInt
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Fade
@@ -28,21 +26,21 @@ import sgtmelon.scriptum.control.alarm.callback.IMelodyControl
 import sgtmelon.scriptum.control.alarm.callback.IPowerControl
 import sgtmelon.scriptum.control.alarm.callback.IVibratorControl
 import sgtmelon.scriptum.control.bind.BindControl
-import sgtmelon.scriptum.extension.initLazy
-import sgtmelon.scriptum.extension.showToast
+import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.listener.ItemListener
+import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.data.ReceiverData
 import sgtmelon.scriptum.model.item.NoteItem
+import sgtmelon.scriptum.model.key.ColorShade
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.receiver.NoteReceiver
 import sgtmelon.scriptum.screen.ui.AppActivity
 import sgtmelon.scriptum.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.screen.ui.callback.notification.IAlarmActivity
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
-import sgtmelon.scriptum.screen.vm.callback.IAppViewModel
 import sgtmelon.scriptum.screen.vm.callback.notification.IAlarmViewModel
 import sgtmelon.scriptum.view.RippleContainer
 import java.util.*
@@ -58,6 +56,9 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
      */
 
     @Inject internal lateinit var viewModel: IAlarmViewModel
+
+    private val vibratorHandler = Handler()
+    private val longWaitHandler = Handler()
 
     /**
      * [initLazy] not require because activity configChanges under control.
@@ -135,6 +136,9 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     override fun onDestroy() {
         super.onDestroy()
 
+        longWaitHandler.removeCallbacksAndMessages(null)
+        vibratorHandler.removeCallbacksAndMessages(null)
+
         viewModel.onDestroy()
         rippleContainer?.stopAnimation()
 
@@ -147,13 +151,6 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         super.onSaveInstanceState(outState.apply { viewModel.onSaveData(bundle = this) })
     }
 
-    /**
-     * It calls when orientation changes
-     */
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        parentContainer?.afterLayoutConfiguration { rippleContainer?.invalidate(logoView) }
-    }
 
     override fun acquirePhone(timeout: Long) = powerControl.acquire(timeout)
 
@@ -184,9 +181,13 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         }
     }
 
-    override fun setupPlayer(volume: Int, increase: Boolean, uri: Uri) = with(melodyControl) {
-        setupVolume(volume, increase)
-        setupPlayer(uri, isLooping = true)
+    override fun setupPlayer(stringUri: String, volume: Int, increase: Boolean){
+        val uri = stringUri.toUri() ?: return
+
+        with(melodyControl) {
+            setupVolume(volume, increase)
+            setupPlayer(uri, isLooping = true)
+        }
     }
 
     override fun notifyList(item: NoteItem) = adapter.notifyList(arrayListOf(item))
@@ -199,7 +200,9 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         parentContainer?.afterLayoutConfiguration { viewModel.onStart() }
     }
 
-    override fun startRippleAnimation(@Theme theme: Int, @ColorInt fillColor: Int) {
+    override fun startRippleAnimation(@Theme theme: Int, @Color color: Int, shade: ColorShade) {
+        val fillColor = getAppSimpleColor(color, shade)
+
         logoView?.let { rippleContainer?.setupAnimation(theme, fillColor, it)?.startAnimation() }
     }
 
@@ -218,8 +221,15 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         buttonContainer?.visibility = View.VISIBLE
     }
 
-    override fun startNoteActivity(item: NoteItem) {
-        startActivity(NoteActivity[this, item])
+    override fun startNoteActivity(item: NoteItem) = startActivity(NoteActivity[this, item])
+
+
+    override fun startLongWaitHandler(delay: Long, r: Runnable) {
+        longWaitHandler.postDelayed(r, delay)
+    }
+
+    override fun startVibratorHandler(delay: Long, r: Runnable) {
+        vibratorHandler.postDelayed(r, delay)
     }
 
 
@@ -231,8 +241,19 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
     override fun vibrateCancel() = vibratorControl.cancel()
 
+
+    override fun getRepeatValueArray(): IntArray {
+        return resources.getIntArray(R.array.pref_alarm_repeat_array)
+    }
+
     override fun showRepeatToast(select: Int) {
         showToast(getString(R.string.toast_alarm_repeat, resources.getStringArray(R.array.pref_text_alarm_repeat)[select]))
+    }
+
+    override fun sendUpdateBroadcast(id: Long) {
+        sendTo(ReceiverData.Filter.MAIN, ReceiverData.Command.UPDATE_ALARM) {
+            putExtra(ReceiverData.Values.NOTE_ID, id)
+        }
     }
 
 
@@ -245,7 +266,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     }
 
     /**
-     * Function for detect when layout completely configure
+     * Function for detect when layout completely configure.
      */
     private fun ViewGroup.afterLayoutConfiguration(func: () -> Unit) {
         viewTreeObserver?.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {

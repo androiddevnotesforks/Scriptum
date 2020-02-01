@@ -302,7 +302,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
     }
 
     companion object {
-        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        @VisibleForTesting
         fun NoteItem.onConvertText() {
             if (type != NoteType.TEXT) return
 
@@ -316,7 +316,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
             convert().updateComplete(Complete.EMPTY)
         }
 
-        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        @VisibleForTesting
         fun NoteItem.onConvertRoll() {
             if (type != NoteType.ROLL) return
 
@@ -324,7 +324,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
             rollList.clear()
         }
 
-        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        @VisibleForTesting
         fun NoteItem.onConvertRoll(list: List<RollItem>) {
             if (type != NoteType.ROLL) return
 

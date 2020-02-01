@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.ActivityNotFoundException
 import android.content.DialogInterface
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.FragmentManager
@@ -312,10 +311,14 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
         melodyDialog.setArguments(value).show(fm, DialogFactory.Preference.MELODY)
     }
 
-    override fun playMelody(uri: Uri) = with(melodyControl) {
-        stop()
-        setupPlayer(uri, isLooping = false)
-        start()
+    override fun playMelody(stringUri: String) {
+        val uri = stringUri.toUri() ?: return
+
+        with(melodyControl) {
+            stop()
+            setupPlayer(uri, isLooping = false)
+            start()
+        }
     }
 
     override fun updateVolumeSummary(summary: String) {

@@ -619,7 +619,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     //endregion
 
     companion object {
-        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        @VisibleForTesting
         fun NoteItem.onSave() {
             rollList.apply {
                 removeAll { it.text.clearSpace().isEmpty() }
@@ -633,7 +633,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             updateTime().updateComplete()
         }
 
-        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        @VisibleForTesting
         fun NoteItem.onItemCheck(p: Int) {
             rollList[p].apply { isCheck = !isCheck }
             updateTime().updateComplete()
@@ -642,7 +642,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         /**
          * If have some unchecked items - need turn them to true. Otherwise uncheck all items.
          */
-        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        @VisibleForTesting
         fun NoteItem.onItemLongCheck(): Boolean {
             val check = rollList.any { !it.isCheck }
 

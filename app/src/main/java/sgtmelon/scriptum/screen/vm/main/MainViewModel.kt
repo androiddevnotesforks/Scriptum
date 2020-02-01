@@ -32,7 +32,7 @@ class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(a
 
 
     /**
-     * Key for detect application start and pageTo == [pageFrom] inside [onSelectItem]
+     * Key for detect application start and pageTo == [pageFrom] inside [onSelectItem].
      */
     private var firstStart: Boolean = true
 

@@ -93,19 +93,6 @@ class RippleContainer : RelativeLayout {
         }
     }
 
-    /**
-     * Call this on configuration changes
-     */
-    fun invalidate(hookView: View?) {
-        if (hookView == null) return
-
-        params?.let {
-            it.hookView = hookView
-
-            viewList.forEach { view -> view.layoutParams = it.childParams }
-        }
-    }
-
 
     @StringDef(Anim.SCALE_X, Anim.SCALE_Y, Anim.ALPHA)
     private annotation class Anim {

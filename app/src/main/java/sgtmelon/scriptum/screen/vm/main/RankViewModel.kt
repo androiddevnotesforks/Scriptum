@@ -220,7 +220,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         /**
          * Return list of [NoteItem.id] which need update.
          */
-        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        @VisibleForTesting
         fun List<RankItem>.correctPositions(): List<Long> {
             val noteIdSet = mutableSetOf<Long>()
 

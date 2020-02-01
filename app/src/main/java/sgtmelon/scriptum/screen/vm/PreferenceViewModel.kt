@@ -3,7 +3,6 @@ package sgtmelon.scriptum.screen.vm
 import android.content.Context
 import android.os.Bundle
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.extension.toUri
 import sgtmelon.scriptum.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
@@ -118,7 +117,7 @@ class PreferenceViewModel(
     }
 
     override fun onSelectMelody(item: Int) {
-        callback?.playMelody(uri = melodyList[item].uri.toUri() ?: return)
+        callback?.playMelody(melodyList[item].uri)
     }
 
     override fun onResultMelody(value: Int) {

@@ -91,7 +91,7 @@ class TimeDialog : DateTimeBlankDialog(), ITimeDialog {
     }
 
     companion object {
-        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        @VisibleForTesting
         var callback: ITimeDialog? = null
 
         /**

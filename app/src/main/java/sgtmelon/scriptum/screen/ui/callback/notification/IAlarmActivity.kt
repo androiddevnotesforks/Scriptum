@@ -1,9 +1,9 @@
 package sgtmelon.scriptum.screen.ui.callback.notification
 
-import android.net.Uri
-import androidx.annotation.ColorInt
+import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
+import sgtmelon.scriptum.model.key.ColorShade
 import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
 import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
 
@@ -25,18 +25,23 @@ interface IAlarmActivity : IAlarmBridge {
 
     fun setupView(@Theme theme: Int)
 
-    fun setupPlayer(volume: Int, increase: Boolean, uri: Uri)
+    fun setupPlayer(stringUri: String, volume: Int, increase: Boolean)
 
     fun notifyList(item: NoteItem)
 
 
     fun waitLayoutConfigure()
 
-    fun startRippleAnimation(@Theme theme: Int, @ColorInt fillColor: Int)
+    fun startRippleAnimation(@Theme theme: Int, @Color color: Int, shade: ColorShade)
 
     fun startButtonFadeInAnimation()
 
     fun startNoteActivity(item: NoteItem)
+
+
+    fun startLongWaitHandler(delay: Long, r: Runnable)
+
+    fun startVibratorHandler(delay: Long, r: Runnable)
 
 
     fun melodyStart()
@@ -47,7 +52,12 @@ interface IAlarmActivity : IAlarmBridge {
 
     fun vibrateCancel()
 
+
+    fun getRepeatValueArray(): IntArray
+
     fun showRepeatToast(select: Int)
+
+    fun sendUpdateBroadcast(id: Long)
 
     fun finish()
 

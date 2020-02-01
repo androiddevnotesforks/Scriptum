@@ -180,9 +180,7 @@ class BinFragment : ParentFragment(), IBinFragment {
     }
 
     override fun startNoteActivity(item: NoteItem) {
-        val context = context ?: return
-
-        startActivity(NoteActivity[context, item])
+        startActivity(NoteActivity[context ?: return, item])
     }
 
     override fun showOptionsDialog(itemArray: Array<String>, p: Int) {

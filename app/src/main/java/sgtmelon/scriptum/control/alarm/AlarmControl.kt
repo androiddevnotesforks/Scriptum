@@ -67,14 +67,15 @@ class AlarmControl(private val context: Context?) : IAlarmControl {
     }
 
     companion object {
-        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        @VisibleForTesting
         var callback: IAlarmControl? = null
 
-        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        @VisibleForTesting
         val intentList: MutableList<PendingIntent> = mutableListOf()
 
-        operator fun get(context: Context?): IAlarmControl =
-                callback ?: AlarmControl(context).also { callback = it }
+        operator fun get(context: Context?): IAlarmControl {
+            return callback ?: AlarmControl(context).also { callback = it }
+        }
     }
 
 }

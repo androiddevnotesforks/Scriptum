@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.screen.ui.callback
 
-import android.net.Uri
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.screen.ui.preference.PreferenceFragment
@@ -52,7 +51,7 @@ interface IPreferenceFragment {
 
     fun showMelodyDialog(value: Int)
 
-    fun playMelody(uri: Uri)
+    fun playMelody(stringUri: String)
 
     fun updateVolumeSummary(summary: String)
 

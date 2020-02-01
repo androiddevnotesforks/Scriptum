@@ -2,22 +2,17 @@ package sgtmelon.scriptum.screen.vm.notification
 
 import android.app.Application
 import android.os.Bundle
-import android.os.Handler
 import androidx.annotation.IdRes
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.extension.getAppSimpleColor
-import sgtmelon.scriptum.extension.sendTo
-import sgtmelon.scriptum.extension.toUri
 import sgtmelon.scriptum.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.model.annotation.Repeat
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.NoteData
-import sgtmelon.scriptum.model.data.ReceiverData
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.ColorShade
 import sgtmelon.scriptum.model.state.SignalState
@@ -44,35 +39,27 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     }
 
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     var id: Long = NoteData.Default.ID
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     lateinit var noteItem: NoteItem
+    @VisibleForTesting
+    var signalState: SignalState? = null
 
-    private var signalState: SignalState? = null
-
-    private val vibratorHandler = Handler()
+    private val longWaitRunnable = Runnable { repeatFinish() }
     private val vibratorRunnable = object : Runnable {
         override fun run() {
             callback?.vibrateStart(vibratorPattern)
-            vibratorHandler.postDelayed(this, vibratorPattern.sum())
+            callback?.startVibratorHandler(vibratorPattern.sum(), r = this)
         }
     }
-
-    private val longWaitHandler = Handler()
-    private val longWaitRunnable = Runnable { repeatFinish() }
 
     override fun onSetup(bundle: Bundle?) {
         callback?.apply {
             acquirePhone(CANCEL_DELAY)
-
             setupView(interactor.theme)
-
-            val uri = signalInteractor.melodyUri.toUri()
-            if (uri != null) {
-                setupPlayer(interactor.volume, interactor.volumeIncrease, uri)
-            }
+            setupPlayer(signalInteractor.melodyUri, interactor.volume, interactor.volumeIncrease)
         }
 
         if (bundle != null) {
@@ -92,7 +79,6 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
                 }
 
                 signalState = signalInteractor.signalState
-
                 bindInteractor.notifyInfoBind(callback)
             }
 
@@ -110,13 +96,9 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
 
         if (signalState?.isVibration == true) {
             callback?.vibrateCancel()
-            vibratorHandler.removeCallbacksAndMessages(null)
         }
 
-        longWaitHandler.removeCallbacksAndMessages(null)
-
         callback?.releasePhone()
-
         interactor.onDestroy()
     }
 
@@ -126,33 +108,31 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     }
 
     override fun onStart() {
-        val color = noteItem.color
+        val theme = interactor.theme
 
         callback?.apply {
-            val theme = interactor.theme
-            startRippleAnimation(theme, context.getAppSimpleColor(color,
-                    if (theme == Theme.LIGHT) ColorShade.ACCENT else ColorShade.DARK
-            ))
-
+            startRippleAnimation(theme, noteItem.color, getRippleShade(theme))
             startButtonFadeInAnimation()
-        }
 
-        if (signalState?.isMelody == true) {
-            callback?.melodyStart()
-        }
+            if (signalState?.isMelody == true) {
+                melodyStart()
+            }
 
-        if (signalState?.isVibration == true) {
-            vibratorHandler.postDelayed(vibratorRunnable, START_DELAY)
-        }
+            if (signalState?.isVibration == true) {
+                startVibratorHandler(START_DELAY, vibratorRunnable)
+            }
 
-        longWaitHandler.postDelayed(longWaitRunnable, CANCEL_DELAY)
+            startLongWaitHandler(CANCEL_DELAY, longWaitRunnable)
+        }
+    }
+
+    private fun getRippleShade(@Theme theme: Int): ColorShade {
+        return if (theme == Theme.LIGHT) ColorShade.ACCENT else ColorShade.DARK
     }
 
     override fun onClickNote() {
-        callback?.apply {
-            startNoteActivity(noteItem)
-            finish()
-        }
+        callback?.startNoteActivity(noteItem)
+        callback?.finish()
     }
 
     override fun onClickDisable() {
@@ -162,11 +142,10 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     override fun onClickRepeat() = repeatFinish()
 
     override fun onResultRepeatDialog(@IdRes itemId: Int) {
-        val repeat = getRepeatById(itemId) ?: interactor.repeat
-        repeatFinish(repeat)
+        repeatFinish(repeat = getRepeatById(itemId) ?: interactor.repeat)
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     fun getRepeatById(@IdRes itemId: Int): Int? = when(itemId) {
         R.id.item_repeat_0 -> Repeat.MIN_10
         R.id.item_repeat_1 -> Repeat.MIN_30
@@ -180,16 +159,13 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
      * Call this when need set alarm repeat with screen finish.
      */
     private fun repeatFinish(@Repeat repeat: Int = interactor.repeat) {
+        val valueArray = callback?.getRepeatValueArray() ?: return
+
         viewModelScope.launch {
-            val valueArray = context.resources.getIntArray(R.array.pref_alarm_repeat_array)
             interactor.setupRepeat(noteItem, valueArray, repeat)
 
             callback?.showRepeatToast(repeat)
-
-            context.sendTo(ReceiverData.Filter.MAIN, ReceiverData.Command.UPDATE_ALARM) {
-                putExtra(ReceiverData.Values.NOTE_ID, id)
-            }
-
+            callback?.sendUpdateBroadcast(id)
             callback?.finish()
         }
     }
@@ -204,11 +180,14 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     }
 
 
-    companion object {
-        private const val START_DELAY = 0L
-        const val CANCEL_DELAY = 20000L
+    private val vibratorPattern = longArrayOf(500, 750, 500, 750, 500, 0)
 
-        private val vibratorPattern = longArrayOf(500, 750, 500, 750, 500, 0)
+    companion object {
+        @VisibleForTesting
+        const val START_DELAY = 0L
+
+        @VisibleForTesting
+        const val CANCEL_DELAY = 20000L
     }
 
 }

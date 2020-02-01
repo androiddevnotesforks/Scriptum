@@ -28,7 +28,7 @@ class NotificationViewModel(application: Application) :
     }
 
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    @VisibleForTesting
     val itemList: MutableList<NotificationItem> = ArrayList()
 
     override fun onSetup(bundle: Bundle?) {

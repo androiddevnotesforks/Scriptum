@@ -45,6 +45,9 @@ class AlarmInteractor(
         return noteRepo.getItem(id, optimisation = true)
     }
 
+    /**
+     * TODO test get nullPointerException
+     */
     override suspend fun setupRepeat(noteItem: NoteItem, valueArray: IntArray,
                                      @Repeat repeat: Int) {
         val calendar = Calendar.getInstance().clearSeconds().apply {

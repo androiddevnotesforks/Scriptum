@@ -136,14 +136,15 @@ class BindControl(private val context: Context?) : IBindControl {
 
         const val INFO_ID = 0
 
-        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        @VisibleForTesting
         var callback: IBindControl? = null
 
-        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        @VisibleForTesting
         val tagIdMap: MutableMap<String, Int> = mutableMapOf()
 
-        operator fun get(context: Context?): IBindControl =
-                callback ?: BindControl(context).also { callback = it }
+        operator fun get(context: Context?): IBindControl {
+            return callback ?: BindControl(context).also { callback = it }
+        }
     }
 
 }
