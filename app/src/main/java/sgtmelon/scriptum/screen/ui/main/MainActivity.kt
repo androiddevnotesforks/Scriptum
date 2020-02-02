@@ -142,7 +142,7 @@ class MainActivity : AppActivity(), IMainActivity {
         addDialog.apply {
             itemSelectedListener = NavigationView.OnNavigationItemSelectedListener {
                 dismiss()
-                viewModel.onResultAddDialog(it)
+                viewModel.onResultAddDialog(it.itemId)
                 return@OnNavigationItemSelectedListener true
             }
             dismissListener = DialogInterface.OnDismissListener { openState.clear() }

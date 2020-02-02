@@ -22,6 +22,9 @@ class SplashViewModel(application: Application) : ParentViewModel<ISplashActivit
     }
 
 
+    /**
+     * Don't use coroutines here. Activity will be quickly destroyed.
+     */
     override fun onSetup(bundle: Bundle?) {
         if (bundle == null) {
             onSimpleStart()

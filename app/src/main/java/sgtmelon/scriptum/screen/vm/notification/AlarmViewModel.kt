@@ -111,7 +111,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         val theme = interactor.theme
 
         callback?.apply {
-            startRippleAnimation(theme, noteItem.color, getRippleShade(theme))
+            startRippleAnimation(theme, noteItem.color, theme.getRippleShade())
             startButtonFadeInAnimation()
 
             if (signalState?.isMelody == true) {
@@ -126,8 +126,8 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         }
     }
 
-    private fun getRippleShade(@Theme theme: Int): ColorShade {
-        return if (theme == Theme.LIGHT) ColorShade.ACCENT else ColorShade.DARK
+    private fun Int.getRippleShade(): ColorShade = let {
+        return if (it == Theme.LIGHT) ColorShade.ACCENT else ColorShade.DARK
     }
 
     override fun onClickNote() {
@@ -145,8 +145,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         repeatFinish(repeat = getRepeatById(itemId) ?: interactor.repeat)
     }
 
-    @VisibleForTesting
-    fun getRepeatById(@IdRes itemId: Int): Int? = when(itemId) {
+    private fun getRepeatById(@IdRes itemId: Int): Int? = when(itemId) {
         R.id.item_repeat_0 -> Repeat.MIN_10
         R.id.item_repeat_1 -> Repeat.MIN_30
         R.id.item_repeat_2 -> Repeat.MIN_60

@@ -2,15 +2,16 @@ package sgtmelon.scriptum.screen.vm.main
 
 import android.app.Application
 import android.os.Bundle
-import android.view.MenuItem
 import androidx.annotation.IdRes
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.interactor.callback.main.IMainInteractor
-import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.MainPage
+import sgtmelon.scriptum.model.key.NoteType
+import sgtmelon.scriptum.screen.ui.SplashActivity
 import sgtmelon.scriptum.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.screen.ui.main.MainActivity
 import sgtmelon.scriptum.screen.vm.ParentViewModel
@@ -34,12 +35,18 @@ class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(a
     /**
      * Key for detect application start and pageTo == [pageFrom] inside [onSelectItem].
      */
-    private var firstStart: Boolean = true
+    @VisibleForTesting
+    var firstStart: Boolean = true
 
-    private var pageFrom: MainPage = START_PAGE
+    @VisibleForTesting
+    var pageFrom: MainPage = START_PAGE
 
     override fun onSetup(bundle: Bundle?) {
         if (bundle == null) {
+            /**
+             * Work with alarm and notification coroutines need do here.
+             * Because [SplashActivity] will be quickly destroyed.
+             */
             viewModelScope.launch {
                 interactor.tidyUpAlarm()
                 bindInteractor.notifyNoteBind(callback)
@@ -47,18 +54,28 @@ class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(a
             }
         } else {
             firstStart = bundle.getBoolean(FIRST_START)
-            pageFrom = MainPage.values()[bundle.getInt(PAGE_CURRENT)]
+            pageFrom = MainPage.values().getOrNull(bundle.getInt(PAGE_CURRENT)) ?: START_PAGE
         }
 
         callback?.setupNavigation(pageFrom.getMenuId())
 
-        bundle?.let { callback?.setFabState(state = pageFrom == MainPage.NOTES) }
+        if (bundle != null) {
+            callback?.setFabState(pageFrom.isStartPage())
+        }
+    }
+
+    private fun MainPage.getMenuId(): Int = let {
+        return@let when (it) {
+            MainPage.RANK -> R.id.item_page_rank
+            MainPage.NOTES -> R.id.item_page_notes
+            MainPage.BIN -> R.id.item_page_bin
+        }
     }
 
 
-    override fun onSaveData(bundle: Bundle) = bundle.let {
-        it.putBoolean(FIRST_START, firstStart)
-        it.putInt(PAGE_CURRENT, pageFrom.ordinal)
+    override fun onSaveData(bundle: Bundle) = with(bundle) {
+        putBoolean(FIRST_START, firstStart)
+        putInt(PAGE_CURRENT, pageFrom.ordinal)
     }
 
     override fun onSelectItem(@IdRes itemId: Int) {
@@ -67,7 +84,7 @@ class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(a
         if (!firstStart && pageTo == pageFrom) {
             callback?.scrollTop(pageTo)
         } else {
-            if (firstStart) firstStart = false
+            firstStart = false
 
             callback?.apply {
                 setFabState(pageTo.isStartPage())
@@ -78,16 +95,30 @@ class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(a
         pageFrom = pageTo
     }
 
+    private fun Int.getPageById(): MainPage? = let {
+        return@let when (it) {
+            R.id.item_page_rank -> MainPage.RANK
+            R.id.item_page_notes -> MainPage.NOTES
+            R.id.item_page_bin -> MainPage.BIN
+            else -> null
+        }
+    }
+
     /**
-     * Change FAB state consider [pageFrom].
+     * Change FAB state consider on [pageFrom].
      */
     override fun onFabStateChange(state: Boolean) {
         callback?.setFabState(pageFrom.isStartPage() && state)
     }
 
-    override fun onResultAddDialog(menuItem: MenuItem) {
-        val noteType = NoteData.getTypeById(menuItem.itemId) ?: return
-        callback?.startNoteActivity(noteType)
+    override fun onResultAddDialog(@IdRes itemId: Int) {
+        callback?.startNoteActivity(noteType = getTypeById(itemId) ?: return)
+    }
+
+    private fun getTypeById(@IdRes itemId: Int): NoteType? = when (itemId) {
+        R.id.item_add_text -> NoteType.TEXT
+        R.id.item_add_roll -> NoteType.ROLL
+        else -> null
     }
 
 
@@ -100,31 +131,17 @@ class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(a
     }
 
 
-    private fun MainPage.getMenuId(): Int = let {
-        return@let when (it) {
-            MainPage.RANK -> R.id.item_page_rank
-            MainPage.NOTES -> R.id.item_page_notes
-            MainPage.BIN -> R.id.item_page_bin
-        }
-    }
-
-    private fun Int.getPageById(): MainPage? = let {
-        return@let when (it) {
-            R.id.item_page_rank -> MainPage.RANK
-            R.id.item_page_notes -> MainPage.NOTES
-            R.id.item_page_bin -> MainPage.BIN
-            else -> null
-        }
-    }
-
     private fun MainPage.isStartPage() = this == START_PAGE
 
-    private companion object {
-        val START_PAGE = MainPage.NOTES
+    companion object {
+        private val START_PAGE = MainPage.NOTES
 
-        const val PREFIX = "MAIN"
+        private const val PREFIX = "MAIN"
 
+        @VisibleForTesting
         const val FIRST_START = "${PREFIX}_FIRST_START"
+
+        @VisibleForTesting
         const val PAGE_CURRENT = "${PREFIX}_PAGE_CURRENT"
     }
 

@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.screen.vm.callback.main
 
 import android.os.Bundle
-import android.view.MenuItem
 import androidx.annotation.IdRes
 import sgtmelon.scriptum.receiver.MainReceiver
 import sgtmelon.scriptum.screen.ui.main.MainActivity
@@ -19,6 +18,6 @@ interface IMainViewModel : IParentViewModel, MainReceiver.Callback {
 
     fun onFabStateChange(state: Boolean)
 
-    fun onResultAddDialog(menuItem: MenuItem)
+    fun onResultAddDialog(@IdRes itemId: Int)
 
 }

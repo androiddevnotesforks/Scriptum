@@ -195,7 +195,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
     @Test fun onSaveData() {
         val id = Random.nextLong()
 
-        every { bundle.putLong(NoteData.Intent.ID, id) } returns Unit
+        every { bundle.putLong(NoteData.Intent.ID, any()) } returns Unit
 
         viewModel.id = id
         viewModel.onSaveData(bundle)
@@ -285,24 +285,30 @@ class AlarmViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onResultRepeatDialog() {
-        val repeatInteractor = Repeat.MIN_10
-        val repeatDialog = Repeat.MIN_30
-
         val noteItem = data.noteFirst.copy()
 
-        every { interactor.repeat } returns repeatInteractor
+        every { interactor.repeat } returns Repeat.MIN_10
         every { callback.getRepeatValueArray() } returns repeatArray
 
         viewModel.id = noteItem.id
         viewModel.noteItem = noteItem
 
-        viewModel.onResultRepeatDialog(BAD_ITEM_ID)
+        viewModel.onResultRepeatDialog(R.id.item_repeat_0)
         viewModel.onResultRepeatDialog(R.id.item_repeat_1)
+        viewModel.onResultRepeatDialog(R.id.item_repeat_2)
+        viewModel.onResultRepeatDialog(R.id.item_repeat_3)
+        viewModel.onResultRepeatDialog(R.id.item_repeat_4)
+        viewModel.onResultRepeatDialog(itemId = -1)
 
         coVerifySequence {
+            verifyRepeatFinish(Repeat.MIN_10, noteItem)
+            verifyRepeatFinish(Repeat.MIN_30, noteItem)
+            verifyRepeatFinish(Repeat.MIN_60, noteItem)
+            verifyRepeatFinish(Repeat.MIN_180, noteItem)
+            verifyRepeatFinish(Repeat.MIN_1440, noteItem)
+
             interactor.repeat
-            verifyRepeatFinish(repeatInteractor, noteItem)
-            verifyRepeatFinish(repeatDialog, noteItem)
+            verifyRepeatFinish(Repeat.MIN_10, noteItem)
         }
     }
 
@@ -313,15 +319,6 @@ class AlarmViewModelTest : ParentViewModelTest() {
         callback.showRepeatToast(repeat)
         callback.sendUpdateBroadcast(noteItem.id)
         callback.finish()
-    }
-
-    @Test fun getRepeatById() {
-        assertEquals(Repeat.MIN_10, viewModel.getRepeatById(R.id.item_repeat_0))
-        assertEquals(Repeat.MIN_30, viewModel.getRepeatById(R.id.item_repeat_1))
-        assertEquals(Repeat.MIN_60, viewModel.getRepeatById(R.id.item_repeat_2))
-        assertEquals(Repeat.MIN_180, viewModel.getRepeatById(R.id.item_repeat_3))
-        assertEquals(Repeat.MIN_1440, viewModel.getRepeatById(R.id.item_repeat_4))
-        assertNull(viewModel.getRepeatById(BAD_ITEM_ID))
     }
 
     @Test fun onReceiveUnbindNote() {
@@ -344,7 +341,6 @@ class AlarmViewModelTest : ParentViewModelTest() {
     private val repeatArray = intArrayOf(Repeat.MIN_180, Repeat.MIN_1440)
 
     private companion object {
-        const val BAD_ITEM_ID = -1
         const val URI = "testUri"
     }
 }

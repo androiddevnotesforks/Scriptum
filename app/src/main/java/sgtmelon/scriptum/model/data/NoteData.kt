@@ -6,12 +6,6 @@ import sgtmelon.scriptum.model.key.NoteType
 
 object NoteData {
 
-    fun getTypeById(@IdRes itemId: Int): NoteType? = when (itemId) {
-        R.id.item_add_text -> NoteType.TEXT
-        R.id.item_add_roll -> NoteType.ROLL
-        else -> null
-    }
-
     object Intent {
         private const val PREFIX = "INTENT_NOTE"
 
