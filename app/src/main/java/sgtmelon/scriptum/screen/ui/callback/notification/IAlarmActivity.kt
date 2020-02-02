@@ -56,7 +56,7 @@ interface IAlarmActivity : IAlarmBridge {
 
     fun showRepeatToast(select: Int)
 
-    fun getIntArray(@ArrayRes id: Int): IntArray
+    fun getIntArray(@ArrayRes arrayId: Int): IntArray
 
     fun sendUpdateBroadcast(id: Long)
 

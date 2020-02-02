@@ -65,4 +65,7 @@ interface ITextNoteFragment : ITextNoteBridge {
 
     fun showConvertDialog()
 
+
+    fun showSaveToast(success: Boolean)
+
 }

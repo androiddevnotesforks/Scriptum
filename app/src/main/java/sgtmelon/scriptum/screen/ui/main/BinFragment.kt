@@ -206,7 +206,7 @@ class BinFragment : ParentFragment(), IBinFragment {
     }
 
 
-    override fun getStringArray(@ArrayRes id: Int): Array<String> = resources.getStringArray(id)
+    override fun getStringArray(@ArrayRes arrayId: Int): Array<String> = resources.getStringArray(arrayId)
 
 
     override fun copyClipboard(text: String) = clipboardControl.copy(text)

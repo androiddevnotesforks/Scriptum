@@ -42,6 +42,6 @@ interface IBinFragment : IBinBridge{
     fun notifyItemRemoved(list: List<NoteItem>, p: Int)
 
 
-    fun getStringArray(@ArrayRes id: Int): Array<String>
+    fun getStringArray(@ArrayRes arrayId: Int): Array<String>
 
 }

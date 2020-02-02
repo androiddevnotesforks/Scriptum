@@ -100,4 +100,7 @@ interface IRollNoteFragment : IRollNoteBridge {
 
     fun showConvertDialog()
 
+
+    fun showSaveToast(success: Boolean)
+
 }

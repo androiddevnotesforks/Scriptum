@@ -469,6 +469,13 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment, NoteReceiver.Callb
     }
 
 
+    override fun showSaveToast(success: Boolean) {
+        val text = if (success) R.string.toast_note_save_done else R.string.toast_note_save_error
+
+        context?.showToast(text)
+    }
+
+
     override fun setAlarm(calendar: Calendar, id: Long) {
         alarmControl.set(calendar, id)
     }

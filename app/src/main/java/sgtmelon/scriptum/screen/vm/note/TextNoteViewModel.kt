@@ -7,11 +7,9 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.extension.beforeNow
 import sgtmelon.extension.getCalendar
-import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.SaveControl
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.extension.clearSpace
-import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.model.annotation.InputAction
@@ -433,9 +431,9 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
     //endregion
 
-    override fun onResultSaveControl() = context.showToast(
-            if (onMenuSave(changeMode = false)) R.string.toast_note_save_done else R.string.toast_note_save_error
-    )
+    override fun onResultSaveControl() {
+        callback?.showSaveToast(onMenuSave(changeMode = false))
+    }
 
     override fun onInputTextChange() {
         callback?.onBindingInput(noteItem, inputControl.access)

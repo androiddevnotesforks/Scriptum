@@ -9,6 +9,7 @@ import sgtmelon.extension.beforeNow
 import sgtmelon.extension.getCalendar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.clearAddAll
+import sgtmelon.scriptum.extension.removeAtOrNull
 import sgtmelon.scriptum.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.model.annotation.Sort
@@ -85,30 +86,31 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
 
 
     override fun onClickNote(p: Int) {
-        callback?.startNoteActivity(itemList[p])
+        callback?.startNoteActivity(item = itemList.getOrNull(p) ?: return)
     }
 
     override fun onShowOptionsDialog(p: Int) {
-        val noteItem = itemList[p]
+        val callback = callback ?: return
+        val noteItem = itemList.getOrNull(p) ?: return
 
-        val itemArray: Array<String> = context.resources.getStringArray(when (noteItem.type) {
+        val itemArray: Array<String> = callback.getStringArray(when (noteItem.type) {
             NoteType.TEXT -> R.array.dialog_menu_text
             NoteType.ROLL -> R.array.dialog_menu_roll
         })
 
         itemArray[Options.NOTIFICATION] = if (noteItem.haveAlarm()) {
-            context.getString(R.string.dialog_menu_notification_update)
+            callback.getString(R.string.dialog_menu_notification_update)
         } else {
-            context.getString(R.string.dialog_menu_notification_set)
+            callback.getString(R.string.dialog_menu_notification_set)
         }
 
         itemArray[Options.BIND] = if (noteItem.isStatus) {
-            context.getString(R.string.dialog_menu_status_unbind)
+            callback.getString(R.string.dialog_menu_status_unbind)
         } else {
-            context.getString(R.string.dialog_menu_status_bind)
+            callback.getString(R.string.dialog_menu_status_bind)
         }
 
-        callback?.showOptionsDialog(itemArray, p)
+        callback.showOptionsDialog(itemArray, p)
     }
 
 
@@ -117,19 +119,19 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
             Options.NOTIFICATION -> onMenuNotification(p)
             Options.BIND -> onMenuBind(p)
             Options.CONVERT -> onMenuConvert(p)
-            Options.COPY -> viewModelScope.launch { interactor.copy(itemList[p]) }
+            Options.COPY -> onMenuCopy(p)
             Options.DELETE -> onMenuDelete(p)
         }
     }
 
     private fun onMenuNotification(p: Int) {
-        val item = itemList[p]
+        val item = itemList.getOrNull(p) ?: return
 
         callback?.showDateDialog(item.alarmDate.getCalendar(), item.haveAlarm(), p)
     }
 
     private fun onMenuBind(p: Int) {
-        val item = itemList[p].apply { isStatus = !isStatus }
+        val item = itemList.getOrNull(p)?.apply { isStatus = !isStatus } ?: return
 
         viewModelScope.launch { interactor.updateNote(item) }
 
@@ -137,7 +139,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
     }
 
     private fun onMenuConvert(p: Int) {
-        val item = itemList[p]
+        val item = itemList.getOrNull(p) ?: return
 
         viewModelScope.launch {
             interactor.convert(item)
@@ -147,8 +149,14 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
         }
     }
 
+    private fun onMenuCopy(p: Int) {
+        val item = itemList.getOrNull(p) ?: return
+
+        viewModelScope.launch { interactor.copy(item) }
+    }
+
     private fun onMenuDelete(p: Int) {
-        val item = itemList.removeAt(p)
+        val item = itemList.removeAtOrNull(p) ?: return
 
         viewModelScope.launch {
             interactor.deleteNote(item)
@@ -164,7 +172,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
     }
 
     override fun onResultDateDialogClear(p: Int) {
-        val noteItem = itemList[p]
+        val noteItem = itemList.getOrNull(p) ?: return
 
         viewModelScope.launch {
             interactor.clearDate(noteItem)
@@ -179,8 +187,10 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
     override fun onResultTimeDialog(calendar: Calendar, p: Int) {
         if (calendar.beforeNow()) return
 
+        val item = itemList.getOrNull(p) ?: return
+
         viewModelScope.launch {
-            interactor.setDate(itemList[p], calendar)
+            interactor.setDate(item, calendar)
             callback?.notifyItemChanged(itemList, p)
 
             bindInteractor.notifyInfoBind(callback)

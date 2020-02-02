@@ -244,10 +244,13 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
 
     override fun showRepeatToast(select: Int) {
-        showToast(getString(R.string.toast_alarm_repeat, resources.getStringArray(R.array.pref_text_alarm_repeat)[select]))
+        val repeatArray = resources.getStringArray(R.array.pref_text_alarm_repeat)
+        val repeatText = repeatArray.getOrNull(select) ?: return
+
+        showToast(getString(R.string.toast_alarm_repeat, repeatText))
     }
 
-    override fun getIntArray(@ArrayRes id: Int): IntArray = resources.getIntArray(id)
+    override fun getIntArray(@ArrayRes arrayId: Int): IntArray = resources.getIntArray(arrayId)
 
     override fun sendUpdateBroadcast(id: Long) {
         sendTo(ReceiverData.Filter.MAIN, ReceiverData.Command.UPDATE_ALARM) {

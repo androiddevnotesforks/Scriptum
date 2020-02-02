@@ -93,13 +93,13 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
 
     override fun onResultOptionsDialog(p: Int, which: Int) {
         when (which) {
-            Options.RESTORE -> restoreNote(p)
-            Options.COPY -> copyNote(p)
-            Options.CLEAR -> clearNote(p)
+            Options.RESTORE -> onMenuRestore(p)
+            Options.COPY -> onMenuCopy(p)
+            Options.CLEAR -> onMenuClear(p)
         }
     }
 
-    private fun restoreNote(p: Int) {
+    private fun onMenuRestore(p: Int) {
         val item = itemList.removeAtOrNull(p) ?: return
 
         viewModelScope.launch { interactor.restoreNote(item) }
@@ -108,13 +108,13 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
         callback?.notifyMenuClearBin()
     }
 
-    private fun copyNote(p: Int) {
+    private fun onMenuCopy(p: Int) {
         val item = itemList.getOrNull(p) ?: return
 
         viewModelScope.launch { interactor.copy(item) }
     }
 
-    private fun clearNote(p: Int) {
+    private fun onMenuClear(p: Int) {
         val item = itemList.removeAtOrNull(p) ?: return
 
         viewModelScope.launch { interactor.clearNote(item) }

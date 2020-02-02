@@ -88,11 +88,12 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     }
 
     override fun onShowRenameDialog(p: Int) {
-        callback?.showRenameDialog(p, itemList[p].name, nameList)
+        val item = itemList.getOrNull(p) ?: return
+        callback?.showRenameDialog(p, item.name, nameList)
     }
 
     override fun onRenameDialog(p: Int, name: String) {
-        val item = itemList[p].apply { this.name = name }
+        val item = itemList.getOrNull(p)?.apply { this.name = name } ?: return
 
         viewModelScope.launch { interactor.update(item) }
 
@@ -136,7 +137,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     }
 
     override fun onClickVisible(p: Int) {
-        val item = itemList[p].apply { isVisible = !isVisible }
+        val item = itemList.getOrNull(p)?.apply { isVisible = !isVisible } ?: return
 
         callback?.setList(itemList)
 

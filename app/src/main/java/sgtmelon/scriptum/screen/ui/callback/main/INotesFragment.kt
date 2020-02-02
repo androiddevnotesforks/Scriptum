@@ -1,6 +1,8 @@
 package sgtmelon.scriptum.screen.ui.callback.main
 
 
+import androidx.annotation.ArrayRes
+import androidx.annotation.StringRes
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.screen.ui.main.NotesFragment
@@ -48,5 +50,10 @@ interface INotesFragment : INotesBridge {
     fun notifyItemChanged(list: List<NoteItem>, p: Int)
 
     fun notifyItemRemoved(list: List<NoteItem>, p: Int)
+
+
+    fun getStringArray(@ArrayRes arrayId: Int): Array<String>
+
+    fun getString(@StringRes stringId: Int): String
 
 }

@@ -9,12 +9,10 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import kotlinx.coroutines.launch
 import sgtmelon.extension.beforeNow
 import sgtmelon.extension.getCalendar
-import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.SaveControl
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.extension.clearSpace
 import sgtmelon.scriptum.extension.move
-import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.model.annotation.InputAction
@@ -557,9 +555,9 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
     //endregion
 
-    override fun onResultSaveControl() = context.showToast(
-            if (onMenuSave(changeMode = false)) R.string.toast_note_save_done else R.string.toast_note_save_error
-    )
+    override fun onResultSaveControl() {
+        callback?.showSaveToast(onMenuSave(changeMode = false))
+    }
 
     override fun onInputTextChange() {
         callback?.onBindingInput(noteItem, inputControl.access)
