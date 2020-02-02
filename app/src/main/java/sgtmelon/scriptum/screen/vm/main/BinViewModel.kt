@@ -2,10 +2,12 @@ package sgtmelon.scriptum.screen.vm.main
 
 import android.app.Application
 import android.os.Bundle
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.clearAddAll
+import sgtmelon.scriptum.extension.removeAtOrNull
 import sgtmelon.scriptum.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.screen.ui.callback.main.IBinFragment
@@ -27,13 +29,12 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
     }
 
 
-    private val itemList: MutableList<NoteItem> = ArrayList()
+    @VisibleForTesting
+    val itemList: MutableList<NoteItem> = ArrayList()
 
     override fun onSetup(bundle: Bundle?) {
-        callback?.apply {
-            setupToolbar()
-            setupRecycler(interactor.theme)
-        }
+        callback?.setupToolbar()
+        callback?.setupRecycler(interactor.theme)
     }
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy { interactor.onDestroy() }
@@ -42,15 +43,16 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
     override fun onUpdateData() {
         callback?.beforeLoad()
 
+        fun updateList() = callback?.apply {
+            notifyList(itemList)
+            notifyMenuClearBin()
+            onBindingList()
+        }
+
         /**
          * If was rotation need show list. After that fetch updates.
          */
-        if (itemList.isNotEmpty()) {
-            callback?.apply {
-                notifyList(itemList)
-                onBindingList()
-            }
-        }
+        if (itemList.isNotEmpty()) updateList()
 
         viewModelScope.launch {
             if (interactor.getCount() == 0) {
@@ -63,11 +65,7 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
                 itemList.clearAddAll(interactor.getList())
             }
 
-            callback?.apply {
-                notifyList(itemList)
-                notifyMenuClearBin()
-                onBindingList()
-            }
+            updateList()
         }
     }
 
@@ -84,31 +82,41 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
     }
 
     override fun onClickNote(p: Int) {
-        callback?.startNoteActivity(itemList[p])
+        callback?.startNoteActivity(item = itemList.getOrNull(p) ?: return)
     }
 
     override fun onShowOptionsDialog(p: Int) {
-        callback?.showOptionsDialog(context.resources.getStringArray(R.array.dialog_menu_bin), p)
+        val itemArray = callback?.getStringArray(R.array.dialog_menu_bin) ?: return
+
+        callback?.showOptionsDialog(itemArray, p)
     }
 
     override fun onResultOptionsDialog(p: Int, which: Int) {
         when (which) {
-            Options.RESTORE -> restoreItem(p)
-            Options.COPY -> viewModelScope.launch { interactor.copy(itemList[p]) }
-            Options.CLEAR -> clearItem(p)
+            Options.RESTORE -> restoreNote(p)
+            Options.COPY -> copyNote(p)
+            Options.CLEAR -> clearNote(p)
         }
     }
 
-    private fun restoreItem(p: Int) {
-        val item = itemList.removeAt(p)
+    private fun restoreNote(p: Int) {
+        val item = itemList.removeAtOrNull(p) ?: return
+
         viewModelScope.launch { interactor.restoreNote(item) }
 
         callback?.notifyItemRemoved(itemList, p)
         callback?.notifyMenuClearBin()
     }
 
-    private fun clearItem(p: Int) {
-        val item = itemList.removeAt(p)
+    private fun copyNote(p: Int) {
+        val item = itemList.getOrNull(p) ?: return
+
+        viewModelScope.launch { interactor.copy(item) }
+    }
+
+    private fun clearNote(p: Int) {
+        val item = itemList.removeAtOrNull(p) ?: return
+
         viewModelScope.launch { interactor.clearNote(item) }
 
         callback?.notifyItemRemoved(itemList, p)

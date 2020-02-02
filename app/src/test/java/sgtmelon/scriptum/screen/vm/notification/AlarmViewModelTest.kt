@@ -81,7 +81,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
     }
 
 
-    @Test fun onSetup_onFirstStart_withGoodModel() {
+    @Test fun onSetup_onFirstStart_withGoodModel() = startCoTest {
         val id = Random.nextLong()
         val noteItem = data.noteThird
 
@@ -122,7 +122,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
         }
     }
 
-    @Test fun onSetup_onFirstStart_withBadModel() {
+    @Test fun onSetup_onFirstStart_withBadModel() = startCoTest {
         val id = Random.nextLong()
 
         every { interactor.theme } returns Theme.LIGHT
@@ -265,13 +265,13 @@ class AlarmViewModelTest : ParentViewModelTest() {
         verifySequence { callback.finish() }
     }
 
-    @Test fun onClickRepeat() {
+    @Test fun onClickRepeat() = startCoTest {
         val repeat = Repeat.MIN_10
         val noteItem = data.noteFirst.copy()
         val repeatArray = intArrayOf(Repeat.MIN_180, Repeat.MIN_1440)
 
         every { interactor.repeat } returns repeat
-        every { callback.getRepeatValueArray() } returns repeatArray
+        every { callback.getIntArray(R.array.pref_alarm_repeat_array) } returns repeatArray
 
         viewModel.id = noteItem.id
         viewModel.noteItem = noteItem
@@ -284,11 +284,11 @@ class AlarmViewModelTest : ParentViewModelTest() {
         }
     }
 
-    @Test fun onResultRepeatDialog() {
+    @Test fun onResultRepeatDialog() = startCoTest {
         val noteItem = data.noteFirst.copy()
 
         every { interactor.repeat } returns Repeat.MIN_10
-        every { callback.getRepeatValueArray() } returns repeatArray
+        every { callback.getIntArray(R.array.pref_alarm_repeat_array) } returns repeatArray
 
         viewModel.id = noteItem.id
         viewModel.noteItem = noteItem
@@ -313,7 +313,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
     }
 
     private suspend fun verifyRepeatFinish(@Repeat repeat: Int, noteItem: NoteItem) {
-        callback.getRepeatValueArray()
+        callback.getIntArray(R.array.pref_alarm_repeat_array)
         interactor.setupRepeat(noteItem, repeatArray, repeat)
 
         callback.showRepeatToast(repeat)

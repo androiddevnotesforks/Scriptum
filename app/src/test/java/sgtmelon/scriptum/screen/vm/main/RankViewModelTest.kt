@@ -10,7 +10,7 @@ import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.screen.vm.main.RankViewModel.Companion.correctPositions
 
 /**
- * Test for [RankViewModel]
+ * Test for [RankViewModel].
  */
 @ExperimentalCoroutinesApi
 class RankViewModelTest : ParentTest() {

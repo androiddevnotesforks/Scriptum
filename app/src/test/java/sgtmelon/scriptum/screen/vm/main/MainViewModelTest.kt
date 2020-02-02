@@ -28,7 +28,7 @@ import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
 import kotlin.random.Random
 
 /**
- * Test for [MainViewModel]
+ * Test for [MainViewModel].
  */
 @ExperimentalCoroutinesApi
 class MainViewModelTest : ParentViewModelTest() {
@@ -53,12 +53,15 @@ class MainViewModelTest : ParentViewModelTest() {
 
     @Test override fun onDestroy() {
         assertNotNull(viewModel.callback)
+
         viewModel.onDestroy()
+
         assertNull(viewModel.callback)
+        verifySequence { interactor.onDestroy() }
     }
 
 
-    @Test fun onSetup_onFirstStart() {
+    @Test fun onSetup_onFirstStart() = startCoTest {
         viewModel.pageFrom = MainPage.NOTES
         viewModel.onSetup()
 

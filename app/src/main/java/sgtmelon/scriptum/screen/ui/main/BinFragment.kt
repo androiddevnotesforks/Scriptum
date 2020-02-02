@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.ArrayRes
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -203,6 +204,9 @@ class BinFragment : ParentFragment(), IBinFragment {
     override fun notifyItemRemoved(list: List<NoteItem>, p: Int) {
         adapter.setList(list).notifyItemRemoved(p)
     }
+
+
+    override fun getStringArray(@ArrayRes id: Int): Array<String> = resources.getStringArray(id)
 
 
     override fun copyClipboard(text: String) = clipboardControl.copy(text)

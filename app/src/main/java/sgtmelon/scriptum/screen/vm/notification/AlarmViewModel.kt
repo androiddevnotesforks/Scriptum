@@ -158,7 +158,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
      * Call this when need set alarm repeat with screen finish.
      */
     private fun repeatFinish(@Repeat repeat: Int = interactor.repeat) {
-        val valueArray = callback?.getRepeatValueArray() ?: return
+        val valueArray = callback?.getIntArray(R.array.pref_alarm_repeat_array) ?: return
 
         viewModelScope.launch {
             interactor.setupRepeat(noteItem, valueArray, repeat)

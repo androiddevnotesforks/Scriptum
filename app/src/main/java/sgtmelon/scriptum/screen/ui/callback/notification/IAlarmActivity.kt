@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.screen.ui.callback.notification
 
+import androidx.annotation.ArrayRes
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
@@ -53,9 +54,9 @@ interface IAlarmActivity : IAlarmBridge {
     fun vibrateCancel()
 
 
-    fun getRepeatValueArray(): IntArray
-
     fun showRepeatToast(select: Int)
+
+    fun getIntArray(@ArrayRes id: Int): IntArray
 
     fun sendUpdateBroadcast(id: Long)
 

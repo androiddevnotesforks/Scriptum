@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.screen.vm.callback.notification
 
 import android.os.Bundle
-import android.view.MenuItem
 import androidx.annotation.IdRes
 import sgtmelon.scriptum.receiver.NoteReceiver
 import sgtmelon.scriptum.screen.ui.notification.AlarmActivity

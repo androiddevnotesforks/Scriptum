@@ -1,31 +1,36 @@
-package sgtmelon.scriptum.screen.vm.notification
+package sgtmelon.scriptum.screen.vm.main
 
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.coVerifySequence
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.verifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.scriptum.ParentViewModelTest
+import sgtmelon.scriptum.R
 import sgtmelon.scriptum.TestData
-import sgtmelon.scriptum.interactor.callback.notification.INotificationInteractor
+import sgtmelon.scriptum.interactor.callback.main.IBinInteractor
+import sgtmelon.scriptum.model.annotation.Options
 import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.model.item.NotificationItem
-import sgtmelon.scriptum.screen.ui.callback.notification.INotificationActivity
+import sgtmelon.scriptum.model.item.NoteItem
+import sgtmelon.scriptum.screen.ui.callback.main.IBinFragment
 import kotlin.random.Random
 
 /**
- * Test for [NotificationViewModel].
+ * Test for [BinViewModel].
  */
 @ExperimentalCoroutinesApi
-class NotificationViewModelTest : ParentViewModelTest() {
+class BinViewModelTest : ParentViewModelTest() {
 
-    private val data = TestData.Notification
+    private val data = TestData.Note
 
-    @MockK lateinit var callback: INotificationActivity
+    @MockK lateinit var callback: IBinFragment
 
-    @MockK lateinit var interactor: INotificationInteractor
+    @MockK lateinit var interactor: IBinInteractor
 
-    private val viewModel by lazy { NotificationViewModel(application) }
+    private val viewModel by lazy { BinViewModel(application) }
 
     override fun setUp() {
         super.setUp()
@@ -46,12 +51,19 @@ class NotificationViewModelTest : ParentViewModelTest() {
 
     @Test fun onSetup() {
         every { interactor.theme } returns Theme.LIGHT
-
         viewModel.onSetup()
 
-        verifyAll {
+        every { interactor.theme } returns Theme.DARK
+        viewModel.onSetup()
+
+        verifySequence {
             callback.setupToolbar()
-            callback.setupRecycler(interactor.theme)
+            interactor.theme
+            callback.setupRecycler(Theme.LIGHT)
+
+            callback.setupToolbar()
+            interactor.theme
+            callback.setupRecycler(Theme.DARK)
         }
     }
 
@@ -124,11 +136,30 @@ class NotificationViewModelTest : ParentViewModelTest() {
         }
     }
 
-    private fun updateList(itemList: List<NotificationItem>) = with(callback) {
+    private fun updateList(itemList: List<NoteItem>) = with(callback) {
         notifyList(itemList)
+        notifyMenuClearBin()
         onBindingList()
     }
 
+
+
+    @Test fun onClickClearBin() = startCoTest {
+        viewModel.itemList.addAll(data.itemList)
+        assertEquals(data.itemList, viewModel.itemList)
+
+        viewModel.onClickClearBin()
+
+        coVerifySequence {
+            interactor.clearBin()
+
+            callback.apply {
+                notifyDataSetChanged(listOf())
+                notifyMenuClearBin()
+                onBindingList()
+            }
+        }
+    }
 
     @Test fun onClickNote() {
         viewModel.onClickNote(Random.nextInt())
@@ -142,24 +173,74 @@ class NotificationViewModelTest : ParentViewModelTest() {
         verifySequence { callback.startNoteActivity(data.itemList[p]) }
     }
 
-    @Test fun onClickCancel() = startCoTest {
-        viewModel.onClickCancel(Random.nextInt())
+    @Test fun onShowOptionsDialog() {
+        val p = Random.nextInt()
+
+        every { callback.getStringArray(R.array.dialog_menu_bin) } returns arrayOf()
+
+        viewModel.onShowOptionsDialog(p)
+
+        verifySequence {
+            callback.getStringArray(R.array.dialog_menu_bin)
+            callback.showOptionsDialog(arrayOf(), p)
+        }
+    }
+
+    @Test fun onResultOptionsDialog_onRestore() = startCoTest {
+        viewModel.onResultOptionsDialog(Random.nextInt(), Options.Bin.RESTORE)
 
         val itemList = data.itemList.toMutableList()
 
         viewModel.itemList.addAll(itemList)
         assertEquals(itemList, viewModel.itemList)
 
-        val p = itemList.indices.random()
+        val p = data.itemList.indices.random()
         val item = itemList.removeAt(p)
 
-        viewModel.onClickCancel(p)
+        viewModel.onResultOptionsDialog(p, Options.Bin.RESTORE)
 
-        coVerifyAll {
-            interactor.cancelNotification(item)
+        coVerifySequence {
+            interactor.restoreNote(item)
 
-            callback.notifyInfoBind(itemList.size)
             callback.notifyItemRemoved(itemList, p)
+            callback.notifyMenuClearBin()
+        }
+    }
+
+    @Test fun onResultOptionsDialog_onCopy() = startCoTest {
+        viewModel.onResultOptionsDialog(Random.nextInt(), Options.Bin.COPY)
+
+        val itemList = data.itemList.toMutableList()
+
+        viewModel.itemList.addAll(itemList)
+        assertEquals(itemList, viewModel.itemList)
+
+        val p = data.itemList.indices.random()
+        val item = itemList[p]
+
+        viewModel.onResultOptionsDialog(p, Options.Bin.COPY)
+
+        coVerifySequence { interactor.copy(item) }
+    }
+
+    @Test fun onResultOptionsDialog_onClear() = startCoTest {
+        viewModel.onResultOptionsDialog(Random.nextInt(), Options.Bin.CLEAR)
+
+        val itemList = data.itemList.toMutableList()
+
+        viewModel.itemList.addAll(itemList)
+        assertEquals(itemList, viewModel.itemList)
+
+        val p = data.itemList.indices.random()
+        val item = itemList.removeAt(p)
+
+        viewModel.onResultOptionsDialog(p, Options.Bin.CLEAR)
+
+        coVerifySequence {
+            interactor.clearNote(item)
+
+            callback.notifyItemRemoved(itemList, p)
+            callback.notifyMenuClearBin()
         }
     }
 

@@ -45,11 +45,9 @@ class NotificationViewModel(application: Application) :
     override fun onUpdateData() {
         callback?.beforeLoad()
 
-        fun updateList() {
-            callback?.apply {
-                notifyList(itemList)
-                onBindingList()
-            }
+        fun updateList() = callback?.apply {
+            notifyList(itemList)
+            onBindingList()
         }
 
         /**
@@ -73,8 +71,7 @@ class NotificationViewModel(application: Application) :
     }
 
     override fun onClickNote(p: Int) {
-        val item = itemList.getOrNull(p) ?: return
-        callback?.startNoteActivity(item)
+        callback?.startNoteActivity(item = itemList.getOrNull(p) ?: return)
     }
 
     override fun onClickCancel(p: Int) {

@@ -53,7 +53,7 @@ object TestData {
                 rankId = 2, rankPs = 2
         )
 
-        val unsortedList = listOf(noteFirst, noteSecond, noteThird, noteFourth)
+        val itemList = mutableListOf(noteFirst, noteSecond, noteThird, noteFourth)
 
         val changeList = listOf(noteSecond, noteFirst, noteFourth, noteThird)
         val createList = listOf(noteThird, noteFourth, noteFirst, noteSecond)

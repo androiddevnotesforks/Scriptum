@@ -72,6 +72,8 @@ class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(a
         }
     }
 
+    override fun onDestroy(func: () -> Unit) = super.onDestroy { interactor.onDestroy() }
+
 
     override fun onSaveData(bundle: Bundle) = with(bundle) {
         putBoolean(FIRST_START, firstStart)

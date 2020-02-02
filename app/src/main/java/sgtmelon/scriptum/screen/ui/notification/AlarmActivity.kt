@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.view.WindowManager
+import androidx.annotation.ArrayRes
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Fade
@@ -242,13 +243,11 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     override fun vibrateCancel() = vibratorControl.cancel()
 
 
-    override fun getRepeatValueArray(): IntArray {
-        return resources.getIntArray(R.array.pref_alarm_repeat_array)
-    }
-
     override fun showRepeatToast(select: Int) {
         showToast(getString(R.string.toast_alarm_repeat, resources.getStringArray(R.array.pref_text_alarm_repeat)[select]))
     }
+
+    override fun getIntArray(@ArrayRes id: Int): IntArray = resources.getIntArray(id)
 
     override fun sendUpdateBroadcast(id: Long) {
         sendTo(ReceiverData.Filter.MAIN, ReceiverData.Command.UPDATE_ALARM) {

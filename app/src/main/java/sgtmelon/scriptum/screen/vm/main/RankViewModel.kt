@@ -50,11 +50,9 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     override fun onUpdateData() {
         callback?.beforeLoad()
 
-        val updateList = {
-            callback?.apply {
-                notifyList(itemList)
-                onBindingList()
-            }
+        fun updateList() = callback?.apply {
+            notifyList(itemList)
+            onBindingList()
         }
 
         /**

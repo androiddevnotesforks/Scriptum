@@ -17,10 +17,10 @@ class NotesViewModelTest : ParentTest() {
     private val data = TestData.Note
 
     @Test fun sort() = with(data) {
-        assertEquals(changeList, unsortedList.sort(Sort.CHANGE))
-        assertEquals(createList, unsortedList.sort(Sort.CREATE))
-        assertEquals(rankList, unsortedList.sort(Sort.RANK))
-        assertEquals(colorList, unsortedList.sort(Sort.COLOR))
+        assertEquals(changeList, itemList.sort(Sort.CHANGE))
+        assertEquals(createList, itemList.sort(Sort.CREATE))
+        assertEquals(rankList, itemList.sort(Sort.RANK))
+        assertEquals(colorList, itemList.sort(Sort.COLOR))
     }
 
 }
