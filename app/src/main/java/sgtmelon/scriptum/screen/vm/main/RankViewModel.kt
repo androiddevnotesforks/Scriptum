@@ -97,7 +97,9 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     }
 
 
-    override fun onClickEnterCancel() = callback?.clearEnter() ?: ""
+    override fun onClickEnterCancel() {
+        callback?.clearEnter()
+    }
 
     override fun onEditorClick(i: Int): Boolean {
         if (i != EditorInfo.IME_ACTION_DONE) return false
@@ -132,7 +134,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     }
 
     override fun onClickVisible(p: Int) {
-        val item = itemList.getOrNull(p)?.apply { isVisible = !isVisible } ?: return
+        val item = itemList.getOrNull(p)?.switchVisible() ?: return
 
         callback?.setList(itemList)
 

@@ -24,7 +24,7 @@ class RankContentTest : ParentUiTest() {
 
                     repeat(REPEAT_TIMES) {
                         onClickVisible(item)
-                        onAssertItem(item.apply { isVisible = !isVisible })
+                        onAssertItem(item.switchVisible())
                     }
                 }
             }

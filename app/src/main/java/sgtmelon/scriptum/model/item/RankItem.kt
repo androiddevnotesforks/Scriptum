@@ -18,4 +18,8 @@ data class RankItem(
         @ColumnInfo(name = Rank.POSITION) var position: Int = Default.POSITION,
         @ColumnInfo(name = Rank.NAME) var name: String,
         @ColumnInfo(name = Rank.VISIBLE) var isVisible: Boolean = Default.VISIBLE
-)
+) {
+
+    fun switchVisible() = apply { isVisible = !isVisible }
+
+}

@@ -3,7 +3,6 @@ package sgtmelon.scriptum.screen.vm.main
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.Assert
 import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.scriptum.ParentViewModelTest
@@ -138,7 +137,36 @@ class RankViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onUpdateToolbar() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val itemList = data.itemList
+        val item = itemList[itemList.indices.random()]
+
+        every { callback.getEnterText() } returns ""
+        viewModel.onUpdateToolbar()
+
+        every { callback.getEnterText() } returns "   "
+        viewModel.onUpdateToolbar()
+
+        every { callback.getEnterText() } returns item.name
+        viewModel.onUpdateToolbar()
+
+        viewModel.itemList.addAll(data.itemList)
+        viewModel.onUpdateToolbar()
+
+        verifySequence {
+            callback.apply {
+                getEnterText()
+                onBindingToolbar(isClearEnable = false, isAddEnable = false)
+
+                getEnterText()
+                onBindingToolbar(isClearEnable = true, isAddEnable = false)
+
+                getEnterText()
+                onBindingToolbar(isClearEnable = true, isAddEnable = true)
+
+                getEnterText()
+                onBindingToolbar(isClearEnable = true, isAddEnable = false)
+            }
+        }
     }
 
     @Test fun onShowRenameDialog() {
@@ -150,7 +178,11 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onClickEnterCancel() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        every { callback.clearEnter() } returns data.itemList.random().name
+
+        viewModel.onClickEnterCancel()
+
+        verifySequence { callback.clearEnter() }
     }
 
     @Test fun onEditorClick() {
@@ -161,8 +193,25 @@ class RankViewModelTest : ParentViewModelTest() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    @Test fun onClickVisible() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    @Test fun onClickVisible() = startCoTest {
+        viewModel.onClickVisible(Random.nextInt())
+
+        val itemList = data.itemList
+
+        viewModel.itemList.addAll(itemList)
+        assertEquals(itemList, viewModel.itemList)
+
+        val p = itemList.indices.random()
+        val item = itemList[p].switchVisible()
+
+        viewModel.onClickVisible(p)
+
+        coVerifyAll {
+            callback.setList(itemList)
+
+            interactor.update(item)
+            bindInteractor.notifyNoteBind(callback)
+        }
     }
 
     @Test fun onLongClickVisible() {
