@@ -189,7 +189,7 @@ class BinViewModelTest : ParentViewModelTest() {
     @Test fun onResultOptionsDialog_onRestore() = startCoTest {
         viewModel.onResultOptionsDialog(Random.nextInt(), Options.Bin.RESTORE)
 
-        val itemList = data.itemList.toMutableList()
+        val itemList = data.itemList
 
         viewModel.itemList.addAll(itemList)
         assertEquals(itemList, viewModel.itemList)
@@ -210,7 +210,7 @@ class BinViewModelTest : ParentViewModelTest() {
     @Test fun onResultOptionsDialog_onCopy() = startCoTest {
         viewModel.onResultOptionsDialog(Random.nextInt(), Options.Bin.COPY)
 
-        val itemList = data.itemList.toMutableList()
+        val itemList = data.itemList
 
         viewModel.itemList.addAll(itemList)
         assertEquals(itemList, viewModel.itemList)
@@ -226,7 +226,7 @@ class BinViewModelTest : ParentViewModelTest() {
     @Test fun onResultOptionsDialog_onClear() = startCoTest {
         viewModel.onResultOptionsDialog(Random.nextInt(), Options.Bin.CLEAR)
 
-        val itemList = data.itemList.toMutableList()
+        val itemList = data.itemList
 
         viewModel.itemList.addAll(itemList)
         assertEquals(itemList, viewModel.itemList)

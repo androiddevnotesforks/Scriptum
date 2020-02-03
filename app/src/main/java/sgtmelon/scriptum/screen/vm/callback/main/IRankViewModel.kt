@@ -16,7 +16,7 @@ interface IRankViewModel : IParentViewModel, RankTouchControl.Callback {
 
     fun onShowRenameDialog(p: Int)
 
-    fun onRenameDialog(p: Int, name: String)
+    fun onResultRenameDialog(p: Int, name: String)
 
 
     fun onClickEnterCancel(): String

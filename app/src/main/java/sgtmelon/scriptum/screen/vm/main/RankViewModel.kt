@@ -6,10 +6,7 @@ import android.view.inputmethod.EditorInfo
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import sgtmelon.scriptum.extension.clearAddAll
-import sgtmelon.scriptum.extension.clearSpace
-import sgtmelon.scriptum.extension.move
-import sgtmelon.scriptum.extension.toUpperCase
+import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.model.item.NoteItem
@@ -34,14 +31,14 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     }
 
 
-    private val itemList: MutableList<RankItem> = ArrayList()
+    @VisibleForTesting
+    val itemList: MutableList<RankItem> = ArrayList()
+
     private val nameList: List<String> get() = itemList.map { it.name.toUpperCase() }
 
     override fun onSetup(bundle: Bundle?) {
-        callback?.apply {
-            setupToolbar()
-            setupRecycler()
-        }
+        callback?.setupToolbar()
+        callback?.setupRecycler()
     }
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy { interactor.onDestroy() }
@@ -76,15 +73,13 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     }
 
     override fun onUpdateToolbar() {
-        callback?.apply {
-            val enterName = getEnterText()
-            val clearName = enterName.clearSpace().toUpperCase()
+        val enterName = callback?.getEnterText() ?: return
+        val clearName = enterName.clearSpace().toUpperCase()
 
-            onBindingToolbar(
-                    isClearEnable = enterName.isNotEmpty(),
-                    isAddEnable = clearName.isNotEmpty() && !nameList.contains(clearName)
-            )
-        }
+        callback?.onBindingToolbar(
+                isClearEnable = enterName.isNotEmpty(),
+                isAddEnable = clearName.isNotEmpty() && !nameList.contains(clearName)
+        )
     }
 
     override fun onShowRenameDialog(p: Int) {
@@ -92,7 +87,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         callback?.showRenameDialog(p, item.name, nameList)
     }
 
-    override fun onRenameDialog(p: Int, name: String) {
+    override fun onResultRenameDialog(p: Int, name: String) {
         val item = itemList.getOrNull(p)?.apply { this.name = name } ?: return
 
         viewModelScope.launch { interactor.update(item) }
@@ -173,7 +168,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     }
 
     override fun onClickCancel(p: Int) {
-        val item = itemList.removeAt(p)
+        val item = itemList.removeAtOrNull(p) ?: return
         val noteIdList = itemList.correctPositions()
 
         callback?.notifyItemRemoved(itemList, p)

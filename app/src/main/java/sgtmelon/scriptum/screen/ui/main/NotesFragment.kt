@@ -286,6 +286,10 @@ class NotesFragment : ParentFragment(), INotesFragment, MainReceiver.Callback {
         adapter.setList(list).notifyItemRemoved(p)
     }
 
+
+    override fun getStringArray(arrayId: Int): Array<String> = resources.getStringArray(arrayId)
+
+
     override fun cancelAlarm(id: Long) = alarmControl.cancel(id)
 
     override fun setAlarm(calendar: Calendar, id: Long) {

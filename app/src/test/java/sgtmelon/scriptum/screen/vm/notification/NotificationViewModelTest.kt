@@ -145,7 +145,7 @@ class NotificationViewModelTest : ParentViewModelTest() {
     @Test fun onClickCancel() = startCoTest {
         viewModel.onClickCancel(Random.nextInt())
 
-        val itemList = data.itemList.toMutableList()
+        val itemList = data.itemList
 
         viewModel.itemList.addAll(itemList)
         assertEquals(itemList, viewModel.itemList)
@@ -155,7 +155,7 @@ class NotificationViewModelTest : ParentViewModelTest() {
 
         viewModel.onClickCancel(p)
 
-        coVerifyAll {
+        coVerifySequence {
             interactor.cancelNotification(item)
 
             callback.notifyInfoBind(itemList.size)

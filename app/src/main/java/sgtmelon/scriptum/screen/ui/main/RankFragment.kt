@@ -176,7 +176,7 @@ class RankFragment : ParentFragment(), IRankFragment {
 
         renameDialog.apply {
             positiveListener = DialogInterface.OnClickListener { _, _ ->
-                viewModel.onRenameDialog(position, name)
+                viewModel.onResultRenameDialog(position, name)
             }
             dismissListener = DialogInterface.OnDismissListener { openState?.clear() }
         }

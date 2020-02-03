@@ -25,6 +25,21 @@ object TestData {
         val rankFourth = RankItem(
                 id = 4, noteId = mutableListOf(4, 6), position = 3, name = "4", isVisible = false
         )
+
+        val itemList get() = mutableListOf(
+                rankFist.copy(), rankSecond.copy(), rankThird.copy(), rankFourth.copy()
+        )
+
+        val correctListFirst get() = mutableListOf(
+                rankSecond.copy(), rankThird.copy(), rankFist.copy(), rankFourth.copy()
+        )
+
+        val correctListSecond get() = mutableListOf(
+                rankFourth.copy(), rankSecond.copy(), rankFist.copy(), rankThird.copy()
+        )
+
+        val correctPositionFirst get() = mutableListOf(2L, 3, 1, 5)
+        val correctPositionSecond get() = mutableListOf(4L, 6, 1, 2, 5)
     }
 
     object Note {
@@ -53,12 +68,22 @@ object TestData {
                 rankId = 2, rankPs = 2
         )
 
-        val itemList = mutableListOf(noteFirst, noteSecond, noteThird, noteFourth)
+        val itemList get() = mutableListOf(
+                noteFirst.copy(), noteSecond.copy(), noteThird.copy(), noteFourth.copy()
+        )
 
-        val changeList = listOf(noteSecond, noteFirst, noteFourth, noteThird)
-        val createList = listOf(noteThird, noteFourth, noteFirst, noteSecond)
-        val rankList = listOf(noteThird, noteSecond, noteFourth, noteFirst)
-        val colorList = listOf(noteFirst, noteFourth, noteSecond, noteThird)
+        val changeList get() = listOf(
+                noteSecond.copy(), noteFirst.copy(), noteFourth.copy(), noteThird.copy()
+        )
+        val createList get() = listOf(
+                noteThird.copy(), noteFourth.copy(), noteFirst.copy(), noteSecond.copy()
+        )
+        val rankList get() = listOf(
+                noteThird.copy(), noteSecond.copy(), noteFourth.copy(), noteFirst.copy()
+        )
+        val colorList get() = listOf(
+                noteFirst.copy(), noteFourth.copy(), noteSecond.copy(), noteThird.copy()
+        )
     }
 
     object Notification {
@@ -77,7 +102,9 @@ object TestData {
                 Alarm(id = 2, date = "789")
         )
 
-        val itemList = mutableListOf(notificationFirst, notificationSecond, notificationThird)
+        val itemList get() = mutableListOf(
+                notificationFirst.copy(), notificationSecond.copy(), notificationThird.copy()
+        )
     }
 
 }
