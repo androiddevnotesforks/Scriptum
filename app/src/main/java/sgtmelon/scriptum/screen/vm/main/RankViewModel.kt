@@ -34,7 +34,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     @VisibleForTesting
     val itemList: MutableList<RankItem> = ArrayList()
 
-    private val nameList: List<String> get() = itemList.map { it.name.toUpperCase() }
+    private val nameList: List<String> get() = itemList.getNameList()
 
     override fun onSetup(bundle: Bundle?) {
         callback?.setupToolbar()
@@ -104,9 +104,9 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     override fun onEditorClick(i: Int): Boolean {
         if (i != EditorInfo.IME_ACTION_DONE) return false
 
-        val name = callback?.getEnterText()?.clearSpace()?.toUpperCase() ?: ""
+        val name = callback?.getEnterText()?.clearSpace()?.toUpperCase()
 
-        if (name.isEmpty()) return false
+        if (name.isNullOrEmpty()) return false
 
         if (!nameList.contains(name)) {
             onClickEnterAdd(simpleClick = true)
@@ -117,9 +117,9 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     }
 
     override fun onClickEnterAdd(simpleClick: Boolean) {
-        val name = callback?.clearEnter()?.clearSpace() ?: ""
+        val name = callback?.clearEnter()?.clearSpace()
 
-        if (name.isEmpty()) return
+        if (name.isNullOrEmpty()) return
 
         val p = if (simpleClick) itemList.size else 0
 
@@ -129,7 +129,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
             val noteIdList = itemList.correctPositions()
             interactor.updatePosition(itemList, noteIdList)
 
-            callback?.scrollToItem(simpleClick, p, itemList)
+            callback?.scrollToItem(itemList, p, simpleClick)
         }
     }
 
@@ -145,23 +145,11 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     }
 
     override fun onLongClickVisible(p: Int) {
-        val startAnim = BooleanArray(itemList.size)
+        if (p !in itemList.indices) return
 
-        itemList.forEachIndexed { i, item ->
-            if (i == p) {
-                if (!item.isVisible) {
-                    item.isVisible = true
-                    startAnim[i] = true
-                }
-            } else {
-                if (item.isVisible) {
-                    item.isVisible = false
-                    startAnim[i] = true
-                }
-            }
-        }
+        val animationArray = itemList.switchVisible(p)
 
-        callback?.notifyDataSetChanged(itemList, startAnim)
+        callback?.notifyDataSetChanged(itemList, animationArray)
 
         viewModelScope.launch {
             interactor.update(itemList)
@@ -213,6 +201,38 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
 
 
     companion object {
+        @VisibleForTesting
+        fun List<RankItem>.getNameList(): List<String> = map { it.name.toUpperCase() }
+
+        /**
+         * Switch visible for all list. Make visible only item with position equal [p].
+         * Other items make invisible.
+         *
+         * [p] - position of long click.
+         *
+         * Return array with information about item icon animation (need start or not).
+         */
+        @VisibleForTesting
+        fun List<RankItem>.switchVisible(p: Int): BooleanArray {
+            val animationArray = BooleanArray(size)
+
+            forEachIndexed { i, item ->
+                if (i == p) {
+                    if (!item.isVisible) {
+                        item.isVisible = true
+                        animationArray[i] = true
+                    }
+                } else {
+                    if (item.isVisible) {
+                        item.isVisible = false
+                        animationArray[i] = true
+                    }
+                }
+            }
+
+            return animationArray
+        }
+
         /**
          * Return list of [NoteItem.id] which need update.
          */

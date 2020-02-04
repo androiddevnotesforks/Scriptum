@@ -6,37 +6,33 @@ import sgtmelon.scriptum.model.item.NotificationItem.Alarm
 import sgtmelon.scriptum.model.item.NotificationItem.Note
 import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.model.key.NoteType
+import java.util.UUID.randomUUID
 
 /**
  * Class which provide data for tests.
  */
 object TestData {
 
+    val uniqueString get() = randomUUID().toString().substring(0, 16)
+
     object Rank {
-        val rankFist = RankItem(
+        val rankFist get() = RankItem(
                 id = 1, noteId = mutableListOf(1, 2), position = 0, name = "1", isVisible = true
         )
-        val rankSecond = RankItem(
+        val rankSecond get() = RankItem(
                 id = 2, noteId = mutableListOf(2, 3), position = 1, name = "2", isVisible = false
         )
-        val rankThird = RankItem(
+        val rankThird get() = RankItem(
                 id = 3, noteId = mutableListOf(1, 5), position = 2, name = "3", isVisible = true
         )
-        val rankFourth = RankItem(
+        val rankFourth get() = RankItem(
                 id = 4, noteId = mutableListOf(4, 6), position = 3, name = "4", isVisible = false
         )
 
-        val itemList get() = mutableListOf(
-                rankFist.copy(), rankSecond.copy(), rankThird.copy(), rankFourth.copy()
-        )
+        val itemList get() = mutableListOf(rankFist, rankSecond, rankThird, rankFourth)
 
-        val correctListFirst get() = mutableListOf(
-                rankSecond.copy(), rankThird.copy(), rankFist.copy(), rankFourth.copy()
-        )
-
-        val correctListSecond get() = mutableListOf(
-                rankFourth.copy(), rankSecond.copy(), rankFist.copy(), rankThird.copy()
-        )
+        val correctListFirst get() = mutableListOf(rankSecond, rankThird, rankFist, rankFourth)
+        val correctListSecond get() = mutableListOf(rankFourth, rankSecond, rankFist, rankThird)
 
         val correctPositionFirst get() = mutableListOf(2L, 3, 1, 5)
         val correctPositionSecond get() = mutableListOf(4L, 6, 1, 2, 5)

@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.screen.vm.main
 
+import android.view.inputmethod.EditorInfo
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -14,6 +15,8 @@ import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.screen.ui.callback.main.IRankFragment
 import sgtmelon.scriptum.screen.vm.main.RankViewModel.Companion.correctPositions
+import sgtmelon.scriptum.screen.vm.main.RankViewModel.Companion.getNameList
+import sgtmelon.scriptum.screen.vm.main.RankViewModel.Companion.switchVisible
 import kotlin.random.Random
 
 /**
@@ -170,11 +173,46 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onShowRenameDialog() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        viewModel.onShowRenameDialog(Random.nextInt())
+
+        val itemList = data.itemList
+
+        viewModel.itemList.addAll(itemList)
+        assertEquals(itemList, viewModel.itemList)
+
+        val p = itemList.indices.random()
+        val item = itemList[p]
+
+        viewModel.onShowRenameDialog(p)
+
+        verifySequence { callback.showRenameDialog(p, item.name, itemList.getNameList()) }
     }
 
-    @Test fun onResultRenameDialog() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    @Test fun onResultRenameDialog() = startCoTest {
+        val newName = TestData.uniqueString
+
+        every { callback.getEnterText() } returns newName
+
+        viewModel.onResultRenameDialog(Random.nextInt(), newName)
+
+        val itemList = data.itemList
+
+        viewModel.itemList.addAll(itemList)
+        assertEquals(itemList, viewModel.itemList)
+
+        val p = itemList.indices.random()
+        val item = itemList[p].apply { name = newName }
+
+        viewModel.onResultRenameDialog(p, newName)
+
+        coVerifySequence {
+            interactor.update(item)
+
+            callback.getEnterText()
+            callback.onBindingToolbar(isClearEnable = true, isAddEnable = false)
+
+            callback.notifyItemChanged(itemList, p)
+        }
     }
 
     @Test fun onClickEnterCancel() {
@@ -186,11 +224,95 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onEditorClick() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        assertFalse(viewModel.onEditorClick(EditorInfo.IME_ACTION_NEXT))
+
+        every { callback.getEnterText() } returns ""
+        assertFalse(viewModel.onEditorClick(EditorInfo.IME_ACTION_DONE))
+
+        every { callback.getEnterText() } returns TestData.uniqueString
+        every { callback.clearEnter() } returns ""
+        assertTrue(viewModel.onEditorClick(EditorInfo.IME_ACTION_DONE))
+
+        val itemList = data.itemList
+
+        viewModel.itemList.addAll(itemList)
+        assertEquals(itemList, viewModel.itemList)
+
+        every { callback.getEnterText() } returns itemList.random().name
+        assertFalse(viewModel.onEditorClick(EditorInfo.IME_ACTION_DONE))
+
+        verifySequence {
+            callback.getEnterText()
+
+            callback.getEnterText()
+            callback.clearEnter()
+
+            callback.getEnterText()
+        }
     }
 
-    @Test fun onClickEnterAdd() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    @Test fun onClickEnterAdd_onSimple() = startCoTest {
+        every { callback.clearEnter() } returns ""
+        viewModel.onClickEnterAdd(Random.nextBoolean())
+
+        val itemList = data.itemList
+
+        viewModel.itemList.addAll(itemList)
+        assertEquals(itemList, viewModel.itemList)
+
+        val name = TestData.uniqueString
+        val item = data.rankFist.copy(name = name)
+
+        every { callback.clearEnter() } returns name
+        coEvery { interactor.insert(name) } returns item
+
+        viewModel.onClickEnterAdd(simpleClick = true)
+
+        val p = itemList.size
+
+        itemList.add(p, item)
+        itemList.correctPositions()
+
+        coVerifyAll {
+            callback.clearEnter()
+            callback.clearEnter()
+
+            interactor.insert(name)
+            interactor.updatePosition(itemList, listOf(1, 2))
+            callback.scrollToItem(itemList, p, simpleClick = true)
+        }
+    }
+
+    @Test fun onClickEnterAdd_onLong() = startCoTest {
+        every { callback.clearEnter() } returns ""
+        viewModel.onClickEnterAdd(Random.nextBoolean())
+
+        val itemList = data.itemList
+
+        viewModel.itemList.addAll(itemList)
+        assertEquals(itemList, viewModel.itemList)
+
+        val name = TestData.uniqueString
+        val item = data.rankFist.copy(name = name)
+
+        every { callback.clearEnter() } returns name
+        coEvery { interactor.insert(name) } returns item
+
+        viewModel.onClickEnterAdd(simpleClick = false)
+
+        val p = 0
+
+        itemList.add(p, item)
+        itemList.correctPositions()
+
+        coVerifySequence {
+            callback.clearEnter()
+            callback.clearEnter()
+
+            interactor.insert(name)
+            interactor.updatePosition(itemList, listOf(1, 2, 3, 5, 4, 6))
+            callback.scrollToItem(itemList, p, simpleClick = false)
+        }
     }
 
     @Test fun onClickVisible() = startCoTest {
@@ -206,7 +328,7 @@ class RankViewModelTest : ParentViewModelTest() {
 
         viewModel.onClickVisible(p)
 
-        coVerifyAll {
+        coVerifySequence {
             callback.setList(itemList)
 
             interactor.update(item)
@@ -214,8 +336,25 @@ class RankViewModelTest : ParentViewModelTest() {
         }
     }
 
-    @Test fun onLongClickVisible() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    @Test fun onLongClickVisible() = startCoTest {
+        viewModel.onLongClickVisible(Random.nextInt())
+
+        val itemList = data.itemList
+        val p = 0
+        val animationArray = booleanArrayOf(false, false, true, false)
+
+        viewModel.itemList.addAll(itemList)
+        assertEquals(itemList, viewModel.itemList)
+
+        viewModel.onLongClickVisible(p)
+        itemList.switchVisible(p)
+
+        coVerifySequence {
+            callback.notifyDataSetChanged(itemList, animationArray)
+
+            interactor.update(itemList)
+            bindInteractor.notifyNoteBind(callback)
+        }
     }
 
     @Test fun onClickCancel() = startCoTest {
@@ -232,7 +371,7 @@ class RankViewModelTest : ParentViewModelTest() {
 
         viewModel.onClickCancel(p)
 
-        coVerifyAll {
+        coVerifySequence {
             callback.notifyItemRemoved(itemList, p)
 
             interactor.delete(item)
@@ -287,6 +426,42 @@ class RankViewModelTest : ParentViewModelTest() {
             callback.setList(itemList)
             interactor.updatePosition(itemList, noteIdList)
         }
+    }
+
+
+
+    @Test fun switchVisible() = with(data) {
+        var list = itemList
+        var p = 0
+        var animationArray = booleanArrayOf(false, false, true, false)
+
+        assertArrayEquals(animationArray, list.switchVisible(p))
+        assertVisible(list, p)
+
+        list = itemList
+        p = 1
+        animationArray = booleanArrayOf(true, true, true, false)
+
+        assertArrayEquals(animationArray, list.switchVisible(p))
+        assertVisible(list, p)
+
+        list = itemList
+        p = 2
+        animationArray = booleanArrayOf(true, false, false, false)
+
+        assertArrayEquals(animationArray, list.switchVisible(p))
+        assertVisible(list, p)
+
+        list = itemList
+        p = 3
+        animationArray = booleanArrayOf(true, false, true, true)
+
+        assertArrayEquals(animationArray, list.switchVisible(p))
+        assertVisible(list, p)
+    }
+
+    private fun assertVisible(list: List<RankItem>, p: Int) {
+        list.forEachIndexed { i, item -> assertEquals(i == p, item.isVisible) }
     }
 
 

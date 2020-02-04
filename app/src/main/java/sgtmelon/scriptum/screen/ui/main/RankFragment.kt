@@ -224,7 +224,7 @@ class RankFragment : ParentFragment(), IRankFragment {
         return name
     }
 
-    override fun scrollToItem(simpleClick: Boolean, p: Int, list: MutableList<RankItem>) {
+    override fun scrollToItem(list: MutableList<RankItem>, p: Int, simpleClick: Boolean) {
         openState?.clear()
 
         if (list.size == 1) {
