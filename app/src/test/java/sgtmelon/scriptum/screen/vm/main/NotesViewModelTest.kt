@@ -190,7 +190,20 @@ class NotesViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onReceiveUnbindNote() {
-        TODO()
+        viewModel.onReceiveUnbindNote(Random.nextLong())
+
+        val itemList = data.itemList
+
+        viewModel.itemList.addAll(itemList)
+        assertEquals(itemList, viewModel.itemList)
+
+        val p = itemList.indices.random()
+        val item = itemList[p]
+
+        viewModel.onReceiveUnbindNote(item.id)
+        item.isStatus = false
+
+        verifySequence { callback.notifyItemChanged(itemList, p) }
     }
 
     @Test fun onReceiveUpdateAlarm() {
