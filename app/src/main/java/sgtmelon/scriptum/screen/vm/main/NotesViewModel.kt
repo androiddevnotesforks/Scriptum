@@ -39,7 +39,8 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
     }
 
 
-    private val itemList: MutableList<NoteItem> = ArrayList()
+    @VisibleForTesting
+    val itemList: MutableList<NoteItem> = ArrayList()
 
     override fun onSetup(bundle: Bundle?) {
         callback?.apply {
@@ -131,11 +132,11 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
     }
 
     private fun onMenuBind(p: Int) {
-        val item = itemList.getOrNull(p)?.apply { isStatus = !isStatus } ?: return
-
-        viewModelScope.launch { interactor.updateNote(item) }
+        val item = itemList.getOrNull(p)?.switchStatus() ?: return
 
         callback?.notifyItemChanged(itemList, p)
+
+        viewModelScope.launch { interactor.updateNote(item) }
     }
 
     private fun onMenuConvert(p: Int) {
@@ -158,12 +159,12 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
     private fun onMenuDelete(p: Int) {
         val item = itemList.removeAtOrNull(p) ?: return
 
+        callback?.notifyItemRemoved(itemList, p)
+
         viewModelScope.launch {
             interactor.deleteNote(item)
             bindInteractor.notifyInfoBind(callback)
         }
-
-        callback?.notifyItemRemoved(itemList, p)
     }
 
 

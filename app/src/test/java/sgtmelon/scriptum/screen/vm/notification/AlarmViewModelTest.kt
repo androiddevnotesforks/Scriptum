@@ -249,7 +249,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onClickNote() {
-        val noteItem = data.noteFirst.copy()
+        val noteItem = data.noteFirst
 
         viewModel.noteItem = noteItem
         viewModel.onClickNote()
@@ -267,7 +267,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
     @Test fun onClickRepeat() = startCoTest {
         val repeat = Repeat.MIN_10
-        val noteItem = data.noteFirst.copy()
+        val noteItem = data.noteFirst
         val repeatArray = intArrayOf(Repeat.MIN_180, Repeat.MIN_1440)
 
         every { interactor.repeat } returns repeat
@@ -285,7 +285,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onResultRepeatDialog() = startCoTest {
-        val noteItem = data.noteFirst.copy()
+        val noteItem = data.noteFirst
 
         every { interactor.repeat } returns Repeat.MIN_10
         every { callback.getIntArray(R.array.pref_alarm_repeat_array) } returns repeatArray

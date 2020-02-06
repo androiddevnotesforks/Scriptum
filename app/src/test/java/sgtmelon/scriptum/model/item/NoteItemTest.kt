@@ -21,6 +21,17 @@ class NoteItemTest : ParentTest() {
         assertEquals(REAL_POSITION, itemSecond.rollList.first().position)
     }
 
+    @Test fun switchCopy() {
+        val itemFirst = noteItem.deepCopy(isStatus = false)
+        val itemSecond = noteItem.deepCopy(isStatus = true)
+
+        itemFirst.switchStatus()
+        itemSecond.switchStatus()
+
+        assertTrue(itemFirst.isStatus)
+        assertFalse(itemSecond.isStatus)
+    }
+
 
     @Test fun updateComplete() {
         val size = rollList.size

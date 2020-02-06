@@ -58,7 +58,7 @@ class NoteDialogUi(private val noteItem: NoteItem) : ParentUi(), IDialogUi, Date
     fun onBind() = waitClose {
         bindButton.click()
 
-        noteItem.apply { isStatus = !isStatus }
+        noteItem.switchStatus()
     }
 
     fun onConvert() = waitClose {

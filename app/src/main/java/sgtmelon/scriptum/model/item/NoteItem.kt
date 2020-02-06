@@ -62,6 +62,9 @@ data class NoteItem(
     )
 
 
+    fun switchStatus() = apply { isStatus = !isStatus }
+
+
     fun updateComplete(complete: Complete? = null) = apply {
         val checkCount = when(complete){
             null -> getCheck()

@@ -44,42 +44,34 @@ object TestData {
         const val DATE_2 = "1456-03-04 05:06:07"
         const val DATE_3 = "1567-04-05 06:07:08"
 
-        val noteFirst = NoteItem(
+        val noteFirst get() = NoteItem(
                 id = 0, create = DATE_1, change = DATE_2, color = 0, type = NoteType.TEXT,
-                rankId = -1, rankPs = -1
+                rankId = -1, rankPs = -1, alarmId = 0, alarmDate = DATE_3
         )
 
-        val noteSecond = NoteItem(
+        val noteSecond get() = NoteItem(
                 id = 1, create = DATE_0, change = DATE_3, color = 2, type = NoteType.TEXT,
                 rankId = 1, rankPs = 1
         )
 
-        val noteThird = NoteItem(
+        val noteThird get() = NoteItem(
                 id = 2, create = DATE_3, change = DATE_0, color = 4, type = NoteType.TEXT,
-                rankId = 1, rankPs = 1
+                rankId = 1, rankPs = 1, alarmId = 1, alarmDate = DATE_2
         )
 
-        val noteFourth = NoteItem(
+        val noteFourth get() = NoteItem(
                 id = 3, create = DATE_2, change = DATE_1, color = 2, type = NoteType.TEXT,
                 rankId = 2, rankPs = 2
         )
 
-        val itemList get() = mutableListOf(
-                noteFirst.copy(), noteSecond.copy(), noteThird.copy(), noteFourth.copy()
-        )
+        val itemList get() = mutableListOf(noteFirst, noteSecond, noteThird, noteFourth)
 
-        val changeList get() = listOf(
-                noteSecond.copy(), noteFirst.copy(), noteFourth.copy(), noteThird.copy()
-        )
-        val createList get() = listOf(
-                noteThird.copy(), noteFourth.copy(), noteFirst.copy(), noteSecond.copy()
-        )
-        val rankList get() = listOf(
-                noteThird.copy(), noteSecond.copy(), noteFourth.copy(), noteFirst.copy()
-        )
-        val colorList get() = listOf(
-                noteFirst.copy(), noteFourth.copy(), noteSecond.copy(), noteThird.copy()
-        )
+        val changeList get() = listOf(noteSecond, noteFirst, noteFourth, noteThird)
+        val createList get() = listOf(noteThird, noteFourth, noteFirst, noteSecond)
+        val rankList get() = listOf(noteThird, noteSecond, noteFourth, noteFirst)
+        val colorList get() = listOf(noteFirst, noteFourth, noteSecond, noteThird)
+
+        val dateList get() = listOf(DATE_0, DATE_1, DATE_2, DATE_3)
     }
 
     object Notification {

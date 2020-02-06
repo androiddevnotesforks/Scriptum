@@ -376,7 +376,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     override fun onMenuBind() {
         if (callback?.isDialogOpen == true || noteState.isEdit) return
 
-        noteItem.apply { isStatus = !isStatus }
+        noteItem.switchStatus()
 
         /**
          * If not update [restoreItem] it will cause bug with restore.
