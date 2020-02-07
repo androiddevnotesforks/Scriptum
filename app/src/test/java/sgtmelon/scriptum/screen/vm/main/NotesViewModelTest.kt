@@ -12,6 +12,7 @@ import sgtmelon.scriptum.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.model.annotation.Options
 import sgtmelon.scriptum.model.annotation.Sort
+import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.screen.ui.callback.main.INotesFragment
 import sgtmelon.scriptum.screen.vm.main.NotesViewModel.Companion.sort
 import java.util.*
@@ -52,7 +53,18 @@ class NotesViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onSetup() {
-        TODO()
+        val theme = Theme.DARK
+
+        every { interactor.theme } returns theme
+
+        viewModel.onSetup()
+
+        verifySequence {
+            callback.setupToolbar()
+            interactor.theme
+            callback.setupRecycler(theme)
+            callback.setupDialog()
+        }
     }
 
     @Test fun onUpdateData() {
@@ -206,8 +218,36 @@ class NotesViewModelTest : ParentViewModelTest() {
         verifySequence { callback.notifyItemChanged(itemList, p) }
     }
 
-    @Test fun onReceiveUpdateAlarm() {
-        TODO()
+    @Test fun onReceiveUpdateAlarm() = startCoTest {
+        viewModel.onReceiveUpdateAlarm(Random.nextLong())
+
+        val itemList = data.itemList
+
+        viewModel.itemList.addAll(itemList)
+        assertEquals(itemList, viewModel.itemList)
+
+        val notificationItem = TestData.Notification.notificationFirst
+        val p = itemList.indices.random()
+        val item = itemList[p]
+
+        coEvery { interactor.getNotification(item.id) } returns null
+
+        viewModel.onReceiveUpdateAlarm(item.id)
+
+        coEvery { interactor.getNotification(item.id) } returns notificationItem
+
+        viewModel.onReceiveUpdateAlarm(item.id)
+        item.apply {
+            alarmId = notificationItem.alarm.id
+            alarmDate = notificationItem.alarm.date
+        }
+
+        coVerifySequence {
+            interactor.getNotification(item.id)
+
+            interactor.getNotification(item.id)
+            callback.notifyItemChanged(itemList, p)
+        }
     }
 
 
