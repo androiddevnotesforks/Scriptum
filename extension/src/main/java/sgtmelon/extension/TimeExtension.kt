@@ -55,3 +55,22 @@ fun Calendar.formatPast(): String {
         else -> DateFormat.getDateInstance(DateFormat.SHORT).format(time)
     }
 }
+
+/**
+ * TODO Think about this methods. Where you can move them, or make visible only for tests/
+ */
+fun getRandomFutureTime(): String {
+    return Calendar.getInstance().clearSeconds().apply {
+        add(Calendar.MINUTE, (1..60).random())
+        add(Calendar.HOUR_OF_DAY, (1..12).random())
+        add(Calendar.DAY_OF_YEAR, (10..30).random())
+    }.getText()
+}
+
+fun getRandomPastTime(): String {
+    return Calendar.getInstance().clearSeconds().apply {
+        add(Calendar.MINUTE, -(1..60).random())
+        add(Calendar.HOUR_OF_DAY, -(1..12).random())
+        add(Calendar.DAY_OF_YEAR, -(10..30).random())
+    }.getText()
+}

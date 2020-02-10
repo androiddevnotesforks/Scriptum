@@ -14,11 +14,6 @@ fun waitAfter(time: Long, func: () -> Unit) {
     Thread.sleep(time)
 }
 
-fun getFutureTime(): String = Calendar.getInstance().clearSeconds().apply {
-    add(Calendar.MINUTE, (1..60).random())
-    add(Calendar.HOUR_OF_DAY, (1..12).random())
-    add(Calendar.DAY_OF_YEAR, (10..30).random())
-}.getText()
 
 /**
  * Add minutes for current time

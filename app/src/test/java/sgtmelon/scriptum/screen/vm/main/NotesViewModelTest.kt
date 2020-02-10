@@ -6,6 +6,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.extension.getCalendar
+import sgtmelon.extension.getRandomFutureTime
+import sgtmelon.extension.getRandomPastTime
 import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.interactor.callback.IBindInteractor
@@ -72,7 +74,19 @@ class NotesViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onClickNote() {
-        TODO()
+        viewModel.onClickNote(Random.nextInt())
+
+        val itemList = data.itemList
+
+        viewModel.itemList.addAll(itemList)
+        assertEquals(itemList, viewModel.itemList)
+
+        val p = itemList.indices.random()
+        val item = itemList[p]
+
+        viewModel.onClickNote(p)
+
+        verifySequence { callback.startNoteActivity(item) }
     }
 
     @Test fun onShowOptionsDialog() {
@@ -193,12 +207,51 @@ class NotesViewModelTest : ParentViewModelTest() {
         }
     }
 
-    @Test fun onResultDateDialogClear() {
-        TODO()
+    @Test fun onResultDateDialogClear() = startCoTest {
+        viewModel.onResultDateDialogClear(Random.nextInt())
+
+        val itemList = data.itemList
+
+        viewModel.itemList.addAll(itemList)
+        assertEquals(itemList, viewModel.itemList)
+
+        val p = itemList.indices.random()
+        val item = itemList[p]
+
+        viewModel.onResultDateDialogClear(p)
+        item.clearAlarm()
+
+        coVerifySequence {
+            callback.notifyItemChanged(itemList, p)
+
+            interactor.clearDate(item)
+            bindInteractor.notifyInfoBind(callback)
+        }
     }
 
-    @Test fun onResultTimeDialog() {
-        TODO()
+    @Test fun onResultTimeDialog() = startCoTest {
+        val calendarPast = getRandomPastTime().getCalendar()
+        viewModel.onResultTimeDialog(calendarPast, Random.nextInt())
+
+        val calendarFuture = getRandomFutureTime().getCalendar()
+        viewModel.onResultTimeDialog(calendarFuture, Random.nextInt())
+
+        val itemList = data.itemList
+
+        viewModel.itemList.addAll(itemList)
+        assertEquals(itemList, viewModel.itemList)
+
+        val p = itemList.indices.random()
+        val item = itemList[p]
+
+        viewModel.onResultTimeDialog(calendarFuture, p)
+
+        coVerifySequence {
+            interactor.setDate(item, calendarFuture)
+            callback.notifyItemChanged(itemList, p)
+
+            bindInteractor.notifyInfoBind(callback)
+        }
     }
 
     @Test fun onReceiveUnbindNote() {

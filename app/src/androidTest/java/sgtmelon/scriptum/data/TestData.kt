@@ -1,9 +1,9 @@
 package sgtmelon.scriptum.data
 
 import android.content.Context
+import sgtmelon.extension.getRandomFutureTime
 import sgtmelon.extension.getText
 import sgtmelon.extension.getTime
-import sgtmelon.scriptum.basic.extension.getFutureTime
 import sgtmelon.scriptum.model.data.ColorData
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RankItem
@@ -183,7 +183,7 @@ class TestData(override val context: Context, private val preferenceRepo: IPrefe
     }
 
     fun insertNotification(noteItem: NoteItem = insertNote(),
-                           date: String = getFutureTime()): NoteItem {
+                           date: String = getRandomFutureTime()): NoteItem {
         noteItem.alarmDate = date
 
         inRoomTest { noteItem.alarmId = alarmDao.insert(alarmConverter.toEntity(noteItem)) }
@@ -242,7 +242,7 @@ class TestData(override val context: Context, private val preferenceRepo: IPrefe
     }
 
     fun fillNotification(count: Int = 10) = repeat(count) {
-        insertNotification(date = getFutureTime())
+        insertNotification(date = getRandomFutureTime())
     }
 
 

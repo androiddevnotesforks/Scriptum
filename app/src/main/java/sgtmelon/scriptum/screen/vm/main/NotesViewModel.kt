@@ -175,14 +175,14 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
     override fun onResultDateDialogClear(p: Int) {
         val noteItem = itemList.getOrNull(p) ?: return
 
+        noteItem.clearAlarm()
+
+        callback?.notifyItemChanged(itemList, p)
+
         viewModelScope.launch {
             interactor.clearDate(noteItem)
             bindInteractor.notifyInfoBind(callback)
         }
-
-        noteItem.clearAlarm()
-
-        callback?.notifyItemChanged(itemList, p)
     }
 
     override fun onResultTimeDialog(calendar: Calendar, p: Int) {
