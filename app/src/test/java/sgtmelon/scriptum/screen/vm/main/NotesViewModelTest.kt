@@ -9,12 +9,14 @@ import sgtmelon.extension.getCalendar
 import sgtmelon.extension.getRandomFutureTime
 import sgtmelon.extension.getRandomPastTime
 import sgtmelon.scriptum.ParentViewModelTest
+import sgtmelon.scriptum.R
 import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.model.annotation.Options
 import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.annotation.Theme
+import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.ui.callback.main.INotesFragment
 import sgtmelon.scriptum.screen.vm.main.NotesViewModel.Companion.sort
 import java.util.*
@@ -90,7 +92,48 @@ class NotesViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onShowOptionsDialog() {
-        TODO()
+        viewModel.onShowOptionsDialog(Random.nextInt())
+
+        val textArray = arrayOf("", "", "text")
+        val rollArray = arrayOf("", "", "roll")
+
+        every { callback.getStringArray(R.array.dialog_menu_text) } returns textArray
+        every { callback.getStringArray(R.array.dialog_menu_roll) } returns rollArray
+
+        every { callback.getString(R.string.dialog_menu_notification_update) } returns "update"
+        every { callback.getString(R.string.dialog_menu_notification_set) } returns "set"
+
+        every { callback.getString(R.string.dialog_menu_status_unbind) } returns "unbind"
+        every { callback.getString(R.string.dialog_menu_status_bind) } returns "bind"
+
+        val itemList = data.itemList
+        itemList[1].type = NoteType.ROLL
+
+        viewModel.itemList.addAll(itemList)
+        assertEquals(itemList, viewModel.itemList)
+
+        viewModel.onShowOptionsDialog(p = 0)
+        viewModel.onShowOptionsDialog(p = 1)
+
+        verifySequence {
+            callback.getStringArray(R.array.dialog_menu_text)
+            callback.getString(R.string.dialog_menu_notification_update)
+            callback.getString(R.string.dialog_menu_status_bind)
+
+            callback.showOptionsDialog(textArray.apply {
+                set(0, "update")
+                set(1, "bind")
+            }, p = 0)
+
+            callback.getStringArray(R.array.dialog_menu_roll)
+            callback.getString(R.string.dialog_menu_notification_set)
+            callback.getString(R.string.dialog_menu_status_unbind)
+
+            callback.showOptionsDialog(rollArray.apply {
+                set(0, "set")
+                set(1, "unbind")
+            }, p = 1)
+        }
     }
 
     @Test fun onResultOptionsDialog_onNotification() {

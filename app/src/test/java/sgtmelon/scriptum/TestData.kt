@@ -46,22 +46,22 @@ object TestData {
 
         val noteFirst get() = NoteItem(
                 id = 0, create = DATE_1, change = DATE_2, color = 0, type = NoteType.TEXT,
-                rankId = -1, rankPs = -1, alarmId = 0, alarmDate = DATE_3
+                rankId = -1, rankPs = -1, alarmId = 1, alarmDate = DATE_3
         )
 
         val noteSecond get() = NoteItem(
                 id = 1, create = DATE_0, change = DATE_3, color = 2, type = NoteType.TEXT,
-                rankId = 1, rankPs = 1
+                rankId = 1, rankPs = 1, isStatus = true
         )
 
         val noteThird get() = NoteItem(
                 id = 2, create = DATE_3, change = DATE_0, color = 4, type = NoteType.TEXT,
-                rankId = 1, rankPs = 1, alarmId = 1, alarmDate = DATE_2
+                rankId = 1, rankPs = 1, alarmId = 2, alarmDate = DATE_2
         )
 
         val noteFourth get() = NoteItem(
                 id = 3, create = DATE_2, change = DATE_1, color = 2, type = NoteType.TEXT,
-                rankId = 2, rankPs = 2
+                rankId = 2, rankPs = 2, isStatus = true
         )
 
         val itemList get() = mutableListOf(noteFirst, noteSecond, noteThird, noteFourth)
