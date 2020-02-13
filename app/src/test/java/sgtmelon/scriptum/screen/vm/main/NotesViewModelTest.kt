@@ -71,9 +71,103 @@ class NotesViewModelTest : ParentViewModelTest() {
         }
     }
 
-    @Test fun onUpdateData() {
-        TODO()
+    @Test fun onUpdateData_startEmpty_getNotEmpty() = startCoTest {
+        val itemList = data.itemList
+
+        coEvery { interactor.getCount() } returns itemList.size
+        coEvery { interactor.getList() } returns itemList
+        coEvery { interactor.isListHide() } returns false
+
+        viewModel.onUpdateData()
+
+        coVerifySequence {
+            callback.beforeLoad()
+
+            interactor.getCount()
+            callback.showProgress()
+            interactor.getList()
+
+            callback.notifyList(itemList)
+            interactor.isListHide()
+            callback.setupBinding(false)
+            callback.onBindingList()
+        }
     }
+
+    @Test fun onUpdateData_startEmpty_getEmpty() = startCoTest {
+        coEvery { interactor.getCount() } returns 0
+        coEvery { interactor.getList() } returns mutableListOf()
+        coEvery { interactor.isListHide() } returns true
+
+        viewModel.onUpdateData()
+
+        coVerifySequence {
+            callback.beforeLoad()
+
+            interactor.getCount()
+
+            callback.notifyList(mutableListOf())
+            interactor.isListHide()
+            callback.setupBinding(true)
+            callback.onBindingList()
+        }
+    }
+
+    @Test fun onUpdateData_startNotEmpty_getNotEmpty() = startCoTest {
+        val returnList = mutableListOf(data.itemList.first())
+
+        coEvery { interactor.getCount() } returns returnList.size
+        coEvery { interactor.getList() } returns returnList
+        coEvery { interactor.isListHide() } returns true
+
+        viewModel.itemList.addAll(data.itemList)
+        assertEquals(data.itemList, viewModel.itemList)
+
+        viewModel.onUpdateData()
+
+        coVerifySequence {
+            callback.beforeLoad()
+
+            callback.notifyList(any())
+            callback.onBindingList()
+
+            interactor.getCount()
+            interactor.getList()
+
+            callback.notifyList(returnList)
+            interactor.isListHide()
+            callback.setupBinding(true)
+            callback.onBindingList()
+        }
+    }
+
+    @Test fun onUpdateData_startNotEmpty_getEmpty() = startCoTest {
+        coEvery { interactor.getCount() } returns 0
+        coEvery { interactor.getList() } returns mutableListOf()
+        coEvery { interactor.isListHide() } returns false
+
+        val itemList = data.itemList
+
+        viewModel.itemList.addAll(itemList)
+        assertEquals(itemList, viewModel.itemList)
+
+        viewModel.onUpdateData()
+
+        coVerifySequence {
+            callback.beforeLoad()
+
+            callback.notifyList(any())
+            callback.onBindingList()
+
+            interactor.getCount()
+
+            callback.notifyList(mutableListOf())
+            interactor.isListHide()
+            callback.setupBinding(false)
+            callback.onBindingList()
+        }
+    }
+
 
     @Test fun onClickNote() {
         viewModel.onClickNote(Random.nextInt())

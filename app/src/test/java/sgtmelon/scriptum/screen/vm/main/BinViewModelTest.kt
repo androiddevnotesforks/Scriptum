@@ -143,7 +143,6 @@ class BinViewModelTest : ParentViewModelTest() {
     }
 
 
-
     @Test fun onClickClearBin() = startCoTest {
         viewModel.itemList.addAll(data.itemList)
         assertEquals(data.itemList, viewModel.itemList)
