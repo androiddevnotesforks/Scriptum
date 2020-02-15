@@ -2,6 +2,7 @@ package sgtmelon.scriptum.screen.vm.note
 
 import android.app.Application
 import android.os.Bundle
+import androidx.annotation.VisibleForTesting
 import sgtmelon.scriptum.interactor.callback.note.INoteInteractor
 import sgtmelon.scriptum.model.data.NoteData.Default
 import sgtmelon.scriptum.model.data.NoteData.Intent
@@ -24,9 +25,9 @@ class NoteViewModel(application: Application) : ParentViewModel<INoteActivity>(a
     }
 
 
-    private var id: Long = Default.ID
-    private var color: Int = Default.COLOR
-    private var type: NoteType? = null
+    @VisibleForTesting var id: Long = Default.ID
+    @VisibleForTesting var color: Int = Default.COLOR
+    @VisibleForTesting var type: NoteType? = null
 
     override fun onSetup(bundle: Bundle?) {
         id = bundle?.getLong(Intent.ID, Default.ID) ?: Default.ID
