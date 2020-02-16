@@ -32,7 +32,9 @@ class NoteViewModel(application: Application) : ParentViewModel<INoteActivity>(a
     override fun onSetup(bundle: Bundle?) {
         id = bundle?.getLong(Intent.ID, Default.ID) ?: Default.ID
         color = bundle?.getInt(Intent.COLOR, Default.COLOR) ?: Default.COLOR
-        type = NoteType.values().getOrNull(index = bundle?.getInt(Intent.TYPE) ?: Default.TYPE)
+
+        val typeOrdinal = bundle?.getInt(Intent.TYPE, Default.TYPE) ?: Default.TYPE
+        type = NoteType.values().getOrNull(typeOrdinal)
 
         if (color == Default.COLOR) {
             color = interactor.defaultColor

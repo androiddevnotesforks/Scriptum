@@ -4,6 +4,7 @@ import android.os.Bundle
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkClass
+import io.mockk.verifyAll
 import io.mockk.verifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Test
@@ -17,10 +18,13 @@ import sgtmelon.scriptum.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
+import sgtmelon.scriptum.model.data.NoteData.Default
+import sgtmelon.scriptum.model.data.NoteData.Intent
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.ui.callback.note.INoteActivity
 import sgtmelon.scriptum.screen.ui.callback.notification.IAlarmActivity
 import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
+import kotlin.random.Random
 
 /**
  * Test for [NoteViewModel]
@@ -52,20 +56,130 @@ class NoteViewModelTest : ParentViewModelTest() {
     }
 
 
-    @Test fun onSetup() {
-        TODO()
+    @Test fun onSetup_nullBundle() {
+        val color = Color.RED
+        val theme = Theme.DARK
+
+        every { interactor.defaultColor } returns color
+        every { interactor.theme } returns theme
+
+        viewModel.onSetup()
+
+        assertEquals(Default.ID, viewModel.id)
+        assertEquals(color, viewModel.color)
+        assertEquals(null, viewModel.type)
+
+        verifySequence {
+            interactor.defaultColor
+            interactor.theme
+            callback.updateHolder(theme, color)
+        }
     }
 
+    @Test fun onSetup_fillBundle_badData() {
+        val color = Color.ORANGE
+        val theme = Theme.LIGHT
+
+        every { bundle.getLong(Intent.ID, Default.ID) } returns Default.ID
+        every { bundle.getInt(Intent.COLOR, Default.COLOR) } returns Default.COLOR
+        every { bundle.getInt(Intent.TYPE, Default.TYPE) } returns Default.TYPE
+
+        every { interactor.defaultColor } returns color
+        every { interactor.theme } returns theme
+
+        viewModel.onSetup(bundle)
+
+        assertEquals(Default.ID, viewModel.id)
+        assertEquals(color, viewModel.color)
+        assertEquals(null, viewModel.type)
+
+        verifySequence {
+            bundle.getLong(Intent.ID, Default.ID)
+            bundle.getInt(Intent.COLOR, Default.COLOR)
+            bundle.getInt(Intent.TYPE, Default.TYPE)
+
+            interactor.defaultColor
+            interactor.theme
+            callback.updateHolder(theme, color)
+        }
+    }
+
+    @Test fun onSetup_fillBundle_goodData() {
+        val id = Random.nextLong()
+        val color = Color.TEAL
+        val theme = Theme.DARK
+
+        every { bundle.getLong(Intent.ID, Default.ID) } returns id
+        every { bundle.getInt(Intent.COLOR, Default.COLOR) } returns color
+        every { bundle.getInt(Intent.TYPE, Default.TYPE) } returns NoteType.TEXT.ordinal
+
+        every { interactor.theme } returns theme
+
+        viewModel.onSetup(bundle)
+
+        verifySequence {
+            bundle.getLong(Intent.ID, Default.ID)
+            bundle.getInt(Intent.COLOR, Default.COLOR)
+            bundle.getInt(Intent.TYPE, Default.TYPE)
+
+            interactor.theme
+            callback.updateHolder(theme, color)
+        }
+    }
+
+
     @Test fun onSaveData() {
-        TODO()
+        val id = Random.nextLong()
+        val color = Color.BLUE
+        val type = NoteType.TEXT
+
+        every { bundle.putLong(Intent.ID, any()) } returns Unit
+        every { bundle.putInt(Intent.COLOR, any()) } returns Unit
+        every { bundle.putInt(Intent.TYPE, any()) } returns Unit
+
+        viewModel.id = id
+        viewModel.color = color
+
+        viewModel.onSaveData(bundle)
+
+        viewModel.type = type
+        viewModel.onSaveData(bundle)
+
+        verifySequence {
+            bundle.putLong(Intent.ID, id)
+            bundle.putInt(Intent.COLOR, color)
+            bundle.putInt(Intent.TYPE, Default.TYPE)
+
+            bundle.putLong(Intent.ID, id)
+            bundle.putInt(Intent.COLOR, color)
+            bundle.putInt(Intent.TYPE, type.ordinal)
+        }
     }
 
     @Test fun onSetupFragment() {
-        TODO()
+        val id = Random.nextLong()
+        val color = Color.BROWN
+
+        viewModel.id = id
+        viewModel.color = color
+
+        viewModel.onSetupFragment(checkCache = false)
+
+        viewModel.type = NoteType.TEXT
+        viewModel.onSetupFragment(checkCache = true)
+
+        viewModel.type = NoteType.ROLL
+        viewModel.onSetupFragment(checkCache = false)
+
+        verifySequence {
+            callback.finish()
+            callback.showTextFragment(id, color, checkCache = true)
+            callback.showRollFragment(id, color, checkCache = false)
+        }
     }
 
     @Test fun onPressBack() {
-        viewModel.type = null
+        assertEquals(null, viewModel.type)
         assertFalse(viewModel.onPressBack())
 
         every { callback.onPressBackText() } returns true
@@ -85,7 +199,11 @@ class NoteViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onUpdateNoteId() {
-        TODO()
+        val id = Random.nextLong()
+
+        assertEquals(Default.ID, viewModel.id)
+        viewModel.onUpdateNoteId(id)
+        assertEquals(id, viewModel.id)
     }
 
     @Test fun onUpdateNoteColor() {
@@ -94,6 +212,7 @@ class NoteViewModelTest : ParentViewModelTest() {
 
         every { interactor.theme } returns theme
 
+        assertEquals(Default.COLOR, viewModel.color)
         viewModel.onUpdateNoteColor(color)
 
         assertEquals(color, viewModel.color)
@@ -101,7 +220,29 @@ class NoteViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onConvertNote() {
-        TODO()
+        val id = Random.nextLong()
+        val color = Color.ORANGE
+
+        viewModel.id = id
+        viewModel.color = color
+
+        viewModel.onConvertNote()
+
+        viewModel.type = NoteType.TEXT
+        viewModel.onConvertNote()
+
+        assertEquals(NoteType.ROLL, viewModel.type)
+
+        viewModel.type = NoteType.ROLL
+        viewModel.onConvertNote()
+
+        assertEquals(NoteType.TEXT, viewModel.type)
+
+        verifySequence {
+            callback.finish()
+            callback.showRollFragment(id, color, checkCache = true)
+            callback.showTextFragment(id, color, checkCache = true)
+        }
     }
 
 }
