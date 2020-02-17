@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.ui.part.panel
 
+import android.view.inputmethod.EditorInfo
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.State
@@ -62,13 +63,16 @@ class RollAddPanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi
 
         val enterEmpty = enterText.isEmpty()
 
-        textEnter.isDisplayed(visible) {
-            if (!enterEmpty) {
-                withText(enterText, R.attr.clContent, R.dimen.text_18sp)
-            } else {
-                withHint(R.string.hint_enter_roll, R.attr.clDisable, R.dimen.text_18sp)
-            }
-        }
+        textEnter.isDisplayed(visible)
+                .withImeAction(EditorInfo.IME_ACTION_DONE)
+                .withBackgroundColor(android.R.color.transparent)
+                .apply {
+                    if (!enterEmpty) {
+                        withText(enterText, R.attr.clContent, R.dimen.text_18sp)
+                    } else {
+                        withHint(R.string.hint_enter_roll, R.attr.clDisable, R.dimen.text_18sp)
+                    }
+                }
 
         val addTint = if (enterEmpty) R.attr.clDisable else R.attr.clAccent
         addButton.isDisplayed(visible).isEnabled(!enterEmpty)

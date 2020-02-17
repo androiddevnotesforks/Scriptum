@@ -2,12 +2,8 @@
 
 package sgtmelon.scriptum
 
-import sgtmelon.scriptum.test.auto.note.roll.RollNoteDialogTest
-import sgtmelon.scriptum.test.auto.note.text.TextNoteDialogTest
 import sgtmelon.scriptum.test.content.note.ParentNoteContentTest
 import sgtmelon.scriptum.test.control.anim.NoteIconAnimTest
-import sgtmelon.scriptum.test.control.rotation.note.RollNoteRotationTest
-import sgtmelon.scriptum.test.control.rotation.note.TextNoteRotationTest
 
 // EXAMPLE: TODO(reason = "#TEST write test")
 
@@ -28,13 +24,6 @@ class Rank {
 }
 
 class Note {
-    /**
-     * TODO #TEST - При нажатии на кнопку отмены тулбара, после автоматического сохранения, заметка закрывалась, а не переходила в режим просмотра
-     * ... Не обновлялось id внутри Text/RollNoteViewModel
-     * # Для текста
-     * # Для списка
-     */
-
     /**
      * TODO #TEST - После конвертирования заметки и попытке открепить её от статус бара (через кнопку в уведомлении) информация в заметке не обновлялась
      * ... не обновлялся id внутри NoteViewModel
@@ -71,6 +60,13 @@ class AutoSave {
     /**
      * TODO #TEST animation from arrow to cross on text/roll auto save
      * [NoteIconAnimTest]
+     */
+
+    /**
+     * TODO #TEST - При нажатии на кнопку отмены тулбара, после автоматического сохранения, заметка закрывалась, а не переходила в режим просмотра
+     * ... Не обновлялось id внутри Text/RollNoteViewModel
+     * # Для текста
+     * # Для списка
      */
 }
 

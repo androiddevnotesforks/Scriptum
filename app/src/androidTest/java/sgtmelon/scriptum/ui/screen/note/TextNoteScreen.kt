@@ -40,6 +40,14 @@ class TextNoteScreen(
     private val contentText = getViewById(R.id.text_note_content_text)
     private val contentEnter = getViewById(R.id.text_note_content_enter)
 
+    fun toolbar(func: NoteToolbar<TextNoteScreen>.() -> Unit) = apply {
+        NoteToolbar.invoke(func, callback = this)
+    }
+
+    fun controlPanel(func: NotePanel<TextNoteScreen>.() -> Unit) = apply {
+        NotePanel.invoke(func, callback = this)
+    }
+
     //endregion
 
     override var shadowItem: NoteItem = noteItem.deepCopy()
@@ -52,13 +60,6 @@ class TextNoteScreen(
         controlPanel { assert() }
     }
 
-    fun toolbar(func: NoteToolbar<TextNoteScreen>.() -> Unit) = apply {
-        NoteToolbar.invoke(func, callback = this)
-    }
-
-    fun controlPanel(func: NotePanel<TextNoteScreen>.() -> Unit) = apply {
-        NotePanel.invoke(func, callback = this)
-    }
 
     fun onEnterText(text: String = "") = apply {
         contentEnter.typeText(text)

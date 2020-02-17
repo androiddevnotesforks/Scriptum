@@ -24,7 +24,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent">
 
-                <CheckBox style="@style/Button.Roll.Write"/>
+                <CheckBox
+                        android:id="@+id/roll_write_check"
+                        style="@style/Button.Roll.Write"/>
 
                 <ImageButton
                         android:id="@+id/roll_write_drag_button"

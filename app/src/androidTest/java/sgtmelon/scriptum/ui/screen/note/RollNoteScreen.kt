@@ -1,14 +1,20 @@
 package sgtmelon.scriptum.ui.screen.note
 
+import android.view.View
+import android.view.inputmethod.EditorInfo
+import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.adapter.RollAdapter
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.item.NoteItem
+import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
 import sgtmelon.scriptum.ui.IPressBack
+import sgtmelon.scriptum.ui.ParentRecyclerItem
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.part.panel.NotePanel
 import sgtmelon.scriptum.ui.part.panel.RollAddPanel
@@ -35,6 +41,20 @@ class RollNoteScreen(
     private val parentContainer = getViewById(R.id.roll_note_parent_container)
     private val progressBar = getViewById(R.id.roll_note_progress)
 
+    private fun getItem(position: Int) = Item(recyclerView, position, state)
+
+    fun toolbar(func: NoteToolbar<RollNoteScreen>.() -> Unit) = apply {
+        NoteToolbar.invoke(func, callback = this)
+    }
+
+    fun enterPanel(func: RollAddPanel<RollNoteScreen>.() -> Unit) = apply {
+        RollAddPanel.invoke(func, callback = this)
+    }
+
+    fun controlPanel(func: NotePanel<RollNoteScreen>.() -> Unit) = apply {
+        NotePanel.invoke(func, callback = this)
+    }
+
     //endregion
 
     override var shadowItem: NoteItem = noteItem.deepCopy()
@@ -48,16 +68,17 @@ class RollNoteScreen(
         enterPanel { assert() }
     }
 
-    fun toolbar(func: NoteToolbar<RollNoteScreen>.() -> Unit) = apply {
-        NoteToolbar.invoke(func, callback = this)
+
+    fun onEnterText(text: String = "", p: Int = random) {
+        getItem(p).rollText.typeText(text)
     }
 
-    fun enterPanel(func: RollAddPanel<RollNoteScreen>.() -> Unit) = apply {
-        RollAddPanel.invoke(func, callback = this)
+    fun onClickCheck(p: Int = random) {
+        getItem(p).clickButton.click()
     }
 
-    fun controlPanel(func: NotePanel<RollNoteScreen>.() -> Unit) = apply {
-        NotePanel.invoke(func, callback = this)
+    fun onLongClick(p: Int = random) {
+        getItem(p).clickButton.longClick()
     }
 
     fun onSwipeAll() {
@@ -96,6 +117,10 @@ class RollNoteScreen(
     }
 
 
+    fun onAssertItem(rollItem: RollItem) {
+        getItem(rollItem.position).assert(rollItem)
+    }
+
     fun assert() {
         toolbarHolder.withBackgroundAppColor(theme, noteItem.color, needDark = false)
                 .withSizeAttr(heightAttr = android.R.attr.actionBarSize)
@@ -111,6 +136,86 @@ class RollNoteScreen(
         }.withProgress(noteItem.getCheck(), noteItem.rollList.size)
 
         recyclerView.isDisplayed()
+    }
+
+    /**
+     * Class for UI control of [RollAdapter].
+     */
+    private class Item(
+            listMatcher: Matcher<View>,
+            position: Int,
+            private val state: State
+    ) : ParentRecyclerItem<RollItem>(listMatcher, position) {
+
+        private val parentCard by lazy {
+            getChild(getViewById(when (state) {
+                State.READ, State.BIN -> R.id.roll_read_parent_card
+                State.EDIT, State.NEW -> R.id.roll_write_parent_card
+            }))
+        }
+
+        private val checkBox by lazy {
+            getChild(getViewById(when (state) {
+                State.READ, State.BIN -> R.id.roll_read_check
+                State.EDIT, State.NEW -> R.id.roll_write_check
+            }))
+        }
+
+        val clickButton by lazy {
+            getChild(getViewById(when (state) {
+                State.READ, State.BIN -> R.id.roll_read_click_button
+                State.EDIT, State.NEW -> R.id.roll_write_drag_button
+            }))
+        }
+
+        val rollText by lazy {
+            getChild(getViewById(when (state) {
+                State.READ, State.BIN -> R.id.roll_read_text
+                State.EDIT, State.NEW -> R.id.roll_write_enter
+            }))
+        }
+
+        override fun assert(item: RollItem) {
+            parentCard.isDisplayed().withCardBackground(R.attr.clBackgroundView)
+
+            val textColor = if (!item.isCheck) R.attr.clContent else R.attr.clContrast
+
+            when(state) {
+                State.READ, State.BIN -> {
+                    checkBox.isDisplayed().isChecked(item.isCheck)
+                    clickButton.isDisplayed(visible = state != State.BIN)
+                            .withContentDescription(if (item.isCheck) {
+                                R.string.description_item_roll_uncheck
+                            } else {
+                                R.string.description_item_roll_check
+                            })
+
+                    rollText.isDisplayed().withText(item.text, textColor, R.dimen.text_18sp)
+                            .withBackgroundColor(android.R.color.transparent)
+                }
+                State.EDIT, State.NEW -> {
+                    checkBox.isDisplayed(visible = false)
+
+                    val color =  if (item.isCheck) R.attr.clAccent else R.attr.clContent
+                    val description = context.getString(R.string.description_item_roll_move).plus(other = " ").plus(item.text)
+                    clickButton.isDisplayed()
+                            .withDrawableAttr(R.drawable.ic_move, color)
+                            .withContentDescription(description)
+
+                    rollText.isDisplayed()
+                            .withImeAction(EditorInfo.IME_ACTION_NEXT)
+                            .withBackgroundColor(android.R.color.transparent)
+                            .apply {
+                                if (item.text.isNotEmpty()) {
+                                    withText(item.text, textColor, R.dimen.text_18sp)
+                                } else {
+                                    withHint(R.string.hind_enter_roll_empty, R.attr.clDisable, R.dimen.text_18sp)
+                                }
+                            }
+                }
+            }
+        }
+
     }
 
     companion object {

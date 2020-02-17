@@ -84,6 +84,7 @@ class RankToolbar : ParentUi(), IKeyboardOption {
 
         nameEnter.isDisplayed()
                 .withImeAction(EditorInfo.IME_ACTION_DONE)
+                .withBackgroundColor(android.R.color.transparent)
                 .apply {
                     if (!enterEmpty) {
                         withText(enter, R.attr.clContent, R.dimen.text_18sp)
