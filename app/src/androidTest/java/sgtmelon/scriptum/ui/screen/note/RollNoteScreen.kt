@@ -117,6 +117,8 @@ class RollNoteScreen(
     }
 
 
+    fun onAssertAll() = noteItem.rollList.forEach { onAssertItem(it) }
+
     fun onAssertItem(rollItem: RollItem) {
         getItem(rollItem.position).assert(rollItem)
     }
@@ -183,12 +185,15 @@ class RollNoteScreen(
             when(state) {
                 State.READ, State.BIN -> {
                     checkBox.isDisplayed().isChecked(item.isCheck)
+
+                    val description = context.getString(if (item.isCheck) {
+                        R.string.description_item_roll_uncheck
+                    } else {
+                        R.string.description_item_roll_check
+                    }).plus(other = " ").plus(item.text)
+
                     clickButton.isDisplayed(visible = state != State.BIN)
-                            .withContentDescription(if (item.isCheck) {
-                                R.string.description_item_roll_uncheck
-                            } else {
-                                R.string.description_item_roll_check
-                            })
+                            .withContentDescription(description)
 
                     rollText.isDisplayed().withText(item.text, textColor, R.dimen.text_18sp)
                             .withBackgroundColor(android.R.color.transparent)
