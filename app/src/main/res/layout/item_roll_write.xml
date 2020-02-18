@@ -7,6 +7,12 @@
         <import type="sgtmelon.scriptum.R"/>
 
         <variable name="item" type="sgtmelon.scriptum.model.item.RollItem"/>
+
+        <!--
+            Use when user change roll text need update contentDescription without
+            calling onTextChanged in EditText.
+        -->
+        <variable name="descText" type="String"/>
     </data>
 
     <androidx.cardview.widget.CardView
@@ -31,7 +37,7 @@
                 <ImageButton
                         android:id="@+id/roll_write_drag_button"
                         style="@style/Container.Roll.Click"
-                        android:contentDescription='@{@string/description_item_roll_move + " " + item.text}'
+                        android:contentDescription='@{@string/description_item_roll_move + " " + descText}'
                         app:boolExpression='@{item.check}'
                         app:falseColor='@{R.attr.clContent}'
                         app:srcCompat="@drawable/ic_move"

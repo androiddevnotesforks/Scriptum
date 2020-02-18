@@ -10,7 +10,7 @@ import sgtmelon.scriptum.test.ParentUiTest
  * Test content for [TextNoteFragment].
  */
 @RunWith(AndroidJUnit4::class)
-class TextNoteContentTest : ParentUiTest() {
+class TextNoteTest : ParentUiTest() {
 
     @Test fun contentOnBinWithoutName() = data.insertTextToBin(data.textNote.copy(name = "")).let {
         launch { mainScreen { binScreen { openTextNote(it) } } }

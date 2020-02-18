@@ -53,7 +53,10 @@ class RollWriteHolder(
     }
 
     fun bind(item: RollItem) = inputControl?.makeNotEnabled {
-        binding.apply { this.item = item }.executePendingBindings()
+        binding.apply {
+            this.item = item
+            this.descText = item.text
+        }.executePendingBindings()
     }
 
     /**
@@ -98,7 +101,10 @@ class RollWriteHolder(
     }
 
     override fun afterTextChanged(s: Editable) {
-        callback.onInputRollChange(adapterPosition, s.toString())
+        val text = s.toString()
+
+        callback.onInputRollChange(adapterPosition, text)
+        binding.apply { descText = text }.executePendingBindings()
     }
 
     interface Callback {

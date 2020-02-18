@@ -10,7 +10,7 @@ import sgtmelon.scriptum.test.ParentUiTest
  * Test content for [RollNoteFragment].
  */
 @RunWith(AndroidJUnit4::class)
-class RollNoteContentTest : ParentUiTest() {
+class RollNoteTest : ParentUiTest() {
 
     @Test fun contentOnBinWithoutName() = data.insertRollToBin(data.rollNote.copy(name = "")).let {
         launch { mainScreen { binScreen { openRollNote(it) } } }

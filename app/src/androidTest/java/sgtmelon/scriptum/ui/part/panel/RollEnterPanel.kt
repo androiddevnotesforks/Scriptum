@@ -13,7 +13,7 @@ import kotlin.random.Random
 /**
  * Part of UI abstraction for [RollNoteScreen]
  */
-class RollAddPanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi() {
+class RollEnterPanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi() {
 
     //region Views
 
@@ -45,7 +45,10 @@ class RollAddPanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi
         } else {
             addButton.longClick()
 
-            callback.shadowItem.rollList.add(0, RollItem(position = 0, text = text))
+            callback.shadowItem.rollList.apply {
+                add(0, RollItem(position = 0, text = text))
+                forEachIndexed { i, item -> item.position = i }
+            }
         }
 
         enterText = ""
@@ -81,9 +84,9 @@ class RollAddPanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi
     }
 
     companion object {
-        operator fun <T: ParentUi> invoke(func: RollAddPanel<T>.() -> Unit,
-                                          callback: INoteScreen<T>): RollAddPanel<T> {
-            return RollAddPanel(callback).assert().apply(func)
+        operator fun <T: ParentUi> invoke(func: RollEnterPanel<T>.() -> Unit,
+                                          callback: INoteScreen<T>): RollEnterPanel<T> {
+            return RollEnterPanel(callback).assert().apply(func)
         }
     }
 

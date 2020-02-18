@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.ui.part.toolbar
 
 import android.os.Build
+import android.view.inputmethod.EditorInfo
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.State
@@ -99,13 +100,16 @@ class NoteToolbar<T : ParentUi>(private val callback: INoteScreen<T>) : ParentTo
                     val name = shadowItem.name
 
                     nameText.isDisplayed(visible = false)
-                    nameEnter.isDisplayed {
-                        if (name.isNotEmpty()) {
-                            withText(name, R.attr.clContent)
-                        } else {
-                            withHint(R.string.hint_enter_name, R.attr.clContentSecond)
-                        }
-                    }
+                    nameEnter.isDisplayed()
+                            .withImeAction(EditorInfo.IME_ACTION_NEXT)
+                            .withBackgroundColor(android.R.color.transparent)
+                            .apply {
+                                if (name.isNotEmpty()) {
+                                    withText(name, R.attr.clContent)
+                                } else {
+                                    withHint(R.string.hint_enter_name, R.attr.clContentSecond)
+                                }
+                            }
                 }
             }
         }

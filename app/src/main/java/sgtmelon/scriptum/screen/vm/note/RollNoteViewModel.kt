@@ -563,6 +563,9 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         callback?.onBindingInput(noteItem, inputControl.access)
     }
 
+    /**
+     * TODO getOrNull, refactor list apply
+     */
     override fun onInputRollChange(p: Int, text: String) {
         callback?.apply {
             val list = noteItem.rollList.apply {

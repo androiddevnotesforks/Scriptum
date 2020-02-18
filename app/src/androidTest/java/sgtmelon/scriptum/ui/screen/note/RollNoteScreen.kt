@@ -13,11 +13,13 @@ import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
+import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel.Companion.onItemCheck
+import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel.Companion.onItemLongCheck
 import sgtmelon.scriptum.ui.IPressBack
 import sgtmelon.scriptum.ui.ParentRecyclerItem
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.part.panel.NotePanel
-import sgtmelon.scriptum.ui.part.panel.RollAddPanel
+import sgtmelon.scriptum.ui.part.panel.RollEnterPanel
 import sgtmelon.scriptum.ui.part.toolbar.NoteToolbar
 
 /**
@@ -47,8 +49,8 @@ class RollNoteScreen(
         NoteToolbar.invoke(func, callback = this)
     }
 
-    fun enterPanel(func: RollAddPanel<RollNoteScreen>.() -> Unit) = apply {
-        RollAddPanel.invoke(func, callback = this)
+    fun enterPanel(func: RollEnterPanel<RollNoteScreen>.() -> Unit) = apply {
+        RollEnterPanel.invoke(func, callback = this)
     }
 
     fun controlPanel(func: NotePanel<RollNoteScreen>.() -> Unit) = apply {
@@ -69,16 +71,51 @@ class RollNoteScreen(
     }
 
 
-    fun onEnterText(text: String = "", p: Int = random) {
-        getItem(p).rollText.typeText(text)
+    fun onEnterText(text: String = "", p: Int = random) = apply {
+        when(state) {
+            State.READ, State.BIN -> throw IllegalAccessException(STATE_ERROR_TEXT)
+            State.EDIT, State.NEW ->  {
+                getItem(p).rollText.typeText(text)
+
+                val item = shadowItem.rollList[p]
+                item.text = text
+
+                getItem(p).assert(item)
+            }
+        }
+
     }
 
-    fun onClickCheck(p: Int = random) {
-        getItem(p).clickButton.click()
+    /**
+     * TODO #TEST add progress indicator test.
+     */
+    fun onClickCheck(p: Int = random) = apply {
+        when(state) {
+            State.READ, State.BIN -> {
+                getItem(p).clickButton.click()
+
+                noteItem.onItemCheck(p)
+
+                getItem(p).assert(noteItem.rollList[p])
+            }
+            State.EDIT, State.NEW -> throw IllegalAccessException(STATE_ERROR_TEXT)
+        }
     }
 
-    fun onLongClick(p: Int = random) {
-        getItem(p).clickButton.longClick()
+    /**
+     * TODO #TEST add progress indicator test.
+     */
+    fun onLongClickCheck(p: Int = random) = apply {
+        when(state) {
+            State.READ, State.BIN -> {
+                getItem(p).clickButton.longClick()
+
+                noteItem.onItemLongCheck()
+
+                onAssertAll()
+            }
+            State.EDIT, State.NEW -> throw IllegalAccessException(STATE_ERROR_TEXT)
+        }
     }
 
     fun onSwipeAll() {
@@ -88,7 +125,10 @@ class RollNoteScreen(
     fun onSwipe(p: Int = random) {
         waitAfter(SWIPE_TIME) { recyclerView.swipeItem(p) }
 
-        shadowItem.rollList.removeAt(p)
+        shadowItem.rollList.apply {
+            removeAt(p)
+            forEachIndexed { i, item -> item.position = i }
+        }
 
         assert()
     }
@@ -117,7 +157,12 @@ class RollNoteScreen(
     }
 
 
-    fun onAssertAll() = noteItem.rollList.forEach { onAssertItem(it) }
+    fun onAssertAll() {
+        when(state) {
+            State.READ, State.BIN -> noteItem.rollList.forEach { onAssertItem(it) }
+            State.EDIT, State.NEW -> shadowItem.rollList.forEach { onAssertItem(it) }
+        }
+    }
 
     fun onAssertItem(rollItem: RollItem) {
         getItem(rollItem.position).assert(rollItem)
@@ -143,11 +188,8 @@ class RollNoteScreen(
     /**
      * Class for UI control of [RollAdapter].
      */
-    private class Item(
-            listMatcher: Matcher<View>,
-            position: Int,
-            private val state: State
-    ) : ParentRecyclerItem<RollItem>(listMatcher, position) {
+    class Item(listMatcher: Matcher<View>, position: Int, private val state: State) :
+            ParentRecyclerItem<RollItem>(listMatcher, position) {
 
         private val parentCard by lazy {
             getChild(getViewById(when (state) {
@@ -226,10 +268,13 @@ class RollNoteScreen(
     companion object {
         private const val SWIPE_TIME = 150L
 
+        private const val STATE_ERROR_TEXT = "Wrong note state"
+        private const val TYPE_ERROR_TEXT = "Wrong note type"
+
         operator fun invoke(func: RollNoteScreen.() -> Unit, state: State,
                             noteItem: NoteItem, isRankEmpty: Boolean): RollNoteScreen {
             if (noteItem.type != NoteType.ROLL) {
-                throw IllegalAccessException("Wrong note type!")
+                throw IllegalAccessException(TYPE_ERROR_TEXT)
             }
 
             return RollNoteScreen(state, noteItem, isRankEmpty).fullAssert().apply(func)
