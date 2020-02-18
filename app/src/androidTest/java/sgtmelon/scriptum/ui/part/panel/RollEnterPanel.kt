@@ -4,6 +4,7 @@ import android.view.inputmethod.EditorInfo
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.State
+import sgtmelon.scriptum.extension.clearSpace
 import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.screen.note.INoteScreen
@@ -35,18 +36,19 @@ class RollEnterPanel<T: ParentUi>(private val callback: INoteScreen<T>) : Parent
         textEnter.typeText(text)
 
         enterText = text
+        val actualText = text.clearSpace()
 
         if (Random.nextBoolean()) {
             addButton.click()
 
             callback.shadowItem.rollList.apply {
-                add(size, RollItem(position = size, text = text))
+                add(size, RollItem(position = size, text = actualText))
             }
         } else {
             addButton.longClick()
 
             callback.shadowItem.rollList.apply {
-                add(0, RollItem(position = 0, text = text))
+                add(0, RollItem(position = 0, text = actualText))
                 forEachIndexed { i, item -> item.position = i }
             }
         }

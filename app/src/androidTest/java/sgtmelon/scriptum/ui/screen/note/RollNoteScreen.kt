@@ -83,12 +83,8 @@ class RollNoteScreen(
                 getItem(p).assert(item)
             }
         }
-
     }
 
-    /**
-     * TODO #TEST add progress indicator test.
-     */
     fun onClickCheck(p: Int = random) = apply {
         when(state) {
             State.READ, State.BIN -> {
@@ -102,9 +98,6 @@ class RollNoteScreen(
         }
     }
 
-    /**
-     * TODO #TEST add progress indicator test.
-     */
     fun onLongClickCheck(p: Int = random) = apply {
         when(state) {
             State.READ, State.BIN -> {
@@ -168,6 +161,9 @@ class RollNoteScreen(
         getItem(rollItem.position).assert(rollItem)
     }
 
+    /**
+     * TODO #TEST add progress indicator assert.
+     */
     fun assert() {
         toolbarHolder.withBackgroundAppColor(theme, noteItem.color, needDark = false)
                 .withSizeAttr(heightAttr = android.R.attr.actionBarSize)

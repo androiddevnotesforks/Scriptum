@@ -7,7 +7,7 @@ import sgtmelon.scriptum.test.ParentUiTest
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 
 /**
- * Test for [RollNoteScreen.Item]
+ * Test for [RollNoteScreen.Item].
  */
 @RunWith(AndroidJUnit4::class)
 class RollNoteContentTest : ParentUiTest() {

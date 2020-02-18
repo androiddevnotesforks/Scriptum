@@ -21,6 +21,8 @@ import sgtmelon.scriptum.ui.screen.main.BinScreen
 import sgtmelon.scriptum.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
+import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel.Companion.onSave as onRollSave
+import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel.Companion.onSave as onTextSave
 import java.util.*
 
 /**
@@ -125,7 +127,11 @@ class NotePanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi(),
                 state = State.READ
 
                 noteItem = shadowItem.deepCopy()
-                noteItem.change = getTime()
+
+                when(noteItem.type) {
+                    NoteType.TEXT -> noteItem.onTextSave()
+                    NoteType.ROLL -> noteItem.onRollSave()
+                }
 
                 inputControl.reset()
             }.fullAssert()
