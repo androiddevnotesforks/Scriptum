@@ -161,9 +161,7 @@ class RollNoteScreen(
         getItem(rollItem.position).assert(rollItem)
     }
 
-    /**
-     * TODO #TEST add progress indicator assert.
-     */
+
     fun assert() {
         toolbarHolder.withBackgroundAppColor(theme, noteItem.color, needDark = false)
                 .withSizeAttr(heightAttr = android.R.attr.actionBarSize)

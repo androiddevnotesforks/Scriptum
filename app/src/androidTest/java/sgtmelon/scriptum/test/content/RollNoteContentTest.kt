@@ -75,4 +75,22 @@ class RollNoteContentTest : ParentUiTest() {
         }
     }
 
+    @Test fun item_onEmptyDelete() = data.createRoll().let {
+        launch {
+            mainScreen {
+                notesScreen(empty = true) {
+                    openAddDialog {
+                        createRoll(it) {
+                            repeat(times = 5) { enterPanel { onAdd(data.uniqueString) } }
+                            onEnterText(p = 0).onEnterText(p = 3)
+
+                            controlPanel { onSave() }
+                            onAssertAll()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 }
