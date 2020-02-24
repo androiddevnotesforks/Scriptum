@@ -321,6 +321,8 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
         viewModelScope.launch {
             interactor.setDate(noteItem, calendar)
+            restoreItem = noteItem.deepCopy()
+
             callback?.onBingingNote(noteItem)
 
             bindInteractor.notifyInfoBind(callback)
@@ -342,7 +344,10 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     override fun onReceiveUnbindNote(id: Long) {
         if (this.id != id) return
 
-        callback?.onBingingNote(noteItem.apply { isStatus = false })
+        noteItem.apply { isStatus = false }
+        restoreItem.apply { isStatus = false }
+
+        callback?.onBingingNote(noteItem)
     }
 
     //region Menu click

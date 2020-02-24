@@ -236,6 +236,8 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
         viewModelScope.launch {
             interactor.setDate(noteItem, calendar)
+            restoreItem = noteItem.deepCopy()
+
             callback?.onBindingNote(noteItem)
 
             bindInteractor.notifyInfoBind(callback)
@@ -257,7 +259,10 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     override fun onReceiveUnbindNote(id: Long) {
         if (this.id != id) return
 
-        callback?.onBindingNote(noteItem.apply { isStatus = false })
+        noteItem.apply { isStatus = false }
+        restoreItem.apply { isStatus = false }
+
+        callback?.onBindingNote(noteItem)
     }
 
     //region Menu click

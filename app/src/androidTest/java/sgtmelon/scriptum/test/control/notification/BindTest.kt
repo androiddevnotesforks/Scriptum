@@ -9,7 +9,7 @@ import sgtmelon.scriptum.test.ParentNotificationTest
 import kotlin.random.Random
 
 /**
- * Test of note bind in status bar
+ * Test of note bind in status bar.
  */
 @RunWith(AndroidJUnit4::class)
 class BindTest : ParentNotificationTest() {

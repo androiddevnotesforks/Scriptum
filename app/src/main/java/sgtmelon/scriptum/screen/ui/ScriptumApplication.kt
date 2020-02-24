@@ -11,11 +11,11 @@ import sgtmelon.scriptum.extension.initLazy
  *
  * Need to be careful with lazy properties!
  *
- * 1.   Inside fragment setup view's ONLY manually. Inside activity setup view's with lazy func.
- *      Need setup manually because after rotation lazy function will return null.
+ * 1. Inside fragment setup view's ONLY manually. Inside activity setup view's with lazy func.
+ *    Need setup manually because after rotation lazy function will return null.
  *
- * 2.   Use [initLazy] for properties which contains [Context] in constructor.
- *      Troubles happen after rotation if property wasn't initialized.
+ * 2. Use [initLazy] for properties which contains [Context] in constructor.
+ *    Troubles happen after rotation if property wasn't initialized.
  */
 class ScriptumApplication : Application() {
 

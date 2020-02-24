@@ -12,7 +12,7 @@ import sgtmelon.scriptum.screen.vm.callback.IParentViewModel
  *
  * [T] is the interface for communicate with UI. Same like in [IParentViewModel].
  */
-abstract class ParentViewModel<T>(application: Application) : AndroidViewModel(application) {
+abstract class ParentViewModel<T>(application: Application) : AndroidViewModel(application), IParentViewModel {
 
     protected val context: Context = application.applicationContext
 
@@ -23,14 +23,11 @@ abstract class ParentViewModel<T>(application: Application) : AndroidViewModel(a
     /**
      * Call this func from when create viewModel.
      */
-    @CallSuper open fun setCallback(callback: T?) {
+    @CallSuper fun setCallback(callback: T?) {
         this.callback = callback
     }
 
-    /**
-     * Same func like in [IParentViewModel].
-     */
-    @CallSuper open fun onDestroy(func: () -> Unit = {}) {
+    override fun onDestroy(func: () -> Unit) {
         func()
         callback = null
     }
