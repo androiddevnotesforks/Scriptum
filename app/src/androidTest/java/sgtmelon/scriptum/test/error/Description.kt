@@ -5,53 +5,55 @@ class Description {
     class Note {
 
         /**
-         * При изменениях основной модели (noteItem) в read mode они не применяются к
-         * модели восстановления (restoreItem).
+         * Description:
+         * ~ If change main model (noteItem) in read mode, then changes not applying for
+         *   restore model (restoreItem).
          *
-         * Причина:
-         * Ошибка происходила из-за того, что при изменениях в read mode они не применялись для
-         * модели восстановления (restoreItem).
+         * Cause:
+         * ~ Error occurred due to during read mode, when changes not applying for
+         *   restore model (restoreItem).
          *
-         * Важно:
-         * ~ Необходимо проверить все изменения, которые можно сделать в read mode.
-         * ~ При откреплении от статус бара через шторку нужно в модели
-         *   восстановления (restoreItem) сбрасывать только ключ isStatus, а не полностью
-         *   копировать основную модель (noteItem). Потому что это может привести к сбою работы
-         *   во время редактирования заметки.
+         * What happening:
+         * ~ Changes restored in read mode when in edit mode click on toolbar cancel button. 
          *
-         * Получение бага:
-         * ~ Действие в read mode -> переход к редактированию -> нажать на крестик.
+         * Important:
+         * ~ Need check all changes which user can do in read mode and with
+         *   status bar notifications.
+         * ~ For status bar note unbind need update only isStatus key. Need test unbind also
+         *   in edit mode.
          *
-         * Пример:
-         * ~ Зайти в список -> тыкнуть на отметку пункта -> изменить -> крестик (отменить).
-         * ~ Зайти в текст -> тыкнуть на bind -> изменить -> крестик (отменить).
+         * Example:
+         * ~ Open roll note -> click item check -> click edit -> toolbar cancel.
+         * ~ Open text note -> click bind button -> click edit -> toolbar cancel.
          */
         class RestoreChanges
 
         class Roll {
 
             /**
-             * Тут проверяются сразу две ошибки связанные друг с другом (необходимо делать по порядку):
+             * Description:
+             * ~ Check two errors related with each other (must be done in order).
              *
-             * 1. В режиме редактирования списка нужно удалить текст с пункта и
-             *    сохранить (способ сохранения не важен).
+             * 1. In edit mode need remove text from list item and save note (does not matter how).
              *
-             *    Причина:
-             *    Использование библиотеки DiffUtil. Она не знала, что делать с пунктами, у которых не
-             *    присвоен id.
+             * Cause:
+             * ~ Due to library DiffUtil. It doesn't know what to do with not saved items
+             *   which has equals id.
              *
-             *    Происходит:
-             *    ~ Пункт медленно удаляется.
-             *    ~ Если пункт в середине, то происходит баг.
+             * What happening:
+             * ~ Item remove slowly.
+             * ~ If item in the middle when bug happen.
              *
-             * 2. Записывается не правильное количество пунктов (можно видеть в карточке на главном экране).
+             * How get:
+             * ~ Edit roll note -> remove text from item -> save.
              *
-             *    Причина:
-             *    Пустые пункты удалялись из списка модели после того, как происходил подсчёт выполненых
-             *    пунктов.
+             * 2. Write wrong number of list items (can see in note card indicator on main screen).
              *
-             *    Происходит:
-             *    После выполнения действий из первого бага.
+             * Cause:
+             * ~ Empty list items was removed after calculation of done items.
+             *
+             * How get:
+             * ~ After done of first bug.
              */
             class RemoveEmptyItem
 
