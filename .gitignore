@@ -6,3 +6,5 @@
 /captures
 .externalNativeBuild
 .idea
+/buildSrc/build/libs/buildSrc.jar
+/buildSrc/build/tmp/jar/MANIFEST.MF
