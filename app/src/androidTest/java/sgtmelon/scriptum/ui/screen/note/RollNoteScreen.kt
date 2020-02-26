@@ -174,7 +174,8 @@ class RollNoteScreen(
         parentContainer.isDisplayed()
         progressBar.isDisplayed(visible = state == State.READ || state == State.BIN) {
             withSize(heightId = R.dimen.layout_4dp)
-        }.withProgress(noteItem.getCheck(), noteItem.rollList.size)
+            withProgress(noteItem.getCheck(), noteItem.rollList.size)
+        }
 
         recyclerView.isDisplayed()
     }

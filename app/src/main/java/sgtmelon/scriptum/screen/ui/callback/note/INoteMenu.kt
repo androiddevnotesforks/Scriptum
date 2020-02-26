@@ -30,7 +30,7 @@ interface INoteMenu {
 
     /**
      * Return true on success save
-     * [changeMode] - need change mode or not
+     * [changeMode] - need change mode or not.
      */
     fun onMenuSave(changeMode: Boolean): Boolean
 

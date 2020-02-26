@@ -137,6 +137,7 @@
                         style="@style/Button.Small"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:onClick='@{() -> menuCallback.onMenuSave(true)}'
+                        android:onLongClick='@{() -> menuCallback.onMenuSave(false)}'
                         android:text="@string/button_note_save"
                         app:enabled='@{item.isSaveEnabled()}'/>
 

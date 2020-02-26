@@ -138,6 +138,21 @@ class NotePanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi(),
         }
     }
 
+    fun onLongSave() = apply {
+        callback.throwOnWrongState(State.EDIT, State.NEW) {
+            saveButton.longClick()
+
+            callback.apply {
+                noteItem = shadowItem.deepCopy()
+
+                when(noteItem.type) {
+                    NoteType.TEXT -> noteItem.onTextSave()
+                    NoteType.ROLL -> noteItem.onRollSave()
+                }
+            }.fullAssert()
+        }
+    }
+
     fun onNotification(updateDate: Boolean = false, func: DateDialogUi.() -> Unit = {}) {
         callback.throwOnWrongState(State.READ) {
             notificationButton.click()

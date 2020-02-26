@@ -132,6 +132,7 @@ class TextNotePanelTest : ParentUiTest() {
         }
     }
 
+
     @Test fun actionOnCreateSave() = data.createText().let {
         launch {
             mainScreen {
@@ -139,6 +140,7 @@ class TextNotePanelTest : ParentUiTest() {
                     createText(it) {
                         toolbar { onEnterName(data.uniqueString) }
                         onEnterText(data.uniqueString).onEnterText().onEnterText(data.uniqueString)
+
                         controlPanel { onSave() }
                     }
                 }
@@ -152,10 +154,47 @@ class TextNotePanelTest : ParentUiTest() {
                 notesScreen {
                     openTextNote(it) {
                         controlPanel { onEdit() }
+
                         onEnterText()
                         toolbar { onEnterName(data.uniqueString) }
                         onEnterText(data.uniqueString)
+
                         controlPanel { onSave() }
+                    }
+                }
+            }
+        }
+    }
+
+    @Test fun actionOnCreateLongSave() = data.createText().let {
+        launch {
+            mainScreen {
+                openAddDialog {
+                    createText(it) {
+                        toolbar { onEnterName(data.uniqueString) }
+                        onEnterText(data.uniqueString).onEnterText().onEnterText(data.uniqueString)
+
+                        controlPanel { onLongSave() }
+                        toolbar { onClickBack() }
+                    }
+                }
+            }
+        }
+    }
+
+    @Test fun actionOnEditLongSave() = data.insertText().let {
+        launch {
+            mainScreen {
+                notesScreen {
+                    openTextNote(it) {
+                        controlPanel { onEdit() }
+
+                        onEnterText()
+                        toolbar { onEnterName(data.uniqueString) }
+                        onEnterText(data.uniqueString)
+
+                        controlPanel { onLongSave() }
+                        toolbar { onClickBack() }
                     }
                 }
             }
