@@ -114,7 +114,9 @@ class TextNotePanelTest : ParentUiTest() {
         launch {
             mainScreen {
                 notesScreen {
-                    openTextNote(item, isRankEmpty = false) { controlPanel { onRank(it) } }
+                    openTextNote(item, isRankEmpty = false) {
+                        controlPanel { onEdit().onRank(it) }
+                    }
                 }
             }
         }
