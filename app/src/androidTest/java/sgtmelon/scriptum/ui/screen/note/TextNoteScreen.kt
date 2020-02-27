@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.ui.screen.note
 
+import android.view.inputmethod.EditorInfo
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.control.input.InputControl
@@ -120,20 +121,26 @@ class TextNoteScreen(
 
         when (state) {
             State.READ, State.BIN -> {
-                contentText.isDisplayed().withText(noteItem.text, R.attr.clContent, R.dimen.text_18sp)
+                contentText.isDisplayed()
+                        .withBackgroundColor(android.R.color.transparent)
+                        .withText(noteItem.text, R.attr.clContent, R.dimen.text_18sp)
+
                 contentEnter.isDisplayed(visible = false)
             }
             State.EDIT, State.NEW -> {
                 contentText.isDisplayed(visible = false)
 
                 val text = shadowItem.text
-                contentEnter.isDisplayed {
-                    if (text.isNotEmpty()) {
-                        withText(text, R.attr.clContent, R.dimen.text_18sp)
-                    } else {
-                        withHint(R.string.hint_enter_text, R.attr.clDisable, R.dimen.text_18sp)
-                    }
-                }
+                contentEnter.isDisplayed()
+                        .withImeAction(EditorInfo.IME_ACTION_NEXT)
+                        .withBackgroundColor(android.R.color.transparent)
+                        .apply {
+                            if (text.isNotEmpty()) {
+                                withText(text, R.attr.clContent, R.dimen.text_18sp)
+                            } else {
+                                withHint(R.string.hint_enter_text, R.attr.clDisable, R.dimen.text_18sp)
+                            }
+                        }
             }
         }
     }
