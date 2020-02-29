@@ -91,7 +91,7 @@ class RollEnterPanel<T: ParentUi>(private val callback: INoteScreen<T>) : Parent
     }
 
 
-    fun assertTextFocus() {
+    fun assertFocus() = callback.throwOnWrongState(State.EDIT, State.NEW) {
         textEnter.isFocused().withCursor(enterText.length)
     }
 

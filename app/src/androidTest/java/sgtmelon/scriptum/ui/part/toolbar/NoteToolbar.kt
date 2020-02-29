@@ -7,7 +7,6 @@ import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.InputItem
-import sgtmelon.scriptum.ui.IKeyboardOption
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
@@ -72,6 +71,10 @@ class NoteToolbar<T : ParentUi>(
         imeCallback.assertToolbarIme()
     }
 
+
+    fun assertFocus() = callback.throwOnWrongState(State.EDIT, State.NEW) {
+        nameEnter.isFocused().withCursor(callback.shadowItem.name.length)
+    }
 
     // TODO #TEST (focus on title check)
     fun assert() = apply {

@@ -94,9 +94,7 @@ class TextNoteScreen(
     }
 
 
-    override fun assertToolbarIme() = throwOnWrongState(State.EDIT, State.NEW) {
-        contentEnter.isFocused().withCursor(shadowItem.text.length)
-    }
+    override fun assertToolbarIme() = assertFocus()
 
     override fun afterConvert(func: RollNoteScreen.() -> Unit) {
         RollNoteScreen(func, State.READ, noteItem, isRankEmpty)
@@ -120,6 +118,10 @@ class TextNoteScreen(
         }
     }
 
+
+    fun assertFocus() = throwOnWrongState(State.EDIT, State.NEW) {
+        contentEnter.isFocused().withCursor(shadowItem.text.length)
+    }
 
     fun assert() {
         toolbarHolder.withBackgroundAppColor(theme, noteItem.color, needDark = false)

@@ -94,7 +94,7 @@ class RollNoteScreen(
     fun onImeOptionText(p: Int = random) = apply {
         throwOnWrongState(State.EDIT, State.NEW) {
             getItem(p).rollText.imeOption()
-            enterPanel { assertTextFocus() }
+            enterPanel { assertFocus() }
         }
     }
 
@@ -141,7 +141,7 @@ class RollNoteScreen(
 
 
     override fun assertToolbarIme() = throwOnWrongState(State.EDIT, State.NEW) {
-        enterPanel { assertTextFocus() }
+        enterPanel { assertFocus() }
     }
 
     override fun afterConvert(func: TextNoteScreen.() -> Unit) {
