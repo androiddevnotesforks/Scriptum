@@ -42,12 +42,12 @@ class AlarmScreen(
 
     fun openTextNote(isRankEmpty: Boolean = true, func: TextNoteScreen.() -> Unit = {}) {
         recyclerView.click(p = 0)
-        TextNoteScreen.invoke(func, State.READ, noteItem, isRankEmpty)
+        TextNoteScreen(func, State.READ, noteItem, isRankEmpty)
     }
 
     fun openRollNote(isRankEmpty: Boolean = true, func: RollNoteScreen.() -> Unit = {}) {
         recyclerView.click(p = 0)
-        RollNoteScreen.invoke(func, State.READ, noteItem, isRankEmpty)
+        RollNoteScreen(func, State.READ, noteItem, isRankEmpty)
     }
 
     fun onClickDisable() {
@@ -61,7 +61,7 @@ class AlarmScreen(
 
     fun openMoreDialog(func: RepeatSheetDialogUi.() -> Unit = {}) = apply {
         moreButton.click()
-        RepeatSheetDialogUi.invoke(func)
+        RepeatSheetDialogUi(func)
     }
 
     fun waitRepeat() = waitBefore(AlarmViewModel.CANCEL_DELAY) { onRepeat() }

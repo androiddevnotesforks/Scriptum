@@ -31,6 +31,7 @@ class RollNoteScreen(
         override val isRankEmpty: Boolean
 ) : ParentRecyclerScreen(R.id.roll_note_recycler),
         INoteScreen<RollNoteScreen>,
+        NoteToolbar.ImeCallback,
         INoteAfterConvert<TextNoteScreen>,
         IPressBack {
 
@@ -45,16 +46,24 @@ class RollNoteScreen(
 
     private fun getItem(position: Int) = Item(recyclerView, position, state)
 
+    /**
+     * Cause of [RollEnterPanel.enterText] is local variable, need return
+     * singleton in [enterPanel].
+     */
+    private var enterPanel: RollEnterPanel<RollNoteScreen>? = null
+
     fun toolbar(func: NoteToolbar<RollNoteScreen>.() -> Unit) = apply {
-        NoteToolbar.invoke(func, callback = this)
+        NoteToolbar(func, callback = this, imeCallback = this)
     }
 
     fun enterPanel(func: RollEnterPanel<RollNoteScreen>.() -> Unit) = apply {
-        RollEnterPanel.invoke(func, callback = this)
+        enterPanel?.apply(func) ?: RollEnterPanel(func, callback = this).also {
+            enterPanel = it
+        }
     }
 
     fun controlPanel(func: NotePanel<RollNoteScreen>.() -> Unit) = apply {
-        NotePanel.invoke(func, callback = this)
+        NotePanel(func, callback = this)
     }
 
     //endregion
@@ -72,16 +81,20 @@ class RollNoteScreen(
 
 
     fun onEnterText(text: String = "", p: Int = random) = apply {
-        when(state) {
-            State.READ, State.BIN -> throw IllegalAccessException(STATE_ERROR_TEXT)
-            State.EDIT, State.NEW ->  {
-                getItem(p).rollText.typeText(text)
+        throwOnWrongState(State.EDIT, State.NEW) {
+            getItem(p).rollText.typeText(text)
 
-                val item = shadowItem.rollList[p]
-                item.text = text
+            val item = shadowItem.rollList[p]
+            item.text = text
 
-                getItem(p).assert(item)
-            }
+            getItem(p).assert(item)
+        }
+    }
+
+    fun onImeOptionText(p: Int = random) = apply {
+        throwOnWrongState(State.EDIT, State.NEW) {
+            getItem(p).rollText.imeOption()
+            enterPanel { assertTextFocus() }
         }
     }
 
@@ -127,8 +140,12 @@ class RollNoteScreen(
     }
 
 
+    override fun assertToolbarIme() = throwOnWrongState(State.EDIT, State.NEW) {
+        enterPanel { assertTextFocus() }
+    }
+
     override fun afterConvert(func: TextNoteScreen.() -> Unit) {
-        TextNoteScreen.invoke(func, State.READ, noteItem, isRankEmpty)
+        TextNoteScreen(func, State.READ, noteItem, isRankEmpty)
     }
 
     override fun onPressBack() {

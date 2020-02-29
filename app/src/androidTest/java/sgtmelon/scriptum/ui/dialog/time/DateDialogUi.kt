@@ -61,7 +61,7 @@ class DateDialogUi(
     fun onClickApply(dateList: List<String> = ArrayList(),
                      func: TimeDialogUi.() -> Unit = {}) = waitClose {
         applyButton.click()
-        TimeDialogUi.invoke(func, calendar, dateList, callback)
+        TimeDialogUi(func, calendar, dateList, callback)
     }
 
 

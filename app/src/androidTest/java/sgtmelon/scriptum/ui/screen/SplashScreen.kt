@@ -13,28 +13,28 @@ import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
  */
 class SplashScreen : ParentUi() {
 
-    fun introScreen(func: IntroScreen.() -> Unit = {}) = IntroScreen.invoke(func)
+    fun introScreen(func: IntroScreen.() -> Unit = {}) = IntroScreen(func)
 
-    fun mainScreen(func: MainScreen.() -> Unit = {}) = MainScreen.invoke(func)
+    fun mainScreen(func: MainScreen.() -> Unit = {}) = MainScreen(func)
 
     fun openTextNoteBind(noteItem: NoteItem, isRankEmpty: Boolean = true,
                          func: TextNoteScreen.() -> Unit = {}) = apply {
-        TextNoteScreen.invoke(func, State.READ, noteItem, isRankEmpty)
+        TextNoteScreen(func, State.READ, noteItem, isRankEmpty)
     }
 
     fun openRollNoteBind(noteItem: NoteItem, isRankEmpty: Boolean = true,
                          func: RollNoteScreen.() -> Unit = {}) = apply {
-        RollNoteScreen.invoke(func, State.READ, noteItem, isRankEmpty)
+        RollNoteScreen(func, State.READ, noteItem, isRankEmpty)
     }
 
     fun openAlarm(noteItem: NoteItem, dateList: List<String>? = null,
                   func: AlarmScreen.() -> Unit = {}) = apply {
-        AlarmScreen.invoke(func, noteItem, dateList)
+        AlarmScreen(func, noteItem, dateList)
     }
 
     fun openNotification(empty: Boolean = false,
                          func: NotificationScreen.() -> Unit = {}) = apply {
-        NotificationScreen.invoke(func, empty)
+        NotificationScreen(func, empty)
     }
 
 

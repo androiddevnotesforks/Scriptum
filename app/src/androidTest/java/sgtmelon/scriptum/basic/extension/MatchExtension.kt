@@ -8,9 +8,7 @@ import androidx.test.espresso.matcher.ViewMatchers
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matcher
-import sgtmelon.scriptum.basic.matcher.ContentDescriptionMatcher
-import sgtmelon.scriptum.basic.matcher.ProgressMatcher
-import sgtmelon.scriptum.basic.matcher.SizeMatcher
+import sgtmelon.scriptum.basic.matcher.*
 import sgtmelon.scriptum.basic.matcher.card.CardBackgroundAttrMatcher
 import sgtmelon.scriptum.basic.matcher.card.CardBackgroundColorMatcher
 import sgtmelon.scriptum.basic.matcher.drawable.*
@@ -48,6 +46,10 @@ fun Matcher<View>.isChecked(checked: Boolean = true) = also {
     matchOnView(it, if (checked) ViewMatchers.isChecked() else not(ViewMatchers.isChecked()))
 }
 
+fun Matcher<View>.isFocused(focused: Boolean = true) = also {
+    matchOnView(it, FocusMather(focused))
+}
+
 fun Matcher<View>.withText(@StringRes stringId: Int,
                            @AttrRes attrColor: Int = -1,
                            @DimenRes dimenId: Int = -1) = also {
@@ -68,6 +70,10 @@ fun Matcher<View>.withText(string: String,
 
 fun Matcher<View>.withImeAction(action: Int) = also {
     matchOnView(it, ViewMatchers.hasImeAction(action))
+}
+
+fun Matcher<View>.withCursor(p: Int) = also {
+    matchOnView(it, CursorMatcher(p))
 }
 
 

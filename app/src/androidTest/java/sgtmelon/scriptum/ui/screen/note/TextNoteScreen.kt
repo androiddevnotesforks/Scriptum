@@ -24,6 +24,7 @@ class TextNoteScreen(
         override val isRankEmpty: Boolean
 ) : ParentUi(),
         INoteScreen<TextNoteScreen>,
+        NoteToolbar.ImeCallback,
         INoteAfterConvert<RollNoteScreen>,
         IPressBack {
 
@@ -42,11 +43,11 @@ class TextNoteScreen(
     private val contentEnter = getViewById(R.id.text_note_content_enter)
 
     fun toolbar(func: NoteToolbar<TextNoteScreen>.() -> Unit) = apply {
-        NoteToolbar.invoke(func, callback = this)
+        NoteToolbar(func, callback = this, imeCallback = this)
     }
 
     fun controlPanel(func: NotePanel<TextNoteScreen>.() -> Unit) = apply {
-        NotePanel.invoke(func, callback = this)
+        NotePanel(func, callback = this)
     }
 
     //endregion
@@ -83,9 +84,22 @@ class TextNoteScreen(
         fullAssert()
     }
 
+    /**
+     * TODO improve ime option
+     */
+    fun onImeOptionText() = apply {
+        throwOnWrongState(State.EDIT, State.NEW) {
+            contentEnter.imeOption()
+        }
+    }
+
+
+    override fun assertToolbarIme() = throwOnWrongState(State.EDIT, State.NEW) {
+        contentEnter.isFocused().withCursor(shadowItem.text.length)
+    }
 
     override fun afterConvert(func: RollNoteScreen.() -> Unit) {
-        RollNoteScreen.invoke(func, State.READ, noteItem, isRankEmpty)
+        RollNoteScreen(func, State.READ, noteItem, isRankEmpty)
     }
 
     override fun onPressBack() {
@@ -130,9 +144,11 @@ class TextNoteScreen(
             State.EDIT, State.NEW -> {
                 contentText.isDisplayed(visible = false)
 
+                /**
+                 * TODO not work with: withImeAction(EditorInfo.IME_ACTION_UNSPECIFIED)
+                 */
                 val text = shadowItem.text
                 contentEnter.isDisplayed()
-                        .withImeAction(EditorInfo.IME_ACTION_NEXT)
                         .withBackgroundColor(android.R.color.transparent)
                         .apply {
                             if (text.isNotEmpty()) {

@@ -7,6 +7,7 @@ import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.InputItem
+import sgtmelon.scriptum.ui.IKeyboardOption
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
@@ -15,7 +16,10 @@ import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 /**
  * Part of UI abstraction for [TextNoteScreen] и [RollNoteScreen]
  */
-class NoteToolbar<T : ParentUi>(private val callback: INoteScreen<T>) : ParentToolbar() {
+class NoteToolbar<T : ParentUi>(
+        private val callback: INoteScreen<T>,
+        private val imeCallback: ImeCallback
+) : ParentToolbar() {
 
     //region Views
 
@@ -61,6 +65,11 @@ class NoteToolbar<T : ParentUi>(private val callback: INoteScreen<T>) : ParentTo
                 fullAssert()
             }
         }
+    }
+
+    fun onImeOptionName() {
+        nameEnter.imeOption()
+        imeCallback.assertToolbarIme()
     }
 
 
@@ -115,10 +124,15 @@ class NoteToolbar<T : ParentUi>(private val callback: INoteScreen<T>) : ParentTo
         }
     }
 
+    interface ImeCallback {
+        fun assertToolbarIme()
+    }
+
     companion object {
         operator fun <T: ParentUi> invoke(func: NoteToolbar<T>.() -> Unit,
-                                          callback: INoteScreen<T>): NoteToolbar<T> {
-            return NoteToolbar(callback).assert().apply(func)
+                                          callback: INoteScreen<T>,
+                                          imeCallback: ImeCallback): NoteToolbar<T> {
+            return NoteToolbar(callback, imeCallback).assert().apply(func)
         }
     }
 

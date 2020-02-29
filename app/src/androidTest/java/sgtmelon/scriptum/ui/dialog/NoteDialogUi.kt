@@ -52,7 +52,7 @@ class NoteDialogUi(private val noteItem: NoteItem) : ParentUi(), IDialogUi, Date
     fun onNotification(func: DateDialogUi.() -> Unit) = waitClose {
         notificationButton.click()
 
-        DateDialogUi.invoke(func, noteItem.haveAlarm(), callback = this)
+        DateDialogUi(func, noteItem.haveAlarm(), callback = this)
     }
 
     fun onBind() = waitClose {

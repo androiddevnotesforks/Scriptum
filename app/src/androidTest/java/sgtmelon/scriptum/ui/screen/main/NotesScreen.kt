@@ -39,30 +39,30 @@ class NotesScreen(hide: Boolean) : ParentRecyclerScreen(R.id.notes_recycler) {
 
     fun openNotification(empty: Boolean = false, func: NotificationScreen.() -> Unit = {}) {
         notificationMenuItem.click()
-        NotificationScreen.invoke(func, empty)
+        NotificationScreen(func, empty)
     }
 
     fun openPreference(func: PreferenceScreen.() -> Unit = {}) {
         preferenceMenuItem.click()
-        PreferenceScreen.invoke(func)
+        PreferenceScreen(func)
     }
 
     fun openNoteDialog(noteItem: NoteItem, p: Int = random,
                        func: NoteDialogUi.() -> Unit = {}) = apply {
         getItem(p).view.longClick()
-        NoteDialogUi.invoke(func, noteItem)
+        NoteDialogUi(func, noteItem)
     }
 
     fun openTextNote(noteItem: NoteItem, p: Int = random, isRankEmpty: Boolean = true,
                      func: TextNoteScreen.() -> Unit = {}) = apply {
         getItem(p).view.click()
-        TextNoteScreen.invoke(func, State.READ, noteItem, isRankEmpty)
+        TextNoteScreen(func, State.READ, noteItem, isRankEmpty)
     }
 
     fun openRollNote(noteItem: NoteItem, p: Int = random, isRankEmpty: Boolean = true,
                      func: RollNoteScreen.() -> Unit = {}) = apply {
         getItem(p).view.click()
-        RollNoteScreen.invoke(func, State.READ, noteItem, isRankEmpty)
+        RollNoteScreen(func, State.READ, noteItem, isRankEmpty)
     }
 
 

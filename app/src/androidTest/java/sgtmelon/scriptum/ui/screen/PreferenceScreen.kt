@@ -38,7 +38,7 @@ class PreferenceScreen : ParentRecyclerScreen(R.id.recycler_view),
 
     fun openColorDialog(@Color check: Int, func: ColorDialogUi.() -> Unit) {
         colorTitle.click()
-        ColorDialogUi.invoke(func, ColorDialogUi.Place.PREF, check, callback = this)
+        ColorDialogUi(func, ColorDialogUi.Place.PREF, check, callback = this)
     }
 
     override fun onColorDialogResult(check: Int) {
@@ -51,7 +51,7 @@ class PreferenceScreen : ParentRecyclerScreen(R.id.recycler_view),
     fun openRepeatDialog(func: RepeatDialogUi.() -> Unit) = apply {
         recyclerView.swipeUp()
         repeatTitle.click()
-        RepeatDialogUi.invoke(func)
+        RepeatDialogUi(func)
     }
 
 

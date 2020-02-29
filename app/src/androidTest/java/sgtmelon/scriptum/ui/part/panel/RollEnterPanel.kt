@@ -10,6 +10,7 @@ import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import kotlin.random.Random
+import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel.Companion.onSave
 
 /**
  * Part of UI abstraction for [RollNoteScreen]
@@ -32,30 +33,67 @@ class RollEnterPanel<T: ParentUi>(private val callback: INoteScreen<T>) : Parent
             assert()
         }
 
-    fun onAdd(text: String) {
-        textEnter.typeText(text)
-
-        enterText = text
-        val actualText = text.clearSpace()
-
-        if (Random.nextBoolean()) {
-            addButton.click()
-
-            callback.shadowItem.rollList.apply {
-                add(size, RollItem(position = size, text = actualText))
-            }
-        } else {
-            addButton.longClick()
-
-            callback.shadowItem.rollList.apply {
-                add(0, RollItem(position = 0, text = actualText))
-                forEachIndexed { i, item -> item.position = i }
-            }
+    fun onEnterText(text: String) = apply {
+        callback.throwOnWrongState(State.EDIT, State.NEW) {
+            textEnter.typeText(text)
+            enterText = text
         }
-
-        enterText = ""
     }
 
+    fun onAdd(text: String) = apply {
+        callback.throwOnWrongState(State.EDIT, State.NEW) {
+            onEnterText(text)
+
+            val actualText = text.clearSpace()
+
+            if (Random.nextBoolean()) {
+                addButton.click()
+
+                callback.shadowItem.rollList.apply {
+                    add(size, RollItem(position = size, text = actualText))
+                }
+            } else {
+                addButton.longClick()
+
+                callback.shadowItem.rollList.apply {
+                    add(0, RollItem(position = 0, text = actualText))
+                    forEachIndexed { i, item -> item.position = i }
+                }
+            }
+
+            enterText = ""
+        }
+    }
+
+    fun onImeOptionEnter() {
+        callback.throwOnWrongState(State.EDIT, State.NEW) {
+            val actualText = enterText.clearSpace()
+
+            textEnter.imeOption()
+
+            if (actualText.isEmpty()) {
+                callback.apply {
+                    state = State.READ
+
+                    noteItem = shadowItem.deepCopy()
+                    noteItem.onSave()
+
+                    inputControl.reset()
+                }.fullAssert()
+            } else {
+                callback.shadowItem.rollList.apply {
+                    add(size, RollItem(position = size, text = actualText))
+                }
+
+                enterText = ""
+            }
+        }
+    }
+
+
+    fun assertTextFocus() {
+        textEnter.isFocused().withCursor(enterText.length)
+    }
 
     fun assert() = apply {
         val visible = with(callback) { state == State.EDIT || state == State.NEW }
@@ -66,21 +104,20 @@ class RollEnterPanel<T: ParentUi>(private val callback: INoteScreen<T>) : Parent
             withSize(heightId = R.dimen.layout_1dp)
         }.withBackgroundAttr(R.attr.clDivider)
 
-        val enterEmpty = enterText.isEmpty()
-
         textEnter.isDisplayed(visible)
                 .withImeAction(EditorInfo.IME_ACTION_DONE)
                 .withBackgroundColor(android.R.color.transparent)
                 .apply {
-                    if (!enterEmpty) {
+                    if (enterText.isNotEmpty()) {
                         withText(enterText, R.attr.clContent, R.dimen.text_18sp)
                     } else {
                         withHint(R.string.hint_enter_roll, R.attr.clDisable, R.dimen.text_18sp)
                     }
                 }
 
-        val addTint = if (enterEmpty) R.attr.clDisable else R.attr.clAccent
-        addButton.isDisplayed(visible).isEnabled(!enterEmpty)
+        val addEnable = enterText.clearSpace().isNotEmpty()
+        val addTint = if (addEnable) R.attr.clAccent else R.attr.clDisable
+        addButton.isDisplayed(visible).isEnabled(addEnable)
                 .withDrawableAttr(R.drawable.ic_add, addTint)
                 .withContentDescription(R.string.description_enter_roll_add)
     }

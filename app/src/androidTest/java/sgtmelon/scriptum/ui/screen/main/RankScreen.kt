@@ -31,14 +31,14 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
 
     private fun getItem(position: Int) = Item(recyclerView, position)
 
-    fun toolbar(func: RankToolbar.() -> Unit) = RankToolbar.invoke(func)
+    fun toolbar(func: RankToolbar.() -> Unit) = RankToolbar(func)
 
     //endregion
 
     fun openRenameDialog(title: String, p: Int = random,
                          func: RenameDialogUi.() -> Unit = {}) = apply {
         getItem(p).view.click()
-        RenameDialogUi.invoke(func, title)
+        RenameDialogUi(func, title)
     }
 
     fun onClickVisible(rankItem: RankItem) = apply {

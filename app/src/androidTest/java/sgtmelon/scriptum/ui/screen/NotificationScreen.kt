@@ -42,13 +42,13 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler), IPr
     fun openText(noteItem: NoteItem, p: Int = random, isRankEmpty: Boolean = true,
                  func: TextNoteScreen.() -> Unit = {}) {
         getItem(p).view.click()
-        TextNoteScreen.invoke(func, State.READ, noteItem, isRankEmpty)
+        TextNoteScreen(func, State.READ, noteItem, isRankEmpty)
     }
 
     fun openRoll(noteItem: NoteItem, p: Int = random, isRankEmpty: Boolean = true,
                  func: RollNoteScreen.() -> Unit = {}) {
         getItem(p).view.click()
-        RollNoteScreen.invoke(func, State.READ, noteItem, isRankEmpty)
+        RollNoteScreen(func, State.READ, noteItem, isRankEmpty)
     }
 
     fun onClickCancel(p: Int = random) = apply { getItem(p).cancelButton.click() }

@@ -106,7 +106,7 @@ class NotePanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi(),
         callback.throwOnWrongState(State.EDIT, State.NEW) {
             rankButton.click()
 
-            RankDialogUi.invoke(func, callback.shadowItem, rankList, callback = this)
+            RankDialogUi(func, callback.shadowItem, rankList, callback = this)
         }
     }
 
@@ -115,7 +115,7 @@ class NotePanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi(),
             colorButton.click()
 
             val check = callback.noteItem.color
-            ColorDialogUi.invoke(func, ColorDialogUi.Place.NOTE, check, callback = this)
+            ColorDialogUi(func, ColorDialogUi.Place.NOTE, check, callback = this)
         }
     }
 
@@ -156,7 +156,7 @@ class NotePanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi(),
     fun onNotification(updateDate: Boolean = false, func: DateDialogUi.() -> Unit = {}) {
         callback.throwOnWrongState(State.READ) {
             notificationButton.click()
-            DateDialogUi.invoke(func, updateDate, callback = this)
+            DateDialogUi(func, updateDate, callback = this)
         }
     }
 
@@ -169,7 +169,7 @@ class NotePanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi(),
 
     fun onConvert(func: ConvertDialogUi.() -> Unit = {}) = callback.throwOnWrongState(State.READ) {
         convertButton.click()
-        ConvertDialogUi.invoke(func, callback.noteItem, callback = this)
+        ConvertDialogUi(func, callback.noteItem, callback = this)
     }
 
     fun onDelete() = callback.throwOnWrongState(State.READ) {

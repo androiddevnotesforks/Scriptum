@@ -52,7 +52,7 @@ class IntroScreen : ParentUi() {
 
     fun onClickEndButton(func: MainScreen.() -> Unit = {}) {
         endButton.click()
-        MainScreen.invoke(func)
+        MainScreen(func)
     }
 
 

@@ -39,26 +39,26 @@ class MainScreen : ParentUi() {
         wasNavigate = true
         onNavigateTo(MainPage.RANK)
 
-        RankScreen.invoke(func, empty)
+        RankScreen(func, empty)
     }
 
     fun notesScreen(empty: Boolean = false, hide: Boolean = false,
                     func: NotesScreen.() -> Unit = {}) = apply {
         if (wasNavigate) onNavigateTo(MainPage.NOTES)
 
-        NotesScreen.invoke(func, empty, hide)
+        NotesScreen(func, empty, hide)
     }
 
     fun binScreen(empty: Boolean = false, func: BinScreen.() -> Unit = {}) = apply {
         wasNavigate = true
         onNavigateTo(MainPage.BIN)
 
-        BinScreen.invoke(func, empty)
+        BinScreen(func, empty)
     }
 
     fun openAddDialog(func: AddSheetDialogUi.() -> Unit = {}) = apply {
         addFab.click()
-        AddSheetDialogUi.invoke(func)
+        AddSheetDialogUi(func)
     }
 
     fun onNavigateTo(page: MainPage) {
