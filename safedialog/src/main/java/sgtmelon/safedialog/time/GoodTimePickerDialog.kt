@@ -7,7 +7,7 @@ import android.widget.TimePicker
 /**
  * Version of standard [TimePickerDialog] but with [changeListener]
  */
-class GoodTimePickerDialog(
+internal class GoodTimePickerDialog(
         context: Context,
         listener: OnTimeSetListener,
         private val changeListener: OnTimeSetListener,

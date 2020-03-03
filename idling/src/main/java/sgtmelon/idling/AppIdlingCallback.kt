@@ -3,7 +3,7 @@ package sgtmelon.idling
 /**
  * Interface for [AppIdlingResource]
  */
-interface AppIdlingCallback {
+internal interface AppIdlingCallback {
 
     fun startHardWork()
 
