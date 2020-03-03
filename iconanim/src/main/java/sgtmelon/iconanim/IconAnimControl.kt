@@ -19,7 +19,10 @@ class IconAnimControl(
 
     var blockCallback: IconBlockCallback? = null
 
-    var animState: Boolean = false
+    /**
+     * Variable for save icon state.
+     */
+    private var isEnterIcon: Boolean = false
 
     private val duration = context.resources.getInteger(R.integer.icon_animation_time).toLong()
 
@@ -31,11 +34,22 @@ class IconAnimControl(
             waitAnimationEnd()
         } else {
             blockCallback?.setEnabled(enabled = true)
-            changeCallback.setDrawable(animState, needAnim = false)
+            changeCallback.setDrawable(isEnterIcon, needAnim = false)
         }
     }
 
-    fun waitAnimationEnd() {
+    fun getIcon(isEnterIcon: Boolean): AnimatedVectorDrawable? {
+        this.isEnterIcon = isEnterIcon
+
+        val icon = if (isEnterIcon) enterIcon else exitIcon
+
+        icon?.start()
+        waitAnimationEnd()
+
+        return icon
+    }
+
+    private fun waitAnimationEnd() {
         blockCallback?.setEnabled(enabled = false)
         handler.postDelayed(runnable, duration)
     }

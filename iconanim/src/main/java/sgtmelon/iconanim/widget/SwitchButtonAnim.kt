@@ -41,19 +41,11 @@ class SwitchButtonAnim(context: Context, attrs: AttributeSet) : SwitchButton(con
         iconAnimControl.blockCallback = blockCallback
     }
 
-    override fun setDrawable(enterIcon: Boolean, needAnim: Boolean) {
+    override fun setDrawable(isEnterIcon: Boolean, needAnim: Boolean) {
         if (!needAnim) {
-            super.setDrawable(enterIcon, needAnim)
+            super.setDrawable(isEnterIcon, needAnim)
         } else {
-            iconAnimControl.animState = enterIcon
-
-            setImageDrawable(if (enterIcon) {
-                iconAnimControl.enterIcon?.apply { start() }
-            } else {
-                iconAnimControl.exitIcon?.apply { start() }
-            })
-
-            iconAnimControl.waitAnimationEnd()
+            setImageDrawable(iconAnimControl.getIcon(isEnterIcon))
         }
     }
 

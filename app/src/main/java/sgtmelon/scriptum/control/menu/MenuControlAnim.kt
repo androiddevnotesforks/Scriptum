@@ -38,19 +38,11 @@ class MenuControlAnim(
             context, cancelEnterIcon, cancelExitIcon, changeCallback = this
     ).apply { this.blockCallback = blockCallback }
 
-    override fun setDrawable(enterIcon: Boolean, needAnim: Boolean) {
+    override fun setDrawable(isEnterIcon: Boolean, needAnim: Boolean) {
         if (!needAnim) {
-            super.setDrawable(enterIcon, needAnim)
+            super.setDrawable(isEnterIcon, needAnim)
         } else {
-            iconAnimControl.animState = enterIcon
-
-            toolbar?.navigationIcon = if (enterIcon) {
-                iconAnimControl.enterIcon?.apply { start() }
-            } else {
-                iconAnimControl.exitIcon?.apply { start() }
-            }
-
-            iconAnimControl.waitAnimationEnd()
+            toolbar?.navigationIcon = iconAnimControl.getIcon(isEnterIcon)
         }
     }
 

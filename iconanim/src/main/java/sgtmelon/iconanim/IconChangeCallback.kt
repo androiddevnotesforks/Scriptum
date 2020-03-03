@@ -10,6 +10,6 @@ interface IconChangeCallback {
     /**
      * [needAnim] - need only for [AnimatedVectorDrawable]
      */
-    fun setDrawable(enterIcon: Boolean, needAnim: Boolean)
+    fun setDrawable(isEnterIcon: Boolean, needAnim: Boolean)
 
 }

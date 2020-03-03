@@ -101,8 +101,8 @@ open class MenuControl(
                 || indicatorState.isDifferent()) colorAnimator.start()
     }
 
-    override fun setDrawable(enterIcon: Boolean, needAnim: Boolean) {
-        toolbar?.navigationIcon = if (enterIcon) cancelIcon else arrowIcon
+    override fun setDrawable(isEnterIcon: Boolean, needAnim: Boolean) {
+        toolbar?.navigationIcon = if (isEnterIcon) cancelIcon else arrowIcon
     }
 
     companion object {

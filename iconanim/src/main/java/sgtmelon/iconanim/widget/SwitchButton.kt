@@ -58,8 +58,8 @@ open class SwitchButton(
 
     open fun setBlockCallback(blockCallback: IconBlockCallback) {}
 
-    override fun setDrawable(enterIcon: Boolean, needAnim: Boolean) {
-        setImageDrawable(if (enterIcon) iconSelect else iconDisable)
+    override fun setDrawable(isEnterIcon: Boolean, needAnim: Boolean) {
+        setImageDrawable(if (isEnterIcon) iconSelect else iconDisable)
     }
 
     companion object {

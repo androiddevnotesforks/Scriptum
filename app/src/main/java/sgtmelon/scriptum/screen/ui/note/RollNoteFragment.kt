@@ -186,7 +186,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
             }
         }
 
-        menuControl?.setColor(color)?.setDrawable(enterIcon = false, needAnim = false)
+        menuControl?.setColor(color)?.setDrawable(isEnterIcon = false, needAnim = false)
 
         toolbar?.setNavigationOnClickListener { viewModel.onClickBackArrow() }
     }
