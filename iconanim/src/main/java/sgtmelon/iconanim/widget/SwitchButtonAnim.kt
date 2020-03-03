@@ -8,6 +8,7 @@ import android.util.AttributeSet
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import sgtmelon.iconanim.IconAnimControl
+import sgtmelon.iconanim.IconBlockCallback
 
 /**
  * Version of [SwitchButton] with icon animation on switch
@@ -28,7 +29,7 @@ class SwitchButtonAnim(context: Context, attrs: AttributeSet) : SwitchButton(con
     }
 
     private val iconAnimControl: IconAnimControl = IconAnimControl(
-            context, iconSelectAnim, iconDisableAnim, callback = this
+            context, iconSelectAnim, iconDisableAnim, changeCallback = this
     )
 
     init {
@@ -36,16 +37,20 @@ class SwitchButtonAnim(context: Context, attrs: AttributeSet) : SwitchButton(con
         iconSelectAnim?.setColorFilter(srcSelectColor, PorterDuff.Mode.SRC_ATOP)
     }
 
-    override fun setDrawable(drawableOn: Boolean, needAnim: Boolean) {
-        if (!needAnim) {
-            super.setDrawable(drawableOn, needAnim)
-        } else {
-            iconAnimControl.animState = drawableOn
+    override fun setBlockCallback(blockCallback: IconBlockCallback) {
+        iconAnimControl.blockCallback = blockCallback
+    }
 
-            setImageDrawable(if (drawableOn) {
-                iconAnimControl.iconOn?.apply { start() }
+    override fun setDrawable(enterIcon: Boolean, needAnim: Boolean) {
+        if (!needAnim) {
+            super.setDrawable(enterIcon, needAnim)
+        } else {
+            iconAnimControl.animState = enterIcon
+
+            setImageDrawable(if (enterIcon) {
+                iconAnimControl.enterIcon?.apply { start() }
             } else {
-                iconAnimControl.iconOff?.apply { start() }
+                iconAnimControl.exitIcon?.apply { start() }
             })
 
             iconAnimControl.waitAnimationEnd()

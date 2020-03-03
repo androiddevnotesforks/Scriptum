@@ -12,30 +12,32 @@ import androidx.annotation.RequiresApi
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 class IconAnimControl(
         context: Context,
-        val iconOn: AnimatedVectorDrawable?,
-        val iconOff: AnimatedVectorDrawable?,
-        private val callback: IconCallback
+        val enterIcon: AnimatedVectorDrawable?,
+        val exitIcon: AnimatedVectorDrawable?,
+        private val changeCallback: IconChangeCallback
 ) {
+
+    var blockCallback: IconBlockCallback? = null
 
     var animState: Boolean = false
 
-    private val animationTime = context.resources.getInteger(R.integer.icon_animation_time).toLong()
+    private val duration = context.resources.getInteger(R.integer.icon_animation_time).toLong()
 
-    private val animHandler = Handler()
-    private val animRunnable: Runnable = Runnable {
-        if (iconOn == null || iconOff == null) return@Runnable
+    private val handler = Handler()
+    private val runnable: Runnable = Runnable {
+        if (enterIcon == null || exitIcon == null) return@Runnable
 
-        if (iconOn.isRunning || iconOff.isRunning) {
+        if (enterIcon.isRunning || exitIcon.isRunning) {
             waitAnimationEnd()
         } else {
-            callback.setEnabled(enabled = true)
-            callback.setDrawable(animState, needAnim = false)
+            blockCallback?.setEnabled(enabled = true)
+            changeCallback.setDrawable(animState, needAnim = false)
         }
     }
 
     fun waitAnimationEnd() {
-        callback.setEnabled(enabled = false)
-        animHandler.postDelayed(animRunnable, animationTime)
+        blockCallback?.setEnabled(enabled = false)
+        handler.postDelayed(runnable, duration)
     }
 
 }

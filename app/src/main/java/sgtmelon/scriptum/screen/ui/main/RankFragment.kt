@@ -2,6 +2,7 @@ package sgtmelon.scriptum.screen.ui.main
 
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import sgtmelon.iconanim.IconBlockCallback
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.RankAdapter
 import sgtmelon.scriptum.control.bind.BindControl
@@ -48,15 +50,16 @@ class RankFragment : ParentFragment(), IRankFragment {
     override val openState get() = callback?.openState
     private val renameDialog by lazy { DialogFactory.Main(context, fm).getRenameDialog() }
 
-    private val iconAnimationTime: Long? by lazy { context?.resources?.getInteger(R.integer.icon_animation_time)?.toLong() }
-
     private val adapter by lazy {
-        RankAdapter(object: ItemListener.ActionClick {
+        RankAdapter(object : IconBlockCallback {
+            override fun setEnabled(enabled: Boolean) {
+                openState?.value = !enabled
+            }
+        }, object: ItemListener.ActionClick {
             override fun onItemClick(view: View, p: Int, action: () -> Unit) {
                 openState?.tryInvoke {
                     when (view.id) {
                         R.id.rank_visible_button -> {
-                            openState?.block(iconAnimationTime)
                             action()
                             viewModel.onClickVisible(p)
                         }
@@ -67,10 +70,7 @@ class RankFragment : ParentFragment(), IRankFragment {
             }
         }, object : ItemListener.LongClick {
             override fun onItemLongClick(view: View, p: Int) {
-                openState?.tryInvoke {
-                    openState?.block(iconAnimationTime)
-                    viewModel.onLongClickVisible(p)
-                }
+                openState?.tryInvoke { viewModel.onLongClickVisible(p) }
             }
         })
     }

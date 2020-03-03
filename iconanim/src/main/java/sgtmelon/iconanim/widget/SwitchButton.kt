@@ -9,15 +9,18 @@ import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.content.ContextCompat
-import sgtmelon.iconanim.IconCallback
+import sgtmelon.iconanim.IconChangeCallback
+import sgtmelon.iconanim.IconBlockCallback
 import sgtmelon.iconanim.R
 
 /**
  * Button with automatic icon change via [setDrawable]
  */
-open class SwitchButton(context: Context, attrs: AttributeSet)
-    : AppCompatImageButton(context, attrs),
-        IconCallback {
+open class SwitchButton(
+        context: Context,
+        attrs: AttributeSet
+) : AppCompatImageButton(context, attrs),
+        IconChangeCallback {
 
     @DrawableRes protected val srcDisable: Int
     @DrawableRes protected val srcSelect: Int
@@ -53,8 +56,10 @@ open class SwitchButton(context: Context, attrs: AttributeSet)
         iconSelect?.setColorFilter(srcSelectColor, PorterDuff.Mode.SRC_ATOP)
     }
 
-    override fun setDrawable(drawableOn: Boolean, needAnim: Boolean) {
-        setImageDrawable(if (drawableOn) iconSelect else iconDisable)
+    open fun setBlockCallback(blockCallback: IconBlockCallback) {}
+
+    override fun setDrawable(enterIcon: Boolean, needAnim: Boolean) {
+        setImageDrawable(if (enterIcon) iconSelect else iconDisable)
     }
 
     companion object {

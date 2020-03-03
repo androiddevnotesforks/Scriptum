@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.adapter
 
 import android.view.ViewGroup
+import sgtmelon.iconanim.IconBlockCallback
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.diff.RankDiff
 import sgtmelon.scriptum.adapter.holder.RankHolder
@@ -14,6 +15,7 @@ import sgtmelon.scriptum.screen.ui.main.RankFragment
  * Adapter which displays list of ranks for [RankFragment]
  */
 class RankAdapter(
+        private val blockCallback: IconBlockCallback,
         private val clickListener: ItemListener.ActionClick,
         private val longClickListener: ItemListener.LongClick
 ) : ParentDiffAdapter<RankItem, RankDiff, RankHolder>() {
@@ -36,7 +38,8 @@ class RankAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RankHolder {
         return RankHolder(
                 parent.inflateBinding(R.layout.item_rank),
-                clickListener, longClickListener, dragListener
+                clickListener, longClickListener, dragListener,
+                blockCallback
         )
     }
 

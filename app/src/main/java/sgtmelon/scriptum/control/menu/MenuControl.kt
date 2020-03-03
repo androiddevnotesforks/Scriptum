@@ -8,7 +8,7 @@ import android.os.Build.VERSION_CODES
 import android.view.View
 import android.view.Window
 import androidx.appcompat.widget.Toolbar
-import sgtmelon.iconanim.IconCallback
+import sgtmelon.iconanim.IconChangeCallback
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.getAppSimpleColor
 import sgtmelon.scriptum.extension.getAppThemeColor
@@ -31,14 +31,14 @@ open class MenuControl(
         private val window: Window,
         protected val toolbar: Toolbar?,
         private val indicator: View?
-) : IconCallback {
+) : IconChangeCallback {
 
     // TODO add interface for communication
 
     private val colorAnimator: ValueAnimator = ValueAnimator.ofFloat(0F, 1F)
 
-    private val cancelOn: Drawable? = context.getTintDrawable(R.drawable.ic_cancel_enter)
-    private val cancelOff: Drawable? = context.getTintDrawable(R.drawable.ic_cancel_exit)
+    private val cancelIcon: Drawable? = context.getTintDrawable(R.drawable.ic_cancel_enter)
+    private val arrowIcon: Drawable? = context.getTintDrawable(R.drawable.ic_cancel_exit)
 
     private val statusState = MenuColorState()
     private val toolbarState = MenuColorState()
@@ -101,11 +101,9 @@ open class MenuControl(
                 || indicatorState.isDifferent()) colorAnimator.start()
     }
 
-    override fun setDrawable(drawableOn: Boolean, needAnim: Boolean) {
-        toolbar?.navigationIcon = if (drawableOn) cancelOn else cancelOff
+    override fun setDrawable(enterIcon: Boolean, needAnim: Boolean) {
+        toolbar?.navigationIcon = if (enterIcon) cancelIcon else arrowIcon
     }
-
-    override fun setEnabled(enabled: Boolean) {}
 
     companion object {
         fun getToolbarColor(context: Context, @Theme theme: Int, @Color color: Int): Int {

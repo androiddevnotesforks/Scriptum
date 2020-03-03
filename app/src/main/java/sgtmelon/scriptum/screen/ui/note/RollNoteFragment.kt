@@ -1,10 +1,13 @@
 package sgtmelon.scriptum.screen.ui.note
 
 import android.content.DialogInterface
+import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.text.InputType
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
@@ -19,6 +22,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.transition.AutoTransition
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
+import sgtmelon.iconanim.IconBlockCallback
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.RollAdapter
 import sgtmelon.scriptum.control.alarm.AlarmControl
@@ -53,7 +57,9 @@ import javax.inject.Inject
 /**
  * Fragment for display roll note
  */
-class RollNoteFragment : ParentFragment(), IRollNoteFragment, NoteReceiver.Callback {
+class RollNoteFragment : ParentFragment(), IRollNoteFragment,
+        IconBlockCallback,
+        NoteReceiver.Callback {
 
     private var binding: FragmentRollNoteBinding? = null
 
@@ -92,6 +98,8 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment, NoteReceiver.Callb
     private var recyclerView: RecyclerView? = null
     private var rollProgress: ProgressBar? = null
     private var panelContainer: ViewGroup? = null
+
+    private var visibleMenuItem: MenuItem? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -139,9 +147,13 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment, NoteReceiver.Callb
         })
     }
 
-    //region Receiver functions
+    //region Callback functions
 
     override fun onReceiveUnbindNote(id: Long) = viewModel.onReceiveUnbindNote(id)
+
+    override fun setEnabled(enabled: Boolean) {
+        openState.value = !enabled
+    }
 
     //endregion
 
@@ -163,15 +175,18 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment, NoteReceiver.Callb
         val toolbar: Toolbar? = view?.findViewById(R.id.toolbar_note_content_container)
         val indicator: View? = view?.findViewById(R.id.toolbar_note_color_view)
 
+        toolbar?.inflateMenu(R.menu.fragment_roll_note)
+        visibleMenuItem = toolbar?.menu?.findItem(R.id.item_visible)
+
         activity?.let {
             menuControl = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
                 MenuControl(theme, it, it.window, toolbar, indicator)
             } else {
-                MenuControlAnim(theme, it, it.window, toolbar, indicator)
+                MenuControlAnim(theme, it, it.window, toolbar, indicator, blockCallback = this)
             }
         }
 
-        menuControl?.setColor(color)?.setDrawable(drawableOn = false, needAnim = false)
+        menuControl?.setColor(color)?.setDrawable(enterIcon = false, needAnim = false)
 
         toolbar?.setNavigationOnClickListener { viewModel.onClickBackArrow() }
     }
@@ -336,8 +351,33 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment, NoteReceiver.Callb
         menuControl?.startTint(color)
     }
 
-    override fun changeToolbarIcon(drawableOn: Boolean, needAnim: Boolean) {
+    override fun setToolbarBackIcon(drawableOn: Boolean, needAnim: Boolean) {
         menuControl?.setDrawable(drawableOn, needAnim)
+    }
+
+    /**
+     * TODO remove
+     */
+    private var test = false
+
+    override fun setToolbarVisibleIcon(isVisible: Boolean) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Handler().postDelayed(object : Runnable {
+                override fun run() {
+                    test = !test
+
+                    val icon = context?.getTintDrawable(if (test) {
+                        R.drawable.anim_visible_enter
+                    } else {
+                        R.drawable.anim_visible_exit
+                    }) as? AnimatedVectorDrawable
+
+                    visibleMenuItem?.icon = icon?.apply { start() }
+
+                    Handler().postDelayed(this, 1000)
+                }
+            }, 0)
+        }
     }
 
     override fun focusOnEdit(isCreate: Boolean) {

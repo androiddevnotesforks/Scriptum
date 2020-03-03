@@ -11,6 +11,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.transition.AutoTransition
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
+import sgtmelon.iconanim.IconBlockCallback
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.alarm.AlarmControl
 import sgtmelon.scriptum.control.bind.BindControl
@@ -40,7 +41,9 @@ import javax.inject.Inject
 /**
  * Fragment for display text note
  */
-class TextNoteFragment : ParentFragment(), ITextNoteFragment, NoteReceiver.Callback {
+class TextNoteFragment : ParentFragment(), ITextNoteFragment,
+        IconBlockCallback,
+        NoteReceiver.Callback {
 
     private var binding: FragmentTextNoteBinding? = null
 
@@ -114,9 +117,13 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment, NoteReceiver.Callb
         })
     }
 
-    //region Receiver functions
+    //region Callback functions
 
     override fun onReceiveUnbindNote(id: Long) = viewModel.onReceiveUnbindNote(id)
+
+    override fun setEnabled(enabled: Boolean) {
+        openState.value = !enabled
+    }
 
     //endregion
 
@@ -142,11 +149,11 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment, NoteReceiver.Callb
             menuControl = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
                 MenuControl(theme, it, it.window, toolbar, indicator)
             } else {
-                MenuControlAnim(theme, it, it.window, toolbar, indicator)
+                MenuControlAnim(theme, it, it.window, toolbar, indicator, blockCallback = this)
             }
         }
 
-        menuControl?.setColor(color)?.setDrawable(drawableOn = false, needAnim = false)
+        menuControl?.setColor(color)?.setDrawable(enterIcon = false, needAnim = false)
 
         toolbar?.setNavigationOnClickListener { viewModel.onClickBackArrow() }
     }

@@ -5,6 +5,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageButton
 import androidx.recyclerview.widget.RecyclerView
+import sgtmelon.iconanim.IconBlockCallback
 import sgtmelon.iconanim.widget.SwitchButton
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.RankAdapter
@@ -21,7 +22,8 @@ class RankHolder(
         private val binding: ItemRankBinding,
         private val clickListener: ItemListener.ActionClick,
         private val longClickListener: ItemListener.LongClick,
-        private val dragListener: ItemListener.Drag?
+        private val dragListener: ItemListener.Drag?,
+        blockCallback: IconBlockCallback
 ) : RecyclerView.ViewHolder(binding.root),
         View.OnTouchListener {
 
@@ -38,6 +40,7 @@ class RankHolder(
             checkNoPosition { clickListener.onItemClick(v, adapterPosition) }
         }
 
+        visibleButton.setBlockCallback(blockCallback)
         visibleButton.setOnClickListener { v ->
             checkNoPosition {
                 clickListener.onItemClick(v, adapterPosition) {

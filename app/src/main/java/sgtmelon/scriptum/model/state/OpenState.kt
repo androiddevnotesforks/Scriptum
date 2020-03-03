@@ -16,7 +16,7 @@ class OpenState {
     private val handler = Handler()
 
     /**
-     * Value for control open. If something open - TRUE, else - FALSE.
+     * Value for control open. If something was opened - TRUE, else - FALSE.
      */
     var value: Boolean = false
 

@@ -116,6 +116,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
             iconState.notAnimate { setupEditMode(noteState.isEdit) }
 
+            callback?.setToolbarVisibleIcon(isVisible = true)
             callback?.notifyDataSetChanged(noteItem.rollList)
             callback?.onBindingLoad(rankEmpty = rankDialogItemArray.size == 1)
         }
@@ -468,7 +469,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             /**
              * Change toolbar icon from arrow to cancel.
              */
-            callback?.changeToolbarIcon(drawableOn = true, needAnim = true)
+            callback?.setToolbarBackIcon(drawableOn = true, needAnim = true)
         }
 
         parentCallback?.onUpdateNoteColor(noteItem.color)
@@ -539,7 +540,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         noteState.isEdit = isEdit
 
         callback?.apply {
-            changeToolbarIcon(
+            setToolbarBackIcon(
                     drawableOn = isEdit && !noteState.isCreate,
                     needAnim = !noteState.isCreate && iconState.animate
             )

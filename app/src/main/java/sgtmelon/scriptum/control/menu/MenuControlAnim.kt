@@ -8,6 +8,7 @@ import android.view.Window
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
 import sgtmelon.iconanim.IconAnimControl
+import sgtmelon.iconanim.IconBlockCallback
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.getTintDrawable
 import sgtmelon.scriptum.model.annotation.Theme
@@ -23,29 +24,30 @@ class MenuControlAnim(
         context: Context,
         window: Window,
         toolbar: Toolbar?,
-        indicator: View?
+        indicator: View?,
+        blockCallback: IconBlockCallback
 ) : MenuControl(theme, context, window, toolbar, indicator) {
 
-    private val cancelOnAnim = context.getTintDrawable(R.drawable.anim_cancel_enter)
+    private val cancelEnterIcon = context.getTintDrawable(R.drawable.anim_cancel_enter)
             as? AnimatedVectorDrawable
 
-    private val cancelOffAnim = context.getTintDrawable(R.drawable.anim_cancel_exit)
+    private val cancelExitIcon = context.getTintDrawable(R.drawable.anim_cancel_exit)
             as? AnimatedVectorDrawable
 
     private val iconAnimControl: IconAnimControl = IconAnimControl(
-            context, cancelOnAnim, cancelOffAnim, callback = this
-    )
+            context, cancelEnterIcon, cancelExitIcon, changeCallback = this
+    ).apply { this.blockCallback = blockCallback }
 
-    override fun setDrawable(drawableOn: Boolean, needAnim: Boolean) {
+    override fun setDrawable(enterIcon: Boolean, needAnim: Boolean) {
         if (!needAnim) {
-            super.setDrawable(drawableOn, needAnim)
+            super.setDrawable(enterIcon, needAnim)
         } else {
-            iconAnimControl.animState = drawableOn
+            iconAnimControl.animState = enterIcon
 
-            toolbar?.navigationIcon = if (drawableOn) {
-                iconAnimControl.iconOn?.apply { start() }
+            toolbar?.navigationIcon = if (enterIcon) {
+                iconAnimControl.enterIcon?.apply { start() }
             } else {
-                iconAnimControl.iconOff?.apply { start() }
+                iconAnimControl.exitIcon?.apply { start() }
             }
 
             iconAnimControl.waitAnimationEnd()
