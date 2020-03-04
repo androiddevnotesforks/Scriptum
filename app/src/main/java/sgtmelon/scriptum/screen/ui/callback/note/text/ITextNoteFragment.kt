@@ -46,7 +46,7 @@ interface ITextNoteFragment : ITextNoteBridge {
 
     fun tintToolbar(@Color color: Int)
 
-    fun changeToolbarIcon(drawableOn: Boolean, needAnim: Boolean)
+    fun setToolbarBackIcon(isCancel: Boolean, needAnim: Boolean)
 
     fun focusOnEdit(isCreate: Boolean)
 

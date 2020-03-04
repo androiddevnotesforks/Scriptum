@@ -4,7 +4,6 @@ import android.content.DialogInterface
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import android.text.InputType
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -23,6 +22,7 @@ import androidx.transition.AutoTransition
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import sgtmelon.iconanim.IconBlockCallback
+import sgtmelon.iconanim.IconChangeCallback
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.RollAdapter
 import sgtmelon.scriptum.control.alarm.AlarmControl
@@ -30,8 +30,9 @@ import sgtmelon.scriptum.control.bind.BindControl
 import sgtmelon.scriptum.control.input.IInputControl
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.control.input.watcher.InputTextWatcher
-import sgtmelon.scriptum.control.menu.MenuControl
-import sgtmelon.scriptum.control.menu.MenuControlAnim
+import sgtmelon.scriptum.control.menu.ToolbarTintControl
+import sgtmelon.scriptum.control.toolbar.NavigationIconControl
+import sgtmelon.scriptum.control.toolbar.NavigationIconControlAnim
 import sgtmelon.scriptum.control.touch.RollTouchControl
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
 import sgtmelon.scriptum.extension.*
@@ -59,7 +60,7 @@ import javax.inject.Inject
  */
 class RollNoteFragment : ParentFragment(), IRollNoteFragment,
         IconBlockCallback,
-        NoteReceiver.Callback {
+        NoteReceiver.Callback, Toolbar.OnMenuItemClickListener {
 
     private var binding: FragmentRollNoteBinding? = null
 
@@ -67,7 +68,9 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
 
     private val alarmControl by lazy { AlarmControl[context] }
     private val bindControl by lazy { BindControl[context] }
-    private var menuControl: MenuControl? = null
+
+    private var toolbarTintControl: ToolbarTintControl? = null
+    private var navigationIconControl: IconChangeCallback? = null
 
     private val openState = OpenState()
     private val dialogFactory by lazy { DialogFactory.Note(context, fm) }
@@ -147,6 +150,10 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
         })
     }
 
+    override fun onMenuItemClick(item: MenuItem?): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     //region Callback functions
 
     override fun onReceiveUnbindNote(id: Long) = viewModel.onReceiveUnbindNote(id)
@@ -179,16 +186,19 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
         visibleMenuItem = toolbar?.menu?.findItem(R.id.item_visible)
 
         activity?.let {
-            menuControl = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                MenuControl(theme, it, it.window, toolbar, indicator)
+            toolbarTintControl = ToolbarTintControl(theme, it, it.window, toolbar, indicator)
+
+            navigationIconControl = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                NavigationIconControl(it, toolbar)
             } else {
-                MenuControlAnim(theme, it, it.window, toolbar, indicator, blockCallback = this)
+                NavigationIconControlAnim(it, toolbar, blockCallback = this)
             }
         }
 
-        menuControl?.setColor(color)?.setDrawable(isEnterIcon = false, needAnim = false)
+        toolbarTintControl?.setColor(color)
 
         toolbar?.setNavigationOnClickListener { viewModel.onClickBackArrow() }
+        toolbar?.setOnMenuItemClickListener(this)
     }
 
     override fun setupDialog(rankNameArray: Array<String>) {
@@ -344,40 +354,31 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
     override fun onPressBack() = viewModel.onPressBack()
 
     override fun tintToolbar(from: Int, to: Int) {
-        menuControl?.apply { setColorFrom(from) }?.startTint(to)
+        toolbarTintControl?.apply { setColorFrom(from) }?.startTint(to)
     }
 
     override fun tintToolbar(@Color color: Int) {
-        menuControl?.startTint(color)
+        toolbarTintControl?.startTint(color)
     }
 
-    override fun setToolbarBackIcon(drawableOn: Boolean, needAnim: Boolean) {
-        menuControl?.setDrawable(drawableOn, needAnim)
+    override fun setToolbarBackIcon(isCancel: Boolean, needAnim: Boolean) {
+        navigationIconControl?.setDrawable(isCancel, needAnim)
     }
 
-    /**
-     * TODO remove
-     */
-    private var test = false
+    override fun setToolbarVisibleIcon(isVisible: Boolean, needAnim: Boolean) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return
 
-    override fun setToolbarVisibleIcon(isVisible: Boolean) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Handler().postDelayed(object : Runnable {
-                override fun run() {
-                    test = !test
+        if (needAnim) {
 
-                    val icon = context?.getTintDrawable(if (test) {
-                        R.drawable.anim_visible_enter
-                    } else {
-                        R.drawable.anim_visible_exit
-                    }) as? AnimatedVectorDrawable
+        } else {
 
-                    visibleMenuItem?.icon = icon?.apply { start() }
-
-                    Handler().postDelayed(this, 1000)
-                }
-            }, 0)
         }
+
+        val icon = if (isVisible) R.drawable.anim_visible_enter else R.drawable.anim_visible_exit
+        val tint = if (isVisible) R.attr.clContent else R.attr.clContrast
+        val drawable = context?.getTintDrawable(icon, tint) as? AnimatedVectorDrawable
+
+        visibleMenuItem?.icon = drawable?.apply { start() }
     }
 
     override fun focusOnEdit(isCreate: Boolean) {
@@ -483,7 +484,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
     }
 
     override fun showColorDialog(@Color color: Int, @Theme theme: Int) = openState.tryInvoke {
-        menuControl?.setColorFrom(color)
+        toolbarTintControl?.setColorFrom(color)
 
         hideKeyboard()
         colorDialog.setArguments(color, theme).show(fm, DialogFactory.Note.COLOR)

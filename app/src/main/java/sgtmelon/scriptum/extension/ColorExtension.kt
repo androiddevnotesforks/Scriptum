@@ -53,17 +53,17 @@ fun Context.getCompatColor(@ColorRes id: Int) = let { ContextCompat.getColor(it,
 }
 
 fun MenuItem.tintIcon(context: Context) {
-    val drawable = this.icon
-    val wrapDrawable = DrawableCompat.wrap(drawable)
+    val wrapDrawable = DrawableCompat.wrap(icon)
 
     DrawableCompat.setTint(wrapDrawable, context.getColorAttr(R.attr.clContent))
 
     this.icon = wrapDrawable
 }
 
-fun Context.getTintDrawable(@DrawableRes id: Int): Drawable? {
+fun Context.getTintDrawable(@DrawableRes id: Int, @AttrRes tint: Int = R.attr.clContent): Drawable? {
     val drawable = ContextCompat.getDrawable(this, id) ?: return null
-    drawable.setColorFilter(getColorAttr(R.attr.clContent), PorterDuff.Mode.SRC_ATOP)
+
+    drawable.setColorFilter(getColorAttr(tint), PorterDuff.Mode.SRC_ATOP)
 
     return drawable
 }

@@ -351,7 +351,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
             /**
              * Change toolbar icon from arrow to cancel.
              */
-            callback?.changeToolbarIcon(drawableOn = true, needAnim = true)
+            callback?.setToolbarBackIcon(isCancel = true, needAnim = true)
         }
 
         parentCallback?.onUpdateNoteColor(noteItem.color)
@@ -420,8 +420,8 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         noteState.isEdit = isEdit
 
         callback?.apply {
-            changeToolbarIcon(
-                    drawableOn = isEdit && !noteState.isCreate,
+            setToolbarBackIcon(
+                    isCancel = isEdit && !noteState.isCreate,
                     needAnim = !noteState.isCreate && iconState.animate
             )
 

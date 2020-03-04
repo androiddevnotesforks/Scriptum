@@ -71,6 +71,11 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
     private val iconState = IconState()
 
+    /**
+     * TODO remove
+     */
+    private var isVisible = true
+
     override fun onSetup(bundle: Bundle?) {
         id = bundle?.getLong(Intent.ID, Default.ID) ?: Default.ID
         color = bundle?.getInt(Intent.COLOR, Default.COLOR) ?: Default.COLOR
@@ -116,7 +121,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
             iconState.notAnimate { setupEditMode(noteState.isEdit) }
 
-            callback?.setToolbarVisibleIcon(isVisible = true)
+            callback?.setToolbarVisibleIcon(isVisible, needAnim = false)
             callback?.notifyDataSetChanged(noteItem.rollList)
             callback?.onBindingLoad(rankEmpty = rankDialogItemArray.size == 1)
         }
@@ -469,7 +474,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             /**
              * Change toolbar icon from arrow to cancel.
              */
-            callback?.setToolbarBackIcon(drawableOn = true, needAnim = true)
+            callback?.setToolbarBackIcon(isCancel = true, needAnim = true)
         }
 
         parentCallback?.onUpdateNoteColor(noteItem.color)
@@ -541,7 +546,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
         callback?.apply {
             setToolbarBackIcon(
-                    drawableOn = isEdit && !noteState.isCreate,
+                    isCancel = isEdit && !noteState.isCreate,
                     needAnim = !noteState.isCreate && iconState.animate
             )
 

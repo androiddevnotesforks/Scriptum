@@ -9,7 +9,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.ShowHolderControl
-import sgtmelon.scriptum.control.menu.MenuControl
+import sgtmelon.scriptum.control.menu.ToolbarTintControl
 import sgtmelon.scriptum.factory.FragmentFactory
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
@@ -17,7 +17,6 @@ import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.data.ReceiverData
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.NotificationItem
-import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.receiver.NoteReceiver
 import sgtmelon.scriptum.screen.ui.AppActivity
 import sgtmelon.scriptum.screen.ui.ScriptumApplication
@@ -81,10 +80,10 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild, NoteReceiver.Call
         if (theme == Theme.DARK) return
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.statusBarColor = MenuControl.getStatusBarColor(this, theme, color)
+            window.statusBarColor = ToolbarTintControl.getStatusBarColor(this, theme, color)
         }
 
-        toolbarHolder?.setBackgroundColor(MenuControl.getToolbarColor(this, theme, color))
+        toolbarHolder?.setBackgroundColor(ToolbarTintControl.getToolbarColor(this, theme, color))
     }
 
     override fun showTextFragment(id: Long, @Color color: Int, checkCache: Boolean) {

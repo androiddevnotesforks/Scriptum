@@ -22,23 +22,18 @@ import sgtmelon.scriptum.screen.ui.note.TextNoteFragment
 
 /**
  * Control menu of [TextNoteFragment], [RollNoteFragment] without animation
- *
- * Use only for API version < 21
  */
-open class MenuControl(
+class ToolbarTintControl(
         @Theme private val theme: Int,
-        protected val context: Context,
+        private val context: Context,
         private val window: Window,
-        protected val toolbar: Toolbar?,
+        private val toolbar: Toolbar?,
         private val indicator: View?
-) : IconChangeCallback {
+) {
 
     // TODO add interface for communication
 
     private val colorAnimator: ValueAnimator = ValueAnimator.ofFloat(0F, 1F)
-
-    private val cancelIcon: Drawable? = context.getTintDrawable(R.drawable.ic_cancel_enter)
-    private val arrowIcon: Drawable? = context.getTintDrawable(R.drawable.ic_cancel_exit)
 
     private val statusState = MenuColorState()
     private val toolbarState = MenuColorState()
@@ -101,9 +96,6 @@ open class MenuControl(
                 || indicatorState.isDifferent()) colorAnimator.start()
     }
 
-    override fun setDrawable(isEnterIcon: Boolean, needAnim: Boolean) {
-        toolbar?.navigationIcon = if (isEnterIcon) cancelIcon else arrowIcon
-    }
 
     companion object {
         fun getToolbarColor(context: Context, @Theme theme: Int, @Color color: Int): Int {

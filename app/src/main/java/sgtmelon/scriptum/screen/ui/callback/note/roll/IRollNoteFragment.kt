@@ -54,9 +54,9 @@ interface IRollNoteFragment : IRollNoteBridge {
 
     fun tintToolbar(@Color color: Int)
 
-    fun setToolbarBackIcon(drawableOn: Boolean, needAnim: Boolean)
+    fun setToolbarBackIcon(isCancel: Boolean, needAnim: Boolean)
 
-    fun setToolbarVisibleIcon(isVisible: Boolean)
+    fun setToolbarVisibleIcon(isVisible: Boolean, needAnim: Boolean)
 
     fun focusOnEdit(isCreate: Boolean)
 

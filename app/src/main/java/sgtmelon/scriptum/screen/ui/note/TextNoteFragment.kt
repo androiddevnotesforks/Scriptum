@@ -12,14 +12,16 @@ import androidx.transition.AutoTransition
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import sgtmelon.iconanim.IconBlockCallback
+import sgtmelon.iconanim.IconChangeCallback
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.alarm.AlarmControl
 import sgtmelon.scriptum.control.bind.BindControl
 import sgtmelon.scriptum.control.input.IInputControl
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.control.input.watcher.InputTextWatcher
-import sgtmelon.scriptum.control.menu.MenuControl
-import sgtmelon.scriptum.control.menu.MenuControlAnim
+import sgtmelon.scriptum.control.menu.ToolbarTintControl
+import sgtmelon.scriptum.control.toolbar.NavigationIconControl
+import sgtmelon.scriptum.control.toolbar.NavigationIconControlAnim
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
 import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.factory.DialogFactory
@@ -51,7 +53,10 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment,
 
     private val alarmControl by lazy { AlarmControl[context] }
     private val bindControl by lazy { BindControl[context] }
-    private var menuControl: MenuControl? = null
+
+    private var toolbarTintControl: ToolbarTintControl? = null
+    private var navigationIconControl: IconChangeCallback? = null
+
 
     private val openState = OpenState()
     private val dialogFactory by lazy { DialogFactory.Note(context, fm) }
@@ -146,14 +151,16 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment,
         val indicator: View? = view?.findViewById(R.id.toolbar_note_color_view)
 
         activity?.let {
-            menuControl = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                MenuControl(theme, it, it.window, toolbar, indicator)
+            toolbarTintControl = ToolbarTintControl(theme, it, it.window, toolbar, indicator)
+
+            navigationIconControl = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                NavigationIconControl(it, toolbar)
             } else {
-                MenuControlAnim(theme, it, it.window, toolbar, indicator, blockCallback = this)
+                NavigationIconControlAnim(it, toolbar, blockCallback = this)
             }
         }
 
-        menuControl?.setColor(color)?.setDrawable(isEnterIcon = false, needAnim = false)
+        toolbarTintControl?.setColor(color)
 
         toolbar?.setNavigationOnClickListener { viewModel.onClickBackArrow() }
     }
@@ -270,15 +277,15 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment,
     override fun onPressBack() = viewModel.onPressBack()
 
     override fun tintToolbar(from: Int, to: Int) {
-        menuControl?.setColorFrom(from)?.startTint(to)
+        toolbarTintControl?.setColorFrom(from)?.startTint(to)
     }
 
     override fun tintToolbar(@Color color: Int) {
-        menuControl?.startTint(color)
+        toolbarTintControl?.startTint(color)
     }
 
-    override fun changeToolbarIcon(drawableOn: Boolean, needAnim: Boolean) {
-        menuControl?.setDrawable(drawableOn, needAnim)
+    override fun setToolbarBackIcon(isCancel: Boolean, needAnim: Boolean) {
+        navigationIconControl?.setDrawable(isCancel, needAnim)
     }
 
     override fun focusOnEdit(isCreate: Boolean) {
@@ -312,7 +319,7 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment,
     }
 
     override fun showColorDialog(@Color color: Int, @Theme theme: Int) = openState.tryInvoke {
-        menuControl?.setColorFrom(color)
+        toolbarTintControl?.setColorFrom(color)
 
         hideKeyboard()
         colorDialog.setArguments(color, theme).show(fm, DialogFactory.Note.COLOR)
