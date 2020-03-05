@@ -378,6 +378,12 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
     }
 
     override fun setToolbarVisibleIcon(isVisible: Boolean, needAnim: Boolean) {
+        visibleMenuItem?.title = getString(if (isVisible) {
+            R.string.menu_roll_visible
+        } else {
+            R.string.menu_roll_invisible
+        })
+
         visibleIconControl?.setDrawable(isVisible, needAnim)
     }
 

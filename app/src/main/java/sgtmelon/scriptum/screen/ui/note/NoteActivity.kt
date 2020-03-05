@@ -77,9 +77,9 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild, NoteReceiver.Call
 
 
     /**
-     * TODO create holder tint control
+     * TODO create holder tint control (save func setupColor in ToolbarTintControl)
      */
-    override fun updateHolder(theme: Int, color: Int) {
+    override fun updateHolder(@Theme theme: Int, @Color color: Int) {
         if (theme == Theme.DARK) return
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

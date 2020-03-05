@@ -6,7 +6,6 @@ import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import android.view.View
 import android.view.Window
-import androidx.appcompat.widget.Toolbar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.getAppSimpleColor
 import sgtmelon.scriptum.extension.getAppThemeColor
@@ -23,7 +22,7 @@ import sgtmelon.scriptum.screen.ui.note.TextNoteFragment
 class ToolbarTintControl(
         private val context: Context,
         private val window: Window,
-        private val toolbar: Toolbar?,
+        private val toolbar: View?,
         private val indicator: View?,
         @Theme private val theme: Int,
         @Color startColor: Int

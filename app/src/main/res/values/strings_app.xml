@@ -15,6 +15,9 @@
     <string name="menu_preference">@string/title_preference</string>
     <string name="menu_clear_bin">Clear bin</string>
 
+    <string name="menu_roll_visible">Hide done items</string>
+    <string name="menu_roll_invisible">Show done items</string>
+
     <!-- Clipboard -->
     <string name="clipboard_label" translatable="false">Scriptum note</string>
 

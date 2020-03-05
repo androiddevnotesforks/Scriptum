@@ -13,6 +13,9 @@
     <string name="menu_preference">@string/title_preference</string>
     <string name="menu_clear_bin">Очистить корзину</string>
 
+    <string name="menu_roll_visible">Скрыть выполненные пункты</string>
+    <string name="menu_roll_invisible">Показать выполненные пункты</string>
+
     <!-- Notifications -->
     <string name="notification_info_channel">Информация</string>
     <string name="notification_notes_channel">Заметки</string>
