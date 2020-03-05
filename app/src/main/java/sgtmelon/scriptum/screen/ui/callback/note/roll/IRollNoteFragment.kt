@@ -36,6 +36,8 @@ interface IRollNoteFragment : IRollNoteBridge {
 
     fun setupProgress()
 
+    fun showToolbarVisibleIcon(isShow: Boolean)
+
 
     fun onBindingLoad(rankEmpty: Boolean)
 

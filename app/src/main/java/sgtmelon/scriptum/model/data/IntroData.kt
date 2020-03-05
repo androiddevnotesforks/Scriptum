@@ -12,7 +12,7 @@ object IntroData {
             R.drawable.ic_note_add,
             R.drawable.ic_palette,
             R.drawable.ic_rank,
-            R.drawable.ic_visible_enter,
+            R.drawable.ic_visible_exit,
             R.drawable.ic_notifications,
             R.drawable.ic_bind_roll
     )

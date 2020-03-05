@@ -19,9 +19,9 @@ import sgtmelon.scriptum.control.bind.BindControl
 import sgtmelon.scriptum.control.input.IInputControl
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.control.input.watcher.InputTextWatcher
-import sgtmelon.scriptum.control.menu.ToolbarTintControl
-import sgtmelon.scriptum.control.toolbar.NavigationIconControl
-import sgtmelon.scriptum.control.toolbar.NavigationIconControlAnim
+import sgtmelon.scriptum.control.toolbar.ToolbarTintControl
+import sgtmelon.scriptum.control.toolbar.icon.NavigationIconControl
+import sgtmelon.scriptum.control.toolbar.icon.NavigationIconControlAnim
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
 import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.factory.DialogFactory

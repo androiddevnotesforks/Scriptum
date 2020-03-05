@@ -89,6 +89,8 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             setupToolbar(interactor.theme, color)
             setupEnter(inputControl)
             setupRecycler(inputControl)
+
+            showToolbarVisibleIcon(isShow = false)
         }
 
         viewModelScope.launch {
@@ -121,7 +123,9 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
             iconState.notAnimate { setupEditMode(noteState.isEdit) }
 
+            callback?.showToolbarVisibleIcon(isShow = true)
             callback?.setToolbarVisibleIcon(isVisible, needAnim = false)
+
             callback?.notifyDataSetChanged(noteItem.rollList)
             callback?.onBindingLoad(rankEmpty = rankDialogItemArray.size == 1)
         }
@@ -200,6 +204,15 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         return true
     }
 
+
+    /**
+     * TODO
+     */
+    override fun onClickVisible() {
+        isVisible = !isVisible
+
+        callback?.setToolbarVisibleIcon(isVisible, needAnim = true)
+    }
 
     override fun onEditorClick(i: Int): Boolean {
         if (i != EditorInfo.IME_ACTION_DONE) return false

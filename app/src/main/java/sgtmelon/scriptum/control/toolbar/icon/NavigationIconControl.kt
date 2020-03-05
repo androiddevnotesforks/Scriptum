@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.control.toolbar
+package sgtmelon.scriptum.control.toolbar.icon
 
 import android.content.Context
 import android.graphics.drawable.Drawable

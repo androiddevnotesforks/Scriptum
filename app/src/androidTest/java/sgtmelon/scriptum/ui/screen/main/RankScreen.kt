@@ -102,7 +102,7 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
             parentCard.isDisplayed().withCardBackground(R.attr.clBackgroundView)
 
             val visible = item.isVisible
-            val drawable = if (visible) R.drawable.ic_visible_exit else R.drawable.ic_visible_enter
+            val drawable = if (visible) R.drawable.ic_visible_enter else R.drawable.ic_visible_exit
             val tint = if (visible) R.attr.clAccent else R.attr.clContent
             val visibleDescription = if (visible) {
                 context.getString(R.string.description_item_rank_hide).plus(other = " ").plus(item.name)

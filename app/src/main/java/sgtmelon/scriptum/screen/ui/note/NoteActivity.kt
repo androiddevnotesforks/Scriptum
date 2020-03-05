@@ -9,7 +9,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.ShowHolderControl
-import sgtmelon.scriptum.control.menu.ToolbarTintControl
+import sgtmelon.scriptum.control.toolbar.ToolbarTintControl
 import sgtmelon.scriptum.factory.FragmentFactory
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme

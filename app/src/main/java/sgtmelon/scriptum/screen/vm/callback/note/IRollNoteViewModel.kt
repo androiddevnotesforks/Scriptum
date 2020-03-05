@@ -35,6 +35,8 @@ interface IRollNoteViewModel : IParentViewModel,
     fun onPressBack(): Boolean
 
 
+    fun onClickVisible()
+
     fun onEditorClick(i: Int): Boolean
 
     fun onClickAdd(simpleClick: Boolean)

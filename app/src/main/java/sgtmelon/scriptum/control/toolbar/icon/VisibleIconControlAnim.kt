@@ -1,42 +1,42 @@
-package sgtmelon.scriptum.control.toolbar
+package sgtmelon.scriptum.control.toolbar.icon
 
 import android.content.Context
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Build
+import android.view.MenuItem
 import androidx.annotation.RequiresApi
-import androidx.appcompat.widget.Toolbar
 import sgtmelon.iconanim.IconAnimControl
 import sgtmelon.iconanim.IconBlockCallback
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.getTintDrawable
 
 /**
- * Version of [NavigationIconControl] with icon animation on switch.
+ * Version of [VisibleIconControl] with icon animation on switch.
  *
  * Use only for API version >= 21
  */
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-class NavigationIconControlAnim(
+class VisibleIconControlAnim(
         context: Context,
-        toolbar: Toolbar?,
+        menuItem: MenuItem?,
         blockCallback: IconBlockCallback
-): NavigationIconControl(context, toolbar) {
+) : VisibleIconControl(context, menuItem) {
 
-    private val cancelEnterIcon = context.getTintDrawable(R.drawable.anim_cancel_enter)
+    private val visibleEnterIcon = context.getTintDrawable(R.drawable.anim_visible_enter)
             as? AnimatedVectorDrawable
 
-    private val cancelExitIcon = context.getTintDrawable(R.drawable.anim_cancel_exit)
+    private val visibleExitIcon = context.getTintDrawable(R.drawable.anim_visible_exit)
             as? AnimatedVectorDrawable
 
     private val iconAnimControl: IconAnimControl = IconAnimControl(
-            context, cancelEnterIcon, cancelExitIcon, changeCallback = this
+            context, visibleEnterIcon, visibleExitIcon, changeCallback = this
     ).apply { this.blockCallback = blockCallback }
 
     override fun setDrawable(isEnterIcon: Boolean, needAnim: Boolean) {
-        if (!needAnim) {
-            super.setDrawable(isEnterIcon, needAnim)
+        if (needAnim) {
+            menuItem?.icon = iconAnimControl.getIcon(isEnterIcon)
         } else {
-            toolbar?.navigationIcon = iconAnimControl.getIcon(isEnterIcon)
+            super.setDrawable(isEnterIcon, needAnim)
         }
     }
 

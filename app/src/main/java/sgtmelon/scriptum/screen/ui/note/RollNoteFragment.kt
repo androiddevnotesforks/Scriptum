@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.screen.ui.note
 
 import android.content.DialogInterface
-import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.text.InputType
@@ -30,9 +29,11 @@ import sgtmelon.scriptum.control.bind.BindControl
 import sgtmelon.scriptum.control.input.IInputControl
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.control.input.watcher.InputTextWatcher
-import sgtmelon.scriptum.control.menu.ToolbarTintControl
-import sgtmelon.scriptum.control.toolbar.NavigationIconControl
-import sgtmelon.scriptum.control.toolbar.NavigationIconControlAnim
+import sgtmelon.scriptum.control.toolbar.ToolbarTintControl
+import sgtmelon.scriptum.control.toolbar.icon.NavigationIconControl
+import sgtmelon.scriptum.control.toolbar.icon.NavigationIconControlAnim
+import sgtmelon.scriptum.control.toolbar.icon.VisibleIconControl
+import sgtmelon.scriptum.control.toolbar.icon.VisibleIconControlAnim
 import sgtmelon.scriptum.control.touch.RollTouchControl
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
 import sgtmelon.scriptum.extension.*
@@ -71,6 +72,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
 
     private var toolbarTintControl: ToolbarTintControl? = null
     private var navigationIconControl: IconChangeCallback? = null
+    private var visibleIconControl: IconChangeCallback? = null
 
     private val openState = OpenState()
     private val dialogFactory by lazy { DialogFactory.Note(context, fm) }
@@ -151,7 +153,8 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
     }
 
     override fun onMenuItemClick(item: MenuItem?): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        viewModel.onClickVisible()
+        return true
     }
 
     //region Callback functions
@@ -192,6 +195,12 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
                 NavigationIconControl(it, toolbar)
             } else {
                 NavigationIconControlAnim(it, toolbar, blockCallback = this)
+            }
+
+            visibleIconControl = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                VisibleIconControl(it, visibleMenuItem)
+            } else {
+                VisibleIconControlAnim(it, visibleMenuItem, blockCallback = this)
             }
         }
 
@@ -301,6 +310,10 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
         rollProgress = view?.findViewById(R.id.roll_note_progress)
     }
 
+    override fun showToolbarVisibleIcon(isShow: Boolean) {
+        visibleMenuItem?.isVisible = isShow
+    }
+
 
     override fun onBindingLoad(rankEmpty: Boolean) {
         parentContainer?.let {
@@ -366,19 +379,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
     }
 
     override fun setToolbarVisibleIcon(isVisible: Boolean, needAnim: Boolean) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return
-
-        if (needAnim) {
-
-        } else {
-
-        }
-
-        val icon = if (isVisible) R.drawable.anim_visible_enter else R.drawable.anim_visible_exit
-        val tint = if (isVisible) R.attr.clContent else R.attr.clContrast
-        val drawable = context?.getTintDrawable(icon, tint) as? AnimatedVectorDrawable
-
-        visibleMenuItem?.icon = drawable?.apply { start() }
+        visibleIconControl?.setDrawable(isVisible, needAnim)
     }
 
     override fun focusOnEdit(isCreate: Boolean) {

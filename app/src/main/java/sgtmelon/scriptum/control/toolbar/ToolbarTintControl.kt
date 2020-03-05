@@ -1,18 +1,15 @@
-package sgtmelon.scriptum.control.menu
+package sgtmelon.scriptum.control.toolbar
 
 import android.animation.ValueAnimator
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import android.view.View
 import android.view.Window
 import androidx.appcompat.widget.Toolbar
-import sgtmelon.iconanim.IconChangeCallback
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.getAppSimpleColor
 import sgtmelon.scriptum.extension.getAppThemeColor
-import sgtmelon.scriptum.extension.getTintDrawable
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.key.ColorShade
