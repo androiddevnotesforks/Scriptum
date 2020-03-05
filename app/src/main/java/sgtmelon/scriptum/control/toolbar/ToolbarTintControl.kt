@@ -21,14 +21,13 @@ import sgtmelon.scriptum.screen.ui.note.TextNoteFragment
  * Control menu of [TextNoteFragment], [RollNoteFragment] without animation
  */
 class ToolbarTintControl(
-        @Theme private val theme: Int,
         private val context: Context,
         private val window: Window,
         private val toolbar: Toolbar?,
-        private val indicator: View?
-) {
-
-    // TODO add interface for communication
+        private val indicator: View?,
+        @Theme private val theme: Int,
+        @Color startColor: Int
+) : IToolbarTintControl {
 
     private val colorAnimator: ValueAnimator = ValueAnimator.ofFloat(0F, 1F)
 
@@ -37,6 +36,11 @@ class ToolbarTintControl(
     private val indicatorState = MenuColorState()
 
     init {
+        setupColorAnimator()
+        setupColor(startColor)
+    }
+
+    private fun setupColorAnimator() {
         val updateListener = ValueAnimator.AnimatorUpdateListener {
             val position = it.animatedFraction
             var blended: Int
@@ -57,10 +61,7 @@ class ToolbarTintControl(
         colorAnimator.duration = context.resources.getInteger(R.integer.color_transition_time).toLong()
     }
 
-    /**
-     * Set colors for UI, [color] - startColor
-     */
-    fun setColor(@Color color: Int) = apply {
+    private fun setupColor(@Color color: Int) {
         if (theme != Theme.DARK) {
             if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
                 window.statusBarColor = getStatusBarColor(context, theme, color)
@@ -74,16 +75,14 @@ class ToolbarTintControl(
         setColorFrom(color)
     }
 
-    fun setColorFrom(@Color color: Int) = apply {
+
+    override fun setColorFrom(@Color color: Int) = apply {
         statusState.from = context.getAppThemeColor(theme, color, statusOnDark)
         toolbarState.from = context.getAppThemeColor(theme, color, needDark = false)
         indicatorState.from = context.getAppSimpleColor(color, ColorShade.DARK)
     }
 
-    /**
-     * Set end [color] and start animation if need
-     */
-    fun startTint(@Color color: Int) {
+    override fun startTint(@Color color: Int) {
         statusState.to = context.getAppThemeColor(theme, color, statusOnDark)
         toolbarState.to = context.getAppThemeColor(theme, color, needDark = false)
         indicatorState.to = context.getAppSimpleColor(color, ColorShade.DARK)
@@ -95,11 +94,11 @@ class ToolbarTintControl(
 
 
     companion object {
+        private val statusOnDark = VERSION.SDK_INT < VERSION_CODES.M
+
         fun getToolbarColor(context: Context, @Theme theme: Int, @Color color: Int): Int {
             return context.getAppThemeColor(theme, color, needDark = false)
         }
-
-        private val statusOnDark = VERSION.SDK_INT < VERSION_CODES.M
 
         fun getStatusBarColor(context: Context, @Theme theme: Int, @Color color: Int): Int {
             return context.getAppThemeColor(theme, color, statusOnDark)

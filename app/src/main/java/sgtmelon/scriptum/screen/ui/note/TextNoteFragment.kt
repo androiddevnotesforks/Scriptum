@@ -19,6 +19,7 @@ import sgtmelon.scriptum.control.bind.BindControl
 import sgtmelon.scriptum.control.input.IInputControl
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.control.input.watcher.InputTextWatcher
+import sgtmelon.scriptum.control.toolbar.IToolbarTintControl
 import sgtmelon.scriptum.control.toolbar.ToolbarTintControl
 import sgtmelon.scriptum.control.toolbar.icon.NavigationIconControl
 import sgtmelon.scriptum.control.toolbar.icon.NavigationIconControlAnim
@@ -54,7 +55,7 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment,
     private val alarmControl by lazy { AlarmControl[context] }
     private val bindControl by lazy { BindControl[context] }
 
-    private var toolbarTintControl: ToolbarTintControl? = null
+    private var toolbarTintControl: IToolbarTintControl? = null
     private var navigationIconControl: IconChangeCallback? = null
 
 
@@ -151,7 +152,7 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment,
         val indicator: View? = view?.findViewById(R.id.toolbar_note_color_view)
 
         activity?.let {
-            toolbarTintControl = ToolbarTintControl(theme, it, it.window, toolbar, indicator)
+            toolbarTintControl = ToolbarTintControl(it, it.window, toolbar, indicator, theme, color)
 
             navigationIconControl = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
                 NavigationIconControl(it, toolbar)
@@ -159,8 +160,6 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment,
                 NavigationIconControlAnim(it, toolbar, blockCallback = this)
             }
         }
-
-        toolbarTintControl?.setColor(color)
 
         toolbar?.setNavigationOnClickListener { viewModel.onClickBackArrow() }
     }
