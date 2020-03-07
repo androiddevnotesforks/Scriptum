@@ -12,7 +12,7 @@ import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.screen.ui.main.RankFragment
 
 /**
- * Adapter which displays list of ranks for [RankFragment]
+ * Adapter which displays list of ranks for [RankFragment].
  */
 class RankAdapter(
         private val blockCallback: IconBlockCallback,

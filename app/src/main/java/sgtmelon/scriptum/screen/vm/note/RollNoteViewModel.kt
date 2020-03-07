@@ -260,7 +260,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
      * to control in Edit.
      */
     override fun onClickAdd(simpleClick: Boolean) {
-        if (callback?.isDialogOpen == true || !noteState.isEdit) return
+        if (callback?.openState?.value == true || !noteState.isEdit) return
 
         val enterText = callback?.getEnterText()?.clearSpace() ?: ""
 
@@ -281,7 +281,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     override fun onClickItemCheck(p: Int) {
-        if (callback?.isDialogOpen == true || noteState.isEdit) return
+        if (noteState.isEdit) return
 
         noteItem.onItemCheck(p)
 
@@ -297,7 +297,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     override fun onLongClickItemCheck() {
-        if (callback?.isDialogOpen == true || noteState.isEdit) return
+        if (noteState.isEdit) return
 
         val check = noteItem.onItemLongCheck()
 
@@ -428,7 +428,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     override fun onMenuRedo() = onMenuUndoRedo(isUndo = false)
 
     private fun onMenuUndoRedo(isUndo: Boolean) {
-        if (callback?.isDialogOpen == true || !noteState.isEdit) return
+        if (callback?.openState?.value == true || !noteState.isEdit) return
 
         val item = if (isUndo) inputControl.undo() else inputControl.redo()
 
@@ -495,7 +495,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     override fun onMenuSave(changeMode: Boolean): Boolean {
-        if (changeMode && callback?.isDialogOpen == true) return false
+        if (changeMode && callback?.openState?.value == true) return false
 
         if (!noteState.isEdit || !noteItem.isSaveEnabled()) return false
 
@@ -544,7 +544,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     override fun onMenuBind() {
-        if (callback?.isDialogOpen == true || noteState.isEdit) return
+        if (callback?.openState?.value == true || noteState.isEdit) return
 
         noteItem.switchStatus()
 
@@ -565,7 +565,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     override fun onMenuDelete() {
-        if (callback?.isDialogOpen == true || noteState.isEdit) return
+        if (callback?.openState?.value == true || noteState.isEdit) return
 
         viewModelScope.launch {
             interactor.deleteNote(noteItem)
@@ -576,7 +576,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     override fun onMenuEdit() {
-        if (callback?.isDialogOpen == true || noteState.isEdit) return
+        if (callback?.openState?.value == true || noteState.isEdit) return
 
         setupEditMode(isEdit = true)
     }

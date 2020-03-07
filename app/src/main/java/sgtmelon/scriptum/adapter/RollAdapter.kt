@@ -14,11 +14,11 @@ import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
 
 /**
- * Adapter which displays list of rolls for [RollNoteFragment]
+ * Adapter which displays list of rolls for [RollNoteFragment].
  */
 class RollAdapter(
         private val rollWriteCallback: RollWriteHolder.Callback,
-        private val clickListener: ItemListener.Click,
+        private val clickListener: ItemListener.ActionClick,
         private val longClickListener: ItemListener.LongClick
 ) : ParentAdapter<RollItem, RecyclerView.ViewHolder>() {
 

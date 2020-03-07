@@ -12,11 +12,11 @@ import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.state.NoteState
 
 /**
- * Holder of note roll row read state, use in [RollAdapter]
+ * Holder of note roll row read state, use in [RollAdapter].
  */
 class RollReadHolder(
         private val binding: ItemRollReadBinding,
-        private val clickListener: ItemListener.Click,
+        private val clickListener: ItemListener.ActionClick,
         private val longClickListener: ItemListener.LongClick
 ) : RecyclerView.ViewHolder(binding.root) {
 
@@ -30,8 +30,7 @@ class RollReadHolder(
         clickView.apply {
             setOnClickListener {
                 checkNoPosition {
-                    rollCheck.toggle()
-                    clickListener.onItemClick(it, adapterPosition)
+                    clickListener.onItemClick(it, adapterPosition) { rollCheck.toggle() }
                 }
             }
 

@@ -63,6 +63,12 @@ class OpenState {
         return null
     }
 
+    fun tryCall(func: () -> Unit) {
+        if (!value) {
+            func()
+        }
+    }
+
     /**
      * Use when need block [OpenState] for [time]
      */

@@ -76,7 +76,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
     private var navigationIconControl: IconChangeCallback? = null
     private var visibleIconControl: IconChangeCallback? = null
 
-    private val openState = OpenState()
+    override val openState = OpenState()
     private val dialogFactory by lazy { DialogFactory.Note(context, fm) }
 
     private val rankDialog by lazy { dialogFactory.getRankDialog() }
@@ -87,10 +87,17 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
     private val convertDialog by lazy { dialogFactory.getConvertDialog(NoteType.ROLL) }
 
     private val adapter: RollAdapter by lazy {
-        RollAdapter(viewModel, object : ItemListener.Click {
-            override fun onItemClick(view: View, p: Int) = viewModel.onClickItemCheck(p)
+        RollAdapter(viewModel, object : ItemListener.ActionClick {
+            override fun onItemClick(view: View, p: Int, action: () -> Unit) {
+                openState.tryCall {
+                    action()
+                    viewModel.onClickItemCheck(p)
+                }
+            }
         }, object : ItemListener.LongClick {
-            override fun onItemLongClick(view: View, p: Int) = viewModel.onLongClickItemCheck()
+            override fun onItemLongClick(view: View, p: Int) {
+                openState.tryCall { viewModel.onLongClickItemCheck() }
+            }
         })
     }
     private val layoutManager by lazy { LinearLayoutManager(activity) }
@@ -155,7 +162,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
     }
 
     override fun onMenuItemClick(item: MenuItem?): Boolean {
-        openState.tryInvoke { viewModel.onClickVisible() }
+        viewModel.onClickVisible()
         return true
     }
 
@@ -168,8 +175,6 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
     }
 
     //endregion
-
-    override val isDialogOpen: Boolean get() = openState.value
 
     override fun hideKeyboard() {
         activity?.hideKeyboard()

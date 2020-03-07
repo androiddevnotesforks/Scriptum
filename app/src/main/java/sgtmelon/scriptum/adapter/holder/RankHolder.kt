@@ -15,7 +15,7 @@ import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.item.RankItem
 
 /**
- * Holder for rank, use in [RankAdapter]
+ * Holder for rank, use in [RankAdapter].
  */
 @SuppressLint("ClickableViewAccessibility")
 class RankHolder(

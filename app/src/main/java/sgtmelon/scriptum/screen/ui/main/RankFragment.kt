@@ -2,7 +2,6 @@ package sgtmelon.scriptum.screen.ui.main
 
 import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,6 +26,7 @@ import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RankItem
+import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.screen.ui.ParentFragment
 import sgtmelon.scriptum.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.screen.ui.callback.main.IMainActivity
@@ -35,7 +35,7 @@ import sgtmelon.scriptum.screen.vm.callback.main.IRankViewModel
 import javax.inject.Inject
 
 /**
- * Fragment which displays list of categories - [RankItem]
+ * Fragment which displays list of categories - [RankItem].
  */
 class RankFragment : ParentFragment(), IRankFragment {
 
@@ -117,6 +117,12 @@ class RankFragment : ParentFragment(), IRankFragment {
     }
 
 
+    /**
+     * Use [OpenState.tryInvoke] and [OpenState.tryReturnInvoke] because item adding
+     * happen inside coroutine, not main thread.
+     *
+     * Reset of [OpenState.value] happen inside [scrollToItem].
+     */
     override fun setupToolbar() {
         view?.findViewById<Toolbar>(R.id.toolbar_rank_container)?.apply {
             title = getString(R.string.title_rank)
@@ -140,9 +146,6 @@ class RankFragment : ParentFragment(), IRankFragment {
         nameEnter?.apply {
             addTextChangedListener(on = { viewModel.onUpdateToolbar() })
             setOnEditorActionListener { _, i, _ ->
-                /**
-                 * Use [openState] because item adding happen inside coroutine, not main thread.
-                 */
                 val result = openState?.tryReturnInvoke { viewModel.onEditorClick(i) } ?: false
 
                 /**
