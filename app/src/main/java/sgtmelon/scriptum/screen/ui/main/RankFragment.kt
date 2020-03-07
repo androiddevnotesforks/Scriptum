@@ -140,8 +140,14 @@ class RankFragment : ParentFragment(), IRankFragment {
         nameEnter?.apply {
             addTextChangedListener(on = { viewModel.onUpdateToolbar() })
             setOnEditorActionListener { _, i, _ ->
+                /**
+                 * Use [openState] because item adding happen inside coroutine, not main thread.
+                 */
                 val result = openState?.tryReturnInvoke { viewModel.onEditorClick(i) } ?: false
 
+                /**
+                 * If item wasn't add need clear [openState].
+                 */
                 if (!result) openState?.clear()
 
                 return@setOnEditorActionListener result
