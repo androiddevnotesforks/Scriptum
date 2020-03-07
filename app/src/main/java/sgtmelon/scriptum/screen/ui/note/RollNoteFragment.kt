@@ -58,11 +58,12 @@ import java.util.*
 import javax.inject.Inject
 
 /**
- * Fragment for display roll note
+ * Fragment for display roll note.
  */
 class RollNoteFragment : ParentFragment(), IRollNoteFragment,
-        IconBlockCallback,
-        NoteReceiver.Callback, Toolbar.OnMenuItemClickListener {
+        Toolbar.OnMenuItemClickListener,
+        NoteReceiver.Callback,
+        IconBlockCallback {
 
     private var binding: FragmentRollNoteBinding? = null
 
@@ -154,7 +155,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
     }
 
     override fun onMenuItemClick(item: MenuItem?): Boolean {
-        viewModel.onClickVisible()
+        openState.tryInvoke { viewModel.onClickVisible() }
         return true
     }
 
@@ -471,8 +472,10 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
         adapter.setList(list).notifyItemMoved(from, to)
     }
 
-    override fun notifyItemInserted(list: List<RollItem>, p: Int, cursor: Int) {
-        adapter.apply { cursorPosition = cursor }.setList(list).notifyItemInserted(p)
+    override fun notifyItemInserted(list: List<RollItem>, p: Int, cursor: Int?) {
+        if (cursor != null) adapter.cursorPosition = cursor
+
+        adapter.setList(list).notifyItemInserted(p)
     }
 
     override fun notifyItemRemoved(list: List<RollItem>, p: Int) {

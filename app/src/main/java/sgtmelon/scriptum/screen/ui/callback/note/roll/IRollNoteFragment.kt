@@ -36,6 +36,9 @@ interface IRollNoteFragment : IRollNoteBridge {
 
     fun setupProgress()
 
+    /**
+     * Need hide toolbar visible icon before information completely load.
+     */
     fun showToolbarVisibleIcon(isShow: Boolean)
 
 
@@ -83,11 +86,11 @@ interface IRollNoteFragment : IRollNoteBridge {
 
     fun notifyDataSetChanged(list: List<RollItem>)
 
-    fun notifyItemChanged(list: List<RollItem>, p: Int, cursor: Int?)
+    fun notifyItemChanged(list: List<RollItem>, p: Int, cursor: Int? = null)
 
     fun notifyItemMoved(list: List<RollItem>, from: Int, to: Int)
 
-    fun notifyItemInserted(list: List<RollItem>, p: Int, cursor: Int)
+    fun notifyItemInserted(list: List<RollItem>, p: Int, cursor: Int? = null)
 
     fun notifyItemRemoved(list: List<RollItem>, p: Int)
 

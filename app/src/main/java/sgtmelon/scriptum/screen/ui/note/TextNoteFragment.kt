@@ -42,11 +42,11 @@ import java.util.*
 import javax.inject.Inject
 
 /**
- * Fragment for display text note
+ * Fragment for display text note.
  */
 class TextNoteFragment : ParentFragment(), ITextNoteFragment,
-        IconBlockCallback,
-        NoteReceiver.Callback {
+        NoteReceiver.Callback,
+        IconBlockCallback {
 
     private var binding: FragmentTextNoteBinding? = null
 

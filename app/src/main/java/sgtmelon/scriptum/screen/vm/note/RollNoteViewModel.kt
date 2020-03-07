@@ -13,6 +13,7 @@ import sgtmelon.scriptum.control.SaveControl
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.extension.clearSpace
 import sgtmelon.scriptum.extension.move
+import sgtmelon.scriptum.extension.removeAtOrNull
 import sgtmelon.scriptum.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.model.annotation.InputAction
@@ -31,6 +32,7 @@ import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
 import sgtmelon.scriptum.screen.vm.ParentViewModel
 import sgtmelon.scriptum.screen.vm.callback.note.IRollNoteViewModel
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * ViewModel for [RollNoteFragment].
@@ -212,6 +214,25 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         isVisible = !isVisible
 
         callback?.setToolbarVisibleIcon(isVisible, needAnim = true)
+
+        viewModelScope.launch {
+            val list = ArrayList(noteItem.rollList)
+
+            if (isVisible) {
+                list.filter { it.isCheck }.forEach { item ->
+                    list.indexOf(item).takeIf { it != -1 }?.also {
+                        callback?.notifyItemInserted(list, it)
+                    }
+                }
+            } else {
+                while (list.any { it.isCheck }) {
+                    list.indexOfFirst { it.isCheck }.takeIf { it != -1 }?.also {
+                        list.removeAtOrNull(it) ?: return@also
+                        callback?.notifyItemRemoved(list, it)
+                    }
+                }
+            }
+        }
     }
 
     override fun onEditorClick(i: Int): Boolean {
@@ -263,7 +284,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
          */
         restoreItem = noteItem.deepCopy()
 
-        callback?.notifyItemChanged(noteItem.rollList, p, cursor = null)
+        callback?.notifyItemChanged(noteItem.rollList, p)
         callback?.updateProgress(noteItem.getCheck(), noteItem.rollList.size)
 
         viewModelScope.launch { interactor.updateRollCheck(noteItem, p) }
