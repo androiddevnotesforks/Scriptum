@@ -54,17 +54,20 @@ class RankFragment : ParentFragment(), IRankFragment {
         RankAdapter(object : IconBlockCallback {
             override fun setEnabled(enabled: Boolean) {
                 openState?.value = !enabled
+                openState?.tag = if (enabled) OpenState.TAG_ND else OpenState.TAG_ANIMATION
             }
         }, object: ItemListener.ActionClick {
             override fun onItemClick(view: View, p: Int, action: () -> Unit) {
-                openState?.tryInvoke {
-                    when (view.id) {
-                        R.id.rank_visible_button -> {
-                            action()
-                            viewModel.onClickVisible(p)
-                        }
-                        R.id.rank_click_container -> viewModel.onShowRenameDialog(p)
-                        R.id.rank_cancel_button -> viewModel.onClickCancel(p)
+                when (view.id) {
+                    R.id.rank_visible_button -> openState?.tryInvoke(OpenState.TAG_ANIMATION) {
+                        action()
+                        viewModel.onClickVisible(p)
+                    }
+                    R.id.rank_click_container -> openState?.tryInvoke {
+                        viewModel.onShowRenameDialog(p)
+                    }
+                    R.id.rank_cancel_button -> openState?.tryInvoke {
+                        viewModel.onClickCancel(p)
                     }
                 }
             }
@@ -271,6 +274,14 @@ class RankFragment : ParentFragment(), IRankFragment {
 
     override fun notifyDataSetChanged(list: List<RankItem>, startAnim: BooleanArray) {
         adapter.setList(list).apply { this.startAnim = startAnim }.notifyDataSetChanged()
+
+        /**
+         * If don't have animation, when [OpenState.value] set in [IconBlockCallback]
+         * will not call. That code prevent this bug.
+         */
+        if (!startAnim.contains(true)) {
+            openState?.clear()
+        }
     }
 
     override fun notifyItemChanged(list: List<RankItem>, p: Int) {

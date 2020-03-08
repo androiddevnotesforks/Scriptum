@@ -47,7 +47,8 @@ class OpenState {
     fun tryInvoke(tag: String, func: () -> Unit) {
         if (!changeEnabled) return
 
-        if (this.tag == tag) {
+        if (!value || this.tag == tag) {
+            value = true
             func()
         }
     }
@@ -99,7 +100,7 @@ class OpenState {
     }
 
     /**
-     * Call in [Activity.onDestroy]/[Fragment.onDestroy] where use [block]
+     * Call in [Activity.onDestroy]/[Fragment.onDestroy] where use [block].
      */
     fun clearBlockCallback() = handler.removeCallbacksAndMessages(null)
 
@@ -128,6 +129,7 @@ class OpenState {
         private const val TAG_PREFIX = "TAG"
 
         const val TAG_ND = "${TAG_PREFIX}_ND"
+        const val TAG_ANIMATION = "${TAG_PREFIX}_ANIMATION"
         const val TAG_OPTIONS = "${TAG_PREFIX}_OPTIONS"
         const val TAG_DATE_TIME = "${TAG_PREFIX}_DATE_TIME"
     }
