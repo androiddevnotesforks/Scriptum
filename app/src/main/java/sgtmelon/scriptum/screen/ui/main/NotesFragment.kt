@@ -256,20 +256,20 @@ class NotesFragment : ParentFragment(), INotesFragment, MainReceiver.Callback {
 
     override fun showOptionsDialog(itemArray: Array<String>, p: Int) {
         openState?.tryInvoke {
-            openState?.tag = OpenState.TAG_OPTIONS
+            openState?.tag = OpenState.Tag.DIALOG
 
             optionsDialog.setArguments(itemArray, p).show(fm, DialogFactory.Main.OPTIONS)
         }
     }
 
     override fun showDateDialog(calendar: Calendar, resetVisible: Boolean, p: Int) {
-        openState?.tryInvoke(OpenState.TAG_OPTIONS) {
+        openState?.tryInvoke(OpenState.Tag.DIALOG) {
             dateDialog.setArguments(calendar, resetVisible, p).show(fm, DialogFactory.Main.DATE)
         }
     }
 
     override fun showTimeDialog(calendar: Calendar, dateList: List<String>, p: Int) {
-        openState?.tryInvoke(OpenState.TAG_OPTIONS) {
+        openState?.tryInvoke(OpenState.Tag.DIALOG) {
             activity?.hideKeyboard()
             timeDialog.setArguments(calendar, dateList, p).show(fm, DialogFactory.Main.TIME)
         }

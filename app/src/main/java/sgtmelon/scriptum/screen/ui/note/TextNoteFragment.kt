@@ -325,14 +325,14 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment,
     }
 
     override fun showDateDialog(calendar: Calendar, resetVisible: Boolean) = openState.tryInvoke {
-        openState.tag = OpenState.TAG_DATE_TIME
+        openState.tag = OpenState.Tag.DIALOG
 
         hideKeyboard()
         dateDialog.setArguments(calendar, resetVisible).show(fm, DialogFactory.Note.DATE)
     }
 
     override fun showTimeDialog(calendar: Calendar, dateList: List<String>) {
-        openState.tryInvoke(OpenState.TAG_DATE_TIME) {
+        openState.tryInvoke(OpenState.Tag.DIALOG) {
             hideKeyboard()
             timeDialog.setArguments(calendar, dateList).show(fm, DialogFactory.Note.TIME)
         }

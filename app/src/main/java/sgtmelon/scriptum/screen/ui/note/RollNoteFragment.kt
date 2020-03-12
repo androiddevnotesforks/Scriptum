@@ -89,14 +89,16 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
     private val adapter: RollAdapter by lazy {
         RollAdapter(viewModel, object : ItemListener.ActionClick {
             override fun onItemClick(view: View, p: Int, action: () -> Unit) {
-                openState.tryCall {
+                openState.tryInvoke(OpenState.Tag.ANIM) {
                     action()
                     viewModel.onClickItemCheck(p)
                 }
             }
         }, object : ItemListener.LongClick {
             override fun onItemLongClick(view: View, p: Int) {
-                openState.tryCall { viewModel.onLongClickItemCheck() }
+                openState.tryInvoke(OpenState.Tag.ANIM) {
+                    viewModel.onLongClickItemCheck()
+                }
             }
         })
     }
@@ -505,14 +507,14 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
     }
 
     override fun showDateDialog(calendar: Calendar, resetVisible: Boolean) = openState.tryInvoke {
-        openState.tag = OpenState.TAG_DATE_TIME
+        openState.tag = OpenState.Tag.DIALOG
 
         hideKeyboard()
         dateDialog.setArguments(calendar, resetVisible).show(fm, DialogFactory.Note.DATE)
     }
 
     override fun showTimeDialog(calendar: Calendar, dateList: List<String>) {
-        openState.tryInvoke(OpenState.TAG_DATE_TIME) {
+        openState.tryInvoke(OpenState.Tag.DIALOG) {
             hideKeyboard()
             timeDialog.setArguments(calendar, dateList).show(fm, DialogFactory.Note.TIME)
         }

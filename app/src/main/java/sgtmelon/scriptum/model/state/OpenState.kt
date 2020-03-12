@@ -3,6 +3,7 @@ package sgtmelon.scriptum.model.state
 import android.app.Activity
 import android.os.Bundle
 import android.os.Handler
+import androidx.annotation.StringDef
 import androidx.fragment.app.Fragment
 
 /**
@@ -28,7 +29,7 @@ class OpenState {
     /**
      * Use for open dialog chain (for block actions during dialogs close/open)
      */
-    var tag: String = TAG_ND
+    @Tag var tag: String = Tag.ND
 
     /**
      * Use when need skip next [clear], e.g. on dialog dismiss
@@ -44,7 +45,7 @@ class OpenState {
         }
     }
 
-    fun tryInvoke(tag: String, func: () -> Unit) {
+    fun tryInvoke(@Tag tag: String, func: () -> Unit) {
         if (!changeEnabled) return
 
         if (!value || this.tag == tag) {
@@ -96,7 +97,7 @@ class OpenState {
         if (!changeEnabled) return
 
         value = false
-        tag = TAG_ND
+        tag = Tag.ND
     }
 
     /**
@@ -108,7 +109,7 @@ class OpenState {
         bundle?.let {
             changeEnabled = it.getBoolean(KEY_CHANGE)
             value = it.getBoolean(KEY_VALUE)
-            tag = it.getString(KEY_TAG) ?: TAG_ND
+            tag = it.getString(KEY_TAG) ?: Tag.ND
         }
     }
 
@@ -118,20 +119,23 @@ class OpenState {
         it.putString(KEY_TAG, tag)
     }
 
+    @StringDef(Tag.ND, Tag.ANIM, Tag.DIALOG, Tag.DIALOG)
+    annotation class Tag {
+        companion object {
+            private const val TAG_PREFIX = "TAG"
+
+            const val ND = "${TAG_PREFIX}_ND"
+            const val ANIM = "${TAG_PREFIX}_ANIMATION"
+            const val DIALOG = "${TAG_PREFIX}_DIALOG"
+        }
+    }
+
     companion object {
         private const val KEY_PREFIX = "OPEN_STATE"
 
         private const val KEY_CHANGE = "${KEY_PREFIX}_CHANGE"
         private const val KEY_VALUE = "${KEY_PREFIX}_VALUE"
         private const val KEY_TAG = "${KEY_PREFIX}_TAG"
-
-
-        private const val TAG_PREFIX = "TAG"
-
-        const val TAG_ND = "${TAG_PREFIX}_ND"
-        const val TAG_ANIMATION = "${TAG_PREFIX}_ANIMATION"
-        const val TAG_OPTIONS = "${TAG_PREFIX}_OPTIONS"
-        const val TAG_DATE_TIME = "${TAG_PREFIX}_DATE_TIME"
     }
 
 }

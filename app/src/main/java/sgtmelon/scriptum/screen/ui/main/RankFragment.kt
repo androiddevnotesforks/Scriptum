@@ -54,12 +54,12 @@ class RankFragment : ParentFragment(), IRankFragment {
         RankAdapter(object : IconBlockCallback {
             override fun setEnabled(enabled: Boolean) {
                 openState?.value = !enabled
-                openState?.tag = if (enabled) OpenState.TAG_ND else OpenState.TAG_ANIMATION
+                openState?.tag = if (enabled) OpenState.Tag.ND else OpenState.Tag.ANIM
             }
         }, object: ItemListener.ActionClick {
             override fun onItemClick(view: View, p: Int, action: () -> Unit) {
                 when (view.id) {
-                    R.id.rank_visible_button -> openState?.tryInvoke(OpenState.TAG_ANIMATION) {
+                    R.id.rank_visible_button -> openState?.tryInvoke(OpenState.Tag.ANIM) {
                         action()
                         viewModel.onClickVisible(p)
                     }
