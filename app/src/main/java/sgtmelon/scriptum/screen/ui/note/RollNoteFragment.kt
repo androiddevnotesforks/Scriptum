@@ -89,16 +89,12 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
     private val adapter: RollAdapter by lazy {
         RollAdapter(viewModel, object : ItemListener.ActionClick {
             override fun onItemClick(view: View, p: Int, action: () -> Unit) {
-                openState.tryInvoke(OpenState.Tag.ANIM) {
-                    action()
-                    viewModel.onClickItemCheck(p)
-                }
+                action()
+                viewModel.onClickItemCheck(p)
             }
         }, object : ItemListener.LongClick {
             override fun onItemLongClick(view: View, p: Int) {
-                openState.tryInvoke(OpenState.Tag.ANIM) {
-                    viewModel.onLongClickItemCheck()
-                }
+                viewModel.onLongClickItemCheck()
             }
         })
     }
