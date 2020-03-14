@@ -87,6 +87,8 @@ interface IRollNoteFragment : IRollNoteBridge {
 
     fun notifyDataSetChanged(list: List<RollItem>)
 
+    fun notifyDataRangeChanged(list: List<RollItem>)
+
     fun notifyItemChanged(list: List<RollItem>, p: Int, cursor: Int? = null)
 
     fun notifyItemMoved(list: List<RollItem>, from: Int, to: Int)

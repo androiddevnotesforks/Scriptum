@@ -308,7 +308,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
         callback?.apply {
             changeCheckToggle(state = true)
-            notifyDataSetChanged(noteItem.rollList)
+            notifyDataRangeChanged(noteItem.rollList)
             changeCheckToggle(state = false)
 
             updateProgress(noteItem.getCheck(), noteItem.rollList.size)
