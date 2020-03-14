@@ -276,7 +276,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
         callback?.apply {
             onBindingInput(noteItem, inputControl.access)
-            scrollToItem(simpleClick, p, noteItem.rollList)
+            scrollToItem(simpleClick, p, getList())
         }
     }
 
@@ -504,7 +504,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         /**
          * Need update adapter after remove rows with empty text.
          */
-        callback?.setList(noteItem.rollList)
+        callback?.setList(getList())
 
         if (changeMode) {
             callback?.hideKeyboard()
@@ -614,16 +614,11 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         callback?.onBindingInput(noteItem, inputControl.access)
     }
 
-    /**
-     * TODO getOrNull, refactor list apply
-     */
     override fun onInputRollChange(p: Int, text: String) {
         callback?.apply {
-            val list = noteItem.rollList.apply {
-                get(p).text = text
-            }
+            noteItem.rollList.getOrNull(p)?.text = text
 
-            setList(list)
+            setList(getList())
             onBindingInput(noteItem, inputControl.access)
         }
     }
