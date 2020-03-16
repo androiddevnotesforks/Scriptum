@@ -519,7 +519,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
                 parentCallback?.onUpdateNoteId(id)
             }
 
-            callback?.setList(noteItem.rollList)
+            callback?.setList(getList())
         }
 
         return true
@@ -628,13 +628,14 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
      * to control in Edit.
      */
     override fun onTouchSwipe(p: Int) {
-        val rollItem = noteItem.rollList.removeAt(p)
+        val correctPosition = getCorrectPosition(p)
+        val item = noteItem.rollList.removeAtOrNull(correctPosition) ?: return
 
-        inputControl.onRollRemove(p, rollItem.toJson())
+        inputControl.onRollRemove(correctPosition, item.toJson())
 
         callback?.apply {
             onBindingInput(noteItem, inputControl.access)
-            notifyItemRemoved(noteItem.rollList, p)
+            notifyItemRemoved(getList(), p)
         }
     }
 
@@ -655,12 +656,11 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     //endregion
 
 
+    /**
+     * Use only for different notify functions. Don't use for change data.
+     */
     private fun getList(): MutableList<RollItem> {
         return noteItem.rollList.let { if (isVisible) it else it.hide() }
-    }
-
-    private fun MutableList<RollItem>.hide(): MutableList<RollItem> {
-        return ArrayList(filter { !it.isCheck })
     }
 
     /**
@@ -668,6 +668,10 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
      */
     private fun getCorrectPosition(p: Int): Int {
         return if (isVisible) p else noteItem.rollList.let { it.indexOf(it.hide()[p]) }
+    }
+
+    private fun MutableList<RollItem>.hide(): MutableList<RollItem> {
+        return ArrayList(filter { !it.isCheck })
     }
 
     /**
