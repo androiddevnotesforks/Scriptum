@@ -11,9 +11,7 @@ import sgtmelon.extension.beforeNow
 import sgtmelon.extension.getCalendar
 import sgtmelon.scriptum.control.SaveControl
 import sgtmelon.scriptum.control.input.InputControl
-import sgtmelon.scriptum.extension.clearSpace
-import sgtmelon.scriptum.extension.move
-import sgtmelon.scriptum.extension.removeAtOrNull
+import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.model.annotation.InputAction
@@ -221,24 +219,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
         callback?.setToolbarVisibleIcon(isVisible, needAnim = true)
 
-        viewModelScope.launch {
-            val list = ArrayList(noteItem.rollList)
-
-            if (isVisible) {
-                list.filter { it.isCheck }.forEach { item ->
-                    list.indexOf(item).takeIf { it != -1 }?.also {
-                        callback?.notifyItemInserted(list, it)
-                    }
-                }
-            } else {
-                while (list.any { it.isCheck }) {
-                    list.indexOfFirst { it.isCheck }.takeIf { it != -1 }?.also {
-                        list.removeAtOrNull(it) ?: return@also
-                        callback?.notifyItemRemoved(list, it)
-                    }
-                }
-            }
-        }
+        notifyListByVisible()
     }
 
     override fun onEditorClick(i: Int): Boolean {
@@ -283,17 +264,23 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     override fun onClickItemCheck(p: Int) {
         if (noteState.isEdit) return
 
-        noteItem.onItemCheck(p)
+        val correctPosition = getCorrectPosition(p)
+        noteItem.onItemCheck(correctPosition)
 
         /**
          * If not update [restoreItem] it will cause bug with restore.
          */
         restoreItem = noteItem.deepCopy()
 
-        callback?.notifyItemChanged(noteItem.rollList, p)
+        if (isVisible) {
+            callback?.notifyItemChanged(getList(), p)
+        } else {
+            callback?.notifyItemRemoved(getList(), p)
+        }
+
         callback?.updateProgress(noteItem.getCheck(), noteItem.rollList.size)
 
-        viewModelScope.launch { interactor.updateRollCheck(noteItem, p) }
+        viewModelScope.launch { interactor.updateRollCheck(noteItem, correctPosition) }
     }
 
     override fun onLongClickItemCheck() {
@@ -313,6 +300,8 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
             updateProgress(noteItem.getCheck(), noteItem.rollList.size)
         }
+
+        notifyListByVisible()
 
         viewModelScope.launch { interactor.updateRollCheck(noteItem, check) }
     }
@@ -665,8 +654,40 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
     //endregion
 
-    private fun getList(): MutableList<RollItem> = noteItem.rollList.let {
-        return@let ArrayList(if (isVisible) it else it.filter { item -> !item.isCheck })
+
+    private fun getList(): MutableList<RollItem> {
+        return noteItem.rollList.let { if (isVisible) it else it.hide() }
+    }
+
+    private fun MutableList<RollItem>.hide(): MutableList<RollItem> {
+        return ArrayList(filter { !it.isCheck })
+    }
+
+    /**
+     * If have hide items when need correct position.
+     */
+    private fun getCorrectPosition(p: Int): Int {
+        return if (isVisible) p else noteItem.rollList.let { it.indexOf(it.hide()[p]) }
+    }
+
+    /**
+     * Make good animation for items, remove or insert one by one.
+     */
+    private fun notifyListByVisible() = viewModelScope.launch {
+        val list = ArrayList(noteItem.rollList)
+
+        if (isVisible) {
+            list.filter { it.isCheck }.forEach { item ->
+                list.correctIndexOf(item)?.also { callback?.notifyItemInserted(list, it) }
+            }
+        } else {
+            while (list.any { it.isCheck }) {
+                list.correctIndexOfFirst { it.isCheck }?.also {
+                    list.removeAtOrNull(it) ?: return@also
+                    callback?.notifyItemRemoved(list, it)
+                }
+            }
+        }
     }
 
     companion object {

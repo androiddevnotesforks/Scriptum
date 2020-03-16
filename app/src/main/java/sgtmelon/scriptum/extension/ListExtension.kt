@@ -6,6 +6,17 @@ fun <T> MutableList<T>.removeAtOrNull(index: Int): T? {
     return if (index in 0..lastIndex) removeAt(index) else null
 }
 
+private const val ND_INDEX = -1
+
+fun <T> List<T>.correctIndexOf(item: T): Int? {
+    return indexOf(item).takeIf { it != ND_INDEX }
+}
+
+fun <T> List<T>.correctIndexOfFirst(predicate: (T) -> Boolean): Int? {
+    return indexOfFirst(predicate).takeIf { it != ND_INDEX }
+}
+
+
 /**
  * Move item by positions. If [to] is not indicated - move to last position.
  */
