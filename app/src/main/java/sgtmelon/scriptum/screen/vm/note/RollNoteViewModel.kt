@@ -2,6 +2,7 @@ package sgtmelon.scriptum.screen.vm.note
 
 import android.app.Application
 import android.os.Bundle
+import android.util.Log
 import android.view.inputmethod.EditorInfo
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.viewModelScope
@@ -17,6 +18,7 @@ import sgtmelon.scriptum.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.model.annotation.InputAction
 import sgtmelon.scriptum.model.data.NoteData.Default
 import sgtmelon.scriptum.model.data.NoteData.Intent
+import sgtmelon.scriptum.model.item.InputItem
 import sgtmelon.scriptum.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RollItem
@@ -199,7 +201,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         val colorFrom = noteItem.color
         noteItem = restoreItem.deepCopy()
 
-        callback?.notifyDataSetChanged(noteItem.rollList)
+        callback?.notifyDataSetChanged(getList())
         setupEditMode(isEdit = false)
         callback?.tintToolbar(colorFrom, noteItem.color)
 
@@ -295,7 +297,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
         callback?.apply {
             changeCheckToggle(state = true)
-            notifyDataRangeChanged(noteItem.rollList)
+            notifyDataRangeChanged(getList())
             changeCheckToggle(state = false)
 
             updateProgress(noteItem.getCheck(), noteItem.rollList.size)
@@ -422,54 +424,107 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         val item = if (isUndo) inputControl.undo() else inputControl.redo()
 
         if (item != null) inputControl.makeNotEnabled {
-            val rollList = noteItem.rollList
-
             when (item.tag) {
-                InputAction.RANK -> {
-                    val list = StringConverter().toList(item[isUndo])
-                    noteItem.rankId = list[0]
-                    noteItem.rankPs = list[1].toInt()
-                }
-                InputAction.COLOR -> {
-                    val colorFrom = noteItem.color
-                    val colorTo = item[isUndo].toInt()
-
-                    noteItem.color = colorTo
-
-                    callback?.tintToolbar(colorFrom, colorTo)
-                }
-                InputAction.NAME -> callback?.changeName(item[isUndo], cursor = item.cursor[isUndo])
-                InputAction.ROLL -> {
-                    rollList[item.p].text = item[isUndo]
-                    callback?.notifyItemChanged(rollList, item.p, item.cursor[isUndo])
-                }
+                InputAction.RANK -> onMenuUndoRedoRank(item, isUndo)
+                InputAction.COLOR -> onMenuUndoRedoColor(item, isUndo)
+                InputAction.NAME -> onMenuUndoRedoName(item, isUndo)
+                InputAction.ROLL -> onMenuUndoRedoRoll(item, isUndo)
                 InputAction.ROLL_ADD, InputAction.ROLL_REMOVE -> {
                     val isAddUndo = isUndo && item.tag == InputAction.ROLL_ADD
                     val isRemoveRedo = !isUndo && item.tag == InputAction.ROLL_REMOVE
 
                     if (isAddUndo || isRemoveRedo) {
-                        rollList.removeAt(item.p)
-                        callback?.notifyItemRemoved(rollList, item.p)
+                        onMenuUndoRedoAdd(item)
                     } else {
-                        val rollItem = RollItem[item[isUndo]]
-                        if (rollItem != null) {
-                            rollList.add(item.p, rollItem)
-                            callback?.notifyItemInserted(rollList, item.p, rollItem.text.length)
-                        }
+                        onMenuUndoRedoRemove(item, isUndo)
                     }
                 }
-                InputAction.ROLL_MOVE -> {
-                    val from = item[!isUndo].toInt()
-                    val to = item[isUndo].toInt()
-
-                    rollList.move(from, to)
-                    callback?.notifyItemMoved(rollList, from, to)
-                }
+                InputAction.ROLL_MOVE -> onMenuUndoRedoMove(item, isUndo)
             }
         }
 
         callback?.onBindingInput(noteItem, inputControl.access)
     }
+
+    private fun onMenuUndoRedoRank(item: InputItem, isUndo: Boolean) {
+        val list = StringConverter().toList(item[isUndo])
+
+        noteItem.apply {
+            rankId = list[0]
+            rankPs = list[1].toInt()
+        }
+    }
+
+    private fun onMenuUndoRedoColor(item: InputItem, isUndo: Boolean) {
+        val colorFrom = noteItem.color
+        val colorTo = item[isUndo].toInt()
+
+        noteItem.color = colorTo
+
+        callback?.tintToolbar(colorFrom, colorTo)
+    }
+
+    private fun onMenuUndoRedoName(item: InputItem, isUndo: Boolean) {
+        val text = item[isUndo]
+        val cursor = item.cursor[isUndo]
+
+        callback?.changeName(text, cursor)
+    }
+
+    private fun onMenuUndoRedoRoll(item: InputItem, isUndo: Boolean) {
+        val rollItem = noteItem.rollList.getOrNull(item.p) ?: return
+        val position = getList().correctIndexOf(rollItem) ?: return
+
+        rollItem.text = item[isUndo]
+
+        if (isVisible || (!isVisible && !rollItem.isCheck)) {
+            callback?.notifyItemChanged(getList(), position, item.cursor[isUndo])
+        }
+    }
+
+    private fun onMenuUndoRedoAdd(item: InputItem) {
+        val rollItem = noteItem.rollList.getOrNull(item.p) ?: return
+        val position = getList().correctIndexOf(rollItem) ?: return
+
+        noteItem.rollList.removeAtOrNull(item.p) ?: return
+
+        if (isVisible || (!isVisible && !rollItem.isCheck)) {
+            callback?.notifyItemRemoved(getList(), position)
+        }
+    }
+
+    private fun onMenuUndoRedoRemove(item: InputItem, isUndo: Boolean) {
+        val rollItem = RollItem[item[isUndo]] ?: return
+
+        noteItem.rollList.add(item.p, rollItem)
+
+        if (isVisible) {
+            callback?.notifyItemInserted(getList(), item.p, rollItem.text.length)
+        } else if (!rollItem.isCheck) {
+            fun getShiftPosition(p: Int): Int {
+                return p - noteItem.rollList.subList(0, p).let { it.size - it.hide().size }
+            }
+
+            val position = getShiftPosition(item.p)
+            callback?.notifyItemInserted(getList(), position, rollItem.text.length)
+        }
+    }
+
+    private fun onMenuUndoRedoMove(item: InputItem, isUndo: Boolean) {
+        val from = item[!isUndo].toInt()
+        val to = item[isUndo].toInt()
+
+        val rollItem = noteItem.rollList.getOrNull(from) ?: return
+
+        val shiftFrom = getList().indexOf(rollItem)
+        noteItem.rollList.move(from, to)
+        val shiftTo = getList().indexOf(rollItem)
+
+        if (isVisible || (!isVisible && !rollItem.isCheck)) {
+            callback?.notifyItemMoved(getList(), shiftFrom, shiftTo)
+        }
+    }
+
 
     override fun onMenuRank() {
         if (!noteState.isEdit) return
@@ -604,9 +659,10 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     override fun onInputRollChange(p: Int, text: String) {
-        callback?.apply {
-            noteItem.rollList.getOrNull(p)?.text = text
+        val correctPosition = getCorrectPosition(p)
+        noteItem.rollList.getOrNull(correctPosition)?.text = text
 
+        callback?.apply {
             setList(getList())
             onBindingInput(noteItem, inputControl.access)
         }
@@ -644,17 +700,25 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
      * to control in Edit.
      */
     override fun onTouchMove(from: Int, to: Int): Boolean {
-        callback?.notifyItemMoved(noteItem.rollList.apply { move(from, to) }, from, to)
+        val correctFrom = getCorrectPosition(from)
+        val correctTo = getCorrectPosition(to)
+
+        noteItem.rollList.move(correctFrom, correctTo)
+
+        callback?.notifyItemMoved(getList(), from, to)
         return true
     }
 
     override fun onTouchMoveResult(from: Int, to: Int) {
-        inputControl.onRollMove(from, to)
+        val correctFrom = getCorrectPosition(from)
+        val correctTo = getCorrectPosition(to)
+
+        inputControl.onRollMove(correctFrom, correctTo)
+
         callback?.onBindingInput(noteItem, inputControl.access)
     }
 
     //endregion
-
 
     /**
      * Use only for different notify functions. Don't use for change data.

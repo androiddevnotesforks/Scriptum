@@ -489,10 +489,6 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
         adapter.setList(list).notifyItemRemoved(p)
     }
 
-    override fun notifyItemRemoved(p: Int) {
-        adapter.notifyItemRemoved(p)
-    }
-
 
     override fun showRankDialog(check: Int) = openState.tryInvoke {
         hideKeyboard()
