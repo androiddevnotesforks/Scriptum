@@ -3,13 +3,14 @@ package sgtmelon.scriptum.screen.ui.note
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.ShowHolderControl
+import sgtmelon.scriptum.control.toolbar.HolderTintControl
 import sgtmelon.scriptum.control.toolbar.ToolbarTintControl
+import sgtmelon.scriptum.extension.initLazy
 import sgtmelon.scriptum.factory.FragmentFactory
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
@@ -32,7 +33,8 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild, NoteReceiver.Call
 
     @Inject internal lateinit var viewModel: INoteViewModel
 
-    private val holderControl by lazy { ShowHolderControl(arrayOf(toolbarHolder, panelHolder)) }
+    private val holderShowControl by lazy { ShowHolderControl(arrayOf(toolbarHolder, panelHolder)) }
+    private val holderTintControl by lazy { HolderTintControl(this, window, toolbarHolder) }
 
     private val fragmentFactory = FragmentFactory.Note(fm)
     private val textNoteFragment get() = fragmentFactory.getTextNoteFragment()
@@ -50,6 +52,8 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild, NoteReceiver.Call
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note)
 
+        holderTintControl.initLazy()
+
         viewModel.apply {
             onSetup(bundle = savedInstanceState ?: intent.extras)
             onSetupFragment(checkCache = savedInstanceState != null)
@@ -61,7 +65,7 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild, NoteReceiver.Call
     override fun onDestroy() {
         super.onDestroy()
 
-        holderControl.onDestroy()
+        holderShowControl.onDestroy()
 
         viewModel.onDestroy()
         unregisterReceiver(noteReceiver)
@@ -76,17 +80,8 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild, NoteReceiver.Call
     }
 
 
-    /**
-     * TODO create holder tint control (save func setupColor in ToolbarTintControl)
-     */
     override fun updateHolder(@Theme theme: Int, @Color color: Int) {
-        if (theme == Theme.DARK) return
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.statusBarColor = ToolbarTintControl.getStatusBarColor(this, theme, color)
-        }
-
-        toolbarHolder?.setBackgroundColor(ToolbarTintControl.getToolbarColor(this, theme, color))
+        holderTintControl.setupColor(theme, color)
     }
 
     override fun showTextFragment(id: Long, @Color color: Int, checkCache: Boolean) {
@@ -122,7 +117,7 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild, NoteReceiver.Call
 
 
     private fun showFragment(key: String, fragment: Fragment) {
-        holderControl.show()
+        holderShowControl.show()
 
         fm.beginTransaction()
                 .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)

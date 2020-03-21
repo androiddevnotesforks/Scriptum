@@ -17,7 +17,7 @@ import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
 import sgtmelon.scriptum.screen.ui.note.TextNoteFragment
 
 /**
- * Control menu of [TextNoteFragment], [RollNoteFragment] without animation
+ * Control note toolbar tint.
  */
 class ToolbarTintControl(
         private val context: Context,
@@ -26,7 +26,8 @@ class ToolbarTintControl(
         private val indicator: View?,
         @Theme private val theme: Int,
         @Color startColor: Int
-) : IToolbarTintControl {
+) : ParentTintControl(),
+        IToolbarTintControl {
 
     private val colorAnimator: ValueAnimator = ValueAnimator.ofFloat(0F, 1F)
 
@@ -89,19 +90,6 @@ class ToolbarTintControl(
         if (statusState.isDifferent()
                 || toolbarState.isDifferent()
                 || indicatorState.isDifferent()) colorAnimator.start()
-    }
-
-
-    companion object {
-        private val statusOnDark = VERSION.SDK_INT < VERSION_CODES.M
-
-        fun getToolbarColor(context: Context, @Theme theme: Int, @Color color: Int): Int {
-            return context.getAppThemeColor(theme, color, needDark = false)
-        }
-
-        fun getStatusBarColor(context: Context, @Theme theme: Int, @Color color: Int): Int {
-            return context.getAppThemeColor(theme, color, statusOnDark)
-        }
     }
 
 }

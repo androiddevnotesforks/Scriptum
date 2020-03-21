@@ -2,7 +2,6 @@ package sgtmelon.scriptum.screen.vm.note
 
 import android.app.Application
 import android.os.Bundle
-import android.util.Log
 import android.view.inputmethod.EditorInfo
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.viewModelScope

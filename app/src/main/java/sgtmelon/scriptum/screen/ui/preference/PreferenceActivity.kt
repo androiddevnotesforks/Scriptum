@@ -5,11 +5,9 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.extension.getTintDrawable
 import sgtmelon.scriptum.screen.ui.AppActivity
 import sgtmelon.scriptum.screen.ui.ScriptumApplication
-import sgtmelon.scriptum.screen.vm.callback.IAppViewModel
 
 /**
  * Screen for display [PreferenceFragment].

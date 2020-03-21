@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.model.item
 
-import androidx.annotation.VisibleForTesting
 import androidx.room.ColumnInfo
 import androidx.room.Relation
 import androidx.room.TypeConverters
