@@ -7,7 +7,7 @@ import sgtmelon.scriptum.presentation.adapter.diff.RankDiff
 import sgtmelon.scriptum.presentation.adapter.holder.RankHolder
 import sgtmelon.scriptum.extension.clearAddAll
 import sgtmelon.scriptum.extension.inflateBinding
-import sgtmelon.scriptum.listener.ItemListener
+import sgtmelon.scriptum.presentation.listener.ItemListener
 import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.screen.ui.main.RankFragment
 

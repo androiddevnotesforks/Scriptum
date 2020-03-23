@@ -14,7 +14,7 @@ import sgtmelon.scriptum.presentation.adapter.RollAdapter
 import sgtmelon.scriptum.control.input.IInputControl
 import sgtmelon.scriptum.databinding.ItemRollWriteBinding
 import sgtmelon.scriptum.extension.addOnNextAction
-import sgtmelon.scriptum.listener.ItemListener
+import sgtmelon.scriptum.presentation.listener.ItemListener
 import sgtmelon.scriptum.model.item.InputItem
 import sgtmelon.scriptum.model.item.RollItem
 

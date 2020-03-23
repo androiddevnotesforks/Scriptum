@@ -18,7 +18,7 @@ import sgtmelon.scriptum.extension.createVisibleAnim
 import sgtmelon.scriptum.extension.getTintDrawable
 import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.extension.initLazy
-import sgtmelon.scriptum.listener.ItemListener
+import sgtmelon.scriptum.presentation.listener.ItemListener
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.model.state.OpenState

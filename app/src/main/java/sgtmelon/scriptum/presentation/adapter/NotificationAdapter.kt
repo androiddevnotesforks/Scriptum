@@ -6,7 +6,7 @@ import sgtmelon.scriptum.presentation.adapter.diff.NotificationDiff
 import sgtmelon.scriptum.presentation.adapter.holder.NotificationHolder
 import sgtmelon.scriptum.extension.clearAddAll
 import sgtmelon.scriptum.extension.inflateBinding
-import sgtmelon.scriptum.listener.ItemListener
+import sgtmelon.scriptum.presentation.listener.ItemListener
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.screen.ui.notification.NotificationActivity

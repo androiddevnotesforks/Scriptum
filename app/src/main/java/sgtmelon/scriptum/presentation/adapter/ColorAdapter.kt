@@ -5,7 +5,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.presentation.adapter.holder.ColorHolder
 import sgtmelon.scriptum.presentation.dialog.ColorDialog
 import sgtmelon.scriptum.extension.inflateView
-import sgtmelon.scriptum.listener.ItemListener
+import sgtmelon.scriptum.presentation.listener.ItemListener
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 

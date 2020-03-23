@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.listener
+package sgtmelon.scriptum.presentation.listener
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView

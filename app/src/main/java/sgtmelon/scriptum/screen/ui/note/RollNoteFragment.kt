@@ -39,7 +39,7 @@ import sgtmelon.scriptum.control.touch.RollTouchControl
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
 import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.presentation.factory.DialogFactory
-import sgtmelon.scriptum.listener.ItemListener
+import sgtmelon.scriptum.presentation.listener.ItemListener
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.InputAction
 import sgtmelon.scriptum.model.annotation.Theme

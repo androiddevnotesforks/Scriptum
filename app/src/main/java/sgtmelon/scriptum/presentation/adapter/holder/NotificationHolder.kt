@@ -7,7 +7,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.presentation.adapter.NotificationAdapter
 import sgtmelon.scriptum.databinding.ItemNotificationBinding
 import sgtmelon.scriptum.extension.checkNoPosition
-import sgtmelon.scriptum.listener.ItemListener
+import sgtmelon.scriptum.presentation.listener.ItemListener
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NotificationItem
 

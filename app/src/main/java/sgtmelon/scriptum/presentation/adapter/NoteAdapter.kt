@@ -8,7 +8,7 @@ import sgtmelon.scriptum.presentation.adapter.holder.NoteRollHolder
 import sgtmelon.scriptum.presentation.adapter.holder.NoteTextHolder
 import sgtmelon.scriptum.extension.clearAddAll
 import sgtmelon.scriptum.extension.inflateBinding
-import sgtmelon.scriptum.listener.ItemListener
+import sgtmelon.scriptum.presentation.listener.ItemListener
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.NoteType

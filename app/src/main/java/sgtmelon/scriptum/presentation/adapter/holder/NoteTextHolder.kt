@@ -6,7 +6,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.presentation.adapter.NoteAdapter
 import sgtmelon.scriptum.databinding.ItemNoteTextBinding
 import sgtmelon.scriptum.extension.checkNoPosition
-import sgtmelon.scriptum.listener.ItemListener
+import sgtmelon.scriptum.presentation.listener.ItemListener
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
 

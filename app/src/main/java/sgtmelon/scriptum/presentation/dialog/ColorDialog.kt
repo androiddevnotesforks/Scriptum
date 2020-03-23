@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import sgtmelon.safedialog.BlankDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.presentation.adapter.ColorAdapter
-import sgtmelon.scriptum.listener.ItemListener
+import sgtmelon.scriptum.presentation.listener.ItemListener
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 
