@@ -1,6 +1,6 @@
-package sgtmelon.scriptum.presentation.control.alarm.callback
+package sgtmelon.scriptum.presentation.control.system.callback
 
-import sgtmelon.scriptum.presentation.control.alarm.VibratorControl
+import sgtmelon.scriptum.presentation.control.system.VibratorControl
 
 /**
  * Interface for communicate with [VibratorControl]

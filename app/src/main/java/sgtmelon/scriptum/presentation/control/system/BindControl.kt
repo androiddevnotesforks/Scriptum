@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.presentation.control.bind
+package sgtmelon.scriptum.presentation.control.system
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -9,6 +9,7 @@ import androidx.annotation.VisibleForTesting
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.item.NoteItem
+import sgtmelon.scriptum.presentation.control.system.callback.IBindControl
 import sgtmelon.scriptum.presentation.factory.NotificationFactory
 
 /**
@@ -143,7 +144,8 @@ class BindControl(private val context: Context?) : IBindControl {
         val tagIdMap: MutableMap<String, Int> = mutableMapOf()
 
         operator fun get(context: Context?): IBindControl {
-            return callback ?: BindControl(context).also { callback = it }
+            return callback
+                    ?: BindControl(context).also { callback = it }
         }
     }
 

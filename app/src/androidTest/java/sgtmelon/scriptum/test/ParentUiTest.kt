@@ -6,8 +6,8 @@ import org.junit.Rule
 import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.presentation.control.alarm.AlarmControl
-import sgtmelon.scriptum.presentation.control.bind.BindControl
+import sgtmelon.scriptum.presentation.control.system.AlarmControl
+import sgtmelon.scriptum.presentation.control.system.BindControl
 import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.ui.screen.SplashScreen
 import kotlin.random.Random

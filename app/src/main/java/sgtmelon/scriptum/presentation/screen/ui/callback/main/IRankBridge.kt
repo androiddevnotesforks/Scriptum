@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.presentation.screen.ui.callback.main
 
 import sgtmelon.scriptum.interactor.main.RankInteractor
-import sgtmelon.scriptum.presentation.control.bind.BindControl
+import sgtmelon.scriptum.presentation.control.system.BindControl
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.RankFragment
 
 /**

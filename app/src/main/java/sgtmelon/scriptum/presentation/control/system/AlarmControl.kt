@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.presentation.control.alarm
+package sgtmelon.scriptum.presentation.control.system
 
 import android.app.AlarmManager
 import android.app.PendingIntent
@@ -10,7 +10,7 @@ import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.extension.toLowerCase
-import sgtmelon.scriptum.presentation.control.alarm.callback.IAlarmControl
+import sgtmelon.scriptum.presentation.control.system.callback.IAlarmControl
 import sgtmelon.scriptum.presentation.receiver.AlarmReceiver
 import java.util.*
 

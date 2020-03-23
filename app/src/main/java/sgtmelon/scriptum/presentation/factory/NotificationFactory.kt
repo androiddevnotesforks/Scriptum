@@ -13,7 +13,7 @@ import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.key.ColorShade
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.presentation.control.bind.BindControl
+import sgtmelon.scriptum.presentation.control.system.BindControl
 import sgtmelon.scriptum.presentation.receiver.UnbindReceiver
 import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
 

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.presentation.control.alarm
+package sgtmelon.scriptum.presentation.control.system
 
 import android.content.Context
 import android.media.AudioAttributes
@@ -9,7 +9,7 @@ import android.net.Uri
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import android.os.Handler
-import sgtmelon.scriptum.presentation.control.alarm.callback.IMelodyControl
+import sgtmelon.scriptum.presentation.control.system.callback.IMelodyControl
 
 /**
  * Class for help control [MediaPlayer] and [AudioManager]

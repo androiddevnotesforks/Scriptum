@@ -18,10 +18,10 @@ import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.presentation.adapter.NoteAdapter
-import sgtmelon.scriptum.presentation.control.alarm.AlarmControl
-import sgtmelon.scriptum.presentation.control.alarm.ClipboardControl
-import sgtmelon.scriptum.presentation.control.alarm.callback.IClipboardControl
-import sgtmelon.scriptum.presentation.control.bind.BindControl
+import sgtmelon.scriptum.presentation.control.system.AlarmControl
+import sgtmelon.scriptum.presentation.control.system.BindControl
+import sgtmelon.scriptum.presentation.control.system.ClipboardControl
+import sgtmelon.scriptum.presentation.control.system.callback.IClipboardControl
 import sgtmelon.scriptum.presentation.factory.DialogFactory
 import sgtmelon.scriptum.presentation.listener.ItemListener
 import sgtmelon.scriptum.presentation.receiver.MainReceiver

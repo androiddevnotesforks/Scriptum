@@ -1,7 +1,7 @@
-package sgtmelon.scriptum.presentation.control.alarm.callback
+package sgtmelon.scriptum.presentation.control.system.callback
 
 import android.net.Uri
-import sgtmelon.scriptum.presentation.control.alarm.MelodyControl
+import sgtmelon.scriptum.presentation.control.system.MelodyControl
 
 /**
  * Interface for communicate with [MelodyControl]

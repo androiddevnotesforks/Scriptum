@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.IncludeInfoBinding
 import sgtmelon.scriptum.extension.inflateBinding
+import sgtmelon.scriptum.model.data.IntroData
 
 /**
  * Fragment page for [IntroActivity]

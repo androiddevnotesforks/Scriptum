@@ -1,11 +1,11 @@
-package sgtmelon.scriptum.presentation.control.alarm
+package sgtmelon.scriptum.presentation.control.system
 
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.showToast
-import sgtmelon.scriptum.presentation.control.alarm.callback.IClipboardControl
+import sgtmelon.scriptum.presentation.control.system.callback.IClipboardControl
 
 /**
  * Class for help control clipboard

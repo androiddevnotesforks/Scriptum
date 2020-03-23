@@ -1,9 +1,10 @@
-package sgtmelon.scriptum.presentation.control.bind
+package sgtmelon.scriptum.presentation.control.system.callback
 
 import sgtmelon.scriptum.model.item.NoteItem
+import sgtmelon.scriptum.presentation.control.system.BindControl
 
 /**
- * Interface for communicate with [BindControl]
+ * Interface for communicate with [BindControl].
  */
 interface IBindControl {
 

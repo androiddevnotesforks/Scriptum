@@ -1,10 +1,10 @@
-package sgtmelon.scriptum.presentation.control.alarm
+package sgtmelon.scriptum.presentation.control.system
 
 import android.content.Context
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
-import sgtmelon.scriptum.presentation.control.alarm.callback.IVibratorControl
+import sgtmelon.scriptum.presentation.control.system.callback.IVibratorControl
 
 /**
  * Class for help control [Vibrator]

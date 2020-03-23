@@ -19,8 +19,8 @@ import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.key.PermissionResult
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.model.state.PermissionState
-import sgtmelon.scriptum.presentation.control.alarm.MelodyControl
-import sgtmelon.scriptum.presentation.control.alarm.callback.IMelodyControl
+import sgtmelon.scriptum.presentation.control.system.MelodyControl
+import sgtmelon.scriptum.presentation.control.system.callback.IMelodyControl
 import sgtmelon.scriptum.presentation.factory.DialogFactory
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.callback.IPreferenceFragment

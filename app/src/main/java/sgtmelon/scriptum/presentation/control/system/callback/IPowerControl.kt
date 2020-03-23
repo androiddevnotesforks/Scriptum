@@ -1,6 +1,6 @@
-package sgtmelon.scriptum.presentation.control.alarm.callback
+package sgtmelon.scriptum.presentation.control.system.callback
 
-import sgtmelon.scriptum.presentation.control.alarm.PowerControl
+import sgtmelon.scriptum.presentation.control.system.PowerControl
 
 /**
  * Interface for communicate with [PowerControl]
