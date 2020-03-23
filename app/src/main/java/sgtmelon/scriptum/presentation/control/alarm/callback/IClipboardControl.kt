@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.presentation.control.clipboard
+package sgtmelon.scriptum.presentation.control.alarm.callback
 
 /**
  * Interface for communicate with [ClipboardControl]

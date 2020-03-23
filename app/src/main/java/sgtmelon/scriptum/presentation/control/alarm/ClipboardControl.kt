@@ -1,10 +1,11 @@
-package sgtmelon.scriptum.presentation.control.clipboard
+package sgtmelon.scriptum.presentation.control.alarm
 
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.showToast
+import sgtmelon.scriptum.presentation.control.alarm.callback.IClipboardControl
 
 /**
  * Class for help control clipboard
@@ -23,8 +24,8 @@ class ClipboardControl(private val context: Context?) : IClipboardControl {
     }
 
     /**
-     * Callback which need implement in interface what pass to Interactor
-     * It's need to get access [ClipboardControl] inside Interactor
+     * Callback which need implement in interface what pass to Interactor.
+     * It's need to get access [ClipboardControl] inside Interactor.
      */
     interface Bridge {
         fun copyClipboard(text: String)
