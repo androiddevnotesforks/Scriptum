@@ -23,7 +23,6 @@ import androidx.transition.TransitionManager
 import sgtmelon.iconanim.IconBlockCallback
 import sgtmelon.iconanim.IconChangeCallback
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.presentation.adapter.RollAdapter
 import sgtmelon.scriptum.control.alarm.AlarmControl
 import sgtmelon.scriptum.control.bind.BindControl
 import sgtmelon.scriptum.control.input.IInputControl
@@ -38,8 +37,6 @@ import sgtmelon.scriptum.control.toolbar.icon.VisibleIconControlAnim
 import sgtmelon.scriptum.control.touch.RollTouchControl
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
 import sgtmelon.scriptum.extension.*
-import sgtmelon.scriptum.presentation.factory.DialogFactory
-import sgtmelon.scriptum.presentation.listener.ItemListener
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.InputAction
 import sgtmelon.scriptum.model.annotation.Theme
@@ -49,9 +46,12 @@ import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.model.state.OpenState
+import sgtmelon.scriptum.presentation.adapter.RollAdapter
+import sgtmelon.scriptum.presentation.factory.DialogFactory
+import sgtmelon.scriptum.presentation.listener.ItemListener
 import sgtmelon.scriptum.presentation.receiver.NoteReceiver
-import sgtmelon.scriptum.presentation.screen.ui.impl.ParentFragment
-import sgtmelon.scriptum.presentation.screen.ui.impl.ScriptumApplication
+import sgtmelon.scriptum.presentation.screen.ui.ParentFragment
+import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.roll.IRollNoteFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.note.IRollNoteViewModel
 import java.util.*

@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
-            android:name="sgtmelon.scriptum.presentation.screen.ui.impl.ScriptumApplication"
+            android:name="sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication"
             android:allowBackup="true"
             android:fullBackupContent="@xml/backup_descriptor"
             android:icon="@mipmap/ic_launcher"

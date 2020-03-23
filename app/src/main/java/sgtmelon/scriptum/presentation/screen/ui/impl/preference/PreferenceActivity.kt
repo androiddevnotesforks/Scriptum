@@ -6,8 +6,8 @@ import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.getTintDrawable
+import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.impl.AppActivity
-import sgtmelon.scriptum.presentation.screen.ui.impl.ScriptumApplication
 
 /**
  * Screen for display [PreferenceFragment].

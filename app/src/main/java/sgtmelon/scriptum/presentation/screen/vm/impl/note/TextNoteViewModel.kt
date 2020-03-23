@@ -20,12 +20,12 @@ import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.IconState
 import sgtmelon.scriptum.model.state.NoteState
-import sgtmelon.scriptum.room.converter.model.StringConverter
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteChild
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.text.ITextNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
-import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
+import sgtmelon.scriptum.presentation.screen.vm.ParentViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.note.ITextNoteViewModel
+import sgtmelon.scriptum.room.converter.model.StringConverter
 import java.util.*
 
 /**

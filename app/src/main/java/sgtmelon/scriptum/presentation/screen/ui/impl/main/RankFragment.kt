@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.iconanim.IconBlockCallback
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.presentation.adapter.RankAdapter
 import sgtmelon.scriptum.control.bind.BindControl
 import sgtmelon.scriptum.control.touch.RankTouchControl
 import sgtmelon.scriptum.databinding.FragmentRankBinding
@@ -22,13 +21,14 @@ import sgtmelon.scriptum.extension.addTextChangedListener
 import sgtmelon.scriptum.extension.createVisibleAnim
 import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.extension.initLazy
-import sgtmelon.scriptum.presentation.factory.DialogFactory
-import sgtmelon.scriptum.presentation.listener.ItemListener
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.presentation.screen.ui.impl.ParentFragment
-import sgtmelon.scriptum.presentation.screen.ui.impl.ScriptumApplication
+import sgtmelon.scriptum.presentation.adapter.RankAdapter
+import sgtmelon.scriptum.presentation.factory.DialogFactory
+import sgtmelon.scriptum.presentation.listener.ItemListener
+import sgtmelon.scriptum.presentation.screen.ui.ParentFragment
+import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IRankFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.main.IRankViewModel

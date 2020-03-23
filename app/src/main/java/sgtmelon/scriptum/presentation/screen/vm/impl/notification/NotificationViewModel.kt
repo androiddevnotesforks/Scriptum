@@ -11,7 +11,7 @@ import sgtmelon.scriptum.interactor.callback.notification.INotificationInteracto
 import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.presentation.screen.ui.callback.notification.INotificationActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.NotificationActivity
-import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
+import sgtmelon.scriptum.presentation.screen.vm.ParentViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.notification.INotificationViewModel
 
 /**

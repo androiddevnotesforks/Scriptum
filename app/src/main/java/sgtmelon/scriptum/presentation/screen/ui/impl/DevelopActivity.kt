@@ -8,6 +8,7 @@ import android.widget.ScrollView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.callback.IDevelopActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.intro.IntroActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.IDevelopViewModel

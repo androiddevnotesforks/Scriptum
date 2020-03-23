@@ -5,10 +5,10 @@ import android.os.Bundle
 import sgtmelon.scriptum.interactor.callback.ISplashInteractor
 import sgtmelon.scriptum.model.annotation.OpenFrom
 import sgtmelon.scriptum.model.data.NoteData
-import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.presentation.screen.ui.callback.ISplashActivity
+import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
+import sgtmelon.scriptum.presentation.screen.vm.ParentViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.ISplashViewModel
-import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
 
 /**
  * ViewModel for [SplashActivity]

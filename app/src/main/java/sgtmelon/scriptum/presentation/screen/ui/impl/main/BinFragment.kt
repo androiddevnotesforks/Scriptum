@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.presentation.adapter.NoteAdapter
 import sgtmelon.scriptum.control.clipboard.ClipboardControl
 import sgtmelon.scriptum.control.clipboard.IClipboardControl
 import sgtmelon.scriptum.databinding.FragmentBinBinding
@@ -20,12 +19,13 @@ import sgtmelon.scriptum.extension.createVisibleAnim
 import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.extension.initLazy
 import sgtmelon.scriptum.extension.tintIcon
-import sgtmelon.scriptum.presentation.factory.DialogFactory
-import sgtmelon.scriptum.presentation.listener.ItemListener
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.presentation.screen.ui.impl.ParentFragment
-import sgtmelon.scriptum.presentation.screen.ui.impl.ScriptumApplication
+import sgtmelon.scriptum.presentation.adapter.NoteAdapter
+import sgtmelon.scriptum.presentation.factory.DialogFactory
+import sgtmelon.scriptum.presentation.listener.ItemListener
+import sgtmelon.scriptum.presentation.screen.ui.ParentFragment
+import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IBinFragment
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity

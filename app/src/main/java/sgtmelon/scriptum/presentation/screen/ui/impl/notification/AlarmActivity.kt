@@ -18,7 +18,6 @@ import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import com.google.android.material.navigation.NavigationView
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.presentation.adapter.NoteAdapter
 import sgtmelon.scriptum.control.alarm.AlarmControl
 import sgtmelon.scriptum.control.alarm.MelodyControl
 import sgtmelon.scriptum.control.alarm.PowerControl
@@ -28,8 +27,6 @@ import sgtmelon.scriptum.control.alarm.callback.IPowerControl
 import sgtmelon.scriptum.control.alarm.callback.IVibratorControl
 import sgtmelon.scriptum.control.bind.BindControl
 import sgtmelon.scriptum.extension.*
-import sgtmelon.scriptum.presentation.factory.DialogFactory
-import sgtmelon.scriptum.presentation.listener.ItemListener
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.NoteData
@@ -37,10 +34,13 @@ import sgtmelon.scriptum.model.data.ReceiverData
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.ColorShade
 import sgtmelon.scriptum.model.state.OpenState
+import sgtmelon.scriptum.presentation.adapter.NoteAdapter
+import sgtmelon.scriptum.presentation.factory.DialogFactory
+import sgtmelon.scriptum.presentation.listener.ItemListener
 import sgtmelon.scriptum.presentation.receiver.NoteReceiver
-import sgtmelon.scriptum.presentation.screen.ui.impl.AppActivity
-import sgtmelon.scriptum.presentation.screen.ui.impl.ScriptumApplication
+import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.callback.notification.IAlarmActivity
+import sgtmelon.scriptum.presentation.screen.ui.impl.AppActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.notification.IAlarmViewModel
 import sgtmelon.scriptum.presentation.view.RippleContainer

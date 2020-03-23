@@ -15,11 +15,11 @@ import sgtmelon.scriptum.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.room.dao.INoteDao
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.INotesFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.NotesFragment
-import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
+import sgtmelon.scriptum.presentation.screen.vm.ParentViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.main.INotesViewModel
+import sgtmelon.scriptum.room.dao.INoteDao
 import java.util.*
 import kotlin.collections.ArrayList
 import sgtmelon.scriptum.model.annotation.Options.Notes as Options

@@ -24,12 +24,12 @@ import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.IconState
 import sgtmelon.scriptum.model.state.NoteState
-import sgtmelon.scriptum.room.converter.model.StringConverter
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteChild
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.roll.IRollNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
-import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
+import sgtmelon.scriptum.presentation.screen.vm.ParentViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.note.IRollNoteViewModel
+import sgtmelon.scriptum.room.converter.model.StringConverter
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.random.Random

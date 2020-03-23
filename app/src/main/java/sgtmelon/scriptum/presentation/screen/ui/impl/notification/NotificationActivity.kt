@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.presentation.adapter.NotificationAdapter
 import sgtmelon.scriptum.control.alarm.AlarmControl
 import sgtmelon.scriptum.control.bind.BindControl
 import sgtmelon.scriptum.databinding.ActivityNotificationBinding
@@ -18,13 +17,14 @@ import sgtmelon.scriptum.extension.createVisibleAnim
 import sgtmelon.scriptum.extension.getTintDrawable
 import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.extension.initLazy
-import sgtmelon.scriptum.presentation.listener.ItemListener
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.presentation.screen.ui.impl.AppActivity
-import sgtmelon.scriptum.presentation.screen.ui.impl.ScriptumApplication
+import sgtmelon.scriptum.presentation.adapter.NotificationAdapter
+import sgtmelon.scriptum.presentation.listener.ItemListener
+import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.callback.notification.INotificationActivity
+import sgtmelon.scriptum.presentation.screen.ui.impl.AppActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.notification.INotificationViewModel
 import javax.inject.Inject

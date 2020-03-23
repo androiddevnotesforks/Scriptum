@@ -10,18 +10,18 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.ShowHolderControl
 import sgtmelon.scriptum.control.toolbar.HolderTintControl
 import sgtmelon.scriptum.extension.initLazy
-import sgtmelon.scriptum.presentation.factory.FragmentFactory
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.data.ReceiverData
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.NotificationItem
+import sgtmelon.scriptum.presentation.factory.FragmentFactory
 import sgtmelon.scriptum.presentation.receiver.NoteReceiver
-import sgtmelon.scriptum.presentation.screen.ui.impl.AppActivity
-import sgtmelon.scriptum.presentation.screen.ui.impl.ScriptumApplication
+import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteActivity
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteChild
+import sgtmelon.scriptum.presentation.screen.ui.impl.AppActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.note.INoteViewModel
 import javax.inject.Inject
 

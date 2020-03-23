@@ -25,7 +25,6 @@ import sgtmelon.scriptum.control.toolbar.icon.NavigationIconControl
 import sgtmelon.scriptum.control.toolbar.icon.NavigationIconControlAnim
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
 import sgtmelon.scriptum.extension.*
-import sgtmelon.scriptum.presentation.factory.DialogFactory
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.InputAction
 import sgtmelon.scriptum.model.annotation.Theme
@@ -33,9 +32,10 @@ import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.OpenState
+import sgtmelon.scriptum.presentation.factory.DialogFactory
 import sgtmelon.scriptum.presentation.receiver.NoteReceiver
-import sgtmelon.scriptum.presentation.screen.ui.impl.ParentFragment
-import sgtmelon.scriptum.presentation.screen.ui.impl.ScriptumApplication
+import sgtmelon.scriptum.presentation.screen.ui.ParentFragment
+import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.text.ITextNoteFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.note.ITextNoteViewModel
 import java.util.*

@@ -18,7 +18,7 @@ import sgtmelon.scriptum.model.key.ColorShade
 import sgtmelon.scriptum.model.state.SignalState
 import sgtmelon.scriptum.presentation.screen.ui.callback.notification.IAlarmActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.AlarmActivity
-import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
+import sgtmelon.scriptum.presentation.screen.vm.ParentViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.notification.IAlarmViewModel
 
 /**

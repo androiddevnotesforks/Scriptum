@@ -16,15 +16,15 @@ import sgtmelon.scriptum.control.alarm.callback.IMelodyControl
 import sgtmelon.scriptum.extension.initLazy
 import sgtmelon.scriptum.extension.isGranted
 import sgtmelon.scriptum.extension.toUri
-import sgtmelon.scriptum.presentation.factory.DialogFactory
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.key.PermissionResult
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.model.state.PermissionState
-import sgtmelon.scriptum.presentation.screen.ui.impl.DevelopActivity
-import sgtmelon.scriptum.presentation.screen.ui.impl.ScriptumApplication
+import sgtmelon.scriptum.presentation.factory.DialogFactory
+import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.callback.IPreferenceFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.DevelopActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.IPreferenceViewModel
 import javax.inject.Inject
 
