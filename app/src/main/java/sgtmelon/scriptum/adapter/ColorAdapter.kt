@@ -3,7 +3,7 @@ package sgtmelon.scriptum.adapter
 import android.view.ViewGroup
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.holder.ColorHolder
-import sgtmelon.scriptum.dialog.ColorDialog
+import sgtmelon.scriptum.presentation.dialog.ColorDialog
 import sgtmelon.scriptum.extension.inflateView
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.annotation.Color

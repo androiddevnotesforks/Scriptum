@@ -5,7 +5,7 @@ import sgtmelon.scriptum.basic.extension.click
 import sgtmelon.scriptum.basic.extension.isDisplayed
 import sgtmelon.scriptum.basic.extension.isEnabled
 import sgtmelon.scriptum.basic.extension.withTextColor
-import sgtmelon.scriptum.dialog.SheetRepeatDialog
+import sgtmelon.scriptum.presentation.dialog.SheetRepeatDialog
 import sgtmelon.scriptum.model.annotation.Repeat
 
 /**

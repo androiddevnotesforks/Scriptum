@@ -3,7 +3,7 @@ package sgtmelon.scriptum.ui.dialog.sheet
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.State
-import sgtmelon.scriptum.dialog.SheetAddDialog
+import sgtmelon.scriptum.presentation.dialog.SheetAddDialog
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen

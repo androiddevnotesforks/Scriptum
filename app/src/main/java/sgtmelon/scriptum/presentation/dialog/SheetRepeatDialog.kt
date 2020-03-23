@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.dialog
+package sgtmelon.scriptum.presentation.dialog
 
 import sgtmelon.safedialog.BlankMenuSheetDialog
 import sgtmelon.scriptum.R

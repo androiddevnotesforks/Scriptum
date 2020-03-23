@@ -5,7 +5,7 @@ import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.ColorAdapter
 import sgtmelon.scriptum.basic.extension.*
-import sgtmelon.scriptum.dialog.ColorDialog
+import sgtmelon.scriptum.presentation.dialog.ColorDialog
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.data.ColorData
 import sgtmelon.scriptum.ui.IDialogUi

@@ -6,7 +6,7 @@ import sgtmelon.safedialog.*
 import sgtmelon.safedialog.time.DateDialog
 import sgtmelon.safedialog.time.TimeDialog
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.dialog.*
+import sgtmelon.scriptum.presentation.dialog.*
 import sgtmelon.scriptum.model.key.NoteType
 
 /**

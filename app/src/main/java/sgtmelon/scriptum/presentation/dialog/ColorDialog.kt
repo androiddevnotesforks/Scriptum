@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.dialog
+package sgtmelon.scriptum.presentation.dialog
 
 import android.app.Dialog
 import android.content.Context

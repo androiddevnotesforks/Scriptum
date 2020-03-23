@@ -2,7 +2,7 @@ package sgtmelon.scriptum.model.item
 
 import androidx.annotation.ColorRes
 import sgtmelon.scriptum.adapter.ColorAdapter
-import sgtmelon.scriptum.dialog.ColorDialog
+import sgtmelon.scriptum.presentation.dialog.ColorDialog
 
 /**
  * Model for describe colors of different views.
