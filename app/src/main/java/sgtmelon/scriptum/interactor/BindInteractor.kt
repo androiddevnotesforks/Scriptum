@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.interactor
 
-import sgtmelon.scriptum.control.bind.BindControl
 import sgtmelon.scriptum.interactor.callback.IBindInteractor
+import sgtmelon.scriptum.presentation.control.bind.BindControl
 import sgtmelon.scriptum.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.repository.room.callback.IBindRepo
 import sgtmelon.scriptum.repository.room.callback.INoteRepo

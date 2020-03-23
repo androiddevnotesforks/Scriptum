@@ -6,13 +6,13 @@ import android.content.Context
 import android.content.Intent
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import sgtmelon.scriptum.control.bind.BindControl
 import sgtmelon.scriptum.extension.sendTo
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.data.ReceiverData.Command
 import sgtmelon.scriptum.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.model.data.ReceiverData.Values
 import sgtmelon.scriptum.model.item.NoteItem
+import sgtmelon.scriptum.presentation.control.bind.BindControl
 import sgtmelon.scriptum.repository.room.BindRepo
 
 /**

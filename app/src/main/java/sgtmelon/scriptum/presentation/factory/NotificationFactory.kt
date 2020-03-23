@@ -8,12 +8,12 @@ import android.os.Build.VERSION_CODES
 import androidx.core.app.NotificationCompat
 import androidx.core.app.TaskStackBuilder
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.control.bind.BindControl
 import sgtmelon.scriptum.extension.getAppSimpleColor
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.key.ColorShade
 import sgtmelon.scriptum.model.key.NoteType
+import sgtmelon.scriptum.presentation.control.bind.BindControl
 import sgtmelon.scriptum.presentation.receiver.UnbindReceiver
 import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
 

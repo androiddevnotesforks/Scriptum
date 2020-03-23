@@ -1,9 +1,9 @@
 package sgtmelon.scriptum.test
 
 import sgtmelon.scriptum.basic.extension.waitBefore
-import sgtmelon.scriptum.control.bind.BindControl
-import sgtmelon.scriptum.control.bind.IBindControl
 import sgtmelon.scriptum.extension.showToast
+import sgtmelon.scriptum.presentation.control.bind.BindControl
+import sgtmelon.scriptum.presentation.control.bind.IBindControl
 
 /**
  * Parent class for tests with bindings notifications in status bar

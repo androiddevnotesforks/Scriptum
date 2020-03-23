@@ -11,10 +11,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.control.alarm.AlarmControl
-import sgtmelon.scriptum.control.bind.BindControl
-import sgtmelon.scriptum.control.clipboard.ClipboardControl
-import sgtmelon.scriptum.control.clipboard.IClipboardControl
 import sgtmelon.scriptum.databinding.FragmentNotesBinding
 import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.model.annotation.Options
@@ -22,6 +18,10 @@ import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.presentation.adapter.NoteAdapter
+import sgtmelon.scriptum.presentation.control.alarm.AlarmControl
+import sgtmelon.scriptum.presentation.control.bind.BindControl
+import sgtmelon.scriptum.presentation.control.clipboard.ClipboardControl
+import sgtmelon.scriptum.presentation.control.clipboard.IClipboardControl
 import sgtmelon.scriptum.presentation.factory.DialogFactory
 import sgtmelon.scriptum.presentation.listener.ItemListener
 import sgtmelon.scriptum.presentation.receiver.MainReceiver

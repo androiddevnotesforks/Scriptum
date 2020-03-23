@@ -1,18 +1,18 @@
 package sgtmelon.scriptum.interactor.note
 
 import sgtmelon.extension.getText
-import sgtmelon.scriptum.control.SaveControl
 import sgtmelon.scriptum.interactor.ParentInteractor
 import sgtmelon.scriptum.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
+import sgtmelon.scriptum.presentation.control.SaveControl
+import sgtmelon.scriptum.presentation.screen.ui.callback.note.text.ITextNoteBridge
+import sgtmelon.scriptum.presentation.screen.vm.impl.note.TextNoteViewModel
 import sgtmelon.scriptum.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.repository.room.callback.IRankRepo
-import sgtmelon.scriptum.presentation.screen.ui.callback.note.text.ITextNoteBridge
-import sgtmelon.scriptum.presentation.screen.vm.impl.note.TextNoteViewModel
 import java.util.*
 
 /**

@@ -14,7 +14,7 @@
         <variable name="rankEmpty" type="boolean"/>
         <variable name="editMode" type="boolean"/>
 
-        <variable name="inputAccess" type="sgtmelon.scriptum.control.input.InputControl.Access"/>
+        <variable name="inputAccess" type="sgtmelon.scriptum.presentation.control.input.InputControl.Access"/>
 
         <variable name="enterEmpty" type="boolean"/>
     </data>

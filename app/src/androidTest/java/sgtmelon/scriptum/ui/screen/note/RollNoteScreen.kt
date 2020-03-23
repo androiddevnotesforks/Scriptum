@@ -4,13 +4,13 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.presentation.adapter.RollAdapter
 import sgtmelon.scriptum.basic.extension.*
-import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.key.NoteType
+import sgtmelon.scriptum.presentation.adapter.RollAdapter
+import sgtmelon.scriptum.presentation.control.input.InputControl
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel.Companion.onItemCheck

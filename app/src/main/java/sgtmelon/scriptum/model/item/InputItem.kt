@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.model.item
 
-import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.model.annotation.InputAction
+import sgtmelon.scriptum.presentation.control.input.InputControl
 
 /**
  * Model for [InputControl]

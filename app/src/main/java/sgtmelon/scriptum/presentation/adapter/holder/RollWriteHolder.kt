@@ -10,13 +10,13 @@ import android.widget.EditText
 import androidx.annotation.IntRange
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.presentation.adapter.RollAdapter
-import sgtmelon.scriptum.control.input.IInputControl
 import sgtmelon.scriptum.databinding.ItemRollWriteBinding
 import sgtmelon.scriptum.extension.addOnNextAction
-import sgtmelon.scriptum.presentation.listener.ItemListener
 import sgtmelon.scriptum.model.item.InputItem
 import sgtmelon.scriptum.model.item.RollItem
+import sgtmelon.scriptum.presentation.adapter.RollAdapter
+import sgtmelon.scriptum.presentation.control.input.IInputControl
+import sgtmelon.scriptum.presentation.listener.ItemListener
 
 /**
  * Holder of note roll row edit state, use in [RollAdapter]

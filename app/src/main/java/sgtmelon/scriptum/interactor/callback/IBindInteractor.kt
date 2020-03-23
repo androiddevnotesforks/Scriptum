@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.interactor.callback
 
-import sgtmelon.scriptum.control.bind.BindControl
 import sgtmelon.scriptum.interactor.BindInteractor
+import sgtmelon.scriptum.presentation.control.bind.BindControl
 
 /**
  * Interface for communication with [BindInteractor]

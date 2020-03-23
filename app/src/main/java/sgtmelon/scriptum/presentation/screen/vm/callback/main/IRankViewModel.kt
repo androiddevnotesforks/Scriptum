@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.presentation.screen.vm.callback.main
 
-import sgtmelon.scriptum.control.touch.RankTouchControl
+import sgtmelon.scriptum.presentation.control.touch.RankTouchControl
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.RankFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.IParentViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.main.RankViewModel

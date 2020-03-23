@@ -2,7 +2,7 @@ package sgtmelon.scriptum.presentation.listener
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import sgtmelon.scriptum.control.touch.EdgeDragTouchHelper
+import sgtmelon.scriptum.presentation.control.touch.EdgeDragTouchHelper
 
 /**
  * Interface for different touches on view

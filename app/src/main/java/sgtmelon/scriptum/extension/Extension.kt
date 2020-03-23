@@ -19,8 +19,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.control.alarm.AlarmControl
 import sgtmelon.scriptum.model.data.ReceiverData
+import sgtmelon.scriptum.presentation.control.alarm.AlarmControl
 import java.util.*
 
 /**
