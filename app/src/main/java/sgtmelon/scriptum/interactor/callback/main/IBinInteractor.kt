@@ -4,7 +4,7 @@ import sgtmelon.scriptum.interactor.callback.IParentInteractor
 import sgtmelon.scriptum.interactor.main.BinInteractor
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.screen.vm.main.BinViewModel
+import sgtmelon.scriptum.presentation.screen.vm.main.BinViewModel
 
 /**
  * Interface for communication [BinViewModel] with [BinInteractor]

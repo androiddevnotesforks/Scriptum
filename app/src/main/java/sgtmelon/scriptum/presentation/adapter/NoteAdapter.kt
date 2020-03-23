@@ -12,8 +12,8 @@ import sgtmelon.scriptum.presentation.listener.ItemListener
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.screen.ui.main.BinFragment
-import sgtmelon.scriptum.screen.ui.main.NotesFragment
+import sgtmelon.scriptum.presentation.screen.ui.main.BinFragment
+import sgtmelon.scriptum.presentation.screen.ui.main.NotesFragment
 
 /**
  * Adapter which displays list of notes for [NotesFragment], [BinFragment]

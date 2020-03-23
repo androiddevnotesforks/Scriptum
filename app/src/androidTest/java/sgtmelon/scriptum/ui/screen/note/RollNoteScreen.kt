@@ -11,10 +11,10 @@ import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.screen.ui.note.NoteActivity
-import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
-import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel.Companion.onItemCheck
-import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel.Companion.onItemLongCheck
+import sgtmelon.scriptum.presentation.screen.ui.note.NoteActivity
+import sgtmelon.scriptum.presentation.screen.ui.note.RollNoteFragment
+import sgtmelon.scriptum.presentation.screen.vm.note.RollNoteViewModel.Companion.onItemCheck
+import sgtmelon.scriptum.presentation.screen.vm.note.RollNoteViewModel.Companion.onItemLongCheck
 import sgtmelon.scriptum.ui.IPressBack
 import sgtmelon.scriptum.ui.ParentRecyclerItem
 import sgtmelon.scriptum.ui.ParentRecyclerScreen

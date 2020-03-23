@@ -10,8 +10,8 @@ import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.repository.room.callback.INoteRepo
-import sgtmelon.scriptum.screen.ui.callback.notification.IAlarmBridge
-import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
+import sgtmelon.scriptum.presentation.screen.ui.callback.notification.IAlarmBridge
+import sgtmelon.scriptum.presentation.screen.vm.notification.AlarmViewModel
 import java.util.*
 
 /**

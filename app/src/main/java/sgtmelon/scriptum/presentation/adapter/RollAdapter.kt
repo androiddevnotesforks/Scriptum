@@ -11,7 +11,7 @@ import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.presentation.listener.ItemListener
 import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.state.NoteState
-import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
+import sgtmelon.scriptum.presentation.screen.ui.note.RollNoteFragment
 
 /**
  * Adapter which displays list of rolls for [RollNoteFragment].

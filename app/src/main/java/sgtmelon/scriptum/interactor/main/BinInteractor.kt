@@ -6,8 +6,8 @@ import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.repository.room.callback.INoteRepo
-import sgtmelon.scriptum.screen.ui.callback.main.IBinBridge
-import sgtmelon.scriptum.screen.vm.main.BinViewModel
+import sgtmelon.scriptum.presentation.screen.ui.callback.main.IBinBridge
+import sgtmelon.scriptum.presentation.screen.vm.main.BinViewModel
 
 /**
  * Interactor for [BinViewModel].

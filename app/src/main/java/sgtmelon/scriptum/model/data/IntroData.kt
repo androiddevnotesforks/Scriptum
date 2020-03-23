@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.model.data
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.screen.ui.intro.IntroActivity
+import sgtmelon.scriptum.presentation.screen.ui.intro.IntroActivity
 
 /**
  * Data for [IntroActivity]

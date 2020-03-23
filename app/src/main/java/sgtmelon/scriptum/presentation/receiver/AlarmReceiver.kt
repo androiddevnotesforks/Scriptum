@@ -6,8 +6,8 @@ import android.content.Context
 import android.content.Intent
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.data.ReceiverData.Values
-import sgtmelon.scriptum.screen.ui.SplashActivity
-import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
+import sgtmelon.scriptum.presentation.screen.ui.SplashActivity
+import sgtmelon.scriptum.presentation.screen.ui.notification.AlarmActivity
 
 
 /**

@@ -14,7 +14,7 @@ import sgtmelon.scriptum.room.converter.model.RankConverter
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.test.ParentIntegrationTest
-import sgtmelon.scriptum.screen.vm.main.RankViewModel.Companion.correctPositions
+import sgtmelon.scriptum.presentation.screen.vm.main.RankViewModel.Companion.correctPositions
 
 /**
  * Integration test for [RankRepo]

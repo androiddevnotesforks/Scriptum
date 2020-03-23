@@ -4,7 +4,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.screen.ui.main.MainActivity
+import sgtmelon.scriptum.presentation.screen.ui.main.MainActivity
 import sgtmelon.scriptum.test.ParentRotationTest
 
 /**

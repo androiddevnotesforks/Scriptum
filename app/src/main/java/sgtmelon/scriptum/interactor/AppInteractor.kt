@@ -3,7 +3,7 @@ package sgtmelon.scriptum.interactor
 import sgtmelon.scriptum.interactor.callback.IAppInteractor
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.repository.preference.IPreferenceRepo
-import sgtmelon.scriptum.screen.vm.AppViewModel
+import sgtmelon.scriptum.presentation.screen.vm.AppViewModel
 
 /**
  * Interactor for [AppViewModel].

@@ -37,13 +37,13 @@ import sgtmelon.scriptum.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.repository.room.callback.IBindRepo
 import sgtmelon.scriptum.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.repository.room.callback.IRankRepo
-import sgtmelon.scriptum.screen.ui.main.BinFragment
-import sgtmelon.scriptum.screen.ui.main.MainActivity
-import sgtmelon.scriptum.screen.ui.main.NotesFragment
-import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
-import sgtmelon.scriptum.screen.ui.note.TextNoteFragment
-import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
-import sgtmelon.scriptum.screen.ui.notification.NotificationActivity
+import sgtmelon.scriptum.presentation.screen.ui.main.BinFragment
+import sgtmelon.scriptum.presentation.screen.ui.main.MainActivity
+import sgtmelon.scriptum.presentation.screen.ui.main.NotesFragment
+import sgtmelon.scriptum.presentation.screen.ui.note.RollNoteFragment
+import sgtmelon.scriptum.presentation.screen.ui.note.TextNoteFragment
+import sgtmelon.scriptum.presentation.screen.ui.notification.AlarmActivity
+import sgtmelon.scriptum.presentation.screen.ui.notification.NotificationActivity
 
 /**
  * Module for provide interactor's

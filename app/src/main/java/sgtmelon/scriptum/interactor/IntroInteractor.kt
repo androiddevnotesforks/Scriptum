@@ -2,7 +2,7 @@ package sgtmelon.scriptum.interactor
 
 import sgtmelon.scriptum.interactor.callback.IIntroInteractor
 import sgtmelon.scriptum.repository.preference.IPreferenceRepo
-import sgtmelon.scriptum.screen.vm.IntroViewModel
+import sgtmelon.scriptum.presentation.screen.vm.IntroViewModel
 
 /**
  * Interactor for [IntroViewModel].

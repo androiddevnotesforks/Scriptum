@@ -15,7 +15,7 @@ import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.key.ColorShade
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.presentation.receiver.UnbindReceiver
-import sgtmelon.scriptum.screen.ui.SplashActivity
+import sgtmelon.scriptum.presentation.screen.ui.SplashActivity
 
 /**
  * Factory for create notifications

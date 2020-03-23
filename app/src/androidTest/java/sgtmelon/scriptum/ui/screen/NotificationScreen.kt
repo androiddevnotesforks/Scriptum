@@ -10,7 +10,7 @@ import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.InfoPage
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.screen.ui.notification.NotificationActivity
+import sgtmelon.scriptum.presentation.screen.ui.notification.NotificationActivity
 import sgtmelon.scriptum.ui.IPressBack
 import sgtmelon.scriptum.ui.ParentRecyclerItem
 import sgtmelon.scriptum.ui.ParentRecyclerScreen

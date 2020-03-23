@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
-            android:name=".screen.ui.ScriptumApplication"
+            android:name="sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication"
             android:allowBackup="true"
             android:fullBackupContent="@xml/backup_descriptor"
             android:icon="@mipmap/ic_launcher"
@@ -18,7 +18,7 @@
             android:theme="@style/App.Light.UI">
 
         <activity
-                android:name=".screen.ui.SplashActivity"
+                android:name="sgtmelon.scriptum.presentation.screen.ui.SplashActivity"
                 android:configChanges="keyboardHidden|orientation|screenSize"
                 android:theme="@style/App.Splash">
             <intent-filter>
@@ -28,9 +28,9 @@
         </activity>
 
         <activity
-                android:name=".screen.ui.intro.IntroActivity"
+                android:name="sgtmelon.scriptum.presentation.screen.ui.intro.IntroActivity"
                 android:configChanges="keyboardHidden|orientation|screenSize"
-                android:parentActivityName=".screen.ui.SplashActivity"
+                android:parentActivityName="sgtmelon.scriptum.presentation.screen.ui.SplashActivity"
                 android:theme="@style/App.Intro">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
@@ -39,7 +39,7 @@
         </activity>
 
         <activity
-                android:name=".screen.ui.main.MainActivity"
+                android:name="sgtmelon.scriptum.presentation.screen.ui.main.MainActivity"
                 android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
@@ -48,8 +48,8 @@
         </activity>
 
         <activity
-                android:name=".screen.ui.note.NoteActivity"
-                android:parentActivityName=".screen.ui.main.MainActivity">
+                android:name="sgtmelon.scriptum.presentation.screen.ui.note.NoteActivity"
+                android:parentActivityName="sgtmelon.scriptum.presentation.screen.ui.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.EDIT"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -57,9 +57,9 @@
         </activity>
 
         <activity
-                android:name=".screen.ui.preference.PreferenceActivity"
+                android:name="sgtmelon.scriptum.presentation.screen.ui.preference.PreferenceActivity"
                 android:configChanges="keyboardHidden"
-                android:parentActivityName=".screen.ui.main.MainActivity">
+                android:parentActivityName="sgtmelon.scriptum.presentation.screen.ui.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -67,9 +67,9 @@
         </activity>
 
         <activity
-                android:name=".screen.ui.notification.NotificationActivity"
+                android:name="sgtmelon.scriptum.presentation.screen.ui.notification.NotificationActivity"
                 android:configChanges="keyboardHidden"
-                android:parentActivityName=".screen.ui.main.MainActivity">
+                android:parentActivityName="sgtmelon.scriptum.presentation.screen.ui.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -77,9 +77,9 @@
         </activity>
 
         <activity
-                android:name=".screen.ui.notification.AlarmActivity"
+                android:name="sgtmelon.scriptum.presentation.screen.ui.notification.AlarmActivity"
                 android:configChanges="keyboardHidden|orientation|screenSize"
-                android:parentActivityName=".screen.ui.main.MainActivity"
+                android:parentActivityName="sgtmelon.scriptum.presentation.screen.ui.main.MainActivity"
                 android:screenOrientation="portrait"
                 tools:ignore="LockedOrientationActivity">
             <intent-filter>
@@ -89,9 +89,9 @@
         </activity>
 
         <activity
-                android:name=".screen.ui.DevelopActivity"
+                android:name="sgtmelon.scriptum.presentation.screen.ui.DevelopActivity"
                 android:configChanges="keyboardHidden"
-                android:parentActivityName=".screen.ui.preference.PreferenceActivity"
+                android:parentActivityName="sgtmelon.scriptum.presentation.screen.ui.preference.PreferenceActivity"
                 android:theme="@style/App.Dark.UI">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>

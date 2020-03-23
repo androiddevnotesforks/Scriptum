@@ -3,9 +3,8 @@ package sgtmelon.scriptum.test.auto.note.text
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.screen.ui.note.TextNoteFragment
+import sgtmelon.scriptum.presentation.screen.ui.note.TextNoteFragment
 import sgtmelon.scriptum.test.ParentUiTest
-import sgtmelon.scriptum.ui.ParentUi
 
 /**
  * Test keyboard ime click for [TextNoteFragment].

@@ -5,7 +5,7 @@ import sgtmelon.scriptum.interactor.notification.NotificationInteractor
 
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NotificationItem
-import sgtmelon.scriptum.screen.vm.notification.NotificationViewModel
+import sgtmelon.scriptum.presentation.screen.vm.notification.NotificationViewModel
 
 /**
  * Interface for communication [NotificationViewModel] with [NotificationInteractor]

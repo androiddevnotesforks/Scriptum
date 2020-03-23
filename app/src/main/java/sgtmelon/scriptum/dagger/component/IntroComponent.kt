@@ -5,7 +5,7 @@ import dagger.Subcomponent
 import sgtmelon.scriptum.dagger.ActivityScope
 import sgtmelon.scriptum.dagger.module.base.InteractorModule
 import sgtmelon.scriptum.dagger.module.base.ViewModelModule
-import sgtmelon.scriptum.screen.ui.intro.IntroActivity
+import sgtmelon.scriptum.presentation.screen.ui.intro.IntroActivity
 
 /**
  * Component for [IntroActivity].

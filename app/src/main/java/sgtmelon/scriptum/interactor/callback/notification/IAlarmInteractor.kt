@@ -5,7 +5,7 @@ import sgtmelon.scriptum.interactor.notification.AlarmInteractor
 import sgtmelon.scriptum.model.annotation.Repeat
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
+import sgtmelon.scriptum.presentation.screen.vm.notification.AlarmViewModel
 
 /**
  * Interface for communication [AlarmViewModel] with [AlarmInteractor]

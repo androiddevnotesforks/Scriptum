@@ -9,7 +9,7 @@ import sgtmelon.scriptum.extension.clearAddAll
 import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.presentation.listener.ItemListener
 import sgtmelon.scriptum.model.item.RankItem
-import sgtmelon.scriptum.screen.ui.main.RankFragment
+import sgtmelon.scriptum.presentation.screen.ui.main.RankFragment
 
 /**
  * Adapter which displays list of ranks for [RankFragment].

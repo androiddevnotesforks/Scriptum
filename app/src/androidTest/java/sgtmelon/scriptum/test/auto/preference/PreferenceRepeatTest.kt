@@ -4,8 +4,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.model.annotation.Repeat
-import sgtmelon.scriptum.screen.ui.preference.PreferenceActivity
-import sgtmelon.scriptum.screen.ui.preference.PreferenceFragment
+import sgtmelon.scriptum.presentation.screen.ui.preference.PreferenceActivity
+import sgtmelon.scriptum.presentation.screen.ui.preference.PreferenceFragment
 import sgtmelon.scriptum.test.ParentUiTest
 
 /**

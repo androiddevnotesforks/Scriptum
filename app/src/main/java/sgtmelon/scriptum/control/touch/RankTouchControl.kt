@@ -3,8 +3,8 @@ package sgtmelon.scriptum.control.touch
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.presentation.listener.ItemListener
-import sgtmelon.scriptum.screen.ui.main.RankFragment
-import sgtmelon.scriptum.screen.vm.main.RankViewModel
+import sgtmelon.scriptum.presentation.screen.ui.main.RankFragment
+import sgtmelon.scriptum.presentation.screen.vm.main.RankViewModel
 
 /**
  * Control drag for [RankFragment], setup in [RankViewModel]

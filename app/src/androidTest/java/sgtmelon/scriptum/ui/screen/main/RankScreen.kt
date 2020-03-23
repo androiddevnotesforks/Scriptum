@@ -8,7 +8,7 @@ import sgtmelon.scriptum.presentation.adapter.RankAdapter
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.InfoPage
 import sgtmelon.scriptum.model.item.RankItem
-import sgtmelon.scriptum.screen.ui.main.RankFragment
+import sgtmelon.scriptum.presentation.screen.ui.main.RankFragment
 import sgtmelon.scriptum.ui.ParentRecyclerItem
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.dialog.RenameDialogUi

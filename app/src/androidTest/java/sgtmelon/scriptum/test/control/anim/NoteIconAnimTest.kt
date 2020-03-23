@@ -5,8 +5,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.basic.extension.waitAfter
 import sgtmelon.scriptum.control.toolbar.icon.NavigationIconControlAnim
-import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
-import sgtmelon.scriptum.screen.ui.note.TextNoteFragment
+import sgtmelon.scriptum.presentation.screen.ui.note.RollNoteFragment
+import sgtmelon.scriptum.presentation.screen.ui.note.TextNoteFragment
 import sgtmelon.scriptum.test.ParentUiTest
 
 /**

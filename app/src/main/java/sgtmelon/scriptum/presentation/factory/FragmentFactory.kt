@@ -1,11 +1,11 @@
 package sgtmelon.scriptum.presentation.factory
 
 import androidx.fragment.app.FragmentManager
-import sgtmelon.scriptum.screen.ui.main.BinFragment
-import sgtmelon.scriptum.screen.ui.main.NotesFragment
-import sgtmelon.scriptum.screen.ui.main.RankFragment
-import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
-import sgtmelon.scriptum.screen.ui.note.TextNoteFragment
+import sgtmelon.scriptum.presentation.screen.ui.main.BinFragment
+import sgtmelon.scriptum.presentation.screen.ui.main.NotesFragment
+import sgtmelon.scriptum.presentation.screen.ui.main.RankFragment
+import sgtmelon.scriptum.presentation.screen.ui.note.RollNoteFragment
+import sgtmelon.scriptum.presentation.screen.ui.note.TextNoteFragment
 
 /**
  * Factory for create/get fragments

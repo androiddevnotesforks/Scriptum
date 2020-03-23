@@ -3,7 +3,7 @@ package sgtmelon.scriptum.test.auto.note.toolbar
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.screen.ui.note.NoteActivity
+import sgtmelon.scriptum.presentation.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.test.IColorTest
 import sgtmelon.scriptum.test.ParentUiTest
 

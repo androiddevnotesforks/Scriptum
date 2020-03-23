@@ -11,8 +11,8 @@ import sgtmelon.scriptum.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.repository.room.callback.IRankRepo
-import sgtmelon.scriptum.screen.ui.callback.note.text.ITextNoteBridge
-import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel
+import sgtmelon.scriptum.presentation.screen.ui.callback.note.text.ITextNoteBridge
+import sgtmelon.scriptum.presentation.screen.vm.note.TextNoteViewModel
 import java.util.*
 
 /**

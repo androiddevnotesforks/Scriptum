@@ -4,8 +4,8 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.model.data.IntroData
-import sgtmelon.scriptum.screen.ui.intro.IntroActivity
-import sgtmelon.scriptum.screen.ui.intro.IntroFragment
+import sgtmelon.scriptum.presentation.screen.ui.intro.IntroActivity
+import sgtmelon.scriptum.presentation.screen.ui.intro.IntroFragment
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.screen.main.MainScreen
 

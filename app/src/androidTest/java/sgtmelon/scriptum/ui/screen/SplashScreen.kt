@@ -2,7 +2,7 @@ package sgtmelon.scriptum.ui.screen
 
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.screen.ui.SplashActivity
+import sgtmelon.scriptum.presentation.screen.ui.SplashActivity
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.screen.main.MainScreen
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen

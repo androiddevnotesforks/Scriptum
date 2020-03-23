@@ -5,9 +5,9 @@ import dagger.Module
 import dagger.Provides
 import sgtmelon.scriptum.dagger.ActivityScope
 import sgtmelon.scriptum.interactor.callback.IAppInteractor
-import sgtmelon.scriptum.screen.ui.main.MainActivity
-import sgtmelon.scriptum.screen.vm.AppViewModel
-import sgtmelon.scriptum.screen.vm.callback.IAppViewModel
+import sgtmelon.scriptum.presentation.screen.ui.main.MainActivity
+import sgtmelon.scriptum.presentation.screen.vm.AppViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.IAppViewModel
 
 /**
  * Module for [MainActivity].

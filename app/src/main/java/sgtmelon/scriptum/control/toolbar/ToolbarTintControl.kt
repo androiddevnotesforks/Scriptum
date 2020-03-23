@@ -13,8 +13,6 @@ import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.key.ColorShade
 import sgtmelon.scriptum.model.state.MenuColorState
-import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
-import sgtmelon.scriptum.screen.ui.note.TextNoteFragment
 
 /**
  * Control note toolbar tint.

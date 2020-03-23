@@ -6,7 +6,7 @@ import android.content.Intent
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.data.ReceiverData.Command
 import sgtmelon.scriptum.model.data.ReceiverData.Values
-import sgtmelon.scriptum.screen.ui.note.NoteActivity
+import sgtmelon.scriptum.presentation.screen.ui.note.NoteActivity
 
 /**
  * Receiver for [NoteActivity] commands

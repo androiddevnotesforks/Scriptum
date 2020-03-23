@@ -1,11 +1,10 @@
 package sgtmelon.scriptum.ui.screen
 
-import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.model.annotation.Color
-import sgtmelon.scriptum.screen.ui.preference.PreferenceActivity
-import sgtmelon.scriptum.screen.ui.preference.PreferenceFragment
+import sgtmelon.scriptum.presentation.screen.ui.preference.PreferenceActivity
+import sgtmelon.scriptum.presentation.screen.ui.preference.PreferenceFragment
 import sgtmelon.scriptum.ui.IPressBack
 import sgtmelon.scriptum.ui.dialog.ColorDialogUi
 import sgtmelon.scriptum.ui.dialog.RepeatDialogUi
