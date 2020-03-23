@@ -9,7 +9,7 @@
         android:orientation="vertical"
         tools:context=".screen.ui.notification.AlarmActivity">
 
-    <sgtmelon.scriptum.view.RippleContainer
+    <sgtmelon.scriptum.presentation.view.RippleContainer
             android:id="@+id/alarm_ripple_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

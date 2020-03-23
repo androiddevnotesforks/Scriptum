@@ -43,7 +43,7 @@ import sgtmelon.scriptum.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.screen.ui.callback.notification.IAlarmActivity
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.vm.callback.notification.IAlarmViewModel
-import sgtmelon.scriptum.view.RippleContainer
+import sgtmelon.scriptum.presentation.view.RippleContainer
 import java.util.*
 import javax.inject.Inject
 

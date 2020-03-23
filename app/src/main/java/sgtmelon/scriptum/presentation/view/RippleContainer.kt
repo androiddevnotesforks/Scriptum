@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.view
+package sgtmelon.scriptum.presentation.view
 
 import android.animation.Animator
 import android.animation.AnimatorSet
