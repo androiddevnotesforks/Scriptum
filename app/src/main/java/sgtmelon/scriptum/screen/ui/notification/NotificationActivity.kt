@@ -26,7 +26,6 @@ import sgtmelon.scriptum.screen.ui.AppActivity
 import sgtmelon.scriptum.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.screen.ui.callback.notification.INotificationActivity
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
-import sgtmelon.scriptum.screen.vm.callback.IAppViewModel
 import sgtmelon.scriptum.screen.vm.callback.notification.INotificationViewModel
 import javax.inject.Inject
 

@@ -24,7 +24,7 @@ import sgtmelon.scriptum.model.annotation.Options
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.receiver.MainReceiver
+import sgtmelon.scriptum.presentation.receiver.MainReceiver
 import sgtmelon.scriptum.screen.ui.ParentFragment
 import sgtmelon.scriptum.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.screen.ui.callback.main.IMainActivity

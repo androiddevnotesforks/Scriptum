@@ -2,7 +2,7 @@ package sgtmelon.scriptum.screen.vm.callback.main
 
 import android.os.Bundle
 import androidx.annotation.IdRes
-import sgtmelon.scriptum.receiver.MainReceiver
+import sgtmelon.scriptum.presentation.receiver.MainReceiver
 import sgtmelon.scriptum.screen.ui.main.MainActivity
 import sgtmelon.scriptum.screen.vm.callback.IParentViewModel
 import sgtmelon.scriptum.screen.vm.main.MainViewModel

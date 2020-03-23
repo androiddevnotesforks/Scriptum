@@ -11,7 +11,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.alarm.callback.IAlarmControl
 import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.extension.toLowerCase
-import sgtmelon.scriptum.receiver.AlarmReceiver
+import sgtmelon.scriptum.presentation.receiver.AlarmReceiver
 import java.util.*
 
 /**

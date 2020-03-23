@@ -49,7 +49,7 @@ import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.receiver.NoteReceiver
+import sgtmelon.scriptum.presentation.receiver.NoteReceiver
 import sgtmelon.scriptum.screen.ui.ParentFragment
 import sgtmelon.scriptum.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.screen.ui.callback.note.roll.IRollNoteFragment

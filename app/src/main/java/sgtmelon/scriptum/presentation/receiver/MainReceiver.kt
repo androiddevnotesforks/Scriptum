@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.receiver
+package sgtmelon.scriptum.presentation.receiver
 
 import android.content.BroadcastReceiver
 import android.content.Context

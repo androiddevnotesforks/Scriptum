@@ -26,7 +26,7 @@ import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.receiver.MainReceiver
+import sgtmelon.scriptum.presentation.receiver.MainReceiver
 import sgtmelon.scriptum.screen.ui.AppActivity
 import sgtmelon.scriptum.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.screen.ui.callback.main.IMainActivity

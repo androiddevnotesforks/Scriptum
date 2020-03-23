@@ -3,7 +3,7 @@ package sgtmelon.scriptum.screen.vm.callback.note
 import android.os.Bundle
 import sgtmelon.scriptum.control.SaveControl
 import sgtmelon.scriptum.control.input.watcher.InputTextWatcher
-import sgtmelon.scriptum.receiver.NoteReceiver
+import sgtmelon.scriptum.presentation.receiver.NoteReceiver
 import sgtmelon.scriptum.screen.ui.callback.note.INoteMenu
 import sgtmelon.scriptum.screen.ui.note.TextNoteFragment
 import sgtmelon.scriptum.screen.vm.callback.IParentViewModel

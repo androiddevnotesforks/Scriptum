@@ -37,7 +37,7 @@ import sgtmelon.scriptum.model.data.ReceiverData
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.ColorShade
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.receiver.NoteReceiver
+import sgtmelon.scriptum.presentation.receiver.NoteReceiver
 import sgtmelon.scriptum.screen.ui.AppActivity
 import sgtmelon.scriptum.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.screen.ui.callback.notification.IAlarmActivity

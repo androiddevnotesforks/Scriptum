@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.receiver
+package sgtmelon.scriptum.presentation.receiver
 
 import android.app.PendingIntent
 import android.content.BroadcastReceiver

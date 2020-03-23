@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.ShowHolderControl
 import sgtmelon.scriptum.control.toolbar.HolderTintControl
-import sgtmelon.scriptum.control.toolbar.ToolbarTintControl
 import sgtmelon.scriptum.extension.initLazy
 import sgtmelon.scriptum.factory.FragmentFactory
 import sgtmelon.scriptum.model.annotation.Color
@@ -18,7 +17,7 @@ import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.data.ReceiverData
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.NotificationItem
-import sgtmelon.scriptum.receiver.NoteReceiver
+import sgtmelon.scriptum.presentation.receiver.NoteReceiver
 import sgtmelon.scriptum.screen.ui.AppActivity
 import sgtmelon.scriptum.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.screen.ui.callback.note.INoteActivity
