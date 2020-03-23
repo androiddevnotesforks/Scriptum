@@ -3,7 +3,7 @@ package sgtmelon.scriptum.ui.dialog
 import android.view.View
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.adapter.ColorAdapter
+import sgtmelon.scriptum.presentation.adapter.ColorAdapter
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.presentation.dialog.ColorDialog
 import sgtmelon.scriptum.model.annotation.Color

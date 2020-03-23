@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.adapter
+package sgtmelon.scriptum.presentation.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.extension.clearAddAll

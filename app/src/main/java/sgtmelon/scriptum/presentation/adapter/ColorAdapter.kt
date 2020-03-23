@@ -1,8 +1,8 @@
-package sgtmelon.scriptum.adapter
+package sgtmelon.scriptum.presentation.adapter
 
 import android.view.ViewGroup
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.adapter.holder.ColorHolder
+import sgtmelon.scriptum.presentation.adapter.holder.ColorHolder
 import sgtmelon.scriptum.presentation.dialog.ColorDialog
 import sgtmelon.scriptum.extension.inflateView
 import sgtmelon.scriptum.listener.ItemListener

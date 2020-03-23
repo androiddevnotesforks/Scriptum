@@ -1,9 +1,9 @@
-package sgtmelon.scriptum.adapter
+package sgtmelon.scriptum.presentation.adapter
 
 import androidx.annotation.CallSuper
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import sgtmelon.scriptum.adapter.diff.ParentDiff
+import sgtmelon.scriptum.presentation.adapter.diff.ParentDiff
 import java.util.*
 
 /**

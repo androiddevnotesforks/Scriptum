@@ -1,6 +1,6 @@
-package sgtmelon.scriptum.adapter.diff
+package sgtmelon.scriptum.presentation.adapter.diff
 
-import sgtmelon.scriptum.adapter.NotificationAdapter
+import sgtmelon.scriptum.presentation.adapter.NotificationAdapter
 import sgtmelon.scriptum.model.item.NotificationItem
 
 /**

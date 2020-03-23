@@ -1,25 +1,25 @@
-package sgtmelon.scriptum.adapter.holder
+package sgtmelon.scriptum.presentation.adapter.holder
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.adapter.NoteAdapter
-import sgtmelon.scriptum.databinding.ItemNoteTextBinding
+import sgtmelon.scriptum.presentation.adapter.NoteAdapter
+import sgtmelon.scriptum.databinding.ItemNoteRollBinding
 import sgtmelon.scriptum.extension.checkNoPosition
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
 
 /**
- * Holder for text note, use in [NoteAdapter]
+ * Holder for roll note, use in [NoteAdapter]
  */
-class NoteTextHolder(
-        private val binding: ItemNoteTextBinding,
+class NoteRollHolder(
+        private val binding: ItemNoteRollBinding,
         private val clickListener: ItemListener.Click,
         private val longClickListener: ItemListener.LongClick?
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    private val clickView: View = itemView.findViewById(R.id.note_text_click_container)
+    private val clickView: View = itemView.findViewById(R.id.note_roll_click_container)
 
     init {
         clickView.apply {

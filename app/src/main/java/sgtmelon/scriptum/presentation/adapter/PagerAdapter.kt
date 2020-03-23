@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.adapter
+package sgtmelon.scriptum.presentation.adapter
 
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter

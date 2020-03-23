@@ -1,6 +1,6 @@
-package sgtmelon.scriptum.adapter.diff
+package sgtmelon.scriptum.presentation.adapter.diff
 
-import sgtmelon.scriptum.adapter.RankAdapter
+import sgtmelon.scriptum.presentation.adapter.RankAdapter
 import sgtmelon.scriptum.model.item.RankItem
 
 /**

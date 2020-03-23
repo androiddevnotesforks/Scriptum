@@ -3,7 +3,7 @@ package sgtmelon.scriptum.model.item
 import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.TypeConverters
-import sgtmelon.scriptum.adapter.NotificationAdapter
+import sgtmelon.scriptum.presentation.adapter.NotificationAdapter
 import sgtmelon.scriptum.model.data.DbData
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.room.converter.type.NoteTypeConverter

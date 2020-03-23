@@ -1,11 +1,11 @@
-package sgtmelon.scriptum.adapter
+package sgtmelon.scriptum.presentation.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.adapter.diff.NoteDiff
-import sgtmelon.scriptum.adapter.holder.NoteRollHolder
-import sgtmelon.scriptum.adapter.holder.NoteTextHolder
+import sgtmelon.scriptum.presentation.adapter.diff.NoteDiff
+import sgtmelon.scriptum.presentation.adapter.holder.NoteRollHolder
+import sgtmelon.scriptum.presentation.adapter.holder.NoteTextHolder
 import sgtmelon.scriptum.extension.clearAddAll
 import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.listener.ItemListener

@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.screen.vm.callback.note
 
 import android.os.Bundle
-import sgtmelon.scriptum.adapter.holder.RollWriteHolder
+import sgtmelon.scriptum.presentation.adapter.holder.RollWriteHolder
 import sgtmelon.scriptum.control.SaveControl
 import sgtmelon.scriptum.control.input.watcher.InputTextWatcher
 import sgtmelon.scriptum.control.touch.RollTouchControl

@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.model.item
 
 import androidx.annotation.ColorRes
-import sgtmelon.scriptum.adapter.ColorAdapter
+import sgtmelon.scriptum.presentation.adapter.ColorAdapter
 import sgtmelon.scriptum.presentation.dialog.ColorDialog
 
 /**

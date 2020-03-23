@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.adapter.NoteAdapter
+import sgtmelon.scriptum.presentation.adapter.NoteAdapter
 import sgtmelon.scriptum.control.clipboard.ClipboardControl
 import sgtmelon.scriptum.control.clipboard.IClipboardControl
 import sgtmelon.scriptum.databinding.FragmentBinBinding

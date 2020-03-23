@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.iconanim.IconBlockCallback
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.adapter.RankAdapter
+import sgtmelon.scriptum.presentation.adapter.RankAdapter
 import sgtmelon.scriptum.control.bind.BindControl
 import sgtmelon.scriptum.control.touch.RankTouchControl
 import sgtmelon.scriptum.databinding.FragmentRankBinding

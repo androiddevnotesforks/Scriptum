@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.adapter.holder
+package sgtmelon.scriptum.presentation.adapter.holder
 
 import android.annotation.SuppressLint
 import android.view.MotionEvent
@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.iconanim.IconBlockCallback
 import sgtmelon.iconanim.widget.SwitchButton
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.adapter.RankAdapter
+import sgtmelon.scriptum.presentation.adapter.RankAdapter
 import sgtmelon.scriptum.databinding.ItemRankBinding
 import sgtmelon.scriptum.extension.checkNoPosition
 import sgtmelon.scriptum.listener.ItemListener

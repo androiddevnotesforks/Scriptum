@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.test.content.note
 
 import sgtmelon.extension.getText
-import sgtmelon.scriptum.adapter.NoteAdapter
+import sgtmelon.scriptum.presentation.adapter.NoteAdapter
 import sgtmelon.scriptum.basic.extension.getTime
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Sort

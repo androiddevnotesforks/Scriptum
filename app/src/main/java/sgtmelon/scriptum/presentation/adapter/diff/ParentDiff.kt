@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.adapter.diff
+package sgtmelon.scriptum.presentation.adapter.diff
 
 import androidx.recyclerview.widget.DiffUtil
 import sgtmelon.scriptum.extension.clearAddAll

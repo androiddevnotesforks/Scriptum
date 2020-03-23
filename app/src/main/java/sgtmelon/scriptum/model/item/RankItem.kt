@@ -2,7 +2,7 @@ package sgtmelon.scriptum.model.item
 
 import androidx.room.ColumnInfo
 import androidx.room.TypeConverters
-import sgtmelon.scriptum.adapter.RankAdapter
+import sgtmelon.scriptum.presentation.adapter.RankAdapter
 import sgtmelon.scriptum.model.data.DbData.Rank
 import sgtmelon.scriptum.model.data.DbData.Rank.Default
 import sgtmelon.scriptum.room.converter.type.BoolConverter

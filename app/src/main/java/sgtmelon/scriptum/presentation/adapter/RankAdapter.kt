@@ -1,10 +1,10 @@
-package sgtmelon.scriptum.adapter
+package sgtmelon.scriptum.presentation.adapter
 
 import android.view.ViewGroup
 import sgtmelon.iconanim.IconBlockCallback
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.adapter.diff.RankDiff
-import sgtmelon.scriptum.adapter.holder.RankHolder
+import sgtmelon.scriptum.presentation.adapter.diff.RankDiff
+import sgtmelon.scriptum.presentation.adapter.holder.RankHolder
 import sgtmelon.scriptum.extension.clearAddAll
 import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.listener.ItemListener

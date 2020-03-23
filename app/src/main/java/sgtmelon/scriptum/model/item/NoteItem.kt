@@ -4,8 +4,8 @@ import androidx.room.ColumnInfo
 import androidx.room.Relation
 import androidx.room.TypeConverters
 import sgtmelon.extension.getTime
-import sgtmelon.scriptum.adapter.NoteAdapter
-import sgtmelon.scriptum.adapter.RollAdapter
+import sgtmelon.scriptum.presentation.adapter.NoteAdapter
+import sgtmelon.scriptum.presentation.adapter.RollAdapter
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.data.DbData.Alarm
 import sgtmelon.scriptum.model.data.DbData.Note

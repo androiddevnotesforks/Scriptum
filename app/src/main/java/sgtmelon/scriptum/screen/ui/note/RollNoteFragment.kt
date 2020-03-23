@@ -23,7 +23,7 @@ import androidx.transition.TransitionManager
 import sgtmelon.iconanim.IconBlockCallback
 import sgtmelon.iconanim.IconChangeCallback
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.adapter.RollAdapter
+import sgtmelon.scriptum.presentation.adapter.RollAdapter
 import sgtmelon.scriptum.control.alarm.AlarmControl
 import sgtmelon.scriptum.control.bind.BindControl
 import sgtmelon.scriptum.control.input.IInputControl

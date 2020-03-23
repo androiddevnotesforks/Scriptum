@@ -18,7 +18,7 @@ import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import com.google.android.material.navigation.NavigationView
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.adapter.NoteAdapter
+import sgtmelon.scriptum.presentation.adapter.NoteAdapter
 import sgtmelon.scriptum.control.alarm.AlarmControl
 import sgtmelon.scriptum.control.alarm.MelodyControl
 import sgtmelon.scriptum.control.alarm.PowerControl

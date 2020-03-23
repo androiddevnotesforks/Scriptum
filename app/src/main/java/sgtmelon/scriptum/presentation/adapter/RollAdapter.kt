@@ -1,11 +1,11 @@
-package sgtmelon.scriptum.adapter
+package sgtmelon.scriptum.presentation.adapter
 
 import android.view.ViewGroup
 import android.widget.CheckBox
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.adapter.holder.RollReadHolder
-import sgtmelon.scriptum.adapter.holder.RollWriteHolder
+import sgtmelon.scriptum.presentation.adapter.holder.RollReadHolder
+import sgtmelon.scriptum.presentation.adapter.holder.RollWriteHolder
 import sgtmelon.scriptum.control.input.IInputControl
 import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.listener.ItemListener

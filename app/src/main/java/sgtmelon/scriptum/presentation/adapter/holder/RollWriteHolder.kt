@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.adapter.holder
+package sgtmelon.scriptum.presentation.adapter.holder
 
 import android.text.Editable
 import android.text.InputType
@@ -10,7 +10,7 @@ import android.widget.EditText
 import androidx.annotation.IntRange
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.adapter.RollAdapter
+import sgtmelon.scriptum.presentation.adapter.RollAdapter
 import sgtmelon.scriptum.control.input.IInputControl
 import sgtmelon.scriptum.databinding.ItemRollWriteBinding
 import sgtmelon.scriptum.extension.addOnNextAction

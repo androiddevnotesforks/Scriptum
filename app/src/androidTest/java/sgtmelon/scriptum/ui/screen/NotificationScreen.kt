@@ -5,7 +5,7 @@ import org.hamcrest.Matcher
 import sgtmelon.extension.formatFuture
 import sgtmelon.extension.getCalendar
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.adapter.NotificationAdapter
+import sgtmelon.scriptum.presentation.adapter.NotificationAdapter
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.InfoPage
 import sgtmelon.scriptum.data.State

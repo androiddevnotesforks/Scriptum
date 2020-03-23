@@ -1,10 +1,10 @@
-package sgtmelon.scriptum.adapter.holder
+package sgtmelon.scriptum.presentation.adapter.holder
 
 import android.view.View
 import android.widget.ImageButton
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.adapter.NotificationAdapter
+import sgtmelon.scriptum.presentation.adapter.NotificationAdapter
 import sgtmelon.scriptum.databinding.ItemNotificationBinding
 import sgtmelon.scriptum.extension.checkNoPosition
 import sgtmelon.scriptum.listener.ItemListener

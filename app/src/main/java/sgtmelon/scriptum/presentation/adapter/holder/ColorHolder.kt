@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.adapter.holder
+package sgtmelon.scriptum.presentation.adapter.holder
 
 import android.view.View
 import android.view.ViewGroup
@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.adapter.ColorAdapter
+import sgtmelon.scriptum.presentation.adapter.ColorAdapter
 import sgtmelon.scriptum.extension.bindIndicatorColor
 import sgtmelon.scriptum.extension.getCompatColor
 import sgtmelon.scriptum.model.annotation.Color

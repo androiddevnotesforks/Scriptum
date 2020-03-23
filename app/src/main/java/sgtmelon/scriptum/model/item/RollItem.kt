@@ -3,7 +3,7 @@ package sgtmelon.scriptum.model.item
 import androidx.room.ColumnInfo
 import androidx.room.TypeConverters
 import org.json.JSONObject
-import sgtmelon.scriptum.adapter.RollAdapter
+import sgtmelon.scriptum.presentation.adapter.RollAdapter
 import sgtmelon.scriptum.model.data.DbData.Roll
 import sgtmelon.scriptum.model.item.RollItem.Companion.get
 import sgtmelon.scriptum.room.converter.type.BoolConverter

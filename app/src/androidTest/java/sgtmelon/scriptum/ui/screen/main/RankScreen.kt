@@ -4,7 +4,7 @@ import android.view.View
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.adapter.RankAdapter
+import sgtmelon.scriptum.presentation.adapter.RankAdapter
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.InfoPage
 import sgtmelon.scriptum.model.item.RankItem

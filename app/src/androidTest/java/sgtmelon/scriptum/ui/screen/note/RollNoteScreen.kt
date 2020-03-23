@@ -4,7 +4,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.adapter.RollAdapter
+import sgtmelon.scriptum.presentation.adapter.RollAdapter
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.data.State
