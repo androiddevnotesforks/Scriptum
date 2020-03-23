@@ -18,7 +18,7 @@ import sgtmelon.scriptum.control.clipboard.ClipboardControl
 import sgtmelon.scriptum.control.clipboard.IClipboardControl
 import sgtmelon.scriptum.databinding.FragmentNotesBinding
 import sgtmelon.scriptum.extension.*
-import sgtmelon.scriptum.factory.DialogFactory
+import sgtmelon.scriptum.presentation.factory.DialogFactory
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.annotation.Options
 import sgtmelon.scriptum.model.annotation.Theme

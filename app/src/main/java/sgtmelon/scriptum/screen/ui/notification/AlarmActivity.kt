@@ -28,7 +28,7 @@ import sgtmelon.scriptum.control.alarm.callback.IPowerControl
 import sgtmelon.scriptum.control.alarm.callback.IVibratorControl
 import sgtmelon.scriptum.control.bind.BindControl
 import sgtmelon.scriptum.extension.*
-import sgtmelon.scriptum.factory.DialogFactory
+import sgtmelon.scriptum.presentation.factory.DialogFactory
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme

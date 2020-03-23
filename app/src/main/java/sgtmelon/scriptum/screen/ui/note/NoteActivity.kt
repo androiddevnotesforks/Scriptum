@@ -10,7 +10,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.ShowHolderControl
 import sgtmelon.scriptum.control.toolbar.HolderTintControl
 import sgtmelon.scriptum.extension.initLazy
-import sgtmelon.scriptum.factory.FragmentFactory
+import sgtmelon.scriptum.presentation.factory.FragmentFactory
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.NoteData

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.factory
+package sgtmelon.scriptum.presentation.factory
 
 import androidx.fragment.app.FragmentManager
 import sgtmelon.scriptum.screen.ui.main.BinFragment

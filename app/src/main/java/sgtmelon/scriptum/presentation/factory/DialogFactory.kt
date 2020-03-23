@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.factory
+package sgtmelon.scriptum.presentation.factory
 
 import android.content.Context
 import androidx.fragment.app.FragmentManager

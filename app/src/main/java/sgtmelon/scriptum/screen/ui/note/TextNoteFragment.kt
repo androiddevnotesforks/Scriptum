@@ -25,7 +25,7 @@ import sgtmelon.scriptum.control.toolbar.icon.NavigationIconControl
 import sgtmelon.scriptum.control.toolbar.icon.NavigationIconControlAnim
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
 import sgtmelon.scriptum.extension.*
-import sgtmelon.scriptum.factory.DialogFactory
+import sgtmelon.scriptum.presentation.factory.DialogFactory
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.InputAction
 import sgtmelon.scriptum.model.annotation.Theme

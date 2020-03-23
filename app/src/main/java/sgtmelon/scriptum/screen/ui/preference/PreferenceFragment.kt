@@ -16,7 +16,7 @@ import sgtmelon.scriptum.control.alarm.callback.IMelodyControl
 import sgtmelon.scriptum.extension.initLazy
 import sgtmelon.scriptum.extension.isGranted
 import sgtmelon.scriptum.extension.toUri
-import sgtmelon.scriptum.factory.DialogFactory
+import sgtmelon.scriptum.presentation.factory.DialogFactory
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.key.PermissionResult

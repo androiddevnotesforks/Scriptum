@@ -22,7 +22,7 @@ import sgtmelon.scriptum.extension.addTextChangedListener
 import sgtmelon.scriptum.extension.createVisibleAnim
 import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.extension.initLazy
-import sgtmelon.scriptum.factory.DialogFactory
+import sgtmelon.scriptum.presentation.factory.DialogFactory
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RankItem

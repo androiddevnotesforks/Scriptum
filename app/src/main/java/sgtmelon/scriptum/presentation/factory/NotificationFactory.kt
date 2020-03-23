@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.factory
+package sgtmelon.scriptum.presentation.factory
 
 import android.app.Notification
 import android.app.PendingIntent

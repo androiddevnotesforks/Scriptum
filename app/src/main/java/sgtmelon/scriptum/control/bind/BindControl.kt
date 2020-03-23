@@ -8,7 +8,7 @@ import androidx.annotation.RequiresApi
 import androidx.annotation.VisibleForTesting
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.factory.NotificationFactory
+import sgtmelon.scriptum.presentation.factory.NotificationFactory
 import sgtmelon.scriptum.model.item.NoteItem
 
 /**
