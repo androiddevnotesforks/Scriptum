@@ -7,8 +7,8 @@ import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.item.InputItem
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.presentation.screen.ui.note.NoteActivity
-import sgtmelon.scriptum.presentation.screen.ui.note.TextNoteFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
+import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.ui.IPressBack
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.part.panel.NotePanel

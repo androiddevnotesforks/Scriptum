@@ -3,7 +3,7 @@ package sgtmelon.scriptum.test.auto.other
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.presentation.screen.ui.SplashActivity
+import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.test.ParentUiTest
 
 /**

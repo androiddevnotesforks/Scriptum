@@ -4,7 +4,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.presentation.screen.ui.note.NoteActivity
+import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
 
 /**
  * Test for [NoteActivity] toolbar color with [Theme.DARK].

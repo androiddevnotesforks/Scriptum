@@ -6,7 +6,7 @@ import sgtmelon.scriptum.interactor.ParentInteractor
 import sgtmelon.scriptum.interactor.callback.main.IMainInteractor
 import sgtmelon.scriptum.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IMainBridge
-import sgtmelon.scriptum.presentation.screen.vm.main.MainViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.main.MainViewModel
 
 /**
  * Interactor for [MainViewModel]

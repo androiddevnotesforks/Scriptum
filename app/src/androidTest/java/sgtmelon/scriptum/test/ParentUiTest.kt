@@ -8,7 +8,7 @@ import sgtmelon.scriptum.control.bind.BindControl
 import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.presentation.screen.ui.SplashActivity
+import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.ui.screen.SplashScreen
 import kotlin.random.Random
 

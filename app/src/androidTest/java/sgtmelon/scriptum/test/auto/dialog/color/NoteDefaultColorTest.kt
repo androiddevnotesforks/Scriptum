@@ -5,7 +5,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
-import sgtmelon.scriptum.presentation.screen.ui.note.NoteActivity
+import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.test.IColorTest
 import sgtmelon.scriptum.test.ParentUiTest
 

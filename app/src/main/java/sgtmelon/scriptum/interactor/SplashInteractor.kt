@@ -2,7 +2,7 @@ package sgtmelon.scriptum.interactor
 
 import sgtmelon.scriptum.interactor.callback.ISplashInteractor
 import sgtmelon.scriptum.repository.preference.IPreferenceRepo
-import sgtmelon.scriptum.presentation.screen.vm.SplashViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.SplashViewModel
 
 /**
  * Interactor for [SplashViewModel].

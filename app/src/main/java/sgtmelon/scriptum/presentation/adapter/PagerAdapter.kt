@@ -2,8 +2,8 @@ package sgtmelon.scriptum.presentation.adapter
 
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import sgtmelon.scriptum.presentation.screen.ui.intro.IntroActivity
-import sgtmelon.scriptum.presentation.screen.ui.intro.IntroFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.intro.IntroActivity
+import sgtmelon.scriptum.presentation.screen.ui.impl.intro.IntroFragment
 import java.util.*
 import kotlin.math.max
 

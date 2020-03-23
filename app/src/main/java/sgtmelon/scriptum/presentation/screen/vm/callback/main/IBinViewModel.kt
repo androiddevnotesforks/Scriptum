@@ -1,8 +1,8 @@
 package sgtmelon.scriptum.presentation.screen.vm.callback.main
 
-import sgtmelon.scriptum.presentation.screen.ui.main.BinFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.main.BinFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.IParentViewModel
-import sgtmelon.scriptum.presentation.screen.vm.main.BinViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.main.BinViewModel
 
 /**
  * Interface for communication [BinFragment] with [BinViewModel]

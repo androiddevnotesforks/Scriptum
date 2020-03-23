@@ -4,7 +4,7 @@ import dagger.BindsInstance
 import dagger.Component
 import sgtmelon.scriptum.dagger.module.base.ContextModule
 import sgtmelon.scriptum.dagger.module.base.RepoModule
-import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
+import sgtmelon.scriptum.presentation.screen.ui.impl.ScriptumApplication
 import javax.inject.Singleton
 
 /**

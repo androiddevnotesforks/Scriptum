@@ -12,7 +12,7 @@ import sgtmelon.scriptum.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.roll.IRollNoteBridge
-import sgtmelon.scriptum.presentation.screen.vm.note.RollNoteViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel
 import java.util.*
 
 /**

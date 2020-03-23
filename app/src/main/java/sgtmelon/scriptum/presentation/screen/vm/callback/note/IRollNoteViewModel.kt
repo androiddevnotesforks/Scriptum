@@ -7,9 +7,9 @@ import sgtmelon.scriptum.control.input.watcher.InputTextWatcher
 import sgtmelon.scriptum.control.touch.RollTouchControl
 import sgtmelon.scriptum.presentation.receiver.NoteReceiver
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteMenu
-import sgtmelon.scriptum.presentation.screen.ui.note.RollNoteFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.IParentViewModel
-import sgtmelon.scriptum.presentation.screen.vm.note.RollNoteViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel
 import java.util.*
 
 /**

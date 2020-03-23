@@ -5,8 +5,8 @@ import androidx.annotation.ArrayRes
 import androidx.annotation.StringRes
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.presentation.screen.ui.main.NotesFragment
-import sgtmelon.scriptum.presentation.screen.vm.main.NotesViewModel
+import sgtmelon.scriptum.presentation.screen.ui.impl.main.NotesFragment
+import sgtmelon.scriptum.presentation.screen.vm.impl.main.NotesViewModel
 import java.util.*
 
 /**

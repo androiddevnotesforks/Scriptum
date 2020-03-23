@@ -9,7 +9,7 @@ import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.presentation.listener.ItemListener
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NotificationItem
-import sgtmelon.scriptum.presentation.screen.ui.notification.NotificationActivity
+import sgtmelon.scriptum.presentation.screen.ui.impl.notification.NotificationActivity
 
 /**
  * Adapter which displays list of notifications for [NotificationActivity]

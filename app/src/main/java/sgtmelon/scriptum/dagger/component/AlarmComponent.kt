@@ -6,7 +6,7 @@ import sgtmelon.scriptum.dagger.ActivityScope
 import sgtmelon.scriptum.dagger.module.AlarmModule
 import sgtmelon.scriptum.dagger.module.base.InteractorModule
 import sgtmelon.scriptum.dagger.module.base.ViewModelModule
-import sgtmelon.scriptum.presentation.screen.ui.notification.AlarmActivity
+import sgtmelon.scriptum.presentation.screen.ui.impl.notification.AlarmActivity
 
 /**
  * Component for [AlarmActivity].

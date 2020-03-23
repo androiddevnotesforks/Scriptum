@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.interactor.callback
 
 import sgtmelon.scriptum.interactor.IntroInteractor
-import sgtmelon.scriptum.presentation.screen.vm.IntroViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.IntroViewModel
 
 /**
  * Interface for communication [IntroViewModel] with [IntroInteractor]

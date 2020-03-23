@@ -7,7 +7,7 @@ import sgtmelon.scriptum.basic.extension.longClick
 import sgtmelon.scriptum.data.InfoPage
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.presentation.screen.ui.main.BinFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.main.BinFragment
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.dialog.ClearDialogUi
 import sgtmelon.scriptum.ui.dialog.NoteDialogUi

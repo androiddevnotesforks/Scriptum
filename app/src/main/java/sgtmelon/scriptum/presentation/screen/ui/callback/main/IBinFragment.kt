@@ -3,8 +3,8 @@ package sgtmelon.scriptum.presentation.screen.ui.callback.main
 import androidx.annotation.ArrayRes
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.presentation.screen.ui.main.BinFragment
-import sgtmelon.scriptum.presentation.screen.vm.main.BinViewModel
+import sgtmelon.scriptum.presentation.screen.ui.impl.main.BinFragment
+import sgtmelon.scriptum.presentation.screen.vm.impl.main.BinViewModel
 
 /**
  * Interface for communication [BinViewModel] with [BinFragment]

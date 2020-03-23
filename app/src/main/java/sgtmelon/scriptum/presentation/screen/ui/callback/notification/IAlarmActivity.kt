@@ -5,8 +5,8 @@ import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.ColorShade
-import sgtmelon.scriptum.presentation.screen.ui.notification.AlarmActivity
-import sgtmelon.scriptum.presentation.screen.vm.notification.AlarmViewModel
+import sgtmelon.scriptum.presentation.screen.ui.impl.notification.AlarmActivity
+import sgtmelon.scriptum.presentation.screen.vm.impl.notification.AlarmViewModel
 
 /**
  * Interface for communication [AlarmViewModel] with [AlarmActivity]

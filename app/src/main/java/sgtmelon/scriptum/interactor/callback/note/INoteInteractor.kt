@@ -4,7 +4,7 @@ import sgtmelon.scriptum.interactor.callback.IParentInteractor
 import sgtmelon.scriptum.interactor.note.NoteInteractor
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.presentation.screen.vm.note.NoteViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.note.NoteViewModel
 
 /**
  * Interface for communication [NoteViewModel] with [NoteInteractor]

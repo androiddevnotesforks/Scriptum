@@ -5,9 +5,9 @@ import sgtmelon.scriptum.control.SaveControl
 import sgtmelon.scriptum.control.input.watcher.InputTextWatcher
 import sgtmelon.scriptum.presentation.receiver.NoteReceiver
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteMenu
-import sgtmelon.scriptum.presentation.screen.ui.note.TextNoteFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.IParentViewModel
-import sgtmelon.scriptum.presentation.screen.vm.note.TextNoteViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.note.TextNoteViewModel
 import java.util.*
 
 /**

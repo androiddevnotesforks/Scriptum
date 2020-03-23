@@ -8,8 +8,8 @@ import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.presentation.screen.ui.note.RollNoteFragment
-import sgtmelon.scriptum.presentation.screen.vm.note.RollNoteViewModel
+import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
+import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel
 import java.util.*
 
 /**

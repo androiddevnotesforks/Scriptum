@@ -5,8 +5,8 @@ import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.presentation.screen.ui.note.TextNoteFragment
-import sgtmelon.scriptum.presentation.screen.vm.note.TextNoteViewModel
+import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
+import sgtmelon.scriptum.presentation.screen.vm.impl.note.TextNoteViewModel
 import java.util.*
 
 /**

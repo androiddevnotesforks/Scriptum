@@ -4,7 +4,7 @@ import sgtmelon.scriptum.control.alarm.AlarmControl
 import sgtmelon.scriptum.control.bind.BindControl
 
 import sgtmelon.scriptum.interactor.notification.AlarmInteractor
-import sgtmelon.scriptum.presentation.screen.ui.notification.AlarmActivity
+import sgtmelon.scriptum.presentation.screen.ui.impl.notification.AlarmActivity
 
 /**
  * Interface for communication [AlarmInteractor] with [AlarmActivity]

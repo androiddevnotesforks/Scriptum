@@ -1,9 +1,9 @@
 package sgtmelon.scriptum.presentation.screen.vm.callback.main
 
 import sgtmelon.scriptum.presentation.receiver.MainReceiver
-import sgtmelon.scriptum.presentation.screen.ui.main.NotesFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.main.NotesFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.IParentViewModel
-import sgtmelon.scriptum.presentation.screen.vm.main.NotesViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.main.NotesViewModel
 import java.util.*
 
 /**

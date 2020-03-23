@@ -6,7 +6,7 @@ import sgtmelon.scriptum.dagger.ActivityScope
 import sgtmelon.scriptum.dagger.module.MainModule
 import sgtmelon.scriptum.dagger.module.base.InteractorModule
 import sgtmelon.scriptum.dagger.module.base.ViewModelModule
-import sgtmelon.scriptum.presentation.screen.ui.main.MainActivity
+import sgtmelon.scriptum.presentation.screen.ui.impl.main.MainActivity
 
 /**
  * Component for [MainActivity].

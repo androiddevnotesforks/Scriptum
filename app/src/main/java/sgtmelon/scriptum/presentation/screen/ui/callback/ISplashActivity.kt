@@ -1,8 +1,8 @@
 package sgtmelon.scriptum.presentation.screen.ui.callback
 
 import sgtmelon.scriptum.model.annotation.Color
-import sgtmelon.scriptum.presentation.screen.ui.SplashActivity
-import sgtmelon.scriptum.presentation.screen.vm.SplashViewModel
+import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
+import sgtmelon.scriptum.presentation.screen.vm.impl.SplashViewModel
 
 /**
  * Interface for communication [SplashViewModel] with [SplashActivity]

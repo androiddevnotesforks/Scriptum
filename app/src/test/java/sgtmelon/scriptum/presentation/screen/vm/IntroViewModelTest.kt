@@ -9,6 +9,7 @@ import org.junit.Test
 import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.interactor.callback.IIntroInteractor
 import sgtmelon.scriptum.presentation.screen.ui.callback.IIntroActivity
+import sgtmelon.scriptum.presentation.screen.vm.impl.IntroViewModel
 
 /**
  * Test for [IntroViewModel].

@@ -2,8 +2,8 @@ package sgtmelon.scriptum.presentation.screen.ui.callback
 
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.presentation.screen.ui.preference.PreferenceFragment
-import sgtmelon.scriptum.presentation.screen.vm.PreferenceViewModel
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
+import sgtmelon.scriptum.presentation.screen.vm.impl.PreferenceViewModel
 
 /**
  * Interface for communication [PreferenceViewModel] with [PreferenceFragment]

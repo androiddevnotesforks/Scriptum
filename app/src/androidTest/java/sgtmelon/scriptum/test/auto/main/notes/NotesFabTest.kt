@@ -6,7 +6,7 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.basic.extension.waitBefore
 import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.model.key.MainPage
-import sgtmelon.scriptum.presentation.screen.ui.main.NotesFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.main.NotesFragment
 import sgtmelon.scriptum.test.ParentUiTest
 
 /**

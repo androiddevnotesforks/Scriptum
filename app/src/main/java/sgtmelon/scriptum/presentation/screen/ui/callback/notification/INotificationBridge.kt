@@ -3,7 +3,7 @@ package sgtmelon.scriptum.presentation.screen.ui.callback.notification
 import sgtmelon.scriptum.control.alarm.AlarmControl
 import sgtmelon.scriptum.control.bind.BindControl
 import sgtmelon.scriptum.interactor.notification.NotificationInteractor
-import sgtmelon.scriptum.presentation.screen.ui.notification.NotificationActivity
+import sgtmelon.scriptum.presentation.screen.ui.impl.notification.NotificationActivity
 
 /**
  * Interface for communication [NotificationInteractor] with [NotificationActivity]

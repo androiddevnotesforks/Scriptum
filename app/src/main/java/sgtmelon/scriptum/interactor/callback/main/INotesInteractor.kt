@@ -6,7 +6,7 @@ import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.NotificationItem
-import sgtmelon.scriptum.presentation.screen.vm.main.NotesViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.main.NotesViewModel
 import java.util.*
 
 /**

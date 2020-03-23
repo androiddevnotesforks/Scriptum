@@ -5,7 +5,7 @@ import dagger.Subcomponent
 import sgtmelon.scriptum.dagger.ActivityScope
 import sgtmelon.scriptum.dagger.module.base.InteractorModule
 import sgtmelon.scriptum.dagger.module.base.ViewModelModule
-import sgtmelon.scriptum.presentation.screen.ui.main.NotesFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.main.NotesFragment
 
 /**
  * Component for [NotesFragment].

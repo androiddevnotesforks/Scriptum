@@ -2,8 +2,8 @@ package sgtmelon.scriptum.presentation.screen.ui.callback.notification
 
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NotificationItem
-import sgtmelon.scriptum.presentation.screen.ui.notification.NotificationActivity
-import sgtmelon.scriptum.presentation.screen.vm.notification.NotificationViewModel
+import sgtmelon.scriptum.presentation.screen.ui.impl.notification.NotificationActivity
+import sgtmelon.scriptum.presentation.screen.vm.impl.notification.NotificationViewModel
 
 /**
  * Interface for communication [NotificationViewModel] with [NotificationActivity]

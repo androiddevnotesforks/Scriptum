@@ -21,8 +21,8 @@ import sgtmelon.scriptum.ui.screen.main.BinScreen
 import sgtmelon.scriptum.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
-import sgtmelon.scriptum.presentation.screen.vm.note.RollNoteViewModel.Companion.onSave as onRollSave
-import sgtmelon.scriptum.presentation.screen.vm.note.TextNoteViewModel.Companion.onSave as onTextSave
+import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel.Companion.onSave as onRollSave
+import sgtmelon.scriptum.presentation.screen.vm.impl.note.TextNoteViewModel.Companion.onSave as onTextSave
 import java.util.*
 
 /**

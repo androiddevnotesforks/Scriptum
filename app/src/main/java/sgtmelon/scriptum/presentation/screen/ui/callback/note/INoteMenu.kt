@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.presentation.screen.ui.callback.note
 
-import sgtmelon.scriptum.presentation.screen.vm.note.RollNoteViewModel
-import sgtmelon.scriptum.presentation.screen.vm.note.TextNoteViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.note.TextNoteViewModel
 
 /**
  * Interface for communication dataBinding with [TextNoteViewModel]/[RollNoteViewModel]

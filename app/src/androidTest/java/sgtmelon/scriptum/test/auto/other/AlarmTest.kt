@@ -7,7 +7,7 @@ import sgtmelon.extension.getText
 import sgtmelon.scriptum.basic.extension.getTime
 import sgtmelon.scriptum.model.annotation.Repeat
 import sgtmelon.scriptum.model.annotation.Sort
-import sgtmelon.scriptum.presentation.screen.ui.intro.IntroActivity
+import sgtmelon.scriptum.presentation.screen.ui.impl.intro.IntroActivity
 import sgtmelon.scriptum.test.ParentUiTest
 
 /**

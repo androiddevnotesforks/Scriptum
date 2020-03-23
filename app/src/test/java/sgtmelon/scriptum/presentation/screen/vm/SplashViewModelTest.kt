@@ -14,6 +14,7 @@ import sgtmelon.scriptum.interactor.callback.ISplashInteractor
 import sgtmelon.scriptum.model.annotation.OpenFrom
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.presentation.screen.ui.callback.ISplashActivity
+import sgtmelon.scriptum.presentation.screen.vm.impl.SplashViewModel
 
 /**
  * Test for [SplashViewModel].

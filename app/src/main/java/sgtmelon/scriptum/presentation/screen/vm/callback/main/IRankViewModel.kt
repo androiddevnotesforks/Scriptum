@@ -1,9 +1,9 @@
 package sgtmelon.scriptum.presentation.screen.vm.callback.main
 
 import sgtmelon.scriptum.control.touch.RankTouchControl
-import sgtmelon.scriptum.presentation.screen.ui.main.RankFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.main.RankFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.IParentViewModel
-import sgtmelon.scriptum.presentation.screen.vm.main.RankViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.main.RankViewModel
 
 /**
  * Interface for communication [RankFragment] with [RankViewModel].

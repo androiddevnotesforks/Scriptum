@@ -7,8 +7,8 @@ import androidx.appcompat.widget.Toolbar
 import sgtmelon.iconanim.IconChangeCallback
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.getTintDrawable
-import sgtmelon.scriptum.presentation.screen.ui.note.RollNoteFragment
-import sgtmelon.scriptum.presentation.screen.ui.note.TextNoteFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
 
 /**
  * Class for control toolbar navigation icon changes in [TextNoteFragment], [RollNoteFragment].

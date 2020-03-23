@@ -8,7 +8,7 @@ import sgtmelon.scriptum.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.repository.room.callback.IBindRepo
 import sgtmelon.scriptum.presentation.screen.ui.callback.notification.INotificationBridge
-import sgtmelon.scriptum.presentation.screen.vm.notification.NotificationViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.notification.NotificationViewModel
 
 /**
  * Interactor for [NotificationViewModel].

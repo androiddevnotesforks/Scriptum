@@ -2,8 +2,8 @@ package sgtmelon.scriptum.presentation.screen.ui.callback.note
 
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.presentation.screen.ui.note.NoteActivity
-import sgtmelon.scriptum.presentation.screen.vm.note.NoteViewModel
+import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
+import sgtmelon.scriptum.presentation.screen.vm.impl.note.NoteViewModel
 
 /**
  * Interface for communication [NoteViewModel] with [NoteActivity]

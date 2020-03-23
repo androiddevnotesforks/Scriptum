@@ -19,8 +19,8 @@ import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.test.ParentIntegrationTest
 import kotlin.random.Random
-import sgtmelon.scriptum.presentation.screen.vm.note.RollNoteViewModel.Companion.onItemCheck
-import sgtmelon.scriptum.presentation.screen.vm.note.RollNoteViewModel.Companion.onItemLongCheck
+import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel.Companion.onItemCheck
+import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel.Companion.onItemLongCheck
 
 /**
  * Integration test for [NoteRepo]

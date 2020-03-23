@@ -4,8 +4,8 @@ import androidx.annotation.IdRes
 import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.presentation.screen.ui.main.MainActivity
-import sgtmelon.scriptum.presentation.screen.vm.main.MainViewModel
+import sgtmelon.scriptum.presentation.screen.ui.impl.main.MainActivity
+import sgtmelon.scriptum.presentation.screen.vm.impl.main.MainViewModel
 
 /**
  * Interface for communication [MainViewModel] with [MainActivity]

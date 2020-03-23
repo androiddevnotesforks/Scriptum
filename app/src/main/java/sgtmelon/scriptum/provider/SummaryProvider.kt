@@ -2,7 +2,7 @@ package sgtmelon.scriptum.provider
 
 import android.content.Context
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.presentation.screen.vm.PreferenceViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.PreferenceViewModel
 
 /**
  * Provider of summary arrays for [PreferenceViewModel]
