@@ -18,8 +18,9 @@ import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.IconState
 import sgtmelon.scriptum.model.state.NoteState
-import sgtmelon.scriptum.presentation.control.SaveControl
-import sgtmelon.scriptum.presentation.control.input.InputControl
+import sgtmelon.scriptum.presentation.control.note.input.InputControl
+import sgtmelon.scriptum.presentation.control.note.save.ISaveControl
+import sgtmelon.scriptum.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteChild
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.text.ITextNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
@@ -49,7 +50,10 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     }
 
 
-    private val saveControl by lazy { SaveControl(context, interactor.getSaveModel(), callback = this) }
+    private val saveControl: ISaveControl by lazy {
+        SaveControl(context, interactor.getSaveModel(), callback = this)
+    }
+
     private val inputControl = InputControl()
 
     private var id: Long = Default.ID
@@ -117,7 +121,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     override fun onDestroy(func: () -> Unit) = super.onDestroy {
         interactor.onDestroy()
         parentCallback = null
-        saveControl.setSaveHandlerEvent(isStart = false)
+        saveControl.setSaveEvent(isStart = false)
     }
 
 
@@ -130,14 +134,14 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
     override fun onResume() {
         if (noteState.isEdit) {
-            saveControl.setSaveHandlerEvent(isStart = true)
+            saveControl.setSaveEvent(isStart = true)
         }
     }
 
     override fun onPause() {
         if (noteState.isEdit) {
             saveControl.onPauseSave(noteState.isEdit)
-            saveControl.setSaveHandlerEvent(isStart = false)
+            saveControl.setSaveEvent(isStart = false)
         }
     }
 
@@ -431,7 +435,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
             if (isEdit) focusOnEdit(noteState.isCreate)
         }
 
-        saveControl.setSaveHandlerEvent(isEdit)
+        saveControl.setSaveEvent(isEdit)
     }
 
     //endregion

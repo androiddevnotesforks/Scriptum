@@ -35,9 +35,9 @@ import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.presentation.adapter.RollAdapter
-import sgtmelon.scriptum.presentation.control.input.IInputControl
-import sgtmelon.scriptum.presentation.control.input.InputControl
-import sgtmelon.scriptum.presentation.control.input.watcher.InputTextWatcher
+import sgtmelon.scriptum.presentation.control.note.input.IInputControl
+import sgtmelon.scriptum.presentation.control.note.input.InputControl
+import sgtmelon.scriptum.presentation.control.note.input.watcher.InputTextWatcher
 import sgtmelon.scriptum.presentation.control.system.AlarmControl
 import sgtmelon.scriptum.presentation.control.system.BindControl
 import sgtmelon.scriptum.presentation.control.toolbar.IToolbarTintControl

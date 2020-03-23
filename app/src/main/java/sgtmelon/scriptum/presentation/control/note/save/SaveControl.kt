@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.presentation.control
+package sgtmelon.scriptum.presentation.control.note.save
 
 import android.content.Context
 import android.os.Handler
@@ -7,7 +7,13 @@ import sgtmelon.scriptum.R
 /**
  * Class for help control note pause/auto save
  */
-class SaveControl(context: Context, private val model: Model, private val callback: Callback) {
+class SaveControl(
+        context: Context,
+        private val model: Model,
+        private val callback: Callback
+) : ISaveControl {
+
+    // TODO refactor
 
     private val saveHandler = Handler()
 
@@ -19,15 +25,15 @@ class SaveControl(context: Context, private val model: Model, private val callba
 
     private val saveRunnable = {
         callback.onResultSaveControl()
-        setSaveHandlerEvent(true)
+        setSaveEvent(true)
     }
 
     /**
-     * onPause cause not only if application turn (e.g. if we close activity)
+     * onPause happen not only if application close (e.g. if we close activity)
      */
-    var needSave = true
+    override var needSave = true
 
-    fun setSaveHandlerEvent(isStart: Boolean) {
+    override fun setSaveEvent(isStart: Boolean) {
         if (!model.autoSaveOn) return
 
         saveHandler.removeCallbacksAndMessages(null)
@@ -37,8 +43,8 @@ class SaveControl(context: Context, private val model: Model, private val callba
         }
     }
 
-    fun onPauseSave(editMode: Boolean) {
-        setSaveHandlerEvent(false)
+    override fun onPauseSave(editMode: Boolean) {
+        setSaveEvent(false)
 
         if (needSave && editMode && model.pauseSaveOn) {
             callback.onResultSaveControl()

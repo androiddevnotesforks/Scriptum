@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.model.annotation
 
 import androidx.annotation.IntDef
-import sgtmelon.scriptum.presentation.control.input.InputControl
+import sgtmelon.scriptum.presentation.control.note.input.InputControl
 
 /**
  * Describes actions in [InputControl]

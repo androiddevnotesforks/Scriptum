@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.presentation.control.input
+package sgtmelon.scriptum.presentation.control.note.input
 
 import org.junit.Assert.*
 import org.junit.Test

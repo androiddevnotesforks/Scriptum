@@ -1,12 +1,12 @@
-package sgtmelon.scriptum.presentation.control.input.watcher
+package sgtmelon.scriptum.presentation.control.note.input.watcher
 
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
 import sgtmelon.scriptum.model.annotation.InputAction
 import sgtmelon.scriptum.model.item.InputItem
-import sgtmelon.scriptum.presentation.control.input.IInputControl
-import sgtmelon.scriptum.presentation.control.input.InputControl
+import sgtmelon.scriptum.presentation.control.note.input.IInputControl
+import sgtmelon.scriptum.presentation.control.note.input.InputControl
 
 /**
  * Text watcher of enter text for [InputControl]

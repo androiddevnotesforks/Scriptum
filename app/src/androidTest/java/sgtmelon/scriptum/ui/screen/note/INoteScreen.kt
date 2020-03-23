@@ -3,7 +3,7 @@ package sgtmelon.scriptum.ui.screen.note
 import org.junit.Assert.assertTrue
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.presentation.control.input.InputControl
+import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.ui.ParentUi
 
 /**

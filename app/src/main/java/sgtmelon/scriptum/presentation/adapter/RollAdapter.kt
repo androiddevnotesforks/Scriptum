@@ -9,7 +9,7 @@ import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.presentation.adapter.holder.RollReadHolder
 import sgtmelon.scriptum.presentation.adapter.holder.RollWriteHolder
-import sgtmelon.scriptum.presentation.control.input.IInputControl
+import sgtmelon.scriptum.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.presentation.listener.ItemListener
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 

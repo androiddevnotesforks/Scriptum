@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.presentation.control.input
+package sgtmelon.scriptum.presentation.control.note.input
 
 import android.util.Log
 import sgtmelon.scriptum.BuildConfig

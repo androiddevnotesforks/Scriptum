@@ -22,8 +22,9 @@ import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.IconState
 import sgtmelon.scriptum.model.state.NoteState
-import sgtmelon.scriptum.presentation.control.SaveControl
-import sgtmelon.scriptum.presentation.control.input.InputControl
+import sgtmelon.scriptum.presentation.control.note.input.InputControl
+import sgtmelon.scriptum.presentation.control.note.save.ISaveControl
+import sgtmelon.scriptum.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteChild
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.roll.IRollNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
@@ -55,7 +56,10 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
 
-    private val saveControl by lazy { SaveControl(context, interactor.getSaveModel(), callback = this) }
+    private val saveControl: ISaveControl by lazy {
+        SaveControl(context, interactor.getSaveModel(), callback = this)
+    }
+
     private val inputControl = InputControl()
 
     private var id: Long = Default.ID
@@ -141,7 +145,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     override fun onDestroy(func: () -> Unit) = super.onDestroy {
         interactor.onDestroy()
         parentCallback = null
-        saveControl.setSaveHandlerEvent(isStart = false)
+        saveControl.setSaveEvent(isStart = false)
     }
 
 
@@ -154,14 +158,14 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
     override fun onResume() {
         if (noteState.isEdit) {
-            saveControl.setSaveHandlerEvent(isStart = true)
+            saveControl.setSaveEvent(isStart = true)
         }
     }
 
     override fun onPause() {
         if (noteState.isEdit) {
             saveControl.onPauseSave(noteState.isEdit)
-            saveControl.setSaveHandlerEvent(isStart = false)
+            saveControl.setSaveEvent(isStart = false)
         }
     }
 
@@ -644,7 +648,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             }
         }
 
-        saveControl.setSaveHandlerEvent(isEdit)
+        saveControl.setSaveEvent(isEdit)
     }
 
     //endregion
