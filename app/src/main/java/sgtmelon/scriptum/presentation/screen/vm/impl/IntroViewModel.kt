@@ -9,7 +9,7 @@ import sgtmelon.scriptum.presentation.screen.vm.ParentViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.IIntroViewModel
 
 /**
- * ViewModel for [IntroActivity]
+ * ViewModel for [IntroActivity].
  */
 class IntroViewModel(application: Application) : ParentViewModel<IIntroActivity>(application),
         IIntroViewModel {
