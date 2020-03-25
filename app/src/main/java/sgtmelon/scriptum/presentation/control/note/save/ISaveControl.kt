@@ -7,7 +7,7 @@ interface ISaveControl {
 
     var needSave: Boolean
 
-    fun setSaveEvent(isStart: Boolean)
+    fun setSaveEvent(isWork: Boolean)
 
     fun onPauseSave(editMode: Boolean)
 

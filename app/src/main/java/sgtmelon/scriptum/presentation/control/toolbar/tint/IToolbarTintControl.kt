@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.presentation.control.toolbar
+package sgtmelon.scriptum.presentation.control.toolbar.tint
 
 import sgtmelon.scriptum.model.annotation.Color
 

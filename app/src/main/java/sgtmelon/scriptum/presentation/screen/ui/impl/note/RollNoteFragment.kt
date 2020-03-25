@@ -40,12 +40,12 @@ import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.presentation.control.note.input.watcher.InputTextWatcher
 import sgtmelon.scriptum.presentation.control.system.AlarmControl
 import sgtmelon.scriptum.presentation.control.system.BindControl
-import sgtmelon.scriptum.presentation.control.toolbar.IToolbarTintControl
-import sgtmelon.scriptum.presentation.control.toolbar.ToolbarTintControl
 import sgtmelon.scriptum.presentation.control.toolbar.icon.NavigationIconControl
 import sgtmelon.scriptum.presentation.control.toolbar.icon.NavigationIconControlAnim
 import sgtmelon.scriptum.presentation.control.toolbar.icon.VisibleIconControl
 import sgtmelon.scriptum.presentation.control.toolbar.icon.VisibleIconControlAnim
+import sgtmelon.scriptum.presentation.control.toolbar.tint.IToolbarTintControl
+import sgtmelon.scriptum.presentation.control.toolbar.tint.ToolbarTintControl
 import sgtmelon.scriptum.presentation.control.touch.RollTouchControl
 import sgtmelon.scriptum.presentation.factory.DialogFactory
 import sgtmelon.scriptum.presentation.listener.ItemListener

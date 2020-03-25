@@ -21,9 +21,9 @@ import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.presentation.control.ShowHolderControl
 import sgtmelon.scriptum.presentation.control.system.AlarmControl
 import sgtmelon.scriptum.presentation.control.system.BindControl
+import sgtmelon.scriptum.presentation.control.toolbar.HolderShowControl
 import sgtmelon.scriptum.presentation.factory.DialogFactory
 import sgtmelon.scriptum.presentation.factory.FragmentFactory
 import sgtmelon.scriptum.presentation.receiver.MainReceiver
@@ -44,7 +44,7 @@ class MainActivity : AppActivity(), IMainActivity {
 
     private val alarmControl by lazy { AlarmControl[this] }
     private val bindControl by lazy { BindControl[this] }
-    private val holderControl by lazy { ShowHolderControl(arrayOf(toolbarHolder)) }
+    private val holderControl by lazy { HolderShowControl[toolbarHolder] }
 
     private val mainReceiver by lazy { MainReceiver(viewModel) }
 

@@ -14,8 +14,8 @@ import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.data.ReceiverData
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.NotificationItem
-import sgtmelon.scriptum.presentation.control.ShowHolderControl
-import sgtmelon.scriptum.presentation.control.toolbar.HolderTintControl
+import sgtmelon.scriptum.presentation.control.toolbar.HolderShowControl
+import sgtmelon.scriptum.presentation.control.toolbar.tint.HolderTintControl
 import sgtmelon.scriptum.presentation.factory.FragmentFactory
 import sgtmelon.scriptum.presentation.receiver.NoteReceiver
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
@@ -32,8 +32,8 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild, NoteReceiver.Call
 
     @Inject internal lateinit var viewModel: INoteViewModel
 
-    private val holderShowControl by lazy { ShowHolderControl(arrayOf(toolbarHolder, panelHolder)) }
-    private val holderTintControl by lazy { HolderTintControl(this, window, toolbarHolder) }
+    private val holderShowControl by lazy { HolderShowControl[toolbarHolder, panelHolder] }
+    private val holderTintControl by lazy { HolderTintControl[this, window, toolbarHolder] }
 
     private val fragmentFactory = FragmentFactory.Note(fm)
     private val textNoteFragment get() = fragmentFactory.getTextNoteFragment()

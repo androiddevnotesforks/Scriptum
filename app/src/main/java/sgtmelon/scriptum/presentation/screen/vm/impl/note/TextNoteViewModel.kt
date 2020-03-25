@@ -121,7 +121,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     override fun onDestroy(func: () -> Unit) = super.onDestroy {
         interactor.onDestroy()
         parentCallback = null
-        saveControl.setSaveEvent(isStart = false)
+        saveControl.setSaveEvent(isWork = false)
     }
 
 
@@ -134,14 +134,14 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
     override fun onResume() {
         if (noteState.isEdit) {
-            saveControl.setSaveEvent(isStart = true)
+            saveControl.setSaveEvent(isWork = true)
         }
     }
 
     override fun onPause() {
         if (noteState.isEdit) {
             saveControl.onPauseSave(noteState.isEdit)
-            saveControl.setSaveEvent(isStart = false)
+            saveControl.setSaveEvent(isWork = false)
         }
     }
 

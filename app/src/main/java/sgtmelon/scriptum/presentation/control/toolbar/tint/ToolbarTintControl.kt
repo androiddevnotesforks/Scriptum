@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.presentation.control.toolbar
+package sgtmelon.scriptum.presentation.control.toolbar.tint
 
 import android.animation.ValueAnimator
 import android.content.Context
@@ -18,13 +18,13 @@ import sgtmelon.scriptum.model.state.MenuColorState
  * Control note toolbar tint.
  */
 class ToolbarTintControl(
-        private val context: Context,
+        context: Context,
         private val window: Window,
         private val toolbar: View?,
         private val indicator: View?,
         @Theme private val theme: Int,
         @Color startColor: Int
-) : ParentTintControl(),
+) : ParentTintControl(context),
         IToolbarTintControl {
 
     private val colorAnimator: ValueAnimator = ValueAnimator.ofFloat(0F, 1F)
@@ -62,10 +62,10 @@ class ToolbarTintControl(
     private fun setupColor(@Color color: Int) {
         if (theme != Theme.DARK) {
             if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
-                window.statusBarColor = getStatusBarColor(context, theme, color)
+                window.statusBarColor = getStatusBarColor(theme, color)
             }
 
-            toolbar?.setBackgroundColor(getToolbarColor(context, theme, color))
+            toolbar?.setBackgroundColor(getToolbarColor(theme, color))
         }
 
         indicator?.setBackgroundColor(context.getAppThemeColor(theme, color, needDark = true))

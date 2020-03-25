@@ -144,8 +144,7 @@ class BindControl(private val context: Context?) : IBindControl {
         val tagIdMap: MutableMap<String, Int> = mutableMapOf()
 
         operator fun get(context: Context?): IBindControl {
-            return callback
-                    ?: BindControl(context).also { callback = it }
+            return callback ?: BindControl(context).also { callback = it }
         }
     }
 

@@ -33,12 +33,12 @@ class SaveControl(
      */
     override var needSave = true
 
-    override fun setSaveEvent(isStart: Boolean) {
+    override fun setSaveEvent(isWork: Boolean) {
         if (!model.autoSaveOn) return
 
         saveHandler.removeCallbacksAndMessages(null)
 
-        if (isStart) {
+        if (isWork) {
             saveHandler.postDelayed(saveRunnable, saveTime.toLong())
         }
     }

@@ -28,10 +28,10 @@ import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.presentation.control.note.input.watcher.InputTextWatcher
 import sgtmelon.scriptum.presentation.control.system.AlarmControl
 import sgtmelon.scriptum.presentation.control.system.BindControl
-import sgtmelon.scriptum.presentation.control.toolbar.IToolbarTintControl
-import sgtmelon.scriptum.presentation.control.toolbar.ToolbarTintControl
 import sgtmelon.scriptum.presentation.control.toolbar.icon.NavigationIconControl
 import sgtmelon.scriptum.presentation.control.toolbar.icon.NavigationIconControlAnim
+import sgtmelon.scriptum.presentation.control.toolbar.tint.IToolbarTintControl
+import sgtmelon.scriptum.presentation.control.toolbar.tint.ToolbarTintControl
 import sgtmelon.scriptum.presentation.factory.DialogFactory
 import sgtmelon.scriptum.presentation.receiver.NoteReceiver
 import sgtmelon.scriptum.presentation.screen.ui.ParentFragment
