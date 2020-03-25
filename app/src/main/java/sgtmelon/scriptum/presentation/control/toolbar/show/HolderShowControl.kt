@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.presentation.control.toolbar
+package sgtmelon.scriptum.presentation.control.toolbar.show
 
 import android.os.Handler
 import android.view.View

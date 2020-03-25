@@ -14,7 +14,7 @@ import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.data.ReceiverData
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.NotificationItem
-import sgtmelon.scriptum.presentation.control.toolbar.HolderShowControl
+import sgtmelon.scriptum.presentation.control.toolbar.show.HolderShowControl
 import sgtmelon.scriptum.presentation.control.toolbar.tint.HolderTintControl
 import sgtmelon.scriptum.presentation.factory.FragmentFactory
 import sgtmelon.scriptum.presentation.receiver.NoteReceiver

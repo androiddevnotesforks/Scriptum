@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.presentation.control.toolbar
+package sgtmelon.scriptum.presentation.control.toolbar.show
 
 /**
  * Interface for [HolderShowControl].

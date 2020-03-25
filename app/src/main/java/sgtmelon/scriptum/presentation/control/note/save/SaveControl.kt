@@ -5,15 +5,13 @@ import android.os.Handler
 import sgtmelon.scriptum.R
 
 /**
- * Class for help control note pause/auto save
+ * Class for help control note pause/auto save.
  */
 class SaveControl(
-        context: Context,
+        private val context: Context,
         private val model: Model,
         private val callback: Callback
 ) : ISaveControl {
-
-    // TODO refactor
 
     private val saveHandler = Handler()
 
@@ -43,13 +41,11 @@ class SaveControl(
         }
     }
 
-    override fun onPauseSave(editMode: Boolean) {
-        setSaveEvent(false)
+    override fun onPauseSave() {
+        if (!model.pauseSaveOn) return
 
-        if (needSave && editMode && model.pauseSaveOn) {
+        if (needSave) {
             callback.onResultSaveControl()
-        } else {
-            needSave = true
         }
     }
 

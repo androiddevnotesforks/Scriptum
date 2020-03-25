@@ -23,7 +23,7 @@ import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.presentation.control.system.AlarmControl
 import sgtmelon.scriptum.presentation.control.system.BindControl
-import sgtmelon.scriptum.presentation.control.toolbar.HolderShowControl
+import sgtmelon.scriptum.presentation.control.toolbar.show.HolderShowControl
 import sgtmelon.scriptum.presentation.factory.DialogFactory
 import sgtmelon.scriptum.presentation.factory.FragmentFactory
 import sgtmelon.scriptum.presentation.receiver.MainReceiver

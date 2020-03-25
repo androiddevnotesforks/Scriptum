@@ -140,7 +140,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
     override fun onPause() {
         if (noteState.isEdit) {
-            saveControl.onPauseSave(noteState.isEdit)
+            saveControl.onPauseSave()
             saveControl.setSaveEvent(isWork = false)
         }
     }
@@ -162,6 +162,9 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     override fun onPressBack(): Boolean {
         if (!noteState.isEdit) return false
 
+        /**
+         * If note can't be saved and activity will be closed.
+         */
         saveControl.needSave = false
 
         return if (!onMenuSave(changeMode = true)) {
@@ -435,6 +438,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
             if (isEdit) focusOnEdit(noteState.isCreate)
         }
 
+        saveControl.needSave = true
         saveControl.setSaveEvent(isEdit)
     }
 

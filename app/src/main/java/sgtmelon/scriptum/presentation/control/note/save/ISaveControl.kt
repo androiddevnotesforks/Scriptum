@@ -9,6 +9,6 @@ interface ISaveControl {
 
     fun setSaveEvent(isWork: Boolean)
 
-    fun onPauseSave(editMode: Boolean)
+    fun onPauseSave()
 
 }
