@@ -86,15 +86,31 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
     private val timeDialog by lazy { dialogFactory.getTimeDialog() }
     private val convertDialog by lazy { dialogFactory.getConvertDialog(NoteType.ROLL) }
 
+    private val animTime by lazy {
+        context?.resources?.getInteger(R.integer.icon_animation_time)?.toLong() ?: 0L
+    }
+
     private val adapter: RollAdapter by lazy {
         RollAdapter(viewModel, object : ItemListener.ActionClick {
             override fun onItemClick(view: View, p: Int, action: () -> Unit) {
-                action()
-                viewModel.onClickItemCheck(p)
+                if (!openState.changeEnabled && openState.tag == OpenState.Tag.ANIM) {
+                    openState.changeEnabled = true
+                }
+
+                openState.tryInvoke(OpenState.Tag.ANIM) {
+                    openState.block(animTime)
+                    openState.tag = OpenState.Tag.ANIM
+
+                    action()
+                    viewModel.onClickItemCheck(p)
+                }
             }
         }, object : ItemListener.LongClick {
             override fun onItemLongClick(view: View, p: Int) {
-                viewModel.onLongClickItemCheck()
+                openState.tryCall {
+                    openState.block(animTime)
+                    viewModel.onLongClickItemCheck()
+                }
             }
         })
     }
@@ -160,7 +176,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
     }
 
     override fun onMenuItemClick(item: MenuItem?): Boolean {
-        viewModel.onClickVisible()
+        openState.tryCall { viewModel.onClickVisible() }
         return true
     }
 

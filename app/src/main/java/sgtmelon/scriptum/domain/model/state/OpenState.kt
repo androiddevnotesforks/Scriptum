@@ -65,14 +65,19 @@ class OpenState {
         return null
     }
 
+    /**
+     * Try call func if it possible.
+     */
     fun tryCall(func: () -> Unit) {
+        if (!changeEnabled) return
+
         if (!value) {
             func()
         }
     }
 
     /**
-     * Use when need block [OpenState] for [time]
+     * Use when need block [OpenState] for [time].
      */
     fun block(time: Long?) {
         if (time == null) return
@@ -82,6 +87,7 @@ class OpenState {
          */
         changeEnabled = false
 
+        handler.removeCallbacksAndMessages(null)
         handler.postDelayed({
             changeEnabled = true
             clear()
