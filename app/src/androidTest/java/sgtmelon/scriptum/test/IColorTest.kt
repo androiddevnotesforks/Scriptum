@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.test
 
-import sgtmelon.scriptum.model.annotation.Color
+import sgtmelon.scriptum.domain.model.annotation.Color
 
 /**
  * Interface describes color tests

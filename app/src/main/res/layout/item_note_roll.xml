@@ -5,10 +5,10 @@
 
     <data>
         <import type="android.view.View"/>
-        <import type="sgtmelon.scriptum.model.annotation.Theme"/>
+        <import type="sgtmelon.scriptum.domain.model.annotation.Theme"/>
 
         <variable name="theme" type="int"/>
-        <variable name="item" type="sgtmelon.scriptum.model.item.NoteItem"/>
+        <variable name="item" type="sgtmelon.scriptum.domain.model.item.NoteItem"/>
     </data>
 
     <androidx.cardview.widget.CardView

@@ -5,16 +5,16 @@ import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.model.data.DbData
-import sgtmelon.scriptum.model.item.RankItem
-import sgtmelon.scriptum.repository.room.callback.IRankRepo
-import sgtmelon.scriptum.repository.room.RankRepo
-import sgtmelon.scriptum.room.converter.model.NoteConverter
-import sgtmelon.scriptum.room.converter.model.RankConverter
-import sgtmelon.scriptum.room.entity.NoteEntity
-import sgtmelon.scriptum.room.entity.RankEntity
-import sgtmelon.scriptum.test.ParentIntegrationTest
+import sgtmelon.scriptum.data.repository.room.RankRepo
+import sgtmelon.scriptum.data.repository.room.callback.IRankRepo
+import sgtmelon.scriptum.data.room.converter.model.NoteConverter
+import sgtmelon.scriptum.data.room.converter.model.RankConverter
+import sgtmelon.scriptum.data.room.entity.NoteEntity
+import sgtmelon.scriptum.data.room.entity.RankEntity
+import sgtmelon.scriptum.domain.model.data.DbData
+import sgtmelon.scriptum.domain.model.item.RankItem
 import sgtmelon.scriptum.presentation.screen.vm.impl.main.RankViewModel.Companion.correctPositions
+import sgtmelon.scriptum.test.ParentIntegrationTest
 
 /**
  * Integration test for [RankRepo]

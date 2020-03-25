@@ -4,13 +4,13 @@ import android.view.inputmethod.EditorInfo
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.State
+import sgtmelon.scriptum.domain.model.item.RollItem
 import sgtmelon.scriptum.extension.clearSpace
-import sgtmelon.scriptum.model.item.RollItem
+import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel.Companion.onSave
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import kotlin.random.Random
-import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel.Companion.onSave
 
 /**
  * Part of UI abstraction for [RollNoteScreen]

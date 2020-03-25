@@ -3,12 +3,12 @@ package sgtmelon.scriptum.presentation.adapter.holder
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.presentation.adapter.NoteAdapter
 import sgtmelon.scriptum.databinding.ItemNoteTextBinding
+import sgtmelon.scriptum.domain.model.annotation.Theme
+import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.extension.checkNoPosition
+import sgtmelon.scriptum.presentation.adapter.NoteAdapter
 import sgtmelon.scriptum.presentation.listener.ItemListener
-import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.model.item.NoteItem
 
 /**
  * Holder for text note, use in [NoteAdapter]

@@ -1,15 +1,15 @@
 package sgtmelon.scriptum.test.content.note
 
 import sgtmelon.extension.getText
-import sgtmelon.scriptum.presentation.adapter.NoteAdapter
 import sgtmelon.scriptum.basic.extension.getTime
-import sgtmelon.scriptum.model.annotation.Color
-import sgtmelon.scriptum.model.annotation.Sort
-import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.model.key.MainPage
-import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.room.entity.RollEntity
+import sgtmelon.scriptum.data.room.entity.RollEntity
+import sgtmelon.scriptum.domain.model.annotation.Color
+import sgtmelon.scriptum.domain.model.annotation.Sort
+import sgtmelon.scriptum.domain.model.annotation.Theme
+import sgtmelon.scriptum.domain.model.item.NoteItem
+import sgtmelon.scriptum.domain.model.key.MainPage
+import sgtmelon.scriptum.domain.model.key.NoteType
+import sgtmelon.scriptum.presentation.adapter.NoteAdapter
 import sgtmelon.scriptum.test.ParentUiTest
 
 /**

@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.presentation.screen.ui.callback.note
 
-import sgtmelon.scriptum.model.annotation.Color
+import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.presentation.screen.vm.impl.note.NoteViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel

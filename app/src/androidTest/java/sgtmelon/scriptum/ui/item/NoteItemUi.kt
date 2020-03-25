@@ -6,12 +6,12 @@ import org.hamcrest.Matcher
 import sgtmelon.extension.formatPast
 import sgtmelon.extension.getCalendar
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.presentation.adapter.NoteAdapter
 import sgtmelon.scriptum.basic.extension.*
-import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.model.item.RollItem
-import sgtmelon.scriptum.model.key.NoteType
+import sgtmelon.scriptum.domain.model.annotation.Theme
+import sgtmelon.scriptum.domain.model.item.NoteItem
+import sgtmelon.scriptum.domain.model.item.RollItem
+import sgtmelon.scriptum.domain.model.key.NoteType
+import sgtmelon.scriptum.presentation.adapter.NoteAdapter
 import sgtmelon.scriptum.ui.ParentRecyclerItem
 
 /**

@@ -3,11 +3,11 @@ package sgtmelon.scriptum.ui.dialog
 import android.view.View
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.presentation.adapter.ColorAdapter
 import sgtmelon.scriptum.basic.extension.*
+import sgtmelon.scriptum.domain.model.annotation.Color
+import sgtmelon.scriptum.domain.model.data.ColorData
+import sgtmelon.scriptum.presentation.adapter.ColorAdapter
 import sgtmelon.scriptum.presentation.dialog.ColorDialog
-import sgtmelon.scriptum.model.annotation.Color
-import sgtmelon.scriptum.model.data.ColorData
 import sgtmelon.scriptum.ui.IDialogUi
 import sgtmelon.scriptum.ui.ParentRecyclerItem
 import sgtmelon.scriptum.ui.ParentRecyclerScreen

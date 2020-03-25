@@ -7,9 +7,9 @@ import androidx.annotation.StringRes
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.platform.app.InstrumentationRegistry
 import org.hamcrest.Matcher
-import org.hamcrest.Matchers.*
-import sgtmelon.scriptum.R
-import sgtmelon.scriptum.repository.preference.PreferenceRepo
+import org.hamcrest.Matchers.allOf
+import org.hamcrest.Matchers.not
+import sgtmelon.scriptum.data.repository.preference.PreferenceRepo
 
 /**
  * Parent class for access standard UI functions.

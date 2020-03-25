@@ -11,10 +11,10 @@ import org.junit.Test
 import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.TestData
-import sgtmelon.scriptum.interactor.callback.main.IBinInteractor
-import sgtmelon.scriptum.model.annotation.Options
-import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.model.item.NoteItem
+import sgtmelon.scriptum.domain.interactor.callback.main.IBinInteractor
+import sgtmelon.scriptum.domain.model.annotation.Options
+import sgtmelon.scriptum.domain.model.annotation.Theme
+import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IBinFragment
 import kotlin.random.Random
 

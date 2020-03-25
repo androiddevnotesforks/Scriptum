@@ -11,9 +11,9 @@ import androidx.annotation.IntRange
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.ItemRollWriteBinding
+import sgtmelon.scriptum.domain.model.item.InputItem
+import sgtmelon.scriptum.domain.model.item.RollItem
 import sgtmelon.scriptum.extension.addOnNextAction
-import sgtmelon.scriptum.model.item.InputItem
-import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.presentation.adapter.RollAdapter
 import sgtmelon.scriptum.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.presentation.listener.ItemListener

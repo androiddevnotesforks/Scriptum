@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.presentation.adapter.diff
 
+import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.presentation.adapter.NotificationAdapter
-import sgtmelon.scriptum.model.item.NotificationItem
 
 /**
  * Diff for [NotificationAdapter]

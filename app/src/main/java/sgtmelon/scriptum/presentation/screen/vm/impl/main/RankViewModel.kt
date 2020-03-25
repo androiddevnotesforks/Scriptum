@@ -6,11 +6,11 @@ import android.view.inputmethod.EditorInfo
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
+import sgtmelon.scriptum.domain.interactor.callback.main.IRankInteractor
+import sgtmelon.scriptum.domain.model.item.NoteItem
+import sgtmelon.scriptum.domain.model.item.RankItem
 import sgtmelon.scriptum.extension.*
-import sgtmelon.scriptum.interactor.callback.IBindInteractor
-import sgtmelon.scriptum.interactor.callback.main.IRankInteractor
-import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IRankFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.RankFragment
 import sgtmelon.scriptum.presentation.screen.vm.ParentViewModel

@@ -7,17 +7,18 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.extension.beforeNow
 import sgtmelon.extension.getCalendar
+import sgtmelon.scriptum.data.room.converter.model.StringConverter
+import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
+import sgtmelon.scriptum.domain.interactor.callback.note.ITextNoteInteractor
+import sgtmelon.scriptum.domain.model.annotation.InputAction
+import sgtmelon.scriptum.domain.model.data.NoteData.Default
+import sgtmelon.scriptum.domain.model.data.NoteData.Intent
+import sgtmelon.scriptum.domain.model.item.InputItem.Cursor.Companion.get
+import sgtmelon.scriptum.domain.model.item.NoteItem
+import sgtmelon.scriptum.domain.model.key.NoteType
+import sgtmelon.scriptum.domain.model.state.IconState
+import sgtmelon.scriptum.domain.model.state.NoteState
 import sgtmelon.scriptum.extension.clearSpace
-import sgtmelon.scriptum.interactor.callback.IBindInteractor
-import sgtmelon.scriptum.interactor.callback.note.ITextNoteInteractor
-import sgtmelon.scriptum.model.annotation.InputAction
-import sgtmelon.scriptum.model.data.NoteData.Default
-import sgtmelon.scriptum.model.data.NoteData.Intent
-import sgtmelon.scriptum.model.item.InputItem.Cursor.Companion.get
-import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.model.state.IconState
-import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.presentation.control.note.save.ISaveControl
 import sgtmelon.scriptum.presentation.control.note.save.SaveControl
@@ -26,7 +27,6 @@ import sgtmelon.scriptum.presentation.screen.ui.callback.note.text.ITextNoteFrag
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.presentation.screen.vm.ParentViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.note.ITextNoteViewModel
-import sgtmelon.scriptum.room.converter.model.StringConverter
 import java.util.*
 
 /**

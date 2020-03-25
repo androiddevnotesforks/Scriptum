@@ -4,9 +4,9 @@ import android.view.View
 import androidx.cardview.widget.CardView
 import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
+import sgtmelon.scriptum.domain.model.annotation.Color
+import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.extension.getAppThemeColor
-import sgtmelon.scriptum.model.annotation.Color
-import sgtmelon.scriptum.model.annotation.Theme
 
 /**
  * Matcher for check app:cardBackground which gets with [theme] and [color].

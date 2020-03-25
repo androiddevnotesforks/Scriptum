@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.presentation.control.toolbar.tint
 
-import sgtmelon.scriptum.model.annotation.Color
+import sgtmelon.scriptum.domain.model.annotation.Color
 
 /**
  * Interface for [ToolbarTintControl].

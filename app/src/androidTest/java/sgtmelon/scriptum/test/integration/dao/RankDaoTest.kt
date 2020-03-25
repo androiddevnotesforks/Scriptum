@@ -1,11 +1,12 @@
 package sgtmelon.scriptum.test.integration.dao
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.room.dao.IRankDao
-import sgtmelon.scriptum.room.entity.RankEntity
+import sgtmelon.scriptum.data.room.dao.IRankDao
+import sgtmelon.scriptum.data.room.entity.RankEntity
 import sgtmelon.scriptum.test.ParentIntegrationTest
 import kotlin.random.Random
 

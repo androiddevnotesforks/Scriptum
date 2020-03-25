@@ -4,13 +4,13 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.model.annotation.Color
-import sgtmelon.scriptum.model.annotation.Repeat
-import sgtmelon.scriptum.model.annotation.Sort
-import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.provider.PreferenceProvider
-import sgtmelon.scriptum.repository.preference.PreferenceRepo
-import sgtmelon.scriptum.room.converter.type.IntConverter
+import sgtmelon.scriptum.data.provider.PreferenceProvider
+import sgtmelon.scriptum.data.repository.preference.PreferenceRepo
+import sgtmelon.scriptum.data.room.converter.type.IntConverter
+import sgtmelon.scriptum.domain.model.annotation.Color
+import sgtmelon.scriptum.domain.model.annotation.Repeat
+import sgtmelon.scriptum.domain.model.annotation.Sort
+import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.test.ParentIntegrationTest
 import kotlin.random.Random
 

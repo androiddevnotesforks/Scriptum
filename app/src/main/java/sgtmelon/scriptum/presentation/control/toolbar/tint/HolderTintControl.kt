@@ -4,8 +4,8 @@ import android.content.Context
 import android.os.Build
 import android.view.View
 import android.view.Window
-import sgtmelon.scriptum.model.annotation.Color
-import sgtmelon.scriptum.model.annotation.Theme
+import sgtmelon.scriptum.domain.model.annotation.Color
+import sgtmelon.scriptum.domain.model.annotation.Theme
 
 /**
  * Control note toolbar holder color.

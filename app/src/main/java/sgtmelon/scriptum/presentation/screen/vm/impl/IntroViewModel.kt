@@ -2,7 +2,7 @@ package sgtmelon.scriptum.presentation.screen.vm.impl
 
 import android.app.Application
 import android.os.Bundle
-import sgtmelon.scriptum.interactor.callback.IIntroInteractor
+import sgtmelon.scriptum.domain.interactor.callback.IIntroInteractor
 import sgtmelon.scriptum.presentation.screen.ui.callback.IIntroActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.intro.IntroActivity
 import sgtmelon.scriptum.presentation.screen.vm.ParentViewModel

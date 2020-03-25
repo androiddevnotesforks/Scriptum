@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.presentation.control.toolbar.tint
 
-import sgtmelon.scriptum.model.annotation.Color
-import sgtmelon.scriptum.model.annotation.Theme
+import sgtmelon.scriptum.domain.model.annotation.Color
+import sgtmelon.scriptum.domain.model.annotation.Theme
 
 /**
  * Interface for [HolderTintControl].

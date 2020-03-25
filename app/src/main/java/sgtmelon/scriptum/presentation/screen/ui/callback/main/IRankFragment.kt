@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.presentation.screen.ui.callback.main
 
-import sgtmelon.scriptum.model.item.RankItem
-import sgtmelon.scriptum.model.state.OpenState
+import sgtmelon.scriptum.domain.model.item.RankItem
+import sgtmelon.scriptum.domain.model.state.OpenState
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.RankFragment
 import sgtmelon.scriptum.presentation.screen.vm.impl.main.RankViewModel
 

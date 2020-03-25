@@ -1,0 +1,27 @@
+package sgtmelon.scriptum.presentation.dagger.component
+
+import dagger.BindsInstance
+import dagger.Subcomponent
+import sgtmelon.scriptum.presentation.dagger.ActivityScope
+import sgtmelon.scriptum.presentation.dagger.module.base.InteractorModule
+import sgtmelon.scriptum.presentation.dagger.module.base.ViewModelModule
+import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
+
+/**
+ * Component for [TextNoteFragment].
+ */
+@ActivityScope
+@Subcomponent(modules = [InteractorModule::class, ViewModelModule::class])
+interface TextNoteComponent {
+
+    fun inject(fragment: TextNoteFragment)
+
+    @Subcomponent.Builder
+    interface Builder {
+        @BindsInstance
+        fun set(fragment: TextNoteFragment): Builder
+
+        fun build(): TextNoteComponent
+    }
+
+}

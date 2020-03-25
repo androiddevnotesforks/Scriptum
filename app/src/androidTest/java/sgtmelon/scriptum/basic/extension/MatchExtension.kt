@@ -1,7 +1,10 @@
 package sgtmelon.scriptum.basic.extension
 
 import android.view.View
-import androidx.annotation.*
+import androidx.annotation.AttrRes
+import androidx.annotation.ColorRes
+import androidx.annotation.DimenRes
+import androidx.annotation.StringRes
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
@@ -15,8 +18,8 @@ import sgtmelon.scriptum.basic.matcher.drawable.*
 import sgtmelon.scriptum.basic.matcher.text.HintAttrColorMatcher
 import sgtmelon.scriptum.basic.matcher.text.TextAttrColorMatcher
 import sgtmelon.scriptum.basic.matcher.text.TextSizeMatcher
-import sgtmelon.scriptum.model.annotation.Color
-import sgtmelon.scriptum.model.annotation.Theme
+import sgtmelon.scriptum.domain.model.annotation.Color
+import sgtmelon.scriptum.domain.model.annotation.Theme
 
 
 private fun matchOnView(viewMatcher: Matcher<View>, checkMatcher: Matcher<in View>) {

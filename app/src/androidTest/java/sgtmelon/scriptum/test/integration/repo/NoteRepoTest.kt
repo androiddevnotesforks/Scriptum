@@ -4,23 +4,23 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.scriptum.data.repository.room.NoteRepo
+import sgtmelon.scriptum.data.repository.room.NoteRepo.Companion.onConvertRoll
+import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
+import sgtmelon.scriptum.data.room.converter.model.NoteConverter
+import sgtmelon.scriptum.data.room.converter.model.RollConverter
+import sgtmelon.scriptum.data.room.entity.AlarmEntity
+import sgtmelon.scriptum.data.room.entity.NoteEntity
+import sgtmelon.scriptum.data.room.entity.RankEntity
+import sgtmelon.scriptum.data.room.entity.RollEntity
+import sgtmelon.scriptum.domain.model.item.NoteItem
+import sgtmelon.scriptum.domain.model.item.RankItem
+import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.extension.getText
-import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.model.item.RankItem
-import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.repository.room.callback.INoteRepo
-import sgtmelon.scriptum.repository.room.NoteRepo
-import sgtmelon.scriptum.repository.room.NoteRepo.Companion.onConvertRoll
-import sgtmelon.scriptum.room.converter.model.NoteConverter
-import sgtmelon.scriptum.room.converter.model.RollConverter
-import sgtmelon.scriptum.room.entity.AlarmEntity
-import sgtmelon.scriptum.room.entity.NoteEntity
-import sgtmelon.scriptum.room.entity.RankEntity
-import sgtmelon.scriptum.room.entity.RollEntity
-import sgtmelon.scriptum.test.ParentIntegrationTest
-import kotlin.random.Random
 import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel.Companion.onItemCheck
 import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel.Companion.onItemLongCheck
+import sgtmelon.scriptum.test.ParentIntegrationTest
+import kotlin.random.Random
 
 /**
  * Integration test for [NoteRepo]

@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.presentation.control.system.callback
 
-import sgtmelon.scriptum.model.item.NoteItem
+import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.control.system.BindControl
 
 /**

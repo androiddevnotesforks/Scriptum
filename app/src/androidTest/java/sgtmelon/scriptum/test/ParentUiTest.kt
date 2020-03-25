@@ -3,9 +3,9 @@ package sgtmelon.scriptum.test
 import android.content.Intent
 import androidx.test.rule.ActivityTestRule
 import org.junit.Rule
-import sgtmelon.scriptum.model.annotation.Sort
-import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.model.item.NoteItem
+import sgtmelon.scriptum.domain.model.annotation.Sort
+import sgtmelon.scriptum.domain.model.annotation.Theme
+import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.control.system.AlarmControl
 import sgtmelon.scriptum.presentation.control.system.BindControl
 import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity

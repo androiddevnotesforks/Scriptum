@@ -7,16 +7,15 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockkClass
 import io.mockk.verifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.Test
-
 import org.junit.Assert.*
+import org.junit.Test
 import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.TestData
-import sgtmelon.scriptum.interactor.callback.IBindInteractor
-import sgtmelon.scriptum.interactor.callback.main.IMainInteractor
-import sgtmelon.scriptum.model.key.MainPage
-import sgtmelon.scriptum.model.key.NoteType
+import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
+import sgtmelon.scriptum.domain.interactor.callback.main.IMainInteractor
+import sgtmelon.scriptum.domain.model.key.MainPage
+import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IMainActivity
 import kotlin.random.Random
 

@@ -9,8 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import sgtmelon.idling.AppIdlingResource
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.domain.model.data.IntroData
 import sgtmelon.scriptum.extension.beforeFinish
-import sgtmelon.scriptum.model.data.IntroData
 import sgtmelon.scriptum.presentation.adapter.PagerAdapter
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.callback.IIntroActivity

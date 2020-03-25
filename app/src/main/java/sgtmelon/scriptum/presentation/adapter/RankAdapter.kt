@@ -3,12 +3,12 @@ package sgtmelon.scriptum.presentation.adapter
 import android.view.ViewGroup
 import sgtmelon.iconanim.IconBlockCallback
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.presentation.adapter.diff.RankDiff
-import sgtmelon.scriptum.presentation.adapter.holder.RankHolder
+import sgtmelon.scriptum.domain.model.item.RankItem
 import sgtmelon.scriptum.extension.clearAddAll
 import sgtmelon.scriptum.extension.inflateBinding
+import sgtmelon.scriptum.presentation.adapter.diff.RankDiff
+import sgtmelon.scriptum.presentation.adapter.holder.RankHolder
 import sgtmelon.scriptum.presentation.listener.ItemListener
-import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.RankFragment
 
 /**

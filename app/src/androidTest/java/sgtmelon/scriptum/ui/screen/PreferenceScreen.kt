@@ -1,15 +1,17 @@
 package sgtmelon.scriptum.ui.screen
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.extension.*
-import sgtmelon.scriptum.model.annotation.Color
+import sgtmelon.scriptum.basic.extension.click
+import sgtmelon.scriptum.basic.extension.isDisplayed
+import sgtmelon.scriptum.basic.extension.swipeUp
+import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
 import sgtmelon.scriptum.ui.IPressBack
+import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.dialog.ColorDialogUi
 import sgtmelon.scriptum.ui.dialog.RepeatDialogUi
 import sgtmelon.scriptum.ui.part.toolbar.SimpleToolbar
-import sgtmelon.scriptum.ui.ParentRecyclerScreen
 
 /**
  * Class for UI control of [PreferenceActivity], [PreferenceFragment].

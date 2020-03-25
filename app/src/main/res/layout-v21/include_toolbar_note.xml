@@ -7,12 +7,12 @@
     <data>
         <import type="sgtmelon.scriptum.R"/>
         <import type="android.view.View"/>
-        <import type="sgtmelon.scriptum.model.annotation.Theme"/>
+        <import type="sgtmelon.scriptum.domain.model.annotation.Theme"/>
 
         <variable name="theme" type="int"/>
         <variable name="dataLoad" type="boolean"/>
 
-        <variable name="item" type="sgtmelon.scriptum.model.item.NoteItem"/>
+        <variable name="item" type="sgtmelon.scriptum.domain.model.item.NoteItem"/>
         <variable name="editMode" type="boolean"/>
     </data>
 

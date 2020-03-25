@@ -4,9 +4,9 @@ import android.graphics.drawable.ColorDrawable
 import android.view.View
 import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
+import sgtmelon.scriptum.domain.model.annotation.Color
+import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.extension.getAppThemeColor
-import sgtmelon.scriptum.model.annotation.Color
-import sgtmelon.scriptum.model.annotation.Theme
 
 /**
  * Matcher for check background color.

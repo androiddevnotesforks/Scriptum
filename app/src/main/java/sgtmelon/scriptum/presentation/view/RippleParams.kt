@@ -2,7 +2,7 @@ package sgtmelon.scriptum.presentation.view
 
 import android.view.View
 import android.widget.RelativeLayout
-import sgtmelon.scriptum.model.annotation.Theme
+import sgtmelon.scriptum.domain.model.annotation.Theme
 import kotlin.math.max
 
 /**

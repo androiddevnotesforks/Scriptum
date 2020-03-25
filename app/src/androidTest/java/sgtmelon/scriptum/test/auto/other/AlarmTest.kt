@@ -5,8 +5,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.extension.getText
 import sgtmelon.scriptum.basic.extension.getTime
-import sgtmelon.scriptum.model.annotation.Repeat
-import sgtmelon.scriptum.model.annotation.Sort
+import sgtmelon.scriptum.domain.model.annotation.Repeat
+import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.presentation.screen.ui.impl.intro.IntroActivity
 import sgtmelon.scriptum.test.ParentUiTest
 

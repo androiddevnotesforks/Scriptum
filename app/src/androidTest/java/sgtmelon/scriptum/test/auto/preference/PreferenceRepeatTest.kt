@@ -3,7 +3,7 @@ package sgtmelon.scriptum.test.auto.preference
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.model.annotation.Repeat
+import sgtmelon.scriptum.domain.model.annotation.Repeat
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
 import sgtmelon.scriptum.test.ParentUiTest

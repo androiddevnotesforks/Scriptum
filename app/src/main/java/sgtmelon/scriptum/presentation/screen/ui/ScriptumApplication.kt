@@ -2,9 +2,9 @@ package sgtmelon.scriptum.presentation.screen.ui
 
 import android.app.Application
 import android.content.Context
-import sgtmelon.scriptum.dagger.component.DaggerScriptumComponent
-import sgtmelon.scriptum.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.extension.initLazy
+import sgtmelon.scriptum.presentation.dagger.component.DaggerScriptumComponent
+import sgtmelon.scriptum.presentation.dagger.component.ScriptumComponent
 
 /**
  * Guideline for maintain project:

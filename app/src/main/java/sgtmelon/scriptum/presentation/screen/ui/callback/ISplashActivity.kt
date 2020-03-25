@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.presentation.screen.ui.callback
 
-import sgtmelon.scriptum.model.annotation.Color
+import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.presentation.screen.vm.impl.SplashViewModel
 

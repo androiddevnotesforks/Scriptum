@@ -6,7 +6,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.data.WeightData
-import sgtmelon.scriptum.model.key.MainPage
+import sgtmelon.scriptum.domain.model.key.MainPage
 import sgtmelon.scriptum.test.ParentUiTest
 
 /**

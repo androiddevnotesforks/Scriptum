@@ -6,14 +6,14 @@ import android.content.Context
 import android.content.Intent
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import sgtmelon.scriptum.data.repository.room.BindRepo
+import sgtmelon.scriptum.domain.model.data.NoteData
+import sgtmelon.scriptum.domain.model.data.ReceiverData.Command
+import sgtmelon.scriptum.domain.model.data.ReceiverData.Filter
+import sgtmelon.scriptum.domain.model.data.ReceiverData.Values
+import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.extension.sendTo
-import sgtmelon.scriptum.model.data.NoteData
-import sgtmelon.scriptum.model.data.ReceiverData.Command
-import sgtmelon.scriptum.model.data.ReceiverData.Filter
-import sgtmelon.scriptum.model.data.ReceiverData.Values
-import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.presentation.control.system.BindControl
-import sgtmelon.scriptum.repository.room.BindRepo
 
 /**
  * Receiver for handle click on unbind button in [BindControl]

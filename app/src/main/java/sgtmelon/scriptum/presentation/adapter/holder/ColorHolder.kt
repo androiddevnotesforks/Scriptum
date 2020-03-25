@@ -7,11 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.presentation.adapter.ColorAdapter
+import sgtmelon.scriptum.domain.model.annotation.Color
+import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.extension.bindIndicatorColor
 import sgtmelon.scriptum.extension.getCompatColor
-import sgtmelon.scriptum.model.annotation.Color
-import sgtmelon.scriptum.model.annotation.Theme
+import sgtmelon.scriptum.presentation.adapter.ColorAdapter
 
 /**
  * Holder for app color, use in [ColorAdapter]

@@ -10,9 +10,9 @@ import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.scriptum.ParentViewModelTest
-import sgtmelon.scriptum.interactor.callback.ISplashInteractor
-import sgtmelon.scriptum.model.annotation.OpenFrom
-import sgtmelon.scriptum.model.data.NoteData
+import sgtmelon.scriptum.domain.interactor.callback.ISplashInteractor
+import sgtmelon.scriptum.domain.model.annotation.OpenFrom
+import sgtmelon.scriptum.domain.model.data.NoteData
 import sgtmelon.scriptum.presentation.screen.ui.callback.ISplashActivity
 import sgtmelon.scriptum.presentation.screen.vm.impl.SplashViewModel
 

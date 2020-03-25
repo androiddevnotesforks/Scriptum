@@ -8,11 +8,11 @@ import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.TestData
+import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
+import sgtmelon.scriptum.domain.interactor.callback.main.IRankInteractor
+import sgtmelon.scriptum.domain.model.item.RankItem
+import sgtmelon.scriptum.domain.model.state.OpenState
 import sgtmelon.scriptum.extension.move
-import sgtmelon.scriptum.interactor.callback.IBindInteractor
-import sgtmelon.scriptum.interactor.callback.main.IRankInteractor
-import sgtmelon.scriptum.model.item.RankItem
-import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IRankFragment
 import sgtmelon.scriptum.presentation.screen.vm.impl.main.RankViewModel.Companion.correctPositions
 import sgtmelon.scriptum.presentation.screen.vm.impl.main.RankViewModel.Companion.getNameList

@@ -4,15 +4,15 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.model.item.NotificationItem
-import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.repository.room.AlarmRepo
-import sgtmelon.scriptum.repository.room.callback.IAlarmRepo
-import sgtmelon.scriptum.room.converter.model.NoteConverter
-import sgtmelon.scriptum.room.dao.IAlarmDao
-import sgtmelon.scriptum.room.entity.AlarmEntity
-import sgtmelon.scriptum.room.entity.NoteEntity
+import sgtmelon.scriptum.data.repository.room.AlarmRepo
+import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
+import sgtmelon.scriptum.data.room.converter.model.NoteConverter
+import sgtmelon.scriptum.data.room.dao.IAlarmDao
+import sgtmelon.scriptum.data.room.entity.AlarmEntity
+import sgtmelon.scriptum.data.room.entity.NoteEntity
+import sgtmelon.scriptum.domain.model.item.NoteItem
+import sgtmelon.scriptum.domain.model.item.NotificationItem
+import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.test.ParentIntegrationTest
 import kotlin.random.Random
 

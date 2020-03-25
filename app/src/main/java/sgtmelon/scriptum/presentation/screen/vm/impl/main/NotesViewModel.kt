@@ -8,21 +8,21 @@ import kotlinx.coroutines.launch
 import sgtmelon.extension.beforeNow
 import sgtmelon.extension.getCalendar
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.data.room.dao.INoteDao
+import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
+import sgtmelon.scriptum.domain.interactor.callback.main.INotesInteractor
+import sgtmelon.scriptum.domain.model.annotation.Sort
+import sgtmelon.scriptum.domain.model.item.NoteItem
+import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.extension.clearAddAll
 import sgtmelon.scriptum.extension.removeAtOrNull
-import sgtmelon.scriptum.interactor.callback.IBindInteractor
-import sgtmelon.scriptum.interactor.callback.main.INotesInteractor
-import sgtmelon.scriptum.model.annotation.Sort
-import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.INotesFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.NotesFragment
 import sgtmelon.scriptum.presentation.screen.vm.ParentViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.main.INotesViewModel
-import sgtmelon.scriptum.room.dao.INoteDao
 import java.util.*
 import kotlin.collections.ArrayList
-import sgtmelon.scriptum.model.annotation.Options.Notes as Options
+import sgtmelon.scriptum.domain.model.annotation.Options.Notes as Options
 
 /**
  * ViewModel for [NotesFragment].

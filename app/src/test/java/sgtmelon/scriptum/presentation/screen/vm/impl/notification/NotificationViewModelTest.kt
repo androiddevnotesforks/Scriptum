@@ -7,9 +7,9 @@ import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.TestData
-import sgtmelon.scriptum.interactor.callback.notification.INotificationInteractor
-import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.model.item.NotificationItem
+import sgtmelon.scriptum.domain.interactor.callback.notification.INotificationInteractor
+import sgtmelon.scriptum.domain.model.annotation.Theme
+import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.presentation.screen.ui.callback.notification.INotificationActivity
 import kotlin.random.Random
 

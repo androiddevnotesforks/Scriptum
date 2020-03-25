@@ -6,15 +6,15 @@ import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.domain.interactor.callback.main.IBinInteractor
+import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.extension.clearAddAll
 import sgtmelon.scriptum.extension.removeAtOrNull
-import sgtmelon.scriptum.interactor.callback.main.IBinInteractor
-import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IBinFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.BinFragment
 import sgtmelon.scriptum.presentation.screen.vm.ParentViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.main.IBinViewModel
-import sgtmelon.scriptum.model.annotation.Options.Bin as Options
+import sgtmelon.scriptum.domain.model.annotation.Options.Bin as Options
 
 /**
  * ViewModel for [BinFragment].

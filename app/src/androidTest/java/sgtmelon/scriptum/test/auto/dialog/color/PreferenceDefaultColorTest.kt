@@ -3,8 +3,8 @@ package sgtmelon.scriptum.test.auto.dialog.color
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.model.annotation.Color
-import sgtmelon.scriptum.repository.preference.PreferenceRepo
+import sgtmelon.scriptum.data.repository.preference.PreferenceRepo
+import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
 import sgtmelon.scriptum.test.IColorTest
 import sgtmelon.scriptum.test.ParentUiTest

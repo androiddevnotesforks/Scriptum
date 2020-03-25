@@ -7,12 +7,12 @@ import android.os.Build.VERSION_CODES
 import android.view.View
 import android.view.Window
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.domain.model.annotation.Color
+import sgtmelon.scriptum.domain.model.annotation.Theme
+import sgtmelon.scriptum.domain.model.key.ColorShade
+import sgtmelon.scriptum.domain.model.state.MenuColorState
 import sgtmelon.scriptum.extension.getAppSimpleColor
 import sgtmelon.scriptum.extension.getAppThemeColor
-import sgtmelon.scriptum.model.annotation.Color
-import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.model.key.ColorShade
-import sgtmelon.scriptum.model.state.MenuColorState
 
 /**
  * Control note toolbar tint.

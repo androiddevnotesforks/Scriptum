@@ -4,9 +4,9 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.room.dao.INoteDao
-import sgtmelon.scriptum.room.entity.NoteEntity
+import sgtmelon.scriptum.data.room.dao.INoteDao
+import sgtmelon.scriptum.data.room.entity.NoteEntity
+import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.test.ParentIntegrationTest
 import kotlin.random.Random
 

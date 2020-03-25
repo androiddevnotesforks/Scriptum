@@ -13,10 +13,10 @@ import androidx.databinding.BindingAdapter
 import sgtmelon.extension.formatFuture
 import sgtmelon.extension.formatPast
 import sgtmelon.extension.getCalendar
-import sgtmelon.scriptum.model.annotation.Color
-import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.model.data.ColorData
-import sgtmelon.scriptum.model.item.ColorItem
+import sgtmelon.scriptum.domain.model.annotation.Color
+import sgtmelon.scriptum.domain.model.annotation.Theme
+import sgtmelon.scriptum.domain.model.data.ColorData
+import sgtmelon.scriptum.domain.model.item.ColorItem
 
 //region Color and Theme
 

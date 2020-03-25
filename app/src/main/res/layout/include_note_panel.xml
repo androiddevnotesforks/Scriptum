@@ -7,14 +7,14 @@
     <data>
         <import type="sgtmelon.scriptum.R"/>
         <import type="android.view.View"/>
-        <import alias="Type" type="sgtmelon.scriptum.model.key.NoteType"/>
+        <import alias="Type" type="sgtmelon.scriptum.domain.model.key.NoteType"/>
 
         <variable name="hideDivider" type="boolean"/>
 
         <variable name="menuCallback" type="sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteMenu"/>
         <variable name="dataLoad" type="boolean"/>
 
-        <variable name="item" type="sgtmelon.scriptum.model.item.NoteItem"/>
+        <variable name="item" type="sgtmelon.scriptum.domain.model.item.NoteItem"/>
         <variable name="rankEmpty" type="boolean"/>
         <variable name="editMode" type="boolean"/>
 

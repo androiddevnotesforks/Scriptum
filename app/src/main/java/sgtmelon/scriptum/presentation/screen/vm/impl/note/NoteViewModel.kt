@@ -3,10 +3,10 @@ package sgtmelon.scriptum.presentation.screen.vm.impl.note
 import android.app.Application
 import android.os.Bundle
 import androidx.annotation.VisibleForTesting
-import sgtmelon.scriptum.interactor.callback.note.INoteInteractor
-import sgtmelon.scriptum.model.data.NoteData.Default
-import sgtmelon.scriptum.model.data.NoteData.Intent
-import sgtmelon.scriptum.model.key.NoteType
+import sgtmelon.scriptum.domain.interactor.callback.note.INoteInteractor
+import sgtmelon.scriptum.domain.model.data.NoteData.Default
+import sgtmelon.scriptum.domain.model.data.NoteData.Intent
+import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.presentation.screen.vm.ParentViewModel

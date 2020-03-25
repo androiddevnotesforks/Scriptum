@@ -4,8 +4,10 @@ import androidx.annotation.CallSuper
 import androidx.annotation.IdRes
 import sgtmelon.safedialog.BlankMenuSheetDialog
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.extension.*
-import sgtmelon.scriptum.model.annotation.Theme
+import sgtmelon.scriptum.basic.extension.isDisplayed
+import sgtmelon.scriptum.basic.extension.swipeDown
+import sgtmelon.scriptum.basic.extension.withBackground
+import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.ui.IDialogUi
 import sgtmelon.scriptum.ui.ParentUi
 

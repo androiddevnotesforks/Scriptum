@@ -2,8 +2,8 @@ package sgtmelon.scriptum.test
 
 import org.junit.Assert.assertEquals
 import sgtmelon.extension.getTime
-import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.room.IRoomWork
+import sgtmelon.scriptum.data.room.IRoomWork
+import sgtmelon.scriptum.domain.model.item.NoteItem
 
 /**
  * Parent class for Integration tests

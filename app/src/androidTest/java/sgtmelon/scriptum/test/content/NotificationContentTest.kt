@@ -5,9 +5,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.extension.getText
 import sgtmelon.scriptum.basic.extension.getTime
-import sgtmelon.scriptum.model.annotation.Color
-import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.model.item.NoteItem
+import sgtmelon.scriptum.domain.model.annotation.Color
+import sgtmelon.scriptum.domain.model.annotation.Theme
+import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.test.ParentUiTest
 import sgtmelon.scriptum.ui.screen.NotificationScreen
 

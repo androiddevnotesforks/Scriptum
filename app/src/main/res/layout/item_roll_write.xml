@@ -6,7 +6,7 @@
     <data>
         <import type="sgtmelon.scriptum.R"/>
 
-        <variable name="item" type="sgtmelon.scriptum.model.item.RollItem"/>
+        <variable name="item" type="sgtmelon.scriptum.domain.model.item.RollItem"/>
 
         <!--
             Use when user change roll text need update contentDescription without

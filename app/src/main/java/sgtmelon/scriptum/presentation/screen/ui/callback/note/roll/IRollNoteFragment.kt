@@ -1,11 +1,11 @@
 package sgtmelon.scriptum.presentation.screen.ui.callback.note.roll
 
-import sgtmelon.scriptum.model.annotation.Color
-import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.model.item.RollItem
-import sgtmelon.scriptum.model.state.NoteState
-import sgtmelon.scriptum.model.state.OpenState
+import sgtmelon.scriptum.domain.model.annotation.Color
+import sgtmelon.scriptum.domain.model.annotation.Theme
+import sgtmelon.scriptum.domain.model.item.NoteItem
+import sgtmelon.scriptum.domain.model.item.RollItem
+import sgtmelon.scriptum.domain.model.state.NoteState
+import sgtmelon.scriptum.domain.model.state.OpenState
 import sgtmelon.scriptum.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment

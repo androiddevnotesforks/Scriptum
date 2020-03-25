@@ -6,11 +6,11 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
 import sgtmelon.scriptum.basic.extension.isDisplayed
 import sgtmelon.scriptum.basic.extension.isEnabled
-import sgtmelon.scriptum.model.data.DbData
-import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.repository.room.NoteRepo.Companion.onConvertRoll
-import sgtmelon.scriptum.repository.room.NoteRepo.Companion.onConvertText
+import sgtmelon.scriptum.data.repository.room.NoteRepo.Companion.onConvertRoll
+import sgtmelon.scriptum.data.repository.room.NoteRepo.Companion.onConvertText
+import sgtmelon.scriptum.domain.model.data.DbData
+import sgtmelon.scriptum.domain.model.item.NoteItem
+import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.ui.IDialogUi
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.dialog.time.DateDialogUi

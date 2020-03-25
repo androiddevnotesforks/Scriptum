@@ -6,11 +6,11 @@ import sgtmelon.extension.getTime
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.State
-import sgtmelon.scriptum.model.data.DbData
-import sgtmelon.scriptum.model.item.RankItem
-import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.repository.room.NoteRepo.Companion.onConvertRoll
-import sgtmelon.scriptum.repository.room.NoteRepo.Companion.onConvertText
+import sgtmelon.scriptum.data.repository.room.NoteRepo.Companion.onConvertRoll
+import sgtmelon.scriptum.data.repository.room.NoteRepo.Companion.onConvertText
+import sgtmelon.scriptum.domain.model.data.DbData
+import sgtmelon.scriptum.domain.model.item.RankItem
+import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.dialog.ColorDialogUi
 import sgtmelon.scriptum.ui.dialog.ConvertDialogUi
@@ -21,9 +21,9 @@ import sgtmelon.scriptum.ui.screen.main.BinScreen
 import sgtmelon.scriptum.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
+import java.util.*
 import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel.Companion.onSave as onRollSave
 import sgtmelon.scriptum.presentation.screen.vm.impl.note.TextNoteViewModel.Companion.onSave as onTextSave
-import java.util.*
 
 /**
  * Part of UI abstraction for [TextNoteScreen] и [RollNoteScreen]

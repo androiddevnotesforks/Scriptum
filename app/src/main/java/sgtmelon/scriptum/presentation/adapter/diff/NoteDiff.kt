@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.presentation.adapter.diff
 
+import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.adapter.NoteAdapter
-import sgtmelon.scriptum.model.item.NoteItem
 
 /**
  * Diff for [NoteAdapter]

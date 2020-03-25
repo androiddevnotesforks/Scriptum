@@ -4,9 +4,9 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.domain.model.item.RollItem
+import sgtmelon.scriptum.domain.model.state.NoteState
 import sgtmelon.scriptum.extension.inflateBinding
-import sgtmelon.scriptum.model.item.RollItem
-import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.presentation.adapter.holder.RollReadHolder
 import sgtmelon.scriptum.presentation.adapter.holder.RollWriteHolder
 import sgtmelon.scriptum.presentation.control.note.input.IInputControl

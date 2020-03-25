@@ -4,12 +4,12 @@ import android.view.View
 import android.widget.CheckBox
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.presentation.adapter.RollAdapter
 import sgtmelon.scriptum.databinding.ItemRollReadBinding
+import sgtmelon.scriptum.domain.model.item.RollItem
+import sgtmelon.scriptum.domain.model.state.NoteState
 import sgtmelon.scriptum.extension.checkNoPosition
+import sgtmelon.scriptum.presentation.adapter.RollAdapter
 import sgtmelon.scriptum.presentation.listener.ItemListener
-import sgtmelon.scriptum.model.item.RollItem
-import sgtmelon.scriptum.model.state.NoteState
 
 /**
  * Holder of note roll row read state, use in [RollAdapter].

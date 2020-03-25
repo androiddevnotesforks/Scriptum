@@ -1,8 +1,8 @@
 package sgtmelon.scriptum.presentation.screen.ui.callback.main
 
 import androidx.annotation.ArrayRes
-import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.model.item.NoteItem
+import sgtmelon.scriptum.domain.model.annotation.Theme
+import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.BinFragment
 import sgtmelon.scriptum.presentation.screen.vm.impl.main.BinViewModel
 

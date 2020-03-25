@@ -2,7 +2,7 @@ package sgtmelon.scriptum.ui.dialog
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
-import sgtmelon.scriptum.model.annotation.Repeat
+import sgtmelon.scriptum.domain.model.annotation.Repeat
 import sgtmelon.scriptum.ui.IDialogUi
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
 

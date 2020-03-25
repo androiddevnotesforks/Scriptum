@@ -5,11 +5,11 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.room.RoomDb
-import sgtmelon.scriptum.room.dao.IRollDao
-import sgtmelon.scriptum.room.entity.NoteEntity
-import sgtmelon.scriptum.room.entity.RollEntity
+import sgtmelon.scriptum.data.room.RoomDb
+import sgtmelon.scriptum.data.room.dao.IRollDao
+import sgtmelon.scriptum.data.room.entity.NoteEntity
+import sgtmelon.scriptum.data.room.entity.RollEntity
+import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.test.ParentIntegrationTest
 
 /**

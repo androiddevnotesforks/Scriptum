@@ -6,9 +6,9 @@
 
     <data>
         <import type="android.view.View"/>
-        <import alias="Type" type="sgtmelon.scriptum.model.key.NoteType"/>
+        <import alias="Type" type="sgtmelon.scriptum.domain.model.key.NoteType"/>
 
-        <variable name="item" type="sgtmelon.scriptum.model.item.NoteItem"/>
+        <variable name="item" type="sgtmelon.scriptum.domain.model.item.NoteItem"/>
     </data>
 
     <LinearLayout

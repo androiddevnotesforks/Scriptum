@@ -8,8 +8,8 @@ import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.interactor.callback.IAppInteractor
-import sgtmelon.scriptum.model.annotation.Theme
+import sgtmelon.scriptum.domain.interactor.callback.IAppInteractor
+import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.presentation.screen.ui.callback.IAppActivity
 import sgtmelon.scriptum.presentation.screen.vm.impl.AppViewModel
 

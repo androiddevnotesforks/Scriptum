@@ -3,11 +3,11 @@ package sgtmelon.scriptum.data
 import android.content.Context
 import sgtmelon.extension.getTime
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.model.data.ColorData
-import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.room.IRoomWork
-import sgtmelon.scriptum.room.entity.NoteEntity
-import sgtmelon.scriptum.room.entity.RollEntity
+import sgtmelon.scriptum.data.room.IRoomWork
+import sgtmelon.scriptum.data.room.entity.NoteEntity
+import sgtmelon.scriptum.data.room.entity.RollEntity
+import sgtmelon.scriptum.domain.model.data.ColorData
+import sgtmelon.scriptum.domain.model.key.NoteType
 import kotlin.random.Random
 
 /**

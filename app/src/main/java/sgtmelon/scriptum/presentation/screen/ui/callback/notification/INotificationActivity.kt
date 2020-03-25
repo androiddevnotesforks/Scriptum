@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.presentation.screen.ui.callback.notification
 
-import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.model.item.NotificationItem
+import sgtmelon.scriptum.domain.model.annotation.Theme
+import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.NotificationActivity
 import sgtmelon.scriptum.presentation.screen.vm.impl.notification.NotificationViewModel
 

@@ -2,9 +2,9 @@ package sgtmelon.scriptum.presentation.screen.vm.impl
 
 import android.app.Application
 import android.os.Bundle
-import sgtmelon.scriptum.interactor.callback.ISplashInteractor
-import sgtmelon.scriptum.model.annotation.OpenFrom
-import sgtmelon.scriptum.model.data.NoteData
+import sgtmelon.scriptum.domain.interactor.callback.ISplashInteractor
+import sgtmelon.scriptum.domain.model.annotation.OpenFrom
+import sgtmelon.scriptum.domain.model.data.NoteData
 import sgtmelon.scriptum.presentation.screen.ui.callback.ISplashActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.presentation.screen.vm.ParentViewModel

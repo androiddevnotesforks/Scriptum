@@ -13,13 +13,13 @@ import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.model.annotation.Color
-import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.model.data.ColorData.accent
-import sgtmelon.scriptum.model.data.ColorData.dark
-import sgtmelon.scriptum.model.data.ColorData.light
-import sgtmelon.scriptum.model.item.ColorItem
-import sgtmelon.scriptum.model.key.ColorShade
+import sgtmelon.scriptum.domain.model.annotation.Color
+import sgtmelon.scriptum.domain.model.annotation.Theme
+import sgtmelon.scriptum.domain.model.data.ColorData.accent
+import sgtmelon.scriptum.domain.model.data.ColorData.dark
+import sgtmelon.scriptum.domain.model.data.ColorData.light
+import sgtmelon.scriptum.domain.model.item.ColorItem
+import sgtmelon.scriptum.domain.model.key.ColorShade
 
 /**
  * Get note color rely on theme and background

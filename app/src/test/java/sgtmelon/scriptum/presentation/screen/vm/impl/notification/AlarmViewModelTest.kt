@@ -9,15 +9,15 @@ import org.junit.Test
 import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.TestData
-import sgtmelon.scriptum.interactor.callback.IBindInteractor
-import sgtmelon.scriptum.interactor.callback.notification.IAlarmInteractor
-import sgtmelon.scriptum.interactor.callback.notification.ISignalInteractor
-import sgtmelon.scriptum.model.annotation.Repeat
-import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.model.data.NoteData
-import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.model.key.ColorShade
-import sgtmelon.scriptum.model.state.SignalState
+import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
+import sgtmelon.scriptum.domain.interactor.callback.notification.IAlarmInteractor
+import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteractor
+import sgtmelon.scriptum.domain.model.annotation.Repeat
+import sgtmelon.scriptum.domain.model.annotation.Theme
+import sgtmelon.scriptum.domain.model.data.NoteData
+import sgtmelon.scriptum.domain.model.item.NoteItem
+import sgtmelon.scriptum.domain.model.key.ColorShade
+import sgtmelon.scriptum.domain.model.state.SignalState
 import sgtmelon.scriptum.presentation.screen.ui.callback.notification.IAlarmActivity
 import kotlin.random.Random
 

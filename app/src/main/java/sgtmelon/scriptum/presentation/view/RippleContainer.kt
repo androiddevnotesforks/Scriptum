@@ -13,7 +13,7 @@ import android.widget.RelativeLayout
 import androidx.annotation.ColorInt
 import androidx.annotation.StringDef
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.model.annotation.Theme
+import sgtmelon.scriptum.domain.model.annotation.Theme
 import java.util.*
 
 /**

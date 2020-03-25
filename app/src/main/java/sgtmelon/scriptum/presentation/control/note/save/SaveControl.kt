@@ -7,11 +7,8 @@ import sgtmelon.scriptum.R
 /**
  * Class for help control note pause/auto save.
  */
-class SaveControl(
-        private val context: Context,
-        private val model: Model,
-        private val callback: Callback
-) : ISaveControl {
+class SaveControl(context: Context, private val model: Model, private val callback: Callback) :
+        ISaveControl {
 
     private val saveHandler = Handler()
 
@@ -27,7 +24,7 @@ class SaveControl(
     }
 
     /**
-     * onPause happen not only if application close (e.g. if we close activity)
+     * onPause happen not only if application close (e.g. if we close activity).
      */
     override var needSave = true
 

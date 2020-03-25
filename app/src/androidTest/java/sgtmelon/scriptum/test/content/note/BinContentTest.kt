@@ -3,7 +3,7 @@ package sgtmelon.scriptum.test.content.note
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.model.key.MainPage
+import sgtmelon.scriptum.domain.model.key.MainPage
 import sgtmelon.scriptum.ui.item.NoteItemUi
 import sgtmelon.scriptum.ui.screen.main.BinScreen
 

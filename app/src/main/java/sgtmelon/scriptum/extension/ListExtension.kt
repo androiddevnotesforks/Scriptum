@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.extension
 
-import sgtmelon.scriptum.model.item.RollItem
+import sgtmelon.scriptum.domain.model.item.RollItem
 
 fun <T> MutableList<T>.removeAtOrNull(index: Int): T? {
     return if (index in 0..lastIndex) removeAt(index) else null
@@ -18,12 +18,12 @@ fun <T> List<T>.correctIndexOfFirst(predicate: (T) -> Boolean): Int? {
 
 
 /**
- * Move item by positions. If [to] is not indicated - move to last position.
+ * Move item by positions. If [to] position not defined, then move to last position.
  */
-fun <T> MutableList<T>.move(from: Int, to: Int = -1) {
+fun <T> MutableList<T>.move(from: Int, to: Int = ND_INDEX) {
     val item = removeAt(from)
 
-    if (to == -1) add(item) else add(to, item)
+    if (to == ND_INDEX) add(item) else add(to, item)
 }
 
 fun <T> MutableList<T>.clearAddAll(replace: List<T>) = apply {

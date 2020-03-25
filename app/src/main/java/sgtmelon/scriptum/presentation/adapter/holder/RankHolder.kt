@@ -8,11 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.iconanim.IconBlockCallback
 import sgtmelon.iconanim.widget.SwitchButton
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.presentation.adapter.RankAdapter
 import sgtmelon.scriptum.databinding.ItemRankBinding
+import sgtmelon.scriptum.domain.model.item.RankItem
 import sgtmelon.scriptum.extension.checkNoPosition
+import sgtmelon.scriptum.presentation.adapter.RankAdapter
 import sgtmelon.scriptum.presentation.listener.ItemListener
-import sgtmelon.scriptum.model.item.RankItem
 
 /**
  * Holder for rank, use in [RankAdapter].

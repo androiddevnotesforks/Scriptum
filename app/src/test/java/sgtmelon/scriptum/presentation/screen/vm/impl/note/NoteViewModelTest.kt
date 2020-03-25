@@ -6,17 +6,16 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockkClass
 import io.mockk.verifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.Test
-
 import org.junit.Assert.*
+import org.junit.Test
 import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.TestData
-import sgtmelon.scriptum.interactor.callback.note.INoteInteractor
-import sgtmelon.scriptum.model.annotation.Color
-import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.model.data.NoteData.Default
-import sgtmelon.scriptum.model.data.NoteData.Intent
-import sgtmelon.scriptum.model.key.NoteType
+import sgtmelon.scriptum.domain.interactor.callback.note.INoteInteractor
+import sgtmelon.scriptum.domain.model.annotation.Color
+import sgtmelon.scriptum.domain.model.annotation.Theme
+import sgtmelon.scriptum.domain.model.data.NoteData.Default
+import sgtmelon.scriptum.domain.model.data.NoteData.Intent
+import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteActivity
 import kotlin.random.Random
 

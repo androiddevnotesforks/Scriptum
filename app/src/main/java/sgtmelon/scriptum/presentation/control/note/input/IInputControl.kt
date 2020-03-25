@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.presentation.control.note.input
 
-import sgtmelon.scriptum.model.item.InputItem
+import sgtmelon.scriptum.domain.model.item.InputItem
 
 /**
  * Interface for communicate with [InputControl]

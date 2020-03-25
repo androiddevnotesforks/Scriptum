@@ -1,11 +1,11 @@
 package sgtmelon.scriptum
 
-import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.model.item.NotificationItem
-import sgtmelon.scriptum.model.item.NotificationItem.Alarm
-import sgtmelon.scriptum.model.item.NotificationItem.Note
-import sgtmelon.scriptum.model.item.RankItem
-import sgtmelon.scriptum.model.key.NoteType
+import sgtmelon.scriptum.domain.model.item.NoteItem
+import sgtmelon.scriptum.domain.model.item.NotificationItem
+import sgtmelon.scriptum.domain.model.item.NotificationItem.Alarm
+import sgtmelon.scriptum.domain.model.item.NotificationItem.Note
+import sgtmelon.scriptum.domain.model.item.RankItem
+import sgtmelon.scriptum.domain.model.key.NoteType
 import java.util.UUID.randomUUID
 
 /**

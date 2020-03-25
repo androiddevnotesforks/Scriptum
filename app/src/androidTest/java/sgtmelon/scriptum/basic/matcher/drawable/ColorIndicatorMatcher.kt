@@ -4,10 +4,10 @@ import android.view.View
 import androidx.annotation.IdRes
 import androidx.core.content.ContextCompat
 import org.hamcrest.Description
+import sgtmelon.scriptum.domain.model.annotation.Color
+import sgtmelon.scriptum.domain.model.annotation.Theme
+import sgtmelon.scriptum.domain.model.data.ColorData
 import sgtmelon.scriptum.extension.setColor
-import sgtmelon.scriptum.model.annotation.Color
-import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.model.data.ColorData
 
 /**
  * Matcher for check android:background which gets with [resourceId].

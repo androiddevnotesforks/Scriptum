@@ -3,15 +3,15 @@ package sgtmelon.scriptum.presentation.adapter
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.domain.model.annotation.Theme
+import sgtmelon.scriptum.domain.model.item.NoteItem
+import sgtmelon.scriptum.domain.model.key.NoteType
+import sgtmelon.scriptum.extension.clearAddAll
+import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.presentation.adapter.diff.NoteDiff
 import sgtmelon.scriptum.presentation.adapter.holder.NoteRollHolder
 import sgtmelon.scriptum.presentation.adapter.holder.NoteTextHolder
-import sgtmelon.scriptum.extension.clearAddAll
-import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.presentation.listener.ItemListener
-import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.BinFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.NotesFragment
 
