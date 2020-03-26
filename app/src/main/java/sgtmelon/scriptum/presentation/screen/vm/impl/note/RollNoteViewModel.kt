@@ -119,7 +119,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
                     noteState = NoteState(isBin = noteItem.isBin)
                 }
 
-                isVisible = interactor.getVisible(noteItem)
+                isVisible = interactor.getVisible(noteItem.id)
             }
 
             callback?.setupDialog(rankDialogItemArray)
@@ -219,7 +219,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
         notifyListByVisible()
 
-        viewModelScope.launch { interactor.setVisible(noteItem, isVisible) }
+        viewModelScope.launch { interactor.setVisible(noteItem.id, isVisible) }
     }
 
     override fun onEditorClick(i: Int): Boolean {

@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.domain.interactor.note
 
+import androidx.annotation.VisibleForTesting
 import sgtmelon.extension.getText
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
@@ -23,7 +24,7 @@ class RollNoteInteractor(
         private val alarmRepo: IAlarmRepo,
         private val rankRepo: IRankRepo,
         private val noteRepo: INoteRepo,
-        private var callback: IRollNoteBridge?
+        @VisibleForTesting var callback: IRollNoteBridge?
 ) : ParentInteractor(),
         IRollNoteInteractor {
 
@@ -56,13 +57,11 @@ class RollNoteInteractor(
     override suspend fun getRankDialogItemArray() = rankRepo.getDialogItemArray()
 
 
-    override suspend fun setVisible(noteItem: NoteItem, isVisible: Boolean) {
-        noteRepo.setRollVisible(noteItem.id, isVisible)
+    override suspend fun setVisible(noteId: Long, isVisible: Boolean) {
+        noteRepo.setRollVisible(noteId, isVisible)
     }
 
-    override suspend fun getVisible(noteItem: NoteItem): Boolean {
-        return noteRepo.getRollVisible(noteItem.id)
-    }
+    override suspend fun getVisible(noteId: Long): Boolean = noteRepo.getRollVisible(noteId)
 
 
     /**

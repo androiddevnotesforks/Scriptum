@@ -1,6 +1,8 @@
 package sgtmelon.scriptum
 
 import androidx.annotation.CallSuper
+import io.mockk.MockKAnnotations
+import io.mockk.unmockkAll
 import org.junit.After
 import org.junit.Before
 
@@ -9,8 +11,12 @@ import org.junit.Before
  */
 abstract class ParentTest {
 
-    @Before @CallSuper open fun setUp() {}
+    @Before @CallSuper open fun setUp() {
+        MockKAnnotations.init(this, relaxUnitFun = true)
+    }
 
-    @After @CallSuper open fun tearDown() {}
+    @After @CallSuper open fun tearDown() {
+        unmockkAll()
+    }
 
 }

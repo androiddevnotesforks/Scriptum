@@ -26,9 +26,9 @@ interface IRollNoteInteractor : IParentInteractor {
     suspend fun getRankDialogItemArray(): Array<String>
 
 
-    suspend fun setVisible(noteItem: NoteItem, isVisible: Boolean)
+    suspend fun setVisible(noteId: Long, isVisible: Boolean)
 
-    suspend fun getVisible(noteItem: NoteItem): Boolean
+    suspend fun getVisible(noteId: Long): Boolean
 
 
     suspend fun updateRollCheck(noteItem: NoteItem, p: Int)
