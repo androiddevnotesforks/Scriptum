@@ -8,7 +8,7 @@ import sgtmelon.scriptum.data.room.entity.NoteEntity
 import sgtmelon.scriptum.domain.model.data.DbData
 
 /**
- * Interface for communications [DbData.Note.TABLE] with [RoomDb]
+ * Interface for communication [DbData.Note.TABLE] with [RoomDb].
  */
 @Dao
 @TypeConverters(BoolConverter::class, NoteTypeConverter::class)

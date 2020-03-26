@@ -86,6 +86,30 @@ object DbData {
         }
     }
 
+    object RollVisible {
+        const val TABLE = "ROLL_VISIBLE_TABLE"
+
+        private const val PREFIX = "RL_VS"
+
+        const val ID = "${PREFIX}_ID"
+        const val NOTE_ID = "${PREFIX}_NOTE_ID"
+        const val VALUE = "${PREFIX}_VALUE"
+
+        const val INDEX_NOTE_ID = "${TABLE}_NOTE_ID_INDEX"
+
+        object Default {
+            const val ID = 0L
+            const val NOTE_ID = 0L
+            const val VALUE = true
+        }
+
+        object Room {
+            const val ID = "0"
+            const val NOTE_ID = "0"
+            const val VALUE = "1"
+        }
+    }
+
     object Rank {
         const val TABLE = "RANK_TABLE"
 

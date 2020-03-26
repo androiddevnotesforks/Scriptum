@@ -7,7 +7,7 @@ import sgtmelon.scriptum.data.room.entity.RankEntity
 import sgtmelon.scriptum.domain.model.data.DbData
 
 /**
- * Interface for communications [DbData.Rank.TABLE] with [RoomDb]
+ * Interface for communication [DbData.Rank.TABLE] with [RoomDb].
  */
 @Dao
 @TypeConverters(BoolConverter::class)

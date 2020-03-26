@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.data.repository.room.callback
 
+import sgtmelon.scriptum.data.repository.room.NoteRepo
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
@@ -55,5 +56,10 @@ interface INoteRepo {
     suspend fun updateRollCheck(noteItem: NoteItem, check: Boolean)
 
     suspend fun updateNote(noteItem: NoteItem)
+
+
+    suspend fun setRollVisible(noteId: Long, isVisible: Boolean)
+
+    suspend fun getRollVisible(noteId: Long): Boolean
 
 }

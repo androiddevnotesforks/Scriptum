@@ -55,6 +55,16 @@ class RollNoteInteractor(
 
     override suspend fun getRankDialogItemArray() = rankRepo.getDialogItemArray()
 
+
+    override suspend fun setVisible(noteItem: NoteItem, isVisible: Boolean) {
+        noteRepo.setRollVisible(noteItem.id, isVisible)
+    }
+
+    override suspend fun getVisible(noteItem: NoteItem): Boolean {
+        return noteRepo.getRollVisible(noteItem.id)
+    }
+
+
     /**
      * Update single roll.
      */

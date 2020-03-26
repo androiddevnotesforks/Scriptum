@@ -33,7 +33,6 @@ import sgtmelon.scriptum.presentation.screen.vm.ParentViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.note.IRollNoteViewModel
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.random.Random
 
 /**
  * ViewModel for [RollNoteFragment].
@@ -77,9 +76,6 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
     private val iconState = IconState()
 
-    /**
-     * TODO remove
-     */
     private var isVisible = true
 
     override fun onSetup(bundle: Bundle?) {
@@ -123,10 +119,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
                     noteState = NoteState(isBin = noteItem.isBin)
                 }
 
-                /**
-                 * TODO remove
-                 */
-                isVisible = Random.nextBoolean()
+                isVisible = interactor.getVisible(noteItem)
             }
 
             callback?.setupDialog(rankDialogItemArray)
@@ -219,15 +212,14 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
 
-    /**
-     * TODO
-     */
     override fun onClickVisible() {
         isVisible = !isVisible
 
         callback?.setToolbarVisibleIcon(isVisible, needAnim = true)
 
         notifyListByVisible()
+
+        viewModelScope.launch { interactor.setVisible(noteItem, isVisible) }
     }
 
     override fun onEditorClick(i: Int): Boolean {

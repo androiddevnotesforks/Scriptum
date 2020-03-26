@@ -13,6 +13,7 @@ import sgtmelon.scriptum.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.data.room.entity.NoteEntity
 import sgtmelon.scriptum.data.room.entity.RankEntity
 import sgtmelon.scriptum.data.room.entity.RollEntity
+import sgtmelon.scriptum.domain.model.data.DbData
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RankItem
 import sgtmelon.scriptum.domain.model.key.NoteType
@@ -295,6 +296,34 @@ class NoteRepoTest : ParentIntegrationTest()  {
 
         assertEquals(entity, noteDao.get(entity.id))
     }
+
+
+    @Test fun setRollVisible() = inRoomTest {
+        val noteId = Random.nextLong()
+        var isVisible = Random.nextBoolean()
+
+        assertNull(rollVisibleDao.get(noteId))
+
+        noteRepo.setRollVisible(noteId, isVisible)
+        assertEquals(isVisible, rollVisibleDao.get(noteId))
+
+        isVisible = !isVisible
+
+        noteRepo.setRollVisible(noteId, isVisible)
+        assertEquals(isVisible, rollVisibleDao.get(noteId))
+    }
+
+    @Test fun getRollVisible() = inRoomTest {
+        val noteId = Random.nextLong()
+        val isVisible = Random.nextBoolean()
+
+        assertNull(rollVisibleDao.get(noteId))
+        assertEquals(DbData.RollVisible.Default.VALUE, noteRepo.getRollVisible(noteId))
+
+        rollVisibleDao.update(noteId, isVisible)
+        assertEquals(isVisible, noteRepo.getRollVisible(noteId))
+    }
+
 
     private companion object {
         val alarmFirst = AlarmEntity(id = 1, noteId = 1, date = DATE_4)

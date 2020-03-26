@@ -13,6 +13,7 @@ import sgtmelon.scriptum.data.room.dao.IRollDao
 import sgtmelon.scriptum.data.room.entity.NoteEntity
 import sgtmelon.scriptum.data.room.entity.RankEntity
 import sgtmelon.scriptum.data.room.entity.RollEntity
+import sgtmelon.scriptum.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
@@ -290,6 +291,31 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
 
     override suspend fun updateNote(noteItem: NoteItem) = inRoom {
         noteDao.update(noteConverter.toEntity(noteItem))
+    }
+
+
+    override suspend fun setRollVisible(noteId: Long, isVisible: Boolean) = inRoom {
+        val value = rollVisibleDao.get(noteId)
+
+        if (isVisible == value) return@inRoom
+
+        if (value == null) {
+            rollVisibleDao.insert(RollVisibleEntity(noteId = noteId, value = isVisible))
+        } else {
+            rollVisibleDao.update(noteId, isVisible)
+        }
+    }
+
+    override suspend fun getRollVisible(noteId: Long): Boolean {
+        val isVisible: Boolean
+
+        openRoom().apply {
+            isVisible = rollVisibleDao.get(noteId) ?: run {
+                RollVisibleEntity(noteId = noteId).also { rollVisibleDao.insert(it) }.value
+            }
+        }.close()
+
+        return isVisible
     }
 
 

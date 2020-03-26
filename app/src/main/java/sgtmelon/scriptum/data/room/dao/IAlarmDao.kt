@@ -7,7 +7,7 @@ import sgtmelon.scriptum.domain.model.data.DbData
 import sgtmelon.scriptum.domain.model.item.NotificationItem
 
 /**
- * Interface for communications [DbData.Alarm.TABLE] with [RoomDb]
+ * Interface for communication [DbData.Alarm.TABLE] with [RoomDb].
  */
 @Dao
 interface IAlarmDao {

@@ -5,10 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import sgtmelon.scriptum.BuildConfig
-import sgtmelon.scriptum.data.room.dao.IAlarmDao
-import sgtmelon.scriptum.data.room.dao.INoteDao
-import sgtmelon.scriptum.data.room.dao.IRankDao
-import sgtmelon.scriptum.data.room.dao.IRollDao
+import sgtmelon.scriptum.data.room.dao.*
 import sgtmelon.scriptum.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.data.room.entity.NoteEntity
 import sgtmelon.scriptum.data.room.entity.RankEntity
@@ -28,6 +25,8 @@ abstract class RoomDb : RoomDatabase() {
     abstract val noteDao: INoteDao
 
     abstract val rollDao: IRollDao
+
+    abstract val rollVisibleDao: IRollVisibleDao
 
     abstract val rankDao: IRankDao
 
