@@ -5,13 +5,41 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import sgtmelon.scriptum.data.room.converter.model.StringConverter
 import sgtmelon.scriptum.data.room.entity.NoteEntity
 import sgtmelon.scriptum.data.room.entity.RankEntity
+import sgtmelon.scriptum.data.room.entity.RollVisibleEntity
 import java.util.UUID.randomUUID
 
 /**
- * Class with objects for db migration
+ * Class with objects for db migration.
  */
 @Suppress("KDocUnresolvedReference")
 object Migrate {
+
+    /**
+     * Add [RollVisibleEntity]
+     */
+    private val FROM_7_TO_8 = object : Migration(7, 8) {
+        override fun migrate(database: SupportSQLiteDatabase) = with(database) {
+            execSQL("""CREATE TABLE ROLL_VISIBLE_TABLE (
+                RL_VS_ID INTEGER PRIMARY KEY NOT NULL DEFAULT 0,
+                RL_VS_NOTE_ID INTEGER NOT NULL DEFAULT 0,
+                RL_VS_VALUE INTEGER NOT NULL DEFAULT 1,
+                FOREIGN KEY (RL_VS_NOTE_ID) REFERENCES NOTE_TABLE(NT_ID)
+                ON UPDATE CASCADE ON DELETE CASCADE)""")
+
+            execSQL("""CREATE UNIQUE INDEX ROLL_VISIBLE_TABLE_NOTE_ID_INDEX
+                ON ROLL_VISIBLE_TABLE(RL_VS_NOTE_ID)""")
+
+            query("SELECT NT_ID, NT_TYPE FROM NOTE_TABLE WHERE NT_TYPE = '1'").apply {
+                if (moveToFirst()) {
+                    do {
+                        val id = getString(getColumnIndex("NT_ID"))
+
+                        execSQL("INSERT INTO ROLL_VISIBLE_TABLE (RL_VS_NOTE_ID) VALUES ($id)")
+                    } while (moveToNext())
+                }
+            }.close()
+        }
+    }
 
     /**
      * Add defaultValues to room entities
@@ -641,7 +669,8 @@ object Migrate {
     val sequence = arrayOf(
             FROM_1_TO_2, FROM_2_TO_3,
             FROM_3_TO_4, FROM_4_TO_5,
-            FROM_5_TO_6, FROM_6_TO_7
+            FROM_5_TO_6, FROM_6_TO_7,
+            FROM_7_TO_8
     )
 
 }
