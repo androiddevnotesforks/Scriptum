@@ -11,6 +11,7 @@ import sgtmelon.scriptum.data.repository.room.NoteRepo.Companion.onConvertText
 import sgtmelon.scriptum.domain.model.data.DbData
 import sgtmelon.scriptum.domain.model.item.RankItem
 import sgtmelon.scriptum.domain.model.key.NoteType
+import sgtmelon.scriptum.extension.onSave
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.dialog.ColorDialogUi
 import sgtmelon.scriptum.ui.dialog.ConvertDialogUi
@@ -22,8 +23,6 @@ import sgtmelon.scriptum.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 import java.util.*
-import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel.Companion.onSave as onRollSave
-import sgtmelon.scriptum.presentation.screen.vm.impl.note.TextNoteViewModel.Companion.onSave as onTextSave
 
 /**
  * Part of UI abstraction for [TextNoteScreen] и [RollNoteScreen]
@@ -127,11 +126,7 @@ class NotePanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi(),
                 state = State.READ
 
                 noteItem = shadowItem.deepCopy()
-
-                when(noteItem.type) {
-                    NoteType.TEXT -> noteItem.onTextSave()
-                    NoteType.ROLL -> noteItem.onRollSave()
-                }
+                noteItem.onSave()
 
                 inputControl.reset()
             }.fullAssert()
@@ -144,11 +139,7 @@ class NotePanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi(),
 
             callback.apply {
                 noteItem = shadowItem.deepCopy()
-
-                when(noteItem.type) {
-                    NoteType.TEXT -> noteItem.onTextSave()
-                    NoteType.ROLL -> noteItem.onRollSave()
-                }
+                noteItem.onSave()
             }.fullAssert()
         }
     }

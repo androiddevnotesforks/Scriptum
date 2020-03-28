@@ -3,7 +3,6 @@ package sgtmelon.scriptum.presentation.screen.vm.impl.note
 import android.app.Application
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import kotlinx.coroutines.launch
@@ -776,37 +775,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     companion object {
-        @VisibleForTesting
-        fun NoteItem.onSave() {
-            rollList.apply {
-                removeAll { it.text.clearSpace().isEmpty() }
-                forEachIndexed { i, item ->
-                    item.position = i
-                    item.text = item.text.clearSpace()
-                }
-            }
 
-            name = name.clearSpace()
-            updateTime().updateComplete()
-        }
-
-        @VisibleForTesting
-        fun NoteItem.onItemCheck(p: Int) {
-            rollList[p].apply { isCheck = !isCheck }
-            updateTime().updateComplete()
-        }
-
-        /**
-         * If have some unchecked items - need turn them to true. Otherwise uncheck all items.
-         */
-        @VisibleForTesting
-        fun NoteItem.onItemLongCheck(): Boolean {
-            val check = rollList.any { !it.isCheck }
-
-            updateTime().updateCheck(check)
-
-            return check
-        }
     }
 
 }

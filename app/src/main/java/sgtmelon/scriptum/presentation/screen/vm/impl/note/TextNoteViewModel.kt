@@ -2,7 +2,6 @@ package sgtmelon.scriptum.presentation.screen.vm.impl.note
 
 import android.app.Application
 import android.os.Bundle
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.extension.beforeNow
@@ -18,7 +17,7 @@ import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.domain.model.state.IconState
 import sgtmelon.scriptum.domain.model.state.NoteState
-import sgtmelon.scriptum.extension.clearSpace
+import sgtmelon.scriptum.extension.onSave
 import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.presentation.control.note.save.ISaveControl
 import sgtmelon.scriptum.presentation.control.note.save.SaveControl
@@ -450,14 +449,6 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
     override fun onInputTextChange() {
         callback?.onBindingInput(noteItem, inputControl.access)
-    }
-
-    companion object {
-        @VisibleForTesting
-        fun NoteItem.onSave() {
-            name = name.clearSpace()
-            updateTime()
-        }
     }
 
 }
