@@ -8,6 +8,7 @@ import androidx.annotation.RequiresApi
 import sgtmelon.iconanim.IconAnimControl
 import sgtmelon.iconanim.IconBlockCallback
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.extension.getTintDrawable
 
 /**
@@ -18,14 +19,15 @@ import sgtmelon.scriptum.extension.getTintDrawable
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 class VisibleIconControlAnim(
         context: Context,
+        @Theme theme: Int,
         menuItem: MenuItem?,
         blockCallback: IconBlockCallback
-) : VisibleIconControl(context, menuItem) {
+) : VisibleIconControl(context, theme, menuItem) {
 
     private val visibleEnterIcon = context.getTintDrawable(R.drawable.anim_visible_enter)
             as? AnimatedVectorDrawable
 
-    private val visibleExitIcon = context.getTintDrawable(R.drawable.anim_visible_exit, R.attr.clAccent)
+    private val visibleExitIcon = context.getTintDrawable(R.drawable.anim_visible_exit, activeTint)
             as? AnimatedVectorDrawable
 
     private val iconAnimControl: IconAnimControl = IconAnimControl(

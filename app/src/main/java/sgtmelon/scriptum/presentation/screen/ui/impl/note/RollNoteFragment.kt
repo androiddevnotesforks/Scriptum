@@ -219,9 +219,9 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
             }
 
             visibleIconControl = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                VisibleIconControl(it, visibleMenuItem)
+                VisibleIconControl(it, theme, visibleMenuItem)
             } else {
-                VisibleIconControlAnim(it, visibleMenuItem, blockCallback = this)
+                VisibleIconControlAnim(it, theme, visibleMenuItem, blockCallback = this)
             }
         }
 
