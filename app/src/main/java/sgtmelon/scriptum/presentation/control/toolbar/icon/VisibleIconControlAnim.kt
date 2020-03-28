@@ -25,7 +25,7 @@ class VisibleIconControlAnim(
     private val visibleEnterIcon = context.getTintDrawable(R.drawable.anim_visible_enter)
             as? AnimatedVectorDrawable
 
-    private val visibleExitIcon = context.getTintDrawable(R.drawable.anim_visible_exit)
+    private val visibleExitIcon = context.getTintDrawable(R.drawable.anim_visible_exit, R.attr.clAccent)
             as? AnimatedVectorDrawable
 
     private val iconAnimControl: IconAnimControl = IconAnimControl(

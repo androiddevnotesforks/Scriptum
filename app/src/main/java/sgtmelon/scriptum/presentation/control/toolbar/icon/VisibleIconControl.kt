@@ -13,7 +13,7 @@ open class VisibleIconControl(
 ) : IconChangeCallback {
 
     private val visibleEnter: Drawable? = context.getTintDrawable(R.drawable.ic_visible_enter)
-    private val visibleExit: Drawable? = context.getTintDrawable(R.drawable.ic_visible_exit)
+    private val visibleExit: Drawable? = context.getTintDrawable(R.drawable.ic_visible_exit, R.attr.clAccent)
 
     override fun setDrawable(isEnterIcon: Boolean, needAnim: Boolean) {
         menuItem?.icon = if (isEnterIcon) visibleEnter else visibleExit
