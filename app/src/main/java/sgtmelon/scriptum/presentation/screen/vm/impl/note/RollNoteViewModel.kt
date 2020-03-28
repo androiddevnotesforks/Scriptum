@@ -117,9 +117,13 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
                     }
 
                     noteState = NoteState(isBin = noteItem.isBin)
-                }
 
-                isVisible = interactor.getVisible(noteItem.id)
+                    /**
+                     * Foreign key can't be created without note [id].
+                     * Insert will happen inside [onMenuSave].
+                     */
+                    isVisible = interactor.getVisible(noteItem.id)
+                }
             }
 
             callback?.setupDialog(rankDialogItemArray)
@@ -219,7 +223,13 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
         notifyListByVisible()
 
-        viewModelScope.launch { interactor.setVisible(noteItem.id, isVisible) }
+        /**
+         * Foreign key can't be created without note [id].
+         * Insert will happen inside [onMenuSave].
+         */
+        if (!noteState.isCreate) {
+            viewModelScope.launch { interactor.setVisible(noteItem.id, isVisible) }
+        }
     }
 
     override fun onEditorClick(i: Int): Boolean {
@@ -570,6 +580,12 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
                 id = noteItem.id
                 parentCallback?.onUpdateNoteId(id)
+
+                /**
+                 * Need if [isVisible] changes wasn't set inside [onClickVisible] because of
+                 * not created note.
+                 */
+                interactor.setVisible(id, isVisible)
             }
 
             callback?.setList(getList())
