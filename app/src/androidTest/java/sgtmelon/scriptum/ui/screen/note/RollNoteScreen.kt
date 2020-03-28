@@ -17,6 +17,7 @@ import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel.Companion.getCorrectPosition
 import sgtmelon.scriptum.ui.IPressBack
 import sgtmelon.scriptum.ui.ParentRecyclerItem
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
@@ -171,13 +172,14 @@ class RollNoteScreen(
 
     fun onAssertAll() {
         when(state) {
-            State.READ, State.BIN -> noteItem.rollList.forEach { onAssertItem(it) }
-            State.EDIT, State.NEW -> shadowItem.rollList.forEach { onAssertItem(it) }
+            State.READ, State.BIN -> noteItem.rollList.forEach { onAssertItem(it, noteItem) }
+            State.EDIT, State.NEW -> shadowItem.rollList.forEach { onAssertItem(it, shadowItem) }
         }
     }
 
-    fun onAssertItem(rollItem: RollItem) {
-        getItem(rollItem.position).assert(rollItem)
+    fun onAssertItem(rollItem: RollItem, noteItem: NoteItem) {
+        val correctPosition = getCorrectPosition(rollItem.position, noteItem)
+        getItem(correctPosition).assert(rollItem)
     }
 
 
