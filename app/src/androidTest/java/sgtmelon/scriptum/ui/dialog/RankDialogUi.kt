@@ -34,7 +34,9 @@ class RankDialogUi(
     //endregion
 
 
-    fun onClickItem(p: Int = random): RankDialogUi = apply {
+    fun onClickItem(p: Int? = random): RankDialogUi = apply {
+        if (p == null) return@apply
+
         check = p - 1
 
         if (check == noteItem.rankPs) {

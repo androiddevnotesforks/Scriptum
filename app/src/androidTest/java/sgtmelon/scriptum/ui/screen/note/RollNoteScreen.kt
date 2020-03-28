@@ -17,7 +17,7 @@ import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel
-import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel.Companion.getCorrectPosition
+import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel.Companion.hide
 import sgtmelon.scriptum.ui.IPressBack
 import sgtmelon.scriptum.ui.ParentRecyclerItem
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
@@ -43,6 +43,8 @@ class RollNoteScreen(
     private val toolbarHolder = getViewById(R.id.note_toolbar_holder)
     private val panelHolder = getViewById(R.id.note_panel_holder)
     private val fragmentContainer = getViewById(R.id.note_fragment_container)
+
+    private val visibleMenuItem = getViewById(R.id.item_visible)
 
     private val parentContainer = getViewById(R.id.roll_note_parent_container)
     private val progressBar = getViewById(R.id.roll_note_progress)
@@ -82,8 +84,9 @@ class RollNoteScreen(
         enterPanel { assert() }
     }
 
+    fun onEnterText(text: String = "", p: Int? = random) = apply {
+        if (p == null) return@apply
 
-    fun onEnterText(text: String = "", p: Int = random) = apply {
         throwOnWrongState(State.EDIT, State.NEW) {
             getItem(p).rollText.typeText(text)
 
@@ -94,27 +97,42 @@ class RollNoteScreen(
         }
     }
 
-    fun onImeOptionText(p: Int = random) = apply {
+    fun onImeOptionText(p: Int? = random) = apply {
+        if (p == null) return@apply
+
         throwOnWrongState(State.EDIT, State.NEW) {
             getItem(p).rollText.imeOption()
             enterPanel { assertFocus() }
         }
     }
 
-    fun onClickCheck(p: Int = random) = apply {
+    fun onClickVisible() = apply {
+        visibleMenuItem.click()
+
+        fullAssert()
+        onAssertAll()
+    }
+
+    fun onClickCheck(p: Int? = random) = apply {
+        if (p == null) return@apply
+
         when(state) {
             State.READ, State.BIN -> {
                 getItem(p).clickButton.click()
 
                 noteItem.onItemCheck(p)
 
-                getItem(p).assert(noteItem.rollList[p])
+                if (RollNoteViewModel.isVisible) {
+                    getItem(p).assert(noteItem.rollList[p])
+                }
             }
             State.EDIT, State.NEW -> throw IllegalAccessException(STATE_ERROR_TEXT)
         }
     }
 
-    fun onLongClickCheck(p: Int = random) = apply {
+    fun onLongClickCheck(p: Int? = random) = apply {
+        if (p == null) return@apply
+
         when(state) {
             State.READ, State.BIN -> {
                 getItem(p).clickButton.longClick()
@@ -131,7 +149,9 @@ class RollNoteScreen(
         repeat(times = count) { onSwipe() }
     }
 
-    fun onSwipe(p: Int = random) {
+    fun onSwipe(p: Int? = random) {
+        if (p == null) return
+
         waitAfter(SWIPE_TIME) { recyclerView.swipeItem(p) }
 
         shadowItem.rollList.apply {
@@ -169,17 +189,17 @@ class RollNoteScreen(
         }
     }
 
-
     fun onAssertAll() {
-        when(state) {
-            State.READ, State.BIN -> noteItem.rollList.forEach { onAssertItem(it, noteItem) }
-            State.EDIT, State.NEW -> shadowItem.rollList.forEach { onAssertItem(it, shadowItem) }
+        val list = when(state) {
+            State.READ, State.BIN -> noteItem.rollList
+            State.EDIT, State.NEW -> shadowItem.rollList
         }
-    }
 
-    fun onAssertItem(rollItem: RollItem, noteItem: NoteItem) {
-        val correctPosition = getCorrectPosition(rollItem.position, noteItem)
-        getItem(correctPosition).assert(rollItem)
+        if (RollNoteViewModel.isVisible) {
+            list.forEachIndexed { p, item -> getItem(p).assert(item) }
+        } else {
+            list.hide().forEachIndexed { p, item -> getItem(p).assert(item) }
+        }
     }
 
 

@@ -35,8 +35,10 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
 
     //endregion
 
-    fun openRenameDialog(title: String, p: Int = random,
+    fun openRenameDialog(title: String, p: Int? = random,
                          func: RenameDialogUi.() -> Unit = {}) = apply {
+        if (p == null) return@apply
+
         getItem(p).view.click()
         RenameDialogUi(func, title)
     }
@@ -45,7 +47,9 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
         waitAfter(ANIM_TIME) { getItem(rankItem).visibleButton.click() }
     }
 
-    fun onClickVisible(p: Int = random) = apply {
+    fun onClickVisible(p: Int? = random) = apply {
+        if (p == null) return@apply
+
         waitAfter(ANIM_TIME) { getItem(p).visibleButton.click() }
     }
 
@@ -53,11 +57,15 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
         waitAfter(ANIM_TIME) { getItem(rankItem).visibleButton.longClick() }
     }
 
-    fun onLongClickVisible(p: Int = random) = apply {
+    fun onLongClickVisible(p: Int? = random) = apply {
+        if (p == null) return@apply
+
         waitAfter(ANIM_TIME) { getItem(p).visibleButton.longClick() }
     }
 
-    fun onClickCancel(p: Int = random) = apply {
+    fun onClickCancel(p: Int? = random) = apply {
+        if (p == null) return@apply
+
         waitAfter(ANIM_TIME) { getItem(p).cancelButton.click() }
     }
 

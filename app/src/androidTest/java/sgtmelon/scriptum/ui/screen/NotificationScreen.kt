@@ -39,19 +39,27 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler), IPr
         toolbar.getToolbarButton().click()
     }
 
-    fun openText(noteItem: NoteItem, p: Int = random, isRankEmpty: Boolean = true,
+    fun openText(noteItem: NoteItem, p: Int? = random, isRankEmpty: Boolean = true,
                  func: TextNoteScreen.() -> Unit = {}) {
+        if (p == null) return
+
         getItem(p).view.click()
         TextNoteScreen(func, State.READ, noteItem, isRankEmpty)
     }
 
-    fun openRoll(noteItem: NoteItem, p: Int = random, isRankEmpty: Boolean = true,
+    fun openRoll(noteItem: NoteItem, p: Int? = random, isRankEmpty: Boolean = true,
                  func: RollNoteScreen.() -> Unit = {}) {
+        if (p == null) return
+
         getItem(p).view.click()
         RollNoteScreen(func, State.READ, noteItem, isRankEmpty)
     }
 
-    fun onClickCancel(p: Int = random) = apply { getItem(p).cancelButton.click() }
+    fun onClickCancel(p: Int? = random) = apply {
+        if (p == null) return@apply
+
+        getItem(p).cancelButton.click()
+    }
 
 
     fun onAssertItem(p: Int, noteItem: NoteItem) {

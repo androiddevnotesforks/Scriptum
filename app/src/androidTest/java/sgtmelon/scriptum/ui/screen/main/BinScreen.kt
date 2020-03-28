@@ -38,26 +38,34 @@ class BinScreen : ParentRecyclerScreen(R.id.bin_recycler) {
         ClearDialogUi(func)
     }
 
-    fun openNoteDialog(noteItem: NoteItem, p: Int = random,
+    fun openNoteDialog(noteItem: NoteItem, p: Int? = random,
                        func: NoteDialogUi.() -> Unit = {}) = apply {
+        if (p == null) return@apply
+
         getItem(p).view.longClick()
         NoteDialogUi(func, noteItem)
     }
 
-    fun openTextNote(noteItem: NoteItem, p: Int = random, isRankEmpty: Boolean = true,
+    fun openTextNote(noteItem: NoteItem, p: Int? = random, isRankEmpty: Boolean = true,
                      func: TextNoteScreen.() -> Unit = {}) = apply {
+        if (p == null) return@apply
+
         getItem(p).view.click()
         TextNoteScreen(func, State.BIN, noteItem, isRankEmpty)
     }
 
-    fun openRollNote(noteItem: NoteItem, p: Int = random, isRankEmpty: Boolean = true,
+    fun openRollNote(noteItem: NoteItem, p: Int? = random, isRankEmpty: Boolean = true,
                      func: RollNoteScreen.() -> Unit = {}) = apply {
+        if (p == null) return@apply
+
         getItem(p).view.click()
         RollNoteScreen(func, State.BIN, noteItem, isRankEmpty)
     }
 
 
-    fun onAssertItem(noteItem: NoteItem, p: Int = random) {
+    fun onAssertItem(noteItem: NoteItem, p: Int? = random) {
+        if (p == null) return
+
         getItem(p).assert(noteItem)
     }
 

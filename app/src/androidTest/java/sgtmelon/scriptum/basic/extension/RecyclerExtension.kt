@@ -28,4 +28,7 @@ fun Matcher<View>.getCount(): Int = let {
     return count
 }
 
-fun Matcher<View>.getRandomPosition(): Int = let { (0 until it.getCount()).random() }
+fun Matcher<View>.getRandomPosition(): Int = let {
+    val count = it.getCount()
+    return@let if (count != 0) (0 until count).random() else -1
+}

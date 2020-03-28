@@ -14,7 +14,9 @@ abstract class ParentRecyclerScreen(@IdRes recyclerId: Int) : ParentUi() {
 
     val count: Int get() = recyclerView.getCount()
 
-    protected val random: Int get() = recyclerView.getRandomPosition()
+    protected val random: Int? get() = recyclerView.getRandomPosition().let {
+        if (it != -1) it else null
+    }
 
     fun onScroll(scroll: Scroll, time: Int = REPEAT_COUNT) = repeat(time) {
         waitAfter(SCROLL_TIME) {
