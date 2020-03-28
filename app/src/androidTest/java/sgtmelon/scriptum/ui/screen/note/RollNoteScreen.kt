@@ -193,7 +193,7 @@ class RollNoteScreen(
             val value = RollNoteViewModel.isVisible
 
             val itemIcon = if (value) R.drawable.ic_visible_enter else R.drawable.ic_visible_exit
-            val itemTint = if (theme == Theme.DARK) R.attr.clAccent else R.attr.clContent
+            val itemTint = if (!value && theme == Theme.DARK) R.attr.clAccent else R.attr.clContent
             val itemTitle = if (value) R.string.menu_roll_visible else R.string.menu_roll_invisible
 
             contentContainer
