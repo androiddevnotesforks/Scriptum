@@ -73,9 +73,9 @@ class NotesScreen(hide: Boolean) : ParentRecyclerScreen(R.id.notes_recycler) {
 
         toolbar.assert()
         toolbar.contentContainer
-                .withMenuItemDrawable(R.id.item_notification, R.drawable.ic_notifications)
+                .withMenuDrawable(R.id.item_notification, R.drawable.ic_notifications)
                 .withMenuTitle(R.id.item_notification, R.string.menu_notifications)
-                .withMenuItemDrawable(R.id.item_preference, R.drawable.ic_preference)
+                .withMenuDrawable(R.id.item_preference, R.drawable.ic_preference)
                 .withMenuTitle(R.id.item_preference, R.string.menu_preference)
 
         notificationMenuItem.isDisplayed()

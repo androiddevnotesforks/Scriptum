@@ -67,7 +67,7 @@ class BinScreen : ParentRecyclerScreen(R.id.bin_recycler) {
 
         if (!empty) {
             toolbar.contentContainer
-                    .withMenuItemDrawable(R.id.item_clear, R.drawable.ic_clear)
+                    .withMenuDrawable(R.id.item_clear, R.drawable.ic_clear)
                     .withMenuTitle(R.id.item_clear, R.string.menu_clear_bin)
 
             clearMenuItem.isDisplayed()

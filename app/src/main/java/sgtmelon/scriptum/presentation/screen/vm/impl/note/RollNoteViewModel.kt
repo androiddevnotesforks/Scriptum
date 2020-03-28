@@ -3,6 +3,7 @@ package sgtmelon.scriptum.presentation.screen.vm.impl.note
 import android.app.Application
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import kotlinx.coroutines.launch
@@ -74,8 +75,6 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     private var rankDialogItemArray: Array<String> = arrayOf()
 
     private val iconState = IconState()
-
-    private var isVisible = true
 
     override fun onSetup(bundle: Bundle?) {
         id = bundle?.getLong(Intent.ID, Default.ID) ?: Default.ID
@@ -775,7 +774,8 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     companion object {
-
+        @VisibleForTesting
+        var isVisible = true
     }
 
 }

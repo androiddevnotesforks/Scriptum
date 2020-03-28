@@ -146,8 +146,8 @@ fun Matcher<View>.withNavigationDrawable(@IdRes resourceId: Int,
     matchOnView(it, NavigationDrawableMatcher(resourceId, attrColor))
 }
 
-fun Matcher<View>.withMenuItemDrawable(@IdRes itemId: Int, @IdRes resourceId: Int,
-                                       @AttrRes attrColor: Int = R.attr.clContent) = also {
+fun Matcher<View>.withMenuDrawable(@IdRes itemId: Int, @IdRes resourceId: Int,
+                                   @AttrRes attrColor: Int = R.attr.clContent) = also {
     matchOnView(it, MenuItemDrawableMatcher(itemId, resourceId, attrColor))
 }
 

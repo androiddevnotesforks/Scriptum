@@ -6,6 +6,7 @@ import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.State
+import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
 import sgtmelon.scriptum.domain.model.key.NoteType
@@ -15,6 +16,7 @@ import sgtmelon.scriptum.presentation.adapter.RollAdapter
 import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
+import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel
 import sgtmelon.scriptum.ui.IPressBack
 import sgtmelon.scriptum.ui.ParentRecyclerItem
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
@@ -187,7 +189,17 @@ class RollNoteScreen(
 
         fragmentContainer.isDisplayed()
 
+        toolbar {
+            val value = RollNoteViewModel.isVisible
 
+            val itemIcon = if (value) R.drawable.ic_visible_enter else R.drawable.ic_visible_exit
+            val itemTint = if (theme == Theme.DARK) R.attr.clAccent else R.attr.clContent
+            val itemTitle = if (value) R.string.menu_roll_visible else R.string.menu_roll_invisible
+
+            contentContainer
+                    .withMenuDrawable(R.id.item_visible, itemIcon, itemTint)
+                    .withMenuTitle(R.id.item_visible, itemTitle)
+        }
 
         parentContainer.isDisplayed()
         progressBar.isDisplayed(visible = state == State.READ || state == State.BIN) {
