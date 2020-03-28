@@ -311,7 +311,9 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             updateProgress(noteItem.getCheck(), noteItem.rollList.size)
         }
 
-        notifyListByVisible()
+        if (!isVisible) {
+            notifyListByVisible()
+        }
 
         viewModelScope.launch { interactor.updateRollCheck(noteItem, check) }
     }
