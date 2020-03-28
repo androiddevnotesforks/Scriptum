@@ -13,7 +13,7 @@ import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 
 /**
- * Part of UI abstraction for [TextNoteScreen] и [RollNoteScreen]
+ * Part of UI abstraction for [TextNoteScreen] и [RollNoteScreen].
  */
 class NoteToolbar<T : ParentUi>(
         private val callback: INoteScreen<T>,
@@ -76,12 +76,18 @@ class NoteToolbar<T : ParentUi>(
         nameEnter.isFocused().withCursor(callback.shadowItem.name.length)
     }
 
-    // TODO #TEST (focus on title check)
     fun assert() = apply {
         val color = callback.shadowItem.color
 
         parentContainer.isDisplayed()
-        contentContainer.isDisplayed().withBackgroundAppColor(theme, color, needDark = false)
+
+        contentContainer.isDisplayed()
+                .withBackgroundAppColor(theme, color, needDark = false)
+                .withNavigationDrawable(when(callback.state) {
+                    State.READ, State.BIN, State.NEW -> R.drawable.ic_cancel_exit
+                    State.EDIT -> R.drawable.ic_cancel_enter
+                }, R.attr.clContent)
+
         nameScroll.isDisplayed()
 
         colorView.isDisplayed(visible = theme == Theme.DARK) {

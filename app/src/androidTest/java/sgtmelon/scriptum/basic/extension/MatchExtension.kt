@@ -136,6 +136,10 @@ fun Matcher<View>.withDrawableAttr(resourceId: Int, @AttrRes attrColor: Int = -1
     matchOnView(it, DrawableMatcher(resourceId, -1, attrColor))
 }
 
+fun Matcher<View>.withNavigationDrawable(resourceId: Int, @AttrRes attrColor: Int = -1) = also {
+    matchOnView(it, NavigationDrawableMatcher(resourceId, attrColor))
+}
+
 
 fun Matcher<View>.withColorIndicator(resourceId: Int = -1,
                                      @Theme theme: Int,

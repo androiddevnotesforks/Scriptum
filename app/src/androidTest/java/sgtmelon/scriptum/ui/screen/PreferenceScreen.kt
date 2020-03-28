@@ -25,7 +25,7 @@ class PreferenceScreen : ParentRecyclerScreen(R.id.recycler_view),
     //region Views
 
     private val parentContainer = getViewById(R.id.preference_parent_container)
-    private val toolbar = SimpleToolbar(R.string.title_preference)
+    private val toolbar = SimpleToolbar(R.string.title_preference, withBack = true)
 
     private val colorTitle = getViewByText(R.string.pref_title_note_color)
     private val repeatTitle = getViewByText(R.string.pref_title_alarm_repeat)

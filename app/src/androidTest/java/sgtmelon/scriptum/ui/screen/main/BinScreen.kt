@@ -26,7 +26,7 @@ class BinScreen : ParentRecyclerScreen(R.id.bin_recycler) {
 
     private val parentContainer = getViewById(R.id.bin_parent_container)
 
-    private val toolbar = SimpleToolbar(R.string.title_bin)
+    private val toolbar = SimpleToolbar(R.string.title_bin, withBack = false)
     private val clearMenuItem = getViewById(R.id.item_clear)
 
     private val infoContainer = InfoContainer(InfoPage.BIN)

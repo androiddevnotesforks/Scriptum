@@ -27,7 +27,7 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler), IPr
     //region Views
 
     private val parentContainer = getViewById(R.id.notification_parent_container)
-    private val toolbar = SimpleToolbar(R.string.title_notification)
+    private val toolbar = SimpleToolbar(R.string.title_notification, withBack = true)
 
     private val infoContainer = InfoContainer(InfoPage.NOTIFICATION)
 

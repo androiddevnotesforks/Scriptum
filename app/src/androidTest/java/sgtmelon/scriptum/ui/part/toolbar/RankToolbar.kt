@@ -71,7 +71,10 @@ class RankToolbar : ParentUi(), IKeyboardOption {
 
 
     fun assert(isAddEnabled: Boolean = false) {
-        parentContainer.isDisplayed().withBackgroundAttr(R.attr.colorPrimary)
+        parentContainer.isDisplayed()
+                .withBackgroundAttr(R.attr.colorPrimary)
+                .withNavigationDrawable(resourceId = -1)
+
         parentCard.isDisplayed().withCardBackground(R.attr.clBackgroundEnter)
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {

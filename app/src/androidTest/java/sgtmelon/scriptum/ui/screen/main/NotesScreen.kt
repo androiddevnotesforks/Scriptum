@@ -26,7 +26,7 @@ class NotesScreen(hide: Boolean) : ParentRecyclerScreen(R.id.notes_recycler) {
     //region Views
 
     private val parentContainer = getViewById(R.id.notes_parent_container)
-    private val toolbar = SimpleToolbar(R.string.title_notes)
+    private val toolbar = SimpleToolbar(R.string.title_notes, withBack = false)
 
     private val notificationMenuItem = getViewById(R.id.item_notification)
     private val preferenceMenuItem = getViewById(R.id.item_preference)
