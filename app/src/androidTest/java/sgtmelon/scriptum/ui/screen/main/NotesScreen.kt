@@ -1,9 +1,7 @@
 package sgtmelon.scriptum.ui.screen.main
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.extension.click
-import sgtmelon.scriptum.basic.extension.isDisplayed
-import sgtmelon.scriptum.basic.extension.longClick
+import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.InfoPage
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.domain.model.item.NoteItem
@@ -72,7 +70,13 @@ class NotesScreen(hide: Boolean) : ParentRecyclerScreen(R.id.notes_recycler) {
 
     fun assert(empty: Boolean) = apply {
         parentContainer.isDisplayed()
+
         toolbar.assert()
+        toolbar.contentContainer
+                .withMenuItemDrawable(R.id.item_notification, R.drawable.ic_notifications)
+                .withMenuTitle(R.id.item_notification, R.string.menu_notifications)
+                .withMenuItemDrawable(R.id.item_preference, R.drawable.ic_preference)
+                .withMenuTitle(R.id.item_preference, R.string.menu_preference)
 
         notificationMenuItem.isDisplayed()
         preferenceMenuItem.isDisplayed()

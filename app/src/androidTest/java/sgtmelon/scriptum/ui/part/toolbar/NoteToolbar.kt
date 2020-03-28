@@ -23,7 +23,7 @@ class NoteToolbar<T : ParentUi>(
     //region Views
 
     private val parentContainer = getViewById(R.id.toolbar_note_parent_container)
-    private val contentContainer = getViewById(R.id.toolbar_note_content_container)
+    val contentContainer = getViewById(R.id.toolbar_note_content_container)
     private val nameScroll = getViewById(R.id.toolbar_note_scroll)
 
     private val colorView = getViewById(R.id.toolbar_note_color_view)

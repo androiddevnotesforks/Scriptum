@@ -1,21 +1,20 @@
 package sgtmelon.scriptum.basic.extension
 
 import android.view.View
-import androidx.annotation.AttrRes
-import androidx.annotation.ColorRes
-import androidx.annotation.DimenRes
-import androidx.annotation.StringRes
+import androidx.annotation.*
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matcher
+import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.matcher.*
 import sgtmelon.scriptum.basic.matcher.card.CardBackgroundAttrMatcher
 import sgtmelon.scriptum.basic.matcher.card.CardBackgroundColorMatcher
 import sgtmelon.scriptum.basic.matcher.drawable.*
 import sgtmelon.scriptum.basic.matcher.text.HintAttrColorMatcher
+import sgtmelon.scriptum.basic.matcher.text.MenuItemTitleMatcher
 import sgtmelon.scriptum.basic.matcher.text.TextAttrColorMatcher
 import sgtmelon.scriptum.basic.matcher.text.TextSizeMatcher
 import sgtmelon.scriptum.domain.model.annotation.Color
@@ -97,6 +96,11 @@ fun Matcher<View>.withHint(@StringRes stringId: Int,
     if (dimenId != -1) withTextSize(dimenId)
 }
 
+fun Matcher<View>.withMenuTitle(@IdRes itemId: Int, @StringRes stringId: Int) = also {
+    matchOnView(it, MenuItemTitleMatcher(itemId, stringId))
+}
+
+
 fun Matcher<View>.withHintColor(@AttrRes attrColor: Int) = also {
     matchOnView(it, HintAttrColorMatcher(attrColor))
 }
@@ -128,16 +132,23 @@ fun Matcher<View>.withBackgroundAttr(@AttrRes attrId: Int) = also {
 }
 
 
-fun Matcher<View>.withDrawableColor(resourceId: Int = -1, @ColorRes colorId: Int = -1) = also {
+fun Matcher<View>.withDrawableColor(@IdRes resourceId: Int = -1,
+                                    @ColorRes colorId: Int = -1) = also {
     matchOnView(it, DrawableMatcher(resourceId, colorId, -1))
 }
 
-fun Matcher<View>.withDrawableAttr(resourceId: Int, @AttrRes attrColor: Int = -1) = also {
+fun Matcher<View>.withDrawableAttr(@IdRes resourceId: Int, @AttrRes attrColor: Int = -1) = also {
     matchOnView(it, DrawableMatcher(resourceId, -1, attrColor))
 }
 
-fun Matcher<View>.withNavigationDrawable(resourceId: Int, @AttrRes attrColor: Int = -1) = also {
+fun Matcher<View>.withNavigationDrawable(@IdRes resourceId: Int,
+                                         @AttrRes attrColor: Int = -1) = also {
     matchOnView(it, NavigationDrawableMatcher(resourceId, attrColor))
+}
+
+fun Matcher<View>.withMenuItemDrawable(@IdRes itemId: Int, @IdRes resourceId: Int,
+                                       @AttrRes attrColor: Int = R.attr.clContent) = also {
+    matchOnView(it, MenuItemDrawableMatcher(itemId, resourceId, attrColor))
 }
 
 

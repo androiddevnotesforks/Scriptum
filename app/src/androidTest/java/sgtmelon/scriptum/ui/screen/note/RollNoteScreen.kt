@@ -188,6 +188,7 @@ class RollNoteScreen(
         fragmentContainer.isDisplayed()
 
 
+
         parentContainer.isDisplayed()
         progressBar.isDisplayed(visible = state == State.READ || state == State.BIN) {
             withSize(heightId = R.dimen.layout_4dp)

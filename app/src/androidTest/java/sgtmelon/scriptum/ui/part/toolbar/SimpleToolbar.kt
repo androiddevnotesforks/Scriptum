@@ -1,9 +1,11 @@
 package sgtmelon.scriptum.ui.part.toolbar
 
 import android.os.Build
+import android.view.View
 import androidx.annotation.StringRes
 import androidx.test.espresso.matcher.ViewMatchers.withChild
 import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.isDisplayed
 import sgtmelon.scriptum.basic.extension.withBackgroundAttr
@@ -15,7 +17,7 @@ import sgtmelon.scriptum.basic.extension.withSize
  */
 class SimpleToolbar(@StringRes titleId: Int, private val withBack: Boolean) : ParentToolbar() {
 
-    private val toolbarContainer = allOf(
+    val contentContainer: Matcher<View> = allOf(
             getViewById(R.id.toolbar_container), withChild(getViewByText(titleId))
     )
 
@@ -25,7 +27,7 @@ class SimpleToolbar(@StringRes titleId: Int, private val withBack: Boolean) : Pa
         val backIconDrawable = if (withBack) R.drawable.ic_cancel_exit else -1
         val backIconTint = if (withBack) R.attr.clContent else -1
 
-        toolbarContainer.isDisplayed()
+        contentContainer.isDisplayed()
                 .withBackgroundAttr(R.attr.colorPrimary)
                 .withNavigationDrawable(backIconDrawable, backIconTint)
 

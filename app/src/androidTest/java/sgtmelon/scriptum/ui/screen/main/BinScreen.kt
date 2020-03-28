@@ -1,9 +1,7 @@
 package sgtmelon.scriptum.ui.screen.main
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.extension.click
-import sgtmelon.scriptum.basic.extension.isDisplayed
-import sgtmelon.scriptum.basic.extension.longClick
+import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.InfoPage
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.domain.model.item.NoteItem
@@ -67,7 +65,13 @@ class BinScreen : ParentRecyclerScreen(R.id.bin_recycler) {
         parentContainer.isDisplayed()
         toolbar.assert()
 
-        if (!empty) clearMenuItem.isDisplayed()
+        if (!empty) {
+            toolbar.contentContainer
+                    .withMenuItemDrawable(R.id.item_clear, R.drawable.ic_clear)
+                    .withMenuTitle(R.id.item_clear, R.string.menu_clear_bin)
+
+            clearMenuItem.isDisplayed()
+        }
 
         infoContainer.assert(empty)
         recyclerView.isDisplayed(!empty)
