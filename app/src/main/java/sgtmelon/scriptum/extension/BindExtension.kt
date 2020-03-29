@@ -44,6 +44,11 @@ fun View.bindVisibleTheme(@Theme visibleOn: Int, @Theme theme: Int) {
 
 @BindingAdapter(value = ["drawableId", "colorAttr"])
 fun ImageView.bindDrawable(@DrawableRes drawableId: Int, @AttrRes color: Int) {
+    if (drawableId == 0) {
+        visibility = View.GONE
+        return
+    }
+
     setImageDrawable(ContextCompat.getDrawable(context, drawableId))
     setColorFilter(context.getColorAttr(color))
 }

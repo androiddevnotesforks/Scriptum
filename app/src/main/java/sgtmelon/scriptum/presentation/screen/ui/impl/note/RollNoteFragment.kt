@@ -13,10 +13,7 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ProgressBar
 import androidx.appcompat.widget.Toolbar
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.SimpleItemAnimator
+import androidx.recyclerview.widget.*
 import androidx.transition.AutoTransition
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
@@ -117,6 +114,8 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
     private val layoutManager by lazy { LinearLayoutManager(activity) }
 
     private var parentContainer: ViewGroup? = null
+    private var panelContainer: ViewGroup? = null
+    private var emptyInfoView: View? = null
 
     /**
      * Setup manually because after rotation lazy function will return null.
@@ -125,7 +124,6 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
     private var rollEnter: EditText? = null
     private var recyclerView: RecyclerView? = null
     private var rollProgress: ProgressBar? = null
-    private var panelContainer: ViewGroup? = null
 
     private var visibleMenuItem: MenuItem? = null
 
@@ -151,6 +149,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
 
         parentContainer = view.findViewById(R.id.roll_note_parent_container)
         panelContainer = view.findViewById(R.id.note_panel_container)
+        emptyInfoView = view.findViewById(R.id.roll_note_info_include)
     }
 
     override fun onResume() {
@@ -315,6 +314,12 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
 
         recyclerView = view?.findViewById(R.id.roll_note_recycler)
         recyclerView?.let {
+            it.itemAnimator = object : DefaultItemAnimator() {
+                override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) {
+                    onBindingList()
+                }
+            }
+
             (it.itemAnimator as? SimpleItemAnimator?)?.supportsChangeAnimations = false
 
             it.setHasFixedSize(true)
@@ -346,6 +351,14 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
             this.dataLoad = true
             this.rankEmpty = rankEmpty
         }?.executePendingBindings()
+    }
+
+    override fun onBindingList() {
+        val isListEmpty = adapter.itemCount == 0
+
+        parentContainer?.createVisibleAnim(emptyInfoView, isListEmpty)
+
+        binding?.apply { this.isListEmpty = isListEmpty }?.executePendingBindings()
     }
 
     override fun onBindingEdit(editMode: Boolean, item: NoteItem) {

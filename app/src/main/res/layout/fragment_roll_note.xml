@@ -4,7 +4,10 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="sgtmelon.scriptum.R"/>
         <import type="android.view.View"/>
+
+        <variable name="isListEmpty" type="boolean"/>
 
         <variable name="theme" type="int"/>
         <variable name="menuCallback" type="sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteMenu"/>
@@ -38,12 +41,19 @@
                 android:layout_height="0dp"
                 android:layout_weight="1">
 
+            <include
+                    android:id="@+id/roll_note_info_include"
+                    layout="@layout/include_info"
+                    android:visibility="gone"
+                    app:details='@{R.string.info_roll_hide_details}'
+                    app:title='@{R.string.info_roll_hide_title}'/>
+
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/roll_note_recycler"
                     style="@style/RecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:visibility='@{dataLoad ? View.VISIBLE : View.INVISIBLE}'
+                    android:visibility='@{!isListEmpty &amp;&amp; dataLoad ? View.VISIBLE : View.GONE}'
                     tools:itemCount="3"
                     tools:listitem="@layout/item_roll_write"/>
 

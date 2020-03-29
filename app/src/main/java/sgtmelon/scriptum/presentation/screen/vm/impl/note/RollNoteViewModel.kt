@@ -133,6 +133,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             callback?.setToolbarVisibleIcon(isVisible, needAnim = false)
 
             callback?.notifyDataSetChanged(getList())
+            callback?.onBindingList()
             callback?.onBindingLoad(rankEmpty = rankDialogItemArray.size == 1)
         }
     }
@@ -770,6 +771,8 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
                 }
             }
         }
+
+        callback?.onBindingList()
     }
 
     companion object {
