@@ -8,6 +8,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalCoroutinesApi
 abstract class ParentInteractorTest : ParentCoTest() {
 
-    abstract fun onDestroy()
+    open fun onDestroy() {}
 
 }

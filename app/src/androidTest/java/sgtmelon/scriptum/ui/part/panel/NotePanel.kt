@@ -83,6 +83,9 @@ class NotePanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi(),
      */
     fun onClear() = callback.throwOnWrongState(State.BIN) { clearButton.click() }
 
+    /**
+     * TODO (add)
+     */
     fun onUndo() = apply {
         callback.throwOnWrongState(State.EDIT, State.NEW) {
             undoButton.click()
@@ -92,6 +95,9 @@ class NotePanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi(),
         }
     }
 
+    /**
+     * TODO (add)
+     */
     fun onRedo() = apply {
         callback.throwOnWrongState(State.EDIT, State.NEW) {
             redoButton.click()

@@ -85,10 +85,9 @@ class MainScreen : ParentUi() {
     fun assert(page: MainPage? = null, fabVisible: Boolean? = null) = apply {
         parentContainer.isDisplayed()
 
-        /**
-         * TODO #TEST height attr assert
-         */
         toolbarHolder.withBackgroundAttr(R.attr.clPrimary)
+                .withSizeAttr(heightAttr = android.R.attr.actionBarSize)
+
         menuNavigation.isDisplayed().withBackgroundAttr(R.attr.clPrimary)
 
         when (page) {
