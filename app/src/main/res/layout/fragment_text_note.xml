@@ -8,11 +8,11 @@
 
         <variable name="theme" type="int"/>
         <variable name="menuCallback" type="sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteMenu"/>
-        <variable name="dataLoad" type="boolean"/>
+        <variable name="isDataLoad" type="boolean"/>
 
         <variable name="item" type="sgtmelon.scriptum.domain.model.item.NoteItem"/>
-        <variable name="rankEmpty" type="boolean"/>
-        <variable name="editMode" type="boolean"/>
+        <variable name="isRankEmpty" type="boolean"/>
+        <variable name="isEditMode" type="boolean"/>
 
         <variable name="inputAccess" type="sgtmelon.scriptum.presentation.control.note.input.InputControl.Access"/>
     </data>
@@ -25,8 +25,8 @@
 
         <include
                 layout="@layout/include_toolbar_note"
-                app:dataLoad='@{dataLoad}'
-                app:editMode='@{editMode}'
+                app:isDataLoad='@{isDataLoad}'
+                app:isEditMode='@{isEditMode}'
                 app:item='@{item}'
                 app:theme='@{theme}'/>
 
@@ -50,7 +50,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:fillViewport="true"
-                        android:visibility='@{dataLoad ? View.VISIBLE : View.INVISIBLE}'>
+                        android:visibility='@{isDataLoad ? View.VISIBLE : View.INVISIBLE}'>
 
                     <FrameLayout
                             android:layout_width="match_parent"
@@ -62,7 +62,7 @@
                                 android:hint="@string/hint_enter_text"
                                 android:importantForAutofill="noExcludeDescendants"
                                 android:text='@={item.text}'
-                                android:visibility='@{editMode ? View.VISIBLE : View.INVISIBLE}'
+                                android:visibility='@{isEditMode ? View.VISIBLE : View.INVISIBLE}'
                                 tools:targetApi="o"
                                 tools:visibility="invisible"/>
 
@@ -70,8 +70,8 @@
                         <TextView
                                 android:id="@+id/text_note_content_text"
                                 style="@style/EditText.TextNote.Read"
-                                android:text='@{editMode ? "" : item.text}'
-                                android:visibility='@{!editMode ? View.VISIBLE : View.INVISIBLE}'
+                                android:text='@{isEditMode ? "" : item.text}'
+                                android:visibility='@{!isEditMode ? View.VISIBLE : View.INVISIBLE}'
                                 tools:text="@string/preview_note_text"/>
 
                     </FrameLayout>
@@ -84,13 +84,13 @@
 
         <include
                 layout="@layout/include_note_panel"
-                app:dataLoad='@{dataLoad}'
-                app:editMode='@{editMode}'
-                app:hideDivider='@{false}'
+                app:isDataLoad='@{isDataLoad}'
+                app:isEditMode='@{isEditMode}'
+                app:isDividerHide='@{false}'
                 app:inputAccess='@{inputAccess}'
                 app:item='@{item}'
                 app:menuCallback='@{menuCallback}'
-                app:rankEmpty='@{rankEmpty}'/>
+                app:isRankEmpty='@{isRankEmpty}'/>
 
     </LinearLayout>
 

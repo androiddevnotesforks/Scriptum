@@ -113,7 +113,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
             iconState.notAnimate { setupEditMode(noteState.isEdit) }
 
-            callback?.onBindingLoad(rankEmpty = rankDialogItemArray.size == 1)
+            callback?.onBindingLoad(isRankEmpty = rankDialogItemArray.size == 1)
         }
     }
 

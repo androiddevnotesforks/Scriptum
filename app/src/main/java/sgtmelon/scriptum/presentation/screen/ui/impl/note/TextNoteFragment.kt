@@ -231,7 +231,7 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment,
     }
 
 
-    override fun onBindingLoad(rankEmpty: Boolean) {
+    override fun onBindingLoad(isRankEmpty: Boolean) {
         parentContainer?.let {
             val time = resources.getInteger(R.integer.fade_anim_time)
             val transition = Fade().setDuration(time.toLong())
@@ -240,8 +240,8 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment,
         }
 
         binding?.apply {
-            this.dataLoad = true
-            this.rankEmpty = rankEmpty
+            this.isDataLoad = true
+            this.isRankEmpty = isRankEmpty
         }?.executePendingBindings()
     }
 
@@ -249,7 +249,7 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment,
         binding?.apply { this.item = item }?.executePendingBindings()
     }
 
-    override fun onBindingEdit(editMode: Boolean, item: NoteItem) {
+    override fun onBindingEdit(isEditMode: Boolean, item: NoteItem) {
         panelContainer?.let {
             val time = resources.getInteger(R.integer.fade_anim_time)
             val transition = AutoTransition()
@@ -261,7 +261,7 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment,
 
         binding?.apply {
             this.item = item
-            this.editMode = editMode
+            this.isEditMode = isEditMode
         }?.executePendingBindings()
     }
 

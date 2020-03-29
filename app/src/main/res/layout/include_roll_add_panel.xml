@@ -8,8 +8,8 @@
         <import type="sgtmelon.scriptum.R"/>
         <import type="android.view.View"/>
 
-        <variable name="editMode" type="boolean"/>
-        <variable name="enterEmpty" type="boolean"/>
+        <variable name="isEditMode" type="boolean"/>
+        <variable name="isEnterEmpty" type="boolean"/>
     </data>
 
     <LinearLayout
@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:background="?attr/clPrimary"
             android:orientation="vertical"
-            android:visibility='@{editMode ? View.VISIBLE : View.GONE}'
+            android:visibility='@{isEditMode ? View.VISIBLE : View.GONE}'
             tools:layout_gravity="center"
             tools:visibility="visible">
 
@@ -55,8 +55,8 @@
                     style="@style/Button.Small"
                     android:layout_gravity="bottom"
                     android:contentDescription="@string/description_enter_roll_add"
-                    app:boolExpression='@{!enterEmpty}'
-                    app:enabled='@{!enterEmpty}'
+                    app:boolExpression='@{!isEnterEmpty}'
+                    app:enabled='@{!isEnterEmpty}'
                     app:falseColor='@{R.attr.clDisable}'
                     app:srcCompat="@drawable/ic_add"
                     app:trueColor='@{R.attr.clAccent}'

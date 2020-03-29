@@ -339,7 +339,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
     }
 
 
-    override fun onBindingLoad(rankEmpty: Boolean) {
+    override fun onBindingLoad(isRankEmpty: Boolean) {
         parentContainer?.let {
             val time = resources.getInteger(R.integer.fade_anim_time)
             val transition = Fade().setDuration(time.toLong())
@@ -348,8 +348,8 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
         }
 
         binding?.apply {
-            this.dataLoad = true
-            this.rankEmpty = rankEmpty
+            this.isDataLoad = true
+            this.isRankEmpty = isRankEmpty
         }?.executePendingBindings()
     }
 
@@ -361,7 +361,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
         binding?.apply { this.isListEmpty = isListEmpty }?.executePendingBindings()
     }
 
-    override fun onBindingEdit(editMode: Boolean, item: NoteItem) {
+    override fun onBindingEdit(isEditMode: Boolean, item: NoteItem) {
         panelContainer?.let {
             val time = resources.getInteger(R.integer.fade_anim_time)
             val transition = AutoTransition()
@@ -373,7 +373,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
 
         binding?.apply {
             this.item = item
-            this.editMode = editMode
+            this.isEditMode = isEditMode
         }
 
         onBindingEnter()
@@ -384,7 +384,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
     }
 
     override fun onBindingEnter() {
-        binding?.enterEmpty = getEnterText().clearSpace().isEmpty()
+        binding?.isEnterEmpty = getEnterText().clearSpace().isEmpty()
         binding?.executePendingBindings()
     }
 
@@ -469,7 +469,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
     }
 
     override fun changeCheckToggle(state: Boolean) {
-        adapter.checkToggle = state
+        adapter.isToggleCheck = state
     }
 
     override fun updateNoteState(noteState: NoteState) {

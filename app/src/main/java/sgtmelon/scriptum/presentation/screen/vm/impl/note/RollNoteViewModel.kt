@@ -134,7 +134,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
             callback?.notifyDataSetChanged(getList())
             callback?.onBindingList()
-            callback?.onBindingLoad(rankEmpty = rankDialogItemArray.size == 1)
+            callback?.onBindingLoad(isRankEmpty = rankDialogItemArray.size == 1)
         }
     }
 

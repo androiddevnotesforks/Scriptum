@@ -43,11 +43,11 @@ interface IRollNoteFragment : IRollNoteBridge {
     fun showToolbarVisibleIcon(isShow: Boolean)
 
 
-    fun onBindingLoad(rankEmpty: Boolean)
+    fun onBindingLoad(isRankEmpty: Boolean)
 
     fun onBindingList()
 
-    fun onBindingEdit(editMode: Boolean, item: NoteItem)
+    fun onBindingEdit(isEditMode: Boolean, item: NoteItem)
 
     fun onBingingNote(item: NoteItem)
 

@@ -9,14 +9,14 @@
         <import type="android.view.View"/>
         <import alias="Type" type="sgtmelon.scriptum.domain.model.key.NoteType"/>
 
-        <variable name="hideDivider" type="boolean"/>
+        <variable name="isDividerHide" type="boolean"/>
 
         <variable name="menuCallback" type="sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteMenu"/>
-        <variable name="dataLoad" type="boolean"/>
+        <variable name="isDataLoad" type="boolean"/>
 
         <variable name="item" type="sgtmelon.scriptum.domain.model.item.NoteItem"/>
-        <variable name="rankEmpty" type="boolean"/>
-        <variable name="editMode" type="boolean"/>
+        <variable name="isRankEmpty" type="boolean"/>
+        <variable name="isEditMode" type="boolean"/>
 
         <variable name="inputAccess" type="sgtmelon.scriptum.presentation.control.note.input.InputControl.Access"/>
     </data>
@@ -31,7 +31,7 @@
         <View
                 android:id="@+id/note_panel_divider_view"
                 style="@style/Divider.Horizontal"
-                android:visibility='@{!hideDivider ? View.VISIBLE : View.GONE}'/>
+                android:visibility='@{!isDividerHide ? View.VISIBLE : View.GONE}'/>
 
         <FrameLayout
                 android:id="@+id/note_panel_button_container"
@@ -46,7 +46,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:visibility='@{dataLoad &amp;&amp; !editMode &amp;&amp; item.bin ? View.VISIBLE : View.INVISIBLE}'
+                    android:visibility='@{isDataLoad &amp;&amp; !isEditMode &amp;&amp; item.bin ? View.VISIBLE : View.INVISIBLE}'
                     tools:visibility="invisible">
 
                 <ImageButton
@@ -80,7 +80,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:visibility='@{dataLoad &amp;&amp; editMode &amp;&amp; !item.bin ? View.VISIBLE : View.INVISIBLE}'
+                    android:visibility='@{isDataLoad &amp;&amp; isEditMode &amp;&amp; !item.bin ? View.VISIBLE : View.INVISIBLE}'
                     tools:visibility="invisible">
 
                 <ImageButton
@@ -112,8 +112,8 @@
                         style="@style/Button.Small"
                         android:contentDescription="@string/description_note_rank"
                         android:onClick='@{() -> menuCallback.onMenuRank()}'
-                        app:boolExpression='@{!rankEmpty}'
-                        app:enabled='@{!rankEmpty}'
+                        app:boolExpression='@{!isRankEmpty}'
+                        app:enabled='@{!isRankEmpty}'
                         app:falseColor='@{R.attr.clDisable}'
                         app:srcCompat="@drawable/ic_rank"
                         app:trueColor='@{item.haveRank() ? R.attr.clAccent : R.attr.clContent}'
@@ -148,7 +148,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:visibility='@{dataLoad &amp;&amp; !editMode &amp;&amp; !item.bin ? View.VISIBLE  : View.INVISIBLE}'
+                    android:visibility='@{isDataLoad &amp;&amp; !isEditMode &amp;&amp; !item.bin ? View.VISIBLE  : View.INVISIBLE}'
                     tools:visibility="visible">
 
                 <ImageButton

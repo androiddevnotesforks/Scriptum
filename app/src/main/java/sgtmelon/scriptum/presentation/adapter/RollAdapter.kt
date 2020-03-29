@@ -31,7 +31,7 @@ class RollAdapter(
      * Variable for choose method of set check:
      * Set true if need  [CheckBox.toggle] otherwise will call [CheckBox.setChecked].
      */
-    var checkToggle: Boolean = false
+    var isToggleCheck: Boolean = false
     var cursorPosition = ND_CURSOR
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
@@ -48,7 +48,7 @@ class RollAdapter(
         val item = list[position]
 
         when (holder) {
-            is RollReadHolder -> holder.bind(item, noteState, checkToggle)
+            is RollReadHolder -> holder.bind(item, noteState, isToggleCheck)
             is RollWriteHolder -> {
                 holder.bind(item)
 

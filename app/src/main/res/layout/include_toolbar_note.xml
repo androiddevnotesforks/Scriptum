@@ -10,10 +10,10 @@
         <import type="sgtmelon.scriptum.domain.model.annotation.Theme"/>
 
         <variable name="theme" type="int"/>
-        <variable name="dataLoad" type="boolean"/>
+        <variable name="isDataLoad" type="boolean"/>
 
         <variable name="item" type="sgtmelon.scriptum.domain.model.item.NoteItem"/>
-        <variable name="editMode" type="boolean"/>
+        <variable name="isEditMode" type="boolean"/>
     </data>
 
     <com.google.android.material.appbar.AppBarLayout
@@ -36,7 +36,7 @@
                     style="@style/Container.ToolbarNote.Scroll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility='@{dataLoad ? View.VISIBLE : View.INVISIBLE}'>
+                    android:visibility='@{isDataLoad ? View.VISIBLE : View.INVISIBLE}'>
 
                 <FrameLayout
                         android:layout_width="wrap_content"
@@ -50,7 +50,7 @@
                             android:hint="@string/hint_enter_name"
                             android:importantForAutofill="noExcludeDescendants"
                             android:text='@={item.name}'
-                            android:visibility='@{editMode ? View.VISIBLE : View.INVISIBLE}'
+                            android:visibility='@{isEditMode ? View.VISIBLE : View.INVISIBLE}'
                             tools:targetApi="o"
                             tools:visibility="invisible"/>
 
@@ -59,8 +59,8 @@
                             android:id="@+id/toolbar_note_text"
                             style="@style/Text.ToolbarNote"
                             android:hint="@string/hint_text_name"
-                            android:text='@{editMode ? "" : item.name}'
-                            android:visibility='@{!editMode ? View.VISIBLE : View.INVISIBLE}'
+                            android:text='@{isEditMode ? "" : item.name}'
+                            android:visibility='@{!isEditMode ? View.VISIBLE : View.INVISIBLE}'
                             tools:text="@string/preview_note_name"/>
 
                 </FrameLayout>

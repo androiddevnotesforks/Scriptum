@@ -41,10 +41,10 @@ class RollReadHolder(
         }
     }
 
-    fun bind(item: RollItem, noteState: NoteState?, checkToggle: Boolean) = binding.apply {
+    fun bind(item: RollItem, noteState: NoteState?, isToggleCheck: Boolean) = binding.apply {
         this.item = item
-        this.keyBin = noteState?.isBin == true
-        this.checkToggle = checkToggle
+        this.isBin = noteState?.isBin == true
+        this.isToggleCheck = isToggleCheck
     }.executePendingBindings()
 
 }

@@ -31,11 +31,11 @@ interface ITextNoteFragment : ITextNoteBridge {
     fun setupEnter(iInputControl: IInputControl)
 
 
-    fun onBindingLoad(rankEmpty: Boolean)
+    fun onBindingLoad(isRankEmpty: Boolean)
 
     fun onBindingNote(item: NoteItem)
 
-    fun onBindingEdit(editMode: Boolean, item: NoteItem)
+    fun onBindingEdit(isEditMode: Boolean, item: NoteItem)
 
     fun onBindingInput(item: NoteItem, inputAccess: InputControl.Access)
 

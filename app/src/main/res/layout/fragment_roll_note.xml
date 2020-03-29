@@ -11,15 +11,15 @@
 
         <variable name="theme" type="int"/>
         <variable name="menuCallback" type="sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteMenu"/>
-        <variable name="dataLoad" type="boolean"/>
+        <variable name="isDataLoad" type="boolean"/>
 
         <variable name="item" type="sgtmelon.scriptum.domain.model.item.NoteItem"/>
-        <variable name="rankEmpty" type="boolean"/>
-        <variable name="editMode" type="boolean"/>
+        <variable name="isRankEmpty" type="boolean"/>
+        <variable name="isEditMode" type="boolean"/>
 
         <variable name="inputAccess" type="sgtmelon.scriptum.presentation.control.note.input.InputControl.Access"/>
 
-        <variable name="enterEmpty" type="boolean"/>
+        <variable name="isEnterEmpty" type="boolean"/>
     </data>
 
     <LinearLayout
@@ -30,8 +30,8 @@
 
         <include
                 layout="@layout/include_toolbar_note"
-                app:dataLoad='@{dataLoad}'
-                app:editMode='@{editMode}'
+                app:isDataLoad='@{isDataLoad}'
+                app:isEditMode='@{isEditMode}'
                 app:item='@{item}'
                 app:theme='@{theme}'/>
 
@@ -53,35 +53,35 @@
                     style="@style/RecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:visibility='@{!isListEmpty &amp;&amp; dataLoad ? View.VISIBLE : View.GONE}'
+                    android:visibility='@{!isListEmpty &amp;&amp; isDataLoad ? View.VISIBLE : View.GONE}'
                     tools:itemCount="3"
                     tools:listitem="@layout/item_roll_write"/>
 
         </FrameLayout>
 
         <include layout="@layout/include_roll_add_panel"
-                app:editMode='@{editMode}'
-                app:enterEmpty='@{enterEmpty}'/>
+                app:isEditMode='@{isEditMode}'
+                app:isEnterEmpty='@{isEnterEmpty}'/>
 
         <ProgressBar
                 android:id="@+id/roll_note_progress"
                 style="?attr/styleProgressHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/layout_4dp"
-                android:visibility='@{!editMode ? View.VISIBLE : View.GONE}'
+                android:visibility='@{!isEditMode ? View.VISIBLE : View.GONE}'
                 android:max="0"
                 tools:max="100"
                 tools:progress="65"/>
 
         <include
                 layout="@layout/include_note_panel"
-                app:dataLoad='@{dataLoad}'
-                app:editMode='@{editMode}'
-                app:hideDivider='@{!editMode}'
+                app:isDataLoad='@{isDataLoad}'
+                app:isEditMode='@{isEditMode}'
+                app:isDividerHide='@{!isEditMode}'
                 app:inputAccess='@{inputAccess}'
                 app:item='@{item}'
                 app:menuCallback='@{menuCallback}'
-                app:rankEmpty='@{rankEmpty}'/>
+                app:isRankEmpty='@{isRankEmpty}'/>
 
     </LinearLayout>
 
