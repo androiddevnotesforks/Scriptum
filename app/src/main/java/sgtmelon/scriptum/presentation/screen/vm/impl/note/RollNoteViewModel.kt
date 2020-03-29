@@ -133,7 +133,11 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             callback?.setToolbarVisibleIcon(isVisible, needAnim = false)
 
             callback?.notifyDataSetChanged(getList())
-            callback?.animateInfoVisible()
+
+            if (!noteState.isCreate) {
+                callback?.animateInfoVisible()
+            }
+
             callback?.onBindingLoad(isRankEmpty = rankDialogItemArray.size == 1)
         }
     }
