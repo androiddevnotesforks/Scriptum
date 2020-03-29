@@ -316,7 +316,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
         recyclerView?.let {
             it.itemAnimator = object : DefaultItemAnimator() {
                 override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) {
-                    onBindingList()
+                    animateInfoVisible()
                 }
             }
 
@@ -351,14 +351,6 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
             this.isDataLoad = true
             this.isRankEmpty = isRankEmpty
         }?.executePendingBindings()
-    }
-
-    override fun onBindingList() {
-        val isListEmpty = adapter.itemCount == 0
-
-        parentContainer?.createVisibleAnim(emptyInfoView, isListEmpty)
-
-        binding?.apply { this.isListEmpty = isListEmpty }?.executePendingBindings()
     }
 
     override fun onBindingEdit(isEditMode: Boolean, item: NoteItem) {
@@ -418,6 +410,13 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
         })
 
         visibleIconControl?.setDrawable(isVisible, needAnim)
+    }
+
+
+    override fun animateInfoVisible(isVisible: Boolean?) {
+        val isListEmpty = adapter.itemCount == 0
+
+        parentContainer?.createVisibleAnim(emptyInfoView, isVisible = isVisible ?: isListEmpty)
     }
 
     override fun focusOnEdit(isCreate: Boolean) {

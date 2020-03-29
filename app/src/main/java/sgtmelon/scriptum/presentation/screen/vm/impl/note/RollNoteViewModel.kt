@@ -133,7 +133,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             callback?.setToolbarVisibleIcon(isVisible, needAnim = false)
 
             callback?.notifyDataSetChanged(getList())
-            callback?.onBindingList()
+            callback?.animateInfoVisible()
             callback?.onBindingLoad(isRankEmpty = rankDialogItemArray.size == 1)
         }
     }
@@ -760,6 +760,10 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         val list = ArrayList(noteItem.rollList)
 
         if (isVisible) {
+            if (!list.any { !it.isCheck }) {
+                callback?.animateInfoVisible(isVisible = false)
+            }
+
             list.filter { it.isCheck }.forEach { item ->
                 list.correctIndexOf(item)?.also { callback?.notifyItemInserted(list, it) }
             }
@@ -771,8 +775,6 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
                 }
             }
         }
-
-        callback?.onBindingList()
     }
 
     companion object {

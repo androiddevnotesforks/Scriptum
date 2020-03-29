@@ -7,8 +7,6 @@
         <import type="sgtmelon.scriptum.R"/>
         <import type="android.view.View"/>
 
-        <variable name="isListEmpty" type="boolean"/>
-
         <variable name="theme" type="int"/>
         <variable name="menuCallback" type="sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteMenu"/>
         <variable name="isDataLoad" type="boolean"/>
@@ -53,7 +51,7 @@
                     style="@style/RecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:visibility='@{!isListEmpty &amp;&amp; isDataLoad ? View.VISIBLE : View.GONE}'
+                    android:visibility='@{isDataLoad ? View.VISIBLE : View.GONE}'
                     tools:itemCount="3"
                     tools:listitem="@layout/item_roll_write"/>
 

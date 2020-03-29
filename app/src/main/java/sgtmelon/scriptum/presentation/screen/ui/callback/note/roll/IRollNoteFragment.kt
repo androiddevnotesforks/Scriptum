@@ -45,8 +45,6 @@ interface IRollNoteFragment : IRollNoteBridge {
 
     fun onBindingLoad(isRankEmpty: Boolean)
 
-    fun onBindingList()
-
     fun onBindingEdit(isEditMode: Boolean, item: NoteItem)
 
     fun onBingingNote(item: NoteItem)
@@ -65,6 +63,8 @@ interface IRollNoteFragment : IRollNoteBridge {
     fun setToolbarBackIcon(isCancel: Boolean, needAnim: Boolean)
 
     fun setToolbarVisibleIcon(isVisible: Boolean, needAnim: Boolean)
+
+    fun animateInfoVisible(isVisible: Boolean? = null)
 
     fun focusOnEdit(isCreate: Boolean)
 

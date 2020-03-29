@@ -93,16 +93,18 @@ fun Context.sendTo(place: String, command: String, extras: Intent.() -> Unit = {
             putExtras(Intent().apply(extras))
         })
 
-fun ViewGroup.createVisibleAnim(target: View?, visible: Boolean,
+fun ViewGroup.createVisibleAnim(target: View?, isVisible: Boolean,
                                 @IntegerRes durationId: Int = R.integer.info_fade_time) = let {
-    if (target == null) return
+    val visibility = if (isVisible) View.VISIBLE else View.GONE
+
+    if (target == null || target.visibility == visibility) return@let
 
     val time = context.resources.getInteger(durationId)
     val transition = Fade().setDuration(time.toLong()).addTarget(target)
 
     TransitionManager.beginDelayedTransition(it, transition)
 
-    target.visibility = if (visible) View.VISIBLE else View.GONE
+    target.visibility = visibility
 }
 
 fun String.toUri(): Uri? = let {
