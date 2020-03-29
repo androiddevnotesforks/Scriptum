@@ -501,6 +501,9 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         }
     }
 
+    /**
+     * TODO add scroll to item on insert
+     */
     private fun onMenuUndoRedoRemove(item: InputItem, isUndo: Boolean) {
         val rollItem = RollItem[item[isUndo]] ?: return
 

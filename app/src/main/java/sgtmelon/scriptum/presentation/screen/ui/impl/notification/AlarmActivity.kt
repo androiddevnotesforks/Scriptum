@@ -48,10 +48,6 @@ import javax.inject.Inject
  */
 class AlarmActivity : AppActivity(), IAlarmActivity {
 
-    /**
-     * TODO Убрать логику для смены ориентации, её тут нет.
-     */
-
     @Inject internal lateinit var viewModel: IAlarmViewModel
 
     private val vibratorHandler = Handler()
