@@ -5,6 +5,7 @@ import android.view.inputmethod.EditorInfo
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
+import sgtmelon.scriptum.data.InfoPage
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
@@ -16,11 +17,12 @@ import sgtmelon.scriptum.presentation.adapter.RollAdapter
 import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
-import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel.Companion.hide
+import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel.Companion.isVisible
 import sgtmelon.scriptum.ui.IPressBack
 import sgtmelon.scriptum.ui.ParentRecyclerItem
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
+import sgtmelon.scriptum.ui.part.InfoContainer
 import sgtmelon.scriptum.ui.part.panel.NotePanel
 import sgtmelon.scriptum.ui.part.panel.RollEnterPanel
 import sgtmelon.scriptum.ui.part.toolbar.NoteToolbar
@@ -45,6 +47,11 @@ class RollNoteScreen(
     private val fragmentContainer = getViewById(R.id.note_fragment_container)
 
     private val visibleMenuItem = getViewById(R.id.item_visible)
+
+    private fun getInfoContainer(): InfoContainer {
+        val isHide = !isVisible && noteItem.rollList.hide().size == 0
+        return InfoContainer(InfoPage.ROLL, isHide)
+    }
 
     private val parentContainer = getViewById(R.id.roll_note_parent_container)
     private val progressBar = getViewById(R.id.roll_note_progress)
@@ -122,7 +129,7 @@ class RollNoteScreen(
 
                 noteItem.onItemCheck(p)
 
-                if (RollNoteViewModel.isVisible) {
+                if (isVisible) {
                     getItem(p).assert(noteItem.rollList[p])
                 }
             }
@@ -195,7 +202,7 @@ class RollNoteScreen(
             State.EDIT, State.NEW -> shadowItem.rollList
         }
 
-        if (RollNoteViewModel.isVisible) {
+        if (isVisible) {
             list.forEachIndexed { p, item -> getItem(p).assert(item) }
         } else {
             list.hide().forEachIndexed { p, item -> getItem(p).assert(item) }
@@ -211,8 +218,14 @@ class RollNoteScreen(
 
         fragmentContainer.isDisplayed()
 
+        getInfoContainer().assert(if (isVisible) {
+            noteItem.rollList.size == 0
+        } else {
+            noteItem.rollList.hide().size == 0
+        })
+
         toolbar {
-            val value = RollNoteViewModel.isVisible
+            val value = isVisible
 
             val itemIcon = if (value) R.drawable.ic_visible_enter else R.drawable.ic_visible_exit
             val itemTint = if (!value && theme == Theme.DARK) R.attr.clAccent else R.attr.clContent

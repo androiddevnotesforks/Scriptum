@@ -13,33 +13,48 @@ import sgtmelon.scriptum.ui.screen.main.RankScreen
  * Part of UI abstraction for control info inside:
  * [RankScreen], [NotesScreen], [BinScreen], [NotificationScreen]
  */
-class InfoContainer(private val page: InfoPage, hide: Boolean = false) : ParentUi() {
+class InfoContainer(private val page: InfoPage, isHide: Boolean = false) : ParentUi() {
 
     private val infoContainer = getViewById(when (page) {
         InfoPage.RANK -> R.id.rank_info_include
         InfoPage.NOTES -> R.id.notes_info_include
         InfoPage.BIN -> R.id.bin_info_include
         InfoPage.NOTIFICATION -> R.id.notification_info_include
+        InfoPage.ROLL -> R.id.roll_note_info_include
     })
 
     private val infoImage = getViewById(R.id.info_image).includeParent(infoContainer)
 
     private val infoTitleText = getView(R.id.info_title_text, when (page) {
         InfoPage.RANK -> R.string.info_rank_empty_title
-        InfoPage.NOTES -> if (hide) R.string.info_notes_hide_title else R.string.info_notes_empty_title
+        InfoPage.NOTES -> if (isHide) {
+            R.string.info_notes_hide_title
+        } else {
+            R.string.info_notes_empty_title
+        }
         InfoPage.BIN -> R.string.info_bin_empty_title
         InfoPage.NOTIFICATION -> R.string.info_notification_empty_title
+        InfoPage.ROLL -> if (isHide) {
+            R.string.info_roll_hide_title
+        } else {
+            R.string.info_roll_empty_title
+        }
     })
 
     private val infoDetailsText = getView(R.id.info_details_text, when (page) {
         InfoPage.RANK -> R.string.info_rank_empty_details
-        InfoPage.NOTES -> if (hide) {
+        InfoPage.NOTES -> if (isHide) {
             R.string.info_notes_hide_details
         } else {
             R.string.info_notes_empty_details
         }
         InfoPage.BIN -> R.string.info_bin_empty_details
         InfoPage.NOTIFICATION -> R.string.info_notification_empty_details
+        InfoPage.ROLL -> if (isHide) {
+            R.string.info_roll_hide_details
+        } else {
+            R.string.info_roll_empty_details
+        }
     })
 
     fun assert(visible: Boolean) {
@@ -52,8 +67,8 @@ class InfoContainer(private val page: InfoPage, hide: Boolean = false) : ParentU
             InfoPage.NOTES -> R.mipmap.img_info_notes
             InfoPage.BIN -> R.mipmap.img_info_bin
             InfoPage.NOTIFICATION -> R.mipmap.img_info_notifications
+            InfoPage.ROLL -> -1
         }, R.attr.clContent)
-
 
         infoTitleText.isDisplayed(visible)
                 .withTextColor(R.attr.clContent)
