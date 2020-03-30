@@ -293,7 +293,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     override fun onClickItemCheck(p: Int) {
         if (noteState.isEdit) return
 
-        val correctPosition = getCorrectPosition(p)
+        val correctPosition = getCorrectPosition(p, noteItem)
         noteItem.onItemCheck(correctPosition)
 
         /**
@@ -698,7 +698,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     override fun onInputRollChange(p: Int, text: String) {
-        val correctPosition = getCorrectPosition(p)
+        val correctPosition = getCorrectPosition(p, noteItem)
         noteItem.rollList.getOrNull(correctPosition)?.text = text
 
         callback?.apply {
@@ -723,7 +723,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
      * to control in Edit.
      */
     override fun onTouchSwipe(p: Int) {
-        val correctPosition = getCorrectPosition(p)
+        val correctPosition = getCorrectPosition(p, noteItem)
         val item = noteItem.rollList.removeAtOrNull(correctPosition) ?: return
 
         inputControl.onRollRemove(correctPosition, item.toJson())
@@ -739,8 +739,8 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
      * to control in Edit.
      */
     override fun onTouchMove(from: Int, to: Int): Boolean {
-        val correctFrom = getCorrectPosition(from)
-        val correctTo = getCorrectPosition(to)
+        val correctFrom = getCorrectPosition(from, noteItem)
+        val correctTo = getCorrectPosition(to, noteItem)
 
         noteItem.rollList.move(correctFrom, correctTo)
 
@@ -749,8 +749,8 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     override fun onTouchMoveResult(from: Int, to: Int) {
-        val correctFrom = getCorrectPosition(from)
-        val correctTo = getCorrectPosition(to)
+        val correctFrom = getCorrectPosition(from, noteItem)
+        val correctTo = getCorrectPosition(to, noteItem)
 
         inputControl.onRollMove(correctFrom, correctTo)
 
@@ -764,13 +764,6 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
      */
     private fun getList(): MutableList<RollItem> {
         return noteItem.rollList.let { if (isVisible) it else it.hide() }
-    }
-
-    /**
-     * If have hide items when need correct position.
-     */
-    private fun getCorrectPosition(p: Int): Int {
-        return if (isVisible) p else noteItem.rollList.let { it.indexOf(it.hide()[p]) }
     }
 
     /**
@@ -802,6 +795,14 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     companion object {
         @VisibleForTesting
         var isVisible = true
+
+        /**
+         * If have hide items when need correct position.
+         */
+        @VisibleForTesting
+        fun getCorrectPosition(p: Int, noteItem: NoteItem): Int {
+            return if (isVisible) p else noteItem.rollList.let { it.indexOf(it.hide()[p]) }
+        }
 
         @VisibleForTesting
         fun MutableList<RollItem>.hide(): MutableList<RollItem> = ArrayList(filter { !it.isCheck })

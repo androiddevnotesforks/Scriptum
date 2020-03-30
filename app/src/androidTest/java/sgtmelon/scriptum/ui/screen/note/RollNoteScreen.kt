@@ -16,6 +16,7 @@ import sgtmelon.scriptum.presentation.adapter.RollAdapter
 import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
+import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel.Companion.getCorrectPosition
 import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel.Companion.hide
 import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel.Companion.isVisible
 import sgtmelon.scriptum.ui.IPressBack
@@ -92,15 +93,15 @@ class RollNoteScreen(
         enterPanel { assert() }
     }
 
-    // TOOD correct positions
-
     fun onEnterText(text: String = "", p: Int? = random) = apply {
         if (p == null) return@apply
 
         throwOnWrongState(State.EDIT, State.NEW) {
             getItem(p).rollText.typeText(text)
 
-            val item = shadowItem.rollList[p]
+            val correctPosition = getCorrectPosition(p, noteItem)
+
+            val item = shadowItem.rollList[correctPosition]
             item.text = text
 
             getItem(p).assert(item)
@@ -130,11 +131,10 @@ class RollNoteScreen(
             State.READ, State.BIN -> {
                 getItem(p).clickButton.click()
 
-                noteItem.onItemCheck(p)
+                val correctPosition = getCorrectPosition(p, noteItem)
 
-                if (isVisible) {
-                    getItem(p).assert(noteItem.rollList[p])
-                }
+                noteItem.onItemCheck(correctPosition)
+                getItem(p).assert(noteItem.rollList[correctPosition])
             }
             State.EDIT, State.NEW -> throw IllegalAccessException(STATE_ERROR_TEXT)
         }
@@ -164,8 +164,10 @@ class RollNoteScreen(
 
         waitAfter(SWIPE_TIME) { recyclerView.swipeItem(p) }
 
+        val correctPosition = getCorrectPosition(p, noteItem)
+
         shadowItem.rollList.apply {
-            removeAt(p)
+            removeAt(correctPosition)
             forEachIndexed { i, item -> item.position = i }
         }
 
