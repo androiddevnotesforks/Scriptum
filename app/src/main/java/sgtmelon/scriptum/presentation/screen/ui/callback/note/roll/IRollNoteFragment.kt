@@ -45,6 +45,8 @@ interface IRollNoteFragment : IRollNoteBridge {
 
     fun onBindingLoad(isRankEmpty: Boolean)
 
+    fun onBindingInfo(isListEmpty: Boolean, isListHide: Boolean)
+
     fun onBindingEdit(isEditMode: Boolean, item: NoteItem)
 
     fun onBingingNote(item: NoteItem)

@@ -29,12 +29,14 @@
     <string name="info_bin_empty_title">Корзина пуста</string>
     <string name="info_notification_empty_title">Нет уведомлений</string>
     <string name="info_roll_hide_title">Все пункты выполнены!</string>
+    <string name="info_roll_empty_title">У вас нет пунктов</string>
 
     <string name="info_rank_empty_details">Вы можете создать категории при помощи поля сверху</string>
     <string name="info_notes_empty_details">Вы можете создать заметку при помощи кнопки с плюсом</string>
     <string name="info_notes_hide_details">Воспользуйтесь категориями, чтобы показать их</string>
     <string name="info_bin_empty_details">Удалённые заметки можно в любой момент восстановить</string>
     <string name="info_notification_empty_details">Вы можете создать уведомление внутри заметки</string>
-    <string name="info_roll_hide_details">Вы можете отобразить пункты при помощи кнопки видимости</string>
+    <string name="info_roll_hide_details">Вы можете отобразить их при помощи кнопки видимости</string>
+    <string name="info_roll_empty_details">Вы можете создать их при помощи панели снизу</string>
 
 </resources>

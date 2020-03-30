@@ -133,10 +133,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             callback?.setToolbarVisibleIcon(isVisible, needAnim = false)
 
             callback?.notifyDataSetChanged(getList())
-
-            if (!noteState.isCreate) {
-                callback?.animateInfoVisible()
-            }
+            onUpdateInfo()
 
             callback?.onBindingLoad(isRankEmpty = rankDialogItemArray.size == 1)
         }
@@ -209,8 +206,10 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
         callback?.notifyDataSetChanged(getList())
         setupEditMode(isEdit = false)
-        callback?.tintToolbar(colorFrom, noteItem.color)
 
+        onUpdateInfo()
+
+        callback?.tintToolbar(colorFrom, noteItem.color)
         parentCallback?.onUpdateNoteColor(noteItem.color)
 
         inputControl.reset()
@@ -233,6 +232,23 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         if (!noteState.isCreate) {
             viewModelScope.launch { interactor.setVisible(noteItem.id, isVisible) }
         }
+    }
+
+    /**
+     * Function for update empty info text and visible. This func also calls from UI then item
+     * animation finished (e.g. after swipe).
+     *
+     * Important thing for update visible: you must call func after adapter notify.
+     */
+    override fun onUpdateInfo() {
+        val isListEmpty = noteItem.rollList.size == 0
+        val isListHide = !isVisible && noteItem.rollList.hide().size == 0
+
+        if (isListEmpty || isListHide) {
+            callback?.onBindingInfo(isListEmpty, isListHide)
+        }
+
+        callback?.animateInfoVisible()
     }
 
     override fun onEditorClick(i: Int): Boolean {
@@ -762,6 +778,8 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
      */
     private fun notifyListByVisible() = viewModelScope.launch {
         val list = ArrayList(noteItem.rollList)
+
+        if (list.size == 0) return@launch
 
         if (isVisible) {
             if (!list.any { !it.isCheck }) {

@@ -25,18 +25,22 @@
 
     <!--  -->
 
+    <string name="info_null" translatable="false"/>
+
     <string name="info_rank_empty_title">No categories</string>
     <string name="info_notes_empty_title">No created notes</string>
     <string name="info_notes_hide_title">You have hidden notes</string>
     <string name="info_bin_empty_title">Bin is empty</string>
     <string name="info_notification_empty_title">No notifications</string>
     <string name="info_roll_hide_title">All items done!</string>
+    <string name="info_roll_empty_title">All items done!</string>
 
     <string name="info_rank_empty_details">You can create category using field above</string>
     <string name="info_notes_empty_details">You can create new note using plus button</string>
     <string name="info_notes_hide_details">Use categories to display them</string>
     <string name="info_bin_empty_details">Deleted notes can be restored at any time</string>
     <string name="info_notification_empty_details">You can create notification inside note</string>
-    <string name="info_roll_hide_details">You can display items using visible button</string>
+    <string name="info_roll_hide_details">You can display them using visible button</string>
+    <string name="info_roll_empty_details">You can create them using bottom panel</string>
 
 </resources>

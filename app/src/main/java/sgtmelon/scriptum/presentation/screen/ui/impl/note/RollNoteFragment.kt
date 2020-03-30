@@ -316,7 +316,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
         recyclerView?.let {
             it.itemAnimator = object : DefaultItemAnimator() {
                 override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) {
-                    animateInfoVisible()
+                    viewModel.onUpdateInfo()
                 }
             }
 
@@ -350,6 +350,13 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
         binding?.apply {
             this.isDataLoad = true
             this.isRankEmpty = isRankEmpty
+        }?.executePendingBindings()
+    }
+
+    override fun onBindingInfo(isListEmpty: Boolean, isListHide: Boolean) {
+        binding?.apply {
+            this.isListEmpty = isListEmpty
+            this.isListHide = isListHide
         }?.executePendingBindings()
     }
 
@@ -450,7 +457,9 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
 
 
     override fun scrollToItem(simpleClick: Boolean, p: Int, list: MutableList<RollItem>) {
-        val fastScroll = with(layoutManager) {
+        val smoothInsert = with(layoutManager) {
+            if (adapter.itemCount == 0) return@with true
+
             return@with if (simpleClick) {
                 findLastVisibleItemPosition() == p - 1
             } else {
@@ -458,9 +467,14 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
             }
         }
 
-        if (fastScroll) {
+        if (smoothInsert) {
             recyclerView?.scrollToPosition(p)
             adapter.setList(list).notifyItemInserted(p)
+
+            /**
+             * Update before animation ends.
+             */
+            viewModel.onUpdateInfo()
         } else {
             recyclerView?.smoothScrollToPosition(p)
             adapter.setList(list).notifyDataSetChanged()

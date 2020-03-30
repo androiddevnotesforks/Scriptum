@@ -41,6 +41,13 @@ class Note {
      * TODO #TEST Error when addItems in rollNote and clear text in them -> updateComplete was before items remove
      * create roll - add items - clear text on some item - save and return to list -> check noteItem text
      */
+
+    class RollEmptyInfo {
+        // check show on note create
+        // check empty info
+
+        // info on restore
+    }
 }
 
 class Rotation {

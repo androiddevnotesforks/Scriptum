@@ -37,6 +37,8 @@ interface IRollNoteViewModel : IParentViewModel,
 
     fun onClickVisible()
 
+    fun onUpdateInfo()
+
     fun onEditorClick(i: Int): Boolean
 
     fun onClickAdd(simpleClick: Boolean)
