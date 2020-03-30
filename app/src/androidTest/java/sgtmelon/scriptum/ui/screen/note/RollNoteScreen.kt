@@ -5,7 +5,6 @@ import android.view.inputmethod.EditorInfo
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
-import sgtmelon.scriptum.data.InfoPage
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
@@ -22,7 +21,7 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel.Comp
 import sgtmelon.scriptum.ui.IPressBack
 import sgtmelon.scriptum.ui.ParentRecyclerItem
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
-import sgtmelon.scriptum.ui.part.InfoContainer
+import sgtmelon.scriptum.ui.part.info.RollNoteInfoContainer
 import sgtmelon.scriptum.ui.part.panel.NotePanel
 import sgtmelon.scriptum.ui.part.panel.RollEnterPanel
 import sgtmelon.scriptum.ui.part.toolbar.NoteToolbar
@@ -48,9 +47,11 @@ class RollNoteScreen(
 
     private val visibleMenuItem = getViewById(R.id.item_visible)
 
-    private fun getInfoContainer(): InfoContainer {
-        val isHide = !isVisible && noteItem.rollList.hide().size == 0
-        return InfoContainer(InfoPage.ROLL, isHide)
+    private fun getInfoContainer(): RollNoteInfoContainer? {
+        val isListEmpty = noteItem.rollList.size == 0
+        val isListHide = !isVisible && noteItem.rollList.hide().size == 0
+
+        return RollNoteInfoContainer(isListEmpty, isListHide)
     }
 
     private val parentContainer = getViewById(R.id.roll_note_parent_container)
@@ -90,6 +91,8 @@ class RollNoteScreen(
         controlPanel { assert() }
         enterPanel { assert() }
     }
+
+    // TOOD correct positions
 
     fun onEnterText(text: String = "", p: Int? = random) = apply {
         if (p == null) return@apply
@@ -218,7 +221,7 @@ class RollNoteScreen(
 
         fragmentContainer.isDisplayed()
 
-        getInfoContainer().assert(if (isVisible) {
+        getInfoContainer()?.assert(if (isVisible) {
             noteItem.rollList.size == 0
         } else {
             noteItem.rollList.hide().size == 0

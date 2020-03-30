@@ -2,7 +2,7 @@ package sgtmelon.scriptum.ui.screen.main
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
-import sgtmelon.scriptum.data.InfoPage
+import sgtmelon.scriptum.data.SimpleInfoPage
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.BinFragment
@@ -10,7 +10,7 @@ import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.dialog.ClearDialogUi
 import sgtmelon.scriptum.ui.dialog.NoteDialogUi
 import sgtmelon.scriptum.ui.item.NoteItemUi
-import sgtmelon.scriptum.ui.part.InfoContainer
+import sgtmelon.scriptum.ui.part.info.SimpleInfoContainer
 import sgtmelon.scriptum.ui.part.toolbar.SimpleToolbar
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
@@ -27,7 +27,7 @@ class BinScreen : ParentRecyclerScreen(R.id.bin_recycler) {
     private val toolbar = SimpleToolbar(R.string.title_bin, withBack = false)
     private val clearMenuItem = getViewById(R.id.item_clear)
 
-    private val infoContainer = InfoContainer(InfoPage.BIN)
+    private val infoContainer = SimpleInfoContainer(SimpleInfoPage.BIN)
 
     private fun getItem(p: Int) = NoteItemUi(recyclerView, p)
 

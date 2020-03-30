@@ -5,14 +5,14 @@ import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
-import sgtmelon.scriptum.data.InfoPage
+import sgtmelon.scriptum.data.SimpleInfoPage
 import sgtmelon.scriptum.domain.model.item.RankItem
 import sgtmelon.scriptum.presentation.adapter.RankAdapter
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.RankFragment
 import sgtmelon.scriptum.ui.ParentRecyclerItem
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.dialog.RenameDialogUi
-import sgtmelon.scriptum.ui.part.InfoContainer
+import sgtmelon.scriptum.ui.part.info.SimpleInfoContainer
 import sgtmelon.scriptum.ui.part.toolbar.RankToolbar
 
 /**
@@ -23,7 +23,7 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
     //region Views
 
     private val parentContainer = getViewById(R.id.rank_parent_container)
-    private val infoContainer = InfoContainer(InfoPage.RANK)
+    private val infoContainer = SimpleInfoContainer(SimpleInfoPage.RANK)
 
     private fun getItem(rankItem: RankItem): Item {
         return Item(recyclerView, hasDescendant(getView(R.id.rank_name_text, rankItem.name)))

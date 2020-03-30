@@ -6,7 +6,7 @@ import sgtmelon.extension.formatFuture
 import sgtmelon.extension.getCalendar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
-import sgtmelon.scriptum.data.InfoPage
+import sgtmelon.scriptum.data.SimpleInfoPage
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.adapter.NotificationAdapter
@@ -14,7 +14,7 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.notification.NotificationAc
 import sgtmelon.scriptum.ui.IPressBack
 import sgtmelon.scriptum.ui.ParentRecyclerItem
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
-import sgtmelon.scriptum.ui.part.InfoContainer
+import sgtmelon.scriptum.ui.part.info.SimpleInfoContainer
 import sgtmelon.scriptum.ui.part.toolbar.SimpleToolbar
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
@@ -29,7 +29,7 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler), IPr
     private val parentContainer = getViewById(R.id.notification_parent_container)
     private val toolbar = SimpleToolbar(R.string.title_notification, withBack = true)
 
-    private val infoContainer = InfoContainer(InfoPage.NOTIFICATION)
+    private val infoContainer = SimpleInfoContainer(SimpleInfoPage.NOTIFICATION)
 
     private fun getItem(p: Int) = Item(recyclerView, p)
 

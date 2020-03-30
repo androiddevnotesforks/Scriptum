@@ -2,14 +2,13 @@ package sgtmelon.scriptum.ui.screen.main
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
-import sgtmelon.scriptum.data.InfoPage
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.NotesFragment
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.dialog.NoteDialogUi
 import sgtmelon.scriptum.ui.item.NoteItemUi
-import sgtmelon.scriptum.ui.part.InfoContainer
+import sgtmelon.scriptum.ui.part.info.NotesInfoContainer
 import sgtmelon.scriptum.ui.part.toolbar.SimpleToolbar
 import sgtmelon.scriptum.ui.screen.NotificationScreen
 import sgtmelon.scriptum.ui.screen.PreferenceScreen
@@ -18,8 +17,10 @@ import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 
 /**
  * Class for UI control of [NotesFragment].
+ *
+ * [isHide] - have hide notes or not.
  */
-class NotesScreen(hide: Boolean) : ParentRecyclerScreen(R.id.notes_recycler) {
+class NotesScreen(private val isHide: Boolean) : ParentRecyclerScreen(R.id.notes_recycler) {
 
     //region Views
 
@@ -29,7 +30,7 @@ class NotesScreen(hide: Boolean) : ParentRecyclerScreen(R.id.notes_recycler) {
     private val notificationMenuItem = getViewById(R.id.item_notification)
     private val preferenceMenuItem = getViewById(R.id.item_preference)
 
-    private val infoContainer = InfoContainer(InfoPage.NOTES, hide)
+    private val infoContainer = NotesInfoContainer(isHide)
 
     private fun getItem(p: Int) = NoteItemUi(recyclerView, p)
 
