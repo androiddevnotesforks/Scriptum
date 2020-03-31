@@ -56,13 +56,45 @@
                         android:text='@{item.name}'
                         tools:text="@string/preview_rank_name"/>
 
-                <TextView
-                        android:id="@+id/rank_text_count_text"
-                        style="@style/Text.SmallCard.Subtitle"
-                        android:layout_marginEnd="@dimen/layout_4dp"
-                        android:layout_marginRight="@dimen/layout_4dp"
-                        android:text='@{@string/list_item_rank_count + " " + item.noteId.size()}'
-                        tools:text="@string/preview_rank_count"/>
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@drawable/div_space_middle"
+                        android:showDividers="middle">
+
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:divider="@drawable/div_space_small"
+                            android:visibility="@{item.hasNotification || item.hasBind ? View.VISIBLE : View.GONE}"
+                            android:showDividers="middle">
+
+                        <ImageView
+                                android:id="@+id/rank_notification_image"
+                                style="@style/Image.Note.Info"
+                                android:importantForAccessibility="no"
+                                android:visibility='@{item.hasNotification ? View.VISIBLE : View.GONE}'
+                                app:srcCompat="@drawable/ic_notifications"
+                                tools:visibility="visible"/>
+
+                        <ImageView
+                                android:id="@+id/rank_bind_image"
+                                style="@style/Image.Note.Info"
+                                android:importantForAccessibility="no"
+                                android:visibility='@{item.hasBind ? View.VISIBLE : View.GONE}'
+                                app:srcCompat="@drawable/ic_bind_text"
+                                tools:visibility="visible"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                            android:id="@+id/rank_text_count_text"
+                            style="@style/Text.SmallCard.Subtitle"
+                            android:text='@{@string/list_item_rank_count + " " + item.noteId.size()}'
+                            tools:text="@string/preview_rank_count"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
