@@ -17,7 +17,6 @@ import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.domain.model.state.IconState
 import sgtmelon.scriptum.domain.model.state.NoteState
-import sgtmelon.scriptum.extension.onSave
 import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.presentation.control.note.save.ISaveControl
 import sgtmelon.scriptum.presentation.control.note.save.SaveControl
@@ -283,7 +282,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     override fun onMenuRestoreOpen() {
         noteState.isBin = false
 
-        noteItem.restore()
+        noteItem.onRestore()
 
         iconState.notAnimate { setupEditMode(isEdit = false) }
 

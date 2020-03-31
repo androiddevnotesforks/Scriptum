@@ -18,8 +18,6 @@ import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RankItem
 import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.extension.getText
-import sgtmelon.scriptum.extension.onItemCheck
-import sgtmelon.scriptum.extension.onItemLongCheck
 import sgtmelon.scriptum.test.ParentIntegrationTest
 import kotlin.random.Random
 

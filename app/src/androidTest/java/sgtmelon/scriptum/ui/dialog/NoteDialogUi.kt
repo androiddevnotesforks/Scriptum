@@ -75,13 +75,13 @@ class NoteDialogUi(private val noteItem: NoteItem) : ParentUi(), IDialogUi, Date
     fun onDelete() = waitClose {
         deleteButton.click()
 
-        noteItem.delete()
+        noteItem.onDelete()
     }
 
     fun onRestore() = waitClose {
         restoreButton.click()
 
-        noteItem.restore()
+        noteItem.onRestore()
     }
 
     fun onClear() = waitClose { clearButton.click() }

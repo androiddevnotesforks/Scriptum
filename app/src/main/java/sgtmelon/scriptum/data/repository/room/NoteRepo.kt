@@ -164,11 +164,11 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
 
     override suspend fun deleteNote(noteItem: NoteItem) = inRoom {
         alarmDao.delete(noteItem.id)
-        noteDao.update(noteConverter.toEntity(noteItem.delete()))
+        noteDao.update(noteConverter.toEntity(noteItem.onDelete()))
     }
 
     override suspend fun restoreNote(noteItem: NoteItem) = inRoom {
-        noteDao.update(noteConverter.toEntity(noteItem.restore()))
+        noteDao.update(noteConverter.toEntity(noteItem.onRestore()))
     }
 
     /**
@@ -339,14 +339,14 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
                 rollList.add(RollItem(position = p++, text = it))
             }
 
-            convert().updateComplete(Complete.EMPTY)
+            onConvert().updateComplete(Complete.EMPTY)
         }
 
         @VisibleForTesting
         fun NoteItem.onConvertRoll() {
             if (type != NoteType.ROLL) return
 
-            convert().text = rollList.getText()
+            onConvert().text = rollList.getText()
             rollList.clear()
         }
 
@@ -355,7 +355,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
             if (type != NoteType.ROLL) return
 
             rollList.clear()
-            convert().text = list.getText()
+            onConvert().text = list.getText()
         }
     }
 

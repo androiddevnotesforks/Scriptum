@@ -6,7 +6,6 @@ import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.domain.model.item.RollItem
 import sgtmelon.scriptum.extension.clearSpace
-import sgtmelon.scriptum.extension.onSave
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen

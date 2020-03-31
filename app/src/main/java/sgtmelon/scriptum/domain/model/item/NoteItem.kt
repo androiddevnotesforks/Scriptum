@@ -12,6 +12,7 @@ import sgtmelon.scriptum.domain.model.data.DbData.Note
 import sgtmelon.scriptum.domain.model.data.DbData.Roll
 import sgtmelon.scriptum.domain.model.key.Complete
 import sgtmelon.scriptum.domain.model.key.NoteType
+import sgtmelon.scriptum.extension.clearSpace
 import sgtmelon.scriptum.presentation.adapter.NoteAdapter
 import sgtmelon.scriptum.presentation.adapter.RollAdapter
 import kotlin.math.min
@@ -60,9 +61,12 @@ data class NoteItem(
             rollList, alarmId, alarmDate
     )
 
+    //region Common functions
 
     fun switchStatus() = apply { isStatus = !isStatus }
 
+
+    fun updateTime() = apply { change = getTime() }
 
     fun updateComplete(complete: Complete? = null) = apply {
         val checkCount = when(complete){
@@ -85,20 +89,55 @@ data class NoteItem(
     fun getCheck(): Int = rollList.filter { it.isCheck }.size
 
 
-    fun updateTime() = apply { change = getTime() }
+    fun onItemCheck(p: Int) {
+        rollList.getOrNull(p)?.apply { isCheck = !isCheck }
+        updateTime().updateComplete()
+    }
 
-    fun delete() = apply {
+    /**
+     * If have some unchecked items - need turn them to true. Otherwise uncheck all items.
+     */
+    fun onItemLongCheck(): Boolean {
+        val check = rollList.any { !it.isCheck }
+
+        updateTime().updateCheck(check)
+
+        return check
+    }
+
+    fun onDelete() = apply {
         updateTime()
         isBin = true
         isStatus = false
     }
 
-    fun restore() = apply {
+    fun onRestore() = apply {
         updateTime()
         isBin = false
     }
 
-    fun convert() = apply {
+    fun onSave() = apply {
+        when (type) {
+            NoteType.TEXT -> {
+                name = name.clearSpace()
+                updateTime()
+            }
+            NoteType.ROLL -> {
+                rollList.apply {
+                    removeAll { it.text.clearSpace().isEmpty() }
+                    forEachIndexed { i, item ->
+                        item.position = i
+                        item.text = item.text.clearSpace()
+                    }
+                }
+
+                name = name.clearSpace()
+                updateTime().updateComplete()
+            }
+        }
+    }
+
+    fun onConvert() = apply {
         updateTime()
         type = when(type) {
             NoteType.TEXT -> NoteType.ROLL
@@ -106,7 +145,9 @@ data class NoteItem(
         }
     }
 
+
     fun textToList() = text.split("\n".toRegex()).filter { it.isNotEmpty() }.toList()
+
 
     fun haveRank() = rankId != Note.Default.RANK_ID && rankPs != Note.Default.RANK_PS
 
@@ -122,6 +163,7 @@ data class NoteItem(
         alarmDate = Alarm.Default.DATE
     }
 
+
     fun isSaveEnabled(): Boolean {
         return when (type) {
             NoteType.TEXT -> text.isNotEmpty()
@@ -134,6 +176,8 @@ data class NoteItem(
     }
 
     fun isNotVisible(rankIdVisibleList: List<Long>) = !isVisible(rankIdVisibleList)
+
+    //endregion
 
     companion object {
         const val ROLL_OPTIMAL_SIZE = 4

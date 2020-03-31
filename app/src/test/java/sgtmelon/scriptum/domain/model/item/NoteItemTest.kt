@@ -88,7 +88,7 @@ class NoteItemTest : ParentTest() {
     @Test fun delete() {
         val item = noteItem.deepCopy(change = "TIME", isBin = false, isStatus = true)
 
-        item.delete().let {
+        item.onDelete().let {
             assertChangeTime(it)
             assertEquals(true, it.isBin)
             assertEquals(false, it.isStatus)
@@ -98,7 +98,7 @@ class NoteItemTest : ParentTest() {
     @Test fun restore() {
         val item = noteItem.deepCopy(change = "TIME", isBin = true)
 
-        item.restore().let {
+        item.onRestore().let {
             assertChangeTime(it)
             assertEquals(false, it.isBin)
         }
@@ -107,7 +107,7 @@ class NoteItemTest : ParentTest() {
     @Test fun convertText() {
         val item = noteItem.deepCopy(change = "TIME", type = NoteType.TEXT)
 
-        item.convert().let {
+        item.onConvert().let {
             assertChangeTime(it)
             assertEquals(NoteType.ROLL, it.type)
         }
@@ -116,7 +116,7 @@ class NoteItemTest : ParentTest() {
     @Test fun convertRoll() {
         val item = noteItem.deepCopy(change = "TIME", type = NoteType.ROLL)
 
-        item.convert().let {
+        item.onConvert().let {
             assertChangeTime(it)
             assertEquals(NoteType.TEXT, it.type)
         }

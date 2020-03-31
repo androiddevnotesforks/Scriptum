@@ -428,7 +428,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     override fun onMenuRestoreOpen() {
         noteState.isBin = false
 
-        noteItem.restore()
+        noteItem.onRestore()
 
         iconState.notAnimate { setupEditMode(isEdit = false) }
 
