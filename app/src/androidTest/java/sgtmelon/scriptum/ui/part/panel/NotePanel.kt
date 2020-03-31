@@ -144,6 +144,8 @@ class NotePanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi(),
             saveButton.longClick()
 
             callback.apply {
+                state = State.EDIT
+
                 noteItem = shadowItem.deepCopy()
                 noteItem.onSave()
             }.fullAssert()

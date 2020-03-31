@@ -134,7 +134,10 @@ class RollNoteScreen(
                 val correctPosition = getCorrectPosition(p, noteItem)
 
                 noteItem.onItemCheck(correctPosition)
-                getItem(p).assert(noteItem.rollList[correctPosition])
+
+                if (isVisible) {
+                    getItem(p).assert(noteItem.rollList[correctPosition])
+                }
             }
             State.EDIT, State.NEW -> throw IllegalAccessException(STATE_ERROR_TEXT)
         }
@@ -223,10 +226,11 @@ class RollNoteScreen(
 
         fragmentContainer.isDisplayed()
 
-        getInfoContainer()?.assert(if (isVisible) {
-            noteItem.rollList.size == 0
-        } else {
-            noteItem.rollList.hide().size == 0
+        getInfoContainer()?.assert(when(state) {
+            State.READ, State.BIN -> noteItem.rollList
+            State.EDIT, State.NEW -> shadowItem.rollList
+        }.let {
+            if (isVisible) it.size == 0 else it.hide().size == 0
         })
 
         toolbar {

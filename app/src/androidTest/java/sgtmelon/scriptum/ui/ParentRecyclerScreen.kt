@@ -8,15 +8,13 @@ import sgtmelon.scriptum.data.Scroll
 /**
  * Parent class for screens which contains [RecyclerView]
  */
-abstract class ParentRecyclerScreen(@IdRes recyclerId: Int) : ParentUi() {
+abstract class ParentRecyclerScreen(@IdRes private val recyclerId: Int) : ParentUi() {
 
     protected val recyclerView = getViewById(recyclerId)
 
     val count: Int get() = recyclerView.getCount()
 
-    protected val random: Int? get() = recyclerView.getRandomPosition().let {
-        if (it != -1) it else null
-    }
+    protected val random: Int? get() = recyclerView.getRandomPosition().takeIf { it != -1 }
 
     fun onScroll(scroll: Scroll, time: Int = REPEAT_COUNT) = repeat(time) {
         waitAfter(SCROLL_TIME) {

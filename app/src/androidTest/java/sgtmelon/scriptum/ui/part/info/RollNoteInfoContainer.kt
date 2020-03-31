@@ -27,7 +27,7 @@ class RollNoteInfoContainer(isListEmpty: Boolean, isListHide: Boolean) : ParentU
         else -> null
     }
 
-    fun assert(visible: Boolean) = waitBefore(time = 200) {
+    fun assert(visible: Boolean) = waitBefore(time = 400) {
         includeContainer.isDisplayed(visible)
 
         iconImage.isDisplayed(visible = false)

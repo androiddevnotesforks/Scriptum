@@ -22,7 +22,6 @@ class RollNoteFocusTest : ParentUiTest() {
         }
     }
 
-
     @Test fun focusOnEdit() = data.insertRoll().let {
         launch {
             mainScreen {
