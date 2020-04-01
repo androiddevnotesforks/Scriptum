@@ -4,6 +4,8 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
+
         <variable name="item" type="sgtmelon.scriptum.domain.model.item.RankItem"/>
     </data>
 
@@ -23,22 +25,9 @@
                 android:padding="@dimen/layout_8dp"
                 android:weightSum="1">
 
-            <sgtmelon.iconanim.widget.SwitchButton
-                    android:id="@+id/rank_visible_button"
-                    style="@style/Button.Medium"
-                    android:layout_marginStart="@dimen/layout_4dp"
-                    android:layout_marginLeft="@dimen/layout_4dp"
-                    android:layout_marginEnd="@dimen/layout_8dp"
-                    android:layout_marginRight="@dimen/layout_8dp"
-                    android:contentDescription='@{(item.visible ? @string/description_item_rank_hide : @string/description_item_rank_show) + " " + item.name}'
-                    app:srcDisable="@drawable/ic_visible_exit"
-                    app:srcDisableAnim="@drawable/anim_visible_exit"
-                    app:srcDisableColor="?attr/clContent"
-                    app:srcSelect="@drawable/ic_visible_enter"
-                    app:srcSelectAnim="@drawable/anim_visible_enter"
-                    app:srcSelectColor="?attr/clAccent"
-                    tools:srcCompat="@drawable/ic_visible_enter"
-                    tools:tint="@color/accent_light"/>
+            <include
+                    layout="@layout/include_item_rank_button"
+                    app:item='@{item}'/>
 
             <LinearLayout
                     android:layout_width="0dp"
@@ -67,7 +56,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:divider="@drawable/div_space_small"
-                            android:visibility="@{item.hasNotification || item.hasBind ? View.VISIBLE : View.GONE}"
+                            android:visibility='@{item.hasNotification || item.hasBind ? View.VISIBLE : View.GONE}'
                             android:showDividers="middle">
 
                         <ImageView

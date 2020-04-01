@@ -35,7 +35,7 @@
                 android:orientation="horizontal"
                 android:showDividers="middle"
                 android:divider="@drawable/div_space_small"
-                android:visibility="@{item.haveAlarm() || item.status || item.haveRank() ? View.VISIBLE : View.GONE}"
+                android:visibility='@{item.haveAlarm() || item.status || item.haveRank() ? View.VISIBLE : View.GONE}'
                 tools:visibility="visible">
 
             <ImageView
