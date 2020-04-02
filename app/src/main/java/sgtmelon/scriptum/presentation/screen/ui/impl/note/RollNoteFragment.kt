@@ -310,6 +310,15 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
         adapter.apply {
             dragListener = touchCallback
             this.iInputControl = iInputControl
+
+            registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+                /**
+                 * Update before animation ends.
+                 */
+                override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                    viewModel.onUpdateInfo()
+                }
+            })
         }
 
         recyclerView = view?.findViewById(R.id.roll_note_recycler)
@@ -470,11 +479,6 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
         if (smoothInsert) {
             recyclerView?.scrollToPosition(p)
             adapter.setList(list).notifyItemInserted(p)
-
-            /**
-             * Update before animation ends.
-             */
-            viewModel.onUpdateInfo()
         } else {
             recyclerView?.smoothScrollToPosition(p)
             adapter.setList(list).notifyDataSetChanged()
