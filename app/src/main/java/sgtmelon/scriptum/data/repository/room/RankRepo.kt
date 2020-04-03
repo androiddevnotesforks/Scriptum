@@ -32,7 +32,13 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
     }
 
     override suspend fun getList() = ArrayList<RankItem>().apply {
-        inRoom { addAll(converter.toItem(rankDao.get())) }
+        inRoom {
+            addAll(converter.toItem(rankDao.get()))
+            forEach { item ->
+                item.hasBind = noteDao.get(item.noteId).any { it.isStatus }
+                item.hasNotification = alarmDao.get(item.noteId).isNotEmpty()
+            }
+        }
     }
 
     /**

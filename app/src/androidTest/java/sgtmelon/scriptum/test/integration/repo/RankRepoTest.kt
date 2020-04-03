@@ -9,6 +9,7 @@ import sgtmelon.scriptum.data.repository.room.RankRepo
 import sgtmelon.scriptum.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.data.room.converter.model.NoteConverter
 import sgtmelon.scriptum.data.room.converter.model.RankConverter
+import sgtmelon.scriptum.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.data.room.entity.NoteEntity
 import sgtmelon.scriptum.data.room.entity.RankEntity
 import sgtmelon.scriptum.domain.model.data.DbData
@@ -39,9 +40,19 @@ class RankRepoTest : ParentIntegrationTest()  {
 
         assertEquals(list, rankRepo.getList())
 
+        noteDao.insert(noteFirst)
+        noteDao.insert(noteSecond)
+        noteDao.insert(noteThird)
+
+        alarmDao.insert(alarmThird)
+
         listOf(rankFirst, rankSecond, rankThird).forEach {
             assertNotEquals(UNIQUE_ERROR_ID, rankDao.insert(it))
-            list.add(rankConverter.toItem(it))
+
+            list.add(rankConverter.toItem(it).apply {
+                hasBind = noteId.contains(noteSecond.id)
+                hasNotification = noteId.contains(alarmThird.noteId)
+            })
 
             assertEquals(list, rankRepo.getList())
         }
@@ -177,9 +188,11 @@ class RankRepoTest : ParentIntegrationTest()  {
         val rankSecond = RankEntity(id = 2, noteId = mutableListOf(3), position = 1, name = "23456")
         val rankThird = RankEntity(id = 3, position = 2, name = "34567", isVisible = false)
 
-        val noteFirst = NoteEntity(id = 1, create = DATE_1, change = DATE_2, text = "12345", rankId = 1, rankPs = 0)
-        val noteSecond = NoteEntity(id = 2, create = DATE_1, change = DATE_2, text = "23456", rankId = 1, rankPs = 0)
-        val noteThird = NoteEntity(id = 3, create = DATE_3, change = DATE_2, text = "34567", rankId = 2, rankPs = 1)
+        val noteFirst = NoteEntity(id = 1, create = DATE_1, change = DATE_2, text = "12345", rankId = 1, rankPs = 0, isStatus = false)
+        val noteSecond = NoteEntity(id = 2, create = DATE_1, change = DATE_2, text = "23456", rankId = 1, rankPs = 0, isStatus = true)
+        val noteThird = NoteEntity(id = 3, create = DATE_3, change = DATE_2, text = "34567", rankId = 2, rankPs = 1, isStatus = false)
+
+        val alarmThird = AlarmEntity(id = 1, noteId = 3, date = DATE_1)
     }
 
 }

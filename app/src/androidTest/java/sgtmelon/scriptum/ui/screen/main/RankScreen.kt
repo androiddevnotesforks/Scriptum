@@ -106,6 +106,9 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
         private val nameText by lazy { getChild(getViewById(R.id.rank_name_text)) }
         private val countText by lazy { getChild(getViewById(R.id.rank_text_count_text)) }
 
+        private val notificationImage by lazy { getChild(getViewById(R.id.rank_notification_image)) }
+        private val bindImage by lazy { getChild(getViewById(R.id.rank_bind_image)) }
+
         override fun assert(item: RankItem) {
             parentCard.isDisplayed().withCardBackground(R.attr.clBackgroundView)
 
@@ -131,6 +134,14 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
 
             val text = "${context.getString(R.string.list_item_rank_count)} ${item.noteId.size}"
             countText.isDisplayed().withText(text, R.attr.clContentSecond, R.dimen.text_14sp)
+
+            notificationImage.isDisplayed(item.hasNotification) {
+                withSize(R.dimen.icon_16dp, R.dimen.icon_16dp)
+            }.withDrawableAttr(R.drawable.ic_notifications, R.attr.clNoteIndicator)
+
+            bindImage.isDisplayed(item.hasBind) {
+                withSize(R.dimen.icon_16dp, R.dimen.icon_16dp)
+            }.withDrawableAttr(R.drawable.ic_bind_text, R.attr.clNoteIndicator)
         }
 
     }

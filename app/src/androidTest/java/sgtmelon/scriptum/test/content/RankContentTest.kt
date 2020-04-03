@@ -44,6 +44,16 @@ class RankContentTest : ParentUiTest() {
         }
     }
 
+
+    @Test fun itemBind()  {
+        TODO()
+    }
+
+    @Test fun itemNotification() {
+        TODO()
+    }
+
+
     private companion object {
         const val ITEM_COUNT = 5
         const val REPEAT_TIMES = 3

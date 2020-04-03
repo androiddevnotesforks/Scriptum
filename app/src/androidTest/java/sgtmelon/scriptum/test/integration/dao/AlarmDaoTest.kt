@@ -57,6 +57,16 @@ class AlarmDaoTest : ParentIntegrationTest() {
         assertEquals(alarmFirst, alarmDao.get(alarmFirst.noteId))
     }
 
+    @Test fun getListById() = inRoomTest {
+        insertAlarmRelation(noteFirst, alarmFirst)
+        insertAlarmRelation(noteSecond, alarmSecond)
+
+        val alarmList = listOf(alarmFirst, alarmSecond)
+        val noteIdList = listOf(noteFirst.id, noteSecond.id)
+
+        assertEquals(alarmList, alarmDao.get(noteIdList))
+    }
+
     @Test fun getItem() = inRoomTest {
         assertNull(alarmDao.getItem(Random.nextLong()))
 
