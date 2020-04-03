@@ -374,6 +374,14 @@
         <item name="android:tint">?attr/clNoteIndicator</item>
     </style>
 
+    <style name="Image.Rank">
+        <item name="android:layout_width">@dimen/icon_16dp</item>
+        <item name="android:layout_height">@dimen/icon_16dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:tint">?attr/clContent</item>
+    </style>
+
     <!-- ProgressBar -->
 
     <style name="ProgressBar"/>

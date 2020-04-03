@@ -61,7 +61,7 @@
 
                         <ImageView
                                 android:id="@+id/rank_notification_image"
-                                style="@style/Image.Note.Info"
+                                style="@style/Image.Rank"
                                 android:importantForAccessibility="no"
                                 android:visibility='@{item.hasNotification ? View.VISIBLE : View.GONE}'
                                 app:srcCompat="@drawable/ic_notifications"
@@ -69,7 +69,7 @@
 
                         <ImageView
                                 android:id="@+id/rank_bind_image"
-                                style="@style/Image.Note.Info"
+                                style="@style/Image.Rank"
                                 android:importantForAccessibility="no"
                                 android:visibility='@{item.hasBind ? View.VISIBLE : View.GONE}'
                                 app:srcCompat="@drawable/ic_bind_text"

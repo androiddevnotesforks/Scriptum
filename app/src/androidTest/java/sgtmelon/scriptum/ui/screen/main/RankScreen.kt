@@ -137,11 +137,11 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
 
             notificationImage.isDisplayed(item.hasNotification) {
                 withSize(R.dimen.icon_16dp, R.dimen.icon_16dp)
-            }.withDrawableAttr(R.drawable.ic_notifications, R.attr.clNoteIndicator)
+            }.withDrawableAttr(R.drawable.ic_notifications, R.attr.clContent)
 
             bindImage.isDisplayed(item.hasBind) {
                 withSize(R.dimen.icon_16dp, R.dimen.icon_16dp)
-            }.withDrawableAttr(R.drawable.ic_bind_text, R.attr.clNoteIndicator)
+            }.withDrawableAttr(R.drawable.ic_bind_text, R.attr.clContent)
         }
 
     }
