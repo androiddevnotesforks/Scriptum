@@ -19,6 +19,8 @@ object Migrate {
      */
     private val FROM_7_TO_8 = object : Migration(7, 8) {
         override fun migrate(database: SupportSQLiteDatabase) = with(database) {
+            execSQL("DROP TABLE IF EXISTS ROLL_VISIBLE_TABLE")
+
             execSQL("""CREATE TABLE ROLL_VISIBLE_TABLE (
                 RL_VS_ID INTEGER PRIMARY KEY NOT NULL DEFAULT 0,
                 RL_VS_NOTE_ID INTEGER NOT NULL DEFAULT 0,
