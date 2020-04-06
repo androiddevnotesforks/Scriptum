@@ -208,9 +208,15 @@ class MainActivity : AppActivity(), IMainActivity {
     override fun notifyInfoBind(count: Int) = bindControl.notifyInfo(count)
 
 
-    override fun onReceiveUnbindNote(id: Long) = notesFragment.onReceiveUnbindNote(id)
+    override fun onReceiveUnbindNote(id: Long) {
+        rankFragment.onReceiveUnbindNote(id)
+        notesFragment.onReceiveUnbindNote(id)
+    }
 
-    override fun onReceiveUpdateAlarm(id: Long) = notesFragment.onReceiveUpdateAlarm(id)
+    override fun onReceiveUpdateAlarm(id: Long) {
+        rankFragment.onReceiveUpdateAlarm(id)
+        notesFragment.onReceiveUpdateAlarm(id)
+    }
 
 
     private fun MainPage.getFragmentByName(): Fragment = let {

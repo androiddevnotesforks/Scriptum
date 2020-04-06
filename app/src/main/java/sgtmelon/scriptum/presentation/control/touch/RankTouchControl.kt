@@ -57,21 +57,24 @@ class RankTouchControl(private val callback: Callback) : EdgeDragTouchHelper(), 
 
     interface Callback {
         /**
-         * Calls inside [getMovementFlags]. Need for check permission for drag.
+         * Calls when user start make drag, inside [getMovementFlags].
+         * Need for check permission for drag.
          *
          * @return true if user can drag cards.
          */
         fun onTouchDrag(): Boolean
 
         /**
-         * Calls inside [onMove]. Need for check permission for move card to another position.
+         * Calls when user hold rank card and move it between another cards, inside [onMove].
+         * Need for update items positions and call adapter notifyItemMoved.
          *
          * @return true if user cad drag card to another position.
          */
         fun onTouchMove(from: Int, to: Int): Boolean
 
         /**
-         * Calls inside [clearView] for description drag result.
+         * Calls only after user cancel hold need update positions, inside [clearView].
+         * Need for description drag result.
          */
         fun onTouchMoveResult()
     }

@@ -171,14 +171,13 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     }
 
 
-    /**
-     * Calls when user start make drag.
-     */
+    override fun onReceiveUnbindNote(id: Long) {}
+
+    override fun onReceiveUpdateAlarm(id: Long) {}
+
+
     override fun onTouchDrag() = callback?.openState?.value != true
 
-    /**
-     * Calls when user hold rank card and move it between another cards.
-     */
     override fun onTouchMove(from: Int, to: Int): Boolean {
         itemList.move(from, to)
 
@@ -187,9 +186,6 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         return true
     }
 
-    /**
-     * Only after user cancel hold need update positions.
-     */
     override fun onTouchMoveResult() {
         callback?.openState?.clear()
 

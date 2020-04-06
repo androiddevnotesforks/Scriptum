@@ -25,10 +25,17 @@ class MainReceiver(private val callback: Callback) : BroadcastReceiver() {
     }
 
     /**
-     * Interface for update UI elements
+     * Interface for update UI elements.
      */
     interface Callback {
+        /**
+         * Calls on note notification cancel from status bar for update bind indicator.
+         */
         fun onReceiveUnbindNote(id: Long)
+
+        /**
+         * Calls after alarmRepeat for update indicator.
+         */
         fun onReceiveUpdateAlarm(id: Long)
     }
 

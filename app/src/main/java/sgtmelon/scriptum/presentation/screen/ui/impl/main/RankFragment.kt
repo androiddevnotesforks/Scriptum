@@ -27,6 +27,7 @@ import sgtmelon.scriptum.presentation.control.system.BindControl
 import sgtmelon.scriptum.presentation.control.touch.RankTouchControl
 import sgtmelon.scriptum.presentation.factory.DialogFactory
 import sgtmelon.scriptum.presentation.listener.ItemListener
+import sgtmelon.scriptum.presentation.receiver.MainReceiver
 import sgtmelon.scriptum.presentation.screen.ui.ParentFragment
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IMainActivity
@@ -37,7 +38,7 @@ import javax.inject.Inject
 /**
  * Fragment which displays list of categories - [RankItem].
  */
-class RankFragment : ParentFragment(), IRankFragment {
+class RankFragment : ParentFragment(), IRankFragment, MainReceiver.Callback {
 
     private val callback: IMainActivity? by lazy { context as? IMainActivity }
 
@@ -119,6 +120,13 @@ class RankFragment : ParentFragment(), IRankFragment {
         viewModel.onDestroy()
     }
 
+    //region Receiver functions
+
+    override fun onReceiveUnbindNote(id: Long) = viewModel.onReceiveUnbindNote(id)
+
+    override fun onReceiveUpdateAlarm(id: Long) = viewModel.onReceiveUpdateAlarm(id)
+
+    //endregion
 
     /**
      * Use [OpenState.tryInvoke] and [OpenState.tryReturnInvoke] because item adding

@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.presentation.screen.vm.callback.main
 
 import sgtmelon.scriptum.presentation.control.touch.RankTouchControl
+import sgtmelon.scriptum.presentation.receiver.MainReceiver
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.RankFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.IParentViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.main.RankViewModel
@@ -8,7 +9,7 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.main.RankViewModel
 /**
  * Interface for communication [RankFragment] with [RankViewModel].
  */
-interface IRankViewModel : IParentViewModel, RankTouchControl.Callback {
+interface IRankViewModel : IParentViewModel, MainReceiver.Callback, RankTouchControl.Callback {
 
     fun onUpdateData()
 
