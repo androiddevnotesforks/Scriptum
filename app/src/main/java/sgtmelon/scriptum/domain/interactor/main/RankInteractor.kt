@@ -15,6 +15,11 @@ class RankInteractor(private val rankRepo: IRankRepo) : ParentInteractor(), IRan
 
     override suspend fun getList() = rankRepo.getList()
 
+    override suspend fun getBind(noteId: List<Long>) = rankRepo.getBind(noteId)
+
+    override suspend fun getNotification(noteId: List<Long>) = rankRepo.getNotification(noteId)
+
+
     override suspend fun insert(name: String) = RankItem(rankRepo.insert(name), name = name)
 
     override suspend fun delete(item: RankItem) = rankRepo.delete(item)

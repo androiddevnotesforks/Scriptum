@@ -13,6 +13,10 @@ interface IRankRepo {
 
     suspend fun getList(): MutableList<RankItem>
 
+    suspend fun getBind(noteId: List<Long>): Boolean
+
+    suspend fun getNotification(noteId: List<Long>): Boolean
+
     suspend fun getIdVisibleList(): List<Long>
 
 

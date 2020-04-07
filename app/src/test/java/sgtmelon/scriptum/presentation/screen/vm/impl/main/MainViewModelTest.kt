@@ -211,22 +211,30 @@ class MainViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onReceiveUnbindNote() {
-        val id = Random.nextLong()
+        val idFirst = Random.nextLong()
+        val idSecond = Random.nextLong()
 
-        viewModel.onReceiveUnbindNote(id)
+        viewModel.onReceiveUnbindNote(idFirst)
         viewModel.pageFrom = MainPage.RANK
-        viewModel.onReceiveUnbindNote(id)
+        viewModel.onReceiveUnbindNote(idSecond)
 
-        verifySequence { callback.onReceiveUnbindNote(id) }
+        verifySequence {
+            callback.onReceiveUnbindNote(idFirst)
+            callback.onReceiveUnbindNote(idSecond)
+        }
     }
 
     @Test fun onReceiveUpdateAlarm() {
-        val id = Random.nextLong()
+        val idFirst = Random.nextLong()
+        val idSecond = Random.nextLong()
 
-        viewModel.onReceiveUpdateAlarm(id)
+        viewModel.onReceiveUpdateAlarm(idFirst)
         viewModel.pageFrom = MainPage.RANK
-        viewModel.onReceiveUpdateAlarm(id)
+        viewModel.onReceiveUpdateAlarm(idSecond)
 
-        verifySequence { callback.onReceiveUpdateAlarm(id) }
+        verifySequence {
+            callback.onReceiveUpdateAlarm(idFirst)
+            callback.onReceiveUpdateAlarm(idSecond)
+        }
     }
 }

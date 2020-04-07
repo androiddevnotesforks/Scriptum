@@ -48,6 +48,33 @@ class RankInteractorTest : ParentInteractorTest() {
         }
     }
 
+    @Test fun getBind() = startCoTest {
+        val noteId = List(size = 5) { Random.nextLong() }
+        val hasBind = Random.nextBoolean()
+
+        coEvery { rankRepo.getBind(noteId) } returns hasBind
+
+        assertEquals(hasBind, interactor.getBind(noteId))
+
+        coVerifySequence {
+            rankRepo.getBind(noteId)
+        }
+    }
+
+    @Test fun getNotification() = startCoTest {
+        val noteId = List(size = 5) { Random.nextLong() }
+        val hasNotification = Random.nextBoolean()
+
+        coEvery { rankRepo.getNotification(noteId) } returns hasNotification
+
+        assertEquals(hasNotification, interactor.getNotification(noteId))
+
+        coVerifySequence {
+            rankRepo.getNotification(noteId)
+        }
+    }
+
+
     @Test fun insert() = startCoTest {
         val id = Random.nextLong()
         val name = TestData.uniqueString

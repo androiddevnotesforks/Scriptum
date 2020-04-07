@@ -380,6 +380,64 @@ class RankViewModelTest : ParentViewModelTest() {
         }
     }
 
+    @Test fun onReceiveUnbindNote() {
+        val itemList = data.itemList
+
+        viewModel.itemList.addAll(itemList)
+        assertEquals(itemList, viewModel.itemList)
+
+        val hasValue = Random.nextBoolean()
+        val id = itemList.random().noteId.random()
+        val updateList = itemList.filter { it.noteId.contains(id) }
+
+        updateList.forEach {
+            coEvery { interactor.getBind(it.noteId) } returns hasValue
+        }
+
+        viewModel.onReceiveUnbindNote(id)
+
+        updateList.forEach {
+            itemList[itemList.indexOf(it)].hasBind = hasValue
+        }
+
+        coVerifySequence {
+            updateList.forEach {
+                interactor.getBind(it.noteId)
+            }
+
+            callback.notifyList(itemList)
+        }
+    }
+
+    @Test fun onReceiveUpdateAlarm() {
+        val itemList = data.itemList
+
+        viewModel.itemList.addAll(itemList)
+        assertEquals(itemList, viewModel.itemList)
+
+        val hasValue = Random.nextBoolean()
+        val id = itemList.random().noteId.random()
+        val updateList = itemList.filter { it.noteId.contains(id) }
+
+        updateList.forEach {
+            coEvery { interactor.getNotification(it.noteId) } returns hasValue
+        }
+
+        viewModel.onReceiveUpdateAlarm(id)
+
+        updateList.forEach {
+            itemList[itemList.indexOf(it)].hasNotification = hasValue
+        }
+
+        coVerifySequence {
+            updateList.forEach {
+                interactor.getNotification(it.noteId)
+            }
+
+            callback.notifyList(itemList)
+        }
+    }
+
     @Test fun onTouchDrag() {
         every { openState.value } returns false
         assertTrue(viewModel.onTouchDrag())

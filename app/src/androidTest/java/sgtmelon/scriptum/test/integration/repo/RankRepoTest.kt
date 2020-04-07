@@ -58,6 +58,32 @@ class RankRepoTest : ParentIntegrationTest()  {
         }
     }
 
+    @Test fun getBind() = inRoomTest {
+        noteDao.insert(noteFirst)
+        noteDao.insert(noteSecond)
+        noteDao.insert(noteThird)
+
+        alarmDao.insert(alarmThird)
+
+        listOf(rankFirst, rankSecond, rankThird).forEach {
+            rankDao.insert(it)
+            assertEquals(it.noteId.contains(noteSecond.id), rankRepo.getBind(it.noteId))
+        }
+    }
+
+    @Test fun getNotification()= inRoomTest {
+        noteDao.insert(noteFirst)
+        noteDao.insert(noteSecond)
+        noteDao.insert(noteThird)
+
+        alarmDao.insert(alarmThird)
+
+        listOf(rankFirst, rankSecond, rankThird).forEach {
+            rankDao.insert(it)
+            assertEquals(it.noteId.contains(alarmThird.noteId), rankRepo.getNotification(it.noteId))
+        }
+    }
+
     @Test fun getIdVisibleList() = inRoomTest {
         val idList = listOf(rankFirst, rankSecond, rankThird).apply {
             forEach { rankDao.insert(it) }
