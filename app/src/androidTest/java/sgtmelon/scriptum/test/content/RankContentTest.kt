@@ -45,12 +45,28 @@ class RankContentTest : ParentUiTest() {
     }
 
 
-    @Test fun itemBind()  {
-        TODO()
+    @Test fun itemBind() = data.insertRankForNotes().let {
+        launch {
+            mainScreen {
+                rankScreen { onAssertItem(it.first) }
+                notesScreen { openNoteDialog(it.second) { onBind() } }
+                rankScreen { onAssertItem(it.first.apply { hasBind = true }) }
+            }
+        }
     }
 
-    @Test fun itemNotification() {
-        TODO()
+    @Test fun itemNotification() = data.insertRankForNotes().let {
+        launch {
+            mainScreen {
+                rankScreen { onAssertItem(it.first) }
+                notesScreen {
+                    openNoteDialog(it.second) {
+                        onNotification { onDate(day = 1).onClickApply { onClickApply() } }
+                    }
+                }
+                rankScreen { onAssertItem(it.first.apply { hasNotification = true }) }
+            }
+        }
     }
 
 

@@ -85,7 +85,7 @@ class TestData(override val context: Context, private val preferenceRepo: IPrefe
         return rankConverter.toItem(entity)
     }
 
-    fun insertRankForNotes(): RankItem {
+    fun insertRankForNotes(): Pair<RankItem, NoteItem> {
         val noteItem = insertNote()
 
         val rankItem = insertRank(rankEntity.apply {
@@ -99,10 +99,10 @@ class TestData(override val context: Context, private val preferenceRepo: IPrefe
             }))
         }
 
-        return rankItem
+        return Pair(rankItem, noteItem)
     }
 
-    fun insertRankForBin(): RankItem {
+    fun insertRankForBin(): Pair<RankItem, NoteItem> {
         val noteItem = insertNoteToBin()
 
         val rankItem = insertRank(rankEntity.apply {
@@ -116,7 +116,7 @@ class TestData(override val context: Context, private val preferenceRepo: IPrefe
             }))
         }
 
-        return rankItem
+        return Pair(rankItem, noteItem)
     }
 
     fun insertText(entity: NoteEntity = textNote): NoteItem {
