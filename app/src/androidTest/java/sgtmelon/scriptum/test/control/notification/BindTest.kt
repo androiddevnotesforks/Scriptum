@@ -14,9 +14,22 @@ import kotlin.random.Random
 @RunWith(AndroidJUnit4::class)
 class BindTest : ParentNotificationTest() {
 
+    // TODO separate test classes for this section
+
     /**
      * Notify on start is implied
      */
+
+    @Test fun rankUnbindReceiver() = data.insertRankForNotes().let {
+        launch {
+            mainScreen {
+                notesScreen { openNoteDialog(it.second) { onBind() } }
+                rankScreen {
+                    onOpen { onAssertItem(it.first.apply { hasBind = false }) }
+                }
+            }
+        }
+    }
 
     @Test fun notesUnbindReceiver() = with(data) {
         insertText(textNote.copy(isStatus = true))
