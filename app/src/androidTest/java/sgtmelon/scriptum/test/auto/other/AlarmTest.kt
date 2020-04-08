@@ -60,6 +60,9 @@ class AlarmTest : ParentUiTest() {
         }
     }
 
+    /**
+     * Check reset seconds on click repeat button. And check alarm receiver work with notes screen.
+     */
     @Test fun clickRepeatCorrectSeconds() = data.insertText(data.textNote.copy(color = 1)).let {
         preferenceRepo.sort = Sort.COLOR
         preferenceRepo.repeat = Repeat.MIN_10

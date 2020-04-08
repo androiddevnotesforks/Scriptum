@@ -11,7 +11,10 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.main.MainActivity
 /**
  * Receiver for [MainActivity] commands
  */
-class MainReceiver(private val callback: Callback) : BroadcastReceiver() {
+class MainReceiver(
+        private val bindCallback: BindCallback,
+        private val alarmCallback: AlarmCallback
+) : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
         val id = intent?.getLongExtra(Values.NOTE_ID, NoteData.Default.ID) ?: return
@@ -19,23 +22,29 @@ class MainReceiver(private val callback: Callback) : BroadcastReceiver() {
         if (id == NoteData.Default.ID) return
 
         when (intent.getStringExtra(Values.COMMAND)) {
-            Command.UNBIND_NOTE -> callback.onReceiveUnbindNote(id)
-            Command.UPDATE_ALARM -> callback.onReceiveUpdateAlarm(id)
+            Command.UNBIND_NOTE -> bindCallback.onReceiveUnbindNote(id)
+            Command.UPDATE_ALARM -> alarmCallback.onReceiveUpdateAlarm(id)
         }
     }
 
     /**
      * Interface for update UI elements.
+     *
+     * Calls on note notification cancel from status bar for update bind indicator.
      */
-    interface Callback {
-        /**
-         * Calls on note notification cancel from status bar for update bind indicator.
-         */
+    interface BindCallback {
         fun onReceiveUnbindNote(id: Long)
+    }
 
-        /**
-         * Calls after alarmRepeat for update indicator.
-         */
+    /**
+     * Interface for update UI elements.
+     *
+     * Calls after alarmRepeat for update indicator.
+     *
+     * Don't need implement this callback inside rank screen for update icons because
+     * application always starts from NOTES page.
+     */
+    interface AlarmCallback {
         fun onReceiveUpdateAlarm(id: Long)
     }
 

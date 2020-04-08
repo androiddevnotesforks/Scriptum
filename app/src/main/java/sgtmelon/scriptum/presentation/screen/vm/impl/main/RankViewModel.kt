@@ -183,18 +183,6 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         }
     }
 
-    override fun onReceiveUpdateAlarm(id: Long) {
-        viewModelScope.launch {
-            for (item in itemList) {
-                if (!item.noteId.contains(id)) continue
-
-                item.hasNotification = interactor.getNotification(item.noteId)
-            }
-
-            callback?.notifyList(itemList)
-        }
-    }
-
 
     override fun onTouchDrag() = callback?.openState?.value != true
 

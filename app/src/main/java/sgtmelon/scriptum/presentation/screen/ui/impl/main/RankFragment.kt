@@ -38,7 +38,7 @@ import javax.inject.Inject
 /**
  * Fragment which displays list of categories - [RankItem].
  */
-class RankFragment : ParentFragment(), IRankFragment, MainReceiver.Callback {
+class RankFragment : ParentFragment(), IRankFragment, MainReceiver.BindCallback {
 
     private val callback: IMainActivity? by lazy { context as? IMainActivity }
 
@@ -123,8 +123,6 @@ class RankFragment : ParentFragment(), IRankFragment, MainReceiver.Callback {
     //region Receiver functions
 
     override fun onReceiveUnbindNote(id: Long) = viewModel.onReceiveUnbindNote(id)
-
-    override fun onReceiveUpdateAlarm(id: Long) = viewModel.onReceiveUpdateAlarm(id)
 
     //endregion
 

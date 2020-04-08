@@ -9,7 +9,9 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.main.RankViewModel
 /**
  * Interface for communication [RankFragment] with [RankViewModel].
  */
-interface IRankViewModel : IParentViewModel, MainReceiver.Callback, RankTouchControl.Callback {
+interface IRankViewModel : IParentViewModel,
+        MainReceiver.BindCallback,
+        RankTouchControl.Callback {
 
     fun onUpdateData()
 

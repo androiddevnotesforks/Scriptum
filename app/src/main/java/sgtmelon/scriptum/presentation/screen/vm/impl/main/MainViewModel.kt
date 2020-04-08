@@ -129,7 +129,7 @@ class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(a
     }
 
     override fun onReceiveUpdateAlarm(id: Long) {
-        callback?.onReceiveUpdateAlarm(id)
+        if (!pageFrom.isStartPage()) callback?.onReceiveUpdateAlarm(id)
     }
 
 

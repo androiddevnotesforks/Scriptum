@@ -4,13 +4,14 @@ import androidx.annotation.IdRes
 import sgtmelon.scriptum.domain.model.key.MainPage
 import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.domain.model.state.OpenState
+import sgtmelon.scriptum.presentation.receiver.MainReceiver
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.MainActivity
 import sgtmelon.scriptum.presentation.screen.vm.impl.main.MainViewModel
 
 /**
  * Interface for communication [MainViewModel] with [MainActivity]
  */
-interface IMainActivity : IMainBridge {
+interface IMainActivity : IMainBridge, MainReceiver.BindCallback, MainReceiver.AlarmCallback {
 
     val openState: OpenState
 
@@ -26,10 +27,5 @@ interface IMainActivity : IMainBridge {
     fun showPage(pageFrom: MainPage, pageTo: MainPage)
 
     fun startNoteActivity(noteType: NoteType)
-
-
-    fun onReceiveUnbindNote(id: Long)
-
-    fun onReceiveUpdateAlarm(id: Long)
 
 }

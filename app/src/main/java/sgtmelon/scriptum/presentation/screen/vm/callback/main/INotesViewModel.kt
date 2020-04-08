@@ -9,7 +9,9 @@ import java.util.*
 /**
  * Interface for communication [NotesFragment] with [NotesViewModel]
  */
-interface INotesViewModel : IParentViewModel, MainReceiver.Callback {
+interface INotesViewModel : IParentViewModel,
+        MainReceiver.BindCallback,
+        MainReceiver.AlarmCallback {
 
     fun onUpdateData()
 

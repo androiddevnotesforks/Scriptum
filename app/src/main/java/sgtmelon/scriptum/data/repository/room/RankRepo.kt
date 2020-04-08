@@ -51,16 +51,6 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
         return hasBind
     }
 
-    override suspend fun getNotification(noteId: List<Long>): Boolean {
-        val hasNotification: Boolean
-
-        openRoom().apply {
-            hasNotification = alarmDao.get(noteId).isNotEmpty()
-        }.close()
-
-        return hasNotification
-    }
-
     /**
      * Return list of rank id's which is visible.
      */

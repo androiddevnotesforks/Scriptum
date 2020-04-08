@@ -39,7 +39,10 @@ import javax.inject.Inject
 /**
  * Fragment which displays list of notes - [NoteItem]
  */
-class NotesFragment : ParentFragment(), INotesFragment, MainReceiver.Callback {
+class NotesFragment : ParentFragment(),
+        INotesFragment,
+        MainReceiver.BindCallback,
+        MainReceiver.AlarmCallback {
 
     private val callback: IMainActivity? by lazy { context as? IMainActivity }
 

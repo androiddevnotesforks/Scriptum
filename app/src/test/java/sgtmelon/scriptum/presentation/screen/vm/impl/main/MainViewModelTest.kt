@@ -234,7 +234,6 @@ class MainViewModelTest : ParentViewModelTest() {
 
         verifySequence {
             callback.onReceiveUpdateAlarm(idFirst)
-            callback.onReceiveUpdateAlarm(idSecond)
         }
     }
 }

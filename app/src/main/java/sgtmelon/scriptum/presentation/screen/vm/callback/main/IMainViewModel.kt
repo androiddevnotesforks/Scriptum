@@ -10,7 +10,9 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.main.MainViewModel
 /**
  * Interface for communication [MainActivity] with [MainViewModel]
  */
-interface IMainViewModel : IParentViewModel, MainReceiver.Callback {
+interface IMainViewModel : IParentViewModel,
+        MainReceiver.AlarmCallback,
+        MainReceiver.BindCallback {
 
     fun onSaveData(bundle: Bundle)
 

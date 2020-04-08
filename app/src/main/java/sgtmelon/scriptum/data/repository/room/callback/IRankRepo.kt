@@ -15,8 +15,6 @@ interface IRankRepo {
 
     suspend fun getBind(noteId: List<Long>): Boolean
 
-    suspend fun getNotification(noteId: List<Long>): Boolean
-
     suspend fun getIdVisibleList(): List<Long>
 
 
