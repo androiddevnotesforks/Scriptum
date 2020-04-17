@@ -12,7 +12,7 @@ import sgtmelon.scriptum.extension.clearAddAll
 import sgtmelon.scriptum.extension.removeAtOrNull
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IBinFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.BinFragment
-import sgtmelon.scriptum.presentation.screen.vm.ParentViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.main.IBinViewModel
 import sgtmelon.scriptum.domain.model.annotation.Options.Bin as Options
 

@@ -1,7 +1,8 @@
-package sgtmelon.scriptum.domain.interactor
+package sgtmelon.scriptum.domain.interactor.impl
 
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.domain.interactor.callback.ISplashInteractor
+import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.presentation.screen.vm.impl.SplashViewModel
 
 /**

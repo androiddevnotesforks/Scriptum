@@ -1,11 +1,11 @@
-package sgtmelon.scriptum.domain.interactor.notification
+package sgtmelon.scriptum.domain.interactor.impl.notification
 
 import sgtmelon.extension.clearSeconds
 import sgtmelon.extension.getText
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
-import sgtmelon.scriptum.domain.interactor.ParentInteractor
+import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.domain.model.annotation.Repeat
 import sgtmelon.scriptum.domain.model.annotation.Theme

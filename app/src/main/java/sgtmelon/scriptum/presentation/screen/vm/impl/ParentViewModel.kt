@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.presentation.screen.vm
+package sgtmelon.scriptum.presentation.screen.vm.impl
 
 import android.app.Application
 import android.content.Context

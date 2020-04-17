@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.domain.interactor.callback.notification
 
-import sgtmelon.scriptum.domain.interactor.notification.SignalInteractor
+import sgtmelon.scriptum.domain.interactor.impl.notification.SignalInteractor
 import sgtmelon.scriptum.domain.model.item.MelodyItem
 import sgtmelon.scriptum.domain.model.state.SignalState
 

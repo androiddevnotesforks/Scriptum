@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.presentation.screen.ui.callback.note.text
 
-import sgtmelon.scriptum.domain.interactor.note.TextNoteInteractor
+import sgtmelon.scriptum.domain.interactor.impl.note.TextNoteInteractor
 import sgtmelon.scriptum.presentation.control.system.AlarmControl
 import sgtmelon.scriptum.presentation.control.system.BindControl
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment

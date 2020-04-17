@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.domain.interactor.callback.note
 
 import sgtmelon.scriptum.domain.interactor.callback.IParentInteractor
-import sgtmelon.scriptum.domain.interactor.note.TextNoteInteractor
+import sgtmelon.scriptum.domain.interactor.impl.note.TextNoteInteractor
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem

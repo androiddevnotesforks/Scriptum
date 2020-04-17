@@ -1,31 +1,32 @@
-package sgtmelon.scriptum.domain.interactor.note
+package sgtmelon.scriptum.domain.interactor.impl.note
 
+import androidx.annotation.VisibleForTesting
 import sgtmelon.extension.getText
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.data.repository.room.callback.IRankRepo
-import sgtmelon.scriptum.domain.interactor.ParentInteractor
-import sgtmelon.scriptum.domain.interactor.callback.note.ITextNoteInteractor
+import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
+import sgtmelon.scriptum.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.control.note.save.SaveControl
-import sgtmelon.scriptum.presentation.screen.ui.callback.note.text.ITextNoteBridge
-import sgtmelon.scriptum.presentation.screen.vm.impl.note.TextNoteViewModel
+import sgtmelon.scriptum.presentation.screen.ui.callback.note.roll.IRollNoteBridge
+import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel
 import java.util.*
 
 /**
- * Interactor for [TextNoteViewModel].
+ * Interactor for [RollNoteViewModel].
  */
-class TextNoteInteractor(
+class RollNoteInteractor(
         private val preferenceRepo: IPreferenceRepo,
         private val alarmRepo: IAlarmRepo,
         private val rankRepo: IRankRepo,
         private val noteRepo: INoteRepo,
-        private var callback: ITextNoteBridge?
+        @VisibleForTesting var callback: IRollNoteBridge?
 ) : ParentInteractor(),
-        ITextNoteInteractor {
+        IRollNoteInteractor {
 
     private var rankIdVisibleList: List<Long>? = null
 
@@ -56,6 +57,29 @@ class TextNoteInteractor(
     override suspend fun getRankDialogItemArray() = rankRepo.getDialogItemArray()
 
 
+    override suspend fun setVisible(noteId: Long, isVisible: Boolean) {
+        noteRepo.setRollVisible(noteId, isVisible)
+    }
+
+    override suspend fun getVisible(noteId: Long): Boolean = noteRepo.getRollVisible(noteId)
+
+
+    /**
+     * Update single roll.
+     */
+    override suspend fun updateRollCheck(noteItem: NoteItem, p: Int) {
+        noteRepo.updateRollCheck(noteItem, p)
+        callback?.notifyNoteBind(noteItem, getRankIdVisibleList())
+    }
+
+    /**
+     * Update all rolls rely on checks.
+     */
+    override suspend fun updateRollCheck(noteItem: NoteItem, check: Boolean) {
+        noteRepo.updateRollCheck(noteItem, check)
+        callback?.notifyNoteBind(noteItem, getRankIdVisibleList())
+    }
+
     override suspend fun getRankId(check: Int): Long = rankRepo.getId(check)
 
     override suspend fun getDateList() = alarmRepo.getList().map { it.alarm.date }
@@ -70,7 +94,9 @@ class TextNoteInteractor(
         callback?.setAlarm(calendar, noteItem.id)
     }
 
-    override suspend fun convert(noteItem: NoteItem) = noteRepo.convertToRoll(noteItem)
+    override suspend fun convert(noteItem: NoteItem) {
+        noteRepo.convertToText(noteItem, useCache = true)
+    }
 
 
     override suspend fun restoreNote(noteItem: NoteItem) = noteRepo.restoreNote(noteItem)
@@ -84,7 +110,7 @@ class TextNoteInteractor(
     override suspend fun clearNote(noteItem: NoteItem) = noteRepo.clearNote(noteItem)
 
     override suspend fun saveNote(noteItem: NoteItem, isCreate: Boolean) {
-        noteRepo.saveTextNote(noteItem, isCreate)
+        noteRepo.saveRollNote(noteItem, isCreate)
         rankRepo.updateConnection(noteItem)
 
         callback?.notifyNoteBind(noteItem, getRankIdVisibleList())

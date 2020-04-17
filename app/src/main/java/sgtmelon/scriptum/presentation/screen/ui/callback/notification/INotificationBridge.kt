@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.presentation.screen.ui.callback.notification
 
-import sgtmelon.scriptum.domain.interactor.notification.NotificationInteractor
+import sgtmelon.scriptum.domain.interactor.impl.notification.NotificationInteractor
 import sgtmelon.scriptum.presentation.control.system.AlarmControl
 import sgtmelon.scriptum.presentation.control.system.BindControl
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.NotificationActivity

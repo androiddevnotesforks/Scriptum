@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import sgtmelon.scriptum.data.provider.PreferenceProvider
-import sgtmelon.scriptum.domain.interactor.notification.SignalInteractor
+import sgtmelon.scriptum.domain.interactor.impl.notification.SignalInteractor
 import sgtmelon.scriptum.domain.model.annotation.*
 
 /**

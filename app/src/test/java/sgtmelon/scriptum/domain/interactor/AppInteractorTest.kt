@@ -8,6 +8,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.ParentInteractorTest
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
+import sgtmelon.scriptum.domain.interactor.impl.AppInteractor
 import sgtmelon.scriptum.domain.model.annotation.Theme
 
 /**

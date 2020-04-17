@@ -1,7 +1,7 @@
-package sgtmelon.scriptum.domain.interactor.note
+package sgtmelon.scriptum.domain.interactor.impl.note
 
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
-import sgtmelon.scriptum.domain.interactor.ParentInteractor
+import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.domain.interactor.callback.note.INoteInteractor
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Theme

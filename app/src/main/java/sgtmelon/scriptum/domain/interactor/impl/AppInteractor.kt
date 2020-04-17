@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.domain.interactor
+package sgtmelon.scriptum.domain.interactor.impl
 
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.domain.interactor.callback.IAppInteractor

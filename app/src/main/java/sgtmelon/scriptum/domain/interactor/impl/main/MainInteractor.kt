@@ -1,9 +1,9 @@
-package sgtmelon.scriptum.domain.interactor.main
+package sgtmelon.scriptum.domain.interactor.impl.main
 
 import sgtmelon.extension.beforeNow
 import sgtmelon.extension.getCalendar
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
-import sgtmelon.scriptum.domain.interactor.ParentInteractor
+import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.IMainInteractor
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IMainBridge
 import sgtmelon.scriptum.presentation.screen.vm.impl.main.MainViewModel

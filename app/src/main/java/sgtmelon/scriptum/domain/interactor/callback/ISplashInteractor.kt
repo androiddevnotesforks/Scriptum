@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.domain.interactor.callback
 
-import sgtmelon.scriptum.domain.interactor.SplashInteractor
+import sgtmelon.scriptum.domain.interactor.impl.SplashInteractor
 import sgtmelon.scriptum.presentation.screen.vm.impl.SplashViewModel
 
 /**

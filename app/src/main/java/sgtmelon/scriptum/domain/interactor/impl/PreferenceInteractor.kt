@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.domain.interactor
+package sgtmelon.scriptum.domain.interactor.impl
 
 import sgtmelon.scriptum.presentation.screen.vm.callback.IPreferenceViewModel
 

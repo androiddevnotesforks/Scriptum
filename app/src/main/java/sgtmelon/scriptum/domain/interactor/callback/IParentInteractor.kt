@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.domain.interactor.callback
 
-import sgtmelon.scriptum.domain.interactor.ParentInteractor
+import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
 
 /**
  * Parent interface for communicate with children of [ParentInteractor]

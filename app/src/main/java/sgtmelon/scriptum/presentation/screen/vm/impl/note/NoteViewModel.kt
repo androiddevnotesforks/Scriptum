@@ -9,7 +9,7 @@ import sgtmelon.scriptum.domain.model.data.NoteData.Intent
 import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
-import sgtmelon.scriptum.presentation.screen.vm.ParentViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.note.INoteViewModel
 
 /**

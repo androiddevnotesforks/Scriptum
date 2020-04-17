@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.domain.interactor.callback.notification
 
 import sgtmelon.scriptum.domain.interactor.callback.IParentInteractor
-import sgtmelon.scriptum.domain.interactor.notification.AlarmInteractor
+import sgtmelon.scriptum.domain.interactor.impl.notification.AlarmInteractor
 import sgtmelon.scriptum.domain.model.annotation.Repeat
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem

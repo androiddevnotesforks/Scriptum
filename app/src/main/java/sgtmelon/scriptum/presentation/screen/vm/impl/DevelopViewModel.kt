@@ -8,7 +8,6 @@ import sgtmelon.scriptum.data.repository.room.DevelopRepo
 import sgtmelon.scriptum.data.repository.room.callback.IDevelopRepo
 import sgtmelon.scriptum.presentation.screen.ui.callback.IDevelopActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.DevelopActivity
-import sgtmelon.scriptum.presentation.screen.vm.ParentViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.IDevelopViewModel
 
 /**

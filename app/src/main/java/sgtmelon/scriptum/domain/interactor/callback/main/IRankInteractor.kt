@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.domain.interactor.callback.main
 
 import sgtmelon.scriptum.domain.interactor.callback.IParentInteractor
-import sgtmelon.scriptum.domain.interactor.main.RankInteractor
+import sgtmelon.scriptum.domain.interactor.impl.main.RankInteractor
 import sgtmelon.scriptum.domain.model.item.RankItem
 
 import sgtmelon.scriptum.presentation.screen.vm.impl.main.RankViewModel

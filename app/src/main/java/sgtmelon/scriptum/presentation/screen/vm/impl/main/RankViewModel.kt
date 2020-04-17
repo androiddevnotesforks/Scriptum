@@ -13,7 +13,7 @@ import sgtmelon.scriptum.domain.model.item.RankItem
 import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IRankFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.RankFragment
-import sgtmelon.scriptum.presentation.screen.vm.ParentViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.main.IRankViewModel
 
 /**

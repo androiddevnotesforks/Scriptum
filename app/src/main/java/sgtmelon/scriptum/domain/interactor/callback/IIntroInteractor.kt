@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.domain.interactor.callback
 
-import sgtmelon.scriptum.domain.interactor.IntroInteractor
+import sgtmelon.scriptum.domain.interactor.impl.IntroInteractor
 import sgtmelon.scriptum.presentation.screen.vm.impl.IntroViewModel
 
 /**

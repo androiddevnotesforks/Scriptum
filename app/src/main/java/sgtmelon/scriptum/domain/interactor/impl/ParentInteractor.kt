@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.domain.interactor
+package sgtmelon.scriptum.domain.interactor.impl
 
 import androidx.annotation.CallSuper
 import sgtmelon.scriptum.domain.interactor.callback.IParentInteractor

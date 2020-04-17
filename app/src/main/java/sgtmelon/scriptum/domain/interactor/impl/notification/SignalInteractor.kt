@@ -1,10 +1,10 @@
-package sgtmelon.scriptum.domain.interactor.notification
+package sgtmelon.scriptum.domain.interactor.impl.notification
 
 import android.content.Context
 import android.media.RingtoneManager
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.room.converter.type.IntConverter
-import sgtmelon.scriptum.domain.interactor.ParentInteractor
+import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.domain.model.annotation.Signal
 import sgtmelon.scriptum.domain.model.item.MelodyItem
