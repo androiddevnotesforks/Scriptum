@@ -93,7 +93,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
         every { bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID) } returns id
         coEvery { interactor.getModel(id) } returns noteItem
-        every { signalInteractor.signalState } returns signalFirst
+        every { signalInteractor.state } returns signalFirst
 
         viewModel.onSetup(bundle)
 
@@ -112,7 +112,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
             }
 
             interactor.getModel(id)
-            signalInteractor.signalState
+            signalInteractor.state
             bindInteractor.notifyInfoBind(callback)
 
             callback.apply {
@@ -133,7 +133,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
         every { bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID) } returns id
         coEvery { interactor.getModel(id) } returns null
-        every { signalInteractor.signalState } returns signalFirst
+        every { signalInteractor.state } returns signalFirst
 
         viewModel.onSetup(bundle)
 

@@ -4,8 +4,8 @@ import android.content.Context
 import android.media.RingtoneManager
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.room.converter.type.IntConverter
-import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteractor
+import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.domain.model.annotation.Signal
 import sgtmelon.scriptum.domain.model.item.MelodyItem
 import sgtmelon.scriptum.domain.model.state.SignalState
@@ -22,28 +22,11 @@ class SignalInteractor(
 
     private val ringtoneManager get() = RingtoneManager(context)
 
-    override val signalCheck: BooleanArray
+    override val check: BooleanArray
         get() = IntConverter().toArray(preferenceRepo.signal, Signal.digitCount)
 
-    override val signalState: SignalState get() = SignalState(signalCheck)
+    override val state: SignalState get() = SignalState(check)
 
-    override fun getSignalSummary(summaryArray: Array<String>) = StringBuilder().apply {
-        val array = signalCheck
-
-        if (summaryArray.size < array.size) return@apply
-
-        var firstAppend = true
-        array.forEachIndexed { i, bool ->
-            if (bool) {
-                append(if (firstAppend) {
-                    firstAppend = false
-                    summaryArray[i]
-                } else {
-                    (", ").plus(summaryArray[i].toLowerCase(Locale.getDefault()))
-                })
-            }
-        }
-    }.toString()
 
     /**
      * If melody not init or was delete - set first melody uri from list

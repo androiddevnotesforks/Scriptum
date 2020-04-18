@@ -1,12 +1,12 @@
 package sgtmelon.scriptum.dagger.module.base
 
-import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import dagger.Module
 import dagger.Provides
 import sgtmelon.scriptum.dagger.ActivityScope
 import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.IIntroInteractor
+import sgtmelon.scriptum.domain.interactor.callback.IPreferenceInteractor
 import sgtmelon.scriptum.domain.interactor.callback.ISplashInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.IMainInteractor
@@ -189,9 +189,10 @@ class ViewModelModule {
 
     @Provides
     @ActivityScope
-    fun providePreferenceViewModel(fragment: PreferenceFragment, context: Context,
+    fun providePreferenceViewModel(fragment: PreferenceFragment,
+                                   preferenceInteractor: IPreferenceInteractor,
                                    signalInteractor: ISignalInteractor): IPreferenceViewModel {
-        return PreferenceViewModel(context, signalInteractor, fragment)
+        return PreferenceViewModel(preferenceInteractor, signalInteractor, fragment)
     }
 
     @Provides

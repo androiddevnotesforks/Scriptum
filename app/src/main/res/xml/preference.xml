@@ -48,8 +48,8 @@
         <Preference
                 android:defaultValue="@integer/pref_note_save_time"
                 android:key="@string/pref_key_note_time"
-                android:summary="@string/pref_summary_note_save_time"
-                android:title="@string/pref_title_note_save_time"
+                android:summary="@string/pref_summary_note_save_period"
+                android:title="@string/pref_title_note_save_period"
                 app:dependency="@string/pref_key_note_auto"
                 app:iconSpaceReserved="false"/>
 

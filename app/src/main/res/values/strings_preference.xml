@@ -16,7 +16,7 @@
     <string name="pref_title_note_color">Default note color</string>
     <string name="pref_title_note_save_pause">Save on stop</string>
     <string name="pref_title_note_save_auto">Auto save</string>
-    <string name="pref_title_note_save_time">Period</string>
+    <string name="pref_title_note_save_period">Period</string>
 
     <string name="pref_title_alarm_repeat">Repeat time</string>
     <string name="pref_title_alarm_signal">Signal type</string>
@@ -36,7 +36,7 @@
     <string name="pref_summary_note_color">Will be used by default</string>
     <string name="pref_summary_note_save_pause">Will save note changes when you leave application</string>
     <string name="pref_summary_note_save_auto">Will save note changes after period of time</string>
-    <string name="pref_summary_note_save_time">Number of minutes</string>
+    <string name="pref_summary_note_save_period">Number of minutes</string>
 
     <string name="pref_summary_alarm_repeat">Will be used for repeat notification</string>
     <string name="pref_summary_alarm_signal">will be used for notify you</string>
@@ -72,7 +72,7 @@
         <item>White</item>
     </string-array>
 
-    <string-array name="pref_text_note_save_time">
+    <string-array name="pref_text_note_save_period">
         <item>1 minute</item>
         <item>3 minutes</item>
         <item>7 minutes</item>

@@ -10,6 +10,7 @@ import kotlinx.coroutines.runBlocking
  */
 interface IRoomWork {
 
+    // TODO nullable
     val context: Context
 
     fun openRoom() = RoomDb[context]

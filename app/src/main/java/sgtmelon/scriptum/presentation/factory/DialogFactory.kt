@@ -158,6 +158,17 @@ object DialogFactory {
             return dialog
         }
 
+        fun getSavePeriodDialog(): SingleDialog {
+            val dialog = fm.findFragmentByTag(SAVE_PERIOD) as? SingleDialog ?: SingleDialog()
+
+            if (context == null) return dialog
+
+            dialog.title = context.getString(R.string.pref_title_note_save_period)
+            dialog.itemArray = context.resources.getStringArray(R.array.pref_text_note_save_period)
+
+            return dialog
+        }
+
 
         fun getRepeatDialog(): SingleDialog {
             val dialog = fm.findFragmentByTag(REPEAT) as? SingleDialog ?: SingleDialog()
@@ -216,17 +227,6 @@ object DialogFactory {
         }
 
 
-        fun getSaveTimeDialog(): SingleDialog {
-            val dialog = fm.findFragmentByTag(SAVE_TIME) as? SingleDialog ?: SingleDialog()
-
-            if (context == null) return dialog
-
-            dialog.title = context.getString(R.string.pref_title_note_save_time)
-            dialog.itemArray = context.resources.getStringArray(R.array.pref_text_note_save_time)
-
-            return dialog
-        }
-
         fun getAboutDialog(): AboutDialog {
             return fm.findFragmentByTag(ABOUT) as? AboutDialog ?: AboutDialog()
         }
@@ -238,6 +238,7 @@ object DialogFactory {
 
             const val SORT = "${PREFIX}_SORT"
             const val COLOR = "${PREFIX}_COLOR"
+            const val SAVE_PERIOD = "${PREFIX}_SAVE_PERIOD"
 
             const val REPEAT = "${PREFIX}_REPEAT"
             const val SIGNAL = "${PREFIX}_SIGNAL"
@@ -245,7 +246,6 @@ object DialogFactory {
             const val MELODY = "${PREFIX}_MELODY"
             const val VOLUME = "${PREFIX}_VOLUME"
 
-            const val SAVE_TIME = "${PREFIX}_SAVE_TIME"
             const val ABOUT = "${PREFIX}_ABOUT"
         }
 

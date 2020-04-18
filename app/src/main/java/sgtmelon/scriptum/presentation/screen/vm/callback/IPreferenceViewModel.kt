@@ -1,6 +1,8 @@
 package sgtmelon.scriptum.presentation.screen.vm.callback
 
 import sgtmelon.scriptum.domain.model.annotation.Color
+import sgtmelon.scriptum.domain.model.annotation.Repeat
+import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.key.PermissionResult
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
@@ -13,25 +15,29 @@ interface IPreferenceViewModel : IParentViewModel {
 
     fun onClickTheme(): Boolean
 
-    fun onResultTheme(@Theme theme: Int)
+    fun onResultTheme(@Theme value: Int)
 
 
     fun onClickSort(): Boolean
 
-    fun onResultNoteSort(value: Int)
+    fun onResultNoteSort(@Sort value: Int)
 
     fun onClickNoteColor(): Boolean
 
     fun onResultNoteColor(@Color value: Int)
 
+    fun onClickSaveTime(): Boolean
+
+    fun onResultSaveTime(value: Int)
+
 
     fun onClickRepeat(): Boolean
 
-    fun onResultRepeat(value: Int)
+    fun onResultRepeat(@Repeat value: Int)
 
     fun onClickSignal(): Boolean
 
-    fun onResultSignal(array: BooleanArray)
+    fun onResultSignal(checkArray: BooleanArray)
 
     fun onClickMelody(result: PermissionResult): Boolean
 
@@ -42,10 +48,5 @@ interface IPreferenceViewModel : IParentViewModel {
     fun onClickVolume(): Boolean
 
     fun onResultVolume(value: Int)
-
-
-    fun onClickSaveTime(): Boolean
-
-    fun onResultSaveTime(value: Int)
 
 }

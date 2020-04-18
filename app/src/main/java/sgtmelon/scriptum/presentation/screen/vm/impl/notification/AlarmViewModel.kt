@@ -18,8 +18,8 @@ import sgtmelon.scriptum.domain.model.key.ColorShade
 import sgtmelon.scriptum.domain.model.state.SignalState
 import sgtmelon.scriptum.presentation.screen.ui.callback.notification.IAlarmActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.AlarmActivity
-import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.notification.IAlarmViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
 
 /**
  * ViewModel for [AlarmActivity].
@@ -78,7 +78,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
                     return@launch
                 }
 
-                signalState = signalInteractor.signalState
+                signalState = signalInteractor.state
                 bindInteractor.notifyInfoBind(callback)
             }
 

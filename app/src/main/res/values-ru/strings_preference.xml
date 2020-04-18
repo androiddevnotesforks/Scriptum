@@ -14,7 +14,7 @@
     <string name="pref_title_note_color">Цвет заметки по-умолчанию</string>
     <string name="pref_title_note_save_pause">Сохранять при остановке</string>
     <string name="pref_title_note_save_auto">Автоматическое сохранение</string>
-    <string name="pref_title_note_save_time">Период</string>
+    <string name="pref_title_note_save_period">Период</string>
 
     <string name="pref_title_alarm_repeat">Время повтора</string>
     <string name="pref_title_alarm_signal">Тип сигнала</string>
@@ -38,7 +38,7 @@
     <string name="pref_summary_note_save_auto">
         Сохранять изменения в заметки после определенного периода времени
     </string>
-    <string name="pref_summary_note_save_time">Количество минут</string>
+    <string name="pref_summary_note_save_period">Количество минут</string>
 
     <string name="pref_summary_alarm_repeat">
         Будет применяться, чтобы повторить уведомление
@@ -78,7 +78,7 @@
         <item>Белый</item>
     </string-array>
 
-    <string-array name="pref_text_note_save_time">
+    <string-array name="pref_text_note_save_period">
         <item>1 минута</item>
         <item>3 минуты</item>
         <item>7 минут</item>

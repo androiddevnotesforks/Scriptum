@@ -12,6 +12,8 @@ import androidx.preference.PreferenceFragmentCompat
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.Color
+import sgtmelon.scriptum.domain.model.annotation.Repeat
+import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.key.PermissionResult
 import sgtmelon.scriptum.domain.model.state.OpenState
@@ -54,6 +56,7 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
 
     private val sortDialog by lazy { dialogFactory.getSortDialog() }
     private val colorDialog by lazy { dialogFactory.getColorDialog() }
+    private val savePeriodDialog by lazy { dialogFactory.getSavePeriodDialog() }
 
     private val repeatDialog by lazy { dialogFactory.getRepeatDialog() }
     private val signalDialog by lazy { dialogFactory.getSignalDialog() }
@@ -61,7 +64,6 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
     private val melodyDialog by lazy { dialogFactory.getMelodyDialog() }
     private val volumeDialog by lazy { dialogFactory.getVolumeDialog() }
 
-    private val saveTimeDialog by lazy { dialogFactory.getSaveTimeDialog() }
     private val aboutDialog by lazy { dialogFactory.getAboutDialog() }
 
     //endregion
@@ -79,7 +81,7 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
     private val increasePreference by lazy { findPreference<Preference>(getString(R.string.pref_key_alarm_increase)) }
     private val volumePreference by lazy { findPreference<Preference>(getString(R.string.pref_key_alarm_volume)) }
 
-    private val saveTimePreference by lazy { findPreference<Preference>(getString(R.string.pref_key_note_time)) }
+    private val savePeriodPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_note_time)) }
 
     //endregion
 
@@ -203,12 +205,12 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
     }
 
     override fun setupSave() {
-        saveTimePreference?.setOnPreferenceClickListener { viewModel.onClickSaveTime() }
+        savePeriodPreference?.setOnPreferenceClickListener { viewModel.onClickSaveTime() }
 
-        saveTimeDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            viewModel.onResultSaveTime(saveTimeDialog.check)
+        savePeriodDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
+            viewModel.onResultSaveTime(savePeriodDialog.check)
         }
-        saveTimeDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+        savePeriodDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }
 
     override fun setupOther() {
@@ -251,7 +253,7 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
     }
 
 
-    override fun updateThemeSummary(summary: String) {
+    override fun updateThemeSummary(summary: String?) {
         themePreference?.summary = summary
     }
 
@@ -260,15 +262,15 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
     }
 
 
-    override fun updateSortSummary(summary: String) {
+    override fun updateSortSummary(summary: String?) {
         sortPreference?.summary = summary
     }
 
-    override fun showSortDialog(value: Int) = openState.tryInvoke {
+    override fun showSortDialog(@Sort value: Int) = openState.tryInvoke {
         sortDialog.setArguments(value).show(fm, DialogFactory.Preference.SORT)
     }
 
-    override fun updateColorSummary(summary: String) {
+    override fun updateColorSummary(summary: String?) {
         colorPreference?.summary = summary
     }
 
@@ -277,15 +279,15 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
     }
 
 
-    override fun updateRepeatSummary(summary: String) {
+    override fun updateRepeatSummary(summary: String?) {
         repeatPreference?.summary = summary
     }
 
-    override fun showRepeatDialog(value: Int) = openState.tryInvoke {
+    override fun showRepeatDialog(@Repeat value: Int) = openState.tryInvoke {
         repeatDialog.setArguments(value).show(fm, DialogFactory.Preference.REPEAT)
     }
 
-    override fun updateSignalSummary(summary: String) {
+    override fun updateSignalSummary(summary: String?) {
         signalPreference?.summary = summary
     }
 
@@ -321,7 +323,7 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
         }
     }
 
-    override fun updateVolumeSummary(summary: String) {
+    override fun updateVolumeSummary(summary: String?) {
         volumePreference?.summary = summary
     }
 
@@ -330,12 +332,12 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
     }
 
 
-    override fun updateSaveTimeSummary(summary: String) {
-        saveTimePreference?.summary = summary
+    override fun updateSavePeriodSummary(summary: String?) {
+        savePeriodPreference?.summary = summary
     }
 
     override fun showSaveTimeDialog(value: Int) = openState.tryInvoke {
-        saveTimeDialog.setArguments(value).show(fm, DialogFactory.Preference.SAVE_TIME)
+        savePeriodDialog.setArguments(value).show(fm, DialogFactory.Preference.SAVE_PERIOD)
     }
 
     companion object {
