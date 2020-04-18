@@ -82,7 +82,7 @@ class PreferenceInteractor(
     override fun getSignalSummaryArray(signalCheck: BooleanArray): String? {
         val summaryArray = summaryProvider.signal ?: return null
 
-        if (summaryArray.size < signalCheck.size) return null
+        if (summaryArray.size != signalCheck.size) return null
 
         return StringBuilder().apply {
             var firstAppend = true
