@@ -74,9 +74,9 @@ class TestData(override val context: Context, private val preferenceRepo: IPrefe
 
     fun createNote() = if (Random.nextBoolean()) createText() else createRoll()
 
-    fun createText() = NoteItem.getCreate(preferenceRepo.defaultColor, NoteType.TEXT)
+    fun createText() = NoteItem.Text.getCreate(preferenceRepo.defaultColor)
 
-    fun createRoll() = NoteItem.getCreate(preferenceRepo.defaultColor, NoteType.ROLL)
+    fun createRoll() = NoteItem.Roll.getCreate(preferenceRepo.defaultColor)
 
 
     fun insertRank(entity: RankEntity = rankEntity): RankItem {

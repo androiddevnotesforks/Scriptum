@@ -5,12 +5,11 @@ import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.data.repository.room.callback.IRankRepo
-import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.INotesInteractor
+import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.INotesBridge
 import sgtmelon.scriptum.presentation.screen.vm.impl.main.NotesViewModel
 import java.util.*
@@ -50,14 +49,18 @@ class NotesInteractor(
         /**
          * Need for prevent overriding noteItem rollList in list model
          */
-        val noteMirror = noteItem.deepCopy(rollList = noteRepo.getRollList(noteItem.id))
+        val noteMirror = when (noteItem) {
+            is NoteItem.Text -> noteItem.deepCopy()
+            is NoteItem.Roll -> noteItem.deepCopy(rollList = noteRepo.getRollList(noteItem.id))
+        }
+
         callback?.notifyNoteBind(noteMirror, rankRepo.getIdVisibleList())
     }
 
-    override suspend fun convert(noteItem: NoteItem) {
-        when (noteItem.type) {
-            NoteType.TEXT -> noteRepo.convertToRoll(noteItem)
-            NoteType.ROLL -> noteRepo.convertToText(noteItem, useCache = false)
+    override suspend fun convert(noteItem: NoteItem): NoteItem {
+        val convertItem = when (noteItem) {
+            is NoteItem.Text -> noteRepo.convertNote(noteItem)
+            is NoteItem.Roll -> noteRepo.convertNote(noteItem, useCache = false)
         }
 
         callback?.notifyNoteBind(noteItem, rankRepo.getIdVisibleList())
@@ -65,10 +68,15 @@ class NotesInteractor(
         /**
          * Optimisation for get only first 4 items
          */
-        val optimalSize = NoteItem.ROLL_OPTIMAL_SIZE
-        if (noteItem.rollList.size > optimalSize) {
-            noteItem.rollList.dropLast(n = noteItem.rollList.size - optimalSize)
+        if (convertItem is NoteItem.Roll) {
+            val previewSize = NoteItem.Roll.PREVIEW_SIZE
+
+            with(convertItem.rollList) {
+                if (size > previewSize) dropLast(n = size - previewSize)
+            }
         }
+
+        return convertItem
     }
 
 

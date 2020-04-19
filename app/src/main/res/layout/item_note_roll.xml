@@ -8,7 +8,7 @@
         <import type="sgtmelon.scriptum.domain.model.annotation.Theme"/>
 
         <variable name="theme" type="int"/>
-        <variable name="item" type="sgtmelon.scriptum.domain.model.item.NoteItem"/>
+        <variable name="item" type="sgtmelon.scriptum.domain.model.item.NoteItem.Roll"/>
     </data>
 
     <androidx.cardview.widget.CardView

@@ -21,7 +21,7 @@ interface IRollNoteInteractor : IParentInteractor {
     @Color val defaultColor: Int
 
 
-    suspend fun getItem(id: Long): NoteItem?
+    suspend fun getItem(id: Long): NoteItem.Roll?
 
     suspend fun getRankDialogItemArray(): Array<String>
 
@@ -31,29 +31,29 @@ interface IRollNoteInteractor : IParentInteractor {
     suspend fun getVisible(noteId: Long): Boolean
 
 
-    suspend fun updateRollCheck(noteItem: NoteItem, p: Int)
+    suspend fun updateRollCheck(noteItem: NoteItem.Roll, p: Int)
 
-    suspend fun updateRollCheck(noteItem: NoteItem, check: Boolean)
+    suspend fun updateRollCheck(noteItem: NoteItem.Roll, check: Boolean)
 
     suspend fun getRankId(check: Int): Long
 
     suspend fun getDateList(): List<String>
 
-    suspend fun clearDate(noteItem: NoteItem)
+    suspend fun clearDate(noteItem: NoteItem.Roll)
 
-    suspend fun setDate(noteItem: NoteItem, calendar: Calendar)
+    suspend fun setDate(noteItem: NoteItem.Roll, calendar: Calendar)
 
-    suspend fun convert(noteItem: NoteItem)
+    suspend fun convertNote(noteItem: NoteItem.Roll)
 
 
-    suspend fun restoreNote(noteItem: NoteItem)
+    suspend fun restoreNote(noteItem: NoteItem.Roll)
 
-    suspend fun updateNote(noteItem: NoteItem, updateBind: Boolean)
+    suspend fun updateNote(noteItem: NoteItem.Roll, updateBind: Boolean)
 
-    suspend fun clearNote(noteItem: NoteItem)
+    suspend fun clearNote(noteItem: NoteItem.Roll)
 
-    suspend fun saveNote(noteItem: NoteItem, isCreate: Boolean)
+    suspend fun saveNote(noteItem: NoteItem.Roll, isCreate: Boolean)
 
-    suspend fun deleteNote(noteItem: NoteItem)
+    suspend fun deleteNote(noteItem: NoteItem.Roll)
 
 }

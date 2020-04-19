@@ -19,7 +19,6 @@ import sgtmelon.scriptum.domain.model.item.InputItem
 import sgtmelon.scriptum.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
-import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.domain.model.state.IconState
 import sgtmelon.scriptum.domain.model.state.NoteState
 import sgtmelon.scriptum.extension.*
@@ -29,8 +28,8 @@ import sgtmelon.scriptum.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteChild
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.roll.IRollNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
-import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.note.IRollNoteViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -64,8 +63,8 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     private var id: Long = Default.ID
     private var color: Int = Default.COLOR
 
-    private lateinit var noteItem: NoteItem
-    private lateinit var restoreItem: NoteItem
+    private lateinit var noteItem: NoteItem.Roll
+    private lateinit var restoreItem: NoteItem.Roll
 
     private var noteState = NoteState()
 
@@ -101,7 +100,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
                 rankDialogItemArray = interactor.getRankDialogItemArray()
 
                 if (id == Default.ID) {
-                    noteItem = NoteItem.getCreate(interactor.defaultColor, NoteType.ROLL)
+                    noteItem = NoteItem.Roll.getCreate(interactor.defaultColor)
                     restoreItem = noteItem.deepCopy()
 
                     noteState = NoteState(isCreate = true)
@@ -397,7 +396,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
     override fun onResultConvertDialog() {
         viewModelScope.launch {
-            interactor.convert(noteItem)
+            interactor.convertNote(noteItem)
             parentCallback?.onConvertNote()
         }
     }
@@ -800,7 +799,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
          * If have hide items when need correct position.
          */
         @VisibleForTesting
-        fun getCorrectPosition(p: Int, noteItem: NoteItem): Int {
+        fun getCorrectPosition(p: Int, noteItem: NoteItem.Roll): Int {
             return if (isVisible) p else noteItem.rollList.let { it.indexOf(it.hide()[p]) }
         }
 

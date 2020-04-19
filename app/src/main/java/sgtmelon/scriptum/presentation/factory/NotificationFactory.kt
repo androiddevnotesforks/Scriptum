@@ -25,22 +25,22 @@ object NotificationFactory {
     /**
      * Model for [BindControl.notifyNote]
      *
-     * Don't care about [NoteItem.rollList] if:
+     * Don't care about [NoteItem.Roll.rollList] if:
      * - If note type is [NoteType.TEXT]
      * - If type is [NoteType.ROLL] and [NoteItem.rollList] is completely load
      * - If you need only call [BindControl.cancelNote]
      */
     fun getBind(context: Context, noteItem: NoteItem): Notification {
-        val icon = when (noteItem.type) {
-            NoteType.TEXT -> R.drawable.notif_bind_text
-            NoteType.ROLL -> R.drawable.notif_bind_roll
+        val icon = when (noteItem) {
+            is NoteItem.Text -> R.drawable.notif_bind_text
+            is NoteItem.Roll -> R.drawable.notif_bind_roll
         }
 
         val color = context.getAppSimpleColor(noteItem.color, ColorShade.DARK)
         val title = noteItem.getStatusTitle(context)
-        val text = when (noteItem.type) {
-            NoteType.TEXT -> noteItem.text
-            NoteType.ROLL -> noteItem.rollList.toStatusText()
+        val text = when (noteItem) {
+            is NoteItem.Text -> noteItem.text
+            is NoteItem.Roll -> noteItem.rollList.toStatusText()
         }
 
         val id = noteItem.id.toInt()

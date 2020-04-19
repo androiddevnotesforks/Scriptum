@@ -33,11 +33,11 @@ interface ITextNoteFragment : ITextNoteBridge {
 
     fun onBindingLoad(isRankEmpty: Boolean)
 
-    fun onBindingNote(item: NoteItem)
+    fun onBindingNote(item: NoteItem.Text)
 
-    fun onBindingEdit(isEditMode: Boolean, item: NoteItem)
+    fun onBindingEdit(isEditMode: Boolean, item: NoteItem.Text)
 
-    fun onBindingInput(item: NoteItem, inputAccess: InputControl.Access)
+    fun onBindingInput(item: NoteItem.Text, inputAccess: InputControl.Access)
 
 
     fun onPressBack(): Boolean

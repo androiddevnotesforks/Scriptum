@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.data.repository.room.callback
 
+import sgtmelon.scriptum.data.repository.room.AlarmRepo
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.NotificationItem
 

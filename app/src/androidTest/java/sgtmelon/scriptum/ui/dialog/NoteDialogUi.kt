@@ -6,7 +6,6 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
 import sgtmelon.scriptum.basic.extension.isDisplayed
 import sgtmelon.scriptum.basic.extension.isEnabled
-import sgtmelon.scriptum.data.repository.room.NoteRepo.Companion.onConvertRoll
 import sgtmelon.scriptum.data.repository.room.NoteRepo.Companion.onConvertText
 import sgtmelon.scriptum.domain.model.data.DbData
 import sgtmelon.scriptum.domain.model.item.NoteItem
@@ -65,8 +64,8 @@ class NoteDialogUi(private val noteItem: NoteItem) : ParentUi(), IDialogUi, Date
         convertButton.click()
 
         when (noteItem.type) {
-            NoteType.TEXT -> noteItem.onConvertText()
-            NoteType.ROLL -> noteItem.onConvertRoll()
+            NoteType.TEXT -> noteItem.onConvert()
+            NoteType.ROLL -> noteItem.onConvert()
         }
     }
 

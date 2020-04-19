@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.presentation.adapter.holder
 
+import android.annotation.SuppressLint
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
@@ -68,6 +69,7 @@ class RollWriteHolder(
         setSelection(if (position > text.toString().length) text.toString().length else position)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouch(v: View, event: MotionEvent): Boolean {
         if (event.action == MotionEvent.ACTION_DOWN) {
             dragListener?.setDrag(v.id == dragView.id)

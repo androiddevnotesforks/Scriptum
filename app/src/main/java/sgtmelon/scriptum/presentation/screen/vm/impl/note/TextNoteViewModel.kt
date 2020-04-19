@@ -14,7 +14,6 @@ import sgtmelon.scriptum.domain.model.data.NoteData.Default
 import sgtmelon.scriptum.domain.model.data.NoteData.Intent
 import sgtmelon.scriptum.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.domain.model.state.IconState
 import sgtmelon.scriptum.domain.model.state.NoteState
 import sgtmelon.scriptum.presentation.control.note.input.InputControl
@@ -23,8 +22,8 @@ import sgtmelon.scriptum.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteChild
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.text.ITextNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
-import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.note.ITextNoteViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
 import java.util.*
 
 /**
@@ -57,8 +56,8 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     private var id: Long = Default.ID
     private var color: Int = Default.COLOR
 
-    private lateinit var noteItem: NoteItem
-    private lateinit var restoreItem: NoteItem
+    private lateinit var noteItem: NoteItem.Text
+    private lateinit var restoreItem: NoteItem.Text
 
     private var noteState = NoteState()
 
@@ -91,7 +90,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
                 rankDialogItemArray = interactor.getRankDialogItemArray()
 
                 if (id == Default.ID) {
-                    noteItem = NoteItem.getCreate(interactor.defaultColor, NoteType.TEXT)
+                    noteItem = NoteItem.Text.getCreate(interactor.defaultColor)
                     restoreItem = noteItem.deepCopy()
 
                     noteState = NoteState(isCreate = true)
@@ -251,7 +250,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
     override fun onResultConvertDialog() {
         viewModelScope.launch {
-            interactor.convert(noteItem)
+            interactor.convertNote(noteItem)
             parentCallback?.onConvertNote()
         }
     }

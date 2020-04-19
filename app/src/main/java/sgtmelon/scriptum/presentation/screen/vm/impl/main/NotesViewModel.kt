@@ -18,8 +18,8 @@ import sgtmelon.scriptum.extension.clearAddAll
 import sgtmelon.scriptum.extension.removeAtOrNull
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.INotesFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.NotesFragment
-import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.main.INotesViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
 import java.util.*
 import kotlin.collections.ArrayList
 import sgtmelon.scriptum.domain.model.annotation.Options.Notes as Options
@@ -143,7 +143,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
         val item = itemList.getOrNull(p) ?: return
 
         viewModelScope.launch {
-            interactor.convert(item)
+            itemList[p] = interactor.convert(item)
 
             val sortList = itemList.sort(interactor.sort)
             callback?.notifyList(itemList.clearAddAll(sortList))

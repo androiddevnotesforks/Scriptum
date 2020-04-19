@@ -5,6 +5,7 @@ import sgtmelon.scriptum.data.room.entity.NoteEntity
 import sgtmelon.scriptum.data.room.entity.RollEntity
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
+import sgtmelon.scriptum.domain.model.key.NoteType
 
 /**
  * Converter for [NoteEntity]/[RollEntity]/[AlarmEntity] and [NoteItem]
@@ -14,16 +15,28 @@ class NoteConverter {
     fun toItem(noteEntity: NoteEntity,
                rollList: MutableList<RollItem> = ArrayList(),
                alarmEntity: AlarmEntity? = null): NoteItem = with(noteEntity){
-        return@with if (alarmEntity == null) {
-            NoteItem(
-                    id, create, change, name, text, color, type, rankId, rankPs, isBin, isStatus,
-                    rollList
-            )
-        } else {
-            NoteItem(
-                    id, create, change, name, text, color, type, rankId, rankPs, isBin, isStatus,
-                    rollList, alarmEntity.id, alarmEntity.date
-            )
+        return@with when(noteEntity.type) {
+            NoteType.TEXT -> alarmEntity?.let {
+                NoteItem.Text(
+                        id, create, change, name, text, color, rankId, rankPs, isBin, isStatus,
+                        it.id, it.date
+                )
+            } ?: run {
+                NoteItem.Text(
+                        id, create, change, name, text, color, rankId, rankPs, isBin, isStatus
+                )
+            }
+            NoteType.ROLL -> alarmEntity?.let {
+                NoteItem.Roll(
+                        id, create, change, name, text, color, rankId, rankPs, isBin, isStatus,
+                        it.id, it.date, rollList
+                )
+            } ?: run {
+                NoteItem.Roll(
+                        id, create, change, name, text, color, rankId, rankPs, isBin, isStatus,
+                        rollList = rollList
+                )
+            }
         }
     }
 

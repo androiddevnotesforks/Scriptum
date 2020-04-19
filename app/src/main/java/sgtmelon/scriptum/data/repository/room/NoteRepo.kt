@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.data.repository.room
 
 import android.content.Context
-import androidx.annotation.VisibleForTesting
 import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.data.room.IRoomWork
 import sgtmelon.scriptum.data.room.RoomDb
@@ -17,7 +16,6 @@ import sgtmelon.scriptum.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
-import sgtmelon.scriptum.domain.model.key.Complete
 import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.extension.getText
 import sgtmelon.scriptum.extension.move
@@ -63,7 +61,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
             if (filterVisible) list = rankDao.filterVisible(list)
 
             list.forEach {
-                val rollEntityList = rollDao.getOptimal(it.id, optimal)
+                val rollEntityList = rollDao.getPreview(it.id, optimal)
                 val rollItemList = rollConverter.toItem(rollEntityList)
 
                 itemList.add(noteConverter.toItem(it, rollItemList, alarmDao.get(it.id)))
@@ -118,7 +116,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
 
         openRoom().apply {
             item = noteDao.get(id)?.let {
-                val rollList = rollConverter.toItem(rollDao.getOptimal(it.id, optimisation))
+                val rollList = rollConverter.toItem(rollDao.getPreview(it.id, optimisation))
                 return@let noteConverter.toItem(it, rollList, alarmDao.get(id))
             }
         }.close()
@@ -126,7 +124,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
         return item
     }
 
-    private suspend fun IRollDao.getOptimal(id: Long, optimisation: Boolean): MutableList<RollEntity> {
+    private suspend fun IRollDao.getPreview(id: Long, optimisation: Boolean): MutableList<RollEntity> {
         return if (optimisation) getView(id) else get(id)
     }
 
@@ -146,7 +144,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
 
         openRoom().apply {
             isListHide = noteDao.get(false).any {
-                noteConverter.toItem(it).isNotVisible(rankDao.getIdVisibleList())
+                !noteConverter.toItem(it).isVisible(rankDao.getIdVisibleList())
             }
         }.close()
 
@@ -180,33 +178,35 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
     }
 
 
-    override suspend fun convertToRoll(noteItem: NoteItem) {
-        if (noteItem.type != NoteType.TEXT) return
-
-        noteItem.onConvertText()
+    override suspend fun convertNote(noteItem: NoteItem.Text): NoteItem.Roll {
+        val convertItem = noteItem.onConvert()
 
         inRoom {
-            noteItem.rollList.forEach {
+            convertItem.rollList.forEach {
                 it.id = rollDao.insert(rollConverter.toEntity(noteItem.id, it))
             }
 
             noteDao.update(noteConverter.toEntity(noteItem))
         }
+
+        return convertItem
     }
 
-    override suspend fun convertToText(noteItem: NoteItem, useCache: Boolean) {
-        if (noteItem.type != NoteType.ROLL) return
+    override suspend fun convertNote(noteItem: NoteItem.Roll, useCache: Boolean): NoteItem.Text {
+        val convertItem: NoteItem.Text
 
-        inRoom {
-            if (useCache) {
-                noteItem.onConvertRoll()
+        openRoom().apply {
+            convertItem = if (useCache) {
+                noteItem.onConvert()
             } else {
-                noteItem.onConvertRoll(rollConverter.toItem(rollDao.get(noteItem.id)))
+                noteItem.onConvert(rollConverter.toItem(rollDao.get(noteItem.id)))
             }
 
             noteDao.update(noteConverter.toEntity(noteItem))
             rollDao.delete(noteItem.id)
-        }
+        }.close()
+
+        return convertItem
     }
 
     override suspend fun getCopyText(noteItem: NoteItem) = StringBuilder().apply {
@@ -222,7 +222,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
         }
     }.toString()
 
-    override suspend fun saveTextNote(noteItem: NoteItem, isCreate: Boolean) {
+    override suspend fun saveNote(noteItem: NoteItem.Text, isCreate: Boolean) {
         if (noteItem.type != NoteType.TEXT) return
 
         inRoom {
@@ -236,7 +236,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
         }
     }
 
-    override suspend fun saveRollNote(noteItem: NoteItem, isCreate: Boolean) {
+    override suspend fun saveNote(noteItem: NoteItem.Roll, isCreate: Boolean) {
         if (noteItem.type != NoteType.ROLL) return
 
         inRoom {
@@ -275,7 +275,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
         }
     }
 
-    override suspend fun updateRollCheck(noteItem: NoteItem, p: Int) = inRoom {
+    override suspend fun updateRollCheck(noteItem: NoteItem.Roll, p: Int) = inRoom {
         val item = noteItem.rollList[p]
 
         val rollId = item.id ?: return@inRoom
@@ -284,7 +284,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
         noteDao.update(noteConverter.toEntity(noteItem))
     }
 
-    override suspend fun updateRollCheck(noteItem: NoteItem, check: Boolean) = inRoom {
+    override suspend fun updateRollCheck(noteItem: NoteItem.Roll, check: Boolean) = inRoom {
         rollDao.updateAllCheck(noteItem.id, check)
         noteDao.update(noteConverter.toEntity(noteItem))
     }
@@ -325,38 +325,6 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
     private suspend fun IRankDao.clearConnection(noteId: Long, rankId: Long) {
         val entity = get(rankId)?.apply { this.noteId.remove(noteId) } ?: return
         update(entity)
-    }
-
-    companion object {
-        @VisibleForTesting
-        fun NoteItem.onConvertText() {
-            if (type != NoteType.TEXT) return
-
-            rollList.clear()
-
-            var p = 0
-            textToList().forEach {
-                rollList.add(RollItem(position = p++, text = it))
-            }
-
-            onConvert().updateComplete(Complete.EMPTY)
-        }
-
-        @VisibleForTesting
-        fun NoteItem.onConvertRoll() {
-            if (type != NoteType.ROLL) return
-
-            onConvert().text = rollList.getText()
-            rollList.clear()
-        }
-
-        @VisibleForTesting
-        fun NoteItem.onConvertRoll(list: List<RollItem>) {
-            if (type != NoteType.ROLL) return
-
-            rollList.clear()
-            onConvert().text = list.getText()
-        }
     }
 
 }

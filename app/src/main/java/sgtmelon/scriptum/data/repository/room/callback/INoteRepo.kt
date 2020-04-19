@@ -36,24 +36,24 @@ interface INoteRepo {
      * TODO #THINK in notes list need add fast convert
      * (prepare all data - update note - suspend work with db)
      */
-    suspend fun convertToRoll(noteItem: NoteItem)
+    suspend fun convertNote(noteItem: NoteItem.Text): NoteItem.Roll
 
     /**
      * TODO #THINK in notes list need add fast convert
      * (prepare all data - update note - suspend work with db)
      */
-    suspend fun convertToText(noteItem: NoteItem, useCache: Boolean)
+    suspend fun convertNote(noteItem: NoteItem.Roll, useCache: Boolean): NoteItem.Text
 
     suspend fun getCopyText(noteItem: NoteItem): String
 
-    suspend fun saveTextNote(noteItem: NoteItem, isCreate: Boolean)
+    suspend fun saveNote(noteItem: NoteItem.Text, isCreate: Boolean)
 
-    suspend fun saveRollNote(noteItem: NoteItem, isCreate: Boolean)
+    suspend fun saveNote(noteItem: NoteItem.Roll, isCreate: Boolean)
 
 
-    suspend fun updateRollCheck(noteItem: NoteItem, p: Int)
+    suspend fun updateRollCheck(noteItem: NoteItem.Roll, p: Int)
 
-    suspend fun updateRollCheck(noteItem: NoteItem, check: Boolean)
+    suspend fun updateRollCheck(noteItem: NoteItem.Roll, check: Boolean)
 
     suspend fun updateNote(noteItem: NoteItem)
 

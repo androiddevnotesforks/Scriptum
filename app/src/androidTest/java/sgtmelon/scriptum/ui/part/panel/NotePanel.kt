@@ -6,7 +6,6 @@ import sgtmelon.extension.getTime
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.State
-import sgtmelon.scriptum.data.repository.room.NoteRepo.Companion.onConvertRoll
 import sgtmelon.scriptum.data.repository.room.NoteRepo.Companion.onConvertText
 import sgtmelon.scriptum.domain.model.data.DbData
 import sgtmelon.scriptum.domain.model.item.RankItem
@@ -206,8 +205,8 @@ class NotePanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi(),
 
     override fun onConvertDialogResult() = with(callback) {
         when (shadowItem.type) {
-            NoteType.TEXT -> shadowItem.onConvertText()
-            NoteType.ROLL -> shadowItem.onConvertRoll()
+            NoteType.TEXT -> shadowItem.onConvert()
+            NoteType.ROLL -> shadowItem.onConvert()
         }
 
         noteItem = shadowItem.deepCopy()

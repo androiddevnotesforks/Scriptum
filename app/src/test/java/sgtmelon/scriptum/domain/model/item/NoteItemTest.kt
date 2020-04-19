@@ -190,22 +190,6 @@ class NoteItemTest : ParentTest() {
         assertFalse(item.isVisible(rankVisibleList))
     }
 
-    @Test fun isNotVisible() {
-        val item = noteItem.copy()
-
-        assertFalse(item.isNotVisible(rankVisibleList))
-
-        item.rankId = 1
-        item.rankPs = 1
-
-        assertFalse(item.isNotVisible(rankVisibleList))
-
-        item.rankId = 4
-        item.rankPs = 4
-
-        assertTrue(item.isNotVisible(rankVisibleList))
-    }
-
 
     private fun assertChangeTime(noteItem: NoteItem) = assertEquals(getTime(), noteItem.change)
 

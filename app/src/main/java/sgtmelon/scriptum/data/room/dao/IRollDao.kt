@@ -46,7 +46,7 @@ interface IRollDao {
      * Get only first 4 items for preview
      */
     @Query(value = """SELECT * FROM ROLL_TABLE
-            WHERE RL_NOTE_ID = :noteId AND RL_POSITION BETWEEN 0 AND ${NoteItem.ROLL_OPTIMAL_SIZE - 1}
+            WHERE RL_NOTE_ID = :noteId AND RL_POSITION BETWEEN 0 AND ${NoteItem.Roll.PREVIEW_SIZE - 1}
             ORDER BY RL_POSITION""")
     suspend fun getView(noteId: Long): MutableList<RollEntity>
 

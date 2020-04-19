@@ -245,11 +245,11 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment,
         }?.executePendingBindings()
     }
 
-    override fun onBindingNote(item: NoteItem) {
+    override fun onBindingNote(item: NoteItem.Text) {
         binding?.apply { this.item = item }?.executePendingBindings()
     }
 
-    override fun onBindingEdit(isEditMode: Boolean, item: NoteItem) {
+    override fun onBindingEdit(isEditMode: Boolean, item: NoteItem.Text) {
         panelContainer?.let {
             val time = resources.getInteger(R.integer.fade_anim_time)
             val transition = AutoTransition()
@@ -265,7 +265,7 @@ class TextNoteFragment : ParentFragment(), ITextNoteFragment,
         }?.executePendingBindings()
     }
 
-    override fun onBindingInput(item: NoteItem, inputAccess: InputControl.Access) {
+    override fun onBindingInput(item: NoteItem.Text, inputAccess: InputControl.Access) {
         binding?.apply {
             this.item = item
             this.inputAccess = inputAccess

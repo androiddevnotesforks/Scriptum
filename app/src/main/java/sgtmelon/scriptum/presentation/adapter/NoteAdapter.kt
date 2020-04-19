@@ -30,7 +30,12 @@ class NoteAdapter(
 
     override fun setList(list: List<NoteItem>) = apply {
         super.setList(list)
-        this.list.clearAddAll(ArrayList(list.map { it.deepCopy() }))
+        this.list.clearAddAll(ArrayList(list.map {
+            return@map when(it) {
+                is NoteItem.Text -> it.deepCopy()
+                is NoteItem.Roll -> it.deepCopy()
+            }
+        }))
     }
 
 
@@ -47,8 +52,12 @@ class NoteAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is NoteTextHolder -> holder.bind(theme, list[position])
-            is NoteRollHolder -> holder.bind(theme, list[position])
+            is NoteTextHolder -> (list.getOrNull(position) as? NoteItem.Text)?.let {
+                holder.bind(theme, it)
+            }
+            is NoteRollHolder -> (list.getOrNull(position) as? NoteItem.Roll)?.let {
+                holder.bind(theme, it)
+            }
         }
     }
 

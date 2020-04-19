@@ -5,8 +5,8 @@ import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.data.repository.room.callback.IRankRepo
-import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.domain.interactor.callback.note.ITextNoteInteractor
+import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
@@ -45,10 +45,12 @@ class TextNoteInteractor(
     @Color override val defaultColor: Int get() = preferenceRepo.defaultColor
 
 
-    override suspend fun getItem(id: Long): NoteItem? {
+    override suspend fun getItem(id: Long): NoteItem.Text? {
         val item = noteRepo.getItem(id, optimisation = false)
 
-        if (item != null) callback?.notifyNoteBind(item, getRankIdVisibleList())
+        if (item !is NoteItem.Text) return null
+
+        callback?.notifyNoteBind(item, getRankIdVisibleList())
 
         return item
     }
@@ -60,37 +62,39 @@ class TextNoteInteractor(
 
     override suspend fun getDateList() = alarmRepo.getList().map { it.alarm.date }
 
-    override suspend fun clearDate(noteItem: NoteItem) {
+    override suspend fun clearDate(noteItem: NoteItem.Text) {
         alarmRepo.delete(noteItem.id)
         callback?.cancelAlarm(noteItem.id)
     }
 
-    override suspend fun setDate(noteItem: NoteItem, calendar: Calendar) {
+    override suspend fun setDate(noteItem: NoteItem.Text, calendar: Calendar) {
         alarmRepo.insertOrUpdate(noteItem, calendar.getText())
         callback?.setAlarm(calendar, noteItem.id)
     }
 
-    override suspend fun convert(noteItem: NoteItem) = noteRepo.convertToRoll(noteItem)
+    override suspend fun convertNote(noteItem: NoteItem.Text) {
+        noteRepo.convertNote(noteItem)
+    }
 
 
-    override suspend fun restoreNote(noteItem: NoteItem) = noteRepo.restoreNote(noteItem)
+    override suspend fun restoreNote(noteItem: NoteItem.Text) = noteRepo.restoreNote(noteItem)
 
-    override suspend fun updateNote(noteItem: NoteItem, updateBind: Boolean) {
+    override suspend fun updateNote(noteItem: NoteItem.Text, updateBind: Boolean) {
         noteRepo.updateNote(noteItem)
 
         if (updateBind) callback?.notifyNoteBind(noteItem, getRankIdVisibleList())
     }
 
-    override suspend fun clearNote(noteItem: NoteItem) = noteRepo.clearNote(noteItem)
+    override suspend fun clearNote(noteItem: NoteItem.Text) = noteRepo.clearNote(noteItem)
 
-    override suspend fun saveNote(noteItem: NoteItem, isCreate: Boolean) {
-        noteRepo.saveTextNote(noteItem, isCreate)
+    override suspend fun saveNote(noteItem: NoteItem.Text, isCreate: Boolean) {
+        noteRepo.saveNote(noteItem, isCreate)
         rankRepo.updateConnection(noteItem)
 
         callback?.notifyNoteBind(noteItem, getRankIdVisibleList())
     }
 
-    override suspend fun deleteNote(noteItem: NoteItem) {
+    override suspend fun deleteNote(noteItem: NoteItem.Text) {
         noteRepo.deleteNote(noteItem)
 
         callback?.cancelAlarm(noteItem.id)

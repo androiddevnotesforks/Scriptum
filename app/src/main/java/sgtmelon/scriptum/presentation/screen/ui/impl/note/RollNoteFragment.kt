@@ -369,7 +369,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
         }?.executePendingBindings()
     }
 
-    override fun onBindingEdit(isEditMode: Boolean, item: NoteItem) {
+    override fun onBindingEdit(isEditMode: Boolean, item: NoteItem.Roll) {
         panelContainer?.let {
             val time = resources.getInteger(R.integer.fade_anim_time)
             val transition = AutoTransition()
@@ -387,7 +387,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
         onBindingEnter()
     }
 
-    override fun onBingingNote(item: NoteItem) {
+    override fun onBingingNote(item: NoteItem.Roll) {
         binding?.apply { this.item = item }?.executePendingBindings()
     }
 
@@ -396,7 +396,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
         binding?.executePendingBindings()
     }
 
-    override fun onBindingInput(item: NoteItem, inputAccess: InputControl.Access) {
+    override fun onBindingInput(item: NoteItem.Roll, inputAccess: InputControl.Access) {
         binding?.apply {
             this.item = item
             this.inputAccess = inputAccess

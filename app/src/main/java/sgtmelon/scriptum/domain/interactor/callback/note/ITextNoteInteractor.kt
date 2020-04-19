@@ -21,7 +21,7 @@ interface ITextNoteInteractor : IParentInteractor {
     @Color val defaultColor: Int
 
 
-    suspend fun getItem(id: Long): NoteItem?
+    suspend fun getItem(id: Long): NoteItem.Text?
 
     suspend fun getRankDialogItemArray(): Array<String>
 
@@ -30,21 +30,21 @@ interface ITextNoteInteractor : IParentInteractor {
 
     suspend fun getDateList(): List<String>
 
-    suspend fun clearDate(noteItem: NoteItem)
+    suspend fun clearDate(noteItem: NoteItem.Text)
 
-    suspend fun setDate(noteItem: NoteItem, calendar: Calendar)
+    suspend fun setDate(noteItem: NoteItem.Text, calendar: Calendar)
 
-    suspend fun convert(noteItem: NoteItem)
+    suspend fun convertNote(noteItem: NoteItem.Text)
 
 
-    suspend fun restoreNote(noteItem: NoteItem)
+    suspend fun restoreNote(noteItem: NoteItem.Text)
 
-    suspend fun updateNote(noteItem: NoteItem, updateBind: Boolean)
+    suspend fun updateNote(noteItem: NoteItem.Text, updateBind: Boolean)
 
-    suspend fun clearNote(noteItem: NoteItem)
+    suspend fun clearNote(noteItem: NoteItem.Text)
 
-    suspend fun saveNote(noteItem: NoteItem, isCreate: Boolean)
+    suspend fun saveNote(noteItem: NoteItem.Text, isCreate: Boolean)
 
-    suspend fun deleteNote(noteItem: NoteItem)
+    suspend fun deleteNote(noteItem: NoteItem.Text)
 
 }
