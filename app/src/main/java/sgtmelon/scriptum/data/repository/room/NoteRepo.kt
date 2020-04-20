@@ -183,10 +183,10 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
 
         inRoom {
             convertItem.rollList.forEach {
-                it.id = rollDao.insert(rollConverter.toEntity(noteItem.id, it))
+                it.id = rollDao.insert(rollConverter.toEntity(convertItem.id, it))
             }
 
-            noteDao.update(noteConverter.toEntity(noteItem))
+            noteDao.update(noteConverter.toEntity(convertItem))
         }
 
         return convertItem
@@ -202,8 +202,8 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
                 noteItem.onConvert(rollConverter.toItem(rollDao.get(noteItem.id)))
             }
 
-            noteDao.update(noteConverter.toEntity(noteItem))
-            rollDao.delete(noteItem.id)
+            noteDao.update(noteConverter.toEntity(convertItem))
+            rollDao.delete(convertItem.id)
         }.close()
 
         return convertItem
