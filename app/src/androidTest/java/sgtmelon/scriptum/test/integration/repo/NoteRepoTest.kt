@@ -4,6 +4,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.scriptum.basic.exception.NoteCastException
 import sgtmelon.scriptum.data.repository.room.NoteRepo
 import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.data.room.converter.model.NoteConverter
@@ -162,34 +163,38 @@ class NoteRepoTest : ParentIntegrationTest()  {
     }
 
     @Test fun convertToRoll() = inRoomTest {
-        noteRepo.convertNote(NoteItem(0, "", "", color = 0, type = NoteType.TEXT))
+//        noteRepo.convertNote(NoteItem(0, "", "", color = 0, type = NoteType.TEXT))
         TODO(reason = "#TEST write test")
     }
 
     @Test fun convertToText() = inRoomTest {
         val rollList = rollConverter.toItem(rollListFirst)
-        val noteItem = noteConverter.toItem(noteFirst, rollList, alarmFirst)
+        var noteItem = noteConverter.toItem(noteFirst, rollList, alarmFirst)
+
+        if (noteItem !is NoteItem.Roll) throw NoteCastException()
 
         noteDao.insert(noteFirst)
         rollListFirst.forEach { rollDao.insert(it) }
         alarmDao.insert(alarmFirst)
 
         noteRepo.convertNote(noteItem.deepCopy(), useCache = false)
-        noteItem.onConvert()
+        noteItem = noteItem.onConvert()
 
         assertEquals(noteItem, noteRepo.getItem(noteItem.id, optimisation = false))
     }
 
     @Test fun convertToTextUseCache() = inRoomTest {
         val rollList = rollConverter.toItem(rollListFirst)
-        val noteItem = noteConverter.toItem(noteFirst, rollList, alarmFirst)
+        var noteItem = noteConverter.toItem(noteFirst, rollList, alarmFirst)
+
+        if (noteItem !is NoteItem.Roll) throw NoteCastException()
 
         noteDao.insert(noteFirst)
         rollListFirst.forEach { rollDao.insert(it) }
         alarmDao.insert(alarmFirst)
 
         noteRepo.convertNote(noteItem.deepCopy(), useCache = true)
-        noteItem.onConvert()
+        noteItem = noteItem.onConvert()
 
         assertEquals(noteItem, noteRepo.getItem(noteItem.id, optimisation = false))
     }
@@ -223,12 +228,12 @@ class NoteRepoTest : ParentIntegrationTest()  {
     }
 
     @Test fun saveTextNote() = inRoomTest {
-        noteRepo.saveNote(NoteItem(0, "", "", color = 0, type = NoteType.TEXT), true)
+//        noteRepo.saveNote(NoteItem(0, "", "", color = 0, type = NoteType.TEXT), true)
         TODO(reason = "#TEST write test")
     }
 
     @Test fun saveRollNote() = inRoomTest {
-        noteRepo.saveNote(NoteItem(0, "", "", color = 0, type = NoteType.TEXT), true)
+//        noteRepo.saveNote(NoteItem(0, "", "", color = 0, type = NoteType.TEXT), true)
         TODO(reason = "#TEST write test")
     }
 
@@ -237,7 +242,8 @@ class NoteRepoTest : ParentIntegrationTest()  {
         rollListFirst.forEach { rollDao.insert(it) }
 
         val list = rollConverter.toItem(rollListFirst)
-        val item = noteConverter.toItem(noteFirst, list)
+        val item = noteConverter.toItem(noteFirst, list) as? NoteItem.Roll
+                ?: throw NoteCastException()
 
         item.onItemCheck(p = 0)
 
@@ -252,7 +258,8 @@ class NoteRepoTest : ParentIntegrationTest()  {
         rollListFirst.forEach { rollDao.insert(it) }
 
         val list = rollConverter.toItem(rollListFirst)
-        val item = noteConverter.toItem(noteFirst, list)
+        val item = noteConverter.toItem(noteFirst, list) as? NoteItem.Roll
+                ?: throw NoteCastException()
 
         list.forEach { it.isCheck = true }
 
@@ -269,7 +276,8 @@ class NoteRepoTest : ParentIntegrationTest()  {
         rollListFourth.forEach { rollDao.insert(it) }
 
         val list = rollConverter.toItem(rollListFourth)
-        val item = noteConverter.toItem(noteFourth, list)
+        val item = noteConverter.toItem(noteFourth, list) as? NoteItem.Roll
+                ?: throw NoteCastException()
 
         list.forEach { it.isCheck = true }
         list.random().isCheck = false

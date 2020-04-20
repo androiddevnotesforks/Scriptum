@@ -9,31 +9,32 @@ import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
-import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.presentation.adapter.RollAdapter
 import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel.Companion.getCorrectPosition
+import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel.Companion.hide
 import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel.Companion.isVisible
 import sgtmelon.scriptum.ui.IPressBack
 import sgtmelon.scriptum.ui.ParentRecyclerItem
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.part.info.RollNoteInfoContainer
-import sgtmelon.scriptum.ui.part.panel.NotePanel
 import sgtmelon.scriptum.ui.part.panel.RollEnterPanel
-import sgtmelon.scriptum.ui.part.toolbar.NoteToolbar
+import sgtmelon.scriptum.ui.part.panel.note.RollNotePanel
+import sgtmelon.scriptum.ui.part.toolbar.note.ParentNoteToolbar
+import sgtmelon.scriptum.ui.part.toolbar.note.RollNoteToolbar
 
 /**
  * Class for UI control of [NoteActivity], [RollNoteFragment].
  */
 class RollNoteScreen(
         override var state: State,
-        override var noteItem: NoteItem,
+        override var noteItem: NoteItem.Roll,
         override val isRankEmpty: Boolean
 ) : ParentRecyclerScreen(R.id.roll_note_recycler),
-        INoteScreen<RollNoteScreen>,
-        NoteToolbar.ImeCallback,
+        INoteScreen<RollNoteScreen, NoteItem.Roll>,
+        ParentNoteToolbar.ImeCallback,
         INoteAfterConvert<TextNoteScreen>,
         IPressBack {
 
@@ -63,8 +64,8 @@ class RollNoteScreen(
      */
     private var enterPanel: RollEnterPanel<RollNoteScreen>? = null
 
-    fun toolbar(func: NoteToolbar<RollNoteScreen>.() -> Unit) = apply {
-        NoteToolbar(func, callback = this, imeCallback = this)
+    fun toolbar(func: RollNoteToolbar<RollNoteScreen>.() -> Unit) = apply {
+        RollNoteToolbar(func, callback = this, imeCallback = this)
     }
 
     fun enterPanel(func: RollEnterPanel<RollNoteScreen>.() -> Unit) = apply {
@@ -73,13 +74,13 @@ class RollNoteScreen(
         }
     }
 
-    fun controlPanel(func: NotePanel<RollNoteScreen>.() -> Unit) = apply {
-        NotePanel(func, callback = this)
+    fun controlPanel(func: RollNotePanel<RollNoteScreen>.() -> Unit) = apply {
+        RollNotePanel(func, callback = this)
     }
 
     //endregion
 
-    override var shadowItem: NoteItem = noteItem.deepCopy()
+    override var shadowItem: NoteItem.Roll = noteItem.deepCopy()
 
     override val inputControl = InputControl().apply { isEnabled = true }
 
@@ -180,7 +181,7 @@ class RollNoteScreen(
     }
 
     override fun afterConvert(func: TextNoteScreen.() -> Unit) {
-        TextNoteScreen(func, State.READ, noteItem, isRankEmpty)
+        TextNoteScreen(func, State.READ, noteItem.onConvert(), isRankEmpty)
     }
 
     override fun onPressBack() {
@@ -335,14 +336,9 @@ class RollNoteScreen(
         private const val SWIPE_TIME = 150L
 
         private const val STATE_ERROR_TEXT = "Wrong note state"
-        private const val TYPE_ERROR_TEXT = "Wrong note type"
 
         operator fun invoke(func: RollNoteScreen.() -> Unit, state: State,
-                            noteItem: NoteItem, isRankEmpty: Boolean): RollNoteScreen {
-            if (noteItem.type != NoteType.ROLL) {
-                throw IllegalAccessException(TYPE_ERROR_TEXT)
-            }
-
+                            noteItem: NoteItem.Roll, isRankEmpty: Boolean): RollNoteScreen {
             return RollNoteScreen(state, noteItem, isRankEmpty).fullAssert().apply(func)
         }
     }

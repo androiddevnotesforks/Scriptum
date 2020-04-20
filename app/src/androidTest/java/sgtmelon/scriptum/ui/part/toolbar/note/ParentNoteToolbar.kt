@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.ui.part.toolbar
+package sgtmelon.scriptum.ui.part.toolbar.note
 
 import android.os.Build
 import android.view.inputmethod.EditorInfo
@@ -7,16 +7,18 @@ import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.InputItem
+import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.ui.ParentUi
+import sgtmelon.scriptum.ui.part.toolbar.ParentToolbar
 import sgtmelon.scriptum.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 
 /**
- * Part of UI abstraction for [TextNoteScreen] и [RollNoteScreen].
+ * Part of UI abstraction for [TextNoteScreen] or [RollNoteScreen].
  */
-class NoteToolbar<T : ParentUi>(
-        private val callback: INoteScreen<T>,
+abstract class ParentNoteToolbar<T : ParentUi, N : NoteItem>(
+        protected val callback: INoteScreen<T, N>,
         private val imeCallback: ImeCallback
 ) : ParentToolbar() {
 
@@ -53,17 +55,8 @@ class NoteToolbar<T : ParentUi>(
         }
     }
 
-    fun onClickBack() {
+    open fun onClickBack() {
         getToolbarButton().click()
-
-        with(callback) {
-            if (state == State.EDIT) {
-                state = State.READ
-                shadowItem = noteItem.deepCopy()
-                inputControl.reset()
-                fullAssert()
-            }
-        }
     }
 
     fun onImeOptionName() {
@@ -135,14 +128,6 @@ class NoteToolbar<T : ParentUi>(
 
     interface ImeCallback {
         fun assertToolbarIme()
-    }
-
-    companion object {
-        operator fun <T: ParentUi> invoke(func: NoteToolbar<T>.() -> Unit,
-                                          callback: INoteScreen<T>,
-                                          imeCallback: ImeCallback): NoteToolbar<T> {
-            return NoteToolbar(callback, imeCallback).assert().apply(func)
-        }
     }
 
 }

@@ -2,9 +2,11 @@ package sgtmelon.scriptum.ui.screen
 
 import sgtmelon.extension.getText
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.basic.exception.NoteCastException
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.domain.model.item.NoteItem
+import sgtmelon.scriptum.extension.getAppSimpleColor
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.AlarmActivity
 import sgtmelon.scriptum.presentation.screen.vm.impl.notification.AlarmViewModel
 import sgtmelon.scriptum.ui.IPressBack
@@ -41,11 +43,15 @@ class AlarmScreen(
     //endregion
 
     fun openTextNote(isRankEmpty: Boolean = true, func: TextNoteScreen.() -> Unit = {}) {
+        if (noteItem !is NoteItem.Text) throw NoteCastException()
+
         recyclerView.click(p = 0)
         TextNoteScreen(func, State.READ, noteItem, isRankEmpty)
     }
 
     fun openRollNote(isRankEmpty: Boolean = true, func: RollNoteScreen.() -> Unit = {}) {
+        if (noteItem !is NoteItem.Roll) throw NoteCastException()
+
         recyclerView.click(p = 0)
         RollNoteScreen(func, State.READ, noteItem, isRankEmpty)
     }

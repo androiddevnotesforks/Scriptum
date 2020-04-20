@@ -2,7 +2,7 @@ package sgtmelon.scriptum.test.auto.note.toolbar
 
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Theme
-import sgtmelon.scriptum.domain.model.key.NoteType
+import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.test.IColorTest
 import sgtmelon.scriptum.test.ParentUiTest
@@ -20,9 +20,8 @@ abstract class ParentToolbarColorTest(@Theme private val theme: Int) : ParentUiT
             mainScreen {
                 notesScreen(empty = true) {
                     openAddDialog {
-                        val noteItem = data.createNote()
-                        when(noteItem.type) {
-                            NoteType.TEXT -> {
+                        when(val noteItem = data.createNote()) {
+                            is NoteItem.Text -> {
                                 createText(noteItem) {
                                     controlPanel {
                                         onColor { onClickItem(color).onClickApply() }
@@ -32,7 +31,7 @@ abstract class ParentToolbarColorTest(@Theme private val theme: Int) : ParentUiT
                                     toolbar { onClickBack() }
                                 }
                             }
-                            NoteType.ROLL -> {
+                            is NoteItem.Roll -> {
                                 createRoll(noteItem) {
                                     controlPanel {
                                         onColor { onClickItem(color).onClickApply() }

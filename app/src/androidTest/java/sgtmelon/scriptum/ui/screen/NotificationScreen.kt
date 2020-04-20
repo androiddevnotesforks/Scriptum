@@ -39,7 +39,7 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler), IPr
         toolbar.getToolbarButton().click()
     }
 
-    fun openText(noteItem: NoteItem, p: Int? = random, isRankEmpty: Boolean = true,
+    fun openText(noteItem: NoteItem.Text, p: Int? = random, isRankEmpty: Boolean = true,
                  func: TextNoteScreen.() -> Unit = {}) {
         if (p == null) return
 
@@ -47,7 +47,7 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler), IPr
         TextNoteScreen(func, State.READ, noteItem, isRankEmpty)
     }
 
-    fun openRoll(noteItem: NoteItem, p: Int? = random, isRankEmpty: Boolean = true,
+    fun openRoll(noteItem: NoteItem.Roll, p: Int? = random, isRankEmpty: Boolean = true,
                  func: RollNoteScreen.() -> Unit = {}) {
         if (p == null) return
 

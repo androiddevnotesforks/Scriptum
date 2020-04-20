@@ -4,6 +4,7 @@ import android.view.inputmethod.EditorInfo
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.State
+import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
 import sgtmelon.scriptum.extension.clearSpace
 import sgtmelon.scriptum.ui.ParentUi
@@ -14,7 +15,7 @@ import kotlin.random.Random
 /**
  * Part of UI abstraction for [RollNoteScreen]
  */
-class RollEnterPanel<T: ParentUi>(private val callback: INoteScreen<T>) : ParentUi() {
+class RollEnterPanel<T: ParentUi>(private val callback: INoteScreen<T, NoteItem.Roll>) : ParentUi() {
 
     //region Views
 
@@ -123,7 +124,7 @@ class RollEnterPanel<T: ParentUi>(private val callback: INoteScreen<T>) : Parent
 
     companion object {
         operator fun <T: ParentUi> invoke(func: RollEnterPanel<T>.() -> Unit,
-                                          callback: INoteScreen<T>): RollEnterPanel<T> {
+                                          callback: INoteScreen<T, NoteItem.Roll>): RollEnterPanel<T> {
             return RollEnterPanel(callback).assert().apply(func)
         }
     }

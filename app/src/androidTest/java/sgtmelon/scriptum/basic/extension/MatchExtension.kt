@@ -20,7 +20,6 @@ import sgtmelon.scriptum.basic.matcher.text.TextSizeMatcher
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Theme
 
-
 private fun matchOnView(viewMatcher: Matcher<View>, checkMatcher: Matcher<in View>) {
     onView(viewMatcher).check(matches(checkMatcher))
 }

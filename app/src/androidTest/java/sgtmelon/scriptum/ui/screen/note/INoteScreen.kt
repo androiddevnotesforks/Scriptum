@@ -9,18 +9,18 @@ import sgtmelon.scriptum.ui.ParentUi
 /**
  * Interface for communication child ui abstractions with [TextNoteScreen] and [RollNoteScreen]
  */
-interface INoteScreen<T : ParentUi>  {
+interface INoteScreen<T : ParentUi, N: NoteItem>  {
 
     // TODO #TEST add exit from screen control
 
     var state: State
 
-    var noteItem: NoteItem
+    var noteItem: N
 
     /**
      * Item for changes in edit mode.
      */
-    var shadowItem: NoteItem
+    var shadowItem: N
 
     val isRankEmpty: Boolean
 

@@ -3,6 +3,7 @@ package sgtmelon.scriptum.test.control.rotation.note
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.scriptum.basic.exception.NoteCastException
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.test.ParentRotationTest
@@ -61,10 +62,12 @@ class TextNoteRotationTest : ParentRotationTest() {
     }
 
     @Test fun dateDialogReset() = data.insertNotification(data.insertText()).let {
+        if (it !is NoteItem.Text) throw NoteCastException()
+
         startDateDialogTest(it, updateDate = true)
     }
 
-    private fun startDateDialogTest(noteItem: NoteItem, updateDate: Boolean) {
+    private fun startDateDialogTest(noteItem: NoteItem.Text, updateDate: Boolean) {
         launch {
             mainScreen {
                 notesScreen {

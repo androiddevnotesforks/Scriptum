@@ -6,10 +6,8 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
 import sgtmelon.scriptum.basic.extension.isDisplayed
 import sgtmelon.scriptum.basic.extension.isEnabled
-import sgtmelon.scriptum.data.repository.room.NoteRepo.Companion.onConvertText
 import sgtmelon.scriptum.domain.model.data.DbData
 import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.ui.IDialogUi
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.dialog.time.DateDialogUi
@@ -35,9 +33,9 @@ class NoteDialogUi(private val noteItem: NoteItem) : ParentUi(), IDialogUi, Date
         R.string.dialog_menu_status_bind
     })
 
-    private val convertButton = getViewByText(when (noteItem.type) {
-        NoteType.TEXT -> R.string.dialog_menu_convert_text
-        NoteType.ROLL -> R.string.dialog_menu_convert_roll
+    private val convertButton = getViewByText(when (noteItem) {
+        is NoteItem.Text -> R.string.dialog_menu_convert_text
+        is NoteItem.Roll -> R.string.dialog_menu_convert_roll
     })
 
     private val copyButton = getViewByText(R.string.dialog_menu_copy)
@@ -63,9 +61,9 @@ class NoteDialogUi(private val noteItem: NoteItem) : ParentUi(), IDialogUi, Date
     fun onConvert() = waitClose {
         convertButton.click()
 
-        when (noteItem.type) {
-            NoteType.TEXT -> noteItem.onConvert()
-            NoteType.ROLL -> noteItem.onConvert()
+        when (noteItem) {
+            is NoteItem.Text -> noteItem.onConvert()
+            is NoteItem.Roll -> noteItem.onConvert()
         }
     }
 

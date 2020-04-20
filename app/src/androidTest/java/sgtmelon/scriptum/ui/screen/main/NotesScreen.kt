@@ -54,7 +54,7 @@ class NotesScreen(private val isHide: Boolean) : ParentRecyclerScreen(R.id.notes
         NoteDialogUi(func, noteItem)
     }
 
-    fun openTextNote(noteItem: NoteItem, p: Int? = random, isRankEmpty: Boolean = true,
+    fun openTextNote(noteItem: NoteItem.Text, p: Int? = random, isRankEmpty: Boolean = true,
                      func: TextNoteScreen.() -> Unit = {}) = apply {
         if (p == null) return@apply
 
@@ -62,7 +62,7 @@ class NotesScreen(private val isHide: Boolean) : ParentRecyclerScreen(R.id.notes
         TextNoteScreen(func, State.READ, noteItem, isRankEmpty)
     }
 
-    fun openRollNote(noteItem: NoteItem, p: Int? = random, isRankEmpty: Boolean = true,
+    fun openRollNote(noteItem: NoteItem.Roll, p: Int? = random, isRankEmpty: Boolean = true,
                      func: RollNoteScreen.() -> Unit = {}) = apply {
         if (p == null) return@apply
 

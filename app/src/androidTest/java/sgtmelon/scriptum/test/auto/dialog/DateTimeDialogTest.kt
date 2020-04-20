@@ -4,7 +4,9 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.extension.getCalendar
+import sgtmelon.scriptum.basic.exception.NoteCastException
 import sgtmelon.scriptum.basic.extension.waitAfter
+import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.test.ParentUiTest
 
 @RunWith(AndroidJUnit4::class)
@@ -19,6 +21,8 @@ class DateTimeDialogTest : ParentUiTest() {
     }
 
     @Test fun textNoteDateReset() = data.insertNotification(data.insertText()).let {
+        if (it !is NoteItem.Text) throw NoteCastException()
+
         launch {
             mainScreen {
                 notesScreen {
@@ -31,6 +35,8 @@ class DateTimeDialogTest : ParentUiTest() {
     }
 
     @Test fun rollNoteDateReset() = data.insertNotification(data.insertRoll()).let {
+        if (it !is NoteItem.Roll) throw NoteCastException()
+
         launch {
             mainScreen {
                 notesScreen {

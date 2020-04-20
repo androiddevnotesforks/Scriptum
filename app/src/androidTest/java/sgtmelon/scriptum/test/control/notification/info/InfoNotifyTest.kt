@@ -3,6 +3,8 @@ package sgtmelon.scriptum.test.control.notification.info
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.scriptum.basic.exception.NoteCastException
+import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.test.ParentNotificationTest
 
 /**
@@ -75,6 +77,8 @@ class InfoNotifyTest : ParentNotificationTest() {
     }
 
     @Test fun textNoteNotifyOnDelete() = with(data) { insertNotification(insertText()) }.let {
+        if (it !is NoteItem.Text) throw NoteCastException()
+
         launch { mainScreen { notesScreen { openTextNote(it) { controlPanel { onDelete() } } } } }
         onSee()
     }
@@ -97,6 +101,8 @@ class InfoNotifyTest : ParentNotificationTest() {
     }
 
     @Test fun rollNoteNotifyOnDelete() = with(data) { insertNotification(insertRoll()) }.let {
+        if (it !is NoteItem.Roll) throw NoteCastException()
+
         launch { mainScreen { notesScreen { openRollNote(it) { controlPanel { onDelete() } } } } }
         onSee()
     }

@@ -20,16 +20,16 @@ import sgtmelon.scriptum.ui.ParentRecyclerItem
 class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
         ParentRecyclerItem<NoteItem>(listMatcher, p) {
 
-    override fun assert(item: NoteItem) = when (item.type) {
-        NoteType.TEXT -> Text().assert(item)
-        NoteType.ROLL -> Roll().assert(item)
+    override fun assert(item: NoteItem) = when (item) {
+        is NoteItem.Text -> Text().assert(item)
+        is NoteItem.Roll -> Roll().assert(item)
     }
 
-    private inner class Text : Parent(NoteType.TEXT) {
+    private inner class Text : Parent<NoteItem.Text>(NoteType.TEXT) {
 
         val contentText = getChild(getViewById(R.id.note_text_content_text))
 
-        override fun assert(item: NoteItem) {
+        override fun assert(item: NoteItem.Text) {
             super.assert(item)
 
             contentText.isDisplayed().withText(item.text, R.attr.clContent, R.dimen.text_16sp)
@@ -37,7 +37,7 @@ class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
 
     }
 
-    private inner class Roll : Parent(NoteType.ROLL) {
+    private inner class Roll : Parent<NoteItem.Roll>(NoteType.ROLL) {
 
         fun getRow(p: Int) = Row(when (p) {
             0 -> R.id.note_roll_row0_container
@@ -46,7 +46,7 @@ class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
             else -> R.id.note_roll_row3_container
         })
 
-        override fun assert(item: NoteItem) {
+        override fun assert(item: NoteItem.Roll) {
             super.assert(item)
 
             (0 until 4).forEach { getRow(it).assert(item.rollList.getOrNull(it)) }
@@ -81,7 +81,7 @@ class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
 
     }
 
-    private open inner class Parent(type: NoteType) {
+    private abstract inner class Parent<N: NoteItem>(type: NoteType) {
 
         val parentCard = getChild(getViewById(when (type) {
             NoteType.TEXT -> R.id.note_text_parent_card
@@ -105,7 +105,7 @@ class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
             NoteType.ROLL -> R.id.note_roll_color_view
         }))
 
-        open fun assert(item: NoteItem) {
+        open fun assert(item: N) {
             parentCard.isDisplayed().withCardBackground(theme, item.color)
             clickContainer.isDisplayed()
 

@@ -17,12 +17,12 @@ class SplashScreen : ParentUi() {
 
     fun mainScreen(func: MainScreen.() -> Unit = {}) = MainScreen(func)
 
-    fun openTextNoteBind(noteItem: NoteItem, isRankEmpty: Boolean = true,
+    fun openTextNoteBind(noteItem: NoteItem.Text, isRankEmpty: Boolean = true,
                          func: TextNoteScreen.() -> Unit = {}) = apply {
         TextNoteScreen(func, State.READ, noteItem, isRankEmpty)
     }
 
-    fun openRollNoteBind(noteItem: NoteItem, isRankEmpty: Boolean = true,
+    fun openRollNoteBind(noteItem: NoteItem.Roll, isRankEmpty: Boolean = true,
                          func: RollNoteScreen.() -> Unit = {}) = apply {
         RollNoteScreen(func, State.READ, noteItem, isRankEmpty)
     }

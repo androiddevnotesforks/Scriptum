@@ -7,7 +7,7 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.note.TextNoteViewModel
 
 /**
- * Interface for communication [TextNoteViewModel] и [RollNoteViewModel] with [NoteActivity]
+ * Interface for communication [TextNoteViewModel] or [RollNoteViewModel] with [NoteActivity]
  */
 interface INoteChild {
 

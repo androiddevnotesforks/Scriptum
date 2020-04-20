@@ -72,7 +72,7 @@ class TestData(override val context: Context, private val preferenceRepo: IPrefe
     val rankEntity: RankEntity get() = RankEntity(name = uniqueString)
 
 
-    fun createNote() = if (Random.nextBoolean()) createText() else createRoll()
+    fun createNote(): NoteItem = if (Random.nextBoolean()) createText() else createRoll()
 
     fun createText() = NoteItem.Text.getCreate(preferenceRepo.defaultColor)
 
@@ -119,19 +119,20 @@ class TestData(override val context: Context, private val preferenceRepo: IPrefe
         return Pair(rankItem, noteItem)
     }
 
-    fun insertText(entity: NoteEntity = textNote): NoteItem {
-        if (entity.type != NoteType.TEXT) throw IllegalAccessException("Wrong note type")
-
+    fun insertText(entity: NoteEntity = textNote): NoteItem.Text {
         inRoomTest { entity.id = noteDao.insert(entity) }
 
-        return noteConverter.toItem(entity)
+        val item = noteConverter.toItem(entity)
+
+        if (item !is NoteItem.Text) throw IllegalAccessException("Wrong note type")
+
+        return item
     }
 
     fun insertTextToBin(note: NoteEntity = textNote) = insertText(note.apply { isBin = true })
 
-    fun insertRoll(note: NoteEntity = rollNote, list: ArrayList<RollEntity> = rollList): NoteItem {
-        if (note.type != NoteType.ROLL) throw IllegalAccessException("Wrong note type")
-
+    fun insertRoll(note: NoteEntity = rollNote,
+                   list: ArrayList<RollEntity> = rollList): NoteItem.Roll {
         inRoomTest {
             note.id = noteDao.insert(note)
             list.forEach {
@@ -141,17 +142,21 @@ class TestData(override val context: Context, private val preferenceRepo: IPrefe
         }
 
         // TODO REFACTOR
-        val item = noteConverter.toItem(note, rollConverter.toItem(list)).apply {
-            updateComplete()
-        }
+        val item = noteConverter.toItem(note, rollConverter.toItem(list))
+
+        if (item !is NoteItem.Roll) throw IllegalAccessException("Wrong note type")
+
+        item.updateComplete()
 
         inRoomTest { noteDao.update(noteConverter.toEntity(item)) }
 
         return item
     }
 
-    fun insertRollToBin(note: NoteEntity = rollNote, list: ArrayList<RollEntity> = rollList) =
-            insertRoll(note.apply { isBin = true }, list)
+    fun insertRollToBin(note: NoteEntity = rollNote,
+                        list: ArrayList<RollEntity> = rollList): NoteItem.Roll {
+        return insertRoll(note.apply { isBin = true }, list)
+    }
 
 
     fun insertNote(time: String? = null): NoteItem {

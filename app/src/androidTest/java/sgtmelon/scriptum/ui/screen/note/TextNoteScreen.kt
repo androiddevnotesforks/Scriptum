@@ -5,25 +5,25 @@ import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.domain.model.item.InputItem
 import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.ui.IPressBack
 import sgtmelon.scriptum.ui.ParentUi
-import sgtmelon.scriptum.ui.part.panel.NotePanel
-import sgtmelon.scriptum.ui.part.toolbar.NoteToolbar
+import sgtmelon.scriptum.ui.part.panel.note.TextNotePanel
+import sgtmelon.scriptum.ui.part.toolbar.note.ParentNoteToolbar
+import sgtmelon.scriptum.ui.part.toolbar.note.TextNoteToolbar
 
 /**
  * Class for UI control of [NoteActivity], [TextNoteFragment].
  */
 class TextNoteScreen(
         override var state: State,
-        override var noteItem: NoteItem,
+        override var noteItem: NoteItem.Text,
         override val isRankEmpty: Boolean
 ) : ParentUi(),
-        INoteScreen<TextNoteScreen>,
-        NoteToolbar.ImeCallback,
+        INoteScreen<TextNoteScreen, NoteItem.Text>,
+        ParentNoteToolbar.ImeCallback,
         INoteAfterConvert<RollNoteScreen>,
         IPressBack {
 
@@ -41,17 +41,17 @@ class TextNoteScreen(
     private val contentText = getViewById(R.id.text_note_content_text)
     private val contentEnter = getViewById(R.id.text_note_content_enter)
 
-    fun toolbar(func: NoteToolbar<TextNoteScreen>.() -> Unit) = apply {
-        NoteToolbar(func, callback = this, imeCallback = this)
+    fun toolbar(func: TextNoteToolbar<TextNoteScreen>.() -> Unit) = apply {
+        TextNoteToolbar(func, callback = this, imeCallback = this)
     }
 
-    fun controlPanel(func: NotePanel<TextNoteScreen>.() -> Unit) = apply {
-        NotePanel(func, callback = this)
+    fun controlPanel(func: TextNotePanel<TextNoteScreen>.() -> Unit) = apply {
+        TextNotePanel(func, callback = this)
     }
 
     //endregion
 
-    override var shadowItem: NoteItem = noteItem.deepCopy()
+    override var shadowItem: NoteItem.Text = noteItem.deepCopy()
 
     override val inputControl = InputControl().apply { isEnabled = true }
 
@@ -96,7 +96,7 @@ class TextNoteScreen(
     override fun assertToolbarIme() = assertFocus()
 
     override fun afterConvert(func: RollNoteScreen.() -> Unit) {
-        RollNoteScreen(func, State.READ, noteItem, isRankEmpty)
+        RollNoteScreen(func, State.READ, noteItem.onConvert(), isRankEmpty)
     }
 
     override fun onPressBack() {
@@ -164,11 +164,7 @@ class TextNoteScreen(
 
     companion object {
         operator fun invoke(func: TextNoteScreen.() -> Unit, state: State,
-                            noteItem: NoteItem, isRankEmpty: Boolean): TextNoteScreen {
-            if (noteItem.type != NoteType.TEXT) {
-                throw IllegalAccessException("Wrong note type!")
-            }
-
+                            noteItem: NoteItem.Text, isRankEmpty: Boolean): TextNoteScreen {
             return TextNoteScreen(state, noteItem, isRankEmpty).fullAssert().apply(func)
         }
     }
