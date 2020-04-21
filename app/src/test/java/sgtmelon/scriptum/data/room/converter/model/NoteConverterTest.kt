@@ -39,10 +39,10 @@ class NoteConverterTest : ParentTest() {
 
         val alarmEntity = AlarmEntity(id = 1, noteId = 1, date = "12345")
 
-        val noteItem = NoteItem(
+        val noteItem = NoteItem.Roll(
                 id = 1, create = "12", change = "34", name = "bla", text = "bla", color = 1,
-                type = NoteType.ROLL, rankId = 1, rankPs = 1, isBin = true, isStatus = true,
-                rollList = rollList, alarmId = 1, alarmDate = "12345"
+                rankId = 1, rankPs = 1, isBin = true, isStatus = true,
+                alarmId = 1, alarmDate = "12345", rollList = rollList
         )
     }
 

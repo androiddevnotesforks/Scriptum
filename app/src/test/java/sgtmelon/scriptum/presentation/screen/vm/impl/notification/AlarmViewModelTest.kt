@@ -322,7 +322,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onReceiveUnbindNote() {
-        val noteItem = data.noteFirst.copy(isStatus = true)
+        val noteItem = data.noteFirst.deepCopy(isStatus = true)
 
         viewModel.noteItem = noteItem
         viewModel.onReceiveUnbindNote(noteItem.id)

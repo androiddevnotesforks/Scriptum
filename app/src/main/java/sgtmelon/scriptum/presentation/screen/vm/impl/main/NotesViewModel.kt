@@ -13,7 +13,6 @@ import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.extension.clearAddAll
 import sgtmelon.scriptum.extension.removeAtOrNull
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.INotesFragment
@@ -94,9 +93,9 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
         val callback = callback ?: return
         val noteItem = itemList.getOrNull(p) ?: return
 
-        val itemArray: Array<String> = callback.getStringArray(when (noteItem.type) {
-            NoteType.TEXT -> R.array.dialog_menu_text
-            NoteType.ROLL -> R.array.dialog_menu_roll
+        val itemArray: Array<String> = callback.getStringArray(when (noteItem) {
+            is NoteItem.Text -> R.array.dialog_menu_text
+            is NoteItem.Roll -> R.array.dialog_menu_roll
         })
 
         itemArray[Options.NOTIFICATION] = if (noteItem.haveAlarm()) {
@@ -139,6 +138,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
         viewModelScope.launch { interactor.updateNote(item) }
     }
 
+    // TODO fix
     private fun onMenuConvert(p: Int) {
         val item = itemList.getOrNull(p) ?: return
 

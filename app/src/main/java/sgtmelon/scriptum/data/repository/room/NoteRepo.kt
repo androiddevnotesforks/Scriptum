@@ -16,7 +16,6 @@ import sgtmelon.scriptum.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
-import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.extension.getText
 import sgtmelon.scriptum.extension.move
 
@@ -214,17 +213,15 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
             append(noteItem.name).append("\n")
         }
 
-        when (noteItem.type) {
-            NoteType.TEXT -> append(noteItem.text)
-            NoteType.ROLL -> inRoom {
+        when (noteItem) {
+            is NoteItem.Text -> append(noteItem.text)
+            is NoteItem.Roll -> inRoom {
                 append(rollConverter.toItem(rollDao.get(noteItem.id)).getText())
             }
         }
     }.toString()
 
     override suspend fun saveNote(noteItem: NoteItem.Text, isCreate: Boolean) {
-        if (noteItem.type != NoteType.TEXT) return
-
         inRoom {
             val entity = noteConverter.toEntity(noteItem)
 
@@ -237,8 +234,6 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
     }
 
     override suspend fun saveNote(noteItem: NoteItem.Roll, isCreate: Boolean) {
-        if (noteItem.type != NoteType.ROLL) return
-
         inRoom {
             val noteEntity = noteConverter.toEntity(noteItem)
 

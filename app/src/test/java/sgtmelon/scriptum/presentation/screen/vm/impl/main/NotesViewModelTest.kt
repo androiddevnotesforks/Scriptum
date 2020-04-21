@@ -16,7 +16,6 @@ import sgtmelon.scriptum.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.domain.model.annotation.Options
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.Theme
-import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.INotesFragment
 import sgtmelon.scriptum.presentation.screen.vm.impl.main.NotesViewModel.Companion.sort
 import java.util.*
@@ -200,8 +199,9 @@ class NotesViewModelTest : ParentViewModelTest() {
         every { callback.getString(R.string.dialog_menu_status_unbind) } returns "unbind"
         every { callback.getString(R.string.dialog_menu_status_bind) } returns "bind"
 
+        // TODO fix
         val itemList = data.itemList
-        itemList[1].type = NoteType.ROLL
+//        itemList[1].type = NoteType.ROLL
 
         viewModel.itemList.addAll(itemList)
         assertEquals(itemList, viewModel.itemList)

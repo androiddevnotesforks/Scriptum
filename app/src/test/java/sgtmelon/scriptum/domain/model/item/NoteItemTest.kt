@@ -13,7 +13,7 @@ import sgtmelon.scriptum.domain.model.key.NoteType
 class NoteItemTest : ParentTest() {
 
     @Test fun deepCopy() {
-        val itemFirst = noteItem.deepCopy()
+        val itemFirst = rollItem.deepCopy()
         val itemSecond = itemFirst.deepCopy()
 
         itemFirst.rollList.first().position = COPY_POSITION
@@ -22,8 +22,8 @@ class NoteItemTest : ParentTest() {
     }
 
     @Test fun switchCopy() {
-        val itemFirst = noteItem.deepCopy(isStatus = false)
-        val itemSecond = noteItem.deepCopy(isStatus = true)
+        val itemFirst = rollItem.deepCopy(isStatus = false)
+        val itemSecond = rollItem.deepCopy(isStatus = true)
 
         itemFirst.switchStatus()
         itemSecond.switchStatus()
@@ -36,32 +36,32 @@ class NoteItemTest : ParentTest() {
     @Test fun updateComplete() {
         val size = rollList.size
 
-        var item = noteItem.deepCopy()
+        var item = rollItem.deepCopy()
         assertEquals("0/${size}", item.updateComplete(Complete.EMPTY).text)
 
-        item = noteItem.deepCopy()
+        item = rollItem.deepCopy()
         assertEquals("${size}/${size}", item.updateComplete(Complete.FULL).text)
 
-        item = noteItem.deepCopy()
+        item = rollItem.deepCopy()
         assertEquals("${CHECK_COUNT}/${size}", item.updateComplete().text)
 
-        item = noteItem.deepCopy().apply {
+        item = rollItem.deepCopy().apply {
             while (rollList.size != 99) rollList.add(rollList.first())
         }
         assertEquals("${CHECK_COUNT}/99", item.updateComplete().text)
 
-        item = noteItem.deepCopy().apply {
+        item = rollItem.deepCopy().apply {
             while (rollList.size != 100) rollList.add(rollList.first())
         }
         assertEquals("${CHECK_COUNT}/99", item.updateComplete().text)
 
-        item = noteItem.deepCopy().apply {
+        item = rollItem.deepCopy().apply {
             while (rollList.size != 99) rollList.add(rollList.first())
             rollList.forEach { it.isCheck = true }
         }
         assertEquals("99/99", item.updateComplete().text)
 
-        item = noteItem.deepCopy().apply {
+        item = rollItem.deepCopy().apply {
             while (rollList.size != 100) rollList.add(rollList.first())
             rollList.forEach { it.isCheck = true }
         }
@@ -69,24 +69,24 @@ class NoteItemTest : ParentTest() {
     }
 
     @Test fun updateCheck() {
-        var item = noteItem.deepCopy()
+        var item = rollItem.deepCopy()
         item.updateCheck(isCheck = true)
 
         assertFalse(item.rollList.any { !it.isCheck })
 
-        item = noteItem.deepCopy()
+        item = rollItem.deepCopy()
         item.updateCheck(isCheck = false)
 
         assertFalse(item.rollList.any { it.isCheck })
     }
 
-    @Test fun getCheck() = assertEquals(CHECK_COUNT, noteItem.getCheck())
+    @Test fun getCheck() = assertEquals(CHECK_COUNT, rollItem.getCheck())
 
 
-    @Test fun updateTime() = assertChangeTime(noteItem.copy(change = "TIME").updateTime())
+    @Test fun updateTime() = assertChangeTime(rollItem.deepCopy(change = "TIME").updateTime())
 
     @Test fun delete() {
-        val item = noteItem.deepCopy(change = "TIME", isBin = false, isStatus = true)
+        val item = rollItem.deepCopy(change = "TIME", isBin = false, isStatus = true)
 
         item.onDelete().let {
             assertChangeTime(it)
@@ -96,7 +96,7 @@ class NoteItemTest : ParentTest() {
     }
 
     @Test fun restore() {
-        val item = noteItem.deepCopy(change = "TIME", isBin = true)
+        val item = rollItem.deepCopy(change = "TIME", isBin = true)
 
         item.onRestore().let {
             assertChangeTime(it)
@@ -105,7 +105,7 @@ class NoteItemTest : ParentTest() {
     }
 
     @Test fun convertText() {
-        val item = noteItem.deepCopy(change = "TIME", type = NoteType.TEXT)
+        val item = textItem.deepCopy(change = "TIME")
 
         item.onConvert().let {
             assertChangeTime(it)
@@ -114,7 +114,7 @@ class NoteItemTest : ParentTest() {
     }
 
     @Test fun convertRoll() {
-        val item = noteItem.deepCopy(change = "TIME", type = NoteType.ROLL)
+        val item = rollItem.deepCopy(change = "TIME")
 
         item.onConvert().let {
             assertChangeTime(it)
@@ -122,12 +122,12 @@ class NoteItemTest : ParentTest() {
         }
     }
 
-    @Test fun textToList() {
-        assertEquals(listOf("1", "2", "34"), noteItem.deepCopy(text = "1\n2\n34").textToList())
+    @Test fun splitText() {
+        assertEquals(listOf("1", "2", "34"), textItem.deepCopy(text = "1\n2\n34").splitText())
     }
 
     @Test fun haveRank() {
-        val item = noteItem.deepCopy()
+        val item = rollItem.deepCopy()
         assertFalse(item.haveRank())
 
         item.rankId = 0
@@ -136,7 +136,7 @@ class NoteItemTest : ParentTest() {
     }
 
     @Test fun haveAlarm() {
-        val item = noteItem.deepCopy()
+        val item = rollItem.deepCopy()
         assertFalse(item.haveAlarm())
 
         item.alarmId = 1
@@ -145,21 +145,21 @@ class NoteItemTest : ParentTest() {
     }
 
     @Test fun clearRank() {
-        val item = noteItem.deepCopy(rankId = 0, rankPs = 0)
+        val item = rollItem.deepCopy(rankId = 0, rankPs = 0)
 
         assertTrue(item.haveRank())
         assertFalse(item.clearRank().haveRank())
     }
 
     @Test fun clearAlarm() {
-        val item = noteItem.deepCopy(alarmId = 1, alarmDate = "123")
+        val item = rollItem.deepCopy(alarmId = 1, alarmDate = "123")
 
         assertTrue(item.haveAlarm())
         assertFalse(item.clearAlarm().haveAlarm())
     }
 
     @Test fun `isSaveEnabled for textNote`() {
-        val item = noteItem.deepCopy(type = NoteType.TEXT)
+        val item = textItem.deepCopy()
         assertFalse(item.isSaveEnabled())
 
         item.text = "123"
@@ -167,7 +167,7 @@ class NoteItemTest : ParentTest() {
     }
 
     @Test fun `isSaveEnabled for rollNote`() {
-        val item = noteItem.deepCopy()
+        val item = rollItem.deepCopy()
         assertTrue(item.isSaveEnabled())
 
         item.rollList.forEach { it.text = "" }
@@ -175,7 +175,7 @@ class NoteItemTest : ParentTest() {
     }
 
     @Test fun isVisible() {
-        val item = noteItem.copy()
+        val item = rollItem.deepCopy()
 
         assertTrue(item.isVisible(rankVisibleList))
 
@@ -205,9 +205,8 @@ class NoteItemTest : ParentTest() {
                 RollItem(position = 2, text = "3", isCheck = true)
         )
 
-        val noteItem = NoteItem(
-                create = "12345", color = 0, type = NoteType.ROLL, rollList = rollList
-        )
+        val textItem = NoteItem.Text(create = "12345", color = 0)
+        val rollItem = NoteItem.Roll(create = "12345", color = 0, rollList = rollList)
 
         val rankVisibleList = listOf<Long>(1, 2, 3)
     }
