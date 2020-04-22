@@ -12,6 +12,24 @@ import sgtmelon.scriptum.domain.model.key.NoteType
  */
 class NoteItemTest : ParentTest() {
 
+    @Test fun noteType() {
+        assertEquals(textItem.type, NoteType.TEXT)
+        assertEquals(rollItem.type, NoteType.ROLL)
+    }
+
+    @Test fun switchStatus() {
+        val itemFirst = textItem.deepCopy(isStatus = false)
+        val itemSecond = textItem.deepCopy(isStatus = true)
+
+        itemFirst.switchStatus()
+        itemSecond.switchStatus()
+
+        assertTrue(itemFirst.isStatus)
+        assertFalse(itemSecond.isStatus)
+    }
+
+    //region start
+
     @Test fun deepCopy() {
         val itemFirst = rollItem.deepCopy()
         val itemSecond = itemFirst.deepCopy()
@@ -19,17 +37,6 @@ class NoteItemTest : ParentTest() {
         itemFirst.rollList.first().position = COPY_POSITION
 
         assertEquals(REAL_POSITION, itemSecond.rollList.first().position)
-    }
-
-    @Test fun switchCopy() {
-        val itemFirst = rollItem.deepCopy(isStatus = false)
-        val itemSecond = rollItem.deepCopy(isStatus = true)
-
-        itemFirst.switchStatus()
-        itemSecond.switchStatus()
-
-        assertTrue(itemFirst.isStatus)
-        assertFalse(itemSecond.isStatus)
     }
 
 
@@ -192,6 +199,8 @@ class NoteItemTest : ParentTest() {
 
 
     private fun assertChangeTime(noteItem: NoteItem) = assertEquals(getTime(), noteItem.change)
+
+    //endregion
 
     private companion object {
         const val COPY_POSITION = 9

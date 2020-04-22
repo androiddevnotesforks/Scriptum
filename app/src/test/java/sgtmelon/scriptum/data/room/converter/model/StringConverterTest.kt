@@ -1,10 +1,9 @@
-package sgtmelon.scriptum.data.room.converter.type
+package sgtmelon.scriptum.data.room.converter.model
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import sgtmelon.scriptum.ParentTest
-import sgtmelon.scriptum.data.room.converter.model.StringConverter
 
 /**
  * Test for [StringConverter].
@@ -14,6 +13,7 @@ class StringConverterTest : ParentTest() {
     private val converter = StringConverter()
 
     @Test fun toList() {
+        TODO()
         assertEquals(listFirst, converter.toList(stringFirst))
         assertEquals(listSecond, converter.toList(stringSecond))
 
@@ -21,6 +21,7 @@ class StringConverterTest : ParentTest() {
     }
 
     @Test fun convertToString() {
+        TODO()
         assertEquals(stringFirst, converter.toString(listFirst))
         assertEquals(stringSecond, converter.toString(listSecond))
 

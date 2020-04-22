@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.domain.interactor
+package sgtmelon.scriptum.domain.interactor.impl
 
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -9,7 +9,6 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import sgtmelon.scriptum.ParentInteractorTest
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
-import sgtmelon.scriptum.domain.interactor.impl.SplashInteractor
 
 /**
  * Test for [SplashInteractor].

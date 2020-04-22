@@ -8,4 +8,4 @@ package sgtmelon.scriptum.domain.model.key
  * [FORBIDDEN] - User don't want see permission request
  * [GRANTED] - User gave you permission
  */
-enum class PermissionResult {LOW_API, ALLOWED, FORBIDDEN, GRANTED}
+enum class PermissionResult { LOW_API, ALLOWED, FORBIDDEN, GRANTED }

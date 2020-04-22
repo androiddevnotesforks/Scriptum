@@ -18,8 +18,8 @@ class NoteTypeConverterTest : ParentTest() {
     }
 
     @Test fun toEnum() {
-        assertEquals(NoteType.TEXT, converter.toEnum(0))
-        assertEquals(NoteType.ROLL, converter.toEnum(1))
+        assertEquals(NoteType.TEXT, converter.toEnum(noteType = 0))
+        assertEquals(NoteType.ROLL, converter.toEnum(noteType = 1))
     }
 
 }
