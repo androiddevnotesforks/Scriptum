@@ -21,6 +21,8 @@ class SplashInteractorTest : ParentInteractorTest() {
     private val interactor by lazy { SplashInteractor(preferenceRepo) }
 
     @Test fun getFirstStart() {
+        TODO()
+
         every { preferenceRepo.firstStart } returns true
         assertTrue(interactor.firstStart)
 

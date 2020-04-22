@@ -11,11 +11,15 @@ import sgtmelon.scriptum.ParentTest
 class RollItemTest : ParentTest() {
 
     @Test fun getJson() {
+            TODO()
+
         assertEquals(itemFirst.toJson(), stringFirst)
         assertEquals(itemSecond.toJson(), stringSecond)
     }
 
     @Test fun getItem() {
+            TODO()
+
         assertEquals(itemFirst, RollItem[stringFirst])
         assertEquals(itemSecond, RollItem[stringSecond])
 

@@ -32,6 +32,8 @@ class AppViewModelTest : ParentViewModelTest() {
     }
 
     @Test override fun onDestroy() {
+        TODO()
+
         assertNotNull(viewModel.callback)
         viewModel.onDestroy()
         assertNull(viewModel.callback)
@@ -39,6 +41,8 @@ class AppViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onSetup() {
+        TODO()
+
         every { interactor.theme } returns Theme.LIGHT
         viewModel.onSetup()
 
@@ -52,6 +56,8 @@ class AppViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun isThemeChange() {
+        TODO()
+
         every { interactor.theme } returns Theme.UNDEFINED
 
         assertFalse(viewModel.isThemeChange())

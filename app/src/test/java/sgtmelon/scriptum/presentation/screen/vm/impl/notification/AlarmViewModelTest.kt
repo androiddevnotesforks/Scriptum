@@ -47,6 +47,8 @@ class AlarmViewModelTest : ParentViewModelTest() {
     }
 
     @Test override fun onDestroy() {
+        TODO()
+
         assertNotNull(viewModel.callback)
 
         viewModel.signalState = signalFirst
@@ -82,6 +84,8 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onSetup_onFirstStart_withGoodModel() = startCoTest {
+        TODO()
+
         val id = Random.nextLong()
         val noteItem = data.noteThird
 
@@ -123,6 +127,8 @@ class AlarmViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onSetup_onFirstStart_withBadModel() = startCoTest {
+        TODO()
+
         val id = Random.nextLong()
 
         every { interactor.theme } returns Theme.LIGHT
@@ -157,6 +163,8 @@ class AlarmViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onSetup_onSecondStart() {
+        TODO()
+
         val id = Random.nextLong()
         val noteItem = data.noteFirst
 
@@ -193,6 +201,8 @@ class AlarmViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onSaveData() {
+        TODO()
+
         val id = Random.nextLong()
 
         every { bundle.putLong(NoteData.Intent.ID, any()) } returns Unit
@@ -204,6 +214,8 @@ class AlarmViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onStart() {
+        TODO()
+
         val themeFirst = Theme.LIGHT
         val themeSecond = Theme.DARK
 
@@ -230,6 +242,8 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
     private fun MockKVerificationScope.verifyOnStart(@Theme theme: Int, colorShade: ColorShade,
                                                      noteItem: NoteItem, signalState: SignalState) {
+        TODO()
+
         interactor.theme
 
         callback.apply {
@@ -249,6 +263,8 @@ class AlarmViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onClickNote() {
+        TODO()
+
         val noteItem = data.noteFirst
 
         viewModel.noteItem = noteItem
@@ -261,11 +277,15 @@ class AlarmViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onClickDisable() {
+        TODO()
+
         viewModel.onClickDisable()
         verifySequence { callback.finish() }
     }
 
     @Test fun onClickRepeat() = startCoTest {
+        TODO()
+
         val repeat = Repeat.MIN_10
         val noteItem = data.noteFirst
         val repeatArray = intArrayOf(Repeat.MIN_180, Repeat.MIN_1440)
@@ -285,6 +305,8 @@ class AlarmViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onResultRepeatDialog() = startCoTest {
+        TODO()
+
         val noteItem = data.noteFirst
 
         every { interactor.repeat } returns Repeat.MIN_10
@@ -313,6 +335,8 @@ class AlarmViewModelTest : ParentViewModelTest() {
     }
 
     private suspend fun verifyRepeatFinish(@Repeat repeat: Int, noteItem: NoteItem) {
+        TODO()
+
         callback.getIntArray(R.array.pref_alarm_repeat_array)
         interactor.setupRepeat(noteItem, repeatArray, repeat)
 
@@ -322,6 +346,8 @@ class AlarmViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onReceiveUnbindNote() {
+        TODO()
+
         val noteItem = data.noteFirst.deepCopy(isStatus = true)
 
         viewModel.noteItem = noteItem

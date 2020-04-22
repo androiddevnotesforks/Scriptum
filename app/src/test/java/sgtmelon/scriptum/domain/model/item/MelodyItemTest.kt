@@ -10,6 +10,8 @@ import sgtmelon.scriptum.ParentTest
 class MelodyItemTest : ParentTest() {
 
     @Test fun secondConstructor() {
+        TODO()
+
         val item = MelodyItem(TITLE, URI, ID)
 
         assertEquals(TITLE, item.title)

@@ -31,6 +31,8 @@ class RollNoteInteractorTest : ParentInteractorTest() {
     }
 
     @Test override fun onDestroy() {
+        TODO()
+
         assertNotNull(interactor.callback)
         interactor.onDestroy()
         assertNull(interactor.callback)
@@ -59,6 +61,8 @@ class RollNoteInteractorTest : ParentInteractorTest() {
 
 
     @Test fun setVisible() = startCoTest {
+        TODO()
+
         val noteId = Random.nextLong()
         val isVisible = Random.nextBoolean()
 
@@ -70,6 +74,8 @@ class RollNoteInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun getVisible() = startCoTest {
+        TODO()
+
         val noteId = Random.nextLong()
         val isVisible = Random.nextBoolean()
 

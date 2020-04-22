@@ -27,6 +27,8 @@ class PreferenceInteractorTest : ParentInteractorTest() {
     private val interactor by lazy { PreferenceInteractor(summaryProvider, preferenceRepo) }
 
     @Test fun getTheme() {
+                TODO()
+
         fun checkRequestGet(value: Int) {
             every { preferenceRepo.theme } returns value
             assertEquals(interactor.theme, value)
@@ -41,6 +43,8 @@ class PreferenceInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun getThemeSummary() {
+                TODO()
+
         every { summaryProvider.theme } returns summaryList
 
         fun checkRequestSummary(value: Int) {
@@ -60,6 +64,8 @@ class PreferenceInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun updateTheme() {
+                TODO()
+
         every { summaryProvider.theme } returns summaryList
 
         fun checkRequestUpdate(value: Int) {
@@ -82,6 +88,8 @@ class PreferenceInteractorTest : ParentInteractorTest() {
 
 
     @Test fun getSort() {
+                TODO()
+
         fun checkRequestGet(value: Int) {
             every { preferenceRepo.sort } returns value
             assertEquals(interactor.sort, value)
@@ -96,6 +104,8 @@ class PreferenceInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun getSortSummary() {
+                TODO()
+
         every { summaryProvider.sort } returns summaryList
 
         fun checkRequestSummary(value: Int) {
@@ -115,6 +125,8 @@ class PreferenceInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun updateSort() {
+                TODO()
+
         every { summaryProvider.sort } returns summaryList
 
         fun checkRequestUpdate(value: Int) {
@@ -137,6 +149,8 @@ class PreferenceInteractorTest : ParentInteractorTest() {
 
 
     @Test fun getDefaultColor() {
+                TODO()
+
         fun checkRequestGet(value: Int) {
             every { preferenceRepo.defaultColor } returns value
             assertEquals(interactor.defaultColor, value)
@@ -151,6 +165,8 @@ class PreferenceInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun getDefaultColorSummary() {
+                TODO()
+
         every { summaryProvider.color } returns summaryList
 
         fun checkRequestSummary(value: Int) {
@@ -170,6 +186,8 @@ class PreferenceInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun updateDefaultColor() {
+                TODO()
+
         every { summaryProvider.color } returns summaryList
 
         fun checkRequestUpdate(value: Int) {
@@ -192,6 +210,8 @@ class PreferenceInteractorTest : ParentInteractorTest() {
 
 
     @Test fun getSavePeriod() {
+                TODO()
+
         fun checkRequestGet(value: Int) {
             every { preferenceRepo.savePeriod } returns value
             assertEquals(interactor.savePeriod, value)
@@ -206,6 +226,8 @@ class PreferenceInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun getSavePeriodSummary() {
+                TODO()
+
         every { summaryProvider.savePeriod } returns summaryList
 
         fun checkRequestSummary(value: Int) {
@@ -225,6 +247,8 @@ class PreferenceInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun updateSavePeriod() {
+                TODO()
+
         every { summaryProvider.savePeriod } returns summaryList
 
         fun checkRequestUpdate(value: Int) {
@@ -247,6 +271,8 @@ class PreferenceInteractorTest : ParentInteractorTest() {
 
 
     @Test fun getRepeat() {
+                TODO()
+
         fun checkRequestGet(value: Int) {
             every { preferenceRepo.repeat } returns value
             assertEquals(interactor.repeat, value)
@@ -261,6 +287,8 @@ class PreferenceInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun getRepeatSummary() {
+                TODO()
+
         every { summaryProvider.repeat } returns summaryList
 
         fun checkRequestSummary(value: Int) {
@@ -280,6 +308,8 @@ class PreferenceInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun updateRepeat() {
+                TODO()
+
         every { summaryProvider.repeat } returns summaryList
 
         fun checkRequestUpdate(value: Int) {
@@ -302,15 +332,21 @@ class PreferenceInteractorTest : ParentInteractorTest() {
 
 
     @Test fun getSignalSummaryArray() {
+                TODO()
+
         TODO()
     }
 
     @Test fun updateSignal() {
+                TODO()
+
         TODO()
     }
 
 
     @Test fun getVolume() {
+                TODO()
+
         fun checkRequestGet(value: Int) {
             every { preferenceRepo.volume } returns value
             assertEquals(interactor.volume, value)
@@ -325,6 +361,8 @@ class PreferenceInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun getVolumeSummary() {
+                TODO()
+
         fun getSummary(value: Int) = if (value % 2 == 0) summaryVolume.plus(value) else null
 
         fun checkRequestSummary(value: Int) {
@@ -345,6 +383,8 @@ class PreferenceInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun updateVolume() {
+                TODO()
+
         fun getSummary(value: Int) = if (value % 2 == 0) summaryVolume.plus(value) else null
 
         fun checkRequestUpdate(value: Int) {

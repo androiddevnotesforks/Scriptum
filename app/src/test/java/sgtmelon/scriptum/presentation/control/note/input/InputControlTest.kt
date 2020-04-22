@@ -21,12 +21,16 @@ class InputControlTest : ParentTest() {
 
 
     @Test fun `add changes to list and UNDO on not enable`() {
+                        TODO()
+
         inputControl.onRankChange(idFrom, psFrom, idTo, psTo)
 
         assert { undoFail() }
     }
 
     @Test fun `add changes to list and REDO on not enable`() {
+                        TODO()
+
         inputControl.apply {
             onRankChange(idFrom, psFrom, idTo, psTo)
             undo()
@@ -36,14 +40,20 @@ class InputControlTest : ParentTest() {
     }
 
     @Test fun `call UNDO on empty list`() {
+                        TODO()
+
         assert { undoFail() }
     }
 
     @Test fun `call REDO on empty list`() {
+                        TODO()
+
         assert { redoFail() }
     }
 
     @Test fun `call UNDO at extreme position`() {
+                        TODO()
+
         inputControl.apply {
             isEnabled = true
             onRankChange(idFrom, psFrom, idTo, psTo)
@@ -54,6 +64,8 @@ class InputControlTest : ParentTest() {
     }
 
     @Test fun `call REDO at extreme position`() {
+                        TODO()
+
         inputControl.apply {
             isEnabled = true
             onRankChange(idFrom, psFrom, idTo, psTo)
@@ -63,6 +75,8 @@ class InputControlTest : ParentTest() {
     }
 
     @Test fun `call UNDO success`() {
+                        TODO()
+
         inputControl.apply {
             isEnabled = true
             onRankChange(idFrom, psFrom, idTo, psTo)
@@ -72,6 +86,8 @@ class InputControlTest : ParentTest() {
     }
 
     @Test fun `call REDO success`() {
+                        TODO()
+
         inputControl.apply {
             isEnabled = true
             onRankChange(idFrom, psFrom, idTo, psTo)
@@ -82,6 +98,8 @@ class InputControlTest : ParentTest() {
     }
 
     @Test fun `remove list items after add position`() {
+                        TODO()
+
         inputControl.apply {
             isEnabled = true
             onRankChange(idFrom, psFrom, idTo, psTo)
@@ -93,6 +111,8 @@ class InputControlTest : ParentTest() {
     }
 
     @Test fun `remove list items at start after max length`() {
+                        TODO()
+
         inputControl.apply {
             isEnabled = true
 
@@ -104,6 +124,8 @@ class InputControlTest : ParentTest() {
     }
 
     @Test fun `input control reset`() {
+                        TODO()
+
         inputControl.apply {
             isEnabled = true
             onRankChange(idFrom, psFrom, idTo, psTo)

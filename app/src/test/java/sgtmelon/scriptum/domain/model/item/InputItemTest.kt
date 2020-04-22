@@ -16,34 +16,48 @@ class InputItemTest : ParentTest() {
     @get:Rule val exception: ExpectedException = ExpectedException.none()
 
     @Test fun throwOnNameTag() {
+            TODO()
+
         exception.expect(NullPointerException::class.java)
         InputItem(InputAction.NAME, VALUE_FROM, VALUE_TO)
     }
 
     @Test fun notThrowOnNameTag() {
+            TODO()
+
         InputItem(InputAction.NAME, VALUE_FROM, VALUE_TO, cursor)
     }
 
     @Test fun throwOnTextTag() {
+            TODO()
+
         exception.expect(NullPointerException::class.java)
         InputItem(InputAction.TEXT, VALUE_FROM, VALUE_TO)
     }
 
     @Test fun notThrowOnTextTag() {
+            TODO()
+
         InputItem(InputAction.TEXT, VALUE_FROM, VALUE_TO, cursor)
     }
 
     @Test fun throwOnRollTag() {
+            TODO()
+
         exception.expect(NullPointerException::class.java)
         InputItem(InputAction.ROLL, VALUE_FROM, VALUE_TO)
     }
 
     @Test fun notThrowOnRollTag() {
+            TODO()
+
         InputItem(InputAction.ROLL, VALUE_FROM, VALUE_TO, cursor)
     }
 
 
     @Test fun get() {
+            TODO()
+
         val item = InputItem(InputAction.TEXT, VALUE_FROM, VALUE_TO, cursor)
 
         assertEquals(VALUE_FROM, item[true])
@@ -51,6 +65,8 @@ class InputItemTest : ParentTest() {
     }
 
     @Test fun cursorGet() {
+            TODO()
+
         val item = InputItem(InputAction.TEXT, VALUE_FROM, VALUE_TO, cursor)
 
         assertEquals(CURSOR_FROM, item.cursor[true])
@@ -58,6 +74,8 @@ class InputItemTest : ParentTest() {
     }
 
     @Test fun nullCursorGet() {
+            TODO()
+
         val item = InputItem(InputAction.COLOR, VALUE_FROM, VALUE_TO)
 
         assertEquals(InputItem.Cursor.ND_VALUE, item.cursor[true])

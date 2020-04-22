@@ -30,6 +30,8 @@ class IntroViewModelTest : ParentViewModelTest() {
     }
 
     @Test override fun onDestroy() {
+        TODO()
+
         assertNotNull(viewModel.callback)
         viewModel.onDestroy()
         assertNull(viewModel.callback)
@@ -37,11 +39,15 @@ class IntroViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onSetup() {
+        TODO()
+
         viewModel.onSetup()
         verifySequence { callback.setupViewPager() }
     }
 
     @Test fun onClickEnd() {
+        TODO()
+
         viewModel.onClickEnd()
         verifySequence {
             interactor.onIntroFinish()

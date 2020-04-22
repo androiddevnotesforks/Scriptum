@@ -46,6 +46,8 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
     @Test override fun onDestroy() {
+        TODO()
+
         assertNotNull(viewModel.callback)
 
         viewModel.onDestroy()
@@ -56,6 +58,8 @@ class RankViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onSetup() {
+        TODO()
+
         viewModel.onSetup()
 
         verifySequence {
@@ -65,6 +69,8 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onUpdateData_startEmpty_getNotEmpty() = startCoTest {
+                        TODO()
+
         coEvery { interactor.getCount() } returns data.itemList.size
         coEvery { interactor.getList() } returns data.itemList
 
@@ -81,6 +87,8 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onUpdateData_startEmpty_getEmpty() = startCoTest {
+                        TODO()
+
         coEvery { interactor.getCount() } returns 0
         coEvery { interactor.getList() } returns mutableListOf()
 
@@ -95,6 +103,8 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onUpdateData_startNotEmpty_getNotEmpty() = startCoTest {
+                        TODO()
+
         val returnList = mutableListOf(data.itemList.first())
 
         coEvery { interactor.getCount() } returns returnList.size
@@ -116,6 +126,8 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onUpdateData_startNotEmpty_getEmpty() = startCoTest {
+                        TODO()
+
         coEvery { interactor.getCount() } returns 0
         coEvery { interactor.getList() } returns mutableListOf()
 
@@ -134,12 +146,16 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
     private fun updateList(itemList: List<RankItem>) = with(callback) {
+        TODO()
+
         notifyList(itemList)
         onBindingList()
     }
 
 
     @Test fun onUpdateToolbar() {
+        TODO()
+
         val itemList = data.itemList
         val item = itemList[itemList.indices.random()]
 
@@ -173,6 +189,8 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onShowRenameDialog() {
+        TODO()
+
         viewModel.onShowRenameDialog(Random.nextInt())
 
         val itemList = data.itemList
@@ -189,6 +207,8 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onResultRenameDialog() = startCoTest {
+                        TODO()
+
         val newName = TestData.uniqueString
 
         every { callback.getEnterText() } returns newName
@@ -216,6 +236,8 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onClickEnterCancel() {
+        TODO()
+
         every { callback.clearEnter() } returns data.itemList.random().name
 
         viewModel.onClickEnterCancel()
@@ -224,6 +246,8 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onEditorClick() {
+        TODO()
+
         assertFalse(viewModel.onEditorClick(EditorInfo.IME_ACTION_NEXT))
 
         every { callback.getEnterText() } returns ""
@@ -252,6 +276,8 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onClickEnterAdd_onSimple() = startCoTest {
+        TODO()
+
         every { callback.clearEnter() } returns ""
         viewModel.onClickEnterAdd(Random.nextBoolean())
 
@@ -284,6 +310,8 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onClickEnterAdd_onLong() = startCoTest {
+        TODO()
+
         every { callback.clearEnter() } returns ""
         viewModel.onClickEnterAdd(Random.nextBoolean())
 
@@ -316,6 +344,8 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onClickVisible() = startCoTest {
+        TODO()
+
         viewModel.onClickVisible(Random.nextInt())
 
         val itemList = data.itemList
@@ -337,6 +367,8 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onLongClickVisible() = startCoTest {
+                        TODO()
+
         viewModel.onLongClickVisible(Random.nextInt())
 
         val itemList = data.itemList
@@ -358,6 +390,8 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onClickCancel() = startCoTest {
+                        TODO()
+
         viewModel.onClickCancel(Random.nextInt())
 
         val itemList = data.correctListSecond
@@ -381,6 +415,8 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onReceiveUnbindNote() {
+        TODO()
+
         val itemList = data.itemList
 
         viewModel.itemList.addAll(itemList)
@@ -410,6 +446,8 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onTouchDrag() {
+        TODO()
+
         every { openState.value } returns false
         assertTrue(viewModel.onTouchDrag())
 
@@ -423,6 +461,8 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onTouchMove() {
+        TODO()
+
         val itemList = data.itemList
 
         viewModel.itemList.addAll(itemList)
@@ -438,6 +478,8 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onTouchMoveResult() = startCoTest {
+                        TODO()
+
         every { openState.clear() } returns Unit
 
         val itemList = data.correctListFirst
@@ -460,6 +502,8 @@ class RankViewModelTest : ParentViewModelTest() {
 
 
     @Test fun switchVisible() = with(data) {
+        TODO()
+
         var list = itemList
         var p = 0
         var animationArray = booleanArrayOf(false, false, true, false)
@@ -490,11 +534,15 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
     private fun assertVisible(list: List<RankItem>, p: Int) {
+        TODO()
+
         list.forEachIndexed { i, item -> assertEquals(i == p, item.isVisible) }
     }
 
 
     @Test fun correctPositions() = with(data) {
+        TODO()
+
         var list: List<RankItem> = itemList
         var noteIdList = list.correctPositions()
 
@@ -515,6 +563,8 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
     private fun assertPositions(list: List<RankItem>) = list.forEachIndexed { i, item ->
+        TODO()
+
         assertEquals(i, item.position)
     }
 

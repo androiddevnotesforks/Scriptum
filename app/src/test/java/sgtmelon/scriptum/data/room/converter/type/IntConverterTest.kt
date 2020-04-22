@@ -14,6 +14,7 @@ class IntConverterTest : ParentTest() {
     private val converter = IntConverter()
 
     @Test fun toInt() = with(converter) {
+        TODO()
         assertEquals(toInt(ZERO), 0)
         assertEquals(toInt(ONE), 1)
         assertEquals(toInt(TWO), 2)
@@ -28,6 +29,7 @@ class IntConverterTest : ParentTest() {
     }
 
     @Test fun toArray() = with(converter) {
+        TODO()
         assertEquals(toArray(value = 0, minSize = 2).toList(), arrayListOf(F, F))
         assertEquals(toArray(value = 1, minSize = 2).toList(), arrayListOf(T, F))
         assertEquals(toArray(value = 2, minSize = 2).toList(), arrayListOf(F, T))
@@ -42,6 +44,7 @@ class IntConverterTest : ParentTest() {
     }
 
     @Test fun inScope() = with(converter) {
+        TODO()
         assertEquals(toInt(toArray(value = 0)), 0)
         assertEquals(toInt(toArray(value = 1)), 1)
         assertEquals(toInt(toArray(value = 2)), 2)

@@ -35,6 +35,8 @@ class NotificationViewModelTest : ParentViewModelTest() {
     }
 
     @Test override fun onDestroy() {
+                        TODO()
+
         assertNotNull(viewModel.callback)
 
         viewModel.onDestroy()
@@ -45,6 +47,8 @@ class NotificationViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onSetup() {
+                        TODO()
+
         every { interactor.theme } returns Theme.LIGHT
 
         viewModel.onSetup()
@@ -56,6 +60,8 @@ class NotificationViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onUpdateData_startEmpty_getNotEmpty() = startCoTest {
+                        TODO()
+
         coEvery { interactor.getCount() } returns data.itemList.size
         coEvery { interactor.getList() } returns data.itemList
 
@@ -72,6 +78,8 @@ class NotificationViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onUpdateData_startEmpty_getEmpty() = startCoTest {
+                        TODO()
+
         coEvery { interactor.getCount() } returns 0
         coEvery { interactor.getList() } returns mutableListOf()
 
@@ -86,6 +94,8 @@ class NotificationViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onUpdateData_startNotEmpty_getNotEmpty() = startCoTest {
+                        TODO()
+
         val returnList = mutableListOf(data.itemList.first())
 
         coEvery { interactor.getCount() } returns returnList.size
@@ -107,6 +117,8 @@ class NotificationViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onUpdateData_startNotEmpty_getEmpty() = startCoTest {
+                        TODO()
+
         coEvery { interactor.getCount() } returns 0
         coEvery { interactor.getList() } returns mutableListOf()
 
@@ -125,12 +137,16 @@ class NotificationViewModelTest : ParentViewModelTest() {
     }
 
     private fun updateList(itemList: List<NotificationItem>) = with(callback) {
+        TODO()
+
         notifyList(itemList)
         onBindingList()
     }
 
 
     @Test fun onClickNote() {
+                        TODO()
+
         viewModel.onClickNote(Random.nextInt())
 
         viewModel.itemList.addAll(data.itemList)
@@ -143,6 +159,8 @@ class NotificationViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onClickCancel() = startCoTest {
+        TODO()
+
         viewModel.onClickCancel(Random.nextInt())
 
         val itemList = data.itemList

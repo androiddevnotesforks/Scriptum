@@ -37,6 +37,8 @@ class SplashViewModelTest : ParentViewModelTest() {
     }
 
     @Test override fun onDestroy() {
+        TODO()
+
         assertNotNull(viewModel.callback)
 
         viewModel.onDestroy()
@@ -47,6 +49,8 @@ class SplashViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onSetup_introStart() {
+                        TODO()
+
         every { bundle.getString(OpenFrom.INTENT_KEY) } returns null
         every { interactor.firstStart } returns true
 
@@ -60,6 +64,8 @@ class SplashViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onSetup_mainStart() {
+                        TODO()
+
         every { bundle.getString(OpenFrom.INTENT_KEY) } returns null
         every { interactor.firstStart } returns false
 
@@ -73,6 +79,8 @@ class SplashViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onSetup_alarmStart() {
+                        TODO()
+
         every { bundle.getString(OpenFrom.INTENT_KEY) } returns OpenFrom.ALARM
 
         every { bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID) } returns ID
@@ -82,6 +90,8 @@ class SplashViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onSetup_bindStart() {
+                        TODO()
+
         every { bundle.getString(OpenFrom.INTENT_KEY) } returns OpenFrom.BIND
 
         every { bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID) } returns ID
@@ -93,6 +103,8 @@ class SplashViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onSetup_notificationStart() {
+                        TODO()
+
         every { bundle.getString(OpenFrom.INTENT_KEY) } returns OpenFrom.INFO
 
         viewModel.onSetup(bundle)

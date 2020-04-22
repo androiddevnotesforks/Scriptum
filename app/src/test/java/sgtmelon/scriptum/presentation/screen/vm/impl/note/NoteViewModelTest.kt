@@ -50,6 +50,8 @@ class NoteViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onSetup_nullBundle() {
+                        TODO()
+
         val color = Color.RED
         val theme = Theme.DARK
 
@@ -70,6 +72,8 @@ class NoteViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onSetup_fillBundle_badData() {
+                        TODO()
+
         val color = Color.ORANGE
         val theme = Theme.LIGHT
 
@@ -98,6 +102,8 @@ class NoteViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onSetup_fillBundle_goodData() {
+                        TODO()
+
         val id = Random.nextLong()
         val color = Color.TEAL
         val theme = Theme.DARK
@@ -122,6 +128,8 @@ class NoteViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onSaveData() {
+                        TODO()
+
         val id = Random.nextLong()
         val color = Color.BLUE
         val type = NoteType.TEXT
@@ -150,6 +158,8 @@ class NoteViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onSetupFragment() {
+                        TODO()
+
         val id = Random.nextLong()
         val color = Color.BROWN
 
@@ -172,6 +182,8 @@ class NoteViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onPressBack() {
+                        TODO()
+
         assertEquals(null, viewModel.type)
         assertFalse(viewModel.onPressBack())
 
@@ -192,6 +204,8 @@ class NoteViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onUpdateNoteId() {
+                        TODO()
+
         val id = Random.nextLong()
 
         assertEquals(Default.ID, viewModel.id)
@@ -200,6 +214,8 @@ class NoteViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onUpdateNoteColor() {
+                        TODO()
+
         val theme = Theme.DARK
         val color = Color.RED
 
@@ -213,6 +229,8 @@ class NoteViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onConvertNote() {
+                        TODO()
+
         val id = Random.nextLong()
         val color = Color.ORANGE
 
