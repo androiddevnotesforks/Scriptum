@@ -4,9 +4,9 @@ import androidx.annotation.StringDef
 import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
 
 /**
- * Describes keys which screen open after [SplashActivity]
+ * Describes keys which screen open after [SplashActivity].
  */
-@StringDef(OpenFrom.BIND, OpenFrom.ALARM)
+@StringDef(OpenFrom.INTENT_KEY, OpenFrom.ALARM, OpenFrom.BIND, OpenFrom.INFO)
 annotation class OpenFrom {
 
     companion object {
