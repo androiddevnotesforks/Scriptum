@@ -44,7 +44,7 @@ class NoteConverterTest : ParentTest() {
         val noteItem = NoteItem.Roll(
                 id = 1, create = "12", change = "34", name = "bla", text = "bla", color = 1,
                 rankId = 1, rankPs = 1, isBin = true, isStatus = true,
-                alarmId = 1, alarmDate = "12345", rollList = rollList
+                alarmId = 1, alarmDate = "12345", list = rollList
         )
     }
 

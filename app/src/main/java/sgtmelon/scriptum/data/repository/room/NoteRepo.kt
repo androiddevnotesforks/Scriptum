@@ -181,7 +181,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
         val convertItem = noteItem.onConvert()
 
         inRoom {
-            convertItem.rollList.forEach {
+            convertItem.list.forEach {
                 it.id = rollDao.insert(rollConverter.toEntity(convertItem.id, it))
             }
 
@@ -239,7 +239,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
 
             if (isCreate) {
                 noteItem.id = noteDao.insert(noteEntity)
-                noteItem.rollList.forEach {
+                noteItem.list.forEach {
                     it.id = rollDao.insert(rollConverter.toEntity(noteItem.id, it))
                 }
             } else {
@@ -250,7 +250,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
                  */
                 val idSaveList = ArrayList<Long>()
 
-                noteItem.rollList.forEach { item ->
+                noteItem.list.forEach { item ->
                     val id = item.id
 
                     if (id == null) {
@@ -271,7 +271,7 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
     }
 
     override suspend fun updateRollCheck(noteItem: NoteItem.Roll, p: Int) = inRoom {
-        val item = noteItem.rollList[p]
+        val item = noteItem.list[p]
 
         val rollId = item.id ?: return@inRoom
 

@@ -34,7 +34,7 @@ class NoteConverter {
             } ?: run {
                 NoteItem.Roll(
                         id, create, change, name, text, color, rankId, rankPs, isBin, isStatus,
-                        rollList = rollList
+                        list = rollList
                 )
             }
         }

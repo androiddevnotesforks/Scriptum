@@ -137,10 +137,10 @@ class NoteItemTest : ParentTest() {
         textItem.deepCopy(change = CHANGE_TEXT, text = SPLIT_TEXT).onConvert().apply {
             assertEquals(NoteType.ROLL, type)
 
-            assertEquals(splitList.size, rollList.size)
+            assertEquals(splitList.size, list.size)
             splitList.forEachIndexed { i, text ->
-                assertEquals(i, rollList[i].position)
-                assertEquals(text, rollList[i].text)
+                assertEquals(i, list[i].position)
+                assertEquals(text, list[i].text)
             }
 
             assertChangeTime(this)
@@ -165,14 +165,14 @@ class NoteItemTest : ParentTest() {
             assertEquals(Note.Default.STATUS, isStatus)
             assertEquals(Alarm.Default.ID, alarmId)
             assertEquals(Alarm.Default.DATE, alarmDate)
-            assertEquals(0, rollList.size)
+            assertEquals(0, list.size)
         }
     }
 
     @Test fun isSaveEnabled_forRoll() {
         rollItem.deepCopy().apply {
             assertTrue(isSaveEnabled())
-            rollList.forEach { it.text = "" }
+            list.forEach { it.text = "" }
             assertFalse(isSaveEnabled())
         }
     }
@@ -182,42 +182,42 @@ class NoteItemTest : ParentTest() {
         val itemSecond = itemFirst.deepCopy()
 
         itemFirst.name = COPY_TEXT
-        itemFirst.rollList.first().position = COPY_POSITION
+        itemFirst.list.first().position = COPY_POSITION
 
         assertEquals(REAL_TEXT, itemSecond.name)
-        assertEquals(REAL_POSITION, itemSecond.rollList.first().position)
+        assertEquals(REAL_POSITION, itemSecond.list.first().position)
     }
 
 
     @Test fun updateComplete() {
         rollItem.deepCopy().apply {
-            assertEquals("0/${rollList.size}", updateComplete(Complete.EMPTY).text)
+            assertEquals("0/${list.size}", updateComplete(Complete.EMPTY).text)
         }
 
         rollItem.deepCopy().apply {
-            assertEquals("${rollList.size}/${rollList.size}", updateComplete(Complete.FULL).text)
+            assertEquals("${list.size}/${list.size}", updateComplete(Complete.FULL).text)
         }
 
         rollItem.deepCopy().apply {
-            assertEquals("${CHECK_COUNT}/${rollList.size}", updateComplete().text)
+            assertEquals("${CHECK_COUNT}/${list.size}", updateComplete().text)
         }
 
         rollItem.deepCopy().apply {
-            with(rollList) { while (size != MAX_COUNT) add(first()) }
+            with(list) { while (size != MAX_COUNT) add(first()) }
             assertEquals("${CHECK_COUNT}/${MAX_COUNT}", updateComplete().text)
 
-            with(rollList) { add(first()) }
+            with(list) { add(first()) }
             assertEquals("${CHECK_COUNT}/${MAX_COUNT}", updateComplete().text)
         }
 
         rollItem.deepCopy().apply {
-            with(rollList) {
+            with(list) {
                 forEach { it.isCheck = true }
                 while (size != MAX_COUNT) add(random().copy(isCheck = true))
             }
             assertEquals("${MAX_COUNT}/${MAX_COUNT}", updateComplete().text)
 
-            with(rollList) { add(random().copy(isCheck = true)) }
+            with(list) { add(random().copy(isCheck = true)) }
             assertEquals("${MAX_COUNT}/${MAX_COUNT}", updateComplete().text)
         }
     }
@@ -226,15 +226,15 @@ class NoteItemTest : ParentTest() {
         rollItem.deepCopy().apply {
             updateCheck(isCheck = true)
 
-            assertFalse(rollList.any { !it.isCheck })
-            assertEquals("${rollList.size}/${rollList.size}", text)
+            assertFalse(list.any { !it.isCheck })
+            assertEquals("${list.size}/${list.size}", text)
         }
 
         rollItem.deepCopy().apply {
             updateCheck(isCheck = false)
 
-            assertFalse(rollList.any { it.isCheck })
-            assertEquals("0/${rollList.size}", text)
+            assertFalse(list.any { it.isCheck })
+            assertEquals("0/${list.size}", text)
         }
     }
 
@@ -243,9 +243,9 @@ class NoteItemTest : ParentTest() {
 
     @Test fun onItemCheck() {
         rollItem.deepCopy(change = CHANGE_TEXT).apply {
-            onItemCheck(rollList.indices.first)
+            onItemCheck(list.indices.first)
 
-            assertTrue(rollList.first().isCheck)
+            assertTrue(list.first().isCheck)
             assertChangeTime(this)
             assertEquals("3/3", text)
         }
@@ -274,20 +274,20 @@ class NoteItemTest : ParentTest() {
 
     @Test fun onSave_forRoll() {
         rollItem.deepCopy(change = CHANGE_TEXT, name = NAME_SPACE).apply {
-            rollList.add(RollItem(position = 6, text = "   "))
-            rollList.add(RollItem(position = 10, text = "   4  "))
+            list.add(RollItem(position = 6, text = "   "))
+            list.add(RollItem(position = 10, text = "   4  "))
 
             updateComplete()
 
-            assertEquals(5, rollList.size)
+            assertEquals(5, list.size)
             assertEquals("2/5", text)
 
             onSave()
 
-            assertEquals(4, rollList.size)
+            assertEquals(4, list.size)
             assertEquals("2/4", text)
 
-            rollList.forEachIndexed { i, item -> assertEquals(i, item.position) }
+            list.forEachIndexed { i, item -> assertEquals(i, item.position) }
 
             assertEquals(NAME_CLEAR, name)
             assertChangeTime(this)
@@ -322,7 +322,7 @@ class NoteItemTest : ParentTest() {
     )
 
     private val textItem = NoteItem.Text(create = "12345", color = 0)
-    private val rollItem = NoteItem.Roll(create = "12345", color = 0, rollList = rollList)
+    private val rollItem = NoteItem.Roll(create = "12345", color = 0, list = rollList)
 
     private val splitList = listOf("1", "2", "34")
 

@@ -240,8 +240,8 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
      * Important thing for update visible: you must call func after adapter notify.
      */
     override fun onUpdateInfo() {
-        val isListEmpty = noteItem.rollList.size == 0
-        val isListHide = !isVisible && noteItem.rollList.hide().size == 0
+        val isListEmpty = noteItem.list.size == 0
+        val isListHide = !isVisible && noteItem.list.hide().size == 0
 
         if (isListEmpty || isListHide) {
             callback?.onBindingInfo(isListEmpty, isListHide)
@@ -277,11 +277,11 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
         callback?.clearEnterText()
 
-        val p = if (simpleClick) noteItem.rollList.size else 0
+        val p = if (simpleClick) noteItem.list.size else 0
         val rollItem = RollItem(position = p, text = enterText)
 
         inputControl.onRollAdd(p, rollItem.toJson())
-        noteItem.rollList.add(p, rollItem)
+        noteItem.list.add(p, rollItem)
 
         callback?.apply {
             onBindingInput(noteItem, inputControl.access)
@@ -306,7 +306,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             callback?.notifyItemRemoved(getList(), p)
         }
 
-        callback?.updateProgress(noteItem.getCheck(), noteItem.rollList.size)
+        callback?.updateProgress(noteItem.getCheck(), noteItem.list.size)
 
         viewModelScope.launch { interactor.updateRollCheck(noteItem, correctPosition) }
     }
@@ -326,7 +326,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             notifyDataRangeChanged(getList())
             changeCheckToggle(state = false)
 
-            updateProgress(noteItem.getCheck(), noteItem.rollList.size)
+            updateProgress(noteItem.getCheck(), noteItem.list.size)
         }
 
         if (!isVisible) {
@@ -500,7 +500,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     private fun onMenuUndoRedoRoll(item: InputItem, isUndo: Boolean) {
-        val rollItem = noteItem.rollList.getOrNull(item.p) ?: return
+        val rollItem = noteItem.list.getOrNull(item.p) ?: return
         val position = getList().correctIndexOf(rollItem) ?: return
 
         rollItem.text = item[isUndo]
@@ -511,10 +511,10 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     private fun onMenuUndoRedoAdd(item: InputItem) {
-        val rollItem = noteItem.rollList.getOrNull(item.p) ?: return
+        val rollItem = noteItem.list.getOrNull(item.p) ?: return
         val position = getList().correctIndexOf(rollItem) ?: return
 
-        noteItem.rollList.removeAtOrNull(item.p) ?: return
+        noteItem.list.removeAtOrNull(item.p) ?: return
 
         if (isVisible || (!isVisible && !rollItem.isCheck)) {
             callback?.notifyItemRemoved(getList(), position)
@@ -527,13 +527,13 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     private fun onMenuUndoRedoRemove(item: InputItem, isUndo: Boolean) {
         val rollItem = RollItem[item[isUndo]] ?: return
 
-        noteItem.rollList.add(item.p, rollItem)
+        noteItem.list.add(item.p, rollItem)
 
         if (isVisible) {
             callback?.notifyItemInserted(getList(), item.p, rollItem.text.length)
         } else if (!rollItem.isCheck) {
             fun getShiftPosition(p: Int): Int {
-                return p - noteItem.rollList.subList(0, p).let { it.size - it.hide().size }
+                return p - noteItem.list.subList(0, p).let { it.size - it.hide().size }
             }
 
             val position = getShiftPosition(item.p)
@@ -545,10 +545,10 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         val from = item[!isUndo].toInt()
         val to = item[isUndo].toInt()
 
-        val rollItem = noteItem.rollList.getOrNull(from) ?: return
+        val rollItem = noteItem.list.getOrNull(from) ?: return
 
         val shiftFrom = getList().indexOf(rollItem)
-        noteItem.rollList.move(from, to)
+        noteItem.list.move(from, to)
         val shiftTo = getList().indexOf(rollItem)
 
         if (isVisible || (!isVisible && !rollItem.isCheck)) {
@@ -678,7 +678,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             if (isEdit) {
                 focusOnEdit(noteState.isCreate)
             } else {
-                updateProgress(noteItem.getCheck(), noteItem.rollList.size)
+                updateProgress(noteItem.getCheck(), noteItem.list.size)
             }
         }
 
@@ -698,7 +698,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
     override fun onInputRollChange(p: Int, text: String) {
         val correctPosition = getCorrectPosition(p, noteItem)
-        noteItem.rollList.getOrNull(correctPosition)?.text = text
+        noteItem.list.getOrNull(correctPosition)?.text = text
 
         callback?.apply {
             setList(getList())
@@ -723,7 +723,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
      */
     override fun onTouchSwipe(p: Int) {
         val correctPosition = getCorrectPosition(p, noteItem)
-        val item = noteItem.rollList.removeAtOrNull(correctPosition) ?: return
+        val item = noteItem.list.removeAtOrNull(correctPosition) ?: return
 
         inputControl.onRollRemove(correctPosition, item.toJson())
 
@@ -741,7 +741,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         val correctFrom = getCorrectPosition(from, noteItem)
         val correctTo = getCorrectPosition(to, noteItem)
 
-        noteItem.rollList.move(correctFrom, correctTo)
+        noteItem.list.move(correctFrom, correctTo)
 
         callback?.notifyItemMoved(getList(), from, to)
         return true
@@ -762,14 +762,14 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
      * Use only for different notify functions. Don't use for change data.
      */
     private fun getList(): MutableList<RollItem> {
-        return noteItem.rollList.let { if (isVisible) it else it.hide() }
+        return noteItem.list.let { if (isVisible) it else it.hide() }
     }
 
     /**
      * Make good animation for items, remove or insert one by one.
      */
     private fun notifyListByVisible() = viewModelScope.launch {
-        val list = ArrayList(noteItem.rollList)
+        val list = ArrayList(noteItem.list)
 
         if (list.size == 0) return@launch
 
@@ -800,7 +800,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
          */
         @VisibleForTesting
         fun getCorrectPosition(p: Int, noteItem: NoteItem.Roll): Int {
-            return if (isVisible) p else noteItem.rollList.let { it.indexOf(it.hide()[p]) }
+            return if (isVisible) p else noteItem.list.let { it.indexOf(it.hide()[p]) }
         }
 
         @VisibleForTesting

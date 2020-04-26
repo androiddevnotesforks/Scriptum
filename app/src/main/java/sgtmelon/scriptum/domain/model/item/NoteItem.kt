@@ -133,7 +133,7 @@ sealed class NoteItem(
 
             var p = 0
             splitText().forEach {
-                noteItem.rollList.add(RollItem(position = p++, text = it))
+                noteItem.list.add(RollItem(position = p++, text = it))
             }
 
             noteItem.updateTime()
@@ -164,13 +164,13 @@ sealed class NoteItem(
             isStatus: Boolean = Note.Default.STATUS,
             alarmId: Long = Alarm.Default.ID,
             alarmDate: String = Alarm.Default.DATE,
-            val rollList: MutableList<RollItem> = ArrayList()
+            val list: MutableList<RollItem> = ArrayList()
     ) : NoteItem(
             id, create, change, name, text, color, rankId, rankPs, isBin, isStatus,
             alarmId, alarmDate
     ) {
 
-        override fun isSaveEnabled(): Boolean = rollList.any { it.text.isNotEmpty() }
+        override fun isSaveEnabled(): Boolean = list.any { it.text.isNotEmpty() }
 
         //region Common functions
 
@@ -187,7 +187,7 @@ sealed class NoteItem(
                 isStatus: Boolean = this.isStatus,
                 alarmId: Long = this.alarmId,
                 alarmDate: String = this.alarmDate,
-                rollList: MutableList<RollItem> = this.rollList.map { it.copy() }.toMutableList()
+                rollList: MutableList<RollItem> = this.list.map { it.copy() }.toMutableList()
         ) = Roll(
                 id, create, change, name, text, color, rankId, rankPs, isBin, isStatus,
                 alarmId, alarmDate, rollList
@@ -198,11 +198,11 @@ sealed class NoteItem(
             val checkCount = when (complete) {
                 null -> getCheck()
                 Complete.EMPTY -> 0
-                Complete.FULL -> rollList.size
+                Complete.FULL -> list.size
             }
 
             val checkText = min(checkCount, INDICATOR_MAX_COUNT)
-            val allText = min(rollList.size, INDICATOR_MAX_COUNT)
+            val allText = min(list.size, INDICATOR_MAX_COUNT)
 
             text = "$checkText/$allText"
         }
@@ -211,15 +211,15 @@ sealed class NoteItem(
          * Check/uncheck all items.
          */
         fun updateCheck(isCheck: Boolean) = apply {
-            rollList.forEach { it.isCheck = isCheck }
+            list.forEach { it.isCheck = isCheck }
             updateComplete(if (isCheck) Complete.FULL else Complete.EMPTY)
         }
 
-        fun getCheck(): Int = rollList.filter { it.isCheck }.size
+        fun getCheck(): Int = list.filter { it.isCheck }.size
 
 
         fun onItemCheck(p: Int) {
-            rollList.getOrNull(p)?.apply { isCheck = !isCheck } ?: return
+            list.getOrNull(p)?.apply { isCheck = !isCheck } ?: return
 
             updateTime()
             updateComplete()
@@ -229,7 +229,7 @@ sealed class NoteItem(
          * If have some unchecked items - need turn them to true. Otherwise uncheck all items.
          */
         fun onItemLongCheck(): Boolean {
-            val check = rollList.any { !it.isCheck }
+            val check = list.any { !it.isCheck }
 
             updateTime()
             updateCheck(check)
@@ -239,7 +239,7 @@ sealed class NoteItem(
 
 
         fun onSave() {
-            rollList.apply {
+            list.apply {
                 removeAll { it.text.clearSpace().isEmpty() }
                 forEachIndexed { i, item ->
                     item.position = i
@@ -259,7 +259,7 @@ sealed class NoteItem(
             )
 
             noteItem.updateTime()
-            noteItem.text = rollList.getText()
+            noteItem.text = list.getText()
 
             return noteItem
         }

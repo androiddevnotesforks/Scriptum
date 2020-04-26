@@ -25,7 +25,7 @@ object NotificationFactory {
     /**
      * Model for [BindControl.notifyNote]
      *
-     * Don't care about [NoteItem.Roll.rollList] if:
+     * Don't care about [NoteItem.Roll.list] if:
      * - If note type is [NoteType.TEXT]
      * - If type is [NoteType.ROLL] and [NoteItem.rollList] is completely load
      * - If you need only call [BindControl.cancelNote]
@@ -40,7 +40,7 @@ object NotificationFactory {
         val title = noteItem.getStatusTitle(context)
         val text = when (noteItem) {
             is NoteItem.Text -> noteItem.text
-            is NoteItem.Roll -> noteItem.rollList.toStatusText()
+            is NoteItem.Roll -> noteItem.list.toStatusText()
         }
 
         val id = noteItem.id.toInt()

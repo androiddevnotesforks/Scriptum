@@ -49,13 +49,13 @@ class RollEnterPanel<T: ParentUi>(private val callback: INoteScreen<T, NoteItem.
             if (Random.nextBoolean()) {
                 addButton.click()
 
-                callback.shadowItem.rollList.apply {
+                callback.shadowItem.list.apply {
                     add(size, RollItem(position = size, text = actualText))
                 }
             } else {
                 addButton.longClick()
 
-                callback.shadowItem.rollList.apply {
+                callback.shadowItem.list.apply {
                     add(0, RollItem(position = 0, text = actualText))
                     forEachIndexed { i, item -> item.position = i }
                 }
@@ -81,7 +81,7 @@ class RollEnterPanel<T: ParentUi>(private val callback: INoteScreen<T, NoteItem.
                     inputControl.reset()
                 }.fullAssert()
             } else {
-                callback.shadowItem.rollList.apply {
+                callback.shadowItem.list.apply {
                     add(size, RollItem(position = size, text = actualText))
                 }
 

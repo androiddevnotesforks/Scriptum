@@ -71,7 +71,7 @@ class NotesInteractor(
         if (convertItem is NoteItem.Roll) {
             val previewSize = NoteItem.Roll.PREVIEW_SIZE
 
-            with(convertItem.rollList) {
+            with(convertItem.list) {
                 if (size > previewSize) dropLast(n = size - previewSize)
             }
         }

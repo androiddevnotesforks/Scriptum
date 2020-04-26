@@ -49,7 +49,7 @@ class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
         override fun assert(item: NoteItem.Roll) {
             super.assert(item)
 
-            (0 until 4).forEach { getRow(it).assert(item.rollList.getOrNull(it)) }
+            (0 until 4).forEach { getRow(it).assert(item.list.getOrNull(it)) }
         }
 
         inner class Row(@IdRes parentId: Int) {

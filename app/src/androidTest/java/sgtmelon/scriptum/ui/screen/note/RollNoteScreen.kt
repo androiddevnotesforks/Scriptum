@@ -47,8 +47,8 @@ class RollNoteScreen(
     private val visibleMenuItem = getViewById(R.id.item_visible)
 
     private fun getInfoContainer(): RollNoteInfoContainer? {
-        val isListEmpty = noteItem.rollList.size == 0
-        val isListHide = !isVisible && noteItem.rollList.hide().size == 0
+        val isListEmpty = noteItem.list.size == 0
+        val isListHide = !isVisible && noteItem.list.hide().size == 0
 
         return RollNoteInfoContainer(isListEmpty, isListHide)
     }
@@ -99,7 +99,7 @@ class RollNoteScreen(
 
             val correctPosition = getCorrectPosition(p, noteItem)
 
-            val item = shadowItem.rollList[correctPosition]
+            val item = shadowItem.list[correctPosition]
             item.text = text
 
             getItem(p).assert(item)
@@ -134,7 +134,7 @@ class RollNoteScreen(
                 noteItem.onItemCheck(correctPosition)
 
                 if (isVisible) {
-                    getItem(p).assert(noteItem.rollList[correctPosition])
+                    getItem(p).assert(noteItem.list[correctPosition])
                 }
             }
             State.EDIT, State.NEW -> throw IllegalAccessException(STATE_ERROR_TEXT)
@@ -167,7 +167,7 @@ class RollNoteScreen(
 
         val correctPosition = getCorrectPosition(p, noteItem)
 
-        shadowItem.rollList.apply {
+        shadowItem.list.apply {
             removeAt(correctPosition)
             forEachIndexed { i, item -> item.position = i }
         }
@@ -204,8 +204,8 @@ class RollNoteScreen(
 
     fun onAssertAll() {
         val list = when(state) {
-            State.READ, State.BIN -> noteItem.rollList
-            State.EDIT, State.NEW -> shadowItem.rollList
+            State.READ, State.BIN -> noteItem.list
+            State.EDIT, State.NEW -> shadowItem.list
         }
 
         if (isVisible) {
@@ -225,8 +225,8 @@ class RollNoteScreen(
         fragmentContainer.isDisplayed()
 
         getInfoContainer()?.assert(when(state) {
-            State.READ, State.BIN -> noteItem.rollList
-            State.EDIT, State.NEW -> shadowItem.rollList
+            State.READ, State.BIN -> noteItem.list
+            State.EDIT, State.NEW -> shadowItem.list
         }.let {
             if (isVisible) it.size == 0 else it.hide().size == 0
         })
@@ -246,7 +246,7 @@ class RollNoteScreen(
         parentContainer.isDisplayed()
         progressBar.isDisplayed(visible = state == State.READ || state == State.BIN) {
             withSize(heightId = R.dimen.layout_4dp)
-            withProgress(noteItem.getCheck(), noteItem.rollList.size)
+            withProgress(noteItem.getCheck(), noteItem.list.size)
         }
 
         recyclerView.isDisplayed()
