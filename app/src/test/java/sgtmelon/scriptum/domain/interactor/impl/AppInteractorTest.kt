@@ -21,8 +21,6 @@ class AppInteractorTest : ParentInteractorTest() {
     private val interactor by lazy { AppInteractor(preferenceRepo) }
 
     @Test fun getTheme() {
-        TODO()
-
         every { preferenceRepo.theme } returns Theme.DARK
         assertEquals(Theme.DARK, interactor.theme)
 

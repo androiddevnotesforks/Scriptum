@@ -25,8 +25,6 @@ class RankInteractorTest : ParentInteractorTest() {
     private val interactor by lazy { RankInteractor(rankRepo) }
 
     @Test fun getCount() = startCoTest {
-        TODO()
-
         val count = Random.nextInt()
 
         coEvery { rankRepo.getCount() } returns count
@@ -39,8 +37,6 @@ class RankInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun getList() = startCoTest {
-        TODO()
-
         val list = data.itemList
 
         coEvery { rankRepo.getList() } returns list
@@ -53,8 +49,6 @@ class RankInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun getBind() = startCoTest {
-        TODO()
-
         val noteId = List(size = 5) { Random.nextLong() }
         val hasBind = Random.nextBoolean()
 
@@ -69,8 +63,6 @@ class RankInteractorTest : ParentInteractorTest() {
 
 
     @Test fun insert() = startCoTest {
-        TODO()
-
         val id = Random.nextLong()
         val name = TestData.uniqueString
         val item = RankItem(id, name = name)
@@ -85,8 +77,6 @@ class RankInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun delete() = startCoTest {
-        TODO()
-
         val item = data.itemList.random()
 
         interactor.delete(item)
@@ -97,8 +87,6 @@ class RankInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun updateItem() = startCoTest {
-        TODO()
-
         val item = data.itemList.random()
 
         interactor.update(item)
@@ -109,8 +97,6 @@ class RankInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun updateList() = startCoTest {
-        TODO()
-
         val list = data.itemList
 
         interactor.update(list)
@@ -121,8 +107,6 @@ class RankInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun updatePosition() = startCoTest {
-        TODO()
-
         val list = data.itemList
         val noteIdList = ArrayList<Long>().apply { repeat(times = 10) { add(Random.nextLong()) } }
 

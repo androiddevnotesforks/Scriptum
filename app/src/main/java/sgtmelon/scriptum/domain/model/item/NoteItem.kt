@@ -30,6 +30,8 @@ sealed class NoteItem(
         var alarmDate: String
 ) {
 
+    // TODO make deepCopy common
+
     val type: NoteType
         get() = when (this) {
             is Text -> NoteType.TEXT
@@ -150,7 +152,6 @@ sealed class NoteItem(
 
     }
 
-    // TODO rename [rollList]
     class Roll(
             id: Long = Note.Default.ID,
             create: String = getTime(),
