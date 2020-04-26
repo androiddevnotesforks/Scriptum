@@ -9,7 +9,7 @@ import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.presentation.adapter.NotificationAdapter
 
 /**
- * Model for store short information about note and alarm, use in [NotificationAdapter]
+ * Model for store short information about note and alarm, use in [NotificationAdapter].
  */
 @TypeConverters(NoteTypeConverter::class)
 data class NotificationItem(@Embedded val note: Note, @Embedded val alarm: Alarm) {

@@ -3,7 +3,7 @@ package sgtmelon.scriptum.domain.model.item
 import android.media.RingtoneManager
 
 /**
- * Model which describes media files from [RingtoneManager]
+ * Model which describes media files from [RingtoneManager].
  */
 data class MelodyItem(val title: String, val uri: String) {
 

@@ -10,13 +10,12 @@ import sgtmelon.scriptum.ParentTest
 class MelodyItemTest : ParentTest() {
 
     @Test fun secondConstructor() {
-        TODO()
-
         val item = MelodyItem(TITLE, URI, ID)
 
         assertEquals(TITLE, item.title)
         assertEquals(RESULT_URI, item.uri)
     }
+
 
     private companion object {
         const val PREFIX = "TEST"

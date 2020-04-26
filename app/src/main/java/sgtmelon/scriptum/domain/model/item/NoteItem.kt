@@ -219,7 +219,7 @@ sealed class NoteItem(
 
 
         fun onItemCheck(p: Int) {
-            rollList.getOrNull(p)?.apply { isCheck = !isCheck }
+            rollList.getOrNull(p)?.apply { isCheck = !isCheck } ?: return
 
             updateTime()
             updateComplete()
