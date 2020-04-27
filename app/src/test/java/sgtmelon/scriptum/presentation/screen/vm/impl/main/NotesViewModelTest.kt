@@ -46,8 +46,6 @@ class NotesViewModelTest : ParentViewModelTest() {
     }
 
     @Test override fun onDestroy() {
-        TODO()
-
         assertNotNull(viewModel.callback)
 
         viewModel.onDestroy()
@@ -58,8 +56,6 @@ class NotesViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onSetup() {
-                        TODO()
-
         val theme = Theme.DARK
 
         every { interactor.theme } returns theme
@@ -75,8 +71,6 @@ class NotesViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onUpdateData_startEmpty_getNotEmpty() = startCoTest {
-                        TODO()
-
         val itemList = data.itemList
 
         coEvery { interactor.getCount() } returns itemList.size
@@ -100,8 +94,6 @@ class NotesViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onUpdateData_startEmpty_getEmpty() = startCoTest {
-                        TODO()
-
         coEvery { interactor.getCount() } returns 0
         coEvery { interactor.getList() } returns mutableListOf()
         coEvery { interactor.isListHide() } returns true
@@ -121,8 +113,6 @@ class NotesViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onUpdateData_startNotEmpty_getNotEmpty() = startCoTest {
-                        TODO()
-
         val returnList = mutableListOf(data.itemList.first())
 
         coEvery { interactor.getCount() } returns returnList.size
@@ -151,8 +141,6 @@ class NotesViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onUpdateData_startNotEmpty_getEmpty() = startCoTest {
-                        TODO()
-
         coEvery { interactor.getCount() } returns 0
         coEvery { interactor.getList() } returns mutableListOf()
         coEvery { interactor.isListHide() } returns false
@@ -181,8 +169,6 @@ class NotesViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onClickNote() {
-                        TODO()
-
         viewModel.onClickNote(Random.nextInt())
 
         val itemList = data.itemList
@@ -199,8 +185,6 @@ class NotesViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onShowOptionsDialog() {
-                        TODO()
-
         viewModel.onShowOptionsDialog(Random.nextInt())
 
         val textArray = arrayOf("", "", "text")
@@ -215,9 +199,7 @@ class NotesViewModelTest : ParentViewModelTest() {
         every { callback.getString(R.string.dialog_menu_status_unbind) } returns "unbind"
         every { callback.getString(R.string.dialog_menu_status_bind) } returns "bind"
 
-        // TODO fix
         val itemList = data.itemList
-//        itemList[1].type = NoteType.ROLL
 
         viewModel.itemList.addAll(itemList)
         assertEquals(itemList, viewModel.itemList)
@@ -247,8 +229,6 @@ class NotesViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onResultOptionsDialog_onNotification() {
-                        TODO()
-
         viewModel.onResultOptionsDialog(Random.nextInt(), Options.Notes.NOTIFICATION)
 
         val itemList = data.itemList
@@ -267,8 +247,6 @@ class NotesViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onResultOptionsDialog_onBind() = startCoTest {
-                        TODO()
-
         viewModel.onResultOptionsDialog(Random.nextInt(), Options.Notes.BIND)
 
         val itemList = data.itemList
@@ -290,8 +268,6 @@ class NotesViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onResultOptionsDialog_onConvert() = startCoTest {
-                        TODO()
-
         viewModel.onResultOptionsDialog(Random.nextInt(), Options.Notes.CONVERT)
 
         every { interactor.sort } returns Sort.CREATE
@@ -301,10 +277,14 @@ class NotesViewModelTest : ParentViewModelTest() {
         viewModel.itemList.addAll(itemList)
         assertEquals(itemList, viewModel.itemList)
 
-        val p = data.itemList.indices.random()
-        val item = itemList[p]
+        val item = itemList[0]
+        val itemReturn = itemList[1]
 
-        viewModel.onResultOptionsDialog(p, Options.Notes.CONVERT)
+        coEvery { interactor.convert(item) } returns itemReturn
+
+        viewModel.onResultOptionsDialog(0, Options.Notes.CONVERT)
+
+        itemList[0] = itemReturn
         val sortList = itemList.sort(Sort.CREATE)
 
         coVerifySequence {
@@ -316,8 +296,6 @@ class NotesViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onResultOptionsDialog_onCopy() {
-                        TODO()
-
         viewModel.onResultOptionsDialog(Random.nextInt(), Options.Notes.COPY)
 
         val itemList = data.itemList
@@ -334,8 +312,6 @@ class NotesViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onResultOptionsDialog_onDelete() {
-                        TODO()
-
         viewModel.onResultOptionsDialog(Random.nextInt(), Options.Notes.DELETE)
 
         val itemList = data.itemList
@@ -357,8 +333,6 @@ class NotesViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onResultDateDialog() = startCoTest {
-                        TODO()
-
         val p = Random.nextInt()
         val dateList = data.dateList
 
@@ -373,8 +347,6 @@ class NotesViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onResultDateDialogClear() = startCoTest {
-                        TODO()
-
         viewModel.onResultDateDialogClear(Random.nextInt())
 
         val itemList = data.itemList
@@ -397,8 +369,6 @@ class NotesViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onResultTimeDialog() = startCoTest {
-                        TODO()
-
         val calendarPast = getRandomPastTime().getCalendar()
         viewModel.onResultTimeDialog(calendarPast, Random.nextInt())
 
@@ -424,8 +394,6 @@ class NotesViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onReceiveUnbindNote() {
-                        TODO()
-
         viewModel.onReceiveUnbindNote(Random.nextLong())
 
         val itemList = data.itemList
@@ -443,8 +411,6 @@ class NotesViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onReceiveUpdateAlarm() = startCoTest {
-                        TODO()
-
         viewModel.onReceiveUpdateAlarm(Random.nextLong())
 
         val itemList = data.itemList
@@ -478,8 +444,6 @@ class NotesViewModelTest : ParentViewModelTest() {
 
 
     @Test fun sort() = with(data) {
-        TODO()
-
         assertEquals(changeList, itemList.sort(Sort.CHANGE))
         assertEquals(createList, itemList.sort(Sort.CREATE))
         assertEquals(rankList, itemList.sort(Sort.RANK))

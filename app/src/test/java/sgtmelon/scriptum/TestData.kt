@@ -44,34 +44,34 @@ object TestData {
         const val DATE_2 = "1456-03-04 05:06:07"
         const val DATE_3 = "1567-04-05 06:07:08"
 
-        val noteFirst get() = NoteItem.Text(
+        val noteFirst = NoteItem.Text(
                 id = 0, create = DATE_1, change = DATE_2, color = 0,
                 rankId = -1, rankPs = -1, alarmId = 1, alarmDate = DATE_3
         )
 
-        val noteSecond get() = NoteItem.Text(
+        val noteSecond = NoteItem.Roll(
                 id = 1, create = DATE_0, change = DATE_3, color = 2,
                 rankId = 1, rankPs = 1, isStatus = true
         )
 
-        val noteThird get() = NoteItem.Text(
+        val noteThird = NoteItem.Text(
                 id = 2, create = DATE_3, change = DATE_0, color = 4,
                 rankId = 1, rankPs = 1, alarmId = 2, alarmDate = DATE_2
         )
 
-        val noteFourth get() = NoteItem.Text(
+        val noteFourth = NoteItem.Roll(
                 id = 3, create = DATE_2, change = DATE_1, color = 2,
                 rankId = 2, rankPs = 2, isStatus = true
         )
 
-        val itemList get() = mutableListOf<NoteItem>(noteFirst, noteSecond, noteThird, noteFourth)
+        val itemList get() = mutableListOf(noteFirst, noteSecond, noteThird, noteFourth)
 
         val changeList get() = listOf(noteSecond, noteFirst, noteFourth, noteThird)
         val createList get() = listOf(noteThird, noteFourth, noteFirst, noteSecond)
         val rankList get() = listOf(noteThird, noteSecond, noteFourth, noteFirst)
         val colorList get() = listOf(noteFirst, noteFourth, noteSecond, noteThird)
 
-        val dateList get() = listOf(DATE_0, DATE_1, DATE_2, DATE_3)
+        val dateList = listOf(DATE_0, DATE_1, DATE_2, DATE_3)
     }
 
     object Notification {
@@ -90,7 +90,7 @@ object TestData {
                 Alarm(id = 2, date = "789")
         )
 
-        val itemList get() = mutableListOf(
+        val itemList = mutableListOf(
                 notificationFirst.copy(), notificationSecond.copy(), notificationThird.copy()
         )
     }

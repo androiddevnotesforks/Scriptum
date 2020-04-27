@@ -44,8 +44,6 @@ class MainViewModelTest : ParentViewModelTest() {
     }
 
     @Test override fun onDestroy() {
-        TODO()
-
         assertNotNull(viewModel.callback)
 
         viewModel.onDestroy()
@@ -56,8 +54,6 @@ class MainViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onSetup_onFirstStart() = startCoTest {
-        TODO()
-
         viewModel.pageFrom = MainPage.NOTES
         viewModel.onSetup()
 
@@ -71,8 +67,6 @@ class MainViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onSetup_onOtherStart() {
-        TODO()
-
         every { bundle.getBoolean(MainViewModel.FIRST_START) } returns false
 
         every { bundle.getInt(MainViewModel.PAGE_CURRENT) } returns MainPage.RANK.ordinal
@@ -103,8 +97,6 @@ class MainViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onSaveData() {
-        TODO()
-
         every { bundle.putBoolean(MainViewModel.FIRST_START, any()) } returns Unit
         every { bundle.putInt(MainViewModel.PAGE_CURRENT, any()) } returns Unit
 
@@ -126,8 +118,6 @@ class MainViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onSelectItem_onScrollTOp() {
-                        TODO()
-
         viewModel.firstStart = false
 
         viewModel.pageFrom = MainPage.RANK
@@ -149,8 +139,6 @@ class MainViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onSelectItem_onChangePage() {
-                        TODO()
-
         viewModel.firstStart = true
         viewModel.pageFrom = MainPage.RANK
         viewModel.onSelectItem(R.id.item_page_rank)
@@ -187,8 +175,6 @@ class MainViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onFabStateChange() {
-                        TODO()
-
         viewModel.pageFrom = MainPage.RANK
         viewModel.onFabStateChange(state = false)
         viewModel.onFabStateChange(state = true)
@@ -214,8 +200,6 @@ class MainViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onResultAddDialog() {
-                        TODO()
-
         viewModel.onResultAddDialog(R.id.item_add_text)
         viewModel.onResultAddDialog(R.id.item_add_roll)
         viewModel.onResultAddDialog(itemId = -1)
@@ -227,8 +211,6 @@ class MainViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onReceiveUnbindNote() {
-                        TODO()
-
         val idFirst = Random.nextLong()
         val idSecond = Random.nextLong()
 
@@ -243,8 +225,6 @@ class MainViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onReceiveUpdateAlarm() {
-                        TODO()
-
         val idFirst = Random.nextLong()
         val idSecond = Random.nextLong()
 
@@ -253,7 +233,7 @@ class MainViewModelTest : ParentViewModelTest() {
         viewModel.onReceiveUpdateAlarm(idSecond)
 
         verifySequence {
-            callback.onReceiveUpdateAlarm(idFirst)
+            callback.onReceiveUpdateAlarm(idSecond)
         }
     }
 }

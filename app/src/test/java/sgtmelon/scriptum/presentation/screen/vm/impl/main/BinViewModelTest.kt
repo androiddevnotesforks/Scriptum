@@ -40,8 +40,6 @@ class BinViewModelTest : ParentViewModelTest() {
     }
 
     @Test override fun onDestroy() {
-                    TODO()
-
         assertNotNull(viewModel.callback)
 
         viewModel.onDestroy()
@@ -52,8 +50,6 @@ class BinViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onSetup() {
-                    TODO()
-
         every { interactor.theme } returns Theme.LIGHT
         viewModel.onSetup()
 
@@ -72,8 +68,6 @@ class BinViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onUpdateData_startEmpty_getNotEmpty() = startCoTest {
-        TODO()
-
         coEvery { interactor.getCount() } returns data.itemList.size
         coEvery { interactor.getList() } returns data.itemList
 
@@ -90,8 +84,6 @@ class BinViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onUpdateData_startEmpty_getEmpty() = startCoTest {
-        TODO()
-
         coEvery { interactor.getCount() } returns 0
         coEvery { interactor.getList() } returns mutableListOf()
 
@@ -106,8 +98,6 @@ class BinViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onUpdateData_startNotEmpty_getNotEmpty() = startCoTest {
-        TODO()
-
         val returnList = mutableListOf(data.itemList.first())
 
         coEvery { interactor.getCount() } returns returnList.size
@@ -129,8 +119,6 @@ class BinViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onUpdateData_startNotEmpty_getEmpty() = startCoTest {
-        TODO()
-
         coEvery { interactor.getCount() } returns 0
         coEvery { interactor.getList() } returns mutableListOf()
 
@@ -149,8 +137,6 @@ class BinViewModelTest : ParentViewModelTest() {
     }
 
     private fun updateList(itemList: List<NoteItem>) = with(callback) {
-        TODO()
-
         notifyList(itemList)
         notifyMenuClearBin()
         onBindingList()
@@ -158,8 +144,6 @@ class BinViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onClickClearBin() = startCoTest {
-        TODO()
-
         viewModel.itemList.addAll(data.itemList)
         assertEquals(data.itemList, viewModel.itemList)
 
@@ -177,8 +161,6 @@ class BinViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onClickNote() {
-                    TODO()
-
         viewModel.onClickNote(Random.nextInt())
 
         viewModel.itemList.addAll(data.itemList)
@@ -191,8 +173,6 @@ class BinViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onShowOptionsDialog() {
-                    TODO()
-
         val p = Random.nextInt()
 
         every { callback.getStringArray(R.array.dialog_menu_bin) } returns arrayOf()
@@ -206,8 +186,6 @@ class BinViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onResultOptionsDialog_onRestore() = startCoTest {
-        TODO()
-
         viewModel.onResultOptionsDialog(Random.nextInt(), Options.Bin.RESTORE)
 
         val itemList = data.itemList
@@ -229,8 +207,6 @@ class BinViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onResultOptionsDialog_onCopy() = startCoTest {
-        TODO()
-
         viewModel.onResultOptionsDialog(Random.nextInt(), Options.Bin.COPY)
 
         val itemList = data.itemList
@@ -247,8 +223,6 @@ class BinViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onResultOptionsDialog_onClear() = startCoTest {
-        TODO()
-
         viewModel.onResultOptionsDialog(Random.nextInt(), Options.Bin.CLEAR)
 
         val itemList = data.itemList
