@@ -90,7 +90,7 @@ object TestData {
                 Alarm(id = 2, date = "789")
         )
 
-        val itemList = mutableListOf(
+        val itemList get() = mutableListOf(
                 notificationFirst.copy(), notificationSecond.copy(), notificationThird.copy()
         )
     }
