@@ -13,7 +13,7 @@ interface INoteRepo {
     suspend fun getCount(bin: Boolean): Int
 
     suspend fun getList(@Sort sort: Int, bin: Boolean, optimal: Boolean,
-                filterVisible: Boolean): MutableList<NoteItem>
+                        filterVisible: Boolean): MutableList<NoteItem>
 
     suspend fun getItem(id: Long, optimisation: Boolean): NoteItem?
 
