@@ -1,14 +1,11 @@
 package sgtmelon.scriptum.domain.interactor.impl
 
-import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.verifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.Assert.assertEquals
 import org.junit.Test
+import sgtmelon.scriptum.FastTest
 import sgtmelon.scriptum.ParentInteractorTest
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
-import sgtmelon.scriptum.domain.model.annotation.Theme
 
 /**
  * Test for [AppInteractor].
@@ -20,17 +17,6 @@ class AppInteractorTest : ParentInteractorTest() {
 
     private val interactor by lazy { AppInteractor(preferenceRepo) }
 
-    @Test fun getTheme() {
-        every { preferenceRepo.theme } returns Theme.DARK
-        assertEquals(Theme.DARK, interactor.theme)
-
-        every { preferenceRepo.theme } returns Theme.LIGHT
-        assertEquals(Theme.LIGHT, interactor.theme)
-
-        verifySequence {
-            interactor.theme
-            interactor.theme
-        }
-    }
+    @Test fun getTheme() = FastTest.getTheme(preferenceRepo) { interactor.theme }
 
 }

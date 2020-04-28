@@ -1,12 +1,13 @@
 package sgtmelon.scriptum.domain.interactor.impl.notification
 
+import androidx.annotation.VisibleForTesting
 import sgtmelon.extension.clearSeconds
 import sgtmelon.extension.getText
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
-import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.IAlarmInteractor
+import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.domain.model.annotation.Repeat
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
@@ -21,7 +22,7 @@ class AlarmInteractor(
         private val preferenceRepo: IPreferenceRepo,
         private val alarmRepo: IAlarmRepo,
         private val noteRepo: INoteRepo,
-        private var callback: IAlarmBridge?
+        @VisibleForTesting var callback: IAlarmBridge?
 ) : ParentInteractor(),
         IAlarmInteractor {
 
@@ -30,7 +31,7 @@ class AlarmInteractor(
 
     @Theme override val theme: Int get() = preferenceRepo.theme
 
-    override val repeat: Int get() = preferenceRepo.repeat
+    @Repeat override val repeat: Int get() = preferenceRepo.repeat
 
     override val volume: Int get() = preferenceRepo.volume
 

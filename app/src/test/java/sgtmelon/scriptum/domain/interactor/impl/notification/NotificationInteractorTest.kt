@@ -2,18 +2,16 @@ package sgtmelon.scriptum.domain.interactor.impl.notification
 
 import io.mockk.coEvery
 import io.mockk.coVerifySequence
-import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.verifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
+import sgtmelon.scriptum.FastTest
 import sgtmelon.scriptum.ParentInteractorTest
 import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.data.repository.room.callback.IBindRepo
-import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.presentation.screen.ui.callback.notification.INotificationBridge
 import kotlin.random.Random
 
@@ -41,18 +39,7 @@ class NotificationInteractorTest : ParentInteractorTest() {
     }
 
 
-    @Test fun getTheme() {
-        every { preferenceRepo.theme } returns Theme.DARK
-        assertEquals(Theme.DARK, interactor.theme)
-
-        every { preferenceRepo.theme } returns Theme.LIGHT
-        assertEquals(Theme.LIGHT, interactor.theme)
-
-        verifySequence {
-            interactor.theme
-            interactor.theme
-        }
-    }
+    @Test fun getTheme() = FastTest.getTheme(preferenceRepo) { interactor.theme }
 
     @Test fun getCount() = startCoTest {
         val count = Random.nextInt()

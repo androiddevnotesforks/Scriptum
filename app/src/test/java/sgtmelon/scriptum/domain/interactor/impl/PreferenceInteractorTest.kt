@@ -6,6 +6,7 @@ import io.mockk.verifySequence
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Test
+import sgtmelon.scriptum.FastTest
 import sgtmelon.scriptum.ParentInteractorTest
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.domain.model.annotation.Color
@@ -26,19 +27,7 @@ class PreferenceInteractorTest : ParentInteractorTest() {
 
     private val interactor by lazy { PreferenceInteractor(summaryProvider, preferenceRepo) }
 
-    @Test fun getTheme() {
-        fun checkRequestGet(value: Int) {
-            every { preferenceRepo.theme } returns value
-            assertEquals(interactor.theme, value)
-        }
-
-        val valueList = listOf(Theme.LIGHT, Theme.DARK, Random.nextInt())
-        valueList.forEach { checkRequestGet(it) }
-
-        verifySequence {
-            repeat(valueList.size) { preferenceRepo.theme }
-        }
-    }
+    @Test fun getTheme() = FastTest.getTheme(preferenceRepo) { interactor.theme }
 
     @Test fun getThemeSummary() {
         every { summaryProvider.theme } returns summaryList
@@ -246,19 +235,7 @@ class PreferenceInteractorTest : ParentInteractorTest() {
     }
 
 
-    @Test fun getRepeat() {
-        fun checkRequestGet(value: Int) {
-            every { preferenceRepo.repeat } returns value
-            assertEquals(interactor.repeat, value)
-        }
-
-        val valueList = listOf(Repeat.MIN_10, Repeat.MIN_180, Random.nextInt())
-        valueList.forEach { checkRequestGet(it) }
-
-        verifySequence {
-            repeat(valueList.size) { preferenceRepo.repeat }
-        }
-    }
+    @Test fun getRepeat() = FastTest.getRepeat(preferenceRepo) { interactor.repeat }
 
     @Test fun getRepeatSummary() {
         every { summaryProvider.repeat } returns summaryList
@@ -310,19 +287,7 @@ class PreferenceInteractorTest : ParentInteractorTest() {
     }
 
 
-    @Test fun getVolume() {
-        fun checkRequestGet(value: Int) {
-            every { preferenceRepo.volume } returns value
-            assertEquals(interactor.volume, value)
-        }
-
-        val valueList = listOf(Random.nextInt(), Random.nextInt(), Random.nextInt())
-        valueList.forEach { checkRequestGet(it) }
-
-        verifySequence {
-            repeat(valueList.size) { preferenceRepo.volume }
-        }
-    }
+    @Test fun getVolume() = FastTest.getVolume(preferenceRepo) { interactor.volume }
 
     @Test fun getVolumeSummary() {
         fun getSummary(value: Int) = if (value % 2 == 0) summaryVolume.plus(value) else null

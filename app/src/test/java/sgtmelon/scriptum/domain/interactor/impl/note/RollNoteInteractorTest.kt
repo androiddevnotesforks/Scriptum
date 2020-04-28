@@ -6,6 +6,7 @@ import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
+import sgtmelon.scriptum.FastTest
 import sgtmelon.scriptum.ParentInteractorTest
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
@@ -41,9 +42,7 @@ class RollNoteInteractorTest : ParentInteractorTest() {
         TODO()
     }
 
-    @Test fun getTheme() {
-        TODO()
-    }
+    @Test fun getTheme() = FastTest.getTheme(preferenceRepo) { interactor.theme }
 
     @Test fun getDefaultColor() {
         TODO()
