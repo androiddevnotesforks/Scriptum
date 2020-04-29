@@ -8,6 +8,7 @@ import java.util.*
 import android.text.format.DateFormat as DateFormatAndroid
 
 // TODO add unit tests
+// TODO add getCalendar()
 
 private fun getDateFormat() = SimpleDateFormat(BuildConfig.DATE_FORMAT_DB, Locale.getDefault())
 

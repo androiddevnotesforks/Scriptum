@@ -70,19 +70,7 @@ class PreferenceInteractorTest : ParentInteractorTest() {
     }
 
 
-    @Test fun getSort() {
-        fun checkRequestGet(value: Int) {
-            every { preferenceRepo.sort } returns value
-            assertEquals(interactor.sort, value)
-        }
-
-        val valueList = listOf(Sort.CHANGE, Sort.RANK, Random.nextInt())
-        valueList.forEach { checkRequestGet(it) }
-
-        verifySequence {
-            repeat(valueList.size) { preferenceRepo.sort }
-        }
-    }
+    @Test fun getSort() = FastTest.getSort(preferenceRepo) { interactor.sort }
 
     @Test fun getSortSummary() {
         every { summaryProvider.sort } returns summaryList

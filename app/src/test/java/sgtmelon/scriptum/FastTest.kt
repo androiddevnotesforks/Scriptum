@@ -5,6 +5,7 @@ import io.mockk.verifySequence
 import org.junit.Assert.assertEquals
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.domain.model.annotation.Repeat
+import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import kotlin.random.Random
 
@@ -24,6 +25,20 @@ object FastTest {
 
         verifySequence {
             repeat(valueList.size) { preferenceRepo.theme }
+        }
+    }
+
+    fun getSort(preferenceRepo: IPreferenceRepo, callFun: () -> Int) {
+        fun checkRequestGet(value: Int) {
+            every { preferenceRepo.sort } returns value
+            assertEquals(callFun(), value)
+        }
+
+        val valueList = listOf(Sort.CHANGE, Sort.RANK, Random.nextInt())
+        valueList.forEach { checkRequestGet(it) }
+
+        verifySequence {
+            repeat(valueList.size) { preferenceRepo.sort }
         }
     }
 

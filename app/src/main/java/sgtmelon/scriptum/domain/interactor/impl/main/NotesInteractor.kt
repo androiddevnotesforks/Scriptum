@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.domain.interactor.impl.main
 
+import androidx.annotation.VisibleForTesting
 import sgtmelon.extension.getText
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
@@ -22,7 +23,7 @@ class NotesInteractor(
         private val noteRepo: INoteRepo,
         private val alarmRepo: IAlarmRepo,
         private val rankRepo: IRankRepo,
-        private var callback: INotesBridge?
+        @VisibleForTesting var callback: INotesBridge?
 ) : ParentInteractor(),
         INotesInteractor {
 
