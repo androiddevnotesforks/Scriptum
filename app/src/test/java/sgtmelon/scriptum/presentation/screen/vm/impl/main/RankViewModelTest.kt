@@ -337,7 +337,7 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onLongClickVisible() = startCoTest {
-                        viewModel.onLongClickVisible(Random.nextInt())
+        viewModel.onLongClickVisible(Random.nextInt())
 
         val itemList = data.itemList
         val p = 0
@@ -358,7 +358,7 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onClickCancel() = startCoTest {
-                        viewModel.onClickCancel(Random.nextInt())
+        viewModel.onClickCancel(Random.nextInt())
 
         val itemList = data.correctListSecond
         val noteIdList = listOf(4L, 6, 1, 2)

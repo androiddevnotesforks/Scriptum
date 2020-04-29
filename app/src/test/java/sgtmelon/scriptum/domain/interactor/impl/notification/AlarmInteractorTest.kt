@@ -8,13 +8,20 @@ import io.mockk.verifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
+import sgtmelon.extension.clearSeconds
+import sgtmelon.extension.getText
 import sgtmelon.scriptum.FastTest
 import sgtmelon.scriptum.ParentInteractorTest
 import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
+import sgtmelon.scriptum.domain.model.item.NotificationItem
+import sgtmelon.scriptum.domain.model.item.NotificationItem.Alarm
+import sgtmelon.scriptum.domain.model.item.NotificationItem.Note
+import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.presentation.screen.ui.callback.notification.IAlarmBridge
+import java.util.*
 import kotlin.random.Random
 
 /**
@@ -80,8 +87,49 @@ class AlarmInteractorTest : ParentInteractorTest() {
         }
     }
 
-    @Test fun setupRepeat() {
-        TODO()
+    @Test fun setupRepeat() = startCoTest {
+        val item = data.itemList.random()
+
+        val timeArray = intArrayOf(1, 2, 3, 4)
+        val repeat = timeArray.indices.random()
+        val calendar = interactor.getCalendarWithAdd(timeArray[repeat])
+
+        coEvery { alarmRepo.getList() } returns mutableListOf()
+
+        interactor.setupRepeat(item, intArrayOf(), Random.nextInt())
+        interactor.setupRepeat(item, timeArray, repeat)
+
+        coVerifySequence {
+            alarmRepo.getList()
+            alarmRepo.insertOrUpdate(item, calendar.getText())
+            callback.setAlarm(calendar, item.id)
+        }
+    }
+
+    @Test fun checkDateExist() = startCoTest {
+        val dateList = List(size = 3) { interactor.getCalendarWithAdd(it).getText() }
+
+        val itemList = MutableList(dateList.size) {
+            val id = it.toLong()
+            val type = if (Random.nextBoolean()) NoteType.TEXT else NoteType.ROLL
+
+            return@MutableList NotificationItem(
+                    Note(id, name = "name_$it", color = it, type = type), Alarm(id, dateList[it])
+            )
+        }
+
+        coEvery { alarmRepo.getList() } returns itemList
+
+        val currentCalendar = Calendar.getInstance().clearSeconds()
+        val minute = currentCalendar.get(Calendar.MINUTE)
+
+        interactor.checkDateExist(currentCalendar)
+
+        assertEquals(minute + dateList.size, currentCalendar.get(Calendar.MINUTE))
+
+        coVerifySequence {
+            alarmRepo.getList()
+        }
     }
 
 }

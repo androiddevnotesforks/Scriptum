@@ -46,14 +46,10 @@ class AlarmInteractor(
         return noteRepo.getItem(id, optimisation = true)
     }
 
-    /**
-     * TODO test get nullPointerException
-     */
     override suspend fun setupRepeat(noteItem: NoteItem, valueArray: IntArray,
                                      @Repeat repeat: Int) {
-        val calendar = Calendar.getInstance().clearSeconds().apply {
-            add(Calendar.MINUTE, valueArray[repeat])
-        }
+        val minute = valueArray.getOrNull(repeat) ?: return
+        val calendar = getCalendarWithAdd(minute)
 
         checkDateExist(calendar)
         
@@ -61,7 +57,13 @@ class AlarmInteractor(
         callback?.setAlarm(calendar, noteItem.id)
     }
 
-    private suspend fun checkDateExist(calendar: Calendar) {
+    @VisibleForTesting
+    fun getCalendarWithAdd(minute: Int) = Calendar.getInstance().clearSeconds().apply {
+        add(Calendar.MINUTE, minute)
+    }
+
+    @VisibleForTesting
+    suspend fun checkDateExist(calendar: Calendar) {
         val dateList = alarmRepo.getList().map { it.alarm.date }
 
         while (dateList.contains(calendar.getText())) {

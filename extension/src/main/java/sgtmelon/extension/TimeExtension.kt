@@ -7,6 +7,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 import android.text.format.DateFormat as DateFormatAndroid
 
+// TODO add unit tests
+
 private fun getDateFormat() = SimpleDateFormat(BuildConfig.DATE_FORMAT_DB, Locale.getDefault())
 
 fun Context?.is24Format(): Boolean {
@@ -46,7 +48,10 @@ fun Calendar.formatFuture(context: Context,
     ).toString()
 }
 
-fun Calendar.clearSeconds() = apply { set(Calendar.SECOND, 0) }
+fun Calendar.clearSeconds() = apply {
+    set(Calendar.SECOND, 0)
+    set(Calendar.MILLISECOND, 0)
+}
 
 fun Calendar.formatPast(): String {
     return when {
