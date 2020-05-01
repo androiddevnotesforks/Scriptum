@@ -303,7 +303,7 @@ class NoteItemTest : ParentTest() {
         }
 
         val list = rollList.subList(0, 2)
-        rollItem.deepCopy(change = CHANGE_TEXT, rollList = list).onConvert(list).apply {
+        rollItem.deepCopy(change = CHANGE_TEXT, list = list).onConvert(list).apply {
             assertEquals(NoteType.TEXT, type)
 
             assertChangeTime(this)

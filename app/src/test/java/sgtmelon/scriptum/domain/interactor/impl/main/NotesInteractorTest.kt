@@ -16,6 +16,7 @@ import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.domain.model.annotation.Sort
+import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.INotesBridge
 import java.util.*
 import kotlin.random.Random
@@ -96,12 +97,77 @@ class NotesInteractorTest : ParentInteractorTest() {
         }
     }
 
-    @Test fun updateNote() {
-        TODO()
+    // TODO add data class
+    @Test fun updateNote() = startCoTest {
+        val rankIdVisibleList = List(size = 5) { Random.nextLong() }
+
+        val textItem = data.itemList.filterIsInstance<NoteItem.Text>().random()
+        val textMirror = textItem.deepCopy()
+
+        val rollList = data.rollList
+
+        val rollItem = data.itemList.filterIsInstance<NoteItem.Roll>().random()
+        val rollMirror = rollItem.deepCopy(list = rollList)
+
+        coEvery { noteRepo.getRollList(rollItem.id) } returns rollList
+        coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList
+
+        interactor.updateNote(textItem)
+        interactor.updateNote(rollItem)
+
+        coVerifySequence {
+            noteRepo.updateNote(textItem)
+            rankRepo.getIdVisibleList()
+            callback.notifyNoteBind(textMirror, rankIdVisibleList)
+
+            noteRepo.updateNote(rollItem)
+            noteRepo.getRollList(rollItem.id)
+            rankRepo.getIdVisibleList()
+            callback.notifyNoteBind(rollMirror, rankIdVisibleList)
+        }
     }
 
-    @Test fun convert() {
-        TODO()
+    // TODO add data class
+    @Test fun convert() = startCoTest {
+        val rankIdVisibleList = List(size = 5) { Random.nextLong() }
+
+        val textItem = data.itemList.filterIsInstance<NoteItem.Text>().random()
+
+        val rollList = data.rollList
+        val rollItemSmall = data.itemList.filterIsInstance<NoteItem.Roll>().random().apply {
+            list.addAll(rollList.subList(0, 2))
+        }
+        val rollItemLarge = data.itemList.filterIsInstance<NoteItem.Roll>().random().apply {
+            list.addAll(rollList)
+        }
+        val rollItemLargePreview = rollItemLarge.deepCopy(list = rollList).apply {
+            with(list) { dropLast(size - NoteItem.Roll.PREVIEW_SIZE) }
+        }
+
+        coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList
+
+        coEvery { noteRepo.convertNote(textItem) } returns rollItemSmall
+        assertEquals(rollItemSmall, interactor.convert(textItem))
+
+        coEvery { noteRepo.convertNote(textItem) } returns rollItemLarge
+        assertEquals(rollItemLargePreview, interactor.convert(textItem))
+
+        coEvery { noteRepo.convertNote(rollItemSmall, useCache = false) } returns textItem
+        assertEquals(textItem, interactor.convert(rollItemSmall))
+
+        coVerifySequence {
+            noteRepo.convertNote(textItem)
+            rankRepo.getIdVisibleList()
+            callback.notifyNoteBind(rollItemSmall, rankIdVisibleList)
+
+            noteRepo.convertNote(textItem)
+            rankRepo.getIdVisibleList()
+            callback.notifyNoteBind(rollItemLarge, rankIdVisibleList)
+
+            noteRepo.convertNote(rollItemSmall, useCache = false)
+            rankRepo.getIdVisibleList()
+            callback.notifyNoteBind(textItem, rankIdVisibleList)
+        }
     }
 
 

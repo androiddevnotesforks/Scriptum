@@ -52,7 +52,7 @@ class NotesInteractor(
          */
         val noteMirror = when (noteItem) {
             is NoteItem.Text -> noteItem.deepCopy()
-            is NoteItem.Roll -> noteItem.deepCopy(rollList = noteRepo.getRollList(noteItem.id))
+            is NoteItem.Roll -> noteItem.deepCopy(list = noteRepo.getRollList(noteItem.id))
         }
 
         callback?.notifyNoteBind(noteMirror, rankRepo.getIdVisibleList())

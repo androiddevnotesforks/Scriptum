@@ -31,6 +31,7 @@ sealed class NoteItem(
 ) {
 
     // TODO make deepCopy common
+    // TODO not data classes
 
     val type: NoteType
         get() = when (this) {
@@ -188,10 +189,10 @@ sealed class NoteItem(
                 isStatus: Boolean = this.isStatus,
                 alarmId: Long = this.alarmId,
                 alarmDate: String = this.alarmDate,
-                rollList: MutableList<RollItem> = this.list.map { it.copy() }.toMutableList()
+                list: MutableList<RollItem> = this.list.map { it.copy() }.toMutableList()
         ) = Roll(
                 id, create, change, name, text, color, rankId, rankPs, isBin, isStatus,
-                alarmId, alarmDate, rollList
+                alarmId, alarmDate, list
         )
 
 
