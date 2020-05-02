@@ -158,15 +158,15 @@ class NotesInteractorTest : ParentInteractorTest() {
         coVerifySequence {
             noteRepo.convertNote(textItem)
             rankRepo.getIdVisibleList()
-            callback.notifyNoteBind(rollItemSmall, rankIdVisibleList)
+            callback.notifyNoteBind(textItem, rankIdVisibleList)
 
             noteRepo.convertNote(textItem)
             rankRepo.getIdVisibleList()
-            callback.notifyNoteBind(rollItemLarge, rankIdVisibleList)
+            callback.notifyNoteBind(textItem, rankIdVisibleList)
 
             noteRepo.convertNote(rollItemSmall, useCache = false)
             rankRepo.getIdVisibleList()
-            callback.notifyNoteBind(textItem, rankIdVisibleList)
+            callback.notifyNoteBind(rollItemSmall, rankIdVisibleList)
         }
     }
 

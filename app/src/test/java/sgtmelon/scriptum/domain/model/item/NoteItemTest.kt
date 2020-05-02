@@ -115,6 +115,8 @@ class NoteItemTest : ParentTest() {
         val itemFirst = textItem.deepCopy(text = REAL_TEXT)
         val itemSecond = itemFirst.deepCopy()
 
+        assertEquals(itemFirst, itemSecond)
+
         itemFirst.text = COPY_TEXT
         assertEquals(REAL_TEXT, itemSecond.text)
     }
@@ -180,6 +182,8 @@ class NoteItemTest : ParentTest() {
     @Test fun deepCopy_forRoll() {
         val itemFirst = rollItem.deepCopy(name = REAL_TEXT)
         val itemSecond = itemFirst.deepCopy()
+
+        assertEquals(itemFirst, itemSecond)
 
         itemFirst.name = COPY_TEXT
         itemFirst.list.first().position = COPY_POSITION

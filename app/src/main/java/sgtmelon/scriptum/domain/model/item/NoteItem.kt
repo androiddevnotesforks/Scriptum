@@ -31,7 +31,6 @@ sealed class NoteItem(
 ) {
 
     // TODO make deepCopy common
-    // TODO not data classes
 
     val type: NoteType
         get() = when (this) {
@@ -78,6 +77,47 @@ sealed class NoteItem(
     }
 
     //endregion
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as NoteItem
+
+        if (id != other.id) return false
+        if (create != other.create) return false
+        if (change != other.change) return false
+        if (name != other.name) return false
+        if (text != other.text) return false
+        if (color != other.color) return false
+        if (rankId != other.rankId) return false
+        if (rankPs != other.rankPs) return false
+        if (isBin != other.isBin) return false
+        if (isStatus != other.isStatus) return false
+        if (alarmId != other.alarmId) return false
+        if (alarmDate != other.alarmDate) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = 0
+
+        result = 31 * result + id.hashCode()
+        result = 31 * result + create.hashCode()
+        result = 31 * result + change.hashCode()
+        result = 31 * result + name.hashCode()
+        result = 31 * result + text.hashCode()
+        result = 31 * result + color.hashCode()
+        result = 31 * result + rankId.hashCode()
+        result = 31 * result + rankPs.hashCode()
+        result = 31 * result + isBin.hashCode()
+        result = 31 * result + isStatus.hashCode()
+        result = 31 * result + alarmId.hashCode()
+        result = 31 * result + alarmDate.hashCode()
+
+        return result
+    }
 
     class Text(
             id: Long = Note.Default.ID,
@@ -279,6 +319,20 @@ sealed class NoteItem(
         }
 
         //endregion
+
+        override fun equals(other: Any?): Boolean {
+            if (!super.equals(other)) return false
+
+            other as Roll
+
+            if (!list.containsAll(other.list)) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            return 31 * super.hashCode() + list.hashCode()
+        }
 
         companion object {
             const val PREVIEW_SIZE = 4
