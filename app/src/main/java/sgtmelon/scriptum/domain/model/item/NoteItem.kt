@@ -84,6 +84,8 @@ sealed class NoteItem(
 
         other as NoteItem
 
+        if (type != other.type) return false
+
         if (id != other.id) return false
         if (create != other.create) return false
         if (change != other.change) return false
@@ -103,6 +105,7 @@ sealed class NoteItem(
     override fun hashCode(): Int {
         var result = 0
 
+        result = 31 * result + type.hashCode()
         result = 31 * result + id.hashCode()
         result = 31 * result + create.hashCode()
         result = 31 * result + change.hashCode()
