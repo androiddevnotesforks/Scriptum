@@ -4,6 +4,7 @@ import io.mockk.every
 import io.mockk.verifySequence
 import org.junit.Assert.assertEquals
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
+import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Repeat
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.Theme
@@ -39,6 +40,20 @@ object FastTest {
 
         verifySequence {
             repeat(valueList.size) { preferenceRepo.sort }
+        }
+    }
+
+    fun getDefaultColor(preferenceRepo: IPreferenceRepo, callFun: () -> Int) {
+        fun checkRequestGet(value: Int) {
+            every { preferenceRepo.defaultColor } returns value
+            assertEquals(callFun(), value)
+        }
+
+        val valueList = listOf(Color.RED, Color.PURPLE, Color.INDIGO, Random.nextInt())
+        valueList.forEach { checkRequestGet(it) }
+
+        verifySequence {
+            repeat(valueList.size) { preferenceRepo.defaultColor }
         }
     }
 

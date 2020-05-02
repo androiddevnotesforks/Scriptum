@@ -113,18 +113,8 @@ class PreferenceInteractorTest : ParentInteractorTest() {
     }
 
 
-    @Test fun getDefaultColor() {
-        fun checkRequestGet(value: Int) {
-            every { preferenceRepo.defaultColor } returns value
-            assertEquals(interactor.defaultColor, value)
-        }
-
-        val valueList = listOf(Color.RED, Color.PURPLE, Color.INDIGO, Random.nextInt())
-        valueList.forEach { checkRequestGet(it) }
-
-        verifySequence {
-            repeat(valueList.size) { preferenceRepo.defaultColor }
-        }
+    @Test fun getDefaultColor() = FastTest.getDefaultColor(preferenceRepo) {
+        interactor.defaultColor
     }
 
     @Test fun getDefaultColorSummary() {
