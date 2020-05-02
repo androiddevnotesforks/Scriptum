@@ -97,7 +97,6 @@ class NotesInteractorTest : ParentInteractorTest() {
         }
     }
 
-    // TODO add data class
     @Test fun updateNote() = startCoTest {
         val rankIdVisibleList = List(size = 5) { Random.nextLong() }
 
@@ -127,7 +126,6 @@ class NotesInteractorTest : ParentInteractorTest() {
         }
     }
 
-    // TODO add data class
     @Test fun convert() = startCoTest {
         val rankIdVisibleList = List(size = 5) { Random.nextLong() }
 
