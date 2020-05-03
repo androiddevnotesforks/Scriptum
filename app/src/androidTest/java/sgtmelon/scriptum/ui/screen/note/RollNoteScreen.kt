@@ -20,10 +20,9 @@ import sgtmelon.scriptum.ui.IPressBack
 import sgtmelon.scriptum.ui.ParentRecyclerItem
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.part.info.RollNoteInfoContainer
+import sgtmelon.scriptum.ui.part.panel.NotePanel
 import sgtmelon.scriptum.ui.part.panel.RollEnterPanel
-import sgtmelon.scriptum.ui.part.panel.note.RollNotePanel
-import sgtmelon.scriptum.ui.part.toolbar.note.ParentNoteToolbar
-import sgtmelon.scriptum.ui.part.toolbar.note.RollNoteToolbar
+import sgtmelon.scriptum.ui.part.toolbar.NoteToolbar
 
 /**
  * Class for UI control of [NoteActivity], [RollNoteFragment].
@@ -34,7 +33,7 @@ class RollNoteScreen(
         override val isRankEmpty: Boolean
 ) : ParentRecyclerScreen(R.id.roll_note_recycler),
         INoteScreen<RollNoteScreen, NoteItem.Roll>,
-        ParentNoteToolbar.ImeCallback,
+        NoteToolbar.ImeCallback,
         INoteAfterConvert<TextNoteScreen>,
         IPressBack {
 
@@ -64,8 +63,8 @@ class RollNoteScreen(
      */
     private var enterPanel: RollEnterPanel<RollNoteScreen>? = null
 
-    fun toolbar(func: RollNoteToolbar<RollNoteScreen>.() -> Unit) = apply {
-        RollNoteToolbar(func, callback = this, imeCallback = this)
+    fun toolbar(func: NoteToolbar<RollNoteScreen, NoteItem.Roll>.() -> Unit) = apply {
+        NoteToolbar(func, callback = this, imeCallback = this)
     }
 
     fun enterPanel(func: RollEnterPanel<RollNoteScreen>.() -> Unit) = apply {
@@ -74,8 +73,8 @@ class RollNoteScreen(
         }
     }
 
-    fun controlPanel(func: RollNotePanel<RollNoteScreen>.() -> Unit) = apply {
-        RollNotePanel(func, callback = this)
+    fun controlPanel(func: NotePanel<RollNoteScreen, NoteItem.Roll>.() -> Unit) = apply {
+        NotePanel(func, callback = this)
     }
 
     //endregion

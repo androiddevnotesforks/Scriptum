@@ -10,9 +10,8 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.ui.IPressBack
 import sgtmelon.scriptum.ui.ParentUi
-import sgtmelon.scriptum.ui.part.panel.note.TextNotePanel
-import sgtmelon.scriptum.ui.part.toolbar.note.ParentNoteToolbar
-import sgtmelon.scriptum.ui.part.toolbar.note.TextNoteToolbar
+import sgtmelon.scriptum.ui.part.panel.NotePanel
+import sgtmelon.scriptum.ui.part.toolbar.NoteToolbar
 
 /**
  * Class for UI control of [NoteActivity], [TextNoteFragment].
@@ -23,7 +22,7 @@ class TextNoteScreen(
         override val isRankEmpty: Boolean
 ) : ParentUi(),
         INoteScreen<TextNoteScreen, NoteItem.Text>,
-        ParentNoteToolbar.ImeCallback,
+        NoteToolbar.ImeCallback,
         INoteAfterConvert<RollNoteScreen>,
         IPressBack {
 
@@ -41,12 +40,12 @@ class TextNoteScreen(
     private val contentText = getViewById(R.id.text_note_content_text)
     private val contentEnter = getViewById(R.id.text_note_content_enter)
 
-    fun toolbar(func: TextNoteToolbar<TextNoteScreen>.() -> Unit) = apply {
-        TextNoteToolbar(func, callback = this, imeCallback = this)
+    fun toolbar(func: NoteToolbar<TextNoteScreen, NoteItem.Text>.() -> Unit) = apply {
+        NoteToolbar(func, callback = this, imeCallback = this)
     }
 
-    fun controlPanel(func: TextNotePanel<TextNoteScreen>.() -> Unit) = apply {
-        TextNotePanel(func, callback = this)
+    fun controlPanel(func: NotePanel<TextNoteScreen, NoteItem.Text>.() -> Unit) = apply {
+        NotePanel(func, callback = this)
     }
 
     //endregion

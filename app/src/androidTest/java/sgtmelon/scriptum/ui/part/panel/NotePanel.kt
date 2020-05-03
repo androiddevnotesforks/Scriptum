@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.ui.part.panel.note
+package sgtmelon.scriptum.ui.part.panel
 
 import androidx.annotation.AttrRes
 import sgtmelon.extension.getText
@@ -24,8 +24,9 @@ import java.util.*
 /**
  * Part of UI abstraction for [TextNoteScreen] or [RollNoteScreen].
  */
-abstract class ParentNotePanel<T: ParentUi, N : NoteItem>(
-        protected val callback: INoteScreen<T, N>
+@Suppress("UNCHECKED_CAST")
+class NotePanel<T: ParentUi, N : NoteItem>(
+        private val callback: INoteScreen<T, N>
 ) : ParentUi(),
         DateTimeCallback,
         ConvertDialogUi.Callback,
@@ -43,7 +44,7 @@ abstract class ParentNotePanel<T: ParentUi, N : NoteItem>(
     private val bindButton = getViewById(R.id.note_panel_bind_button)
     private val convertButton = getViewById(R.id.note_panel_convert_button)
     private val deleteButton = getViewById(R.id.note_panel_delete_button)
-    protected val editButton = getViewById(R.id.note_panel_edit_button)
+    private val editButton = getViewById(R.id.note_panel_edit_button)
 
     private val binContainer = getViewById(R.id.note_panel_bin_container)
     private val restoreButton = getViewById(R.id.note_panel_restore_button)
@@ -55,7 +56,7 @@ abstract class ParentNotePanel<T: ParentUi, N : NoteItem>(
     private val redoButton = getViewById(R.id.note_panel_redo_button)
     private val rankButton = getViewById(R.id.note_panel_rank_button)
     private val colorButton = getViewById(R.id.note_panel_color_button)
-    protected val saveButton = getViewById(R.id.note_panel_save_button)
+    private val saveButton = getViewById(R.id.note_panel_save_button)
 
     //endregion
 
@@ -123,9 +124,57 @@ abstract class ParentNotePanel<T: ParentUi, N : NoteItem>(
         }
     }
 
-    abstract fun onSave(): ParentNotePanel<T, N>
+    fun onSave() = apply {
+        callback.throwOnWrongState(State.EDIT, State.NEW) {
+            saveButton.click()
 
-    abstract fun onLongSave(): ParentNotePanel<T, N>
+            callback.apply {
+                state = State.READ
+
+                when(noteItem) {
+                    is NoteItem.Text -> {
+                        val copyItem = (shadowItem as? NoteItem.Text)?.deepCopy()
+                        noteItem = copyItem as? N ?: throw ClassCastException()
+
+                        (noteItem as NoteItem.Text).onSave()
+                    }
+                    is NoteItem.Roll -> {
+                        val copyItem = (shadowItem as? NoteItem.Roll)?.deepCopy()
+                        noteItem = copyItem as? N ?: throw ClassCastException()
+
+                        (noteItem as NoteItem.Text).onSave()
+                    }
+                }
+
+                inputControl.reset()
+            }.fullAssert()
+        }
+    }
+
+    fun onLongSave() = apply {
+        callback.throwOnWrongState(State.EDIT, State.NEW) {
+            saveButton.longClick()
+
+            callback.apply {
+                state = State.EDIT
+
+                when(noteItem) {
+                    is NoteItem.Text -> {
+                        val copyItem = (shadowItem as? NoteItem.Text)?.deepCopy()
+                        noteItem = copyItem as? N ?: throw ClassCastException()
+
+                        (noteItem as NoteItem.Text).onSave()
+                    }
+                    is NoteItem.Roll -> {
+                        val copyItem = (shadowItem as? NoteItem.Roll)?.deepCopy()
+                        noteItem = copyItem as? N ?: throw ClassCastException()
+
+                        (noteItem as NoteItem.Text).onSave()
+                    }
+                }
+            }.fullAssert()
+        }
+    }
 
     fun onNotification(updateDate: Boolean = false, func: DateDialogUi.() -> Unit = {}) {
         callback.throwOnWrongState(State.READ) {
@@ -151,7 +200,28 @@ abstract class ParentNotePanel<T: ParentUi, N : NoteItem>(
         callback.noteItem.change = sgtmelon.extension.getTime()
     }
 
-    abstract fun onEdit(): ParentNotePanel<T, N>
+    fun onEdit() = apply {
+        callback.throwOnWrongState(State.READ) {
+            editButton.click()
+
+            callback.apply {
+                state = State.EDIT
+
+                when(noteItem) {
+                    is NoteItem.Text -> {
+                        val copyItem = (noteItem as? NoteItem.Text)?.deepCopy()
+                        shadowItem = copyItem as? N ?: throw ClassCastException()
+                    }
+                    is NoteItem.Roll -> {
+                        val copyItem = (noteItem as? NoteItem.Roll)?.deepCopy()
+                        shadowItem = copyItem as? N ?: throw ClassCastException()
+                    }
+                }
+
+                inputControl.reset()
+            }.fullAssert()
+        }
+    }
 
 
     override fun onDateDialogResetResult() {
@@ -167,6 +237,23 @@ abstract class ParentNotePanel<T: ParentUi, N : NoteItem>(
             noteItem.alarmDate = calendar.getText()
 
             fullAssert()
+        }
+    }
+
+    override fun onConvertDialogResult() = with(callback) {
+        when(noteItem) {
+            is NoteItem.Text -> {
+                (shadowItem as NoteItem.Text).onConvert()
+
+                val copyItem = (shadowItem as? NoteItem.Text)?.deepCopy()
+                noteItem = copyItem as? N ?: throw ClassCastException()
+            }
+            is NoteItem.Roll -> {
+                (shadowItem as NoteItem.Roll).onConvert()
+
+                val copyItem = (shadowItem as? NoteItem.Roll)?.deepCopy()
+                noteItem = copyItem as? N ?: throw ClassCastException()
+            }
         }
     }
 
@@ -302,5 +389,11 @@ abstract class ParentNotePanel<T: ParentUi, N : NoteItem>(
 
     @AttrRes private fun getEnableTint(b: Boolean) = if (b) R.attr.clContent else R.attr.clDisable
 
+    companion object {
+        operator fun <T : ParentUi, N: NoteItem> invoke(func: NotePanel<T, N>.() -> Unit,
+                                                        callback: INoteScreen<T, N>): NotePanel<T, N> {
+            return NotePanel(callback).apply(func)
+        }
+    }
 
 }

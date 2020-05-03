@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.ui.part.toolbar.note
+package sgtmelon.scriptum.ui.part.toolbar
 
 import android.os.Build
 import android.view.inputmethod.EditorInfo
@@ -9,7 +9,6 @@ import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.InputItem
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.ui.ParentUi
-import sgtmelon.scriptum.ui.part.toolbar.ParentToolbar
 import sgtmelon.scriptum.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
@@ -17,8 +16,9 @@ import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 /**
  * Part of UI abstraction for [TextNoteScreen] or [RollNoteScreen].
  */
-abstract class ParentNoteToolbar<T : ParentUi, N : NoteItem>(
-        protected val callback: INoteScreen<T, N>,
+@Suppress("UNCHECKED_CAST")
+class NoteToolbar<T : ParentUi, N : NoteItem>(
+        private val callback: INoteScreen<T, N>,
         private val imeCallback: ImeCallback
 ) : ParentToolbar() {
 
@@ -55,8 +55,28 @@ abstract class ParentNoteToolbar<T : ParentUi, N : NoteItem>(
         }
     }
 
-    open fun onClickBack() {
+    fun onClickBack() {
         getToolbarButton().click()
+
+        with(callback) {
+            if (state == State.EDIT) {
+                state = State.READ
+
+                when(noteItem) {
+                    is NoteItem.Text -> {
+                        val copyItem = (noteItem as? NoteItem.Text)?.deepCopy()
+                        shadowItem = copyItem as? N ?: throw ClassCastException()
+                    }
+                    is NoteItem.Roll -> {
+                        val copyItem = (noteItem as? NoteItem.Roll)?.deepCopy()
+                        shadowItem = copyItem as? N ?: throw ClassCastException()
+                    }
+                }
+
+                inputControl.reset()
+                fullAssert()
+            }
+        }
     }
 
     fun onImeOptionName() {
@@ -128,6 +148,15 @@ abstract class ParentNoteToolbar<T : ParentUi, N : NoteItem>(
 
     interface ImeCallback {
         fun assertToolbarIme()
+    }
+
+
+    companion object {
+        operator fun <T : ParentUi, N : NoteItem> invoke(func: NoteToolbar<T, N>.() -> Unit,
+                                                         callback: INoteScreen<T, N>,
+                                                         imeCallback: ImeCallback): NoteToolbar<T, N> {
+            return NoteToolbar(callback, imeCallback).apply { assert() }.apply(func)
+        }
     }
 
 }
