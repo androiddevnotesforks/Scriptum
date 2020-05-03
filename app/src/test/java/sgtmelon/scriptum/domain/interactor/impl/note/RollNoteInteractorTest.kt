@@ -48,6 +48,7 @@ class RollNoteInteractorTest : ParentInteractorTest() {
         TODO()
     }
 
+
     @Test fun getItem() {
         TODO()
     }
@@ -106,9 +107,10 @@ class RollNoteInteractorTest : ParentInteractorTest() {
         TODO()
     }
 
-    @Test fun convert() {
+    @Test fun convertNote() {
         TODO()
     }
+
 
     @Test fun restoreNote() {
         TODO()
