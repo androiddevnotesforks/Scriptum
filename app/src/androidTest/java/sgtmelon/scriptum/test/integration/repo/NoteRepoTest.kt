@@ -53,8 +53,9 @@ class NoteRepoTest : ParentIntegrationTest()  {
     }
 
     @Test fun getList() = inRoomTest {
+        TODO()
+
         noteRepo.getList(0, true, false, true)
-        TODO(reason = "#TEST write test")
     }
 
     @Test fun getItem() = inRoomTest {
@@ -163,8 +164,9 @@ class NoteRepoTest : ParentIntegrationTest()  {
     }
 
     @Test fun convertToRoll() = inRoomTest {
+        TODO()
+
 //        noteRepo.convertNote(NoteItem(0, "", "", color = 0, type = NoteType.TEXT))
-        TODO(reason = "#TEST write test")
     }
 
     @Test fun convertToText() = inRoomTest {
@@ -228,13 +230,13 @@ class NoteRepoTest : ParentIntegrationTest()  {
     }
 
     @Test fun saveTextNote() = inRoomTest {
+        TODO()
 //        noteRepo.saveNote(NoteItem(0, "", "", color = 0, type = NoteType.TEXT), true)
-        TODO(reason = "#TEST write test")
     }
 
     @Test fun saveRollNote() = inRoomTest {
+        TODO()
 //        noteRepo.saveNote(NoteItem(0, "", "", color = 0, type = NoteType.TEXT), true)
-        TODO(reason = "#TEST write test")
     }
 
     @Test fun updateRollCheckSingle() = inRoomTest {
@@ -304,6 +306,8 @@ class NoteRepoTest : ParentIntegrationTest()  {
 
 
     @Test fun setRollVisible() = inRoomTest {
+        TODO()
+
         val noteId = Random.nextLong()
         var isVisible = Random.nextBoolean()
 
@@ -319,6 +323,8 @@ class NoteRepoTest : ParentIntegrationTest()  {
     }
 
     @Test fun getRollVisible() = inRoomTest {
+        TODO()
+
         val noteId = Random.nextLong()
         val isVisible = Random.nextBoolean()
 

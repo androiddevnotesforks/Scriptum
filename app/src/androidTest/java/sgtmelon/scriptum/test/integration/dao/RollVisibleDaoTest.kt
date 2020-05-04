@@ -6,7 +6,9 @@ import org.junit.Assert.assertNull
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.data.room.dao.IRollVisibleDao
+import sgtmelon.scriptum.data.room.entity.NoteEntity
 import sgtmelon.scriptum.data.room.entity.RollVisibleEntity
+import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.test.ParentIntegrationTest
 
 /**
@@ -15,32 +17,39 @@ import sgtmelon.scriptum.test.ParentIntegrationTest
 @RunWith(AndroidJUnit4::class)
 class RollVisibleDaoTest : ParentIntegrationTest() {
 
-    private fun inRollVisibleDao(func: suspend IRollVisibleDao.() -> Unit) = inRoomTest {
-        rollVisibleDao.apply { func() }
+    @Test fun insertWithUnique() = inRoomTest {
+        noteDao.insert(noteEntity)
+
+        assertEquals(1, rollVisibleDao.insert(entity))
+        assertEquals(UNIQUE_ERROR_ID, rollVisibleDao.insert(entity))
     }
 
-    @Test fun insertWithUnique() = inRollVisibleDao {
-        assertEquals(1, insert(entity))
-        assertEquals(UNIQUE_ERROR_ID, insert(entity))
+    @Test fun update() = inRoomTest {
+        noteDao.insert(noteEntity)
+
+        rollVisibleDao.insert(entity)
+        assertEquals(false, rollVisibleDao.get(entity.noteId))
+
+        rollVisibleDao.update(entity.noteId, true)
+        assertEquals(true, rollVisibleDao.get(entity.noteId))
     }
 
-    @Test fun update() = inRollVisibleDao {
-        insert(entity)
-        assertEquals(false, get(entity.noteId))
+    @Test fun get() = inRoomTest {
+        noteDao.insert(noteEntity)
 
-        update(entity.noteId, true)
-        assertEquals(true, get(entity.noteId))
-    }
+        assertNull(rollVisibleDao.get(entity.noteId))
 
-    @Test fun get() = inRollVisibleDao {
-        assertNull(get(entity.noteId))
-
-        insert(entity)
-        assertEquals(false, get(entity.noteId))
+        rollVisibleDao.insert(entity)
+        assertEquals(false, rollVisibleDao.get(entity.noteId))
     }
 
 
     private companion object {
+        val noteEntity = NoteEntity(id = 1,
+                create = DATE_5, change = DATE_3, name = "NAME 1", text = "3/5", color = 0,
+                type = NoteType.TEXT, rankId = -1, rankPs = -1, isBin = false, isStatus = true
+        )
+
         val entity = RollVisibleEntity(id = 1, noteId = 1, value = false)
     }
 
