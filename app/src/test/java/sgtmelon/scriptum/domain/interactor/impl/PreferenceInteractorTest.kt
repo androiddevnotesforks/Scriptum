@@ -1,19 +1,24 @@
 package sgtmelon.scriptum.domain.interactor.impl
 
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verifySequence
-import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.scriptum.FastTest
 import sgtmelon.scriptum.ParentInteractorTest
+import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
+import sgtmelon.scriptum.data.room.converter.type.IntConverter
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Repeat
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.presentation.provider.SummaryProvider
+import java.util.*
 import kotlin.random.Random
 
 /**
@@ -257,11 +262,35 @@ class PreferenceInteractorTest : ParentInteractorTest() {
 
 
     @Test fun getSignalSummaryArray() {
-        TODO()
+        val summaryArray = Array(size = 3) { TestData.uniqueString }
+        val checkArray = booleanArrayOf(true, false, true)
+
+        fun String.getLow() = toLowerCase(Locale.getDefault())
+        val resultString = "${summaryArray.first().getLow()}, ${summaryArray.last().getLow()}"
+
+        coEvery { summaryProvider.signal } returns null
+        assertNull(interactor.getSignalSummaryArray(checkArray))
+
+        coEvery { summaryProvider.signal } returns arrayOf(TestData.uniqueString)
+        assertNull(interactor.getSignalSummaryArray(checkArray))
+
+        coEvery { summaryProvider.signal } returns summaryArray
+        assertEquals(resultString, interactor.getSignalSummaryArray(checkArray))
     }
 
     @Test fun updateSignal() {
-        TODO()
+        val summaryArray = Array(size = 3) { TestData.uniqueString }
+        val checkArray = booleanArrayOf(true, false, true)
+
+        fun String.getLow() = toLowerCase(Locale.getDefault())
+        val resultString = "${summaryArray.first().getLow()}, ${summaryArray.last().getLow()}"
+
+        coEvery { summaryProvider.signal } returns summaryArray
+        assertEquals(resultString, interactor.updateSignal(checkArray))
+
+        verifySequence {
+            preferenceRepo.signal = IntConverter().toInt(checkArray)
+        }
     }
 
 
