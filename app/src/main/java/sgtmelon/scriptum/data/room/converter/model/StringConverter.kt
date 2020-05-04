@@ -10,16 +10,18 @@ class StringConverter {
 
     @TypeConverter fun toList(string: String): MutableList<Long> = ArrayList<Long>().apply {
         if (string != NONE && string.isNotEmpty()) {
-            addAll(string.split(", ".toRegex())
+            addAll(string.split(SPLIT.toRegex())
                     .dropLastWhile { it.isEmpty() }
                     .map { it.toLong() })
         }
     }
 
-    @TypeConverter fun toString(list: List<Long>?) =
-            if (list != null && list.isNotEmpty()) list.joinToString() else NONE
+    @TypeConverter fun toString(list: List<Long>?): String {
+        return if (list.isNullOrEmpty()) NONE else list.joinToString(SPLIT)
+    }
 
     companion object {
+        const val SPLIT = ", "
         const val NONE = "NONE"
     }
 

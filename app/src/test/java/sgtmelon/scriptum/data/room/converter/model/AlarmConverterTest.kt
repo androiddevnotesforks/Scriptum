@@ -14,7 +14,6 @@ class AlarmConverterTest : ParentTest() {
     private val converter = AlarmConverter()
     
     @Test fun toEntity() {
-        TODO()
         assertEquals(entity, converter.toEntity(item))
     }
     

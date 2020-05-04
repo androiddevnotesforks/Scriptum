@@ -14,8 +14,6 @@ class RollConverterTest : ParentTest() {
     private val converter = RollConverter()
 
     @Test fun toItem() {
-        TODO()
-
         assertEquals(itemFirst, converter.toItem(entityFirst))
         assertEquals(itemSecond, converter.toItem(entitySecond))
 
@@ -26,8 +24,6 @@ class RollConverterTest : ParentTest() {
     }
 
     @Test fun toEntity() {
-        TODO()
-
         assertEquals(entityFirst, converter.toEntity(noteId, itemFirst))
         assertEquals(entitySecond, converter.toEntity(noteId, itemSecond))
     }

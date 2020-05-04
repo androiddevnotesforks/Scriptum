@@ -14,7 +14,6 @@ class RankConverterTest : ParentTest() {
     private val converter = RankConverter()
 
     @Test fun toItem() {
-        TODO()
         assertEquals(itemFirst, converter.toItem(entityFirst))
         assertEquals(itemSecond, converter.toItem(entitySecond))
 
@@ -22,7 +21,6 @@ class RankConverterTest : ParentTest() {
     }
 
     @Test fun toEntity() {
-        TODO()
         assertEquals(entityFirst, converter.toEntity(itemFirst))
         assertEquals(entitySecond, converter.toEntity(itemSecond))
 

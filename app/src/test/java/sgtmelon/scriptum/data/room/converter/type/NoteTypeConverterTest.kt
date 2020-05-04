@@ -13,13 +13,11 @@ class NoteTypeConverterTest : ParentTest() {
     private val converter = NoteTypeConverter()
 
     @Test fun toInt() {
-        TODO()
         assertEquals(0, converter.toInt(NoteType.TEXT))
         assertEquals(1, converter.toInt(NoteType.ROLL))
     }
 
     @Test fun toEnum() {
-        TODO()
         assertEquals(NoteType.TEXT, converter.toEnum(noteType = 0))
         assertEquals(NoteType.ROLL, converter.toEnum(noteType = 1))
     }

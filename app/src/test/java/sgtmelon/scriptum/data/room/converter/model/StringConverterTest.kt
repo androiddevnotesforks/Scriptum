@@ -13,7 +13,6 @@ class StringConverterTest : ParentTest() {
     private val converter = StringConverter()
 
     @Test fun toList() {
-        TODO()
         assertEquals(listFirst, converter.toList(stringFirst))
         assertEquals(listSecond, converter.toList(stringSecond))
 
@@ -21,7 +20,6 @@ class StringConverterTest : ParentTest() {
     }
 
     @Test fun convertToString() {
-        TODO()
         assertEquals(stringFirst, converter.toString(listFirst))
         assertEquals(stringSecond, converter.toString(listSecond))
 

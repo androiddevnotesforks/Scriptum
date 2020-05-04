@@ -8,13 +8,13 @@ import androidx.room.TypeConverter
  */
 class BoolConverter {
 
-    @TypeConverter fun toInt(value: Boolean) = if (value) trueValue else falseValue
+    @TypeConverter fun toInt(value: Boolean) = if (value) TRUE else FALSE
 
-    @TypeConverter fun toBool(@IntRange(from = 0, to = 1) value: Int) = value == trueValue
+    @TypeConverter fun toBool(@IntRange(from = 0, to = 1) value: Int) = value == TRUE
 
     private companion object {
-        const val trueValue = 1
-        const val falseValue = 0
+        const val TRUE = 1
+        const val FALSE = 0
     }
 
 }

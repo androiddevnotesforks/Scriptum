@@ -1,7 +1,10 @@
 package sgtmelon.scriptum.data.room.entity
 
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.ParentTest
+import sgtmelon.scriptum.domain.model.data.DbData.Alarm.Default
+
 
 /**
  * Test for [AlarmEntity].
@@ -9,7 +12,11 @@ import sgtmelon.scriptum.ParentTest
 class AlarmEntityTest : ParentTest() {
 
     @Test fun defaultValues() {
-        TODO()
+        with(AlarmEntity()) {
+            assertEquals(Default.ID, id)
+            assertEquals(Default.NOTE_ID, noteId)
+            assertEquals(Default.DATE, date)
+        }
     }
 
 }
