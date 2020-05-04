@@ -42,6 +42,8 @@ class RippleContainer : RelativeLayout {
      * Element which center will be start position for ripple pass throw [hookView]
      */
     fun setupAnimation(@Theme theme: Int, @ColorInt fillColor: Int, hookView: View) = apply {
+        tag = fillColor
+
         params = RippleParams(theme, parentView = this, hookView = hookView).also {
             animatorList.apply {
                 add(hookView.getAnimator(Anim.SCALE_X, NO_DELAY, it.delay, *LOGO_PULSE))

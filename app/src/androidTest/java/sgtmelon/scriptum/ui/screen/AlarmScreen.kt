@@ -9,6 +9,7 @@ import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.extension.getAppSimpleColor
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.AlarmActivity
 import sgtmelon.scriptum.presentation.screen.vm.impl.notification.AlarmViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.notification.AlarmViewModel.Companion.getRippleShade
 import sgtmelon.scriptum.ui.IPressBack
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.dialog.sheet.RepeatSheetDialogUi
@@ -87,12 +88,11 @@ class AlarmScreen(
         getItem().assert(noteItem)
     }
 
-    /**
-     * TODO #TEST assert color
-     */
     fun assert() {
         parentContainer.isDisplayed()
-        rippleContainer.isDisplayed()
+
+        val fillColor = context.getAppSimpleColor(noteItem.color, theme.getRippleShade())
+        rippleContainer.isDisplayed().withTag(fillColor)
 
         logoView.isDisplayed()
                 .withSize(R.dimen.icon_128dp, R.dimen.icon_128dp)

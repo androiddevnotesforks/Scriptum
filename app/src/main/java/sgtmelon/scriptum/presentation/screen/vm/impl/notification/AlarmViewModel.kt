@@ -126,10 +126,6 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         }
     }
 
-    private fun Int.getRippleShade(): ColorShade = let {
-        return if (it == Theme.LIGHT) ColorShade.ACCENT else ColorShade.DARK
-    }
-
     override fun onClickNote() {
         callback?.startNoteActivity(noteItem)
         callback?.finish()
@@ -187,6 +183,11 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
 
         @VisibleForTesting
         const val CANCEL_DELAY = 20000L
+
+        @VisibleForTesting
+        fun Int.getRippleShade(): ColorShade = let {
+            return if (it == Theme.LIGHT) ColorShade.ACCENT else ColorShade.DARK
+        }
     }
 
 }

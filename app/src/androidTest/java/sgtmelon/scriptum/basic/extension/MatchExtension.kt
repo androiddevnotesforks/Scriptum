@@ -183,3 +183,6 @@ fun Matcher<View>.withSizeAttr(@AttrRes widthAttr: Int = -1, @AttrRes heightAttr
 fun Matcher<View>.withProgress(progress: Int, max: Int) = also {
     matchOnView(it, ProgressMatcher(progress, max))
 }
+
+
+fun Matcher<View>.withTag(tag: Any) = also { matchOnView(it, TagMatcher(tag)) }
