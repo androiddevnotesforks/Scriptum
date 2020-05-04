@@ -21,7 +21,7 @@ class RankDaoTest : ParentIntegrationTest() {
     }
 
     private suspend fun IRankDao.insertAll(): List<RankEntity> {
-        return arrayListOf(rankFirst, rankSecond, rankThird).apply {
+        return arrayListOf(firstRank, secondRank, thirdRank).apply {
             forEach { insert(it) }
             sortBy { it.position }
         }
@@ -29,54 +29,54 @@ class RankDaoTest : ParentIntegrationTest() {
 
 
     @Test fun insertWithUnique() = inRankDao {
-        assertEquals(1, insert(rankFirst))
-        assertEquals(UNIQUE_ERROR_ID, insert(rankSecond.copy(id = rankFirst.id)))
-        assertEquals(UNIQUE_ERROR_ID, insert(rankSecond.copy(name = rankFirst.name)))
+        assertEquals(1, insert(firstRank))
+        assertEquals(UNIQUE_ERROR_ID, insert(secondRank.copy(id = firstRank.id)))
+        assertEquals(UNIQUE_ERROR_ID, insert(secondRank.copy(name = firstRank.name)))
     }
 
     @Test fun delete() = inRankDao {
-        insert(rankFirst)
-        delete(rankFirst.name)
-        assertNull(get(rankFirst.id))
+        insert(firstRank)
+        delete(firstRank.name)
+        assertNull(get(firstRank.id))
     }
 
     @Test fun update() = inRankDao {
-        insert(rankFirst)
+        insert(firstRank)
 
-        rankFirst.copy(name = "12345", isVisible = false).let {
+        firstRank.copy(name = "12345", isVisible = false).let {
             update(it)
             assertEquals(it, get(it.id))
         }
     }
 
     @Test fun updateByList() = inRankDao {
-        insert(rankFirst)
-        insert(rankSecond)
+        insert(firstRank)
+        insert(secondRank)
 
-        val updateList = arrayListOf(rankFirst.copy(position = 0), rankSecond.copy(position = 1))
+        val updateList = arrayListOf(firstRank.copy(position = 0), secondRank.copy(position = 1))
 
         update(updateList)
         updateList.forEach { assertEquals(it, get(it.id)) }
     }
 
     @Test fun updateWithUnique() = inRankDao {
-        insert(rankFirst)
-        insert(rankSecond)
+        insert(firstRank)
+        insert(secondRank)
 
-        rankSecond.copy(id = rankFirst.id).let {
+        secondRank.copy(id = firstRank.id).let {
             update(it)
-            assertEquals(rankSecond, get(rankSecond.id))
+            assertEquals(secondRank, get(secondRank.id))
 
-            update(arrayListOf(rankFirst, it))
-            assertEquals(rankSecond, get(rankSecond.id))
+            update(arrayListOf(firstRank, it))
+            assertEquals(secondRank, get(secondRank.id))
         }
 
-        rankSecond.copy(name = rankFirst.name).let {
+        secondRank.copy(name = firstRank.name).let {
             update(it)
-            assertEquals(rankSecond, get(rankSecond.id))
+            assertEquals(secondRank, get(secondRank.id))
 
-            update(arrayListOf(rankFirst, it))
-            assertEquals(rankSecond, get(rankSecond.id))
+            update(arrayListOf(firstRank, it))
+            assertEquals(secondRank, get(secondRank.id))
         }
     }
 
@@ -90,8 +90,8 @@ class RankDaoTest : ParentIntegrationTest() {
     @Test fun getOnCorrectId() = inRankDao {
         insertAll()
 
-        assertEquals(rankSecond, get(rankSecond.id))
-        assertEquals(rankThird, get(rankThird.id))
+        assertEquals(secondRank, get(secondRank.id))
+        assertEquals(thirdRank, get(thirdRank.id))
     }
 
     @Test fun getList() = inRankDao { assertEquals(insertAll(), get()) }
@@ -117,13 +117,13 @@ class RankDaoTest : ParentIntegrationTest() {
     }
 
     private companion object {
-        val rankFirst = RankEntity(id = 1, noteId = arrayListOf(), position = 1, name = "123")
+        val firstRank = RankEntity(id = 1, noteId = arrayListOf(), position = 1, name = "123")
 
-        val rankSecond = RankEntity(
+        val secondRank = RankEntity(
                 id = 2, noteId = arrayListOf(), position = 0, name = "234", isVisible = false
         )
 
-        val rankThird = RankEntity(id = 3, noteId = arrayListOf(), position = 2, name = "345")
+        val thirdRank = RankEntity(id = 3, noteId = arrayListOf(), position = 2, name = "345")
     }
 
 }

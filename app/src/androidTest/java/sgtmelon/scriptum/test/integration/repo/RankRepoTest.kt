@@ -40,18 +40,18 @@ class RankRepoTest : ParentIntegrationTest()  {
 
         assertEquals(list, rankRepo.getList())
 
-        noteDao.insert(noteFirst)
-        noteDao.insert(noteSecond)
-        noteDao.insert(noteThird)
+        noteDao.insert(firstNote)
+        noteDao.insert(secondNote)
+        noteDao.insert(thirdNote)
 
-        alarmDao.insert(alarmThird)
+        alarmDao.insert(thirdAlarm)
 
-        listOf(rankFirst, rankSecond, rankThird).forEach {
+        listOf(firstRank, secondRank, thirdRank).forEach {
             assertNotEquals(UNIQUE_ERROR_ID, rankDao.insert(it))
 
             list.add(rankConverter.toItem(it).apply {
-                hasBind = noteId.contains(noteSecond.id)
-                hasNotification = noteId.contains(alarmThird.noteId)
+                hasBind = noteId.contains(secondNote.id)
+                hasNotification = noteId.contains(thirdAlarm.noteId)
             })
 
             assertEquals(list, rankRepo.getList())
@@ -59,20 +59,20 @@ class RankRepoTest : ParentIntegrationTest()  {
     }
 
     @Test fun getBind() = inRoomTest {
-        noteDao.insert(noteFirst)
-        noteDao.insert(noteSecond)
-        noteDao.insert(noteThird)
+        noteDao.insert(firstNote)
+        noteDao.insert(secondNote)
+        noteDao.insert(thirdNote)
 
-        alarmDao.insert(alarmThird)
+        alarmDao.insert(thirdAlarm)
 
-        listOf(rankFirst, rankSecond, rankThird).forEach {
+        listOf(firstRank, secondRank, thirdRank).forEach {
             rankDao.insert(it)
-            assertEquals(it.noteId.contains(noteSecond.id), rankRepo.getBind(it.noteId))
+            assertEquals(it.noteId.contains(secondNote.id), rankRepo.getBind(it.noteId))
         }
     }
 
     @Test fun getIdVisibleList() = inRoomTest {
-        val idList = listOf(rankFirst, rankSecond, rankThird).apply {
+        val idList = listOf(firstRank, secondRank, thirdRank).apply {
             forEach { rankDao.insert(it) }
         }.filter { it.isVisible }.map { it.id }
 
@@ -88,45 +88,45 @@ class RankRepoTest : ParentIntegrationTest()  {
     }
 
     @Test fun delete() = inRoomTest {
-        assertNotEquals(UNIQUE_ERROR_ID, noteDao.insert(noteFirst))
-        assertNotEquals(UNIQUE_ERROR_ID, noteDao.insert(noteSecond))
-        assertNotEquals(UNIQUE_ERROR_ID, rankDao.insert(rankFirst))
+        assertNotEquals(UNIQUE_ERROR_ID, noteDao.insert(firstNote))
+        assertNotEquals(UNIQUE_ERROR_ID, noteDao.insert(secondNote))
+        assertNotEquals(UNIQUE_ERROR_ID, rankDao.insert(firstRank))
 
-        rankRepo.delete(rankConverter.toItem(rankFirst))
+        rankRepo.delete(rankConverter.toItem(firstRank))
 
-        assertEquals(noteFirst.copy(
+        assertEquals(firstNote.copy(
                 rankId = DbData.Note.Default.RANK_ID,
                 rankPs = DbData.Note.Default.RANK_PS
-        ), noteDao.get(noteFirst.id))
+        ), noteDao.get(firstNote.id))
 
-        assertEquals(noteSecond.copy(
+        assertEquals(secondNote.copy(
                 rankId = DbData.Note.Default.RANK_ID,
                 rankPs = DbData.Note.Default.RANK_PS
-        ), noteDao.get(noteSecond.id))
+        ), noteDao.get(secondNote.id))
 
         assertTrue(rankRepo.getList().isEmpty())
     }
 
     @Test fun updateItem() = inRoomTest {
-        assertNotEquals(UNIQUE_ERROR_ID, rankDao.insert(rankFirst))
+        assertNotEquals(UNIQUE_ERROR_ID, rankDao.insert(firstRank))
 
-        assertEquals(listOf(rankConverter.toItem(rankFirst)), rankRepo.getList())
+        assertEquals(listOf(rankConverter.toItem(firstRank)), rankRepo.getList())
 
-        val rankItem = rankConverter.toItem(rankFirst.copy(name = "54321", isVisible = true))
+        val rankItem = rankConverter.toItem(firstRank.copy(name = "54321", isVisible = true))
         rankRepo.update(rankItem)
 
         assertEquals(listOf(rankItem), rankRepo.getList())
     }
 
     @Test fun updateList() = inRoomTest {
-        assertNotEquals(UNIQUE_ERROR_ID, rankDao.insert(rankFirst))
-        assertNotEquals(UNIQUE_ERROR_ID, rankDao.insert(rankSecond))
+        assertNotEquals(UNIQUE_ERROR_ID, rankDao.insert(firstRank))
+        assertNotEquals(UNIQUE_ERROR_ID, rankDao.insert(secondRank))
 
-        assertEquals(rankConverter.toItem(listOf(rankFirst, rankSecond)), rankRepo.getList())
+        assertEquals(rankConverter.toItem(listOf(firstRank, secondRank)), rankRepo.getList())
 
         val rankList = listOf(
-                rankConverter.toItem(rankFirst.copy(name = "54321", isVisible = true)),
-                rankConverter.toItem(rankSecond.copy(name = "98765", isVisible = false))
+                rankConverter.toItem(firstRank.copy(name = "54321", isVisible = true)),
+                rankConverter.toItem(secondRank.copy(name = "98765", isVisible = false))
         )
         rankRepo.update(rankList)
 
@@ -135,15 +135,15 @@ class RankRepoTest : ParentIntegrationTest()  {
 
 
     @Test fun updatePosition() = inRoomTest {
-        assertNotEquals(UNIQUE_ERROR_ID, noteDao.insert(noteFirst))
-        assertNotEquals(UNIQUE_ERROR_ID, noteDao.insert(noteSecond))
-        assertNotEquals(UNIQUE_ERROR_ID, noteDao.insert(noteThird))
+        assertNotEquals(UNIQUE_ERROR_ID, noteDao.insert(firstNote))
+        assertNotEquals(UNIQUE_ERROR_ID, noteDao.insert(secondNote))
+        assertNotEquals(UNIQUE_ERROR_ID, noteDao.insert(thirdNote))
 
-        assertNotEquals(UNIQUE_ERROR_ID, rankDao.insert(rankFirst))
-        assertNotEquals(UNIQUE_ERROR_ID, rankDao.insert(rankSecond))
-        assertNotEquals(UNIQUE_ERROR_ID, rankDao.insert(rankThird))
+        assertNotEquals(UNIQUE_ERROR_ID, rankDao.insert(firstRank))
+        assertNotEquals(UNIQUE_ERROR_ID, rankDao.insert(secondRank))
+        assertNotEquals(UNIQUE_ERROR_ID, rankDao.insert(thirdRank))
 
-        val rankList = rankConverter.toItem(listOf(rankThird, rankFirst, rankSecond))
+        val rankList = rankConverter.toItem(listOf(thirdRank, firstRank, secondRank))
         val noteIdList = rankList.correctPositions()
 
         rankRepo.updatePosition(rankList, noteIdList)
@@ -152,35 +152,35 @@ class RankRepoTest : ParentIntegrationTest()  {
         assertEquals(1, rankList[1].position)
         assertEquals(2, rankList[2].position)
 
-        assertEquals(1, noteDao.get(noteFirst.id)?.rankPs)
-        assertEquals(1, noteDao.get(noteSecond.id)?.rankPs)
-        assertEquals(2, noteDao.get(noteThird.id)?.rankPs)
+        assertEquals(1, noteDao.get(firstNote.id)?.rankPs)
+        assertEquals(1, noteDao.get(secondNote.id)?.rankPs)
+        assertEquals(2, noteDao.get(thirdNote.id)?.rankPs)
 
         assertEquals(rankList, rankConverter.toItem(rankDao.get()))
     }
 
 
     @Test fun updateConnection() = inRoomTest {
-        assertNotEquals(UNIQUE_ERROR_ID, rankDao.insert(rankFirst))
-        assertNotEquals(UNIQUE_ERROR_ID, rankDao.insert(rankSecond))
-        assertNotEquals(UNIQUE_ERROR_ID, rankDao.insert(rankThird))
+        assertNotEquals(UNIQUE_ERROR_ID, rankDao.insert(firstRank))
+        assertNotEquals(UNIQUE_ERROR_ID, rankDao.insert(secondRank))
+        assertNotEquals(UNIQUE_ERROR_ID, rankDao.insert(thirdRank))
 
-        assertNotEquals(UNIQUE_ERROR_ID, noteDao.insert(noteFirst))
+        assertNotEquals(UNIQUE_ERROR_ID, noteDao.insert(firstNote))
 
-        val noteItem = noteConverter.toItem(noteFirst.copy(rankId = 3, rankPs = 2))
+        val noteItem = noteConverter.toItem(firstNote.copy(rankId = 3, rankPs = 2))
         rankRepo.updateConnection(noteItem)
 
-        assertEquals(rankThird.copy(noteId = mutableListOf(noteItem.id)), rankDao.get(rankThird.id))
+        assertEquals(thirdRank.copy(noteId = mutableListOf(noteItem.id)), rankDao.get(thirdRank.id))
 
         noteItem.clearRank()
         rankRepo.updateConnection(noteItem)
 
-        assertEquals(rankThird, rankDao.get(rankThird.id))
+        assertEquals(thirdRank, rankDao.get(thirdRank.id))
     }
 
 
     @Test fun getDialogItemArray() = inRoomTest {
-        val nameList = listOf(rankFirst, rankSecond, rankThird).apply {
+        val nameList = listOf(firstRank, secondRank, thirdRank).apply {
             forEach { rankDao.insert(it) }
         }.map { it.name }.toMutableList().apply { add(0, context.getString(R.string.dialog_item_rank)) }
 
@@ -188,24 +188,22 @@ class RankRepoTest : ParentIntegrationTest()  {
     }
 
     @Test fun getId() = inRoomTest {
-        listOf(rankFirst, rankSecond, rankThird).forEach { rankDao.insert(it) }
+        listOf(firstRank, secondRank, thirdRank).forEach { rankDao.insert(it) }
 
         assertEquals(DbData.Note.Default.RANK_ID, rankRepo.getId(DbData.Note.Default.RANK_PS))
-        assertEquals(rankFirst.id, rankRepo.getId(position = 0))
-        assertEquals(rankSecond.id, rankRepo.getId(position = 1))
-        assertEquals(rankThird.id, rankRepo.getId(position = 2))
+        assertEquals(firstRank.id, rankRepo.getId(position = 0))
+        assertEquals(secondRank.id, rankRepo.getId(position = 1))
+        assertEquals(thirdRank.id, rankRepo.getId(position = 2))
     }
 
-    private companion object {
-        val rankFirst = RankEntity(id = 1, noteId = mutableListOf(1, 2), position = 0, name = "12345", isVisible = false)
-        val rankSecond = RankEntity(id = 2, noteId = mutableListOf(3), position = 1, name = "23456")
-        val rankThird = RankEntity(id = 3, position = 2, name = "34567", isVisible = false)
+    private val firstRank = RankEntity(id = 1, noteId = mutableListOf(1, 2), position = 0, name = "12345", isVisible = false)
+    private val secondRank = RankEntity(id = 2, noteId = mutableListOf(3), position = 1, name = "23456")
+    private val thirdRank = RankEntity(id = 3, position = 2, name = "34567", isVisible = false)
 
-        val noteFirst = NoteEntity(id = 1, create = DATE_1, change = DATE_2, text = "12345", rankId = 1, rankPs = 0, isStatus = false)
-        val noteSecond = NoteEntity(id = 2, create = DATE_1, change = DATE_2, text = "23456", rankId = 1, rankPs = 0, isStatus = true)
-        val noteThird = NoteEntity(id = 3, create = DATE_3, change = DATE_2, text = "34567", rankId = 2, rankPs = 1, isStatus = false)
+    private val firstNote = NoteEntity(id = 1, create = DATE_1, change = DATE_2, text = "12345", rankId = 1, rankPs = 0, isStatus = false)
+    private val secondNote = NoteEntity(id = 2, create = DATE_1, change = DATE_2, text = "23456", rankId = 1, rankPs = 0, isStatus = true)
+    private val thirdNote = NoteEntity(id = 3, create = DATE_3, change = DATE_2, text = "34567", rankId = 2, rankPs = 1, isStatus = false)
 
-        val alarmThird = AlarmEntity(id = 1, noteId = 3, date = DATE_1)
-    }
+    private val thirdAlarm = AlarmEntity(id = 1, noteId = 3, date = DATE_1)
 
 }

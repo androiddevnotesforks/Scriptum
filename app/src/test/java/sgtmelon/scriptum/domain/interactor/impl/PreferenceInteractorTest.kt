@@ -339,8 +339,9 @@ class PreferenceInteractorTest : ParentInteractorTest() {
     }
 
 
+    private val summaryList = arrayOf("summary 1", "summary 2", "summary 3")
+
     companion object {
-        private val summaryList = arrayOf("summary 1", "summary 2", "summary 3")
         private const val summaryVolume = "Volume: "
     }
 

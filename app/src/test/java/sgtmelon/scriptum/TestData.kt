@@ -18,26 +18,26 @@ object TestData {
     val uniqueString get() = randomUUID().toString().substring(0, 16)
 
     object Rank {
-        val rankFist get() = RankItem(
+        val firstRank get() = RankItem(
                 id = 1, noteId = mutableListOf(1, 2), position = 0, name = "1", isVisible = true
         )
-        val rankSecond get() = RankItem(
+        val secondRank get() = RankItem(
                 id = 2, noteId = mutableListOf(2, 3), position = 1, name = "2", isVisible = false
         )
-        val rankThird get() = RankItem(
+        val thirdRank get() = RankItem(
                 id = 3, noteId = mutableListOf(1, 5), position = 2, name = "3", isVisible = true
         )
-        val rankFourth get() = RankItem(
+        val fourthRank get() = RankItem(
                 id = 4, noteId = mutableListOf(4, 6), position = 3, name = "4", isVisible = false
         )
 
-        val itemList get() = mutableListOf(rankFist, rankSecond, rankThird, rankFourth)
+        val itemList get() = mutableListOf(firstRank, secondRank, thirdRank, fourthRank)
 
-        val correctListFirst get() = mutableListOf(rankSecond, rankThird, rankFist, rankFourth)
-        val correctListSecond get() = mutableListOf(rankFourth, rankSecond, rankFist, rankThird)
+        val firstCorrectList get() = mutableListOf(secondRank, thirdRank, firstRank, fourthRank)
+        val secondCorrectList get() = mutableListOf(fourthRank, secondRank, firstRank, thirdRank)
 
-        val correctPositionFirst get() = mutableListOf(2L, 3, 1, 5)
-        val correctPositionSecond get() = mutableListOf(4L, 6, 1, 2, 5)
+        val firstCorrectPosition get() = mutableListOf(2L, 3, 1, 5)
+        val secondCorrectPosition get() = mutableListOf(4L, 6, 1, 2, 5)
     }
 
     object Note {
@@ -46,32 +46,32 @@ object TestData {
         const val DATE_2 = "1456-03-04 05:06:07"
         const val DATE_3 = "1567-04-05 06:07:08"
 
-        val noteFirst = NoteItem.Text(
+        val firstNote = NoteItem.Text(
                 id = 0, create = DATE_1, change = DATE_2, color = 0,
                 rankId = -1, rankPs = -1, alarmId = 1, alarmDate = DATE_3
         )
 
-        val noteSecond = NoteItem.Roll(
+        val secondNote = NoteItem.Roll(
                 id = 1, create = DATE_0, change = DATE_3, color = 2,
                 rankId = 1, rankPs = 1, isStatus = true
         )
 
-        val noteThird = NoteItem.Text(
+        val thirdNote = NoteItem.Text(
                 id = 2, create = DATE_3, change = DATE_0, color = 4,
                 rankId = 1, rankPs = 1, alarmId = 2, alarmDate = DATE_2
         )
 
-        val noteFourth = NoteItem.Roll(
+        val fourthNote = NoteItem.Roll(
                 id = 3, create = DATE_2, change = DATE_1, color = 2,
                 rankId = 2, rankPs = 2, isStatus = true
         )
 
-        val itemList get() = mutableListOf(noteFirst, noteSecond, noteThird, noteFourth)
+        val itemList get() = mutableListOf(firstNote, secondNote, thirdNote, fourthNote)
 
-        val changeList get() = listOf(noteSecond, noteFirst, noteFourth, noteThird)
-        val createList get() = listOf(noteThird, noteFourth, noteFirst, noteSecond)
-        val rankList get() = listOf(noteThird, noteSecond, noteFourth, noteFirst)
-        val colorList get() = listOf(noteFirst, noteFourth, noteSecond, noteThird)
+        val changeList get() = listOf(secondNote, firstNote, fourthNote, thirdNote)
+        val createList get() = listOf(thirdNote, fourthNote, firstNote, secondNote)
+        val rankList get() = listOf(thirdNote, secondNote, fourthNote, firstNote)
+        val colorList get() = listOf(firstNote, fourthNote, secondNote, thirdNote)
 
         val dateList = listOf(DATE_0, DATE_1, DATE_2, DATE_3)
 
@@ -88,22 +88,22 @@ object TestData {
     }
 
     object Notification {
-        val notificationFirst = NotificationItem(
+        val firstNotification = NotificationItem(
                 Note(id = 0, name = "testName1", color = 5, type = NoteType.TEXT),
                 Alarm(id = 0, date = "123")
         )
 
-        val notificationSecond = NotificationItem(
+        val secondNotification = NotificationItem(
                 Note(id = 1, name = "testName2", color = 3, type = NoteType.ROLL),
                 Alarm(id = 1, date = "456")
         )
 
-        val notificationThird = NotificationItem(
+        val thirdNotification = NotificationItem(
                 Note(id = 2, name = "testName3", color = 8, type = NoteType.TEXT),
                 Alarm(id = 2, date = "789")
         )
 
-        val itemList get() = mutableListOf(notificationFirst, notificationSecond, notificationThird)
+        val itemList get() = mutableListOf(firstNotification, secondNotification, thirdNotification)
     }
 
 }

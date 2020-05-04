@@ -28,48 +28,48 @@ class AlarmRepoTest : ParentIntegrationTest() {
 
 
     @Test fun insert() = inRoomTest {
-        noteDao.insert(noteFirst)
+        noteDao.insert(firstNote)
 
-        val alarmFirst = alarmFirst.copy()
-        val noteItem = noteConverter.toItem(noteFirst)
+        val alarmEntity = firstAlarm.copy()
+        val noteItem = noteConverter.toItem(firstNote)
 
-        alarmRepo.insertOrUpdate(noteItem, alarmFirst.date)
+        alarmRepo.insertOrUpdate(noteItem, alarmEntity.date)
 
         /**
          * For insert need default [NoteItem.haveAlarm] == false.
          * It cause [IAlarmDao.insert] return not control [AlarmEntity.id].
          */
-        alarmFirst.id = noteItem.alarmId
+        alarmEntity.id = noteItem.alarmId
 
-        assertEquals(noteItem.alarmDate, alarmFirst.date)
+        assertEquals(noteItem.alarmDate, alarmEntity.date)
         assertTrue(noteItem.haveAlarm())
 
-        assertEquals(arrayListOf(getNotificationItem(noteFirst, alarmFirst)), alarmRepo.getList())
+        assertEquals(arrayListOf(getNotificationItem(firstNote, alarmEntity)), alarmRepo.getList())
     }
 
     @Test fun update() = inRoomTest {
-        noteDao.insert(noteFirst)
+        noteDao.insert(firstNote)
 
-        val alarmFirst = alarmFirst.copy().apply {
+        val alarmEntity = firstAlarm.copy().apply {
             id = alarmDao.insert(alarmEntity = this)
             date = DATE_2
         }
-        val noteItem = noteConverter.toItem(noteFirst, alarmEntity = alarmFirst)
+        val noteItem = noteConverter.toItem(firstNote, alarmEntity = alarmEntity)
 
-        alarmRepo.insertOrUpdate(noteItem, alarmFirst.date)
+        alarmRepo.insertOrUpdate(noteItem, alarmEntity.date)
 
-        assertEquals(noteItem.alarmDate, alarmFirst.date)
-        assertEquals(noteItem.alarmId, alarmFirst.id)
+        assertEquals(noteItem.alarmDate, alarmEntity.date)
+        assertEquals(noteItem.alarmId, alarmEntity.id)
         assertTrue(noteItem.haveAlarm())
 
-        assertEquals(arrayListOf(getNotificationItem(noteFirst, alarmFirst)), alarmRepo.getList())
+        assertEquals(arrayListOf(getNotificationItem(firstNote, alarmEntity)), alarmRepo.getList())
     }
 
     @Test fun delete() = inRoomTest {
-        noteDao.insert(noteFirst)
-        alarmDao.insert(alarmFirst)
+        noteDao.insert(firstNote)
+        alarmDao.insert(firstAlarm)
 
-        alarmRepo.delete(alarmFirst.noteId)
+        alarmRepo.delete(firstAlarm.noteId)
 
         assertTrue(alarmRepo.getList().isEmpty())
     }
@@ -77,28 +77,28 @@ class AlarmRepoTest : ParentIntegrationTest() {
     @Test fun getItem() = inRoomTest {
         assertNull(alarmRepo.getItem(Random.nextLong()))
 
-        noteDao.insert(noteFirst)
-        val alarmFirst = alarmFirst.also { it.id = alarmDao.insert(it) }
+        noteDao.insert(firstNote)
+        val firstAlarm = firstAlarm.also { it.id = alarmDao.insert(it) }
 
-        noteDao.insert(noteSecond)
-        val alarmSecond = alarmSecond.also { it.id = alarmDao.insert(it) }
+        noteDao.insert(secondNote)
+        val secondAlarm = secondAlarm.also { it.id = alarmDao.insert(it) }
 
-        assertEquals(getNotificationItem(noteFirst, alarmFirst), alarmRepo.getItem(noteFirst.id))
-        assertEquals(getNotificationItem(noteSecond, alarmSecond), alarmRepo.getItem(noteSecond.id))
+        assertEquals(getNotificationItem(firstNote, firstAlarm), alarmRepo.getItem(firstNote.id))
+        assertEquals(getNotificationItem(secondNote, secondAlarm), alarmRepo.getItem(secondNote.id))
     }
 
     @Test fun getList() = inRoomTest {
         assertTrue(alarmRepo.getList().isEmpty())
 
-        noteDao.insert(noteFirst)
-        val alarmFirst = alarmFirst.also { it.id = alarmDao.insert(it) }
+        noteDao.insert(firstNote)
+        val firstAlarm = firstAlarm.also { it.id = alarmDao.insert(it) }
 
-        noteDao.insert(noteSecond)
-        val alarmSecond = alarmSecond.also { it.id = alarmDao.insert(it) }
+        noteDao.insert(secondNote)
+        val secondAlarm = secondAlarm.also { it.id = alarmDao.insert(it) }
 
         val list = arrayListOf(
-                getNotificationItem(noteFirst, alarmFirst),
-                getNotificationItem(noteSecond, alarmSecond)
+                getNotificationItem(firstNote, firstAlarm),
+                getNotificationItem(secondNote, secondAlarm)
         )
 
         assertEquals(list, alarmRepo.getList())
@@ -114,19 +114,18 @@ class AlarmRepoTest : ParentIntegrationTest() {
         })
     }
 
-    private companion object {
-        val noteFirst = NoteEntity(
-                id = 1, create = DATE_1, change = DATE_1, text = "123", name = "456",
-                color = 1, type = NoteType.TEXT
-        )
 
-        val noteSecond = NoteEntity(
-                id = 2, create = DATE_2, change = DATE_2, text = "654", name = "321",
-                color = 2, type = NoteType.TEXT
-        )
+    private val firstNote = NoteEntity(
+            id = 1, create = DATE_1, change = DATE_1, text = "123", name = "456",
+            color = 1, type = NoteType.TEXT
+    )
 
-        val alarmFirst = AlarmEntity(id = 1, noteId = 1, date = DATE_1)
-        val alarmSecond = AlarmEntity(id = 2, noteId = 2, date = DATE_2)
-    }
+    private val secondNote = NoteEntity(
+            id = 2, create = DATE_2, change = DATE_2, text = "654", name = "321",
+            color = 2, type = NoteType.TEXT
+    )
+
+    private val firstAlarm = AlarmEntity(id = 1, noteId = 1, date = DATE_1)
+    private val secondAlarm = AlarmEntity(id = 2, noteId = 2, date = DATE_2)
 
 }

@@ -16,10 +16,8 @@ class AlarmConverterTest : ParentTest() {
     @Test fun toEntity() {
         assertEquals(entity, converter.toEntity(item))
     }
-    
-    private companion object {
-        val item = NoteItem.Text(id = 10, create = "123", color = 0, alarmId = 5, alarmDate = "12345")
-        val entity = AlarmEntity(id = 5, noteId = 10, date = "12345")
-    }
+
+    private val item = NoteItem.Text(id = 10, create = "123", color = 0, alarmId = 5, alarmDate = "12345")
+    private val entity = AlarmEntity(id = 5, noteId = 10, date = "12345")
 
 }

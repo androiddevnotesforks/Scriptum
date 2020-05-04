@@ -73,9 +73,9 @@ class TextNoteInteractorTest : ParentInteractorTest() {
     @Test fun getItem() = startCoTest {
         val rankIdVisibleList = data.rankIdVisibleList
 
-        val wrongItem = data.noteSecond.deepCopy()
-        val firstItem = data.noteFirst.deepCopy()
-        val secondItem = data.noteThird.deepCopy()
+        val wrongItem = data.secondNote.deepCopy()
+        val firstItem = data.firstNote.deepCopy()
+        val secondItem = data.thirdNote.deepCopy()
 
         coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList
 
@@ -188,8 +188,8 @@ class TextNoteInteractorTest : ParentInteractorTest() {
 
     @Test fun updateNote() = startCoTest {
         val rankIdVisibleList = data.rankIdVisibleList
-        val firstItem = data.noteFirst.deepCopy()
-        val secondItem = data.noteThird.deepCopy()
+        val firstItem = data.firstNote.deepCopy()
+        val secondItem = data.thirdNote.deepCopy()
 
         coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList
 
@@ -221,8 +221,8 @@ class TextNoteInteractorTest : ParentInteractorTest() {
 
     @Test fun saveNote() = startCoTest {
         val rankIdVisibleList = data.rankIdVisibleList
-        val firstItem = data.noteFirst.deepCopy()
-        val secondItem = data.noteThird.deepCopy()
+        val firstItem = data.firstNote.deepCopy()
+        val secondItem = data.thirdNote.deepCopy()
 
         coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList
 

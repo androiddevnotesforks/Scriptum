@@ -14,28 +14,28 @@ class RollConverterTest : ParentTest() {
     private val converter = RollConverter()
 
     @Test fun toItem() {
-        assertEquals(itemFirst, converter.toItem(entityFirst))
-        assertEquals(itemSecond, converter.toItem(entitySecond))
+        assertEquals(firstItem, converter.toItem(firstEntity))
+        assertEquals(secondItem, converter.toItem(secondEntity))
 
-        val itemList = mutableListOf(itemFirst, itemSecond)
-        val entityList = mutableListOf(entityFirst, entitySecond)
+        val itemList = mutableListOf(firstItem, secondItem)
+        val entityList = mutableListOf(firstEntity, secondEntity)
 
         assertEquals(itemList, converter.toItem(entityList))
     }
 
     @Test fun toEntity() {
-        assertEquals(entityFirst, converter.toEntity(noteId, itemFirst))
-        assertEquals(entitySecond, converter.toEntity(noteId, itemSecond))
+        assertEquals(firstEntity, converter.toEntity(noteId, firstItem))
+        assertEquals(secondEntity, converter.toEntity(noteId, secondItem))
     }
 
-    private companion object {
-        const val noteId = 1L
+    private val firstEntity = RollEntity(id = 1, noteId = noteId, position = 0, isCheck = true, text = "123")
+    private val secondEntity = RollEntity(id = 2, noteId = noteId, position = 1, text = "234")
 
-        val entityFirst = RollEntity(id = 1, noteId = noteId, position = 0, isCheck = true, text = "123")
-        val entitySecond = RollEntity(id = 2, noteId = noteId, position = 1, text = "234")
+    private val firstItem = RollItem(id = 1, position = 0, isCheck = true, text = "123")
+    private val secondItem = RollItem(id = 2, position = 1, text = "234")
 
-        val itemFirst = RollItem(id = 1, position = 0, isCheck = true, text = "123")
-        val itemSecond = RollItem(id = 2, position = 1, text = "234")
+    companion object {
+        private const val noteId = 1L
     }
 
 }

@@ -14,28 +14,27 @@ class RankConverterTest : ParentTest() {
     private val converter = RankConverter()
 
     @Test fun toItem() {
-        assertEquals(itemFirst, converter.toItem(entityFirst))
-        assertEquals(itemSecond, converter.toItem(entitySecond))
+        assertEquals(firstItem, converter.toItem(firstEntity))
+        assertEquals(secondItem, converter.toItem(secondEntity))
 
         assertEquals(itemList, converter.toItem(entityList))
     }
 
     @Test fun toEntity() {
-        assertEquals(entityFirst, converter.toEntity(itemFirst))
-        assertEquals(entitySecond, converter.toEntity(itemSecond))
+        assertEquals(firstEntity, converter.toEntity(firstItem))
+        assertEquals(secondEntity, converter.toEntity(secondItem))
 
         assertEquals(entityList, converter.toEntity(itemList))
     }
 
-    private companion object {
-        val entityFirst = RankEntity(id = 1, noteId = mutableListOf(1, 2), position = 0, name = "123", isVisible = false)
-        val entitySecond = RankEntity(id = 2, noteId = mutableListOf(2), position = 1, name = "234")
 
-        val itemFirst = RankItem(id = 1, noteId = mutableListOf(1, 2), position = 0, name = "123", isVisible = false)
-        val itemSecond = RankItem(id = 2, noteId = mutableListOf(2), position = 1, name = "234")
+    private val firstEntity = RankEntity(id = 1, noteId = mutableListOf(1, 2), position = 0, name = "123", isVisible = false)
+    private val secondEntity = RankEntity(id = 2, noteId = mutableListOf(2), position = 1, name = "234")
 
-        val itemList = mutableListOf(itemFirst, itemSecond)
-        val entityList = mutableListOf(entityFirst, entitySecond)
-    }
+    private val firstItem = RankItem(id = 1, noteId = mutableListOf(1, 2), position = 0, name = "123", isVisible = false)
+    private val secondItem = RankItem(id = 2, noteId = mutableListOf(2), position = 1, name = "234")
+
+    private val itemList = mutableListOf(firstItem, secondItem)
+    private val entityList = mutableListOf(firstEntity, secondEntity)
 
 }

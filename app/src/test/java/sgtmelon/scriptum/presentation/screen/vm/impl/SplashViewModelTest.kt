@@ -100,10 +100,10 @@ class SplashViewModelTest : ParentViewModelTest() {
     }
 
 
-    private companion object {
-        const val ID = 33L
-        const val COLOR = 5
-        const val TYPE = 0
+    companion object {
+        private const val ID = 33L
+        private const val COLOR = 5
+        private const val TYPE = 0
     }
 
 }

@@ -261,7 +261,7 @@ class RankViewModelTest : ParentViewModelTest() {
         assertEquals(itemList, viewModel.itemList)
 
         val name = TestData.uniqueString
-        val item = data.rankFist.copy(name = name)
+        val item = data.firstRank.copy(name = name)
 
         every { callback.clearEnter() } returns name
         coEvery { interactor.insert(name) } returns item
@@ -293,7 +293,7 @@ class RankViewModelTest : ParentViewModelTest() {
         assertEquals(itemList, viewModel.itemList)
 
         val name = TestData.uniqueString
-        val item = data.rankFist.copy(name = name)
+        val item = data.firstRank.copy(name = name)
 
         every { callback.clearEnter() } returns name
         coEvery { interactor.insert(name) } returns item
@@ -360,7 +360,7 @@ class RankViewModelTest : ParentViewModelTest() {
     @Test fun onClickCancel() = startCoTest {
         viewModel.onClickCancel(Random.nextInt())
 
-        val itemList = data.correctListSecond
+        val itemList = data.secondCorrectList
         val noteIdList = listOf(4L, 6, 1, 2)
 
         viewModel.itemList.addAll(itemList)
@@ -440,8 +440,8 @@ class RankViewModelTest : ParentViewModelTest() {
     @Test fun onTouchMoveResult() = startCoTest {
                         every { openState.clear() } returns Unit
 
-        val itemList = data.correctListFirst
-        val noteIdList = data.correctPositionFirst
+        val itemList = data.firstCorrectList
+        val noteIdList = data.firstCorrectPosition
 
         viewModel.itemList.addAll(itemList)
         assertEquals(itemList, viewModel.itemList)
@@ -501,16 +501,16 @@ class RankViewModelTest : ParentViewModelTest() {
         assertTrue(noteIdList.isEmpty())
         assertPositions(list)
 
-        list = correctListFirst
+        list = firstCorrectList
         noteIdList = list.correctPositions()
 
-        assertEquals(correctPositionFirst, noteIdList)
+        assertEquals(firstCorrectPosition, noteIdList)
         assertPositions(list)
 
-        list = correctListSecond
+        list = secondCorrectList
         noteIdList = list.correctPositions()
 
-        assertEquals(correctPositionSecond, noteIdList)
+        assertEquals(secondCorrectPosition, noteIdList)
         assertPositions(list)
     }
 

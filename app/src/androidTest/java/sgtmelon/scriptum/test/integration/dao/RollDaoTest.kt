@@ -25,18 +25,18 @@ class RollDaoTest : ParentIntegrationTest() {
 
 
     @Test fun insertWithUnique() = inRoomTest {
-        insertRollRelation(modelFirst)
+        insertRollRelation(firstModel)
 
-        with(modelFirst) {
+        with(firstModel) {
             rollList.forEach { item -> assertEquals(UNIQUE_ERROR_ID, rollDao.insert(item)) }
             assertEquals(rollList, rollDao.get(entity.id))
         }
     }
 
     @Test fun update() = inRoomTest {
-        insertRollRelation(modelSecond)
+        insertRollRelation(secondModel)
 
-        with(modelSecond) {
+        with(secondModel) {
             rollList[0].copy(position = 4, isCheck = true, text = "00000").let {
                 rollDao.update(it.id!!, it.position, it.text)
                 rollDao.update(it.id!!, it.isCheck)
@@ -47,9 +47,9 @@ class RollDaoTest : ParentIntegrationTest() {
     }
 
     @Test fun updateCheck() = inRoomTest {
-        insertRollRelation(modelSecond)
+        insertRollRelation(secondModel)
 
-        with(modelSecond) {
+        with(secondModel) {
             rollDao.updateAllCheck(entity.id, check = true)
             assertEquals(copy().rollList.apply {
                 forEach { it.isCheck = true }
@@ -58,9 +58,9 @@ class RollDaoTest : ParentIntegrationTest() {
     }
 
     @Test fun deleteAfterSwipe() = inRoomTest {
-        insertRollRelation(modelFirst)
+        insertRollRelation(firstModel)
 
-        with(modelFirst) {
+        with(firstModel) {
             val listSave = rollList.filter { it.isCheck }
 
             entity.id.let { id ->
@@ -71,9 +71,9 @@ class RollDaoTest : ParentIntegrationTest() {
     }
 
     @Test fun deleteAll() = inRoomTest {
-        insertRollRelation(modelFirst)
+        insertRollRelation(firstModel)
 
-        modelFirst.entity.id.let {
+        firstModel.entity.id.let {
             rollDao.delete(it)
             assertTrue(rollDao.get(it).isEmpty())
         }
@@ -81,19 +81,19 @@ class RollDaoTest : ParentIntegrationTest() {
 
 
     @Test fun get() = inRoomTest {
-        modelFirst.let {
+        firstModel.let {
             insertRollRelation(it)
             assertEquals(it.rollList, rollDao.get(it.entity.id))
         }
 
-        modelSecond.let {
+        secondModel.let {
             insertRollRelation(it)
             assertEquals(it.rollList, rollDao.get(it.entity.id))
         }
     }
 
     @Test fun getView() = inRoomTest {
-        modelFirst.let {
+        firstModel.let {
             insertRollRelation(it)
             assertEquals(
                     it.rollList.filter { roll -> roll.position < 4 },
@@ -101,7 +101,7 @@ class RollDaoTest : ParentIntegrationTest() {
             )
         }
 
-        modelSecond.let {
+        secondModel.let {
             insertRollRelation(it)
             assertEquals(
                     it.rollList.filter { roll -> roll.position < 4 },
@@ -114,7 +114,7 @@ class RollDaoTest : ParentIntegrationTest() {
     private data class Model(val entity: NoteEntity, val rollList: List<RollEntity>)
 
     private companion object {
-        val modelFirst = Model(NoteEntity(
+        val firstModel = Model(NoteEntity(
                 id = 1, create = DATE_1, change = DATE_2, type = NoteType.ROLL
         ), arrayListOf(
                 RollEntity(id = 1, noteId = 1, position = 0, isCheck = false, text = "01234"),
@@ -123,7 +123,7 @@ class RollDaoTest : ParentIntegrationTest() {
                 RollEntity(id = 4, noteId = 1, position = 3, isCheck = true, text = "34567")
         ))
 
-        val modelSecond = Model(NoteEntity(
+        val secondModel = Model(NoteEntity(
                 id = 2, create = DATE_3, change = DATE_4, type = NoteType.ROLL
         ), arrayListOf(
                 RollEntity(id = 5, noteId = 2, position = 0, isCheck = false, text = "01234"),

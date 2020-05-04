@@ -35,10 +35,10 @@ class RollItemTest : ParentTest() {
     private val firstItem = RollItem(id = 10, position = 5, isCheck = true, text = "12345")
     private val secondItem = RollItem(position = 5, isCheck = true, text = "12345")
 
-    private companion object {
-        const val firstString = """{"RL_POSITION":5,"RL_TEXT":"12345","RL_ID":10,"RL_CHECK":true}"""
-        const val secondString = """{"RL_POSITION":5,"RL_TEXT":"12345","RL_ID":-1,"RL_CHECK":true}"""
-        const val wrongString = "TEST_WRONG_STRING"
+    companion object {
+        private const val firstString = """{"RL_POSITION":5,"RL_TEXT":"12345","RL_ID":10,"RL_CHECK":true}"""
+        private const val secondString = """{"RL_POSITION":5,"RL_TEXT":"12345","RL_ID":-1,"RL_CHECK":true}"""
+        private const val wrongString = "TEST_WRONG_STRING"
     }
 
 }

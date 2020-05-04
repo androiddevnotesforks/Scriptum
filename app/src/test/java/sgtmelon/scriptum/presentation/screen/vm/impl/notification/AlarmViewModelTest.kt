@@ -49,21 +49,21 @@ class AlarmViewModelTest : ParentViewModelTest() {
     @Test override fun onDestroy() {
         assertNotNull(viewModel.callback)
 
-        viewModel.signalState = signalFirst
+        viewModel.signalState = firstSignal
         viewModel.onDestroy()
 
         assertNull(viewModel.callback)
         viewModel.setCallback(callback)
         assertNotNull(viewModel.callback)
 
-        viewModel.signalState = signalSecond
+        viewModel.signalState = secondSignal
         viewModel.onDestroy()
 
         assertNull(viewModel.callback)
 
         verifySequence {
-            verifyOnDestroy(signalFirst)
-            verifyOnDestroy(signalSecond)
+            verifyOnDestroy(firstSignal)
+            verifyOnDestroy(secondSignal)
         }
     }
 
@@ -83,7 +83,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
     @Test fun onSetup_onFirstStart_withGoodModel() = startCoTest {
         val id = Random.nextLong()
-        val noteItem = data.noteThird
+        val noteItem = data.thirdNote
 
         every { interactor.theme } returns Theme.LIGHT
 
@@ -93,7 +93,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
         every { bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID) } returns id
         coEvery { interactor.getModel(id) } returns noteItem
-        every { signalInteractor.state } returns signalFirst
+        every { signalInteractor.state } returns firstSignal
 
         viewModel.onSetup(bundle)
 
@@ -133,7 +133,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
         every { bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID) } returns id
         coEvery { interactor.getModel(id) } returns null
-        every { signalInteractor.state } returns signalFirst
+        every { signalInteractor.state } returns firstSignal
 
         viewModel.onSetup(bundle)
 
@@ -158,7 +158,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
     @Test fun onSetup_onSecondStart() {
         val id = Random.nextLong()
-        val noteItem = data.noteFirst.deepCopy()
+        val noteItem = data.firstNote.deepCopy()
 
         every { interactor.theme } returns Theme.DARK
 
@@ -204,27 +204,27 @@ class AlarmViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onStart() {
-        val themeFirst = Theme.LIGHT
-        val themeSecond = Theme.DARK
+        val firstTheme = Theme.LIGHT
+        val secondTheme = Theme.DARK
 
-        val noteFirst = data.noteFirst.deepCopy()
-        val noteSecond = data.noteSecond
+        val firstNote = data.firstNote.deepCopy()
+        val secondNote = data.secondNote.deepCopy()
 
-        every { interactor.theme } returns themeFirst
+        every { interactor.theme } returns firstTheme
 
-        viewModel.noteItem = noteFirst
-        viewModel.signalState = signalFirst
+        viewModel.noteItem = firstNote
+        viewModel.signalState = firstSignal
         viewModel.onStart()
 
-        every { interactor.theme } returns themeSecond
+        every { interactor.theme } returns secondTheme
 
-        viewModel.noteItem = noteSecond
-        viewModel.signalState = signalSecond
+        viewModel.noteItem = secondNote
+        viewModel.signalState = secondSignal
         viewModel.onStart()
 
         verifySequence {
-            verifyOnStart(themeFirst, ColorShade.ACCENT, noteFirst, signalFirst)
-            verifyOnStart(themeSecond, ColorShade.DARK, noteSecond, signalSecond)
+            verifyOnStart(firstTheme, ColorShade.ACCENT, firstNote, firstSignal)
+            verifyOnStart(secondTheme, ColorShade.DARK, secondNote, secondSignal)
         }
     }
 
@@ -249,7 +249,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onClickNote() {
-        val noteItem = data.noteFirst.deepCopy()
+        val noteItem = data.firstNote.deepCopy()
 
         viewModel.noteItem = noteItem
         viewModel.onClickNote()
@@ -267,7 +267,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
     @Test fun onClickRepeat() = startCoTest {
         val repeat = Repeat.MIN_10
-        val noteItem = data.noteFirst.deepCopy()
+        val noteItem = data.firstNote.deepCopy()
         val repeatArray = intArrayOf(Repeat.MIN_180, Repeat.MIN_1440)
 
         every { interactor.repeat } returns repeat
@@ -285,7 +285,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onResultRepeatDialog() = startCoTest {
-        val noteItem = data.noteFirst.deepCopy()
+        val noteItem = data.firstNote.deepCopy()
 
         every { interactor.repeat } returns Repeat.MIN_10
         every { callback.getIntArray(R.array.pref_alarm_repeat_array) } returns repeatArray
@@ -322,7 +322,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onReceiveUnbindNote() {
-        val noteItem = data.noteFirst.deepCopy(isStatus = true)
+        val noteItem = data.firstNote.deepCopy(isStatus = true)
 
         viewModel.noteItem = noteItem
         viewModel.onReceiveUnbindNote(noteItem.id)
@@ -335,12 +335,12 @@ class AlarmViewModelTest : ParentViewModelTest() {
     }
 
 
-    private val signalFirst = SignalState(isMelody = false, isVibration = true)
-    private val signalSecond = SignalState(isMelody = true, isVibration = false)
+    private val firstSignal = SignalState(isMelody = false, isVibration = true)
+    private val secondSignal = SignalState(isMelody = true, isVibration = false)
 
     private val repeatArray = intArrayOf(Repeat.MIN_180, Repeat.MIN_1440)
 
-    private companion object {
-        const val URI = "testUri"
+    companion object {
+        private const val URI = "testUri"
     }
 }

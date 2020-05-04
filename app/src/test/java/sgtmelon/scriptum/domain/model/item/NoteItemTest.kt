@@ -330,21 +330,21 @@ class NoteItemTest : ParentTest() {
 
     private val splitList = listOf("1", "2", "34")
 
-    private companion object {
-        const val NAME_SPACE = "1  2  3   "
-        const val NAME_CLEAR = "1 2 3"
+    companion object {
+        private const val NAME_SPACE = "1  2  3   "
+        private const val NAME_CLEAR = "1 2 3"
 
-        const val SPLIT_TEXT = "1\n\n2\n34\n"
+        private const val SPLIT_TEXT = "1\n\n2\n34\n"
 
-        const val CHANGE_TEXT = "TIME"
+        private const val CHANGE_TEXT = "TIME"
 
-        const val COPY_TEXT = "COPY_TEXT"
-        const val REAL_TEXT = "REAL_TEXT"
+        private const val COPY_TEXT = "COPY_TEXT"
+        private const val REAL_TEXT = "REAL_TEXT"
 
-        const val COPY_POSITION = 9
-        const val REAL_POSITION = 0
+        private const val COPY_POSITION = 9
+        private const val REAL_POSITION = 0
 
-        const val CHECK_COUNT = 2
+        private const val CHECK_COUNT = 2
     }
 
 }

@@ -418,7 +418,7 @@ class NotesViewModelTest : ParentViewModelTest() {
         viewModel.itemList.addAll(itemList)
         assertEquals(itemList, viewModel.itemList)
 
-        val notificationItem = TestData.Notification.notificationFirst
+        val notificationItem = TestData.Notification.firstNotification
         val p = itemList.indices.random()
         val item = itemList[p]
 

@@ -32,47 +32,46 @@ class NoteConverterTest : ParentTest() {
         assertEquals(rollEntity, converter.toEntity(fourthItem))
     }
 
-    private companion object {
-        val textEntity = NoteEntity(
-                id = 1, create = "12", change = "34", name = "bla", text = "bla", color = 1,
-                type = NoteType.TEXT, rankId = 1, rankPs = 1, isBin = true, isStatus = true
-        )
 
-        val rollEntity = NoteEntity(
-                id = 1, create = "12", change = "34", name = "bla", text = "bla", color = 1,
-                type = NoteType.ROLL, rankId = 1, rankPs = 1, isBin = true, isStatus = true
-        )
+    private val textEntity = NoteEntity(
+            id = 1, create = "12", change = "34", name = "bla", text = "bla", color = 1,
+            type = NoteType.TEXT, rankId = 1, rankPs = 1, isBin = true, isStatus = true
+    )
 
-        val rollList = mutableListOf(
-                RollItem(id = 1, position = 0, text = "123"),
-                RollItem(id = 2, position = 1, text = "234", isCheck = true),
-                RollItem(id = 3, position = 2, text = "345"),
-                RollItem(id = 4, position = 3, text = "456", isCheck = true)
-        )
+    private val rollEntity = NoteEntity(
+            id = 1, create = "12", change = "34", name = "bla", text = "bla", color = 1,
+            type = NoteType.ROLL, rankId = 1, rankPs = 1, isBin = true, isStatus = true
+    )
 
-        val alarmEntity = AlarmEntity(id = 1, noteId = 1, date = "12345")
+    private val rollList = mutableListOf(
+            RollItem(id = 1, position = 0, text = "123"),
+            RollItem(id = 2, position = 1, text = "234", isCheck = true),
+            RollItem(id = 3, position = 2, text = "345"),
+            RollItem(id = 4, position = 3, text = "456", isCheck = true)
+    )
 
-        val firstItem = NoteItem.Text(
-                id = 1, create = "12", change = "34", name = "bla", text = "bla", color = 1,
-                rankId = 1, rankPs = 1, isBin = true, isStatus = true,
-                alarmId = 1, alarmDate = "12345"
-        )
+    private val alarmEntity = AlarmEntity(id = 1, noteId = 1, date = "12345")
 
-        val secondItem = NoteItem.Text(
-                id = 1, create = "12", change = "34", name = "bla", text = "bla", color = 1,
-                rankId = 1, rankPs = 1, isBin = true, isStatus = true
-        )
+    private val firstItem = NoteItem.Text(
+            id = 1, create = "12", change = "34", name = "bla", text = "bla", color = 1,
+            rankId = 1, rankPs = 1, isBin = true, isStatus = true,
+            alarmId = 1, alarmDate = "12345"
+    )
 
-        val thirdItem = NoteItem.Roll(
-                id = 1, create = "12", change = "34", name = "bla", text = "bla", color = 1,
-                rankId = 1, rankPs = 1, isBin = true, isStatus = true,
-                alarmId = 1, alarmDate = "12345", list = rollList
-        )
+    private val secondItem = NoteItem.Text(
+            id = 1, create = "12", change = "34", name = "bla", text = "bla", color = 1,
+            rankId = 1, rankPs = 1, isBin = true, isStatus = true
+    )
 
-        val fourthItem = NoteItem.Roll(
-                id = 1, create = "12", change = "34", name = "bla", text = "bla", color = 1,
-                rankId = 1, rankPs = 1, isBin = true, isStatus = true, list = rollList
-        )
-    }
+    private val thirdItem = NoteItem.Roll(
+            id = 1, create = "12", change = "34", name = "bla", text = "bla", color = 1,
+            rankId = 1, rankPs = 1, isBin = true, isStatus = true,
+            alarmId = 1, alarmDate = "12345", list = rollList
+    )
+
+    private val fourthItem = NoteItem.Roll(
+            id = 1, create = "12", change = "34", name = "bla", text = "bla", color = 1,
+            rankId = 1, rankPs = 1, isBin = true, isStatus = true, list = rollList
+    )
 
 }

@@ -14,14 +14,14 @@ class IntConverterTest : ParentTest() {
     private val converter = IntConverter()
 
     @Test fun toInt() = with(converter) {
-        assertEquals(toInt(ZERO), 0)
-        assertEquals(toInt(ONE), 1)
-        assertEquals(toInt(TWO), 2)
-        assertEquals(toInt(THREE), 3)
-        assertEquals(toInt(FOUR), 4)
-        assertEquals(toInt(FIVE), 5)
-        assertEquals(toInt(SIX), 6)
-        assertEquals(toInt(SEVEN), 7)
+        assertEquals(toInt(zeroArray), 0)
+        assertEquals(toInt(oneArray), 1)
+        assertEquals(toInt(troArray), 2)
+        assertEquals(toInt(threeArray), 3)
+        assertEquals(toInt(fourArray), 4)
+        assertEquals(toInt(fiveArray), 5)
+        assertEquals(toInt(sixArray), 6)
+        assertEquals(toInt(sevenArray), 7)
 
         assertNotEquals(toInt(booleanArrayOf(F, T, T, T)), 7)
         assertEquals(toInt(booleanArrayOf(T, T, T, F)), 7)
@@ -55,18 +55,19 @@ class IntConverterTest : ParentTest() {
         assertEquals(toInt(toArray(value = -7)), 7)
     }
 
-    private companion object {
-        const val F = false
-        const val T = true
 
-        val ZERO = booleanArrayOf(F, F, F)
-        val ONE = booleanArrayOf(T, F, F)
-        val TWO = booleanArrayOf(F, T, F)
-        val THREE = booleanArrayOf(T, T, F)
-        val FOUR = booleanArrayOf(F, F, T)
-        val FIVE = booleanArrayOf(T, F, T)
-        val SIX = booleanArrayOf(F, T, T)
-        val SEVEN = booleanArrayOf(T, T, T)
+    private val zeroArray = booleanArrayOf(F, F, F)
+    private val oneArray = booleanArrayOf(T, F, F)
+    private val troArray = booleanArrayOf(F, T, F)
+    private val threeArray = booleanArrayOf(T, T, F)
+    private val fourArray = booleanArrayOf(F, F, T)
+    private val fiveArray = booleanArrayOf(T, F, T)
+    private val sixArray = booleanArrayOf(F, T, T)
+    private val sevenArray = booleanArrayOf(T, T, T)
+
+    companion object {
+        private const val F = false
+        private const val T = true
     }
 
 }

@@ -77,11 +77,11 @@ class InputItemTest : ParentTest() {
     private val cursor = InputItem.Cursor(CURSOR_FROM, CURSOR_TO)
 
     companion object {
-        const val VALUE_FROM = "12345"
-        const val VALUE_TO = "54321"
+        private const val VALUE_FROM = "12345"
+        private const val VALUE_TO = "54321"
 
-        const val CURSOR_FROM = 1
-        const val CURSOR_TO = 4
+        private const val CURSOR_FROM = 1
+        private const val CURSOR_TO = 4
     }
 
 }

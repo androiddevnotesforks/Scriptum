@@ -36,18 +36,18 @@ class NoteRepoTest : ParentIntegrationTest()  {
         assertEquals(0, noteRepo.getCount(bin = false))
         assertEquals(0, noteRepo.getCount(bin = true))
 
-        noteDao.insert(noteFirst)
-        noteDao.insert(noteSecond)
-        noteDao.insert(noteThird)
-        noteDao.insert(noteFourth)
+        noteDao.insert(firstNote)
+        noteDao.insert(secondNote)
+        noteDao.insert(thirdNote)
+        noteDao.insert(fourthNote)
 
-        rankDao.insert(rankFirst)
-        rankDao.insert(rankSecond)
+        rankDao.insert(firstRank)
+        rankDao.insert(secondRank)
 
         assertEquals(2, noteRepo.getCount(bin = false))
         assertEquals(2, noteRepo.getCount(bin = true))
 
-        rankDao.update(rankFirst.copy(isVisible = false))
+        rankDao.update(firstRank.copy(isVisible = false))
 
         assertEquals(1, noteRepo.getCount(bin = false))
     }
@@ -59,17 +59,17 @@ class NoteRepoTest : ParentIntegrationTest()  {
     }
 
     @Test fun getItem() = inRoomTest {
-        val rollList = rollConverter.toItem(rollListFirst)
-        val noteItem = noteConverter.toItem(noteFirst, rollList, alarmFirst)
+        val rollList = rollConverter.toItem(firstRollList)
+        val noteItem = noteConverter.toItem(firstNote, rollList, firstAlarm)
 
         val rollPreviewList = rollList.subList(0, NoteItem.Roll.PREVIEW_SIZE)
-        val notePreviewItem = noteConverter.toItem(noteFirst, rollPreviewList, alarmFirst)
+        val notePreviewItem = noteConverter.toItem(firstNote, rollPreviewList, firstAlarm)
 
         assertNull(noteRepo.getItem(noteItem.id, optimisation = true))
 
-        noteDao.insert(noteFirst)
-        rollListFirst.forEach { rollDao.insert(it) }
-        alarmDao.insert(alarmFirst)
+        noteDao.insert(firstNote)
+        firstRollList.forEach { rollDao.insert(it) }
+        alarmDao.insert(firstAlarm)
 
         assertEquals(noteItem, noteRepo.getItem(noteItem.id, optimisation = false))
         assertEquals(notePreviewItem, noteRepo.getItem(noteItem.id, optimisation = true))
@@ -78,55 +78,55 @@ class NoteRepoTest : ParentIntegrationTest()  {
     @Test fun getRollList() = inRoomTest {
         assertEquals(listOf<RankItem>(), noteRepo.getRollList(Random.nextLong()))
 
-        noteDao.insert(noteFirst)
-        noteDao.insert(noteFourth)
-        rollListFirst.forEach { rollDao.insert(it) }
-        rollListFourth.forEach { rollDao.insert(it) }
+        noteDao.insert(firstNote)
+        noteDao.insert(fourthNote)
+        firstRollList.forEach { rollDao.insert(it) }
+        fourthRollList.forEach { rollDao.insert(it) }
 
-        assertEquals(rollConverter.toItem(rollListFirst), noteRepo.getRollList(noteFirst.id))
-        assertEquals(rollConverter.toItem(rollListFourth), noteRepo.getRollList(noteFourth.id))
+        assertEquals(rollConverter.toItem(firstRollList), noteRepo.getRollList(firstNote.id))
+        assertEquals(rollConverter.toItem(fourthRollList), noteRepo.getRollList(fourthNote.id))
     }
 
 
     @Test fun isListHide() = inRoomTest {
-        rankDao.insert(rankFirst)
-        rankDao.insert(rankSecond.copy(isVisible = false))
+        rankDao.insert(firstRank)
+        rankDao.insert(secondRank.copy(isVisible = false))
 
-        noteDao.insert(noteFirst)
+        noteDao.insert(firstNote)
         assertFalse(noteRepo.isListHide())
 
-        noteDao.insert(noteFourth)
+        noteDao.insert(fourthNote)
         assertFalse(noteRepo.isListHide())
     }
 
     @Test fun clearBin() = inRoomTest {
-        noteDao.insert(noteFirst)
-        noteDao.insert(noteSecond)
-        noteDao.insert(noteThird)
+        noteDao.insert(firstNote)
+        noteDao.insert(secondNote)
+        noteDao.insert(thirdNote)
 
-        rankDao.insert(rankFirst)
-        rankDao.insert(rankSecond)
+        rankDao.insert(firstRank)
+        rankDao.insert(secondRank)
 
-        val itemSecond = noteConverter.toItem(noteSecond)
-        val itemThird = noteConverter.toItem(noteThird)
+        val itemSecond = noteConverter.toItem(secondNote)
+        val itemThird = noteConverter.toItem(thirdNote)
 
         noteRepo.clearBin()
 
-        assertEquals(noteFirst, noteDao.get(noteFirst.id))
+        assertEquals(firstNote, noteDao.get(firstNote.id))
 
-        assertEquals(rankFirst.copy(noteId = arrayListOf(4)), rankDao.get(rankFirst.id))
+        assertEquals(firstRank.copy(noteId = arrayListOf(4)), rankDao.get(firstRank.id))
         assertNull(noteDao.get(itemSecond.id))
 
-        assertEquals(rankSecond.copy(noteId = arrayListOf()), rankDao.get(rankSecond.id))
+        assertEquals(secondRank.copy(noteId = arrayListOf()), rankDao.get(secondRank.id))
         assertNull(noteDao.get(itemThird.id))
     }
 
 
     @Test fun deleteNote() = inRoomTest {
-        noteDao.insert(noteFirst)
-        alarmDao.insert(alarmFirst)
+        noteDao.insert(firstNote)
+        alarmDao.insert(firstAlarm)
 
-        val item = noteConverter.toItem(noteFirst)
+        val item = noteConverter.toItem(firstNote)
 
         noteRepo.deleteNote(item)
 
@@ -139,9 +139,9 @@ class NoteRepoTest : ParentIntegrationTest()  {
     }
 
     @Test fun restoreNote() = inRoomTest {
-        noteDao.insert(noteSecond)
+        noteDao.insert(secondNote)
 
-        val item = noteConverter.toItem(noteSecond)
+        val item = noteConverter.toItem(secondNote)
 
         noteRepo.restoreNote(item)
 
@@ -152,14 +152,14 @@ class NoteRepoTest : ParentIntegrationTest()  {
     }
 
     @Test fun clearNote() = inRoomTest {
-        noteDao.insert(noteSecond)
-        rankDao.insert(rankFirst)
+        noteDao.insert(secondNote)
+        rankDao.insert(firstRank)
 
-        val item = noteConverter.toItem(noteSecond)
+        val item = noteConverter.toItem(secondNote)
 
         noteRepo.clearNote(item)
 
-        assertEquals(rankFirst.copy(noteId = arrayListOf(4)), rankDao.get(rankFirst.id))
+        assertEquals(firstRank.copy(noteId = arrayListOf(4)), rankDao.get(firstRank.id))
         assertNull(noteDao.get(item.id))
     }
 
@@ -170,14 +170,14 @@ class NoteRepoTest : ParentIntegrationTest()  {
     }
 
     @Test fun convertToText() = inRoomTest {
-        val rollList = rollConverter.toItem(rollListFirst)
-        var noteItem = noteConverter.toItem(noteFirst, rollList, alarmFirst)
+        val rollList = rollConverter.toItem(firstRollList)
+        var noteItem = noteConverter.toItem(firstNote, rollList, firstAlarm)
 
         if (noteItem !is NoteItem.Roll) throw NoteCastException()
 
-        noteDao.insert(noteFirst)
-        rollListFirst.forEach { rollDao.insert(it) }
-        alarmDao.insert(alarmFirst)
+        noteDao.insert(firstNote)
+        firstRollList.forEach { rollDao.insert(it) }
+        alarmDao.insert(firstAlarm)
 
         noteRepo.convertNote(noteItem.deepCopy(), useCache = false)
         noteItem = noteItem.onConvert()
@@ -186,14 +186,14 @@ class NoteRepoTest : ParentIntegrationTest()  {
     }
 
     @Test fun convertToTextUseCache() = inRoomTest {
-        val rollList = rollConverter.toItem(rollListFirst)
-        var noteItem = noteConverter.toItem(noteFirst, rollList, alarmFirst)
+        val rollList = rollConverter.toItem(firstRollList)
+        var noteItem = noteConverter.toItem(firstNote, rollList, firstAlarm)
 
         if (noteItem !is NoteItem.Roll) throw NoteCastException()
 
-        noteDao.insert(noteFirst)
-        rollListFirst.forEach { rollDao.insert(it) }
-        alarmDao.insert(alarmFirst)
+        noteDao.insert(firstNote)
+        firstRollList.forEach { rollDao.insert(it) }
+        alarmDao.insert(firstAlarm)
 
         noteRepo.convertNote(noteItem.deepCopy(), useCache = true)
         noteItem = noteItem.onConvert()
@@ -202,31 +202,31 @@ class NoteRepoTest : ParentIntegrationTest()  {
     }
 
     @Test fun getCopyText() = inRoomTest {
-        noteDao.insert(noteFirst)
-        noteDao.insert(noteSecond)
-        noteDao.insert(noteThird)
-        noteDao.insert(noteFourth)
+        noteDao.insert(firstNote)
+        noteDao.insert(secondNote)
+        noteDao.insert(thirdNote)
+        noteDao.insert(fourthNote)
 
-        rollListFirst.forEach { rollDao.insert(it) }
-        rollListFourth.forEach { rollDao.insert(it) }
+        firstRollList.forEach { rollDao.insert(it) }
+        fourthRollList.forEach { rollDao.insert(it) }
 
-        val listFirst = rollConverter.toItem(rollListFirst)
-        val listFourth = rollConverter.toItem(rollListFourth)
+        val firstList = rollConverter.toItem(firstRollList)
+        val fourthList = rollConverter.toItem(fourthRollList)
 
-        val itemFirst = noteConverter.toItem(noteFirst, listFirst)
-        val itemSecond = noteConverter.toItem(noteSecond)
-        val itemThird = noteConverter.toItem(noteThird)
-        val itemFourth = noteConverter.toItem(noteFourth, listFourth)
+        val firstItem = noteConverter.toItem(firstNote, firstList)
+        val secondItem = noteConverter.toItem(secondNote)
+        val thirdItem = noteConverter.toItem(thirdNote)
+        val fourthItem = noteConverter.toItem(fourthNote, fourthList)
 
-        val textFirst = "${noteFirst.name}\n${listFirst.getText()}"
-        val textSecond = noteSecond.text
-        val textThird = with(noteThird) { "$name\n$text" }
-        val textFourth = "${noteFourth.name}\n${listFourth.getText()}"
+        val firstText = "${firstNote.name}\n${firstList.getText()}"
+        val secondText = secondNote.text
+        val thirdText = with(thirdNote) { "$name\n$text" }
+        val fourthText = "${fourthNote.name}\n${fourthList.getText()}"
 
-        assertEquals(textFirst, noteRepo.getCopyText(itemFirst))
-        assertEquals(textSecond, noteRepo.getCopyText(itemSecond))
-        assertEquals(textThird, noteRepo.getCopyText(itemThird))
-        assertEquals(textFourth, noteRepo.getCopyText(itemFourth))
+        assertEquals(firstText, noteRepo.getCopyText(firstItem))
+        assertEquals(secondText, noteRepo.getCopyText(secondItem))
+        assertEquals(thirdText, noteRepo.getCopyText(thirdItem))
+        assertEquals(fourthText, noteRepo.getCopyText(fourthItem))
     }
 
     @Test fun saveTextNote() = inRoomTest {
@@ -240,11 +240,11 @@ class NoteRepoTest : ParentIntegrationTest()  {
     }
 
     @Test fun updateRollCheckSingle() = inRoomTest {
-        noteDao.insert(noteFirst)
-        rollListFirst.forEach { rollDao.insert(it) }
+        noteDao.insert(firstNote)
+        firstRollList.forEach { rollDao.insert(it) }
 
-        val list = rollConverter.toItem(rollListFirst)
-        val item = noteConverter.toItem(noteFirst, list) as? NoteItem.Roll
+        val list = rollConverter.toItem(firstRollList)
+        val item = noteConverter.toItem(firstNote, list) as? NoteItem.Roll
                 ?: throw NoteCastException()
 
         item.onItemCheck(p = 0)
@@ -256,11 +256,11 @@ class NoteRepoTest : ParentIntegrationTest()  {
     }
 
     @Test fun updateRollCheckAllFalse() = inRoomTest {
-        noteDao.insert(noteFirst)
-        rollListFirst.forEach { rollDao.insert(it) }
+        noteDao.insert(firstNote)
+        firstRollList.forEach { rollDao.insert(it) }
 
-        val list = rollConverter.toItem(rollListFirst)
-        val item = noteConverter.toItem(noteFirst, list) as? NoteItem.Roll
+        val list = rollConverter.toItem(firstRollList)
+        val item = noteConverter.toItem(firstNote, list) as? NoteItem.Roll
                 ?: throw NoteCastException()
 
         list.forEach { it.isCheck = true }
@@ -274,11 +274,11 @@ class NoteRepoTest : ParentIntegrationTest()  {
     }
 
     @Test fun updateRollCheckAllTrue() = inRoomTest {
-        noteDao.insert(noteFourth)
-        rollListFourth.forEach { rollDao.insert(it) }
+        noteDao.insert(fourthNote)
+        fourthRollList.forEach { rollDao.insert(it) }
 
-        val list = rollConverter.toItem(rollListFourth)
-        val item = noteConverter.toItem(noteFourth, list) as? NoteItem.Roll
+        val list = rollConverter.toItem(fourthRollList)
+        val item = noteConverter.toItem(fourthNote, list) as? NoteItem.Roll
                 ?: throw NoteCastException()
 
         list.forEach { it.isCheck = true }
@@ -293,7 +293,7 @@ class NoteRepoTest : ParentIntegrationTest()  {
     }
 
     @Test fun updateNote() = inRoomTest {
-        val entity = noteFirst.copy()
+        val entity = firstNote.copy()
 
         noteDao.insert(entity)
         noteRepo.updateNote(noteConverter.toItem(entity.apply {
@@ -337,29 +337,29 @@ class NoteRepoTest : ParentIntegrationTest()  {
 
 
     private companion object {
-        val alarmFirst = AlarmEntity(id = 1, noteId = 1, date = DATE_4)
+        val firstAlarm = AlarmEntity(id = 1, noteId = 1, date = DATE_4)
 
-        val noteFirst = NoteEntity(id = 1,
+        val firstNote = NoteEntity(id = 1,
                 create = DATE_5, change = DATE_3, name = "NAME 1", text = "3/5", color = 0,
                 type = NoteType.ROLL, rankId = -1, rankPs = -1, isBin = false, isStatus = true
         )
 
-        val noteSecond = NoteEntity(id = 2,
+        val secondNote = NoteEntity(id = 2,
                 create = DATE_1, change = DATE_2, name = "", text = "TEXT 1", color = 1,
                 type = NoteType.TEXT, rankId = 1, rankPs = 0, isBin = true, isStatus = false
         )
 
-        val noteThird = NoteEntity(id = 3,
+        val thirdNote = NoteEntity(id = 3,
                 create = DATE_2, change = DATE_1, name = "NAME 3", text = "TEXT 2", color = 2,
                 type = NoteType.TEXT, rankId = 2, rankPs = 1, isBin = true, isStatus = false
         )
 
-        val noteFourth = NoteEntity(id = 4,
+        val fourthNote = NoteEntity(id = 4,
                 create = DATE_3, change = DATE_5, name = "NAME 4", text = "0/2", color = 3,
                 type = NoteType.ROLL, rankId = 1, rankPs = 0, isBin = false, isStatus = true
         )
 
-        val rollListFirst = mutableListOf(
+        val firstRollList = mutableListOf(
                 RollEntity(id = 1, noteId = 1, position = 0, isCheck = true, text = "0"),
                 RollEntity(id = 2, noteId = 1, position = 1, isCheck = false, text = "1"),
                 RollEntity(id = 3, noteId = 1, position = 2, isCheck = true, text = "2"),
@@ -367,16 +367,16 @@ class NoteRepoTest : ParentIntegrationTest()  {
                 RollEntity(id = 5, noteId = 1, position = 4, isCheck = true, text = "4")
         )
 
-        val rollListFourth = mutableListOf(
+        val fourthRollList = mutableListOf(
                 RollEntity(id = 6, noteId = 4, position = 0, isCheck = false, text = "0"),
                 RollEntity(id = 7, noteId = 4, position = 1, isCheck = false, text = "1")
         )
 
-        val rankFirst = RankEntity(
+        val firstRank = RankEntity(
                 id = 1, noteId = arrayListOf(2, 4), position = 0, name = "0", isVisible = true
         )
 
-        val rankSecond = RankEntity(
+        val secondRank = RankEntity(
                 id = 2, noteId = arrayListOf(3), position = 1, name = "1", isVisible = false
         )
     }

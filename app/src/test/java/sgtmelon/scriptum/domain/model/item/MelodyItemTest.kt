@@ -17,14 +17,14 @@ class MelodyItemTest : ParentTest() {
     }
 
 
-    private companion object {
-        const val PREFIX = "TEST"
+    companion object {
+        private const val PREFIX = "TEST"
 
-        const val TITLE = "${PREFIX}_TITLE"
-        const val URI = "${PREFIX}_URI"
-        const val ID = "${PREFIX}_ID"
+        private const val TITLE = "${PREFIX}_TITLE"
+        private const val URI = "${PREFIX}_URI"
+        private const val ID = "${PREFIX}_ID"
 
-        const val RESULT_URI = "${URI}/${ID}"
+        private const val RESULT_URI = "${URI}/${ID}"
     }
 
 }

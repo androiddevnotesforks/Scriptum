@@ -13,25 +13,25 @@ class StringConverterTest : ParentTest() {
     private val converter = StringConverter()
 
     @Test fun toList() {
-        assertEquals(listFirst, converter.toList(stringFirst))
-        assertEquals(listSecond, converter.toList(stringSecond))
+        assertEquals(firstList, converter.toList(firstString))
+        assertEquals(secondList, converter.toList(secondString))
 
-        assertNotEquals(listFirst, converter.toList(stringSecond))
+        assertNotEquals(firstList, converter.toList(secondString))
     }
 
     @Test fun convertToString() {
-        assertEquals(stringFirst, converter.toString(listFirst))
-        assertEquals(stringSecond, converter.toString(listSecond))
+        assertEquals(firstString, converter.toString(firstList))
+        assertEquals(secondString, converter.toString(secondList))
 
-        assertNotEquals(stringSecond, converter.toString(listFirst))
+        assertNotEquals(secondString, converter.toString(firstList))
     }
 
-    private companion object {
-        val listFirst: List<Long> = arrayListOf(1, 2, 3, 4, 5)
-        const val stringFirst = "1, 2, 3, 4, 5"
+    private val firstList: List<Long> = arrayListOf(1, 2, 3, 4, 5)
+    private val secondList: List<Long> = arrayListOf()
 
-        val listSecond: List<Long> = arrayListOf()
-        const val stringSecond = StringConverter.NONE
+    companion object {
+        private const val firstString = "1, 2, 3, 4, 5"
+        private const val secondString = StringConverter.NONE
     }
 
 }

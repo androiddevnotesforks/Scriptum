@@ -73,9 +73,9 @@ class RollNoteInteractorTest : ParentInteractorTest() {
     @Test fun getItem() = startCoTest {
         val rankIdVisibleList = data.rankIdVisibleList
 
-        val wrongItem = data.noteFirst.deepCopy()
-        val firstItem = data.noteSecond.deepCopy()
-        val secondItem = data.noteFourth.deepCopy()
+        val wrongItem = data.firstNote.deepCopy()
+        val firstItem = data.secondNote.deepCopy()
+        val secondItem = data.fourthNote.deepCopy()
 
         coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList
 
@@ -141,8 +141,8 @@ class RollNoteInteractorTest : ParentInteractorTest() {
     @Test fun updateRollCheck_byPosition() = startCoTest {
         val rankIdVisibleList = data.rankIdVisibleList
 
-        val firstItem = data.noteSecond.deepCopy()
-        val secondItem = data.noteFourth.deepCopy()
+        val firstItem = data.secondNote.deepCopy()
+        val secondItem = data.fourthNote.deepCopy()
         val firstPosition = Random.nextInt()
         val secondPosition = Random.nextInt()
 
@@ -164,8 +164,8 @@ class RollNoteInteractorTest : ParentInteractorTest() {
     @Test fun updateRollCheck_byCheck() = startCoTest {
         val rankIdVisibleList = data.rankIdVisibleList
 
-        val firstItem = data.noteSecond.deepCopy()
-        val secondItem = data.noteFourth.deepCopy()
+        val firstItem = data.secondNote.deepCopy()
+        val secondItem = data.fourthNote.deepCopy()
         val firstCheck = Random.nextBoolean()
         val secondCheck = Random.nextBoolean()
 
@@ -259,8 +259,8 @@ class RollNoteInteractorTest : ParentInteractorTest() {
 
     @Test fun updateNote() = startCoTest {
         val rankIdVisibleList = data.rankIdVisibleList
-        val firstItem = data.noteSecond.deepCopy()
-        val secondItem = data.noteFourth.deepCopy()
+        val firstItem = data.secondNote.deepCopy()
+        val secondItem = data.fourthNote.deepCopy()
 
         coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList
 
@@ -292,8 +292,8 @@ class RollNoteInteractorTest : ParentInteractorTest() {
 
     @Test fun saveNote() = startCoTest {
         val rankIdVisibleList = data.rankIdVisibleList
-        val firstItem = data.noteSecond.deepCopy()
-        val secondItem = data.noteFourth.deepCopy()
+        val firstItem = data.secondNote.deepCopy()
+        val secondItem = data.fourthNote.deepCopy()
 
         coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList
 

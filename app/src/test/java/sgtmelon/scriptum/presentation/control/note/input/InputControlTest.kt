@@ -135,11 +135,11 @@ class InputControlTest : ParentTest() {
         assert { undoFail() }
     }
 
-    private companion object {
-        const val idFrom = 0L
-        const val psFrom = 0
-        const val idTo = 1L
-        const val psTo = 1
+    companion object {
+        private const val idFrom = 0L
+        private const val psFrom = 0
+        private const val idTo = 1L
+        private const val psTo = 1
     }
 
     class Assert(private val inputControl: InputControl) {
