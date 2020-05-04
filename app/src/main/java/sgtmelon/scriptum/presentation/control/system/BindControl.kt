@@ -4,7 +4,9 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
+import androidx.annotation.IntDef
 import androidx.annotation.RequiresApi
+import androidx.annotation.StringDef
 import androidx.annotation.VisibleForTesting
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
@@ -70,31 +72,37 @@ class BindControl(private val context: Context?) : IBindControl {
         }
 
         if (notify) {
-            manager?.notify(TAG_NOTE, id, NotificationFactory.getBind(context, noteItem))
+            manager?.notify(Tag.NOTE, id, NotificationFactory.getBind(context, noteItem))
 
             if (BuildConfig.DEBUG) {
-                tagIdMap[TAG_NOTE] = id
+                tagIdMap[Tag.NOTE] = id
             }
         } else {
             cancelNote(id)
         }
+
+        manager?.notify(Tag.OTHER, Id.NOTE_GROUP, NotificationFactory.getBingSummary(context))
+
+        if (BuildConfig.DEBUG) {
+            tagIdMap[Tag.OTHER] = Id.NOTE_GROUP
+        }
     }
 
     override fun cancelNote(id: Int) {
-        manager?.cancel(TAG_NOTE, id)
+        manager?.cancel(Tag.NOTE, id)
     }
 
     override fun notifyInfo(count: Int) {
         if (context == null) return
 
         if (count != 0) {
-            manager?.notify(TAG_INFO, INFO_ID, NotificationFactory.getInfo(context, count))
+            manager?.notify(Tag.OTHER, Id.INFO, NotificationFactory.getInfo(context, count))
 
             if (BuildConfig.DEBUG) {
-                tagIdMap[TAG_INFO] = INFO_ID
+                tagIdMap[Tag.OTHER] = Id.INFO
             }
         } else {
-            manager?.cancel(TAG_INFO, INFO_ID)
+            manager?.cancel(Tag.OTHER, Id.INFO)
         }
     }
 
@@ -129,12 +137,28 @@ class BindControl(private val context: Context?) : IBindControl {
         fun notifyInfoBind(count: Int)
     }
 
+    @StringDef(Tag.NOTE, Tag.OTHER)
+    annotation class Tag {
+        companion object {
+            private const val PREFIX = "TAG_BIND"
+
+            const val NOTE = "${PREFIX}_NOTE"
+            const val OTHER = "${PREFIX}_OTHER"
+        }
+    }
+
+    /**
+     * Id's for [Tag.OTHER] notifications.
+     */
+    @IntDef(Id.NOTE_GROUP, Id.INFO)
+    annotation class Id {
+        companion object {
+            const val NOTE_GROUP = 0
+            const val INFO = 1
+        }
+    }
+
     companion object {
-        private const val PREFIX = "TAG_BIND"
-
-        private const val TAG_NOTE = "${PREFIX}_NOTE"
-        private const val TAG_INFO = "${PREFIX}_INFO"
-
         const val INFO_ID = 0
 
         @VisibleForTesting

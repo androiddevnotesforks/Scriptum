@@ -27,7 +27,7 @@ object NotificationFactory {
      *
      * Don't care about [NoteItem.Roll.list] if:
      * - If note type is [NoteType.TEXT]
-     * - If type is [NoteType.ROLL] and [NoteItem.rollList] is completely load
+     * - If type is [NoteType.ROLL] and [NoteItem.Roll.list] is completely load
      * - If you need only call [BindControl.cancelNote]
      */
     fun getBind(context: Context, noteItem: NoteItem): Notification {
@@ -48,7 +48,7 @@ object NotificationFactory {
                 .addNextIntent(SplashActivity.getBindInstance(context, noteItem))
                 .getPendingIntent(id, PendingIntent.FLAG_UPDATE_CURRENT)
 
-        val builder = NotificationCompat.Builder(context, context.getString(R.string.notification_notes_channel_id))
+        return NotificationCompat.Builder(context, context.getString(R.string.notification_notes_channel_id))
                 .setSmallIcon(icon)
                 .setColor(color)
                 .setContentTitle(title)
@@ -61,12 +61,8 @@ object NotificationFactory {
                 .addAction(0, context.getString(R.string.notification_button_unbind), UnbindReceiver[context, noteItem])
                 .setAutoCancel(false)
                 .setOngoing(true)
-
-        if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
-            builder.setGroup(context.getString(R.string.notification_group_notes))
-        }
-
-        return builder.build()
+                .setGroup(context.getString(R.string.notification_group_notes))
+                .build()
     }
 
     private fun NoteItem.getStatusTitle(context: Context): String {
@@ -76,6 +72,30 @@ object NotificationFactory {
 
     private fun List<RollItem>.toStatusText() = joinToString(separator = "\n") {
         "${if (it.isCheck) "\u25CF" else "\u25CB"} ${it.text}"
+    }
+
+    fun getBingSummary(context: Context): Notification {
+        return NotificationCompat.Builder(context, context.getString(R.string.notification_notes_channel_id))
+                .setContentTitle("Bind summary test")
+                //set content text to support devices running API level < 24
+                .setContentText("Two new messages")
+                .setSmallIcon(R.drawable.ic_add)
+                //build summary info into InboxStyle template
+                .setStyle(NotificationCompat.InboxStyle()
+                        .addLine("Alex Faarborg Check this out")
+                        .addLine("Jeff Chang Launch Party")
+                        .setBigContentTitle("2 new messages")
+                        .setSummaryText("janedoe@example.com"))
+                //specify which group this notification belongs to
+                .setGroup(context.getString(R.string.notification_group_notes))
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setCategory(NotificationCompat.CATEGORY_EVENT)
+                //set this notification as the summary for the group
+                .setGroupSummary(true)
+                .setAutoCancel(false)
+                .setOngoing(true)
+                .build()
     }
 
 
