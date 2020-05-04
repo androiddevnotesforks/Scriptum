@@ -125,7 +125,10 @@ class AlarmInteractorTest : ParentInteractorTest() {
 
         interactor.checkDateExist(currentCalendar)
 
-        val expected = (minute + dateList.size).takeIf { it < 60 } ?: 0
+        /**
+         * Get error on last hour minutes.
+         */
+        val expected = (minute + dateList.size) % 60
         assertEquals(expected, currentCalendar.get(Calendar.MINUTE))
 
         coVerifySequence {

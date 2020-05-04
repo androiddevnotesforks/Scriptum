@@ -35,7 +35,7 @@ class BindInteractorTest : ParentInteractorTest() {
     private val interactor by lazy { BindInteractor(preferenceRepo, bindRepo, rankRepo, noteRepo) }
 
     @Test fun notifyNoteBind() = startCoTest {
-        val rankIdVisibleList = List(size = 5) { Random.nextLong() }
+        val rankIdVisibleList = data.rankIdVisibleList
         val itemList = data.itemList
 
         coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList

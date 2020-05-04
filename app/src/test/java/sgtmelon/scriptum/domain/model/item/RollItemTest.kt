@@ -20,24 +20,24 @@ class RollItemTest : ParentTest() {
     }
 
     @Test fun getJson() {
-        assertEquals(itemFirst.toJson(), stringFirst)
-        assertEquals(itemSecond.toJson(), stringSecond)
+        assertEquals(firstItem.toJson(), firstString)
+        assertEquals(secondItem.toJson(), secondString)
     }
 
     @Test fun getItem() {
-        assertEquals(itemFirst, RollItem[stringFirst])
-        assertEquals(itemSecond, RollItem[stringSecond])
+        assertEquals(firstItem, RollItem[firstString])
+        assertEquals(secondItem, RollItem[secondString])
 
         assertNull(RollItem[wrongString])
     }
 
 
-    private val itemFirst = RollItem(id = 10, position = 5, isCheck = true, text = "12345")
-    private val itemSecond = RollItem(position = 5, isCheck = true, text = "12345")
+    private val firstItem = RollItem(id = 10, position = 5, isCheck = true, text = "12345")
+    private val secondItem = RollItem(position = 5, isCheck = true, text = "12345")
 
     private companion object {
-        const val stringFirst = """{"RL_POSITION":5,"RL_TEXT":"12345","RL_ID":10,"RL_CHECK":true}"""
-        const val stringSecond = """{"RL_POSITION":5,"RL_TEXT":"12345","RL_ID":-1,"RL_CHECK":true}"""
+        const val firstString = """{"RL_POSITION":5,"RL_TEXT":"12345","RL_ID":10,"RL_CHECK":true}"""
+        const val secondString = """{"RL_POSITION":5,"RL_TEXT":"12345","RL_ID":-1,"RL_CHECK":true}"""
         const val wrongString = "TEST_WRONG_STRING"
     }
 

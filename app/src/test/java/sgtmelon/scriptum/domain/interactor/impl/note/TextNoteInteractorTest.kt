@@ -2,7 +2,9 @@ package sgtmelon.scriptum.domain.interactor.impl.note
 
 import io.mockk.coEvery
 import io.mockk.coVerifySequence
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.verifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
@@ -15,6 +17,7 @@ import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.domain.model.item.NoteItem
+import sgtmelon.scriptum.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.text.ITextNoteBridge
 import java.util.*
 import kotlin.random.Random
@@ -45,7 +48,19 @@ class TextNoteInteractorTest : ParentInteractorTest() {
 
 
     @Test fun getSaveModel() {
-        TODO()
+        val model = with(Random) { SaveControl.Model(nextBoolean(), nextBoolean(), nextInt()) }
+
+        every { preferenceRepo.pauseSaveOn } returns model.pauseSaveOn
+        every { preferenceRepo.autoSaveOn } returns model.autoSaveOn
+        every { preferenceRepo.savePeriod } returns model.savePeriod
+
+        assertEquals(model, interactor.getSaveModel())
+
+        verifySequence {
+            preferenceRepo.pauseSaveOn
+            preferenceRepo.autoSaveOn
+            preferenceRepo.savePeriod
+        }
     }
 
     @Test fun getTheme() = FastTest.getTheme(preferenceRepo) { interactor.theme }
@@ -55,12 +70,46 @@ class TextNoteInteractorTest : ParentInteractorTest() {
     }
 
 
-    @Test fun getItem() {
-        TODO()
+    @Test fun getItem() = startCoTest {
+        val rankIdVisibleList = data.rankIdVisibleList
+
+        val wrongItem = data.noteSecond.deepCopy()
+        val firstItem = data.noteFirst.deepCopy()
+        val secondItem = data.noteThird.deepCopy()
+
+        coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList
+
+        coEvery { noteRepo.getItem(wrongItem.id, optimisation = false) } returns wrongItem
+        assertNull(interactor.getItem(wrongItem.id))
+
+        coEvery { noteRepo.getItem(firstItem.id, optimisation = false) } returns firstItem
+        assertEquals(firstItem, interactor.getItem(firstItem.id))
+
+        coEvery { noteRepo.getItem(secondItem.id, optimisation = false) } returns secondItem
+        assertEquals(secondItem, interactor.getItem(secondItem.id))
+
+        coVerifySequence {
+            noteRepo.getItem(wrongItem.id, optimisation = false)
+
+            noteRepo.getItem(firstItem.id, optimisation = false)
+            rankRepo.getIdVisibleList()
+            callback.notifyNoteBind(firstItem, rankIdVisibleList)
+
+            noteRepo.getItem(secondItem.id, optimisation = false)
+            callback.notifyNoteBind(secondItem, rankIdVisibleList)
+        }
     }
 
-    @Test fun getRankDialogItemArray() {
-        TODO()
+    @Test fun getRankDialogItemArray() = startCoTest {
+        val itemArray = Array(size = 5) { TestData.uniqueString }
+
+        coEvery { rankRepo.getDialogItemArray() } returns itemArray
+
+        assertArrayEquals(itemArray, interactor.getRankDialogItemArray())
+
+        coVerifySequence {
+            rankRepo.getDialogItemArray()
+        }
     }
 
 
@@ -137,8 +186,27 @@ class TextNoteInteractorTest : ParentInteractorTest() {
         }
     }
 
-    @Test fun updateNote() {
-        TODO()
+    @Test fun updateNote() = startCoTest {
+        val rankIdVisibleList = data.rankIdVisibleList
+        val firstItem = data.noteFirst.deepCopy()
+        val secondItem = data.noteThird.deepCopy()
+
+        coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList
+
+        interactor.updateNote(firstItem, updateBind = false)
+        interactor.updateNote(firstItem, updateBind = true)
+        interactor.updateNote(secondItem, updateBind = true)
+
+        coVerifySequence {
+            noteRepo.updateNote(firstItem)
+
+            noteRepo.updateNote(firstItem)
+            rankRepo.getIdVisibleList()
+            callback.notifyNoteBind(firstItem, rankIdVisibleList)
+
+            noteRepo.updateNote(secondItem)
+            callback.notifyNoteBind(secondItem, rankIdVisibleList)
+        }
     }
 
     @Test fun clearNote() = startCoTest {
@@ -151,8 +219,26 @@ class TextNoteInteractorTest : ParentInteractorTest() {
         }
     }
 
-    @Test fun saveNote() {
-        TODO()
+    @Test fun saveNote() = startCoTest {
+        val rankIdVisibleList = data.rankIdVisibleList
+        val firstItem = data.noteFirst.deepCopy()
+        val secondItem = data.noteThird.deepCopy()
+
+        coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList
+
+        interactor.saveNote(firstItem, isCreate = false)
+        interactor.saveNote(secondItem, isCreate = true)
+
+        coVerifySequence {
+            noteRepo.saveNote(firstItem, isCreate = false)
+            rankRepo.updateConnection(firstItem)
+            rankRepo.getIdVisibleList()
+            callback.notifyNoteBind(firstItem, rankIdVisibleList)
+
+            noteRepo.saveNote(secondItem, isCreate = true)
+            rankRepo.updateConnection(secondItem)
+            callback.notifyNoteBind(secondItem, rankIdVisibleList)
+        }
     }
 
     @Test fun deleteNote() = startCoTest {

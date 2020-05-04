@@ -98,7 +98,7 @@ class NotesInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun updateNote() = startCoTest {
-        val rankIdVisibleList = List(size = 5) { Random.nextLong() }
+        val rankIdVisibleList = data.rankIdVisibleList
 
         val textItem = data.itemList.filterIsInstance<NoteItem.Text>().random()
         val textMirror = textItem.deepCopy()
@@ -127,7 +127,7 @@ class NotesInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun convert() = startCoTest {
-        val rankIdVisibleList = List(size = 5) { Random.nextLong() }
+        val rankIdVisibleList = data.rankIdVisibleList
 
         val textItem = data.itemList.filterIsInstance<NoteItem.Text>().random()
 

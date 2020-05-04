@@ -112,13 +112,13 @@ class NoteItemTest : ParentTest() {
 
 
     @Test fun deepCopy_forText() {
-        val itemFirst = textItem.deepCopy(text = REAL_TEXT)
-        val itemSecond = itemFirst.deepCopy()
+        val firstItem = textItem.deepCopy(text = REAL_TEXT)
+        val secondItem = firstItem.deepCopy()
 
-        assertEquals(itemFirst, itemSecond)
+        assertEquals(firstItem, secondItem)
 
-        itemFirst.text = COPY_TEXT
-        assertEquals(REAL_TEXT, itemSecond.text)
+        firstItem.text = COPY_TEXT
+        assertEquals(REAL_TEXT, secondItem.text)
     }
 
     @Test fun splitText() {
@@ -180,16 +180,16 @@ class NoteItemTest : ParentTest() {
     }
 
     @Test fun deepCopy_forRoll() {
-        val itemFirst = rollItem.deepCopy(name = REAL_TEXT)
-        val itemSecond = itemFirst.deepCopy()
+        val firstItem = rollItem.deepCopy(name = REAL_TEXT)
+        val secondItem = firstItem.deepCopy()
 
-        assertEquals(itemFirst, itemSecond)
+        assertEquals(firstItem, secondItem)
 
-        itemFirst.name = COPY_TEXT
-        itemFirst.list.first().position = COPY_POSITION
+        firstItem.name = COPY_TEXT
+        firstItem.list.first().position = COPY_POSITION
 
-        assertEquals(REAL_TEXT, itemSecond.name)
-        assertEquals(REAL_POSITION, itemSecond.list.first().position)
+        assertEquals(REAL_TEXT, secondItem.name)
+        assertEquals(REAL_POSITION, secondItem.list.first().position)
     }
 
 

@@ -83,6 +83,8 @@ object TestData {
                 RollItem(id = 4, position = 4, isCheck = Random.nextBoolean(), text = uniqueString),
                 RollItem(id = 5, position = 5, isCheck = Random.nextBoolean(), text = uniqueString)
         )
+
+        val rankIdVisibleList get() = List(size = 5) { Random.nextLong() }
     }
 
     object Notification {

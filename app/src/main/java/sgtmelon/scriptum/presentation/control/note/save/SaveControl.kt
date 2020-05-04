@@ -46,7 +46,7 @@ class SaveControl(context: Context, private val model: Model, private val callba
         }
     }
 
-    class Model(val pauseSaveOn: Boolean, val autoSaveOn: Boolean, val savePeriod: Int)
+    data class Model(val pauseSaveOn: Boolean, val autoSaveOn: Boolean, val savePeriod: Int)
 
     interface Callback {
         fun onResultSaveControl()
