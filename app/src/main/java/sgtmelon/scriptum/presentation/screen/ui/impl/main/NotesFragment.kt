@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.FragmentNotesBinding
 import sgtmelon.scriptum.domain.model.annotation.Options
+import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.state.OpenState
@@ -299,8 +300,8 @@ class NotesFragment : ParentFragment(),
         alarmControl.set(calendar, id)
     }
 
-    override fun notifyNoteBind(item: NoteItem, rankIdVisibleList: List<Long>) {
-        bindControl.notifyNote(item, rankIdVisibleList)
+    override fun notifyNoteBind(@Sort sort: Int, item: NoteItem, rankIdVisibleList: List<Long>) {
+        bindControl.notifyNote(sort, item, rankIdVisibleList)
     }
 
     override fun cancelNoteBind(id: Int) = bindControl.cancelNote(id)

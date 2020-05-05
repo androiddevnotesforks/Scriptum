@@ -16,6 +16,7 @@ import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.data.repository.room.callback.IRankRepo
+import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.roll.IRollNoteBridge
@@ -27,6 +28,8 @@ import kotlin.random.Random
  */
 @ExperimentalCoroutinesApi
 class RollNoteInteractorTest : ParentInteractorTest() {
+
+    // TODO add random sort
 
     private val data = TestData.Note
 
@@ -78,6 +81,7 @@ class RollNoteInteractorTest : ParentInteractorTest() {
         val secondItem = data.fourthNote.deepCopy()
 
         coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList
+        every { preferenceRepo.sort } returns Sort.CREATE
 
         coEvery { noteRepo.getItem(wrongItem.id, optimisation = false) } returns wrongItem
         assertNull(interactor.getItem(wrongItem.id))
@@ -93,10 +97,10 @@ class RollNoteInteractorTest : ParentInteractorTest() {
 
             noteRepo.getItem(firstItem.id, optimisation = false)
             rankRepo.getIdVisibleList()
-            callback.notifyNoteBind(firstItem, rankIdVisibleList)
+            callback.notifyNoteBind(Sort.CREATE, firstItem, rankIdVisibleList)
 
             noteRepo.getItem(secondItem.id, optimisation = false)
-            callback.notifyNoteBind(secondItem, rankIdVisibleList)
+            callback.notifyNoteBind(Sort.CREATE, secondItem, rankIdVisibleList)
         }
     }
 
@@ -147,6 +151,7 @@ class RollNoteInteractorTest : ParentInteractorTest() {
         val secondPosition = Random.nextInt()
 
         coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList
+        every { preferenceRepo.sort } returns Sort.CREATE
 
         interactor.updateRollCheck(firstItem, firstPosition)
         interactor.updateRollCheck(secondItem, secondPosition)
@@ -154,10 +159,10 @@ class RollNoteInteractorTest : ParentInteractorTest() {
         coVerifySequence {
             noteRepo.updateRollCheck(firstItem, firstPosition)
             rankRepo.getIdVisibleList()
-            callback.notifyNoteBind(firstItem, rankIdVisibleList)
+            callback.notifyNoteBind(Sort.CREATE, firstItem, rankIdVisibleList)
 
             noteRepo.updateRollCheck(secondItem, secondPosition)
-            callback.notifyNoteBind(secondItem, rankIdVisibleList)
+            callback.notifyNoteBind(Sort.CREATE, secondItem, rankIdVisibleList)
         }
     }
 
@@ -170,6 +175,7 @@ class RollNoteInteractorTest : ParentInteractorTest() {
         val secondCheck = Random.nextBoolean()
 
         coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList
+        every { preferenceRepo.sort } returns Sort.CREATE
 
         interactor.updateRollCheck(firstItem, firstCheck)
         interactor.updateRollCheck(secondItem, secondCheck)
@@ -177,10 +183,10 @@ class RollNoteInteractorTest : ParentInteractorTest() {
         coVerifySequence {
             noteRepo.updateRollCheck(firstItem, firstCheck)
             rankRepo.getIdVisibleList()
-            callback.notifyNoteBind(firstItem, rankIdVisibleList)
+            callback.notifyNoteBind(Sort.CREATE, firstItem, rankIdVisibleList)
 
             noteRepo.updateRollCheck(secondItem, secondCheck)
-            callback.notifyNoteBind(secondItem, rankIdVisibleList)
+            callback.notifyNoteBind(Sort.CREATE, secondItem, rankIdVisibleList)
         }
     }
 
@@ -263,6 +269,7 @@ class RollNoteInteractorTest : ParentInteractorTest() {
         val secondItem = data.fourthNote.deepCopy()
 
         coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList
+        every { preferenceRepo.sort } returns Sort.CREATE
 
         interactor.updateNote(firstItem, updateBind = false)
         interactor.updateNote(firstItem, updateBind = true)
@@ -273,10 +280,10 @@ class RollNoteInteractorTest : ParentInteractorTest() {
 
             noteRepo.updateNote(firstItem)
             rankRepo.getIdVisibleList()
-            callback.notifyNoteBind(firstItem, rankIdVisibleList)
+            callback.notifyNoteBind(Sort.CREATE, firstItem, rankIdVisibleList)
 
             noteRepo.updateNote(secondItem)
-            callback.notifyNoteBind(secondItem, rankIdVisibleList)
+            callback.notifyNoteBind(Sort.CREATE, secondItem, rankIdVisibleList)
         }
     }
 
@@ -296,6 +303,7 @@ class RollNoteInteractorTest : ParentInteractorTest() {
         val secondItem = data.fourthNote.deepCopy()
 
         coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList
+        every { preferenceRepo.sort } returns Sort.CREATE
 
         interactor.saveNote(firstItem, isCreate = false)
         interactor.saveNote(secondItem, isCreate = true)
@@ -304,11 +312,11 @@ class RollNoteInteractorTest : ParentInteractorTest() {
             noteRepo.saveNote(firstItem, isCreate = false)
             rankRepo.updateConnection(firstItem)
             rankRepo.getIdVisibleList()
-            callback.notifyNoteBind(firstItem, rankIdVisibleList)
+            callback.notifyNoteBind(Sort.CREATE, firstItem, rankIdVisibleList)
 
             noteRepo.saveNote(secondItem, isCreate = true)
             rankRepo.updateConnection(secondItem)
-            callback.notifyNoteBind(secondItem, rankIdVisibleList)
+            callback.notifyNoteBind(Sort.CREATE, secondItem, rankIdVisibleList)
         }
     }
 

@@ -16,8 +16,8 @@ import sgtmelon.scriptum.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.domain.model.annotation.Options
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.Theme
+import sgtmelon.scriptum.extension.sort
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.INotesFragment
-import sgtmelon.scriptum.presentation.screen.vm.impl.main.NotesViewModel.Companion.sort
 import java.util.*
 import kotlin.random.Random
 

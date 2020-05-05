@@ -27,6 +27,8 @@ import kotlin.random.Random
 @ExperimentalCoroutinesApi
 class NotesInteractorTest : ParentInteractorTest() {
 
+    // TODO add random sort
+
     private val data = TestData.Note
 
     @MockK lateinit var preferenceRepo: IPreferenceRepo
@@ -110,6 +112,7 @@ class NotesInteractorTest : ParentInteractorTest() {
 
         coEvery { noteRepo.getRollList(rollItem.id) } returns rollList
         coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList
+        every { preferenceRepo.sort } returns Sort.CREATE
 
         interactor.updateNote(textItem)
         interactor.updateNote(rollItem)
@@ -117,12 +120,12 @@ class NotesInteractorTest : ParentInteractorTest() {
         coVerifySequence {
             noteRepo.updateNote(textItem)
             rankRepo.getIdVisibleList()
-            callback.notifyNoteBind(textMirror, rankIdVisibleList)
+            callback.notifyNoteBind(Sort.CREATE, textMirror, rankIdVisibleList)
 
             noteRepo.updateNote(rollItem)
             noteRepo.getRollList(rollItem.id)
             rankRepo.getIdVisibleList()
-            callback.notifyNoteBind(rollMirror, rankIdVisibleList)
+            callback.notifyNoteBind(Sort.CREATE, rollMirror, rankIdVisibleList)
         }
     }
 
@@ -143,6 +146,7 @@ class NotesInteractorTest : ParentInteractorTest() {
         }
 
         coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList
+        every { preferenceRepo.sort } returns Sort.CREATE
 
         coEvery { noteRepo.convertNote(textItem) } returns rollItemSmall
         assertEquals(rollItemSmall, interactor.convert(textItem))
@@ -156,15 +160,15 @@ class NotesInteractorTest : ParentInteractorTest() {
         coVerifySequence {
             noteRepo.convertNote(textItem)
             rankRepo.getIdVisibleList()
-            callback.notifyNoteBind(textItem, rankIdVisibleList)
+            callback.notifyNoteBind(Sort.CREATE, textItem, rankIdVisibleList)
 
             noteRepo.convertNote(textItem)
             rankRepo.getIdVisibleList()
-            callback.notifyNoteBind(textItem, rankIdVisibleList)
+            callback.notifyNoteBind(Sort.CREATE, textItem, rankIdVisibleList)
 
             noteRepo.convertNote(rollItemSmall, useCache = false)
             rankRepo.getIdVisibleList()
-            callback.notifyNoteBind(rollItemSmall, rankIdVisibleList)
+            callback.notifyNoteBind(Sort.CREATE, rollItemSmall, rankIdVisibleList)
         }
     }
 

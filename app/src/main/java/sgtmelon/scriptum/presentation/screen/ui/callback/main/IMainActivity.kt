@@ -9,7 +9,7 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.main.MainActivity
 import sgtmelon.scriptum.presentation.screen.vm.impl.main.MainViewModel
 
 /**
- * Interface for communication [MainViewModel] with [MainActivity]
+ * Interface for communication [MainViewModel] with [MainActivity].
  */
 interface IMainActivity : IMainBridge, MainReceiver.BindCallback, MainReceiver.AlarmCallback {
 

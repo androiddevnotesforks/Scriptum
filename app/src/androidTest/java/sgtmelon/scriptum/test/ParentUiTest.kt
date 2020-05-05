@@ -40,7 +40,7 @@ abstract class ParentUiTest : ParentTest() {
     override fun tearDown() {
         super.tearDown()
 
-        BindControl.callback?.clear()
+        BindControl.callback?.clearRecent()
         AlarmControl.callback?.clear()
     }
 

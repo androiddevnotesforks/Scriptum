@@ -99,8 +99,10 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name="sgtmelon.scriptum.presentation.receiver.UnbindReceiver"/>
         <receiver android:name="sgtmelon.scriptum.presentation.receiver.AlarmReceiver"/>
+        <receiver android:name="sgtmelon.scriptum.presentation.receiver.MainReceiver"/>
+        <receiver android:name="sgtmelon.scriptum.presentation.receiver.NoteReceiver"/>
+        <receiver android:name="sgtmelon.scriptum.presentation.receiver.UnbindReceiver"/>
 
     </application>
 

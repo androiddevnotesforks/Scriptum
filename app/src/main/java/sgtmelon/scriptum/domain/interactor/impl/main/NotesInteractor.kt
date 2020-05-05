@@ -55,7 +55,7 @@ class NotesInteractor(
             is NoteItem.Roll -> noteItem.deepCopy(list = noteRepo.getRollList(noteItem.id))
         }
 
-        callback?.notifyNoteBind(noteMirror, rankRepo.getIdVisibleList())
+        callback?.notifyNoteBind(preferenceRepo.sort, noteMirror, rankRepo.getIdVisibleList())
     }
 
     override suspend fun convert(noteItem: NoteItem): NoteItem {
@@ -64,7 +64,7 @@ class NotesInteractor(
             is NoteItem.Roll -> noteRepo.convertNote(noteItem, useCache = false)
         }
 
-        callback?.notifyNoteBind(noteItem, rankRepo.getIdVisibleList())
+        callback?.notifyNoteBind(preferenceRepo.sort, noteItem, rankRepo.getIdVisibleList())
 
         /**
          * Optimisation for get only first 4 items

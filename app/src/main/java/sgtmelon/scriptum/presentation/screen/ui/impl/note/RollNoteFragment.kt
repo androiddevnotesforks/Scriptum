@@ -23,6 +23,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.InputAction
+import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.data.NoteData
 import sgtmelon.scriptum.domain.model.item.NoteItem
@@ -581,8 +582,8 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
 
     override fun cancelAlarm(id: Long) = alarmControl.cancel(id)
 
-    override fun notifyNoteBind(item: NoteItem, rankIdVisibleList: List<Long>) {
-        bindControl.notifyNote(item, rankIdVisibleList)
+    override fun notifyNoteBind(@Sort sort: Int, item: NoteItem, rankIdVisibleList: List<Long>) {
+        bindControl.notifyNote(sort, item, rankIdVisibleList)
     }
 
     override fun cancelNoteBind(id: Int) = bindControl.cancelNote(id)

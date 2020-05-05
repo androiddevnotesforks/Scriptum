@@ -8,9 +8,11 @@ import androidx.annotation.IntDef
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringDef
 import androidx.annotation.VisibleForTesting
-import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.item.NoteItem
+import sgtmelon.scriptum.extension.clearAddAll
+import sgtmelon.scriptum.extension.sort
 import sgtmelon.scriptum.presentation.control.system.callback.IBindControl
 import sgtmelon.scriptum.presentation.factory.NotificationFactory
 
@@ -21,6 +23,8 @@ class BindControl(private val context: Context?) : IBindControl {
 
     private val manager = context?.getSystemService(Context.NOTIFICATION_SERVICE)
             as? NotificationManager
+
+    private val noteItemList: MutableList<NoteItem> = ArrayList()
 
     init {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && context != null) {
@@ -63,29 +67,39 @@ class BindControl(private val context: Context?) : IBindControl {
     /**
      * Update notification if note isStatus and isVisible, otherwise cancel notification
      */
-    override fun notifyNote(noteItem: NoteItem, rankIdVisibleList: List<Long>) {
+    override fun notifyNote(@Sort sort: Int, noteItem: NoteItem, rankIdVisibleList: List<Long>) {
         if (context == null) return
 
-        val id = noteItem.id.toInt()
-        val notify = with(noteItem) {
-            !isBin && isStatus && isVisible(rankIdVisibleList)
-        }
-
-        if (notify) {
-            manager?.notify(Tag.NOTE, id, NotificationFactory.getBind(context, noteItem))
-
-            if (BuildConfig.DEBUG) {
-                tagIdMap[Tag.NOTE] = id
-            }
+        val index = noteItemList.indexOfFirst { it.id == noteItem.id }
+        if (index != -1) {
+            noteItemList[index] = noteItem
         } else {
-            cancelNote(id)
+            noteItemList.add(noteItem)
         }
 
+        notifyNote(sort, noteItemList, rankIdVisibleList)
+    }
+
+    override fun notifyNote(@Sort sort: Int, itemList: List<NoteItem>,
+                            rankIdVisibleList: List<Long>) {
+        if (context == null) return
+
+        clearRecent(Tag.NOTE)
+
+        noteItemList.clearAddAll(itemList.filter {
+            !it.isBin && it.isStatus && it.isVisible(rankIdVisibleList)
+        }.sort(sort))
+
+        noteItemList.reversed().forEach {
+            val id = it.id.toInt()
+
+             manager?.notify(Tag.NOTE, id, NotificationFactory.getBind(context, it))
+            tagIdMap[Tag.NOTE] = id
+        }
+
+        // TODO pass summary or list
         manager?.notify(Tag.OTHER, Id.NOTE_GROUP, NotificationFactory.getBingSummary(context))
-
-        if (BuildConfig.DEBUG) {
-            tagIdMap[Tag.OTHER] = Id.NOTE_GROUP
-        }
+        tagIdMap[Tag.OTHER] = Id.NOTE_GROUP
     }
 
     override fun cancelNote(id: Int) {
@@ -97,19 +111,19 @@ class BindControl(private val context: Context?) : IBindControl {
 
         if (count != 0) {
             manager?.notify(Tag.OTHER, Id.INFO, NotificationFactory.getInfo(context, count))
-
-            if (BuildConfig.DEBUG) {
-                tagIdMap[Tag.OTHER] = Id.INFO
-            }
+            tagIdMap[Tag.OTHER] = Id.INFO
         } else {
             manager?.cancel(Tag.OTHER, Id.INFO)
         }
     }
 
-    override fun clear() {
-        if (BuildConfig.DEBUG) {
+    override fun clearRecent(@Tag tag: String?) {
+        if (tag == null) {
             tagIdMap.forEach { manager?.cancel(it.key, it.value) }
             tagIdMap.clear()
+        } else {
+            tagIdMap.filterKeys { it == tag }.forEach { manager?.cancel(it.key, it.value) }
+            tagIdMap.remove(tag)
         }
     }
 
@@ -122,7 +136,12 @@ class BindControl(private val context: Context?) : IBindControl {
         interface Full : Notify, Cancel
 
         interface Notify {
-            fun notifyNoteBind(item: NoteItem, rankIdVisibleList: List<Long>)
+            fun notifyNoteBind(@Sort sort: Int, item: NoteItem, rankIdVisibleList: List<Long>)
+        }
+
+        interface NotifyAll {
+            fun notifyNoteBind(@Sort sort: Int, itemList: List<NoteItem>,
+                               rankIdVisibleList: List<Long>)
         }
 
         interface Cancel {

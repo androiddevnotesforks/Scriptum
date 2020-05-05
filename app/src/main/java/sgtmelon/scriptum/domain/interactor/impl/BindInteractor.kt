@@ -21,15 +21,16 @@ class BindInteractor(
     /**
      * Update all bind notes in status bar rely on rank visibility.
      */
-    override suspend fun notifyNoteBind(callback: BindControl.NoteBridge.Notify?) {
+    override suspend fun notifyNoteBind(callback: BindControl.NoteBridge.NotifyAll?) {
         if (callback == null) return
 
         val rankIdVisibleList = rankRepo.getIdVisibleList()
 
         val sort = preferenceRepo.sort
-        noteRepo.getList(sort, bin = false, optimal = false, filterVisible = false).forEach {
-            callback.notifyNoteBind(it, rankIdVisibleList)
-        }
+        val itemList = noteRepo.getList(sort, bin = false, optimal = false, filterVisible = false)
+
+        // TODO double sort (also in BindControl)
+        callback.notifyNoteBind(sort, itemList, rankIdVisibleList)
     }
 
     override suspend fun notifyInfoBind(callback: BindControl.InfoBridge?) {

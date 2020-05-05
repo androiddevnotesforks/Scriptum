@@ -22,6 +22,8 @@ import kotlin.random.Random
 @ExperimentalCoroutinesApi
 class BindInteractorTest : ParentInteractorTest() {
 
+    // TODO add random sort
+
     private val data = TestData.Note
 
     @MockK lateinit var preferenceRepo: IPreferenceRepo
@@ -29,7 +31,7 @@ class BindInteractorTest : ParentInteractorTest() {
     @MockK lateinit var rankRepo: IRankRepo
     @MockK lateinit var noteRepo: INoteRepo
 
-    @MockK lateinit var noteCallback: BindControl.NoteBridge.Notify
+    @MockK lateinit var noteCallback: BindControl.NoteBridge.NotifyAll
     @MockK lateinit var infoCallback: BindControl.InfoBridge
 
     private val interactor by lazy { BindInteractor(preferenceRepo, bindRepo, rankRepo, noteRepo) }
@@ -56,13 +58,13 @@ class BindInteractorTest : ParentInteractorTest() {
             preferenceRepo.sort
             noteRepo.getList(Sort.CHANGE, bin = false, optimal = false, filterVisible = false)
 
-            itemList.forEach { noteCallback.notifyNoteBind(it, rankIdVisibleList) }
+            noteCallback.notifyNoteBind(Sort.CHANGE, itemList, rankIdVisibleList)
 
             rankRepo.getIdVisibleList()
             preferenceRepo.sort
             noteRepo.getList(Sort.COLOR, bin = false, optimal = false, filterVisible = false)
 
-            itemList.forEach { noteCallback.notifyNoteBind(it, rankIdVisibleList) }
+            noteCallback.notifyNoteBind(Sort.COLOR, itemList, rankIdVisibleList)
         }
     }
 
