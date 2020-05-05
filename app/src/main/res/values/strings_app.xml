@@ -33,6 +33,8 @@
     <string name="notification_info_channel">Info</string>
     <string name="notification_notes_channel">Notes</string>
 
+    <string name="notification_notes_group_summary">Notes</string>
+
     <string name="notification_button_unbind">Unbind</string>
 
     <plurals name="notification_info_title">

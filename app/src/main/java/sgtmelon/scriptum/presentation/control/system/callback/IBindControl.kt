@@ -9,11 +9,12 @@ import sgtmelon.scriptum.presentation.control.system.BindControl
  */
 interface IBindControl {
 
-    fun notifyNote(@Sort sort: Int, noteItem: NoteItem, rankIdVisibleList: List<Long>)
+    fun notifyNote(noteItem: NoteItem, rankIdVisibleList: List<Long>, @Sort sort: Int)
 
-    fun notifyNote(@Sort sort: Int, itemList: List<NoteItem>, rankIdVisibleList: List<Long>)
+    fun notifyNote(itemList: List<NoteItem>, rankIdVisibleList: List<Long>? = null,
+                   @Sort sort: Int? = null)
 
-    fun cancelNote(id: Int)
+    fun cancelNote(id: Long)
 
     fun notifyInfo(count: Int)
 

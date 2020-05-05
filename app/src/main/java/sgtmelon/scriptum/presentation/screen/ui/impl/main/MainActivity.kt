@@ -157,7 +157,7 @@ class MainActivity : AppActivity(), IMainActivity {
         fab?.setState(state)
     }
 
-    override fun scrollTop(mainPage: MainPage) {
+    override fun scrollTop(mainPage: MainPage) = onFragmentAdd(mainPage) {
         when (mainPage) {
             MainPage.RANK -> rankFragment.scrollTop()
             MainPage.NOTES -> notesFragment.scrollTop()
@@ -202,38 +202,34 @@ class MainActivity : AppActivity(), IMainActivity {
 
     override fun cancelAlarm(id: Long) = alarmControl.cancel(id)
 
-    override fun notifyNoteBind(@Sort sort: Int, itemList: List<NoteItem>,
-                                rankIdVisibleList: List<Long>) {
-        bindControl.notifyNote(sort, itemList, rankIdVisibleList)
+    override fun notifyNoteBind(itemList: List<NoteItem>, rankIdVisibleList: List<Long>,
+                                @Sort sort: Int?) {
+        bindControl.notifyNote(itemList, rankIdVisibleList, sort)
     }
 
     override fun notifyInfoBind(count: Int) = bindControl.notifyInfo(count)
 
 
     override fun onReceiveUnbindNote(id: Long) {
-        rankFragment.onReceiveUnbindNote(id)
-        notesFragment.onReceiveUnbindNote(id)
+        onFragmentAdd(MainPage.RANK) { rankFragment.onReceiveUnbindNote(id) }
+        onFragmentAdd(MainPage.NOTES) { notesFragment.onReceiveUnbindNote(id) }
     }
 
     override fun onReceiveUpdateAlarm(id: Long) {
-        notesFragment.onReceiveUpdateAlarm(id)
+        onFragmentAdd(MainPage.NOTES) { notesFragment.onReceiveUpdateAlarm(id) }
     }
 
 
-    private fun MainPage.getFragmentByName(): Fragment = let {
-        return@let when (it) {
-            MainPage.RANK -> rankFragment
-            MainPage.NOTES -> notesFragment
-            MainPage.BIN -> binFragment
-        }
+    private fun MainPage.getFragmentByName(): Fragment = when (this) {
+        MainPage.RANK -> rankFragment
+        MainPage.NOTES -> notesFragment
+        MainPage.BIN -> binFragment
     }
 
-    private fun MainPage.getFragmentTag(): String = let {
-        return@let when (it) {
-            MainPage.RANK -> FragmentFactory.Main.RANK
-            MainPage.NOTES -> FragmentFactory.Main.NOTES
-            MainPage.BIN -> FragmentFactory.Main.BIN
-        }
+    private fun MainPage.getFragmentTag(): String = when (this) {
+        MainPage.RANK -> FragmentFactory.Main.RANK
+        MainPage.NOTES -> FragmentFactory.Main.NOTES
+        MainPage.BIN -> FragmentFactory.Main.BIN
     }
 
     private fun FloatingActionButton.setState(isVisible: Boolean) {
@@ -250,6 +246,15 @@ class MainActivity : AppActivity(), IMainActivity {
         return Rect().apply {
             view.getGlobalVisibleRect(this)
         }.contains(rawX.toInt(), rawY.toInt())
+    }
+
+    /**
+     * Call [func] only if correct fragment added.
+     */
+    private fun onFragmentAdd(mainPage: MainPage, func: () -> Unit) {
+        if (fm.findFragmentByTag(mainPage.getFragmentTag()) == null) return
+
+        func()
     }
 
     companion object {

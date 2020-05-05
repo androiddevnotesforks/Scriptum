@@ -51,7 +51,7 @@ class TextNoteInteractor(
 
         if (item !is NoteItem.Text) return null
 
-        callback?.notifyNoteBind(preferenceRepo.sort, item, getRankIdVisibleList())
+        callback?.notifyNoteBind(item, getRankIdVisibleList(), preferenceRepo.sort)
 
         return item
     }
@@ -84,7 +84,7 @@ class TextNoteInteractor(
         noteRepo.updateNote(noteItem)
 
         if (updateBind) {
-            callback?.notifyNoteBind(preferenceRepo.sort, noteItem, getRankIdVisibleList())
+            callback?.notifyNoteBind(noteItem, getRankIdVisibleList(), preferenceRepo.sort)
         }
     }
 
@@ -94,14 +94,14 @@ class TextNoteInteractor(
         noteRepo.saveNote(noteItem, isCreate)
         rankRepo.updateConnection(noteItem)
 
-        callback?.notifyNoteBind(preferenceRepo.sort, noteItem, getRankIdVisibleList())
+        callback?.notifyNoteBind(noteItem, getRankIdVisibleList(), preferenceRepo.sort)
     }
 
     override suspend fun deleteNote(noteItem: NoteItem.Text) {
         noteRepo.deleteNote(noteItem)
 
         callback?.cancelAlarm(noteItem.id)
-        callback?.cancelNoteBind(noteItem.id.toInt())
+        callback?.cancelNoteBind(noteItem.id)
     }
 
 }

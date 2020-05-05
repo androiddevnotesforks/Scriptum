@@ -303,9 +303,9 @@ class RankFragment : ParentFragment(), IRankFragment, MainReceiver.BindCallback 
         adapter.setList(list).notifyItemMoved(from, to)
     }
 
-    override fun notifyNoteBind(@Sort sort: Int, itemList: List<NoteItem>,
-                                rankIdVisibleList: List<Long>) {
-        bindControl.notifyNote(sort, itemList, rankIdVisibleList)
+    override fun notifyNoteBind(itemList: List<NoteItem>, rankIdVisibleList: List<Long>,
+                                @Sort sort: Int?) {
+        bindControl.notifyNote(itemList, rankIdVisibleList, sort)
     }
 
 }

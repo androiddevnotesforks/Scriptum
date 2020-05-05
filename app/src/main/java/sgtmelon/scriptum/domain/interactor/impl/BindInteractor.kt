@@ -29,8 +29,7 @@ class BindInteractor(
         val sort = preferenceRepo.sort
         val itemList = noteRepo.getList(sort, bin = false, optimal = false, filterVisible = false)
 
-        // TODO double sort (also in BindControl)
-        callback.notifyNoteBind(sort, itemList, rankIdVisibleList)
+        callback.notifyNoteBind(itemList, rankIdVisibleList)
     }
 
     override suspend fun notifyInfoBind(callback: BindControl.InfoBridge?) {

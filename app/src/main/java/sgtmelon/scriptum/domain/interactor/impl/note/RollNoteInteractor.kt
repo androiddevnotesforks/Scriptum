@@ -51,7 +51,7 @@ class RollNoteInteractor(
 
         if (item !is NoteItem.Roll) return null
 
-        callback?.notifyNoteBind(preferenceRepo.sort, item, getRankIdVisibleList())
+        callback?.notifyNoteBind(item, getRankIdVisibleList(), preferenceRepo.sort)
 
         return item
     }
@@ -71,7 +71,7 @@ class RollNoteInteractor(
      */
     override suspend fun updateRollCheck(noteItem: NoteItem.Roll, p: Int) {
         noteRepo.updateRollCheck(noteItem, p)
-        callback?.notifyNoteBind(preferenceRepo.sort, noteItem, getRankIdVisibleList())
+        callback?.notifyNoteBind(noteItem, getRankIdVisibleList(), preferenceRepo.sort)
     }
 
     /**
@@ -79,7 +79,7 @@ class RollNoteInteractor(
      */
     override suspend fun updateRollCheck(noteItem: NoteItem.Roll, check: Boolean) {
         noteRepo.updateRollCheck(noteItem, check)
-        callback?.notifyNoteBind(preferenceRepo.sort, noteItem, getRankIdVisibleList())
+        callback?.notifyNoteBind(noteItem, getRankIdVisibleList(), preferenceRepo.sort)
     }
 
     override suspend fun getRankId(check: Int): Long = rankRepo.getId(check)
@@ -107,7 +107,7 @@ class RollNoteInteractor(
         noteRepo.updateNote(noteItem)
 
         if (updateBind) {
-            callback?.notifyNoteBind(preferenceRepo.sort, noteItem, getRankIdVisibleList())
+            callback?.notifyNoteBind(noteItem, getRankIdVisibleList(), preferenceRepo.sort)
         }
     }
 
@@ -117,14 +117,14 @@ class RollNoteInteractor(
         noteRepo.saveNote(noteItem, isCreate)
         rankRepo.updateConnection(noteItem)
 
-        callback?.notifyNoteBind(preferenceRepo.sort, noteItem, getRankIdVisibleList())
+        callback?.notifyNoteBind(noteItem, getRankIdVisibleList(), preferenceRepo.sort)
     }
 
     override suspend fun deleteNote(noteItem: NoteItem.Roll) {
         noteRepo.deleteNote(noteItem)
 
         callback?.cancelAlarm(noteItem.id)
-        callback?.cancelNoteBind(noteItem.id.toInt())
+        callback?.cancelNoteBind(noteItem.id)
     }
 
 }

@@ -20,6 +20,8 @@
     <string name="notification_info_channel">Информация</string>
     <string name="notification_notes_channel">Заметки</string>
 
+    <string name="notification_notes_group_summary">Заметки</string>
+
     <string name="notification_button_unbind">Открепить</string>
 
     <plurals name="notification_info_title">

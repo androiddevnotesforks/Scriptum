@@ -12,6 +12,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.extension.clearAddAll
+import sgtmelon.scriptum.extension.removeAtOrNull
 import sgtmelon.scriptum.extension.sort
 import sgtmelon.scriptum.presentation.control.system.callback.IBindControl
 import sgtmelon.scriptum.presentation.factory.NotificationFactory
@@ -67,7 +68,7 @@ class BindControl(private val context: Context?) : IBindControl {
     /**
      * Update notification if note isStatus and isVisible, otherwise cancel notification
      */
-    override fun notifyNote(@Sort sort: Int, noteItem: NoteItem, rankIdVisibleList: List<Long>) {
+    override fun notifyNote(noteItem: NoteItem, rankIdVisibleList: List<Long>, @Sort sort: Int) {
         if (context == null) return
 
         val index = noteItemList.indexOfFirst { it.id == noteItem.id }
@@ -77,43 +78,60 @@ class BindControl(private val context: Context?) : IBindControl {
             noteItemList.add(noteItem)
         }
 
-        notifyNote(sort, noteItemList, rankIdVisibleList)
+        notifyNote(noteItemList, rankIdVisibleList, sort)
     }
 
-    override fun notifyNote(@Sort sort: Int, itemList: List<NoteItem>,
-                            rankIdVisibleList: List<Long>) {
+    /**
+     * If [sort] is null when don't need sort.
+     * If [rankIdVisibleList] is null when don't need filter list by visibility.
+     */
+    override fun notifyNote(itemList: List<NoteItem>, rankIdVisibleList: List<Long>?,
+                            @Sort sort: Int?) {
         if (context == null) return
 
         clearRecent(Tag.NOTE)
 
         noteItemList.clearAddAll(itemList.filter {
-            !it.isBin && it.isStatus && it.isVisible(rankIdVisibleList)
+            val isVisible = rankIdVisibleList?.let { list -> it.isVisible(list) } ?: true
+
+            return@filter !it.isBin && it.isStatus && isVisible
         }.sort(sort))
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            if (noteItemList.size > 1) {
+                val summaryNotification = NotificationFactory.getBingSummary(context)
+
+                manager?.notify(Tag.NOTE_GROUP, Id.NOTE_GROUP, summaryNotification)
+                tagIdMap[Tag.NOTE_GROUP] = Id.NOTE_GROUP
+            } else {
+                clearRecent(Tag.NOTE_GROUP)
+            }
+        }
 
         noteItemList.reversed().forEach {
             val id = it.id.toInt()
 
-             manager?.notify(Tag.NOTE, id, NotificationFactory.getBind(context, it))
+            manager?.notify(Tag.NOTE, id, NotificationFactory.getBind(context, it))
             tagIdMap[Tag.NOTE] = id
         }
-
-        // TODO pass summary or list
-        manager?.notify(Tag.OTHER, Id.NOTE_GROUP, NotificationFactory.getBingSummary(context))
-        tagIdMap[Tag.OTHER] = Id.NOTE_GROUP
     }
 
-    override fun cancelNote(id: Int) {
-        manager?.cancel(Tag.NOTE, id)
+    override fun cancelNote(id: Long) {
+        with(noteItemList) {
+            removeAtOrNull(indexOfFirst { it.id == id }) ?: return
+        }
+
+        notifyNote(noteItemList)
     }
 
     override fun notifyInfo(count: Int) {
         if (context == null) return
 
         if (count != 0) {
-            manager?.notify(Tag.OTHER, Id.INFO, NotificationFactory.getInfo(context, count))
-            tagIdMap[Tag.OTHER] = Id.INFO
+            manager?.notify(Tag.INFO, Id.INFO, NotificationFactory.getInfo(context, count))
+            tagIdMap[Tag.INFO] = Id.INFO
         } else {
-            manager?.cancel(Tag.OTHER, Id.INFO)
+            manager?.cancel(Tag.INFO, Id.INFO)
         }
     }
 
@@ -136,16 +154,16 @@ class BindControl(private val context: Context?) : IBindControl {
         interface Full : Notify, Cancel
 
         interface Notify {
-            fun notifyNoteBind(@Sort sort: Int, item: NoteItem, rankIdVisibleList: List<Long>)
+            fun notifyNoteBind(item: NoteItem, rankIdVisibleList: List<Long>, @Sort sort: Int)
         }
 
         interface NotifyAll {
-            fun notifyNoteBind(@Sort sort: Int, itemList: List<NoteItem>,
-                               rankIdVisibleList: List<Long>)
+            fun notifyNoteBind(itemList: List<NoteItem>, rankIdVisibleList: List<Long>,
+                               @Sort sort: Int? = null)
         }
 
         interface Cancel {
-            fun cancelNoteBind(id: Int)
+            fun cancelNoteBind(id: Long)
         }
     }
 
@@ -156,18 +174,19 @@ class BindControl(private val context: Context?) : IBindControl {
         fun notifyInfoBind(count: Int)
     }
 
-    @StringDef(Tag.NOTE, Tag.OTHER)
+    @StringDef(Tag.NOTE, Tag.NOTE_GROUP, Tag.INFO)
     annotation class Tag {
         companion object {
             private const val PREFIX = "TAG_BIND"
 
             const val NOTE = "${PREFIX}_NOTE"
-            const val OTHER = "${PREFIX}_OTHER"
+            const val NOTE_GROUP = "${PREFIX}_NOTE_GROUP"
+            const val INFO = "${PREFIX}_INFO"
         }
     }
 
     /**
-     * Id's for [Tag.OTHER] notifications.
+     * Id's for [Tag.NOTE_GROUP] and [Tag.INFO] notifications.
      */
     @IntDef(Id.NOTE_GROUP, Id.INFO)
     annotation class Id {

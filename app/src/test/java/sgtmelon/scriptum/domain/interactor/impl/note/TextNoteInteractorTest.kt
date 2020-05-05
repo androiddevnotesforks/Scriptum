@@ -97,10 +97,10 @@ class TextNoteInteractorTest : ParentInteractorTest() {
 
             noteRepo.getItem(firstItem.id, optimisation = false)
             rankRepo.getIdVisibleList()
-            callback.notifyNoteBind(Sort.CREATE, firstItem, rankIdVisibleList)
+            callback.notifyNoteBind(firstItem, rankIdVisibleList, Sort.CREATE)
 
             noteRepo.getItem(secondItem.id, optimisation = false)
-            callback.notifyNoteBind(Sort.CREATE, secondItem, rankIdVisibleList)
+            callback.notifyNoteBind(secondItem, rankIdVisibleList, Sort.CREATE)
         }
     }
 
@@ -207,10 +207,10 @@ class TextNoteInteractorTest : ParentInteractorTest() {
 
             noteRepo.updateNote(firstItem)
             rankRepo.getIdVisibleList()
-            callback.notifyNoteBind(Sort.CREATE, firstItem, rankIdVisibleList)
+            callback.notifyNoteBind(firstItem, rankIdVisibleList, Sort.CREATE)
 
             noteRepo.updateNote(secondItem)
-            callback.notifyNoteBind(Sort.CREATE, secondItem, rankIdVisibleList)
+            callback.notifyNoteBind(secondItem, rankIdVisibleList, Sort.CREATE)
         }
     }
 
@@ -239,11 +239,11 @@ class TextNoteInteractorTest : ParentInteractorTest() {
             noteRepo.saveNote(firstItem, isCreate = false)
             rankRepo.updateConnection(firstItem)
             rankRepo.getIdVisibleList()
-            callback.notifyNoteBind(Sort.CREATE, firstItem, rankIdVisibleList)
+            callback.notifyNoteBind(firstItem, rankIdVisibleList, Sort.CREATE)
 
             noteRepo.saveNote(secondItem, isCreate = true)
             rankRepo.updateConnection(secondItem)
-            callback.notifyNoteBind(Sort.CREATE, secondItem, rankIdVisibleList)
+            callback.notifyNoteBind(secondItem, rankIdVisibleList, Sort.CREATE)
         }
     }
 
@@ -256,7 +256,7 @@ class TextNoteInteractorTest : ParentInteractorTest() {
             noteRepo.deleteNote(item)
 
             callback.cancelAlarm(item.id)
-            callback.cancelNoteBind(item.id.toInt())
+            callback.cancelNoteBind(item.id)
         }
     }
 

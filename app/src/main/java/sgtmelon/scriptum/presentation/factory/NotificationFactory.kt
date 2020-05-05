@@ -3,8 +3,8 @@ package sgtmelon.scriptum.presentation.factory
 import android.app.Notification
 import android.app.PendingIntent
 import android.content.Context
-import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
+import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.TaskStackBuilder
 import sgtmelon.scriptum.R
@@ -74,27 +74,17 @@ object NotificationFactory {
         "${if (it.isCheck) "\u25CF" else "\u25CB"} ${it.text}"
     }
 
+    @RequiresApi(VERSION_CODES.N)
     fun getBingSummary(context: Context): Notification {
         return NotificationCompat.Builder(context, context.getString(R.string.notification_notes_channel_id))
-                .setContentTitle("Bind summary test")
-                //set content text to support devices running API level < 24
-                .setContentText("Two new messages")
-                .setSmallIcon(R.drawable.ic_add)
-                //build summary info into InboxStyle template
-                .setStyle(NotificationCompat.InboxStyle()
-                        .addLine("Alex Faarborg Check this out")
-                        .addLine("Jeff Chang Launch Party")
-                        .setBigContentTitle("2 new messages")
-                        .setSummaryText("janedoe@example.com"))
-                //specify which group this notification belongs to
-                .setGroup(context.getString(R.string.notification_group_notes))
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setSmallIcon(R.drawable.notif_info) // TODO change icon
                 .setCategory(NotificationCompat.CATEGORY_EVENT)
-                //set this notification as the summary for the group
-                .setGroupSummary(true)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setAutoCancel(false)
                 .setOngoing(true)
+                .setGroup(context.getString(R.string.notification_group_notes))
+                .setGroupSummary(true)
                 .build()
     }
 
@@ -104,7 +94,7 @@ object NotificationFactory {
                 .addNextIntent(SplashActivity.getNotificationInstance(context))
                 .getPendingIntent(BindControl.INFO_ID, PendingIntent.FLAG_UPDATE_CURRENT)
 
-        val builder = NotificationCompat.Builder(context, context.getString(R.string.notification_info_channel_id))
+        return NotificationCompat.Builder(context, context.getString(R.string.notification_info_channel_id))
                 .setSmallIcon(R.drawable.notif_info)
                 .setContentTitle(context.resources.getQuantityString(R.plurals.notification_info_title, count, count))
                 .setContentText(context.getString(R.string.notification_info_description))
@@ -114,12 +104,8 @@ object NotificationFactory {
                 .setContentIntent(contentIntent)
                 .setAutoCancel(false)
                 .setOngoing(true)
-
-        if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
-            builder.setGroup(context.getString(R.string.notification_group_info))
-        }
-
-        return builder.build()
+                .setGroup(context.getString(R.string.notification_group_info))
+                .build()
     }
 
 }

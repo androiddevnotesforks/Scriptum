@@ -300,11 +300,11 @@ class NotesFragment : ParentFragment(),
         alarmControl.set(calendar, id)
     }
 
-    override fun notifyNoteBind(@Sort sort: Int, item: NoteItem, rankIdVisibleList: List<Long>) {
-        bindControl.notifyNote(sort, item, rankIdVisibleList)
+    override fun notifyNoteBind(item: NoteItem, rankIdVisibleList: List<Long>, @Sort sort: Int) {
+        bindControl.notifyNote(item, rankIdVisibleList, sort)
     }
 
-    override fun cancelNoteBind(id: Int) = bindControl.cancelNote(id)
+    override fun cancelNoteBind(id: Long) = bindControl.cancelNote(id)
 
     override fun notifyInfoBind(count: Int) = bindControl.notifyInfo(count)
 

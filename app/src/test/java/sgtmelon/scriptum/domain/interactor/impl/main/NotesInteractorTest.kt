@@ -120,12 +120,12 @@ class NotesInteractorTest : ParentInteractorTest() {
         coVerifySequence {
             noteRepo.updateNote(textItem)
             rankRepo.getIdVisibleList()
-            callback.notifyNoteBind(Sort.CREATE, textMirror, rankIdVisibleList)
+            callback.notifyNoteBind(textMirror, rankIdVisibleList, Sort.CREATE)
 
             noteRepo.updateNote(rollItem)
             noteRepo.getRollList(rollItem.id)
             rankRepo.getIdVisibleList()
-            callback.notifyNoteBind(Sort.CREATE, rollMirror, rankIdVisibleList)
+            callback.notifyNoteBind(rollMirror, rankIdVisibleList, Sort.CREATE)
         }
     }
 
@@ -160,15 +160,15 @@ class NotesInteractorTest : ParentInteractorTest() {
         coVerifySequence {
             noteRepo.convertNote(textItem)
             rankRepo.getIdVisibleList()
-            callback.notifyNoteBind(Sort.CREATE, textItem, rankIdVisibleList)
+            callback.notifyNoteBind(textItem, rankIdVisibleList, Sort.CREATE)
 
             noteRepo.convertNote(textItem)
             rankRepo.getIdVisibleList()
-            callback.notifyNoteBind(Sort.CREATE, textItem, rankIdVisibleList)
+            callback.notifyNoteBind(textItem, rankIdVisibleList, Sort.CREATE)
 
             noteRepo.convertNote(rollItemSmall, useCache = false)
             rankRepo.getIdVisibleList()
-            callback.notifyNoteBind(Sort.CREATE, rollItemSmall, rankIdVisibleList)
+            callback.notifyNoteBind(rollItemSmall, rankIdVisibleList, Sort.CREATE)
         }
     }
 
@@ -233,7 +233,7 @@ class NotesInteractorTest : ParentInteractorTest() {
             noteRepo.deleteNote(item)
 
             callback.cancelAlarm(item.id)
-            callback.cancelNoteBind(item.id.toInt())
+            callback.cancelNoteBind(item.id)
         }
     }
 
