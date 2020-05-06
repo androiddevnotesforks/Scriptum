@@ -1,5 +1,6 @@
 package sgtmelon.scriptum
 
+import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.domain.model.item.NotificationItem.Alarm
@@ -16,6 +17,8 @@ import kotlin.random.Random
 object TestData {
 
     val uniqueString get() = randomUUID().toString().substring(0, 16)
+
+    val sort get() = listOf(Sort.CHANGE, Sort.CREATE, Sort.RANK, Sort.COLOR).random()
 
     object Rank {
         val firstRank get() = RankItem(

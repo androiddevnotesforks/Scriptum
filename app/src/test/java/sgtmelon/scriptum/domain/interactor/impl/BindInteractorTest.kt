@@ -12,7 +12,6 @@ import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.IBindRepo
 import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.data.repository.room.callback.IRankRepo
-import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.presentation.control.system.BindControl
 import kotlin.random.Random
 
@@ -21,8 +20,6 @@ import kotlin.random.Random
  */
 @ExperimentalCoroutinesApi
 class BindInteractorTest : ParentInteractorTest() {
-
-    // TODO add random sort
 
     private val data = TestData.Note
 
@@ -47,22 +44,25 @@ class BindInteractorTest : ParentInteractorTest() {
 
         interactor.notifyNoteBind(callback = null)
 
-        every { preferenceRepo.sort } returns Sort.CHANGE
+        val firstSort = TestData.sort
+        val secondSort = TestData.sort
+
+        every { preferenceRepo.sort } returns firstSort
         interactor.notifyNoteBind(noteCallback)
 
-        every { preferenceRepo.sort } returns Sort.COLOR
+        every { preferenceRepo.sort } returns secondSort
         interactor.notifyNoteBind(noteCallback)
 
         coVerifySequence {
             rankRepo.getIdVisibleList()
             preferenceRepo.sort
-            noteRepo.getList(Sort.CHANGE, bin = false, optimal = false, filterVisible = false)
+            noteRepo.getList(firstSort, bin = false, optimal = false, filterVisible = false)
 
             noteCallback.notifyNoteBind(itemList, rankIdVisibleList)
 
             rankRepo.getIdVisibleList()
             preferenceRepo.sort
-            noteRepo.getList(Sort.COLOR, bin = false, optimal = false, filterVisible = false)
+            noteRepo.getList(secondSort, bin = false, optimal = false, filterVisible = false)
 
             noteCallback.notifyNoteBind(itemList, rankIdVisibleList)
         }

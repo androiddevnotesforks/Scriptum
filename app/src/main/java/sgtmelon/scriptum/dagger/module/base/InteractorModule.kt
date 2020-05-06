@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.dagger.module.base
 
-import android.content.Context
 import dagger.Module
 import dagger.Provides
 import sgtmelon.scriptum.dagger.ActivityScope
@@ -31,6 +30,7 @@ import sgtmelon.scriptum.domain.interactor.impl.note.TextNoteInteractor
 import sgtmelon.scriptum.domain.interactor.impl.notification.AlarmInteractor
 import sgtmelon.scriptum.domain.interactor.impl.notification.NotificationInteractor
 import sgtmelon.scriptum.domain.interactor.impl.notification.SignalInteractor
+import sgtmelon.scriptum.presentation.control.system.callback.IRingtoneControl
 import sgtmelon.scriptum.presentation.provider.SummaryProvider
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.BinFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.MainActivity
@@ -58,9 +58,9 @@ class InteractorModule {
 
     @Provides
     @ActivityScope
-    fun provideSignalInteractor(context: Context,
+    fun provideSignalInteractor(ringtoneControl: IRingtoneControl,
                                 preferenceRepo: IPreferenceRepo): ISignalInteractor {
-        return SignalInteractor(context, preferenceRepo)
+        return SignalInteractor(ringtoneControl, preferenceRepo)
     }
 
     //endregion

@@ -3,6 +3,7 @@ package sgtmelon.scriptum.dagger.component
 import dagger.BindsInstance
 import dagger.Component
 import sgtmelon.scriptum.dagger.module.base.ContextModule
+import sgtmelon.scriptum.dagger.module.base.ControlModule
 import sgtmelon.scriptum.dagger.module.base.RepoModule
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import javax.inject.Singleton
@@ -11,7 +12,7 @@ import javax.inject.Singleton
  * Parent component for application.
  */
 @Singleton
-@Component(modules = [ContextModule::class, RepoModule::class])
+@Component(modules = [ContextModule::class, RepoModule::class, ControlModule::class])
 interface ScriptumComponent {
 
     fun getAppBuilder(): AppComponent.Builder

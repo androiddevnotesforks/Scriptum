@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.domain.interactor.impl.notification
 
-import android.content.Context
 import android.media.RingtoneManager
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.room.converter.type.IntConverter
@@ -9,18 +8,17 @@ import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.domain.model.annotation.Signal
 import sgtmelon.scriptum.domain.model.item.MelodyItem
 import sgtmelon.scriptum.domain.model.state.SignalState
+import sgtmelon.scriptum.presentation.control.system.callback.IRingtoneControl
 import java.util.*
 
 /**
  * Interactor for work with alarm signal.
  */
 class SignalInteractor(
-        private val context: Context,
+        private val ringtoneControl: IRingtoneControl,
         private val preferenceRepo: IPreferenceRepo
 ) : ParentInteractor(),
         ISignalInteractor {
-
-    private val ringtoneManager get() = RingtoneManager(context)
 
     override val check: BooleanArray
         get() = IntConverter().toArray(preferenceRepo.signal, Signal.digitCount)
@@ -68,26 +66,8 @@ class SignalInteractor(
      */
     override val melodyList: List<MelodyItem>
         get() = ArrayList<MelodyItem>().apply {
-            /**
-             * Func which fill list with all [MelodyItem] for current [RingtoneManager] type
-             */
-            val fillListByType = { type: Int ->
-                ringtoneManager.apply {
-                    setType(type)
-                    cursor.apply {
-                        while (moveToNext()) {
-                            val title = getString(RingtoneManager.TITLE_COLUMN_INDEX) ?: continue
-                            val uri = getString(RingtoneManager.URI_COLUMN_INDEX) ?: continue
-                            val id = getString(RingtoneManager.ID_COLUMN_INDEX) ?: continue
-
-                            add(MelodyItem(title, uri, id))
-                        }
-                    }.close()
-                }
-            }
-
-            fillListByType(RingtoneManager.TYPE_ALARM)
-            fillListByType(RingtoneManager.TYPE_RINGTONE)
+            ringtoneControl.getByType(RingtoneManager.TYPE_ALARM)
+            ringtoneControl.getByType(RingtoneManager.TYPE_RINGTONE)
         }.sortedBy { it.title }
 
 }
