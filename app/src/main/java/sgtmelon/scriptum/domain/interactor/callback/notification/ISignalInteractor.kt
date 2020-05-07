@@ -14,7 +14,9 @@ interface ISignalInteractor {
     val state: SignalState
 
 
-    var melodyUri: String
+    fun getMelodyUri(melodyList: List<MelodyItem> = this.melodyList): String
+
+    fun setMelodyUri(value: String)
 
     val melodyCheck: Int
 

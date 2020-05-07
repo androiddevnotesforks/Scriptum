@@ -117,7 +117,7 @@ class PreferenceViewModel(
     }
 
     override fun onResultMelody(value: Int) {
-        signalInteractor.melodyUri = melodyList[value].uri
+        signalInteractor.setMelodyUri(melodyList[value].uri)
         callback?.updateMelodySummary(melodyList[value].title)
     }
 

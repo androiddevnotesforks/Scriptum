@@ -60,7 +60,7 @@ class PreferenceRepo(context: Context) : IPreferenceRepo {
         set(value) = edit { putInt(key.SIGNAL, value) }
 
     /**
-     * Access only from [SignalInteractor.melodyUri]
+     * Access only from [SignalInteractor.getMelodyUri]/[SignalInteractor.setMelodyUri].
      */
     override var melodyUri: String
         get() = preferences.getString(key.MELODY_URI, def.MELODY_URI) ?: def.MELODY_URI

@@ -27,47 +27,43 @@ class SignalInteractor(
 
 
     /**
-     * If melody not init or was delete - set first melody uri from list
+     * If melody not init or was delete - set first melody uri from list.
      */
-    override var melodyUri: String = preferenceRepo.melodyUri
-        get() = melodyList.let {
-            var value = preferenceRepo.melodyUri
+    override fun getMelodyUri(melodyList: List<MelodyItem>): String = melodyList.let {
+        var value = preferenceRepo.melodyUri
 
-            /**
-             * Check uri exist
-             */
-            if (value.isEmpty() || !it.map { item -> item.uri }.contains(value)) {
-                value = it.first().uri
-                preferenceRepo.melodyUri = value
-            }
-
-            return value
+        /**
+         * Check uri exist.
+         */
+        if (value.isEmpty() || !it.map { item -> item.uri }.contains(value)) {
+            value = it.first().uri
+            preferenceRepo.melodyUri = value
         }
-        set(value) = melodyList.map { it.uri }.let {
-            /**
-             * Check uri exist
-             */
-            field = if (it.contains(value)) {
-                value
-            } else {
-                it.first()
-            }
 
-            preferenceRepo.melodyUri = field
-        }
+        return value
+    }
+
+    /**
+     * If melody not init or was delete - set first melody uri from list.
+     */
+    override fun setMelodyUri(value: String)  = melodyList.map { it.uri }.let {
+        /**
+         * Check uri exist.
+         */
+        preferenceRepo.melodyUri = if (it.contains(value)) value else it.first()
+    }
 
     /**
      * Index of melody uri in [melodyList]
      */
-    override val melodyCheck: Int get() = melodyList.map { it.uri }.indexOf(melodyUri)
+    override val melodyCheck: Int get() = melodyList.let {
+        it.indexOfFirst { item -> item.uri == getMelodyUri(it) }
+    }
 
-    /**
-     * TODO #RELEASE add suspend
-     */
     override val melodyList: List<MelodyItem>
         get() = ArrayList<MelodyItem>().apply {
-            ringtoneControl.getByType(RingtoneManager.TYPE_ALARM)
-            ringtoneControl.getByType(RingtoneManager.TYPE_RINGTONE)
+            addAll(ringtoneControl.getByType(RingtoneManager.TYPE_ALARM))
+            addAll(ringtoneControl.getByType(RingtoneManager.TYPE_RINGTONE))
         }.sortedBy { it.title }
 
 }

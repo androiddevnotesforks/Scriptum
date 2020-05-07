@@ -59,7 +59,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         callback?.apply {
             acquirePhone(CANCEL_DELAY)
             setupView(interactor.theme)
-            setupPlayer(signalInteractor.melodyUri, interactor.volume, interactor.volumeIncrease)
+            setupPlayer(signalInteractor.getMelodyUri(), interactor.volume, interactor.volumeIncrease)
         }
 
         if (bundle != null) {

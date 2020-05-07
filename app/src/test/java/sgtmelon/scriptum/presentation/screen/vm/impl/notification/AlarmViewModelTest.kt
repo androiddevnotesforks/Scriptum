@@ -87,7 +87,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
         every { interactor.theme } returns Theme.LIGHT
 
-        every { signalInteractor.melodyUri } returns URI
+        every { signalInteractor.getMelodyUri() } returns URI
         every { interactor.volume } returns 5
         every { interactor.volumeIncrease } returns false
 
@@ -104,7 +104,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
                 interactor.theme
                 setupView(Theme.LIGHT)
 
-                signalInteractor.melodyUri
+                signalInteractor.getMelodyUri()
                 interactor.volume
                 interactor.volumeIncrease
 
@@ -127,7 +127,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
         every { interactor.theme } returns Theme.LIGHT
 
-        every { signalInteractor.melodyUri } returns URI
+        every { signalInteractor.getMelodyUri() } returns URI
         every { interactor.volume } returns 3
         every { interactor.volumeIncrease } returns false
 
@@ -144,7 +144,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
                 interactor.theme
                 setupView(Theme.LIGHT)
 
-                signalInteractor.melodyUri
+                signalInteractor.getMelodyUri()
                 interactor.volume
                 interactor.volumeIncrease
 
@@ -162,7 +162,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
         every { interactor.theme } returns Theme.DARK
 
-        every { signalInteractor.melodyUri } returns URI
+        every { signalInteractor.getMelodyUri() } returns URI
         every { interactor.volume } returns 1
         every { interactor.volumeIncrease } returns true
 
@@ -178,7 +178,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
                 interactor.theme
                 setupView(Theme.DARK)
 
-                signalInteractor.melodyUri
+                signalInteractor.getMelodyUri()
                 interactor.volume
                 interactor.volumeIncrease
 
