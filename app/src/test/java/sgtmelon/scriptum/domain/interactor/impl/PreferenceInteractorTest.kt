@@ -35,23 +35,25 @@ class PreferenceInteractorTest : ParentInteractorTest() {
     @Test fun getTheme() = FastTest.getTheme(preferenceRepo) { interactor.theme }
 
     @Test fun getThemeSummary() {
-        TODO("nullable")
-
-        every { summaryProvider.theme } returns summaryList
-
-        fun checkRequestSummary(value: Int?) {
+        fun checkRequestSummary(value: Int?, summaryList: Array<String>?) {
             every { preferenceRepo.theme } returns value
-            assertEquals(interactor.getThemeSummary(), value?.let { summaryList.getOrNull(it) })
+            assertEquals(value?.let { summaryList?.getOrNull(it) }, interactor.getThemeSummary())
         }
 
-        val valueList = listOf(null, Theme.LIGHT, Theme.DARK, Random.nextInt())
-        valueList.forEach { checkRequestSummary(it) }
+        val valueList = listOf(null, Theme.LIGHT, null, Random.nextInt())
+
+        every { summaryProvider.theme } returns null
+        valueList.forEach { checkRequestSummary(it, summaryList = null) }
+
+        every { summaryProvider.theme } returns summaryList
+        valueList.forEach { checkRequestSummary(it, summaryList) }
 
         verifySequence {
-            valueList.forEach {
-                preferenceRepo.theme
-
-                if (it != null) summaryProvider.theme
+            repeat(times = 2) {
+                valueList.forEach {
+                    preferenceRepo.theme
+                    it?.let { summaryProvider.theme }
+                }
             }
         }
     }
@@ -71,8 +73,8 @@ class PreferenceInteractorTest : ParentInteractorTest() {
             valueList.forEach {
                 preferenceRepo.theme = it
 
-                summaryProvider.theme
                 preferenceRepo.theme
+                summaryProvider.theme
             }
         }
     }
@@ -81,22 +83,25 @@ class PreferenceInteractorTest : ParentInteractorTest() {
     @Test fun getSort() = FastTest.getSort(preferenceRepo) { interactor.sort }
 
     @Test fun getSortSummary() {
-        TODO("nullable")
-
-        every { summaryProvider.sort } returns summaryList
-
-        fun checkRequestSummary(value: Int) {
+        fun checkRequestSummary(value: Int?, summaryList: Array<String>?) {
             every { preferenceRepo.sort } returns value
-            assertEquals(interactor.getSortSummary(), summaryList.getOrNull(value))
+            assertEquals(value?.let { summaryList?.getOrNull(it) }, interactor.getSortSummary())
         }
 
-        val valueList = listOf(Sort.CHANGE, Sort.RANK, Random.nextInt())
-        valueList.forEach { checkRequestSummary(it) }
+        val valueList = listOf(null, Sort.CHANGE, null, Random.nextInt())
+
+        every { summaryProvider.sort } returns null
+        valueList.forEach { checkRequestSummary(it, summaryList = null) }
+
+        every { summaryProvider.sort } returns summaryList
+        valueList.forEach { checkRequestSummary(it, summaryList) }
 
         verifySequence {
-            repeat(valueList.size) {
-                summaryProvider.sort
-                preferenceRepo.sort
+            repeat(times = 2) {
+                valueList.forEach {
+                    preferenceRepo.sort
+                    it?.let { summaryProvider.sort }
+                }
             }
         }
     }
@@ -116,8 +121,8 @@ class PreferenceInteractorTest : ParentInteractorTest() {
             valueList.forEach {
                 preferenceRepo.sort = it
 
-                summaryProvider.sort
                 preferenceRepo.sort
+                summaryProvider.sort
             }
         }
     }
@@ -128,22 +133,25 @@ class PreferenceInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun getDefaultColorSummary() {
-        TODO("nullable")
-
-        every { summaryProvider.color } returns summaryList
-
-        fun checkRequestSummary(value: Int) {
+        fun checkRequestSummary(value: Int?, summaryList: Array<String>?) {
             every { preferenceRepo.defaultColor } returns value
-            assertEquals(interactor.getDefaultColorSummary(), summaryList.getOrNull(value))
+            assertEquals(value?.let { summaryList?.getOrNull(it) }, interactor.getDefaultColorSummary())
         }
 
-        val valueList = listOf(Color.RED, Color.PURPLE, Color.INDIGO, Random.nextInt())
-        valueList.forEach { checkRequestSummary(it) }
+        val valueList = listOf(null, Color.RED, Color.PURPLE, null, Random.nextInt())
+
+        every { summaryProvider.color } returns null
+        valueList.forEach { checkRequestSummary(it, summaryList = null) }
+
+        every { summaryProvider.color } returns summaryList
+        valueList.forEach { checkRequestSummary(it, summaryList) }
 
         verifySequence {
-            repeat(valueList.size) {
-                summaryProvider.color
-                preferenceRepo.defaultColor
+            repeat(times = 2) {
+                valueList.forEach {
+                    preferenceRepo.defaultColor
+                    it?.let { summaryProvider.color }
+                }
             }
         }
     }
@@ -163,8 +171,8 @@ class PreferenceInteractorTest : ParentInteractorTest() {
             valueList.forEach {
                 preferenceRepo.defaultColor = it
 
-                summaryProvider.color
                 preferenceRepo.defaultColor
+                summaryProvider.color
             }
         }
     }
@@ -185,22 +193,25 @@ class PreferenceInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun getSavePeriodSummary() {
-        TODO("nullable")
-
-        every { summaryProvider.savePeriod } returns summaryList
-
-        fun checkRequestSummary(value: Int) {
+        fun checkRequestSummary(value: Int?, summaryList: Array<String>?) {
             every { preferenceRepo.savePeriod } returns value
-            assertEquals(interactor.getSavePeriodSummary(), summaryList.getOrNull(value))
+            assertEquals(value?.let { summaryList?.getOrNull(it) }, interactor.getSavePeriodSummary())
         }
 
-        val valueList = listOf(Random.nextInt(), Random.nextInt(), Random.nextInt())
-        valueList.forEach { checkRequestSummary(it) }
+        val valueList = listOf(null, Random.nextInt(), Random.nextInt(), null)
+
+        every { summaryProvider.savePeriod } returns null
+        valueList.forEach { checkRequestSummary(it, summaryList = null) }
+
+        every { summaryProvider.savePeriod } returns summaryList
+        valueList.forEach { checkRequestSummary(it, summaryList) }
 
         verifySequence {
-            repeat(valueList.size) {
-                summaryProvider.savePeriod
-                preferenceRepo.savePeriod
+            repeat(times = 2) {
+                valueList.forEach {
+                    preferenceRepo.savePeriod
+                    it?.let { summaryProvider.savePeriod }
+                }
             }
         }
     }
@@ -220,8 +231,8 @@ class PreferenceInteractorTest : ParentInteractorTest() {
             valueList.forEach {
                 preferenceRepo.savePeriod = it
 
-                summaryProvider.savePeriod
                 preferenceRepo.savePeriod
+                summaryProvider.savePeriod
             }
         }
     }
@@ -230,22 +241,25 @@ class PreferenceInteractorTest : ParentInteractorTest() {
     @Test fun getRepeat() = FastTest.getRepeat(preferenceRepo) { interactor.repeat }
 
     @Test fun getRepeatSummary() {
-        TODO("nullable")
-
-        every { summaryProvider.repeat } returns summaryList
-
-        fun checkRequestSummary(value: Int) {
+        fun checkRequestSummary(value: Int?, summaryList: Array<String>?) {
             every { preferenceRepo.repeat } returns value
-            assertEquals(interactor.getRepeatSummary(), summaryList.getOrNull(value))
+            assertEquals(value?.let { summaryList?.getOrNull(it) }, interactor.getRepeatSummary())
         }
 
-        val valueList = listOf(Repeat.MIN_10, Repeat.MIN_180, Random.nextInt())
-        valueList.forEach { checkRequestSummary(it) }
+        val valueList = listOf(null, Repeat.MIN_10, null, Random.nextInt())
+
+        every { summaryProvider.repeat } returns null
+        valueList.forEach { checkRequestSummary(it, summaryList = null) }
+
+        every { summaryProvider.repeat } returns summaryList
+        valueList.forEach { checkRequestSummary(it, summaryList) }
 
         verifySequence {
-            repeat(valueList.size) {
-                summaryProvider.repeat
-                preferenceRepo.repeat
+            repeat(times = 2) {
+                valueList.forEach {
+                    preferenceRepo.repeat
+                    it?.let { summaryProvider.repeat }
+                }
             }
         }
     }
@@ -265,16 +279,14 @@ class PreferenceInteractorTest : ParentInteractorTest() {
             valueList.forEach {
                 preferenceRepo.repeat = it
 
-                summaryProvider.repeat
                 preferenceRepo.repeat
+                summaryProvider.repeat
             }
         }
     }
 
 
     @Test fun getSignalSummaryArray() {
-        TODO("nullable")
-
         val summaryArray = Array(size = 3) { TestData.uniqueString }
         val checkArray = booleanArrayOf(true, false, true)
 
@@ -310,23 +322,28 @@ class PreferenceInteractorTest : ParentInteractorTest() {
     @Test fun getVolume() = FastTest.getVolume(preferenceRepo) { interactor.volume }
 
     @Test fun getVolumeSummary() {
-        TODO("nullable")
-
         fun getSummary(value: Int) = if (value % 2 == 0) summaryVolume.plus(value) else null
 
-        fun checkRequestSummary(value: Int) {
-            every { summaryProvider.getVolume(value) } returns getSummary(value)
+        fun checkRequestSummary(value: Int?) {
             every { preferenceRepo.volume } returns value
-            assertEquals(interactor.getVolumeSummary(), getSummary(value))
+
+            if (value != null) {
+                every { summaryProvider.getVolume(value) } returns getSummary(value)
+            }
+
+            assertEquals( value?.let { getSummary(it) }, interactor.getVolumeSummary())
         }
 
-        val valueList = listOf(Random.nextInt(), Random.nextInt(), Random.nextInt())
+        val valueList = listOf(null, Random.nextInt(), Random.nextInt(), null)
         valueList.forEach { checkRequestSummary(it) }
 
         verifySequence {
             valueList.forEach {
                 preferenceRepo.volume
-                summaryProvider.getVolume(it)
+
+                if (it != null) {
+                    summaryProvider.getVolume(it)
+                }
             }
         }
     }

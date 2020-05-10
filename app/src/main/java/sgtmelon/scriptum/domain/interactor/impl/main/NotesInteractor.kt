@@ -27,7 +27,8 @@ class NotesInteractor(
 ) : ParentInteractor(),
         INotesInteractor {
 
-    private var rankIdVisibleList: List<Long>? = null
+    @VisibleForTesting
+    var rankIdVisibleList: List<Long>? = null
 
     private suspend fun getRankIdVisibleList(): List<Long>? {
         return rankIdVisibleList ?: rankRepo.getIdVisibleList()?.also { rankIdVisibleList = it }
@@ -70,7 +71,7 @@ class NotesInteractor(
         callback?.notifyNoteBind(noteMirror, rankIdVisibleList, sort)
     }
 
-    override suspend fun convert(noteItem: NoteItem): NoteItem? {
+    override suspend fun convertNote(noteItem: NoteItem): NoteItem? {
         val convertItem = when (noteItem) {
             is NoteItem.Text -> noteRepo.convertNote(noteItem)
             is NoteItem.Roll -> noteRepo.convertNote(noteItem, useCache = false)

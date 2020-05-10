@@ -34,53 +34,61 @@ class BindInteractorTest : ParentInteractorTest() {
     private val interactor by lazy { BindInteractor(preferenceRepo, bindRepo, rankRepo, noteRepo) }
 
     @Test fun notifyNoteBind() = startCoTest {
-        TODO("nullable")
+        interactor.notifyNoteBind(callback = null)
 
         val rankIdVisibleList = data.rankIdVisibleList
         val itemList = data.itemList
+        val sort = TestData.sort
+
+        every { preferenceRepo.sort } returns null
+        interactor.notifyNoteBind(noteCallback)
+
+        every { preferenceRepo.sort } returns sort
+        coEvery { rankRepo.getIdVisibleList() } returns null
+        interactor.notifyNoteBind(noteCallback)
 
         coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList
         coEvery {
-            noteRepo.getList(any(), bin = false, optimal = false, filterVisible = false)
-        } returns itemList
-
-        interactor.notifyNoteBind(callback = null)
-
-        val firstSort = TestData.sort
-        val secondSort = TestData.sort
-
-        every { preferenceRepo.sort } returns firstSort
+            noteRepo.getList(sort, bin = false, optimal = false, filterVisible = false)
+        } returns null
         interactor.notifyNoteBind(noteCallback)
 
-        every { preferenceRepo.sort } returns secondSort
+        coEvery {
+            noteRepo.getList(sort, bin = false, optimal = false, filterVisible = false)
+        } returns itemList
         interactor.notifyNoteBind(noteCallback)
 
         coVerifySequence {
-            rankRepo.getIdVisibleList()
             preferenceRepo.sort
-            noteRepo.getList(firstSort, bin = false, optimal = false, filterVisible = false)
 
-            noteCallback.notifyNoteBind(itemList, rankIdVisibleList)
-
-            rankRepo.getIdVisibleList()
             preferenceRepo.sort
-            noteRepo.getList(secondSort, bin = false, optimal = false, filterVisible = false)
+            rankRepo.getIdVisibleList()
 
+            preferenceRepo.sort
+            rankRepo.getIdVisibleList()
+            noteRepo.getList(sort, bin = false, optimal = false, filterVisible = false)
+
+            preferenceRepo.sort
+            rankRepo.getIdVisibleList()
+            noteRepo.getList(sort, bin = false, optimal = false, filterVisible = false)
             noteCallback.notifyNoteBind(itemList, rankIdVisibleList)
         }
     }
 
     @Test fun notifyInfoBind() = startCoTest {
-        TODO("nullable")
+        interactor.notifyInfoBind(callback = null)
+
+        coEvery { bindRepo.getNotificationCount() } returns null
+        interactor.notifyInfoBind(infoCallback)
 
         val count = Random.nextInt()
-
         coEvery { bindRepo.getNotificationCount() } returns count
-
-        interactor.notifyInfoBind(callback = null)
         interactor.notifyInfoBind(infoCallback)
 
         coVerifySequence {
+            bindRepo.getNotificationCount()
+
+            bindRepo.getNotificationCount()
             infoCallback.notifyInfoBind(count)
         }
     }

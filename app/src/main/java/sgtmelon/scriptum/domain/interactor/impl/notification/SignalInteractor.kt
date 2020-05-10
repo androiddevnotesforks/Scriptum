@@ -54,10 +54,12 @@ class SignalInteractor(
     }
 
     /**
-     * Index of melody uri in [melodyList]
+     * Index of melody uri in [melodyList].
      */
-    override val melodyCheck: Int get() = melodyList.let {
-        it.indexOfFirst { item -> item.uri == getMelodyUri(it) }
+    override val melodyCheck: Int get() = melodyList.let { list ->
+        val uri = getMelodyUri(list)
+
+        return@let list.indexOfFirst { it.uri == uri }
     }
 
     override val melodyList: List<MelodyItem>

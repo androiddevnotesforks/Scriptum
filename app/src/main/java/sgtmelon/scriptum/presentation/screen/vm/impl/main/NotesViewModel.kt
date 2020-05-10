@@ -146,7 +146,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
         val item = itemList.getOrNull(p) ?: return
 
         viewModelScope.launch {
-            itemList[p] = interactor.convert(item) ?: return@launch
+            itemList[p] = interactor.convertNote(item) ?: return@launch
 
             val sortList = itemList.sort(interactor.sort)
             callback?.notifyList(itemList.clearAddAll(sortList))

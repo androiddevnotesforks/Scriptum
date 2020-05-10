@@ -27,28 +27,30 @@ class SignalInteractorTest : ParentInteractorTest() {
     private val interactor by lazy { SignalInteractor(ringtoneControl, preferenceRepo) }
 
     @Test fun getCheck() {
-        TODO("nullable")
-
         val checkValue = 1
         val checkArray = booleanArrayOf(true, false)
 
-        every { preferenceRepo.signal } returns checkValue
+        every { preferenceRepo.signal } returns null
+        assertEquals(null, interactor.check)
 
+        every { preferenceRepo.signal } returns checkValue
         assertArrayEquals(checkArray, interactor.check)
 
         verifySequence {
+            preferenceRepo.signal
             preferenceRepo.signal
         }
     }
 
     @Test fun getState() {
-        TODO("nullable")
-
         val firstCheck = 2
         val firstState = SignalState(isMelody = false, isVibration = true)
 
         val secondCheck = 1
         val secondState = SignalState(isMelody = true, isVibration = false)
+
+        every { preferenceRepo.signal } returns null
+        assertEquals(null, interactor.state)
 
         every { preferenceRepo.signal } returns firstCheck
         assertEquals(firstState, interactor.state)
@@ -59,18 +61,20 @@ class SignalInteractorTest : ParentInteractorTest() {
         verifySequence {
             preferenceRepo.signal
             preferenceRepo.signal
+            preferenceRepo.signal
         }
     }
 
     @Test fun getMelodyUri() {
-        TODO("nullable")
-
         val wrongUri = TestData.uniqueString
         val wrongReturnUri = melodyList.first().uri
 
         val goodUri = melodyList.random().uri
 
         setEveryRingtone()
+
+        every { preferenceRepo.melodyUri } returns null
+        assertEquals(wrongReturnUri, interactor.getMelodyUri())
 
         every { preferenceRepo.melodyUri } returns ""
         assertEquals(wrongReturnUri, interactor.getMelodyUri())
@@ -82,17 +86,13 @@ class SignalInteractorTest : ParentInteractorTest() {
         assertEquals(goodUri, interactor.getMelodyUri())
 
         verifySequence {
-            ringtoneControl.getByType(RingtoneManager.TYPE_ALARM)
-            ringtoneControl.getByType(RingtoneManager.TYPE_RINGTONE)
+            repeat(times = 3) {
+                ringtoneControl.getByType(RingtoneManager.TYPE_ALARM)
+                ringtoneControl.getByType(RingtoneManager.TYPE_RINGTONE)
 
-            preferenceRepo.melodyUri
-            preferenceRepo.melodyUri = wrongReturnUri
-
-            ringtoneControl.getByType(RingtoneManager.TYPE_ALARM)
-            ringtoneControl.getByType(RingtoneManager.TYPE_RINGTONE)
-
-            preferenceRepo.melodyUri
-            preferenceRepo.melodyUri = wrongReturnUri
+                preferenceRepo.melodyUri
+                preferenceRepo.melodyUri = wrongReturnUri
+            }
 
             ringtoneControl.getByType(RingtoneManager.TYPE_ALARM)
             ringtoneControl.getByType(RingtoneManager.TYPE_RINGTONE)
@@ -124,8 +124,6 @@ class SignalInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun getMelodyCheck() {
-        TODO("nullable")
-
         val wrongUri = TestData.uniqueString
         val wrongReturnUri = melodyList.first().uri
 

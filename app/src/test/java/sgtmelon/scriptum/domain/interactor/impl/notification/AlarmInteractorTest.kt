@@ -55,14 +55,12 @@ class AlarmInteractorTest : ParentInteractorTest() {
     @Test fun getVolume() = FastTest.getVolume(preferenceRepo) { interactor.volume }
 
     @Test fun getVolumeIncrease() {
-        TODO("nullable")
-
         fun checkRequestGet(value: Boolean?) {
             every { preferenceRepo.volumeIncrease } returns value
-            assertEquals(interactor.volumeIncrease, value)
+            assertEquals(value, interactor.volumeIncrease)
         }
 
-        val valueList = listOf(null, true, false)
+        val valueList = listOf(null, Random.nextBoolean(), Random.nextBoolean(), null)
         valueList.forEach { checkRequestGet(it) }
 
         verifySequence {
@@ -71,8 +69,6 @@ class AlarmInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun getModel() = startCoTest {
-        TODO("nullable")
-
         val noteId = Random.nextLong()
         val item = data.itemList.random()
 
@@ -92,8 +88,6 @@ class AlarmInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun setupRepeat() = startCoTest {
-        TODO("nullable")
-
         val item = data.itemList.random()
 
         val timeArray = intArrayOf(1, 2, 3, 4)
@@ -113,8 +107,6 @@ class AlarmInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun checkDateExist() = startCoTest {
-        TODO("nullable")
-
         val dateList = List(size = 3) { interactor.getCalendarWithAdd(it).getText() }
 
         val itemList = MutableList(dateList.size) {
@@ -126,11 +118,13 @@ class AlarmInteractorTest : ParentInteractorTest() {
             )
         }
 
-        coEvery { alarmRepo.getList() } returns itemList
-
         val currentCalendar = Calendar.getInstance().clearSeconds()
         val minute = currentCalendar.get(Calendar.MINUTE)
 
+        coEvery { alarmRepo.getList() } returns null
+        interactor.checkDateExist(currentCalendar)
+
+        coEvery { alarmRepo.getList() } returns itemList
         interactor.checkDateExist(currentCalendar)
 
         /**
@@ -140,6 +134,7 @@ class AlarmInteractorTest : ParentInteractorTest() {
         assertEquals(expected, currentCalendar.get(Calendar.MINUTE))
 
         coVerifySequence {
+            alarmRepo.getList()
             alarmRepo.getList()
         }
     }

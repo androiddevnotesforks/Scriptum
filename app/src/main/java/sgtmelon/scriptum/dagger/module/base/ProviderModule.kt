@@ -17,8 +17,8 @@ class ProviderModule {
 
     @Provides
     @Singleton
-    fun provideSummaryProvider(context: Context?): SummaryProvider {
-        return SummaryProvider(context)
+    fun provideSummaryProvider(resources: Resources?): SummaryProvider {
+        return SummaryProvider(resources)
     }
 
     @Provides

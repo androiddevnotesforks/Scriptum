@@ -38,8 +38,6 @@ class MainInteractorTest : ParentInteractorTest() {
 
 
     @Test fun tidyUpAlarm() = startCoTest {
-        TODO("nullable")
-
         val itemList = MutableList(size = 2) {
             val id = it.toLong()
             val type = if (Random.nextBoolean()) NoteType.TEXT else NoteType.ROLL
@@ -50,11 +48,14 @@ class MainInteractorTest : ParentInteractorTest() {
             )
         }
 
-        coEvery { alarmRepo.getList() } returns  itemList
+        coEvery { alarmRepo.getList() } returns  null
+        interactor.tidyUpAlarm()
 
+        coEvery { alarmRepo.getList() } returns  itemList
         interactor.tidyUpAlarm()
 
         coVerifySequence {
+            alarmRepo.getList()
             alarmRepo.getList()
 
             itemList.first().note.id.let {

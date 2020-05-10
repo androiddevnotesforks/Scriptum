@@ -4,7 +4,6 @@ import io.mockk.coEvery
 import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.verifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
@@ -17,7 +16,6 @@ import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.text.ITextNoteBridge
 import java.util.*
 import kotlin.random.Random
@@ -47,22 +45,8 @@ class TextNoteInteractorTest : ParentInteractorTest() {
     }
 
 
-    @Test fun getSaveModel() {
-        TODO("nullable")
-
-        val model = with(Random) { SaveControl.Model(nextBoolean(), nextBoolean(), nextInt()) }
-
-        every { preferenceRepo.pauseSaveOn } returns model.pauseSaveOn
-        every { preferenceRepo.autoSaveOn } returns model.autoSaveOn
-        every { preferenceRepo.savePeriod } returns model.savePeriod
-
-        assertEquals(model, interactor.getSaveModel())
-
-        verifySequence {
-            preferenceRepo.pauseSaveOn
-            preferenceRepo.autoSaveOn
-            preferenceRepo.savePeriod
-        }
+    @Test fun getSaveModel() = FastTest.Note.getSaveModel(preferenceRepo) {
+        interactor.getSaveModel()
     }
 
     @Test fun getTheme() = FastTest.getTheme(preferenceRepo) { interactor.theme }
@@ -73,8 +57,6 @@ class TextNoteInteractorTest : ParentInteractorTest() {
 
 
     @Test fun getItem() = startCoTest {
-        TODO("nullable")
-
         val rankIdVisibleList = data.rankIdVisibleList
         val sort = TestData.sort
 
@@ -82,13 +64,21 @@ class TextNoteInteractorTest : ParentInteractorTest() {
         val firstItem = data.firstNote.deepCopy()
         val secondItem = data.thirdNote.deepCopy()
 
-        coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList
-        every { preferenceRepo.sort } returns sort
+        coEvery { noteRepo.getItem(wrongItem.id, optimal = false) } returns null
+        assertNull(interactor.getItem(wrongItem.id))
 
         coEvery { noteRepo.getItem(wrongItem.id, optimal = false) } returns wrongItem
         assertNull(interactor.getItem(wrongItem.id))
 
         coEvery { noteRepo.getItem(firstItem.id, optimal = false) } returns firstItem
+        every { preferenceRepo.sort } returns null
+        assertEquals(null, interactor.getItem(firstItem.id))
+
+        every { preferenceRepo.sort } returns sort
+        coEvery { rankRepo.getIdVisibleList() } returns null
+        assertEquals(null, interactor.getItem(firstItem.id))
+
+        coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList
         assertEquals(firstItem, interactor.getItem(firstItem.id))
 
         coEvery { noteRepo.getItem(secondItem.id, optimal = false) } returns secondItem
@@ -97,57 +87,73 @@ class TextNoteInteractorTest : ParentInteractorTest() {
         coVerifySequence {
             noteRepo.getItem(wrongItem.id, optimal = false)
 
+            noteRepo.getItem(wrongItem.id, optimal = false)
+
             noteRepo.getItem(firstItem.id, optimal = false)
+            preferenceRepo.sort
+
+            noteRepo.getItem(firstItem.id, optimal = false)
+            preferenceRepo.sort
+            rankRepo.getIdVisibleList()
+
+            noteRepo.getItem(firstItem.id, optimal = false)
+            preferenceRepo.sort
             rankRepo.getIdVisibleList()
             callback.notifyNoteBind(firstItem, rankIdVisibleList, sort)
 
             noteRepo.getItem(secondItem.id, optimal = false)
+            preferenceRepo.sort
             callback.notifyNoteBind(secondItem, rankIdVisibleList, sort)
         }
     }
 
     @Test fun getRankDialogItemArray() = startCoTest {
-        TODO("nullable")
-
         val emptyName = TestData.uniqueString
         val itemArray = Array(size = 5) { TestData.uniqueString }
 
-        coEvery { rankRepo.getDialogItemArray(emptyName) } returns itemArray
+        coEvery { rankRepo.getDialogItemArray(emptyName) } returns null
+        assertNull(interactor.getRankDialogItemArray(emptyName))
 
+        coEvery { rankRepo.getDialogItemArray(emptyName) } returns itemArray
         assertArrayEquals(itemArray, interactor.getRankDialogItemArray(emptyName))
 
         coVerifySequence {
+            rankRepo.getDialogItemArray(emptyName)
             rankRepo.getDialogItemArray(emptyName)
         }
     }
 
 
     @Test fun getRankId() = startCoTest {
-        TODO("nullable")
+        val list = listOf(
+                Pair(null, Random.nextInt()),
+                Pair(Random.nextLong(), Random.nextInt()),
+                Pair(Random.nextLong(), Random.nextInt()),
+                Pair(null, Random.nextInt())
+        )
 
-        val check = Random.nextInt()
-        val id = Random.nextLong()
-
-        coEvery { rankRepo.getId(check) } returns id
-
-        assertEquals(id, interactor.getRankId(check))
+        list.forEach {
+            coEvery { rankRepo.getId(it.second) } returns it.first
+            assertEquals(it.first, interactor.getRankId(it.second))
+        }
 
         coVerifySequence {
-            rankRepo.getId(check)
+            list.forEach { rankRepo.getId(it.second) }
         }
     }
 
     @Test fun getDateList() = startCoTest {
-        TODO("nullable")
-
         val itemList = TestData.Notification.itemList
         val dateList = itemList.map { it.alarm.date }
 
-        coEvery { alarmRepo.getList() } returns itemList
+        coEvery { alarmRepo.getList() } returns null
+        assertEquals(null, interactor.getDateList())
 
+        coEvery { alarmRepo.getList() } returns itemList
         assertEquals(dateList, interactor.getDateList())
 
         coVerifySequence {
+            alarmRepo.getList()
             alarmRepo.getList()
         }
     }
@@ -200,30 +206,43 @@ class TextNoteInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun updateNote() = startCoTest {
-        TODO("nullable")
-
         val rankIdVisibleList = data.rankIdVisibleList
         val sort = TestData.sort
 
         val firstItem = data.firstNote.deepCopy()
         val secondItem = data.thirdNote.deepCopy()
 
-        coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList
-        every { preferenceRepo.sort } returns sort
+        every { preferenceRepo.sort } returns null
+        interactor.updateNote(firstItem, updateBind = true)
 
-        interactor.updateNote(firstItem, updateBind = false)
+        every { preferenceRepo.sort } returns sort
+        coEvery { rankRepo.getIdVisibleList() } returns null
+        interactor.updateNote(secondItem, updateBind = true)
+
+        coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList
         interactor.updateNote(firstItem, updateBind = true)
         interactor.updateNote(secondItem, updateBind = true)
 
+        interactor.updateNote(firstItem, updateBind = false)
+
         coVerifySequence {
             noteRepo.updateNote(firstItem)
+            preferenceRepo.sort
+
+            noteRepo.updateNote(secondItem)
+            preferenceRepo.sort
+            rankRepo.getIdVisibleList()
 
             noteRepo.updateNote(firstItem)
+            preferenceRepo.sort
             rankRepo.getIdVisibleList()
             callback.notifyNoteBind(firstItem, rankIdVisibleList, sort)
 
             noteRepo.updateNote(secondItem)
+            preferenceRepo.sort
             callback.notifyNoteBind(secondItem, rankIdVisibleList, sort)
+
+            noteRepo.updateNote(firstItem)
         }
     }
 
@@ -238,28 +257,43 @@ class TextNoteInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun saveNote() = startCoTest {
-        TODO("nullable")
-
         val rankIdVisibleList = data.rankIdVisibleList
         val sort = TestData.sort
 
         val firstItem = data.firstNote.deepCopy()
         val secondItem = data.thirdNote.deepCopy()
 
-        coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList
-        every { preferenceRepo.sort } returns sort
+        every { preferenceRepo.sort } returns null
+        interactor.saveNote(firstItem, isCreate = true)
 
-        interactor.saveNote(firstItem, isCreate = false)
-        interactor.saveNote(secondItem, isCreate = true)
+        every { preferenceRepo.sort } returns sort
+        coEvery { rankRepo.getIdVisibleList() } returns null
+        interactor.saveNote(secondItem, isCreate = false)
+
+        coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList
+        interactor.saveNote(firstItem, isCreate = true)
+
+        interactor.saveNote(secondItem, isCreate = false)
 
         coVerifySequence {
-            noteRepo.saveNote(firstItem, isCreate = false)
+            noteRepo.saveNote(firstItem, isCreate = true)
             rankRepo.updateConnection(firstItem)
+            preferenceRepo.sort
+
+            noteRepo.saveNote(secondItem, isCreate = false)
+            rankRepo.updateConnection(secondItem)
+            preferenceRepo.sort
+            rankRepo.getIdVisibleList()
+
+            noteRepo.saveNote(firstItem, isCreate = true)
+            rankRepo.updateConnection(firstItem)
+            preferenceRepo.sort
             rankRepo.getIdVisibleList()
             callback.notifyNoteBind(firstItem, rankIdVisibleList, sort)
 
-            noteRepo.saveNote(secondItem, isCreate = true)
+            noteRepo.saveNote(secondItem, isCreate = false)
             rankRepo.updateConnection(secondItem)
+            preferenceRepo.sort
             callback.notifyNoteBind(secondItem, rankIdVisibleList, sort)
         }
     }

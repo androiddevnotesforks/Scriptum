@@ -25,62 +25,59 @@ class RankInteractorTest : ParentInteractorTest() {
     private val interactor by lazy { RankInteractor(rankRepo) }
 
     @Test fun getCount() = startCoTest {
-        TODO("nullable")
+        val countList = listOf(null, Random.nextInt(), Random.nextInt(), null)
 
-        val count = Random.nextInt()
-
-        coEvery { rankRepo.getCount() } returns count
-
-        assertEquals(count, interactor.getCount())
+        countList.forEach {
+            coEvery { rankRepo.getCount() } returns it
+            assertEquals(it, interactor.getCount())
+        }
 
         coVerifySequence {
-            rankRepo.getCount()
+            repeat(countList.size) { rankRepo.getCount() }
         }
     }
 
     @Test fun getList() = startCoTest {
-        TODO("nullable")
-
         val list = data.itemList
 
-        coEvery { rankRepo.getList() } returns list
+        coEvery { rankRepo.getList() } returns null
+        assertEquals(null, interactor.getList())
 
+        coEvery { rankRepo.getList() } returns list
         assertEquals(list, interactor.getList())
 
         coVerifySequence {
+            rankRepo.getList()
             rankRepo.getList()
         }
     }
 
     @Test fun getBind() = startCoTest {
-        TODO("nullable")
+        val bindList = listOf(null, Random.nextBoolean(), Random.nextBoolean(), null)
+        val noteIdList = List(size = 5) { Random.nextLong() }
 
-        val noteId = List(size = 5) { Random.nextLong() }
-        val hasBind = Random.nextBoolean()
-
-        coEvery { rankRepo.getBind(noteId) } returns hasBind
-
-        assertEquals(hasBind, interactor.getBind(noteId))
+        bindList.forEach {
+            coEvery { rankRepo.getBind(noteIdList) } returns it
+            assertEquals(it, interactor.getBind(noteIdList))
+        }
 
         coVerifySequence {
-            rankRepo.getBind(noteId)
+            repeat(bindList.size) { rankRepo.getBind(noteIdList) }
         }
     }
 
 
     @Test fun insert() = startCoTest {
-        TODO("nullable")
-
-        val id = Random.nextLong()
+        val idList = listOf(null, Random.nextLong(),  Random.nextLong(), null)
         val name = TestData.uniqueString
-        val item = RankItem(id, name = name)
 
-        coEvery { rankRepo.insert(name) } returns id
-
-        assertEquals(item, interactor.insert(name))
+        idList.forEach {
+            coEvery { rankRepo.insert(name) } returns it
+            assertEquals(it?.let { id -> RankItem(id, name = name) }, interactor.insert(name))
+        }
 
         coVerifySequence {
-            rankRepo.insert(name)
+            repeat(idList.size) { rankRepo.insert(name) }
         }
     }
 

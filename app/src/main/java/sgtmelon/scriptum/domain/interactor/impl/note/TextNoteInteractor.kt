@@ -92,10 +92,10 @@ class TextNoteInteractor(
     override suspend fun updateNote(noteItem: NoteItem.Text, updateBind: Boolean) {
         noteRepo.updateNote(noteItem)
 
-        val sort = preferenceRepo.sort ?: return
-        val rankIdVisibleList = getRankIdVisibleList() ?: return
-
         if (updateBind) {
+            val sort = preferenceRepo.sort ?: return
+            val rankIdVisibleList = getRankIdVisibleList() ?: return
+
             callback?.notifyNoteBind(noteItem, rankIdVisibleList, sort)
         }
     }

@@ -123,10 +123,10 @@ class RollNoteInteractor(
     override suspend fun updateNote(noteItem: NoteItem.Roll, updateBind: Boolean) {
         noteRepo.updateNote(noteItem)
 
-        val sort = preferenceRepo.sort ?: return
-        val rankIdVisibleList = getRankIdVisibleList() ?: return
-
         if (updateBind) {
+            val sort = preferenceRepo.sort ?: return
+            val rankIdVisibleList = getRankIdVisibleList() ?: return
+
             callback?.notifyNoteBind(noteItem, rankIdVisibleList, sort)
         }
     }

@@ -302,7 +302,7 @@ class NotesViewModelTest : ParentViewModelTest() {
         val item = itemList[0]
         val itemReturn = itemList[1]
 
-        coEvery { interactor.convert(item) } returns itemReturn
+        coEvery { interactor.convertNote(item) } returns itemReturn
 
         viewModel.onResultOptionsDialog(0, Options.Notes.CONVERT)
 
@@ -310,7 +310,7 @@ class NotesViewModelTest : ParentViewModelTest() {
         val sortList = itemList.sort(Sort.CREATE)
 
         coVerifySequence {
-            interactor.convert(item)
+            interactor.convertNote(item)
             interactor.sort
 
             callback.notifyList(sortList)

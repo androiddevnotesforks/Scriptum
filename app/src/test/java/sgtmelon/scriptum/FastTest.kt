@@ -8,12 +8,67 @@ import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Repeat
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.Theme
+import sgtmelon.scriptum.presentation.control.note.save.SaveControl
 import kotlin.random.Random
 
 /**
  * Object for describe common and fast tests.
  */
 object FastTest {
+
+    object Note {
+
+        fun getSaveModel(preferenceRepo: IPreferenceRepo, callFun: () -> SaveControl.Model?) {
+            val model = with(Random) { SaveControl.Model(nextBoolean(), nextBoolean(), nextInt()) }
+
+            every { preferenceRepo.pauseSaveOn } returns null
+            assertEquals(null, callFun())
+
+            every { preferenceRepo.pauseSaveOn } returns model.pauseSaveOn
+            every { preferenceRepo.autoSaveOn } returns null
+            assertEquals(null, callFun())
+
+            every { preferenceRepo.pauseSaveOn } returns model.pauseSaveOn
+            every { preferenceRepo.autoSaveOn } returns model.autoSaveOn
+            every { preferenceRepo.savePeriod } returns null
+            assertEquals(null, callFun())
+
+            every { preferenceRepo.pauseSaveOn } returns model.pauseSaveOn
+            every { preferenceRepo.autoSaveOn } returns model.autoSaveOn
+            every { preferenceRepo.savePeriod } returns model.savePeriod
+            assertEquals(model, callFun())
+
+            verifySequence {
+                preferenceRepo.pauseSaveOn
+
+                preferenceRepo.pauseSaveOn
+                preferenceRepo.autoSaveOn
+
+                preferenceRepo.pauseSaveOn
+                preferenceRepo.autoSaveOn
+                preferenceRepo.savePeriod
+
+                preferenceRepo.pauseSaveOn
+                preferenceRepo.autoSaveOn
+                preferenceRepo.savePeriod
+            }
+        }
+
+    }
+
+    fun getFirstStart(preferenceRepo: IPreferenceRepo, callFun: () -> Boolean?) {
+        fun checkRequestGet(value: Boolean?) {
+            every { preferenceRepo.firstStart } returns value
+            assertEquals(callFun(), value)
+        }
+
+        val valueList = listOf(null, Random.nextBoolean(), Random.nextBoolean(), null)
+        valueList.forEach { checkRequestGet(it) }
+
+        verifySequence {
+            repeat(valueList.size) { preferenceRepo.firstStart }
+        }
+    }
 
     fun getTheme(preferenceRepo: IPreferenceRepo, callFun: () -> Int?) {
         fun checkRequestGet(value: Int?) {

@@ -12,7 +12,6 @@ import sgtmelon.scriptum.ParentInteractorTest
 import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
-import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IBinBridge
 import kotlin.random.Random
 
@@ -40,40 +39,44 @@ class BinInteractorTest : ParentInteractorTest() {
     @Test fun getTheme() = FastTest.getTheme(preferenceRepo) { interactor.theme }
 
     @Test fun getCount() = startCoTest {
-        TODO("nullable")
+        val countList = listOf(null, Random.nextInt(), Random.nextInt(), null)
 
-        val count = Random.nextInt()
-
-        coEvery { noteRepo.getCount(bin = true) } returns count
-
-        assertEquals(count, interactor.getCount())
+        countList.forEach {
+            coEvery { noteRepo.getCount(bin = true) } returns it
+            assertEquals(it, interactor.getCount())
+        }
 
         coVerifySequence {
-            noteRepo.getCount(bin = true)
+            repeat(countList.size) { noteRepo.getCount(bin = true) }
         }
     }
 
     @Test fun getList() = startCoTest {
-        TODO("nullable")
-
         val itemList = data.itemList
 
         coEvery {
             noteRepo.getList(any(), bin = true, optimal = true, filterVisible = false)
         } returns itemList
 
-        every { preferenceRepo.sort } returns Sort.CHANGE
+        every { preferenceRepo.sort } returns null
         interactor.getList()
 
-        every { preferenceRepo.sort } returns Sort.COLOR
+        val firstSort = TestData.sort
+        every { preferenceRepo.sort } returns firstSort
+        interactor.getList()
+
+        val secondSort = TestData.sort
+        every { preferenceRepo.sort } returns secondSort
         interactor.getList()
 
         coVerifySequence {
             preferenceRepo.sort
-            noteRepo.getList(Sort.CHANGE, bin = true, optimal = true, filterVisible = false)
 
             preferenceRepo.sort
-            noteRepo.getList(Sort.COLOR, bin = true, optimal = true, filterVisible = false)
+            noteRepo.getList(firstSort, bin = true, optimal = true, filterVisible = false)
+
+            preferenceRepo.sort
+            noteRepo.getList(secondSort, bin = true, optimal = true, filterVisible = false)
         }
     }
 
