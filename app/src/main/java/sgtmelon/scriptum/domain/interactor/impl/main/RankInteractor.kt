@@ -1,8 +1,8 @@
 package sgtmelon.scriptum.domain.interactor.impl.main
 
 import sgtmelon.scriptum.data.repository.room.callback.IRankRepo
-import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.IRankInteractor
+import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.domain.model.item.RankItem
 import sgtmelon.scriptum.presentation.screen.vm.impl.main.RankViewModel
 
@@ -11,14 +11,16 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.main.RankViewModel
  */
 class RankInteractor(private val rankRepo: IRankRepo) : ParentInteractor(), IRankInteractor {
 
-    override suspend fun getCount() = rankRepo.getCount()
+    override suspend fun getCount(): Int? = rankRepo.getCount()
 
-    override suspend fun getList() = rankRepo.getList()
+    override suspend fun getList(): MutableList<RankItem>? = rankRepo.getList()
 
-    override suspend fun getBind(noteId: List<Long>) = rankRepo.getBind(noteId)
+    override suspend fun getBind(noteId: List<Long>): Boolean? = rankRepo.getBind(noteId)
 
 
-    override suspend fun insert(name: String) = RankItem(rankRepo.insert(name), name = name)
+    override suspend fun insert(name: String): RankItem? = rankRepo.insert(name)?.let {
+        RankItem(it, name = name)
+    }
 
     override suspend fun delete(item: RankItem) = rankRepo.delete(item)
 

@@ -9,8 +9,8 @@ import sgtmelon.scriptum.domain.model.data.NoteData.Intent
 import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
-import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.note.INoteViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
 
 /**
  * ViewModel for [NoteActivity].
@@ -37,10 +37,11 @@ class NoteViewModel(application: Application) : ParentViewModel<INoteActivity>(a
         type = NoteType.values().getOrNull(typeOrdinal)
 
         if (color == Default.COLOR) {
-            color = interactor.defaultColor
+            color = interactor.defaultColor ?: return
         }
 
-        callback?.updateHolder(interactor.theme, color)
+        val theme = interactor.theme ?: return
+        callback?.updateHolder(theme, color)
     }
 
     override fun onSaveData(bundle: Bundle) = with(bundle) {
@@ -70,7 +71,8 @@ class NoteViewModel(application: Application) : ParentViewModel<INoteActivity>(a
     override fun onUpdateNoteColor(color: Int) {
         this.color = color
 
-        callback?.updateHolder(interactor.theme, color)
+        val theme = interactor.theme ?: return
+        callback?.updateHolder(theme, color)
     }
 
     override fun onConvertNote() {

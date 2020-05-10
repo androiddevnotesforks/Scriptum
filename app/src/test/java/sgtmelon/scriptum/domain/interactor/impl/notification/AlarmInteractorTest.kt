@@ -55,12 +55,14 @@ class AlarmInteractorTest : ParentInteractorTest() {
     @Test fun getVolume() = FastTest.getVolume(preferenceRepo) { interactor.volume }
 
     @Test fun getVolumeIncrease() {
-        fun checkRequestGet(value: Boolean) {
+        TODO("nullable")
+
+        fun checkRequestGet(value: Boolean?) {
             every { preferenceRepo.volumeIncrease } returns value
             assertEquals(interactor.volumeIncrease, value)
         }
 
-        val valueList = listOf(true, false)
+        val valueList = listOf(null, true, false)
         valueList.forEach { checkRequestGet(it) }
 
         verifySequence {
@@ -69,25 +71,29 @@ class AlarmInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun getModel() = startCoTest {
+        TODO("nullable")
+
         val noteId = Random.nextLong()
         val item = data.itemList.random()
 
-        coEvery { noteRepo.getItem(noteId, optimisation = true) } returns null
+        coEvery { noteRepo.getItem(noteId, optimal = true) } returns null
         assertEquals(null, interactor.getModel(noteId))
 
-        coEvery { noteRepo.getItem(noteId, optimisation = true) } returns item
+        coEvery { noteRepo.getItem(noteId, optimal = true) } returns item
         assertEquals(item, interactor.getModel(noteId))
 
         coVerifySequence {
             alarmRepo.delete(noteId)
-            noteRepo.getItem(noteId, optimisation = true)
+            noteRepo.getItem(noteId, optimal = true)
 
             alarmRepo.delete(noteId)
-            noteRepo.getItem(noteId, optimisation = true)
+            noteRepo.getItem(noteId, optimal = true)
         }
     }
 
     @Test fun setupRepeat() = startCoTest {
+        TODO("nullable")
+
         val item = data.itemList.random()
 
         val timeArray = intArrayOf(1, 2, 3, 4)
@@ -107,6 +113,8 @@ class AlarmInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun checkDateExist() = startCoTest {
+        TODO("nullable")
+
         val dateList = List(size = 3) { interactor.getCalendarWithAdd(it).getText() }
 
         val itemList = MutableList(dateList.size) {

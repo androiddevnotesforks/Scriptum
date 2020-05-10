@@ -42,6 +42,8 @@ class NotificationInteractorTest : ParentInteractorTest() {
     @Test fun getTheme() = FastTest.getTheme(preferenceRepo) { interactor.theme }
 
     @Test fun getCount() = startCoTest {
+        TODO("nullable")
+
         val count = Random.nextInt()
 
         coEvery { bindRepo.getNotificationCount() } returns count
@@ -54,6 +56,8 @@ class NotificationInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun getList() = startCoTest {
+        TODO("nullable")
+
         val list = data.itemList
 
         coEvery { alarmRepo.getList() } returns list

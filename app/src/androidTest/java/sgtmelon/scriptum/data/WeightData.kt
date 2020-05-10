@@ -3,6 +3,7 @@ package sgtmelon.scriptum.data
 import android.content.Context
 import sgtmelon.extension.getTime
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.data.provider.RoomProvider
 import sgtmelon.scriptum.data.room.IRoomWork
 import sgtmelon.scriptum.data.room.entity.NoteEntity
 import sgtmelon.scriptum.data.room.entity.RollEntity
@@ -13,7 +14,10 @@ import kotlin.random.Random
 /**
  * Data for weight tests
  */
-class WeightData(override val context: Context) : IRoomWork {
+class WeightData(
+        private val context: Context,
+        override val roomProvider: RoomProvider
+) : IRoomWork {
 
     val textNote: NoteEntity
         get() = NoteEntity().apply {

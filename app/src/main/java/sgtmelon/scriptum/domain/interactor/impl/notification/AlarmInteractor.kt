@@ -29,13 +29,13 @@ class AlarmInteractor(
     override fun onDestroy(func: () -> Unit) = super.onDestroy { callback = null }
 
 
-    @Theme override val theme: Int get() = preferenceRepo.theme
+    @Theme override val theme: Int? get() = preferenceRepo.theme
 
-    @Repeat override val repeat: Int get() = preferenceRepo.repeat
+    @Repeat override val repeat: Int? get() = preferenceRepo.repeat
 
-    override val volume: Int get() = preferenceRepo.volume
+    override val volume: Int? get() = preferenceRepo.volume
 
-    override val volumeIncrease: Boolean get() = preferenceRepo.volumeIncrease
+    override val volumeIncrease: Boolean? get() = preferenceRepo.volumeIncrease
 
     override suspend fun getModel(id: Long): NoteItem? {
         /**
@@ -43,7 +43,7 @@ class AlarmInteractor(
          */
         alarmRepo.delete(id)
 
-        return noteRepo.getItem(id, optimisation = true)
+        return noteRepo.getItem(id, optimal = true)
     }
 
     override suspend fun setupRepeat(noteItem: NoteItem, valueArray: IntArray,
@@ -64,7 +64,7 @@ class AlarmInteractor(
 
     @VisibleForTesting
     suspend fun checkDateExist(calendar: Calendar) {
-        val dateList = alarmRepo.getList().map { it.alarm.date }
+        val dateList = alarmRepo.getList()?.map { it.alarm.date } ?: return
 
         while (dateList.contains(calendar.getText())) {
             calendar.add(Calendar.MINUTE, 1)

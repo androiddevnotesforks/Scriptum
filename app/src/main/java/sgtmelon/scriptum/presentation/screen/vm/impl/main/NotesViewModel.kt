@@ -41,9 +41,11 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
     val itemList: MutableList<NoteItem> = ArrayList()
 
     override fun onSetup(bundle: Bundle?) {
+        val theme = interactor.theme ?: return
+
         callback?.apply {
             setupToolbar()
-            setupRecycler(interactor.theme)
+            setupRecycler(theme)
             setupDialog()
         }
     }
@@ -65,19 +67,22 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
         }
 
         viewModelScope.launch {
-            if (interactor.getCount() == 0) {
+            val count = interactor.getCount() ?: return@launch
+
+            if (count == 0) {
                 itemList.clear()
             } else {
                 if (itemList.isEmpty()) {
                     callback?.showProgress()
                 }
 
-                itemList.clearAddAll(interactor.getList())
+                interactor.getList()?.let { itemList.clearAddAll(it) } ?: return@launch
             }
 
+            val isListHide = interactor.isListHide() ?: return@launch
             callback?.apply {
                 notifyList(itemList)
-                setupBinding(interactor.isListHide())
+                setupBinding(isListHide)
                 onBindingList()
             }
         }
@@ -141,7 +146,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
         val item = itemList.getOrNull(p) ?: return
 
         viewModelScope.launch {
-            itemList[p] = interactor.convert(item)
+            itemList[p] = interactor.convert(item) ?: return@launch
 
             val sortList = itemList.sort(interactor.sort)
             callback?.notifyList(itemList.clearAddAll(sortList))
@@ -167,7 +172,11 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
 
 
     override fun onResultDateDialog(calendar: Calendar, p: Int) {
-        viewModelScope.launch { callback?.showTimeDialog(calendar, interactor.getDateList(), p) }
+        viewModelScope.launch {
+            val dateList = interactor.getDateList() ?: return@launch
+
+            callback?.showTimeDialog(calendar, dateList, p)
+        }
     }
 
     override fun onResultDateDialogClear(p: Int) {

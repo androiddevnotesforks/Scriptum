@@ -1,9 +1,9 @@
 package sgtmelon.scriptum.data
 
-import android.content.Context
 import sgtmelon.extension.getRandomFutureTime
 import sgtmelon.extension.getText
 import sgtmelon.extension.getTime
+import sgtmelon.scriptum.data.provider.RoomProvider
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.room.IRoomWork
 import sgtmelon.scriptum.data.room.converter.model.AlarmConverter
@@ -24,8 +24,10 @@ import sgtmelon.scriptum.basic.extension.getTime as getCalendarTime
 /**
  * Class which fill db and provide data for tests.
  */
-class TestData(override val context: Context, private val preferenceRepo: IPreferenceRepo) :
-        IRoomWork {
+class TestData(
+        override val roomProvider: RoomProvider,
+        private val preferenceRepo: IPreferenceRepo
+) : IRoomWork {
 
     private val noteConverter = NoteConverter()
     private val rollConverter = RollConverter()
@@ -74,9 +76,15 @@ class TestData(override val context: Context, private val preferenceRepo: IPrefe
 
     fun createNote(): NoteItem = if (Random.nextBoolean()) createText() else createRoll()
 
-    fun createText() = NoteItem.Text.getCreate(preferenceRepo.defaultColor)
+    fun createText(): NoteItem.Text {
+        val color = preferenceRepo.defaultColor ?: throw NullPointerException()
+        return NoteItem.Text.getCreate(color)
+    }
 
-    fun createRoll() = NoteItem.Roll.getCreate(preferenceRepo.defaultColor)
+    fun createRoll(): NoteItem.Roll {
+        val color = preferenceRepo.defaultColor ?: throw NullPointerException()
+        return NoteItem.Roll.getCreate(color)
+    }
 
 
     fun insertRank(entity: RankEntity = rankEntity): RankItem {

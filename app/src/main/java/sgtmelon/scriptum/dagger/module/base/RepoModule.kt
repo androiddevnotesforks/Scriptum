@@ -1,8 +1,10 @@
 package sgtmelon.scriptum.dagger.module.base
 
-import android.content.Context
+import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
+import sgtmelon.scriptum.data.provider.PreferenceProvider
+import sgtmelon.scriptum.data.provider.RoomProvider
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.data.repository.room.*
@@ -17,27 +19,31 @@ class RepoModule {
 
     @Provides
     @Singleton
-    fun providePreferenceRepo(context: Context): IPreferenceRepo = PreferenceRepo(context)
+    fun providePreferenceRepo(keyProvider: PreferenceProvider.Key,
+                              defProvider: PreferenceProvider.Def,
+                              preferences: SharedPreferences?): IPreferenceRepo {
+        return PreferenceRepo(keyProvider, defProvider, preferences)
+    }
 
 
     @Provides
     @Singleton
-    fun provideAlarmRepo(context: Context): IAlarmRepo = AlarmRepo(context)
+    fun provideAlarmRepo(roomProvider: RoomProvider): IAlarmRepo = AlarmRepo(roomProvider)
 
     @Provides
     @Singleton
-    fun provideBindRepo(context: Context): IBindRepo = BindRepo(context)
+    fun provideBindRepo(roomProvider: RoomProvider): IBindRepo = BindRepo(roomProvider)
 
     @Provides
     @Singleton
-    fun provideDevelopRepo(context: Context): IDevelopRepo = DevelopRepo(context)
+    fun provideDevelopRepo(roomProvider: RoomProvider): IDevelopRepo = DevelopRepo(roomProvider)
 
     @Provides
     @Singleton
-    fun provideNoteRepo(context: Context): INoteRepo = NoteRepo(context)
+    fun provideNoteRepo(roomProvider: RoomProvider): INoteRepo = NoteRepo(roomProvider)
 
     @Provides
     @Singleton
-    fun provideRankRepo(context: Context): IRankRepo = RankRepo(context)
+    fun provideRankRepo(roomProvider: RoomProvider): IRankRepo = RankRepo(roomProvider)
 
 }

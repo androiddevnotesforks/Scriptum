@@ -46,7 +46,23 @@ class SplashViewModelTest : ParentViewModelTest() {
     }
 
 
+    @Test fun onSetup_nullStart() {
+        TODO("nullable")
+
+        every { bundle.getString(OpenFrom.INTENT_KEY) } returns null
+        every { interactor.firstStart } returns null
+
+        viewModel.onSetup(bundle = null)
+        viewModel.onSetup(bundle)
+
+        verifySequence {
+            interactor.firstStart
+        }
+    }
+
     @Test fun onSetup_introStart() {
+        TODO("nullable")
+
         every { bundle.getString(OpenFrom.INTENT_KEY) } returns null
         every { interactor.firstStart } returns true
 
@@ -60,6 +76,8 @@ class SplashViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onSetup_mainStart() {
+        TODO("nullable")
+
         every { bundle.getString(OpenFrom.INTENT_KEY) } returns null
         every { interactor.firstStart } returns false
 
@@ -73,6 +91,8 @@ class SplashViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onSetup_alarmStart() {
+        TODO("nullable")
+
         every { bundle.getString(OpenFrom.INTENT_KEY) } returns OpenFrom.ALARM
 
         every { bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID) } returns ID
@@ -82,6 +102,8 @@ class SplashViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onSetup_bindStart() {
+        TODO("nullable")
+
         every { bundle.getString(OpenFrom.INTENT_KEY) } returns OpenFrom.BIND
 
         every { bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID) } returns ID
@@ -93,6 +115,8 @@ class SplashViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onSetup_notificationStart() {
+        TODO("nullable")
+
         every { bundle.getString(OpenFrom.INTENT_KEY) } returns OpenFrom.INFO
 
         viewModel.onSetup(bundle)

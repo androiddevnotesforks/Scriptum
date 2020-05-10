@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.data.repository.room
 
-import android.content.Context
+import sgtmelon.scriptum.data.provider.RoomProvider
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.data.room.IRoomWork
 import sgtmelon.scriptum.data.room.RoomDb
@@ -9,11 +9,11 @@ import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.NotificationItem
 
 /**
- * Repository of [RoomDb] which work with alarm
- *
- * @param context for open [RoomDb]
+ * Repository of [RoomDb] which work with alarm.
  */
-class AlarmRepo(override val context: Context) : IAlarmRepo, IRoomWork {
+class AlarmRepo(override val roomProvider: RoomProvider) : IAlarmRepo, IRoomWork {
+
+    // TODO test for nullable values
 
     private val converter = AlarmConverter()
 
@@ -31,18 +31,12 @@ class AlarmRepo(override val context: Context) : IAlarmRepo, IRoomWork {
     override suspend fun delete(noteId: Long) = inRoom { alarmDao.delete(noteId) }
 
 
-    override suspend fun getItem(noteId: Long): NotificationItem? {
-        val item: NotificationItem?
-
-        openRoom().apply {
-            item = alarmDao.getItem(noteId)
-        }.close()
-
-        return item
+    override suspend fun getItem(noteId: Long): NotificationItem? = takeFromRoom {
+        alarmDao.getItem(noteId)
     }
 
-    override suspend fun getList() = ArrayList<NotificationItem>().apply {
-        inRoom { addAll(alarmDao.getList()) }
+    override suspend fun getList(): MutableList<NotificationItem>? = takeFromRoom {
+        alarmDao.getList()
     }
 
 }

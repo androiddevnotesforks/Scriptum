@@ -27,12 +27,18 @@ import kotlin.random.Random
 @RunWith(AndroidJUnit4::class)
 class NoteRepoTest : ParentIntegrationTest()  {
 
+    private val badNoteRepo: INoteRepo = NoteRepo(context = null)
     private val noteRepo: INoteRepo = NoteRepo(context)
 
     private val noteConverter = NoteConverter()
     private val rollConverter = RollConverter()
 
     @Test fun getCount() = inRoomTest {
+        TODO("nullable")
+
+        assertEquals(0, badNoteRepo.getCount(bin = false))
+        assertEquals(0, badNoteRepo.getCount(bin = true))
+
         assertEquals(0, noteRepo.getCount(bin = false))
         assertEquals(0, noteRepo.getCount(bin = true))
 
@@ -59,23 +65,28 @@ class NoteRepoTest : ParentIntegrationTest()  {
     }
 
     @Test fun getItem() = inRoomTest {
+        TODO("nullable")
+
         val rollList = rollConverter.toItem(firstRollList)
         val noteItem = noteConverter.toItem(firstNote, rollList, firstAlarm)
 
         val rollPreviewList = rollList.subList(0, NoteItem.Roll.PREVIEW_SIZE)
         val notePreviewItem = noteConverter.toItem(firstNote, rollPreviewList, firstAlarm)
 
-        assertNull(noteRepo.getItem(noteItem.id, optimisation = true))
+        assertNull(badNoteRepo.getItem(noteItem.id, optimal = true))
+        assertNull(noteRepo.getItem(noteItem.id, optimal = true))
 
         noteDao.insert(firstNote)
         firstRollList.forEach { rollDao.insert(it) }
         alarmDao.insert(firstAlarm)
 
-        assertEquals(noteItem, noteRepo.getItem(noteItem.id, optimisation = false))
-        assertEquals(notePreviewItem, noteRepo.getItem(noteItem.id, optimisation = true))
+        assertEquals(noteItem, noteRepo.getItem(noteItem.id, optimal = false))
+        assertEquals(notePreviewItem, noteRepo.getItem(noteItem.id, optimal = true))
     }
 
     @Test fun getRollList() = inRoomTest {
+        TODO("nullable")
+
         assertEquals(listOf<RankItem>(), noteRepo.getRollList(Random.nextLong()))
 
         noteDao.insert(firstNote)
@@ -89,17 +100,23 @@ class NoteRepoTest : ParentIntegrationTest()  {
 
 
     @Test fun isListHide() = inRoomTest {
+        TODO("nullable")
+
+        assertEquals(false, badNoteRepo.isListHide())
+
         rankDao.insert(firstRank)
         rankDao.insert(secondRank.copy(isVisible = false))
 
         noteDao.insert(firstNote)
-        assertFalse(noteRepo.isListHide())
+        assertEquals(false, noteRepo.isListHide())
 
         noteDao.insert(fourthNote)
-        assertFalse(noteRepo.isListHide())
+        assertEquals(false, noteRepo.isListHide())
     }
 
     @Test fun clearBin() = inRoomTest {
+        TODO("nullable")
+
         noteDao.insert(firstNote)
         noteDao.insert(secondNote)
         noteDao.insert(thirdNote)
@@ -123,6 +140,8 @@ class NoteRepoTest : ParentIntegrationTest()  {
 
 
     @Test fun deleteNote() = inRoomTest {
+        TODO("nullable")
+
         noteDao.insert(firstNote)
         alarmDao.insert(firstAlarm)
 
@@ -139,6 +158,8 @@ class NoteRepoTest : ParentIntegrationTest()  {
     }
 
     @Test fun restoreNote() = inRoomTest {
+        TODO("nullable")
+
         noteDao.insert(secondNote)
 
         val item = noteConverter.toItem(secondNote)
@@ -152,6 +173,8 @@ class NoteRepoTest : ParentIntegrationTest()  {
     }
 
     @Test fun clearNote() = inRoomTest {
+        TODO("nullable")
+
         noteDao.insert(secondNote)
         rankDao.insert(firstRank)
 
@@ -166,10 +189,13 @@ class NoteRepoTest : ParentIntegrationTest()  {
     @Test fun convertToRoll() = inRoomTest {
         TODO()
 
+        //badNoteRepo.convertNote()
 //        noteRepo.convertNote(NoteItem(0, "", "", color = 0, type = NoteType.TEXT))
     }
 
     @Test fun convertToText() = inRoomTest {
+        TODO("nullable")
+
         val rollList = rollConverter.toItem(firstRollList)
         var noteItem = noteConverter.toItem(firstNote, rollList, firstAlarm)
 
@@ -182,10 +208,12 @@ class NoteRepoTest : ParentIntegrationTest()  {
         noteRepo.convertNote(noteItem.deepCopy(), useCache = false)
         noteItem = noteItem.onConvert()
 
-        assertEquals(noteItem, noteRepo.getItem(noteItem.id, optimisation = false))
+        assertEquals(noteItem, noteRepo.getItem(noteItem.id, optimal = false))
     }
 
     @Test fun convertToTextUseCache() = inRoomTest {
+        TODO("nullable")
+
         val rollList = rollConverter.toItem(firstRollList)
         var noteItem = noteConverter.toItem(firstNote, rollList, firstAlarm)
 
@@ -198,10 +226,12 @@ class NoteRepoTest : ParentIntegrationTest()  {
         noteRepo.convertNote(noteItem.deepCopy(), useCache = true)
         noteItem = noteItem.onConvert()
 
-        assertEquals(noteItem, noteRepo.getItem(noteItem.id, optimisation = false))
+        assertEquals(noteItem, noteRepo.getItem(noteItem.id, optimal = false))
     }
 
     @Test fun getCopyText() = inRoomTest {
+        TODO("nullable")
+
         noteDao.insert(firstNote)
         noteDao.insert(secondNote)
         noteDao.insert(thirdNote)
@@ -240,6 +270,8 @@ class NoteRepoTest : ParentIntegrationTest()  {
     }
 
     @Test fun updateRollCheckSingle() = inRoomTest {
+        TODO("nullable")
+
         noteDao.insert(firstNote)
         firstRollList.forEach { rollDao.insert(it) }
 
@@ -251,11 +283,13 @@ class NoteRepoTest : ParentIntegrationTest()  {
 
         noteRepo.updateRollCheck(item, p = 0)
 
-        assertEquals(item, noteRepo.getItem(item.id, optimisation = false))
+        assertEquals(item, noteRepo.getItem(item.id, optimal = false))
         assertEquals(list, noteRepo.getRollList(item.id))
     }
 
     @Test fun updateRollCheckAllFalse() = inRoomTest {
+        TODO("nullable")
+
         noteDao.insert(firstNote)
         firstRollList.forEach { rollDao.insert(it) }
 
@@ -269,11 +303,13 @@ class NoteRepoTest : ParentIntegrationTest()  {
 
         noteRepo.updateRollCheck(item, check)
 
-        assertEquals(item, noteRepo.getItem(item.id, optimisation = false))
+        assertEquals(item, noteRepo.getItem(item.id, optimal = false))
         assertEquals(list, noteRepo.getRollList(item.id))
     }
 
     @Test fun updateRollCheckAllTrue() = inRoomTest {
+        TODO("nullable")
+
         noteDao.insert(fourthNote)
         fourthRollList.forEach { rollDao.insert(it) }
 
@@ -288,11 +324,13 @@ class NoteRepoTest : ParentIntegrationTest()  {
 
         noteRepo.updateRollCheck(item, check)
 
-        assertEquals(item, noteRepo.getItem(item.id, optimisation = false))
+        assertEquals(item, noteRepo.getItem(item.id, optimal = false))
         assertEquals(list, noteRepo.getRollList(item.id))
     }
 
     @Test fun updateNote() = inRoomTest {
+        TODO("nullable")
+
         val entity = firstNote.copy()
 
         noteDao.insert(entity)
@@ -305,8 +343,9 @@ class NoteRepoTest : ParentIntegrationTest()  {
     }
 
 
+    // TODO check data class`
     @Test fun setRollVisible() = inRoomTest {
-        TODO()
+        TODO("nullable")
 
         val noteId = Random.nextLong()
         var isVisible = Random.nextBoolean()
@@ -322,8 +361,9 @@ class NoteRepoTest : ParentIntegrationTest()  {
         assertEquals(isVisible, rollVisibleDao.get(noteId))
     }
 
+    // TODO check data class
     @Test fun getRollVisible() = inRoomTest {
-        TODO()
+        TODO("nullable")
 
         val noteId = Random.nextLong()
         val isVisible = Random.nextBoolean()

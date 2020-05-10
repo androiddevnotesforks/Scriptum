@@ -51,6 +51,8 @@ class NotesInteractorTest : ParentInteractorTest() {
 
 
     @Test fun getCount()  = startCoTest {
+        TODO("nullable")
+
         val count = Random.nextInt()
 
         coEvery { noteRepo.getCount(bin = false) } returns count
@@ -63,6 +65,8 @@ class NotesInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun getList() = startCoTest {
+        TODO("nullable")
+
         val itemList = data.itemList
 
         val firstSort = TestData.sort
@@ -88,6 +92,8 @@ class NotesInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun isListHide() = startCoTest {
+        TODO("nullable")
+
         val isListHide = Random.nextBoolean()
 
         coEvery { noteRepo.isListHide() } returns isListHide
@@ -100,6 +106,8 @@ class NotesInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun updateNote() = startCoTest {
+        TODO("nullable")
+
         val rankIdVisibleList = data.rankIdVisibleList
         val sort = TestData.sort
 
@@ -131,6 +139,8 @@ class NotesInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun convert() = startCoTest {
+        TODO("nullable")
+
         val rankIdVisibleList = data.rankIdVisibleList
         val sort = TestData.sort
 
@@ -176,6 +186,8 @@ class NotesInteractorTest : ParentInteractorTest() {
 
 
     @Test fun getDateList() = startCoTest {
+        TODO("nullable")
+
         val itemList = TestData.Notification.itemList
         val dateList = itemList.map { it.alarm.date }
 
@@ -241,6 +253,8 @@ class NotesInteractorTest : ParentInteractorTest() {
 
 
     @Test fun getNotification() = startCoTest {
+        TODO("nullable")
+
         val noteId = Random.nextLong()
         val item = TestData.Notification.itemList.random()
 

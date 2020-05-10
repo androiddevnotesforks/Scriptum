@@ -40,6 +40,8 @@ class BinInteractorTest : ParentInteractorTest() {
     @Test fun getTheme() = FastTest.getTheme(preferenceRepo) { interactor.theme }
 
     @Test fun getCount() = startCoTest {
+        TODO("nullable")
+
         val count = Random.nextInt()
 
         coEvery { noteRepo.getCount(bin = true) } returns count
@@ -52,6 +54,8 @@ class BinInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun getList() = startCoTest {
+        TODO("nullable")
+
         val itemList = data.itemList
 
         coEvery {

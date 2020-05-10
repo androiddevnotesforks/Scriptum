@@ -30,38 +30,47 @@ class TextNoteInteractor(
 
     private var rankIdVisibleList: List<Long>? = null
 
-    private suspend fun getRankIdVisibleList(): List<Long> {
-        return rankIdVisibleList ?: rankRepo.getIdVisibleList().also { rankIdVisibleList = it }
+    private suspend fun getRankIdVisibleList(): List<Long>? {
+        return rankIdVisibleList ?: rankRepo.getIdVisibleList()?.also { rankIdVisibleList = it }
     }
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy { callback = null }
 
 
-    override fun getSaveModel() = with(preferenceRepo) {
-        SaveControl.Model(pauseSaveOn, autoSaveOn, savePeriod)
+    override fun getSaveModel(): SaveControl.Model? = with(preferenceRepo) {
+        val pauseSaveOn = pauseSaveOn ?: return@with null
+        val autoSaveOn = autoSaveOn ?: return@with null
+        val savePeriod = savePeriod ?: return@with null
+
+        return@with SaveControl.Model(pauseSaveOn, autoSaveOn, savePeriod)
     }
 
-    @Theme override val theme: Int get() = preferenceRepo.theme
+    @Theme override val theme: Int? get() = preferenceRepo.theme
 
-    @Color override val defaultColor: Int get() = preferenceRepo.defaultColor
+    @Color override val defaultColor: Int? get() = preferenceRepo.defaultColor
 
 
     override suspend fun getItem(id: Long): NoteItem.Text? {
-        val item = noteRepo.getItem(id, optimisation = false)
+        val item = noteRepo.getItem(id, optimal = false)
 
         if (item !is NoteItem.Text) return null
 
-        callback?.notifyNoteBind(item, getRankIdVisibleList(), preferenceRepo.sort)
+        val sort = preferenceRepo.sort ?: return null
+        val rankIdVisibleList = getRankIdVisibleList() ?: return null
+
+        callback?.notifyNoteBind(item, rankIdVisibleList, sort)
 
         return item
     }
 
-    override suspend fun getRankDialogItemArray() = rankRepo.getDialogItemArray()
+    override suspend fun getRankDialogItemArray(emptyName: String): Array<String>? {
+        return rankRepo.getDialogItemArray(emptyName)
+    }
 
 
-    override suspend fun getRankId(check: Int): Long = rankRepo.getId(check)
+    override suspend fun getRankId(check: Int): Long? = rankRepo.getId(check)
 
-    override suspend fun getDateList() = alarmRepo.getList().map { it.alarm.date }
+    override suspend fun getDateList(): List<String>? = alarmRepo.getList()?.map { it.alarm.date }
 
     override suspend fun clearDate(noteItem: NoteItem.Text) {
         alarmRepo.delete(noteItem.id)
@@ -83,8 +92,11 @@ class TextNoteInteractor(
     override suspend fun updateNote(noteItem: NoteItem.Text, updateBind: Boolean) {
         noteRepo.updateNote(noteItem)
 
+        val sort = preferenceRepo.sort ?: return
+        val rankIdVisibleList = getRankIdVisibleList() ?: return
+
         if (updateBind) {
-            callback?.notifyNoteBind(noteItem, getRankIdVisibleList(), preferenceRepo.sort)
+            callback?.notifyNoteBind(noteItem, rankIdVisibleList, sort)
         }
     }
 
@@ -94,7 +106,10 @@ class TextNoteInteractor(
         noteRepo.saveNote(noteItem, isCreate)
         rankRepo.updateConnection(noteItem)
 
-        callback?.notifyNoteBind(noteItem, getRankIdVisibleList(), preferenceRepo.sort)
+        val sort = preferenceRepo.sort ?: return
+        val rankIdVisibleList = getRankIdVisibleList() ?: return
+
+        callback?.notifyNoteBind(noteItem, rankIdVisibleList, sort)
     }
 
     override suspend fun deleteNote(noteItem: NoteItem.Text) {

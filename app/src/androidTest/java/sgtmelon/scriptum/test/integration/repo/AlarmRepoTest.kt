@@ -4,6 +4,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.scriptum.data.provider.RoomProvider
 import sgtmelon.scriptum.data.repository.room.AlarmRepo
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.data.room.converter.model.NoteConverter
@@ -22,12 +23,17 @@ import kotlin.random.Random
 @RunWith(AndroidJUnit4::class)
 class AlarmRepoTest : ParentIntegrationTest() {
 
-    private val alarmRepo: IAlarmRepo = AlarmRepo(context)
+    // TODO nullable tests
+
+    private val badAlarmRepo: IAlarmRepo = AlarmRepo(RoomProvider(context = null))
+    private val alarmRepo: IAlarmRepo = AlarmRepo(RoomProvider(context))
 
     private val noteConverter = NoteConverter()
 
 
     @Test fun insert() = inRoomTest {
+        TODO("nullable")
+
         noteDao.insert(firstNote)
 
         val alarmEntity = firstAlarm.copy()
@@ -48,6 +54,8 @@ class AlarmRepoTest : ParentIntegrationTest() {
     }
 
     @Test fun update() = inRoomTest {
+        TODO("nullable")
+
         noteDao.insert(firstNote)
 
         val alarmEntity = firstAlarm.copy().apply {
@@ -66,6 +74,8 @@ class AlarmRepoTest : ParentIntegrationTest() {
     }
 
     @Test fun delete() = inRoomTest {
+        TODO("nullable")
+
         noteDao.insert(firstNote)
         alarmDao.insert(firstAlarm)
 
@@ -75,6 +85,9 @@ class AlarmRepoTest : ParentIntegrationTest() {
     }
 
     @Test fun getItem() = inRoomTest {
+        TODO("nullable")
+
+        assertNull(badAlarmRepo.getItem(Random.nextLong()))
         assertNull(alarmRepo.getItem(Random.nextLong()))
 
         noteDao.insert(firstNote)
@@ -88,6 +101,9 @@ class AlarmRepoTest : ParentIntegrationTest() {
     }
 
     @Test fun getList() = inRoomTest {
+        TODO("nullable")
+
+        assertTrue(badAlarmRepo.getList().isEmpty())
         assertTrue(alarmRepo.getList().isEmpty())
 
         noteDao.insert(firstNote)

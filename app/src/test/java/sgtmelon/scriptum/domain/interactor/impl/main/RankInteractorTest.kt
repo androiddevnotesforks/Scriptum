@@ -25,6 +25,8 @@ class RankInteractorTest : ParentInteractorTest() {
     private val interactor by lazy { RankInteractor(rankRepo) }
 
     @Test fun getCount() = startCoTest {
+        TODO("nullable")
+
         val count = Random.nextInt()
 
         coEvery { rankRepo.getCount() } returns count
@@ -37,6 +39,8 @@ class RankInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun getList() = startCoTest {
+        TODO("nullable")
+
         val list = data.itemList
 
         coEvery { rankRepo.getList() } returns list
@@ -49,6 +53,8 @@ class RankInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun getBind() = startCoTest {
+        TODO("nullable")
+
         val noteId = List(size = 5) { Random.nextLong() }
         val hasBind = Random.nextBoolean()
 
@@ -63,6 +69,8 @@ class RankInteractorTest : ParentInteractorTest() {
 
 
     @Test fun insert() = startCoTest {
+        TODO("nullable")
+
         val id = Random.nextLong()
         val name = TestData.uniqueString
         val item = RankItem(id, name = name)

@@ -9,16 +9,16 @@ import sgtmelon.scriptum.domain.model.item.RankItem
  */
 interface IRankRepo {
 
-    suspend fun getCount(): Int
+    suspend fun getCount(): Int?
 
-    suspend fun getList(): MutableList<RankItem>
+    suspend fun getList(): MutableList<RankItem>?
 
-    suspend fun getBind(noteId: List<Long>): Boolean
+    suspend fun getBind(noteId: List<Long>): Boolean?
 
-    suspend fun getIdVisibleList(): List<Long>
+    suspend fun getIdVisibleList(): List<Long>?
 
 
-    suspend fun insert(name: String): Long
+    suspend fun insert(name: String): Long?
 
     suspend fun delete(rankItem: RankItem)
 
@@ -31,8 +31,8 @@ interface IRankRepo {
     suspend fun updateConnection(noteItem: NoteItem)
 
 
-    suspend fun getDialogItemArray(): Array<String>
+    suspend fun getDialogItemArray(emptyName: String): Array<String>?
 
-    suspend fun getId(position: Int): Long
+    suspend fun getId(position: Int): Long?
 
 }

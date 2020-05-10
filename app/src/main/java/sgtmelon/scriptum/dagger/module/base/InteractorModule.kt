@@ -4,10 +4,7 @@ import dagger.Module
 import dagger.Provides
 import sgtmelon.scriptum.dagger.ActivityScope
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
-import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
-import sgtmelon.scriptum.data.repository.room.callback.IBindRepo
-import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
-import sgtmelon.scriptum.data.repository.room.callback.IRankRepo
+import sgtmelon.scriptum.data.repository.room.callback.*
 import sgtmelon.scriptum.domain.interactor.callback.*
 import sgtmelon.scriptum.domain.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.IMainInteractor
@@ -39,7 +36,6 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.AlarmActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.NotificationActivity
-import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
 
 /**
  * Module for provide interactor's
@@ -164,9 +160,8 @@ class InteractorModule {
 
     @Provides
     @ActivityScope
-    fun provideSummaryProvider(fragment: PreferenceFragment): SummaryProvider {
-        return SummaryProvider(fragment.context)
+    fun provideDevelopInteractor(developRepo: IDevelopRepo,
+                                 preferenceRepo: IPreferenceRepo): IDevelopInteractor {
+        return DevelopInteractor(developRepo, preferenceRepo)
     }
-
-
 }

@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.data.repository.room
 
-import android.content.Context
+import sgtmelon.scriptum.data.provider.RoomProvider
 import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.data.room.IRoomWork
 import sgtmelon.scriptum.data.room.RoomDb
@@ -20,54 +20,47 @@ import sgtmelon.scriptum.extension.getText
 import sgtmelon.scriptum.extension.move
 
 /**
- * Repository of [RoomDb] which work with notes
- *
- * @param context for open [RoomDb]
+ * Repository of [RoomDb] which work with notes.
  */
-class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
+class NoteRepo(override val roomProvider: RoomProvider) : INoteRepo, IRoomWork {
+
+    // TODO test for nullable values
 
     private val noteConverter = NoteConverter()
     private val rollConverter = RollConverter()
 
-    override suspend fun getCount(bin: Boolean): Int {
-        val count: Int
+    /**
+     * Important:
+     *
+     * - For notes page need take only visible items count
+     * - For bin page need take all items count
+     */
+    override suspend fun getCount(bin: Boolean): Int? = takeFromRoom {
+        val rankIdList = if (bin) rankDao.getIdList() else rankDao.getIdVisibleList()
 
-        openRoom().apply {
-            val rankIdList = if (bin) rankDao.getIdList() else rankDao.getIdVisibleList()
-            count = noteDao.getCount(bin, rankIdList)
-        }.close()
-
-        return count
+        return@takeFromRoom noteDao.getCount(bin, rankIdList)
     }
 
     /**
      * [optimal] - need for note lists where displays short information.
+     *
+     * [filterVisible] - need use if you need get only rank visible notes. Otherwise you will
+     *                   get all items even if rank not visible.
      */
     override suspend fun getList(@Sort sort: Int, bin: Boolean, optimal: Boolean,
-                         filterVisible: Boolean): MutableList<NoteItem> {
-        val itemList = ArrayList<NoteItem>()
+                                 filterVisible: Boolean): MutableList<NoteItem>? = takeFromRoom {
+        var list = noteDao.getSortBy(sort, bin) ?: return@takeFromRoom null
 
-        inRoom {
-            var list = noteDao.getSortBy(sort, bin) ?: return@inRoom
+        if (filterVisible) list = rankDao.filterVisible(list)
 
-            /**
-             * If need get all items.
-             *
-             * For example:
-             * Need get all items for cancel bind in status bar.
-             * Notes must be showed in bin list even if rank not visible.
-             */
-            if (filterVisible) list = rankDao.filterVisible(list)
-
+        return@takeFromRoom ArrayList<NoteItem>().apply {
             list.forEach {
                 val rollEntityList = rollDao.getPreview(it.id, optimal)
                 val rollItemList = rollConverter.toItem(rollEntityList)
 
-                itemList.add(noteConverter.toItem(it, rollItemList, alarmDao.get(it.id)))
+                add(noteConverter.toItem(it, rollItemList, alarmDao.get(it.id)))
             }
-        }
-
-        return itemList.correctRankSort(sort)
+        }.correctRankSort(sort)
     }
 
     private suspend fun INoteDao.getSortBy(@Sort sort: Int, bin: Boolean): List<NoteEntity>? {
@@ -108,46 +101,35 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
     /**
      * Return null if note doesn't exist.
      *
-     * [optimisation] - need for note lists where displays short information.
+     * [id] - note item id.
+     * [optimal] - need for note lists where displays short information.
      */
-    override suspend fun getItem(id: Long, optimisation: Boolean): NoteItem? {
-        val item: NoteItem?
+    override suspend fun getItem(id: Long, optimal: Boolean): NoteItem? = takeFromRoom {
+        val entity = noteDao.get(id) ?: return@takeFromRoom null
+        val rollList = rollConverter.toItem(rollDao.getPreview(id, optimal))
 
-        openRoom().apply {
-            item = noteDao.get(id)?.let {
-                val rollList = rollConverter.toItem(rollDao.getPreview(it.id, optimisation))
-                return@let noteConverter.toItem(it, rollList, alarmDao.get(id))
-            }
-        }.close()
-
-        return item
+        return@takeFromRoom noteConverter.toItem(entity, rollList, alarmDao.get(id))
     }
 
-    private suspend fun IRollDao.getPreview(id: Long, optimisation: Boolean): MutableList<RollEntity> {
-        return if (optimisation) getView(id) else get(id)
+    private suspend fun IRollDao.getPreview(id: Long, optimal: Boolean): MutableList<RollEntity> {
+        return if (optimal) getView(id) else get(id)
     }
 
     /**
      * Return empty list if don't have [RollEntity] for this [noteId]
      */
-    override suspend fun getRollList(noteId: Long) = ArrayList<RollItem>().apply {
-        inRoom { addAll(rollConverter.toItem(rollDao.get(noteId))) }
+    override suspend fun getRollList(noteId: Long): MutableList<RollItem>? = takeFromRoom {
+        rollConverter.toItem(rollDao.get(noteId))
     }
 
 
     /**
      * Have hide notes in list or not.
      */
-    override suspend fun isListHide(): Boolean {
-        val isListHide: Boolean
-
-        openRoom().apply {
-            isListHide = noteDao.get(false).any {
-                !noteConverter.toItem(it).isVisible(rankDao.getIdVisibleList())
-            }
-        }.close()
-
-        return isListHide
+    override suspend fun isListHide(): Boolean? = takeFromRoom {
+        noteDao.get(false).any {
+            !noteConverter.toItem(it).isVisible(rankDao.getIdVisibleList())
+        }
     }
 
     override suspend fun clearBin() = inRoom {
@@ -177,35 +159,30 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
     }
 
 
-    override suspend fun convertNote(noteItem: NoteItem.Text): NoteItem.Roll {
-        val convertItem = noteItem.onConvert()
+    override suspend fun convertNote(noteItem: NoteItem.Text): NoteItem.Roll? = takeFromRoom {
+        val item = noteItem.onConvert()
 
-        inRoom {
-            convertItem.list.forEach {
-                it.id = rollDao.insert(rollConverter.toEntity(convertItem.id, it))
-            }
-
-            noteDao.update(noteConverter.toEntity(convertItem))
+        item.list.forEach {
+            it.id = rollDao.insert(rollConverter.toEntity(item.id, it))
         }
 
-        return convertItem
+        noteDao.update(noteConverter.toEntity(item))
+
+        return@takeFromRoom item
     }
 
-    override suspend fun convertNote(noteItem: NoteItem.Roll, useCache: Boolean): NoteItem.Text {
-        val convertItem: NoteItem.Text
+    override suspend fun convertNote(noteItem: NoteItem.Roll,
+                                     useCache: Boolean): NoteItem.Text? = takeFromRoom {
+        val item = if (useCache) {
+            noteItem.onConvert()
+        } else {
+            noteItem.onConvert(rollConverter.toItem(rollDao.get(noteItem.id)))
+        }
 
-        openRoom().apply {
-            convertItem = if (useCache) {
-                noteItem.onConvert()
-            } else {
-                noteItem.onConvert(rollConverter.toItem(rollDao.get(noteItem.id)))
-            }
+        noteDao.update(noteConverter.toEntity(item))
+        rollDao.delete(item.id)
 
-            noteDao.update(noteConverter.toEntity(convertItem))
-            rollDao.delete(convertItem.id)
-        }.close()
-
-        return convertItem
+        return@takeFromRoom item
     }
 
     override suspend fun getCopyText(noteItem: NoteItem) = StringBuilder().apply {
@@ -301,16 +278,10 @@ class NoteRepo(override val context: Context) : INoteRepo, IRoomWork {
         }
     }
 
-    override suspend fun getRollVisible(noteId: Long): Boolean {
-        val isVisible: Boolean
-
-        openRoom().apply {
-            isVisible = rollVisibleDao.get(noteId) ?: run {
-                RollVisibleEntity(noteId = noteId).also { rollVisibleDao.insert(it) }.value
-            }
-        }.close()
-
-        return isVisible
+    override suspend fun getRollVisible(noteId: Long): Boolean? = takeFromRoom {
+        rollVisibleDao.get(noteId) ?: run {
+            RollVisibleEntity(noteId = noteId).also { rollVisibleDao.insert(it) }.value
+        }
     }
 
 

@@ -27,6 +27,8 @@ class SignalInteractorTest : ParentInteractorTest() {
     private val interactor by lazy { SignalInteractor(ringtoneControl, preferenceRepo) }
 
     @Test fun getCheck() {
+        TODO("nullable")
+
         val checkValue = 1
         val checkArray = booleanArrayOf(true, false)
 
@@ -40,6 +42,8 @@ class SignalInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun getState() {
+        TODO("nullable")
+
         val firstCheck = 2
         val firstState = SignalState(isMelody = false, isVibration = true)
 
@@ -59,6 +63,8 @@ class SignalInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun getMelodyUri() {
+        TODO("nullable")
+
         val wrongUri = TestData.uniqueString
         val wrongReturnUri = melodyList.first().uri
 
@@ -118,6 +124,8 @@ class SignalInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun getMelodyCheck() {
+        TODO("nullable")
+
         val wrongUri = TestData.uniqueString
         val wrongReturnUri = melodyList.first().uri
 
@@ -127,6 +135,9 @@ class SignalInteractorTest : ParentInteractorTest() {
         val goodIndex = melodyList.indexOfFirst { it.uri == goodUri }
 
         setEveryRingtone()
+
+        every { preferenceRepo.melodyUri } returns null
+        assertEquals(wrongIndex, interactor.melodyCheck)
 
         every { preferenceRepo.melodyUri } returns ""
         assertEquals(wrongIndex, interactor.melodyCheck)
@@ -138,17 +149,13 @@ class SignalInteractorTest : ParentInteractorTest() {
         assertEquals(goodIndex, interactor.melodyCheck)
 
         verifySequence {
-            ringtoneControl.getByType(RingtoneManager.TYPE_ALARM)
-            ringtoneControl.getByType(RingtoneManager.TYPE_RINGTONE)
+            repeat(times = 3) {
+                ringtoneControl.getByType(RingtoneManager.TYPE_ALARM)
+                ringtoneControl.getByType(RingtoneManager.TYPE_RINGTONE)
 
-            preferenceRepo.melodyUri
-            preferenceRepo.melodyUri = wrongReturnUri
-
-            ringtoneControl.getByType(RingtoneManager.TYPE_ALARM)
-            ringtoneControl.getByType(RingtoneManager.TYPE_RINGTONE)
-
-            preferenceRepo.melodyUri
-            preferenceRepo.melodyUri = wrongReturnUri
+                preferenceRepo.melodyUri
+                preferenceRepo.melodyUri = wrongReturnUri
+            }
 
             ringtoneControl.getByType(RingtoneManager.TYPE_ALARM)
             ringtoneControl.getByType(RingtoneManager.TYPE_RINGTONE)

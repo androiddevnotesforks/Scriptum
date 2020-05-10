@@ -15,6 +15,6 @@ interface IAlarmRepo {
 
     suspend fun getItem(noteId: Long): NotificationItem?
 
-    suspend fun getList(): MutableList<NotificationItem>
+    suspend fun getList(): MutableList<NotificationItem>?
 
 }

@@ -9,6 +9,9 @@ import androidx.test.platform.app.InstrumentationRegistry
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.not
+import sgtmelon.scriptum.dagger.module.base.ManagerModule
+import sgtmelon.scriptum.dagger.module.base.ProviderModule
+import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.preference.PreferenceRepo
 
 /**
@@ -17,8 +20,15 @@ import sgtmelon.scriptum.data.repository.preference.PreferenceRepo
 abstract class ParentUi {
 
     protected val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
-    protected val theme: Int get() = PreferenceRepo(context).theme
-    protected val repeat: Int get() = PreferenceRepo(context).repeat
+
+    private val preferenceRepo: IPreferenceRepo = PreferenceRepo(
+            ProviderModule().providePreferenceKeyProvider(context.resources),
+            ProviderModule().providePreferenceDefProvider(context.resources),
+            ManagerModule().provideSharedPreferences(context)
+    )
+
+    protected val theme: Int get() = preferenceRepo.theme ?: throw NullPointerException()
+    protected val repeat: Int get() = preferenceRepo.repeat ?: throw NullPointerException()
 
     protected fun getViewByName(name: String): Matcher<View> = withResourceName(name)
 

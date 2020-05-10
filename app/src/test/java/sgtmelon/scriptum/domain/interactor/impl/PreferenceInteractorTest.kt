@@ -35,20 +35,23 @@ class PreferenceInteractorTest : ParentInteractorTest() {
     @Test fun getTheme() = FastTest.getTheme(preferenceRepo) { interactor.theme }
 
     @Test fun getThemeSummary() {
+        TODO("nullable")
+
         every { summaryProvider.theme } returns summaryList
 
-        fun checkRequestSummary(value: Int) {
+        fun checkRequestSummary(value: Int?) {
             every { preferenceRepo.theme } returns value
-            assertEquals(interactor.getThemeSummary(), summaryList.getOrNull(value))
+            assertEquals(interactor.getThemeSummary(), value?.let { summaryList.getOrNull(it) })
         }
 
-        val valueList = listOf(Theme.LIGHT, Theme.DARK, Random.nextInt())
+        val valueList = listOf(null, Theme.LIGHT, Theme.DARK, Random.nextInt())
         valueList.forEach { checkRequestSummary(it) }
 
         verifySequence {
-            repeat(valueList.size) {
-                summaryProvider.theme
+            valueList.forEach {
                 preferenceRepo.theme
+
+                if (it != null) summaryProvider.theme
             }
         }
     }
@@ -78,6 +81,8 @@ class PreferenceInteractorTest : ParentInteractorTest() {
     @Test fun getSort() = FastTest.getSort(preferenceRepo) { interactor.sort }
 
     @Test fun getSortSummary() {
+        TODO("nullable")
+
         every { summaryProvider.sort } returns summaryList
 
         fun checkRequestSummary(value: Int) {
@@ -123,6 +128,8 @@ class PreferenceInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun getDefaultColorSummary() {
+        TODO("nullable")
+
         every { summaryProvider.color } returns summaryList
 
         fun checkRequestSummary(value: Int) {
@@ -178,6 +185,8 @@ class PreferenceInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun getSavePeriodSummary() {
+        TODO("nullable")
+
         every { summaryProvider.savePeriod } returns summaryList
 
         fun checkRequestSummary(value: Int) {
@@ -221,6 +230,8 @@ class PreferenceInteractorTest : ParentInteractorTest() {
     @Test fun getRepeat() = FastTest.getRepeat(preferenceRepo) { interactor.repeat }
 
     @Test fun getRepeatSummary() {
+        TODO("nullable")
+
         every { summaryProvider.repeat } returns summaryList
 
         fun checkRequestSummary(value: Int) {
@@ -262,6 +273,8 @@ class PreferenceInteractorTest : ParentInteractorTest() {
 
 
     @Test fun getSignalSummaryArray() {
+        TODO("nullable")
+
         val summaryArray = Array(size = 3) { TestData.uniqueString }
         val checkArray = booleanArrayOf(true, false, true)
 
@@ -297,6 +310,8 @@ class PreferenceInteractorTest : ParentInteractorTest() {
     @Test fun getVolume() = FastTest.getVolume(preferenceRepo) { interactor.volume }
 
     @Test fun getVolumeSummary() {
+        TODO("nullable")
+
         fun getSummary(value: Int) = if (value % 2 == 0) summaryVolume.plus(value) else null
 
         fun checkRequestSummary(value: Int) {

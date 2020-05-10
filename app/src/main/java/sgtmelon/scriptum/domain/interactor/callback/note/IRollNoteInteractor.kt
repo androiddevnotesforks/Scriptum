@@ -14,30 +14,30 @@ import java.util.*
  */
 interface IRollNoteInteractor : IParentInteractor {
 
-    fun getSaveModel(): SaveControl.Model
+    fun getSaveModel(): SaveControl.Model?
 
-    @Theme val theme: Int
+    @Theme val theme: Int?
 
-    @Color val defaultColor: Int
+    @Color val defaultColor: Int?
 
 
     suspend fun getItem(id: Long): NoteItem.Roll?
 
-    suspend fun getRankDialogItemArray(): Array<String>
+    suspend fun getRankDialogItemArray(emptyName: String): Array<String>?
 
 
     suspend fun setVisible(noteId: Long, isVisible: Boolean)
 
-    suspend fun getVisible(noteId: Long): Boolean
+    suspend fun getVisible(noteId: Long): Boolean?
 
 
     suspend fun updateRollCheck(noteItem: NoteItem.Roll, p: Int)
 
     suspend fun updateRollCheck(noteItem: NoteItem.Roll, check: Boolean)
 
-    suspend fun getRankId(check: Int): Long
+    suspend fun getRankId(check: Int): Long?
 
-    suspend fun getDateList(): List<String>
+    suspend fun getDateList(): List<String>?
 
     suspend fun clearDate(noteItem: NoteItem.Roll)
 

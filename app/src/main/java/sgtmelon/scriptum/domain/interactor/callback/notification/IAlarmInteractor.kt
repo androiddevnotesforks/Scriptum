@@ -12,13 +12,13 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.notification.AlarmViewModel
  */
 interface IAlarmInteractor : IParentInteractor {
 
-    @Theme val theme: Int
+    @Theme val theme: Int?
 
-    @Repeat val repeat: Int
+    @Repeat val repeat: Int?
 
-    val volume: Int
+    val volume: Int?
 
-    val volumeIncrease: Boolean
+    val volumeIncrease: Boolean?
 
     suspend fun getModel(id: Long): NoteItem?
 

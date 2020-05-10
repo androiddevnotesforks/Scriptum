@@ -11,8 +11,8 @@ import sgtmelon.scriptum.extension.clearAddAll
 import sgtmelon.scriptum.extension.removeAtOrNull
 import sgtmelon.scriptum.presentation.screen.ui.callback.notification.INotificationActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.NotificationActivity
-import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.notification.INotificationViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
 
 /**
  * ViewModel for [NotificationActivity].
@@ -32,8 +32,10 @@ class NotificationViewModel(application: Application) :
     val itemList: MutableList<NotificationItem> = ArrayList()
 
     override fun onSetup(bundle: Bundle?) {
+        val theme = interactor.theme ?: return
+
         callback?.setupToolbar()
-        callback?.setupRecycler(interactor.theme)
+        callback?.setupRecycler(theme)
     }
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy { interactor.onDestroy() }
@@ -56,14 +58,16 @@ class NotificationViewModel(application: Application) :
         if (itemList.isNotEmpty()) updateList()
 
         viewModelScope.launch {
-            if (interactor.getCount() == 0) {
+            val count = interactor.getCount() ?: return@launch
+            
+            if (count == 0) {
                 itemList.clear()
             } else {
                 if (itemList.isEmpty()) {
                     callback?.showProgress()
                 }
 
-                itemList.clearAddAll(interactor.getList())
+                interactor.getList()?.let { itemList.clearAddAll(it) } ?: return@launch
             }
 
             updateList()

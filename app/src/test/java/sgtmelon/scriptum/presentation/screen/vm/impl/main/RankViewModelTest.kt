@@ -65,7 +65,9 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onUpdateData_startEmpty_getNotEmpty() = startCoTest {
-                        coEvery { interactor.getCount() } returns data.itemList.size
+        TODO("nullable")
+
+        coEvery { interactor.getCount() } returns data.itemList.size
         coEvery { interactor.getList() } returns data.itemList
 
         viewModel.onUpdateData()
@@ -81,7 +83,9 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onUpdateData_startEmpty_getEmpty() = startCoTest {
-                        coEvery { interactor.getCount() } returns 0
+        TODO("nullable")
+
+        coEvery { interactor.getCount() } returns 0
         coEvery { interactor.getList() } returns mutableListOf()
 
         viewModel.onUpdateData()
@@ -95,7 +99,9 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onUpdateData_startNotEmpty_getNotEmpty() = startCoTest {
-                        val returnList = mutableListOf(data.itemList.first())
+        TODO("nullable")
+
+        val returnList = mutableListOf(data.itemList.first())
 
         coEvery { interactor.getCount() } returns returnList.size
         coEvery { interactor.getList() } returns returnList
@@ -116,7 +122,9 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onUpdateData_startNotEmpty_getEmpty() = startCoTest {
-                        coEvery { interactor.getCount() } returns 0
+        TODO("nullable")
+
+        coEvery { interactor.getCount() } returns 0
         coEvery { interactor.getList() } returns mutableListOf()
 
         viewModel.itemList.addAll(data.itemList)
@@ -252,6 +260,8 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onClickEnterAdd_onSimple() = startCoTest {
+        TODO("nullable")
+
         every { callback.clearEnter() } returns ""
         viewModel.onClickEnterAdd(Random.nextBoolean())
 
@@ -284,6 +294,8 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onClickEnterAdd_onLong() = startCoTest {
+        TODO("nullable")
+
         every { callback.clearEnter() } returns ""
         viewModel.onClickEnterAdd(Random.nextBoolean())
 
@@ -380,7 +392,10 @@ class RankViewModelTest : ParentViewModelTest() {
         }
     }
 
+
     @Test fun onReceiveUnbindNote() {
+        TODO("nullable")
+
         val itemList = data.itemList
 
         viewModel.itemList.addAll(itemList)
@@ -456,7 +471,6 @@ class RankViewModelTest : ParentViewModelTest() {
             interactor.updatePosition(itemList, noteIdList)
         }
     }
-
 
 
     @Test fun switchVisible() = with(data) {

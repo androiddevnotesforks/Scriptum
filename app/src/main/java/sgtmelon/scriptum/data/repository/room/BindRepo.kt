@@ -1,36 +1,27 @@
 package sgtmelon.scriptum.data.repository.room
 
-import android.content.Context
+import sgtmelon.scriptum.data.provider.RoomProvider
 import sgtmelon.scriptum.data.repository.room.callback.IBindRepo
 import sgtmelon.scriptum.data.room.IRoomWork
 import sgtmelon.scriptum.data.room.RoomDb
 
 /**
- * Repository of [RoomDb] which work with notes bind in status bar
- *
- * @param context for open [RoomDb]
+ * Repository of [RoomDb] which work with notes bind in status bar.
  */
-class BindRepo(override val context: Context) : IBindRepo, IRoomWork {
+class BindRepo(override val roomProvider: RoomProvider) : IBindRepo, IRoomWork {
 
-    override suspend fun unbindNote(id: Long): Boolean {
-        val result: Boolean
+    // TODO test for nullable values
 
-        openRoom().apply {
-            val noteEntity = noteDao.get(id)?.apply { isStatus = false }
-            noteEntity?.let { noteDao.update(it) }
+    override suspend fun unbindNote(id: Long): Boolean? = takeFromRoom {
+        val noteEntity = noteDao.get(id)?.apply { isStatus = false }
 
-            result = noteEntity != null
-        }.close()
+        if (noteEntity != null) {
+            noteDao.update(noteEntity)
+        }
 
-        return result
+        return@takeFromRoom noteEntity != null
     }
 
-    override suspend fun getNotificationCount(): Int {
-        val count: Int
-
-        openRoom().apply { count = alarmDao.getCount() }.close()
-
-        return count
-    }
+    override suspend fun getNotificationCount(): Int? = takeFromRoom { alarmDao.getCount() }
 
 }

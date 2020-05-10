@@ -1,6 +1,8 @@
 package sgtmelon.scriptum.dagger.module.base
 
 import android.content.Context
+import android.content.SharedPreferences
+import android.preference.PreferenceManager
 import dagger.Module
 import dagger.Provides
 import sgtmelon.scriptum.presentation.control.system.RingtoneControl
@@ -8,10 +10,16 @@ import sgtmelon.scriptum.presentation.control.system.callback.IRingtoneControl
 import javax.inject.Singleton
 
 /**
- * Module for provide control classes
+ * Module for provide android manager classes.
  */
 @Module
-class ControlModule {
+class ManagerModule {
+
+    @Provides
+    @Singleton
+    fun provideSharedPreferences(context: Context?): SharedPreferences? {
+        return context?.let { PreferenceManager.getDefaultSharedPreferences(it) }
+    }
 
     @Provides
     @Singleton

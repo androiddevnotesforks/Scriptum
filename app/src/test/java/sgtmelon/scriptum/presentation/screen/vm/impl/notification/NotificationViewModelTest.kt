@@ -45,17 +45,25 @@ class NotificationViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onSetup() {
-        every { interactor.theme } returns Theme.LIGHT
+        TODO("nullable")
 
+        every { interactor.theme } returns null
+        viewModel.onSetup()
+
+        every { interactor.theme } returns Theme.LIGHT
         viewModel.onSetup()
 
         verifyAll {
+            interactor.theme
+
             callback.setupToolbar()
-            callback.setupRecycler(interactor.theme)
+            callback.setupRecycler(Theme.LIGHT)
         }
     }
 
     @Test fun onUpdateData_startEmpty_getNotEmpty() = startCoTest {
+        TODO("nullable")
+
         coEvery { interactor.getCount() } returns data.itemList.size
         coEvery { interactor.getList() } returns data.itemList
 
@@ -72,6 +80,8 @@ class NotificationViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onUpdateData_startEmpty_getEmpty() = startCoTest {
+        TODO("nullable")
+
         coEvery { interactor.getCount() } returns 0
         coEvery { interactor.getList() } returns mutableListOf()
 
@@ -86,6 +96,8 @@ class NotificationViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onUpdateData_startNotEmpty_getNotEmpty() = startCoTest {
+        TODO("nullable")
+
         val returnList = mutableListOf(data.itemList.first())
 
         coEvery { interactor.getCount() } returns returnList.size
@@ -107,6 +119,8 @@ class NotificationViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onUpdateData_startNotEmpty_getEmpty() = startCoTest {
+        TODO("nullable")
+
         coEvery { interactor.getCount() } returns 0
         coEvery { interactor.getList() } returns mutableListOf()
 

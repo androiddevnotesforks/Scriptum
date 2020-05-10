@@ -56,21 +56,35 @@ class NotesViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onSetup() {
-        val theme = Theme.DARK
+        TODO("nullable")
 
-        every { interactor.theme } returns theme
+        every { interactor.theme } returns null
+        viewModel.onSetup()
 
+        every { interactor.theme } returns Theme.LIGHT
+        viewModel.onSetup()
+
+        every { interactor.theme } returns Theme.DARK
         viewModel.onSetup()
 
         verifySequence {
-            callback.setupToolbar()
             interactor.theme
-            callback.setupRecycler(theme)
+
+            interactor.theme
+            callback.setupToolbar()
+            callback.setupRecycler(Theme.LIGHT)
+            callback.setupDialog()
+
+            interactor.theme
+            callback.setupToolbar()
+            callback.setupRecycler(Theme.DARK)
             callback.setupDialog()
         }
     }
 
-    @Test fun onUpdateData_startEmpty_getNotEmpty() = startCoTest {
+    @Test fun onUpdateData_startEmpty_getNotEmpty() = startCoTest{
+        TODO("nullable")
+
         val itemList = data.itemList
 
         coEvery { interactor.getCount() } returns itemList.size
@@ -93,7 +107,9 @@ class NotesViewModelTest : ParentViewModelTest() {
         }
     }
 
-    @Test fun onUpdateData_startEmpty_getEmpty() = startCoTest {
+    @Test fun onUpdateData_startEmpty_getEmpty() = startCoTest{
+        TODO("nullable")
+
         coEvery { interactor.getCount() } returns 0
         coEvery { interactor.getList() } returns mutableListOf()
         coEvery { interactor.isListHide() } returns true
@@ -112,7 +128,9 @@ class NotesViewModelTest : ParentViewModelTest() {
         }
     }
 
-    @Test fun onUpdateData_startNotEmpty_getNotEmpty() = startCoTest {
+    @Test fun onUpdateData_startNotEmpty_getNotEmpty() = startCoTest{
+        TODO("nullable")
+
         val returnList = mutableListOf(data.itemList.first())
 
         coEvery { interactor.getCount() } returns returnList.size
@@ -140,7 +158,9 @@ class NotesViewModelTest : ParentViewModelTest() {
         }
     }
 
-    @Test fun onUpdateData_startNotEmpty_getEmpty() = startCoTest {
+    @Test fun onUpdateData_startNotEmpty_getEmpty() = startCoTest{
+        TODO("nullable")
+
         coEvery { interactor.getCount() } returns 0
         coEvery { interactor.getList() } returns mutableListOf()
         coEvery { interactor.isListHide() } returns false
@@ -268,6 +288,8 @@ class NotesViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onResultOptionsDialog_onConvert() = startCoTest {
+        TODO("nullable")
+
         viewModel.onResultOptionsDialog(Random.nextInt(), Options.Notes.CONVERT)
 
         every { interactor.sort } returns Sort.CREATE
@@ -332,7 +354,10 @@ class NotesViewModelTest : ParentViewModelTest() {
         }
     }
 
+
     @Test fun onResultDateDialog() = startCoTest {
+        TODO("nullable")
+
         val p = Random.nextInt()
         val dateList = data.dateList
 
@@ -392,6 +417,7 @@ class NotesViewModelTest : ParentViewModelTest() {
             bindInteractor.notifyInfoBind(callback)
         }
     }
+
 
     @Test fun onReceiveUnbindNote() {
         viewModel.onReceiveUnbindNote(Random.nextLong())

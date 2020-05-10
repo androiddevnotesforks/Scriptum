@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.data.repository.room
 
-import android.content.Context
-import sgtmelon.scriptum.R
+import sgtmelon.scriptum.data.provider.RoomProvider
 import sgtmelon.scriptum.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.data.room.IRoomWork
 import sgtmelon.scriptum.data.room.RoomDb
@@ -15,24 +14,18 @@ import sgtmelon.scriptum.domain.model.item.RankItem
 
 /**
  * Repository of [RoomDb] for work with ranks.
- *
- * @param context for open [RoomDb]
  */
-class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
+class RankRepo(override val roomProvider: RoomProvider) : IRankRepo, IRoomWork {
+
+    // TODO test for nullable values
 
     private val converter = RankConverter()
 
 
-    override suspend fun getCount(): Int {
-        val count: Int
+    override suspend fun getCount(): Int? = takeFromRoom { rankDao.getCount() }
 
-        openRoom().apply { count = rankDao.getCount() }.close()
-
-        return count
-    }
-
-    override suspend fun getList() = ArrayList<RankItem>().apply {
-        inRoom {
+    override suspend fun getList(): MutableList<RankItem>? = takeFromRoom {
+        ArrayList<RankItem>().apply {
             addAll(converter.toItem(rankDao.get()))
             forEach { item ->
                 item.hasBind = noteDao.get(item.noteId).any { it.isStatus }
@@ -41,30 +34,20 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
         }
     }
 
-    override suspend fun getBind(noteId: List<Long>): Boolean {
-        val hasBind: Boolean
-
-        openRoom().apply {
-            hasBind = noteDao.get(noteId).any { it.isStatus }
-        }.close()
-
-        return hasBind
+    override suspend fun getBind(noteId: List<Long>): Boolean? = takeFromRoom {
+        noteDao.get(noteId).any { it.isStatus }
     }
 
     /**
      * Return list of rank id's which is visible.
      */
-    override suspend fun getIdVisibleList() = ArrayList<Long>().apply {
-        inRoom { addAll(rankDao.getIdVisibleList()) }
+    override suspend fun getIdVisibleList(): List<Long>? = takeFromRoom {
+        rankDao.getIdVisibleList()
     }
 
 
-    override suspend fun insert(name: String): Long {
-        val id: Long
-
-        openRoom().apply { id = rankDao.insert(RankEntity(name = name)) }.close()
-
-        return id
+    override suspend fun insert(name: String): Long? = takeFromRoom {
+        rankDao.insert(RankEntity(name = name))
     }
 
     override suspend fun delete(rankItem: RankItem) = inRoom {
@@ -145,26 +128,22 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
     /**
      * Return array with all rank names.
      */
-    override suspend fun getDialogItemArray() = ArrayList<String>().apply {
-        add(context.getString(R.string.dialog_item_rank))
-        inRoom { addAll(rankDao.getNameList()) }
-    }.toTypedArray()
+    override suspend fun getDialogItemArray(emptyName: String): Array<String>? = takeFromRoom {
+        ArrayList<String>().apply {
+            add(emptyName)
+            addAll(rankDao.getNameList())
+        }.toTypedArray()
+    }
 
     /**
      * Return rank id by [position].
      */
-    override suspend fun getId(position: Int): Long {
-        val id: Long
-
-        if (position == DbData.Note.Default.RANK_PS) {
-            id = DbData.Note.Default.RANK_ID
+    override suspend fun getId(position: Int): Long? {
+        return if (position == DbData.Note.Default.RANK_PS) {
+            DbData.Note.Default.RANK_ID
         } else {
-            openRoom().apply {
-                id = rankDao.getId(position) ?: DbData.Note.Default.RANK_ID
-            }.close()
+            takeFromRoom { rankDao.getId(position) ?: DbData.Note.Default.RANK_ID }
         }
-
-        return id
     }
 
 }

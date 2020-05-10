@@ -5,7 +5,10 @@ import androidx.annotation.CallSuper
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import org.junit.After
 import org.junit.Before
+import sgtmelon.scriptum.dagger.module.base.ManagerModule
+import sgtmelon.scriptum.dagger.module.base.ProviderModule
 import sgtmelon.scriptum.data.TestData
+import sgtmelon.scriptum.data.provider.RoomProvider
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.preference.PreferenceRepo
 
@@ -16,9 +19,13 @@ abstract class ParentTest {
 
     val context: Context = getInstrumentation().targetContext
 
-    val preferenceRepo: IPreferenceRepo = PreferenceRepo(context)
+    val preferenceRepo: IPreferenceRepo = PreferenceRepo(
+            ProviderModule().providePreferenceKeyProvider(context.resources),
+            ProviderModule().providePreferenceDefProvider(context.resources),
+            ManagerModule().provideSharedPreferences(context)
+    )
 
-    val data = TestData(context, preferenceRepo)
+    val data = TestData(RoomProvider(context), preferenceRepo)
 
     @Before @CallSuper open fun setUp() {}
 

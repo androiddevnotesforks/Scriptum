@@ -34,6 +34,8 @@ class BindInteractorTest : ParentInteractorTest() {
     private val interactor by lazy { BindInteractor(preferenceRepo, bindRepo, rankRepo, noteRepo) }
 
     @Test fun notifyNoteBind() = startCoTest {
+        TODO("nullable")
+
         val rankIdVisibleList = data.rankIdVisibleList
         val itemList = data.itemList
 
@@ -69,6 +71,8 @@ class BindInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun notifyInfoBind() = startCoTest {
+        TODO("nullable")
+
         val count = Random.nextInt()
 
         coEvery { bindRepo.getNotificationCount() } returns count

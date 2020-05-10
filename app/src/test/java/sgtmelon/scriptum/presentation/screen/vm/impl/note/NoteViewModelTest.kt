@@ -48,8 +48,9 @@ class NoteViewModelTest : ParentViewModelTest() {
         assertNull(viewModel.callback)
     }
 
-
     @Test fun onSetup_nullBundle() {
+        TODO("nullable")
+
         val color = Color.RED
         val theme = Theme.DARK
 
@@ -69,7 +70,29 @@ class NoteViewModelTest : ParentViewModelTest() {
         }
     }
 
+    @Test fun onSetup_nullBundle_nullTheme() {
+        TODO("nullable")
+
+        val color = Color.RED
+
+        every { interactor.defaultColor } returns color
+        every { interactor.theme } returns null
+
+        viewModel.onSetup()
+
+        assertEquals(Default.ID, viewModel.id)
+        assertEquals(color, viewModel.color)
+        assertEquals(null, viewModel.type)
+
+        verifySequence {
+            interactor.defaultColor
+            interactor.theme
+        }
+    }
+
     @Test fun onSetup_fillBundle_badData() {
+        TODO("nullable")
+
         val color = Color.ORANGE
         val theme = Theme.LIGHT
 
@@ -98,6 +121,8 @@ class NoteViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onSetup_fillBundle_goodData() {
+        TODO("nullable")
+
         val id = Random.nextLong()
         val color = Color.TEAL
         val theme = Theme.DARK
@@ -200,16 +225,25 @@ class NoteViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onUpdateNoteColor() {
-        val theme = Theme.DARK
-        val color = Color.RED
+        TODO("nullable")
 
-        every { interactor.theme } returns theme
+        val firstColor = Color.BLUE
+        val secondColor = Color.RED
+
+        every { interactor.theme } returns null
 
         assertEquals(Default.COLOR, viewModel.color)
-        viewModel.onUpdateNoteColor(color)
+        viewModel.onUpdateNoteColor(firstColor)
 
-        assertEquals(color, viewModel.color)
-        verifySequence { callback.updateHolder(theme, color) }
+        every { interactor.theme } returns Theme.DARK
+
+        assertEquals(firstColor, viewModel.color)
+        viewModel.onUpdateNoteColor(secondColor)
+
+        assertEquals(secondColor, viewModel.color)
+        verifySequence {
+            callback.updateHolder(Theme.DARK, secondColor)
+        }
     }
 
     @Test fun onConvertNote() {

@@ -4,7 +4,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.R
+import sgtmelon.scriptum.data.provider.RoomProvider
 import sgtmelon.scriptum.data.repository.room.RankRepo
 import sgtmelon.scriptum.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.data.room.converter.model.NoteConverter
@@ -16,6 +16,7 @@ import sgtmelon.scriptum.domain.model.data.DbData
 import sgtmelon.scriptum.domain.model.item.RankItem
 import sgtmelon.scriptum.presentation.screen.vm.impl.main.RankViewModel.Companion.correctPositions
 import sgtmelon.scriptum.test.ParentIntegrationTest
+import kotlin.random.Random
 
 /**
  * Integration test for [RankRepo]
@@ -23,19 +24,30 @@ import sgtmelon.scriptum.test.ParentIntegrationTest
 @RunWith(AndroidJUnit4::class)
 class RankRepoTest : ParentIntegrationTest()  {
 
-    private val rankRepo: IRankRepo = RankRepo(context)
+    // TODO nullable tests
+
+    private val badRankRepo: IRankRepo = RankRepo(RoomProvider(context = null))
+    private val rankRepo: IRankRepo = RankRepo(RoomProvider(context))
 
     private val rankConverter = RankConverter()
     private val noteConverter = NoteConverter()
 
 
     @Test fun getCount() = inRoomTest {
-        assertTrue(rankRepo.getCount() == 0)
+        TODO("nullable")
+
+        assertEquals(0, badRankRepo.getCount())
+
+        assertEquals(0, rankRepo.getCount())
         rankRepo.insert(data.uniqueString)
-        assertFalse(rankRepo.getCount() == 0)
+        assertEquals(1, rankRepo.getCount())
     }
 
     @Test fun getList() = inRoomTest {
+        TODO("nullable")
+
+        assertTrue(badRankRepo.getList().isEmpty())
+
         val list = mutableListOf<RankItem>()
 
         assertEquals(list, rankRepo.getList())
@@ -59,6 +71,11 @@ class RankRepoTest : ParentIntegrationTest()  {
     }
 
     @Test fun getBind() = inRoomTest {
+        TODO("nullable")
+
+        assertFalse(badRankRepo.getBind(List(size = 2) { Random.nextLong() }))
+        assertFalse(rankRepo.getBind(List(size = 2) { Random.nextLong() }))
+
         noteDao.insert(firstNote)
         noteDao.insert(secondNote)
         noteDao.insert(thirdNote)
@@ -72,6 +89,8 @@ class RankRepoTest : ParentIntegrationTest()  {
     }
 
     @Test fun getIdVisibleList() = inRoomTest {
+        TODO("nullable")
+
         val idList = listOf(firstRank, secondRank, thirdRank).apply {
             forEach { rankDao.insert(it) }
         }.filter { it.isVisible }.map { it.id }
@@ -81,13 +100,19 @@ class RankRepoTest : ParentIntegrationTest()  {
 
 
     @Test fun insertWithUnique() = inRoomTest {
+        TODO("nullable")
+
         val name = data.uniqueString
+
+        assertEquals(UNIQUE_ERROR_ID, rankRepo.insert(name))
 
         assertNotEquals(UNIQUE_ERROR_ID, rankRepo.insert(name))
         assertEquals(UNIQUE_ERROR_ID, rankRepo.insert(name))
     }
 
     @Test fun delete() = inRoomTest {
+        TODO("nullable")
+
         assertNotEquals(UNIQUE_ERROR_ID, noteDao.insert(firstNote))
         assertNotEquals(UNIQUE_ERROR_ID, noteDao.insert(secondNote))
         assertNotEquals(UNIQUE_ERROR_ID, rankDao.insert(firstRank))
@@ -108,6 +133,8 @@ class RankRepoTest : ParentIntegrationTest()  {
     }
 
     @Test fun updateItem() = inRoomTest {
+        TODO("nullable")
+
         assertNotEquals(UNIQUE_ERROR_ID, rankDao.insert(firstRank))
 
         assertEquals(listOf(rankConverter.toItem(firstRank)), rankRepo.getList())
@@ -119,6 +146,8 @@ class RankRepoTest : ParentIntegrationTest()  {
     }
 
     @Test fun updateList() = inRoomTest {
+        TODO("nullable")
+
         assertNotEquals(UNIQUE_ERROR_ID, rankDao.insert(firstRank))
         assertNotEquals(UNIQUE_ERROR_ID, rankDao.insert(secondRank))
 
@@ -135,6 +164,8 @@ class RankRepoTest : ParentIntegrationTest()  {
 
 
     @Test fun updatePosition() = inRoomTest {
+        TODO("nullable")
+
         assertNotEquals(UNIQUE_ERROR_ID, noteDao.insert(firstNote))
         assertNotEquals(UNIQUE_ERROR_ID, noteDao.insert(secondNote))
         assertNotEquals(UNIQUE_ERROR_ID, noteDao.insert(thirdNote))
@@ -161,6 +192,8 @@ class RankRepoTest : ParentIntegrationTest()  {
 
 
     @Test fun updateConnection() = inRoomTest {
+        TODO("nullable")
+
         assertNotEquals(UNIQUE_ERROR_ID, rankDao.insert(firstRank))
         assertNotEquals(UNIQUE_ERROR_ID, rankDao.insert(secondRank))
         assertNotEquals(UNIQUE_ERROR_ID, rankDao.insert(thirdRank))
@@ -180,14 +213,24 @@ class RankRepoTest : ParentIntegrationTest()  {
 
 
     @Test fun getDialogItemArray() = inRoomTest {
-        val nameList = listOf(firstRank, secondRank, thirdRank).apply {
-            forEach { rankDao.insert(it) }
-        }.map { it.name }.toMutableList().apply { add(0, context.getString(R.string.dialog_item_rank)) }
+        TODO("nullable")
 
-        assertEquals(nameList, rankRepo.getDialogItemArray().toList())
+        val emptyName = data.uniqueString
+        
+        val nameList = listOf(firstRank, secondRank, thirdRank)
+                .apply { forEach { rankDao.insert(it) } }
+                .map { it.name }
+                .toMutableList()
+                .apply { add(0, emptyName) }
+
+        assertEquals(nameList, rankRepo.getDialogItemArray(emptyName).toList())
     }
 
     @Test fun getId() = inRoomTest {
+        TODO("nullable")
+
+        assertEquals(DbData.Note.Default.RANK_ID, badRankRepo.getId(Random.nextInt()))
+
         listOf(firstRank, secondRank, thirdRank).forEach { rankDao.insert(it) }
 
         assertEquals(DbData.Note.Default.RANK_ID, rankRepo.getId(DbData.Note.Default.RANK_PS))

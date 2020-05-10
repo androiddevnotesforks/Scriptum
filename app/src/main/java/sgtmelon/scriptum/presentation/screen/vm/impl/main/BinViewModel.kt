@@ -12,8 +12,8 @@ import sgtmelon.scriptum.extension.clearAddAll
 import sgtmelon.scriptum.extension.removeAtOrNull
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IBinFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.BinFragment
-import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.main.IBinViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.domain.model.annotation.Options.Bin as Options
 
 /**
@@ -33,8 +33,10 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
     val itemList: MutableList<NoteItem> = ArrayList()
 
     override fun onSetup(bundle: Bundle?) {
+        val theme = interactor.theme ?: return
+
         callback?.setupToolbar()
-        callback?.setupRecycler(interactor.theme)
+        callback?.setupRecycler(theme)
     }
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy { interactor.onDestroy() }
@@ -55,14 +57,16 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
         if (itemList.isNotEmpty()) updateList()
 
         viewModelScope.launch {
-            if (interactor.getCount() == 0) {
+            val count = interactor.getCount() ?: return@launch
+
+            if (count == 0) {
                 itemList.clear()
             } else {
                 if (itemList.isEmpty()) {
                     callback?.showProgress()
                 }
 
-                itemList.clearAddAll(interactor.getList())
+                interactor.getList()?.let { itemList.clearAddAll(it) } ?: return@launch
             }
 
             updateList()

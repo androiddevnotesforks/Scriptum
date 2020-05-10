@@ -8,6 +8,6 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.SplashViewModel
  */
 interface ISplashInteractor : IParentInteractor {
 
-    val firstStart: Boolean
+    val firstStart: Boolean?
 
 }

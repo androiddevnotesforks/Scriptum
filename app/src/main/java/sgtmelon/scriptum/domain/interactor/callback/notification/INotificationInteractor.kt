@@ -12,11 +12,11 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.notification.NotificationVi
  */
 interface INotificationInteractor : IParentInteractor {
 
-    @Theme val theme: Int
+    @Theme val theme: Int?
 
-    suspend fun getCount(): Int
+    suspend fun getCount(): Int?
 
-    suspend fun getList(): MutableList<NotificationItem>
+    suspend fun getList(): MutableList<NotificationItem>?
 
     suspend fun cancelNotification(item: NotificationItem)
 

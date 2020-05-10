@@ -13,8 +13,8 @@ import sgtmelon.scriptum.domain.model.item.RankItem
 import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IRankFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.RankFragment
-import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.main.IRankViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
 
 /**
  * ViewModel for [RankFragment].
@@ -58,14 +58,15 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         if (itemList.isNotEmpty()) updateList()
 
         viewModelScope.launch {
-            if (interactor.getCount() == 0) {
+            val count = interactor.getCount() ?: return@launch
+            if (count == 0) {
                 itemList.clear()
             } else {
                 if (itemList.isEmpty()) {
                     callback?.showProgress()
                 }
 
-                itemList.clearAddAll(interactor.getList())
+                interactor.getList()?.let { itemList.clearAddAll(it) } ?: return@launch
             }
 
             updateList()
@@ -124,7 +125,8 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         val p = if (simpleClick) itemList.size else 0
 
         viewModelScope.launch {
-            itemList.add(p, interactor.insert(name))
+            val item = interactor.insert(name) ?: return@launch
+            itemList.add(p, item)
 
             val noteIdList = itemList.correctPositions()
             interactor.updatePosition(itemList, noteIdList)
@@ -176,7 +178,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
             for (item in itemList) {
                 if (!item.noteId.contains(id)) continue
 
-                item.hasBind = interactor.getBind(item.noteId)
+                item.hasBind = interactor.getBind(item.noteId) ?: continue
             }
 
             callback?.notifyList(itemList)

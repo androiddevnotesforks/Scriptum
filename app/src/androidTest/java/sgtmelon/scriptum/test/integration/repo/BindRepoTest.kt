@@ -4,6 +4,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.scriptum.data.provider.RoomProvider
 import sgtmelon.scriptum.data.repository.room.BindRepo
 import sgtmelon.scriptum.data.repository.room.callback.IBindRepo
 import sgtmelon.scriptum.data.room.RoomDb
@@ -18,10 +19,17 @@ import sgtmelon.scriptum.test.ParentIntegrationTest
 @RunWith(AndroidJUnit4::class)
 class BindRepoTest : ParentIntegrationTest() {
 
-    private val bindRepo: IBindRepo = BindRepo(context)
+    // TODO nullable tests
+
+    private val badBindRepo: IBindRepo = BindRepo(RoomProvider(context = null))
+    private val bindRepo: IBindRepo = BindRepo(RoomProvider(context))
 
     @Test fun unbindNote() = inRoomTest {
+        TODO("nullable")
+
         val item = firstNote.copy()
+
+        assertFalse(badBindRepo.unbindNote(item.id))
 
         assertFalse(bindRepo.unbindNote(item.id))
         assertNotEquals(UNIQUE_ERROR_ID, noteDao.insert(item))
@@ -31,6 +39,10 @@ class BindRepoTest : ParentIntegrationTest() {
     }
 
     @Test fun getNotificationCount() = inRoomTest {
+        TODO("nullable")
+
+        assertEquals(0, badBindRepo.getNotificationCount())
+
         var size = 0
         assertEquals(size, bindRepo.getNotificationCount())
 

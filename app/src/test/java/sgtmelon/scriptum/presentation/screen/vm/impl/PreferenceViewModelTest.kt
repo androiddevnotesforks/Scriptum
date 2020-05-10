@@ -12,7 +12,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
     }
 
     @Test override fun onDestroy() {
-        TODO("Not yet implemented")
+        TODO()
     }
 
     @Test fun onClickTheme() {

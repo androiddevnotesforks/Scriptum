@@ -39,6 +39,11 @@ class AppViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onSetup() {
+        TODO("nullable")
+
+        every { interactor.theme } returns null
+        viewModel.onSetup()
+
         every { interactor.theme } returns Theme.LIGHT
         viewModel.onSetup()
 
@@ -46,12 +51,19 @@ class AppViewModelTest : ParentViewModelTest() {
         viewModel.onSetup()
 
         verifySequence {
+            interactor.theme
+
+            interactor.theme
             callback.setTheme(R.style.App_Light_UI)
+
+            interactor.theme
             callback.setTheme(R.style.App_Dark_UI)
         }
     }
 
     @Test fun isThemeChange() {
+        TODO("nullable")
+
         every { interactor.theme } returns Theme.UNDEFINED
 
         assertFalse(viewModel.isThemeChange())

@@ -9,6 +9,6 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.AppViewModel
  */
 interface IAppInteractor {
 
-    @Theme val theme: Int
+    @Theme val theme: Int?
 
 }

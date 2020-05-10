@@ -6,6 +6,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.data.WeightData
+import sgtmelon.scriptum.data.provider.RoomProvider
 import sgtmelon.scriptum.domain.model.key.MainPage
 import sgtmelon.scriptum.test.ParentUiTest
 
@@ -17,7 +18,7 @@ class ListTest : ParentUiTest() {
 
     // TODO #TEST optimization textNote inside lists (because now i load all text length)
 
-    private val weightData = WeightData(context)
+    private val weightData = WeightData(context, RoomProvider(context))
 
 
     @Test fun mainPageSelect() = launch(before = {

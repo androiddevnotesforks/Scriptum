@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import sgtmelon.scriptum.data.provider.RoomProvider
 import sgtmelon.scriptum.data.repository.room.BindRepo
 import sgtmelon.scriptum.domain.model.data.NoteData
 import sgtmelon.scriptum.domain.model.data.ReceiverData.Command
@@ -28,7 +29,7 @@ class UnbindReceiver : BroadcastReceiver() {
         if (id == NoteData.Default.ID) return
 
         GlobalScope.launch {
-            if (BindRepo(context).unbindNote(id)) {
+            if (BindRepo(RoomProvider(context)).unbindNote(id) == true) {
                 BindControl[context].cancelNote(id)
             }
 

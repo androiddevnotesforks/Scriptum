@@ -4,10 +4,7 @@ import androidx.lifecycle.ViewModelProvider
 import dagger.Module
 import dagger.Provides
 import sgtmelon.scriptum.dagger.ActivityScope
-import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
-import sgtmelon.scriptum.domain.interactor.callback.IIntroInteractor
-import sgtmelon.scriptum.domain.interactor.callback.IPreferenceInteractor
-import sgtmelon.scriptum.domain.interactor.callback.ISplashInteractor
+import sgtmelon.scriptum.domain.interactor.callback.*
 import sgtmelon.scriptum.domain.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.IMainInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.INotesInteractor
@@ -197,9 +194,11 @@ class ViewModelModule {
 
     @Provides
     @ActivityScope
-    fun provideDevelopViewModel(activity: DevelopActivity): IDevelopViewModel {
+    fun provideDevelopViewModel(activity: DevelopActivity,
+                                interactor: IDevelopInteractor): IDevelopViewModel {
         return ViewModelProvider(activity).get(DevelopViewModel::class.java).apply {
             setCallback(activity)
+            setInteractor(interactor)
         }
     }
 

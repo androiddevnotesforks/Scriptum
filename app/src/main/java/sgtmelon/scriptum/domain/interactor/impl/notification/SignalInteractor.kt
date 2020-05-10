@@ -20,10 +20,10 @@ class SignalInteractor(
 ) : ParentInteractor(),
         ISignalInteractor {
 
-    override val check: BooleanArray
-        get() = IntConverter().toArray(preferenceRepo.signal, Signal.digitCount)
+    override val check: BooleanArray?
+        get() = preferenceRepo.signal?.let { IntConverter().toArray(it, Signal.digitCount) }
 
-    override val state: SignalState get() = SignalState(check)
+    override val state: SignalState? get() = check?.let { SignalState(it) }
 
 
     /**
@@ -35,7 +35,7 @@ class SignalInteractor(
         /**
          * Check uri exist.
          */
-        if (value.isEmpty() || !it.map { item -> item.uri }.contains(value)) {
+        if (value.isNullOrEmpty() || !it.map { item -> item.uri }.contains(value)) {
             value = it.first().uri
             preferenceRepo.melodyUri = value
         }

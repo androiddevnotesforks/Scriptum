@@ -27,22 +27,28 @@ class NotesInteractor(
 ) : ParentInteractor(),
         INotesInteractor {
 
+    private var rankIdVisibleList: List<Long>? = null
+
+    private suspend fun getRankIdVisibleList(): List<Long>? {
+        return rankIdVisibleList ?: rankRepo.getIdVisibleList()?.also { rankIdVisibleList = it }
+    }
+
     override fun onDestroy(func: () -> Unit) = super.onDestroy { callback = null }
 
 
-    @Theme override val theme: Int get() = preferenceRepo.theme
+    @Theme override val theme: Int? get() = preferenceRepo.theme
 
-    @Sort override val sort: Int get() = preferenceRepo.sort
+    @Sort override val sort: Int? get() = preferenceRepo.sort
 
 
-    override suspend fun getCount() = noteRepo.getCount(bin = false)
+    override suspend fun getCount(): Int? = noteRepo.getCount(bin = false)
 
-    override suspend fun getList() : MutableList<NoteItem> {
-        val sort = preferenceRepo.sort
+    override suspend fun getList(): MutableList<NoteItem>? {
+        val sort = preferenceRepo.sort ?: return null
         return noteRepo.getList(sort, bin = false, optimal = true, filterVisible = true)
     }
 
-    override suspend fun isListHide() = noteRepo.isListHide()
+    override suspend fun isListHide(): Boolean? = noteRepo.isListHide()
 
     override suspend fun updateNote(noteItem: NoteItem) {
         noteRepo.updateNote(noteItem)
@@ -52,19 +58,28 @@ class NotesInteractor(
          */
         val noteMirror = when (noteItem) {
             is NoteItem.Text -> noteItem.deepCopy()
-            is NoteItem.Roll -> noteItem.deepCopy(list = noteRepo.getRollList(noteItem.id))
+            is NoteItem.Roll -> {
+                val list = noteRepo.getRollList(noteItem.id) ?: return
+                noteItem.deepCopy(list = list)
+            }
         }
 
-        callback?.notifyNoteBind(noteMirror, rankRepo.getIdVisibleList(), preferenceRepo.sort)
+        val sort = preferenceRepo.sort ?: return
+        val rankIdVisibleList = getRankIdVisibleList() ?: return
+
+        callback?.notifyNoteBind(noteMirror, rankIdVisibleList, sort)
     }
 
-    override suspend fun convert(noteItem: NoteItem): NoteItem {
+    override suspend fun convert(noteItem: NoteItem): NoteItem? {
         val convertItem = when (noteItem) {
             is NoteItem.Text -> noteRepo.convertNote(noteItem)
             is NoteItem.Roll -> noteRepo.convertNote(noteItem, useCache = false)
-        }
+        } ?: return null
 
-        callback?.notifyNoteBind(noteItem, rankRepo.getIdVisibleList(), preferenceRepo.sort)
+        val sort = preferenceRepo.sort ?: return null
+        val rankIdVisibleList = getRankIdVisibleList() ?: return null
+
+        callback?.notifyNoteBind(noteItem, rankIdVisibleList, sort)
 
         /**
          * Optimisation for get only first 4 items
@@ -81,7 +96,7 @@ class NotesInteractor(
     }
 
 
-    override suspend fun getDateList() = alarmRepo.getList().map { it.alarm.date }
+    override suspend fun getDateList(): List<String>? = alarmRepo.getList()?.map { it.alarm.date }
 
     override suspend fun clearDate(noteItem: NoteItem) {
         alarmRepo.delete(noteItem.id)

@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.presentation.screen.ui.callback.note
 
+import androidx.annotation.StringRes
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.presentation.screen.vm.impl.note.NoteViewModel
@@ -22,6 +23,9 @@ interface INoteChild {
     fun onUpdateNoteColor(@Color color: Int)
 
     fun onConvertNote()
+
+
+    fun getString(@StringRes resId: Int): String
 
     fun finish()
 

@@ -9,9 +9,9 @@ import sgtmelon.scriptum.domain.model.state.SignalState
  */
 interface ISignalInteractor {
 
-    val check: BooleanArray
+    val check: BooleanArray?
 
-    val state: SignalState
+    val state: SignalState?
 
 
     fun getMelodyUri(melodyList: List<MelodyItem> = this.melodyList): String

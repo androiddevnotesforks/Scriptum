@@ -32,5 +32,7 @@ dependencies {
     implementation jetbrains.kotlin
 
     implementation google.material
+
     implementation androidx.appcompat
+    implementation androidx.lifecycle.extensions
 }

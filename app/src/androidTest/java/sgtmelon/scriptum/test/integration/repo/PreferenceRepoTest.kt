@@ -20,7 +20,9 @@ import kotlin.random.Random
 @RunWith(AndroidJUnit4::class)
 class PreferenceRepoTest : ParentIntegrationTest()  {
 
-    private val def = PreferenceProvider.Def(context)
+    // TODO null values
+
+    private val def = PreferenceProvider.Def(context.resources)
 
     override fun setUp() {
         super.setUp()
@@ -28,6 +30,8 @@ class PreferenceRepoTest : ParentIntegrationTest()  {
     }
 
     @Test fun defaultValues() {
+        TODO("nullable")
+
         assertEquals(def.FIRST_START, preferenceRepo.firstStart)
         assertEquals(def.THEME, preferenceRepo.theme)
 
@@ -46,52 +50,76 @@ class PreferenceRepoTest : ParentIntegrationTest()  {
 
 
     @Test fun firstStart() = false.let {
+        TODO("nullable")
+
         assertEquals(it, preferenceRepo.apply { firstStart = it }.firstStart)
     }
 
     @Test fun theme() = Theme.DARK.let {
+        TODO("nullable")
+
         assertEquals(it, preferenceRepo.apply { theme = it }.theme)
     }
 
 
     @Test fun repeat() = Repeat.MIN_60.let {
+        TODO("nullable")
+
         assertEquals(it, preferenceRepo.apply { repeat = it }.repeat)
     }
 
     @Test fun signal() = IntConverter().toInt(booleanArrayOf(true, true)).let {
+        TODO("nullable")
+
         assertEquals(it, preferenceRepo.apply { signal = it }.signal)
     }
 
     @Test fun melodyUrl() = data.uniqueString.let {
+        TODO("nullable")
+
         assertEquals(it, preferenceRepo.apply { melodyUri = it }.melodyUri)
     }
 
     @Test fun volume() = Random.nextInt().let {
+        TODO("nullable")
+
         assertEquals(it, preferenceRepo.apply { volume = it }.volume)
     }
 
     @Test fun volumeIncrease() = true.let {
+        TODO("nullable")
+
         assertEquals(it, preferenceRepo.apply { volumeIncrease = it }.volumeIncrease)
     }
 
 
     @Test fun sort() = Sort.COLOR.let {
+        TODO("nullable")
+
         assertEquals(it, preferenceRepo.apply { sort = it }.sort)
     }
 
     @Test fun defaultColor() = Color.RED.let {
+        TODO("nullable")
+
         assertEquals(it, preferenceRepo.apply { defaultColor = it }.defaultColor)
     }
 
     @Test fun pauseSaveOn() = true.let {
+        TODO("nullable")
+
         assertEquals(it, preferenceRepo.apply { pauseSaveOn = it }.pauseSaveOn)
     }
 
     @Test fun autoSaveOn() = true.let {
+        TODO("nullable")
+
         assertEquals(it, preferenceRepo.apply { autoSaveOn = it }.autoSaveOn)
     }
 
     @Test fun savePeriod() = 1.let {
+        TODO("nullable")
+
         assertEquals(it, preferenceRepo.apply { savePeriod = it }.savePeriod)
     }
 

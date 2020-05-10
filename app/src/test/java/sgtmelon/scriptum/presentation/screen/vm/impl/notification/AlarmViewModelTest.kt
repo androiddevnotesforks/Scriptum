@@ -81,7 +81,48 @@ class AlarmViewModelTest : ParentViewModelTest() {
     }
 
 
+    @Test fun onSetup_nullPreference() {
+        TODO("nullable")
+
+        every { interactor.theme } returns null
+
+        viewModel.onSetup()
+        viewModel.onSetup(bundle)
+
+        every { interactor.theme } returns Theme.LIGHT
+        every { interactor.volume } returns null
+
+        viewModel.onSetup()
+        viewModel.onSetup(bundle)
+
+        every { interactor.theme } returns Theme.LIGHT
+        every { interactor.volume } returns Random.nextInt()
+        every { interactor.volumeIncrease } returns null
+
+        viewModel.onSetup()
+        viewModel.onSetup(bundle)
+
+        verifySequence {
+            repeat(times = 2) {
+                interactor.theme
+            }
+
+            repeat(times = 2) {
+                interactor.theme
+                interactor.volume
+            }
+
+            repeat(times = 2) {
+                interactor.theme
+                interactor.volume
+                interactor.volumeIncrease
+            }
+        }
+    }
+
     @Test fun onSetup_onFirstStart_withGoodModel() = startCoTest {
+        TODO("nullable")
+
         val id = Random.nextLong()
         val noteItem = data.thirdNote
 
@@ -123,6 +164,8 @@ class AlarmViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onSetup_onFirstStart_withBadModel() = startCoTest {
+        TODO("nullable")
+
         val id = Random.nextLong()
 
         every { interactor.theme } returns Theme.LIGHT
@@ -157,6 +200,8 @@ class AlarmViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onSetup_onSecondStart() {
+        TODO("nullable")
+
         val id = Random.nextLong()
         val noteItem = data.firstNote.deepCopy()
 
@@ -204,11 +249,16 @@ class AlarmViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onStart() {
+        TODO("nullable")
+
         val firstTheme = Theme.LIGHT
         val secondTheme = Theme.DARK
 
         val firstNote = data.firstNote.deepCopy()
         val secondNote = data.secondNote.deepCopy()
+
+        every { interactor.theme } returns null
+        viewModel.onStart()
 
         every { interactor.theme } returns firstTheme
 
@@ -266,6 +316,8 @@ class AlarmViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onClickRepeat() = startCoTest {
+        TODO("nullable")
+
         val repeat = Repeat.MIN_10
         val noteItem = data.firstNote.deepCopy()
         val repeatArray = intArrayOf(Repeat.MIN_180, Repeat.MIN_1440)
@@ -285,6 +337,8 @@ class AlarmViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onResultRepeatDialog() = startCoTest {
+        TODO("nullable")
+
         val noteItem = data.firstNote.deepCopy()
 
         every { interactor.repeat } returns Repeat.MIN_10

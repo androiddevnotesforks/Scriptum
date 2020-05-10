@@ -2,6 +2,7 @@ package sgtmelon.scriptum.test
 
 import org.junit.Assert.assertEquals
 import sgtmelon.extension.getTime
+import sgtmelon.scriptum.data.provider.RoomProvider
 import sgtmelon.scriptum.data.room.IRoomWork
 import sgtmelon.scriptum.domain.model.item.NoteItem
 
@@ -9,6 +10,8 @@ import sgtmelon.scriptum.domain.model.item.NoteItem
  * Parent class for Integration tests
  */
 abstract class ParentIntegrationTest : ParentTest(), IRoomWork {
+
+    override val roomProvider = RoomProvider(context)
 
     override fun setUp() {
         super.setUp()

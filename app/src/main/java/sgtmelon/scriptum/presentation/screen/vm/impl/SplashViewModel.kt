@@ -41,10 +41,14 @@ class SplashViewModel(application: Application) : ParentViewModel<ISplashActivit
     override fun onDestroy(func: () -> Unit) = super.onDestroy { interactor.onDestroy() }
 
 
-    private fun onSimpleStart() = if (interactor.firstStart) {
-        callback?.startIntroActivity()
-    } else {
-        callback?.startMainActivity()
+    private fun onSimpleStart() {
+        val firstStart = interactor.firstStart ?: return
+
+        if (firstStart) {
+            callback?.startIntroActivity()
+        } else {
+            callback?.startMainActivity()
+        }
     }
 
     private fun onAlarmStart(bundle: Bundle) {

@@ -50,6 +50,11 @@ class BinViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onSetup() {
+        TODO("nullable")
+
+        every { interactor.theme } returns null
+        viewModel.onSetup()
+
         every { interactor.theme } returns Theme.LIGHT
         viewModel.onSetup()
 
@@ -57,17 +62,21 @@ class BinViewModelTest : ParentViewModelTest() {
         viewModel.onSetup()
 
         verifySequence {
-            callback.setupToolbar()
             interactor.theme
+
+            interactor.theme
+            callback.setupToolbar()
             callback.setupRecycler(Theme.LIGHT)
 
-            callback.setupToolbar()
             interactor.theme
+            callback.setupToolbar()
             callback.setupRecycler(Theme.DARK)
         }
     }
 
     @Test fun onUpdateData_startEmpty_getNotEmpty() = startCoTest {
+        TODO("nullable")
+
         coEvery { interactor.getCount() } returns data.itemList.size
         coEvery { interactor.getList() } returns data.itemList
 
@@ -84,6 +93,8 @@ class BinViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onUpdateData_startEmpty_getEmpty() = startCoTest {
+        TODO("nullable")
+
         coEvery { interactor.getCount() } returns 0
         coEvery { interactor.getList() } returns mutableListOf()
 
@@ -98,6 +109,8 @@ class BinViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onUpdateData_startNotEmpty_getNotEmpty() = startCoTest {
+        TODO("nullable")
+
         val returnList = mutableListOf(data.itemList.first())
 
         coEvery { interactor.getCount() } returns returnList.size
@@ -119,6 +132,8 @@ class BinViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onUpdateData_startNotEmpty_getEmpty() = startCoTest {
+        TODO("nullable")
+
         coEvery { interactor.getCount() } returns 0
         coEvery { interactor.getList() } returns mutableListOf()
 
