@@ -11,7 +11,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.extension.clearAddAll
+import sgtmelon.scriptum.extension.clearAdd
 import sgtmelon.scriptum.extension.removeAtOrNull
 import sgtmelon.scriptum.extension.sort
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.INotesFragment
@@ -76,7 +76,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
                     callback?.showProgress()
                 }
 
-                interactor.getList()?.let { itemList.clearAddAll(it) } ?: return@launch
+                interactor.getList()?.let { itemList.clearAdd(it) } ?: return@launch
             }
 
             val isListHide = interactor.isListHide() ?: return@launch
@@ -149,7 +149,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
             itemList[p] = interactor.convertNote(item) ?: return@launch
 
             val sortList = itemList.sort(interactor.sort)
-            callback?.notifyList(itemList.clearAddAll(sortList))
+            callback?.notifyList(itemList.clearAdd(sortList))
         }
     }
 

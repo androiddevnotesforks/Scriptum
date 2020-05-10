@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.presentation.adapter.diff
 
 import androidx.recyclerview.widget.DiffUtil
-import sgtmelon.scriptum.extension.clearAddAll
+import sgtmelon.scriptum.extension.clearAdd
 
 /**
  * Parent class of [DiffUtil.Callback].
@@ -12,8 +12,8 @@ abstract class ParentDiff<T> : DiffUtil.Callback() {
     protected val newList: MutableList<T> = ArrayList()
 
     fun setList(oldList: List<T>, newList: List<T>) {
-        this.oldList.clearAddAll(oldList)
-        this.newList.clearAddAll(newList)
+        this.oldList.clearAdd(oldList)
+        this.newList.clearAdd(newList)
     }
 
     override fun getOldListSize() = oldList.size

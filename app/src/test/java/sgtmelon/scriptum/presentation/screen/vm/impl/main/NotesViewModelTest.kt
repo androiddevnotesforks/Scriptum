@@ -16,6 +16,8 @@ import sgtmelon.scriptum.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.domain.model.annotation.Options
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.Theme
+import sgtmelon.scriptum.domain.model.item.NoteItem
+import sgtmelon.scriptum.extension.clearAdd
 import sgtmelon.scriptum.extension.sort
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.INotesFragment
 import java.util.*
@@ -56,133 +58,206 @@ class NotesViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onSetup() {
-        TODO("nullable")
+        val themeList = listOf(null, Theme.LIGHT, Random.nextInt(), null)
 
-        every { interactor.theme } returns null
-        viewModel.onSetup()
-
-        every { interactor.theme } returns Theme.LIGHT
-        viewModel.onSetup()
-
-        every { interactor.theme } returns Theme.DARK
-        viewModel.onSetup()
+        themeList.forEach {
+            every { interactor.theme } returns it
+            viewModel.onSetup()
+        }
 
         verifySequence {
-            interactor.theme
+            themeList.forEach {
+                interactor.theme
 
-            interactor.theme
-            callback.setupToolbar()
-            callback.setupRecycler(Theme.LIGHT)
-            callback.setupDialog()
-
-            interactor.theme
-            callback.setupToolbar()
-            callback.setupRecycler(Theme.DARK)
-            callback.setupDialog()
+                if (it != null) {
+                    callback.setupToolbar()
+                    callback.setupRecycler(it)
+                    callback.setupDialog()
+                }
+            }
         }
     }
 
-    @Test fun onUpdateData_startEmpty_getNotEmpty() = startCoTest{
-        TODO("nullable")
-
+    @Test fun onUpdateData_startEmpty_getNotEmpty() = startCoTest {
         val itemList = data.itemList
+        val isListHide = Random.nextBoolean()
+
+        coEvery { interactor.getCount() } returns null
+        viewModel.itemList.clear()
+        viewModel.onUpdateData()
 
         coEvery { interactor.getCount() } returns itemList.size
-        coEvery { interactor.getList() } returns itemList
-        coEvery { interactor.isListHide() } returns false
+        coEvery { interactor.getList() } returns null
+        viewModel.itemList.clear()
+        viewModel.onUpdateData()
 
+        coEvery { interactor.getList() } returns itemList
+        coEvery { interactor.isListHide() } returns null
+        viewModel.itemList.clear()
+        viewModel.onUpdateData()
+
+        coEvery { interactor.isListHide() } returns isListHide
+        viewModel.itemList.clear()
         viewModel.onUpdateData()
 
         coVerifySequence {
             callback.beforeLoad()
+            interactor.getCount()
 
+            callback.beforeLoad()
             interactor.getCount()
             callback.showProgress()
             interactor.getList()
 
-            callback.notifyList(itemList)
+            callback.beforeLoad()
+            interactor.getCount()
+            callback.showProgress()
+            interactor.getList()
             interactor.isListHide()
-            callback.setupBinding(false)
+
+            callback.beforeLoad()
+            interactor.getCount()
+            callback.showProgress()
+            interactor.getList()
+            interactor.isListHide()
+            callback.notifyList(itemList)
+            callback.setupBinding(isListHide)
             callback.onBindingList()
         }
     }
 
-    @Test fun onUpdateData_startEmpty_getEmpty() = startCoTest{
-        TODO("nullable")
+    @Test fun onUpdateData_startEmpty_getEmpty() = startCoTest {
+        val itemList = mutableListOf<NoteItem>()
+        val isListHide = Random.nextBoolean()
 
-        coEvery { interactor.getCount() } returns 0
-        coEvery { interactor.getList() } returns mutableListOf()
-        coEvery { interactor.isListHide() } returns true
+        coEvery { interactor.getCount() } returns null
+        viewModel.itemList.clear()
+        viewModel.onUpdateData()
 
+        coEvery { interactor.getCount() } returns itemList.size
+        coEvery { interactor.isListHide() } returns null
+        viewModel.itemList.clear()
+        viewModel.onUpdateData()
+
+        coEvery { interactor.isListHide() } returns isListHide
+        viewModel.itemList.clear()
         viewModel.onUpdateData()
 
         coVerifySequence {
             callback.beforeLoad()
-
             interactor.getCount()
 
-            callback.notifyList(mutableListOf())
+            callback.beforeLoad()
+            interactor.getCount()
             interactor.isListHide()
-            callback.setupBinding(true)
+
+            callback.beforeLoad()
+            interactor.getCount()
+            interactor.isListHide()
+            callback.notifyList(itemList)
+            callback.setupBinding(isListHide)
             callback.onBindingList()
         }
     }
 
-    @Test fun onUpdateData_startNotEmpty_getNotEmpty() = startCoTest{
-        TODO("nullable")
+    @Test fun onUpdateData_startNotEmpty_getNotEmpty() = startCoTest {
+        val startList = data.itemList
+        val returnList = data.itemList.apply { shuffle() }
+        val isListHide = Random.nextBoolean()
 
-        val returnList = mutableListOf(data.itemList.first())
+        coEvery { interactor.getCount() } returns null
+        viewModel.itemList.clearAdd(startList)
+        assertEquals(startList, viewModel.itemList)
+        viewModel.onUpdateData()
 
         coEvery { interactor.getCount() } returns returnList.size
+        coEvery { interactor.getList() } returns null
+        viewModel.itemList.clearAdd(startList)
+        assertEquals(startList, viewModel.itemList)
+        viewModel.onUpdateData()
+
         coEvery { interactor.getList() } returns returnList
-        coEvery { interactor.isListHide() } returns true
+        coEvery { interactor.isListHide() } returns null
+        viewModel.itemList.clearAdd(startList)
+        assertEquals(startList, viewModel.itemList)
+        viewModel.onUpdateData()
 
-        viewModel.itemList.addAll(data.itemList)
-        assertEquals(data.itemList, viewModel.itemList)
-
+        coEvery { interactor.isListHide() } returns isListHide
+        viewModel.itemList.clearAdd(startList)
+        assertEquals(startList, viewModel.itemList)
         viewModel.onUpdateData()
 
         coVerifySequence {
             callback.beforeLoad()
-
-            callback.notifyList(any())
+            callback.notifyList(returnList)
             callback.onBindingList()
+            interactor.getCount()
 
+            callback.beforeLoad()
+            callback.notifyList(returnList)
+            callback.onBindingList()
             interactor.getCount()
             interactor.getList()
 
+            callback.beforeLoad()
             callback.notifyList(returnList)
+            callback.onBindingList()
+            interactor.getCount()
+            interactor.getList()
             interactor.isListHide()
-            callback.setupBinding(true)
+
+            callback.beforeLoad()
+            callback.notifyList(returnList)
+            callback.onBindingList()
+            interactor.getCount()
+            interactor.getList()
+            interactor.isListHide()
+            callback.notifyList(returnList)
+            callback.setupBinding(isListHide)
             callback.onBindingList()
         }
     }
 
-    @Test fun onUpdateData_startNotEmpty_getEmpty() = startCoTest{
-        TODO("nullable")
+    @Test fun onUpdateData_startNotEmpty_getEmpty() = startCoTest {
+        val startList = data.itemList
+        val returnList = mutableListOf<NoteItem>()
+        val isListHide = Random.nextBoolean()
 
-        coEvery { interactor.getCount() } returns 0
-        coEvery { interactor.getList() } returns mutableListOf()
-        coEvery { interactor.isListHide() } returns false
+        coEvery { interactor.getCount() } returns null
+        viewModel.itemList.clearAdd(startList)
+        assertEquals(startList, viewModel.itemList)
+        viewModel.onUpdateData()
 
-        val itemList = data.itemList
+        coEvery { interactor.getCount() } returns returnList.size
+        coEvery { interactor.isListHide() } returns null
+        viewModel.itemList.clearAdd(startList)
+        assertEquals(startList, viewModel.itemList)
+        viewModel.onUpdateData()
 
-        viewModel.itemList.addAll(itemList)
-        assertEquals(itemList, viewModel.itemList)
-
+        coEvery { interactor.isListHide() } returns isListHide
+        viewModel.itemList.clearAdd(startList)
+        assertEquals(startList, viewModel.itemList)
         viewModel.onUpdateData()
 
         coVerifySequence {
             callback.beforeLoad()
-
             callback.notifyList(any())
             callback.onBindingList()
-
             interactor.getCount()
 
-            callback.notifyList(mutableListOf())
+            callback.beforeLoad()
+            callback.notifyList(any())
+            callback.onBindingList()
+            interactor.getCount()
             interactor.isListHide()
-            callback.setupBinding(false)
+
+            callback.beforeLoad()
+            callback.notifyList(any())
+            callback.onBindingList()
+            interactor.getCount()
+            interactor.isListHide()
+            callback.notifyList(returnList)
+            callback.setupBinding(isListHide)
             callback.onBindingList()
         }
     }
@@ -192,8 +267,7 @@ class NotesViewModelTest : ParentViewModelTest() {
         viewModel.onClickNote(Random.nextInt())
 
         val itemList = data.itemList
-
-        viewModel.itemList.addAll(itemList)
+        viewModel.itemList.clearAdd(itemList)
         assertEquals(itemList, viewModel.itemList)
 
         val p = itemList.indices.random()
@@ -220,8 +294,7 @@ class NotesViewModelTest : ParentViewModelTest() {
         every { callback.getString(R.string.dialog_menu_status_bind) } returns "bind"
 
         val itemList = data.itemList
-
-        viewModel.itemList.addAll(itemList)
+        viewModel.itemList.clearAdd(itemList)
         assertEquals(itemList, viewModel.itemList)
 
         viewModel.onShowOptionsDialog(p = 0)
@@ -252,8 +325,7 @@ class NotesViewModelTest : ParentViewModelTest() {
         viewModel.onResultOptionsDialog(Random.nextInt(), Options.Notes.NOTIFICATION)
 
         val itemList = data.itemList
-
-        viewModel.itemList.addAll(itemList)
+        viewModel.itemList.clearAdd(itemList)
         assertEquals(itemList, viewModel.itemList)
 
         val p = 0
@@ -270,8 +342,7 @@ class NotesViewModelTest : ParentViewModelTest() {
         viewModel.onResultOptionsDialog(Random.nextInt(), Options.Notes.BIND)
 
         val itemList = data.itemList
-
-        viewModel.itemList.addAll(itemList)
+        viewModel.itemList.clearAdd(itemList)
         assertEquals(itemList, viewModel.itemList)
 
         val p = itemList.indices.random()
@@ -288,31 +359,33 @@ class NotesViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onResultOptionsDialog_onConvert() = startCoTest {
-        TODO("nullable")
-
         viewModel.onResultOptionsDialog(Random.nextInt(), Options.Notes.CONVERT)
 
-        every { interactor.sort } returns Sort.CREATE
+        val sort = TestData.sort
+
+        every { interactor.sort } returns sort
 
         val itemList = data.itemList
-
-        viewModel.itemList.addAll(itemList)
+        viewModel.itemList.clearAdd(itemList)
         assertEquals(itemList, viewModel.itemList)
 
         val item = itemList[0]
         val itemReturn = itemList[1]
 
-        coEvery { interactor.convertNote(item) } returns itemReturn
+        coEvery { interactor.convertNote(item) } returns null
+        viewModel.onResultOptionsDialog(0, Options.Notes.CONVERT)
 
+        coEvery { interactor.convertNote(item) } returns itemReturn
         viewModel.onResultOptionsDialog(0, Options.Notes.CONVERT)
 
         itemList[0] = itemReturn
-        val sortList = itemList.sort(Sort.CREATE)
+        val sortList = itemList.sort(sort)
 
         coVerifySequence {
             interactor.convertNote(item)
-            interactor.sort
 
+            interactor.convertNote(item)
+            interactor.sort
             callback.notifyList(sortList)
         }
     }
@@ -321,8 +394,7 @@ class NotesViewModelTest : ParentViewModelTest() {
         viewModel.onResultOptionsDialog(Random.nextInt(), Options.Notes.COPY)
 
         val itemList = data.itemList
-
-        viewModel.itemList.addAll(itemList)
+        viewModel.itemList.clearAdd(itemList)
         assertEquals(itemList, viewModel.itemList)
 
         val p = data.itemList.indices.random()
@@ -337,8 +409,7 @@ class NotesViewModelTest : ParentViewModelTest() {
         viewModel.onResultOptionsDialog(Random.nextInt(), Options.Notes.DELETE)
 
         val itemList = data.itemList
-
-        viewModel.itemList.addAll(itemList)
+        viewModel.itemList.clearAdd(itemList)
         assertEquals(itemList, viewModel.itemList)
 
         val p = itemList.indices.random()
@@ -356,16 +427,18 @@ class NotesViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onResultDateDialog() = startCoTest {
-        TODO("nullable")
-
         val p = Random.nextInt()
         val dateList = data.dateList
 
-        coEvery { interactor.getDateList() } returns dateList
+        coEvery { interactor.getDateList() } returns null
+        viewModel.onResultDateDialog(calendar, p)
 
+        coEvery { interactor.getDateList() } returns dateList
         viewModel.onResultDateDialog(calendar, p)
 
         coVerifySequence {
+            interactor.getDateList()
+
             interactor.getDateList()
             callback.showTimeDialog(calendar, dateList, p)
         }
@@ -375,8 +448,7 @@ class NotesViewModelTest : ParentViewModelTest() {
         viewModel.onResultDateDialogClear(Random.nextInt())
 
         val itemList = data.itemList
-
-        viewModel.itemList.addAll(itemList)
+        viewModel.itemList.clearAdd(itemList)
         assertEquals(itemList, viewModel.itemList)
 
         val p = itemList.indices.random()
@@ -401,8 +473,7 @@ class NotesViewModelTest : ParentViewModelTest() {
         viewModel.onResultTimeDialog(calendarFuture, Random.nextInt())
 
         val itemList = data.itemList
-
-        viewModel.itemList.addAll(itemList)
+        viewModel.itemList.clearAdd(itemList)
         assertEquals(itemList, viewModel.itemList)
 
         val p = itemList.indices.random()
@@ -423,8 +494,7 @@ class NotesViewModelTest : ParentViewModelTest() {
         viewModel.onReceiveUnbindNote(Random.nextLong())
 
         val itemList = data.itemList
-
-        viewModel.itemList.addAll(itemList)
+        viewModel.itemList.clearAdd(itemList)
         assertEquals(itemList, viewModel.itemList)
 
         val p = itemList.indices.random()
@@ -440,8 +510,7 @@ class NotesViewModelTest : ParentViewModelTest() {
         viewModel.onReceiveUpdateAlarm(Random.nextLong())
 
         val itemList = data.itemList
-
-        viewModel.itemList.addAll(itemList)
+        viewModel.itemList.clearAdd(itemList)
         assertEquals(itemList, viewModel.itemList)
 
         val notificationItem = TestData.Notification.firstNotification

@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.domain.interactor.callback.notification.INotificationInteractor
 import sgtmelon.scriptum.domain.model.item.NotificationItem
-import sgtmelon.scriptum.extension.clearAddAll
+import sgtmelon.scriptum.extension.clearAdd
 import sgtmelon.scriptum.extension.removeAtOrNull
 import sgtmelon.scriptum.presentation.screen.ui.callback.notification.INotificationActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.NotificationActivity
@@ -67,7 +67,7 @@ class NotificationViewModel(application: Application) :
                     callback?.showProgress()
                 }
 
-                interactor.getList()?.let { itemList.clearAddAll(it) } ?: return@launch
+                interactor.getList()?.let { itemList.clearAdd(it) } ?: return@launch
             }
 
             updateList()

@@ -46,80 +46,77 @@ class SplashViewModelTest : ParentViewModelTest() {
     }
 
 
-    @Test fun onSetup_nullStart() {
-        TODO("nullable")
-
+    @Test fun onSetup_introStart() {
         every { bundle.getString(OpenFrom.INTENT_KEY) } returns null
-        every { interactor.firstStart } returns null
 
+        every { interactor.firstStart } returns null
+        viewModel.onSetup(bundle = null)
+        viewModel.onSetup(bundle)
+
+        every { interactor.firstStart } returns true
         viewModel.onSetup(bundle = null)
         viewModel.onSetup(bundle)
 
         verifySequence {
             interactor.firstStart
-        }
-    }
+            interactor.firstStart
 
-    @Test fun onSetup_introStart() {
-        TODO("nullable")
-
-        every { bundle.getString(OpenFrom.INTENT_KEY) } returns null
-        every { interactor.firstStart } returns true
-
-        viewModel.onSetup(bundle = null)
-        viewModel.onSetup(bundle)
-
-        verifySequence {
+            interactor.firstStart
             callback.startIntroActivity()
+
+            interactor.firstStart
             callback.startIntroActivity()
         }
     }
 
     @Test fun onSetup_mainStart() {
-        TODO("nullable")
-
         every { bundle.getString(OpenFrom.INTENT_KEY) } returns null
-        every { interactor.firstStart } returns false
 
+        every { interactor.firstStart } returns null
+        viewModel.onSetup(bundle = null)
+        viewModel.onSetup(bundle)
+
+        every { interactor.firstStart } returns false
         viewModel.onSetup(bundle = null)
         viewModel.onSetup(bundle)
 
         verifySequence {
+            interactor.firstStart
+            interactor.firstStart
+
+            interactor.firstStart
             callback.startMainActivity()
+
+            interactor.firstStart
             callback.startMainActivity()
         }
     }
 
     @Test fun onSetup_alarmStart() {
-        TODO("nullable")
-
         every { bundle.getString(OpenFrom.INTENT_KEY) } returns OpenFrom.ALARM
-
         every { bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID) } returns ID
 
         viewModel.onSetup(bundle)
+
         verifySequence { callback.startAlarmActivity(ID) }
     }
 
     @Test fun onSetup_bindStart() {
-        TODO("nullable")
-
         every { bundle.getString(OpenFrom.INTENT_KEY) } returns OpenFrom.BIND
-
         every { bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID) } returns ID
         every { bundle.getInt(NoteData.Intent.COLOR, NoteData.Default.COLOR) } returns COLOR
         every { bundle.getInt(NoteData.Intent.TYPE, NoteData.Default.TYPE) } returns TYPE
 
         viewModel.onSetup(bundle)
+
         verifySequence { callback.startNoteActivity(ID, COLOR, TYPE) }
     }
 
     @Test fun onSetup_notificationStart() {
-        TODO("nullable")
-
         every { bundle.getString(OpenFrom.INTENT_KEY) } returns OpenFrom.INFO
 
         viewModel.onSetup(bundle)
+
         verifySequence { callback.startNotificationActivity() }
     }
 

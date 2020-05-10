@@ -39,8 +39,6 @@ class AppViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onSetup() {
-        TODO("nullable")
-
         every { interactor.theme } returns null
         viewModel.onSetup()
 
@@ -62,19 +60,21 @@ class AppViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun isThemeChange() {
-        TODO("nullable")
-
         every { interactor.theme } returns Theme.UNDEFINED
-
         assertFalse(viewModel.isThemeChange())
 
         every { interactor.theme } returns Theme.LIGHT
+        viewModel.onSetup()
+        assertFalse(viewModel.isThemeChange())
 
+        every { interactor.theme } returns null
+        assertFalse(viewModel.isThemeChange())
+
+        every { interactor.theme } returns Theme.LIGHT
         viewModel.onSetup()
         assertFalse(viewModel.isThemeChange())
 
         every { interactor.theme } returns Theme.DARK
-
         assertTrue(viewModel.isThemeChange())
     }
 

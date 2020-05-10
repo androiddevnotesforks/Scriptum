@@ -8,7 +8,7 @@ import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.extension.clearAddAll
+import sgtmelon.scriptum.extension.clearAdd
 import sgtmelon.scriptum.extension.removeAtOrNull
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IBinFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.BinFragment
@@ -66,7 +66,7 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
                     callback?.showProgress()
                 }
 
-                interactor.getList()?.let { itemList.clearAddAll(it) } ?: return@launch
+                interactor.getList()?.let { itemList.clearAdd(it) } ?: return@launch
             }
 
             updateList()

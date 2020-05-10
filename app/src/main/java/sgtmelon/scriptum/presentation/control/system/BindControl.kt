@@ -11,7 +11,7 @@ import androidx.annotation.VisibleForTesting
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.extension.clearAddAll
+import sgtmelon.scriptum.extension.clearAdd
 import sgtmelon.scriptum.extension.removeAtOrNull
 import sgtmelon.scriptum.extension.sort
 import sgtmelon.scriptum.presentation.control.system.callback.IBindControl
@@ -91,7 +91,7 @@ class BindControl(private val context: Context?) : IBindControl {
 
         clearRecent(Tag.NOTE)
 
-        noteItemList.clearAddAll(itemList.filter {
+        noteItemList.clearAdd(itemList.filter {
             val isVisible = rankIdVisibleList?.let { list -> it.isVisible(list) } ?: true
 
             return@filter !it.isBin && it.isStatus && isVisible

@@ -1,7 +1,10 @@
 package sgtmelon.scriptum.presentation.screen.vm.impl.notification
 
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.coVerifySequence
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.verifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
@@ -9,7 +12,9 @@ import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.domain.interactor.callback.notification.INotificationInteractor
 import sgtmelon.scriptum.domain.model.annotation.Theme
+import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.NotificationItem
+import sgtmelon.scriptum.extension.clearAdd
 import sgtmelon.scriptum.presentation.screen.ui.callback.notification.INotificationActivity
 import kotlin.random.Random
 
@@ -45,73 +50,111 @@ class NotificationViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onSetup() {
-        TODO("nullable")
+        val themeList = listOf(null, Theme.LIGHT, Random.nextInt(), null)
 
-        every { interactor.theme } returns null
-        viewModel.onSetup()
+        themeList.forEach {
+            every { interactor.theme } returns it
+            viewModel.onSetup()
+        }
 
-        every { interactor.theme } returns Theme.LIGHT
-        viewModel.onSetup()
+        verifySequence {
+            themeList.forEach {
+                interactor.theme
 
-        verifyAll {
-            interactor.theme
-
-            callback.setupToolbar()
-            callback.setupRecycler(Theme.LIGHT)
+                if (it != null) {
+                    callback.setupToolbar()
+                    callback.setupRecycler(it)
+                }
+            }
         }
     }
 
     @Test fun onUpdateData_startEmpty_getNotEmpty() = startCoTest {
-        TODO("nullable")
+        val itemList = data.itemList
 
-        coEvery { interactor.getCount() } returns data.itemList.size
-        coEvery { interactor.getList() } returns data.itemList
+        coEvery { interactor.getCount() } returns null
+        viewModel.itemList.clear()
+        viewModel.onUpdateData()
 
+        coEvery { interactor.getCount() } returns itemList.size
+        coEvery { interactor.getList() } returns null
+        viewModel.itemList.clear()
+        viewModel.onUpdateData()
+
+        coEvery { interactor.getList() } returns itemList
+        viewModel.itemList.clear()
         viewModel.onUpdateData()
 
         coVerifySequence {
             callback.beforeLoad()
+            interactor.getCount()
 
+            callback.beforeLoad()
             interactor.getCount()
             callback.showProgress()
             interactor.getList()
-            updateList(data.itemList)
+
+            callback.beforeLoad()
+            interactor.getCount()
+            callback.showProgress()
+            interactor.getList()
+            updateList(itemList)
         }
     }
 
     @Test fun onUpdateData_startEmpty_getEmpty() = startCoTest {
-        TODO("nullable")
+        val itemList = mutableListOf<NotificationItem>()
 
-        coEvery { interactor.getCount() } returns 0
-        coEvery { interactor.getList() } returns mutableListOf()
+        coEvery { interactor.getCount() } returns null
+        viewModel.itemList.clear()
+        viewModel.onUpdateData()
 
+        coEvery { interactor.getCount() } returns itemList.size
+        viewModel.itemList.clear()
         viewModel.onUpdateData()
 
         coVerifySequence {
             callback.beforeLoad()
-
             interactor.getCount()
-            updateList(mutableListOf())
+
+            callback.beforeLoad()
+            interactor.getCount()
+            updateList(itemList)
         }
     }
 
     @Test fun onUpdateData_startNotEmpty_getNotEmpty() = startCoTest {
-        TODO("nullable")
+        val startList = data.itemList
+        val returnList = data.itemList.apply { shuffle() }
 
-        val returnList = mutableListOf(data.itemList.first())
+        coEvery { interactor.getCount() } returns null
+        viewModel.itemList.clearAdd(startList)
+        assertEquals(startList, viewModel.itemList)
+        viewModel.onUpdateData()
 
         coEvery { interactor.getCount() } returns returnList.size
+        coEvery { interactor.getList() } returns null
+        viewModel.itemList.clearAdd(startList)
+        assertEquals(startList, viewModel.itemList)
+        viewModel.onUpdateData()
+
         coEvery { interactor.getList() } returns returnList
-
-        viewModel.itemList.addAll(data.itemList)
-        assertEquals(data.itemList, viewModel.itemList)
-
+        viewModel.itemList.clearAdd(startList)
+        assertEquals(startList, viewModel.itemList)
         viewModel.onUpdateData()
 
         coVerifySequence {
             callback.beforeLoad()
             updateList(any())
+            interactor.getCount()
 
+            callback.beforeLoad()
+            updateList(any())
+            interactor.getCount()
+            interactor.getList()
+
+            callback.beforeLoad()
+            updateList(any())
             interactor.getCount()
             interactor.getList()
             updateList(returnList)
@@ -119,22 +162,28 @@ class NotificationViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onUpdateData_startNotEmpty_getEmpty() = startCoTest {
-        TODO("nullable")
+        val startList = data.itemList
+        val returnList = mutableListOf<NoteItem>()
 
-        coEvery { interactor.getCount() } returns 0
-        coEvery { interactor.getList() } returns mutableListOf()
+        coEvery { interactor.getCount() } returns null
+        viewModel.itemList.clearAdd(startList)
+        assertEquals(startList, viewModel.itemList)
+        viewModel.onUpdateData()
 
-        viewModel.itemList.addAll(data.itemList)
-        assertEquals(data.itemList, viewModel.itemList)
-
+        coEvery { interactor.getCount() } returns returnList.size
+        viewModel.itemList.clearAdd(startList)
+        assertEquals(startList, viewModel.itemList)
         viewModel.onUpdateData()
 
         coVerifySequence {
             callback.beforeLoad()
             updateList(any())
-
             interactor.getCount()
-            updateList(mutableListOf())
+
+            callback.beforeLoad()
+            updateList(any())
+            interactor.getCount()
+            updateList(any())
         }
     }
 
@@ -147,21 +196,21 @@ class NotificationViewModelTest : ParentViewModelTest() {
     @Test fun onClickNote() {
         viewModel.onClickNote(Random.nextInt())
 
-        viewModel.itemList.addAll(data.itemList)
-        assertEquals(data.itemList, viewModel.itemList)
+        val itemList = data.itemList
+        viewModel.itemList.clearAdd(itemList)
+        assertEquals(itemList, viewModel.itemList)
 
-        val p = data.itemList.indices.random()
+        val p = itemList.indices.random()
 
         viewModel.onClickNote(p)
-        verifySequence { callback.startNoteActivity(data.itemList[p]) }
+        verifySequence { callback.startNoteActivity(itemList[p]) }
     }
 
     @Test fun onClickCancel() = startCoTest {
         viewModel.onClickCancel(Random.nextInt())
 
         val itemList = data.itemList
-
-        viewModel.itemList.addAll(itemList)
+        viewModel.itemList.clearAdd(itemList)
         assertEquals(itemList, viewModel.itemList)
 
         val p = itemList.indices.random()

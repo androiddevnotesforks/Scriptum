@@ -15,6 +15,7 @@ import sgtmelon.scriptum.domain.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.domain.model.annotation.Options
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
+import sgtmelon.scriptum.extension.clearAdd
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IBinFragment
 import kotlin.random.Random
 
@@ -50,81 +51,112 @@ class BinViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onSetup() {
-        TODO("nullable")
+        val themeList = listOf(null, Theme.LIGHT, Random.nextInt(), null)
 
-        every { interactor.theme } returns null
-        viewModel.onSetup()
-
-        every { interactor.theme } returns Theme.LIGHT
-        viewModel.onSetup()
-
-        every { interactor.theme } returns Theme.DARK
-        viewModel.onSetup()
+        themeList.forEach {
+            every { interactor.theme } returns it
+            viewModel.onSetup()
+        }
 
         verifySequence {
-            interactor.theme
+            themeList.forEach {
+                interactor.theme
 
-            interactor.theme
-            callback.setupToolbar()
-            callback.setupRecycler(Theme.LIGHT)
-
-            interactor.theme
-            callback.setupToolbar()
-            callback.setupRecycler(Theme.DARK)
+                if (it != null) {
+                    callback.setupToolbar()
+                    callback.setupRecycler(it)
+                }
+            }
         }
     }
 
     @Test fun onUpdateData_startEmpty_getNotEmpty() = startCoTest {
-        TODO("nullable")
+        val itemList = data.itemList
 
-        coEvery { interactor.getCount() } returns data.itemList.size
-        coEvery { interactor.getList() } returns data.itemList
+        coEvery { interactor.getCount() } returns null
+        coEvery { interactor.getList() } returns itemList
+        viewModel.itemList.clear()
+        viewModel.onUpdateData()
 
+        coEvery { interactor.getCount() } returns itemList.size
+        coEvery { interactor.getList() } returns null
+        viewModel.itemList.clear()
+        viewModel.onUpdateData()
+
+        coEvery { interactor.getList() } returns itemList
+        viewModel.itemList.clear()
         viewModel.onUpdateData()
 
         coVerifySequence {
             callback.beforeLoad()
+            interactor.getCount()
 
+            callback.beforeLoad()
             interactor.getCount()
             callback.showProgress()
             interactor.getList()
-            updateList(data.itemList)
+
+            callback.beforeLoad()
+            interactor.getCount()
+            callback.showProgress()
+            interactor.getList()
+            updateList(itemList)
         }
     }
 
     @Test fun onUpdateData_startEmpty_getEmpty() = startCoTest {
-        TODO("nullable")
+        val itemList = mutableListOf<NoteItem>()
 
-        coEvery { interactor.getCount() } returns 0
-        coEvery { interactor.getList() } returns mutableListOf()
+        coEvery { interactor.getCount() } returns null
+        viewModel.itemList.clear()
+        viewModel.onUpdateData()
 
+        coEvery { interactor.getCount() } returns itemList.size
+        viewModel.itemList.clear()
         viewModel.onUpdateData()
 
         coVerifySequence {
             callback.beforeLoad()
-
             interactor.getCount()
-            updateList(mutableListOf())
+
+            callback.beforeLoad()
+            interactor.getCount()
+            updateList(itemList)
         }
     }
 
     @Test fun onUpdateData_startNotEmpty_getNotEmpty() = startCoTest {
-        TODO("nullable")
+        val startList = data.itemList
+        val returnList = data.itemList.apply { shuffle() }
 
-        val returnList = mutableListOf(data.itemList.first())
+        coEvery { interactor.getCount() } returns null
+        viewModel.itemList.clearAdd(startList)
+        assertEquals(startList, viewModel.itemList)
+        viewModel.onUpdateData()
 
         coEvery { interactor.getCount() } returns returnList.size
+        coEvery { interactor.getList() } returns null
+        viewModel.itemList.clearAdd(startList)
+        assertEquals(startList, viewModel.itemList)
+        viewModel.onUpdateData()
+
         coEvery { interactor.getList() } returns returnList
-
-        viewModel.itemList.addAll(data.itemList)
-        assertEquals(data.itemList, viewModel.itemList)
-
+        viewModel.itemList.clearAdd(startList)
+        assertEquals(startList, viewModel.itemList)
         viewModel.onUpdateData()
 
         coVerifySequence {
             callback.beforeLoad()
             updateList(any())
+            interactor.getCount()
 
+            callback.beforeLoad()
+            updateList(any())
+            interactor.getCount()
+            interactor.getList()
+
+            callback.beforeLoad()
+            updateList(any())
             interactor.getCount()
             interactor.getList()
             updateList(returnList)
@@ -132,22 +164,28 @@ class BinViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onUpdateData_startNotEmpty_getEmpty() = startCoTest {
-        TODO("nullable")
+        val startList = data.itemList
+        val returnList = mutableListOf<NoteItem>()
 
-        coEvery { interactor.getCount() } returns 0
-        coEvery { interactor.getList() } returns mutableListOf()
+        coEvery { interactor.getCount() } returns null
+        viewModel.itemList.clearAdd(startList)
+        assertEquals(startList, viewModel.itemList)
+        viewModel.onUpdateData()
 
-        viewModel.itemList.addAll(data.itemList)
-        assertEquals(data.itemList, viewModel.itemList)
-
+        coEvery { interactor.getCount() } returns returnList.size
+        viewModel.itemList.clearAdd(startList)
+        assertEquals(startList, viewModel.itemList)
         viewModel.onUpdateData()
 
         coVerifySequence {
             callback.beforeLoad()
             updateList(any())
-
             interactor.getCount()
-            updateList(mutableListOf())
+
+            callback.beforeLoad()
+            updateList(any())
+            interactor.getCount()
+            updateList(returnList)
         }
     }
 
@@ -159,8 +197,9 @@ class BinViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onClickClearBin() = startCoTest {
-        viewModel.itemList.addAll(data.itemList)
-        assertEquals(data.itemList, viewModel.itemList)
+        val itemList = data.itemList
+        viewModel.itemList.clearAdd(itemList)
+        assertEquals(itemList, viewModel.itemList)
 
         viewModel.onClickClearBin()
 
@@ -178,13 +217,14 @@ class BinViewModelTest : ParentViewModelTest() {
     @Test fun onClickNote() {
         viewModel.onClickNote(Random.nextInt())
 
-        viewModel.itemList.addAll(data.itemList)
-        assertEquals(data.itemList, viewModel.itemList)
+        val itemList = data.itemList
+        viewModel.itemList.clearAdd(itemList)
+        assertEquals(itemList, viewModel.itemList)
 
-        val p = data.itemList.indices.random()
+        val p = itemList.indices.random()
 
         viewModel.onClickNote(p)
-        verifySequence { callback.startNoteActivity(data.itemList[p]) }
+        verifySequence { callback.startNoteActivity(itemList[p]) }
     }
 
     @Test fun onShowOptionsDialog() {
@@ -204,11 +244,10 @@ class BinViewModelTest : ParentViewModelTest() {
         viewModel.onResultOptionsDialog(Random.nextInt(), Options.Bin.RESTORE)
 
         val itemList = data.itemList
-
-        viewModel.itemList.addAll(itemList)
+        viewModel.itemList.clearAdd(itemList)
         assertEquals(itemList, viewModel.itemList)
 
-        val p = data.itemList.indices.random()
+        val p = itemList.indices.random()
         val item = itemList.removeAt(p)
 
         viewModel.onResultOptionsDialog(p, Options.Bin.RESTORE)
@@ -225,11 +264,10 @@ class BinViewModelTest : ParentViewModelTest() {
         viewModel.onResultOptionsDialog(Random.nextInt(), Options.Bin.COPY)
 
         val itemList = data.itemList
-
-        viewModel.itemList.addAll(itemList)
+        viewModel.itemList.clearAdd(itemList)
         assertEquals(itemList, viewModel.itemList)
 
-        val p = data.itemList.indices.random()
+        val p = itemList.indices.random()
         val item = itemList[p]
 
         viewModel.onResultOptionsDialog(p, Options.Bin.COPY)
@@ -241,11 +279,10 @@ class BinViewModelTest : ParentViewModelTest() {
         viewModel.onResultOptionsDialog(Random.nextInt(), Options.Bin.CLEAR)
 
         val itemList = data.itemList
-
-        viewModel.itemList.addAll(itemList)
+        viewModel.itemList.clearAdd(itemList)
         assertEquals(itemList, viewModel.itemList)
 
-        val p = data.itemList.indices.random()
+        val p = itemList.indices.random()
         val item = itemList.removeAt(p)
 
         viewModel.onResultOptionsDialog(p, Options.Bin.CLEAR)

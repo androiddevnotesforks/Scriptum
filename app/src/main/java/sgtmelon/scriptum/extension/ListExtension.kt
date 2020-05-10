@@ -30,7 +30,7 @@ fun <T> MutableList<T>.move(from: Int, to: Int = ND_INDEX) {
     if (to == ND_INDEX) add(item) else add(to, item)
 }
 
-fun <T> MutableList<T>.clearAddAll(replace: List<T>) = apply {
+fun <T> MutableList<T>.clearAdd(replace: List<T>) = apply {
     clear()
     addAll(replace)
 }

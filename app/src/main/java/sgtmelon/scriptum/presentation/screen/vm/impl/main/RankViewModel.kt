@@ -66,7 +66,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
                     callback?.showProgress()
                 }
 
-                interactor.getList()?.let { itemList.clearAddAll(it) } ?: return@launch
+                interactor.getList()?.let { itemList.clearAdd(it) } ?: return@launch
             }
 
             updateList()
