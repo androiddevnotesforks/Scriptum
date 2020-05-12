@@ -15,8 +15,8 @@ import kotlin.random.Random
 @ExperimentalCoroutinesApi
 class BindRepoTest : ParentRoomRepoTest() {
 
-    private val goodBindRepo by lazy { BindRepo(goodRoomProvider) }
     private val badBindRepo by lazy { BindRepo(badRoomProvider) }
+    private val goodBindRepo by lazy { BindRepo(goodRoomProvider) }
 
     @Test fun unbindNote() = startCoTest {
         val id = Random.nextLong()
