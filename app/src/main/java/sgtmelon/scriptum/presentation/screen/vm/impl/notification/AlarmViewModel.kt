@@ -77,6 +77,8 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
              * If first open.
              */
             if (!::noteItem.isInitialized) {
+                signalState = signalInteractor.state ?: return@launch
+
                 interactor.getModel(id)?.let {
                     noteItem = it
                 } ?: run {
@@ -84,7 +86,6 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
                     return@launch
                 }
 
-                signalState = signalInteractor.state
                 bindInteractor.notifyInfoBind(callback)
             }
 

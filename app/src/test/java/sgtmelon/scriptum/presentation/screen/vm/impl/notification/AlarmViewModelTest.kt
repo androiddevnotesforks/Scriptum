@@ -81,81 +81,69 @@ class AlarmViewModelTest : ParentViewModelTest() {
     }
 
 
-    @Test fun onSetup_nullPreference() {
-        TODO("nullable")
-
-        every { interactor.theme } returns null
-
-        viewModel.onSetup()
-        viewModel.onSetup(bundle)
-
-        every { interactor.theme } returns Theme.LIGHT
-        every { interactor.volume } returns null
-
-        viewModel.onSetup()
-        viewModel.onSetup(bundle)
-
-        every { interactor.theme } returns Theme.LIGHT
-        every { interactor.volume } returns Random.nextInt()
-        every { interactor.volumeIncrease } returns null
-
-        viewModel.onSetup()
-        viewModel.onSetup(bundle)
-
-        verifySequence {
-            repeat(times = 2) {
-                interactor.theme
-            }
-
-            repeat(times = 2) {
-                interactor.theme
-                interactor.volume
-            }
-
-            repeat(times = 2) {
-                interactor.theme
-                interactor.volume
-                interactor.volumeIncrease
-            }
-        }
-    }
-
     @Test fun onSetup_onFirstStart_withGoodModel() = startCoTest {
-        TODO("nullable")
-
         val id = Random.nextLong()
         val noteItem = data.thirdNote
 
-        every { interactor.theme } returns Theme.LIGHT
+        val theme = Random.nextInt()
+        val volume = Random.nextInt()
+        val volumeIncrease = Random.nextBoolean()
 
         every { signalInteractor.getMelodyUri() } returns URI
-        every { interactor.volume } returns 5
-        every { interactor.volumeIncrease } returns false
-
         every { bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID) } returns id
-        coEvery { interactor.getModel(id) } returns noteItem
-        every { signalInteractor.state } returns firstSignal
 
+        every { interactor.theme } returns null
+        viewModel.onSetup(bundle)
+
+        every { interactor.theme } returns theme
+        every { interactor.volume } returns null
+        viewModel.onSetup(bundle)
+
+        every { interactor.volume } returns volume
+        every { interactor.volumeIncrease } returns null
+        viewModel.onSetup(bundle)
+
+        every { interactor.volumeIncrease } returns volumeIncrease
+        every { signalInteractor.state } returns null
+        viewModel.onSetup(bundle)
+
+        every { signalInteractor.state } returns firstSignal
+        coEvery { interactor.getModel(id) } returns noteItem
         viewModel.onSetup(bundle)
 
         coVerifySequence {
+            interactor.theme
+
+            interactor.theme
+            interactor.volume
+
+            interactor.theme
+            interactor.volume
+            interactor.volumeIncrease
+
+            interactor.theme
+            interactor.volume
+            interactor.volumeIncrease
             callback.apply {
                 acquirePhone(AlarmViewModel.CANCEL_DELAY)
-
-                interactor.theme
-                setupView(Theme.LIGHT)
-
+                setupView(theme)
                 signalInteractor.getMelodyUri()
-                interactor.volume
-                interactor.volumeIncrease
-
-                setupPlayer(URI, volume = 5, increase = false)
+                setupPlayer(URI, volume, volumeIncrease)
             }
-
-            interactor.getModel(id)
             signalInteractor.state
-            bindInteractor.notifyInfoBind(callback)
 
+            interactor.theme
+            interactor.volume
+            interactor.volumeIncrease
+            callback.apply {
+                acquirePhone(AlarmViewModel.CANCEL_DELAY)
+                setupView(theme)
+                signalInteractor.getMelodyUri()
+                setupPlayer(URI, volume, volumeIncrease)
+            }
+            signalInteractor.state
+            interactor.getModel(id)
+            bindInteractor.notifyInfoBind(callback)
             callback.apply {
                 notifyList(noteItem)
                 waitLayoutConfigure()
@@ -164,75 +152,146 @@ class AlarmViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onSetup_onFirstStart_withBadModel() = startCoTest {
-        TODO("nullable")
-
         val id = Random.nextLong()
 
-        every { interactor.theme } returns Theme.LIGHT
+        val theme = Random.nextInt()
+        val volume = Random.nextInt()
+        val volumeIncrease = Random.nextBoolean()
 
         every { signalInteractor.getMelodyUri() } returns URI
-        every { interactor.volume } returns 3
-        every { interactor.volumeIncrease } returns false
-
         every { bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID) } returns id
-        coEvery { interactor.getModel(id) } returns null
-        every { signalInteractor.state } returns firstSignal
 
-        viewModel.onSetup(bundle)
+        fun callOnSetup() {
+            viewModel.id = NoteData.Default.ID
+            viewModel.onSetup()
+            viewModel.id = NoteData.Default.ID
+            viewModel.onSetup(bundle)
+        }
+
+        every { interactor.theme } returns null
+        callOnSetup()
+
+        every { interactor.theme } returns theme
+        every { interactor.volume } returns null
+        callOnSetup()
+
+        every { interactor.volume } returns volume
+        every { interactor.volumeIncrease } returns null
+        callOnSetup()
+
+        every { interactor.volumeIncrease } returns volumeIncrease
+        every { signalInteractor.state } returns null
+        callOnSetup()
+
+        every { signalInteractor.state } returns firstSignal
+        coEvery { interactor.getModel(any()) } returns null
+        callOnSetup()
 
         coVerifySequence {
-            callback.apply {
-                acquirePhone(AlarmViewModel.CANCEL_DELAY)
-
+            repeat(times = 2) {
                 interactor.theme
-                setupView(Theme.LIGHT)
-
-                signalInteractor.getMelodyUri()
-                interactor.volume
-                interactor.volumeIncrease
-
-                setupPlayer(URI, volume = 3, increase = false)
             }
 
-            interactor.getModel(id)
-            callback.finish()
+            repeat(times = 2) {
+                interactor.theme
+                interactor.volume
+            }
+
+            repeat(times = 2) {
+                interactor.theme
+                interactor.volume
+                interactor.volumeIncrease
+            }
+
+            repeat(times = 2) {
+                interactor.theme
+                interactor.volume
+                interactor.volumeIncrease
+                callback.apply {
+                    acquirePhone(AlarmViewModel.CANCEL_DELAY)
+                    setupView(theme)
+                    signalInteractor.getMelodyUri()
+                    setupPlayer(URI, volume, volumeIncrease)
+                }
+                signalInteractor.state
+            }
+
+            repeat(times = 2) {
+                interactor.theme
+                interactor.volume
+                interactor.volumeIncrease
+                callback.apply {
+                    acquirePhone(AlarmViewModel.CANCEL_DELAY)
+                    setupView(theme)
+                    signalInteractor.getMelodyUri()
+                    setupPlayer(URI, volume, volumeIncrease)
+                }
+                signalInteractor.state
+                if (it % 2 == 0) {
+                    interactor.getModel(NoteData.Default.ID)
+                } else {
+                    interactor.getModel(id)
+                }
+                callback.finish()
+            }
         }
     }
 
     @Test fun onSetup_onSecondStart() {
-        TODO("nullable")
-
         val id = Random.nextLong()
         val noteItem = data.firstNote.deepCopy()
 
-        every { interactor.theme } returns Theme.DARK
-
         every { signalInteractor.getMelodyUri() } returns URI
-        every { interactor.volume } returns 1
-        every { interactor.volumeIncrease } returns true
-
         every { bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID) } returns id
 
         viewModel.noteItem = noteItem
+
+        every { interactor.theme } returns null
         viewModel.onSetup(bundle)
+        viewModel.onSetup()
+
+        every { interactor.theme } returns Theme.DARK
+        every { interactor.volume } returns null
+        viewModel.onSetup(bundle)
+        viewModel.onSetup()
+
+        every { interactor.volume } returns 1
+        every { interactor.volumeIncrease } returns null
+        viewModel.onSetup(bundle)
+        viewModel.onSetup()
+
+        every { interactor.volumeIncrease } returns true
+        viewModel.onSetup(bundle)
+        viewModel.onSetup()
 
         verifySequence {
-            callback.apply {
-                acquirePhone(AlarmViewModel.CANCEL_DELAY)
-
+            repeat(times = 2) {
                 interactor.theme
-                setupView(Theme.DARK)
-
-                signalInteractor.getMelodyUri()
-                interactor.volume
-                interactor.volumeIncrease
-
-                setupPlayer(URI, volume = 1, increase = true)
             }
 
-            callback.apply {
-                notifyList(noteItem)
-                waitLayoutConfigure()
+            repeat(times = 2) {
+                interactor.theme
+                interactor.volume
+            }
+
+            repeat(times = 2) {
+                interactor.theme
+                interactor.volume
+                interactor.volumeIncrease
+            }
+
+            repeat(times = 2) {
+                interactor.theme
+                interactor.volume
+                interactor.volumeIncrease
+                callback.apply {
+                    acquirePhone(AlarmViewModel.CANCEL_DELAY)
+                    setupView(Theme.DARK)
+                    signalInteractor.getMelodyUri()
+                    setupPlayer(URI, volume = 1, increase = true)
+                    notifyList(noteItem)
+                    waitLayoutConfigure()
+                }
             }
         }
     }
@@ -249,8 +308,6 @@ class AlarmViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onStart() {
-        TODO("nullable")
-
         val firstTheme = Theme.LIGHT
         val secondTheme = Theme.DARK
 
@@ -261,18 +318,18 @@ class AlarmViewModelTest : ParentViewModelTest() {
         viewModel.onStart()
 
         every { interactor.theme } returns firstTheme
-
         viewModel.noteItem = firstNote
         viewModel.signalState = firstSignal
         viewModel.onStart()
 
         every { interactor.theme } returns secondTheme
-
         viewModel.noteItem = secondNote
         viewModel.signalState = secondSignal
         viewModel.onStart()
 
         verifySequence {
+            interactor.theme
+
             verifyOnStart(firstTheme, ColorShade.ACCENT, firstNote, firstSignal)
             verifyOnStart(secondTheme, ColorShade.DARK, secondNote, secondSignal)
         }
@@ -316,32 +373,32 @@ class AlarmViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onClickRepeat() = startCoTest {
-        TODO("nullable")
-
-        val repeat = Repeat.MIN_10
         val noteItem = data.firstNote.deepCopy()
-        val repeatArray = intArrayOf(Repeat.MIN_180, Repeat.MIN_1440)
+        val repeat = Repeat.MIN_10
 
-        every { interactor.repeat } returns repeat
         every { callback.getIntArray(R.array.pref_alarm_repeat_array) } returns repeatArray
 
         viewModel.id = noteItem.id
         viewModel.noteItem = noteItem
 
+        every { interactor.repeat } returns null
+        viewModel.onClickRepeat()
+
+        every { interactor.repeat } returns repeat
         viewModel.onClickRepeat()
 
         coVerifySequence {
+            interactor.repeat
+
             interactor.repeat
             verifyRepeatFinish(repeat, noteItem)
         }
     }
 
     @Test fun onResultRepeatDialog() = startCoTest {
-        TODO("nullable")
-
         val noteItem = data.firstNote.deepCopy()
+        val repeat = Repeat.MIN_10
 
-        every { interactor.repeat } returns Repeat.MIN_10
         every { callback.getIntArray(R.array.pref_alarm_repeat_array) } returns repeatArray
 
         viewModel.id = noteItem.id
@@ -352,6 +409,11 @@ class AlarmViewModelTest : ParentViewModelTest() {
         viewModel.onResultRepeatDialog(R.id.item_repeat_2)
         viewModel.onResultRepeatDialog(R.id.item_repeat_3)
         viewModel.onResultRepeatDialog(R.id.item_repeat_4)
+
+        every { interactor.repeat } returns null
+        viewModel.onResultRepeatDialog(itemId = -1)
+
+        every { interactor.repeat } returns repeat
         viewModel.onResultRepeatDialog(itemId = -1)
 
         coVerifySequence {
@@ -362,7 +424,8 @@ class AlarmViewModelTest : ParentViewModelTest() {
             verifyRepeatFinish(Repeat.MIN_1440, noteItem)
 
             interactor.repeat
-            verifyRepeatFinish(Repeat.MIN_10, noteItem)
+            interactor.repeat
+            verifyRepeatFinish(repeat, noteItem)
         }
     }
 
@@ -397,4 +460,5 @@ class AlarmViewModelTest : ParentViewModelTest() {
     companion object {
         private const val URI = "testUri"
     }
+
 }
