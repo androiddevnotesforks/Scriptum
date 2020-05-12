@@ -10,8 +10,6 @@ import sgtmelon.scriptum.data.room.RoomDb
  */
 class BindRepo(override val roomProvider: RoomProvider) : IBindRepo, IRoomWork {
 
-    // TODO test for nullable values
-
     override suspend fun unbindNote(id: Long): Boolean? = takeFromRoom {
         val noteEntity = noteDao.get(id)?.apply { isStatus = false }
 

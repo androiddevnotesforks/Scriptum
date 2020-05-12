@@ -13,8 +13,6 @@ import sgtmelon.scriptum.domain.model.item.NotificationItem
  */
 class AlarmRepo(override val roomProvider: RoomProvider) : IAlarmRepo, IRoomWork {
 
-    // TODO test for nullable values
-
     private val converter = AlarmConverter()
 
     override suspend fun insertOrUpdate(noteItem: NoteItem, date: String) = inRoom {

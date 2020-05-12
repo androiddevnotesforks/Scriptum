@@ -1,12 +1,12 @@
 package sgtmelon.scriptum.data.repository.room
 
 import org.junit.Test
-import sgtmelon.scriptum.ParentTest
+import sgtmelon.scriptum.ParentRoomRepoTest
 
 /**
  * Test for [NoteRepo].
  */
-class NoteRepoTest : ParentTest() {
+class NoteRepoTest : ParentRoomRepoTest() {
 
     @Test fun getCount() {
         TODO()

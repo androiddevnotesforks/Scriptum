@@ -1,12 +1,12 @@
 package sgtmelon.scriptum.data.repository.room
 
 import org.junit.Test
-import sgtmelon.scriptum.ParentTest
+import sgtmelon.scriptum.ParentRoomRepoTest
 
 /**
  * Test for [RankRepo].
  */
-class RankRepoTest : ParentTest() {
+class RankRepoTest : ParentRoomRepoTest() {
 
     @Test fun getCount() {
         TODO()
