@@ -133,16 +133,16 @@ class NotePanel<T: ParentUi, N : NoteItem>(
 
                 when(noteItem) {
                     is NoteItem.Text -> {
-                        val copyItem = (shadowItem as? NoteItem.Text)?.deepCopy()
-                        noteItem = copyItem as? N ?: throw ClassCastException()
+                        val copyItem = (shadowItem as? NoteItem.Text)?.deepCopy() ?: onThrowCast()
+                        noteItem = copyItem as? N ?: onThrowCast()
 
-                        (noteItem as NoteItem.Text).onSave()
+                        (noteItem as? NoteItem.Text)?.onSave() ?: onThrowCast()
                     }
                     is NoteItem.Roll -> {
-                        val copyItem = (shadowItem as? NoteItem.Roll)?.deepCopy()
-                        noteItem = copyItem as? N ?: throw ClassCastException()
+                        val copyItem = (shadowItem as? NoteItem.Roll)?.deepCopy() ?: onThrowCast()
+                        noteItem = copyItem as? N ?: onThrowCast()
 
-                        (noteItem as NoteItem.Text).onSave()
+                        (noteItem as? NoteItem.Roll)?.onSave() ?: onThrowCast()
                     }
                 }
 
@@ -160,16 +160,16 @@ class NotePanel<T: ParentUi, N : NoteItem>(
 
                 when(noteItem) {
                     is NoteItem.Text -> {
-                        val copyItem = (shadowItem as? NoteItem.Text)?.deepCopy()
-                        noteItem = copyItem as? N ?: throw ClassCastException()
+                        val copyItem = (shadowItem as? NoteItem.Text)?.deepCopy() ?: onThrowCast()
+                        noteItem = copyItem as? N ?: onThrowCast()
 
-                        (noteItem as NoteItem.Text).onSave()
+                        (noteItem as? NoteItem.Text)?.onSave() ?: onThrowCast()
                     }
                     is NoteItem.Roll -> {
-                        val copyItem = (shadowItem as? NoteItem.Roll)?.deepCopy()
-                        noteItem = copyItem as? N ?: throw ClassCastException()
+                        val copyItem = (shadowItem as? NoteItem.Roll)?.deepCopy() ?: onThrowCast()
+                        noteItem = copyItem as? N ?: onThrowCast()
 
-                        (noteItem as NoteItem.Text).onSave()
+                        (noteItem as? NoteItem.Roll)?.onSave() ?: onThrowCast()
                     }
                 }
             }.fullAssert()
@@ -209,12 +209,12 @@ class NotePanel<T: ParentUi, N : NoteItem>(
 
                 when(noteItem) {
                     is NoteItem.Text -> {
-                        val copyItem = (noteItem as? NoteItem.Text)?.deepCopy()
-                        shadowItem = copyItem as? N ?: throw ClassCastException()
+                        val copyItem = (noteItem as? NoteItem.Text)?.deepCopy() ?: onThrowCast()
+                        shadowItem = copyItem as? N ?: onThrowCast()
                     }
                     is NoteItem.Roll -> {
-                        val copyItem = (noteItem as? NoteItem.Roll)?.deepCopy()
-                        shadowItem = copyItem as? N ?: throw ClassCastException()
+                        val copyItem = (noteItem as? NoteItem.Roll)?.deepCopy() ?: onThrowCast()
+                        shadowItem = copyItem as? N ?: onThrowCast()
                     }
                 }
 
@@ -245,14 +245,14 @@ class NotePanel<T: ParentUi, N : NoteItem>(
             is NoteItem.Text -> {
                 (shadowItem as NoteItem.Text).onConvert()
 
-                val copyItem = (shadowItem as? NoteItem.Text)?.deepCopy()
-                noteItem = copyItem as? N ?: throw ClassCastException()
+                val copyItem = (shadowItem as? NoteItem.Text)?.deepCopy() ?: onThrowCast()
+                noteItem = copyItem as? N ?: onThrowCast()
             }
             is NoteItem.Roll -> {
                 (shadowItem as NoteItem.Roll).onConvert()
 
-                val copyItem = (shadowItem as? NoteItem.Roll)?.deepCopy()
-                noteItem = copyItem as? N ?: throw ClassCastException()
+                val copyItem = (shadowItem as? NoteItem.Roll)?.deepCopy() ?: onThrowCast()
+                noteItem = copyItem as? N ?: onThrowCast()
             }
         }
     }

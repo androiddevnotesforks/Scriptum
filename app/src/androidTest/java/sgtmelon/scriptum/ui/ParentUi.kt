@@ -55,4 +55,7 @@ abstract class ParentUi {
         allOf(it, not(withParent(parentMatcher)))
     }
 
+
+    protected fun onThrowCast(): Nothing = throw ClassCastException()
+
 }

@@ -49,22 +49,22 @@ object TestData {
         const val DATE_2 = "1456-03-04 05:06:07"
         const val DATE_3 = "1567-04-05 06:07:08"
 
-        val firstNote = NoteItem.Text(
+        val firstNote get() = NoteItem.Text(
                 id = 0, create = DATE_1, change = DATE_2, color = 0,
                 rankId = -1, rankPs = -1, alarmId = 1, alarmDate = DATE_3
         )
 
-        val secondNote = NoteItem.Roll(
+        val secondNote get() = NoteItem.Roll(
                 id = 1, create = DATE_0, change = DATE_3, color = 2,
                 rankId = 1, rankPs = 1, isStatus = true
         )
 
-        val thirdNote = NoteItem.Text(
+        val thirdNote get() = NoteItem.Text(
                 id = 2, create = DATE_3, change = DATE_0, color = 4,
                 rankId = 1, rankPs = 1, alarmId = 2, alarmDate = DATE_2
         )
 
-        val fourthNote = NoteItem.Roll(
+        val fourthNote get() = NoteItem.Roll(
                 id = 3, create = DATE_2, change = DATE_1, color = 2,
                 rankId = 2, rankPs = 2, isStatus = true
         )

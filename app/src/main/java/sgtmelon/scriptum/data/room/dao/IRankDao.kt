@@ -13,6 +13,8 @@ import sgtmelon.scriptum.domain.model.data.DbData
 @TypeConverters(BoolConverter::class)
 interface IRankDao {
 
+    // TODO use rankItem not entity
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(rankEntity: RankEntity): Long
 

@@ -64,12 +64,12 @@ class NoteToolbar<T : ParentUi, N : NoteItem>(
 
                 when(noteItem) {
                     is NoteItem.Text -> {
-                        val copyItem = (noteItem as? NoteItem.Text)?.deepCopy()
-                        shadowItem = copyItem as? N ?: throw ClassCastException()
+                        val copyItem = (noteItem as? NoteItem.Text)?.deepCopy() ?: onThrowCast()
+                        shadowItem = copyItem as? N ?: onThrowCast()
                     }
                     is NoteItem.Roll -> {
-                        val copyItem = (noteItem as? NoteItem.Roll)?.deepCopy()
-                        shadowItem = copyItem as? N ?: throw ClassCastException()
+                        val copyItem = (noteItem as? NoteItem.Roll)?.deepCopy() ?: onThrowCast()
+                        shadowItem = copyItem as? N ?: onThrowCast()
                     }
                 }
 

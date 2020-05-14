@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.data.repository.room
 
+import androidx.annotation.VisibleForTesting
 import sgtmelon.scriptum.data.provider.RoomProvider
 import sgtmelon.scriptum.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.data.room.IRoomWork
@@ -17,10 +18,7 @@ import sgtmelon.scriptum.domain.model.item.RankItem
  */
 class RankRepo(override val roomProvider: RoomProvider) : IRankRepo, IRoomWork {
 
-    // TODO test for nullable values
-
     private val converter = RankConverter()
-
 
     override suspend fun getCount(): Int? = takeFromRoom { rankDao.getCount() }
 
@@ -89,7 +87,7 @@ class RankRepo(override val roomProvider: RoomProvider) : IRankRepo, IRoomWork {
 
         val noteList = get(noteIdList)
         for (entity in noteList) {
-            entity.rankPs = rankList.firstOrNull { entity.rankId == it.id }?.position ?: continue
+            entity.rankPs = rankList.firstOrNull { it.id == entity.rankId }?.position ?: continue
         }
 
         update(noteList)
@@ -103,19 +101,22 @@ class RankRepo(override val roomProvider: RoomProvider) : IRankRepo, IRoomWork {
         val list = rankDao.get()
         val checkArray = calculateCheckArray(list, noteItem.rankId)
 
-        rankDao.update(list.updateNoteId(noteItem.id, checkArray))
+        rankDao.update(updateNoteId(list, checkArray, noteItem.id))
     }
 
-    private fun calculateCheckArray(rankList: List<RankEntity>, rankId: Long): BooleanArray {
-        val array = BooleanArray(rankList.size)
-
-        val index = rankList.indexOfFirst { it.id == rankId }
-        if (index != -1) array[index] = true
-
-        return array
+    @VisibleForTesting
+    fun calculateCheckArray(rankList: List<RankEntity>, rankId: Long): BooleanArray {
+        return BooleanArray(rankList.size).apply {
+            rankList.indexOfFirst { it.id == rankId }.takeIf { it != -1 }?.let {
+                set(it, true)
+            }
+        }
     }
 
-    private fun List<RankEntity>.updateNoteId(noteId: Long, checkArray: BooleanArray) = apply {
+    @VisibleForTesting
+    fun updateNoteId(list: List<RankEntity>, checkArray: BooleanArray, noteId: Long) = list.apply {
+        if (list.size != checkArray.size) return@apply
+
         forEachIndexed { i, item ->
             when {
                 checkArray[i] && !item.noteId.contains(noteId) -> item.noteId.add(noteId)
