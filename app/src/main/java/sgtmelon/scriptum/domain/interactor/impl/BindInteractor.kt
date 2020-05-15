@@ -26,7 +26,7 @@ class BindInteractor(
 
         val sort = preferenceRepo.sort ?: return
         val rankIdVisibleList = rankRepo.getIdVisibleList() ?: return
-        val itemList = noteRepo.getList(sort, bin = false, optimal = false, filterVisible = false)
+        val itemList = noteRepo.getList(sort, bin = false, isOptimal = false, filterVisible = false)
                 ?: return
 
         callback.notifyNoteBind(itemList, rankIdVisibleList)

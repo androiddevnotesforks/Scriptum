@@ -26,6 +26,11 @@ class RollConverterTest : ParentTest() {
     @Test fun toEntity() {
         assertEquals(firstEntity, converter.toEntity(noteId, firstItem))
         assertEquals(secondEntity, converter.toEntity(noteId, secondItem))
+
+        val itemList = mutableListOf(firstItem, secondItem)
+        val entityList = mutableListOf(firstEntity, secondEntity)
+
+        assertEquals(entityList, converter.toEntity(noteId, itemList))
     }
 
     private val firstEntity = RollEntity(id = 1, noteId = noteId, position = 0, isCheck = true, text = "123")

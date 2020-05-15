@@ -55,7 +55,7 @@ class BinInteractorTest : ParentInteractorTest() {
         val itemList = data.itemList
 
         coEvery {
-            noteRepo.getList(any(), bin = true, optimal = true, filterVisible = false)
+            noteRepo.getList(any(), bin = true, isOptimal = true, filterVisible = false)
         } returns itemList
 
         every { preferenceRepo.sort } returns null
@@ -73,10 +73,10 @@ class BinInteractorTest : ParentInteractorTest() {
             preferenceRepo.sort
 
             preferenceRepo.sort
-            noteRepo.getList(firstSort, bin = true, optimal = true, filterVisible = false)
+            noteRepo.getList(firstSort, bin = true, isOptimal = true, filterVisible = false)
 
             preferenceRepo.sort
-            noteRepo.getList(secondSort, bin = true, optimal = true, filterVisible = false)
+            noteRepo.getList(secondSort, bin = true, isOptimal = true, filterVisible = false)
         }
     }
 

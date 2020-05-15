@@ -43,7 +43,7 @@ class AlarmInteractor(
          */
         alarmRepo.delete(id)
 
-        return noteRepo.getItem(id, optimal = true)
+        return noteRepo.getItem(id, isOptimal = true)
     }
 
     override suspend fun setupRepeat(noteItem: NoteItem, valueArray: IntArray,

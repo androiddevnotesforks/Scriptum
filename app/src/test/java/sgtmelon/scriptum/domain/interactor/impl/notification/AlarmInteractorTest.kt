@@ -72,18 +72,18 @@ class AlarmInteractorTest : ParentInteractorTest() {
         val noteId = Random.nextLong()
         val item = data.itemList.random()
 
-        coEvery { noteRepo.getItem(noteId, optimal = true) } returns null
+        coEvery { noteRepo.getItem(noteId, isOptimal = true) } returns null
         assertEquals(null, interactor.getModel(noteId))
 
-        coEvery { noteRepo.getItem(noteId, optimal = true) } returns item
+        coEvery { noteRepo.getItem(noteId, isOptimal = true) } returns item
         assertEquals(item, interactor.getModel(noteId))
 
         coVerifySequence {
             alarmRepo.delete(noteId)
-            noteRepo.getItem(noteId, optimal = true)
+            noteRepo.getItem(noteId, isOptimal = true)
 
             alarmRepo.delete(noteId)
-            noteRepo.getItem(noteId, optimal = true)
+            noteRepo.getItem(noteId, isOptimal = true)
         }
     }
 

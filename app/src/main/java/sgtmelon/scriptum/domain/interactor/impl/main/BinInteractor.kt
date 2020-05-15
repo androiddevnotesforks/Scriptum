@@ -29,7 +29,7 @@ class BinInteractor(
 
     override suspend fun getList(): MutableList<NoteItem>? {
         val sort = preferenceRepo.sort ?: return null
-        return noteRepo.getList(sort, bin = true, optimal = true, filterVisible = false)
+        return noteRepo.getList(sort, bin = true, isOptimal = true, filterVisible = false)
     }
 
     override suspend fun clearBin() = noteRepo.clearBin()

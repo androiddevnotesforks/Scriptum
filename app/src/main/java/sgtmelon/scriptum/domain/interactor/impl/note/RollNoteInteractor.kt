@@ -51,7 +51,7 @@ class RollNoteInteractor(
 
 
     override suspend fun getItem(id: Long): NoteItem.Roll? {
-        val item = noteRepo.getItem(id, optimal = false)
+        val item = noteRepo.getItem(id, isOptimal = false)
 
         if (item !is NoteItem.Roll) return null
 

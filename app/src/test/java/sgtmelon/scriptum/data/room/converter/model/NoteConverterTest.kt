@@ -30,6 +30,11 @@ class NoteConverterTest : ParentTest() {
 
         assertEquals(rollEntity, converter.toEntity(thirdItem))
         assertEquals(rollEntity, converter.toEntity(fourthItem))
+
+        val itemList = listOf(firstItem, secondItem, thirdItem, fourthItem)
+        val entityList = listOf(textEntity, textEntity, rollEntity, rollEntity)
+
+        assertEquals(entityList, converter.toEntity(itemList))
     }
 
 

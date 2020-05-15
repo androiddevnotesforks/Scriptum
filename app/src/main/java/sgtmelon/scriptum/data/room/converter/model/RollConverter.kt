@@ -16,4 +16,8 @@ class RollConverter {
         RollEntity(id, noteId, position, isCheck, text)
     }
 
+    fun toEntity(noteId: Long, list: List<RollItem>): MutableList<RollEntity> {
+        return list.map { toEntity(noteId, it) }.toMutableList()
+    }
+
 }

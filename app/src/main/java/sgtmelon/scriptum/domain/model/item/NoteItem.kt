@@ -297,17 +297,7 @@ sealed class NoteItem(
             updateComplete()
         }
 
-        fun onConvert(): Text {
-            val noteItem = Text(
-                    id, create, change, name, text, color, rankId, rankPs, isBin, isStatus,
-                    alarmId, alarmDate
-            )
-
-            noteItem.updateTime()
-            noteItem.text = list.getText()
-
-            return noteItem
-        }
+        fun onConvert() = onConvert(list)
 
         fun onConvert(list: List<RollItem>): Text {
             val noteItem = Text(

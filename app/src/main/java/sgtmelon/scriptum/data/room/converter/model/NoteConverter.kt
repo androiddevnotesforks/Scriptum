@@ -44,4 +44,8 @@ class NoteConverter {
         NoteEntity(id, create, change, name, text, color, type, rankId, rankPs, isBin, isStatus)
     }
 
+    fun toEntity(list: List<NoteItem>): MutableList<NoteEntity> {
+        return list.map { toEntity(it) }.toMutableList()
+    }
+
 }

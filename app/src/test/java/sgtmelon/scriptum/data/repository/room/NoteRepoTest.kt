@@ -1,91 +1,576 @@
 package sgtmelon.scriptum.data.repository.room
 
+import io.mockk.coEvery
+import io.mockk.coVerifySequence
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.scriptum.ParentRoomRepoTest
+import sgtmelon.scriptum.TestData
+import sgtmelon.scriptum.data.room.converter.model.NoteConverter
+import sgtmelon.scriptum.data.room.converter.model.RollConverter
+import sgtmelon.scriptum.data.room.entity.*
+import sgtmelon.scriptum.domain.model.annotation.Sort
+import sgtmelon.scriptum.domain.model.data.DbData
+import sgtmelon.scriptum.domain.model.item.RollItem
+import sgtmelon.scriptum.extension.clearAdd
+import kotlin.random.Random
 
 /**
  * Test for [NoteRepo].
  */
+@ExperimentalCoroutinesApi
 class NoteRepoTest : ParentRoomRepoTest() {
 
-    @Test fun getCount() {
-        TODO()
+    private val badNoteRepo by lazy { NoteRepo(badRoomProvider) }
+    private val goodNoteRepo by lazy { NoteRepo(goodRoomProvider) }
+
+    @Test fun getCount() = startCoTest {
+        val notesCount = Random.nextInt()
+        val binCount = Random.nextInt()
+
+        val rankIdVisibleList = List(size = 2) { Random.nextLong() }
+        val rankIdList = List(size = 5) { Random.nextLong() }
+
+        assertNull(badNoteRepo.getCount(bin = false))
+        assertNull(badNoteRepo.getCount(bin = true))
+
+        coEvery { rankDao.getIdVisibleList() } returns rankIdVisibleList
+        coEvery { noteDao.getCount(bin = false, rankIdList = rankIdVisibleList) } returns notesCount
+        assertEquals(notesCount, goodNoteRepo.getCount(bin = false))
+
+        coEvery { rankDao.getIdList() } returns rankIdList
+        coEvery { noteDao.getCount(bin = true, rankIdList = rankIdList) } returns binCount
+        assertEquals(binCount, goodNoteRepo.getCount(bin = true))
+
+        coVerifySequence {
+            badRoomProvider.openRoom()
+            badRoomProvider.openRoom()
+
+            goodRoomProvider.openRoom()
+            rankDao.getIdVisibleList()
+            noteDao.getCount(bin = false, rankIdList = rankIdVisibleList)
+
+            goodRoomProvider.openRoom()
+            rankDao.getIdList()
+            noteDao.getCount(bin = true, rankIdList = rankIdList)
+        }
     }
 
     @Test fun getList() {
         TODO()
     }
 
-    @Test fun getItem() {
+    @Test fun getSortBy() = startCoTest {
+        val changeList = MutableList(size = 5) { NoteEntity(id = Random.nextLong()) }
+        val createList = MutableList(size = 5) { NoteEntity(id = Random.nextLong()) }
+        val rankList = MutableList(size = 5) { NoteEntity(id = Random.nextLong()) }
+        val colorList = MutableList(size = 5) { NoteEntity(id = Random.nextLong()) }
+
+        assertNull(goodNoteRepo.getSortBy(noteDao, sort = 10, bin = false))
+        assertNull(goodNoteRepo.getSortBy(noteDao, sort = 10, bin = true))
+
+        coEvery { noteDao.getByChange(any()) } returns changeList
+        assertEquals(changeList, goodNoteRepo.getSortBy(noteDao, Sort.CHANGE, bin = false))
+        assertEquals(changeList, goodNoteRepo.getSortBy(noteDao, Sort.CHANGE, bin = true))
+
+        coEvery { noteDao.getByCreate(any()) } returns createList
+        assertEquals(createList, goodNoteRepo.getSortBy(noteDao, Sort.CREATE, bin = false))
+        assertEquals(createList, goodNoteRepo.getSortBy(noteDao, Sort.CREATE, bin = true))
+
+        coEvery { noteDao.getByRank(any()) } returns rankList
+        assertEquals(rankList, goodNoteRepo.getSortBy(noteDao, Sort.RANK, bin = false))
+        assertEquals(rankList, goodNoteRepo.getSortBy(noteDao, Sort.RANK, bin = true))
+
+        coEvery { noteDao.getByColor(any()) } returns colorList
+        assertEquals(colorList, goodNoteRepo.getSortBy(noteDao, Sort.COLOR, bin = false))
+        assertEquals(colorList, goodNoteRepo.getSortBy(noteDao, Sort.COLOR, bin = true))
+
+        coVerifySequence {
+            noteDao.getByChange(bin = false)
+            noteDao.getByChange(bin = true)
+
+            noteDao.getByCreate(bin = false)
+            noteDao.getByCreate(bin = true)
+
+            noteDao.getByRank(bin = false)
+            noteDao.getByRank(bin = true)
+
+            noteDao.getByColor(bin = false)
+            noteDao.getByColor(bin = true)
+        }
+    }
+
+    @Test fun filterVisible() {
         TODO()
     }
 
-    @Test fun getRollList() {
+    @Test fun correctRankSort() {
         TODO()
     }
 
-    @Test fun isListHide() {
-        TODO()
+
+    @Test fun getItem() = startCoTest {
+        val id = Random.nextLong()
+
+        val noteItem = TestData.Note.firstNote
+        val alarmEntity = AlarmEntity(id = noteItem.alarmId, date = noteItem.alarmDate)
+
+        val noteEntity = NoteConverter().toEntity(noteItem)
+
+        assertNull(badNoteRepo.getItem(id, isOptimal = false))
+        assertNull(badNoteRepo.getItem(id, isOptimal = true))
+
+        coEvery { noteDao.get(id) } returns null
+        assertNull(goodNoteRepo.getItem(id, isOptimal = Random.nextBoolean()))
+
+        coEvery { noteDao.get(id) } returns noteEntity
+        coEvery { rollDao.get(id) } returns mutableListOf()
+        coEvery { rollDao.getView(id) } returns mutableListOf()
+        coEvery { alarmDao.get(id) } returns alarmEntity
+        assertEquals(noteItem, goodNoteRepo.getItem(id, isOptimal = false))
+        assertEquals(noteItem, goodNoteRepo.getItem(id, isOptimal = true))
+
+        coVerifySequence {
+            badRoomProvider.openRoom()
+            badRoomProvider.openRoom()
+
+            goodRoomProvider.openRoom()
+            noteDao.get(id)
+
+            goodRoomProvider.openRoom()
+            noteDao.get(id)
+            rollDao.get(id)
+            alarmDao.get(id)
+
+            goodRoomProvider.openRoom()
+            noteDao.get(id)
+            rollDao.getView(id)
+            alarmDao.get(id)
+        }
     }
 
-    @Test fun clearBin() {
-        TODO()
+    @Test fun getPreview() = startCoTest {
+        val id = Random.nextLong()
+
+        val firstList = MutableList(size = 5) { RollEntity(id = Random.nextLong()) }
+        val secondList = MutableList(size = 5) { RollEntity(id = Random.nextLong()) }
+
+        coEvery { rollDao.get(id) } returns firstList
+        assertEquals(firstList, goodNoteRepo.getPreview(rollDao, id, isOptimal = false))
+
+        coEvery { rollDao.getView(id) } returns secondList
+        assertEquals(secondList, goodNoteRepo.getPreview(rollDao, id, isOptimal = true))
+
+        coVerifySequence {
+            rollDao.get(id)
+            rollDao.getView(id)
+        }
     }
 
-    @Test fun deleteNote() {
-        TODO()
+
+    @Test fun getRollList() = startCoTest {
+        val noteId = Random.nextLong()
+
+        val itemList = TestData.Note.rollList
+        val entityList = RollConverter().toEntity(noteId, itemList)
+
+        coEvery { rollDao.get(noteId) } returns entityList
+
+        assertNull(badNoteRepo.getRollList(noteId))
+        assertEquals(itemList, goodNoteRepo.getRollList(noteId))
+
+        coVerifySequence {
+            badRoomProvider.openRoom()
+
+            goodRoomProvider.openRoom()
+            rollDao.get(noteId)
+        }
     }
 
-    @Test fun restoreNote() {
-        TODO()
+
+    @Test fun isListHide() = startCoTest {
+        val idList = listOf<Long>(1, 2, 3)
+
+        coEvery { rankDao.getIdVisibleList() } returns idList
+
+        assertNull(badNoteRepo.isListHide())
+
+        var entity = NoteEntity()
+        coEvery { noteDao.get(false) } returns listOf(entity)
+        assertEquals(false, goodNoteRepo.isListHide())
+
+        entity = NoteEntity(rankId = 0)
+        coEvery { noteDao.get(false) } returns listOf(entity)
+        assertEquals(false, goodNoteRepo.isListHide())
+
+        entity = NoteEntity(rankPs = 0)
+        coEvery { noteDao.get(false) } returns listOf(entity)
+        assertEquals(false, goodNoteRepo.isListHide())
+
+        entity = NoteEntity(rankId = 0, rankPs = 0)
+        coEvery { noteDao.get(false) } returns listOf(entity)
+        assertEquals(true, goodNoteRepo.isListHide())
+
+        entity = NoteEntity(rankId = 1, rankPs = 1)
+        coEvery { noteDao.get(false) } returns listOf(entity)
+        assertEquals(false, goodNoteRepo.isListHide())
+
+        coVerifySequence {
+            badRoomProvider.openRoom()
+
+            repeat(times = 5) {
+                goodRoomProvider.openRoom()
+                noteDao.get(false)
+                rankDao.getIdVisibleList()
+            }
+        }
     }
 
-    @Test fun clearNote() {
-        TODO()
+    @Test fun clearBin() = startCoTest {
+        val itemList = NoteConverter().toEntity(TestData.Note.itemList)
+
+        itemList.forEach { coEvery { rankDao.get(it.rankId) } returns null }
+        coEvery { noteDao.get(true) } returns itemList
+
+        badNoteRepo.clearBin()
+        goodNoteRepo.clearBin()
+
+        coVerifySequence {
+            badRoomProvider.openRoom()
+
+            goodRoomProvider.openRoom()
+            noteDao.get(true)
+            itemList.forEach {
+                rankDao.get(it.rankId)
+            }
+            noteDao.delete(itemList)
+        }
     }
 
-    @Test fun convertNote() {
-        TODO()
+
+    @Test fun deleteNote() = startCoTest {
+        val startItem = TestData.Note.firstNote
+        val finalItem = startItem.deepCopy().onDelete()
+
+        val entity = NoteConverter().toEntity(finalItem)
+
+        badNoteRepo.deleteNote(startItem)
+        goodNoteRepo.deleteNote(startItem)
+
+        assertEquals(startItem, finalItem)
+
+        coVerifySequence {
+            badRoomProvider.openRoom()
+
+            goodRoomProvider.openRoom()
+            alarmDao.delete(startItem.id)
+            noteDao.update(entity)
+        }
     }
 
-    @Test fun testConvertNote() {
-        TODO()
+    @Test fun restoreNote() = startCoTest {
+        val startItem = TestData.Note.firstNote
+        val finalItem = startItem.deepCopy().onRestore()
+
+        val entity = NoteConverter().toEntity(finalItem)
+
+        badNoteRepo.restoreNote(startItem)
+        goodNoteRepo.restoreNote(startItem)
+
+        assertEquals(startItem, finalItem)
+
+        coVerifySequence {
+            badRoomProvider.openRoom()
+
+            goodRoomProvider.openRoom()
+            noteDao.update(entity)
+        }
+    }
+
+    @Test fun clearNote() = startCoTest {
+        val item = TestData.Note.itemList.random()
+        val entity = NoteConverter().toEntity(item)
+
+        coEvery { rankDao.get(item.rankId) } returns null
+
+        badNoteRepo.clearNote(item)
+        goodNoteRepo.clearNote(item)
+
+        coVerifySequence {
+            badRoomProvider.openRoom()
+
+            goodRoomProvider.openRoom()
+            rankDao.get(item.rankId)
+            noteDao.delete(entity)
+        }
+    }
+
+
+    @Test fun convertNote_text() = startCoTest {
+        val textItem = TestData.Note.firstNote.deepCopy(text = "0\n1\n2\n3")
+        val startRollItem = textItem.onConvert()
+        val finishRollItem = textItem.onConvert().apply {
+            list.clearAdd(listOf(
+                    RollItem(id = 0, position = 0, text = "0"),
+                    RollItem(id = 1, position = 1, text = "1"),
+                    RollItem(id = 2, position = 2, text = "2"),
+                    RollItem(id = 3, position = 3, text = "3")
+            ))
+        }
+
+        val rollEntity = NoteConverter().toEntity(startRollItem)
+
+        startRollItem.list.forEachIndexed { i, it ->
+            val entity = RollConverter().toEntity(startRollItem.id, it)
+            coEvery { rollDao.insert(entity) } returns i.toLong()
+        }
+
+        assertNull(badNoteRepo.convertNote(textItem))
+        assertEquals(finishRollItem, goodNoteRepo.convertNote(textItem))
+
+        coVerifySequence {
+            badRoomProvider.openRoom()
+
+            goodRoomProvider.openRoom()
+            startRollItem.list.forEach {
+                rollDao.insert(RollConverter().toEntity(startRollItem.id, it))
+            }
+            noteDao.update(rollEntity)
+        }
+    }
+
+    @Test fun convertNote_roll() = startCoTest {
+        val itemList = listOf(
+                RollItem(position = 0, text = "0"),
+                RollItem(position = 1, text = "1"),
+                RollItem(position = 2, text = "2"),
+                RollItem(position = 3, text = "3")
+        )
+
+        val rollItem = TestData.Note.secondNote
+        rollItem.list.clearAdd(itemList)
+
+        val entityList = RollConverter().toEntity(rollItem.id, itemList)
+
+        val textItem = rollItem.onConvert()
+        val textEntity = NoteConverter().toEntity(textItem)
+
+        coEvery { rollDao.get(rollItem.id) } returns entityList
+
+        assertNull(badNoteRepo.convertNote(rollItem, useCache = false))
+        assertNull(badNoteRepo.convertNote(rollItem, useCache = true))
+
+        assertEquals(textItem, goodNoteRepo.convertNote(rollItem, useCache = false))
+        assertEquals(textItem, goodNoteRepo.convertNote(rollItem, useCache = true))
+
+        coVerifySequence {
+            badRoomProvider.openRoom()
+            badRoomProvider.openRoom()
+
+            goodRoomProvider.openRoom()
+            rollDao.get(rollItem.id)
+            noteDao.update(textEntity)
+            rollDao.delete(rollItem.id)
+
+            goodRoomProvider.openRoom()
+            noteDao.update(textEntity)
+            rollDao.delete(rollItem.id)
+        }
     }
 
     @Test fun getCopyText() {
         TODO()
     }
 
-    @Test fun saveNote() {
+    @Test fun saveNote_text() = startCoTest {
+        val id = Random.nextLong()
+
+        val startItem = TestData.Note.firstNote
+        val finishItem = startItem.deepCopy(id = id)
+        val entity = NoteConverter().toEntity(startItem)
+
+        coEvery { noteDao.insert(entity) } returns id
+
+        badNoteRepo.saveNote(startItem, isCreate = false)
+        badNoteRepo.saveNote(startItem, isCreate = true)
+
+        goodNoteRepo.saveNote(startItem, isCreate = false)
+        assertNotEquals(startItem, finishItem)
+
+        goodNoteRepo.saveNote(startItem, isCreate = true)
+        assertEquals(startItem, finishItem)
+
+        coVerifySequence {
+            badRoomProvider.openRoom()
+            badRoomProvider.openRoom()
+
+            goodRoomProvider.openRoom()
+            noteDao.update(entity)
+
+            goodRoomProvider.openRoom()
+            noteDao.insert(entity)
+        }
+    }
+
+    @Test fun saveNote_roll() {
         TODO()
     }
 
-    @Test fun testSaveNote() {
-        TODO()
+    @Test fun updateRollCheck_item() = startCoTest {
+        val noteItem = TestData.Note.secondNote.apply {
+            list.addAll(TestData.Note.rollList)
+        }
+        val noteEntity = NoteConverter().toEntity(noteItem)
+
+        val p = noteItem.list.indices.random()
+        val rollItem = noteItem.list[p]
+        val rollId = Random.nextLong()
+
+        badNoteRepo.updateRollCheck(noteItem, p)
+        goodNoteRepo.updateRollCheck(noteItem, Random.nextInt())
+
+        rollItem.id = null
+        goodNoteRepo.updateRollCheck(noteItem, p)
+
+        rollItem.id = rollId
+        goodNoteRepo.updateRollCheck(noteItem, p)
+
+        coVerifySequence {
+            badRoomProvider.openRoom()
+
+            goodRoomProvider.openRoom()
+            goodRoomProvider.openRoom()
+
+            goodRoomProvider.openRoom()
+            rollDao.update(rollId, rollItem.isCheck)
+            noteDao.update(noteEntity)
+        }
     }
 
-    @Test fun updateRollCheck() {
-        TODO()
+    @Test fun updateRollCheck_list() = startCoTest {
+        val item = TestData.Note.secondNote
+        val entity = NoteConverter().toEntity(item)
+
+        val check = Random.nextBoolean()
+
+        badNoteRepo.updateRollCheck(item, check)
+        goodNoteRepo.updateRollCheck(item, check)
+
+        coVerifySequence {
+            badRoomProvider.openRoom()
+
+            goodRoomProvider.openRoom()
+            rollDao.updateAllCheck(item.id, check)
+            noteDao.update(entity)
+        }
     }
 
-    @Test fun testUpdateRollCheck() {
-        TODO()
+    @Test fun updateNote() = startCoTest {
+        val item = TestData.Note.itemList.random()
+        val entity = NoteConverter().toEntity(item)
+
+        badNoteRepo.updateNote(item)
+        goodNoteRepo.updateNote(item)
+
+        coVerifySequence {
+            badRoomProvider.openRoom()
+
+            goodRoomProvider.openRoom()
+            noteDao.update(entity)
+        }
     }
 
-    @Test fun updateNote() {
-        TODO()
+
+    @Test fun setRollVisible() = startCoTest {
+        val id = Random.nextLong()
+        val entity = RollVisibleEntity(noteId = id, value = false)
+
+        badNoteRepo.setRollVisible(id, isVisible = false)
+        badNoteRepo.setRollVisible(id, isVisible = true)
+
+        coEvery { rollVisibleDao.get(id) } returns null
+        coEvery { rollVisibleDao.insert(any()) } returns Random.nextLong()
+        goodNoteRepo.setRollVisible(id, isVisible = false)
+
+        coEvery { rollVisibleDao.get(id) } returns false
+        goodNoteRepo.setRollVisible(id, isVisible = false)
+        goodNoteRepo.setRollVisible(id, isVisible = true)
+
+        coVerifySequence {
+            badRoomProvider.openRoom()
+            badRoomProvider.openRoom()
+
+            goodRoomProvider.openRoom()
+            rollVisibleDao.get(id)
+            rollVisibleDao.insert(entity)
+
+            goodRoomProvider.openRoom()
+            rollVisibleDao.get(id)
+
+            goodRoomProvider.openRoom()
+            rollVisibleDao.get(id)
+            rollVisibleDao.update(id, value = true)
+        }
     }
 
-    @Test fun setRollVisible() {
-        TODO()
+    @Test fun getRollVisible() = startCoTest {
+        val id = Random.nextLong()
+        val entity = RollVisibleEntity(noteId = id)
+
+        assertNull(badNoteRepo.getRollVisible(id))
+
+        coEvery { rollVisibleDao.get(id) } returns null
+        coEvery { rollVisibleDao.insert(entity) } returns Random.nextLong()
+        assertEquals(DbData.RollVisible.Default.VALUE, goodNoteRepo.getRollVisible(id))
+
+        coEvery { rollVisibleDao.get(id) } returns false
+        assertEquals(false, goodNoteRepo.getRollVisible(id))
+
+        coEvery { rollVisibleDao.get(id) } returns true
+        assertEquals(true, goodNoteRepo.getRollVisible(id))
+
+        coVerifySequence {
+            badRoomProvider.openRoom()
+
+            goodRoomProvider.openRoom()
+            rollVisibleDao.get(id)
+            rollVisibleDao.insert(entity)
+
+            goodRoomProvider.openRoom()
+            rollVisibleDao.get(id)
+
+            goodRoomProvider.openRoom()
+            rollVisibleDao.get(id)
+        }
     }
 
-    @Test fun getRollVisible() {
-        TODO()
-    }
 
-    @Test fun getRoomProvider() {
-        TODO()
+    @Test fun clearConnection() = startCoTest {
+        val noteId = Random.nextLong()
+        val rankId = Random.nextLong()
+
+        val randomId = Random.nextLong()
+        val startRankEntity = RankEntity(
+                id = Random.nextLong(), noteId = mutableListOf(noteId, randomId),
+                name = TestData.uniqueString
+        )
+        val finishRankEntity = startRankEntity.copy(noteId = mutableListOf(randomId))
+
+        coEvery { rankDao.get(rankId) } returns null
+        goodNoteRepo.clearConnection(rankDao, noteId, rankId)
+        assertNotEquals(finishRankEntity, startRankEntity)
+
+        coEvery { rankDao.get(rankId) } returns startRankEntity
+        goodNoteRepo.clearConnection(rankDao, noteId, rankId)
+        assertEquals(finishRankEntity, startRankEntity)
+
+        coVerifySequence {
+            rankDao.get(rankId)
+
+            rankDao.get(rankId)
+            rankDao.update(finishRankEntity)
+        }
     }
 
 }

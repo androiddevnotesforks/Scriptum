@@ -5,7 +5,7 @@ import sgtmelon.scriptum.data.room.RoomDb
 import sgtmelon.scriptum.data.room.converter.type.BoolConverter
 import sgtmelon.scriptum.data.room.entity.RollEntity
 import sgtmelon.scriptum.domain.model.data.DbData
-import sgtmelon.scriptum.domain.model.item.NoteItem
+import sgtmelon.scriptum.domain.model.item.NoteItem.Roll.Companion.PREVIEW_SIZE
 
 /**
  * Interface for communication [DbData.Roll.TABLE] with [RoomDb].
@@ -46,7 +46,7 @@ interface IRollDao {
      * Get only first 4 items for preview
      */
     @Query(value = """SELECT * FROM ROLL_TABLE
-            WHERE RL_NOTE_ID = :noteId AND RL_POSITION BETWEEN 0 AND ${NoteItem.Roll.PREVIEW_SIZE - 1}
+            WHERE RL_NOTE_ID = :noteId AND RL_POSITION BETWEEN 0 AND ${PREVIEW_SIZE - 1}
             ORDER BY RL_POSITION""")
     suspend fun getView(noteId: Long): MutableList<RollEntity>
 

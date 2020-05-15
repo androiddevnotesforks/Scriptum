@@ -64,13 +64,13 @@ class RollNoteInteractorTest : ParentInteractorTest() {
         val firstItem = data.secondNote.deepCopy()
         val secondItem = data.fourthNote.deepCopy()
 
-        coEvery { noteRepo.getItem(wrongItem.id, optimal = false) } returns null
+        coEvery { noteRepo.getItem(wrongItem.id, isOptimal = false) } returns null
         assertNull(interactor.getItem(wrongItem.id))
 
-        coEvery { noteRepo.getItem(wrongItem.id, optimal = false) } returns wrongItem
+        coEvery { noteRepo.getItem(wrongItem.id, isOptimal = false) } returns wrongItem
         assertNull(interactor.getItem(wrongItem.id))
 
-        coEvery { noteRepo.getItem(firstItem.id, optimal = false) } returns firstItem
+        coEvery { noteRepo.getItem(firstItem.id, isOptimal = false) } returns firstItem
         every { preferenceRepo.sort } returns null
         assertEquals(null, interactor.getItem(firstItem.id))
 
@@ -81,27 +81,27 @@ class RollNoteInteractorTest : ParentInteractorTest() {
         coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList
         assertEquals(firstItem, interactor.getItem(firstItem.id))
 
-        coEvery { noteRepo.getItem(secondItem.id, optimal = false) } returns secondItem
+        coEvery { noteRepo.getItem(secondItem.id, isOptimal = false) } returns secondItem
         assertEquals(secondItem, interactor.getItem(secondItem.id))
 
         coVerifySequence {
-            noteRepo.getItem(wrongItem.id, optimal = false)
+            noteRepo.getItem(wrongItem.id, isOptimal = false)
 
-            noteRepo.getItem(wrongItem.id, optimal = false)
+            noteRepo.getItem(wrongItem.id, isOptimal = false)
 
-            noteRepo.getItem(firstItem.id, optimal = false)
+            noteRepo.getItem(firstItem.id, isOptimal = false)
             preferenceRepo.sort
 
-            noteRepo.getItem(firstItem.id, optimal = false)
+            noteRepo.getItem(firstItem.id, isOptimal = false)
             preferenceRepo.sort
             rankRepo.getIdVisibleList()
 
-            noteRepo.getItem(firstItem.id, optimal = false)
+            noteRepo.getItem(firstItem.id, isOptimal = false)
             preferenceRepo.sort
             rankRepo.getIdVisibleList()
             callback.notifyNoteBind(firstItem, rankIdVisibleList, sort)
 
-            noteRepo.getItem(secondItem.id, optimal = false)
+            noteRepo.getItem(secondItem.id, isOptimal = false)
             preferenceRepo.sort
             callback.notifyNoteBind(secondItem, rankIdVisibleList, sort)
         }

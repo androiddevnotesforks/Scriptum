@@ -51,7 +51,7 @@ class TextNoteInteractor(
 
 
     override suspend fun getItem(id: Long): NoteItem.Text? {
-        val item = noteRepo.getItem(id, optimal = false)
+        val item = noteRepo.getItem(id, isOptimal = false)
 
         if (item !is NoteItem.Text) return null
 

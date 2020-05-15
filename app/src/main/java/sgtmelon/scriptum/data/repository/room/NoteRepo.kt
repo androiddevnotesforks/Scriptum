@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.data.repository.room
 
+import androidx.annotation.VisibleForTesting
 import sgtmelon.scriptum.data.provider.RoomProvider
 import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.data.room.IRoomWork
@@ -42,58 +43,61 @@ class NoteRepo(override val roomProvider: RoomProvider) : INoteRepo, IRoomWork {
     }
 
     /**
-     * [optimal] - need for note lists where displays short information.
+     * [isOptimal] - need for note lists where displays short information.
      *
      * [filterVisible] - need use if you need get only rank visible notes. Otherwise you will
      *                   get all items even if rank not visible.
      */
-    override suspend fun getList(@Sort sort: Int, bin: Boolean, optimal: Boolean,
+    override suspend fun getList(@Sort sort: Int, bin: Boolean, isOptimal: Boolean,
                                  filterVisible: Boolean): MutableList<NoteItem>? = takeFromRoom {
-        var list = noteDao.getSortBy(sort, bin) ?: return@takeFromRoom null
+        var list = getSortBy(noteDao, sort, bin) ?: return@takeFromRoom null
 
-        if (filterVisible) list = rankDao.filterVisible(list)
+        if (filterVisible) list = filterVisible(rankDao, list)
 
-        return@takeFromRoom ArrayList<NoteItem>().apply {
+        return@takeFromRoom correctRankSort(ArrayList<NoteItem>().apply {
             list.forEach {
-                val rollEntityList = rollDao.getPreview(it.id, optimal)
+                val rollEntityList = getPreview(rollDao, it.id, isOptimal)
                 val rollItemList = rollConverter.toItem(rollEntityList)
 
                 add(noteConverter.toItem(it, rollItemList, alarmDao.get(it.id)))
             }
-        }.correctRankSort(sort)
+        }, sort)
     }
 
-    private suspend fun INoteDao.getSortBy(@Sort sort: Int, bin: Boolean): List<NoteEntity>? {
-        return when (sort) {
-            Sort.CHANGE -> getByChange(bin)
-            Sort.CREATE -> getByCreate(bin)
-            Sort.RANK -> getByRank(bin)
-            Sort.COLOR -> getByColor(bin)
-            else -> null
-        }
+    @VisibleForTesting
+    suspend fun getSortBy(iNoteDao: INoteDao, @Sort sort: Int, bin: Boolean) = when (sort) {
+        Sort.CHANGE -> iNoteDao.getByChange(bin)
+        Sort.CREATE -> iNoteDao.getByCreate(bin)
+        Sort.RANK -> iNoteDao.getByRank(bin)
+        Sort.COLOR -> iNoteDao.getByColor(bin)
+        else -> null
     }
 
     /**
      * List must contains only item which isVisible.
      */
-    private suspend fun IRankDao.filterVisible(list: List<NoteEntity>): List<NoteEntity> {
-        val idVisibleList = getIdVisibleList()
+    @VisibleForTesting
+    suspend fun filterVisible(iRankDao: IRankDao, list: List<NoteEntity>): List<NoteEntity> {
+        val idVisibleList = iRankDao.getIdVisibleList()
 
-        return list.filter { noteConverter.toItem(it).isVisible(idVisibleList)  }
+        return list.filter { noteConverter.toItem(it).isVisible(idVisibleList) }
     }
 
-    private fun MutableList<NoteItem>.correctRankSort(@Sort sort: Int) = apply {
+    @VisibleForTesting
+    fun correctRankSort(list: MutableList<NoteItem>, @Sort sort: Int) = list.apply {
         if (sort != Sort.RANK) return@apply
 
         /**
          * List must contains item with and without rank.
          */
-        if (any { it.haveRank() } && any { !it.haveRank() } ) {
+        if (any { it.haveRank() } && any { !it.haveRank() }) {
 
             /**
              * Move items without rank to list end.
              */
-            while (!first().haveRank()) move(from = 0)
+            while (!first().haveRank()) {
+                move(from = 0)
+            }
         }
     }
 
@@ -102,17 +106,18 @@ class NoteRepo(override val roomProvider: RoomProvider) : INoteRepo, IRoomWork {
      * Return null if note doesn't exist.
      *
      * [id] - note item id.
-     * [optimal] - need for note lists where displays short information.
+     * [isOptimal] - need for note lists where displays short information.
      */
-    override suspend fun getItem(id: Long, optimal: Boolean): NoteItem? = takeFromRoom {
+    override suspend fun getItem(id: Long, isOptimal: Boolean): NoteItem? = takeFromRoom {
         val entity = noteDao.get(id) ?: return@takeFromRoom null
-        val rollList = rollConverter.toItem(rollDao.getPreview(id, optimal))
+        val rollList = rollConverter.toItem(getPreview(rollDao, id, isOptimal))
 
         return@takeFromRoom noteConverter.toItem(entity, rollList, alarmDao.get(id))
     }
 
-    private suspend fun IRollDao.getPreview(id: Long, optimal: Boolean): MutableList<RollEntity> {
-        return if (optimal) getView(id) else get(id)
+    @VisibleForTesting
+    suspend fun getPreview(iRollDao: IRollDao, id: Long, isOptimal: Boolean) = with(iRollDao) {
+        if (isOptimal) getView(id) else get(id)
     }
 
     /**
@@ -133,11 +138,11 @@ class NoteRepo(override val roomProvider: RoomProvider) : INoteRepo, IRoomWork {
     }
 
     override suspend fun clearBin() = inRoom {
-        val noteList = noteDao.get(true).apply {
-            forEach { rankDao.clearConnection(it.id, it.rankId) }
+        val itemList = noteDao.get(true).apply {
+            forEach { clearConnection(rankDao, it.id, it.rankId) }
         }
 
-        noteDao.delete(noteList)
+        noteDao.delete(itemList)
     }
 
 
@@ -154,7 +159,7 @@ class NoteRepo(override val roomProvider: RoomProvider) : INoteRepo, IRoomWork {
      * Delete note forever and clear related categories
      */
     override suspend fun clearNote(noteItem: NoteItem) = inRoom {
-        rankDao.clearConnection(noteItem.id, noteItem.rankId)
+        clearConnection(rankDao, noteItem.id, noteItem.rankId)
         noteDao.delete(noteConverter.toEntity(noteItem))
     }
 
@@ -198,58 +203,53 @@ class NoteRepo(override val roomProvider: RoomProvider) : INoteRepo, IRoomWork {
         }
     }.toString()
 
-    override suspend fun saveNote(noteItem: NoteItem.Text, isCreate: Boolean) {
-        inRoom {
-            val entity = noteConverter.toEntity(noteItem)
+    override suspend fun saveNote(noteItem: NoteItem.Text, isCreate: Boolean) = inRoom {
+        val entity = noteConverter.toEntity(noteItem)
 
-            if (isCreate) {
-                noteItem.id = noteDao.insert(entity)
-            } else {
-                noteDao.update(entity)
-            }
+        if (isCreate) {
+            noteItem.id = noteDao.insert(entity)
+        } else {
+            noteDao.update(entity)
         }
     }
 
-    override suspend fun saveNote(noteItem: NoteItem.Roll, isCreate: Boolean) {
-        inRoom {
-            val noteEntity = noteConverter.toEntity(noteItem)
+    override suspend fun saveNote(noteItem: NoteItem.Roll, isCreate: Boolean) = inRoom {
+        val noteEntity = noteConverter.toEntity(noteItem)
 
-            if (isCreate) {
-                noteItem.id = noteDao.insert(noteEntity)
-                noteItem.list.forEach {
-                    it.id = rollDao.insert(rollConverter.toEntity(noteItem.id, it))
-                }
-            } else {
-                noteDao.update(noteEntity)
-
-                /**
-                 * List of roll id's, which wasn't swiped.
-                 */
-                val idSaveList = ArrayList<Long>()
-
-                noteItem.list.forEach { item ->
-                    val id = item.id
-
-                    if (id == null) {
-                        item.id = rollDao.insert(rollConverter.toEntity(noteItem.id, item))
-                    } else {
-                        rollDao.update(id, item.position, item.text)
-                    }
-
-                    item.id?.let { idSaveList.add(it) }
-                }
-
-                /**
-                 * Remove swiped rolls.
-                 */
-                rollDao.delete(noteItem.id, idSaveList)
+        if (isCreate) {
+            noteItem.id = noteDao.insert(noteEntity)
+            noteItem.list.forEach {
+                it.id = rollDao.insert(rollConverter.toEntity(noteItem.id, it))
             }
+        } else {
+            noteDao.update(noteEntity)
+
+            /**
+             * List of roll id's, which wasn't swiped.
+             */
+            val idSaveList = ArrayList<Long>()
+
+            noteItem.list.forEach { item ->
+                val id = item.id
+
+                if (id == null) {
+                    item.id = rollDao.insert(rollConverter.toEntity(noteItem.id, item))
+                } else {
+                    rollDao.update(id, item.position, item.text)
+                }
+
+                item.id?.let { idSaveList.add(it) }
+            }
+
+            /**
+             * Remove swiped rolls.
+             */
+            rollDao.delete(noteItem.id, idSaveList)
         }
     }
 
     override suspend fun updateRollCheck(noteItem: NoteItem.Roll, p: Int) = inRoom {
-        val item = noteItem.list[p]
-
+        val item = noteItem.list.getOrNull(p) ?: return@inRoom
         val rollId = item.id ?: return@inRoom
 
         rollDao.update(rollId, item.isCheck)
@@ -269,11 +269,9 @@ class NoteRepo(override val roomProvider: RoomProvider) : INoteRepo, IRoomWork {
     override suspend fun setRollVisible(noteId: Long, isVisible: Boolean) = inRoom {
         val value = rollVisibleDao.get(noteId)
 
-        if (isVisible == value) return@inRoom
-
         if (value == null) {
             rollVisibleDao.insert(RollVisibleEntity(noteId = noteId, value = isVisible))
-        } else {
+        } else if (isVisible != value) {
             rollVisibleDao.update(noteId, isVisible)
         }
     }
@@ -288,9 +286,10 @@ class NoteRepo(override val roomProvider: RoomProvider) : INoteRepo, IRoomWork {
     /**
      * Remove relation between [RankEntity] and [NoteItem] which will be delete
      */
-    private suspend fun IRankDao.clearConnection(noteId: Long, rankId: Long) {
-        val entity = get(rankId)?.apply { this.noteId.remove(noteId) } ?: return
-        update(entity)
+    @VisibleForTesting
+    suspend fun clearConnection(iRankDao: IRankDao, noteId: Long, rankId: Long) {
+        val entity = iRankDao.get(rankId)?.also { it.noteId.remove(noteId) } ?: return
+        iRankDao.update(entity)
     }
 
 }

@@ -22,7 +22,7 @@ import sgtmelon.scriptum.domain.model.data.DbData.RollVisible.Room
         indices = [Index(value = [RollVisible.NOTE_ID], name = RollVisible.INDEX_NOTE_ID, unique = true)]
 )
 @TypeConverters(BoolConverter::class)
-class RollVisibleEntity(
+data class RollVisibleEntity(
         @ColumnInfo(name = RollVisible.ID, defaultValue = Room.ID) @PrimaryKey(autoGenerate = true) val id: Long = Default.ID,
         @ColumnInfo(name = RollVisible.NOTE_ID, defaultValue = Room.NOTE_ID) val noteId: Long = Default.NOTE_ID,
         @ColumnInfo(name = RollVisible.VALUE, defaultValue = Room.VALUE) val value: Boolean = Default.VALUE

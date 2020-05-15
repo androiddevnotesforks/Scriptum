@@ -49,12 +49,12 @@ class BindInteractorTest : ParentInteractorTest() {
 
         coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList
         coEvery {
-            noteRepo.getList(sort, bin = false, optimal = false, filterVisible = false)
+            noteRepo.getList(sort, bin = false, isOptimal = false, filterVisible = false)
         } returns null
         interactor.notifyNoteBind(noteCallback)
 
         coEvery {
-            noteRepo.getList(sort, bin = false, optimal = false, filterVisible = false)
+            noteRepo.getList(sort, bin = false, isOptimal = false, filterVisible = false)
         } returns itemList
         interactor.notifyNoteBind(noteCallback)
 
@@ -66,11 +66,11 @@ class BindInteractorTest : ParentInteractorTest() {
 
             preferenceRepo.sort
             rankRepo.getIdVisibleList()
-            noteRepo.getList(sort, bin = false, optimal = false, filterVisible = false)
+            noteRepo.getList(sort, bin = false, isOptimal = false, filterVisible = false)
 
             preferenceRepo.sort
             rankRepo.getIdVisibleList()
-            noteRepo.getList(sort, bin = false, optimal = false, filterVisible = false)
+            noteRepo.getList(sort, bin = false, isOptimal = false, filterVisible = false)
             noteCallback.notifyNoteBind(itemList, rankIdVisibleList)
         }
     }
