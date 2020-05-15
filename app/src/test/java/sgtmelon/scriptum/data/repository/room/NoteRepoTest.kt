@@ -12,8 +12,10 @@ import sgtmelon.scriptum.data.room.converter.model.RollConverter
 import sgtmelon.scriptum.data.room.entity.*
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.data.DbData
+import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
 import sgtmelon.scriptum.extension.clearAdd
+import sgtmelon.scriptum.extension.move
 import kotlin.random.Random
 
 /**
@@ -101,12 +103,29 @@ class NoteRepoTest : ParentRoomRepoTest() {
         }
     }
 
-    @Test fun filterVisible() {
-        TODO()
+    @Test fun filterVisible() = startCoTest {
+        val entityList = NoteConverter().toEntity(TestData.Note.itemList)
+        val idVisibleList = listOf(1L)
+
+        coEvery { rankDao.getIdVisibleList() } returns idVisibleList
+
+        assertEquals(entityList.subList(0, 3), goodNoteRepo.filterVisible(rankDao, entityList))
+
+        coVerifySequence {
+            rankDao.getIdVisibleList()
+        }
     }
 
     @Test fun correctRankSort() {
-        TODO()
+        val startList = TestData.Note.itemList
+        val finishList = TestData.Note.itemList.apply { move(from = 0) }
+        val simpleList: MutableList<NoteItem> = MutableList(size = 5) {
+            TestData.Note.firstNote.deepCopy(id = Random.nextLong())
+        }
+
+        assertNotEquals(finishList, goodNoteRepo.correctRankSort(startList, Sort.COLOR))
+        assertEquals(finishList, goodNoteRepo.correctRankSort(startList, Sort.RANK))
+        assertEquals(simpleList, goodNoteRepo.correctRankSort(simpleList, Sort.RANK))
     }
 
 
