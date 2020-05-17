@@ -7,6 +7,7 @@ import sgtmelon.scriptum.domain.model.data.DbData.Note
 import sgtmelon.scriptum.domain.model.key.Complete
 import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.extension.clearSpace
+import sgtmelon.scriptum.extension.copy
 import sgtmelon.scriptum.extension.getText
 import sgtmelon.scriptum.presentation.adapter.NoteAdapter
 import sgtmelon.scriptum.presentation.adapter.RollAdapter
@@ -232,7 +233,7 @@ sealed class NoteItem(
                 isStatus: Boolean = this.isStatus,
                 alarmId: Long = this.alarmId,
                 alarmDate: String = this.alarmDate,
-                list: MutableList<RollItem> = this.list.map { it.copy() }.toMutableList()
+                list: MutableList<RollItem> = this.list.copy()
         ) = Roll(
                 id, create, change, name, text, color, rankId, rankPs, isBin, isStatus,
                 alarmId, alarmDate, list

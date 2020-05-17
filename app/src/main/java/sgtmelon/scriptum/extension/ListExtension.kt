@@ -67,3 +67,5 @@ fun List<NoteItem>.sort(@Sort sort: Int?): List<NoteItem> = let { list ->
         else -> list
     }
 }
+
+fun MutableList<RollItem>.copy() = map { it.copy() }.toMutableList()

@@ -50,18 +50,16 @@ class NoteRepo(override val roomProvider: RoomProvider) : INoteRepo, IRoomWork {
      */
     override suspend fun getList(@Sort sort: Int, bin: Boolean, isOptimal: Boolean,
                                  filterVisible: Boolean): MutableList<NoteItem>? = takeFromRoom {
-        var list = getSortBy(noteDao, sort, bin) ?: return@takeFromRoom null
+        var entityList = getSortBy(noteDao, sort, bin) ?: return@takeFromRoom null
 
-        if (filterVisible) list = filterVisible(rankDao, list)
+        if (filterVisible) entityList = filterVisible(rankDao, entityList)
 
-        return@takeFromRoom correctRankSort(ArrayList<NoteItem>().apply {
-            list.forEach {
-                val rollEntityList = getPreview(rollDao, it.id, isOptimal)
-                val rollItemList = rollConverter.toItem(rollEntityList)
+        val itemList = entityList.map {
+            val rollList = rollConverter.toItem(getPreview(rollDao, it.id, isOptimal))
+            return@map noteConverter.toItem(it, rollList, alarmDao.get(it.id))
+        }.toMutableList()
 
-                add(noteConverter.toItem(it, rollItemList, alarmDao.get(it.id)))
-            }
-        }, sort)
+        return@takeFromRoom correctRankSort(itemList, sort)
     }
 
     @VisibleForTesting
