@@ -16,8 +16,8 @@ class DevelopRepo(override val roomProvider: RoomProvider) : IDevelopRepo, IRoom
 
     override suspend fun getNoteList(): List<NoteEntity>? = takeFromRoom {
         ArrayList<NoteEntity>().apply {
-            addAll(noteDao.getByChange(bin = true))
             addAll(noteDao.getByChange(bin = false))
+            addAll(noteDao.getByChange(bin = true))
         }
     }
 
@@ -26,12 +26,12 @@ class DevelopRepo(override val roomProvider: RoomProvider) : IDevelopRepo, IRoom
             noteDao.getByChange(bin = false)
                     .filter { it.type == NoteType.ROLL }
                     .map { it.id }
-                    .forEach { noteId -> rollDao.get(noteId).forEach { add(it) } }
+                    .forEach { noteId -> addAll(rollDao.get(noteId)) }
 
             noteDao.getByChange(bin = true)
                     .filter { it.type == NoteType.ROLL }
                     .map { it.id }
-                    .forEach { noteId -> rollDao.get(noteId).forEach { add(it) } }
+                    .forEach { noteId -> addAll(rollDao.get(noteId)) }
         }
     }
 
