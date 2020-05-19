@@ -3,8 +3,10 @@ package sgtmelon.scriptum.test.content
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.extension.nextString
 import sgtmelon.scriptum.test.ParentUiTest
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
+import kotlin.random.Random
 
 /**
  * Test for [RollNoteScreen.Item].
@@ -26,10 +28,10 @@ class RollNoteContentTest : ParentUiTest() {
                 notesScreen(empty = true) {
                     openAddDialog {
                         createRoll(it) {
-                            enterPanel { onAdd(data.uniqueString) }
+                            enterPanel { onAdd(Random.nextString()) }
                             onAssertAll()
 
-                            onEnterText().onEnterText(data.uniqueString)
+                            onEnterText().onEnterText(Random.nextString())
                         }
                     }
                 }
@@ -43,7 +45,7 @@ class RollNoteContentTest : ParentUiTest() {
                 notesScreen(empty = true) {
                     openAddDialog {
                         createRoll(it) {
-                            repeat(times = 3) { enterPanel { onAdd(data.uniqueString) } }
+                            repeat(times = 3) { enterPanel { onAdd(Random.nextString()) } }
                             onAssertAll()
 
                             controlPanel { onSave() }
@@ -61,7 +63,7 @@ class RollNoteContentTest : ParentUiTest() {
                 notesScreen(empty = true) {
                     openAddDialog {
                         createRoll(it) {
-                            repeat(times = 5) { enterPanel { onAdd(data.uniqueString) } }
+                            repeat(times = 5) { enterPanel { onAdd(Random.nextString()) } }
                             onAssertAll()
 
                             controlPanel { onSave() }
@@ -81,7 +83,7 @@ class RollNoteContentTest : ParentUiTest() {
                 notesScreen(empty = true) {
                     openAddDialog {
                         createRoll(it) {
-                            repeat(times = 5) { enterPanel { onAdd(data.uniqueString) } }
+                            repeat(times = 5) { enterPanel { onAdd(Random.nextString()) } }
                             onEnterText(p = 0).onEnterText(p = 3)
 
                             controlPanel { onSave() }

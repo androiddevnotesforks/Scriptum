@@ -3,9 +3,11 @@ package sgtmelon.scriptum.test.auto.note
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.extension.nextString
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.test.ParentUiTest
+import kotlin.random.Random
 
 /**
  * Test text trim for [TextNoteFragment] and [RollNoteFragment].
@@ -19,8 +21,8 @@ class NoteTrimTest : ParentUiTest() {
                 notesScreen(empty = true) {
                     openAddDialog {
                         createText(it) {
-                            toolbar { onEnterName(data.uniqueString.plus(other = ".   as")) }
-                            onEnterText(data.uniqueString)
+                            toolbar { onEnterName(Random.nextString().plus(other = ".   as")) }
+                            onEnterText(Random.nextString())
                             controlPanel { onSave() }
                         }
                     }
@@ -35,9 +37,9 @@ class NoteTrimTest : ParentUiTest() {
                 notesScreen(empty = true) {
                     openAddDialog {
                         createRoll(it) {
-                            toolbar { onEnterName(data.uniqueString.plus(other = ".   as")) }
+                            toolbar { onEnterName(Random.nextString().plus(other = ".   as")) }
 
-                            val itemText = data.uniqueString.plus(other = ".   ll.   ")
+                            val itemText = Random.nextString().plus(other = ".   ll.   ")
 
                             enterPanel { onAdd(itemText) }
                             onAssertAll()

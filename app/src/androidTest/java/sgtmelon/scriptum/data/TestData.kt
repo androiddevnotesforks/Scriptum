@@ -3,6 +3,7 @@ package sgtmelon.scriptum.data
 import sgtmelon.extension.getRandomFutureTime
 import sgtmelon.extension.getText
 import sgtmelon.extension.getTime
+import sgtmelon.extension.nextString
 import sgtmelon.scriptum.data.provider.RoomProvider
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.room.IRoomWork
@@ -17,7 +18,6 @@ import sgtmelon.scriptum.domain.model.data.ColorData
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RankItem
 import sgtmelon.scriptum.domain.model.key.NoteType
-import java.util.UUID.randomUUID
 import kotlin.random.Random
 import sgtmelon.scriptum.basic.extension.getTime as getCalendarTime
 
@@ -34,14 +34,12 @@ class TestData(
     private val rankConverter = RankConverter()
     private val alarmConverter = AlarmConverter()
 
-    val uniqueString get() = randomUUID().toString().substring(0, 16)
-
     val textNote: NoteEntity
         get() = NoteEntity().apply {
             create = getTime()
             change = getTime()
-            name = uniqueString
-            text = uniqueString.repeat(n = (1 until 10).random())
+            name = Random.nextString()
+            text = Random.nextString().repeat(n = (1 until 10).random())
             color = (0 until ColorData.size).random()
             type = NoteType.TEXT
         }
@@ -50,7 +48,7 @@ class TestData(
         get() = NoteEntity().apply {
             create = getTime()
             change = getTime()
-            name = uniqueString
+            name = Random.nextString()
             color = (0 until ColorData.size).random()
             type = NoteType.ROLL
         }
@@ -68,10 +66,10 @@ class TestData(
     val rollEntity: RollEntity
         get() = RollEntity().apply {
             isCheck = Random.nextBoolean()
-            text = uniqueString
+            text = Random.nextString()
         }
 
-    val rankEntity: RankEntity get() = RankEntity(name = uniqueString)
+    val rankEntity: RankEntity get() = RankEntity(name = Random.nextString())
 
 
     fun createNote(): NoteItem = if (Random.nextBoolean()) createText() else createRoll()
@@ -225,7 +223,7 @@ class TestData(
             val rankItem = insertRank(RankEntity(
                     noteId = noteList.map { item -> item.id }.toMutableList(),
                     position = it,
-                    name = "$it | $uniqueString",
+                    name = "$it | ${Random.nextString()}",
                     isVisible = Random.nextBoolean()
             ))
 

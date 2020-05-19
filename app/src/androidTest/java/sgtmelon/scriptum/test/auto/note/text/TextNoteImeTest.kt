@@ -3,8 +3,10 @@ package sgtmelon.scriptum.test.auto.note.text
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.extension.nextString
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.test.ParentUiTest
+import kotlin.random.Random
 
 /**
  * Test keyboard ime click for [TextNoteFragment].
@@ -18,8 +20,8 @@ class TextNoteImeTest : ParentUiTest() {
                 notesScreen(empty = true) {
                     openAddDialog {
                         createText(it) {
-                            onEnterText(data.uniqueString)
-                            toolbar { onEnterName(data.uniqueString).onImeOptionName() }
+                            onEnterText(Random.nextString())
+                            toolbar { onEnterName(Random.nextString()).onImeOptionName() }
                         }
                     }
                 }
@@ -36,7 +38,7 @@ class TextNoteImeTest : ParentUiTest() {
                 notesScreen(empty = true) {
                     openAddDialog {
                         createText(it) {
-                            onEnterText(data.uniqueString).onImeOptionText()
+                            onEnterText(Random.nextString()).onImeOptionText()
                         }
                     }
                 }

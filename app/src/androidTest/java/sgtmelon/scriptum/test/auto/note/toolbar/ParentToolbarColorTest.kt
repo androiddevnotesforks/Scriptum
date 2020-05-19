@@ -1,11 +1,13 @@
 package sgtmelon.scriptum.test.auto.note.toolbar
 
+import sgtmelon.extension.nextString
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.test.IColorTest
 import sgtmelon.scriptum.test.ParentUiTest
+import kotlin.random.Random
 
 /**
  * Parent class for tests of [NoteActivity] toolbar color with different themes
@@ -25,7 +27,7 @@ abstract class ParentToolbarColorTest(@Theme private val theme: Int) : ParentUiT
                                 createText(noteItem) {
                                     controlPanel {
                                         onColor { onClickItem(color).onClickApply() }
-                                        onEnterText(data.uniqueString)
+                                        onEnterText(Random.nextString())
                                         onSave()
                                     }
                                     toolbar { onClickBack() }
@@ -35,7 +37,7 @@ abstract class ParentToolbarColorTest(@Theme private val theme: Int) : ParentUiT
                                 createRoll(noteItem) {
                                     controlPanel {
                                         onColor { onClickItem(color).onClickApply() }
-                                        enterPanel { onAdd(data.uniqueString) }
+                                        enterPanel { onAdd(Random.nextString()) }
                                         onSave()
                                     }
                                     toolbar { onClickBack() }

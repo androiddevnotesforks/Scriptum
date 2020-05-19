@@ -1,5 +1,6 @@
 package sgtmelon.scriptum
 
+import sgtmelon.extension.nextString
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.NotificationItem
@@ -8,7 +9,6 @@ import sgtmelon.scriptum.domain.model.item.NotificationItem.Note
 import sgtmelon.scriptum.domain.model.item.RankItem
 import sgtmelon.scriptum.domain.model.item.RollItem
 import sgtmelon.scriptum.domain.model.key.NoteType
-import java.util.UUID.randomUUID
 import kotlin.random.Random
 
 /**
@@ -17,9 +17,6 @@ import kotlin.random.Random
 object TestData {
 
     // TODO replace item manipulations with mockkObject calls
-
-    // TODO replace with Random.nextString extension
-    val uniqueString get() = randomUUID().toString().substring(0, 16)
 
     val sort get() = listOf(Sort.CHANGE, Sort.CREATE, Sort.RANK, Sort.COLOR).random()
 
@@ -82,12 +79,12 @@ object TestData {
         val dateList = listOf(DATE_0, DATE_1, DATE_2, DATE_3)
 
         val rollList get() = mutableListOf(
-                RollItem(id = 0, position = 0, isCheck = Random.nextBoolean(), text = uniqueString),
-                RollItem(id = 1, position = 1, isCheck = Random.nextBoolean(), text = uniqueString),
-                RollItem(id = 2, position = 2, isCheck = Random.nextBoolean(), text = uniqueString),
-                RollItem(id = 3, position = 3, isCheck = Random.nextBoolean(), text = uniqueString),
-                RollItem(id = 4, position = 4, isCheck = Random.nextBoolean(), text = uniqueString),
-                RollItem(id = 5, position = 5, isCheck = Random.nextBoolean(), text = uniqueString)
+                RollItem(id = 0, position = 0, isCheck = Random.nextBoolean(), text = Random.nextString()),
+                RollItem(id = 1, position = 1, isCheck = Random.nextBoolean(), text = Random.nextString()),
+                RollItem(id = 2, position = 2, isCheck = Random.nextBoolean(), text = Random.nextString()),
+                RollItem(id = 3, position = 3, isCheck = Random.nextBoolean(), text = Random.nextString()),
+                RollItem(id = 4, position = 4, isCheck = Random.nextBoolean(), text = Random.nextString()),
+                RollItem(id = 5, position = 5, isCheck = Random.nextBoolean(), text = Random.nextString())
         )
 
         val rankIdVisibleList get() = List(size = 5) { Random.nextLong() }

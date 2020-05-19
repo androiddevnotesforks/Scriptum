@@ -6,6 +6,7 @@ import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
+import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
@@ -241,7 +242,7 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onResultRenameDialog() = startCoTest {
-                        val newName = TestData.uniqueString
+        val newName = Random.nextString()
 
         every { callback.getEnterText() } returns newName
 
@@ -281,7 +282,7 @@ class RankViewModelTest : ParentViewModelTest() {
         every { callback.getEnterText() } returns ""
         assertFalse(viewModel.onEditorClick(EditorInfo.IME_ACTION_DONE))
 
-        every { callback.getEnterText() } returns TestData.uniqueString
+        every { callback.getEnterText() } returns Random.nextString()
         every { callback.clearEnter() } returns ""
         assertTrue(viewModel.onEditorClick(EditorInfo.IME_ACTION_DONE))
 
@@ -311,7 +312,7 @@ class RankViewModelTest : ParentViewModelTest() {
         viewModel.itemList.clearAdd(itemList)
         assertEquals(itemList, viewModel.itemList)
 
-        val name = TestData.uniqueString
+        val name = Random.nextString()
         val item = data.firstRank.copy(name = name)
 
         every { callback.clearEnter() } returns name
@@ -346,7 +347,7 @@ class RankViewModelTest : ParentViewModelTest() {
         viewModel.itemList.clearAdd(itemList)
         assertEquals(itemList, viewModel.itemList)
 
-        val name = TestData.uniqueString
+        val name = Random.nextString()
         val item = data.firstRank.copy(name = name)
 
         every { callback.clearEnter() } returns name

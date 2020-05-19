@@ -8,12 +8,13 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentInteractorTest
-import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.domain.model.item.MelodyItem
 import sgtmelon.scriptum.domain.model.state.SignalState
 import sgtmelon.scriptum.presentation.control.system.callback.IRingtoneControl
+import kotlin.random.Random
 
 /**
  * Test for [SignalInteractor].
@@ -66,7 +67,7 @@ class SignalInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun getMelodyUri() {
-        val wrongUri = TestData.uniqueString
+        val wrongUri = Random.nextString()
         val wrongReturnUri = melodyList.first().uri
 
         val goodUri = melodyList.random().uri
@@ -102,7 +103,7 @@ class SignalInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun setMelodyUri() {
-        val wrongUri = TestData.uniqueString
+        val wrongUri = Random.nextString()
         val goodUri = melodyList.random().uri
 
         setEveryRingtone()
@@ -124,7 +125,7 @@ class SignalInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun getMelodyCheck() {
-        val wrongUri = TestData.uniqueString
+        val wrongUri = Random.nextString()
         val wrongReturnUri = melodyList.first().uri
 
         val goodUri = melodyList.random().uri

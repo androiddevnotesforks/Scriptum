@@ -7,8 +7,8 @@ import io.mockk.verifySequence
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
+import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentTest
-import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.data.provider.PreferenceProvider
 import kotlin.random.Random
 
@@ -38,7 +38,7 @@ class PreferenceRepoTest : ParentTest() {
     }
 
     @Test fun getFirstStart() {
-        val keyValue = TestData.uniqueString
+        val keyValue = Random.nextString()
         val defValue = Random.nextBoolean()
         val value = Random.nextBoolean()
 
@@ -74,7 +74,7 @@ class PreferenceRepoTest : ParentTest() {
     }
 
     @Test fun setFirstStart() {
-        val keyValue = TestData.uniqueString
+        val keyValue = Random.nextString()
         val value = Random.nextBoolean()
 
         every { keyProvider.FIRST_START } returns keyValue
@@ -104,7 +104,7 @@ class PreferenceRepoTest : ParentTest() {
     }
 
     @Test fun getTheme() {
-        val keyValue = TestData.uniqueString
+        val keyValue = Random.nextString()
         val defValue = Random.nextInt()
         val value = Random.nextInt()
 
@@ -140,7 +140,7 @@ class PreferenceRepoTest : ParentTest() {
     }
 
     @Test fun setTheme() {
-        val keyValue = TestData.uniqueString
+        val keyValue = Random.nextString()
         val value = Random.nextInt()
 
         every { keyProvider.THEME } returns keyValue
@@ -171,7 +171,7 @@ class PreferenceRepoTest : ParentTest() {
 
 
     @Test fun getSort() {
-        val keyValue = TestData.uniqueString
+        val keyValue = Random.nextString()
         val defValue = Random.nextInt()
         val value = Random.nextInt()
 
@@ -207,7 +207,7 @@ class PreferenceRepoTest : ParentTest() {
     }
 
     @Test fun setSort() {
-        val keyValue = TestData.uniqueString
+        val keyValue = Random.nextString()
         val value = Random.nextInt()
 
         every { keyProvider.SORT } returns keyValue
@@ -237,7 +237,7 @@ class PreferenceRepoTest : ParentTest() {
     }
 
     @Test fun getDefaultColor() {
-        val keyValue = TestData.uniqueString
+        val keyValue = Random.nextString()
         val defValue = Random.nextInt()
         val value = Random.nextInt()
 
@@ -273,7 +273,7 @@ class PreferenceRepoTest : ParentTest() {
     }
 
     @Test fun setDefaultColor() {
-        val keyValue = TestData.uniqueString
+        val keyValue = Random.nextString()
         val value = Random.nextInt()
 
         every { keyProvider.DEFAULT_COLOR } returns keyValue
@@ -303,7 +303,7 @@ class PreferenceRepoTest : ParentTest() {
     }
 
     @Test fun getPauseSaveOn() {
-        val keyValue = TestData.uniqueString
+        val keyValue = Random.nextString()
         val defValue = Random.nextBoolean()
         val value = Random.nextBoolean()
 
@@ -339,7 +339,7 @@ class PreferenceRepoTest : ParentTest() {
     }
 
     @Test fun setPauseSaveOn() {
-        val keyValue = TestData.uniqueString
+        val keyValue = Random.nextString()
         val value = Random.nextBoolean()
 
         every { keyProvider.PAUSE_SAVE_ON } returns keyValue
@@ -369,7 +369,7 @@ class PreferenceRepoTest : ParentTest() {
     }
 
     @Test fun getAutoSaveOn() {
-        val keyValue = TestData.uniqueString
+        val keyValue = Random.nextString()
         val defValue = Random.nextBoolean()
         val value = Random.nextBoolean()
 
@@ -405,7 +405,7 @@ class PreferenceRepoTest : ParentTest() {
     }
 
     @Test fun setAutoSaveOn() {
-        val keyValue = TestData.uniqueString
+        val keyValue = Random.nextString()
         val value = Random.nextBoolean()
 
         every { keyProvider.AUTO_SAVE_ON } returns keyValue
@@ -435,7 +435,7 @@ class PreferenceRepoTest : ParentTest() {
     }
 
     @Test fun getSavePeriod() {
-        val keyValue = TestData.uniqueString
+        val keyValue = Random.nextString()
         val defValue = Random.nextInt()
         val value = Random.nextInt()
 
@@ -471,7 +471,7 @@ class PreferenceRepoTest : ParentTest() {
     }
 
     @Test fun setSavePeriod() {
-        val keyValue = TestData.uniqueString
+        val keyValue = Random.nextString()
         val value = Random.nextInt()
 
         every { keyProvider.SAVE_PERIOD } returns keyValue
@@ -502,7 +502,7 @@ class PreferenceRepoTest : ParentTest() {
 
 
     @Test fun getRepeat() {
-        val keyValue = TestData.uniqueString
+        val keyValue = Random.nextString()
         val defValue = Random.nextInt()
         val value = Random.nextInt()
 
@@ -538,7 +538,7 @@ class PreferenceRepoTest : ParentTest() {
     }
 
     @Test fun setRepeat() {
-        val keyValue = TestData.uniqueString
+        val keyValue = Random.nextString()
         val value = Random.nextInt()
 
         every { keyProvider.REPEAT } returns keyValue
@@ -568,7 +568,7 @@ class PreferenceRepoTest : ParentTest() {
     }
 
     @Test fun getSignal() {
-        val keyValue = TestData.uniqueString
+        val keyValue = Random.nextString()
         val defValue = Random.nextInt()
         val value = Random.nextInt()
 
@@ -604,7 +604,7 @@ class PreferenceRepoTest : ParentTest() {
     }
 
     @Test fun setSignal() {
-        val keyValue = TestData.uniqueString
+        val keyValue = Random.nextString()
         val value = Random.nextInt()
 
         every { keyProvider.SIGNAL } returns keyValue
@@ -634,9 +634,9 @@ class PreferenceRepoTest : ParentTest() {
     }
 
     @Test fun getMelodyUri() {
-        val keyValue = TestData.uniqueString
-        val defValue = TestData.uniqueString
-        val value = TestData.uniqueString
+        val keyValue = Random.nextString()
+        val defValue = Random.nextString()
+        val value = Random.nextString()
 
         every { keyProvider.MELODY_URI } returns keyValue
         every { defProvider.MELODY_URI } returns defValue
@@ -677,8 +677,8 @@ class PreferenceRepoTest : ParentTest() {
     }
 
     @Test fun setMelodyUri() {
-        val keyValue = TestData.uniqueString
-        val value = TestData.uniqueString
+        val keyValue = Random.nextString()
+        val value = Random.nextString()
 
         every { keyProvider.MELODY_URI } returns keyValue
         badPreferenceRepo.melodyUri = value
@@ -707,7 +707,7 @@ class PreferenceRepoTest : ParentTest() {
     }
 
     @Test fun getVolume() {
-        val keyValue = TestData.uniqueString
+        val keyValue = Random.nextString()
         val defValue = Random.nextInt()
         val value = Random.nextInt()
 
@@ -743,7 +743,7 @@ class PreferenceRepoTest : ParentTest() {
     }
 
     @Test fun setVolume() {
-        val keyValue = TestData.uniqueString
+        val keyValue = Random.nextString()
         val value = Random.nextInt()
 
         every { keyProvider.VOLUME } returns keyValue
@@ -773,7 +773,7 @@ class PreferenceRepoTest : ParentTest() {
     }
 
     @Test fun getVolumeIncrease() {
-        val keyValue = TestData.uniqueString
+        val keyValue = Random.nextString()
         val defValue = Random.nextBoolean()
         val value = Random.nextBoolean()
 
@@ -809,7 +809,7 @@ class PreferenceRepoTest : ParentTest() {
     }
 
     @Test fun setVolumeIncrease() {
-        val keyValue = TestData.uniqueString
+        val keyValue = Random.nextString()
         val value = Random.nextBoolean()
 
         every { keyProvider.VOLUME_INCREASE } returns keyValue

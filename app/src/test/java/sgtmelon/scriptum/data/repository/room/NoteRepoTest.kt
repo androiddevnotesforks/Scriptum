@@ -5,6 +5,7 @@ import io.mockk.coVerifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
+import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentRoomRepoTest
 import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.data.room.converter.model.NoteConverter
@@ -746,7 +747,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
         val randomId = Random.nextLong()
         val startRankEntity = RankEntity(
                 id = Random.nextLong(), noteId = mutableListOf(noteId, randomId),
-                name = TestData.uniqueString
+                name = Random.nextString()
         )
         val finishRankEntity = startRankEntity.copy(noteId = mutableListOf(randomId))
 

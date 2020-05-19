@@ -3,9 +3,11 @@ package sgtmelon.scriptum.test.control.rotation
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.extension.nextString
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.MainActivity
 import sgtmelon.scriptum.test.ParentRotationTest
+import kotlin.random.Random
 
 /**
  * Test of [MainActivity] work with phone rotation
@@ -31,7 +33,7 @@ class MainRotationTest : ParentRotationTest() {
     }
 
     @Test fun rankRenameDialog() = data.insertRank().let {
-        val newName = data.uniqueString
+        val newName = Random.nextString()
 
         launch {
             mainScreen {

@@ -3,8 +3,10 @@ package sgtmelon.scriptum.test.auto.note.roll
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.extension.nextString
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.test.ParentUiTest
+import kotlin.random.Random
 
 /**
  * Test keyboard ime click for [RollNoteFragment].
@@ -18,8 +20,10 @@ class RollNoteImeTest : ParentUiTest() {
                 notesScreen(empty = true) {
                     openAddDialog {
                         createRoll(it) {
-                            enterPanel { onAdd(data.uniqueString).onEnterText(data.uniqueString) }
-                            toolbar { onEnterName(data.uniqueString).onImeOptionName() }
+                            enterPanel {
+                                onAdd(Random.nextString()).onEnterText(Random.nextString())
+                            }
+                            toolbar { onEnterName(Random.nextString()).onImeOptionName() }
                         }
                     }
                 }
@@ -33,8 +37,10 @@ class RollNoteImeTest : ParentUiTest() {
                 notesScreen(empty = true) {
                     openAddDialog {
                         createRoll(it) {
-                            enterPanel { onAdd(data.uniqueString).onEnterText(data.uniqueString) }
-                            onEnterText(data.uniqueString)
+                            enterPanel {
+                                onAdd(Random.nextString()).onEnterText(Random.nextString())
+                            }
+                            onEnterText(Random.nextString())
                             onImeOptionText()
                         }
                     }
@@ -50,8 +56,8 @@ class RollNoteImeTest : ParentUiTest() {
                     openAddDialog {
                         createRoll(it) {
                             enterPanel {
-                                onEnterText(data.uniqueString).onImeOptionEnter()
-                                onEnterText(data.uniqueString).onImeOptionEnter()
+                                onEnterText(Random.nextString()).onImeOptionEnter()
+                                onEnterText(Random.nextString()).onImeOptionEnter()
                             }
                             onAssertAll()
 

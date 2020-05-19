@@ -3,9 +3,11 @@ package sgtmelon.scriptum.test.auto.main.rank
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.extension.nextString
 import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.RankFragment
 import sgtmelon.scriptum.test.ParentUiTest
+import kotlin.random.Random
 
 /**
  * Test toolbar for [RankFragment].
@@ -26,17 +28,17 @@ class RankToolbarTest : ParentUiTest() {
     }
 
     @Test fun enterAddEnabled() = launch {
-        val name = data.uniqueString
+        val name = Random.nextString()
         mainScreen { rankScreen(empty = true) { toolbar { onEnterName(name) } } }
     }
 
     @Test fun enterClear() = launch {
-        val name = data.uniqueString
+        val name = Random.nextString()
 
         mainScreen {
             rankScreen(empty = true) {
                 toolbar {
-                    onEnterName(data.uniqueString).onClickClear()
+                    onEnterName(Random.nextString()).onClickClear()
                     onEnterName(name).onClickAdd()
                 }
                 openRenameDialog(name) { onCloseSoft() }
@@ -46,7 +48,7 @@ class RankToolbarTest : ParentUiTest() {
 
 
     @Test fun enterAddOnEmpty() = launch {
-        val name = data.uniqueString
+        val name = Random.nextString()
 
         mainScreen {
             rankScreen(empty = true) {
@@ -62,7 +64,7 @@ class RankToolbarTest : ParentUiTest() {
     }
 
     @Test fun enterAddStart() = launch({ data.fillRank() }) {
-        val name = data.uniqueString
+        val name = Random.nextString()
 
         mainScreen {
             rankScreen {
@@ -80,7 +82,7 @@ class RankToolbarTest : ParentUiTest() {
     }
 
     @Test fun enterAddEnd() = launch({ data.fillRank() }) {
-        val name = data.uniqueString
+        val name = Random.nextString()
 
         mainScreen {
             rankScreen {
@@ -97,7 +99,7 @@ class RankToolbarTest : ParentUiTest() {
 
 
     @Test fun updateOnRename() = data.insertRank().let {
-        val newName = data.uniqueString
+        val newName = Random.nextString()
 
         launch {
             mainScreen {

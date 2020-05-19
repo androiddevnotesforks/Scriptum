@@ -8,9 +8,9 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
+import sgtmelon.extension.nextString
 import sgtmelon.scriptum.FastTest
 import sgtmelon.scriptum.ParentInteractorTest
-import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.room.converter.type.IntConverter
 import sgtmelon.scriptum.domain.model.annotation.Color
@@ -287,7 +287,7 @@ class PreferenceInteractorTest : ParentInteractorTest() {
 
 
     @Test fun getSignalSummaryArray() {
-        val summaryArray = Array(size = 3) { TestData.uniqueString }
+        val summaryArray = Array(size = 3) { Random.nextString() }
         val checkArray = booleanArrayOf(true, false, true)
 
         fun String.getLow() = toLowerCase(Locale.getDefault())
@@ -296,7 +296,7 @@ class PreferenceInteractorTest : ParentInteractorTest() {
         coEvery { summaryProvider.signal } returns null
         assertNull(interactor.getSignalSummaryArray(checkArray))
 
-        coEvery { summaryProvider.signal } returns arrayOf(TestData.uniqueString)
+        coEvery { summaryProvider.signal } returns arrayOf(Random.nextString())
         assertNull(interactor.getSignalSummaryArray(checkArray))
 
         coEvery { summaryProvider.signal } returns summaryArray
@@ -304,7 +304,7 @@ class PreferenceInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun updateSignal() {
-        val summaryArray = Array(size = 3) { TestData.uniqueString }
+        val summaryArray = Array(size = 3) { Random.nextString() }
         val checkArray = booleanArrayOf(true, false, true)
 
         fun String.getLow() = toLowerCase(Locale.getDefault())

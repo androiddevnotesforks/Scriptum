@@ -7,6 +7,7 @@ import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
+import sgtmelon.extension.nextString
 import sgtmelon.scriptum.FastTest
 import sgtmelon.scriptum.ParentInteractorTest
 import sgtmelon.scriptum.TestData
@@ -100,7 +101,7 @@ class BinInteractorTest : ParentInteractorTest() {
 
     @Test fun copy() = startCoTest {
         val item = data.itemList.random()
-        val text = TestData.uniqueString
+        val text = Random.nextString()
 
         coEvery { noteRepo.getCopyText(item) } returns text
 

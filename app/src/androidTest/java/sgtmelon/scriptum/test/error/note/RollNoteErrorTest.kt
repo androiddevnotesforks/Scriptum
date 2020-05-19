@@ -3,9 +3,11 @@ package sgtmelon.scriptum.test.error.note
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.extension.nextString
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.test.ParentUiTest
 import sgtmelon.scriptum.test.error.Description
+import kotlin.random.Random
 
 /**
  * Test fix of old errors for [RollNoteFragment].
@@ -25,7 +27,7 @@ class RollNoteErrorTest : ParentUiTest() {
                 notesScreen(empty = true) {
                     openAddDialog {
                         createRoll(item) {
-                            enterPanel { repeat(times = 4) { onAdd(data.uniqueString) } }
+                            enterPanel { repeat(times = 4) { onAdd(Random.nextString()) } }
                             onEnterText()
 
                             controlPanel { onSave() }

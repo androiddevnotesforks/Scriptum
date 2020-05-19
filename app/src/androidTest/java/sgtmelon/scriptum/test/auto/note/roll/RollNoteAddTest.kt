@@ -3,8 +3,10 @@ package sgtmelon.scriptum.test.auto.note.roll
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.extension.nextString
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.test.ParentUiTest
+import kotlin.random.Random
 
 /**
  * Test add panel for [RollNoteFragment].
@@ -28,7 +30,7 @@ class RollNoteAddTest : ParentUiTest() {
                 notesScreen(empty = true) {
                     openAddDialog {
                         createRoll(it) {
-                            repeat(times = 5) { enterPanel { onAdd(data.uniqueString) } }
+                            repeat(times = 5) { enterPanel { onAdd(Random.nextString()) } }
                             onAssertAll()
 
                             controlPanel { onSave() }

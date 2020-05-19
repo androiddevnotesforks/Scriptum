@@ -8,6 +8,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.extension.getText
+import sgtmelon.extension.nextString
 import sgtmelon.scriptum.FastTest
 import sgtmelon.scriptum.ParentInteractorTest
 import sgtmelon.scriptum.TestData
@@ -108,8 +109,8 @@ class TextNoteInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun getRankDialogItemArray() = startCoTest {
-        val emptyName = TestData.uniqueString
-        val itemArray = Array(size = 5) { TestData.uniqueString }
+        val emptyName = Random.nextString()
+        val itemArray = Array(size = 5) { Random.nextString() }
 
         coEvery { rankRepo.getDialogItemArray(emptyName) } returns null
         assertNull(interactor.getRankDialogItemArray(emptyName))

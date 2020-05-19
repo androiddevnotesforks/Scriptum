@@ -3,8 +3,10 @@ package sgtmelon.scriptum.test.auto.note.text
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.extension.nextString
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.test.ParentUiTest
+import kotlin.random.Random
 
 /**
  * Test control panel for [TextNoteFragment].
@@ -138,8 +140,10 @@ class TextNotePanelTest : ParentUiTest() {
             mainScreen {
                 openAddDialog {
                     createText(it) {
-                        toolbar { onEnterName(data.uniqueString) }
-                        onEnterText(data.uniqueString).onEnterText().onEnterText(data.uniqueString)
+                        toolbar { onEnterName(Random.nextString()) }
+                        onEnterText(Random.nextString())
+                                .onEnterText()
+                                .onEnterText(Random.nextString())
 
                         controlPanel { onSave() }
                     }
@@ -156,8 +160,8 @@ class TextNotePanelTest : ParentUiTest() {
                         controlPanel { onEdit() }
 
                         onEnterText()
-                        toolbar { onEnterName(data.uniqueString) }
-                        onEnterText(data.uniqueString)
+                        toolbar { onEnterName(Random.nextString()) }
+                        onEnterText(Random.nextString())
 
                         controlPanel { onSave() }
                     }
@@ -171,8 +175,10 @@ class TextNotePanelTest : ParentUiTest() {
             mainScreen {
                 openAddDialog {
                     createText(it) {
-                        toolbar { onEnterName(data.uniqueString) }
-                        onEnterText(data.uniqueString).onEnterText().onEnterText(data.uniqueString)
+                        toolbar { onEnterName(Random.nextString()) }
+                        onEnterText(Random.nextString())
+                                .onEnterText()
+                                .onEnterText(Random.nextString())
 
                         controlPanel { onLongSave() }
                         toolbar { onClickBack() }
@@ -190,8 +196,8 @@ class TextNotePanelTest : ParentUiTest() {
                         controlPanel { onEdit() }
 
                         onEnterText()
-                        toolbar { onEnterName(data.uniqueString) }
-                        onEnterText(data.uniqueString)
+                        toolbar { onEnterName(Random.nextString()) }
+                        onEnterText(Random.nextString())
 
                         controlPanel { onLongSave() }
                         toolbar { onClickBack() }

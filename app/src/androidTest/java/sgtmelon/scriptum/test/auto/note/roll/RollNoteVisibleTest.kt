@@ -3,8 +3,10 @@ package sgtmelon.scriptum.test.auto.note.roll
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.extension.nextString
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.test.ParentUiTest
+import kotlin.random.Random
 
 /**
  * Test visible button and list for [RollNoteFragment].
@@ -42,7 +44,7 @@ class RollNoteVisibleTest : ParentUiTest() {
                         createRoll(item) {
                             onClickVisible()
 
-                            enterPanel { onAdd(data.uniqueString) }
+                            enterPanel { onAdd(Random.nextString()) }
                             controlPanel { onSave() }
 
                             item = noteItem
@@ -65,7 +67,7 @@ class RollNoteVisibleTest : ParentUiTest() {
                         createRoll(it) {
                             onClickVisible().onClickVisible()
 
-                            repeat(times = 3) { enterPanel { onAdd(data.uniqueString) } }
+                            repeat(times = 3) { enterPanel { onAdd(Random.nextString()) } }
                             controlPanel { onSave() }
                             onClickCheck()
                             onClickVisible()
@@ -138,7 +140,7 @@ class RollNoteVisibleTest : ParentUiTest() {
                         createRoll(it) {
                             onClickVisible()
 
-                            enterPanel { repeat(times = 5) { onAdd(data.uniqueString) } }
+                            enterPanel { repeat(times = 5) { onAdd(Random.nextString()) } }
                             controlPanel { onSave() }
 
                             onClickVisible()
@@ -157,7 +159,7 @@ class RollNoteVisibleTest : ParentUiTest() {
                         onClickVisible()
 
                         controlPanel { onEdit() }
-                        onEnterText(data.uniqueString)
+                        onEnterText(Random.nextString())
                         controlPanel { onSave() }
 
                         onClickVisible()

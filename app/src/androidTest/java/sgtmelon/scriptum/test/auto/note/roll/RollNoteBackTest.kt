@@ -3,8 +3,10 @@ package sgtmelon.scriptum.test.auto.note.roll
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.extension.nextString
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.test.ParentUiTest
+import kotlin.random.Random
 
 /**
  * Test toolbar arrow and back press for [RollNoteFragment].
@@ -44,8 +46,8 @@ class RollNoteBackTest : ParentUiTest() {
             mainScreen {
                 openAddDialog {
                     createRoll(it) {
-                        toolbar { onEnterName(data.uniqueString) }
-                        enterPanel { onAdd(data.uniqueString) }
+                        toolbar { onEnterName(Random.nextString()) }
+                        enterPanel { onAdd(Random.nextString()) }
                         onPressBack()
                     }
                 }
@@ -59,8 +61,8 @@ class RollNoteBackTest : ParentUiTest() {
                 notesScreen {
                     openRollNote(it) {
                         controlPanel { onEdit() }
-                        toolbar { onEnterName(data.uniqueString) }
-                        enterPanel { onAdd(data.uniqueString) }
+                        toolbar { onEnterName(Random.nextString()) }
+                        enterPanel { onAdd(Random.nextString()) }
                         onPressBack()
                     }
                 }
@@ -74,9 +76,9 @@ class RollNoteBackTest : ParentUiTest() {
                 notesScreen {
                     openRollNote(it) {
                         controlPanel { onEdit() }
-                        enterPanel { onAdd(data.uniqueString) }
+                        enterPanel { onAdd(Random.nextString()) }
                         toolbar {
-                            onEnterName(data.uniqueString)
+                            onEnterName(Random.nextString())
                             onClickBack()
                         }
                     }

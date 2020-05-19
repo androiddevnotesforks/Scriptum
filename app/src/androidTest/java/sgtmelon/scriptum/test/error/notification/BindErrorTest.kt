@@ -3,8 +3,10 @@ package sgtmelon.scriptum.test.error.notification
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.extension.nextString
 import sgtmelon.scriptum.test.ParentNotificationTest
 import sgtmelon.scriptum.test.error.Description
+import kotlin.random.Random
 
 /**
  * Test fix of old errors for bind in status bar.
@@ -23,7 +25,7 @@ class BindErrorTest : ParentNotificationTest() {
                 notesScreen {
                     openTextNote(it) {
                         controlPanel { onEdit() }
-                        onEnterText(data.uniqueString)
+                        onEnterText(Random.nextString())
                         onOpen { noteItem.isStatus = false }
                         toolbar { onClickBack() }
                     }
@@ -43,7 +45,7 @@ class BindErrorTest : ParentNotificationTest() {
                 notesScreen {
                     openRollNote(it) {
                         controlPanel { onEdit() }
-                        enterPanel { onAdd(data.uniqueString) }
+                        enterPanel { onAdd(Random.nextString()) }
                         onOpen { noteItem.isStatus = false }
                         toolbar { onClickBack() }
                     }

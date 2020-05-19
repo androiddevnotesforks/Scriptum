@@ -6,6 +6,7 @@ import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentInteractorTest
 import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.data.repository.room.callback.IRankRepo
@@ -69,7 +70,7 @@ class RankInteractorTest : ParentInteractorTest() {
 
     @Test fun insert() = startCoTest {
         val idList = listOf(null, Random.nextLong(),  Random.nextLong(), null)
-        val name = TestData.uniqueString
+        val name = Random.nextString()
 
         idList.forEach {
             coEvery { rankRepo.insert(name) } returns it

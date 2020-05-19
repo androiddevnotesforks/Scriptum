@@ -5,6 +5,7 @@ import io.mockk.coVerifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
+import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentRoomRepoTest
 import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.data.room.converter.model.NoteConverter
@@ -129,7 +130,7 @@ class RankRepoTest : ParentRoomRepoTest() {
 
     @Test fun insert() = startCoTest {
         val id = Random.nextLong()
-        val name = TestData.uniqueString
+        val name = Random.nextString()
         val entity = RankEntity(name = name)
 
         coEvery { rankDao.insert(entity) } returns id
@@ -378,7 +379,7 @@ class RankRepoTest : ParentRoomRepoTest() {
 
 
     @Test fun getDialogItemArray() = startCoTest {
-        val nameList = List(size = 5) { TestData.uniqueString }
+        val nameList = List(size = 5) { Random.nextString() }
         val nameArray = nameList.toTypedArray()
 
         coEvery { rankDao.getNameList() } returns nameList.subList(1, 5)

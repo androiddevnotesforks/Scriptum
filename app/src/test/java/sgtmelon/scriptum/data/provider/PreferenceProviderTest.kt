@@ -7,9 +7,9 @@ import io.mockk.verifySequence
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
+import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentTest
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.TestData
 import kotlin.random.Random
 
 /**
@@ -41,18 +41,18 @@ class PreferenceProviderTest : ParentTest() {
     }
 
     @Test fun valueKey_good() {
-        val firstStart = TestData.uniqueString
-        val theme = TestData.uniqueString
-        val sort = TestData.uniqueString
-        val defaultColor = TestData.uniqueString
-        val pauseSaveOn = TestData.uniqueString
-        val autoSaveOn = TestData.uniqueString
-        val savePeriod = TestData.uniqueString
-        val repeat = TestData.uniqueString
-        val signal = TestData.uniqueString
-        val melodyUri = TestData.uniqueString
-        val volume = TestData.uniqueString
-        val volumeIncrease = TestData.uniqueString
+        val firstStart = Random.nextString()
+        val theme = Random.nextString()
+        val sort = Random.nextString()
+        val defaultColor = Random.nextString()
+        val pauseSaveOn = Random.nextString()
+        val autoSaveOn = Random.nextString()
+        val savePeriod = Random.nextString()
+        val repeat = Random.nextString()
+        val signal = Random.nextString()
+        val melodyUri = Random.nextString()
+        val volume = Random.nextString()
+        val volumeIncrease = Random.nextString()
 
         every { resources.getString(R.string.pref_key_first_start) } returns firstStart
         every { resources.getString(R.string.pref_key_app_theme) } returns theme
@@ -121,7 +121,7 @@ class PreferenceProviderTest : ParentTest() {
         val savePeriod = Random.nextInt()
         val repeat = Random.nextInt()
         val signal = Random.nextInt()
-        val melodyUri = TestData.uniqueString
+        val melodyUri = Random.nextString()
         val volume = Random.nextInt()
         val volumeIncrease = Random.nextBoolean()
 
