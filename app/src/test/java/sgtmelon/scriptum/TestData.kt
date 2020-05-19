@@ -16,6 +16,9 @@ import kotlin.random.Random
  */
 object TestData {
 
+    // TODO replace item manipulations with mockkObject calls
+
+    // TODO replace with Random.nextString extension
     val uniqueString get() = randomUUID().toString().substring(0, 16)
 
     val sort get() = listOf(Sort.CHANGE, Sort.CREATE, Sort.RANK, Sort.COLOR).random()

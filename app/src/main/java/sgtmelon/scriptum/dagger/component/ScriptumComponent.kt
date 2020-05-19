@@ -2,10 +2,7 @@ package sgtmelon.scriptum.dagger.component
 
 import dagger.BindsInstance
 import dagger.Component
-import sgtmelon.scriptum.dagger.module.base.ContextModule
-import sgtmelon.scriptum.dagger.module.base.ManagerModule
-import sgtmelon.scriptum.dagger.module.base.ProviderModule
-import sgtmelon.scriptum.dagger.module.base.RepoModule
+import sgtmelon.scriptum.dagger.module.base.*
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import javax.inject.Singleton
 
@@ -17,7 +14,8 @@ import javax.inject.Singleton
     ContextModule::class,
     RepoModule::class,
     ManagerModule::class,
-    ProviderModule::class
+    ProviderModule::class,
+    ConverterModule::class
 ])
 interface ScriptumComponent {
 

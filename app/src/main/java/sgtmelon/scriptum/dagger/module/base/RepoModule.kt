@@ -9,6 +9,7 @@ import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.data.repository.room.*
 import sgtmelon.scriptum.data.repository.room.callback.*
+import sgtmelon.scriptum.data.room.converter.model.AlarmConverter
 import javax.inject.Singleton
 
 /**
@@ -28,7 +29,9 @@ class RepoModule {
 
     @Provides
     @Singleton
-    fun provideAlarmRepo(roomProvider: RoomProvider): IAlarmRepo = AlarmRepo(roomProvider)
+    fun provideAlarmRepo(roomProvider: RoomProvider, converter: AlarmConverter): IAlarmRepo {
+        return AlarmRepo(roomProvider, converter)
+    }
 
     @Provides
     @Singleton

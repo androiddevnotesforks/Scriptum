@@ -1,13 +1,16 @@
 package sgtmelon.scriptum.data.repository.room
 
-import io.mockk.coEvery
-import io.mockk.coVerifySequence
+import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Test
+import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentRoomRepoTest
-import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.data.room.converter.model.AlarmConverter
+import sgtmelon.scriptum.data.room.entity.AlarmEntity
+import sgtmelon.scriptum.domain.model.item.NoteItem
+import sgtmelon.scriptum.domain.model.item.NotificationItem
 import kotlin.random.Random
 
 /**
@@ -16,45 +19,47 @@ import kotlin.random.Random
 @ExperimentalCoroutinesApi
 class AlarmRepoTest : ParentRoomRepoTest() {
 
-    private val badAlarmRepo by lazy { AlarmRepo(badRoomProvider) }
-    private val goodAlarmRepo by lazy { AlarmRepo(goodRoomProvider) }
+    private val alarmConverter = mockkClass(AlarmConverter::class)
+
+    private val badAlarmRepo by lazy { AlarmRepo(badRoomProvider, alarmConverter) }
+    private val goodAlarmRepo by lazy { AlarmRepo(goodRoomProvider, alarmConverter) }
 
     @Test fun insertOrUpdate() = startCoTest {
-        val updateItem = TestData.Note.firstNote
-        val insertItem = TestData.Note.secondNote
+        val noteItem = mockk<NoteItem>()
+        val alarmEntity = mockk<AlarmEntity>()
 
-        val date = TestData.uniqueString
+        val date = Random.nextString()
         val insertId = Random.nextLong()
 
-        val converter = AlarmConverter()
-        val updateEntity = converter.toEntity(updateItem.deepCopy(alarmDate = date))
-        val insertEntity = converter.toEntity(insertItem.deepCopy(alarmDate = date))
+        every { noteItem.alarmDate = date } returns Unit
+        every { noteItem.alarmId = insertId } returns Unit
 
-        badAlarmRepo.insertOrUpdate(updateItem, date)
-        assertNotEquals(updateItem.alarmDate, date)
+        every { alarmConverter.toEntity(noteItem) } returns alarmEntity
+        coEvery { alarmDao.insert(alarmEntity) } returns insertId
 
-        badAlarmRepo.insertOrUpdate(insertItem, date)
-        assertNotEquals(insertItem.alarmId, insertId)
-        assertNotEquals(insertItem.alarmDate, date)
+        badAlarmRepo.insertOrUpdate(noteItem, date)
 
-        goodAlarmRepo.insertOrUpdate(updateItem, date)
-        assertEquals(updateItem.alarmDate, date)
+        every { noteItem.haveAlarm() } returns false
+        goodAlarmRepo.insertOrUpdate(noteItem, date)
 
-        coEvery { alarmDao.insert(any()) } returns insertId
-
-        goodAlarmRepo.insertOrUpdate(insertItem, date)
-        assertEquals(insertItem.alarmId, insertId)
-        assertEquals(insertItem.alarmDate, date)
+        every { noteItem.haveAlarm() } returns true
+        goodAlarmRepo.insertOrUpdate(noteItem, date)
 
         coVerifySequence {
             badRoomProvider.openRoom()
-            badRoomProvider.openRoom()
 
             goodRoomProvider.openRoom()
-            alarmDao.update(updateEntity)
+            noteItem.alarmDate = date
+            alarmConverter.toEntity(noteItem)
+            noteItem.haveAlarm()
+            alarmDao.insert(alarmEntity)
+            noteItem.alarmId = insertId
 
             goodRoomProvider.openRoom()
-            alarmDao.insert(insertEntity)
+            noteItem.alarmDate = date
+            alarmConverter.toEntity(noteItem)
+            noteItem.haveAlarm()
+            alarmDao.update(alarmEntity)
         }
     }
 
@@ -74,7 +79,7 @@ class AlarmRepoTest : ParentRoomRepoTest() {
 
     @Test fun getItem() = startCoTest {
         val id = Random.nextLong()
-        val item = TestData.Notification.itemList.random()
+        val item = mockk<NotificationItem>()
 
         assertNull(badAlarmRepo.getItem(Random.nextLong()))
 
@@ -96,7 +101,7 @@ class AlarmRepoTest : ParentRoomRepoTest() {
     }
 
     @Test fun getList() = startCoTest {
-        val itemList = TestData.Notification.itemList
+        val itemList = mockk<MutableList<NotificationItem>>()
 
         assertNull(badAlarmRepo.getList())
 

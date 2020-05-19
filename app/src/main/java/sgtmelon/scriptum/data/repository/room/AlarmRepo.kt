@@ -11,14 +11,16 @@ import sgtmelon.scriptum.domain.model.item.NotificationItem
 /**
  * Repository of [RoomDb] which work with alarm.
  */
-class AlarmRepo(override val roomProvider: RoomProvider) : IAlarmRepo, IRoomWork {
-
-    private val converter = AlarmConverter()
+class AlarmRepo(
+        override val roomProvider: RoomProvider,
+        private val alarmConverter: AlarmConverter
+) : IAlarmRepo,
+        IRoomWork {
 
     override suspend fun insertOrUpdate(noteItem: NoteItem, date: String) = inRoom {
         noteItem.alarmDate = date
 
-        val entity = converter.toEntity(noteItem)
+        val entity = alarmConverter.toEntity(noteItem)
         if (noteItem.haveAlarm()) {
             alarmDao.update(entity)
         } else {
