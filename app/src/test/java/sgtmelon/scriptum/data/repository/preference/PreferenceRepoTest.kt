@@ -30,6 +30,11 @@ class PreferenceRepoTest : ParentTest() {
         super.setUp()
 
         every { preferences.edit() } returns preferencesEditor
+
+        every { preferencesEditor.putBoolean(any(), any()) } returns preferencesEditor
+        every { preferencesEditor.putInt(any(), any()) } returns preferencesEditor
+        every { preferencesEditor.putString(any(), any()) } returns preferencesEditor
+        every { preferencesEditor.clear() } returns preferencesEditor
     }
 
     @Test fun getFirstStart() {
@@ -69,7 +74,33 @@ class PreferenceRepoTest : ParentTest() {
     }
 
     @Test fun setFirstStart() {
-        TODO()
+        val keyValue = TestData.uniqueString
+        val value = Random.nextBoolean()
+
+        every { keyProvider.FIRST_START } returns keyValue
+        badPreferenceRepo.firstStart = value
+
+        every { keyProvider.FIRST_START } returns null
+        goodPreferenceRepo.firstStart = null
+
+        every { keyProvider.FIRST_START } returns keyValue
+        goodPreferenceRepo.firstStart = null
+
+        every { keyProvider.FIRST_START } returns null
+        goodPreferenceRepo.firstStart = value
+
+        every { keyProvider.FIRST_START } returns keyValue
+        goodPreferenceRepo.firstStart = value
+
+        verifySequence {
+            repeat(times = 5) {
+                keyProvider.FIRST_START
+            }
+
+            preferences.edit()
+            preferencesEditor.putBoolean(keyValue, value)
+            preferencesEditor.apply()
+        }
     }
 
     @Test fun getTheme() {
@@ -109,8 +140,35 @@ class PreferenceRepoTest : ParentTest() {
     }
 
     @Test fun setTheme() {
-        TODO()
+        val keyValue = TestData.uniqueString
+        val value = Random.nextInt()
+
+        every { keyProvider.THEME } returns keyValue
+        badPreferenceRepo.theme = value
+
+        every { keyProvider.THEME } returns null
+        goodPreferenceRepo.theme = null
+
+        every { keyProvider.THEME } returns keyValue
+        goodPreferenceRepo.theme = null
+
+        every { keyProvider.THEME } returns null
+        goodPreferenceRepo.theme = value
+
+        every { keyProvider.THEME } returns keyValue
+        goodPreferenceRepo.theme = value
+
+        verifySequence {
+            repeat(times = 5) {
+                keyProvider.THEME
+            }
+
+            preferences.edit()
+            preferencesEditor.putInt(keyValue, value)
+            preferencesEditor.apply()
+        }
     }
+
 
     @Test fun getSort() {
         val keyValue = TestData.uniqueString
@@ -149,7 +207,33 @@ class PreferenceRepoTest : ParentTest() {
     }
 
     @Test fun setSort() {
-        TODO()
+        val keyValue = TestData.uniqueString
+        val value = Random.nextInt()
+
+        every { keyProvider.SORT } returns keyValue
+        badPreferenceRepo.sort = value
+
+        every { keyProvider.SORT } returns null
+        goodPreferenceRepo.sort = null
+
+        every { keyProvider.SORT } returns keyValue
+        goodPreferenceRepo.sort = null
+
+        every { keyProvider.SORT } returns null
+        goodPreferenceRepo.sort = value
+
+        every { keyProvider.SORT } returns keyValue
+        goodPreferenceRepo.sort = value
+
+        verifySequence {
+            repeat(times = 5) {
+                keyProvider.SORT
+            }
+
+            preferences.edit()
+            preferencesEditor.putInt(keyValue, value)
+            preferencesEditor.apply()
+        }
     }
 
     @Test fun getDefaultColor() {
@@ -189,7 +273,33 @@ class PreferenceRepoTest : ParentTest() {
     }
 
     @Test fun setDefaultColor() {
-        TODO()
+        val keyValue = TestData.uniqueString
+        val value = Random.nextInt()
+
+        every { keyProvider.DEFAULT_COLOR } returns keyValue
+        badPreferenceRepo.defaultColor = value
+
+        every { keyProvider.DEFAULT_COLOR } returns null
+        goodPreferenceRepo.defaultColor = null
+
+        every { keyProvider.DEFAULT_COLOR } returns keyValue
+        goodPreferenceRepo.defaultColor = null
+
+        every { keyProvider.DEFAULT_COLOR } returns null
+        goodPreferenceRepo.defaultColor = value
+
+        every { keyProvider.DEFAULT_COLOR } returns keyValue
+        goodPreferenceRepo.defaultColor = value
+
+        verifySequence {
+            repeat(times = 5) {
+                keyProvider.DEFAULT_COLOR
+            }
+
+            preferences.edit()
+            preferencesEditor.putInt(keyValue, value)
+            preferencesEditor.apply()
+        }
     }
 
     @Test fun getPauseSaveOn() {
@@ -229,7 +339,33 @@ class PreferenceRepoTest : ParentTest() {
     }
 
     @Test fun setPauseSaveOn() {
-        TODO()
+        val keyValue = TestData.uniqueString
+        val value = Random.nextBoolean()
+
+        every { keyProvider.PAUSE_SAVE_ON } returns keyValue
+        badPreferenceRepo.pauseSaveOn = value
+
+        every { keyProvider.PAUSE_SAVE_ON } returns null
+        goodPreferenceRepo.pauseSaveOn = null
+
+        every { keyProvider.PAUSE_SAVE_ON } returns keyValue
+        goodPreferenceRepo.pauseSaveOn = null
+
+        every { keyProvider.PAUSE_SAVE_ON } returns null
+        goodPreferenceRepo.pauseSaveOn = value
+
+        every { keyProvider.PAUSE_SAVE_ON } returns keyValue
+        goodPreferenceRepo.pauseSaveOn = value
+
+        verifySequence {
+            repeat(times = 5) {
+                keyProvider.PAUSE_SAVE_ON
+            }
+
+            preferences.edit()
+            preferencesEditor.putBoolean(keyValue, value)
+            preferencesEditor.apply()
+        }
     }
 
     @Test fun getAutoSaveOn() {
@@ -269,7 +405,33 @@ class PreferenceRepoTest : ParentTest() {
     }
 
     @Test fun setAutoSaveOn() {
-        TODO()
+        val keyValue = TestData.uniqueString
+        val value = Random.nextBoolean()
+
+        every { keyProvider.AUTO_SAVE_ON } returns keyValue
+        badPreferenceRepo.autoSaveOn = value
+
+        every { keyProvider.AUTO_SAVE_ON } returns null
+        goodPreferenceRepo.autoSaveOn = null
+
+        every { keyProvider.AUTO_SAVE_ON } returns keyValue
+        goodPreferenceRepo.autoSaveOn = null
+
+        every { keyProvider.AUTO_SAVE_ON } returns null
+        goodPreferenceRepo.autoSaveOn = value
+
+        every { keyProvider.AUTO_SAVE_ON } returns keyValue
+        goodPreferenceRepo.autoSaveOn = value
+
+        verifySequence {
+            repeat(times = 5) {
+                keyProvider.AUTO_SAVE_ON
+            }
+
+            preferences.edit()
+            preferencesEditor.putBoolean(keyValue, value)
+            preferencesEditor.apply()
+        }
     }
 
     @Test fun getSavePeriod() {
@@ -309,8 +471,35 @@ class PreferenceRepoTest : ParentTest() {
     }
 
     @Test fun setSavePeriod() {
-        TODO()
+        val keyValue = TestData.uniqueString
+        val value = Random.nextInt()
+
+        every { keyProvider.SAVE_PERIOD } returns keyValue
+        badPreferenceRepo.savePeriod = value
+
+        every { keyProvider.SAVE_PERIOD } returns null
+        goodPreferenceRepo.savePeriod = null
+
+        every { keyProvider.SAVE_PERIOD } returns keyValue
+        goodPreferenceRepo.savePeriod = null
+
+        every { keyProvider.SAVE_PERIOD } returns null
+        goodPreferenceRepo.savePeriod = value
+
+        every { keyProvider.SAVE_PERIOD } returns keyValue
+        goodPreferenceRepo.savePeriod = value
+
+        verifySequence {
+            repeat(times = 5) {
+                keyProvider.SAVE_PERIOD
+            }
+
+            preferences.edit()
+            preferencesEditor.putInt(keyValue, value)
+            preferencesEditor.apply()
+        }
     }
+
 
     @Test fun getRepeat() {
         val keyValue = TestData.uniqueString
@@ -349,7 +538,33 @@ class PreferenceRepoTest : ParentTest() {
     }
 
     @Test fun setRepeat() {
-        TODO()
+        val keyValue = TestData.uniqueString
+        val value = Random.nextInt()
+
+        every { keyProvider.REPEAT } returns keyValue
+        badPreferenceRepo.repeat = value
+
+        every { keyProvider.REPEAT } returns null
+        goodPreferenceRepo.repeat = null
+
+        every { keyProvider.REPEAT } returns keyValue
+        goodPreferenceRepo.repeat = null
+
+        every { keyProvider.REPEAT } returns null
+        goodPreferenceRepo.repeat = value
+
+        every { keyProvider.REPEAT } returns keyValue
+        goodPreferenceRepo.repeat = value
+
+        verifySequence {
+            repeat(times = 5) {
+                keyProvider.REPEAT
+            }
+
+            preferences.edit()
+            preferencesEditor.putInt(keyValue, value)
+            preferencesEditor.apply()
+        }
     }
 
     @Test fun getSignal() {
@@ -389,7 +604,33 @@ class PreferenceRepoTest : ParentTest() {
     }
 
     @Test fun setSignal() {
-        TODO()
+        val keyValue = TestData.uniqueString
+        val value = Random.nextInt()
+
+        every { keyProvider.SIGNAL } returns keyValue
+        badPreferenceRepo.signal = value
+
+        every { keyProvider.SIGNAL } returns null
+        goodPreferenceRepo.signal = null
+
+        every { keyProvider.SIGNAL } returns keyValue
+        goodPreferenceRepo.signal = null
+
+        every { keyProvider.SIGNAL } returns null
+        goodPreferenceRepo.signal = value
+
+        every { keyProvider.SIGNAL } returns keyValue
+        goodPreferenceRepo.signal = value
+
+        verifySequence {
+            repeat(times = 5) {
+                keyProvider.SIGNAL
+            }
+
+            preferences.edit()
+            preferencesEditor.putInt(keyValue, value)
+            preferencesEditor.apply()
+        }
     }
 
     @Test fun getMelodyUri() {
@@ -436,7 +677,33 @@ class PreferenceRepoTest : ParentTest() {
     }
 
     @Test fun setMelodyUri() {
-        TODO()
+        val keyValue = TestData.uniqueString
+        val value = TestData.uniqueString
+
+        every { keyProvider.MELODY_URI } returns keyValue
+        badPreferenceRepo.melodyUri = value
+
+        every { keyProvider.MELODY_URI } returns null
+        goodPreferenceRepo.melodyUri = null
+
+        every { keyProvider.MELODY_URI } returns keyValue
+        goodPreferenceRepo.melodyUri = null
+
+        every { keyProvider.MELODY_URI } returns null
+        goodPreferenceRepo.melodyUri = value
+
+        every { keyProvider.MELODY_URI } returns keyValue
+        goodPreferenceRepo.melodyUri = value
+
+        verifySequence {
+            repeat(times = 5) {
+                keyProvider.MELODY_URI
+            }
+
+            preferences.edit()
+            preferencesEditor.putString(keyValue, value)
+            preferencesEditor.apply()
+        }
     }
 
     @Test fun getVolume() {
@@ -476,7 +743,33 @@ class PreferenceRepoTest : ParentTest() {
     }
 
     @Test fun setVolume() {
-        TODO()
+        val keyValue = TestData.uniqueString
+        val value = Random.nextInt()
+
+        every { keyProvider.VOLUME } returns keyValue
+        badPreferenceRepo.volume = value
+
+        every { keyProvider.VOLUME } returns null
+        goodPreferenceRepo.volume = null
+
+        every { keyProvider.VOLUME } returns keyValue
+        goodPreferenceRepo.volume = null
+
+        every { keyProvider.VOLUME } returns null
+        goodPreferenceRepo.volume = value
+
+        every { keyProvider.VOLUME } returns keyValue
+        goodPreferenceRepo.volume = value
+
+        verifySequence {
+            repeat(times = 5) {
+                keyProvider.VOLUME
+            }
+
+            preferences.edit()
+            preferencesEditor.putInt(keyValue, value)
+            preferencesEditor.apply()
+        }
     }
 
     @Test fun getVolumeIncrease() {
@@ -516,11 +809,45 @@ class PreferenceRepoTest : ParentTest() {
     }
 
     @Test fun setVolumeIncrease() {
-        TODO()
+        val keyValue = TestData.uniqueString
+        val value = Random.nextBoolean()
+
+        every { keyProvider.VOLUME_INCREASE } returns keyValue
+        badPreferenceRepo.volumeIncrease = value
+
+        every { keyProvider.VOLUME_INCREASE } returns null
+        goodPreferenceRepo.volumeIncrease = null
+
+        every { keyProvider.VOLUME_INCREASE } returns keyValue
+        goodPreferenceRepo.volumeIncrease = null
+
+        every { keyProvider.VOLUME_INCREASE } returns null
+        goodPreferenceRepo.volumeIncrease = value
+
+        every { keyProvider.VOLUME_INCREASE } returns keyValue
+        goodPreferenceRepo.volumeIncrease = value
+
+        verifySequence {
+            repeat(times = 5) {
+                keyProvider.VOLUME_INCREASE
+            }
+
+            preferences.edit()
+            preferencesEditor.putBoolean(keyValue, value)
+            preferencesEditor.apply()
+        }
     }
 
+
     @Test fun clear() {
-        TODO()
+        badPreferenceRepo.clear()
+        goodPreferenceRepo.clear()
+
+        verifySequence {
+            preferences.edit()
+            preferencesEditor.clear()
+            preferencesEditor.apply()
+        }
     }
 
 }

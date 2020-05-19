@@ -14,8 +14,6 @@ class PreferenceRepo(
         private val preferences: SharedPreferences?
 ) : IPreferenceRepo {
 
-    // TODO test for nullable values
-
     override var firstStart: Boolean?
         get() = get(key.FIRST_START, def.FIRST_START) { key, def -> getBoolean(key, def) }
         set(value) = set(key.FIRST_START, value) { key, set -> putBoolean(key, set) }
