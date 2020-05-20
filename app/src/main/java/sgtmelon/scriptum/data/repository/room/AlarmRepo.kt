@@ -13,14 +13,14 @@ import sgtmelon.scriptum.domain.model.item.NotificationItem
  */
 class AlarmRepo(
         override val roomProvider: RoomProvider,
-        private val alarmConverter: AlarmConverter
+        private val converter: AlarmConverter
 ) : IAlarmRepo,
         IRoomWork {
 
     override suspend fun insertOrUpdate(noteItem: NoteItem, date: String) = inRoom {
         noteItem.alarmDate = date
 
-        val entity = alarmConverter.toEntity(noteItem)
+        val entity = converter.toEntity(noteItem)
         if (noteItem.haveAlarm()) {
             alarmDao.update(entity)
         } else {

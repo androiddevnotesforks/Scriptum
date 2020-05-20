@@ -19,10 +19,10 @@ import kotlin.random.Random
 @ExperimentalCoroutinesApi
 class AlarmRepoTest : ParentRoomRepoTest() {
 
-    private val alarmConverter = mockkClass(AlarmConverter::class)
+    private val converter = mockkClass(AlarmConverter::class)
 
-    private val badAlarmRepo by lazy { AlarmRepo(badRoomProvider, alarmConverter) }
-    private val goodAlarmRepo by lazy { AlarmRepo(goodRoomProvider, alarmConverter) }
+    private val badAlarmRepo by lazy { AlarmRepo(badRoomProvider, converter) }
+    private val goodAlarmRepo by lazy { AlarmRepo(goodRoomProvider, converter) }
 
     @Test fun insertOrUpdate() = startCoTest {
         val noteItem = mockk<NoteItem>()
@@ -34,7 +34,7 @@ class AlarmRepoTest : ParentRoomRepoTest() {
         every { noteItem.alarmDate = date } returns Unit
         every { noteItem.alarmId = insertId } returns Unit
 
-        every { alarmConverter.toEntity(noteItem) } returns alarmEntity
+        every { converter.toEntity(noteItem) } returns alarmEntity
         coEvery { alarmDao.insert(alarmEntity) } returns insertId
 
         badAlarmRepo.insertOrUpdate(noteItem, date)
@@ -50,14 +50,14 @@ class AlarmRepoTest : ParentRoomRepoTest() {
 
             goodRoomProvider.openRoom()
             noteItem.alarmDate = date
-            alarmConverter.toEntity(noteItem)
+            converter.toEntity(noteItem)
             noteItem.haveAlarm()
             alarmDao.insert(alarmEntity)
             noteItem.alarmId = insertId
 
             goodRoomProvider.openRoom()
             noteItem.alarmDate = date
-            alarmConverter.toEntity(noteItem)
+            converter.toEntity(noteItem)
             noteItem.haveAlarm()
             alarmDao.update(alarmEntity)
         }

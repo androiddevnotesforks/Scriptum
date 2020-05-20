@@ -23,12 +23,11 @@ import sgtmelon.scriptum.extension.move
 /**
  * Repository of [RoomDb] which work with notes.
  */
-class NoteRepo(override val roomProvider: RoomProvider) : INoteRepo, IRoomWork {
-
-    // TODO test for nullable values
-
-    private val noteConverter = NoteConverter()
-    private val rollConverter = RollConverter()
+class NoteRepo(
+        override val roomProvider: RoomProvider,
+        private val noteConverter: NoteConverter,
+        private val rollConverter: RollConverter
+) : INoteRepo, IRoomWork {
 
     /**
      * Important:

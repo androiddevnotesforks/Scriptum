@@ -10,6 +10,9 @@ import sgtmelon.scriptum.data.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.data.repository.room.*
 import sgtmelon.scriptum.data.repository.room.callback.*
 import sgtmelon.scriptum.data.room.converter.model.AlarmConverter
+import sgtmelon.scriptum.data.room.converter.model.NoteConverter
+import sgtmelon.scriptum.data.room.converter.model.RankConverter
+import sgtmelon.scriptum.data.room.converter.model.RollConverter
 import javax.inject.Singleton
 
 /**
@@ -43,10 +46,15 @@ class RepoModule {
 
     @Provides
     @Singleton
-    fun provideNoteRepo(roomProvider: RoomProvider): INoteRepo = NoteRepo(roomProvider)
+    fun provideNoteRepo(roomProvider: RoomProvider, noteConverter: NoteConverter,
+                        rollConverter: RollConverter): INoteRepo {
+        return NoteRepo(roomProvider, noteConverter, rollConverter)
+    }
 
     @Provides
     @Singleton
-    fun provideRankRepo(roomProvider: RoomProvider): IRankRepo = RankRepo(roomProvider)
+    fun provideRankRepo(roomProvider: RoomProvider, converter: RankConverter): IRankRepo {
+        return RankRepo(roomProvider, converter)
+    }
 
 }

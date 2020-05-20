@@ -2,6 +2,8 @@ package sgtmelon.scriptum.data.repository.room
 
 import io.mockk.coEvery
 import io.mockk.coVerifySequence
+import io.mockk.every
+import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
@@ -26,8 +28,11 @@ import kotlin.random.Random
 @ExperimentalCoroutinesApi
 class NoteRepoTest : ParentRoomRepoTest() {
 
-    private val badNoteRepo by lazy { NoteRepo(badRoomProvider) }
-    private val goodNoteRepo by lazy { NoteRepo(goodRoomProvider) }
+    private val noteConverter = mockk<NoteConverter>()
+    private val rollConverter = mockk<RollConverter>()
+
+    private val badNoteRepo by lazy { NoteRepo(badRoomProvider, noteConverter, rollConverter) }
+    private val goodNoteRepo by lazy { NoteRepo(goodRoomProvider, noteConverter, rollConverter) }
 
     @Test fun getCount() = startCoTest {
         val notesCount = Random.nextInt()
@@ -85,6 +90,18 @@ class NoteRepoTest : ParentRoomRepoTest() {
                 sort, bin, isOptimal = Random.nextBoolean(), filterVisible = Random.nextBoolean()
         ))
 
+        every { rollConverter.toItem(mutableListOf()) } returns mutableListOf()
+        entityList.forEachIndexed { i, it ->
+            every {
+                noteConverter.toItem(it, mutableListOf(), alarmEntity = null)
+            } returns NoteConverter().toItem(it, mutableListOf(), alarmEntity = null)
+        }
+        entityFilterList.forEachIndexed { i, it ->
+            every {
+                noteConverter.toItem(it, mutableListOf(), alarmEntity = null)
+            } returns NoteConverter().toItem(it, mutableListOf(), alarmEntity = null)
+        }
+
         coEvery { noteDao.getByRank(bin) } returns entityList
         coEvery { rankDao.getIdVisibleList() } returns listOf()
         coEvery {
@@ -104,7 +121,9 @@ class NoteRepoTest : ParentRoomRepoTest() {
             noteDao.getByRank(bin)
             entityList.forEach {
                 if (isOptimal) rollDao.getView(it.id) else rollDao.get(it.id)
+                rollConverter.toItem(mutableListOf())
                 alarmDao.get(it.id)
+                noteConverter.toItem(it, mutableListOf(), alarmEntity = null)
             }
 
             goodRoomProvider.openRoom()
@@ -112,7 +131,9 @@ class NoteRepoTest : ParentRoomRepoTest() {
             rankDao.getIdVisibleList()
             entityFilterList.forEach {
                 if (isOptimal) rollDao.getView(it.id) else rollDao.get(it.id)
+                rollConverter.toItem(mutableListOf())
                 alarmDao.get(it.id)
+                noteConverter.toItem(it, mutableListOf(), alarmEntity = null)
             }
         }
     }
@@ -161,12 +182,19 @@ class NoteRepoTest : ParentRoomRepoTest() {
         val entityList = NoteConverter().toEntity(TestData.Note.itemList)
         val idVisibleList = listOf(1L)
 
+        entityList.forEach {
+            every { noteConverter.toItem(it) } returns NoteConverter().toItem(it)
+        }
+
         coEvery { rankDao.getIdVisibleList() } returns idVisibleList
 
         assertEquals(entityList.subList(0, 3), goodNoteRepo.filterVisible(rankDao, entityList))
 
         coVerifySequence {
             rankDao.getIdVisibleList()
+            entityList.forEach {
+                noteConverter.toItem(it)
+            }
         }
     }
 
@@ -197,6 +225,9 @@ class NoteRepoTest : ParentRoomRepoTest() {
         coEvery { noteDao.get(id) } returns null
         assertNull(goodNoteRepo.getItem(id, isOptimal = Random.nextBoolean()))
 
+        every { rollConverter.toItem(mutableListOf()) } returns mutableListOf()
+        every { noteConverter.toItem(noteEntity, mutableListOf(), alarmEntity) } returns noteItem
+
         coEvery { noteDao.get(id) } returns noteEntity
         coEvery { rollDao.get(id) } returns mutableListOf()
         coEvery { rollDao.getView(id) } returns mutableListOf()
@@ -214,12 +245,16 @@ class NoteRepoTest : ParentRoomRepoTest() {
             goodRoomProvider.openRoom()
             noteDao.get(id)
             rollDao.get(id)
+            rollConverter.toItem(mutableListOf())
             alarmDao.get(id)
+            noteConverter.toItem(noteEntity, mutableListOf(), alarmEntity)
 
             goodRoomProvider.openRoom()
             noteDao.get(id)
             rollDao.getView(id)
+            rollConverter.toItem(mutableListOf())
             alarmDao.get(id)
+            noteConverter.toItem(noteEntity, mutableListOf(), alarmEntity)
         }
     }
 
@@ -248,6 +283,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
         val itemList = TestData.Note.rollList
         val entityList = RollConverter().toEntity(noteId, itemList)
 
+        every { rollConverter.toItem(entityList) } returns itemList
         coEvery { rollDao.get(noteId) } returns entityList
 
         assertNull(badNoteRepo.getRollList(noteId))
@@ -258,6 +294,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
             goodRoomProvider.openRoom()
             rollDao.get(noteId)
+            rollConverter.toItem(entityList)
         }
     }
 
@@ -269,32 +306,50 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
         assertNull(badNoteRepo.isListHide())
 
+        val entityList = mutableListOf<NoteEntity>()
+
         var entity = NoteEntity()
+        entityList.add(entity)
+
+        every { noteConverter.toItem(entity) } returns NoteConverter().toItem(entity)
         coEvery { noteDao.get(false) } returns listOf(entity)
         assertEquals(false, goodNoteRepo.isListHide())
 
         entity = NoteEntity(rankId = 0)
+        entityList.add(entity)
+
+        every { noteConverter.toItem(entity) } returns NoteConverter().toItem(entity)
         coEvery { noteDao.get(false) } returns listOf(entity)
         assertEquals(false, goodNoteRepo.isListHide())
 
         entity = NoteEntity(rankPs = 0)
+        entityList.add(entity)
+
+        every { noteConverter.toItem(entity) } returns NoteConverter().toItem(entity)
         coEvery { noteDao.get(false) } returns listOf(entity)
         assertEquals(false, goodNoteRepo.isListHide())
 
         entity = NoteEntity(rankId = 0, rankPs = 0)
+        entityList.add(entity)
+
+        every { noteConverter.toItem(entity) } returns NoteConverter().toItem(entity)
         coEvery { noteDao.get(false) } returns listOf(entity)
         assertEquals(true, goodNoteRepo.isListHide())
 
         entity = NoteEntity(rankId = 1, rankPs = 1)
+        entityList.add(entity)
+
+        every { noteConverter.toItem(entity) } returns NoteConverter().toItem(entity)
         coEvery { noteDao.get(false) } returns listOf(entity)
         assertEquals(false, goodNoteRepo.isListHide())
 
         coVerifySequence {
             badRoomProvider.openRoom()
 
-            repeat(times = 5) {
+            entityList.forEach {
                 goodRoomProvider.openRoom()
                 noteDao.get(false)
+                noteConverter.toItem(it)
                 rankDao.getIdVisibleList()
             }
         }
@@ -328,6 +383,8 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
         val entity = NoteConverter().toEntity(finalItem)
 
+        every { noteConverter.toEntity(finalItem) } returns entity
+
         badNoteRepo.deleteNote(startItem)
         goodNoteRepo.deleteNote(startItem)
 
@@ -338,6 +395,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
             goodRoomProvider.openRoom()
             alarmDao.delete(startItem.id)
+            noteConverter.toEntity(finalItem)
             noteDao.update(entity)
         }
     }
@@ -348,6 +406,8 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
         val entity = NoteConverter().toEntity(finalItem)
 
+        every { noteConverter.toEntity(finalItem) } returns entity
+
         badNoteRepo.restoreNote(startItem)
         goodNoteRepo.restoreNote(startItem)
 
@@ -357,6 +417,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
             badRoomProvider.openRoom()
 
             goodRoomProvider.openRoom()
+            noteConverter.toEntity(finalItem)
             noteDao.update(entity)
         }
     }
@@ -365,6 +426,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
         val item = TestData.Note.itemList.random()
         val entity = NoteConverter().toEntity(item)
 
+        every { noteConverter.toEntity(item) } returns entity
         coEvery { rankDao.get(item.rankId) } returns null
 
         badNoteRepo.clearNote(item)
@@ -375,46 +437,59 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
             goodRoomProvider.openRoom()
             rankDao.get(item.rankId)
+            noteConverter.toEntity(item)
             noteDao.delete(entity)
         }
     }
 
 
     @Test fun convertNote_text() = startCoTest {
-        val textItem = TestData.Note.firstNote.deepCopy(text = "0\n1\n2\n3")
-        val startRollItem = textItem.onConvert()
-        val finishRollItem = textItem.onConvert().apply {
-            list.clearAdd(listOf(
-                    RollItem(id = 0, position = 0, text = "0"),
-                    RollItem(id = 1, position = 1, text = "1"),
-                    RollItem(id = 2, position = 2, text = "2"),
-                    RollItem(id = 3, position = 3, text = "3")
-            ))
-        }
+        val startItem = mockk<NoteItem.Text>()
+        val finishItem = mockk<NoteItem.Roll>()
+        val finishEntity = mockk<NoteEntity>()
 
-        val rollEntity = NoteConverter().toEntity(startRollItem)
+        val rollItemList = mutableListOf<RollItem>(mockk(), mockk(), mockk())
+        val rollEntity = mockk<RollEntity>()
 
-        startRollItem.list.forEachIndexed { i, it ->
-            val entity = RollConverter().toEntity(startRollItem.id, it)
-            coEvery { rollDao.insert(entity) } returns i.toLong()
-        }
+        val noteId = Random.nextLong()
+        val rollId = Random.nextLong()
 
-        assertNull(badNoteRepo.convertNote(textItem))
-        assertEquals(finishRollItem, goodNoteRepo.convertNote(textItem))
+        every { startItem.onConvert() } returns finishItem
+        every { finishItem.list } returns rollItemList
+        every { finishItem.id } returns noteId
+
+        coEvery { rollDao.insert(rollEntity) } returns rollId
+        every { rollConverter.toEntity(noteId, item = any()) } returns rollEntity
+        rollItemList.forEach { every { it.id = rollId } returns Unit }
+
+        every { noteConverter.toEntity(finishItem) } returns finishEntity
+
+        assertNull(badNoteRepo.convertNote(startItem))
+        assertEquals(finishItem, goodNoteRepo.convertNote(startItem))
 
         coVerifySequence {
             badRoomProvider.openRoom()
 
             goodRoomProvider.openRoom()
-            startRollItem.list.forEach {
-                rollDao.insert(RollConverter().toEntity(startRollItem.id, it))
+            startItem.onConvert()
+            finishItem.list
+            rollItemList.forEachIndexed { i, it ->
+                finishItem.id
+
+                rollConverter.toEntity(noteId, it)
+                rollDao.insert(rollEntity)
+                it.id = rollId
             }
-            noteDao.update(rollEntity)
+            noteConverter.toEntity(finishItem)
+            noteDao.update(finishEntity)
+
+            finishItem == finishItem
         }
+
     }
 
     @Test fun convertNote_roll() = startCoTest {
-        val itemList = listOf(
+        val itemList = mutableListOf(
                 RollItem(position = 0, text = "0"),
                 RollItem(position = 1, text = "1"),
                 RollItem(position = 2, text = "2"),
@@ -429,6 +504,8 @@ class NoteRepoTest : ParentRoomRepoTest() {
         val textItem = rollItem.onConvert()
         val textEntity = NoteConverter().toEntity(textItem)
 
+        every { rollConverter.toItem(entityList) } returns itemList
+        every { noteConverter.toEntity(textItem) } returns textEntity
         coEvery { rollDao.get(rollItem.id) } returns entityList
 
         assertNull(badNoteRepo.convertNote(rollItem, useCache = false))
@@ -443,10 +520,13 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
             goodRoomProvider.openRoom()
             rollDao.get(rollItem.id)
+            rollConverter.toItem(entityList)
+            noteConverter.toEntity(textItem)
             noteDao.update(textEntity)
             rollDao.delete(rollItem.id)
 
             goodRoomProvider.openRoom()
+            noteConverter.toEntity(textItem)
             noteDao.update(textEntity)
             rollDao.delete(rollItem.id)
         }
@@ -481,6 +561,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
         assertEquals("", badNoteRepo.getCopyText(firstItem))
         assertEquals("${secondItem.name}\n", badNoteRepo.getCopyText(secondItem))
 
+        every { rollConverter.toItem(entityList) } returns itemList
         coEvery { rollDao.get(any()) } returns entityList
 
         assertEquals(firstText, goodNoteRepo.getCopyText(firstItem))
@@ -492,9 +573,11 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
             goodRoomProvider.openRoom()
             rollDao.get(firstItem.id)
+            rollConverter.toItem(entityList)
 
             goodRoomProvider.openRoom()
             rollDao.get(secondItem.id)
+            rollConverter.toItem(entityList)
         }
     }
 
@@ -505,6 +588,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
         val finishItem = startItem.deepCopy(id = id)
         val entity = NoteConverter().toEntity(startItem)
 
+        every { noteConverter.toEntity(startItem) } returns entity
         coEvery { noteDao.insert(entity) } returns id
 
         badNoteRepo.saveNote(startItem, isCreate = false)
@@ -521,9 +605,11 @@ class NoteRepoTest : ParentRoomRepoTest() {
             badRoomProvider.openRoom()
 
             goodRoomProvider.openRoom()
+            noteConverter.toEntity(startItem)
             noteDao.update(entity)
 
             goodRoomProvider.openRoom()
+            noteConverter.toEntity(startItem)
             noteDao.insert(entity)
         }
     }
@@ -541,6 +627,8 @@ class NoteRepoTest : ParentRoomRepoTest() {
             it.id = null
 
             val entity = RollConverter().toEntity(id, it)
+
+            every { rollConverter.toEntity(id, it) } returns entity
             coEvery { rollDao.insert(entity) } returns i.toLong()
         }
 
@@ -548,6 +636,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
         val entity = NoteConverter().toEntity(startItem)
 
+        every { noteConverter.toEntity(startItem) } returns entity
         coEvery { noteDao.insert(entity) } returns id
 
         badNoteRepo.saveNote(startItem, isCreate = true)
@@ -560,9 +649,12 @@ class NoteRepoTest : ParentRoomRepoTest() {
             badRoomProvider.openRoom()
 
             goodRoomProvider.openRoom()
+            noteConverter.toEntity(startItem)
             noteDao.insert(entity)
             startItem.list.forEach {
                 val rollEntity = RollConverter().toEntity(startItem.id, it.copy(id = null))
+
+                rollConverter.toEntity(id, it)
                 rollDao.insert(rollEntity)
             }
         }
@@ -576,16 +668,22 @@ class NoteRepoTest : ParentRoomRepoTest() {
         val finishItem = startItem.deepCopy(list = finishList)
 
         startList.forEachIndexed { i, it ->
-            if (i % 2 == 0) it.id = null
+            if (i % 2 == 0) {
+                it.id = null
 
-            val entity = RollConverter().toEntity(startItem.id, it)
-            coEvery { rollDao.insert(entity) } returns i.toLong()
+                val entity = RollConverter().toEntity(startItem.id, it)
+
+                every { rollConverter.toEntity(startItem.id, it) } returns entity
+                coEvery { rollDao.insert(entity) } returns i.toLong()
+            }
         }
 
         startItem.list.clearAdd(startList)
 
         val entity = NoteConverter().toEntity(startItem)
         val idSaveList = finishList.mapNotNull { it.id }
+
+        every { noteConverter.toEntity(startItem) } returns entity
 
         badNoteRepo.saveNote(startItem, isCreate = false)
         assertNotEquals(startItem.list, finishItem.list)
@@ -597,10 +695,13 @@ class NoteRepoTest : ParentRoomRepoTest() {
             badRoomProvider.openRoom()
 
             goodRoomProvider.openRoom()
+            noteConverter.toEntity(startItem)
             noteDao.update(entity)
             startItem.list.forEachIndexed { i, it ->
                 if (i % 2 == 0) {
                     val rollEntity = RollConverter().toEntity(startItem.id, it.copy(id = null))
+
+                    rollConverter.toEntity(startItem.id, it)
                     rollDao.insert(rollEntity)
                 } else {
                     val id = it.id ?: throw NullPointerException()
@@ -616,6 +717,8 @@ class NoteRepoTest : ParentRoomRepoTest() {
             list.addAll(TestData.Note.rollList)
         }
         val noteEntity = NoteConverter().toEntity(noteItem)
+
+        every { noteConverter.toEntity(noteItem) } returns noteEntity
 
         val p = noteItem.list.indices.random()
         val rollItem = noteItem.list[p]
@@ -638,6 +741,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
             goodRoomProvider.openRoom()
             rollDao.update(rollId, rollItem.isCheck)
+            noteConverter.toEntity(noteItem)
             noteDao.update(noteEntity)
         }
     }
@@ -648,6 +752,8 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
         val check = Random.nextBoolean()
 
+        every { noteConverter.toEntity(item) } returns entity
+
         badNoteRepo.updateRollCheck(item, check)
         goodNoteRepo.updateRollCheck(item, check)
 
@@ -656,6 +762,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
             goodRoomProvider.openRoom()
             rollDao.updateAllCheck(item.id, check)
+            noteConverter.toEntity(item)
             noteDao.update(entity)
         }
     }
@@ -664,6 +771,8 @@ class NoteRepoTest : ParentRoomRepoTest() {
         val item = TestData.Note.itemList.random()
         val entity = NoteConverter().toEntity(item)
 
+        every { noteConverter.toEntity(item) } returns entity
+
         badNoteRepo.updateNote(item)
         goodNoteRepo.updateNote(item)
 
@@ -671,6 +780,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
             badRoomProvider.openRoom()
 
             goodRoomProvider.openRoom()
+            noteConverter.toEntity(item)
             noteDao.update(entity)
         }
     }

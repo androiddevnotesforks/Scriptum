@@ -2,8 +2,11 @@ package sgtmelon.scriptum.data.repository.room
 
 import io.mockk.coEvery
 import io.mockk.coVerifySequence
+import io.mockk.every
+import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.scriptum.ParentRoomRepoTest
 import sgtmelon.scriptum.data.room.entity.NoteEntity
@@ -20,17 +23,17 @@ class BindRepoTest : ParentRoomRepoTest() {
 
     @Test fun unbindNote() = startCoTest {
         val id = Random.nextLong()
-        val entity = NoteEntity(name = "testEntity", isStatus = true)
+        val noteEntity = mockk<NoteEntity>()
+
+        every { noteEntity.isStatus = false } returns Unit
 
         assertNull(badBindRepo.unbindNote(Random.nextLong()))
 
         coEvery { noteDao.get(id) } returns null
         assertEquals(false, goodBindRepo.unbindNote(id))
-        assertTrue(entity.isStatus)
 
-        coEvery { noteDao.get(id) } returns entity
+        coEvery { noteDao.get(id) } returns noteEntity
         assertEquals(true, goodBindRepo.unbindNote(id))
-        assertFalse(entity.isStatus)
 
         coVerifySequence {
             badRoomProvider.openRoom()
@@ -40,7 +43,8 @@ class BindRepoTest : ParentRoomRepoTest() {
 
             goodRoomProvider.openRoom()
             noteDao.get(id)
-            noteDao.update(entity)
+            noteEntity.isStatus = false
+            noteDao.update(noteEntity)
         }
     }
 

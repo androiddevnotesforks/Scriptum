@@ -16,9 +16,11 @@ import sgtmelon.scriptum.domain.model.item.RankItem
 /**
  * Repository of [RoomDb] for work with ranks.
  */
-class RankRepo(override val roomProvider: RoomProvider) : IRankRepo, IRoomWork {
-
-    private val converter = RankConverter()
+class RankRepo(
+        override val roomProvider: RoomProvider,
+        private val converter: RankConverter
+) : IRankRepo,
+        IRoomWork {
 
     override suspend fun getCount(): Int? = takeFromRoom { rankDao.getCount() }
 
@@ -74,23 +76,24 @@ class RankRepo(override val roomProvider: RoomProvider) : IRankRepo, IRoomWork {
 
     override suspend fun updatePosition(rankList: List<RankItem>,
                                         noteIdList: List<Long>) = inRoom {
-        noteDao.updateRankPosition(rankList, noteIdList)
+        updateRankPosition(noteDao, rankList, noteIdList)
         rankDao.update(converter.toEntity(rankList))
     }
 
     /**
      * Update [NoteEntity.rankPs] for notes from [noteIdList] which related with [rankList].
      */
-    private suspend fun INoteDao.updateRankPosition(rankList: List<RankItem>,
-                                                    noteIdList: List<Long>) {
+    @VisibleForTesting
+    suspend fun updateRankPosition(iNoteDao: INoteDao, rankList: List<RankItem>,
+                                   noteIdList: List<Long>) {
         if (noteIdList.isEmpty()) return
 
-        val noteList = get(noteIdList)
+        val noteList = iNoteDao.get(noteIdList)
         for (entity in noteList) {
             entity.rankPs = rankList.firstOrNull { it.id == entity.rankId }?.position ?: continue
         }
 
-        update(noteList)
+        iNoteDao.update(noteList)
     }
 
 

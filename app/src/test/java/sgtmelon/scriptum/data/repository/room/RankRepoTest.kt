@@ -2,6 +2,8 @@ package sgtmelon.scriptum.data.repository.room
 
 import io.mockk.coEvery
 import io.mockk.coVerifySequence
+import io.mockk.every
+import io.mockk.mockkClass
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
@@ -21,8 +23,10 @@ import kotlin.random.Random
 @ExperimentalCoroutinesApi
 class RankRepoTest : ParentRoomRepoTest() {
 
-    private val badRankRepo by lazy { RankRepo(badRoomProvider) }
-    private val goodRankRepo by lazy { RankRepo(goodRoomProvider) }
+    private val converter = mockkClass(RankConverter::class)
+
+    private val badRankRepo by lazy { RankRepo(badRoomProvider, converter) }
+    private val goodRankRepo by lazy { RankRepo(goodRoomProvider, converter) }
 
     @Test fun getCount() = startCoTest {
         val count = Random.nextInt()
@@ -47,7 +51,9 @@ class RankRepoTest : ParentRoomRepoTest() {
                 it.hasNotification = i % 2 == 0
             }
         }
+
         val entityList = RankConverter().toEntity(finishRankList)
+        val itemList = RankConverter().toItem(entityList)
 
         val data = TestData.Note
         val bindList = with(NoteConverter()) {
@@ -59,6 +65,7 @@ class RankRepoTest : ParentRoomRepoTest() {
 
         val alarmList = listOf(AlarmEntity())
 
+        every { converter.toItem(entityList) } returns itemList
         coEvery { rankDao.get() } returns entityList
 
         entityList.forEachIndexed { i, it ->
@@ -74,6 +81,7 @@ class RankRepoTest : ParentRoomRepoTest() {
 
             goodRoomProvider.openRoom()
             rankDao.get()
+            converter.toItem(entityList)
             entityList.forEach {
                 noteDao.get(it.noteId)
                 alarmDao.get(it.noteId)
@@ -174,6 +182,8 @@ class RankRepoTest : ParentRoomRepoTest() {
         val item = TestData.Rank.itemList.random()
         val entity = RankConverter().toEntity(item)
 
+        every { converter.toEntity(item) } returns entity
+
         badRankRepo.update(item)
         goodRankRepo.update(item)
 
@@ -181,6 +191,7 @@ class RankRepoTest : ParentRoomRepoTest() {
             badRoomProvider.openRoom()
 
             goodRoomProvider.openRoom()
+            converter.toEntity(item)
             rankDao.update(entity)
         }
     }
@@ -189,6 +200,8 @@ class RankRepoTest : ParentRoomRepoTest() {
         val itemList = TestData.Rank.itemList
         val entityList = RankConverter().toEntity(itemList)
 
+        every { converter.toEntity(itemList) } returns entityList
+
         badRankRepo.update(itemList)
         goodRankRepo.update(itemList)
 
@@ -196,6 +209,7 @@ class RankRepoTest : ParentRoomRepoTest() {
             badRoomProvider.openRoom()
 
             goodRoomProvider.openRoom()
+            converter.toEntity(itemList)
             rankDao.update(entityList)
         }
     }
@@ -214,6 +228,7 @@ class RankRepoTest : ParentRoomRepoTest() {
         }
         val rankEntityList = RankConverter().toEntity(rankItemList)
 
+        every { converter.toEntity(rankItemList) } returns rankEntityList
         coEvery { noteDao.get(noteIdList) } returns noteList
 
         badRankRepo.updatePosition(rankItemList, noteIdList)
@@ -235,13 +250,19 @@ class RankRepoTest : ParentRoomRepoTest() {
             badRoomProvider.openRoom()
 
             goodRoomProvider.openRoom()
+            converter.toEntity(rankItemList)
             rankDao.update(rankEntityList)
 
             goodRoomProvider.openRoom()
             noteDao.get(noteIdList)
             noteDao.update(noteList)
+            converter.toEntity(rankItemList)
             rankDao.update(rankEntityList)
         }
+    }
+
+    @Test fun updateRankPosition() {
+        TODO()
     }
 
 
