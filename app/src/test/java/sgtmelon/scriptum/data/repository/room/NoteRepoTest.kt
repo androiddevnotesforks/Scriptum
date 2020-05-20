@@ -25,6 +25,7 @@ import kotlin.random.Random
 /**
  * Test for [NoteRepo].
  */
+@Suppress("UnusedEquals")
 @ExperimentalCoroutinesApi
 class NoteRepoTest : ParentRoomRepoTest() {
 
@@ -33,6 +34,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
     private val badNoteRepo by lazy { NoteRepo(badRoomProvider, noteConverter, rollConverter) }
     private val goodNoteRepo by lazy { NoteRepo(goodRoomProvider, noteConverter, rollConverter) }
+    private val goodNoteRepo2 by lazy { NoteRepo(goodRoomProvider, NoteConverter(), RollConverter()) }
 
     @Test fun getCount() = startCoTest {
         val notesCount = Random.nextInt()
@@ -90,18 +92,6 @@ class NoteRepoTest : ParentRoomRepoTest() {
                 sort, bin, isOptimal = Random.nextBoolean(), filterVisible = Random.nextBoolean()
         ))
 
-        every { rollConverter.toItem(mutableListOf()) } returns mutableListOf()
-        entityList.forEachIndexed { i, it ->
-            every {
-                noteConverter.toItem(it, mutableListOf(), alarmEntity = null)
-            } returns NoteConverter().toItem(it, mutableListOf(), alarmEntity = null)
-        }
-        entityFilterList.forEachIndexed { i, it ->
-            every {
-                noteConverter.toItem(it, mutableListOf(), alarmEntity = null)
-            } returns NoteConverter().toItem(it, mutableListOf(), alarmEntity = null)
-        }
-
         coEvery { noteDao.getByRank(bin) } returns entityList
         coEvery { rankDao.getIdVisibleList() } returns listOf()
         coEvery {
@@ -109,9 +99,9 @@ class NoteRepoTest : ParentRoomRepoTest() {
         } returns mutableListOf()
         coEvery { alarmDao.get(noteId = any()) } returns null
 
-        assertEquals(finishList, goodNoteRepo.getList(sort, bin, isOptimal, filterVisible = false))
+        assertEquals(finishList, goodNoteRepo2.getList(sort, bin, isOptimal, filterVisible = false))
         assertEquals(
-                finishFilterList, goodNoteRepo.getList(sort, bin, isOptimal, filterVisible = true)
+                finishFilterList, goodNoteRepo2.getList(sort, bin, isOptimal, filterVisible = true)
         )
 
         coVerifySequence {
@@ -121,9 +111,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
             noteDao.getByRank(bin)
             entityList.forEach {
                 if (isOptimal) rollDao.getView(it.id) else rollDao.get(it.id)
-                rollConverter.toItem(mutableListOf())
                 alarmDao.get(it.id)
-                noteConverter.toItem(it, mutableListOf(), alarmEntity = null)
             }
 
             goodRoomProvider.openRoom()
@@ -131,9 +119,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
             rankDao.getIdVisibleList()
             entityFilterList.forEach {
                 if (isOptimal) rollDao.getView(it.id) else rollDao.get(it.id)
-                rollConverter.toItem(mutableListOf())
                 alarmDao.get(it.id)
-                noteConverter.toItem(it, mutableListOf(), alarmEntity = null)
             }
         }
     }
@@ -473,7 +459,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
             goodRoomProvider.openRoom()
             startItem.onConvert()
             finishItem.list
-            rollItemList.forEachIndexed { i, it ->
+            rollItemList.forEach {
                 finishItem.id
 
                 rollConverter.toEntity(noteId, it)

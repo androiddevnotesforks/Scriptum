@@ -3,7 +3,7 @@ package sgtmelon.scriptum.presentation.screen.vm.impl.note
 import android.os.Bundle
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockkClass
+import io.mockk.mockk
 import io.mockk.verifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
@@ -31,7 +31,7 @@ class NoteViewModelTest : ParentViewModelTest() {
 
     @MockK lateinit var interactor: INoteInteractor
 
-    private val bundle = mockkClass(Bundle::class)
+    private val bundle = mockk<Bundle>()
 
     private val viewModel by lazy { NoteViewModel(application) }
 
@@ -49,14 +49,27 @@ class NoteViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onSetup_nullBundle() {
-        TODO("nullable")
-
         val color = Color.RED
         val theme = Theme.DARK
 
-        every { interactor.defaultColor } returns color
-        every { interactor.theme } returns theme
+        every { interactor.defaultColor } returns null
+        viewModel.onSetup()
 
+        assertEquals(Default.ID, viewModel.id)
+        assertEquals(Default.COLOR, viewModel.color)
+        assertEquals(null, viewModel.type)
+
+        every { interactor.defaultColor } returns color
+        every { interactor.theme } returns null
+        viewModel.onSetup()
+
+        assertEquals(Default.ID, viewModel.id)
+        assertEquals(color, viewModel.color)
+        assertEquals(null, viewModel.type)
+
+        viewModel.color = Default.COLOR
+
+        every { interactor.theme } returns theme
         viewModel.onSetup()
 
         assertEquals(Default.ID, viewModel.id)
@@ -64,35 +77,18 @@ class NoteViewModelTest : ParentViewModelTest() {
         assertEquals(null, viewModel.type)
 
         verifySequence {
+            interactor.defaultColor
+
+            interactor.defaultColor
+            interactor.theme
+
             interactor.defaultColor
             interactor.theme
             callback.updateHolder(theme, color)
         }
     }
 
-    @Test fun onSetup_nullBundle_nullTheme() {
-        TODO("nullable")
-
-        val color = Color.RED
-
-        every { interactor.defaultColor } returns color
-        every { interactor.theme } returns null
-
-        viewModel.onSetup()
-
-        assertEquals(Default.ID, viewModel.id)
-        assertEquals(color, viewModel.color)
-        assertEquals(null, viewModel.type)
-
-        verifySequence {
-            interactor.defaultColor
-            interactor.theme
-        }
-    }
-
     @Test fun onSetup_fillBundle_badData() {
-        TODO("nullable")
-
         val color = Color.ORANGE
         val theme = Theme.LIGHT
 
@@ -100,9 +96,24 @@ class NoteViewModelTest : ParentViewModelTest() {
         every { bundle.getInt(Intent.COLOR, Default.COLOR) } returns Default.COLOR
         every { bundle.getInt(Intent.TYPE, Default.TYPE) } returns Default.TYPE
 
-        every { interactor.defaultColor } returns color
-        every { interactor.theme } returns theme
+        every { interactor.defaultColor } returns null
+        viewModel.onSetup(bundle)
 
+        assertEquals(Default.ID, viewModel.id)
+        assertEquals(Default.COLOR, viewModel.color)
+        assertEquals(null, viewModel.type)
+
+        every { interactor.defaultColor } returns color
+        every { interactor.theme } returns null
+        viewModel.onSetup(bundle)
+
+        assertEquals(Default.ID, viewModel.id)
+        assertEquals(color, viewModel.color)
+        assertEquals(null, viewModel.type)
+
+        viewModel.color = Default.COLOR
+
+        every { interactor.theme } returns theme
         viewModel.onSetup(bundle)
 
         assertEquals(Default.ID, viewModel.id)
@@ -113,7 +124,17 @@ class NoteViewModelTest : ParentViewModelTest() {
             bundle.getLong(Intent.ID, Default.ID)
             bundle.getInt(Intent.COLOR, Default.COLOR)
             bundle.getInt(Intent.TYPE, Default.TYPE)
+            interactor.defaultColor
 
+            bundle.getLong(Intent.ID, Default.ID)
+            bundle.getInt(Intent.COLOR, Default.COLOR)
+            bundle.getInt(Intent.TYPE, Default.TYPE)
+            interactor.defaultColor
+            interactor.theme
+
+            bundle.getLong(Intent.ID, Default.ID)
+            bundle.getInt(Intent.COLOR, Default.COLOR)
+            bundle.getInt(Intent.TYPE, Default.TYPE)
             interactor.defaultColor
             interactor.theme
             callback.updateHolder(theme, color)
@@ -121,25 +142,42 @@ class NoteViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onSetup_fillBundle_goodData() {
-        TODO("nullable")
-
         val id = Random.nextLong()
         val color = Color.TEAL
+        val type = NoteType.TEXT
         val theme = Theme.DARK
 
         every { bundle.getLong(Intent.ID, Default.ID) } returns id
         every { bundle.getInt(Intent.COLOR, Default.COLOR) } returns color
-        every { bundle.getInt(Intent.TYPE, Default.TYPE) } returns NoteType.TEXT.ordinal
+        every { bundle.getInt(Intent.TYPE, Default.TYPE) } returns type.ordinal
+
+        every { interactor.theme } returns null
+        viewModel.onSetup(bundle)
+
+        assertEquals(id, viewModel.id)
+        assertEquals(color, viewModel.color)
+        assertEquals(type, viewModel.type)
+
+        viewModel.id = Default.ID
+        viewModel.color = Default.COLOR
+        viewModel.type = null
 
         every { interactor.theme } returns theme
-
         viewModel.onSetup(bundle)
+
+        assertEquals(id, viewModel.id)
+        assertEquals(color, viewModel.color)
+        assertEquals(type, viewModel.type)
 
         verifySequence {
             bundle.getLong(Intent.ID, Default.ID)
             bundle.getInt(Intent.COLOR, Default.COLOR)
             bundle.getInt(Intent.TYPE, Default.TYPE)
+            interactor.theme
 
+            bundle.getLong(Intent.ID, Default.ID)
+            bundle.getInt(Intent.COLOR, Default.COLOR)
+            bundle.getInt(Intent.TYPE, Default.TYPE)
             interactor.theme
             callback.updateHolder(theme, color)
         }
@@ -225,22 +263,19 @@ class NoteViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onUpdateNoteColor() {
-        TODO("nullable")
-
         val firstColor = Color.BLUE
         val secondColor = Color.RED
 
         every { interactor.theme } returns null
-
-        assertEquals(Default.COLOR, viewModel.color)
         viewModel.onUpdateNoteColor(firstColor)
+        assertEquals(firstColor, viewModel.color)
+
+        viewModel.color = Default.COLOR
 
         every { interactor.theme } returns Theme.DARK
-
-        assertEquals(firstColor, viewModel.color)
         viewModel.onUpdateNoteColor(secondColor)
-
         assertEquals(secondColor, viewModel.color)
+
         verifySequence {
             callback.updateHolder(Theme.DARK, secondColor)
         }
