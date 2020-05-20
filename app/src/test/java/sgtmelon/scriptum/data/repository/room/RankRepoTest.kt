@@ -261,8 +261,30 @@ class RankRepoTest : ParentRoomRepoTest() {
         }
     }
 
-    @Test fun updateRankPosition() {
-        TODO()
+    @Test fun updateRankPosition() = startCoTest {
+        val rankItemList = TestData.Rank.itemList
+        val noteIdList = List(size = 5) { Random.nextLong() }
+
+        val noteData = TestData.Note
+        val noteList = with(NoteConverter()) {
+            listOf(
+                    toEntity(noteData.firstNote),
+                    toEntity(noteData.firstNote.deepCopy(rankId = 1)),
+                    toEntity(noteData.secondNote.deepCopy(rankId = 3))
+            )
+        }
+
+        coEvery { noteDao.get(noteIdList) } returns noteList
+
+        goodRankRepo.updateRankPosition(noteDao, rankItemList, noteIdList)
+        assertEquals(-1, noteList[0].rankPs)
+        assertEquals(0, noteList[1].rankPs)
+        assertEquals(2, noteList[2].rankPs)
+
+        coVerifySequence {
+            noteDao.get(noteIdList)
+            noteDao.update(noteList)
+        }
     }
 
 
