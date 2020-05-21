@@ -5,15 +5,10 @@ package sgtmelon.scriptum.domain.model.state
  */
 class NoteState(var isCreate: Boolean = ND_CREATE, var isBin: Boolean = ND_BIN) {
 
-    var isEdit: Boolean = ND_EDIT
-
-    init {
-        isEdit = isCreate
-    }
+    var isEdit = isCreate
 
     companion object {
         const val ND_CREATE = false
-        const val ND_EDIT = false
         const val ND_BIN = false
     }
 

@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.domain.model.state
 
 /**
- * State for control icon animation
+ * State for control icon animation.
  */
 class IconState {
 
