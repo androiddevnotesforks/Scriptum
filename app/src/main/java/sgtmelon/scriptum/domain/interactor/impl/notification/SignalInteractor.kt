@@ -23,7 +23,7 @@ class SignalInteractor(
     override val check: BooleanArray?
         get() = preferenceRepo.signal?.let { IntConverter().toArray(it, Signal.digitCount) }
 
-    override val state: SignalState? get() = check?.let { SignalState(it) }
+    override val state: SignalState? get() = check?.let { SignalState[it] }
 
 
     /**
