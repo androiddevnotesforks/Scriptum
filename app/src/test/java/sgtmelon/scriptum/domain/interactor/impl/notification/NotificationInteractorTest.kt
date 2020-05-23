@@ -42,7 +42,7 @@ class NotificationInteractorTest : ParentInteractorTest() {
     @Test fun getTheme() = FastTest.getTheme(preferenceRepo) { interactor.theme }
 
     @Test fun getCount() = startCoTest {
-        val countList = listOf(null, Random.nextInt(), Random.nextInt(), null)
+        val countList = listOf(Random.nextInt(), Random.nextInt())
 
         countList.forEach {
             coEvery { bindRepo.getNotificationCount() } returns it
@@ -57,14 +57,10 @@ class NotificationInteractorTest : ParentInteractorTest() {
     @Test fun getList() = startCoTest {
         val list = data.itemList
 
-        coEvery { alarmRepo.getList() } returns null
-        assertEquals(null, interactor.getList())
-
         coEvery { alarmRepo.getList() } returns list
         assertEquals(list, interactor.getList())
 
         coVerifySequence {
-            alarmRepo.getList()
             alarmRepo.getList()
         }
     }

@@ -15,6 +15,9 @@ interface IRankDao {
 
     // TODO use rankItem not entity
 
+    /**
+     * TODO add -1 value convert to null
+     */
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(rankEntity: RankEntity): Long
 

@@ -39,9 +39,7 @@ class PreferenceViewModel(
             updateSavePeriodSummary(interactor.getSavePeriodSummary())
 
             updateRepeatSummary(interactor.getRepeatSummary())
-
-            val check = signalInteractor.check ?: return
-            updateSignalSummary(interactor.getSignalSummaryArray(check))
+            updateSignalSummary(interactor.getSignalSummaryArray(signalInteractor.check))
 
             val state = signalInteractor.state ?: return
             updateMelodyGroupEnabled(state.isMelody)
@@ -55,30 +53,21 @@ class PreferenceViewModel(
     }
 
 
-    override fun onClickTheme() = alwaysTrue {
-        val theme = interactor.theme ?: return@alwaysTrue
-        callback?.showThemeDialog(theme)
-    }
+    override fun onClickTheme() = alwaysTrue { callback?.showThemeDialog(interactor.theme) }
 
     override fun onResultTheme(@Theme value: Int) {
         callback?.updateThemeSummary(interactor.updateTheme(value))
     }
 
 
-    override fun onClickSort() = alwaysTrue {
-        val sort = interactor.sort ?: return@alwaysTrue
-        callback?.showSortDialog(sort)
-    }
+    override fun onClickSort() = alwaysTrue { callback?.showSortDialog(interactor.sort) }
 
     override fun onResultNoteSort(@Sort value: Int) {
         callback?.updateSortSummary(interactor.updateSort(value))
     }
 
     override fun onClickNoteColor() = alwaysTrue {
-        val theme = interactor.theme ?: return@alwaysTrue
-        val defaultColor = interactor.defaultColor ?: return@alwaysTrue
-
-        callback?.showColorDialog(defaultColor, theme)
+        callback?.showColorDialog(interactor.defaultColor, interactor.theme)
     }
 
     override fun onResultNoteColor(@Color value: Int) {
@@ -86,8 +75,7 @@ class PreferenceViewModel(
     }
 
     override fun onClickSaveTime() = alwaysTrue {
-        val savePeriod = interactor.savePeriod ?: return@alwaysTrue
-        callback?.showSaveTimeDialog(savePeriod)
+        callback?.showSaveTimeDialog(interactor.savePeriod)
     }
 
     override fun onResultSaveTime(value: Int) {
@@ -95,19 +83,13 @@ class PreferenceViewModel(
     }
 
 
-    override fun onClickRepeat() = alwaysTrue {
-        val repeat = interactor.repeat ?: return@alwaysTrue
-        callback?.showRepeatDialog(repeat)
-    }
+    override fun onClickRepeat() = alwaysTrue { callback?.showRepeatDialog(interactor.repeat) }
 
     override fun onResultRepeat(@Repeat value: Int) {
         callback?.updateRepeatSummary(interactor.updateRepeat(value))
     }
 
-    override fun onClickSignal() = alwaysTrue {
-        val check = signalInteractor.check ?: return@alwaysTrue
-        callback?.showSignalDialog(check)
-    }
+    override fun onClickSignal() = alwaysTrue { callback?.showSignalDialog(signalInteractor.check) }
 
     override fun onResultSignal(checkArray: BooleanArray) {
         val state = signalInteractor.state ?: return
@@ -126,19 +108,20 @@ class PreferenceViewModel(
         }
     }
 
-    override fun onSelectMelody(item: Int) {
-        callback?.playMelody(melodyList[item].uri)
+    override fun onSelectMelody(check: Int) {
+        val item = melodyList.getOrNull(check) ?: return
+
+        callback?.playMelody(item.uri)
     }
 
-    override fun onResultMelody(value: Int) {
-        signalInteractor.setMelodyUri(melodyList[value].uri)
-        callback?.updateMelodySummary(melodyList[value].title)
+    override fun onResultMelody(check: Int) {
+        val item = melodyList.getOrNull(check) ?: return
+
+        signalInteractor.setMelodyUri(item.uri)
+        callback?.updateMelodySummary(item.title)
     }
 
-    override fun onClickVolume() = alwaysTrue {
-        val volume = interactor.volume ?: return@alwaysTrue
-        callback?.showVolumeDialog(volume)
-    }
+    override fun onClickVolume() = alwaysTrue { callback?.showVolumeDialog(interactor.volume) }
 
     override fun onResultVolume(value: Int) {
         callback?.updateVolumeSummary(interactor.updateVolume(value))

@@ -25,7 +25,7 @@ class AppViewModel(application: Application) : ParentViewModel<IAppActivity>(app
     @Theme private var theme: Int = Theme.UNDEFINED
 
     override fun onSetup(bundle: Bundle?) {
-        theme = interactor.theme ?: return
+        theme = interactor.theme
 
         when (theme) {
             Theme.LIGHT -> callback?.setTheme(R.style.App_Light_UI)
@@ -33,6 +33,6 @@ class AppViewModel(application: Application) : ParentViewModel<IAppActivity>(app
         }
     }
 
-    override fun isThemeChange() = interactor.theme?.let { theme != it } ?: false
+    override fun isThemeChange(): Boolean = theme != interactor.theme
 
 }

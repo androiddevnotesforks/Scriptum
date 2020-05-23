@@ -26,7 +26,7 @@ class RankInteractorTest : ParentInteractorTest() {
     private val interactor by lazy { RankInteractor(rankRepo) }
 
     @Test fun getCount() = startCoTest {
-        val countList = listOf(null, Random.nextInt(), Random.nextInt(), null)
+        val countList = listOf(Random.nextInt(), Random.nextInt())
 
         countList.forEach {
             coEvery { rankRepo.getCount() } returns it
@@ -41,20 +41,16 @@ class RankInteractorTest : ParentInteractorTest() {
     @Test fun getList() = startCoTest {
         val list = data.itemList
 
-        coEvery { rankRepo.getList() } returns null
-        assertEquals(null, interactor.getList())
-
         coEvery { rankRepo.getList() } returns list
         assertEquals(list, interactor.getList())
 
         coVerifySequence {
             rankRepo.getList()
-            rankRepo.getList()
         }
     }
 
     @Test fun getBind() = startCoTest {
-        val bindList = listOf(null, Random.nextBoolean(), Random.nextBoolean(), null)
+        val bindList = listOf(Random.nextBoolean(), Random.nextBoolean())
         val noteIdList = List(size = 5) { Random.nextLong() }
 
         bindList.forEach {
@@ -69,12 +65,12 @@ class RankInteractorTest : ParentInteractorTest() {
 
 
     @Test fun insert() = startCoTest {
-        val idList = listOf(null, Random.nextLong(),  Random.nextLong(), null)
+        val idList = listOf(Random.nextLong(),  Random.nextLong())
         val name = Random.nextString()
 
         idList.forEach {
             coEvery { rankRepo.insert(name) } returns it
-            assertEquals(it?.let { id -> RankItem(id, name = name) }, interactor.insert(name))
+            assertEquals(RankItem(it, name = name), interactor.insert(name))
         }
 
         coVerifySequence {

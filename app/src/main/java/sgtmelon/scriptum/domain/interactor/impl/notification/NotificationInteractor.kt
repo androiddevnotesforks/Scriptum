@@ -25,11 +25,11 @@ class NotificationInteractor(
     override fun onDestroy(func: () -> Unit) = super.onDestroy { callback = null }
 
 
-    @Theme override val theme: Int? get() = preferenceRepo.theme
+    @Theme override val theme: Int get() = preferenceRepo.theme
 
-    override suspend fun getCount() = bindRepo.getNotificationCount()
+    override suspend fun getCount(): Int = bindRepo.getNotificationCount()
 
-    override suspend fun getList(): MutableList<NotificationItem>? = alarmRepo.getList()
+    override suspend fun getList(): MutableList<NotificationItem> = alarmRepo.getList()
 
     override suspend fun cancelNotification(item: NotificationItem) {
         val id = item.note.id

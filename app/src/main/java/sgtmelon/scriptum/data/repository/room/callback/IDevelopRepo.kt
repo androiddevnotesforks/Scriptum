@@ -10,10 +10,10 @@ import sgtmelon.scriptum.data.room.entity.RollEntity
  */
 interface IDevelopRepo {
 
-    suspend fun getNoteList(): List<NoteEntity>?
+    suspend fun getNoteList(): List<NoteEntity>
 
-    suspend fun getRollList(): List<RollEntity>?
+    suspend fun getRollList(): List<RollEntity>
 
-    suspend fun getRankList(): List<RankEntity>?
+    suspend fun getRankList(): List<RankEntity>
 
 }

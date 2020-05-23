@@ -23,12 +23,12 @@ class BinInteractor(
     override fun onDestroy(func: () -> Unit) = super.onDestroy { callback = null }
 
 
-    @Theme override val theme: Int? get() = preferenceRepo.theme
+    @Theme override val theme: Int get() = preferenceRepo.theme
 
-    override suspend fun getCount(): Int? = noteRepo.getCount(bin = true)
+    override suspend fun getCount(): Int = noteRepo.getCount(bin = true)
 
-    override suspend fun getList(): MutableList<NoteItem>? {
-        val sort = preferenceRepo.sort ?: return null
+    override suspend fun getList(): MutableList<NoteItem> {
+        val sort = preferenceRepo.sort
         return noteRepo.getList(sort, bin = true, isOptimal = true, filterVisible = false)
     }
 

@@ -92,17 +92,8 @@ class AlarmViewModelTest : ParentViewModelTest() {
         every { signalInteractor.getMelodyUri() } returns URI
         every { bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID) } returns id
 
-        every { interactor.theme } returns null
-        viewModel.onSetup(bundle)
-
         every { interactor.theme } returns theme
-        every { interactor.volume } returns null
-        viewModel.onSetup(bundle)
-
         every { interactor.volume } returns volume
-        every { interactor.volumeIncrease } returns null
-        viewModel.onSetup(bundle)
-
         every { interactor.volumeIncrease } returns volumeIncrease
         every { signalInteractor.state } returns null
         viewModel.onSetup(bundle)
@@ -112,33 +103,24 @@ class AlarmViewModelTest : ParentViewModelTest() {
         viewModel.onSetup(bundle)
 
         coVerifySequence {
-            interactor.theme
-
-            interactor.theme
-            interactor.volume
-
-            interactor.theme
-            interactor.volume
-            interactor.volumeIncrease
-
-            interactor.theme
-            interactor.volume
-            interactor.volumeIncrease
             callback.apply {
                 acquirePhone(AlarmViewModel.CANCEL_DELAY)
+                interactor.theme
                 setupView(theme)
                 signalInteractor.getMelodyUri()
+                interactor.volume
+                interactor.volumeIncrease
                 setupPlayer(URI, volume, volumeIncrease)
             }
             signalInteractor.state
 
-            interactor.theme
-            interactor.volume
-            interactor.volumeIncrease
             callback.apply {
                 acquirePhone(AlarmViewModel.CANCEL_DELAY)
+                interactor.theme
                 setupView(theme)
                 signalInteractor.getMelodyUri()
+                interactor.volume
+                interactor.volumeIncrease
                 setupPlayer(URI, volume, volumeIncrease)
             }
             signalInteractor.state
@@ -168,17 +150,8 @@ class AlarmViewModelTest : ParentViewModelTest() {
             viewModel.onSetup(bundle)
         }
 
-        every { interactor.theme } returns null
-        callOnSetup()
-
         every { interactor.theme } returns theme
-        every { interactor.volume } returns null
-        callOnSetup()
-
         every { interactor.volume } returns volume
-        every { interactor.volumeIncrease } returns null
-        callOnSetup()
-
         every { interactor.volumeIncrease } returns volumeIncrease
         every { signalInteractor.state } returns null
         callOnSetup()
@@ -189,41 +162,26 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
         coVerifySequence {
             repeat(times = 2) {
-                interactor.theme
-            }
-
-            repeat(times = 2) {
-                interactor.theme
-                interactor.volume
-            }
-
-            repeat(times = 2) {
-                interactor.theme
-                interactor.volume
-                interactor.volumeIncrease
-            }
-
-            repeat(times = 2) {
-                interactor.theme
-                interactor.volume
-                interactor.volumeIncrease
                 callback.apply {
                     acquirePhone(AlarmViewModel.CANCEL_DELAY)
+                    interactor.theme
                     setupView(theme)
                     signalInteractor.getMelodyUri()
+                    interactor.volume
+                    interactor.volumeIncrease
                     setupPlayer(URI, volume, volumeIncrease)
                 }
                 signalInteractor.state
             }
 
             repeat(times = 2) {
-                interactor.theme
-                interactor.volume
-                interactor.volumeIncrease
                 callback.apply {
                     acquirePhone(AlarmViewModel.CANCEL_DELAY)
+                    interactor.theme
                     setupView(theme)
                     signalInteractor.getMelodyUri()
+                    interactor.volume
+                    interactor.volumeIncrease
                     setupPlayer(URI, volume, volumeIncrease)
                 }
                 signalInteractor.state
@@ -246,48 +204,22 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
         viewModel.noteItem = noteItem
 
-        every { interactor.theme } returns null
-        viewModel.onSetup(bundle)
-        viewModel.onSetup()
-
         every { interactor.theme } returns Theme.DARK
-        every { interactor.volume } returns null
-        viewModel.onSetup(bundle)
-        viewModel.onSetup()
-
         every { interactor.volume } returns 1
-        every { interactor.volumeIncrease } returns null
-        viewModel.onSetup(bundle)
-        viewModel.onSetup()
-
         every { interactor.volumeIncrease } returns true
+
         viewModel.onSetup(bundle)
         viewModel.onSetup()
 
         verifySequence {
             repeat(times = 2) {
-                interactor.theme
-            }
-
-            repeat(times = 2) {
-                interactor.theme
-                interactor.volume
-            }
-
-            repeat(times = 2) {
-                interactor.theme
-                interactor.volume
-                interactor.volumeIncrease
-            }
-
-            repeat(times = 2) {
-                interactor.theme
-                interactor.volume
-                interactor.volumeIncrease
                 callback.apply {
                     acquirePhone(AlarmViewModel.CANCEL_DELAY)
+                    interactor.theme
                     setupView(Theme.DARK)
                     signalInteractor.getMelodyUri()
+                    interactor.volume
+                    interactor.volumeIncrease
                     setupPlayer(URI, volume = 1, increase = true)
                     notifyList(noteItem)
                     waitLayoutConfigure()
@@ -314,9 +246,6 @@ class AlarmViewModelTest : ParentViewModelTest() {
         val firstNote = data.firstNote.deepCopy()
         val secondNote = data.secondNote.deepCopy()
 
-        every { interactor.theme } returns null
-        viewModel.onStart()
-
         every { interactor.theme } returns firstTheme
         viewModel.noteItem = firstNote
         viewModel.signalState = firstSignal
@@ -328,8 +257,6 @@ class AlarmViewModelTest : ParentViewModelTest() {
         viewModel.onStart()
 
         verifySequence {
-            interactor.theme
-
             verifyOnStart(firstTheme, ColorShade.ACCENT, firstNote, firstSignal)
             verifyOnStart(secondTheme, ColorShade.DARK, secondNote, secondSignal)
         }
@@ -381,15 +308,10 @@ class AlarmViewModelTest : ParentViewModelTest() {
         viewModel.id = noteItem.id
         viewModel.noteItem = noteItem
 
-        every { interactor.repeat } returns null
-        viewModel.onClickRepeat()
-
         every { interactor.repeat } returns repeat
         viewModel.onClickRepeat()
 
         coVerifySequence {
-            interactor.repeat
-
             interactor.repeat
             verifyRepeatFinish(repeat, noteItem)
         }
@@ -410,9 +332,6 @@ class AlarmViewModelTest : ParentViewModelTest() {
         viewModel.onResultRepeatDialog(R.id.item_repeat_3)
         viewModel.onResultRepeatDialog(R.id.item_repeat_4)
 
-        every { interactor.repeat } returns null
-        viewModel.onResultRepeatDialog(itemId = -1)
-
         every { interactor.repeat } returns repeat
         viewModel.onResultRepeatDialog(itemId = -1)
 
@@ -423,7 +342,6 @@ class AlarmViewModelTest : ParentViewModelTest() {
             verifyRepeatFinish(Repeat.MIN_180, noteItem)
             verifyRepeatFinish(Repeat.MIN_1440, noteItem)
 
-            interactor.repeat
             interactor.repeat
             verifyRepeatFinish(repeat, noteItem)
         }
@@ -449,6 +367,11 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
         assertFalse(noteItem.isStatus)
         verifySequence { callback.notifyList(noteItem) }
+    }
+
+
+    @Test fun getRippleShade() {
+        TODO()
     }
 
 

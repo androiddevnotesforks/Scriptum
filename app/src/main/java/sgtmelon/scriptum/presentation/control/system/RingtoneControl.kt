@@ -8,7 +8,7 @@ import sgtmelon.scriptum.presentation.control.system.callback.IRingtoneControl
 /**
  * Class for help control [RingtoneManager].
  */
-class RingtoneControl(private val context: Context?) : IRingtoneControl {
+class RingtoneControl(private val context: Context) : IRingtoneControl {
 
     /**
      * TODO #RELEASE add suspend

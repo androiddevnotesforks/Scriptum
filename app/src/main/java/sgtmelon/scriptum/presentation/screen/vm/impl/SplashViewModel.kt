@@ -42,9 +42,7 @@ class SplashViewModel(application: Application) : ParentViewModel<ISplashActivit
 
 
     private fun onSimpleStart() {
-        val firstStart = interactor.firstStart ?: return
-
-        if (firstStart) {
+        if (interactor.firstStart) {
             callback?.startIntroActivity()
         } else {
             callback?.startMainActivity()

@@ -21,8 +21,7 @@ class AlarmRepoTest : ParentRoomRepoTest() {
 
     private val converter = mockkClass(AlarmConverter::class)
 
-    private val badAlarmRepo by lazy { AlarmRepo(badRoomProvider, converter) }
-    private val goodAlarmRepo by lazy { AlarmRepo(goodRoomProvider, converter) }
+    private val alarmRepo by lazy { AlarmRepo(roomProvider, converter) }
 
     @Test fun insertOrUpdate() = startCoTest {
         val noteItem = mockk<NoteItem>()
@@ -37,25 +36,21 @@ class AlarmRepoTest : ParentRoomRepoTest() {
         every { converter.toEntity(noteItem) } returns alarmEntity
         coEvery { alarmDao.insert(alarmEntity) } returns insertId
 
-        badAlarmRepo.insertOrUpdate(noteItem, date)
-
         every { noteItem.haveAlarm() } returns false
-        goodAlarmRepo.insertOrUpdate(noteItem, date)
+        alarmRepo.insertOrUpdate(noteItem, date)
 
         every { noteItem.haveAlarm() } returns true
-        goodAlarmRepo.insertOrUpdate(noteItem, date)
+        alarmRepo.insertOrUpdate(noteItem, date)
 
         coVerifySequence {
-            badRoomProvider.openRoom()
-
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             noteItem.alarmDate = date
             converter.toEntity(noteItem)
             noteItem.haveAlarm()
             alarmDao.insert(alarmEntity)
             noteItem.alarmId = insertId
 
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             noteItem.alarmDate = date
             converter.toEntity(noteItem)
             noteItem.haveAlarm()
@@ -66,13 +61,10 @@ class AlarmRepoTest : ParentRoomRepoTest() {
     @Test fun delete() = startCoTest {
         val id = Random.nextLong()
 
-        badAlarmRepo.delete(Random.nextLong())
-        goodAlarmRepo.delete(id)
+        alarmRepo.delete(id)
 
         coVerifySequence {
-            badRoomProvider.openRoom()
-
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             alarmDao.delete(id)
         }
     }
@@ -81,21 +73,17 @@ class AlarmRepoTest : ParentRoomRepoTest() {
         val id = Random.nextLong()
         val item = mockk<NotificationItem>()
 
-        assertNull(badAlarmRepo.getItem(Random.nextLong()))
-
         coEvery { alarmDao.getItem(id) } returns null
-        assertEquals(null, goodAlarmRepo.getItem(id))
+        assertNull(alarmRepo.getItem(id))
 
         coEvery { alarmDao.getItem(id) } returns item
-        assertEquals(item, goodAlarmRepo.getItem(id))
+        assertEquals(item, alarmRepo.getItem(id))
 
         coVerifySequence {
-            badRoomProvider.openRoom()
-
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             alarmDao.getItem(id)
 
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             alarmDao.getItem(id)
         }
     }
@@ -103,15 +91,11 @@ class AlarmRepoTest : ParentRoomRepoTest() {
     @Test fun getList() = startCoTest {
         val itemList = mockk<MutableList<NotificationItem>>()
 
-        assertNull(badAlarmRepo.getList())
-
         coEvery { alarmDao.getList() } returns itemList
-        assertEquals(itemList, goodAlarmRepo.getList())
+        assertEquals(itemList, alarmRepo.getList())
 
         coVerifySequence {
-            badRoomProvider.openRoom()
-
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             alarmDao.getList()
         }
     }

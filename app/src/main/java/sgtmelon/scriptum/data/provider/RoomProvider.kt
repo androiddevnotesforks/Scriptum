@@ -6,8 +6,8 @@ import sgtmelon.scriptum.data.room.RoomDb
 /**
  * Provider of [RoomDb] for different repositories.
  */
-class RoomProvider(private val context: Context?) {
+class RoomProvider(private val context: Context) {
 
-    fun openRoom() = context?.let { RoomDb[it] }
+    fun openRoom() = RoomDb[context]
 
 }

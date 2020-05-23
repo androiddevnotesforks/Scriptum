@@ -13,8 +13,7 @@ import sgtmelon.scriptum.data.room.dao.*
 @ExperimentalCoroutinesApi
 abstract class ParentRoomRepoTest : ParentCoTest() {
 
-    @MockK lateinit var goodRoomProvider: RoomProvider
-    @MockK lateinit var badRoomProvider: RoomProvider
+    @MockK lateinit var roomProvider: RoomProvider
 
     @MockK lateinit var roomDb: RoomDb
 
@@ -27,8 +26,7 @@ abstract class ParentRoomRepoTest : ParentCoTest() {
     override fun setUp() {
         super.setUp()
 
-        every { goodRoomProvider.openRoom() } returns roomDb
-        every { badRoomProvider.openRoom() } returns null
+        every { roomProvider.openRoom() } returns roomDb
 
         every { roomDb.noteDao } returns noteDao
         every { roomDb.rollDao } returns rollDao

@@ -11,6 +11,7 @@ import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
+import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.INotesBridge
 import sgtmelon.scriptum.presentation.screen.vm.impl.main.NotesViewModel
 import java.util.*
@@ -30,26 +31,26 @@ class NotesInteractor(
     @VisibleForTesting
     var rankIdVisibleList: List<Long>? = null
 
-    private suspend fun getRankIdVisibleList(): List<Long>? {
-        return rankIdVisibleList ?: rankRepo.getIdVisibleList()?.also { rankIdVisibleList = it }
+    private suspend fun getRankIdVisibleList(): List<Long> {
+        return rankIdVisibleList ?: rankRepo.getIdVisibleList().also { rankIdVisibleList = it }
     }
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy { callback = null }
 
 
-    @Theme override val theme: Int? get() = preferenceRepo.theme
+    @Theme override val theme: Int get() = preferenceRepo.theme
 
-    @Sort override val sort: Int? get() = preferenceRepo.sort
+    @Sort override val sort: Int get() = preferenceRepo.sort
 
 
-    override suspend fun getCount(): Int? = noteRepo.getCount(bin = false)
+    override suspend fun getCount(): Int = noteRepo.getCount(bin = false)
 
-    override suspend fun getList(): MutableList<NoteItem>? {
-        val sort = preferenceRepo.sort ?: return null
+    override suspend fun getList(): MutableList<NoteItem> {
+        val sort = preferenceRepo.sort
         return noteRepo.getList(sort, bin = false, isOptimal = true, filterVisible = true)
     }
 
-    override suspend fun isListHide(): Boolean? = noteRepo.isListHide()
+    override suspend fun isListHide(): Boolean = noteRepo.isListHide()
 
     override suspend fun updateNote(noteItem: NoteItem) {
         noteRepo.updateNote(noteItem)
@@ -60,27 +61,21 @@ class NotesInteractor(
         val noteMirror = when (noteItem) {
             is NoteItem.Text -> noteItem.deepCopy()
             is NoteItem.Roll -> {
-                val list = noteRepo.getRollList(noteItem.id) ?: return
+                val list = noteRepo.getRollList(noteItem.id)
                 noteItem.deepCopy(list = list)
             }
         }
 
-        val sort = preferenceRepo.sort ?: return
-        val rankIdVisibleList = getRankIdVisibleList() ?: return
-
-        callback?.notifyNoteBind(noteMirror, rankIdVisibleList, sort)
+        callback?.notifyNoteBind(noteMirror, getRankIdVisibleList(), preferenceRepo.sort)
     }
 
-    override suspend fun convertNote(noteItem: NoteItem): NoteItem? {
+    override suspend fun convertNote(noteItem: NoteItem): NoteItem {
         val convertItem = when (noteItem) {
             is NoteItem.Text -> noteRepo.convertNote(noteItem)
             is NoteItem.Roll -> noteRepo.convertNote(noteItem, useCache = false)
-        } ?: return null
+        }
 
-        val sort = preferenceRepo.sort ?: return null
-        val rankIdVisibleList = getRankIdVisibleList() ?: return null
-
-        callback?.notifyNoteBind(noteItem, rankIdVisibleList, sort)
+        callback?.notifyNoteBind(noteItem, getRankIdVisibleList(), preferenceRepo.sort)
 
         /**
          * Optimisation for get only first 4 items
@@ -97,7 +92,7 @@ class NotesInteractor(
     }
 
 
-    override suspend fun getDateList(): List<String>? = alarmRepo.getList()?.map { it.alarm.date }
+    override suspend fun getDateList(): List<String> = alarmRepo.getList().map { it.alarm.date }
 
     override suspend fun clearDate(noteItem: NoteItem) {
         alarmRepo.delete(noteItem.id)
@@ -122,6 +117,8 @@ class NotesInteractor(
     }
 
 
-    override suspend fun getNotification(noteId: Long) = alarmRepo.getItem(noteId)
+    override suspend fun getNotification(noteId: Long): NotificationItem? {
+        return alarmRepo.getItem(noteId)
+    }
 
 }

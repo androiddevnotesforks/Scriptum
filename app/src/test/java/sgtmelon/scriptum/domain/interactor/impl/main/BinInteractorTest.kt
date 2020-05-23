@@ -40,7 +40,7 @@ class BinInteractorTest : ParentInteractorTest() {
     @Test fun getTheme() = FastTest.getTheme(preferenceRepo) { interactor.theme }
 
     @Test fun getCount() = startCoTest {
-        val countList = listOf(null, Random.nextInt(), Random.nextInt(), null)
+        val countList = listOf(Random.nextInt(), Random.nextInt())
 
         countList.forEach {
             coEvery { noteRepo.getCount(bin = true) } returns it
@@ -59,9 +59,6 @@ class BinInteractorTest : ParentInteractorTest() {
             noteRepo.getList(any(), bin = true, isOptimal = true, filterVisible = false)
         } returns itemList
 
-        every { preferenceRepo.sort } returns null
-        interactor.getList()
-
         val firstSort = TestData.sort
         every { preferenceRepo.sort } returns firstSort
         interactor.getList()
@@ -71,8 +68,6 @@ class BinInteractorTest : ParentInteractorTest() {
         interactor.getList()
 
         coVerifySequence {
-            preferenceRepo.sort
-
             preferenceRepo.sort
             noteRepo.getList(firstSort, bin = true, isOptimal = true, filterVisible = false)
 

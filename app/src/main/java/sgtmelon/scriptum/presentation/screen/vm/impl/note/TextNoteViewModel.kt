@@ -48,8 +48,8 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     }
 
 
-    private val saveControl: ISaveControl? by lazy {
-        interactor.getSaveModel()?.let { SaveControl(context, it, callback = this) }
+    private val saveControl: ISaveControl by lazy {
+        SaveControl(context, interactor.getSaveModel(), callback = this)
     }
 
     private val inputControl = InputControl()
@@ -74,11 +74,10 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         color = bundle?.getInt(Intent.COLOR, Default.COLOR) ?: Default.COLOR
 
         if (color == Default.COLOR) {
-            color = interactor.defaultColor ?: return
+            color = interactor.defaultColor
         }
 
-        val theme = interactor.theme ?: return
-
+        val theme = interactor.theme
         callback?.apply {
             setupBinding(theme)
             setupToolbar(theme, color)
@@ -91,12 +90,10 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
              */
             if (!::noteItem.isInitialized) {
                 val name = parentCallback?.getString(R.string.dialog_item_rank) ?: return@launch
-                rankDialogItemArray = interactor.getRankDialogItemArray(name) ?: return@launch
+                rankDialogItemArray = interactor.getRankDialogItemArray(name)
 
                 if (id == Default.ID) {
-                    val defaultColor = interactor.defaultColor ?: return@launch
-
-                    noteItem = NoteItem.Text.getCreate(defaultColor)
+                    noteItem = NoteItem.Text.getCreate(interactor.defaultColor)
                     restoreItem = noteItem.deepCopy()
 
                     noteState = NoteState(isCreate = true)
@@ -124,7 +121,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     override fun onDestroy(func: () -> Unit) = super.onDestroy {
         interactor.onDestroy()
         parentCallback = null
-        saveControl?.setSaveEvent(isWork = false)
+        saveControl.setSaveEvent(isWork = false)
     }
 
 
@@ -137,14 +134,14 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
     override fun onResume() {
         if (noteState.isEdit) {
-            saveControl?.setSaveEvent(isWork = true)
+            saveControl.setSaveEvent(isWork = true)
         }
     }
 
     override fun onPause() {
         if (noteState.isEdit) {
-            saveControl?.onPauseSave()
-            saveControl?.setSaveEvent(isWork = false)
+            saveControl.onPauseSave()
+            saveControl.setSaveEvent(isWork = false)
         }
     }
 
@@ -154,7 +151,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
             callback?.hideKeyboard()
             onRestoreData()
         } else {
-            saveControl?.needSave = false
+            saveControl.needSave = false
             parentCallback?.finish()
         }
     }
@@ -168,7 +165,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         /**
          * If note can't be saved and activity will be closed.
          */
-        saveControl?.needSave = false
+        saveControl.needSave = false
 
         return if (!onMenuSave(changeMode = true)) {
             if (!noteState.isCreate) onRestoreData() else false
@@ -210,7 +207,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
     override fun onResultRankDialog(check: Int) {
         viewModelScope.launch {
-            val rankId = interactor.getRankId(check) ?: return@launch
+            val rankId = interactor.getRankId(check)
 
             inputControl.onRankChange(noteItem.rankId, noteItem.rankPs, rankId, check)
 
@@ -228,9 +225,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
     override fun onResultDateDialog(calendar: Calendar) {
         viewModelScope.launch {
-            val dateList = interactor.getDateList() ?: return@launch
-
-            callback?.showTimeDialog(calendar, dateList)
+            callback?.showTimeDialog(calendar, interactor.getDateList())
         }
     }
 
@@ -347,8 +342,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     override fun onMenuColor() {
         if (!noteState.isEdit) return
 
-        val theme = interactor.theme ?: return
-        callback?.showColorDialog(noteItem.color, theme)
+        callback?.showColorDialog(noteItem.color, interactor.theme)
     }
 
     override fun onMenuSave(changeMode: Boolean): Boolean {
@@ -446,8 +440,8 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
             if (isEdit) focusOnEdit(noteState.isCreate)
         }
 
-        saveControl?.needSave = true
-        saveControl?.setSaveEvent(isEdit)
+        saveControl.needSave = true
+        saveControl.setSaveEvent(isEdit)
     }
 
     //endregion

@@ -19,9 +19,9 @@ class PreferenceInteractor(
         private val preferenceRepo: IPreferenceRepo
 ) : IPreferenceInteractor {
 
-    @Theme override val theme: Int? get() = preferenceRepo.theme
+    @Theme override val theme: Int get() = preferenceRepo.theme
 
-    override fun getThemeSummary(): String? = theme?.let { summaryProvider.theme?.getOrNull(it) }
+    override fun getThemeSummary(): String? = summaryProvider.theme.getOrNull(theme)
 
     override fun updateTheme(@Theme value: Int): String? {
         preferenceRepo.theme = value
@@ -29,9 +29,9 @@ class PreferenceInteractor(
     }
 
 
-    @Sort override val sort: Int? get() = preferenceRepo.sort
+    @Sort override val sort: Int get() = preferenceRepo.sort
 
-    override fun getSortSummary(): String? = sort?.let { summaryProvider.sort?.getOrNull(it) }
+    override fun getSortSummary(): String? = summaryProvider.sort.getOrNull(sort)
 
     override fun updateSort(@Sort value: Int): String? {
         preferenceRepo.sort = value
@@ -39,11 +39,9 @@ class PreferenceInteractor(
     }
 
 
-    @Color override val defaultColor: Int? get() = preferenceRepo.defaultColor
+    @Color override val defaultColor: Int get() = preferenceRepo.defaultColor
 
-    override fun getDefaultColorSummary(): String? = defaultColor?.let {
-        summaryProvider.color?.getOrNull(it)
-    }
+    override fun getDefaultColorSummary(): String? = summaryProvider.color.getOrNull(defaultColor)
 
     override fun updateDefaultColor(@Color value: Int): String? {
         preferenceRepo.defaultColor = value
@@ -51,11 +49,10 @@ class PreferenceInteractor(
     }
 
 
-    override val savePeriod: Int? get() = preferenceRepo.savePeriod
+    override val savePeriod: Int get() = preferenceRepo.savePeriod
 
-    override fun getSavePeriodSummary(): String? = savePeriod?.let {
-        summaryProvider.savePeriod?.getOrNull(it)
-    }
+    override fun getSavePeriodSummary(): String? = summaryProvider.savePeriod.getOrNull(savePeriod)
+
 
     override fun updateSavePeriod(value: Int): String? {
         preferenceRepo.savePeriod = value
@@ -63,11 +60,9 @@ class PreferenceInteractor(
     }
 
 
-    @Repeat override val repeat: Int? get() = preferenceRepo.repeat
+    @Repeat override val repeat: Int get() = preferenceRepo.repeat
 
-    override fun getRepeatSummary(): String? = repeat?.let {
-        summaryProvider.repeat?.getOrNull(it)
-    }
+    override fun getRepeatSummary(): String? = summaryProvider.repeat.getOrNull(repeat)
 
     override fun updateRepeat(@Repeat value: Int): String? {
         preferenceRepo.repeat = value
@@ -76,7 +71,7 @@ class PreferenceInteractor(
 
 
     override fun getSignalSummaryArray(signalCheck: BooleanArray): String? {
-        val summaryArray = summaryProvider.signal ?: return null
+        val summaryArray = summaryProvider.signal
 
         if (summaryArray.size != signalCheck.size) return null
 
@@ -101,9 +96,9 @@ class PreferenceInteractor(
     }
 
 
-    override val volume: Int? get() = preferenceRepo.volume
+    override val volume: Int get() = preferenceRepo.volume
 
-    override fun getVolumeSummary(): String? = volume?.let { summaryProvider.getVolume(it) }
+    override fun getVolumeSummary(): String? = summaryProvider.getVolume(volume)
 
     override fun updateVolume(value: Int): String? {
         preferenceRepo.volume = value

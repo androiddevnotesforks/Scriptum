@@ -52,7 +52,7 @@ class NotesInteractorTest : ParentInteractorTest() {
 
 
     @Test fun getCount()  = startCoTest {
-        val countList = listOf(null, Random.nextInt(), Random.nextInt(), null)
+        val countList = listOf(Random.nextInt(), Random.nextInt())
 
         countList.forEach {
             coEvery { noteRepo.getCount(bin = false) } returns it
@@ -71,9 +71,6 @@ class NotesInteractorTest : ParentInteractorTest() {
             noteRepo.getList(any(), bin = false, isOptimal = true, filterVisible = true)
         } returns itemList
 
-        every { preferenceRepo.sort } returns null
-        interactor.getList()
-
         val firstSort = TestData.sort
         every { preferenceRepo.sort } returns firstSort
         interactor.getList()
@@ -84,8 +81,6 @@ class NotesInteractorTest : ParentInteractorTest() {
 
         coVerifySequence {
             preferenceRepo.sort
-
-            preferenceRepo.sort
             noteRepo.getList(firstSort, bin = false, isOptimal = true, filterVisible = true)
 
             preferenceRepo.sort
@@ -94,7 +89,7 @@ class NotesInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun isListHide() = startCoTest {
-        val hideList = listOf(null, Random.nextBoolean(), Random.nextBoolean(), null)
+        val hideList = listOf(Random.nextBoolean(), Random.nextBoolean())
 
         hideList.forEach {
             coEvery { noteRepo.isListHide() } returns it
@@ -118,17 +113,7 @@ class NotesInteractorTest : ParentInteractorTest() {
         val rollItem = data.itemList.filterIsInstance<NoteItem.Roll>().random()
         val rollMirror = rollItem.deepCopy(list = rollList)
 
-        coEvery { noteRepo.getRollList(rollItem.id) } returns null
-        interactor.updateNote(rollItem)
-
-        every { preferenceRepo.sort } returns null
-        interactor.updateNote(textItem)
-
         coEvery { noteRepo.getRollList(rollItem.id) } returns rollList
-        every { preferenceRepo.sort } returns sort
-        coEvery { rankRepo.getIdVisibleList() } returns null
-        interactor.updateNote(rollItem)
-
         every { preferenceRepo.sort } returns sort
         coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList
         interactor.updateNote(textItem)
@@ -137,20 +122,9 @@ class NotesInteractorTest : ParentInteractorTest() {
         interactor.updateNote(rollItem)
 
         coVerifySequence {
-            noteRepo.updateNote(rollItem)
-            noteRepo.getRollList(rollItem.id)
-
             noteRepo.updateNote(textItem)
-            preferenceRepo.sort
-
-            noteRepo.updateNote(rollItem)
-            noteRepo.getRollList(rollItem.id)
-            preferenceRepo.sort
             rankRepo.getIdVisibleList()
-
-            noteRepo.updateNote(textItem)
             preferenceRepo.sort
-            rankRepo.getIdVisibleList()
             callback.notifyNoteBind(textMirror, rankIdVisibleList, sort)
 
             noteRepo.updateNote(rollItem)
@@ -178,33 +152,6 @@ class NotesInteractorTest : ParentInteractorTest() {
         }
 
         /**
-         * Return null on convert.
-         */
-        coEvery { noteRepo.convertNote(textItem) } returns null
-        assertEquals(null, interactor.convertNote(textItem))
-
-        /**
-         * Return null on convert.
-         */
-        coEvery { noteRepo.convertNote(rollItemSmall, useCache = false) } returns null
-        assertEquals(null, interactor.convertNote(rollItemSmall))
-
-        /**
-         * Return null on preference sort.
-         */
-        coEvery { noteRepo.convertNote(textItem) } returns rollItemSmall
-        every { preferenceRepo.sort } returns null
-        assertEquals(null, interactor.convertNote(textItem))
-
-        /**
-         * Return null get rankIdVisibleList.
-         */
-        coEvery { noteRepo.convertNote(textItem) } returns rollItemSmall
-        every { preferenceRepo.sort } returns sort
-        coEvery { rankRepo.getIdVisibleList() } returns null
-        assertEquals(null, interactor.convertNote(textItem))
-
-        /**
          * Convert textNote.
          */
         coEvery { noteRepo.convertNote(textItem) } returns rollItemSmall
@@ -226,19 +173,8 @@ class NotesInteractorTest : ParentInteractorTest() {
 
         coVerifySequence {
             noteRepo.convertNote(textItem)
-
-            noteRepo.convertNote(rollItemSmall, useCache = false)
-
-            noteRepo.convertNote(textItem)
-            preferenceRepo.sort
-
-            noteRepo.convertNote(textItem)
-            preferenceRepo.sort
             rankRepo.getIdVisibleList()
-
-            noteRepo.convertNote(textItem)
             preferenceRepo.sort
-            rankRepo.getIdVisibleList()
             callback.notifyNoteBind(textItem, rankIdVisibleList, sort)
 
             noteRepo.convertNote(textItem)
@@ -255,14 +191,10 @@ class NotesInteractorTest : ParentInteractorTest() {
     @Test fun getDateList() = startCoTest {
         val itemList = TestData.Notification.itemList
 
-        coEvery { alarmRepo.getList() } returns null
-        assertEquals(null, interactor.getDateList())
-
         coEvery { alarmRepo.getList() } returns itemList
         assertEquals(itemList.map { it.alarm.date }, interactor.getDateList())
 
         coVerifySequence {
-            alarmRepo.getList()
             alarmRepo.getList()
         }
     }

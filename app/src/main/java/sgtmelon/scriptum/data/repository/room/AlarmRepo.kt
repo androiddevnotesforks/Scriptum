@@ -35,7 +35,7 @@ class AlarmRepo(
         alarmDao.getItem(noteId)
     }
 
-    override suspend fun getList(): MutableList<NotificationItem>? = takeFromRoom {
+    override suspend fun getList(): MutableList<NotificationItem> = takeFromRoom {
         alarmDao.getList()
     }
 

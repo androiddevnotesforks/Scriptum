@@ -65,6 +65,9 @@ class TextNoteInteractorTest : ParentInteractorTest() {
         val firstItem = data.firstNote.deepCopy()
         val secondItem = data.thirdNote.deepCopy()
 
+        every { preferenceRepo.sort } returns sort
+        coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList
+
         coEvery { noteRepo.getItem(wrongItem.id, isOptimal = false) } returns null
         assertNull(interactor.getItem(wrongItem.id))
 
@@ -72,14 +75,6 @@ class TextNoteInteractorTest : ParentInteractorTest() {
         assertNull(interactor.getItem(wrongItem.id))
 
         coEvery { noteRepo.getItem(firstItem.id, isOptimal = false) } returns firstItem
-        every { preferenceRepo.sort } returns null
-        assertEquals(null, interactor.getItem(firstItem.id))
-
-        every { preferenceRepo.sort } returns sort
-        coEvery { rankRepo.getIdVisibleList() } returns null
-        assertEquals(null, interactor.getItem(firstItem.id))
-
-        coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList
         assertEquals(firstItem, interactor.getItem(firstItem.id))
 
         coEvery { noteRepo.getItem(secondItem.id, isOptimal = false) } returns secondItem
@@ -87,19 +82,11 @@ class TextNoteInteractorTest : ParentInteractorTest() {
 
         coVerifySequence {
             noteRepo.getItem(wrongItem.id, isOptimal = false)
-
             noteRepo.getItem(wrongItem.id, isOptimal = false)
 
             noteRepo.getItem(firstItem.id, isOptimal = false)
-            preferenceRepo.sort
-
-            noteRepo.getItem(firstItem.id, isOptimal = false)
-            preferenceRepo.sort
             rankRepo.getIdVisibleList()
-
-            noteRepo.getItem(firstItem.id, isOptimal = false)
             preferenceRepo.sort
-            rankRepo.getIdVisibleList()
             callback.notifyNoteBind(firstItem, rankIdVisibleList, sort)
 
             noteRepo.getItem(secondItem.id, isOptimal = false)
@@ -112,14 +99,10 @@ class TextNoteInteractorTest : ParentInteractorTest() {
         val emptyName = Random.nextString()
         val itemArray = Array(size = 5) { Random.nextString() }
 
-        coEvery { rankRepo.getDialogItemArray(emptyName) } returns null
-        assertNull(interactor.getRankDialogItemArray(emptyName))
-
         coEvery { rankRepo.getDialogItemArray(emptyName) } returns itemArray
         assertArrayEquals(itemArray, interactor.getRankDialogItemArray(emptyName))
 
         coVerifySequence {
-            rankRepo.getDialogItemArray(emptyName)
             rankRepo.getDialogItemArray(emptyName)
         }
     }
@@ -127,10 +110,8 @@ class TextNoteInteractorTest : ParentInteractorTest() {
 
     @Test fun getRankId() = startCoTest {
         val list = listOf(
-                Pair(null, Random.nextInt()),
                 Pair(Random.nextLong(), Random.nextInt()),
-                Pair(Random.nextLong(), Random.nextInt()),
-                Pair(null, Random.nextInt())
+                Pair(Random.nextLong(), Random.nextInt())
         )
 
         list.forEach {
@@ -147,14 +128,10 @@ class TextNoteInteractorTest : ParentInteractorTest() {
         val itemList = TestData.Notification.itemList
         val dateList = itemList.map { it.alarm.date }
 
-        coEvery { alarmRepo.getList() } returns null
-        assertEquals(null, interactor.getDateList())
-
         coEvery { alarmRepo.getList() } returns itemList
         assertEquals(dateList, interactor.getDateList())
 
         coVerifySequence {
-            alarmRepo.getList()
             alarmRepo.getList()
         }
     }
@@ -213,14 +190,9 @@ class TextNoteInteractorTest : ParentInteractorTest() {
         val firstItem = data.firstNote.deepCopy()
         val secondItem = data.thirdNote.deepCopy()
 
-        every { preferenceRepo.sort } returns null
-        interactor.updateNote(firstItem, updateBind = true)
-
         every { preferenceRepo.sort } returns sort
-        coEvery { rankRepo.getIdVisibleList() } returns null
-        interactor.updateNote(secondItem, updateBind = true)
-
         coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList
+
         interactor.updateNote(firstItem, updateBind = true)
         interactor.updateNote(secondItem, updateBind = true)
 
@@ -228,15 +200,8 @@ class TextNoteInteractorTest : ParentInteractorTest() {
 
         coVerifySequence {
             noteRepo.updateNote(firstItem)
-            preferenceRepo.sort
-
-            noteRepo.updateNote(secondItem)
-            preferenceRepo.sort
             rankRepo.getIdVisibleList()
-
-            noteRepo.updateNote(firstItem)
             preferenceRepo.sort
-            rankRepo.getIdVisibleList()
             callback.notifyNoteBind(firstItem, rankIdVisibleList, sort)
 
             noteRepo.updateNote(secondItem)
@@ -264,32 +229,17 @@ class TextNoteInteractorTest : ParentInteractorTest() {
         val firstItem = data.firstNote.deepCopy()
         val secondItem = data.thirdNote.deepCopy()
 
-        every { preferenceRepo.sort } returns null
-        interactor.saveNote(firstItem, isCreate = true)
-
         every { preferenceRepo.sort } returns sort
-        coEvery { rankRepo.getIdVisibleList() } returns null
-        interactor.saveNote(secondItem, isCreate = false)
-
         coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList
-        interactor.saveNote(firstItem, isCreate = true)
 
+        interactor.saveNote(firstItem, isCreate = true)
         interactor.saveNote(secondItem, isCreate = false)
 
         coVerifySequence {
             noteRepo.saveNote(firstItem, isCreate = true)
             rankRepo.updateConnection(firstItem)
-            preferenceRepo.sort
-
-            noteRepo.saveNote(secondItem, isCreate = false)
-            rankRepo.updateConnection(secondItem)
-            preferenceRepo.sort
             rankRepo.getIdVisibleList()
-
-            noteRepo.saveNote(firstItem, isCreate = true)
-            rankRepo.updateConnection(firstItem)
             preferenceRepo.sort
-            rankRepo.getIdVisibleList()
             callback.notifyNoteBind(firstItem, rankIdVisibleList, sort)
 
             noteRepo.saveNote(secondItem, isCreate = false)

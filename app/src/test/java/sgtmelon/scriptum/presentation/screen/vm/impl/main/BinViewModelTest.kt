@@ -51,7 +51,7 @@ class BinViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onSetup() {
-        val themeList = listOf(null, Theme.LIGHT, Random.nextInt(), null)
+        val themeList = listOf(Theme.LIGHT, Random.nextInt())
 
         themeList.forEach {
             every { interactor.theme } returns it
@@ -60,12 +60,9 @@ class BinViewModelTest : ParentViewModelTest() {
 
         verifySequence {
             themeList.forEach {
+                callback.setupToolbar()
                 interactor.theme
-
-                if (it != null) {
-                    callback.setupToolbar()
-                    callback.setupRecycler(it)
-                }
+                callback.setupRecycler(it)
             }
         }
     }
@@ -73,29 +70,13 @@ class BinViewModelTest : ParentViewModelTest() {
     @Test fun onUpdateData_startEmpty_getNotEmpty() = startCoTest {
         val itemList = data.itemList
 
-        coEvery { interactor.getCount() } returns null
-        coEvery { interactor.getList() } returns itemList
-        viewModel.itemList.clear()
-        viewModel.onUpdateData()
-
         coEvery { interactor.getCount() } returns itemList.size
-        coEvery { interactor.getList() } returns null
-        viewModel.itemList.clear()
-        viewModel.onUpdateData()
-
         coEvery { interactor.getList() } returns itemList
+
         viewModel.itemList.clear()
         viewModel.onUpdateData()
 
         coVerifySequence {
-            callback.beforeLoad()
-            interactor.getCount()
-
-            callback.beforeLoad()
-            interactor.getCount()
-            callback.showProgress()
-            interactor.getList()
-
             callback.beforeLoad()
             interactor.getCount()
             callback.showProgress()
@@ -107,18 +88,12 @@ class BinViewModelTest : ParentViewModelTest() {
     @Test fun onUpdateData_startEmpty_getEmpty() = startCoTest {
         val itemList = mutableListOf<NoteItem>()
 
-        coEvery { interactor.getCount() } returns null
-        viewModel.itemList.clear()
-        viewModel.onUpdateData()
-
         coEvery { interactor.getCount() } returns itemList.size
+
         viewModel.itemList.clear()
         viewModel.onUpdateData()
 
         coVerifySequence {
-            callback.beforeLoad()
-            interactor.getCount()
-
             callback.beforeLoad()
             interactor.getCount()
             updateList(itemList)
@@ -129,32 +104,14 @@ class BinViewModelTest : ParentViewModelTest() {
         val startList = data.itemList
         val returnList = data.itemList.apply { shuffle() }
 
-        coEvery { interactor.getCount() } returns null
-        viewModel.itemList.clearAdd(startList)
-        assertEquals(startList, viewModel.itemList)
-        viewModel.onUpdateData()
-
         coEvery { interactor.getCount() } returns returnList.size
-        coEvery { interactor.getList() } returns null
-        viewModel.itemList.clearAdd(startList)
-        assertEquals(startList, viewModel.itemList)
-        viewModel.onUpdateData()
-
         coEvery { interactor.getList() } returns returnList
+
         viewModel.itemList.clearAdd(startList)
         assertEquals(startList, viewModel.itemList)
         viewModel.onUpdateData()
 
         coVerifySequence {
-            callback.beforeLoad()
-            updateList(any())
-            interactor.getCount()
-
-            callback.beforeLoad()
-            updateList(any())
-            interactor.getCount()
-            interactor.getList()
-
             callback.beforeLoad()
             updateList(any())
             interactor.getCount()
@@ -167,21 +124,13 @@ class BinViewModelTest : ParentViewModelTest() {
         val startList = data.itemList
         val returnList = mutableListOf<NoteItem>()
 
-        coEvery { interactor.getCount() } returns null
-        viewModel.itemList.clearAdd(startList)
-        assertEquals(startList, viewModel.itemList)
-        viewModel.onUpdateData()
-
         coEvery { interactor.getCount() } returns returnList.size
+
         viewModel.itemList.clearAdd(startList)
         assertEquals(startList, viewModel.itemList)
         viewModel.onUpdateData()
 
         coVerifySequence {
-            callback.beforeLoad()
-            updateList(any())
-            interactor.getCount()
-
             callback.beforeLoad()
             updateList(any())
             interactor.getCount()

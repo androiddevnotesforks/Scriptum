@@ -10,31 +10,31 @@ import sgtmelon.scriptum.domain.model.annotation.Theme
  */
 interface IPreferenceRepo {
 
-    var firstStart: Boolean?
+    var firstStart: Boolean
 
-    @Theme var theme: Int?
-
-
-    @Sort var sort: Int?
-
-    @Color var defaultColor: Int?
-
-    var pauseSaveOn: Boolean?
-
-    var autoSaveOn: Boolean?
-
-    var savePeriod: Int?
+    @Theme var theme: Int
 
 
-    @Repeat var repeat: Int?
+    @Sort var sort: Int
 
-    var signal: Int?
+    @Color var defaultColor: Int
 
-    var melodyUri: String?
+    var pauseSaveOn: Boolean
 
-    var volume: Int?
+    var autoSaveOn: Boolean
 
-    var volumeIncrease: Boolean?
+    var savePeriod: Int
+
+
+    @Repeat var repeat: Int
+
+    var signal: Int
+
+    var melodyUri: String
+
+    var volume: Int
+
+    var volumeIncrease: Boolean
 
 
     fun clear()

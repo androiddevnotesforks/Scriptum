@@ -47,9 +47,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     @VisibleForTesting
     var signalState: SignalState? = null
 
-    private val longWaitRunnable = Runnable {
-        repeatFinish(repeat = interactor.repeat ?: return@Runnable)
-    }
+    private val longWaitRunnable = Runnable { repeatFinish(interactor.repeat) }
     private val vibratorRunnable = object : Runnable {
         override fun run() {
             callback?.vibrateStart(vibratorPattern)
@@ -58,14 +56,12 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     }
 
     override fun onSetup(bundle: Bundle?) {
-        val theme = interactor.theme ?: return
-        val volume = interactor.volume ?: return
-        val volumeIncrease = interactor.volumeIncrease ?: return
-
         callback?.apply {
             acquirePhone(CANCEL_DELAY)
-            setupView(theme)
-            setupPlayer(signalInteractor.getMelodyUri(), volume, volumeIncrease)
+            setupView(interactor.theme)
+
+            val melodyUri = signalInteractor.getMelodyUri()
+            setupPlayer(melodyUri, interactor.volume, interactor.volumeIncrease)
         }
 
         if (bundle != null) {
@@ -115,7 +111,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     }
 
     override fun onStart() {
-        val theme = interactor.theme ?: return
+        val theme = interactor.theme
 
         callback?.apply {
             startRippleAnimation(theme, noteItem.color, theme.getRippleShade())
@@ -143,11 +139,11 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     }
 
     override fun onClickRepeat() {
-        repeatFinish(repeat = interactor.repeat ?: return)
+        repeatFinish(interactor.repeat)
     }
 
     override fun onResultRepeatDialog(@IdRes itemId: Int) {
-        repeatFinish(repeat = getRepeatById(itemId) ?: interactor.repeat ?: return)
+        repeatFinish(repeat = getRepeatById(itemId) ?: interactor.repeat)
     }
 
     private fun getRepeatById(@IdRes itemId: Int): Int? = when(itemId) {

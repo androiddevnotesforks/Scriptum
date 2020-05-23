@@ -41,9 +41,9 @@ interface IPreferenceViewModel : IParentViewModel {
 
     fun onClickMelody(result: PermissionResult): Boolean
 
-    fun onSelectMelody(item: Int)
+    fun onSelectMelody(check: Int)
 
-    fun onResultMelody(value: Int)
+    fun onResultMelody(check: Int)
 
     fun onClickVolume(): Boolean
 

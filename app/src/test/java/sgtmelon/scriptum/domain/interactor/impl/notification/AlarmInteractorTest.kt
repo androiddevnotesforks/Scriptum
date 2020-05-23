@@ -55,12 +55,12 @@ class AlarmInteractorTest : ParentInteractorTest() {
     @Test fun getVolume() = FastTest.getVolume(preferenceRepo) { interactor.volume }
 
     @Test fun getVolumeIncrease() {
-        fun checkRequestGet(value: Boolean?) {
+        fun checkRequestGet(value: Boolean) {
             every { preferenceRepo.volumeIncrease } returns value
             assertEquals(value, interactor.volumeIncrease)
         }
 
-        val valueList = listOf(null, Random.nextBoolean(), Random.nextBoolean(), null)
+        val valueList = listOf(Random.nextBoolean(), Random.nextBoolean())
         valueList.forEach { checkRequestGet(it) }
 
         verifySequence {
@@ -121,9 +121,6 @@ class AlarmInteractorTest : ParentInteractorTest() {
         val currentCalendar = Calendar.getInstance().clearSeconds()
         val minute = currentCalendar.get(Calendar.MINUTE)
 
-        coEvery { alarmRepo.getList() } returns null
-        interactor.checkDateExist(currentCalendar)
-
         coEvery { alarmRepo.getList() } returns itemList
         interactor.checkDateExist(currentCalendar)
 
@@ -134,7 +131,6 @@ class AlarmInteractorTest : ParentInteractorTest() {
         assertEquals(expected, currentCalendar.get(Calendar.MINUTE))
 
         coVerifySequence {
-            alarmRepo.getList()
             alarmRepo.getList()
         }
     }

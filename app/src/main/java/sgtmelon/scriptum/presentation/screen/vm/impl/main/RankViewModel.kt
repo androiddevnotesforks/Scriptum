@@ -58,15 +58,14 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         if (itemList.isNotEmpty()) updateList()
 
         viewModelScope.launch {
-            val count = interactor.getCount() ?: return@launch
-            if (count == 0) {
+            if (interactor.getCount() == 0) {
                 itemList.clear()
             } else {
                 if (itemList.isEmpty()) {
                     callback?.showProgress()
                 }
 
-                interactor.getList()?.let { itemList.clearAdd(it) } ?: return@launch
+                itemList.clearAdd(interactor.getList())
             }
 
             updateList()
@@ -125,8 +124,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         val p = if (simpleClick) itemList.size else 0
 
         viewModelScope.launch {
-            val item = interactor.insert(name) ?: return@launch
-            itemList.add(p, item)
+            itemList.add(p, interactor.insert(name))
 
             val noteIdList = itemList.correctPositions()
             interactor.updatePosition(itemList, noteIdList)
@@ -178,7 +176,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
             for (item in itemList) {
                 if (!item.noteId.contains(id)) continue
 
-                item.hasBind = interactor.getBind(item.noteId) ?: continue
+                item.hasBind = interactor.getBind(item.noteId)
             }
 
             callback?.notifyList(itemList)

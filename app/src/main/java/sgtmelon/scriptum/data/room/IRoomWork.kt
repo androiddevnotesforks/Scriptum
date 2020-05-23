@@ -13,15 +13,15 @@ interface IRoomWork {
     val roomProvider: RoomProvider
 
     suspend fun inRoom(func: suspend RoomDb.() -> Unit) {
-        roomProvider.openRoom()?.apply { func() }?.close()
+        roomProvider.openRoom().apply { func() }.close()
     }
 
-    suspend fun <T> takeFromRoom(func: suspend RoomDb.() -> T): T? {
-        var value: T? = null
+    suspend fun <T> takeFromRoom(func: suspend RoomDb.() -> T): T {
+        var value: T
 
-        roomProvider.openRoom()?.apply {
+        roomProvider.openRoom().apply {
             value = func()
-        }?.close()
+        }.close()
 
         return value
     }
@@ -31,9 +31,9 @@ interface IRoomWork {
      */
     @VisibleForTesting(otherwise = VisibleForTesting.NONE)
     fun inRoomTest(func: suspend RoomDb.() -> Unit) {
-        roomProvider.openRoom()?.apply {
+        roomProvider.openRoom().apply {
             runBlocking { launch { func() } }
-        }?.close()
+        }.close()
     }
 
 }

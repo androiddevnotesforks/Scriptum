@@ -4,7 +4,6 @@ import io.mockk.coEvery
 import io.mockk.coVerifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.scriptum.ParentRoomRepoTest
 import sgtmelon.scriptum.TestData
@@ -21,8 +20,7 @@ import sgtmelon.scriptum.domain.model.key.NoteType
 @ExperimentalCoroutinesApi
 class DevelopRepoTest : ParentRoomRepoTest() {
 
-    private val badDevelopRepo by lazy { DevelopRepo(badRoomProvider) }
-    private val goodDevelopRepo by lazy { DevelopRepo(goodRoomProvider) }
+    private val developRepo by lazy { DevelopRepo(roomProvider) }
 
     @Test fun getNoteList() = startCoTest {
         val entityList = NoteConverter().toEntity(TestData.Note.itemList)
@@ -34,13 +32,10 @@ class DevelopRepoTest : ParentRoomRepoTest() {
         coEvery { noteDao.getByChange(bin = false) } returns entityList
         coEvery { noteDao.getByChange(bin = true) } returns entityList.reversed()
 
-        assertNull(badDevelopRepo.getNoteList())
-        assertEquals(finalList, goodDevelopRepo.getNoteList())
+        assertEquals(finalList, developRepo.getNoteList())
 
         coVerifySequence {
-            badRoomProvider.openRoom()
-
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             noteDao.getByChange(bin = false)
             noteDao.getByChange(bin = true)
         }
@@ -71,13 +66,10 @@ class DevelopRepoTest : ParentRoomRepoTest() {
             coEvery { rollDao.get(it) } returns RollConverter().toEntity(it, rollList)
         }
 
-        assertNull(badDevelopRepo.getRollList())
-        assertEquals(resultList, goodDevelopRepo.getRollList())
+        assertEquals(resultList, developRepo.getRollList())
 
         coVerifySequence {
-            badRoomProvider.openRoom()
-
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             noteDao.getByChange(bin = false)
             firstList.forEach { rollDao.get(it) }
             noteDao.getByChange(bin = true)
@@ -90,13 +82,10 @@ class DevelopRepoTest : ParentRoomRepoTest() {
 
         coEvery { rankDao.get() } returns entityList
 
-        assertNull(badDevelopRepo.getRankList())
-        assertEquals(entityList, goodDevelopRepo.getRankList())
+        assertEquals(entityList, developRepo.getRankList())
 
         coVerifySequence {
-            badRoomProvider.openRoom()
-
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             rankDao.get()
         }
     }

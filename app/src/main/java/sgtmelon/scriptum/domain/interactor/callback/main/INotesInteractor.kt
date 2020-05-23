@@ -14,23 +14,23 @@ import java.util.*
  */
 interface INotesInteractor : IParentInteractor {
 
-    @Theme val theme: Int?
+    @Theme val theme: Int
 
-    @Sort val sort: Int?
+    @Sort val sort: Int
 
 
-    suspend fun getCount(): Int?
+    suspend fun getCount(): Int
 
-    suspend fun getList(): MutableList<NoteItem>?
+    suspend fun getList(): MutableList<NoteItem>
 
-    suspend fun isListHide(): Boolean?
+    suspend fun isListHide(): Boolean
 
     suspend fun updateNote(noteItem: NoteItem)
 
-    suspend fun convertNote(noteItem: NoteItem): NoteItem?
+    suspend fun convertNote(noteItem: NoteItem): NoteItem
 
 
-    suspend fun getDateList(): List<String>?
+    suspend fun getDateList(): List<String>
 
     suspend fun clearDate(noteItem: NoteItem)
 

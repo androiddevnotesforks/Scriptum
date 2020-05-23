@@ -25,7 +25,7 @@ class RepoModule {
     @Singleton
     fun providePreferenceRepo(keyProvider: PreferenceProvider.Key,
                               defProvider: PreferenceProvider.Def,
-                              preferences: SharedPreferences?): IPreferenceRepo {
+                              preferences: SharedPreferences): IPreferenceRepo {
         return PreferenceRepo(keyProvider, defProvider, preferences)
     }
 

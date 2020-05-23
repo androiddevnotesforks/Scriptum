@@ -15,10 +15,10 @@ class ContextModule {
 
     @Provides
     @Singleton
-    fun provideContext(application: ScriptumApplication): Context? = application.applicationContext
+    fun provideContext(application: ScriptumApplication): Context = application.applicationContext
 
     @Provides
     @Singleton
-    fun provideResources(context: Context?): Resources? = context?.resources
+    fun provideResources(context: Context): Resources = context.resources
 
 }

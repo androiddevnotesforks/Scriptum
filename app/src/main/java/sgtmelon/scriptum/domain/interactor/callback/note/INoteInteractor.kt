@@ -11,8 +11,8 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.note.NoteViewModel
  */
 interface INoteInteractor : IParentInteractor {
 
-    @Theme val theme: Int?
+    @Theme val theme: Int
 
-    @Color val defaultColor: Int?
+    @Color val defaultColor: Int
 
 }

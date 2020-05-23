@@ -22,9 +22,9 @@ class RankRepo(
 ) : IRankRepo,
         IRoomWork {
 
-    override suspend fun getCount(): Int? = takeFromRoom { rankDao.getCount() }
+    override suspend fun getCount(): Int = takeFromRoom { rankDao.getCount() }
 
-    override suspend fun getList(): MutableList<RankItem>? = takeFromRoom {
+    override suspend fun getList(): MutableList<RankItem> = takeFromRoom {
         ArrayList<RankItem>().apply {
             addAll(converter.toItem(rankDao.get()))
             forEach { item ->
@@ -34,19 +34,19 @@ class RankRepo(
         }
     }
 
-    override suspend fun getBind(noteId: List<Long>): Boolean? = takeFromRoom {
+    override suspend fun getBind(noteId: List<Long>): Boolean = takeFromRoom {
         noteDao.get(noteId).any { it.isStatus }
     }
 
     /**
      * Return list of rank id's which is visible.
      */
-    override suspend fun getIdVisibleList(): List<Long>? = takeFromRoom {
+    override suspend fun getIdVisibleList(): List<Long> = takeFromRoom {
         rankDao.getIdVisibleList()
     }
 
 
-    override suspend fun insert(name: String): Long? = takeFromRoom {
+    override suspend fun insert(name: String): Long = takeFromRoom {
         rankDao.insert(RankEntity(name = name))
     }
 
@@ -132,7 +132,7 @@ class RankRepo(
     /**
      * Return array with all rank names.
      */
-    override suspend fun getDialogItemArray(emptyName: String): Array<String>? = takeFromRoom {
+    override suspend fun getDialogItemArray(emptyName: String): Array<String> = takeFromRoom {
         ArrayList<String>().apply {
             add(emptyName)
             addAll(rankDao.getNameList())
@@ -142,7 +142,7 @@ class RankRepo(
     /**
      * Return rank id by [position].
      */
-    override suspend fun getId(position: Int): Long? {
+    override suspend fun getId(position: Int): Long {
         return if (position == DbData.Note.Default.RANK_PS) {
             DbData.Note.Default.RANK_ID
         } else {

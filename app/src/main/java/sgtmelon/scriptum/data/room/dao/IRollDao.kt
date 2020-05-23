@@ -14,6 +14,9 @@ import sgtmelon.scriptum.domain.model.item.NoteItem.Roll.Companion.PREVIEW_SIZE
 @TypeConverters(BoolConverter::class)
 interface IRollDao {
 
+    /**
+     * TODO add -1 value convert to null
+     */
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(rollEntity: RollEntity): Long
 

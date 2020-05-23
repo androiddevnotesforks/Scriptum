@@ -10,7 +10,7 @@ import sgtmelon.scriptum.data.room.RoomDb
  */
 class BindRepo(override val roomProvider: RoomProvider) : IBindRepo, IRoomWork {
 
-    override suspend fun unbindNote(id: Long): Boolean? = takeFromRoom {
+    override suspend fun unbindNote(id: Long): Boolean = takeFromRoom {
         val noteEntity = noteDao.get(id)?.apply { isStatus = false }
 
         if (noteEntity != null) {
@@ -20,6 +20,6 @@ class BindRepo(override val roomProvider: RoomProvider) : IBindRepo, IRoomWork {
         return@takeFromRoom noteEntity != null
     }
 
-    override suspend fun getNotificationCount(): Int? = takeFromRoom { alarmDao.getCount() }
+    override suspend fun getNotificationCount(): Int = takeFromRoom { alarmDao.getCount() }
 
 }

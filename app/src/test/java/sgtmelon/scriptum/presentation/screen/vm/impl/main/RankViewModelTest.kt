@@ -70,29 +70,13 @@ class RankViewModelTest : ParentViewModelTest() {
     @Test fun onUpdateData_startEmpty_getNotEmpty() = startCoTest {
         val itemList = data.itemList
 
-        coEvery { interactor.getCount() } returns null
-        viewModel.itemList.clear()
-        viewModel.onUpdateData()
-
-        coEvery { interactor.getCount() } returns itemList.size
-        coEvery { interactor.getList() } returns null
-        viewModel.itemList.clear()
-        viewModel.onUpdateData()
-
         coEvery { interactor.getCount() } returns itemList.size
         coEvery { interactor.getList() } returns itemList
+
         viewModel.itemList.clear()
         viewModel.onUpdateData()
 
         coVerifySequence {
-            callback.beforeLoad()
-            interactor.getCount()
-
-            callback.beforeLoad()
-            interactor.getCount()
-            callback.showProgress()
-            interactor.getList()
-
             callback.beforeLoad()
             interactor.getCount()
             callback.showProgress()
@@ -104,18 +88,11 @@ class RankViewModelTest : ParentViewModelTest() {
     @Test fun onUpdateData_startEmpty_getEmpty() = startCoTest {
         val itemList = mutableListOf<RankItem>()
 
-        coEvery { interactor.getCount() } returns null
-        viewModel.itemList.clear()
-        viewModel.onUpdateData()
-
         coEvery { interactor.getCount() } returns itemList.size
         viewModel.itemList.clear()
         viewModel.onUpdateData()
 
         coVerifySequence {
-            callback.beforeLoad()
-            interactor.getCount()
-
             callback.beforeLoad()
             interactor.getCount()
             updateList(itemList)
@@ -126,32 +103,14 @@ class RankViewModelTest : ParentViewModelTest() {
         val startList = data.itemList
         val returnList = data.itemList.apply { shuffle() }
 
-        coEvery { interactor.getCount() } returns null
-        viewModel.itemList.clearAdd(startList)
-        assertEquals(startList, viewModel.itemList)
-        viewModel.onUpdateData()
-
         coEvery { interactor.getCount() } returns returnList.size
-        coEvery { interactor.getList() } returns null
-        viewModel.itemList.clearAdd(startList)
-        assertEquals(startList, viewModel.itemList)
-        viewModel.onUpdateData()
-
         coEvery { interactor.getList() } returns returnList
+
         viewModel.itemList.clearAdd(startList)
         assertEquals(startList, viewModel.itemList)
         viewModel.onUpdateData()
 
         coVerifySequence {
-            callback.beforeLoad()
-            updateList(any())
-            interactor.getCount()
-
-            callback.beforeLoad()
-            updateList(any())
-            interactor.getCount()
-            interactor.getList()
-
             callback.beforeLoad()
             updateList(any())
             interactor.getCount()
@@ -164,21 +123,13 @@ class RankViewModelTest : ParentViewModelTest() {
         val startList = data.itemList
         val returnList = mutableListOf<NoteItem>()
 
-        coEvery { interactor.getCount() } returns null
-        viewModel.itemList.clearAdd(startList)
-        assertEquals(startList, viewModel.itemList)
-        viewModel.onUpdateData()
-
         coEvery { interactor.getCount() } returns returnList.size
+
         viewModel.itemList.clearAdd(startList)
         assertEquals(startList, viewModel.itemList)
         viewModel.onUpdateData()
 
         coVerifySequence {
-            callback.beforeLoad()
-            updateList(any())
-            interactor.getCount()
-
             callback.beforeLoad()
             updateList(any())
             interactor.getCount()
@@ -316,10 +267,8 @@ class RankViewModelTest : ParentViewModelTest() {
         val item = data.firstRank.copy(name = name)
 
         every { callback.clearEnter() } returns name
-        coEvery { interactor.insert(name) } returns null
-        viewModel.onClickEnterAdd(simpleClick = true)
-
         coEvery { interactor.insert(name) } returns item
+
         viewModel.onClickEnterAdd(simpleClick = true)
 
         val p = itemList.size
@@ -328,9 +277,6 @@ class RankViewModelTest : ParentViewModelTest() {
 
         coVerifyAll {
             callback.clearEnter()
-
-            callback.clearEnter()
-            interactor.insert(name)
 
             callback.clearEnter()
             interactor.insert(name)
@@ -351,10 +297,8 @@ class RankViewModelTest : ParentViewModelTest() {
         val item = data.firstRank.copy(name = name)
 
         every { callback.clearEnter() } returns name
-        coEvery { interactor.insert(name) } returns null
-        viewModel.onClickEnterAdd(simpleClick = false)
-
         coEvery { interactor.insert(name) } returns item
+
         viewModel.onClickEnterAdd(simpleClick = false)
 
         val p = 0
@@ -363,9 +307,6 @@ class RankViewModelTest : ParentViewModelTest() {
 
         coVerifySequence {
             callback.clearEnter()
-
-            callback.clearEnter()
-            interactor.insert(name)
 
             callback.clearEnter()
             interactor.insert(name)
@@ -445,9 +386,7 @@ class RankViewModelTest : ParentViewModelTest() {
         viewModel.itemList.clearAdd(itemList)
         assertEquals(itemList, viewModel.itemList)
 
-        val hasValue = List(itemList.size) {
-            if (Random.nextBoolean()) Random.nextBoolean() else null
-        }
+        val hasValue = List(itemList.size) { Random.nextBoolean() }
         val id = itemList.random().noteId.random()
         val updateList = itemList.filter { it.noteId.contains(id) }
 
@@ -458,7 +397,7 @@ class RankViewModelTest : ParentViewModelTest() {
         viewModel.onReceiveUnbindNote(id)
 
         updateList.forEachIndexed { i, item ->
-            hasValue[i]?.let { itemList[itemList.indexOf(item)].hasBind = it }
+            itemList[itemList.indexOf(item)].hasBind = hasValue[i]
         }
 
         assertEquals(itemList, viewModel.itemList)

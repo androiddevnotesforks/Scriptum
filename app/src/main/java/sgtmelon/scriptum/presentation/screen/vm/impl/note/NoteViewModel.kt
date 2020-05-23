@@ -37,11 +37,10 @@ class NoteViewModel(application: Application) : ParentViewModel<INoteActivity>(a
         type = NoteType.values().getOrNull(typeOrdinal)
 
         if (color == Default.COLOR) {
-            color = interactor.defaultColor ?: return
+            color = interactor.defaultColor
         }
 
-        val theme = interactor.theme ?: return
-        callback?.updateHolder(theme, color)
+        callback?.updateHolder(interactor.theme, color)
     }
 
     override fun onSaveData(bundle: Bundle) = with(bundle) {
@@ -71,8 +70,7 @@ class NoteViewModel(application: Application) : ParentViewModel<INoteActivity>(a
     override fun onUpdateNoteColor(color: Int) {
         this.color = color
 
-        val theme = interactor.theme ?: return
-        callback?.updateHolder(theme, color)
+        callback?.updateHolder(interactor.theme, color)
     }
 
     override fun onConvertNote() {

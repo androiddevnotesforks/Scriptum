@@ -48,14 +48,10 @@ class MainInteractorTest : ParentInteractorTest() {
             )
         }
 
-        coEvery { alarmRepo.getList() } returns  null
-        interactor.tidyUpAlarm()
-
         coEvery { alarmRepo.getList() } returns  itemList
         interactor.tidyUpAlarm()
 
         coVerifySequence {
-            alarmRepo.getList()
             alarmRepo.getList()
 
             itemList.first().note.id.let {

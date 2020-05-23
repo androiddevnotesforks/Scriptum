@@ -11,11 +11,11 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.main.BinViewModel
  */
 interface IBinInteractor : IParentInteractor {
 
-    @Theme val theme: Int?
+    @Theme val theme: Int
 
-    suspend fun getCount(): Int?
+    suspend fun getCount(): Int
 
-    suspend fun getList(): MutableList<NoteItem>?
+    suspend fun getList(): MutableList<NoteItem>
 
     suspend fun clearBin()
 

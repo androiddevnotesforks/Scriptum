@@ -14,6 +14,9 @@ import sgtmelon.scriptum.domain.model.data.DbData
 @TypeConverters(BoolConverter::class, NoteTypeConverter::class)
 interface INoteDao {
 
+    /**
+     * TODO add -1 value convert to null
+     */
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(noteEntity: NoteEntity): Long
 

@@ -32,9 +32,8 @@ class NoteRepoTest : ParentRoomRepoTest() {
     private val noteConverter = mockk<NoteConverter>()
     private val rollConverter = mockk<RollConverter>()
 
-    private val badNoteRepo by lazy { NoteRepo(badRoomProvider, noteConverter, rollConverter) }
-    private val goodNoteRepo by lazy { NoteRepo(goodRoomProvider, noteConverter, rollConverter) }
-    private val goodNoteRepo2 by lazy { NoteRepo(goodRoomProvider, NoteConverter(), RollConverter()) }
+    private val mockNoteRepo by lazy { NoteRepo(roomProvider, noteConverter, rollConverter) }
+    private val noteRepo by lazy { NoteRepo(roomProvider, NoteConverter(), RollConverter()) }
 
     @Test fun getCount() = startCoTest {
         val notesCount = Random.nextInt()
@@ -43,26 +42,20 @@ class NoteRepoTest : ParentRoomRepoTest() {
         val rankIdVisibleList = List(size = 2) { Random.nextLong() }
         val rankIdList = List(size = 5) { Random.nextLong() }
 
-        assertNull(badNoteRepo.getCount(bin = false))
-        assertNull(badNoteRepo.getCount(bin = true))
-
         coEvery { rankDao.getIdVisibleList() } returns rankIdVisibleList
         coEvery { noteDao.getCount(bin = false, rankIdList = rankIdVisibleList) } returns notesCount
-        assertEquals(notesCount, goodNoteRepo.getCount(bin = false))
+        assertEquals(notesCount, mockNoteRepo.getCount(bin = false))
 
         coEvery { rankDao.getIdList() } returns rankIdList
         coEvery { noteDao.getCount(bin = true, rankIdList = rankIdList) } returns binCount
-        assertEquals(binCount, goodNoteRepo.getCount(bin = true))
+        assertEquals(binCount, mockNoteRepo.getCount(bin = true))
 
         coVerifySequence {
-            badRoomProvider.openRoom()
-            badRoomProvider.openRoom()
-
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             rankDao.getIdVisibleList()
             noteDao.getCount(bin = false, rankIdList = rankIdVisibleList)
 
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             rankDao.getIdList()
             noteDao.getCount(bin = true, rankIdList = rankIdList)
         }
@@ -86,11 +79,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
         }
         val finishFilterList = finishList.filter { it.isVisible(listOf()) }
 
-        goodNoteRepo.correctRankSort(finishList, Sort.RANK)
-
-        assertNull(badNoteRepo.getList(
-                sort, bin, isOptimal = Random.nextBoolean(), filterVisible = Random.nextBoolean()
-        ))
+        mockNoteRepo.correctRankSort(finishList, Sort.RANK)
 
         coEvery { noteDao.getByRank(bin) } returns entityList
         coEvery { rankDao.getIdVisibleList() } returns listOf()
@@ -99,22 +88,20 @@ class NoteRepoTest : ParentRoomRepoTest() {
         } returns mutableListOf()
         coEvery { alarmDao.get(noteId = any()) } returns null
 
-        assertEquals(finishList, goodNoteRepo2.getList(sort, bin, isOptimal, filterVisible = false))
+        assertEquals(finishList, noteRepo.getList(sort, bin, isOptimal, filterVisible = false))
         assertEquals(
-                finishFilterList, goodNoteRepo2.getList(sort, bin, isOptimal, filterVisible = true)
+                finishFilterList, noteRepo.getList(sort, bin, isOptimal, filterVisible = true)
         )
 
         coVerifySequence {
-            badRoomProvider.openRoom()
-
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             noteDao.getByRank(bin)
             entityList.forEach {
                 if (isOptimal) rollDao.getView(it.id) else rollDao.get(it.id)
                 alarmDao.get(it.id)
             }
 
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             noteDao.getByRank(bin)
             rankDao.getIdVisibleList()
             entityFilterList.forEach {
@@ -130,24 +117,24 @@ class NoteRepoTest : ParentRoomRepoTest() {
         val rankList = MutableList(size = 5) { NoteEntity(id = Random.nextLong()) }
         val colorList = MutableList(size = 5) { NoteEntity(id = Random.nextLong()) }
 
-        assertNull(goodNoteRepo.getSortBy(noteDao, sort = 10, bin = false))
-        assertNull(goodNoteRepo.getSortBy(noteDao, sort = 10, bin = true))
+        assertEquals(listOf<NoteEntity>(), mockNoteRepo.getSortBy(noteDao, sort = 10, bin = false))
+        assertEquals(listOf<NoteEntity>(), mockNoteRepo.getSortBy(noteDao, sort = 10, bin = true))
 
         coEvery { noteDao.getByChange(any()) } returns changeList
-        assertEquals(changeList, goodNoteRepo.getSortBy(noteDao, Sort.CHANGE, bin = false))
-        assertEquals(changeList, goodNoteRepo.getSortBy(noteDao, Sort.CHANGE, bin = true))
+        assertEquals(changeList, mockNoteRepo.getSortBy(noteDao, Sort.CHANGE, bin = false))
+        assertEquals(changeList, mockNoteRepo.getSortBy(noteDao, Sort.CHANGE, bin = true))
 
         coEvery { noteDao.getByCreate(any()) } returns createList
-        assertEquals(createList, goodNoteRepo.getSortBy(noteDao, Sort.CREATE, bin = false))
-        assertEquals(createList, goodNoteRepo.getSortBy(noteDao, Sort.CREATE, bin = true))
+        assertEquals(createList, mockNoteRepo.getSortBy(noteDao, Sort.CREATE, bin = false))
+        assertEquals(createList, mockNoteRepo.getSortBy(noteDao, Sort.CREATE, bin = true))
 
         coEvery { noteDao.getByRank(any()) } returns rankList
-        assertEquals(rankList, goodNoteRepo.getSortBy(noteDao, Sort.RANK, bin = false))
-        assertEquals(rankList, goodNoteRepo.getSortBy(noteDao, Sort.RANK, bin = true))
+        assertEquals(rankList, mockNoteRepo.getSortBy(noteDao, Sort.RANK, bin = false))
+        assertEquals(rankList, mockNoteRepo.getSortBy(noteDao, Sort.RANK, bin = true))
 
         coEvery { noteDao.getByColor(any()) } returns colorList
-        assertEquals(colorList, goodNoteRepo.getSortBy(noteDao, Sort.COLOR, bin = false))
-        assertEquals(colorList, goodNoteRepo.getSortBy(noteDao, Sort.COLOR, bin = true))
+        assertEquals(colorList, mockNoteRepo.getSortBy(noteDao, Sort.COLOR, bin = false))
+        assertEquals(colorList, mockNoteRepo.getSortBy(noteDao, Sort.COLOR, bin = true))
 
         coVerifySequence {
             noteDao.getByChange(bin = false)
@@ -174,7 +161,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
         coEvery { rankDao.getIdVisibleList() } returns idVisibleList
 
-        assertEquals(entityList.subList(0, 3), goodNoteRepo.filterVisible(rankDao, entityList))
+        assertEquals(entityList.subList(0, 3), mockNoteRepo.filterVisible(rankDao, entityList))
 
         coVerifySequence {
             rankDao.getIdVisibleList()
@@ -191,9 +178,9 @@ class NoteRepoTest : ParentRoomRepoTest() {
             TestData.Note.firstNote.deepCopy(id = Random.nextLong())
         }
 
-        assertNotEquals(finishList, goodNoteRepo.correctRankSort(startList, Sort.COLOR))
-        assertEquals(finishList, goodNoteRepo.correctRankSort(startList, Sort.RANK))
-        assertEquals(simpleList, goodNoteRepo.correctRankSort(simpleList, Sort.RANK))
+        assertNotEquals(finishList, mockNoteRepo.correctRankSort(startList, Sort.COLOR))
+        assertEquals(finishList, mockNoteRepo.correctRankSort(startList, Sort.RANK))
+        assertEquals(simpleList, mockNoteRepo.correctRankSort(simpleList, Sort.RANK))
     }
 
 
@@ -205,11 +192,8 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
         val noteEntity = NoteConverter().toEntity(noteItem)
 
-        assertNull(badNoteRepo.getItem(id, isOptimal = false))
-        assertNull(badNoteRepo.getItem(id, isOptimal = true))
-
         coEvery { noteDao.get(id) } returns null
-        assertNull(goodNoteRepo.getItem(id, isOptimal = Random.nextBoolean()))
+        assertNull(mockNoteRepo.getItem(id, isOptimal = Random.nextBoolean()))
 
         every { rollConverter.toItem(mutableListOf()) } returns mutableListOf()
         every { noteConverter.toItem(noteEntity, mutableListOf(), alarmEntity) } returns noteItem
@@ -218,24 +202,21 @@ class NoteRepoTest : ParentRoomRepoTest() {
         coEvery { rollDao.get(id) } returns mutableListOf()
         coEvery { rollDao.getView(id) } returns mutableListOf()
         coEvery { alarmDao.get(id) } returns alarmEntity
-        assertEquals(noteItem, goodNoteRepo.getItem(id, isOptimal = false))
-        assertEquals(noteItem, goodNoteRepo.getItem(id, isOptimal = true))
+        assertEquals(noteItem, mockNoteRepo.getItem(id, isOptimal = false))
+        assertEquals(noteItem, mockNoteRepo.getItem(id, isOptimal = true))
 
         coVerifySequence {
-            badRoomProvider.openRoom()
-            badRoomProvider.openRoom()
-
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             noteDao.get(id)
 
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             noteDao.get(id)
             rollDao.get(id)
             rollConverter.toItem(mutableListOf())
             alarmDao.get(id)
             noteConverter.toItem(noteEntity, mutableListOf(), alarmEntity)
 
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             noteDao.get(id)
             rollDao.getView(id)
             rollConverter.toItem(mutableListOf())
@@ -251,10 +232,10 @@ class NoteRepoTest : ParentRoomRepoTest() {
         val secondList = MutableList(size = 5) { RollEntity(id = Random.nextLong()) }
 
         coEvery { rollDao.get(id) } returns firstList
-        assertEquals(firstList, goodNoteRepo.getPreview(rollDao, id, isOptimal = false))
+        assertEquals(firstList, mockNoteRepo.getPreview(rollDao, id, isOptimal = false))
 
         coEvery { rollDao.getView(id) } returns secondList
-        assertEquals(secondList, goodNoteRepo.getPreview(rollDao, id, isOptimal = true))
+        assertEquals(secondList, mockNoteRepo.getPreview(rollDao, id, isOptimal = true))
 
         coVerifySequence {
             rollDao.get(id)
@@ -272,13 +253,10 @@ class NoteRepoTest : ParentRoomRepoTest() {
         every { rollConverter.toItem(entityList) } returns itemList
         coEvery { rollDao.get(noteId) } returns entityList
 
-        assertNull(badNoteRepo.getRollList(noteId))
-        assertEquals(itemList, goodNoteRepo.getRollList(noteId))
+        assertEquals(itemList, mockNoteRepo.getRollList(noteId))
 
         coVerifySequence {
-            badRoomProvider.openRoom()
-
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             rollDao.get(noteId)
             rollConverter.toItem(entityList)
         }
@@ -290,8 +268,6 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
         coEvery { rankDao.getIdVisibleList() } returns idList
 
-        assertNull(badNoteRepo.isListHide())
-
         val entityList = mutableListOf<NoteEntity>()
 
         var entity = NoteEntity()
@@ -299,41 +275,39 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
         every { noteConverter.toItem(entity) } returns NoteConverter().toItem(entity)
         coEvery { noteDao.get(false) } returns listOf(entity)
-        assertEquals(false, goodNoteRepo.isListHide())
+        assertEquals(false, mockNoteRepo.isListHide())
 
         entity = NoteEntity(rankId = 0)
         entityList.add(entity)
 
         every { noteConverter.toItem(entity) } returns NoteConverter().toItem(entity)
         coEvery { noteDao.get(false) } returns listOf(entity)
-        assertEquals(false, goodNoteRepo.isListHide())
+        assertEquals(false, mockNoteRepo.isListHide())
 
         entity = NoteEntity(rankPs = 0)
         entityList.add(entity)
 
         every { noteConverter.toItem(entity) } returns NoteConverter().toItem(entity)
         coEvery { noteDao.get(false) } returns listOf(entity)
-        assertEquals(false, goodNoteRepo.isListHide())
+        assertEquals(false, mockNoteRepo.isListHide())
 
         entity = NoteEntity(rankId = 0, rankPs = 0)
         entityList.add(entity)
 
         every { noteConverter.toItem(entity) } returns NoteConverter().toItem(entity)
         coEvery { noteDao.get(false) } returns listOf(entity)
-        assertEquals(true, goodNoteRepo.isListHide())
+        assertEquals(true, mockNoteRepo.isListHide())
 
         entity = NoteEntity(rankId = 1, rankPs = 1)
         entityList.add(entity)
 
         every { noteConverter.toItem(entity) } returns NoteConverter().toItem(entity)
         coEvery { noteDao.get(false) } returns listOf(entity)
-        assertEquals(false, goodNoteRepo.isListHide())
+        assertEquals(false, mockNoteRepo.isListHide())
 
         coVerifySequence {
-            badRoomProvider.openRoom()
-
             entityList.forEach {
-                goodRoomProvider.openRoom()
+                roomProvider.openRoom()
                 noteDao.get(false)
                 noteConverter.toItem(it)
                 rankDao.getIdVisibleList()
@@ -347,13 +321,10 @@ class NoteRepoTest : ParentRoomRepoTest() {
         itemList.forEach { coEvery { rankDao.get(it.rankId) } returns null }
         coEvery { noteDao.get(true) } returns itemList
 
-        badNoteRepo.clearBin()
-        goodNoteRepo.clearBin()
+        mockNoteRepo.clearBin()
 
         coVerifySequence {
-            badRoomProvider.openRoom()
-
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             noteDao.get(true)
             itemList.forEach {
                 rankDao.get(it.rankId)
@@ -371,15 +342,12 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
         every { noteConverter.toEntity(finalItem) } returns entity
 
-        badNoteRepo.deleteNote(startItem)
-        goodNoteRepo.deleteNote(startItem)
+        mockNoteRepo.deleteNote(startItem)
 
         assertEquals(startItem, finalItem)
 
         coVerifySequence {
-            badRoomProvider.openRoom()
-
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             alarmDao.delete(startItem.id)
             noteConverter.toEntity(finalItem)
             noteDao.update(entity)
@@ -394,15 +362,12 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
         every { noteConverter.toEntity(finalItem) } returns entity
 
-        badNoteRepo.restoreNote(startItem)
-        goodNoteRepo.restoreNote(startItem)
+        mockNoteRepo.restoreNote(startItem)
 
         assertEquals(startItem, finalItem)
 
         coVerifySequence {
-            badRoomProvider.openRoom()
-
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             noteConverter.toEntity(finalItem)
             noteDao.update(entity)
         }
@@ -415,13 +380,10 @@ class NoteRepoTest : ParentRoomRepoTest() {
         every { noteConverter.toEntity(item) } returns entity
         coEvery { rankDao.get(item.rankId) } returns null
 
-        badNoteRepo.clearNote(item)
-        goodNoteRepo.clearNote(item)
+        mockNoteRepo.clearNote(item)
 
         coVerifySequence {
-            badRoomProvider.openRoom()
-
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             rankDao.get(item.rankId)
             noteConverter.toEntity(item)
             noteDao.delete(entity)
@@ -450,13 +412,10 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
         every { noteConverter.toEntity(finishItem) } returns finishEntity
 
-        assertNull(badNoteRepo.convertNote(startItem))
-        assertEquals(finishItem, goodNoteRepo.convertNote(startItem))
+        assertEquals(finishItem, mockNoteRepo.convertNote(startItem))
 
         coVerifySequence {
-            badRoomProvider.openRoom()
-
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             startItem.onConvert()
             finishItem.list
             rollItemList.forEach {
@@ -494,24 +453,18 @@ class NoteRepoTest : ParentRoomRepoTest() {
         every { noteConverter.toEntity(textItem) } returns textEntity
         coEvery { rollDao.get(rollItem.id) } returns entityList
 
-        assertNull(badNoteRepo.convertNote(rollItem, useCache = false))
-        assertNull(badNoteRepo.convertNote(rollItem, useCache = true))
-
-        assertEquals(textItem, goodNoteRepo.convertNote(rollItem, useCache = false))
-        assertEquals(textItem, goodNoteRepo.convertNote(rollItem, useCache = true))
+        assertEquals(textItem, mockNoteRepo.convertNote(rollItem, useCache = false))
+        assertEquals(textItem, mockNoteRepo.convertNote(rollItem, useCache = true))
 
         coVerifySequence {
-            badRoomProvider.openRoom()
-            badRoomProvider.openRoom()
-
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             rollDao.get(rollItem.id)
             rollConverter.toItem(entityList)
             noteConverter.toEntity(textItem)
             noteDao.update(textEntity)
             rollDao.delete(rollItem.id)
 
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             noteConverter.toEntity(textItem)
             noteDao.update(textEntity)
             rollDao.delete(rollItem.id)
@@ -525,11 +478,8 @@ class NoteRepoTest : ParentRoomRepoTest() {
         val secondItem = firstItem.deepCopy(name = "noteName")
         val secondText = "${secondItem.name}\n${secondItem.text}"
 
-        assertEquals(firstText, badNoteRepo.getCopyText(firstItem))
-        assertEquals(secondText, badNoteRepo.getCopyText(secondItem))
-
-        assertEquals(firstText, goodNoteRepo.getCopyText(firstItem))
-        assertEquals(secondText, goodNoteRepo.getCopyText(secondItem))
+        assertEquals(firstText, mockNoteRepo.getCopyText(firstItem))
+        assertEquals(secondText, mockNoteRepo.getCopyText(secondItem))
     }
 
     @Test fun getCopyText_roll() = startCoTest {
@@ -544,24 +494,18 @@ class NoteRepoTest : ParentRoomRepoTest() {
         val secondItem = NoteItem.Roll(id = Random.nextLong(), name = "noteName", color = Random.nextInt())
         val secondText = "${secondItem.name}\n${itemList.joinToString(separator = "\n") { it.text }}"
 
-        assertEquals("", badNoteRepo.getCopyText(firstItem))
-        assertEquals("${secondItem.name}\n", badNoteRepo.getCopyText(secondItem))
-
         every { rollConverter.toItem(entityList) } returns itemList
         coEvery { rollDao.get(any()) } returns entityList
 
-        assertEquals(firstText, goodNoteRepo.getCopyText(firstItem))
-        assertEquals(secondText, goodNoteRepo.getCopyText(secondItem))
+        assertEquals(firstText, mockNoteRepo.getCopyText(firstItem))
+        assertEquals(secondText, mockNoteRepo.getCopyText(secondItem))
 
         coVerifySequence {
-            badRoomProvider.openRoom()
-            badRoomProvider.openRoom()
-
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             rollDao.get(firstItem.id)
             rollConverter.toItem(entityList)
 
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             rollDao.get(secondItem.id)
             rollConverter.toItem(entityList)
         }
@@ -577,24 +521,18 @@ class NoteRepoTest : ParentRoomRepoTest() {
         every { noteConverter.toEntity(startItem) } returns entity
         coEvery { noteDao.insert(entity) } returns id
 
-        badNoteRepo.saveNote(startItem, isCreate = false)
-        badNoteRepo.saveNote(startItem, isCreate = true)
-
-        goodNoteRepo.saveNote(startItem, isCreate = false)
+        mockNoteRepo.saveNote(startItem, isCreate = false)
         assertNotEquals(startItem, finishItem)
 
-        goodNoteRepo.saveNote(startItem, isCreate = true)
+        mockNoteRepo.saveNote(startItem, isCreate = true)
         assertEquals(startItem, finishItem)
 
         coVerifySequence {
-            badRoomProvider.openRoom()
-            badRoomProvider.openRoom()
-
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             noteConverter.toEntity(startItem)
             noteDao.update(entity)
 
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             noteConverter.toEntity(startItem)
             noteDao.insert(entity)
         }
@@ -625,16 +563,13 @@ class NoteRepoTest : ParentRoomRepoTest() {
         every { noteConverter.toEntity(startItem) } returns entity
         coEvery { noteDao.insert(entity) } returns id
 
-        badNoteRepo.saveNote(startItem, isCreate = true)
         assertNotEquals(startItem, finishItem)
 
-        goodNoteRepo.saveNote(startItem, isCreate = true)
+        mockNoteRepo.saveNote(startItem, isCreate = true)
         assertEquals(startItem.list, finishItem.list)
 
         coVerifySequence {
-            badRoomProvider.openRoom()
-
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             noteConverter.toEntity(startItem)
             noteDao.insert(entity)
             startItem.list.forEach {
@@ -671,16 +606,12 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
         every { noteConverter.toEntity(startItem) } returns entity
 
-        badNoteRepo.saveNote(startItem, isCreate = false)
         assertNotEquals(startItem.list, finishItem.list)
-
-        goodNoteRepo.saveNote(startItem, isCreate = false)
+        mockNoteRepo.saveNote(startItem, isCreate = false)
         assertEquals(startItem, finishItem)
 
         coVerifySequence {
-            badRoomProvider.openRoom()
-
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             noteConverter.toEntity(startItem)
             noteDao.update(entity)
             startItem.list.forEachIndexed { i, it ->
@@ -710,22 +641,19 @@ class NoteRepoTest : ParentRoomRepoTest() {
         val rollItem = noteItem.list[p]
         val rollId = Random.nextLong()
 
-        badNoteRepo.updateRollCheck(noteItem, p)
-        goodNoteRepo.updateRollCheck(noteItem, Random.nextInt())
+        mockNoteRepo.updateRollCheck(noteItem, Random.nextInt())
 
         rollItem.id = null
-        goodNoteRepo.updateRollCheck(noteItem, p)
+        mockNoteRepo.updateRollCheck(noteItem, p)
 
         rollItem.id = rollId
-        goodNoteRepo.updateRollCheck(noteItem, p)
+        mockNoteRepo.updateRollCheck(noteItem, p)
 
         coVerifySequence {
-            badRoomProvider.openRoom()
+            roomProvider.openRoom()
+            roomProvider.openRoom()
 
-            goodRoomProvider.openRoom()
-            goodRoomProvider.openRoom()
-
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             rollDao.update(rollId, rollItem.isCheck)
             noteConverter.toEntity(noteItem)
             noteDao.update(noteEntity)
@@ -740,13 +668,10 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
         every { noteConverter.toEntity(item) } returns entity
 
-        badNoteRepo.updateRollCheck(item, check)
-        goodNoteRepo.updateRollCheck(item, check)
+        mockNoteRepo.updateRollCheck(item, check)
 
         coVerifySequence {
-            badRoomProvider.openRoom()
-
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             rollDao.updateAllCheck(item.id, check)
             noteConverter.toEntity(item)
             noteDao.update(entity)
@@ -759,13 +684,10 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
         every { noteConverter.toEntity(item) } returns entity
 
-        badNoteRepo.updateNote(item)
-        goodNoteRepo.updateNote(item)
+        mockNoteRepo.updateNote(item)
 
         coVerifySequence {
-            badRoomProvider.openRoom()
-
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             noteConverter.toEntity(item)
             noteDao.update(entity)
         }
@@ -776,29 +698,23 @@ class NoteRepoTest : ParentRoomRepoTest() {
         val id = Random.nextLong()
         val entity = RollVisibleEntity(noteId = id, value = false)
 
-        badNoteRepo.setRollVisible(id, isVisible = false)
-        badNoteRepo.setRollVisible(id, isVisible = true)
-
         coEvery { rollVisibleDao.get(id) } returns null
         coEvery { rollVisibleDao.insert(any()) } returns Random.nextLong()
-        goodNoteRepo.setRollVisible(id, isVisible = false)
+        mockNoteRepo.setRollVisible(id, isVisible = false)
 
         coEvery { rollVisibleDao.get(id) } returns false
-        goodNoteRepo.setRollVisible(id, isVisible = false)
-        goodNoteRepo.setRollVisible(id, isVisible = true)
+        mockNoteRepo.setRollVisible(id, isVisible = false)
+        mockNoteRepo.setRollVisible(id, isVisible = true)
 
         coVerifySequence {
-            badRoomProvider.openRoom()
-            badRoomProvider.openRoom()
-
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             rollVisibleDao.get(id)
             rollVisibleDao.insert(entity)
 
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             rollVisibleDao.get(id)
 
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             rollVisibleDao.get(id)
             rollVisibleDao.update(id, value = true)
         }
@@ -808,29 +724,25 @@ class NoteRepoTest : ParentRoomRepoTest() {
         val id = Random.nextLong()
         val entity = RollVisibleEntity(noteId = id)
 
-        assertNull(badNoteRepo.getRollVisible(id))
-
         coEvery { rollVisibleDao.get(id) } returns null
         coEvery { rollVisibleDao.insert(entity) } returns Random.nextLong()
-        assertEquals(DbData.RollVisible.Default.VALUE, goodNoteRepo.getRollVisible(id))
+        assertEquals(DbData.RollVisible.Default.VALUE, mockNoteRepo.getRollVisible(id))
 
         coEvery { rollVisibleDao.get(id) } returns false
-        assertEquals(false, goodNoteRepo.getRollVisible(id))
+        assertEquals(false, mockNoteRepo.getRollVisible(id))
 
         coEvery { rollVisibleDao.get(id) } returns true
-        assertEquals(true, goodNoteRepo.getRollVisible(id))
+        assertEquals(true, mockNoteRepo.getRollVisible(id))
 
         coVerifySequence {
-            badRoomProvider.openRoom()
-
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             rollVisibleDao.get(id)
             rollVisibleDao.insert(entity)
 
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             rollVisibleDao.get(id)
 
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             rollVisibleDao.get(id)
         }
     }
@@ -848,11 +760,11 @@ class NoteRepoTest : ParentRoomRepoTest() {
         val finishRankEntity = startRankEntity.copy(noteId = mutableListOf(randomId))
 
         coEvery { rankDao.get(rankId) } returns null
-        goodNoteRepo.clearConnection(rankDao, noteId, rankId)
+        mockNoteRepo.clearConnection(rankDao, noteId, rankId)
         assertNotEquals(finishRankEntity, startRankEntity)
 
         coEvery { rankDao.get(rankId) } returns startRankEntity
-        goodNoteRepo.clearConnection(rankDao, noteId, rankId)
+        mockNoteRepo.clearConnection(rankDao, noteId, rankId)
         assertEquals(finishRankEntity, startRankEntity)
 
         coVerifySequence {

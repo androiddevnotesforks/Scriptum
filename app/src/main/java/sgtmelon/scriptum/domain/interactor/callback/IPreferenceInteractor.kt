@@ -11,35 +11,35 @@ import sgtmelon.scriptum.domain.model.annotation.Theme
  */
 interface IPreferenceInteractor {
 
-    @Theme val theme: Int?
+    @Theme val theme: Int
 
     fun getThemeSummary(): String?
 
     fun updateTheme(@Theme value: Int): String?
 
 
-    @Sort val sort: Int?
+    @Sort val sort: Int
 
     fun getSortSummary(): String?
 
     fun updateSort(@Sort value: Int): String?
 
 
-    @Color val defaultColor: Int?
+    @Color val defaultColor: Int
 
     fun getDefaultColorSummary(): String?
 
     fun updateDefaultColor(@Color value: Int): String?
 
 
-    val savePeriod: Int?
+    val savePeriod: Int
 
     fun getSavePeriodSummary(): String?
 
     fun updateSavePeriod(value: Int): String?
 
 
-    @Repeat val repeat: Int?
+    @Repeat val repeat: Int
 
     fun getRepeatSummary(): String?
 
@@ -51,7 +51,7 @@ interface IPreferenceInteractor {
     fun updateSignal(checkArray: BooleanArray): String?
 
 
-    val volume: Int?
+    val volume: Int
 
     fun getVolumeSummary(): String?
 

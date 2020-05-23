@@ -16,7 +16,7 @@ class DevelopInteractor(
         IDevelopInteractor {
 
     override suspend fun getNoteTablePrint() = StringBuilder().apply {
-        val list = developRepo.getNoteList() ?: return@apply
+        val list = developRepo.getNoteList()
 
         append("Note table:")
 
@@ -38,7 +38,7 @@ class DevelopInteractor(
     }.toString()
 
     override suspend fun getRollTablePrint() = StringBuilder().apply {
-        val list = developRepo.getRollList() ?: return@apply
+        val list = developRepo.getRollList()
 
         append("Roll table:")
 
@@ -54,7 +54,7 @@ class DevelopInteractor(
     }.toString()
 
     override suspend fun getRankTablePrint() = StringBuilder().apply {
-        val list = developRepo.getRankList() ?: return@apply
+        val list = developRepo.getRankList()
 
         append("Rank table:")
 

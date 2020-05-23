@@ -24,19 +24,15 @@ class BindInteractor(
     override suspend fun notifyNoteBind(callback: BindControl.NoteBridge.NotifyAll?) {
         if (callback == null) return
 
-        val sort = preferenceRepo.sort ?: return
-        val rankIdVisibleList = rankRepo.getIdVisibleList() ?: return
+        val sort = preferenceRepo.sort
+        val rankIdVisibleList = rankRepo.getIdVisibleList()
         val itemList = noteRepo.getList(sort, bin = false, isOptimal = false, filterVisible = false)
-                ?: return
 
         callback.notifyNoteBind(itemList, rankIdVisibleList)
     }
 
     override suspend fun notifyInfoBind(callback: BindControl.InfoBridge?) {
-        if (callback == null) return
-
-        val count = bindRepo.getNotificationCount() ?: return
-        callback.notifyInfoBind(count)
+        callback?.notifyInfoBind(bindRepo.getNotificationCount())
     }
 
 }

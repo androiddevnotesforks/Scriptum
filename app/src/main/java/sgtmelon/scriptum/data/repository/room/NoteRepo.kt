@@ -35,7 +35,7 @@ class NoteRepo(
      * - For notes page need take only visible items count
      * - For bin page need take all items count
      */
-    override suspend fun getCount(bin: Boolean): Int? = takeFromRoom {
+    override suspend fun getCount(bin: Boolean): Int = takeFromRoom {
         val rankIdList = if (bin) rankDao.getIdList() else rankDao.getIdVisibleList()
 
         return@takeFromRoom noteDao.getCount(bin, rankIdList)
@@ -48,8 +48,8 @@ class NoteRepo(
      *                   get all items even if rank not visible.
      */
     override suspend fun getList(@Sort sort: Int, bin: Boolean, isOptimal: Boolean,
-                                 filterVisible: Boolean): MutableList<NoteItem>? = takeFromRoom {
-        var entityList = getSortBy(noteDao, sort, bin) ?: return@takeFromRoom null
+                                 filterVisible: Boolean): MutableList<NoteItem> = takeFromRoom {
+        var entityList = getSortBy(noteDao, sort, bin)
 
         if (filterVisible) entityList = filterVisible(rankDao, entityList)
 
@@ -67,7 +67,7 @@ class NoteRepo(
         Sort.CREATE -> iNoteDao.getByCreate(bin)
         Sort.RANK -> iNoteDao.getByRank(bin)
         Sort.COLOR -> iNoteDao.getByColor(bin)
-        else -> null
+        else -> listOf()
     }
 
     /**
@@ -120,7 +120,7 @@ class NoteRepo(
     /**
      * Return empty list if don't have [RollEntity] for this [noteId]
      */
-    override suspend fun getRollList(noteId: Long): MutableList<RollItem>? = takeFromRoom {
+    override suspend fun getRollList(noteId: Long): MutableList<RollItem> = takeFromRoom {
         rollConverter.toItem(rollDao.get(noteId))
     }
 
@@ -128,7 +128,7 @@ class NoteRepo(
     /**
      * Have hide notes in list or not.
      */
-    override suspend fun isListHide(): Boolean? = takeFromRoom {
+    override suspend fun isListHide(): Boolean = takeFromRoom {
         noteDao.get(false).any {
             !noteConverter.toItem(it).isVisible(rankDao.getIdVisibleList())
         }
@@ -161,7 +161,7 @@ class NoteRepo(
     }
 
 
-    override suspend fun convertNote(noteItem: NoteItem.Text): NoteItem.Roll? = takeFromRoom {
+    override suspend fun convertNote(noteItem: NoteItem.Text): NoteItem.Roll = takeFromRoom {
         val item = noteItem.onConvert()
 
         item.list.forEach {
@@ -174,7 +174,7 @@ class NoteRepo(
     }
 
     override suspend fun convertNote(noteItem: NoteItem.Roll,
-                                     useCache: Boolean): NoteItem.Text? = takeFromRoom {
+                                     useCache: Boolean): NoteItem.Text = takeFromRoom {
         val item = if (useCache) {
             noteItem.onConvert()
         } else {
@@ -273,7 +273,7 @@ class NoteRepo(
         }
     }
 
-    override suspend fun getRollVisible(noteId: Long): Boolean? = takeFromRoom {
+    override suspend fun getRollVisible(noteId: Long): Boolean = takeFromRoom {
         rollVisibleDao.get(noteId) ?: run {
             RollVisibleEntity(noteId = noteId).also { rollVisibleDao.insert(it) }.value
         }

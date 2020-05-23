@@ -10,25 +10,25 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.note.TextNoteViewModel
 import java.util.*
 
 /**
- * Interface for communication [TextNoteViewModel] with [TextNoteInteractor]
+ * Interface for communication [TextNoteViewModel] with [TextNoteInteractor].
  */
 interface ITextNoteInteractor : IParentInteractor {
 
-    fun getSaveModel(): SaveControl.Model?
+    fun getSaveModel(): SaveControl.Model
 
-    @Theme val theme: Int?
+    @Theme val theme: Int
 
-    @Color val defaultColor: Int?
+    @Color val defaultColor: Int
 
 
     suspend fun getItem(id: Long): NoteItem.Text?
 
-    suspend fun getRankDialogItemArray(emptyName: String): Array<String>?
+    suspend fun getRankDialogItemArray(emptyName: String): Array<String>
 
 
-    suspend fun getRankId(check: Int): Long?
+    suspend fun getRankId(check: Int): Long
 
-    suspend fun getDateList(): List<String>?
+    suspend fun getDateList(): List<String>
 
     suspend fun clearDate(noteItem: NoteItem.Text)
 

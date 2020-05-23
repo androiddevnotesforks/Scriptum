@@ -39,9 +39,6 @@ class AppViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onSetup() {
-        every { interactor.theme } returns null
-        viewModel.onSetup()
-
         every { interactor.theme } returns Theme.LIGHT
         viewModel.onSetup()
 
@@ -49,8 +46,6 @@ class AppViewModelTest : ParentViewModelTest() {
         viewModel.onSetup()
 
         verifySequence {
-            interactor.theme
-
             interactor.theme
             callback.setTheme(R.style.App_Light_UI)
 
@@ -61,13 +56,6 @@ class AppViewModelTest : ParentViewModelTest() {
 
     @Test fun isThemeChange() {
         every { interactor.theme } returns Theme.UNDEFINED
-        assertFalse(viewModel.isThemeChange())
-
-        every { interactor.theme } returns Theme.LIGHT
-        viewModel.onSetup()
-        assertFalse(viewModel.isThemeChange())
-
-        every { interactor.theme } returns null
         assertFalse(viewModel.isThemeChange())
 
         every { interactor.theme } returns Theme.LIGHT

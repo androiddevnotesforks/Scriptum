@@ -32,10 +32,8 @@ class NotificationViewModel(application: Application) :
     val itemList: MutableList<NotificationItem> = ArrayList()
 
     override fun onSetup(bundle: Bundle?) {
-        val theme = interactor.theme ?: return
-
         callback?.setupToolbar()
-        callback?.setupRecycler(theme)
+        callback?.setupRecycler(interactor.theme)
     }
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy { interactor.onDestroy() }
@@ -58,16 +56,14 @@ class NotificationViewModel(application: Application) :
         if (itemList.isNotEmpty()) updateList()
 
         viewModelScope.launch {
-            val count = interactor.getCount() ?: return@launch
-            
-            if (count == 0) {
+            if (interactor.getCount() == 0) {
                 itemList.clear()
             } else {
                 if (itemList.isEmpty()) {
                     callback?.showProgress()
                 }
 
-                interactor.getList()?.let { itemList.clearAdd(it) } ?: return@launch
+                itemList.clearAdd(interactor.getList())
             }
 
             updateList()

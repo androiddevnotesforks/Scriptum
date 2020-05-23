@@ -13,6 +13,9 @@ import sgtmelon.scriptum.domain.model.data.DbData
 @TypeConverters(BoolConverter::class)
 interface IRollVisibleDao {
 
+    /**
+     * TODO add -1 value convert to null
+     */
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(entity: RollVisibleEntity): Long
 

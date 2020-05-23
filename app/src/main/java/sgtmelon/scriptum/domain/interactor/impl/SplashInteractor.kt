@@ -10,6 +10,6 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.SplashViewModel
 class SplashInteractor(private val preferenceRepo: IPreferenceRepo) : ParentInteractor(),
         ISplashInteractor {
 
-    override val firstStart: Boolean? get() = preferenceRepo.firstStart
+    override val firstStart: Boolean get() = preferenceRepo.firstStart
 
 }

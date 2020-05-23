@@ -55,8 +55,8 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
 
-    private val saveControl: ISaveControl? by lazy {
-        interactor.getSaveModel()?.let { SaveControl(context, it, callback = this) }
+    private val saveControl: ISaveControl by lazy {
+        SaveControl(context, interactor.getSaveModel(), callback = this)
     }
 
     private val inputControl = InputControl()
@@ -81,11 +81,10 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         color = bundle?.getInt(Intent.COLOR, Default.COLOR) ?: Default.COLOR
 
         if (color == Default.COLOR) {
-            color = interactor.defaultColor ?: return
+            color = interactor.defaultColor
         }
 
-        val theme = interactor.theme ?: return
-
+        val theme = interactor.theme
         callback?.apply {
             setupBinding(theme)
             setupToolbar(theme, color)
@@ -101,10 +100,10 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
              */
             if (!::noteItem.isInitialized) {
                 val name = parentCallback?.getString(R.string.dialog_item_rank) ?: return@launch
-                rankDialogItemArray = interactor.getRankDialogItemArray(name) ?: return@launch
+                rankDialogItemArray = interactor.getRankDialogItemArray(name)
 
                 if (id == Default.ID) {
-                    val defaultColor = interactor.defaultColor ?: return@launch
+                    val defaultColor = interactor.defaultColor
 
                     noteItem = NoteItem.Roll.getCreate(defaultColor)
                     restoreItem = noteItem.deepCopy()
@@ -125,7 +124,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
                      * Foreign key can't be created without note [id].
                      * Insert will happen inside [onMenuSave].
                      */
-                    isVisible = interactor.getVisible(noteItem.id) ?: return@launch
+                    isVisible = interactor.getVisible(noteItem.id)
                 }
             }
 
@@ -147,7 +146,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     override fun onDestroy(func: () -> Unit) = super.onDestroy {
         interactor.onDestroy()
         parentCallback = null
-        saveControl?.setSaveEvent(isWork = false)
+        saveControl.setSaveEvent(isWork = false)
     }
 
 
@@ -160,14 +159,14 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
     override fun onResume() {
         if (noteState.isEdit) {
-            saveControl?.setSaveEvent(isWork = true)
+            saveControl.setSaveEvent(isWork = true)
         }
     }
 
     override fun onPause() {
         if (noteState.isEdit) {
-            saveControl?.onPauseSave()
-            saveControl?.setSaveEvent(isWork = false)
+            saveControl.onPauseSave()
+            saveControl.setSaveEvent(isWork = false)
         }
     }
 
@@ -177,7 +176,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             callback?.hideKeyboard()
             onRestoreData()
         } else {
-            saveControl?.needSave = false
+            saveControl.needSave = false
             parentCallback?.finish()
         }
     }
@@ -191,7 +190,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         /**
          * If note can't be saved and activity will be closed.
          */
-        saveControl?.needSave = false
+        saveControl.needSave = false
 
         return if (!onMenuSave(changeMode = true)) {
             if (!noteState.isCreate) onRestoreData() else false
@@ -356,7 +355,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
     override fun onResultRankDialog(check: Int) {
         viewModelScope.launch {
-            val rankId = interactor.getRankId(check) ?: return@launch
+            val rankId = interactor.getRankId(check)
 
             inputControl.onRankChange(noteItem.rankId, noteItem.rankPs, rankId, check)
 
@@ -374,9 +373,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
     override fun onResultDateDialog(calendar: Calendar) {
         viewModelScope.launch {
-            val dateList = interactor.getDateList() ?: return@launch
-
-            callback?.showTimeDialog(calendar, dateList)
+            callback?.showTimeDialog(calendar, interactor.getDateList())
         }
     }
 
@@ -576,8 +573,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     override fun onMenuColor() {
         if (!noteState.isEdit) return
 
-        val theme = interactor.theme ?: return
-        callback?.showColorDialog(noteItem.color, theme)
+        callback?.showColorDialog(noteItem.color, interactor.theme)
     }
 
     override fun onMenuSave(changeMode: Boolean): Boolean {
@@ -693,8 +689,8 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             }
         }
 
-        saveControl?.needSave = true
-        saveControl?.setSaveEvent(isEdit)
+        saveControl.needSave = true
+        saveControl.setSaveEvent(isEdit)
     }
 
     //endregion

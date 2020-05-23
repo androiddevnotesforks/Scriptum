@@ -18,20 +18,8 @@ object FastTest {
 
     object Note {
 
-        fun getSaveModel(preferenceRepo: IPreferenceRepo, callFun: () -> SaveControl.Model?) {
+        fun getSaveModel(preferenceRepo: IPreferenceRepo, callFun: () -> SaveControl.Model) {
             val model = with(Random) { SaveControl.Model(nextBoolean(), nextBoolean(), nextInt()) }
-
-            every { preferenceRepo.pauseSaveOn } returns null
-            assertEquals(null, callFun())
-
-            every { preferenceRepo.pauseSaveOn } returns model.pauseSaveOn
-            every { preferenceRepo.autoSaveOn } returns null
-            assertEquals(null, callFun())
-
-            every { preferenceRepo.pauseSaveOn } returns model.pauseSaveOn
-            every { preferenceRepo.autoSaveOn } returns model.autoSaveOn
-            every { preferenceRepo.savePeriod } returns null
-            assertEquals(null, callFun())
 
             every { preferenceRepo.pauseSaveOn } returns model.pauseSaveOn
             every { preferenceRepo.autoSaveOn } returns model.autoSaveOn
@@ -40,15 +28,6 @@ object FastTest {
 
             verifySequence {
                 preferenceRepo.pauseSaveOn
-
-                preferenceRepo.pauseSaveOn
-                preferenceRepo.autoSaveOn
-
-                preferenceRepo.pauseSaveOn
-                preferenceRepo.autoSaveOn
-                preferenceRepo.savePeriod
-
-                preferenceRepo.pauseSaveOn
                 preferenceRepo.autoSaveOn
                 preferenceRepo.savePeriod
             }
@@ -56,13 +35,13 @@ object FastTest {
 
     }
 
-    fun getFirstStart(preferenceRepo: IPreferenceRepo, callFun: () -> Boolean?) {
-        fun checkRequestGet(value: Boolean?) {
+    fun getFirstStart(preferenceRepo: IPreferenceRepo, callFun: () -> Boolean) {
+        fun checkRequestGet(value: Boolean) {
             every { preferenceRepo.firstStart } returns value
             assertEquals(callFun(), value)
         }
 
-        val valueList = listOf(null, Random.nextBoolean(), Random.nextBoolean(), null)
+        val valueList = listOf(Random.nextBoolean(), Random.nextBoolean())
         valueList.forEach { checkRequestGet(it) }
 
         verifySequence {
@@ -70,13 +49,13 @@ object FastTest {
         }
     }
 
-    fun getTheme(preferenceRepo: IPreferenceRepo, callFun: () -> Int?) {
-        fun checkRequestGet(value: Int?) {
+    fun getTheme(preferenceRepo: IPreferenceRepo, callFun: () -> Int) {
+        fun checkRequestGet(value: Int) {
             every { preferenceRepo.theme } returns value
             assertEquals(callFun(), value)
         }
 
-        val valueList = listOf(null, Theme.LIGHT, Theme.DARK, Random.nextInt())
+        val valueList = listOf(Theme.LIGHT, Theme.DARK, Random.nextInt())
         valueList.forEach { checkRequestGet(it) }
 
         verifySequence {
@@ -84,13 +63,13 @@ object FastTest {
         }
     }
 
-    fun getSort(preferenceRepo: IPreferenceRepo, callFun: () -> Int?) {
-        fun checkRequestGet(value: Int?) {
+    fun getSort(preferenceRepo: IPreferenceRepo, callFun: () -> Int) {
+        fun checkRequestGet(value: Int) {
             every { preferenceRepo.sort } returns value
             assertEquals(callFun(), value)
         }
 
-        val valueList = listOf(null, Sort.CHANGE, Sort.RANK, Random.nextInt())
+        val valueList = listOf(Sort.CHANGE, Sort.RANK, Random.nextInt())
         valueList.forEach { checkRequestGet(it) }
 
         verifySequence {
@@ -98,13 +77,13 @@ object FastTest {
         }
     }
 
-    fun getDefaultColor(preferenceRepo: IPreferenceRepo, callFun: () -> Int?) {
-        fun checkRequestGet(value: Int?) {
+    fun getDefaultColor(preferenceRepo: IPreferenceRepo, callFun: () -> Int) {
+        fun checkRequestGet(value: Int) {
             every { preferenceRepo.defaultColor } returns value
             assertEquals(callFun(), value)
         }
 
-        val valueList = listOf(null, Color.RED, Color.PURPLE, Color.INDIGO, Random.nextInt())
+        val valueList = listOf(Color.RED, Color.PURPLE, Color.INDIGO, Random.nextInt())
         valueList.forEach { checkRequestGet(it) }
 
         verifySequence {
@@ -112,13 +91,13 @@ object FastTest {
         }
     }
 
-    fun getRepeat(preferenceRepo: IPreferenceRepo, callFun: () -> Int?) {
-        fun checkRequestGet(value: Int?) {
+    fun getRepeat(preferenceRepo: IPreferenceRepo, callFun: () -> Int) {
+        fun checkRequestGet(value: Int) {
             every { preferenceRepo.repeat } returns value
             assertEquals(callFun(), value)
         }
 
-        val valueList = listOf(null, Repeat.MIN_10, Repeat.MIN_180, Random.nextInt())
+        val valueList = listOf(Repeat.MIN_10, Repeat.MIN_180, Random.nextInt())
         valueList.forEach { checkRequestGet(it) }
 
         verifySequence {
@@ -126,13 +105,13 @@ object FastTest {
         }
     }
 
-    fun getVolume(preferenceRepo: IPreferenceRepo, callFun: () -> Int?) {
-        fun checkRequestGet(value: Int?) {
+    fun getVolume(preferenceRepo: IPreferenceRepo, callFun: () -> Int) {
+        fun checkRequestGet(value: Int) {
             every { preferenceRepo.volume } returns value
             assertEquals(callFun(), value)
         }
 
-        val valueList = listOf(null, Random.nextInt(), Random.nextInt(), Random.nextInt())
+        val valueList = listOf(Random.nextInt(), Random.nextInt(), Random.nextInt())
         valueList.forEach { checkRequestGet(it) }
 
         verifySequence {

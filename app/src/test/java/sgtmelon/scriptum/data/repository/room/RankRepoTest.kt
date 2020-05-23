@@ -25,21 +25,17 @@ class RankRepoTest : ParentRoomRepoTest() {
 
     private val converter = mockkClass(RankConverter::class)
 
-    private val badRankRepo by lazy { RankRepo(badRoomProvider, converter) }
-    private val goodRankRepo by lazy { RankRepo(goodRoomProvider, converter) }
+    private val rankRepo by lazy { RankRepo(roomProvider, converter) }
 
     @Test fun getCount() = startCoTest {
         val count = Random.nextInt()
 
         coEvery { rankDao.getCount() } returns count
 
-        assertNull(badRankRepo.getCount())
-        assertEquals(count, goodRankRepo.getCount())
+        assertEquals(count, rankRepo.getCount())
 
         coVerifySequence {
-            badRoomProvider.openRoom()
-
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             rankDao.getCount()
         }
     }
@@ -73,13 +69,10 @@ class RankRepoTest : ParentRoomRepoTest() {
             coEvery { alarmDao.get(it.noteId) } returns if (i % 2 == 0) alarmList else listOf()
         }
 
-        assertNull(badRankRepo.getList())
-        assertEquals(finishRankList, goodRankRepo.getList())
+        assertEquals(finishRankList, rankRepo.getList())
 
         coVerifySequence {
-            badRoomProvider.openRoom()
-
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             rankDao.get()
             converter.toItem(entityList)
             entityList.forEach {
@@ -104,17 +97,14 @@ class RankRepoTest : ParentRoomRepoTest() {
         coEvery { noteDao.get(bindIdList) } returns bindList
         coEvery { noteDao.get(notBindIdList) } returns notBindList
 
-        assertNull(badRankRepo.getBind(bindIdList))
-        assertEquals(true, goodRankRepo.getBind(bindIdList))
-        assertEquals(false, goodRankRepo.getBind(notBindIdList))
+        assertEquals(true, rankRepo.getBind(bindIdList))
+        assertEquals(false, rankRepo.getBind(notBindIdList))
 
         coVerifySequence {
-            badRoomProvider.openRoom()
-
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             noteDao.get(bindIdList)
 
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             noteDao.get(notBindIdList)
         }
     }
@@ -124,13 +114,10 @@ class RankRepoTest : ParentRoomRepoTest() {
 
         coEvery { rankDao.getIdVisibleList() } returns idVisibleList
 
-        assertNull(badRankRepo.getIdVisibleList())
-        assertEquals(idVisibleList, goodRankRepo.getIdVisibleList())
+        assertEquals(idVisibleList, rankRepo.getIdVisibleList())
 
         coVerifySequence {
-            badRoomProvider.openRoom()
-
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             rankDao.getIdVisibleList()
         }
     }
@@ -143,13 +130,10 @@ class RankRepoTest : ParentRoomRepoTest() {
 
         coEvery { rankDao.insert(entity) } returns id
 
-        assertNull(badRankRepo.insert(name))
-        assertEquals(id, goodRankRepo.insert(name))
+        assertEquals(id, rankRepo.insert(name))
 
         coVerifySequence {
-            badRoomProvider.openRoom()
-
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             rankDao.insert(entity)
         }
     }
@@ -161,16 +145,13 @@ class RankRepoTest : ParentRoomRepoTest() {
         coEvery { noteDao.get(item.noteId.first()) } returns null
         coEvery { noteDao.get(item.noteId.last()) } returns entity
 
-        badRankRepo.delete(item)
-        goodRankRepo.delete(item)
+        rankRepo.delete(item)
 
         assertEquals(DbData.Note.Default.RANK_ID, entity.rankId)
         assertEquals(DbData.Note.Default.RANK_PS, entity.rankPs)
 
         coVerifySequence {
-            badRoomProvider.openRoom()
-
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             noteDao.get(item.noteId.first())
             noteDao.get(item.noteId.last())
             noteDao.update(entity)
@@ -184,13 +165,10 @@ class RankRepoTest : ParentRoomRepoTest() {
 
         every { converter.toEntity(item) } returns entity
 
-        badRankRepo.update(item)
-        goodRankRepo.update(item)
+        rankRepo.update(item)
 
         coVerifySequence {
-            badRoomProvider.openRoom()
-
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             converter.toEntity(item)
             rankDao.update(entity)
         }
@@ -202,13 +180,10 @@ class RankRepoTest : ParentRoomRepoTest() {
 
         every { converter.toEntity(itemList) } returns entityList
 
-        badRankRepo.update(itemList)
-        goodRankRepo.update(itemList)
+        rankRepo.update(itemList)
 
         coVerifySequence {
-            badRoomProvider.openRoom()
-
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             converter.toEntity(itemList)
             rankDao.update(entityList)
         }
@@ -231,29 +206,26 @@ class RankRepoTest : ParentRoomRepoTest() {
         every { converter.toEntity(rankItemList) } returns rankEntityList
         coEvery { noteDao.get(noteIdList) } returns noteList
 
-        badRankRepo.updatePosition(rankItemList, noteIdList)
         assertEquals(-1, noteList[0].rankPs)
         assertNotEquals(0, noteList[1].rankPs)
         assertNotEquals(2, noteList[2].rankPs)
 
-        goodRankRepo.updatePosition(rankItemList, listOf())
+        rankRepo.updatePosition(rankItemList, listOf())
         assertEquals(-1, noteList[0].rankPs)
         assertNotEquals(0, noteList[1].rankPs)
         assertNotEquals(2, noteList[2].rankPs)
 
-        goodRankRepo.updatePosition(rankItemList, noteIdList)
+        rankRepo.updatePosition(rankItemList, noteIdList)
         assertEquals(-1, noteList[0].rankPs)
         assertEquals(0, noteList[1].rankPs)
         assertEquals(2, noteList[2].rankPs)
 
         coVerifySequence {
-            badRoomProvider.openRoom()
-
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             converter.toEntity(rankItemList)
             rankDao.update(rankEntityList)
 
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             noteDao.get(noteIdList)
             noteDao.update(noteList)
             converter.toEntity(rankItemList)
@@ -276,7 +248,7 @@ class RankRepoTest : ParentRoomRepoTest() {
 
         coEvery { noteDao.get(noteIdList) } returns noteList
 
-        goodRankRepo.updateRankPosition(noteDao, rankItemList, noteIdList)
+        rankRepo.updateRankPosition(noteDao, rankItemList, noteIdList)
         assertEquals(-1, noteList[0].rankPs)
         assertEquals(0, noteList[1].rankPs)
         assertEquals(2, noteList[2].rankPs)
@@ -297,14 +269,12 @@ class RankRepoTest : ParentRoomRepoTest() {
 
         coEvery { rankDao.get() } returns rankEntityList
 
-        badRankRepo.updateConnection(item)
-
         assertFalse(rankEntityList[0].noteId.contains(item.id))
         assertFalse(rankEntityList[1].noteId.contains(item.id))
         assertFalse(rankEntityList[2].noteId.contains(item.id))
         assertFalse(rankEntityList[3].noteId.contains(item.id))
 
-        goodRankRepo.updateConnection(item)
+        rankRepo.updateConnection(item)
 
         assertFalse(rankEntityList[0].noteId.contains(item.id))
         assertTrue(rankEntityList[1].noteId.contains(item.id))
@@ -312,9 +282,7 @@ class RankRepoTest : ParentRoomRepoTest() {
         assertFalse(rankEntityList[3].noteId.contains(item.id))
 
         coVerifySequence {
-            badRoomProvider.openRoom()
-
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             rankDao.get()
             rankDao.update(rankEntityList)
         }
@@ -323,7 +291,7 @@ class RankRepoTest : ParentRoomRepoTest() {
     @Test fun calculateCheckArray() {
         val list = RankConverter().toEntity(TestData.Rank.itemList)
 
-        with(goodRankRepo) {
+        with(rankRepo) {
             var array = booleanArrayOf(false, false, false, false)
             assertArrayEquals(array, calculateCheckArray(list, rankId = 0))
 
@@ -344,7 +312,7 @@ class RankRepoTest : ParentRoomRepoTest() {
     @Test fun updateNoteId() {
         fun getList() = RankConverter().toEntity(TestData.Rank.itemList)
 
-        with(goodRankRepo) {
+        with(rankRepo) {
             val list = getList()
             val id = Random.nextLong()
             val array = booleanArrayOf()
@@ -352,7 +320,7 @@ class RankRepoTest : ParentRoomRepoTest() {
             updateNoteId(list, array, id)
         }
 
-        with(goodRankRepo) {
+        with(rankRepo) {
             val id = Random.nextLong()
             fun assertUnique(list: List<RankEntity>, array: BooleanArray, id: Long) {
                 array.forEachIndexed { i, b ->
@@ -397,7 +365,7 @@ class RankRepoTest : ParentRoomRepoTest() {
             }
         }
 
-        with(goodRankRepo) {
+        with(rankRepo) {
             val list = getList()
             val id = list.first().noteId.random()
             val array = booleanArrayOf(true, false, false, false)
@@ -408,7 +376,7 @@ class RankRepoTest : ParentRoomRepoTest() {
             assertTrue(list.first().noteId.contains(id))
         }
 
-        with(goodRankRepo) {
+        with(rankRepo) {
             val list = getList()
             val id = list.first().noteId.random()
             val array = booleanArrayOf(false, false, false, false)
@@ -427,13 +395,10 @@ class RankRepoTest : ParentRoomRepoTest() {
 
         coEvery { rankDao.getNameList() } returns nameList.subList(1, 5)
 
-        assertNull(badRankRepo.getDialogItemArray(nameList.first()))
-        assertArrayEquals(nameArray, goodRankRepo.getDialogItemArray(nameList.first()))
+        assertArrayEquals(nameArray, rankRepo.getDialogItemArray(nameList.first()))
 
         coVerifySequence {
-            badRoomProvider.openRoom()
-
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             rankDao.getNameList()
         }
     }
@@ -445,22 +410,17 @@ class RankRepoTest : ParentRoomRepoTest() {
         val defaultPosition = DbData.Note.Default.RANK_PS
         val position = Random.nextInt()
 
-        assertEquals(defaultId, badRankRepo.getId(defaultPosition))
-        assertNull(badRankRepo.getId(position))
-
         coEvery { rankDao.getId(position) } returns null
-        assertEquals(defaultId, goodRankRepo.getId(position))
+        assertEquals(defaultId, rankRepo.getId(position))
 
         coEvery { rankDao.getId(position) } returns id
-        assertEquals(id, goodRankRepo.getId(position))
+        assertEquals(id, rankRepo.getId(position))
 
         coVerifySequence {
-            badRoomProvider.openRoom()
-
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             rankDao.getId(position)
 
-            goodRoomProvider.openRoom()
+            roomProvider.openRoom()
             rankDao.getId(position)
         }
     }

@@ -17,24 +17,24 @@ class ProviderModule {
 
     @Provides
     @Singleton
-    fun provideSummaryProvider(resources: Resources?): SummaryProvider {
+    fun provideSummaryProvider(resources: Resources): SummaryProvider {
         return SummaryProvider(resources)
     }
 
     @Provides
     @Singleton
-    fun providePreferenceKeyProvider(resources: Resources?): PreferenceProvider.Key {
+    fun providePreferenceKeyProvider(resources: Resources): PreferenceProvider.Key {
         return PreferenceProvider.Key(resources)
     }
 
     @Provides
     @Singleton
-    fun providePreferenceDefProvider(resources: Resources?): PreferenceProvider.Def {
+    fun providePreferenceDefProvider(resources: Resources): PreferenceProvider.Def {
         return PreferenceProvider.Def(resources)
     }
 
     @Provides
     @Singleton
-    fun provideRoomProvider(context: Context?): RoomProvider = RoomProvider(context)
+    fun provideRoomProvider(context: Context): RoomProvider = RoomProvider(context)
 
 }

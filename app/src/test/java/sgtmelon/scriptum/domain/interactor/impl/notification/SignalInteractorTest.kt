@@ -31,14 +31,10 @@ class SignalInteractorTest : ParentInteractorTest() {
         val checkValue = 1
         val checkArray = booleanArrayOf(true, false)
 
-        every { preferenceRepo.signal } returns null
-        assertEquals(null, interactor.check)
-
         every { preferenceRepo.signal } returns checkValue
         assertArrayEquals(checkArray, interactor.check)
 
         verifySequence {
-            preferenceRepo.signal
             preferenceRepo.signal
         }
     }
@@ -50,9 +46,6 @@ class SignalInteractorTest : ParentInteractorTest() {
         val secondCheck = 1
         val secondState = SignalState(isMelody = true, isVibration = false)
 
-        every { preferenceRepo.signal } returns null
-        assertEquals(null, interactor.state)
-
         every { preferenceRepo.signal } returns firstCheck
         assertEquals(firstState, interactor.state)
 
@@ -60,7 +53,6 @@ class SignalInteractorTest : ParentInteractorTest() {
         assertEquals(secondState, interactor.state)
 
         verifySequence {
-            preferenceRepo.signal
             preferenceRepo.signal
             preferenceRepo.signal
         }
@@ -74,9 +66,6 @@ class SignalInteractorTest : ParentInteractorTest() {
 
         setEveryRingtone()
 
-        every { preferenceRepo.melodyUri } returns null
-        assertEquals(wrongReturnUri, interactor.getMelodyUri())
-
         every { preferenceRepo.melodyUri } returns ""
         assertEquals(wrongReturnUri, interactor.getMelodyUri())
 
@@ -87,7 +76,7 @@ class SignalInteractorTest : ParentInteractorTest() {
         assertEquals(goodUri, interactor.getMelodyUri())
 
         verifySequence {
-            repeat(times = 3) {
+            repeat(times = 2) {
                 ringtoneControl.getByType(RingtoneManager.TYPE_ALARM)
                 ringtoneControl.getByType(RingtoneManager.TYPE_RINGTONE)
 
@@ -135,9 +124,6 @@ class SignalInteractorTest : ParentInteractorTest() {
 
         setEveryRingtone()
 
-        every { preferenceRepo.melodyUri } returns null
-        assertEquals(wrongIndex, interactor.melodyCheck)
-
         every { preferenceRepo.melodyUri } returns ""
         assertEquals(wrongIndex, interactor.melodyCheck)
 
@@ -148,7 +134,7 @@ class SignalInteractorTest : ParentInteractorTest() {
         assertEquals(goodIndex, interactor.melodyCheck)
 
         verifySequence {
-            repeat(times = 3) {
+            repeat(times = 2) {
                 ringtoneControl.getByType(RingtoneManager.TYPE_ALARM)
                 ringtoneControl.getByType(RingtoneManager.TYPE_RINGTONE)
 

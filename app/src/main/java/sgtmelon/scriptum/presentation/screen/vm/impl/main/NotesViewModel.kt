@@ -41,11 +41,9 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
     val itemList: MutableList<NoteItem> = ArrayList()
 
     override fun onSetup(bundle: Bundle?) {
-        val theme = interactor.theme ?: return
-
         callback?.apply {
             setupToolbar()
-            setupRecycler(theme)
+            setupRecycler(interactor.theme)
             setupDialog()
         }
     }
@@ -67,22 +65,19 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
         }
 
         viewModelScope.launch {
-            val count = interactor.getCount() ?: return@launch
-
-            if (count == 0) {
+            if (interactor.getCount() == 0) {
                 itemList.clear()
             } else {
                 if (itemList.isEmpty()) {
                     callback?.showProgress()
                 }
 
-                interactor.getList()?.let { itemList.clearAdd(it) } ?: return@launch
+                itemList.clearAdd(interactor.getList())
             }
 
-            val isListHide = interactor.isListHide() ?: return@launch
             callback?.apply {
                 notifyList(itemList)
-                setupBinding(isListHide)
+                setupBinding(interactor.isListHide())
                 onBindingList()
             }
         }
@@ -146,7 +141,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
         val item = itemList.getOrNull(p) ?: return
 
         viewModelScope.launch {
-            itemList[p] = interactor.convertNote(item) ?: return@launch
+            itemList[p] = interactor.convertNote(item)
 
             val sortList = itemList.sort(interactor.sort)
             callback?.notifyList(itemList.clearAdd(sortList))
@@ -173,9 +168,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
 
     override fun onResultDateDialog(calendar: Calendar, p: Int) {
         viewModelScope.launch {
-            val dateList = interactor.getDateList() ?: return@launch
-
-            callback?.showTimeDialog(calendar, dateList, p)
+            callback?.showTimeDialog(calendar, interactor.getDateList(), p)
         }
     }
 

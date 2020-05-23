@@ -14,14 +14,14 @@ import sgtmelon.scriptum.domain.model.key.NoteType
  */
 class DevelopRepo(override val roomProvider: RoomProvider) : IDevelopRepo, IRoomWork {
 
-    override suspend fun getNoteList(): List<NoteEntity>? = takeFromRoom {
+    override suspend fun getNoteList(): List<NoteEntity> = takeFromRoom {
         ArrayList<NoteEntity>().apply {
             addAll(noteDao.getByChange(bin = false))
             addAll(noteDao.getByChange(bin = true))
         }
     }
 
-    override suspend fun getRollList(): List<RollEntity>? = takeFromRoom {
+    override suspend fun getRollList(): List<RollEntity> = takeFromRoom {
         ArrayList<RollEntity>().apply {
             noteDao.getByChange(bin = false)
                     .filter { it.type == NoteType.ROLL }
@@ -35,6 +35,6 @@ class DevelopRepo(override val roomProvider: RoomProvider) : IDevelopRepo, IRoom
         }
     }
 
-    override suspend fun getRankList(): List<RankEntity>? = takeFromRoom { rankDao.get() }
+    override suspend fun getRankList(): List<RankEntity> = takeFromRoom { rankDao.get() }
 
 }

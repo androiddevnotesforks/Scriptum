@@ -17,12 +17,12 @@ class ManagerModule {
 
     @Provides
     @Singleton
-    fun provideSharedPreferences(context: Context?): SharedPreferences? {
-        return context?.let { PreferenceManager.getDefaultSharedPreferences(it) }
+    fun provideSharedPreferences(context: Context): SharedPreferences {
+        return PreferenceManager.getDefaultSharedPreferences(context)
     }
 
     @Provides
     @Singleton
-    fun provideRingtoneControl(context: Context?): IRingtoneControl = RingtoneControl(context)
+    fun provideRingtoneControl(context: Context): IRingtoneControl = RingtoneControl(context)
 
 }

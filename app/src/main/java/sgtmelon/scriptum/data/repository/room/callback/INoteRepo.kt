@@ -10,17 +10,17 @@ import sgtmelon.scriptum.domain.model.item.RollItem
  */
 interface INoteRepo {
 
-    suspend fun getCount(bin: Boolean): Int?
+    suspend fun getCount(bin: Boolean): Int
 
     suspend fun getList(@Sort sort: Int, bin: Boolean, isOptimal: Boolean,
-                        filterVisible: Boolean): MutableList<NoteItem>?
+                        filterVisible: Boolean): MutableList<NoteItem>
 
     suspend fun getItem(id: Long, isOptimal: Boolean): NoteItem?
 
-    suspend fun getRollList(noteId: Long): MutableList<RollItem>?
+    suspend fun getRollList(noteId: Long): MutableList<RollItem>
 
 
-    suspend fun isListHide(): Boolean?
+    suspend fun isListHide(): Boolean
 
     suspend fun clearBin()
 
@@ -36,13 +36,13 @@ interface INoteRepo {
      * TODO #THINK in notes list need add fast convert
      * (prepare all data - update note - suspend work with db)
      */
-    suspend fun convertNote(noteItem: NoteItem.Text): NoteItem.Roll?
+    suspend fun convertNote(noteItem: NoteItem.Text): NoteItem.Roll
 
     /**
      * TODO #THINK in notes list need add fast convert
      * (prepare all data - update note - suspend work with db)
      */
-    suspend fun convertNote(noteItem: NoteItem.Roll, useCache: Boolean): NoteItem.Text?
+    suspend fun convertNote(noteItem: NoteItem.Roll, useCache: Boolean): NoteItem.Text
 
     suspend fun getCopyText(noteItem: NoteItem): String
 
@@ -60,6 +60,6 @@ interface INoteRepo {
 
     suspend fun setRollVisible(noteId: Long, isVisible: Boolean)
 
-    suspend fun getRollVisible(noteId: Long): Boolean?
+    suspend fun getRollVisible(noteId: Long): Boolean
 
 }

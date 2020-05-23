@@ -5,7 +5,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verifySequence
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentTest
@@ -19,28 +18,10 @@ class PreferenceProviderTest : ParentTest() {
 
     @MockK lateinit var resources: Resources
 
-    private val badProviderKey by lazy { PreferenceProvider.Key(resources = null) }
-    private val badProviderDef by lazy { PreferenceProvider.Def(resources = null) }
+    private val providerKey by lazy { PreferenceProvider.Key(resources) }
+    private val providerDef by lazy { PreferenceProvider.Def(resources) }
 
-    private val goodProviderKey by lazy { PreferenceProvider.Key(resources) }
-    private val goodProviderDef by lazy { PreferenceProvider.Def(resources) }
-
-    @Test fun valueKey_bad() {
-        assertNull(badProviderKey.FIRST_START)
-        assertNull(badProviderKey.THEME)
-        assertNull(badProviderKey.SORT)
-        assertNull(badProviderKey.DEFAULT_COLOR)
-        assertNull(badProviderKey.PAUSE_SAVE_ON)
-        assertNull(badProviderKey.AUTO_SAVE_ON)
-        assertNull(badProviderKey.SAVE_PERIOD)
-        assertNull(badProviderKey.REPEAT)
-        assertNull(badProviderKey.SIGNAL)
-        assertNull(badProviderKey.MELODY_URI)
-        assertNull(badProviderKey.VOLUME)
-        assertNull(badProviderKey.VOLUME_INCREASE)
-    }
-
-    @Test fun valueKey_good() {
+    @Test fun valueKey() {
         val firstStart = Random.nextString()
         val theme = Random.nextString()
         val sort = Random.nextString()
@@ -67,18 +48,18 @@ class PreferenceProviderTest : ParentTest() {
         every { resources.getString(R.string.pref_key_alarm_volume) } returns volume
         every { resources.getString(R.string.pref_key_alarm_increase) } returns volumeIncrease
 
-        assertEquals(firstStart, goodProviderKey.FIRST_START)
-        assertEquals(theme, goodProviderKey.THEME)
-        assertEquals(sort, goodProviderKey.SORT)
-        assertEquals(defaultColor, goodProviderKey.DEFAULT_COLOR)
-        assertEquals(pauseSaveOn, goodProviderKey.PAUSE_SAVE_ON)
-        assertEquals(autoSaveOn, goodProviderKey.AUTO_SAVE_ON)
-        assertEquals(savePeriod, goodProviderKey.SAVE_PERIOD)
-        assertEquals(repeat, goodProviderKey.REPEAT)
-        assertEquals(signal, goodProviderKey.SIGNAL)
-        assertEquals(melodyUri, goodProviderKey.MELODY_URI)
-        assertEquals(volume, goodProviderKey.VOLUME)
-        assertEquals(volumeIncrease, goodProviderKey.VOLUME_INCREASE)
+        assertEquals(firstStart, providerKey.FIRST_START)
+        assertEquals(theme, providerKey.THEME)
+        assertEquals(sort, providerKey.SORT)
+        assertEquals(defaultColor, providerKey.DEFAULT_COLOR)
+        assertEquals(pauseSaveOn, providerKey.PAUSE_SAVE_ON)
+        assertEquals(autoSaveOn, providerKey.AUTO_SAVE_ON)
+        assertEquals(savePeriod, providerKey.SAVE_PERIOD)
+        assertEquals(repeat, providerKey.REPEAT)
+        assertEquals(signal, providerKey.SIGNAL)
+        assertEquals(melodyUri, providerKey.MELODY_URI)
+        assertEquals(volume, providerKey.VOLUME)
+        assertEquals(volumeIncrease, providerKey.VOLUME_INCREASE)
 
         verifySequence {
             resources.getString(R.string.pref_key_first_start)
@@ -96,22 +77,7 @@ class PreferenceProviderTest : ParentTest() {
         }
     }
 
-    @Test fun valueDef_bad() {
-        assertNull(badProviderDef.FIRST_START)
-        assertNull(badProviderDef.THEME)
-        assertNull(badProviderDef.SORT)
-        assertNull(badProviderDef.DEFAULT_COLOR)
-        assertNull(badProviderDef.PAUSE_SAVE_ON)
-        assertNull(badProviderDef.AUTO_SAVE_ON)
-        assertNull(badProviderDef.SAVE_PERIOD)
-        assertNull(badProviderDef.REPEAT)
-        assertNull(badProviderDef.SIGNAL)
-        assertNull(badProviderDef.MELODY_URI)
-        assertNull(badProviderDef.VOLUME)
-        assertNull(badProviderDef.VOLUME_INCREASE)
-    }
-
-    @Test fun valueDef_good() {
+    @Test fun valueDef() {
         val firstStart = Random.nextBoolean()
         val theme = Random.nextInt()
         val sort = Random.nextInt()
@@ -138,18 +104,18 @@ class PreferenceProviderTest : ParentTest() {
         every { resources.getInteger(R.integer.pref_alarm_volume) } returns volume
         every { resources.getBoolean(R.bool.pref_alarm_increase) } returns volumeIncrease
 
-        assertEquals(firstStart, goodProviderDef.FIRST_START)
-        assertEquals(theme, goodProviderDef.THEME)
-        assertEquals(sort, goodProviderDef.SORT)
-        assertEquals(defaultColor, goodProviderDef.DEFAULT_COLOR)
-        assertEquals(pauseSaveOn, goodProviderDef.PAUSE_SAVE_ON)
-        assertEquals(autoSaveOn, goodProviderDef.AUTO_SAVE_ON)
-        assertEquals(savePeriod, goodProviderDef.SAVE_PERIOD)
-        assertEquals(repeat, goodProviderDef.REPEAT)
-        assertEquals(signal, goodProviderDef.SIGNAL)
-        assertEquals(melodyUri, goodProviderDef.MELODY_URI)
-        assertEquals(volume, goodProviderDef.VOLUME)
-        assertEquals(volumeIncrease, goodProviderDef.VOLUME_INCREASE)
+        assertEquals(firstStart, providerDef.FIRST_START)
+        assertEquals(theme, providerDef.THEME)
+        assertEquals(sort, providerDef.SORT)
+        assertEquals(defaultColor, providerDef.DEFAULT_COLOR)
+        assertEquals(pauseSaveOn, providerDef.PAUSE_SAVE_ON)
+        assertEquals(autoSaveOn, providerDef.AUTO_SAVE_ON)
+        assertEquals(savePeriod, providerDef.SAVE_PERIOD)
+        assertEquals(repeat, providerDef.REPEAT)
+        assertEquals(signal, providerDef.SIGNAL)
+        assertEquals(melodyUri, providerDef.MELODY_URI)
+        assertEquals(volume, providerDef.VOLUME)
+        assertEquals(volumeIncrease, providerDef.VOLUME_INCREASE)
 
         verifySequence {
             resources.getBoolean(R.bool.pref_first_start)

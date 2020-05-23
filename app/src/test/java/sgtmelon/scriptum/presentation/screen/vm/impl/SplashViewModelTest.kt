@@ -48,19 +48,12 @@ class SplashViewModelTest : ParentViewModelTest() {
 
     @Test fun onSetup_introStart() {
         every { bundle.getString(OpenFrom.INTENT_KEY) } returns null
-
-        every { interactor.firstStart } returns null
-        viewModel.onSetup(bundle = null)
-        viewModel.onSetup(bundle)
-
         every { interactor.firstStart } returns true
+
         viewModel.onSetup(bundle = null)
         viewModel.onSetup(bundle)
 
         verifySequence {
-            interactor.firstStart
-            interactor.firstStart
-
             interactor.firstStart
             callback.startIntroActivity()
 
@@ -71,19 +64,12 @@ class SplashViewModelTest : ParentViewModelTest() {
 
     @Test fun onSetup_mainStart() {
         every { bundle.getString(OpenFrom.INTENT_KEY) } returns null
-
-        every { interactor.firstStart } returns null
-        viewModel.onSetup(bundle = null)
-        viewModel.onSetup(bundle)
-
         every { interactor.firstStart } returns false
+
         viewModel.onSetup(bundle = null)
         viewModel.onSetup(bundle)
 
         verifySequence {
-            interactor.firstStart
-            interactor.firstStart
-
             interactor.firstStart
             callback.startMainActivity()
 
