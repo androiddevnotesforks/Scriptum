@@ -46,9 +46,9 @@ interface IPreferenceInteractor {
     fun updateRepeat(@Repeat value: Int): String?
 
 
-    fun getSignalSummaryArray(signalCheck: BooleanArray): String?
+    fun getSignalSummary(signalCheck: BooleanArray): String?
 
-    fun updateSignal(checkArray: BooleanArray): String?
+    fun updateSignal(valueArray: BooleanArray): String?
 
 
     val volume: Int

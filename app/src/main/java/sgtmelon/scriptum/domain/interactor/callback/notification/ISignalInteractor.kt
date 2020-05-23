@@ -9,7 +9,7 @@ import sgtmelon.scriptum.domain.model.state.SignalState
  */
 interface ISignalInteractor {
 
-    val check: BooleanArray
+    val typeCheck: BooleanArray
 
     val state: SignalState?
 

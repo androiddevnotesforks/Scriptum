@@ -70,14 +70,14 @@ class PreferenceInteractor(
     }
 
 
-    override fun getSignalSummaryArray(signalCheck: BooleanArray): String? {
+    override fun getSignalSummary(valueArray: BooleanArray): String? {
         val summaryArray = summaryProvider.signal
 
-        if (summaryArray.size != signalCheck.size) return null
+        if (summaryArray.size != valueArray.size) return null
 
         return StringBuilder().apply {
             var firstAppend = true
-            signalCheck.forEachIndexed { i, bool ->
+            valueArray.forEachIndexed { i, bool ->
                 if (bool) {
                     append(if (firstAppend) {
                         firstAppend = false
@@ -90,9 +90,9 @@ class PreferenceInteractor(
         }.toString()
     }
 
-    override fun updateSignal(checkArray: BooleanArray): String? {
-        preferenceRepo.signal = IntConverter().toInt(checkArray)
-        return getSignalSummaryArray(checkArray)
+    override fun updateSignal(valueArray: BooleanArray): String? {
+        preferenceRepo.signal = IntConverter().toInt(valueArray)
+        return getSignalSummary(valueArray)
     }
 
 

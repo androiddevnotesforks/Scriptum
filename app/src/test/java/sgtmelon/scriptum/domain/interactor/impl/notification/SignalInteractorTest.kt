@@ -32,7 +32,7 @@ class SignalInteractorTest : ParentInteractorTest() {
         val checkArray = booleanArrayOf(true, false)
 
         every { preferenceRepo.signal } returns checkValue
-        assertArrayEquals(checkArray, interactor.check)
+        assertArrayEquals(checkArray, interactor.typeCheck)
 
         verifySequence {
             preferenceRepo.signal

@@ -269,10 +269,10 @@ class PreferenceInteractorTest : ParentInteractorTest() {
         val resultString = "${summaryArray.first().getLow()}, ${summaryArray.last().getLow()}"
 
         coEvery { summaryProvider.signal } returns arrayOf(Random.nextString())
-        assertNull(interactor.getSignalSummaryArray(checkArray))
+        assertNull(interactor.getSignalSummary(checkArray))
 
         coEvery { summaryProvider.signal } returns summaryArray
-        assertEquals(resultString, interactor.getSignalSummaryArray(checkArray))
+        assertEquals(resultString, interactor.getSignalSummary(checkArray))
     }
 
     @Test fun updateSignal() {

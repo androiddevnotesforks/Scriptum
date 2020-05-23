@@ -23,10 +23,10 @@ class SignalInteractor(
     /**
      * TODO converter
      */
-    override val check: BooleanArray
+    override val typeCheck: BooleanArray
         get() = IntConverter().toArray(preferenceRepo.signal, Signal.digitCount)
 
-    override val state: SignalState? get() = SignalState[check]
+    override val state: SignalState? get() = SignalState[typeCheck]
 
 
     /**

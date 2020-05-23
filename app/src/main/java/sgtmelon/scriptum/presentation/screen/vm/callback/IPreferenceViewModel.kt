@@ -37,13 +37,13 @@ interface IPreferenceViewModel : IParentViewModel {
 
     fun onClickSignal(): Boolean
 
-    fun onResultSignal(checkArray: BooleanArray)
+    fun onResultSignal(valueArray: BooleanArray)
 
     fun onClickMelody(result: PermissionResult): Boolean
 
-    fun onSelectMelody(check: Int)
+    fun onSelectMelody(value: Int)
 
-    fun onResultMelody(check: Int)
+    fun onResultMelody(value: Int)
 
     fun onClickVolume(): Boolean
 

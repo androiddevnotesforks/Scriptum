@@ -43,7 +43,7 @@ interface IPreferenceFragment {
 
     fun updateSignalSummary(summary: String?)
 
-    fun showSignalDialog(value: BooleanArray)
+    fun showSignalDialog(valueArray: BooleanArray)
 
     fun showMelodyPermissionDialog()
 

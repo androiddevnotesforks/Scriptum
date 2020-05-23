@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.presentation.screen.vm.impl
 
 import android.os.Bundle
+import androidx.annotation.VisibleForTesting
 import sgtmelon.scriptum.domain.interactor.callback.IPreferenceInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.domain.model.annotation.Color
@@ -14,17 +15,20 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragme
 import sgtmelon.scriptum.presentation.screen.vm.callback.IPreferenceViewModel
 
 /**
- * ViewModel for [PreferenceFragment]
+ * ViewModel for [PreferenceFragment].
  */
 class PreferenceViewModel(
         private val interactor: IPreferenceInteractor,
         private val signalInteractor: ISignalInteractor,
-        private var callback: IPreferenceFragment?
+        @VisibleForTesting var callback: IPreferenceFragment?
 ) : IPreferenceViewModel {
 
     private val melodyList: List<MelodyItem> = signalInteractor.melodyList
 
     override fun onSetup(bundle: Bundle?) {
+        val state = signalInteractor.state ?: return
+        val melodyItem = melodyList.getOrNull(signalInteractor.melodyCheck) ?: return
+
         callback?.apply {
             setupApp()
             setupNote()
@@ -39,11 +43,10 @@ class PreferenceViewModel(
             updateSavePeriodSummary(interactor.getSavePeriodSummary())
 
             updateRepeatSummary(interactor.getRepeatSummary())
-            updateSignalSummary(interactor.getSignalSummaryArray(signalInteractor.check))
+            updateSignalSummary(interactor.getSignalSummary(signalInteractor.typeCheck))
 
-            val state = signalInteractor.state ?: return
             updateMelodyGroupEnabled(state.isMelody)
-            updateMelodySummary(melodyList[signalInteractor.melodyCheck].title)
+            updateMelodySummary(melodyItem.title)
             updateVolumeSummary(interactor.getVolumeSummary())
         }
     }
@@ -53,20 +56,20 @@ class PreferenceViewModel(
     }
 
 
-    override fun onClickTheme() = alwaysTrue { callback?.showThemeDialog(interactor.theme) }
+    override fun onClickTheme() = takeTrue { callback?.showThemeDialog(interactor.theme) }
 
     override fun onResultTheme(@Theme value: Int) {
         callback?.updateThemeSummary(interactor.updateTheme(value))
     }
 
 
-    override fun onClickSort() = alwaysTrue { callback?.showSortDialog(interactor.sort) }
+    override fun onClickSort() = takeTrue { callback?.showSortDialog(interactor.sort) }
 
     override fun onResultNoteSort(@Sort value: Int) {
         callback?.updateSortSummary(interactor.updateSort(value))
     }
 
-    override fun onClickNoteColor() = alwaysTrue {
+    override fun onClickNoteColor() = takeTrue {
         callback?.showColorDialog(interactor.defaultColor, interactor.theme)
     }
 
@@ -74,7 +77,7 @@ class PreferenceViewModel(
         callback?.updateColorSummary(interactor.updateDefaultColor(value))
     }
 
-    override fun onClickSaveTime() = alwaysTrue {
+    override fun onClickSaveTime() = takeTrue {
         callback?.showSaveTimeDialog(interactor.savePeriod)
     }
 
@@ -83,52 +86,55 @@ class PreferenceViewModel(
     }
 
 
-    override fun onClickRepeat() = alwaysTrue { callback?.showRepeatDialog(interactor.repeat) }
+    override fun onClickRepeat() = takeTrue { callback?.showRepeatDialog(interactor.repeat) }
 
     override fun onResultRepeat(@Repeat value: Int) {
         callback?.updateRepeatSummary(interactor.updateRepeat(value))
     }
 
-    override fun onClickSignal() = alwaysTrue { callback?.showSignalDialog(signalInteractor.check) }
+    override fun onClickSignal() = takeTrue { callback?.showSignalDialog(signalInteractor.typeCheck) }
 
-    override fun onResultSignal(checkArray: BooleanArray) {
+    override fun onResultSignal(valueArray: BooleanArray) {
         val state = signalInteractor.state ?: return
 
         callback?.apply {
-            updateSignalSummary(interactor.updateSignal(checkArray))
+            updateSignalSummary(interactor.updateSignal(valueArray))
             updateMelodyGroupEnabled(state.isMelody)
         }
     }
 
-    override fun onClickMelody(result: PermissionResult) = alwaysTrue {
-        if (result == PermissionResult.ALLOWED) {
-            callback?.showMelodyPermissionDialog()
-        } else {
-            callback?.showMelodyDialog(signalInteractor.melodyCheck)
+    /**
+     * Show permission only on [PermissionResult.ALLOWED] because we can display melodies which
+     * not located on SD card.
+     */
+    override fun onClickMelody(result: PermissionResult) = takeTrue {
+        when (result) {
+            PermissionResult.ALLOWED -> callback?.showMelodyPermissionDialog()
+            else -> callback?.showMelodyDialog(signalInteractor.melodyCheck)
         }
     }
 
-    override fun onSelectMelody(check: Int) {
-        val item = melodyList.getOrNull(check) ?: return
+    override fun onSelectMelody(value: Int) {
+        val item = melodyList.getOrNull(value) ?: return
 
         callback?.playMelody(item.uri)
     }
 
-    override fun onResultMelody(check: Int) {
-        val item = melodyList.getOrNull(check) ?: return
+    override fun onResultMelody(value: Int) {
+        val item = melodyList.getOrNull(value) ?: return
 
         signalInteractor.setMelodyUri(item.uri)
         callback?.updateMelodySummary(item.title)
     }
 
-    override fun onClickVolume() = alwaysTrue { callback?.showVolumeDialog(interactor.volume) }
+    override fun onClickVolume() = takeTrue { callback?.showVolumeDialog(interactor.volume) }
 
     override fun onResultVolume(value: Int) {
         callback?.updateVolumeSummary(interactor.updateVolume(value))
     }
 
 
-    private fun alwaysTrue(func: () -> Unit): Boolean {
+    private fun takeTrue(func: () -> Unit): Boolean {
         func()
         return true
     }

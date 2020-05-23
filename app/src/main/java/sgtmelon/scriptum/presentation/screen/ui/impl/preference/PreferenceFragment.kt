@@ -291,8 +291,8 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
         signalPreference?.summary = summary
     }
 
-    override fun showSignalDialog(value: BooleanArray) = openState.tryInvoke {
-        signalDialog.setArguments(value).show(fm, DialogFactory.Preference.SIGNAL)
+    override fun showSignalDialog(valueArray: BooleanArray) = openState.tryInvoke {
+        signalDialog.setArguments(valueArray).show(fm, DialogFactory.Preference.SIGNAL)
     }
 
     override fun showMelodyPermissionDialog() = openState.tryInvoke {
