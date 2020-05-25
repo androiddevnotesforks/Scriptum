@@ -7,6 +7,7 @@ import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.NotificationActivity
 import sgtmelon.scriptum.test.ParentUiTest
+import sgtmelon.scriptum.ui.ParentRecyclerItem
 
 /**
  * Test for SnackBar in [NotificationActivity].
@@ -112,7 +113,7 @@ class NotificationSnackbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun openItemDismiss() {
+    @Test fun dismissOnPause() {
         val list = fillScreen(count = 3)
 
         launch {
@@ -124,6 +125,46 @@ class NotificationSnackbarTest : ParentUiTest() {
                             is NoteItem.Text -> openText(it, p = 0) { onClickClose() }
                             is NoteItem.Roll -> openRoll(it, p = 0) { onClickClose() }
                         }
+                    }
+                }
+            }
+        }
+    }
+
+    @Test fun scrollToUndoItem_onTop() {
+        val list = fillScreen(count = 15)
+        val p = list.indices.first()
+
+        launch {
+            mainScreen {
+                notesScreen {
+                    openNotification {
+                        onClickCancel(p)
+                        onScroll(Scroll.END)
+                        getSnackbar { onClickCancel() }
+
+                        ParentRecyclerItem.PREVENT_SCROLL = true
+                        onAssertItem(p, list[p])
+                    }
+                }
+            }
+        }
+    }
+
+    @Test fun scrollToUndoItem_onBottom() {
+        val list = fillScreen(count = 15)
+        val p = list.indices.last()
+
+        launch {
+            mainScreen {
+                notesScreen {
+                    openNotification {
+                        onClickCancel(p)
+                        onScroll(Scroll.START)
+                        getSnackbar { onClickCancel() }
+
+                        ParentRecyclerItem.PREVENT_SCROLL = true
+                        onAssertItem(p, list[p])
                     }
                 }
             }

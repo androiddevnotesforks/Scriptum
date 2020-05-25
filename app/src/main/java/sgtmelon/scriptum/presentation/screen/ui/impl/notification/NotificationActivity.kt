@@ -194,10 +194,12 @@ class NotificationActivity : AppActivity(), INotificationActivity {
     override fun notifyItemInserted(list: List<NotificationItem>, p: Int) {
         adapter.setList(list).notifyItemInserted(p)
 
-//        if (p < layoutManager.findFirstCompletelyVisibleItemPosition()
-//                || p > layoutManager.findLastCompletelyVisibleItemPosition()) {
-//            recyclerView?.smoothScrollToPosition(p)
-//        }
+        val firstVisiblePosition = layoutManager.findFirstCompletelyVisibleItemPosition()
+        val lastVisiblePosition = layoutManager.findLastCompletelyVisibleItemPosition()
+
+        if (p < firstVisiblePosition || p > lastVisiblePosition) {
+            recyclerView?.smoothScrollToPosition(p)
+        }
     }
 
     override fun setAlarm(calendar: Calendar, id: Long) {

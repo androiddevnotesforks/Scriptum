@@ -6,7 +6,7 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.MainActivity
 import sgtmelon.scriptum.test.ParentUiTest
-import sgtmelon.scriptum.ui.ParentRecyclerItem.Companion.PREVENT_SCROLL
+import sgtmelon.scriptum.ui.ParentRecyclerItem
 
 /**
  * Test add dialog for [MainActivity].
@@ -18,7 +18,7 @@ class MainScrollTopTest : ParentUiTest() {
         launch {
             mainScreen {
                 rankScreen { onScroll(Scroll.END) }.onScrollTop()
-                PREVENT_SCROLL = true
+                ParentRecyclerItem.PREVENT_SCROLL = true
                 rankScreen { onAssertItem(it.first()) }
             }
         }
@@ -28,7 +28,7 @@ class MainScrollTopTest : ParentUiTest() {
         launch {
             mainScreen {
                 notesScreen { onScroll(Scroll.END) }.onScrollTop()
-                PREVENT_SCROLL = true
+                ParentRecyclerItem.PREVENT_SCROLL = true
                 notesScreen { onAssertItem(it.first(), p = 0) }
             }
         }
@@ -38,7 +38,7 @@ class MainScrollTopTest : ParentUiTest() {
         launch {
             mainScreen {
                 binScreen { onScroll(Scroll.END) }.onScrollTop()
-                PREVENT_SCROLL = true
+                ParentRecyclerItem.PREVENT_SCROLL = true
                 binScreen { onAssertItem(it.first(), p = 0) }
             }
         }

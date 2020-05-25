@@ -189,11 +189,11 @@ class NotificationViewModelTest : ParentViewModelTest() {
 
         val item = mockk<NotificationItem>()
 
-        val pairFirst = Pair(Random.nextInt(), mockk<NotificationItem>())
-        val pairSecond = Pair(0, item)
+        val firstPair = Pair(Random.nextInt(), mockk<NotificationItem>())
+        val secondPair = Pair(0, item)
 
         val itemList = mutableListOf(mockk<NotificationItem>())
-        val cancelList = mutableListOf(pairFirst, pairSecond)
+        val cancelList = mutableListOf(firstPair, secondPair)
 
         viewModel.itemList.clearAdd(itemList)
         viewModel.cancelList.clearAdd(cancelList)
@@ -214,7 +214,7 @@ class NotificationViewModelTest : ParentViewModelTest() {
 
             callback.apply {
                 notifyInfoBind(itemList.size)
-                notifyItemInserted(itemList, pairSecond.first)
+                notifyItemInserted(itemList, secondPair.first)
                 showSnackbar()
             }
         }
