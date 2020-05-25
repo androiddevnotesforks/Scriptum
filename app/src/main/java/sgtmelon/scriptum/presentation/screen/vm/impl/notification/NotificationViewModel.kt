@@ -29,7 +29,10 @@ class NotificationViewModel(application: Application) :
 
 
     @VisibleForTesting
-    val itemList: MutableList<NotificationItem> = ArrayList()
+    val itemList: MutableList<NotificationItem> = mutableListOf()
+
+    @VisibleForTesting
+    val cancelList: MutableList<Pair<Int, NotificationItem>> = mutableListOf()
 
     override fun onSetup(bundle: Bundle?) {
         callback?.setupToolbar()
@@ -77,12 +80,49 @@ class NotificationViewModel(application: Application) :
     override fun onClickCancel(p: Int) {
         val item = itemList.removeAtOrNull(p) ?: return
 
+        cancelList.add(Pair(p, item))
+
         viewModelScope.launch { interactor.cancelNotification(item) }
 
         callback?.apply {
             notifyInfoBind(itemList.size)
             notifyItemRemoved(itemList, p)
+            showSnackbar()
         }
+    }
+
+
+    override fun onSnackbarAction() {
+        if (cancelList.isEmpty()) return
+
+        val pair = cancelList.removeAtOrNull(index = cancelList.indices.last) ?: return
+        val item = pair.second
+
+        val isCorrect = pair.first in itemList.indices
+        if (isCorrect) {
+            itemList.add(pair.first, item)
+        } else {
+            itemList.add(item)
+        }
+
+        viewModelScope.launch { interactor.setNotification(item) }
+
+        callback?.apply {
+            notifyInfoBind(itemList.size)
+            notifyItemInserted(itemList, if (isCorrect) pair.first else itemList.indices.last)
+
+            if (itemList.size == 1) {
+                onBindingList()
+            }
+
+            if (cancelList.isNotEmpty()) {
+                showSnackbar()
+            }
+        }
+    }
+
+    override fun onSnackbarDismiss() {
+        cancelList.clear()
     }
 
 }

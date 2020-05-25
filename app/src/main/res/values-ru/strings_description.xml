@@ -24,7 +24,7 @@
     <string name="description_item_rank_cancel">Убрать категорию с именем: </string>
 
     <string name="description_item_notification_cancel">Убрать уведомление с именем:</string>
-    <string name="description_item_notification_cancel_at">\nКоторое установлено на:</string>
+    <string name="description_item_notification_cancel_at">.\nКоторое установлено на:</string>
 
     <string name="description_item_roll_check">Отметить пункт с тектом:</string>
     <string name="description_item_roll_uncheck">Снать отметку пункта с тектом:</string>

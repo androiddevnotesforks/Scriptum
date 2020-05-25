@@ -145,9 +145,10 @@ class InteractorModule {
     @Provides
     @ActivityScope
     fun provideNotificationInteractor(activity: NotificationActivity,
-                                      preferenceRepo: IPreferenceRepo, alarmRepo: IAlarmRepo,
+                                      preferenceRepo: IPreferenceRepo, noteRepo: INoteRepo,
+                                      alarmRepo: IAlarmRepo,
                                       bindRepo: IBindRepo): INotificationInteractor {
-        return NotificationInteractor(preferenceRepo, alarmRepo, bindRepo, activity)
+        return NotificationInteractor(preferenceRepo, noteRepo, alarmRepo, bindRepo, activity)
     }
 
 

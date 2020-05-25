@@ -14,6 +14,7 @@ import sgtmelon.scriptum.data.room.converter.model.RollConverter
 import sgtmelon.scriptum.data.room.entity.NoteEntity
 import sgtmelon.scriptum.data.room.entity.RankEntity
 import sgtmelon.scriptum.data.room.entity.RollEntity
+import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.data.ColorData
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RankItem
@@ -75,12 +76,12 @@ class TestData(
     fun createNote(): NoteItem = if (Random.nextBoolean()) createText() else createRoll()
 
     fun createText(): NoteItem.Text {
-        val color = preferenceRepo.defaultColor ?: throw NullPointerException()
+        val color = preferenceRepo.defaultColor
         return NoteItem.Text.getCreate(color)
     }
 
     fun createRoll(): NoteItem.Roll {
-        val color = preferenceRepo.defaultColor ?: throw NullPointerException()
+        val color = preferenceRepo.defaultColor
         return NoteItem.Roll.getCreate(color)
     }
 
@@ -256,6 +257,9 @@ class TestData(
         insertNotification(date = getRandomFutureTime())
     }
 
+
+
+    val randomColor get() = (Color.RED .. Color.WHITE).random()
 
     fun clear() = apply { inRoomTest { clearAllTables() } }
 

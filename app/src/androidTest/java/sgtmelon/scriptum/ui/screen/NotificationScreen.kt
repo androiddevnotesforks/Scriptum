@@ -15,6 +15,7 @@ import sgtmelon.scriptum.ui.IPressBack
 import sgtmelon.scriptum.ui.ParentRecyclerItem
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.part.info.SimpleInfoContainer
+import sgtmelon.scriptum.ui.part.panel.SnackbarPanel
 import sgtmelon.scriptum.ui.part.toolbar.SimpleToolbar
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
@@ -30,6 +31,13 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler), IPr
     private val toolbar = SimpleToolbar(R.string.title_notification, withBack = true)
 
     private val infoContainer = SimpleInfoContainer(SimpleInfoPage.NOTIFICATION)
+
+    fun getSnackbar(func: SnackbarPanel.() -> Unit): SnackbarPanel {
+        val message = R.string.snackbar_message_notification
+        val action = R.string.snackbar_action_notification
+
+        return SnackbarPanel(message, action, func)
+    }
 
     private fun getItem(p: Int) = Item(recyclerView, p)
 
@@ -55,10 +63,13 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler), IPr
         RollNoteScreen(func, State.READ, noteItem, isRankEmpty)
     }
 
-    fun onClickCancel(p: Int? = random) = apply {
+    fun onClickCancel(p: Int? = random, wait: Boolean = false) = apply {
         if (p == null) return@apply
 
-        getItem(p).cancelButton.click()
+        waitAfter(time = if (wait) SNACK_BAR_TIME else 0) {
+            getItem(p).cancelButton.click()
+            getSnackbar { assert() }
+        }
     }
 
 

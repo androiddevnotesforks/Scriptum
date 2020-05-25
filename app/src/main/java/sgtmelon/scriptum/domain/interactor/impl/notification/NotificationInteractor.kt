@@ -1,9 +1,11 @@
 package sgtmelon.scriptum.domain.interactor.impl.notification
 
 import androidx.annotation.VisibleForTesting
+import sgtmelon.extension.getCalendarOrNull
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.data.repository.room.callback.IBindRepo
+import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.domain.interactor.callback.notification.INotificationInteractor
 import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.domain.model.annotation.Theme
@@ -16,6 +18,7 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.notification.NotificationVi
  */
 class NotificationInteractor(
         private val preferenceRepo: IPreferenceRepo,
+        private val noteRepo: INoteRepo,
         private val alarmRepo: IAlarmRepo,
         private val bindRepo: IBindRepo,
         @VisibleForTesting var callback: INotificationBridge?
@@ -30,6 +33,18 @@ class NotificationInteractor(
     override suspend fun getCount(): Int = bindRepo.getNotificationCount()
 
     override suspend fun getList(): MutableList<NotificationItem> = alarmRepo.getList()
+
+
+    override suspend fun setNotification(item: NotificationItem) {
+        val id = item.note.id
+        val date = item.alarm.date
+
+        val noteItem = noteRepo.getItem(id, isOptimal = true) ?: return
+        val calendar = date.getCalendarOrNull() ?: return
+
+        alarmRepo.insertOrUpdate(noteItem, date)
+        callback?.setAlarm(calendar, id)
+    }
 
     override suspend fun cancelNotification(item: NotificationItem) {
         val id = item.note.id

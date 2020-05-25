@@ -28,8 +28,12 @@ interface INotificationActivity : INotificationBridge {
     fun startNoteActivity(item: NotificationItem)
 
 
+    fun showSnackbar()
+
     fun notifyList(list: List<NotificationItem>)
 
     fun notifyItemRemoved(list: List<NotificationItem>, p: Int)
+
+    fun notifyItemInserted(list: List<NotificationItem>, p: Int)
 
 }

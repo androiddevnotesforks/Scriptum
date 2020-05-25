@@ -19,6 +19,7 @@ import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.key.ColorShade
 import sgtmelon.scriptum.domain.model.state.SignalState
 import sgtmelon.scriptum.presentation.screen.ui.callback.notification.IAlarmActivity
+import sgtmelon.scriptum.presentation.screen.vm.impl.notification.AlarmViewModel.Companion.getRippleShade
 import kotlin.random.Random
 
 /**
@@ -371,7 +372,9 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
 
     @Test fun getRippleShade() {
-        TODO()
+        assertEquals(ColorShade.ACCENT, Theme.LIGHT.getRippleShade())
+        assertEquals(ColorShade.DARK, Theme.DARK.getRippleShade())
+        assertEquals(ColorShade.DARK, Random.nextInt().getRippleShade())
     }
 
 

@@ -36,6 +36,17 @@ fun String.getCalendar(): Calendar = let {
     return calendar
 }
 
+fun String.getCalendarOrNull(): Calendar? = let {
+    if (it.isEmpty()) return null
+
+    return try {
+        Calendar.getInstance().apply { time = getDateFormat().parse(it) }
+    } catch (e: Throwable) {
+        e.printStackTrace()
+        null
+    }
+}
+
 fun Calendar.getText(): String = let { getDateFormat().format(it.time) }
 
 fun Calendar.beforeNow() = this.before(Calendar.getInstance())

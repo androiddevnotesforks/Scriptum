@@ -1,10 +1,7 @@
 package sgtmelon.scriptum.presentation.screen.vm.impl.notification
 
-import io.mockk.coEvery
-import io.mockk.coVerifySequence
-import io.mockk.every
+import io.mockk.*
 import io.mockk.impl.annotations.MockK
-import io.mockk.verifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
@@ -160,19 +157,114 @@ class NotificationViewModelTest : ParentViewModelTest() {
 
         val itemList = data.itemList
         viewModel.itemList.clearAdd(itemList)
+
         assertEquals(itemList, viewModel.itemList)
+        assertTrue(viewModel.cancelList.isEmpty())
 
         val p = itemList.indices.random()
         val item = itemList.removeAt(p)
 
         viewModel.onClickCancel(p)
 
+        assertEquals(itemList, viewModel.itemList)
+        assertEquals(mutableListOf(Pair(p, item)), viewModel.cancelList)
+
         coVerifySequence {
             interactor.cancelNotification(item)
 
-            callback.notifyInfoBind(itemList.size)
-            callback.notifyItemRemoved(itemList, p)
+            callback.apply {
+                notifyInfoBind(itemList.size)
+                notifyItemRemoved(itemList, p)
+                showSnackbar()
+            }
         }
+    }
+
+
+    @Test fun onSnackbarAction_correct() {
+        assertTrue(viewModel.cancelList.isEmpty())
+        assertTrue(viewModel.itemList.isEmpty())
+
+        viewModel.onSnackbarAction()
+
+        val item = mockk<NotificationItem>()
+
+        val pairFirst = Pair(Random.nextInt(), mockk<NotificationItem>())
+        val pairSecond = Pair(0, item)
+
+        val itemList = mutableListOf(mockk<NotificationItem>())
+        val cancelList = mutableListOf(pairFirst, pairSecond)
+
+        viewModel.itemList.clearAdd(itemList)
+        viewModel.cancelList.clearAdd(cancelList)
+
+        assertEquals(itemList, viewModel.itemList)
+        assertEquals(cancelList, viewModel.cancelList)
+
+        viewModel.onSnackbarAction()
+
+        itemList.add(0, item)
+        cancelList.removeAt(index = 1)
+
+        assertEquals(itemList, viewModel.itemList)
+        assertEquals(cancelList, viewModel.cancelList)
+
+        coVerifySequence {
+            interactor.setNotification(item)
+
+            callback.apply {
+                notifyInfoBind(itemList.size)
+                notifyItemInserted(itemList, pairSecond.first)
+                showSnackbar()
+            }
+        }
+    }
+
+    @Test fun onSnackbarAction_incorrect() {
+        assertTrue(viewModel.cancelList.isEmpty())
+        assertTrue(viewModel.itemList.isEmpty())
+
+        viewModel.onSnackbarAction()
+
+        val item = mockk<NotificationItem>()
+        val pair = Pair(Random.nextInt(), item)
+
+        val itemList = mutableListOf<NotificationItem>()
+        val cancelList = mutableListOf(pair)
+
+        viewModel.cancelList.clearAdd(cancelList)
+
+        assertEquals(itemList, viewModel.itemList)
+        assertEquals(cancelList, viewModel.cancelList)
+
+        viewModel.onSnackbarAction()
+
+        itemList.add(0, item)
+        cancelList.removeAt(index = 0)
+
+        assertEquals(itemList, viewModel.itemList)
+        assertEquals(cancelList, viewModel.cancelList)
+
+        coVerifySequence {
+            interactor.setNotification(item)
+
+            callback.apply {
+                notifyInfoBind(itemList.size)
+                notifyItemInserted(itemList, itemList.indices.last)
+                onBindingList()
+            }
+        }
+    }
+
+    @Test fun onSnackbarDismiss() {
+        val cancelList = MutableList(size = 5) { Pair(Random.nextInt(), mockk<NotificationItem>()) }
+
+        viewModel.cancelList.clearAdd(cancelList)
+        assertEquals(cancelList, viewModel.cancelList)
+
+        viewModel.onSnackbarDismiss()
+
+        assertTrue(viewModel.cancelList.isEmpty())
     }
 
 }

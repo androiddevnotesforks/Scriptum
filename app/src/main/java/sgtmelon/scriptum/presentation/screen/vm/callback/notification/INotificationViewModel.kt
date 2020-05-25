@@ -15,4 +15,9 @@ interface INotificationViewModel : IParentViewModel {
 
     fun onClickCancel(p: Int)
 
+
+    fun onSnackbarAction()
+
+    fun onSnackbarDismiss()
+
 }

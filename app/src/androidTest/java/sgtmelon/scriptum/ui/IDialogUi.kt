@@ -10,16 +10,16 @@ interface IDialogUi : IPressBack {
 
     fun onCloseSoft() = waitClose { onPressBack() }
 
-    fun waitClose(func: () -> Unit = {}) = waitAfter(TIME_CLOSE) { func() }
+    fun waitClose(func: () -> Unit = {}) = waitAfter(CLOSE_TIME) { func() }
 
-    fun waitOpen(func: () -> Unit) = waitBefore(TIME_OPEN) { func() }
+    fun waitOpen(func: () -> Unit) = waitBefore(OPEN_TIME) { func() }
 
-    fun waitOperation(func: () -> Unit) = waitAfter(TIME_OPERATION) { func() }
+    fun waitOperation(func: () -> Unit) = waitAfter(OPERATION_TIME) { func() }
 
     private companion object {
-        const val TIME_CLOSE = 300L
-        const val TIME_OPEN = 100L
-        const val TIME_OPERATION = 500L
+        const val CLOSE_TIME = 300L
+        const val OPEN_TIME = 100L
+        const val OPERATION_TIME = 500L
     }
 
 }

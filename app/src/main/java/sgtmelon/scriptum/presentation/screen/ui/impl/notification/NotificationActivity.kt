@@ -9,6 +9,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.ActivityNotificationBinding
 import sgtmelon.scriptum.domain.model.annotation.Theme
@@ -27,6 +28,7 @@ import sgtmelon.scriptum.presentation.screen.ui.callback.notification.INotificat
 import sgtmelon.scriptum.presentation.screen.ui.impl.AppActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.notification.INotificationViewModel
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -53,8 +55,25 @@ class NotificationActivity : AppActivity(), INotificationActivity {
             }
         })
     }
+    private val layoutManager by lazy { LinearLayoutManager(this) }
+
+    private var snackbar: Snackbar? = null
+
+    private val snackbarCallback = object : Snackbar.Callback() {
+        override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+            super.onDismissed(transientBottomBar, event)
+
+            /**
+             * If user not click on action button. (timeout dismiss, dismiss by swipe)
+             */
+            if (event != DISMISS_EVENT_ACTION) {
+                viewModel.onSnackbarDismiss()
+            }
+        }
+    }
 
     private val parentContainer by lazy { findViewById<ViewGroup?>(R.id.notification_parent_container) }
+    private val contentContainer by lazy { findViewById<ViewGroup?>(R.id.notification_content_container) }
     private val emptyInfoView by lazy { findViewById<View?>(R.id.notification_info_include) }
     private val progressBar by lazy { findViewById<View?>(R.id.notification_progress)}
     private val recyclerView by lazy { findViewById<RecyclerView?>(R.id.notification_recycler) }
@@ -81,8 +100,18 @@ class NotificationActivity : AppActivity(), INotificationActivity {
         viewModel.onUpdateData()
     }
 
+    override fun onPause() {
+        super.onPause()
+
+        snackbar?.dismiss()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
+
+        snackbar?.removeCallback(snackbarCallback)
+
+        viewModel.onSnackbarDismiss()
         viewModel.onDestroy()
     }
 
@@ -110,7 +139,7 @@ class NotificationActivity : AppActivity(), INotificationActivity {
             }
 
             it.setHasFixedSize(true)
-            it.layoutManager = LinearLayoutManager(this)
+            it.layoutManager = layoutManager
             it.adapter = adapter
         }
     }
@@ -140,11 +169,39 @@ class NotificationActivity : AppActivity(), INotificationActivity {
         startActivity(NoteActivity[this, item])
     }
 
+    override fun showSnackbar() {
+        val view = contentContainer ?: return
+
+        /**
+         * Need remove callback for old [snackbar], because it will call
+         * [Snackbar.Callback.onDismissed] after show new one.
+         */
+        snackbar?.removeCallback(snackbarCallback)
+
+        Snackbar.make(view, R.string.snackbar_message_notification, Snackbar.LENGTH_LONG)
+                .setAction(R.string.snackbar_action_notification) { viewModel.onSnackbarAction() }
+                .addCallback(snackbarCallback)
+                .also { snackbar = it }
+                .show()
+    }
 
     override fun notifyList(list: List<NotificationItem>) = adapter.notifyList(list)
 
     override fun notifyItemRemoved(list: List<NotificationItem>, p: Int) {
         adapter.setList(list).notifyItemRemoved(p)
+    }
+
+    override fun notifyItemInserted(list: List<NotificationItem>, p: Int) {
+        adapter.setList(list).notifyItemInserted(p)
+
+//        if (p < layoutManager.findFirstCompletelyVisibleItemPosition()
+//                || p > layoutManager.findLastCompletelyVisibleItemPosition()) {
+//            recyclerView?.smoothScrollToPosition(p)
+//        }
+    }
+
+    override fun setAlarm(calendar: Calendar, id: Long) {
+        alarmControl.set(calendar, id, showToast = false)
     }
 
     override fun cancelAlarm(id: Long) = alarmControl.cancel(id)

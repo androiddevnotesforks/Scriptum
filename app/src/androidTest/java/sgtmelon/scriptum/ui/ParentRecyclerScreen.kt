@@ -6,13 +6,14 @@ import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.Scroll
 
 /**
- * Parent class for screens which contains [RecyclerView]
+ * Parent class for screens which contains [RecyclerView].
  */
 abstract class ParentRecyclerScreen(@IdRes private val recyclerId: Int) : ParentUi() {
 
     protected val recyclerView = getViewById(recyclerId)
 
     val count: Int get() = recyclerView.getCount()
+    val last: Int get() = count - 1
 
     protected val random: Int? get() = recyclerView.getRandomPosition().takeIf { it != -1 }
 
@@ -32,6 +33,8 @@ abstract class ParentRecyclerScreen(@IdRes private val recyclerId: Int) : Parent
 
     companion object {
         const val SCROLL_TIME = 200L
+        const val SNACK_BAR_TIME = 3000L
+
         const val REPEAT_COUNT = 2
     }
 

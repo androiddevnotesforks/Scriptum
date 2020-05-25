@@ -8,4 +8,4 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.notification.NotificationAc
 /**
  * Interface for communication [NotificationInteractor] with [NotificationActivity]
  */
-interface INotificationBridge : AlarmControl.Bridge.Cancel, BindControl.InfoBridge
+interface INotificationBridge : AlarmControl.Bridge.Full, BindControl.InfoBridge

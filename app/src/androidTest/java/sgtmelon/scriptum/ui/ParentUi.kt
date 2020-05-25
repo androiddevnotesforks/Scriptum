@@ -27,8 +27,8 @@ abstract class ParentUi {
             ManagerModule().provideSharedPreferences(context)
     )
 
-    protected val theme: Int get() = preferenceRepo.theme ?: throw NullPointerException()
-    protected val repeat: Int get() = preferenceRepo.repeat ?: throw NullPointerException()
+    protected val theme: Int get() = preferenceRepo.theme
+    protected val repeat: Int get() = preferenceRepo.repeat
 
     protected fun getViewByName(name: String): Matcher<View> = withResourceName(name)
 
