@@ -33,7 +33,12 @@
         <item name="alertDialogTheme">@style/Alert.Light</item>
 
         <item name="bottomSheetDialogTheme">@style/BottomSheetTheme.Light</item>
+
+        <item name="snackbarStyle">@style/MaterialSnackbarTheme</item>
     </style>
+
+    <style name="MaterialSnackbarTheme" parent="Widget.MaterialComponents.Snackbar"/>
+
 
     <style name="App.Light.UI">
         <item name="android:windowBackground">?attr/clBackgroundWindow</item>
