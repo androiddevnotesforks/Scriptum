@@ -5,9 +5,9 @@ import android.view.View
 import androidx.annotation.AttrRes
 import androidx.annotation.IdRes
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
 import org.hamcrest.Description
 import sgtmelon.scriptum.extension.getColorAttr
+import sgtmelon.scriptum.extension.getCompatDrawable
 
 /**
  * Matcher for check toolbar menuItem icon.
@@ -24,7 +24,7 @@ class MenuItemDrawableMatcher(
         val itemIcon = item.menu.findItem(itemId).icon
 
         val context = item.context ?: return false
-        val expected = ContextCompat.getDrawable(context, resourceId) ?: return false
+        val expected = context.getCompatDrawable(resourceId) ?: return false
 
         expected.setColorFilter(context.getColorAttr(attrColor), PorterDuff.Mode.SRC_ATOP)
 

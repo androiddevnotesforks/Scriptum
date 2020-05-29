@@ -15,10 +15,7 @@ import sgtmelon.scriptum.databinding.ActivityNotificationBinding
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.domain.model.state.OpenState
-import sgtmelon.scriptum.extension.createVisibleAnim
-import sgtmelon.scriptum.extension.getTintDrawable
-import sgtmelon.scriptum.extension.inflateBinding
-import sgtmelon.scriptum.extension.initLazy
+import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.presentation.adapter.NotificationAdapter
 import sgtmelon.scriptum.presentation.control.system.AlarmControl
 import sgtmelon.scriptum.presentation.control.system.BindControl
@@ -169,7 +166,7 @@ class NotificationActivity : AppActivity(), INotificationActivity {
         startActivity(NoteActivity[this, item])
     }
 
-    override fun showSnackbar() {
+    override fun showSnackbar(@Theme theme: Int) {
         val view = contentContainer ?: return
 
         /**
@@ -178,8 +175,11 @@ class NotificationActivity : AppActivity(), INotificationActivity {
          */
         snackbar?.removeCallback(snackbarCallback)
 
-        Snackbar.make(view, R.string.snackbar_message_notification, Snackbar.LENGTH_LONG)
+
+
+        val snackbar = Snackbar.make(view, R.string.snackbar_message_notification, Snackbar.LENGTH_LONG)
                 .setAction(R.string.snackbar_action_notification) { viewModel.onSnackbarAction() }
+                .setTheme(theme)
                 .addCallback(snackbarCallback)
                 .also { snackbar = it }
                 .show()

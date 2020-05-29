@@ -6,10 +6,10 @@ import android.widget.ImageView
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorRes
 import androidx.annotation.IdRes
-import androidx.core.content.ContextCompat
 import org.hamcrest.Description
 import sgtmelon.scriptum.extension.getColorAttr
 import sgtmelon.scriptum.extension.getCompatColor
+import sgtmelon.scriptum.extension.getCompatDrawable
 
 /**
  * Matcher for check android:src which gets with [resourceId].
@@ -29,7 +29,7 @@ class DrawableMatcher(
         if (resourceId == -1) return item.drawable == null
 
         val context = item.context ?: return false
-        val expected = ContextCompat.getDrawable(context, resourceId) ?: return false
+        val expected = context.getCompatDrawable(resourceId) ?: return false
 
         when {
             colorId != -1 -> {

@@ -44,6 +44,8 @@ import sgtmelon.scriptum.domain.model.key.ColorShade
 
 fun Context.getCompatColor(@ColorRes id: Int) = let { ContextCompat.getColor(it, id) }
 
+fun Context.getCompatDrawable(@DrawableRes id: Int) = let { ContextCompat.getDrawable(it, id) }
+
 @ColorInt fun Context.getAppSimpleColor(@Color color: Int, shade: ColorShade): Int {
     return getCompatColor(when(shade) {
         ColorShade.LIGHT -> light[color]
@@ -61,7 +63,7 @@ fun MenuItem.tintIcon(context: Context) {
 }
 
 fun Context.getTintDrawable(@DrawableRes id: Int, @AttrRes tint: Int = R.attr.clContent): Drawable? {
-    val drawable = ContextCompat.getDrawable(this, id) ?: return null
+    val drawable = getCompatDrawable(id) ?: return null
 
     drawable.setColorFilter(getColorAttr(tint), PorterDuff.Mode.SRC_ATOP)
 

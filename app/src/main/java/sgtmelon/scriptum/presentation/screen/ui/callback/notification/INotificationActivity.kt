@@ -28,7 +28,7 @@ interface INotificationActivity : INotificationBridge {
     fun startNoteActivity(item: NotificationItem)
 
 
-    fun showSnackbar()
+    fun showSnackbar(@Theme theme: Int)
 
     fun notifyList(list: List<NotificationItem>)
 

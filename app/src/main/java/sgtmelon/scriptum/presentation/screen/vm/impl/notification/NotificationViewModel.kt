@@ -87,7 +87,7 @@ class NotificationViewModel(application: Application) :
         callback?.apply {
             notifyInfoBind(itemList.size)
             notifyItemRemoved(itemList, p)
-            showSnackbar()
+            showSnackbar(interactor.theme)
         }
     }
 
@@ -116,7 +116,7 @@ class NotificationViewModel(application: Application) :
             }
 
             if (cancelList.isNotEmpty()) {
-                showSnackbar()
+                showSnackbar(interactor.theme)
             }
         }
     }

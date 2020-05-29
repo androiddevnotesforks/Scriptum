@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.annotation.AttrRes
 import androidx.annotation.DrawableRes
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import sgtmelon.extension.formatFuture
 import sgtmelon.extension.formatPast
@@ -49,7 +48,7 @@ fun ImageView.bindDrawable(@DrawableRes drawableId: Int, @AttrRes color: Int) {
         return
     }
 
-    setImageDrawable(ContextCompat.getDrawable(context, drawableId))
+    setImageDrawable(context.getCompatDrawable(drawableId))
     setColorFilter(context.getColorAttr(color))
 }
 

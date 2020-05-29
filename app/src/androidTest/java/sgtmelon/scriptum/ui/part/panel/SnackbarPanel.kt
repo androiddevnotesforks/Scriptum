@@ -6,9 +6,11 @@ import androidx.test.espresso.matcher.ViewMatchers.withChild
 import com.google.android.material.snackbar.Snackbar
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
+import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
 import sgtmelon.scriptum.basic.extension.isDisplayed
 import sgtmelon.scriptum.basic.extension.waitBefore
+import sgtmelon.scriptum.basic.extension.withTextColor
 import sgtmelon.scriptum.ui.ParentUi
 
 /**
@@ -29,8 +31,14 @@ class SnackbarPanel(
     // TODO more asserts
     fun assert() {
         parentContainer.isDisplayed()
-        messageText.isDisplayed()
-        actionButton.isDisplayed()
+//                .withBackground(when (theme) {
+//                    Theme.LIGHT -> R.drawable.bg_snackbar_light
+//                    Theme.DARK -> R.drawable.bg_snackbar_dark
+//                    else -> throw NullPointerException()
+//                })
+
+        messageText.isDisplayed().withTextColor(R.attr.clContent)
+        actionButton.isDisplayed().withTextColor(R.attr.clAccent)
     }
 
     companion object {
