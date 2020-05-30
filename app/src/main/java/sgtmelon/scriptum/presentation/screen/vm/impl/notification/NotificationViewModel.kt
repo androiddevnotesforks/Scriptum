@@ -109,7 +109,9 @@ class NotificationViewModel(application: Application) :
 
         callback?.apply {
             notifyInfoBind(itemList.size)
-            notifyItemInserted(itemList, if (isCorrect) pair.first else itemList.indices.last)
+
+            val position = if (isCorrect) pair.first else itemList.indices.last
+            notifyItemInsertedScroll(itemList, position)
 
             if (itemList.size == 1) {
                 onBindingList()
@@ -121,8 +123,6 @@ class NotificationViewModel(application: Application) :
         }
     }
 
-    override fun onSnackbarDismiss() {
-        cancelList.clear()
-    }
+    override fun onSnackbarDismiss() = cancelList.clear()
 
 }

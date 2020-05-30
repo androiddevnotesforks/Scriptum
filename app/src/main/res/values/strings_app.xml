@@ -79,8 +79,10 @@
     <string name="list_item_rank_count">Notes:</string>
 
     <!-- Snackbar text -->
+    <string name="snackbar_message_rank">Category is removed</string>
     <string name="snackbar_message_notification">Notification is removed</string>
-    <string name="snackbar_action_notification">Cancel</string>
+
+    <string name="snackbar_action_cancel">Cancel</string>
 
 
 </resources>

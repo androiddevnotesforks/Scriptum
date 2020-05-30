@@ -9,14 +9,18 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.ActivityNotificationBinding
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.domain.model.state.OpenState
-import sgtmelon.scriptum.extension.*
+import sgtmelon.scriptum.extension.createVisibleAnim
+import sgtmelon.scriptum.extension.getTintDrawable
+import sgtmelon.scriptum.extension.inflateBinding
+import sgtmelon.scriptum.extension.initLazy
 import sgtmelon.scriptum.presentation.adapter.NotificationAdapter
+import sgtmelon.scriptum.presentation.control.snackbar.SnackbarCallback
+import sgtmelon.scriptum.presentation.control.snackbar.SnackbarControl
 import sgtmelon.scriptum.presentation.control.system.AlarmControl
 import sgtmelon.scriptum.presentation.control.system.BindControl
 import sgtmelon.scriptum.presentation.listener.ItemListener
@@ -31,7 +35,7 @@ import javax.inject.Inject
 /**
  * Screen with list of notifications.
  */
-class NotificationActivity : AppActivity(), INotificationActivity {
+class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallback {
 
     private var binding: ActivityNotificationBinding? = null
 
@@ -54,23 +58,13 @@ class NotificationActivity : AppActivity(), INotificationActivity {
     }
     private val layoutManager by lazy { LinearLayoutManager(this) }
 
-    private var snackbar: Snackbar? = null
-
-    private val snackbarCallback = object : Snackbar.Callback() {
-        override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
-            super.onDismissed(transientBottomBar, event)
-
-            /**
-             * If user not click on action button. (timeout dismiss, dismiss by swipe)
-             */
-            if (event != DISMISS_EVENT_ACTION) {
-                viewModel.onSnackbarDismiss()
-            }
-        }
-    }
+    private val snackbarControl = SnackbarControl(
+            R.string.snackbar_message_notification, R.string.snackbar_action_cancel,
+            callback = this
+    )
 
     private val parentContainer by lazy { findViewById<ViewGroup?>(R.id.notification_parent_container) }
-    private val contentContainer by lazy { findViewById<ViewGroup?>(R.id.notification_content_container) }
+    private val recyclerContainer by lazy { findViewById<ViewGroup?>(R.id.notification_recycler_container) }
     private val emptyInfoView by lazy { findViewById<View?>(R.id.notification_info_include) }
     private val progressBar by lazy { findViewById<View?>(R.id.notification_progress)}
     private val recyclerView by lazy { findViewById<RecyclerView?>(R.id.notification_recycler) }
@@ -100,13 +94,11 @@ class NotificationActivity : AppActivity(), INotificationActivity {
     override fun onPause() {
         super.onPause()
 
-        snackbar?.dismiss()
+        snackbarControl.dismiss()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-
-        snackbar?.removeCallback(snackbarCallback)
 
         viewModel.onSnackbarDismiss()
         viewModel.onDestroy()
@@ -167,23 +159,13 @@ class NotificationActivity : AppActivity(), INotificationActivity {
     }
 
     override fun showSnackbar(@Theme theme: Int) {
-        val view = contentContainer ?: return
-
-        /**
-         * Need remove callback for old [snackbar], because it will call
-         * [Snackbar.Callback.onDismissed] after show new one.
-         */
-        snackbar?.removeCallback(snackbarCallback)
-
-
-
-        val snackbar = Snackbar.make(view, R.string.snackbar_message_notification, Snackbar.LENGTH_LONG)
-                .setAction(R.string.snackbar_action_notification) { viewModel.onSnackbarAction() }
-                .setTheme(theme)
-                .addCallback(snackbarCallback)
-                .also { snackbar = it }
-                .show()
+        recyclerContainer?.let { snackbarControl.show(it, theme) }
     }
+
+    override fun onSnackbarAction() = viewModel.onSnackbarAction()
+
+    override fun onSnackbarDismiss() = viewModel.onSnackbarDismiss()
+
 
     override fun notifyList(list: List<NotificationItem>) = adapter.notifyList(list)
 
@@ -191,7 +173,7 @@ class NotificationActivity : AppActivity(), INotificationActivity {
         adapter.setList(list).notifyItemRemoved(p)
     }
 
-    override fun notifyItemInserted(list: List<NotificationItem>, p: Int) {
+    override fun notifyItemInsertedScroll(list: List<NotificationItem>, p: Int) {
         adapter.setList(list).notifyItemInserted(p)
 
         val firstVisiblePosition = layoutManager.findFirstCompletelyVisibleItemPosition()
@@ -201,6 +183,7 @@ class NotificationActivity : AppActivity(), INotificationActivity {
             recyclerView?.smoothScrollToPosition(p)
         }
     }
+
 
     override fun setAlarm(calendar: Calendar, id: Long) {
         alarmControl.set(calendar, id, showToast = false)

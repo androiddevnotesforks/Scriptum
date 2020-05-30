@@ -221,7 +221,7 @@ class NotificationViewModelTest : ParentViewModelTest() {
 
             callback.apply {
                 notifyInfoBind(itemList.size)
-                notifyItemInserted(itemList, secondPair.first)
+                notifyItemInsertedScroll(itemList, secondPair.first)
                 interactor.theme
                 showSnackbar(theme)
             }
@@ -258,7 +258,7 @@ class NotificationViewModelTest : ParentViewModelTest() {
 
             callback.apply {
                 notifyInfoBind(itemList.size)
-                notifyItemInserted(itemList, itemList.indices.last)
+                notifyItemInsertedScroll(itemList, itemList.indices.last)
                 onBindingList()
             }
         }

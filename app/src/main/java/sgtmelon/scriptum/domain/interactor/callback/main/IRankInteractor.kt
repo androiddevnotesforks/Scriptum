@@ -2,6 +2,7 @@ package sgtmelon.scriptum.domain.interactor.callback.main
 
 import sgtmelon.scriptum.domain.interactor.callback.IParentInteractor
 import sgtmelon.scriptum.domain.interactor.impl.main.RankInteractor
+import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.RankItem
 
 import sgtmelon.scriptum.presentation.screen.vm.impl.main.RankViewModel
@@ -10,6 +11,8 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.main.RankViewModel
  * Interface for communication [RankViewModel] with [RankInteractor]
  */
 interface IRankInteractor : IParentInteractor {
+
+    @Theme val theme: Int
 
     suspend fun getCount(): Int
 

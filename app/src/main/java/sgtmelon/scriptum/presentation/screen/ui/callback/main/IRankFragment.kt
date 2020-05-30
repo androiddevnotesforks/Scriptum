@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.presentation.screen.ui.callback.main
 
+import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.RankItem
 import sgtmelon.scriptum.domain.model.state.OpenState
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.RankFragment
@@ -31,6 +32,11 @@ interface IRankFragment : IRankBridge {
 
     fun scrollTop()
 
+    fun showSnackbar(@Theme theme: Int)
+
+    fun dismissSnackbar()
+
+
     fun getEnterText(): String
 
     fun clearEnter(): String
@@ -51,5 +57,7 @@ interface IRankFragment : IRankBridge {
     fun notifyItemRemoved(list: List<RankItem>, p: Int)
 
     fun notifyItemMoved(list: List<RankItem>, from: Int, to: Int)
+
+    fun notifyItemInsertedScroll(list: List<RankItem>, p: Int)
 
 }

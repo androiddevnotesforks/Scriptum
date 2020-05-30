@@ -34,6 +34,9 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     @VisibleForTesting
     val itemList: MutableList<RankItem> = ArrayList()
 
+    @VisibleForTesting
+    val cancelList: MutableList<Pair<Int, RankItem>> = mutableListOf()
+
     private val nameList: List<String> get() = itemList.getNameList()
 
     override fun onSetup(bundle: Bundle?) {
@@ -161,7 +164,10 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         val item = itemList.removeAtOrNull(p) ?: return
         val noteIdList = itemList.correctPositions()
 
+        cancelList.add(Pair(p, item))
+
         callback?.notifyItemRemoved(itemList, p)
+        callback?.showSnackbar(interactor.theme)
 
         viewModelScope.launch {
             interactor.delete(item)
@@ -169,6 +175,41 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
             bindInteractor.notifyNoteBind(callback)
         }
     }
+
+
+    // TODO Snackbar test
+    override fun onSnackbarAction() {
+        if (cancelList.isEmpty()) return
+
+        val pair = cancelList.removeAtOrNull(index = cancelList.indices.last) ?: return
+        val item = pair.second
+
+        val isCorrect = pair.first in itemList.indices
+        if (isCorrect) {
+            itemList.add(pair.first, item)
+        } else {
+            itemList.add(item)
+        }
+
+//        viewModelScope.launch {
+//            TODO()
+//        }
+
+        callback?.apply {
+            val position = if (isCorrect) pair.first else itemList.indices.last
+            notifyItemInsertedScroll(itemList, position)
+
+            if (itemList.size == 1) {
+                onBindingList()
+            }
+
+            if (cancelList.isNotEmpty()) {
+                showSnackbar(interactor.theme)
+            }
+        }
+    }
+
+    override fun onSnackbarDismiss() = cancelList.clear()
 
 
     override fun onReceiveUnbindNote(id: Long) {
@@ -184,7 +225,15 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     }
 
 
-    override fun onTouchDrag() = callback?.openState?.value != true
+    override fun onTouchDrag(): Boolean {
+        val value = callback?.openState?.value != true
+
+        if (value) {
+            callback?.dismissSnackbar()
+        }
+
+        return value
+    }
 
     override fun onTouchMove(from: Int, to: Int): Boolean {
         itemList.move(from, to)

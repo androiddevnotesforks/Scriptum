@@ -79,7 +79,7 @@ class NotificationSnackbarTest : ParentUiTest() {
                     openNotification {
                         onClickCancel(removePosition)
 
-                        onClickCancel(1)
+                        onClickCancel(p = 1)
                         getSnackbar { onClickCancel() }
                         getSnackbar { assert() }
                         onAssertItem(1, list[actionPosition])
@@ -97,21 +97,6 @@ class NotificationSnackbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun dismissRemove() {
-        val list = fillScreen(count = 5)
-
-        launch {
-            mainScreen {
-                notesScreen {
-                    openNotification {
-                        repeat(list.size) { onClickCancel(p = 0) }
-                        onClickClose()
-                    }
-                    openNotification(empty = true)
-                }
-            }
-        }
-    }
 
     @Test fun dismissOnPause() {
         val list = fillScreen(count = 3)
@@ -121,15 +106,26 @@ class NotificationSnackbarTest : ParentUiTest() {
                 notesScreen {
                     openNotification {
                         onClickCancel(p = 0)
-                        when(val it = list[1]) {
+
+                        list.removeAt(index = 0)
+
+                        when(val it = list[0]) {
                             is NoteItem.Text -> openText(it, p = 0) { onClickClose() }
                             is NoteItem.Roll -> openRoll(it, p = 0) { onClickClose() }
                         }
+
+                        list.forEachIndexed { i, item -> onAssertItem(i, item) }
+
+                        repeat(list.size) { onClickCancel(p = 0) }
+                        onClickClose()
                     }
+
+                    openNotification(empty = true)
                 }
             }
         }
     }
+
 
     @Test fun scrollToUndoItem_onTop() {
         val list = fillScreen(count = 15)
@@ -171,6 +167,7 @@ class NotificationSnackbarTest : ParentUiTest() {
         }
     }
 
+
     private fun fillScreen(count: Int): MutableList<NoteItem> = ArrayList<NoteItem>().apply {
         repeat(count) {
             val date = getTime(min = NEXT_HOUR + it * NEXT_HOUR).getText()
@@ -179,7 +176,6 @@ class NotificationSnackbarTest : ParentUiTest() {
             add(data.insertNotification(item, date))
         }
     }
-
 
     companion object {
         private const val NEXT_HOUR = 60

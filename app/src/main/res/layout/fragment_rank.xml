@@ -39,14 +39,21 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"/>
 
-            <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rank_recycler"
-                    style="@style/RecyclerView"
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
+                    android:id="@+id/rank_recycler_container"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility='@{!isListEmpty ? View.VISIBLE : View.GONE}'
-                    tools:itemCount="3"
-                    tools:listitem="@layout/item_rank"/>
+                    android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rank_recycler"
+                        style="@style/RecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility='@{!isListEmpty ? View.VISIBLE : View.GONE}'
+                        tools:itemCount="3"
+                        tools:listitem="@layout/item_rank"/>
+
+            </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
         </FrameLayout>
 

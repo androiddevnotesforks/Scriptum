@@ -64,7 +64,9 @@
     <string name="list_item_rank_count">Заметок:</string>
 
     <!-- Snackbar text -->
+    <string name="snackbar_message_rank">Категория удалена</string>
     <string name="snackbar_message_notification">Уведомление удалено</string>
-    <string name="snackbar_action_notification">Отмена</string>
+
+    <string name="snackbar_action_cancel">Отмена</string>
 
 </resources>

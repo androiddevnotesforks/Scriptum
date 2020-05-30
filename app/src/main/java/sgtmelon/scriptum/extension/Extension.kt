@@ -11,7 +11,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.*
 import androidx.databinding.DataBindingUtil
@@ -19,9 +18,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
-import com.google.android.material.snackbar.Snackbar
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.data.ReceiverData
 import sgtmelon.scriptum.presentation.control.system.AlarmControl
 import java.util.*
@@ -136,28 +133,4 @@ fun String.toLowerCase() = toLowerCase(Locale.ROOT)
     theme.resolveAttribute(attr, typedValue, true)
 
     return typedValue.resourceId
-}
-
-fun Snackbar.setTheme(@Theme theme: Int) = apply {
-    val background = view.context.getCompatDrawable(when(theme) {
-        Theme.LIGHT -> R.drawable.bg_snackbar_light
-        Theme.DARK -> R.drawable.bg_snackbar_dark
-        else -> return@apply
-    })
-
-    val textColor = view.context.getCompatColor(when(theme) {
-        Theme.LIGHT -> R.color.content_light
-        Theme.DARK -> R.color.content_dark
-        else -> return@apply
-    })
-
-    val actionColor = view.context.getCompatColor(when(theme) {
-        Theme.LIGHT -> R.color.accent_light
-        Theme.DARK -> R.color.accent_dark
-        else -> return@apply
-    })
-
-    view.background = background
-    view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).setTextColor(textColor)
-    setActionTextColor(actionColor)
 }

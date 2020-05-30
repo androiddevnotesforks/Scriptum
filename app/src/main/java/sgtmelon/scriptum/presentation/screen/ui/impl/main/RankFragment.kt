@@ -16,6 +16,7 @@ import sgtmelon.iconanim.IconBlockCallback
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.FragmentRankBinding
 import sgtmelon.scriptum.domain.model.annotation.Sort
+import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RankItem
 import sgtmelon.scriptum.domain.model.state.OpenState
@@ -24,6 +25,8 @@ import sgtmelon.scriptum.extension.createVisibleAnim
 import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.extension.initLazy
 import sgtmelon.scriptum.presentation.adapter.RankAdapter
+import sgtmelon.scriptum.presentation.control.snackbar.SnackbarCallback
+import sgtmelon.scriptum.presentation.control.snackbar.SnackbarControl
 import sgtmelon.scriptum.presentation.control.system.BindControl
 import sgtmelon.scriptum.presentation.control.touch.RankTouchControl
 import sgtmelon.scriptum.presentation.factory.DialogFactory
@@ -39,7 +42,8 @@ import javax.inject.Inject
 /**
  * Fragment which displays list of categories - [RankItem].
  */
-class RankFragment : ParentFragment(), IRankFragment, MainReceiver.BindCallback {
+class RankFragment : ParentFragment(), IRankFragment, MainReceiver.BindCallback,
+        SnackbarCallback {
 
     private val callback: IMainActivity? by lazy { context as? IMainActivity }
 
@@ -81,6 +85,10 @@ class RankFragment : ParentFragment(), IRankFragment, MainReceiver.BindCallback 
     }
     private val layoutManager by lazy { LinearLayoutManager(context) }
 
+    private val snackbarControl = SnackbarControl(
+            R.string.snackbar_message_rank, R.string.snackbar_action_cancel, callback = this
+    )
+
     val enterCard: View? get() = view?.findViewById(R.id.toolbar_rank_card)
 
     /**
@@ -88,6 +96,7 @@ class RankFragment : ParentFragment(), IRankFragment, MainReceiver.BindCallback 
      */
     private var nameEnter: EditText? = null
     private var parentContainer: ViewGroup? = null
+    private var recyclerContainer: ViewGroup? = null
 
     private var emptyInfoView: View? = null
     private var progressBar: View? = null
@@ -116,8 +125,15 @@ class RankFragment : ParentFragment(), IRankFragment, MainReceiver.BindCallback 
         viewModel.onUpdateData()
     }
 
+    override fun onPause() {
+        super.onPause()
+
+        snackbarControl.dismiss()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
+
         viewModel.onDestroy()
     }
 
@@ -170,6 +186,7 @@ class RankFragment : ParentFragment(), IRankFragment, MainReceiver.BindCallback 
 
     override fun setupRecycler() {
         parentContainer = view?.findViewById(R.id.rank_parent_container)
+        recyclerContainer = view?.findViewById(R.id.rank_recycler_container)
         emptyInfoView = view?.findViewById(R.id.rank_info_include)
         progressBar = view?.findViewById(R.id.rank_progress)
 
@@ -234,6 +251,18 @@ class RankFragment : ParentFragment(), IRankFragment, MainReceiver.BindCallback 
     override fun scrollTop() {
         recyclerView?.smoothScrollToPosition(0)
     }
+
+    override fun showSnackbar(@Theme theme: Int) {
+        recyclerContainer?.let { snackbarControl.show(it, theme) }
+    }
+
+    override fun dismissSnackbar() = snackbarControl.dismiss()
+
+
+    override fun onSnackbarAction() = viewModel.onSnackbarAction()
+
+    override fun onSnackbarDismiss() = viewModel.onSnackbarDismiss()
+
 
     override fun getEnterText() = nameEnter?.text?.toString() ?: ""
 
@@ -302,6 +331,18 @@ class RankFragment : ParentFragment(), IRankFragment, MainReceiver.BindCallback 
     override fun notifyItemMoved(list: List<RankItem>, from: Int, to: Int) {
         adapter.setList(list).notifyItemMoved(from, to)
     }
+
+    override fun notifyItemInsertedScroll(list: List<RankItem>, p: Int) {
+        adapter.setList(list).notifyItemInserted(p)
+
+        val firstVisiblePosition = layoutManager.findFirstCompletelyVisibleItemPosition()
+        val lastVisiblePosition = layoutManager.findLastCompletelyVisibleItemPosition()
+
+        if (p < firstVisiblePosition || p > lastVisiblePosition) {
+            recyclerView?.smoothScrollToPosition(p)
+        }
+    }
+
 
     override fun notifyNoteBind(itemList: List<NoteItem>, rankIdVisibleList: List<Long>,
                                 @Sort sort: Int?) {

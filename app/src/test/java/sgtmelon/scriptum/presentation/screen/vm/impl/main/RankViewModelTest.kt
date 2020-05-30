@@ -360,24 +360,51 @@ class RankViewModelTest : ParentViewModelTest() {
     @Test fun onClickCancel() = startCoTest {
         viewModel.onClickCancel(Random.nextInt())
 
+        val theme = Random.nextInt()
+        every { interactor.theme } returns theme
+
         val itemList = data.secondCorrectList
         val noteIdList = listOf(4L, 6, 1, 2)
 
         viewModel.itemList.clearAdd(itemList)
         assertEquals(itemList, viewModel.itemList)
 
+        assertEquals(itemList, viewModel.itemList)
+        assertTrue(viewModel.cancelList.isEmpty())
+
         val p = 1
         val item = itemList.removeAt(p)
 
         viewModel.onClickCancel(p)
 
+        assertEquals(itemList, viewModel.itemList)
+        assertEquals(mutableListOf(Pair(p, item)), viewModel.cancelList)
+
         coVerifySequence {
             callback.notifyItemRemoved(itemList, p)
+            interactor.theme
+            callback.showSnackbar(theme)
 
             interactor.delete(item)
             interactor.updatePosition(itemList, noteIdList)
             bindInteractor.notifyNoteBind(callback)
         }
+    }
+
+
+    @Test fun onSnackbarAction() {
+        TODO()
+    }
+
+    @Test fun onSnackbarDismiss() {
+        val cancelList = MutableList(size = 5) { Pair(Random.nextInt(), mockk<RankItem>()) }
+
+        viewModel.cancelList.clearAdd(cancelList)
+        assertEquals(cancelList, viewModel.cancelList)
+
+        viewModel.onSnackbarDismiss()
+
+        assertTrue(viewModel.cancelList.isEmpty())
     }
 
 
@@ -420,6 +447,8 @@ class RankViewModelTest : ParentViewModelTest() {
 
         verifySequence {
             callback.openState
+            callback.dismissSnackbar()
+
             callback.openState
         }
     }

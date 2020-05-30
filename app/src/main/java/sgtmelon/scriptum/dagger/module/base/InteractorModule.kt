@@ -89,7 +89,10 @@ class InteractorModule {
 
     @Provides
     @ActivityScope
-    fun provideRankInteractor(rankRepo: IRankRepo): IRankInteractor = RankInteractor(rankRepo)
+    fun provideRankInteractor(preferenceRepo: IPreferenceRepo,
+                              rankRepo: IRankRepo): IRankInteractor {
+        return RankInteractor(preferenceRepo, rankRepo)
+    }
 
 
     @Provides

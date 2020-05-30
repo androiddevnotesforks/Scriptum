@@ -34,4 +34,9 @@ interface IRankViewModel : IParentViewModel,
 
     fun onClickCancel(p: Int)
 
+
+    fun onSnackbarAction()
+
+    fun onSnackbarDismiss()
+
 }

@@ -13,6 +13,7 @@ import sgtmelon.scriptum.ui.ParentRecyclerItem
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.dialog.RenameDialogUi
 import sgtmelon.scriptum.ui.part.info.SimpleInfoContainer
+import sgtmelon.scriptum.ui.part.panel.SnackbarPanel
 import sgtmelon.scriptum.ui.part.toolbar.RankToolbar
 
 /**
@@ -24,6 +25,13 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
 
     private val parentContainer = getViewById(R.id.rank_parent_container)
     private val infoContainer = SimpleInfoContainer(SimpleInfoPage.RANK)
+
+    fun getSnackbar(func: SnackbarPanel.() -> Unit): SnackbarPanel {
+        val message = R.string.snackbar_message_rank
+        val action = R.string.snackbar_action_cancel
+
+        return SnackbarPanel(message, action, func)
+    }
 
     private fun getItem(rankItem: RankItem): Item {
         return Item(recyclerView, hasDescendant(getView(R.id.rank_name_text, rankItem.name)))
@@ -63,10 +71,13 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
         waitAfter(ANIM_TIME) { getItem(p).visibleButton.longClick() }
     }
 
-    fun onClickCancel(p: Int? = random) = apply {
+    fun onClickCancel(p: Int? = random, wait: Boolean = false) = apply {
         if (p == null) return@apply
 
-        waitAfter(ANIM_TIME) { getItem(p).cancelButton.click() }
+        waitAfter(time = if (wait) SNACK_BAR_TIME else 0) {
+            getItem(p).cancelButton.click()
+            getSnackbar { assert() }
+        }
     }
 
 

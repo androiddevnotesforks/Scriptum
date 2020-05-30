@@ -34,7 +34,7 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler), IPr
 
     fun getSnackbar(func: SnackbarPanel.() -> Unit): SnackbarPanel {
         val message = R.string.snackbar_message_notification
-        val action = R.string.snackbar_action_notification
+        val action = R.string.snackbar_action_cancel
 
         return SnackbarPanel(message, action, func)
     }

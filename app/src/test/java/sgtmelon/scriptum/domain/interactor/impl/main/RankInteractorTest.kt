@@ -7,8 +7,10 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.extension.nextString
+import sgtmelon.scriptum.FastTest
 import sgtmelon.scriptum.ParentInteractorTest
 import sgtmelon.scriptum.TestData
+import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.domain.model.item.RankItem
 import kotlin.random.Random
@@ -22,8 +24,13 @@ class RankInteractorTest : ParentInteractorTest() {
     private val data = TestData.Rank
 
     @MockK lateinit var rankRepo: IRankRepo
+    @MockK lateinit var preferenceRepo: IPreferenceRepo
 
-    private val interactor by lazy { RankInteractor(rankRepo) }
+    private val interactor by lazy { RankInteractor(preferenceRepo, rankRepo) }
+
+
+    @Test fun getTheme() = FastTest.getTheme(preferenceRepo) { interactor.theme }
+
 
     @Test fun getCount() = startCoTest {
         val countList = listOf(Random.nextInt(), Random.nextInt())
