@@ -415,8 +415,88 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
 
-    @Test fun onSnackbarAction() {
-        TODO()
+    @Test fun onSnackbarAction_correct() {
+        assertTrue(viewModel.cancelList.isEmpty())
+        assertTrue(viewModel.itemList.isEmpty())
+
+        val theme = Random.nextInt()
+        every { interactor.theme } returns theme
+
+        viewModel.onSnackbarAction()
+
+        val item = mockk<RankItem>()
+        val newItem = mockk<RankItem>()
+
+        val firstPair = Pair(Random.nextInt(), mockk<RankItem>())
+        val secondPair = Pair(0, item)
+
+        val itemList = mutableListOf(mockk<RankItem>())
+        val cancelList = mutableListOf(firstPair, secondPair)
+
+        viewModel.itemList.clearAdd(itemList)
+        viewModel.cancelList.clearAdd(cancelList)
+
+        assertEquals(itemList, viewModel.itemList)
+        assertEquals(cancelList, viewModel.cancelList)
+
+        coEvery { interactor.insert(item) } returns newItem
+        viewModel.onSnackbarAction()
+
+        itemList.add(0, newItem)
+        cancelList.removeAt(index = 1)
+
+        assertEquals(itemList, viewModel.itemList)
+        assertEquals(cancelList, viewModel.cancelList)
+
+        coVerifySequence {
+            interactor.insert(item)
+            callback.setList(itemList)
+
+            callback.apply {
+                notifyItemInsertedScroll(itemList, secondPair.first)
+                interactor.theme
+                showSnackbar(theme)
+            }
+        }
+    }
+
+    @Test fun onSnackbarAction_incorrect() {
+        assertTrue(viewModel.cancelList.isEmpty())
+        assertTrue(viewModel.itemList.isEmpty())
+
+        viewModel.onSnackbarAction()
+
+        val item = mockk<RankItem>()
+        val newItem = mockk<RankItem>()
+
+        val pair = Pair(Random.nextInt(), item)
+
+        val itemList = mutableListOf<RankItem>()
+        val cancelList = mutableListOf(pair)
+
+        viewModel.cancelList.clearAdd(cancelList)
+
+        assertEquals(itemList, viewModel.itemList)
+        assertEquals(cancelList, viewModel.cancelList)
+
+        coEvery { interactor.insert(item) } returns newItem
+        viewModel.onSnackbarAction()
+
+        itemList.add(0, newItem)
+        cancelList.removeAt(index = 0)
+
+        assertEquals(itemList, viewModel.itemList)
+        assertEquals(cancelList, viewModel.cancelList)
+
+        coVerifySequence {
+            interactor.insert(item)
+            callback.setList(itemList)
+
+            callback.apply {
+                notifyItemInsertedScroll(itemList, itemList.indices.last)
+                onBindingList()
+            }
+        }
     }
 
     @Test fun onSnackbarDismiss() {

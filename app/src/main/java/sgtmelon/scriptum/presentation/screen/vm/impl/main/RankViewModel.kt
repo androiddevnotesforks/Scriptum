@@ -165,6 +165,9 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         val item = itemList.removeAtOrNull(p) ?: return
         val noteIdList = itemList.correctPositions()
 
+        /**
+         * Save item for snackbar undo action.
+         */
         cancelList.add(Pair(p, item))
 
         callback?.notifyItemRemoved(itemList, p)
@@ -178,32 +181,41 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     }
 
 
-    // TODO Snackbar test
     override fun onSnackbarAction() {
         if (cancelList.isEmpty()) return
 
         val pair = cancelList.removeAtOrNull(index = cancelList.indices.last) ?: return
         val item = pair.second
 
+        /**
+         * Check item position correct, just in case.
+         * List size after adding item, will be last index.
+         */
         val isCorrect = pair.first in itemList.indices
-        if (isCorrect) {
-            itemList.add(pair.first, item)
-        } else {
-            itemList.add(item)
+        val position = if (isCorrect) pair.first else itemList.size
+        itemList.add(position, item)
+
+        /**
+         * After insert need update item in list (due to new item id).
+         */
+        viewModelScope.launch {
+            itemList[position] = interactor.insert(item) ?: return@launch
+            callback?.setList(itemList)
         }
 
-//        viewModelScope.launch {
-//            TODO()
-//        }
-
         callback?.apply {
-            val position = if (isCorrect) pair.first else itemList.indices.last
             notifyItemInsertedScroll(itemList, position)
 
+            /**
+             * If list was empty need hide information and show list.
+             */
             if (itemList.size == 1) {
                 onBindingList()
             }
 
+            /**
+             * Show snackbar for next item undo.
+             */
             if (cancelList.isNotEmpty()) {
                 showSnackbar(interactor.theme)
             }

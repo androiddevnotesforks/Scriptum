@@ -167,6 +167,10 @@ class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallb
     override fun onSnackbarDismiss() = viewModel.onSnackbarDismiss()
 
 
+    override fun setList(list: List<NotificationItem>) {
+        adapter.setList(list)
+    }
+
     override fun notifyList(list: List<NotificationItem>) = adapter.notifyList(list)
 
     override fun notifyItemRemoved(list: List<NotificationItem>, p: Int) {
@@ -179,7 +183,14 @@ class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallb
         val firstVisiblePosition = layoutManager.findFirstCompletelyVisibleItemPosition()
         val lastVisiblePosition = layoutManager.findLastCompletelyVisibleItemPosition()
 
-        if (p < firstVisiblePosition || p > lastVisiblePosition) {
+        /**
+         *  FirstVisiblePosition can be equal [p] if:
+         *  - Click on first item remove;
+         *  - Click on snackbar undo.
+         *
+         *  Then [p] = 0 and firstVisiblePosition = 0.
+         */
+        if (p <= firstVisiblePosition || p > lastVisiblePosition) {
             recyclerView?.smoothScrollToPosition(p)
         }
     }

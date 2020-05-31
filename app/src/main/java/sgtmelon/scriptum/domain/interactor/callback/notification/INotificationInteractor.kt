@@ -19,7 +19,7 @@ interface INotificationInteractor : IParentInteractor {
     suspend fun getList(): MutableList<NotificationItem>
 
 
-    suspend fun setNotification(item: NotificationItem): Unit
+    suspend fun setNotification(item: NotificationItem): NotificationItem?
 
     suspend fun cancelNotification(item: NotificationItem)
 

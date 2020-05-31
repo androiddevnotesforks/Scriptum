@@ -30,6 +30,13 @@ class RankInteractor(
         return RankItem(rankRepo.insert(name), name = name)
     }
 
+    override suspend fun insert(item: RankItem): RankItem? {
+        /**
+         * After insert need return item with new id.
+         */
+        return TODO()
+    }
+
     override suspend fun delete(item: RankItem) = rankRepo.delete(item)
 
     override suspend fun update(item: RankItem) = rankRepo.update(item)

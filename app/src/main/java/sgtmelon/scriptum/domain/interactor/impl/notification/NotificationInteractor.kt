@@ -35,15 +35,20 @@ class NotificationInteractor(
     override suspend fun getList(): MutableList<NotificationItem> = alarmRepo.getList()
 
 
-    override suspend fun setNotification(item: NotificationItem) {
+    override suspend fun setNotification(item: NotificationItem): NotificationItem? {
         val id = item.note.id
         val date = item.alarm.date
 
-        val noteItem = noteRepo.getItem(id, isOptimal = true) ?: return
-        val calendar = date.getCalendarOrNull() ?: return
+        val noteItem = noteRepo.getItem(id, isOptimal = true) ?: return null
+        val calendar = date.getCalendarOrNull() ?: return null
 
         alarmRepo.insertOrUpdate(noteItem, date)
         callback?.setAlarm(calendar, id)
+
+        /**
+         * After insert need return item with new id.
+         */
+        return alarmRepo.getItem(id)
     }
 
     override suspend fun cancelNotification(item: NotificationItem) {

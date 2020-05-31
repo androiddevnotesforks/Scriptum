@@ -339,7 +339,14 @@ class RankFragment : ParentFragment(), IRankFragment, MainReceiver.BindCallback,
         val firstVisiblePosition = layoutManager.findFirstCompletelyVisibleItemPosition()
         val lastVisiblePosition = layoutManager.findLastCompletelyVisibleItemPosition()
 
-        if (p < firstVisiblePosition || p > lastVisiblePosition) {
+        /**
+         *  FirstVisiblePosition can be equal [p] if:
+         *  - Click on first item remove;
+         *  - Click on snackbar undo.
+         *
+         *  Then [p] = 0 and firstVisiblePosition = 0.
+         */
+        if (p <= firstVisiblePosition || p > lastVisiblePosition) {
             recyclerView?.smoothScrollToPosition(p)
         }
     }

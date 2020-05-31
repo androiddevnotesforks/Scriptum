@@ -71,7 +71,7 @@ class RankInteractorTest : ParentInteractorTest() {
     }
 
 
-    @Test fun insert() = startCoTest {
+    @Test fun insert_byName() = startCoTest {
         val idList = listOf(Random.nextLong(),  Random.nextLong())
         val name = Random.nextString()
 
@@ -83,6 +83,10 @@ class RankInteractorTest : ParentInteractorTest() {
         coVerifySequence {
             repeat(idList.size) { rankRepo.insert(name) }
         }
+    }
+
+    @Test fun insert_byItem() {
+        TODO()
     }
 
     @Test fun delete() = startCoTest {

@@ -32,6 +32,8 @@ interface INotificationActivity : INotificationBridge {
 
     fun notifyList(list: List<NotificationItem>)
 
+    fun setList(list: List<NotificationItem>)
+
     fun notifyItemRemoved(list: List<NotificationItem>, p: Int)
 
     fun notifyItemInsertedScroll(list: List<NotificationItem>, p: Int)

@@ -195,6 +195,7 @@ class NotificationViewModelTest : ParentViewModelTest() {
         viewModel.onSnackbarAction()
 
         val item = mockk<NotificationItem>()
+        val newItem = mockk<NotificationItem>()
 
         val firstPair = Pair(Random.nextInt(), mockk<NotificationItem>())
         val secondPair = Pair(0, item)
@@ -208,9 +209,10 @@ class NotificationViewModelTest : ParentViewModelTest() {
         assertEquals(itemList, viewModel.itemList)
         assertEquals(cancelList, viewModel.cancelList)
 
+        coEvery { interactor.setNotification(item) } returns newItem
         viewModel.onSnackbarAction()
 
-        itemList.add(0, item)
+        itemList.add(0, newItem)
         cancelList.removeAt(index = 1)
 
         assertEquals(itemList, viewModel.itemList)
@@ -218,6 +220,7 @@ class NotificationViewModelTest : ParentViewModelTest() {
 
         coVerifySequence {
             interactor.setNotification(item)
+            callback.setList(itemList)
 
             callback.apply {
                 notifyInfoBind(itemList.size)
@@ -235,6 +238,8 @@ class NotificationViewModelTest : ParentViewModelTest() {
         viewModel.onSnackbarAction()
 
         val item = mockk<NotificationItem>()
+        val newItem = mockk<NotificationItem>()
+
         val pair = Pair(Random.nextInt(), item)
 
         val itemList = mutableListOf<NotificationItem>()
@@ -245,9 +250,10 @@ class NotificationViewModelTest : ParentViewModelTest() {
         assertEquals(itemList, viewModel.itemList)
         assertEquals(cancelList, viewModel.cancelList)
 
+        coEvery { interactor.setNotification(item) } returns newItem
         viewModel.onSnackbarAction()
 
-        itemList.add(0, item)
+        itemList.add(0, newItem)
         cancelList.removeAt(index = 0)
 
         assertEquals(itemList, viewModel.itemList)
@@ -255,6 +261,7 @@ class NotificationViewModelTest : ParentViewModelTest() {
 
         coVerifySequence {
             interactor.setNotification(item)
+            callback.setList(itemList)
 
             callback.apply {
                 notifyInfoBind(itemList.size)

@@ -77,6 +77,7 @@ class NotificationInteractorTest : ParentInteractorTest() {
 
     @Test fun setNotification() = startCoTest {
         val notificationItem = mockk<NotificationItem>()
+        val newNotificationItem = mockk<NotificationItem>()
         val noteItem = mockk<NoteItem>()
 
         val note = mockk<NotificationItem.Note>()
@@ -92,13 +93,17 @@ class NotificationInteractorTest : ParentInteractorTest() {
 
         every { alarm.date } returns Random.nextString()
         coEvery { noteRepo.getItem(id, isOptimal = true) } returns null
-        interactor.setNotification(notificationItem)
+        assertNull(interactor.setNotification(notificationItem))
 
         coEvery { noteRepo.getItem(id, isOptimal = true) } returns noteItem
-        interactor.setNotification(notificationItem)
+        assertNull(interactor.setNotification(notificationItem))
 
         every { alarm.date } returns date
-        interactor.setNotification(notificationItem)
+        coEvery { alarmRepo.getItem(id) } returns null
+        assertNull(interactor.setNotification(notificationItem))
+
+        coEvery { alarmRepo.getItem(id) } returns newNotificationItem
+        assertEquals(newNotificationItem, interactor.setNotification(notificationItem))
 
         coVerifySequence {
             notificationItem.note
@@ -113,13 +118,16 @@ class NotificationInteractorTest : ParentInteractorTest() {
             alarm.date
             noteRepo.getItem(id, isOptimal = true)
 
-            notificationItem.note
-            note.id
-            notificationItem.alarm
-            alarm.date
-            noteRepo.getItem(id, isOptimal = true)
-            alarmRepo.insertOrUpdate(noteItem, date)
-            callback.setAlarm(calendar, id)
+            repeat(times = 2) {
+                notificationItem.note
+                note.id
+                notificationItem.alarm
+                alarm.date
+                noteRepo.getItem(id, isOptimal = true)
+                alarmRepo.insertOrUpdate(noteItem, date)
+                callback.setAlarm(calendar, id)
+                alarmRepo.getItem(id)
+            }
         }
     }
 

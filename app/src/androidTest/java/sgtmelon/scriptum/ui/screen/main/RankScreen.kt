@@ -82,7 +82,7 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
     }
 
 
-    // TODO add alternative fast assertio by position (use openRenameDialog)
+    // TODO add alternative fast assertion by position (use openRenameDialog)
     fun onAssertItem(rankItem: RankItem) {
         getItem(rankItem).assert(rankItem)
     }

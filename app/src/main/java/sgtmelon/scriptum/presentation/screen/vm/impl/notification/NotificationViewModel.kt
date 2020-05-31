@@ -80,6 +80,9 @@ class NotificationViewModel(application: Application) :
     override fun onClickCancel(p: Int) {
         val item = itemList.removeAtOrNull(p) ?: return
 
+        /**
+         * Save item for snackbar undo action.
+         */
         cancelList.add(Pair(p, item))
 
         viewModelScope.launch { interactor.cancelNotification(item) }
@@ -98,25 +101,36 @@ class NotificationViewModel(application: Application) :
         val pair = cancelList.removeAtOrNull(index = cancelList.indices.last) ?: return
         val item = pair.second
 
+        /**
+         * Check item position correct, just in case.
+         * List size after adding item, will be last index.
+         */
         val isCorrect = pair.first in itemList.indices
-        if (isCorrect) {
-            itemList.add(pair.first, item)
-        } else {
-            itemList.add(item)
-        }
+        val position = if (isCorrect) pair.first else itemList.size
+        itemList.add(position, item)
 
-        viewModelScope.launch { interactor.setNotification(item) }
+        /**
+         * After insert need update item in list (due to new item id).
+         */
+        viewModelScope.launch {
+            itemList[position] = interactor.setNotification(item) ?: return@launch
+            callback?.setList(itemList)
+        }
 
         callback?.apply {
             notifyInfoBind(itemList.size)
-
-            val position = if (isCorrect) pair.first else itemList.indices.last
             notifyItemInsertedScroll(itemList, position)
 
+            /**
+             * If list was empty need hide information and show list.
+             */
             if (itemList.size == 1) {
                 onBindingList()
             }
 
+            /**
+             * Show snackbar for next item undo.
+             */
             if (cancelList.isNotEmpty()) {
                 showSnackbar(interactor.theme)
             }
