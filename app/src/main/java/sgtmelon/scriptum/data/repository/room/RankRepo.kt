@@ -50,6 +50,23 @@ class RankRepo(
         rankDao.insert(RankEntity(name = name))
     }
 
+    // TODO test
+    override suspend fun insert(rankItem: RankItem): Long = takeFromRoom {
+        for (id in rankItem.noteId) {
+            /**
+             * Remove rank from note.
+             */
+            val noteEntity = noteDao.get(id)?.apply {
+                rankId = rankItem.id
+                rankPs = rankItem.position
+            } ?: continue
+
+            noteDao.update(noteEntity)
+        }
+
+        return@takeFromRoom rankDao.insert(converter.toEntity(rankItem))
+    }
+
     override suspend fun delete(rankItem: RankItem) = inRoom {
         for (id in rankItem.noteId) {
             /**

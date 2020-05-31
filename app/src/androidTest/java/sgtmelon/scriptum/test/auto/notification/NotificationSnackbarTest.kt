@@ -104,6 +104,10 @@ class NotificationSnackbarTest : ParentUiTest() {
         }
     }
 
+    @Test fun actionClick_noteCheck() {
+        TODO()
+    }
+
 
     @Test fun dismissOnPause() {
         val list = fillScreen(count = 3)

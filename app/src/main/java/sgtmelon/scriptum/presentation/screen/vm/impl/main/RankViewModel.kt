@@ -181,6 +181,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     }
 
 
+    // TODO test
     override fun onSnackbarAction() {
         if (cancelList.isEmpty()) return
 
@@ -194,14 +195,6 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         val isCorrect = pair.first in itemList.indices
         val position = if (isCorrect) pair.first else itemList.size
         itemList.add(position, item)
-
-        /**
-         * After insert need update item in list (due to new item id).
-         */
-        viewModelScope.launch {
-            itemList[position] = interactor.insert(item) ?: return@launch
-            callback?.setList(itemList)
-        }
 
         callback?.apply {
             notifyItemInsertedScroll(itemList, position)
@@ -219,6 +212,16 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
             if (cancelList.isNotEmpty()) {
                 showSnackbar(interactor.theme)
             }
+        }
+
+        /**
+         * After insert need update item in list (due to new item id).
+         */
+        viewModelScope.launch {
+            itemList[position] = interactor.insert(item) ?: return@launch
+            interactor.updatePosition(itemList, itemList.correctPositions())
+
+            callback?.setList(itemList)
         }
     }
 

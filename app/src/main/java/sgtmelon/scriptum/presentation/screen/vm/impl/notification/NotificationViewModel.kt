@@ -95,6 +95,7 @@ class NotificationViewModel(application: Application) :
     }
 
 
+    // TODO fix test
     override fun onSnackbarAction() {
         if (cancelList.isEmpty()) return
 
@@ -108,14 +109,6 @@ class NotificationViewModel(application: Application) :
         val isCorrect = pair.first in itemList.indices
         val position = if (isCorrect) pair.first else itemList.size
         itemList.add(position, item)
-
-        /**
-         * After insert need update item in list (due to new item id).
-         */
-        viewModelScope.launch {
-            itemList[position] = interactor.setNotification(item) ?: return@launch
-            callback?.setList(itemList)
-        }
 
         callback?.apply {
             notifyInfoBind(itemList.size)
@@ -134,6 +127,14 @@ class NotificationViewModel(application: Application) :
             if (cancelList.isNotEmpty()) {
                 showSnackbar(interactor.theme)
             }
+        }
+
+        /**
+         * After insert need update item in list (due to new item id).
+         */
+        viewModelScope.launch {
+            itemList[position] = interactor.setNotification(item) ?: return@launch
+            callback?.setList(itemList)
         }
     }
 
