@@ -2,6 +2,7 @@ package sgtmelon.scriptum.ui.screen
 
 import android.view.View
 import org.hamcrest.Matcher
+import org.junit.Assert.assertTrue
 import sgtmelon.extension.formatFuture
 import sgtmelon.extension.getCalendar
 import sgtmelon.scriptum.R
@@ -32,7 +33,7 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler), IPr
 
     private val infoContainer = SimpleInfoContainer(SimpleInfoPage.NOTIFICATION)
 
-    fun getSnackbar(func: SnackbarPanel.() -> Unit): SnackbarPanel {
+    fun getSnackbar(func: SnackbarPanel.() -> Unit = {}): SnackbarPanel {
         val message = R.string.snackbar_message_notification
         val action = R.string.snackbar_action_cancel
 
@@ -84,6 +85,16 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler), IPr
         infoContainer.assert(empty)
         recyclerView.isDisplayed(!empty)
     }
+
+    fun assertSnackbarDismiss() {
+        assertTrue(try {
+            getSnackbar().assert()
+            false
+        } catch (e: Throwable) {
+            true
+        })
+    }
+
 
     /**
      * Class for UI control of [NotificationAdapter].

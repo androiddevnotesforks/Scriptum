@@ -129,6 +129,7 @@ class RankFragment : ParentFragment(), IRankFragment, MainReceiver.BindCallback,
         super.onPause()
 
         snackbarControl.dismiss()
+        viewModel.onSnackbarDismiss()
     }
 
     override fun onDestroy() {

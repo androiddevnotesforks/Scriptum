@@ -1,10 +1,12 @@
 package sgtmelon.scriptum.test.auto.main.rank
 
 import org.junit.Test
+import sgtmelon.extension.nextShortString
 import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.RankFragment
 import sgtmelon.scriptum.test.ParentUiTest
 import sgtmelon.scriptum.ui.ParentRecyclerItem
+import kotlin.random.Random
 
 /**
  * Test for Snackbar in [RankFragment].
@@ -16,7 +18,10 @@ class RankSnackbarTest : ParentUiTest() {
             mainScreen {
                 rankScreen {
                     onScroll(Scroll.END)
-                    repeat(times = 5) { onClickCancel(last, wait = true) }
+                    repeat(times = 5) {
+                        onClickCancel(last, wait = true)
+                        assertSnackbarDismiss()
+                    }
                 }
             }
         }
@@ -30,7 +35,8 @@ class RankSnackbarTest : ParentUiTest() {
                 rankScreen {
                     onClickCancel(p)
                     getSnackbar { onClickCancel() }
-                    onAssertItem(it[p])
+                    assertSnackbarDismiss()
+                    openRenameDialog(it[p].name, p)
                 }
             }
         }
@@ -48,37 +54,45 @@ class RankSnackbarTest : ParentUiTest() {
                         }
                     }
 
-                    list.forEach { item -> onAssertItem(item) }
+                    assertSnackbarDismiss()
+
+                    list.forEachIndexed { i, item ->
+                        openRenameDialog(item.name, i) { onCloseSoft() }
+                    }
                 }
             }
         }
     }
 
-    @Test fun actionClick_dismiss() = data.fillRank(count = 5).let {
+    @Test fun actionClick_dismiss() = data.fillRank(count = 3).let {
         val removePosition = 1
 
         launch {
             mainScreen {
                 rankScreen {
                     onClickCancel(removePosition)
+                    it.removeAt(removePosition)
 
                     onClickCancel(p = 1)
                     getSnackbar { onClickCancel() }
                     getSnackbar { assert() }
-                    onAssertItem(it[1])
+                    openRenameDialog(it[1].name, p = 1) { onClickCancel() }
                 }
 
                 notesScreen(empty = true)
 
-                it.removeAt(removePosition)
-
-                rankScreen { it.forEach { onAssertItem(it) } }
+                rankScreen {
+                    assertSnackbarDismiss()
+                    it.forEachIndexed { i, item ->
+                        openRenameDialog(item.name, i) { onCloseSoft() }
+                    }
+                }
             }
         }
     }
 
 
-    @Test fun dismissOnPause() = data.fillRank(count = 5).let { list ->
+    @Test fun dismissOnPause() = data.fillRank(count = 3).let { list ->
         launch {
             mainScreen {
                 rankScreen {
@@ -88,18 +102,103 @@ class RankSnackbarTest : ParentUiTest() {
 
                 notesScreen(empty = true)
                 rankScreen {
-                    list.forEach { onAssertItem(it) }
+                    assertSnackbarDismiss()
+
+                    list.forEachIndexed { i, item ->
+                        openRenameDialog(item.name, i) { onCloseSoft() }
+                    }
                     repeat(list.size) { onClickCancel(p = 0) }
                 }
 
                 notesScreen(empty = true)
-                rankScreen(empty = true)
+                rankScreen(empty = true) { assertSnackbarDismiss() }
             }
         }
     }
 
     @Test fun dismissOnDrag() {
         TODO()
+    }
+
+    @Test fun dismissOnRename() = data.fillRank(count = 2).let { list ->
+        launch {
+            mainScreen {
+                rankScreen {
+                    onClickCancel(p = 0)
+                    list.removeAt(0)
+
+                    openRenameDialog(list[0].name, p = 0) { onClickCancel() }
+
+                    assertSnackbarDismiss()
+                    list.forEachIndexed { i, item ->
+                        openRenameDialog(item.name, i) { onCloseSoft() }
+                    }
+                }
+            }
+        }
+    }
+
+    @Test fun dismissOnAddStart() = data.fillRank(count = 2).let { list ->
+        val name = Random.nextShortString()
+
+        launch {
+            mainScreen {
+                rankScreen {
+                    onClickCancel(p = 0)
+                    list.removeAt(0)
+
+                    toolbar { onEnterName(name).onLongClickAdd() }
+
+                    assertSnackbarDismiss()
+                    list.forEachIndexed { i, item ->
+                        openRenameDialog(item.name, p = i + 1) { onCloseSoft() }
+                    }
+                    openRenameDialog(name, p = 0)
+                }
+            }
+        }
+    }
+
+    @Test fun dismissOnAddEnd() = data.fillRank(count = 2).let { list ->
+        val name = Random.nextShortString()
+
+        launch {
+            mainScreen {
+                rankScreen {
+                    onClickCancel(p = 0)
+                    list.removeAt(0)
+
+                    toolbar { onEnterName(name).onClickAdd() }
+
+                    assertSnackbarDismiss()
+                    list.forEachIndexed { i, item ->
+                        openRenameDialog(item.name, i) { onCloseSoft() }
+                    }
+                    openRenameDialog(name, p = count - 1)
+                }
+            }
+        }
+    }
+
+    @Test fun dismissOnAddIme() = data.fillRank(count = 2).let { list ->
+        val name = Random.nextShortString()
+
+        launch {
+            mainScreen {
+                rankScreen {
+                    onClickCancel(p = 0)
+                    list.removeAt(0)
+
+                    toolbar { onEnterName(name).onImeOptionClick() }
+
+                    assertSnackbarDismiss()
+                    list.forEachIndexed { i, item ->
+                        openRenameDialog(item.name, i) { onCloseSoft() }
+                    }
+                    openRenameDialog(name, p = count - 1)
+                }
+            }
+        }
     }
 
 
@@ -113,8 +212,10 @@ class RankSnackbarTest : ParentUiTest() {
                     onScroll(Scroll.END)
                     getSnackbar { onClickCancel() }
 
+                    assertSnackbarDismiss()
+
                     ParentRecyclerItem.PREVENT_SCROLL = true
-                    onAssertItem(it[p])
+                    openRenameDialog(it[p].name, p)
                 }
             }
         }
@@ -130,8 +231,10 @@ class RankSnackbarTest : ParentUiTest() {
                     onScroll(Scroll.START)
                     getSnackbar { onClickCancel() }
 
+                    assertSnackbarDismiss()
+
                     ParentRecyclerItem.PREVENT_SCROLL = true
-                    onAssertItem(it[p])
+                    openRenameDialog(it[p].name, p)
                 }
             }
         }

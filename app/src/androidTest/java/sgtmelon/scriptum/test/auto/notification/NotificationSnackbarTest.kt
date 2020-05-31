@@ -22,7 +22,10 @@ class NotificationSnackbarTest : ParentUiTest() {
                 notesScreen {
                     openNotification {
                         onScroll(Scroll.END)
-                        repeat(times = 5) { onClickCancel(last, wait = true) }
+                        repeat(times = 5) {
+                            onClickCancel(last, wait = true)
+                            assertSnackbarDismiss()
+                        }
                     }
                 }
             }
@@ -39,6 +42,7 @@ class NotificationSnackbarTest : ParentUiTest() {
                     openNotification {
                         onClickCancel(p)
                         getSnackbar { onClickCancel() }
+                        assertSnackbarDismiss()
                         onAssertItem(p, list[p])
                     }
                 }
@@ -60,6 +64,8 @@ class NotificationSnackbarTest : ParentUiTest() {
                                 getSnackbar { assert() }
                             }
                         }
+
+                        assertSnackbarDismiss()
 
                         list.forEachIndexed { i, item -> onAssertItem(i, item) }
                     }
@@ -90,6 +96,7 @@ class NotificationSnackbarTest : ParentUiTest() {
                     list.removeAt(removePosition)
 
                     openNotification {
+                        assertSnackbarDismiss()
                         list.forEachIndexed { i, item -> onAssertItem(i, item) }
                     }
                 }
@@ -114,13 +121,15 @@ class NotificationSnackbarTest : ParentUiTest() {
                             is NoteItem.Roll -> openRoll(it, p = 0) { onClickClose() }
                         }
 
+                        assertSnackbarDismiss()
+
                         list.forEachIndexed { i, item -> onAssertItem(i, item) }
 
                         repeat(list.size) { onClickCancel(p = 0) }
                         onClickClose()
                     }
 
-                    openNotification(empty = true)
+                    openNotification(empty = true) { assertSnackbarDismiss() }
                 }
             }
         }
@@ -138,6 +147,8 @@ class NotificationSnackbarTest : ParentUiTest() {
                         onClickCancel(p)
                         onScroll(Scroll.END)
                         getSnackbar { onClickCancel() }
+
+                        assertSnackbarDismiss()
 
                         ParentRecyclerItem.PREVENT_SCROLL = true
                         onAssertItem(p, list[p])
@@ -158,6 +169,8 @@ class NotificationSnackbarTest : ParentUiTest() {
                         onClickCancel(p)
                         onScroll(Scroll.START)
                         getSnackbar { onClickCancel() }
+
+                        assertSnackbarDismiss()
 
                         ParentRecyclerItem.PREVENT_SCROLL = true
                         onAssertItem(p, list[p])

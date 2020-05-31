@@ -173,7 +173,10 @@ class MainActivity : AppActivity(), IMainActivity {
                 setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
 
                 if (findFragmentByTag(pageFrom.getFragmentTag()) != null) {
-                    hide(pageFrom.getFragmentByName())
+                    val fragmentFrom = pageFrom.getFragmentByName()
+
+                    hide(fragmentFrom)
+                    fragmentFrom.onPause()
                 }
 
                 val fragmentTo = pageTo.getFragmentByName()

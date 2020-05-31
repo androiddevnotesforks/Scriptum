@@ -87,6 +87,8 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
 
     override fun onShowRenameDialog(p: Int) {
         val item = itemList.getOrNull(p) ?: return
+
+        callback?.dismissSnackbar()
         callback?.showRenameDialog(p, item.name, nameList)
     }
 
@@ -109,20 +111,19 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
 
         val name = callback?.getEnterText()?.clearSpace()?.toUpperCase()
 
-        if (name.isNullOrEmpty()) return false
+        if (name.isNullOrEmpty() || nameList.contains(name)) return false
 
-        if (!nameList.contains(name)) {
-            onClickEnterAdd(simpleClick = true)
-            return true
-        }
+        onClickEnterAdd(simpleClick = true)
 
-        return false
+        return true
     }
 
     override fun onClickEnterAdd(simpleClick: Boolean) {
         val name = callback?.clearEnter()?.clearSpace()
 
-        if (name.isNullOrEmpty()) return
+        if (name.isNullOrEmpty() || nameList.contains(name.toUpperCase())) return
+
+        callback?.dismissSnackbar()
 
         val p = if (simpleClick) itemList.size else 0
 

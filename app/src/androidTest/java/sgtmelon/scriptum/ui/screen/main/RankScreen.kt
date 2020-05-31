@@ -3,6 +3,7 @@ package sgtmelon.scriptum.ui.screen.main
 import android.view.View
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import org.hamcrest.Matcher
+import org.junit.Assert.assertTrue
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.SimpleInfoPage
@@ -26,7 +27,7 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
     private val parentContainer = getViewById(R.id.rank_parent_container)
     private val infoContainer = SimpleInfoContainer(SimpleInfoPage.RANK)
 
-    fun getSnackbar(func: SnackbarPanel.() -> Unit): SnackbarPanel {
+    fun getSnackbar(func: SnackbarPanel.() -> Unit = {}): SnackbarPanel {
         val message = R.string.snackbar_message_rank
         val action = R.string.snackbar_action_cancel
 
@@ -81,6 +82,7 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
     }
 
 
+    // TODO add alternative fast assertio by position (use openRenameDialog)
     fun onAssertItem(rankItem: RankItem) {
         getItem(rankItem).assert(rankItem)
     }
@@ -93,6 +95,16 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
         infoContainer.assert(empty)
         recyclerView.isDisplayed(!empty)
     }
+
+    fun assertSnackbarDismiss() {
+        assertTrue(try {
+            getSnackbar().assert()
+            false
+        } catch (e: Throwable) {
+            true
+        })
+    }
+
 
     /**
      * Class for UI control of [RankAdapter].

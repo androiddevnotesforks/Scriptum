@@ -189,7 +189,10 @@ class RankViewModelTest : ParentViewModelTest() {
 
         viewModel.onShowRenameDialog(p)
 
-        verifySequence { callback.showRenameDialog(p, item.name, itemList.getNameList()) }
+        verifySequence {
+            callback.dismissSnackbar()
+            callback.showRenameDialog(p, item.name, itemList.getNameList())
+        }
     }
 
     @Test fun onResultRenameDialog() = startCoTest {
@@ -237,8 +240,15 @@ class RankViewModelTest : ParentViewModelTest() {
         every { callback.clearEnter() } returns ""
         assertTrue(viewModel.onEditorClick(EditorInfo.IME_ACTION_DONE))
 
-        val itemList = data.itemList
+        val name = Random.nextString()
+        var itemList = listOf(data.firstRank.copy(name = name))
+        viewModel.itemList.clearAdd(itemList)
+        assertEquals(itemList, viewModel.itemList)
 
+        every { callback.getEnterText() } returns name
+        assertFalse(viewModel.onEditorClick(EditorInfo.IME_ACTION_DONE))
+
+        itemList = data.itemList
         viewModel.itemList.clearAdd(itemList)
         assertEquals(itemList, viewModel.itemList)
 
@@ -252,13 +262,31 @@ class RankViewModelTest : ParentViewModelTest() {
             callback.clearEnter()
 
             callback.getEnterText()
+
+            callback.getEnterText()
+        }
+    }
+
+    @Test fun onClickEnterAdd_onNameError() {
+        every { callback.clearEnter() } returns ""
+        viewModel.onClickEnterAdd(Random.nextBoolean())
+
+        val name = Random.nextString()
+
+        val itemList = listOf(data.firstRank.copy(name = name))
+        viewModel.itemList.clearAdd(itemList)
+        assertEquals(itemList, viewModel.itemList)
+
+        every { callback.getEnterText() } returns name
+        viewModel.onClickEnterAdd(Random.nextBoolean())
+
+        coVerifyAll {
+            callback.clearEnter()
+            callback.clearEnter()
         }
     }
 
     @Test fun onClickEnterAdd_onSimple() = startCoTest {
-        every { callback.clearEnter() } returns ""
-        viewModel.onClickEnterAdd(Random.nextBoolean())
-
         val itemList = data.itemList
         viewModel.itemList.clearAdd(itemList)
         assertEquals(itemList, viewModel.itemList)
@@ -277,8 +305,7 @@ class RankViewModelTest : ParentViewModelTest() {
 
         coVerifyAll {
             callback.clearEnter()
-
-            callback.clearEnter()
+            callback.dismissSnackbar()
             interactor.insert(name)
             interactor.updatePosition(itemList, listOf(1, 2))
             callback.scrollToItem(itemList, p, simpleClick = true)
@@ -286,9 +313,6 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onClickEnterAdd_onLong() = startCoTest {
-        every { callback.clearEnter() } returns ""
-        viewModel.onClickEnterAdd(Random.nextBoolean())
-
         val itemList = data.itemList
         viewModel.itemList.clearAdd(itemList)
         assertEquals(itemList, viewModel.itemList)
@@ -307,8 +331,7 @@ class RankViewModelTest : ParentViewModelTest() {
 
         coVerifySequence {
             callback.clearEnter()
-
-            callback.clearEnter()
+            callback.dismissSnackbar()
             interactor.insert(name)
             interactor.updatePosition(itemList, listOf(1, 2, 3, 5, 4, 6))
             callback.scrollToItem(itemList, p, simpleClick = false)
