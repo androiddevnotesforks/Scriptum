@@ -6,7 +6,6 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.verifySequence
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentTest
 import sgtmelon.scriptum.R
 import kotlin.random.Random
@@ -48,18 +47,18 @@ class PreferenceProviderTest : ParentTest() {
         every { resources.getString(R.string.pref_key_alarm_volume) } returns volume
         every { resources.getString(R.string.pref_key_alarm_increase) } returns volumeIncrease
 
-        assertEquals(firstStart, providerKey.FIRST_START)
-        assertEquals(theme, providerKey.THEME)
-        assertEquals(sort, providerKey.SORT)
-        assertEquals(defaultColor, providerKey.DEFAULT_COLOR)
-        assertEquals(pauseSaveOn, providerKey.PAUSE_SAVE_ON)
-        assertEquals(autoSaveOn, providerKey.AUTO_SAVE_ON)
-        assertEquals(savePeriod, providerKey.SAVE_PERIOD)
-        assertEquals(repeat, providerKey.REPEAT)
-        assertEquals(signal, providerKey.SIGNAL)
-        assertEquals(melodyUri, providerKey.MELODY_URI)
-        assertEquals(volume, providerKey.VOLUME)
-        assertEquals(volumeIncrease, providerKey.VOLUME_INCREASE)
+        assertEquals(firstStart, providerKey.firstStart)
+        assertEquals(theme, providerKey.theme)
+        assertEquals(sort, providerKey.sort)
+        assertEquals(defaultColor, providerKey.defaultColor)
+        assertEquals(pauseSaveOn, providerKey.pauseSaveOn)
+        assertEquals(autoSaveOn, providerKey.autoSaveOn)
+        assertEquals(savePeriod, providerKey.savePeriod)
+        assertEquals(repeat, providerKey.repeat)
+        assertEquals(signal, providerKey.signal)
+        assertEquals(melodyUri, providerKey.melodyUri)
+        assertEquals(volume, providerKey.volume)
+        assertEquals(volumeIncrease, providerKey.volumeIncrease)
 
         verifySequence {
             resources.getString(R.string.pref_key_first_start)
@@ -104,18 +103,18 @@ class PreferenceProviderTest : ParentTest() {
         every { resources.getInteger(R.integer.pref_alarm_volume) } returns volume
         every { resources.getBoolean(R.bool.pref_alarm_increase) } returns volumeIncrease
 
-        assertEquals(firstStart, providerDef.FIRST_START)
-        assertEquals(theme, providerDef.THEME)
-        assertEquals(sort, providerDef.SORT)
-        assertEquals(defaultColor, providerDef.DEFAULT_COLOR)
-        assertEquals(pauseSaveOn, providerDef.PAUSE_SAVE_ON)
-        assertEquals(autoSaveOn, providerDef.AUTO_SAVE_ON)
-        assertEquals(savePeriod, providerDef.SAVE_PERIOD)
-        assertEquals(repeat, providerDef.REPEAT)
-        assertEquals(signal, providerDef.SIGNAL)
-        assertEquals(melodyUri, providerDef.MELODY_URI)
-        assertEquals(volume, providerDef.VOLUME)
-        assertEquals(volumeIncrease, providerDef.VOLUME_INCREASE)
+        assertEquals(firstStart, providerDef.firstStart)
+        assertEquals(theme, providerDef.theme)
+        assertEquals(sort, providerDef.sort)
+        assertEquals(defaultColor, providerDef.defaultColor)
+        assertEquals(pauseSaveOn, providerDef.pauseSaveOn)
+        assertEquals(autoSaveOn, providerDef.autoSaveOn)
+        assertEquals(savePeriod, providerDef.savePeriod)
+        assertEquals(repeat, providerDef.repeat)
+        assertEquals(signal, providerDef.signal)
+        assertEquals(melodyUri, providerDef.melodyUri)
+        assertEquals(volume, providerDef.volume)
+        assertEquals(volumeIncrease, providerDef.volumeIncrease)
 
         verifySequence {
             resources.getBoolean(R.bool.pref_first_start)
