@@ -2,9 +2,9 @@ package sgtmelon.scriptum.ui.part.panel
 
 import android.view.View
 import androidx.annotation.StringRes
-import androidx.test.espresso.matcher.ViewMatchers.withChild
 import com.google.android.material.snackbar.Snackbar
 import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
@@ -21,14 +21,15 @@ class SnackbarPanel(
         @StringRes private val actionId: Int
 ) : ParentUi() {
 
-    private val parentContainer: Matcher<View> = allOf(withChild(getViewByText(actionId)))
+    private val parentContainer: Matcher<View> = allOf(instanceOf(Snackbar.SnackbarLayout::class.java))
 
     private val messageText = getViewByText(messageId)
     private val actionButton = getViewByText(actionId)
 
     fun onClickCancel() = actionButton.click()
 
-    // TODO more asserts
+
+    // TODO add assertion for background (i try but nothing happened)
     fun assert() {
         parentContainer.isDisplayed()
 //                .withBackground(when (theme) {
