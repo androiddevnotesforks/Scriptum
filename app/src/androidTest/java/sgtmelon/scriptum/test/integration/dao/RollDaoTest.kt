@@ -28,7 +28,7 @@ class RollDaoTest : ParentIntegrationTest() {
         insertRollRelation(firstModel)
 
         with(firstModel) {
-            rollList.forEach { item -> assertEquals(UNIQUE_ERROR_ID, rollDao.insert(item)) }
+            rollList.forEach { item -> assertEquals(RoomDb.UNIQUE_ERROR_ID, rollDao.insert(item)) }
             assertEquals(rollList, rollDao.get(entity.id))
         }
     }

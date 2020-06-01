@@ -6,6 +6,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.verifySequence
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentTest
 import sgtmelon.scriptum.data.provider.PreferenceProvider
 import kotlin.random.Random

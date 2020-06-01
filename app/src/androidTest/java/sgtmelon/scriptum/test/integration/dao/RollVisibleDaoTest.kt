@@ -5,6 +5,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.scriptum.data.room.RoomDb
 import sgtmelon.scriptum.data.room.dao.IRollVisibleDao
 import sgtmelon.scriptum.data.room.entity.NoteEntity
 import sgtmelon.scriptum.data.room.entity.RollVisibleEntity
@@ -21,7 +22,7 @@ class RollVisibleDaoTest : ParentIntegrationTest() {
         noteDao.insert(noteEntity)
 
         assertEquals(1, rollVisibleDao.insert(entity))
-        assertEquals(UNIQUE_ERROR_ID, rollVisibleDao.insert(entity))
+        assertEquals(RoomDb.UNIQUE_ERROR_ID, rollVisibleDao.insert(entity))
     }
 
     @Test fun update() = inRoomTest {

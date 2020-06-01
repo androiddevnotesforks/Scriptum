@@ -4,6 +4,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.scriptum.data.room.RoomDb
 import sgtmelon.scriptum.data.room.dao.INoteDao
 import sgtmelon.scriptum.data.room.entity.NoteEntity
 import sgtmelon.scriptum.domain.model.key.NoteType
@@ -37,7 +38,7 @@ class NoteDaoTest : ParentIntegrationTest() {
 
     @Test fun insertWithUnique() = inNoteDao {
         assertEquals(1, insert(firstNote))
-        assertEquals(UNIQUE_ERROR_ID, insert(firstNote))
+        assertEquals(RoomDb.UNIQUE_ERROR_ID, insert(firstNote))
     }
 
     @Test fun delete() = inNoteDao {

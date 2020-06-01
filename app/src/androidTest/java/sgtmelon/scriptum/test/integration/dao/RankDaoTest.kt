@@ -5,6 +5,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.scriptum.data.room.RoomDb
 import sgtmelon.scriptum.data.room.dao.IRankDao
 import sgtmelon.scriptum.data.room.entity.RankEntity
 import sgtmelon.scriptum.test.ParentIntegrationTest
@@ -30,8 +31,8 @@ class RankDaoTest : ParentIntegrationTest() {
 
     @Test fun insertWithUnique() = inRankDao {
         assertEquals(1, insert(firstRank))
-        assertEquals(UNIQUE_ERROR_ID, insert(secondRank.copy(id = firstRank.id)))
-        assertEquals(UNIQUE_ERROR_ID, insert(secondRank.copy(name = firstRank.name)))
+        assertEquals(RoomDb.UNIQUE_ERROR_ID, insert(secondRank.copy(id = firstRank.id)))
+        assertEquals(RoomDb.UNIQUE_ERROR_ID, insert(secondRank.copy(name = firstRank.name)))
     }
 
     @Test fun delete() = inRankDao {
