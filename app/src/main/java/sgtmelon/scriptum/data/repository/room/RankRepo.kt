@@ -50,8 +50,7 @@ class RankRepo(
         rankDao.insert(RankEntity(name = name))
     }
 
-    // TODO test
-    override suspend fun insert(rankItem: RankItem): Long = takeFromRoom {
+    override suspend fun insert(rankItem: RankItem) = inRoom {
         for (id in rankItem.noteId) {
             /**
              * Remove rank from note.
@@ -64,7 +63,10 @@ class RankRepo(
             noteDao.update(noteEntity)
         }
 
-        return@takeFromRoom rankDao.insert(converter.toEntity(rankItem))
+        /**
+         * Id after insert will be the same, like in [rankItem].
+         */
+        rankDao.insert(converter.toEntity(rankItem))
     }
 
     override suspend fun delete(rankItem: RankItem) = inRoom {

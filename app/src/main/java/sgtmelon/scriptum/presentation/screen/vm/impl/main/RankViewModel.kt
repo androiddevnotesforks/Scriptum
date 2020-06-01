@@ -181,7 +181,6 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     }
 
 
-    // TODO test
     override fun onSnackbarAction() {
         if (cancelList.isEmpty()) return
 
@@ -215,10 +214,10 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         }
 
         /**
-         * After insert need update item in list (due to new item id).
+         * After insert don't need update item in list (due to item already have id).
          */
         viewModelScope.launch {
-            itemList[position] = interactor.insert(item) ?: return@launch
+            interactor.insert(item)
             interactor.updatePosition(itemList, itemList.correctPositions())
 
             callback?.setList(itemList)
@@ -241,6 +240,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     }
 
 
+    // TODO move dismiss to move action + test
     override fun onTouchDrag(): Boolean {
         val value = callback?.openState?.value != true
 
@@ -269,6 +269,9 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     }
 
 
+    /**
+     * TODO use mock for test it in [RankViewModelTest].
+     */
     companion object {
         @VisibleForTesting
         fun List<RankItem>.getNameList(): List<String> = map { it.name.toUpperCase() }

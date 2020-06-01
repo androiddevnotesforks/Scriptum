@@ -3,6 +3,7 @@ package sgtmelon.scriptum.domain.interactor.impl.main
 import io.mockk.coEvery
 import io.mockk.coVerifySequence
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -85,8 +86,14 @@ class RankInteractorTest : ParentInteractorTest() {
         }
     }
 
-    @Test fun insert_byItem() {
-        TODO()
+    @Test fun insert_byItem() = startCoTest {
+        val item = mockk<RankItem>()
+
+        interactor.insert(item)
+
+        coVerifySequence {
+            rankRepo.insert(item)
+        }
     }
 
     @Test fun delete() = startCoTest {

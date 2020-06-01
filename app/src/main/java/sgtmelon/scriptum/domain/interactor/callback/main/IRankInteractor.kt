@@ -23,7 +23,7 @@ interface IRankInteractor : IParentInteractor {
 
     suspend fun insert(name: String): RankItem
 
-    suspend fun insert(item: RankItem): RankItem?
+    suspend fun insert(item: RankItem)
 
     suspend fun delete(item: RankItem)
 

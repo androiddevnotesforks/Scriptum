@@ -219,15 +219,15 @@ class NotificationViewModelTest : ParentViewModelTest() {
         assertEquals(cancelList, viewModel.cancelList)
 
         coVerifySequence {
-            interactor.setNotification(item)
-            callback.setList(itemList)
-
             callback.apply {
                 notifyInfoBind(itemList.size)
                 notifyItemInsertedScroll(itemList, secondPair.first)
                 interactor.theme
                 showSnackbar(theme)
             }
+
+            interactor.setNotification(item)
+            callback.setList(itemList)
         }
     }
 
@@ -260,14 +260,14 @@ class NotificationViewModelTest : ParentViewModelTest() {
         assertEquals(cancelList, viewModel.cancelList)
 
         coVerifySequence {
-            interactor.setNotification(item)
-            callback.setList(itemList)
-
             callback.apply {
                 notifyInfoBind(itemList.size)
                 notifyItemInsertedScroll(itemList, itemList.indices.last)
                 onBindingList()
             }
+
+            interactor.setNotification(item)
+            callback.setList(itemList)
         }
     }
 

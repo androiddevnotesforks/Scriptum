@@ -30,11 +30,7 @@ class RankInteractor(
         return RankItem(rankRepo.insert(name), name = name)
     }
 
-    // TODO test + check nullability
-    /**
-     * After insert need return item with new id.
-     */
-    override suspend fun insert(item: RankItem): RankItem? = item.copy(id = rankRepo.insert(item))
+    override suspend fun insert(item: RankItem) = rankRepo.insert(item)
 
     override suspend fun delete(item: RankItem) = rankRepo.delete(item)
 

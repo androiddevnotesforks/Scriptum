@@ -95,7 +95,6 @@ class NotificationViewModel(application: Application) :
     }
 
 
-    // TODO fix test
     override fun onSnackbarAction() {
         if (cancelList.isEmpty()) return
 

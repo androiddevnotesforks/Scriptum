@@ -1,9 +1,6 @@
 package sgtmelon.scriptum.data.repository.room
 
-import io.mockk.coEvery
-import io.mockk.coVerifySequence
-import io.mockk.every
-import io.mockk.mockkClass
+import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
@@ -13,8 +10,10 @@ import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.data.room.converter.model.NoteConverter
 import sgtmelon.scriptum.data.room.converter.model.RankConverter
 import sgtmelon.scriptum.data.room.entity.AlarmEntity
+import sgtmelon.scriptum.data.room.entity.NoteEntity
 import sgtmelon.scriptum.data.room.entity.RankEntity
 import sgtmelon.scriptum.domain.model.data.DbData
+import sgtmelon.scriptum.domain.model.item.RankItem
 import kotlin.random.Random
 
 /**
@@ -123,7 +122,7 @@ class RankRepoTest : ParentRoomRepoTest() {
     }
 
 
-    @Test fun insert() = startCoTest {
+    @Test fun insert_byName() = startCoTest {
         val id = Random.nextLong()
         val name = Random.nextString()
         val entity = RankEntity(name = name)
@@ -137,6 +136,58 @@ class RankRepoTest : ParentRoomRepoTest() {
             rankDao.insert(entity)
         }
     }
+
+    @Test fun insert_byItem() = startCoTest {
+        val rankItem = mockk<RankItem>()
+        val rankEntity = mockk<RankEntity>()
+
+        val idList = MutableList(size = 5) { Random.nextLong() }
+        val id = Random.nextLong()
+        val position = Random.nextInt()
+
+        val noteEntityList: MutableList<NoteEntity?> = MutableList(size = 5) {
+            if (it == 0) null else mockk<NoteEntity>()
+        }
+
+        every { rankItem.noteId } returns idList
+        every { rankItem.id } returns id
+        every { rankItem.position } returns position
+
+        noteEntityList.forEachIndexed { i, it ->
+            coEvery { noteDao.get(idList[i]) } returns it
+
+            if (it != null) {
+                every { it.rankId = id } returns Unit
+                every { it.rankPs = position } returns Unit
+            }
+        }
+
+        every { converter.toEntity(rankItem) } returns rankEntity
+        coEvery { rankDao.insert(rankEntity) } returns id
+
+        rankRepo.insert(rankItem)
+
+        coVerifySequence {
+            rankItem.noteId
+
+            noteEntityList.forEachIndexed { i, it ->
+                noteDao.get(idList[i])
+
+                if (it != null) {
+                    rankItem.id
+                    it.rankId = id
+                    rankItem.position
+                    it.rankPs = position
+
+                    noteDao.update(it)
+                }
+            }
+
+            converter.toEntity(rankItem)
+            rankDao.insert(rankEntity)
+        }
+    }
+
 
     @Test fun delete() = startCoTest {
         val item = TestData.Rank.firstRank
@@ -409,6 +460,8 @@ class RankRepoTest : ParentRoomRepoTest() {
 
         val defaultPosition = DbData.Note.Default.RANK_PS
         val position = Random.nextInt()
+
+        assertEquals(defaultId, rankRepo.getId(defaultPosition))
 
         coEvery { rankDao.getId(position) } returns null
         assertEquals(defaultId, rankRepo.getId(position))

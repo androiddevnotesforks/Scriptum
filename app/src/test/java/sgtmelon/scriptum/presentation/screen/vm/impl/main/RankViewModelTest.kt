@@ -415,6 +415,9 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
 
+    /**
+     * TODO remove listOf() - need use mock object.
+     */
     @Test fun onSnackbarAction_correct() {
         assertTrue(viewModel.cancelList.isEmpty())
         assertTrue(viewModel.itemList.isEmpty())
@@ -425,7 +428,6 @@ class RankViewModelTest : ParentViewModelTest() {
         viewModel.onSnackbarAction()
 
         val item = mockk<RankItem>()
-        val newItem = mockk<RankItem>()
 
         val firstPair = Pair(Random.nextInt(), mockk<RankItem>())
         val secondPair = Pair(0, item)
@@ -439,27 +441,30 @@ class RankViewModelTest : ParentViewModelTest() {
         assertEquals(itemList, viewModel.itemList)
         assertEquals(cancelList, viewModel.cancelList)
 
-        coEvery { interactor.insert(item) } returns newItem
         viewModel.onSnackbarAction()
 
-        itemList.add(0, newItem)
+        itemList.add(0, item)
         cancelList.removeAt(index = 1)
 
         assertEquals(itemList, viewModel.itemList)
         assertEquals(cancelList, viewModel.cancelList)
 
         coVerifySequence {
-            interactor.insert(item)
-            callback.setList(itemList)
-
             callback.apply {
                 notifyItemInsertedScroll(itemList, secondPair.first)
                 interactor.theme
                 showSnackbar(theme)
             }
+
+            interactor.insert(item)
+            interactor.updatePosition(itemList, listOf())
+            callback.setList(itemList)
         }
     }
 
+    /**
+     * TODO remove listOf() - need use mock object.
+     */
     @Test fun onSnackbarAction_incorrect() {
         assertTrue(viewModel.cancelList.isEmpty())
         assertTrue(viewModel.itemList.isEmpty())
@@ -467,8 +472,6 @@ class RankViewModelTest : ParentViewModelTest() {
         viewModel.onSnackbarAction()
 
         val item = mockk<RankItem>()
-        val newItem = mockk<RankItem>()
-
         val pair = Pair(Random.nextInt(), item)
 
         val itemList = mutableListOf<RankItem>()
@@ -479,23 +482,23 @@ class RankViewModelTest : ParentViewModelTest() {
         assertEquals(itemList, viewModel.itemList)
         assertEquals(cancelList, viewModel.cancelList)
 
-        coEvery { interactor.insert(item) } returns newItem
         viewModel.onSnackbarAction()
 
-        itemList.add(0, newItem)
+        itemList.add(0, item)
         cancelList.removeAt(index = 0)
 
         assertEquals(itemList, viewModel.itemList)
         assertEquals(cancelList, viewModel.cancelList)
 
         coVerifySequence {
-            interactor.insert(item)
-            callback.setList(itemList)
-
             callback.apply {
                 notifyItemInsertedScroll(itemList, itemList.indices.last)
                 onBindingList()
             }
+
+            interactor.insert(item)
+            interactor.updatePosition(itemList, listOf())
+            callback.setList(itemList)
         }
     }
 

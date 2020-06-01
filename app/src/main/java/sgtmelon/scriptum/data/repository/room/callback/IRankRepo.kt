@@ -20,7 +20,7 @@ interface IRankRepo {
 
     suspend fun insert(name: String): Long
 
-    suspend fun insert(rankItem: RankItem): Long
+    suspend fun insert(rankItem: RankItem)
 
     suspend fun delete(rankItem: RankItem)
 
