@@ -18,7 +18,7 @@ interface IRankRepo {
     suspend fun getIdVisibleList(): List<Long>
 
 
-    suspend fun insert(name: String): Long
+    suspend fun insert(name: String): Long?
 
     suspend fun insert(rankItem: RankItem)
 

@@ -125,10 +125,11 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
 
         callback?.dismissSnackbar()
 
-        val p = if (simpleClick) itemList.size else 0
-
         viewModelScope.launch {
-            itemList.add(p, interactor.insert(name))
+            val item = interactor.insert(name) ?: return@launch
+            val p = if (simpleClick) itemList.size else 0
+
+            itemList.add(p, item)
 
             val noteIdList = itemList.correctPositions()
             interactor.updatePosition(itemList, noteIdList)

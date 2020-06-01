@@ -46,8 +46,10 @@ class RankRepo(
     }
 
 
-    override suspend fun insert(name: String): Long = takeFromRoom {
-        rankDao.insert(RankEntity(name = name))
+    override suspend fun insert(name: String): Long? = takeFromRoom {
+        val id = rankDao.insert(RankEntity(name = name))
+
+        return@takeFromRoom checkInsertIgnore(id)
     }
 
     override suspend fun insert(rankItem: RankItem) = inRoom {

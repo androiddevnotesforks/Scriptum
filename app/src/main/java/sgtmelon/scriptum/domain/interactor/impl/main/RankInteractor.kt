@@ -26,8 +26,10 @@ class RankInteractor(
     override suspend fun getBind(noteId: List<Long>): Boolean = rankRepo.getBind(noteId)
 
 
-    override suspend fun insert(name: String): RankItem {
-        return RankItem(rankRepo.insert(name), name = name)
+    override suspend fun insert(name: String): RankItem? {
+        val id = rankRepo.insert(name) ?: return null
+
+        return RankItem(id, name = name)
     }
 
     override suspend fun insert(item: RankItem) = rankRepo.insert(item)

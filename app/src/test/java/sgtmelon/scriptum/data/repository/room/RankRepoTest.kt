@@ -129,14 +129,25 @@ class RankRepoTest : ParentRoomRepoTest() {
 
         coEvery { rankDao.insert(entity) } returns id
 
+        every { roomDb.checkInsertIgnore(id) } returns null
+        assertNull(rankRepo.insert(name))
+
+        every { roomDb.checkInsertIgnore(id) } returns id
         assertEquals(id, rankRepo.insert(name))
 
         coVerifySequence {
-            roomProvider.openRoom()
-            rankDao.insert(entity)
+            repeat(times = 2) {
+                roomProvider.openRoom()
+
+                roomDb.rankDao
+                rankDao.insert(entity)
+                roomDb.checkInsertIgnore(id)
+                roomDb.close()
+            }
         }
     }
 
+    @Suppress("RemoveExplicitTypeArguments")
     @Test fun insert_byItem() = startCoTest {
         val rankItem = mockk<RankItem>()
         val rankEntity = mockk<RankEntity>()

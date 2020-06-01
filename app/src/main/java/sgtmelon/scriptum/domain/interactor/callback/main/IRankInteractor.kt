@@ -21,7 +21,7 @@ interface IRankInteractor : IParentInteractor {
     suspend fun getBind(noteId: List<Long>): Boolean
 
 
-    suspend fun insert(name: String): RankItem
+    suspend fun insert(name: String): RankItem?
 
     suspend fun insert(item: RankItem)
 

@@ -6,6 +6,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.FastTest
@@ -73,12 +74,17 @@ class RankInteractorTest : ParentInteractorTest() {
 
 
     @Test fun insert_byName() = startCoTest {
-        val idList = listOf(Random.nextLong(),  Random.nextLong())
+        val idList = listOf(Random.nextLong(), Random.nextLong(), null)
         val name = Random.nextString()
 
         idList.forEach {
             coEvery { rankRepo.insert(name) } returns it
-            assertEquals(RankItem(it, name = name), interactor.insert(name))
+
+            if (it != null) {
+                assertEquals(RankItem(it, name = name), interactor.insert(name))
+            } else {
+                assertNull(interactor.insert(name))
+            }
         }
 
         coVerifySequence {

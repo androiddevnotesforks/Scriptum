@@ -338,6 +338,30 @@ class RankViewModelTest : ParentViewModelTest() {
         }
     }
 
+    @Test fun onClickEnterAdd_onNull() = startCoTest {
+        val itemList = data.itemList
+        viewModel.itemList.clearAdd(itemList)
+        assertEquals(itemList, viewModel.itemList)
+
+        val name = Random.nextString()
+
+        every { callback.clearEnter() } returns name
+        coEvery { interactor.insert(name) } returns null
+
+        viewModel.onClickEnterAdd(simpleClick = false)
+        viewModel.onClickEnterAdd(simpleClick = true)
+
+        assertEquals(itemList, viewModel.itemList)
+
+        coVerifySequence {
+            repeat(times = 2) {
+                callback.clearEnter()
+                callback.dismissSnackbar()
+                interactor.insert(name)
+            }
+        }
+    }
+
     @Test fun onClickVisible() = startCoTest {
         viewModel.onClickVisible(Random.nextInt())
 
