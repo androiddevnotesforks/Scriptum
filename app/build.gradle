@@ -37,8 +37,8 @@ android {
         unitTests.returnDefaultValues = true
     }
 
-    dataBinding {
-        enabled = true
+    buildFeatures {
+        dataBinding = true
     }
 
     dokka {
