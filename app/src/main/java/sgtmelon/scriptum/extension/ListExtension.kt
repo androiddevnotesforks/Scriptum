@@ -7,7 +7,7 @@ import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
 
 fun <T> MutableList<T>.removeAtOrNull(index: Int): T? {
-    return if (index in 0..lastIndex) removeAt(index) else null
+    return if (index in indices) removeAt(index) else null
 }
 
 private const val ND_INDEX = -1

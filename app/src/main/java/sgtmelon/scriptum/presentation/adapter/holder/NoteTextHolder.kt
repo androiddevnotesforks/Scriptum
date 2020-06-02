@@ -1,12 +1,10 @@
 package sgtmelon.scriptum.presentation.adapter.holder
 
 import android.view.View
-import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.ItemNoteTextBinding
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.extension.checkNoPosition
 import sgtmelon.scriptum.presentation.adapter.NoteAdapter
 import sgtmelon.scriptum.presentation.listener.ItemListener
 
@@ -17,7 +15,7 @@ class NoteTextHolder(
         private val binding: ItemNoteTextBinding,
         private val clickListener: ItemListener.Click,
         private val longClickListener: ItemListener.LongClick?
-) : RecyclerView.ViewHolder(binding.root) {
+) : ParentHolder(binding.root) {
 
     private val clickView: View = itemView.findViewById(R.id.note_text_click_container)
 

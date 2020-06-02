@@ -4,13 +4,10 @@ import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
-import android.util.TypedValue
 import android.view.MenuItem
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
-import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
-import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.Color
@@ -25,28 +22,19 @@ import sgtmelon.scriptum.domain.model.key.ColorShade
  * Get note color rely on theme and background
  * [needDark] - If element place on dark background (e.g. note color indicator)
  */
-@ColorInt fun Context.getAppThemeColor(@Theme theme: Int, @Color color: Int, needDark: Boolean) =
-        if (theme == Theme.LIGHT) {
-            if (needDark) getCompatColor(dark[color])
-            else getCompatColor(light[color])
-        } else {
-            if (needDark) getCompatColor(dark[color])
-            else getColorAttr(R.attr.clPrimary)
-        }
-
-@ColorInt fun Context.getColorAttr(@AttrRes attr: Int): Int {
-    val typedValue = TypedValue()
-
-    theme.resolveAttribute(attr, typedValue, true)
-
-    return ContextCompat.getColor(this, typedValue.resourceId)
+@ColorInt
+fun Context.getAppThemeColor(@Theme theme: Int, @Color color: Int, needDark: Boolean): Int {
+    return if (theme == Theme.LIGHT) {
+        if (needDark) getCompatColor(dark[color])
+        else getCompatColor(light[color])
+    } else {
+        if (needDark) getCompatColor(dark[color])
+        else getColorAttr(R.attr.clPrimary)
+    }
 }
 
-fun Context.getCompatColor(@ColorRes id: Int) = let { ContextCompat.getColor(it, id) }
-
-fun Context.getCompatDrawable(@DrawableRes id: Int) = let { ContextCompat.getDrawable(it, id) }
-
-@ColorInt fun Context.getAppSimpleColor(@Color color: Int, shade: ColorShade): Int {
+@ColorInt
+fun Context.getAppSimpleColor(@Color color: Int, shade: ColorShade): Int {
     return getCompatColor(when(shade) {
         ColorShade.LIGHT -> light[color]
         ColorShade.ACCENT -> accent[color]

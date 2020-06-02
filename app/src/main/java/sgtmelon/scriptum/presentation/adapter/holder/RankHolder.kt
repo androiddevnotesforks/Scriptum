@@ -4,13 +4,11 @@ import android.annotation.SuppressLint
 import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageButton
-import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.iconanim.IconBlockCallback
 import sgtmelon.iconanim.widget.SwitchButton
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.ItemRankBinding
 import sgtmelon.scriptum.domain.model.item.RankItem
-import sgtmelon.scriptum.extension.checkNoPosition
 import sgtmelon.scriptum.presentation.adapter.RankAdapter
 import sgtmelon.scriptum.presentation.listener.ItemListener
 
@@ -24,7 +22,7 @@ class RankHolder(
         private val longClickListener: ItemListener.LongClick,
         private val dragListener: ItemListener.Drag?,
         blockCallback: IconBlockCallback
-) : RecyclerView.ViewHolder(binding.root),
+) : ParentHolder(binding.root),
         View.OnTouchListener {
 
     private val clickView: View = itemView.findViewById(R.id.rank_click_container)

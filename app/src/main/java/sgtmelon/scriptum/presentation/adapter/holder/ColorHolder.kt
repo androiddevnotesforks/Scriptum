@@ -3,7 +3,6 @@ package sgtmelon.scriptum.presentation.adapter.holder
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
@@ -16,7 +15,7 @@ import sgtmelon.scriptum.presentation.adapter.ColorAdapter
 /**
  * Holder for app color, use in [ColorAdapter]
  */
-class ColorHolder(view: View) : RecyclerView.ViewHolder(view) {
+class ColorHolder(view: View) : ParentHolder(view) {
 
     private val context = view.context
 

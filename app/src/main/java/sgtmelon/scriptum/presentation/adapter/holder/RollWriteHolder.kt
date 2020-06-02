@@ -27,7 +27,7 @@ class RollWriteHolder(
         private val dragListener: ItemListener.Drag?,
         private val callback: Callback,
         private val inputControl: IInputControl?
-) : RecyclerView.ViewHolder(binding.root),
+) : ParentHolder(binding.root),
         View.OnTouchListener,
         TextWatcher {
 

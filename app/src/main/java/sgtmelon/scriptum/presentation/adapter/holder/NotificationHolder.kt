@@ -2,12 +2,10 @@ package sgtmelon.scriptum.presentation.adapter.holder
 
 import android.view.View
 import android.widget.ImageButton
-import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.ItemNotificationBinding
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NotificationItem
-import sgtmelon.scriptum.extension.checkNoPosition
 import sgtmelon.scriptum.presentation.adapter.NotificationAdapter
 import sgtmelon.scriptum.presentation.listener.ItemListener
 
@@ -17,7 +15,7 @@ import sgtmelon.scriptum.presentation.listener.ItemListener
 class NotificationHolder(
         private val binding: ItemNotificationBinding,
         private val clickListener: ItemListener.Click
-) : RecyclerView.ViewHolder(binding.root) {
+) : ParentHolder(binding.root) {
 
     private val clickView: View = itemView.findViewById(R.id.notification_click_container)
     private val cancelButton: ImageButton = itemView.findViewById(R.id.notification_cancel_button)

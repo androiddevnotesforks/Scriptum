@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.extension
 
+import android.annotation.SuppressLint
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.MotionEvent
@@ -24,6 +25,7 @@ fun EditText.requestSelectionFocus() {
     showKeyboard()
 }
 
+@SuppressLint("ClickableViewAccessibility")
 fun View.requestFocusOnVisible(editText: EditText?) = setOnTouchListener { _, event ->
     if (event.action != MotionEvent.ACTION_DOWN) return@setOnTouchListener false
 
@@ -31,8 +33,6 @@ fun View.requestFocusOnVisible(editText: EditText?) = setOnTouchListener { _, ev
 
     return@setOnTouchListener false
 }
-
-fun String.clearSpace() = trim().replace("\\s+".toRegex(), replacement = " ")
 
 fun EditText.addTextChangedListener(before: (String) -> Unit = {},
                                     on: (String) -> Unit = {},

@@ -2,12 +2,10 @@ package sgtmelon.scriptum.presentation.adapter.holder
 
 import android.view.View
 import android.widget.CheckBox
-import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.ItemRollReadBinding
 import sgtmelon.scriptum.domain.model.item.RollItem
 import sgtmelon.scriptum.domain.model.state.NoteState
-import sgtmelon.scriptum.extension.checkNoPosition
 import sgtmelon.scriptum.presentation.adapter.RollAdapter
 import sgtmelon.scriptum.presentation.listener.ItemListener
 
@@ -18,7 +16,7 @@ class RollReadHolder(
         private val binding: ItemRollReadBinding,
         private val clickListener: ItemListener.ActionClick,
         private val longClickListener: ItemListener.LongClick
-) : RecyclerView.ViewHolder(binding.root) {
+) : ParentHolder(binding.root) {
 
     /**
      * Button which displays above [rollCheck] for ripple effect on click
