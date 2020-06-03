@@ -11,6 +11,8 @@ import org.junit.Test
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentInteractorTest
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
+import sgtmelon.scriptum.data.room.converter.type.IntConverter
+import sgtmelon.scriptum.domain.model.annotation.Signal
 import sgtmelon.scriptum.domain.model.item.MelodyItem
 import sgtmelon.scriptum.domain.model.state.SignalState
 import sgtmelon.scriptum.presentation.control.system.callback.IRingtoneControl
@@ -24,18 +26,24 @@ class SignalInteractorTest : ParentInteractorTest() {
 
     @MockK lateinit var ringtoneControl: IRingtoneControl
     @MockK lateinit var preferenceRepo: IPreferenceRepo
+    @MockK lateinit var intConverter: IntConverter
 
-    private val interactor by lazy { SignalInteractor(ringtoneControl, preferenceRepo) }
+    private val interactor by lazy {
+        SignalInteractor(ringtoneControl, preferenceRepo, intConverter)
+    }
 
-    @Test fun getCheck() {
-        val checkValue = 1
-        val checkArray = booleanArrayOf(true, false)
+    @Test fun getTypeCheck() {
+        val signal = Random.nextInt()
+        val typeCheck = BooleanArray(size = 5) { Random.nextBoolean() }
 
-        every { preferenceRepo.signal } returns checkValue
-        assertArrayEquals(checkArray, interactor.typeCheck)
+        every { preferenceRepo.signal } returns signal
+        every { intConverter.toArray(signal, Signal.digitCount) } returns typeCheck
+
+        assertArrayEquals(typeCheck, interactor.typeCheck)
 
         verifySequence {
             preferenceRepo.signal
+            intConverter.toArray(signal, Signal.digitCount)
         }
     }
 

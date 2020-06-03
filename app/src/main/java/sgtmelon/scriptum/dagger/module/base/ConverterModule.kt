@@ -3,6 +3,7 @@ package sgtmelon.scriptum.dagger.module.base
 import dagger.Module
 import dagger.Provides
 import sgtmelon.scriptum.data.room.converter.model.*
+import sgtmelon.scriptum.data.room.converter.type.IntConverter
 import javax.inject.Singleton
 
 /**
@@ -30,5 +31,9 @@ class ConverterModule {
     @Provides
     @Singleton
     fun provideStringConverter() = StringConverter()
+
+    @Provides
+    @Singleton
+    fun provideIntConverter() = IntConverter()
 
 }

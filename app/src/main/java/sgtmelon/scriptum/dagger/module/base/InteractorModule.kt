@@ -5,6 +5,7 @@ import dagger.Provides
 import sgtmelon.scriptum.dagger.ActivityScope
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.*
+import sgtmelon.scriptum.data.room.converter.type.IntConverter
 import sgtmelon.scriptum.domain.interactor.callback.*
 import sgtmelon.scriptum.domain.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.IMainInteractor
@@ -55,8 +56,9 @@ class InteractorModule {
     @Provides
     @ActivityScope
     fun provideSignalInteractor(ringtoneControl: IRingtoneControl,
-                                preferenceRepo: IPreferenceRepo): ISignalInteractor {
-        return SignalInteractor(ringtoneControl, preferenceRepo)
+                                preferenceRepo: IPreferenceRepo,
+                                intConverter: IntConverter): ISignalInteractor {
+        return SignalInteractor(ringtoneControl, preferenceRepo, intConverter)
     }
 
     //endregion

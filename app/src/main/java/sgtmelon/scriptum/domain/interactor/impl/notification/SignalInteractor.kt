@@ -16,15 +16,13 @@ import java.util.*
  */
 class SignalInteractor(
         private val ringtoneControl: IRingtoneControl,
-        private val preferenceRepo: IPreferenceRepo
+        private val preferenceRepo: IPreferenceRepo,
+        private val intConverter: IntConverter
 ) : ParentInteractor(),
         ISignalInteractor {
 
-    /**
-     * TODO converter
-     */
     override val typeCheck: BooleanArray
-        get() = IntConverter().toArray(preferenceRepo.signal, Signal.digitCount)
+        get() = intConverter.toArray(preferenceRepo.signal, Signal.digitCount)
 
     override val state: SignalState? get() = SignalState[typeCheck]
 
