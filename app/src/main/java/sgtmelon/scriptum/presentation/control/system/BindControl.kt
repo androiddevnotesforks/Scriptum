@@ -13,9 +13,9 @@ import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.extension.clearAdd
 import sgtmelon.scriptum.extension.removeAtOrNull
-import sgtmelon.scriptum.extension.sort
 import sgtmelon.scriptum.presentation.control.system.callback.IBindControl
 import sgtmelon.scriptum.presentation.factory.NotificationFactory
+import sgtmelon.scriptum.presentation.screen.vm.impl.main.NotesViewModel.Companion.sortList
 
 /**
  * Class for help control [NoteItem] notification bind in statusBar
@@ -91,11 +91,11 @@ class BindControl(private val context: Context?) : IBindControl {
 
         clearRecent(Tag.NOTE)
 
-        noteItemList.clearAdd(itemList.filter {
+        noteItemList.clearAdd(sortList(itemList.filter {
             val isVisible = rankIdVisibleList?.let { list -> it.isVisible(list) } ?: true
 
             return@filter !it.isBin && it.isStatus && isVisible
-        }.sort(sort))
+        }, sort))
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             if (noteItemList.size > 1) {

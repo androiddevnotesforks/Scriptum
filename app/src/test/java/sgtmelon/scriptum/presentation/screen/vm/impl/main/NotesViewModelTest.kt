@@ -18,7 +18,6 @@ import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.extension.clearAdd
-import sgtmelon.scriptum.extension.sort
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.INotesFragment
 import java.util.*
 import kotlin.random.Random
@@ -267,26 +266,31 @@ class NotesViewModelTest : ParentViewModelTest() {
     @Test fun onResultOptionsDialog_onConvert() = startCoTest {
         viewModel.onResultOptionsDialog(Random.nextInt(), Options.Notes.CONVERT)
 
-        val sort = TestData.sort
-
-        every { interactor.sort } returns sort
-
+        val sort = Random.nextInt()
         val itemList = data.itemList
-        viewModel.itemList.clearAdd(itemList)
-        assertEquals(itemList, viewModel.itemList)
+        val sortList = data.itemList.reversed()
 
         val item = itemList[0]
         val itemReturn = itemList[1]
 
+        every { interactor.sort } returns sort
         coEvery { interactor.convertNote(item) } returns itemReturn
+
+        mockkObject(NotesViewModel)
+        every { NotesViewModel.sortList(any(), sort) } returns sortList
+
+        viewModel.itemList.clearAdd(itemList)
+        assertEquals(itemList, viewModel.itemList)
+
         viewModel.onResultOptionsDialog(0, Options.Notes.CONVERT)
 
-        itemList[0] = itemReturn
-        val sortList = itemList.sort(sort)
+        assertEquals(sortList, viewModel.itemList)
 
         coVerifySequence {
             interactor.convertNote(item)
             interactor.sort
+
+            NotesViewModel.sortList(any(), sort)
             callback.notifyList(sortList)
         }
     }
@@ -433,12 +437,15 @@ class NotesViewModelTest : ParentViewModelTest() {
         }
     }
 
+    //region Companion test
 
-    @Test fun sort() = with(data) {
-        assertEquals(changeList, itemList.sort(Sort.CHANGE))
-        assertEquals(createList, itemList.sort(Sort.CREATE))
-        assertEquals(rankList, itemList.sort(Sort.RANK))
-        assertEquals(colorList, itemList.sort(Sort.COLOR))
+    @Test fun sortList() = with(data) {
+        assertEquals(changeList, NotesViewModel.sortList(itemList, Sort.CHANGE))
+        assertEquals(createList, NotesViewModel.sortList(itemList, Sort.CREATE))
+        assertEquals(rankList, NotesViewModel.sortList(itemList, Sort.RANK))
+        assertEquals(colorList, NotesViewModel.sortList(itemList, Sort.COLOR))
     }
+
+    //endregion
 
 }
