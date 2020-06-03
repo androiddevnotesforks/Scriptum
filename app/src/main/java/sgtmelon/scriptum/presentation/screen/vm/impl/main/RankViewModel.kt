@@ -37,7 +37,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     @VisibleForTesting
     val cancelList: MutableList<Pair<Int, RankItem>> = mutableListOf()
 
-    private val nameList: List<String> get() = itemList.getNameList()
+    private val nameList: List<String> get() = getNameList(itemList)
 
     override fun onSetup(bundle: Bundle?) {
         callback?.setupToolbar()
@@ -131,7 +131,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
 
             itemList.add(p, item)
 
-            val noteIdList = itemList.correctPositions()
+            val noteIdList = correctPositions(itemList)
             interactor.updatePosition(itemList, noteIdList)
 
             callback?.scrollToItem(itemList, p, simpleClick)
@@ -152,7 +152,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     override fun onLongClickVisible(p: Int) {
         if (p !in itemList.indices) return
 
-        val animationArray = itemList.switchVisible(p)
+        val animationArray = switchVisible(itemList, p)
 
         callback?.notifyDataSetChanged(itemList, animationArray)
 
@@ -164,7 +164,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
 
     override fun onClickCancel(p: Int) {
         val item = itemList.removeAtOrNull(p) ?: return
-        val noteIdList = itemList.correctPositions()
+        val noteIdList = correctPositions(itemList)
 
         /**
          * Save item for snackbar undo action.
@@ -219,7 +219,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
          */
         viewModelScope.launch {
             interactor.insert(item)
-            interactor.updatePosition(itemList, itemList.correctPositions())
+            interactor.updatePosition(itemList, correctPositions(itemList))
 
             callback?.setList(itemList)
         }
@@ -263,19 +263,15 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     override fun onTouchMoveResult() {
         callback?.openState?.clear()
 
-        val noteIdList = itemList.correctPositions()
+        val noteIdList = correctPositions(itemList)
         callback?.setList(itemList)
 
         viewModelScope.launch { interactor.updatePosition(itemList, noteIdList) }
     }
 
-
-    /**
-     * TODO use mock for test it in [RankViewModelTest].
-     */
     companion object {
-        @VisibleForTesting
-        fun List<RankItem>.getNameList(): List<String> = map { it.name.toUpperCase() }
+
+        fun getNameList(list: List<RankItem>): List<String> = list.map { it.name.toUpperCase() }
 
         /**
          * Switch visible for all list. Make visible only item with position equal [p].
@@ -285,11 +281,10 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
          *
          * Return array with information about item icon animation (need start or not).
          */
-        @VisibleForTesting
-        fun List<RankItem>.switchVisible(p: Int): BooleanArray {
-            val animationArray = BooleanArray(size)
+        fun switchVisible(list: List<RankItem>, p: Int): BooleanArray {
+            val animationArray = BooleanArray(list.size)
 
-            forEachIndexed { i, item ->
+            list.forEachIndexed { i, item ->
                 if (i == p) {
                     if (!item.isVisible) {
                         item.isVisible = true
@@ -309,11 +304,10 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         /**
          * Return list of [NoteItem.id] which need update.
          */
-        @VisibleForTesting
-        fun List<RankItem>.correctPositions(): List<Long> {
+        fun correctPositions(list: List<RankItem>): List<Long> {
             val noteIdSet = mutableSetOf<Long>()
 
-            forEachIndexed { i, item ->
+            list.forEachIndexed { i, item ->
                 /**
                  * If [RankItem.position] incorrect (out of order) when update it.
                  */
@@ -329,6 +323,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
 
             return noteIdSet.toList()
         }
+
     }
 
 }
