@@ -1,3 +1,5 @@
+@file:JvmName(name = "TimeExtensionUtils")
+
 package sgtmelon.extension
 
 import android.content.Context
@@ -10,7 +12,7 @@ import android.text.format.DateFormat as DateFormatAndroid
 // TODO add unit tests
 // TODO add getCalendar()
 
-private fun getDateFormat() = SimpleDateFormat(BuildConfig.DATE_FORMAT_DB, Locale.getDefault())
+fun getDateFormat() = SimpleDateFormat(BuildConfig.DATE_FORMAT_DB, Locale.getDefault())
 
 fun Context?.is24Format(): Boolean {
     return if (this != null) DateFormatAndroid.is24HourFormat(this) else true

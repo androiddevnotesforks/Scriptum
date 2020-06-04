@@ -1,13 +1,13 @@
 package sgtmelon.scriptum.presentation.screen.vm.impl.note
 
 import android.os.Bundle
-import io.mockk.every
+import io.mockk.*
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
-import io.mockk.verifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
+import sgtmelon.extension.getCalendar
+import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.note.ITextNoteInteractor
@@ -19,6 +19,7 @@ import sgtmelon.scriptum.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteChild
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.text.ITextNoteFragment
+import java.util.*
 import kotlin.random.Random
 
 /**
@@ -44,6 +45,9 @@ class TextNoteViewModelTest : ParentViewModelTest() {
         viewModel.setParentCallback(parentCallback)
         viewModel.setInteractor(interactor, bindInteractor)
         viewModel.setInputControl(inputControl)
+
+        assertEquals(Default.ID, viewModel.id)
+        assertEquals(Default.COLOR, viewModel.color)
     }
 
     override fun onDestroy() {
@@ -63,23 +67,12 @@ class TextNoteViewModelTest : ParentViewModelTest() {
     }
 
 
-    @Test fun setParentCallback() {
-        TODO()
-    }
-
-    @Test fun setInteractor() {
-        TODO()
-    }
-
     @Test fun onSetup() {
         TODO()
     }
 
 
     @Test fun onSaveData() {
-        assertEquals(Default.ID, viewModel.id)
-        assertEquals(Default.COLOR, viewModel.color)
-
         val id = Random.nextLong()
         val color = Random.nextInt()
         val bundle = mockk<Bundle>()
@@ -202,11 +195,91 @@ class TextNoteViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onMenuNotification() {
-        TODO()
+        val noteItem = mockk<NoteItem.Text>()
+        val alarmDate = Random.nextString()
+        val haveAlarm = Random.nextBoolean()
+        val calendar = mockk<Calendar>()
+
+        val noteState = mockk<NoteState>()
+
+        every { noteItem.alarmDate } returns alarmDate
+        every { noteItem.haveAlarm() } returns haveAlarm
+
+        mockkStatic("sgtmelon.extension.TimeExtensionUtils")
+        every { alarmDate.getCalendar() } returns calendar
+
+        viewModel.noteItem = noteItem
+        viewModel.noteState = noteState
+
+        every { noteState.isEdit } returns false
+        viewModel.onMenuNotification()
+
+        every { noteState.isEdit } returns true
+        viewModel.onMenuNotification()
+
+        verifySequence {
+            noteState.isEdit
+
+            noteItem.alarmDate
+            alarmDate.getCalendar()
+            noteItem.haveAlarm()
+            callback.showDateDialog(calendar, haveAlarm)
+
+            noteState.isEdit
+        }
     }
 
-    @Test fun onMenuBind() {
-        TODO()
+    @Test fun onMenuBind() = startCoTest {
+        val noteItem = mockk<NoteItem.Text>()
+        val restoreItem = mockk<NoteItem.Text>()
+
+        val noteState = mockk<NoteState>()
+
+        every { noteItem.switchStatus() } returns noteItem
+        mockDeepCopy(noteItem)
+
+        viewModel.noteItem = noteItem
+        viewModel.restoreItem = restoreItem
+        viewModel.noteState = noteState
+
+        every { callback.isDialogOpen } returns true
+        every { noteState.isEdit } returns true
+        viewModel.onMenuBind()
+
+        assertEquals(restoreItem, viewModel.restoreItem)
+
+        every { callback.isDialogOpen } returns true
+        every { noteState.isEdit } returns false
+        viewModel.onMenuBind()
+
+        assertEquals(restoreItem, viewModel.restoreItem)
+
+        every { callback.isDialogOpen } returns false
+        every { noteState.isEdit } returns true
+        viewModel.onMenuBind()
+
+        assertEquals(restoreItem, viewModel.restoreItem)
+
+        every { callback.isDialogOpen } returns false
+        every { noteState.isEdit } returns false
+        viewModel.onMenuBind()
+
+        coVerifySequence {
+            callback.isDialogOpen
+            callback.isDialogOpen
+            callback.isDialogOpen
+            noteState.isEdit
+
+            callback.isDialogOpen
+            noteState.isEdit
+            noteItem.switchStatus()
+            verifyDeepCopy(noteItem)
+            noteState.isEdit
+            callback.onBindingEdit(noteItem, isEditMode = false)
+            interactor.updateNote(noteItem, updateBind = true)
+        }
+
+        assertEquals(noteItem, viewModel.restoreItem)
     }
 
     @Test fun onMenuConvert() {
@@ -254,6 +327,49 @@ class TextNoteViewModelTest : ParentViewModelTest() {
             inputControl.access
             callback.onBindingInput(noteItem, access)
         }
+    }
+
+
+    private fun mockDeepCopy(item: NoteItem.Text) {
+        every { item.id } returns Random.nextLong()
+        every { item.create } returns Random.nextString()
+        every { item.change } returns Random.nextString()
+        every { item.name } returns Random.nextString()
+        every { item.text } returns Random.nextString()
+        every { item.color } returns Random.nextInt()
+        every { item.rankId } returns Random.nextLong()
+        every { item.rankPs } returns Random.nextInt()
+        every { item.isBin } returns Random.nextBoolean()
+        every { item.isStatus } returns Random.nextBoolean()
+        every { item.alarmId } returns Random.nextLong()
+        every { item.alarmDate } returns Random.nextString()
+
+        every {
+            item.deepCopy(
+                    any(), any(), any(), any(), any(), any(),
+                    any(), any(), any(), any(), any(), any()
+            )
+        } returns item
+    }
+
+    private fun MockKVerificationScope.verifyDeepCopy(item: NoteItem.Text) {
+        item.id
+        item.create
+        item.change
+        item.name
+        item.text
+        item.color
+        item.rankId
+        item.rankPs
+        item.isBin
+        item.isStatus
+        item.alarmId
+        item.alarmDate
+
+        item.deepCopy(
+                any(), any(), any(), any(), any(), any(),
+                any(), any(), any(), any(), any(), any()
+        )
     }
 
 }

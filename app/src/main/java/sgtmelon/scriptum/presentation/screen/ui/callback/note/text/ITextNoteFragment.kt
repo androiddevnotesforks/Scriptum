@@ -35,7 +35,7 @@ interface ITextNoteFragment : ITextNoteBridge {
 
     fun onBindingNote(item: NoteItem.Text)
 
-    fun onBindingEdit(isEditMode: Boolean, item: NoteItem.Text)
+    fun onBindingEdit(item: NoteItem.Text, isEditMode: Boolean)
 
     fun onBindingInput(item: NoteItem.Text, inputAccess: InputControl.Access)
 

@@ -48,21 +48,21 @@ class SignalInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun getState() {
-        val firstCheck = 2
-        val firstState = SignalState(isMelody = false, isVibration = true)
+        val signal = Random.nextInt()
+        val isMelody = Random.nextBoolean()
+        val isVibration = Random.nextBoolean()
 
-        val secondCheck = 1
-        val secondState = SignalState(isMelody = true, isVibration = false)
+        val typeCheckArray = booleanArrayOf(isMelody, isVibration)
+        val signalState = SignalState(isMelody, isVibration)
 
-        every { preferenceRepo.signal } returns firstCheck
-        assertEquals(firstState, interactor.state)
+        every { preferenceRepo.signal } returns signal
+        every { intConverter.toArray(signal, Signal.digitCount) } returns typeCheckArray
 
-        every { preferenceRepo.signal } returns secondCheck
-        assertEquals(secondState, interactor.state)
+        assertEquals(signalState, interactor.state)
 
         verifySequence {
             preferenceRepo.signal
-            preferenceRepo.signal
+            intConverter.toArray(signal, Signal.digitCount)
         }
     }
 

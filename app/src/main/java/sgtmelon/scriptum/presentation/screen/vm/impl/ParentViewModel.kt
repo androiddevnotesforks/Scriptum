@@ -12,7 +12,8 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.IParentViewModel
  *
  * [T] is the interface for communicate with UI. Same like in [IParentViewModel].
  */
-abstract class ParentViewModel<T>(application: Application) : AndroidViewModel(application), IParentViewModel {
+abstract class ParentViewModel<T>(application: Application) : AndroidViewModel(application),
+        IParentViewModel {
 
     protected val context: Context = application.applicationContext
 

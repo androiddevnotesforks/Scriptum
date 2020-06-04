@@ -73,7 +73,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     /**
      * App doesn't have ranks if size == 1.
      */
-    private var rankDialogItemArray: Array<String> = arrayOf()
+    @VisibleForTesting var rankDialogItemArray: Array<String> = arrayOf()
 
     private val iconState = IconState()
 
@@ -407,7 +407,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
          */
         restoreItem = noteItem.deepCopy()
 
-        callback?.onBindingEdit(noteState.isEdit, noteItem)
+        callback?.onBindingEdit(noteItem, noteState.isEdit)
 
         viewModelScope.launch { interactor.updateNote(noteItem, updateBind = true) }
     }
@@ -444,7 +444,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
                     needAnim = !noteState.isCreate && iconState.animate
             )
 
-            onBindingEdit(isEdit, noteItem)
+            onBindingEdit(noteItem, isEdit)
             onBindingInput(noteItem, inputControl.access)
 
             if (isEdit) focusOnEdit(noteState.isCreate)
