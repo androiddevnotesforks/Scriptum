@@ -5,7 +5,6 @@ import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
 import sgtmelon.scriptum.domain.model.state.NoteState
-import sgtmelon.scriptum.domain.model.state.OpenState
 import sgtmelon.scriptum.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
@@ -17,7 +16,7 @@ import java.util.*
  */
 interface IRollNoteFragment : IRollNoteBridge {
 
-    val openState: OpenState
+    val isDialogOpen: Boolean
 
     fun hideKeyboard()
 
@@ -47,9 +46,9 @@ interface IRollNoteFragment : IRollNoteBridge {
 
     fun onBindingInfo(isListEmpty: Boolean, isListHide: Boolean)
 
-    fun onBindingEdit(isEditMode: Boolean, item: NoteItem.Roll)
+    fun onBindingEdit(item: NoteItem.Roll, isEditMode: Boolean)
 
-    fun onBingingNote(item: NoteItem.Roll)
+    fun onBindingNote(item: NoteItem.Roll)
 
     fun onBindingEnter()
 

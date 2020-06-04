@@ -74,7 +74,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
     private var navigationIconControl: IconChangeCallback? = null
     private var visibleIconControl: IconChangeCallback? = null
 
-    override val openState = OpenState()
+    private val openState = OpenState()
     private val dialogFactory by lazy { DialogFactory.Note(context, fm) }
 
     private val rankDialog by lazy { dialogFactory.getRankDialog() }
@@ -189,6 +189,8 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
     }
 
     //endregion
+
+    override val isDialogOpen: Boolean get() = openState.value
 
     override fun hideKeyboard() {
         activity?.hideKeyboard()
@@ -370,7 +372,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
         }?.executePendingBindings()
     }
 
-    override fun onBindingEdit(isEditMode: Boolean, item: NoteItem.Roll) {
+    override fun onBindingEdit(item: NoteItem.Roll, isEditMode: Boolean) {
         panelContainer?.let {
             val time = resources.getInteger(R.integer.fade_anim_time)
             val transition = AutoTransition()
@@ -388,7 +390,7 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
         onBindingEnter()
     }
 
-    override fun onBingingNote(item: NoteItem.Roll) {
+    override fun onBindingNote(item: NoteItem.Roll) {
         binding?.apply { this.item = item }?.executePendingBindings()
     }
 

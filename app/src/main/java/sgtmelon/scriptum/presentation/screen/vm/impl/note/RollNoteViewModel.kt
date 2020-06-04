@@ -283,7 +283,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
      * to control in Edit.
      */
     override fun onClickAdd(simpleClick: Boolean) {
-        if (callback?.openState?.value == true || !noteState.isEdit) return
+        if (callback?.isDialogOpen == true || !noteState.isEdit) return
 
         val enterText = callback?.getEnterText()?.clearSpace() ?: ""
 
@@ -375,7 +375,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
             callback?.apply {
                 onBindingInput(noteItem, inputControl.access)
-                onBingingNote(noteItem)
+                onBindingNote(noteItem)
             }
         }
     }
@@ -394,7 +394,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
         noteItem.clearAlarm()
 
-        callback?.onBingingNote(noteItem)
+        callback?.onBindingNote(noteItem)
     }
 
     override fun onResultTimeDialog(calendar: Calendar) {
@@ -404,7 +404,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             interactor.setDate(noteItem, calendar)
             restoreItem = noteItem.deepCopy()
 
-            callback?.onBingingNote(noteItem)
+            callback?.onBindingNote(noteItem)
 
             bindInteractor.notifyInfoBind(callback)
         }
@@ -428,7 +428,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         noteItem.apply { isStatus = false }
         restoreItem.apply { isStatus = false }
 
-        callback?.onBingingNote(noteItem)
+        callback?.onBindingNote(noteItem)
     }
 
     //region Menu click
@@ -463,7 +463,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     override fun onMenuRedo() = onMenuUndoRedo(isUndo = false)
 
     private fun onMenuUndoRedo(isUndo: Boolean) {
-        if (callback?.openState?.value == true || !noteState.isEdit) return
+        if (callback?.isDialogOpen == true || !noteState.isEdit) return
 
         val item = if (isUndo) inputControl.undo() else inputControl.redo()
 
@@ -586,7 +586,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     override fun onMenuSave(changeMode: Boolean): Boolean {
-        if (changeMode && callback?.openState?.value == true) return false
+        if (changeMode && callback?.isDialogOpen == true) return false
 
         if (!noteState.isEdit || !noteItem.isSaveEnabled()) return false
 
@@ -641,7 +641,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     override fun onMenuBind() {
-        if (callback?.openState?.value == true || noteState.isEdit) return
+        if (callback?.isDialogOpen == true || noteState.isEdit) return
 
         noteItem.switchStatus()
 
@@ -650,7 +650,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
          */
         restoreItem = noteItem.deepCopy()
 
-        callback?.onBindingEdit(noteState.isEdit, noteItem)
+        callback?.onBindingEdit(noteItem, noteState.isEdit)
 
         viewModelScope.launch { interactor.updateNote(noteItem, updateBind = true) }
     }
@@ -662,7 +662,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     override fun onMenuDelete() {
-        if (callback?.openState?.value == true || noteState.isEdit) return
+        if (callback?.isDialogOpen == true || noteState.isEdit) return
 
         viewModelScope.launch {
             interactor.deleteNote(noteItem)
@@ -673,7 +673,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     override fun onMenuEdit() {
-        if (callback?.openState?.value == true || noteState.isEdit) return
+        if (callback?.isDialogOpen == true || noteState.isEdit) return
 
         setupEditMode(isEdit = true)
     }
@@ -687,7 +687,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
                     needAnim = !noteState.isCreate && iconState.animate
             )
 
-            onBindingEdit(isEdit, noteItem)
+            onBindingEdit(noteItem, isEdit)
             onBindingInput(noteItem, inputControl.access)
             updateNoteState(noteState)
 
