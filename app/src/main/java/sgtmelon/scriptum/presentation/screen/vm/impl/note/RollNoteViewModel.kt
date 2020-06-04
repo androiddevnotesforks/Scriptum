@@ -23,7 +23,7 @@ import sgtmelon.scriptum.domain.model.item.RollItem
 import sgtmelon.scriptum.domain.model.state.IconState
 import sgtmelon.scriptum.domain.model.state.NoteState
 import sgtmelon.scriptum.extension.*
-import sgtmelon.scriptum.presentation.control.note.input.InputControl
+import sgtmelon.scriptum.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.presentation.control.note.save.ISaveControl
 import sgtmelon.scriptum.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteChild
@@ -40,7 +40,11 @@ import kotlin.collections.ArrayList
 class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFragment>(application),
         IRollNoteViewModel {
 
-    private var parentCallback: INoteChild? = null
+    //region Variables
+
+    @VisibleForTesting
+    var parentCallback: INoteChild? = null
+        private set
 
     fun setParentCallback(callback: INoteChild?) {
         parentCallback = callback
@@ -54,20 +58,23 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         this.bindInteractor = bindInteractor
     }
 
+    private lateinit var inputControl: IInputControl
+
+    fun setInputControl(inputControl: IInputControl) {
+        this.inputControl = inputControl
+    }
 
     private val saveControl: ISaveControl by lazy {
         SaveControl(context, interactor.getSaveModel(), callback = this)
     }
 
-    private val inputControl = InputControl()
+    @VisibleForTesting var id: Long = Default.ID
+    @VisibleForTesting var color: Int = Default.COLOR
 
-    private var id: Long = Default.ID
-    private var color: Int = Default.COLOR
+    @VisibleForTesting lateinit var noteItem: NoteItem.Roll
+    @VisibleForTesting lateinit var restoreItem: NoteItem.Roll
 
-    private lateinit var noteItem: NoteItem.Roll
-    private lateinit var restoreItem: NoteItem.Roll
-
-    private var noteState = NoteState()
+    @VisibleForTesting var noteState = NoteState()
 
     /**
      * App doesn't have ranks if size == 1.
@@ -75,6 +82,8 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     private var rankDialogItemArray: Array<String> = arrayOf()
 
     private val iconState = IconState()
+
+    //endregion
 
     override fun onSetup(bundle: Bundle?) {
         id = bundle?.getLong(Intent.ID, Default.ID) ?: Default.ID

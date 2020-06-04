@@ -3,9 +3,18 @@ package sgtmelon.scriptum.presentation.control.note.input
 import sgtmelon.scriptum.domain.model.item.InputItem
 
 /**
- * Interface for communicate with [InputControl]
+ * Interface for communicate with [InputControl].
  */
 interface IInputControl {
+
+    val access: InputControl.Access
+
+    fun reset()
+
+    fun undo(): InputItem?
+
+    fun redo(): InputItem?
+
 
     var isEnabled: Boolean
 

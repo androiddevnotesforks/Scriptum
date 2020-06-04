@@ -2,6 +2,7 @@ package sgtmelon.scriptum.presentation.screen.vm.impl.note
 
 import android.app.Application
 import android.os.Bundle
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.extension.beforeNow
@@ -17,7 +18,7 @@ import sgtmelon.scriptum.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.state.IconState
 import sgtmelon.scriptum.domain.model.state.NoteState
-import sgtmelon.scriptum.presentation.control.note.input.InputControl
+import sgtmelon.scriptum.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.presentation.control.note.save.ISaveControl
 import sgtmelon.scriptum.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteChild
@@ -33,7 +34,11 @@ import java.util.*
 class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFragment>(application),
         ITextNoteViewModel {
 
-    private var parentCallback: INoteChild? = null
+    //region Variables
+
+    @VisibleForTesting
+    var parentCallback: INoteChild? = null
+        private set
 
     fun setParentCallback(callback: INoteChild?) {
         parentCallback = callback
@@ -47,20 +52,23 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         this.bindInteractor = bindInteractor
     }
 
+    private lateinit var inputControl: IInputControl
+
+    fun setInputControl(inputControl: IInputControl) {
+        this.inputControl = inputControl
+    }
 
     private val saveControl: ISaveControl by lazy {
         SaveControl(context, interactor.getSaveModel(), callback = this)
     }
 
-    private val inputControl = InputControl()
+    @VisibleForTesting var id: Long = Default.ID
+    @VisibleForTesting var color: Int = Default.COLOR
 
-    private var id: Long = Default.ID
-    private var color: Int = Default.COLOR
+    @VisibleForTesting lateinit var noteItem: NoteItem.Text
+    @VisibleForTesting lateinit var restoreItem: NoteItem.Text
 
-    private lateinit var noteItem: NoteItem.Text
-    private lateinit var restoreItem: NoteItem.Text
-
-    private var noteState = NoteState()
+    @VisibleForTesting var noteState = NoteState()
 
     /**
      * App doesn't have ranks if size == 1.
@@ -68,6 +76,8 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     private var rankDialogItemArray: Array<String> = arrayOf()
 
     private val iconState = IconState()
+
+    //endregion
 
     override fun onSetup(bundle: Bundle?) {
         id = bundle?.getLong(Intent.ID, Default.ID) ?: Default.ID
@@ -268,8 +278,8 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     override fun onReceiveUnbindNote(id: Long) {
         if (this.id != id) return
 
-        noteItem.apply { isStatus = false }
-        restoreItem.apply { isStatus = false }
+        noteItem.isStatus = false
+        restoreItem.isStatus = false
 
         callback?.onBindingNote(noteItem)
     }

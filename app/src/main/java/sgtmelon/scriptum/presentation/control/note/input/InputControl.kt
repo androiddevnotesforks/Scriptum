@@ -7,7 +7,7 @@ import sgtmelon.scriptum.domain.model.item.InputItem
 import java.util.*
 
 /**
- * Class for control input data inside note and work with undo/redo
+ * Class for control input data inside note and work with undo/redo.
  * Model for store data: [InputItem]
  *
  * [InputAction] - Value which describes action:
@@ -34,16 +34,16 @@ class InputControl : IInputControl {
     val isUndoAccess get() = inputList.size != 0 && position != -1
     val isRedoAccess get() = inputList.size != 0 && position != inputList.size - 1
 
-    val access get() = Access(isUndoAccess, isRedoAccess)
+    override val access get() = Access(isUndoAccess, isRedoAccess)
 
-    fun reset() {
+    override fun reset() {
         inputList.clear()
         position = -1
     }
 
-    fun undo(): InputItem? = if (isUndoAccess) inputList[position--] else null
+    override fun undo(): InputItem? = if (isUndoAccess) inputList[position--] else null
 
-    fun redo(): InputItem? = if (isRedoAccess) inputList[++position] else null
+    override fun redo(): InputItem? = if (isRedoAccess) inputList[++position] else null
 
     private fun add(item: InputItem) {
         if (isEnabled) {
@@ -84,32 +84,41 @@ class InputControl : IInputControl {
         isEnabled = true
     }
 
-    override fun onRankChange(idFrom: Long, psFrom: Int, idTo: Long, psTo: Int) =
-            add(InputItem(InputAction.RANK,
-                    arrayOf(idFrom, psFrom).joinToString(),
-                    arrayOf(idTo, psTo).joinToString()
-            ))
+    override fun onRankChange(idFrom: Long, psFrom: Int, idTo: Long, psTo: Int) {
+        val valueFrom = arrayOf(idFrom, psFrom).joinToString()
+        val valueTo = arrayOf(idTo, psTo).joinToString()
 
-    override fun onColorChange(valueFrom: Int, valueTo: Int) =
-            add(InputItem(InputAction.COLOR, valueFrom.toString(), valueTo.toString()))
+        add(InputItem(InputAction.RANK, valueFrom, valueTo))
+    }
 
-    override fun onNameChange(valueFrom: String, valueTo: String, cursor: InputItem.Cursor) =
-            add(InputItem(InputAction.NAME, valueFrom, valueTo, cursor))
+    override fun onColorChange(valueFrom: Int, valueTo: Int) {
+        add(InputItem(InputAction.COLOR, valueFrom.toString(), valueTo.toString()))
+    }
 
-    override fun onTextChange(valueFrom: String, valueTo: String, cursor: InputItem.Cursor) =
-            add(InputItem(InputAction.TEXT, valueFrom, valueTo, cursor))
+    override fun onNameChange(valueFrom: String, valueTo: String, cursor: InputItem.Cursor) {
+        add(InputItem(InputAction.NAME, valueFrom, valueTo, cursor))
+    }
 
-    override fun onRollChange(p: Int, valueFrom: String, valueTo: String, cursor: InputItem.Cursor) =
-            add(InputItem(InputAction.ROLL, valueFrom, valueTo, cursor, p))
+    override fun onTextChange(valueFrom: String, valueTo: String, cursor: InputItem.Cursor) {
+        add(InputItem(InputAction.TEXT, valueFrom, valueTo, cursor))
+    }
 
-    override fun onRollAdd(p: Int, valueTo: String) =
-            add(InputItem(InputAction.ROLL_ADD, "", valueTo, null, p))
+    override fun onRollChange(p: Int, valueFrom: String, valueTo: String,
+                              cursor: InputItem.Cursor) {
+        add(InputItem(InputAction.ROLL, valueFrom, valueTo, cursor, p))
+    }
 
-    override fun onRollRemove(p: Int, valueFrom: String) =
-            add(InputItem(InputAction.ROLL_REMOVE, valueFrom, "", null, p))
+    override fun onRollAdd(p: Int, valueTo: String) {
+        add(InputItem(InputAction.ROLL_ADD, "", valueTo, null, p))
+    }
 
-    override fun onRollMove(valueFrom: Int, valueTo: Int) =
-            add(InputItem(InputAction.ROLL_MOVE, valueFrom.toString(), valueTo.toString()))
+    override fun onRollRemove(p: Int, valueFrom: String) {
+        add(InputItem(InputAction.ROLL_REMOVE, valueFrom, "", null, p))
+    }
+
+    override fun onRollMove(valueFrom: Int, valueTo: Int) {
+        add(InputItem(InputAction.ROLL_MOVE, valueFrom.toString(), valueTo.toString()))
+    }
 
     private fun listAll() {
         if (!logEnabled) return

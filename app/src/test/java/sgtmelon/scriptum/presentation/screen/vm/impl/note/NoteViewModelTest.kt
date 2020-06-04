@@ -20,7 +20,7 @@ import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteActivity
 import kotlin.random.Random
 
 /**
- * Test for [NoteViewModel]
+ * Test for [NoteViewModel].
  */
 @ExperimentalCoroutinesApi
 class NoteViewModelTest : ParentViewModelTest() {
