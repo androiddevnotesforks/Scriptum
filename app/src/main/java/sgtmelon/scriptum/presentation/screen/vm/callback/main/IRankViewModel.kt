@@ -34,6 +34,8 @@ interface IRankViewModel : IParentViewModel,
 
     fun onClickCancel(p: Int)
 
+    fun onItemAnimationFinished()
+
 
     fun onSnackbarAction()
 

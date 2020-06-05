@@ -28,11 +28,8 @@ class NotificationViewModel(application: Application) :
     }
 
 
-    @VisibleForTesting
-    val itemList: MutableList<NotificationItem> = mutableListOf()
-
-    @VisibleForTesting
-    val cancelList: MutableList<Pair<Int, NotificationItem>> = mutableListOf()
+    @VisibleForTesting val itemList: MutableList<NotificationItem> = mutableListOf()
+    @VisibleForTesting val cancelList: MutableList<Pair<Int, NotificationItem>> = mutableListOf()
 
     override fun onSetup(bundle: Bundle?) {
         callback?.setupToolbar()

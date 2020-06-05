@@ -728,6 +728,10 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
     //region Touch callbacks
 
+    override fun onTouchAction(inAction: Boolean) {
+        callback?.setTouchAction(inAction)
+    }
+
     override fun onTouchGetFlags(drag: Boolean) = ItemTouchHelper.Callback.makeMovementFlags(
             if (noteState.isEdit && drag) ItemTouchHelper.UP or ItemTouchHelper.DOWN else 0,
             if (noteState.isEdit) ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT else 0

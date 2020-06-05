@@ -199,8 +199,7 @@ class RankFragment : ParentFragment(), IRankFragment, MainReceiver.BindCallback,
         recyclerView?.let {
             it.itemAnimator = object : DefaultItemAnimator() {
                 override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) {
-                    onBindingList()
-                    openState?.clear()
+                    viewModel.onItemAnimationFinished()
                 }
             }
 
@@ -260,7 +259,9 @@ class RankFragment : ParentFragment(), IRankFragment, MainReceiver.BindCallback,
     override fun dismissSnackbar() = snackbarControl.dismiss()
 
 
-    override fun onSnackbarAction() = viewModel.onSnackbarAction()
+    override fun onSnackbarAction() {
+        openState?.tryInvoke { viewModel.onSnackbarAction() }
+    }
 
     override fun onSnackbarDismiss() = viewModel.onSnackbarDismiss()
 

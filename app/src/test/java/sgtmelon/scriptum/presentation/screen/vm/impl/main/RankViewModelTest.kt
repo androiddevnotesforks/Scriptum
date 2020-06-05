@@ -43,6 +43,11 @@ class RankViewModelTest : ParentViewModelTest() {
 
         viewModel.setCallback(callback)
         viewModel.setInteractor(interactor, bindInteractor)
+
+        assertTrue(viewModel.itemList.isEmpty())
+        assertTrue(viewModel.cancelList.isEmpty())
+
+        assertFalse(viewModel.inTouchAction)
     }
 
     @Test override fun onDestroy() {
@@ -466,11 +471,25 @@ class RankViewModelTest : ParentViewModelTest() {
         }
     }
 
+    @Test fun onItemAnimationFinished() {
+        every { openState.clear() } returns Unit
+
+        viewModel.onItemAnimationFinished()
+
+        viewModel.inTouchAction = true
+        viewModel.onItemAnimationFinished()
+
+        verifySequence {
+            callback.onBindingList()
+            callback.openState
+            openState.clear()
+
+            callback.onBindingList()
+        }
+    }
+
 
     @Test fun onSnackbarAction_correct() {
-        assertTrue(viewModel.itemList.isEmpty())
-        assertTrue(viewModel.cancelList.isEmpty())
-
         val theme = Random.nextInt()
         every { interactor.theme } returns theme
 
@@ -518,9 +537,6 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onSnackbarAction_incorrect() {
-        assertTrue(viewModel.itemList.isEmpty())
-        assertTrue(viewModel.cancelList.isEmpty())
-
         viewModel.onSnackbarAction()
 
         val item = mockk<RankItem>()
@@ -559,9 +575,6 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onSnackbarAction_onBindingList() {
-        assertTrue(viewModel.itemList.isEmpty())
-        assertTrue(viewModel.cancelList.isEmpty())
-
         viewModel.onSnackbarAction()
 
         val item = mockk<RankItem>()
@@ -643,6 +656,26 @@ class RankViewModelTest : ParentViewModelTest() {
         }
     }
 
+
+    @Test fun onTouchAction() {
+        every { openState.value = true } returns Unit
+        viewModel.onTouchAction(inAction = true)
+        assertTrue(viewModel.inTouchAction)
+
+        every { openState.value = false } returns Unit
+        viewModel.onTouchAction(inAction = false)
+        assertFalse(viewModel.inTouchAction)
+
+        verifySequence {
+            callback.dismissSnackbar()
+            callback.openState
+            openState.value = true
+
+            callback.openState
+            openState.value = false
+        }
+    }
+
     @Test fun onTouchDrag() {
         every { openState.value } returns false
         assertTrue(viewModel.onTouchDrag())
@@ -652,9 +685,10 @@ class RankViewModelTest : ParentViewModelTest() {
 
         verifySequence {
             callback.openState
-            callback.dismissSnackbar()
+            openState.value
 
             callback.openState
+            openState.value
         }
     }
 

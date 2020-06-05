@@ -10,10 +10,12 @@ import sgtmelon.scriptum.presentation.dialog.ColorDialog
 import sgtmelon.scriptum.presentation.listener.ItemListener
 
 /**
- * Adapter which displays list of application colors for [ColorDialog]
+ * Adapter which displays list of application colors for [ColorDialog].
  */
-class ColorAdapter(@Theme private val theme: Int, private val clickListener: ItemListener.Click)
-    : ParentAdapter<Int, ColorHolder>() {
+class ColorAdapter(
+        @Theme private val theme: Int, 
+        private val clickListener: ItemListener.Click
+) : ParentAdapter<Int, ColorHolder>() {
 
     private val visibleArray: BooleanArray
     private var check: Int = 0

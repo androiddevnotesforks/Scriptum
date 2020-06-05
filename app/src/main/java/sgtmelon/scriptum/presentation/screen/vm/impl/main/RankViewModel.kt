@@ -31,13 +31,15 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     }
 
 
-    @VisibleForTesting
-    val itemList: MutableList<RankItem> = ArrayList()
-
-    @VisibleForTesting
-    val cancelList: MutableList<Pair<Int, RankItem>> = mutableListOf()
+    @VisibleForTesting val itemList: MutableList<RankItem> = mutableListOf()
+    @VisibleForTesting val cancelList: MutableList<Pair<Int, RankItem>> = mutableListOf()
 
     private val nameList: List<String> get() = getNameList(itemList)
+
+    /**
+     * Variable for control drag state. TRUE - if drag state, FALSE - otherwise.
+     */
+    @VisibleForTesting var inTouchAction = false
 
     override fun onSetup(bundle: Bundle?) {
         callback?.setupToolbar()
@@ -181,6 +183,17 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         }
     }
 
+    override fun onItemAnimationFinished() {
+        callback?.onBindingList()
+
+        /**
+         * Need prevent clear openState if item is currently dragging.
+         */
+        if (!inTouchAction) {
+            callback?.openState?.clear()
+        }
+    }
+
 
     override fun onSnackbarAction() {
         if (cancelList.isEmpty()) return
@@ -241,16 +254,17 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     }
 
 
-    // TODO move dismiss to move action + test
-    override fun onTouchDrag(): Boolean {
-        val value = callback?.openState?.value != true
+    override fun onTouchAction(inAction: Boolean) {
+        inTouchAction = inAction
 
-        if (value) {
+        if (inAction) {
             callback?.dismissSnackbar()
         }
 
-        return value
+        callback?.openState?.value = inAction
     }
+
+    override fun onTouchDrag(): Boolean = callback?.openState?.value != true
 
     override fun onTouchMove(from: Int, to: Int): Boolean {
         itemList.move(from, to)

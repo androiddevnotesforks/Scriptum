@@ -18,6 +18,8 @@ interface IRollNoteFragment : IRollNoteBridge {
 
     val isDialogOpen: Boolean
 
+    fun setTouchAction(inAction: Boolean)
+
     fun hideKeyboard()
 
 

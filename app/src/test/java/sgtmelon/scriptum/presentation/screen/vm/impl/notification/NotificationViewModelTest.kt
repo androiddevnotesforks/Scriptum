@@ -34,6 +34,9 @@ class NotificationViewModelTest : ParentViewModelTest() {
 
         viewModel.setCallback(callback)
         viewModel.setInteractor(interactor)
+
+        assertTrue(viewModel.cancelList.isEmpty())
+        assertTrue(viewModel.itemList.isEmpty())
     }
 
     @Test override fun onDestroy() {
@@ -186,9 +189,6 @@ class NotificationViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onSnackbarAction_correct() {
-        assertTrue(viewModel.cancelList.isEmpty())
-        assertTrue(viewModel.itemList.isEmpty())
-
         val theme = Random.nextInt()
         every { interactor.theme } returns theme
 
@@ -232,9 +232,6 @@ class NotificationViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onSnackbarAction_incorrect() {
-        assertTrue(viewModel.cancelList.isEmpty())
-        assertTrue(viewModel.itemList.isEmpty())
-
         viewModel.onSnackbarAction()
 
         val item = mockk<NotificationItem>()

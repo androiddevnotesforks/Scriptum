@@ -345,6 +345,17 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         TODO()
     }
 
+
+    @Test fun onTouchAction() {
+        val inAction = Random.nextBoolean()
+
+        viewModel.onTouchAction(inAction)
+
+        verifySequence {
+            callback.setTouchAction(inAction)
+        }
+    }
+
     @Test fun onTouchGetFlags() {
         TODO()
     }
@@ -405,5 +416,5 @@ class RollNoteViewModelTest : ParentViewModelTest() {
                 any(), any(), any(), any(), any(), any(), any()
         )
     }
-    
+
 }

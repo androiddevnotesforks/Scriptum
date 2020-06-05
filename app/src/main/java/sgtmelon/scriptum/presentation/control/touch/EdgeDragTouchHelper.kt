@@ -7,7 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 /**
  * Class with custom [onChildDraw], which prevent item dragging outside of recyclerView
  */
-abstract class EdgeDragTouchHelper : ItemTouchHelper.Callback() {
+abstract class EdgeDragTouchHelper(
+        private val callback: ParentCallback
+) : ItemTouchHelper.Callback() {
 
     /**
      * Variable need for best performance and more productive, because
@@ -19,10 +21,14 @@ abstract class EdgeDragTouchHelper : ItemTouchHelper.Callback() {
     override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
         super.onSelectedChanged(viewHolder, actionState)
 
+        if (actionState.isDrag() || actionState.isSwipe()) {
+            callback.onTouchAction(inAction = true)
+        }
+
         /**
          * Get position on drag start.
          */
-        if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
+        if (actionState.isDrag()) {
             movePosition = viewHolder?.adapterPosition ?: RecyclerView.NO_POSITION
 
             /**
@@ -34,6 +40,8 @@ abstract class EdgeDragTouchHelper : ItemTouchHelper.Callback() {
 
     override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
         super.clearView(recyclerView, viewHolder)
+
+        callback.onTouchAction(inAction = false)
 
         /**
          * Clear alpha it was changed in drag or swipe.
@@ -60,7 +68,7 @@ abstract class EdgeDragTouchHelper : ItemTouchHelper.Callback() {
                              actionState: Int, isCurrentlyActive: Boolean) {
         var edgeY = dY
 
-        if(actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
+        if(actionState.isDrag()) {
             val view = viewHolder.itemView
             val pieceHeight = view.height / PIECE_RATIO
 
@@ -77,6 +85,14 @@ abstract class EdgeDragTouchHelper : ItemTouchHelper.Callback() {
         }
 
         super.onChildDraw(c, recyclerView, viewHolder, dX, edgeY, actionState, isCurrentlyActive)
+    }
+
+    protected fun Int.isDrag() = this == ItemTouchHelper.ACTION_STATE_DRAG
+
+    protected fun Int.isSwipe() = this == ItemTouchHelper.ACTION_STATE_SWIPE
+
+    interface ParentCallback {
+        fun onTouchAction(inAction: Boolean)
     }
 
     companion object {

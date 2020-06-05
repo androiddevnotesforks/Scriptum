@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.presentation.control.touch
 
 import android.graphics.Canvas
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.presentation.listener.ItemListener
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
@@ -13,7 +12,7 @@ import kotlin.math.min
 /**
  * Control drag and swipe for [RollNoteFragment], setup in [RollNoteViewModel]
  */
-class RollTouchControl(private val callback: Callback) : EdgeDragTouchHelper(),
+class RollTouchControl(private val callback: Callback) : EdgeDragTouchHelper(callback),
         ItemListener.Drag {
 
     private var drag = false
@@ -34,7 +33,7 @@ class RollTouchControl(private val callback: Callback) : EdgeDragTouchHelper(),
 
         if (dragFrom != RecyclerView.NO_POSITION) return
 
-        dragFrom = if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
+        dragFrom = if (actionState.isDrag()) {
             movePosition
         } else {
             RecyclerView.NO_POSITION
@@ -69,7 +68,7 @@ class RollTouchControl(private val callback: Callback) : EdgeDragTouchHelper(),
     override fun onChildDraw(c: Canvas, recyclerView: RecyclerView,
                              viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float,
                              actionState: Int, isCurrentlyActive: Boolean) {
-        if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+        if (actionState.isSwipe()) {
             /**
              * End position where alpha equal 0
              */
@@ -87,7 +86,7 @@ class RollTouchControl(private val callback: Callback) : EdgeDragTouchHelper(),
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
     }
 
-    interface Callback {
+    interface Callback : ParentCallback {
         fun onTouchGetFlags(drag: Boolean): Int
         fun onTouchSwipe(p: Int)
         fun onTouchMove(from: Int, to: Int): Boolean

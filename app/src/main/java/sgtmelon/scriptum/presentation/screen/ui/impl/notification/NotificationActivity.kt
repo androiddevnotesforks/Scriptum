@@ -87,6 +87,9 @@ class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallb
     override fun onResume() {
         super.onResume()
 
+        /**
+         * Clear [openState] after click on item container.
+         */
         openState.clear()
         viewModel.onUpdateData()
     }
@@ -123,6 +126,10 @@ class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallb
             it.itemAnimator = object : DefaultItemAnimator() {
                 override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) {
                     onBindingList()
+
+                    /**
+                     * Clear [openState] after click on item cancel OR [onSnackbarAction].
+                     */
                     openState.clear()
                 }
             }
@@ -162,7 +169,7 @@ class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallb
         recyclerContainer?.let { snackbarControl.show(it, theme) }
     }
 
-    override fun onSnackbarAction() = viewModel.onSnackbarAction()
+    override fun onSnackbarAction() = openState.tryInvoke { viewModel.onSnackbarAction() }
 
     override fun onSnackbarDismiss() = viewModel.onSnackbarDismiss()
 

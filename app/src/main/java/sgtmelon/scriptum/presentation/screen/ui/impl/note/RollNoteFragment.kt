@@ -192,6 +192,10 @@ class RollNoteFragment : ParentFragment(), IRollNoteFragment,
 
     override val isDialogOpen: Boolean get() = openState.value
 
+    override fun setTouchAction(inAction: Boolean) {
+        openState.value = inAction
+    }
+
     override fun hideKeyboard() {
         activity?.hideKeyboard()
     }
