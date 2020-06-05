@@ -57,3 +57,4 @@ fun ViewGroup.createVisibleAnim(target: View?, isVisible: Boolean,
  * Extension for fast check permission Granted/Denied.
  */
 fun Int.isGranted() = this == PackageManager.PERMISSION_GRANTED
+fun Int.notGranted() = !isGranted()

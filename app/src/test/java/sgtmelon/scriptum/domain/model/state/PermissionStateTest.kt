@@ -1,15 +1,44 @@
 package sgtmelon.scriptum.domain.model.state
 
+import android.app.Activity
+import android.content.pm.PackageManager
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import io.mockk.mockkObject
+import org.junit.Assert.assertEquals
 import org.junit.Test
+import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentTest
+import sgtmelon.scriptum.domain.model.key.PermissionResult
+import sgtmelon.scriptum.presentation.provider.VersionProvider
+import kotlin.random.Random
 
 /**
  * Test for [PermissionState].
  */
 class PermissionStateTest : ParentTest() {
 
-    @Test fun todo() {
-        TODO()
+    @MockK lateinit var activity: Activity
+
+    private val permission = Random.nextString()
+    private val permissionState by lazy { PermissionState(activity, permission) }
+
+    @Test fun getResult() {
+        mockkObject(VersionProvider)
+
+        every { VersionProvider.isMarshmallowLess() } returns true
+        assertEquals(PermissionResult.LOW_API, permissionState.getResult())
+
+        every { VersionProvider.isMarshmallowLess() } returns false
+        every { activity.checkSelfPermission(permission) } returns PackageManager.PERMISSION_GRANTED
+        assertEquals(PermissionResult.GRANTED, permissionState.getResult())
+
+        every { activity.checkSelfPermission(permission) } returns PackageManager.PERMISSION_DENIED
+        every { activity.shouldShowRequestPermissionRationale(permission) } returns false
+        assertEquals(PermissionResult.FORBIDDEN, permissionState.getResult())
+
+        every { activity.shouldShowRequestPermissionRationale(permission) } returns true
+        assertEquals(PermissionResult.ALLOWED, permissionState.getResult())
     }
 
 }
