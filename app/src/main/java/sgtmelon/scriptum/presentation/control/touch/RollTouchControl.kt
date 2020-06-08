@@ -25,7 +25,10 @@ class RollTouchControl(private val callback: Callback) : EdgeDragTouchHelper(cal
 
     override fun getMovementFlags(recyclerView: RecyclerView,
                                   viewHolder: RecyclerView.ViewHolder): Int {
-        return callback.onTouchGetFlags(drag)
+        val dragFlags = getDrag(isEnabled = callback.onTouchGetDrag() && drag)
+        val swipeFlags = getSwipe(isEnabled = callback.onTouchGetSwipe())
+
+        return makeMovementFlags(dragFlags, swipeFlags)
     }
 
     override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
@@ -55,7 +58,7 @@ class RollTouchControl(private val callback: Callback) : EdgeDragTouchHelper(cal
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
-        callback.onTouchSwipe(viewHolder.adapterPosition)
+        callback.onTouchSwiped(viewHolder.adapterPosition)
     }
 
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
@@ -87,9 +90,32 @@ class RollTouchControl(private val callback: Callback) : EdgeDragTouchHelper(cal
     }
 
     interface Callback : ParentCallback {
-        fun onTouchGetFlags(drag: Boolean): Int
-        fun onTouchSwipe(p: Int)
+        /**
+         * Calls when user start make drag/swipe, inside [getMovementFlags].
+         * Need for check permission for drag/swipe.
+         *
+         * @return true if user can drag/swipe cards.
+         */
+        fun onTouchGetDrag(): Boolean
+        fun onTouchGetSwipe(): Boolean
+
+        /**
+         * Calls when user swipe card, inside [onSwiped]
+         */
+        fun onTouchSwiped(p: Int)
+
+        /**
+         * Calls when user hold card and move it between another cards, inside [onMove].
+         * Need for update items positions and call adapter notifyItemMoved.
+         *
+         * @return true if user cad drag card to another position.
+         */
         fun onTouchMove(from: Int, to: Int): Boolean
+
+        /**
+         * Calls only after user cancel hold need update positions, inside [clearView].
+         * Need for description drag result.
+         */
         fun onTouchMoveResult(from: Int, to: Int)
     }
 

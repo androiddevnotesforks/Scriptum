@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.presentation.control.note.input
 
 import android.util.Log
+import androidx.annotation.VisibleForTesting
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.domain.model.annotation.InputAction
 import sgtmelon.scriptum.domain.model.item.InputItem
@@ -22,16 +23,22 @@ import java.util.*
  */
 class InputControl : IInputControl {
 
+    @VisibleForTesting
     var logEnabled = BuildConfig.DEBUG
 
-    private val inputList = ArrayList<InputItem>()
+    @VisibleForTesting
+    val inputList = ArrayList<InputItem>()
 
     /**
      * Position in [inputList]
      */
-    private var position = -1
+    @VisibleForTesting
+    var position = -1
 
+    @VisibleForTesting
     val isUndoAccess get() = inputList.size != 0 && position != -1
+
+    @VisibleForTesting
     val isRedoAccess get() = inputList.size != 0 && position != inputList.size - 1
 
     override val access get() = Access(isUndoAccess, isRedoAccess)
@@ -41,9 +48,9 @@ class InputControl : IInputControl {
         position = -1
     }
 
-    override fun undo(): InputItem? = if (isUndoAccess) inputList[position--] else null
+    override fun undo(): InputItem? = if (isUndoAccess) inputList.getOrNull(position--) else null
 
-    override fun redo(): InputItem? = if (isRedoAccess) inputList[++position] else null
+    override fun redo(): InputItem? = if (isRedoAccess) inputList.getOrNull(++position) else null
 
     private fun add(item: InputItem) {
         if (isEnabled) {
@@ -126,7 +133,7 @@ class InputControl : IInputControl {
         Log.i(TAG, "listAll:")
         for (i in inputList.indices) {
             val ps = if (position == i) " | cursor = $position" else ""
-            Log.i(TAG, "i = " + i + " | " + inputList[i].toString() + ps)
+            Log.i(TAG, "i = " + i + " | " + inputList.getOrNull(i).toString() + ps)
         }
     }
 

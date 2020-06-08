@@ -91,7 +91,14 @@ abstract class EdgeDragTouchHelper(
 
     protected fun Int.isSwipe() = this == ItemTouchHelper.ACTION_STATE_SWIPE
 
+    protected fun getDrag(isEnabled: Boolean) = if (isEnabled) FULL_DRAG else 0
+
+    protected fun getSwipe(isEnabled: Boolean) = if (isEnabled) FULL_SWIPE else 0
+
     interface ParentCallback {
+        /**
+         * Calls when user start drag/swipe action with card. Also calls when user stop action.
+         */
         fun onTouchAction(inAction: Boolean)
     }
 
@@ -101,6 +108,9 @@ abstract class EdgeDragTouchHelper(
         private const val ALPHA_DURATION = 200L
         private const val ALPHA_DRAG_MIN = 0.7f
         private const val ALPHA_DRAG_MAX = 1f
+
+        protected const val FULL_DRAG = ItemTouchHelper.UP or ItemTouchHelper.DOWN
+        protected const val FULL_SWIPE = ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
     }
 
 }

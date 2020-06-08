@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.inputmethod.EditorInfo
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.viewModelScope
-import androidx.recyclerview.widget.ItemTouchHelper
 import kotlinx.coroutines.launch
 import sgtmelon.extension.beforeNow
 import sgtmelon.extension.getCalendar
@@ -145,7 +144,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             callback?.showToolbarVisibleIcon(isShow = true)
             callback?.setToolbarVisibleIcon(isVisible, needAnim = false)
 
-            callback?.notifyDataSetChanged(getList())
+            callback?.notifyDataSetChanged(getList(noteItem))
             onUpdateInfo()
 
             callback?.onBindingLoad(isRankEmpty = rankDialogItemArray.size == 1)
@@ -217,7 +216,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         val colorFrom = noteItem.color
         noteItem = restoreItem.deepCopy()
 
-        callback?.notifyDataSetChanged(getList())
+        callback?.notifyDataSetChanged(getList(noteItem))
         setupEditMode(isEdit = false)
 
         onUpdateInfo()
@@ -299,7 +298,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
         callback?.apply {
             onBindingInput(noteItem, inputControl.access)
-            scrollToItem(simpleClick, p, getList())
+            scrollToItem(simpleClick, p, getList(noteItem))
         }
     }
 
@@ -315,9 +314,9 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         restoreItem = noteItem.deepCopy()
 
         if (isVisible) {
-            callback?.notifyItemChanged(getList(), p)
+            callback?.notifyItemChanged(getList(noteItem), p)
         } else {
-            callback?.notifyItemRemoved(getList(), p)
+            callback?.notifyItemRemoved(getList(noteItem), p)
         }
 
         callback?.updateProgress(noteItem.getCheck(), noteItem.list.size)
@@ -337,7 +336,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
         callback?.apply {
             changeCheckToggle(state = true)
-            notifyDataRangeChanged(getList())
+            notifyDataRangeChanged(getList(noteItem))
             changeCheckToggle(state = false)
 
             updateProgress(noteItem.getCheck(), noteItem.list.size)
@@ -517,23 +516,23 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
     private fun onMenuUndoRedoRoll(item: InputItem, isUndo: Boolean) {
         val rollItem = noteItem.list.getOrNull(item.p) ?: return
-        val position = getList().correctIndexOf(rollItem) ?: return
+        val position = getList(noteItem).correctIndexOf(rollItem) ?: return
 
         rollItem.text = item[isUndo]
 
         if (isVisible || (!isVisible && !rollItem.isCheck)) {
-            callback?.notifyItemChanged(getList(), position, item.cursor[isUndo])
+            callback?.notifyItemChanged(getList(noteItem), position, item.cursor[isUndo])
         }
     }
 
     private fun onMenuUndoRedoAdd(item: InputItem) {
         val rollItem = noteItem.list.getOrNull(item.p) ?: return
-        val position = getList().correctIndexOf(rollItem) ?: return
+        val position = getList(noteItem).correctIndexOf(rollItem) ?: return
 
         noteItem.list.removeAtOrNull(item.p) ?: return
 
         if (isVisible || (!isVisible && !rollItem.isCheck)) {
-            callback?.notifyItemRemoved(getList(), position)
+            callback?.notifyItemRemoved(getList(noteItem), position)
         }
     }
 
@@ -546,14 +545,14 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         noteItem.list.add(item.p, rollItem)
 
         if (isVisible) {
-            callback?.notifyItemInserted(getList(), item.p, rollItem.text.length)
+            callback?.notifyItemInserted(getList(noteItem), item.p, rollItem.text.length)
         } else if (!rollItem.isCheck) {
             fun getShiftPosition(p: Int): Int {
                 return p - noteItem.list.subList(0, p).let { it.size - it.hide().size }
             }
 
             val position = getShiftPosition(item.p)
-            callback?.notifyItemInserted(getList(), position, rollItem.text.length)
+            callback?.notifyItemInserted(getList(noteItem), position, rollItem.text.length)
         }
     }
 
@@ -563,12 +562,12 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
         val rollItem = noteItem.list.getOrNull(from) ?: return
 
-        val shiftFrom = getList().indexOf(rollItem)
+        val shiftFrom = getList(noteItem).indexOf(rollItem)
         noteItem.list.move(from, to)
-        val shiftTo = getList().indexOf(rollItem)
+        val shiftTo = getList(noteItem).indexOf(rollItem)
 
         if (isVisible || (!isVisible && !rollItem.isCheck)) {
-            callback?.notifyItemMoved(getList(), shiftFrom, shiftTo)
+            callback?.notifyItemMoved(getList(noteItem), shiftFrom, shiftTo)
         }
     }
 
@@ -595,7 +594,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         /**
          * Need update adapter after remove rows with empty text.
          */
-        callback?.setList(getList())
+        callback?.setList(getList(noteItem))
 
         if (changeMode) {
             callback?.hideKeyboard()
@@ -627,7 +626,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
                 interactor.setVisible(id, isVisible)
             }
 
-            callback?.setList(getList())
+            callback?.setList(getList(noteItem))
         }
 
         return true
@@ -717,7 +716,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         noteItem.list.getOrNull(correctPosition)?.text = text
 
         callback?.apply {
-            setList(getList())
+            setList(getList(noteItem))
             onBindingInput(noteItem, inputControl.access)
         }
     }
@@ -732,16 +731,15 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         callback?.setTouchAction(inAction)
     }
 
-    override fun onTouchGetFlags(drag: Boolean) = ItemTouchHelper.Callback.makeMovementFlags(
-            if (noteState.isEdit && drag) ItemTouchHelper.UP or ItemTouchHelper.DOWN else 0,
-            if (noteState.isEdit) ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT else 0
-    )
+    override fun onTouchGetDrag(): Boolean = noteState.isEdit
+
+    override fun onTouchGetSwipe(): Boolean = noteState.isEdit
 
     /**
      * All item positions updates after call [onMenuSave], because it's hard
      * to control in Edit.
      */
-    override fun onTouchSwipe(p: Int) {
+    override fun onTouchSwiped(p: Int) {
         val correctPosition = getCorrectPosition(p, noteItem)
         val item = noteItem.list.removeAtOrNull(correctPosition) ?: return
 
@@ -749,7 +747,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
         callback?.apply {
             onBindingInput(noteItem, inputControl.access)
-            notifyItemRemoved(getList(), p)
+            notifyItemRemoved(getList(noteItem), p)
         }
     }
 
@@ -763,7 +761,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
         noteItem.list.move(correctFrom, correctTo)
 
-        callback?.notifyItemMoved(getList(), from, to)
+        callback?.notifyItemMoved(getList(noteItem), from, to)
         return true
     }
 
@@ -778,12 +776,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
     //endregion
 
-    /**
-     * Use only for different notify functions. Don't use for change data.
-     */
-    private fun getList(): MutableList<RollItem> {
-        return noteItem.list.let { if (isVisible) it else it.hide() }
-    }
+
 
     /**
      * Make good animation for items, remove or insert one by one.
@@ -811,6 +804,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         }
     }
 
+    // TODO tests
     companion object {
         @VisibleForTesting
         var isVisible = true
@@ -825,6 +819,14 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
         @VisibleForTesting
         fun MutableList<RollItem>.hide(): MutableList<RollItem> = ArrayList(filter { !it.isCheck })
+
+        /**
+         * Use only for different notify functions. Don't use for change data.
+         */
+        @VisibleForTesting
+        fun getList(noteItem: NoteItem.Roll): MutableList<RollItem> {
+            return noteItem.list.let { if (isVisible) it else it.hide() }
+        }
     }
 
 }

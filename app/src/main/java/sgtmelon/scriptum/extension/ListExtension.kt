@@ -1,3 +1,5 @@
+@file:JvmName(name = "ListExtensionUtils")
+
 package sgtmelon.scriptum.extension
 
 import sgtmelon.scriptum.domain.model.item.RollItem

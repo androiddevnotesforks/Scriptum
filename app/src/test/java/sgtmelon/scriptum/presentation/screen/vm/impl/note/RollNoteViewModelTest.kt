@@ -15,7 +15,9 @@ import sgtmelon.scriptum.domain.model.data.NoteData
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
 import sgtmelon.scriptum.domain.model.state.NoteState
+import sgtmelon.scriptum.extension.removeAtOrNull
 import sgtmelon.scriptum.presentation.control.note.input.IInputControl
+import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteChild
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.roll.IRollNoteFragment
 import java.util.*
@@ -342,7 +344,11 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onRollActionNext() {
-        TODO()
+        viewModel.onRollActionNext()
+
+        verifySequence {
+            callback.onFocusEnter()
+        }
     }
 
 
@@ -356,12 +362,86 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         }
     }
 
-    @Test fun onTouchGetFlags() {
-        TODO()
+    @Test fun onTouchGetDrag() {
+        val noteState = mockk<NoteState>()
+
+        viewModel.noteState = noteState
+
+        every { noteState.isEdit } returns false
+        assertFalse(viewModel.onTouchGetDrag())
+
+        every { noteState.isEdit } returns true
+        assertTrue(viewModel.onTouchGetDrag())
+
+        verifySequence {
+            noteState.isEdit
+            noteState.isEdit
+        }
     }
 
-    @Test fun onTouchSwipe() {
-        TODO()
+    @Test fun onTouchGetSwipe() {
+        val noteState = mockk<NoteState>()
+
+        viewModel.noteState = noteState
+
+        every { noteState.isEdit } returns false
+        assertFalse(viewModel.onTouchGetSwipe())
+
+        every { noteState.isEdit } returns true
+        assertTrue(viewModel.onTouchGetSwipe())
+
+        verifySequence {
+            noteState.isEdit
+            noteState.isEdit
+        }
+    }
+
+    @Test fun onTouchSwiped() {
+        val p = Random.nextInt(from = 0, until = 5)
+        val correctPosition = Random.nextInt(from = 5, until = 10)
+        val noteItem = mockk<NoteItem.Roll>()
+        val list = mockk<MutableList<RollItem>>()
+        val newList = mockk<MutableList<RollItem>>()
+        val item = mockk<RollItem>()
+        val itemJson = Random.nextString()
+
+        val inputAccess = mockk<InputControl.Access>()
+
+        viewModel.noteItem = noteItem
+
+        mockkStatic("sgtmelon.scriptum.extension.ListExtensionUtils")
+        mockkObject(RollNoteViewModel)
+
+        every { RollNoteViewModel.getCorrectPosition(p, noteItem) } returns correctPosition
+        every { noteItem.list } returns list
+
+        every { list.removeAtOrNull(correctPosition) } returns null
+
+        viewModel.onTouchSwiped(p)
+
+        every { list.removeAtOrNull(correctPosition) } returns item
+        every { item.toJson() } returns itemJson
+        every { inputControl.access } returns inputAccess
+        every { RollNoteViewModel.getList(noteItem) } returns newList
+
+        viewModel.onTouchSwiped(p)
+
+        verifySequence {
+            RollNoteViewModel.getCorrectPosition(p, noteItem)
+            noteItem.list
+            list.removeAtOrNull(correctPosition)
+
+            RollNoteViewModel.getCorrectPosition(p, noteItem)
+            noteItem.list
+            list.removeAtOrNull(correctPosition)
+            item.toJson()
+            inputControl.onRollRemove(correctPosition, itemJson)
+
+            inputControl.access
+            callback.onBindingInput(noteItem, inputAccess)
+            RollNoteViewModel.getList(noteItem)
+            callback.notifyItemRemoved(newList, p)
+        }
     }
 
     @Test fun onTouchMove() {

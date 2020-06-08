@@ -676,12 +676,12 @@ class RankViewModelTest : ParentViewModelTest() {
         }
     }
 
-    @Test fun onTouchDrag() {
+    @Test fun onTouchGetDrag() {
         every { openState.value } returns false
-        assertTrue(viewModel.onTouchDrag())
+        assertTrue(viewModel.onTouchGetDrag())
 
         every { openState.value } returns true
-        assertFalse(viewModel.onTouchDrag())
+        assertFalse(viewModel.onTouchGetDrag())
 
         verifySequence {
             callback.openState

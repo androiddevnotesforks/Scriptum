@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.presentation.control.touch
 
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.presentation.listener.ItemListener
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.RankFragment
@@ -22,12 +21,10 @@ class RankTouchControl(private val callback: Callback) : EdgeDragTouchHelper(cal
 
     override fun getMovementFlags(recyclerView: RecyclerView,
                                   viewHolder: RecyclerView.ViewHolder): Int {
-        val isDrag = callback.onTouchDrag() && drag
+        val dragFlags = getDrag(isEnabled = callback.onTouchGetDrag() && drag)
+        val swipeFlags = getSwipe(isEnabled = false)
 
-        val flagsDrag = if (isDrag) ItemTouchHelper.UP or ItemTouchHelper.DOWN else 0
-        val flagsSwipe = 0
-
-        return makeMovementFlags(flagsDrag, flagsSwipe)
+        return makeMovementFlags(dragFlags, swipeFlags)
     }
 
     override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
@@ -63,10 +60,10 @@ class RankTouchControl(private val callback: Callback) : EdgeDragTouchHelper(cal
          *
          * @return true if user can drag cards.
          */
-        fun onTouchDrag(): Boolean
+        fun onTouchGetDrag(): Boolean
 
         /**
-         * Calls when user hold rank card and move it between another cards, inside [onMove].
+         * Calls when user rank card and move it between another cards, inside [onMove].
          * Need for update items positions and call adapter notifyItemMoved.
          *
          * @return true if user cad drag card to another position.
