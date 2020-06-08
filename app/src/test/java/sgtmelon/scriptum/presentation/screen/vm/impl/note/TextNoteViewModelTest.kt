@@ -8,6 +8,7 @@ import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.extension.getCalendar
 import sgtmelon.extension.nextString
+import sgtmelon.scriptum.FastMock
 import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.note.ITextNoteInteractor
@@ -205,7 +206,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
         every { noteItem.alarmDate } returns alarmDate
         every { noteItem.haveAlarm() } returns haveAlarm
 
-        mockkStatic("sgtmelon.extension.TimeExtensionUtils")
+        FastMock.timeExtension()
         every { alarmDate.getCalendar() } returns calendar
 
         viewModel.noteItem = noteItem

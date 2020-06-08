@@ -776,8 +776,6 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
     //endregion
 
-
-
     /**
      * Make good animation for items, remove or insert one by one.
      */
@@ -804,7 +802,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         }
     }
 
-    // TODO tests
+
     companion object {
         @VisibleForTesting
         var isVisible = true

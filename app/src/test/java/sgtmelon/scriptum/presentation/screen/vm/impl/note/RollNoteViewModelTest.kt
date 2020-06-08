@@ -8,6 +8,7 @@ import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.extension.getCalendar
 import sgtmelon.extension.nextString
+import sgtmelon.scriptum.FastMock
 import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.note.IRollNoteInteractor
@@ -15,6 +16,7 @@ import sgtmelon.scriptum.domain.model.data.NoteData
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
 import sgtmelon.scriptum.domain.model.state.NoteState
+import sgtmelon.scriptum.extension.move
 import sgtmelon.scriptum.extension.removeAtOrNull
 import sgtmelon.scriptum.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.presentation.control.note.input.InputControl
@@ -227,7 +229,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         every { noteItem.alarmDate } returns alarmDate
         every { noteItem.haveAlarm() } returns haveAlarm
 
-        mockkStatic("sgtmelon.extension.TimeExtensionUtils")
+        FastMock.timeExtension()
         every { alarmDate.getCalendar() } returns calendar
 
         viewModel.noteItem = noteItem
@@ -397,8 +399,8 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onTouchSwiped() {
-        val p = Random.nextInt(from = 0, until = 5)
-        val correctPosition = Random.nextInt(from = 5, until = 10)
+        val p = Random.nextInt()
+        val correctPosition = Random.nextInt()
         val noteItem = mockk<NoteItem.Roll>()
         val list = mockk<MutableList<RollItem>>()
         val newList = mockk<MutableList<RollItem>>()
@@ -409,7 +411,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
         viewModel.noteItem = noteItem
 
-        mockkStatic("sgtmelon.scriptum.extension.ListExtensionUtils")
+        FastMock.listExtension()
         mockkObject(RollNoteViewModel)
 
         every { RollNoteViewModel.getCorrectPosition(p, noteItem) } returns correctPosition
@@ -445,13 +447,83 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onTouchMove() {
-        TODO()
+        val from = Random.nextInt()
+        val correctFrom = Random.nextInt()
+        val to = Random.nextInt()
+        val correctTo = Random.nextInt()
+
+        val noteItem = mockk<NoteItem.Roll>()
+        val list = mockk<MutableList<RollItem>>()
+        val newList = mockk<MutableList<RollItem>>()
+
+        viewModel.noteItem = noteItem
+
+        FastMock.listExtension()
+        mockkObject(RollNoteViewModel)
+
+        every { RollNoteViewModel.getCorrectPosition(from, noteItem) } returns correctFrom
+        every { RollNoteViewModel.getCorrectPosition(to, noteItem) } returns correctTo
+
+        every { noteItem.list } returns list
+        every { list.move(correctFrom, correctTo) } returns Unit
+
+        every { RollNoteViewModel.getList(noteItem) } returns newList
+
+        assertTrue(viewModel.onTouchMove(from, to))
+
+        verifySequence {
+            RollNoteViewModel.getCorrectPosition(from, noteItem)
+            RollNoteViewModel.getCorrectPosition(to, noteItem)
+
+            noteItem.list
+            list.move(correctFrom, correctTo)
+
+            RollNoteViewModel.getList(noteItem)
+        }
     }
 
     @Test fun onTouchMoveResult() {
+        val from = Random.nextInt()
+        val correctFrom = Random.nextInt()
+        val to = Random.nextInt()
+        val correctTo = Random.nextInt()
+
+        val noteItem = mockk<NoteItem.Roll>()
+        val inputAccess = mockk<InputControl.Access>()
+
+        viewModel.noteItem = noteItem
+
+        mockkObject(RollNoteViewModel)
+        every { RollNoteViewModel.getCorrectPosition(from, noteItem) } returns correctFrom
+        every { RollNoteViewModel.getCorrectPosition(to, noteItem) } returns correctTo
+        every { inputControl.access } returns inputAccess
+
+        viewModel.onTouchMoveResult(from, to)
+
+        verifySequence {
+            RollNoteViewModel.getCorrectPosition(from, noteItem)
+            RollNoteViewModel.getCorrectPosition(to, noteItem)
+
+            inputControl.onRollMove(correctFrom, correctTo)
+
+            inputControl.access
+            callback.onBindingInput(noteItem, inputAccess)
+        }
+    }
+
+
+
+    @Test fun getCorrectPosition() {
         TODO()
     }
 
+    @Test fun hide() {
+        TODO()
+    }
+
+    @Test fun getList() {
+        TODO()
+    }
 
     private fun mockDeepCopy(item: NoteItem.Roll) {
         every { item.id } returns Random.nextLong()
