@@ -23,6 +23,7 @@ import sgtmelon.scriptum.domain.model.state.IconState
 import sgtmelon.scriptum.domain.model.state.NoteState
 import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.presentation.control.note.input.IInputControl
+import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.presentation.control.note.save.ISaveControl
 import sgtmelon.scriptum.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteChild
@@ -57,11 +58,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         this.bindInteractor = bindInteractor
     }
 
-    private lateinit var inputControl: IInputControl
-
-    fun setInputControl(inputControl: IInputControl) {
-        this.inputControl = inputControl
-    }
+    @VisibleForTesting var inputControl: IInputControl = InputControl()
 
     private val saveControl: ISaveControl by lazy {
         SaveControl(context, interactor.getSaveModel(), callback = this)
@@ -78,9 +75,9 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     /**
      * App doesn't have ranks if size == 1.
      */
-    private var rankDialogItemArray: Array<String> = arrayOf()
+    @VisibleForTesting var rankDialogItemArray: Array<String> = arrayOf()
 
-    private val iconState = IconState()
+    @VisibleForTesting var iconState = IconState()
 
     //endregion
 
@@ -392,6 +389,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         }
 
         noteItem.clearAlarm()
+        restoreItem = noteItem.deepCopy()
 
         callback?.onBindingNote(noteItem)
     }
@@ -665,9 +663,8 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
         viewModelScope.launch {
             interactor.deleteNote(noteItem)
-            parentCallback?.finish()
-
             bindInteractor.notifyInfoBind(callback)
+            parentCallback?.finish()
         }
     }
 
@@ -801,7 +798,6 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             }
         }
     }
-
 
     companion object {
         @VisibleForTesting

@@ -19,6 +19,7 @@ import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.state.IconState
 import sgtmelon.scriptum.domain.model.state.NoteState
 import sgtmelon.scriptum.presentation.control.note.input.IInputControl
+import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.presentation.control.note.save.ISaveControl
 import sgtmelon.scriptum.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteChild
@@ -52,11 +53,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         this.bindInteractor = bindInteractor
     }
 
-    private lateinit var inputControl: IInputControl
-
-    fun setInputControl(inputControl: IInputControl) {
-        this.inputControl = inputControl
-    }
+    @VisibleForTesting var inputControl: IInputControl = InputControl()
 
     private val saveControl: ISaveControl by lazy {
         SaveControl(context, interactor.getSaveModel(), callback = this)
@@ -75,7 +72,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
      */
     @VisibleForTesting var rankDialogItemArray: Array<String> = arrayOf()
 
-    private val iconState = IconState()
+    @VisibleForTesting var iconState = IconState()
 
     //endregion
 
@@ -246,6 +243,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         }
 
         noteItem.clearAlarm()
+        restoreItem = noteItem.deepCopy()
 
         callback?.onBindingNote(noteItem)
     }
@@ -423,9 +421,8 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
         viewModelScope.launch {
             interactor.deleteNote(noteItem)
-            parentCallback?.finish()
-
             bindInteractor.notifyInfoBind(callback)
+            parentCallback?.finish()
         }
     }
 

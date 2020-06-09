@@ -7,6 +7,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.extension.nextString
+import sgtmelon.scriptum.FastMock
 import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
@@ -694,17 +695,21 @@ class RankViewModelTest : ParentViewModelTest() {
 
     @Test fun onTouchMove() {
         val itemList = data.itemList
+        val from = Random.nextInt()
+        val to = Random.nextInt()
 
         viewModel.itemList.clearAdd(itemList)
         assertEquals(itemList, viewModel.itemList)
 
-        val from = 0
-        val to = 2
+        FastMock.listExtension()
+        every { itemList.move(from, to) } returns Unit
 
         assertTrue(viewModel.onTouchMove(from, to))
-        itemList.move(from, to)
 
-        verifySequence { callback.notifyItemMoved(itemList, from, to) }
+        verifySequence {
+            itemList.move(from, to)
+            callback.notifyItemMoved(itemList, from, to)
+        }
     }
 
     @Test fun onTouchMoveResult() = startCoTest {
