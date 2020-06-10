@@ -20,7 +20,7 @@ import sgtmelon.scriptum.presentation.factory.FragmentFactory
 import sgtmelon.scriptum.presentation.receiver.NoteReceiver
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteActivity
-import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteChild
+import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.presentation.screen.ui.impl.AppActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.note.INoteViewModel
 import javax.inject.Inject
@@ -28,7 +28,7 @@ import javax.inject.Inject
 /**
  * Screen which display note - [TextNoteFragment], [RollNoteFragment]
  */
-class NoteActivity : AppActivity(), INoteActivity, INoteChild, NoteReceiver.Callback {
+class NoteActivity : AppActivity(), INoteActivity, INoteConnector, NoteReceiver.Callback {
 
     @Inject internal lateinit var viewModel: INoteViewModel
 

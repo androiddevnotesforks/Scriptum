@@ -15,7 +15,7 @@ import sgtmelon.scriptum.domain.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.INotificationInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteractor
-import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteChild
+import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.presentation.screen.ui.impl.DevelopActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.intro.IntroActivity
@@ -143,7 +143,7 @@ class ViewModelModule {
                                  bindInteractor: IBindInteractor): ITextNoteViewModel {
         return ViewModelProvider(fragment).get(TextNoteViewModel::class.java).apply {
             setCallback(fragment)
-            setParentCallback(fragment.context as? INoteChild)
+            setParentCallback(fragment.context as? INoteConnector)
             setInteractor(interactor, bindInteractor)
         }
     }
@@ -155,7 +155,7 @@ class ViewModelModule {
                                  bindInteractor: IBindInteractor): IRollNoteViewModel {
         return ViewModelProvider(fragment).get(RollNoteViewModel::class.java).apply {
             setCallback(fragment)
-            setParentCallback(fragment.context as? INoteChild)
+            setParentCallback(fragment.context as? INoteConnector)
             setInteractor(interactor, bindInteractor)
         }
     }

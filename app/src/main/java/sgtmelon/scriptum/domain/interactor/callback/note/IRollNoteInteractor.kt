@@ -1,20 +1,16 @@
 package sgtmelon.scriptum.domain.interactor.callback.note
 
-import sgtmelon.scriptum.domain.interactor.callback.IParentInteractor
 import sgtmelon.scriptum.domain.interactor.impl.note.RollNoteInteractor
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel
 import java.util.*
 
 /**
- * Interface for communication [RollNoteViewModel] with [RollNoteInteractor]
+ * Interface for communication [RollNoteViewModel] with [RollNoteInteractor].
  */
-interface IRollNoteInteractor : IParentInteractor {
-
-    fun getSaveModel(): SaveControl.Model
+interface IRollNoteInteractor : IParentNoteInteractor {
 
     @Theme val theme: Int
 

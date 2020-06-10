@@ -10,7 +10,6 @@ import sgtmelon.extension.beforeNow
 import sgtmelon.extension.getCalendar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.room.converter.model.StringConverter
-import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.domain.model.annotation.InputAction
 import sgtmelon.scriptum.domain.model.data.NoteData.Default
@@ -19,67 +18,20 @@ import sgtmelon.scriptum.domain.model.item.InputItem
 import sgtmelon.scriptum.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
-import sgtmelon.scriptum.domain.model.state.IconState
 import sgtmelon.scriptum.domain.model.state.NoteState
 import sgtmelon.scriptum.extension.*
-import sgtmelon.scriptum.presentation.control.note.input.IInputControl
-import sgtmelon.scriptum.presentation.control.note.input.InputControl
-import sgtmelon.scriptum.presentation.control.note.save.ISaveControl
-import sgtmelon.scriptum.presentation.control.note.save.SaveControl
-import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteChild
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.roll.IRollNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.note.IRollNoteViewModel
-import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
 import java.util.*
 import kotlin.collections.ArrayList
 
 /**
  * ViewModel for [RollNoteFragment].
  */
-class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFragment>(application),
+class RollNoteViewModel(application: Application) :
+        ParentNoteViewModel<IRollNoteFragment, IRollNoteInteractor, NoteItem.Roll>(application),
         IRollNoteViewModel {
-
-    //region Variables
-
-    @VisibleForTesting
-    var parentCallback: INoteChild? = null
-        private set
-
-    fun setParentCallback(callback: INoteChild?) {
-        parentCallback = callback
-    }
-
-    private lateinit var interactor: IRollNoteInteractor
-    private lateinit var bindInteractor: IBindInteractor
-
-    fun setInteractor(interactor: IRollNoteInteractor, bindInteractor: IBindInteractor) {
-        this.interactor = interactor
-        this.bindInteractor = bindInteractor
-    }
-
-    @VisibleForTesting var inputControl: IInputControl = InputControl()
-
-    private val saveControl: ISaveControl by lazy {
-        SaveControl(context, interactor.getSaveModel(), callback = this)
-    }
-
-    @VisibleForTesting var id: Long = Default.ID
-    @VisibleForTesting var color: Int = Default.COLOR
-
-    @VisibleForTesting lateinit var noteItem: NoteItem.Roll
-    @VisibleForTesting lateinit var restoreItem: NoteItem.Roll
-
-    @VisibleForTesting var noteState = NoteState()
-
-    /**
-     * App doesn't have ranks if size == 1.
-     */
-    @VisibleForTesting var rankDialogItemArray: Array<String> = arrayOf()
-
-    @VisibleForTesting var iconState = IconState()
-
-    //endregion
 
     override fun onSetup(bundle: Bundle?) {
         id = bundle?.getLong(Intent.ID, Default.ID) ?: Default.ID
@@ -103,7 +55,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             /**
              * If first open.
              */
-            if (!::noteItem.isInitialized) {
+            if (!isNoteInitialized()) {
                 val name = parentCallback?.getString(R.string.dialog_item_rank) ?: return@launch
                 rankDialogItemArray = interactor.getRankDialogItemArray(name)
 
@@ -145,33 +97,6 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             onUpdateInfo()
 
             callback?.onBindingLoad(isRankEmpty = rankDialogItemArray.size == 1)
-        }
-    }
-
-    override fun onDestroy(func: () -> Unit) = super.onDestroy {
-        interactor.onDestroy()
-        parentCallback = null
-        saveControl.setSaveEvent(isWork = false)
-    }
-
-
-    override fun onSaveData(bundle: Bundle) {
-        bundle.apply {
-            putLong(Intent.ID, id)
-            putInt(Intent.COLOR, color)
-        }
-    }
-
-    override fun onResume() {
-        if (noteState.isEdit) {
-            saveControl.setSaveEvent(isWork = true)
-        }
-    }
-
-    override fun onPause() {
-        if (noteState.isEdit) {
-            saveControl.onPauseSave()
-            saveControl.setSaveEvent(isWork = false)
         }
     }
 

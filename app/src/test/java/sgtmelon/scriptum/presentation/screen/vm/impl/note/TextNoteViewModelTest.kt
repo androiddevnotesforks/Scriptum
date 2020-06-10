@@ -20,7 +20,7 @@ import sgtmelon.scriptum.domain.model.state.IconState
 import sgtmelon.scriptum.domain.model.state.NoteState
 import sgtmelon.scriptum.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.presentation.control.note.input.InputControl
-import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteChild
+import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.text.ITextNoteFragment
 import java.util.*
 import kotlin.random.Random
@@ -32,7 +32,7 @@ import kotlin.random.Random
 class TextNoteViewModelTest : ParentViewModelTest() {
 
     @MockK lateinit var callback: ITextNoteFragment
-    @MockK lateinit var parentCallback: INoteChild
+    @MockK lateinit var parentCallback: INoteConnector
 
     @MockK lateinit var interactor: ITextNoteInteractor
     @MockK lateinit var bindInteractor: IBindInteractor
@@ -75,6 +75,10 @@ class TextNoteViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onSetup() {
+        TODO()
+    }
+
+    @Test fun isNoteInitialized() {
         TODO()
     }
 

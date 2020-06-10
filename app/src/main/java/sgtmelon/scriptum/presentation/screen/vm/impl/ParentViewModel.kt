@@ -10,21 +10,21 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.IParentViewModel
 /**
  * Parent ViewModel.
  *
- * [T] is the interface for communicate with UI. Same like in [IParentViewModel].
+ * [C] is the interface for communicate with UI. Same like in [IParentViewModel].
  */
-abstract class ParentViewModel<T>(application: Application) : AndroidViewModel(application),
+abstract class ParentViewModel<C>(application: Application) : AndroidViewModel(application),
         IParentViewModel {
 
     protected val context: Context = application.applicationContext
 
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-    var callback: T? = null
+    var callback: C? = null
         private set
 
     /**
      * Call this func from when create viewModel.
      */
-    @CallSuper fun setCallback(callback: T?) {
+    @CallSuper fun setCallback(callback: C?) {
         this.callback = callback
     }
 

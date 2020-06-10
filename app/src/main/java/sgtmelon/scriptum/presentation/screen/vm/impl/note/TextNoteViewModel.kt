@@ -2,79 +2,30 @@ package sgtmelon.scriptum.presentation.screen.vm.impl.note
 
 import android.app.Application
 import android.os.Bundle
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.extension.beforeNow
 import sgtmelon.extension.getCalendar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.room.converter.model.StringConverter
-import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.domain.model.annotation.InputAction
 import sgtmelon.scriptum.domain.model.data.NoteData.Default
 import sgtmelon.scriptum.domain.model.data.NoteData.Intent
 import sgtmelon.scriptum.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.domain.model.state.IconState
 import sgtmelon.scriptum.domain.model.state.NoteState
-import sgtmelon.scriptum.presentation.control.note.input.IInputControl
-import sgtmelon.scriptum.presentation.control.note.input.InputControl
-import sgtmelon.scriptum.presentation.control.note.save.ISaveControl
-import sgtmelon.scriptum.presentation.control.note.save.SaveControl
-import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteChild
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.text.ITextNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.note.ITextNoteViewModel
-import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
 import java.util.*
 
 /**
  * ViewModel for [TextNoteFragment].
  */
-class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFragment>(application),
+class TextNoteViewModel(application: Application) :
+        ParentNoteViewModel<ITextNoteFragment, ITextNoteInteractor, NoteItem.Text>(application),
         ITextNoteViewModel {
-
-    //region Variables
-
-    @VisibleForTesting
-    var parentCallback: INoteChild? = null
-        private set
-
-    fun setParentCallback(callback: INoteChild?) {
-        parentCallback = callback
-    }
-
-    private lateinit var interactor: ITextNoteInteractor
-    private lateinit var bindInteractor: IBindInteractor
-
-    fun setInteractor(interactor: ITextNoteInteractor, bindInteractor: IBindInteractor) {
-        this.interactor = interactor
-        this.bindInteractor = bindInteractor
-    }
-
-    @VisibleForTesting var inputControl: IInputControl = InputControl()
-
-    private val saveControl: ISaveControl by lazy {
-        SaveControl(context, interactor.getSaveModel(), callback = this)
-    }
-
-    @VisibleForTesting var id: Long = Default.ID
-    @VisibleForTesting var color: Int = Default.COLOR
-
-    @VisibleForTesting lateinit var noteItem: NoteItem.Text
-    @VisibleForTesting lateinit var restoreItem: NoteItem.Text
-
-    @VisibleForTesting var noteState = NoteState()
-
-    /**
-     * App doesn't have ranks if size == 1.
-     */
-    @VisibleForTesting var rankDialogItemArray: Array<String> = arrayOf()
-
-    @VisibleForTesting var iconState = IconState()
-
-    //endregion
 
     override fun onSetup(bundle: Bundle?) {
         id = bundle?.getLong(Intent.ID, Default.ID) ?: Default.ID
@@ -95,7 +46,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
             /**
              * If first open
              */
-            if (!::noteItem.isInitialized) {
+            if (!isNoteInitialized()) {
                 val name = parentCallback?.getString(R.string.dialog_item_rank) ?: return@launch
                 rankDialogItemArray = interactor.getRankDialogItemArray(name)
 
@@ -122,33 +73,6 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
             iconState.notAnimate { setupEditMode(noteState.isEdit) }
 
             callback?.onBindingLoad(isRankEmpty = rankDialogItemArray.size == 1)
-        }
-    }
-
-    override fun onDestroy(func: () -> Unit) = super.onDestroy {
-        interactor.onDestroy()
-        parentCallback = null
-        saveControl.setSaveEvent(isWork = false)
-    }
-
-
-    override fun onSaveData(bundle: Bundle) {
-        bundle.apply {
-            putLong(Intent.ID, id)
-            putInt(Intent.COLOR, color)
-        }
-    }
-
-    override fun onResume() {
-        if (noteState.isEdit) {
-            saveControl.setSaveEvent(isWork = true)
-        }
-    }
-
-    override fun onPause() {
-        if (noteState.isEdit) {
-            saveControl.onPauseSave()
-            saveControl.setSaveEvent(isWork = false)
         }
     }
 

@@ -10,7 +10,7 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.note.TextNoteViewModel
 /**
  * Interface for communication [TextNoteViewModel] or [RollNoteViewModel] with [NoteActivity]
  */
-interface INoteChild {
+interface INoteConnector {
 
     /**
      * After save new note need update [NoteViewModel.id]

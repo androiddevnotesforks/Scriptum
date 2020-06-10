@@ -22,7 +22,7 @@ import sgtmelon.scriptum.extension.move
 import sgtmelon.scriptum.extension.removeAtOrNull
 import sgtmelon.scriptum.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.presentation.control.note.input.InputControl
-import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteChild
+import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.roll.IRollNoteFragment
 import java.util.*
 import kotlin.random.Random
@@ -34,7 +34,7 @@ import kotlin.random.Random
 class RollNoteViewModelTest : ParentViewModelTest() {
 
     @MockK lateinit var callback: IRollNoteFragment
-    @MockK lateinit var parentCallback: INoteChild
+    @MockK lateinit var parentCallback: INoteConnector
 
     @MockK lateinit var interactor: IRollNoteInteractor
     @MockK lateinit var bindInteractor: IBindInteractor
@@ -77,6 +77,10 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onSetup() {
+        TODO()
+    }
+
+    @Test fun isNoteInitialized() {
         TODO()
     }
 
