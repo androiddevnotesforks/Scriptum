@@ -30,13 +30,9 @@ interface ITextNoteFragment : IParentNoteFragment<NoteItem.Text> {
 
     fun onPressBack(): Boolean
 
-    fun tintToolbar(@Color from: Int, @Color to: Int)
-
     fun setToolbarBackIcon(isCancel: Boolean, needAnim: Boolean)
 
     fun focusOnEdit(isCreate: Boolean)
-
-    fun changeName(text: String, cursor: Int)
 
     fun changeText(text: String, cursor: Int)
 

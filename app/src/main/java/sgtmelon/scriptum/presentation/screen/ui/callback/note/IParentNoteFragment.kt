@@ -18,7 +18,6 @@ interface IParentNoteFragment<N : NoteItem> : IParentNoteBridge {
     fun hideKeyboard()
 
 
-
     fun onBindingEdit(item: N, isEditMode: Boolean)
 
     fun onBindingNote(item: N)
@@ -26,7 +25,12 @@ interface IParentNoteFragment<N : NoteItem> : IParentNoteBridge {
     fun onBindingInput(item: N, inputAccess: InputControl.Access)
 
 
+    fun tintToolbar(@Color from: Int, @Color to: Int)
+
     fun tintToolbar(@Color color: Int)
+
+
+    fun changeName(text: String, cursor: Int)
 
 
     fun showRankDialog(check: Int)

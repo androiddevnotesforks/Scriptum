@@ -4,9 +4,7 @@ import android.app.Application
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import sgtmelon.extension.getCalendar
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.data.room.converter.model.StringConverter
 import sgtmelon.scriptum.domain.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.domain.model.annotation.InputAction
 import sgtmelon.scriptum.domain.model.data.NoteData.Default
@@ -101,36 +99,7 @@ class TextNoteViewModel(application: Application) :
 
     //region Menu click
 
-    override fun onMenuRestore() {
-        viewModelScope.launch {
-            interactor.restoreNote(noteItem)
-            parentCallback?.finish()
-        }
-    }
-
-    override fun onMenuRestoreOpen() {
-        noteState.isBin = false
-
-        noteItem.onRestore()
-
-        iconState.notAnimate { setupEditMode(isEdit = false) }
-
-        viewModelScope.launch { interactor.updateNote(noteItem, updateBind = false) }
-    }
-
-    override fun onMenuClear() {
-        viewModelScope.launch {
-            interactor.clearNote(noteItem)
-            parentCallback?.finish()
-        }
-    }
-
-
-    override fun onMenuUndo() = onMenuUndoRedo(isUndo = true)
-
-    override fun onMenuRedo() = onMenuUndoRedo(isUndo = false)
-
-    private fun onMenuUndoRedo(isUndo: Boolean) {
+    override fun onMenuUndoRedo(isUndo: Boolean) {
         if (callback?.isDialogOpen == true || !noteState.isEdit) return
 
         val item = if (isUndo) inputControl.undo() else inputControl.redo()
@@ -147,49 +116,11 @@ class TextNoteViewModel(application: Application) :
         callback?.onBindingInput(noteItem, inputControl.access)
     }
 
-    private fun onMenuUndoRedoRank(item: InputItem, isUndo: Boolean) {
-        val list = StringConverter().toList(item[isUndo])
-
-        noteItem.apply {
-            rankId = list[0]
-            rankPs = list[1].toInt()
-        }
-    }
-
-    private fun onMenuUndoRedoColor(item: InputItem, isUndo: Boolean) {
-        val colorFrom = noteItem.color
-        val colorTo = item[isUndo].toInt()
-
-        noteItem.color = colorTo
-
-        callback?.tintToolbar(colorFrom, colorTo)
-    }
-
-    private fun onMenuUndoRedoName(item: InputItem, isUndo: Boolean) {
-        val text = item[isUndo]
-        val cursor = item.cursor[isUndo]
-
-        callback?.changeName(text, cursor)
-    }
-
     private fun onMenuUndoRedoText(item: InputItem, isUndo: Boolean) {
         val text = item[isUndo]
         val cursor = item.cursor[isUndo]
 
         callback?.changeText(text, cursor)
-    }
-
-
-    override fun onMenuRank() {
-        if (!noteState.isEdit) return
-
-        callback?.showRankDialog(check = noteItem.rankPs + 1)
-    }
-
-    override fun onMenuColor() {
-        if (!noteState.isEdit) return
-
-        callback?.showColorDialog(noteItem.color, interactor.theme)
     }
 
     override fun onMenuSave(changeMode: Boolean): Boolean {
@@ -228,46 +159,7 @@ class TextNoteViewModel(application: Application) :
     }
 
 
-    override fun onMenuNotification() {
-        if (noteState.isEdit) return
-
-        callback?.showDateDialog(noteItem.alarmDate.getCalendar(), noteItem.haveAlarm())
-    }
-
-    override fun onMenuBind() {
-        if (callback?.isDialogOpen == true || noteState.isEdit) return
-
-        noteItem.switchStatus()
-        cacheData()
-
-        callback?.onBindingEdit(noteItem, noteState.isEdit)
-
-        viewModelScope.launch { interactor.updateNote(noteItem, updateBind = true) }
-    }
-
-    override fun onMenuConvert() {
-        if (noteState.isEdit) return
-
-        callback?.showConvertDialog()
-    }
-
-    override fun onMenuDelete() {
-        if (callback?.isDialogOpen == true || noteState.isEdit) return
-
-        viewModelScope.launch {
-            interactor.deleteNote(noteItem)
-            bindInteractor.notifyInfoBind(callback)
-            parentCallback?.finish()
-        }
-    }
-
-    override fun onMenuEdit() {
-        if (callback?.isDialogOpen == true || noteState.isEdit) return
-
-        setupEditMode(isEdit = true)
-    }
-
-    private fun setupEditMode(isEdit: Boolean) =  inputControl.makeNotEnabled {
+    override fun setupEditMode(isEdit: Boolean) = inputControl.makeNotEnabled {
         noteState.isEdit = isEdit
 
         callback?.apply {

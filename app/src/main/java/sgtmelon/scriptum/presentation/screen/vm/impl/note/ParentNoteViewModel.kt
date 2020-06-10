@@ -6,9 +6,13 @@ import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.extension.beforeNow
+import sgtmelon.extension.getCalendar
+import sgtmelon.scriptum.data.room.converter.model.StringConverter
 import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.note.IParentNoteInteractor
 import sgtmelon.scriptum.domain.model.data.NoteData
+import sgtmelon.scriptum.domain.model.item.InputItem
+import sgtmelon.scriptum.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.state.IconState
 import sgtmelon.scriptum.domain.model.state.NoteState
@@ -88,7 +92,10 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
     protected fun isNoteInitialized(): Boolean = ::noteItem.isInitialized
 
     /**
-     * If not cache data inside [restoreItem] it will cause bug with restore.
+     * Function must describe cashing data inside [restoreItem].
+     *
+     * It is important because if not cache data in [restoreItem] it will cause bug with restore.
+     * When do changes and click on CHANGE and cancel edit mode by back button or back arrow.
      *
      * Use example: restoreItem = noteItem.deepCopy().
      */
@@ -151,7 +158,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
     }
 
     /**
-     * Function should describe restoring all data (in code and on screen) after changes
+     * Function must describe restoring all data (in code and on screen) after changes
      * was canceled.
      */
     abstract fun onRestoreData(): Boolean
@@ -246,6 +253,116 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
             parentCallback?.finish()
         }
     }
+
+    override fun onMenuRestoreOpen() {
+        noteState.isBin = false
+
+        noteItem.onRestore()
+
+        iconState.notAnimate { setupEditMode(isEdit = false) }
+
+        viewModelScope.launch { interactor.updateNote(noteItem, updateBind = false) }
+    }
+
+    override fun onMenuClear() {
+        viewModelScope.launch {
+            interactor.clearNote(noteItem)
+            parentCallback?.finish()
+        }
+    }
+
+
+    override fun onMenuUndo() = onMenuUndoRedo(isUndo = true)
+
+    override fun onMenuRedo() = onMenuUndoRedo(isUndo = false)
+
+    /**
+     * Function must describe logic of [isUndo]. The way how changes will be apply.
+     */
+    abstract fun onMenuUndoRedo(isUndo: Boolean)
+
+    protected fun onMenuUndoRedoRank(item: InputItem, isUndo: Boolean) {
+        val list = StringConverter().toList(item[isUndo])
+
+        noteItem.apply {
+            rankId = list[0]
+            rankPs = list[1].toInt()
+        }
+    }
+
+    protected fun onMenuUndoRedoColor(item: InputItem, isUndo: Boolean) {
+        val colorFrom = noteItem.color
+        val colorTo = item[isUndo].toInt()
+
+        noteItem.color = colorTo
+
+        callback?.tintToolbar(colorFrom, colorTo)
+    }
+
+    protected fun onMenuUndoRedoName(item: InputItem, isUndo: Boolean) {
+        val text = item[isUndo]
+        val cursor = item.cursor[isUndo]
+
+        callback?.changeName(text, cursor)
+    }
+
+
+    override fun onMenuRank() {
+        if (!noteState.isEdit) return
+
+        callback?.showRankDialog(check = noteItem.rankPs + 1)
+    }
+
+    override fun onMenuColor() {
+        if (!noteState.isEdit) return
+
+        callback?.showColorDialog(noteItem.color, interactor.theme)
+    }
+
+
+    override fun onMenuNotification() {
+        if (noteState.isEdit) return
+
+        callback?.showDateDialog(noteItem.alarmDate.getCalendar(), noteItem.haveAlarm())
+    }
+
+    override fun onMenuBind() {
+        if (callback?.isDialogOpen == true || noteState.isEdit) return
+
+        noteItem.switchStatus()
+        cacheData()
+
+        callback?.onBindingEdit(noteItem, noteState.isEdit)
+
+        viewModelScope.launch { interactor.updateNote(noteItem, updateBind = true) }
+    }
+
+    override fun onMenuConvert() {
+        if (noteState.isEdit) return
+
+        callback?.showConvertDialog()
+    }
+
+    override fun onMenuDelete() {
+        if (callback?.isDialogOpen == true || noteState.isEdit) return
+
+        viewModelScope.launch {
+            interactor.deleteNote(noteItem)
+            bindInteractor.notifyInfoBind(callback)
+            parentCallback?.finish()
+        }
+    }
+
+    override fun onMenuEdit() {
+        if (callback?.isDialogOpen == true || noteState.isEdit) return
+
+        setupEditMode(isEdit = true)
+    }
+
+    /**
+     * Function must describe
+     */
+    abstract fun setupEditMode(isEdit: Boolean)
 
     //endregion
 
