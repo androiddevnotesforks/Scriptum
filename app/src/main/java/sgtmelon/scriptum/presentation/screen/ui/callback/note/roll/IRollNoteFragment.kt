@@ -6,21 +6,16 @@ import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
 import sgtmelon.scriptum.domain.model.state.NoteState
 import sgtmelon.scriptum.presentation.control.note.input.IInputControl
-import sgtmelon.scriptum.presentation.control.note.input.InputControl
+import sgtmelon.scriptum.presentation.screen.ui.callback.note.IParentNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel
-import java.util.*
 
 /**
  * Interface for communication [RollNoteViewModel] with [RollNoteFragment].
  */
-interface IRollNoteFragment : IRollNoteBridge {
-
-    val isDialogOpen: Boolean
+interface IRollNoteFragment : IParentNoteFragment<NoteItem.Roll> {
 
     fun setTouchAction(inAction: Boolean)
-
-    fun hideKeyboard()
 
 
     /**
@@ -48,20 +43,12 @@ interface IRollNoteFragment : IRollNoteBridge {
 
     fun onBindingInfo(isListEmpty: Boolean, isListHide: Boolean)
 
-    fun onBindingEdit(item: NoteItem.Roll, isEditMode: Boolean)
-
-    fun onBindingNote(item: NoteItem.Roll)
-
     fun onBindingEnter()
-
-    fun onBindingInput(item: NoteItem.Roll, inputAccess: InputControl.Access)
 
 
     fun onPressBack(): Boolean
 
     fun tintToolbar(@Color from: Int, @Color to: Int)
-
-    fun tintToolbar(@Color color: Int)
 
     fun setToolbarBackIcon(isCancel: Boolean, needAnim: Boolean)
 
@@ -101,19 +88,5 @@ interface IRollNoteFragment : IRollNoteBridge {
     fun notifyItemInserted(list: List<RollItem>, p: Int, cursor: Int? = null)
 
     fun notifyItemRemoved(list: List<RollItem>, p: Int)
-
-
-    fun showRankDialog(check: Int)
-
-    fun showColorDialog(@Color color: Int, @Theme theme: Int)
-
-    fun showDateDialog(calendar: Calendar, resetVisible: Boolean)
-
-    fun showTimeDialog(calendar: Calendar, dateList: List<String>)
-
-    fun showConvertDialog()
-
-
-    fun showSaveToast(success: Boolean)
 
 }

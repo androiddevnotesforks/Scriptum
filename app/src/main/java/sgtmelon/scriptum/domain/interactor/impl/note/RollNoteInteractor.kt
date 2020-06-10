@@ -12,7 +12,7 @@ import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.control.note.save.SaveControl
-import sgtmelon.scriptum.presentation.screen.ui.callback.note.roll.IRollNoteBridge
+import sgtmelon.scriptum.presentation.screen.ui.callback.note.IParentNoteBridge
 import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel
 import java.util.*
 
@@ -24,7 +24,7 @@ class RollNoteInteractor(
         private val alarmRepo: IAlarmRepo,
         private val rankRepo: IRankRepo,
         private val noteRepo: INoteRepo,
-        @VisibleForTesting var callback: IRollNoteBridge?
+        @VisibleForTesting var callback: IParentNoteBridge?
 ) : ParentInteractor(),
         IRollNoteInteractor {
 

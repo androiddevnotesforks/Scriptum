@@ -12,7 +12,7 @@ import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.control.note.save.SaveControl
-import sgtmelon.scriptum.presentation.screen.ui.callback.note.text.ITextNoteBridge
+import sgtmelon.scriptum.presentation.screen.ui.callback.note.IParentNoteBridge
 import sgtmelon.scriptum.presentation.screen.vm.impl.note.TextNoteViewModel
 import java.util.*
 
@@ -24,7 +24,7 @@ class TextNoteInteractor(
         private val alarmRepo: IAlarmRepo,
         private val rankRepo: IRankRepo,
         private val noteRepo: INoteRepo,
-        @VisibleForTesting var callback: ITextNoteBridge?
+        @VisibleForTesting var callback: IParentNoteBridge?
 ) : ParentInteractor(),
         ITextNoteInteractor {
 

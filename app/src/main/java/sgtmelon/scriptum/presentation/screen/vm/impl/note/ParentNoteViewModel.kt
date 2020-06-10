@@ -3,6 +3,9 @@ package sgtmelon.scriptum.presentation.screen.vm.impl.note
 import android.app.Application
 import android.os.Bundle
 import androidx.annotation.VisibleForTesting
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
+import sgtmelon.extension.beforeNow
 import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.note.IParentNoteInteractor
 import sgtmelon.scriptum.domain.model.data.NoteData
@@ -14,16 +17,18 @@ import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.presentation.control.note.save.ISaveControl
 import sgtmelon.scriptum.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteConnector
+import sgtmelon.scriptum.presentation.screen.ui.callback.note.IParentNoteFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.note.IParentNoteViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
+import java.util.*
 
 /**
  * Parent viewModel for [TextNoteViewModel] and [RollNoteViewModel].
  */
-abstract class ParentNoteViewModel<C, I : IParentNoteInteractor, N: NoteItem>(
+abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I : IParentNoteInteractor<N>>(
         application: Application
 ) : ParentViewModel<C>(application),
-    IParentNoteViewModel {
+        IParentNoteViewModel {
 
     //region Variables
 
@@ -60,6 +65,9 @@ abstract class ParentNoteViewModel<C, I : IParentNoteInteractor, N: NoteItem>(
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
     lateinit var noteItem: N
 
+    /**
+     * Item for cash data before enter edit mode (for easy data restore).
+     */
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
     lateinit var restoreItem: N
 
@@ -78,6 +86,13 @@ abstract class ParentNoteViewModel<C, I : IParentNoteInteractor, N: NoteItem>(
     //endregion
 
     protected fun isNoteInitialized(): Boolean = ::noteItem.isInitialized
+
+    /**
+     * If not cache data inside [restoreItem] it will cause bug with restore.
+     *
+     * Use example: restoreItem = noteItem.deepCopy().
+     */
+    abstract fun cacheData()
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy {
         interactor.onDestroy()
@@ -104,6 +119,142 @@ abstract class ParentNoteViewModel<C, I : IParentNoteInteractor, N: NoteItem>(
             saveControl.onPauseSave()
             saveControl.setSaveEvent(isWork = false)
         }
+    }
+
+
+    override fun onClickBackArrow() {
+        if (!noteState.isCreate && noteState.isEdit && id != NoteData.Default.ID) {
+            callback?.hideKeyboard()
+            onRestoreData()
+        } else {
+            saveControl.needSave = false
+            parentCallback?.finish()
+        }
+    }
+
+    /**
+     * FALSE - will call super.onBackPress()
+     */
+    override fun onPressBack(): Boolean {
+        if (!noteState.isEdit) return false
+
+        /**
+         * If note can't be saved and activity will be closed.
+         */
+        saveControl.needSave = false
+
+        return if (!onMenuSave(changeMode = true)) {
+            if (!noteState.isCreate) onRestoreData() else false
+        } else {
+            true
+        }
+    }
+
+    /**
+     * Function should describe restoring all data (in code and on screen) after changes
+     * was canceled.
+     */
+    abstract fun onRestoreData(): Boolean
+
+    //region Results of dialogs
+
+    override fun onResultColorDialog(check: Int) {
+        inputControl.onColorChange(noteItem.color, check)
+        noteItem.color = check
+
+        callback?.apply {
+            onBindingInput(noteItem, inputControl.access)
+            tintToolbar(check)
+        }
+    }
+
+    override fun onResultRankDialog(check: Int) {
+        viewModelScope.launch {
+            val rankId = interactor.getRankId(check)
+
+            inputControl.onRankChange(noteItem.rankId, noteItem.rankPs, rankId, check)
+
+            noteItem.apply {
+                this.rankId = rankId
+                this.rankPs = check
+            }
+
+            callback?.apply {
+                onBindingInput(noteItem, inputControl.access)
+                onBindingNote(noteItem)
+            }
+        }
+    }
+
+    override fun onResultDateDialog(calendar: Calendar) {
+        viewModelScope.launch {
+            callback?.showTimeDialog(calendar, interactor.getDateList())
+        }
+    }
+
+    override fun onResultDateDialogClear() {
+        viewModelScope.launch {
+            interactor.clearDate(noteItem)
+            bindInteractor.notifyInfoBind(callback)
+        }
+
+        noteItem.clearAlarm()
+        cacheData()
+
+        callback?.onBindingNote(noteItem)
+    }
+
+    override fun onResultTimeDialog(calendar: Calendar) {
+        if (calendar.beforeNow()) return
+
+        viewModelScope.launch {
+            interactor.setDate(noteItem, calendar)
+            cacheData()
+
+            callback?.onBindingNote(noteItem)
+
+            bindInteractor.notifyInfoBind(callback)
+        }
+    }
+
+    override fun onResultConvertDialog() {
+        viewModelScope.launch {
+            interactor.convertNote(noteItem)
+            parentCallback?.onConvertNote()
+        }
+    }
+
+    //endregion
+
+    /**
+     * Calls on note notification cancel from status bar for update bind indicator.
+     */
+    override fun onReceiveUnbindNote(id: Long) {
+        if (this.id != id) return
+
+        noteItem.isStatus = false
+        restoreItem.isStatus = false
+
+        callback?.onBindingNote(noteItem)
+    }
+
+    //region Menu click
+
+    override fun onMenuRestore() {
+        viewModelScope.launch {
+            interactor.restoreNote(noteItem)
+            parentCallback?.finish()
+        }
+    }
+
+    //endregion
+
+    override fun onResultSaveControl() {
+        callback?.showSaveToast(onMenuSave(changeMode = false))
+    }
+
+    override fun onInputTextChange() {
+        callback?.onBindingInput(noteItem, inputControl.access)
     }
 
 }

@@ -4,7 +4,6 @@ import android.app.Application
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import sgtmelon.extension.beforeNow
 import sgtmelon.extension.getCalendar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.room.converter.model.StringConverter
@@ -12,20 +11,24 @@ import sgtmelon.scriptum.domain.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.domain.model.annotation.InputAction
 import sgtmelon.scriptum.domain.model.data.NoteData.Default
 import sgtmelon.scriptum.domain.model.data.NoteData.Intent
+import sgtmelon.scriptum.domain.model.item.InputItem
 import sgtmelon.scriptum.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.state.NoteState
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.text.ITextNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.note.ITextNoteViewModel
-import java.util.*
 
 /**
  * ViewModel for [TextNoteFragment].
  */
 class TextNoteViewModel(application: Application) :
-        ParentNoteViewModel<ITextNoteFragment, ITextNoteInteractor, NoteItem.Text>(application),
+        ParentNoteViewModel<NoteItem.Text, ITextNoteFragment, ITextNoteInteractor>(application),
         ITextNoteViewModel {
+
+    override fun cacheData() {
+        restoreItem = noteItem.deepCopy()
+    }
 
     override fun onSetup(bundle: Bundle?) {
         id = bundle?.getLong(Intent.ID, Default.ID) ?: Default.ID
@@ -52,7 +55,7 @@ class TextNoteViewModel(application: Application) :
 
                 if (id == Default.ID) {
                     noteItem = NoteItem.Text.getCreate(interactor.defaultColor)
-                    restoreItem = noteItem.deepCopy()
+                    cacheData()
 
                     noteState = NoteState(isCreate = true)
                 } else {
@@ -77,35 +80,7 @@ class TextNoteViewModel(application: Application) :
     }
 
 
-    override fun onClickBackArrow() {
-        if (!noteState.isCreate && noteState.isEdit && id != Default.ID) {
-            callback?.hideKeyboard()
-            onRestoreData()
-        } else {
-            saveControl.needSave = false
-            parentCallback?.finish()
-        }
-    }
-
-    /**
-     * FALSE - will call super.onBackPress()
-     */
-    override fun onPressBack(): Boolean {
-        if (!noteState.isEdit) return false
-
-        /**
-         * If note can't be saved and activity will be closed.
-         */
-        saveControl.needSave = false
-
-        return if (!onMenuSave(changeMode = true)) {
-            if (!noteState.isCreate) onRestoreData() else false
-        } else {
-            true
-        }
-    }
-
-    private fun onRestoreData(): Boolean {
+    override fun onRestoreData(): Boolean {
         if (id == Default.ID) return false
 
         /**
@@ -122,88 +97,6 @@ class TextNoteViewModel(application: Application) :
         inputControl.reset()
 
         return true
-    }
-
-    //region Results of dialogs
-
-    override fun onResultColorDialog(check: Int) {
-        inputControl.onColorChange(noteItem.color, check)
-        noteItem.color = check
-
-        callback?.apply {
-            onBindingInput(noteItem, inputControl.access)
-            tintToolbar(check)
-        }
-    }
-
-    override fun onResultRankDialog(check: Int) {
-        viewModelScope.launch {
-            val rankId = interactor.getRankId(check)
-
-            inputControl.onRankChange(noteItem.rankId, noteItem.rankPs, rankId, check)
-
-            noteItem.apply {
-                this.rankId = rankId
-                this.rankPs = check
-            }
-
-            callback?.apply {
-                onBindingInput(noteItem, inputControl.access)
-                onBindingNote(noteItem)
-            }
-        }
-    }
-
-    override fun onResultDateDialog(calendar: Calendar) {
-        viewModelScope.launch {
-            callback?.showTimeDialog(calendar, interactor.getDateList())
-        }
-    }
-
-    override fun onResultDateDialogClear() {
-        viewModelScope.launch {
-            interactor.clearDate(noteItem)
-            bindInteractor.notifyInfoBind(callback)
-        }
-
-        noteItem.clearAlarm()
-        restoreItem = noteItem.deepCopy()
-
-        callback?.onBindingNote(noteItem)
-    }
-
-    override fun onResultTimeDialog(calendar: Calendar) {
-        if (calendar.beforeNow()) return
-
-        viewModelScope.launch {
-            interactor.setDate(noteItem, calendar)
-            restoreItem = noteItem.deepCopy()
-
-            callback?.onBindingNote(noteItem)
-
-            bindInteractor.notifyInfoBind(callback)
-        }
-    }
-
-    override fun onResultConvertDialog() {
-        viewModelScope.launch {
-            interactor.convertNote(noteItem)
-            parentCallback?.onConvertNote()
-        }
-    }
-
-    //endregion
-
-    /**
-     * Calls on note notification cancel from status bar for update bind indicator.
-     */
-    override fun onReceiveUnbindNote(id: Long) {
-        if (this.id != id) return
-
-        noteItem.isStatus = false
-        restoreItem.isStatus = false
-
-        callback?.onBindingNote(noteItem)
     }
 
     //region Menu click
@@ -244,26 +137,48 @@ class TextNoteViewModel(application: Application) :
 
         if (item != null) inputControl.makeNotEnabled {
             when (item.tag) {
-                InputAction.RANK -> {
-                    val list = StringConverter().toList(item[isUndo])
-                    noteItem.rankId = list[0]
-                    noteItem.rankPs = list[1].toInt()
-                }
-                InputAction.COLOR -> {
-                    val colorFrom = noteItem.color
-                    val colorTo = item[isUndo].toInt()
-
-                    noteItem.color = colorTo
-
-                    callback?.tintToolbar(colorFrom, colorTo)
-                }
-                InputAction.NAME -> callback?.changeName(item[isUndo], cursor = item.cursor[isUndo])
-                InputAction.TEXT -> callback?.changeText(item[isUndo], cursor = item.cursor[isUndo])
+                InputAction.RANK -> onMenuUndoRedoRank(item, isUndo)
+                InputAction.COLOR -> onMenuUndoRedoColor(item, isUndo)
+                InputAction.NAME -> onMenuUndoRedoName(item, isUndo)
+                InputAction.TEXT -> onMenuUndoRedoText(item, isUndo)
             }
         }
 
         callback?.onBindingInput(noteItem, inputControl.access)
     }
+
+    private fun onMenuUndoRedoRank(item: InputItem, isUndo: Boolean) {
+        val list = StringConverter().toList(item[isUndo])
+
+        noteItem.apply {
+            rankId = list[0]
+            rankPs = list[1].toInt()
+        }
+    }
+
+    private fun onMenuUndoRedoColor(item: InputItem, isUndo: Boolean) {
+        val colorFrom = noteItem.color
+        val colorTo = item[isUndo].toInt()
+
+        noteItem.color = colorTo
+
+        callback?.tintToolbar(colorFrom, colorTo)
+    }
+
+    private fun onMenuUndoRedoName(item: InputItem, isUndo: Boolean) {
+        val text = item[isUndo]
+        val cursor = item.cursor[isUndo]
+
+        callback?.changeName(text, cursor)
+    }
+
+    private fun onMenuUndoRedoText(item: InputItem, isUndo: Boolean) {
+        val text = item[isUndo]
+        val cursor = item.cursor[isUndo]
+
+        callback?.changeText(text, cursor)
+    }
+
 
     override fun onMenuRank() {
         if (!noteState.isEdit) return
@@ -299,7 +214,7 @@ class TextNoteViewModel(application: Application) :
 
         viewModelScope.launch {
             interactor.saveNote(noteItem, noteState.isCreate)
-            restoreItem = noteItem.deepCopy()
+            cacheData()
 
             if (noteState.isCreate) {
                 noteState.isCreate = NoteState.ND_CREATE
@@ -323,11 +238,7 @@ class TextNoteViewModel(application: Application) :
         if (callback?.isDialogOpen == true || noteState.isEdit) return
 
         noteItem.switchStatus()
-
-        /**
-         * If not update [restoreItem] it will cause bug with restore.
-         */
-        restoreItem = noteItem.deepCopy()
+        cacheData()
 
         callback?.onBindingEdit(noteItem, noteState.isEdit)
 
@@ -376,13 +287,5 @@ class TextNoteViewModel(application: Application) :
     }
 
     //endregion
-
-    override fun onResultSaveControl() {
-        callback?.showSaveToast(onMenuSave(changeMode = false))
-    }
-
-    override fun onInputTextChange() {
-        callback?.onBindingInput(noteItem, inputControl.access)
-    }
 
 }

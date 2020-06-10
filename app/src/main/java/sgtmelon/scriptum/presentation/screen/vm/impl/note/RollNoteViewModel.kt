@@ -6,7 +6,6 @@ import android.view.inputmethod.EditorInfo
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import sgtmelon.extension.beforeNow
 import sgtmelon.extension.getCalendar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.room.converter.model.StringConverter
@@ -23,15 +22,17 @@ import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.roll.IRollNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.note.IRollNoteViewModel
-import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * ViewModel for [RollNoteFragment].
  */
 class RollNoteViewModel(application: Application) :
-        ParentNoteViewModel<IRollNoteFragment, IRollNoteInteractor, NoteItem.Roll>(application),
+        ParentNoteViewModel<NoteItem.Roll, IRollNoteFragment, IRollNoteInteractor>(application),
         IRollNoteViewModel {
+
+    override fun cacheData() {
+        restoreItem = noteItem.deepCopy()
+    }
 
     override fun onSetup(bundle: Bundle?) {
         id = bundle?.getLong(Intent.ID, Default.ID) ?: Default.ID
@@ -63,7 +64,7 @@ class RollNoteViewModel(application: Application) :
                     val defaultColor = interactor.defaultColor
 
                     noteItem = NoteItem.Roll.getCreate(defaultColor)
-                    restoreItem = noteItem.deepCopy()
+                    cacheData()
 
                     noteState = NoteState(isCreate = true)
                 } else {
@@ -101,35 +102,7 @@ class RollNoteViewModel(application: Application) :
     }
 
 
-    override fun onClickBackArrow() {
-        if (!noteState.isCreate && noteState.isEdit && id != Default.ID) {
-            callback?.hideKeyboard()
-            onRestoreData()
-        } else {
-            saveControl.needSave = false
-            parentCallback?.finish()
-        }
-    }
-
-    /**
-     * FALSE - will call super.onBackPress()
-     */
-    override fun onPressBack(): Boolean {
-        if (!noteState.isEdit) return false
-
-        /**
-         * If note can't be saved and activity will be closed.
-         */
-        saveControl.needSave = false
-
-        return if (!onMenuSave(changeMode = true)) {
-            if (!noteState.isCreate) onRestoreData() else false
-        } else {
-            true
-        }
-    }
-
-    private fun onRestoreData(): Boolean {
+    override fun onRestoreData(): Boolean {
         if (id == Default.ID) return false
 
         /**
@@ -229,11 +202,7 @@ class RollNoteViewModel(application: Application) :
 
         val correctPosition = getCorrectPosition(p, noteItem)
         noteItem.onItemCheck(correctPosition)
-
-        /**
-         * If not update [restoreItem] it will cause bug with restore.
-         */
-        restoreItem = noteItem.deepCopy()
+        cacheData()
 
         if (isVisible) {
             callback?.notifyItemChanged(getList(noteItem), p)
@@ -250,11 +219,7 @@ class RollNoteViewModel(application: Application) :
         if (noteState.isEdit) return
 
         val check = noteItem.onItemLongCheck()
-
-        /**
-         * If not update [restoreItem] it will cause bug with restore.
-         */
-        restoreItem = noteItem.deepCopy()
+        cacheData()
 
         callback?.apply {
             changeCheckToggle(state = true)
@@ -269,88 +234,6 @@ class RollNoteViewModel(application: Application) :
         }
 
         viewModelScope.launch { interactor.updateRollCheck(noteItem, check) }
-    }
-
-    //region Results of dialogs
-
-    override fun onResultColorDialog(check: Int) {
-        inputControl.onColorChange(noteItem.color, check)
-        noteItem.color = check
-
-        callback?.apply {
-            onBindingInput(noteItem, inputControl.access)
-            tintToolbar(check)
-        }
-    }
-
-    override fun onResultRankDialog(check: Int) {
-        viewModelScope.launch {
-            val rankId = interactor.getRankId(check)
-
-            inputControl.onRankChange(noteItem.rankId, noteItem.rankPs, rankId, check)
-
-            noteItem.apply {
-                this.rankId = rankId
-                this.rankPs = check
-            }
-
-            callback?.apply {
-                onBindingInput(noteItem, inputControl.access)
-                onBindingNote(noteItem)
-            }
-        }
-    }
-
-    override fun onResultDateDialog(calendar: Calendar) {
-        viewModelScope.launch {
-            callback?.showTimeDialog(calendar, interactor.getDateList())
-        }
-    }
-
-    override fun onResultDateDialogClear() {
-        viewModelScope.launch {
-            interactor.clearDate(noteItem)
-            bindInteractor.notifyInfoBind(callback)
-        }
-
-        noteItem.clearAlarm()
-        restoreItem = noteItem.deepCopy()
-
-        callback?.onBindingNote(noteItem)
-    }
-
-    override fun onResultTimeDialog(calendar: Calendar) {
-        if (calendar.beforeNow()) return
-
-        viewModelScope.launch {
-            interactor.setDate(noteItem, calendar)
-            restoreItem = noteItem.deepCopy()
-
-            callback?.onBindingNote(noteItem)
-
-            bindInteractor.notifyInfoBind(callback)
-        }
-    }
-
-    override fun onResultConvertDialog() {
-        viewModelScope.launch {
-            interactor.convertNote(noteItem)
-            parentCallback?.onConvertNote()
-        }
-    }
-
-    //endregion
-
-    /**
-     * Calls on note notification cancel from status bar for update bind indicator.
-     */
-    override fun onReceiveUnbindNote(id: Long) {
-        if (this.id != id) return
-
-        noteItem.apply { isStatus = false }
-        restoreItem.apply { isStatus = false }
-
-        callback?.onBindingNote(noteItem)
     }
 
     //region Menu click
@@ -534,7 +417,7 @@ class RollNoteViewModel(application: Application) :
 
         viewModelScope.launch {
             interactor.saveNote(noteItem, noteState.isCreate)
-            restoreItem = noteItem.deepCopy()
+            cacheData()
 
             if (noteState.isCreate) {
                 noteState.isCreate = NoteState.ND_CREATE
@@ -566,11 +449,7 @@ class RollNoteViewModel(application: Application) :
         if (callback?.isDialogOpen == true || noteState.isEdit) return
 
         noteItem.switchStatus()
-
-        /**
-         * If not update [restoreItem] it will cause bug with restore.
-         */
-        restoreItem = noteItem.deepCopy()
+        cacheData()
 
         callback?.onBindingEdit(noteItem, noteState.isEdit)
 
@@ -624,14 +503,6 @@ class RollNoteViewModel(application: Application) :
     }
 
     //endregion
-
-    override fun onResultSaveControl() {
-        callback?.showSaveToast(onMenuSave(changeMode = false))
-    }
-
-    override fun onInputTextChange() {
-        callback?.onBindingInput(noteItem, inputControl.access)
-    }
 
     override fun onInputRollChange(p: Int, text: String) {
         val correctPosition = getCorrectPosition(p, noteItem)

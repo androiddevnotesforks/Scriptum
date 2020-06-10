@@ -17,7 +17,7 @@ import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.presentation.screen.ui.callback.note.text.ITextNoteBridge
+import sgtmelon.scriptum.presentation.screen.ui.callback.note.IParentNoteBridge
 import java.util.*
 import kotlin.random.Random
 
@@ -33,7 +33,7 @@ class TextNoteInteractorTest : ParentInteractorTest() {
     @MockK lateinit var alarmRepo: IAlarmRepo
     @MockK lateinit var rankRepo: IRankRepo
     @MockK lateinit var noteRepo: INoteRepo
-    @MockK lateinit var callback: ITextNoteBridge
+    @MockK lateinit var callback: IParentNoteBridge
 
     private val interactor by lazy {
         TextNoteInteractor(preferenceRepo, alarmRepo, rankRepo, noteRepo, callback)
