@@ -77,7 +77,6 @@ class TextNoteViewModel(application: Application) :
         }
     }
 
-
     override fun onRestoreData(): Boolean {
         if (id == Default.ID) return false
 

@@ -46,7 +46,7 @@ class TextNoteInteractorTest : ParentInteractorTest() {
     }
 
 
-    @Test fun getSaveModel() = FastTest.Note.getSaveModel(preferenceRepo) {
+    @Test fun getSaveModel() = FastTest.Note.Interactor.getSaveModel(preferenceRepo) {
         interactor.getSaveModel()
     }
 

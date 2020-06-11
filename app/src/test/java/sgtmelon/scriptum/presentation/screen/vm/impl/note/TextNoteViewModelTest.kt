@@ -1,28 +1,24 @@
 package sgtmelon.scriptum.presentation.screen.vm.impl.note
 
-import android.os.Bundle
-import io.mockk.*
+import io.mockk.MockKVerificationScope
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
+import io.mockk.verifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
-import sgtmelon.extension.beforeNow
-import sgtmelon.extension.getCalendar
 import sgtmelon.extension.nextString
-import sgtmelon.scriptum.FastMock
+import sgtmelon.scriptum.FastTest
 import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.domain.model.data.NoteData.Default
-import sgtmelon.scriptum.domain.model.data.NoteData.Intent
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.state.IconState
-import sgtmelon.scriptum.domain.model.state.NoteState
 import sgtmelon.scriptum.presentation.control.note.input.IInputControl
-import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.text.ITextNoteFragment
-import java.util.*
 import kotlin.random.Random
 
 /**
@@ -41,6 +37,14 @@ class TextNoteViewModelTest : ParentViewModelTest() {
     @MockK lateinit var iconState: IconState
 
     private val viewModel by lazy { TextNoteViewModel(application) }
+
+    private val fastTest by lazy {
+        FastTest.Note.ViewModel(
+                callback, parentCallback, interactor, bindInteractor,
+                inputControl, iconState, viewModel,
+                { mockDeepCopy(it) }, { verifyDeepCopy(it) }
+        )
+    }
 
     override fun setUp() {
         super.setUp()
@@ -74,32 +78,16 @@ class TextNoteViewModelTest : ParentViewModelTest() {
     }
 
 
+    @Test fun cacheData() {
+        TODO()
+    }
+
     @Test fun onSetup() {
         TODO()
     }
 
-    @Test fun isNoteInitialized() {
-        TODO()
-    }
 
-
-    @Test fun onSaveData() {
-        val id = Random.nextLong()
-        val color = Random.nextInt()
-        val bundle = mockk<Bundle>()
-
-        every { bundle.putLong(Intent.ID, id) } returns Unit
-        every { bundle.putInt(Intent.COLOR, color) } returns Unit
-
-        viewModel.id = id
-        viewModel.color = color
-        viewModel.onSaveData(bundle)
-
-        verifySequence {
-            bundle.putLong(Intent.ID, id)
-            bundle.putInt(Intent.COLOR, color)
-        }
-    }
+    @Test fun onSaveData() = fastTest.onSaveData()
 
     @Test fun onResume() {
         TODO()
@@ -123,200 +111,29 @@ class TextNoteViewModelTest : ParentViewModelTest() {
     }
 
 
-    @Test fun onResultColorDialog() {
-        val noteItem = mockk<NoteItem.Text>()
-        val oldColor = Random.nextInt()
-        val newColor = Random.nextInt()
-        val access = mockk<InputControl.Access>()
+    @Test fun onResultColorDialog() = fastTest.onResultColorDialog(mockk())
 
-        every { noteItem.color } returns oldColor
-        every { noteItem.color = newColor } returns Unit
-        every { inputControl.access } returns access
+    @Test fun onResultRankDialog() = fastTest.onResultRankDialog(mockk())
 
-        viewModel.noteItem = noteItem
-        viewModel.onResultColorDialog(newColor)
+    @Test fun onResultDateDialog() = fastTest.onResultDateDialog()
 
-        verifySequence {
-            noteItem.color
-            inputControl.onColorChange(oldColor, newColor)
-            noteItem.color = newColor
+    @Test fun onResultDateDialogClear() = fastTest.onResultDateDialogClear(mockk(), mockk())
 
-            inputControl.access
-            callback.onBindingInput(noteItem, access)
-            callback.tintToolbar(newColor)
-        }
-    }
+    @Test fun onResultTimeDialog() = fastTest.onResultTimeDialog(mockk(), mockk())
 
-    @Test fun onResultRankDialog() {
-        val noteItem = mockk<NoteItem.Text>()
-
-        val oldRankId = Random.nextLong()
-        val oldRankPs = Random.nextInt()
-        val newRankId = Random.nextLong()
-        val newRankPs = Random.nextInt()
-
-        val access = mockk<InputControl.Access>()
-
-        coEvery { interactor.getRankId(newRankPs) } returns newRankId
-        every { noteItem.rankId } returns oldRankId
-        every { noteItem.rankPs } returns oldRankPs
-        every { noteItem.rankId = newRankId } returns Unit
-        every { noteItem.rankPs = newRankPs } returns Unit
-        every { inputControl.access } returns access
-
-        viewModel.noteItem = noteItem
-        viewModel.onResultRankDialog(newRankPs)
-
-        coVerifySequence {
-            interactor.getRankId(newRankPs)
-
-            noteItem.rankId
-            noteItem.rankPs
-            inputControl.onRankChange(oldRankId, oldRankPs, newRankId, newRankPs)
-
-            noteItem.rankId = newRankId
-            noteItem.rankPs = newRankPs
-
-            inputControl.access
-            callback.onBindingInput(noteItem, access)
-            callback.onBindingNote(noteItem)
-        }
-    }
-
-    @Test fun onResultDateDialog() {
-        val calendar = mockk<Calendar>()
-        val dateList = mockk<List<String>>()
-
-        coEvery { interactor.getDateList() } returns dateList
-
-        viewModel.onResultDateDialog(calendar)
-
-        coVerifySequence {
-            interactor.getDateList()
-            callback.showTimeDialog(calendar, dateList)
-        }
-    }
-
-    @Test fun onResultDateDialogClear() {
-        val noteItem = mockk<NoteItem.Text>()
-        val restoreItem = mockk<NoteItem.Text>()
-
-        every { noteItem.clearAlarm() } returns noteItem
-        mockDeepCopy(noteItem)
-
-        viewModel.noteItem = noteItem
-        viewModel.restoreItem = restoreItem
-
-        viewModel.onResultDateDialogClear()
-
-        coVerifySequence {
-            interactor.clearDate(noteItem)
-            bindInteractor.notifyInfoBind(callback)
-
-            noteItem.clearAlarm()
-            verifyDeepCopy(noteItem)
-
-            callback.onBindingNote(noteItem)
-        }
-
-        assertEquals(noteItem, viewModel.restoreItem)
-    }
-
-    @Test fun onResultTimeDialog() {
-        val calendar = mockk<Calendar>()
-        val noteItem = mockk<NoteItem.Text>()
-        val restoreItem = mockk<NoteItem.Text>()
-
-        FastMock.timeExtension()
-        mockDeepCopy(noteItem)
-
-        viewModel.noteItem = noteItem
-        viewModel.restoreItem = restoreItem
-
-        every { calendar.beforeNow() } returns true
-        viewModel.onResultTimeDialog(calendar)
-
-        every { calendar.beforeNow() } returns false
-        viewModel.onResultTimeDialog(calendar)
-
-        coVerifySequence {
-            calendar.beforeNow()
-
-            calendar.beforeNow()
-            interactor.setDate(noteItem, calendar)
-            verifyDeepCopy(noteItem)
-            callback.onBindingNote(noteItem)
-            bindInteractor.notifyInfoBind(callback)
-        }
-
-        assertEquals(noteItem, viewModel.restoreItem)
-    }
-
-    @Test fun onResultConvertDialog() {
-        val noteItem = mockk<NoteItem.Text>()
-
-        viewModel.noteItem = noteItem
-        viewModel.onResultConvertDialog()
-
-        coVerifySequence {
-            interactor.convertNote(noteItem)
-            parentCallback.onConvertNote()
-        }
-    }
+    @Test fun onResultConvertDialog() = fastTest.onResultConvertDialog(mockk())
 
 
-    @Test fun onReceiveUnbindNote() {
-        viewModel.onReceiveUnbindNote(Random.nextLong())
-
-        val id = Random.nextLong()
-        val noteItem = mockk<NoteItem.Text>()
-        val restoreItem = mockk<NoteItem.Text>()
-
-        every { noteItem.isStatus = false } returns Unit
-        every { restoreItem.isStatus = false } returns Unit
-
-        viewModel.id = id
-        viewModel.noteItem = noteItem
-        viewModel.restoreItem = restoreItem
-
-        viewModel.onReceiveUnbindNote(id)
-
-        verifySequence {
-            noteItem.isStatus = false
-            restoreItem.isStatus = false
-
-            callback.onBindingNote(noteItem)
-        }
-    }
+    @Test fun onReceiveUnbindNote() = fastTest.onReceiveUnbindNote(mockk(), mockk())
 
 
-    @Test fun onMenuRestore() {
-        val noteItem = mockk<NoteItem.Text>()
-
-        viewModel.noteItem = noteItem
-        viewModel.onMenuRestore()
-
-        coVerifySequence {
-            interactor.restoreNote(noteItem)
-            parentCallback.finish()
-        }
-    }
+    @Test fun onMenuRestore() = fastTest.onMenuRestore(mockk())
 
     @Test fun onMenuRestoreOpen() {
         TODO()
     }
 
-    @Test fun onMenuClear() {
-        val noteItem = mockk<NoteItem.Text>()
-
-        viewModel.noteItem = noteItem
-        viewModel.onMenuClear()
-
-        coVerifySequence {
-            interactor.clearNote(noteItem)
-            parentCallback.finish()
-        }
-    }
+    @Test fun onMenuClear() = fastTest.onMenuClear(mockk())
 
 
     @Test fun onMenuUndo() {
@@ -327,210 +144,31 @@ class TextNoteViewModelTest : ParentViewModelTest() {
         TODO()
     }
 
-    @Test fun onMenuRank() {
-        val noteItem = mockk<NoteItem.Text>()
-        val rankPs = Random.nextInt()
-
-        val noteState = mockk<NoteState>()
-
-        every { noteItem.rankPs } returns rankPs
-
-        viewModel.noteItem = noteItem
-        viewModel.noteState = noteState
-
-        every { noteState.isEdit } returns false
-        viewModel.onMenuRank()
-
-        every { noteState.isEdit } returns true
-        viewModel.onMenuRank()
-
-        verifySequence {
-            noteState.isEdit
-
-            noteState.isEdit
-            noteItem.rankPs
-            callback.showRankDialog(check = rankPs + 1)
-        }
+    @Test fun onMenuUndoRedo() {
+        TODO()
     }
 
-    @Test fun onMenuColor() {
-        val noteItem = mockk<NoteItem.Text>()
-        val color = Random.nextInt()
-        val theme = Random.nextInt()
+    @Test fun onMenuRank() = fastTest.onMenuRank(mockk())
 
-        val noteState = mockk<NoteState>()
-
-        every { noteItem.color } returns color
-        every { interactor.theme } returns theme
-
-        viewModel.noteItem = noteItem
-        viewModel.noteState = noteState
-
-        every { noteState.isEdit } returns false
-        viewModel.onMenuColor()
-
-        every { noteState.isEdit } returns true
-        viewModel.onMenuColor()
-
-        verifySequence {
-            noteState.isEdit
-
-            noteState.isEdit
-            noteItem.color
-            interactor.theme
-            callback.showColorDialog(color, theme)
-        }
-    }
+    @Test fun onMenuColor() = fastTest.onMenuColor(mockk())
 
     @Test fun onMenuSave() {
         TODO()
     }
 
-    @Test fun onMenuNotification() {
-        val noteItem = mockk<NoteItem.Text>()
-        val alarmDate = Random.nextString()
-        val haveAlarm = Random.nextBoolean()
-        val calendar = mockk<Calendar>()
+    @Test fun onMenuNotification() = fastTest.onMenuNotification(mockk())
 
-        val noteState = mockk<NoteState>()
+    @Test fun onMenuBind() = fastTest.onMenuBind(mockk(), mockk())
 
-        every { noteItem.alarmDate } returns alarmDate
-        every { noteItem.haveAlarm() } returns haveAlarm
+    @Test fun onMenuConvert() = fastTest.onMenuConvert()
 
-        FastMock.timeExtension()
-        every { alarmDate.getCalendar() } returns calendar
-
-        viewModel.noteItem = noteItem
-        viewModel.noteState = noteState
-
-        every { noteState.isEdit } returns false
-        viewModel.onMenuNotification()
-
-        every { noteState.isEdit } returns true
-        viewModel.onMenuNotification()
-
-        verifySequence {
-            noteState.isEdit
-
-            noteItem.alarmDate
-            alarmDate.getCalendar()
-            noteItem.haveAlarm()
-            callback.showDateDialog(calendar, haveAlarm)
-
-            noteState.isEdit
-        }
-    }
-
-    @Test fun onMenuBind() {
-        val noteItem = mockk<NoteItem.Text>()
-        val restoreItem = mockk<NoteItem.Text>()
-
-        val noteState = mockk<NoteState>()
-
-        every { noteItem.switchStatus() } returns noteItem
-        mockDeepCopy(noteItem)
-
-        viewModel.noteItem = noteItem
-        viewModel.restoreItem = restoreItem
-        viewModel.noteState = noteState
-
-        every { callback.isDialogOpen } returns true
-        every { noteState.isEdit } returns true
-        viewModel.onMenuBind()
-
-        assertEquals(restoreItem, viewModel.restoreItem)
-
-        every { callback.isDialogOpen } returns true
-        every { noteState.isEdit } returns false
-        viewModel.onMenuBind()
-
-        assertEquals(restoreItem, viewModel.restoreItem)
-
-        every { callback.isDialogOpen } returns false
-        every { noteState.isEdit } returns true
-        viewModel.onMenuBind()
-
-        assertEquals(restoreItem, viewModel.restoreItem)
-
-        every { callback.isDialogOpen } returns false
-        every { noteState.isEdit } returns false
-        viewModel.onMenuBind()
-
-        coVerifySequence {
-            callback.isDialogOpen
-            callback.isDialogOpen
-            callback.isDialogOpen
-            noteState.isEdit
-
-            callback.isDialogOpen
-            noteState.isEdit
-            noteItem.switchStatus()
-            verifyDeepCopy(noteItem)
-            noteState.isEdit
-            callback.onBindingEdit(noteItem, isEditMode = false)
-            interactor.updateNote(noteItem, updateBind = true)
-        }
-
-        assertEquals(noteItem, viewModel.restoreItem)
-    }
-
-    @Test fun onMenuConvert() {
-        val noteState = mockk<NoteState>()
-
-        viewModel.noteState = noteState
-
-        every { noteState.isEdit } returns false
-        viewModel.onMenuConvert()
-
-        every { noteState.isEdit } returns true
-        viewModel.onMenuConvert()
-
-        verifySequence {
-            noteState.isEdit
-            callback.showConvertDialog()
-
-            noteState.isEdit
-        }
-    }
-
-    @Test fun onMenuDelete() {
-        val noteItem = mockk<NoteItem.Text>()
-        val noteState = mockk<NoteState>()
-
-        viewModel.noteItem = noteItem
-        viewModel.noteState = noteState
-
-        every { callback.isDialogOpen } returns true
-        every { noteState.isEdit } returns true
-        viewModel.onMenuDelete()
-
-        every { callback.isDialogOpen } returns true
-        every { noteState.isEdit } returns false
-        viewModel.onMenuDelete()
-
-        every { callback.isDialogOpen } returns false
-        every { noteState.isEdit } returns true
-        viewModel.onMenuDelete()
-
-        every { callback.isDialogOpen } returns false
-        every { noteState.isEdit } returns false
-        viewModel.onMenuDelete()
-
-        coVerifySequence {
-            callback.isDialogOpen
-            callback.isDialogOpen
-            callback.isDialogOpen
-            noteState.isEdit
-
-            callback.isDialogOpen
-            noteState.isEdit
-            interactor.deleteNote(noteItem)
-            bindInteractor.notifyInfoBind(callback)
-            parentCallback.finish()
-        }
-    }
+    @Test fun onMenuDelete() = fastTest.onMenuDelete(mockk())
 
     @Test fun onMenuEdit() {
+        TODO()
+    }
+
+    @Test fun setupEditMode() {
         TODO()
     }
 
@@ -539,20 +177,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
         TODO()
     }
 
-    @Test fun onInputTextChange() {
-        val noteItem = mockk<NoteItem.Text>()
-        val access = mockk<InputControl.Access>()
-
-        every { inputControl.access } returns access
-
-        viewModel.noteItem = noteItem
-        viewModel.onInputTextChange()
-
-        verifySequence {
-            inputControl.access
-            callback.onBindingInput(noteItem, access)
-        }
-    }
+    @Test fun onInputTextChange() = fastTest.onInputTextChange(mockk())
 
 
     private fun mockDeepCopy(item: NoteItem.Text) {
