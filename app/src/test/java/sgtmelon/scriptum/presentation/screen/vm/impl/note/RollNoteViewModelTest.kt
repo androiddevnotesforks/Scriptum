@@ -20,6 +20,7 @@ import sgtmelon.scriptum.extension.move
 import sgtmelon.scriptum.extension.removeAtOrNull
 import sgtmelon.scriptum.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.presentation.control.note.input.InputControl
+import sgtmelon.scriptum.presentation.control.note.save.ISaveControl
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.roll.IRollNoteFragment
 import kotlin.random.Random
@@ -37,6 +38,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     @MockK lateinit var bindInteractor: IBindInteractor
 
     @MockK lateinit var inputControl: IInputControl
+    @MockK lateinit var saveControl: ISaveControl
     @MockK lateinit var iconState: IconState
 
     private val viewModel by lazy { RollNoteViewModel(application) }
@@ -44,7 +46,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     private val fastTest by lazy {
         FastTest.Note.ViewModel(
                 callback, parentCallback, interactor, bindInteractor,
-                inputControl, iconState, viewModel,
+                inputControl, saveControl, iconState, viewModel,
                 { mockDeepCopy(it) }, { verifyDeepCopy(it) }
         )
     }
@@ -59,26 +61,18 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         viewModel.inputControl = inputControl
         viewModel.iconState = iconState
 
+        // TODO
+//        every { viewModel getProperty "saveControl" } returns saveControl
+
         assertEquals(NoteData.Default.ID, viewModel.id)
         assertEquals(NoteData.Default.COLOR, viewModel.color)
         assertTrue(viewModel.rankDialogItemArray.isEmpty())
-    }
 
-    @Test override fun onDestroy() {
         assertNotNull(viewModel.callback)
         assertNotNull(viewModel.parentCallback)
-
-        viewModel.onDestroy()
-
-        assertNull(viewModel.callback)
-        assertNull(viewModel.parentCallback)
-
-        verifySequence {
-            interactor.onDestroy()
-
-            TODO()
-        }
     }
+
+    @Test override fun onDestroy() = fastTest.onDestroy()
 
 
     @Test fun cacheData() {

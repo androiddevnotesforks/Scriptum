@@ -1,6 +1,9 @@
 package sgtmelon.scriptum.data.repository.room
 
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.coVerifySequence
+import io.mockk.every
+import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
@@ -22,7 +25,7 @@ import kotlin.random.Random
 @ExperimentalCoroutinesApi
 class RankRepoTest : ParentRoomRepoTest() {
 
-    private val converter = mockkClass(RankConverter::class)
+    private val converter: RankConverter = mockk()
 
     private val rankRepo by lazy { RankRepo(roomProvider, converter) }
 

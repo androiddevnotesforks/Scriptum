@@ -3,6 +3,7 @@ package sgtmelon.scriptum
 import android.os.Bundle
 import io.mockk.*
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import sgtmelon.extension.beforeNow
 import sgtmelon.extension.getCalendar
 import sgtmelon.extension.nextString
@@ -19,6 +20,7 @@ import sgtmelon.scriptum.domain.model.state.IconState
 import sgtmelon.scriptum.domain.model.state.NoteState
 import sgtmelon.scriptum.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.presentation.control.note.input.InputControl
+import sgtmelon.scriptum.presentation.control.note.save.ISaveControl
 import sgtmelon.scriptum.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.IParentNoteFragment
@@ -59,11 +61,24 @@ object FastTest {
                 private val interactor: IParentNoteInteractor<N>,
                 private val bindInteractor: IBindInteractor,
                 private val inputControl: IInputControl,
+                val saveControl: ISaveControl,
                 private val iconState: IconState,
                 private val viewModel: ParentNoteViewModel<N, C, I>,
                 private val mockDeepCopy: (item: N) -> Unit,
                 private val verifyDeepCopy: MockKVerificationScope.(item: N) -> Unit
         ) {
+
+            fun onDestroy() {
+                viewModel.onDestroy()
+
+                assertNull(viewModel.callback)
+                assertNull(viewModel.parentCallback)
+
+                verifySequence {
+                    interactor.onDestroy()
+                    saveControl.setSaveEvent(isWork = false)
+                }
+            }
 
             fun onSaveData() {
                 val id = Random.nextLong()

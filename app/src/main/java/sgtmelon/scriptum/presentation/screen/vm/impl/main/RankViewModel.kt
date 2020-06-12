@@ -283,61 +283,61 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         viewModelScope.launch { interactor.updatePosition(itemList, noteIdList) }
     }
 
-    companion object {
 
-        fun getNameList(list: List<RankItem>): List<String> = list.map { it.name.toUpperCase() }
+    @VisibleForTesting
+    fun getNameList(list: List<RankItem>): List<String> = list.map { it.name.toUpperCase() }
 
-        /**
-         * Switch visible for all list. Make visible only item with position equal [p].
-         * Other items make invisible.
-         *
-         * [p] - position of long click.
-         *
-         * Return array with information about item icon animation (need start or not).
-         */
-        fun switchVisible(list: List<RankItem>, p: Int): BooleanArray {
-            val animationArray = BooleanArray(list.size)
+    /**
+     * Switch visible for all list. Make visible only item with position equal [p].
+     * Other items make invisible.
+     *
+     * [p] - position of long click.
+     *
+     * Return array with information about item icon animation (need start or not).
+     */
+    @VisibleForTesting
+    fun switchVisible(list: List<RankItem>, p: Int): BooleanArray {
+        val animationArray = BooleanArray(list.size)
 
-            list.forEachIndexed { i, item ->
-                if (i == p) {
-                    if (!item.isVisible) {
-                        item.isVisible = true
-                        animationArray[i] = true
-                    }
-                } else {
-                    if (item.isVisible) {
-                        item.isVisible = false
-                        animationArray[i] = true
-                    }
+        list.forEachIndexed { i, item ->
+            if (i == p) {
+                if (!item.isVisible) {
+                    item.isVisible = true
+                    animationArray[i] = true
+                }
+            } else {
+                if (item.isVisible) {
+                    item.isVisible = false
+                    animationArray[i] = true
                 }
             }
-
-            return animationArray
         }
 
-        /**
-         * Return list of [NoteItem.id] which need update.
-         */
-        fun correctPositions(list: List<RankItem>): List<Long> {
-            val noteIdSet = mutableSetOf<Long>()
+        return animationArray
+    }
 
-            list.forEachIndexed { i, item ->
+    /**
+     * Return list of [NoteItem.id] which need update.
+     */
+    @VisibleForTesting
+    fun correctPositions(list: List<RankItem>): List<Long> {
+        val noteIdSet = mutableSetOf<Long>()
+
+        list.forEachIndexed { i, item ->
+            /**
+             * If [RankItem.position] incorrect (out of order) when update it.
+             */
+            if (item.position != i) {
+                item.position = i
+
                 /**
-                 * If [RankItem.position] incorrect (out of order) when update it.
+                 * Add id to [Set] of [NoteItem.id] where need update [NoteItem.rankPs].
                  */
-                if (item.position != i) {
-                    item.position = i
-
-                    /**
-                     * Add id to [Set] of [NoteItem.id] where need update [NoteItem.rankPs].
-                     */
-                    item.noteId.forEach { noteIdSet.add(it) }
-                }
+                item.noteId.forEach { noteIdSet.add(it) }
             }
-
-            return noteIdSet.toList()
         }
 
+        return noteIdSet.toList()
     }
 
 }

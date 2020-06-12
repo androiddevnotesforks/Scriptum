@@ -36,7 +36,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
     @MockK lateinit var signalInteractor: ISignalInteractor
     @MockK lateinit var bindInteractor: IBindInteractor
 
-    private val bundle = mockkClass(Bundle::class)
+    private val bundle: Bundle = mockk()
 
     private val viewModel by lazy { AlarmViewModel(application) }
 

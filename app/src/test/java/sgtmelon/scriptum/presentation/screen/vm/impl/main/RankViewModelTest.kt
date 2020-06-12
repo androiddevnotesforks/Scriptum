@@ -33,9 +33,10 @@ class RankViewModelTest : ParentViewModelTest() {
     @MockK lateinit var interactor: IRankInteractor
     @MockK lateinit var bindInteractor: IBindInteractor
 
-    private val openState = mockkClass(OpenState::class)
+    @MockK lateinit var openState: OpenState
 
     private val viewModel by lazy { RankViewModel(application) }
+    private val spyViewModel by lazy { spyk(viewModel) }
 
     override fun setUp() {
         super.setUp()
@@ -49,6 +50,11 @@ class RankViewModelTest : ParentViewModelTest() {
         assertTrue(viewModel.cancelList.isEmpty())
 
         assertFalse(viewModel.inTouchAction)
+    }
+
+    override fun tearDown() {
+        super.tearDown()
+        confirmVerified(callback, interactor, bindInteractor, openState)
     }
 
     @Test override fun onDestroy() {
@@ -185,21 +191,20 @@ class RankViewModelTest : ParentViewModelTest() {
         val itemList = data.itemList
         val nameList = mockk<List<String>>()
 
-        mockkObject(RankViewModel)
-        every { RankViewModel.getNameList(itemList) } returns nameList
+        every { spyViewModel.getNameList(itemList) } returns nameList
 
-        viewModel.itemList.clearAdd(itemList)
-        assertEquals(itemList, viewModel.itemList)
+        spyViewModel.itemList.clearAdd(itemList)
+        assertEquals(itemList, spyViewModel.itemList)
 
         val p = itemList.indices.random()
         val item = itemList[p]
 
-        viewModel.onShowRenameDialog(p)
+        spyViewModel.onShowRenameDialog(p)
 
-        verifySequence {
+        verifyOrder {
             callback.dismissSnackbar()
 
-            RankViewModel.getNameList(itemList)
+            spyViewModel.getNameList(itemList)
             callback.showRenameDialog(p, item.name, nameList)
         }
     }
@@ -240,35 +245,36 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onEditorClick() {
-        assertFalse(viewModel.onEditorClick(EditorInfo.IME_ACTION_NEXT))
+        assertFalse(spyViewModel.onEditorClick(EditorInfo.IME_ACTION_NEXT))
 
         every { callback.getEnterText() } returns ""
-        assertFalse(viewModel.onEditorClick(EditorInfo.IME_ACTION_DONE))
+        assertFalse(spyViewModel.onEditorClick(EditorInfo.IME_ACTION_DONE))
 
+        every { spyViewModel.onClickEnterAdd(simpleClick = true) } returns Unit
         every { callback.getEnterText() } returns Random.nextString()
         every { callback.clearEnter() } returns ""
-        assertTrue(viewModel.onEditorClick(EditorInfo.IME_ACTION_DONE))
+        assertTrue(spyViewModel.onEditorClick(EditorInfo.IME_ACTION_DONE))
 
         val name = Random.nextString()
         var itemList = listOf(data.firstRank.copy(name = name))
-        viewModel.itemList.clearAdd(itemList)
-        assertEquals(itemList, viewModel.itemList)
+        spyViewModel.itemList.clearAdd(itemList)
+        assertEquals(itemList, spyViewModel.itemList)
 
         every { callback.getEnterText() } returns name
-        assertFalse(viewModel.onEditorClick(EditorInfo.IME_ACTION_DONE))
+        assertFalse(spyViewModel.onEditorClick(EditorInfo.IME_ACTION_DONE))
 
         itemList = data.itemList
-        viewModel.itemList.clearAdd(itemList)
-        assertEquals(itemList, viewModel.itemList)
+        spyViewModel.itemList.clearAdd(itemList)
+        assertEquals(itemList, spyViewModel.itemList)
 
         every { callback.getEnterText() } returns itemList.random().name
-        assertFalse(viewModel.onEditorClick(EditorInfo.IME_ACTION_DONE))
+        assertFalse(spyViewModel.onEditorClick(EditorInfo.IME_ACTION_DONE))
 
-        verifySequence {
+        verifyOrder {
             callback.getEnterText()
 
             callback.getEnterText()
-            callback.clearEnter()
+            spyViewModel.onClickEnterAdd(simpleClick = true)
 
             callback.getEnterText()
 
@@ -297,9 +303,6 @@ class RankViewModelTest : ParentViewModelTest() {
 
     @Test fun onClickEnterAdd_onSimple() = startCoTest {
         val itemList = data.itemList
-        viewModel.itemList.clearAdd(itemList)
-        assertEquals(itemList, viewModel.itemList)
-
         val name = Random.nextString()
         val item = data.firstRank.copy(name = name)
 
@@ -310,21 +313,23 @@ class RankViewModelTest : ParentViewModelTest() {
         val resultList = ArrayList(itemList).apply { add(p, item) }
         val noteIdList = mockk<List<Long>>()
 
-        mockkObject(RankViewModel)
-        every { RankViewModel.getNameList(any()) } returns listOf()
-        every { RankViewModel.correctPositions(resultList) } returns noteIdList
+        every { spyViewModel.getNameList(any()) } returns listOf()
+        every { spyViewModel.correctPositions(resultList) } returns noteIdList
 
-        viewModel.onClickEnterAdd(simpleClick = true)
+        spyViewModel.itemList.clearAdd(itemList)
+        assertEquals(itemList, spyViewModel.itemList)
 
-        assertEquals(resultList, viewModel.itemList)
+        spyViewModel.onClickEnterAdd(simpleClick = true)
 
-        coVerifyAll {
+        assertEquals(resultList, spyViewModel.itemList)
+
+        coVerifyOrder {
             callback.clearEnter()
-            RankViewModel.getNameList(any())
+            spyViewModel.getNameList(any())
             callback.dismissSnackbar()
             interactor.insert(name)
 
-            RankViewModel.correctPositions(resultList)
+            spyViewModel.correctPositions(resultList)
             interactor.updatePosition(resultList, noteIdList)
             callback.scrollToItem(resultList, p, simpleClick = true)
         }
@@ -332,8 +337,6 @@ class RankViewModelTest : ParentViewModelTest() {
 
     @Test fun onClickEnterAdd_onLong() = startCoTest {
         val itemList = data.itemList
-        viewModel.itemList.clearAdd(itemList)
-        assertEquals(itemList, viewModel.itemList)
 
         val name = Random.nextString()
         val item = data.firstRank.copy(name = name)
@@ -345,21 +348,23 @@ class RankViewModelTest : ParentViewModelTest() {
         val resultList = ArrayList(itemList).apply { add(p, item) }
         val noteIdList = mockk<List<Long>>()
 
-        mockkObject(RankViewModel)
-        every { RankViewModel.getNameList(any()) } returns listOf()
-        every { RankViewModel.correctPositions(resultList) } returns noteIdList
+        every { spyViewModel.getNameList(any()) } returns listOf()
+        every { spyViewModel.correctPositions(resultList) } returns noteIdList
 
-        viewModel.onClickEnterAdd(simpleClick = false)
+        spyViewModel.itemList.clearAdd(itemList)
+        assertEquals(itemList, spyViewModel.itemList)
 
-        assertEquals(resultList, viewModel.itemList)
+        spyViewModel.onClickEnterAdd(simpleClick = false)
 
-        coVerifySequence {
+        assertEquals(resultList, spyViewModel.itemList)
+
+        coVerifyOrder {
             callback.clearEnter()
-            RankViewModel.getNameList(any())
+            spyViewModel.getNameList(any())
             callback.dismissSnackbar()
             interactor.insert(name)
 
-            RankViewModel.correctPositions(resultList)
+            spyViewModel.correctPositions(resultList)
             interactor.updatePosition(resultList, noteIdList)
             callback.scrollToItem(resultList, p, simpleClick = false)
         }
@@ -367,26 +372,25 @@ class RankViewModelTest : ParentViewModelTest() {
 
     @Test fun onClickEnterAdd_onNull() = startCoTest {
         val itemList = data.itemList
-        viewModel.itemList.clearAdd(itemList)
-        assertEquals(itemList, viewModel.itemList)
-
         val name = Random.nextString()
 
-        mockkObject(RankViewModel)
-        every { RankViewModel.getNameList(itemList) } returns listOf()
-
+        every { spyViewModel.getNameList(itemList) } returns listOf()
         every { callback.clearEnter() } returns name
         coEvery { interactor.insert(name) } returns null
 
-        viewModel.onClickEnterAdd(simpleClick = false)
-        viewModel.onClickEnterAdd(simpleClick = true)
+        spyViewModel.itemList.clearAdd(itemList)
 
-        assertEquals(itemList, viewModel.itemList)
+        assertEquals(itemList, spyViewModel.itemList)
 
-        coVerifySequence {
+        spyViewModel.onClickEnterAdd(simpleClick = false)
+        spyViewModel.onClickEnterAdd(simpleClick = true)
+
+        assertEquals(itemList, spyViewModel.itemList)
+
+        coVerifyOrder {
             repeat(times = 2) {
                 callback.clearEnter()
-                RankViewModel.getNameList(itemList)
+                spyViewModel.getNameList(itemList)
                 callback.dismissSnackbar()
                 interactor.insert(name)
             }
@@ -421,16 +425,15 @@ class RankViewModelTest : ParentViewModelTest() {
         val p = itemList.indices.random()
         val animationArray = BooleanArray(size = 5) { Random.nextBoolean() }
 
-        mockkObject(RankViewModel)
-        every { RankViewModel.switchVisible(itemList, p) } returns animationArray
+        every { spyViewModel.switchVisible(itemList, p) } returns animationArray
 
-        viewModel.itemList.clearAdd(itemList)
-        assertEquals(itemList, viewModel.itemList)
+        spyViewModel.itemList.clearAdd(itemList)
+        assertEquals(itemList, spyViewModel.itemList)
 
-        viewModel.onLongClickVisible(p)
+        spyViewModel.onLongClickVisible(p)
 
-        coVerifySequence {
-            RankViewModel.switchVisible(itemList, p)
+        coVerifyOrder {
+            spyViewModel.switchVisible(itemList, p)
             callback.notifyDataSetChanged(itemList, animationArray)
 
             interactor.update(itemList)
@@ -507,23 +510,22 @@ class RankViewModelTest : ParentViewModelTest() {
         val resultList = ArrayList(itemList).apply { add(0, item) }
         val noteIdList = mockk<List<Long>>()
 
-        mockkObject(RankViewModel)
-        every { RankViewModel.correctPositions(resultList) } returns noteIdList
+        every { spyViewModel.correctPositions(resultList) } returns noteIdList
 
-        viewModel.itemList.clearAdd(itemList)
-        viewModel.cancelList.clearAdd(cancelList)
+        spyViewModel.itemList.clearAdd(itemList)
+        spyViewModel.cancelList.clearAdd(cancelList)
 
-        assertEquals(itemList, viewModel.itemList)
-        assertEquals(cancelList, viewModel.cancelList)
+        assertEquals(itemList, spyViewModel.itemList)
+        assertEquals(cancelList, spyViewModel.cancelList)
 
-        viewModel.onSnackbarAction()
+        spyViewModel.onSnackbarAction()
 
         cancelList.removeAt(index = 1)
 
-        assertEquals(resultList, viewModel.itemList)
-        assertEquals(cancelList, viewModel.cancelList)
+        assertEquals(resultList, spyViewModel.itemList)
+        assertEquals(cancelList, spyViewModel.cancelList)
 
-        coVerifySequence {
+        coVerifyOrder {
             callback.apply {
                 notifyItemInsertedScroll(resultList, secondPair.first)
                 interactor.theme
@@ -531,7 +533,7 @@ class RankViewModelTest : ParentViewModelTest() {
             }
 
             interactor.insert(item)
-            RankViewModel.correctPositions(resultList)
+            spyViewModel.correctPositions(resultList)
             interactor.updatePosition(resultList, noteIdList)
             callback.setList(resultList)
         }
@@ -549,27 +551,26 @@ class RankViewModelTest : ParentViewModelTest() {
         val resultList = ArrayList(itemList).apply { add(item) }
         val noteIdList = mockk<List<Long>>()
 
-        mockkObject(RankViewModel)
-        every { RankViewModel.correctPositions(resultList) } returns noteIdList
+        every { spyViewModel.correctPositions(resultList) } returns noteIdList
 
-        viewModel.itemList.clearAdd(itemList)
-        viewModel.cancelList.clearAdd(cancelList)
+        spyViewModel.itemList.clearAdd(itemList)
+        spyViewModel.cancelList.clearAdd(cancelList)
 
-        assertEquals(itemList, viewModel.itemList)
-        assertEquals(cancelList, viewModel.cancelList)
+        assertEquals(itemList, spyViewModel.itemList)
+        assertEquals(cancelList, spyViewModel.cancelList)
 
-        viewModel.onSnackbarAction()
+        spyViewModel.onSnackbarAction()
 
         cancelList.removeAt(index = 0)
 
-        assertEquals(resultList, viewModel.itemList)
-        assertEquals(cancelList, viewModel.cancelList)
+        assertEquals(resultList, spyViewModel.itemList)
+        assertEquals(cancelList, spyViewModel.cancelList)
 
-        coVerifySequence {
+        coVerifyOrder {
             callback.notifyItemInsertedScroll(resultList, resultList.indices.last)
 
             interactor.insert(item)
-            RankViewModel.correctPositions(resultList)
+            spyViewModel.correctPositions(resultList)
             interactor.updatePosition(resultList, noteIdList)
             callback.setList(resultList)
         }
@@ -587,29 +588,26 @@ class RankViewModelTest : ParentViewModelTest() {
         val resultList = mutableListOf(item)
         val noteIdList = mockk<List<Long>>()
 
-        mockkObject(RankViewModel)
-        every { RankViewModel.correctPositions(resultList) } returns noteIdList
+        every { spyViewModel.correctPositions(resultList) } returns noteIdList
 
-        viewModel.cancelList.clearAdd(cancelList)
+        spyViewModel.cancelList.clearAdd(cancelList)
 
-        assertEquals(itemList, viewModel.itemList)
-        assertEquals(cancelList, viewModel.cancelList)
+        assertEquals(itemList, spyViewModel.itemList)
+        assertEquals(cancelList, spyViewModel.cancelList)
 
-        viewModel.onSnackbarAction()
+        spyViewModel.onSnackbarAction()
 
         cancelList.removeAt(index = 0)
 
-        assertEquals(resultList, viewModel.itemList)
-        assertEquals(cancelList, viewModel.cancelList)
+        assertEquals(resultList, spyViewModel.itemList)
+        assertEquals(cancelList, spyViewModel.cancelList)
 
-        coVerifySequence {
-            callback.apply {
-                notifyItemInsertedScroll(resultList, resultList.indices.last)
-                onBindingList()
-            }
+        coVerifyOrder {
+            callback.notifyItemInsertedScroll(resultList, resultList.indices.last)
+            callback.onBindingList()
 
             interactor.insert(item)
-            RankViewModel.correctPositions(resultList)
+            spyViewModel.correctPositions(resultList)
             interactor.updatePosition(resultList, noteIdList)
             callback.setList(resultList)
         }
@@ -718,18 +716,18 @@ class RankViewModelTest : ParentViewModelTest() {
         val itemList = data.firstCorrectList
         val noteIdList = mockk<List<Long>>()
 
-        mockkObject(RankViewModel)
-        every { RankViewModel.correctPositions(itemList) } returns noteIdList
+        every { spyViewModel.correctPositions(itemList) } returns noteIdList
 
-        viewModel.itemList.clearAdd(itemList)
-        assertEquals(itemList, viewModel.itemList)
+        spyViewModel.itemList.clearAdd(itemList)
+        assertEquals(itemList, spyViewModel.itemList)
 
-        viewModel.onTouchMoveResult()
+        spyViewModel.onTouchMoveResult()
 
-        coVerifySequence {
+        coVerifyOrder {
             callback.openState
+            openState.clear()
 
-            RankViewModel.correctPositions(itemList)
+            spyViewModel.correctPositions(itemList)
             callback.setList(itemList)
             interactor.updatePosition(itemList, noteIdList)
         }
@@ -744,7 +742,7 @@ class RankViewModelTest : ParentViewModelTest() {
         }
         val nameList = itemList.map { it.name.toUpperCase() }
 
-        assertEquals(nameList, RankViewModel.getNameList(itemList))
+        assertEquals(nameList, viewModel.getNameList(itemList))
     }
 
     @Test fun switchVisible() = with(TestData.Rank) {
@@ -752,28 +750,28 @@ class RankViewModelTest : ParentViewModelTest() {
         var p = 0
         var animationArray = booleanArrayOf(false, false, true, false)
 
-        assertArrayEquals(animationArray, RankViewModel.switchVisible(list, p))
+        assertArrayEquals(animationArray, viewModel.switchVisible(list, p))
         assertVisible(list, p)
 
         list = itemList
         p = 1
         animationArray = booleanArrayOf(true, true, true, false)
 
-        assertArrayEquals(animationArray, RankViewModel.switchVisible(list, p))
+        assertArrayEquals(animationArray, viewModel.switchVisible(list, p))
         assertVisible(list, p)
 
         list = itemList
         p = 2
         animationArray = booleanArrayOf(true, false, false, false)
 
-        assertArrayEquals(animationArray, RankViewModel.switchVisible(list, p))
+        assertArrayEquals(animationArray, viewModel.switchVisible(list, p))
         assertVisible(list, p)
 
         list = itemList
         p = 3
         animationArray = booleanArrayOf(true, false, true, true)
 
-        assertArrayEquals(animationArray, RankViewModel.switchVisible(list, p))
+        assertArrayEquals(animationArray, viewModel.switchVisible(list, p))
         assertVisible(list, p)
     }
 
@@ -783,19 +781,19 @@ class RankViewModelTest : ParentViewModelTest() {
 
     @Test fun correctPositions() = with(TestData.Rank) {
         var list: List<RankItem> = itemList
-        var noteIdList = RankViewModel.correctPositions(list)
+        var noteIdList = viewModel.correctPositions(list)
 
         assertTrue(noteIdList.isEmpty())
         assertPositions(list)
 
         list = firstCorrectList
-        noteIdList = RankViewModel.correctPositions(list)
+        noteIdList = viewModel.correctPositions(list)
 
         assertEquals(firstCorrectPosition, noteIdList)
         assertPositions(list)
 
         list = secondCorrectList
-        noteIdList = RankViewModel.correctPositions(list)
+        noteIdList = viewModel.correctPositions(list)
 
         assertEquals(secondCorrectPosition, noteIdList)
         assertPositions(list)

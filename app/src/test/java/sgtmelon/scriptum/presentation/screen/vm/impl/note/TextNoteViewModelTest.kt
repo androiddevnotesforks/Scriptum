@@ -4,7 +4,6 @@ import io.mockk.MockKVerificationScope
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import io.mockk.verifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
@@ -17,6 +16,7 @@ import sgtmelon.scriptum.domain.model.data.NoteData.Default
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.state.IconState
 import sgtmelon.scriptum.presentation.control.note.input.IInputControl
+import sgtmelon.scriptum.presentation.control.note.save.ISaveControl
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.text.ITextNoteFragment
 import kotlin.random.Random
@@ -34,6 +34,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
     @MockK lateinit var bindInteractor: IBindInteractor
 
     @MockK lateinit var inputControl: IInputControl
+    @MockK lateinit var saveControl: ISaveControl
     @MockK lateinit var iconState: IconState
 
     private val viewModel by lazy { TextNoteViewModel(application) }
@@ -41,7 +42,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
     private val fastTest by lazy {
         FastTest.Note.ViewModel(
                 callback, parentCallback, interactor, bindInteractor,
-                inputControl, iconState, viewModel,
+                inputControl, saveControl, iconState, viewModel,
                 { mockDeepCopy(it) }, { verifyDeepCopy(it) }
         )
     }
@@ -56,26 +57,18 @@ class TextNoteViewModelTest : ParentViewModelTest() {
         viewModel.inputControl = inputControl
         viewModel.iconState = iconState
 
+//        TODO
+//        every { viewModel getProperty "saveControl" } returns saveControl
+
         assertEquals(Default.ID, viewModel.id)
         assertEquals(Default.COLOR, viewModel.color)
         assertTrue(viewModel.rankDialogItemArray.isEmpty())
-    }
 
-    override fun onDestroy() {
         assertNotNull(viewModel.callback)
         assertNotNull(viewModel.parentCallback)
-
-        viewModel.onDestroy()
-
-        assertNull(viewModel.callback)
-        assertNull(viewModel.parentCallback)
-
-        verifySequence {
-            interactor.onDestroy()
-
-            TODO()
-        }
     }
+
+    @Test override fun onDestroy() = fastTest.onDestroy()
 
 
     @Test fun cacheData() {

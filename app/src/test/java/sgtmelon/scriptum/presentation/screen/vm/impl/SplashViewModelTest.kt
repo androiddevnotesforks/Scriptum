@@ -3,7 +3,7 @@ package sgtmelon.scriptum.presentation.screen.vm.impl
 import android.os.Bundle
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockkClass
+import io.mockk.mockk
 import io.mockk.verifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.assertNotNull
@@ -25,7 +25,7 @@ class SplashViewModelTest : ParentViewModelTest() {
 
     @MockK lateinit var interactor: ISplashInteractor
 
-    private val bundle = mockkClass(Bundle::class)
+    private val bundle: Bundle = mockk()
 
     private val viewModel by lazy { SplashViewModel(application) }
 
