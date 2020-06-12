@@ -12,7 +12,7 @@ interface IRoomWork {
 
     val roomProvider: RoomProvider
 
-    suspend fun inRoom(func: suspend RoomDb.() -> Unit) {
+    suspend fun inRoom(func: suspend RoomDb.() -> Unit = {}) {
         roomProvider.openRoom().apply { func() }.close()
     }
 

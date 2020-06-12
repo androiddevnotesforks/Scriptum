@@ -1,5 +1,6 @@
 package sgtmelon.scriptum
 
+import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -33,6 +34,12 @@ abstract class ParentRoomRepoTest : ParentCoTest() {
         every { roomDb.rollVisibleDao } returns rollVisibleDao
         every { roomDb.rankDao } returns rankDao
         every { roomDb.alarmDao } returns alarmDao
+    }
+
+    override fun tearDown() {
+        super.tearDown()
+
+        confirmVerified(roomProvider)
     }
 
 }

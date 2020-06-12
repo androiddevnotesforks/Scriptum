@@ -112,7 +112,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         val theme = interactor.theme
 
         callback?.apply {
-            startRippleAnimation(theme, noteItem.color, theme.getRippleShade())
+            startRippleAnimation(theme, noteItem.color, getRippleShade(theme))
             startButtonFadeInAnimation()
 
             if (signalState?.isMelody == true) {
@@ -178,16 +178,16 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     }
 
 
+    @RunPrivate
+    fun getRippleShade(@Theme theme: Int): ColorShade {
+        return if (theme == Theme.LIGHT) ColorShade.ACCENT else ColorShade.DARK
+    }
+
     private val vibratorPattern = longArrayOf(500, 750, 500, 750, 500, 0)
 
     companion object {
         @RunPrivate const val START_DELAY = 0L
         @RunPrivate const val CANCEL_DELAY = 20000L
-
-        @RunPrivate
-        fun Int.getRippleShade(): ColorShade = let {
-            return if (it == Theme.LIGHT) ColorShade.ACCENT else ColorShade.DARK
-        }
     }
 
 }

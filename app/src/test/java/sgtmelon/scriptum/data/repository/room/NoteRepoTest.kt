@@ -1,9 +1,6 @@
 package sgtmelon.scriptum.data.repository.room
 
-import io.mockk.coEvery
-import io.mockk.coVerifySequence
-import io.mockk.every
-import io.mockk.mockk
+import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
@@ -34,6 +31,14 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
     private val mockNoteRepo by lazy { NoteRepo(roomProvider, noteConverter, rollConverter) }
     private val noteRepo by lazy { NoteRepo(roomProvider, NoteConverter(), RollConverter()) }
+    private val spyNoteRepo by lazy { spyk(mockNoteRepo) }
+
+    override fun tearDown() {
+        super.tearDown()
+
+        confirmVerified(noteConverter, rollConverter)
+    }
+
 
     @Test fun getCount() = startCoTest {
         val notesCount = Random.nextInt()
@@ -187,41 +192,47 @@ class NoteRepoTest : ParentRoomRepoTest() {
     @Test fun getItem() = startCoTest {
         val id = Random.nextLong()
 
-        val noteItem = TestData.Note.firstNote
-        val alarmEntity = AlarmEntity(id = noteItem.alarmId, date = noteItem.alarmDate)
-
-        val noteEntity = NoteConverter().toEntity(noteItem)
+        val noteEntity = mockk<NoteEntity>()
+        val noteItem = mockk<NoteItem>()
+        val rollEntityList = mockk<MutableList<RollEntity>>()
+        val rollItemList = mockk<MutableList<RollItem>>()
+        val alarmEntity = mockk<AlarmEntity>()
 
         coEvery { noteDao.get(id) } returns null
         assertNull(mockNoteRepo.getItem(id, isOptimal = Random.nextBoolean()))
 
-        every { rollConverter.toItem(mutableListOf()) } returns mutableListOf()
-        every { noteConverter.toItem(noteEntity, mutableListOf(), alarmEntity) } returns noteItem
-
         coEvery { noteDao.get(id) } returns noteEntity
-        coEvery { rollDao.get(id) } returns mutableListOf()
-        coEvery { rollDao.getView(id) } returns mutableListOf()
+        coEvery { spyNoteRepo.getPreview(rollDao, id, any()) } returns rollEntityList
+        every { rollConverter.toItem(rollEntityList) } returns rollItemList
         coEvery { alarmDao.get(id) } returns alarmEntity
-        assertEquals(noteItem, mockNoteRepo.getItem(id, isOptimal = false))
-        assertEquals(noteItem, mockNoteRepo.getItem(id, isOptimal = true))
+        every { noteConverter.toItem(noteEntity, rollItemList, alarmEntity) } returns noteItem
+
+        assertEquals(noteItem, spyNoteRepo.getItem(id, isOptimal = false))
+        assertEquals(noteItem, spyNoteRepo.getItem(id, isOptimal = true))
 
         coVerifySequence {
             roomProvider.openRoom()
             noteDao.get(id)
 
+            spyNoteRepo.getItem(id, isOptimal = false)
+            spyNoteRepo.takeFromRoom<NoteItem?>(any())
+            spyNoteRepo.roomProvider
             roomProvider.openRoom()
             noteDao.get(id)
-            rollDao.get(id)
-            rollConverter.toItem(mutableListOf())
+            spyNoteRepo.getPreview(rollDao, id, isOptimal = false)
+            rollConverter.toItem(rollEntityList)
             alarmDao.get(id)
-            noteConverter.toItem(noteEntity, mutableListOf(), alarmEntity)
+            noteConverter.toItem(noteEntity, rollItemList, alarmEntity)
 
+            spyNoteRepo.getItem(id, isOptimal = true)
+            spyNoteRepo.takeFromRoom<NoteItem?>(any())
+            spyNoteRepo.roomProvider
             roomProvider.openRoom()
             noteDao.get(id)
-            rollDao.getView(id)
-            rollConverter.toItem(mutableListOf())
+            spyNoteRepo.getPreview(rollDao, id, isOptimal = true)
+            rollConverter.toItem(rollEntityList)
             alarmDao.get(id)
-            noteConverter.toItem(noteEntity, mutableListOf(), alarmEntity)
+            noteConverter.toItem(noteEntity, rollItemList, alarmEntity)
         }
     }
 
@@ -316,18 +327,29 @@ class NoteRepoTest : ParentRoomRepoTest() {
     }
 
     @Test fun clearBin() = startCoTest {
-        val itemList = NoteConverter().toEntity(TestData.Note.itemList)
+        val itemList = List<NoteEntity>(size = 5) {
+            mockk {
+                every { id } returns it.toLong()
+                every { rankId } returns (it * it).toLong()
+            }
+        }
 
-        itemList.forEach { coEvery { rankDao.get(it.rankId) } returns null }
         coEvery { noteDao.get(true) } returns itemList
+        coEvery { spyNoteRepo.clearConnection(rankDao, any(), any()) } returns Unit
 
-        mockNoteRepo.clearBin()
+        spyNoteRepo.clearBin()
 
         coVerifySequence {
+            spyNoteRepo.clearBin()
+            spyNoteRepo.inRoom(any())
+            spyNoteRepo.roomProvider
+
             roomProvider.openRoom()
             noteDao.get(true)
-            itemList.forEach {
-                rankDao.get(it.rankId)
+            itemList.forEachIndexed { i, it ->
+                it.id
+                it.rankId
+                spyNoteRepo.clearConnection(rankDao, i.toLong(), (i * i).toLong())
             }
             noteDao.delete(itemList)
         }
@@ -374,19 +396,30 @@ class NoteRepoTest : ParentRoomRepoTest() {
     }
 
     @Test fun clearNote() = startCoTest {
-        val item = TestData.Note.itemList.random()
-        val entity = NoteConverter().toEntity(item)
+        val item = mockk<NoteItem>()
+        val id = Random.nextLong()
+        val rankId = Random.nextLong()
+        val entity = mockk<NoteEntity>()
 
+        every { item.id } returns id
+        every { item.rankId } returns rankId
+        coEvery { spyNoteRepo.clearConnection(rankDao, id, rankId) } returns Unit
         every { noteConverter.toEntity(item) } returns entity
-        coEvery { rankDao.get(item.rankId) } returns null
 
-        mockNoteRepo.clearNote(item)
+        spyNoteRepo.clearNote(item)
 
         coVerifySequence {
+            spyNoteRepo.clearNote(item)
+            spyNoteRepo.inRoom(any())
+            spyNoteRepo.roomProvider
+
             roomProvider.openRoom()
-            rankDao.get(item.rankId)
+            item.id
+            item.rankId
+            spyNoteRepo.clearConnection(rankDao, id, rankId)
             noteConverter.toEntity(item)
             noteDao.delete(entity)
+            roomDb.close()
         }
     }
 

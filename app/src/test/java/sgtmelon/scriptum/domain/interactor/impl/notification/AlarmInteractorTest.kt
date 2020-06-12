@@ -1,15 +1,14 @@
 package sgtmelon.scriptum.domain.interactor.impl.notification
 
-import io.mockk.coEvery
-import io.mockk.coVerifySequence
-import io.mockk.every
+import io.mockk.*
 import io.mockk.impl.annotations.MockK
-import io.mockk.verifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.extension.clearSeconds
 import sgtmelon.extension.getText
+import sgtmelon.extension.nextString
+import sgtmelon.scriptum.FastMock
 import sgtmelon.scriptum.FastTest
 import sgtmelon.scriptum.ParentInteractorTest
 import sgtmelon.scriptum.TestData
@@ -39,6 +38,13 @@ class AlarmInteractorTest : ParentInteractorTest() {
 
     private val interactor by lazy {
         AlarmInteractor(preferenceRepo, alarmRepo, noteRepo, callback)
+    }
+    private val spyInteractor by lazy { spyk(interactor) }
+
+    override fun tearDown() {
+        super.tearDown()
+
+        confirmVerified(preferenceRepo, alarmRepo, noteRepo, callback)
     }
 
     @Test override fun onDestroy() {
@@ -92,17 +98,33 @@ class AlarmInteractorTest : ParentInteractorTest() {
 
         val timeArray = intArrayOf(1, 2, 3, 4)
         val repeat = timeArray.indices.random()
-        val calendar = interactor.getCalendarWithAdd(timeArray[repeat])
+        val minute = timeArray[repeat]
 
-        coEvery { alarmRepo.getList() } returns mutableListOf()
+        val calendar = mockk<Calendar>()
+        val calendarText = Random.nextString()
 
-        interactor.setupRepeat(item, intArrayOf(), Random.nextInt())
-        interactor.setupRepeat(item, timeArray, repeat)
+        every { spyInteractor.getCalendarWithAdd(minute) } returns calendar
+        coEvery { spyInteractor.checkDateExist(calendar) } returns Unit
 
-        coVerifySequence {
-            alarmRepo.getList()
-            alarmRepo.insertOrUpdate(item, calendar.getText())
+        FastMock.timeExtension()
+        every { calendar.getText() } returns calendarText
+
+        spyInteractor.setupRepeat(item, intArrayOf(), Random.nextInt())
+        spyInteractor.setupRepeat(item, timeArray, repeat)
+
+        coVerifyOrder {
+            spyInteractor.getCalendarWithAdd(minute)
+            spyInteractor.checkDateExist(calendar)
+
+            alarmRepo.insertOrUpdate(item, calendarText)
             callback.setAlarm(calendar, item.id)
+        }
+    }
+
+    @Test fun getCalendarWithAdd() {
+        listOf(1, 10, 30, 43).forEach {
+            val calendar = Calendar.getInstance().clearSeconds().apply { add(Calendar.MINUTE, it) }
+            assertEquals(calendar, interactor.getCalendarWithAdd(it))
         }
     }
 
