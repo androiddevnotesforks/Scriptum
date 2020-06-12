@@ -3,7 +3,6 @@ package sgtmelon.scriptum.presentation.screen.vm.impl.notification
 import android.app.Application
 import android.os.Bundle
 import androidx.annotation.IdRes
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
@@ -12,6 +11,7 @@ import sgtmelon.scriptum.domain.interactor.callback.notification.IAlarmInteracto
 import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.domain.model.annotation.Repeat
 import sgtmelon.scriptum.domain.model.annotation.Theme
+import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.data.NoteData
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.key.ColorShade
@@ -39,13 +39,11 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     }
 
 
-    @VisibleForTesting
-    var id: Long = NoteData.Default.ID
+    @RunPrivate var id: Long = NoteData.Default.ID
 
-    @VisibleForTesting
-    lateinit var noteItem: NoteItem
-    @VisibleForTesting
-    var signalState: SignalState? = null
+    @RunPrivate lateinit var noteItem: NoteItem
+
+    @RunPrivate var signalState: SignalState? = null
 
     private val longWaitRunnable = Runnable { repeatFinish(interactor.repeat) }
     private val vibratorRunnable = object : Runnable {
@@ -183,13 +181,10 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     private val vibratorPattern = longArrayOf(500, 750, 500, 750, 500, 0)
 
     companion object {
-        @VisibleForTesting
-        const val START_DELAY = 0L
+        @RunPrivate const val START_DELAY = 0L
+        @RunPrivate const val CANCEL_DELAY = 20000L
 
-        @VisibleForTesting
-        const val CANCEL_DELAY = 20000L
-
-        @VisibleForTesting
+        @RunPrivate
         fun Int.getRippleShade(): ColorShade = let {
             return if (it == Theme.LIGHT) ColorShade.ACCENT else ColorShade.DARK
         }

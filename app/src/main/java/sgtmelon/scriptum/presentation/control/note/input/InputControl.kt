@@ -1,9 +1,9 @@
 package sgtmelon.scriptum.presentation.control.note.input
 
 import android.util.Log
-import androidx.annotation.VisibleForTesting
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.domain.model.annotation.InputAction
+import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.InputItem
 import java.util.*
 
@@ -23,23 +23,17 @@ import java.util.*
  */
 class InputControl : IInputControl {
 
-    @VisibleForTesting
-    var logEnabled = BuildConfig.DEBUG
+    @RunPrivate var logEnabled = BuildConfig.DEBUG
 
-    @VisibleForTesting
-    val inputList = ArrayList<InputItem>()
+    @RunPrivate val inputList = ArrayList<InputItem>()
 
     /**
      * Position in [inputList]
      */
-    @VisibleForTesting
-    var position = -1
+    @RunPrivate var position = -1
 
-    @VisibleForTesting
-    val isUndoAccess get() = inputList.size != 0 && position != -1
-
-    @VisibleForTesting
-    val isRedoAccess get() = inputList.size != 0 && position != inputList.size - 1
+    @RunPrivate val isUndoAccess get() = inputList.size != 0 && position != -1
+    @RunPrivate val isRedoAccess get() = inputList.size != 0 && position != inputList.size - 1
 
     override val access get() = Access(isUndoAccess, isRedoAccess)
 

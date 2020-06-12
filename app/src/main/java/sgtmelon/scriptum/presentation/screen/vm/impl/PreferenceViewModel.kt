@@ -1,13 +1,13 @@
 package sgtmelon.scriptum.presentation.screen.vm.impl
 
 import android.os.Bundle
-import androidx.annotation.VisibleForTesting
 import sgtmelon.scriptum.domain.interactor.callback.IPreferenceInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Repeat
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.Theme
+import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.MelodyItem
 import sgtmelon.scriptum.domain.model.key.PermissionResult
 import sgtmelon.scriptum.presentation.screen.ui.callback.IPreferenceFragment
@@ -20,7 +20,7 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.IPreferenceViewModel
 class PreferenceViewModel(
         private val interactor: IPreferenceInteractor,
         private val signalInteractor: ISignalInteractor,
-        @VisibleForTesting var callback: IPreferenceFragment?
+        @RunPrivate var callback: IPreferenceFragment?
 ) : IPreferenceViewModel {
 
     private val melodyList: List<MelodyItem> = signalInteractor.melodyList

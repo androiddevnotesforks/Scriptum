@@ -35,7 +35,7 @@ class NotesViewModelTest : ParentViewModelTest() {
     @MockK lateinit var interactor: INotesInteractor
     @MockK lateinit var bindInteractor: IBindInteractor
 
-    private val calendar: Calendar = mockk()
+    @MockK lateinit var calendar: Calendar
 
     private val viewModel by lazy { NotesViewModel(application) }
 

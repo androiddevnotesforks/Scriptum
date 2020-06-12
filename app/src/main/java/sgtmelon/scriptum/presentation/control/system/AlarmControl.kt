@@ -4,10 +4,10 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.text.format.DateUtils
-import androidx.annotation.VisibleForTesting
 import sgtmelon.extension.formatFuture
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.extension.toLowerCase
 import sgtmelon.scriptum.presentation.control.system.callback.IAlarmControl
@@ -67,11 +67,9 @@ class AlarmControl(private val context: Context?) : IAlarmControl {
     }
 
     companion object {
-        @VisibleForTesting
-        var callback: IAlarmControl? = null
+        @RunPrivate var callback: IAlarmControl? = null
 
-        @VisibleForTesting
-        val intentList: MutableList<PendingIntent> = mutableListOf()
+        @RunPrivate val intentList: MutableList<PendingIntent> = mutableListOf()
 
         operator fun get(context: Context?): IAlarmControl {
             return callback ?: AlarmControl(context).also { callback = it }

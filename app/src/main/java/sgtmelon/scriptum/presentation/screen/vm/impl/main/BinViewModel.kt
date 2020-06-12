@@ -2,11 +2,11 @@ package sgtmelon.scriptum.presentation.screen.vm.impl.main
 
 import android.app.Application
 import android.os.Bundle
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.interactor.callback.main.IBinInteractor
+import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.extension.clearAdd
 import sgtmelon.scriptum.extension.removeAtOrNull
@@ -29,8 +29,7 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
     }
 
 
-    @VisibleForTesting
-    val itemList: MutableList<NoteItem> = ArrayList()
+    @RunPrivate val itemList: MutableList<NoteItem> = ArrayList()
 
     override fun onSetup(bundle: Bundle?) {
         callback?.setupToolbar()

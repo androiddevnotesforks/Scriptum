@@ -7,9 +7,9 @@ import android.os.Build
 import androidx.annotation.IntDef
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringDef
-import androidx.annotation.VisibleForTesting
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.Sort
+import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.extension.clearAdd
 import sgtmelon.scriptum.extension.removeAtOrNull
@@ -199,11 +199,9 @@ class BindControl(private val context: Context?) : IBindControl {
     companion object {
         const val INFO_ID = 0
 
-        @VisibleForTesting
-        var callback: IBindControl? = null
+        @RunPrivate var callback: IBindControl? = null
 
-        @VisibleForTesting
-        val tagIdMap: MutableMap<String, Int> = mutableMapOf()
+        @RunPrivate val tagIdMap: MutableMap<String, Int> = mutableMapOf()
 
         operator fun get(context: Context?): IBindControl {
             return callback ?: BindControl(context).also { callback = it }

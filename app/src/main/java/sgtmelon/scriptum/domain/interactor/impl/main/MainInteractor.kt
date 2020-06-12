@@ -1,11 +1,11 @@
 package sgtmelon.scriptum.domain.interactor.impl.main
 
-import androidx.annotation.VisibleForTesting
 import sgtmelon.extension.beforeNow
 import sgtmelon.extension.getCalendar
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.domain.interactor.callback.main.IMainInteractor
 import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
+import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IMainBridge
 import sgtmelon.scriptum.presentation.screen.vm.impl.main.MainViewModel
 
@@ -14,7 +14,7 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.main.MainViewModel
  */
 class MainInteractor(
         private val alarmRepo: IAlarmRepo,
-        @VisibleForTesting var callback: IMainBridge?
+        @RunPrivate var callback: IMainBridge?
 ) : ParentInteractor(),
         IMainInteractor {
 

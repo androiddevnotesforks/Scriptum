@@ -1,11 +1,11 @@
 package sgtmelon.scriptum.domain.interactor.impl.main
 
-import androidx.annotation.VisibleForTesting
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.domain.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.domain.model.annotation.Theme
+import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IBinBridge
 import sgtmelon.scriptum.presentation.screen.vm.impl.main.BinViewModel
@@ -16,7 +16,7 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.main.BinViewModel
 class BinInteractor(
         private val preferenceRepo: IPreferenceRepo,
         private val noteRepo: INoteRepo,
-        @VisibleForTesting var callback: IBinBridge?
+        @RunPrivate var callback: IBinBridge?
 ) : ParentInteractor(),
         IBinInteractor {
 

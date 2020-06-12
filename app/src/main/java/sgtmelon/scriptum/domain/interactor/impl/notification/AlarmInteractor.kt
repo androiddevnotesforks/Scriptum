@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.domain.interactor.impl.notification
 
-import androidx.annotation.VisibleForTesting
 import sgtmelon.extension.clearSeconds
 import sgtmelon.extension.getText
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
@@ -10,6 +9,7 @@ import sgtmelon.scriptum.domain.interactor.callback.notification.IAlarmInteracto
 import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.domain.model.annotation.Repeat
 import sgtmelon.scriptum.domain.model.annotation.Theme
+import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.screen.ui.callback.notification.IAlarmBridge
 import sgtmelon.scriptum.presentation.screen.vm.impl.notification.AlarmViewModel
@@ -22,7 +22,7 @@ class AlarmInteractor(
         private val preferenceRepo: IPreferenceRepo,
         private val alarmRepo: IAlarmRepo,
         private val noteRepo: INoteRepo,
-        @VisibleForTesting var callback: IAlarmBridge?
+        @RunPrivate var callback: IAlarmBridge?
 ) : ParentInteractor(),
         IAlarmInteractor {
 
@@ -58,12 +58,12 @@ class AlarmInteractor(
         callback?.setAlarm(calendar, noteItem.id)
     }
 
-    @VisibleForTesting
+    @RunPrivate
     fun getCalendarWithAdd(minute: Int) = Calendar.getInstance().clearSeconds().apply {
         add(Calendar.MINUTE, minute)
     }
 
-    @VisibleForTesting
+    @RunPrivate
     suspend fun checkDateExist(calendar: Calendar) {
         val dateList = alarmRepo.getList().map { it.alarm.date }
 

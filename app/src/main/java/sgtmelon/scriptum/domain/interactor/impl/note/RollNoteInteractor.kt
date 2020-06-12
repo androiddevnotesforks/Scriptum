@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.domain.interactor.impl.note
 
-import androidx.annotation.VisibleForTesting
 import sgtmelon.extension.getText
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
@@ -10,6 +9,7 @@ import sgtmelon.scriptum.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Theme
+import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.IParentNoteBridge
@@ -24,7 +24,7 @@ class RollNoteInteractor(
         private val alarmRepo: IAlarmRepo,
         private val rankRepo: IRankRepo,
         private val noteRepo: INoteRepo,
-        @VisibleForTesting var callback: IParentNoteBridge?
+        @RunPrivate var callback: IParentNoteBridge?
 ) : ParentInteractor(),
         IRollNoteInteractor {
 

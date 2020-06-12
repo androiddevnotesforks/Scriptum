@@ -3,6 +3,7 @@ package sgtmelon.scriptum.data.repository.room
 import io.mockk.coEvery
 import io.mockk.coVerifySequence
 import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.assertEquals
@@ -22,7 +23,7 @@ import kotlin.random.Random
 @ExperimentalCoroutinesApi
 class AlarmRepoTest : ParentRoomRepoTest() {
 
-    private val converter: AlarmConverter = mockk()
+    @MockK lateinit var converter: AlarmConverter
 
     private val alarmRepo by lazy { AlarmRepo(roomProvider, converter) }
 

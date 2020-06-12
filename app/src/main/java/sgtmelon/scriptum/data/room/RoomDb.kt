@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.data.room
 
 import android.content.Context
-import androidx.annotation.VisibleForTesting
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -34,7 +33,6 @@ abstract class RoomDb : RoomDatabase() {
     fun checkInsertIgnore(id: Long): Long? = id.takeIf { it != UNIQUE_ERROR_ID }
 
     companion object {
-        @VisibleForTesting
         const val UNIQUE_ERROR_ID = -1L
 
         const val VERSION = 8

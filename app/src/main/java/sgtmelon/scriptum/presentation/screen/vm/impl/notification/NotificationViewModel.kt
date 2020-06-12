@@ -2,10 +2,10 @@ package sgtmelon.scriptum.presentation.screen.vm.impl.notification
 
 import android.app.Application
 import android.os.Bundle
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.domain.interactor.callback.notification.INotificationInteractor
+import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.extension.clearAdd
 import sgtmelon.scriptum.extension.removeAtOrNull
@@ -28,8 +28,8 @@ class NotificationViewModel(application: Application) :
     }
 
 
-    @VisibleForTesting val itemList: MutableList<NotificationItem> = mutableListOf()
-    @VisibleForTesting val cancelList: MutableList<Pair<Int, NotificationItem>> = mutableListOf()
+    @RunPrivate val itemList: MutableList<NotificationItem> = mutableListOf()
+    @RunPrivate val cancelList: MutableList<Pair<Int, NotificationItem>> = mutableListOf()
 
     override fun onSetup(bundle: Bundle?) {
         callback?.setupToolbar()

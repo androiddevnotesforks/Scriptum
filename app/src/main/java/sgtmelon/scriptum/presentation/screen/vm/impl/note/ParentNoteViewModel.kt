@@ -2,7 +2,6 @@ package sgtmelon.scriptum.presentation.screen.vm.impl.note
 
 import android.app.Application
 import android.os.Bundle
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.extension.beforeNow
@@ -10,6 +9,7 @@ import sgtmelon.extension.getCalendar
 import sgtmelon.scriptum.data.room.converter.model.StringConverter
 import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.note.IParentNoteInteractor
+import sgtmelon.scriptum.domain.model.annotation.test.RunProtected
 import sgtmelon.scriptum.domain.model.data.NoteData
 import sgtmelon.scriptum.domain.model.item.InputItem
 import sgtmelon.scriptum.domain.model.item.InputItem.Cursor.Companion.get
@@ -36,8 +36,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
 
     //region Variables
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-    var parentCallback: INoteConnector? = null
+    @RunProtected var parentCallback: INoteConnector? = null
         private set
 
     fun setParentCallback(callback: INoteConnector?) {
@@ -52,40 +51,28 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
         this.bindInteractor = bindInteractor
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-    var inputControl: IInputControl = InputControl()
-
-    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-    val saveControl: ISaveControl by lazy {
+    @RunProtected var inputControl: IInputControl = InputControl()
+    @RunProtected val saveControl: ISaveControl by lazy {
         SaveControl(context, interactor.getSaveModel(), callback = this)
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-    var id: Long = NoteData.Default.ID
+    @RunProtected var id: Long = NoteData.Default.ID
+    @RunProtected var color: Int = NoteData.Default.COLOR
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-    var color: Int = NoteData.Default.COLOR
-
-    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-    lateinit var noteItem: N
+    @RunProtected lateinit var noteItem: N
 
     /**
      * Item for cash data before enter edit mode (for easy data restore).
      */
-    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-    lateinit var restoreItem: N
+    @RunProtected lateinit var restoreItem: N
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-    var noteState = NoteState()
+    @RunProtected var noteState = NoteState()
+    @RunProtected var iconState = IconState()
 
     /**
      * App doesn't have ranks if size == 1.
      */
-    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-    var rankDialogItemArray: Array<String> = arrayOf()
-
-    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-    var iconState = IconState()
+    @RunProtected var rankDialogItemArray: Array<String> = arrayOf()
 
     //endregion
 

@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.domain.interactor.impl.notification
 
-import androidx.annotation.VisibleForTesting
 import sgtmelon.extension.getCalendarOrNull
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
@@ -9,6 +8,7 @@ import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.domain.interactor.callback.notification.INotificationInteractor
 import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.domain.model.annotation.Theme
+import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.presentation.screen.ui.callback.notification.INotificationBridge
 import sgtmelon.scriptum.presentation.screen.vm.impl.notification.NotificationViewModel
@@ -21,7 +21,7 @@ class NotificationInteractor(
         private val noteRepo: INoteRepo,
         private val alarmRepo: IAlarmRepo,
         private val bindRepo: IBindRepo,
-        @VisibleForTesting var callback: INotificationBridge?
+        @RunPrivate var callback: INotificationBridge?
 ) : ParentInteractor(),
         INotificationInteractor {
 

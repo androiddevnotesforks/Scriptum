@@ -3,19 +3,19 @@ package sgtmelon.scriptum.presentation.screen.vm.impl.main
 import android.app.Application
 import android.os.Bundle
 import androidx.annotation.IdRes
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.IMainInteractor
+import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.key.MainPage
 import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.MainActivity
-import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.main.IMainViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
 
 /**
  * ViewModel for [MainActivity].
@@ -35,11 +35,9 @@ class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(a
     /**
      * Key for detect application start and pageTo == [pageFrom] inside [onSelectItem].
      */
-    @VisibleForTesting
-    var firstStart: Boolean = true
+    @RunPrivate var firstStart: Boolean = true
 
-    @VisibleForTesting
-    var pageFrom: MainPage = START_PAGE
+    @RunPrivate var pageFrom: MainPage = START_PAGE
 
     override fun onSetup(bundle: Bundle?) {
         if (bundle == null) {
@@ -140,11 +138,8 @@ class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(a
 
         private const val PREFIX = "MAIN"
 
-        @VisibleForTesting
-        const val FIRST_START = "${PREFIX}_FIRST_START"
-
-        @VisibleForTesting
-        const val PAGE_CURRENT = "${PREFIX}_PAGE_CURRENT"
+        @RunPrivate const val FIRST_START = "${PREFIX}_FIRST_START"
+        @RunPrivate const val PAGE_CURRENT = "${PREFIX}_PAGE_CURRENT"
     }
 
 }

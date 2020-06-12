@@ -3,12 +3,12 @@ package sgtmelon.scriptum.presentation.screen.vm.impl.note
 import android.app.Application
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.domain.model.annotation.InputAction
+import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.data.NoteData.Default
 import sgtmelon.scriptum.domain.model.data.NoteData.Intent
 import sgtmelon.scriptum.domain.model.item.InputItem
@@ -461,9 +461,29 @@ class RollNoteViewModel(application: Application) :
     //endregion
 
     /**
+     * If have hide items when need correct position.
+     */
+    @RunPrivate
+    fun getCorrectPosition(p: Int, noteItem: NoteItem.Roll): Int {
+        return if (isVisible) p else noteItem.list.let { it.indexOf(it.hide()[p]) }
+    }
+
+    @RunPrivate
+    fun MutableList<RollItem>.hide(): MutableList<RollItem> = ArrayList(filter { !it.isCheck })
+
+    /**
+     * Use only for different notify functions. Don't use for change data.
+     */
+    @RunPrivate
+    fun getList(noteItem: NoteItem.Roll): MutableList<RollItem> {
+        return noteItem.list.let { if (isVisible) it else it.hide() }
+    }
+
+    /**
      * Make good animation for items, remove or insert one by one.
      */
-    private fun notifyListByVisible() = viewModelScope.launch {
+    @RunPrivate
+    fun notifyListByVisible() = viewModelScope.launch {
         val list = ArrayList(noteItem.list)
 
         if (list.size == 0) return@launch
@@ -487,27 +507,7 @@ class RollNoteViewModel(application: Application) :
     }
 
     companion object {
-        @VisibleForTesting
-        var isVisible = true
-
-        /**
-         * If have hide items when need correct position.
-         */
-        @VisibleForTesting
-        fun getCorrectPosition(p: Int, noteItem: NoteItem.Roll): Int {
-            return if (isVisible) p else noteItem.list.let { it.indexOf(it.hide()[p]) }
-        }
-
-        @VisibleForTesting
-        fun MutableList<RollItem>.hide(): MutableList<RollItem> = ArrayList(filter { !it.isCheck })
-
-        /**
-         * Use only for different notify functions. Don't use for change data.
-         */
-        @VisibleForTesting
-        fun getList(noteItem: NoteItem.Roll): MutableList<RollItem> {
-            return noteItem.list.let { if (isVisible) it else it.hide() }
-        }
+        @RunPrivate var isVisible = true
     }
 
 }

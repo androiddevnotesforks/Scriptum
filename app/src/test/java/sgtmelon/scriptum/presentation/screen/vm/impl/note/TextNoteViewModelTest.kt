@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.presentation.screen.vm.impl.note
 
 import io.mockk.MockKVerificationScope
+import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
@@ -57,7 +58,6 @@ class TextNoteViewModelTest : ParentViewModelTest() {
         viewModel.inputControl = inputControl
         viewModel.iconState = iconState
 
-//        TODO
 //        every { viewModel getProperty "saveControl" } returns saveControl
 
         assertEquals(Default.ID, viewModel.id)
@@ -66,6 +66,15 @@ class TextNoteViewModelTest : ParentViewModelTest() {
 
         assertNotNull(viewModel.callback)
         assertNotNull(viewModel.parentCallback)
+    }
+
+    override fun tearDown() {
+        super.tearDown()
+
+        confirmVerified(
+                callback, parentCallback, interactor, bindInteractor, inputControl,
+                saveControl, iconState
+        )
     }
 
     @Test override fun onDestroy() = fastTest.onDestroy()

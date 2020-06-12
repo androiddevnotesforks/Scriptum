@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.domain.interactor.impl.main
 
-import androidx.annotation.VisibleForTesting
 import sgtmelon.extension.getText
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
@@ -10,6 +9,7 @@ import sgtmelon.scriptum.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.Theme
+import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.INotesBridge
@@ -24,12 +24,11 @@ class NotesInteractor(
         private val noteRepo: INoteRepo,
         private val alarmRepo: IAlarmRepo,
         private val rankRepo: IRankRepo,
-        @VisibleForTesting var callback: INotesBridge?
+        @RunPrivate var callback: INotesBridge?
 ) : ParentInteractor(),
         INotesInteractor {
 
-    @VisibleForTesting
-    var rankIdVisibleList: List<Long>? = null
+    @RunPrivate var rankIdVisibleList: List<Long>? = null
 
     private suspend fun getRankIdVisibleList(): List<Long> {
         return rankIdVisibleList ?: rankRepo.getIdVisibleList().also { rankIdVisibleList = it }

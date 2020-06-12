@@ -3,8 +3,8 @@ package sgtmelon.scriptum.presentation.screen.vm.impl
 import android.app.Application
 import android.content.Context
 import androidx.annotation.CallSuper
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.AndroidViewModel
+import sgtmelon.scriptum.domain.model.annotation.test.RunProtected
 import sgtmelon.scriptum.presentation.screen.vm.callback.IParentViewModel
 
 /**
@@ -17,7 +17,7 @@ abstract class ParentViewModel<C>(application: Application) : AndroidViewModel(a
 
     protected val context: Context = application.applicationContext
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+    @RunProtected
     var callback: C? = null
         private set
 

@@ -42,6 +42,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     @MockK lateinit var iconState: IconState
 
     private val viewModel by lazy { RollNoteViewModel(application) }
+    private val spyViewModel by lazy { spyk(viewModel) }
 
     private val fastTest by lazy {
         FastTest.Note.ViewModel(
@@ -70,6 +71,15 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
         assertNotNull(viewModel.callback)
         assertNotNull(viewModel.parentCallback)
+    }
+
+    override fun tearDown() {
+        super.tearDown()
+
+        confirmVerified(
+                callback, parentCallback, interactor, bindInteractor, inputControl,
+                saveControl, iconState
+        )
     }
 
     @Test override fun onDestroy() = fastTest.onDestroy()
@@ -212,37 +222,35 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         val newList = mockk<MutableList<RollItem>>()
         val access = mockk<InputControl.Access>()
 
-        viewModel.noteItem = noteItem
+        spyViewModel.noteItem = noteItem
 
-        mockkObject(RollNoteViewModel)
-
-        every { RollNoteViewModel.getCorrectPosition(p, noteItem) } returns -1
+        every { spyViewModel.getCorrectPosition(p, noteItem) } returns -1
         every { noteItem.list } returns list
-        every { RollNoteViewModel.getList(noteItem) } returns newList
+        every { spyViewModel.getList(noteItem) } returns newList
         every { inputControl.access } returns access
 
-        viewModel.onInputRollChange(p, text)
+        spyViewModel.onInputRollChange(p, text)
 
-        every { RollNoteViewModel.getCorrectPosition(p, noteItem) } returns correctPosition
+        every { spyViewModel.getCorrectPosition(p, noteItem) } returns correctPosition
         every { item.text = text } returns Unit
 
-        viewModel.onInputRollChange(p, text)
+        spyViewModel.onInputRollChange(p, text)
 
-        verifySequence {
-            RollNoteViewModel.getCorrectPosition(p, noteItem)
+        verifyOrder {
+            spyViewModel.getCorrectPosition(p, noteItem)
             noteItem.list
 
-            RollNoteViewModel.getList(noteItem)
+            spyViewModel.getList(noteItem)
             callback.setList(newList)
             inputControl.access
             callback.onBindingInput(noteItem, access)
 
 
-            RollNoteViewModel.getCorrectPosition(p, noteItem)
+            spyViewModel.getCorrectPosition(p, noteItem)
             noteItem.list
             item.text = text
 
-            RollNoteViewModel.getList(noteItem)
+            spyViewModel.getList(noteItem)
             callback.setList(newList)
             inputControl.access
             callback.onBindingInput(noteItem, access)
@@ -313,31 +321,31 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
         val inputAccess = mockk<InputControl.Access>()
 
-        viewModel.noteItem = noteItem
+        spyViewModel.noteItem = noteItem
 
         FastMock.listExtension()
         mockkObject(RollNoteViewModel)
 
-        every { RollNoteViewModel.getCorrectPosition(p, noteItem) } returns correctPosition
+        every { spyViewModel.getCorrectPosition(p, noteItem) } returns correctPosition
         every { noteItem.list } returns list
 
         every { list.removeAtOrNull(correctPosition) } returns null
 
-        viewModel.onTouchSwiped(p)
+        spyViewModel.onTouchSwiped(p)
 
         every { list.removeAtOrNull(correctPosition) } returns item
         every { item.toJson() } returns itemJson
         every { inputControl.access } returns inputAccess
-        every { RollNoteViewModel.getList(noteItem) } returns newList
+        every { spyViewModel.getList(noteItem) } returns newList
 
-        viewModel.onTouchSwiped(p)
+        spyViewModel.onTouchSwiped(p)
 
-        verifySequence {
-            RollNoteViewModel.getCorrectPosition(p, noteItem)
+        verifyOrder {
+            spyViewModel.getCorrectPosition(p, noteItem)
             noteItem.list
             list.removeAtOrNull(correctPosition)
 
-            RollNoteViewModel.getCorrectPosition(p, noteItem)
+            spyViewModel.getCorrectPosition(p, noteItem)
             noteItem.list
             list.removeAtOrNull(correctPosition)
             item.toJson()
@@ -345,7 +353,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
             inputControl.access
             callback.onBindingInput(noteItem, inputAccess)
-            RollNoteViewModel.getList(noteItem)
+            spyViewModel.getList(noteItem)
             callback.notifyItemRemoved(newList, p)
         }
     }
@@ -360,29 +368,28 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         val list = mockk<MutableList<RollItem>>()
         val newList = mockk<MutableList<RollItem>>()
 
-        viewModel.noteItem = noteItem
+        spyViewModel.noteItem = noteItem
 
         FastMock.listExtension()
-        mockkObject(RollNoteViewModel)
 
-        every { RollNoteViewModel.getCorrectPosition(from, noteItem) } returns correctFrom
-        every { RollNoteViewModel.getCorrectPosition(to, noteItem) } returns correctTo
+        every { spyViewModel.getCorrectPosition(from, noteItem) } returns correctFrom
+        every { spyViewModel.getCorrectPosition(to, noteItem) } returns correctTo
 
         every { noteItem.list } returns list
         every { list.move(correctFrom, correctTo) } returns Unit
 
-        every { RollNoteViewModel.getList(noteItem) } returns newList
+        every { spyViewModel.getList(noteItem) } returns newList
 
-        assertTrue(viewModel.onTouchMove(from, to))
+        assertTrue(spyViewModel.onTouchMove(from, to))
 
-        verifySequence {
-            RollNoteViewModel.getCorrectPosition(from, noteItem)
-            RollNoteViewModel.getCorrectPosition(to, noteItem)
+        verifyOrder {
+            spyViewModel.getCorrectPosition(from, noteItem)
+            spyViewModel.getCorrectPosition(to, noteItem)
 
             noteItem.list
             list.move(correctFrom, correctTo)
 
-            RollNoteViewModel.getList(noteItem)
+            spyViewModel.getList(noteItem)
         }
     }
 
@@ -395,18 +402,17 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         val noteItem = mockk<NoteItem.Roll>()
         val inputAccess = mockk<InputControl.Access>()
 
-        viewModel.noteItem = noteItem
+        spyViewModel.noteItem = noteItem
 
-        mockkObject(RollNoteViewModel)
-        every { RollNoteViewModel.getCorrectPosition(from, noteItem) } returns correctFrom
-        every { RollNoteViewModel.getCorrectPosition(to, noteItem) } returns correctTo
+        every { spyViewModel.getCorrectPosition(from, noteItem) } returns correctFrom
+        every { spyViewModel.getCorrectPosition(to, noteItem) } returns correctTo
         every { inputControl.access } returns inputAccess
 
-        viewModel.onTouchMoveResult(from, to)
+        spyViewModel.onTouchMoveResult(from, to)
 
-        verifySequence {
-            RollNoteViewModel.getCorrectPosition(from, noteItem)
-            RollNoteViewModel.getCorrectPosition(to, noteItem)
+        verifyOrder {
+            spyViewModel.getCorrectPosition(from, noteItem)
+            spyViewModel.getCorrectPosition(to, noteItem)
 
             inputControl.onRollMove(correctFrom, correctTo)
 

@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.data.repository.room
 
-import androidx.annotation.VisibleForTesting
 import sgtmelon.scriptum.data.provider.RoomProvider
 import sgtmelon.scriptum.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.data.room.IRoomWork
@@ -9,6 +8,7 @@ import sgtmelon.scriptum.data.room.converter.model.RankConverter
 import sgtmelon.scriptum.data.room.dao.INoteDao
 import sgtmelon.scriptum.data.room.entity.NoteEntity
 import sgtmelon.scriptum.data.room.entity.RankEntity
+import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.data.DbData
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RankItem
@@ -104,7 +104,7 @@ class RankRepo(
     /**
      * Update [NoteEntity.rankPs] for notes from [noteIdList] which related with [rankList].
      */
-    @VisibleForTesting
+    @RunPrivate
     suspend fun updateRankPosition(iNoteDao: INoteDao, rankList: List<RankItem>,
                                    noteIdList: List<Long>) {
         if (noteIdList.isEmpty()) return
@@ -128,7 +128,7 @@ class RankRepo(
         rankDao.update(updateNoteId(list, checkArray, noteItem.id))
     }
 
-    @VisibleForTesting
+    @RunPrivate
     fun calculateCheckArray(rankList: List<RankEntity>, rankId: Long): BooleanArray {
         return BooleanArray(rankList.size).apply {
             rankList.indexOfFirst { it.id == rankId }.takeIf { it != -1 }?.let {
@@ -137,7 +137,7 @@ class RankRepo(
         }
     }
 
-    @VisibleForTesting
+    @RunPrivate
     fun updateNoteId(list: List<RankEntity>, checkArray: BooleanArray, noteId: Long) = list.apply {
         if (list.size != checkArray.size) return@apply
 

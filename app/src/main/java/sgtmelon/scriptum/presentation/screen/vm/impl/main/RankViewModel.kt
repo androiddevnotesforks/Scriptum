@@ -3,11 +3,11 @@ package sgtmelon.scriptum.presentation.screen.vm.impl.main
 import android.app.Application
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.IRankInteractor
+import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RankItem
 import sgtmelon.scriptum.extension.*
@@ -31,15 +31,15 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     }
 
 
-    @VisibleForTesting val itemList: MutableList<RankItem> = mutableListOf()
-    @VisibleForTesting val cancelList: MutableList<Pair<Int, RankItem>> = mutableListOf()
+    @RunPrivate val itemList: MutableList<RankItem> = mutableListOf()
+    @RunPrivate val cancelList: MutableList<Pair<Int, RankItem>> = mutableListOf()
 
     private val nameList: List<String> get() = getNameList(itemList)
 
     /**
      * Variable for control drag state. TRUE - if drag state, FALSE - otherwise.
      */
-    @VisibleForTesting var inTouchAction = false
+    @RunPrivate var inTouchAction = false
 
     override fun onSetup(bundle: Bundle?) {
         callback?.setupToolbar()
@@ -284,7 +284,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     }
 
 
-    @VisibleForTesting
+    @RunPrivate
     fun getNameList(list: List<RankItem>): List<String> = list.map { it.name.toUpperCase() }
 
     /**
@@ -295,7 +295,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
      *
      * Return array with information about item icon animation (need start or not).
      */
-    @VisibleForTesting
+    @RunPrivate
     fun switchVisible(list: List<RankItem>, p: Int): BooleanArray {
         val animationArray = BooleanArray(list.size)
 
@@ -319,7 +319,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     /**
      * Return list of [NoteItem.id] which need update.
      */
-    @VisibleForTesting
+    @RunPrivate
     fun correctPositions(list: List<RankItem>): List<Long> {
         val noteIdSet = mutableSetOf<Long>()
 

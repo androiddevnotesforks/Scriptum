@@ -4,14 +4,12 @@ import android.os.Bundle
 import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
 import io.mockk.verifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.IMainInteractor
 import sgtmelon.scriptum.domain.model.key.MainPage
@@ -25,14 +23,12 @@ import kotlin.random.Random
 @ExperimentalCoroutinesApi
 class MainViewModelTest : ParentViewModelTest() {
 
-    private val data = TestData.Note
-
     @MockK lateinit var callback: IMainActivity
 
     @MockK lateinit var interactor: IMainInteractor
     @MockK lateinit var bindInteractor: IBindInteractor
 
-    private val bundle: Bundle = mockk()
+    @MockK lateinit var bundle: Bundle
 
     private val viewModel by lazy { MainViewModel(application) }
 

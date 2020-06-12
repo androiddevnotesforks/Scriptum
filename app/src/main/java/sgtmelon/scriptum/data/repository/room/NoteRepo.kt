@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.data.repository.room
 
-import androidx.annotation.VisibleForTesting
 import sgtmelon.scriptum.data.provider.RoomProvider
 import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.data.room.IRoomWork
@@ -15,6 +14,7 @@ import sgtmelon.scriptum.data.room.entity.RankEntity
 import sgtmelon.scriptum.data.room.entity.RollEntity
 import sgtmelon.scriptum.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.domain.model.annotation.Sort
+import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
 import sgtmelon.scriptum.extension.getText
@@ -61,7 +61,7 @@ class NoteRepo(
         return@takeFromRoom correctRankSort(itemList, sort)
     }
 
-    @VisibleForTesting
+    @RunPrivate
     suspend fun getSortBy(iNoteDao: INoteDao, @Sort sort: Int, bin: Boolean) = when (sort) {
         Sort.CHANGE -> iNoteDao.getByChange(bin)
         Sort.CREATE -> iNoteDao.getByCreate(bin)
@@ -73,14 +73,14 @@ class NoteRepo(
     /**
      * List must contains only item which isVisible.
      */
-    @VisibleForTesting
+    @RunPrivate
     suspend fun filterVisible(iRankDao: IRankDao, list: List<NoteEntity>): List<NoteEntity> {
         val idVisibleList = iRankDao.getIdVisibleList()
 
         return list.filter { noteConverter.toItem(it).isVisible(idVisibleList) }
     }
 
-    @VisibleForTesting
+    @RunPrivate
     fun correctRankSort(list: MutableList<NoteItem>, @Sort sort: Int) = list.apply {
         if (sort != Sort.RANK) return@apply
 
@@ -112,7 +112,7 @@ class NoteRepo(
         return@takeFromRoom noteConverter.toItem(entity, rollList, alarmDao.get(id))
     }
 
-    @VisibleForTesting
+    @RunPrivate
     suspend fun getPreview(iRollDao: IRollDao, id: Long, isOptimal: Boolean) = with(iRollDao) {
         if (isOptimal) getView(id) else get(id)
     }
@@ -283,7 +283,7 @@ class NoteRepo(
     /**
      * Remove relation between [RankEntity] and [NoteItem] which will be delete
      */
-    @VisibleForTesting
+    @RunPrivate
     suspend fun clearConnection(iRankDao: IRankDao, noteId: Long, rankId: Long) {
         val entity = iRankDao.get(rankId)?.also { it.noteId.remove(noteId) } ?: return
         iRankDao.update(entity)

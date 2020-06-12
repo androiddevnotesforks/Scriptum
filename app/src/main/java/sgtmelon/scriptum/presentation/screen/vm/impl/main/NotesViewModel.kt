@@ -2,7 +2,6 @@ package sgtmelon.scriptum.presentation.screen.vm.impl.main
 
 import android.app.Application
 import android.os.Bundle
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.extension.beforeNow
@@ -12,6 +11,7 @@ import sgtmelon.scriptum.data.room.dao.INoteDao
 import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.domain.model.annotation.Sort
+import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.extension.clearAdd
 import sgtmelon.scriptum.extension.removeAtOrNull
@@ -38,8 +38,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
     }
 
 
-    @VisibleForTesting
-    val itemList: MutableList<NoteItem> = ArrayList()
+    @RunPrivate val itemList: MutableList<NoteItem> = ArrayList()
 
     override fun onSetup(bundle: Bundle?) {
         callback?.apply {
