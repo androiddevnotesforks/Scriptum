@@ -318,7 +318,6 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         spyViewModel.noteItem = noteItem
 
         FastMock.listExtension()
-        mockkObject(RollNoteViewModel)
 
         every { spyViewModel.getCorrectPosition(p, noteItem) } returns correctPosition
         every { noteItem.list } returns list

@@ -1,9 +1,6 @@
 package sgtmelon.scriptum.data.repository.room
 
-import io.mockk.coEvery
-import io.mockk.coVerifySequence
-import io.mockk.every
-import io.mockk.mockk
+import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
@@ -16,6 +13,7 @@ import sgtmelon.scriptum.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.data.room.entity.NoteEntity
 import sgtmelon.scriptum.data.room.entity.RankEntity
 import sgtmelon.scriptum.domain.model.data.DbData
+import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RankItem
 import kotlin.random.Random
 
@@ -28,6 +26,7 @@ class RankRepoTest : ParentRoomRepoTest() {
     private val converter: RankConverter = mockk()
 
     private val rankRepo by lazy { RankRepo(roomProvider, converter) }
+    private val spyRankRepo by lazy { spyk(rankRepo) }
 
     @Test fun getCount() = startCoTest {
         val count = Random.nextInt()
@@ -255,46 +254,25 @@ class RankRepoTest : ParentRoomRepoTest() {
     }
 
     @Test fun updatePosition() = startCoTest {
-        val rankItemList = TestData.Rank.itemList
-        val noteIdList = List(size = 5) { Random.nextLong() }
+        val rankList = mockk<List<RankItem>>()
+        val noteIdList = mockk<List<Long>>()
 
-        val noteData = TestData.Note
-        val noteList = with(NoteConverter()) {
-            listOf(
-                    toEntity(noteData.firstNote),
-                    toEntity(noteData.firstNote.deepCopy(rankId = 1)),
-                    toEntity(noteData.secondNote.deepCopy(rankId = 3))
-            )
-        }
-        val rankEntityList = RankConverter().toEntity(rankItemList)
+        val entityList = mockk<MutableList<RankEntity>>()
 
-        every { converter.toEntity(rankItemList) } returns rankEntityList
-        coEvery { noteDao.get(noteIdList) } returns noteList
+        coEvery { spyRankRepo.updateRankPosition(noteDao, rankList, noteIdList) } returns Unit
+        every { converter.toEntity(rankList) } returns entityList
 
-        assertEquals(-1, noteList[0].rankPs)
-        assertNotEquals(0, noteList[1].rankPs)
-        assertNotEquals(2, noteList[2].rankPs)
-
-        rankRepo.updatePosition(rankItemList, listOf())
-        assertEquals(-1, noteList[0].rankPs)
-        assertNotEquals(0, noteList[1].rankPs)
-        assertNotEquals(2, noteList[2].rankPs)
-
-        rankRepo.updatePosition(rankItemList, noteIdList)
-        assertEquals(-1, noteList[0].rankPs)
-        assertEquals(0, noteList[1].rankPs)
-        assertEquals(2, noteList[2].rankPs)
+        spyRankRepo.updatePosition(rankList, noteIdList)
 
         coVerifySequence {
-            roomProvider.openRoom()
-            converter.toEntity(rankItemList)
-            rankDao.update(rankEntityList)
+            spyRankRepo.updatePosition(rankList, noteIdList)
+            spyRankRepo.inRoom(any())
+            spyRankRepo.roomProvider
 
             roomProvider.openRoom()
-            noteDao.get(noteIdList)
-            noteDao.update(noteList)
-            converter.toEntity(rankItemList)
-            rankDao.update(rankEntityList)
+            spyRankRepo.updateRankPosition(noteDao, rankList, noteIdList)
+            converter.toEntity(rankList)
+            rankDao.update(entityList)
         }
     }
 
@@ -326,30 +304,33 @@ class RankRepoTest : ParentRoomRepoTest() {
 
 
     @Test fun updateConnection() = startCoTest {
-        val item = TestData.Note.fourthNote
+        val noteItem = mockk<NoteItem>()
+        val id = Random.nextLong()
+        val rankId = Random.nextLong()
+        val getList = mockk<List<RankEntity>>()
+        val updateList = mockk<List<RankEntity>>()
+        val checkArray = BooleanArray(size = 5) { Random.nextBoolean() }
 
-        val rankEntityList = RankConverter().toEntity(TestData.Rank.itemList.apply {
-            get(1).noteId.remove(item.id)
-        })
+        every { noteItem.id } returns id
+        every { noteItem.rankId } returns rankId
+        coEvery { rankDao.get() } returns getList
+        every { spyRankRepo.calculateCheckArray(getList, rankId) } returns checkArray
+        every { spyRankRepo.updateNoteId(getList, checkArray, id) } returns updateList
 
-        coEvery { rankDao.get() } returns rankEntityList
-
-        assertFalse(rankEntityList[0].noteId.contains(item.id))
-        assertFalse(rankEntityList[1].noteId.contains(item.id))
-        assertFalse(rankEntityList[2].noteId.contains(item.id))
-        assertFalse(rankEntityList[3].noteId.contains(item.id))
-
-        rankRepo.updateConnection(item)
-
-        assertFalse(rankEntityList[0].noteId.contains(item.id))
-        assertTrue(rankEntityList[1].noteId.contains(item.id))
-        assertFalse(rankEntityList[2].noteId.contains(item.id))
-        assertFalse(rankEntityList[3].noteId.contains(item.id))
+        spyRankRepo.updateConnection(noteItem)
 
         coVerifySequence {
+            spyRankRepo.updateConnection(noteItem)
+            spyRankRepo.inRoom(any())
+            spyRankRepo.roomProvider
+
             roomProvider.openRoom()
             rankDao.get()
-            rankDao.update(rankEntityList)
+            noteItem.rankId
+            spyRankRepo.calculateCheckArray(getList, rankId)
+            noteItem.id
+            spyRankRepo.updateNoteId(getList, checkArray, id)
+            rankDao.update(updateList)
         }
     }
 
