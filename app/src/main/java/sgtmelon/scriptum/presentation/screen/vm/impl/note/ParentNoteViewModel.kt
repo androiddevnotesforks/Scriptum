@@ -19,7 +19,6 @@ import sgtmelon.scriptum.domain.model.state.NoteState
 import sgtmelon.scriptum.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.presentation.control.note.save.ISaveControl
-import sgtmelon.scriptum.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.IParentNoteFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.note.IParentNoteViewModel
@@ -52,9 +51,11 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
     }
 
     @RunProtected var inputControl: IInputControl = InputControl()
-    @RunProtected val saveControl: ISaveControl by lazy {
-        SaveControl(context, interactor.getSaveModel(), callback = this)
-    }
+
+    /**
+     * Abstract because need setup callback but this class not final.
+     */
+    abstract var saveControl: ISaveControl
 
     @RunProtected var id: Long = NoteData.Default.ID
     @RunProtected var color: Int = NoteData.Default.COLOR
@@ -87,6 +88,10 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
      * Use example: restoreItem = noteItem.deepCopy().
      */
     abstract fun cacheData()
+
+    override fun onSetup(bundle: Bundle?) {
+        saveControl.setModel(interactor.getSaveModel())
+    }
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy {
         interactor.onDestroy()

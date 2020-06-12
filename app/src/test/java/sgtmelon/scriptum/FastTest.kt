@@ -61,7 +61,7 @@ object FastTest {
                 private val interactor: IParentNoteInteractor<N>,
                 private val bindInteractor: IBindInteractor,
                 private val inputControl: IInputControl,
-                val saveControl: ISaveControl,
+                private val saveControl: ISaveControl,
                 private val iconState: IconState,
                 private val viewModel: ParentNoteViewModel<N, C, I>,
                 private val mockDeepCopy: (item: N) -> Unit,
@@ -95,6 +95,45 @@ object FastTest {
                 verifySequence {
                     bundle.putLong(NoteData.Intent.ID, id)
                     bundle.putInt(NoteData.Intent.COLOR, color)
+                }
+            }
+
+            fun onResume() {
+                val noteState = mockk<NoteState>()
+
+                viewModel.noteState = noteState
+
+                every { noteState.isEdit } returns false
+                viewModel.onResume()
+
+                every { noteState.isEdit } returns true
+                viewModel.onResume()
+
+                verifySequence {
+                    noteState.isEdit
+
+                    noteState.isEdit
+                    saveControl.setSaveEvent(isWork = true)
+                }
+            }
+
+            fun onPause() {
+                val noteState = mockk<NoteState>()
+
+                viewModel.noteState = noteState
+
+                every { noteState.isEdit } returns false
+                viewModel.onPause()
+
+                every { noteState.isEdit } returns true
+                viewModel.onPause()
+
+                verifySequence {
+                    noteState.isEdit
+
+                    noteState.isEdit
+                    saveControl.onPauseSave()
+                    saveControl.setSaveEvent(isWork = false)
                 }
             }
 

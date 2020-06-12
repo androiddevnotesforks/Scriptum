@@ -42,13 +42,13 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     @MockK lateinit var iconState: IconState
 
     private val viewModel by lazy { RollNoteViewModel(application) }
-    private val spyViewModel by lazy { spyk(viewModel) }
+    private val spyViewModel by lazy { spyk(viewModel, recordPrivateCalls = true) }
 
     private val fastTest by lazy {
         FastTest.Note.ViewModel(
                 callback, parentCallback, interactor, bindInteractor,
-                inputControl, saveControl, iconState, viewModel,
-                { mockDeepCopy(it) }, { verifyDeepCopy(it) }
+                inputControl, saveControl, iconState, viewModel, { mockDeepCopy(it) },
+                { verifyDeepCopy(it) }
         )
     }
 
@@ -60,10 +60,8 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         viewModel.setInteractor(interactor, bindInteractor)
 
         viewModel.inputControl = inputControl
+        viewModel.saveControl = saveControl
         viewModel.iconState = iconState
-
-        // TODO
-//        every { viewModel getProperty "saveControl" } returns saveControl
 
         assertEquals(NoteData.Default.ID, viewModel.id)
         assertEquals(NoteData.Default.COLOR, viewModel.color)
@@ -100,13 +98,9 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
     @Test fun onSaveData() = fastTest.onSaveData()
 
-    @Test fun onResume() {
-        TODO()
-    }
+    @Test fun onResume() = fastTest.onResume()
 
-    @Test fun onPause() {
-        TODO()
-    }
+    @Test fun onPause() = fastTest.onPause()
 
 
     @Test fun onClickBackArrow() {

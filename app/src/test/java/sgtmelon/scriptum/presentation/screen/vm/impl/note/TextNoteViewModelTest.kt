@@ -1,10 +1,7 @@
 package sgtmelon.scriptum.presentation.screen.vm.impl.note
 
-import io.mockk.MockKVerificationScope
-import io.mockk.confirmVerified
-import io.mockk.every
+import io.mockk.*
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
@@ -39,6 +36,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
     @MockK lateinit var iconState: IconState
 
     private val viewModel by lazy { TextNoteViewModel(application) }
+    private val spyViewModel by lazy { spyk(viewModel, recordPrivateCalls = true) }
 
     private val fastTest by lazy {
         FastTest.Note.ViewModel(
@@ -56,9 +54,8 @@ class TextNoteViewModelTest : ParentViewModelTest() {
         viewModel.setInteractor(interactor, bindInteractor)
 
         viewModel.inputControl = inputControl
+        viewModel.saveControl = saveControl
         viewModel.iconState = iconState
-
-//        every { viewModel getProperty "saveControl" } returns saveControl
 
         assertEquals(Default.ID, viewModel.id)
         assertEquals(Default.COLOR, viewModel.color)
@@ -91,13 +88,9 @@ class TextNoteViewModelTest : ParentViewModelTest() {
 
     @Test fun onSaveData() = fastTest.onSaveData()
 
-    @Test fun onResume() {
-        TODO()
-    }
+    @Test fun onResume() = fastTest.onResume()
 
-    @Test fun onPause() {
-        TODO()
-    }
+    @Test fun onPause() = fastTest.onPause()
 
 
     @Test fun onClickBackArrow() {
