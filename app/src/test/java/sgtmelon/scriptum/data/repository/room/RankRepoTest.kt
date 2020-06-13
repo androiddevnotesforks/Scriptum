@@ -181,6 +181,7 @@ class RankRepoTest : ParentRoomRepoTest() {
         rankRepo.insert(rankItem)
 
         coVerifySequence {
+            roomProvider.openRoom()
             rankItem.noteId
 
             noteEntityList.forEachIndexed { i, it ->

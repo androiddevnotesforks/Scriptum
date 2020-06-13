@@ -41,7 +41,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
     private val fastTest by lazy {
         FastTest.Note.ViewModel(
                 callback, parentCallback, interactor, bindInteractor,
-                inputControl, saveControl, iconState, viewModel,
+                inputControl, saveControl, iconState, viewModel, spyViewModel,
                 { mockDeepCopy(it) }, { verifyDeepCopy(it) }
         )
     }
@@ -131,13 +131,9 @@ class TextNoteViewModelTest : ParentViewModelTest() {
     @Test fun onMenuClear() = fastTest.onMenuClear(mockk())
 
 
-    @Test fun onMenuUndo() {
-        TODO()
-    }
+    @Test fun onMenuUndo() = fastTest.onMenuUndo()
 
-    @Test fun onMenuRedo() {
-        TODO()
-    }
+    @Test fun onMenuRedo() = fastTest.onMenuRedo()
 
     @Test fun onMenuUndoRedo() {
         TODO()
@@ -159,18 +155,14 @@ class TextNoteViewModelTest : ParentViewModelTest() {
 
     @Test fun onMenuDelete() = fastTest.onMenuDelete(mockk())
 
-    @Test fun onMenuEdit() {
-        TODO()
-    }
+    @Test fun onMenuEdit() = fastTest.onMenuEdit()
 
     @Test fun setupEditMode() {
         TODO()
     }
 
 
-    @Test fun onResultSaveControl() {
-        TODO()
-    }
+    @Test fun onResultSaveControl() = fastTest.onResultSaveControl()
 
     @Test fun onInputTextChange() = fastTest.onInputTextChange(mockk())
 

@@ -273,7 +273,8 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
      */
     abstract fun onMenuUndoRedo(isUndo: Boolean)
 
-    protected fun onMenuUndoRedoRank(item: InputItem, isUndo: Boolean) {
+    @RunProtected
+    fun onMenuUndoRedoRank(item: InputItem, isUndo: Boolean) {
         val list = StringConverter().toList(item[isUndo])
 
         noteItem.apply {
@@ -282,7 +283,8 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
         }
     }
 
-    protected fun onMenuUndoRedoColor(item: InputItem, isUndo: Boolean) {
+    @RunProtected
+    fun onMenuUndoRedoColor(item: InputItem, isUndo: Boolean) {
         val colorFrom = noteItem.color
         val colorTo = item[isUndo].toInt()
 
@@ -291,7 +293,8 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
         callback?.tintToolbar(colorFrom, colorTo)
     }
 
-    protected fun onMenuUndoRedoName(item: InputItem, isUndo: Boolean) {
+    @RunProtected
+    fun onMenuUndoRedoName(item: InputItem, isUndo: Boolean) {
         val text = item[isUndo]
         val cursor = item.cursor[isUndo]
 

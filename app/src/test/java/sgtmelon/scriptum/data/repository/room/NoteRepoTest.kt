@@ -419,7 +419,6 @@ class NoteRepoTest : ParentRoomRepoTest() {
             spyNoteRepo.clearConnection(rankDao, id, rankId)
             noteConverter.toEntity(item)
             noteDao.delete(entity)
-            roomDb.close()
         }
     }
 

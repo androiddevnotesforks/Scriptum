@@ -47,8 +47,8 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     private val fastTest by lazy {
         FastTest.Note.ViewModel(
                 callback, parentCallback, interactor, bindInteractor,
-                inputControl, saveControl, iconState, viewModel, { mockDeepCopy(it) },
-                { verifyDeepCopy(it) }
+                inputControl, saveControl, iconState, viewModel, spyViewModel,
+                { mockDeepCopy(it) }, { verifyDeepCopy(it) }
         )
     }
 
@@ -162,13 +162,9 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     @Test fun onMenuClear() = fastTest.onMenuClear(mockk())
 
 
-    @Test fun onMenuUndo() {
-        TODO()
-    }
+    @Test fun onMenuUndo() = fastTest.onMenuUndo()
 
-    @Test fun onMenuRedo() {
-        TODO()
-    }
+    @Test fun onMenuRedo() = fastTest.onMenuRedo()
 
     @Test fun onMenuUndoRedo() {
         TODO()
@@ -190,18 +186,14 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
     @Test fun onMenuDelete() = fastTest.onMenuDelete(mockk())
 
-    @Test fun onMenuEdit() {
-        TODO()
-    }
+    @Test fun onMenuEdit() = fastTest.onMenuEdit()
 
     @Test fun setupEditMode() {
         TODO()
     }
 
 
-    @Test fun onResultSaveControl() {
-        TODO()
-    }
+    @Test fun onResultSaveControl() = fastTest.onResultSaveControl()
 
     @Test fun onInputTextChange() = fastTest.onInputTextChange(mockk())
 
@@ -375,14 +367,23 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
         assertTrue(spyViewModel.onTouchMove(from, to))
 
-        verifyOrder {
+        verifySequence {
+            spyViewModel.noteItem = noteItem
+            spyViewModel.onTouchMove(from, to)
+
+            spyViewModel.noteItem
             spyViewModel.getCorrectPosition(from, noteItem)
+            spyViewModel.noteItem
             spyViewModel.getCorrectPosition(to, noteItem)
 
+            spyViewModel.noteItem
             noteItem.list
             list.move(correctFrom, correctTo)
 
+            spyViewModel.callback
+            spyViewModel.noteItem
             spyViewModel.getList(noteItem)
+            callback.notifyItemMoved(newList, from, to)
         }
     }
 

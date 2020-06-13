@@ -64,6 +64,7 @@ object FastTest {
                 private val saveControl: ISaveControl,
                 private val iconState: IconState,
                 private val viewModel: ParentNoteViewModel<N, C, I>,
+                private val spyViewModel: ParentNoteViewModel<N, C, I>,
                 private val mockDeepCopy: (item: N) -> Unit,
                 private val verifyDeepCopy: MockKVerificationScope.(item: N) -> Unit
         ) {
@@ -318,10 +319,36 @@ object FastTest {
             }
 
             fun onMenuUndo() {
-                TODO()
+                every { spyViewModel.onMenuUndoRedo(isUndo = true) } returns Unit
+
+                spyViewModel.onMenuUndo()
+
+                verifySequence {
+                    spyViewModel.onMenuUndo()
+                    spyViewModel.onMenuUndoRedo(isUndo = true)
+                }
             }
 
             fun onMenuRedo() {
+                every { spyViewModel.onMenuUndoRedo(isUndo = false) } returns Unit
+
+                spyViewModel.onMenuUndo()
+
+                verifySequence {
+                    spyViewModel.onMenuUndo()
+                    spyViewModel.onMenuUndoRedo(isUndo = false)
+                }
+            }
+
+            fun onMenuUndoRedoRank() {
+                TODO()
+            }
+
+            fun onMenuUndoRedoColor() {
+                TODO()
+            }
+
+            fun onMenuUndoRedoName() {
                 TODO()
             }
 
@@ -376,10 +403,6 @@ object FastTest {
                     interactor.theme
                     callback.showColorDialog(color, theme)
                 }
-            }
-
-            fun onMenuSave() {
-                TODO()
             }
 
             fun onMenuNotification(noteItem: N) {
@@ -522,12 +545,67 @@ object FastTest {
             }
 
             fun onMenuEdit() {
-                TODO()
+                val noteState = mockk<NoteState>()
+
+                every { spyViewModel.setupEditMode(isEdit = true) } returns Unit
+
+                spyViewModel.noteState = noteState
+
+                every { callback.isDialogOpen } returns true
+                every { noteState.isEdit } returns true
+                spyViewModel.onMenuEdit()
+
+                every { callback.isDialogOpen } returns true
+                every { noteState.isEdit } returns false
+                spyViewModel.onMenuEdit()
+
+                every { callback.isDialogOpen } returns false
+                every { noteState.isEdit } returns true
+                spyViewModel.onMenuEdit()
+
+                every { callback.isDialogOpen } returns false
+                every { noteState.isEdit } returns false
+                spyViewModel.onMenuEdit()
+
+                verifySequence {
+                    spyViewModel.noteState = noteState
+
+                    spyViewModel.onMenuEdit()
+                    spyViewModel.callback
+                    callback.isDialogOpen
+
+                    spyViewModel.onMenuEdit()
+                    spyViewModel.callback
+                    callback.isDialogOpen
+
+                    spyViewModel.onMenuEdit()
+                    spyViewModel.callback
+                    callback.isDialogOpen
+                    noteState.isEdit
+
+                    spyViewModel.onMenuEdit()
+                    spyViewModel.callback
+                    callback.isDialogOpen
+                    noteState.isEdit
+                    spyViewModel.setupEditMode(isEdit = true)
+                }
             }
 
 
             fun onResultSaveControl() {
-                TODO()
+                val saveResult = Random.nextBoolean()
+
+                every { spyViewModel.onMenuSave(changeMode = false) } returns saveResult
+
+                spyViewModel.onResultSaveControl()
+
+                verifySequence {
+                    spyViewModel.onResultSaveControl()
+
+                    spyViewModel.callback
+                    spyViewModel.onMenuSave(changeMode = false)
+                    callback.showSaveToast(saveResult)
+                }
             }
 
             fun onInputTextChange(noteItem: N) {
