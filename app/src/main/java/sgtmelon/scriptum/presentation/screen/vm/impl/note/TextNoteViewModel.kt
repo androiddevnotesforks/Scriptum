@@ -85,11 +85,12 @@ class TextNoteViewModel(application: Application) :
          */
         val colorFrom = noteItem.color
         noteItem = restoreItem.deepCopy()
+        val colorTo = noteItem.color
 
         setupEditMode(isEdit = false)
-        callback?.tintToolbar(colorFrom, noteItem.color)
 
-        parentCallback?.onUpdateNoteColor(noteItem.color)
+        callback?.tintToolbar(colorFrom, colorTo)
+        parentCallback?.onUpdateNoteColor(colorTo)
 
         inputControl.reset()
 

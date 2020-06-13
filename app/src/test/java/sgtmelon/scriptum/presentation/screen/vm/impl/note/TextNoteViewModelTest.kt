@@ -93,7 +93,51 @@ class TextNoteViewModelTest : ParentViewModelTest() {
     @Test fun onPressBack() = fastTest.onPressBack()
 
     @Test fun onRestoreData() {
-        TODO()
+        assertFalse(spyViewModel.onRestoreData())
+
+        val noteItem = mockk<NoteItem.Text>(relaxUnitFun = true)
+        val restoreItem = mockk<NoteItem.Text>(relaxUnitFun = true)
+
+        val id = Random.nextLong()
+        val colorFrom = Random.nextInt()
+        val colorTo = Random.nextInt()
+
+        every { noteItem.color } returns colorFrom
+        every { spyViewModel.setupEditMode(isEdit = false) } returns Unit
+
+        mockDeepCopy(restoreItem, color = colorTo)
+
+        spyViewModel.id = id
+        spyViewModel.noteItem = noteItem
+        spyViewModel.restoreItem = restoreItem
+
+        assertTrue(spyViewModel.onRestoreData())
+
+        verifySequence {
+            spyViewModel.onRestoreData()
+            spyViewModel.id
+
+            spyViewModel.id = id
+            spyViewModel.noteItem = noteItem
+            spyViewModel.restoreItem = restoreItem
+            spyViewModel.onRestoreData()
+
+            spyViewModel.id
+            spyViewModel.noteItem
+            noteItem.color
+            spyViewModel.restoreItem
+            verifyDeepCopy(restoreItem)
+            spyViewModel.noteItem = restoreItem
+            spyViewModel.noteItem
+            restoreItem.color
+            spyViewModel.setupEditMode(isEdit = false)
+            spyViewModel.callback
+            callback.tintToolbar(colorFrom, colorTo)
+            spyViewModel.parentCallback
+            parentCallback.onUpdateNoteColor(colorTo)
+            spyViewModel.inputControl
+            inputControl.reset()
+        }
     }
 
 
@@ -163,19 +207,30 @@ class TextNoteViewModelTest : ParentViewModelTest() {
     @Test fun onInputTextChange() = fastTest.onInputTextChange(mockk())
 
 
-    private fun mockDeepCopy(item: NoteItem.Text) {
-        every { item.id } returns Random.nextLong()
-        every { item.create } returns Random.nextString()
-        every { item.change } returns Random.nextString()
-        every { item.name } returns Random.nextString()
-        every { item.text } returns Random.nextString()
-        every { item.color } returns Random.nextInt()
-        every { item.rankId } returns Random.nextLong()
-        every { item.rankPs } returns Random.nextInt()
-        every { item.isBin } returns Random.nextBoolean()
-        every { item.isStatus } returns Random.nextBoolean()
-        every { item.alarmId } returns Random.nextLong()
-        every { item.alarmDate } returns Random.nextString()
+    private fun mockDeepCopy(item: NoteItem.Text, id: Long = Random.nextLong(),
+                             create: String = Random.nextString(),
+                             change: String = Random.nextString(),
+                             name: String = Random.nextString(),
+                             text: String = Random.nextString(),
+                             color: Int = Random.nextInt(),
+                             rankId: Long = Random.nextLong(),
+                             rankPs: Int = Random.nextInt(),
+                             isBin: Boolean = Random.nextBoolean(),
+                             isStatus: Boolean = Random.nextBoolean(),
+                             alarmId: Long = Random.nextLong(),
+                             alarmDate: String = Random.nextString()) {
+        every { item.id } returns id
+        every { item.create } returns create
+        every { item.change } returns change
+        every { item.name } returns name
+        every { item.text } returns text
+        every { item.color } returns color
+        every { item.rankId } returns rankId
+        every { item.rankPs } returns rankPs
+        every { item.isBin } returns isBin
+        every { item.isStatus } returns isStatus
+        every { item.alarmId } returns alarmId
+        every { item.alarmDate } returns alarmDate
 
         every {
             item.deepCopy(
