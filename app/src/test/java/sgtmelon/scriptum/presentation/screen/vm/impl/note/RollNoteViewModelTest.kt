@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.presentation.screen.vm.impl.note
 
+import android.view.inputmethod.EditorInfo
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -292,7 +293,35 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onEditorClick() {
-        TODO()
+        assertFalse(viewModel.onEditorClick(Random.nextInt()))
+
+        val i = EditorInfo.IME_ACTION_DONE
+
+        every { spyViewModel.onMenuSave(changeMode = true) } returns Random.nextBoolean()
+        every { spyViewModel.onClickAdd(simpleClick = true) } returns Unit
+
+        every { callback.getEnterText() } returns Random.nextString()
+        assertTrue(spyViewModel.onEditorClick(i))
+
+        every { callback.getEnterText() } returns "   "
+        assertTrue(spyViewModel.onEditorClick(i))
+
+        every { callback.getEnterText() } returns ""
+        assertTrue(spyViewModel.onEditorClick(i))
+
+        verifySequence {
+            spyViewModel.onEditorClick(i)
+            spyViewModel.callback
+            callback.getEnterText()
+            spyViewModel.onClickAdd(simpleClick = true)
+
+            repeat(times = 2) {
+                spyViewModel.onEditorClick(i)
+                spyViewModel.callback
+                callback.getEnterText()
+                spyViewModel.onMenuSave(changeMode = true)
+            }
+        }
     }
 
     @Test fun onClickAdd() {
