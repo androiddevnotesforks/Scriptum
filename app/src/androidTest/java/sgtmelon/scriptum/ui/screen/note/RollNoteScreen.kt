@@ -15,7 +15,7 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel.Companion.getCorrectPosition
 import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel.Companion.hide
-import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel.Companion.isVisible
+import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel.Companion.isVisibleTest
 import sgtmelon.scriptum.ui.IPressBack
 import sgtmelon.scriptum.ui.ParentRecyclerItem
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
@@ -47,7 +47,7 @@ class RollNoteScreen(
 
     private fun getInfoContainer(): RollNoteInfoContainer? {
         val isListEmpty = noteItem.list.size == 0
-        val isListHide = !isVisible && noteItem.list.hide().size == 0
+        val isListHide = !isVisibleTest && noteItem.list.hide().size == 0
 
         return RollNoteInfoContainer(isListEmpty, isListHide)
     }
@@ -132,7 +132,7 @@ class RollNoteScreen(
 
                 noteItem.onItemCheck(correctPosition)
 
-                if (isVisible) {
+                if (isVisibleTest) {
                     getItem(p).assert(noteItem.list[correctPosition])
                 }
             }
@@ -207,7 +207,7 @@ class RollNoteScreen(
             State.EDIT, State.NEW -> shadowItem.list
         }
 
-        if (isVisible) {
+        if (isVisibleTest) {
             list.forEachIndexed { p, item -> getItem(p).assert(item) }
         } else {
             list.hide().forEachIndexed { p, item -> getItem(p).assert(item) }
@@ -227,11 +227,11 @@ class RollNoteScreen(
             State.READ, State.BIN -> noteItem.list
             State.EDIT, State.NEW -> shadowItem.list
         }.let {
-            if (isVisible) it.size == 0 else it.hide().size == 0
+            if (isVisibleTest) it.size == 0 else it.hide().size == 0
         })
 
         toolbar {
-            val value = isVisible
+            val value = isVisibleTest
 
             val itemIcon = if (value) R.drawable.ic_visible_enter else R.drawable.ic_visible_exit
             val itemTint = if (!value && theme == Theme.DARK) R.attr.clAccent else R.attr.clContent

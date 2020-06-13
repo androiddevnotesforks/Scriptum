@@ -62,6 +62,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         assertEquals(NoteData.Default.ID, viewModel.id)
         assertEquals(NoteData.Default.COLOR, viewModel.color)
         assertTrue(viewModel.rankDialogItemArray.isEmpty())
+        assertTrue(viewModel.isVisible)
 
         assertNotNull(viewModel.callback)
         assertNotNull(viewModel.parentCallback)
@@ -158,12 +159,136 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     }
 
 
-    @Test fun onClickVisible() {
-        TODO()
+    @Test fun onClickVisible_onEdit() {
+        val visibleFrom = Random.nextBoolean()
+        val visibleTo = !visibleFrom
+
+        val noteState = mockk<NoteState>(relaxUnitFun = true)
+        val noteItem = mockk<NoteItem.Roll>()
+        val id = Random.nextLong()
+
+        every { spyViewModel.notifyListByVisible() } returns Unit
+        every { noteState.isCreate } returns false
+        every { noteItem.id } returns id
+
+        spyViewModel.isVisible = visibleFrom
+        spyViewModel.noteState = noteState
+        spyViewModel.noteItem = noteItem
+
+        spyViewModel.onClickVisible()
+
+        coVerifyOrder {
+            spyViewModel.isVisible = visibleTo
+
+            callback.setToolbarVisibleIcon(visibleTo, needAnim = true)
+            spyViewModel.notifyListByVisible()
+            noteState.isCreate
+            noteItem.id
+            interactor.setVisible(id, visibleTo)
+        }
+    }
+
+    @Test fun onClickVisible_onCreate() {
+        val visibleFrom = Random.nextBoolean()
+        val visibleTo = !visibleFrom
+
+        val noteState = mockk<NoteState>(relaxUnitFun = true)
+
+        every { spyViewModel.notifyListByVisible() } returns Unit
+        every { noteState.isCreate } returns true
+
+        spyViewModel.isVisible = visibleFrom
+        spyViewModel.noteState = noteState
+
+        spyViewModel.onClickVisible()
+
+        coVerifyOrder {
+            spyViewModel.isVisible = visibleTo
+
+            callback.setToolbarVisibleIcon(visibleTo, needAnim = true)
+            spyViewModel.notifyListByVisible()
+            noteState.isCreate
+        }
     }
 
     @Test fun onUpdateInfo() {
-        TODO()
+        val noteItem = mockk<NoteItem.Roll>(relaxUnitFun = true)
+        val list = mockk<MutableList<RollItem>>(relaxUnitFun = true)
+        val hideList = mockk<MutableList<RollItem>>(relaxUnitFun = true)
+
+        every { noteItem.list } returns list
+        every { spyViewModel.hide(list) } returns hideList
+
+        spyViewModel.noteItem = noteItem
+        spyViewModel.isVisible = false
+
+        every { list.size } returns 1
+        every { hideList.size } returns 1
+        spyViewModel.onUpdateInfo()
+
+        every { hideList.size } returns 0
+        spyViewModel.onUpdateInfo()
+
+        every { list.size } returns 0
+        spyViewModel.isVisible = true
+        spyViewModel.onUpdateInfo()
+
+        every { list.size } returns 0
+        spyViewModel.isVisible = false
+        every { hideList.size } returns 0
+        spyViewModel.onUpdateInfo()
+
+        verifySequence {
+            spyViewModel.noteItem = noteItem
+            spyViewModel.isVisible = false
+            spyViewModel.onUpdateInfo()
+            spyViewModel.noteItem
+            noteItem.list
+            list.size
+            spyViewModel.noteItem
+            noteItem.list
+            spyViewModel.hide(list)
+            hideList.size
+            spyViewModel.callback
+            callback.animateInfoVisible()
+
+            spyViewModel.onUpdateInfo()
+            spyViewModel.noteItem
+            noteItem.list
+            list.size
+            spyViewModel.noteItem
+            noteItem.list
+            spyViewModel.hide(list)
+            hideList.size
+            spyViewModel.callback
+            callback.onBindingInfo(isListEmpty = false, isListHide = true)
+            spyViewModel.callback
+            callback.animateInfoVisible()
+
+            spyViewModel.isVisible = true
+            spyViewModel.onUpdateInfo()
+            spyViewModel.noteItem
+            noteItem.list
+            list.size
+            spyViewModel.callback
+            callback.onBindingInfo(isListEmpty = true, isListHide = false)
+            spyViewModel.callback
+            callback.animateInfoVisible()
+
+            spyViewModel.isVisible = false
+            spyViewModel.onUpdateInfo()
+            spyViewModel.noteItem
+            noteItem.list
+            list.size
+            spyViewModel.noteItem
+            noteItem.list
+            spyViewModel.hide(list)
+            hideList.size
+            spyViewModel.callback
+            callback.onBindingInfo(isListEmpty = true, isListHide = true)
+            spyViewModel.callback
+            callback.animateInfoVisible()
+        }
     }
 
     @Test fun onEditorClick() {
@@ -466,11 +591,6 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     }
 
 
-
-    @Test fun notifyListByVisible() {
-        TODO()
-    }
-
     @Test fun getCorrectPosition() {
         TODO()
     }
@@ -480,6 +600,10 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun getList() {
+        TODO()
+    }
+
+    @Test fun notifyListByVisible() {
         TODO()
     }
 

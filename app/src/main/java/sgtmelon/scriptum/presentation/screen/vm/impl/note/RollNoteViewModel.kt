@@ -8,6 +8,7 @@ import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.domain.model.annotation.InputAction
+import sgtmelon.scriptum.domain.model.annotation.test.RunNone
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.data.NoteData.Default
 import sgtmelon.scriptum.domain.model.data.NoteData.Intent
@@ -27,6 +28,15 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.note.IRollNoteViewModel
 class RollNoteViewModel(application: Application) :
         ParentNoteViewModel<NoteItem.Roll, IRollNoteFragment, IRollNoteInteractor>(application),
         IRollNoteViewModel {
+
+    /**
+     * Variable for control visible button state.
+     */
+    @RunPrivate var isVisible = true
+        set(value) {
+            field = value
+            isVisibleTest = true
+        }
 
     override fun cacheData() {
         restoreItem = noteItem.deepCopy()
@@ -146,7 +156,7 @@ class RollNoteViewModel(application: Application) :
      */
     override fun onUpdateInfo() {
         val isListEmpty = noteItem.list.size == 0
-        val isListHide = !isVisible && noteItem.list.hide().size == 0
+        val isListHide = !isVisible && hide(noteItem.list).size == 0
 
         if (isListEmpty || isListHide) {
             callback?.onBindingInfo(isListEmpty, isListHide)
@@ -297,7 +307,7 @@ class RollNoteViewModel(application: Application) :
             callback?.notifyItemInserted(getList(noteItem), item.p, rollItem.text.length)
         } else if (!rollItem.isCheck) {
             fun getShiftPosition(p: Int): Int {
-                return p - noteItem.list.subList(0, p).let { it.size - it.hide().size }
+                return p - noteItem.list.subList(0, p).let { it.size - hide(it).size }
             }
 
             val position = getShiftPosition(item.p)
@@ -465,49 +475,56 @@ class RollNoteViewModel(application: Application) :
      */
     @RunPrivate
     fun getCorrectPosition(p: Int, noteItem: NoteItem.Roll): Int {
-        return if (isVisible) p else noteItem.list.let { it.indexOf(it.hide()[p]) }
+        return if (isVisible) p else noteItem.list.let { it.indexOf(hide(it)[p]) }
     }
 
     @RunPrivate
-    fun MutableList<RollItem>.hide(): MutableList<RollItem> = ArrayList(filter { !it.isCheck })
+    fun hide(list: MutableList<RollItem>): MutableList<RollItem> {
+        return ArrayList(list.filter { !it.isCheck })
+    }
 
     /**
      * Use only for different notify functions. Don't use for change data.
      */
     @RunPrivate
     fun getList(noteItem: NoteItem.Roll): MutableList<RollItem> {
-        return noteItem.list.let { if (isVisible) it else it.hide() }
+        return noteItem.list.let { if (isVisible) it else hide(it) }
     }
 
     /**
      * Make good animation for items, remove or insert one by one.
      */
     @RunPrivate
-    fun notifyListByVisible() = viewModelScope.launch {
-        val list = ArrayList(noteItem.list)
+    fun notifyListByVisible() {
+        viewModelScope.launch {
+            val list = ArrayList(noteItem.list)
 
-        if (list.size == 0) return@launch
+            if (list.size == 0) return@launch
 
-        if (isVisible) {
-            if (!list.any { !it.isCheck }) {
-                callback?.animateInfoVisible(isVisible = false)
-            }
+            if (isVisible) {
+                if (!list.any { !it.isCheck }) {
+                    callback?.animateInfoVisible(isVisible = false)
+                }
 
-            list.filter { it.isCheck }.forEach { item ->
-                list.correctIndexOf(item)?.also { callback?.notifyItemInserted(list, it) }
-            }
-        } else {
-            while (list.any { it.isCheck }) {
-                list.correctIndexOfFirst { it.isCheck }?.also {
-                    list.removeAtOrNull(it) ?: return@also
-                    callback?.notifyItemRemoved(list, it)
+                list.filter { it.isCheck }.forEach { item ->
+                    list.correctIndexOf(item)?.also { callback?.notifyItemInserted(list, it) }
+                }
+            } else {
+                while (list.any { it.isCheck }) {
+                    list.correctIndexOfFirst { it.isCheck }?.also {
+                        list.removeAtOrNull(it) ?: return@also
+                        callback?.notifyItemRemoved(list, it)
+                    }
                 }
             }
         }
     }
 
     companion object {
-        @RunPrivate var isVisible = true
+        /**
+         * Variable only for UI tests.
+         */
+        @RunNone var isVisibleTest = true
     }
 
 }

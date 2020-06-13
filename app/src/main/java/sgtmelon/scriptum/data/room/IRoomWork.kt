@@ -1,9 +1,9 @@
 package sgtmelon.scriptum.data.room
 
-import androidx.annotation.VisibleForTesting
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import sgtmelon.scriptum.data.provider.RoomProvider
+import sgtmelon.scriptum.domain.model.annotation.test.RunNone
 
 /**
  * Interface for easy work with Room.
@@ -29,7 +29,7 @@ interface IRoomWork {
     /**
      * Function only for integration tests.
      */
-    @VisibleForTesting(otherwise = VisibleForTesting.NONE)
+    @RunNone
     fun inRoomTest(func: suspend RoomDb.() -> Unit) {
         roomProvider.openRoom().apply {
             runBlocking { launch { func() } }
