@@ -130,6 +130,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.noteItem = restoreItem
             spyViewModel.noteItem
             restoreItem.color
+
             spyViewModel.setupEditMode(isEdit = false)
             spyViewModel.callback
             callback.tintToolbar(colorFrom, colorTo)

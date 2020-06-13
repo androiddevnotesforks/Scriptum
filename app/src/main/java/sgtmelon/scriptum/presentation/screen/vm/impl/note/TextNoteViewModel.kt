@@ -91,7 +91,6 @@ class TextNoteViewModel(application: Application) :
 
         callback?.tintToolbar(colorFrom, colorTo)
         parentCallback?.onUpdateNoteColor(colorTo)
-
         inputControl.reset()
 
         return true

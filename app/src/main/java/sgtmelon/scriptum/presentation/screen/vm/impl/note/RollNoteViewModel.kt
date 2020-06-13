@@ -107,15 +107,15 @@ class RollNoteViewModel(application: Application) :
          */
         val colorFrom = noteItem.color
         noteItem = restoreItem.deepCopy()
+        val colorTo = noteItem.color
 
         callback?.notifyDataSetChanged(getList(noteItem))
-        setupEditMode(isEdit = false)
 
+        setupEditMode(isEdit = false)
         onUpdateInfo()
 
-        callback?.tintToolbar(colorFrom, noteItem.color)
-        parentCallback?.onUpdateNoteColor(noteItem.color)
-
+        callback?.tintToolbar(colorFrom, colorTo)
+        parentCallback?.onUpdateNoteColor(colorTo)
         inputControl.reset()
 
         return true
