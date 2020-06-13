@@ -7,29 +7,21 @@ import sgtmelon.scriptum.R
 /**
  * Class for help control note pause/auto save.
  */
-class SaveControl(context: Context, private val callback: Callback) :
+class SaveControl(context: Context, val model: Model, private val callback: Callback) :
         ISaveControl {
-
-    private lateinit var model: Model
 
     private val saveHandler = Handler()
 
-    private val periodTime: Int by lazy {
-        return@lazy if (model.autoSaveOn) {
-            val intArray = context.resources.getIntArray(R.array.pref_note_save_time_array)
-            intArray.getOrNull(model.savePeriod) ?: 0
-        } else {
-            0
-        }
+    private val periodTime: Int = if (model.autoSaveOn) {
+        val intArray = context.resources.getIntArray(R.array.pref_note_save_time_array)
+        intArray.getOrNull(model.savePeriod) ?: 0
+    } else {
+        0
     }
 
     private val saveRunnable = {
         callback.onResultSaveControl()
         setSaveEvent(true)
-    }
-
-    override fun setModel(model: Model) {
-        this.model = model
     }
 
     /**

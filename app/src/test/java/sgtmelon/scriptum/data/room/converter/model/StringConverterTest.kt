@@ -3,7 +3,9 @@ package sgtmelon.scriptum.data.room.converter.model
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
+import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentTest
+import kotlin.random.Random
 
 /**
  * Test for [StringConverter].
@@ -13,6 +15,8 @@ class StringConverterTest : ParentTest() {
     private val converter = StringConverter()
 
     @Test fun toList() {
+        assertEquals(mutableListOf<Long>(), converter.toList(Random.nextString()))
+
         assertEquals(firstList, converter.toList(firstString))
         assertEquals(secondList, converter.toList(secondString))
 

@@ -14,7 +14,6 @@ import sgtmelon.scriptum.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.domain.model.data.NoteData
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
-import sgtmelon.scriptum.domain.model.state.IconState
 import sgtmelon.scriptum.domain.model.state.NoteState
 import sgtmelon.scriptum.extension.move
 import sgtmelon.scriptum.extension.removeAtOrNull
@@ -39,7 +38,6 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
     @MockK lateinit var inputControl: IInputControl
     @MockK lateinit var saveControl: ISaveControl
-    @MockK lateinit var iconState: IconState
 
     private val viewModel by lazy { RollNoteViewModel(application) }
     private val spyViewModel by lazy { spyk(viewModel, recordPrivateCalls = true) }
@@ -47,8 +45,8 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     private val fastTest by lazy {
         FastTest.Note.ViewModel(
                 callback, parentCallback, interactor, bindInteractor,
-                inputControl, saveControl, iconState, viewModel, spyViewModel,
-                { mockDeepCopy(it) }, { verifyDeepCopy(it) }
+                inputControl, viewModel, spyViewModel, { mockDeepCopy(it) },
+                { verifyDeepCopy(it) }
         )
     }
 
@@ -60,8 +58,6 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         viewModel.setInteractor(interactor, bindInteractor)
 
         viewModel.inputControl = inputControl
-        viewModel.saveControl = saveControl
-        viewModel.iconState = iconState
 
         assertEquals(NoteData.Default.ID, viewModel.id)
         assertEquals(NoteData.Default.COLOR, viewModel.color)
@@ -75,25 +71,20 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         super.tearDown()
 
         confirmVerified(
-                callback, parentCallback, interactor, bindInteractor, inputControl,
-                saveControl, iconState
+                callback, parentCallback, interactor, bindInteractor, inputControl, saveControl
         )
     }
 
     @Test override fun onDestroy() = fastTest.onDestroy()
 
 
-    @Test fun cacheData() {
-        TODO()
-    }
+    @Test fun cacheData() = fastTest.cacheData(mockk())
 
     @Test fun onSetup() {
         TODO()
     }
 
-    @Test fun isNoteInitialized() {
-        TODO()
-    }
+    @Test fun isNoteInitialized() = fastTest.isNoteInitialized(mockk())
 
 
     @Test fun onSaveData() = fastTest.onSaveData()
@@ -103,11 +94,11 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     @Test fun onPause() = fastTest.onPause()
 
 
-    @Test fun onClickBackArrow() {
-        TODO()
-    }
+    @Test fun onClickBackArrow() = fastTest.onClickBackArrow()
 
-    @Test fun onPressBack() {
+    @Test fun onPressBack() = fastTest.onPressBack()
+
+    @Test fun onRestoreData() {
         TODO()
     }
 
@@ -155,9 +146,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
     @Test fun onMenuRestore() = fastTest.onMenuRestore(mockk())
 
-    @Test fun onMenuRestoreOpen() {
-        TODO()
-    }
+    @Test fun onMenuRestoreOpen() = fastTest.onMenuRestoreOpen(mockk())
 
     @Test fun onMenuClear() = fastTest.onMenuClear(mockk())
 
@@ -169,6 +158,12 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     @Test fun onMenuUndoRedo() {
         TODO()
     }
+
+    @Test fun onMenuUndoRedoRank() = fastTest.onMenuUndoRedoRank(mockk(relaxUnitFun = true))
+
+    @Test fun onMenuUndoRedoColor() = fastTest.onMenuUndoRedoColor(mockk())
+
+    @Test fun onMenuUndoRedoName() = fastTest.onMenuUndoRedoName()
 
     @Test fun onMenuRank() = fastTest.onMenuRank(mockk())
 

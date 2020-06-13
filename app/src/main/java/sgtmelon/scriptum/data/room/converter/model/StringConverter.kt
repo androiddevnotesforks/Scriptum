@@ -12,7 +12,7 @@ class StringConverter {
         if (string != NONE && string.isNotEmpty()) {
             addAll(string.split(SPLIT.toRegex())
                     .dropLastWhile { it.isEmpty() }
-                    .map { it.toLong() })
+                    .mapNotNull { it.toLongOrNull() })
         }
     }
 

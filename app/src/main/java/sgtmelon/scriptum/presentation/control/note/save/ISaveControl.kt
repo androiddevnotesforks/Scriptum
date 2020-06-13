@@ -5,8 +5,6 @@ package sgtmelon.scriptum.presentation.control.note.save
  */
 interface ISaveControl {
 
-    fun setModel(model: SaveControl.Model)
-
     var needSave: Boolean
 
     fun setSaveEvent(isWork: Boolean)

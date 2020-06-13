@@ -2,8 +2,7 @@ package sgtmelon.scriptum
 
 import android.os.Bundle
 import io.mockk.*
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNull
+import org.junit.Assert.*
 import sgtmelon.extension.beforeNow
 import sgtmelon.extension.getCalendar
 import sgtmelon.extension.nextString
@@ -15,6 +14,8 @@ import sgtmelon.scriptum.domain.model.annotation.Repeat
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.data.NoteData
+import sgtmelon.scriptum.domain.model.item.InputItem
+import sgtmelon.scriptum.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.state.IconState
 import sgtmelon.scriptum.domain.model.state.NoteState
@@ -54,26 +55,51 @@ object FastTest {
 
         }
 
-        // TODO make good order
         class ViewModel<N : NoteItem, C : IParentNoteFragment<N>, I : IParentNoteInteractor<N>>(
                 private val callback: IParentNoteFragment<N>,
                 private val parentCallback: INoteConnector,
                 private val interactor: IParentNoteInteractor<N>,
                 private val bindInteractor: IBindInteractor,
                 private val inputControl: IInputControl,
-                private val saveControl: ISaveControl,
-                private val iconState: IconState,
                 private val viewModel: ParentNoteViewModel<N, C, I>,
                 private val spyViewModel: ParentNoteViewModel<N, C, I>,
                 private val mockDeepCopy: (item: N) -> Unit,
                 private val verifyDeepCopy: MockKVerificationScope.(item: N) -> Unit
         ) {
 
-            fun onDestroy() {
-                viewModel.onDestroy()
+            fun cacheData(noteItem: N) {
+                mockDeepCopy(noteItem)
 
-                assertNull(viewModel.callback)
-                assertNull(viewModel.parentCallback)
+                spyViewModel.noteItem = noteItem
+                spyViewModel.cacheData()
+
+                verifySequence {
+                    spyViewModel.noteItem = noteItem
+                    spyViewModel.cacheData()
+
+                    spyViewModel.noteItem
+                    verifyDeepCopy(noteItem)
+                    spyViewModel.restoreItem = noteItem
+                }
+            }
+
+            fun isNoteInitialized(noteItem: N) {
+                assertFalse(viewModel.isNoteInitialized())
+
+                viewModel.noteItem = noteItem
+
+                assertTrue(viewModel.isNoteInitialized())
+            }
+
+            fun onDestroy() {
+                val saveControl = mockk<ISaveControl>(relaxUnitFun = true)
+
+                every { spyViewModel.saveControl } returns saveControl
+
+                spyViewModel.onDestroy()
+
+                assertNull(spyViewModel.callback)
+                assertNull(spyViewModel.parentCallback)
 
                 verifySequence {
                     interactor.onDestroy()
@@ -100,15 +126,18 @@ object FastTest {
             }
 
             fun onResume() {
-                val noteState = mockk<NoteState>()
+                val saveControl = mockk<ISaveControl>(relaxUnitFun = true)
+                val noteState = mockk<NoteState>(relaxUnitFun = true)
 
-                viewModel.noteState = noteState
+                every { spyViewModel.saveControl } returns saveControl
+
+                spyViewModel.noteState = noteState
 
                 every { noteState.isEdit } returns false
-                viewModel.onResume()
+                spyViewModel.onResume()
 
                 every { noteState.isEdit } returns true
-                viewModel.onResume()
+                spyViewModel.onResume()
 
                 verifySequence {
                     noteState.isEdit
@@ -119,15 +148,18 @@ object FastTest {
             }
 
             fun onPause() {
-                val noteState = mockk<NoteState>()
+                val saveControl = mockk<ISaveControl>(relaxUnitFun = true)
+                val noteState = mockk<NoteState>(relaxUnitFun = true)
 
-                viewModel.noteState = noteState
+                every { spyViewModel.saveControl } returns saveControl
+
+                spyViewModel.noteState = noteState
 
                 every { noteState.isEdit } returns false
-                viewModel.onPause()
+                spyViewModel.onPause()
 
                 every { noteState.isEdit } returns true
-                viewModel.onPause()
+                spyViewModel.onPause()
 
                 verifySequence {
                     noteState.isEdit
@@ -135,6 +167,112 @@ object FastTest {
                     noteState.isEdit
                     saveControl.onPauseSave()
                     saveControl.setSaveEvent(isWork = false)
+                }
+            }
+
+
+            fun onClickBackArrow() {
+                val saveControl = mockk<ISaveControl>(relaxUnitFun = true)
+                val noteState = mockk<NoteState>(relaxUnitFun = true)
+                val id = Random.nextLong()
+
+                every { spyViewModel.saveControl } returns saveControl
+
+                spyViewModel.noteState = noteState
+
+                every { noteState.isCreate } returns true
+                spyViewModel.onClickBackArrow()
+
+                every { noteState.isCreate } returns false
+                every { noteState.isEdit } returns false
+                spyViewModel.onClickBackArrow()
+
+                every { noteState.isEdit } returns true
+                spyViewModel.onClickBackArrow()
+
+                every { spyViewModel.onRestoreData() } returns Random.nextBoolean()
+                spyViewModel.id = id
+                spyViewModel.onClickBackArrow()
+
+                verifySequence {
+                    spyViewModel.noteState = noteState
+
+                    spyViewModel.onClickBackArrow()
+                    noteState.isCreate
+                    spyViewModel.saveControl
+                    saveControl.needSave = false
+                    parentCallback.finish()
+
+                    spyViewModel.onClickBackArrow()
+                    noteState.isCreate
+                    noteState.isEdit
+                    spyViewModel.saveControl
+                    saveControl.needSave = false
+                    parentCallback.finish()
+
+                    spyViewModel.onClickBackArrow()
+                    noteState.isCreate
+                    noteState.isEdit
+                    spyViewModel.saveControl
+                    saveControl.needSave = false
+                    parentCallback.finish()
+
+                    spyViewModel.id = id
+                    spyViewModel.onClickBackArrow()
+                    noteState.isCreate
+                    noteState.isEdit
+                    spyViewModel.callback
+                    callback.hideKeyboard()
+                    spyViewModel.onRestoreData()
+                }
+            }
+
+            fun onPressBack() {
+                val saveControl = mockk<ISaveControl>(relaxUnitFun = true)
+                val noteState = mockk<NoteState>(relaxUnitFun = true)
+
+                every { spyViewModel.saveControl } returns saveControl
+                every { noteState.isEdit } returns false
+
+                spyViewModel.noteState = noteState
+                assertFalse(spyViewModel.onPressBack())
+
+                val restoreResult = Random.nextBoolean()
+
+                every { noteState.isEdit } returns true
+                every { spyViewModel.onMenuSave(changeMode = true) } returns false
+                every { noteState.isCreate } returns false
+                every { spyViewModel.onRestoreData() } returns restoreResult
+
+                assertEquals(restoreResult, spyViewModel.onPressBack())
+
+                every { noteState.isCreate } returns true
+                assertFalse(spyViewModel.onPressBack())
+
+                every { spyViewModel.onMenuSave(changeMode = true) } returns true
+                assertTrue(spyViewModel.onPressBack())
+
+                verifyOrder {
+                    spyViewModel.onPressBack()
+                    noteState.isEdit
+
+                    spyViewModel.onPressBack()
+                    noteState.isEdit
+                    saveControl.needSave = false
+                    spyViewModel.onMenuSave(changeMode = true)
+                    noteState.isCreate
+                    spyViewModel.onRestoreData()
+
+                    spyViewModel.onPressBack()
+                    noteState.isEdit
+                    saveControl.needSave = false
+                    spyViewModel.onMenuSave(changeMode = true)
+                    noteState.isCreate
+
+                    spyViewModel.onPressBack()
+                    noteState.isEdit
+                    saveControl.needSave = false
+                    spyViewModel.onMenuSave(changeMode = true)
                 }
             }
 
@@ -304,8 +442,31 @@ object FastTest {
                 }
             }
 
-            fun onMenuRestoreOpen() {
-                TODO()
+            fun onMenuRestoreOpen(noteItem: N) {
+                val noteState = mockk<NoteState>(relaxUnitFun = true)
+                val iconState = mockk<IconState>(relaxUnitFun = true)
+
+                every { noteItem.onRestore() } returns noteItem
+                every { spyViewModel.setupEditMode(isEdit = false) } returns Unit
+
+                spyViewModel.noteState = noteState
+                spyViewModel.noteItem = noteItem
+                spyViewModel.onMenuRestoreOpen()
+
+                spyViewModel.iconState = iconState
+                spyViewModel.onMenuRestoreOpen()
+
+                coVerifyOrder {
+                    noteState.isBin = false
+                    noteItem.onRestore()
+                    spyViewModel.setupEditMode(isEdit = false)
+                    interactor.updateNote(noteItem, updateBind = false)
+
+                    noteState.isBin = false
+                    noteItem.onRestore()
+                    iconState.notAnimate(any())
+                    interactor.updateNote(noteItem, updateBind = false)
+                }
             }
 
             fun onMenuClear(noteItem: N) {
@@ -332,24 +493,90 @@ object FastTest {
             fun onMenuRedo() {
                 every { spyViewModel.onMenuUndoRedo(isUndo = false) } returns Unit
 
-                spyViewModel.onMenuUndo()
+                spyViewModel.onMenuRedo()
 
                 verifySequence {
-                    spyViewModel.onMenuUndo()
+                    spyViewModel.onMenuRedo()
                     spyViewModel.onMenuUndoRedo(isUndo = false)
                 }
             }
 
-            fun onMenuUndoRedoRank() {
-                TODO()
+            fun onMenuUndoRedoRank(noteItem: N) {
+                val item = mockk<InputItem>(relaxUnitFun = true)
+                val isUndo = Random.nextBoolean()
+
+                val rankId = Random.nextLong()
+                val rankPs = Random.nextLong()
+                val text = "$rankId, $rankPs"
+
+                viewModel.noteItem = noteItem
+
+                every { item[isUndo] } returns Random.nextString()
+                viewModel.onMenuUndoRedoRank(item, isUndo)
+
+                every { item[isUndo] } returns text
+                viewModel.onMenuUndoRedoRank(item, isUndo)
+
+                verifySequence {
+                    item[isUndo]
+
+                    item[isUndo]
+                    noteItem.rankId = rankId
+                    noteItem.rankPs = rankPs.toInt()
+                }
             }
 
-            fun onMenuUndoRedoColor() {
-                TODO()
+            fun onMenuUndoRedoColor(noteItem: N) {
+                val item = mockk<InputItem>(relaxUnitFun = true)
+                val isUndo = Random.nextBoolean()
+
+                val colorFrom = Random.nextInt()
+                val colorTo = Random.nextInt()
+
+                every { noteItem.color } returns colorFrom
+                every { noteItem.color = colorTo } returns Unit
+
+                viewModel.noteItem = noteItem
+
+                every { item[isUndo] } returns Random.nextString()
+                viewModel.onMenuUndoRedoColor(item, isUndo)
+
+                every { item[isUndo] } returns colorTo.toString()
+                viewModel.onMenuUndoRedoColor(item, isUndo)
+
+                verifySequence {
+                    noteItem.color
+                    item[isUndo]
+
+                    noteItem.color
+                    item[isUndo]
+                    noteItem.color = colorTo
+                    callback.tintToolbar(colorFrom, colorTo)
+                }
             }
 
             fun onMenuUndoRedoName() {
-                TODO()
+                val item = mockk<InputItem>(relaxUnitFun = true)
+                val isUndo = Random.nextBoolean()
+
+                val text = Random.nextString()
+                val position = Random.nextInt()
+                val cursor = mockk<InputItem.Cursor>(relaxUnitFun = true)
+
+                mockkObject(InputItem.Cursor)
+
+                every { item[isUndo] } returns text
+                every { item.cursor } returns cursor
+                every { cursor[isUndo] } returns position
+
+                viewModel.onMenuUndoRedoName(item, isUndo)
+
+                verifySequence {
+                    item[isUndo]
+                    item.cursor
+                    cursor[isUndo]
+                    callback.changeName(text, position)
+                }
             }
 
             fun onMenuRank(noteItem: N) {

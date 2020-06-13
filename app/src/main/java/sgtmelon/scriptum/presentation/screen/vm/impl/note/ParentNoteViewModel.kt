@@ -19,6 +19,7 @@ import sgtmelon.scriptum.domain.model.state.NoteState
 import sgtmelon.scriptum.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.presentation.control.note.save.ISaveControl
+import sgtmelon.scriptum.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.IParentNoteFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.note.IParentNoteViewModel
@@ -55,7 +56,9 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
     /**
      * Abstract because need setup callback but this class not final.
      */
-    abstract var saveControl: ISaveControl
+    @RunProtected val saveControl: ISaveControl by lazy {
+        SaveControl(context, interactor.getSaveModel(), callback = this)
+    }
 
     @RunProtected var id: Long = NoteData.Default.ID
     @RunProtected var color: Int = NoteData.Default.COLOR
@@ -77,7 +80,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
 
     //endregion
 
-    protected fun isNoteInitialized(): Boolean = ::noteItem.isInitialized
+    @RunProtected fun isNoteInitialized(): Boolean = ::noteItem.isInitialized
 
     /**
      * Function must describe cashing data inside [restoreItem].
@@ -88,10 +91,6 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
      * Use example: restoreItem = noteItem.deepCopy().
      */
     abstract fun cacheData()
-
-    override fun onSetup(bundle: Bundle?) {
-        saveControl.setModel(interactor.getSaveModel())
-    }
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy {
         interactor.onDestroy()
@@ -277,16 +276,18 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
     fun onMenuUndoRedoRank(item: InputItem, isUndo: Boolean) {
         val list = StringConverter().toList(item[isUndo])
 
+        if (list.size != 2) return
+
         noteItem.apply {
-            rankId = list[0]
-            rankPs = list[1].toInt()
+            rankId = list.firstOrNull() ?: return
+            rankPs = list.lastOrNull()?.toInt() ?: return
         }
     }
 
     @RunProtected
     fun onMenuUndoRedoColor(item: InputItem, isUndo: Boolean) {
         val colorFrom = noteItem.color
-        val colorTo = item[isUndo].toInt()
+        val colorTo = item[isUndo].toIntOrNull() ?: return
 
         noteItem.color = colorTo
 
@@ -296,9 +297,9 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
     @RunProtected
     fun onMenuUndoRedoName(item: InputItem, isUndo: Boolean) {
         val text = item[isUndo]
-        val cursor = item.cursor[isUndo]
+        val position = item.cursor[isUndo]
 
-        callback?.changeName(text, cursor)
+        callback?.changeName(text, position)
     }
 
 

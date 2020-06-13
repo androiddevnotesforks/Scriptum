@@ -17,8 +17,6 @@ import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
 import sgtmelon.scriptum.domain.model.state.NoteState
 import sgtmelon.scriptum.extension.*
-import sgtmelon.scriptum.presentation.control.note.save.ISaveControl
-import sgtmelon.scriptum.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.roll.IRollNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.note.IRollNoteViewModel
@@ -30,15 +28,11 @@ class RollNoteViewModel(application: Application) :
         ParentNoteViewModel<NoteItem.Roll, IRollNoteFragment, IRollNoteInteractor>(application),
         IRollNoteViewModel {
 
-    override var saveControl: ISaveControl = SaveControl(context, callback = this)
-
     override fun cacheData() {
         restoreItem = noteItem.deepCopy()
     }
 
     override fun onSetup(bundle: Bundle?) {
-        super.onSetup(bundle)
-
         id = bundle?.getLong(Intent.ID, Default.ID) ?: Default.ID
         color = bundle?.getInt(Intent.COLOR, Default.COLOR) ?: Default.COLOR
 
