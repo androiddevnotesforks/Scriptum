@@ -217,7 +217,7 @@ class RollNoteViewModel(application: Application) :
             callback?.notifyItemRemoved(getList(noteItem), p)
         }
 
-        callback?.updateProgress(noteItem.getCheck(), noteItem.list.size)
+        with(noteItem) { callback?.updateProgress(getCheck(), list.size) }
 
         viewModelScope.launch { interactor.updateRollCheck(noteItem, correctPosition) }
     }
@@ -236,9 +236,7 @@ class RollNoteViewModel(application: Application) :
             updateProgress(noteItem.getCheck(), noteItem.list.size)
         }
 
-        if (!isVisible) {
-            notifyListByVisible()
-        }
+        if (!isVisible) notifyListByVisible()
 
         viewModelScope.launch { interactor.updateRollCheck(noteItem, check) }
     }

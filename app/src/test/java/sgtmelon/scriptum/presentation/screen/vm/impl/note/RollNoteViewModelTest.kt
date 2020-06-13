@@ -329,7 +329,96 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onClickItemCheck() {
-        TODO()
+        val p = Random.nextInt()
+        val noteState = mockk<NoteState>(relaxUnitFun = true)
+        val noteItem = mockk<NoteItem.Roll>(relaxUnitFun = true)
+
+        val correctPosition = Random.nextInt()
+        val optimalList = mockk<MutableList<RollItem>>()
+        val normalList = mockk<MutableList<RollItem>>()
+        val check = Random.nextInt()
+        val size = Random.nextInt()
+
+        every { spyViewModel.getCorrectPosition(p, noteItem) } returns correctPosition
+        every { spyViewModel.getList(noteItem) } returns optimalList
+        every { spyViewModel.cacheData() } returns Unit
+        every { noteItem.getCheck() } returns check
+        every { noteItem.list } returns normalList
+        every { normalList.size } returns size
+
+        spyViewModel.noteState = noteState
+        spyViewModel.noteItem = noteItem
+
+        every { noteState.isEdit } returns true
+        spyViewModel.onClickItemCheck(p)
+
+        every { noteState.isEdit } returns false
+        spyViewModel.isVisible = false
+        spyViewModel.onClickItemCheck(p)
+
+        spyViewModel.isVisible = true
+        spyViewModel.onClickItemCheck(p)
+
+        coVerifyOrder {
+            spyViewModel.noteState = noteState
+            spyViewModel.noteItem = noteItem
+
+            spyViewModel.onClickItemCheck(p)
+            spyViewModel.noteState
+            noteState.isEdit
+
+
+            spyViewModel.isVisible = false
+            spyViewModel.onClickItemCheck(p)
+            spyViewModel.noteState
+            noteState.isEdit
+            spyViewModel.noteItem
+            spyViewModel.getCorrectPosition(p, noteItem)
+            spyViewModel.noteItem
+            noteItem.onItemCheck(correctPosition)
+            spyViewModel.cacheData()
+
+            spyViewModel.callback
+            spyViewModel.noteItem
+            spyViewModel.getList(noteItem)
+            callback.notifyItemRemoved(optimalList, p)
+
+            spyViewModel.noteItem
+            spyViewModel.callback
+            noteItem.getCheck()
+            noteItem.list
+            normalList.size
+            callback.updateProgress(check, size)
+
+            spyViewModel.noteItem
+            interactor.updateRollCheck(noteItem, correctPosition)
+
+
+            spyViewModel.isVisible = true
+            spyViewModel.onClickItemCheck(p)
+            spyViewModel.noteState
+            noteState.isEdit
+            spyViewModel.noteItem
+            spyViewModel.getCorrectPosition(p, noteItem)
+            spyViewModel.noteItem
+            noteItem.onItemCheck(correctPosition)
+            spyViewModel.cacheData()
+
+            spyViewModel.callback
+            spyViewModel.noteItem
+            spyViewModel.getList(noteItem)
+            callback.notifyItemChanged(optimalList, p)
+
+            spyViewModel.noteItem
+            spyViewModel.callback
+            noteItem.getCheck()
+            noteItem.list
+            normalList.size
+            callback.updateProgress(check, size)
+
+            spyViewModel.noteItem
+            interactor.updateRollCheck(noteItem, correctPosition)
+        }
     }
 
     @Test fun onLongClickItemCheck() {
