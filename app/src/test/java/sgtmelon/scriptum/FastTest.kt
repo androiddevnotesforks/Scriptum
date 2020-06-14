@@ -110,10 +110,7 @@ object FastTest {
             fun onSaveData() {
                 val id = Random.nextLong()
                 val color = Random.nextInt()
-                val bundle = mockk<Bundle>()
-
-                every { bundle.putLong(NoteData.Intent.ID, id) } returns Unit
-                every { bundle.putInt(NoteData.Intent.COLOR, color) } returns Unit
+                val bundle = mockk<Bundle>(relaxUnitFun = true)
 
                 viewModel.id = id
                 viewModel.color = color

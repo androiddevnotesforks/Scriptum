@@ -3,7 +3,6 @@ package sgtmelon.scriptum.presentation.screen.vm.impl.note
 import android.os.Bundle
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
 import io.mockk.verifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
@@ -31,7 +30,7 @@ class NoteViewModelTest : ParentViewModelTest() {
 
     @MockK lateinit var interactor: INoteInteractor
 
-    private val bundle = mockk<Bundle>()
+    @MockK lateinit var bundle: Bundle
 
     private val viewModel by lazy { NoteViewModel(application) }
 
@@ -139,10 +138,6 @@ class NoteViewModelTest : ParentViewModelTest() {
         val id = Random.nextLong()
         val color = Color.BLUE
         val type = NoteType.TEXT
-
-        every { bundle.putLong(Intent.ID, any()) } returns Unit
-        every { bundle.putInt(Intent.COLOR, any()) } returns Unit
-        every { bundle.putInt(Intent.TYPE, any()) } returns Unit
 
         viewModel.id = id
         viewModel.color = color

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import androidx.annotation.StringDef
 import androidx.fragment.app.Fragment
+import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 
 /**
  * State for dialogs which give us know open them or not.
@@ -14,7 +15,7 @@ class OpenState {
     /**
      * Value for [block] realisation.
      */
-    private val handler = Handler()
+    @RunPrivate var handler = Handler()
 
     /**
      * Value for control open. If something was opened - TRUE, else - FALSE.
@@ -79,19 +80,19 @@ class OpenState {
     /**
      * Use when need block [OpenState] for [time].
      */
-    fun block(time: Long?) {
-        if (time == null) return
-
+    fun block(time: Long) {
         /**
          * Need deny any changes in [OpenState] what can happen in postDelayed time.
          */
         changeEnabled = false
 
         handler.removeCallbacksAndMessages(null)
-        handler.postDelayed({
-            changeEnabled = true
-            clear()
-        }, time)
+        handler.postDelayed({ blockEnd() }, time)
+    }
+
+    @RunPrivate fun blockEnd() {
+        changeEnabled = true
+        clear()
     }
 
     fun clear() {
@@ -139,9 +140,9 @@ class OpenState {
     companion object {
         private const val KEY_PREFIX = "OPEN_STATE"
 
-        private const val KEY_CHANGE = "${KEY_PREFIX}_CHANGE"
-        private const val KEY_VALUE = "${KEY_PREFIX}_VALUE"
-        private const val KEY_TAG = "${KEY_PREFIX}_TAG"
+        @RunPrivate const val KEY_CHANGE = "${KEY_PREFIX}_CHANGE"
+        @RunPrivate const val KEY_VALUE = "${KEY_PREFIX}_VALUE"
+        @RunPrivate const val KEY_TAG = "${KEY_PREFIX}_TAG"
     }
 
 }
