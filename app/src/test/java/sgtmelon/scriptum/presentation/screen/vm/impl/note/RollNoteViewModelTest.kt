@@ -324,8 +324,127 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         }
     }
 
-    @Test fun onClickAdd() {
-        TODO()
+    @Test fun onClickAdd_onEmptyText() {
+        val noteState = mockk<NoteState>(relaxUnitFun = true)
+
+        viewModel.noteState = noteState
+
+        every { callback.isDialogOpen } returns true
+        every { noteState.isEdit } returns false
+        viewModel.onClickAdd(Random.nextBoolean())
+
+        every { callback.isDialogOpen } returns true
+        every { noteState.isEdit } returns true
+        viewModel.onClickAdd(Random.nextBoolean())
+
+        every { callback.isDialogOpen } returns false
+        every { noteState.isEdit } returns false
+        viewModel.onClickAdd(Random.nextBoolean())
+
+        every { callback.getEnterText() } returns "   "
+        every { callback.isDialogOpen } returns false
+        every { noteState.isEdit } returns true
+        viewModel.onClickAdd(Random.nextBoolean())
+
+        every { callback.getEnterText() } returns ""
+        viewModel.onClickAdd(Random.nextBoolean())
+
+        verifySequence {
+            callback.isDialogOpen
+            callback.isDialogOpen
+            callback.isDialogOpen
+            noteState.isEdit
+
+            callback.isDialogOpen
+            noteState.isEdit
+            callback.getEnterText()
+
+            callback.isDialogOpen
+            noteState.isEdit
+            callback.getEnterText()
+        }
+    }
+
+    @Test fun onClickAdd_onNormalText() {
+        val noteState = mockk<NoteState>(relaxUnitFun = true)
+        val noteItem = mockk<NoteItem.Roll>(relaxUnitFun = true)
+
+        val enterText = Random.nextString()
+        val optimalList = mockk<MutableList<RollItem>>()
+        val normalList = mockk<MutableList<RollItem>>(relaxUnitFun = true)
+        val size = Random.nextInt()
+        val access = mockk<InputControl.Access>()
+
+        every { callback.isDialogOpen } returns false
+        every { noteState.isEdit } returns true
+        every { callback.getEnterText() } returns enterText
+        every { noteItem.list } returns normalList
+        every { normalList.size } returns size
+        every { inputControl.access } returns access
+        every { spyViewModel.getList(noteItem) } returns optimalList
+
+        spyViewModel.noteState = noteState
+        spyViewModel.noteItem = noteItem
+
+        spyViewModel.onClickAdd(simpleClick = false)
+        spyViewModel.onClickAdd(simpleClick = true)
+
+        verifySequence {
+            spyViewModel.noteState = noteState
+            spyViewModel.noteItem = noteItem
+
+            spyViewModel.onClickAdd(simpleClick = false)
+            spyViewModel.callback
+            callback.isDialogOpen
+            spyViewModel.noteState
+            noteState.isEdit
+            spyViewModel.callback
+            callback.getEnterText()
+            spyViewModel.callback
+            callback.clearEnterText()
+            val firstRollItem = RollItem(position = 0, text = enterText)
+            spyViewModel.inputControl
+            inputControl.onRollAdd(p = 0, valueTo = firstRollItem.toJson())
+            spyViewModel.noteItem
+            noteItem.list
+            normalList.add(0, firstRollItem)
+            spyViewModel.callback
+            spyViewModel.noteItem
+            spyViewModel.inputControl
+            inputControl.access
+            callback.onBindingInput(noteItem, access)
+            spyViewModel.noteItem
+            spyViewModel.getList(noteItem)
+            callback.scrollToItem(simpleClick = false, p = 0, list = optimalList)
+
+
+            spyViewModel.onClickAdd(simpleClick = true)
+            spyViewModel.callback
+            callback.isDialogOpen
+            spyViewModel.noteState
+            noteState.isEdit
+            spyViewModel.callback
+            callback.getEnterText()
+            spyViewModel.callback
+            callback.clearEnterText()
+            val secondRollItem = RollItem(position = size, text = enterText)
+            spyViewModel.noteItem
+            noteItem.list
+            normalList.size
+            spyViewModel.inputControl
+            inputControl.onRollAdd(p = size, valueTo = secondRollItem.toJson())
+            spyViewModel.noteItem
+            noteItem.list
+            normalList.add(size, secondRollItem)
+            spyViewModel.callback
+            spyViewModel.noteItem
+            spyViewModel.inputControl
+            inputControl.access
+            callback.onBindingInput(noteItem, access)
+            spyViewModel.noteItem
+            spyViewModel.getList(noteItem)
+            callback.scrollToItem(simpleClick = true, p = size, list = optimalList)
+        }
     }
 
     @Test fun onClickItemCheck() {
