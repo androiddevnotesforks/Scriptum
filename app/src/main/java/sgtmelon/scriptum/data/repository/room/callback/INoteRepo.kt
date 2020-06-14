@@ -53,7 +53,7 @@ interface INoteRepo {
 
     suspend fun updateRollCheck(noteItem: NoteItem.Roll, p: Int)
 
-    suspend fun updateRollCheck(noteItem: NoteItem.Roll, check: Boolean)
+    suspend fun updateRollCheck(noteItem: NoteItem.Roll, isCheck: Boolean)
 
     suspend fun updateNote(noteItem: NoteItem)
 

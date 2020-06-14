@@ -253,8 +253,8 @@ class NoteRepo(
         noteDao.update(noteConverter.toEntity(noteItem))
     }
 
-    override suspend fun updateRollCheck(noteItem: NoteItem.Roll, check: Boolean) = inRoom {
-        rollDao.updateAllCheck(noteItem.id, check)
+    override suspend fun updateRollCheck(noteItem: NoteItem.Roll, isCheck: Boolean) = inRoom {
+        rollDao.updateAllCheck(noteItem.id, isCheck)
         noteDao.update(noteConverter.toEntity(noteItem))
     }
 

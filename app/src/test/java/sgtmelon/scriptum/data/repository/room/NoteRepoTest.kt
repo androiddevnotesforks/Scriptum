@@ -696,15 +696,15 @@ class NoteRepoTest : ParentRoomRepoTest() {
         val item = TestData.Note.secondNote
         val entity = NoteConverter().toEntity(item)
 
-        val check = Random.nextBoolean()
+        val isCheck = Random.nextBoolean()
 
         every { noteConverter.toEntity(item) } returns entity
 
-        mockNoteRepo.updateRollCheck(item, check)
+        mockNoteRepo.updateRollCheck(item, isCheck)
 
         coVerifySequence {
             roomProvider.openRoom()
-            rollDao.updateAllCheck(item.id, check)
+            rollDao.updateAllCheck(item.id, isCheck)
             noteConverter.toEntity(item)
             noteDao.update(entity)
         }

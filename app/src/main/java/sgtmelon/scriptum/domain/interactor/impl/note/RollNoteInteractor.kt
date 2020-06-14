@@ -80,8 +80,8 @@ class RollNoteInteractor(
     /**
      * Update all rolls rely on checks.
      */
-    override suspend fun updateRollCheck(noteItem: NoteItem.Roll, check: Boolean) {
-        noteRepo.updateRollCheck(noteItem, check)
+    override suspend fun updateRollCheck(noteItem: NoteItem.Roll, isCheck: Boolean) {
+        noteRepo.updateRollCheck(noteItem, isCheck)
 
         callback?.notifyNoteBind(noteItem, getRankIdVisibleList(), preferenceRepo.sort)
     }

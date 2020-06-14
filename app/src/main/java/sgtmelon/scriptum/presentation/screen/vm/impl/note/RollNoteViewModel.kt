@@ -225,7 +225,7 @@ class RollNoteViewModel(application: Application) :
     override fun onLongClickItemCheck() {
         if (noteState.isEdit) return
 
-        val check = noteItem.onItemLongCheck()
+        val isCheck = noteItem.onItemLongCheck()
         cacheData()
 
         callback?.apply {
@@ -233,12 +233,12 @@ class RollNoteViewModel(application: Application) :
             notifyDataRangeChanged(getList(noteItem))
             changeCheckToggle(state = false)
 
-            updateProgress(noteItem.getCheck(), noteItem.list.size)
+            with(noteItem) { updateProgress(getCheck(), list.size) }
         }
 
         if (!isVisible) notifyListByVisible()
 
-        viewModelScope.launch { interactor.updateRollCheck(noteItem, check) }
+        viewModelScope.launch { interactor.updateRollCheck(noteItem, isCheck) }
     }
 
     //region Menu click

@@ -16,6 +16,6 @@ interface IRollNoteInteractor : IParentNoteInteractor<NoteItem.Roll> {
 
     suspend fun updateRollCheck(noteItem: NoteItem.Roll, p: Int)
 
-    suspend fun updateRollCheck(noteItem: NoteItem.Roll, check: Boolean)
+    suspend fun updateRollCheck(noteItem: NoteItem.Roll, isCheck: Boolean)
 
 }

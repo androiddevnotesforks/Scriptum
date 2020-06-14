@@ -422,7 +422,93 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onLongClickItemCheck() {
-        TODO()
+        val noteState = mockk<NoteState>(relaxUnitFun = true)
+        val noteItem = mockk<NoteItem.Roll>(relaxUnitFun = true)
+
+        val isCheck = Random.nextBoolean()
+        val optimalList = mockk<MutableList<RollItem>>()
+        val normalList = mockk<MutableList<RollItem>>()
+        val check = Random.nextInt()
+        val size = Random.nextInt()
+
+        every { noteItem.onItemLongCheck() } returns isCheck
+        every { spyViewModel.cacheData() } returns Unit
+        every { spyViewModel.getList(noteItem) } returns optimalList
+        every { noteItem.getCheck() } returns check
+        every { noteItem.list } returns normalList
+        every { normalList.size } returns size
+        every { spyViewModel.notifyListByVisible() } returns Unit
+
+        spyViewModel.noteState = noteState
+        spyViewModel.noteItem = noteItem
+
+        every { noteState.isEdit } returns true
+        spyViewModel.onLongClickItemCheck()
+
+        every { noteState.isEdit } returns false
+        spyViewModel.isVisible = false
+        spyViewModel.onLongClickItemCheck()
+
+        spyViewModel.isVisible = true
+        spyViewModel.onLongClickItemCheck()
+
+        coVerifyOrder {
+            spyViewModel.noteState = noteState
+            spyViewModel.noteItem = noteItem
+
+            spyViewModel.onLongClickItemCheck()
+            spyViewModel.noteState
+            noteState.isEdit
+
+
+            spyViewModel.isVisible = false
+            spyViewModel.onLongClickItemCheck()
+            spyViewModel.noteState
+            noteState.isEdit
+            spyViewModel.noteItem
+            noteItem.onItemLongCheck()
+            spyViewModel.cacheData()
+
+            spyViewModel.callback
+            callback.changeCheckToggle(state = true)
+            spyViewModel.noteItem
+            spyViewModel.getList(noteItem)
+            callback.notifyDataRangeChanged(optimalList)
+            callback.changeCheckToggle(state = false)
+            spyViewModel.noteItem
+            noteItem.getCheck()
+            noteItem.list
+            normalList.size
+            callback.updateProgress(check, size)
+
+            spyViewModel.notifyListByVisible()
+            spyViewModel.noteItem
+            interactor.updateRollCheck(noteItem, isCheck)
+
+
+            spyViewModel.isVisible = true
+            spyViewModel.onLongClickItemCheck()
+            spyViewModel.noteState
+            noteState.isEdit
+            spyViewModel.noteItem
+            noteItem.onItemLongCheck()
+            spyViewModel.cacheData()
+
+            spyViewModel.callback
+            callback.changeCheckToggle(state = true)
+            spyViewModel.noteItem
+            spyViewModel.getList(noteItem)
+            callback.notifyDataRangeChanged(optimalList)
+            callback.changeCheckToggle(state = false)
+            spyViewModel.noteItem
+            noteItem.getCheck()
+            noteItem.list
+            normalList.size
+            callback.updateProgress(check, size)
+
+            spyViewModel.noteItem
+            interactor.updateRollCheck(noteItem, isCheck)
+        }
     }
 
 
