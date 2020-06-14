@@ -6,7 +6,7 @@ import sgtmelon.scriptum.presentation.control.note.input.InputControl
 /**
  * Model for [InputControl]
  */
-class InputItem(
+data class InputItem(
         @InputAction val tag: Int,
         private val valueFrom: String,
         private val valueTo: String,
@@ -41,7 +41,7 @@ class InputItem(
     /**
      * Model for save text cursor inside [InputItem]
      */
-    class Cursor(val valueFrom: Int, val valueTo: Int) {
+    data class Cursor(val valueFrom: Int, val valueTo: Int) {
 
         companion object {
             operator fun Cursor?.get(isUndo: Boolean) = if (this != null) {

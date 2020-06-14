@@ -52,7 +52,7 @@ class TextNoteScreen(
 
     override var shadowItem: NoteItem.Text = noteItem.deepCopy()
 
-    override val inputControl = InputControl().apply { isEnabled = true }
+    override val inputControl = InputControl()
 
     override fun fullAssert() = apply {
         assert()

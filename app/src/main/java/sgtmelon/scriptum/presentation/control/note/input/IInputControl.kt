@@ -16,8 +16,6 @@ interface IInputControl {
     fun redo(): InputItem?
 
 
-    var isEnabled: Boolean
-
     fun makeNotEnabled(func: () -> Unit)
 
     fun onRankChange(idFrom: Long, psFrom: Int, idTo: Long, psTo: Int)

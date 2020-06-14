@@ -5,7 +5,6 @@ import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.domain.model.annotation.InputAction
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.InputItem
-import java.util.*
 
 /**
  * Class for control input data inside note and work with undo/redo.
@@ -25,59 +24,60 @@ class InputControl : IInputControl {
 
     @RunPrivate var logEnabled = BuildConfig.DEBUG
 
-    @RunPrivate val inputList = ArrayList<InputItem>()
+    @RunPrivate val list = mutableListOf<InputItem>()
 
     /**
-     * Position in [inputList]
+     * Position in [list]
      */
-    @RunPrivate var position = -1
+    @RunPrivate var position = ND_POSITION
 
-    @RunPrivate val isUndoAccess get() = inputList.size != 0 && position != -1
-    @RunPrivate val isRedoAccess get() = inputList.size != 0 && position != inputList.size - 1
+    /**
+     * Variable for prevent changes.
+     */
+    @RunPrivate var isEnabled = true
+
+    @RunPrivate val isUndoAccess get() = list.isNotEmpty() && position != ND_POSITION
+    @RunPrivate val isRedoAccess get() = list.isNotEmpty() && position != list.indices.last
 
     override val access get() = Access(isUndoAccess, isRedoAccess)
 
     override fun reset() {
-        inputList.clear()
-        position = -1
+        list.clear()
+        position = ND_POSITION
     }
 
-    override fun undo(): InputItem? = if (isUndoAccess) inputList.getOrNull(position--) else null
+    override fun undo(): InputItem? = if (isUndoAccess) list.getOrNull(position--) else null
 
-    override fun redo(): InputItem? = if (isRedoAccess) inputList.getOrNull(++position) else null
+    override fun redo(): InputItem? = if (isRedoAccess) list.getOrNull(++position) else null
 
-    private fun add(item: InputItem) {
+    @RunPrivate fun add(item: InputItem) {
         if (isEnabled) {
             remove()
-            inputList.add(item)
+            list.add(item)
             position++
         }
 
         listAll()
     }
 
-    private fun remove() {
-        val endPosition = inputList.size - 1
+    @RunPrivate fun remove() {
+        val endPosition = list.size - 1
 
         /**
          * If position not at end, when remove unused information before add new
          */
         if (position != endPosition) {
-            (endPosition downTo position + 1).forEach { inputList.removeAt(it) }
+            (endPosition downTo position + 1).forEach { list.removeAt(it) }
         }
 
-        while (inputList.size >= BuildConfig.INPUT_CONTROL_MAX_SIZE) {
-            inputList.removeAt(0)
+        while (list.size >= BuildConfig.INPUT_CONTROL_MAX_SIZE) {
+            list.removeAt(0)
             position--
         }
 
         listAll()
     }
 
-    /**
-     * Variable for prevent changes.
-     */
-    override var isEnabled = false
 
     override fun makeNotEnabled(func: () -> Unit) {
         isEnabled = false
@@ -125,9 +125,9 @@ class InputControl : IInputControl {
         if (!logEnabled) return
 
         Log.i(TAG, "listAll:")
-        for (i in inputList.indices) {
+        for (i in list.indices) {
             val ps = if (position == i) " | cursor = $position" else ""
-            Log.i(TAG, "i = " + i + " | " + inputList.getOrNull(i).toString() + ps)
+            Log.i(TAG, "i = " + i + " | " + list.getOrNull(i).toString() + ps)
         }
     }
 
@@ -138,6 +138,8 @@ class InputControl : IInputControl {
 
     companion object {
         private val TAG = InputControl::class.java.simpleName
+
+        @RunPrivate const val ND_POSITION = -1
     }
 
 }
