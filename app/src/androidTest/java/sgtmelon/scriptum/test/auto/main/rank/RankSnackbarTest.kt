@@ -49,7 +49,7 @@ class RankSnackbarTest : ParentUiTest() {
                     repeat(list.size) { onClickCancel(p = 0) }
                     repeat(list.size) {
                         getSnackbar { onClickCancel() }
-                        if (it != list.indices.last) {
+                        if (it != list.lastIndex) {
                             getSnackbar { assert() }
                         }
                     }
@@ -222,7 +222,7 @@ class RankSnackbarTest : ParentUiTest() {
     }
 
     @Test fun scrollToUndoItem_onBottom() = data.fillRank(count = 15).let {
-        val p = it.indices.last()
+        val p = it.lastIndex
 
         launch {
             mainScreen {

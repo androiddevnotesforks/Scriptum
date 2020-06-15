@@ -259,7 +259,7 @@ class NotificationViewModelTest : ParentViewModelTest() {
         coVerifySequence {
             callback.apply {
                 notifyInfoBind(itemList.size)
-                notifyItemInsertedScroll(itemList, itemList.indices.last)
+                notifyItemInsertedScroll(itemList, itemList.lastIndex)
                 onBindingList()
             }
 

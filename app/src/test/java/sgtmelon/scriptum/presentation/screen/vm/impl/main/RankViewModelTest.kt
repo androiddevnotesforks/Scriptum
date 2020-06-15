@@ -568,7 +568,7 @@ class RankViewModelTest : ParentViewModelTest() {
         assertEquals(cancelList, spyViewModel.cancelList)
 
         coVerifyOrder {
-            callback.notifyItemInsertedScroll(resultList, resultList.indices.last)
+            callback.notifyItemInsertedScroll(resultList, resultList.lastIndex)
 
             interactor.insert(item)
             spyViewModel.correctPositions(resultList)
@@ -604,7 +604,7 @@ class RankViewModelTest : ParentViewModelTest() {
         assertEquals(cancelList, spyViewModel.cancelList)
 
         coVerifyOrder {
-            callback.notifyItemInsertedScroll(resultList, resultList.indices.last)
+            callback.notifyItemInsertedScroll(resultList, resultList.lastIndex)
             callback.onBindingList()
 
             interactor.insert(item)

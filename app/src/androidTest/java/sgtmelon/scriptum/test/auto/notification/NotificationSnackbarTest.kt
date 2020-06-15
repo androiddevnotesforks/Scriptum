@@ -60,7 +60,7 @@ class NotificationSnackbarTest : ParentUiTest() {
                         repeat(list.size) { onClickCancel(p = 0) }
                         repeat(list.size) {
                             getSnackbar { onClickCancel() }
-                            if (it != list.indices.last) {
+                            if (it != list.lastIndex) {
                                 getSnackbar { assert() }
                             }
                         }
@@ -164,7 +164,7 @@ class NotificationSnackbarTest : ParentUiTest() {
 
     @Test fun scrollToUndoItem_onBottom() {
         val list = fillScreen(count = 15)
-        val p = list.indices.last()
+        val p = list.lastIndex
 
         launch {
             mainScreen {

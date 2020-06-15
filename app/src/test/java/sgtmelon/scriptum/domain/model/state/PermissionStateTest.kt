@@ -10,7 +10,7 @@ import org.junit.Test
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentTest
 import sgtmelon.scriptum.domain.model.key.PermissionResult
-import sgtmelon.scriptum.presentation.provider.VersionProvider
+import sgtmelon.scriptum.presentation.provider.BuildProvider.Version
 import kotlin.random.Random
 
 /**
@@ -24,12 +24,12 @@ class PermissionStateTest : ParentTest() {
     private val permissionState by lazy { PermissionState(activity, permission) }
 
     @Test fun getResult() {
-        mockkObject(VersionProvider)
+        mockkObject(Version)
 
-        every { VersionProvider.isMarshmallowLess() } returns true
+        every { Version.isMarshmallowLess() } returns true
         assertEquals(PermissionResult.LOW_API, permissionState.getResult())
 
-        every { VersionProvider.isMarshmallowLess() } returns false
+        every { Version.isMarshmallowLess() } returns false
         every { activity.checkSelfPermission(permission) } returns PackageManager.PERMISSION_GRANTED
         assertEquals(PermissionResult.GRANTED, permissionState.getResult())
 

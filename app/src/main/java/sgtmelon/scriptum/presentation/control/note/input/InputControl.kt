@@ -1,10 +1,10 @@
 package sgtmelon.scriptum.presentation.control.note.input
 
 import android.util.Log
-import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.domain.model.annotation.InputAction
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.InputItem
+import sgtmelon.scriptum.presentation.provider.BuildProvider
 
 /**
  * Class for control input data inside note and work with undo/redo.
@@ -22,7 +22,7 @@ import sgtmelon.scriptum.domain.model.item.InputItem
  */
 class InputControl : IInputControl {
 
-    @RunPrivate var logEnabled = BuildConfig.DEBUG
+    private var logEnabled = BuildProvider.isDebug()
 
     @RunPrivate val list = mutableListOf<InputItem>()
 
@@ -37,7 +37,7 @@ class InputControl : IInputControl {
     @RunPrivate var isEnabled = true
 
     @RunPrivate val isUndoAccess get() = list.isNotEmpty() && position != ND_POSITION
-    @RunPrivate val isRedoAccess get() = list.isNotEmpty() && position != list.indices.last
+    @RunPrivate val isRedoAccess get() = list.isNotEmpty() && position != list.lastIndex
 
     override val access get() = Access(isUndoAccess, isRedoAccess)
 
@@ -52,7 +52,9 @@ class InputControl : IInputControl {
 
     @RunPrivate fun add(item: InputItem) {
         if (isEnabled) {
-            remove()
+            clearToPosition()
+            clearToSize()
+
             list.add(item)
             position++
         }
@@ -60,22 +62,25 @@ class InputControl : IInputControl {
         listAll()
     }
 
-    @RunPrivate fun remove() {
-        val endPosition = list.size - 1
+    /**
+     * If position not at end, when remove unused information before adding new.
+     */
+    @RunPrivate fun clearToPosition() {
+        val lastPosition = list.lastIndex
 
-        /**
-         * If position not at end, when remove unused information before add new
-         */
-        if (position != endPosition) {
-            (endPosition downTo position + 1).forEach { list.removeAt(it) }
+        if (position != lastPosition) {
+            (lastPosition downTo position + 1).forEach { list.removeAt(it) }
         }
+    }
 
-        while (list.size >= BuildConfig.INPUT_CONTROL_MAX_SIZE) {
+    /**
+     * If list size bigger than max size, then need clear first N items.
+     */
+    @RunPrivate fun clearToSize() {
+        while (list.size >= BuildProvider.inputControlMaxSize()) {
             list.removeAt(0)
             position--
         }
-
-        listAll()
     }
 
 
@@ -121,7 +126,7 @@ class InputControl : IInputControl {
         add(InputItem(InputAction.ROLL_MOVE, valueFrom.toString(), valueTo.toString()))
     }
 
-    private fun listAll() {
+    @RunPrivate fun listAll() {
         if (!logEnabled) return
 
         Log.i(TAG, "listAll:")

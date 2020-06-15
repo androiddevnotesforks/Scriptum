@@ -1,15 +1,13 @@
 package sgtmelon.scriptum.presentation.control.note.input
 
-import io.mockk.every
-import io.mockk.mockk
-import io.mockk.spyk
-import io.mockk.verifySequence
+import io.mockk.*
 import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentTest
 import sgtmelon.scriptum.domain.model.annotation.InputAction
 import sgtmelon.scriptum.domain.model.item.InputItem
+import sgtmelon.scriptum.presentation.provider.BuildProvider
 import kotlin.random.Random
 
 /**
@@ -20,196 +18,230 @@ class InputControlTest : ParentTest() {
     private val inputControl by lazy { InputControl() }
     private val spyInputControl by lazy { spyk(inputControl) }
 
-//    fun assert(func: Assert.() -> Unit) = Assert(inputControl).apply { func() }
-
     override fun setUp() {
         super.setUp()
-
-        inputControl.logEnabled = false
 
         assertTrue(inputControl.list.isEmpty())
         assertEquals(InputControl.ND_POSITION, inputControl.position)
         assertTrue(inputControl.isEnabled)
     }
 
-    /**
-     * @Test fun `add changes to list and UNDO on not enable`() {
-    TODO()
-
-    inputControl.onRankChange(idFrom, psFrom, idTo, psTo)
-
-    assert { undoFail() }
-    }
-
-    @Test fun `add changes to list and REDO on not enable`() {
-    TODO()
-
-    inputControl.apply {
-    onRankChange(idFrom, psFrom, idTo, psTo)
-    undo()
-    }
-
-    assert { redoFail() }
-    }
-
-    @Test fun `call UNDO on empty list`() {
-    TODO()
-
-    assert { undoFail() }
-    }
-
-    @Test fun `call REDO on empty list`() {
-    TODO()
-
-    assert { redoFail() }
-    }
-
-    @Test fun `call UNDO at extreme position`() {
-    TODO()
-
-    inputControl.apply {
-    isEnabled = true
-    onRankChange(idFrom, psFrom, idTo, psTo)
-    undo()
-    }
-
-    assert { undoFail() }
-    }
-
-    @Test fun `call REDO at extreme position`() {
-    TODO()
-
-    inputControl.apply {
-    isEnabled = true
-    onRankChange(idFrom, psFrom, idTo, psTo)
-    }
-
-    assert { redoFail() }
-    }
-
-    @Test fun `call UNDO success`() {
-    TODO()
-
-    inputControl.apply {
-    isEnabled = true
-    onRankChange(idFrom, psFrom, idTo, psTo)
-    }
-
-    assert { undoSuccess() }
-    }
-
-    @Test fun `call REDO success`() {
-    TODO()
-
-    inputControl.apply {
-    isEnabled = true
-    onRankChange(idFrom, psFrom, idTo, psTo)
-    undo()
-    }
-
-    assert { redoSuccess() }
-    }
-
-    @Test fun `remove list items after add position`() {
-    TODO()
-
-    inputControl.apply {
-    isEnabled = true
-    onRankChange(idFrom, psFrom, idTo, psTo)
-    undo()
-    onRankChange(idFrom, psFrom, idTo, psTo)
-    }
-
-    assert { redoFail() }
-    }
-
-    @Test fun `remove list items at start after max length`() {
-    TODO()
-
-    inputControl.apply {
-    isEnabled = true
-
-    repeat(times = INPUT_CONTROL_MAX_SIZE + 1) { onRankChange(idFrom, psFrom, idTo, psTo) }
-    repeat(times = INPUT_CONTROL_MAX_SIZE) { inputControl.undo() }
-    }
-
-    assert { undoFail() }
-    }
-
-    @Test fun `input control reset`() {
-    TODO()
-
-    inputControl.apply {
-    isEnabled = true
-    onRankChange(idFrom, psFrom, idTo, psTo)
-    reset()
-    }
-
-    assert { undoFail() }
-    }
-
-    companion object {
-    private const val idFrom = 0L
-    private const val psFrom = 0
-    private const val idTo = 1L
-    private const val psTo = 1
-    }
-
-    class Assert(private val inputControl: InputControl) {
-
-    fun undoFail() {
-    assertFalse(inputControl.isUndoAccess)
-    assertNull(inputControl.undo())
-    }
-
-    fun undoSuccess() {
-    assertTrue(inputControl.isUndoAccess)
-    assertNotNull(inputControl.undo())
-    }
-
-    fun redoFail() {
-    assertFalse(inputControl.isRedoAccess)
-    assertNull(inputControl.redo())
-    }
-
-    fun redoSuccess() {
-    assertTrue(inputControl.isRedoAccess)
-    assertNotNull(inputControl.redo())
-    }
-
-    }
-     */
 
     @Test fun isUndoAccess() {
-        TODO()
+        assertFalse(inputControl.isUndoAccess)
+
+        inputControl.position = Random.nextInt()
+        assertFalse(inputControl.isUndoAccess)
+
+        inputControl.list.addAll(nextList())
+        inputControl.position = InputControl.ND_POSITION
+        assertFalse(inputControl.isUndoAccess)
+
+        inputControl.position = Random.nextInt()
+        assertTrue(inputControl.isUndoAccess)
     }
 
     @Test fun isRedoAccess() {
-        TODO()
+        assertFalse(inputControl.isRedoAccess)
+
+        inputControl.position = Random.nextInt()
+        assertFalse(inputControl.isRedoAccess)
+
+        val list = nextList()
+        inputControl.list.addAll(list)
+        inputControl.position = list.lastIndex
+        assertFalse(inputControl.isRedoAccess)
+
+        inputControl.position = Random.nextInt()
+        assertTrue(inputControl.isRedoAccess)
     }
 
     @Test fun access() {
-        TODO()
+        val isUndoAccess = Random.nextBoolean()
+        val isRedoAccess = Random.nextBoolean()
+        val access = InputControl.Access(isUndoAccess, isRedoAccess)
+
+        every { spyInputControl.isUndoAccess } returns isUndoAccess
+        every { spyInputControl.isRedoAccess } returns isRedoAccess
+
+        assertEquals(access, spyInputControl.access)
+
+        verifySequence {
+            spyInputControl.access
+            spyInputControl.isUndoAccess
+            spyInputControl.isRedoAccess
+        }
     }
 
     @Test fun reset() {
-        TODO()
+        val list = nextList()
+
+        inputControl.list.addAll(list)
+        inputControl.position = Random.nextInt()
+
+        inputControl.reset()
+
+        assertTrue(inputControl.list.isEmpty())
+        assertEquals(InputControl.ND_POSITION, inputControl.position)
     }
 
     @Test fun undo() {
-        TODO()
+        val list = nextList()
+        val position = list.indices.random()
+
+        every { spyInputControl.isUndoAccess } returns false
+        assertNull(spyInputControl.undo())
+        assertEquals(InputControl.ND_POSITION, spyInputControl.position)
+
+        every { spyInputControl.isUndoAccess } returns true
+        assertNull(spyInputControl.undo())
+        assertEquals(InputControl.ND_POSITION - 1, spyInputControl.position)
+
+        spyInputControl.list.addAll(list)
+        spyInputControl.position = position
+
+        every { spyInputControl.isUndoAccess } returns true
+        assertEquals(list[position], spyInputControl.undo())
+        assertEquals(position - 1, spyInputControl.position)
+
+        verifySequence {
+            spyInputControl.undo()
+            spyInputControl.isUndoAccess
+            spyInputControl.position
+
+            spyInputControl.undo()
+            spyInputControl.isUndoAccess
+            spyInputControl.position
+
+            spyInputControl.list
+            spyInputControl.position = position
+
+            spyInputControl.undo()
+            spyInputControl.isUndoAccess
+            spyInputControl.position
+        }
     }
 
     @Test fun redo() {
-        TODO()
+        val list = nextList()
+        val position = list.indices.random()
+
+        every { spyInputControl.isRedoAccess } returns false
+        assertNull(spyInputControl.redo())
+        assertEquals(InputControl.ND_POSITION, spyInputControl.position)
+
+        every { spyInputControl.isRedoAccess } returns true
+        assertNull(spyInputControl.redo())
+        assertEquals(InputControl.ND_POSITION + 1, spyInputControl.position)
+
+        spyInputControl.list.addAll(list)
+        spyInputControl.position = position
+
+        every { spyInputControl.isRedoAccess } returns true
+        assertEquals(list[position + 1], spyInputControl.redo())
+        assertEquals(position + 1, spyInputControl.position)
+
+        verifySequence {
+            spyInputControl.redo()
+            spyInputControl.isRedoAccess
+            spyInputControl.position
+
+            spyInputControl.redo()
+            spyInputControl.isRedoAccess
+            spyInputControl.position
+
+            spyInputControl.list
+            spyInputControl.position = position
+
+            spyInputControl.redo()
+            spyInputControl.isRedoAccess
+            spyInputControl.position
+        }
     }
 
     @Test fun add() {
-        TODO()
+        val firstItem = mockk<InputItem>()
+        val secondItem = mockk<InputItem>()
+
+        every { spyInputControl.clearToPosition() } returns Unit
+        every { spyInputControl.clearToSize() } returns Unit
+        every { spyInputControl.listAll() } returns Unit
+
+        spyInputControl.isEnabled = false
+        spyInputControl.add(firstItem)
+
+        spyInputControl.isEnabled = true
+        spyInputControl.add(firstItem)
+
+        assertEquals(listOf(firstItem), spyInputControl.list)
+        assertEquals(0, spyInputControl.position)
+
+        spyInputControl.add(secondItem)
+
+        assertEquals(listOf(firstItem, secondItem), spyInputControl.list)
+        assertEquals(1, spyInputControl.position)
+
+        verifySequence {
+            spyInputControl.isEnabled = false
+            spyInputControl.add(firstItem)
+            spyInputControl.listAll()
+
+            spyInputControl.isEnabled = true
+            spyInputControl.add(firstItem)
+            spyInputControl.clearToPosition()
+            spyInputControl.clearToSize()
+            spyInputControl.listAll()
+
+            spyInputControl.list
+            spyInputControl.position
+
+            spyInputControl.add(secondItem)
+            spyInputControl.clearToPosition()
+            spyInputControl.clearToSize()
+            spyInputControl.listAll()
+
+            spyInputControl.list
+            spyInputControl.position
+        }
     }
 
-    @Test fun remove() {
-        TODO()
+    @Test fun clearToPosition() {
+        val list = nextList()
+        val position = (0 until list.lastIndex).random()
+
+        inputControl.list.addAll(list)
+
+        inputControl.position = list.lastIndex
+        inputControl.clearToPosition()
+
+        assertEquals(list, inputControl.list)
+
+        inputControl.position = position
+        inputControl.clearToPosition()
+
+        assertEquals(list.subList(0, position + 1), inputControl.list)
+    }
+
+    @Test fun clearToSize() {
+        val list = nextList()
+        var position = Random.nextInt()
+        val maxSize = list.indices.random()
+
+        inputControl.list.addAll(list)
+        inputControl.position = position
+
+        mockkObject(BuildProvider)
+        every { BuildProvider.inputControlMaxSize() } returns maxSize
+
+        inputControl.clearToSize()
+
+        while(list.size >= maxSize) {
+            list.removeAt(0)
+            position--
+        }
+
+        assertEquals(list, inputControl.list)
+        assertEquals(position, inputControl.position)
     }
 
     @Test fun makeNotEnabled() {
@@ -354,5 +386,7 @@ class InputControlTest : ParentTest() {
             spyInputControl.add(inputItem)
         }
     }
+
+    private fun nextList() = MutableList<InputItem>(size = 5) { mockk() }
 
 }
