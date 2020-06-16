@@ -15,7 +15,7 @@ class OpenState {
     /**
      * Value for [block] realisation.
      */
-    @RunPrivate var handler = Handler()
+    @RunPrivate var blockHandler = Handler()
 
     /**
      * Value for control open. If something was opened - TRUE, else - FALSE.
@@ -86,11 +86,11 @@ class OpenState {
          */
         changeEnabled = false
 
-        handler.removeCallbacksAndMessages(null)
-        handler.postDelayed({ blockEnd() }, time)
+        blockHandler.removeCallbacksAndMessages(null)
+        blockHandler.postDelayed({ onBlockRunnable() }, time)
     }
 
-    @RunPrivate fun blockEnd() {
+    @RunPrivate fun onBlockRunnable() {
         changeEnabled = true
         clear()
     }
@@ -110,7 +110,7 @@ class OpenState {
     /**
      * Call in [Activity.onDestroy]/[Fragment.onDestroy] where use [block].
      */
-    fun clearBlockCallback() = handler.removeCallbacksAndMessages(null)
+    fun clearBlockCallback() = blockHandler.removeCallbacksAndMessages(null)
 
     fun get(bundle: Bundle?) {
         bundle?.let {

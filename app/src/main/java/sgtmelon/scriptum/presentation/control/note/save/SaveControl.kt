@@ -3,6 +3,7 @@ package sgtmelon.scriptum.presentation.control.note.save
 import android.content.Context
 import android.os.Handler
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 
 /**
  * Class for help control note pause/auto save.
@@ -12,16 +13,11 @@ class SaveControl(context: Context, val model: Model, private val callback: Call
 
     private val saveHandler = Handler()
 
-    private val periodTime: Int = if (model.autoSaveOn) {
+    @RunPrivate val periodTime: Int = if (model.autoSaveOn) {
         val intArray = context.resources.getIntArray(R.array.pref_note_save_time_array)
-        intArray.getOrNull(model.savePeriod) ?: 0
+        intArray.getOrNull(model.savePeriod) ?: ND_PERIOD
     } else {
-        0
-    }
-
-    private val saveRunnable = {
-        callback.onResultSaveControl()
-        setSaveEvent(true)
+        ND_PERIOD
     }
 
     /**
@@ -35,8 +31,14 @@ class SaveControl(context: Context, val model: Model, private val callback: Call
         saveHandler.removeCallbacksAndMessages(null)
 
         if (isWork) {
-            saveHandler.postDelayed(saveRunnable, periodTime.toLong())
+            val period = periodTime.takeIf { it != ND_PERIOD }?.toLong() ?: return
+            saveHandler.postDelayed({ onSaveRunnable() }, period)
         }
+    }
+
+    @RunPrivate fun onSaveRunnable() {
+        callback.onResultSaveControl()
+        setSaveEvent(true)
     }
 
     override fun onPauseSave() {
@@ -51,6 +53,10 @@ class SaveControl(context: Context, val model: Model, private val callback: Call
 
     interface Callback {
         fun onResultSaveControl()
+    }
+
+    companion object {
+        @RunPrivate const val ND_PERIOD = 0
     }
 
 }

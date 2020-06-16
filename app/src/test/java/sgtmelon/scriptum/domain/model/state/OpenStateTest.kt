@@ -166,7 +166,7 @@ class OpenStateTest : ParentTest() {
         every { handler.postDelayed(any(), time) } returns true
 
         openState.changeEnabled = true
-        openState.handler = handler
+        openState.blockHandler = handler
         openState.block(time)
 
         assertFalse(openState.changeEnabled)
@@ -177,17 +177,17 @@ class OpenStateTest : ParentTest() {
         }
     }
 
-    @Test fun blockEnd() {
+    @Test fun onBlockRunnable() {
         every { spyOpenState.clear() } returns Unit
 
         spyOpenState.changeEnabled = false
-        spyOpenState.blockEnd()
+        spyOpenState.onBlockRunnable()
 
         assertTrue(spyOpenState.changeEnabled)
 
         verifySequence {
             spyOpenState.changeEnabled = false
-            spyOpenState.blockEnd()
+            spyOpenState.onBlockRunnable()
 
             spyOpenState.clear()
 
@@ -225,11 +225,11 @@ class OpenStateTest : ParentTest() {
     @Test fun clearBlockCallback() {
         val handler = mockk<Handler>(relaxUnitFun = true)
 
-        spyOpenState.handler = handler
+        spyOpenState.blockHandler = handler
         spyOpenState.clearBlockCallback()
 
         verifySequence {
-            spyOpenState.handler = handler
+            spyOpenState.blockHandler = handler
             spyOpenState.clearBlockCallback()
 
             handler.removeCallbacksAndMessages(null)
