@@ -5,8 +5,9 @@ import android.content.res.Resources
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.spyk
+import io.mockk.verify
 import io.mockk.verifySequence
-import org.junit.Assert.assertEquals
+import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.scriptum.ParentTest
 import sgtmelon.scriptum.R
@@ -25,6 +26,14 @@ class SaveControlTest : ParentTest() {
 
     private val saveControl by lazy { SaveControl(context, model, callback) }
     private val spySaveControl by lazy { spyk(saveControl) }
+
+    override fun setUp() {
+        super.setUp()
+
+        every { model.autoSaveOn } returns false
+
+        assertTrue(saveControl.needSave)
+    }
 
     @Test fun periodTime() {
         val array = IntArray(size = 5) { Random.nextInt() }
@@ -51,6 +60,7 @@ class SaveControlTest : ParentTest() {
 
         verifySequence {
             model.autoSaveOn
+            model.autoSaveOn
 
             repeat(times = 2) {
                 model.autoSaveOn
@@ -62,19 +72,55 @@ class SaveControlTest : ParentTest() {
     }
 
     @Test fun needSave() {
-        TODO()
+        saveControl.needSave = false
+        assertFalse(saveControl.needSave)
+
+        saveControl.needSave = true
+        assertTrue(saveControl.needSave)
+
+        verifySequence {
+            model.autoSaveOn
+        }
     }
 
     @Test fun setSaveEvent() {
+
         TODO()
     }
 
     @Test fun onSaveRunnable() {
-        TODO()
+        every { spySaveControl.setSaveEvent(true) } returns Unit
+
+        spySaveControl.onSaveRunnable()
+
+        verify {
+            model.autoSaveOn
+
+            spySaveControl.onSaveRunnable()
+            callback.onResultSaveControl()
+            spySaveControl.setSaveEvent(true)
+        }
     }
 
     @Test fun onPauseSave() {
-        TODO()
+        every { model.pauseSaveOn } returns false
+        saveControl.onPauseSave()
+
+        every { model.pauseSaveOn } returns true
+        saveControl.needSave = false
+        saveControl.onPauseSave()
+
+        saveControl.needSave = true
+        saveControl.onPauseSave()
+
+        verifySequence {
+            model.autoSaveOn
+
+            repeat(times = 2) { model.pauseSaveOn }
+
+            model.pauseSaveOn
+            callback.onResultSaveControl()
+        }
     }
 
 }
