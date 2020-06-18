@@ -77,7 +77,7 @@ object NotificationFactory {
     @RequiresApi(VERSION_CODES.N)
     fun getBingSummary(context: Context): Notification {
         return NotificationCompat.Builder(context, context.getString(R.string.notification_notes_channel_id))
-                .setSmallIcon(R.drawable.notif_info) // TODO change icon
+                .setSmallIcon(R.drawable.notif_bind_group)
                 .setCategory(NotificationCompat.CATEGORY_EVENT)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
