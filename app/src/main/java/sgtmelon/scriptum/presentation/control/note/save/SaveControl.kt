@@ -11,7 +11,7 @@ import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 class SaveControl(context: Context, val model: Model, private val callback: Callback) :
         ISaveControl {
 
-    private val saveHandler = Handler()
+    @RunPrivate var saveHandler = Handler()
 
     @RunPrivate val periodTime: Int = if (model.autoSaveOn) {
         val intArray = context.resources.getIntArray(R.array.pref_note_save_time_array)
