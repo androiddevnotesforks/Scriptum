@@ -8,12 +8,12 @@ apply plugin: 'org.jetbrains.dokka-android'
 apply from: '../values.gradle'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
 
     defaultConfig {
         applicationId "sgtmelon.scriptum"
         minSdkVersion 16
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 17
         versionName git.version.windows.execute().text.trim()
 
