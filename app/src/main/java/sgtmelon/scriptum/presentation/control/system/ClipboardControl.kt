@@ -18,7 +18,9 @@ class ClipboardControl(private val context: Context?) : IClipboardControl {
         val context = context ?: return
 
         manager?.let {
-            it.primaryClip = ClipData.newPlainText(context.getString(R.string.clipboard_label), text)
+            val clipData = ClipData.newPlainText(context.getString(R.string.clipboard_label), text)
+            it.setPrimaryClip(clipData)
+
             context.showToast(context.getString(R.string.toast_text_copy))
         }
     }
