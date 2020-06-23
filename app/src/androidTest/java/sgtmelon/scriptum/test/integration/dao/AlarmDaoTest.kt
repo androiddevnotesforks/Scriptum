@@ -10,14 +10,14 @@ import sgtmelon.scriptum.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.data.room.entity.NoteEntity
 import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.domain.model.key.NoteType
-import sgtmelon.scriptum.test.ParentIntegrationTest
+import sgtmelon.scriptum.test.ParentRoomTest
 import kotlin.random.Random
 
 /**
  * Integration test for [IAlarmDao]
  */
 @RunWith(AndroidJUnit4::class)
-class AlarmDaoTest : ParentIntegrationTest() {
+class AlarmDaoTest : ParentRoomTest() {
 
     private suspend fun RoomDb.insertAlarmRelation(noteEntity: NoteEntity,
                                                    alarmEntity: AlarmEntity) {

@@ -13,8 +13,7 @@ import sgtmelon.scriptum.presentation.adapter.RollAdapter
 import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
-import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel.Companion.getCorrectPosition
-import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel.Companion.hide
+import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel.Companion.isVisibleTest
 import sgtmelon.scriptum.ui.IPressBack
 import sgtmelon.scriptum.ui.ParentRecyclerItem
@@ -47,7 +46,7 @@ class RollNoteScreen(
 
     private fun getInfoContainer(): RollNoteInfoContainer? {
         val isListEmpty = noteItem.list.size == 0
-        val isListHide = !isVisibleTest && noteItem.list.hide().size == 0
+        val isListHide = !isVisibleTest && hide(noteItem.list).size == 0
 
         return RollNoteInfoContainer(isListEmpty, isListHide)
     }
@@ -210,7 +209,7 @@ class RollNoteScreen(
         if (isVisibleTest) {
             list.forEachIndexed { p, item -> getItem(p).assert(item) }
         } else {
-            list.hide().forEachIndexed { p, item -> getItem(p).assert(item) }
+            hide(list).forEachIndexed { p, item -> getItem(p).assert(item) }
         }
     }
 
@@ -227,7 +226,7 @@ class RollNoteScreen(
             State.READ, State.BIN -> noteItem.list
             State.EDIT, State.NEW -> shadowItem.list
         }.let {
-            if (isVisibleTest) it.size == 0 else it.hide().size == 0
+            if (isVisibleTest) it.size == 0 else hide(it).size == 0
         })
 
         toolbar {
@@ -340,6 +339,20 @@ class RollNoteScreen(
                             noteItem: NoteItem.Roll, isRankEmpty: Boolean): RollNoteScreen {
             return RollNoteScreen(state, noteItem, isRankEmpty).fullAssert().apply(func)
         }
+    }
+
+    /**
+     * @Test - duplicate of original function in [RollNoteViewModel].
+     */
+    private fun getCorrectPosition(p: Int, noteItem: NoteItem.Roll): Int {
+        return if (isVisibleTest) p else noteItem.list.let { it.indexOf(hide(it)[p]) }
+    }
+
+    /**
+     * @Test - duplicate of original function in [RollNoteViewModel].
+     */
+    private fun hide(list: MutableList<RollItem>): MutableList<RollItem> {
+        return ArrayList(list.filter { !it.isCheck })
     }
 
 }

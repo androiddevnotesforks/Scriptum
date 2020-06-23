@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.domain.interactor.impl.notification
 
-import sgtmelon.extension.clearSeconds
+import sgtmelon.extension.getCalendarWithAdd
 import sgtmelon.extension.getText
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
@@ -56,11 +56,6 @@ class AlarmInteractor(
         
         alarmRepo.insertOrUpdate(noteItem, calendar.getText())
         callback?.setAlarm(calendar, noteItem.id)
-    }
-
-    @RunPrivate
-    fun getCalendarWithAdd(minute: Int) = Calendar.getInstance().clearSeconds().apply {
-        add(Calendar.MINUTE, minute)
     }
 
     @RunPrivate

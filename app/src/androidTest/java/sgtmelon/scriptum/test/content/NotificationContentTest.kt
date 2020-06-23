@@ -3,8 +3,8 @@ package sgtmelon.scriptum.test.content
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.extension.getCalendarWithAdd
 import sgtmelon.extension.getText
-import sgtmelon.scriptum.basic.extension.getTime
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
@@ -18,7 +18,9 @@ import sgtmelon.scriptum.ui.screen.NotificationScreen
 class NotificationContentTest : ParentUiTest() {
 
     @Test fun time() = onAssertList(ArrayList<NoteItem>().also { list ->
-        nextArray.forEach { list.add(data.insertNotification(date = getTime(it).getText())) }
+        nextArray.forEach {
+            list.add(data.insertNotification(date = getCalendarWithAdd(it).getText()))
+        }
     })
 
     @Test fun colorLight() = startColorTest(Theme.LIGHT)
@@ -30,7 +32,7 @@ class NotificationContentTest : ParentUiTest() {
 
         onAssertList(ArrayList<NoteItem>().also { list ->
             Color.list.forEachIndexed { i, it ->
-                val date = getTime(min = NEXT_HOUR + i * NEXT_HOUR).getText()
+                val date = getCalendarWithAdd(min = NEXT_HOUR + i * NEXT_HOUR).getText()
                 val noteItem = data.insertText(data.textNote.copy(name = "", color = it))
 
                 list.add(data.insertNotification(noteItem, date))

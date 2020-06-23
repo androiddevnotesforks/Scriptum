@@ -3,8 +3,8 @@ package sgtmelon.scriptum.test.auto.other
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.extension.getCalendarWithAdd
 import sgtmelon.extension.getText
-import sgtmelon.scriptum.basic.extension.getTime
 import sgtmelon.scriptum.domain.model.annotation.Repeat
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.presentation.screen.ui.impl.intro.IntroActivity
@@ -52,7 +52,7 @@ class AlarmTest : ParentUiTest() {
         preferenceRepo.repeat = Repeat.MIN_10
 
         launchAlarm(it) {
-            val existDate = getTime(min = 10).getText()
+            val existDate = getCalendarWithAdd(min = 10).getText()
             data.insertNotification(date = existDate)
 
             openAlarm(it, listOf(existDate)) { onClickRepeat() }
@@ -76,7 +76,7 @@ class AlarmTest : ParentUiTest() {
                     onAssertItem(note, p = 0)
                     openNoteDialog(note, p = 0) {
                         onNotification {
-                            onClickApply(listOf(getTime(min = 10).getText())) {
+                            onClickApply(listOf(getCalendarWithAdd(min = 10).getText())) {
                                 onTime(min = 10).assert()
                             }
                         }

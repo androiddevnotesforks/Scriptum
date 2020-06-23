@@ -8,14 +8,14 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.data.room.RoomDb
 import sgtmelon.scriptum.data.room.dao.IRankDao
 import sgtmelon.scriptum.data.room.entity.RankEntity
-import sgtmelon.scriptum.test.ParentIntegrationTest
+import sgtmelon.scriptum.test.ParentRoomTest
 import kotlin.random.Random
 
 /**
  * Integration test for [IRankDao]
  */
 @RunWith(AndroidJUnit4::class)
-class RankDaoTest : ParentIntegrationTest() {
+class RankDaoTest : ParentRoomTest() {
 
     private fun inRankDao(func: suspend IRankDao.() -> Unit) = inRoomTest {
         rankDao.apply { func() }

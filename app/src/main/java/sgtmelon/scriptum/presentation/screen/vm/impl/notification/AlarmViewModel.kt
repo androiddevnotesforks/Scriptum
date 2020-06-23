@@ -178,6 +178,9 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     }
 
 
+    /**
+     * @Test - Have duplicate in test screen.
+     */
     @RunPrivate
     fun getRippleShade(@Theme theme: Int): ColorShade {
         return if (theme == Theme.LIGHT) ColorShade.ACCENT else ColorShade.DARK

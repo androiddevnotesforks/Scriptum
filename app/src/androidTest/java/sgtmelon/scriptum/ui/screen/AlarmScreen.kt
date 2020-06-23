@@ -1,15 +1,17 @@
 package sgtmelon.scriptum.ui.screen
 
+import sgtmelon.extension.getCalendarWithAdd
 import sgtmelon.extension.getText
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.exception.NoteCastException
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.State
+import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
+import sgtmelon.scriptum.domain.model.key.ColorShade
 import sgtmelon.scriptum.extension.getAppSimpleColor
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.AlarmActivity
 import sgtmelon.scriptum.presentation.screen.vm.impl.notification.AlarmViewModel
-import sgtmelon.scriptum.presentation.screen.vm.impl.notification.AlarmViewModel.Companion.getRippleShade
 import sgtmelon.scriptum.ui.IPressBack
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.dialog.sheet.RepeatSheetDialogUi
@@ -74,7 +76,7 @@ class AlarmScreen(
     fun waitRepeat() = waitBefore(AlarmViewModel.CANCEL_DELAY) { onRepeat() }
 
     private fun onRepeat() {
-        val calendar = getTime(min = repeatArray[repeat])
+        val calendar = getCalendarWithAdd(min = repeatArray[repeat])
 
         while (dateList?.contains(calendar.getText()) == true) {
             calendar.add(Calendar.MINUTE, 1)
@@ -91,7 +93,7 @@ class AlarmScreen(
     fun assert() {
         parentContainer.isDisplayed()
 
-        val fillColor = context.getAppSimpleColor(noteItem.color, theme.getRippleShade())
+        val fillColor = context.getAppSimpleColor(noteItem.color, getRippleShade(theme))
         rippleContainer.isDisplayed().withTag(fillColor)
 
         logoView.isDisplayed()
@@ -116,6 +118,13 @@ class AlarmScreen(
                     .apply { waitBefore(time = 500) { assert() } }
                     .apply(func)
         }
+    }
+
+    /**
+     * @Test - duplicate of original function in [AlarmViewModel].
+     */
+    private fun getRippleShade(@Theme theme: Int): ColorShade {
+        return if (theme == Theme.LIGHT) ColorShade.ACCENT else ColorShade.DARK
     }
 
 }

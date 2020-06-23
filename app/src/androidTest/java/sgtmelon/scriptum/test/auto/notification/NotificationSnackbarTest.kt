@@ -1,8 +1,8 @@
 package sgtmelon.scriptum.test.auto.notification
 
 import org.junit.Test
+import sgtmelon.extension.getCalendarWithAdd
 import sgtmelon.extension.getText
-import sgtmelon.scriptum.basic.extension.getTime
 import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.NotificationActivity
@@ -187,7 +187,7 @@ class NotificationSnackbarTest : ParentUiTest() {
 
     private fun fillScreen(count: Int): MutableList<NoteItem> = ArrayList<NoteItem>().apply {
         repeat(count) {
-            val date = getTime(min = NEXT_HOUR + it * NEXT_HOUR).getText()
+            val date = getCalendarWithAdd(min = NEXT_HOUR + it * NEXT_HOUR).getText()
             val item = with(data) { insertText(textNote.copy(name = "", color = randomColor)) }
 
             add(data.insertNotification(item, date))

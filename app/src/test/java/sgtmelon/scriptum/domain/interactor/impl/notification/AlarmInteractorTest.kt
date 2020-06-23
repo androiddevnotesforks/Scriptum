@@ -5,9 +5,7 @@ import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
-import sgtmelon.extension.clearSeconds
-import sgtmelon.extension.getText
-import sgtmelon.extension.nextString
+import sgtmelon.extension.*
 import sgtmelon.scriptum.FastMock
 import sgtmelon.scriptum.FastTest
 import sgtmelon.scriptum.ParentInteractorTest
@@ -103,33 +101,27 @@ class AlarmInteractorTest : ParentInteractorTest() {
         val calendar = mockk<Calendar>()
         val calendarText = Random.nextString()
 
-        every { spyInteractor.getCalendarWithAdd(minute) } returns calendar
         coEvery { spyInteractor.checkDateExist(calendar) } returns Unit
 
         FastMock.timeExtension()
+        every { getCalendarWithAdd(minute) } returns calendar
         every { calendar.getText() } returns calendarText
 
         spyInteractor.setupRepeat(item, intArrayOf(), Random.nextInt())
         spyInteractor.setupRepeat(item, timeArray, repeat)
 
         coVerifyOrder {
-            spyInteractor.getCalendarWithAdd(minute)
+            getCalendarWithAdd(minute)
             spyInteractor.checkDateExist(calendar)
 
+            calendar.getText()
             alarmRepo.insertOrUpdate(item, calendarText)
             callback.setAlarm(calendar, item.id)
         }
     }
 
-    @Test fun getCalendarWithAdd() {
-        listOf(1, 10, 30, 43).forEach {
-            val calendar = Calendar.getInstance().clearSeconds().apply { add(Calendar.MINUTE, it) }
-            assertEquals(calendar, interactor.getCalendarWithAdd(it))
-        }
-    }
-
     @Test fun checkDateExist() = startCoTest {
-        val dateList = List(size = 3) { interactor.getCalendarWithAdd(it).getText() }
+        val dateList = List(size = 3) { getCalendarWithAdd(it).getText() }
 
         val itemList = MutableList(dateList.size) {
             val id = it.toLong()
@@ -140,7 +132,7 @@ class AlarmInteractorTest : ParentInteractorTest() {
             )
         }
 
-        val currentCalendar = Calendar.getInstance().clearSeconds()
+        val currentCalendar = getCalendar().clearSeconds()
         val minute = currentCalendar.get(Calendar.MINUTE)
 
         coEvery { alarmRepo.getList() } returns itemList

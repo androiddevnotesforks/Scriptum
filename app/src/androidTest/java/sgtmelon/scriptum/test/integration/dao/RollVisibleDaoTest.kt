@@ -10,13 +10,13 @@ import sgtmelon.scriptum.data.room.dao.IRollVisibleDao
 import sgtmelon.scriptum.data.room.entity.NoteEntity
 import sgtmelon.scriptum.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.domain.model.key.NoteType
-import sgtmelon.scriptum.test.ParentIntegrationTest
+import sgtmelon.scriptum.test.ParentRoomTest
 
 /**
  * Integration test for [IRollVisibleDao].
  */
 @RunWith(AndroidJUnit4::class)
-class RollVisibleDaoTest : ParentIntegrationTest() {
+class RollVisibleDaoTest : ParentRoomTest() {
 
     @Test fun insertWithUnique() = inRoomTest {
         noteDao.insert(noteEntity)

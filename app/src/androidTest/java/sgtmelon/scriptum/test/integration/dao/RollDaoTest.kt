@@ -10,13 +10,13 @@ import sgtmelon.scriptum.data.room.dao.IRollDao
 import sgtmelon.scriptum.data.room.entity.NoteEntity
 import sgtmelon.scriptum.data.room.entity.RollEntity
 import sgtmelon.scriptum.domain.model.key.NoteType
-import sgtmelon.scriptum.test.ParentIntegrationTest
+import sgtmelon.scriptum.test.ParentRoomTest
 
 /**
  * Integration test for [IRollDao]
  */
 @RunWith(AndroidJUnit4::class)
-class RollDaoTest : ParentIntegrationTest() {
+class RollDaoTest : ParentRoomTest() {
 
     private suspend fun RoomDb.insertRollRelation(model: Model) = with(model) {
         noteDao.insert(entity)

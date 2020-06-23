@@ -470,12 +470,17 @@ class RollNoteViewModel(application: Application) :
 
     /**
      * If have hide items when need correct position.
+     *
+     * @Test - Have duplicate in test screen.
      */
     @RunPrivate
     fun getCorrectPosition(p: Int, noteItem: NoteItem.Roll): Int {
         return if (isVisible) p else noteItem.list.let { it.indexOf(hide(it)[p]) }
     }
 
+    /**
+     * @Test - Have duplicate in test screen.
+     */
     @RunPrivate
     fun hide(list: MutableList<RollItem>): MutableList<RollItem> {
         return ArrayList(list.filter { !it.isCheck })

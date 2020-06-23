@@ -6,7 +6,7 @@ import sgtmelon.scriptum.data.room.IRoomWork
 /**
  * Parent class for Integration tests
  */
-abstract class ParentIntegrationTest : ParentTest(), IRoomWork {
+abstract class ParentRoomTest : ParentTest(), IRoomWork {
 
     override val roomProvider = RoomProvider(context)
 

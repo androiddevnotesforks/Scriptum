@@ -8,14 +8,14 @@ import sgtmelon.scriptum.data.room.RoomDb
 import sgtmelon.scriptum.data.room.dao.INoteDao
 import sgtmelon.scriptum.data.room.entity.NoteEntity
 import sgtmelon.scriptum.domain.model.key.NoteType
-import sgtmelon.scriptum.test.ParentIntegrationTest
+import sgtmelon.scriptum.test.ParentRoomTest
 import kotlin.random.Random
 
 /**
  * Integration test for [INoteDao]
  */
 @RunWith(AndroidJUnit4::class)
-class NoteDaoTest : ParentIntegrationTest() {
+class NoteDaoTest : ParentRoomTest() {
 
     private fun inNoteDao(func: suspend INoteDao.() -> Unit) = inRoomTest { noteDao.apply { func() } }
 

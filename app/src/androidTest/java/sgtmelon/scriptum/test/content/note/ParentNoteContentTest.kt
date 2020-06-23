@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.test.content.note
 
+import sgtmelon.extension.getCalendarWithAdd
 import sgtmelon.extension.getText
-import sgtmelon.scriptum.basic.extension.getTime
 import sgtmelon.scriptum.data.room.entity.RollEntity
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Sort
@@ -65,7 +65,7 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
 
         onAssertList(ArrayList<NoteItem>().also { list ->
             lastArray.forEach {
-                val time = getTime(it).getText()
+                val time = getCalendarWithAdd(it).getText()
 
                 val note = when (type) {
                     NoteType.TEXT -> when (sort) {

@@ -7,6 +7,7 @@ import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
+import sgtmelon.extension.getCalendar
 import sgtmelon.extension.getText
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.FastTest
@@ -18,7 +19,6 @@ import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.IParentNoteBridge
-import java.util.*
 import kotlin.random.Random
 
 /**
@@ -231,7 +231,7 @@ class RollNoteInteractorTest : ParentInteractorTest() {
 
     @Test fun setDate() = startCoTest {
         val item = data.itemList.filterIsInstance<NoteItem.Roll>().random()
-        val calendar = Calendar.getInstance()
+        val calendar = getCalendar()
 
         interactor.setDate(item, calendar)
 
