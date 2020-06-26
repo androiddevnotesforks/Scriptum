@@ -1,7 +1,10 @@
 package sgtmelon.scriptum.presentation.control.backup
 
+import android.content.Context
 import android.util.Log
+import androidx.core.content.ContextCompat
 import sgtmelon.extension.getTime
+import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.Type
 import sgtmelon.scriptum.presentation.control.backup.callback.IFileControl
 import java.io.*
@@ -9,7 +12,12 @@ import java.io.*
 /**
  * Class for help control manipulations with files.
  */
-class FileControl : IFileControl {
+class FileControl(private val context: Context) : IFileControl {
+
+    override val appDirectory: String = context.filesDir.path
+
+    override val cacheDirectory: String = context.cacheDir.path
+
 
     override fun readFile(path: String): String? {
         try {
@@ -36,8 +44,8 @@ class FileControl : IFileControl {
         reader.close()
     }.toString()
 
-    override fun writeFile(directory: String, name: String, data: String) {
-        val parent = File(directory)
+    override fun writeFile(name: String, data: String) {
+        val parent = File(appDirectory)
         val file = File(parent, name)
 
         /**
@@ -63,12 +71,39 @@ class FileControl : IFileControl {
         bufferedWriter.close()
     }
 
+
     override fun getTimeName(@Type type: String): String {
-        return getTime().plus(" scriptum").plus(type)
+        return getTime()
+                .plus(other = " ")
+                .plus(context.getString(R.string.app_name))
+                .plus(type)
     }
 
     override fun getPathList(@Type type: String): List<String> {
-        TODO("Not yet implemented")
+        val list = mutableListOf<String>()
+
+        ContextCompat.getExternalFilesDirs(context, null).filterNotNull().forEach {
+            list.addAll(getPathList(it, type))
+        }
+
+        ContextCompat.getExternalCacheDirs(context).filterNotNull().forEach {
+            list.addAll(getPathList(it, type))
+        }
+
+        return list
+    }
+
+    private fun getPathList(directory: File, @Type type: String): List<String> {
+        val list = mutableListOf<String>()
+
+        directory.listFiles()?.forEach {
+            when {
+                it.isDirectory -> list.addAll(getPathList(it, type))
+                it.endsWith(type) -> list.add(it.path)
+            }
+        }
+
+        return list
     }
 
 

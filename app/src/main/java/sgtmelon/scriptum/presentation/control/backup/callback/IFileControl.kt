@@ -8,9 +8,15 @@ import sgtmelon.scriptum.presentation.control.backup.FileControl
  */
 interface IFileControl {
 
+    val appDirectory: String
+
+    val cacheDirectory: String
+
+
     fun readFile(path: String): String?
 
-    fun writeFile(directory: String, name: String, data: String)
+    fun writeFile(name: String, data: String)
+
 
     fun getTimeName(@Type type: String): String
 
