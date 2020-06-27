@@ -89,10 +89,10 @@ object NotificationFactory {
     }
 
 
-    fun getInfo(context: Context, count: Int): Notification {
+    fun getInfo(context: Context, id: Int, count: Int): Notification {
         val contentIntent = TaskStackBuilder.create(context)
                 .addNextIntent(SplashActivity.getNotificationInstance(context))
-                .getPendingIntent(BindControl.INFO_ID, PendingIntent.FLAG_UPDATE_CURRENT)
+                .getPendingIntent(id, PendingIntent.FLAG_UPDATE_CURRENT)
 
         return NotificationCompat.Builder(context, context.getString(R.string.notification_info_channel_id))
                 .setSmallIcon(R.drawable.notif_info)

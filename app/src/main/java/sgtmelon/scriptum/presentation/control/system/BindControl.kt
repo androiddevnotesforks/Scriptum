@@ -27,6 +27,17 @@ class BindControl(private val context: Context?) : IBindControl {
 
     private val noteItemList: MutableList<NoteItem> = ArrayList()
 
+    /**
+     * Use this list when you need save notes id for future unbind ([Tag.NOTE]).
+     */
+    private val noteIdList: MutableList<Int> = mutableListOf()
+
+    /**
+     * Because id's of [Tag.NOTE_GROUP] and [Tag.INFO] binds is const, you can
+     * save it here for future unbind.
+     */
+    private val tagIdMap: MutableMap<String, Int> = mutableMapOf()
+
     init {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && context != null) {
             manager?.createNotificationChannel(getInfoChannel(context))
@@ -112,7 +123,7 @@ class BindControl(private val context: Context?) : IBindControl {
             val id = it.id.toInt()
 
             manager?.notify(Tag.NOTE, id, NotificationFactory.getBind(context, it))
-            tagIdMap[Tag.NOTE] = id
+            noteIdList.add(id)
         }
     }
 
@@ -128,20 +139,33 @@ class BindControl(private val context: Context?) : IBindControl {
         if (context == null) return
 
         if (count != 0) {
-            manager?.notify(Tag.INFO, Id.INFO, NotificationFactory.getInfo(context, count))
+            manager?.notify(Tag.INFO, Id.INFO, NotificationFactory.getInfo(context, Id.INFO, count))
             tagIdMap[Tag.INFO] = Id.INFO
         } else {
             manager?.cancel(Tag.INFO, Id.INFO)
         }
     }
 
+    /**
+     * If [tag] equals [Tag.NOTE], you must use [noteIdList]. Because it's impossible save
+     * different notes id in [tagIdMap].
+     *
+     * If [tag] equals null, then need cancel all binds from [tagIdMap].
+     */
     override fun clearRecent(@Tag tag: String?) {
-        if (tag == null) {
-            tagIdMap.forEach { manager?.cancel(it.key, it.value) }
-            tagIdMap.clear()
-        } else {
-            tagIdMap.filterKeys { it == tag }.forEach { manager?.cancel(it.key, it.value) }
-            tagIdMap.remove(tag)
+        when (tag) {
+            Tag.NOTE -> {
+                noteIdList.forEach { manager?.cancel(Tag.NOTE, it) }
+                noteIdList.clear()
+            }
+            Tag.NOTE_GROUP, Tag.INFO -> {
+                manager?.cancel(tag, tagIdMap.getOrElse(tag) { return })
+                tagIdMap.remove(tag)
+            }
+            null -> {
+                tagIdMap.forEach { manager?.cancel(it.key, it.value) }
+                tagIdMap.clear()
+            }
         }
     }
 
@@ -186,7 +210,7 @@ class BindControl(private val context: Context?) : IBindControl {
     }
 
     /**
-     * Id's for [Tag.NOTE_GROUP] and [Tag.INFO] notifications.
+     * Id's for [Tag.NOTE_GROUP] and [Tag.INFO] notifications. For [Tag.NOTE] need use id of note.
      */
     @IntDef(Id.NOTE_GROUP, Id.INFO)
     annotation class Id {
@@ -197,11 +221,7 @@ class BindControl(private val context: Context?) : IBindControl {
     }
 
     companion object {
-        const val INFO_ID = 0
-
         @RunPrivate var callback: IBindControl? = null
-
-        @RunPrivate val tagIdMap: MutableMap<String, Int> = mutableMapOf()
 
         operator fun get(context: Context?): IBindControl {
             return callback ?: BindControl(context).also { callback = it }
