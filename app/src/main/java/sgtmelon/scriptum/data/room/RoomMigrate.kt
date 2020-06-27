@@ -12,7 +12,7 @@ import java.util.UUID.randomUUID
  * Class with objects for db migration.
  */
 @Suppress("KDocUnresolvedReference")
-object Migrate {
+object RoomMigrate {
 
     /**
      * Add [RollVisibleEntity]

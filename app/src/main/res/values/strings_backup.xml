@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="backup_title" translatable="false">Scriptum backup file</string>
+    <string name="backup_version" translatable="false">Version: </string>
+    <string name="backup_hash" translatable="false">Hash: </string>
+
+</resources>

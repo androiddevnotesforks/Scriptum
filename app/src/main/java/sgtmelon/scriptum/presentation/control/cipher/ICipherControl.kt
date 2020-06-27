@@ -1,6 +1,4 @@
-package sgtmelon.scriptum.presentation.control.backup.callback
-
-import sgtmelon.scriptum.presentation.control.backup.CipherControl
+package sgtmelon.scriptum.presentation.control.cipher
 
 /**
  * Interface for [CipherControl].

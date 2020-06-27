@@ -5,9 +5,9 @@ import org.junit.Test
 import sgtmelon.scriptum.ParentTest
 
 /**
- * Test for [Migrate].
+ * Test for [RoomMigrate].
  */
-class MigrateTest : ParentTest() {
+class RoomMigrateTest : ParentTest() {
 
     @Test fun `FROM 4 TO 5 remove multiply noteId`() {
         val noteIdExistSet: MutableSet<Long> = mutableSetOf()

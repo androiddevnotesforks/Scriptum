@@ -5,6 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import sgtmelon.scriptum.BuildConfig
+import sgtmelon.scriptum.data.room.backup.IBackupParser
 import sgtmelon.scriptum.data.room.dao.*
 import sgtmelon.scriptum.data.room.entity.*
 
@@ -35,11 +36,16 @@ abstract class RoomDb : RoomDatabase() {
     companion object {
         const val UNIQUE_ERROR_ID = -1L
 
+        /**
+         * Caution!
+         *
+         * After change room version you must provide backport and update [IBackupParser.collect].
+         */
         const val VERSION = 8
 
         operator fun get(context: Context): RoomDb {
             return Room.databaseBuilder(context, RoomDb::class.java, BuildConfig.DB_NAME)
-                    .addMigrations(*Migrate.sequence)
+                    .addMigrations(*RoomMigrate.sequence)
                     .build()
         }
     }

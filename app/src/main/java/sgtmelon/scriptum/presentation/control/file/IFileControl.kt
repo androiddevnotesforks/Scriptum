@@ -1,7 +1,6 @@
-package sgtmelon.scriptum.presentation.control.backup.callback
+package sgtmelon.scriptum.presentation.control.file
 
 import sgtmelon.scriptum.domain.model.annotation.Type
-import sgtmelon.scriptum.presentation.control.backup.FileControl
 
 /**
  * Interface for [FileControl].
@@ -17,8 +16,8 @@ interface IFileControl {
 
     fun writeFile(name: String, data: String)
 
-
     fun getTimeName(@Type type: String): String
+
 
     fun getPathList(@Type type: String): List<String>
 

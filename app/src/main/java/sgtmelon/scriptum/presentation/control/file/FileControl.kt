@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.presentation.control.backup
+package sgtmelon.scriptum.presentation.control.file
 
 import android.content.Context
 import android.util.Log
@@ -6,7 +6,6 @@ import androidx.core.content.ContextCompat
 import sgtmelon.extension.getTime
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.Type
-import sgtmelon.scriptum.presentation.control.backup.callback.IFileControl
 import java.io.*
 
 /**
@@ -71,13 +70,13 @@ class FileControl(private val context: Context) : IFileControl {
         bufferedWriter.close()
     }
 
-
     override fun getTimeName(@Type type: String): String {
         return getTime()
                 .plus(other = " ")
                 .plus(context.getString(R.string.app_name))
                 .plus(type)
     }
+
 
     override fun getPathList(@Type type: String): List<String> {
         val list = mutableListOf<String>()

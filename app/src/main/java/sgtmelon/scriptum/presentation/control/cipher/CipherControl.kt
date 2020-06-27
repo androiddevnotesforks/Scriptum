@@ -1,7 +1,6 @@
-package sgtmelon.scriptum.presentation.control.backup
+package sgtmelon.scriptum.presentation.control.cipher
 
 import android.util.Base64
-import sgtmelon.scriptum.presentation.control.backup.callback.ICipherControl
 
 /**
  * Class for help control text ciphering with [Base64].
