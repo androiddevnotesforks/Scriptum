@@ -273,7 +273,7 @@ class RollNoteViewModel(application: Application) :
 
     private fun onMenuUndoRedoRoll(item: InputItem, isUndo: Boolean) {
         val rollItem = noteItem.list.getOrNull(item.p) ?: return
-        val position = getList(noteItem).correctIndexOf(rollItem) ?: return
+        val position = getList(noteItem).indexOfOrNull(rollItem) ?: return
 
         rollItem.text = item[isUndo]
 
@@ -284,7 +284,7 @@ class RollNoteViewModel(application: Application) :
 
     private fun onMenuUndoRedoAdd(item: InputItem) {
         val rollItem = noteItem.list.getOrNull(item.p) ?: return
-        val position = getList(noteItem).correctIndexOf(rollItem) ?: return
+        val position = getList(noteItem).indexOfOrNull(rollItem) ?: return
 
         noteItem.list.removeAtOrNull(item.p) ?: return
 
@@ -510,11 +510,11 @@ class RollNoteViewModel(application: Application) :
                 }
 
                 list.filter { it.isCheck }.forEach { item ->
-                    list.correctIndexOf(item)?.also { callback?.notifyItemInserted(list, it) }
+                    list.indexOfOrNull(item)?.also { callback?.notifyItemInserted(list, it) }
                 }
             } else {
                 while (list.any { it.isCheck }) {
-                    list.correctIndexOfFirst { it.isCheck }?.also {
+                    list.indexOfFirstOrNull { it.isCheck }?.also {
                         list.removeAtOrNull(it) ?: return@also
                         callback?.notifyItemRemoved(list, it)
                     }

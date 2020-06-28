@@ -4,6 +4,8 @@ import android.content.Context
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.room.entity.*
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
+import sgtmelon.scriptum.extension.substringBeforeOrNull
+import sgtmelon.scriptum.extension.substringBetweenOrNull
 import java.security.MessageDigest
 
 /**
@@ -19,27 +21,64 @@ class BackupParser(private val context: Context) : IBackupParser {
             val alarmList: List<AlarmEntity>
     )
 
-    override fun collect(model: Model): String = StringBuilder().apply {
+
+    @RunPrivate fun getVersionTag() = with(context) {
+        Pair(getString(R.string.tag_version_start), getString(R.string.tag_version_end))
+    }
+
+    @RunPrivate fun getHashTag() = with(context) {
+        Pair(getString(R.string.tag_hash_start), getString(R.string.tag_hash_end))
+    }
+
+    @RunPrivate fun getRoomTag() = with(context) {
+        Pair(getString(R.string.tag_room_start), getString(R.string.tag_room_end))
+    }
+
+
+    override fun collect(model: Model): String? = StringBuilder().apply {
+        val versionTag = getVersionTag()
+        val hashTag = getHashTag()
+        val roomTag = getRoomTag()
+
         val roomResult = collectRoom(model)
 
-        append(context.getString(R.string.backup_title)).append("\n")
-        append(context.getString(R.string.backup_version)).append(VERSION).append("\n")
-        append(context.getString(R.string.backup_hash)).append(getHash(roomResult)).append("\n\n")
-
-        append(roomResult)
+        append(versionTag.first).append(VERSION).append(versionTag.second).append("\n")
+        append(hashTag.first).append(getHash(roomResult)).append(hashTag.second).append("\n")
+        append(roomTag.first).append(roomResult).append(roomTag.second)
     }.toString()
 
     @RunPrivate fun collectRoom(model: Model): String = StringBuilder().apply {
         TODO()
     }.toString()
 
+
     override fun parse(data: String): Model? {
-        TODO("Not yet implemented")
+        val versionTag = getVersionTag()
+        val hashTag = getHashTag()
+        val roomTag = getRoomTag()
+
+        val version = data.substringBeforeOrNull(hashTag.first)
+                ?.substringBetweenOrNull(versionTag.first, versionTag.second)
+                ?.toIntOrNull() ?: return null
+
+        val hash = data.substringBeforeOrNull(roomTag.first)
+                ?.substringBetweenOrNull(hashTag.first, hashTag.second) ?: return null
+
+        val roomData = data.substringBetweenOrNull(roomTag.first, roomTag.second) ?: return null
+
+        if (hash != getHash(roomData)) return null
+
+        return parseByVersion(roomData, version)
     }
 
-    @RunPrivate fun getHash(input: String): String {
+    @RunPrivate fun parseByVersion(roomData: String, version: Int): Model? {
+        TODO()
+    }
+
+
+    @RunPrivate fun getHash(data: String): String {
         val messageDigest = MessageDigest.getInstance("SHA-256")
-        val hash = messageDigest.digest(input.toByteArray())
+        val hash = messageDigest.digest(data.toByteArray())
 
         return hashToHex(hash)
     }
