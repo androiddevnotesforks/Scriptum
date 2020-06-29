@@ -6,6 +6,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.spyk
 import io.mockk.verifySequence
+import org.json.JSONObject
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
@@ -20,54 +21,14 @@ import kotlin.random.Random
 class BackupParserTest : ParentTest() {
 
     @MockK lateinit var context: Context
+    @MockK lateinit var selector: BackupSelector
 
-    private val backupParser by lazy { BackupParser(context) }
+    private val backupParser by lazy { BackupParser(context, selector) }
     private val spyBackupParser by lazy { spyk(backupParser) }
 
-    private val versionStart = "<version>"
-    private val versionEnd = "</version>"
-    private val hashStart = "<hash>"
-    private val hashEnd = "</hash>"
-    private val roomStart = "<room>"
-    private val roomEnd = "</room>"
-
-    private val tagList = listOf(versionStart, versionEnd, hashStart, hashEnd, roomStart, roomEnd)
-
-    @Test fun getVersionTag() {
-        every { context.getString(R.string.tag_version_start) } returns versionStart
-        every { context.getString(R.string.tag_version_end) } returns versionEnd
-
-        assertEquals(Pair(versionStart, versionEnd), backupParser.getVersionTag())
-
-        verifySequence {
-            context.getString(R.string.tag_version_start)
-            context.getString(R.string.tag_version_end)
-        }
-    }
-
-    @Test fun getHashTag() {
-        every { context.getString(R.string.tag_hash_start) } returns hashStart
-        every { context.getString(R.string.tag_hash_end) } returns hashEnd
-
-        assertEquals(Pair(hashStart, hashEnd), backupParser.getHashTag())
-
-        verifySequence {
-            context.getString(R.string.tag_hash_start)
-            context.getString(R.string.tag_hash_end)
-        }
-    }
-
-    @Test fun getRoomTag() {
-        every { context.getString(R.string.tag_room_start) } returns roomStart
-        every { context.getString(R.string.tag_room_end) } returns roomEnd
-
-        assertEquals(Pair(roomStart, roomEnd), backupParser.getRoomTag())
-
-        verifySequence {
-            context.getString(R.string.tag_room_start)
-            context.getString(R.string.tag_room_end)
-        }
-    }
+    private val tagVersion = Random.nextString()
+    private val tagHash = Random.nextString()
+    private val tagRoom = Random.nextString()
 
 
     @Test fun collect() {
@@ -84,10 +45,11 @@ class BackupParserTest : ParentTest() {
         verifySequence {
             spyBackupParser.collect(model)
 
-            verifyTag()
-
             spyBackupParser.collectRoom(model)
+            context.getString(R.string.backup_version)
+            context.getString(R.string.backup_hash)
             spyBackupParser.getHash(roomData)
+            context.getString(R.string.backup_room)
         }
     }
 
@@ -95,6 +57,39 @@ class BackupParserTest : ParentTest() {
         TODO()
     }
 
+
+    @Test fun parse_badData() {
+        val dataError = Random.nextString()
+        val versionError = JSONObject().apply { put(tagVersion, Random.nextString()) }.toString()
+        val hashError = JSONObject().apply { put(tagVersion, Random.nextInt()) }.toString()
+        val roomError = JSONObject().apply {
+            put(tagVersion, Random.nextInt())
+            put(tagHash, Random.nextString())
+        }.toString()
+
+        mockTag()
+
+        assertNull(spyBackupParser.parse(dataError))
+        assertNull(spyBackupParser.parse(versionError))
+        assertNull(spyBackupParser.parse(hashError))
+        assertNull(spyBackupParser.parse(roomError))
+
+        verifySequence {
+            spyBackupParser.parse(dataError)
+
+            spyBackupParser.parse(versionError)
+            context.getString(R.string.backup_version)
+
+            spyBackupParser.parse(hashError)
+            context.getString(R.string.backup_version)
+            context.getString(R.string.backup_hash)
+
+            spyBackupParser.parse(roomError)
+            context.getString(R.string.backup_version)
+            context.getString(R.string.backup_hash)
+            context.getString(R.string.backup_room)
+        }
+    }
 
     @Test fun parse_badHash() {
         val roomData = getRoomData()
@@ -108,67 +103,10 @@ class BackupParserTest : ParentTest() {
         verifySequence {
             spyBackupParser.parse(data)
 
-            verifyTag()
+            context.getString(R.string.backup_version)
+            context.getString(R.string.backup_hash)
+            context.getString(R.string.backup_room)
             spyBackupParser.getHash(roomData)
-        }
-    }
-
-    @Test fun parse_badData_version() {
-        val substringBeforeError = Random.nextString()
-        val substringBetweenError = "$versionEnd $versionStart"
-        val toIntError = "$versionStart${Random.nextString()}$versionStart"
-
-        mockTag()
-
-        assertNull(spyBackupParser.parse(substringBeforeError))
-        assertNull(spyBackupParser.parse(substringBetweenError))
-        assertNull(spyBackupParser.parse(toIntError))
-
-        verifySequence {
-            spyBackupParser.parse(substringBeforeError)
-            verifyTag()
-
-            spyBackupParser.parse(substringBetweenError)
-            verifyTag()
-
-            spyBackupParser.parse(toIntError)
-            verifyTag()
-        }
-    }
-
-    @Test fun parse_badData_hash() {
-        val correctVersion = "$versionStart${Random.nextInt()}$versionEnd\n"
-
-        val substringBeforeError = "$correctVersion$hashStart${Random.nextString()}$hashEnd"
-        val substringBetweenError = "$correctVersion$hashStart${Random.nextString()}$hashEnd$roomStart"
-
-        mockTag()
-
-        assertNull(spyBackupParser.parse(substringBeforeError))
-        assertNull(spyBackupParser.parse(substringBetweenError))
-
-        verifySequence {
-            spyBackupParser.parse(substringBeforeError)
-            verifyTag()
-
-            spyBackupParser.parse(substringBetweenError)
-            verifyTag()
-        }
-    }
-
-    @Test fun parse_badData_room() {
-        val correctHash = "$versionStart${Random.nextInt()}$versionEnd\n" +
-                "$hashStart${Random.nextString()}$hashEnd\n"
-
-        val substringBetweenError = "$correctHash$roomEnd${Random.nextString()}$roomStart"
-
-        mockTag()
-
-        assertNull(spyBackupParser.parse(substringBetweenError))
-
-        verifySequence {
-            spyBackupParser.parse(substringBetweenError)
-            verifyTag()
         }
     }
 
@@ -182,22 +120,21 @@ class BackupParserTest : ParentTest() {
 
         mockTag()
         every { spyBackupParser.getHash(roomData) } returns hash
-        every { spyBackupParser.parseByVersion(roomData, version) } returns model
+        every { selector.parseByVersion(roomData, version) } returns model
 
         assertEquals(model, spyBackupParser.parse(data))
 
         verifySequence {
             spyBackupParser.parse(data)
 
-            verifyTag()
+            context.getString(R.string.backup_version)
+            context.getString(R.string.backup_hash)
+            context.getString(R.string.backup_room)
             spyBackupParser.getHash(roomData)
-            spyBackupParser.parseByVersion(roomData, version)
+            selector.parseByVersion(roomData, version)
         }
     }
 
-    @Test fun parseByVersion() {
-        TODO()
-    }
 
 
     /**
@@ -219,29 +156,23 @@ class BackupParserTest : ParentTest() {
      * Imitate the result of collect room.
      */
     private fun getRoomData() = StringBuilder().apply {
-        repeat(times = tagList.size) { append(Random.nextString()).append(tagList.random()) }
+        repeat(times = 5) { append(Random.nextString()) }
     }.toString()
 
     /**
      * Imitate the backup file content.
      */
-    private fun getBackupData(hash: String, roomResult: String,
-                              version: Any = BackupParser.VERSION) = StringBuilder().apply {
-        append(versionStart).append(version).append(versionEnd).append("\n")
-        append(hashStart).append(hash).append(hashEnd).append("\n")
-        append(roomStart).append(roomResult).append(roomEnd)
+    private fun getBackupData(hash: String, roomData: String,
+                              version: Any = BackupParser.VERSION) = JSONObject().apply {
+        put(tagVersion, version)
+        put(tagHash, hash)
+        put(tagRoom, roomData)
     }.toString()
 
     private fun mockTag() {
-        every { spyBackupParser.getVersionTag() } returns Pair(versionStart, versionEnd)
-        every { spyBackupParser.getHashTag() } returns Pair(hashStart, hashEnd)
-        every { spyBackupParser.getRoomTag() } returns Pair(roomStart, roomEnd)
-    }
-
-    private fun verifyTag() {
-        spyBackupParser.getVersionTag()
-        spyBackupParser.getHashTag()
-        spyBackupParser.getRoomTag()
+        every { context.getString(R.string.backup_version) } returns tagVersion
+        every { context.getString(R.string.backup_hash) } returns tagHash
+        every { context.getString(R.string.backup_room) } returns tagRoom
     }
 
 }

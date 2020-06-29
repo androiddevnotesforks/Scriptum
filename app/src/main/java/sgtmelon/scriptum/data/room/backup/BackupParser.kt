@@ -1,17 +1,20 @@
 package sgtmelon.scriptum.data.room.backup
 
 import android.content.Context
+import android.util.Log
+import org.json.JSONObject
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.room.entity.*
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
-import sgtmelon.scriptum.extension.substringBeforeOrNull
-import sgtmelon.scriptum.extension.substringBetweenOrNull
 import java.security.MessageDigest
 
 /**
  * Class for help control backup file parsing.
  */
-class BackupParser(private val context: Context) : IBackupParser {
+class BackupParser(
+        private val context: Context,
+        private val selector: BackupSelector
+) : IBackupParser {
 
     data class Model(
             val noteList: List<NoteEntity>,
@@ -21,58 +24,34 @@ class BackupParser(private val context: Context) : IBackupParser {
             val alarmList: List<AlarmEntity>
     )
 
+    override fun collect(model: Model): String = JSONObject().apply {
+        val roomData = collectRoom(model)
 
-    @RunPrivate fun getVersionTag() = with(context) {
-        Pair(getString(R.string.tag_version_start), getString(R.string.tag_version_end))
-    }
-
-    @RunPrivate fun getHashTag() = with(context) {
-        Pair(getString(R.string.tag_hash_start), getString(R.string.tag_hash_end))
-    }
-
-    @RunPrivate fun getRoomTag() = with(context) {
-        Pair(getString(R.string.tag_room_start), getString(R.string.tag_room_end))
-    }
-
-
-    override fun collect(model: Model): String? = StringBuilder().apply {
-        val versionTag = getVersionTag()
-        val hashTag = getHashTag()
-        val roomTag = getRoomTag()
-
-        val roomResult = collectRoom(model)
-
-        append(versionTag.first).append(VERSION).append(versionTag.second).append("\n")
-        append(hashTag.first).append(getHash(roomResult)).append(hashTag.second).append("\n")
-        append(roomTag.first).append(roomResult).append(roomTag.second)
+        put(context.getString(R.string.backup_version), VERSION)
+        put(context.getString(R.string.backup_hash), getHash(roomData))
+        put(context.getString(R.string.backup_room), roomData)
     }.toString()
 
-    @RunPrivate fun collectRoom(model: Model): String = StringBuilder().apply {
+    @RunPrivate fun collectRoom(model: Model): String = JSONObject().apply {
         TODO()
     }.toString()
 
 
     override fun parse(data: String): Model? {
-        val versionTag = getVersionTag()
-        val hashTag = getHashTag()
-        val roomTag = getRoomTag()
+        try {
+            val dataObject = JSONObject(data)
 
-        val version = data.substringBeforeOrNull(hashTag.first)
-                ?.substringBetweenOrNull(versionTag.first, versionTag.second)
-                ?.toIntOrNull() ?: return null
+            val version = dataObject.getInt(context.getString(R.string.backup_version))
+            val hash = dataObject.getString(context.getString(R.string.backup_hash))
+            val roomData = dataObject.getString(context.getString(R.string.backup_room))
 
-        val hash = data.substringBeforeOrNull(roomTag.first)
-                ?.substringBetweenOrNull(hashTag.first, hashTag.second) ?: return null
+            if (hash != getHash(roomData)) return null
 
-        val roomData = data.substringBetweenOrNull(roomTag.first, roomTag.second) ?: return null
-
-        if (hash != getHash(roomData)) return null
-
-        return parseByVersion(roomData, version)
-    }
-
-    @RunPrivate fun parseByVersion(roomData: String, version: Int): Model? {
-        TODO()
+            return selector.parseByVersion(roomData, version)
+        } catch (exception: Exception) {
+            Log.e(TAG, exception.toString())
+            return null
+        }
     }
 
 
@@ -92,6 +71,11 @@ class BackupParser(private val context: Context) : IBackupParser {
     }.toString()
 
     companion object {
+        private val TAG = BackupParser::class.java.simpleName
+
+        /**
+         * When update version need add case inside [BackupSelector].
+         */
         const val VERSION = 1
     }
 

@@ -15,7 +15,7 @@ import java.util.UUID.randomUUID
 object RoomMigrate {
 
     /**
-     * Add [RollVisibleEntity]
+     * Add [RollVisibleEntity].
      */
     private val FROM_7_TO_8 = object : Migration(7, 8) {
         override fun migrate(database: SupportSQLiteDatabase) = with(database) {
@@ -44,7 +44,7 @@ object RoomMigrate {
     }
 
     /**
-     * Add defaultValues to room entities
+     * Add defaultValues to room entities.
      */
     private val FROM_6_TO_7 = object : Migration(6, 7) {
         override fun migrate(database: SupportSQLiteDatabase) = with(database) {
@@ -234,7 +234,7 @@ object RoomMigrate {
     }
 
     /**
-     * Change entity indices names and unique
+     * Change entity indices names and unique.
      */
     private val FROM_5_TO_6 = object : Migration(5, 6) {
         override fun migrate(database: SupportSQLiteDatabase) = with(database) {

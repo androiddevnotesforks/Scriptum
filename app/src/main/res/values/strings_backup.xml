@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="tag_version_start" translatable="false">&lt;version&gt;"</string>
-    <string name="tag_version_end" translatable="false">&lt;/version&gt;</string>
-
-    <string name="tag_hash_start" translatable="false">&lt;hash&gt;"</string>
-    <string name="tag_hash_end" translatable="false">&lt;/hash&gt;</string>
-
-    <string name="tag_room_start" translatable="false">&lt;room&gt;"</string>
-    <string name="tag_room_end" translatable="false">&lt;/room&gt;</string>
+    <string name="backup_version" translatable="false">version</string>
+    <string name="backup_hash" translatable="false">hash</string>
+    <string name="backup_room" translatable="false">room</string>
 
 </resources>

@@ -20,47 +20,6 @@ fun <T> List<T>.indexOfFirstOrNull(predicate: (T) -> Boolean): Int? {
     return indexOfFirst(predicate).takeIf { it != ND_INDEX }
 }
 
-/**
- * Func like [String.substringAfter] but on fail returns null.
- */
-fun String.substringAfterOrNull(delimiter: String): String? {
-    val index = indexOf(delimiter)
-    return if (index != ND_INDEX) substring(index + delimiter.length, length) else null
-}
-
-/**
- * Func like [String.substringAfterLast] but on fail returns null.
- */
-fun String.substringAfterLastOrNull(delimiter: String) : String? {
-    val index = lastIndexOf(delimiter)
-    return if (index != ND_INDEX) substring(index + 1, length) else null
-}
-
-/**
- * Func like [String.substringBefore] but on fail returns null.
- */
-fun String.substringBeforeOrNull(delimiter: String): String? {
-    val index = indexOf(delimiter)
-    return if (index != ND_INDEX) substring(0, index) else null
-}
-
-/**
- * Func like [String.substringBeforeLast] but on fail returns null.
- */
-fun String.substringBeforeLastOrNull(delimiter: String): String? {
-    val index = lastIndexOf(delimiter)
-    return if (index != ND_INDEX) substring(0, index) else null
-}
-
-/**
- * Return string which placed after [first] delimiter end before [last] delimiter.
- *
- * Note: [last] delimiter takes from end of the string.
- */
-fun String.substringBetweenOrNull(first: String, last: String): String? {
-    return substringAfterOrNull(first)?.substringBeforeLastOrNull(last)
-}
-
 //endregion
 
 /**
