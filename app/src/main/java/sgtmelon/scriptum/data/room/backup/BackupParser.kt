@@ -2,10 +2,16 @@ package sgtmelon.scriptum.data.room.backup
 
 import android.content.Context
 import android.util.Log
+import org.json.JSONArray
 import org.json.JSONObject
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.room.entity.*
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
+import sgtmelon.scriptum.domain.model.data.DbData.Alarm
+import sgtmelon.scriptum.domain.model.data.DbData.Note
+import sgtmelon.scriptum.domain.model.data.DbData.Rank
+import sgtmelon.scriptum.domain.model.data.DbData.Roll
+import sgtmelon.scriptum.domain.model.data.DbData.RollVisible
 import java.security.MessageDigest
 
 /**
@@ -33,8 +39,85 @@ class BackupParser(
     }.toString()
 
     @RunPrivate fun collectRoom(model: Model): String = JSONObject().apply {
-        TODO()
+        put(Note.TABLE, collectNoteTable(model.noteList))
+        put(Roll.TABLE, collectRollTable(model.rollList))
+        put(RollVisible.TABLE, collectRollVisibleTable(model.rollVisibleList))
+        put(Rank.TABLE, collectRankTable(model.rankList))
+        put(Alarm.TABLE, collectAlarmTable(model.alarmList))
     }.toString()
+
+    @RunPrivate fun collectNoteTable(noteList: List<NoteEntity>): String {
+        return JSONArray().apply {
+            noteList.forEach {
+                put(JSONObject().apply {
+                    put(Note.ID, it.id)
+                    put(Note.CREATE, it.create)
+                    put(Note.CHANGE, it.change)
+                    put(Note.NAME, it.name)
+                    put(Note.TEXT, it.text)
+                    put(Note.COLOR, it.color)
+                    put(Note.TYPE, it.type)
+                    put(Note.RANK_ID, it.rankId)
+                    put(Note.RANK_PS, it.rankPs)
+                    put(Note.BIN, it.isBin)
+                    put(Note.STATUS, it.isStatus)
+                })
+            }
+        }.toString()
+    }
+
+    @RunPrivate fun collectRollTable(rollList: List<RollEntity>): String {
+        return JSONArray().apply {
+            rollList.forEach {
+                put(JSONObject().apply {
+                    put(Roll.ID, it.id)
+                    put(Roll.NOTE_ID, it.noteId)
+                    put(Roll.POSITION, it.position)
+                    put(Roll.CHECK, it.isCheck)
+                    put(Roll.TEXT, it.text)
+                })
+            }
+        }.toString()
+    }
+
+    @RunPrivate fun collectRollVisibleTable(rollVisibleList: List<RollVisibleEntity>): String {
+        return JSONArray().apply {
+            rollVisibleList.forEach {
+                put(JSONObject().apply {
+                    put(RollVisible.ID, it.id)
+                    put(RollVisible.NOTE_ID, it.noteId)
+                    put(RollVisible.VALUE, it.value)
+                })
+            }
+        }.toString()
+    }
+
+    @RunPrivate fun collectRankTable(rankList: List<RankEntity>): String {
+        return JSONArray().apply {
+            rankList.forEach {
+                put(JSONObject().apply {
+                    put(Rank.ID, it.id)
+                    put(Rank.NOTE_ID, it.noteId)
+                    put(Rank.POSITION, it.position)
+                    put(Rank.NAME, it.name)
+                    put(Rank.VISIBLE, it.isVisible)
+                })
+            }
+        }.toString()
+    }
+
+    @RunPrivate fun collectAlarmTable(alarmList: List<AlarmEntity>): String {
+        return JSONArray().apply {
+            alarmList.forEach {
+                put(JSONObject().apply {
+                    put(Alarm.ID, it.id)
+                    put(Alarm.NOTE_ID, it.noteId)
+                    put(Alarm.DATE, it.date)
+                })
+            }
+        }.toString()
+    }
+
 
 
     override fun parse(data: String): Model? {
