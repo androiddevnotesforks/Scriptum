@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.data.room.converter.type
 
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.scriptum.ParentTest
 import sgtmelon.scriptum.domain.model.key.NoteType
@@ -18,6 +19,7 @@ class NoteTypeConverterTest : ParentTest() {
     }
 
     @Test fun toEnum() {
+        assertNull(converter.toEnum(noteType = -1))
         assertEquals(NoteType.TEXT, converter.toEnum(noteType = 0))
         assertEquals(NoteType.ROLL, converter.toEnum(noteType = 1))
     }

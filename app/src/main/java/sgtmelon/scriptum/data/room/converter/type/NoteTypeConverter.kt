@@ -10,7 +10,6 @@ class NoteTypeConverter {
 
     @TypeConverter fun toInt(noteType: NoteType) = noteType.ordinal
 
-    // TODO npe
-    @TypeConverter fun toEnum(noteType: Int) = NoteType.values()[noteType]
+    @TypeConverter fun toEnum(noteType: Int): NoteType? = NoteType.values().getOrNull(noteType)
 
 }

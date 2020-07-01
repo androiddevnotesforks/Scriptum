@@ -61,8 +61,11 @@ abstract class ParentBackupTest : ParentTest() {
             RankEntity(id = 65, noteId = mutableListOf(198, 123, 282), position = 2, name = "third", isVisible = true)
     )
 
-    // TODO regex
-    protected val rankListJson = """[{"RK_VISIBLE":false,"RK_NOTE_ID":"102, 145, 32","RK_ID":12,"RK_NAME":"first","RK_POSITION":0},{"RK_VISIBLE":true,"RK_NOTE_ID":"107","RK_ID":24,"RK_NAME":"second","RK_POSITION":1},{"RK_VISIBLE":true,"RK_NOTE_ID":"198, 123, 282","RK_ID":65,"RK_NAME":"third","RK_POSITION":2}]"""
+    protected val rankListJson = """[
+        {"RK_VISIBLE":false,"RK_NOTE_ID":"102, 145, 32","RK_ID":12,"RK_NAME":"first","RK_POSITION":0},
+        {"RK_VISIBLE":true,"RK_NOTE_ID":"107","RK_ID":24,"RK_NAME":"second","RK_POSITION":1},
+        {"RK_VISIBLE":true,"RK_NOTE_ID":"198, 123, 282","RK_ID":65,"RK_NAME":"third","RK_POSITION":2}
+    ]""".clearAllSpace()
 
     protected val alarmList = listOf(
             AlarmEntity(id = 12, noteId = 102, date = "first"),
@@ -80,7 +83,9 @@ abstract class ParentBackupTest : ParentTest() {
     private fun String.clearAllSpace(): String {
         return trim()
                 .replace("\n".toRegex(), replacement = "")
-                .replace("\\s+".toRegex(), replacement = "")
+                .replace("\\[\\s+\\{".toRegex(), replacement = "[{")
+                .replace("},\\s+\\{".toRegex(), replacement = "},{")
+                .replace("}\\s+]".toRegex(), replacement = "}]")
     }
 
 }
