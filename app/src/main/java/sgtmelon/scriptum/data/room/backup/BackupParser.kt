@@ -5,6 +5,8 @@ import android.util.Log
 import org.json.JSONArray
 import org.json.JSONObject
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.data.room.converter.model.StringConverter
+import sgtmelon.scriptum.data.room.converter.type.NoteTypeConverter
 import sgtmelon.scriptum.data.room.entity.*
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.data.DbData.Alarm
@@ -19,7 +21,9 @@ import java.security.MessageDigest
  */
 class BackupParser(
         private val context: Context,
-        private val selector: BackupSelector
+        private val selector: BackupSelector,
+        private val typeConverter: NoteTypeConverter,
+        private val stringConverter: StringConverter
 ) : IBackupParser {
 
     data class Model(
@@ -56,7 +60,7 @@ class BackupParser(
                     put(Note.NAME, it.name)
                     put(Note.TEXT, it.text)
                     put(Note.COLOR, it.color)
-                    put(Note.TYPE, it.type)
+                    put(Note.TYPE, typeConverter.toInt(it.type))
                     put(Note.RANK_ID, it.rankId)
                     put(Note.RANK_PS, it.rankPs)
                     put(Note.BIN, it.isBin)
@@ -97,7 +101,7 @@ class BackupParser(
             rankList.forEach {
                 put(JSONObject().apply {
                     put(Rank.ID, it.id)
-                    put(Rank.NOTE_ID, it.noteId)
+                    put(Rank.NOTE_ID, stringConverter.toString(it.noteId))
                     put(Rank.POSITION, it.position)
                     put(Rank.NAME, it.name)
                     put(Rank.VISIBLE, it.isVisible)
@@ -131,10 +135,11 @@ class BackupParser(
             if (hash != getHash(roomData)) return null
 
             return selector.parseByVersion(roomData, version)
-        } catch (exception: Exception) {
-            Log.e(TAG, exception.toString())
-            return null
+        } catch (e: Exception) {
+            Log.e(TAG, e.toString())
         }
+
+        return null
     }
 
 

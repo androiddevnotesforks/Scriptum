@@ -221,7 +221,7 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
                 startActivity(intent.apply {
                     data = BuildConfig.MARKET_URL.plus(activity.packageName).toUri()
                 })
-            } catch (exception: ActivityNotFoundException) {
+            } catch (e: ActivityNotFoundException) {
                 startActivity(intent.apply {
                     data = BuildConfig.BROWSER_URL.plus(activity.packageName).toUri()
                 })

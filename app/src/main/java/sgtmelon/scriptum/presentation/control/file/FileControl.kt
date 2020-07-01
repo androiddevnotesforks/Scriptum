@@ -25,8 +25,8 @@ class FileControl(private val context: Context) : IFileControl {
             inputStream.close()
 
             return result
-        } catch (exception: Exception) {
-            Log.e(TAG, exception.toString())
+        } catch (e: Exception) {
+            Log.e(TAG, e.toString())
         }
 
         return null
@@ -59,8 +59,8 @@ class FileControl(private val context: Context) : IFileControl {
             writeOutputStream(outputStream, data)
             outputStream.flush()
             outputStream.close()
-        } catch (exception: Exception) {
-            Log.e(TAG, exception.toString())
+        } catch (e: Exception) {
+            Log.e(TAG, e.toString())
         }
     }
 
@@ -104,7 +104,6 @@ class FileControl(private val context: Context) : IFileControl {
 
         return list
     }
-
 
     companion object {
         private val TAG = FileControl::class.java.simpleName

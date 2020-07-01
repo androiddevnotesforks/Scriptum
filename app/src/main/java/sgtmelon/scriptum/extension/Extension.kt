@@ -17,7 +17,7 @@ fun Any.initLazy() = this.run {}
 fun String.toUri(): Uri? = let {
     return@let try {
         Uri.parse(it)
-    } catch (t: Throwable) {
+    } catch (e: Throwable) {
         null
     }
 }
