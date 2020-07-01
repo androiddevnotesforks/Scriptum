@@ -773,7 +773,9 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
         verifySequence {
             noteState.isEdit
+
             noteState.isEdit
+            callback.hideKeyboard()
         }
     }
 
@@ -882,6 +884,9 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.noteItem
             spyViewModel.getList(noteItem)
             callback.notifyItemMoved(newList, from, to)
+
+            spyViewModel.callback
+            callback.hideKeyboard()
         }
     }
 

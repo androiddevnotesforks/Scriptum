@@ -13,6 +13,8 @@ interface IRankFragment : IRankBridge {
 
     val openState: OpenState?
 
+    fun hideKeyboard()
+
     fun setupToolbar()
 
     fun setupRecycler()

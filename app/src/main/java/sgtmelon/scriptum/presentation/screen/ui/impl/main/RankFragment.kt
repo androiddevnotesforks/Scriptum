@@ -20,10 +20,7 @@ import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RankItem
 import sgtmelon.scriptum.domain.model.state.OpenState
-import sgtmelon.scriptum.extension.addTextChangedListener
-import sgtmelon.scriptum.extension.createVisibleAnim
-import sgtmelon.scriptum.extension.inflateBinding
-import sgtmelon.scriptum.extension.initLazy
+import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.presentation.adapter.RankAdapter
 import sgtmelon.scriptum.presentation.control.snackbar.SnackbarCallback
 import sgtmelon.scriptum.presentation.control.snackbar.SnackbarControl
@@ -143,6 +140,10 @@ class RankFragment : ParentFragment(), IRankFragment, MainReceiver.BindCallback,
     override fun onReceiveUnbindNote(id: Long) = viewModel.onReceiveUnbindNote(id)
 
     //endregion
+
+    override fun hideKeyboard() {
+        activity?.hideKeyboard()
+    }
 
     /**
      * Use [OpenState.tryInvoke] and [OpenState.tryReturnInvoke] because item adding

@@ -686,6 +686,7 @@ class RankViewModelTest : ParentViewModelTest() {
         verifySequence {
             callback.openState
             openState.value
+            callback.hideKeyboard()
 
             callback.openState
             openState.value
@@ -708,6 +709,7 @@ class RankViewModelTest : ParentViewModelTest() {
         verifySequence {
             itemList.move(from, to)
             callback.notifyItemMoved(itemList, from, to)
+            callback.hideKeyboard()
         }
     }
 

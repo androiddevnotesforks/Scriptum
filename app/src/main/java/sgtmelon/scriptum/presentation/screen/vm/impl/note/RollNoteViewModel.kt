@@ -423,7 +423,13 @@ class RollNoteViewModel(application: Application) :
         callback?.setTouchAction(inAction)
     }
 
-    override fun onTouchGetDrag(): Boolean = noteState.isEdit
+    override fun onTouchGetDrag(): Boolean {
+        val value = noteState.isEdit
+
+        if (value) callback?.hideKeyboard()
+
+        return value
+    }
 
     override fun onTouchGetSwipe(): Boolean = noteState.isEdit
 
@@ -454,6 +460,8 @@ class RollNoteViewModel(application: Application) :
         noteItem.list.move(correctFrom, correctTo)
 
         callback?.notifyItemMoved(getList(noteItem), from, to)
+        callback?.hideKeyboard()
+
         return true
     }
 

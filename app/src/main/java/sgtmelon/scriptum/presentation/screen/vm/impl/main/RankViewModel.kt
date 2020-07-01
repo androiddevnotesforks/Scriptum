@@ -264,12 +264,19 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         callback?.openState?.value = inAction
     }
 
-    override fun onTouchGetDrag(): Boolean = callback?.openState?.value != true
+    override fun onTouchGetDrag(): Boolean {
+        val value = callback?.openState?.value != true
+
+        if (value) callback?.hideKeyboard()
+
+        return value
+    }
 
     override fun onTouchMove(from: Int, to: Int): Boolean {
         itemList.move(from, to)
 
         callback?.notifyItemMoved(itemList, from, to)
+        callback?.hideKeyboard()
 
         return true
     }
