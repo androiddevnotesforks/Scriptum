@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.presentation.control.file
 
-import sgtmelon.scriptum.domain.model.annotation.Type
+import sgtmelon.scriptum.domain.model.annotation.FileType
 import sgtmelon.scriptum.domain.model.item.FileItem
 
 /**
@@ -17,9 +17,9 @@ interface IFileControl {
 
     fun writeFile(name: String, data: String): String?
 
-    fun getTimeName(@Type type: String): String
+    fun getTimeName(@FileType type: String): String
 
 
-    fun getFileList(@Type type: String): List<FileItem>
+    suspend fun getFileList(@FileType type: String): List<FileItem>
 
 }

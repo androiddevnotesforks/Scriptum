@@ -23,6 +23,7 @@ fun Context?.is24Format(): Boolean {
     return if (this != null) DateFormatAndroid.is24HourFormat(this) else true
 }
 
+// TODO make all access to calendar - suspendable
 fun getTime(): String = getCalendar().getText()
 
 fun Calendar.isToday() = DateUtils.isToday(timeInMillis)

@@ -11,7 +11,10 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
  * Component for [TextNoteFragment].
  */
 @ActivityScope
-@Subcomponent(modules = [InteractorModule::class, ViewModelModule::class])
+@Subcomponent(modules = [
+    InteractorModule::class,
+    ViewModelModule::class
+])
 interface TextNoteComponent {
 
     fun inject(fragment: TextNoteFragment)

@@ -5,8 +5,8 @@ import androidx.annotation.StringDef
 /**
  * Describes files extension (type).
  */
-@StringDef(Type.BACKUP)
-annotation class Type {
+@StringDef(FileType.BACKUP)
+annotation class FileType {
     companion object {
         const val BACKUP = ".backup"
     }

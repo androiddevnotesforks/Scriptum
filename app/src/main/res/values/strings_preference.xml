@@ -95,10 +95,13 @@
 
     <!---->
 
-    <string name="pref_toast_melody_dialog_replace">
+    <string name="pref_toast_import_error">Sorry, but file is damaged! :(</string>
+    <string name="pref_toast_import_result">File successfully saved! Path: %s</string>
+
+    <string name="pref_toast_melody_replace">
         Sorry, we can\'t set selected melody! We replace it. :(
     </string>
-    <string name="pref_toast_melody_dialog_empty">
+    <string name="pref_toast_melody_empty">
         Sorry, you don\'t have any melodies! :(
     </string>
 

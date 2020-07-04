@@ -21,7 +21,7 @@ import java.security.MessageDigest
  */
 class BackupParser(
         private val context: Context,
-        private val selector: BackupSelector,
+        private val selector: IBackupSelector,
         private val typeConverter: NoteTypeConverter,
         private val stringConverter: StringConverter
 ) : IBackupParser {

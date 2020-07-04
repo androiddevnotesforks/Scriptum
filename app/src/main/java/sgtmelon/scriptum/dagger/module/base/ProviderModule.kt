@@ -15,6 +15,7 @@ import javax.inject.Singleton
 @Module
 class ProviderModule {
 
+    // TODO remove singleton
     @Provides
     @Singleton
     fun provideSummaryProvider(resources: Resources): SummaryProvider {

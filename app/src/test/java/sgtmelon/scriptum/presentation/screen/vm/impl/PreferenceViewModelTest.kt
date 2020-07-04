@@ -175,12 +175,12 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
             signalInteractor.state
             signalInteractor.getMelodyCheck()
-            callback.showToast(R.string.pref_toast_melody_dialog_empty)
+            callback.showToast(R.string.pref_toast_melody_empty)
 
             signalInteractor.state
             signalInteractor.getMelodyCheck()
             signalInteractor.getMelodyList()
-            callback.showToast(R.string.pref_toast_melody_dialog_empty)
+            callback.showToast(R.string.pref_toast_melody_empty)
 
             signalInteractor.state
             signalInteractor.getMelodyCheck()
@@ -449,7 +449,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
             callback.updateSignalSummary(summary)
             signalInteractor.state
             signalInteractor.getMelodyList()
-            callback.showToast(R.string.pref_toast_melody_dialog_empty)
+            callback.showToast(R.string.pref_toast_melody_empty)
 
             interactor.updateSignal(valueArray)
             callback.updateSignalSummary(summary)
@@ -599,7 +599,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
             signalInteractor.setMelodyUri(item.title)
 
             callback.updateMelodySummary(newTitle)
-            callback.showToast(R.string.pref_toast_melody_dialog_replace)
+            callback.showToast(R.string.pref_toast_melody_replace)
         }
     }
 
@@ -614,7 +614,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
         coVerifySequence {
             signalInteractor.setMelodyUri(item.title)
 
-            callback.showToast(R.string.pref_toast_melody_dialog_empty)
+            callback.showToast(R.string.pref_toast_melody_empty)
         }
     }
 

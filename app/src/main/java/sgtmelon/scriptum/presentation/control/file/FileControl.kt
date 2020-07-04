@@ -5,7 +5,7 @@ import android.util.Log
 import androidx.core.content.ContextCompat
 import sgtmelon.extension.getTime
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.domain.model.annotation.Type
+import sgtmelon.scriptum.domain.model.annotation.FileType
 import sgtmelon.scriptum.domain.model.item.FileItem
 import java.io.*
 
@@ -78,7 +78,7 @@ class FileControl(private val context: Context) : IFileControl {
         bufferedWriter.close()
     }
 
-    override fun getTimeName(@Type type: String): String {
+    override fun getTimeName(@FileType type: String): String {
         return getTime()
                 .plus(other = " ")
                 .plus(context.getString(R.string.app_name))
@@ -86,7 +86,7 @@ class FileControl(private val context: Context) : IFileControl {
     }
 
 
-    override fun getFileList(@Type type: String): List<FileItem> {
+    override suspend fun getFileList(@FileType type: String): List<FileItem> {
         val list = mutableListOf<FileItem>()
 
         ContextCompat.getExternalFilesDirs(context, null).filterNotNull().forEach {
@@ -100,7 +100,7 @@ class FileControl(private val context: Context) : IFileControl {
         return list
     }
 
-    private fun getFileList(directory: File, @Type type: String): List<FileItem> {
+    private suspend fun getFileList(directory: File, @FileType type: String): List<FileItem> {
         val list = mutableListOf<FileItem>()
 
         directory.listFiles()?.forEach {

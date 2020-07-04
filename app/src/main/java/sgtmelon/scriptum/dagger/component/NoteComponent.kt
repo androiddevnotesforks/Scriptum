@@ -12,7 +12,11 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
  * Component for [NoteActivity].
  */
 @ActivityScope
-@Subcomponent(modules = [InteractorModule::class, ViewModelModule::class, NoteModule::class])
+@Subcomponent(modules = [
+    InteractorModule::class,
+    ViewModelModule::class,
+    NoteModule::class
+])
 interface NoteComponent {
 
     fun inject(activity: NoteActivity)

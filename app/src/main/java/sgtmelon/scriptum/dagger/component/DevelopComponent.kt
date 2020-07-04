@@ -11,7 +11,10 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.DevelopActivity
  * Component for [DevelopActivity].
  */
 @ActivityScope
-@Subcomponent(modules = [InteractorModule::class, ViewModelModule::class])
+@Subcomponent(modules = [
+    InteractorModule::class,
+    ViewModelModule::class
+])
 interface DevelopComponent {
 
     fun inject(activity: DevelopActivity)

@@ -23,9 +23,9 @@ import sgtmelon.scriptum.domain.model.data.DbData.RollVisible
 class BackupSelector(
         private val typeConverter: NoteTypeConverter,
         private val stringConverter: StringConverter
-) {
+) : IBackupSelector {
 
-    fun parseByVersion(roomData: String, version: Int): BackupParser.Model? {
+    override fun parseByVersion(roomData: String, version: Int): BackupParser.Model? {
         return when (version) {
             1 -> getModelV1(roomData)
             else -> null

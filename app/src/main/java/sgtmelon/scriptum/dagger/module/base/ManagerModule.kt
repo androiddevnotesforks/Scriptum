@@ -15,6 +15,8 @@ import javax.inject.Singleton
 @Module
 class ManagerModule {
 
+    // TODO remove module
+
     @Provides
     @Singleton
     fun provideSharedPreferences(context: Context): SharedPreferences {

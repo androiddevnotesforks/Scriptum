@@ -25,7 +25,7 @@ interface IPreferenceViewModel : IParentViewModel {
 
     fun onClickImport(result: PermissionResult): Boolean
 
-    fun onResultImport(check: Int)
+    fun onResultImport(name: String)
 
 
     fun onClickSort(): Boolean

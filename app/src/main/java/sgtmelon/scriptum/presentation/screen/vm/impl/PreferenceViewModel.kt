@@ -72,7 +72,7 @@ class PreferenceViewModel(
         fun onEmptyError() {
             if (!state.isMelody) return
 
-            callback?.showToast(R.string.pref_toast_melody_dialog_empty)
+            callback?.showToast(R.string.pref_toast_melody_empty)
         }
 
         val melodyCheck = signalInteractor.getMelodyCheck() ?: return onEmptyError()
@@ -117,8 +117,7 @@ class PreferenceViewModel(
 
 
     override fun onClickExport() = takeTrue {
-        TODO("update import enabled if success")
-        TODO("show toast")
+        TODO("update import enabled if success | show toast")
     }
 
     /**
@@ -142,8 +141,16 @@ class PreferenceViewModel(
         }
     }
 
-    override fun onResultImport(check: Int) {
-        TODO("result message")
+    override fun onResultImport(name: String) {
+        viewModelScope.launch {
+            val path = backupInteractor.import(name)
+
+            if (path != null) {
+                callback?.showPathToast(path)
+            } else {
+                callback?.showToast(R.string.pref_toast_import_error)
+            }
+        }
     }
 
 
@@ -190,7 +197,7 @@ class PreferenceViewModel(
         } else {
             viewModelScope.launch {
                 if (signalInteractor.getMelodyList().isEmpty()) {
-                    callback?.showToast(R.string.pref_toast_melody_dialog_empty)
+                    callback?.showToast(R.string.pref_toast_melody_empty)
                 } else {
                     callback?.updateMelodyGroupEnabled(isEnabled = true)
                 }
@@ -237,9 +244,9 @@ class PreferenceViewModel(
                 title == resultTitle -> callback?.updateMelodySummary(title)
                 resultTitle != null -> {
                     callback?.updateMelodySummary(resultTitle)
-                    callback?.showToast(R.string.pref_toast_melody_dialog_replace)
+                    callback?.showToast(R.string.pref_toast_melody_replace)
                 }
-                else -> callback?.showToast(R.string.pref_toast_melody_dialog_empty)
+                else -> callback?.showToast(R.string.pref_toast_melody_empty)
             }
         }
     }

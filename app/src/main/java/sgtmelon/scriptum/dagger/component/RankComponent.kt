@@ -11,7 +11,10 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.main.RankFragment
  * Component for [RankFragment].
  */
 @ActivityScope
-@Subcomponent(modules = [InteractorModule::class, ViewModelModule::class])
+@Subcomponent(modules = [
+    InteractorModule::class,
+    ViewModelModule::class
+])
 interface RankComponent {
 
     fun inject(fragment: RankFragment)

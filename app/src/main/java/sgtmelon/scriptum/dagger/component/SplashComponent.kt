@@ -11,7 +11,10 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
  * Component for [SplashActivity].
  */
 @ActivityScope
-@Subcomponent(modules = [InteractorModule::class, ViewModelModule::class])
+@Subcomponent(modules = [
+    InteractorModule::class,
+    ViewModelModule::class
+])
 interface SplashComponent {
 
     fun inject(activity: SplashActivity)

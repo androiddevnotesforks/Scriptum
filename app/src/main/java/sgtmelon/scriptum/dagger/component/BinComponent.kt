@@ -11,7 +11,10 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.main.BinFragment
  * Component for [BinFragment].
  */
 @ActivityScope
-@Subcomponent(modules = [InteractorModule::class, ViewModelModule::class])
+@Subcomponent(modules = [
+    InteractorModule::class,
+    ViewModelModule::class
+])
 interface BinComponent {
 
     fun inject(fragment: BinFragment)

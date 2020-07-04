@@ -5,6 +5,7 @@ import dagger.Provides
 import sgtmelon.scriptum.dagger.ActivityScope
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.*
+import sgtmelon.scriptum.data.room.backup.IBackupParser
 import sgtmelon.scriptum.data.room.converter.type.IntConverter
 import sgtmelon.scriptum.domain.interactor.callback.*
 import sgtmelon.scriptum.domain.interactor.callback.main.IBinInteractor
@@ -28,6 +29,8 @@ import sgtmelon.scriptum.domain.interactor.impl.note.TextNoteInteractor
 import sgtmelon.scriptum.domain.interactor.impl.notification.AlarmInteractor
 import sgtmelon.scriptum.domain.interactor.impl.notification.NotificationInteractor
 import sgtmelon.scriptum.domain.interactor.impl.notification.SignalInteractor
+import sgtmelon.scriptum.presentation.control.cipher.ICipherControl
+import sgtmelon.scriptum.presentation.control.file.IFileControl
 import sgtmelon.scriptum.presentation.control.system.callback.IRingtoneControl
 import sgtmelon.scriptum.presentation.provider.SummaryProvider
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.BinFragment
@@ -63,8 +66,9 @@ class InteractorModule {
 
     @Provides
     @ActivityScope
-    fun provideBackupInteractor(): IBackupInteractor {
-        return BackupInteractor()
+    fun provideBackupInteractor(backupParser: IBackupParser, fileControl: IFileControl,
+                                cipherControl: ICipherControl): IBackupInteractor {
+        return BackupInteractor(backupParser, fileControl, cipherControl)
     }
 
     //endregion

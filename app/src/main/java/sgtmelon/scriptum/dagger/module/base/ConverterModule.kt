@@ -4,6 +4,7 @@ import dagger.Module
 import dagger.Provides
 import sgtmelon.scriptum.data.room.converter.model.*
 import sgtmelon.scriptum.data.room.converter.type.IntConverter
+import sgtmelon.scriptum.data.room.converter.type.NoteTypeConverter
 import javax.inject.Singleton
 
 /**
@@ -11,6 +12,8 @@ import javax.inject.Singleton
  */
 @Module
 class ConverterModule {
+
+    //region Model
 
     @Provides
     @Singleton
@@ -28,6 +31,10 @@ class ConverterModule {
     @Singleton
     fun provideRollConverter() = RollConverter()
 
+    //endregion
+
+    //region Type
+
     @Provides
     @Singleton
     fun provideStringConverter() = StringConverter()
@@ -35,5 +42,11 @@ class ConverterModule {
     @Provides
     @Singleton
     fun provideIntConverter() = IntConverter()
+
+    @Provides
+    @Singleton
+    fun provideNoteTypeConverter() = NoteTypeConverter()
+
+    //endregion
 
 }

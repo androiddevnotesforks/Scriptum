@@ -13,7 +13,9 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.notification.NotificationAc
  */
 @ActivityScope
 @Subcomponent(modules = [
-    InteractorModule::class, ViewModelModule::class, NotificationModule::class
+    InteractorModule::class,
+    ViewModelModule::class,
+    NotificationModule::class
 ])
 interface NotificationComponent {
 

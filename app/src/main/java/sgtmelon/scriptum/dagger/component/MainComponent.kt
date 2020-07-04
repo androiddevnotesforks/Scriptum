@@ -12,7 +12,11 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.main.MainActivity
  * Component for [MainActivity].
  */
 @ActivityScope
-@Subcomponent(modules = [InteractorModule::class, ViewModelModule::class, MainModule::class])
+@Subcomponent(modules = [
+    InteractorModule::class,
+    ViewModelModule::class,
+    MainModule::class
+])
 interface MainComponent {
 
     fun inject(activity: MainActivity)

@@ -6,6 +6,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.fragment.app.FragmentManager
 import androidx.preference.Preference
@@ -158,6 +159,12 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
 
     override fun showToast(@StringRes stringId: Int) = activity.showToast(stringId)
 
+    override fun showPathToast(path: String) {
+        val text = activity.resources.getString(R.string.pref_toast_import_result, path)
+
+        activity.showToast(text, Toast.LENGTH_LONG)
+    }
+
 
     override fun setupApp() {
         themePreference?.setOnPreferenceClickListener { viewModel.onClickTheme() }
@@ -187,7 +194,8 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
         }
 
         importDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            viewModel.onResultImport(importDialog.check)
+            val name = with(importDialog) { itemArray.getOrNull(check) } ?: return@OnClickListener
+            viewModel.onResultImport(name)
         }
         importDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }

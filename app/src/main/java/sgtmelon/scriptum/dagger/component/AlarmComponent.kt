@@ -12,7 +12,11 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.notification.AlarmActivity
  * Component for [AlarmActivity].
  */
 @ActivityScope
-@Subcomponent(modules = [InteractorModule::class, ViewModelModule::class, AlarmModule::class])
+@Subcomponent(modules = [
+    InteractorModule::class,
+    ViewModelModule::class,
+    AlarmModule::class
+])
 interface AlarmComponent {
 
     fun inject(activity: AlarmActivity)
