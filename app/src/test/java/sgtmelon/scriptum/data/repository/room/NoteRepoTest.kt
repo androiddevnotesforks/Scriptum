@@ -87,7 +87,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
         mockNoteRepo.correctRankSort(finishList, Sort.RANK)
 
         coEvery { noteDao.getByRank(bin) } returns entityList
-        coEvery { rankDao.getIdVisibleList() } returns listOf()
+        coEvery { rankDao.getIdVisibleList() } returns emptyList()
         coEvery {
             with(rollDao) { if (isOptimal) getView(any()) else get(any()) }
         } returns mutableListOf()

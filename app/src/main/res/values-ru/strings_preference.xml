@@ -2,13 +2,17 @@
 <resources>
 
     <string name="pref_header_app">Приложение</string>
-    <string name="pref_header_notification">Уведомления</string>
+    <string name="pref_header_backup">Резервное копирование</string>
     <string name="pref_header_note">Заметки</string>
+    <string name="pref_header_alarm">Уведомления</string>
     <string name="pref_header_other">Прочее</string>
 
     <!---->
 
     <string name="pref_title_app_theme">Тема</string>
+
+    <string name="pref_title_backup_export">Сохранить данные в файл</string>
+    <string name="pref_title_backup_import">Загрузить данные из файла</string>
 
     <string name="pref_title_note_sort">Сортировка заметок</string>
     <string name="pref_title_note_color">Цвет заметки по-умолчанию</string>
@@ -96,5 +100,14 @@
         <item>Мелодия</item>
         <item>Вибрация</item>
     </string-array>
+
+    <!---->
+
+    <string name="pref_toast_melody_dialog_replace">
+        Извините, мы не смогли установить выбранную мелодию! Мы заменили её. :(
+    </string>
+    <string name="pref_toast_melody_dialog_empty">
+        Извините, у вас нет ни одной мелодии! :(
+    </string>
 
 </resources>

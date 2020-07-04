@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat
 import sgtmelon.extension.getTime
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.Type
+import sgtmelon.scriptum.domain.model.item.FileItem
 import java.io.*
 
 /**
@@ -43,7 +44,10 @@ class FileControl(private val context: Context) : IFileControl {
         reader.close()
     }.toString()
 
-    override fun writeFile(name: String, data: String) {
+    /**
+     * Return path to created file.
+     */
+    override fun writeFile(name: String, data: String): String? {
         val parent = File(appDirectory)
         val file = File(parent, name)
 
@@ -59,9 +63,13 @@ class FileControl(private val context: Context) : IFileControl {
             writeOutputStream(outputStream, data)
             outputStream.flush()
             outputStream.close()
+
+            return file.path
         } catch (e: Exception) {
             Log.e(TAG, e.toString())
         }
+
+        return null
     }
 
     private fun writeOutputStream(outputStream: OutputStream, data: String) {
@@ -78,27 +86,27 @@ class FileControl(private val context: Context) : IFileControl {
     }
 
 
-    override fun getPathList(@Type type: String): List<String> {
-        val list = mutableListOf<String>()
+    override fun getFileList(@Type type: String): List<FileItem> {
+        val list = mutableListOf<FileItem>()
 
         ContextCompat.getExternalFilesDirs(context, null).filterNotNull().forEach {
-            list.addAll(getPathList(it, type))
+            list.addAll(getFileList(it, type))
         }
 
         ContextCompat.getExternalCacheDirs(context).filterNotNull().forEach {
-            list.addAll(getPathList(it, type))
+            list.addAll(getFileList(it, type))
         }
 
         return list
     }
 
-    private fun getPathList(directory: File, @Type type: String): List<String> {
-        val list = mutableListOf<String>()
+    private fun getFileList(directory: File, @Type type: String): List<FileItem> {
+        val list = mutableListOf<FileItem>()
 
         directory.listFiles()?.forEach {
             when {
-                it.isDirectory -> list.addAll(getPathList(it, type))
-                it.endsWith(type) -> list.add(it.path)
+                it.isDirectory -> list.addAll(getFileList(it, type))
+                it.endsWith(type) -> list.add(FileItem(it.nameWithoutExtension, it.path))
             }
         }
 

@@ -61,6 +61,12 @@ class InteractorModule {
         return SignalInteractor(ringtoneControl, preferenceRepo, intConverter)
     }
 
+    @Provides
+    @ActivityScope
+    fun provideBackupInteractor(): IBackupInteractor {
+        return BackupInteractor()
+    }
+
     //endregion
 
     @Provides

@@ -13,9 +13,19 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.PreferenceViewModel
  */
 interface IPreferenceViewModel : IParentViewModel {
 
+    fun onPause()
+
+
     fun onClickTheme(): Boolean
 
     fun onResultTheme(@Theme value: Int)
+
+
+    fun onClickExport(): Boolean
+
+    fun onClickImport(result: PermissionResult): Boolean
+
+    fun onResultImport(check: Int)
 
 
     fun onClickSort(): Boolean
@@ -43,7 +53,7 @@ interface IPreferenceViewModel : IParentViewModel {
 
     fun onSelectMelody(value: Int)
 
-    fun onResultMelody(value: Int)
+    fun onResultMelody(title: String)
 
     fun onClickVolume(): Boolean
 

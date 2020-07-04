@@ -17,7 +17,10 @@ import sgtmelon.scriptum.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
 import sgtmelon.scriptum.domain.model.state.NoteState
-import sgtmelon.scriptum.extension.*
+import sgtmelon.scriptum.extension.clearSpace
+import sgtmelon.scriptum.extension.indexOfOrNull
+import sgtmelon.scriptum.extension.move
+import sgtmelon.scriptum.extension.removeAtOrNull
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.roll.IRollNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.note.IRollNoteViewModel
@@ -522,7 +525,7 @@ class RollNoteViewModel(application: Application) :
                 }
             } else {
                 while (list.any { it.isCheck }) {
-                    list.indexOfFirstOrNull { it.isCheck }?.also {
+                    list.indexOfOrNull { it.isCheck }?.also {
                         list.removeAtOrNull(it) ?: return@also
                         callback?.notifyItemRemoved(list, it)
                     }

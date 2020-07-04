@@ -1,16 +1,17 @@
 package sgtmelon.scriptum.presentation.screen.vm.impl
 
-import io.mockk.every
+import io.mockk.*
 import io.mockk.impl.annotations.MockK
-import io.mockk.verifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentViewModelTest
+import sgtmelon.scriptum.R
+import sgtmelon.scriptum.TestData
+import sgtmelon.scriptum.domain.interactor.callback.IBackupInteractor
 import sgtmelon.scriptum.domain.interactor.callback.IPreferenceInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteractor
-import sgtmelon.scriptum.domain.model.item.MelodyItem
 import sgtmelon.scriptum.domain.model.key.PermissionResult
 import sgtmelon.scriptum.domain.model.state.SignalState
 import sgtmelon.scriptum.presentation.screen.ui.callback.IPreferenceFragment
@@ -22,18 +23,18 @@ import kotlin.random.Random
 @ExperimentalCoroutinesApi
 class PreferenceViewModelTest : ParentViewModelTest() {
 
-
     @MockK lateinit var interactor: IPreferenceInteractor
     @MockK lateinit var signalInteractor: ISignalInteractor
+    @MockK lateinit var backupInteractor: IBackupInteractor
     @MockK lateinit var callback: IPreferenceFragment
 
-    private val viewModel by lazy { PreferenceViewModel(interactor, signalInteractor, callback) }
+    private val melodyList = TestData.Melody.melodyList
+    private val fileList = TestData.Backup.fileList
 
-    override fun setUp() {
-        super.setUp()
-
-        every { signalInteractor.melodyList } returns emptyList()
+    private val viewModel by lazy {
+        PreferenceViewModel(interactor, signalInteractor, backupInteractor, callback)
     }
+    private val spyViewModel by lazy { spyk(viewModel) }
 
     @Test override fun onDestroy() {
         assertNotNull(viewModel.callback)
@@ -42,17 +43,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
     }
 
 
-
     @Test fun onSetup() {
-        val signalState = SignalState(Random.nextBoolean(), Random.nextBoolean())
-
-        val itemList = listOf(
-                MelodyItem(Random.nextString(), Random.nextString()),
-                MelodyItem(Random.nextString(), Random.nextString()),
-                MelodyItem(Random.nextString(), Random.nextString())
-        )
-        val melodyCheck = itemList.indices.random()
-
         val themeSummary = Random.nextString()
         val sortSummary = Random.nextString()
         val defaultColorSummary = Random.nextString()
@@ -62,7 +53,8 @@ class PreferenceViewModelTest : ParentViewModelTest() {
         val signalSummary = Random.nextString()
         val volumeSummary = Random.nextString()
 
-        every { signalInteractor.melodyList } returns itemList
+        coEvery { spyViewModel.setupMelody() } returns Unit
+        coEvery { spyViewModel.setupBackup() } returns Unit
 
         every { interactor.getThemeSummary() } returns themeSummary
         every { interactor.getSortSummary() } returns sortSummary
@@ -73,36 +65,23 @@ class PreferenceViewModelTest : ParentViewModelTest() {
         every { interactor.getSignalSummary(typeCheck) } returns signalSummary
         every { interactor.getVolumeSummary() } returns volumeSummary
 
-        every { signalInteractor.state } returns null
-        viewModel.onSetup()
+        spyViewModel.onSetup()
 
-        every { signalInteractor.state } returns signalState
-        every { signalInteractor.melodyCheck } returns -1
-        viewModel.onSetup()
+        coVerifySequence {
+            spyViewModel.onSetup()
 
-        every { signalInteractor.state } returns signalState
-        every { signalInteractor.melodyCheck } returns melodyCheck
-        viewModel.onSetup()
-
-        verifySequence {
-            signalInteractor.melodyList
-
-            signalInteractor.state
-
-            signalInteractor.state
-            signalInteractor.melodyCheck
-
-            signalInteractor.state
-            signalInteractor.melodyCheck
             callback.apply {
                 setupApp()
+                setupBackup()
                 setupNote()
-                setupNotification(itemList.map { it.title }.toTypedArray())
+                setupNotification()
                 setupSave()
                 setupOther()
 
                 interactor.getThemeSummary()
                 updateThemeSummary(themeSummary)
+
+                updateImportEnabled(isEnabled = false)
 
                 interactor.getSortSummary()
                 updateSortSummary(sortSummary)
@@ -117,13 +96,126 @@ class PreferenceViewModelTest : ParentViewModelTest() {
                 interactor.getSignalSummary(typeCheck)
                 updateSignalSummary(signalSummary)
 
-                updateMelodyGroupEnabled(signalState.isMelody)
-                updateMelodySummary(itemList[melodyCheck].title)
+                updateMelodyGroupEnabled(isEnabled = false)
                 interactor.getVolumeSummary()
                 updateVolumeSummary(volumeSummary)
             }
+
+            spyViewModel.setupMelody()
+            spyViewModel.setupBackup()
         }
     }
+
+    @Test fun setupMelody_notMelody() = startCoTest {
+        val state = SignalState(isMelody = false, isVibration = Random.nextBoolean())
+        val item = melodyList.random()
+        val index = melodyList.indexOf(item)
+
+        every { signalInteractor.state } returns null
+
+        viewModel.setupMelody()
+
+        every { signalInteractor.state } returns state
+        coEvery { signalInteractor.getMelodyCheck() } returns null
+
+        viewModel.setupMelody()
+
+        coEvery { signalInteractor.getMelodyCheck() } returns index
+        coEvery { signalInteractor.getMelodyList() } returns emptyList()
+
+        viewModel.setupMelody()
+
+        coEvery { signalInteractor.getMelodyList() } returns melodyList
+
+        viewModel.setupMelody()
+
+        coVerifySequence {
+            signalInteractor.state
+
+            signalInteractor.state
+            signalInteractor.getMelodyCheck()
+
+            signalInteractor.state
+            signalInteractor.getMelodyCheck()
+            signalInteractor.getMelodyList()
+
+            signalInteractor.state
+            signalInteractor.getMelodyCheck()
+            signalInteractor.getMelodyList()
+            callback.updateMelodyGroupEnabled(state.isMelody)
+            callback.updateMelodySummary(item.title)
+        }
+    }
+
+    @Test fun setupMelody_isMelody() = startCoTest {
+        val state = SignalState(isMelody = true, isVibration = Random.nextBoolean())
+        val item = melodyList.random()
+        val index = melodyList.indexOf(item)
+
+        every { signalInteractor.state } returns null
+
+        viewModel.setupMelody()
+
+        every { signalInteractor.state } returns state
+        coEvery { signalInteractor.getMelodyCheck() } returns null
+
+        viewModel.setupMelody()
+
+        coEvery { signalInteractor.getMelodyCheck() } returns index
+        coEvery { signalInteractor.getMelodyList() } returns emptyList()
+
+        viewModel.setupMelody()
+
+        coEvery { signalInteractor.getMelodyList() } returns melodyList
+
+        viewModel.setupMelody()
+
+        coVerifySequence {
+            signalInteractor.state
+
+            signalInteractor.state
+            signalInteractor.getMelodyCheck()
+            callback.showToast(R.string.pref_toast_melody_dialog_empty)
+
+            signalInteractor.state
+            signalInteractor.getMelodyCheck()
+            signalInteractor.getMelodyList()
+            callback.showToast(R.string.pref_toast_melody_dialog_empty)
+
+            signalInteractor.state
+            signalInteractor.getMelodyCheck()
+            signalInteractor.getMelodyList()
+            callback.updateMelodyGroupEnabled(state.isMelody)
+            callback.updateMelodySummary(item.title)
+        }
+    }
+
+    @Test fun setupBackup() = startCoTest {
+        coEvery { backupInteractor.getFileList() } returns emptyList()
+
+        viewModel.setupBackup()
+
+        coEvery { backupInteractor.getFileList() } returns fileList
+
+        viewModel.setupBackup()
+
+        coVerifySequence {
+            backupInteractor.getFileList()
+
+            backupInteractor.getFileList()
+            callback.updateImportEnabled(isEnabled = true)
+        }
+    }
+
+    @Test fun onPause() {
+        viewModel.onPause()
+
+        verifySequence {
+            signalInteractor.resetMelodyList()
+            backupInteractor.resetFileList()
+        }
+    }
+
 
     @Test fun onClickTheme() {
         val value = Random.nextInt()
@@ -133,8 +225,6 @@ class PreferenceViewModelTest : ParentViewModelTest() {
         assertTrue(viewModel.onClickTheme())
 
         verifySequence {
-            signalInteractor.melodyList
-
             interactor.theme
             callback.showThemeDialog(value)
         }
@@ -149,12 +239,64 @@ class PreferenceViewModelTest : ParentViewModelTest() {
         viewModel.onResultTheme(value)
 
         verifySequence {
-            signalInteractor.melodyList
-
             interactor.updateTheme(value)
             callback.updateThemeSummary(summary)
         }
     }
+
+
+    @Test fun onClickExport() {
+        TODO()
+    }
+
+    @Test fun onClickImport() {
+        coEvery { spyViewModel.prepareImportDialog() } returns Unit
+
+        assertTrue(spyViewModel.onClickImport(PermissionResult.LOW_API))
+        assertTrue(spyViewModel.onClickImport(PermissionResult.ALLOWED))
+        assertTrue(spyViewModel.onClickImport(PermissionResult.FORBIDDEN))
+        assertTrue(spyViewModel.onClickImport(PermissionResult.GRANTED))
+
+        coVerifySequence {
+            spyViewModel.onClickImport(PermissionResult.LOW_API)
+            spyViewModel.prepareImportDialog()
+
+            spyViewModel.onClickImport(PermissionResult.ALLOWED)
+            spyViewModel.callback
+            callback.showImportPermissionDialog()
+
+            spyViewModel.onClickImport(PermissionResult.FORBIDDEN)
+            spyViewModel.prepareImportDialog()
+
+            spyViewModel.onClickImport(PermissionResult.GRANTED)
+            spyViewModel.prepareImportDialog()
+        }
+    }
+
+    @Test fun prepareImportDialog() = startCoTest {
+        val titleArray = fileList.map { it.name }.toTypedArray()
+
+        coEvery { backupInteractor.getFileList() } returns emptyList()
+
+        viewModel.prepareImportDialog()
+
+        coEvery { backupInteractor.getFileList() } returns fileList
+
+        viewModel.prepareImportDialog()
+
+        coVerifySequence {
+            backupInteractor.getFileList()
+            callback.updateImportEnabled(isEnabled = false)
+
+            backupInteractor.getFileList()
+            callback.showImportDialog(titleArray)
+        }
+    }
+
+    @Test fun onResultImport() {
+        TODO()
+    }
+
 
     @Test fun onClickSort() {
         val value = Random.nextInt()
@@ -164,8 +306,6 @@ class PreferenceViewModelTest : ParentViewModelTest() {
         assertTrue(viewModel.onClickSort())
 
         verifySequence {
-            signalInteractor.melodyList
-
             interactor.sort
             callback.showSortDialog(value)
         }
@@ -180,8 +320,6 @@ class PreferenceViewModelTest : ParentViewModelTest() {
         viewModel.onResultNoteSort(value)
 
         verifySequence {
-            signalInteractor.melodyList
-
             interactor.updateSort(value)
             callback.updateSortSummary(summary)
         }
@@ -197,8 +335,6 @@ class PreferenceViewModelTest : ParentViewModelTest() {
         assertTrue(viewModel.onClickNoteColor())
 
         verifySequence {
-            signalInteractor.melodyList
-
             interactor.defaultColor
             interactor.theme
             callback.showColorDialog(valueColor, valueTheme)
@@ -214,8 +350,6 @@ class PreferenceViewModelTest : ParentViewModelTest() {
         viewModel.onResultNoteColor(value)
 
         verifySequence {
-            signalInteractor.melodyList
-
             interactor.updateDefaultColor(value)
             callback.updateColorSummary(summary)
         }
@@ -229,8 +363,6 @@ class PreferenceViewModelTest : ParentViewModelTest() {
         assertTrue(viewModel.onClickSaveTime())
 
         verifySequence {
-            signalInteractor.melodyList
-
             interactor.savePeriod
             callback.showSaveTimeDialog(value)
         }
@@ -245,12 +377,11 @@ class PreferenceViewModelTest : ParentViewModelTest() {
         viewModel.onResultSaveTime(value)
 
         verifySequence {
-            signalInteractor.melodyList
-
             interactor.updateSavePeriod(value)
             callback.updateSavePeriodSummary(summary)
         }
     }
+
 
     @Test fun onClickRepeat() {
         val value = Random.nextInt()
@@ -260,8 +391,6 @@ class PreferenceViewModelTest : ParentViewModelTest() {
         assertTrue(viewModel.onClickRepeat())
 
         verifySequence {
-            signalInteractor.melodyList
-
             interactor.repeat
             callback.showRepeatDialog(value)
         }
@@ -276,8 +405,6 @@ class PreferenceViewModelTest : ParentViewModelTest() {
         viewModel.onResultRepeat(value)
 
         verifySequence {
-            signalInteractor.melodyList
-
             interactor.updateRepeat(value)
             callback.updateRepeatSummary(summary)
         }
@@ -291,16 +418,14 @@ class PreferenceViewModelTest : ParentViewModelTest() {
         assertTrue(viewModel.onClickSignal())
 
         verifySequence {
-            signalInteractor.melodyList
-
             signalInteractor.typeCheck
             callback.showSignalDialog(valueArray)
         }
     }
 
-    @Test fun onResultSignal() {
+    @Test fun onResultSignal_isMelody() {
         val valueArray = BooleanArray(size = 3) { Random.nextBoolean() }
-        val signalState = SignalState(Random.nextBoolean(), Random.nextBoolean())
+        val state = SignalState(isMelody = true, isVibration = Random.nextBoolean())
         val summary = Random.nextString()
 
         every { interactor.updateSignal(valueArray) } returns summary
@@ -308,93 +433,188 @@ class PreferenceViewModelTest : ParentViewModelTest() {
         every { signalInteractor.state } returns null
         viewModel.onResultSignal(valueArray)
 
-        every { signalInteractor.state } returns signalState
+        every { signalInteractor.state } returns state
+        coEvery { signalInteractor.getMelodyList() } returns emptyList()
         viewModel.onResultSignal(valueArray)
 
-        verifySequence {
-            signalInteractor.melodyList
+        coEvery { signalInteractor.getMelodyList() } returns melodyList
+        viewModel.onResultSignal(valueArray)
 
-            signalInteractor.state
-
-            signalInteractor.state
+        coVerifySequence {
             interactor.updateSignal(valueArray)
             callback.updateSignalSummary(summary)
-            callback.updateMelodyGroupEnabled(signalState.isMelody)
+            signalInteractor.state
+
+            interactor.updateSignal(valueArray)
+            callback.updateSignalSummary(summary)
+            signalInteractor.state
+            signalInteractor.getMelodyList()
+            callback.showToast(R.string.pref_toast_melody_dialog_empty)
+
+            interactor.updateSignal(valueArray)
+            callback.updateSignalSummary(summary)
+            signalInteractor.state
+            signalInteractor.getMelodyList()
+            callback.updateMelodyGroupEnabled(isEnabled = true)
         }
     }
+
+    @Test fun onResultSignal_notMelody() {
+        val valueArray = BooleanArray(size = 3) { Random.nextBoolean() }
+        val state = SignalState(isMelody = false, isVibration = Random.nextBoolean())
+        val summary = Random.nextString()
+
+        every { interactor.updateSignal(valueArray) } returns summary
+
+        every { signalInteractor.state } returns null
+        viewModel.onResultSignal(valueArray)
+
+        every { signalInteractor.state } returns state
+        viewModel.onResultSignal(valueArray)
+
+        coVerifySequence {
+            interactor.updateSignal(valueArray)
+            callback.updateSignalSummary(summary)
+            signalInteractor.state
+
+            interactor.updateSignal(valueArray)
+            callback.updateSignalSummary(summary)
+            signalInteractor.state
+            callback.updateMelodyGroupEnabled(isEnabled = false)
+        }
+    }
+
 
     @Test fun onClickMelody() {
-        val value = Random.nextInt()
+        coEvery { spyViewModel.prepareMelodyDialog() } returns Unit
 
-        every { signalInteractor.melodyCheck } returns value
+        assertTrue(spyViewModel.onClickMelody(PermissionResult.LOW_API))
+        assertTrue(spyViewModel.onClickMelody(PermissionResult.ALLOWED))
+        assertTrue(spyViewModel.onClickMelody(PermissionResult.FORBIDDEN))
+        assertTrue(spyViewModel.onClickMelody(PermissionResult.GRANTED))
 
-        assertTrue(viewModel.onClickMelody(PermissionResult.LOW_API))
-        assertTrue(viewModel.onClickMelody(PermissionResult.ALLOWED))
-        assertTrue(viewModel.onClickMelody(PermissionResult.FORBIDDEN))
-        assertTrue(viewModel.onClickMelody(PermissionResult.GRANTED))
+        coVerifySequence {
+            spyViewModel.onClickMelody(PermissionResult.LOW_API)
+            spyViewModel.prepareMelodyDialog()
 
-        verifySequence {
-            signalInteractor.melodyList
-
-            signalInteractor.melodyCheck
-            callback.showMelodyDialog(value)
-
+            spyViewModel.onClickMelody(PermissionResult.ALLOWED)
+            spyViewModel.callback
             callback.showMelodyPermissionDialog()
 
-            signalInteractor.melodyCheck
-            callback.showMelodyDialog(value)
+            spyViewModel.onClickMelody(PermissionResult.FORBIDDEN)
+            spyViewModel.prepareMelodyDialog()
 
-            signalInteractor.melodyCheck
-            callback.showMelodyDialog(value)
+            spyViewModel.onClickMelody(PermissionResult.GRANTED)
+            spyViewModel.prepareMelodyDialog()
         }
     }
 
-    @Test fun onSelectMelody_notCorrectValue() {
-        val value = Random.nextInt()
+    @Test fun prepareMelodyDialog() = startCoTest {
+        val index = Random.nextInt()
+        val titleArray = melodyList.map { it.title }.toTypedArray()
 
-        viewModel.onSelectMelody(value)
+        coEvery { signalInteractor.getMelodyList() } returns emptyList()
+        coEvery { signalInteractor.getMelodyCheck() } returns null
 
-        verifySequence {
-            signalInteractor.melodyList
+        viewModel.prepareMelodyDialog()
+
+        coEvery { signalInteractor.getMelodyCheck() } returns Random.nextInt()
+
+        viewModel.prepareMelodyDialog()
+
+        coEvery { signalInteractor.getMelodyList() } returns melodyList
+        coEvery { signalInteractor.getMelodyCheck() } returns null
+
+        viewModel.prepareMelodyDialog()
+
+        coEvery { signalInteractor.getMelodyCheck() } returns index
+
+        viewModel.prepareMelodyDialog()
+
+        coVerifySequence {
+            repeat(times = 3) {
+                signalInteractor.getMelodyList()
+                signalInteractor.getMelodyCheck()
+                callback.updateMelodyGroupEnabled(isEnabled = false)
+            }
+
+            signalInteractor.getMelodyList()
+            signalInteractor.getMelodyCheck()
+            callback.showMelodyDialog(titleArray, index)
+        }
+    }
+
+    @Test fun onSelectMelody_onNull() {
+        val index = -1
+
+        coEvery { signalInteractor.getMelodyList() } returns melodyList
+
+        viewModel.onSelectMelody(index)
+
+        coVerifySequence {
+            signalInteractor.getMelodyList()
         }
     }
 
     @Test fun onSelectMelody() {
-        val item = MelodyItem(Random.nextString(), Random.nextString())
+        val item = melodyList.random()
+        val index = melodyList.indexOf(item)
 
-        every { signalInteractor.melodyList } returns listOf(item)
+        coEvery { signalInteractor.getMelodyList() } returns melodyList
 
-        viewModel.onSelectMelody(value = 0)
+        viewModel.onSelectMelody(index)
 
-        verifySequence {
-            signalInteractor.melodyList
+        coVerifySequence {
+            signalInteractor.getMelodyList()
 
             callback.playMelody(item.uri)
         }
     }
 
-    @Test fun onResultMelody_notCorrectValue() {
-        val value = Random.nextInt()
+    @Test fun onResultMelody() {
+        val item = melodyList.random()
 
-        viewModel.onResultMelody(value)
+        coEvery { signalInteractor.getMelodyList() } returns melodyList
+        coEvery { signalInteractor.setMelodyUri(item.title) } returns item.title
 
-        verifySequence {
-            signalInteractor.melodyList
+        viewModel.onResultMelody(item.title)
+
+        coVerifySequence {
+            signalInteractor.setMelodyUri(item.title)
+
+            callback.updateMelodySummary(item.title)
         }
     }
 
-    @Test fun onResultMelody() {
-        val item = MelodyItem(Random.nextString(), Random.nextString())
+    @Test fun onResultMelody_onNotEquals() {
+        val item = melodyList.random()
+        val newTitle = Random.nextString()
 
-        every { signalInteractor.melodyList } returns listOf(item)
+        coEvery { signalInteractor.getMelodyList() } returns melodyList
+        coEvery { signalInteractor.setMelodyUri(item.title) } returns newTitle
 
-        viewModel.onResultMelody(value = 0)
+        viewModel.onResultMelody(item.title)
 
-        verifySequence {
-            signalInteractor.melodyList
+        coVerifySequence {
+            signalInteractor.setMelodyUri(item.title)
 
-            signalInteractor.setMelodyUri(item.uri)
-            callback.updateMelodySummary(item.title)
+            callback.updateMelodySummary(newTitle)
+            callback.showToast(R.string.pref_toast_melody_dialog_replace)
+        }
+    }
+
+    @Test fun onResultMelody_onNull() {
+        val item = melodyList.random()
+
+        coEvery { signalInteractor.getMelodyList() } returns melodyList
+        coEvery { signalInteractor.setMelodyUri(item.title) } returns null
+
+        viewModel.onResultMelody(item.title)
+
+        coVerifySequence {
+            signalInteractor.setMelodyUri(item.title)
+
+            callback.showToast(R.string.pref_toast_melody_dialog_empty)
         }
     }
 
@@ -406,8 +626,6 @@ class PreferenceViewModelTest : ParentViewModelTest() {
         assertTrue(viewModel.onClickVolume())
 
         verifySequence {
-            signalInteractor.melodyList
-
             interactor.volume
             callback.showVolumeDialog(value)
         }
@@ -422,8 +640,6 @@ class PreferenceViewModelTest : ParentViewModelTest() {
         viewModel.onResultVolume(value)
 
         verifySequence {
-            signalInteractor.melodyList
-
             interactor.updateVolume(value)
             callback.updateVolumeSummary(summary)
         }

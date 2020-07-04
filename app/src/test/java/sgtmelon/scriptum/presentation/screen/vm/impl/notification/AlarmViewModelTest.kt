@@ -67,12 +67,12 @@ class AlarmViewModelTest : ParentViewModelTest() {
         }
     }
 
-    private fun verifyOnDestroy(signalState: SignalState) {
-        if (signalState.isMelody) {
+    private fun verifyOnDestroy(state: SignalState) {
+        if (state.isMelody) {
             callback.melodyStop()
         }
 
-        if (signalState.isVibration) {
+        if (state.isVibration) {
             callback.vibrateCancel()
         }
 
@@ -89,8 +89,8 @@ class AlarmViewModelTest : ParentViewModelTest() {
         val volume = Random.nextInt()
         val volumeIncrease = Random.nextBoolean()
 
-        every { signalInteractor.getMelodyUri() } returns URI
         every { bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID) } returns id
+        coEvery { signalInteractor.getMelodyUri() } returns URI
 
         every { interactor.theme } returns theme
         every { interactor.volume } returns volume
@@ -103,10 +103,12 @@ class AlarmViewModelTest : ParentViewModelTest() {
         viewModel.onSetup(bundle)
 
         coVerifySequence {
+            bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
             callback.apply {
                 acquirePhone(AlarmViewModel.CANCEL_DELAY)
                 interactor.theme
                 setupView(theme)
+
                 signalInteractor.getMelodyUri()
                 interactor.volume
                 interactor.volumeIncrease
@@ -114,10 +116,12 @@ class AlarmViewModelTest : ParentViewModelTest() {
             }
             signalInteractor.state
 
+            bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
             callback.apply {
                 acquirePhone(AlarmViewModel.CANCEL_DELAY)
                 interactor.theme
                 setupView(theme)
+
                 signalInteractor.getMelodyUri()
                 interactor.volume
                 interactor.volumeIncrease
@@ -140,8 +144,8 @@ class AlarmViewModelTest : ParentViewModelTest() {
         val volume = Random.nextInt()
         val volumeIncrease = Random.nextBoolean()
 
-        every { signalInteractor.getMelodyUri() } returns URI
         every { bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID) } returns id
+        coEvery { signalInteractor.getMelodyUri() } returns URI
 
         fun callOnSetup() {
             viewModel.id = NoteData.Default.ID
@@ -162,10 +166,13 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
         coVerifySequence {
             repeat(times = 2) {
+                if (it % 2 != 0) bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
+
                 callback.apply {
                     acquirePhone(AlarmViewModel.CANCEL_DELAY)
                     interactor.theme
                     setupView(theme)
+
                     signalInteractor.getMelodyUri()
                     interactor.volume
                     interactor.volumeIncrease
@@ -175,10 +182,13 @@ class AlarmViewModelTest : ParentViewModelTest() {
             }
 
             repeat(times = 2) {
+                if (it % 2 != 0) bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
+
                 callback.apply {
                     acquirePhone(AlarmViewModel.CANCEL_DELAY)
                     interactor.theme
                     setupView(theme)
+
                     signalInteractor.getMelodyUri()
                     interactor.volume
                     interactor.volumeIncrease
@@ -199,8 +209,8 @@ class AlarmViewModelTest : ParentViewModelTest() {
         val id = Random.nextLong()
         val noteItem = data.firstNote.deepCopy()
 
-        every { signalInteractor.getMelodyUri() } returns URI
         every { bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID) } returns id
+        coEvery { signalInteractor.getMelodyUri() } returns null
 
         viewModel.noteItem = noteItem
 
@@ -211,19 +221,26 @@ class AlarmViewModelTest : ParentViewModelTest() {
         viewModel.onSetup(bundle)
         viewModel.onSetup()
 
-        verifySequence {
-            repeat(times = 2) {
-                callback.apply {
-                    acquirePhone(AlarmViewModel.CANCEL_DELAY)
-                    interactor.theme
-                    setupView(Theme.DARK)
-                    signalInteractor.getMelodyUri()
-                    interactor.volume
-                    interactor.volumeIncrease
-                    setupPlayer(URI, volume = 1, increase = true)
-                    notifyList(noteItem)
-                    waitLayoutConfigure()
-                }
+        coVerifySequence {
+            bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
+            callback.apply {
+                acquirePhone(AlarmViewModel.CANCEL_DELAY)
+                interactor.theme
+                setupView(Theme.DARK)
+
+                signalInteractor.getMelodyUri()
+                notifyList(noteItem)
+                waitLayoutConfigure()
+            }
+
+            callback.apply {
+                acquirePhone(AlarmViewModel.CANCEL_DELAY)
+                interactor.theme
+                setupView(Theme.DARK)
+
+                signalInteractor.getMelodyUri()
+                notifyList(noteItem)
+                waitLayoutConfigure()
             }
         }
     }
@@ -263,18 +280,18 @@ class AlarmViewModelTest : ParentViewModelTest() {
     }
 
     private fun MockKVerificationScope.verifyOnStart(@Theme theme: Int, colorShade: ColorShade,
-                                                     noteItem: NoteItem, signalState: SignalState) {
+                                                     noteItem: NoteItem, state: SignalState) {
         interactor.theme
 
         callback.apply {
             startRippleAnimation(theme, noteItem.color, colorShade)
             startButtonFadeInAnimation()
 
-            if (signalState.isMelody) {
+            if (state.isMelody) {
                 melodyStart()
             }
 
-            if (signalState.isVibration) {
+            if (state.isVibration) {
                 startVibratorHandler(AlarmViewModel.START_DELAY, any())
             }
 

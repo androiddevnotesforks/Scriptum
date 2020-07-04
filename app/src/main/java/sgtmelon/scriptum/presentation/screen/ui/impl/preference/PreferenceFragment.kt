@@ -6,20 +6,19 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import androidx.annotation.StringRes
 import androidx.fragment.app.FragmentManager
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.domain.model.annotation.Color
-import sgtmelon.scriptum.domain.model.annotation.Repeat
-import sgtmelon.scriptum.domain.model.annotation.Sort
-import sgtmelon.scriptum.domain.model.annotation.Theme
+import sgtmelon.scriptum.domain.model.annotation.*
 import sgtmelon.scriptum.domain.model.key.PermissionResult
 import sgtmelon.scriptum.domain.model.state.OpenState
 import sgtmelon.scriptum.domain.model.state.PermissionState
 import sgtmelon.scriptum.extension.initLazy
 import sgtmelon.scriptum.extension.isGranted
+import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.extension.toUri
 import sgtmelon.scriptum.presentation.control.system.MelodyControl
 import sgtmelon.scriptum.presentation.control.system.callback.IMelodyControl
@@ -54,6 +53,9 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
 
     private val themeDialog by lazy { dialogFactory.getThemeDialog() }
 
+    private val importPermissionDialog by lazy { dialogFactory.getImportPermissionDialog() }
+    private val importDialog by lazy { dialogFactory.getImportDialog() }
+
     private val sortDialog by lazy { dialogFactory.getSortDialog() }
     private val colorDialog by lazy { dialogFactory.getColorDialog() }
     private val savePeriodDialog by lazy { dialogFactory.getSavePeriodDialog() }
@@ -71,6 +73,9 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
     //region Preferences
 
     private val themePreference by lazy { findPreference<Preference>(getString(R.string.pref_key_app_theme)) }
+
+    private val exportPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_backup_export)) }
+    private val importPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_backup_import)) }
 
     private val sortPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_note_sort)) }
     private val colorPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_note_color)) }
@@ -100,7 +105,30 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
         melodyControl.initLazy()
         openState.get(savedInstanceState)
 
+        /**
+         * Need reset default summary for [melodyPreference] in [onActivityCreated], because
+         * [viewModel] will update summary inside coroutine.
+         *
+         * It's unnecessary doing inside [onResume], because after first start summary will be set.
+         */
+        updateMelodySummary(summary = "")
+    }
+
+    override fun onResume() {
+        super.onResume()
         viewModel.onSetup()
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        viewModel.onPause()
+
+        /**
+         * After call [IPreferenceViewModel.onPause] this dialog's will not have any items.
+         */
+        if (melodyDialog.isAdded) melodyDialog.dismiss()
+        if (importDialog.isAdded) importDialog.dismiss()
     }
 
     override fun onDestroy() {
@@ -118,16 +146,17 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
                                             grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
+        val isGranted = grantResults.firstOrNull()?.isGranted() ?: return
+        val result = if (isGranted) PermissionResult.GRANTED else PermissionResult.FORBIDDEN
+
         when (requestCode) {
-            MELODY_REQUEST -> {
-                viewModel.onClickMelody(if (grantResults.first().isGranted()) {
-                    PermissionResult.GRANTED
-                } else {
-                    PermissionResult.FORBIDDEN
-                })
-            }
+            PermissionRequest.MELODY -> viewModel.onClickMelody(result)
+            PermissionRequest.IMPORT -> viewModel.onClickImport(result)
         }
     }
+
+
+    override fun showToast(@StringRes stringId: Int) = activity.showToast(stringId)
 
 
     override fun setupApp() {
@@ -138,6 +167,29 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
             activity.checkThemeChange()
         }
         themeDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+    }
+
+    override fun setupBackup() {
+        exportPreference?.setOnPreferenceClickListener { viewModel.onClickExport() }
+
+        importPreference?.setOnPreferenceClickListener {
+            viewModel.onClickImport(externalPermissionState.getResult())
+        }
+
+        importPermissionDialog.isCancelable = false
+        importPermissionDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return@OnClickListener
+
+            requestPermissions(arrayOf(externalPermissionState.permission), PermissionRequest.IMPORT)
+        }
+        importPermissionDialog.dismissListener = DialogInterface.OnDismissListener {
+            openState.clear()
+        }
+
+        importDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
+            viewModel.onResultImport(importDialog.check)
+        }
+        importDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }
 
     override fun setupNote() {
@@ -156,7 +208,7 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
         colorDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }
 
-    override fun setupNotification(melodyTitleArray: Array<String>) {
+    override fun setupNotification() {
         repeatPreference?.setOnPreferenceClickListener { viewModel.onClickRepeat() }
 
         repeatDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
@@ -175,21 +227,22 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
             viewModel.onClickMelody(externalPermissionState.getResult())
         }
 
+        melodyPermissionDialog.isCancelable = false
         melodyPermissionDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return@OnClickListener
 
-            requestPermissions(arrayOf(externalPermissionState.permission), MELODY_REQUEST)
+            requestPermissions(arrayOf(externalPermissionState.permission), PermissionRequest.MELODY)
         }
         melodyPermissionDialog.dismissListener = DialogInterface.OnDismissListener {
             openState.clear()
         }
 
-        melodyDialog.itemArray = melodyTitleArray
         melodyDialog.itemListener = DialogInterface.OnClickListener { _, i ->
             viewModel.onSelectMelody(i)
         }
         melodyDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            viewModel.onResultMelody(melodyDialog.check)
+            val title = with(melodyDialog) { itemArray.getOrNull(check) } ?: return@OnClickListener
+            viewModel.onResultMelody(title)
         }
         melodyDialog.dismissListener = DialogInterface.OnDismissListener {
             melodyControl.stop()
@@ -262,6 +315,20 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
     }
 
 
+    override fun updateImportEnabled(isEnabled: Boolean) {
+        importPreference?.isEnabled = isEnabled
+    }
+
+    override fun showImportPermissionDialog() = openState.tryInvoke {
+        importPermissionDialog.show(fm, DialogFactory.Preference.IMPORT_PERMISSION)
+    }
+
+    override fun showImportDialog(titleArray: Array<String>) = openState.tryInvoke {
+        importDialog.itemArray = titleArray
+        importDialog.show(fm, DialogFactory.Preference.IMPORT)
+    }
+
+
     override fun updateSortSummary(summary: String?) {
         sortPreference?.summary = summary
     }
@@ -299,17 +366,18 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
         melodyPermissionDialog.show(fm, DialogFactory.Preference.MELODY_PERMISSION)
     }
 
-    override fun updateMelodyGroupEnabled(enabled: Boolean) {
-        melodyPreference?.isEnabled = enabled
-        increasePreference?.isEnabled = enabled
-        volumePreference?.isEnabled = enabled
+    override fun updateMelodyGroupEnabled(isEnabled: Boolean) {
+        melodyPreference?.isEnabled = isEnabled
+        increasePreference?.isEnabled = isEnabled
+        volumePreference?.isEnabled = isEnabled
     }
 
     override fun updateMelodySummary(summary: String) {
         melodyPreference?.summary = summary
     }
 
-    override fun showMelodyDialog(value: Int) = openState.tryInvoke {
+    override fun showMelodyDialog(titleArray: Array<String>, value: Int) = openState.tryInvoke {
+        melodyDialog.itemArray = titleArray
         melodyDialog.setArguments(value).show(fm, DialogFactory.Preference.MELODY)
     }
 
@@ -338,10 +406,6 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
 
     override fun showSaveTimeDialog(value: Int) = openState.tryInvoke {
         savePeriodDialog.setArguments(value).show(fm, DialogFactory.Preference.SAVE_PERIOD)
-    }
-
-    companion object {
-        private const val MELODY_REQUEST = 0
     }
 
 }

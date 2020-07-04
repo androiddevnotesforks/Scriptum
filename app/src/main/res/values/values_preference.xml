@@ -7,8 +7,8 @@
 
     <integer name="pref_note_sort">0</integer>
     <integer name="pref_note_color">10</integer>
-    <bool name="pref_note_save_pause">false</bool>
-    <bool name="pref_note_save_auto">false</bool>
+    <bool name="pref_note_save_pause">true</bool>
+    <bool name="pref_note_save_auto">true</bool>
     <integer name="pref_note_save_time">0</integer>
 
     <integer-array name="pref_note_save_time_array">

@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.presentation.screen.ui.callback
 
+import androidx.annotation.StringRes
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Repeat
 import sgtmelon.scriptum.domain.model.annotation.Sort
@@ -12,11 +13,16 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.PreferenceViewModel
  */
 interface IPreferenceFragment {
 
+    fun showToast(@StringRes stringId: Int)
+
+
     fun setupApp()
+
+    fun setupBackup()
 
     fun setupNote()
 
-    fun setupNotification(melodyTitleArray: Array<String>)
+    fun setupNotification()
 
     fun setupSave()
 
@@ -26,6 +32,13 @@ interface IPreferenceFragment {
     fun updateThemeSummary(summary: String?)
 
     fun showThemeDialog(@Theme value: Int)
+
+
+    fun updateImportEnabled(isEnabled: Boolean)
+
+    fun showImportPermissionDialog()
+
+    fun showImportDialog(titleArray: Array<String>)
 
 
     fun updateSortSummary(summary: String?)
@@ -47,11 +60,11 @@ interface IPreferenceFragment {
 
     fun showMelodyPermissionDialog()
 
-    fun updateMelodyGroupEnabled(enabled: Boolean)
+    fun updateMelodyGroupEnabled(isEnabled: Boolean)
 
     fun updateMelodySummary(summary: String)
 
-    fun showMelodyDialog(value: Int)
+    fun showMelodyDialog(titleArray: Array<String>, value: Int)
 
     fun playMelody(stringUri: String)
 

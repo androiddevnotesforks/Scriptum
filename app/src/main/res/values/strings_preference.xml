@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- TODO add prefix = pref_... -->
-
     <string name="pref_header_app">App</string>
+    <string name="pref_header_backup">Backup</string>
     <string name="pref_header_note">Notes</string>
-    <string name="pref_header_notification">Notifications</string>
+    <string name="pref_header_alarm">Notifications</string>
     <string name="pref_header_other">Other</string>
 
     <!---->
 
     <string name="pref_title_app_theme">Theme</string>
+
+    <string name="pref_title_backup_export">Save data to file</string>
+    <string name="pref_title_backup_import">Load data from file</string>
 
     <string name="pref_title_note_sort">Sort notes</string>
     <string name="pref_title_note_color">Default note color</string>
@@ -93,9 +95,21 @@
 
     <!---->
 
+    <string name="pref_toast_melody_dialog_replace">
+        Sorry, we can\'t set selected melody! We replace it. :(
+    </string>
+    <string name="pref_toast_melody_dialog_empty">
+        Sorry, you don\'t have any melodies! :(
+    </string>
+
+    <!---->
+
     <string name="pref_key_first_start" translatable="false">key_first_start</string>
 
     <string name="pref_key_app_theme" translatable="false">key_theme</string>
+
+    <string name="pref_key_backup_export" translatable="false">key_backup_export</string>
+    <string name="pref_key_backup_import" translatable="false">key_backup_import</string>
 
     <string name="pref_key_note_sort" translatable="false">key_note_sort</string>
     <string name="pref_key_note_color" translatable="false">key_color</string>

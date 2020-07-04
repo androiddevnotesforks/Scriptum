@@ -2,12 +2,9 @@ package sgtmelon.scriptum
 
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.domain.model.annotation.Sort
-import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.domain.model.item.NotificationItem
+import sgtmelon.scriptum.domain.model.item.*
 import sgtmelon.scriptum.domain.model.item.NotificationItem.Alarm
 import sgtmelon.scriptum.domain.model.item.NotificationItem.Note
-import sgtmelon.scriptum.domain.model.item.RankItem
-import sgtmelon.scriptum.domain.model.item.RollItem
 import sgtmelon.scriptum.domain.model.key.NoteType
 import kotlin.random.Random
 
@@ -107,6 +104,32 @@ object TestData {
         )
 
         val itemList get() = mutableListOf(firstNotification, secondNotification, thirdNotification)
+    }
+
+    object Melody {
+        private val alarmList = listOf(
+                MelodyItem(title = "alarm_title_0", uri = "alarm_uri_0", id = "alarm_id_0"),
+                MelodyItem(title = "alarm_title_1", uri = "alarm_uri_1", id = "alarm_id_1")
+        )
+
+        private val ringtoneList = listOf(
+                MelodyItem(title = "ringtone_title_0", uri = "ringtone_uri_0", id = "ringtone_id_0"),
+                MelodyItem(title = "ringtone_title_1", uri = "ringtone_uri_1", id = "ringtone_id_1")
+        )
+
+        val melodyList = ArrayList<MelodyItem>().apply {
+            addAll(alarmList)
+            addAll(ringtoneList)
+        }.sortedBy { it.title }
+    }
+
+    object Backup {
+        val fileList = listOf(
+                FileItem(Random.nextString(), Random.nextString()),
+                FileItem(Random.nextString(), Random.nextString()),
+                FileItem(Random.nextString(), Random.nextString()),
+                FileItem(Random.nextString(), Random.nextString())
+        )
     }
 
 }

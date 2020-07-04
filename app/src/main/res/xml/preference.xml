@@ -15,6 +15,20 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/pref_header_backup" app:iconSpaceReserved="false">
+
+        <Preference
+                android:key="@string/pref_key_backup_export"
+                android:title="@string/pref_title_backup_export"
+                app:iconSpaceReserved="false"/>
+
+        <Preference
+                android:key="@string/pref_key_backup_import"
+                android:title="@string/pref_title_backup_import"
+                app:iconSpaceReserved="false"/>
+
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/pref_header_note" app:iconSpaceReserved="false">
 
         <Preference
@@ -55,7 +69,7 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_header_notification" app:iconSpaceReserved="false">
+    <PreferenceCategory android:title="@string/pref_header_alarm" app:iconSpaceReserved="false">
 
         <Preference
                 android:defaultValue="@integer/pref_alarm_repeat"

@@ -12,6 +12,10 @@ import androidx.appcompat.app.AlertDialog
 class SingleDialog : BlankDialog() {
 
     var itemArray: Array<String> = arrayOf()
+
+    /**
+     * If value is TRUE - it means what user can choose any dialog item. Otherwise see [setEnable].
+     */
     var applyEnable: Boolean = false
 
     private var checkInit = 0

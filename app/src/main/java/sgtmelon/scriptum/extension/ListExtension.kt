@@ -16,7 +16,7 @@ fun <T> List<T>.indexOfOrNull(item: T): Int? {
     return indexOf(item).takeIf { it != ND_INDEX }
 }
 
-fun <T> List<T>.indexOfFirstOrNull(predicate: (T) -> Boolean): Int? {
+fun <T> List<T>.indexOfOrNull(predicate: (T) -> Boolean): Int? {
     return indexOfFirst(predicate).takeIf { it != ND_INDEX }
 }
 

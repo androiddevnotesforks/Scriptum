@@ -314,7 +314,7 @@ class RankViewModelTest : ParentViewModelTest() {
         val resultList = ArrayList(itemList).apply { add(p, item) }
         val noteIdList = mockk<List<Long>>()
 
-        every { spyViewModel.getNameList(any()) } returns listOf()
+        every { spyViewModel.getNameList(any()) } returns emptyList()
         every { spyViewModel.correctPositions(resultList) } returns noteIdList
 
         spyViewModel.itemList.clearAdd(itemList)
@@ -349,7 +349,7 @@ class RankViewModelTest : ParentViewModelTest() {
         val resultList = ArrayList(itemList).apply { add(p, item) }
         val noteIdList = mockk<List<Long>>()
 
-        every { spyViewModel.getNameList(any()) } returns listOf()
+        every { spyViewModel.getNameList(any()) } returns emptyList()
         every { spyViewModel.correctPositions(resultList) } returns noteIdList
 
         spyViewModel.itemList.clearAdd(itemList)
@@ -375,7 +375,7 @@ class RankViewModelTest : ParentViewModelTest() {
         val itemList = data.itemList
         val name = Random.nextString()
 
-        every { spyViewModel.getNameList(itemList) } returns listOf()
+        every { spyViewModel.getNameList(itemList) } returns emptyList()
         every { callback.clearEnter() } returns name
         coEvery { interactor.insert(name) } returns null
 

@@ -6,10 +6,11 @@ import sgtmelon.scriptum.data.room.converter.type.IntConverter
 import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.domain.model.annotation.Signal
+import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.MelodyItem
 import sgtmelon.scriptum.domain.model.state.SignalState
+import sgtmelon.scriptum.extension.indexOfOrNull
 import sgtmelon.scriptum.presentation.control.system.callback.IRingtoneControl
-import java.util.*
 
 /**
  * Interactor for work with alarm signal.
@@ -21,23 +22,41 @@ class SignalInteractor(
 ) : ParentInteractor(),
         ISignalInteractor {
 
+    @RunPrivate val typeList = listOf(RingtoneManager.TYPE_ALARM, RingtoneManager.TYPE_RINGTONE)
+
+
     override val typeCheck: BooleanArray
         get() = intConverter.toArray(preferenceRepo.signal, Signal.digitCount)
 
     override val state: SignalState? get() = SignalState[typeCheck]
 
 
+    @RunPrivate var melodyList: List<MelodyItem>? = null
+
+    override suspend fun getMelodyList(): List<MelodyItem> {
+        return melodyList ?: ringtoneControl.getByType(typeList).also { melodyList = it }
+    }
+
+    override fun resetMelodyList() {
+        melodyList = null
+    }
+
+
     /**
      * If melody not init or was delete - set first melody uri from list.
+     *
+     * return null if [getMelodyList] is empty.
      */
-    override fun getMelodyUri(melodyList: List<MelodyItem>): String = melodyList.let {
+    override suspend fun getMelodyUri(): String? {
+        val list = getMelodyList()
+
         var value = preferenceRepo.melodyUri
 
         /**
          * Check uri exist.
          */
-        if (value.isEmpty() || !it.map { item -> item.uri }.contains(value)) {
-            value = it.first().uri
+        if (value.isEmpty() || !list.any { it.uri == value }) {
+            value = list.firstOrNull()?.uri ?: return null
             preferenceRepo.melodyUri = value
         }
 
@@ -46,27 +65,31 @@ class SignalInteractor(
 
     /**
      * If melody not init or was delete - set first melody uri from list.
+     *
+     * return null if [getMelodyList] is empty.
      */
-    override fun setMelodyUri(value: String)  = melodyList.map { it.uri }.let {
+    override suspend fun setMelodyUri(title: String): String? {
+        val list = getMelodyList()
+
         /**
          * Check uri exist.
          */
-        preferenceRepo.melodyUri = if (it.contains(value)) value else it.first()
+        val item = list.firstOrNull { it.title == title } ?: list.firstOrNull()
+        preferenceRepo.melodyUri = item?.uri ?: return null
+
+        return item.title
     }
 
     /**
-     * Index of melody uri in [melodyList].
+     * Index of current melody uri inside [melodyList].
+     *
+     * return null if [getMelodyList] is empty.
      */
-    override val melodyCheck: Int get() = melodyList.let { list ->
-        val uri = getMelodyUri(list)
+    override suspend fun getMelodyCheck(): Int? {
+        val list = getMelodyList()
+        val uri = getMelodyUri()
 
-        return@let list.indexOfFirst { it.uri == uri }
+        return list.indexOfOrNull { it.uri == uri }
     }
-
-    override val melodyList: List<MelodyItem>
-        get() = ArrayList<MelodyItem>().apply {
-            addAll(ringtoneControl.getByType(RingtoneManager.TYPE_ALARM))
-            addAll(ringtoneControl.getByType(RingtoneManager.TYPE_RINGTONE))
-        }.sortedBy { it.title }
 
 }

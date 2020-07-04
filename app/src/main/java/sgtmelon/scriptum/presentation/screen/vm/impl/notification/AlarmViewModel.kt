@@ -12,7 +12,8 @@ import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteract
 import sgtmelon.scriptum.domain.model.annotation.Repeat
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
-import sgtmelon.scriptum.domain.model.data.NoteData
+import sgtmelon.scriptum.domain.model.data.NoteData.Default
+import sgtmelon.scriptum.domain.model.data.NoteData.Intent
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.key.ColorShade
 import sgtmelon.scriptum.domain.model.state.SignalState
@@ -39,7 +40,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     }
 
 
-    @RunPrivate var id: Long = NoteData.Default.ID
+    @RunPrivate var id: Long = Default.ID
 
     @RunPrivate lateinit var noteItem: NoteItem
 
@@ -54,19 +55,19 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     }
 
     override fun onSetup(bundle: Bundle?) {
+        id = bundle?.getLong(Intent.ID, Default.ID) ?: Default.ID
+
         callback?.apply {
             acquirePhone(CANCEL_DELAY)
             setupView(interactor.theme)
-
-            val melodyUri = signalInteractor.getMelodyUri()
-            setupPlayer(melodyUri, interactor.volume, interactor.volumeIncrease)
-        }
-
-        if (bundle != null) {
-            id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
         }
 
         viewModelScope.launch {
+            val melodyUri = signalInteractor.getMelodyUri()
+            if (melodyUri != null) {
+                callback?.setupPlayer(melodyUri, interactor.volume, interactor.volumeIncrease)
+            }
+
             /**
              * If first open.
              */
@@ -104,9 +105,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     }
 
 
-    override fun onSaveData(bundle: Bundle) = with(bundle) {
-        putLong(NoteData.Intent.ID, id)
-    }
+    override fun onSaveData(bundle: Bundle) = with(bundle) { putLong(Intent.ID, id) }
 
     override fun onStart() {
         val theme = interactor.theme

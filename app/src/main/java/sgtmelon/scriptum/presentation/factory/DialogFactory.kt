@@ -137,6 +137,31 @@ object DialogFactory {
         }
 
 
+        fun getImportPermissionDialog(): MessageDialog {
+            val dialog  = fm.findFragmentByTag(IMPORT_PERMISSION) as? MessageDialog
+                    ?: MessageDialog()
+
+            if (context == null) return dialog
+
+            dialog.type = MessageType.INFO
+            dialog.title = context.getString(R.string.dialog_title_import_permission)
+            dialog.message = context.getString(R.string.dialog_text_import_permission)
+
+            return dialog
+        }
+
+        fun getImportDialog(): SingleDialog {
+            val dialog = fm.findFragmentByTag(IMPORT) as? SingleDialog ?: SingleDialog()
+
+            if (context == null) return dialog
+
+            dialog.applyEnable = true
+            dialog.title = context.getString(R.string.dialog_title_import)
+
+            return dialog
+        }
+
+
         fun getSortDialog(): SingleDialog {
             val dialog = fm.findFragmentByTag(SORT) as? SingleDialog ?: SingleDialog()
 
@@ -235,6 +260,9 @@ object DialogFactory {
             private const val PREFIX = "DIALOG_PREF"
 
             const val THEME = "${PREFIX}_THEME"
+
+            const val IMPORT_PERMISSION = "${PREFIX}_IMPORT_PERMISSION"
+            const val IMPORT = "${PREFIX}_IMPORT"
 
             const val SORT = "${PREFIX}_SORT"
             const val COLOR = "${PREFIX}_COLOR"

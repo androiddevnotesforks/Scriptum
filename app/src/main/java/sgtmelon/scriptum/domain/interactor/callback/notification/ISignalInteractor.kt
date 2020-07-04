@@ -14,12 +14,15 @@ interface ISignalInteractor {
     val state: SignalState?
 
 
-    fun getMelodyUri(melodyList: List<MelodyItem> = this.melodyList): String
+    suspend fun getMelodyList(): List<MelodyItem>
 
-    fun setMelodyUri(value: String)
+    fun resetMelodyList()
 
-    val melodyCheck: Int
 
-    val melodyList: List<MelodyItem>
+    suspend fun getMelodyUri(): String?
+
+    suspend fun setMelodyUri(title: String): String?
+
+    suspend fun getMelodyCheck(): Int?
 
 }

@@ -10,28 +10,30 @@ import sgtmelon.scriptum.presentation.control.system.callback.IRingtoneControl
  */
 class RingtoneControl(private val context: Context) : IRingtoneControl {
 
-    /**
-     * TODO #RELEASE add suspend
-     */
-
     private val ringtoneManager get() = RingtoneManager(context)
 
     /**
-     * Func which fill list with all [MelodyItem] for current [RingtoneManager] type.
+     * Func which fill list with all [MelodyItem] for different [RingtoneManager] types.
      */
-    override fun getByType(type: Int): List<MelodyItem> = ArrayList<MelodyItem>().apply {
-        val manager = ringtoneManager
+    override suspend fun getByType(typeList: List<Int>): List<MelodyItem> {
+        val list = ArrayList<MelodyItem>()
 
-        manager.setType(type)
-        manager.cursor.apply {
-            while (moveToNext()) {
-                val title = getString(RingtoneManager.TITLE_COLUMN_INDEX) ?: continue
-                val uri = getString(RingtoneManager.URI_COLUMN_INDEX) ?: continue
-                val id = getString(RingtoneManager.ID_COLUMN_INDEX) ?: continue
+        typeList.forEach {
+            val manager = ringtoneManager
 
-                add(MelodyItem(title, uri, id))
-            }
-        }.close()
+            manager.setType(it)
+            manager.cursor.apply {
+                while (moveToNext()) {
+                    val title = getString(RingtoneManager.TITLE_COLUMN_INDEX) ?: continue
+                    val uri = getString(RingtoneManager.URI_COLUMN_INDEX) ?: continue
+                    val id = getString(RingtoneManager.ID_COLUMN_INDEX) ?: continue
+
+                    list.add(MelodyItem(title, uri, id))
+                }
+            }.close()
+        }
+
+        return list.sortedBy { it.title }
     }
 
 }

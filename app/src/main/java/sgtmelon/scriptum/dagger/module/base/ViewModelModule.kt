@@ -188,8 +188,11 @@ class ViewModelModule {
     @ActivityScope
     fun providePreferenceViewModel(fragment: PreferenceFragment,
                                    preferenceInteractor: IPreferenceInteractor,
-                                   signalInteractor: ISignalInteractor): IPreferenceViewModel {
-        return PreferenceViewModel(preferenceInteractor, signalInteractor, fragment)
+                                   signalInteractor: ISignalInteractor,
+                                   backupInteractor: IBackupInteractor): IPreferenceViewModel {
+        return PreferenceViewModel(
+                preferenceInteractor, signalInteractor, backupInteractor, fragment
+        )
     }
 
     @Provides

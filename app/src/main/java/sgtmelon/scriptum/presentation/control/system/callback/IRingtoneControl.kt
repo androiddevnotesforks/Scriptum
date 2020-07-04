@@ -7,5 +7,5 @@ import sgtmelon.scriptum.presentation.control.system.RingtoneControl
  * Interface for [RingtoneControl].
  */
 interface IRingtoneControl {
-    fun getByType(type: Int): List<MelodyItem>
+    suspend fun getByType(typeList: List<Int>): List<MelodyItem>
 }
