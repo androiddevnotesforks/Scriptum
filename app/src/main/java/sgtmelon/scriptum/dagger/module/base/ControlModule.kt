@@ -8,12 +8,18 @@ import sgtmelon.scriptum.presentation.control.cipher.CipherControl
 import sgtmelon.scriptum.presentation.control.cipher.ICipherControl
 import sgtmelon.scriptum.presentation.control.file.FileControl
 import sgtmelon.scriptum.presentation.control.file.IFileControl
+import sgtmelon.scriptum.presentation.control.system.RingtoneControl
+import sgtmelon.scriptum.presentation.control.system.callback.IRingtoneControl
 
 /**
  * Module for provide control classes.
  */
 @Module
 class ControlModule {
+
+    @Provides
+    @ActivityScope
+    fun provideRingtoneControl(context: Context): IRingtoneControl = RingtoneControl(context)
 
     @Provides
     @ActivityScope

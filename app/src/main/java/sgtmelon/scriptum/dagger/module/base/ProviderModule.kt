@@ -1,7 +1,9 @@
 package sgtmelon.scriptum.dagger.module.base
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.content.res.Resources
+import android.preference.PreferenceManager
 import dagger.Module
 import dagger.Provides
 import sgtmelon.scriptum.data.provider.PreferenceProvider
@@ -20,6 +22,13 @@ class ProviderModule {
     @Singleton
     fun provideSummaryProvider(resources: Resources): SummaryProvider {
         return SummaryProvider(resources)
+    }
+
+    // TODO deprecated
+    @Provides
+    @Singleton
+    fun provideSharedPreferences(context: Context): SharedPreferences {
+        return PreferenceManager.getDefaultSharedPreferences(context)
     }
 
     @Provides

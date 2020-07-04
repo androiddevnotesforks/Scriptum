@@ -5,7 +5,6 @@ import androidx.annotation.CallSuper
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import org.junit.After
 import org.junit.Before
-import sgtmelon.scriptum.dagger.module.base.ManagerModule
 import sgtmelon.scriptum.dagger.module.base.ProviderModule
 import sgtmelon.scriptum.data.TestData
 import sgtmelon.scriptum.data.provider.RoomProvider
@@ -22,7 +21,7 @@ abstract class ParentTest {
     val preferenceRepo: IPreferenceRepo = PreferenceRepo(
             ProviderModule().providePreferenceKeyProvider(context.resources),
             ProviderModule().providePreferenceDefProvider(context.resources),
-            ManagerModule().provideSharedPreferences(context)
+            ProviderModule().provideSharedPreferences(context)
     )
 
     val data = TestData(RoomProvider(context), preferenceRepo)
