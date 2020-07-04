@@ -8,7 +8,7 @@ import sgtmelon.scriptum.data.room.backup.BackupParser
 import sgtmelon.scriptum.data.room.backup.BackupSelector
 import sgtmelon.scriptum.data.room.backup.IBackupParser
 import sgtmelon.scriptum.data.room.backup.IBackupSelector
-import sgtmelon.scriptum.data.room.converter.model.StringConverter
+import sgtmelon.scriptum.data.room.converter.type.StringConverter
 import sgtmelon.scriptum.data.room.converter.type.NoteTypeConverter
 
 /**

@@ -5,6 +5,7 @@ import dagger.Provides
 import sgtmelon.scriptum.data.room.converter.model.*
 import sgtmelon.scriptum.data.room.converter.type.IntConverter
 import sgtmelon.scriptum.data.room.converter.type.NoteTypeConverter
+import sgtmelon.scriptum.data.room.converter.type.StringConverter
 import javax.inject.Singleton
 
 /**

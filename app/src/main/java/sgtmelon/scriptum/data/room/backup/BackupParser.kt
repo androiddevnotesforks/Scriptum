@@ -5,7 +5,7 @@ import android.util.Log
 import org.json.JSONArray
 import org.json.JSONObject
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.data.room.converter.model.StringConverter
+import sgtmelon.scriptum.data.room.converter.type.StringConverter
 import sgtmelon.scriptum.data.room.converter.type.NoteTypeConverter
 import sgtmelon.scriptum.data.room.entity.*
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate

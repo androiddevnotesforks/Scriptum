@@ -5,6 +5,7 @@ import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentTest
+import sgtmelon.scriptum.data.room.converter.type.StringConverter
 import kotlin.random.Random
 
 /**

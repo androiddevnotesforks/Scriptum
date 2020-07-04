@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.data.room.entity
 
 import androidx.room.*
-import sgtmelon.scriptum.data.room.converter.model.StringConverter
+import sgtmelon.scriptum.data.room.converter.type.StringConverter
 import sgtmelon.scriptum.data.room.converter.type.BoolConverter
 import sgtmelon.scriptum.domain.model.data.DbData.Rank
 import sgtmelon.scriptum.domain.model.data.DbData.Rank.Default

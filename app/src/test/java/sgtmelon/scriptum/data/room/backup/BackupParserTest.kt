@@ -13,7 +13,7 @@ import org.junit.Test
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentBackupTest
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.data.room.converter.model.StringConverter
+import sgtmelon.scriptum.data.room.converter.type.StringConverter
 import sgtmelon.scriptum.data.room.converter.type.NoteTypeConverter
 import sgtmelon.scriptum.data.room.entity.*
 import sgtmelon.scriptum.domain.model.data.DbData.Alarm
