@@ -5,6 +5,7 @@ import sgtmelon.scriptum.data.room.backup.IBackupParser
 import sgtmelon.scriptum.domain.interactor.callback.IBackupInteractor
 import sgtmelon.scriptum.domain.model.annotation.FileType
 import sgtmelon.scriptum.domain.model.item.FileItem
+import sgtmelon.scriptum.domain.model.result.ExportResult
 import sgtmelon.scriptum.domain.model.result.ImportResult
 import sgtmelon.scriptum.presentation.control.cipher.ICipherControl
 import sgtmelon.scriptum.presentation.control.file.IFileControl
@@ -30,7 +31,7 @@ class BackupInteractor(
     }
 
 
-    override suspend fun export(): String? {
+    override suspend fun export(): ExportResult {
         TODO("Not yet implemented")
     }
 

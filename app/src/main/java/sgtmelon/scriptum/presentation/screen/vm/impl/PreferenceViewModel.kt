@@ -12,6 +12,7 @@ import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.key.PermissionResult
+import sgtmelon.scriptum.domain.model.result.ExportResult
 import sgtmelon.scriptum.domain.model.result.ImportResult
 import sgtmelon.scriptum.presentation.screen.ui.callback.IPreferenceFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
@@ -122,13 +123,14 @@ class PreferenceViewModel(
      */
     override fun onClickExport() = takeTrue {
         viewModelScope.launch {
-            val path = backupInteractor.export()
-
-            if (path != null) {
-                callback?.showExportPathToast(path)
-                callback?.updateImportEnabled(isEnabled = true)
-            } else {
-                callback?.showToast(R.string.pref_toast_export_error)
+            when(val result = backupInteractor.export()) {
+                is ExportResult.Success -> {
+                    callback?.showExportPathToast(result.path)
+                    callback?.updateImportEnabled(isEnabled = true)
+                }
+                is ExportResult.Error -> {
+                    callback?.showToast(R.string.pref_toast_export_error)
+                }
             }
         }
     }
@@ -159,13 +161,10 @@ class PreferenceViewModel(
      */
     override fun onResultImport(name: String) {
         viewModelScope.launch {
-            val result = backupInteractor.import(name)
-
-            if (result.isSuccess) when (result) {
+            when (val result = backupInteractor.import(name)) {
                 is ImportResult.Simple -> callback?.showToast(R.string.pref_toast_import_result)
                 is ImportResult.Skip -> callback?.showImportSkipToast(result.skipCount)
-            } else {
-                callback?.showToast(R.string.pref_toast_import_error)
+                is ImportResult.Error -> callback?.showToast(R.string.pref_toast_import_error)
             }
         }
     }
