@@ -14,6 +14,6 @@ interface IBackupInteractor {
 
     suspend fun export(): String?
 
-    suspend fun import(name: String): String?
+    suspend fun import(name: String): Boolean
 
 }

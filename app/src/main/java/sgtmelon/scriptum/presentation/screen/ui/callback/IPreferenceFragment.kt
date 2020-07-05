@@ -15,7 +15,7 @@ interface IPreferenceFragment {
 
     fun showToast(@StringRes stringId: Int)
 
-    fun showPathToast(path: String)
+    fun showExportPathToast(path: String)
 
 
     fun setupApp()

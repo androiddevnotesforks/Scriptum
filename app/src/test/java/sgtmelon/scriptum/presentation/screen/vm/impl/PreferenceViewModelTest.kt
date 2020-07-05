@@ -246,7 +246,24 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onClickExport() {
-        TODO()
+        val path = Random.nextString()
+
+        coEvery { backupInteractor.export() } returns null
+
+        assertTrue(viewModel.onClickExport())
+
+        coEvery { backupInteractor.export() } returns path
+
+        assertTrue(viewModel.onClickExport())
+
+        coVerifySequence {
+            backupInteractor.export()
+            callback.showToast(R.string.pref_toast_export_error)
+
+            backupInteractor.export()
+            callback.showExportPathToast(path)
+            callback.updateImportEnabled(isEnabled = true)
+        }
     }
 
     @Test fun onClickImport() {
@@ -294,7 +311,23 @@ class PreferenceViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onResultImport() {
-        TODO()
+        val name = Random.nextString()
+
+        coEvery { backupInteractor.import(name) } returns true
+
+        viewModel.onResultImport(name)
+
+        coEvery { backupInteractor.import(name) } returns false
+
+        viewModel.onResultImport(name)
+
+        coVerifySequence {
+            backupInteractor.import(name)
+            callback.showToast(R.string.pref_toast_import_result)
+
+            backupInteractor.import(name)
+            callback.showToast(R.string.pref_toast_import_error)
+        }
     }
 
 

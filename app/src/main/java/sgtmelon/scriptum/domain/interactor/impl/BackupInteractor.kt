@@ -31,7 +31,7 @@ class BackupInteractor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun import(name: String): String? {
+    override suspend fun import(name: String): Boolean {
         TODO("Not yet implemented")
     }
 

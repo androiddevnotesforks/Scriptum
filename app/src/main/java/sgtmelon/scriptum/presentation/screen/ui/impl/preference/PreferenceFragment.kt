@@ -159,8 +159,8 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
 
     override fun showToast(@StringRes stringId: Int) = activity.showToast(stringId)
 
-    override fun showPathToast(path: String) {
-        val text = activity.resources.getString(R.string.pref_toast_import_result, path)
+    override fun showExportPathToast(path: String) {
+        val text = activity.resources.getString(R.string.pref_toast_export_result, path)
 
         activity.showToast(text, Toast.LENGTH_LONG)
     }

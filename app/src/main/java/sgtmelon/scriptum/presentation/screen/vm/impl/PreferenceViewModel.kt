@@ -116,8 +116,20 @@ class PreferenceViewModel(
     }
 
 
+    /**
+     * TODO Add progress dialog
+     */
     override fun onClickExport() = takeTrue {
-        TODO("update import enabled if success | show toast")
+        viewModelScope.launch {
+            val path = backupInteractor.export()
+
+            if (path != null) {
+                callback?.showExportPathToast(path)
+                callback?.updateImportEnabled(isEnabled = true)
+            } else {
+                callback?.showToast(R.string.pref_toast_export_error)
+            }
+        }
     }
 
     /**
@@ -141,15 +153,18 @@ class PreferenceViewModel(
         }
     }
 
+    /**
+     * TODO Add progress dialog
+     */
     override fun onResultImport(name: String) {
         viewModelScope.launch {
-            val path = backupInteractor.import(name)
+            val result = backupInteractor.import(name)
 
-            if (path != null) {
-                callback?.showPathToast(path)
+            callback?.showToast(if (result) {
+                R.string.pref_toast_import_result
             } else {
-                callback?.showToast(R.string.pref_toast_import_error)
-            }
+                R.string.pref_toast_import_error
+            })
         }
     }
 
