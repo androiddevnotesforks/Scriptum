@@ -24,6 +24,7 @@ class PreferenceProviderTest : ParentTest() {
     @Test fun valueKey() {
         val firstStart = Random.nextString()
         val theme = Random.nextString()
+        val importSkip = Random.nextString()
         val sort = Random.nextString()
         val defaultColor = Random.nextString()
         val pauseSaveOn = Random.nextString()
@@ -37,6 +38,7 @@ class PreferenceProviderTest : ParentTest() {
 
         every { resources.getString(R.string.pref_key_first_start) } returns firstStart
         every { resources.getString(R.string.pref_key_app_theme) } returns theme
+        every { resources.getString(R.string.pref_key_backup_import_skip) } returns importSkip
         every { resources.getString(R.string.pref_key_note_sort) } returns sort
         every { resources.getString(R.string.pref_key_note_color) } returns defaultColor
         every { resources.getString(R.string.pref_key_note_pause) } returns pauseSaveOn
@@ -50,6 +52,7 @@ class PreferenceProviderTest : ParentTest() {
 
         assertEquals(firstStart, providerKey.firstStart)
         assertEquals(theme, providerKey.theme)
+        assertEquals(importSkip, providerKey.importSkip)
         assertEquals(sort, providerKey.sort)
         assertEquals(defaultColor, providerKey.defaultColor)
         assertEquals(pauseSaveOn, providerKey.pauseSaveOn)
@@ -64,6 +67,7 @@ class PreferenceProviderTest : ParentTest() {
         verifySequence {
             resources.getString(R.string.pref_key_first_start)
             resources.getString(R.string.pref_key_app_theme)
+            resources.getString(R.string.pref_key_backup_import_skip)
             resources.getString(R.string.pref_key_note_sort)
             resources.getString(R.string.pref_key_note_color)
             resources.getString(R.string.pref_key_note_pause)
@@ -80,6 +84,7 @@ class PreferenceProviderTest : ParentTest() {
     @Test fun valueDef() {
         val firstStart = Random.nextBoolean()
         val theme = Random.nextInt()
+        val importSkip = Random.nextBoolean()
         val sort = Random.nextInt()
         val defaultColor = Random.nextInt()
         val pauseSaveOn = Random.nextBoolean()
@@ -93,6 +98,7 @@ class PreferenceProviderTest : ParentTest() {
 
         every { resources.getBoolean(R.bool.pref_first_start) } returns firstStart
         every { resources.getInteger(R.integer.pref_app_theme) } returns theme
+        every { resources.getBoolean(R.bool.pref_backup_import_skip) } returns importSkip
         every { resources.getInteger(R.integer.pref_note_sort) } returns sort
         every { resources.getInteger(R.integer.pref_note_color) } returns defaultColor
         every { resources.getBoolean(R.bool.pref_note_save_pause) } returns pauseSaveOn
@@ -106,6 +112,7 @@ class PreferenceProviderTest : ParentTest() {
 
         assertEquals(firstStart, providerDef.firstStart)
         assertEquals(theme, providerDef.theme)
+        assertEquals(importSkip, providerDef.importSkip)
         assertEquals(sort, providerDef.sort)
         assertEquals(defaultColor, providerDef.defaultColor)
         assertEquals(pauseSaveOn, providerDef.pauseSaveOn)
@@ -120,6 +127,7 @@ class PreferenceProviderTest : ParentTest() {
         verifySequence {
             resources.getBoolean(R.bool.pref_first_start)
             resources.getInteger(R.integer.pref_app_theme)
+            resources.getBoolean(R.bool.pref_backup_import_skip)
             resources.getInteger(R.integer.pref_note_sort)
             resources.getInteger(R.integer.pref_note_color)
             resources.getBoolean(R.bool.pref_note_save_pause)

@@ -15,6 +15,9 @@ interface IPreferenceRepo {
     @Theme var theme: Int
 
 
+    var importSkip: Boolean
+
+
     @Sort var sort: Int
 
     @Color var defaultColor: Int

@@ -77,6 +77,7 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
 
     private val exportPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_backup_export)) }
     private val importPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_backup_import)) }
+    private val importSkipPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_backup_import_skip)) }
 
     private val sortPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_note_sort)) }
     private val colorPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_note_color)) }
@@ -165,6 +166,11 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
         activity.showToast(text, Toast.LENGTH_LONG)
     }
 
+    override fun showImportSkipToast(count: Int) {
+        val text = activity.resources.getString(R.string.pref_toast_import_result_skip, count)
+
+        activity.showToast(text, Toast.LENGTH_LONG)
+    }
 
     override fun setupApp() {
         themePreference?.setOnPreferenceClickListener { viewModel.onClickTheme() }
@@ -325,6 +331,7 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
 
     override fun updateImportEnabled(isEnabled: Boolean) {
         importPreference?.isEnabled = isEnabled
+        importSkipPreference?.isEnabled = isEnabled
     }
 
     override fun showImportPermissionDialog() = openState.tryInvoke {

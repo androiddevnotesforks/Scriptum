@@ -23,6 +23,11 @@ class PreferenceRepo(
         set(value) = edit { putInt(key.theme, value) }
 
 
+    override var importSkip: Boolean
+        get() = preferences.getBoolean(key.importSkip, def.importSkip)
+        set(value) = edit { putBoolean(key.importSkip, value) }
+
+
     @Sort override var sort: Int
         get() = preferences.getInt(key.sort, def.sort)
         set(value) = edit { putInt(key.sort, value) }

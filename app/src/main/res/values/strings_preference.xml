@@ -13,6 +13,7 @@
 
     <string name="pref_title_backup_export">Save data to file</string>
     <string name="pref_title_backup_import">Load data from file</string>
+    <string name="pref_title_backup_import_skip">Skip identical notes</string>
 
     <string name="pref_title_note_sort">Sort notes</string>
     <string name="pref_title_note_color">Default note color</string>
@@ -33,6 +34,11 @@
     <!---->
 
     <string name="pref_summary_app_theme">Selected theme</string>
+
+    <string name="pref_summary_backup_import_skip">
+        If an application already has a note with the same name and content, then it will not be
+        added during backup.
+    </string>
 
     <string name="pref_summary_note_sort">Will be used by default</string>
     <string name="pref_summary_note_color">Will be used by default</string>
@@ -97,6 +103,9 @@
 
     <string name="pref_toast_import_error">Sorry, but file is damaged! :(</string>
     <string name="pref_toast_import_result">Data successfully added! :)</string>
+    <string name="pref_toast_import_result_skip">
+        Data successfully added! :)\nSkipped notes: %d
+    </string>
 
     <string name="pref_toast_export_result">File successfully saved! Path: %s</string>
     <string name="pref_toast_export_error">An error has occurred! Failed to save file.</string>
@@ -116,6 +125,7 @@
 
     <string name="pref_key_backup_export" translatable="false">key_backup_export</string>
     <string name="pref_key_backup_import" translatable="false">key_backup_import</string>
+    <string name="pref_key_backup_import_skip" translatable="false">key_backup_import_skip</string>
 
     <string name="pref_key_note_sort" translatable="false">key_note_sort</string>
     <string name="pref_key_note_color" translatable="false">key_color</string>

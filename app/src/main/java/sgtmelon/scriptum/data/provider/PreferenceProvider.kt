@@ -15,6 +15,8 @@ class PreferenceProvider {
         val firstStart: String = resources.getString(R.string.pref_key_first_start)
         val theme: String = resources.getString(R.string.pref_key_app_theme)
 
+        val importSkip: String = resources.getString(R.string.pref_key_backup_import_skip)
+
         val sort: String = resources.getString(R.string.pref_key_note_sort)
         val defaultColor: String = resources.getString(R.string.pref_key_note_color)
         val pauseSaveOn: String = resources.getString(R.string.pref_key_note_pause)
@@ -31,6 +33,8 @@ class PreferenceProvider {
     class Def(resources: Resources) {
         val firstStart: Boolean = resources.getBoolean(R.bool.pref_first_start)
         val theme: Int = resources.getInteger(R.integer.pref_app_theme)
+
+        val importSkip: Boolean = resources.getBoolean(R.bool.pref_backup_import_skip)
 
         val sort: Int = resources.getInteger(R.integer.pref_note_sort)
         val defaultColor: Int = resources.getInteger(R.integer.pref_note_color)

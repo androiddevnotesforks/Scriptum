@@ -12,6 +12,7 @@ import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.key.PermissionResult
+import sgtmelon.scriptum.domain.model.result.ImportResult
 import sgtmelon.scriptum.presentation.screen.ui.callback.IPreferenceFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.IPreferenceViewModel
@@ -154,17 +155,18 @@ class PreferenceViewModel(
     }
 
     /**
-     * TODO Add progress dialog
+     * TODO Add progress dialog.
      */
     override fun onResultImport(name: String) {
         viewModelScope.launch {
             val result = backupInteractor.import(name)
 
-            callback?.showToast(if (result) {
-                R.string.pref_toast_import_result
+            if (result.isSuccess) when (result) {
+                is ImportResult.Simple -> callback?.showToast(R.string.pref_toast_import_result)
+                is ImportResult.Skip -> callback?.showImportSkipToast(result.skipCount)
             } else {
-                R.string.pref_toast_import_error
-            })
+                callback?.showToast(R.string.pref_toast_import_error)
+            }
         }
     }
 

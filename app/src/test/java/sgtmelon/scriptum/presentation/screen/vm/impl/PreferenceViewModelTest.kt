@@ -13,6 +13,7 @@ import sgtmelon.scriptum.domain.interactor.callback.IBackupInteractor
 import sgtmelon.scriptum.domain.interactor.callback.IPreferenceInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.domain.model.key.PermissionResult
+import sgtmelon.scriptum.domain.model.result.ImportResult
 import sgtmelon.scriptum.domain.model.state.SignalState
 import sgtmelon.scriptum.presentation.screen.ui.callback.IPreferenceFragment
 import kotlin.random.Random
@@ -312,21 +313,35 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
     @Test fun onResultImport() {
         val name = Random.nextString()
+        val skipCount = Random.nextInt()
 
-        coEvery { backupInteractor.import(name) } returns true
+        coEvery { backupInteractor.import(name) } returns ImportResult.Simple(isSuccess = false)
 
         viewModel.onResultImport(name)
 
-        coEvery { backupInteractor.import(name) } returns false
+        coEvery { backupInteractor.import(name) } returns ImportResult.Skip(isSuccess = false, skipCount = skipCount)
+
+        viewModel.onResultImport(name)
+
+        coEvery { backupInteractor.import(name) } returns ImportResult.Simple(isSuccess = true)
+
+        viewModel.onResultImport(name)
+
+        coEvery { backupInteractor.import(name) } returns ImportResult.Skip(isSuccess = true, skipCount = skipCount)
 
         viewModel.onResultImport(name)
 
         coVerifySequence {
+            repeat(times = 2) {
+                backupInteractor.import(name)
+                callback.showToast(R.string.pref_toast_import_error)
+            }
+
             backupInteractor.import(name)
             callback.showToast(R.string.pref_toast_import_result)
 
             backupInteractor.import(name)
-            callback.showToast(R.string.pref_toast_import_error)
+            callback.showImportSkipToast(skipCount)
         }
     }
 

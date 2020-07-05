@@ -1,9 +1,11 @@
 package sgtmelon.scriptum.domain.interactor.impl
 
+import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.room.backup.IBackupParser
 import sgtmelon.scriptum.domain.interactor.callback.IBackupInteractor
 import sgtmelon.scriptum.domain.model.annotation.FileType
 import sgtmelon.scriptum.domain.model.item.FileItem
+import sgtmelon.scriptum.domain.model.result.ImportResult
 import sgtmelon.scriptum.presentation.control.cipher.ICipherControl
 import sgtmelon.scriptum.presentation.control.file.IFileControl
 
@@ -11,6 +13,7 @@ import sgtmelon.scriptum.presentation.control.file.IFileControl
  * Interactor for import/export backup files.
  */
 class BackupInteractor(
+        private val preferenceRepo: IPreferenceRepo,
         private val backupParser: IBackupParser,
         private val fileControl: IFileControl,
         private val cipherControl: ICipherControl
@@ -31,7 +34,7 @@ class BackupInteractor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun import(name: String): Boolean {
+    override suspend fun import(name: String): ImportResult {
         TODO("Not yet implemented")
     }
 

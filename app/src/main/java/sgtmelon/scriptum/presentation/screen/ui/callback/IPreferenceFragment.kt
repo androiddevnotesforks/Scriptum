@@ -17,6 +17,8 @@ interface IPreferenceFragment {
 
     fun showExportPathToast(path: String)
 
+    fun showImportSkipToast(count: Int)
+
 
     fun setupApp()
 

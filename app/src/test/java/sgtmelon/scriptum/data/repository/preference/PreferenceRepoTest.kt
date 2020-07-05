@@ -102,6 +102,40 @@ class PreferenceRepoTest : ParentTest() {
     }
 
 
+    @Test fun getImportSkip() {
+        val keyValue = Random.nextString()
+        val defValue = Random.nextBoolean()
+        val value = Random.nextBoolean()
+
+        every { keyProvider.importSkip } returns keyValue
+        every { defProvider.importSkip } returns defValue
+        every { preferences.getBoolean(keyValue, defValue) } returns value
+        assertEquals(value, preferenceRepo.importSkip)
+
+        verifySequence {
+            keyProvider.importSkip
+            defProvider.importSkip
+
+            preferences.getBoolean(keyValue, defValue)
+        }
+    }
+
+    @Test fun setImportSkip() {
+        val keyValue = Random.nextString()
+        val value = Random.nextBoolean()
+
+        every { keyProvider.importSkip } returns keyValue
+        preferenceRepo.importSkip = value
+
+        verifySequence {
+            preferences.edit()
+            keyProvider.importSkip
+            preferencesEditor.putBoolean(keyValue, value)
+            preferencesEditor.apply()
+        }
+    }
+
+
     @Test fun getSort() {
         val keyValue = Random.nextString()
         val defValue = Random.nextInt()

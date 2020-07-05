@@ -66,9 +66,9 @@ class InteractorModule {
 
     @Provides
     @ActivityScope
-    fun provideBackupInteractor(backupParser: IBackupParser, fileControl: IFileControl,
-                                cipherControl: ICipherControl): IBackupInteractor {
-        return BackupInteractor(backupParser, fileControl, cipherControl)
+    fun provideBackupInteractor(preferenceRepo: IPreferenceRepo, backupParser: IBackupParser,
+                                fileControl: IFileControl, cipherControl: ICipherControl): IBackupInteractor {
+        return BackupInteractor(preferenceRepo, backupParser, fileControl, cipherControl)
     }
 
     //endregion

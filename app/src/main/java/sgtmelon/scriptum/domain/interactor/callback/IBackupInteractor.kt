@@ -2,6 +2,7 @@ package sgtmelon.scriptum.domain.interactor.callback
 
 import sgtmelon.scriptum.domain.interactor.impl.BackupInteractor
 import sgtmelon.scriptum.domain.model.item.FileItem
+import sgtmelon.scriptum.domain.model.result.ImportResult
 
 /**
  * Interface for [BackupInteractor].
@@ -14,6 +15,6 @@ interface IBackupInteractor {
 
     suspend fun export(): String?
 
-    suspend fun import(name: String): Boolean
+    suspend fun import(name: String): ImportResult
 
 }
