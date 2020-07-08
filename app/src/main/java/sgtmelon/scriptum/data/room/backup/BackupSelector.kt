@@ -3,8 +3,8 @@ package sgtmelon.scriptum.data.room.backup
 import android.util.Log
 import org.json.JSONArray
 import org.json.JSONObject
-import sgtmelon.scriptum.data.room.converter.type.StringConverter
 import sgtmelon.scriptum.data.room.converter.type.NoteTypeConverter
+import sgtmelon.scriptum.data.room.converter.type.StringConverter
 import sgtmelon.scriptum.data.room.entity.*
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.data.DbData.Alarm
@@ -12,6 +12,7 @@ import sgtmelon.scriptum.domain.model.data.DbData.Note
 import sgtmelon.scriptum.domain.model.data.DbData.Rank
 import sgtmelon.scriptum.domain.model.data.DbData.Roll
 import sgtmelon.scriptum.domain.model.data.DbData.RollVisible
+import sgtmelon.scriptum.domain.model.result.ParserResult
 
 /**
  * Class for parsing different versions of backup files.
@@ -25,7 +26,7 @@ class BackupSelector(
         private val stringConverter: StringConverter
 ) : IBackupSelector {
 
-    override fun parseByVersion(roomData: String, version: Int): BackupParser.Model? {
+    override fun parseByVersion(roomData: String, version: Int): ParserResult? {
         return when (version) {
             1 -> getModelV1(roomData)
             else -> null
@@ -34,7 +35,7 @@ class BackupSelector(
 
     //region Version 1
 
-    @RunPrivate fun getModelV1(roomData: String): BackupParser.Model? {
+    @RunPrivate fun getModelV1(roomData: String): ParserResult? {
         try {
             val jsonObject = JSONObject(roomData)
             val noteTable = jsonObject.getJSONArray(Note.TABLE)
@@ -49,7 +50,7 @@ class BackupSelector(
             val rankList = getRankTableV1(rankTable) ?: return null
             val alarmList = getAlarmTableV1(alarmTable) ?: return null
 
-            return BackupParser.Model(noteList, rollList, rollVisibleList, rankList, alarmList)
+            return ParserResult(noteList, rollList, rollVisibleList, rankList, alarmList)
         } catch (e: Throwable) {
             Log.i(TAG, e.toString())
         }

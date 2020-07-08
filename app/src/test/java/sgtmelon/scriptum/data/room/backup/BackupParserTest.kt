@@ -13,14 +13,15 @@ import org.junit.Test
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentBackupTest
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.data.room.converter.type.StringConverter
 import sgtmelon.scriptum.data.room.converter.type.NoteTypeConverter
+import sgtmelon.scriptum.data.room.converter.type.StringConverter
 import sgtmelon.scriptum.data.room.entity.*
 import sgtmelon.scriptum.domain.model.data.DbData.Alarm
 import sgtmelon.scriptum.domain.model.data.DbData.Note
 import sgtmelon.scriptum.domain.model.data.DbData.Rank
 import sgtmelon.scriptum.domain.model.data.DbData.Roll
 import sgtmelon.scriptum.domain.model.data.DbData.RollVisible
+import sgtmelon.scriptum.domain.model.result.ParserResult
 import kotlin.random.Random
 
 /**
@@ -46,7 +47,7 @@ class BackupParserTest : ParentBackupTest() {
 
 
     @Test fun collect() {
-        val model = mockk<BackupParser.Model>()
+        val model = mockk<ParserResult>()
         val roomData = getRoomData()
         val hash = Random.nextString()
 
@@ -68,7 +69,7 @@ class BackupParserTest : ParentBackupTest() {
     }
 
     @Test fun collectRoom() {
-        val model = mockk<BackupParser.Model>()
+        val model = mockk<ParserResult>()
 
         val noteList = mockk<List<NoteEntity>>()
         val rollList = mockk<List<RollEntity>>()
@@ -194,7 +195,7 @@ class BackupParserTest : ParentBackupTest() {
     }
 
     @Test fun parse_goodData() {
-        val model = mockk<BackupParser.Model>()
+        val model = mockk<ParserResult>()
         val roomData = getRoomData()
         val hash = Random.nextString()
         val version = Random.nextInt()

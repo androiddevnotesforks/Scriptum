@@ -161,6 +161,33 @@ object DialogFactory {
             return dialog
         }
 
+        fun getExportPermissionDialog(): MessageDialog {
+            val dialog  = fm.findFragmentByTag(EXPORT_PERMISSION) as? MessageDialog
+                    ?: MessageDialog()
+
+            if (context == null) return dialog
+
+            dialog.type = MessageType.INFO
+            dialog.title = context.getString(R.string.dialog_title_export_permission)
+            dialog.message = context.getString(R.string.dialog_text_export_permission)
+
+            return dialog
+        }
+
+        fun getExportDenyDialog(): MessageDialog {
+            val dialog  = fm.findFragmentByTag(EXPORT_DENY) as? MessageDialog
+                    ?: MessageDialog()
+
+            if (context == null) return dialog
+
+            dialog.type = MessageType.INFO
+            dialog.title = context.getString(R.string.dialog_title_export_deny)
+            dialog.message = context.getString(R.string.dialog_text_export_deny)
+
+            return dialog
+        }
+
+
 
         fun getSortDialog(): SingleDialog {
             val dialog = fm.findFragmentByTag(SORT) as? SingleDialog ?: SingleDialog()
@@ -263,6 +290,8 @@ object DialogFactory {
 
             const val IMPORT_PERMISSION = "${PREFIX}_IMPORT_PERMISSION"
             const val IMPORT = "${PREFIX}_IMPORT"
+            const val EXPORT_PERMISSION = "${PREFIX}_EXPORT_PERMISSION"
+            const val EXPORT_DENY = "${PREFIX}_EXPORT_DENY"
 
             const val SORT = "${PREFIX}_SORT"
             const val COLOR = "${PREFIX}_COLOR"

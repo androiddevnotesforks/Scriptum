@@ -41,6 +41,17 @@
 
     <string name="dialog_title_import">Choose file</string>
 
+    <string name="dialog_title_export_permission">Required permission</string>
+    <string name="dialog_text_export_permission">
+        In order to save backup file, application needs your permission.
+        Otherwise we can\'t do it for you.
+    </string>
+
+    <string name="dialog_title_export_deny">Turn on permission</string>
+    <string name="dialog_text_export_deny">
+        We can\'t do backup without necessary permission. Turn them on in application settings.
+    </string>
+
     <string name="dialog_title_repeat">Select repeat</string>
     <string name="dialog_repeat_0">10 minutes</string>
     <string name="dialog_repeat_1">30 minutes</string>

@@ -2,10 +2,11 @@ package sgtmelon.scriptum.domain.model.annotation
 
 import androidx.annotation.IntDef
 
-@IntDef(PermissionRequest.MELODY, PermissionRequest.IMPORT)
+@IntDef(PermissionRequest.MELODY, PermissionRequest.EXPORT, PermissionRequest.IMPORT)
 annotation class PermissionRequest {
     companion object {
         const val MELODY = 0
-        const val IMPORT = 1
+        const val EXPORT = 1
+        const val IMPORT = 2
     }
 }

@@ -44,6 +44,10 @@ interface IPreferenceFragment {
 
     fun showImportDialog(titleArray: Array<String>)
 
+    fun showExportPermissionDialog()
+
+    fun showExportDenyDialog()
+
 
     fun updateSortSummary(summary: String?)
 

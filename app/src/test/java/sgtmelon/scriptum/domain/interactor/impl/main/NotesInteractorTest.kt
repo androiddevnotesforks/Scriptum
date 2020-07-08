@@ -36,7 +36,7 @@ class NotesInteractorTest : ParentInteractorTest() {
     @MockK lateinit var callback: INotesBridge
 
     private val interactor by lazy {
-        NotesInteractor(preferenceRepo, noteRepo, alarmRepo, rankRepo, callback)
+        NotesInteractor(preferenceRepo, alarmRepo, rankRepo, noteRepo, callback)
     }
 
     @Test override fun onDestroy() {

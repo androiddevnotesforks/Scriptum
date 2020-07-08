@@ -44,8 +44,11 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
     @Inject internal lateinit var viewModel: IPreferenceViewModel
 
     private val openState = OpenState()
-    private val externalPermissionState by lazy {
+    private val readPermissionState by lazy {
         PermissionState(activity, Manifest.permission.READ_EXTERNAL_STORAGE)
+    }
+    private val writePermissionState by lazy {
+        PermissionState(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)
     }
 
     //region Dialogs
@@ -56,6 +59,8 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
 
     private val importPermissionDialog by lazy { dialogFactory.getImportPermissionDialog() }
     private val importDialog by lazy { dialogFactory.getImportDialog() }
+    private val exportPermissionDialog by lazy { dialogFactory.getExportPermissionDialog() }
+    private val exportDenyDialog by lazy { dialogFactory.getExportDenyDialog() }
 
     private val sortDialog by lazy { dialogFactory.getSortDialog() }
     private val colorDialog by lazy { dialogFactory.getColorDialog() }
@@ -153,6 +158,7 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
 
         when (requestCode) {
             PermissionRequest.MELODY -> viewModel.onClickMelody(result)
+            PermissionRequest.EXPORT -> viewModel.onClickExport(result)
             PermissionRequest.IMPORT -> viewModel.onClickImport(result)
         }
     }
@@ -183,17 +189,19 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
     }
 
     override fun setupBackup() {
-        exportPreference?.setOnPreferenceClickListener { viewModel.onClickExport() }
+        exportPreference?.setOnPreferenceClickListener {
+            viewModel.onClickExport(writePermissionState.getResult())
+        }
 
         importPreference?.setOnPreferenceClickListener {
-            viewModel.onClickImport(externalPermissionState.getResult())
+            viewModel.onClickImport(readPermissionState.getResult())
         }
 
         importPermissionDialog.isCancelable = false
         importPermissionDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return@OnClickListener
 
-            requestPermissions(arrayOf(externalPermissionState.permission), PermissionRequest.IMPORT)
+            requestPermissions(arrayOf(readPermissionState.permission), PermissionRequest.IMPORT)
         }
         importPermissionDialog.dismissListener = DialogInterface.OnDismissListener {
             openState.clear()
@@ -204,6 +212,20 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
             viewModel.onResultImport(name)
         }
         importDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+
+        exportPermissionDialog.isCancelable = false
+        exportPermissionDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return@OnClickListener
+
+            requestPermissions(arrayOf(writePermissionState.permission), PermissionRequest.EXPORT)
+        }
+        exportPermissionDialog.dismissListener = DialogInterface.OnDismissListener {
+            openState.clear()
+        }
+
+        exportDenyDialog.dismissListener = DialogInterface.OnDismissListener {
+            openState.clear()
+        }
     }
 
     override fun setupNote() {
@@ -238,14 +260,14 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
         signalDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
 
         melodyPreference?.setOnPreferenceClickListener {
-            viewModel.onClickMelody(externalPermissionState.getResult())
+            viewModel.onClickMelody(readPermissionState.getResult())
         }
 
         melodyPermissionDialog.isCancelable = false
         melodyPermissionDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return@OnClickListener
 
-            requestPermissions(arrayOf(externalPermissionState.permission), PermissionRequest.MELODY)
+            requestPermissions(arrayOf(readPermissionState.permission), PermissionRequest.MELODY)
         }
         melodyPermissionDialog.dismissListener = DialogInterface.OnDismissListener {
             openState.clear()
@@ -343,6 +365,13 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
         importDialog.show(fm, DialogFactory.Preference.IMPORT)
     }
 
+    override fun showExportPermissionDialog() {
+        exportPermissionDialog.show(fm, DialogFactory.Preference.EXPORT_PERMISSION)
+    }
+
+    override fun showExportDenyDialog() {
+        exportDenyDialog.show(fm, DialogFactory.Preference.EXPORT_DENY)
+    }
 
     override fun updateSortSummary(summary: String?) {
         sortPreference?.summary = summary

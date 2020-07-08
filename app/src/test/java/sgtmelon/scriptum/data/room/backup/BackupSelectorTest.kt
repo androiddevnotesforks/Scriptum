@@ -11,13 +11,14 @@ import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentBackupTest
-import sgtmelon.scriptum.data.room.converter.type.StringConverter
 import sgtmelon.scriptum.data.room.converter.type.NoteTypeConverter
+import sgtmelon.scriptum.data.room.converter.type.StringConverter
 import sgtmelon.scriptum.domain.model.data.DbData.Alarm
 import sgtmelon.scriptum.domain.model.data.DbData.Note
 import sgtmelon.scriptum.domain.model.data.DbData.Rank
 import sgtmelon.scriptum.domain.model.data.DbData.Roll
 import sgtmelon.scriptum.domain.model.data.DbData.RollVisible
+import sgtmelon.scriptum.domain.model.result.ParserResult
 import kotlin.random.Random
 
 /**
@@ -32,7 +33,7 @@ class BackupSelectorTest : ParentBackupTest() {
     private val spyBackupSelector by lazy { spyk(backupSelector) }
 
     @Test fun parseByVersion() {
-        val model = mockk<BackupParser.Model>()
+        val model = mockk<ParserResult>()
         val roomData = Random.nextString()
 
         every { spyBackupSelector.getModelV1(roomData) } returns model
@@ -59,7 +60,7 @@ class BackupSelectorTest : ParentBackupTest() {
             put(Alarm.TABLE, JSONArray(alarmListJson))
         }.toString()
 
-        val model = BackupParser.Model(noteList, rollList, rollVisibleList, rankList, alarmList)
+        val model = ParserResult(noteList, rollList, rollVisibleList, rankList, alarmList)
 
         every { spyBackupSelector.getNoteTableV1(any()) } returns null
 

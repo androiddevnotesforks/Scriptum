@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.data.repository.room.callback
 
 import sgtmelon.scriptum.data.repository.room.AlarmRepo
+import sgtmelon.scriptum.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.NotificationItem
 
@@ -16,5 +17,8 @@ interface IAlarmRepo {
     suspend fun getItem(noteId: Long): NotificationItem?
 
     suspend fun getList(): MutableList<NotificationItem>
+
+
+    suspend fun getAlarmBackup(noteIdList: List<Long>): List<AlarmEntity>
 
 }

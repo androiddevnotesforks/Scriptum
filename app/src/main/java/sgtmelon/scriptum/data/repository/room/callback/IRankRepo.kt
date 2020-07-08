@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.data.repository.room.callback
 
 import sgtmelon.scriptum.data.repository.room.RankRepo
+import sgtmelon.scriptum.data.room.entity.RankEntity
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RankItem
 
@@ -36,5 +37,8 @@ interface IRankRepo {
     suspend fun getDialogItemArray(emptyName: String): Array<String>
 
     suspend fun getId(position: Int): Long
+
+
+    suspend fun getRankBackup(): List<RankEntity>
 
 }

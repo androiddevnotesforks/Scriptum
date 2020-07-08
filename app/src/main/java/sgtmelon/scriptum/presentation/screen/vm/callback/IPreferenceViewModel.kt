@@ -21,7 +21,7 @@ interface IPreferenceViewModel : IParentViewModel {
     fun onResultTheme(@Theme value: Int)
 
 
-    fun onClickExport(): Boolean
+    fun onClickExport(result: PermissionResult): Boolean
 
     fun onClickImport(result: PermissionResult): Boolean
 

@@ -121,16 +121,38 @@ class PreferenceViewModel(
     /**
      * TODO Add progress dialog
      */
-    override fun onClickExport() = takeTrue {
-        viewModelScope.launch {
-            when(val result = backupInteractor.export()) {
-                is ExportResult.Success -> {
-                    callback?.showExportPathToast(result.path)
-                    callback?.updateImportEnabled(isEnabled = true)
+    /**
+     * Call [startExport] only if [result] equals [PermissionResult.LOW_API] or
+     * [PermissionResult.GRANTED]. Otherwise we must show dialog.
+     */
+    override fun onClickExport(result: PermissionResult) = takeTrue {
+        when(result) {
+            PermissionResult.ALLOWED -> callback?.showExportPermissionDialog()
+            PermissionResult.LOW_API, PermissionResult.GRANTED -> {
+                viewModelScope.launch { startExport() }
+            }
+            PermissionResult.FORBIDDEN -> callback?.showExportDenyDialog()
+        }
+    }
+
+    @RunPrivate suspend fun startExport() {
+        when(val result = backupInteractor.export()) {
+            is ExportResult.Success -> {
+                callback?.showExportPathToast(result.path)
+
+                /**
+                 * Need update import enabled if file list was empty.
+                 *
+                 * We must be considerate what phone has backup files before make import
+                 * preferences enabled.
+                 */
+                if (backupInteractor.getFileList().isEmpty()) {
+                    backupInteractor.resetFileList()
+                    setupBackup()
                 }
-                is ExportResult.Error -> {
-                    callback?.showToast(R.string.pref_toast_export_error)
-                }
+            }
+            is ExportResult.Error -> {
+                callback?.showToast(R.string.pref_toast_export_error)
             }
         }
     }

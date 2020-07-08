@@ -1,10 +1,10 @@
 package sgtmelon.scriptum.presentation.control.file
 
 import android.content.Context
+import android.os.Environment
 import android.util.Log
 import androidx.core.content.ContextCompat
 import sgtmelon.extension.getTime
-import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.FileType
 import sgtmelon.scriptum.domain.model.item.FileItem
 import java.io.*
@@ -14,9 +14,9 @@ import java.io.*
  */
 class FileControl(private val context: Context) : IFileControl {
 
-    override val appDirectory: String = context.filesDir.path
+    override val appDirectory: File = context.filesDir
 
-    override val cacheDirectory: String = context.cacheDir.path
+    override val cacheDirectory: File = context.cacheDir
 
 
     override fun readFile(path: String): String? {
@@ -48,13 +48,7 @@ class FileControl(private val context: Context) : IFileControl {
      * Return path to created file.
      */
     override fun writeFile(name: String, data: String): String? {
-        val parent = File(appDirectory)
-        val file = File(parent, name)
-
-        /**
-         * Create directory if not exist
-         */
-        if (!parent.exists()) parent.mkdir()
+        val file = File(Environment.getExternalStorageDirectory(), name)
 
         try {
             file.createNewFile()
@@ -78,12 +72,7 @@ class FileControl(private val context: Context) : IFileControl {
         bufferedWriter.close()
     }
 
-    override fun getTimeName(@FileType type: String): String {
-        return getTime()
-                .plus(other = " ")
-                .plus(context.getString(R.string.app_name))
-                .plus(type)
-    }
+    override fun getTimeName(@FileType type: String): String = getTime().plus(type)
 
 
     override suspend fun getFileList(@FileType type: String): List<FileItem> {

@@ -80,7 +80,7 @@ class RollDaoTest : ParentRoomTest() {
     }
 
 
-    @Test fun get() = inRoomTest {
+    @Test fun get_byId() = inRoomTest {
         firstModel.let {
             insertRollRelation(it)
             assertEquals(it.rollList, rollDao.get(it.entity.id))
@@ -90,6 +90,13 @@ class RollDaoTest : ParentRoomTest() {
             insertRollRelation(it)
             assertEquals(it.rollList, rollDao.get(it.entity.id))
         }
+    }
+
+    @Test fun get_byIdList() = inRoomTest {
+        insertRollRelation(firstModel)
+        insertRollRelation(secondModel)
+
+        TODO()
     }
 
     @Test fun getView() = inRoomTest {

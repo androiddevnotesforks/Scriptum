@@ -66,9 +66,14 @@ class InteractorModule {
 
     @Provides
     @ActivityScope
-    fun provideBackupInteractor(preferenceRepo: IPreferenceRepo, backupParser: IBackupParser,
-                                fileControl: IFileControl, cipherControl: ICipherControl): IBackupInteractor {
-        return BackupInteractor(preferenceRepo, backupParser, fileControl, cipherControl)
+    fun provideBackupInteractor(preferenceRepo: IPreferenceRepo, alarmRepo: IAlarmRepo,
+                                rankRepo: IRankRepo, noteRepo: INoteRepo,
+                                backupParser: IBackupParser, fileControl: IFileControl,
+                                cipherControl: ICipherControl): IBackupInteractor {
+        return BackupInteractor(
+                preferenceRepo, alarmRepo, rankRepo, noteRepo, backupParser, fileControl,
+                cipherControl
+        )
     }
 
     //endregion
@@ -112,7 +117,7 @@ class InteractorModule {
     fun provideNotesInteractor(fragment: NotesFragment, preferenceRepo: IPreferenceRepo,
                                noteRepo: INoteRepo, alarmRepo: IAlarmRepo,
                                rankRepo: IRankRepo): INotesInteractor {
-        return NotesInteractor(preferenceRepo, noteRepo, alarmRepo, rankRepo, fragment)
+        return NotesInteractor(preferenceRepo, alarmRepo, rankRepo, noteRepo, fragment)
     }
 
     @Provides

@@ -12,6 +12,7 @@ import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.domain.interactor.callback.IBackupInteractor
 import sgtmelon.scriptum.domain.interactor.callback.IPreferenceInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteractor
+import sgtmelon.scriptum.domain.model.item.FileItem
 import sgtmelon.scriptum.domain.model.key.PermissionResult
 import sgtmelon.scriptum.domain.model.result.ExportResult
 import sgtmelon.scriptum.domain.model.result.ImportResult
@@ -248,33 +249,70 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onClickExport() {
+        coEvery { spyViewModel.startExport() } returns Unit
+
+        PermissionResult.values().forEach { assertTrue(spyViewModel.onClickExport(it)) }
+
+        coVerifySequence {
+            spyViewModel.onClickExport(PermissionResult.LOW_API)
+            spyViewModel.startExport()
+
+            spyViewModel.onClickExport(PermissionResult.ALLOWED)
+            spyViewModel.callback
+            callback.showExportPermissionDialog()
+
+            spyViewModel.onClickExport(PermissionResult.FORBIDDEN)
+            spyViewModel.callback
+            callback.showExportDenyDialog()
+
+            spyViewModel.onClickExport(PermissionResult.GRANTED)
+            spyViewModel.startExport()
+        }
+    }
+
+    @Test fun startExport() = startCoTest {
         val path = Random.nextString()
 
         coEvery { backupInteractor.export() } returns ExportResult.Error
 
-        assertTrue(viewModel.onClickExport())
+        spyViewModel.startExport()
 
         coEvery { backupInteractor.export() } returns ExportResult.Success(path)
+        coEvery { backupInteractor.getFileList() } returns List<FileItem>(size = 5) { mockk() }
 
-        assertTrue(viewModel.onClickExport())
+        spyViewModel.startExport()
+
+        coEvery { backupInteractor.getFileList() } returns emptyList()
+        coEvery { spyViewModel.setupBackup() } returns Unit
+
+        spyViewModel.startExport()
 
         coVerifySequence {
+            spyViewModel.startExport()
             backupInteractor.export()
+            spyViewModel.callback
             callback.showToast(R.string.pref_toast_export_error)
 
+            spyViewModel.startExport()
             backupInteractor.export()
+            spyViewModel.callback
             callback.showExportPathToast(path)
-            callback.updateImportEnabled(isEnabled = true)
+            backupInteractor.getFileList()
+
+            spyViewModel.startExport()
+            backupInteractor.export()
+            spyViewModel.callback
+            callback.showExportPathToast(path)
+            backupInteractor.getFileList()
+            backupInteractor.resetFileList()
+            spyViewModel.setupBackup()
         }
     }
 
     @Test fun onClickImport() {
         coEvery { spyViewModel.prepareImportDialog() } returns Unit
 
-        assertTrue(spyViewModel.onClickImport(PermissionResult.LOW_API))
-        assertTrue(spyViewModel.onClickImport(PermissionResult.ALLOWED))
-        assertTrue(spyViewModel.onClickImport(PermissionResult.FORBIDDEN))
-        assertTrue(spyViewModel.onClickImport(PermissionResult.GRANTED))
+        PermissionResult.values().forEach { assertTrue(spyViewModel.onClickImport(it)) }
 
         coVerifySequence {
             spyViewModel.onClickImport(PermissionResult.LOW_API)

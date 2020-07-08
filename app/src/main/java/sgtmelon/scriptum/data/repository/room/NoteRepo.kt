@@ -160,6 +160,15 @@ class NoteRepo(
         noteDao.delete(noteConverter.toEntity(noteItem))
     }
 
+    /**
+     * Remove relation between [RankEntity] and [NoteItem] which will be delete
+     */
+    @RunPrivate
+    suspend fun clearConnection(iRankDao: IRankDao, noteId: Long, rankId: Long) {
+        val entity = iRankDao.get(rankId)?.also { it.noteId.remove(noteId) } ?: return
+        iRankDao.update(entity)
+    }
+
 
     override suspend fun convertNote(noteItem: NoteItem.Text): NoteItem.Roll = takeFromRoom {
         val item = noteItem.onConvert()
@@ -280,13 +289,15 @@ class NoteRepo(
     }
 
 
-    /**
-     * Remove relation between [RankEntity] and [NoteItem] which will be delete
-     */
-    @RunPrivate
-    suspend fun clearConnection(iRankDao: IRankDao, noteId: Long, rankId: Long) {
-        val entity = iRankDao.get(rankId)?.also { it.noteId.remove(noteId) } ?: return
-        iRankDao.update(entity)
+    override suspend fun getNoteBackup(): List<NoteEntity> {
+        return takeFromRoom { noteDao.get(bin = false) }
     }
 
+    override suspend fun getRollBackup(noteIdList: List<Long>): List<RollEntity> {
+        return takeFromRoom { rollDao.get(noteIdList) }
+    }
+
+    override suspend fun getRollVisibleBackup(noteIdList: List<Long>): List<RollVisibleEntity> {
+        return takeFromRoom { rollVisibleDao.get(noteIdList) }
+    }
 }

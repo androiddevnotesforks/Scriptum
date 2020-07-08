@@ -474,4 +474,18 @@ class RankRepoTest : ParentRoomRepoTest() {
         }
     }
 
+
+    @Test fun getRankBackup() = startCoTest {
+        val rankList = mockk<List<RankEntity>>()
+
+        coEvery { rankDao.get() } returns rankList
+
+        assertEquals(rankList, rankRepo.getRankBackup())
+
+        coVerifySequence {
+            roomProvider.openRoom()
+            rankDao.get()
+        }
+    }
+
 }

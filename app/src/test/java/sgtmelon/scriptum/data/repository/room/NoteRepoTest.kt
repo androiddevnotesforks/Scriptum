@@ -29,6 +29,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
     private val noteConverter = mockk<NoteConverter>()
     private val rollConverter = mockk<RollConverter>()
 
+    // TODO remove another noteRepo
     private val mockNoteRepo by lazy { NoteRepo(roomProvider, noteConverter, rollConverter) }
     private val noteRepo by lazy { NoteRepo(roomProvider, NoteConverter(), RollConverter()) }
     private val spyNoteRepo by lazy { spyk(mockNoteRepo) }
@@ -89,7 +90,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
         coEvery { noteDao.getByRank(bin) } returns entityList
         coEvery { rankDao.getIdVisibleList() } returns emptyList()
         coEvery {
-            with(rollDao) { if (isOptimal) getView(any()) else get(any()) }
+            with(rollDao) { if (isOptimal) getView(any()) else get(noteId = any()) }
         } returns mutableListOf()
         coEvery { alarmDao.get(noteId = any()) } returns null
 
@@ -422,6 +423,33 @@ class NoteRepoTest : ParentRoomRepoTest() {
         }
     }
 
+    @Test fun clearConnection() = startCoTest {
+        val noteId = Random.nextLong()
+        val rankId = Random.nextLong()
+
+        val randomId = Random.nextLong()
+        val startRankEntity = RankEntity(
+                id = Random.nextLong(), noteId = mutableListOf(noteId, randomId),
+                name = Random.nextString()
+        )
+        val finishRankEntity = startRankEntity.copy(noteId = mutableListOf(randomId))
+
+        coEvery { rankDao.get(rankId) } returns null
+        mockNoteRepo.clearConnection(rankDao, noteId, rankId)
+        assertNotEquals(finishRankEntity, startRankEntity)
+
+        coEvery { rankDao.get(rankId) } returns startRankEntity
+        mockNoteRepo.clearConnection(rankDao, noteId, rankId)
+        assertEquals(finishRankEntity, startRankEntity)
+
+        coVerifySequence {
+            rankDao.get(rankId)
+
+            rankDao.get(rankId)
+            rankDao.update(finishRankEntity)
+        }
+    }
+
 
     @Test fun convertNote_text() = startCoTest {
         val startItem = mockk<NoteItem.Text>()
@@ -527,7 +555,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
         val secondText = "${secondItem.name}\n${itemList.joinToString(separator = "\n") { it.text }}"
 
         every { rollConverter.toItem(entityList) } returns itemList
-        coEvery { rollDao.get(any()) } returns entityList
+        coEvery { rollDao.get(noteId = any()) } returns entityList
 
         assertEquals(firstText, mockNoteRepo.getCopyText(firstItem))
         assertEquals(secondText, mockNoteRepo.getCopyText(secondItem))
@@ -780,30 +808,44 @@ class NoteRepoTest : ParentRoomRepoTest() {
     }
 
 
-    @Test fun clearConnection() = startCoTest {
-        val noteId = Random.nextLong()
-        val rankId = Random.nextLong()
+    @Test fun getNoteBackup() = startCoTest {
+        val noteList = mockk<List<NoteEntity>>()
 
-        val randomId = Random.nextLong()
-        val startRankEntity = RankEntity(
-                id = Random.nextLong(), noteId = mutableListOf(noteId, randomId),
-                name = Random.nextString()
-        )
-        val finishRankEntity = startRankEntity.copy(noteId = mutableListOf(randomId))
+        coEvery { noteDao.get(bin = false) } returns noteList
 
-        coEvery { rankDao.get(rankId) } returns null
-        mockNoteRepo.clearConnection(rankDao, noteId, rankId)
-        assertNotEquals(finishRankEntity, startRankEntity)
-
-        coEvery { rankDao.get(rankId) } returns startRankEntity
-        mockNoteRepo.clearConnection(rankDao, noteId, rankId)
-        assertEquals(finishRankEntity, startRankEntity)
+        assertEquals(noteList, mockNoteRepo.getNoteBackup())
 
         coVerifySequence {
-            rankDao.get(rankId)
+            roomProvider.openRoom()
+            noteDao.get(bin = false)
+        }
+    }
 
-            rankDao.get(rankId)
-            rankDao.update(finishRankEntity)
+    @Test fun getRollBackup() = startCoTest {
+        val rollList = mockk<List<RollEntity>>()
+        val noteIdList = mockk<List<Long>>()
+
+        coEvery { rollDao.get(noteIdList) } returns rollList
+
+        assertEquals(rollList, mockNoteRepo.getRollBackup(noteIdList))
+
+        coVerifySequence {
+            roomProvider.openRoom()
+            rollDao.get(noteIdList)
+        }
+    }
+
+    @Test fun getRollVisibleBackup() = startCoTest {
+        val rollVisibleList = mockk<List<RollVisibleEntity>>()
+        val noteIdList = mockk<List<Long>>()
+
+        coEvery { rollVisibleDao.get(noteIdList) } returns rollVisibleList
+
+        assertEquals(rollVisibleList, mockNoteRepo.getRollVisibleBackup(noteIdList))
+
+        coVerifySequence {
+            roomProvider.openRoom()
+            rollVisibleDao.get(noteIdList)
         }
     }
 

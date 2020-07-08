@@ -5,8 +5,8 @@ import android.util.Log
 import org.json.JSONArray
 import org.json.JSONObject
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.data.room.converter.type.StringConverter
 import sgtmelon.scriptum.data.room.converter.type.NoteTypeConverter
+import sgtmelon.scriptum.data.room.converter.type.StringConverter
 import sgtmelon.scriptum.data.room.entity.*
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.data.DbData.Alarm
@@ -14,6 +14,7 @@ import sgtmelon.scriptum.domain.model.data.DbData.Note
 import sgtmelon.scriptum.domain.model.data.DbData.Rank
 import sgtmelon.scriptum.domain.model.data.DbData.Roll
 import sgtmelon.scriptum.domain.model.data.DbData.RollVisible
+import sgtmelon.scriptum.domain.model.result.ParserResult
 import java.security.MessageDigest
 
 /**
@@ -26,15 +27,7 @@ class BackupParser(
         private val stringConverter: StringConverter
 ) : IBackupParser {
 
-    data class Model(
-            val noteList: List<NoteEntity>,
-            val rollList: List<RollEntity>,
-            val rollVisibleList: List<RollVisibleEntity>,
-            val rankList: List<RankEntity>,
-            val alarmList: List<AlarmEntity>
-    )
-
-    override fun collect(model: Model): String = JSONObject().apply {
+    override fun collect(model: ParserResult): String = JSONObject().apply {
         val roomData = collectRoom(model)
 
         put(context.getString(R.string.backup_version), VERSION)
@@ -42,7 +35,7 @@ class BackupParser(
         put(context.getString(R.string.backup_room), roomData)
     }.toString()
 
-    @RunPrivate fun collectRoom(model: Model): String = JSONObject().apply {
+    @RunPrivate fun collectRoom(model: ParserResult): String = JSONObject().apply {
         put(Note.TABLE, collectNoteTable(model.noteList))
         put(Roll.TABLE, collectRollTable(model.rollList))
         put(RollVisible.TABLE, collectRollVisibleTable(model.rollVisibleList))
@@ -124,7 +117,7 @@ class BackupParser(
 
 
 
-    override fun parse(data: String): Model? {
+    override fun parse(data: String): ParserResult? {
         try {
             val dataObject = JSONObject(data)
 

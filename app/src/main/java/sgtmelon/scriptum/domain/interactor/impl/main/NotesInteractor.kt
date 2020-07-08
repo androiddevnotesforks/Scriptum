@@ -21,9 +21,9 @@ import java.util.*
  */
 class NotesInteractor(
         private val preferenceRepo: IPreferenceRepo,
-        private val noteRepo: INoteRepo,
         private val alarmRepo: IAlarmRepo,
         private val rankRepo: IRankRepo,
+        private val noteRepo: INoteRepo,
         @RunPrivate var callback: INotesBridge?
 ) : ParentInteractor(),
         INotesInteractor {

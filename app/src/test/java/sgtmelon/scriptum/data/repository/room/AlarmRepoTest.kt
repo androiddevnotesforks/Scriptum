@@ -73,6 +73,7 @@ class AlarmRepoTest : ParentRoomRepoTest() {
         }
     }
 
+
     @Test fun getItem() = startCoTest {
         val id = Random.nextLong()
         val item = mockk<NotificationItem>()
@@ -101,6 +102,21 @@ class AlarmRepoTest : ParentRoomRepoTest() {
         coVerifySequence {
             roomProvider.openRoom()
             alarmDao.getList()
+        }
+    }
+
+
+    @Test fun getAlarmBackup() = startCoTest {
+        val alarmList = mockk<List<AlarmEntity>>()
+        val noteIdList = mockk<List<Long>>()
+
+        coEvery { alarmDao.get(noteIdList) } returns alarmList
+
+        assertEquals(alarmList, alarmRepo.getAlarmBackup(noteIdList))
+
+        coVerifySequence {
+            roomProvider.openRoom()
+            alarmDao.get(noteIdList)
         }
     }
 

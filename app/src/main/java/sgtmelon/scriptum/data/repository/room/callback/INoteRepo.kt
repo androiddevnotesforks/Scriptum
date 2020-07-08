@@ -1,6 +1,9 @@
 package sgtmelon.scriptum.data.repository.room.callback
 
 import sgtmelon.scriptum.data.repository.room.NoteRepo
+import sgtmelon.scriptum.data.room.entity.NoteEntity
+import sgtmelon.scriptum.data.room.entity.RollEntity
+import sgtmelon.scriptum.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
@@ -61,5 +64,12 @@ interface INoteRepo {
     suspend fun setRollVisible(noteId: Long, isVisible: Boolean)
 
     suspend fun getRollVisible(noteId: Long): Boolean
+
+
+    suspend fun getNoteBackup(): List<NoteEntity>
+
+    suspend fun getRollBackup(noteIdList: List<Long>): List<RollEntity>
+
+    suspend fun getRollVisibleBackup(noteIdList: List<Long>): List<RollVisibleEntity>
 
 }

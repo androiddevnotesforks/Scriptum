@@ -40,6 +40,18 @@
 
     <string name="dialog_title_import">Выберите файл</string>
 
+    <string name="dialog_title_export_permission">Требуется разрешение</string>
+    <string name="dialog_text_export_permission">
+        Для сохранения файла с резервной копией, приложению необходимо ваше разрешение.
+        Иначе мы не сможем сделать это для вас.
+    </string>
+
+    <string name="dialog_title_export_deny">Включите разрешение</string>
+    <string name="dialog_text_export_deny">
+        Мы не можем выполнить создание резервной копии без нужного разрешения.
+        Пройдите в настройки приложения и включите его.
+    </string>
+
     <string name="dialog_title_repeat">Выбрать повтор</string>
     <string name="dialog_repeat_0">10 минут</string>
     <string name="dialog_repeat_1">30 минут</string>

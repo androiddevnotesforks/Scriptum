@@ -35,7 +35,7 @@ class RollVisibleDaoTest : ParentRoomTest() {
         assertEquals(true, rollVisibleDao.get(entity.noteId))
     }
 
-    @Test fun get() = inRoomTest {
+    @Test fun get_byId() = inRoomTest {
         noteDao.insert(noteEntity)
 
         assertNull(rollVisibleDao.get(entity.noteId))
@@ -44,6 +44,9 @@ class RollVisibleDaoTest : ParentRoomTest() {
         assertEquals(false, rollVisibleDao.get(entity.noteId))
     }
 
+    @Test fun get_byIdList() = inRoomTest {
+        TODO()
+    }
 
     private companion object {
         val noteEntity = NoteEntity(id = 1,

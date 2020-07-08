@@ -5,6 +5,7 @@ import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.data.room.IRoomWork
 import sgtmelon.scriptum.data.room.RoomDb
 import sgtmelon.scriptum.data.room.converter.model.AlarmConverter
+import sgtmelon.scriptum.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.NotificationItem
 
@@ -37,6 +38,11 @@ class AlarmRepo(
 
     override suspend fun getList(): MutableList<NotificationItem> = takeFromRoom {
         alarmDao.getList()
+    }
+
+
+    override suspend fun getAlarmBackup(noteIdList: List<Long>): List<AlarmEntity> {
+        return takeFromRoom { alarmDao.get(noteIdList) }
     }
 
 }

@@ -171,4 +171,7 @@ class RankRepo(
         }
     }
 
+
+    override suspend fun getRankBackup(): List<RankEntity> = takeFromRoom { rankDao.get() }
+
 }
