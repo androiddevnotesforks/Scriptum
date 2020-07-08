@@ -1,5 +1,7 @@
 package sgtmelon.scriptum.domain.model.data
 
+import sgtmelon.scriptum.domain.model.annotation.Color
+
 object NoteData {
 
     object Intent {
@@ -12,7 +14,7 @@ object NoteData {
 
     object Default {
         const val ID = -1L
-        const val COLOR = -1
+        const val COLOR = Color.UNDEFINED
         const val TYPE = -1
     }
 

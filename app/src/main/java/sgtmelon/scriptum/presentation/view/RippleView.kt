@@ -8,7 +8,7 @@ import sgtmelon.scriptum.R
 import kotlin.math.min
 
 /**
- * View element which uses inside [RippleContainer]
+ * View element which uses inside [RippleContainer].
  */
 class RippleView(context: Context) : View(context) {
 
@@ -18,11 +18,13 @@ class RippleView(context: Context) : View(context) {
         visibility = INVISIBLE
     }
 
-    /**
-     * Remove from radius small space for better performance
-     */
     override fun onDraw(canvas: Canvas) = (min(width, height) / 2).toFloat().let {
-        canvas.drawCircle(it, it, it - resources.getDimension(R.dimen.radius_2dp), paint ?: return@let)
+        /**
+         * Remove from radius small space for prevent cutting circle sides. 
+         * Because of that we need circle a bit smaller then view.  
+         */
+        val radius = it - resources.getDimension(R.dimen.radius_2dp)
+        canvas.drawCircle(it, it, radius, paint ?: return@let)
     }
 
 }

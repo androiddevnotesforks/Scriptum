@@ -62,7 +62,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     private val powerControl: IPowerControl by lazy { PowerControl(context = this) }
     private val bindControl by lazy { BindControl[this] }
 
-    private val noteReceiver by lazy { NoteReceiver(viewModel) }
+    private val noteReceiver by lazy { NoteReceiver[viewModel] }
 
     private val openState = OpenState()
 

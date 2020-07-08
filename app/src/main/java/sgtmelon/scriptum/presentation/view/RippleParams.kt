@@ -8,7 +8,7 @@ import kotlin.math.max
 /**
  * Model with params for [RippleContainer]
  */
-class RippleParams(@Theme private val theme: Int, private val parentView: View, var hookView: View) {
+class RippleParams(@Theme private val theme: Int, private val parentView: View, val hookView: View) {
 
     private val minSize get() = hookView.width / 1.3
     private val maxSize get() = max(parentView.width, parentView.height)

@@ -39,7 +39,7 @@ class NoteActivity : AppActivity(), INoteActivity, INoteConnector, NoteReceiver.
     private val textNoteFragment get() = fragmentFactory.getTextNoteFragment()
     private val rollNoteFragment get() = fragmentFactory.getRollNoteFragment()
 
-    private val noteReceiver by lazy { NoteReceiver(callback = this) }
+    private val noteReceiver by lazy { NoteReceiver[this] }
 
     private val toolbarHolder by lazy { findViewById<View?>(R.id.note_toolbar_holder) }
     private val panelHolder by lazy { findViewById<View?>(R.id.note_panel_holder) }

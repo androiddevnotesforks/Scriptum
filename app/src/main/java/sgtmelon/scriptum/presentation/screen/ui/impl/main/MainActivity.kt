@@ -47,7 +47,7 @@ class MainActivity : AppActivity(), IMainActivity {
     private val bindControl by lazy { BindControl[this] }
     private val holderControl by lazy { HolderShowControl[toolbarHolder] }
 
-    private val mainReceiver by lazy { MainReceiver(viewModel, viewModel) }
+    private val mainReceiver by lazy { MainReceiver[viewModel, viewModel] }
 
     private val fragmentFactory = FragmentFactory.Main(fm)
     private val rankFragment by lazy { fragmentFactory.getRankFragment() }

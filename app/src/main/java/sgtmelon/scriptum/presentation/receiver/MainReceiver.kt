@@ -9,12 +9,12 @@ import sgtmelon.scriptum.domain.model.data.ReceiverData.Values
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.MainActivity
 
 /**
- * Receiver for [MainActivity] commands
+ * Receiver for [MainActivity] commands.
  */
-class MainReceiver(
-        private val bindCallback: BindCallback,
-        private val alarmCallback: AlarmCallback
-) : BroadcastReceiver() {
+class MainReceiver() : BroadcastReceiver() {
+
+    private var bindCallback: BindCallback? = null
+    private var alarmCallback: AlarmCallback? = null
 
     override fun onReceive(context: Context?, intent: Intent?) {
         val id = intent?.getLongExtra(Values.NOTE_ID, NoteData.Default.ID) ?: return
@@ -22,8 +22,8 @@ class MainReceiver(
         if (id == NoteData.Default.ID) return
 
         when (intent.getStringExtra(Values.COMMAND)) {
-            Command.UNBIND_NOTE -> bindCallback.onReceiveUnbindNote(id)
-            Command.UPDATE_ALARM -> alarmCallback.onReceiveUpdateAlarm(id)
+            Command.UNBIND_NOTE -> bindCallback?.onReceiveUnbindNote(id)
+            Command.UPDATE_ALARM -> alarmCallback?.onReceiveUpdateAlarm(id)
         }
     }
 
@@ -46,6 +46,15 @@ class MainReceiver(
      */
     interface AlarmCallback {
         fun onReceiveUpdateAlarm(id: Long)
+    }
+
+    companion object {
+        operator fun get(bindCallback: BindCallback, alarmCallback: AlarmCallback): MainReceiver {
+            return MainReceiver().apply {
+                this.bindCallback = bindCallback
+                this.alarmCallback = alarmCallback
+            }
+        }
     }
 
 }

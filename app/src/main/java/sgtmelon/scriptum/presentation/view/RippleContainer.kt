@@ -17,11 +17,20 @@ import sgtmelon.scriptum.domain.model.annotation.Theme
 import java.util.*
 
 /**
- * ViewGroup element for create ripple animation
+ * ViewGroup element for create ripple animation.
  */
-class RippleContainer : RelativeLayout {
+class RippleContainer @JvmOverloads constructor(
+        context: Context,
+        attrs: AttributeSet? = null,
+        defStyleAttr: Int = 0
+) : RelativeLayout(context, attrs, defStyleAttr) {
 
     private var isAnimate = false
+
+    /**
+     * Prevent calling any animation functions before [setupAnimation].
+     */
+    private var isConfigure = false
 
     private val animatorList = ArrayList<Animator>()
     private val animatorSet = AnimatorSet()
@@ -30,18 +39,14 @@ class RippleContainer : RelativeLayout {
 
     private var params: RippleParams? = null
 
-    constructor (context: Context) : super(context)
-
-    constructor (context: Context, attrs: AttributeSet) : super(context, attrs)
-
-    constructor (context: Context, attrs: AttributeSet, style: Int) : super(context, attrs, style)
-
     /**
-     * Call func before [startAnimation]
+     * Call func before [startAnimation].
      *
-     * Element which center will be start position for ripple pass throw [hookView]
+     * Element, which center will be start position for ripple, pass throw [hookView].
      */
     fun setupAnimation(@Theme theme: Int, @ColorInt fillColor: Int, hookView: View) = apply {
+        if (isConfigure) return@apply
+
         tag = fillColor
 
         params = RippleParams(theme, parentView = this, hookView = hookView).also {
@@ -75,9 +80,13 @@ class RippleContainer : RelativeLayout {
         }
 
         animatorSet.playTogether(animatorList)
+
+        isConfigure = true
     }
 
     fun startAnimation() {
+        if (!isConfigure) return
+
         if (!isAnimate) {
             isAnimate = true
 
@@ -87,14 +96,17 @@ class RippleContainer : RelativeLayout {
     }
 
     fun stopAnimation() {
+        if (!isConfigure) return
+
         if (isAnimate) {
             isAnimate = false
 
             viewList.forEach { it.visibility = View.INVISIBLE }
             animatorSet.end()
+
+            animatorList.clear()
         }
     }
-
 
     @StringDef(Anim.SCALE_X, Anim.SCALE_Y, Anim.ALPHA)
     private annotation class Anim {
@@ -105,21 +117,25 @@ class RippleContainer : RelativeLayout {
         }
     }
 
+    /**
+     * Strange bug without 'when' and with lift return (try replace with 'if' and you will see).
+     */
     @Suppress("LiftReturnOrAssignment")
     private fun View.getAnimator(@Anim animName: String, startDelay: Long, duration: Long,
-                                 vararg values: Float): ObjectAnimator =
-            ObjectAnimator.ofFloat(this, animName, *values).apply {
-                repeatCount = ObjectAnimator.INFINITE
-                repeatMode = ObjectAnimator.RESTART
+                                 vararg values: Float): ObjectAnimator {
+        return ObjectAnimator.ofFloat(this, animName, *values).apply {
+            repeatCount = ObjectAnimator.INFINITE
+            repeatMode = ObjectAnimator.RESTART
 
-                when (animName) {
-                    Anim.ALPHA -> interpolator = DecelerateInterpolator()
-                    else -> interpolator = AccelerateDecelerateInterpolator()
-                }
-
-                this.startDelay = startDelay
-                this.duration = duration
+            when (animName) {
+                Anim.ALPHA -> interpolator = DecelerateInterpolator()
+                else -> interpolator = AccelerateDecelerateInterpolator()
             }
+
+            this.startDelay = startDelay
+            this.duration = duration
+        }
+    }
 
     private companion object {
         const val NO_DELAY = 0L

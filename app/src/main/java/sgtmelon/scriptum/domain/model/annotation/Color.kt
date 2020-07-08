@@ -6,6 +6,7 @@ import androidx.annotation.IntDef
  * Describes standard colors
  */
 @IntDef(
+        Color.UNDEFINED,
         Color.RED, Color.PURPLE, Color.INDIGO,
         Color.BLUE, Color.TEAL, Color.GREEN,
         Color.YELLOW, Color.ORANGE, Color.BROWN,
@@ -14,6 +15,7 @@ import androidx.annotation.IntDef
 annotation class Color {
 
     companion object {
+        const val UNDEFINED = -1
         const val RED = 0
         const val PURPLE = 1
         const val INDIGO = 2
