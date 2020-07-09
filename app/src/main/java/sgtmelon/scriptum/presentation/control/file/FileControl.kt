@@ -78,6 +78,8 @@ class FileControl(private val context: Context) : IFileControl {
     override suspend fun getFileList(@FileType type: String): List<FileItem> {
         val list = mutableListOf<FileItem>()
 
+        list.addAll(getFileList(Environment.getExternalStorageDirectory(), type))
+
         ContextCompat.getExternalFilesDirs(context, null).filterNotNull().forEach {
             list.addAll(getFileList(it, type))
         }
@@ -95,7 +97,7 @@ class FileControl(private val context: Context) : IFileControl {
         directory.listFiles()?.forEach {
             when {
                 it.isDirectory -> list.addAll(getFileList(it, type))
-                it.endsWith(type) -> list.add(FileItem(it.nameWithoutExtension, it.path))
+                it.name.endsWith(type) -> list.add(FileItem(it.nameWithoutExtension, it.path))
             }
         }
 

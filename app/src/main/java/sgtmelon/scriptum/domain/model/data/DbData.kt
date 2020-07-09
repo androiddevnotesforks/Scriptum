@@ -6,7 +6,6 @@ import sgtmelon.scriptum.domain.model.key.NoteType
 /**
  * Constants for DataBase
  * Naming of tables and columns for DataBase
- * Constants and strings for buildup notes sort
  */
 object DbData {
 
