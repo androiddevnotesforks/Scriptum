@@ -96,7 +96,12 @@ class RollDaoTest : ParentRoomTest() {
         insertRollRelation(firstModel)
         insertRollRelation(secondModel)
 
-        TODO()
+        val noteIdList = listOf(firstModel.entity.id, secondModel.entity.id)
+        val resultList = rollDao.get(noteIdList)
+
+        assertEquals(firstModel.rollList.size + secondModel.rollList.size, resultList.size)
+        assertTrue(resultList.containsAll(firstModel.rollList))
+        assertTrue(resultList.containsAll(secondModel.rollList))
     }
 
     @Test fun getView() = inRoomTest {
@@ -120,24 +125,22 @@ class RollDaoTest : ParentRoomTest() {
 
     private data class Model(val entity: NoteEntity, val rollList: List<RollEntity>)
 
-    private companion object {
-        val firstModel = Model(NoteEntity(
-                id = 1, create = DATE_1, change = DATE_2, type = NoteType.ROLL
-        ), arrayListOf(
-                RollEntity(id = 1, noteId = 1, position = 0, isCheck = false, text = "01234"),
-                RollEntity(id = 2, noteId = 1, position = 1, isCheck = true, text = "12345"),
-                RollEntity(id = 3, noteId = 1, position = 2, isCheck = false, text = "23456"),
-                RollEntity(id = 4, noteId = 1, position = 3, isCheck = true, text = "34567")
-        ))
+    private val firstModel = Model(NoteEntity(
+            id = 1, create = DATE_1, change = DATE_2, type = NoteType.ROLL
+    ), arrayListOf(
+            RollEntity(id = 1, noteId = 1, position = 0, isCheck = false, text = "01234"),
+            RollEntity(id = 2, noteId = 1, position = 1, isCheck = true, text = "12345"),
+            RollEntity(id = 3, noteId = 1, position = 2, isCheck = false, text = "23456"),
+            RollEntity(id = 4, noteId = 1, position = 3, isCheck = true, text = "34567")
+    ))
 
-        val secondModel = Model(NoteEntity(
-                id = 2, create = DATE_3, change = DATE_4, type = NoteType.ROLL
-        ), arrayListOf(
-                RollEntity(id = 5, noteId = 2, position = 0, isCheck = false, text = "01234"),
-                RollEntity(id = 6, noteId = 2, position = 1, isCheck = true, text = "12345"),
-                RollEntity(id = 7, noteId = 2, position = 2, isCheck = false, text = "23456"),
-                RollEntity(id = 8, noteId = 2, position = 3, isCheck = true, text = "34567")
-        ))
-    }
+    private val secondModel = Model(NoteEntity(
+            id = 2, create = DATE_3, change = DATE_4, type = NoteType.ROLL
+    ), arrayListOf(
+            RollEntity(id = 5, noteId = 2, position = 0, isCheck = false, text = "01234"),
+            RollEntity(id = 6, noteId = 2, position = 1, isCheck = true, text = "12345"),
+            RollEntity(id = 7, noteId = 2, position = 2, isCheck = false, text = "23456"),
+            RollEntity(id = 8, noteId = 2, position = 3, isCheck = true, text = "34567")
+    ))
 
 }

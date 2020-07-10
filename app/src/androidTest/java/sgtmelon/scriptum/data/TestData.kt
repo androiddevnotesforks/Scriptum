@@ -1,9 +1,6 @@
 package sgtmelon.scriptum.data
 
-import sgtmelon.extension.getRandomFutureTime
-import sgtmelon.extension.getText
-import sgtmelon.extension.getTime
-import sgtmelon.extension.nextString
+import sgtmelon.extension.*
 import sgtmelon.scriptum.data.provider.RoomProvider
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.room.IRoomWork
@@ -20,7 +17,6 @@ import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RankItem
 import sgtmelon.scriptum.domain.model.key.NoteType
 import kotlin.random.Random
-import sgtmelon.scriptum.basic.extension.getTime as getCalendarTime
 
 /**
  * Class which fill db and provide data for tests.
@@ -243,13 +239,13 @@ class TestData(
 
     fun fillNotes(count: Int = 10) = ArrayList<NoteItem>().apply {
         (count downTo 0).forEach {
-            add(insertNote(getCalendarTime(it).getText()))
+            add(insertNote(getCalendarWithAdd(it).getText()))
         }
     }
 
     fun fillBin(count: Int = 10) = ArrayList<NoteItem>().apply {
         (count downTo 0).forEach {
-            add(insertNoteToBin(getCalendarTime(it).getText()))
+            add(insertNoteToBin(getCalendarWithAdd(it).getText()))
         }
     }
 
