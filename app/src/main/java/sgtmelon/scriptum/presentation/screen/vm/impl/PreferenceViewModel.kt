@@ -14,6 +14,7 @@ import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.key.PermissionResult
 import sgtmelon.scriptum.domain.model.result.ExportResult
 import sgtmelon.scriptum.domain.model.result.ImportResult
+import sgtmelon.scriptum.extension.runCalculation
 import sgtmelon.scriptum.presentation.screen.ui.callback.IPreferenceFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.IPreferenceViewModel
@@ -77,8 +78,8 @@ class PreferenceViewModel(
             callback?.showToast(R.string.pref_toast_melody_empty)
         }
 
-        val melodyCheck = signalInteractor.getMelodyCheck() ?: return onEmptyError()
-        val melodyList = signalInteractor.getMelodyList()
+        val melodyCheck = runCalculation { signalInteractor.getMelodyCheck() } ?: return onEmptyError()
+        val melodyList = runCalculation { signalInteractor.getMelodyList() }
         val melodyItem = melodyList.getOrNull(melodyCheck) ?: return onEmptyError()
 
         callback?.updateMelodyGroupEnabled(state.isMelody)
@@ -86,7 +87,7 @@ class PreferenceViewModel(
     }
 
     @RunPrivate suspend fun setupBackup() {
-        val fileList = backupInteractor.getFileList()
+        val fileList = runCalculation { backupInteractor.getFileList() }
 
         if (fileList.isEmpty()) return
 
@@ -141,15 +142,11 @@ class PreferenceViewModel(
                 callback?.showExportPathToast(result.path)
 
                 /**
-                 * Need update import enabled if file list was empty.
-                 *
-                 * We must be considerate what phone has backup files before make import
-                 * preferences enabled.
+                 * Need update file list for feature import.
                  */
-                if (backupInteractor.getFileList().isEmpty()) {
-                    backupInteractor.resetFileList()
-                    setupBackup()
-                }
+                callback?.updateImportEnabled(isEnabled = false)
+                backupInteractor.resetFileList()
+                setupBackup()
             }
             is ExportResult.Error -> {
                 callback?.showToast(R.string.pref_toast_export_error)

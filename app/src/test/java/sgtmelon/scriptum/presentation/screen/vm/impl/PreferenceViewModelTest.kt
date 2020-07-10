@@ -12,7 +12,6 @@ import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.domain.interactor.callback.IBackupInteractor
 import sgtmelon.scriptum.domain.interactor.callback.IPreferenceInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteractor
-import sgtmelon.scriptum.domain.model.item.FileItem
 import sgtmelon.scriptum.domain.model.key.PermissionResult
 import sgtmelon.scriptum.domain.model.result.ExportResult
 import sgtmelon.scriptum.domain.model.result.ImportResult
@@ -278,11 +277,6 @@ class PreferenceViewModelTest : ParentViewModelTest() {
         spyViewModel.startExport()
 
         coEvery { backupInteractor.export() } returns ExportResult.Success(path)
-        coEvery { backupInteractor.getFileList() } returns List<FileItem>(size = 5) { mockk() }
-
-        spyViewModel.startExport()
-
-        coEvery { backupInteractor.getFileList() } returns emptyList()
         coEvery { spyViewModel.setupBackup() } returns Unit
 
         spyViewModel.startExport()
@@ -290,20 +284,12 @@ class PreferenceViewModelTest : ParentViewModelTest() {
         coVerifySequence {
             spyViewModel.startExport()
             backupInteractor.export()
-            spyViewModel.callback
             callback.showToast(R.string.pref_toast_export_error)
 
             spyViewModel.startExport()
             backupInteractor.export()
-            spyViewModel.callback
             callback.showExportPathToast(path)
-            backupInteractor.getFileList()
-
-            spyViewModel.startExport()
-            backupInteractor.export()
-            spyViewModel.callback
-            callback.showExportPathToast(path)
-            backupInteractor.getFileList()
+            callback.updateImportEnabled(isEnabled = false)
             backupInteractor.resetFileList()
             spyViewModel.setupBackup()
         }
