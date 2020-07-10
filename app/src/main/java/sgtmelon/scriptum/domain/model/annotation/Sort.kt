@@ -7,12 +7,10 @@ import androidx.annotation.IntDef
  */
 @IntDef(Sort.CHANGE, Sort.CREATE, Sort.RANK, Sort.COLOR)
 annotation class Sort {
-
     companion object {
         const val CHANGE = 0
         const val CREATE = 1
         const val RANK = 2
         const val COLOR = 3
     }
-
 }

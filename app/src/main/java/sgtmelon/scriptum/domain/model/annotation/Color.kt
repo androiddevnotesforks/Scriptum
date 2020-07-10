@@ -13,7 +13,6 @@ import androidx.annotation.IntDef
         Color.BLUE_GREY, Color.WHITE
 )
 annotation class Color {
-
     companion object {
         const val UNDEFINED = -1
         const val RED = 0
@@ -35,5 +34,4 @@ annotation class Color {
                 BLUE_GREY, WHITE
         )
     }
-
 }

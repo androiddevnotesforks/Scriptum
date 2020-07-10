@@ -8,7 +8,6 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
  */
 @StringDef(OpenFrom.INTENT_KEY, OpenFrom.ALARM, OpenFrom.BIND, OpenFrom.INFO)
 annotation class OpenFrom {
-
     companion object {
         private const val PREFIX = "OPEN_FROM"
 
@@ -18,5 +17,4 @@ annotation class OpenFrom {
         const val BIND = "${PREFIX}_BIND"
         const val INFO = "${PREFIX}_INFO"
     }
-
 }

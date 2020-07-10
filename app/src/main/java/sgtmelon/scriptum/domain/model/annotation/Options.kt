@@ -30,5 +30,4 @@ annotation class Options {
             const val CLEAR = 2
         }
     }
-
 }

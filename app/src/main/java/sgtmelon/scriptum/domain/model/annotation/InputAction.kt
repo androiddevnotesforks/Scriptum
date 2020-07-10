@@ -12,7 +12,6 @@ import sgtmelon.scriptum.presentation.control.note.input.InputControl
         InputAction.ROLL_ADD, InputAction.ROLL_REMOVE, InputAction.ROLL_MOVE
 )
 annotation class InputAction {
-
     companion object {
         const val RANK = 0
         const val COLOR = 1
@@ -25,5 +24,4 @@ annotation class InputAction {
         const val ROLL_REMOVE = 6
         const val ROLL_MOVE = 7
     }
-
 }
