@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.dagger.module.base
 
+import android.content.res.Resources
 import dagger.Module
 import dagger.Provides
 import sgtmelon.scriptum.dagger.ActivityScope
@@ -174,9 +175,9 @@ class InteractorModule {
 
     @Provides
     @ActivityScope
-    fun providePreferenceInteractor(summaryProvider: SummaryProvider,
+    fun providePreferenceInteractor(resources: Resources,
                                     preferenceRepo: IPreferenceRepo): IPreferenceInteractor {
-        return PreferenceInteractor(summaryProvider, preferenceRepo)
+        return PreferenceInteractor(SummaryProvider(resources), preferenceRepo)
     }
 
     @Provides

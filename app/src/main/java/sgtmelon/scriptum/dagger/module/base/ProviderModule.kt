@@ -8,7 +8,6 @@ import dagger.Module
 import dagger.Provides
 import sgtmelon.scriptum.data.provider.PreferenceProvider
 import sgtmelon.scriptum.data.provider.RoomProvider
-import sgtmelon.scriptum.presentation.provider.SummaryProvider
 import javax.inject.Singleton
 
 /**
@@ -16,13 +15,6 @@ import javax.inject.Singleton
  */
 @Module
 class ProviderModule {
-
-    // TODO remove singleton
-    @Provides
-    @Singleton
-    fun provideSummaryProvider(resources: Resources): SummaryProvider {
-        return SummaryProvider(resources)
-    }
 
     @Provides
     @Singleton
