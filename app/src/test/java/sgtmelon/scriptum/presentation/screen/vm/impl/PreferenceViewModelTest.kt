@@ -46,14 +46,14 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onSetup() {
-        val themeSummary = Random.nextString()
-        val sortSummary = Random.nextString()
-        val defaultColorSummary = Random.nextString()
-        val savePeriodSummary = Random.nextString()
-        val repeatSummary = Random.nextString()
+        val themeSummary = nextString()
+        val sortSummary = nextString()
+        val defaultColorSummary = nextString()
+        val savePeriodSummary = nextString()
+        val repeatSummary = nextString()
         val typeCheck = BooleanArray(size = 3) { Random.nextBoolean() }
-        val signalSummary = Random.nextString()
-        val volumeSummary = Random.nextString()
+        val signalSummary = nextString()
+        val volumeSummary = nextString()
 
         coEvery { spyViewModel.setupMelody() } returns Unit
         coEvery { spyViewModel.setupBackup() } returns Unit
@@ -234,7 +234,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
     @Test fun onResultTheme() {
         val value = Random.nextInt()
-        val summary = Random.nextString()
+        val summary = nextString()
 
         every { interactor.updateTheme(value) } returns summary
 
@@ -270,7 +270,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun startExport() = startCoTest {
-        val path = Random.nextString()
+        val path = nextString()
 
         coEvery { backupInteractor.export() } returns ExportResult.Error
 
@@ -337,7 +337,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onResultImport() {
-        val name = Random.nextString()
+        val name = nextString()
         val skipCount = Random.nextInt()
 
         coEvery { backupInteractor.import(name) } returns ImportResult.Simple
@@ -380,7 +380,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
     @Test fun onResultNoteSort() {
         val value = Random.nextInt()
-        val summary = Random.nextString()
+        val summary = nextString()
 
         every { interactor.updateSort(value) } returns summary
 
@@ -410,7 +410,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
     @Test fun onResultNoteColor() {
         val value = Random.nextInt()
-        val summary = Random.nextString()
+        val summary = nextString()
 
         every { interactor.updateDefaultColor(value) } returns summary
 
@@ -437,7 +437,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
     @Test fun onResultSaveTime() {
         val value = Random.nextInt()
-        val summary = Random.nextString()
+        val summary = nextString()
 
         every { interactor.updateSavePeriod(value) } returns summary
 
@@ -465,7 +465,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
     @Test fun onResultRepeat() {
         val value = Random.nextInt()
-        val summary = Random.nextString()
+        val summary = nextString()
 
         every { interactor.updateRepeat(value) } returns summary
 
@@ -493,7 +493,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
     @Test fun onResultSignal_isMelody() {
         val valueArray = BooleanArray(size = 3) { Random.nextBoolean() }
         val state = SignalState(isMelody = true, isVibration = Random.nextBoolean())
-        val summary = Random.nextString()
+        val summary = nextString()
 
         every { interactor.updateSignal(valueArray) } returns summary
 
@@ -529,7 +529,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
     @Test fun onResultSignal_notMelody() {
         val valueArray = BooleanArray(size = 3) { Random.nextBoolean() }
         val state = SignalState(isMelody = false, isVibration = Random.nextBoolean())
-        val summary = Random.nextString()
+        val summary = nextString()
 
         every { interactor.updateSignal(valueArray) } returns summary
 
@@ -655,7 +655,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
     @Test fun onResultMelody_onNotEquals() {
         val item = melodyList.random()
-        val newTitle = Random.nextString()
+        val newTitle = nextString()
 
         coEvery { signalInteractor.getMelodyList() } returns melodyList
         coEvery { signalInteractor.setMelodyUri(item.title) } returns newTitle
@@ -700,7 +700,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
     @Test fun onResultVolume() {
         val value = Random.nextInt()
-        val summary = Random.nextString()
+        val summary = nextString()
 
         every { interactor.updateVolume(value) } returns summary
 

@@ -61,13 +61,13 @@ class OpenStateTest : ParentTest() {
 
     @Test fun tryInvoke_byTag() {
         val func = mockk<() -> Unit>(relaxUnitFun = true)
-        val tag = Random.nextString()
+        val tag = nextString()
 
         every { func.invoke() } returns Unit
 
         openState.tag = tag
         openState.changeEnabled = false
-        openState.tryInvoke(Random.nextString(), func)
+        openState.tryInvoke(nextString(), func)
 
         assertFalse(openState.changeEnabled)
 
@@ -75,7 +75,7 @@ class OpenStateTest : ParentTest() {
 
         openState.changeEnabled = true
         openState.value = true
-        openState.tryInvoke(Random.nextString(), func)
+        openState.tryInvoke(nextString(), func)
 
         assertTrue(openState.changeEnabled)
         assertTrue(openState.value)
@@ -83,7 +83,7 @@ class OpenStateTest : ParentTest() {
         verifySequence(inverse = true) { func() }
 
         openState.value = false
-        openState.tryInvoke(Random.nextString(), func)
+        openState.tryInvoke(nextString(), func)
 
         assertTrue(openState.changeEnabled)
         assertTrue(openState.value)
@@ -196,7 +196,7 @@ class OpenStateTest : ParentTest() {
     }
 
     @Test fun clear() {
-        val tag = Random.nextString()
+        val tag = nextString()
 
         openState.value = true
         openState.tag = tag
@@ -241,7 +241,7 @@ class OpenStateTest : ParentTest() {
 
         val changeEnabled = Random.nextBoolean()
         val value = Random.nextBoolean()
-        val tag = Random.nextString()
+        val tag = nextString()
 
         every { bundle.getBoolean(OpenState.KEY_CHANGE) } returns changeEnabled
         every { bundle.getBoolean(OpenState.KEY_VALUE) } returns value
@@ -275,7 +275,7 @@ class OpenStateTest : ParentTest() {
 
         val changeEnabled = Random.nextBoolean()
         val value = Random.nextBoolean()
-        val tag = Random.nextString()
+        val tag = nextString()
 
         openState.changeEnabled = changeEnabled
         openState.value = value

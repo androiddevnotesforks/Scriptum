@@ -430,7 +430,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
         val randomId = Random.nextLong()
         val startRankEntity = RankEntity(
                 id = Random.nextLong(), noteId = mutableListOf(noteId, randomId),
-                name = Random.nextString()
+                name = nextString()
         )
         val finishRankEntity = startRankEntity.copy(noteId = mutableListOf(randomId))
 

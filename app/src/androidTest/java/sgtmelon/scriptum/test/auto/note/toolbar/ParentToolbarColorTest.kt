@@ -7,7 +7,6 @@ import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.test.IColorTest
 import sgtmelon.scriptum.test.ParentUiTest
-import kotlin.random.Random
 
 /**
  * Parent class for tests of [NoteActivity] toolbar color with different themes
@@ -27,7 +26,7 @@ abstract class ParentToolbarColorTest(@Theme private val theme: Int) : ParentUiT
                                 createText(noteItem) {
                                     controlPanel {
                                         onColor { onClickItem(color).onClickApply() }
-                                        onEnterText(Random.nextString())
+                                        onEnterText(nextString())
                                         onSave()
                                     }
                                     toolbar { onClickBack() }
@@ -37,7 +36,7 @@ abstract class ParentToolbarColorTest(@Theme private val theme: Int) : ParentUiT
                                 createRoll(noteItem) {
                                     controlPanel {
                                         onColor { onClickItem(color).onClickApply() }
-                                        enterPanel { onAdd(Random.nextString()) }
+                                        enterPanel { onAdd(nextString()) }
                                         onSave()
                                     }
                                     toolbar { onClickBack() }

@@ -288,8 +288,8 @@ class InputControlTest : ParentTest() {
     }
 
     @Test fun onNameChange() {
-        val valueFrom = Random.nextString()
-        val valueTo = Random.nextString()
+        val valueFrom = nextString()
+        val valueTo = nextString()
         val cursor = mockk<InputItem.Cursor>()
 
         val inputItem = InputItem(InputAction.NAME, valueFrom, valueTo, cursor)
@@ -305,8 +305,8 @@ class InputControlTest : ParentTest() {
     }
 
     @Test fun onTextChange() {
-        val valueFrom = Random.nextString()
-        val valueTo = Random.nextString()
+        val valueFrom = nextString()
+        val valueTo = nextString()
         val cursor = mockk<InputItem.Cursor>()
 
         val inputItem = InputItem(InputAction.TEXT, valueFrom, valueTo, cursor)
@@ -323,8 +323,8 @@ class InputControlTest : ParentTest() {
 
     @Test fun onRollChange() {
         val p = Random.nextInt()
-        val valueFrom = Random.nextString()
-        val valueTo = Random.nextString()
+        val valueFrom = nextString()
+        val valueTo = nextString()
         val cursor = mockk<InputItem.Cursor>()
 
         val inputItem = InputItem(InputAction.ROLL, valueFrom, valueTo, cursor, p)
@@ -341,7 +341,7 @@ class InputControlTest : ParentTest() {
 
     @Test fun onRollAdd() {
         val p = Random.nextInt()
-        val valueTo = Random.nextString()
+        val valueTo = nextString()
 
         val inputItem = InputItem(InputAction.ROLL_ADD, "", valueTo, null, p)
 
@@ -357,7 +357,7 @@ class InputControlTest : ParentTest() {
 
     @Test fun onRollRemove() {
         val p = Random.nextInt()
-        val valueFrom = Random.nextString()
+        val valueFrom = nextString()
 
         val inputItem = InputItem(InputAction.ROLL_REMOVE, valueFrom, "", null, p)
 

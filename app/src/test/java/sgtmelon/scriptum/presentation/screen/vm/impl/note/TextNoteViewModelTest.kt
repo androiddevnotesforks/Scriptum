@@ -209,17 +209,17 @@ class TextNoteViewModelTest : ParentViewModelTest() {
 
 
     private fun mockDeepCopy(item: NoteItem.Text, id: Long = Random.nextLong(),
-                             create: String = Random.nextString(),
-                             change: String = Random.nextString(),
-                             name: String = Random.nextString(),
-                             text: String = Random.nextString(),
+                             create: String = nextString(),
+                             change: String = nextString(),
+                             name: String = nextString(),
+                             text: String = nextString(),
                              color: Int = Random.nextInt(),
                              rankId: Long = Random.nextLong(),
                              rankPs: Int = Random.nextInt(),
                              isBin: Boolean = Random.nextBoolean(),
                              isStatus: Boolean = Random.nextBoolean(),
                              alarmId: Long = Random.nextLong(),
-                             alarmDate: String = Random.nextString()) {
+                             alarmDate: String = nextString()) {
         every { item.id } returns id
         every { item.create } returns create
         every { item.change } returns change

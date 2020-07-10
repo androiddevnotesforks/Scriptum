@@ -6,7 +6,6 @@ import org.junit.runner.RunWith
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.test.ParentUiTest
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
-import kotlin.random.Random
 
 /**
  * Test for [RollNoteScreen.Item].
@@ -28,10 +27,10 @@ class RollNoteContentTest : ParentUiTest() {
                 notesScreen(empty = true) {
                     openAddDialog {
                         createRoll(it) {
-                            enterPanel { onAdd(Random.nextString()) }
+                            enterPanel { onAdd(nextString()) }
                             onAssertAll()
 
-                            onEnterText().onEnterText(Random.nextString())
+                            onEnterText().onEnterText(nextString())
                         }
                     }
                 }
@@ -45,7 +44,7 @@ class RollNoteContentTest : ParentUiTest() {
                 notesScreen(empty = true) {
                     openAddDialog {
                         createRoll(it) {
-                            repeat(times = 3) { enterPanel { onAdd(Random.nextString()) } }
+                            repeat(times = 3) { enterPanel { onAdd(nextString()) } }
                             onAssertAll()
 
                             controlPanel { onSave() }
@@ -63,7 +62,7 @@ class RollNoteContentTest : ParentUiTest() {
                 notesScreen(empty = true) {
                     openAddDialog {
                         createRoll(it) {
-                            repeat(times = 5) { enterPanel { onAdd(Random.nextString()) } }
+                            repeat(times = 5) { enterPanel { onAdd(nextString()) } }
                             onAssertAll()
 
                             controlPanel { onSave() }
@@ -83,7 +82,7 @@ class RollNoteContentTest : ParentUiTest() {
                 notesScreen(empty = true) {
                     openAddDialog {
                         createRoll(it) {
-                            repeat(times = 5) { enterPanel { onAdd(Random.nextString()) } }
+                            repeat(times = 5) { enterPanel { onAdd(nextString()) } }
                             onEnterText(p = 0).onEnterText(p = 3)
 
                             controlPanel { onSave() }

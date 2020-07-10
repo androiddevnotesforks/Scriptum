@@ -508,7 +508,7 @@ object FastTest {
 
                 viewModel.noteItem = noteItem
 
-                every { item[isUndo] } returns Random.nextString()
+                every { item[isUndo] } returns nextString()
                 viewModel.onMenuUndoRedoRank(item, isUndo)
 
                 every { item[isUndo] } returns text
@@ -535,7 +535,7 @@ object FastTest {
 
                 viewModel.noteItem = noteItem
 
-                every { item[isUndo] } returns Random.nextString()
+                every { item[isUndo] } returns nextString()
                 viewModel.onMenuUndoRedoColor(item, isUndo)
 
                 every { item[isUndo] } returns colorTo.toString()
@@ -556,7 +556,7 @@ object FastTest {
                 val item = mockk<InputItem>(relaxUnitFun = true)
                 val isUndo = Random.nextBoolean()
 
-                val text = Random.nextString()
+                val text = nextString()
                 val position = Random.nextInt()
                 val cursor = mockk<InputItem.Cursor>(relaxUnitFun = true)
 
@@ -630,7 +630,7 @@ object FastTest {
             }
 
             fun onMenuNotification(noteItem: N) {
-                val alarmDate = Random.nextString()
+                val alarmDate = nextString()
                 val haveAlarm = Random.nextBoolean()
                 val calendar = mockk<Calendar>()
 

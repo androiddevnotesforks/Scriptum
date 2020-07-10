@@ -31,7 +31,7 @@ class AlarmRepoTest : ParentRoomRepoTest() {
         val noteItem = mockk<NoteItem>()
         val alarmEntity = mockk<AlarmEntity>()
 
-        val date = Random.nextString()
+        val date = nextString()
         val insertId = Random.nextLong()
 
         every { noteItem.alarmDate = date } returns Unit

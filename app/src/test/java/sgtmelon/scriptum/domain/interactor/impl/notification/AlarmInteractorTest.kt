@@ -99,7 +99,7 @@ class AlarmInteractorTest : ParentInteractorTest() {
         val minute = timeArray[repeat]
 
         val calendar = mockk<Calendar>()
-        val calendarText = Random.nextString()
+        val calendarText = nextString()
 
         coEvery { spyInteractor.checkDateExist(calendar) } returns Unit
 

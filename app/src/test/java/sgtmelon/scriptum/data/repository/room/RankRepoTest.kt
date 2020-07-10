@@ -126,7 +126,7 @@ class RankRepoTest : ParentRoomRepoTest() {
 
     @Test fun insert_byName() = startCoTest {
         val id = Random.nextLong()
-        val name = Random.nextString()
+        val name = nextString()
         val entity = RankEntity(name = name)
 
         coEvery { rankDao.insert(entity) } returns id
@@ -437,7 +437,7 @@ class RankRepoTest : ParentRoomRepoTest() {
 
 
     @Test fun getDialogItemArray() = startCoTest {
-        val nameList = List(size = 5) { Random.nextString() }
+        val nameList = List(size = 5) { nextString() }
         val nameArray = nameList.toTypedArray()
 
         coEvery { rankDao.getNameList() } returns nameList.subList(1, 5)

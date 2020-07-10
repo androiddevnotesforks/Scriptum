@@ -19,7 +19,6 @@ import sgtmelon.scriptum.domain.model.data.DbData.Rank
 import sgtmelon.scriptum.domain.model.data.DbData.Roll
 import sgtmelon.scriptum.domain.model.data.DbData.RollVisible
 import sgtmelon.scriptum.domain.model.result.ParserResult
-import kotlin.random.Random
 
 /**
  * Test for [BackupSelector].
@@ -34,11 +33,11 @@ class BackupSelectorTest : ParentBackupTest() {
 
     @Test fun parseByVersion() {
         val model = mockk<ParserResult>()
-        val roomData = Random.nextString()
+        val roomData = nextString()
 
         every { spyBackupSelector.getModelV1(roomData) } returns model
 
-        assertNull(spyBackupSelector.parseByVersion(Random.nextString(), version = -1))
+        assertNull(spyBackupSelector.parseByVersion(nextString(), version = -1))
         assertEquals(model, spyBackupSelector.parseByVersion(roomData, version = 1))
 
         verifySequence {

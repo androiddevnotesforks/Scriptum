@@ -96,7 +96,7 @@ class BinInteractorTest : ParentInteractorTest() {
 
     @Test fun copy() = startCoTest {
         val item = data.itemList.random()
-        val text = Random.nextString()
+        val text = nextString()
 
         coEvery { noteRepo.getCopyText(item) } returns text
 

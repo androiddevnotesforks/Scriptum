@@ -262,13 +262,13 @@ class PreferenceInteractorTest : ParentInteractorTest() {
 
 
     @Test fun getSignalSummaryArray() {
-        val summaryArray = Array(size = 3) { Random.nextString() }
+        val summaryArray = Array(size = 3) { nextString() }
         val checkArray = booleanArrayOf(true, false, true)
 
         fun String.getLow() = toLowerCase(Locale.getDefault())
         val resultString = "${summaryArray.first().getLow()}, ${summaryArray.last().getLow()}"
 
-        coEvery { summaryProvider.signal } returns arrayOf(Random.nextString())
+        coEvery { summaryProvider.signal } returns arrayOf(nextString())
         assertNull(interactor.getSignalSummary(checkArray))
 
         coEvery { summaryProvider.signal } returns summaryArray
@@ -276,7 +276,7 @@ class PreferenceInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun updateSignal() {
-        val summaryArray = Array(size = 3) { Random.nextString() }
+        val summaryArray = Array(size = 3) { nextString() }
         val checkArray = booleanArrayOf(true, false, true)
 
         fun String.getLow() = toLowerCase(Locale.getDefault())

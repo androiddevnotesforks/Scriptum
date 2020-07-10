@@ -6,7 +6,6 @@ import org.junit.runner.RunWith
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.test.ParentUiTest
-import kotlin.random.Random
 
 /**
  * Test visible button and list for [RollNoteFragment].
@@ -44,7 +43,7 @@ class RollNoteVisibleTest : ParentUiTest() {
                         createRoll(item) {
                             onClickVisible()
 
-                            enterPanel { onAdd(Random.nextString()) }
+                            enterPanel { onAdd(nextString()) }
                             controlPanel { onSave() }
 
                             item = noteItem
@@ -67,7 +66,7 @@ class RollNoteVisibleTest : ParentUiTest() {
                         createRoll(it) {
                             onClickVisible().onClickVisible()
 
-                            repeat(times = 3) { enterPanel { onAdd(Random.nextString()) } }
+                            repeat(times = 3) { enterPanel { onAdd(nextString()) } }
                             controlPanel { onSave() }
                             onClickCheck()
                             onClickVisible()
@@ -140,7 +139,7 @@ class RollNoteVisibleTest : ParentUiTest() {
                         createRoll(it) {
                             onClickVisible()
 
-                            enterPanel { repeat(times = 5) { onAdd(Random.nextString()) } }
+                            enterPanel { repeat(times = 5) { onAdd(nextString()) } }
                             controlPanel { onSave() }
 
                             onClickVisible()
@@ -159,7 +158,7 @@ class RollNoteVisibleTest : ParentUiTest() {
                         onClickVisible()
 
                         controlPanel { onEdit() }
-                        onEnterText(Random.nextString())
+                        onEnterText(nextString())
                         controlPanel { onSave() }
 
                         onClickVisible()

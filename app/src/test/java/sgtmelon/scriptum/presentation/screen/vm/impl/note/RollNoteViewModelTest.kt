@@ -300,7 +300,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         every { spyViewModel.onMenuSave(changeMode = true) } returns Random.nextBoolean()
         every { spyViewModel.onClickAdd(simpleClick = true) } returns Unit
 
-        every { callback.getEnterText() } returns Random.nextString()
+        every { callback.getEnterText() } returns nextString()
         assertTrue(spyViewModel.onEditorClick(i))
 
         every { callback.getEnterText() } returns "   "
@@ -369,7 +369,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         val noteState = mockk<NoteState>(relaxUnitFun = true)
         val noteItem = mockk<NoteItem.Roll>(relaxUnitFun = true)
 
-        val enterText = Random.nextString()
+        val enterText = nextString()
         val optimalList = mockk<MutableList<RollItem>>()
         val normalList = mockk<MutableList<RollItem>>(relaxUnitFun = true)
         val size = Random.nextInt()
@@ -697,7 +697,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
     @Test fun onInputRollChange() {
         val p = Random.nextInt()
-        val text = Random.nextString()
+        val text = nextString()
 
         val noteItem = mockk<NoteItem.Roll>()
         val list = MutableList<RollItem>(size = 5) { mockk() }
@@ -803,7 +803,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         val list = mockk<MutableList<RollItem>>()
         val newList = mockk<MutableList<RollItem>>()
         val item = mockk<RollItem>()
-        val itemJson = Random.nextString()
+        val itemJson = nextString()
 
         val inputAccess = mockk<InputControl.Access>()
 
@@ -937,17 +937,17 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
 
     private fun mockDeepCopy(item: NoteItem.Roll, id: Long = Random.nextLong(),
-                             create: String = Random.nextString(),
-                             change: String = Random.nextString(),
-                             name: String = Random.nextString(),
-                             text: String = Random.nextString(),
+                             create: String = nextString(),
+                             change: String = nextString(),
+                             name: String = nextString(),
+                             text: String = nextString(),
                              color: Int = Random.nextInt(),
                              rankId: Long = Random.nextLong(),
                              rankPs: Int = Random.nextInt(),
                              isBin: Boolean = Random.nextBoolean(),
                              isStatus: Boolean = Random.nextBoolean(),
                              alarmId: Long = Random.nextLong(),
-                             alarmDate: String = Random.nextString()) {
+                             alarmDate: String = nextString()) {
         val list = MutableList(size = 5) { mockk<RollItem>() }
 
         every { item.id } returns id

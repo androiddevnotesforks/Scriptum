@@ -7,7 +7,6 @@ import sgtmelon.extension.nextString
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.test.ParentUiTest
 import sgtmelon.scriptum.test.error.Description
-import kotlin.random.Random
 
 /**
  * Test fix of old errors for [RollNoteFragment].
@@ -27,7 +26,7 @@ class RollNoteErrorTest : ParentUiTest() {
                 notesScreen(empty = true) {
                     openAddDialog {
                         createRoll(item) {
-                            enterPanel { repeat(times = 4) { onAdd(Random.nextString()) } }
+                            enterPanel { repeat(times = 4) { onAdd(nextString()) } }
                             onEnterText()
 
                             controlPanel { onSave() }

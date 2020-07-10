@@ -102,7 +102,7 @@ class SignalInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun getMelodyUri() = startCoTest {
-        val wrongUri = Random.nextString()
+        val wrongUri = nextString()
         val wrongReturnUri = melodyList.first().uri
 
         val goodUri = melodyList.random().uri
@@ -142,7 +142,7 @@ class SignalInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun setMelodyUri() = startCoTest {
-        val wrongTitle = Random.nextString()
+        val wrongTitle = nextString()
 
         val wrongItem = melodyList.first()
         val melodyItem = melodyList.random()
@@ -174,12 +174,12 @@ class SignalInteractorTest : ParentInteractorTest() {
         val index = melodyList.indices.random()
 
         coEvery { spyInteractor.getMelodyList() } returns emptyList()
-        coEvery { spyInteractor.getMelodyUri() } returns Random.nextString()
+        coEvery { spyInteractor.getMelodyUri() } returns nextString()
 
         assertNull(spyInteractor.getMelodyCheck())
 
         coEvery { spyInteractor.getMelodyList() } returns melodyList
-        coEvery { spyInteractor.getMelodyUri() } returns Random.nextString()
+        coEvery { spyInteractor.getMelodyUri() } returns nextString()
 
         assertNull(spyInteractor.getMelodyCheck())
 

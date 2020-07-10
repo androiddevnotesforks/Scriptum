@@ -211,7 +211,7 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onResultRenameDialog() = startCoTest {
-        val newName = Random.nextString()
+        val newName = nextString()
 
         every { callback.getEnterText() } returns newName
 
@@ -252,11 +252,11 @@ class RankViewModelTest : ParentViewModelTest() {
         assertFalse(spyViewModel.onEditorClick(EditorInfo.IME_ACTION_DONE))
 
         every { spyViewModel.onClickEnterAdd(simpleClick = true) } returns Unit
-        every { callback.getEnterText() } returns Random.nextString()
+        every { callback.getEnterText() } returns nextString()
         every { callback.clearEnter() } returns ""
         assertTrue(spyViewModel.onEditorClick(EditorInfo.IME_ACTION_DONE))
 
-        val name = Random.nextString()
+        val name = nextString()
         var itemList = listOf(data.firstRank.copy(name = name))
         spyViewModel.itemList.clearAdd(itemList)
         assertEquals(itemList, spyViewModel.itemList)
@@ -287,7 +287,7 @@ class RankViewModelTest : ParentViewModelTest() {
         every { callback.clearEnter() } returns ""
         viewModel.onClickEnterAdd(Random.nextBoolean())
 
-        val name = Random.nextString()
+        val name = nextString()
 
         val itemList = listOf(data.firstRank.copy(name = name))
         viewModel.itemList.clearAdd(itemList)
@@ -304,7 +304,7 @@ class RankViewModelTest : ParentViewModelTest() {
 
     @Test fun onClickEnterAdd_onSimple() = startCoTest {
         val itemList = data.itemList
-        val name = Random.nextString()
+        val name = nextString()
         val item = data.firstRank.copy(name = name)
 
         every { callback.clearEnter() } returns name
@@ -339,7 +339,7 @@ class RankViewModelTest : ParentViewModelTest() {
     @Test fun onClickEnterAdd_onLong() = startCoTest {
         val itemList = data.itemList
 
-        val name = Random.nextString()
+        val name = nextString()
         val item = data.firstRank.copy(name = name)
 
         every { callback.clearEnter() } returns name
@@ -373,7 +373,7 @@ class RankViewModelTest : ParentViewModelTest() {
 
     @Test fun onClickEnterAdd_onNull() = startCoTest {
         val itemList = data.itemList
-        val name = Random.nextString()
+        val name = nextString()
 
         every { spyViewModel.getNameList(itemList) } returns emptyList()
         every { callback.clearEnter() } returns name
@@ -741,7 +741,7 @@ class RankViewModelTest : ParentViewModelTest() {
 
     @Test fun getNameList() {
         val itemList = List(size = 5) {
-            RankItem(id = Random.nextLong(), name = Random.nextString())
+            RankItem(id = Random.nextLong(), name = nextString())
         }
         val nameList = itemList.map { it.name.toUpperCase() }
 

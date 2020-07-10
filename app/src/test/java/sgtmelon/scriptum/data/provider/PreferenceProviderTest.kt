@@ -22,19 +22,19 @@ class PreferenceProviderTest : ParentTest() {
     private val providerDef by lazy { PreferenceProvider.Def(resources) }
 
     @Test fun valueKey() {
-        val firstStart = Random.nextString()
-        val theme = Random.nextString()
-        val importSkip = Random.nextString()
-        val sort = Random.nextString()
-        val defaultColor = Random.nextString()
-        val pauseSaveOn = Random.nextString()
-        val autoSaveOn = Random.nextString()
-        val savePeriod = Random.nextString()
-        val repeat = Random.nextString()
-        val signal = Random.nextString()
-        val melodyUri = Random.nextString()
-        val volume = Random.nextString()
-        val volumeIncrease = Random.nextString()
+        val firstStart = nextString()
+        val theme = nextString()
+        val importSkip = nextString()
+        val sort = nextString()
+        val defaultColor = nextString()
+        val pauseSaveOn = nextString()
+        val autoSaveOn = nextString()
+        val savePeriod = nextString()
+        val repeat = nextString()
+        val signal = nextString()
+        val melodyUri = nextString()
+        val volume = nextString()
+        val volumeIncrease = nextString()
 
         every { resources.getString(R.string.pref_key_first_start) } returns firstStart
         every { resources.getString(R.string.pref_key_app_theme) } returns theme
@@ -92,7 +92,7 @@ class PreferenceProviderTest : ParentTest() {
         val savePeriod = Random.nextInt()
         val repeat = Random.nextInt()
         val signal = Random.nextInt()
-        val melodyUri = Random.nextString()
+        val melodyUri = nextString()
         val volume = Random.nextInt()
         val volumeIncrease = Random.nextBoolean()
 

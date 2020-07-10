@@ -75,7 +75,7 @@ class RankInteractorTest : ParentInteractorTest() {
 
     @Test fun insert_byName() = startCoTest {
         val idList = listOf(Random.nextLong(), Random.nextLong(), null)
-        val name = Random.nextString()
+        val name = nextString()
 
         idList.forEach {
             coEvery { rankRepo.insert(name) } returns it

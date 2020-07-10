@@ -6,7 +6,6 @@ import org.junit.runner.RunWith
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.test.ParentUiTest
-import kotlin.random.Random
 
 /**
  * Test keyboard ime click for [RollNoteFragment].
@@ -21,9 +20,9 @@ class RollNoteImeTest : ParentUiTest() {
                     openAddDialog {
                         createRoll(it) {
                             enterPanel {
-                                onAdd(Random.nextString()).onEnterText(Random.nextString())
+                                onAdd(nextString()).onEnterText(nextString())
                             }
-                            toolbar { onEnterName(Random.nextString()).onImeOptionName() }
+                            toolbar { onEnterName(nextString()).onImeOptionName() }
                         }
                     }
                 }
@@ -38,9 +37,9 @@ class RollNoteImeTest : ParentUiTest() {
                     openAddDialog {
                         createRoll(it) {
                             enterPanel {
-                                onAdd(Random.nextString()).onEnterText(Random.nextString())
+                                onAdd(nextString()).onEnterText(nextString())
                             }
-                            onEnterText(Random.nextString())
+                            onEnterText(nextString())
                             onImeOptionText()
                         }
                     }
@@ -56,8 +55,8 @@ class RollNoteImeTest : ParentUiTest() {
                     openAddDialog {
                         createRoll(it) {
                             enterPanel {
-                                onEnterText(Random.nextString()).onImeOptionEnter()
-                                onEnterText(Random.nextString()).onImeOptionEnter()
+                                onEnterText(nextString()).onImeOptionEnter()
+                                onEnterText(nextString()).onImeOptionEnter()
                             }
                             onAssertAll()
 

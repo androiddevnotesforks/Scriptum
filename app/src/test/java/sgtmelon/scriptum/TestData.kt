@@ -76,12 +76,12 @@ object TestData {
         val dateList = listOf(DATE_0, DATE_1, DATE_2, DATE_3)
 
         val rollList get() = mutableListOf(
-                RollItem(id = 0, position = 0, isCheck = Random.nextBoolean(), text = Random.nextString()),
-                RollItem(id = 1, position = 1, isCheck = Random.nextBoolean(), text = Random.nextString()),
-                RollItem(id = 2, position = 2, isCheck = Random.nextBoolean(), text = Random.nextString()),
-                RollItem(id = 3, position = 3, isCheck = Random.nextBoolean(), text = Random.nextString()),
-                RollItem(id = 4, position = 4, isCheck = Random.nextBoolean(), text = Random.nextString()),
-                RollItem(id = 5, position = 5, isCheck = Random.nextBoolean(), text = Random.nextString())
+                RollItem(id = 0, position = 0, isCheck = Random.nextBoolean(), text = nextString()),
+                RollItem(id = 1, position = 1, isCheck = Random.nextBoolean(), text = nextString()),
+                RollItem(id = 2, position = 2, isCheck = Random.nextBoolean(), text = nextString()),
+                RollItem(id = 3, position = 3, isCheck = Random.nextBoolean(), text = nextString()),
+                RollItem(id = 4, position = 4, isCheck = Random.nextBoolean(), text = nextString()),
+                RollItem(id = 5, position = 5, isCheck = Random.nextBoolean(), text = nextString())
         )
 
         val rankIdVisibleList get() = List(size = 5) { Random.nextLong() }
@@ -125,10 +125,10 @@ object TestData {
 
     object Backup {
         val fileList = listOf(
-                FileItem(Random.nextString(), Random.nextString()),
-                FileItem(Random.nextString(), Random.nextString()),
-                FileItem(Random.nextString(), Random.nextString()),
-                FileItem(Random.nextString(), Random.nextString())
+                FileItem(nextString(), nextString()),
+                FileItem(nextString(), nextString()),
+                FileItem(nextString(), nextString()),
+                FileItem(nextString(), nextString())
         )
     }
 

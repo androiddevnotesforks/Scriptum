@@ -6,7 +6,6 @@ import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.RankFragment
 import sgtmelon.scriptum.test.ParentUiTest
 import sgtmelon.scriptum.ui.ParentRecyclerItem
-import kotlin.random.Random
 
 /**
  * Test for Snackbar in [RankFragment].
@@ -139,7 +138,7 @@ class RankSnackbarTest : ParentUiTest() {
     }
 
     @Test fun dismissOnAddStart() = data.fillRank(count = 2).let { list ->
-        val name = Random.nextShortString()
+        val name = nextShortString()
 
         launch {
             mainScreen {
@@ -160,7 +159,7 @@ class RankSnackbarTest : ParentUiTest() {
     }
 
     @Test fun dismissOnAddEnd() = data.fillRank(count = 2).let { list ->
-        val name = Random.nextShortString()
+        val name = nextShortString()
 
         launch {
             mainScreen {
@@ -181,7 +180,7 @@ class RankSnackbarTest : ParentUiTest() {
     }
 
     @Test fun dismissOnAddIme() = data.fillRank(count = 2).let { list ->
-        val name = Random.nextShortString()
+        val name = nextShortString()
 
         launch {
             mainScreen {

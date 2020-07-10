@@ -35,8 +35,8 @@ class TestData(
         get() = NoteEntity().apply {
             create = getTime()
             change = getTime()
-            name = Random.nextString()
-            text = Random.nextString().repeat(n = (1 until 10).random())
+            name = nextString()
+            text = nextString().repeat(n = (1 until 10).random())
             color = (0 until ColorData.size).random()
             type = NoteType.TEXT
         }
@@ -45,7 +45,7 @@ class TestData(
         get() = NoteEntity().apply {
             create = getTime()
             change = getTime()
-            name = Random.nextString()
+            name = nextString()
             color = (0 until ColorData.size).random()
             type = NoteType.ROLL
         }
@@ -63,10 +63,10 @@ class TestData(
     val rollEntity: RollEntity
         get() = RollEntity().apply {
             isCheck = Random.nextBoolean()
-            text = Random.nextString()
+            text = nextString()
         }
 
-    val rankEntity: RankEntity get() = RankEntity(name = Random.nextString())
+    val rankEntity: RankEntity get() = RankEntity(name = nextString())
 
 
     fun createNote(): NoteItem = if (Random.nextBoolean()) createText() else createRoll()
@@ -220,7 +220,7 @@ class TestData(
             val rankItem = insertRank(RankEntity(
                     noteId = noteList.map { item -> item.id }.toMutableList(),
                     position = it,
-                    name = "$it | ${Random.nextString()}",
+                    name = "$it | ${nextString()}",
                     isVisible = Random.nextBoolean()
             ))
 

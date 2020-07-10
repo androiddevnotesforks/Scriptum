@@ -6,7 +6,6 @@ import org.junit.runner.RunWith
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.test.ParentUiTest
-import kotlin.random.Random
 
 /**
  * Test add panel for [RollNoteFragment].
@@ -30,7 +29,7 @@ class RollNoteAddTest : ParentUiTest() {
                 notesScreen(empty = true) {
                     openAddDialog {
                         createRoll(it) {
-                            repeat(times = 5) { enterPanel { onAdd(Random.nextString()) } }
+                            repeat(times = 5) { enterPanel { onAdd(nextString()) } }
                             onAssertAll()
 
                             controlPanel { onSave() }

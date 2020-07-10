@@ -41,15 +41,15 @@ class BackupParserTest : ParentBackupTest() {
 
     private val spyBackupParser by lazy { spyk(backupParser) }
 
-    private val tagVersion = Random.nextString()
-    private val tagHash = Random.nextString()
-    private val tagRoom = Random.nextString()
+    private val tagVersion = nextString()
+    private val tagHash = nextString()
+    private val tagRoom = nextString()
 
 
     @Test fun collect() {
         val model = mockk<ParserResult>()
         val roomData = getRoomData()
-        val hash = Random.nextString()
+        val hash = nextString()
 
         mockTag()
         every { spyBackupParser.collectRoom(model) } returns roomData
@@ -77,11 +77,11 @@ class BackupParserTest : ParentBackupTest() {
         val rankList = mockk<List<RankEntity>>()
         val alarmList = mockk<List<AlarmEntity>>()
 
-        val noteTableData = Random.nextString()
-        val rollTableData = Random.nextString()
-        val rollVisibleTableData = Random.nextString()
-        val rankTableData = Random.nextString()
-        val alarmTableData = Random.nextString()
+        val noteTableData = nextString()
+        val rollTableData = nextString()
+        val rollVisibleTableData = nextString()
+        val rankTableData = nextString()
+        val alarmTableData = nextString()
 
         val roomData = JSONObject().apply {
             put(Note.TABLE, noteTableData)
@@ -143,12 +143,12 @@ class BackupParserTest : ParentBackupTest() {
 
 
     @Test fun parse_badData() {
-        val dataError = Random.nextString()
-        val versionError = JSONObject().apply { put(tagVersion, Random.nextString()) }.toString()
+        val dataError = nextString()
+        val versionError = JSONObject().apply { put(tagVersion, nextString()) }.toString()
         val hashError = JSONObject().apply { put(tagVersion, Random.nextInt()) }.toString()
         val roomError = JSONObject().apply {
             put(tagVersion, Random.nextInt())
-            put(tagHash, Random.nextString())
+            put(tagHash, nextString())
         }.toString()
 
         mockTag()
@@ -177,10 +177,10 @@ class BackupParserTest : ParentBackupTest() {
 
     @Test fun parse_badHash() {
         val roomData = getRoomData()
-        val data = getBackupData(Random.nextString(), roomData, Random.nextInt())
+        val data = getBackupData(nextString(), roomData, Random.nextInt())
 
         mockTag()
-        every { spyBackupParser.getHash(roomData) } returns Random.nextString()
+        every { spyBackupParser.getHash(roomData) } returns nextString()
 
         assertNull(spyBackupParser.parse(data))
 
@@ -197,7 +197,7 @@ class BackupParserTest : ParentBackupTest() {
     @Test fun parse_goodData() {
         val model = mockk<ParserResult>()
         val roomData = getRoomData()
-        val hash = Random.nextString()
+        val hash = nextString()
         val version = Random.nextInt()
 
         val data = getBackupData(hash, roomData, version)
@@ -240,7 +240,7 @@ class BackupParserTest : ParentBackupTest() {
      * Imitate the result of collect room.
      */
     private fun getRoomData() = StringBuilder().apply {
-        repeat(times = 5) { append(Random.nextString()) }
+        repeat(times = 5) { append(nextString()) }
     }.toString()
 
     /**

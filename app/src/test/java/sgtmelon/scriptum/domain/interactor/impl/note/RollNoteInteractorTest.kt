@@ -96,8 +96,8 @@ class RollNoteInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun getRankDialogItemArray() = startCoTest {
-        val emptyName = Random.nextString()
-        val itemArray = Array(size = 5) { Random.nextString() }
+        val emptyName = nextString()
+        val itemArray = Array(size = 5) { nextString() }
 
         coEvery { rankRepo.getDialogItemArray(emptyName) } returns itemArray
         assertArrayEquals(itemArray, interactor.getRankDialogItemArray(emptyName))

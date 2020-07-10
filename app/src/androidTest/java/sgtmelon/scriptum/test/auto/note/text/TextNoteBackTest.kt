@@ -6,7 +6,6 @@ import org.junit.runner.RunWith
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.test.ParentUiTest
-import kotlin.random.Random
 
 /**
  * Test toolbar arrow and back press for [TextNoteFragment].
@@ -47,8 +46,8 @@ class TextNoteBackTest : ParentUiTest() {
             mainScreen {
                 openAddDialog {
                     createText(it) {
-                        toolbar { onEnterName(Random.nextString()) }
-                        onEnterText(Random.nextString())
+                        toolbar { onEnterName(nextString()) }
+                        onEnterText(nextString())
                         onPressBack()
                     }
                 }
@@ -62,8 +61,8 @@ class TextNoteBackTest : ParentUiTest() {
                 notesScreen {
                     openTextNote(it) {
                         controlPanel { onEdit() }
-                        toolbar { onEnterName(Random.nextString()) }
-                        onEnterText(Random.nextString())
+                        toolbar { onEnterName(nextString()) }
+                        onEnterText(nextString())
                         onPressBack()
                     }
                 }
@@ -78,8 +77,8 @@ class TextNoteBackTest : ParentUiTest() {
                 notesScreen {
                     openTextNote(it) {
                         controlPanel { onEdit() }
-                        onEnterText(Random.nextString())
-                        toolbar { onEnterName(Random.nextString()).onClickBack() }
+                        onEnterText(nextString())
+                        toolbar { onEnterName(nextString()).onClickBack() }
                     }
                 }
             }

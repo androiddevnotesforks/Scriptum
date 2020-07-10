@@ -7,7 +7,6 @@ import sgtmelon.extension.nextString
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.test.ParentUiTest
-import kotlin.random.Random
 
 /**
  * Test text trim for [TextNoteFragment] and [RollNoteFragment].
@@ -21,8 +20,8 @@ class NoteTrimTest : ParentUiTest() {
                 notesScreen(empty = true) {
                     openAddDialog {
                         createText(it) {
-                            toolbar { onEnterName(Random.nextString().plus(other = ".   as")) }
-                            onEnterText(Random.nextString())
+                            toolbar { onEnterName(nextString().plus(other = ".   as")) }
+                            onEnterText(nextString())
                             controlPanel { onSave() }
                         }
                     }
@@ -37,9 +36,9 @@ class NoteTrimTest : ParentUiTest() {
                 notesScreen(empty = true) {
                     openAddDialog {
                         createRoll(it) {
-                            toolbar { onEnterName(Random.nextString().plus(other = ".   as")) }
+                            toolbar { onEnterName(nextString().plus(other = ".   as")) }
 
-                            val itemText = Random.nextString().plus(other = ".   ll.   ")
+                            val itemText = nextString().plus(other = ".   ll.   ")
 
                             enterPanel { onAdd(itemText) }
                             onAssertAll()

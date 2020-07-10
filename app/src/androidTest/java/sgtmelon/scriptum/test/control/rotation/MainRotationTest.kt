@@ -7,7 +7,6 @@ import sgtmelon.extension.nextString
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.MainActivity
 import sgtmelon.scriptum.test.ParentRotationTest
-import kotlin.random.Random
 
 /**
  * Test of [MainActivity] work with phone rotation
@@ -33,7 +32,7 @@ class MainRotationTest : ParentRotationTest() {
     }
 
     @Test fun rankRenameDialog() = data.insertRank().let {
-        val newName = Random.nextString()
+        val newName = nextString()
 
         launch {
             mainScreen {

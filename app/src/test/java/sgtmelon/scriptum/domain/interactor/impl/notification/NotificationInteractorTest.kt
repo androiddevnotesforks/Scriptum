@@ -91,7 +91,7 @@ class NotificationInteractorTest : ParentInteractorTest() {
         every { notificationItem.alarm } returns alarm
         every { note.id } returns id
 
-        every { alarm.date } returns Random.nextString()
+        every { alarm.date } returns nextString()
         coEvery { noteRepo.getItem(id, isOptimal = true) } returns null
         assertNull(interactor.setNotification(notificationItem))
 

@@ -6,7 +6,6 @@ import org.junit.runner.RunWith
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.test.ParentNotificationTest
 import sgtmelon.scriptum.test.error.Description
-import kotlin.random.Random
 
 /**
  * Test fix of old errors for bind in status bar.
@@ -25,7 +24,7 @@ class BindErrorTest : ParentNotificationTest() {
                 notesScreen {
                     openTextNote(it) {
                         controlPanel { onEdit() }
-                        onEnterText(Random.nextString())
+                        onEnterText(nextString())
                         onOpen { noteItem.isStatus = false }
                         toolbar { onClickBack() }
                     }
@@ -45,7 +44,7 @@ class BindErrorTest : ParentNotificationTest() {
                 notesScreen {
                     openRollNote(it) {
                         controlPanel { onEdit() }
-                        enterPanel { onAdd(Random.nextString()) }
+                        enterPanel { onAdd(nextString()) }
                         onOpen { noteItem.isStatus = false }
                         toolbar { onClickBack() }
                     }

@@ -6,7 +6,6 @@ import org.junit.runner.RunWith
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.RankFragment
 import sgtmelon.scriptum.test.ParentUiTest
-import kotlin.random.Random
 
 /**
  * Test rename dialog for [RankFragment].
@@ -52,7 +51,7 @@ class RankRenameDialogTest : ParentUiTest() {
     }
 
     @Test fun dialogResult() = data.insertRank().let {
-        val newName = Random.nextString()
+        val newName = nextString()
 
         launch {
             mainScreen {

@@ -11,7 +11,6 @@ import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentTest
 import sgtmelon.scriptum.domain.model.key.PermissionResult
 import sgtmelon.scriptum.presentation.provider.BuildProvider.Version
-import kotlin.random.Random
 
 /**
  * Test for [PermissionState].
@@ -20,7 +19,7 @@ class PermissionStateTest : ParentTest() {
 
     @MockK lateinit var activity: Activity
 
-    private val permission = Random.nextString()
+    private val permission = nextString()
     private val permissionState by lazy { PermissionState(activity, permission) }
 
     @Test fun getResult() {

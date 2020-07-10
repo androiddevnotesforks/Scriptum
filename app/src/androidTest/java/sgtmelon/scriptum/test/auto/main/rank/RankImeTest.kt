@@ -6,7 +6,6 @@ import org.junit.runner.RunWith
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.RankFragment
 import sgtmelon.scriptum.test.ParentUiTest
-import kotlin.random.Random
 
 /**
  * Test keyboard ime click for [RankFragment].
@@ -15,7 +14,7 @@ import kotlin.random.Random
 class RankImeTest : ParentUiTest() {
 
     @Test fun toolbarImeAdd() = launch({ data.fillRank() }) {
-        val name = Random.nextString()
+        val name = nextString()
 
         mainScreen {
             rankScreen {
@@ -45,7 +44,7 @@ class RankImeTest : ParentUiTest() {
     }
 
     @Test fun renameImeResult() = data.insertRank().let {
-        val newName = Random.nextString()
+        val newName = nextString()
 
         launch {
             mainScreen {

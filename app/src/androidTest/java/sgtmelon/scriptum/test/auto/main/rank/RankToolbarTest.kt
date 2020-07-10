@@ -7,7 +7,6 @@ import sgtmelon.extension.nextString
 import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.RankFragment
 import sgtmelon.scriptum.test.ParentUiTest
-import kotlin.random.Random
 
 /**
  * Test toolbar for [RankFragment].
@@ -28,17 +27,17 @@ class RankToolbarTest : ParentUiTest() {
     }
 
     @Test fun enterAddEnabled() = launch {
-        val name = Random.nextString()
+        val name = nextString()
         mainScreen { rankScreen(empty = true) { toolbar { onEnterName(name) } } }
     }
 
     @Test fun enterClear() = launch {
-        val name = Random.nextString()
+        val name = nextString()
 
         mainScreen {
             rankScreen(empty = true) {
                 toolbar {
-                    onEnterName(Random.nextString()).onClickClear()
+                    onEnterName(nextString()).onClickClear()
                     onEnterName(name).onClickAdd()
                 }
                 openRenameDialog(name) { onCloseSoft() }
@@ -48,7 +47,7 @@ class RankToolbarTest : ParentUiTest() {
 
 
     @Test fun enterAddOnEmpty() = launch {
-        val name = Random.nextString()
+        val name = nextString()
 
         mainScreen {
             rankScreen(empty = true) {
@@ -64,7 +63,7 @@ class RankToolbarTest : ParentUiTest() {
     }
 
     @Test fun enterAddStart() = launch({ data.fillRank() }) {
-        val name = Random.nextString()
+        val name = nextString()
 
         mainScreen {
             rankScreen {
@@ -82,7 +81,7 @@ class RankToolbarTest : ParentUiTest() {
     }
 
     @Test fun enterAddEnd() = launch({ data.fillRank() }) {
-        val name = Random.nextString()
+        val name = nextString()
 
         mainScreen {
             rankScreen {
@@ -99,7 +98,7 @@ class RankToolbarTest : ParentUiTest() {
 
 
     @Test fun updateOnRename() = data.insertRank().let {
-        val newName = Random.nextString()
+        val newName = nextString()
 
         launch {
             mainScreen {

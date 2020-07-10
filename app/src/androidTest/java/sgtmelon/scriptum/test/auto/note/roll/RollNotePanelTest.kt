@@ -6,7 +6,6 @@ import org.junit.runner.RunWith
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.test.ParentUiTest
-import kotlin.random.Random
 
 /**
  * Test control panel for [RollNoteFragment].
@@ -151,8 +150,8 @@ class RollNotePanelTest : ParentUiTest() {
             mainScreen {
                 openAddDialog {
                     createRoll(it) {
-                        toolbar { onEnterName(Random.nextString()) }
-                        repeat(times = 3) { enterPanel { onAdd(Random.nextString()) } }
+                        toolbar { onEnterName(nextString()) }
+                        repeat(times = 3) { enterPanel { onAdd(nextString()) } }
                         onSwipe()
 
                         controlPanel { onSave() }
@@ -169,9 +168,9 @@ class RollNotePanelTest : ParentUiTest() {
                     openRollNote(it) {
                         controlPanel { onEdit() }
 
-                        toolbar { onEnterName(Random.nextString()) }
+                        toolbar { onEnterName(nextString()) }
                         onSwipeAll()
-                        repeat(times = 3) { enterPanel { onAdd(Random.nextString()) } }
+                        repeat(times = 3) { enterPanel { onAdd(nextString()) } }
 
                         controlPanel { onSave() }
                     }
@@ -185,8 +184,8 @@ class RollNotePanelTest : ParentUiTest() {
             mainScreen {
                 openAddDialog {
                     createRoll(it) {
-                        toolbar { onEnterName(Random.nextString()) }
-                        repeat(times = 3) { enterPanel { onAdd(Random.nextString()) } }
+                        toolbar { onEnterName(nextString()) }
+                        repeat(times = 3) { enterPanel { onAdd(nextString()) } }
                         onSwipe()
 
                         controlPanel { onLongSave() }
@@ -204,9 +203,9 @@ class RollNotePanelTest : ParentUiTest() {
                     openRollNote(it) {
                         controlPanel { onEdit() }
 
-                        toolbar { onEnterName(Random.nextString()) }
+                        toolbar { onEnterName(nextString()) }
                         onSwipeAll()
-                        repeat(times = 3) { enterPanel { onAdd(Random.nextString()) } }
+                        repeat(times = 3) { enterPanel { onAdd(nextString()) } }
 
                         controlPanel { onLongSave() }
                         toolbar { onClickBack() }

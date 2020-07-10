@@ -6,7 +6,6 @@ import org.junit.runner.RunWith
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.test.ParentUiTest
-import kotlin.random.Random
 
 /**
  * Test keyboard ime click for [TextNoteFragment].
@@ -20,8 +19,8 @@ class TextNoteImeTest : ParentUiTest() {
                 notesScreen(empty = true) {
                     openAddDialog {
                         createText(it) {
-                            onEnterText(Random.nextString())
-                            toolbar { onEnterName(Random.nextString()).onImeOptionName() }
+                            onEnterText(nextString())
+                            toolbar { onEnterName(nextString()).onImeOptionName() }
                         }
                     }
                 }
@@ -38,7 +37,7 @@ class TextNoteImeTest : ParentUiTest() {
                 notesScreen(empty = true) {
                     openAddDialog {
                         createText(it) {
-                            onEnterText(Random.nextString()).onImeOptionText()
+                            onEnterText(nextString()).onImeOptionText()
                         }
                     }
                 }
