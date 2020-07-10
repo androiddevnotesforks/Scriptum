@@ -80,7 +80,7 @@ class NotesViewModelTest : ParentViewModelTest() {
 
         coEvery { interactor.getCount() } returns itemList.size
         coEvery { interactor.getList() } returns itemList
-        coEvery { interactor.isListHide() } returns isListHide
+        coEvery { interactor.isListHide(itemList) } returns isListHide
 
         viewModel.itemList.clear()
         viewModel.onUpdateData()
@@ -90,8 +90,8 @@ class NotesViewModelTest : ParentViewModelTest() {
             interactor.getCount()
             callback.showProgress()
             interactor.getList()
+            interactor.isListHide(itemList)
             callback.notifyList(itemList)
-            interactor.isListHide()
             callback.setupBinding(isListHide)
             callback.onBindingList()
         }
@@ -102,7 +102,7 @@ class NotesViewModelTest : ParentViewModelTest() {
         val isListHide = Random.nextBoolean()
 
         coEvery { interactor.getCount() } returns itemList.size
-        coEvery { interactor.isListHide() } returns isListHide
+        coEvery { interactor.isListHide(itemList) } returns isListHide
 
         viewModel.itemList.clear()
         viewModel.onUpdateData()
@@ -110,8 +110,8 @@ class NotesViewModelTest : ParentViewModelTest() {
         coVerifySequence {
             callback.beforeLoad()
             interactor.getCount()
+            interactor.isListHide(itemList)
             callback.notifyList(itemList)
-            interactor.isListHide()
             callback.setupBinding(isListHide)
             callback.onBindingList()
         }
@@ -124,7 +124,7 @@ class NotesViewModelTest : ParentViewModelTest() {
 
         coEvery { interactor.getCount() } returns returnList.size
         coEvery { interactor.getList() } returns returnList
-        coEvery { interactor.isListHide() } returns isListHide
+        coEvery { interactor.isListHide(returnList) } returns isListHide
 
         viewModel.itemList.clearAdd(startList)
         assertEquals(startList, viewModel.itemList)
@@ -136,8 +136,8 @@ class NotesViewModelTest : ParentViewModelTest() {
             callback.onBindingList()
             interactor.getCount()
             interactor.getList()
+            interactor.isListHide(returnList)
             callback.notifyList(returnList)
-            interactor.isListHide()
             callback.setupBinding(isListHide)
             callback.onBindingList()
         }
@@ -149,7 +149,7 @@ class NotesViewModelTest : ParentViewModelTest() {
         val isListHide = Random.nextBoolean()
 
         coEvery { interactor.getCount() } returns returnList.size
-        coEvery { interactor.isListHide() } returns isListHide
+        coEvery { interactor.isListHide(returnList) } returns isListHide
 
         viewModel.itemList.clearAdd(startList)
         assertEquals(startList, viewModel.itemList)
@@ -160,8 +160,8 @@ class NotesViewModelTest : ParentViewModelTest() {
             callback.notifyList(any())
             callback.onBindingList()
             interactor.getCount()
+            interactor.isListHide(returnList)
             callback.notifyList(returnList)
-            interactor.isListHide()
             callback.setupBinding(isListHide)
             callback.onBindingList()
         }

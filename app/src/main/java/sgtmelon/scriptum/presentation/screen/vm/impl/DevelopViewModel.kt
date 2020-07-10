@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.domain.interactor.callback.IDevelopInteractor
+import sgtmelon.scriptum.extension.runBack
 import sgtmelon.scriptum.presentation.screen.ui.callback.IDevelopActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.DevelopActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.IDevelopViewModel
@@ -25,10 +26,10 @@ class DevelopViewModel(application: Application) : ParentViewModel<IDevelopActiv
     override fun onSetup(bundle: Bundle?) {
         viewModelScope.launch {
             callback?.apply {
-                fillAboutNoteTable(interactor.getNoteTablePrint())
-                fillAboutRollTable(interactor.getRollTablePrint())
-                fillAboutRankTable(interactor.getRankTablePrint())
-                fillAboutPreference(interactor.getPreferencePrint())
+                fillAboutNoteTable(runBack { interactor.getNoteTablePrint() })
+                fillAboutRollTable(runBack { interactor.getRollTablePrint() })
+                fillAboutRankTable(runBack { interactor.getRankTablePrint() })
+                fillAboutPreference(runBack { interactor.getPreferencePrint() })
             }
         }
     }

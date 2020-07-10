@@ -14,7 +14,7 @@ import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.key.PermissionResult
 import sgtmelon.scriptum.domain.model.result.ExportResult
 import sgtmelon.scriptum.domain.model.result.ImportResult
-import sgtmelon.scriptum.extension.runCalculation
+import sgtmelon.scriptum.extension.runBack
 import sgtmelon.scriptum.presentation.screen.ui.callback.IPreferenceFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.IPreferenceViewModel
@@ -78,11 +78,11 @@ class PreferenceViewModel(
             callback?.showToast(R.string.pref_toast_melody_empty)
         }
 
-        val melodyItem = runCalculation {
-            val check = signalInteractor.getMelodyCheck() ?: return@runCalculation null
+        val melodyItem = runBack {
+            val check = signalInteractor.getMelodyCheck() ?: return@runBack null
             val list = signalInteractor.getMelodyList()
 
-            return@runCalculation list.getOrNull(check)
+            return@runBack list.getOrNull(check)
         } ?: return onEmptyError()
 
         callback?.updateMelodyGroupEnabled(state.isMelody)
@@ -90,7 +90,7 @@ class PreferenceViewModel(
     }
 
     @RunPrivate suspend fun setupBackup() {
-        val fileList = runCalculation { backupInteractor.getFileList() }
+        val fileList = runBack { backupInteractor.getFileList() }
 
         if (fileList.isEmpty()) return
 
@@ -140,7 +140,7 @@ class PreferenceViewModel(
     }
 
     @RunPrivate suspend fun startExport() {
-        when(val result = backupInteractor.export()) {
+        when(val result = runBack { backupInteractor.export() }) {
             is ExportResult.Success -> {
                 callback?.showExportPathToast(result.path)
 
@@ -169,7 +169,8 @@ class PreferenceViewModel(
     }
 
     @RunPrivate suspend fun prepareImportDialog() {
-        val titleArray = backupInteractor.getFileList().map { it.name }.toTypedArray()
+        val fileList = runBack { backupInteractor.getFileList() }
+        val titleArray = fileList.map { it.name }.toTypedArray()
 
         if (titleArray.isEmpty()) {
             callback?.updateImportEnabled(isEnabled = false)
@@ -183,7 +184,7 @@ class PreferenceViewModel(
      */
     override fun onResultImport(name: String) {
         viewModelScope.launch {
-            when (val result = backupInteractor.import(name)) {
+            when (val result = runBack { backupInteractor.import(name) }) {
                 is ImportResult.Simple -> callback?.showToast(R.string.pref_toast_import_result)
                 is ImportResult.Skip -> callback?.showImportSkipToast(result.skipCount)
                 is ImportResult.Error -> callback?.showToast(R.string.pref_toast_import_error)
@@ -234,7 +235,9 @@ class PreferenceViewModel(
             callback?.updateMelodyGroupEnabled(isEnabled = false)
         } else {
             viewModelScope.launch {
-                if (signalInteractor.getMelodyList().isEmpty()) {
+                val melodyList = runBack { signalInteractor.getMelodyList() }
+
+                if (melodyList.isEmpty()) {
                     callback?.showToast(R.string.pref_toast_melody_empty)
                 } else {
                     callback?.updateMelodyGroupEnabled(isEnabled = true)
@@ -256,9 +259,10 @@ class PreferenceViewModel(
     }
 
     @RunPrivate suspend fun prepareMelodyDialog() {
-        val melodyList = signalInteractor.getMelodyList()
+        val melodyList = runBack { signalInteractor.getMelodyList() }
+        val melodyCheck = runBack { signalInteractor.getMelodyCheck() }
+
         val titleArray = melodyList.map { it.title }.toTypedArray()
-        val melodyCheck = signalInteractor.getMelodyCheck()
 
         if (titleArray.isEmpty() || melodyCheck == null) {
             callback?.updateMelodyGroupEnabled(isEnabled = false)
@@ -269,14 +273,16 @@ class PreferenceViewModel(
 
     override fun onSelectMelody(value: Int) {
         viewModelScope.launch {
-            val item = signalInteractor.getMelodyList().getOrNull(value) ?: return@launch
+            val list = runBack { signalInteractor.getMelodyList() }
+            val item = list.getOrNull(value) ?: return@launch
+
             callback?.playMelody(item.uri)
         }
     }
 
     override fun onResultMelody(title: String) {
         viewModelScope.launch {
-            val resultTitle = signalInteractor.setMelodyUri(title)
+            val resultTitle = runBack { signalInteractor.setMelodyUri(title) }
 
             when {
                 title == resultTitle -> callback?.updateMelodySummary(title)

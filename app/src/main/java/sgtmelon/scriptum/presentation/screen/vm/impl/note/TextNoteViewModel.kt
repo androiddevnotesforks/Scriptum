@@ -13,6 +13,7 @@ import sgtmelon.scriptum.domain.model.item.InputItem
 import sgtmelon.scriptum.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.state.NoteState
+import sgtmelon.scriptum.extension.runBack
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.text.ITextNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.note.ITextNoteViewModel
@@ -49,7 +50,7 @@ class TextNoteViewModel(application: Application) :
              */
             if (!isNoteInitialized()) {
                 val name = parentCallback?.getString(R.string.dialog_item_rank) ?: return@launch
-                rankDialogItemArray = interactor.getRankDialogItemArray(name)
+                rankDialogItemArray = runBack { interactor.getRankDialogItemArray(name) }
 
                 if (id == Default.ID) {
                     noteItem = NoteItem.Text.getCreate(interactor.defaultColor)
@@ -57,7 +58,7 @@ class TextNoteViewModel(application: Application) :
 
                     noteState = NoteState(isCreate = true)
                 } else {
-                    interactor.getItem(id)?.let {
+                    runBack { interactor.getItem(id) }?.let {
                         noteItem = it
                         restoreItem = it.deepCopy()
                     } ?: run {
@@ -143,7 +144,7 @@ class TextNoteViewModel(application: Application) :
         parentCallback?.onUpdateNoteColor(noteItem.color)
 
         viewModelScope.launch {
-            interactor.saveNote(noteItem, noteState.isCreate)
+            runBack { interactor.saveNote(noteItem, noteState.isCreate) }
             cacheData()
 
             if (noteState.isCreate) {

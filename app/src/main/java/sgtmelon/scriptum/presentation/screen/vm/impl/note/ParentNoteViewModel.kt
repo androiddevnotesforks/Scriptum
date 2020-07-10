@@ -16,6 +16,8 @@ import sgtmelon.scriptum.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.state.IconState
 import sgtmelon.scriptum.domain.model.state.NoteState
+import sgtmelon.scriptum.extension.launchBack
+import sgtmelon.scriptum.extension.runBack
 import sgtmelon.scriptum.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.presentation.control.note.save.ISaveControl
@@ -168,7 +170,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
 
     override fun onResultRankDialog(check: Int) {
         viewModelScope.launch {
-            val rankId = interactor.getRankId(check)
+            val rankId = runBack { interactor.getRankId(check) }
 
             inputControl.onRankChange(noteItem.rankId, noteItem.rankPs, rankId, check)
 
@@ -185,13 +187,13 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
     }
 
     override fun onResultDateDialog(calendar: Calendar) {
-        viewModelScope.launch {
+        viewModelScope.launchBack {
             callback?.showTimeDialog(calendar, interactor.getDateList())
         }
     }
 
     override fun onResultDateDialogClear() {
-        viewModelScope.launch {
+        viewModelScope.launchBack {
             interactor.clearDate(noteItem)
             bindInteractor.notifyInfoBind(callback)
         }
@@ -206,18 +208,18 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
         if (calendar.beforeNow()) return
 
         viewModelScope.launch {
-            interactor.setDate(noteItem, calendar)
+            runBack { interactor.setDate(noteItem, calendar) }
             cacheData()
 
             callback?.onBindingNote(noteItem)
 
-            bindInteractor.notifyInfoBind(callback)
+            runBack { bindInteractor.notifyInfoBind(callback) }
         }
     }
 
     override fun onResultConvertDialog() {
         viewModelScope.launch {
-            interactor.convertNote(noteItem)
+            runBack { interactor.convertNote(noteItem) }
             parentCallback?.onConvertNote()
         }
     }
@@ -240,7 +242,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
 
     override fun onMenuRestore() {
         viewModelScope.launch {
-            interactor.restoreNote(noteItem)
+            runBack { interactor.restoreNote(noteItem) }
             parentCallback?.finish()
         }
     }
@@ -252,12 +254,12 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
 
         iconState.notAnimate { setupEditMode(isEdit = false) }
 
-        viewModelScope.launch { interactor.updateNote(noteItem, updateBind = false) }
+        viewModelScope.launchBack { interactor.updateNote(noteItem, updateBind = false) }
     }
 
     override fun onMenuClear() {
         viewModelScope.launch {
-            interactor.clearNote(noteItem)
+            runBack { interactor.clearNote(noteItem) }
             parentCallback?.finish()
         }
     }
@@ -330,7 +332,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
 
         callback?.onBindingEdit(noteItem, noteState.isEdit)
 
-        viewModelScope.launch { interactor.updateNote(noteItem, updateBind = true) }
+        viewModelScope.launchBack { interactor.updateNote(noteItem, updateBind = true) }
     }
 
     override fun onMenuConvert() {
@@ -343,8 +345,11 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
         if (callback?.isDialogOpen == true || noteState.isEdit) return
 
         viewModelScope.launch {
-            interactor.deleteNote(noteItem)
-            bindInteractor.notifyInfoBind(callback)
+            runBack {
+                interactor.deleteNote(noteItem)
+                bindInteractor.notifyInfoBind(callback)
+            }
+
             parentCallback?.finish()
         }
     }

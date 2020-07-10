@@ -17,10 +17,7 @@ import sgtmelon.scriptum.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
 import sgtmelon.scriptum.domain.model.state.NoteState
-import sgtmelon.scriptum.extension.clearSpace
-import sgtmelon.scriptum.extension.indexOfOrNull
-import sgtmelon.scriptum.extension.move
-import sgtmelon.scriptum.extension.removeAtOrNull
+import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.roll.IRollNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.note.IRollNoteViewModel
@@ -69,7 +66,7 @@ class RollNoteViewModel(application: Application) :
              */
             if (!isNoteInitialized()) {
                 val name = parentCallback?.getString(R.string.dialog_item_rank) ?: return@launch
-                rankDialogItemArray = interactor.getRankDialogItemArray(name)
+                rankDialogItemArray = runBack { interactor.getRankDialogItemArray(name) }
 
                 if (id == Default.ID) {
                     val defaultColor = interactor.defaultColor
@@ -79,7 +76,7 @@ class RollNoteViewModel(application: Application) :
 
                     noteState = NoteState(isCreate = true)
                 } else {
-                    interactor.getItem(id)?.let {
+                    runBack { interactor.getItem(id) }?.let {
                         noteItem = it
                         restoreItem = it.deepCopy()
                     } ?: run {
@@ -93,7 +90,7 @@ class RollNoteViewModel(application: Application) :
                      * Foreign key can't be created without note [id].
                      * Insert will happen inside [onMenuSave].
                      */
-                    isVisible = interactor.getVisible(noteItem.id)
+                    isVisible = runBack { interactor.getVisible(noteItem.id) }
                 }
             }
 
@@ -147,7 +144,7 @@ class RollNoteViewModel(application: Application) :
          * Insert will happen inside [onMenuSave].
          */
         if (!noteState.isCreate) {
-            viewModelScope.launch { interactor.setVisible(noteItem.id, isVisible) }
+            viewModelScope.launchBack { interactor.setVisible(noteItem.id, isVisible) }
         }
     }
 
@@ -222,7 +219,7 @@ class RollNoteViewModel(application: Application) :
 
         with(noteItem) { callback?.updateProgress(getCheck(), list.size) }
 
-        viewModelScope.launch { interactor.updateRollCheck(noteItem, correctPosition) }
+        viewModelScope.launchBack { interactor.updateRollCheck(noteItem, correctPosition) }
     }
 
     override fun onLongClickItemCheck() {
@@ -241,7 +238,7 @@ class RollNoteViewModel(application: Application) :
 
         if (!isVisible) notifyListByVisible()
 
-        viewModelScope.launch { interactor.updateRollCheck(noteItem, isCheck) }
+        viewModelScope.launchBack { interactor.updateRollCheck(noteItem, isCheck) }
     }
 
     //region Menu click
@@ -357,7 +354,7 @@ class RollNoteViewModel(application: Application) :
         parentCallback?.onUpdateNoteColor(noteItem.color)
 
         viewModelScope.launch {
-            interactor.saveNote(noteItem, noteState.isCreate)
+            runBack { interactor.saveNote(noteItem, noteState.isCreate) }
             cacheData()
 
             if (noteState.isCreate) {
@@ -370,7 +367,7 @@ class RollNoteViewModel(application: Application) :
                  * Need if [isVisible] changes wasn't set inside [onClickVisible] because of
                  * not created note.
                  */
-                interactor.setVisible(id, isVisible)
+                runBack { interactor.setVisible(id, isVisible) }
             }
 
             callback?.setList(getList(noteItem))
@@ -510,10 +507,10 @@ class RollNoteViewModel(application: Application) :
      */
     @RunPrivate
     fun notifyListByVisible() {
-        viewModelScope.launch {
+        viewModelScope.launchBack {
             val list = ArrayList(noteItem.list)
 
-            if (list.size == 0) return@launch
+            if (list.size == 0) return@launchBack
 
             if (isVisible) {
                 if (!list.any { !it.isCheck }) {

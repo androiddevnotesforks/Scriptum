@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.extension
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 
 /**
@@ -12,8 +11,12 @@ import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 /**
  * Use this function for hard calculation operations.
  */
-suspend fun <T> runCalculation(func: suspend () -> T): T {
+suspend inline fun <T> runBack(crossinline func: suspend () -> T): T {
     if (isTesting) return func()
 
     return withContext(Dispatchers.IO) { func() }
+}
+
+inline fun CoroutineScope.launchBack(crossinline func: suspend () -> Unit): Job {
+    return launch { runBack(func) }
 }

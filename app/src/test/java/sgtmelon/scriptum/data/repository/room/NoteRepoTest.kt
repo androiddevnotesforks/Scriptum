@@ -276,53 +276,23 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
 
     @Test fun isListHide() = startCoTest {
-        val idList = listOf<Long>(1, 2, 3)
+        val idVisibleList = mockk<List<Long>>()
+        val item = mockk<NoteItem.Text>()
 
-        coEvery { rankDao.getIdVisibleList() } returns idList
+        coEvery { rankDao.getIdVisibleList() } returns idVisibleList
+        every { item.isVisible(idVisibleList) } returns false
 
-        val entityList = mutableListOf<NoteEntity>()
+        assertTrue(mockNoteRepo.isListHide(listOf(item)))
 
-        var entity = NoteEntity()
-        entityList.add(entity)
+        every { item.isVisible(idVisibleList) } returns true
 
-        every { noteConverter.toItem(entity) } returns NoteConverter().toItem(entity)
-        coEvery { noteDao.get(false) } returns listOf(entity)
-        assertEquals(false, mockNoteRepo.isListHide())
-
-        entity = NoteEntity(rankId = 0)
-        entityList.add(entity)
-
-        every { noteConverter.toItem(entity) } returns NoteConverter().toItem(entity)
-        coEvery { noteDao.get(false) } returns listOf(entity)
-        assertEquals(false, mockNoteRepo.isListHide())
-
-        entity = NoteEntity(rankPs = 0)
-        entityList.add(entity)
-
-        every { noteConverter.toItem(entity) } returns NoteConverter().toItem(entity)
-        coEvery { noteDao.get(false) } returns listOf(entity)
-        assertEquals(false, mockNoteRepo.isListHide())
-
-        entity = NoteEntity(rankId = 0, rankPs = 0)
-        entityList.add(entity)
-
-        every { noteConverter.toItem(entity) } returns NoteConverter().toItem(entity)
-        coEvery { noteDao.get(false) } returns listOf(entity)
-        assertEquals(true, mockNoteRepo.isListHide())
-
-        entity = NoteEntity(rankId = 1, rankPs = 1)
-        entityList.add(entity)
-
-        every { noteConverter.toItem(entity) } returns NoteConverter().toItem(entity)
-        coEvery { noteDao.get(false) } returns listOf(entity)
-        assertEquals(false, mockNoteRepo.isListHide())
+        assertFalse(mockNoteRepo.isListHide(listOf(item)))
 
         coVerifySequence {
-            entityList.forEach {
+            repeat(times = 2) {
                 roomProvider.openRoom()
-                noteDao.get(false)
-                noteConverter.toItem(it)
                 rankDao.getIdVisibleList()
+                item.isVisible(idVisibleList)
             }
         }
     }

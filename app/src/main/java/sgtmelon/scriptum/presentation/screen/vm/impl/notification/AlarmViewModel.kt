@@ -17,6 +17,7 @@ import sgtmelon.scriptum.domain.model.data.NoteData.Intent
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.key.ColorShade
 import sgtmelon.scriptum.domain.model.state.SignalState
+import sgtmelon.scriptum.extension.runBack
 import sgtmelon.scriptum.presentation.screen.ui.callback.notification.IAlarmActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.AlarmActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.notification.IAlarmViewModel
@@ -63,7 +64,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         }
 
         viewModelScope.launch {
-            val melodyUri = signalInteractor.getMelodyUri()
+            val melodyUri = runBack { signalInteractor.getMelodyUri() }
             if (melodyUri != null) {
                 callback?.setupPlayer(melodyUri, interactor.volume, interactor.volumeIncrease)
             }
@@ -74,7 +75,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
             if (!::noteItem.isInitialized) {
                 signalState = signalInteractor.state ?: return@launch
 
-                interactor.getModel(id)?.let {
+                runBack { interactor.getModel(id) }?.let {
                     noteItem = it
                 } ?: run {
                     callback?.finish()
@@ -159,7 +160,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         val valueArray = callback?.getIntArray(R.array.pref_alarm_repeat_array) ?: return
 
         viewModelScope.launch {
-            interactor.setupRepeat(noteItem, valueArray, repeat)
+            runBack { interactor.setupRepeat(noteItem, valueArray, repeat) }
 
             callback?.showRepeatToast(repeat)
             callback?.sendUpdateBroadcast(id)

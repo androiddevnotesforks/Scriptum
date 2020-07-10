@@ -105,16 +105,16 @@ class RankRepo(
      * Update [NoteEntity.rankPs] for notes from [noteIdList] which related with [rankList].
      */
     @RunPrivate
-    suspend fun updateRankPosition(iNoteDao: INoteDao, rankList: List<RankItem>,
+    suspend fun updateRankPosition(noteDao: INoteDao, rankList: List<RankItem>,
                                    noteIdList: List<Long>) {
         if (noteIdList.isEmpty()) return
 
-        val noteList = iNoteDao.get(noteIdList)
+        val noteList = noteDao.get(noteIdList)
         for (entity in noteList) {
             entity.rankPs = rankList.firstOrNull { it.id == entity.rankId }?.position ?: continue
         }
 
-        iNoteDao.update(noteList)
+        noteDao.update(noteList)
     }
 
 

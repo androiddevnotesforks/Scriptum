@@ -9,7 +9,9 @@ import sgtmelon.scriptum.domain.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.extension.clearAdd
+import sgtmelon.scriptum.extension.launchBack
 import sgtmelon.scriptum.extension.removeAtOrNull
+import sgtmelon.scriptum.extension.runBack
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IBinFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.BinFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.main.IBinViewModel
@@ -54,14 +56,16 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
         if (itemList.isNotEmpty()) updateList()
 
         viewModelScope.launch {
-            if (interactor.getCount() == 0) {
+            val count = runBack { interactor.getCount() }
+
+            if (count == 0) {
                 itemList.clear()
             } else {
                 if (itemList.isEmpty()) {
                     callback?.showProgress()
                 }
 
-                itemList.clearAdd(interactor.getList())
+                runBack { itemList.clearAdd(interactor.getList()) }
             }
 
             updateList()
@@ -69,7 +73,7 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
     }
 
     override fun onClickClearBin() {
-        viewModelScope.launch { interactor.clearBin() }
+        viewModelScope.launchBack { interactor.clearBin() }
 
         itemList.clear()
 
@@ -101,7 +105,7 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
     private fun onMenuRestore(p: Int) {
         val item = itemList.removeAtOrNull(p) ?: return
 
-        viewModelScope.launch { interactor.restoreNote(item) }
+        viewModelScope.launchBack { interactor.restoreNote(item) }
 
         callback?.notifyItemRemoved(itemList, p)
         callback?.notifyMenuClearBin()
@@ -110,13 +114,13 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
     private fun onMenuCopy(p: Int) {
         val item = itemList.getOrNull(p) ?: return
 
-        viewModelScope.launch { interactor.copy(item) }
+        viewModelScope.launchBack { interactor.copy(item) }
     }
 
     private fun onMenuClear(p: Int) {
         val item = itemList.removeAtOrNull(p) ?: return
 
-        viewModelScope.launch { interactor.clearNote(item) }
+        viewModelScope.launchBack { interactor.clearNote(item) }
 
         callback?.notifyItemRemoved(itemList, p)
         callback?.notifyMenuClearBin()

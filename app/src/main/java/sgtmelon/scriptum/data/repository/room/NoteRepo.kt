@@ -62,11 +62,11 @@ class NoteRepo(
     }
 
     @RunPrivate
-    suspend fun getSortBy(iNoteDao: INoteDao, @Sort sort: Int, bin: Boolean) = when (sort) {
-        Sort.CHANGE -> iNoteDao.getByChange(bin)
-        Sort.CREATE -> iNoteDao.getByCreate(bin)
-        Sort.RANK -> iNoteDao.getByRank(bin)
-        Sort.COLOR -> iNoteDao.getByColor(bin)
+    suspend fun getSortBy(noteDao: INoteDao, @Sort sort: Int, bin: Boolean) = when (sort) {
+        Sort.CHANGE -> noteDao.getByChange(bin)
+        Sort.CREATE -> noteDao.getByCreate(bin)
+        Sort.RANK -> noteDao.getByRank(bin)
+        Sort.COLOR -> noteDao.getByColor(bin)
         else -> listOf()
     }
 
@@ -74,8 +74,8 @@ class NoteRepo(
      * List must contains only item which isVisible.
      */
     @RunPrivate
-    suspend fun filterVisible(iRankDao: IRankDao, list: List<NoteEntity>): List<NoteEntity> {
-        val idVisibleList = iRankDao.getIdVisibleList()
+    suspend fun filterVisible(rankDao: IRankDao, list: List<NoteEntity>): List<NoteEntity> {
+        val idVisibleList = rankDao.getIdVisibleList()
 
         return list.filter { noteConverter.toItem(it).isVisible(idVisibleList) }
     }
@@ -113,7 +113,7 @@ class NoteRepo(
     }
 
     @RunPrivate
-    suspend fun getPreview(iRollDao: IRollDao, id: Long, isOptimal: Boolean) = with(iRollDao) {
+    suspend fun getPreview(rollDao: IRollDao, id: Long, isOptimal: Boolean) = with(rollDao) {
         if (isOptimal) getView(id) else get(id)
     }
 
@@ -128,10 +128,10 @@ class NoteRepo(
     /**
      * Have hide notes in list or not.
      */
-    override suspend fun isListHide(): Boolean = takeFromRoom {
-        noteDao.get(false).any {
-            !noteConverter.toItem(it).isVisible(rankDao.getIdVisibleList())
-        }
+    override suspend fun isListHide(itemList: List<NoteItem>): Boolean = takeFromRoom {
+        val idVisibleList = rankDao.getIdVisibleList()
+
+        return@takeFromRoom itemList.any { !it.isVisible(idVisibleList) }
     }
 
     override suspend fun clearBin() = inRoom {
@@ -164,9 +164,9 @@ class NoteRepo(
      * Remove relation between [RankEntity] and [NoteItem] which will be delete
      */
     @RunPrivate
-    suspend fun clearConnection(iRankDao: IRankDao, noteId: Long, rankId: Long) {
-        val entity = iRankDao.get(rankId)?.also { it.noteId.remove(noteId) } ?: return
-        iRankDao.update(entity)
+    suspend fun clearConnection(rankDao: IRankDao, noteId: Long, rankId: Long) {
+        val entity = rankDao.get(rankId)?.also { it.noteId.remove(noteId) } ?: return
+        rankDao.update(entity)
     }
 
 

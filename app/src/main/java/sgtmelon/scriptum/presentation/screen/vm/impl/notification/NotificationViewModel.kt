@@ -8,7 +8,9 @@ import sgtmelon.scriptum.domain.interactor.callback.notification.INotificationIn
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.extension.clearAdd
+import sgtmelon.scriptum.extension.launchBack
 import sgtmelon.scriptum.extension.removeAtOrNull
+import sgtmelon.scriptum.extension.runBack
 import sgtmelon.scriptum.presentation.screen.ui.callback.notification.INotificationActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.NotificationActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.notification.INotificationViewModel
@@ -56,14 +58,16 @@ class NotificationViewModel(application: Application) :
         if (itemList.isNotEmpty()) updateList()
 
         viewModelScope.launch {
-            if (interactor.getCount() == 0) {
+            val count = runBack { interactor.getCount() }
+
+            if (count == 0) {
                 itemList.clear()
             } else {
                 if (itemList.isEmpty()) {
                     callback?.showProgress()
                 }
 
-                itemList.clearAdd(interactor.getList())
+                runBack { itemList.clearAdd(interactor.getList()) }
             }
 
             updateList()
@@ -82,7 +86,7 @@ class NotificationViewModel(application: Application) :
          */
         cancelList.add(Pair(p, item))
 
-        viewModelScope.launch { interactor.cancelNotification(item) }
+        viewModelScope.launchBack { interactor.cancelNotification(item) }
 
         callback?.apply {
             notifyInfoBind(itemList.size)
@@ -129,7 +133,10 @@ class NotificationViewModel(application: Application) :
          * After insert need update item in list (due to new item id).
          */
         viewModelScope.launch {
-            itemList[position] = interactor.setNotification(item) ?: return@launch
+            itemList[position] = runBack {
+                interactor.setNotification(item)
+            } ?: return@launch
+
             callback?.setList(itemList)
         }
     }
