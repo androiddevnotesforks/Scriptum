@@ -3,8 +3,11 @@ package sgtmelon.scriptum.presentation.control.note.save
 import android.content.Context
 import android.content.res.Resources
 import android.os.Handler
-import io.mockk.*
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
+import io.mockk.spyk
+import io.mockk.verifySequence
 import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.scriptum.ParentTest
@@ -141,20 +144,6 @@ class SaveControlTest : ParentTest() {
             model.autoSaveOn
             handler.removeCallbacksAndMessages(null)
             handler.postDelayed(any(), array[index].toLong())
-        }
-    }
-
-    @Test fun onSaveRunnable() {
-        every { spySaveControl.setSaveEvent(true) } returns Unit
-
-        spySaveControl.onSaveRunnable()
-
-        verify {
-            model.autoSaveOn
-
-            spySaveControl.onSaveRunnable()
-            callback.onResultSaveControl()
-            spySaveControl.setSaveEvent(true)
         }
     }
 

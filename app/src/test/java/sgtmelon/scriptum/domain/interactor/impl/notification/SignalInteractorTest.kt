@@ -35,8 +35,6 @@ class SignalInteractorTest : ParentInteractorTest() {
     override fun setUp() {
         super.setUp()
 
-        coEvery { ringtoneControl.getByType(any()) } returns melodyList
-
         assertNull(interactor.melodyList)
     }
 
@@ -77,6 +75,8 @@ class SignalInteractorTest : ParentInteractorTest() {
 
 
     @Test fun getMelodyList() = startCoTest {
+        coEvery { ringtoneControl.getByType(any()) } returns melodyList
+
         assertEquals(melodyList, interactor.getMelodyList())
         assertEquals(melodyList, interactor.melodyList)
 

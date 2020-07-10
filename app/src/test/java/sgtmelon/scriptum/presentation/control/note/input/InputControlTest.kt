@@ -124,7 +124,7 @@ class InputControlTest : ParentTest() {
 
     @Test fun redo() {
         val list = nextList()
-        val position = list.indices.random()
+        val position = (0 until list.lastIndex).random()
 
         every { spyInputControl.isRedoAccess } returns false
         assertNull(spyInputControl.redo())
@@ -225,7 +225,7 @@ class InputControlTest : ParentTest() {
     @Test fun clearToSize() {
         val list = nextList()
         var position = Random.nextInt()
-        val maxSize = list.indices.random()
+        val maxSize = (1..list.lastIndex).random()
 
         inputControl.list.addAll(list)
         inputControl.position = position

@@ -78,9 +78,12 @@ class PreferenceViewModel(
             callback?.showToast(R.string.pref_toast_melody_empty)
         }
 
-        val melodyCheck = runCalculation { signalInteractor.getMelodyCheck() } ?: return onEmptyError()
-        val melodyList = runCalculation { signalInteractor.getMelodyList() }
-        val melodyItem = melodyList.getOrNull(melodyCheck) ?: return onEmptyError()
+        val melodyItem = runCalculation {
+            val check = signalInteractor.getMelodyCheck() ?: return@runCalculation null
+            val list = signalInteractor.getMelodyList()
+
+            return@runCalculation list.getOrNull(check)
+        } ?: return onEmptyError()
 
         callback?.updateMelodyGroupEnabled(state.isMelody)
         callback?.updateMelodySummary(melodyItem.title)

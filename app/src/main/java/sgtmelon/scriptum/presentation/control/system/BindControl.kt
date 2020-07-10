@@ -12,6 +12,7 @@ import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.extension.clearAdd
+import sgtmelon.scriptum.extension.indexOfOrNull
 import sgtmelon.scriptum.extension.removeAtOrNull
 import sgtmelon.scriptum.presentation.control.system.callback.IBindControl
 import sgtmelon.scriptum.presentation.factory.NotificationFactory
@@ -82,8 +83,8 @@ class BindControl(private val context: Context?) : IBindControl {
     override fun notifyNote(noteItem: NoteItem, rankIdVisibleList: List<Long>, @Sort sort: Int) {
         if (context == null) return
 
-        val index = noteItemList.indexOfFirst { it.id == noteItem.id }
-        if (index != -1) {
+        val index = noteItemList.indexOfOrNull { it.id == noteItem.id }
+        if (index != null) {
             noteItemList[index] = noteItem
         } else {
             noteItemList.add(noteItem)

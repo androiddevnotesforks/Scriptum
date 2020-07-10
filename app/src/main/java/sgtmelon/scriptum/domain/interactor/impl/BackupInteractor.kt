@@ -7,6 +7,7 @@ import sgtmelon.scriptum.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.data.room.backup.IBackupParser
 import sgtmelon.scriptum.domain.interactor.callback.IBackupInteractor
 import sgtmelon.scriptum.domain.model.annotation.FileType
+import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.FileItem
 import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.domain.model.result.ExportResult
@@ -28,7 +29,7 @@ class BackupInteractor(
         private val cipherControl: ICipherControl
 ) : IBackupInteractor {
 
-    private var fileList: List<FileItem>? = null
+    @RunPrivate var fileList: List<FileItem>? = null
 
     override suspend fun getFileList(): List<FileItem> {
         return fileList ?: fileControl.getFileList(FileType.BACKUP).also { fileList = it }
@@ -69,6 +70,8 @@ class BackupInteractor(
         val data = cipherControl.decrypt(encryptData)
 
         val parserResult = backupParser.parse(data) ?: return ImportResult.Error
+
+
 
         TODO()
     }
