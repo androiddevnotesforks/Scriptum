@@ -57,4 +57,9 @@ class RepoModule {
         return RankRepo(roomProvider, converter)
     }
 
+    @Provides
+    @Singleton
+    fun provideBackupRepo(roomProvider: RoomProvider): IBackupRepo {
+        return BackupRepo(roomProvider)
+    }
 }

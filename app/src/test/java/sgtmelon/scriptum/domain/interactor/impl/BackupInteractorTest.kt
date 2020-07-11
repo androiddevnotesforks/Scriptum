@@ -10,6 +10,7 @@ import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentInteractorTest
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
+import sgtmelon.scriptum.data.repository.room.callback.IBackupRepo
 import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.data.room.backup.IBackupParser
@@ -18,6 +19,7 @@ import sgtmelon.scriptum.domain.model.annotation.FileType
 import sgtmelon.scriptum.domain.model.item.FileItem
 import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.domain.model.result.ExportResult
+import sgtmelon.scriptum.domain.model.result.ImportResult
 import sgtmelon.scriptum.domain.model.result.ParserResult
 import sgtmelon.scriptum.presentation.control.cipher.ICipherControl
 import sgtmelon.scriptum.presentation.control.file.IFileControl
@@ -33,14 +35,16 @@ class BackupInteractorTest : ParentInteractorTest() {
     @MockK lateinit var alarmRepo: IAlarmRepo
     @MockK lateinit var rankRepo: IRankRepo
     @MockK lateinit var noteRepo: INoteRepo
+    @MockK lateinit var backupRepo: IBackupRepo
+
     @MockK lateinit var backupParser: IBackupParser
     @MockK lateinit var fileControl: IFileControl
     @MockK lateinit var cipherControl: ICipherControl
 
     private val interactor by lazy {
         BackupInteractor(
-                preferenceRepo, alarmRepo, rankRepo, noteRepo, backupParser, fileControl,
-                cipherControl
+                preferenceRepo, alarmRepo, rankRepo, noteRepo, backupRepo,
+                backupParser, fileControl, cipherControl
         )
     }
     private val spyInteractor by lazy { spyk(interactor) }
@@ -136,8 +140,65 @@ class BackupInteractorTest : ParentInteractorTest() {
         }
     }
 
-    @Test fun import() {
-        TODO()
+    @Test fun import() = startCoTest {
+        val fileList = List(size = 5) { FileItem(nextShortString(), nextString()) }
+        val wrongName = nextString()
+        val item = fileList.random()
+        val encryptData = nextString()
+        val data = nextString()
+        val parserResult = mockk<ParserResult>()
+        val importSkip = Random.nextBoolean()
+
+        val skipResult = ImportResult.Skip(Random.nextInt())
+
+        coEvery { spyInteractor.getFileList() } returns fileList
+
+        assertEquals(ImportResult.Error, spyInteractor.import(wrongName))
+
+        every { fileControl.readFile(item.path) } returns null
+
+        assertEquals(ImportResult.Error, spyInteractor.import(item.name))
+
+        every { fileControl.readFile(item.path) } returns encryptData
+        every { cipherControl.decrypt(encryptData) } returns data
+        every { backupParser.parse(data) } returns null
+
+        assertEquals(ImportResult.Error, spyInteractor.import(item.name))
+
+        every { backupParser.parse(data) } returns parserResult
+        every { preferenceRepo.importSkip } returns importSkip
+        every { backupRepo.insertData(parserResult, importSkip) } returns ImportResult.Simple
+
+        assertEquals(ImportResult.Simple, spyInteractor.import(item.name))
+
+        every { backupRepo.insertData(parserResult, importSkip) } returns skipResult
+
+        assertEquals(skipResult, spyInteractor.import(item.name))
+
+        coVerifySequence {
+            spyInteractor.import(wrongName)
+            spyInteractor.getFileList()
+
+            spyInteractor.import(item.name)
+            spyInteractor.getFileList()
+            fileControl.readFile(item.path)
+
+            spyInteractor.import(item.name)
+            spyInteractor.getFileList()
+            fileControl.readFile(item.path)
+            cipherControl.decrypt(encryptData)
+            backupParser.parse(data)
+
+            repeat(times = 2) {
+                spyInteractor.import(item.name)
+                spyInteractor.getFileList()
+                fileControl.readFile(item.path)
+                cipherControl.decrypt(encryptData)
+                backupParser.parse(data)
+                preferenceRepo.importSkip
+                backupRepo.insertData(parserResult, importSkip)
+            }
+        }
     }
 
 }

@@ -2,6 +2,7 @@ package sgtmelon.scriptum.domain.interactor.impl
 
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
+import sgtmelon.scriptum.data.repository.room.callback.IBackupRepo
 import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.data.room.backup.IBackupParser
@@ -24,6 +25,7 @@ class BackupInteractor(
         private val alarmRepo: IAlarmRepo,
         private val rankRepo: IRankRepo,
         private val noteRepo: INoteRepo,
+        private val backupRepo: IBackupRepo,
         private val backupParser: IBackupParser,
         private val fileControl: IFileControl,
         private val cipherControl: ICipherControl
@@ -71,7 +73,7 @@ class BackupInteractor(
         val parserResult = backupParser.parse(data) ?: return ImportResult.Error
         val importSkip = preferenceRepo.importSkip
 
-        TODO(" here we are")
+        return backupRepo.insertData(parserResult, importSkip)
     }
 
 }

@@ -68,12 +68,12 @@ class InteractorModule {
     @Provides
     @ActivityScope
     fun provideBackupInteractor(preferenceRepo: IPreferenceRepo, alarmRepo: IAlarmRepo,
-                                rankRepo: IRankRepo, noteRepo: INoteRepo,
+                                rankRepo: IRankRepo, noteRepo: INoteRepo, backupRepo: IBackupRepo,
                                 backupParser: IBackupParser, fileControl: IFileControl,
                                 cipherControl: ICipherControl): IBackupInteractor {
         return BackupInteractor(
-                preferenceRepo, alarmRepo, rankRepo, noteRepo, backupParser, fileControl,
-                cipherControl
+                preferenceRepo, alarmRepo, rankRepo, noteRepo, backupRepo,
+                backupParser, fileControl, cipherControl
         )
     }
 
