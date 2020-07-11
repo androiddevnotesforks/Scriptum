@@ -230,6 +230,7 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
         }
         importDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
 
+        loadingDialog.isCancelable = false
         loadingDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }
 

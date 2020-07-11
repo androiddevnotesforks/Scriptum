@@ -24,14 +24,14 @@ class LoadingDialogUi : ParentUi(), IDialogUi {
 
     fun assert() {
         parentContainer.isDisplayed()
-                .withSizeCode(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
+                .withSizeCode(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
 
         progressBar.isDisplayed()
                 .withSizeCode(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
                 .withParent(parentContainer)
 
         loadingText.isDisplayed()
-                .withSizeCode(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT)
+                .withSizeCode(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
                 .withParent(parentContainer)
                 .withText(R.string.dialog_text_loading, R.attr.clContent, R.dimen.text_16sp)
     }
