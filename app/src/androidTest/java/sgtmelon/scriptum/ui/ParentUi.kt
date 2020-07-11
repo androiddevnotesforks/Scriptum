@@ -9,6 +9,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.not
+import sgtmelon.scriptum.basic.extension.instanceOf
 import sgtmelon.scriptum.dagger.module.base.ProviderModule
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.preference.PreferenceRepo
@@ -31,6 +32,9 @@ abstract class ParentUi {
 
     protected fun getViewByName(name: String): Matcher<View> = withResourceName(name)
 
+    protected fun getView(@IdRes viewId: Int, type: Class<*>) = withId(viewId).instanceOf(type)
+
+    @Deprecated(message = "Need replace with getView")
     protected fun getViewById(@IdRes viewId: Int): Matcher<View> = withId(viewId)
 
     protected fun getViewByText(@StringRes stringId: Int): Matcher<View> = withText(stringId)

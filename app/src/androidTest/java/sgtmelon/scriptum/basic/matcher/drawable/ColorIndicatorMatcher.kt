@@ -12,9 +12,9 @@ import sgtmelon.scriptum.extension.setColor
 /**
  * Matcher for check android:background which gets with [resourceId].
  *
- * * If [resourceId] is -1 => check what don't have drawable.
+ * * If [resourceId] is null => check what don't have drawable.
  */
-class ColorIndicatorMatcher(@IdRes resourceId: Int, @Theme theme: Int, @Color color: Int) :
+class ColorIndicatorMatcher(@IdRes resourceId: Int?, @Theme theme: Int, @Color color: Int) :
         ParentImageMatcher(resourceId) {
 
     private val colorItem = ColorData.getColorItem(theme, color)
@@ -29,7 +29,7 @@ class ColorIndicatorMatcher(@IdRes resourceId: Int, @Theme theme: Int, @Color co
 
         setSize(item)
 
-        if (resourceId == -1) return item.background == null
+        if (resourceId == null) return item.background == null
 
         val context = item.context ?: return false
         val expected = context.getCompatDrawable(resourceId) ?: return false

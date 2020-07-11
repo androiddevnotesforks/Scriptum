@@ -34,7 +34,7 @@ class ColorDialogUi(place: Place, @Color private var check: Int, private val cal
 
     @Color private var initCheck: Int = check
 
-    fun onClickItem(p: Int = recyclerView.getRandomPosition()) = apply {
+    fun onClickItem(p: Int? = recyclerView.getRandomPosition()) = apply {
         check = getNewPosition(p)
 
         recyclerView.click(check)
@@ -78,8 +78,8 @@ class ColorDialogUi(place: Place, @Color private var check: Int, private val cal
     /**
      * Return position different from [check] and [initCheck]
      */
-    private fun getNewPosition(p: Int = recyclerView.getRandomPosition()): Int {
-        return if (p == check || p == initCheck) getNewPosition() else p
+    private fun getNewPosition(p: Int? = recyclerView.getRandomPosition()): Int {
+        return if (p == null || p == check || p == initCheck) getNewPosition() else p
     }
 
     /**

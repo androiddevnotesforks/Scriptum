@@ -9,12 +9,12 @@ import org.hamcrest.TypeSafeMatcher
  * Matcher for check contentDescription.
  */
 class ContentDescriptionMatcher(
-        @StringRes private val stringId: Int,
+        @StringRes private val stringId: Int?,
         private val string: String?
 ) : TypeSafeMatcher<View>() {
 
     init {
-        if (stringId == -1 && string == null) throw IllegalAccessException()
+        if (stringId == null && string == null) throw IllegalAccessException()
     }
 
     override fun matchesSafely(item: View?): Boolean {
@@ -23,7 +23,7 @@ class ContentDescriptionMatcher(
         val context = item.context ?: return false
 
         val expected = when {
-            stringId != -1 -> context.getString(stringId)
+            stringId != null -> context.getString(stringId)
             string != null -> string
             else -> return false
         }

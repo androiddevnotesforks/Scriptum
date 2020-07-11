@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Dialog buttons -->
     <string name="dialog_button_apply">Применить</string>
     <string name="dialog_button_cancel">Отмена</string>
     <string name="dialog_button_reset">Сброс</string>

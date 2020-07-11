@@ -123,9 +123,6 @@ class PreferenceViewModel(
 
 
     /**
-     * TODO Add progress dialog
-     */
-    /**
      * Call [startExport] only if [result] equals [PermissionResult.LOW_API] or
      * [PermissionResult.GRANTED]. Otherwise we must show dialog.
      */
@@ -140,7 +137,11 @@ class PreferenceViewModel(
     }
 
     @RunPrivate suspend fun startExport() {
-        when(val result = runBack { backupInteractor.export() }) {
+        callback?.showExportLoadingDialog()
+        val result: ExportResult = runBack { backupInteractor.export() }
+        callback?.hideExportLoadingDialog()
+
+        when(result) {
             is ExportResult.Success -> {
                 callback?.showExportPathToast(result.path)
 
@@ -179,12 +180,13 @@ class PreferenceViewModel(
         }
     }
 
-    /**
-     * TODO Add progress dialog.
-     */
     override fun onResultImport(name: String) {
         viewModelScope.launch {
-            when (val result = runBack { backupInteractor.import(name) }) {
+            callback?.showImportLoadingDialog()
+            val result: ImportResult = runBack { backupInteractor.import(name) }
+            callback?.hideImportLoadingDialog()
+
+            when (result) {
                 is ImportResult.Simple -> callback?.showToast(R.string.pref_toast_import_result)
                 is ImportResult.Skip -> callback?.showImportSkipToast(result.skipCount)
                 is ImportResult.Error -> callback?.showToast(R.string.pref_toast_import_error)

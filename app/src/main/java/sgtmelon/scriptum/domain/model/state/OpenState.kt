@@ -33,7 +33,7 @@ class OpenState {
     @Tag var tag: String = Tag.ND
 
     /**
-     * Use when need skip next [clear], e.g. on dialog dismiss
+     * Use when need skip next [clear], e.g. on dialog dismiss when user [tag]
      */
     var skipClear = false
 

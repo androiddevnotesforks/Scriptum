@@ -14,13 +14,13 @@ import sgtmelon.scriptum.extension.getCompatColor
  * Matcher for check background color.
  */
 class BackgroundColorMatcher(
-        @ColorRes private val colorId: Int,
-        @AttrRes private val attrColor: Int,
-        @ColorInt private val color: Int
+        @ColorRes private val colorId: Int?,
+        @AttrRes private val attrColor: Int?,
+        @ColorInt private val color: Int?
 ): TypeSafeMatcher<View>() {
 
     init {
-        if (colorId == -1 && attrColor == -1 && color == -1) throw IllegalAccessException()
+        if (colorId == null && attrColor == null && color == null) throw IllegalAccessException()
     }
 
     override fun matchesSafely(item: View?): Boolean {
@@ -30,9 +30,9 @@ class BackgroundColorMatcher(
         val background = item.background as? ColorDrawable ?: return false
 
         val color = when {
-            colorId != -1 -> context.getCompatColor(colorId)
-            attrColor != -1 -> context.getColorAttr(attrColor)
-            color != -1 -> color
+            colorId != null -> context.getCompatColor(colorId)
+            attrColor != null -> context.getColorAttr(attrColor)
+            color != null -> color
             else -> throw IllegalAccessException()
         }
 
@@ -40,11 +40,11 @@ class BackgroundColorMatcher(
     }
 
     override fun describeTo(description: Description?) {
-        if (colorId != -1) {
+        if (colorId != null) {
             description?.appendText("\nView with background colorId = $colorId")
         }
 
-        if (attrColor != -1) {
+        if (attrColor != null) {
             description?.appendText("\nView with background attrColor = $attrColor")
         }
     }

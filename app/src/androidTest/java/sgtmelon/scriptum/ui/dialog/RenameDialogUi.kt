@@ -17,9 +17,9 @@ class RenameDialogUi(title: String) : ParentUi(), IDialogUi, IKeyboardOption {
 
     //region Views
 
-    private val viewContainer = getViewById(R.id.rename_parent_container)
+    private val parentContainer = getViewById(R.id.rename_parent_container)
 
-    private val titleText = getViewByText(title).excludeParent(viewContainer)
+    private val titleText = getViewByText(title).excludeParent(parentContainer)
     private val renameEnter = getViewById(R.id.rename_enter)
 
     private val cancelButton = getViewByText(R.string.dialog_button_cancel)
@@ -49,7 +49,7 @@ class RenameDialogUi(title: String) : ParentUi(), IDialogUi, IKeyboardOption {
     }
 
     fun assert(enter: String = "") {
-        viewContainer.isDisplayed()
+        parentContainer.isDisplayed()
 
         titleText.isDisplayed()
         renameEnter.isDisplayed()

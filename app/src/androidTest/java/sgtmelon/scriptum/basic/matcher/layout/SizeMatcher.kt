@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.basic.matcher
+package sgtmelon.scriptum.basic.matcher.layout
 
 import android.view.View
 import androidx.annotation.AttrRes
@@ -10,19 +10,19 @@ import sgtmelon.scriptum.extension.getDimenAttr
 /**
  * Matcher for check view size.
  *
- * If [widthId]/[widthAttr] or [heightId]/[heightAttr] is -1 => skip size check.
+ * If [widthId]/[widthAttr] or [heightId]/[heightAttr] is null => skip size check.
  */
 class SizeMatcher(
-        @DimenRes private val widthId: Int,
-        @DimenRes private val heightId: Int,
-        @AttrRes private val widthAttr: Int,
-        @AttrRes private val heightAttr: Int
+        @DimenRes private val widthId: Int?,
+        @DimenRes private val heightId: Int?,
+        @AttrRes private val widthAttr: Int?,
+        @AttrRes private val heightAttr: Int?
 ) : TypeSafeMatcher<View>() {
 
-    var width: Int? = null
-    var height: Int? = null
-    var actualWidth: Int = -1
-    var actualHeight: Int = -1
+    private var width: Int? = null
+    private var height: Int? = null
+    private var actualWidth: Int? = null
+    private var actualHeight: Int? = null
 
     override fun matchesSafely(item: View?): Boolean {
         if (item == null) return false
@@ -34,14 +34,14 @@ class SizeMatcher(
         actualWidth = item.width
 
         width = when {
-            widthId != -1 -> resources.getDimensionPixelSize(widthId)
-            widthAttr != -1 -> resources.getDimensionPixelSize(context.getDimenAttr(widthAttr))
+            widthId != null -> resources.getDimensionPixelSize(widthId)
+            widthAttr != null -> resources.getDimensionPixelSize(context.getDimenAttr(widthAttr))
             else -> null
         }
 
         height = when {
-            heightId != -1 -> resources.getDimensionPixelSize(heightId)
-            heightAttr != -1 -> resources.getDimensionPixelSize(context.getDimenAttr(heightAttr))
+            heightId != null -> resources.getDimensionPixelSize(heightId)
+            heightAttr != null -> resources.getDimensionPixelSize(context.getDimenAttr(heightAttr))
             else -> null
         }
 
@@ -54,7 +54,7 @@ class SizeMatcher(
     }
 
     override fun describeTo(description: Description?) {
-        description?.appendText("\nView with widthId = $widthId | heightId = $heightId")
+        description?.appendText("\nView: widthId = $widthId | heightId = $heightId")
         description?.appendText(" | widthAttr = $widthAttr | heightAttr = $heightAttr")
 
         description?.appendText("\nExpected: width = $width, height = $height")

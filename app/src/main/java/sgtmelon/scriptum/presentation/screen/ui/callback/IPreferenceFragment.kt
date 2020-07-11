@@ -38,15 +38,23 @@ interface IPreferenceFragment {
     fun showThemeDialog(@Theme value: Int)
 
 
+    fun showExportPermissionDialog()
+
+    fun showExportDenyDialog()
+
+    fun showExportLoadingDialog()
+
+    fun hideExportLoadingDialog()
+
     fun updateImportEnabled(isEnabled: Boolean)
 
     fun showImportPermissionDialog()
 
     fun showImportDialog(titleArray: Array<String>)
 
-    fun showExportPermissionDialog()
+    fun showImportLoadingDialog()
 
-    fun showExportDenyDialog()
+    fun hideImportLoadingDialog()
 
 
     fun updateSortSummary(summary: String?)

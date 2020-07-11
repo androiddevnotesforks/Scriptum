@@ -57,10 +57,11 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
 
     private val themeDialog by lazy { dialogFactory.getThemeDialog() }
 
-    private val importPermissionDialog by lazy { dialogFactory.getImportPermissionDialog() }
-    private val importDialog by lazy { dialogFactory.getImportDialog() }
     private val exportPermissionDialog by lazy { dialogFactory.getExportPermissionDialog() }
     private val exportDenyDialog by lazy { dialogFactory.getExportDenyDialog() }
+    private val importPermissionDialog by lazy { dialogFactory.getImportPermissionDialog() }
+    private val importDialog by lazy { dialogFactory.getImportDialog() }
+    private val loadingDialog by lazy { dialogFactory.getLoadingDialog() }
 
     private val sortDialog by lazy { dialogFactory.getSortDialog() }
     private val colorDialog by lazy { dialogFactory.getColorDialog() }
@@ -134,8 +135,8 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
         /**
          * After call [IPreferenceViewModel.onPause] this dialog's will not have any items.
          */
-        if (melodyDialog.isAdded) melodyDialog.dismiss()
-        if (importDialog.isAdded) importDialog.dismiss()
+        melodyDialog.safeDismiss()
+        importDialog.safeDismiss()
     }
 
     override fun onDestroy() {
@@ -197,22 +198,6 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
             viewModel.onClickImport(readPermissionState.getResult())
         }
 
-        importPermissionDialog.isCancelable = false
-        importPermissionDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return@OnClickListener
-
-            requestPermissions(arrayOf(readPermissionState.permission), PermissionRequest.IMPORT)
-        }
-        importPermissionDialog.dismissListener = DialogInterface.OnDismissListener {
-            openState.clear()
-        }
-
-        importDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            val name = with(importDialog) { itemArray.getOrNull(check) } ?: return@OnClickListener
-            viewModel.onResultImport(name)
-        }
-        importDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
-
         exportPermissionDialog.isCancelable = false
         exportPermissionDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return@OnClickListener
@@ -226,6 +211,26 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
         exportDenyDialog.dismissListener = DialogInterface.OnDismissListener {
             openState.clear()
         }
+
+        importPermissionDialog.isCancelable = false
+        importPermissionDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return@OnClickListener
+
+            requestPermissions(arrayOf(readPermissionState.permission), PermissionRequest.IMPORT)
+        }
+        importPermissionDialog.dismissListener = DialogInterface.OnDismissListener {
+            openState.clear()
+        }
+
+        importDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
+            val name = with(importDialog) { itemArray.getOrNull(check) } ?: return@OnClickListener
+
+            openState.skipClear = true
+            viewModel.onResultImport(name)
+        }
+        importDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+
+        loadingDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }
 
     override fun setupNote() {
@@ -351,6 +356,20 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
     }
 
 
+    override fun showExportPermissionDialog() {
+        exportPermissionDialog.show(fm, DialogFactory.Preference.EXPORT_PERMISSION)
+    }
+
+    override fun showExportDenyDialog() {
+        exportDenyDialog.show(fm, DialogFactory.Preference.EXPORT_DENY)
+    }
+
+    override fun showExportLoadingDialog() = openState.tryInvoke {
+        loadingDialog.show(fm, DialogFactory.Preference.LOADING)
+    }
+
+    override fun hideExportLoadingDialog() = loadingDialog.safeDismiss()
+
     override fun updateImportEnabled(isEnabled: Boolean) {
         importPreference?.isEnabled = isEnabled
         importSkipPreference?.isEnabled = isEnabled
@@ -361,17 +380,18 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
     }
 
     override fun showImportDialog(titleArray: Array<String>) = openState.tryInvoke {
+        openState.tag = OpenState.Tag.DIALOG
+
         importDialog.itemArray = titleArray
         importDialog.show(fm, DialogFactory.Preference.IMPORT)
     }
 
-    override fun showExportPermissionDialog() {
-        exportPermissionDialog.show(fm, DialogFactory.Preference.EXPORT_PERMISSION)
+    override fun showImportLoadingDialog() = openState.tryInvoke(OpenState.Tag.DIALOG) {
+        loadingDialog.show(fm, DialogFactory.Preference.LOADING)
     }
 
-    override fun showExportDenyDialog() {
-        exportDenyDialog.show(fm, DialogFactory.Preference.EXPORT_DENY)
-    }
+    override fun hideImportLoadingDialog() = loadingDialog.safeDismiss()
+
 
     override fun updateSortSummary(summary: String?) {
         sortPreference?.summary = summary

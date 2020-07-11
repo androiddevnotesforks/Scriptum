@@ -20,7 +20,7 @@ import sgtmelon.scriptum.basic.matcher.text.TextSizeMatcher
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Theme
 
-private fun matchOnView(viewMatcher: Matcher<View>, checkMatcher: Matcher<in View>) {
+fun matchOnView(viewMatcher: Matcher<View>, checkMatcher: Matcher<in View>) {
     onView(viewMatcher).check(matches(checkMatcher))
 }
 
@@ -52,21 +52,21 @@ fun Matcher<View>.isFocused(focused: Boolean = true) = also {
 }
 
 fun Matcher<View>.withText(@StringRes stringId: Int,
-                           @AttrRes attrColor: Int = -1,
-                           @DimenRes dimenId: Int = -1) = also {
+                           @AttrRes attrColor: Int?,
+                           @DimenRes dimenId: Int?) = also {
     matchOnView(it, ViewMatchers.withText(stringId))
 
-    if (attrColor != -1) withTextColor(attrColor)
-    if (dimenId != -1) withTextSize(dimenId)
+    if (attrColor != null) withTextColor(attrColor)
+    if (dimenId != null) withTextSize(dimenId)
 }
 
 fun Matcher<View>.withText(string: String,
-                           @AttrRes attrColor: Int = -1,
-                           @DimenRes dimenId: Int = -1) = also {
+                           @AttrRes attrColor: Int? = null,
+                           @DimenRes dimenId: Int? = null) = also {
     matchOnView(it, ViewMatchers.withText(string))
 
-    if (attrColor != -1) withTextColor(attrColor)
-    if (dimenId != -1) withTextSize(dimenId)
+    if (attrColor != null) withTextColor(attrColor)
+    if (dimenId != null) withTextSize(dimenId)
 }
 
 fun Matcher<View>.withImeAction(action: Int) = also {
@@ -87,12 +87,12 @@ fun Matcher<View>.withTextSize(@DimenRes dimenId: Int) = also {
 }
 
 fun Matcher<View>.withHint(@StringRes stringId: Int,
-                           @AttrRes attrColor: Int = -1,
-                           @DimenRes dimenId: Int = -1) = also {
+                           @AttrRes attrColor: Int? = null,
+                           @DimenRes dimenId: Int? = null) = also {
     matchOnView(it, allOf(ViewMatchers.withHint(stringId), ViewMatchers.withText("")))
 
-    if (attrColor != -1) withHintColor(attrColor)
-    if (dimenId != -1) withTextSize(dimenId)
+    if (attrColor != null) withHintColor(attrColor)
+    if (dimenId != null) withTextSize(dimenId)
 }
 
 fun Matcher<View>.withMenuTitle(@IdRes itemId: Int, @StringRes stringId: Int) = also {
@@ -109,7 +109,7 @@ fun Matcher<View>.withContentDescription(@StringRes stringId: Int) = also {
 }
 
 fun Matcher<View>.withContentDescription(string: String) = also {
-    matchOnView(it, ContentDescriptionMatcher(-1, string))
+    matchOnView(it, ContentDescriptionMatcher(null, string))
 }
 
 
@@ -118,7 +118,7 @@ fun Matcher<View>.withBackground(resourceId: Int) = also {
 }
 
 fun Matcher<View>.withBackgroundColor(@ColorRes colorId: Int) = also {
-    matchOnView(it, BackgroundColorMatcher(colorId, -1, -1))
+    matchOnView(it, BackgroundColorMatcher(colorId, null, null))
 }
 
 fun Matcher<View>.withBackgroundAppColor(@Theme theme: Int, @Color color: Int,
@@ -127,21 +127,21 @@ fun Matcher<View>.withBackgroundAppColor(@Theme theme: Int, @Color color: Int,
 }
 
 fun Matcher<View>.withBackgroundAttr(@AttrRes attrId: Int) = also {
-    matchOnView(it, BackgroundColorMatcher(-1, attrId, -1))
+    matchOnView(it, BackgroundColorMatcher(null, attrId, null))
 }
 
 
-fun Matcher<View>.withDrawableColor(@IdRes resourceId: Int = -1,
-                                    @ColorRes colorId: Int = -1) = also {
-    matchOnView(it, DrawableMatcher(resourceId, colorId, -1))
+fun Matcher<View>.withDrawableColor(@IdRes resourceId: Int? = null,
+                                    @ColorRes colorId: Int? = null) = also {
+    matchOnView(it, DrawableMatcher(resourceId, colorId, null))
 }
 
-fun Matcher<View>.withDrawableAttr(@IdRes resourceId: Int, @AttrRes attrColor: Int = -1) = also {
-    matchOnView(it, DrawableMatcher(resourceId, -1, attrColor))
+fun Matcher<View>.withDrawableAttr(@IdRes resourceId: Int, @AttrRes attrColor: Int? = null) = also {
+    matchOnView(it, DrawableMatcher(resourceId, null, attrColor))
 }
 
 fun Matcher<View>.withNavigationDrawable(@IdRes resourceId: Int,
-                                         @AttrRes attrColor: Int = -1) = also {
+                                         @AttrRes attrColor: Int? = null) = also {
     matchOnView(it, NavigationDrawableMatcher(resourceId, attrColor))
 }
 
@@ -151,7 +151,7 @@ fun Matcher<View>.withMenuDrawable(@IdRes itemId: Int, @IdRes resourceId: Int,
 }
 
 
-fun Matcher<View>.withColorIndicator(resourceId: Int = -1,
+fun Matcher<View>.withColorIndicator(resourceId: Int? = null,
                                      @Theme theme: Int,
                                      @Color color: Int) = also {
     matchOnView(it, ColorIndicatorMatcher(resourceId, theme, color))
@@ -163,20 +163,6 @@ fun Matcher<View>.withCardBackground(@Theme theme: Int, @Color color: Int) = als
 
 fun Matcher<View>.withCardBackground(@AttrRes attrColor: Int) = also {
     matchOnView(it, CardBackgroundAttrMatcher(attrColor))
-}
-
-/**
- * Need match if view is visible, otherwise will get exception.
- */
-fun Matcher<View>.withSize(@DimenRes widthId: Int = -1, @DimenRes heightId: Int = -1) = also {
-    matchOnView(it, SizeMatcher(widthId, heightId, -1, -1))
-}
-
-/**
- * Need match if view is visible, otherwise will get exception.
- */
-fun Matcher<View>.withSizeAttr(@AttrRes widthAttr: Int = -1, @AttrRes heightAttr: Int = -1) = also {
-    matchOnView(it, SizeMatcher(-1, -1, widthAttr, heightAttr))
 }
 
 

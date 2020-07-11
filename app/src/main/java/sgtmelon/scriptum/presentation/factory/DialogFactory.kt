@@ -187,6 +187,10 @@ object DialogFactory {
             return dialog
         }
 
+        fun getLoadingDialog(): LoadingDialog {
+            return fm.findFragmentByTag(LOADING) as? LoadingDialog ?: LoadingDialog()
+        }
+
 
 
         fun getSortDialog(): SingleDialog {
@@ -292,6 +296,7 @@ object DialogFactory {
             const val IMPORT = "${PREFIX}_IMPORT"
             const val EXPORT_PERMISSION = "${PREFIX}_EXPORT_PERMISSION"
             const val EXPORT_DENY = "${PREFIX}_EXPORT_DENY"
+            const val LOADING = "${PREFIX}_LOADING"
 
             const val SORT = "${PREFIX}_SORT"
             const val COLOR = "${PREFIX}_COLOR"

@@ -13,8 +13,8 @@ class ProgressMatcher(
         private val max: Int
 ) : TypeSafeMatcher<View>() {
 
-    private var actualProgress: Int = -1
-    private var actualMax: Int = -1
+    private var actualProgress: Int? = null
+    private var actualMax: Int? = null
 
     override fun matchesSafely(item: View?): Boolean {
         if (item == null || item !is ProgressBar) return false

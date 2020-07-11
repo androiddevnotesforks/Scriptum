@@ -11,7 +11,7 @@ import org.hamcrest.TypeSafeMatcher
 /**
  * Parent class for matchers which need to compare images.
  */
-abstract class ParentImageMatcher(@IdRes protected val resourceId: Int) : TypeSafeMatcher<View>() {
+abstract class ParentImageMatcher(@IdRes protected val resourceId: Int?) : TypeSafeMatcher<View>() {
 
     private var viewWidth = 1
     private var viewHeight = 1

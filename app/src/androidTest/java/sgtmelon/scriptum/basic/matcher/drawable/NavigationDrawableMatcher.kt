@@ -12,12 +12,12 @@ import sgtmelon.scriptum.extension.getCompatDrawable
 /**
  * Matcher for check toolbar navigation icon.
  *
- * If [resourceId] is -1 => check what don't have drawable.
- * If [attrColor] is -1 => check without colorFilter.
+ * If [resourceId] is null => check what don't have drawable.
+ * If [attrColor] is null => check without colorFilter.
  */
 class NavigationDrawableMatcher(
-        @IdRes resourceId: Int,
-        @AttrRes private val attrColor: Int
+        @IdRes resourceId: Int?,
+        @AttrRes private val attrColor: Int?
 ) : ParentImageMatcher(resourceId) {
 
     override fun matchesSafely(item: View?): Boolean {
@@ -25,14 +25,14 @@ class NavigationDrawableMatcher(
 
         val navigationIcon = item.navigationIcon
 
-        if (resourceId == -1) return navigationIcon == null
+        if (resourceId == null) return navigationIcon == null
 
         if (navigationIcon == null) return false
 
         val context = item.context ?: return false
         val expected = context.getCompatDrawable(resourceId) ?: return false
 
-        if (attrColor != -1) {
+        if (attrColor != null) {
             expected.setColorFilter(context.getColorAttr(attrColor), PorterDuff.Mode.SRC_ATOP)
         }
 
@@ -42,7 +42,7 @@ class NavigationDrawableMatcher(
     override fun describeTo(description: Description?) {
         super.describeTo(description)
 
-        if (attrColor != -1) {
+        if (attrColor != null) {
             description?.appendText("\nView with attrColor = $attrColor")
         }
     }

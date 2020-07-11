@@ -40,6 +40,10 @@ abstract class BlankDialog : DialogFragment() {
         dismissListener?.onDismiss(dialog)
     }
 
+    fun safeDismiss() {
+        if (isAdded) dismiss()
+    }
+
     /**
      * Func for setup child view's of custom view
      */

@@ -7,8 +7,10 @@
         android:id="@+id/rename_parent_container"
         android:orientation="vertical"
         android:paddingLeft="@dimen/layout_24dp"
+        android:paddingStart="@dimen/layout_24dp"
         android:paddingTop="@dimen/layout_16dp"
         android:paddingRight="@dimen/layout_24dp"
+        android:paddingEnd="@dimen/layout_24dp"
         tools:layout_gravity="center">
 
     <EditText

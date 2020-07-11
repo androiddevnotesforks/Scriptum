@@ -283,11 +283,15 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
         coVerifySequence {
             spyViewModel.startExport()
+            callback.showExportLoadingDialog()
             backupInteractor.export()
+            callback.hideExportLoadingDialog()
             callback.showToast(R.string.pref_toast_export_error)
 
             spyViewModel.startExport()
+            callback.showExportLoadingDialog()
             backupInteractor.export()
+            callback.hideExportLoadingDialog()
             callback.showExportPathToast(path)
             callback.updateImportEnabled(isEnabled = false)
             backupInteractor.resetFileList()
@@ -353,13 +357,19 @@ class PreferenceViewModelTest : ParentViewModelTest() {
         viewModel.onResultImport(name)
 
         coVerifySequence {
+            callback.showImportLoadingDialog()
             backupInteractor.import(name)
+            callback.hideImportLoadingDialog()
             callback.showToast(R.string.pref_toast_import_result)
 
+            callback.showImportLoadingDialog()
             backupInteractor.import(name)
+            callback.hideImportLoadingDialog()
             callback.showImportSkipToast(skipCount)
 
+            callback.showImportLoadingDialog()
             backupInteractor.import(name)
+            callback.hideImportLoadingDialog()
             callback.showToast(R.string.pref_toast_import_error)
         }
     }
