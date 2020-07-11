@@ -13,11 +13,11 @@ class SaveControl(context: Context, val model: Model, private val callback: Call
 
     @RunPrivate var saveHandler = Handler()
 
-    @RunPrivate val periodTime: Int = if (model.autoSaveOn) {
+    @RunPrivate val periodTime: Int? = if (model.autoSaveOn) {
         val intArray = context.resources.getIntArray(R.array.pref_note_save_time_array)
-        intArray.getOrNull(model.savePeriod) ?: ND_PERIOD
+        intArray.getOrNull(model.savePeriod)
     } else {
-        ND_PERIOD
+        null
     }
 
     /**
@@ -31,7 +31,7 @@ class SaveControl(context: Context, val model: Model, private val callback: Call
         saveHandler.removeCallbacksAndMessages(null)
 
         if (isWork) {
-            val period = periodTime.takeIf { it != ND_PERIOD }?.toLong() ?: return
+            val period = periodTime?.toLong() ?: return
             saveHandler.postDelayed({ onSaveRunnable() }, period)
         }
     }
@@ -53,10 +53,6 @@ class SaveControl(context: Context, val model: Model, private val callback: Call
 
     interface Callback {
         fun onResultSaveControl()
-    }
-
-    companion object {
-        @RunPrivate const val ND_PERIOD = 0
     }
 
 }

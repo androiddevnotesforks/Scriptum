@@ -52,11 +52,11 @@ class BackupSelectorTest : ParentBackupTest() {
 
     @Test fun getModelV1() {
         val roomData = JSONObject().apply {
-            put(Note.TABLE, JSONArray(noteListJson))
-            put(Roll.TABLE, JSONArray(rollListJson))
-            put(RollVisible.TABLE, JSONArray(rollVisibleListJson))
-            put(Rank.TABLE, JSONArray(rankListJson))
-            put(Alarm.TABLE, JSONArray(alarmListJson))
+            put(Note.TABLE, noteListJson)
+            put(Roll.TABLE, rollListJson)
+            put(RollVisible.TABLE, rollVisibleListJson)
+            put(Rank.TABLE, rankListJson)
+            put(Alarm.TABLE, alarmListJson)
         }.toString()
 
         val model = ParserResult(noteList, rollList, rollVisibleList, rankList, alarmList)

@@ -38,11 +38,11 @@ class BackupSelector(
     @RunPrivate fun getModelV1(roomData: String): ParserResult? {
         try {
             val jsonObject = JSONObject(roomData)
-            val noteTable = jsonObject.getJSONArray(Note.TABLE)
-            val rollTable = jsonObject.getJSONArray(Roll.TABLE)
-            val rollVisibleTable = jsonObject.getJSONArray(RollVisible.TABLE)
-            val rankTable = jsonObject.getJSONArray(Rank.TABLE)
-            val alarmTable = jsonObject.getJSONArray(Alarm.TABLE)
+            val noteTable = JSONArray(jsonObject.getString(Note.TABLE))
+            val rollTable = JSONArray(jsonObject.getString(Roll.TABLE))
+            val rollVisibleTable = JSONArray(jsonObject.getString(RollVisible.TABLE))
+            val rankTable = JSONArray(jsonObject.getString(Rank.TABLE))
+            val alarmTable = JSONArray(jsonObject.getString(Alarm.TABLE))
 
             val noteList = getNoteTableV1(noteTable) ?: return null
             val rollList = getRollTableV1(rollTable) ?: return null

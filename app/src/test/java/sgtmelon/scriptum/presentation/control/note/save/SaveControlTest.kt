@@ -44,13 +44,13 @@ class SaveControlTest : ParentTest() {
         every { model.autoSaveOn } returns false
 
         var saveControl = SaveControl(context, model, callback)
-        assertEquals(SaveControl.ND_PERIOD, saveControl.periodTime)
+        assertNull(saveControl.periodTime)
 
         every { model.autoSaveOn } returns true
         every { model.savePeriod } returns -1
 
         saveControl = SaveControl(context, model, callback)
-        assertEquals(SaveControl.ND_PERIOD, saveControl.periodTime)
+        assertNull(saveControl.periodTime)
 
         every { model.savePeriod } returns index
 

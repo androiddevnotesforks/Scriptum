@@ -88,7 +88,7 @@ class FileControl(private val context: Context) : IFileControl {
             list.addAll(getFileList(it, type))
         }
 
-        return list
+        return list.sortedBy { it.name }
     }
 
     private suspend fun getFileList(directory: File, @FileType type: String): List<FileItem> {

@@ -63,15 +63,15 @@ class BackupInteractor(
 
     override suspend fun import(name: String): ImportResult {
         val list = getFileList()
-
         val item = list.firstOrNull { it.name == name } ?: return ImportResult.Error
 
         val encryptData = fileControl.readFile(item.path) ?: return ImportResult.Error
         val data = cipherControl.decrypt(encryptData)
 
         val parserResult = backupParser.parse(data) ?: return ImportResult.Error
+        val importSkip = preferenceRepo.importSkip
 
-        TODO()
+        TODO(" here we are")
     }
 
 }
