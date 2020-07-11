@@ -23,6 +23,8 @@ class MenuItemDrawableMatcher(
 
         val itemIcon = item.menu.findItem(itemId).icon
 
+        if (resourceId == null) return itemIcon == null
+
         val context = item.context ?: return false
         val expected = context.getCompatDrawable(resourceId) ?: return false
 
