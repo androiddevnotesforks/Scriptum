@@ -49,7 +49,7 @@ abstract class ParentUiTest : ParentTest() {
                          after: SplashScreen.() -> Unit) {
         before()
         testRule.launchActivity(intent)
-        SplashScreen().apply(after)
+        SplashScreen(after)
     }
 
     protected fun launchBind(noteItem: NoteItem, func: SplashScreen.() -> Unit) = launch(

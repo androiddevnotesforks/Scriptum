@@ -167,11 +167,11 @@ class BackupInteractorTest : ParentInteractorTest() {
 
         every { backupParser.parse(data) } returns parserResult
         every { preferenceRepo.importSkip } returns importSkip
-        every { backupRepo.insertData(parserResult, importSkip) } returns ImportResult.Simple
+        coEvery { backupRepo.insertData(parserResult, importSkip) } returns ImportResult.Simple
 
         assertEquals(ImportResult.Simple, spyInteractor.import(item.name))
 
-        every { backupRepo.insertData(parserResult, importSkip) } returns skipResult
+        coEvery { backupRepo.insertData(parserResult, importSkip) } returns skipResult
 
         assertEquals(skipResult, spyInteractor.import(item.name))
 

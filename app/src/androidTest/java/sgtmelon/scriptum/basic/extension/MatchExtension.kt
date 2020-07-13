@@ -52,8 +52,8 @@ fun Matcher<View>.isFocused(focused: Boolean = true) = also {
 }
 
 fun Matcher<View>.withText(@StringRes stringId: Int,
-                           @AttrRes attrColor: Int?,
-                           @DimenRes dimenId: Int?) = also {
+                           @AttrRes attrColor: Int? = null,
+                           @DimenRes dimenId: Int? = null) = also {
     matchOnView(it, ViewMatchers.withText(stringId))
 
     if (attrColor != null) withTextColor(attrColor)

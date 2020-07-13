@@ -8,5 +8,5 @@ import sgtmelon.scriptum.domain.model.result.ParserResult
  * Interface for [BackupRepo].
  */
 interface IBackupRepo {
-    fun insertData(parserResult: ParserResult, importSkip: Boolean): ImportResult
+    suspend fun insertData(parserResult: ParserResult, importSkip: Boolean): ImportResult
 }

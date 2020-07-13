@@ -300,4 +300,5 @@ class NoteRepo(
     override suspend fun getRollVisibleBackup(noteIdList: List<Long>): List<RollVisibleEntity> {
         return takeFromRoom { rollVisibleDao.get(noteIdList) }
     }
+
 }

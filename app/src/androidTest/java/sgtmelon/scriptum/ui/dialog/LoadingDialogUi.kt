@@ -1,9 +1,6 @@
 package sgtmelon.scriptum.ui.dialog
 
 import android.view.ViewGroup.LayoutParams
-import android.widget.LinearLayout
-import android.widget.ProgressBar
-import android.widget.TextView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.isDisplayed
 import sgtmelon.scriptum.basic.extension.withParent
@@ -18,9 +15,9 @@ import sgtmelon.scriptum.ui.ParentUi
  */
 class LoadingDialogUi : ParentUi(), IDialogUi {
 
-    private val parentContainer = getView(R.id.loading_parent_container, LinearLayout::class.java)
-    private val progressBar = getView(R.id.loading_progress_bar, ProgressBar::class.java)
-    private val loadingText = getView(R.id.loading_text, TextView::class.java)
+    private val parentContainer = getViewById(R.id.loading_parent_container)
+    private val progressBar = getViewById(R.id.loading_progress_bar)
+    private val loadingText = getViewById(R.id.loading_text)
 
     fun assert() {
         parentContainer.isDisplayed()

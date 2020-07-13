@@ -59,7 +59,9 @@ class RepoModule {
 
     @Provides
     @Singleton
-    fun provideBackupRepo(roomProvider: RoomProvider): IBackupRepo {
-        return BackupRepo(roomProvider)
+    fun provideBackupRepo(roomProvider: RoomProvider, noteConverter: NoteConverter,
+                          rollConverter: RollConverter, rankConverter: RankConverter,
+                          alarmConverter: AlarmConverter): IBackupRepo {
+        return BackupRepo(roomProvider, noteConverter, rollConverter, rankConverter, alarmConverter)
     }
 }
