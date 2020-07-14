@@ -7,13 +7,13 @@ import sgtmelon.scriptum.data.provider.RoomProvider
 import sgtmelon.scriptum.data.repository.room.callback.IBackupRepo
 import sgtmelon.scriptum.data.room.IRoomWork
 import sgtmelon.scriptum.data.room.RoomDb
-import sgtmelon.scriptum.data.room.converter.model.AlarmConverter
-import sgtmelon.scriptum.data.room.converter.model.NoteConverter
-import sgtmelon.scriptum.data.room.converter.model.RankConverter
-import sgtmelon.scriptum.data.room.converter.model.RollConverter
 import sgtmelon.scriptum.data.room.entity.*
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
+import sgtmelon.scriptum.domain.model.data.DbData.Alarm
 import sgtmelon.scriptum.domain.model.data.DbData.Note
+import sgtmelon.scriptum.domain.model.data.DbData.Rank
+import sgtmelon.scriptum.domain.model.data.DbData.Roll
+import sgtmelon.scriptum.domain.model.data.DbData.RollVisible
 import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.domain.model.result.ImportResult
 import sgtmelon.scriptum.domain.model.result.ParserResult
@@ -22,16 +22,9 @@ import java.util.*
 /**
  * Repository of [RoomDb] which work with backup data.
  */
-class BackupRepo(
-        override val roomProvider: RoomProvider,
-        private val noteConverter: NoteConverter,
-        private val rollConverter: RollConverter,
-        private val rankConverter: RankConverter,
-        private val alarmConverter: AlarmConverter
-) : IBackupRepo,
+class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
         IRoomWork {
 
-    // TODO update notification bind's
     override suspend fun insertData(parserResult: ParserResult,
                                     importSkip: Boolean): ImportResult = takeFromRoom {
         // todo backup item with converting from [parserResult].
@@ -55,7 +48,8 @@ class BackupRepo(
         insertRankList(rankList, noteList, roomDb = this)
         insertAlarmList(alarmList, roomDb = this)
 
-        TODO()
+        TODO("notify note items in status bar")
+        TODO("notify alarm items in status bar")
 
         return@takeFromRoom if (importSkip) {
             ImportResult.Skip(skipCount = parserResult.noteList.size - noteList.size)
@@ -176,17 +170,16 @@ class BackupRepo(
     }
 
     /**
-     * Return list for remove with items from [alarmList], which already past.
-     * Also change time of [alarmList] items, if user have same date in [roomDb].
+     * Return list for remove with items from [list], which already past.
+     * Also change time of [list] items, if user have same date in [roomDb].
      */
     @RunPrivate
-    suspend fun getRemoveAlarmList(alarmList: List<AlarmEntity>,
-                                   roomDb: RoomDb): List<AlarmEntity> {
+    suspend fun getRemoveAlarmList(list: List<AlarmEntity>, roomDb: RoomDb): List<AlarmEntity> {
         val removeList = mutableListOf<AlarmEntity>()
 
         val notificationList = roomDb.alarmDao.getList()
 
-        for (item in alarmList) {
+        for (item in list) {
             val calendar = item.date.getCalendarOrNull() ?: continue
 
             if (calendar.beforeNow()) {
@@ -204,7 +197,9 @@ class BackupRepo(
 
     /**
      * Insert notes from [noteList] to [roomDb].
-     * Also update (if need) noteId inside other list items.
+     * Also update (if need) noteId for items in other lists.
+     *
+     * Need reset [NoteEntity.id] for prevent unique id exception.
      */
     @RunPrivate
     suspend fun insertNoteList(noteList: List<NoteEntity>,
@@ -216,9 +211,6 @@ class BackupRepo(
         noteList.forEach { item ->
             val oldId = item.id
 
-            /**
-             * Need reset [NoteEntity.id] for prevent unique id exception.
-             */
             item.id = roomDb.noteDao.insert(item.apply { id = Note.Default.ID })
 
             rollList.filter { it.noteId == oldId }.forEach { it.noteId = item.id }
@@ -233,24 +225,63 @@ class BackupRepo(
         }
     }
 
+    /**
+     * Insert roll items from [list] to [roomDb].
+     *
+     * Need reset [RollEntity.id] for prevent unique id exception.
+     */
     @RunPrivate
-    suspend fun insertRollList(rollList: List<RollEntity>, roomDb: RoomDb) {
-        TODO("Not yet implemented")
+    suspend fun insertRollList(list: List<RollEntity>, roomDb: RoomDb) {
+        list.forEach { roomDb.rollDao.insert(it.apply { id = Roll.Default.ID }) }
     }
 
+    /**
+     * Insert rollVisible items from [list] to [roomDb].
+     *
+     * Need reset [RollVisibleEntity.id] for prevent unique id exception.
+     */
     @RunPrivate
-    suspend fun insertRollVisibleList(rollVisibleList: List<RollVisibleEntity>, roomDb: RoomDb) {
-        TODO("Not yet implemented")
+    suspend fun insertRollVisibleList(list: List<RollVisibleEntity>, roomDb: RoomDb) {
+        list.forEach { roomDb.rollVisibleDao.insert(it.apply { id = RollVisible.Default.ID }) }
     }
 
+    /**
+     * Insert rank items from [rankList] to [roomDb].
+     * Also update (if need) rankId and position for items from [noteList].
+     *
+     * Need reset [RankEntity.id] for prevent unique id exception.
+     */
     @RunPrivate
-    suspend fun insertRankList(rankList: List<RankEntity>, noteList: List<NoteEntity>, roomDb: RoomDb) {
-        TODO("Not yet implemented")
+    suspend fun insertRankList(rankList: List<RankEntity>, noteList: List<NoteEntity>,
+                               roomDb: RoomDb) {
+        val existRankList = roomDb.rankDao.get().toMutableList()
+
+        rankList.forEach { item ->
+            val oldId = item.id
+            item.id = roomDb.rankDao.insert(item.apply {
+                id = Rank.Default.ID
+                position = existRankList.size
+            })
+
+            existRankList.add(item)
+
+            val updateList = noteList.filter { it.rankId == oldId }
+            updateList.forEach {
+                it.rankId = item.id
+                it.rankPs = item.position
+            }
+            roomDb.noteDao.update(updateList)
+        }
     }
 
+    /**
+     * Insert alarm items from [list] to [roomDb].
+     *
+     * Need reset [AlarmEntity.id] for prevent unique id exception.
+     */
     @RunPrivate
-    suspend fun insertAlarmList(alarmList: List<AlarmEntity>, roomDb: RoomDb) {
-        TODO("Not yet implemented")
+    suspend fun insertAlarmList(list: List<AlarmEntity>, roomDb: RoomDb) {
+        list.forEach { roomDb.alarmDao.insert(it.apply { id = Alarm.Default.ID }) }
     }
 
 }
