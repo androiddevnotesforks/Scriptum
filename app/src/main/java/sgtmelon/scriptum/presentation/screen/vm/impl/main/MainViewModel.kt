@@ -4,13 +4,13 @@ import android.app.Application
 import android.os.Bundle
 import androidx.annotation.IdRes
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.IMainInteractor
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.key.MainPage
 import sgtmelon.scriptum.domain.model.key.NoteType
+import sgtmelon.scriptum.extension.launchBack
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.MainActivity
@@ -45,7 +45,7 @@ class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(a
              * Work with alarm and notification coroutines need do here.
              * Because [SplashActivity] will be quickly destroyed.
              */
-            viewModelScope.launch {
+            viewModelScope.launchBack {
                 interactor.tidyUpAlarm()
                 bindInteractor.notifyNoteBind(callback)
                 bindInteractor.notifyInfoBind(callback)

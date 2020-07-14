@@ -4,6 +4,7 @@ import android.os.Bundle
 import kotlinx.coroutines.*
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.interactor.callback.IBackupInteractor
+import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.IPreferenceInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.domain.model.annotation.Color
@@ -16,16 +17,16 @@ import sgtmelon.scriptum.domain.model.result.ExportResult
 import sgtmelon.scriptum.domain.model.result.ImportResult
 import sgtmelon.scriptum.extension.runBack
 import sgtmelon.scriptum.presentation.screen.ui.callback.IPreferenceFragment
-import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.IPreferenceViewModel
 
 /**
- * ViewModel for [PreferenceFragment].
+ * ViewModel for [IPreferenceFragment].
  */
 class PreferenceViewModel(
         private val interactor: IPreferenceInteractor,
         private val signalInteractor: ISignalInteractor,
         private val backupInteractor: IBackupInteractor,
+        private val bindInteractor: IBindInteractor,
         @RunPrivate var callback: IPreferenceFragment?
 ) : IPreferenceViewModel {
 
@@ -190,6 +191,13 @@ class PreferenceViewModel(
                 is ImportResult.Simple -> callback?.showToast(R.string.pref_toast_import_result)
                 is ImportResult.Skip -> callback?.showImportSkipToast(result.skipCount)
                 is ImportResult.Error -> callback?.showToast(R.string.pref_toast_import_error)
+            }
+
+            if (result == ImportResult.Error) return@launch
+
+            runBack {
+                bindInteractor.notifyNoteBind(callback)
+                bindInteractor.notifyInfoBind(callback)
             }
         }
     }

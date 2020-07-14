@@ -10,6 +10,7 @@ import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.domain.interactor.callback.IBackupInteractor
+import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.IPreferenceInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.domain.model.key.PermissionResult
@@ -28,13 +29,16 @@ class PreferenceViewModelTest : ParentViewModelTest() {
     @MockK lateinit var interactor: IPreferenceInteractor
     @MockK lateinit var signalInteractor: ISignalInteractor
     @MockK lateinit var backupInteractor: IBackupInteractor
+    @MockK lateinit var bindInteractor: IBindInteractor
     @MockK lateinit var callback: IPreferenceFragment
 
     private val melodyList = TestData.Melody.melodyList
     private val fileList = TestData.Backup.fileList
 
     private val viewModel by lazy {
-        PreferenceViewModel(interactor, signalInteractor, backupInteractor, callback)
+        PreferenceViewModel(
+                interactor, signalInteractor, backupInteractor, bindInteractor, callback
+        )
     }
     private val spyViewModel by lazy { spyk(viewModel) }
 
@@ -361,11 +365,15 @@ class PreferenceViewModelTest : ParentViewModelTest() {
             backupInteractor.import(name)
             callback.hideImportLoadingDialog()
             callback.showToast(R.string.pref_toast_import_result)
+            bindInteractor.notifyNoteBind(callback)
+            bindInteractor.notifyInfoBind(callback)
 
             callback.showImportLoadingDialog()
             backupInteractor.import(name)
             callback.hideImportLoadingDialog()
             callback.showImportSkipToast(skipCount)
+            bindInteractor.notifyNoteBind(callback)
+            bindInteractor.notifyInfoBind(callback)
 
             callback.showImportLoadingDialog()
             backupInteractor.import(name)

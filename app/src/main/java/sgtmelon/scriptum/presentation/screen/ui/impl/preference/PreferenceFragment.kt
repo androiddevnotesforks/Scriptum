@@ -14,6 +14,7 @@ import androidx.preference.PreferenceFragmentCompat
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.*
+import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.key.PermissionResult
 import sgtmelon.scriptum.domain.model.state.OpenState
 import sgtmelon.scriptum.domain.model.state.PermissionState
@@ -21,6 +22,7 @@ import sgtmelon.scriptum.extension.initLazy
 import sgtmelon.scriptum.extension.isGranted
 import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.extension.toUri
+import sgtmelon.scriptum.presentation.control.system.BindControl
 import sgtmelon.scriptum.presentation.control.system.MelodyControl
 import sgtmelon.scriptum.presentation.control.system.callback.IMelodyControl
 import sgtmelon.scriptum.presentation.factory.DialogFactory
@@ -98,6 +100,7 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
 
     //endregion
 
+    private val bindControl by lazy { BindControl[activity] }
     private val melodyControl: IMelodyControl by lazy { MelodyControl(activity) }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -110,7 +113,9 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        bindControl.initLazy()
         melodyControl.initLazy()
+
         openState.get(savedInstanceState)
 
         /**
@@ -472,5 +477,13 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
     override fun showSaveTimeDialog(value: Int) = openState.tryInvoke {
         savePeriodDialog.setArguments(value).show(fm, DialogFactory.Preference.SAVE_PERIOD)
     }
+
+
+    override fun notifyNoteBind(itemList: List<NoteItem>, rankIdVisibleList: List<Long>,
+                                @Sort sort: Int?) {
+        bindControl.notifyNote(itemList, rankIdVisibleList, sort)
+    }
+
+    override fun notifyInfoBind(count: Int) = bindControl.notifyInfo(count)
 
 }

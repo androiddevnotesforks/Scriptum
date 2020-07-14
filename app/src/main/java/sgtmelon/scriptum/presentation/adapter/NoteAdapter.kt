@@ -39,25 +39,26 @@ class NoteAdapter(
     }
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
-            NoteType.TEXT.ordinal -> NoteTextHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return if (viewType == NoteType.TEXT.ordinal) {
+            NoteTextHolder(
                     parent.inflateBinding(R.layout.item_note_text),
                     clickListener, longClickListener
             )
-            else -> NoteRollHolder(
+        } else {
+            NoteRollHolder(
                     parent.inflateBinding(R.layout.item_note_roll),
                     clickListener, longClickListener
             )
         }
+    }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val item = list.getOrNull(position)
+
         when (holder) {
-            is NoteTextHolder -> (list.getOrNull(position) as? NoteItem.Text)?.let {
-                holder.bind(theme, it)
-            }
-            is NoteRollHolder -> (list.getOrNull(position) as? NoteItem.Roll)?.let {
-                holder.bind(theme, it)
-            }
+            is NoteTextHolder -> if (item is NoteItem.Text) holder.bind(theme, item)
+            is NoteRollHolder -> if (item is NoteItem.Roll) holder.bind(theme, item)
         }
     }
 

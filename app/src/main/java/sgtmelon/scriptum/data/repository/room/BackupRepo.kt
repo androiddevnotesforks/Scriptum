@@ -25,55 +25,63 @@ import java.util.*
 class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
         IRoomWork {
 
+    class Model(
+            val noteList: MutableList<NoteEntity>,
+            val rollList: MutableList<RollEntity>,
+            val rollVisibleList: MutableList<RollVisibleEntity>,
+            val rankList: MutableList<RankEntity>,
+            val alarmList: MutableList<AlarmEntity>
+    ) {
+
+        constructor(result: ParserResult): this(
+                result.noteList.toMutableList(),
+                result.rollList.toMutableList(),
+                result.rollVisibleList.toMutableList(),
+                result.rankList.toMutableList(),
+                result.alarmList.toMutableList()
+        )
+    }
+
     override suspend fun insertData(parserResult: ParserResult,
                                     importSkip: Boolean): ImportResult = takeFromRoom {
-        // todo backup item with converting from [parserResult].
-        val noteList = parserResult.noteList.toMutableList()
-        val rollList = parserResult.rollList.toMutableList()
-        val rollVisibleList = parserResult.rollVisibleList.toMutableList()
-        val rankList = parserResult.rankList.toMutableList()
-        val alarmList = parserResult.alarmList.toMutableList()
+        val model = Model(parserResult)
 
         if (importSkip) {
-            val removeNoteList = getRemoveNoteList(noteList, rollList, roomDb = this)
-            clearList(removeNoteList, noteList, rollList, rollVisibleList, rankList, alarmList)
+            val removeNoteList = getRemoveNoteList(model, roomDb = this)
+            clearList(removeNoteList, model)
         }
 
-        rankList.removeAll(getRemoveRankList(rankList, noteList, roomDb = this))
-        alarmList.removeAll(getRemoveAlarmList(alarmList, roomDb = this))
+        clearRankList(model, roomDb = this)
+        clearAlarmList(model = model, roomDb = this)
 
-        insertNoteList(noteList, rollList, rollVisibleList, rankList, alarmList, roomDb = this)
-        insertRollList(rollList, roomDb = this)
-        insertRollVisibleList(rollVisibleList, roomDb = this)
-        insertRankList(rankList, noteList, roomDb = this)
-        insertAlarmList(alarmList, roomDb = this)
-
-        TODO("notify note items in status bar")
-        TODO("notify alarm items in status bar")
+        insertNoteList(model, roomDb = this)
+        insertRollList(model, roomDb = this)
+        insertRollVisibleList(model, roomDb = this)
+        insertRankList(model, roomDb = this)
+        insertAlarmList(model, roomDb = this)
 
         return@takeFromRoom if (importSkip) {
-            ImportResult.Skip(skipCount = parserResult.noteList.size - noteList.size)
+            ImportResult.Skip(skipCount = parserResult.noteList.size - model.noteList.size)
         } else {
             ImportResult.Simple
         }
     }
 
     /**
-     * Return list for remove with items from [noteList], which already exists in [roomDb].
+     * Return list for remove with items from [Model.noteList], which already exists in [roomDb].
      */
     @RunPrivate
-    suspend fun getRemoveNoteList(noteList: List<NoteEntity>, rollList: List<RollEntity>,
-                                  roomDb: RoomDb): List<NoteEntity> {
+    suspend fun getRemoveNoteList(model: Model, roomDb: RoomDb): List<NoteEntity> {
         val removeList = mutableListOf<NoteEntity>()
 
         val existNoteList = roomDb.noteDao.get(bin = false)
         val existRollNoteList = existNoteList.filter { it.type == NoteType.ROLL }
 
-        for (item in noteList) {
+        for (item in model.noteList) {
             when (item.type) {
                 NoteType.TEXT -> if (needSkipTextNote(item, existNoteList)) removeList.add(item)
                 NoteType.ROLL -> {
-                    val itemRollList = rollList.filter { it.noteId == item.id }
+                    val itemRollList = model.rollList.filter { it.noteId == item.id }
                     if (needSkipRollNote(item, itemRollList, existRollNoteList, roomDb)) {
                         removeList.add(item)
                     }
@@ -121,65 +129,60 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
      * Remove every mention about items of [removeNoteList] inside lists.
      */
     @RunPrivate
-    fun clearList(removeNoteList: List<NoteEntity>,
-                  noteList: MutableList<NoteEntity>,
-                  rollList: MutableList<RollEntity>,
-                  rollVisibleList: MutableList<RollVisibleEntity>,
-                  rankList: MutableList<RankEntity>,
-                  alarmList: MutableList<AlarmEntity>) {
+    fun clearList(removeNoteList: List<NoteEntity>, model: Model) {
         for (item in removeNoteList) {
             if (item.type == NoteType.ROLL) {
-                rollList.removeAll { it.noteId == item.id }
-                rollVisibleList.removeAll { it.noteId == item.id }
+                model.rollList.removeAll { it.noteId == item.id }
+                model.rollVisibleList.removeAll { it.noteId == item.id }
             }
 
-            rankList.filter { it.noteId.contains(item.id) }.forEach {
+            model.rankList.filter { it.noteId.contains(item.id) }.forEach {
                 it.noteId.remove(item.id)
             }
 
-            alarmList.removeAll { it.noteId == item.id }
+            model.alarmList.removeAll { it.noteId == item.id }
         }
 
-        noteList.removeAll(removeNoteList)
+        model.noteList.removeAll(removeNoteList)
     }
 
     /**
-     * Return list for remove with items from [rankList], which already exists in [roomDb].
-     * Also update [NoteEntity.rankId] and [NoteEntity.rankPs] (if need) for items in [noteList].
+     * Return list for remove with items from [Model.rankList], which already exists in [roomDb].
+     *
+     * Also update [NoteEntity.rankId] and [NoteEntity.rankPs] (if need) for
+     * items in [Model.noteList].
      */
     @RunPrivate
-    suspend fun getRemoveRankList(rankList: List<RankEntity>, noteList: List<NoteEntity>,
-                                  roomDb: RoomDb): List<RankEntity> {
+    suspend fun clearRankList(model: Model, roomDb: RoomDb) {
         val removeList = mutableListOf<RankEntity>()
-
         val existRankList = roomDb.rankDao.get()
 
-        for (item in rankList) {
+        for (item in model.rankList) {
             val index = existRankList.indexOfFirst { it.name == item.name }
             val existItem = existRankList.getOrNull(index) ?: continue
 
             removeList.add(item)
 
-            noteList.filter { it.rankId == item.id }.forEach {
+            model.noteList.filter { it.rankId == item.id }.forEach {
                 it.rankId = existItem.id
                 it.rankPs = index
             }
         }
 
-        return removeList
+        model.rankList.removeAll(removeList)
     }
 
     /**
-     * Return list for remove with items from [list], which already past.
-     * Also change time of [list] items, if user have same date in [roomDb].
+     * Return list for remove with items from [Model.alarmList], which already past.
+     *
+     * Also change time of [Model.alarmList] items, if user have same date in [roomDb].
      */
     @RunPrivate
-    suspend fun getRemoveAlarmList(list: List<AlarmEntity>, roomDb: RoomDb): List<AlarmEntity> {
+    suspend fun clearAlarmList(model: Model, roomDb: RoomDb) {
         val removeList = mutableListOf<AlarmEntity>()
-
         val notificationList = roomDb.alarmDao.getList()
 
-        for (item in list) {
+        for (item in model.alarmList) {
             val calendar = item.date.getCalendarOrNull() ?: continue
 
             if (calendar.beforeNow()) {
@@ -192,71 +195,70 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
             }
         }
 
-        return removeList
+        model.alarmList.removeAll(removeList)
     }
 
     /**
-     * Insert notes from [noteList] to [roomDb].
+     * Insert notes from [Model.noteList] to [roomDb].
+     *
      * Also update (if need) noteId for items in other lists.
      *
      * Need reset [NoteEntity.id] for prevent unique id exception.
      */
     @RunPrivate
-    suspend fun insertNoteList(noteList: List<NoteEntity>,
-                               rollList: List<RollEntity>,
-                               rollVisibleList: List<RollVisibleEntity>,
-                               rankList: List<RankEntity>,
-                               alarmList: List<AlarmEntity>,
-                               roomDb: RoomDb) {
-        noteList.forEach { item ->
+    suspend fun insertNoteList(model: Model, roomDb: RoomDb) {
+        model.noteList.forEach { item ->
             val oldId = item.id
 
             item.id = roomDb.noteDao.insert(item.apply { id = Note.Default.ID })
 
-            rollList.filter { it.noteId == oldId }.forEach { it.noteId = item.id }
-            rollVisibleList.filter { it.noteId == oldId }.forEach { it.noteId = item.id }
+            model.rollList.filter { it.noteId == oldId }.forEach { it.noteId = item.id }
+            model.rollVisibleList.filter { it.noteId == oldId }.forEach { it.noteId = item.id }
 
-            rankList.filter { it.noteId.contains(oldId) }.forEach {
+            model.rankList.filter { it.noteId.contains(oldId) }.forEach {
                 it.noteId.remove(oldId)
                 it.noteId.add(item.id)
             }
 
-            alarmList.filter { it.noteId == oldId }.forEach { it.noteId = item.id }
+            model.alarmList.filter { it.noteId == oldId }.forEach { it.noteId = item.id }
         }
     }
 
     /**
-     * Insert roll items from [list] to [roomDb].
+     * Insert roll items from [Model.rollList] to [roomDb].
      *
      * Need reset [RollEntity.id] for prevent unique id exception.
      */
     @RunPrivate
-    suspend fun insertRollList(list: List<RollEntity>, roomDb: RoomDb) {
-        list.forEach { roomDb.rollDao.insert(it.apply { id = Roll.Default.ID }) }
+    suspend fun insertRollList(model: Model, roomDb: RoomDb) {
+        model.rollList.forEach { roomDb.rollDao.insert(it.apply { id = Roll.Default.ID }) }
     }
 
     /**
-     * Insert rollVisible items from [list] to [roomDb].
+     * Insert rollVisible items from [Model.rollVisibleList] to [roomDb].
      *
      * Need reset [RollVisibleEntity.id] for prevent unique id exception.
      */
     @RunPrivate
-    suspend fun insertRollVisibleList(list: List<RollVisibleEntity>, roomDb: RoomDb) {
-        list.forEach { roomDb.rollVisibleDao.insert(it.apply { id = RollVisible.Default.ID }) }
+    suspend fun insertRollVisibleList(model: Model, roomDb: RoomDb) {
+        model.rollVisibleList.forEach {
+            roomDb.rollVisibleDao.insert(it.apply { id = RollVisible.Default.ID })
+        }
     }
 
     /**
-     * Insert rank items from [rankList] to [roomDb].
-     * Also update (if need) rankId and position for items from [noteList].
+     * Insert rank items from [Model.rankList] to [roomDb].
+     *
+     * Also update (if need) rankId and position for items from [Model.noteList].
      *
      * Need reset [RankEntity.id] for prevent unique id exception.
+     * And update [RankEntity.position].
      */
     @RunPrivate
-    suspend fun insertRankList(rankList: List<RankEntity>, noteList: List<NoteEntity>,
-                               roomDb: RoomDb) {
+    suspend fun insertRankList(model: Model, roomDb: RoomDb) {
         val existRankList = roomDb.rankDao.get().toMutableList()
 
-        rankList.forEach { item ->
+        model.rankList.forEach { item ->
             val oldId = item.id
             item.id = roomDb.rankDao.insert(item.apply {
                 id = Rank.Default.ID
@@ -265,7 +267,7 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
 
             existRankList.add(item)
 
-            val updateList = noteList.filter { it.rankId == oldId }
+            val updateList = model.noteList.filter { it.rankId == oldId }
             updateList.forEach {
                 it.rankId = item.id
                 it.rankPs = item.position
@@ -275,13 +277,13 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
     }
 
     /**
-     * Insert alarm items from [list] to [roomDb].
+     * Insert alarm items from [Model.noteList] to [roomDb].
      *
      * Need reset [AlarmEntity.id] for prevent unique id exception.
      */
     @RunPrivate
-    suspend fun insertAlarmList(list: List<AlarmEntity>, roomDb: RoomDb) {
-        list.forEach { roomDb.alarmDao.insert(it.apply { id = Alarm.Default.ID }) }
+    suspend fun insertAlarmList(model: Model, roomDb: RoomDb) {
+        model.alarmList.forEach { roomDb.alarmDao.insert(it.apply { id = Alarm.Default.ID }) }
     }
 
 }
