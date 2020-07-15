@@ -15,7 +15,7 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.IDevelopViewModel
 import javax.inject.Inject
 
 /**
- * Screen which displays information for developer
+ * Screen which displays information for developer.
  */
 class DevelopActivity : AppCompatActivity(), IDevelopActivity {
 

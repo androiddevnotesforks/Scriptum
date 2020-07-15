@@ -40,21 +40,22 @@ class ToolbarTintControl(
 
     private fun setupColorAnimator() {
         val updateListener = ValueAnimator.AnimatorUpdateListener {
-            val position = it.animatedFraction
+            val ratio = it.animatedFraction
             var blended: Int
 
             if (theme != Theme.DARK && VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
-                blended = statusState.blend(position)
+                blended = statusState.blend(ratio)
                 window.statusBarColor = blended
             }
 
-            blended = toolbarState.blend(position)
+            blended = toolbarState.blend(ratio)
             if (theme != Theme.DARK) toolbar?.setBackgroundColor(blended)
 
-            blended = indicatorState.blend(position)
+            blended = indicatorState.blend(ratio)
             if (theme == Theme.DARK) indicator?.setBackgroundColor(blended)
         }
 
+        colorAnimator.removeAllUpdateListeners()
         colorAnimator.addUpdateListener(updateListener)
         colorAnimator.duration = context.resources.getInteger(R.integer.color_transition_time).toLong()
     }

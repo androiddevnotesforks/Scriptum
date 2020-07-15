@@ -1,13 +1,13 @@
 package sgtmelon.scriptum.presentation.screen.vm.callback.main
 
 import sgtmelon.scriptum.presentation.receiver.MainReceiver
-import sgtmelon.scriptum.presentation.screen.ui.impl.main.NotesFragment
+import sgtmelon.scriptum.presentation.screen.ui.callback.main.INotesFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.IParentViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.main.NotesViewModel
 import java.util.*
 
 /**
- * Interface for communication [NotesFragment] with [NotesViewModel]
+ * Interface for communication [INotesFragment] with [NotesViewModel].
  */
 interface INotesViewModel : IParentViewModel,
         MainReceiver.BindCallback,

@@ -15,7 +15,7 @@ import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.presentation.control.note.save.ISaveControl
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteConnector
-import sgtmelon.scriptum.presentation.screen.ui.callback.note.text.ITextNoteFragment
+import sgtmelon.scriptum.presentation.screen.ui.callback.note.ITextNoteFragment
 import kotlin.random.Random
 
 /**

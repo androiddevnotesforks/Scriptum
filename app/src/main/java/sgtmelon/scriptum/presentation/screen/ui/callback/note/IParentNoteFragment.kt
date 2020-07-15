@@ -4,8 +4,6 @@ import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.control.note.input.InputControl
-import sgtmelon.scriptum.presentation.screen.ui.callback.note.roll.IRollNoteFragment
-import sgtmelon.scriptum.presentation.screen.ui.callback.note.text.ITextNoteFragment
 import java.util.*
 
 /**

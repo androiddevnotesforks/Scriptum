@@ -2,12 +2,12 @@ package sgtmelon.scriptum.presentation.screen.vm.callback.main
 
 import sgtmelon.scriptum.presentation.control.touch.RankTouchControl
 import sgtmelon.scriptum.presentation.receiver.MainReceiver
-import sgtmelon.scriptum.presentation.screen.ui.impl.main.RankFragment
+import sgtmelon.scriptum.presentation.screen.ui.callback.main.IRankFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.IParentViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.main.RankViewModel
 
 /**
- * Interface for communication [RankFragment] with [RankViewModel].
+ * Interface for communication [IRankFragment] with [RankViewModel].
  */
 interface IRankViewModel : IParentViewModel,
         MainReceiver.BindCallback,

@@ -5,10 +5,10 @@ import sgtmelon.scriptum.domain.interactor.impl.notification.AlarmInteractor
 import sgtmelon.scriptum.domain.model.annotation.Repeat
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.presentation.screen.vm.impl.notification.AlarmViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.notification.IAlarmViewModel
 
 /**
- * Interface for communication [AlarmViewModel] with [AlarmInteractor]
+ * Interface for communication [IAlarmViewModel] with [AlarmInteractor].
  */
 interface IAlarmInteractor : IParentInteractor {
 

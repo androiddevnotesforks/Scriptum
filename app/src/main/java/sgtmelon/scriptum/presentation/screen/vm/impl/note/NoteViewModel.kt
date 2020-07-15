@@ -8,12 +8,11 @@ import sgtmelon.scriptum.domain.model.data.NoteData.Default
 import sgtmelon.scriptum.domain.model.data.NoteData.Intent
 import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteActivity
-import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.note.INoteViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
 
 /**
- * ViewModel for [NoteActivity].
+ * ViewModel for [INoteActivity].
  */
 class NoteViewModel(application: Application) : ParentViewModel<INoteActivity>(application),
         INoteViewModel {

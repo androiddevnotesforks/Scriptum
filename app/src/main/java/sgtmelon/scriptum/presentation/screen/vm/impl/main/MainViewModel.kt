@@ -13,12 +13,11 @@ import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.extension.launchBack
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
-import sgtmelon.scriptum.presentation.screen.ui.impl.main.MainActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.main.IMainViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
 
 /**
- * ViewModel for [MainActivity].
+ * ViewModel for [IMainActivity].
  */
 class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(application),
         IMainViewModel {

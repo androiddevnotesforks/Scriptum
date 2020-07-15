@@ -4,7 +4,7 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.note.TextNoteViewModel
 
 /**
- * Interface for communication dataBinding with [TextNoteViewModel]/[RollNoteViewModel]
+ * Interface for communication dataBinding with [TextNoteViewModel]/[RollNoteViewModel].
  */
 interface INoteMenu {
 

@@ -6,11 +6,11 @@ import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.NotificationItem
-import sgtmelon.scriptum.presentation.screen.vm.impl.main.NotesViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.main.INotesViewModel
 import java.util.*
 
 /**
- * Interface for communication [NotesViewModel] with [NotesInteractor]
+ * Interface for communication [INotesViewModel] with [NotesInteractor].
  */
 interface INotesInteractor : IParentInteractor {
 

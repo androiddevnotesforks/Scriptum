@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.presentation.screen.ui.callback.note.roll
+package sgtmelon.scriptum.presentation.screen.ui.callback.note
 
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Theme
@@ -6,12 +6,11 @@ import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
 import sgtmelon.scriptum.domain.model.state.NoteState
 import sgtmelon.scriptum.presentation.control.note.input.IInputControl
-import sgtmelon.scriptum.presentation.screen.ui.callback.note.IParentNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
-import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.note.IRollNoteViewModel
 
 /**
- * Interface for communication [RollNoteViewModel] with [RollNoteFragment].
+ * Interface for communication [IRollNoteViewModel] with [RollNoteFragment].
  */
 interface IRollNoteFragment : IParentNoteFragment<NoteItem.Roll> {
 

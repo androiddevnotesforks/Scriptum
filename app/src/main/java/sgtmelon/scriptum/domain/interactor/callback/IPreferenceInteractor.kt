@@ -5,9 +5,10 @@ import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Repeat
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.Theme
+import sgtmelon.scriptum.presentation.screen.vm.callback.IPreferenceViewModel
 
 /**
- * Interface for [PreferenceInteractor].
+ * Interface for communication [IPreferenceViewModel] with [PreferenceInteractor].
  */
 interface IPreferenceInteractor {
 

@@ -4,7 +4,7 @@ import sgtmelon.scriptum.domain.interactor.impl.BindInteractor
 import sgtmelon.scriptum.presentation.control.system.BindControl
 
 /**
- * Interface for communication with [BindInteractor]
+ * Interface for communicate with [BindInteractor].
  */
 interface IBindInteractor : IParentInteractor {
 

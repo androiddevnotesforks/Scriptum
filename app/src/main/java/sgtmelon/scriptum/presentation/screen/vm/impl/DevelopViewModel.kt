@@ -7,11 +7,10 @@ import kotlinx.coroutines.launch
 import sgtmelon.scriptum.domain.interactor.callback.IDevelopInteractor
 import sgtmelon.scriptum.extension.runBack
 import sgtmelon.scriptum.presentation.screen.ui.callback.IDevelopActivity
-import sgtmelon.scriptum.presentation.screen.ui.impl.DevelopActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.IDevelopViewModel
 
 /**
- * ViewModel for [DevelopActivity].
+ * ViewModel for [IDevelopActivity].
  */
 class DevelopViewModel(application: Application) : ParentViewModel<IDevelopActivity>(application),
         IDevelopViewModel {

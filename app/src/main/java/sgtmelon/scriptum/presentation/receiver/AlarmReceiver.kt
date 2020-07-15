@@ -11,7 +11,7 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.notification.AlarmActivity
 
 
 /**
- * Receiver for open [AlarmActivity] by time
+ * Receiver for open [AlarmActivity] by time.
  */
 class AlarmReceiver : BroadcastReceiver() {
 

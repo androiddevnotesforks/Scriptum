@@ -1,15 +1,14 @@
-package sgtmelon.scriptum.presentation.screen.ui.callback.note.text
+package sgtmelon.scriptum.presentation.screen.ui.callback.note
 
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.control.note.input.IInputControl
-import sgtmelon.scriptum.presentation.screen.ui.callback.note.IParentNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
-import sgtmelon.scriptum.presentation.screen.vm.impl.note.TextNoteViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.note.ITextNoteViewModel
 
 /**
- * Interface for communication [TextNoteViewModel] with [TextNoteFragment].
+ * Interface for communication [ITextNoteViewModel] with [TextNoteFragment].
  */
 interface ITextNoteFragment : IParentNoteFragment<NoteItem.Text> {
 

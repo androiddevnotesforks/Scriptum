@@ -18,7 +18,6 @@ import sgtmelon.scriptum.extension.launchBack
 import sgtmelon.scriptum.extension.removeAtOrNull
 import sgtmelon.scriptum.extension.runBack
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.INotesFragment
-import sgtmelon.scriptum.presentation.screen.ui.impl.main.NotesFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.main.INotesViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
 import java.util.*
@@ -26,7 +25,7 @@ import kotlin.collections.ArrayList
 import sgtmelon.scriptum.domain.model.annotation.Options.Notes as Options
 
 /**
- * ViewModel for [NotesFragment].
+ * ViewModel for [INotesFragment].
  */
 class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>(application),
         INotesViewModel {

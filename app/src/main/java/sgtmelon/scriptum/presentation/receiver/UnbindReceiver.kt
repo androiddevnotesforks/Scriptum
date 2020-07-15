@@ -17,7 +17,7 @@ import sgtmelon.scriptum.extension.sendTo
 import sgtmelon.scriptum.presentation.control.system.BindControl
 
 /**
- * Receiver for handle click on unbind button in [BindControl]
+ * Receiver for handle click on unbind button in [BindControl].
  */
 class UnbindReceiver : BroadcastReceiver() {
 

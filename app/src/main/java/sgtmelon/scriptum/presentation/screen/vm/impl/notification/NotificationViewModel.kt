@@ -12,12 +12,11 @@ import sgtmelon.scriptum.extension.launchBack
 import sgtmelon.scriptum.extension.removeAtOrNull
 import sgtmelon.scriptum.extension.runBack
 import sgtmelon.scriptum.presentation.screen.ui.callback.notification.INotificationActivity
-import sgtmelon.scriptum.presentation.screen.ui.impl.notification.NotificationActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.notification.INotificationViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
 
 /**
- * ViewModel for [NotificationActivity].
+ * ViewModel for [INotificationActivity].
  */
 class NotificationViewModel(application: Application) :
         ParentViewModel<INotificationActivity>(application),

@@ -33,7 +33,7 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.IPreferenceViewModel
 import javax.inject.Inject
 
 /**
- * Fragment of preference
+ * Fragment of preference.
  */
 class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
 

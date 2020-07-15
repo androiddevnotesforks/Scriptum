@@ -4,10 +4,10 @@ import sgtmelon.scriptum.domain.interactor.callback.IParentInteractor
 import sgtmelon.scriptum.domain.interactor.impl.main.BinInteractor
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.presentation.screen.vm.impl.main.BinViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.main.IBinViewModel
 
 /**
- * Interface for communication [BinViewModel] with [BinInteractor]
+ * Interface for communication [IBinViewModel] with [BinInteractor].
  */
 interface IBinInteractor : IParentInteractor {
 

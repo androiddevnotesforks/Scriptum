@@ -11,10 +11,10 @@ import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.presentation.screen.ui.callback.notification.INotificationBridge
-import sgtmelon.scriptum.presentation.screen.vm.impl.notification.NotificationViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.notification.INotificationViewModel
 
 /**
- * Interactor for [NotificationViewModel].
+ * Interactor for [INotificationViewModel].
  */
 class NotificationInteractor(
         private val preferenceRepo: IPreferenceRepo,

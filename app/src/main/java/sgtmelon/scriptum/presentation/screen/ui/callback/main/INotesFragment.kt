@@ -6,11 +6,11 @@ import androidx.annotation.StringRes
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.NotesFragment
-import sgtmelon.scriptum.presentation.screen.vm.impl.main.NotesViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.main.INotesViewModel
 import java.util.*
 
 /**
- * Interface for communication [NotesViewModel] with [NotesFragment]
+ * Interface for communication [INotesViewModel] with [NotesFragment].
  */
 interface INotesFragment : INotesBridge {
 

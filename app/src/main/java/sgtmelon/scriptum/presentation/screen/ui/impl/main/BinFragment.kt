@@ -33,7 +33,7 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.main.IBinViewModel
 import javax.inject.Inject
 
 /**
- * Fragment which displays list of deleted notes - [NoteItem]
+ * Fragment which displays list of deleted notes - [NoteItem].
  */
 class BinFragment : ParentFragment(), IBinFragment {
 

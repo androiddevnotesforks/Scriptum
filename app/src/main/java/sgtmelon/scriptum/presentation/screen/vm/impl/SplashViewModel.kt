@@ -6,11 +6,10 @@ import sgtmelon.scriptum.domain.interactor.callback.ISplashInteractor
 import sgtmelon.scriptum.domain.model.annotation.OpenFrom
 import sgtmelon.scriptum.domain.model.data.NoteData
 import sgtmelon.scriptum.presentation.screen.ui.callback.ISplashActivity
-import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.ISplashViewModel
 
 /**
- * ViewModel for [SplashActivity]
+ * ViewModel for [ISplashActivity].
  */
 class SplashViewModel(application: Application) : ParentViewModel<ISplashActivity>(application),
         ISplashViewModel {

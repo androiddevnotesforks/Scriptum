@@ -44,7 +44,7 @@ import java.util.*
 import javax.inject.Inject
 
 /**
- * Screen with notification opened by timer
+ * Screen with notification opened by timer.
  */
 class AlarmActivity : AppActivity(), IAlarmActivity {
 

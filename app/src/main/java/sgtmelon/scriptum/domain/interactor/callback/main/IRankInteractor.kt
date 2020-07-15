@@ -5,10 +5,10 @@ import sgtmelon.scriptum.domain.interactor.impl.main.RankInteractor
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.RankItem
 
-import sgtmelon.scriptum.presentation.screen.vm.impl.main.RankViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.main.IRankViewModel
 
 /**
- * Interface for communication [RankViewModel] with [RankInteractor]
+ * Interface for communication [IRankViewModel] with [RankInteractor].
  */
 interface IRankInteractor : IParentInteractor {
 

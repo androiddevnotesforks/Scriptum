@@ -13,13 +13,12 @@ import sgtmelon.scriptum.extension.launchBack
 import sgtmelon.scriptum.extension.removeAtOrNull
 import sgtmelon.scriptum.extension.runBack
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IBinFragment
-import sgtmelon.scriptum.presentation.screen.ui.impl.main.BinFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.main.IBinViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.domain.model.annotation.Options.Bin as Options
 
 /**
- * ViewModel for [BinFragment].
+ * ViewModel for [IBinFragment].
  */
 class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(application),
         IBinViewModel {

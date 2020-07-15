@@ -13,11 +13,11 @@ import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.IParentNoteBridge
-import sgtmelon.scriptum.presentation.screen.vm.impl.note.TextNoteViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.note.ITextNoteViewModel
 import java.util.*
 
 /**
- * Interactor for [TextNoteViewModel].
+ * Interactor for [ITextNoteViewModel].
  */
 class TextNoteInteractor(
         private val preferenceRepo: IPreferenceRepo,

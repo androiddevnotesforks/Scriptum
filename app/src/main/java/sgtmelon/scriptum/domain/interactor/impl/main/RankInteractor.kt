@@ -6,10 +6,10 @@ import sgtmelon.scriptum.domain.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.RankItem
-import sgtmelon.scriptum.presentation.screen.vm.impl.main.RankViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.main.IRankViewModel
 
 /**
- * Interactor for [RankViewModel].
+ * Interactor for [IRankViewModel].
  */
 class RankInteractor(
         private val preferenceRepo: IPreferenceRepo,

@@ -37,7 +37,7 @@ import java.util.*
 import javax.inject.Inject
 
 /**
- * Screen which displays main menu and fragments: [RankFragment], [NotesFragment], [BinFragment]
+ * Screen which displays main menu and fragments: [RankFragment], [NotesFragment], [BinFragment].
  */
 class MainActivity : AppActivity(), IMainActivity {
 

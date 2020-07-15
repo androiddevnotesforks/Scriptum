@@ -3,12 +3,12 @@ package sgtmelon.scriptum.presentation.screen.vm.callback.main
 import android.os.Bundle
 import androidx.annotation.IdRes
 import sgtmelon.scriptum.presentation.receiver.MainReceiver
-import sgtmelon.scriptum.presentation.screen.ui.impl.main.MainActivity
+import sgtmelon.scriptum.presentation.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.IParentViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.main.MainViewModel
 
 /**
- * Interface for communication [MainActivity] with [MainViewModel]
+ * Interface for communication [IMainActivity] with [MainViewModel].
  */
 interface IMainViewModel : IParentViewModel,
         MainReceiver.AlarmCallback,

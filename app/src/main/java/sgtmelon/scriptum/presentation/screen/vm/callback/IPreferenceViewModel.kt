@@ -5,11 +5,11 @@ import sgtmelon.scriptum.domain.model.annotation.Repeat
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.key.PermissionResult
-import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
+import sgtmelon.scriptum.presentation.screen.ui.callback.IPreferenceFragment
 import sgtmelon.scriptum.presentation.screen.vm.impl.PreferenceViewModel
 
 /**
- * Interface for communication [PreferenceFragment] with [PreferenceViewModel].
+ * Interface for communication [IPreferenceFragment] with [PreferenceViewModel].
  */
 interface IPreferenceViewModel : IParentViewModel {
 

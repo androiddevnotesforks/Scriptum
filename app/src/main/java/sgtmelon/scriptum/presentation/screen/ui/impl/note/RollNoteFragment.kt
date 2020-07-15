@@ -50,7 +50,7 @@ import sgtmelon.scriptum.presentation.listener.ItemListener
 import sgtmelon.scriptum.presentation.receiver.NoteReceiver
 import sgtmelon.scriptum.presentation.screen.ui.ParentFragment
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
-import sgtmelon.scriptum.presentation.screen.ui.callback.note.roll.IRollNoteFragment
+import sgtmelon.scriptum.presentation.screen.ui.callback.note.IRollNoteFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.note.IRollNoteViewModel
 import java.util.*
 import javax.inject.Inject
@@ -58,7 +58,8 @@ import javax.inject.Inject
 /**
  * Fragment for display roll note.
  */
-class RollNoteFragment : ParentFragment(), IRollNoteFragment,
+class RollNoteFragment : ParentFragment(),
+        IRollNoteFragment,
         Toolbar.OnMenuItemClickListener,
         NoteReceiver.Callback,
         IconBlockCallback {

@@ -14,7 +14,7 @@ class MenuColorState(var from: Int = ND_VALUE, var to: Int = ND_VALUE) {
     fun blend(@FloatRange(from = 0.0, to = 1.0) ratio: Float) = from.blend(to, ratio)
 
     /**
-     * Get middle RGB color with dependency of [ratio] value
+     * Get middle RGB color with dependency of [ratio] value.
      *
      * [ratio] - position of transformation
      * [this] - color from which transformations goes

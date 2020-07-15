@@ -5,10 +5,10 @@ import sgtmelon.scriptum.domain.interactor.callback.note.INoteInteractor
 import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Theme
-import sgtmelon.scriptum.presentation.screen.vm.impl.note.NoteViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.note.INoteViewModel
 
 /**
- * Interactor for [NoteViewModel].
+ * Interactor for [INoteViewModel].
  */
 class NoteInteractor(private val preferenceRepo: IPreferenceRepo) : ParentInteractor(),
         INoteInteractor {

@@ -6,7 +6,7 @@ import sgtmelon.scriptum.domain.model.result.ExportResult
 import sgtmelon.scriptum.domain.model.result.ImportResult
 
 /**
- * Interface for [BackupInteractor].
+ * Interface for communicate with [BackupInteractor].
  */
 interface IBackupInteractor {
 

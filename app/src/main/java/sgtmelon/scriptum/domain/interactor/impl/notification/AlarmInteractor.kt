@@ -12,11 +12,11 @@ import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.screen.ui.callback.notification.IAlarmBridge
-import sgtmelon.scriptum.presentation.screen.vm.impl.notification.AlarmViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.notification.IAlarmViewModel
 import java.util.*
 
 /**
- * Interactor for [AlarmViewModel].
+ * Interactor for [IAlarmViewModel].
  */
 class AlarmInteractor(
         private val preferenceRepo: IPreferenceRepo,

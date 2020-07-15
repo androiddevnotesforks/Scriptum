@@ -5,7 +5,7 @@ import sgtmelon.scriptum.domain.model.item.MelodyItem
 import sgtmelon.scriptum.domain.model.state.SignalState
 
 /**
- * Interface for communicate with [SignalInteractor]
+ * Interface for communicate with [SignalInteractor].
  */
 interface ISignalInteractor {
 

@@ -22,7 +22,7 @@ import sgtmelon.scriptum.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.presentation.control.note.save.ISaveControl
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteConnector
-import sgtmelon.scriptum.presentation.screen.ui.callback.note.roll.IRollNoteFragment
+import sgtmelon.scriptum.presentation.screen.ui.callback.note.IRollNoteFragment
 import kotlin.random.Random
 
 /**

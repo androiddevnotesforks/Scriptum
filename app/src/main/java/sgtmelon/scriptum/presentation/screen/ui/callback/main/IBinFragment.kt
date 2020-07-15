@@ -4,10 +4,10 @@ import androidx.annotation.ArrayRes
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.BinFragment
-import sgtmelon.scriptum.presentation.screen.vm.impl.main.BinViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.main.IBinViewModel
 
 /**
- * Interface for communication [BinViewModel] with [BinFragment]
+ * Interface for communication [IBinViewModel] with [BinFragment].
  */
 interface IBinFragment : IBinBridge{
 

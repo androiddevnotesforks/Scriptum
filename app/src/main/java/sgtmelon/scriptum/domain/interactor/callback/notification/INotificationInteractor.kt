@@ -5,10 +5,10 @@ import sgtmelon.scriptum.domain.interactor.impl.notification.NotificationInterac
 
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NotificationItem
-import sgtmelon.scriptum.presentation.screen.vm.impl.notification.NotificationViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.notification.INotificationViewModel
 
 /**
- * Interface for communication [NotificationViewModel] with [NotificationInteractor]
+ * Interface for communication [INotificationViewModel] with [NotificationInteractor].
  */
 interface INotificationInteractor : IParentInteractor {
 

@@ -23,7 +23,7 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.ISplashViewModel
 import javax.inject.Inject
 
 /**
- * Start screen of application
+ * Start screen of application.
  */
 class SplashActivity : AppCompatActivity(), ISplashActivity {
 

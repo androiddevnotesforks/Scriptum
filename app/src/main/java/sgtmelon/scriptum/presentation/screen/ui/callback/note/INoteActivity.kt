@@ -3,10 +3,10 @@ package sgtmelon.scriptum.presentation.screen.ui.callback.note
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
-import sgtmelon.scriptum.presentation.screen.vm.impl.note.NoteViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.note.INoteViewModel
 
 /**
- * Interface for communication [NoteViewModel] with [NoteActivity]
+ * Interface for communication [INoteViewModel] with [NoteActivity].
  */
 interface INoteActivity {
 

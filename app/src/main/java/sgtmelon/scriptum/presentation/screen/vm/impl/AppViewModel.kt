@@ -6,11 +6,10 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.interactor.callback.IAppInteractor
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.presentation.screen.ui.callback.IAppActivity
-import sgtmelon.scriptum.presentation.screen.ui.impl.AppActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.IAppViewModel
 
 /**
- * ViewModel for [AppActivity].
+ * ViewModel for [IAppActivity].
  */
 class AppViewModel(application: Application) : ParentViewModel<IAppActivity>(application),
         IAppViewModel {

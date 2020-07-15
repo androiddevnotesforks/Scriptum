@@ -4,10 +4,10 @@ import sgtmelon.scriptum.domain.interactor.callback.IParentInteractor
 import sgtmelon.scriptum.domain.interactor.impl.note.NoteInteractor
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Theme
-import sgtmelon.scriptum.presentation.screen.vm.impl.note.NoteViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.note.INoteViewModel
 
 /**
- * Interface for communication [NoteViewModel] with [NoteInteractor]
+ * Interface for communication [INoteViewModel] with [NoteInteractor].
  */
 interface INoteInteractor : IParentInteractor {
 

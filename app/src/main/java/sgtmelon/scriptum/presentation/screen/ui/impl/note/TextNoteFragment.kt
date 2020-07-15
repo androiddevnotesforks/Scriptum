@@ -37,7 +37,7 @@ import sgtmelon.scriptum.presentation.factory.DialogFactory
 import sgtmelon.scriptum.presentation.receiver.NoteReceiver
 import sgtmelon.scriptum.presentation.screen.ui.ParentFragment
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
-import sgtmelon.scriptum.presentation.screen.ui.callback.note.text.ITextNoteFragment
+import sgtmelon.scriptum.presentation.screen.ui.callback.note.ITextNoteFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.note.ITextNoteViewModel
 import java.util.*
 import javax.inject.Inject
@@ -45,7 +45,8 @@ import javax.inject.Inject
 /**
  * Fragment for display text note.
  */
-class TextNoteFragment : ParentFragment(), ITextNoteFragment,
+class TextNoteFragment : ParentFragment(),
+        ITextNoteFragment,
         NoteReceiver.Callback,
         IconBlockCallback {
 

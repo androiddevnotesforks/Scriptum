@@ -3,12 +3,12 @@ package sgtmelon.scriptum.presentation.screen.ui.callback.note
 import androidx.annotation.StringRes
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
+import sgtmelon.scriptum.presentation.screen.vm.callback.note.IRollNoteViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.note.ITextNoteViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.note.NoteViewModel
-import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel
-import sgtmelon.scriptum.presentation.screen.vm.impl.note.TextNoteViewModel
 
 /**
- * Interface for communication [TextNoteViewModel] or [RollNoteViewModel] with [NoteActivity]
+ * Interface for communication [ITextNoteViewModel] or [IRollNoteViewModel] with [NoteActivity].
  */
 interface INoteConnector {
 

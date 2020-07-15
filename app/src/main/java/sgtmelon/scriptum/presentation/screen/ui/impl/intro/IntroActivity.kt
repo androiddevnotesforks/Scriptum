@@ -19,7 +19,7 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.IIntroViewModel
 import javax.inject.Inject
 
 /**
- * Activity with start intro
+ * Activity with start intro.
  */
 class IntroActivity : AppCompatActivity(), IIntroActivity, ViewPager.OnPageChangeListener {
 

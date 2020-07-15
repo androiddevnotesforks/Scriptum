@@ -38,7 +38,7 @@ import java.util.*
 import javax.inject.Inject
 
 /**
- * Fragment which displays list of notes - [NoteItem]
+ * Fragment which displays list of notes - [NoteItem].
  */
 class NotesFragment : ParentFragment(),
         INotesFragment,

@@ -1,10 +1,10 @@
 package sgtmelon.scriptum.presentation.screen.ui.callback
 
 import sgtmelon.scriptum.presentation.screen.ui.impl.DevelopActivity
-import sgtmelon.scriptum.presentation.screen.vm.impl.DevelopViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.IDevelopViewModel
 
 /**
- * Interface for communication [DevelopViewModel] with [DevelopActivity]
+ * Interface for communication [IDevelopViewModel] with [DevelopActivity].
  */
 interface IDevelopActivity {
 

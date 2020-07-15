@@ -8,10 +8,10 @@ import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IBinBridge
-import sgtmelon.scriptum.presentation.screen.vm.impl.main.BinViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.main.IBinViewModel
 
 /**
- * Interactor for [BinViewModel].
+ * Interactor for [IBinViewModel].
  */
 class BinInteractor(
         private val preferenceRepo: IPreferenceRepo,

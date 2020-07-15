@@ -26,7 +26,7 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.note.INoteViewModel
 import javax.inject.Inject
 
 /**
- * Screen which display note - [TextNoteFragment], [RollNoteFragment]
+ * Screen which display note - [TextNoteFragment], [RollNoteFragment].
  */
 class NoteActivity : AppActivity(), INoteActivity, INoteConnector, NoteReceiver.Callback {
 

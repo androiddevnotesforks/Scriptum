@@ -11,7 +11,7 @@ import sgtmelon.scriptum.domain.model.data.IntroData
 import sgtmelon.scriptum.extension.inflateBinding
 
 /**
- * Fragment page for [IntroActivity]
+ * Fragment page for [IntroActivity].
  */
 class IntroFragment : Fragment() {
 

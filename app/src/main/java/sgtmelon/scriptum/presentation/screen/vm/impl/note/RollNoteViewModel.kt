@@ -18,12 +18,11 @@ import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
 import sgtmelon.scriptum.domain.model.state.NoteState
 import sgtmelon.scriptum.extension.*
-import sgtmelon.scriptum.presentation.screen.ui.callback.note.roll.IRollNoteFragment
-import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
+import sgtmelon.scriptum.presentation.screen.ui.callback.note.IRollNoteFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.note.IRollNoteViewModel
 
 /**
- * ViewModel for [RollNoteFragment].
+ * ViewModel for [IRollNoteFragment].
  */
 class RollNoteViewModel(application: Application) :
         ParentNoteViewModel<NoteItem.Roll, IRollNoteFragment, IRollNoteInteractor>(application),

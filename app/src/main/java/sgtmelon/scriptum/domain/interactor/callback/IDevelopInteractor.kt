@@ -1,9 +1,10 @@
 package sgtmelon.scriptum.domain.interactor.callback
 
 import sgtmelon.scriptum.domain.interactor.impl.DevelopInteractor
+import sgtmelon.scriptum.presentation.screen.vm.callback.IDevelopViewModel
 
 /**
- * Interface for [DevelopInteractor].
+ * Interface for communication [IDevelopViewModel] with [DevelopInteractor].
  */
 interface IDevelopInteractor {
 

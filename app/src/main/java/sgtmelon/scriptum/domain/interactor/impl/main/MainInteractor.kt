@@ -7,10 +7,10 @@ import sgtmelon.scriptum.domain.interactor.callback.main.IMainInteractor
 import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IMainBridge
-import sgtmelon.scriptum.presentation.screen.vm.impl.main.MainViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.main.IMainViewModel
 
 /**
- * Interactor for [MainViewModel].
+ * Interactor for [IMainViewModel].
  */
 class MainInteractor(
         private val alarmRepo: IAlarmRepo,

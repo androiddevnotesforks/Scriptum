@@ -4,10 +4,10 @@ import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.IDevelopRepo
 import sgtmelon.scriptum.data.room.converter.type.StringConverter
 import sgtmelon.scriptum.domain.interactor.callback.IDevelopInteractor
-import sgtmelon.scriptum.presentation.screen.vm.impl.DevelopViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.IDevelopViewModel
 
 /**
- * Interactor for [DevelopViewModel].
+ * Interactor for [IDevelopViewModel].
  */
 class DevelopInteractor(
         private val developRepo: IDevelopRepo,

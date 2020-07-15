@@ -3,10 +3,10 @@ package sgtmelon.scriptum.presentation.screen.ui.callback.notification
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.NotificationActivity
-import sgtmelon.scriptum.presentation.screen.vm.impl.notification.NotificationViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.notification.INotificationViewModel
 
 /**
- * Interface for communication [NotificationViewModel] with [NotificationActivity]
+ * Interface for communication [INotificationViewModel] with [NotificationActivity].
  */
 interface INotificationActivity : INotificationBridge {
 
