@@ -25,7 +25,7 @@ import java.util.*
 class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
         IRoomWork {
 
-    class Model(
+    data class Model(
             val noteList: MutableList<NoteEntity>,
             val rollList: MutableList<RollEntity>,
             val rollVisibleList: MutableList<RollVisibleEntity>,
@@ -33,7 +33,7 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
             val alarmList: MutableList<AlarmEntity>
     ) {
 
-        constructor(result: ParserResult): this(
+        constructor(result: ParserResult) : this(
                 result.noteList.toMutableList(),
                 result.rollList.toMutableList(),
                 result.rollVisibleList.toMutableList(),
@@ -207,20 +207,49 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
      */
     @RunPrivate
     suspend fun insertNoteList(model: Model, roomDb: RoomDb) {
+        /**
+         * Need for prevent overriding already updated items.
+         * Because new noteId may be equals oldId for next item.
+         */
+        val skipRollIdList = mutableListOf<Long>()
+        val skipRollVisibleIdList = mutableListOf<Long>()
+        val skipAlarmList = mutableListOf<Long>()
+
         model.noteList.forEach { item ->
             val oldId = item.id
 
             item.id = roomDb.noteDao.insert(item.apply { id = Note.Default.ID })
 
-            model.rollList.filter { it.noteId == oldId }.forEach { it.noteId = item.id }
-            model.rollVisibleList.filter { it.noteId == oldId }.forEach { it.noteId = item.id }
-
-            model.rankList.filter { it.noteId.contains(oldId) }.forEach {
-                it.noteId.remove(oldId)
-                it.noteId.add(item.id)
+            model.rollList.filter {
+                !skipRollIdList.contains(it.id) && it.noteId == oldId
+            }.forEach {
+                it.id?.let { id -> skipRollIdList.add(id) }
+                it.noteId = item.id
             }
 
-            model.alarmList.filter { it.noteId == oldId }.forEach { it.noteId = item.id }
+            model.rollVisibleList.filter {
+                !skipRollVisibleIdList.contains(it.id) && it.noteId == oldId
+            }.forEach {
+                skipRollVisibleIdList.add(it.id)
+                it.noteId = item.id
+            }
+
+            /**
+             * Note may be connected only to one rank (or not connected at all).
+             */
+            model.rankList.firstOrNull {
+                it.id == item.rankId && it.noteId.contains(oldId)
+            }?.apply {
+                noteId.remove(oldId)
+                noteId.add(item.id)
+            }
+
+            model.alarmList.filter {
+                !skipAlarmList.contains(it.id) && it.noteId == oldId
+            }.forEach {
+                skipAlarmList.add(it.id)
+                it.noteId = item.id
+            }
         }
     }
 
@@ -231,7 +260,9 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
      */
     @RunPrivate
     suspend fun insertRollList(model: Model, roomDb: RoomDb) {
-        model.rollList.forEach { roomDb.rollDao.insert(it.apply { id = Roll.Default.ID }) }
+        model.rollList.forEach {
+            it.id = roomDb.rollDao.insert(it.apply { id = Roll.Default.ID })
+        }
     }
 
     /**
@@ -242,7 +273,7 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
     @RunPrivate
     suspend fun insertRollVisibleList(model: Model, roomDb: RoomDb) {
         model.rollVisibleList.forEach {
-            roomDb.rollVisibleDao.insert(it.apply { id = RollVisible.Default.ID })
+            it.id = roomDb.rollVisibleDao.insert(it.apply { id = RollVisible.Default.ID })
         }
     }
 
@@ -258,8 +289,15 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
     suspend fun insertRankList(model: Model, roomDb: RoomDb) {
         val existRankList = roomDb.rankDao.get().toMutableList()
 
+        /**
+         * Need for prevent overriding already updated notes.
+         * Because new rankId may be equals oldId for next item.
+         */
+        val skipIdList = mutableListOf<Long>()
+
         model.rankList.forEach { item ->
             val oldId = item.id
+
             item.id = roomDb.rankDao.insert(item.apply {
                 id = Rank.Default.ID
                 position = existRankList.size
@@ -267,12 +305,15 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
 
             existRankList.add(item)
 
-            val updateList = model.noteList.filter { it.rankId == oldId }
-            updateList.forEach {
+            model.noteList.filter { !skipIdList.contains(it.id) && it.rankId == oldId }.forEach {
+                skipIdList.add(it.id)
                 it.rankId = item.id
                 it.rankPs = item.position
             }
-            roomDb.noteDao.update(updateList)
+        }
+
+        if (skipIdList.isNotEmpty()) {
+            roomDb.noteDao.update(model.noteList)
         }
     }
 
@@ -283,7 +324,9 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
      */
     @RunPrivate
     suspend fun insertAlarmList(model: Model, roomDb: RoomDb) {
-        model.alarmList.forEach { roomDb.alarmDao.insert(it.apply { id = Alarm.Default.ID }) }
+        model.alarmList.forEach {
+            it.id = roomDb.alarmDao.insert(it.apply { id = Alarm.Default.ID })
+        }
     }
 
 }

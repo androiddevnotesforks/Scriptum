@@ -107,7 +107,7 @@ class ViewModelModule {
     @Provides
     @ActivityScope
     fun provideNotesViewModel(fragment: NotesFragment, interactor: INotesInteractor,
-                         bindInteractor: IBindInteractor): INotesViewModel {
+                              bindInteractor: IBindInteractor): INotesViewModel {
         return ViewModelProvider(fragment).get(NotesViewModel::class.java).apply {
             setCallback(fragment)
             setInteractor(interactor, bindInteractor)
@@ -189,9 +189,10 @@ class ViewModelModule {
     fun providePreferenceViewModel(fragment: PreferenceFragment,
                                    preferenceInteractor: IPreferenceInteractor,
                                    signalInteractor: ISignalInteractor,
-                                   backupInteractor: IBackupInteractor): IPreferenceViewModel {
+                                   backupInteractor: IBackupInteractor,
+                                   bindInteractor: IBindInteractor): IPreferenceViewModel {
         return PreferenceViewModel(
-                preferenceInteractor, signalInteractor, backupInteractor, fragment
+                preferenceInteractor, signalInteractor, backupInteractor, bindInteractor, fragment
         )
     }
 
