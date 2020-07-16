@@ -7,6 +7,6 @@ import sgtmelon.scriptum.domain.interactor.callback.IBackupInteractor
  */
 sealed class ImportResult {
     object Simple : ImportResult()
-    class Skip(val skipCount: Int) : ImportResult()
+    data class Skip(val skipCount: Int) : ImportResult()
     object Error : ImportResult()
 }

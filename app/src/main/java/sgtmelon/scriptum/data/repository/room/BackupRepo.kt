@@ -25,50 +25,33 @@ import java.util.*
 class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
         IRoomWork {
 
-    data class Model(
-            val noteList: MutableList<NoteEntity>,
-            val rollList: MutableList<RollEntity>,
-            val rollVisibleList: MutableList<RollVisibleEntity>,
-            val rankList: MutableList<RankEntity>,
-            val alarmList: MutableList<AlarmEntity>
-    ) {
+    override suspend fun insertData(model: Model, importSkip: Boolean): ImportResult {
+        return takeFromRoom {
+            val startSize = model.noteList.size
 
-        constructor(result: ParserResult) : this(
-                result.noteList.toMutableList(),
-                result.rollList.toMutableList(),
-                result.rollVisibleList.toMutableList(),
-                result.rankList.toMutableList(),
-                result.alarmList.toMutableList()
-        )
-    }
+            if (importSkip) clearList(getRemoveNoteList(model, roomDb = this), model)
 
-    override suspend fun insertData(parserResult: ParserResult,
-                                    importSkip: Boolean): ImportResult = takeFromRoom {
-        val model = Model(parserResult)
+            clearRankList(model, roomDb = this)
+            clearAlarmList(model, roomDb = this)
 
-        if (importSkip) {
-            val removeNoteList = getRemoveNoteList(model, roomDb = this)
-            clearList(removeNoteList, model)
-        }
+            insertNoteList(model, roomDb = this)
+            insertRollList(model, roomDb = this)
+            insertRollVisibleList(model, roomDb = this)
+            insertRankList(model, roomDb = this)
+            insertAlarmList(model, roomDb = this)
 
-        clearRankList(model, roomDb = this)
-        clearAlarmList(model = model, roomDb = this)
-
-        insertNoteList(model, roomDb = this)
-        insertRollList(model, roomDb = this)
-        insertRollVisibleList(model, roomDb = this)
-        insertRankList(model, roomDb = this)
-        insertAlarmList(model, roomDb = this)
-
-        return@takeFromRoom if (importSkip) {
-            ImportResult.Skip(skipCount = parserResult.noteList.size - model.noteList.size)
-        } else {
-            ImportResult.Simple
+            return@takeFromRoom if (importSkip) {
+                ImportResult.Skip(skipCount = startSize - model.noteList.size)
+            } else {
+                ImportResult.Simple
+            }
         }
     }
+
 
     /**
-     * Return list for remove with items from [Model.noteList], which already exists in [roomDb].
+     * Return list for remove with items from [Model.noteList], which
+     * already exists in [roomDb].
      */
     @RunPrivate
     suspend fun getRemoveNoteList(model: Model, roomDb: RoomDb): List<NoteEntity> {
@@ -125,6 +108,7 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
         return false
     }
 
+
     /**
      * Remove every mention about items of [removeNoteList] inside lists.
      */
@@ -147,7 +131,8 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
     }
 
     /**
-     * Return list for remove with items from [Model.rankList], which already exists in [roomDb].
+     * Return list for remove with items from [Model.rankList], which
+     * already exists in [roomDb].
      *
      * Also update [NoteEntity.rankId] and [NoteEntity.rankPs] (if need) for
      * items in [Model.noteList].
@@ -173,7 +158,8 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
     }
 
     /**
-     * Return list for remove with items from [Model.alarmList], which already past.
+     * Return list for remove with items from [Model.alarmList], which
+     * already past.
      *
      * Also change time of [Model.alarmList] items, if user have same date in [roomDb].
      */
@@ -197,6 +183,7 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
 
         model.alarmList.removeAll(removeList)
     }
+
 
     /**
      * Insert notes from [Model.noteList] to [roomDb].
@@ -326,6 +313,26 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
     suspend fun insertAlarmList(model: Model, roomDb: RoomDb) {
         model.alarmList.forEach {
             it.id = roomDb.alarmDao.insert(it.apply { id = Alarm.Default.ID })
+        }
+    }
+
+    data class Model(
+            val noteList: MutableList<NoteEntity>,
+            val rollList: MutableList<RollEntity>,
+            val rollVisibleList: MutableList<RollVisibleEntity>,
+            val rankList: MutableList<RankEntity>,
+            val alarmList: MutableList<AlarmEntity>
+    ) {
+        companion object {
+            operator fun get(parserResult: ParserResult): Model = with(parserResult) {
+                return Model(
+                        noteList.toMutableList(),
+                        rollList.toMutableList(),
+                        rollVisibleList.toMutableList(),
+                        rankList.toMutableList(),
+                        alarmList.toMutableList()
+                )
+            }
         }
     }
 

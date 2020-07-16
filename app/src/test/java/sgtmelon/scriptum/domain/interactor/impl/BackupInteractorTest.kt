@@ -9,6 +9,7 @@ import sgtmelon.extension.nextShortString
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentInteractorTest
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
+import sgtmelon.scriptum.data.repository.room.BackupRepo
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.data.repository.room.callback.IBackupRepo
 import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
@@ -148,6 +149,7 @@ class BackupInteractorTest : ParentInteractorTest() {
         val data = nextString()
         val parserResult = mockk<ParserResult>()
         val importSkip = Random.nextBoolean()
+        val backupModel = mockk<BackupRepo.Model>()
 
         val skipResult = ImportResult.Skip(Random.nextInt())
 
@@ -165,13 +167,16 @@ class BackupInteractorTest : ParentInteractorTest() {
 
         assertEquals(ImportResult.Error, spyInteractor.import(item.name))
 
+        mockkObject(BackupRepo.Model)
+        every { BackupRepo.Model[parserResult] } returns backupModel
+
         every { backupParser.parse(data) } returns parserResult
         every { preferenceRepo.importSkip } returns importSkip
-        coEvery { backupRepo.insertData(parserResult, importSkip) } returns ImportResult.Simple
+        coEvery { backupRepo.insertData(backupModel, importSkip) } returns ImportResult.Simple
 
         assertEquals(ImportResult.Simple, spyInteractor.import(item.name))
 
-        coEvery { backupRepo.insertData(parserResult, importSkip) } returns skipResult
+        coEvery { backupRepo.insertData(backupModel, importSkip) } returns skipResult
 
         assertEquals(skipResult, spyInteractor.import(item.name))
 
@@ -196,7 +201,8 @@ class BackupInteractorTest : ParentInteractorTest() {
                 cipherControl.decrypt(encryptData)
                 backupParser.parse(data)
                 preferenceRepo.importSkip
-                backupRepo.insertData(parserResult, importSkip)
+                BackupRepo.Model[parserResult]
+                backupRepo.insertData(backupModel, importSkip)
             }
         }
     }
