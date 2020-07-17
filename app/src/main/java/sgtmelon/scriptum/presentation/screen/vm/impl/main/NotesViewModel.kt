@@ -79,7 +79,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
             }
 
             callback?.apply {
-                val isListHide = runBack { interactor.isListHide(itemList) }
+                val isListHide = runBack { interactor.isListHide() }
 
                 notifyList(itemList)
                 setupBinding(isListHide)

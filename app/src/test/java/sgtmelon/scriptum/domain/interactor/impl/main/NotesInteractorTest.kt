@@ -4,7 +4,6 @@ import io.mockk.coEvery
 import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
@@ -91,15 +90,14 @@ class NotesInteractorTest : ParentInteractorTest() {
 
     @Test fun isListHide() = startCoTest {
         val hideList = listOf(Random.nextBoolean(), Random.nextBoolean())
-        val itemList = mockk<List<NoteItem>>()
 
         hideList.forEach {
-            coEvery { noteRepo.isListHide(itemList) } returns it
-            assertEquals(it, interactor.isListHide(itemList))
+            coEvery { noteRepo.isListHide() } returns it
+            assertEquals(it, interactor.isListHide())
         }
 
         coVerifySequence {
-            repeat(hideList.size) { noteRepo.isListHide(itemList) }
+            repeat(hideList.size) { noteRepo.isListHide() }
         }
     }
 

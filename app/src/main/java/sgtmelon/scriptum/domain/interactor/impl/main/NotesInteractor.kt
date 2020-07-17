@@ -49,9 +49,7 @@ class NotesInteractor(
         return noteRepo.getList(sort, bin = false, isOptimal = true, filterVisible = true)
     }
 
-    override suspend fun isListHide(itemList: List<NoteItem>): Boolean {
-        return noteRepo.isListHide(itemList)
-    }
+    override suspend fun isListHide(): Boolean = noteRepo.isListHide()
 
     override suspend fun updateNote(noteItem: NoteItem) {
         noteRepo.updateNote(noteItem)

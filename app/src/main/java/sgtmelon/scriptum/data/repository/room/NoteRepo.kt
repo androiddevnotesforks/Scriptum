@@ -80,6 +80,9 @@ class NoteRepo(
         return list.filter { noteConverter.toItem(it).isVisible(idVisibleList) }
     }
 
+    /**
+     * Correcting rank sort, because notes without rank stay first in list.
+     */
     @RunPrivate
     fun correctRankSort(list: MutableList<NoteItem>, @Sort sort: Int) = list.apply {
         if (sort != Sort.RANK) return@apply
@@ -128,10 +131,10 @@ class NoteRepo(
     /**
      * Have hide notes in list or not.
      */
-    override suspend fun isListHide(itemList: List<NoteItem>): Boolean = takeFromRoom {
-        val idVisibleList = rankDao.getIdVisibleList()
-
-        return@takeFromRoom itemList.any { !it.isVisible(idVisibleList) }
+    override suspend fun isListHide(): Boolean = takeFromRoom {
+        noteDao.get(false).any {
+            !noteConverter.toItem(it).isVisible(rankDao.getIdVisibleList())
+        }
     }
 
     override suspend fun clearBin() = inRoom {

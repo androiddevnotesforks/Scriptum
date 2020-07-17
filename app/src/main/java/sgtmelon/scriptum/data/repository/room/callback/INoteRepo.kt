@@ -23,7 +23,7 @@ interface INoteRepo {
     suspend fun getRollList(noteId: Long): MutableList<RollItem>
 
 
-    suspend fun isListHide(itemList: List<NoteItem>): Boolean
+    suspend fun isListHide(): Boolean
 
     suspend fun clearBin()
 
