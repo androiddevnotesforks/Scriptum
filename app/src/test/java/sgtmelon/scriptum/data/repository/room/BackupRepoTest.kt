@@ -7,13 +7,11 @@ import org.junit.Test
 import sgtmelon.extension.nextShortString
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentRoomRepoTest
-import sgtmelon.scriptum.data.room.entity.AlarmEntity
-import sgtmelon.scriptum.data.room.entity.NoteEntity
-import sgtmelon.scriptum.data.room.entity.RollEntity
-import sgtmelon.scriptum.data.room.entity.RollVisibleEntity
+import sgtmelon.scriptum.data.room.entity.*
 import sgtmelon.scriptum.domain.model.data.DbData.Alarm
 import sgtmelon.scriptum.domain.model.data.DbData.Roll
 import sgtmelon.scriptum.domain.model.data.DbData.RollVisible
+import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.domain.model.result.ImportResult
 import kotlin.random.Random
 
@@ -109,7 +107,62 @@ class BackupRepoTest : ParentRoomRepoTest() {
     }
 
     @Test fun clearList() {
-        TODO()
+        val firstItem = NoteEntity(id = Random.nextLong(), type = NoteType.TEXT)
+        val secondItem = NoteEntity(id = Random.nextLong(), type = NoteType.ROLL)
+
+        val removeList = listOf(firstItem, secondItem)
+
+        val endNoteList = MutableList(size = 5) { NoteEntity(id = Random.nextLong()) }
+        val endRollList = MutableList(size = 5) {
+            RollEntity(id = Random.nextLong(), noteId = Random.nextLong())
+        }
+        val endRollVisibleList = MutableList(size = 5) {
+            RollVisibleEntity(id = Random.nextLong(), noteId = Random.nextLong())
+        }
+        val endRankList = MutableList(size = 5) {
+            RankEntity(id = Random.nextLong(), noteId = MutableList(size = 5) { Random.nextLong() })
+        }
+        val endAlarmList = MutableList(size = 5) {
+            AlarmEntity(id = Random.nextLong(), noteId = Random.nextLong())
+        }
+
+        val endModel = BackupRepo.Model(
+            endNoteList, endRollList, endRollVisibleList, endRankList, endAlarmList
+        )
+
+        val startNoteList = endNoteList.map { it.copy() }.toMutableList()
+        val startRollList = endRollList.map { it.copy() }.toMutableList()
+        val startRollVisibleList = endRollVisibleList.map { it.copy() }.toMutableList()
+        val startRankList = endRankList.map { it.copy() }.toMutableList()
+        val startAlarmList = endAlarmList.map { it.copy() }.toMutableList()
+
+        startNoteList.addAll(removeList)
+        startRollList.addAll(
+            List(size = 5) { RollEntity(id = Random.nextLong(), noteId = secondItem.id) }
+        )
+        startRollVisibleList.addAll(
+            List(size = 5) { RollVisibleEntity(id = Random.nextLong(), noteId = secondItem.id) }
+        )
+        startRankList.forEachIndexed { i, item ->
+            if (i % 2 == 0) {
+                val id = if (Random.nextBoolean()) firstItem.id else secondItem.id
+                item.noteId.add(id)
+            }
+        }
+        startAlarmList.addAll(
+            List(size = 5) {
+                val noteId = if (Random.nextBoolean()) firstItem.id else secondItem.id
+                return@List AlarmEntity(id = Random.nextLong(), noteId = noteId)
+            }
+        )
+
+        val startModel = BackupRepo.Model(
+            startNoteList, startRollList, startRollVisibleList, startRankList, startAlarmList
+        )
+
+        assertNotEquals(startModel, endModel)
+        backupRepo.clearList(removeList, startModel)
+        assertEquals(startModel, endModel)
     }
 
     @Test fun clearRankList() {
