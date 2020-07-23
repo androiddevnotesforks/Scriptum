@@ -165,8 +165,54 @@ class BackupRepoTest : ParentRoomRepoTest() {
         assertEquals(startModel, endModel)
     }
 
-    @Test fun clearRankList() {
-        TODO()
+    @Test fun clearRankList() = startCoTest {
+        val existList = List(size = 5) { RankEntity(id = Random.nextLong(), name = nextString()) }
+
+        coEvery { rankDao.get() } returns existList
+
+        val existFirstItem = existList.first()
+        val existSecondItem = existList.last()
+        val removeFirstItem = existFirstItem.copy(id = Random.nextLong())
+        val removeSecondItem = existSecondItem.copy(id = Random.nextLong())
+
+        val resultRankList = List(size = 5) {
+            RankEntity(id = Random.nextLong(), name = nextString())
+        }
+        val resultNoteList = List(size = 5) {
+            NoteEntity(rankId = Random.nextLong(), rankPs = Random.nextInt())
+        }.apply {
+            first().rankId = existFirstItem.id
+            first().rankPs = existList.indexOf(existFirstItem)
+            last().rankId = existSecondItem.id
+            last().rankPs = existList.indexOf(existSecondItem)
+        }
+
+        val rankList = resultRankList.map { it.copy() }.toMutableList().apply {
+            add(removeFirstItem)
+            add(removeSecondItem)
+        }
+
+        val noteList = resultNoteList.map { it.copy() }.toMutableList().apply {
+            first().rankId = removeFirstItem.id
+            first().rankPs = Random.nextInt()
+            last().rankId = removeSecondItem.id
+            last().rankPs = Random.nextInt()
+        }
+
+        val model = BackupRepo.Model(noteList, mockk(), mockk(), rankList, mockk())
+
+        assertNotEquals(model.noteList, resultNoteList)
+        assertNotEquals(model.rankList, resultRankList)
+
+        backupRepo.clearRankList(model, roomDb)
+
+        assertEquals(model.noteList, resultNoteList)
+        assertEquals(model.rankList, resultRankList)
+
+        coVerifySequence {
+            roomDb.rankDao
+            rankDao.get()
+        }
     }
 
     @Test fun clearAlarmList() {
