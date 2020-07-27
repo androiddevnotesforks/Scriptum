@@ -297,7 +297,7 @@ class NotesFragment : ParentFragment(),
     override fun cancelAlarm(id: Long) = alarmControl.cancel(id)
 
     override fun setAlarm(calendar: Calendar, id: Long) {
-        alarmControl.set(calendar, id)
+        activity?.runOnUiThread { alarmControl.set(calendar, id) }
     }
 
     override fun notifyNoteBind(item: NoteItem, rankIdVisibleList: List<Long>, @Sort sort: Int) {

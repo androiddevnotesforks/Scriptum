@@ -14,6 +14,7 @@ import sgtmelon.scriptum.domain.model.data.DbData.Note
 import sgtmelon.scriptum.domain.model.data.DbData.Rank
 import sgtmelon.scriptum.domain.model.data.DbData.Roll
 import sgtmelon.scriptum.domain.model.data.DbData.RollVisible
+import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.domain.model.result.ImportResult
 import sgtmelon.scriptum.domain.model.result.ParserResult
@@ -87,8 +88,12 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
      * Check condition for skip [NoteType.ROLL].
      */
     @RunPrivate
-    suspend fun needSkipRollNote(item: NoteEntity, rollList: List<RollEntity>,
-                                 existNoteList: List<NoteEntity>, roomDb: RoomDb): Boolean {
+    suspend fun needSkipRollNote(
+            item: NoteEntity,
+            rollList: List<RollEntity>,
+            existNoteList: List<NoteEntity>,
+            roomDb: RoomDb
+    ): Boolean {
         for (existItem in existNoteList.filter { it.name == item.name }) {
             val existRollList = roomDb.rollDao.get(existItem.id)
 
@@ -176,12 +181,21 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
                 continue
             }
 
-            while (notificationList.any { it.alarm.date == item.date }) {
-                item.date = calendar.apply { add(Calendar.MINUTE, 1) }.getText()
-            }
+            moveNotificationTime(item, calendar, notificationList)
         }
 
         model.alarmList.removeAll(removeList)
+    }
+
+    @RunPrivate
+    fun moveNotificationTime(
+            item: AlarmEntity,
+            calendar: Calendar,
+            list: List<NotificationItem>
+    ) {
+        while (list.any { it.alarm.date == item.date }) {
+            item.date = calendar.apply { add(Calendar.MINUTE, 1) }.getText()
+        }
     }
 
 
@@ -326,11 +340,11 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
         companion object {
             operator fun get(parserResult: ParserResult): Model = with(parserResult) {
                 return Model(
-                        noteList.toMutableList(),
-                        rollList.toMutableList(),
-                        rollVisibleList.toMutableList(),
-                        rankList.toMutableList(),
-                        alarmList.toMutableList()
+                    noteList.toMutableList(),
+                    rollList.toMutableList(),
+                    rollVisibleList.toMutableList(),
+                    rankList.toMutableList(),
+                    alarmList.toMutableList()
                 )
             }
         }

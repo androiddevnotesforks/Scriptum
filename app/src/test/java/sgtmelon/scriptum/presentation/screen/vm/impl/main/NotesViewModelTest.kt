@@ -90,8 +90,8 @@ class NotesViewModelTest : ParentViewModelTest() {
             interactor.getCount()
             callback.showProgress()
             interactor.getList()
-            callback.notifyList(itemList)
             interactor.isListHide()
+            callback.notifyList(itemList)
             callback.setupBinding(isListHide)
             callback.onBindingList()
         }
@@ -110,8 +110,8 @@ class NotesViewModelTest : ParentViewModelTest() {
         coVerifySequence {
             callback.beforeLoad()
             interactor.getCount()
-            callback.notifyList(itemList)
             interactor.isListHide()
+            callback.notifyList(itemList)
             callback.setupBinding(isListHide)
             callback.onBindingList()
         }
@@ -136,8 +136,8 @@ class NotesViewModelTest : ParentViewModelTest() {
             callback.onBindingList()
             interactor.getCount()
             interactor.getList()
-            callback.notifyList(returnList)
             interactor.isListHide()
+            callback.notifyList(returnList)
             callback.setupBinding(isListHide)
             callback.onBindingList()
         }
@@ -160,8 +160,8 @@ class NotesViewModelTest : ParentViewModelTest() {
             callback.notifyList(any())
             callback.onBindingList()
             interactor.getCount()
-            callback.notifyList(returnList)
             interactor.isListHide()
+            callback.notifyList(returnList)
             callback.setupBinding(isListHide)
             callback.onBindingList()
         }
