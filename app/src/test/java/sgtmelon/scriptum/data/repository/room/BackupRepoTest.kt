@@ -4,6 +4,8 @@ import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
+import sgtmelon.extension.getRandomFutureTime
+import sgtmelon.extension.getRandomPastTime
 import sgtmelon.extension.nextShortString
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentRoomRepoTest
@@ -11,6 +13,7 @@ import sgtmelon.scriptum.data.room.entity.*
 import sgtmelon.scriptum.domain.model.data.DbData.Alarm
 import sgtmelon.scriptum.domain.model.data.DbData.Roll
 import sgtmelon.scriptum.domain.model.data.DbData.RollVisible
+import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.domain.model.result.ImportResult
 import kotlin.random.Random
@@ -215,8 +218,51 @@ class BackupRepoTest : ParentRoomRepoTest() {
         }
     }
 
-    @Test fun clearAlarmList() {
+    @Test fun clearAlarmList() = startCoTest {
+        val existList = mockk<MutableList<NotificationItem>>()
+
+        coEvery { alarmDao.getList() } returns existList
+        every { spyBackupRepo.moveNotificationTime(any(), any(), existList) } returns Unit
+
+        val resultAlarmList = List(size = 5) {
+            AlarmEntity(id = Random.nextLong(), date = getRandomFutureTime())
+        }
+
+        val alarmList = resultAlarmList.map { it.copy() }.toMutableList().apply {
+            add(AlarmEntity(id = Random.nextLong(), date = getRandomPastTime()))
+            add(AlarmEntity(id = Random.nextLong(), date = getRandomPastTime()))
+        }
+
+        val model = BackupRepo.Model(mockk(), mockk(), mockk(), mockk(), alarmList)
+
+        assertNotEquals(model.alarmList, resultAlarmList)
+
+        spyBackupRepo.clearAlarmList(model, roomDb)
+
+        assertEquals(model.alarmList, resultAlarmList)
+
+        coVerifySequence {
+            spyBackupRepo.clearAlarmList(model, roomDb)
+
+            roomDb.alarmDao
+            alarmDao.getList()
+
+            resultAlarmList.forEach {
+                spyBackupRepo.moveNotificationTime(it, any(), existList)
+            }
+        }
+    }
+
+    @Test fun moveNotificationTime() {
         TODO()
+
+        val existList = List(size = 5) {
+            val type = NoteType.values().random()
+            return@List NotificationItem(
+                NotificationItem.Note(Random.nextLong(), nextString(), Random.nextInt(), type),
+                NotificationItem.Alarm(Random.nextLong(), nextString())
+            )
+        }
     }
 
     @Test fun insertNoteList() {
