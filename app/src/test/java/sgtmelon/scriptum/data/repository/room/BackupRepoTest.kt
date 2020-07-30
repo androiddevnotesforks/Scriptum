@@ -4,10 +4,7 @@ import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
-import sgtmelon.extension.getRandomFutureTime
-import sgtmelon.extension.getRandomPastTime
-import sgtmelon.extension.nextShortString
-import sgtmelon.extension.nextString
+import sgtmelon.extension.*
 import sgtmelon.scriptum.ParentRoomRepoTest
 import sgtmelon.scriptum.data.room.entity.*
 import sgtmelon.scriptum.domain.model.data.DbData.Alarm
@@ -16,6 +13,7 @@ import sgtmelon.scriptum.domain.model.data.DbData.RollVisible
 import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.domain.model.result.ImportResult
+import java.util.*
 import kotlin.random.Random
 
 /**
@@ -254,15 +252,26 @@ class BackupRepoTest : ParentRoomRepoTest() {
     }
 
     @Test fun moveNotificationTime() {
-        TODO()
-
-        val existList = List(size = 5) {
+        val list = List(size = 5) {
             val type = NoteType.values().random()
             return@List NotificationItem(
                 NotificationItem.Note(Random.nextLong(), nextString(), Random.nextInt(), type),
-                NotificationItem.Alarm(Random.nextLong(), nextString())
+                NotificationItem.Alarm(Random.nextLong(), getCalendarWithAdd(it).getText())
             )
         }
+
+        val startCalendar = getCalendarWithAdd(min = 1)
+        val resultCalendar = getCalendarWithAdd(min = list.size)
+        val resultDate = resultCalendar.getText()
+        val item = AlarmEntity(date = startCalendar.getText())
+
+        assertNotEquals(item.date, resultDate)
+        assertNotEquals(startCalendar.get(Calendar.MINUTE), resultCalendar.get(Calendar.MINUTE))
+
+        backupRepo.moveNotificationTime(item, startCalendar, list)
+
+        assertEquals(item.date, resultDate)
+        assertEquals(startCalendar.get(Calendar.MINUTE), resultCalendar.get(Calendar.MINUTE))
     }
 
     @Test fun insertNoteList() {
