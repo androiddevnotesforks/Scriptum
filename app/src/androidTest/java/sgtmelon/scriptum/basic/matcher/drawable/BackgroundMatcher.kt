@@ -12,6 +12,8 @@ class BackgroundMatcher(@IdRes resourceId: Int) : ParentImageMatcher(resourceId)
     override fun matchesSafely(item: View?): Boolean {
         if (item !is View) return false
 
+        if (resourceId == null) return item.background == null
+
         val context = item.context ?: return false
         val expected = context.getCompatDrawable(resourceId) ?: return false
 

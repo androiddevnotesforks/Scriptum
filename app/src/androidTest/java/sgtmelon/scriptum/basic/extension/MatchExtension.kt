@@ -118,7 +118,7 @@ fun Matcher<View>.withBackground(resourceId: Int) = also {
 }
 
 fun Matcher<View>.withBackgroundColor(@ColorRes colorId: Int) = also {
-    matchOnView(it, BackgroundColorMatcher(colorId, null, null))
+    matchOnView(it, BackgroundColorMatcher(colorId, null))
 }
 
 fun Matcher<View>.withBackgroundAppColor(@Theme theme: Int, @Color color: Int,
@@ -127,7 +127,7 @@ fun Matcher<View>.withBackgroundAppColor(@Theme theme: Int, @Color color: Int,
 }
 
 fun Matcher<View>.withBackgroundAttr(@AttrRes attrId: Int) = also {
-    matchOnView(it, BackgroundColorMatcher(null, attrId, null))
+    matchOnView(it, BackgroundColorMatcher(null, attrId))
 }
 
 

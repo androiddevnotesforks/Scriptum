@@ -506,25 +506,24 @@ class RollNoteViewModel(application: Application) :
      */
     @RunPrivate
     fun notifyListByVisible() {
-        viewModelScope.launchBack {
-            val list = ArrayList(noteItem.list)
+        val list = ArrayList(noteItem.list)
 
-            if (list.size == 0) return@launchBack
+        if (list.size == 0) return
 
-            if (isVisible) {
-                if (!list.any { !it.isCheck }) {
-                    callback?.animateInfoVisible(isVisible = false)
-                }
+        if (isVisible) {
+            if (!list.any { !it.isCheck }) {
+                callback?.animateInfoVisible(isVisible = false)
+            }
 
-                list.filter { it.isCheck }.forEach { item ->
-                    list.indexOfOrNull(item)?.also { callback?.notifyItemInserted(list, it) }
-                }
-            } else {
-                while (list.any { it.isCheck }) {
-                    list.indexOfOrNull { it.isCheck }?.also {
-                        list.removeAtOrNull(it) ?: return@also
-                        callback?.notifyItemRemoved(list, it)
-                    }
+            for (item in list.filter { it.isCheck }) {
+                val index = list.indexOfOrNull(item) ?: continue
+                callback?.notifyItemInserted(list, index)
+            }
+        } else {
+            while (list.any { it.isCheck }) {
+                list.indexOfOrNull { it.isCheck }?.also {
+                    list.removeAtOrNull(it) ?: return@also
+                    callback?.notifyItemRemoved(list, it)
                 }
             }
         }

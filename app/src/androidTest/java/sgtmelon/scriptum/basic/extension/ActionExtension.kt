@@ -57,7 +57,7 @@ fun Matcher<View>.longClick(p: Int) = also {
 }
 
 fun Matcher<View>.swipeItem(p: Int) = also {
-    onView(it).perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(p,
-            if (Random.nextBoolean()) ViewActions.swipeLeft() else ViewActions.swipeRight()
-    ))
+    val action = if (Random.nextBoolean()) ViewActions.swipeLeft() else ViewActions.swipeRight()
+
+    onView(it).perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(p, action))
 }
