@@ -362,6 +362,10 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
     }
 
 
+    override fun updateExportEnabled(isEnabled: Boolean) {
+        exportPreference?.isEnabled = isEnabled
+    }
+
     override fun showExportPermissionDialog() {
         exportPermissionDialog.show(fm, DialogFactory.Preference.EXPORT_PERMISSION)
     }

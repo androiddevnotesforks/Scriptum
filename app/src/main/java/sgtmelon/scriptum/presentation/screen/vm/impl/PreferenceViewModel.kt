@@ -48,6 +48,7 @@ class PreferenceViewModel(
             /**
              * Make import permission not enabled before [setupBackup] load data.
              */
+            updateExportEnabled(isEnabled = false)
             updateImportEnabled(isEnabled = false)
 
             updateSortSummary(interactor.getSortSummary())
@@ -65,9 +66,19 @@ class PreferenceViewModel(
         }
 
         viewModelScope.launch {
-            setupMelody()
             setupBackup()
+            setupMelody()
         }
+    }
+
+    @RunPrivate suspend fun setupBackup() {
+        val fileList = runBack { backupInteractor.getFileList() }
+
+        callback?.updateExportEnabled(isEnabled = true)
+
+        if (fileList.isEmpty()) return
+
+        callback?.updateImportEnabled(isEnabled = true)
     }
 
     @RunPrivate suspend fun setupMelody() {
@@ -88,14 +99,6 @@ class PreferenceViewModel(
 
         callback?.updateMelodyGroupEnabled(state.isMelody)
         callback?.updateMelodySummary(melodyItem.title)
-    }
-
-    @RunPrivate suspend fun setupBackup() {
-        val fileList = runBack { backupInteractor.getFileList() }
-
-        if (fileList.isEmpty()) return
-
-        callback?.updateImportEnabled(isEnabled = true)
     }
 
     override fun onDestroy(func: () -> Unit) {

@@ -39,6 +39,8 @@ interface IPreferenceFragment : BindControl.NoteBridge.NotifyAll, BindControl.In
     fun showThemeDialog(@Theme value: Int)
 
 
+    fun updateExportEnabled(isEnabled: Boolean)
+
     fun showExportPermissionDialog()
 
     fun showExportDenyDialog()

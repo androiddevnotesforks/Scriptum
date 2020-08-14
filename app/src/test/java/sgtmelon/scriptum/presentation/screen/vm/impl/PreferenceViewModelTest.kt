@@ -87,6 +87,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
                 interactor.getThemeSummary()
                 updateThemeSummary(themeSummary)
 
+                updateExportEnabled(isEnabled = false)
                 updateImportEnabled(isEnabled = false)
 
                 interactor.getSortSummary()
@@ -107,8 +108,27 @@ class PreferenceViewModelTest : ParentViewModelTest() {
                 updateVolumeSummary(volumeSummary)
             }
 
-            spyViewModel.setupMelody()
             spyViewModel.setupBackup()
+            spyViewModel.setupMelody()
+        }
+    }
+
+    @Test fun setupBackup() = startCoTest {
+        coEvery { backupInteractor.getFileList() } returns emptyList()
+
+        viewModel.setupBackup()
+
+        coEvery { backupInteractor.getFileList() } returns fileList
+
+        viewModel.setupBackup()
+
+        coVerifySequence {
+            backupInteractor.getFileList()
+            callback.updateExportEnabled(isEnabled = true)
+
+            backupInteractor.getFileList()
+            callback.updateExportEnabled(isEnabled = true)
+            callback.updateImportEnabled(isEnabled = true)
         }
     }
 
@@ -193,23 +213,6 @@ class PreferenceViewModelTest : ParentViewModelTest() {
             signalInteractor.getMelodyList()
             callback.updateMelodyGroupEnabled(state.isMelody)
             callback.updateMelodySummary(item.title)
-        }
-    }
-
-    @Test fun setupBackup() = startCoTest {
-        coEvery { backupInteractor.getFileList() } returns emptyList()
-
-        viewModel.setupBackup()
-
-        coEvery { backupInteractor.getFileList() } returns fileList
-
-        viewModel.setupBackup()
-
-        coVerifySequence {
-            backupInteractor.getFileList()
-
-            backupInteractor.getFileList()
-            callback.updateImportEnabled(isEnabled = true)
         }
     }
 
