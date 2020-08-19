@@ -208,13 +208,13 @@ class TextNoteFragment : ParentFragment(),
         }
     }
 
-    override fun setupEnter(iInputControl: IInputControl) {
+    override fun setupEnter(inputControl: IInputControl) {
         nameEnter = view?.findViewById(R.id.toolbar_note_enter)
         view?.findViewById<View>(R.id.toolbar_note_scroll)?.requestFocusOnVisible(nameEnter)
 
         nameEnter?.let {
             it.addTextChangedListener(
-                    InputTextWatcher(it, InputAction.NAME, viewModel, iInputControl)
+                    InputTextWatcher(it, InputAction.NAME, viewModel, inputControl)
             )
             it.addOnNextAction {
                 textEnter?.apply {
@@ -228,7 +228,7 @@ class TextNoteFragment : ParentFragment(),
         view?.findViewById<View>(R.id.text_note_content_scroll)?.requestFocusOnVisible(textEnter)
 
         textEnter?.addTextChangedListener(
-                InputTextWatcher(textEnter, InputAction.TEXT, viewModel, iInputControl)
+                InputTextWatcher(textEnter, InputAction.TEXT, viewModel, inputControl)
         )
     }
 

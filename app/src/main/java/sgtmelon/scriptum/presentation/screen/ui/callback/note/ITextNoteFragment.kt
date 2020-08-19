@@ -21,7 +21,7 @@ interface ITextNoteFragment : IParentNoteFragment<NoteItem.Text> {
 
     fun setupDialog(rankNameArray: Array<String>)
 
-    fun setupEnter(iInputControl: IInputControl)
+    fun setupEnter(inputControl: IInputControl)
 
 
     fun onBindingLoad(isRankEmpty: Boolean)

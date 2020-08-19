@@ -26,9 +26,9 @@ interface IRollNoteFragment : IParentNoteFragment<NoteItem.Roll> {
 
     fun setupDialog(rankNameArray: Array<String>)
 
-    fun setupEnter(iInputControl: IInputControl)
+    fun setupEnter(inputControl: IInputControl)
 
-    fun setupRecycler(iInputControl: IInputControl)
+    fun setupRecycler(inputControl: IInputControl, isFirstRun: Boolean)
 
     fun setupProgress()
 

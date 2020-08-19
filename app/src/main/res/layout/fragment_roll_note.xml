@@ -1,88 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="sgtmelon.scriptum.R"/>
-        <import type="android.view.View"/>
 
-        <variable name="theme" type="int"/>
-        <variable name="menuCallback" type="sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteMenu"/>
-        <variable name="isDataLoad" type="boolean"/>
+        <import type="sgtmelon.scriptum.R" />
 
-        <variable name="item" type="sgtmelon.scriptum.domain.model.item.NoteItem.Roll"/>
-        <variable name="isRankEmpty" type="boolean"/>
-        <variable name="isEditMode" type="boolean"/>
+        <import type="android.view.View" />
 
-        <variable name="isListEmpty" type="boolean"/>
-        <variable name="isListHide" type="boolean"/>
+        <variable
+            name="theme"
+            type="int" />
 
-        <variable name="inputAccess" type="sgtmelon.scriptum.presentation.control.note.input.InputControl.Access"/>
+        <variable
+            name="menuCallback"
+            type="sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteMenu" />
 
-        <variable name="isEnterEmpty" type="boolean"/>
+        <variable
+            name="isDataLoad"
+            type="boolean" />
+
+        <variable
+            name="item"
+            type="sgtmelon.scriptum.domain.model.item.NoteItem.Roll" />
+
+        <variable
+            name="isRankEmpty"
+            type="boolean" />
+
+        <variable
+            name="isEditMode"
+            type="boolean" />
+
+        <variable
+            name="isListEmpty"
+            type="boolean" />
+
+        <variable
+            name="isListHide"
+            type="boolean" />
+
+        <variable
+            name="inputAccess"
+            type="sgtmelon.scriptum.presentation.control.note.input.InputControl.Access" />
+
+        <variable
+            name="isEnterEmpty"
+            type="boolean" />
     </data>
 
     <LinearLayout
-            android:id="@+id/roll_note_parent_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+        android:id="@+id/roll_note_parent_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <include
-                layout="@layout/include_toolbar_note"
-                app:isDataLoad='@{isDataLoad}'
-                app:isEditMode='@{isEditMode}'
-                app:item='@{item}'
-                app:theme='@{theme}'/>
+            layout="@layout/include_toolbar_note"
+            app:isDataLoad='@{isDataLoad}'
+            app:isEditMode='@{isEditMode}'
+            app:item='@{item}'
+            app:theme='@{theme}' />
 
         <!-- Container for good performance on ItemTouchHelper.ACTION_STATE_DRAG over top bound. -->
         <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
             <include
-                    android:id="@+id/roll_note_info_include"
-                    layout="@layout/include_info"
-                    android:visibility="gone"
-                    app:details='@{isListEmpty ? R.string.info_roll_empty_details : isListHide ? R.string.info_roll_hide_details : R.string.info_null}'
-                    app:title='@{isListEmpty ? R.string.info_roll_empty_title : isListHide ? R.string.info_roll_hide_title : R.string.info_null}'/>
+                android:id="@+id/roll_note_info_include"
+                layout="@layout/include_info"
+                android:visibility="gone"
+                app:details='@{isListEmpty ? R.string.info_roll_empty_details : isListHide ? R.string.info_roll_hide_details : R.string.info_null}'
+                app:title='@{isListEmpty ? R.string.info_roll_empty_title : isListHide ? R.string.info_roll_hide_title : R.string.info_null}' />
 
             <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/roll_note_recycler"
-                    style="@style/RecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility='@{isDataLoad ? View.VISIBLE : View.GONE}'
-                    tools:itemCount="3"
-                    tools:listitem="@layout/item_roll_write"/>
+                android:id="@+id/roll_note_recycler"
+                style="@style/RecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility='@{isDataLoad ? View.VISIBLE : View.GONE}'
+                tools:itemCount="3"
+                tools:listitem="@layout/item_roll_write" />
 
         </FrameLayout>
 
-        <include layout="@layout/include_roll_add_panel"
-                app:isEditMode='@{isEditMode}'
-                app:isEnterEmpty='@{isEnterEmpty}'/>
+        <include
+            layout="@layout/include_roll_add_panel"
+            app:isEditMode='@{isEditMode}'
+            app:isEnterEmpty='@{isEnterEmpty}' />
 
         <ProgressBar
-                android:id="@+id/roll_note_progress"
-                style="?attr/styleProgressHorizontal"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/layout_4dp"
-                android:visibility='@{!isEditMode ? View.VISIBLE : View.GONE}'
-                android:max="0"
-                tools:max="100"
-                tools:progress="65"/>
+            android:id="@+id/roll_note_progress"
+            style="?attr/styleProgressHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/layout_4dp"
+            android:max="0"
+            android:visibility='@{!isEditMode ? View.VISIBLE : View.GONE}'
+            tools:max="100"
+            tools:progress="65" />
 
         <include
-                layout="@layout/include_note_panel"
-                app:isDataLoad='@{isDataLoad}'
-                app:isEditMode='@{isEditMode}'
-                app:isDividerHide='@{!isEditMode}'
-                app:inputAccess='@{inputAccess}'
-                app:item='@{item}'
-                app:menuCallback='@{menuCallback}'
-                app:isRankEmpty='@{isRankEmpty}'/>
+            layout="@layout/include_note_panel"
+            app:inputAccess='@{inputAccess}'
+            app:isDataLoad='@{isDataLoad}'
+            app:isDividerHide='@{!isEditMode}'
+            app:isEditMode='@{isEditMode}'
+            app:isRankEmpty='@{isRankEmpty}'
+            app:item='@{item}'
+            app:menuCallback='@{menuCallback}' />
 
     </LinearLayout>
 

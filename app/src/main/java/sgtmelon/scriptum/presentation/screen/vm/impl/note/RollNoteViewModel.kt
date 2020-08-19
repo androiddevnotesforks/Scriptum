@@ -37,6 +37,11 @@ class RollNoteViewModel(application: Application) :
             isVisibleTest = true
         }
 
+    /**
+     * Variable for detect first screen run. After rotations it will be false.
+     */
+    @RunPrivate var isFirstRun = true
+
     override fun cacheData() {
         restoreItem = noteItem.deepCopy()
     }
@@ -54,10 +59,12 @@ class RollNoteViewModel(application: Application) :
             setupBinding(theme)
             setupToolbar(theme, color)
             setupEnter(inputControl)
-            setupRecycler(inputControl)
+            setupRecycler(inputControl, isFirstRun)
 
             showToolbarVisibleIcon(isShow = false)
         }
+
+        if (isFirstRun) isFirstRun = false
 
         viewModelScope.launch {
             /**

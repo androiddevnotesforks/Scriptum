@@ -23,7 +23,7 @@ class RollAdapter(
 ) : ParentAdapter<RollItem, RecyclerView.ViewHolder>() {
 
     var dragListener: ItemListener.Drag? = null
-    var iInputControl: IInputControl? = null
+    var inputControl: IInputControl? = null
 
     var noteState: NoteState? = null
 
@@ -38,7 +38,7 @@ class RollAdapter(
         return if (viewType == TYPE_WRITE) {
             RollWriteHolder(
                     parent.inflateBinding(R.layout.item_roll_write),
-                    dragListener, rollWriteCallback, iInputControl
+                    dragListener, rollWriteCallback, inputControl
             )
         } else {
             RollReadHolder(
