@@ -6,7 +6,6 @@ import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.ScrollView
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.callback.IDevelopActivity
@@ -17,7 +16,7 @@ import javax.inject.Inject
 /**
  * Screen which displays information for developer.
  */
-class DevelopActivity : AppCompatActivity(), IDevelopActivity {
+class DevelopActivity : AppActivity(), IDevelopActivity {
 
     // TODO #RELEASE2 Add different windows for every table
     // TODO #RELEASE2 for example: note+roll, note+alarm, note+rank, preference, other

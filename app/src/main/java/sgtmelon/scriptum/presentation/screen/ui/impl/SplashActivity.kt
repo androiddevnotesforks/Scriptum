@@ -3,7 +3,6 @@ package sgtmelon.scriptum.presentation.screen.ui.impl
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.Color
@@ -12,6 +11,7 @@ import sgtmelon.scriptum.domain.model.data.NoteData
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.extension.beforeFinish
 import sgtmelon.scriptum.extension.hideKeyboard
+import sgtmelon.scriptum.presentation.screen.ui.ParentActivity
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.callback.ISplashActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.intro.IntroActivity
@@ -25,7 +25,7 @@ import javax.inject.Inject
 /**
  * Start screen of application.
  */
-class SplashActivity : AppCompatActivity(), ISplashActivity {
+class SplashActivity : ParentActivity(), ISplashActivity {
 
     init {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)

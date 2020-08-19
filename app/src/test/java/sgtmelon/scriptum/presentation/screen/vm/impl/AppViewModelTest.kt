@@ -48,9 +48,11 @@ class AppViewModelTest : ParentViewModelTest() {
         verifySequence {
             interactor.theme
             callback.setTheme(R.style.App_Light_UI)
+            callback.changeControlColor(true)
 
             interactor.theme
             callback.setTheme(R.style.App_Dark_UI)
+            callback.changeControlColor(false)
         }
     }
 

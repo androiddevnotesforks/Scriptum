@@ -30,6 +30,8 @@ class AppViewModel(application: Application) : ParentViewModel<IAppActivity>(app
             Theme.LIGHT -> callback?.setTheme(R.style.App_Light_UI)
             Theme.DARK -> callback?.setTheme(R.style.App_Dark_UI)
         }
+
+        callback?.changeControlColor(theme == Theme.LIGHT)
     }
 
     override fun isThemeChange(): Boolean = theme != interactor.theme

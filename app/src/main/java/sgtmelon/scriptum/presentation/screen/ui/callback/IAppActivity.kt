@@ -9,4 +9,5 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.IAppViewModel
  */
 interface IAppActivity {
     fun setTheme(@StyleRes resId: Int)
+    fun changeControlColor(onLight: Boolean)
 }
