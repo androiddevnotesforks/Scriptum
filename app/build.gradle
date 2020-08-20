@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId "sgtmelon.scriptum"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 18
         versionName git.version.windows.execute().text.trim()
@@ -93,6 +93,8 @@ dependencies {
     kapt google.dagger.compiler
 
     //region AndroidX
+
+    implementation androidx.core
 
     implementation androidx.lifecycle.extensions
     implementation androidx.lifecycle.viewmodel
