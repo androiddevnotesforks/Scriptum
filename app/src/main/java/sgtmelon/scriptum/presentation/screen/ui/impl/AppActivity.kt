@@ -1,11 +1,14 @@
 package sgtmelon.scriptum.presentation.screen.ui.impl
 
 import android.content.Intent
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import sgtmelon.idling.AppIdlingResource
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.domain.model.annotation.Theme
+import sgtmelon.scriptum.extension.getColorAttr
 import sgtmelon.scriptum.presentation.screen.ui.ParentActivity
 import sgtmelon.scriptum.presentation.screen.ui.callback.IAppActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.IAppViewModel
@@ -72,6 +75,38 @@ abstract class AppActivity : ParentActivity(), IAppActivity {
         } else {
             window.decorView.systemUiVisibility = window.decorView.systemUiVisibility and
                     View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR.inv()
+        }
+    }
+
+    override fun changeSystemColor(@Theme theme: Int) {
+        window.setBackgroundDrawable(ColorDrawable(getColorAttr(R.attr.clBackgroundWindow)))
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.statusBarColor = getColorAttr(R.attr.colorPrimaryDark)
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            window.navigationBarDividerColor = getColorAttr(R.attr.clDivider)
+        }
+
+        when {
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1 -> {
+                window.navigationBarColor = getColorAttr(R.attr.colorPrimary)
+            }
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.M -> {
+                if (theme == Theme.LIGHT) {
+                    window.navigationBarColor = getColorAttr(R.attr.clContentSecond)
+                } else {
+                    window.navigationBarColor = getColorAttr(R.attr.colorPrimary)
+                }
+            }
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP -> {
+                if (theme == Theme.LIGHT) {
+                    window.navigationBarColor = getColorAttr(R.attr.colorPrimaryDark)
+                } else {
+                    window.navigationBarColor = getColorAttr(R.attr.colorPrimary)
+                }
+            }
         }
     }
 

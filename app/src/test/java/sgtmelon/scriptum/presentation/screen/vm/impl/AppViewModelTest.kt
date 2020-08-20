@@ -49,10 +49,12 @@ class AppViewModelTest : ParentViewModelTest() {
             interactor.theme
             callback.changeControlColor(true)
             callback.setTheme(R.style.App_Light_UI)
+            callback.changeSystemColor(Theme.LIGHT)
 
             interactor.theme
             callback.changeControlColor(false)
             callback.setTheme(R.style.App_Dark_UI)
+            callback.changeSystemColor(Theme.DARK)
         }
     }
 

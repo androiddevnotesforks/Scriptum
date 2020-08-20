@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--  Set colors of system UI not work from XML. This is for best understanding.  -->
     <style name="App.Light.UI">
         <item name="colorPrimaryDark">?attr/clPrimary</item>
 
@@ -11,6 +12,7 @@
         <item name="android:navigationBarColor">?attr/clContentSecond</item>
     </style>
 
+    <!--  Set colors of system UI not work from XML. This is for best understanding.  -->
     <style name="App.Dark.UI">
         <item name="android:windowBackground">?attr/clBackgroundWindow</item>
 
