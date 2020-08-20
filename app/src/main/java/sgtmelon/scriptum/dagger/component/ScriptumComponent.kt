@@ -60,5 +60,4 @@ interface ScriptumComponent {
 
         fun build(): ScriptumComponent
     }
-
 }

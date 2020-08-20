@@ -30,5 +30,4 @@ interface AlarmComponent {
 
         fun build(): AlarmComponent
     }
-
 }

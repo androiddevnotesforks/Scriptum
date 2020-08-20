@@ -26,5 +26,4 @@ interface RankComponent {
 
         fun build(): RankComponent
     }
-
 }

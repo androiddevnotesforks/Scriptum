@@ -26,5 +26,4 @@ interface NotesComponent {
 
         fun build(): NotesComponent
     }
-
 }

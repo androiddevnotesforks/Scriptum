@@ -28,5 +28,4 @@ interface NoteComponent {
 
         fun build(): NoteComponent
     }
-
 }

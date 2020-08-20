@@ -26,5 +26,4 @@ interface BinComponent {
 
         fun build(): BinComponent
     }
-
 }

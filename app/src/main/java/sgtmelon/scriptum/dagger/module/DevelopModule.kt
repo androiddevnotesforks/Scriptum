@@ -5,19 +5,19 @@ import dagger.Module
 import dagger.Provides
 import sgtmelon.scriptum.dagger.ActivityScope
 import sgtmelon.scriptum.domain.interactor.callback.IAppInteractor
-import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
+import sgtmelon.scriptum.presentation.screen.ui.impl.DevelopActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.IAppViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.AppViewModel
 
 /**
- * Module for [NoteActivity].
+ * Module for [DevelopActivity].
  */
 @Module
-class NoteModule {
+class DevelopModule{
 
     @Provides
     @ActivityScope
-    fun provideAppViewModel(activity: NoteActivity, interactor: IAppInteractor): IAppViewModel {
+    fun provideAppViewModel(activity: DevelopActivity, interactor: IAppInteractor): IAppViewModel {
         return ViewModelProvider(activity).get(AppViewModel::class.java).apply {
             setCallback(activity)
             setInteractor(interactor)

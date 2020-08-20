@@ -26,5 +26,4 @@ interface IntroComponent {
 
         fun build(): IntroComponent
     }
-
 }

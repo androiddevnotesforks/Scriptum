@@ -28,5 +28,4 @@ interface NotificationComponent {
 
         fun build(): NotificationComponent
     }
-
 }

@@ -47,16 +47,31 @@ abstract class AppActivity : ParentActivity(), IAppActivity {
      * Set light statusBar and navigationBar from xml not working.
      */
     override fun changeControlColor(onLight: Boolean) {
-        if (!onLight) return
+        changeStatusControl(onLight)
+        changeNavigationControl(onLight)
+    }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+    private fun changeStatusControl(onLight: Boolean) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return
+
+        if (onLight) {
             window.decorView.systemUiVisibility = window.decorView.systemUiVisibility or
                     View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        } else {
+            window.decorView.systemUiVisibility = window.decorView.systemUiVisibility and
+                    View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
         }
+    }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+    private fun changeNavigationControl(onLight: Boolean) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
+
+        if (onLight) {
             window.decorView.systemUiVisibility = window.decorView.systemUiVisibility or
                     View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+        } else {
+            window.decorView.systemUiVisibility = window.decorView.systemUiVisibility and
+                    View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR.inv()
         }
     }
 

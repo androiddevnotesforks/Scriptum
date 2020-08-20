@@ -26,5 +26,4 @@ interface RollNoteComponent {
 
         fun build(): RollNoteComponent
     }
-
 }

@@ -28,5 +28,4 @@ interface MainComponent {
 
         fun build(): MainComponent
     }
-
 }

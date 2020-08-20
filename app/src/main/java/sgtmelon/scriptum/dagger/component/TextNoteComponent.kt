@@ -26,5 +26,4 @@ interface TextNoteComponent {
 
         fun build(): TextNoteComponent
     }
-
 }

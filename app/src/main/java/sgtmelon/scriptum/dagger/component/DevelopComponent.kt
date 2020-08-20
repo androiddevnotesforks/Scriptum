@@ -3,6 +3,7 @@ package sgtmelon.scriptum.dagger.component
 import dagger.BindsInstance
 import dagger.Subcomponent
 import sgtmelon.scriptum.dagger.ActivityScope
+import sgtmelon.scriptum.dagger.module.DevelopModule
 import sgtmelon.scriptum.dagger.module.base.InteractorModule
 import sgtmelon.scriptum.dagger.module.base.ViewModelModule
 import sgtmelon.scriptum.presentation.screen.ui.impl.DevelopActivity
@@ -13,7 +14,8 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.DevelopActivity
 @ActivityScope
 @Subcomponent(modules = [
     InteractorModule::class,
-    ViewModelModule::class
+    ViewModelModule::class,
+    DevelopModule::class
 ])
 interface DevelopComponent {
 
@@ -26,5 +28,4 @@ interface DevelopComponent {
 
         fun build(): DevelopComponent
     }
-
 }

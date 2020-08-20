@@ -30,5 +30,4 @@ interface PreferenceComponent {
 
         fun build(): PreferenceComponent
     }
-
 }

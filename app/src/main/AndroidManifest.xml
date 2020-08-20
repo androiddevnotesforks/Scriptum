@@ -92,8 +92,7 @@
         <activity
                 android:name="sgtmelon.scriptum.presentation.screen.ui.impl.DevelopActivity"
                 android:configChanges="keyboardHidden"
-                android:parentActivityName="sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceActivity"
-                android:theme="@style/App.Dark.UI">
+                android:parentActivityName="sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>

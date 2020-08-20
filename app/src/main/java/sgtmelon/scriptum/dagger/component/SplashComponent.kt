@@ -26,5 +26,4 @@ interface SplashComponent {
 
         fun build(): SplashComponent
     }
-
 }
