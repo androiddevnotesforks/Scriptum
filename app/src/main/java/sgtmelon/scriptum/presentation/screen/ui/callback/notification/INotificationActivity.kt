@@ -2,13 +2,14 @@ package sgtmelon.scriptum.presentation.screen.ui.callback.notification
 
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NotificationItem
+import sgtmelon.scriptum.presentation.screen.ui.IInsetsCallback
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.NotificationActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.notification.INotificationViewModel
 
 /**
  * Interface for communication [INotificationViewModel] with [NotificationActivity].
  */
-interface INotificationActivity : INotificationBridge {
+interface INotificationActivity : IInsetsCallback, INotificationBridge {
 
     fun setupToolbar()
 

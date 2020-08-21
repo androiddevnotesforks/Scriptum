@@ -35,6 +35,7 @@ class NotificationViewModel(application: Application) :
     override fun onSetup(bundle: Bundle?) {
         callback?.setupToolbar()
         callback?.setupRecycler(interactor.theme)
+        callback?.setupInsets()
     }
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy { interactor.onDestroy() }

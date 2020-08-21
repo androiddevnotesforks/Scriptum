@@ -79,16 +79,23 @@ abstract class AppActivity : ParentActivity(), IAppActivity {
     }
 
     override fun changeSystemColor(@Theme theme: Int) {
-        window.setBackgroundDrawable(ColorDrawable(getColorAttr(R.attr.clBackgroundWindow)))
+        setBackgroundColor(theme)
+        setStatusBarColor(theme)
+        setNavigationColor(theme)
+        setNavigationDividerColor(theme)
+    }
 
+    protected open fun setBackgroundColor(@Theme theme: Int) {
+        window.setBackgroundDrawable(ColorDrawable(getColorAttr(R.attr.clBackgroundWindow)))
+    }
+
+    protected open fun setStatusBarColor(@Theme theme: Int) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.statusBarColor = getColorAttr(R.attr.colorPrimaryDark)
         }
+    }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            window.navigationBarDividerColor = getColorAttr(R.attr.clDivider)
-        }
-
+    protected open fun setNavigationColor(@Theme theme: Int) {
         when {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1 -> {
                 window.navigationBarColor = getColorAttr(R.attr.colorPrimary)
@@ -107,6 +114,12 @@ abstract class AppActivity : ParentActivity(), IAppActivity {
                     window.navigationBarColor = getColorAttr(R.attr.colorPrimary)
                 }
             }
+        }
+    }
+
+    protected open fun setNavigationDividerColor(@Theme theme: Int) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            window.navigationBarDividerColor = getColorAttr(R.attr.clDivider)
         }
     }
 

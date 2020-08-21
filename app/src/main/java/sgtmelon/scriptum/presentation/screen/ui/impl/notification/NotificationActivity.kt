@@ -2,6 +2,8 @@ package sgtmelon.scriptum.presentation.screen.ui.impl.notification
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -14,10 +16,7 @@ import sgtmelon.scriptum.databinding.ActivityNotificationBinding
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.domain.model.state.OpenState
-import sgtmelon.scriptum.extension.createVisibleAnim
-import sgtmelon.scriptum.extension.getTintDrawable
-import sgtmelon.scriptum.extension.inflateBinding
-import sgtmelon.scriptum.extension.initLazy
+import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.presentation.adapter.NotificationAdapter
 import sgtmelon.scriptum.presentation.control.snackbar.SnackbarCallback
 import sgtmelon.scriptum.presentation.control.snackbar.SnackbarControl
@@ -111,6 +110,17 @@ class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallb
         super.onSaveInstanceState(outState.apply { openState.save(bundle = this) })
     }
 
+    override fun setNavigationColor(theme: Int) {
+        window.navigationBarColor = Color.TRANSPARENT
+    }
+
+    override fun setNavigationDividerColor(theme: Int) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            window.navigationBarDividerColor = Color.TRANSPARENT
+        }
+    }
+
+
     override fun setupToolbar() {
         findViewById<Toolbar>(R.id.toolbar_container).apply {
             title = getString(R.string.title_notification)
@@ -137,6 +147,18 @@ class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallb
             it.setHasFixedSize(true)
             it.layoutManager = layoutManager
             it.adapter = adapter
+        }
+    }
+
+    override fun setupInsets() {
+        parentContainer?.doOnApplyWindowInsets { view, insets, _, margin ->
+            view.updateMargin(InsetsDir.TOP, insets, margin)
+            return@doOnApplyWindowInsets insets
+        }
+
+        recyclerView?.doOnApplyWindowInsets { view, insets, padding, _ ->
+            view.updatePadding(InsetsDir.BOTTOM, insets, padding)
+            return@doOnApplyWindowInsets insets
         }
     }
 
