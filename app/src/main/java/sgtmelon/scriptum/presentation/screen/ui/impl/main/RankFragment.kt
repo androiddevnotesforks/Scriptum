@@ -254,7 +254,7 @@ class RankFragment : ParentFragment(), IRankFragment, MainReceiver.BindCallback,
     }
 
     override fun showSnackbar(@Theme theme: Int) {
-        recyclerContainer?.let { snackbarControl.show(it, theme) }
+        recyclerContainer?.let { snackbarControl.show(it, theme, withInsets = false) }
     }
 
     override fun dismissSnackbar() = snackbarControl.dismiss()

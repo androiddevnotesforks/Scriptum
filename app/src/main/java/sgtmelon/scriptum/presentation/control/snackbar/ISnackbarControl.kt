@@ -8,7 +8,7 @@ import sgtmelon.scriptum.domain.model.annotation.Theme
  */
 interface ISnackbarControl {
 
-    fun show(parent: ViewGroup, @Theme theme: Int)
+    fun show(parent: ViewGroup, @Theme theme: Int, withInsets: Boolean)
 
     fun dismiss()
 

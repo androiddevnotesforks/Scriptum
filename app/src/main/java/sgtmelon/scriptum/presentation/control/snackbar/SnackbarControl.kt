@@ -33,7 +33,7 @@ class SnackbarControl(
     }
 
 
-    override fun show(parent: ViewGroup, @Theme theme: Int) {
+    override fun show(parent: ViewGroup, @Theme theme: Int, withInsets: Boolean) {
         /**
          * Need remove callback before dismiss for prevent call [Snackbar.Callback.onDismissed].
          */
@@ -47,9 +47,11 @@ class SnackbarControl(
                 .also { snackbar = it }
                 .show()
 
-        snackbar?.view?.doOnApplyWindowInsets { view, insets, _, margin ->
-            view.updateMargin(InsetsDir.BOTTOM, insets, margin)
-            return@doOnApplyWindowInsets insets
+        if (withInsets) {
+            snackbar?.view?.doOnApplyWindowInsets { view, insets, _, margin ->
+                view.updateMargin(InsetsDir.BOTTOM, insets, margin)
+                return@doOnApplyWindowInsets insets
+            }
         }
     }
 
