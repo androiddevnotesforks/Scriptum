@@ -6,8 +6,7 @@ import androidx.annotation.StringRes
 import com.google.android.material.snackbar.Snackbar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.Theme
-import sgtmelon.scriptum.extension.getCompatColor
-import sgtmelon.scriptum.extension.getCompatDrawable
+import sgtmelon.scriptum.extension.*
 
 /**
  * Class for help control showing snackbar's.
@@ -47,6 +46,11 @@ class SnackbarControl(
                 .setTheme(theme)
                 .also { snackbar = it }
                 .show()
+
+        snackbar?.view?.doOnApplyWindowInsets { view, insets, _, margin ->
+            view.updateMargin(InsetsDir.BOTTOM, insets, margin)
+            return@doOnApplyWindowInsets insets
+        }
     }
 
     /**
