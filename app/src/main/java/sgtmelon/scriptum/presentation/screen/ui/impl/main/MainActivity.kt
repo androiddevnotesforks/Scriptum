@@ -8,6 +8,7 @@ import android.graphics.Rect
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -20,8 +21,7 @@ import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.key.MainPage
 import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.domain.model.state.OpenState
-import sgtmelon.scriptum.extension.hideKeyboard
-import sgtmelon.scriptum.extension.initLazy
+import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.presentation.control.system.AlarmControl
 import sgtmelon.scriptum.presentation.control.system.BindControl
 import sgtmelon.scriptum.presentation.control.toolbar.show.HolderShowControl
@@ -60,7 +60,9 @@ class MainActivity : AppActivity(), IMainActivity {
     private val addDialog by lazy { dialogFactory.getAddDialog() }
 
     private val toolbarHolder by lazy { findViewById<View?>(R.id.main_toolbar_holder) }
+    private val parentContainer by lazy { findViewById<ViewGroup?>(R.id.main_parent_container) }
     private val fab by lazy { findViewById<FloatingActionButton?>(R.id.main_add_fab) }
+    private val menuNavigation by lazy { findViewById<BottomNavigationView>(R.id.main_menu_navigation) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         ScriptumApplication.component.getMainBuilder().set(activity = this).build()
@@ -125,20 +127,16 @@ class MainActivity : AppActivity(), IMainActivity {
             openState.tryInvoke { addDialog.show(fm, DialogFactory.Main.ADD) }
         }
 
-        findViewById<BottomNavigationView>(R.id.main_menu_navigation).apply {
-            val animTime = resources.getInteger(R.integer.fade_anim_time).toLong()
+        val animTime = resources.getInteger(R.integer.fade_anim_time).toLong()
+        menuNavigation?.setOnNavigationItemSelectedListener {
+            return@setOnNavigationItemSelectedListener openState.tryReturnInvoke {
+                openState.block(animTime)
+                viewModel.onSelectItem(it.itemId)
 
-            setOnNavigationItemSelectedListener {
-                return@setOnNavigationItemSelectedListener openState.tryReturnInvoke {
-                    openState.block(animTime)
-                    viewModel.onSelectItem(it.itemId)
-
-                    return@tryReturnInvoke true
-                } ?: false
-            }
-
-            selectedItemId = itemId
+                return@tryReturnInvoke true
+            } ?: false
         }
+        menuNavigation?.selectedItemId = itemId
 
         addDialog.apply {
             itemSelectedListener = NavigationView.OnNavigationItemSelectedListener {
@@ -147,6 +145,14 @@ class MainActivity : AppActivity(), IMainActivity {
                 return@OnNavigationItemSelectedListener true
             }
             dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+        }
+    }
+
+    override fun setupInsets() {
+        parentContainer?.doOnApplyWindowInsets { view, insets, _, margin ->
+            view.updateMargin(InsetsDir.TOP, insets, margin)
+            view.updateMargin(InsetsDir.BOTTOM, insets, margin)
+            return@doOnApplyWindowInsets insets
         }
     }
 

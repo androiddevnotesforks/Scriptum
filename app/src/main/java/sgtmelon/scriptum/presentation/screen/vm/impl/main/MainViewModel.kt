@@ -55,6 +55,7 @@ class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(a
         }
 
         callback?.setupNavigation(pageFrom.getMenuId())
+        callback?.setupInsets()
 
         if (bundle != null) {
             callback?.setFabState(pageFrom.isStartPage())
