@@ -33,6 +33,8 @@ interface IPreferenceFragment : BindControl.NoteBridge.NotifyAll, BindControl.In
 
     fun setupOther()
 
+    fun setupInsets()
+
 
     fun updateThemeSummary(summary: String?)
 

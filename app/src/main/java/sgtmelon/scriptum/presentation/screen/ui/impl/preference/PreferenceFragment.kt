@@ -18,10 +18,7 @@ import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.key.PermissionResult
 import sgtmelon.scriptum.domain.model.state.OpenState
 import sgtmelon.scriptum.domain.model.state.PermissionState
-import sgtmelon.scriptum.extension.initLazy
-import sgtmelon.scriptum.extension.isGranted
-import sgtmelon.scriptum.extension.showToast
-import sgtmelon.scriptum.extension.toUri
+import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.presentation.control.system.BindControl
 import sgtmelon.scriptum.presentation.control.system.MelodyControl
 import sgtmelon.scriptum.presentation.control.system.callback.IMelodyControl
@@ -351,6 +348,15 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
             aboutDialog.clear()
         }
     }
+
+    override fun setupInsets() {
+        listView.clipToPadding = false
+        listView.doOnApplyWindowInsets { view, insets, padding, _ ->
+            view.updatePadding(InsetsDir.BOTTOM, insets, padding)
+            return@doOnApplyWindowInsets insets
+        }
+    }
+
 
 
     override fun updateThemeSummary(summary: String?) {
