@@ -150,12 +150,12 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     }
 
     override fun setNavigationColor(@Theme theme: Int) {
-        window.navigationBarColor = AndroidColor.TRANSPARENT
+        window.navigationBarColor = getColorAttr(R.attr.clNavigationBar)
     }
 
     override fun setNavigationDividerColor(@Theme theme: Int) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            window.navigationBarDividerColor = AndroidColor.TRANSPARENT
+            window.navigationBarDividerColor = getColorAttr(R.attr.clNavigationBarDivider)
         }
     }
 

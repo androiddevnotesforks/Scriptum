@@ -79,7 +79,7 @@
 
         <activity
             android:name="sgtmelon.scriptum.presentation.screen.ui.impl.notification.AlarmActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden"
             android:parentActivityName="sgtmelon.scriptum.presentation.screen.ui.impl.main.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
