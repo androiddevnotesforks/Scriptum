@@ -4,13 +4,13 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.basic.extension.waitAfter
-import sgtmelon.scriptum.presentation.control.toolbar.icon.NavigationIconControlAnim
+import sgtmelon.scriptum.presentation.control.toolbar.icon.NavigationIconControl
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.test.ParentUiTest
 
 /**
- * Test of [NavigationIconControlAnim] animations for [TextNoteFragment], [RollNoteFragment]
+ * Test of [NavigationIconControl] animations for [TextNoteFragment], [RollNoteFragment]
  */
 @RunWith(AndroidJUnit4::class)
 class NoteIconAnimTest : ParentUiTest() {
@@ -142,5 +142,4 @@ class NoteIconAnimTest : ParentUiTest() {
     private companion object {
         const val TIME = 500L
     }
-
 }

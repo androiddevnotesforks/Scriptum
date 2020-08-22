@@ -6,7 +6,6 @@ import org.hamcrest.Description
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.data.ColorData
-import sgtmelon.scriptum.extension.getCompatDrawable
 import sgtmelon.scriptum.extension.setColor
 
 /**
@@ -32,11 +31,10 @@ class ColorIndicatorMatcher(@IdRes resourceId: Int?, @Theme theme: Int, @Color c
         if (resourceId == null) return item.background == null
 
         val context = item.context ?: return false
-        val expected = context.getCompatDrawable(resourceId) ?: return false
+        val expected = context.getDrawable(resourceId) ?: return false
 
         expected.setColor(context, colorItem)
 
         return compare(item.background, expected)
     }
-
 }

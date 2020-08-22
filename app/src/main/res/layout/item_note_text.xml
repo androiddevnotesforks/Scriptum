@@ -14,8 +14,6 @@
     <androidx.cardview.widget.CardView
             android:id="@+id/note_text_parent_card"
             style="@style/Card"
-            app:cardCornerRadius="@dimen/radius_4dp"
-            app:cardUseCompatPadding="false"
             app:noteTheme='@{theme}'
             app:noteColor='@{item.color}'
             tools:cardBackgroundColor="@color/note_green_light">

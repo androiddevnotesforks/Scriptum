@@ -34,12 +34,11 @@
                 android:visibility='@{!isDividerHide ? View.VISIBLE : View.GONE}'/>
 
         <FrameLayout
-                android:id="@+id/note_panel_button_container"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/note_panel_height"
-                android:background="?attr/clPrimary"
-                android:paddingLeft="@dimen/layout_8dp"
-                android:paddingRight="@dimen/layout_8dp">
+            android:id="@+id/note_panel_button_container"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/note_panel_height"
+            android:background="?attr/clPrimary"
+            android:paddingHorizontal="@dimen/layout_8dp">
 
             <LinearLayout
                     android:id="@+id/note_panel_bin_container"

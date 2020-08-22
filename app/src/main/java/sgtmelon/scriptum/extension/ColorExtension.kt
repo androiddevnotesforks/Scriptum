@@ -51,7 +51,7 @@ fun MenuItem.tintIcon(context: Context) {
 }
 
 fun Context.getTintDrawable(@DrawableRes id: Int, @AttrRes tint: Int = R.attr.clContent): Drawable? {
-    val drawable = getCompatDrawable(id) ?: return null
+    val drawable = getDrawable(id) ?: return null
 
     drawable.setColorFilter(getColorAttr(tint), PorterDuff.Mode.SRC_ATOP)
 

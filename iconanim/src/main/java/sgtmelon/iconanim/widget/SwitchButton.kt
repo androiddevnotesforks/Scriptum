@@ -3,24 +3,25 @@ package sgtmelon.iconanim.widget
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.graphics.drawable.AnimatedVectorDrawable
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatImageButton
-import androidx.core.content.ContextCompat
-import sgtmelon.iconanim.IconChangeCallback
+import sgtmelon.iconanim.IconAnimControl
 import sgtmelon.iconanim.IconBlockCallback
+import sgtmelon.iconanim.IconChangeCallback
 import sgtmelon.iconanim.R
 
 /**
  * Button with automatic icon change via [setDrawable]
  */
 open class SwitchButton(
-        context: Context,
-        attrs: AttributeSet
+    context: Context,
+    attrs: AttributeSet
 ) : AppCompatImageButton(context, attrs),
-        IconChangeCallback {
+    IconChangeCallback {
 
     @DrawableRes protected val srcDisable: Int
     @DrawableRes protected val srcSelect: Int
@@ -46,24 +47,48 @@ open class SwitchButton(
     }
 
     private val iconDisable: Drawable? =
-            if (srcDisable != ND_SRC) ContextCompat.getDrawable(context, srcDisable) else null
+            if (srcDisable != ND_SRC) context.getDrawable(srcDisable) else null
 
     private val iconSelect: Drawable? =
-            if (srcSelect != ND_SRC) ContextCompat.getDrawable(context, srcSelect) else null
+            if (srcSelect != ND_SRC) context.getDrawable(srcSelect) else null
+
+    private val iconDisableAnim = if (srcDisableAnim != ND_SRC) {
+        context.getDrawable(srcDisableAnim) as? AnimatedVectorDrawable
+    } else {
+        null
+    }
+
+    private val iconSelectAnim = if (srcSelectAnim != ND_SRC) {
+        context.getDrawable(srcSelectAnim) as? AnimatedVectorDrawable
+    } else {
+        null
+    }
+
+    private val iconAnimControl: IconAnimControl = IconAnimControl(
+        context, iconSelectAnim, iconDisableAnim, changeCallback = this
+    )
 
     init {
         iconDisable?.setColorFilter(srcDisableColor, PorterDuff.Mode.SRC_ATOP)
         iconSelect?.setColorFilter(srcSelectColor, PorterDuff.Mode.SRC_ATOP)
+
+        iconDisableAnim?.setColorFilter(srcDisableColor, PorterDuff.Mode.SRC_ATOP)
+        iconSelectAnim?.setColorFilter(srcSelectColor, PorterDuff.Mode.SRC_ATOP)
     }
 
-    open fun setBlockCallback(blockCallback: IconBlockCallback) {}
+    fun setBlockCallback(blockCallback: IconBlockCallback) {
+        iconAnimControl.blockCallback = blockCallback
+    }
 
     override fun setDrawable(isEnterIcon: Boolean, needAnim: Boolean) {
-        setImageDrawable(if (isEnterIcon) iconSelect else iconDisable)
+        if (needAnim) {
+            setImageDrawable(iconAnimControl.getIcon(isEnterIcon))
+        } else {
+            setImageDrawable(if (isEnterIcon) iconSelect else iconDisable)
+        }
     }
 
     companion object {
         const val ND_SRC = -1
     }
-
 }

@@ -3,13 +3,14 @@ package sgtmelon.scriptum.extension
 import android.content.Context
 import android.content.Intent
 import android.util.TypedValue
-import androidx.annotation.*
+import androidx.annotation.AttrRes
+import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
+import androidx.annotation.DimenRes
 import androidx.core.content.ContextCompat
 import sgtmelon.scriptum.domain.model.data.ReceiverData
 
 fun Context.getCompatColor(@ColorRes id: Int) = let { ContextCompat.getColor(it, id) }
-
-fun Context.getCompatDrawable(@DrawableRes id: Int) = let { ContextCompat.getDrawable(it, id) }
 
 //region Get resource value
 

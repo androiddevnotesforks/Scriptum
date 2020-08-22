@@ -62,9 +62,7 @@ class ToolbarTintControl(
 
     private fun setupColor(@Color color: Int) {
         if (theme != Theme.DARK) {
-            if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
-                window.statusBarColor = getStatusBarColor(theme, color)
-            }
+            window.statusBarColor = getStatusBarColor(theme, color)
 
             toolbar?.setBackgroundColor(getToolbarColor(theme, color))
         }

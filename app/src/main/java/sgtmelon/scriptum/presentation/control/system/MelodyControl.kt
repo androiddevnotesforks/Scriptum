@@ -19,14 +19,11 @@ class MelodyControl(private val context: Context) : IMelodyControl,
 
     private val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as? AudioManager
 
-    private val audioAttributes = if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
+    private val audioAttributes =
         AudioAttributes.Builder()
                 .setUsage(AudioAttributes.USAGE_ALARM)
                 .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
                 .build()
-    } else {
-        null
-    }
 
     private val audioFocusRequest = if (VERSION.SDK_INT >= VERSION_CODES.O) {
         audioAttributes?.let {
@@ -87,11 +84,7 @@ class MelodyControl(private val context: Context) : IMelodyControl,
 
     override fun setupPlayer(uri: Uri, isLooping: Boolean) {
         mediaPlayer = MediaPlayer().apply {
-            if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
-                setAudioAttributes(audioAttributes)
-            } else {
-                setAudioStreamType(AudioManager.STREAM_ALARM)
-            }
+            setAudioAttributes(audioAttributes)
 
             setDataSource(context, uri)
             prepare()

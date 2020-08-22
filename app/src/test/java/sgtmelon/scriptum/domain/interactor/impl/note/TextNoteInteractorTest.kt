@@ -7,7 +7,7 @@ import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
-import sgtmelon.extension.getCalendar
+import sgtmelon.extension.getNewCalendar
 import sgtmelon.extension.getText
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.FastTest
@@ -149,7 +149,7 @@ class TextNoteInteractorTest : ParentInteractorTest() {
 
     @Test fun setDate() = startCoTest {
         val item = data.itemList.filterIsInstance<NoteItem.Text>().random()
-        val calendar = getCalendar()
+        val calendar = getNewCalendar()
 
         interactor.setDate(item, calendar)
 

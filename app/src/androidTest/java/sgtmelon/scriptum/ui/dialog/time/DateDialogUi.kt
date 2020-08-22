@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.ui.dialog.time
 
 import sgtmelon.extension.clearSeconds
-import sgtmelon.extension.getCalendar
+import sgtmelon.extension.getNewCalendar
 import sgtmelon.safedialog.time.DateDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
@@ -30,7 +30,7 @@ class DateDialogUi(
 
     //endregion
 
-    private val calendar = getCalendar().clearSeconds()
+    private val calendar = getNewCalendar().clearSeconds()
 
     fun onDate(day: Int) = apply {
         calendar.add(Calendar.DAY_OF_YEAR, day)

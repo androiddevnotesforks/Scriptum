@@ -29,7 +29,7 @@
 
         <activity
             android:name="sgtmelon.scriptum.presentation.screen.ui.impl.intro.IntroActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden"
             android:parentActivityName="sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity"
             android:theme="@style/App.Intro">
             <intent-filter>
@@ -40,7 +40,6 @@
 
         <activity
             android:name="sgtmelon.scriptum.presentation.screen.ui.impl.main.MainActivity"
-            android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -50,7 +49,6 @@
 
         <activity
             android:name="sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity"
-            android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize"
             android:parentActivityName="sgtmelon.scriptum.presentation.screen.ui.impl.main.MainActivity">
             <intent-filter>
@@ -61,7 +59,7 @@
 
         <activity
             android:name="sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden"
             android:parentActivityName="sgtmelon.scriptum.presentation.screen.ui.impl.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -71,7 +69,7 @@
 
         <activity
             android:name="sgtmelon.scriptum.presentation.screen.ui.impl.notification.NotificationActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden"
             android:parentActivityName="sgtmelon.scriptum.presentation.screen.ui.impl.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -92,7 +90,7 @@
 
         <activity
             android:name="sgtmelon.scriptum.presentation.screen.ui.impl.DevelopActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden"
             android:parentActivityName="sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

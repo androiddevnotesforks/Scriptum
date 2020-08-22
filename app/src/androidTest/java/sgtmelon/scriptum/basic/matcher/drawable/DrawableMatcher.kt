@@ -9,7 +9,6 @@ import androidx.annotation.IdRes
 import org.hamcrest.Description
 import sgtmelon.scriptum.extension.getColorAttr
 import sgtmelon.scriptum.extension.getCompatColor
-import sgtmelon.scriptum.extension.getCompatDrawable
 
 /**
  * Matcher for check android:src which gets with [resourceId].
@@ -29,7 +28,7 @@ class DrawableMatcher(
         if (resourceId == null) return item.drawable == null
 
         val context = item.context ?: return false
-        val expected = context.getCompatDrawable(resourceId) ?: return false
+        val expected = context.getDrawable(resourceId) ?: return false
 
         when {
             colorId != null -> {

@@ -132,7 +132,7 @@ class AlarmInteractorTest : ParentInteractorTest() {
             )
         }
 
-        val currentCalendar = getCalendar().clearSeconds()
+        val currentCalendar = getNewCalendar().clearSeconds()
         val minute = currentCalendar.get(Calendar.MINUTE)
 
         coEvery { alarmRepo.getList() } returns itemList

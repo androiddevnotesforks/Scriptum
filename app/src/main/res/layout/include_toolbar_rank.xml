@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        tools:showIn="@layout/fragment_rank">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="@layout/fragment_rank">
 
     <data>
         <import type="sgtmelon.scriptum.R"/>
@@ -12,77 +12,74 @@
     </data>
 
     <com.google.android.material.appbar.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:elevation="@dimen/elevation_0dp">
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:elevation="@dimen/elevation_8dp"
+        android:stateListAnimator="@null">
 
         <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar_rank_container"
-                style="?attr/styleToolbar"
-                android:paddingLeft="@dimen/layout_8dp"
-                android:paddingRight="@dimen/layout_8dp"
-                app:popupTheme="?attr/themePopup">
+            android:id="@+id/toolbar_rank_container"
+            style="?attr/styleToolbar"
+            app:contentInsetEnd="@dimen/layout_8dp"
+            app:contentInsetStart="@dimen/layout_8dp"
+            app:popupTheme="?attr/themePopup">
 
             <!-- focusable/InTouchMode для отведения фокуса от EditText при скрытии клавиатуры -->
             <androidx.cardview.widget.CardView
-                    android:id="@+id/toolbar_rank_card"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    app:cardBackgroundColor="?attr/clBackgroundEnter"
-                    app:cardCornerRadius="@dimen/radius_8dp"
-                    app:cardUseCompatPadding="false">
+                android:id="@+id/toolbar_rank_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                app:cardBackgroundColor="?attr/clBackgroundEnter"
+                app:cardCornerRadius="@dimen/radius_8dp"
+                app:cardUseCompatPadding="false">
 
                 <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
                     <ImageButton
-                            android:id="@+id/toolbar_rank_clear_button"
-                            style="@style/Button.Small"
-                            android:contentDescription="@string/description_enter_rank_clear"
-                            app:boolExpression='@{isClearEnable}'
-                            app:enabled='@{isClearEnable}'
-                            app:falseColor='@{R.attr.clDisable}'
-                            app:srcCompat="@drawable/ic_cancel_enter"
-                            app:trueColor='@{R.attr.clContent}'
-                            tools:tint="?attr/clDisable"/>
+                        android:id="@+id/toolbar_rank_clear_button"
+                        style="@style/Button.Small"
+                        android:contentDescription="@string/description_enter_rank_clear"
+                        app:boolExpression='@{isClearEnable}'
+                        app:enabled='@{isClearEnable}'
+                        app:falseColor='@{R.attr.clDisable}'
+                        app:srcCompat="@drawable/ic_cancel_enter"
+                        app:trueColor='@{R.attr.clContent}'
+                        tools:tint="?attr/clDisable"/>
 
                     <EditText
-                            android:id="@+id/toolbar_rank_enter"
-                            style="@style/EditText.SingleRow"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:hint="@string/hint_enter_rank_new"
-                            android:imeOptions="flagNoFullscreen|actionDone"
-                            android:importantForAutofill="noExcludeDescendants"
-                            android:inputType="textCapSentences|textAutoCorrect|textAutoComplete"
-                            android:maxLength="@integer/rank_name_max_length"
-                            android:maxLines="1"
-                            tools:targetApi="o"/>
+                        android:id="@+id/toolbar_rank_enter"
+                        style="@style/EditText.SingleRow"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="@string/hint_enter_rank_new"
+                        android:imeOptions="flagNoFullscreen|actionDone"
+                        android:importantForAutofill="noExcludeDescendants"
+                        android:inputType="textCapSentences|textAutoCorrect|textAutoComplete"
+                        android:maxLength="@integer/rank_name_max_length"
+                        android:maxLines="1"
+                        tools:targetApi="o"/>
 
                     <ImageButton
-                            android:id="@+id/toolbar_rank_add_button"
-                            style="@style/Button.Small"
-                            android:contentDescription="@string/description_enter_rank_add"
-                            app:boolExpression='@{isAddEnable}'
-                            app:enabled='@{isAddEnable}'
-                            app:falseColor='@{R.attr.clDisable}'
-                            app:srcCompat="@drawable/ic_rank"
-                            app:trueColor='@{R.attr.clAccent}'
-                            tools:tint="?attr/clAccent"/>
+                        android:id="@+id/toolbar_rank_add_button"
+                        style="@style/Button.Small"
+                        android:contentDescription="@string/description_enter_rank_add"
+                        app:boolExpression='@{isAddEnable}'
+                        app:enabled='@{isAddEnable}'
+                        app:falseColor='@{R.attr.clDisable}'
+                        app:srcCompat="@drawable/ic_rank"
+                        app:trueColor='@{R.attr.clAccent}'
+                        tools:tint="?attr/clAccent"/>
 
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
         </androidx.appcompat.widget.Toolbar>
-
-        <View
-                android:id="@+id/toolbar_rank_divider_view"
-                style="@style/Divider.Horizontal"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 

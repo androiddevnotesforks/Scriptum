@@ -44,9 +44,7 @@ import sgtmelon.scriptum.presentation.control.note.input.watcher.InputTextWatche
 import sgtmelon.scriptum.presentation.control.system.AlarmControl
 import sgtmelon.scriptum.presentation.control.system.BindControl
 import sgtmelon.scriptum.presentation.control.toolbar.icon.NavigationIconControl
-import sgtmelon.scriptum.presentation.control.toolbar.icon.NavigationIconControlAnim
 import sgtmelon.scriptum.presentation.control.toolbar.icon.VisibleIconControl
-import sgtmelon.scriptum.presentation.control.toolbar.icon.VisibleIconControlAnim
 import sgtmelon.scriptum.presentation.control.toolbar.tint.IToolbarTintControl
 import sgtmelon.scriptum.presentation.control.toolbar.tint.ToolbarTintControl
 import sgtmelon.scriptum.presentation.control.touch.RollTouchControl
@@ -225,18 +223,8 @@ class RollNoteFragment : ParentFragment(),
 
         activity?.let {
             toolbarTintControl = ToolbarTintControl(it, it.window, toolbar, indicator, theme, color)
-
-            navigationIconControl = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                NavigationIconControl(it, toolbar)
-            } else {
-                NavigationIconControlAnim(it, toolbar, blockCallback = this)
-            }
-
-            visibleIconControl = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                VisibleIconControl(it, theme, visibleMenuItem)
-            } else {
-                VisibleIconControlAnim(it, theme, visibleMenuItem, blockCallback = this)
-            }
+            navigationIconControl = NavigationIconControl(it, toolbar, callback = this)
+            visibleIconControl = VisibleIconControl(it, theme, visibleMenuItem, callback = this)
         }
 
         toolbar?.setNavigationOnClickListener { viewModel.onClickBackArrow() }

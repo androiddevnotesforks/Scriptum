@@ -1,33 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/rename_parent_container"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/layout_24dp"
-        android:paddingStart="@dimen/layout_24dp"
-        android:paddingTop="@dimen/layout_16dp"
-        android:paddingRight="@dimen/layout_24dp"
-        android:paddingEnd="@dimen/layout_24dp"
-        tools:layout_gravity="center">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rename_parent_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/layout_24dp"
+    android:paddingTop="@dimen/layout_16dp"
+    tools:layout_gravity="center">
 
     <EditText
-            android:id="@+id/rename_enter"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@android:color/transparent"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:hint="@string/hint_enter_rank_rename"
-            android:imeOptions="flagNoFullscreen|actionDone"
-            android:importantForAutofill="noExcludeDescendants"
-            android:inputType="textCapSentences|textAutoCorrect|textAutoComplete"
-            android:maxLength="@integer/rank_name_max_length"
-            android:maxLines="1"
-            android:textSize="@dimen/text_18sp"
-            tools:targetApi="o"/>
+        android:id="@+id/rename_enter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@android:color/transparent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:hint="@string/hint_enter_rank_rename"
+        android:imeOptions="flagNoFullscreen|actionDone"
+        android:importantForAutofill="noExcludeDescendants"
+        android:inputType="textCapSentences|textAutoCorrect|textAutoComplete"
+        android:maxLength="@integer/rank_name_max_length"
+        android:maxLines="1"
+        android:textSize="@dimen/text_18sp"
+        tools:targetApi="o" />
 
 </LinearLayout>

@@ -6,7 +6,10 @@ import androidx.annotation.StringRes
 import com.google.android.material.snackbar.Snackbar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.Theme
-import sgtmelon.scriptum.extension.*
+import sgtmelon.scriptum.extension.InsetsDir
+import sgtmelon.scriptum.extension.doOnApplyWindowInsets
+import sgtmelon.scriptum.extension.getCompatColor
+import sgtmelon.scriptum.extension.updateMargin
 
 /**
  * Class for help control showing snackbar's.
@@ -66,7 +69,7 @@ class SnackbarControl(
 
 
     private fun Snackbar.setTheme(@Theme theme: Int) = apply {
-        val background = view.context.getCompatDrawable(when (theme) {
+        val background = view.context.getDrawable(when (theme) {
             Theme.LIGHT -> R.drawable.bg_snackbar_light
             Theme.DARK -> R.drawable.bg_snackbar_dark
             else -> return@apply

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <dimen name="card_margin_horizontal">@dimen/layout_8dp</dimen>
-    <dimen name="card_margin_vertical">@dimen/layout_4dp</dimen>
-
-    <dimen name="recycler_margin">@dimen/layout_4dp</dimen>
-
-</resources>

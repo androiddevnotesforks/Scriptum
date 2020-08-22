@@ -29,6 +29,16 @@
     <style name="App.Splash" parent="App.Dark.UI">
         <item name="android:windowBackground">@drawable/bg_splash_screen</item>
 
+        <item name="statusBarBackground">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarDividerColor">@android:color/transparent</item>
+    </style>
+
+    <!--  Set colors of system UI not work from XML. This is for best understanding.  -->
+    <style name="App.Intro" parent="App.Splash">
+        <item name="android:windowBackground">?attr/colorPrimaryDark</item>
+
+        <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:navigationBarDividerColor">@android:color/transparent</item>
     </style>

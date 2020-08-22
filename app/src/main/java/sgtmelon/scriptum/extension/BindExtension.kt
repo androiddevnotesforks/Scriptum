@@ -48,7 +48,7 @@ fun ImageView.bindDrawable(@DrawableRes drawableId: Int, @AttrRes color: Int) {
         return
     }
 
-    setImageDrawable(context.getCompatDrawable(drawableId))
+    setImageDrawable(context.getDrawable(drawableId))
     setColorFilter(context.getColorAttr(color))
 }
 

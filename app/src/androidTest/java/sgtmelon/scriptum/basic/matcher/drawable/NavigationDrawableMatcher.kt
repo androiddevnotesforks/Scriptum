@@ -7,7 +7,6 @@ import androidx.annotation.IdRes
 import androidx.appcompat.widget.Toolbar
 import org.hamcrest.Description
 import sgtmelon.scriptum.extension.getColorAttr
-import sgtmelon.scriptum.extension.getCompatDrawable
 
 /**
  * Matcher for check toolbar navigation icon.
@@ -30,7 +29,7 @@ class NavigationDrawableMatcher(
         if (navigationIcon == null) return false
 
         val context = item.context ?: return false
-        val expected = context.getCompatDrawable(resourceId) ?: return false
+        val expected = context.getDrawable(resourceId) ?: return false
 
         if (attrColor != null) {
             expected.setColorFilter(context.getColorAttr(attrColor), PorterDuff.Mode.SRC_ATOP)

@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.ui.part.toolbar
 
-import android.os.Build
 import android.view.inputmethod.EditorInfo
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
@@ -29,7 +28,6 @@ class NoteToolbar<T : ParentUi, N : NoteItem>(
     private val nameScroll = getViewById(R.id.toolbar_note_scroll)
 
     private val colorView = getViewById(R.id.toolbar_note_color_view)
-    private val dividerView = getViewById(R.id.toolbar_note_divider_view)
 
     private val nameText = getViewById(R.id.toolbar_note_text)
     private val nameEnter = getViewById(R.id.toolbar_note_enter)
@@ -105,12 +103,6 @@ class NoteToolbar<T : ParentUi, N : NoteItem>(
 
         colorView.isDisplayed(visible = theme == Theme.DARK) {
             withBackgroundAppColor(theme, color, needDark = true)
-        }
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            dividerView.isDisplayed(visible = theme == Theme.LIGHT) {
-                withSize(heightId = R.dimen.layout_1dp)
-            }.withBackgroundAttr(R.attr.clDivider)
         }
 
         callback.apply {
