@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.extension.InsetsDir
 import sgtmelon.scriptum.extension.doOnApplyWindowInsets
 import sgtmelon.scriptum.extension.getTintDrawable
@@ -48,16 +49,18 @@ class PreferenceActivity : AppActivity() {
 
     private fun setupInsets() {
         parentContainer?.doOnApplyWindowInsets { view, insets, _, margin ->
+            view.updateMargin(InsetsDir.LEFT, insets, margin)
             view.updateMargin(InsetsDir.TOP, insets, margin)
+            view.updateMargin(InsetsDir.RIGHT, insets, margin)
             return@doOnApplyWindowInsets insets
         }
     }
 
-    override fun setNavigationColor(theme: Int) {
+    override fun setNavigationColor(@Theme theme: Int) {
         window.navigationBarColor = Color.TRANSPARENT
     }
 
-    override fun setNavigationDividerColor(theme: Int) {
+    override fun setNavigationDividerColor(@Theme theme: Int) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             window.navigationBarDividerColor = Color.TRANSPARENT
         }

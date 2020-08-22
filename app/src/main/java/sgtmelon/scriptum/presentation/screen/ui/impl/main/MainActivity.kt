@@ -150,7 +150,9 @@ class MainActivity : AppActivity(), IMainActivity {
 
     override fun setupInsets() {
         parentContainer?.doOnApplyWindowInsets { view, insets, _, margin ->
+            view.updateMargin(InsetsDir.LEFT, insets, margin)
             view.updateMargin(InsetsDir.TOP, insets, margin)
+            view.updateMargin(InsetsDir.RIGHT, insets, margin)
             view.updateMargin(InsetsDir.BOTTOM, insets, margin)
             return@doOnApplyWindowInsets insets
         }

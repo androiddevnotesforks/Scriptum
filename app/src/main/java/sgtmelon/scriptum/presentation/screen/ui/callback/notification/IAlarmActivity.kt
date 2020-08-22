@@ -26,6 +26,8 @@ interface IAlarmActivity : IAlarmBridge {
 
     fun setupView(@Theme theme: Int)
 
+    fun setupInsets()
+
     fun setupPlayer(stringUri: String, volume: Int, increase: Boolean)
 
     fun notifyList(item: NoteItem)

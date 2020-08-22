@@ -42,6 +42,7 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.notification.IAlarmView
 import sgtmelon.scriptum.presentation.view.RippleContainer
 import java.util.*
 import javax.inject.Inject
+import android.graphics.Color as AndroidColor
 
 /**
  * Screen with notification opened by timer.
@@ -144,6 +145,20 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         super.onSaveInstanceState(outState.apply { viewModel.onSaveData(bundle = this) })
     }
 
+    override fun setStatusBarColor(@Theme theme: Int) {
+        window.statusBarColor = AndroidColor.TRANSPARENT
+    }
+
+    override fun setNavigationColor(@Theme theme: Int) {
+        window.navigationBarColor = AndroidColor.TRANSPARENT
+    }
+
+    override fun setNavigationDividerColor(@Theme theme: Int) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            window.navigationBarDividerColor = AndroidColor.TRANSPARENT
+        }
+    }
+
 
     override fun acquirePhone(timeout: Long) = powerControl.acquire(timeout)
 
@@ -171,6 +186,21 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
                 return@OnNavigationItemSelectedListener true
             }
             dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+        }
+    }
+
+    /**
+     * This activity not rotatable (don't need setup margin for left and right).
+     */
+    override fun setupInsets() {
+        logoView?.doOnApplyWindowInsets { view, insets, _, margin ->
+            view.updateMargin(InsetsDir.TOP, insets, margin)
+            return@doOnApplyWindowInsets insets
+        }
+
+        buttonContainer?.doOnApplyWindowInsets { view, insets, _, margin ->
+            view.updateMargin(InsetsDir.BOTTOM, insets, margin)
+            return@doOnApplyWindowInsets insets
         }
     }
 

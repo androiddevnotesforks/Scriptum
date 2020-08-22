@@ -60,6 +60,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         callback?.apply {
             acquirePhone(CANCEL_DELAY)
             setupView(interactor.theme)
+            setupInsets()
         }
 
         viewModelScope.launch {

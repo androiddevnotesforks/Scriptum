@@ -23,6 +23,8 @@ class DevelopViewModel(application: Application) : ParentViewModel<IDevelopActiv
 
 
     override fun onSetup(bundle: Bundle?) {
+        callback?.setupInsets()
+
         viewModelScope.launch {
             callback?.apply {
                 fillAboutNoteTable(runBack { interactor.getNoteTablePrint() })

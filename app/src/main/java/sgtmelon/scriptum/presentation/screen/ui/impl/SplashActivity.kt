@@ -2,16 +2,17 @@ package sgtmelon.scriptum.presentation.screen.ui.impl
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.OpenFrom
+import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.data.NoteData
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.extension.beforeFinish
 import sgtmelon.scriptum.extension.hideKeyboard
-import sgtmelon.scriptum.presentation.screen.ui.ParentActivity
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.callback.ISplashActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.intro.IntroActivity
@@ -21,11 +22,12 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.notification.AlarmActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.NotificationActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.ISplashViewModel
 import javax.inject.Inject
+import android.graphics.Color as AndroidColor
 
 /**
  * Start screen of application.
  */
-class SplashActivity : ParentActivity(), ISplashActivity {
+class SplashActivity : AppActivity(), ISplashActivity {
 
     init {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
@@ -51,6 +53,21 @@ class SplashActivity : ParentActivity(), ISplashActivity {
         super.onDestroy()
         viewModel.onDestroy()
     }
+
+    override fun setStatusBarColor(@Theme theme: Int) {
+        window.statusBarColor = AndroidColor.TRANSPARENT
+    }
+
+    override fun setNavigationColor(@Theme theme: Int) {
+        window.navigationBarColor = AndroidColor.TRANSPARENT
+    }
+
+    override fun setNavigationDividerColor(@Theme theme: Int) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            window.navigationBarDividerColor = AndroidColor.TRANSPARENT
+        }
+    }
+
 
     override fun finish() {
         super.finish()

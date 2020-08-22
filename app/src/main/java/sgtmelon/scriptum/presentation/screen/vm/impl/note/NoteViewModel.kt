@@ -40,6 +40,7 @@ class NoteViewModel(application: Application) : ParentViewModel<INoteActivity>(a
         }
 
         callback?.updateHolder(interactor.theme, color)
+        callback?.setupInsets()
     }
 
     override fun onSaveData(bundle: Bundle) = with(bundle) {

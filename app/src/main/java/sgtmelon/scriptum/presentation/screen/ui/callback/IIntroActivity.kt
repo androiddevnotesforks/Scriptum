@@ -10,6 +10,7 @@ interface IIntroActivity {
 
     fun setupViewPager()
 
-    fun startMainActivity()
+    fun setupInsets()
 
+    fun startMainActivity()
 }

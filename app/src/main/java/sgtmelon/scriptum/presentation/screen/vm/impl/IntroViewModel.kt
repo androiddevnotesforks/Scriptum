@@ -21,6 +21,7 @@ class IntroViewModel(application: Application) : ParentViewModel<IIntroActivity>
 
     override fun onSetup(bundle: Bundle?) {
         callback?.setupViewPager()
+        callback?.setupInsets()
     }
 
     override fun onClickEnd() {

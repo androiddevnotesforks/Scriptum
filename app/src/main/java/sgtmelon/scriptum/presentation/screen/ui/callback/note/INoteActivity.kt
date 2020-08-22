@@ -12,6 +12,8 @@ interface INoteActivity {
 
     fun updateHolder(@Theme theme: Int, @Color color: Int)
 
+    fun setupInsets()
+
     /**
      * [checkCache] - find fragment by tag or create new
      */

@@ -42,6 +42,8 @@
     <!--  Set colors of system UI not work from XML. This is for best understanding.  -->
     <style name="App.Light.UI">
         <item name="android:windowBackground">?attr/clBackgroundWindow</item>
+
+        <item name="android:navigationBarColor">?attr/colorPrimaryDark</item>
     </style>
 
     <style name="App.Dark" parent="Theme.AppCompat.NoActionBar">
@@ -79,17 +81,16 @@
     <!--  Set colors of system UI not work from XML. This is for best understanding.  -->
     <style name="App.Dark.UI">
         <item name="android:windowBackground">?attr/clBackgroundWindow</item>
+
+        <item name="android:navigationBarColor">?attr/colorPrimary</item>
     </style>
 
     <style name="App.Splash" parent="App.Dark.UI">
-        <item name="colorPrimaryDark">@color/background_launcher</item>
         <item name="android:windowBackground">@drawable/bg_splash_screen</item>
 
-        <item name="android:navigationBarColor" tools:targetApi="lollipop">
-            ?attr/colorPrimaryDark
-        </item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:navigationBarDividerColor" tools:targetApi="o_mr1">
-            ?attr/colorPrimaryDark
+            @android:color/transparent
         </item>
     </style>
 

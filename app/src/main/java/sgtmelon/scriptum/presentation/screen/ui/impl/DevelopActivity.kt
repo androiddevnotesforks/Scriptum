@@ -2,11 +2,15 @@ package sgtmelon.scriptum.presentation.screen.ui.impl
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.ScrollView
 import android.widget.TextView
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.extension.InsetsDir
+import sgtmelon.scriptum.extension.doOnApplyWindowInsets
+import sgtmelon.scriptum.extension.updateMargin
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.callback.IDevelopActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.intro.IntroActivity
@@ -29,6 +33,7 @@ class DevelopActivity : AppActivity(), IDevelopActivity {
 
     @Inject internal lateinit var viewModel: IDevelopViewModel
 
+    private val parentContainer by lazy { findViewById<ViewGroup>(R.id.develop_parent_container) }
     private val introButton by lazy { findViewById<Button?>(R.id.develop_intro_button) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,6 +51,16 @@ class DevelopActivity : AppActivity(), IDevelopActivity {
     override fun onDestroy() {
         super.onDestroy()
         viewModel.onDestroy()
+    }
+
+    override fun setupInsets() {
+        parentContainer?.doOnApplyWindowInsets { view, insets, _, margin ->
+            view.updateMargin(InsetsDir.LEFT, insets, margin)
+            view.updateMargin(InsetsDir.TOP, insets, margin)
+            view.updateMargin(InsetsDir.RIGHT, insets, margin)
+            view.updateMargin(InsetsDir.BOTTOM, insets, margin)
+            return@doOnApplyWindowInsets insets
+        }
     }
 
     override fun fillAboutNoteTable(data: String) {

@@ -79,20 +79,18 @@ abstract class AppActivity : ParentActivity(), IAppActivity {
     }
 
     override fun changeSystemColor(@Theme theme: Int) {
-        setBackgroundColor(theme)
+        setWindowBackground(theme)
         setStatusBarColor(theme)
         setNavigationColor(theme)
         setNavigationDividerColor(theme)
     }
 
-    protected open fun setBackgroundColor(@Theme theme: Int) {
+    protected open fun setWindowBackground(@Theme theme: Int) {
         window.setBackgroundDrawable(ColorDrawable(getColorAttr(R.attr.clBackgroundWindow)))
     }
 
     protected open fun setStatusBarColor(@Theme theme: Int) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.statusBarColor = getColorAttr(R.attr.colorPrimaryDark)
-        }
+        window.statusBarColor = getColorAttr(R.attr.colorPrimaryDark)
     }
 
     protected open fun setNavigationColor(@Theme theme: Int) {
@@ -107,7 +105,7 @@ abstract class AppActivity : ParentActivity(), IAppActivity {
                     window.navigationBarColor = getColorAttr(R.attr.colorPrimary)
                 }
             }
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP -> {
+            else -> {
                 if (theme == Theme.LIGHT) {
                     window.navigationBarColor = getColorAttr(R.attr.colorPrimaryDark)
                 } else {

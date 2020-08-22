@@ -8,6 +8,8 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.IDevelopViewModel
  */
 interface IDevelopActivity {
 
+    fun setupInsets()
+
     fun fillAboutNoteTable(data: String)
 
     fun fillAboutRollTable(data: String)

@@ -110,11 +110,11 @@ class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallb
         super.onSaveInstanceState(outState.apply { openState.save(bundle = this) })
     }
 
-    override fun setNavigationColor(theme: Int) {
+    override fun setNavigationColor(@Theme theme: Int) {
         window.navigationBarColor = Color.TRANSPARENT
     }
 
-    override fun setNavigationDividerColor(theme: Int) {
+    override fun setNavigationDividerColor(@Theme theme: Int) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             window.navigationBarDividerColor = Color.TRANSPARENT
         }
@@ -152,7 +152,9 @@ class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallb
 
     override fun setupInsets() {
         parentContainer?.doOnApplyWindowInsets { view, insets, _, margin ->
+            view.updateMargin(InsetsDir.LEFT, insets, margin)
             view.updateMargin(InsetsDir.TOP, insets, margin)
+            view.updateMargin(InsetsDir.RIGHT, insets, margin)
             return@doOnApplyWindowInsets insets
         }
 

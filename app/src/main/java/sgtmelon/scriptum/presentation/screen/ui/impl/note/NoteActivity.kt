@@ -13,7 +13,10 @@ import sgtmelon.scriptum.domain.model.data.NoteData
 import sgtmelon.scriptum.domain.model.data.ReceiverData
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.NotificationItem
+import sgtmelon.scriptum.extension.InsetsDir
+import sgtmelon.scriptum.extension.doOnApplyWindowInsets
 import sgtmelon.scriptum.extension.initLazy
+import sgtmelon.scriptum.extension.updateMargin
 import sgtmelon.scriptum.presentation.control.toolbar.show.HolderShowControl
 import sgtmelon.scriptum.presentation.control.toolbar.tint.HolderTintControl
 import sgtmelon.scriptum.presentation.factory.FragmentFactory
@@ -41,6 +44,7 @@ class NoteActivity : AppActivity(), INoteActivity, INoteConnector, NoteReceiver.
 
     private val noteReceiver by lazy { NoteReceiver[this] }
 
+    private val parentContainer by lazy { findViewById<View?>(R.id.note_parent_container) }
     private val toolbarHolder by lazy { findViewById<View?>(R.id.note_toolbar_holder) }
     private val panelHolder by lazy { findViewById<View?>(R.id.note_panel_holder) }
 
@@ -81,6 +85,16 @@ class NoteActivity : AppActivity(), INoteActivity, INoteConnector, NoteReceiver.
 
     override fun updateHolder(@Theme theme: Int, @Color color: Int) {
         holderTintControl.setupColor(theme, color)
+    }
+
+    override fun setupInsets() {
+        parentContainer?.doOnApplyWindowInsets { view, insets, padding, margin ->
+            view.updateMargin(InsetsDir.LEFT, insets, margin)
+            view.updateMargin(InsetsDir.TOP, insets, margin)
+            view.updateMargin(InsetsDir.RIGHT, insets, margin)
+            view.updateMargin(InsetsDir.BOTTOM, insets, margin, withAnimation = true)
+            return@doOnApplyWindowInsets insets
+        }
     }
 
     override fun showTextFragment(id: Long, @Color color: Int, checkCache: Boolean) {

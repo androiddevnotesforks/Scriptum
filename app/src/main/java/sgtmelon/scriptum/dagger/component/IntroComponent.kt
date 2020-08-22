@@ -3,6 +3,7 @@ package sgtmelon.scriptum.dagger.component
 import dagger.BindsInstance
 import dagger.Subcomponent
 import sgtmelon.scriptum.dagger.ActivityScope
+import sgtmelon.scriptum.dagger.module.IntroModule
 import sgtmelon.scriptum.dagger.module.base.InteractorModule
 import sgtmelon.scriptum.dagger.module.base.ViewModelModule
 import sgtmelon.scriptum.presentation.screen.ui.impl.intro.IntroActivity
@@ -13,7 +14,8 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.intro.IntroActivity
 @ActivityScope
 @Subcomponent(modules = [
     InteractorModule::class,
-    ViewModelModule::class
+    ViewModelModule::class,
+    IntroModule::class
 ])
 interface IntroComponent {
 
