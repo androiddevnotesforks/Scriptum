@@ -27,8 +27,7 @@
         <FrameLayout
             android:id="@+id/intro_page_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="@dimen/layout_1dp">
+            android:layout_height="match_parent">
 
             <com.rd.PageIndicatorView
                 android:id="@+id/intro_page_indicator"
@@ -38,6 +37,7 @@
                 app:piv_animationType="worm"
                 app:piv_dynamicCount="true"
                 android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/layout_1dp"
                 app:piv_interactiveAnimation="true"
                 app:piv_selectedColor="?attr/clContent"
                 app:piv_unselectedColor="?attr/clDisable"

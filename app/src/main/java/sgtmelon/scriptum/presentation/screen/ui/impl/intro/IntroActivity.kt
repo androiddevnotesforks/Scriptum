@@ -100,15 +100,15 @@ class IntroActivity : AppActivity(), IIntroActivity, ViewPager.OnPageChangeListe
 
         pageContainer.doOnApplyWindowInsets { view, insets, _, margin ->
             view.updateMargin(InsetsDir.LEFT, insets, margin)
-            view.updateMargin(InsetsDir.BOTTOM, insets, margin)
             view.updateMargin(InsetsDir.RIGHT, insets, margin)
+            view.updateMargin(InsetsDir.BOTTOM, insets, margin)
             return@doOnApplyWindowInsets insets
         }
 
         endButton.doOnApplyWindowInsets { view, insets, _, margin ->
             view.updateMargin(InsetsDir.LEFT, insets, margin)
-            view.updateMargin(InsetsDir.BOTTOM, insets, margin)
             view.updateMargin(InsetsDir.RIGHT, insets, margin)
+            view.updateMargin(InsetsDir.BOTTOM, insets, margin)
             return@doOnApplyWindowInsets insets
         }
     }
