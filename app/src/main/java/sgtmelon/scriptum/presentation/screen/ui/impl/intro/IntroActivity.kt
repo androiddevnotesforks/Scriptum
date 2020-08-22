@@ -16,9 +16,9 @@ import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.data.IntroData
 import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.presentation.adapter.PagerAdapter
+import sgtmelon.scriptum.presentation.screen.ui.ParentActivity
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.callback.IIntroActivity
-import sgtmelon.scriptum.presentation.screen.ui.impl.AppActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.MainActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.IIntroViewModel
 import javax.inject.Inject
@@ -26,7 +26,7 @@ import javax.inject.Inject
 /**
  * Activity with start intro.
  */
-class IntroActivity : AppActivity(), IIntroActivity, ViewPager.OnPageChangeListener {
+class IntroActivity : ParentActivity(), IIntroActivity, ViewPager.OnPageChangeListener {
 
     @Inject internal lateinit var viewModel: IIntroViewModel
 

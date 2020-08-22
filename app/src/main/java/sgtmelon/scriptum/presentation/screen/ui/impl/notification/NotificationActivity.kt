@@ -2,7 +2,7 @@ package sgtmelon.scriptum.presentation.screen.ui.impl.notification
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -111,12 +111,20 @@ class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallb
     }
 
     override fun setNavigationColor(@Theme theme: Int) {
-        window.navigationBarColor = Color.TRANSPARENT
+        if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            window.navigationBarColor = getColorAttr(R.attr.clNavigationBar)
+        } else {
+            super.setNavigationColor(theme)
+        }
     }
 
     override fun setNavigationDividerColor(@Theme theme: Int) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            window.navigationBarDividerColor = Color.TRANSPARENT
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) return
+
+        if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            window.navigationBarDividerColor = getColorAttr(R.attr.clNavigationBarDivider)
+        } else {
+            super.setNavigationDividerColor(theme)
         }
     }
 
