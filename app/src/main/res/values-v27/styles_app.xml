@@ -25,4 +25,12 @@
         <item name="android:navigationBarDividerColor">?attr/clDivider</item>
     </style>
 
+    <!--  Set colors of system UI not work from XML. This is for best understanding.  -->
+    <style name="App.Splash" parent="App.Dark.UI">
+        <item name="android:windowBackground">@drawable/bg_splash_screen</item>
+
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarDividerColor">@android:color/transparent</item>
+    </style>
+
 </resources>

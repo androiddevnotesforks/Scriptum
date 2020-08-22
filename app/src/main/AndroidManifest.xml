@@ -40,6 +40,7 @@
 
         <activity
             android:name="sgtmelon.scriptum.presentation.screen.ui.impl.main.MainActivity"
+            android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -49,6 +50,8 @@
 
         <activity
             android:name="sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="adjustResize"
             android:parentActivityName="sgtmelon.scriptum.presentation.screen.ui.impl.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.EDIT" />
@@ -58,7 +61,7 @@
 
         <activity
             android:name="sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceActivity"
-            android:configChanges="keyboardHidden"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:parentActivityName="sgtmelon.scriptum.presentation.screen.ui.impl.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -68,7 +71,7 @@
 
         <activity
             android:name="sgtmelon.scriptum.presentation.screen.ui.impl.notification.NotificationActivity"
-            android:configChanges="keyboardHidden"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:parentActivityName="sgtmelon.scriptum.presentation.screen.ui.impl.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -89,7 +92,7 @@
 
         <activity
             android:name="sgtmelon.scriptum.presentation.screen.ui.impl.DevelopActivity"
-            android:configChanges="keyboardHidden"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:parentActivityName="sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
