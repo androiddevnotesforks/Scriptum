@@ -42,7 +42,6 @@ class PreferenceViewModel(
             setupNotification()
             setupSave()
             setupOther()
-            setupInsets()
 
             updateThemeSummary(interactor.getThemeSummary())
 

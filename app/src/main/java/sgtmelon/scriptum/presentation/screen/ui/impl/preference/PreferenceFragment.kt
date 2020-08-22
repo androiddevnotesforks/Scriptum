@@ -122,6 +122,8 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
          * It's unnecessary doing inside [onResume], because after first start summary will be set.
          */
         updateMelodySummary(summary = "")
+
+        setupInsets()
     }
 
     override fun onResume() {
@@ -349,7 +351,7 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
         }
     }
 
-    override fun setupInsets() {
+    private fun setupInsets() {
         listView.clipToPadding = false
         listView.doOnApplyWindowInsets { view, insets, padding, _ ->
             view.updatePadding(InsetsDir.BOTTOM, insets, padding)
