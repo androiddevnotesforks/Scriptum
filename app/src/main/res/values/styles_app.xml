@@ -4,6 +4,9 @@
     <style name="App"/>
 
     <style name="App.Light" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="clNavigationBar">@color/navigation_bar_light</item>
+        <item name="clNavigationBarDivider">@color/navigation_bar_divider_light</item>
+
         <item name="clAccent">@color/accent_light</item>
         <item name="clPrimary">@color/primary_light</item>
 
@@ -47,6 +50,9 @@
     </style>
 
     <style name="App.Dark" parent="Theme.AppCompat.NoActionBar">
+        <item name="clNavigationBar">@color/navigation_bar_dark</item>
+        <item name="clNavigationBarDivider">@color/navigation_bar_divider_dark</item>
+
         <item name="clAccent">@color/accent_dark</item>
         <item name="clPrimary">@color/primary_dark</item>
 

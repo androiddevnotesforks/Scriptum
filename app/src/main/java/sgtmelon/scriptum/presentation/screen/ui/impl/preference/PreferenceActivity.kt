@@ -2,17 +2,14 @@ package sgtmelon.scriptum.presentation.screen.ui.impl.preference
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.Theme
-import sgtmelon.scriptum.extension.InsetsDir
-import sgtmelon.scriptum.extension.doOnApplyWindowInsets
-import sgtmelon.scriptum.extension.getTintDrawable
-import sgtmelon.scriptum.extension.updateMargin
+import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.impl.AppActivity
 
@@ -57,12 +54,20 @@ class PreferenceActivity : AppActivity() {
     }
 
     override fun setNavigationColor(@Theme theme: Int) {
-        window.navigationBarColor = Color.TRANSPARENT
+        if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            window.navigationBarColor = getColorAttr(R.attr.clNavigationBar)
+        } else {
+            super.setNavigationColor(theme)
+        }
     }
 
     override fun setNavigationDividerColor(@Theme theme: Int) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            window.navigationBarDividerColor = Color.TRANSPARENT
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) return
+
+        if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            window.navigationBarDividerColor = getColorAttr(R.attr.clNavigationBarDivider)
+        } else {
+            super.setNavigationDividerColor(theme)
         }
     }
 

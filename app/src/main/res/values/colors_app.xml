@@ -4,6 +4,12 @@
     <!--  Color for splash screen.  -->
     <color name="background_launcher">#1C2024</color>
 
+    <color name="navigation_bar_light">#59FFFFFF</color>
+    <color name="navigation_bar_dark">#40000000</color>
+
+    <color name="navigation_bar_divider_light">#73FFFFFF</color>
+    <color name="navigation_bar_divider_dark">#59000000</color>
+
     <!--  Color for create accent on views: fab, button, image, text, etc.  -->
     <color name="accent_light">#039BE5</color>
     <color name="accent_dark">#FB8C00</color>

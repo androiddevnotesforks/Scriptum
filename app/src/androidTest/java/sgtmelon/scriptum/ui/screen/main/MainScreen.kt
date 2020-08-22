@@ -16,6 +16,7 @@ class MainScreen : ParentUi() {
 
     private val parentContainer = getViewById(R.id.main_parent_container)
     private val toolbarHolder = getViewById(R.id.main_toolbar_holder)
+    private val dividerView = getViewById(R.id.main_divider_view)
     private val menuNavigation = getViewById(R.id.main_menu_navigation)
 
     private val rankMenuItem = getViewById(R.id.item_page_rank)
@@ -29,7 +30,7 @@ class MainScreen : ParentUi() {
     private var wasNavigate = false
     private var page = MainPage.NOTES
 
-    fun openPage(page: MainPage, empty: Boolean = false) = when(page) {
+    fun openPage(page: MainPage, empty: Boolean = false) = when (page) {
         MainPage.RANK -> rankScreen(empty)
         MainPage.NOTES -> notesScreen(empty)
         MainPage.BIN -> binScreen(empty)
@@ -42,8 +43,10 @@ class MainScreen : ParentUi() {
         RankScreen(func, empty)
     }
 
-    fun notesScreen(empty: Boolean = false, hide: Boolean = false,
-                    func: NotesScreen.() -> Unit = {}) = apply {
+    fun notesScreen(
+        empty: Boolean = false, hide: Boolean = false,
+        func: NotesScreen.() -> Unit = {}
+    ) = apply {
         if (wasNavigate) onNavigateTo(MainPage.NOTES)
 
         NotesScreen(func, empty, hide)
@@ -86,7 +89,11 @@ class MainScreen : ParentUi() {
         parentContainer.isDisplayed()
 
         toolbarHolder.withBackgroundAttr(R.attr.clPrimary)
-                .withSizeAttr(heightAttr = android.R.attr.actionBarSize)
+            .withSizeAttr(heightAttr = android.R.attr.actionBarSize)
+
+        dividerView.isDisplayed()
+            .withSize(heightId = R.dimen.layout_1dp)
+            .withBackgroundAttr(R.attr.clDivider)
 
         menuNavigation.isDisplayed().withBackgroundAttr(R.attr.clPrimary)
 
@@ -102,7 +109,7 @@ class MainScreen : ParentUi() {
     companion object {
         private const val SCROLL_TIME = 500L
 
-        operator fun invoke(func: MainScreen.() -> Unit) : MainScreen {
+        operator fun invoke(func: MainScreen.() -> Unit): MainScreen {
             return MainScreen().assert(MainPage.NOTES, fabVisible = true).apply(func)
         }
     }
