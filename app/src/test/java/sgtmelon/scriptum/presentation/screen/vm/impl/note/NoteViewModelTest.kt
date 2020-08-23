@@ -68,6 +68,7 @@ class NoteViewModelTest : ParentViewModelTest() {
             interactor.defaultColor
             interactor.theme
             callback.updateHolder(theme, color)
+            callback.setupInsets()
         }
     }
 
@@ -99,6 +100,7 @@ class NoteViewModelTest : ParentViewModelTest() {
             interactor.defaultColor
             interactor.theme
             callback.updateHolder(theme, color)
+            callback.setupInsets()
         }
     }
 
@@ -130,6 +132,7 @@ class NoteViewModelTest : ParentViewModelTest() {
             bundle.getInt(Intent.TYPE, Default.TYPE)
             interactor.theme
             callback.updateHolder(theme, color)
+            callback.setupInsets()
         }
     }
 

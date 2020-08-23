@@ -59,6 +59,7 @@ class MainViewModelTest : ParentViewModelTest() {
             bindInteractor.notifyInfoBind(callback)
 
             callback.setupNavigation(R.id.item_page_notes)
+            callback.setupInsets()
         }
     }
 
@@ -79,15 +80,19 @@ class MainViewModelTest : ParentViewModelTest() {
 
         verifySequence {
             callback.setupNavigation(R.id.item_page_rank)
+            callback.setupInsets()
             callback.setFabState(state = false)
 
             callback.setupNavigation(R.id.item_page_notes)
+            callback.setupInsets()
             callback.setFabState(state = true)
 
             callback.setupNavigation(R.id.item_page_bin)
+            callback.setupInsets()
             callback.setFabState(state = false)
 
             callback.setupNavigation(R.id.item_page_notes)
+            callback.setupInsets()
             callback.setFabState(state = true)
         }
     }

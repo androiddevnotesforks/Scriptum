@@ -108,6 +108,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
                 acquirePhone(AlarmViewModel.CANCEL_DELAY)
                 interactor.theme
                 setupView(theme)
+                setupInsets()
 
                 signalInteractor.getMelodyUri()
                 interactor.volume
@@ -121,6 +122,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
                 acquirePhone(AlarmViewModel.CANCEL_DELAY)
                 interactor.theme
                 setupView(theme)
+                setupInsets()
 
                 signalInteractor.getMelodyUri()
                 interactor.volume
@@ -172,6 +174,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
                     acquirePhone(AlarmViewModel.CANCEL_DELAY)
                     interactor.theme
                     setupView(theme)
+                    setupInsets()
 
                     signalInteractor.getMelodyUri()
                     interactor.volume
@@ -188,6 +191,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
                     acquirePhone(AlarmViewModel.CANCEL_DELAY)
                     interactor.theme
                     setupView(theme)
+                    setupInsets()
 
                     signalInteractor.getMelodyUri()
                     interactor.volume
@@ -227,6 +231,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
                 acquirePhone(AlarmViewModel.CANCEL_DELAY)
                 interactor.theme
                 setupView(Theme.DARK)
+                setupInsets()
 
                 signalInteractor.getMelodyUri()
                 notifyList(noteItem)
@@ -237,6 +242,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
                 acquirePhone(AlarmViewModel.CANCEL_DELAY)
                 interactor.theme
                 setupView(Theme.DARK)
+                setupInsets()
 
                 signalInteractor.getMelodyUri()
                 notifyList(noteItem)

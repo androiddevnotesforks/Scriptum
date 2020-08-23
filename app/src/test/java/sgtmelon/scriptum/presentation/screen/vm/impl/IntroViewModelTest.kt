@@ -38,7 +38,11 @@ class IntroViewModelTest : ParentViewModelTest() {
 
     @Test fun onSetup() {
         viewModel.onSetup()
-        verifySequence { callback.setupViewPager() }
+
+        verifySequence {
+            callback.setupViewPager()
+            callback.setupInsets()
+        }
     }
 
     @Test fun onClickEnd() {

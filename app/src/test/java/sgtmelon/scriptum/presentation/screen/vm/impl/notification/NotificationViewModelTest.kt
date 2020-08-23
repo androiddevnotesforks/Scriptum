@@ -62,6 +62,7 @@ class NotificationViewModelTest : ParentViewModelTest() {
                 callback.setupToolbar()
                 interactor.theme
                 callback.setupRecycler(it)
+                callback.setupInsets()
             }
         }
     }
