@@ -10,6 +10,7 @@ import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NotificationItem
+import sgtmelon.scriptum.extension.runMain
 import sgtmelon.scriptum.presentation.screen.ui.callback.notification.INotificationBridge
 import sgtmelon.scriptum.presentation.screen.vm.callback.notification.INotificationViewModel
 
@@ -43,7 +44,8 @@ class NotificationInteractor(
         val calendar = date.getCalendarOrNull() ?: return null
 
         alarmRepo.insertOrUpdate(noteItem, date)
-        callback?.setAlarm(calendar, id)
+
+        runMain { callback?.setAlarm(calendar, id) }
 
         /**
          * After insert need return item with new id.
@@ -55,7 +57,7 @@ class NotificationInteractor(
         val id = item.note.id
 
         alarmRepo.delete(id)
-        callback?.cancelAlarm(id)
+        runMain { callback?.cancelAlarm(id) }
     }
 
 }

@@ -3,6 +3,7 @@ package sgtmelon.scriptum.presentation.control.system
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import androidx.annotation.MainThread
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.presentation.control.system.callback.IClipboardControl
@@ -30,7 +31,7 @@ class ClipboardControl(private val context: Context?) : IClipboardControl {
      * It's need to get access [ClipboardControl] inside Interactor.
      */
     interface Bridge {
-        fun copyClipboard(text: String)
+        @MainThread fun copyClipboard(text: String)
     }
 
 }

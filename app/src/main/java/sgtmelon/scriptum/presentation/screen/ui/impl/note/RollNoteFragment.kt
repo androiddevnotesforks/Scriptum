@@ -593,9 +593,7 @@ class RollNoteFragment : ParentFragment(),
     }
 
 
-    override fun setAlarm(calendar: Calendar, id: Long) {
-        activity?.runOnUiThread { alarmControl.set(calendar, id) }
-    }
+    override fun setAlarm(calendar: Calendar, id: Long) = alarmControl.set(calendar, id)
 
     override fun cancelAlarm(id: Long) = alarmControl.cancel(id)
 

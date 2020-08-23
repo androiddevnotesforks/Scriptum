@@ -6,6 +6,7 @@ import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.domain.interactor.callback.main.IMainInteractor
 import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
+import sgtmelon.scriptum.extension.runMain
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IMainBridge
 import sgtmelon.scriptum.presentation.screen.vm.callback.main.IMainViewModel
 
@@ -26,10 +27,10 @@ class MainInteractor(
         val id = it.note.id
 
         if (calendar.beforeNow()) {
-            callback?.cancelAlarm(id)
+            runMain { callback?.cancelAlarm(id) }
             alarmRepo.delete(id)
         } else {
-            callback?.setAlarm(calendar, id)
+            runMain { callback?.setAlarm(calendar, id) }
         }
     }
 

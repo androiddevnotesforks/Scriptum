@@ -12,6 +12,7 @@ import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.NotificationItem
+import sgtmelon.scriptum.extension.runMain
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.INotesBridge
 import sgtmelon.scriptum.presentation.screen.vm.callback.main.INotesViewModel
 import java.util.*
@@ -62,7 +63,8 @@ class NotesInteractor(
             is NoteItem.Roll -> noteItem.deepCopy(list = noteRepo.getRollList(noteItem.id))
         }
 
-        callback?.notifyNoteBind(noteMirror, getRankIdVisibleList(), preferenceRepo.sort)
+        val rankIdList = getRankIdVisibleList()
+        runMain { callback?.notifyNoteBind(noteMirror, rankIdList, preferenceRepo.sort) }
     }
 
     override suspend fun convertNote(noteItem: NoteItem): NoteItem {
@@ -71,7 +73,8 @@ class NotesInteractor(
             is NoteItem.Roll -> noteRepo.convertNote(noteItem, useCache = false)
         }
 
-        callback?.notifyNoteBind(noteItem, getRankIdVisibleList(), preferenceRepo.sort)
+        val rankIdList = getRankIdVisibleList()
+        runMain { callback?.notifyNoteBind(noteItem, rankIdList, preferenceRepo.sort) }
 
         /**
          * Optimisation for get only first 4 items
@@ -92,24 +95,29 @@ class NotesInteractor(
 
     override suspend fun clearDate(noteItem: NoteItem) {
         alarmRepo.delete(noteItem.id)
-        callback?.cancelAlarm(noteItem.id)
+        
+        runMain { callback?.cancelAlarm(noteItem.id) }
     }
 
     override suspend fun setDate(noteItem: NoteItem, calendar: Calendar) {
         alarmRepo.insertOrUpdate(noteItem, calendar.getText())
-        callback?.setAlarm(calendar, noteItem.id)
+        
+        runMain { callback?.setAlarm(calendar, noteItem.id) }
     }
 
 
     override suspend fun copy(noteItem: NoteItem) {
-        callback?.copyClipboard(noteRepo.getCopyText(noteItem))
+        val text = noteRepo.getCopyText(noteItem)
+        runMain { callback?.copyClipboard(text) }
     }
 
     override suspend fun deleteNote(noteItem: NoteItem) {
         noteRepo.deleteNote(noteItem)
 
-        callback?.cancelAlarm(noteItem.id)
-        callback?.cancelNoteBind(noteItem.id)
+        runMain {
+            callback?.cancelAlarm(noteItem.id)
+            callback?.cancelNoteBind(noteItem.id)
+        }
     }
 
 

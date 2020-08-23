@@ -213,8 +213,11 @@ class MainActivity : AppActivity(), IMainActivity {
 
     override fun cancelAlarm(id: Long) = alarmControl.cancel(id)
 
-    override fun notifyNoteBind(itemList: List<NoteItem>, rankIdVisibleList: List<Long>,
-                                @Sort sort: Int?) {
+    override fun notifyNoteBind(
+        itemList: List<NoteItem>,
+        rankIdVisibleList: List<Long>,
+        @Sort sort: Int?
+    ) {
         bindControl.notifyNote(itemList, rankIdVisibleList, sort)
     }
 

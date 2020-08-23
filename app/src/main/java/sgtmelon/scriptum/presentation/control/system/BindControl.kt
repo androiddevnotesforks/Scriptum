@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import androidx.annotation.IntDef
+import androidx.annotation.MainThread
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringDef
 import sgtmelon.scriptum.R
@@ -179,16 +180,16 @@ class BindControl(private val context: Context?) : IBindControl {
         interface Full : Notify, Cancel
 
         interface Notify {
-            fun notifyNoteBind(item: NoteItem, rankIdVisibleList: List<Long>, @Sort sort: Int)
+            @MainThread fun notifyNoteBind(item: NoteItem, rankIdVisibleList: List<Long>, @Sort sort: Int)
         }
 
         interface NotifyAll {
-            fun notifyNoteBind(itemList: List<NoteItem>, rankIdVisibleList: List<Long>,
+            @MainThread fun notifyNoteBind(itemList: List<NoteItem>, rankIdVisibleList: List<Long>,
                                @Sort sort: Int? = null)
         }
 
         interface Cancel {
-            fun cancelNoteBind(id: Long)
+            @MainThread fun cancelNoteBind(id: Long)
         }
     }
 

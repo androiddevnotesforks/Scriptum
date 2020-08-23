@@ -11,6 +11,7 @@ import sgtmelon.scriptum.domain.model.annotation.Repeat
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
+import sgtmelon.scriptum.extension.runMain
 import sgtmelon.scriptum.presentation.screen.ui.callback.notification.IAlarmBridge
 import sgtmelon.scriptum.presentation.screen.vm.callback.notification.IAlarmViewModel
 import java.util.*
@@ -55,7 +56,8 @@ class AlarmInteractor(
         checkDateExist(calendar)
         
         alarmRepo.insertOrUpdate(noteItem, calendar.getText())
-        callback?.setAlarm(calendar, noteItem.id)
+
+        runMain { callback?.setAlarm(calendar, noteItem.id) }
     }
 
     @RunPrivate

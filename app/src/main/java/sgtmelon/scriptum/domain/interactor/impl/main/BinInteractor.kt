@@ -7,6 +7,7 @@ import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
+import sgtmelon.scriptum.extension.runMain
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IBinBridge
 import sgtmelon.scriptum.presentation.screen.vm.callback.main.IBinViewModel
 
@@ -37,7 +38,8 @@ class BinInteractor(
     override suspend fun restoreNote(noteItem: NoteItem) = noteRepo.restoreNote(noteItem)
 
     override suspend fun copy(noteItem: NoteItem) {
-        callback?.copyClipboard(noteRepo.getCopyText(noteItem))
+        val text = noteRepo.getCopyText(noteItem)
+        runMain { callback?.copyClipboard(text) }
     }
 
     override suspend fun clearNote(noteItem: NoteItem) = noteRepo.clearNote(noteItem)
