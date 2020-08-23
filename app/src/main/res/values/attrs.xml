@@ -10,6 +10,9 @@
         <!--  Color for create accent on views: fab, button, image, text, etc.  -->
         <attr name="clAccent" format="color" />
 
+        <!--  Color for accent ripple effect on click  -->
+        <attr name="clAccentRipple" format="color" />
+
         <!--  Color for main app views: toolbar, panels, etc.  -->
         <attr name="clPrimary" format="color" />
 

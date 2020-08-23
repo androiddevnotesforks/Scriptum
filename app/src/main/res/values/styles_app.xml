@@ -8,6 +8,8 @@
         <item name="clNavigationBarDivider">@color/navigation_bar_divider_light</item>
 
         <item name="clAccent">@color/accent_light</item>
+        <item name="clAccentRipple">@color/accent_ripple_light</item>
+
         <item name="clPrimary">@color/primary_light</item>
 
         <item name="clDivider">@color/divider_light</item>
@@ -54,6 +56,8 @@
         <item name="clNavigationBarDivider">@color/navigation_bar_divider_dark</item>
 
         <item name="clAccent">@color/accent_dark</item>
+        <item name="clAccentRipple">@color/accent_ripple_dark</item>
+
         <item name="clPrimary">@color/primary_dark</item>
 
         <item name="clDivider">@color/divider_dark</item>

@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.appcompat.widget.Toolbar
-import androidx.transition.AutoTransition
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import sgtmelon.iconanim.IconBlockCallback
@@ -247,9 +246,7 @@ class TextNoteFragment : ParentFragment(),
     override fun onBindingEdit(item: NoteItem.Text, isEditMode: Boolean) {
         panelContainer?.let {
             val time = resources.getInteger(R.integer.fade_anim_time)
-            val transition = AutoTransition()
-                    .setOrdering(AutoTransition.ORDERING_TOGETHER)
-                    .setDuration(time.toLong())
+            val transition = Fade().setDuration(time.toLong())
 
             TransitionManager.beginDelayedTransition(it, transition)
         }

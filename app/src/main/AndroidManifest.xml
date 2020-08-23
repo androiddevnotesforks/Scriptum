@@ -49,7 +49,6 @@
 
         <activity
             android:name="sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity"
-            android:windowSoftInputMode="adjustResize"
             android:parentActivityName="sgtmelon.scriptum.presentation.screen.ui.impl.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.EDIT" />

@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.AutoTransition
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import sgtmelon.iconanim.IconBlockCallback
@@ -390,9 +389,7 @@ class RollNoteFragment : ParentFragment(),
     override fun onBindingEdit(item: NoteItem.Roll, isEditMode: Boolean) {
         panelContainer?.let {
             val time = resources.getInteger(R.integer.fade_anim_time)
-            val transition = AutoTransition()
-                .setOrdering(AutoTransition.ORDERING_TOGETHER)
-                .setDuration(time.toLong())
+            val transition = Fade().setDuration(time.toLong())
 
             TransitionManager.beginDelayedTransition(it, transition)
         }

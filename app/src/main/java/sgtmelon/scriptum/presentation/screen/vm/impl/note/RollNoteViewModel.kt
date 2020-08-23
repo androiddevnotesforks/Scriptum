@@ -388,8 +388,8 @@ class RollNoteViewModel(application: Application) :
 
         callback?.apply {
             setToolbarBackIcon(
-                    isCancel = isEdit && !noteState.isCreate,
-                    needAnim = !noteState.isCreate && iconState.animate
+                isCancel = isEdit && !noteState.isCreate,
+                needAnim = !noteState.isCreate && iconState.animate
             )
 
             onBindingEdit(noteItem, isEdit)

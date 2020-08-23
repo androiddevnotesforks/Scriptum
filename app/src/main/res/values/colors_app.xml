@@ -14,6 +14,9 @@
     <color name="accent_light">#039BE5</color>
     <color name="accent_dark">#FB8C00</color>
 
+    <color name="accent_ripple_light">#33039BE5</color>
+    <color name="accent_ripple_dark">#33FB8C00</color>
+
     <!--  Color for main app views: toolbar, panels, etc.  -->
     <color name="primary_light">#FAFAFA</color>
     <color name="primary_dark">#353535</color>
