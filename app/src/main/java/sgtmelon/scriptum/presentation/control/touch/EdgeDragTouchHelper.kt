@@ -1,14 +1,22 @@
 package sgtmelon.scriptum.presentation.control.touch
 
+import android.animation.AnimatorSet
 import android.graphics.Canvas
+import android.view.animation.AccelerateDecelerateInterpolator
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import sgtmelon.scriptum.R
+import sgtmelon.scriptum.extension.getAlphaAnimator
+import sgtmelon.scriptum.extension.getElevationAnimator
+import sgtmelon.scriptum.extension.getScaleXAnimator
+import sgtmelon.scriptum.extension.getScaleYAnimator
 
 /**
  * Class with custom [onChildDraw], which prevent item dragging outside of recyclerView
  */
 abstract class EdgeDragTouchHelper(
-        private val callback: ParentCallback
+    private val callback: ParentCallback
 ) : ItemTouchHelper.Callback() {
 
     /**
@@ -32,9 +40,21 @@ abstract class EdgeDragTouchHelper(
             movePosition = viewHolder?.adapterPosition ?: RecyclerView.NO_POSITION
 
             /**
-             * Change alpha on drag.
+             * Change alpha and elevation on drag.
              */
-            viewHolder?.itemView?.animate()?.alpha(ALPHA_DRAG_MIN)?.duration = ALPHA_DURATION
+            (viewHolder?.itemView as? CardView)?.also {
+                AnimatorSet().apply {
+                    this.duration = ANIM_DURATION
+                    this.interpolator = AccelerateDecelerateInterpolator()
+
+                    playTogether(
+                        getAlphaAnimator(it, ALPHA_DRAG_MIN),
+                        getScaleXAnimator(it, SCALE_MAX),
+                        getScaleYAnimator(it, SCALE_MAX),
+                        getElevationAnimator(it, R.dimen.elevation_6dp)
+                    )
+                }.start()
+            }
         }
     }
 
@@ -44,9 +64,21 @@ abstract class EdgeDragTouchHelper(
         callback.onTouchAction(inAction = false)
 
         /**
-         * Clear alpha it was changed in drag or swipe.
+         * Clear alpha and elevation, it was changed in drag or swipe.
          */
-        viewHolder.itemView.animate().alpha(ALPHA_DRAG_MAX).duration = ALPHA_DURATION
+        (viewHolder.itemView as? CardView)?.also {
+            AnimatorSet().apply {
+                this.duration = ANIM_DURATION
+                this.interpolator = AccelerateDecelerateInterpolator()
+
+                playTogether(
+                    getAlphaAnimator(it, ALPHA_DRAG_MAX),
+                    getScaleXAnimator(it, SCALE_MIN),
+                    getScaleYAnimator(it, SCALE_MIN),
+                    getElevationAnimator(it, R.dimen.elevation_2dp)
+                )
+            }.start()
+        }
 
         /**
          * Clear position on drag end.
@@ -54,8 +86,10 @@ abstract class EdgeDragTouchHelper(
         movePosition = RecyclerView.NO_POSITION
     }
 
-    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
-                        target: RecyclerView.ViewHolder): Boolean {
+    override fun onMove(
+        recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
+        target: RecyclerView.ViewHolder
+    ): Boolean {
         /**
          * Get position on drag.
          */
@@ -63,12 +97,14 @@ abstract class EdgeDragTouchHelper(
         return false
     }
 
-    override fun onChildDraw(c: Canvas, recyclerView: RecyclerView,
-                             viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float,
-                             actionState: Int, isCurrentlyActive: Boolean) {
+    override fun onChildDraw(
+        c: Canvas, recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float,
+        actionState: Int, isCurrentlyActive: Boolean
+    ) {
         var edgeY = dY
 
-        if(actionState.isDrag()) {
+        if (actionState.isDrag()) {
             val view = viewHolder.itemView
             val pieceHeight = view.height / PIECE_RATIO
 
@@ -105,9 +141,11 @@ abstract class EdgeDragTouchHelper(
     companion object {
         private const val PIECE_RATIO = 1.5f
 
-        private const val ALPHA_DURATION = 200L
+        private const val ANIM_DURATION = 300L
         private const val ALPHA_DRAG_MIN = 0.7f
         private const val ALPHA_DRAG_MAX = 1f
+        private const val SCALE_MIN = 1f
+        private const val SCALE_MAX = 1.02f
 
         protected const val FULL_DRAG = ItemTouchHelper.UP or ItemTouchHelper.DOWN
         protected const val FULL_SWIPE = ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
