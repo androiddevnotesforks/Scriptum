@@ -19,9 +19,9 @@
 
     <string name="description_button_alarm_more">Select alarm repeat</string>
 
-    <string name="description_item_rank_show">Show category with name: </string>
-    <string name="description_item_rank_hide">Hide category with name: </string>
-    <string name="description_item_rank_cancel">Cancel category with name: </string>
+    <string name="description_item_rank_show">Show category with name: %s</string>
+    <string name="description_item_rank_hide">Hide category with name: %s</string>
+    <string name="description_item_rank_cancel">Cancel category with name: %s</string>
 
     <string name="description_item_notification_cancel">Cancel notification with name:</string>
     <string name="description_item_notification_cancel_at">.\nWhich setup at:</string>

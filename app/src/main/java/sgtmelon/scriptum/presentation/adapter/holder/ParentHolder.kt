@@ -8,10 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
  */
 abstract class ParentHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
-    protected fun checkNoPosition(func: () -> Unit): Boolean {
-        if (adapterPosition == RecyclerView.NO_POSITION) return false
+    protected fun checkNoPosition(func: (Int) -> Unit): Boolean {
+        val position = adapterPosition
 
-        func()
+        if (position== RecyclerView.NO_POSITION) return false
+
+        func(position)
         return true
     }
 

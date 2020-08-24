@@ -76,7 +76,7 @@
     <string name="hind_enter_roll_empty">This item will be removed</string>
 
     <!-- Items text -->
-    <string name="list_item_rank_count">Notes:</string>
+    <string name="list_item_rank_count">Notes: %1$d</string>
 
     <!-- Snackbar text -->
     <string name="snackbar_message_rank">Category is removed</string>

@@ -21,15 +21,12 @@ class NoteRollHolder(
 
     init {
         clickView.apply {
-            setOnClickListener { v ->
-                checkNoPosition { clickListener.onItemClick(v, adapterPosition) }
-            }
+            setOnClickListener { v -> checkNoPosition { clickListener.onItemClick(v, it) } }
 
             if (longClickListener == null) return@apply
 
             setOnLongClickListener { v ->
-                checkNoPosition { longClickListener.onItemLongClick(v, adapterPosition) }
-                return@setOnLongClickListener true
+                checkNoPosition { longClickListener.onItemLongClick(v, it) }
             }
         }
     }

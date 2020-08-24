@@ -21,12 +21,9 @@ class NotificationHolder(
     private val cancelButton: ImageButton = itemView.findViewById(R.id.notification_cancel_button)
 
     init {
-        clickView.setOnClickListener { v ->
-            checkNoPosition { clickListener.onItemClick(v, adapterPosition) }
-        }
-
+        clickView.setOnClickListener { v -> checkNoPosition { clickListener.onItemClick(v, it) } }
         cancelButton.setOnClickListener { v ->
-            checkNoPosition { clickListener.onItemClick(v, adapterPosition) }
+            checkNoPosition { clickListener.onItemClick(v, it) }
         }
     }
 

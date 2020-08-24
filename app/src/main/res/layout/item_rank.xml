@@ -1,110 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools">
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rank_parent_card"
+    style="@style/Card"
+    app:cardBackgroundColor="?attr/clBackgroundView">
 
-    <data>
-        <import type="android.view.View"/>
+    <LinearLayout
+        android:id="@+id/rank_click_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:orientation="horizontal"
+        android:padding="@dimen/layout_8dp"
+        android:weightSum="1">
 
-        <variable name="item" type="sgtmelon.scriptum.domain.model.item.RankItem"/>
-    </data>
-
-    <androidx.cardview.widget.CardView
-            android:id="@+id/rank_parent_card"
-            style="@style/Card"
-            app:cardBackgroundColor="?attr/clBackgroundView">
+        <sgtmelon.iconanim.widget.SwitchButton
+            android:id="@+id/rank_visible_button"
+            style="@style/Button.Medium"
+            android:layout_marginStart="@dimen/layout_4dp"
+            android:layout_marginEnd="@dimen/layout_8dp"
+            app:srcDisable="@drawable/ic_visible_exit"
+            app:srcDisableAnim="@drawable/anim_visible_exit"
+            app:srcDisableColor="?attr/clContent"
+            app:srcSelect="@drawable/ic_visible_enter"
+            app:srcSelectAnim="@drawable/anim_visible_enter"
+            app:srcSelectColor="?attr/clAccent"
+            tools:srcCompat="@drawable/ic_visible_enter"
+            tools:tint="@color/accent_dark" />
 
         <LinearLayout
-                android:id="@+id/rank_click_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackground"
-                android:orientation="horizontal"
-                android:padding="@dimen/layout_8dp"
-                android:weightSum="1">
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_4dp"
+            android:layout_marginEnd="@dimen/layout_4dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-            <sgtmelon.iconanim.widget.SwitchButton
-                android:id="@+id/rank_visible_button"
-                style="@style/Button.Medium"
-                android:layout_marginStart="@dimen/layout_4dp"
-                android:layout_marginEnd="@dimen/layout_8dp"
-                android:contentDescription='@{(item.visible ? @string/description_item_rank_hide : @string/description_item_rank_show) + " " + item.name}'
-                app:srcDisable="@drawable/ic_visible_exit"
-                app:srcDisableAnim="@drawable/anim_visible_exit"
-                app:srcDisableColor="?attr/clContent"
-                app:srcSelect="@drawable/ic_visible_enter"
-                app:srcSelectAnim="@drawable/anim_visible_enter"
-                app:srcSelectColor="?attr/clAccent"
-                tools:srcCompat="@drawable/ic_visible_enter"
-                tools:tint="@color/accent_dark"/>
+            <TextView
+                android:id="@+id/rank_name_text"
+                style="@style/Text.SmallCard.Title"
+                tools:text="@string/preview_rank_name" />
 
             <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_4dp"
-                    android:layout_marginEnd="@dimen/layout_4dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                <TextView
-                        android:id="@+id/rank_name_text"
-                        style="@style/Text.SmallCard.Title"
-                        android:text='@{item.name}'
-                        tools:text="@string/preview_rank_name"/>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@drawable/div_space_middle"
+                android:showDividers="middle">
 
                 <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:divider="@drawable/div_space_middle"
-                        android:showDividers="middle">
+                    android:id="@+id/rank_image_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:divider="@drawable/div_space_small"
+                    android:showDividers="middle"
+                    android:visibility="gone"
+                    tools:visibility="visible">
 
-                    <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:divider="@drawable/div_space_small"
-                            android:visibility='@{item.hasNotification || item.hasBind ? View.VISIBLE : View.GONE}'
-                            android:showDividers="middle">
+                    <ImageView
+                        android:id="@+id/rank_notification_image"
+                        style="@style/Image.Rank"
+                        android:importantForAccessibility="no"
+                        android:visibility="gone"
+                        app:srcCompat="@drawable/ic_notifications"
+                        tools:visibility="visible" />
 
-                        <ImageView
-                                android:id="@+id/rank_notification_image"
-                                style="@style/Image.Rank"
-                                android:importantForAccessibility="no"
-                                android:visibility='@{item.hasNotification ? View.VISIBLE : View.GONE}'
-                                app:srcCompat="@drawable/ic_notifications"
-                                tools:visibility="visible"/>
-
-                        <ImageView
-                                android:id="@+id/rank_bind_image"
-                                style="@style/Image.Rank"
-                                android:importantForAccessibility="no"
-                                android:visibility='@{item.hasBind ? View.VISIBLE : View.GONE}'
-                                app:srcCompat="@drawable/ic_bind_text"
-                                tools:visibility="visible"/>
-
-                    </LinearLayout>
-
-                    <TextView
-                            android:id="@+id/rank_text_count_text"
-                            style="@style/Text.SmallCard.Subtitle"
-                            android:text='@{@string/list_item_rank_count + " " + item.noteId.size()}'
-                            tools:text="@string/preview_rank_count"/>
+                    <ImageView
+                        android:id="@+id/rank_bind_image"
+                        style="@style/Image.Rank"
+                        android:importantForAccessibility="no"
+                        android:visibility="gone"
+                        app:srcCompat="@drawable/ic_bind_text"
+                        tools:visibility="visible" />
 
                 </LinearLayout>
 
-            </LinearLayout>
+                <TextView
+                    android:id="@+id/rank_text_count_text"
+                    style="@style/Text.SmallCard.Subtitle"
+                    tools:text="@string/preview_rank_count" />
 
-            <ImageButton
-                    android:id="@+id/rank_cancel_button"
-                    style="@style/Button.Medium"
-                    android:layout_marginStart="@dimen/layout_8dp"
-                    android:layout_marginEnd="@dimen/layout_4dp"
-                    android:contentDescription='@{@string/description_item_rank_cancel + " " + item.name}'
-                    android:tint="?attr/clContent"
-                    app:srcCompat="@drawable/ic_cancel_enter"/>
+            </LinearLayout>
 
         </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
+        <ImageButton
+            android:id="@+id/rank_cancel_button"
+            style="@style/Button.Medium"
+            android:layout_marginStart="@dimen/layout_8dp"
+            android:layout_marginEnd="@dimen/layout_4dp"
+            android:contentDescription="@null"
+            android:tint="?attr/clContent"
+            app:srcCompat="@drawable/ic_cancel_enter" />
 
-</layout>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

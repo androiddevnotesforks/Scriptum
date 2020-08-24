@@ -25,17 +25,11 @@ class RollReadHolder(
     private val rollCheck: CheckBox = itemView.findViewById(R.id.roll_read_check)
 
     init {
-        clickView.apply {
-            setOnClickListener {
-                checkNoPosition {
-                    clickListener.onItemClick(it, adapterPosition) { rollCheck.toggle() }
-                }
-            }
-
-            setOnLongClickListener {
-                checkNoPosition { longClickListener.onItemLongClick(it, adapterPosition) }
-                return@setOnLongClickListener true
-            }
+        clickView.setOnClickListener { v ->
+            checkNoPosition { clickListener.onItemClick(v, it) { rollCheck.toggle() } }
+        }
+        clickView.setOnLongClickListener { v ->
+            checkNoPosition { longClickListener.onItemLongClick(v, it) }
         }
     }
 

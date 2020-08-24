@@ -61,7 +61,7 @@
     <string name="hind_enter_roll_empty">Этот пункт будет удалён</string>
 
     <!-- Items text -->
-    <string name="list_item_rank_count">Заметок:</string>
+    <string name="list_item_rank_count">Заметок: %1$d</string>
 
     <!-- Snackbar text -->
     <string name="snackbar_message_rank">Категория удалена</string>

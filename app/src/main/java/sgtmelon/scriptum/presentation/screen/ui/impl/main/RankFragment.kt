@@ -312,7 +312,7 @@ class RankFragment : ParentFragment(), IRankFragment, MainReceiver.BindCallback,
     override fun notifyList(list: List<RankItem>) = adapter.notifyList(list)
 
     override fun notifyDataSetChanged(list: List<RankItem>, startAnim: BooleanArray) {
-        adapter.setList(list).apply { this.startAnim = startAnim }.notifyDataSetChanged()
+        adapter.setList(list).apply { this.startAnimArray = startAnim }.notifyDataSetChanged()
 
         /**
          * If don't have animation, when [OpenState.value] set in [IconBlockCallback]

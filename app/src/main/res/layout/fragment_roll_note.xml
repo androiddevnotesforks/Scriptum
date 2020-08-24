@@ -81,7 +81,7 @@
                 style="@style/RecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility='@{isDataLoad ? View.VISIBLE : View.GONE}'
+                android:visibility='@{isDataLoad ? View.VISIBLE : View.INVISIBLE}'
                 tools:itemCount="3"
                 tools:listitem="@layout/item_roll_write" />
 
