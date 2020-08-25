@@ -5,7 +5,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.extension.clearAdd
-import sgtmelon.scriptum.extension.inflateBinding
+import sgtmelon.scriptum.extension.inflateView
 import sgtmelon.scriptum.presentation.adapter.diff.NotificationDiff
 import sgtmelon.scriptum.presentation.adapter.holder.NotificationHolder
 import sgtmelon.scriptum.presentation.listener.ItemListener
@@ -19,7 +19,6 @@ class NotificationAdapter(private val clickListener: ItemListener.Click) :
 
     @Theme var theme: Int = Theme.UNDEFINED
 
-
     override val diff = NotificationDiff()
 
     override fun setList(list: List<NotificationItem>) = apply {
@@ -27,13 +26,12 @@ class NotificationAdapter(private val clickListener: ItemListener.Click) :
         this.list.clearAdd(ArrayList(list.map { it.copy() }))
     }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationHolder {
-        return NotificationHolder(parent.inflateBinding(R.layout.item_notification), clickListener)
+        return NotificationHolder(parent.inflateView(R.layout.item_notification), clickListener)
     }
 
     override fun onBindViewHolder(holder: NotificationHolder, position: Int) {
-        holder.bind(theme, list[position])
+        val item = list.getOrNull(position) ?: return
+        holder.bind(item, theme)
     }
-
 }

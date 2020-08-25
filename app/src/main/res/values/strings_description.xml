@@ -23,8 +23,9 @@
     <string name="description_item_rank_hide">Hide category with name: %s</string>
     <string name="description_item_rank_cancel">Cancel category with name: %s</string>
 
-    <string name="description_item_notification_cancel">Cancel notification with name:</string>
-    <string name="description_item_notification_cancel_at">.\nWhich setup at:</string>
+    <string name="description_item_notification_cancel">
+        Cancel notification with name: %s.\nWhich setup at: %s
+    </string>
 
     <string name="description_item_roll_check">Check item with text:</string>
     <string name="description_item_roll_uncheck">Uncheck item with text:</string>
