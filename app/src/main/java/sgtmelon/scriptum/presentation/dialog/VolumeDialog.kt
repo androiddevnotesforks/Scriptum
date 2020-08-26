@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.annotation.IntRange
 import androidx.appcompat.app.AlertDialog
 import sgtmelon.safedialog.BlankDialog
+import sgtmelon.safedialog.applyAnimation
 import sgtmelon.scriptum.R
 
 class VolumeDialog : BlankDialog(), SeekBar.OnSeekBarChangeListener {
@@ -31,12 +32,13 @@ class VolumeDialog : BlankDialog(), SeekBar.OnSeekBarChangeListener {
         progress = savedInstanceState?.getInt(VALUE) ?: arguments?.getInt(VALUE) ?: 0
 
         return AlertDialog.Builder(context as Context)
-                .setTitle(title)
-                .setView(R.layout.view_volume)
-                .setPositiveButton(getString(R.string.dialog_button_apply), onPositiveClick)
-                .setNegativeButton(getString(R.string.dialog_button_cancel)) { dialog, _ -> dialog.cancel() }
-                .setCancelable(true)
-                .create()
+            .setTitle(title)
+            .setView(R.layout.view_volume)
+            .setPositiveButton(getString(R.string.dialog_button_apply), onPositiveClick)
+            .setNegativeButton(getString(R.string.dialog_button_cancel)) { dialog, _ -> dialog.cancel() }
+            .setCancelable(true)
+            .create()
+            .applyAnimation()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

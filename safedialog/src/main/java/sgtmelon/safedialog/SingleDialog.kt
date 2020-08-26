@@ -39,16 +39,17 @@ class SingleDialog : BlankDialog() {
         check = savedInstanceState?.getInt(VALUE) ?: arguments?.getInt(VALUE) ?: 0
 
         return AlertDialog.Builder(context as Context)
-                .setTitle(title)
-                .setSingleChoiceItems(itemArray, check) { _, i ->
-                    itemListener?.onClick(dialog, i)
-                    check = i
-                    setEnable()
-                }
-                .setPositiveButton(getString(R.string.dialog_button_apply), onPositiveClick)
-                .setNegativeButton(getString(R.string.dialog_button_cancel)) { dialog, _ -> dialog.cancel() }
-                .setCancelable(true)
-                .create()
+            .setTitle(title)
+            .setSingleChoiceItems(itemArray, check) { _, i ->
+                itemListener?.onClick(dialog, i)
+                check = i
+                setEnable()
+            }
+            .setPositiveButton(getString(R.string.dialog_button_apply), onPositiveClick)
+            .setNegativeButton(getString(R.string.dialog_button_cancel)) { dialog, _ -> dialog.cancel() }
+            .setCancelable(true)
+            .create()
+            .applyAnimation()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

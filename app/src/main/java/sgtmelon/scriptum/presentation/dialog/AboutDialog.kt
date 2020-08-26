@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import sgtmelon.safedialog.BlankDialog
+import sgtmelon.safedialog.applyAnimation
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 
@@ -25,9 +26,10 @@ class AboutDialog : BlankDialog(), View.OnClickListener {
         savedInstanceState?.also { click = it.getInt(VALUE) }
 
         return AlertDialog.Builder(context as Context)
-                .setView(R.layout.view_about)
-                .setCancelable(true)
-                .create()
+            .setView(R.layout.view_about)
+            .setCancelable(true)
+            .create()
+            .applyAnimation()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

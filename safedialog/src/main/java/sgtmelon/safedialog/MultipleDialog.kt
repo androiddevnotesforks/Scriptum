@@ -4,8 +4,6 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
-import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * Dialog for multiply check choice
@@ -38,15 +36,16 @@ class MultipleDialog : BlankDialog() {
                 ?: arguments?.getBooleanArray(VALUE) ?: BooleanArray(size = 0)
 
         return AlertDialog.Builder(context as Context)
-                .setTitle(title)
-                .setMultiChoiceItems(itemList.toTypedArray(), check) { _, which, isChecked ->
-                    check[which] = isChecked
-                    setEnable()
-                }
-                .setPositiveButton(getString(R.string.dialog_button_apply), onPositiveClick)
-                .setNegativeButton(getString(R.string.dialog_button_cancel)) { dialog, _ -> dialog.cancel() }
-                .setCancelable(true)
-                .create()
+            .setTitle(title)
+            .setMultiChoiceItems(itemList.toTypedArray(), check) { _, which, isChecked ->
+                check[which] = isChecked
+                setEnable()
+            }
+            .setPositiveButton(getString(R.string.dialog_button_apply), onPositiveClick)
+            .setNegativeButton(getString(R.string.dialog_button_cancel)) { dialog, _ -> dialog.cancel() }
+            .setCancelable(true)
+            .create()
+            .applyAnimation()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

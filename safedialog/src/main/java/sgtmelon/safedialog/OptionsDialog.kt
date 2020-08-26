@@ -44,9 +44,10 @@ class OptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
                 ?: arguments?.getInt(VALUE) ?: 0
 
         return AlertDialog.Builder(context as Context)
-                .setItems(itemList.toTypedArray(), this)
-                .setCancelable(true)
-                .create()
+            .setItems(itemList.toTypedArray(), this)
+            .setCancelable(true)
+            .create()
+            .applyAnimation()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -64,5 +65,4 @@ class OptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
     override fun onClick(dialogInterface: DialogInterface, i: Int) {
         itemListener?.onClick(dialogInterface, i)
     }
-
 }

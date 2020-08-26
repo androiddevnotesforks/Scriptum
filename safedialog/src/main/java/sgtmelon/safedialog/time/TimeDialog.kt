@@ -10,6 +10,7 @@ import sgtmelon.extension.clearSeconds
 import sgtmelon.extension.getText
 import sgtmelon.extension.is24Format
 import sgtmelon.safedialog.BuildConfig
+import sgtmelon.safedialog.applyAnimation
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -29,8 +30,10 @@ class TimeDialog : DateTimeBlankDialog(), ITimeDialog {
     /**
      * Call before [show]
      */
-    fun setArguments(calendar: Calendar, dateList: List<String>,
-                     p: Int = ND_POSITION) = apply {
+    fun setArguments(
+        calendar: Calendar, dateList: List<String>,
+        p: Int = ND_POSITION
+    ) = apply {
         arguments = Bundle().apply {
             putLong(INIT, calendar.clearSeconds().timeInMillis)
             putStringArrayList(VALUE, ArrayList(dateList))
@@ -58,10 +61,10 @@ class TimeDialog : DateTimeBlankDialog(), ITimeDialog {
         }
 
         return GoodTimePickerDialog(context as Context, this, changeListener,
-                calendar.get(Calendar.HOUR_OF_DAY),
-                calendar.get(Calendar.MINUTE),
-                context.is24Format()
-        )
+            calendar.get(Calendar.HOUR_OF_DAY),
+            calendar.get(Calendar.MINUTE),
+            context.is24Format()
+        ).applyAnimation()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -84,8 +87,8 @@ class TimeDialog : DateTimeBlankDialog(), ITimeDialog {
     override fun updateTime(calendar: Calendar) {
         activity?.runOnUiThread {
             (dialog as? TimePickerDialog)?.updateTime(
-                    calendar.get(Calendar.HOUR_OF_DAY),
-                    calendar.get(Calendar.MINUTE)
+                calendar.get(Calendar.HOUR_OF_DAY),
+                calendar.get(Calendar.MINUTE)
             )
         }
     }
@@ -97,7 +100,7 @@ class TimeDialog : DateTimeBlankDialog(), ITimeDialog {
         /**
          * TODO #TEST write unit test
          */
-        fun getPositiveEnabled(calendar: Calendar, dateList: List<String>) : Boolean{
+        fun getPositiveEnabled(calendar: Calendar, dateList: List<String>): Boolean {
             return calendar.afterNow() && !dateList.contains(calendar.getText())
         }
     }

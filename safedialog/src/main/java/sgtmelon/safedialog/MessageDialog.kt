@@ -12,19 +12,20 @@ class MessageDialog : BlankDialog() {
 
     @MessageType var type: Int = MessageType.INFO
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
-            AlertDialog.Builder(context as Context)
-                .setTitle(title)
-                .setMessage(message)
-                .apply {
-                    if (type == MessageType.INFO) {
-                        setPositiveButton(getString(R.string.dialog_button_ok), onPositiveClick)
-                    } else {
-                        setPositiveButton(getString(R.string.dialog_button_yes), onPositiveClick)
-                        setNegativeButton(getString(R.string.dialog_button_no)) { dialog, _ -> dialog.cancel() }
-                    }
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        return AlertDialog.Builder(context as Context)
+            .setTitle(title)
+            .setMessage(message)
+            .apply {
+                if (type == MessageType.INFO) {
+                    setPositiveButton(getString(R.string.dialog_button_ok), onPositiveClick)
+                } else {
+                    setPositiveButton(getString(R.string.dialog_button_yes), onPositiveClick)
+                    setNegativeButton(getString(R.string.dialog_button_no)) { dialog, _ -> dialog.cancel() }
                 }
-                .setCancelable(true)
-                .create()
-
+            }
+            .setCancelable(true)
+            .create()
+            .applyAnimation()
+    }
 }

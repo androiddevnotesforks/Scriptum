@@ -10,6 +10,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import sgtmelon.safedialog.BlankDialog
+import sgtmelon.safedialog.applyAnimation
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.addTextChangedListener
 import sgtmelon.scriptum.extension.clearSpace
@@ -43,13 +44,14 @@ class RenameDialog : BlankDialog(), TextView.OnEditorActionListener {
                 ?: arguments?.getStringArrayList(VALUE) ?: ArrayList()
 
         return AlertDialog.Builder(context as Context)
-                .setTitle(title)
-                .setView(R.layout.view_rename)
-                .setPositiveButton(getString(R.string.dialog_button_apply), onPositiveClick)
-                .setNegativeButton(getString(R.string.dialog_button_cancel)) { dialog, _ -> dialog.cancel() }
-                .setCancelable(true)
-                .create()
-                .apply { window?.setSoftInputMode(SOFT_INPUT_STATE_VISIBLE) }
+            .setTitle(title)
+            .setView(R.layout.view_rename)
+            .setPositiveButton(getString(R.string.dialog_button_apply), onPositiveClick)
+            .setNegativeButton(getString(R.string.dialog_button_cancel)) { dialog, _ -> dialog.cancel() }
+            .setCancelable(true)
+            .create()
+            .apply { window?.setSoftInputMode(SOFT_INPUT_STATE_VISIBLE) }
+            .applyAnimation()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

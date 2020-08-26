@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import sgtmelon.safedialog.BlankDialog
+import sgtmelon.safedialog.applyAnimation
 import sgtmelon.scriptum.R
 
 /**
@@ -14,9 +15,9 @@ class LoadingDialog : BlankDialog() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return AlertDialog.Builder(context as Context)
-                .setView(R.layout.view_loading)
-                .setCancelable(false)
-                .create()
+            .setView(R.layout.view_loading)
+            .setCancelable(false)
+            .create()
+            .applyAnimation()
     }
-
 }

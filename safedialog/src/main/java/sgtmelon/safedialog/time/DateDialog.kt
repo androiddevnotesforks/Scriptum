@@ -10,6 +10,7 @@ import androidx.annotation.VisibleForTesting
 import sgtmelon.extension.clearSeconds
 import sgtmelon.safedialog.BuildConfig
 import sgtmelon.safedialog.R
+import sgtmelon.safedialog.applyAnimation
 import java.util.*
 
 /**
@@ -30,8 +31,10 @@ class DateDialog : DateTimeBlankDialog(), IDateDialog {
     /**
      * Call before [show]
      */
-    fun setArguments(calendar: Calendar, neutralVisible: Boolean,
-                     p: Int = ND_POSITION) = apply {
+    fun setArguments(
+        calendar: Calendar, neutralVisible: Boolean,
+        p: Int = ND_POSITION
+    ) = apply {
         arguments = Bundle().apply {
             putLong(INIT, calendar.clearSeconds().timeInMillis)
             putBoolean(VALUE, neutralVisible)
@@ -52,14 +55,13 @@ class DateDialog : DateTimeBlankDialog(), IDateDialog {
                 ?: arguments?.getInt(POSITION) ?: ND_POSITION
 
         return DatePickerDialog(context as Context, this,
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
         ).apply {
             datePicker.minDate = defaultTime
-
             setButton(DialogInterface.BUTTON_NEUTRAL, getString(R.string.dialog_button_reset), neutralListener)
-        }
+        }.applyAnimation()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -78,9 +80,9 @@ class DateDialog : DateTimeBlankDialog(), IDateDialog {
     override fun updateDate(calendar: Calendar) {
         activity?.runOnUiThread {
             (dialog as? DatePickerDialog)?.updateDate(
-                    calendar.get(Calendar.YEAR),
-                    calendar.get(Calendar.MONTH),
-                    calendar.get(Calendar.DAY_OF_MONTH)
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
             )
         }
     }

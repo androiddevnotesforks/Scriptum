@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import sgtmelon.safedialog.BlankDialog
+import sgtmelon.safedialog.applyAnimation
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Theme
@@ -63,12 +64,13 @@ class ColorDialog : BlankDialog() {
         }
 
         return AlertDialog.Builder(context)
-                .setTitle(title)
-                .setView(recyclerView)
-                .setPositiveButton(getString(R.string.dialog_button_apply), onPositiveClick)
-                .setNegativeButton(getString(R.string.dialog_button_cancel)) { dialog, _ -> dialog.cancel() }
-                .setCancelable(true)
-                .create()
+            .setTitle(title)
+            .setView(recyclerView)
+            .setPositiveButton(getString(R.string.dialog_button_apply), onPositiveClick)
+            .setNegativeButton(getString(R.string.dialog_button_cancel)) { dialog, _ -> dialog.cancel() }
+            .setCancelable(true)
+            .create()
+            .applyAnimation()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
