@@ -1,57 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="sgtmelon.scriptum.R"/>
-        <import type="android.view.View"/>
 
-        <variable name="isListEmpty" type="boolean"/>
+        <import type="sgtmelon.scriptum.R" />
 
-        <variable name="isClearEnable" type="boolean"/>
-        <variable name="isAddEnable" type="boolean"/>
+        <import type="android.view.View" />
+
+        <variable
+            name="isClearEnable"
+            type="boolean" />
+
+        <variable
+            name="isAddEnable"
+            type="boolean" />
     </data>
 
     <LinearLayout
-            android:id="@+id/rank_parent_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+        android:id="@+id/rank_parent_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <include layout="@layout/include_toolbar_rank"
-                 app:isAddEnable='@{isAddEnable}'
-                 app:isClearEnable='@{isClearEnable}'/>
+        <include
+            layout="@layout/include_toolbar_rank"
+            app:isAddEnable='@{isAddEnable}'
+            app:isClearEnable='@{isClearEnable}' />
 
         <!-- Container for good performance on ItemTouchHelper.ACTION_STATE_DRAG over top bound. -->
-        <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <include
-                    android:id="@+id/rank_info_include"
-                    layout="@layout/include_info"
-                    app:details='@{R.string.info_rank_empty_details}'
-                    app:icon='@{R.mipmap.img_info_rank}'
-                    app:title='@{R.string.info_rank_empty_title}'/>
+                android:id="@+id/rank_info_include"
+                layout="@layout/include_info"
+                app:details='@{R.string.info_rank_empty_details}'
+                app:icon='@{R.mipmap.img_info_rank}'
+                app:title='@{R.string.info_rank_empty_title}' />
 
             <ProgressBar
-                    android:id="@+id/rank_progress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"/>
+                android:id="@+id/rank_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
 
             <androidx.coordinatorlayout.widget.CoordinatorLayout
-                    android:id="@+id/rank_recycler_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                android:id="@+id/rank_recycler_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
                 <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rank_recycler"
-                        style="@style/RecyclerView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:visibility='@{!isListEmpty ? View.VISIBLE : View.GONE}'
-                        tools:itemCount="3"
-                        tools:listitem="@layout/item_rank"/>
+                    android:id="@+id/rank_recycler"
+                    style="@style/RecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="invisible"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_rank"
+                    tools:visibility="visible" />
 
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
-import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
@@ -162,10 +161,7 @@ class NotesFragment : ParentFragment(),
 
         recyclerView = view?.findViewById(R.id.notes_recycler)
         recyclerView?.let {
-            it.itemAnimator = object : DefaultItemAnimator() {
-                override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) = onBindingList()
-            }
-
+            it.setDefaultAnimator { onBindingList() }
             it.setHasFixedSize(true)
             it.layoutManager = LinearLayoutManager(context)
             it.adapter = adapter
@@ -235,18 +231,20 @@ class NotesFragment : ParentFragment(),
     override fun onBindingList() {
         progressBar?.visibility = View.GONE
 
-        val isListEmpty = adapter.itemCount == 0
-
         /**
-         * Use time equal 0
-         *
-         * Because you on another screen and restore item to that screen, after return you will
-         * cause [onBindingList]. Zero time need for best performance, without freeze
+         * Case without animation need for best performance, without freeze. Because changes
+         * on other screens may cause [onBindingList].
          */
-        val durationId = if (isListEmpty) R.integer.info_fade_time else R.integer.info_skip_time
-        parentContainer?.createVisibleAnim(emptyInfoView, isListEmpty, durationId)
+        if (adapter.itemCount == 0) {
+            emptyInfoView?.visibility = View.VISIBLE
+            recyclerView?.visibility = View.INVISIBLE
 
-        binding?.apply { this.isListEmpty = isListEmpty }?.executePendingBindings()
+            emptyInfoView?.alpha = 0f
+            emptyInfoView?.animateAlpha(isVisible = true)
+        } else {
+            emptyInfoView?.visibility = View.GONE
+            recyclerView?.visibility = View.VISIBLE
+        }
     }
 
     override fun scrollTop() {

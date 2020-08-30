@@ -1,47 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="sgtmelon.scriptum.R"/>
-        <import type="android.view.View"/>
 
-        <variable name="isListEmpty" type="boolean"/>
-        <variable name="isListHide" type="boolean"/>
+        <import type="sgtmelon.scriptum.R" />
+
+        <variable
+            name="isListHide"
+            type="boolean" />
     </data>
 
     <LinearLayout
-            android:id="@+id/notes_parent_container"
+        android:id="@+id/notes_parent_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/include_simple_toolbar" />
+
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-        <include layout="@layout/include_simple_toolbar"/>
-
-        <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
+            android:layout_height="match_parent">
 
             <include
-                    android:id="@+id/notes_info_include"
-                    layout="@layout/include_info"
-                    app:details='@{isListHide ? R.string.info_notes_hide_details : R.string.info_notes_empty_details}'
-                    app:icon='@{R.mipmap.img_info_notes}'
-                    app:title='@{isListHide ? R.string.info_notes_hide_title : R.string.info_notes_empty_title}'/>
+                android:id="@+id/notes_info_include"
+                layout="@layout/include_info"
+                app:details='@{isListHide ? R.string.info_notes_hide_details : R.string.info_notes_empty_details}'
+                app:icon='@{R.mipmap.img_info_notes}'
+                app:title='@{isListHide ? R.string.info_notes_hide_title : R.string.info_notes_empty_title}' />
 
             <ProgressBar
-                    android:id="@+id/notes_progress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"/>
+                android:id="@+id/notes_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
 
             <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/notes_recycler"
-                    style="@style/RecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility='@{!isListEmpty ? View.VISIBLE : View.GONE}'
-                    tools:itemCount="1"
-                    tools:listitem="@layout/item_note_roll"/>
+                android:id="@+id/notes_recycler"
+                style="@style/RecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible"
+                tools:visibility="visible"
+                tools:itemCount="1"
+                tools:listitem="@layout/item_note_roll" />
 
         </FrameLayout>
 

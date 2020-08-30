@@ -1,11 +1,16 @@
 package sgtmelon.scriptum.extension
 
 import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.view.View
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.DecelerateInterpolator
+import android.view.animation.Interpolator
 import androidx.annotation.DimenRes
 import androidx.cardview.widget.CardView
+import sgtmelon.scriptum.R
 
 fun getAlphaAnimator(view: View, alphaTo: Float): Animator {
     return ObjectAnimator.ofFloat(view, View.ALPHA, view.alpha, alphaTo)
@@ -28,4 +33,27 @@ fun getElevationAnimator(view: CardView, @DimenRes elevationTo: Int): Animator {
             view.cardElevation = it.animatedValue as? Float ?: return@addUpdateListener
         }
     }
+}
+
+
+fun getAlphaInterpolator(isVisible: Boolean) : Interpolator {
+    return if (isVisible) AccelerateInterpolator() else DecelerateInterpolator()
+}
+
+inline fun View.animateAlpha(
+    isVisible: Boolean,
+    duration: Long = context.resources.getInteger(R.integer.info_fade_time).toLong(),
+    crossinline onEnd: () -> Unit = {}
+) {
+    val interpolator = getAlphaInterpolator(isVisible)
+    val valueTo = if (isVisible) 1f else 0f
+
+    ObjectAnimator.ofFloat(this, View.ALPHA, valueTo).apply {
+        this.interpolator = interpolator
+        this.duration = duration
+
+        addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator?) = onEnd()
+        })
+    }.start()
 }

@@ -10,7 +10,7 @@
     <integer name="color_fade_time">200</integer>
     <integer name="color_transition_time">200</integer>
 
-    <integer name="recycler_roll_show_time">200</integer>
+    <integer name="recycler_enter_time">250</integer>
 
     <integer name="placeholder_fade_time">500</integer>
 

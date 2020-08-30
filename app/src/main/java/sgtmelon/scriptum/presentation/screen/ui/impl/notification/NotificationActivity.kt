@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
-import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
@@ -141,17 +140,14 @@ class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallb
         adapter.theme = theme
 
         recyclerView?.let {
-            it.itemAnimator = object : DefaultItemAnimator() {
-                override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) {
-                    onBindingList()
+            it.setDefaultAnimator {
+                onBindingList()
 
-                    /**
-                     * Clear [openState] after click on item cancel OR [onSnackbarAction].
-                     */
-                    openState.clear()
-                }
+                /**
+                 * Clear [openState] after click on item cancel OR [onSnackbarAction].
+                 */
+                openState.clear()
             }
-
             it.setHasFixedSize(true)
             it.layoutManager = layoutManager
             it.adapter = adapter
@@ -186,11 +182,19 @@ class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallb
     override fun onBindingList() {
         progressBar?.visibility = View.GONE
 
-        val isListEmpty = adapter.itemCount == 0
+        if (adapter.itemCount == 0) {
+            emptyInfoView?.visibility = View.VISIBLE
+            recyclerView?.visibility = View.INVISIBLE
 
-        parentContainer?.createVisibleAnim(emptyInfoView, isListEmpty)
+            emptyInfoView?.alpha = 0f
+            emptyInfoView?.animateAlpha(isVisible = true)
+        } else {
+            recyclerView?.visibility = View.VISIBLE
 
-        binding?.apply { this.isListEmpty = isListEmpty }?.executePendingBindings()
+            emptyInfoView?.animateAlpha(isVisible = true) {
+                emptyInfoView?.visibility = View.GONE
+            }
+        }
     }
 
     override fun startNoteActivity(item: NotificationItem) {

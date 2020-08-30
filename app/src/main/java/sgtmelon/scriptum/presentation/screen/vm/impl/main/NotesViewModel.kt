@@ -28,7 +28,7 @@ import sgtmelon.scriptum.domain.model.annotation.Options.Notes as Options
  * ViewModel for [INotesFragment].
  */
 class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>(application),
-        INotesViewModel {
+    INotesViewModel {
 
     private lateinit var interactor: INotesInteractor
     private lateinit var bindInteractor: IBindInteractor

@@ -8,14 +8,11 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ProgressBar
 import androidx.appcompat.widget.Toolbar
-import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -326,34 +323,16 @@ class RollNoteFragment : ParentFragment(),
 
         recyclerView = view?.findViewById(R.id.roll_note_recycler)
         recyclerView?.let {
-            it.setAnimation(isFirstRun)
+            it.setFirstRunAnimation(
+                isFirstRun, R.anim.layout_item_roll, supportsChangeAnimations = false
+            ) { viewModel.onUpdateInfo() }
+
             it.setHasFixedSize(true)
             it.layoutManager = layoutManager
             it.adapter = adapter
         }
 
         ItemTouchHelper(touchCallback).attachToRecyclerView(recyclerView)
-    }
-
-    private fun RecyclerView.setAnimation(isFirstRun: Boolean) {
-        if (isFirstRun) {
-            layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_roll_note)
-            layoutAnimationListener = object : Animation.AnimationListener {
-                override fun onAnimationStart(anim: Animation?) = Unit
-                override fun onAnimationRepeat(anim: Animation?) = Unit
-                override fun onAnimationEnd(anim: Animation?) = setRecyclerDefaultAnimator()
-            }
-        } else {
-            setRecyclerDefaultAnimator()
-        }
-    }
-
-    private fun RecyclerView.setRecyclerDefaultAnimator() {
-        itemAnimator = object : DefaultItemAnimator() {
-            override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) {
-                viewModel.onUpdateInfo()
-            }
-        }.apply { supportsChangeAnimations = false }
     }
 
     override fun setupProgress() {
@@ -387,12 +366,12 @@ class RollNoteFragment : ParentFragment(),
     }
 
     override fun onBindingEdit(item: NoteItem.Roll, isEditMode: Boolean) {
-        panelContainer?.let {
-            val time = resources.getInteger(R.integer.fade_anim_time)
-            val transition = Fade().setDuration(time.toLong())
-
-            TransitionManager.beginDelayedTransition(it, transition)
-        }
+//        panelContainer?.let {
+//            val time = resources.getInteger(R.integer.fade_anim_time)
+//            val transition = Fade().setDuration(time.toLong())
+//
+//            TransitionManager.beginDelayedTransition(it, transition)
+//        }
 
         binding?.apply {
             this.item = item

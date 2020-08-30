@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.appcompat.widget.Toolbar
-import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -40,7 +39,7 @@ import javax.inject.Inject
  * Fragment which displays list of categories - [RankItem].
  */
 class RankFragment : ParentFragment(), IRankFragment, MainReceiver.BindCallback,
-        SnackbarCallback {
+    SnackbarCallback {
 
     private val callback: IMainActivity? by lazy { context as? IMainActivity }
 
@@ -59,7 +58,7 @@ class RankFragment : ParentFragment(), IRankFragment, MainReceiver.BindCallback,
                 openState?.value = !enabled
                 openState?.tag = if (enabled) OpenState.Tag.ND else OpenState.Tag.ANIM
             }
-        }, object: ItemListener.ActionClick {
+        }, object : ItemListener.ActionClick {
             override fun onItemClick(view: View, p: Int, action: () -> Unit) {
                 when (view.id) {
                     R.id.rank_visible_button -> openState?.tryInvoke(OpenState.Tag.ANIM) {
@@ -83,7 +82,7 @@ class RankFragment : ParentFragment(), IRankFragment, MainReceiver.BindCallback,
     private val layoutManager by lazy { LinearLayoutManager(context) }
 
     private val snackbarControl = SnackbarControl(
-            R.string.snackbar_message_rank, R.string.snackbar_action_cancel, callback = this
+        R.string.snackbar_message_rank, R.string.snackbar_action_cancel, callback = this
     )
 
     val enterCard: View? get() = view?.findViewById(R.id.toolbar_rank_card)
@@ -99,12 +98,14 @@ class RankFragment : ParentFragment(), IRankFragment, MainReceiver.BindCallback,
     private var progressBar: View? = null
     private var recyclerView: RecyclerView? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = inflater.inflateBinding(R.layout.fragment_rank, container)
 
         ScriptumApplication.component.getRankBuilder().set(fragment = this).build()
-                .inject(fragment = this)
+            .inject(fragment = this)
 
         return binding?.root
     }
@@ -162,7 +163,7 @@ class RankFragment : ParentFragment(), IRankFragment, MainReceiver.BindCallback,
 
         view?.findViewById<ImageButton>(R.id.toolbar_rank_add_button)?.apply {
             setOnClickListener {
-                openState?.tryInvoke {  viewModel.onClickEnterAdd(simpleClick = true) }
+                openState?.tryInvoke { viewModel.onClickEnterAdd(simpleClick = true) }
             }
             setOnLongClickListener {
                 openState?.tryInvoke { viewModel.onClickEnterAdd(simpleClick = false) }
@@ -198,12 +199,7 @@ class RankFragment : ParentFragment(), IRankFragment, MainReceiver.BindCallback,
 
         recyclerView = view?.findViewById(R.id.rank_recycler)
         recyclerView?.let {
-            it.itemAnimator = object : DefaultItemAnimator() {
-                override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) {
-                    viewModel.onItemAnimationFinished()
-                }
-            }
-
+            it.setDefaultAnimator { viewModel.onItemAnimationFinished() }
             it.setHasFixedSize(true)
             it.layoutManager = layoutManager
             it.adapter = adapter
@@ -233,11 +229,19 @@ class RankFragment : ParentFragment(), IRankFragment, MainReceiver.BindCallback,
     override fun onBindingList() {
         progressBar?.visibility = View.GONE
 
-        val isListEmpty = adapter.itemCount == 0
+        if (adapter.itemCount == 0) {
+            emptyInfoView?.visibility = View.VISIBLE
+            recyclerView?.visibility = View.INVISIBLE
 
-        parentContainer?.createVisibleAnim(emptyInfoView, isListEmpty)
+            emptyInfoView?.alpha = 0f
+            emptyInfoView?.animateAlpha(isVisible = true)
+        } else {
+            recyclerView?.visibility = View.VISIBLE
 
-        binding?.isListEmpty = isListEmpty
+            emptyInfoView?.animateAlpha(isVisible = true) {
+                emptyInfoView?.visibility = View.GONE
+            }
+        }
 
         viewModel.onUpdateToolbar()
     }
@@ -354,8 +358,10 @@ class RankFragment : ParentFragment(), IRankFragment, MainReceiver.BindCallback,
     }
 
 
-    override fun notifyNoteBind(itemList: List<NoteItem>, rankIdVisibleList: List<Long>,
-                                @Sort sort: Int?) {
+    override fun notifyNoteBind(
+        itemList: List<NoteItem>, rankIdVisibleList: List<Long>,
+        @Sort sort: Int?
+    ) {
         bindControl.notifyNote(itemList, rankIdVisibleList, sort)
     }
 

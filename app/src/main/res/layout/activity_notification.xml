@@ -1,52 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        tools:context=".presentation.screen.ui.impl.notification.NotificationActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".presentation.screen.ui.impl.notification.NotificationActivity">
 
     <data>
-        <import type="sgtmelon.scriptum.R"/>
-        <import type="android.view.View"/>
 
-        <variable name="isListEmpty" type="boolean"/>
+        <import type="sgtmelon.scriptum.R" />
     </data>
 
     <LinearLayout
-            android:id="@+id/notification_parent_container"
+        android:id="@+id/notification_parent_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/include_simple_toolbar" />
+
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-        <include layout="@layout/include_simple_toolbar"/>
-
-        <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
+            android:layout_height="match_parent">
 
             <include
-                    android:id="@+id/notification_info_include"
-                    layout="@layout/include_info"
-                    app:details='@{R.string.info_notification_empty_details}'
-                    app:icon='@{R.mipmap.img_info_notifications}'
-                    app:title='@{R.string.info_notification_empty_title}'/>
+                android:id="@+id/notification_info_include"
+                layout="@layout/include_info"
+                app:details='@{R.string.info_notification_empty_details}'
+                app:icon='@{R.mipmap.img_info_notifications}'
+                app:title='@{R.string.info_notification_empty_title}' />
 
             <ProgressBar
-                    android:id="@+id/notification_progress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"/>
+                android:id="@+id/notification_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
 
             <androidx.coordinatorlayout.widget.CoordinatorLayout
-                    android:id="@+id/notification_recycler_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                android:id="@+id/notification_recycler_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
                 <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/notification_recycler"
-                        style="@style/RecyclerView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:visibility='@{!isListEmpty ? View.VISIBLE : View.GONE}'
-                        tools:itemCount="3"
-                        tools:listitem="@layout/item_notification"/>
+                    android:id="@+id/notification_recycler"
+                    style="@style/RecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="invisible"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_notification"
+                    tools:visibility="visible" />
 
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

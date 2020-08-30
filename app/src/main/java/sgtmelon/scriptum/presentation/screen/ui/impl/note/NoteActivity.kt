@@ -87,8 +87,11 @@ class NoteActivity : AppActivity(), INoteActivity, INoteConnector, NoteReceiver.
         holderTintControl.setupColor(theme, color)
     }
 
+    /**
+     * TODO make first run without animation.
+     */
     override fun setupInsets() {
-        parentContainer?.doOnApplyWindowInsets { view, insets, padding, margin ->
+        parentContainer?.doOnApplyWindowInsets { view, insets, _, margin ->
             view.updateMargin(InsetsDir.LEFT, insets, margin)
             view.updateMargin(InsetsDir.TOP, insets, margin)
             view.updateMargin(InsetsDir.RIGHT, insets, margin)
