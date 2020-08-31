@@ -133,6 +133,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
             interactor.getModel(id)
             bindInteractor.notifyInfoBind(callback)
             callback.apply {
+                prepareLogoAnimation()
                 notifyList(noteItem)
                 waitLayoutConfigure()
             }
@@ -234,6 +235,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
                 setupInsets()
 
                 signalInteractor.getMelodyUri()
+                prepareLogoAnimation()
                 notifyList(noteItem)
                 waitLayoutConfigure()
             }
@@ -245,6 +247,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
                 setupInsets()
 
                 signalInteractor.getMelodyUri()
+                prepareLogoAnimation()
                 notifyList(noteItem)
                 waitLayoutConfigure()
             }

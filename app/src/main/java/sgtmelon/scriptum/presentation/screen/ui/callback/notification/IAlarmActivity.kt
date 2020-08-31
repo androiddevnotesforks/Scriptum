@@ -30,6 +30,8 @@ interface IAlarmActivity : IAlarmBridge {
 
     fun setupPlayer(stringUri: String, volume: Int, increase: Boolean)
 
+    fun prepareLogoAnimation()
+
     fun notifyList(item: NoteItem)
 
 

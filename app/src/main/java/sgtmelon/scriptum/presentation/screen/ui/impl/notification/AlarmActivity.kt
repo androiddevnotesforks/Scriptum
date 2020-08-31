@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.presentation.screen.ui.impl.notification
 
+import android.animation.AnimatorSet
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -11,10 +12,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.view.WindowManager
+import android.view.animation.AccelerateInterpolator
 import androidx.annotation.ArrayRes
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.Fade
+import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import com.google.android.material.navigation.NavigationView
 import sgtmelon.scriptum.R
@@ -213,6 +215,20 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         }
     }
 
+    override fun prepareLogoAnimation() {
+        val parentContainer = parentContainer ?: return
+        val logoView = logoView ?: return
+
+        val transition = AutoTransition()
+            .setInterpolator(AccelerateInterpolator())
+            .addTarget(logoView)
+
+        TransitionManager.beginDelayedTransition(parentContainer, transition)
+
+        recyclerView?.visibility = View.VISIBLE
+        buttonContainer?.visibility = View.VISIBLE
+    }
+
     override fun notifyList(item: NoteItem) = adapter.notifyList(arrayListOf(item))
 
 
@@ -230,18 +246,19 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     }
 
     override fun startButtonFadeInAnimation() {
-        parentContainer?.let { group ->
-            TransitionManager.beginDelayedTransition(group, Fade().apply {
-                startDelay = resources.getInteger(R.integer.alarm_show_delay).toLong()
-                duration = resources.getInteger(R.integer.alarm_show_time).toLong()
+        val recyclerView = recyclerView ?: return
+        val buttonContainer = buttonContainer ?: return
 
-                recyclerView?.let { addTarget(it) }
-                buttonContainer?.let { addTarget(it) }
-            })
-        }
+        AnimatorSet().apply {
+            interpolator = getAlphaInterpolator(isVisible = true)
+            startDelay = resources.getInteger(R.integer.alarm_show_delay).toLong()
+            duration = resources.getInteger(R.integer.alarm_show_time).toLong()
 
-        recyclerView?.visibility = View.VISIBLE
-        buttonContainer?.visibility = View.VISIBLE
+            playTogether(
+                getAlphaAnimator(recyclerView, alphaTo = 1f),
+                getAlphaAnimator(buttonContainer, alphaTo = 1f)
+            )
+        }.start()
     }
 
     override fun startNoteActivity(item: NoteItem) = startActivity(NoteActivity[this, item])

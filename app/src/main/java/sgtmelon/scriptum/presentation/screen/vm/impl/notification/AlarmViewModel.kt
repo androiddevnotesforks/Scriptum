@@ -86,6 +86,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
             }
 
             callback?.apply {
+                prepareLogoAnimation()
                 notifyList(noteItem)
                 waitLayoutConfigure()
             }
