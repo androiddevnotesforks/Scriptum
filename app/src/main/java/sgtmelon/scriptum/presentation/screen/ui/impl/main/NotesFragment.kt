@@ -251,7 +251,7 @@ class NotesFragment : ParentFragment(),
         recyclerView?.smoothScrollToPosition(0)
     }
 
-    override fun startNoteActivity(item: NoteItem) {
+    override fun openNoteScreen(item: NoteItem) {
         startActivity(NoteActivity[context ?: return, item])
     }
 

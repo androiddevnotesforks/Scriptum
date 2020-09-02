@@ -91,6 +91,6 @@ class DevelopActivity : AppActivity(), IDevelopActivity {
         findViewById<TextView?>(R.id.develop_preference_text)?.text = data
     }
 
-    override fun startIntroActivity() = startActivity(IntroActivity[this])
+    override fun openIntroScreen() = startActivity(IntroActivity[this])
 
 }

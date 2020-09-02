@@ -75,7 +75,7 @@ class NotificationViewModel(application: Application) :
     }
 
     override fun onClickNote(p: Int) {
-        callback?.startNoteActivity(item = itemList.getOrNull(p) ?: return)
+        callback?.openNoteScreen(item = itemList.getOrNull(p) ?: return)
     }
 
     override fun onClickCancel(p: Int) {

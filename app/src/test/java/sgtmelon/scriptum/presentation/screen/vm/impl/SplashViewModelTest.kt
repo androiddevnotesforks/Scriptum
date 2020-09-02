@@ -54,10 +54,10 @@ class SplashViewModelTest : ParentViewModelTest() {
 
         verifySequence {
             interactor.firstStart
-            callback.startIntroActivity()
+            callback.openIntroScreen()
 
             interactor.firstStart
-            callback.startIntroActivity()
+            callback.openIntroScreen()
         }
     }
 
@@ -70,10 +70,10 @@ class SplashViewModelTest : ParentViewModelTest() {
 
         verifySequence {
             interactor.firstStart
-            callback.startMainActivity()
+            callback.openMainScreen()
 
             interactor.firstStart
-            callback.startMainActivity()
+            callback.openMainScreen()
         }
     }
 
@@ -83,7 +83,7 @@ class SplashViewModelTest : ParentViewModelTest() {
 
         viewModel.onSetup(bundle)
 
-        verifySequence { callback.startAlarmActivity(ID) }
+        verifySequence { callback.openAlarmScreen(ID) }
     }
 
     @Test fun onSetup_bindStart() {
@@ -94,7 +94,7 @@ class SplashViewModelTest : ParentViewModelTest() {
 
         viewModel.onSetup(bundle)
 
-        verifySequence { callback.startNoteActivity(ID, COLOR, TYPE) }
+        verifySequence { callback.openNoteScreen(ID, COLOR, TYPE) }
     }
 
     @Test fun onSetup_notificationStart() {
@@ -102,7 +102,7 @@ class SplashViewModelTest : ParentViewModelTest() {
 
         viewModel.onSetup(bundle)
 
-        verifySequence { callback.startNotificationActivity() }
+        verifySequence { callback.openNotificationScreen() }
     }
 
 

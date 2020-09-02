@@ -113,7 +113,7 @@ class IntroActivity : ParentActivity(), IIntroActivity, ViewPager.OnPageChangeLi
         }
     }
 
-    override fun startMainActivity() = startActivity(MainActivity[this])
+    override fun openMainScreen() = startActivity(MainActivity[this])
 
 
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {

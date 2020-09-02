@@ -84,7 +84,7 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
     }
 
     override fun onClickNote(p: Int) {
-        callback?.startNoteActivity(item = itemList.getOrNull(p) ?: return)
+        callback?.openNoteScreen(item = itemList.getOrNull(p) ?: return)
     }
 
     override fun onShowOptionsDialog(p: Int) {

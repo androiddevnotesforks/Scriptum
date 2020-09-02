@@ -315,7 +315,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
         viewModel.onClickNote()
 
         verifySequence {
-            callback.startNoteActivity(noteItem)
+            callback.openNoteScreen(noteItem)
             callback.finish()
         }
     }

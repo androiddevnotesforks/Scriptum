@@ -12,5 +12,5 @@ interface IIntroActivity {
 
     fun setupInsets()
 
-    fun startMainActivity()
+    fun openMainScreen()
 }

@@ -261,7 +261,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         }.start()
     }
 
-    override fun startNoteActivity(item: NoteItem) = startActivity(NoteActivity[this, item])
+    override fun openNoteScreen(item: NoteItem) = startActivity(NoteActivity[this, item])
 
 
     override fun startLongWaitHandler(delay: Long, r: Runnable) {

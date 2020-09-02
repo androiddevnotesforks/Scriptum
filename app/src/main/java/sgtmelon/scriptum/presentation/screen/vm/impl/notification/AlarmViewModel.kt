@@ -129,7 +129,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     }
 
     override fun onClickNote() {
-        callback?.startNoteActivity(noteItem)
+        callback?.openNoteScreen(noteItem)
         callback?.finish()
     }
 

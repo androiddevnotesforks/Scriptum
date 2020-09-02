@@ -26,7 +26,7 @@ class IntroViewModel(application: Application) : ParentViewModel<IIntroActivity>
 
     override fun onClickEnd() {
         interactor.onIntroFinish()
-        callback?.startMainActivity()
+        callback?.openMainScreen()
     }
 
 }

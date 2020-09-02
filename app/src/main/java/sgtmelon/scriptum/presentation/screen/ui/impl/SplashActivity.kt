@@ -75,19 +75,19 @@ class SplashActivity : ParentActivity(), ISplashActivity {
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
     }
 
-    override fun startIntroActivity() = startActivity(IntroActivity[this])
+    override fun openIntroScreen() = startActivity(IntroActivity[this])
 
-    override fun startMainActivity() = startActivity(MainActivity[this])
+    override fun openMainScreen() = startActivity(MainActivity[this])
 
-    override fun startAlarmActivity(id: Long) {
+    override fun openAlarmScreen(id: Long) {
         startActivities(arrayOf(MainActivity[this], AlarmActivity[this, id]))
     }
 
-    override fun startNoteActivity(id: Long, @Color color: Int, type: Int) {
+    override fun openNoteScreen(id: Long, @Color color: Int, type: Int) {
         startActivities(arrayOf(MainActivity[this], NoteActivity[this, type, id, color]))
     }
 
-    override fun startNotificationActivity() {
+    override fun openNotificationScreen() {
         startActivities(arrayOf(MainActivity[this], NotificationActivity[this]))
     }
 

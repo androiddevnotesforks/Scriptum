@@ -202,7 +202,7 @@ class MainActivity : AppActivity(), IMainActivity {
         }
     }
 
-    override fun startNoteActivity(noteType: NoteType) = openState.tryInvoke {
+    override fun openNoteScreen(noteType: NoteType) = openState.tryInvoke {
         startActivity(NoteActivity[this, noteType.ordinal])
     }
 

@@ -36,7 +36,7 @@ class DevelopViewModel(application: Application) : ParentViewModel<IDevelopActiv
     }
 
     override fun onIntroClick() {
-        callback?.startIntroActivity()
+        callback?.openIntroScreen()
     }
 
 }

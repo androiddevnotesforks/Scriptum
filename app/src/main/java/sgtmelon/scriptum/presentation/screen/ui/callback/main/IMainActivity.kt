@@ -30,6 +30,6 @@ interface IMainActivity : IMainBridge,
 
     fun showPage(pageFrom: MainPage, pageTo: MainPage)
 
-    fun startNoteActivity(noteType: NoteType)
+    fun openNoteScreen(noteType: NoteType)
 
 }

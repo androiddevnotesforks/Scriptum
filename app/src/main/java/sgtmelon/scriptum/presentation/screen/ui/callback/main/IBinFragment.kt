@@ -28,7 +28,7 @@ interface IBinFragment : IBinBridge{
 
     fun scrollTop()
 
-    fun startNoteActivity(item: NoteItem)
+    fun openNoteScreen(item: NoteItem)
 
     fun showOptionsDialog(itemArray: Array<String>, p: Int)
 

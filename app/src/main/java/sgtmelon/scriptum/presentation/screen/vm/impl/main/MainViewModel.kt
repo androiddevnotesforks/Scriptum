@@ -112,7 +112,7 @@ class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(a
     }
 
     override fun onResultAddDialog(@IdRes itemId: Int) {
-        callback?.startNoteActivity(noteType = getTypeById(itemId) ?: return)
+        callback?.openNoteScreen(noteType = getTypeById(itemId) ?: return)
     }
 
     private fun getTypeById(@IdRes itemId: Int): NoteType? = when (itemId) {

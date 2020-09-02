@@ -41,7 +41,7 @@ interface IAlarmActivity : IAlarmBridge {
 
     fun startButtonFadeInAnimation()
 
-    fun startNoteActivity(item: NoteItem)
+    fun openNoteScreen(item: NoteItem)
 
 
     fun startLongWaitHandler(delay: Long, r: Runnable)

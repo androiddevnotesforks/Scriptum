@@ -9,14 +9,14 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.ISplashViewModel
  */
 interface ISplashActivity {
 
-    fun startIntroActivity()
+    fun openIntroScreen()
 
-    fun startMainActivity()
+    fun openMainScreen()
 
-    fun startAlarmActivity(id: Long)
+    fun openAlarmScreen(id: Long)
 
-    fun startNoteActivity(id: Long, @Color color: Int, type: Int)
+    fun openNoteScreen(id: Long, @Color color: Int, type: Int)
 
-    fun startNotificationActivity()
+    fun openNotificationScreen()
 
 }

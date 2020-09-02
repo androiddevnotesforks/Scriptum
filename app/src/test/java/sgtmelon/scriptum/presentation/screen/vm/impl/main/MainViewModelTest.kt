@@ -206,8 +206,8 @@ class MainViewModelTest : ParentViewModelTest() {
         viewModel.onResultAddDialog(itemId = -1)
 
         verifySequence {
-            callback.startNoteActivity(NoteType.TEXT)
-            callback.startNoteActivity(NoteType.ROLL)
+            callback.openNoteScreen(NoteType.TEXT)
+            callback.openNoteScreen(NoteType.ROLL)
         }
     }
 

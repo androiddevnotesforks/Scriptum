@@ -153,7 +153,7 @@ class NotificationViewModelTest : ParentViewModelTest() {
         val p = itemList.indices.random()
 
         viewModel.onClickNote(p)
-        verifySequence { callback.startNoteActivity(itemList[p]) }
+        verifySequence { callback.openNoteScreen(itemList[p]) }
     }
 
     @Test fun onClickCancel() = startCoTest {

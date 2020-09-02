@@ -18,6 +18,6 @@ interface IDevelopActivity {
 
     fun fillAboutPreference(data: String)
 
-    fun startIntroActivity()
+    fun openIntroScreen()
 
 }

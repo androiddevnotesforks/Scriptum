@@ -49,7 +49,7 @@ class IntroViewModelTest : ParentViewModelTest() {
         viewModel.onClickEnd()
         verifySequence {
             interactor.onIntroFinish()
-            callback.startMainActivity()
+            callback.openMainScreen()
         }
     }
 

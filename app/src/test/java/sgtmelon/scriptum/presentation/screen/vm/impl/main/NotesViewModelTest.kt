@@ -180,7 +180,7 @@ class NotesViewModelTest : ParentViewModelTest() {
 
         viewModel.onClickNote(p)
 
-        verifySequence { callback.startNoteActivity(item) }
+        verifySequence { callback.openNoteScreen(item) }
     }
 
     @Test fun onShowOptionsDialog() {
