@@ -155,7 +155,7 @@ private fun updateMarginAnimation(
 
     ValueAnimator.ofInt(valueFrom, valueTo).apply {
         this.interpolator = DecelerateInterpolator()
-        this.duration = 50L
+        this.duration = 35L
 
         addUpdateListener {
             val value = it.animatedValue as? Int ?: return@addUpdateListener

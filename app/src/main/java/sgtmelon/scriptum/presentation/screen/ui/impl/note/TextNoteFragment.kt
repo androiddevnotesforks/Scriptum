@@ -227,7 +227,7 @@ class TextNoteFragment : ParentFragment(),
 
     override fun onBindingLoad(isRankEmpty: Boolean) {
         parentContainer?.let {
-            val time = resources.getInteger(R.integer.fade_anim_time)
+            val time = resources.getInteger(R.integer.note_open_time)
             val transition = Fade().setDuration(time.toLong())
 
             TransitionManager.beginDelayedTransition(it, transition)
@@ -245,10 +245,8 @@ class TextNoteFragment : ParentFragment(),
 
     override fun onBindingEdit(item: NoteItem.Text, isEditMode: Boolean) {
         panelContainer?.let {
-            val time = resources.getInteger(R.integer.fade_anim_time)
-            val transition = Fade().setDuration(time.toLong())
-
-            TransitionManager.beginDelayedTransition(it, transition)
+            val time = resources.getInteger(R.integer.note_change_time).toLong()
+            TransitionManager.beginDelayedTransition(it, Fade().setDuration(time))
         }
 
         binding?.apply {
