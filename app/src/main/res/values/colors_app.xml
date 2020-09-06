@@ -5,10 +5,10 @@
     <color name="background_launcher">#1C2024</color>
 
     <color name="navigation_bar_light">#59FAFAFA</color>
-    <color name="navigation_bar_dark">#40353535</color>
+    <color name="navigation_bar_dark">#40303030</color>
 
     <color name="navigation_bar_divider_light">#73FAFAFA</color>
-    <color name="navigation_bar_divider_dark">#59353535</color>
+    <color name="navigation_bar_divider_dark">#59303030</color>
 
     <!--  Color for create accent on views: fab, button, image, text, etc.  -->
     <color name="accent_light">#039BE5</color>
@@ -19,7 +19,7 @@
 
     <!--  Color for main app views: toolbar, panels, etc.  -->
     <color name="primary_light">#FAFAFA</color>
-    <color name="primary_dark">#353535</color>
+    <color name="primary_dark">#303030</color>
 
     <!-- Color for dividers.  -->
     <color name="divider_light">#E0E0E0</color>
@@ -31,7 +31,7 @@
 
     <!--  Color for views which placed upper background_window_light/dark.  -->
     <color name="background_view_light">#FFFFFF</color>
-    <color name="background_view_dark">#353535</color>
+    <color name="background_view_dark">#363636</color>
 
     <!--  Color for views which placed upper primary_light/dark.  -->
     <color name="background_enter_light">#FFFFFF</color>

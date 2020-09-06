@@ -6,7 +6,7 @@ import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Theme
-import sgtmelon.scriptum.extension.getAppThemeColor
+import sgtmelon.scriptum.extension.getNoteToolbarColor
 
 /**
  * Matcher for check background color.
@@ -23,7 +23,7 @@ class BackgroundAppColorMatcher(
         val context = item.context ?: return false
         val background = item.background as? ColorDrawable ?: return false
 
-        val color = context.getAppThemeColor(theme, color, needDark)
+        val color = context.getNoteToolbarColor(theme, color, needDark)
 
         return color == background.color
     }

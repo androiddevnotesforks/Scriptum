@@ -19,17 +19,29 @@ import sgtmelon.scriptum.domain.model.item.ColorItem
 import sgtmelon.scriptum.domain.model.key.ColorShade
 
 /**
- * Get note color rely on theme and background
+ * Get note color for toolbars rely on theme and background
  * [needDark] - If element place on dark background (e.g. note color indicator)
  */
 @ColorInt
-fun Context.getAppThemeColor(@Theme theme: Int, @Color color: Int, needDark: Boolean): Int {
+fun Context.getNoteToolbarColor(@Theme theme: Int, @Color color: Int, needDark: Boolean): Int {
     return if (theme == Theme.LIGHT) {
         if (needDark) getCompatColor(dark[color])
         else getCompatColor(light[color])
     } else {
         if (needDark) getCompatColor(dark[color])
         else getColorAttr(R.attr.clPrimary)
+    }
+}
+
+/**
+ * Get note color for cards rely on theme
+ */
+@ColorInt
+fun Context.getNoteCardColor(@Theme theme: Int, @Color color: Int): Int {
+    return if (theme == Theme.LIGHT) {
+        getCompatColor(light[color])
+    } else {
+        getColorAttr(R.attr.clBackgroundView)
     }
 }
 

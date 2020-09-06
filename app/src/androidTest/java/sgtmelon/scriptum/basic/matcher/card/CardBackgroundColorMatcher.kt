@@ -6,7 +6,7 @@ import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Theme
-import sgtmelon.scriptum.extension.getAppThemeColor
+import sgtmelon.scriptum.extension.getNoteCardColor
 
 /**
  * Matcher for check app:cardBackground which gets with [theme] and [color].
@@ -20,7 +20,7 @@ class CardBackgroundColorMatcher(
         if (item !is CardView) return false
 
         val context = item.context ?: return false
-        val backgroundColor = context.getAppThemeColor(theme, color, needDark = false)
+        val backgroundColor = context.getNoteCardColor(theme, color)
 
         return backgroundColor == item.cardBackgroundColor.defaultColor
     }

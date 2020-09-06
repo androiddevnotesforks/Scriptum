@@ -12,7 +12,7 @@ import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.key.ColorShade
 import sgtmelon.scriptum.domain.model.state.MenuColorState
 import sgtmelon.scriptum.extension.getAppSimpleColor
-import sgtmelon.scriptum.extension.getAppThemeColor
+import sgtmelon.scriptum.extension.getNoteToolbarColor
 
 /**
  * Control note toolbar tint.
@@ -67,21 +67,21 @@ class ToolbarTintControl(
             toolbar?.setBackgroundColor(getToolbarColor(theme, color))
         }
 
-        indicator?.setBackgroundColor(context.getAppThemeColor(theme, color, needDark = true))
+        indicator?.setBackgroundColor(context.getNoteToolbarColor(theme, color, needDark = true))
 
         setColorFrom(color)
     }
 
 
     override fun setColorFrom(@Color color: Int) = apply {
-        statusState.from = context.getAppThemeColor(theme, color, statusOnDark)
-        toolbarState.from = context.getAppThemeColor(theme, color, needDark = false)
+        statusState.from = context.getNoteToolbarColor(theme, color, statusOnDark)
+        toolbarState.from = context.getNoteToolbarColor(theme, color, needDark = false)
         indicatorState.from = context.getAppSimpleColor(color, ColorShade.DARK)
     }
 
     override fun startTint(@Color color: Int) {
-        statusState.to = context.getAppThemeColor(theme, color, statusOnDark)
-        toolbarState.to = context.getAppThemeColor(theme, color, needDark = false)
+        statusState.to = context.getNoteToolbarColor(theme, color, statusOnDark)
+        toolbarState.to = context.getNoteToolbarColor(theme, color, needDark = false)
         indicatorState.to = context.getAppSimpleColor(color, ColorShade.DARK)
 
         if (statusState.isDifferent()
