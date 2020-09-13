@@ -66,9 +66,7 @@ class TextNoteViewModel(application: Application) :
 
     override suspend fun setupAfterInitialize() {
         callback?.setupDialog(rankDialogItemArray)
-
         iconState.notAnimate { setupEditMode(noteState.isEdit) }
-
         callback?.onBindingLoad(isRankEmpty = rankDialogItemArray.size == 1)
     }
 

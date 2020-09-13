@@ -12,6 +12,7 @@ import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.domain.model.data.NoteData.Default
 import sgtmelon.scriptum.domain.model.item.NoteItem
+import sgtmelon.scriptum.domain.model.state.IconState
 import sgtmelon.scriptum.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.presentation.control.note.save.ISaveControl
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteConnector
@@ -101,8 +102,26 @@ class TextNoteViewModelTest : ParentViewModelTest() {
         TODO()
     }
 
-    @Test fun setupAfterInitialize() {
-        TODO()
+    @Test fun setupAfterInitialize() = startCoTest {
+        val iconState = mockk<IconState>(relaxUnitFun = true)
+        val isRankEmpty = Random.nextBoolean()
+        val rankDialogItemArray = if (isRankEmpty) {
+            arrayOf(nextString())
+        } else {
+            arrayOf(nextString(), nextString())
+        }
+        val isEdit = Random.nextBoolean()
+
+        viewModel.rankDialogItemArray = rankDialogItemArray
+        viewModel.iconState = iconState
+        viewModel.noteState.isEdit = isEdit
+        viewModel.setupAfterInitialize()
+
+        coVerify {
+            callback.setupDialog(rankDialogItemArray)
+            iconState.notAnimate(any())
+            callback.onBindingLoad(isRankEmpty)
+        }
     }
 
     @Test fun isNoteInitialized() = fastTest.isNoteInitialized(mockk())
