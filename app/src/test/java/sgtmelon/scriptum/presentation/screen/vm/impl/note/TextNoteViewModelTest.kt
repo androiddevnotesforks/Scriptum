@@ -74,15 +74,19 @@ class TextNoteViewModelTest : ParentViewModelTest() {
 
     @Test fun cacheData() = fastTest.cacheData(mockk())
 
-    @Test fun onSetup() {
-        TODO()
-    }
+    @Test fun onSetup() = fastTest.onSetup()
 
-    @Test fun getBundleData() {
+    @Test fun getBundleData() = fastTest.getBundleData()
+
+    @Test fun setupBeforeInitialize() {
         TODO()
     }
 
     @Test fun tryInitializeNote() {
+        TODO()
+    }
+
+    @Test fun setupAfterInitialize() {
         TODO()
     }
 

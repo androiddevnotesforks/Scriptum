@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.presentation.screen.vm.impl.note
 
 import android.app.Application
-import android.os.Bundle
 import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
@@ -45,9 +44,7 @@ class RollNoteViewModel(application: Application) :
         restoreItem = noteItem.deepCopy()
     }
 
-    override fun onSetup(bundle: Bundle?) {
-        getBundleData(bundle)
-
+    override fun setupBeforeInitialize() {
         val theme = interactor.theme
         callback?.apply {
             setupBinding(theme)
@@ -59,22 +56,6 @@ class RollNoteViewModel(application: Application) :
         }
 
         if (isFirstRun) isFirstRun = false
-
-        viewModelScope.launch {
-            if (!tryInitializeNote()) return@launch
-
-            callback?.setupDialog(rankDialogItemArray)
-            callback?.setupProgress()
-
-            iconState.notAnimate { setupEditMode(noteState.isEdit) }
-
-            callback?.showToolbarVisibleIcon(isShow = true)
-            callback?.setToolbarVisibleIcon(isVisible, needAnim = false)
-            callback?.notifyDataSetChanged(getList(noteItem))
-            onUpdateInfo()
-
-            callback?.onBindingLoad(isRankEmpty = rankDialogItemArray.size == 1)
-        }
     }
 
     override suspend fun tryInitializeNote(): Boolean {
@@ -112,6 +93,20 @@ class RollNoteViewModel(application: Application) :
         }
 
         return true
+    }
+
+    override suspend fun setupAfterInitialize() {
+        callback?.setupDialog(rankDialogItemArray)
+        callback?.setupProgress()
+
+        iconState.notAnimate { setupEditMode(noteState.isEdit) }
+
+        callback?.showToolbarVisibleIcon(isShow = true)
+        callback?.setToolbarVisibleIcon(isVisible, needAnim = false)
+        callback?.notifyDataSetChanged(getList(noteItem))
+        onUpdateInfo()
+
+        callback?.onBindingLoad(isRankEmpty = rankDialogItemArray.size == 1)
     }
 
     override fun onRestoreData(): Boolean {

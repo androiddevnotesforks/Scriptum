@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.presentation.screen.vm.impl.note
 
 import android.app.Application
-import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
@@ -27,24 +26,12 @@ class TextNoteViewModel(application: Application) :
         restoreItem = noteItem.deepCopy()
     }
 
-    override fun onSetup(bundle: Bundle?) {
-        getBundleData(bundle)
-
+    override fun setupBeforeInitialize() {
         val theme = interactor.theme
         callback?.apply {
             setupBinding(theme)
             setupToolbar(theme, color)
             setupEnter(inputControl)
-        }
-
-        viewModelScope.launch {
-            if (!tryInitializeNote()) return@launch
-
-            callback?.setupDialog(rankDialogItemArray)
-
-            iconState.notAnimate { setupEditMode(noteState.isEdit) }
-
-            callback?.onBindingLoad(isRankEmpty = rankDialogItemArray.size == 1)
         }
     }
 
@@ -75,6 +62,14 @@ class TextNoteViewModel(application: Application) :
         }
 
         return true
+    }
+
+    override suspend fun setupAfterInitialize() {
+        callback?.setupDialog(rankDialogItemArray)
+
+        iconState.notAnimate { setupEditMode(noteState.isEdit) }
+
+        callback?.onBindingLoad(isRankEmpty = rankDialogItemArray.size == 1)
     }
 
     override fun onRestoreData(): Boolean {

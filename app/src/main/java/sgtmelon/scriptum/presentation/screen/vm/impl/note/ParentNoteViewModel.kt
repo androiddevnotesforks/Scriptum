@@ -2,7 +2,6 @@ package sgtmelon.scriptum.presentation.screen.vm.impl.note
 
 import android.app.Application
 import android.os.Bundle
-import androidx.annotation.CallSuper
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.extension.beforeNow
@@ -10,6 +9,7 @@ import sgtmelon.extension.getCalendar
 import sgtmelon.scriptum.data.room.converter.type.StringConverter
 import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.note.IParentNoteInteractor
+import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.annotation.test.RunProtected
 import sgtmelon.scriptum.domain.model.data.NoteData.Default
 import sgtmelon.scriptum.domain.model.data.NoteData.Intent
@@ -96,7 +96,18 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
      */
     abstract fun cacheData()
 
-    @CallSuper protected open fun getBundleData(bundle: Bundle?) {
+    override fun onSetup(bundle: Bundle?) {
+        getBundleData(bundle)
+        setupBeforeInitialize()
+
+        viewModelScope.launch {
+            if (tryInitializeNote()) {
+                setupAfterInitialize()
+            }
+        }
+    }
+
+    @RunPrivate fun getBundleData(bundle: Bundle?) {
         id = bundle?.getLong(Intent.ID, Default.ID) ?: Default.ID
         color = bundle?.getInt(Intent.COLOR, Default.COLOR) ?: Default.COLOR
 
@@ -106,9 +117,19 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
     }
 
     /**
+     * Call before [tryInitializeNote]
+     */
+    abstract fun setupBeforeInitialize()
+
+    /**
      * Return false if happened error while initialize note.
      */
     abstract suspend fun tryInitializeNote(): Boolean
+
+    /**
+     * Call after [tryInitializeNote]
+     */
+    abstract suspend fun setupAfterInitialize()
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy {
         interactor.onDestroy()

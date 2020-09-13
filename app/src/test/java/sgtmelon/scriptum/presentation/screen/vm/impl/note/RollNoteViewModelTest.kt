@@ -45,9 +45,9 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
     private val fastTest by lazy {
         FastTest.Note.ViewModel(
-                callback, parentCallback, interactor, bindInteractor,
-                inputControl, viewModel, spyViewModel, { mockDeepCopy(it) },
-                { verifyDeepCopy(it) }
+            callback, parentCallback, interactor, bindInteractor,
+            inputControl, viewModel, spyViewModel, { mockDeepCopy(it) },
+            { verifyDeepCopy(it) }
         )
     }
 
@@ -73,7 +73,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         super.tearDown()
 
         confirmVerified(
-                callback, parentCallback, interactor, bindInteractor, inputControl, saveControl
+            callback, parentCallback, interactor, bindInteractor, inputControl, saveControl
         )
     }
 
@@ -82,15 +82,19 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
     @Test fun cacheData() = fastTest.cacheData(mockk())
 
-    @Test fun onSetup() {
-        TODO()
-    }
+    @Test fun onSetup() = fastTest.onSetup()
 
-    @Test fun getBundleData() {
+    @Test fun getBundleData() = fastTest.getBundleData()
+
+    @Test fun setupBeforeInitialize() {
         TODO()
     }
 
     @Test fun tryInitializeNote() {
+        TODO()
+    }
+
+    @Test fun setupAfterInitialize() {
         TODO()
     }
 
@@ -944,18 +948,20 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     }
 
 
-    private fun mockDeepCopy(item: NoteItem.Roll, id: Long = Random.nextLong(),
-                             create: String = nextString(),
-                             change: String = nextString(),
-                             name: String = nextString(),
-                             text: String = nextString(),
-                             color: Int = Random.nextInt(),
-                             rankId: Long = Random.nextLong(),
-                             rankPs: Int = Random.nextInt(),
-                             isBin: Boolean = Random.nextBoolean(),
-                             isStatus: Boolean = Random.nextBoolean(),
-                             alarmId: Long = Random.nextLong(),
-                             alarmDate: String = nextString()) {
+    private fun mockDeepCopy(
+        item: NoteItem.Roll, id: Long = Random.nextLong(),
+        create: String = nextString(),
+        change: String = nextString(),
+        name: String = nextString(),
+        text: String = nextString(),
+        color: Int = Random.nextInt(),
+        rankId: Long = Random.nextLong(),
+        rankPs: Int = Random.nextInt(),
+        isBin: Boolean = Random.nextBoolean(),
+        isStatus: Boolean = Random.nextBoolean(),
+        alarmId: Long = Random.nextLong(),
+        alarmDate: String = nextString()
+    ) {
         val list = MutableList(size = 5) { mockk<RollItem>() }
 
         every { item.id } returns id
@@ -978,8 +984,8 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
         every {
             item.deepCopy(
-                    any(), any(), any(), any(), any(), any(),
-                    any(), any(), any(), any(), any(), any(), any()
+                any(), any(), any(), any(), any(), any(),
+                any(), any(), any(), any(), any(), any(), any()
             )
         } returns item
     }
@@ -999,8 +1005,8 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         item.alarmDate
 
         item.deepCopy(
-                any(), any(), any(), any(), any(), any(),
-                any(), any(), any(), any(), any(), any(), any()
+            any(), any(), any(), any(), any(), any(),
+            any(), any(), any(), any(), any(), any(), any()
         )
     }
 

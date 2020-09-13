@@ -83,6 +83,61 @@ object FastTest {
                 }
             }
 
+            fun onSetup() {
+                val bundle = mockk<Bundle>()
+
+                every { spyViewModel.getBundleData(bundle) } returns Unit
+                every { spyViewModel.setupBeforeInitialize() } returns Unit
+                coEvery { spyViewModel.tryInitializeNote() } returns false
+
+                spyViewModel.onSetup(bundle)
+
+                coEvery { spyViewModel.tryInitializeNote() } returns true
+                coEvery { spyViewModel.setupAfterInitialize() } returns Unit
+
+                spyViewModel.onSetup(bundle)
+
+                coVerify {
+                    spyViewModel.onSetup(bundle)
+                    spyViewModel.getBundleData(bundle)
+                    spyViewModel.setupBeforeInitialize()
+                    spyViewModel.tryInitializeNote()
+
+                    spyViewModel.onSetup(bundle)
+                    spyViewModel.getBundleData(bundle)
+                    spyViewModel.setupBeforeInitialize()
+                    spyViewModel.tryInitializeNote()
+                    spyViewModel.setupAfterInitialize()
+                }
+            }
+
+            fun getBundleData() {
+                val bundle = mockk<Bundle>()
+                val id = Random.nextLong()
+                val color = Random.nextInt()
+                val defaultColor = Random.nextInt()
+
+                every { interactor.defaultColor } returns defaultColor
+                viewModel.getBundleData(bundle = null)
+
+                assertEquals(NoteData.Default.ID, viewModel.id)
+                assertEquals(defaultColor, viewModel.color)
+
+                every { bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID) } returns id
+                every { bundle.getInt(NoteData.Intent.COLOR, NoteData.Default.COLOR) } returns color
+                viewModel.getBundleData(bundle)
+
+                assertEquals(id, viewModel.id)
+                assertEquals(color, viewModel.color)
+
+                verifySequence {
+                    interactor.defaultColor
+
+                    bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
+                    bundle.getInt(NoteData.Intent.COLOR, NoteData.Default.COLOR)
+                }
+            }
+
             fun isNoteInitialized(noteItem: N) {
                 assertFalse(viewModel.isNoteInitialized())
 
