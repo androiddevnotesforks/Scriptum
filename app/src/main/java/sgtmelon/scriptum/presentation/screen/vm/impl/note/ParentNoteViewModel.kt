@@ -2,6 +2,7 @@ package sgtmelon.scriptum.presentation.screen.vm.impl.note
 
 import android.app.Application
 import android.os.Bundle
+import androidx.annotation.CallSuper
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.extension.beforeNow
@@ -10,7 +11,8 @@ import sgtmelon.scriptum.data.room.converter.type.StringConverter
 import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.note.IParentNoteInteractor
 import sgtmelon.scriptum.domain.model.annotation.test.RunProtected
-import sgtmelon.scriptum.domain.model.data.NoteData
+import sgtmelon.scriptum.domain.model.data.NoteData.Default
+import sgtmelon.scriptum.domain.model.data.NoteData.Intent
 import sgtmelon.scriptum.domain.model.item.InputItem
 import sgtmelon.scriptum.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.domain.model.item.NoteItem
@@ -62,8 +64,8 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
         SaveControl(context, interactor.getSaveModel(), callback = this)
     }
 
-    @RunProtected var id: Long = NoteData.Default.ID
-    @RunProtected var color: Int = NoteData.Default.COLOR
+    @RunProtected var id: Long = Default.ID
+    @RunProtected var color: Int = Default.COLOR
 
     @RunProtected lateinit var noteItem: N
 
@@ -94,6 +96,20 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
      */
     abstract fun cacheData()
 
+    @CallSuper protected open fun getBundleData(bundle: Bundle?) {
+        id = bundle?.getLong(Intent.ID, Default.ID) ?: Default.ID
+        color = bundle?.getInt(Intent.COLOR, Default.COLOR) ?: Default.COLOR
+
+        if (color == Default.COLOR) {
+            color = interactor.defaultColor
+        }
+    }
+
+    /**
+     * Return false if happened error while initialize note.
+     */
+    abstract suspend fun tryInitializeNote(): Boolean
+
     override fun onDestroy(func: () -> Unit) = super.onDestroy {
         interactor.onDestroy()
         parentCallback = null
@@ -103,8 +119,8 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
 
     override fun onSaveData(bundle: Bundle) {
         bundle.apply {
-            putLong(NoteData.Intent.ID, id)
-            putInt(NoteData.Intent.COLOR, color)
+            putLong(Intent.ID, id)
+            putInt(Intent.COLOR, color)
         }
     }
 
@@ -123,7 +139,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
 
 
     override fun onClickBackArrow() {
-        if (!noteState.isCreate && noteState.isEdit && id != NoteData.Default.ID) {
+        if (!noteState.isCreate && noteState.isEdit && id != Default.ID) {
             callback?.hideKeyboard()
             onRestoreData()
         } else {

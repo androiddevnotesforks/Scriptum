@@ -8,7 +8,6 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.domain.model.annotation.InputAction
 import sgtmelon.scriptum.domain.model.data.NoteData.Default
-import sgtmelon.scriptum.domain.model.data.NoteData.Intent
 import sgtmelon.scriptum.domain.model.item.InputItem
 import sgtmelon.scriptum.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.domain.model.item.NoteItem
@@ -29,12 +28,7 @@ class TextNoteViewModel(application: Application) :
     }
 
     override fun onSetup(bundle: Bundle?) {
-        id = bundle?.getLong(Intent.ID, Default.ID) ?: Default.ID
-        color = bundle?.getInt(Intent.COLOR, Default.COLOR) ?: Default.COLOR
-
-        if (color == Default.COLOR) {
-            color = interactor.defaultColor
-        }
+        getBundleData(bundle)
 
         val theme = interactor.theme
         callback?.apply {
@@ -44,30 +38,7 @@ class TextNoteViewModel(application: Application) :
         }
 
         viewModelScope.launch {
-            /**
-             * If first open
-             */
-            if (!isNoteInitialized()) {
-                val name = parentCallback?.getString(R.string.dialog_item_rank) ?: return@launch
-                rankDialogItemArray = runBack { interactor.getRankDialogItemArray(name) }
-
-                if (id == Default.ID) {
-                    noteItem = NoteItem.Text.getCreate(interactor.defaultColor)
-                    cacheData()
-
-                    noteState = NoteState(isCreate = true)
-                } else {
-                    runBack { interactor.getItem(id) }?.let {
-                        noteItem = it
-                        restoreItem = it.deepCopy()
-                    } ?: run {
-                        parentCallback?.finish()
-                        return@launch
-                    }
-
-                    noteState = NoteState(isBin = noteItem.isBin)
-                }
-            }
+            if (!tryInitializeNote()) return@launch
 
             callback?.setupDialog(rankDialogItemArray)
 
@@ -75,6 +46,35 @@ class TextNoteViewModel(application: Application) :
 
             callback?.onBindingLoad(isRankEmpty = rankDialogItemArray.size == 1)
         }
+    }
+
+    override suspend fun tryInitializeNote(): Boolean {
+        /**
+         * If first open
+         */
+        if (!isNoteInitialized()) {
+            val name = parentCallback?.getString(R.string.dialog_item_rank) ?: return false
+            rankDialogItemArray = runBack { interactor.getRankDialogItemArray(name) }
+
+            if (id == Default.ID) {
+                noteItem = NoteItem.Text.getCreate(interactor.defaultColor)
+                cacheData()
+
+                noteState = NoteState(isCreate = true)
+            } else {
+                runBack { interactor.getItem(id) }?.let {
+                    noteItem = it
+                    restoreItem = it.deepCopy()
+                } ?: run {
+                    parentCallback?.finish()
+                    return false
+                }
+
+                noteState = NoteState(isBin = noteItem.isBin)
+            }
+        }
+
+        return true
     }
 
     override fun onRestoreData(): Boolean {

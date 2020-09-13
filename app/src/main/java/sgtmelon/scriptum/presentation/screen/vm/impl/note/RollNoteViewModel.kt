@@ -11,7 +11,6 @@ import sgtmelon.scriptum.domain.model.annotation.InputAction
 import sgtmelon.scriptum.domain.model.annotation.test.RunNone
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.data.NoteData.Default
-import sgtmelon.scriptum.domain.model.data.NoteData.Intent
 import sgtmelon.scriptum.domain.model.item.InputItem
 import sgtmelon.scriptum.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.domain.model.item.NoteItem
@@ -47,12 +46,7 @@ class RollNoteViewModel(application: Application) :
     }
 
     override fun onSetup(bundle: Bundle?) {
-        id = bundle?.getLong(Intent.ID, Default.ID) ?: Default.ID
-        color = bundle?.getInt(Intent.COLOR, Default.COLOR) ?: Default.COLOR
-
-        if (color == Default.COLOR) {
-            color = interactor.defaultColor
-        }
+        getBundleData(bundle)
 
         val theme = interactor.theme
         callback?.apply {
@@ -67,38 +61,7 @@ class RollNoteViewModel(application: Application) :
         if (isFirstRun) isFirstRun = false
 
         viewModelScope.launch {
-            /**
-             * If first open.
-             */
-            if (!isNoteInitialized()) {
-                val name = parentCallback?.getString(R.string.dialog_item_rank) ?: return@launch
-                rankDialogItemArray = runBack { interactor.getRankDialogItemArray(name) }
-
-                if (id == Default.ID) {
-                    val defaultColor = interactor.defaultColor
-
-                    noteItem = NoteItem.Roll.getCreate(defaultColor)
-                    cacheData()
-
-                    noteState = NoteState(isCreate = true)
-                } else {
-                    runBack { interactor.getItem(id) }?.let {
-                        noteItem = it
-                        restoreItem = it.deepCopy()
-                    } ?: run {
-                        parentCallback?.finish()
-                        return@launch
-                    }
-
-                    noteState = NoteState(isBin = noteItem.isBin)
-
-                    /**
-                     * Foreign key can't be created without note [id].
-                     * Insert will happen inside [onMenuSave].
-                     */
-                    isVisible = runBack { interactor.getVisible(noteItem.id) }
-                }
-            }
+            if (!tryInitializeNote()) return@launch
 
             callback?.setupDialog(rankDialogItemArray)
             callback?.setupProgress()
@@ -107,12 +70,48 @@ class RollNoteViewModel(application: Application) :
 
             callback?.showToolbarVisibleIcon(isShow = true)
             callback?.setToolbarVisibleIcon(isVisible, needAnim = false)
-
             callback?.notifyDataSetChanged(getList(noteItem))
             onUpdateInfo()
 
             callback?.onBindingLoad(isRankEmpty = rankDialogItemArray.size == 1)
         }
+    }
+
+    override suspend fun tryInitializeNote(): Boolean {
+        /**
+         * If first open.
+         */
+        if (!isNoteInitialized()) {
+            val name = parentCallback?.getString(R.string.dialog_item_rank) ?: return false
+            rankDialogItemArray = runBack { interactor.getRankDialogItemArray(name) }
+
+            if (id == Default.ID) {
+                val defaultColor = interactor.defaultColor
+
+                noteItem = NoteItem.Roll.getCreate(defaultColor)
+                cacheData()
+
+                noteState = NoteState(isCreate = true)
+            } else {
+                runBack { interactor.getItem(id) }?.let {
+                    noteItem = it
+                    restoreItem = it.deepCopy()
+                } ?: run {
+                    parentCallback?.finish()
+                    return false
+                }
+
+                noteState = NoteState(isBin = noteItem.isBin)
+
+                /**
+                 * Foreign key can't be created without note [id].
+                 * Insert will happen inside [onMenuSave].
+                 */
+                isVisible = runBack { interactor.getVisible(noteItem.id) }
+            }
+        }
+
+        return true
     }
 
     override fun onRestoreData(): Boolean {

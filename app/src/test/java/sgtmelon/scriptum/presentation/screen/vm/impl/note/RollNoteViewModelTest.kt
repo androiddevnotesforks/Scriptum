@@ -86,6 +86,14 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         TODO()
     }
 
+    @Test fun getBundleData() {
+        TODO()
+    }
+
+    @Test fun tryInitializeNote() {
+        TODO()
+    }
+
     @Test fun isNoteInitialized() = fastTest.isNoteInitialized(mockk())
 
 
