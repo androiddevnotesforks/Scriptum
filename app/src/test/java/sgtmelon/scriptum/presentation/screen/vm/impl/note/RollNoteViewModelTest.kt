@@ -87,7 +87,27 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     @Test fun getBundleData() = fastTest.getBundleData()
 
     @Test fun setupBeforeInitialize() {
-        TODO()
+        val theme = Random.nextInt()
+        val color = Random.nextInt()
+
+        viewModel.color = color
+        every { interactor.theme } returns theme
+
+        viewModel.setupBeforeInitialize()
+
+        assertFalse(viewModel.isFirstRun)
+
+        verifySequence {
+            interactor.theme
+            callback.apply {
+                setupBinding(theme)
+                setupToolbar(theme, color)
+                setupEnter(inputControl)
+                setupRecycler(inputControl, isFirstRun = true)
+
+                showToolbarVisibleIcon(isShow = false)
+            }
+        }
     }
 
     @Test fun tryInitializeNote() {
