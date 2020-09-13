@@ -15,6 +15,7 @@ import sgtmelon.scriptum.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.domain.model.data.NoteData
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
+import sgtmelon.scriptum.domain.model.state.IconState
 import sgtmelon.scriptum.domain.model.state.NoteState
 import sgtmelon.scriptum.extension.move
 import sgtmelon.scriptum.extension.removeAtOrNull
@@ -114,8 +115,61 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         TODO()
     }
 
-    @Test fun setupAfterInitialize() {
-        TODO()
+    @Test fun setupAfterInitialize() = startCoTest {
+        val noteItem = mockk<NoteItem.Roll>()
+        val rollList = mockk<MutableList<RollItem>>()
+        val iconState = mockk<IconState>(relaxUnitFun = true)
+
+        val isVisible = Random.nextBoolean()
+        val isRankEmpty = Random.nextBoolean()
+        val rankDialogItemArray = if (isRankEmpty) {
+            arrayOf(nextString())
+        } else {
+            arrayOf(nextString(), nextString())
+        }
+        val isEdit = Random.nextBoolean()
+
+        spyViewModel.noteItem = noteItem
+        spyViewModel.iconState = iconState
+        spyViewModel.rankDialogItemArray = rankDialogItemArray
+        spyViewModel.noteState.isEdit = isEdit
+        spyViewModel.isVisible = isVisible
+
+        every { spyViewModel.getList(noteItem) } returns rollList
+        every { spyViewModel.onUpdateInfo() } returns Unit
+
+        spyViewModel.setupAfterInitialize()
+
+        coVerifySequence {
+            spyViewModel.noteItem = noteItem
+            spyViewModel.iconState = iconState
+            spyViewModel.rankDialogItemArray = rankDialogItemArray
+            spyViewModel.noteState
+            spyViewModel.isVisible = isVisible
+            spyViewModel.setupAfterInitialize()
+
+            spyViewModel.callback
+            spyViewModel.rankDialogItemArray
+            callback.setupDialog(rankDialogItemArray)
+            spyViewModel.callback
+            callback.setupProgress()
+
+            spyViewModel.iconState
+            iconState.notAnimate(any())
+
+            spyViewModel.callback
+            callback.showToolbarVisibleIcon(isShow = true)
+            callback.setToolbarVisibleIcon(isVisible, needAnim = false)
+            spyViewModel.noteItem
+            spyViewModel.getList(noteItem)
+            callback.notifyDataSetChanged(rollList)
+
+            spyViewModel.onUpdateInfo()
+
+            spyViewModel.callback
+            spyViewModel.rankDialogItemArray
+            callback.onBindingLoad(isRankEmpty)
+        }
     }
 
     @Test fun isNoteInitialized() = fastTest.isNoteInitialized(mockk())

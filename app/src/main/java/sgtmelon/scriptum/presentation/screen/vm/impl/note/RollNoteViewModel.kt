@@ -101,9 +101,12 @@ class RollNoteViewModel(application: Application) :
 
         iconState.notAnimate { setupEditMode(noteState.isEdit) }
 
-        callback?.showToolbarVisibleIcon(isShow = true)
-        callback?.setToolbarVisibleIcon(isVisible, needAnim = false)
-        callback?.notifyDataSetChanged(getList(noteItem))
+        callback?.apply {
+            showToolbarVisibleIcon(isShow = true)
+            setToolbarVisibleIcon(isVisible, needAnim = false)
+            notifyDataSetChanged(getList(noteItem))
+        }
+
         onUpdateInfo()
 
         callback?.onBindingLoad(isRankEmpty = rankDialogItemArray.size == 1)

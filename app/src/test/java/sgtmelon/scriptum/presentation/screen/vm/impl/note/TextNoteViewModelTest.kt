@@ -112,8 +112,8 @@ class TextNoteViewModelTest : ParentViewModelTest() {
         }
         val isEdit = Random.nextBoolean()
 
-        viewModel.rankDialogItemArray = rankDialogItemArray
         viewModel.iconState = iconState
+        viewModel.rankDialogItemArray = rankDialogItemArray
         viewModel.noteState.isEdit = isEdit
         viewModel.setupAfterInitialize()
 
