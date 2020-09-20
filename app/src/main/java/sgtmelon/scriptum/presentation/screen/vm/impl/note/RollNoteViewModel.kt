@@ -88,7 +88,7 @@ class RollNoteViewModel(application: Application) :
                  * Foreign key can't be created without note [id].
                  * Insert will happen inside [onMenuSave].
                  */
-                isVisible = runBack { interactor.getVisible(noteItem.id) }
+                isVisible = runBack { interactor.getVisible(id) }
             }
         }
 
