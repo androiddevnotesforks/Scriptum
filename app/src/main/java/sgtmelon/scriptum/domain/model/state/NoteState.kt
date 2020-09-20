@@ -3,7 +3,7 @@ package sgtmelon.scriptum.domain.model.state
 /**
  * State for fragments with notes, need for control editing
  */
-class NoteState(var isCreate: Boolean = ND_CREATE, var isBin: Boolean = ND_BIN) {
+data class NoteState(var isCreate: Boolean = ND_CREATE, var isBin: Boolean = ND_BIN) {
 
     var isEdit = isCreate
 
@@ -11,5 +11,4 @@ class NoteState(var isCreate: Boolean = ND_CREATE, var isBin: Boolean = ND_BIN) 
         const val ND_CREATE = false
         const val ND_BIN = false
     }
-
 }

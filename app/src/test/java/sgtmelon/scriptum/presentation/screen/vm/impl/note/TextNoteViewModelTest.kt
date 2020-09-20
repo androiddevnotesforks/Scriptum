@@ -8,11 +8,13 @@ import org.junit.Test
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.FastTest
 import sgtmelon.scriptum.ParentViewModelTest
+import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.domain.model.data.NoteData.Default
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.state.IconState
+import sgtmelon.scriptum.domain.model.state.NoteState
 import sgtmelon.scriptum.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.presentation.control.note.save.ISaveControl
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteConnector
@@ -98,8 +100,91 @@ class TextNoteViewModelTest : ParentViewModelTest() {
         }
     }
 
-    @Test fun tryInitializeNote() {
-        TODO()
+    @Test fun tryInitializeNote() = startCoTest {
+        val name = nextString()
+        val itemArray = Array(size = 10) { nextString() }
+        val defaultColor = Random.nextInt()
+        val noteItem = mockk<NoteItem.Text>()
+        val id = Random.nextLong()
+        val isBin = Random.nextBoolean()
+
+        every { spyViewModel.isNoteInitialized() } returns true
+
+        assertTrue(spyViewModel.tryInitializeNote())
+
+        every { spyViewModel.isNoteInitialized() } returns false
+        every { parentCallback.getString(R.string.dialog_item_rank) } returns name
+        coEvery { interactor.getRankDialogItemArray(name) } returns itemArray
+        every { interactor.defaultColor } returns defaultColor
+        mockkObject(NoteItem.Text)
+        every { NoteItem.Text.getCreate(defaultColor) } returns noteItem
+        every { spyViewModel.cacheData() } returns Unit
+
+        assertTrue(spyViewModel.tryInitializeNote())
+
+        coEvery { interactor.getItem(id) } returns null
+
+        spyViewModel.id = id
+        assertFalse(spyViewModel.tryInitializeNote())
+
+        coEvery { interactor.getItem(id) } returns noteItem
+        mockDeepCopy(noteItem)
+        every { noteItem.isBin } returns isBin
+
+        assertTrue(spyViewModel.tryInitializeNote())
+
+        coVerifySequence {
+            spyViewModel.tryInitializeNote()
+            spyViewModel.isNoteInitialized()
+
+            spyViewModel.tryInitializeNote()
+            spyViewModel.isNoteInitialized()
+            spyViewModel.parentCallback
+            parentCallback.getString(R.string.dialog_item_rank)
+            spyViewModel.interactor
+            interactor.getRankDialogItemArray(name)
+            spyViewModel.rankDialogItemArray = itemArray
+            spyViewModel.id
+            spyViewModel.interactor
+            interactor.defaultColor
+            NoteItem.Text.getCreate(defaultColor)
+            spyViewModel.noteItem = noteItem
+            spyViewModel.cacheData()
+            spyViewModel.noteState = NoteState(isCreate = true)
+
+            spyViewModel.id = id
+            spyViewModel.tryInitializeNote()
+            spyViewModel.isNoteInitialized()
+            spyViewModel.parentCallback
+            parentCallback.getString(R.string.dialog_item_rank)
+            spyViewModel.interactor
+            interactor.getRankDialogItemArray(name)
+            spyViewModel.rankDialogItemArray = itemArray
+            spyViewModel.id
+            spyViewModel.interactor
+            spyViewModel.id
+            interactor.getItem(id)
+            spyViewModel.parentCallback
+            parentCallback.finish()
+
+            spyViewModel.tryInitializeNote()
+            spyViewModel.isNoteInitialized()
+            spyViewModel.parentCallback
+            parentCallback.getString(R.string.dialog_item_rank)
+            spyViewModel.interactor
+            interactor.getRankDialogItemArray(name)
+            spyViewModel.rankDialogItemArray = itemArray
+            spyViewModel.id
+            spyViewModel.interactor
+            spyViewModel.id
+            interactor.getItem(id)
+            spyViewModel.noteItem = noteItem
+            verifyDeepCopy(noteItem)
+            spyViewModel.restoreItem = noteItem
+            spyViewModel.noteItem
+            noteItem.isBin
+            spyViewModel.noteState = NoteState(isBin = isBin)
+        }
     }
 
     @Test fun setupAfterInitialize() = startCoTest {

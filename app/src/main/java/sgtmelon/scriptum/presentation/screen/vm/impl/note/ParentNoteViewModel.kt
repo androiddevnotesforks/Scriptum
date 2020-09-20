@@ -47,8 +47,8 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
         parentCallback = callback
     }
 
-    protected lateinit var interactor: I
-    protected lateinit var bindInteractor: IBindInteractor
+    @RunProtected lateinit var interactor: I
+    @RunProtected lateinit var bindInteractor: IBindInteractor
 
     fun setInteractor(interactor: I, bindInteractor: IBindInteractor) {
         this.interactor = interactor
@@ -80,7 +80,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
     /**
      * App doesn't have ranks if size == 1.
      */
-    @RunProtected var rankDialogItemArray: Array<String> = arrayOf()
+    @RunProtected var rankDialogItemArray: Array<String> = emptyArray()
 
     //endregion
 
