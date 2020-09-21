@@ -17,8 +17,8 @@ import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
  */
 @Suppress("UNCHECKED_CAST")
 class NoteToolbar<T : ParentUi, N : NoteItem>(
-        private val callback: INoteScreen<T, N>,
-        private val imeCallback: ImeCallback
+    private val callback: INoteScreen<T, N>,
+    private val imeCallback: ImeCallback
 ) : ParentToolbar() {
 
     //region Views
@@ -39,12 +39,12 @@ class NoteToolbar<T : ParentUi, N : NoteItem>(
             nameEnter.typeText(name)
 
             callback.apply {
-                name.forEachIndexed { i, c ->
+                for ((i, c) in name.withIndex()) {
                     val valueFrom = if (i == 0) shadowItem.text else name[i - 1].toString()
                     val valueTo = c.toString()
 
                     inputControl.onNameChange(
-                            valueFrom, valueTo, InputItem.Cursor(valueFrom.length, valueTo.length)
+                        valueFrom, valueTo, InputItem.Cursor(valueFrom.length, valueTo.length)
                     )
                 }
 
@@ -60,7 +60,7 @@ class NoteToolbar<T : ParentUi, N : NoteItem>(
             if (state == State.EDIT) {
                 state = State.READ
 
-                when(noteItem) {
+                when (noteItem) {
                     is NoteItem.Text -> {
                         val copyItem = (noteItem as? NoteItem.Text)?.deepCopy() ?: onThrowCast()
                         shadowItem = copyItem as? N ?: onThrowCast()
@@ -93,11 +93,11 @@ class NoteToolbar<T : ParentUi, N : NoteItem>(
         parentContainer.isDisplayed()
 
         contentContainer.isDisplayed()
-                .withBackgroundAppColor(theme, color, needDark = false)
-                .withNavigationDrawable(when(callback.state) {
-                    State.READ, State.BIN, State.NEW -> R.drawable.ic_cancel_exit
-                    State.EDIT -> R.drawable.ic_cancel_enter
-                }, R.attr.clContent)
+            .withBackgroundAppColor(theme, color, needDark = false)
+            .withNavigationDrawable(when (callback.state) {
+                State.READ, State.BIN, State.NEW -> R.drawable.ic_cancel_exit
+                State.EDIT -> R.drawable.ic_cancel_enter
+            }, R.attr.clContent)
 
         nameScroll.isDisplayed()
 
@@ -124,15 +124,15 @@ class NoteToolbar<T : ParentUi, N : NoteItem>(
 
                     nameText.isDisplayed(visible = false)
                     nameEnter.isDisplayed()
-                            .withImeAction(EditorInfo.IME_ACTION_NEXT)
-                            .withBackgroundColor(android.R.color.transparent)
-                            .apply {
-                                if (name.isNotEmpty()) {
-                                    withText(name, R.attr.clContent)
-                                } else {
-                                    withHint(R.string.hint_enter_name, R.attr.clContentSecond)
-                                }
+                        .withImeAction(EditorInfo.IME_ACTION_NEXT)
+                        .withBackgroundColor(android.R.color.transparent)
+                        .apply {
+                            if (name.isNotEmpty()) {
+                                withText(name, R.attr.clContent)
+                            } else {
+                                withHint(R.string.hint_enter_name, R.attr.clContentSecond)
                             }
+                        }
                 }
             }
         }
@@ -144,9 +144,11 @@ class NoteToolbar<T : ParentUi, N : NoteItem>(
 
 
     companion object {
-        operator fun <T : ParentUi, N : NoteItem> invoke(func: NoteToolbar<T, N>.() -> Unit,
-                                                         callback: INoteScreen<T, N>,
-                                                         imeCallback: ImeCallback): NoteToolbar<T, N> {
+        operator fun <T : ParentUi, N : NoteItem> invoke(
+            func: NoteToolbar<T, N>.() -> Unit,
+            callback: INoteScreen<T, N>,
+            imeCallback: ImeCallback
+        ): NoteToolbar<T, N> {
             return NoteToolbar(callback, imeCallback).apply { assert() }.apply(func)
         }
     }

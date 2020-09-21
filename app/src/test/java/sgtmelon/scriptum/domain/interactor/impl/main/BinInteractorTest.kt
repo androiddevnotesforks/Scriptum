@@ -42,7 +42,7 @@ class BinInteractorTest : ParentInteractorTest() {
     @Test fun getCount() = startCoTest {
         val countList = listOf(Random.nextInt(), Random.nextInt())
 
-        countList.forEach {
+        for (it in countList) {
             coEvery { noteRepo.getCount(bin = true) } returns it
             assertEquals(it, interactor.getCount())
         }

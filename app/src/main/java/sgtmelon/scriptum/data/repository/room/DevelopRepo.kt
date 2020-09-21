@@ -23,15 +23,21 @@ class DevelopRepo(override val roomProvider: RoomProvider) : IDevelopRepo, IRoom
 
     override suspend fun getRollList(): List<RollEntity> = takeFromRoom {
         ArrayList<RollEntity>().apply {
-            noteDao.getByChange(bin = false)
-                    .filter { it.type == NoteType.ROLL }
-                    .map { it.id }
-                    .forEach { noteId -> addAll(rollDao.get(noteId)) }
+            val fromNoteList = noteDao.getByChange(bin = false)
+                .filter { it.type == NoteType.ROLL }
+                .map { it.id }
 
-            noteDao.getByChange(bin = true)
-                    .filter { it.type == NoteType.ROLL }
-                    .map { it.id }
-                    .forEach { noteId -> addAll(rollDao.get(noteId)) }
+            for (noteId in fromNoteList) {
+                addAll(rollDao.get(noteId))
+            }
+
+            val fromBinList = noteDao.getByChange(bin = true)
+                .filter { it.type == NoteType.ROLL }
+                .map { it.id }
+
+            for (noteId in fromBinList) {
+                addAll(rollDao.get(noteId))
+            }
         }
     }
 

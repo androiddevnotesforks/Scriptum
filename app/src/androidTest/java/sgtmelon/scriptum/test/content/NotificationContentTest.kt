@@ -18,7 +18,7 @@ import sgtmelon.scriptum.ui.screen.NotificationScreen
 class NotificationContentTest : ParentUiTest() {
 
     @Test fun time() = onAssertList(ArrayList<NoteItem>().also { list ->
-        nextArray.forEach {
+        for (it in nextArray) {
             list.add(data.insertNotification(date = getCalendarWithAdd(it).getText()))
         }
     })
@@ -31,7 +31,7 @@ class NotificationContentTest : ParentUiTest() {
         preferenceRepo.theme = theme
 
         onAssertList(ArrayList<NoteItem>().also { list ->
-            Color.list.forEachIndexed { i, it ->
+            for ((i, it) in Color.list.withIndex()) {
                 val date = getCalendarWithAdd(min = NEXT_HOUR + i * NEXT_HOUR).getText()
                 val noteItem = data.insertText(data.textNote.copy(name = "", color = it))
 
@@ -45,7 +45,7 @@ class NotificationContentTest : ParentUiTest() {
         launch {
             mainScreen {
                 notesScreen {
-                    openNotification { list.forEachIndexed { p, model -> onAssertItem(p, model) } }
+                    openNotification { for ((p, it) in list.withIndex()) onAssertItem(p, it) }
                 }
             }
         }

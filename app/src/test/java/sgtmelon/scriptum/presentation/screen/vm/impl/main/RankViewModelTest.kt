@@ -635,20 +635,20 @@ class RankViewModelTest : ParentViewModelTest() {
         val id = itemList.random().noteId.random()
         val updateList = itemList.filter { it.noteId.contains(id) }
 
-        updateList.forEachIndexed { i, item ->
+        for ((i, item) in updateList.withIndex()) {
             coEvery { interactor.getBind(item.noteId) } returns hasValue[i]
         }
 
         viewModel.onReceiveUnbindNote(id)
 
-        updateList.forEachIndexed { i, item ->
+        for ((i, item) in updateList.withIndex()) {
             itemList[itemList.indexOf(item)].hasBind = hasValue[i]
         }
 
         assertEquals(itemList, viewModel.itemList)
 
         coVerifySequence {
-            updateList.forEach {
+            for (it in updateList) {
                 interactor.getBind(it.noteId)
             }
 
@@ -779,7 +779,9 @@ class RankViewModelTest : ParentViewModelTest() {
     }
 
     private fun assertVisible(list: List<RankItem>, p: Int) {
-        list.forEachIndexed { i, item -> assertEquals(i == p, item.isVisible) }
+        for ((i, item) in list.withIndex()) {
+            assertEquals(i == p, item.isVisible)
+        }
     }
 
     @Test fun correctPositions() = with(TestData.Rank) {
@@ -802,8 +804,10 @@ class RankViewModelTest : ParentViewModelTest() {
         assertPositions(list)
     }
 
-    private fun assertPositions(list: List<RankItem>) = list.forEachIndexed { i, item ->
-        assertEquals(i, item.position)
+    private fun assertPositions(list: List<RankItem>) {
+        for ((i, item) in list.withIndex()) {
+            assertEquals(i, item.position)
+        }
     }
 
     //endregion

@@ -13,7 +13,7 @@ import sgtmelon.scriptum.ui.screen.main.RankScreen
 class RankContentTest : ParentUiTest() {
 
     @Test fun itemList() = data.fillRankRelation(ITEM_COUNT).let { list ->
-        launch { mainScreen { rankScreen { list.forEach { onAssertItem(it) } } } }
+        launch { mainScreen { rankScreen { for(it in list) onAssertItem(it)  } } }
     }
 
     @Test fun visibleClick() = data.insertRank().let { item ->
@@ -35,9 +35,13 @@ class RankContentTest : ParentUiTest() {
         launch {
             mainScreen {
                 rankScreen {
-                    list.forEach { currentItem ->
+                    for (currentItem in list) {
                         onLongClickVisible(currentItem)
-                        list.forEach { onAssertItem(it.apply { isVisible = it == currentItem }) }
+
+                        for (it in list) {
+                            it.isVisible = it == currentItem
+                            onAssertItem(it)
+                        }
                     }
                 }
             }

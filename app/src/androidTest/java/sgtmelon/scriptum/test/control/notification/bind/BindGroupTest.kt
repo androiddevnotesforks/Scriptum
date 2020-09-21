@@ -12,11 +12,11 @@ class BindGroupTest : ParentNotificationTest() {
         launch {
             mainScreen {
                 notesScreen {
-                    it.forEachIndexed { p, item ->
+                    for ((p, item) in it.withIndex()) {
                         openNoteDialog(item, p) { onBind() }.apply { onSee() }
                     }
 
-                    it.forEachIndexed { p, item ->
+                    for ((p, item) in it.withIndex()) {
                         openNoteDialog(item, p) { onBind() }.apply { onSee() }
                     }
                 }

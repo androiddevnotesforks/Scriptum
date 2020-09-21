@@ -90,7 +90,9 @@ class RippleContainer @JvmOverloads constructor(
         if (!isAnimate) {
             isAnimate = true
 
-            viewList.forEach { it.visibility = View.VISIBLE }
+            for (it in viewList) {
+                it.visibility = View.VISIBLE
+            }
             animatorSet.start()
         }
     }
@@ -101,7 +103,9 @@ class RippleContainer @JvmOverloads constructor(
         if (isAnimate) {
             isAnimate = false
 
-            viewList.forEach { it.visibility = View.INVISIBLE }
+            for (it in viewList) {
+                it.visibility = View.INVISIBLE
+            }
             animatorSet.end()
 
             animatorList.clear()

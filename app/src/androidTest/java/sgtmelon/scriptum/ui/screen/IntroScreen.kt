@@ -29,10 +29,10 @@ class IntroScreen : ParentUi() {
     fun onPassThrough(scroll: Scroll) {
         val count = IntroData.count
 
-        (when (scroll) {
+        for (it in when (scroll) {
             Scroll.START -> count - 1 downTo 0
             Scroll.END -> 0 until count - 1
-        }).forEach {
+        }) {
             assert(it, enabled = it == count - 1)
             onSwipe(scroll)
         }

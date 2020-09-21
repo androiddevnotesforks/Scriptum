@@ -77,7 +77,8 @@ class PreferenceInteractor(
 
         return StringBuilder().apply {
             var firstAppend = true
-            valueArray.forEachIndexed { i, bool ->
+
+            for ((i, bool) in valueArray.withIndex()) {
                 if (bool) {
                     append(if (firstAppend) {
                         firstAppend = false

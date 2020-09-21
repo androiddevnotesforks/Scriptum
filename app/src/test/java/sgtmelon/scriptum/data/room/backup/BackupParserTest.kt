@@ -232,7 +232,9 @@ class BackupParserTest : ParentBackupTest() {
                 "Подушечка из манго самая мягкая" to "62b8d1d61be6acb1a76f55a4d2fd866ef8dd68cd3a6fb23b9f032b7f376f09c7"
         )
 
-        dataResultMap.forEach { assertEquals(it.value, backupParser.getHash(it.key)) }
+        for (it in dataResultMap) {
+            assertEquals(it.value, backupParser.getHash(it.key))
+        }
     }
 
 

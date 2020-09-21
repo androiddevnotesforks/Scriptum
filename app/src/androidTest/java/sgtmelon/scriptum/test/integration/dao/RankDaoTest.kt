@@ -23,7 +23,10 @@ class RankDaoTest : ParentRoomTest() {
 
     private suspend fun IRankDao.insertAll(): List<RankEntity> {
         return arrayListOf(firstRank, secondRank, thirdRank).apply {
-            forEach { insert(it) }
+            for (it in this) {
+                insert(it)
+            }
+
             sortBy { it.position }
         }
     }
@@ -57,7 +60,10 @@ class RankDaoTest : ParentRoomTest() {
         val updateList = arrayListOf(firstRank.copy(position = 0), secondRank.copy(position = 1))
 
         update(updateList)
-        updateList.forEach { assertEquals(it, get(it.id)) }
+
+        for (it in updateList) {
+            assertEquals(it, get(it.id))
+        }
     }
 
     @Test fun updateWithUnique() = inRankDao {
@@ -112,8 +118,8 @@ class RankDaoTest : ParentRoomTest() {
     @Test fun getId() = inRankDao {
         assertNull(getId(Random.nextInt()))
 
-        insertAll().map { it.id }.forEachIndexed { p, id ->
-            assertEquals(id, getId(p))
+        for ((i, id) in insertAll().map { it.id }.withIndex()) {
+            assertEquals(id, getId(i))
         }
     }
 

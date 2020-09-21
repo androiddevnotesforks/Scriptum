@@ -20,7 +20,9 @@ class RollDaoTest : ParentRoomTest() {
 
     private suspend fun RoomDb.insertRollRelation(model: Model) = with(model) {
         noteDao.insert(entity)
-        rollList.forEach { rollDao.insert(it) }
+        for (it in rollList) {
+            rollDao.insert(it)
+        }
     }
 
 
@@ -28,7 +30,10 @@ class RollDaoTest : ParentRoomTest() {
         insertRollRelation(firstModel)
 
         with(firstModel) {
-            rollList.forEach { item -> assertEquals(RoomDb.UNIQUE_ERROR_ID, rollDao.insert(item)) }
+            for (it in rollList) {
+                assertEquals(RoomDb.UNIQUE_ERROR_ID, rollDao.insert(it))
+            }
+
             assertEquals(rollList, rollDao.get(entity.id))
         }
     }
@@ -51,9 +56,9 @@ class RollDaoTest : ParentRoomTest() {
 
         with(secondModel) {
             rollDao.updateAllCheck(entity.id, check = true)
-            assertEquals(copy().rollList.apply {
-                forEach { it.isCheck = true }
-            }, rollDao.get(entity.id))
+
+            val newList = copy().rollList.apply { for (it in this) it.isCheck = true }
+            assertEquals(newList, rollDao.get(entity.id))
         }
     }
 

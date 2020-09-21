@@ -114,13 +114,14 @@ class TextNoteInteractorTest : ParentInteractorTest() {
                 Pair(Random.nextLong(), Random.nextInt())
         )
 
-        list.forEach {
+        for (it in list) {
             coEvery { rankRepo.getId(it.second) } returns it.first
             assertEquals(it.first, interactor.getRankId(it.second))
         }
 
         coVerifySequence {
-            list.forEach { rankRepo.getId(it.second) }
+            for (it in list) {
+                rankRepo.getId(it.second) }
         }
     }
 

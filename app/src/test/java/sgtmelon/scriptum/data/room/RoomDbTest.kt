@@ -19,7 +19,7 @@ class RoomDbTest : ParentTest() {
     @Test fun checkInsertIgnore() {
         assertNull(roomDb.checkInsertIgnore(RoomDb.UNIQUE_ERROR_ID))
 
-        listOf(-2L, 10L, 15L, 23L).forEach {
+        for (it in listOf(-2L, 10L, 15L, 23L)) {
             assertEquals(it, roomDb.checkInsertIgnore(it))
         }
     }

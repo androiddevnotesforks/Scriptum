@@ -65,7 +65,8 @@ class AlarmInteractorTest : ParentInteractorTest() {
         }
 
         val valueList = listOf(Random.nextBoolean(), Random.nextBoolean())
-        valueList.forEach { checkRequestGet(it) }
+
+        for (it in valueList) checkRequestGet(it)
 
         verifySequence {
             repeat(valueList.size) { preferenceRepo.volumeIncrease }

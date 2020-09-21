@@ -25,13 +25,14 @@ class RankRepo(
     override suspend fun getCount(): Int = takeFromRoom { rankDao.getCount() }
 
     override suspend fun getList(): MutableList<RankItem> = takeFromRoom {
-        ArrayList<RankItem>().apply {
-            addAll(converter.toItem(rankDao.get()))
-            forEach { item ->
-                item.hasBind = noteDao.get(item.noteId).any { it.isStatus }
-                item.hasNotification = alarmDao.get(item.noteId).isNotEmpty()
-            }
+        val list = converter.toItem(rankDao.get())
+
+        for (item in list) {
+            item.hasBind = noteDao.get(item.noteId).any { it.isStatus }
+            item.hasNotification = alarmDao.get(item.noteId).isNotEmpty()
         }
+
+        return@takeFromRoom list
     }
 
     override suspend fun getBind(noteId: List<Long>): Boolean = takeFromRoom {
@@ -138,15 +139,23 @@ class RankRepo(
     }
 
     @RunPrivate
-    fun updateNoteId(list: List<RankEntity>, checkArray: BooleanArray, noteId: Long) = list.apply {
-        if (list.size != checkArray.size) return@apply
+    fun updateNoteId(
+        list: List<RankEntity>,
+        checkArray: BooleanArray,
+        noteId: Long
+    ): List<RankEntity> {
+        if (list.size != checkArray.size) return list
 
-        forEachIndexed { i, item ->
+        for ((i, item) in list.withIndex()) {
+            val checkValue = checkArray.getOrNull(i) ?: continue
+
             when {
-                checkArray[i] && !item.noteId.contains(noteId) -> item.noteId.add(noteId)
-                !checkArray[i] -> item.noteId.remove(noteId)
+                checkValue && !item.noteId.contains(noteId) -> item.noteId.add(noteId)
+                !checkValue -> item.noteId.remove(noteId)
             }
         }
+
+        return list
     }
 
 

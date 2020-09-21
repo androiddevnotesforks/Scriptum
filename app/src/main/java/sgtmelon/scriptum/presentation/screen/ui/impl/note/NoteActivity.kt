@@ -50,7 +50,7 @@ class NoteActivity : AppActivity(), INoteActivity, INoteConnector, NoteReceiver.
 
     override fun onCreate(savedInstanceState: Bundle?) {
         ScriptumApplication.component.getNoteBuilder().set(activity = this).build()
-                .inject(activity = this)
+            .inject(activity = this)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note)
@@ -136,9 +136,9 @@ class NoteActivity : AppActivity(), INoteActivity, INoteConnector, NoteReceiver.
         holderShowControl.show()
 
         fm.beginTransaction()
-                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-                .replace(R.id.note_fragment_container, fragment, key)
-                .commit()
+            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+            .replace(R.id.note_fragment_container, fragment, key)
+            .commit()
     }
 
     companion object {
@@ -151,13 +151,15 @@ class NoteActivity : AppActivity(), INoteActivity, INoteConnector, NoteReceiver.
         /**
          * If [id] and [color] isDefault - it means that note will be create, not open.
          */
-        operator fun get(context: Context, type: Int,
-                         id: Long = NoteData.Default.ID,
-                         @Color color: Int = NoteData.Default.COLOR): Intent {
+        operator fun get(
+            context: Context, type: Int,
+            id: Long = NoteData.Default.ID,
+            @Color color: Int = NoteData.Default.COLOR
+        ): Intent {
             return Intent(context, NoteActivity::class.java)
-                    .putExtra(NoteData.Intent.ID, id)
-                    .putExtra(NoteData.Intent.COLOR, color)
-                    .putExtra(NoteData.Intent.TYPE, type)
+                .putExtra(NoteData.Intent.ID, id)
+                .putExtra(NoteData.Intent.COLOR, color)
+                .putExtra(NoteData.Intent.TYPE, type)
         }
     }
 

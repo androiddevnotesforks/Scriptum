@@ -62,7 +62,7 @@ class RankDialogUi(
         titleText.isDisplayed()
 
         noCategoryButton.isDisplayed().isChecked(checked = check == -1)
-        rankList.forEach {
+        for (it in rankList) {
             getItem(it.name).isDisplayed().isChecked(checked = check == it.position)
         }
 

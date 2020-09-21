@@ -18,12 +18,11 @@ class RankIconAnimTest : ParentUiTest() {
     }
 
     @Test fun visibleLongClick() = data.fillRank(REPEAT_COUNT).let {
-        launch { mainScreen { rankScreen { it.forEach { onLongClickVisible(it) } } } }
+        launch { mainScreen { rankScreen { for (item in it) onLongClickVisible(item) } } }
     }
 
 
     private companion object {
         const val REPEAT_COUNT = 7
     }
-
 }

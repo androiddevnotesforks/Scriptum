@@ -9,17 +9,19 @@ import sgtmelon.scriptum.R
  * Class for help control showing placeholders while transition happen.
  */
 class HolderShowControl(
-        private val viewArray: Array<View?>,
-        @IntegerRes private val time: Int = R.integer.placeholder_fade_time
+    private val viewArray: Array<View?>,
+    @IntegerRes private val time: Int = R.integer.placeholder_fade_time
 ) : IHolderShowControl {
 
     private val timeValue = viewArray.random()?.context?.resources?.getInteger(time)?.toLong() ?: 0L
 
     private val handler = Handler()
-    private val runnable = { viewArray.forEach { it?.visibility = View.INVISIBLE } }
+    private val runnable = { for (it in viewArray) it?.visibility = View.INVISIBLE }
 
     override fun show() {
-        viewArray.forEach { it?.visibility = View.VISIBLE }
+        for (it in viewArray) {
+            it?.visibility = View.VISIBLE
+        }
 
         handler.removeCallbacksAndMessages(null)
         handler.postDelayed(runnable, timeValue)
@@ -34,5 +36,4 @@ class HolderShowControl(
             return HolderShowControl(arrayOf(*view))
         }
     }
-
 }

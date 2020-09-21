@@ -10,19 +10,19 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.IDevelopViewModel
  * Interactor for [IDevelopViewModel].
  */
 class DevelopInteractor(
-        private val developRepo: IDevelopRepo,
-        private val preferenceRepo: IPreferenceRepo
-): ParentInteractor(),
-        IDevelopInteractor {
+    private val developRepo: IDevelopRepo,
+    private val preferenceRepo: IPreferenceRepo
+) : ParentInteractor(),
+    IDevelopInteractor {
 
     override suspend fun getNoteTablePrint() = StringBuilder().apply {
         val list = developRepo.getNoteList()
 
         append("Note table:")
 
-        list.forEach {
+        for (it in list) {
             val text = it.text.substring(0, kotlin.math.min(it.text.length, b = 40))
-                    .replace("\n", " ")
+                .replace("\n", " ")
 
             append("\n\n")
             append("ID: ${it.id} | CR: ${it.create} | CH: ${it.change}\n")
@@ -42,9 +42,9 @@ class DevelopInteractor(
 
         append("Roll table:")
 
-        list.forEach {
+        for (it in list) {
             val text = it.text.substring(0, it.text.length.coerceAtMost(maximumValue = 40))
-                    .replace("\n", " ")
+                .replace("\n", " ")
 
             append("\n\n")
             append("ID: ${it.id} | ID_NT: ${it.noteId} | PS: ${it.position} | CH: ${it.isCheck}")
@@ -58,7 +58,7 @@ class DevelopInteractor(
 
         append("Rank table:")
 
-        list.forEach {
+        for (it in list) {
             append("\n\n")
             append("ID: ${it.id} | PS: ${it.position} | VS: ${it.isVisible}\n")
             append("NM: ${it.name}\n")

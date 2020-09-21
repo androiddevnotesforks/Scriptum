@@ -138,8 +138,10 @@ class NoteRepo(
     }
 
     override suspend fun clearBin() = inRoom {
-        val itemList = noteDao.get(true).apply {
-            forEach { clearConnection(rankDao, it.id, it.rankId) }
+        val itemList = noteDao.get(true)
+
+        for (it in itemList) {
+            clearConnection(rankDao, it.id, it.rankId)
         }
 
         noteDao.delete(itemList)
@@ -176,7 +178,7 @@ class NoteRepo(
     override suspend fun convertNote(noteItem: NoteItem.Text): NoteItem.Roll = takeFromRoom {
         val item = noteItem.onConvert()
 
-        item.list.forEach {
+        for (it in item.list) {
             it.id = rollDao.insert(rollConverter.toEntity(item.id, it))
         }
 
@@ -227,8 +229,9 @@ class NoteRepo(
 
         if (isCreate) {
             noteItem.id = noteDao.insert(noteEntity)
-            noteItem.list.forEach {
-                it.id = rollDao.insert(rollConverter.toEntity(noteItem.id, it))
+
+            for (item in noteItem.list) {
+                item.id = rollDao.insert(rollConverter.toEntity(noteItem.id, item))
             }
         } else {
             noteDao.update(noteEntity)
@@ -238,7 +241,7 @@ class NoteRepo(
              */
             val idSaveList = ArrayList<Long>()
 
-            noteItem.list.forEach { item ->
+            for (item in noteItem.list) {
                 val id = item.id
 
                 if (id == null) {

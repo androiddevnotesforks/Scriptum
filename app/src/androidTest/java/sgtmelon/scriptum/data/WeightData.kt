@@ -15,8 +15,8 @@ import kotlin.random.Random
  * Data for weight tests
  */
 class WeightData(
-        private val context: Context,
-        override val roomProvider: RoomProvider
+    private val context: Context,
+    override val roomProvider: RoomProvider
 ) : IRoomWork {
 
     val textNote: NoteEntity
@@ -30,11 +30,11 @@ class WeightData(
         }
 
     val rollList = ArrayList<RollEntity>().apply {
-        (0 until 300).forEach {
+        for (i in 0 until 300) {
             add(RollEntity(
-                    position = it,
-                    isCheck = Random.nextBoolean(),
-                    text = "$it | " + "${context.getString(R.string.test_roll_text)} | ".repeat((1..3).random())
+                position = i,
+                isCheck = Random.nextBoolean(),
+                text = "$i | " + "${context.getString(R.string.test_roll_text)} | ".repeat((1..3).random())
             ))
         }
     }

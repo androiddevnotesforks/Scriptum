@@ -57,7 +57,10 @@ class RollEnterPanel<T: ParentUi>(private val callback: INoteScreen<T, NoteItem.
 
                 callback.shadowItem.list.apply {
                     add(0, RollItem(position = 0, text = actualText))
-                    forEachIndexed { i, item -> item.position = i }
+
+                    for ((i , item) in withIndex()) {
+                        item.position = i
+                    }
                 }
             }
 

@@ -140,7 +140,8 @@ class NoteItemTest : ParentTest() {
             assertEquals(NoteType.ROLL, type)
 
             assertEquals(splitList.size, list.size)
-            splitList.forEachIndexed { i, text ->
+
+            for ((i, text) in splitList.withIndex()) {
                 assertEquals(i, list[i].position)
                 assertEquals(text, list[i].text)
             }
@@ -174,7 +175,8 @@ class NoteItemTest : ParentTest() {
     @Test fun isSaveEnabled_forRoll() {
         rollItem.deepCopy().apply {
             assertTrue(isSaveEnabled())
-            list.forEach { it.text = "" }
+
+            for (it in list) it.text = ""
             assertFalse(isSaveEnabled())
         }
     }
@@ -216,7 +218,7 @@ class NoteItemTest : ParentTest() {
 
         rollItem.deepCopy().apply {
             with(list) {
-                forEach { it.isCheck = true }
+                for (it in this) it.isCheck = true
                 while (size != MAX_COUNT) add(random().copy(isCheck = true))
             }
             assertEquals("${MAX_COUNT}/${MAX_COUNT}", updateComplete().text)
@@ -291,7 +293,9 @@ class NoteItemTest : ParentTest() {
             assertEquals(4, list.size)
             assertEquals("2/4", text)
 
-            list.forEachIndexed { i, item -> assertEquals(i, item.position) }
+            for ((i, item) in list.withIndex()) {
+                assertEquals(i, item.position)
+            }
 
             assertEquals(NAME_CLEAR, name)
             assertChangeTime(this)

@@ -257,7 +257,9 @@ class PreferenceViewModelTest : ParentViewModelTest() {
     @Test fun onClickExport() {
         coEvery { spyViewModel.startExport() } returns Unit
 
-        PermissionResult.values().forEach { assertTrue(spyViewModel.onClickExport(it)) }
+        for (it in PermissionResult.values()) {
+            assertTrue(spyViewModel.onClickExport(it))
+        }
 
         coVerifySequence {
             spyViewModel.onClickExport(PermissionResult.LOW_API)
@@ -309,7 +311,9 @@ class PreferenceViewModelTest : ParentViewModelTest() {
     @Test fun onClickImport() {
         coEvery { spyViewModel.prepareImportDialog() } returns Unit
 
-        PermissionResult.values().forEach { assertTrue(spyViewModel.onClickImport(it)) }
+        for (it in PermissionResult.values()) {
+            assertTrue(spyViewModel.onClickImport(it))
+        }
 
         coVerifySequence {
             spyViewModel.onClickImport(PermissionResult.LOW_API)

@@ -55,7 +55,7 @@ class RankSnackbarTest : ParentUiTest() {
 
                     assertSnackbarDismiss()
 
-                    list.forEachIndexed { i, item ->
+                    for ((i , item) in list.withIndex()) {
                         openRenameDialog(item.name, i) { onCloseSoft() }
                     }
                 }
@@ -82,7 +82,8 @@ class RankSnackbarTest : ParentUiTest() {
 
                 rankScreen {
                     assertSnackbarDismiss()
-                    it.forEachIndexed { i, item ->
+
+                    for ((i , item) in it.withIndex()) {
                         openRenameDialog(item.name, i) { onCloseSoft() }
                     }
                 }
@@ -103,7 +104,7 @@ class RankSnackbarTest : ParentUiTest() {
                 rankScreen {
                     assertSnackbarDismiss()
 
-                    list.forEachIndexed { i, item ->
+                    for ((i , item) in list.withIndex()) {
                         openRenameDialog(item.name, i) { onCloseSoft() }
                     }
                     repeat(list.size) { onClickCancel(p = 0) }
@@ -129,7 +130,7 @@ class RankSnackbarTest : ParentUiTest() {
                     openRenameDialog(list[0].name, p = 0) { onClickCancel() }
 
                     assertSnackbarDismiss()
-                    list.forEachIndexed { i, item ->
+                    for ((i , item) in list.withIndex()) {
                         openRenameDialog(item.name, i) { onCloseSoft() }
                     }
                 }
@@ -149,7 +150,7 @@ class RankSnackbarTest : ParentUiTest() {
                     toolbar { onEnterName(name).onLongClickAdd() }
 
                     assertSnackbarDismiss()
-                    list.forEachIndexed { i, item ->
+                    for ((i , item) in list.withIndex()) {
                         openRenameDialog(item.name, p = i + 1) { onCloseSoft() }
                     }
                     openRenameDialog(name, p = 0)
@@ -170,7 +171,7 @@ class RankSnackbarTest : ParentUiTest() {
                     toolbar { onEnterName(name).onClickAdd() }
 
                     assertSnackbarDismiss()
-                    list.forEachIndexed { i, item ->
+                    for ((i , item) in list.withIndex()) {
                         openRenameDialog(item.name, i) { onCloseSoft() }
                     }
                     openRenameDialog(name, p = count - 1)
@@ -191,7 +192,7 @@ class RankSnackbarTest : ParentUiTest() {
                     toolbar { onEnterName(name).onImeOptionClick() }
 
                     assertSnackbarDismiss()
-                    list.forEachIndexed { i, item ->
+                    for ((i , item) in list.withIndex()) {
                         openRenameDialog(item.name, i) { onCloseSoft() }
                     }
                     openRenameDialog(name, p = count - 1)

@@ -37,7 +37,7 @@ class RankInteractorTest : ParentInteractorTest() {
     @Test fun getCount() = startCoTest {
         val countList = listOf(Random.nextInt(), Random.nextInt())
 
-        countList.forEach {
+        for (it in countList) {
             coEvery { rankRepo.getCount() } returns it
             assertEquals(it, interactor.getCount())
         }
@@ -62,7 +62,7 @@ class RankInteractorTest : ParentInteractorTest() {
         val bindList = listOf(Random.nextBoolean(), Random.nextBoolean())
         val noteIdList = List(size = 5) { Random.nextLong() }
 
-        bindList.forEach {
+        for (it in bindList) {
             coEvery { rankRepo.getBind(noteIdList) } returns it
             assertEquals(it, interactor.getBind(noteIdList))
         }
@@ -77,7 +77,7 @@ class RankInteractorTest : ParentInteractorTest() {
         val idList = listOf(Random.nextLong(), Random.nextLong(), null)
         val name = nextString()
 
-        idList.forEach {
+        for (it in idList) {
             coEvery { rankRepo.insert(name) } returns it
 
             if (it != null) {

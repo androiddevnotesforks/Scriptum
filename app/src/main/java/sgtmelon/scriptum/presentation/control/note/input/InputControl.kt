@@ -4,6 +4,7 @@ import android.util.Log
 import sgtmelon.scriptum.domain.model.annotation.InputAction
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.InputItem
+import sgtmelon.scriptum.extension.removeAtOrNull
 import sgtmelon.scriptum.presentation.provider.BuildProvider
 
 /**
@@ -69,7 +70,9 @@ class InputControl : IInputControl {
         val lastPosition = list.lastIndex
 
         if (position != lastPosition) {
-            (lastPosition downTo position + 1).forEach { list.removeAt(it) }
+            for (i in lastPosition downTo position + 1) {
+                list.removeAtOrNull(i)
+            }
         }
     }
 
@@ -78,7 +81,7 @@ class InputControl : IInputControl {
      */
     @RunPrivate fun clearToSize() {
         while (list.size >= BuildProvider.inputControlMaxSize()) {
-            list.removeAt(0)
+            list.removeAtOrNull(0)
             position--
         }
     }

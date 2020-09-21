@@ -144,12 +144,13 @@ class BackupRepoTest : ParentRoomRepoTest() {
         startRollVisibleList.addAll(
             List(size = 5) { RollVisibleEntity(id = Random.nextLong(), noteId = secondItem.id) }
         )
-        startRankList.forEachIndexed { i, item ->
+        for ((i, item) in startRankList.withIndex()) {
             if (i % 2 == 0) {
                 val id = if (Random.nextBoolean()) firstItem.id else secondItem.id
                 item.noteId.add(id)
             }
         }
+
         startAlarmList.addAll(
             List(size = 5) {
                 val noteId = if (Random.nextBoolean()) firstItem.id else secondItem.id
@@ -245,7 +246,7 @@ class BackupRepoTest : ParentRoomRepoTest() {
             roomDb.alarmDao
             alarmDao.getList()
 
-            resultAlarmList.forEach {
+            for (it in resultAlarmList) {
                 spyBackupRepo.moveNotificationTime(it, any(), existList)
             }
         }

@@ -59,13 +59,13 @@ class NotesViewModelTest : ParentViewModelTest() {
     @Test fun onSetup() {
         val themeList = listOf(Theme.LIGHT, Random.nextInt())
 
-        themeList.forEach {
+        for (it in themeList) {
             every { interactor.theme } returns it
             viewModel.onSetup()
         }
 
         verifySequence {
-            themeList.forEach {
+            for (it in themeList) {
                 callback.setupToolbar()
                 interactor.theme
                 callback.setupRecycler(it)

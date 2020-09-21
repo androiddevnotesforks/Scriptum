@@ -16,19 +16,18 @@ class MainTest : ParentUiTest() {
     @Test fun startScreen() = launch { mainScreen() }
 
     @Test fun menuClickCorrectScreen() = launch {
-        mainScreen { repeat(times = 3) { pageList.forEach { openPage(it, empty = true) } } }
+        mainScreen { repeat(times = 3) { for (page in pageList) openPage(page, empty = true) } }
     }
 
     @Test fun addFabVisible() = launch {
-        mainScreen { repeat(times = 3) { pageList.forEach { onNavigateTo(it) } } }
+        mainScreen { repeat(times = 3) { for (page in pageList) onNavigateTo(page) } }
     }
 
 
     private companion object {
         val pageList = arrayListOf(
-                MainPage.RANK, MainPage.NOTES, MainPage.BIN,
-                MainPage.RANK, MainPage.BIN, MainPage.NOTES
+            MainPage.RANK, MainPage.NOTES, MainPage.BIN,
+            MainPage.RANK, MainPage.BIN, MainPage.NOTES
         )
     }
-
 }

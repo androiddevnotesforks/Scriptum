@@ -24,15 +24,15 @@ class RoomMigrateTest : ParentTest() {
                 arrayListOf(5L)
         )
 
-        (0 until noteIdList.size).forEach {i ->
-            noteIdExistSet.apply {
-                forEach { if (noteIdList[i].contains(it)) noteIdList[i].remove(it) }
-
-                /**
-                 * Add not deleted id's for next forEach run.
-                 */
-                addAll(noteIdList[i])
+        for (i in 0 until noteIdList.size) {
+            for (it in noteIdExistSet) {
+                if (noteIdList[i].contains(it)) noteIdList[i].remove(it)
             }
+
+            /**
+             * Add not deleted id's for next FOR run.
+             */
+            noteIdExistSet.addAll(noteIdList[i])
         }
 
         assertEquals(noteIdListExpected, noteIdList)

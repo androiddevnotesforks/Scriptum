@@ -22,15 +22,17 @@ class MainInteractor(
     override fun onDestroy(func: () -> Unit) = super.onDestroy { callback = null }
 
 
-    override suspend fun tidyUpAlarm() = alarmRepo.getList().forEach {
-        val calendar = it.alarm.date.getCalendar()
-        val id = it.note.id
+    override suspend fun tidyUpAlarm() {
+        for (it in alarmRepo.getList()) {
+            val calendar = it.alarm.date.getCalendar()
+            val id = it.note.id
 
-        if (calendar.beforeNow()) {
-            runMain { callback?.cancelAlarm(id) }
-            alarmRepo.delete(id)
-        } else {
-            runMain { callback?.setAlarm(calendar, id) }
+            if (calendar.beforeNow()) {
+                runMain { callback?.cancelAlarm(id) }
+                alarmRepo.delete(id)
+            } else {
+                runMain { callback?.setAlarm(calendar, id) }
+            }
         }
     }
 

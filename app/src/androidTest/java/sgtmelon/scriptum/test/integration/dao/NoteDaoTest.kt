@@ -55,7 +55,9 @@ class NoteDaoTest : ParentRoomTest() {
         val list = listOf(firstNote, secondNote, thirdNote)
 
         delete(list)
-        list.forEach { assertNull(get(it.id)) }
+        for (it in list) {
+            assertNull(get(it.id))
+        }
     }
 
     @Test fun update() = inNoteDao {

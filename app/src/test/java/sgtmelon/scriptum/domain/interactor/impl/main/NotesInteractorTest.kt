@@ -54,7 +54,7 @@ class NotesInteractorTest : ParentInteractorTest() {
     @Test fun getCount()  = startCoTest {
         val countList = listOf(Random.nextInt(), Random.nextInt())
 
-        countList.forEach {
+        for (it in countList) {
             coEvery { noteRepo.getCount(bin = false) } returns it
             assertEquals(it, interactor.getCount())
         }
@@ -91,7 +91,7 @@ class NotesInteractorTest : ParentInteractorTest() {
     @Test fun isListHide() = startCoTest {
         val hideList = listOf(Random.nextBoolean(), Random.nextBoolean())
 
-        hideList.forEach {
+        for (it in hideList) {
             coEvery { noteRepo.isListHide() } returns it
             assertEquals(it, interactor.isListHide())
         }

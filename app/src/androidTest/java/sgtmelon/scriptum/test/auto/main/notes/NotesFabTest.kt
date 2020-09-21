@@ -17,13 +17,13 @@ class NotesFabTest : ParentUiTest() {
 
     @Test fun onScrollAndPageChange() = launch({ data.fillNotes(count = 45) }) {
         mainScreen {
-            listOf(MainPage.RANK, MainPage.BIN).forEach { pageTo ->
+            for (it in listOf(MainPage.RANK, MainPage.BIN)) {
                 notesScreen { onScroll(Scroll.END, time = 5) }
                 assert(fabVisible = false)
                 notesScreen { onScroll(Scroll.START, time = 1) }
                 assert(fabVisible = true)
                 notesScreen { onScroll(Scroll.START, time = 2) }
-                onNavigateTo(pageTo)
+                onNavigateTo(it)
                 assert(fabVisible = false)
                 onNavigateTo(MainPage.NOTES)
             }

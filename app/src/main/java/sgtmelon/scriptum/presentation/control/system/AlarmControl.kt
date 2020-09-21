@@ -46,7 +46,9 @@ class AlarmControl(private val context: Context?) : IAlarmControl {
 
     override fun clear() {
         if (BuildConfig.DEBUG) {
-            intentList.forEach { alarmManager?.cancel(it) }
+            for (it in intentList) {
+                alarmManager?.cancel(it)
+            }
             intentList.clear()
         }
     }

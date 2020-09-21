@@ -43,7 +43,7 @@ class RankRepoTest : ParentRoomRepoTest() {
 
     @Test fun getList() = startCoTest {
         val finishRankList = TestData.Rank.itemList.apply {
-            forEachIndexed { i, it ->
+            for ((i, it) in withIndex()) {
                 it.hasBind = i % 2 == 0
                 it.hasNotification = i % 2 == 0
             }
@@ -65,7 +65,7 @@ class RankRepoTest : ParentRoomRepoTest() {
         every { converter.toItem(entityList) } returns itemList
         coEvery { rankDao.get() } returns entityList
 
-        entityList.forEachIndexed { i, it ->
+        for ((i, it) in entityList.withIndex()) {
             coEvery { noteDao.get(it.noteId) } returns if (i % 2 == 0) bindList else notBindList
             coEvery { alarmDao.get(it.noteId) } returns if (i % 2 == 0) alarmList else listOf()
         }
@@ -76,7 +76,7 @@ class RankRepoTest : ParentRoomRepoTest() {
             roomProvider.openRoom()
             rankDao.get()
             converter.toItem(entityList)
-            entityList.forEach {
+            for (it in entityList) {
                 noteDao.get(it.noteId)
                 alarmDao.get(it.noteId)
             }
@@ -166,7 +166,7 @@ class RankRepoTest : ParentRoomRepoTest() {
         every { rankItem.id } returns id
         every { rankItem.position } returns position
 
-        noteEntityList.forEachIndexed { i, it ->
+        for ((i, it) in noteEntityList.withIndex()) {
             coEvery { noteDao.get(idList[i]) } returns it
 
             if (it != null) {
@@ -184,7 +184,7 @@ class RankRepoTest : ParentRoomRepoTest() {
             roomProvider.openRoom()
             rankItem.noteId
 
-            noteEntityList.forEachIndexed { i, it ->
+            for ((i, it) in noteEntityList.withIndex()) {
                 noteDao.get(idList[i])
 
                 if (it != null) {
@@ -370,9 +370,9 @@ class RankRepoTest : ParentRoomRepoTest() {
         with(rankRepo) {
             val id = Random.nextLong()
             fun assertUnique(list: List<RankEntity>, array: BooleanArray, id: Long) {
-                array.forEachIndexed { i, b ->
-                    assertEquals(if (b) 3 else 2, list[i].noteId.size)
-                    assertEquals(b, list[i].noteId.contains(id))
+                for ((i, bool) in array.withIndex()) {
+                    assertEquals(if (bool) 3 else 2, list[i].noteId.size)
+                    assertEquals(bool, list[i].noteId.contains(id))
                 }
             }
 

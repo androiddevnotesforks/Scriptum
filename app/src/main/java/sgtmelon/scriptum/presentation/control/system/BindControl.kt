@@ -121,7 +121,7 @@ class BindControl(private val context: Context?) : IBindControl {
             }
         }
 
-        noteItemList.reversed().forEach {
+        for (it in noteItemList.reversed()) {
             val id = it.id.toInt()
 
             manager?.notify(Tag.NOTE, id, NotificationFactory.getBind(context, it))
@@ -157,7 +157,10 @@ class BindControl(private val context: Context?) : IBindControl {
     override fun clearRecent(@Tag tag: String?) {
         when (tag) {
             Tag.NOTE -> {
-                noteIdList.forEach { manager?.cancel(Tag.NOTE, it) }
+                for (it in noteIdList) {
+                    manager?.cancel(Tag.NOTE, it)
+                }
+
                 noteIdList.clear()
             }
             Tag.NOTE_GROUP, Tag.INFO -> {
@@ -165,7 +168,10 @@ class BindControl(private val context: Context?) : IBindControl {
                 tagIdMap.remove(tag)
             }
             null -> {
-                tagIdMap.forEach { manager?.cancel(it.key, it.value) }
+                for (it in tagIdMap) {
+                    manager?.cancel(it.key, it.value)
+                }
+
                 tagIdMap.clear()
             }
         }

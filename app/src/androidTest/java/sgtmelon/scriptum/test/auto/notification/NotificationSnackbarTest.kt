@@ -67,7 +67,9 @@ class NotificationSnackbarTest : ParentUiTest() {
 
                         assertSnackbarDismiss()
 
-                        list.forEachIndexed { i, item -> onAssertItem(i, item) }
+                        for ((i, item) in list.withIndex()) {
+                            onAssertItem(i, item)
+                        }
                     }
                 }
             }
@@ -97,7 +99,9 @@ class NotificationSnackbarTest : ParentUiTest() {
 
                     openNotification {
                         assertSnackbarDismiss()
-                        list.forEachIndexed { i, item -> onAssertItem(i, item) }
+                        for ((i, item) in list.withIndex()) {
+                            onAssertItem(i, item)
+                        }
                     }
                 }
             }
@@ -120,14 +124,16 @@ class NotificationSnackbarTest : ParentUiTest() {
 
                         list.removeAt(index = 0)
 
-                        when(val it = list[0]) {
+                        when (val it = list[0]) {
                             is NoteItem.Text -> openText(it, p = 0) { onClickClose() }
                             is NoteItem.Roll -> openRoll(it, p = 0) { onClickClose() }
                         }
 
                         assertSnackbarDismiss()
 
-                        list.forEachIndexed { i, item -> onAssertItem(i, item) }
+                        for ((i, item) in list.withIndex()) {
+                            onAssertItem(i, item)
+                        }
 
                         repeat(list.size) { onClickCancel(p = 0) }
                         onClickClose()

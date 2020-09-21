@@ -78,7 +78,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
         })
 
         val finishList = TestData.Note.itemList.apply {
-            forEach {
+            for (it in this) {
                 it.alarmId = DbData.Alarm.Default.ID
                 it.alarmDate = DbData.Alarm.Default.DATE
             }
@@ -96,13 +96,13 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
         assertEquals(finishList, noteRepo.getList(sort, bin, isOptimal, filterVisible = false))
         assertEquals(
-                finishFilterList, noteRepo.getList(sort, bin, isOptimal, filterVisible = true)
+            finishFilterList, noteRepo.getList(sort, bin, isOptimal, filterVisible = true)
         )
 
         coVerifySequence {
             roomProvider.openRoom()
             noteDao.getByRank(bin)
-            entityList.forEach {
+            for (it in entityList) {
                 if (isOptimal) rollDao.getView(it.id) else rollDao.get(it.id)
                 alarmDao.get(it.id)
             }
@@ -110,7 +110,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
             roomProvider.openRoom()
             noteDao.getByRank(bin)
             rankDao.getIdVisibleList()
-            entityFilterList.forEach {
+            for (it in entityFilterList) {
                 if (isOptimal) rollDao.getView(it.id) else rollDao.get(it.id)
                 alarmDao.get(it.id)
             }
@@ -161,7 +161,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
         val entityList = NoteConverter().toEntity(TestData.Note.itemList)
         val idVisibleList = listOf(1L)
 
-        entityList.forEach {
+        for (it in entityList) {
             every { noteConverter.toItem(it) } returns NoteConverter().toItem(it)
         }
 
@@ -171,7 +171,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
         coVerifySequence {
             rankDao.getIdVisibleList()
-            entityList.forEach {
+            for (it in entityList) {
                 noteConverter.toItem(it)
             }
         }
@@ -318,7 +318,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
         assertEquals(false, mockNoteRepo.isListHide())
 
         coVerifySequence {
-            entityList.forEach {
+            for (it in entityList) {
                 roomProvider.openRoom()
                 noteDao.get(false)
                 noteConverter.toItem(it)
@@ -347,7 +347,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
             roomProvider.openRoom()
             noteDao.get(true)
-            itemList.forEachIndexed { i, it ->
+            for ((i, it) in itemList.withIndex()) {
                 it.id
                 it.rankId
                 spyNoteRepo.clearConnection(rankDao, i.toLong(), (i * i).toLong())
@@ -429,8 +429,8 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
         val randomId = Random.nextLong()
         val startRankEntity = RankEntity(
-                id = Random.nextLong(), noteId = mutableListOf(noteId, randomId),
-                name = nextString()
+            id = Random.nextLong(), noteId = mutableListOf(noteId, randomId),
+            name = nextString()
         )
         val finishRankEntity = startRankEntity.copy(noteId = mutableListOf(randomId))
 
@@ -468,7 +468,9 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
         coEvery { rollDao.insert(rollEntity) } returns rollId
         every { rollConverter.toEntity(noteId, item = any()) } returns rollEntity
-        rollItemList.forEach { every { it.id = rollId } returns Unit }
+        for (it in rollItemList) {
+            every { it.id = rollId } returns Unit
+        }
 
         every { noteConverter.toEntity(finishItem) } returns finishEntity
 
@@ -478,7 +480,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
             roomProvider.openRoom()
             startItem.onConvert()
             finishItem.list
-            rollItemList.forEach {
+            for (it in rollItemList) {
                 finishItem.id
 
                 rollConverter.toEntity(noteId, it)
@@ -495,10 +497,10 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
     @Test fun convertNote_roll() = startCoTest {
         val itemList = mutableListOf(
-                RollItem(position = 0, text = "0"),
-                RollItem(position = 1, text = "1"),
-                RollItem(position = 2, text = "2"),
-                RollItem(position = 3, text = "3")
+            RollItem(position = 0, text = "0"),
+            RollItem(position = 1, text = "1"),
+            RollItem(position = 2, text = "2"),
+            RollItem(position = 3, text = "3")
         )
 
         val rollItem = TestData.Note.secondNote
@@ -544,7 +546,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
     @Test fun getCopyText_roll() = startCoTest {
         val entityList = mutableListOf(
-                RollEntity(text = "1"), RollEntity(text = "2"), RollEntity(text = "3")
+            RollEntity(text = "1"), RollEntity(text = "2"), RollEntity(text = "3")
         )
         val itemList = RollConverter().toItem(entityList)
 
@@ -607,7 +609,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
         val startItem = TestData.Note.secondNote.deepCopy()
         val finishItem = startItem.deepCopy(id = id, list = finishList)
 
-        startList.forEachIndexed { i, it ->
+        for ((i, it) in startList.withIndex()) {
             it.id = null
 
             val entity = RollConverter().toEntity(id, it)
@@ -632,7 +634,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
             roomProvider.openRoom()
             noteConverter.toEntity(startItem)
             noteDao.insert(entity)
-            startItem.list.forEach {
+            for (it in startItem.list) {
                 val rollEntity = RollConverter().toEntity(startItem.id, it.copy(id = null))
 
                 rollConverter.toEntity(id, it)
@@ -648,7 +650,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
         val startItem = TestData.Note.secondNote
         val finishItem = startItem.deepCopy(list = finishList)
 
-        startList.forEachIndexed { i, it ->
+        for ((i, it) in startList.withIndex()) {
             if (i % 2 == 0) {
                 it.id = null
 
@@ -674,7 +676,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
             roomProvider.openRoom()
             noteConverter.toEntity(startItem)
             noteDao.update(entity)
-            startItem.list.forEachIndexed { i, it ->
+            for ((i, it) in startItem.list.withIndex()) {
                 if (i % 2 == 0) {
                     val rollEntity = RollConverter().toEntity(startItem.id, it.copy(id = null))
 

@@ -43,7 +43,9 @@ class PreferenceInteractorTest : ParentInteractorTest() {
         val valueList = listOf(Theme.LIGHT, Random.nextInt())
 
         every { summaryProvider.theme } returns summaryList
-        valueList.forEach { checkRequestSummary(it) }
+        for (it in valueList) {
+            checkRequestSummary(it)
+        }
 
         verifySequence {
             repeat(valueList.size) {
@@ -62,10 +64,12 @@ class PreferenceInteractorTest : ParentInteractorTest() {
         }
 
         val valueList = listOf(Theme.LIGHT, Theme.DARK, Random.nextInt())
-        valueList.forEach { checkRequestUpdate(it) }
+        for (it in valueList) {
+            checkRequestUpdate(it)
+        }
 
         verifySequence {
-            valueList.forEach {
+            for (it in valueList) {
                 preferenceRepo.theme = it
 
                 summaryProvider.theme
@@ -86,7 +90,9 @@ class PreferenceInteractorTest : ParentInteractorTest() {
         val valueList = listOf(Sort.CHANGE, Random.nextInt())
 
         every { summaryProvider.sort } returns summaryList
-        valueList.forEach { checkRequestSummary(it) }
+        for (it in valueList) {
+            checkRequestSummary(it)
+        }
 
         verifySequence {
             repeat(valueList.size) {
@@ -105,10 +111,12 @@ class PreferenceInteractorTest : ParentInteractorTest() {
         }
 
         val valueList = listOf(Sort.CHANGE, Sort.RANK, Random.nextInt())
-        valueList.forEach { checkRequestUpdate(it) }
+        for (it in valueList) {
+            checkRequestUpdate(it)
+        }
 
         verifySequence {
-            valueList.forEach {
+            for (it in valueList) {
                 preferenceRepo.sort = it
 
                 summaryProvider.sort
@@ -131,7 +139,9 @@ class PreferenceInteractorTest : ParentInteractorTest() {
         val valueList = listOf(Color.RED, Color.PURPLE, Random.nextInt())
 
         every { summaryProvider.color } returns summaryList
-        valueList.forEach { checkRequestSummary(it) }
+        for (it in valueList) {
+            checkRequestSummary(it)
+        }
 
         verifySequence {
             repeat(valueList.size) {
@@ -150,10 +160,12 @@ class PreferenceInteractorTest : ParentInteractorTest() {
         }
 
         val valueList = listOf(Color.RED, Color.PURPLE, Color.INDIGO, Random.nextInt())
-        valueList.forEach { checkRequestUpdate(it) }
+        for (it in valueList) {
+            checkRequestUpdate(it)
+        }
 
         verifySequence {
-            valueList.forEach {
+            for (it in valueList) {
                 preferenceRepo.defaultColor = it
 
                 summaryProvider.color
@@ -170,7 +182,9 @@ class PreferenceInteractorTest : ParentInteractorTest() {
         }
 
         val valueList = listOf(Random.nextInt(), Random.nextInt(), Random.nextInt())
-        valueList.forEach { checkRequestGet(it) }
+        for (it in valueList) {
+            checkRequestGet(it)
+        }
 
         verifySequence {
             repeat(valueList.size) { preferenceRepo.savePeriod }
@@ -186,7 +200,9 @@ class PreferenceInteractorTest : ParentInteractorTest() {
         val valueList = listOf(Random.nextInt(), Random.nextInt())
 
         every { summaryProvider.savePeriod } returns summaryList
-        valueList.forEach { checkRequestSummary(it) }
+        for (it in valueList) {
+            checkRequestSummary(it)
+        }
 
         verifySequence {
             repeat(valueList.size) {
@@ -205,10 +221,12 @@ class PreferenceInteractorTest : ParentInteractorTest() {
         }
 
         val valueList = listOf(Random.nextInt(), Random.nextInt(), Random.nextInt())
-        valueList.forEach { checkRequestUpdate(it) }
+        for (it in valueList) {
+            checkRequestUpdate(it)
+        }
 
         verifySequence {
-            valueList.forEach {
+            for (it in valueList) {
                 preferenceRepo.savePeriod = it
 
                 summaryProvider.savePeriod
@@ -229,7 +247,9 @@ class PreferenceInteractorTest : ParentInteractorTest() {
         val valueList = listOf(Repeat.MIN_10, Random.nextInt())
 
         every { summaryProvider.repeat } returns summaryList
-        valueList.forEach { checkRequestSummary(it) }
+        for (it in valueList) {
+            checkRequestSummary(it)
+        }
 
         verifySequence {
             repeat(valueList.size) {
@@ -248,10 +268,12 @@ class PreferenceInteractorTest : ParentInteractorTest() {
         }
 
         val valueList = listOf(Repeat.MIN_10, Repeat.MIN_180, Random.nextInt())
-        valueList.forEach { checkRequestUpdate(it) }
+        for (it in valueList) {
+            checkRequestUpdate(it)
+        }
 
         verifySequence {
-            valueList.forEach {
+            for (it in valueList) {
                 preferenceRepo.repeat = it
 
                 summaryProvider.repeat
@@ -302,10 +324,12 @@ class PreferenceInteractorTest : ParentInteractorTest() {
         }
 
         val valueList = listOf(Random.nextInt(), Random.nextInt())
-        valueList.forEach { checkRequestSummary(it) }
+        for (it in valueList) {
+            checkRequestSummary(it)
+        }
 
         verifySequence {
-            valueList.forEach {
+            for (it in valueList) {
                 preferenceRepo.volume
                 summaryProvider.getVolume(it)
             }
@@ -320,10 +344,12 @@ class PreferenceInteractorTest : ParentInteractorTest() {
         }
 
         val valueList = listOf(Random.nextInt(), Random.nextInt(), Random.nextInt())
-        valueList.forEach { checkRequestUpdate(it) }
+        for (it in valueList) {
+            checkRequestUpdate(it)
+        }
 
         verifySequence {
-            valueList.forEach {
+            for (it in valueList) {
                 preferenceRepo.volume = it
 
                 preferenceRepo.volume

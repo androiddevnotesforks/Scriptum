@@ -30,7 +30,7 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
         preferenceRepo.sort = Sort.COLOR
 
         onAssertList(ArrayList<NoteItem>().also { list ->
-            Color.list.forEach {
+            for (it in Color.list) {
                 val note = when(type) {
                     NoteType.TEXT -> data.textNote.copy(color = it)
                     NoteType.ROLL -> data.rollNote.copy(color = it)
@@ -64,7 +64,7 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
         preferenceRepo.sort = sort
 
         onAssertList(ArrayList<NoteItem>().also { list ->
-            lastArray.forEach {
+            for (it in lastArray) {
                 val time = getCalendarWithAdd(it).getText()
 
                 val note = when (type) {
@@ -107,10 +107,10 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
     private fun startRowTest(count: Int) {
         val rollList = ArrayList<RollEntity>()
 
-        (0 until count).forEach {
+        for (i in 0 until count) {
             rollList.add(data.rollEntity.apply {
-                position = it
-                text = "$it | $text"
+                position = i
+                text = "$i | $text"
             })
         }
 
@@ -137,10 +137,10 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
 
         val rollList = ArrayList<RollEntity>()
 
-        (0 until size).forEach {
+        for (i in 0 until size) {
             rollList.add(data.rollEntity.apply {
-                position = it
-                text = "$it | $text"
+                position = i
+                text = "$i | $text"
             })
         }
 
@@ -189,10 +189,10 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
                 when (page) {
                     MainPage.RANK -> throw IllegalAccessException(PAGE_ERROR_TEXT)
                     MainPage.NOTES -> notesScreen {
-                        list.forEachIndexed { p, model -> onAssertItem(model, p) }
+                        for ((i, item) in list.withIndex()) onAssertItem(item, i)
                     }
                     MainPage.BIN -> binScreen {
-                        list.forEachIndexed { p, model -> onAssertItem(model, p) }
+                        for ((i, item) in list.withIndex()) onAssertItem(item, i)
                     }
                 }
             }

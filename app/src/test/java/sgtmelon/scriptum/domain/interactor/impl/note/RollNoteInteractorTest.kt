@@ -123,7 +123,7 @@ class RollNoteInteractorTest : ParentInteractorTest() {
         val visibleList = listOf(Random.nextBoolean(), Random.nextBoolean())
         val noteId = Random.nextLong()
 
-        visibleList.forEach {
+        for (it in visibleList) {
             coEvery { noteRepo.getRollVisible(noteId) } returns it
             assertEquals(it, interactor.getVisible(noteId))
         }
@@ -192,17 +192,19 @@ class RollNoteInteractorTest : ParentInteractorTest() {
 
     @Test fun getRankId() = startCoTest {
         val list = listOf(
-                Pair(Random.nextLong(), Random.nextInt()),
-                Pair(Random.nextLong(), Random.nextInt())
+            Pair(Random.nextLong(), Random.nextInt()),
+            Pair(Random.nextLong(), Random.nextInt())
         )
 
-        list.forEach {
+        for (it in list) {
             coEvery { rankRepo.getId(it.second) } returns it.first
             assertEquals(it.first, interactor.getRankId(it.second))
         }
 
         coVerifySequence {
-            list.forEach { rankRepo.getId(it.second) }
+            for (it in list) {
+                rankRepo.getId(it.second)
+            }
         }
     }
 

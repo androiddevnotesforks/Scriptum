@@ -1142,7 +1142,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         every { item.alarmDate } returns alarmDate
         every { item.list } returns list
 
-        list.forEach {
+        for (it in list) {
             every { it.copy(any(), any(), any(), any()) } returns it
         }
 

@@ -42,7 +42,9 @@ class ColorDialogUi(place: Place, @Color private var check: Int, private val cal
         assert()
     }
 
-    fun onClickAll() = apply { (0 until recyclerView.getCount()).forEach { onClickItem(it) } }
+    fun onClickAll() = apply { 
+        for (i in 0 until recyclerView.getCount()) onClickItem(i)
+    }
 
     fun onClickCancel() = waitClose { cancelButton.click() }
 
@@ -59,9 +61,14 @@ class ColorDialogUi(place: Place, @Color private var check: Int, private val cal
     }
 
     fun onAssertAll() {
-        (0 until recyclerView.getCount()).forEach {
-            (0 until recyclerView.getCount()).forEach { p -> onAssertItem(p) }
-            onClickItem(it).onAssertItem(it)
+        val count = recyclerView.getCount()
+        
+        for (p1 in 0 until count) {
+            for (p2 in 0 until count) {
+                onAssertItem(p2)
+            }
+            
+            onClickItem(p1).onAssertItem(p1)
         }
     }
 

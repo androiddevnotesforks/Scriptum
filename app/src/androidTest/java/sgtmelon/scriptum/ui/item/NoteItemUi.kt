@@ -18,7 +18,7 @@ import sgtmelon.scriptum.ui.ParentRecyclerItem
  * Class for UI control of [NoteAdapter].
  */
 class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
-        ParentRecyclerItem<NoteItem>(listMatcher, p) {
+    ParentRecyclerItem<NoteItem>(listMatcher, p) {
 
     override fun assert(item: NoteItem) = when (item) {
         is NoteItem.Text -> Text().assert(item)
@@ -49,18 +49,20 @@ class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
         override fun assert(item: NoteItem.Roll) {
             super.assert(item)
 
-            (0 until 4).forEach { getRow(it).assert(item.list.getOrNull(it)) }
+            for (i in 0 until 4) {
+                getRow(i).assert(item.list.getOrNull(i))
+            }
         }
 
         inner class Row(@IdRes parentId: Int) {
             val parentContainer = getChild(getViewById(parentId))
 
             val checkImage = getChild(
-                    getViewById(R.id.note_roll_check_image).includeParent(getViewById(parentId))
+                getViewById(R.id.note_roll_check_image).includeParent(getViewById(parentId))
             )
 
             val contentText = getChild(
-                    getViewById(R.id.note_roll_content_text).includeParent(getViewById(parentId))
+                getViewById(R.id.note_roll_content_text).includeParent(getViewById(parentId))
             )
 
             fun assert(item: RollItem?) {
@@ -81,7 +83,7 @@ class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
 
     }
 
-    private abstract inner class Parent<N: NoteItem>(type: NoteType) {
+    private abstract inner class Parent<N : NoteItem>(type: NoteType) {
 
         val parentCard = getChild(getViewById(when (type) {
             NoteType.TEXT -> R.id.note_text_parent_card
@@ -110,7 +112,8 @@ class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
             clickContainer.isDisplayed()
 
             val name = item.name
-            nameText.isDisplayed(name.isNotEmpty()).withText(name, R.attr.clContent, R.dimen.text_16sp)
+            nameText.isDisplayed(name.isNotEmpty())
+                .withText(name, R.attr.clContent, R.dimen.text_16sp)
 
             infoLayout.assert(item)
 
@@ -159,7 +162,7 @@ class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
 
                 val change = item.change.getCalendar().formatPast()
                 changeText.isDisplayed().withText(change, R.attr.clContentSecond, R.dimen.text_12sp)
-                
+
                 val create = item.create.getCalendar().formatPast()
                 createText.isDisplayed().withText(create, R.attr.clContentSecond, R.dimen.text_12sp)
             }

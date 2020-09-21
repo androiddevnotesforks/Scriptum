@@ -11,7 +11,7 @@ class IntConverter {
     fun toInt(array: BooleanArray): Int {
         var value = 0
 
-        array.forEachIndexed { i, bool ->
+        for ((i, bool) in array.withIndex()) {
             if (bool) value += 2.0.pow(i.toDouble()).toInt()
         }
 

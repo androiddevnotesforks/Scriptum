@@ -308,7 +308,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     fun switchVisible(list: List<RankItem>, p: Int): BooleanArray {
         val animationArray = BooleanArray(list.size)
 
-        list.forEachIndexed { i, item ->
+        for ((i , item) in list.withIndex()) {
             if (i == p) {
                 if (!item.isVisible) {
                     item.isVisible = true
@@ -332,7 +332,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     fun correctPositions(list: List<RankItem>): List<Long> {
         val noteIdSet = mutableSetOf<Long>()
 
-        list.forEachIndexed { i, item ->
+        for ((i , item) in list.withIndex()) {
             /**
              * If [RankItem.position] incorrect (out of order) when update it.
              */
@@ -342,7 +342,9 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
                 /**
                  * Add id to [Set] of [NoteItem.id] where need update [NoteItem.rankPs].
                  */
-                item.noteId.forEach { noteIdSet.add(it) }
+                for (it in item.noteId) {
+                    noteIdSet.add(it)
+                }
             }
         }
 

@@ -17,18 +17,18 @@ import kotlin.math.min
  * Model for store short information about note, use in [NoteAdapter]/[RollAdapter].
  */
 sealed class NoteItem(
-        var id: Long,
-        var create: String,
-        var change: String,
-        var name: String,
-        var text: String,
-        @Color var color: Int,
-        var rankId: Long,
-        var rankPs: Int,
-        var isBin: Boolean,
-        var isStatus: Boolean,
-        var alarmId: Long,
-        var alarmDate: String
+    var id: Long,
+    var create: String,
+    var change: String,
+    var name: String,
+    var text: String,
+    @Color var color: Int,
+    var rankId: Long,
+    var rankPs: Int,
+    var isBin: Boolean,
+    var isStatus: Boolean,
+    var alarmId: Long,
+    var alarmDate: String
 ) {
 
     // TODO make deepCopy common
@@ -124,21 +124,21 @@ sealed class NoteItem(
     }
 
     class Text(
-            id: Long = Note.Default.ID,
-            create: String = getTime(),
-            change: String = Note.Default.CHANGE,
-            name: String = Note.Default.NAME,
-            text: String = Note.Default.TEXT,
-            @Color color: Int,
-            rankId: Long = Note.Default.RANK_ID,
-            rankPs: Int = Note.Default.RANK_PS,
-            isBin: Boolean = Note.Default.BIN,
-            isStatus: Boolean = Note.Default.STATUS,
-            alarmId: Long = Alarm.Default.ID,
-            alarmDate: String = Alarm.Default.DATE
+        id: Long = Note.Default.ID,
+        create: String = getTime(),
+        change: String = Note.Default.CHANGE,
+        name: String = Note.Default.NAME,
+        text: String = Note.Default.TEXT,
+        @Color color: Int,
+        rankId: Long = Note.Default.RANK_ID,
+        rankPs: Int = Note.Default.RANK_PS,
+        isBin: Boolean = Note.Default.BIN,
+        isStatus: Boolean = Note.Default.STATUS,
+        alarmId: Long = Alarm.Default.ID,
+        alarmDate: String = Alarm.Default.DATE
     ) : NoteItem(
-            id, create, change, name, text, color, rankId, rankPs, isBin, isStatus,
-            alarmId, alarmDate
+        id, create, change, name, text, color, rankId, rankPs, isBin, isStatus,
+        alarmId, alarmDate
     ) {
 
         override fun isSaveEnabled(): Boolean = text.isNotEmpty()
@@ -146,21 +146,21 @@ sealed class NoteItem(
         //region Common functions
 
         fun deepCopy(
-                id: Long = this.id,
-                create: String = this.create,
-                change: String = this.change,
-                name: String = this.name,
-                text: String = this.text,
-                color: Int = this.color,
-                rankId: Long = this.rankId,
-                rankPs: Int = this.rankPs,
-                isBin: Boolean = this.isBin,
-                isStatus: Boolean = this.isStatus,
-                alarmId: Long = this.alarmId,
-                alarmDate: String = this.alarmDate
+            id: Long = this.id,
+            create: String = this.create,
+            change: String = this.change,
+            name: String = this.name,
+            text: String = this.text,
+            color: Int = this.color,
+            rankId: Long = this.rankId,
+            rankPs: Int = this.rankPs,
+            isBin: Boolean = this.isBin,
+            isStatus: Boolean = this.isStatus,
+            alarmId: Long = this.alarmId,
+            alarmDate: String = this.alarmDate
         ) = Text(
-                id, create, change, name, text, color, rankId, rankPs, isBin, isStatus,
-                alarmId, alarmDate
+            id, create, change, name, text, color, rankId, rankPs, isBin, isStatus,
+            alarmId, alarmDate
         )
 
 
@@ -174,13 +174,12 @@ sealed class NoteItem(
 
         fun onConvert(): Roll {
             val noteItem = Roll(
-                    id, create, change, name, text, color, rankId, rankPs, isBin, isStatus,
-                    alarmId, alarmDate
+                id, create, change, name, text, color, rankId, rankPs, isBin, isStatus,
+                alarmId, alarmDate
             )
 
-            var p = 0
-            splitText().forEach {
-                noteItem.list.add(RollItem(position = p++, text = it))
+            for ((i, it) in splitText().withIndex()) {
+                noteItem.list.add(RollItem(position = i, text = it))
             }
 
             noteItem.updateTime()
@@ -198,22 +197,22 @@ sealed class NoteItem(
     }
 
     class Roll(
-            id: Long = Note.Default.ID,
-            create: String = getTime(),
-            change: String = Note.Default.CHANGE,
-            name: String = Note.Default.NAME,
-            text: String = Note.Default.TEXT,
-            @Color color: Int,
-            rankId: Long = Note.Default.RANK_ID,
-            rankPs: Int = Note.Default.RANK_PS,
-            isBin: Boolean = Note.Default.BIN,
-            isStatus: Boolean = Note.Default.STATUS,
-            alarmId: Long = Alarm.Default.ID,
-            alarmDate: String = Alarm.Default.DATE,
-            val list: MutableList<RollItem> = ArrayList()
+        id: Long = Note.Default.ID,
+        create: String = getTime(),
+        change: String = Note.Default.CHANGE,
+        name: String = Note.Default.NAME,
+        text: String = Note.Default.TEXT,
+        @Color color: Int,
+        rankId: Long = Note.Default.RANK_ID,
+        rankPs: Int = Note.Default.RANK_PS,
+        isBin: Boolean = Note.Default.BIN,
+        isStatus: Boolean = Note.Default.STATUS,
+        alarmId: Long = Alarm.Default.ID,
+        alarmDate: String = Alarm.Default.DATE,
+        val list: MutableList<RollItem> = ArrayList()
     ) : NoteItem(
-            id, create, change, name, text, color, rankId, rankPs, isBin, isStatus,
-            alarmId, alarmDate
+        id, create, change, name, text, color, rankId, rankPs, isBin, isStatus,
+        alarmId, alarmDate
     ) {
 
         override fun isSaveEnabled(): Boolean = list.any { it.text.isNotEmpty() }
@@ -221,22 +220,22 @@ sealed class NoteItem(
         //region Common functions
 
         fun deepCopy(
-                id: Long = this.id,
-                create: String = this.create,
-                change: String = this.change,
-                name: String = this.name,
-                text: String = this.text,
-                color: Int = this.color,
-                rankId: Long = this.rankId,
-                rankPs: Int = this.rankPs,
-                isBin: Boolean = this.isBin,
-                isStatus: Boolean = this.isStatus,
-                alarmId: Long = this.alarmId,
-                alarmDate: String = this.alarmDate,
-                list: MutableList<RollItem> = this.list.copy()
+            id: Long = this.id,
+            create: String = this.create,
+            change: String = this.change,
+            name: String = this.name,
+            text: String = this.text,
+            color: Int = this.color,
+            rankId: Long = this.rankId,
+            rankPs: Int = this.rankPs,
+            isBin: Boolean = this.isBin,
+            isStatus: Boolean = this.isStatus,
+            alarmId: Long = this.alarmId,
+            alarmDate: String = this.alarmDate,
+            list: MutableList<RollItem> = this.list.copy()
         ) = Roll(
-                id, create, change, name, text, color, rankId, rankPs, isBin, isStatus,
-                alarmId, alarmDate, list
+            id, create, change, name, text, color, rankId, rankPs, isBin, isStatus,
+            alarmId, alarmDate, list
         )
 
 
@@ -257,7 +256,10 @@ sealed class NoteItem(
          * Check/uncheck all items.
          */
         fun updateCheck(isCheck: Boolean) = apply {
-            list.forEach { it.isCheck = isCheck }
+            for (it in list) {
+                it.isCheck = isCheck
+            }
+
             updateComplete(if (isCheck) Complete.FULL else Complete.EMPTY)
         }
 
@@ -287,7 +289,8 @@ sealed class NoteItem(
         fun onSave() {
             list.apply {
                 removeAll { it.text.clearSpace().isEmpty() }
-                forEachIndexed { i, item ->
+
+                for ((i, item) in withIndex()) {
                     item.position = i
                     item.text = item.text.clearSpace()
                 }
@@ -302,8 +305,8 @@ sealed class NoteItem(
 
         fun onConvert(list: List<RollItem>): Text {
             val noteItem = Text(
-                    id, create, change, name, text, color, rankId, rankPs, isBin, isStatus,
-                    alarmId, alarmDate
+                id, create, change, name, text, color, rankId, rankPs, isBin, isStatus,
+                alarmId, alarmDate
             )
 
             noteItem.updateTime()

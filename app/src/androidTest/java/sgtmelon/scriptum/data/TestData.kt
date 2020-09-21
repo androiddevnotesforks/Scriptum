@@ -22,8 +22,8 @@ import kotlin.random.Random
  * Class which fill db and provide data for tests.
  */
 class TestData(
-        override val roomProvider: RoomProvider,
-        private val preferenceRepo: IPreferenceRepo
+    override val roomProvider: RoomProvider,
+    private val preferenceRepo: IPreferenceRepo
 ) : IRoomWork {
 
     private val noteConverter = NoteConverter()
@@ -52,10 +52,10 @@ class TestData(
 
     val rollList: ArrayList<RollEntity>
         get() = ArrayList<RollEntity>().apply {
-            (0 until (1 until 6).random()).forEach {
+            for (i in 0 until (1 until 6).random()) {
                 add(rollEntity.apply {
-                    position = it
-                    text = "$it | $text"
+                    position = i
+                    text = "$i | $text"
                 })
             }
         }
@@ -134,11 +134,14 @@ class TestData(
 
     fun insertTextToBin(note: NoteEntity = textNote) = insertText(note.apply { isBin = true })
 
-    fun insertRoll(note: NoteEntity = rollNote,
-                   list: ArrayList<RollEntity> = rollList): NoteItem.Roll {
+    fun insertRoll(
+        note: NoteEntity = rollNote,
+        list: ArrayList<RollEntity> = rollList
+    ): NoteItem.Roll {
         inRoomTest {
             note.id = noteDao.insert(note)
-            list.forEach {
+
+            for (it in list) {
                 it.noteId = note.id
                 rollDao.insert(it)
             }
@@ -156,8 +159,10 @@ class TestData(
         return item
     }
 
-    fun insertRollToBin(note: NoteEntity = rollNote,
-                        list: ArrayList<RollEntity> = rollList): NoteItem.Roll {
+    fun insertRollToBin(
+        note: NoteEntity = rollNote,
+        list: ArrayList<RollEntity> = rollList
+    ): NoteItem.Roll {
         return insertRoll(note.apply { isBin = true }, list)
     }
 
@@ -170,7 +175,7 @@ class TestData(
             entity.create = time
         }
 
-        return when(entity.type) {
+        return when (entity.type) {
             NoteType.TEXT -> insertText(entity)
             NoteType.ROLL -> insertRoll(entity)
         }
@@ -184,14 +189,16 @@ class TestData(
             entity.create = time
         }
 
-        return when(entity.type) {
+        return when (entity.type) {
             NoteType.TEXT -> insertTextToBin(entity)
             NoteType.ROLL -> insertRollToBin(entity)
         }
     }
 
-    fun insertNotification(noteItem: NoteItem = insertNote(),
-                           date: String = getRandomFutureTime()): NoteItem {
+    fun insertNotification(
+        noteItem: NoteItem = insertNote(),
+        date: String = getRandomFutureTime()
+    ): NoteItem {
         noteItem.alarmDate = date
 
         inRoomTest { noteItem.alarmId = alarmDao.insert(alarmConverter.toEntity(noteItem)) }
@@ -201,33 +208,33 @@ class TestData(
 
 
     fun fillRank(count: Int = 10) = ArrayList<RankItem>().apply {
-        (0 until count).forEach {
+        for (i in 0 until count) {
             add(insertRank(rankEntity.apply {
-                name = "$it | $name"
-                position = it
+                name = "$i | $name"
+                position = i
                 isVisible = Random.nextBoolean()
             }))
         }
     }
 
     fun fillRankRelation(count: Int = 10) = ArrayList<RankItem>().apply {
-        (0 until count).forEach {
+        for (i in 0 until count) {
             val noteCount = (0 until 5).random()
             val noteList = ArrayList<NoteItem>().apply {
                 repeat(noteCount) { add(insertNote()) }
             }
 
             val rankItem = insertRank(RankEntity(
-                    noteId = noteList.map { item -> item.id }.toMutableList(),
-                    position = it,
-                    name = "$it | ${nextString()}",
-                    isVisible = Random.nextBoolean()
+                noteId = noteList.map { item -> item.id }.toMutableList(),
+                position = i,
+                name = "$i | ${nextString()}",
+                isVisible = Random.nextBoolean()
             ))
 
             add(rankItem)
 
             inRoomTest {
-                noteList.forEach { item ->
+                for (item in noteList) {
                     noteDao.update(noteConverter.toEntity(item.apply {
                         rankId = rankItem.id
                         rankPs = rankItem.position
@@ -238,14 +245,14 @@ class TestData(
     }
 
     fun fillNotes(count: Int = 10) = ArrayList<NoteItem>().apply {
-        (count downTo 0).forEach {
-            add(insertNote(getCalendarWithAdd(it).getText()))
+        for (i in count downTo 0) {
+            add(insertNote(getCalendarWithAdd(i).getText()))
         }
     }
 
     fun fillBin(count: Int = 10) = ArrayList<NoteItem>().apply {
-        (count downTo 0).forEach {
-            add(insertNoteToBin(getCalendarWithAdd(it).getText()))
+        for (i in count downTo 0) {
+            add(insertNoteToBin(getCalendarWithAdd(i).getText()))
         }
     }
 
@@ -254,8 +261,7 @@ class TestData(
     }
 
 
-
-    val randomColor get() = (Color.RED .. Color.WHITE).random()
+    val randomColor get() = (Color.RED..Color.WHITE).random()
 
     fun clear() = apply { inRoomTest { clearAllTables() } }
 

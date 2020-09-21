@@ -26,7 +26,7 @@ class ListTest : ParentUiTest() {
         data.fillNotes(NOTES_COUNT)
         data.fillBin(BIN_COUNT)
     }) {
-        mainScreen { repeat(REPEAT_COUNT) { pageList.forEach { openPage(it) } } }
+        mainScreen { repeat(REPEAT_COUNT) { for (it in pageList) openPage(it) } }
     }
 
     @Test fun rankScroll() = launch(before = { data.fillRank(RANK_COUNT) }) {

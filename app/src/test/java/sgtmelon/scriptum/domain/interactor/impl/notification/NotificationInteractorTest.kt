@@ -53,7 +53,7 @@ class NotificationInteractorTest : ParentInteractorTest() {
     @Test fun getCount() = startCoTest {
         val countList = listOf(Random.nextInt(), Random.nextInt())
 
-        countList.forEach {
+        for (it in countList) {
             coEvery { bindRepo.getNotificationCount() } returns it
             assertEquals(it, interactor.getCount())
         }

@@ -125,7 +125,7 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
                 model.rollVisibleList.removeAll { it.noteId == item.id }
             }
 
-            model.rankList.filter { it.noteId.contains(item.id) }.forEach {
+            for (it in model.rankList.filter { it.noteId.contains(item.id) }) {
                 it.noteId.remove(item.id)
             }
 
@@ -153,7 +153,7 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
 
             removeList.add(item)
 
-            model.noteList.filter { it.rankId == item.id }.forEach {
+            for (it in model.noteList.filter { it.rankId == item.id }) {
                 it.rankId = existItem.id
                 it.rankPs = index
             }
@@ -216,21 +216,21 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
         val skipRollVisibleIdList = mutableListOf<Long>()
         val skipAlarmList = mutableListOf<Long>()
 
-        model.noteList.forEach { item ->
+        for (item in model.noteList) {
             val oldId = item.id
 
             item.id = roomDb.noteDao.insert(item.apply { id = Note.Default.ID })
 
-            model.rollList.filter {
+            for (it in model.rollList.filter {
                 !skipRollIdList.contains(it.id) && it.noteId == oldId
-            }.forEach {
+            }) {
                 it.id?.let { id -> skipRollIdList.add(id) }
                 it.noteId = item.id
             }
 
-            model.rollVisibleList.filter {
+            for (it in model.rollVisibleList.filter {
                 !skipRollVisibleIdList.contains(it.id) && it.noteId == oldId
-            }.forEach {
+            }) {
                 skipRollVisibleIdList.add(it.id)
                 it.noteId = item.id
             }
@@ -245,9 +245,9 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
                 noteId.add(item.id)
             }
 
-            model.alarmList.filter {
+            for (it in model.alarmList.filter {
                 !skipAlarmList.contains(it.id) && it.noteId == oldId
-            }.forEach {
+            }) {
                 skipAlarmList.add(it.id)
                 it.noteId = item.id
             }
@@ -261,7 +261,7 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
      */
     @RunPrivate
     suspend fun insertRollList(model: Model, roomDb: RoomDb) {
-        model.rollList.forEach {
+        for (it in model.rollList) {
             it.id = roomDb.rollDao.insert(it.apply { id = Roll.Default.ID })
         }
     }
@@ -273,7 +273,7 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
      */
     @RunPrivate
     suspend fun insertRollVisibleList(model: Model, roomDb: RoomDb) {
-        model.rollVisibleList.forEach {
+        for (it in model.rollVisibleList) {
             it.id = roomDb.rollVisibleDao.insert(it.apply { id = RollVisible.Default.ID })
         }
     }
@@ -296,7 +296,7 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
          */
         val skipIdList = mutableListOf<Long>()
 
-        model.rankList.forEach { item ->
+        for (item in model.rankList) {
             val oldId = item.id
 
             item.id = roomDb.rankDao.insert(item.apply {
@@ -306,7 +306,9 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
 
             existRankList.add(item)
 
-            model.noteList.filter { !skipIdList.contains(it.id) && it.rankId == oldId }.forEach {
+            for (it in model.noteList.filter {
+                !skipIdList.contains(it.id) && it.rankId == oldId
+            }) {
                 skipIdList.add(it.id)
                 it.rankId = item.id
                 it.rankPs = item.position
@@ -325,7 +327,7 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
      */
     @RunPrivate
     suspend fun insertAlarmList(model: Model, roomDb: RoomDb) {
-        model.alarmList.forEach {
+        for (it in model.alarmList) {
             it.id = roomDb.alarmDao.insert(it.apply { id = Alarm.Default.ID })
         }
     }

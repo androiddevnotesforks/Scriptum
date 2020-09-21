@@ -379,14 +379,14 @@ object RoomMigrate {
                         /**
                          * Remove already used [NoteEntity.id].
                          */
-                        noteIdUsedSet.apply {
-                            forEach { if (noteIdList.contains(it)) noteIdList.remove(it) }
-
-                            /**
-                             * Add not deleted id's for next forEach run.
-                             */
-                            addAll(noteIdList)
+                        for (it in noteIdUsedSet) {
+                            if (noteIdList.contains(it)) noteIdList.remove(it)
                         }
+
+                        /**
+                         * Add not deleted id's for next FOR run.
+                         */
+                        noteIdUsedSet.addAll(noteIdList)
 
                         execSQL("""UPDATE RANK_TABLE 
                                 SET RK_NOTE_ID = '${noteIdList.joinToString()}' 

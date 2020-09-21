@@ -912,7 +912,9 @@ object FastTest {
         }
 
         val valueList = listOf(Random.nextBoolean(), Random.nextBoolean())
-        valueList.forEach { checkRequestGet(it) }
+        for (it in valueList) {
+            checkRequestGet(it)
+        }
 
         verifySequence {
             repeat(valueList.size) { preferenceRepo.firstStart }
@@ -926,7 +928,9 @@ object FastTest {
         }
 
         val valueList = listOf(Theme.LIGHT, Theme.DARK, Random.nextInt())
-        valueList.forEach { checkRequestGet(it) }
+        for (it in valueList) {
+            checkRequestGet(it)
+        }
 
         verifySequence {
             repeat(valueList.size) { preferenceRepo.theme }
@@ -940,7 +944,9 @@ object FastTest {
         }
 
         val valueList = listOf(Sort.CHANGE, Sort.RANK, Random.nextInt())
-        valueList.forEach { checkRequestGet(it) }
+        for (it in valueList) {
+            checkRequestGet(it)
+        }
 
         verifySequence {
             repeat(valueList.size) { preferenceRepo.sort }
@@ -954,7 +960,9 @@ object FastTest {
         }
 
         val valueList = listOf(Color.RED, Color.PURPLE, Color.INDIGO, Random.nextInt())
-        valueList.forEach { checkRequestGet(it) }
+        for (it in valueList) {
+            checkRequestGet(it)
+        }
 
         verifySequence {
             repeat(valueList.size) { preferenceRepo.defaultColor }
@@ -968,7 +976,9 @@ object FastTest {
         }
 
         val valueList = listOf(Repeat.MIN_10, Repeat.MIN_180, Random.nextInt())
-        valueList.forEach { checkRequestGet(it) }
+        for (it in valueList) {
+            checkRequestGet(it)
+        }
 
         verifySequence {
             repeat(valueList.size) { preferenceRepo.repeat }
@@ -982,7 +992,9 @@ object FastTest {
         }
 
         val valueList = listOf(Random.nextInt(), Random.nextInt(), Random.nextInt())
-        valueList.forEach { checkRequestGet(it) }
+        for (it in valueList) {
+            checkRequestGet(it)
+        }
 
         verifySequence {
             repeat(valueList.size) { preferenceRepo.volume }

@@ -69,13 +69,15 @@ class TextNoteScreen(
             inputControl.onTextChange(
                     valueFrom, valueTo = "", cursor = InputItem.Cursor(valueFrom.length, 0)
             )
-        } else text.forEachIndexed { i, c ->
-            val valueFrom = if (i == 0) shadowItem.text else text[i - 1].toString()
-            val valueTo = c.toString()
+        } else {
+            for ((i, c) in text.withIndex()) {
+                val valueFrom = if (i == 0) shadowItem.text else text[i - 1].toString()
+                val valueTo = c.toString()
 
-            inputControl.onTextChange(
+                inputControl.onTextChange(
                     valueFrom, valueTo, InputItem.Cursor(valueFrom.length, valueTo.length)
-            )
+                )
+            }
         }
 
         shadowItem.text = text

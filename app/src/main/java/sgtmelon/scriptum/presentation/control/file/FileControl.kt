@@ -80,11 +80,11 @@ class FileControl(private val context: Context) : IFileControl {
 
         list.addAll(getFileList(Environment.getExternalStorageDirectory(), type))
 
-        ContextCompat.getExternalFilesDirs(context, null).filterNotNull().forEach {
+        for (it in ContextCompat.getExternalFilesDirs(context, null).filterNotNull()) {
             list.addAll(getFileList(it, type))
         }
 
-        ContextCompat.getExternalCacheDirs(context).filterNotNull().forEach {
+        for (it in ContextCompat.getExternalCacheDirs(context).filterNotNull()) {
             list.addAll(getFileList(it, type))
         }
 
@@ -92,16 +92,16 @@ class FileControl(private val context: Context) : IFileControl {
     }
 
     private suspend fun getFileList(directory: File, @FileType type: String): List<FileItem> {
-        val list = mutableListOf<FileItem>()
+        val fileList = directory.listFiles() ?: return emptyList()
 
-        directory.listFiles()?.forEach {
-            when {
-                it.isDirectory -> list.addAll(getFileList(it, type))
-                it.name.endsWith(type) -> list.add(FileItem(it.nameWithoutExtension, it.path))
+        return ArrayList<FileItem>().apply {
+            for (it in fileList) {
+                when {
+                    it.isDirectory -> addAll(getFileList(it, type))
+                    it.name.endsWith(type) -> add(FileItem(it.nameWithoutExtension, it.path))
+                }
             }
         }
-
-        return list
     }
 
     companion object {

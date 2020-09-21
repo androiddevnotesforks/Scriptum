@@ -21,10 +21,10 @@ import java.security.MessageDigest
  * Class for help control backup file parsing.
  */
 class BackupParser(
-        private val context: Context,
-        private val selector: IBackupSelector,
-        private val typeConverter: NoteTypeConverter,
-        private val stringConverter: StringConverter
+    private val context: Context,
+    private val selector: IBackupSelector,
+    private val typeConverter: NoteTypeConverter,
+    private val stringConverter: StringConverter
 ) : IBackupParser {
 
     override fun collect(model: ParserResult): String = JSONObject().apply {
@@ -45,7 +45,7 @@ class BackupParser(
 
     @RunPrivate fun collectNoteTable(noteList: List<NoteEntity>): String {
         return JSONArray().apply {
-            noteList.forEach {
+            for (it in noteList) {
                 put(JSONObject().apply {
                     put(Note.ID, it.id)
                     put(Note.CREATE, it.create)
@@ -65,7 +65,7 @@ class BackupParser(
 
     @RunPrivate fun collectRollTable(rollList: List<RollEntity>): String {
         return JSONArray().apply {
-            rollList.forEach {
+            for (it in rollList) {
                 put(JSONObject().apply {
                     put(Roll.ID, it.id)
                     put(Roll.NOTE_ID, it.noteId)
@@ -79,7 +79,7 @@ class BackupParser(
 
     @RunPrivate fun collectRollVisibleTable(rollVisibleList: List<RollVisibleEntity>): String {
         return JSONArray().apply {
-            rollVisibleList.forEach {
+            for (it in rollVisibleList) {
                 put(JSONObject().apply {
                     put(RollVisible.ID, it.id)
                     put(RollVisible.NOTE_ID, it.noteId)
@@ -91,7 +91,7 @@ class BackupParser(
 
     @RunPrivate fun collectRankTable(rankList: List<RankEntity>): String {
         return JSONArray().apply {
-            rankList.forEach {
+            for (it in rankList) {
                 put(JSONObject().apply {
                     put(Rank.ID, it.id)
                     put(Rank.NOTE_ID, stringConverter.toString(it.noteId))
@@ -105,7 +105,7 @@ class BackupParser(
 
     @RunPrivate fun collectAlarmTable(alarmList: List<AlarmEntity>): String {
         return JSONArray().apply {
-            alarmList.forEach {
+            for (it in alarmList) {
                 put(JSONObject().apply {
                     put(Alarm.ID, it.id)
                     put(Alarm.NOTE_ID, it.noteId)
@@ -114,7 +114,6 @@ class BackupParser(
             }
         }.toString()
     }
-
 
 
     override fun parse(data: String): ParserResult? {
@@ -144,7 +143,7 @@ class BackupParser(
     }
 
     @RunPrivate fun hashToHex(hash: ByteArray): String = StringBuilder().apply {
-        hash.map { Integer.toHexString(0xFF and it.toInt()) }.forEach {
+        for (it in hash.map { Integer.toHexString(0xFF and it.toInt()) }) {
             if (it.length == 1) append('0')
 
             append(it)

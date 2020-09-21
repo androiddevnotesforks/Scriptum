@@ -18,7 +18,7 @@ class RingtoneControl(private val context: Context) : IRingtoneControl {
     override suspend fun getByType(typeList: List<Int>): List<MelodyItem> {
         val list = ArrayList<MelodyItem>()
 
-        typeList.forEach {
+        for (it in typeList) {
             val manager = ringtoneManager
 
             manager.setType(it)
