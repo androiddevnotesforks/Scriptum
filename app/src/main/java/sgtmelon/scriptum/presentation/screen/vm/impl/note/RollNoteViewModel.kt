@@ -23,8 +23,8 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.note.IRollNoteViewModel
  * ViewModel for [IRollNoteFragment].
  */
 class RollNoteViewModel(application: Application) :
-        ParentNoteViewModel<NoteItem.Roll, IRollNoteFragment, IRollNoteInteractor>(application),
-        IRollNoteViewModel {
+    ParentNoteViewModel<NoteItem.Roll, IRollNoteFragment, IRollNoteInteractor>(application),
+    IRollNoteViewModel {
 
     /**
      * Variable for control visible button state.
@@ -251,7 +251,9 @@ class RollNoteViewModel(application: Application) :
 
         val item = if (isUndo) inputControl.undo() else inputControl.redo()
 
-        if (item != null) inputControl.makeNotEnabled {
+        if (item != null) {
+            inputControl.isEnabled = false
+
             when (item.tag) {
                 InputAction.RANK -> onMenuUndoRedoRank(item, isUndo)
                 InputAction.COLOR -> onMenuUndoRedoColor(item, isUndo)
@@ -269,14 +271,16 @@ class RollNoteViewModel(application: Application) :
                 }
                 InputAction.ROLL_MOVE -> onMenuUndoRedoMove(item, isUndo)
             }
+
+            inputControl.isEnabled = true
         }
 
         callback?.onBindingInput(noteItem, inputControl.access)
     }
 
-    private fun onMenuUndoRedoRoll(item: InputItem, isUndo: Boolean) {
+    @RunPrivate fun onMenuUndoRedoRoll(item: InputItem, isUndo: Boolean) {
         val rollItem = noteItem.list.getOrNull(item.p) ?: return
-        val position = getList(noteItem).indexOfOrNull(rollItem) ?: return
+        val position = getList(noteItem).validIndexOf(rollItem) ?: return
 
         rollItem.text = item[isUndo]
 
@@ -285,21 +289,18 @@ class RollNoteViewModel(application: Application) :
         }
     }
 
-    private fun onMenuUndoRedoAdd(item: InputItem) {
+    @RunPrivate fun onMenuUndoRedoAdd(item: InputItem) {
         val rollItem = noteItem.list.getOrNull(item.p) ?: return
-        val position = getList(noteItem).indexOfOrNull(rollItem) ?: return
+        val position = getList(noteItem).validIndexOf(rollItem) ?: return
 
-        noteItem.list.removeAtOrNull(item.p) ?: return
+        noteItem.list.validRemoveAt(item.p) ?: return
 
         if (isVisible || (!isVisible && !rollItem.isCheck)) {
             callback?.notifyItemRemoved(getList(noteItem), position)
         }
     }
 
-    /**
-     * TODO add scroll to item on insert?
-     */
-    private fun onMenuUndoRedoRemove(item: InputItem, isUndo: Boolean) {
+    @RunPrivate fun onMenuUndoRedoRemove(item: InputItem, isUndo: Boolean) {
         val rollItem = RollItem[item[isUndo]] ?: return
 
         noteItem.list.add(item.p, rollItem)
@@ -316,15 +317,15 @@ class RollNoteViewModel(application: Application) :
         }
     }
 
-    private fun onMenuUndoRedoMove(item: InputItem, isUndo: Boolean) {
+    @RunPrivate fun onMenuUndoRedoMove(item: InputItem, isUndo: Boolean) {
         val from = item[!isUndo].toInt()
         val to = item[isUndo].toInt()
 
         val rollItem = noteItem.list.getOrNull(from) ?: return
 
-        val shiftFrom = getList(noteItem).indexOf(rollItem)
+        val shiftFrom = getList(noteItem).validIndexOf(rollItem) ?: return
         noteItem.list.move(from, to)
-        val shiftTo = getList(noteItem).indexOf(rollItem)
+        val shiftTo = getList(noteItem).validIndexOf(rollItem) ?: return
 
         if (isVisible || (!isVisible && !rollItem.isCheck)) {
             callback?.notifyItemMoved(getList(noteItem), shiftFrom, shiftTo)
@@ -380,9 +381,10 @@ class RollNoteViewModel(application: Application) :
     }
 
 
-    override fun setupEditMode(isEdit: Boolean) = inputControl.makeNotEnabled {
-        noteState.isEdit = isEdit
+    override fun setupEditMode(isEdit: Boolean) {
+        inputControl.isEnabled = false
 
+        noteState.isEdit = isEdit
         callback?.apply {
             setToolbarBackIcon(
                 isCancel = isEdit && !noteState.isCreate,
@@ -391,7 +393,7 @@ class RollNoteViewModel(application: Application) :
 
             onBindingEdit(noteItem, isEdit)
             onBindingInput(noteItem, inputControl.access)
-            updateNoteState(noteState)
+            viewModelScope.launchBack { updateNoteState(noteState) }
 
             if (isEdit) {
                 focusOnEdit(noteState.isCreate)
@@ -402,6 +404,8 @@ class RollNoteViewModel(application: Application) :
 
         saveControl.needSave = true
         saveControl.setSaveEvent(isEdit)
+
+        inputControl.isEnabled = true
     }
 
     //endregion
@@ -442,7 +446,7 @@ class RollNoteViewModel(application: Application) :
      */
     override fun onTouchSwiped(p: Int) {
         val correctPosition = getCorrectPosition(p, noteItem)
-        val item = noteItem.list.removeAtOrNull(correctPosition) ?: return
+        val item = noteItem.list.validRemoveAt(correctPosition) ?: return
 
         inputControl.onRollRemove(correctPosition, item.toJson())
 
@@ -520,13 +524,13 @@ class RollNoteViewModel(application: Application) :
             }
 
             for (item in list.filter { it.isCheck }) {
-                val index = list.indexOfOrNull(item) ?: continue
+                val index = list.validIndexOf(item) ?: continue
                 callback?.notifyItemInserted(list, index)
             }
         } else {
             while (list.any { it.isCheck }) {
-                list.indexOfOrNull { it.isCheck }?.also {
-                    list.removeAtOrNull(it) ?: return@also
+                list.validIndexOf { it.isCheck }?.also {
+                    list.validRemoveAt(it) ?: return@also
                     callback?.notifyItemRemoved(list, it)
                 }
             }

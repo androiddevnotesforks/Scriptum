@@ -4,7 +4,7 @@ import android.util.Log
 import sgtmelon.scriptum.domain.model.annotation.InputAction
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.InputItem
-import sgtmelon.scriptum.extension.removeAtOrNull
+import sgtmelon.scriptum.extension.validRemoveAt
 import sgtmelon.scriptum.presentation.provider.BuildProvider
 
 /**
@@ -31,11 +31,6 @@ class InputControl : IInputControl {
      * Position in [list]
      */
     @RunPrivate var position = ND_POSITION
-
-    /**
-     * Variable for prevent changes.
-     */
-    @RunPrivate var isEnabled = true
 
     @RunPrivate val isUndoAccess get() = list.isNotEmpty() && position != ND_POSITION
     @RunPrivate val isRedoAccess get() = list.isNotEmpty() && position != list.lastIndex
@@ -71,7 +66,7 @@ class InputControl : IInputControl {
 
         if (position != lastPosition) {
             for (i in lastPosition downTo position + 1) {
-                list.removeAtOrNull(i)
+                list.validRemoveAt(i)
             }
         }
     }
@@ -81,17 +76,16 @@ class InputControl : IInputControl {
      */
     @RunPrivate fun clearToSize() {
         while (list.size >= BuildProvider.inputControlMaxSize()) {
-            list.removeAtOrNull(0)
+            list.validRemoveAt(0)
             position--
         }
     }
 
 
-    override fun makeNotEnabled(func: () -> Unit) {
-        isEnabled = false
-        func()
-        isEnabled = true
-    }
+    /**
+     * Variable for prevent changes.
+     */
+    override var isEnabled = true
 
     override fun onRankChange(idFrom: Long, psFrom: Int, idTo: Long, psTo: Int) {
         val valueFrom = arrayOf(idFrom, psFrom).joinToString()

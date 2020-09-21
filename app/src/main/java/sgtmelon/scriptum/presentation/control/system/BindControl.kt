@@ -13,8 +13,8 @@ import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.extension.clearAdd
-import sgtmelon.scriptum.extension.indexOfOrNull
-import sgtmelon.scriptum.extension.removeAtOrNull
+import sgtmelon.scriptum.extension.validIndexOf
+import sgtmelon.scriptum.extension.validRemoveAt
 import sgtmelon.scriptum.presentation.control.system.callback.IBindControl
 import sgtmelon.scriptum.presentation.factory.NotificationFactory
 import sgtmelon.scriptum.presentation.screen.vm.impl.main.NotesViewModel.Companion.sortList
@@ -84,7 +84,7 @@ class BindControl(private val context: Context?) : IBindControl {
     override fun notifyNote(noteItem: NoteItem, rankIdVisibleList: List<Long>, @Sort sort: Int) {
         if (context == null) return
 
-        val index = noteItemList.indexOfOrNull { it.id == noteItem.id }
+        val index = noteItemList.validIndexOf { it.id == noteItem.id }
         if (index != null) {
             noteItemList[index] = noteItem
         } else {
@@ -131,7 +131,7 @@ class BindControl(private val context: Context?) : IBindControl {
 
     override fun cancelNote(id: Long) {
         with(noteItemList) {
-            removeAtOrNull(indexOfFirst { it.id == id }) ?: return
+            validRemoveAt(indexOfFirst { it.id == id }) ?: return
         }
 
         notifyNote(noteItemList)

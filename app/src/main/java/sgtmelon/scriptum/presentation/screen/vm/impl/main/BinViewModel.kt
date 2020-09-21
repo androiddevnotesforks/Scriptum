@@ -10,8 +10,8 @@ import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.extension.clearAdd
 import sgtmelon.scriptum.extension.launchBack
-import sgtmelon.scriptum.extension.removeAtOrNull
 import sgtmelon.scriptum.extension.runBack
+import sgtmelon.scriptum.extension.validRemoveAt
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IBinFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.main.IBinViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
@@ -102,7 +102,7 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
     }
 
     private fun onMenuRestore(p: Int) {
-        val item = itemList.removeAtOrNull(p) ?: return
+        val item = itemList.validRemoveAt(p) ?: return
 
         viewModelScope.launchBack { interactor.restoreNote(item) }
 
@@ -117,7 +117,7 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
     }
 
     private fun onMenuClear(p: Int) {
-        val item = itemList.removeAtOrNull(p) ?: return
+        val item = itemList.validRemoveAt(p) ?: return
 
         viewModelScope.launchBack { interactor.clearNote(item) }
 

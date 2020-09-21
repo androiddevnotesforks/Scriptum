@@ -23,13 +23,13 @@ import sgtmelon.scriptum.presentation.listener.ItemListener
  * Holder of note roll row edit state, use in [RollAdapter]
  */
 class RollWriteHolder(
-        private val binding: ItemRollWriteBinding,
-        private val dragListener: ItemListener.Drag?,
-        private val callback: Callback,
-        private val inputControl: IInputControl?
+    private val binding: ItemRollWriteBinding,
+    private val dragListener: ItemListener.Drag?,
+    private val callback: Callback,
+    private val inputControl: IInputControl?
 ) : ParentHolder(binding.root),
-        View.OnTouchListener,
-        TextWatcher {
+    View.OnTouchListener,
+    TextWatcher {
 
     /**
      * Button fro drag
@@ -53,11 +53,15 @@ class RollWriteHolder(
         dragView.setOnTouchListener(this)
     }
 
-    fun bind(item: RollItem) = inputControl?.makeNotEnabled {
+    fun bind(item: RollItem) {
+        inputControl?.isEnabled = false
+
         binding.apply {
             this.item = item
             this.descText = item.text
         }.executePendingBindings()
+
+        inputControl?.isEnabled = true
     }
 
     /**

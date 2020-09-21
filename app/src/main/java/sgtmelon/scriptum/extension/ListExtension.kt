@@ -4,7 +4,7 @@ package sgtmelon.scriptum.extension
 
 import sgtmelon.scriptum.domain.model.item.RollItem
 
-fun <T> MutableList<T>.removeAtOrNull(index: Int): T? {
+fun <T> MutableList<T>.validRemoveAt(index: Int): T? {
     return if (index in indices) removeAt(index) else null
 }
 
@@ -12,11 +12,11 @@ fun <T> MutableList<T>.removeAtOrNull(index: Int): T? {
 
 private const val ND_INDEX = -1
 
-fun <T> List<T>.indexOfOrNull(item: T): Int? {
+fun <T> List<T>.validIndexOf(item: T): Int? {
     return indexOf(item).takeIf { it != ND_INDEX }
 }
 
-fun <T> List<T>.indexOfOrNull(predicate: (T) -> Boolean): Int? {
+fun <T> List<T>.validIndexOf(predicate: (T) -> Boolean): Int? {
     return indexOfFirst(predicate).takeIf { it != ND_INDEX }
 }
 
@@ -26,7 +26,7 @@ fun <T> List<T>.indexOfOrNull(predicate: (T) -> Boolean): Int? {
  * Move item by positions. If [to] position not defined, then move to last position.
  */
 fun <T> MutableList<T>.move(from: Int, to: Int = ND_INDEX) {
-    val item = removeAt(from)
+    val item = validRemoveAt(from) ?: return
 
     if (to == ND_INDEX) add(item) else add(to, item)
 }

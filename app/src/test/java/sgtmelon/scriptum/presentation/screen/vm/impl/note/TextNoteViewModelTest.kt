@@ -12,6 +12,8 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.domain.model.data.NoteData.Default
+import sgtmelon.scriptum.domain.model.item.InputItem
+import sgtmelon.scriptum.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.state.IconState
 import sgtmelon.scriptum.domain.model.state.NoteState
@@ -310,6 +312,29 @@ class TextNoteViewModelTest : ParentViewModelTest() {
 
     @Test fun onMenuUndoRedoName() = fastTest.onMenuUndoRedoName()
 
+    @Test fun onMenuUndoRedoText() {
+        val item = mockk<InputItem>()
+        val isUndo = Random.nextBoolean()
+        val cursor = mockk<InputItem.Cursor>(relaxUnitFun = true)
+
+        val text = nextString()
+        val position = Random.nextInt()
+
+        mockkObject(InputItem.Cursor)
+
+        every { item[isUndo] } returns text
+        every { item.cursor } returns cursor
+        every { cursor[isUndo] } returns position
+
+        viewModel.onMenuUndoRedoText(item, isUndo)
+
+        verifySequence {
+            item[isUndo]
+            item.cursor
+            cursor[isUndo]
+            callback.changeText(text, position)
+        }
+    }
 
     @Test fun onMenuRank() = fastTest.onMenuRank(mockk())
 

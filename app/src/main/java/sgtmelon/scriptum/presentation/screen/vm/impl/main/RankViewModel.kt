@@ -165,7 +165,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     }
 
     override fun onClickCancel(p: Int) {
-        val item = itemList.removeAtOrNull(p) ?: return
+        val item = itemList.validRemoveAt(p) ?: return
         val noteIdList = correctPositions(itemList)
 
         /**
@@ -198,7 +198,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     override fun onSnackbarAction() {
         if (cancelList.isEmpty()) return
 
-        val pair = cancelList.removeAtOrNull(index = cancelList.lastIndex) ?: return
+        val pair = cancelList.validRemoveAt(index = cancelList.lastIndex) ?: return
         val item = pair.second
 
         /**

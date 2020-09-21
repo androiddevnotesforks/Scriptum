@@ -244,12 +244,6 @@ class InputControlTest : ParentTest() {
         assertEquals(position, inputControl.position)
     }
 
-    @Test fun makeNotEnabled() {
-        inputControl.makeNotEnabled { assertFalse(inputControl.isEnabled) }
-
-        assertTrue(inputControl.isEnabled)
-    }
-
     @Test fun onRankChange() {
         val idFrom = Random.nextLong()
         val psFrom = Random.nextInt()

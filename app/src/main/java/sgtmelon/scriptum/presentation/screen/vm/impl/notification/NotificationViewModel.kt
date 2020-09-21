@@ -9,8 +9,8 @@ import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.extension.clearAdd
 import sgtmelon.scriptum.extension.launchBack
-import sgtmelon.scriptum.extension.removeAtOrNull
 import sgtmelon.scriptum.extension.runBack
+import sgtmelon.scriptum.extension.validRemoveAt
 import sgtmelon.scriptum.presentation.screen.ui.callback.notification.INotificationActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.notification.INotificationViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
@@ -79,7 +79,7 @@ class NotificationViewModel(application: Application) :
     }
 
     override fun onClickCancel(p: Int) {
-        val item = itemList.removeAtOrNull(p) ?: return
+        val item = itemList.validRemoveAt(p) ?: return
 
         /**
          * Save item for snackbar undo action.
@@ -99,7 +99,7 @@ class NotificationViewModel(application: Application) :
     override fun onSnackbarAction() {
         if (cancelList.isEmpty()) return
 
-        val pair = cancelList.removeAtOrNull(index = cancelList.lastIndex) ?: return
+        val pair = cancelList.validRemoveAt(index = cancelList.lastIndex) ?: return
         val item = pair.second
 
         /**

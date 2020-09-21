@@ -6,6 +6,7 @@ import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.domain.model.annotation.InputAction
+import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.data.NoteData.Default
 import sgtmelon.scriptum.domain.model.item.InputItem
 import sgtmelon.scriptum.domain.model.item.InputItem.Cursor.Companion.get
@@ -19,8 +20,8 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.note.ITextNoteViewModel
  * ViewModel for [ITextNoteFragment].
  */
 class TextNoteViewModel(application: Application) :
-        ParentNoteViewModel<NoteItem.Text, ITextNoteFragment, ITextNoteInteractor>(application),
-        ITextNoteViewModel {
+    ParentNoteViewModel<NoteItem.Text, ITextNoteFragment, ITextNoteInteractor>(application),
+    ITextNoteViewModel {
 
     override fun cacheData() {
         restoreItem = noteItem.deepCopy()
@@ -96,19 +97,23 @@ class TextNoteViewModel(application: Application) :
 
         val item = if (isUndo) inputControl.undo() else inputControl.redo()
 
-        if (item != null) inputControl.makeNotEnabled {
+        if (item != null) {
+            inputControl.isEnabled = false
+
             when (item.tag) {
                 InputAction.RANK -> onMenuUndoRedoRank(item, isUndo)
                 InputAction.COLOR -> onMenuUndoRedoColor(item, isUndo)
                 InputAction.NAME -> onMenuUndoRedoName(item, isUndo)
                 InputAction.TEXT -> onMenuUndoRedoText(item, isUndo)
             }
+
+            inputControl.isEnabled = true
         }
 
         callback?.onBindingInput(noteItem, inputControl.access)
     }
 
-    private fun onMenuUndoRedoText(item: InputItem, isUndo: Boolean) {
+    @RunPrivate fun onMenuUndoRedoText(item: InputItem, isUndo: Boolean) {
         val text = item[isUndo]
         val cursor = item.cursor[isUndo]
 
@@ -151,13 +156,14 @@ class TextNoteViewModel(application: Application) :
     }
 
 
-    override fun setupEditMode(isEdit: Boolean) = inputControl.makeNotEnabled {
-        noteState.isEdit = isEdit
+    override fun setupEditMode(isEdit: Boolean) {
+        inputControl.isEnabled = false
 
+        noteState.isEdit = isEdit
         callback?.apply {
             setToolbarBackIcon(
-                    isCancel = isEdit && !noteState.isCreate,
-                    needAnim = !noteState.isCreate && iconState.animate
+                isCancel = isEdit && !noteState.isCreate,
+                needAnim = !noteState.isCreate && iconState.animate
             )
 
             onBindingEdit(noteItem, isEdit)
@@ -168,6 +174,8 @@ class TextNoteViewModel(application: Application) :
 
         saveControl.needSave = true
         saveControl.setSaveEvent(isEdit)
+        
+        inputControl.isEnabled = true
     }
 
     //endregion

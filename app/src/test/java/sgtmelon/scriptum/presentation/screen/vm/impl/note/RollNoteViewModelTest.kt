@@ -19,7 +19,7 @@ import sgtmelon.scriptum.domain.model.item.RollItem
 import sgtmelon.scriptum.domain.model.state.IconState
 import sgtmelon.scriptum.domain.model.state.NoteState
 import sgtmelon.scriptum.extension.move
-import sgtmelon.scriptum.extension.removeAtOrNull
+import sgtmelon.scriptum.extension.validRemoveAt
 import sgtmelon.scriptum.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.presentation.control.note.save.ISaveControl
@@ -844,6 +844,22 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
     @Test fun onMenuUndoRedoName() = fastTest.onMenuUndoRedoName()
 
+    @Test fun onMenuUndoRedoRoll() {
+        TODO()
+    }
+
+    @Test fun onMenuUndoRedoAdd() {
+        TODO()
+    }
+
+    @Test fun onMenuUndoRedoRemove() {
+        TODO()
+    }
+
+    @Test fun onMenuUndoRedoMove() {
+        TODO()
+    }
+
     @Test fun onMenuRank() = fastTest.onMenuRank(mockk())
 
     @Test fun onMenuColor() = fastTest.onMenuColor(mockk())
@@ -990,11 +1006,11 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         every { spyViewModel.getCorrectPosition(p, noteItem) } returns correctPosition
         every { noteItem.list } returns list
 
-        every { list.removeAtOrNull(correctPosition) } returns null
+        every { list.validRemoveAt(correctPosition) } returns null
 
         spyViewModel.onTouchSwiped(p)
 
-        every { list.removeAtOrNull(correctPosition) } returns item
+        every { list.validRemoveAt(correctPosition) } returns item
         every { item.toJson() } returns itemJson
         every { inputControl.access } returns inputAccess
         every { spyViewModel.getList(noteItem) } returns newList
@@ -1004,11 +1020,11 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         verifyOrder {
             spyViewModel.getCorrectPosition(p, noteItem)
             noteItem.list
-            list.removeAtOrNull(correctPosition)
+            list.validRemoveAt(correctPosition)
 
             spyViewModel.getCorrectPosition(p, noteItem)
             noteItem.list
-            list.removeAtOrNull(correctPosition)
+            list.validRemoveAt(correctPosition)
             item.toJson()
             inputControl.onRollRemove(correctPosition, itemJson)
 

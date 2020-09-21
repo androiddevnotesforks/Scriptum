@@ -15,8 +15,8 @@ import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.extension.clearAdd
 import sgtmelon.scriptum.extension.launchBack
-import sgtmelon.scriptum.extension.removeAtOrNull
 import sgtmelon.scriptum.extension.runBack
+import sgtmelon.scriptum.extension.validRemoveAt
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.INotesFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.main.INotesViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
@@ -160,7 +160,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
     }
 
     private fun onMenuDelete(p: Int) {
-        val item = itemList.removeAtOrNull(p) ?: return
+        val item = itemList.validRemoveAt(p) ?: return
 
         callback?.notifyItemRemoved(itemList, p)
 

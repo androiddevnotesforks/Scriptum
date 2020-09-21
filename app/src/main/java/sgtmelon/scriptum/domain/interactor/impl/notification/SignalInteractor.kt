@@ -9,7 +9,7 @@ import sgtmelon.scriptum.domain.model.annotation.Signal
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.MelodyItem
 import sgtmelon.scriptum.domain.model.state.SignalState
-import sgtmelon.scriptum.extension.indexOfOrNull
+import sgtmelon.scriptum.extension.validIndexOf
 import sgtmelon.scriptum.presentation.control.system.callback.IRingtoneControl
 
 /**
@@ -89,7 +89,7 @@ class SignalInteractor(
         val list = getMelodyList()
         val uri = getMelodyUri()
 
-        return list.indexOfOrNull { it.uri == uri }
+        return list.validIndexOf { it.uri == uri }
     }
 
 }
