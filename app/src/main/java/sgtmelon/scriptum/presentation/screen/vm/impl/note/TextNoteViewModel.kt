@@ -92,25 +92,17 @@ class TextNoteViewModel(application: Application) :
 
     //region Menu click
 
-    override fun onMenuUndoRedo(isUndo: Boolean) {
-        if (callback?.isDialogOpen == true || !noteState.isEdit) return
+    override fun onMenuUndoRedoSelect(item: InputItem, isUndo: Boolean) {
+        inputControl.isEnabled = false
 
-        val item = if (isUndo) inputControl.undo() else inputControl.redo()
-
-        if (item != null) {
-            inputControl.isEnabled = false
-
-            when (item.tag) {
-                InputAction.RANK -> onMenuUndoRedoRank(item, isUndo)
-                InputAction.COLOR -> onMenuUndoRedoColor(item, isUndo)
-                InputAction.NAME -> onMenuUndoRedoName(item, isUndo)
-                InputAction.TEXT -> onMenuUndoRedoText(item, isUndo)
-            }
-
-            inputControl.isEnabled = true
+        when (item.tag) {
+            InputAction.RANK -> onMenuUndoRedoRank(item, isUndo)
+            InputAction.COLOR -> onMenuUndoRedoColor(item, isUndo)
+            InputAction.NAME -> onMenuUndoRedoName(item, isUndo)
+            InputAction.TEXT -> onMenuUndoRedoText(item, isUndo)
         }
 
-        callback?.onBindingInput(noteItem, inputControl.access)
+        inputControl.isEnabled = true
     }
 
     @RunPrivate fun onMenuUndoRedoText(item: InputItem, isUndo: Boolean) {
@@ -174,7 +166,7 @@ class TextNoteViewModel(application: Application) :
 
         saveControl.needSave = true
         saveControl.setSaveEvent(isEdit)
-        
+
         inputControl.isEnabled = true
     }
 

@@ -834,9 +834,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
     @Test fun onMenuRedo() = fastTest.onMenuRedo()
 
-    @Test fun onMenuUndoRedo() {
-        TODO()
-    }
+    @Test fun onMenuUndoRedo() = fastTest.onMenuUndoRedo(mockk())
 
     @Test fun onMenuUndoRedoRank() = fastTest.onMenuUndoRedoRank(mockk(relaxUnitFun = true))
 

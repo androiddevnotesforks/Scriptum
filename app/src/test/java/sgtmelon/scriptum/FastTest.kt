@@ -553,6 +553,84 @@ object FastTest {
                 }
             }
 
+            fun onMenuUndoRedo(noteItem: N) {
+                val noteState = mockk<NoteState>()
+                val isUndo = Random.nextBoolean()
+                val item = mockk<InputItem>()
+                val access = mockk<InputControl.Access>()
+
+                spyViewModel.noteItem = noteItem
+                spyViewModel.noteState = noteState
+
+                every { callback.isDialogOpen } returns true
+                every { noteState.isEdit } returns false
+                spyViewModel.onMenuUndoRedo(isUndo)
+
+                every { callback.isDialogOpen } returns true
+                every { noteState.isEdit } returns true
+                spyViewModel.onMenuUndoRedo(isUndo)
+
+                every { callback.isDialogOpen } returns false
+                every { noteState.isEdit } returns false
+                spyViewModel.onMenuUndoRedo(isUndo)
+
+                every { callback.isDialogOpen } returns false
+                every { noteState.isEdit } returns true
+                every { if (isUndo) inputControl.undo() else inputControl.redo() } returns null
+                every { inputControl.access } returns access
+                spyViewModel.onMenuUndoRedo(isUndo)
+
+                every { if (isUndo) inputControl.undo() else inputControl.redo() } returns item
+                every { spyViewModel.onMenuUndoRedoSelect(item, isUndo) } returns Unit
+                spyViewModel.onMenuUndoRedo(isUndo)
+
+                coVerifySequence {
+                    spyViewModel.noteItem = noteItem
+                    spyViewModel.noteState = noteState
+
+                    spyViewModel.onMenuUndoRedo(isUndo)
+                    spyViewModel.callback
+                    callback.isDialogOpen
+
+                    spyViewModel.onMenuUndoRedo(isUndo)
+                    spyViewModel.callback
+                    callback.isDialogOpen
+
+                    spyViewModel.onMenuUndoRedo(isUndo)
+                    spyViewModel.callback
+                    callback.isDialogOpen
+                    spyViewModel.noteState
+                    noteState.isEdit
+
+                    spyViewModel.onMenuUndoRedo(isUndo)
+                    spyViewModel.callback
+                    callback.isDialogOpen
+                    spyViewModel.noteState
+                    noteState.isEdit
+                    spyViewModel.inputControl
+                    if (isUndo) inputControl.undo() else inputControl.redo()
+                    spyViewModel.callback
+                    spyViewModel.noteItem
+                    spyViewModel.inputControl
+                    inputControl.access
+                    callback.onBindingInput(noteItem, access)
+
+                    spyViewModel.onMenuUndoRedo(isUndo)
+                    spyViewModel.callback
+                    callback.isDialogOpen
+                    spyViewModel.noteState
+                    noteState.isEdit
+                    spyViewModel.inputControl
+                    if (isUndo) inputControl.undo() else inputControl.redo()
+                    spyViewModel.onMenuUndoRedoSelect(item, isUndo)
+                    spyViewModel.callback
+                    spyViewModel.noteItem
+                    spyViewModel.inputControl
+                    inputControl.access
+                    callback.onBindingInput(noteItem, access)
+                }
+            }
+
             fun onMenuUndoRedoRank(noteItem: N) {
                 val item = mockk<InputItem>(relaxUnitFun = true)
                 val isUndo = Random.nextBoolean()

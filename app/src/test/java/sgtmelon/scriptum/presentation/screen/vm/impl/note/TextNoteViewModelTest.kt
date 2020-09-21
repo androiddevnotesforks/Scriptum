@@ -19,7 +19,6 @@ import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.state.IconState
 import sgtmelon.scriptum.domain.model.state.NoteState
 import sgtmelon.scriptum.presentation.control.note.input.IInputControl
-import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.presentation.control.note.save.ISaveControl
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.ITextNoteFragment
@@ -304,154 +303,61 @@ class TextNoteViewModelTest : ParentViewModelTest() {
 
     @Test fun onMenuRedo() = fastTest.onMenuRedo()
 
-    @Test fun onMenuUndoRedo() {
-        val noteItem = mockk<NoteItem.Text>()
-        val noteState = mockk<NoteState>()
-        val isUndo = Random.nextBoolean()
+    @Test fun onMenuUndoRedo() = fastTest.onMenuUndoRedo(mockk())
+
+    @Test fun onMenuUndoRedoSelect() {
         val item = mockk<InputItem>()
-        val access = mockk<InputControl.Access>()
+        val isUndo = Random.nextBoolean()
 
-        spyViewModel.noteItem = noteItem
-        spyViewModel.noteState = noteState
-
-        every { callback.isDialogOpen } returns true
-        every { noteState.isEdit } returns false
-        spyViewModel.onMenuUndoRedo(isUndo)
-
-        every { callback.isDialogOpen } returns true
-        every { noteState.isEdit } returns true
-        spyViewModel.onMenuUndoRedo(isUndo)
-
-        every { callback.isDialogOpen } returns false
-        every { noteState.isEdit } returns false
-        spyViewModel.onMenuUndoRedo(isUndo)
-
-        every { callback.isDialogOpen } returns false
-        every { noteState.isEdit } returns true
-        every { if (isUndo) inputControl.undo() else inputControl.redo() } returns null
-        every { inputControl.access } returns access
-        spyViewModel.onMenuUndoRedo(isUndo)
-
-        every { if (isUndo) inputControl.undo() else inputControl.redo() } returns item
         every { item.tag } returns InputAction.RANK
         every { spyViewModel.onMenuUndoRedoRank(item, isUndo) } returns Unit
-        spyViewModel.onMenuUndoRedo(isUndo)
+        spyViewModel.onMenuUndoRedoSelect(item, isUndo)
 
         every { item.tag } returns InputAction.COLOR
         every { spyViewModel.onMenuUndoRedoColor(item, isUndo) } returns Unit
-        spyViewModel.onMenuUndoRedo(isUndo)
+        spyViewModel.onMenuUndoRedoSelect(item, isUndo)
 
         every { item.tag } returns InputAction.NAME
         every { spyViewModel.onMenuUndoRedoName(item, isUndo) } returns Unit
-        spyViewModel.onMenuUndoRedo(isUndo)
+        spyViewModel.onMenuUndoRedoSelect(item, isUndo)
 
         every { item.tag } returns InputAction.TEXT
         every { spyViewModel.onMenuUndoRedoText(item, isUndo) } returns Unit
-        spyViewModel.onMenuUndoRedo(isUndo)
+        spyViewModel.onMenuUndoRedoSelect(item, isUndo)
 
-        coVerifySequence {
-            spyViewModel.noteItem = noteItem
-            spyViewModel.noteState = noteState
+        verifySequence {
+            spyViewModel.onMenuUndoRedoSelect(item, isUndo)
+            spyViewModel.inputControl
+            inputControl.isEnabled = false
+            item.tag
+            spyViewModel.onMenuUndoRedoRank(item, isUndo)
+            spyViewModel.inputControl
 
-            spyViewModel.onMenuUndoRedo(isUndo)
-            spyViewModel.callback
-            callback.isDialogOpen
+            spyViewModel.onMenuUndoRedoSelect(item, isUndo)
+            inputControl.isEnabled = true
+            spyViewModel.inputControl
+            inputControl.isEnabled = false
+            item.tag
+            spyViewModel.onMenuUndoRedoColor(item, isUndo)
+            spyViewModel.inputControl
 
-            spyViewModel.onMenuUndoRedo(isUndo)
-            spyViewModel.callback
-            callback.isDialogOpen
+            spyViewModel.onMenuUndoRedoSelect(item, isUndo)
+            inputControl.isEnabled = true
+            spyViewModel.inputControl
+            inputControl.isEnabled = false
+            item.tag
+            spyViewModel.onMenuUndoRedoName(item, isUndo)
+            spyViewModel.inputControl
 
-            spyViewModel.onMenuUndoRedo(isUndo)
-            spyViewModel.callback
-            callback.isDialogOpen
-            spyViewModel.noteState
-            noteState.isEdit
-
-            spyViewModel.onMenuUndoRedo(isUndo)
-            spyViewModel.callback
-            callback.isDialogOpen
-            spyViewModel.noteState
-            noteState.isEdit
+            spyViewModel.onMenuUndoRedoSelect(item, isUndo)
+            inputControl.isEnabled = true
             spyViewModel.inputControl
-            if (isUndo) inputControl.undo() else inputControl.redo()
-            spyViewModel.callback
-            spyViewModel.noteItem
+            inputControl.isEnabled = false
+            item.tag
+            spyViewModel.onMenuUndoRedoText(item, isUndo)
             spyViewModel.inputControl
-            inputControl.access
-            callback.onBindingInput(noteItem, access)
-
-            spyViewModel.onMenuUndoRedo(isUndo)
-            spyViewModel.callback
-            callback.isDialogOpen
-            spyViewModel.noteState
-            noteState.isEdit
-            spyViewModel.inputControl
-            if (isUndo) inputControl.undo() else inputControl.redo()
-            verifyUndoRedoTag(item, isUndo, InputAction.RANK)
-            spyViewModel.callback
-            spyViewModel.noteItem
-            spyViewModel.inputControl
-            inputControl.access
-            callback.onBindingInput(noteItem, access)
-
-            spyViewModel.onMenuUndoRedo(isUndo)
-            spyViewModel.callback
-            callback.isDialogOpen
-            spyViewModel.noteState
-            noteState.isEdit
-            spyViewModel.inputControl
-            if (isUndo) inputControl.undo() else inputControl.redo()
-            verifyUndoRedoTag(item, isUndo, InputAction.COLOR)
-            spyViewModel.callback
-            spyViewModel.noteItem
-            spyViewModel.inputControl
-            inputControl.access
-            callback.onBindingInput(noteItem, access)
-
-            spyViewModel.onMenuUndoRedo(isUndo)
-            spyViewModel.callback
-            callback.isDialogOpen
-            spyViewModel.noteState
-            noteState.isEdit
-            spyViewModel.inputControl
-            if (isUndo) inputControl.undo() else inputControl.redo()
-            verifyUndoRedoTag(item, isUndo, InputAction.NAME)
-            spyViewModel.callback
-            spyViewModel.noteItem
-            spyViewModel.inputControl
-            inputControl.access
-            callback.onBindingInput(noteItem, access)
-
-            spyViewModel.onMenuUndoRedo(isUndo)
-            spyViewModel.callback
-            callback.isDialogOpen
-            spyViewModel.noteState
-            noteState.isEdit
-            spyViewModel.inputControl
-            if (isUndo) inputControl.undo() else inputControl.redo()
-            verifyUndoRedoTag(item, isUndo, InputAction.TEXT)
-            spyViewModel.callback
-            spyViewModel.noteItem
-            spyViewModel.inputControl
-            inputControl.access
-            callback.onBindingInput(noteItem, access)
+            inputControl.isEnabled = true
         }
-    }
-
-    private fun verifyUndoRedoTag(item: InputItem, isUndo: Boolean, tag: Int) {
-        spyViewModel.inputControl
-        inputControl.isEnabled = false
-        item.tag
-
-        when (tag) {
-            InputAction.RANK -> spyViewModel.onMenuUndoRedoRank(item, isUndo)
-            InputAction.COLOR -> spyViewModel.onMenuUndoRedoColor(item, isUndo)
-            InputAction.NAME -> spyViewModel.onMenuUndoRedoName(item, isUndo)
-            InputAction.TEXT -> spyViewModel.onMenuUndoRedoText(item, isUndo)
-        }
-
-        spyViewModel.inputControl
-        inputControl.isEnabled = true
     }
 
     @Test fun onMenuUndoRedoRank() = fastTest.onMenuUndoRedoRank(mockk(relaxUnitFun = true))

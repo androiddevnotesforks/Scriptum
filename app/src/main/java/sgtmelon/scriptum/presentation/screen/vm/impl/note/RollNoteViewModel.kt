@@ -246,36 +246,28 @@ class RollNoteViewModel(application: Application) :
 
     //region Menu click
 
-    override fun onMenuUndoRedo(isUndo: Boolean) {
-        if (callback?.isDialogOpen == true || !noteState.isEdit) return
+    override fun onMenuUndoRedoSelect(item: InputItem, isUndo: Boolean) {
+        inputControl.isEnabled = false
 
-        val item = if (isUndo) inputControl.undo() else inputControl.redo()
+        when (item.tag) {
+            InputAction.RANK -> onMenuUndoRedoRank(item, isUndo)
+            InputAction.COLOR -> onMenuUndoRedoColor(item, isUndo)
+            InputAction.NAME -> onMenuUndoRedoName(item, isUndo)
+            InputAction.ROLL -> onMenuUndoRedoRoll(item, isUndo)
+            InputAction.ROLL_ADD, InputAction.ROLL_REMOVE -> {
+                val isAddUndo = isUndo && item.tag == InputAction.ROLL_ADD
+                val isRemoveRedo = !isUndo && item.tag == InputAction.ROLL_REMOVE
 
-        if (item != null) {
-            inputControl.isEnabled = false
-
-            when (item.tag) {
-                InputAction.RANK -> onMenuUndoRedoRank(item, isUndo)
-                InputAction.COLOR -> onMenuUndoRedoColor(item, isUndo)
-                InputAction.NAME -> onMenuUndoRedoName(item, isUndo)
-                InputAction.ROLL -> onMenuUndoRedoRoll(item, isUndo)
-                InputAction.ROLL_ADD, InputAction.ROLL_REMOVE -> {
-                    val isAddUndo = isUndo && item.tag == InputAction.ROLL_ADD
-                    val isRemoveRedo = !isUndo && item.tag == InputAction.ROLL_REMOVE
-
-                    if (isAddUndo || isRemoveRedo) {
-                        onMenuUndoRedoAdd(item)
-                    } else {
-                        onMenuUndoRedoRemove(item, isUndo)
-                    }
+                if (isAddUndo || isRemoveRedo) {
+                    onMenuUndoRedoAdd(item)
+                } else {
+                    onMenuUndoRedoRemove(item, isUndo)
                 }
-                InputAction.ROLL_MOVE -> onMenuUndoRedoMove(item, isUndo)
             }
-
-            inputControl.isEnabled = true
+            InputAction.ROLL_MOVE -> onMenuUndoRedoMove(item, isUndo)
         }
 
-        callback?.onBindingInput(noteItem, inputControl.access)
+        inputControl.isEnabled = true
     }
 
     @RunPrivate fun onMenuUndoRedoRoll(item: InputItem, isUndo: Boolean) {
@@ -288,6 +280,8 @@ class RollNoteViewModel(application: Application) :
             callback?.notifyItemChanged(getList(noteItem), position, item.cursor[isUndo])
         }
     }
+
+
 
     @RunPrivate fun onMenuUndoRedoAdd(item: InputItem) {
         val rollItem = noteItem.list.getOrNull(item.p) ?: return

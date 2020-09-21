@@ -306,10 +306,22 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
 
     override fun onMenuRedo() = onMenuUndoRedo(isUndo = false)
 
+    @RunPrivate fun onMenuUndoRedo(isUndo: Boolean) {
+        if (callback?.isDialogOpen == true || !noteState.isEdit) return
+
+        val item = if (isUndo) inputControl.undo() else inputControl.redo()
+
+        if (item != null) {
+            onMenuUndoRedoSelect(item, isUndo)
+        }
+
+        callback?.onBindingInput(noteItem, inputControl.access)
+    }
+
     /**
-     * Function must describe logic of [isUndo]. The way how changes will be apply.
+     * Function must describe logic of [isUndo] switch by [InputItem.tag].
      */
-    abstract fun onMenuUndoRedo(isUndo: Boolean)
+    abstract fun onMenuUndoRedoSelect(item: InputItem, isUndo: Boolean)
 
     @RunProtected
     fun onMenuUndoRedoRank(item: InputItem, isUndo: Boolean) {
