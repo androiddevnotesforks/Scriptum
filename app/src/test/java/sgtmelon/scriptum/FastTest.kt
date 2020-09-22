@@ -599,33 +599,24 @@ object FastTest {
                     spyViewModel.onMenuUndoRedo(isUndo)
                     spyViewModel.callback
                     callback.isDialogOpen
-                    spyViewModel.noteState
                     noteState.isEdit
 
                     spyViewModel.onMenuUndoRedo(isUndo)
                     spyViewModel.callback
                     callback.isDialogOpen
-                    spyViewModel.noteState
                     noteState.isEdit
-                    spyViewModel.inputControl
                     if (isUndo) inputControl.undo() else inputControl.redo()
                     spyViewModel.callback
-                    spyViewModel.noteItem
-                    spyViewModel.inputControl
                     inputControl.access
                     callback.onBindingInput(noteItem, access)
 
                     spyViewModel.onMenuUndoRedo(isUndo)
                     spyViewModel.callback
                     callback.isDialogOpen
-                    spyViewModel.noteState
                     noteState.isEdit
-                    spyViewModel.inputControl
                     if (isUndo) inputControl.undo() else inputControl.redo()
                     spyViewModel.onMenuUndoRedoSelect(item, isUndo)
                     spyViewModel.callback
-                    spyViewModel.noteItem
-                    spyViewModel.inputControl
                     inputControl.access
                     callback.onBindingInput(noteItem, access)
                 }
