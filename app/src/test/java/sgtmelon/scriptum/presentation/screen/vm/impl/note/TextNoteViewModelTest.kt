@@ -332,25 +332,25 @@ class TextNoteViewModelTest : ParentViewModelTest() {
             item.tag
             spyViewModel.onMenuUndoRedoRank(item, isUndo)
             spyViewModel.inputControl
+            inputControl.isEnabled = true
 
             spyViewModel.onMenuUndoRedoSelect(item, isUndo)
-            inputControl.isEnabled = true
             spyViewModel.inputControl
             inputControl.isEnabled = false
             item.tag
             spyViewModel.onMenuUndoRedoColor(item, isUndo)
             spyViewModel.inputControl
+            inputControl.isEnabled = true
 
             spyViewModel.onMenuUndoRedoSelect(item, isUndo)
-            inputControl.isEnabled = true
             spyViewModel.inputControl
             inputControl.isEnabled = false
             item.tag
             spyViewModel.onMenuUndoRedoName(item, isUndo)
             spyViewModel.inputControl
+            inputControl.isEnabled = true
 
             spyViewModel.onMenuUndoRedoSelect(item, isUndo)
-            inputControl.isEnabled = true
             spyViewModel.inputControl
             inputControl.isEnabled = false
             item.tag

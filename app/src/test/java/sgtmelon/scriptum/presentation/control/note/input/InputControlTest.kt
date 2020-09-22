@@ -184,10 +184,12 @@ class InputControlTest : ParentTest() {
         verifySequence {
             spyInputControl.isEnabled = false
             spyInputControl.add(firstItem)
+            spyInputControl.isEnabled
             spyInputControl.listAll()
 
             spyInputControl.isEnabled = true
             spyInputControl.add(firstItem)
+            spyInputControl.isEnabled
             spyInputControl.clearToPosition()
             spyInputControl.clearToSize()
             spyInputControl.listAll()
@@ -196,6 +198,7 @@ class InputControlTest : ParentTest() {
             spyInputControl.position
 
             spyInputControl.add(secondItem)
+            spyInputControl.isEnabled
             spyInputControl.clearToPosition()
             spyInputControl.clearToSize()
             spyInputControl.listAll()
