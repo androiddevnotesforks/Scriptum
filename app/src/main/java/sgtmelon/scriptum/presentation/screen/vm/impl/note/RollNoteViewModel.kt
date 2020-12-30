@@ -99,7 +99,9 @@ class RollNoteViewModel(application: Application) :
         callback?.setupDialog(rankDialogItemArray)
         callback?.setupProgress()
 
-        iconState.notAnimate { setupEditMode(noteState.isEdit) }
+        mayAnimateIcon = false
+        setupEditMode(noteState.isEdit)
+        mayAnimateIcon = true
 
         callback?.apply {
             showToolbarVisibleIcon(isShow = true)
@@ -382,7 +384,7 @@ class RollNoteViewModel(application: Application) :
         callback?.apply {
             setToolbarBackIcon(
                 isCancel = isEdit && !noteState.isCreate,
-                needAnim = !noteState.isCreate && iconState.animate
+                needAnim = !noteState.isCreate && mayAnimateIcon
             )
 
             onBindingEdit(noteItem, isEdit)

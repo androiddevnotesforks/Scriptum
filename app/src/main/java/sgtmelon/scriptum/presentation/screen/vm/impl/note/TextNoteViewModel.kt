@@ -67,7 +67,11 @@ class TextNoteViewModel(application: Application) :
 
     override suspend fun setupAfterInitialize() {
         callback?.setupDialog(rankDialogItemArray)
-        iconState.notAnimate { setupEditMode(noteState.isEdit) }
+
+        mayAnimateIcon = false
+        setupEditMode(noteState.isEdit)
+        mayAnimateIcon = true
+
         callback?.onBindingLoad(isRankEmpty = rankDialogItemArray.size == 1)
     }
 
@@ -155,7 +159,7 @@ class TextNoteViewModel(application: Application) :
         callback?.apply {
             setToolbarBackIcon(
                 isCancel = isEdit && !noteState.isCreate,
-                needAnim = !noteState.isCreate && iconState.animate
+                needAnim = !noteState.isCreate && mayAnimateIcon
             )
 
             onBindingEdit(noteItem, isEdit)

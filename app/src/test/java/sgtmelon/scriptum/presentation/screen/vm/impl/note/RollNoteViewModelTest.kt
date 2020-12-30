@@ -16,7 +16,6 @@ import sgtmelon.scriptum.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.domain.model.data.NoteData
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
-import sgtmelon.scriptum.domain.model.state.IconState
 import sgtmelon.scriptum.domain.model.state.NoteState
 import sgtmelon.scriptum.extension.move
 import sgtmelon.scriptum.extension.validRemoveAt
@@ -64,6 +63,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
         assertEquals(NoteData.Default.ID, viewModel.id)
         assertEquals(NoteData.Default.COLOR, viewModel.color)
+        assertTrue(viewModel.mayAnimateIcon)
         assertTrue(viewModel.rankDialogItemArray.isEmpty())
         assertTrue(viewModel.isVisible)
 
@@ -208,7 +208,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     @Test fun setupAfterInitialize() = startCoTest {
         val noteItem = mockk<NoteItem.Roll>()
         val rollList = mockk<MutableList<RollItem>>()
-        val iconState = mockk<IconState>(relaxUnitFun = true)
+        val noteState = mockk<NoteState>(relaxUnitFun = true)
 
         val isVisible = Random.nextBoolean()
         val isRankEmpty = Random.nextBoolean()
@@ -220,21 +220,21 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         val isEdit = Random.nextBoolean()
 
         spyViewModel.noteItem = noteItem
-        spyViewModel.iconState = iconState
         spyViewModel.rankDialogItemArray = rankDialogItemArray
-        spyViewModel.noteState.isEdit = isEdit
+        spyViewModel.noteState = noteState
         spyViewModel.isVisible = isVisible
 
         every { spyViewModel.getList(noteItem) } returns rollList
         every { spyViewModel.onUpdateInfo() } returns Unit
+        every { noteState.isEdit } returns isEdit
+        every { spyViewModel.setupEditMode(isEdit) } returns Unit
 
         spyViewModel.setupAfterInitialize()
 
         coVerifySequence {
             spyViewModel.noteItem = noteItem
-            spyViewModel.iconState = iconState
             spyViewModel.rankDialogItemArray = rankDialogItemArray
-            spyViewModel.noteState
+            spyViewModel.noteState = noteState
             spyViewModel.isVisible = isVisible
             spyViewModel.setupAfterInitialize()
 
@@ -244,8 +244,11 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.callback
             callback.setupProgress()
 
-            spyViewModel.iconState
-            iconState.notAnimate(any())
+            spyViewModel.mayAnimateIcon = false
+            spyViewModel.noteState
+            noteState.isEdit
+            spyViewModel.setupEditMode(isEdit)
+            spyViewModel.mayAnimateIcon = true
 
             spyViewModel.callback
             callback.showToolbarVisibleIcon(isShow = true)

@@ -17,7 +17,6 @@ import sgtmelon.scriptum.domain.model.data.NoteData
 import sgtmelon.scriptum.domain.model.item.InputItem
 import sgtmelon.scriptum.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.domain.model.state.IconState
 import sgtmelon.scriptum.domain.model.state.NoteState
 import sgtmelon.scriptum.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.presentation.control.note.input.InputControl
@@ -495,30 +494,31 @@ object FastTest {
             }
 
             fun onMenuRestoreOpen(noteItem: N) {
-                val noteState = mockk<NoteState>(relaxUnitFun = true)
-                val iconState = mockk<IconState>(relaxUnitFun = true)
-
-                every { noteItem.onRestore() } returns noteItem
-                every { spyViewModel.setupEditMode(isEdit = false) } returns Unit
-
-                spyViewModel.noteState = noteState
-                spyViewModel.noteItem = noteItem
-                spyViewModel.onMenuRestoreOpen()
-
-                spyViewModel.iconState = iconState
-                spyViewModel.onMenuRestoreOpen()
-
-                coVerifyOrder {
-                    noteState.isBin = false
-                    noteItem.onRestore()
-                    spyViewModel.setupEditMode(isEdit = false)
-                    interactor.updateNote(noteItem, updateBind = false)
-
-                    noteState.isBin = false
-                    noteItem.onRestore()
-                    iconState.notAnimate(any())
-                    interactor.updateNote(noteItem, updateBind = false)
-                }
+                TODO()
+//                val noteState = mockk<NoteState>(relaxUnitFun = true)
+//                val iconState = mockk<IconState>(relaxUnitFun = true)
+//
+//                every { noteItem.onRestore() } returns noteItem
+//                every { spyViewModel.setupEditMode(isEdit = false) } returns Unit
+//
+//                spyViewModel.noteState = noteState
+//                spyViewModel.noteItem = noteItem
+//                spyViewModel.onMenuRestoreOpen()
+//
+//                spyViewModel.iconState = iconState
+//                spyViewModel.onMenuRestoreOpen()
+//
+//                coVerifyOrder {
+//                    noteState.isBin = false
+//                    noteItem.onRestore()
+//                    spyViewModel.setupEditMode(isEdit = false)
+//                    interactor.updateNote(noteItem, updateBind = false)
+//
+//                    noteState.isBin = false
+//                    noteItem.onRestore()
+//                    iconState.notAnimate(any())
+//                    interactor.updateNote(noteItem, updateBind = false)
+//                }
             }
 
             fun onMenuClear(noteItem: N) {

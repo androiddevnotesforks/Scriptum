@@ -16,7 +16,6 @@ import sgtmelon.scriptum.domain.model.data.NoteData.Intent
 import sgtmelon.scriptum.domain.model.item.InputItem
 import sgtmelon.scriptum.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.domain.model.state.IconState
 import sgtmelon.scriptum.domain.model.state.NoteState
 import sgtmelon.scriptum.extension.launchBack
 import sgtmelon.scriptum.extension.runBack
@@ -75,7 +74,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
     @RunProtected lateinit var restoreItem: N
 
     @RunProtected var noteState = NoteState()
-    @RunProtected var iconState = IconState()
+    @RunProtected var mayAnimateIcon = true
 
     /**
      * App doesn't have ranks if size == 1.
@@ -289,7 +288,9 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
 
         noteItem.onRestore()
 
-        iconState.notAnimate { setupEditMode(isEdit = false) }
+        mayAnimateIcon = false
+        setupEditMode(isEdit = false)
+        mayAnimateIcon = true
 
         viewModelScope.launchBack { interactor.updateNote(noteItem, updateBind = false) }
     }

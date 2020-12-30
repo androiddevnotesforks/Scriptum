@@ -16,7 +16,6 @@ import sgtmelon.scriptum.domain.model.data.NoteData.Default
 import sgtmelon.scriptum.domain.model.item.InputItem
 import sgtmelon.scriptum.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.domain.model.state.IconState
 import sgtmelon.scriptum.domain.model.state.NoteState
 import sgtmelon.scriptum.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.presentation.control.note.save.ISaveControl
@@ -61,6 +60,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
 
         assertEquals(Default.ID, viewModel.id)
         assertEquals(Default.COLOR, viewModel.color)
+        assertTrue(viewModel.mayAnimateIcon)
         assertTrue(viewModel.rankDialogItemArray.isEmpty())
 
         assertNotNull(viewModel.callback)
@@ -71,7 +71,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
         super.tearDown()
 
         confirmVerified(
-                callback, parentCallback, interactor, bindInteractor, inputControl, saveControl
+            callback, parentCallback, interactor, bindInteractor, inputControl, saveControl
         )
     }
 
@@ -191,7 +191,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun setupAfterInitialize() = startCoTest {
-        val iconState = mockk<IconState>(relaxUnitFun = true)
+        val noteState = mockk<NoteState>(relaxUnitFun = true)
         val isRankEmpty = Random.nextBoolean()
         val rankDialogItemArray = if (isRankEmpty) {
             arrayOf(nextString())
@@ -200,14 +200,27 @@ class TextNoteViewModelTest : ParentViewModelTest() {
         }
         val isEdit = Random.nextBoolean()
 
-        viewModel.iconState = iconState
-        viewModel.rankDialogItemArray = rankDialogItemArray
-        viewModel.noteState.isEdit = isEdit
-        viewModel.setupAfterInitialize()
+        every { spyViewModel.setupEditMode(isEdit) } returns Unit
+        every { noteState.isEdit } returns isEdit
+
+        spyViewModel.rankDialogItemArray = rankDialogItemArray
+        spyViewModel.noteState = noteState
+        spyViewModel.setupAfterInitialize()
 
         coVerify {
+            spyViewModel.rankDialogItemArray = rankDialogItemArray
+            spyViewModel.noteState
+            spyViewModel.setupAfterInitialize()
+
+            spyViewModel.callback
             callback.setupDialog(rankDialogItemArray)
-            iconState.notAnimate(any())
+
+            spyViewModel.mayAnimateIcon = false
+            noteState.isEdit
+            spyViewModel.setupEditMode(isEdit)
+            spyViewModel.mayAnimateIcon = true
+
+            spyViewModel.callback
             callback.onBindingLoad(isRankEmpty)
         }
     }
@@ -410,6 +423,31 @@ class TextNoteViewModelTest : ParentViewModelTest() {
 
     @Test fun setupEditMode() {
         TODO()
+//        val noteItem = mockk<NoteItem.Text>()
+//        val noteState = mockk<NoteState>(relaxUnitFun = true)
+//        val iconState = mockk<IconState>(relaxUnitFun = true)
+//
+//        val isCreate = Random.nextBoolean()
+//        val mayAnimate = Random.nextBoolean()
+//
+//        every { noteState.isCreate } returns isCreate
+//        every { iconState.mayAnimate } returns mayAnimate
+//
+//        viewModel.noteItem = noteItem
+//        viewModel.noteState = noteState
+//        viewModel.iconState = iconState
+//
+//        viewModel.setupEditMode(isEdit = false)
+//        viewModel.setupEditMode(isEdit = true)
+//
+//        verifySequence {
+//            inputControl.isEnabled = false
+//            noteState.isEdit = false
+//            callback.setToolbarBackIcon(
+//                isCancel =
+//            )
+//            inputControl.isEnabled = true
+//        }
     }
 
 

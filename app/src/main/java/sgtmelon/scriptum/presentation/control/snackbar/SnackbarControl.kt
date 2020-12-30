@@ -15,9 +15,9 @@ import sgtmelon.scriptum.extension.updateMargin
  * Class for help control showing snackbar's.
  */
 class SnackbarControl(
-        @StringRes private val messageId: Int,
-        @StringRes private val actionId: Int,
-        private val callback: SnackbarCallback
+    @StringRes private val messageId: Int,
+    @StringRes private val actionId: Int,
+    private val callback: SnackbarCallback
 ) : ISnackbarControl {
 
     private var snackbar: Snackbar? = null
