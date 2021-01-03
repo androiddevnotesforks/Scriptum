@@ -420,6 +420,8 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
     }
 
     override fun onInputTextChange() {
+        if (!isNoteInitialized()) return
+
         callback?.onBindingInput(noteItem, inputControl.access)
     }
 

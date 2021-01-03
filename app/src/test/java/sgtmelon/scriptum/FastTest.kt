@@ -961,10 +961,21 @@ object FastTest {
 
                 every { inputControl.access } returns access
 
-                viewModel.noteItem = noteItem
-                viewModel.onInputTextChange()
+                every { spyViewModel.isNoteInitialized() } returns false
+                spyViewModel.onInputTextChange()
+
+                every { spyViewModel.isNoteInitialized() } returns true
+                spyViewModel.noteItem = noteItem
+                spyViewModel.onInputTextChange()
 
                 verifySequence {
+                    spyViewModel.onInputTextChange()
+                    spyViewModel.isNoteInitialized()
+
+                    spyViewModel.noteItem = noteItem
+                    spyViewModel.onInputTextChange()
+                    spyViewModel.isNoteInitialized()
+                    spyViewModel.callback
                     inputControl.access
                     callback.onBindingInput(noteItem, access)
                 }
