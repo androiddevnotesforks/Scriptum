@@ -419,6 +419,10 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
         callback?.showSaveToast(onMenuSave(changeMode = false))
     }
 
+    /**
+     * Need check [isNoteInitialized] for prevent crash. Strange what this function calls before
+     * note initialisation, may be it related with view binding.
+     */
     override fun onInputTextChange() {
         if (!isNoteInitialized()) return
 
