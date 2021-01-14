@@ -15,7 +15,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.data.ReceiverData
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.key.MainPage
@@ -213,12 +212,8 @@ class MainActivity : AppActivity(), IMainActivity {
 
     override fun cancelAlarm(id: Long) = alarmControl.cancel(id)
 
-    override fun notifyNoteBind(
-        itemList: List<NoteItem>,
-        rankIdVisibleList: List<Long>,
-        @Sort sort: Int?
-    ) {
-        bindControl.notifyNote(itemList, rankIdVisibleList, sort)
+    override fun notifyNoteBind(itemList: List<NoteItem>, rankIdVisibleList: List<Long>) {
+        bindControl.notifyNote(itemList, rankIdVisibleList)
     }
 
     override fun notifyInfoBind(count: Int) = bindControl.notifyInfo(count)

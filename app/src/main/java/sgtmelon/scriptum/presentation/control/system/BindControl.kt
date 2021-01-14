@@ -190,8 +190,7 @@ class BindControl(private val context: Context?) : IBindControl {
         }
 
         interface NotifyAll {
-            @MainThread fun notifyNoteBind(itemList: List<NoteItem>, rankIdVisibleList: List<Long>,
-                               @Sort sort: Int? = null)
+            @MainThread fun notifyNoteBind(itemList: List<NoteItem>, rankIdVisibleList: List<Long>)
         }
 
         interface Cancel {

@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.iconanim.IconBlockCallback
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.FragmentRankBinding
-import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RankItem
@@ -358,11 +357,8 @@ class RankFragment : ParentFragment(), IRankFragment, MainReceiver.BindCallback,
     }
 
 
-    override fun notifyNoteBind(
-        itemList: List<NoteItem>, rankIdVisibleList: List<Long>,
-        @Sort sort: Int?
-    ) {
-        bindControl.notifyNote(itemList, rankIdVisibleList, sort)
+    override fun notifyNoteBind(itemList: List<NoteItem>, rankIdVisibleList: List<Long>) {
+        bindControl.notifyNote(itemList, rankIdVisibleList)
     }
 
 }

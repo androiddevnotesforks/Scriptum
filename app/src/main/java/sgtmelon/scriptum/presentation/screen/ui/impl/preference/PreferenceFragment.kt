@@ -491,9 +491,8 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
     }
 
 
-    override fun notifyNoteBind(itemList: List<NoteItem>, rankIdVisibleList: List<Long>,
-                                @Sort sort: Int?) {
-        bindControl.notifyNote(itemList, rankIdVisibleList, sort)
+    override fun notifyNoteBind(itemList: List<NoteItem>, rankIdVisibleList: List<Long>) {
+        bindControl.notifyNote(itemList, rankIdVisibleList)
     }
 
     override fun notifyInfoBind(count: Int) = bindControl.notifyInfo(count)
