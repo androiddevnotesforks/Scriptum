@@ -6,16 +6,10 @@
     <data>
 
         <import type="android.view.View" />
-
         <import type="sgtmelon.scriptum.domain.model.annotation.Theme" />
 
-        <variable
-            name="theme"
-            type="int" />
-
-        <variable
-            name="item"
-            type="sgtmelon.scriptum.domain.model.item.NoteItem.Roll" />
+        <variable name="theme" type="int" />
+        <variable name="item" type="sgtmelon.scriptum.domain.model.item.NoteItem.Roll" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -69,7 +63,7 @@
                         app:item="@{item.list.size() &gt;= 4 ? item.list.get(3) : null}" />
 
                     <include
-                        layout="@layout/include_item_note_info"
+                        layout="@layout/inc_note_roll_info"
                         app:item='@{item}' />
 
                 </LinearLayout>

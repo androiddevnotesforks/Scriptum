@@ -41,11 +41,15 @@ object NotificationFactory {
         val title = noteItem.getStatusTitle(context)
         val text = when (noteItem) {
             is NoteItem.Text -> noteItem.text
-            is NoteItem.Roll -> noteItem.list.let {
-                if (noteItem.isVisible) it else it.hide()
-            }.toStatusText().takeIf {
-                it.isNotEmpty()
-            } ?: context.getString(R.string.info_roll_hide_title)
+            is NoteItem.Roll -> {
+                val list = if (noteItem.isVisible) noteItem.list else noteItem.list.hide()
+
+                if (noteItem.isVisible || list.isNotEmpty()) {
+                    list.toStatusText()
+                } else {
+                    context.getString(R.string.info_roll_hide_title)
+                }
+            }
         }
 
         val id = noteItem.id.toInt()

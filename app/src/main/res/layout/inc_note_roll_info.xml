@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="@layout/item_note_roll">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable name="item" type="sgtmelon.scriptum.domain.model.item.NoteItem.Roll" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/note_info_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/layout_8dp"
+        android:divider="@drawable/div_space_middle"
+        android:orientation="horizontal"
+        android:showDividers="middle">
+
+        <TextView
+            android:id="@+id/note_info_progress_text"
+            style="@style/Text.Note.Info"
+            android:layout_width="wrap_content"
+            android:text='@{item.text}'
+            tools:text="@string/preview_note_done"
+            tools:visibility="visible" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:divider="@drawable/div_space_small"
+            android:orientation="horizontal"
+            android:showDividers="middle"
+            android:visibility='@{!item.isVisible || item.haveAlarm() || item.status || item.haveRank() ? View.VISIBLE : View.GONE}'
+            tools:visibility="visible">
+
+            <ImageView
+                android:id="@+id/note_info_visible_image"
+                style="@style/Image.Note.Info"
+                android:importantForAccessibility="no"
+                android:visibility='@{!item.isVisible ? View.VISIBLE : View.GONE }'
+                app:srcCompat="@drawable/ic_visible_exit"
+                tools:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/note_info_notification_image"
+                style="@style/Image.Note.Info"
+                android:importantForAccessibility="no"
+                android:visibility='@{item.haveAlarm() ? View.VISIBLE : View.GONE }'
+                app:srcCompat="@drawable/ic_notifications"
+                tools:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/note_info_bind_image"
+                style="@style/Image.Note.Info"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_bind_roll"
+                android:visibility='@{item.status ? View.VISIBLE : View.GONE}'
+                tools:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/note_info_rank_image"
+                style="@style/Image.Note.Info"
+                android:importantForAccessibility="no"
+                android:visibility='@{item.haveRank() ? View.VISIBLE : View.GONE}'
+                app:srcCompat="@drawable/ic_rank"
+                tools:visibility="visible" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/note_info_change_text"
+            style="@style/Text.Note.Info"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            app:pastTime='@{item.change}'
+            tools:text="@string/preview_note_time" />
+
+        <TextView
+            android:id="@+id/note_info_create_text"
+            style="@style/Text.Note.Info"
+            android:layout_width="wrap_content"
+            app:pastTime='@{item.create}'
+            tools:text="@string/preview_note_time" />
+
+    </LinearLayout>
+
+</layout>
