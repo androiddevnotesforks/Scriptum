@@ -57,15 +57,15 @@ class NoteItemTest : ParentTest() {
         assertFalse(item.clearAlarm().haveAlarm())
     }
 
-    @Test fun isVisible() {
+    @Test fun isRankVisible() {
         val idList = listOf<Long>(1, 2, 3)
 
-        assertTrue(rollItem.deepCopy().isVisible(idList))
-        assertTrue(rollItem.deepCopy(rankId = 0).isVisible(idList))
-        assertTrue(rollItem.deepCopy(rankPs = 0).isVisible(idList))
+        assertTrue(rollItem.deepCopy().isRankVisible(idList))
+        assertTrue(rollItem.deepCopy(rankId = 0).isRankVisible(idList))
+        assertTrue(rollItem.deepCopy(rankPs = 0).isRankVisible(idList))
 
-        assertFalse(rollItem.deepCopy(rankId = 0, rankPs = 0).isVisible(idList))
-        assertTrue(rollItem.deepCopy(rankId = 1, rankPs = 1).isVisible(idList))
+        assertFalse(rollItem.deepCopy(rankId = 0, rankPs = 0).isRankVisible(idList))
+        assertTrue(rollItem.deepCopy(rankId = 1, rankPs = 1).isRankVisible(idList))
     }
 
 

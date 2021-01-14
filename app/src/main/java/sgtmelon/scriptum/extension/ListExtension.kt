@@ -43,3 +43,7 @@ fun MutableList<RollItem>.copy() = map { it.copy() }.toMutableList()
 fun BooleanArray.safeSet(index: Int, value: Boolean) {
     if (index in indices) set(index, value)
 }
+
+// Roll list functions
+
+fun MutableList<RollItem>.hide(): MutableList<RollItem> = ArrayList(filter { !it.isCheck })

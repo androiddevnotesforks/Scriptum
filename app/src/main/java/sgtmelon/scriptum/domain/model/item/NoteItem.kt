@@ -4,6 +4,7 @@ import sgtmelon.extension.getTime
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.data.DbData.Alarm
 import sgtmelon.scriptum.domain.model.data.DbData.Note
+import sgtmelon.scriptum.domain.model.data.DbData.RollVisible
 import sgtmelon.scriptum.domain.model.key.Complete
 import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.extension.clearSpace
@@ -30,8 +31,6 @@ sealed class NoteItem(
     var alarmId: Long,
     var alarmDate: String
 ) {
-
-    // TODO make deepCopy common
 
     val type: NoteType
         get() = when (this) {
@@ -61,7 +60,7 @@ sealed class NoteItem(
         alarmDate = Alarm.Default.DATE
     }
 
-    fun isVisible(rankIdVisibleList: List<Long>): Boolean {
+    fun isRankVisible(rankIdVisibleList: List<Long>): Boolean {
         return !haveRank() || rankIdVisibleList.contains(rankId)
     }
 
@@ -209,6 +208,7 @@ sealed class NoteItem(
         isStatus: Boolean = Note.Default.STATUS,
         alarmId: Long = Alarm.Default.ID,
         alarmDate: String = Alarm.Default.DATE,
+        var isVisible: Boolean = RollVisible.Default.VALUE,
         val list: MutableList<RollItem> = ArrayList()
     ) : NoteItem(
         id, create, change, name, text, color, rankId, rankPs, isBin, isStatus,
@@ -232,10 +232,11 @@ sealed class NoteItem(
             isStatus: Boolean = this.isStatus,
             alarmId: Long = this.alarmId,
             alarmDate: String = this.alarmDate,
+            isVisible: Boolean = this.isVisible,
             list: MutableList<RollItem> = this.list.copy()
         ) = Roll(
             id, create, change, name, text, color, rankId, rankPs, isBin, isStatus,
-            alarmId, alarmDate, list
+            alarmId, alarmDate, isVisible, list
         )
 
 
@@ -322,13 +323,19 @@ sealed class NoteItem(
 
             other as Roll
 
+            if (isVisible != other.isVisible) return false
             if (list.size != other.list.size || !list.containsAll(other.list)) return false
 
             return true
         }
 
         override fun hashCode(): Int {
-            return 31 * super.hashCode() + list.hashCode()
+            var result = super.hashCode()
+
+            result = 31 * result + isVisible.hashCode()
+            result = 31 * result + list.hashCode()
+
+            return result
         }
 
         companion object {

@@ -23,9 +23,9 @@ import sgtmelon.scriptum.extension.move
  * Repository of [RoomDb] which work with notes.
  */
 class NoteRepo(
-        override val roomProvider: RoomProvider,
-        private val noteConverter: NoteConverter,
-        private val rollConverter: RollConverter
+    override val roomProvider: RoomProvider,
+    private val noteConverter: NoteConverter,
+    private val rollConverter: RollConverter
 ) : INoteRepo, IRoomWork {
 
     /**
@@ -46,15 +46,18 @@ class NoteRepo(
      * [filterVisible] - need use if you need get only rank visible notes. Otherwise you will
      *                   get all items even if rank not visible.
      */
-    override suspend fun getList(@Sort sort: Int, bin: Boolean, isOptimal: Boolean,
-                                 filterVisible: Boolean): MutableList<NoteItem> = takeFromRoom {
+    override suspend fun getList(
+        @Sort sort: Int,
+        bin: Boolean,
+        isOptimal: Boolean,
+        filterVisible: Boolean
+    ): MutableList<NoteItem> = takeFromRoom {
         var entityList = getSortBy(noteDao, sort, bin)
 
         if (filterVisible) entityList = filterVisible(rankDao, entityList)
 
         val itemList = entityList.map {
-            val rollList = rollConverter.toItem(getPreview(it.id, isOptimal, db = this))
-            return@map noteConverter.toItem(it, rollList, alarmDao.get(it.id))
+            convertNoteEntity(it, isOptimal, db = this)
         }.toMutableList()
 
         return@takeFromRoom correctRankSort(itemList, sort)
@@ -76,7 +79,7 @@ class NoteRepo(
     suspend fun filterVisible(rankDao: IRankDao, list: List<NoteEntity>): List<NoteEntity> {
         val idVisibleList = rankDao.getIdVisibleList()
 
-        return list.filter { noteConverter.toItem(it).isVisible(idVisibleList) }
+        return list.filter { noteConverter.toItem(it).isRankVisible(idVisibleList) }
     }
 
     /**
@@ -109,20 +112,46 @@ class NoteRepo(
      */
     override suspend fun getItem(id: Long, isOptimal: Boolean): NoteItem? = takeFromRoom {
         val entity = noteDao.get(id) ?: return@takeFromRoom null
-        val rollList = rollConverter.toItem(getPreview(id, isOptimal, db = this))
 
-        return@takeFromRoom noteConverter.toItem(entity, rollList, alarmDao.get(id))
+        return@takeFromRoom convertNoteEntity(entity, isOptimal, db = this)
+    }
+
+    // TODO new func - add tests
+    @RunPrivate
+    suspend fun convertNoteEntity(
+        entity: NoteEntity,
+        isOptimal: Boolean,
+        db: RoomDb
+    ): NoteItem = with(db) {
+        val isVisible = rollVisibleDao.get(entity.id)
+        val rollList = rollConverter.toItem(getPreview(entity.id, isVisible, isOptimal, db))
+        val alarmEntity = alarmDao.get(entity.id)
+
+        return noteConverter.toItem(entity, isVisible, rollList, alarmEntity)
     }
 
     @RunPrivate
-    suspend fun getPreview(id: Long, isOptimal: Boolean, db: RoomDb) = with(db) {
+    suspend fun getPreview(
+        id: Long,
+        isVisible: Boolean?,
+        isOptimal: Boolean,
+        db: RoomDb
+    ): MutableList<RollEntity> = with(db) {
         if (isOptimal) {
-            if (rollVisibleDao.get(id) != false) {
+            /**
+             * If:
+             *  1. list items not hide -> get simple view
+             *  2. is hide and not all done -> get only not checked items view
+             *  3. is hide and all done -> get simple view
+             */
+            if (isVisible != false) {
                 rollDao.getView(id)
             } else {
-                rollDao.getViewHide(id)
+                rollDao.getViewHide(id).takeIf { it.isNotEmpty() } ?: rollDao.getView(id)
             }
-        } else rollDao.get(id)
+        } else {
+            rollDao.get(id)
+        }
     }
 
     /**
@@ -138,7 +167,7 @@ class NoteRepo(
      */
     override suspend fun isListHide(): Boolean = takeFromRoom {
         noteDao.get(false).any {
-            !noteConverter.toItem(it).isVisible(rankDao.getIdVisibleList())
+            !noteConverter.toItem(it).isRankVisible(rankDao.getIdVisibleList())
         }
     }
 
@@ -192,8 +221,10 @@ class NoteRepo(
         return@takeFromRoom item
     }
 
-    override suspend fun convertNote(noteItem: NoteItem.Roll,
-                                     useCache: Boolean): NoteItem.Text = takeFromRoom {
+    override suspend fun convertNote(
+        noteItem: NoteItem.Roll,
+        useCache: Boolean
+    ): NoteItem.Text = takeFromRoom {
         val item = if (useCache) {
             noteItem.onConvert()
         } else {
@@ -290,12 +321,6 @@ class NoteRepo(
             rollVisibleDao.insert(RollVisibleEntity(noteId = noteId, value = isVisible))
         } else if (isVisible != value) {
             rollVisibleDao.update(noteId, isVisible)
-        }
-    }
-
-    override suspend fun getRollVisible(noteId: Long): Boolean = takeFromRoom {
-        rollVisibleDao.get(noteId) ?: run {
-            RollVisibleEntity(noteId = noteId).also { rollVisibleDao.insert(it) }.value
         }
     }
 

@@ -9,12 +9,12 @@ import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
+import sgtmelon.scriptum.extension.hide
 import sgtmelon.scriptum.presentation.adapter.RollAdapter
 import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel
-import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel.Companion.isVisibleTest
 import sgtmelon.scriptum.ui.IPressBack
 import sgtmelon.scriptum.ui.ParentRecyclerItem
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
@@ -44,9 +44,9 @@ class RollNoteScreen(
 
     private val visibleMenuItem = getViewById(R.id.item_visible)
 
-    private fun getInfoContainer(): RollNoteInfoContainer? {
+    private fun getInfoContainer(): RollNoteInfoContainer {
         val isListEmpty = noteItem.list.size == 0
-        val isListHide = !isVisibleTest && hide(noteItem.list).size == 0
+        val isListHide = !noteItem.isVisible && noteItem.list.hide().size == 0
 
         return RollNoteInfoContainer(isListEmpty, isListHide)
     }
@@ -131,7 +131,7 @@ class RollNoteScreen(
 
                 noteItem.onItemCheck(correctPosition)
 
-                if (isVisibleTest) {
+                if (noteItem.isVisible) {
                     getItem(p).assert(noteItem.list[correctPosition])
                 }
             }
@@ -209,7 +209,7 @@ class RollNoteScreen(
             State.EDIT, State.NEW -> shadowItem.list
         }
 
-        val resultList = if (isVisibleTest) list else hide(list)
+        val resultList = if (noteItem.isVisible) list else list.hide()
         for ((i, item) in resultList.withIndex()) {
             getItem(i).assert(item)
         }
@@ -224,15 +224,15 @@ class RollNoteScreen(
 
         fragmentContainer.isDisplayed()
 
-        getInfoContainer()?.assert(when (state) {
+        getInfoContainer().assert(when (state) {
             State.READ, State.BIN -> noteItem.list
             State.EDIT, State.NEW -> shadowItem.list
         }.let {
-            if (isVisibleTest) it.size == 0 else hide(it).size == 0
+            if (noteItem.isVisible) it.size == 0 else it.hide().size == 0
         })
 
         toolbar {
-            val value = isVisibleTest
+            val value = noteItem.isVisible
 
             val itemIcon = if (value) R.drawable.ic_visible_enter else R.drawable.ic_visible_exit
             val itemTint = if (!value && theme == Theme.DARK) R.attr.clAccent else R.attr.clContent
@@ -350,14 +350,6 @@ class RollNoteScreen(
      * @Test - duplicate of original function in [RollNoteViewModel].
      */
     private fun getCorrectPosition(p: Int, noteItem: NoteItem.Roll): Int {
-        return if (isVisibleTest) p else noteItem.list.let { it.indexOf(hide(it)[p]) }
+        return if (noteItem.isVisible) p else noteItem.list.let { it.indexOf(it.hide()[p]) }
     }
-
-    /**
-     * @Test - duplicate of original function in [RollNoteViewModel].
-     */
-    private fun hide(list: MutableList<RollItem>): MutableList<RollItem> {
-        return ArrayList(list.filter { !it.isCheck })
-    }
-
 }

@@ -13,6 +13,7 @@ import sgtmelon.scriptum.domain.model.item.RollItem
 import sgtmelon.scriptum.domain.model.key.ColorShade
 import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.extension.getAppSimpleColor
+import sgtmelon.scriptum.extension.hide
 import sgtmelon.scriptum.presentation.control.system.BindControl
 import sgtmelon.scriptum.presentation.receiver.UnbindReceiver
 import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
@@ -40,34 +41,38 @@ object NotificationFactory {
         val title = noteItem.getStatusTitle(context)
         val text = when (noteItem) {
             is NoteItem.Text -> noteItem.text
-            is NoteItem.Roll -> noteItem.list.toStatusText()
+            is NoteItem.Roll -> noteItem.list.let {
+                if (noteItem.isVisible) it else it.hide()
+            }.toStatusText().takeIf {
+                it.isNotEmpty()
+            } ?: context.getString(R.string.info_roll_hide_title)
         }
 
         val id = noteItem.id.toInt()
         val contentIntent = TaskStackBuilder.create(context)
-                .addNextIntent(SplashActivity.getBindInstance(context, noteItem))
-                .getPendingIntent(id, PendingIntent.FLAG_UPDATE_CURRENT)
+            .addNextIntent(SplashActivity.getBindInstance(context, noteItem))
+            .getPendingIntent(id, PendingIntent.FLAG_UPDATE_CURRENT)
 
         return NotificationCompat.Builder(context, context.getString(R.string.notification_notes_channel_id))
-                .setSmallIcon(icon)
-                .setColor(color)
-                .setContentTitle(title)
-                .setContentText(text)
-                .setCategory(NotificationCompat.CATEGORY_EVENT)
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setStyle(NotificationCompat.BigTextStyle().bigText(text))
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setContentIntent(contentIntent)
-                .addAction(0, context.getString(R.string.notification_button_unbind), UnbindReceiver[context, noteItem])
-                .setAutoCancel(false)
-                .setOngoing(true)
-                .setGroup(context.getString(R.string.notification_group_notes))
-                .build()
+            .setSmallIcon(icon)
+            .setColor(color)
+            .setContentTitle(title)
+            .setContentText(text)
+            .setCategory(NotificationCompat.CATEGORY_EVENT)
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            .setStyle(NotificationCompat.BigTextStyle().bigText(text))
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setContentIntent(contentIntent)
+            .addAction(0, context.getString(R.string.notification_button_unbind), UnbindReceiver[context, noteItem])
+            .setAutoCancel(false)
+            .setOngoing(true)
+            .setGroup(context.getString(R.string.notification_group_notes))
+            .build()
     }
 
     private fun NoteItem.getStatusTitle(context: Context): String {
         return (if (type == NoteType.ROLL) "$text | " else "")
-                .plus(if (name.isEmpty()) context.getString(R.string.hint_text_name) else name)
+            .plus(if (name.isEmpty()) context.getString(R.string.hint_text_name) else name)
     }
 
     private fun List<RollItem>.toStatusText() = joinToString(separator = "\n") {
@@ -75,37 +80,37 @@ object NotificationFactory {
     }
 
     @RequiresApi(VERSION_CODES.N)
-    fun getBingSummary(context: Context): Notification {
+    fun getBindSummary(context: Context): Notification {
         return NotificationCompat.Builder(context, context.getString(R.string.notification_notes_channel_id))
-                .setSmallIcon(R.drawable.notif_bind_group)
-                .setCategory(NotificationCompat.CATEGORY_EVENT)
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setAutoCancel(false)
-                .setOngoing(true)
-                .setGroup(context.getString(R.string.notification_group_notes))
-                .setGroupSummary(true)
-                .build()
+            .setSmallIcon(R.drawable.notif_bind_group)
+            .setCategory(NotificationCompat.CATEGORY_EVENT)
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setAutoCancel(false)
+            .setOngoing(true)
+            .setGroup(context.getString(R.string.notification_group_notes))
+            .setGroupSummary(true)
+            .build()
     }
 
 
     fun getInfo(context: Context, id: Int, count: Int): Notification {
         val contentIntent = TaskStackBuilder.create(context)
-                .addNextIntent(SplashActivity.getNotificationInstance(context))
-                .getPendingIntent(id, PendingIntent.FLAG_UPDATE_CURRENT)
+            .addNextIntent(SplashActivity.getNotificationInstance(context))
+            .getPendingIntent(id, PendingIntent.FLAG_UPDATE_CURRENT)
 
         return NotificationCompat.Builder(context, context.getString(R.string.notification_info_channel_id))
-                .setSmallIcon(R.drawable.notif_info)
-                .setContentTitle(context.resources.getQuantityString(R.plurals.notification_info_title, count, count))
-                .setContentText(context.getString(R.string.notification_info_description))
-                .setCategory(NotificationCompat.CATEGORY_EVENT)
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setContentIntent(contentIntent)
-                .setAutoCancel(false)
-                .setOngoing(true)
-                .setGroup(context.getString(R.string.notification_group_info))
-                .build()
+            .setSmallIcon(R.drawable.notif_info)
+            .setContentTitle(context.resources.getQuantityString(R.plurals.notification_info_title, count, count))
+            .setContentText(context.getString(R.string.notification_info_description))
+            .setCategory(NotificationCompat.CATEGORY_EVENT)
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setContentIntent(contentIntent)
+            .setAutoCancel(false)
+            .setOngoing(true)
+            .setGroup(context.getString(R.string.notification_group_info))
+            .build()
     }
 
 }

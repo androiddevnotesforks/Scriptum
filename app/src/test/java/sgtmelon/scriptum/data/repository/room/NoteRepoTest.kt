@@ -74,7 +74,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
         val entityList = NoteConverter().toEntity(TestData.Note.itemList)
         val entityFilterList = NoteConverter().toEntity(TestData.Note.itemList.filter {
-            it.isVisible(listOf())
+            it.isRankVisible(listOf())
         })
 
         val finishList = TestData.Note.itemList.apply {
@@ -83,7 +83,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
                 it.alarmDate = DbData.Alarm.Default.DATE
             }
         }
-        val finishFilterList = finishList.filter { it.isVisible(listOf()) }
+        val finishFilterList = finishList.filter { it.isRankVisible(listOf()) }
 
         mockNoteRepo.correctRankSort(finishList, Sort.RANK)
 

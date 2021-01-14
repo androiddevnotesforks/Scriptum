@@ -7,7 +7,6 @@ import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.domain.model.annotation.InputAction
-import sgtmelon.scriptum.domain.model.annotation.test.RunNone
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.data.NoteData.Default
 import sgtmelon.scriptum.domain.model.item.InputItem
@@ -25,15 +24,6 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.note.IRollNoteViewModel
 class RollNoteViewModel(application: Application) :
     ParentNoteViewModel<NoteItem.Roll, IRollNoteFragment, IRollNoteInteractor>(application),
     IRollNoteViewModel {
-
-    /**
-     * Variable for control visible button state.
-     */
-    @RunPrivate var isVisible = true
-        set(value) {
-            field = value
-            isVisibleTest = true
-        }
 
     /**
      * Variable for detect first screen run. After rotations it will be false.
@@ -83,12 +73,6 @@ class RollNoteViewModel(application: Application) :
                 }
 
                 noteState = NoteState(isBin = noteItem.isBin)
-
-                /**
-                 * Foreign key can't be created without note [id].
-                 * Insert will happen inside [onMenuSave].
-                 */
-                isVisible = runBack { interactor.getVisible(id) }
             }
         }
 
@@ -105,7 +89,7 @@ class RollNoteViewModel(application: Application) :
 
         callback?.apply {
             showToolbarVisibleIcon(isShow = true)
-            setToolbarVisibleIcon(isVisible, needAnim = false)
+            setToolbarVisibleIcon(noteItem.isVisible, needAnim = false)
             notifyDataSetChanged(getList(noteItem))
         }
 
@@ -138,9 +122,9 @@ class RollNoteViewModel(application: Application) :
 
 
     override fun onClickVisible() {
-        isVisible = !isVisible
+        noteItem.isVisible = !noteItem.isVisible
 
-        callback?.setToolbarVisibleIcon(isVisible, needAnim = true)
+        callback?.setToolbarVisibleIcon(noteItem.isVisible, needAnim = true)
 
         notifyListByVisible()
 
@@ -149,7 +133,7 @@ class RollNoteViewModel(application: Application) :
          * Insert will happen inside [onMenuSave].
          */
         if (!noteState.isCreate) {
-            viewModelScope.launchBack { interactor.setVisible(noteItem.id, isVisible) }
+            viewModelScope.launchBack { interactor.setVisible(noteItem.id, noteItem.isVisible) }
         }
     }
 
@@ -161,7 +145,7 @@ class RollNoteViewModel(application: Application) :
      */
     override fun onUpdateInfo() {
         val isListEmpty = noteItem.list.size == 0
-        val isListHide = !isVisible && hide(noteItem.list).size == 0
+        val isListHide = !noteItem.isVisible && noteItem.list.hide().size == 0
 
         if (isListEmpty || isListHide) {
             callback?.onBindingInfo(isListEmpty, isListHide)
@@ -216,7 +200,7 @@ class RollNoteViewModel(application: Application) :
         noteItem.onItemCheck(correctPosition)
         cacheData()
 
-        if (isVisible) {
+        if (noteItem.isVisible) {
             callback?.notifyItemChanged(getList(noteItem), p)
         } else {
             callback?.notifyItemRemoved(getList(noteItem), p)
@@ -241,7 +225,7 @@ class RollNoteViewModel(application: Application) :
             with(noteItem) { updateProgress(getCheck(), list.size) }
         }
 
-        if (!isVisible) notifyListByVisible()
+        if (!noteItem.isVisible) notifyListByVisible()
 
         viewModelScope.launchBack { interactor.updateRollCheck(noteItem, isCheck) }
     }
@@ -278,7 +262,7 @@ class RollNoteViewModel(application: Application) :
 
         rollItem.text = item[isUndo]
 
-        if (isVisible || (!isVisible && !rollItem.isCheck)) {
+        if (noteItem.isVisible || (!noteItem.isVisible && !rollItem.isCheck)) {
             callback?.notifyItemChanged(getList(noteItem), position, item.cursor[isUndo])
         }
     }
@@ -291,7 +275,7 @@ class RollNoteViewModel(application: Application) :
 
         noteItem.list.validRemoveAt(item.p) ?: return
 
-        if (isVisible || (!isVisible && !rollItem.isCheck)) {
+        if (noteItem.isVisible || (!noteItem.isVisible && !rollItem.isCheck)) {
             callback?.notifyItemRemoved(getList(noteItem), position)
         }
     }
@@ -301,11 +285,11 @@ class RollNoteViewModel(application: Application) :
 
         noteItem.list.add(item.p, rollItem)
 
-        if (isVisible) {
+        if (noteItem.isVisible) {
             callback?.notifyItemInserted(getList(noteItem), item.p, rollItem.text.length)
         } else if (!rollItem.isCheck) {
             fun getShiftPosition(p: Int): Int {
-                return p - noteItem.list.subList(0, p).let { it.size - hide(it).size }
+                return p - noteItem.list.subList(0, p).let { it.size - it.hide().size }
             }
 
             val position = getShiftPosition(item.p)
@@ -323,7 +307,7 @@ class RollNoteViewModel(application: Application) :
         noteItem.list.move(from, to)
         val shiftTo = getList(noteItem).validIndexOf(rollItem) ?: return
 
-        if (isVisible || (!isVisible && !rollItem.isCheck)) {
+        if (noteItem.isVisible || (!noteItem.isVisible && !rollItem.isCheck)) {
             callback?.notifyItemMoved(getList(noteItem), shiftFrom, shiftTo)
         }
     }
@@ -367,7 +351,7 @@ class RollNoteViewModel(application: Application) :
                  * Need if [isVisible] changes wasn't set inside [onClickVisible] because of
                  * not created note.
                  */
-                runBack { interactor.setVisible(id, isVisible) }
+                runBack { interactor.setVisible(id, noteItem.isVisible) }
             }
 
             callback?.setList(getList(noteItem))
@@ -486,15 +470,7 @@ class RollNoteViewModel(application: Application) :
      */
     @RunPrivate
     fun getCorrectPosition(p: Int, noteItem: NoteItem.Roll): Int {
-        return if (isVisible) p else noteItem.list.let { it.indexOf(hide(it)[p]) }
-    }
-
-    /**
-     * @Test - Have duplicate in test screen.
-     */
-    @RunPrivate
-    fun hide(list: MutableList<RollItem>): MutableList<RollItem> {
-        return ArrayList(list.filter { !it.isCheck })
+        return if (noteItem.isVisible) p else noteItem.list.let { it.indexOf(it.hide()[p]) }
     }
 
     /**
@@ -502,7 +478,7 @@ class RollNoteViewModel(application: Application) :
      */
     @RunPrivate
     fun getList(noteItem: NoteItem.Roll): MutableList<RollItem> {
-        return noteItem.list.let { if (isVisible) it else hide(it) }
+        return noteItem.list.let { if (noteItem.isVisible) it else it.hide() }
     }
 
     /**
@@ -514,7 +490,7 @@ class RollNoteViewModel(application: Application) :
 
         if (list.size == 0) return
 
-        if (isVisible) {
+        if (noteItem.isVisible) {
             if (!list.any { !it.isCheck }) {
                 callback?.animateInfoVisible(isVisible = false)
             }
@@ -532,12 +508,4 @@ class RollNoteViewModel(application: Application) :
             }
         }
     }
-
-    companion object {
-        /**
-         * Variable only for UI tests.
-         */
-        @RunNone var isVisibleTest = true
-    }
-
 }

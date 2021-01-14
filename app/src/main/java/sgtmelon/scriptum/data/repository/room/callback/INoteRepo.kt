@@ -63,8 +63,6 @@ interface INoteRepo {
 
     suspend fun setRollVisible(noteId: Long, isVisible: Boolean)
 
-    suspend fun getRollVisible(noteId: Long): Boolean
-
 
     suspend fun getNoteBackup(): List<NoteEntity>
 

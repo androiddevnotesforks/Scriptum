@@ -11,9 +11,6 @@ interface IRollNoteInteractor : IParentNoteInteractor<NoteItem.Roll> {
 
     suspend fun setVisible(noteId: Long, isVisible: Boolean)
 
-    suspend fun getVisible(noteId: Long): Boolean
-
-
     suspend fun updateRollCheck(noteItem: NoteItem.Roll, p: Int)
 
     suspend fun updateRollCheck(noteItem: NoteItem.Roll, isCheck: Boolean)

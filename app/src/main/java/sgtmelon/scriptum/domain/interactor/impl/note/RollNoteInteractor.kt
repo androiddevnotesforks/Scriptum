@@ -67,8 +67,6 @@ class RollNoteInteractor(
         noteRepo.setRollVisible(noteId, isVisible)
     }
 
-    override suspend fun getVisible(noteId: Long): Boolean = noteRepo.getRollVisible(noteId)
-
 
     /**
      * Update single roll.

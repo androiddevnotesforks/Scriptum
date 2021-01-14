@@ -50,7 +50,7 @@ class BindControl(private val context: Context?) : IBindControl {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun getInfoChannel(context: Context) : NotificationChannel {
+    private fun getInfoChannel(context: Context): NotificationChannel {
         val id = context.getString(R.string.notification_info_channel_id)
         val name = context.getString(R.string.notification_info_channel)
 
@@ -61,7 +61,7 @@ class BindControl(private val context: Context?) : IBindControl {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun getNotesChannel(context: Context) : NotificationChannel {
+    private fun getNotesChannel(context: Context): NotificationChannel {
         val id = context.getString(R.string.notification_notes_channel_id)
         val name = context.getString(R.string.notification_notes_channel)
 
@@ -98,21 +98,24 @@ class BindControl(private val context: Context?) : IBindControl {
      * If [sort] is null when don't need sort.
      * If [rankIdVisibleList] is null when don't need filter list by visibility.
      */
-    override fun notifyNote(itemList: List<NoteItem>, rankIdVisibleList: List<Long>?,
-                            @Sort sort: Int?) {
+    override fun notifyNote(
+        itemList: List<NoteItem>,
+        rankIdVisibleList: List<Long>?,
+        @Sort sort: Int?
+    ) {
         if (context == null) return
 
         clearRecent(Tag.NOTE)
 
         noteItemList.clearAdd(sortList(itemList.filter {
-            val isVisible = rankIdVisibleList?.let { list -> it.isVisible(list) } ?: true
+            val isRankVisible = rankIdVisibleList?.let { list -> it.isRankVisible(list) } ?: true
 
-            return@filter !it.isBin && it.isStatus && isVisible
+            return@filter !it.isBin && it.isStatus && isRankVisible
         }, sort))
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             if (noteItemList.size > 1) {
-                val summaryNotification = NotificationFactory.getBingSummary(context)
+                val summaryNotification = NotificationFactory.getBindSummary(context)
 
                 manager?.notify(Tag.NOTE_GROUP, Id.NOTE_GROUP, summaryNotification)
                 tagIdMap[Tag.NOTE_GROUP] = Id.NOTE_GROUP
@@ -186,7 +189,11 @@ class BindControl(private val context: Context?) : IBindControl {
         interface Full : Notify, Cancel
 
         interface Notify {
-            @MainThread fun notifyNoteBind(item: NoteItem, rankIdVisibleList: List<Long>, @Sort sort: Int)
+            @MainThread fun notifyNoteBind(
+                item: NoteItem,
+                rankIdVisibleList: List<Long>,
+                @Sort sort: Int
+            )
         }
 
         interface NotifyAll {
