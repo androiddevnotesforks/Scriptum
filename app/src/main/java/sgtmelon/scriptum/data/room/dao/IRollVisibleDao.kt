@@ -25,7 +25,7 @@ interface IRollVisibleDao {
     @Query(value = "SELECT RL_VS_VALUE FROM ROLL_VISIBLE_TABLE WHERE RL_VS_NOTE_ID = :noteId")
     suspend fun get(noteId: Long): Boolean?
 
-    @Query(value = "SELECT * FROM roll_visible_table WHERE RL_VS_NOTE_ID IN (:noteIdList)")
+    @Query(value = "SELECT * FROM ROLL_VISIBLE_TABLE WHERE RL_VS_NOTE_ID IN (:noteIdList)")
     suspend fun get(noteIdList: List<Long>): List<RollVisibleEntity>
 
 }

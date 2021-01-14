@@ -19,5 +19,4 @@ class CipherControlTest : ParentTest() {
         val decryptText = "Hello my имя is Алексей\n123 =//:url.wood\n-_-|$%^&!@#=[{\"\"'/|\\}]"
         assertEquals(decryptText, cipherControl.decrypt(cipherControl.encrypt(decryptText)))
     }
-
 }

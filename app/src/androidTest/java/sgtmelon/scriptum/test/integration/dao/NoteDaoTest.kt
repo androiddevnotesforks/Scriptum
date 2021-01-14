@@ -17,6 +17,21 @@ import kotlin.random.Random
 @RunWith(AndroidJUnit4::class)
 class NoteDaoTest : ParentRoomTest() {
 
+    private val firstNote = NoteEntity(
+        id = 1, create = DATE_1, change = DATE_2, text = "123", name = "456",
+        color = 1, type = NoteType.TEXT, rankId = -1, rankPs = -1, isBin = false
+    )
+
+    private val secondNote = NoteEntity(
+        id = 2, create = DATE_2, change = DATE_3, text = "654", name = "321",
+        color = 1, type = NoteType.TEXT, rankId = 1, rankPs = 1, isBin = true
+    )
+
+    private val thirdNote = NoteEntity(
+        id = 3, create = DATE_3, change = DATE_4, text = "123", name = "",
+        color = 3, type = NoteType.TEXT, rankId = 2, rankPs = 2, isBin = false
+    )
+
     private fun inNoteDao(func: suspend INoteDao.() -> Unit) = inRoomTest { noteDao.apply { func() } }
 
     private suspend fun INoteDao.insertAllTo(bin: Boolean) {
@@ -35,6 +50,7 @@ class NoteDaoTest : ParentRoomTest() {
         update(thirdNote.copy(isBin = bin))
     }
 
+    // Dao common functions
 
     @Test fun insertWithUnique() = inNoteDao {
         assertEquals(1, insert(firstNote))
@@ -83,6 +99,7 @@ class NoteDaoTest : ParentRoomTest() {
         }
     }
 
+    // Dao get functions
 
     @Test fun getCount() = inNoteDao {
         assertEquals(0, getCount(bin = false, rankIdList = listOf()))
@@ -131,6 +148,7 @@ class NoteDaoTest : ParentRoomTest() {
         assertEquals(listOf(secondNote), get(bin = true))
     }
 
+    // Dao get by different sorts functions
 
     @Test fun getByChange() = inNoteDao {
         insertAllTo(bin = false)
@@ -187,23 +205,4 @@ class NoteDaoTest : ParentRoomTest() {
                 secondNote, firstNote.copy(isBin = true), thirdNote.copy(isBin = true)
         ), getByColor(bin = true))
     }
-
-
-    private companion object {
-        val firstNote = NoteEntity(
-                id = 1, create = DATE_1, change = DATE_2, text = "123", name = "456",
-                color = 1, type = NoteType.TEXT, rankId = -1, rankPs = -1, isBin = false
-        )
-
-        val secondNote = NoteEntity(
-                id = 2, create = DATE_2, change = DATE_3, text = "654", name = "321",
-                color = 1, type = NoteType.TEXT, rankId = 1, rankPs = 1, isBin = true
-        )
-
-        val thirdNote = NoteEntity(
-                id = 3, create = DATE_3, change = DATE_4, text = "123", name = "",
-                color = 3, type = NoteType.TEXT, rankId = 2, rankPs = 2, isBin = false
-        )
-    }
-
 }

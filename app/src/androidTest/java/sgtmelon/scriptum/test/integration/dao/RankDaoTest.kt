@@ -17,6 +17,14 @@ import kotlin.random.Random
 @RunWith(AndroidJUnit4::class)
 class RankDaoTest : ParentRoomTest() {
 
+    private val firstRank = RankEntity(id = 1, noteId = arrayListOf(), position = 1, name = "123")
+
+    private val secondRank = RankEntity(
+        id = 2, noteId = arrayListOf(), position = 0, name = "234", isVisible = false
+    )
+
+    private val thirdRank = RankEntity(id = 3, noteId = arrayListOf(), position = 2, name = "345")
+
     private fun inRankDao(func: suspend IRankDao.() -> Unit) = inRoomTest {
         rankDao.apply { func() }
     }
@@ -31,6 +39,7 @@ class RankDaoTest : ParentRoomTest() {
         }
     }
 
+    // Dao common functions
 
     @Test fun insertWithUnique() = inRankDao {
         assertEquals(1, insert(firstRank))
@@ -87,6 +96,7 @@ class RankDaoTest : ParentRoomTest() {
         }
     }
 
+    // Dao get functions
 
     @Test fun getCount() = inRankDao {
         assertEquals(insertAll().size, getCount())
@@ -122,15 +132,4 @@ class RankDaoTest : ParentRoomTest() {
             assertEquals(id, getId(i))
         }
     }
-
-    private companion object {
-        val firstRank = RankEntity(id = 1, noteId = arrayListOf(), position = 1, name = "123")
-
-        val secondRank = RankEntity(
-                id = 2, noteId = arrayListOf(), position = 0, name = "234", isVisible = false
-        )
-
-        val thirdRank = RankEntity(id = 3, noteId = arrayListOf(), position = 2, name = "345")
-    }
-
 }

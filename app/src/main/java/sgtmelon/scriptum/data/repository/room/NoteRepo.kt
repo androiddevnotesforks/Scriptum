@@ -8,7 +8,6 @@ import sgtmelon.scriptum.data.room.converter.model.NoteConverter
 import sgtmelon.scriptum.data.room.converter.model.RollConverter
 import sgtmelon.scriptum.data.room.dao.INoteDao
 import sgtmelon.scriptum.data.room.dao.IRankDao
-import sgtmelon.scriptum.data.room.dao.IRollDao
 import sgtmelon.scriptum.data.room.entity.NoteEntity
 import sgtmelon.scriptum.data.room.entity.RankEntity
 import sgtmelon.scriptum.data.room.entity.RollEntity
@@ -54,7 +53,7 @@ class NoteRepo(
         if (filterVisible) entityList = filterVisible(rankDao, entityList)
 
         val itemList = entityList.map {
-            val rollList = rollConverter.toItem(getPreview(rollDao, it.id, isOptimal))
+            val rollList = rollConverter.toItem(getPreview(it.id, isOptimal, db = this))
             return@map noteConverter.toItem(it, rollList, alarmDao.get(it.id))
         }.toMutableList()
 
@@ -110,14 +109,20 @@ class NoteRepo(
      */
     override suspend fun getItem(id: Long, isOptimal: Boolean): NoteItem? = takeFromRoom {
         val entity = noteDao.get(id) ?: return@takeFromRoom null
-        val rollList = rollConverter.toItem(getPreview(rollDao, id, isOptimal))
+        val rollList = rollConverter.toItem(getPreview(id, isOptimal, db = this))
 
         return@takeFromRoom noteConverter.toItem(entity, rollList, alarmDao.get(id))
     }
 
     @RunPrivate
-    suspend fun getPreview(rollDao: IRollDao, id: Long, isOptimal: Boolean) = with(rollDao) {
-        if (isOptimal) getView(id) else get(id)
+    suspend fun getPreview(id: Long, isOptimal: Boolean, db: RoomDb) = with(db) {
+        if (isOptimal) {
+            if (rollVisibleDao.get(id) != false) {
+                rollDao.getView(id)
+            } else {
+                rollDao.getViewHide(id)
+            }
+        } else rollDao.get(id)
     }
 
     /**

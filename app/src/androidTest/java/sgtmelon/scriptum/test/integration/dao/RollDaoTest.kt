@@ -18,6 +18,26 @@ import sgtmelon.scriptum.test.ParentRoomTest
 @RunWith(AndroidJUnit4::class)
 class RollDaoTest : ParentRoomTest() {
 
+    private data class Model(val entity: NoteEntity, val rollList: List<RollEntity>)
+
+    private val firstModel = Model(NoteEntity(
+        id = 1, create = DATE_1, change = DATE_2, type = NoteType.ROLL
+    ), arrayListOf(
+        RollEntity(id = 1, noteId = 1, position = 0, isCheck = false, text = "01234"),
+        RollEntity(id = 2, noteId = 1, position = 1, isCheck = true, text = "12345"),
+        RollEntity(id = 3, noteId = 1, position = 2, isCheck = false, text = "23456"),
+        RollEntity(id = 4, noteId = 1, position = 3, isCheck = true, text = "34567")
+    ))
+
+    private val secondModel = Model(NoteEntity(
+        id = 2, create = DATE_3, change = DATE_4, type = NoteType.ROLL
+    ), arrayListOf(
+        RollEntity(id = 5, noteId = 2, position = 0, isCheck = false, text = "01234"),
+        RollEntity(id = 6, noteId = 2, position = 1, isCheck = true, text = "12345"),
+        RollEntity(id = 7, noteId = 2, position = 2, isCheck = false, text = "23456"),
+        RollEntity(id = 8, noteId = 2, position = 3, isCheck = true, text = "34567")
+    ))
+
     private suspend fun RoomDb.insertRollRelation(model: Model) = with(model) {
         noteDao.insert(entity)
         for (it in rollList) {
@@ -25,6 +45,7 @@ class RollDaoTest : ParentRoomTest() {
         }
     }
 
+    // Dao common functions
 
     @Test fun insertWithUnique() = inRoomTest {
         insertRollRelation(firstModel)
@@ -84,6 +105,7 @@ class RollDaoTest : ParentRoomTest() {
         }
     }
 
+    // Dao get functions
 
     @Test fun get_byId() = inRoomTest {
         firstModel.let {
@@ -113,39 +135,35 @@ class RollDaoTest : ParentRoomTest() {
         firstModel.let {
             insertRollRelation(it)
             assertEquals(
-                    it.rollList.filter { roll -> roll.position < 4 },
-                    rollDao.getView(it.entity.id)
+                it.rollList.filter { roll -> roll.position < 4 },
+                rollDao.getView(it.entity.id)
             )
         }
 
         secondModel.let {
             insertRollRelation(it)
             assertEquals(
-                    it.rollList.filter { roll -> roll.position < 4 },
-                    rollDao.getView(it.entity.id)
+                it.rollList.filter { roll -> roll.position < 4 },
+                rollDao.getView(it.entity.id)
             )
         }
     }
 
+    @Test fun getViewHide() = inRoomTest {
+        firstModel.let {
+            insertRollRelation(it)
+            assertEquals(
+                it.rollList.filter { roll -> roll.position < 4 && !roll.isCheck },
+                rollDao.getViewHide(it.entity.id)
+            )
+        }
 
-    private data class Model(val entity: NoteEntity, val rollList: List<RollEntity>)
-
-    private val firstModel = Model(NoteEntity(
-            id = 1, create = DATE_1, change = DATE_2, type = NoteType.ROLL
-    ), arrayListOf(
-            RollEntity(id = 1, noteId = 1, position = 0, isCheck = false, text = "01234"),
-            RollEntity(id = 2, noteId = 1, position = 1, isCheck = true, text = "12345"),
-            RollEntity(id = 3, noteId = 1, position = 2, isCheck = false, text = "23456"),
-            RollEntity(id = 4, noteId = 1, position = 3, isCheck = true, text = "34567")
-    ))
-
-    private val secondModel = Model(NoteEntity(
-            id = 2, create = DATE_3, change = DATE_4, type = NoteType.ROLL
-    ), arrayListOf(
-            RollEntity(id = 5, noteId = 2, position = 0, isCheck = false, text = "01234"),
-            RollEntity(id = 6, noteId = 2, position = 1, isCheck = true, text = "12345"),
-            RollEntity(id = 7, noteId = 2, position = 2, isCheck = false, text = "23456"),
-            RollEntity(id = 8, noteId = 2, position = 3, isCheck = true, text = "34567")
-    ))
-
+        secondModel.let {
+            insertRollRelation(it)
+            assertEquals(
+                it.rollList.filter { roll -> roll.position < 4 && !roll.isCheck },
+                rollDao.getViewHide(it.entity.id)
+            )
+        }
+    }
 }

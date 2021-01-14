@@ -56,4 +56,14 @@ interface IRollDao {
             ORDER BY RL_POSITION""")
     suspend fun getView(noteId: Long): MutableList<RollEntity>
 
+    /**
+     * Get only first 4 not hided items for preview
+     */
+    @Query(value = """SELECT * FROM ROLL_TABLE
+            WHERE RL_NOTE_ID = :noteId
+                AND RL_POSITION BETWEEN 0 AND ${PREVIEW_SIZE - 1}
+                AND RL_CHECK = "0"
+            ORDER BY RL_POSITION""")
+    suspend fun getViewHide(noteId: Long): MutableList<RollEntity>
+
 }

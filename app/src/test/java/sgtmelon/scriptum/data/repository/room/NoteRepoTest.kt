@@ -203,7 +203,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
         assertNull(mockNoteRepo.getItem(id, isOptimal = Random.nextBoolean()))
 
         coEvery { noteDao.get(id) } returns noteEntity
-        coEvery { spyNoteRepo.getPreview(rollDao, id, any()) } returns rollEntityList
+        coEvery { spyNoteRepo.getPreview(id, any(), roomDb) } returns rollEntityList
         every { rollConverter.toItem(rollEntityList) } returns rollItemList
         coEvery { alarmDao.get(id) } returns alarmEntity
         every { noteConverter.toItem(noteEntity, rollItemList, alarmEntity) } returns noteItem
@@ -220,7 +220,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
             spyNoteRepo.roomProvider
             roomProvider.openRoom()
             noteDao.get(id)
-            spyNoteRepo.getPreview(rollDao, id, isOptimal = false)
+            spyNoteRepo.getPreview(id, isOptimal = false, db = roomDb)
             rollConverter.toItem(rollEntityList)
             alarmDao.get(id)
             noteConverter.toItem(noteEntity, rollItemList, alarmEntity)
@@ -230,7 +230,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
             spyNoteRepo.roomProvider
             roomProvider.openRoom()
             noteDao.get(id)
-            spyNoteRepo.getPreview(rollDao, id, isOptimal = true)
+            spyNoteRepo.getPreview(id, isOptimal = true, db = roomDb)
             rollConverter.toItem(rollEntityList)
             alarmDao.get(id)
             noteConverter.toItem(noteEntity, rollItemList, alarmEntity)
@@ -240,18 +240,35 @@ class NoteRepoTest : ParentRoomRepoTest() {
     @Test fun getPreview() = startCoTest {
         val id = Random.nextLong()
 
-        val firstList = MutableList(size = 5) { RollEntity(id = Random.nextLong()) }
-        val secondList = MutableList(size = 5) { RollEntity(id = Random.nextLong()) }
+        val firstList = mockk<MutableList<RollEntity>>()
+        val secondList = mockk<MutableList<RollEntity>>()
+        val thirdList = mockk<MutableList<RollEntity>>()
 
         coEvery { rollDao.get(id) } returns firstList
-        assertEquals(firstList, mockNoteRepo.getPreview(rollDao, id, isOptimal = false))
+        assertEquals(firstList, mockNoteRepo.getPreview(id, isOptimal = false, db = roomDb))
 
         coEvery { rollDao.getView(id) } returns secondList
-        assertEquals(secondList, mockNoteRepo.getPreview(rollDao, id, isOptimal = true))
+        coEvery { rollVisibleDao.get(id) } returns null
+        assertEquals(secondList, mockNoteRepo.getPreview(id, isOptimal = true, db = roomDb))
+
+        coEvery { rollVisibleDao.get(id) } returns true
+        assertEquals(secondList, mockNoteRepo.getPreview(id, isOptimal = true, db = roomDb))
+
+        coEvery { rollDao.getViewHide(id) } returns thirdList
+        coEvery { rollVisibleDao.get(id) } returns false
+        assertEquals(thirdList, mockNoteRepo.getPreview(id, isOptimal = true, db = roomDb))
 
         coVerifySequence {
             rollDao.get(id)
+
+            rollVisibleDao.get(id)
             rollDao.getView(id)
+
+            rollVisibleDao.get(id)
+            rollDao.getView(id)
+
+            rollVisibleDao.get(id)
+            rollDao.getViewHide(id)
         }
     }
 

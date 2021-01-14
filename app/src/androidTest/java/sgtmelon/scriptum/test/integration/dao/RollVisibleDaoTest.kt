@@ -17,6 +17,20 @@ import sgtmelon.scriptum.test.ParentRoomTest
 @RunWith(AndroidJUnit4::class)
 class RollVisibleDaoTest : ParentRoomTest() {
 
+    private data class Model(val noteEntity: NoteEntity, val entity: RollVisibleEntity)
+
+    private val firstModel = Model(NoteEntity(id = 1,
+        create = DATE_5, change = DATE_3, name = "NAME 1", text = "TEXT 1", color = 0,
+        type = NoteType.TEXT, rankId = -1, rankPs = -1, isBin = false, isStatus = true
+    ), RollVisibleEntity(id = 1, noteId = 1, value = false))
+
+    private val secondModel = Model(NoteEntity(id = 2,
+        create = DATE_1, change = DATE_2, name = "NAME 2", text = "3/5", color = 1,
+        type = NoteType.ROLL, rankId = 10, rankPs = 1, isBin = true, isStatus = false
+    ), RollVisibleEntity(id = 2, noteId = 2, value = false))
+
+    // Dao functions
+
     @Test fun insertWithUnique() = inRoomTest {
         firstModel.let {
             noteDao.insert(it.noteEntity)
@@ -63,19 +77,4 @@ class RollVisibleDaoTest : ParentRoomTest() {
         assertTrue(resultList.contains(firstModel.entity))
         assertTrue(resultList.contains(secondModel.entity))
     }
-
-    private data class Model(val noteEntity: NoteEntity, val entity: RollVisibleEntity)
-
-    private val firstModel = Model(NoteEntity(id = 1,
-            create = DATE_5, change = DATE_3, name = "NAME 1", text = "TEXT 1", color = 0,
-            type = NoteType.TEXT, rankId = -1, rankPs = -1, isBin = false, isStatus = true
-    ), RollVisibleEntity(id = 1, noteId = 1, value = false))
-
-    private val secondModel = Model(NoteEntity(id = 2,
-            create = DATE_1, change = DATE_2, name = "NAME 2", text = "3/5", color = 1,
-            type = NoteType.ROLL, rankId = 10, rankPs = 1, isBin = true, isStatus = false
-    ), RollVisibleEntity(id = 2, noteId = 2, value = false))
-
-
-
 }

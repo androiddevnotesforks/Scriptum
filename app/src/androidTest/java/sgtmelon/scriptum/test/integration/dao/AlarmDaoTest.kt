@@ -19,12 +19,40 @@ import kotlin.random.Random
 @RunWith(AndroidJUnit4::class)
 class AlarmDaoTest : ParentRoomTest() {
 
-    private suspend fun RoomDb.insertAlarmRelation(noteEntity: NoteEntity,
-                                                   alarmEntity: AlarmEntity) {
+    private val firstNote = NoteEntity(
+        id = 1, create = DATE_1, change = DATE_1, text = "123", name = "456",
+        color = 1, type = NoteType.TEXT
+    )
+
+    private val secondNote = NoteEntity(
+        id = 2, create = DATE_2, change = DATE_2, text = "654", name = "321",
+        color = 2, type = NoteType.TEXT
+    )
+
+    private val firstAlarm = AlarmEntity(id = 1, noteId = 1, date = DATE_1)
+    private val secondAlarm = AlarmEntity(id = 2, noteId = 2, date = DATE_2)
+
+    private val firstNotification = NotificationItem(
+        with(firstNote) { NotificationItem.Note(id, name, color, type) },
+        with(firstAlarm) { NotificationItem.Alarm(id, date) }
+    )
+
+    private val secondNotification = NotificationItem(
+        with(secondNote) { NotificationItem.Note(id, name, color, type) },
+        with(secondAlarm) { NotificationItem.Alarm(id, date) }
+    )
+
+    private val notificationList = arrayListOf(firstNotification, secondNotification)
+
+    private suspend fun RoomDb.insertAlarmRelation(
+        noteEntity: NoteEntity,
+        alarmEntity: AlarmEntity
+    ) {
         noteDao.insert(noteEntity)
         alarmDao.insert(alarmEntity)
     }
 
+    // Dao tests
 
     @Test fun insertWithUnique() = inRoomTest {
         insertAlarmRelation(firstNote, firstAlarm)
@@ -97,33 +125,4 @@ class AlarmDaoTest : ParentRoomTest() {
         insertAlarmRelation(secondNote, secondAlarm)
         assertEquals(alarmDao.getCount(), ++size)
     }
-
-
-    private companion object {
-        val firstNote = NoteEntity(
-                id = 1, create = DATE_1, change = DATE_1, text = "123", name = "456",
-                color = 1, type = NoteType.TEXT
-        )
-
-        val secondNote = NoteEntity(
-                id = 2, create = DATE_2, change = DATE_2, text = "654", name = "321",
-                color = 2, type = NoteType.TEXT
-        )
-
-        val firstAlarm = AlarmEntity(id = 1, noteId = 1, date = DATE_1)
-        val secondAlarm = AlarmEntity(id = 2, noteId = 2, date = DATE_2)
-
-        val firstNotification = NotificationItem(
-                with(firstNote) { NotificationItem.Note(id, name, color, type) },
-                with(firstAlarm) { NotificationItem.Alarm(id, date) }
-        )
-
-        val secondNotification = NotificationItem(
-                with(secondNote) { NotificationItem.Note(id, name, color, type) },
-                with(secondAlarm) { NotificationItem.Alarm(id, date) }
-        )
-
-        val notificationList = arrayListOf(firstNotification, secondNotification)
-    }
-
 }

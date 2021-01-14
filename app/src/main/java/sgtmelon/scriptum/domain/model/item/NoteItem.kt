@@ -322,7 +322,7 @@ sealed class NoteItem(
 
             other as Roll
 
-            if (!list.containsAll(other.list)) return false
+            if (list.size != other.list.size || !list.containsAll(other.list)) return false
 
             return true
         }
