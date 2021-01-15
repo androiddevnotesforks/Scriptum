@@ -165,8 +165,10 @@ class NoteRepo(
      * Have hide notes in list or not.
      */
     override suspend fun isListHide(): Boolean = takeFromRoom {
-        noteDao.get(false).any {
-            !noteConverter.toItem(it).isRankVisible(rankDao.getIdVisibleList())
+        val rankIdVisibleList = rankDao.getIdVisibleList()
+
+        return@takeFromRoom noteDao.get(false).any {
+            !noteConverter.toItem(it).isRankVisible(rankIdVisibleList)
         }
     }
 

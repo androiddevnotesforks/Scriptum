@@ -306,54 +306,31 @@ class NoteRepoTest : ParentRoomRepoTest() {
     // Repo other functions
 
     @Test fun isListHide() = startCoTest {
-        TODO()
-        val idList = listOf<Long>(1, 2, 3)
+        val idList = List(size = 5) { Random.nextLong() }
+        val entityList = MutableList<NoteEntity>(size = 5) { mockk() }
+        val itemList = MutableList<NoteItem>(size = 5) { mockk() }
+        val isVisibleList = List(size = 5) { Random.nextBoolean() }
 
         coEvery { rankDao.getIdVisibleList() } returns idList
+        coEvery { noteDao.get(false) } returns entityList
 
-        val entityList = mutableListOf<NoteEntity>()
+        for ((i, entity) in entityList.withIndex()) {
+            every { noteConverter.toItem(entity) } returns itemList[i]
+            every { itemList[i].isRankVisible(idList) } returns isVisibleList[i]
+        }
 
-        var entity = NoteEntity()
-        entityList.add(entity)
-
-        every { noteConverter.toItem(entity) } returns NoteConverter().toItem(entity)
-        coEvery { noteDao.get(false) } returns listOf(entity)
-        assertEquals(false, noteRepo.isListHide())
-
-        entity = NoteEntity(rankId = 0)
-        entityList.add(entity)
-
-        every { noteConverter.toItem(entity) } returns NoteConverter().toItem(entity)
-        coEvery { noteDao.get(false) } returns listOf(entity)
-        assertEquals(false, noteRepo.isListHide())
-
-        entity = NoteEntity(rankPs = 0)
-        entityList.add(entity)
-
-        every { noteConverter.toItem(entity) } returns NoteConverter().toItem(entity)
-        coEvery { noteDao.get(false) } returns listOf(entity)
-        assertEquals(false, noteRepo.isListHide())
-
-        entity = NoteEntity(rankId = 0, rankPs = 0)
-        entityList.add(entity)
-
-        every { noteConverter.toItem(entity) } returns NoteConverter().toItem(entity)
-        coEvery { noteDao.get(false) } returns listOf(entity)
-        assertEquals(true, noteRepo.isListHide())
-
-        entity = NoteEntity(rankId = 1, rankPs = 1)
-        entityList.add(entity)
-
-        every { noteConverter.toItem(entity) } returns NoteConverter().toItem(entity)
-        coEvery { noteDao.get(false) } returns listOf(entity)
-        assertEquals(false, noteRepo.isListHide())
+        assertEquals(isVisibleList.any { !it }, noteRepo.isListHide())
 
         coVerifySequence {
-            for (it in entityList) {
-                roomProvider.openRoom()
-                noteDao.get(false)
-                noteConverter.toItem(it)
-                rankDao.getIdVisibleList()
+            roomProvider.openRoom()
+            rankDao.getIdVisibleList()
+            noteDao.get(false)
+
+            for ((i, entity) in entityList.withIndex()) {
+                noteConverter.toItem(entity)
+                itemList[i].isRankVisible(idList)
+
+                if (!isVisibleList[i]) break
             }
         }
     }
