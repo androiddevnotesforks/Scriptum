@@ -133,7 +133,7 @@ class RollNoteViewModel(application: Application) :
          * Insert will happen inside [onMenuSave].
          */
         if (!noteState.isCreate) {
-            viewModelScope.launchBack { interactor.setVisible(noteItem.id, noteItem.isVisible) }
+            viewModelScope.launchBack { interactor.setVisible(noteItem, !noteState.isEdit) }
         }
     }
 
@@ -348,10 +348,10 @@ class RollNoteViewModel(application: Application) :
                 parentCallback?.onUpdateNoteId(id)
 
                 /**
-                 * Need if [isVisible] changes wasn't set inside [onClickVisible] because of
+                 * Need if [noteItem] isVisible changes wasn't set inside [onClickVisible] because of
                  * not created note.
                  */
-                runBack { interactor.setVisible(id, noteItem.isVisible) }
+                runBack { interactor.setVisible(noteItem, updateBind = true) }
             }
 
             callback?.setList(getList(noteItem))

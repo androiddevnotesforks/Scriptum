@@ -115,7 +115,7 @@ class RollNoteInteractorTest : ParentInteractorTest() {
         interactor.setVisible(noteId, isVisible)
 
         coVerifySequence {
-            noteRepo.setRollVisible(noteId, isVisible)
+            noteRepo.setRollVisible(noteItem)
         }
     }
 

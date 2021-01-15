@@ -9,7 +9,7 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.note.IRollNoteViewModel
  */
 interface IRollNoteInteractor : IParentNoteInteractor<NoteItem.Roll> {
 
-    suspend fun setVisible(noteId: Long, isVisible: Boolean)
+    suspend fun setVisible(noteItem: NoteItem.Roll, updateBind: Boolean)
 
     suspend fun updateRollCheck(noteItem: NoteItem.Roll, p: Int)
 

@@ -779,11 +779,11 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
         coEvery { rollVisibleDao.get(id) } returns null
         coEvery { rollVisibleDao.insert(any()) } returns Random.nextLong()
-        mockNoteRepo.setRollVisible(id, isVisible = false)
+        mockNoteRepo.setRollVisible(noteItem)
 
         coEvery { rollVisibleDao.get(id) } returns false
-        mockNoteRepo.setRollVisible(id, isVisible = false)
-        mockNoteRepo.setRollVisible(id, isVisible = true)
+        mockNoteRepo.setRollVisible(noteItem)
+        mockNoteRepo.setRollVisible(noteItem)
 
         coVerifySequence {
             roomProvider.openRoom()

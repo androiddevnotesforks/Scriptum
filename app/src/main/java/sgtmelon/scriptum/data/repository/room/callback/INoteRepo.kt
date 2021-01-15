@@ -61,7 +61,7 @@ interface INoteRepo {
     suspend fun updateNote(noteItem: NoteItem)
 
 
-    suspend fun setRollVisible(noteId: Long, isVisible: Boolean)
+    suspend fun setRollVisible(noteItem: NoteItem.Roll)
 
 
     suspend fun getNoteBackup(): List<NoteEntity>

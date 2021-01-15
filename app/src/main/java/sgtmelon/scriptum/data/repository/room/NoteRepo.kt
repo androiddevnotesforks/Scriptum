@@ -314,13 +314,14 @@ class NoteRepo(
     }
 
 
-    override suspend fun setRollVisible(noteId: Long, isVisible: Boolean) = inRoom {
-        val value = rollVisibleDao.get(noteId)
+    override suspend fun setRollVisible(noteItem: NoteItem.Roll) = inRoom {
+        val value = rollVisibleDao.get(noteItem.id)
 
         if (value == null) {
-            rollVisibleDao.insert(RollVisibleEntity(noteId = noteId, value = isVisible))
-        } else if (isVisible != value) {
-            rollVisibleDao.update(noteId, isVisible)
+            val entity = RollVisibleEntity(noteId = noteItem.id, value = noteItem.isVisible)
+            rollVisibleDao.insert(entity)
+        } else if (noteItem.isVisible != value) {
+            rollVisibleDao.update(noteItem.id, noteItem.isVisible)
         }
     }
 
