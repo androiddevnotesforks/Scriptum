@@ -28,21 +28,21 @@ interface IParentNoteInteractor<N : NoteItem> : IParentInteractor {
 
     suspend fun getDateList(): List<String>
 
-    suspend fun clearDate(noteItem: N)
+    suspend fun clearDate(item: N)
 
-    suspend fun setDate(noteItem: N, calendar: Calendar)
+    suspend fun setDate(item: N, calendar: Calendar)
 
-    suspend fun convertNote(noteItem: N)
+    suspend fun convertNote(item: N)
 
 
-    suspend fun restoreNote(noteItem: N)
+    suspend fun restoreNote(item: N)
 
-    suspend fun updateNote(noteItem: N, updateBind: Boolean)
+    suspend fun updateNote(item: N, updateBind: Boolean)
 
-    suspend fun clearNote(noteItem: N)
+    suspend fun clearNote(item: N)
 
-    suspend fun saveNote(noteItem: N, isCreate: Boolean)
+    suspend fun saveNote(item: N, isCreate: Boolean)
 
-    suspend fun deleteNote(noteItem: N)
+    suspend fun deleteNote(item: N)
 
 }

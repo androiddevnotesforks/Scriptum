@@ -67,50 +67,50 @@ class TextNoteInteractor(
 
     override suspend fun getDateList(): List<String> = alarmRepo.getList().map { it.alarm.date }
 
-    override suspend fun clearDate(noteItem: NoteItem.Text) {
-        alarmRepo.delete(noteItem.id)
+    override suspend fun clearDate(item: NoteItem.Text) {
+        alarmRepo.delete(item.id)
 
-        runMain { callback?.cancelAlarm(noteItem.id) }
+        runMain { callback?.cancelAlarm(item.id) }
     }
 
-    override suspend fun setDate(noteItem: NoteItem.Text, calendar: Calendar) {
-        alarmRepo.insertOrUpdate(noteItem, calendar.getText())
+    override suspend fun setDate(item: NoteItem.Text, calendar: Calendar) {
+        alarmRepo.insertOrUpdate(item, calendar.getText())
 
-        runMain { callback?.setAlarm(calendar, noteItem.id) }
+        runMain { callback?.setAlarm(calendar, item.id) }
     }
 
-    override suspend fun convertNote(noteItem: NoteItem.Text) {
-        noteRepo.convertNote(noteItem)
+    override suspend fun convertNote(item: NoteItem.Text) {
+        noteRepo.convertNote(item)
     }
 
 
-    override suspend fun restoreNote(noteItem: NoteItem.Text) = noteRepo.restoreNote(noteItem)
+    override suspend fun restoreNote(item: NoteItem.Text) = noteRepo.restoreNote(item)
 
-    override suspend fun updateNote(noteItem: NoteItem.Text, updateBind: Boolean) {
-        noteRepo.updateNote(noteItem)
+    override suspend fun updateNote(item: NoteItem.Text, updateBind: Boolean) {
+        noteRepo.updateNote(item)
 
         if (updateBind) {
             val rankIdList = getRankIdVisibleList()
-            runMain { callback?.notifyNoteBind(noteItem, rankIdList, preferenceRepo.sort) }
+            runMain { callback?.notifyNoteBind(item, rankIdList, preferenceRepo.sort) }
         }
     }
 
-    override suspend fun clearNote(noteItem: NoteItem.Text) = noteRepo.clearNote(noteItem)
+    override suspend fun clearNote(item: NoteItem.Text) = noteRepo.clearNote(item)
 
-    override suspend fun saveNote(noteItem: NoteItem.Text, isCreate: Boolean) {
-        noteRepo.saveNote(noteItem, isCreate)
-        rankRepo.updateConnection(noteItem)
+    override suspend fun saveNote(item: NoteItem.Text, isCreate: Boolean) {
+        noteRepo.saveNote(item, isCreate)
+        rankRepo.updateConnection(item)
 
         val rankIdList = getRankIdVisibleList()
-        runMain { callback?.notifyNoteBind(noteItem, rankIdList, preferenceRepo.sort) }
+        runMain { callback?.notifyNoteBind(item, rankIdList, preferenceRepo.sort) }
     }
 
-    override suspend fun deleteNote(noteItem: NoteItem.Text) {
-        noteRepo.deleteNote(noteItem)
+    override suspend fun deleteNote(item: NoteItem.Text) {
+        noteRepo.deleteNote(item)
 
         runMain {
-            callback?.cancelAlarm(noteItem.id)
-            callback?.cancelNoteBind(noteItem.id)
+            callback?.cancelAlarm(item.id)
+            callback?.cancelNoteBind(item.id)
         }
     }
 

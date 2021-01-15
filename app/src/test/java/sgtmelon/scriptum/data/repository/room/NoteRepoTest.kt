@@ -2,14 +2,18 @@ package sgtmelon.scriptum.data.repository.room
 
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentRoomRepoTest
 import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.data.room.converter.model.NoteConverter
 import sgtmelon.scriptum.data.room.converter.model.RollConverter
-import sgtmelon.scriptum.data.room.entity.*
+import sgtmelon.scriptum.data.room.entity.NoteEntity
+import sgtmelon.scriptum.data.room.entity.RankEntity
+import sgtmelon.scriptum.data.room.entity.RollEntity
+import sgtmelon.scriptum.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.data.DbData
 import sgtmelon.scriptum.domain.model.item.NoteItem
@@ -191,54 +195,56 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
 
     @Test fun getItem() = startCoTest {
-        val id = Random.nextLong()
-
-        val noteEntity = mockk<NoteEntity>()
-        val noteItem = mockk<NoteItem>()
-        val rollEntityList = mockk<MutableList<RollEntity>>()
-        val rollItemList = mockk<MutableList<RollItem>>()
-        val alarmEntity = mockk<AlarmEntity>()
-
-        coEvery { noteDao.get(id) } returns null
-        assertNull(mockNoteRepo.getItem(id, isOptimal = Random.nextBoolean()))
-
-        coEvery { noteDao.get(id) } returns noteEntity
-        coEvery { spyNoteRepo.getPreview(id, any(), roomDb) } returns rollEntityList
-        every { rollConverter.toItem(rollEntityList) } returns rollItemList
-        coEvery { alarmDao.get(id) } returns alarmEntity
-        every { noteConverter.toItem(noteEntity, rollItemList, alarmEntity) } returns noteItem
-
-        assertEquals(noteItem, spyNoteRepo.getItem(id, isOptimal = false))
-        assertEquals(noteItem, spyNoteRepo.getItem(id, isOptimal = true))
-
-        coVerifySequence {
-            roomProvider.openRoom()
-            noteDao.get(id)
-
-            spyNoteRepo.getItem(id, isOptimal = false)
-            spyNoteRepo.takeFromRoom<NoteItem?>(any())
-            spyNoteRepo.roomProvider
-            roomProvider.openRoom()
-            noteDao.get(id)
-            spyNoteRepo.getPreview(id, isOptimal = false, db = roomDb)
-            rollConverter.toItem(rollEntityList)
-            alarmDao.get(id)
-            noteConverter.toItem(noteEntity, rollItemList, alarmEntity)
-
-            spyNoteRepo.getItem(id, isOptimal = true)
-            spyNoteRepo.takeFromRoom<NoteItem?>(any())
-            spyNoteRepo.roomProvider
-            roomProvider.openRoom()
-            noteDao.get(id)
-            spyNoteRepo.getPreview(id, isOptimal = true, db = roomDb)
-            rollConverter.toItem(rollEntityList)
-            alarmDao.get(id)
-            noteConverter.toItem(noteEntity, rollItemList, alarmEntity)
-        }
+        TODO()
+        //        val id = Random.nextLong()
+        //
+        //        val noteEntity = mockk<NoteEntity>()
+        //        val noteItem = mockk<NoteItem>()
+        //        val rollEntityList = mockk<MutableList<RollEntity>>()
+        //        val rollItemList = mockk<MutableList<RollItem>>()
+        //        val alarmEntity = mockk<AlarmEntity>()
+        //
+        //        coEvery { noteDao.get(id) } returns null
+        //        assertNull(mockNoteRepo.getItem(id, isOptimal = Random.nextBoolean()))
+        //
+        //        coEvery { noteDao.get(id) } returns noteEntity
+        //        coEvery { spyNoteRepo.getPreview(id, any(), roomDb) } returns rollEntityList
+        //        every { rollConverter.toItem(rollEntityList) } returns rollItemList
+        //        coEvery { alarmDao.get(id) } returns alarmEntity
+        //        every { noteConverter.toItem(noteEntity, rollItemList, alarmEntity) } returns noteItem
+        //
+        //        assertEquals(noteItem, spyNoteRepo.getItem(id, isOptimal = false))
+        //        assertEquals(noteItem, spyNoteRepo.getItem(id, isOptimal = true))
+        //
+        //        coVerifySequence {
+        //            roomProvider.openRoom()
+        //            noteDao.get(id)
+        //
+        //            spyNoteRepo.getItem(id, isOptimal = false)
+        //            spyNoteRepo.takeFromRoom<NoteItem?>(any())
+        //            spyNoteRepo.roomProvider
+        //            roomProvider.openRoom()
+        //            noteDao.get(id)
+        //            spyNoteRepo.getPreview(id, isOptimal = false, db = roomDb)
+        //            rollConverter.toItem(rollEntityList)
+        //            alarmDao.get(id)
+        //            noteConverter.toItem(noteEntity, rollItemList, alarmEntity)
+        //
+        //            spyNoteRepo.getItem(id, isOptimal = true)
+        //            spyNoteRepo.takeFromRoom<NoteItem?>(any())
+        //            spyNoteRepo.roomProvider
+        //            roomProvider.openRoom()
+        //            noteDao.get(id)
+        //            spyNoteRepo.getPreview(id, isOptimal = true, db = roomDb)
+        //            rollConverter.toItem(rollEntityList)
+        //            alarmDao.get(id)
+        //            noteConverter.toItem(noteEntity, rollItemList, alarmEntity)
+        //        }
     }
 
     @Test fun getPreview() = startCoTest {
-        val id = Random.nextLong()
+        TODO()
+        /*val id = Random.nextLong()
 
         val firstList = mockk<MutableList<RollEntity>>()
         val secondList = mockk<MutableList<RollEntity>>()
@@ -269,7 +275,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
             rollVisibleDao.get(id)
             rollDao.getViewHide(id)
-        }
+        }*/
     }
 
 
@@ -774,56 +780,58 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
 
     @Test fun setRollVisible() = startCoTest {
-        val id = Random.nextLong()
-        val entity = RollVisibleEntity(noteId = id, value = false)
-
-        coEvery { rollVisibleDao.get(id) } returns null
-        coEvery { rollVisibleDao.insert(any()) } returns Random.nextLong()
-        mockNoteRepo.setRollVisible(noteItem)
-
-        coEvery { rollVisibleDao.get(id) } returns false
-        mockNoteRepo.setRollVisible(noteItem)
-        mockNoteRepo.setRollVisible(noteItem)
-
-        coVerifySequence {
-            roomProvider.openRoom()
-            rollVisibleDao.get(id)
-            rollVisibleDao.insert(entity)
-
-            roomProvider.openRoom()
-            rollVisibleDao.get(id)
-
-            roomProvider.openRoom()
-            rollVisibleDao.get(id)
-            rollVisibleDao.update(id, value = true)
-        }
+        TODO()
+        //        val id = Random.nextLong()
+        //        val entity = RollVisibleEntity(noteId = id, value = false)
+        //
+        //        coEvery { rollVisibleDao.get(id) } returns null
+        //        coEvery { rollVisibleDao.insert(any()) } returns Random.nextLong()
+        //        mockNoteRepo.setRollVisible(noteItem)
+        //
+        //        coEvery { rollVisibleDao.get(id) } returns false
+        //        mockNoteRepo.setRollVisible(noteItem)
+        //        mockNoteRepo.setRollVisible(noteItem)
+        //
+        //        coVerifySequence {
+        //            roomProvider.openRoom()
+        //            rollVisibleDao.get(id)
+        //            rollVisibleDao.insert(entity)
+        //
+        //            roomProvider.openRoom()
+        //            rollVisibleDao.get(id)
+        //
+        //            roomProvider.openRoom()
+        //            rollVisibleDao.get(id)
+        //            rollVisibleDao.update(id, value = true)
+        //        }
     }
 
     @Test fun getRollVisible() = startCoTest {
-        val id = Random.nextLong()
-        val entity = RollVisibleEntity(noteId = id)
-
-        coEvery { rollVisibleDao.get(id) } returns null
-        coEvery { rollVisibleDao.insert(entity) } returns Random.nextLong()
-        assertEquals(DbData.RollVisible.Default.VALUE, mockNoteRepo.getRollVisible(id))
-
-        coEvery { rollVisibleDao.get(id) } returns false
-        assertEquals(false, mockNoteRepo.getRollVisible(id))
-
-        coEvery { rollVisibleDao.get(id) } returns true
-        assertEquals(true, mockNoteRepo.getRollVisible(id))
-
-        coVerifySequence {
-            roomProvider.openRoom()
-            rollVisibleDao.get(id)
-            rollVisibleDao.insert(entity)
-
-            roomProvider.openRoom()
-            rollVisibleDao.get(id)
-
-            roomProvider.openRoom()
-            rollVisibleDao.get(id)
-        }
+        TODO()
+        //        val id = Random.nextLong()
+        //        val entity = RollVisibleEntity(noteId = id)
+        //
+        //        coEvery { rollVisibleDao.get(id) } returns null
+        //        coEvery { rollVisibleDao.insert(entity) } returns Random.nextLong()
+        //        assertEquals(DbData.RollVisible.Default.VALUE, mockNoteRepo.getRollVisible(id))
+        //
+        //        coEvery { rollVisibleDao.get(id) } returns false
+        //        assertEquals(false, mockNoteRepo.getRollVisible(id))
+        //
+        //        coEvery { rollVisibleDao.get(id) } returns true
+        //        assertEquals(true, mockNoteRepo.getRollVisible(id))
+        //
+        //        coVerifySequence {
+        //            roomProvider.openRoom()
+        //            rollVisibleDao.get(id)
+        //            rollVisibleDao.insert(entity)
+        //
+        //            roomProvider.openRoom()
+        //            rollVisibleDao.get(id)
+        //
+        //            roomProvider.openRoom()
+        //            rollVisibleDao.get(id)
+        //        }
     }
 
 

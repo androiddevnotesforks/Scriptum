@@ -21,17 +21,17 @@ import java.util.*
  * Interactor for [IRollNoteViewModel].
  */
 class RollNoteInteractor(
-        private val preferenceRepo: IPreferenceRepo,
-        private val alarmRepo: IAlarmRepo,
-        private val rankRepo: IRankRepo,
-        private val noteRepo: INoteRepo,
-        @RunPrivate var callback: IParentNoteBridge?
+    private val preferenceRepo: IPreferenceRepo,
+    private val alarmRepo: IAlarmRepo,
+    private val rankRepo: IRankRepo,
+    private val noteRepo: INoteRepo,
+    @RunPrivate var callback: IParentNoteBridge?
 ) : ParentInteractor(),
-        IRollNoteInteractor {
+    IRollNoteInteractor {
 
-    private var rankIdVisibleList: List<Long>? = null
+    @RunPrivate var rankIdVisibleList: List<Long>? = null
 
-    private suspend fun getRankIdVisibleList(): List<Long> {
+    @RunPrivate suspend fun getRankIdVisibleList(): List<Long> {
         return rankIdVisibleList ?: rankRepo.getIdVisibleList().also { rankIdVisibleList = it }
     }
 
@@ -97,50 +97,50 @@ class RollNoteInteractor(
 
     override suspend fun getDateList(): List<String> = alarmRepo.getList().map { it.alarm.date }
 
-    override suspend fun clearDate(noteItem: NoteItem.Roll) {
-        alarmRepo.delete(noteItem.id)
+    override suspend fun clearDate(item: NoteItem.Roll) {
+        alarmRepo.delete(item.id)
 
-        runMain { callback?.cancelAlarm(noteItem.id) }
+        runMain { callback?.cancelAlarm(item.id) }
     }
 
-    override suspend fun setDate(noteItem: NoteItem.Roll, calendar: Calendar) {
-        alarmRepo.insertOrUpdate(noteItem, calendar.getText())
+    override suspend fun setDate(item: NoteItem.Roll, calendar: Calendar) {
+        alarmRepo.insertOrUpdate(item, calendar.getText())
 
-        runMain { callback?.setAlarm(calendar, noteItem.id) }
+        runMain { callback?.setAlarm(calendar, item.id) }
     }
 
-    override suspend fun convertNote(noteItem: NoteItem.Roll) {
-        noteRepo.convertNote(noteItem, useCache = true)
+    override suspend fun convertNote(item: NoteItem.Roll) {
+        noteRepo.convertNote(item, useCache = true)
     }
 
 
-    override suspend fun restoreNote(noteItem: NoteItem.Roll) = noteRepo.restoreNote(noteItem)
+    override suspend fun restoreNote(item: NoteItem.Roll) = noteRepo.restoreNote(item)
 
-    override suspend fun updateNote(noteItem: NoteItem.Roll, updateBind: Boolean) {
-        noteRepo.updateNote(noteItem)
+    override suspend fun updateNote(item: NoteItem.Roll, updateBind: Boolean) {
+        noteRepo.updateNote(item)
 
         if (updateBind) {
             val rankIdList = getRankIdVisibleList()
-            runMain { callback?.notifyNoteBind(noteItem, rankIdList, preferenceRepo.sort) }
+            runMain { callback?.notifyNoteBind(item, rankIdList, preferenceRepo.sort) }
         }
     }
 
-    override suspend fun clearNote(noteItem: NoteItem.Roll) = noteRepo.clearNote(noteItem)
+    override suspend fun clearNote(item: NoteItem.Roll) = noteRepo.clearNote(item)
 
-    override suspend fun saveNote(noteItem: NoteItem.Roll, isCreate: Boolean) {
-        noteRepo.saveNote(noteItem, isCreate)
-        rankRepo.updateConnection(noteItem)
+    override suspend fun saveNote(item: NoteItem.Roll, isCreate: Boolean) {
+        noteRepo.saveNote(item, isCreate)
+        rankRepo.updateConnection(item)
 
         val rankIdList = getRankIdVisibleList()
-        runMain { callback?.notifyNoteBind(noteItem, rankIdList, preferenceRepo.sort) }
+        runMain { callback?.notifyNoteBind(item, rankIdList, preferenceRepo.sort) }
     }
 
-    override suspend fun deleteNote(noteItem: NoteItem.Roll) {
-        noteRepo.deleteNote(noteItem)
+    override suspend fun deleteNote(item: NoteItem.Roll) {
+        noteRepo.deleteNote(item)
 
         runMain {
-            callback?.cancelAlarm(noteItem.id)
-            callback?.cancelNoteBind(noteItem.id)
+            callback?.cancelAlarm(item.id)
+            callback?.cancelNoteBind(item.id)
         }
     }
 

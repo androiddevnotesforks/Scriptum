@@ -17,11 +17,12 @@ class NoteConverterTest : ParentTest() {
     private val converter = NoteConverter()
 
     @Test fun toItem() {
-        assertEquals(firstItem, converter.toItem(textEntity, alarmEntity = alarmEntity))
-        assertEquals(secondItem, converter.toItem(textEntity))
-
-        assertEquals(thirdItem, converter.toItem(rollEntity, rollList, alarmEntity))
-        assertEquals(fourthItem, converter.toItem(rollEntity, rollList))
+        TODO()
+        //        assertEquals(firstItem, converter.toItem(textEntity, alarmEntity = alarmEntity))
+        //        assertEquals(secondItem, converter.toItem(textEntity))
+        //
+        //        assertEquals(thirdItem, converter.toItem(rollEntity, rollList, alarmEntity))
+        //        assertEquals(fourthItem, converter.toItem(rollEntity, rollList))
     }
 
     @Test fun toEntity() {
