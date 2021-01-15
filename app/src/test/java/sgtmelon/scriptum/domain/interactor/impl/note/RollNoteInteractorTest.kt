@@ -26,8 +26,6 @@ import kotlin.random.Random
 @ExperimentalCoroutinesApi
 class RollNoteInteractorTest : ParentInteractorTest() {
 
-    private val data = TestData.Note
-
     @MockK lateinit var preferenceRepo: IPreferenceRepo
     @MockK lateinit var alarmRepo: IAlarmRepo
     @MockK lateinit var rankRepo: IRankRepo

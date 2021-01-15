@@ -34,10 +34,10 @@ class NoteRepo(
      * - For notes page need take only visible items count
      * - For bin page need take all items count
      */
-    override suspend fun getCount(bin: Boolean): Int = takeFromRoom {
-        val rankIdList = if (bin) rankDao.getIdList() else rankDao.getIdVisibleList()
+    override suspend fun getCount(isBin: Boolean): Int = takeFromRoom {
+        val rankIdList = if (isBin) rankDao.getIdList() else rankDao.getIdVisibleList()
 
-        return@takeFromRoom noteDao.getCount(bin, rankIdList)
+        return@takeFromRoom noteDao.getCount(isBin, rankIdList)
     }
 
     /**
@@ -48,27 +48,27 @@ class NoteRepo(
      */
     override suspend fun getList(
         @Sort sort: Int,
-        bin: Boolean,
+        isBin: Boolean,
         isOptimal: Boolean,
         filterVisible: Boolean
     ): MutableList<NoteItem> = takeFromRoom {
-        var entityList = getSortBy(noteDao, sort, bin)
+        var entityList = getSortBy(isBin, sort, noteDao)
 
-        if (filterVisible) entityList = filterVisible(rankDao, entityList)
+        if (filterVisible) entityList = filterVisible(entityList, rankDao)
 
         val itemList = entityList.map {
-            convertNoteEntity(it, isOptimal, db = this)
+            transformNoteEntity(it, isOptimal, db = this)
         }.toMutableList()
 
         return@takeFromRoom correctRankSort(itemList, sort)
     }
 
     @RunPrivate
-    suspend fun getSortBy(noteDao: INoteDao, @Sort sort: Int, bin: Boolean) = when (sort) {
-        Sort.CHANGE -> noteDao.getByChange(bin)
-        Sort.CREATE -> noteDao.getByCreate(bin)
-        Sort.RANK -> noteDao.getByRank(bin)
-        Sort.COLOR -> noteDao.getByColor(bin)
+    suspend fun getSortBy(isBin: Boolean, @Sort sort: Int, noteDao: INoteDao) = when (sort) {
+        Sort.CHANGE -> noteDao.getByChange(isBin)
+        Sort.CREATE -> noteDao.getByCreate(isBin)
+        Sort.RANK -> noteDao.getByRank(isBin)
+        Sort.COLOR -> noteDao.getByColor(isBin)
         else -> listOf()
     }
 
@@ -76,7 +76,7 @@ class NoteRepo(
      * List must contains only item which isVisible.
      */
     @RunPrivate
-    suspend fun filterVisible(rankDao: IRankDao, list: List<NoteEntity>): List<NoteEntity> {
+    suspend fun filterVisible(list: List<NoteEntity>, rankDao: IRankDao): List<NoteEntity> {
         val idVisibleList = rankDao.getIdVisibleList()
 
         return list.filter { noteConverter.toItem(it).isRankVisible(idVisibleList) }
@@ -103,7 +103,6 @@ class NoteRepo(
         }
     }
 
-
     /**
      * Return null if note doesn't exist.
      *
@@ -113,12 +112,11 @@ class NoteRepo(
     override suspend fun getItem(id: Long, isOptimal: Boolean): NoteItem? = takeFromRoom {
         val entity = noteDao.get(id) ?: return@takeFromRoom null
 
-        return@takeFromRoom convertNoteEntity(entity, isOptimal, db = this)
+        return@takeFromRoom transformNoteEntity(entity, isOptimal, db = this)
     }
 
-    // TODO new func - add tests
     @RunPrivate
-    suspend fun convertNoteEntity(
+    suspend fun transformNoteEntity(
         entity: NoteEntity,
         isOptimal: Boolean,
         db: RoomDb
@@ -161,6 +159,7 @@ class NoteRepo(
         rollConverter.toItem(rollDao.get(noteId))
     }
 
+    // Repo other functions
 
     /**
      * Have hide notes in list or not.
@@ -171,103 +170,104 @@ class NoteRepo(
         }
     }
 
+    // Repo work with delete functions
+
     override suspend fun clearBin() = inRoom {
         val itemList = noteDao.get(true)
 
         for (it in itemList) {
-            clearConnection(rankDao, it.id, it.rankId)
+            clearConnection(it.id, it.rankId, rankDao)
         }
 
         noteDao.delete(itemList)
     }
 
-
-    override suspend fun deleteNote(noteItem: NoteItem) = inRoom {
-        alarmDao.delete(noteItem.id)
-        noteDao.update(noteConverter.toEntity(noteItem.onDelete()))
+    override suspend fun deleteNote(item: NoteItem) = inRoom {
+        alarmDao.delete(item.id)
+        noteDao.update(noteConverter.toEntity(item.onDelete()))
     }
 
-    override suspend fun restoreNote(noteItem: NoteItem) = inRoom {
-        noteDao.update(noteConverter.toEntity(noteItem.onRestore()))
+    override suspend fun restoreNote(item: NoteItem) = inRoom {
+        noteDao.update(noteConverter.toEntity(item.onRestore()))
     }
 
     /**
      * Delete note forever and clear related categories
      */
-    override suspend fun clearNote(noteItem: NoteItem) = inRoom {
-        clearConnection(rankDao, noteItem.id, noteItem.rankId)
-        noteDao.delete(noteConverter.toEntity(noteItem))
+    override suspend fun clearNote(item: NoteItem) = inRoom {
+        clearConnection(item.id, item.rankId, rankDao)
+        noteDao.delete(noteConverter.toEntity(item))
     }
 
     /**
      * Remove relation between [RankEntity] and [NoteItem] which will be delete
      */
     @RunPrivate
-    suspend fun clearConnection(rankDao: IRankDao, noteId: Long, rankId: Long) {
-        val entity = rankDao.get(rankId)?.also { it.noteId.remove(noteId) } ?: return
+    suspend fun clearConnection(noteId: Long, rankId: Long, rankDao: IRankDao) {
+        val entity = rankDao.get(rankId) ?: return
+        entity.noteId.remove(noteId)
         rankDao.update(entity)
     }
 
+    // Repo save and update functions
 
-    override suspend fun convertNote(noteItem: NoteItem.Text): NoteItem.Roll = takeFromRoom {
-        val item = noteItem.onConvert()
+    override suspend fun convertNote(item: NoteItem.Text): NoteItem.Roll = takeFromRoom {
+        val newItem = item.onConvert()
 
-        for (it in item.list) {
-            it.id = rollDao.insert(rollConverter.toEntity(item.id, it))
+        for (it in newItem.list) {
+            it.id = rollDao.insert(rollConverter.toEntity(newItem.id, it))
         }
 
-        noteDao.update(noteConverter.toEntity(item))
+        noteDao.update(noteConverter.toEntity(newItem))
 
-        return@takeFromRoom item
+        return@takeFromRoom newItem
     }
 
     override suspend fun convertNote(
-        noteItem: NoteItem.Roll,
+        item: NoteItem.Roll,
         useCache: Boolean
     ): NoteItem.Text = takeFromRoom {
-        val item = if (useCache) {
-            noteItem.onConvert()
+        val newItem = if (useCache) {
+            item.onConvert()
         } else {
-            noteItem.onConvert(rollConverter.toItem(rollDao.get(noteItem.id)))
+            item.onConvert(rollConverter.toItem(rollDao.get(item.id)))
         }
 
-        noteDao.update(noteConverter.toEntity(item))
-        rollDao.delete(item.id)
+        noteDao.update(noteConverter.toEntity(newItem))
+        rollDao.delete(newItem.id)
 
-        return@takeFromRoom item
+        return@takeFromRoom newItem
     }
 
-    override suspend fun getCopyText(noteItem: NoteItem) = StringBuilder().apply {
-        if (noteItem.name.isNotEmpty()) {
-            append(noteItem.name).append("\n")
+    override suspend fun getCopyText(item: NoteItem) = StringBuilder().apply {
+        if (item.name.isNotEmpty()) {
+            append(item.name).append("\n")
         }
 
-        when (noteItem) {
-            is NoteItem.Text -> append(noteItem.text)
-            is NoteItem.Roll -> inRoom {
-                append(rollConverter.toItem(rollDao.get(noteItem.id)).getText())
-            }
+        when (item) {
+            is NoteItem.Text -> append(item.text)
+            is NoteItem.Roll -> append(getRollList(item.id).getText())
         }
     }.toString()
 
-    override suspend fun saveNote(noteItem: NoteItem.Text, isCreate: Boolean) = inRoom {
-        val entity = noteConverter.toEntity(noteItem)
+    override suspend fun saveNote(item: NoteItem.Text, isCreate: Boolean) = inRoom {
+        val entity = noteConverter.toEntity(item)
 
         if (isCreate) {
-            noteItem.id = noteDao.insert(entity)
+            item.id = noteDao.insert(entity)
         } else {
             noteDao.update(entity)
         }
     }
 
-    override suspend fun saveNote(noteItem: NoteItem.Roll, isCreate: Boolean) = inRoom {
-        val noteEntity = noteConverter.toEntity(noteItem)
+    override suspend fun saveNote(item: NoteItem.Roll, isCreate: Boolean) = inRoom {
+        val noteEntity = noteConverter.toEntity(item)
 
         if (isCreate) {
-            noteItem.id = noteDao.insert(noteEntity)
+            item.id = noteDao.insert(noteEntity)
 
-            for (item in noteItem.list) {
-                item.id = rollDao.insert(rollConverter.toEntity(noteItem.id, item))
+            for (rollItem in item.list) {
+                rollItem.id = rollDao.insert(rollConverter.toEntity(item.id, rollItem))
             }
         } else {
             noteDao.update(noteEntity)
@@ -277,54 +277,54 @@ class NoteRepo(
              */
             val idSaveList = ArrayList<Long>()
 
-            for (item in noteItem.list) {
-                val id = item.id
+            for (rollItem in item.list) {
+                val id = rollItem.id
 
                 if (id == null) {
-                    item.id = rollDao.insert(rollConverter.toEntity(noteItem.id, item))
+                    rollItem.id = rollDao.insert(rollConverter.toEntity(item.id, rollItem))
                 } else {
-                    rollDao.update(id, item.position, item.text)
+                    rollDao.update(id, rollItem.position, rollItem.text)
                 }
 
-                item.id?.let { idSaveList.add(it) }
+                rollItem.id?.let { idSaveList.add(it) }
             }
 
             /**
              * Remove swiped rolls.
              */
-            rollDao.delete(noteItem.id, idSaveList)
+            rollDao.delete(item.id, idSaveList)
         }
     }
 
-    override suspend fun updateRollCheck(noteItem: NoteItem.Roll, p: Int) = inRoom {
-        val item = noteItem.list.getOrNull(p) ?: return@inRoom
-        val rollId = item.id ?: return@inRoom
+    override suspend fun updateRollCheck(item: NoteItem.Roll, p: Int) = inRoom {
+        val rollItem = item.list.getOrNull(p) ?: return@inRoom
+        val rollId = rollItem.id ?: return@inRoom
 
-        rollDao.update(rollId, item.isCheck)
-        noteDao.update(noteConverter.toEntity(noteItem))
+        rollDao.update(rollId, rollItem.isCheck)
+        noteDao.update(noteConverter.toEntity(item))
     }
 
-    override suspend fun updateRollCheck(noteItem: NoteItem.Roll, isCheck: Boolean) = inRoom {
-        rollDao.updateAllCheck(noteItem.id, isCheck)
-        noteDao.update(noteConverter.toEntity(noteItem))
+    override suspend fun updateRollCheck(item: NoteItem.Roll, isCheck: Boolean) = inRoom {
+        rollDao.updateAllCheck(item.id, isCheck)
+        noteDao.update(noteConverter.toEntity(item))
     }
 
-    override suspend fun updateNote(noteItem: NoteItem) = inRoom {
-        noteDao.update(noteConverter.toEntity(noteItem))
+    override suspend fun updateNote(item: NoteItem) = inRoom {
+        noteDao.update(noteConverter.toEntity(item))
     }
 
-
-    override suspend fun setRollVisible(noteItem: NoteItem.Roll) = inRoom {
-        val value = rollVisibleDao.get(noteItem.id)
+    override suspend fun setRollVisible(item: NoteItem.Roll) = inRoom {
+        val value = rollVisibleDao.get(item.id)
 
         if (value == null) {
-            val entity = RollVisibleEntity(noteId = noteItem.id, value = noteItem.isVisible)
+            val entity = RollVisibleEntity(noteId = item.id, value = item.isVisible)
             rollVisibleDao.insert(entity)
-        } else if (noteItem.isVisible != value) {
-            rollVisibleDao.update(noteItem.id, noteItem.isVisible)
+        } else if (item.isVisible != value) {
+            rollVisibleDao.update(item.id, item.isVisible)
         }
     }
 
+    // Repo backup functions
 
     override suspend fun getNoteBackup(): List<NoteEntity> {
         return takeFromRoom { noteDao.get(bin = false) }

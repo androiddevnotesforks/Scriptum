@@ -13,10 +13,12 @@ import sgtmelon.scriptum.domain.model.item.RollItem
  */
 interface INoteRepo {
 
-    suspend fun getCount(bin: Boolean): Int
+    suspend fun getCount(isBin: Boolean): Int
 
-    suspend fun getList(@Sort sort: Int, bin: Boolean, isOptimal: Boolean,
-                        filterVisible: Boolean): MutableList<NoteItem>
+    suspend fun getList(
+        @Sort sort: Int, isBin: Boolean, isOptimal: Boolean,
+        filterVisible: Boolean
+    ): MutableList<NoteItem>
 
     suspend fun getItem(id: Long, isOptimal: Boolean): NoteItem?
 
@@ -28,41 +30,41 @@ interface INoteRepo {
     suspend fun clearBin()
 
 
-    suspend fun deleteNote(noteItem: NoteItem)
+    suspend fun deleteNote(item: NoteItem)
 
-    suspend fun restoreNote(noteItem: NoteItem)
+    suspend fun restoreNote(item: NoteItem)
 
-    suspend fun clearNote(noteItem: NoteItem)
+    suspend fun clearNote(item: NoteItem)
 
-
-    /**
-     * TODO #THINK in notes list need add fast convert
-     * (prepare all data - update note - suspend work with db)
-     */
-    suspend fun convertNote(noteItem: NoteItem.Text): NoteItem.Roll
+    // Repo save and update functions
 
     /**
      * TODO #THINK in notes list need add fast convert
      * (prepare all data - update note - suspend work with db)
      */
-    suspend fun convertNote(noteItem: NoteItem.Roll, useCache: Boolean): NoteItem.Text
+    suspend fun convertNote(item: NoteItem.Text): NoteItem.Roll
 
-    suspend fun getCopyText(noteItem: NoteItem): String
+    /**
+     * TODO #THINK in notes list need add fast convert
+     * (prepare all data - update note - suspend work with db)
+     */
+    suspend fun convertNote(item: NoteItem.Roll, useCache: Boolean): NoteItem.Text
 
-    suspend fun saveNote(noteItem: NoteItem.Text, isCreate: Boolean)
+    suspend fun getCopyText(item: NoteItem): String
 
-    suspend fun saveNote(noteItem: NoteItem.Roll, isCreate: Boolean)
+    suspend fun saveNote(item: NoteItem.Text, isCreate: Boolean)
 
+    suspend fun saveNote(item: NoteItem.Roll, isCreate: Boolean)
 
-    suspend fun updateRollCheck(noteItem: NoteItem.Roll, p: Int)
+    suspend fun updateRollCheck(item: NoteItem.Roll, p: Int)
 
-    suspend fun updateRollCheck(noteItem: NoteItem.Roll, isCheck: Boolean)
+    suspend fun updateRollCheck(item: NoteItem.Roll, isCheck: Boolean)
 
-    suspend fun updateNote(noteItem: NoteItem)
+    suspend fun updateNote(item: NoteItem)
 
+    suspend fun setRollVisible(item: NoteItem.Roll)
 
-    suspend fun setRollVisible(noteItem: NoteItem.Roll)
-
+    // Repo backup functions
 
     suspend fun getNoteBackup(): List<NoteEntity>
 

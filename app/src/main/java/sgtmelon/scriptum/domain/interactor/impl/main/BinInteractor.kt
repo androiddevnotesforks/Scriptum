@@ -26,11 +26,11 @@ class BinInteractor(
 
     @Theme override val theme: Int get() = preferenceRepo.theme
 
-    override suspend fun getCount(): Int = noteRepo.getCount(bin = true)
+    override suspend fun getCount(): Int = noteRepo.getCount(isBin = true)
 
     override suspend fun getList(): MutableList<NoteItem> {
         val sort = preferenceRepo.sort
-        return noteRepo.getList(sort, bin = true, isOptimal = true, filterVisible = false)
+        return noteRepo.getList(sort, isBin = true, isOptimal = true, filterVisible = false)
     }
 
     override suspend fun clearBin() = noteRepo.clearBin()

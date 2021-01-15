@@ -43,11 +43,11 @@ class NotesInteractor(
     @Sort override val sort: Int get() = preferenceRepo.sort
 
 
-    override suspend fun getCount(): Int = noteRepo.getCount(bin = false)
+    override suspend fun getCount(): Int = noteRepo.getCount(isBin = false)
 
     override suspend fun getList(): MutableList<NoteItem> {
         val sort = preferenceRepo.sort
-        return noteRepo.getList(sort, bin = false, isOptimal = true, filterVisible = true)
+        return noteRepo.getList(sort, isBin = false, isOptimal = true, filterVisible = true)
     }
 
     override suspend fun isListHide(): Boolean = noteRepo.isListHide()

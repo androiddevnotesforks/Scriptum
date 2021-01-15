@@ -102,16 +102,16 @@ class NoteDaoTest : ParentRoomTest() {
     // Dao get functions
 
     @Test fun getCount() = inNoteDao {
-        assertEquals(0, getCount(bin = false, rankIdList = listOf()))
-        assertEquals(0, getCount(bin = true, rankIdList = listOf()))
+        assertEquals(0, getCount(isBin = false, rankIdList = listOf()))
+        assertEquals(0, getCount(isBin = true, rankIdList = listOf()))
 
         insert(firstNote)
         insert(secondNote)
         insert(thirdNote)
 
-        assertEquals(1, getCount(bin = false, rankIdList = listOf()))
-        assertEquals(2, getCount(bin = false, rankIdList = listOf(2)))
-        assertEquals(1, getCount(bin = true, rankIdList = listOf(1)))
+        assertEquals(1, getCount(isBin = false, rankIdList = listOf()))
+        assertEquals(2, getCount(isBin = false, rankIdList = listOf(2)))
+        assertEquals(1, getCount(isBin = true, rankIdList = listOf(1)))
     }
 
     @Test fun getByWrongId() = inNoteDao { assertNull(get(Random.nextLong())) }

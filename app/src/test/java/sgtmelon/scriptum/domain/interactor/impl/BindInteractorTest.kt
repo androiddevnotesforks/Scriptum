@@ -43,14 +43,14 @@ class BindInteractorTest : ParentInteractorTest() {
         every { preferenceRepo.sort } returns sort
         coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList
         coEvery {
-            noteRepo.getList(sort, bin = false, isOptimal = false, filterVisible = false)
+            noteRepo.getList(sort, isBin = false, isOptimal = false, filterVisible = false)
         } returns itemList
         interactor.notifyNoteBind(noteCallback)
 
         coVerifySequence {
             preferenceRepo.sort
             rankRepo.getIdVisibleList()
-            noteRepo.getList(sort, bin = false, isOptimal = false, filterVisible = false)
+            noteRepo.getList(sort, isBin = false, isOptimal = false, filterVisible = false)
             noteCallback.notifyNoteBind(itemList, rankIdVisibleList)
         }
     }

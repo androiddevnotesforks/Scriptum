@@ -43,12 +43,12 @@ class BinInteractorTest : ParentInteractorTest() {
         val countList = listOf(Random.nextInt(), Random.nextInt())
 
         for (it in countList) {
-            coEvery { noteRepo.getCount(bin = true) } returns it
+            coEvery { noteRepo.getCount(isBin = true) } returns it
             assertEquals(it, interactor.getCount())
         }
 
         coVerifySequence {
-            repeat(countList.size) { noteRepo.getCount(bin = true) }
+            repeat(countList.size) { noteRepo.getCount(isBin = true) }
         }
     }
 
@@ -56,7 +56,7 @@ class BinInteractorTest : ParentInteractorTest() {
         val itemList = data.itemList
 
         coEvery {
-            noteRepo.getList(any(), bin = true, isOptimal = true, filterVisible = false)
+            noteRepo.getList(any(), isBin = true, isOptimal = true, filterVisible = false)
         } returns itemList
 
         val firstSort = TestData.sort
@@ -69,10 +69,10 @@ class BinInteractorTest : ParentInteractorTest() {
 
         coVerifySequence {
             preferenceRepo.sort
-            noteRepo.getList(firstSort, bin = true, isOptimal = true, filterVisible = false)
+            noteRepo.getList(firstSort, isBin = true, isOptimal = true, filterVisible = false)
 
             preferenceRepo.sort
-            noteRepo.getList(secondSort, bin = true, isOptimal = true, filterVisible = false)
+            noteRepo.getList(secondSort, isBin = true, isOptimal = true, filterVisible = false)
         }
     }
 

@@ -36,14 +36,14 @@ fun <T> MutableList<T>.clearAdd(replace: List<T>) = apply {
     addAll(replace)
 }
 
-fun List<RollItem>.getText(): String = joinToString(separator = "\n") { it.text }
-
-fun MutableList<RollItem>.copy() = map { it.copy() }.toMutableList()
-
 fun BooleanArray.safeSet(index: Int, value: Boolean) {
     if (index in indices) set(index, value)
 }
 
 // Roll list functions
+
+fun List<RollItem>.getText(): String = joinToString(separator = "\n") { it.text }
+
+fun MutableList<RollItem>.copy() = map { it.copy() }.toMutableList()
 
 fun MutableList<RollItem>.hide(): MutableList<RollItem> = ArrayList(filter { !it.isCheck })
