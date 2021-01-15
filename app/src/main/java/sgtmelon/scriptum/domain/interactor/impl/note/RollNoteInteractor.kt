@@ -66,8 +66,10 @@ class RollNoteInteractor(
     override suspend fun setVisible(noteItem: NoteItem.Roll, updateBind: Boolean) {
         noteRepo.setRollVisible(noteItem)
 
-        val rankIdList = getRankIdVisibleList()
-        runMain { callback?.notifyNoteBind(noteItem, rankIdList, preferenceRepo.sort) }
+        if (updateBind) {
+            val rankIdList = getRankIdVisibleList()
+            runMain { callback?.notifyNoteBind(noteItem, rankIdList, preferenceRepo.sort) }
+        }
     }
 
 

@@ -350,8 +350,10 @@ class RollNoteViewModel(application: Application) :
                 /**
                  * Need if [noteItem] isVisible changes wasn't set inside [onClickVisible] because of
                  * not created note.
+                 *
+                 * Don't need update bind, because [interactor] already does it in [saveNote] func.
                  */
-                runBack { interactor.setVisible(noteItem, updateBind = true) }
+                runBack { interactor.setVisible(noteItem, updateBind = false) }
             }
 
             callback?.setList(getList(noteItem))
