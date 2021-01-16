@@ -22,5 +22,4 @@ class NoteInteractorTest : ParentInteractorTest() {
     @Test fun getDefaultColor() = FastTest.getDefaultColor(preferenceRepo) {
         interactor.defaultColor
     }
-
 }

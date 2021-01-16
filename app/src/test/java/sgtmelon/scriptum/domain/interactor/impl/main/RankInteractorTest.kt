@@ -2,6 +2,7 @@ package sgtmelon.scriptum.domain.interactor.impl.main
 
 import io.mockk.coEvery
 import io.mockk.coVerifySequence
+import io.mockk.confirmVerified
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -11,7 +12,6 @@ import org.junit.Test
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.FastTest
 import sgtmelon.scriptum.ParentInteractorTest
-import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.domain.model.item.RankItem
@@ -23,32 +23,32 @@ import kotlin.random.Random
 @ExperimentalCoroutinesApi
 class RankInteractorTest : ParentInteractorTest() {
 
-    private val data = TestData.Rank
-
     @MockK lateinit var rankRepo: IRankRepo
     @MockK lateinit var preferenceRepo: IPreferenceRepo
 
     private val interactor by lazy { RankInteractor(preferenceRepo, rankRepo) }
 
+    override fun tearDown() {
+        super.tearDown()
+        confirmVerified(rankRepo, preferenceRepo)
+    }
+
 
     @Test fun getTheme() = FastTest.getTheme(preferenceRepo) { interactor.theme }
 
-
     @Test fun getCount() = startCoTest {
-        val countList = listOf(Random.nextInt(), Random.nextInt())
+        val count = Random.nextInt()
 
-        for (it in countList) {
-            coEvery { rankRepo.getCount() } returns it
-            assertEquals(it, interactor.getCount())
-        }
+        coEvery { rankRepo.getCount() } returns count
+        assertEquals(count, interactor.getCount())
 
         coVerifySequence {
-            repeat(countList.size) { rankRepo.getCount() }
+            rankRepo.getCount()
         }
     }
 
     @Test fun getList() = startCoTest {
-        val list = data.itemList
+        val list = mockk<MutableList<RankItem>>()
 
         coEvery { rankRepo.getList() } returns list
         assertEquals(list, interactor.getList())
@@ -59,36 +59,32 @@ class RankInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun getBind() = startCoTest {
-        val bindList = listOf(Random.nextBoolean(), Random.nextBoolean())
-        val noteIdList = List(size = 5) { Random.nextLong() }
+        val isBind = Random.nextBoolean()
+        val noteId = mockk<List<Long>>()
 
-        for (it in bindList) {
-            coEvery { rankRepo.getBind(noteIdList) } returns it
-            assertEquals(it, interactor.getBind(noteIdList))
-        }
+        coEvery { rankRepo.getBind(noteId) } returns isBind
+        assertEquals(isBind, interactor.getBind(noteId))
 
         coVerifySequence {
-            repeat(bindList.size) { rankRepo.getBind(noteIdList) }
+            rankRepo.getBind(noteId)
         }
     }
 
 
     @Test fun insert_byName() = startCoTest {
-        val idList = listOf(Random.nextLong(), Random.nextLong(), null)
+        val id = Random.nextLong()
         val name = nextString()
+        val item = RankItem(id, name = name)
 
-        for (it in idList) {
-            coEvery { rankRepo.insert(name) } returns it
+        coEvery { rankRepo.insert(name) } returns null
+        assertNull(interactor.insert(name))
 
-            if (it != null) {
-                assertEquals(RankItem(it, name = name), interactor.insert(name))
-            } else {
-                assertNull(interactor.insert(name))
-            }
-        }
+        coEvery { rankRepo.insert(name) } returns id
+        assertEquals(item, interactor.insert(name))
 
         coVerifySequence {
-            repeat(idList.size) { rankRepo.insert(name) }
+            rankRepo.insert(name)
+            rankRepo.insert(name)
         }
     }
 
@@ -103,7 +99,7 @@ class RankInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun delete() = startCoTest {
-        val item = data.itemList.random()
+        val item = mockk<RankItem>()
 
         interactor.delete(item)
 
@@ -113,7 +109,7 @@ class RankInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun updateItem() = startCoTest {
-        val item = data.itemList.random()
+        val item = mockk<RankItem>()
 
         interactor.update(item)
 
@@ -123,7 +119,7 @@ class RankInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun updateList() = startCoTest {
-        val list = data.itemList
+        val list = mockk<List<RankItem>>()
 
         interactor.update(list)
 
@@ -133,14 +129,13 @@ class RankInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun updatePosition() = startCoTest {
-        val list = data.itemList
-        val noteIdList = ArrayList<Long>().apply { repeat(times = 10) { add(Random.nextLong()) } }
+        val list = mockk<List<RankItem>>()
+        val idList = mockk<List<Long>>()
 
-        interactor.updatePosition(list, noteIdList)
+        interactor.updatePosition(list, idList)
 
         coVerifySequence {
-            rankRepo.updatePosition(list, noteIdList)
+            rankRepo.updatePosition(list, idList)
         }
     }
-
 }

@@ -25,21 +25,21 @@ interface INotesInteractor : IParentInteractor {
 
     suspend fun isListHide(): Boolean
 
-    suspend fun updateNote(noteItem: NoteItem)
+    suspend fun updateNote(item: NoteItem)
 
-    suspend fun convertNote(noteItem: NoteItem): NoteItem
+    suspend fun convertNote(item: NoteItem): NoteItem
 
 
     suspend fun getDateList(): List<String>
 
-    suspend fun clearDate(noteItem: NoteItem)
+    suspend fun clearDate(item: NoteItem)
 
-    suspend fun setDate(noteItem: NoteItem, calendar: Calendar)
+    suspend fun setDate(item: NoteItem, calendar: Calendar)
 
 
-    suspend fun copy(noteItem: NoteItem)
+    suspend fun copy(item: NoteItem)
 
-    suspend fun deleteNote(noteItem: NoteItem)
+    suspend fun deleteNote(item: NoteItem)
 
 
     suspend fun getNotification(noteId: Long): NotificationItem?

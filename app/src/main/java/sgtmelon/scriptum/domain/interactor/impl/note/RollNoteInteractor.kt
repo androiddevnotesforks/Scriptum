@@ -143,5 +143,4 @@ class RollNoteInteractor(
             callback?.cancelNoteBind(item.id)
         }
     }
-
 }

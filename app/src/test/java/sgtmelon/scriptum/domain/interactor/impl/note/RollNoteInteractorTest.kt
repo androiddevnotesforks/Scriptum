@@ -48,6 +48,13 @@ class RollNoteInteractorTest : ParentInteractorTest() {
         confirmVerified(preferenceRepo, alarmRepo, rankRepo, noteRepo, callback)
     }
 
+    @Test override fun onDestroy() {
+        assertNotNull(interactor.callback)
+        interactor.onDestroy()
+        assertNull(interactor.callback)
+    }
+
+
     @Test fun getRankIdVisibleList() = startCoTest {
         val list = mockk<List<Long>>()
 
@@ -61,13 +68,6 @@ class RollNoteInteractorTest : ParentInteractorTest() {
             rankRepo.getIdVisibleList()
         }
     }
-
-    @Test override fun onDestroy() {
-        assertNotNull(interactor.callback)
-        interactor.onDestroy()
-        assertNull(interactor.callback)
-    }
-
 
     @Test fun getSaveModel() = FastTest.Note.Interactor.getSaveModel(preferenceRepo) {
         interactor.getSaveModel()
@@ -345,5 +345,4 @@ class RollNoteInteractorTest : ParentInteractorTest() {
             callback.cancelNoteBind(id)
         }
     }
-
 }

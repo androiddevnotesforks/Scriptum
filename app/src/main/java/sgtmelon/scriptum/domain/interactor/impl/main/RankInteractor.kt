@@ -12,8 +12,8 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.main.IRankViewModel
  * Interactor for [IRankViewModel].
  */
 class RankInteractor(
-        private val preferenceRepo: IPreferenceRepo,
-        private val rankRepo: IRankRepo
+    private val preferenceRepo: IPreferenceRepo,
+    private val rankRepo: IRankRepo
 ) : ParentInteractor(), IRankInteractor {
 
     @Theme override val theme: Int get() = preferenceRepo.theme
@@ -43,5 +43,4 @@ class RankInteractor(
     override suspend fun updatePosition(list: List<RankItem>, idList: List<Long>) {
         rankRepo.updatePosition(list, idList)
     }
-
 }

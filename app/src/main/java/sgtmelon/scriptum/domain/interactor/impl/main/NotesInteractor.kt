@@ -21,17 +21,17 @@ import java.util.*
  * Interactor for [INotesViewModel].
  */
 class NotesInteractor(
-        private val preferenceRepo: IPreferenceRepo,
-        private val alarmRepo: IAlarmRepo,
-        private val rankRepo: IRankRepo,
-        private val noteRepo: INoteRepo,
-        @RunPrivate var callback: INotesBridge?
+    private val preferenceRepo: IPreferenceRepo,
+    private val alarmRepo: IAlarmRepo,
+    private val rankRepo: IRankRepo,
+    private val noteRepo: INoteRepo,
+    @RunPrivate var callback: INotesBridge?
 ) : ParentInteractor(),
-        INotesInteractor {
+    INotesInteractor {
 
     @RunPrivate var rankIdVisibleList: List<Long>? = null
 
-    private suspend fun getRankIdVisibleList(): List<Long> {
+    @RunPrivate suspend fun getRankIdVisibleList(): List<Long> {
         return rankIdVisibleList ?: rankRepo.getIdVisibleList().also { rankIdVisibleList = it }
     }
 
@@ -52,29 +52,29 @@ class NotesInteractor(
 
     override suspend fun isListHide(): Boolean = noteRepo.isListHide()
 
-    override suspend fun updateNote(noteItem: NoteItem) {
-        noteRepo.updateNote(noteItem)
+    override suspend fun updateNote(item: NoteItem) {
+        noteRepo.updateNote(item)
 
         /**
          * Need for prevent overriding noteItem rollList in list model
          */
-        val noteMirror = when (noteItem) {
-            is NoteItem.Text -> noteItem.deepCopy()
-            is NoteItem.Roll -> noteItem.deepCopy(list = noteRepo.getRollList(noteItem.id))
+        val noteMirror = when (item) {
+            is NoteItem.Text -> item.deepCopy()
+            is NoteItem.Roll -> item.deepCopy(list = noteRepo.getRollList(item.id))
         }
 
         val rankIdList = getRankIdVisibleList()
         runMain { callback?.notifyNoteBind(noteMirror, rankIdList, preferenceRepo.sort) }
     }
 
-    override suspend fun convertNote(noteItem: NoteItem): NoteItem {
-        val convertItem = when (noteItem) {
-            is NoteItem.Text -> noteRepo.convertNote(noteItem)
-            is NoteItem.Roll -> noteRepo.convertNote(noteItem, useCache = false)
+    override suspend fun convertNote(item: NoteItem): NoteItem {
+        val convertItem = when (item) {
+            is NoteItem.Text -> noteRepo.convertNote(item)
+            is NoteItem.Roll -> noteRepo.convertNote(item, useCache = false)
         }
 
         val rankIdList = getRankIdVisibleList()
-        runMain { callback?.notifyNoteBind(noteItem, rankIdList, preferenceRepo.sort) }
+        runMain { callback?.notifyNoteBind(item, rankIdList, preferenceRepo.sort) }
 
         /**
          * Optimisation for get only first 4 items
@@ -93,30 +93,30 @@ class NotesInteractor(
 
     override suspend fun getDateList(): List<String> = alarmRepo.getList().map { it.alarm.date }
 
-    override suspend fun clearDate(noteItem: NoteItem) {
-        alarmRepo.delete(noteItem.id)
-        
-        runMain { callback?.cancelAlarm(noteItem.id) }
+    override suspend fun clearDate(item: NoteItem) {
+        alarmRepo.delete(item.id)
+
+        runMain { callback?.cancelAlarm(item.id) }
     }
 
-    override suspend fun setDate(noteItem: NoteItem, calendar: Calendar) {
-        alarmRepo.insertOrUpdate(noteItem, calendar.getText())
-        
-        runMain { callback?.setAlarm(calendar, noteItem.id) }
+    override suspend fun setDate(item: NoteItem, calendar: Calendar) {
+        alarmRepo.insertOrUpdate(item, calendar.getText())
+
+        runMain { callback?.setAlarm(calendar, item.id) }
     }
 
 
-    override suspend fun copy(noteItem: NoteItem) {
-        val text = noteRepo.getCopyText(noteItem)
+    override suspend fun copy(item: NoteItem) {
+        val text = noteRepo.getCopyText(item)
         runMain { callback?.copyClipboard(text) }
     }
 
-    override suspend fun deleteNote(noteItem: NoteItem) {
-        noteRepo.deleteNote(noteItem)
+    override suspend fun deleteNote(item: NoteItem) {
+        noteRepo.deleteNote(item)
 
         runMain {
-            callback?.cancelAlarm(noteItem.id)
-            callback?.cancelNoteBind(noteItem.id)
+            callback?.cancelAlarm(item.id)
+            callback?.cancelNoteBind(item.id)
         }
     }
 
@@ -124,5 +124,4 @@ class NotesInteractor(
     override suspend fun getNotification(noteId: Long): NotificationItem? {
         return alarmRepo.getItem(noteId)
     }
-
 }
