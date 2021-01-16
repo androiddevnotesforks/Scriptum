@@ -37,5 +37,4 @@ class RoomMigrateTest : ParentTest() {
 
         assertEquals(noteIdListExpected, noteIdList)
     }
-
 }

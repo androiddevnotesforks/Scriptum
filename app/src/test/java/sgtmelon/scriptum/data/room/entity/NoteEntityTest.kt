@@ -25,5 +25,4 @@ class NoteEntityTest : ParentTest() {
             assertEquals(Default.STATUS, isStatus)
         }
     }
-
 }

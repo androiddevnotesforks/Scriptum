@@ -19,5 +19,4 @@ class RankEntityTest : ParentTest() {
             assertEquals(Default.VISIBLE, isVisible)
         }
     }
-
 }

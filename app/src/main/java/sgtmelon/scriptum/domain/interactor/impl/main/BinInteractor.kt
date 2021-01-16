@@ -15,11 +15,11 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.main.IBinViewModel
  * Interactor for [IBinViewModel].
  */
 class BinInteractor(
-        private val preferenceRepo: IPreferenceRepo,
-        private val noteRepo: INoteRepo,
-        @RunPrivate var callback: IBinBridge?
+    private val preferenceRepo: IPreferenceRepo,
+    private val noteRepo: INoteRepo,
+    @RunPrivate var callback: IBinBridge?
 ) : ParentInteractor(),
-        IBinInteractor {
+    IBinInteractor {
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy { callback = null }
 
@@ -35,13 +35,12 @@ class BinInteractor(
 
     override suspend fun clearBin() = noteRepo.clearBin()
 
-    override suspend fun restoreNote(noteItem: NoteItem) = noteRepo.restoreNote(noteItem)
+    override suspend fun restoreNote(item: NoteItem) = noteRepo.restoreNote(item)
 
-    override suspend fun copy(noteItem: NoteItem) {
-        val text = noteRepo.getCopyText(noteItem)
+    override suspend fun copy(item: NoteItem) {
+        val text = noteRepo.getCopyText(item)
         runMain { callback?.copyClipboard(text) }
     }
 
-    override suspend fun clearNote(noteItem: NoteItem) = noteRepo.clearNote(noteItem)
-
+    override suspend fun clearNote(item: NoteItem) = noteRepo.clearNote(item)
 }

@@ -17,5 +17,4 @@ class RollVisibleEntityTest : ParentTest() {
             assertEquals(Default.VALUE, value)
         }
     }
-
 }

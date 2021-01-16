@@ -2,6 +2,7 @@ package sgtmelon.scriptum.domain.interactor.impl.main
 
 import io.mockk.coEvery
 import io.mockk.coVerifySequence
+import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -29,6 +30,11 @@ class BinInteractorTest : ParentInteractorTest() {
     @MockK lateinit var callback: IBinBridge
 
     private val interactor by lazy { BinInteractor(preferenceRepo, noteRepo, callback) }
+
+    override fun tearDown() {
+        super.tearDown()
+        confirmVerified(preferenceRepo, noteRepo, callback)
+    }
 
     @Test override fun onDestroy() {
         assertNotNull(interactor.callback)
@@ -117,5 +123,4 @@ class BinInteractorTest : ParentInteractorTest() {
             noteRepo.clearNote(item)
         }
     }
-
 }

@@ -19,5 +19,4 @@ class RollEntityTest : ParentTest() {
             assertEquals(Default.TEXT, text)
         }
     }
-
 }

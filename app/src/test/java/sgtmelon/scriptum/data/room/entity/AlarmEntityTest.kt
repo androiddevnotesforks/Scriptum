@@ -18,5 +18,4 @@ class AlarmEntityTest : ParentTest() {
             assertEquals(Default.DATE, date)
         }
     }
-
 }

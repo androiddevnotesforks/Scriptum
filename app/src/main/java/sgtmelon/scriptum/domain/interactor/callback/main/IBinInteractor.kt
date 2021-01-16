@@ -19,10 +19,10 @@ interface IBinInteractor : IParentInteractor {
 
     suspend fun clearBin()
 
-    suspend fun restoreNote(noteItem: NoteItem)
+    suspend fun restoreNote(item: NoteItem)
 
-    suspend fun copy(noteItem: NoteItem)
+    suspend fun copy(item: NoteItem)
 
-    suspend fun clearNote(noteItem: NoteItem)
+    suspend fun clearNote(item: NoteItem)
 
 }

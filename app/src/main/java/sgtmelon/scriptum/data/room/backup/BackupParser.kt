@@ -158,5 +158,4 @@ class BackupParser(
          */
         const val VERSION = 1
     }
-
 }

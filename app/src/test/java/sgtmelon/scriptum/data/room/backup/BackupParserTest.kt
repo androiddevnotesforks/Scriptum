@@ -1,11 +1,8 @@
 package sgtmelon.scriptum.data.room.backup
 
 import android.content.Context
-import io.mockk.every
+import io.mockk.*
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
-import io.mockk.spyk
-import io.mockk.verifySequence
 import org.json.JSONObject
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -45,6 +42,10 @@ class BackupParserTest : ParentBackupTest() {
     private val tagHash = nextString()
     private val tagRoom = nextString()
 
+    override fun tearDown() {
+        super.tearDown()
+        confirmVerified(context, selector)
+    }
 
     @Test fun collect() {
         val model = mockk<ParserResult>()
@@ -219,17 +220,15 @@ class BackupParserTest : ParentBackupTest() {
         }
     }
 
-
-
     /**
      * Get values from website: https://emn178.github.io/online-tools/sha256.html
      */
     @Test fun getHash() {
         val dataResultMap = mapOf(
-                "" to "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-                "Тest of SHA256." to "86cdf15b207ef2bca14242cb700f6a67038431ea3af004b2741527ee75135d4c",
-                "My name is Alexey" to "262d410b26232a1e948b317aa013b3210a324db7c442460410ec0e8ede35a990",
-                "Подушечка из манго самая мягкая" to "62b8d1d61be6acb1a76f55a4d2fd866ef8dd68cd3a6fb23b9f032b7f376f09c7"
+            "" to "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "Тest of SHA256." to "86cdf15b207ef2bca14242cb700f6a67038431ea3af004b2741527ee75135d4c",
+            "My name is Alexey" to "262d410b26232a1e948b317aa013b3210a324db7c442460410ec0e8ede35a990",
+            "Подушечка из манго самая мягкая" to "62b8d1d61be6acb1a76f55a4d2fd866ef8dd68cd3a6fb23b9f032b7f376f09c7"
         )
 
         for (it in dataResultMap) {
@@ -237,6 +236,7 @@ class BackupParserTest : ParentBackupTest() {
         }
     }
 
+    //region Private help functions
 
     /**
      * Imitate the result of collect room.
@@ -248,8 +248,10 @@ class BackupParserTest : ParentBackupTest() {
     /**
      * Imitate the backup file content.
      */
-    private fun getBackupData(hash: String, roomData: String,
-                              version: Any = BackupParser.VERSION) = JSONObject().apply {
+    private fun getBackupData(
+        hash: String, roomData: String,
+        version: Any = BackupParser.VERSION
+    ) = JSONObject().apply {
         put(tagVersion, version)
         put(tagHash, hash)
         put(tagRoom, roomData)
@@ -260,4 +262,7 @@ class BackupParserTest : ParentBackupTest() {
         every { context.getString(R.string.backup_hash) } returns tagHash
         every { context.getString(R.string.backup_room) } returns tagRoom
     }
+
+    //endregion
+
 }

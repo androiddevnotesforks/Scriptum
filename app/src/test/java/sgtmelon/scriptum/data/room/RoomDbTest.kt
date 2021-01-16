@@ -14,7 +14,7 @@ class RoomDbTest : ParentTest() {
 
     @MockK lateinit var context: Context
 
-    private val roomDb by lazy { RoomDb.get(context) }
+    private val roomDb by lazy { RoomDb[context] }
 
     @Test fun checkInsertIgnore() {
         assertNull(roomDb.checkInsertIgnore(RoomDb.UNIQUE_ERROR_ID))
