@@ -17,6 +17,7 @@ import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
 import sgtmelon.scriptum.extension.getText
 import sgtmelon.scriptum.extension.move
+import sgtmelon.scriptum.isDivideTwoEntirely
 import kotlin.random.Random
 
 /**
@@ -342,11 +343,13 @@ class NoteRepoTest : ParentRoomRepoTest() {
     // Repo work with delete functions
 
     @Test fun clearBin() = startCoTest {
+        fun indexToId(i: Int) = (i * i).toLong()
+
         val size = (5..10).random()
         val itemList = List<NoteEntity>(size) {
             mockk {
                 every { id } returns it.toLong()
-                every { rankId } returns (it * it).toLong()
+                every { rankId } returns indexToId(it)
             }
         }
 
@@ -362,10 +365,10 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
             roomProvider.openRoom()
             noteDao.get(true)
-            for ((i, it) in itemList.withIndex()) {
-                it.id
-                it.rankId
-                spyNoteRepo.clearConnection(i.toLong(), (i * i).toLong(), rankDao)
+            for ((i, item) in itemList.withIndex()) {
+                item.id
+                item.rankId
+                spyNoteRepo.clearConnection(i.toLong(), indexToId(i), rankDao)
             }
             noteDao.delete(itemList)
         }
@@ -694,15 +697,16 @@ class NoteRepoTest : ParentRoomRepoTest() {
         every { item.list } returns itemList
 
         val idSaveList = arrayListOf<Long>()
+        fun indexToId(i: Int) = (i * i).toLong()
 
         for ((i, rollItem) in itemList.withIndex()) {
-            if (i % 2 == 0) {
+            if (i.isDivideTwoEntirely()) {
                 every { rollItem.id } returns null
                 every { rollConverter.toEntity(id, rollItem) } returns entityList[i]
                 coEvery { rollDao.insert(entityList[i]) } returns idList[i]
                 every { rollItem.id = idList[i] } returns Unit
             } else {
-                val itemId = (i * i).toLong()
+                val itemId = indexToId(i)
                 idSaveList.add(itemId)
 
                 every { rollItem.id } returns itemId
@@ -725,7 +729,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
             for ((i, rollItem) in itemList.withIndex()) {
                 rollItem.id
 
-                if (i % 2 == 0) {
+                if (i.isDivideTwoEntirely()) {
                     item.id
                     rollConverter.toEntity(id, rollItem)
                     rollDao.insert(entityList[i])
@@ -734,7 +738,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
                     item.id
                     rollItem.position
                     rollItem.text
-                    rollDao.update((i * i).toLong(), positionList[i], textList[i])
+                    rollDao.update(indexToId(i), positionList[i], textList[i])
                 }
 
                 rollItem.id

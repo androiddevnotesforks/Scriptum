@@ -16,6 +16,7 @@ import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.domain.model.item.NotificationItem.Alarm
 import sgtmelon.scriptum.domain.model.item.NotificationItem.Note
 import sgtmelon.scriptum.domain.model.key.NoteType
+import sgtmelon.scriptum.isDivideTwoEntirely
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IMainBridge
 import kotlin.random.Random
 
@@ -41,7 +42,7 @@ class MainInteractorTest : ParentInteractorTest() {
         val itemList = MutableList(size = 2) {
             val id = it.toLong()
             val type = if (Random.nextBoolean()) NoteType.TEXT else NoteType.ROLL
-            val date = if (it % 2 == 0) getRandomPastTime() else getRandomFutureTime()
+            val date = if (it.isDivideTwoEntirely()) getRandomPastTime() else getRandomFutureTime()
 
             return@MutableList NotificationItem(
                     Note(id, name = "name_$it", color = it, type = type), Alarm(id, date)

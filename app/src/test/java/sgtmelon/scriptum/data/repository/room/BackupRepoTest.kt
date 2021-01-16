@@ -13,6 +13,7 @@ import sgtmelon.scriptum.domain.model.data.DbData.RollVisible
 import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.domain.model.result.ImportResult
+import sgtmelon.scriptum.isDivideTwoEntirely
 import java.util.*
 import kotlin.random.Random
 
@@ -145,7 +146,7 @@ class BackupRepoTest : ParentRoomRepoTest() {
             List(size = 5) { RollVisibleEntity(id = Random.nextLong(), noteId = secondItem.id) }
         )
         for ((i, item) in startRankList.withIndex()) {
-            if (i % 2 == 0) {
+            if (i.isDivideTwoEntirely()) {
                 val id = if (Random.nextBoolean()) firstItem.id else secondItem.id
                 item.noteId.add(id)
             }

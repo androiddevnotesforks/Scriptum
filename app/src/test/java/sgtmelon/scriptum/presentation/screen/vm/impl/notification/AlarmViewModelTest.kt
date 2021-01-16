@@ -18,6 +18,7 @@ import sgtmelon.scriptum.domain.model.data.NoteData
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.key.ColorShade
 import sgtmelon.scriptum.domain.model.state.SignalState
+import sgtmelon.scriptum.isDivideTwoEntirely
 import sgtmelon.scriptum.presentation.screen.ui.callback.notification.IAlarmActivity
 import kotlin.random.Random
 
@@ -26,6 +27,11 @@ import kotlin.random.Random
  */
 @ExperimentalCoroutinesApi
 class AlarmViewModelTest : ParentViewModelTest() {
+
+    private val firstSignal = SignalState(isMelody = false, isVibration = true)
+    private val secondSignal = SignalState(isMelody = true, isVibration = false)
+    private val repeatArray = intArrayOf(Repeat.MIN_180, Repeat.MIN_1440)
+    private val uri = "testUri"
 
     private val data = TestData.Note
 
@@ -90,7 +96,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
         val volumeIncrease = Random.nextBoolean()
 
         every { bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID) } returns id
-        coEvery { signalInteractor.getMelodyUri() } returns URI
+        coEvery { signalInteractor.getMelodyUri() } returns uri
 
         every { interactor.theme } returns theme
         every { interactor.volume } returns volume
@@ -113,7 +119,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
                 signalInteractor.getMelodyUri()
                 interactor.volume
                 interactor.volumeIncrease
-                setupPlayer(URI, volume, volumeIncrease)
+                setupPlayer(uri, volume, volumeIncrease)
             }
             signalInteractor.state
 
@@ -127,7 +133,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
                 signalInteractor.getMelodyUri()
                 interactor.volume
                 interactor.volumeIncrease
-                setupPlayer(URI, volume, volumeIncrease)
+                setupPlayer(uri, volume, volumeIncrease)
             }
             signalInteractor.state
             interactor.getModel(id)
@@ -148,7 +154,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
         val volumeIncrease = Random.nextBoolean()
 
         every { bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID) } returns id
-        coEvery { signalInteractor.getMelodyUri() } returns URI
+        coEvery { signalInteractor.getMelodyUri() } returns uri
 
         fun callOnSetup() {
             viewModel.id = NoteData.Default.ID
@@ -169,7 +175,9 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
         coVerifySequence {
             repeat(times = 2) {
-                if (it % 2 != 0) bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
+                if (!it.isDivideTwoEntirely()) {
+                    bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
+                }
 
                 callback.apply {
                     acquirePhone(AlarmViewModel.CANCEL_DELAY)
@@ -180,13 +188,13 @@ class AlarmViewModelTest : ParentViewModelTest() {
                     signalInteractor.getMelodyUri()
                     interactor.volume
                     interactor.volumeIncrease
-                    setupPlayer(URI, volume, volumeIncrease)
+                    setupPlayer(uri, volume, volumeIncrease)
                 }
                 signalInteractor.state
             }
 
             repeat(times = 2) {
-                if (it % 2 != 0) bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
+                if (!it.isDivideTwoEntirely()) bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
 
                 callback.apply {
                     acquirePhone(AlarmViewModel.CANCEL_DELAY)
@@ -197,10 +205,10 @@ class AlarmViewModelTest : ParentViewModelTest() {
                     signalInteractor.getMelodyUri()
                     interactor.volume
                     interactor.volumeIncrease
-                    setupPlayer(URI, volume, volumeIncrease)
+                    setupPlayer(uri, volume, volumeIncrease)
                 }
                 signalInteractor.state
-                if (it % 2 == 0) {
+                if (it.isDivideTwoEntirely()) {
                     interactor.getModel(NoteData.Default.ID)
                 } else {
                     interactor.getModel(id)
@@ -401,15 +409,4 @@ class AlarmViewModelTest : ParentViewModelTest() {
         assertEquals(ColorShade.DARK, viewModel.getRippleShade(Theme.DARK))
         assertEquals(ColorShade.DARK, viewModel.getRippleShade(Random.nextInt()))
     }
-
-
-    private val firstSignal = SignalState(isMelody = false, isVibration = true)
-    private val secondSignal = SignalState(isMelody = true, isVibration = false)
-
-    private val repeatArray = intArrayOf(Repeat.MIN_180, Repeat.MIN_1440)
-
-    companion object {
-        private const val URI = "testUri"
-    }
-
 }

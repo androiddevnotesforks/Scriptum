@@ -11,10 +11,10 @@ import sgtmelon.scriptum.data.room.converter.model.RankConverter
 import sgtmelon.scriptum.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.data.room.entity.NoteEntity
 import sgtmelon.scriptum.data.room.entity.RankEntity
-import sgtmelon.scriptum.domain.model.data.DbData
 import sgtmelon.scriptum.domain.model.data.DbData.Note
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RankItem
+import sgtmelon.scriptum.isDivideTwoEntirely
 import kotlin.random.Random
 
 /**
@@ -170,7 +170,6 @@ class RankRepoTest : ParentRoomRepoTest() {
         }
     }
 
-    @Suppress("RemoveExplicitTypeArguments")
     @Test fun insert_byItem() = startCoTest {
         val rankItem = mockk<RankItem>()
         val rankEntity = mockk<RankEntity>()
@@ -235,7 +234,7 @@ class RankRepoTest : ParentRoomRepoTest() {
         every { item.name } returns name
 
         for ((i, id) in idList.withIndex()) {
-            val isValid = i % 2 != 0
+            val isValid = i.isDivideTwoEntirely()
 
             coEvery { noteDao.get(id) } returns if (isValid) entityList[i] else null
 
@@ -252,7 +251,7 @@ class RankRepoTest : ParentRoomRepoTest() {
             item.noteId
 
             for ((i, id) in idList.withIndex()) {
-                val isValid = i % 2 != 0
+                val isValid = i.isDivideTwoEntirely()
 
                 noteDao.get(id)
 
@@ -339,7 +338,7 @@ class RankRepoTest : ParentRoomRepoTest() {
         for ((i, entity) in entityList.withIndex()) {
             every { list[i].id } returns rankIdList[i]
 
-            val isFind = i % 2 != 0
+            val isFind = i.isDivideTwoEntirely()
             every { entity.rankId } returns if (isFind) rankIdList[i] else -1
             if (isFind) {
                 every { list[i].position } returns rankPsList[i]
@@ -356,7 +355,7 @@ class RankRepoTest : ParentRoomRepoTest() {
             noteDao.get(noteIdList)
 
             for ((i, entity) in entityList.withIndex()) {
-                val isFind = i % 2 != 0
+                val isFind = i.isDivideTwoEntirely()
 
                 for ((j, item) in list.withIndex()) {
                     item.id
@@ -513,7 +512,7 @@ class RankRepoTest : ParentRoomRepoTest() {
         val nameList = List(size) { nextString() }
         val nameArray = nameList.toTypedArray()
 
-        coEvery { rankDao.getNameList() } returns nameList.subList(1, 5)
+        coEvery { rankDao.getNameList() } returns nameList.takeLast(n = size - 1)
 
         assertArrayEquals(nameArray, rankRepo.getDialogItemArray(nameList.first()))
 
@@ -524,10 +523,10 @@ class RankRepoTest : ParentRoomRepoTest() {
     }
 
     @Test fun getId() = startCoTest {
-        val defaultId = DbData.Note.Default.RANK_ID
+        val defaultId = Note.Default.RANK_ID
         val id = Random.nextLong()
 
-        val defaultPosition = DbData.Note.Default.RANK_PS
+        val defaultPosition = Note.Default.RANK_PS
         val position = Random.nextInt()
 
         assertEquals(defaultId, rankRepo.getId(defaultPosition))
