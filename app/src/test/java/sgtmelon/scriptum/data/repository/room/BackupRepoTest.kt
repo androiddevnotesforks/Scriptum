@@ -343,5 +343,4 @@ class BackupRepoTest : ParentRoomRepoTest() {
             item.id = newId
         }
     }
-
 }

@@ -12,6 +12,16 @@ import sgtmelon.scriptum.data.room.converter.type.StringConverter
  */
 class StringConverterTest : ParentTest() {
 
+    //region Data
+
+    private val firstList: List<Long> = arrayListOf(1, 2, 3, 4, 5)
+    private val secondList: List<Long> = arrayListOf()
+
+    private val firstString = "1, 2, 3, 4, 5"
+    private val secondString = StringConverter.NONE
+
+    //endregion
+
     private val converter = StringConverter()
 
     @Test fun toList() {
@@ -29,13 +39,4 @@ class StringConverterTest : ParentTest() {
 
         assertNotEquals(secondString, converter.toString(firstList))
     }
-
-    private val firstList: List<Long> = arrayListOf(1, 2, 3, 4, 5)
-    private val secondList: List<Long> = arrayListOf()
-
-    companion object {
-        private const val firstString = "1, 2, 3, 4, 5"
-        private const val secondString = StringConverter.NONE
-    }
-
 }

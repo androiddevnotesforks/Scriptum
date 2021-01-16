@@ -914,5 +914,4 @@ class NoteRepoTest : ParentRoomRepoTest() {
             rollVisibleDao.get(noteIdList)
         }
     }
-
 }

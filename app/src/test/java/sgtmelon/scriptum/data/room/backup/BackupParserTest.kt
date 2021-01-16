@@ -260,5 +260,4 @@ class BackupParserTest : ParentBackupTest() {
         every { context.getString(R.string.backup_hash) } returns tagHash
         every { context.getString(R.string.backup_room) } returns tagRoom
     }
-
 }

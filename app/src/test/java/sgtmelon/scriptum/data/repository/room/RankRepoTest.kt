@@ -559,5 +559,4 @@ class RankRepoTest : ParentRoomRepoTest() {
             rankDao.get()
         }
     }
-
 }

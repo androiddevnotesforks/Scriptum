@@ -54,5 +54,4 @@ class BindRepoTest : ParentRoomRepoTest() {
             alarmDao.getCount()
         }
     }
-
 }

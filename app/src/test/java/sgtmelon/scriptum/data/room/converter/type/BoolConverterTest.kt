@@ -21,5 +21,4 @@ class BoolConverterTest : ParentTest() {
         assertFalse(converter.toBool(value = 0))
         assertFalse(converter.toBool(value = -1))
     }
-
 }

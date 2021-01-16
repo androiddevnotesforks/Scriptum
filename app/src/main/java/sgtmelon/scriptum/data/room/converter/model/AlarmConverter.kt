@@ -9,5 +9,4 @@ import sgtmelon.scriptum.domain.model.item.NoteItem
 class AlarmConverter {
 
     fun toEntity(item: NoteItem) = with(item) { AlarmEntity(alarmId, id, alarmDate) }
-
 }

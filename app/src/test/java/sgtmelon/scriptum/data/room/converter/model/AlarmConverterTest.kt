@@ -11,13 +11,15 @@ import sgtmelon.scriptum.domain.model.item.NoteItem
  */
 class AlarmConverterTest : ParentTest() {
 
-    private val converter = AlarmConverter()
-    
-    @Test fun toEntity() {
-        assertEquals(entity, converter.toEntity(item))
-    }
+    //region Data
 
-    private val item = NoteItem.Text(id = 10, create = "123", color = 0, alarmId = 5, alarmDate = "12345")
+    private val item = NoteItem.Text(id = 1, create = "123", color = 0, alarmId = 5, alarmDate = "12345")
     private val entity = AlarmEntity(id = 5, noteId = 10, date = "12345")
+
+    //endregion
+
+    private val converter = AlarmConverter()
+
+    @Test fun toEntity() = assertEquals(entity, converter.toEntity(item))
 
 }

@@ -490,5 +490,4 @@ class PreferenceRepoTest : ParentTest() {
             preferencesEditor.apply()
         }
     }
-
 }

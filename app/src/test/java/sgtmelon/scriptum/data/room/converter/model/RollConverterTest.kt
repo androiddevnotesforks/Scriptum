@@ -11,6 +11,18 @@ import sgtmelon.scriptum.domain.model.item.RollItem
  */
 class RollConverterTest : ParentTest() {
 
+    //region Data
+
+    private val noteId = 1L
+
+    private val firstEntity = RollEntity(id = 1, noteId = noteId, position = 0, isCheck = true, text = "123")
+    private val secondEntity = RollEntity(id = 2, noteId = noteId, position = 1, text = "234")
+
+    private val firstItem = RollItem(id = 1, position = 0, isCheck = true, text = "123")
+    private val secondItem = RollItem(id = 2, position = 1, text = "234")
+
+    //endregion
+
     private val converter = RollConverter()
 
     @Test fun toItem() {
@@ -32,15 +44,4 @@ class RollConverterTest : ParentTest() {
 
         assertEquals(entityList, converter.toEntity(noteId, itemList))
     }
-
-    private val firstEntity = RollEntity(id = 1, noteId = noteId, position = 0, isCheck = true, text = "123")
-    private val secondEntity = RollEntity(id = 2, noteId = noteId, position = 1, text = "234")
-
-    private val firstItem = RollItem(id = 1, position = 0, isCheck = true, text = "123")
-    private val secondItem = RollItem(id = 2, position = 1, text = "234")
-
-    companion object {
-        private const val noteId = 1L
-    }
-
 }

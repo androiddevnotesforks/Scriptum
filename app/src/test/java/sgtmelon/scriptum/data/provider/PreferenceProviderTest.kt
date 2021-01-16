@@ -146,5 +146,4 @@ class PreferenceProviderTest : ParentTest() {
             resources.getBoolean(R.bool.pref_alarm_increase)
         }
     }
-
 }

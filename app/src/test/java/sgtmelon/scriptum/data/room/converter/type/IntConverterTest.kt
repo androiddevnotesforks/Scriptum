@@ -11,6 +11,19 @@ import sgtmelon.scriptum.ParentTest
  */
 class IntConverterTest : ParentTest() {
 
+    //region Data
+
+    private val zeroArray = booleanArrayOf(F, F, F)
+    private val oneArray = booleanArrayOf(T, F, F)
+    private val troArray = booleanArrayOf(F, T, F)
+    private val threeArray = booleanArrayOf(T, T, F)
+    private val fourArray = booleanArrayOf(F, F, T)
+    private val fiveArray = booleanArrayOf(T, F, T)
+    private val sixArray = booleanArrayOf(F, T, T)
+    private val sevenArray = booleanArrayOf(T, T, T)
+
+    //endregion
+
     private val converter = IntConverter()
 
     @Test fun toInt() = with(converter) {
@@ -55,19 +68,8 @@ class IntConverterTest : ParentTest() {
         assertEquals(toInt(toArray(value = -7)), 7)
     }
 
-
-    private val zeroArray = booleanArrayOf(F, F, F)
-    private val oneArray = booleanArrayOf(T, F, F)
-    private val troArray = booleanArrayOf(F, T, F)
-    private val threeArray = booleanArrayOf(T, T, F)
-    private val fourArray = booleanArrayOf(F, F, T)
-    private val fiveArray = booleanArrayOf(T, F, T)
-    private val sixArray = booleanArrayOf(F, T, T)
-    private val sevenArray = booleanArrayOf(T, T, T)
-
     companion object {
         private const val F = false
         private const val T = true
     }
-
 }

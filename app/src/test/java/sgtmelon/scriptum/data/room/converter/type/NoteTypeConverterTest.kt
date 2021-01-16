@@ -23,5 +23,4 @@ class NoteTypeConverterTest : ParentTest() {
         assertEquals(NoteType.TEXT, converter.toEnum(noteType = 0))
         assertEquals(NoteType.ROLL, converter.toEnum(noteType = 1))
     }
-
 }

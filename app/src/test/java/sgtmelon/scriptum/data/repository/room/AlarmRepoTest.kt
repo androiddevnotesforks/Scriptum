@@ -121,5 +121,4 @@ class AlarmRepoTest : ParentRoomRepoTest() {
             alarmDao.get(noteIdList)
         }
     }
-
 }
