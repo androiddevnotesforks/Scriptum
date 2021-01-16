@@ -14,18 +14,17 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.main.IMainViewModel
  * Interactor for [IMainViewModel].
  */
 class MainInteractor(
-        private val alarmRepo: IAlarmRepo,
-        @RunPrivate var callback: IMainBridge?
+    private val alarmRepo: IAlarmRepo,
+    @RunPrivate var callback: IMainBridge?
 ) : ParentInteractor(),
-        IMainInteractor {
+    IMainInteractor {
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy { callback = null }
 
-
     override suspend fun tidyUpAlarm() {
         for (it in alarmRepo.getList()) {
-            val calendar = it.alarm.date.getCalendar()
             val id = it.note.id
+            val calendar = it.alarm.date.getCalendar()
 
             if (calendar.beforeNow()) {
                 runMain { callback?.cancelAlarm(id) }
@@ -35,5 +34,4 @@ class MainInteractor(
             }
         }
     }
-
 }

@@ -48,7 +48,7 @@ class RankRepoTest : ParentRoomRepoTest() {
 
     @Test fun getList() = startCoTest {
         val entityList = mockk<List<RankEntity>>()
-        val size = (5..10).random()
+        val size = getRandomSize()
         val itemList = MutableList<RankItem>(size) { mockk() }
 
         val noteIdList = List<MutableList<Long>>(size) { mockk() }
@@ -106,7 +106,7 @@ class RankRepoTest : ParentRoomRepoTest() {
 
     @Test fun getBind() = startCoTest {
         val idList = mockk<List<Long>>()
-        val size = (5..10).random()
+        val size = getRandomSize()
         val entityList = List<NoteEntity>(size) { mockk() }
         val isStatusList = List(size) { Random.nextBoolean() }
 
@@ -174,7 +174,7 @@ class RankRepoTest : ParentRoomRepoTest() {
         val rankItem = mockk<RankItem>()
         val rankEntity = mockk<RankEntity>()
 
-        val size = (5..10).random()
+        val size = getRandomSize()
         val idList = MutableList(size) { Random.nextLong() }
         val id = Random.nextLong()
         val position = Random.nextInt()
@@ -225,7 +225,7 @@ class RankRepoTest : ParentRoomRepoTest() {
 
     @Test fun delete() = startCoTest {
         val item = mockk<RankItem>()
-        val size = (5..10).random()
+        val size = getRandomSize()
         val idList = MutableList(size) { Random.nextLong() }
         val entityList = List<NoteEntity>(size) { mockk() }
         val name = nextString()
@@ -321,7 +321,7 @@ class RankRepoTest : ParentRoomRepoTest() {
     }
 
     @Test fun updateRankPosition() = startCoTest {
-        val size = (5..10).random()
+        val size = getRandomSize()
         val list = List<RankItem>(size) { mockk() }
         val noteIdList = mockk<List<Long>>()
 
@@ -380,7 +380,7 @@ class RankRepoTest : ParentRoomRepoTest() {
         val rankId = Random.nextLong()
         val getList = mockk<List<RankEntity>>()
         val updateList = mockk<List<RankEntity>>()
-        val size = (5..10).random()
+        val size = getRandomSize()
         val checkArray = BooleanArray(size) { Random.nextBoolean() }
 
         every { noteItem.id } returns id
@@ -508,7 +508,7 @@ class RankRepoTest : ParentRoomRepoTest() {
 
 
     @Test fun getDialogItemArray() = startCoTest {
-        val size = (5..10).random()
+        val size = getRandomSize()
         val nameList = List(size) { nextString() }
         val nameArray = nameList.toTypedArray()
 

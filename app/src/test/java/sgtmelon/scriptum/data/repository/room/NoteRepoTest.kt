@@ -5,9 +5,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.extension.nextString
-import sgtmelon.scriptum.FastMock
-import sgtmelon.scriptum.ParentRoomRepoTest
-import sgtmelon.scriptum.TestData
+import sgtmelon.scriptum.*
 import sgtmelon.scriptum.data.room.IRoomWork
 import sgtmelon.scriptum.data.room.converter.model.NoteConverter
 import sgtmelon.scriptum.data.room.converter.model.RollConverter
@@ -17,7 +15,6 @@ import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
 import sgtmelon.scriptum.extension.getText
 import sgtmelon.scriptum.extension.move
-import sgtmelon.scriptum.isDivideTwoEntirely
 import kotlin.random.Random
 
 /**
@@ -71,7 +68,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
         val isBin = Random.nextBoolean()
         val isOptimal = Random.nextBoolean()
 
-        val size = (5..10).random()
+        val size = getRandomSize()
         val entityList = List<NoteEntity>(size) { mockk() }
         val itemList = MutableList<NoteItem>(size) { mockk() }
 
@@ -144,7 +141,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
     }
 
     @Test fun filterVisible() = startCoTest {
-        val size = (5..10).random()
+        val size = getRandomSize()
         val entityList = List<NoteEntity>(size) { mockk() }
         val itemList = List<NoteItem>(size) { mockk() }
 
@@ -310,7 +307,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
     // Repo other functions
 
     @Test fun isListHide() = startCoTest {
-        val size = (5..10).random()
+        val size = getRandomSize()
         val idList = List(size) { Random.nextLong() }
         val entityList = MutableList<NoteEntity>(size) { mockk() }
         val itemList = MutableList<NoteItem>(size) { mockk() }
@@ -345,7 +342,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
     @Test fun clearBin() = startCoTest {
         fun indexToId(i: Int) = (i * i).toLong()
 
-        val size = (5..10).random()
+        val size = getRandomSize()
         val itemList = List<NoteEntity>(size) {
             mockk {
                 every { id } returns it.toLong()
@@ -642,7 +639,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
         val entity = mockk<NoteEntity>()
 
         val id = Random.nextLong()
-        val size = (5..10).random()
+        val size = getRandomSize()
         val itemList = MutableList<RollItem>(size) { mockk() }
         val entityList = MutableList<RollEntity>(size) { mockk() }
         val idList = List(size) { Random.nextLong() }
@@ -685,7 +682,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
         val entity = mockk<NoteEntity>()
 
         val id = Random.nextLong()
-        val size = (5..10).random()
+        val size = getRandomSize()
         val itemList = MutableList<RollItem>(size) { mockk() }
         val entityList = MutableList<RollEntity>(size) { mockk() }
         val idList = List(size) { Random.nextLong() }

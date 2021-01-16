@@ -1,23 +1,23 @@
 package sgtmelon.scriptum.domain.interactor.impl.main
 
-import io.mockk.coEvery
-import io.mockk.coVerifySequence
+import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Test
+import sgtmelon.extension.beforeNow
 import sgtmelon.extension.getCalendar
-import sgtmelon.extension.getRandomFutureTime
-import sgtmelon.extension.getRandomPastTime
+import sgtmelon.extension.nextString
+import sgtmelon.scriptum.FastMock
 import sgtmelon.scriptum.ParentInteractorTest
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.domain.model.item.NotificationItem.Alarm
 import sgtmelon.scriptum.domain.model.item.NotificationItem.Note
-import sgtmelon.scriptum.domain.model.key.NoteType
-import sgtmelon.scriptum.isDivideTwoEntirely
+import sgtmelon.scriptum.getRandomSize
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IMainBridge
+import java.util.*
 import kotlin.random.Random
 
 /**
@@ -31,39 +31,61 @@ class MainInteractorTest : ParentInteractorTest() {
 
     private val interactor by lazy { MainInteractor(alarmRepo, callback) }
 
+    override fun tearDown() {
+        super.tearDown()
+        confirmVerified(alarmRepo, callback)
+    }
+
     @Test override fun onDestroy() {
         assertNotNull(interactor.callback)
         interactor.onDestroy()
         assertNull(interactor.callback)
     }
 
-
     @Test fun tidyUpAlarm() = startCoTest {
-        val itemList = MutableList(size = 2) {
-            val id = it.toLong()
-            val type = if (Random.nextBoolean()) NoteType.TEXT else NoteType.ROLL
-            val date = if (it.isDivideTwoEntirely()) getRandomPastTime() else getRandomFutureTime()
+        val size = getRandomSize()
+        val list = MutableList<NotificationItem>(size) { mockk() }
+        val noteList = List<Note>(size) { mockk() }
+        val idList = List(size) { Random.nextLong() }
+        val alarmList = List<Alarm>(size) { mockk() }
+        val dateList = List(size) { nextString() }
+        val calendarList = List<Calendar>(size) { mockk() }
+        val beforeList = List(size) { Random.nextBoolean() }
 
-            return@MutableList NotificationItem(
-                    Note(id, name = "name_$it", color = it, type = type), Alarm(id, date)
-            )
+        FastMock.timeExtension()
+
+        coEvery { alarmRepo.getList() } returns list
+
+        for ((i, item) in list.withIndex()) {
+            every { item.note } returns noteList[i]
+            every { noteList[i].id } returns idList[i]
+            every { item.alarm } returns alarmList[i]
+            every { alarmList[i].date } returns dateList[i]
+            every { dateList[i].getCalendar() } returns calendarList[i]
+            every { calendarList[i].beforeNow() } returns beforeList[i]
         }
 
-        coEvery { alarmRepo.getList() } returns  itemList
         interactor.tidyUpAlarm()
 
         coVerifySequence {
             alarmRepo.getList()
 
-            itemList.first().note.id.let {
-                callback.cancelAlarm(it)
-                alarmRepo.delete(it)
-            }
+            for ((i, item) in list.withIndex()) {
+                item.note
+                noteList[i].id
 
-            itemList.last().let {
-                callback.setAlarm(it.alarm.date.getCalendar(), it.note.id)
+                item.alarm
+                alarmList[i].date
+                dateList[i].getCalendar()
+
+                calendarList[i].beforeNow()
+                if (beforeList[i]) {
+                    callback.cancelAlarm(idList[i])
+                    alarmRepo.delete(idList[i])
+                } else {
+                    callback.setAlarm(calendarList[i], idList[i])
+                }
             }
         }
     }
-
 }
