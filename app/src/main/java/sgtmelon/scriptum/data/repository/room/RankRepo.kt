@@ -9,7 +9,7 @@ import sgtmelon.scriptum.data.room.dao.INoteDao
 import sgtmelon.scriptum.data.room.entity.NoteEntity
 import sgtmelon.scriptum.data.room.entity.RankEntity
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
-import sgtmelon.scriptum.domain.model.data.DbData
+import sgtmelon.scriptum.domain.model.data.DbData.Note
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RankItem
 
@@ -17,10 +17,10 @@ import sgtmelon.scriptum.domain.model.item.RankItem
  * Repository of [RoomDb] for work with ranks.
  */
 class RankRepo(
-        override val roomProvider: RoomProvider,
-        private val converter: RankConverter
+    override val roomProvider: RoomProvider,
+    private val converter: RankConverter
 ) : IRankRepo,
-        IRoomWork {
+    IRoomWork {
 
     override suspend fun getCount(): Int = takeFromRoom { rankDao.getCount() }
 
@@ -35,8 +35,11 @@ class RankRepo(
         return@takeFromRoom list
     }
 
-    override suspend fun getBind(noteId: List<Long>): Boolean = takeFromRoom {
-        noteDao.get(noteId).any { it.isStatus }
+    /**
+     * TODO similar func in [getList]. Make optimisation. Also see [IRoomWork]
+     */
+    override suspend fun getBind(idList: List<Long>): Boolean = takeFromRoom {
+        noteDao.get(idList).any { it.isStatus }
     }
 
     /**
@@ -53,66 +56,68 @@ class RankRepo(
         return@takeFromRoom checkInsertIgnore(id)
     }
 
-    override suspend fun insert(rankItem: RankItem) = inRoom {
-        for (id in rankItem.noteId) {
+    override suspend fun insert(item: RankItem) = inRoom {
+        for (id in item.noteId) {
             /**
              * Remove rank from note.
              */
             val noteEntity = noteDao.get(id)?.apply {
-                rankId = rankItem.id
-                rankPs = rankItem.position
+                rankId = item.id
+                rankPs = item.position
             } ?: continue
 
             noteDao.update(noteEntity)
         }
 
         /**
-         * Id after insert will be the same, like in [rankItem].
+         * Id after insert will be the same, like in [item].
          */
-        rankDao.insert(converter.toEntity(rankItem))
+        rankDao.insert(converter.toEntity(item))
     }
 
-    override suspend fun delete(rankItem: RankItem) = inRoom {
-        for (id in rankItem.noteId) {
+    override suspend fun delete(item: RankItem) = inRoom {
+        for (id in item.noteId) {
             /**
              * Remove rank from note.
              */
             val noteEntity = noteDao.get(id)?.apply {
-                rankId = DbData.Note.Default.RANK_ID
-                rankPs = DbData.Note.Default.RANK_PS
+                rankId = Note.Default.RANK_ID
+                rankPs = Note.Default.RANK_PS
             } ?: continue
 
             noteDao.update(noteEntity)
         }
 
-        rankDao.delete(rankItem.name)
+        rankDao.delete(item.name)
     }
 
-    override suspend fun update(rankItem: RankItem) = inRoom {
-        rankDao.update(converter.toEntity(rankItem))
+    override suspend fun update(item: RankItem) = inRoom {
+        rankDao.update(converter.toEntity(item))
     }
 
-    override suspend fun update(rankList: List<RankItem>) = inRoom {
-        rankDao.update(converter.toEntity(rankList))
+    override suspend fun update(list: List<RankItem>) = inRoom {
+        rankDao.update(converter.toEntity(list))
     }
 
-    override suspend fun updatePosition(rankList: List<RankItem>,
-                                        noteIdList: List<Long>) = inRoom {
-        updateRankPosition(noteDao, rankList, noteIdList)
-        rankDao.update(converter.toEntity(rankList))
+    override suspend fun updatePosition(list: List<RankItem>, idList: List<Long>) = inRoom {
+        updateRankPosition(list, idList, noteDao)
+        rankDao.update(converter.toEntity(list))
     }
 
     /**
-     * Update [NoteEntity.rankPs] for notes from [noteIdList] which related with [rankList].
+     * Update [NoteEntity.rankPs] for notes from [idList] which related with [list].
      */
     @RunPrivate
-    suspend fun updateRankPosition(noteDao: INoteDao, rankList: List<RankItem>,
-                                   noteIdList: List<Long>) {
-        if (noteIdList.isEmpty()) return
+    suspend fun updateRankPosition(
+        list: List<RankItem>,
+        idList: List<Long>,
+        noteDao: INoteDao
+    ) {
+        if (idList.isEmpty()) return
 
-        val noteList = noteDao.get(noteIdList)
+        val noteList = noteDao.get(idList)
         for (entity in noteList) {
-            entity.rankPs = rankList.firstOrNull { it.id == entity.rankId }?.position ?: continue
+            entity.rankPs = list.firstOrNull { it.id == entity.rankId }?.position ?: continue
         }
 
         noteDao.update(noteList)
@@ -122,11 +127,11 @@ class RankRepo(
     /**
      * Add [NoteEntity.id] to [RankEntity.noteId] or remove after some changes.
      */
-    override suspend fun updateConnection(noteItem: NoteItem) = inRoom {
+    override suspend fun updateConnection(item: NoteItem) = inRoom {
         val list = rankDao.get()
-        val checkArray = calculateCheckArray(list, noteItem.rankId)
+        val checkArray = calculateCheckArray(list, item.rankId)
 
-        rankDao.update(updateNoteId(list, checkArray, noteItem.id))
+        rankDao.update(updateNoteId(list, checkArray, item.id))
     }
 
     @RunPrivate
@@ -173,10 +178,10 @@ class RankRepo(
      * Return rank id by [position].
      */
     override suspend fun getId(position: Int): Long {
-        return if (position == DbData.Note.Default.RANK_PS) {
-            DbData.Note.Default.RANK_ID
+        return if (position == Note.Default.RANK_PS) {
+            Note.Default.RANK_ID
         } else {
-            takeFromRoom { rankDao.getId(position) ?: DbData.Note.Default.RANK_ID }
+            takeFromRoom { rankDao.getId(position) ?: Note.Default.RANK_ID }
         }
     }
 

@@ -40,8 +40,8 @@ class RankInteractor(
 
     override suspend fun update(list: List<RankItem>) = rankRepo.update(list)
 
-    override suspend fun updatePosition(list: List<RankItem>, noteIdList: List<Long>) {
-        rankRepo.updatePosition(list, noteIdList)
+    override suspend fun updatePosition(list: List<RankItem>, idList: List<Long>) {
+        rankRepo.updatePosition(list, idList)
     }
 
 }

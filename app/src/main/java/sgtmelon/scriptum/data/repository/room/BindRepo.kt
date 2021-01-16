@@ -11,8 +11,9 @@ import sgtmelon.scriptum.data.room.RoomDb
 class BindRepo(override val roomProvider: RoomProvider) : IBindRepo, IRoomWork {
 
     override suspend fun unbindNote(id: Long): Boolean = takeFromRoom {
-        val noteEntity = noteDao.get(id)?.apply { isStatus = false }
+        val noteEntity = noteDao.get(id)
 
+        noteEntity?.isStatus = false
         if (noteEntity != null) {
             noteDao.update(noteEntity)
         }

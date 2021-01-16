@@ -7,12 +7,12 @@ import org.junit.Test
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentRoomRepoTest
 import sgtmelon.scriptum.TestData
-import sgtmelon.scriptum.data.room.converter.model.NoteConverter
 import sgtmelon.scriptum.data.room.converter.model.RankConverter
 import sgtmelon.scriptum.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.data.room.entity.NoteEntity
 import sgtmelon.scriptum.data.room.entity.RankEntity
 import sgtmelon.scriptum.domain.model.data.DbData
+import sgtmelon.scriptum.domain.model.data.DbData.Note
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RankItem
 import kotlin.random.Random
@@ -28,6 +28,11 @@ class RankRepoTest : ParentRoomRepoTest() {
     private val rankRepo by lazy { RankRepo(roomProvider, converter) }
     private val spyRankRepo by lazy { spyk(rankRepo) }
 
+    override fun tearDown() {
+        super.tearDown()
+        confirmVerified(converter)
+    }
+
     @Test fun getCount() = startCoTest {
         val count = Random.nextInt()
 
@@ -42,76 +47,92 @@ class RankRepoTest : ParentRoomRepoTest() {
     }
 
     @Test fun getList() = startCoTest {
-        val finishRankList = TestData.Rank.itemList.apply {
-            for ((i, it) in withIndex()) {
-                it.hasBind = i % 2 == 0
-                it.hasNotification = i % 2 == 0
-            }
-        }
+        val entityList = mockk<List<RankEntity>>()
+        val size = (5..10).random()
+        val itemList = MutableList<RankItem>(size) { mockk() }
 
-        val entityList = RankConverter().toEntity(finishRankList)
-        val itemList = RankConverter().toItem(entityList)
+        val noteIdList = List<MutableList<Long>>(size) { mockk() }
+        val noteEntityList = List(size) { List<NoteEntity>(size) { mockk() } }
+        val isStatusList = List(size) { List(size) { Random.nextBoolean() } }
+        val alarmEntityList = List<List<AlarmEntity>>(size) { mockk() }
+        val isEmptyList = List(size) { Random.nextBoolean() }
 
-        val data = TestData.Note
-        val bindList = with(NoteConverter()) {
-            listOf(toEntity(data.firstNote), toEntity(data.secondNote))
-        }
-        val notBindList = with(NoteConverter()) {
-            listOf(toEntity(data.firstNote), toEntity(data.thirdNote))
-        }
-
-        val alarmList = listOf(AlarmEntity())
-
-        every { converter.toItem(entityList) } returns itemList
         coEvery { rankDao.get() } returns entityList
+        every { converter.toItem(entityList) } returns itemList
 
-        for ((i, it) in entityList.withIndex()) {
-            coEvery { noteDao.get(it.noteId) } returns if (i % 2 == 0) bindList else notBindList
-            coEvery { alarmDao.get(it.noteId) } returns if (i % 2 == 0) alarmList else listOf()
+        for ((i, item) in itemList.withIndex()) {
+            every { item.noteId } returns noteIdList[i]
+            coEvery { noteDao.get(noteIdList[i]) } returns noteEntityList[i]
+
+            for ((j, entity) in noteEntityList[i].withIndex()) {
+                every { entity.isStatus } returns isStatusList[i][j]
+            }
+            every { item.hasBind = any() } returns Unit
+
+            coEvery { alarmDao.get(noteIdList[i]) } returns alarmEntityList[i]
+            every { alarmEntityList[i].isEmpty() } returns isEmptyList[i]
+            every { item.hasNotification = !isEmptyList[i] } returns Unit
         }
 
-        assertEquals(finishRankList, rankRepo.getList())
+        assertEquals(itemList, rankRepo.getList())
 
         coVerifySequence {
             roomProvider.openRoom()
             rankDao.get()
             converter.toItem(entityList)
-            for (it in entityList) {
-                noteDao.get(it.noteId)
-                alarmDao.get(it.noteId)
+
+            for ((i, item) in itemList.withIndex()) {
+                item.noteId
+                noteDao.get(noteIdList[i])
+
+                var hasBind = false
+                for ((j, entity) in noteEntityList[i].withIndex()) {
+                    entity.isStatus
+
+                    if (isStatusList[i][j]) {
+                        hasBind = true
+                        break
+                    }
+                }
+                item.hasBind = hasBind
+
+                item.noteId
+                alarmDao.get(noteIdList[i])
+                alarmEntityList[i].isEmpty()
+                item.hasNotification = !isEmptyList[i]
             }
         }
     }
 
     @Test fun getBind() = startCoTest {
-        val bindIdList = List(size = 5) { Random.nextLong() }
-        val notBindIdList = List(size = 2) { Random.nextLong() }
+        val idList = mockk<List<Long>>()
+        val size = (5..10).random()
+        val entityList = List<NoteEntity>(size) { mockk() }
+        val isStatusList = List(size) { Random.nextBoolean() }
 
-        val data = TestData.Note
-        val bindList = with(NoteConverter()) {
-            listOf(toEntity(data.firstNote), toEntity(data.secondNote))
+        coEvery { noteDao.get(idList) } returns entityList
+        for ((i, entity) in entityList.withIndex()) {
+            every { entity.isStatus } returns isStatusList[i]
         }
-        val notBindList = with(NoteConverter()) {
-            listOf(toEntity(data.firstNote), toEntity(data.thirdNote))
-        }
 
-        coEvery { noteDao.get(bindIdList) } returns bindList
-        coEvery { noteDao.get(notBindIdList) } returns notBindList
-
-        assertEquals(true, rankRepo.getBind(bindIdList))
-        assertEquals(false, rankRepo.getBind(notBindIdList))
+        assertEquals(isStatusList.any { it }, rankRepo.getBind(idList))
 
         coVerifySequence {
             roomProvider.openRoom()
-            noteDao.get(bindIdList)
+            noteDao.get(idList)
 
-            roomProvider.openRoom()
-            noteDao.get(notBindIdList)
+            for ((i, entity) in entityList.withIndex()) {
+                entity.isStatus
+
+                if (isStatusList[i]) {
+                    break
+                }
+            }
         }
     }
 
     @Test fun getIdVisibleList() = startCoTest {
-        val idVisibleList = List(size = 10) { Random.nextLong() }
+        val idVisibleList = mockk<List<Long>>()
 
         coEvery { rankDao.getIdVisibleList() } returns idVisibleList
 
@@ -154,11 +175,12 @@ class RankRepoTest : ParentRoomRepoTest() {
         val rankItem = mockk<RankItem>()
         val rankEntity = mockk<RankEntity>()
 
-        val idList = MutableList(size = 5) { Random.nextLong() }
+        val size = (5..10).random()
+        val idList = MutableList(size) { Random.nextLong() }
         val id = Random.nextLong()
         val position = Random.nextInt()
 
-        val noteEntityList: MutableList<NoteEntity?> = MutableList(size = 5) {
+        val noteEntityList: MutableList<NoteEntity?> = MutableList(size) {
             if (it == 0) null else mockk<NoteEntity>()
         }
 
@@ -202,31 +224,53 @@ class RankRepoTest : ParentRoomRepoTest() {
         }
     }
 
-
     @Test fun delete() = startCoTest {
-        val item = TestData.Rank.firstRank
-        val entity = NoteConverter().toEntity(TestData.Note.firstNote)
+        val item = mockk<RankItem>()
+        val size = (5..10).random()
+        val idList = MutableList(size) { Random.nextLong() }
+        val entityList = List<NoteEntity>(size) { mockk() }
+        val name = nextString()
 
-        coEvery { noteDao.get(item.noteId.first()) } returns null
-        coEvery { noteDao.get(item.noteId.last()) } returns entity
+        every { item.noteId } returns idList
+        every { item.name } returns name
+
+        for ((i, id) in idList.withIndex()) {
+            val isValid = i % 2 != 0
+
+            coEvery { noteDao.get(id) } returns if (isValid) entityList[i] else null
+
+            if (isValid) {
+                every { entityList[i].rankId = Note.Default.RANK_ID } returns Unit
+                every { entityList[i].rankPs = Note.Default.RANK_PS } returns Unit
+            }
+        }
 
         rankRepo.delete(item)
 
-        assertEquals(DbData.Note.Default.RANK_ID, entity.rankId)
-        assertEquals(DbData.Note.Default.RANK_PS, entity.rankPs)
-
         coVerifySequence {
             roomProvider.openRoom()
-            noteDao.get(item.noteId.first())
-            noteDao.get(item.noteId.last())
-            noteDao.update(entity)
-            rankDao.delete(item.name)
+            item.noteId
+
+            for ((i, id) in idList.withIndex()) {
+                val isValid = i % 2 != 0
+
+                noteDao.get(id)
+
+                if (isValid) {
+                    entityList[i].rankId = Note.Default.RANK_ID
+                    entityList[i].rankPs = Note.Default.RANK_PS
+                    noteDao.update(entityList[i])
+                }
+            }
+
+            item.name
+            rankDao.delete(name)
         }
     }
 
     @Test fun updateItem() = startCoTest {
-        val item = TestData.Rank.itemList.random()
-        val entity = RankConverter().toEntity(item)
+        val item = mockk<RankItem>()
+        val entity = mockk<RankEntity>()
 
         every { converter.toEntity(item) } returns entity
 
@@ -240,8 +284,8 @@ class RankRepoTest : ParentRoomRepoTest() {
     }
 
     @Test fun updateList() = startCoTest {
-        val itemList = TestData.Rank.itemList
-        val entityList = RankConverter().toEntity(itemList)
+        val itemList = mockk<List<RankItem>>()
+        val entityList = mockk<MutableList<RankEntity>>()
 
         every { converter.toEntity(itemList) } returns entityList
 
@@ -260,7 +304,7 @@ class RankRepoTest : ParentRoomRepoTest() {
 
         val entityList = mockk<MutableList<RankEntity>>()
 
-        coEvery { spyRankRepo.updateRankPosition(noteDao, rankList, noteIdList) } returns Unit
+        coEvery { spyRankRepo.updateRankPosition(rankList, noteIdList, noteDao) } returns Unit
         every { converter.toEntity(rankList) } returns entityList
 
         spyRankRepo.updatePosition(rankList, noteIdList)
@@ -271,35 +315,62 @@ class RankRepoTest : ParentRoomRepoTest() {
             spyRankRepo.roomProvider
 
             roomProvider.openRoom()
-            spyRankRepo.updateRankPosition(noteDao, rankList, noteIdList)
+            spyRankRepo.updateRankPosition(rankList, noteIdList, noteDao)
             converter.toEntity(rankList)
             rankDao.update(entityList)
         }
     }
 
     @Test fun updateRankPosition() = startCoTest {
-        val rankItemList = TestData.Rank.itemList
-        val noteIdList = List(size = 5) { Random.nextLong() }
+        val size = (5..10).random()
+        val list = List<RankItem>(size) { mockk() }
+        val noteIdList = mockk<List<Long>>()
 
-        val noteData = TestData.Note
-        val noteList = with(NoteConverter()) {
-            listOf(
-                    toEntity(noteData.firstNote),
-                    toEntity(noteData.firstNote.deepCopy(rankId = 1)),
-                    toEntity(noteData.secondNote.deepCopy(rankId = 3))
-            )
+        val entityList = List<NoteEntity>(size) { mockk() }
+        val rankIdList = List(size) { Random.nextLong() }
+        val rankPsList = List(size) { Random.nextInt() }
+
+        every { noteIdList.isEmpty() } returns true
+        rankRepo.updateRankPosition(list, noteIdList, noteDao)
+
+        every { noteIdList.isEmpty() } returns false
+        coEvery { noteDao.get(noteIdList) } returns entityList
+
+        for ((i, entity) in entityList.withIndex()) {
+            every { list[i].id } returns rankIdList[i]
+
+            val isFind = i % 2 != 0
+            every { entity.rankId } returns if (isFind) rankIdList[i] else -1
+            if (isFind) {
+                every { list[i].position } returns rankPsList[i]
+                every { entity.rankPs = rankPsList[i] } returns Unit
+            }
         }
 
-        coEvery { noteDao.get(noteIdList) } returns noteList
-
-        rankRepo.updateRankPosition(noteDao, rankItemList, noteIdList)
-        assertEquals(-1, noteList[0].rankPs)
-        assertEquals(0, noteList[1].rankPs)
-        assertEquals(2, noteList[2].rankPs)
+        rankRepo.updateRankPosition(list, noteIdList, noteDao)
 
         coVerifySequence {
+            noteIdList.isEmpty()
+
+            noteIdList.isEmpty()
             noteDao.get(noteIdList)
-            noteDao.update(noteList)
+
+            for ((i, entity) in entityList.withIndex()) {
+                val isFind = i % 2 != 0
+
+                for ((j, item) in list.withIndex()) {
+                    item.id
+                    entity.rankId
+
+                    if (isFind && i == j) {
+                        item.position
+                        entity.rankPs = rankPsList[i]
+                        break
+                    }
+                }
+            }
+
+            noteDao.update(entityList)
         }
     }
 
@@ -310,7 +381,8 @@ class RankRepoTest : ParentRoomRepoTest() {
         val rankId = Random.nextLong()
         val getList = mockk<List<RankEntity>>()
         val updateList = mockk<List<RankEntity>>()
-        val checkArray = BooleanArray(size = 5) { Random.nextBoolean() }
+        val size = (5..10).random()
+        val checkArray = BooleanArray(size) { Random.nextBoolean() }
 
         every { noteItem.id } returns id
         every { noteItem.rankId } returns rankId
@@ -437,7 +509,8 @@ class RankRepoTest : ParentRoomRepoTest() {
 
 
     @Test fun getDialogItemArray() = startCoTest {
-        val nameList = List(size = 5) { nextString() }
+        val size = (5..10).random()
+        val nameList = List(size) { nextString() }
         val nameArray = nameList.toTypedArray()
 
         coEvery { rankDao.getNameList() } returns nameList.subList(1, 5)

@@ -270,7 +270,8 @@ class NotificationViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onSnackbarDismiss() {
-        val cancelList = MutableList(size = 5) { Pair(Random.nextInt(), mockk<NotificationItem>()) }
+        val size = (5..10).random()
+        val cancelList = MutableList(size) { Pair(Random.nextInt(), mockk<NotificationItem>()) }
 
         viewModel.cancelList.clearAdd(cancelList)
         assertEquals(cancelList, viewModel.cancelList)

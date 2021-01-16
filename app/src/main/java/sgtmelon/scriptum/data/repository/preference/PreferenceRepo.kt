@@ -9,9 +9,9 @@ import sgtmelon.scriptum.domain.model.annotation.*
  * Repository for work with [SharedPreferences]
  */
 class PreferenceRepo(
-        private val key: PreferenceProvider.Key,
-        private val def: PreferenceProvider.Def,
-        private val preferences: SharedPreferences
+    private val key: PreferenceProvider.Key,
+    private val def: PreferenceProvider.Def,
+    private val preferences: SharedPreferences
 ) : IPreferenceRepo {
 
     override var firstStart: Boolean

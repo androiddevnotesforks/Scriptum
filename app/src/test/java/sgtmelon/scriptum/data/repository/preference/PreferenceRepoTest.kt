@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.data.repository.preference
 
 import android.content.SharedPreferences
+import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verifySequence
@@ -33,6 +34,11 @@ class PreferenceRepoTest : ParentTest() {
         every { preferencesEditor.putInt(any(), any()) } returns preferencesEditor
         every { preferencesEditor.putString(any(), any()) } returns preferencesEditor
         every { preferencesEditor.clear() } returns preferencesEditor
+    }
+
+    override fun tearDown() {
+        super.tearDown()
+        confirmVerified(keyProvider, defProvider, preferences, preferencesEditor)
     }
 
     @Test fun getFirstStart() {

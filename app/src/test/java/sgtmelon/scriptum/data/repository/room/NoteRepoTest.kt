@@ -70,8 +70,9 @@ class NoteRepoTest : ParentRoomRepoTest() {
         val isBin = Random.nextBoolean()
         val isOptimal = Random.nextBoolean()
 
-        val entityList = List<NoteEntity>(size = 5) { mockk() }
-        val itemList = MutableList<NoteItem>(size = 5) { mockk() }
+        val size = (5..10).random()
+        val entityList = List<NoteEntity>(size) { mockk() }
+        val itemList = MutableList<NoteItem>(size) { mockk() }
 
         coEvery { spyNoteRepo.getSortBy(isBin, sort, noteDao) } returns entityList
         coEvery { spyNoteRepo.filterVisible(entityList, rankDao) } returns entityList
@@ -142,11 +143,12 @@ class NoteRepoTest : ParentRoomRepoTest() {
     }
 
     @Test fun filterVisible() = startCoTest {
-        val entityList = List<NoteEntity>(size = 5) { mockk() }
-        val itemList = List<NoteItem>(size = 5) { mockk() }
+        val size = (5..10).random()
+        val entityList = List<NoteEntity>(size) { mockk() }
+        val itemList = List<NoteItem>(size) { mockk() }
 
         val idList = mockk<List<Long>>()
-        val isVisibleList = List(size = 5) { Random.nextBoolean() }
+        val isVisibleList = List(size) { Random.nextBoolean() }
 
         coEvery { rankDao.getIdVisibleList() } returns idList
         for ((i, entity) in entityList.withIndex()) {
@@ -280,6 +282,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
             rollDao.getView(id)
             rollDao.getViewHide(id)
             thirdList.isEmpty()
+            thirdList == thirdList
             rollDao.getViewHide(id)
             thirdList.isEmpty()
             rollDao.getView(id)
@@ -306,10 +309,11 @@ class NoteRepoTest : ParentRoomRepoTest() {
     // Repo other functions
 
     @Test fun isListHide() = startCoTest {
-        val idList = List(size = 5) { Random.nextLong() }
-        val entityList = MutableList<NoteEntity>(size = 5) { mockk() }
-        val itemList = MutableList<NoteItem>(size = 5) { mockk() }
-        val isVisibleList = List(size = 5) { Random.nextBoolean() }
+        val size = (5..10).random()
+        val idList = List(size) { Random.nextLong() }
+        val entityList = MutableList<NoteEntity>(size) { mockk() }
+        val itemList = MutableList<NoteItem>(size) { mockk() }
+        val isVisibleList = List(size) { Random.nextBoolean() }
 
         coEvery { rankDao.getIdVisibleList() } returns idList
         coEvery { noteDao.get(false) } returns entityList
@@ -338,7 +342,8 @@ class NoteRepoTest : ParentRoomRepoTest() {
     // Repo work with delete functions
 
     @Test fun clearBin() = startCoTest {
-        val itemList = List<NoteEntity>(size = 5) {
+        val size = (5..10).random()
+        val itemList = List<NoteEntity>(size) {
             mockk {
                 every { id } returns it.toLong()
                 every { rankId } returns (it * it).toLong()
@@ -634,9 +639,10 @@ class NoteRepoTest : ParentRoomRepoTest() {
         val entity = mockk<NoteEntity>()
 
         val id = Random.nextLong()
-        val itemList = MutableList<RollItem>(size = 5) { mockk() }
-        val entityList = MutableList<RollEntity>(size = 5) { mockk() }
-        val idList = List(size = 5) { Random.nextLong() }
+        val size = (5..10).random()
+        val itemList = MutableList<RollItem>(size) { mockk() }
+        val entityList = MutableList<RollEntity>(size) { mockk() }
+        val idList = List(size) { Random.nextLong() }
 
         every { noteConverter.toEntity(item) } returns entity
         coEvery { noteDao.insert(entity) } returns id
@@ -676,11 +682,12 @@ class NoteRepoTest : ParentRoomRepoTest() {
         val entity = mockk<NoteEntity>()
 
         val id = Random.nextLong()
-        val itemList = MutableList<RollItem>(size = 5) { mockk() }
-        val entityList = MutableList<RollEntity>(size = 5) { mockk() }
-        val idList = List(size = 5) { Random.nextLong() }
-        val positionList = List(size = 5) { Random.nextInt() }
-        val textList = List(size = 5) { nextString() }
+        val size = (5..10).random()
+        val itemList = MutableList<RollItem>(size) { mockk() }
+        val entityList = MutableList<RollEntity>(size) { mockk() }
+        val idList = List(size) { Random.nextLong() }
+        val positionList = List(size) { Random.nextInt() }
+        val textList = List(size) { nextString() }
 
         every { noteConverter.toEntity(item) } returns entity
         every { item.id } returns id

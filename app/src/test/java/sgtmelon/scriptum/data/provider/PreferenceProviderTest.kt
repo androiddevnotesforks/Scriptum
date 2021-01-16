@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.data.provider
 
 import android.content.res.Resources
+import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verifySequence
@@ -20,6 +21,11 @@ class PreferenceProviderTest : ParentTest() {
 
     private val providerKey by lazy { PreferenceProvider.Key(resources) }
     private val providerDef by lazy { PreferenceProvider.Def(resources) }
+
+    override fun tearDown() {
+        super.tearDown()
+        confirmVerified(resources)
+    }
 
     @Test fun valueKey() {
         val firstStart = nextString()

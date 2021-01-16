@@ -14,24 +14,24 @@ interface IRankRepo {
 
     suspend fun getList(): MutableList<RankItem>
 
-    suspend fun getBind(noteId: List<Long>): Boolean
+    suspend fun getBind(idList: List<Long>): Boolean
 
     suspend fun getIdVisibleList(): List<Long>
 
 
     suspend fun insert(name: String): Long?
 
-    suspend fun insert(rankItem: RankItem)
+    suspend fun insert(item: RankItem)
 
-    suspend fun delete(rankItem: RankItem)
+    suspend fun delete(item: RankItem)
 
-    suspend fun update(rankItem: RankItem)
+    suspend fun update(item: RankItem)
 
-    suspend fun update(rankList: List<RankItem>)
+    suspend fun update(list: List<RankItem>)
 
-    suspend fun updatePosition(rankList: List<RankItem>, noteIdList: List<Long>)
+    suspend fun updatePosition(list: List<RankItem>, idList: List<Long>)
 
-    suspend fun updateConnection(noteItem: NoteItem)
+    suspend fun updateConnection(item: NoteItem)
 
 
     suspend fun getDialogItemArray(emptyName: String): Array<String>

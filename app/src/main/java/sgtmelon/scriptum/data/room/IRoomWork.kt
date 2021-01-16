@@ -10,6 +10,8 @@ import sgtmelon.scriptum.domain.model.annotation.test.RunNone
  */
 interface IRoomWork {
 
+    // TODO make variable for control room open/close (for not open room every time if it was opened)
+
     val roomProvider: RoomProvider
 
     suspend fun inRoom(func: suspend RoomDb.() -> Unit = {}) {
