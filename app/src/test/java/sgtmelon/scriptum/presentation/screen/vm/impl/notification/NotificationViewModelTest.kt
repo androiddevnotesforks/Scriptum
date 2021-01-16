@@ -12,6 +12,7 @@ import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.extension.clearAdd
+import sgtmelon.scriptum.getRandomSize
 import sgtmelon.scriptum.presentation.screen.ui.callback.notification.INotificationActivity
 import kotlin.random.Random
 

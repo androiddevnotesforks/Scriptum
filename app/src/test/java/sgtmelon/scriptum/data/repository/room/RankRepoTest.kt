@@ -14,6 +14,7 @@ import sgtmelon.scriptum.data.room.entity.RankEntity
 import sgtmelon.scriptum.domain.model.data.DbData.Note
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RankItem
+import sgtmelon.scriptum.getRandomSize
 import sgtmelon.scriptum.isDivideTwoEntirely
 import kotlin.random.Random
 
