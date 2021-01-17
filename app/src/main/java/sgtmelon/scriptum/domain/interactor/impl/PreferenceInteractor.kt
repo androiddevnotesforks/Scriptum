@@ -15,8 +15,9 @@ import java.util.*
  * Interactor for [IPreferenceViewModel].
  */
 class PreferenceInteractor(
-        private val summaryProvider: SummaryProvider,
-        private val preferenceRepo: IPreferenceRepo
+    private val summaryProvider: SummaryProvider,
+    private val preferenceRepo: IPreferenceRepo,
+    private val intConverter: IntConverter
 ) : IPreferenceInteractor {
 
     @Theme override val theme: Int get() = preferenceRepo.theme
@@ -52,7 +53,6 @@ class PreferenceInteractor(
     override val savePeriod: Int get() = preferenceRepo.savePeriod
 
     override fun getSavePeriodSummary(): String? = summaryProvider.savePeriod.getOrNull(savePeriod)
-
 
     override fun updateSavePeriod(value: Int): String? {
         preferenceRepo.savePeriod = value
@@ -92,18 +92,17 @@ class PreferenceInteractor(
     }
 
     override fun updateSignal(valueArray: BooleanArray): String? {
-        preferenceRepo.signal = IntConverter().toInt(valueArray)
+        preferenceRepo.signal = intConverter.toInt(valueArray)
         return getSignalSummary(valueArray)
     }
 
 
     override val volume: Int get() = preferenceRepo.volume
 
-    override fun getVolumeSummary(): String? = summaryProvider.getVolume(volume)
+    override fun getVolumeSummary(): String = summaryProvider.getVolume(volume)
 
-    override fun updateVolume(value: Int): String? {
+    override fun updateVolume(value: Int): String {
         preferenceRepo.volume = value
         return getVolumeSummary()
     }
-
 }

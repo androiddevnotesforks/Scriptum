@@ -52,28 +52,40 @@ class InteractorModule {
 
     @Provides
     @ActivityScope
-    fun provideBindInteractor(preferenceRepo: IPreferenceRepo, bindRepo: IBindRepo,
-                              rankRepo: IRankRepo, noteRepo: INoteRepo): IBindInteractor {
+    fun provideBindInteractor(
+        preferenceRepo: IPreferenceRepo,
+        bindRepo: IBindRepo,
+        rankRepo: IRankRepo,
+        noteRepo: INoteRepo
+    ): IBindInteractor {
         return BindInteractor(preferenceRepo, bindRepo, rankRepo, noteRepo)
     }
 
     @Provides
     @ActivityScope
-    fun provideSignalInteractor(ringtoneControl: IRingtoneControl,
-                                preferenceRepo: IPreferenceRepo,
-                                intConverter: IntConverter): ISignalInteractor {
+    fun provideSignalInteractor(
+        ringtoneControl: IRingtoneControl,
+        preferenceRepo: IPreferenceRepo,
+        intConverter: IntConverter
+    ): ISignalInteractor {
         return SignalInteractor(ringtoneControl, preferenceRepo, intConverter)
     }
 
     @Provides
     @ActivityScope
-    fun provideBackupInteractor(preferenceRepo: IPreferenceRepo, alarmRepo: IAlarmRepo,
-                                rankRepo: IRankRepo, noteRepo: INoteRepo, backupRepo: IBackupRepo,
-                                backupParser: IBackupParser, fileControl: IFileControl,
-                                cipherControl: ICipherControl): IBackupInteractor {
+    fun provideBackupInteractor(
+        preferenceRepo: IPreferenceRepo,
+        alarmRepo: IAlarmRepo,
+        rankRepo: IRankRepo,
+        noteRepo: INoteRepo,
+        backupRepo: IBackupRepo,
+        backupParser: IBackupParser,
+        fileControl: IFileControl,
+        cipherControl: ICipherControl
+    ): IBackupInteractor {
         return BackupInteractor(
-                preferenceRepo, alarmRepo, rankRepo, noteRepo, backupRepo,
-                backupParser, fileControl, cipherControl
+            preferenceRepo, alarmRepo, rankRepo, noteRepo, backupRepo,
+            backupParser, fileControl, cipherControl
         )
     }
 
@@ -107,24 +119,33 @@ class InteractorModule {
 
     @Provides
     @ActivityScope
-    fun provideRankInteractor(preferenceRepo: IPreferenceRepo,
-                              rankRepo: IRankRepo): IRankInteractor {
+    fun provideRankInteractor(
+        preferenceRepo: IPreferenceRepo,
+        rankRepo: IRankRepo
+    ): IRankInteractor {
         return RankInteractor(preferenceRepo, rankRepo)
     }
 
 
     @Provides
     @ActivityScope
-    fun provideNotesInteractor(fragment: NotesFragment, preferenceRepo: IPreferenceRepo,
-                               noteRepo: INoteRepo, alarmRepo: IAlarmRepo,
-                               rankRepo: IRankRepo): INotesInteractor {
+    fun provideNotesInteractor(
+        fragment: NotesFragment,
+        preferenceRepo: IPreferenceRepo,
+        noteRepo: INoteRepo,
+        alarmRepo: IAlarmRepo,
+        rankRepo: IRankRepo
+    ): INotesInteractor {
         return NotesInteractor(preferenceRepo, alarmRepo, rankRepo, noteRepo, fragment)
     }
 
     @Provides
     @ActivityScope
-    fun provideBinInteractor(fragment: BinFragment, preferenceRepo: IPreferenceRepo,
-                             noteRepo: INoteRepo): IBinInteractor {
+    fun provideBinInteractor(
+        fragment: BinFragment,
+        preferenceRepo: IPreferenceRepo,
+        noteRepo: INoteRepo
+    ): IBinInteractor {
         return BinInteractor(preferenceRepo, noteRepo, fragment)
     }
 
@@ -140,17 +161,25 @@ class InteractorModule {
 
     @Provides
     @ActivityScope
-    fun provideTextNoteInteractor(fragment: TextNoteFragment, preferenceRepo: IPreferenceRepo,
-                                  alarmRepo: IAlarmRepo, rankRepo: IRankRepo,
-                                  noteRepo: INoteRepo): ITextNoteInteractor {
+    fun provideTextNoteInteractor(
+        fragment: TextNoteFragment,
+        preferenceRepo: IPreferenceRepo,
+        alarmRepo: IAlarmRepo,
+        rankRepo: IRankRepo,
+        noteRepo: INoteRepo
+    ): ITextNoteInteractor {
         return TextNoteInteractor(preferenceRepo, alarmRepo, rankRepo, noteRepo, fragment)
     }
 
     @Provides
     @ActivityScope
-    fun provideRollNoteInteractor(fragment: RollNoteFragment, preferenceRepo: IPreferenceRepo,
-                                  alarmRepo: IAlarmRepo, rankRepo: IRankRepo,
-                                  noteRepo: INoteRepo): IRollNoteInteractor {
+    fun provideRollNoteInteractor(
+        fragment: RollNoteFragment,
+        preferenceRepo: IPreferenceRepo,
+        alarmRepo: IAlarmRepo,
+        rankRepo: IRankRepo,
+        noteRepo: INoteRepo
+    ): IRollNoteInteractor {
         return RollNoteInteractor(preferenceRepo, alarmRepo, rankRepo, noteRepo, fragment)
     }
 
@@ -158,32 +187,44 @@ class InteractorModule {
 
     @Provides
     @ActivityScope
-    fun provideAlarmInteractor(activity: AlarmActivity, preferenceRepo: IPreferenceRepo,
-                               alarmRepo: IAlarmRepo, noteRepo: INoteRepo): IAlarmInteractor {
+    fun provideAlarmInteractor(
+        activity: AlarmActivity,
+        preferenceRepo: IPreferenceRepo,
+        alarmRepo: IAlarmRepo,
+        noteRepo: INoteRepo
+    ): IAlarmInteractor {
         return AlarmInteractor(preferenceRepo, alarmRepo, noteRepo, activity)
     }
 
     @Provides
     @ActivityScope
-    fun provideNotificationInteractor(activity: NotificationActivity,
-                                      preferenceRepo: IPreferenceRepo, noteRepo: INoteRepo,
-                                      alarmRepo: IAlarmRepo,
-                                      bindRepo: IBindRepo): INotificationInteractor {
+    fun provideNotificationInteractor(
+        activity: NotificationActivity,
+        preferenceRepo: IPreferenceRepo,
+        noteRepo: INoteRepo,
+        alarmRepo: IAlarmRepo,
+        bindRepo: IBindRepo
+    ): INotificationInteractor {
         return NotificationInteractor(preferenceRepo, noteRepo, alarmRepo, bindRepo, activity)
     }
 
 
     @Provides
     @ActivityScope
-    fun providePreferenceInteractor(resources: Resources,
-                                    preferenceRepo: IPreferenceRepo): IPreferenceInteractor {
-        return PreferenceInteractor(SummaryProvider(resources), preferenceRepo)
+    fun providePreferenceInteractor(
+        resources: Resources,
+        preferenceRepo: IPreferenceRepo,
+        intConverter: IntConverter
+    ): IPreferenceInteractor {
+        return PreferenceInteractor(SummaryProvider(resources), preferenceRepo, intConverter)
     }
 
     @Provides
     @ActivityScope
-    fun provideDevelopInteractor(developRepo: IDevelopRepo,
-                                 preferenceRepo: IPreferenceRepo): IDevelopInteractor {
+    fun provideDevelopInteractor(
+        developRepo: IDevelopRepo,
+        preferenceRepo: IPreferenceRepo
+    ): IDevelopInteractor {
         return DevelopInteractor(developRepo, preferenceRepo)
     }
 }

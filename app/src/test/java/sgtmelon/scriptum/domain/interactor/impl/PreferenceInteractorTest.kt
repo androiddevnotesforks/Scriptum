@@ -1,9 +1,7 @@
 package sgtmelon.scriptum.domain.interactor.impl
 
-import io.mockk.coEvery
-import io.mockk.every
+import io.mockk.*
 import io.mockk.impl.annotations.MockK
-import io.mockk.verifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -13,10 +11,7 @@ import sgtmelon.scriptum.FastTest
 import sgtmelon.scriptum.ParentInteractorTest
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.room.converter.type.IntConverter
-import sgtmelon.scriptum.domain.model.annotation.Color
-import sgtmelon.scriptum.domain.model.annotation.Repeat
-import sgtmelon.scriptum.domain.model.annotation.Sort
-import sgtmelon.scriptum.domain.model.annotation.Theme
+import sgtmelon.scriptum.getRandomSize
 import sgtmelon.scriptum.presentation.provider.SummaryProvider
 import java.util.*
 import kotlin.random.Random
@@ -29,51 +24,58 @@ class PreferenceInteractorTest : ParentInteractorTest() {
 
     @MockK lateinit var summaryProvider: SummaryProvider
     @MockK lateinit var preferenceRepo: IPreferenceRepo
+    @MockK lateinit var intConverter: IntConverter
 
-    private val interactor by lazy { PreferenceInteractor(summaryProvider, preferenceRepo) }
+    private val interactor by lazy {
+        PreferenceInteractor(summaryProvider, preferenceRepo, intConverter)
+    }
+    private val spyInteractor by lazy { spyk(interactor) }
+
+    override fun tearDown() {
+        super.tearDown()
+        confirmVerified(summaryProvider, preferenceRepo, intConverter)
+    }
 
     @Test fun getTheme() = FastTest.getTheme(preferenceRepo) { interactor.theme }
 
     @Test fun getThemeSummary() {
-        fun checkRequestSummary(value: Int) {
-            every { preferenceRepo.theme } returns value
-            assertEquals(summaryList.getOrNull(value), interactor.getThemeSummary())
-        }
+        val size = getRandomSize()
+        val valueArray = Array(size) { nextString() }
+        val index = valueArray.indices.random()
+        val value = valueArray[index]
 
-        val valueList = listOf(Theme.LIGHT, Random.nextInt())
+        every { summaryProvider.theme } returns valueArray
+        every { spyInteractor.theme } returns -1
+        assertNull(spyInteractor.getThemeSummary())
 
-        every { summaryProvider.theme } returns summaryList
-        for (it in valueList) {
-            checkRequestSummary(it)
-        }
+        every { spyInteractor.theme } returns index
+        assertEquals(value, spyInteractor.getThemeSummary())
 
         verifySequence {
-            repeat(valueList.size) {
+            repeat(times = 2) {
+                spyInteractor.getThemeSummary()
                 summaryProvider.theme
-                preferenceRepo.theme
+                spyInteractor.theme
             }
         }
     }
 
     @Test fun updateTheme() {
-        every { summaryProvider.theme } returns summaryList
+        val value = Random.nextInt()
+        val summary = nextString()
 
-        fun checkRequestUpdate(value: Int) {
-            every { preferenceRepo.theme } returns value
-            assertEquals(summaryList.getOrNull(value), interactor.updateTheme(value))
-        }
+        every { preferenceRepo.theme = value } returns Unit
+        every { spyInteractor.getThemeSummary() } returns null
+        assertNull(spyInteractor.updateTheme(value))
 
-        val valueList = listOf(Theme.LIGHT, Theme.DARK, Random.nextInt())
-        for (it in valueList) {
-            checkRequestUpdate(it)
-        }
+        every { spyInteractor.getThemeSummary() } returns summary
+        assertEquals(summary, spyInteractor.updateTheme(value))
 
         verifySequence {
-            for (it in valueList) {
-                preferenceRepo.theme = it
-
-                summaryProvider.theme
-                preferenceRepo.theme
+            repeat(times = 2) {
+                spyInteractor.updateTheme(value)
+                preferenceRepo.theme = value
+                spyInteractor.getThemeSummary()
             }
         }
     }
@@ -82,45 +84,43 @@ class PreferenceInteractorTest : ParentInteractorTest() {
     @Test fun getSort() = FastTest.getSort(preferenceRepo) { interactor.sort }
 
     @Test fun getSortSummary() {
-        fun checkRequestSummary(value: Int) {
-            every { preferenceRepo.sort } returns value
-            assertEquals(summaryList.getOrNull(value), interactor.getSortSummary())
-        }
+        val size = getRandomSize()
+        val valueArray = Array(size) { nextString() }
+        val index = valueArray.indices.random()
+        val value = valueArray[index]
 
-        val valueList = listOf(Sort.CHANGE, Random.nextInt())
+        every { summaryProvider.sort } returns valueArray
+        every { spyInteractor.sort } returns -1
+        assertNull(spyInteractor.getSortSummary())
 
-        every { summaryProvider.sort } returns summaryList
-        for (it in valueList) {
-            checkRequestSummary(it)
-        }
+        every { spyInteractor.sort } returns index
+        assertEquals(value, spyInteractor.getSortSummary())
 
         verifySequence {
-            repeat(valueList.size) {
+            repeat(times = 2) {
+                spyInteractor.getSortSummary()
                 summaryProvider.sort
-                preferenceRepo.sort
+                spyInteractor.sort
             }
         }
     }
 
     @Test fun updateSort() {
-        every { summaryProvider.sort } returns summaryList
+        val value = Random.nextInt()
+        val summary = nextString()
 
-        fun checkRequestUpdate(value: Int) {
-            every { preferenceRepo.sort } returns value
-            assertEquals(summaryList.getOrNull(value), interactor.updateSort(value))
-        }
+        every { preferenceRepo.sort = value } returns Unit
+        every { spyInteractor.getSortSummary() } returns null
+        assertNull(spyInteractor.updateSort(value))
 
-        val valueList = listOf(Sort.CHANGE, Sort.RANK, Random.nextInt())
-        for (it in valueList) {
-            checkRequestUpdate(it)
-        }
+        every { spyInteractor.getSortSummary() } returns summary
+        assertEquals(summary, spyInteractor.updateSort(value))
 
         verifySequence {
-            for (it in valueList) {
-                preferenceRepo.sort = it
-
-                summaryProvider.sort
-                preferenceRepo.sort
+            repeat(times = 2) {
+                spyInteractor.updateSort(value)
+                preferenceRepo.sort = value
+                spyInteractor.getSortSummary()
             }
         }
     }
@@ -131,106 +131,97 @@ class PreferenceInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun getDefaultColorSummary() {
-        fun checkRequestSummary(value: Int) {
-            every { preferenceRepo.defaultColor } returns value
-            assertEquals(summaryList.getOrNull(value), interactor.getDefaultColorSummary())
-        }
+        val size = getRandomSize()
+        val valueArray = Array(size) { nextString() }
+        val index = valueArray.indices.random()
+        val value = valueArray[index]
 
-        val valueList = listOf(Color.RED, Color.PURPLE, Random.nextInt())
+        every { summaryProvider.color } returns valueArray
+        every { spyInteractor.defaultColor } returns -1
+        assertNull(spyInteractor.getDefaultColorSummary())
 
-        every { summaryProvider.color } returns summaryList
-        for (it in valueList) {
-            checkRequestSummary(it)
-        }
+        every { spyInteractor.defaultColor } returns index
+        assertEquals(value, spyInteractor.getDefaultColorSummary())
 
         verifySequence {
-            repeat(valueList.size) {
+            repeat(times = 2) {
+                spyInteractor.getDefaultColorSummary()
                 summaryProvider.color
-                preferenceRepo.defaultColor
+                spyInteractor.defaultColor
             }
         }
     }
 
     @Test fun updateDefaultColor() {
-        every { summaryProvider.color } returns summaryList
+        val value = Random.nextInt()
+        val summary = nextString()
 
-        fun checkRequestUpdate(value: Int) {
-            every { preferenceRepo.defaultColor } returns value
-            assertEquals(summaryList.getOrNull(value), interactor.updateDefaultColor(value))
-        }
+        every { preferenceRepo.defaultColor = value } returns Unit
+        every { spyInteractor.getDefaultColorSummary() } returns null
+        assertNull(spyInteractor.updateDefaultColor(value))
 
-        val valueList = listOf(Color.RED, Color.PURPLE, Color.INDIGO, Random.nextInt())
-        for (it in valueList) {
-            checkRequestUpdate(it)
-        }
+        every { spyInteractor.getDefaultColorSummary() } returns summary
+        assertEquals(summary, spyInteractor.updateDefaultColor(value))
 
         verifySequence {
-            for (it in valueList) {
-                preferenceRepo.defaultColor = it
-
-                summaryProvider.color
-                preferenceRepo.defaultColor
+            repeat(times = 2) {
+                spyInteractor.updateDefaultColor(value)
+                preferenceRepo.defaultColor = value
+                spyInteractor.getDefaultColorSummary()
             }
         }
     }
 
 
     @Test fun getSavePeriod() {
-        fun checkRequestGet(value: Int) {
-            every { preferenceRepo.savePeriod } returns value
-            assertEquals(value, interactor.savePeriod)
-        }
+        val value = Random.nextInt()
 
-        val valueList = listOf(Random.nextInt(), Random.nextInt(), Random.nextInt())
-        for (it in valueList) {
-            checkRequestGet(it)
-        }
+        every { preferenceRepo.savePeriod } returns value
+        assertEquals(value, interactor.savePeriod)
 
         verifySequence {
-            repeat(valueList.size) { preferenceRepo.savePeriod }
+            preferenceRepo.savePeriod
         }
     }
 
     @Test fun getSavePeriodSummary() {
-        fun checkRequestSummary(value: Int) {
-            every { preferenceRepo.savePeriod } returns value
-            assertEquals(summaryList.getOrNull(value), interactor.getSavePeriodSummary())
-        }
+        val size = getRandomSize()
+        val valueArray = Array(size) { nextString() }
+        val index = valueArray.indices.random()
+        val value = valueArray[index]
 
-        val valueList = listOf(Random.nextInt(), Random.nextInt())
+        every { summaryProvider.savePeriod } returns valueArray
+        every { spyInteractor.savePeriod } returns -1
+        assertNull(spyInteractor.getSavePeriodSummary())
 
-        every { summaryProvider.savePeriod } returns summaryList
-        for (it in valueList) {
-            checkRequestSummary(it)
-        }
+        every { spyInteractor.savePeriod } returns index
+        assertEquals(value, spyInteractor.getSavePeriodSummary())
 
         verifySequence {
-            repeat(valueList.size) {
+            repeat(times = 2) {
+                spyInteractor.getSavePeriodSummary()
                 summaryProvider.savePeriod
-                preferenceRepo.savePeriod
+                spyInteractor.savePeriod
             }
         }
     }
 
     @Test fun updateSavePeriod() {
-        every { summaryProvider.savePeriod } returns summaryList
+        val value = Random.nextInt()
+        val summary = nextString()
 
-        fun checkRequestUpdate(value: Int) {
-            every { preferenceRepo.savePeriod } returns value
-            assertEquals(interactor.updateSavePeriod(value), summaryList.getOrNull(value))
-        }
+        every { preferenceRepo.savePeriod = value } returns Unit
+        every { spyInteractor.getSavePeriodSummary() } returns null
+        assertNull(spyInteractor.updateSavePeriod(value))
 
-        val valueList = listOf(Random.nextInt(), Random.nextInt(), Random.nextInt())
-        for (it in valueList) {
-            checkRequestUpdate(it)
-        }
+        every { spyInteractor.getSavePeriodSummary() } returns summary
+        assertEquals(summary, spyInteractor.updateSavePeriod(value))
 
         verifySequence {
-            for (it in valueList) {
-                preferenceRepo.savePeriod = it
-
-                summaryProvider.savePeriod
-                preferenceRepo.savePeriod
+            repeat(times = 2) {
+                spyInteractor.updateSavePeriod(value)
+                preferenceRepo.savePeriod = value
+                spyInteractor.getSavePeriodSummary()
             }
         }
     }
@@ -239,45 +230,43 @@ class PreferenceInteractorTest : ParentInteractorTest() {
     @Test fun getRepeat() = FastTest.getRepeat(preferenceRepo) { interactor.repeat }
 
     @Test fun getRepeatSummary() {
-        fun checkRequestSummary(value: Int) {
-            every { preferenceRepo.repeat } returns value
-            assertEquals(summaryList.getOrNull(value), interactor.getRepeatSummary())
-        }
+        val size = getRandomSize()
+        val valueArray = Array(size) { nextString() }
+        val index = valueArray.indices.random()
+        val value = valueArray[index]
 
-        val valueList = listOf(Repeat.MIN_10, Random.nextInt())
+        every { summaryProvider.repeat } returns valueArray
+        every { spyInteractor.repeat } returns -1
+        assertNull(spyInteractor.getRepeatSummary())
 
-        every { summaryProvider.repeat } returns summaryList
-        for (it in valueList) {
-            checkRequestSummary(it)
-        }
+        every { spyInteractor.repeat } returns index
+        assertEquals(value, spyInteractor.getRepeatSummary())
 
         verifySequence {
-            repeat(valueList.size) {
+            repeat(times = 2) {
+                spyInteractor.getRepeatSummary()
                 summaryProvider.repeat
-                preferenceRepo.repeat
+                spyInteractor.repeat
             }
         }
     }
 
     @Test fun updateRepeat() {
-        every { summaryProvider.repeat } returns summaryList
+        val value = Random.nextInt()
+        val summary = nextString()
 
-        fun checkRequestUpdate(value: Int) {
-            every { preferenceRepo.repeat } returns value
-            assertEquals(summaryList.getOrNull(value), interactor.updateRepeat(value))
-        }
+        every { preferenceRepo.repeat = value } returns Unit
+        every { spyInteractor.getRepeatSummary() } returns null
+        assertNull(spyInteractor.updateRepeat(value))
 
-        val valueList = listOf(Repeat.MIN_10, Repeat.MIN_180, Random.nextInt())
-        for (it in valueList) {
-            checkRequestUpdate(it)
-        }
+        every { spyInteractor.getRepeatSummary() } returns summary
+        assertEquals(summary, spyInteractor.updateRepeat(value))
 
         verifySequence {
-            for (it in valueList) {
-                preferenceRepo.repeat = it
-
-                summaryProvider.repeat
-                preferenceRepo.repeat
+            repeat(times = 2) {
+                spyInteractor.updateRepeat(value)
+                preferenceRepo.repeat = value
+                spyInteractor.getRepeatSummary()
             }
         }
     }
@@ -295,20 +284,37 @@ class PreferenceInteractorTest : ParentInteractorTest() {
 
         coEvery { summaryProvider.signal } returns summaryArray
         assertEquals(resultString, interactor.getSignalSummary(checkArray))
-    }
-
-    @Test fun updateSignal() {
-        val summaryArray = Array(size = 3) { nextString() }
-        val checkArray = booleanArrayOf(true, false, true)
-
-        fun String.getLow() = toLowerCase(Locale.getDefault())
-        val resultString = "${summaryArray.first().getLow()}, ${summaryArray.last().getLow()}"
-
-        coEvery { summaryProvider.signal } returns summaryArray
-        assertEquals(resultString, interactor.updateSignal(checkArray))
 
         verifySequence {
-            preferenceRepo.signal = IntConverter().toInt(checkArray)
+            summaryProvider.signal
+            summaryProvider.signal
+        }
+    }
+
+    /**
+     * Can't mockk Arrays. Don't try.
+     */
+    @Test fun updateSignal() {
+        val size = getRandomSize()
+        val valueArray = BooleanArray(size) { Random.nextBoolean() }
+        val value = Random.nextInt()
+        val summary = nextString()
+
+        every { intConverter.toInt(valueArray) } returns value
+        every { preferenceRepo.signal = value } returns Unit
+        every { spyInteractor.getSignalSummary(valueArray) } returns null
+        assertNull(spyInteractor.updateSignal(valueArray))
+
+        every { spyInteractor.getSignalSummary(valueArray) } returns summary
+        assertEquals(summary, spyInteractor.updateSignal(valueArray))
+
+        verifySequence {
+            repeat(times = 2) {
+                spyInteractor.updateSignal(valueArray)
+                intConverter.toInt(valueArray)
+                preferenceRepo.signal = value
+                spyInteractor.getSignalSummary(valueArray)
+            }
         }
     }
 
@@ -316,53 +322,32 @@ class PreferenceInteractorTest : ParentInteractorTest() {
     @Test fun getVolume() = FastTest.getVolume(preferenceRepo) { interactor.volume }
 
     @Test fun getVolumeSummary() {
-        fun checkRequestSummary(value: Int) {
-            every { preferenceRepo.volume } returns value
-            every { summaryProvider.getVolume(value) } returns summaryVolume.plus(value)
+        val value = Random.nextInt()
+        val summary = nextString()
 
-            assertEquals(summaryVolume.plus(value), interactor.getVolumeSummary())
-        }
-
-        val valueList = listOf(Random.nextInt(), Random.nextInt())
-        for (it in valueList) {
-            checkRequestSummary(it)
-        }
+        every { spyInteractor.volume } returns value
+        every { summaryProvider.getVolume(value) } returns summary
+        assertEquals(summary, spyInteractor.getVolumeSummary())
 
         verifySequence {
-            for (it in valueList) {
-                preferenceRepo.volume
-                summaryProvider.getVolume(it)
-            }
+            spyInteractor.getVolumeSummary()
+            spyInteractor.volume
+            summaryProvider.getVolume(value)
         }
     }
 
     @Test fun updateVolume() {
-        fun checkRequestUpdate(value: Int) {
-            every { summaryProvider.getVolume(value) } returns summaryVolume.plus(value)
-            every { preferenceRepo.volume } returns value
-            assertEquals(summaryVolume.plus(value), interactor.updateVolume(value))
-        }
+        val value = Random.nextInt()
+        val summary = nextString()
 
-        val valueList = listOf(Random.nextInt(), Random.nextInt(), Random.nextInt())
-        for (it in valueList) {
-            checkRequestUpdate(it)
-        }
+        every { preferenceRepo.volume = value } returns Unit
+        every { spyInteractor.getVolumeSummary() } returns summary
+        assertEquals(summary, spyInteractor.updateVolume(value))
 
         verifySequence {
-            for (it in valueList) {
-                preferenceRepo.volume = it
-
-                preferenceRepo.volume
-                summaryProvider.getVolume(it)
-            }
+            spyInteractor.updateVolume(value)
+            preferenceRepo.volume = value
+            spyInteractor.getVolumeSummary()
         }
     }
-
-
-    private val summaryList = arrayOf("summary 1", "summary 2", "summary 3")
-
-    companion object {
-        private const val summaryVolume = "Volume: "
-    }
-
 }

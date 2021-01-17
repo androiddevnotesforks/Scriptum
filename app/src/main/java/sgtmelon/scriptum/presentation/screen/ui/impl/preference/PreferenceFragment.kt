@@ -473,7 +473,7 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
         }
     }
 
-    override fun updateVolumeSummary(summary: String?) {
+    override fun updateVolumeSummary(summary: String) {
         volumePreference?.summary = summary
     }
 

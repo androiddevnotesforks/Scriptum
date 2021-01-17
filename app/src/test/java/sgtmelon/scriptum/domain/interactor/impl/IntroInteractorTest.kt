@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.domain.interactor.impl
 
+import io.mockk.confirmVerified
 import io.mockk.impl.annotations.MockK
 import io.mockk.verifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -17,6 +18,11 @@ class IntroInteractorTest : ParentInteractorTest() {
 
     private val interactor by lazy { IntroInteractor(preferenceRepo) }
 
+    override fun tearDown() {
+        super.tearDown()
+        confirmVerified(preferenceRepo)
+    }
+
     @Test fun onIntroFinish() {
         interactor.onIntroFinish()
 
@@ -24,5 +30,4 @@ class IntroInteractorTest : ParentInteractorTest() {
             preferenceRepo.firstStart = false
         }
     }
-
 }

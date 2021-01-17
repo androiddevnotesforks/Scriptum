@@ -87,7 +87,7 @@ interface IPreferenceFragment : BindControl.NoteBridge.NotifyAll, BindControl.In
 
     fun playMelody(stringUri: String)
 
-    fun updateVolumeSummary(summary: String?)
+    fun updateVolumeSummary(summary: String)
 
     fun showVolumeDialog(value: Int)
 

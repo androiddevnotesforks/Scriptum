@@ -54,9 +54,7 @@ interface IPreferenceInteractor {
 
     val volume: Int
 
-    fun getVolumeSummary(): String?
+    fun getVolumeSummary(): String
 
-    fun updateVolume(value: Int): String?
-
-
+    fun updateVolume(value: Int): String
 }

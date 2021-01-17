@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.domain.interactor.impl
 
+import io.mockk.confirmVerified
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Test
@@ -17,8 +18,12 @@ class SplashInteractorTest : ParentInteractorTest() {
 
     private val interactor by lazy { SplashInteractor(preferenceRepo) }
 
+    override fun tearDown() {
+        super.tearDown()
+        confirmVerified(preferenceRepo)
+    }
+
     @Test fun getFirstStart() = FastTest.getFirstStart(preferenceRepo) {
         preferenceRepo.firstStart
     }
-
 }
