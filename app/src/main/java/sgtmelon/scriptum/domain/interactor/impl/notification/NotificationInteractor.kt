@@ -18,13 +18,13 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.notification.INotificat
  * Interactor for [INotificationViewModel].
  */
 class NotificationInteractor(
-        private val preferenceRepo: IPreferenceRepo,
-        private val noteRepo: INoteRepo,
-        private val alarmRepo: IAlarmRepo,
-        private val bindRepo: IBindRepo,
-        @RunPrivate var callback: INotificationBridge?
+    private val preferenceRepo: IPreferenceRepo,
+    private val noteRepo: INoteRepo,
+    private val alarmRepo: IAlarmRepo,
+    private val bindRepo: IBindRepo,
+    @RunPrivate var callback: INotificationBridge?
 ) : ParentInteractor(),
-        INotificationInteractor {
+    INotificationInteractor {
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy { callback = null }
 
@@ -59,5 +59,4 @@ class NotificationInteractor(
         alarmRepo.delete(id)
         runMain { callback?.cancelAlarm(id) }
     }
-
 }

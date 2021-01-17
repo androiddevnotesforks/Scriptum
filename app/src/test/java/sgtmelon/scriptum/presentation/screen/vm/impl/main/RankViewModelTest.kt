@@ -54,7 +54,6 @@ class RankViewModelTest : ParentViewModelTest() {
 
     override fun tearDown() {
         super.tearDown()
-
         confirmVerified(callback, interactor, bindInteractor, openState)
     }
 

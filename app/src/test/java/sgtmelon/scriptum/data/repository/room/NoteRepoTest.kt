@@ -32,7 +32,6 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
     override fun tearDown() {
         super.tearDown()
-
         confirmVerified(noteConverter, rollConverter)
     }
 

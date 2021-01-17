@@ -37,7 +37,6 @@ class AlarmInteractorTest : ParentInteractorTest() {
 
     override fun tearDown() {
         super.tearDown()
-
         confirmVerified(preferenceRepo, alarmRepo, noteRepo, callback)
     }
 

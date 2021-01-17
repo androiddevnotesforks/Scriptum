@@ -38,7 +38,6 @@ abstract class ParentRoomRepoTest : ParentCoTest() {
 
     override fun tearDown() {
         super.tearDown()
-
         confirmVerified(roomProvider, noteDao, rollDao, rollVisibleDao, rankDao, alarmDao)
     }
 

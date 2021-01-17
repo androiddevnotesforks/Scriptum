@@ -1,19 +1,15 @@
 package sgtmelon.scriptum.domain.interactor.impl.notification
 
-import io.mockk.coEvery
-import io.mockk.coVerifySequence
-import io.mockk.every
+import io.mockk.*
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.extension.getCalendarOrNull
-import sgtmelon.extension.getRandomFutureTime
 import sgtmelon.extension.nextString
+import sgtmelon.scriptum.FastMock
 import sgtmelon.scriptum.FastTest
 import sgtmelon.scriptum.ParentInteractorTest
-import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.data.repository.room.callback.IBindRepo
@@ -21,6 +17,7 @@ import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.presentation.screen.ui.callback.notification.INotificationBridge
+import java.util.*
 import kotlin.random.Random
 
 /**
@@ -28,8 +25,6 @@ import kotlin.random.Random
  */
 @ExperimentalCoroutinesApi
 class NotificationInteractorTest : ParentInteractorTest() {
-
-    private val data = TestData.Notification
 
     @MockK lateinit var preferenceRepo: IPreferenceRepo
     @MockK lateinit var noteRepo: INoteRepo
@@ -47,24 +42,27 @@ class NotificationInteractorTest : ParentInteractorTest() {
         assertNull(interactor.callback)
     }
 
+    override fun tearDown() {
+        super.tearDown()
+        confirmVerified(preferenceRepo, noteRepo, alarmRepo, bindRepo, callback)
+    }
+
 
     @Test fun getTheme() = FastTest.getTheme(preferenceRepo) { interactor.theme }
 
     @Test fun getCount() = startCoTest {
-        val countList = listOf(Random.nextInt(), Random.nextInt())
+        val count = Random.nextInt()
 
-        for (it in countList) {
-            coEvery { bindRepo.getNotificationCount() } returns it
-            assertEquals(it, interactor.getCount())
-        }
+        coEvery { bindRepo.getNotificationCount() } returns count
+        assertEquals(count, interactor.getCount())
 
         coVerifySequence {
-            repeat(countList.size) { bindRepo.getNotificationCount() }
+            bindRepo.getNotificationCount()
         }
     }
 
     @Test fun getList() = startCoTest {
-        val list = data.itemList
+        val list = mockk<MutableList<NotificationItem>>()
 
         coEvery { alarmRepo.getList() } returns list
         assertEquals(list, interactor.getList())
@@ -84,21 +82,23 @@ class NotificationInteractorTest : ParentInteractorTest() {
         val alarm = mockk<NotificationItem.Alarm>()
 
         val id = Random.nextLong()
-        val date = getRandomFutureTime()
-        val calendar = date.getCalendarOrNull() ?: throw NullPointerException()
+        val date = nextString()
+        val calendar = mockk<Calendar>()
 
+        FastMock.timeExtension()
         every { notificationItem.note } returns note
         every { notificationItem.alarm } returns alarm
         every { note.id } returns id
+        every { alarm.date } returns date
 
-        every { alarm.date } returns nextString()
         coEvery { noteRepo.getItem(id, isOptimal = true) } returns null
+        every { date.getCalendarOrNull() } returns null
         assertNull(interactor.setNotification(notificationItem))
 
         coEvery { noteRepo.getItem(id, isOptimal = true) } returns noteItem
         assertNull(interactor.setNotification(notificationItem))
 
-        every { alarm.date } returns date
+        every { date.getCalendarOrNull() } returns calendar
         coEvery { alarmRepo.getItem(id) } returns null
         assertNull(interactor.setNotification(notificationItem))
 
@@ -117,6 +117,7 @@ class NotificationInteractorTest : ParentInteractorTest() {
             notificationItem.alarm
             alarm.date
             noteRepo.getItem(id, isOptimal = true)
+            date.getCalendarOrNull()
 
             repeat(times = 2) {
                 notificationItem.note
@@ -124,6 +125,7 @@ class NotificationInteractorTest : ParentInteractorTest() {
                 notificationItem.alarm
                 alarm.date
                 noteRepo.getItem(id, isOptimal = true)
+                date.getCalendarOrNull()
                 alarmRepo.insertOrUpdate(noteItem, date)
                 callback.setAlarm(calendar, id)
                 alarmRepo.getItem(id)
@@ -132,12 +134,18 @@ class NotificationInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun cancelNotification() = startCoTest {
-        val item = data.itemList.random()
-        val id = item.note.id
+        val item = mockk<NotificationItem>()
+        val note = mockk<NotificationItem.Note>()
+        val id = Random.nextLong()
+
+        every { item.note } returns note
+        every { note.id } returns id
 
         interactor.cancelNotification(item)
 
         coVerifySequence {
+            item.note
+            note.id
             alarmRepo.delete(id)
             callback.cancelAlarm(id)
         }
