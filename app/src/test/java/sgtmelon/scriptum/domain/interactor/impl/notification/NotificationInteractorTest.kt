@@ -150,5 +150,4 @@ class NotificationInteractorTest : ParentInteractorTest() {
             callback.cancelAlarm(id)
         }
     }
-
 }

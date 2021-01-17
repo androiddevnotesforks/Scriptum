@@ -16,11 +16,11 @@ import sgtmelon.scriptum.presentation.control.system.callback.IRingtoneControl
  * Interactor for work with alarm signal.
  */
 class SignalInteractor(
-        private val ringtoneControl: IRingtoneControl,
-        private val preferenceRepo: IPreferenceRepo,
-        private val intConverter: IntConverter
+    private val ringtoneControl: IRingtoneControl,
+    private val preferenceRepo: IPreferenceRepo,
+    private val intConverter: IntConverter
 ) : ParentInteractor(),
-        ISignalInteractor {
+    ISignalInteractor {
 
     @RunPrivate val typeList = listOf(RingtoneManager.TYPE_ALARM, RingtoneManager.TYPE_RINGTONE)
 

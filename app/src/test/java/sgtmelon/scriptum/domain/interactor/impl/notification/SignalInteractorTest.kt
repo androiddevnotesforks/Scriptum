@@ -11,7 +11,9 @@ import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.room.converter.type.IntConverter
 import sgtmelon.scriptum.domain.model.annotation.Signal
+import sgtmelon.scriptum.domain.model.item.MelodyItem
 import sgtmelon.scriptum.domain.model.state.SignalState
+import sgtmelon.scriptum.getRandomSize
 import sgtmelon.scriptum.presentation.control.system.callback.IRingtoneControl
 import kotlin.random.Random
 
@@ -38,10 +40,16 @@ class SignalInteractorTest : ParentInteractorTest() {
         assertNull(interactor.melodyList)
     }
 
+    override fun tearDown() {
+        super.tearDown()
+        confirmVerified(ringtoneControl, preferenceRepo, intConverter)
+    }
+
 
     @Test fun getTypeCheck() {
         val signal = Random.nextInt()
-        val typeCheck = BooleanArray(size = 5) { Random.nextBoolean() }
+        val size = getRandomSize()
+        val typeCheck = BooleanArray(size) { Random.nextBoolean() }
 
         every { preferenceRepo.signal } returns signal
         every { intConverter.toArray(signal, Signal.digitCount) } returns typeCheck
@@ -55,38 +63,27 @@ class SignalInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun getState() {
-        val signal = Random.nextInt()
-        val isMelody = Random.nextBoolean()
-        val isVibration = Random.nextBoolean()
+        val typeCheck = booleanArrayOf(Random.nextBoolean(), Random.nextBoolean())
+        val state = SignalState[typeCheck]
 
-        val typeCheckArray = booleanArrayOf(isMelody, isVibration)
-        val state = SignalState(isMelody, isVibration)
-
-        every { preferenceRepo.signal } returns signal
-        every { intConverter.toArray(signal, Signal.digitCount) } returns typeCheckArray
-
-        assertEquals(state, interactor.state)
+        every { spyInteractor.typeCheck } returns typeCheck
+        assertEquals(state, spyInteractor.state)
 
         verifySequence {
-            preferenceRepo.signal
-            intConverter.toArray(signal, Signal.digitCount)
+            spyInteractor.state
+            spyInteractor.typeCheck
         }
     }
 
 
     @Test fun getMelodyList() = startCoTest {
-        coEvery { ringtoneControl.getByType(any()) } returns melodyList
+        val list = mockk<List<MelodyItem>>()
 
-        assertEquals(melodyList, interactor.getMelodyList())
-        assertEquals(melodyList, interactor.melodyList)
+        coEvery { ringtoneControl.getByType(any()) } returns list
 
-        coVerifySequence {
-            ringtoneControl.getByType(interactor.typeList)
-        }
-
-        coEvery { ringtoneControl.getByType(any()) } returns emptyList()
-
-        assertEquals(melodyList, interactor.getMelodyList())
+        assertEquals(list, interactor.getMelodyList())
+        assertEquals(list, interactor.melodyList)
+        assertEquals(list, interactor.getMelodyList())
 
         coVerifySequence {
             ringtoneControl.getByType(interactor.typeList)
@@ -104,7 +101,6 @@ class SignalInteractorTest : ParentInteractorTest() {
     @Test fun getMelodyUri() = startCoTest {
         val wrongUri = nextString()
         val wrongReturnUri = melodyList.first().uri
-
         val goodUri = melodyList.random().uri
 
         coEvery { spyInteractor.getMelodyList() } returns emptyList()
@@ -143,7 +139,6 @@ class SignalInteractorTest : ParentInteractorTest() {
 
     @Test fun setMelodyUri() = startCoTest {
         val wrongTitle = nextString()
-
         val wrongItem = melodyList.first()
         val melodyItem = melodyList.random()
 
@@ -195,5 +190,4 @@ class SignalInteractorTest : ParentInteractorTest() {
             }
         }
     }
-
 }
