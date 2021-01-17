@@ -55,16 +55,19 @@ class NotesInteractor(
     override suspend fun updateNote(item: NoteItem) {
         noteRepo.updateNote(item)
 
-        /**
-         * Need for prevent overriding noteItem rollList in list model
-         */
-        val noteMirror = when (item) {
+        val noteMirror = makeMirror(item)
+        val rankIdList = getRankIdVisibleList()
+        runMain { callback?.notifyNoteBind(noteMirror, rankIdList, preferenceRepo.sort) }
+    }
+
+    /**
+     * Need for prevent overriding noteItem rollList in list model
+     */
+    @RunPrivate suspend fun makeMirror(item: NoteItem): NoteItem {
+        return when (item) {
             is NoteItem.Text -> item.deepCopy()
             is NoteItem.Roll -> item.deepCopy(list = noteRepo.getRollList(item.id))
         }
-
-        val rankIdList = getRankIdVisibleList()
-        runMain { callback?.notifyNoteBind(noteMirror, rankIdList, preferenceRepo.sort) }
     }
 
     override suspend fun convertNote(item: NoteItem): NoteItem {
@@ -91,6 +94,9 @@ class NotesInteractor(
     }
 
 
+    /**
+     * TODO make common
+     */
     override suspend fun getDateList(): List<String> = alarmRepo.getList().map { it.alarm.date }
 
     override suspend fun clearDate(item: NoteItem) {

@@ -5,9 +5,7 @@ import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
-import sgtmelon.extension.getText
 import sgtmelon.extension.nextString
-import sgtmelon.scriptum.FastMock
 import sgtmelon.scriptum.FastTest
 import sgtmelon.scriptum.ParentInteractorTest
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
@@ -18,7 +16,6 @@ import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.getRandomSize
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.INotesBridge
-import java.util.*
 import kotlin.random.Random
 
 /**
@@ -36,6 +33,7 @@ class NotesInteractorTest : ParentInteractorTest() {
     private val interactor by lazy {
         NotesInteractor(preferenceRepo, alarmRepo, rankRepo, noteRepo, callback)
     }
+    private val spyInteractor by lazy { spyk(interactor) }
 
     override fun setUp() {
         super.setUp()
@@ -114,37 +112,30 @@ class NotesInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun updateNote() = startCoTest {
+        val item = mockk<NoteItem>()
+        val mirrorItem = mockk<NoteItem>()
+        val rankIdList = mockk<List<Long>>()
+        val sort = Random.nextInt()
+
+        coEvery { spyInteractor.makeMirror(item) } returns mirrorItem
+        coEvery { spyInteractor.getRankIdVisibleList() } returns rankIdList
+        every { preferenceRepo.sort } returns sort
+        spyInteractor.updateNote(item)
+
+        coVerifySequence {
+            spyInteractor.updateNote(item)
+            noteRepo.updateNote(item)
+
+            spyInteractor.makeMirror(item)
+            spyInteractor.getRankIdVisibleList()
+            spyInteractor.callback
+            preferenceRepo.sort
+            callback.notifyNoteBind(mirrorItem, rankIdList, sort)
+        }
+    }
+
+    @Test fun makeMirror() = startCoTest {
         TODO()
-        //        val rankIdVisibleList = data.rankIdVisibleList
-        //        val sort = TestData.sort
-        //
-        //        val textItem = data.itemList.filterIsInstance<NoteItem.Text>().random()
-        //        val textMirror = textItem.deepCopy()
-        //
-        //        val rollList = data.rollList
-        //
-        //        val rollItem = data.itemList.filterIsInstance<NoteItem.Roll>().random()
-        //        val rollMirror = rollItem.deepCopy(list = rollList)
-        //
-        //        coEvery { noteRepo.getRollList(rollItem.id) } returns rollList
-        //        every { preferenceRepo.sort } returns sort
-        //        coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList
-        //        interactor.updateNote(textItem)
-        //
-        //        coEvery { noteRepo.getRollList(rollItem.id) } returns rollList
-        //        interactor.updateNote(rollItem)
-        //
-        //        coVerifySequence {
-        //            noteRepo.updateNote(textItem)
-        //            rankRepo.getIdVisibleList()
-        //            preferenceRepo.sort
-        //            callback.notifyNoteBind(textMirror, rankIdVisibleList, sort)
-        //
-        //            noteRepo.updateNote(rollItem)
-        //            noteRepo.getRollList(rollItem.id)
-        //            preferenceRepo.sort
-        //            callback.notifyNoteBind(rollMirror, rankIdVisibleList, sort)
-        //        }
     }
 
     @Test fun convertNote() = startCoTest {
@@ -228,38 +219,12 @@ class NotesInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun clearDate() = startCoTest {
-        val item = mockk<NoteItem>()
-        val id = Random.nextLong()
-
-        every { item.id } returns id
-
-        interactor.clearDate(item)
-
-        coVerifySequence {
-            item.id
-            alarmRepo.delete(id)
-            item.id
-            callback.cancelAlarm(id)
-        }
+        FastTest.Interactor.clearDate<NoteItem>(alarmRepo, callback) { interactor.clearDate(it) }
     }
 
     @Test fun setDate() = startCoTest {
-        val item = mockk<NoteItem>()
-        val calendar = mockk<Calendar>()
-        val date = nextString()
-        val id = Random.nextLong()
-
-        FastMock.timeExtension()
-        every { calendar.getText() } returns date
-        every { item.id } returns id
-
-        interactor.setDate(item, calendar)
-
-        coVerifySequence {
-            calendar.getText()
-            alarmRepo.insertOrUpdate(item, date)
-            item.id
-            callback.setAlarm(calendar, id)
+        FastTest.Interactor.setDate<NoteItem>(alarmRepo, callback) { item, calendar ->
+            interactor.setDate(item, calendar)
         }
     }
 

@@ -44,7 +44,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     private val spyViewModel by lazy { spyk(viewModel, recordPrivateCalls = true) }
 
     private val fastTest by lazy {
-        FastTest.Note.ViewModel(
+        FastTest.ViewModel(
             callback, parentCallback, interactor, bindInteractor,
             inputControl, viewModel, spyViewModel, { mockDeepCopy(it) },
             { verifyDeepCopy(it) }

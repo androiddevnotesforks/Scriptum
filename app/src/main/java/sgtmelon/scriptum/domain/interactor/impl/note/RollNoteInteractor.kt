@@ -29,6 +29,8 @@ class RollNoteInteractor(
 ) : ParentInteractor(),
     IRollNoteInteractor {
 
+    // TODO make common functions with TextNoteInteractor
+
     @RunPrivate var rankIdVisibleList: List<Long>? = null
 
     @RunPrivate suspend fun getRankIdVisibleList(): List<Long> {
@@ -72,7 +74,6 @@ class RollNoteInteractor(
         }
     }
 
-
     /**
      * Update single roll.
      */
@@ -93,8 +94,12 @@ class RollNoteInteractor(
         runMain { callback?.notifyNoteBind(noteItem, rankIdList, preferenceRepo.sort) }
     }
 
+
     override suspend fun getRankId(check: Int): Long = rankRepo.getId(check)
 
+    /**
+     * TODO make common
+     */
     override suspend fun getDateList(): List<String> = alarmRepo.getList().map { it.alarm.date }
 
     override suspend fun clearDate(item: NoteItem.Roll) {
@@ -109,10 +114,10 @@ class RollNoteInteractor(
         runMain { callback?.setAlarm(calendar, item.id) }
     }
 
+
     override suspend fun convertNote(item: NoteItem.Roll) {
         noteRepo.convertNote(item, useCache = true)
     }
-
 
     override suspend fun restoreNote(item: NoteItem.Roll) = noteRepo.restoreNote(item)
 

@@ -5,19 +5,17 @@ import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
-import sgtmelon.extension.getText
 import sgtmelon.extension.nextString
-import sgtmelon.scriptum.FastMock
 import sgtmelon.scriptum.FastTest
 import sgtmelon.scriptum.ParentInteractorTest
-import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.domain.model.item.NoteItem
+import sgtmelon.scriptum.domain.model.item.NotificationItem
+import sgtmelon.scriptum.getRandomSize
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.IParentNoteBridge
-import java.util.*
 import kotlin.random.Random
 
 /**
@@ -25,6 +23,8 @@ import kotlin.random.Random
  */
 @ExperimentalCoroutinesApi
 class RollNoteInteractorTest : ParentInteractorTest() {
+
+    // TODO many items are common with [TextNoteInteractor]
 
     @MockK lateinit var preferenceRepo: IPreferenceRepo
     @MockK lateinit var alarmRepo: IAlarmRepo
@@ -69,7 +69,7 @@ class RollNoteInteractorTest : ParentInteractorTest() {
         }
     }
 
-    @Test fun getSaveModel() = FastTest.Note.Interactor.getSaveModel(preferenceRepo) {
+    @Test fun getSaveModel() = FastTest.Interactor.getSaveModel(preferenceRepo) {
         interactor.getSaveModel()
     }
 
@@ -111,18 +111,9 @@ class RollNoteInteractorTest : ParentInteractorTest() {
         }
     }
 
-    /**
-     * Can't mockk Arrays. Don't try.
-     */
     @Test fun getRankDialogItemArray() = startCoTest {
-        val emptyName = nextString()
-        val itemArray = Array(size = 5) { nextString() }
-
-        coEvery { rankRepo.getDialogItemArray(emptyName) } returns itemArray
-        assertArrayEquals(itemArray, interactor.getRankDialogItemArray(emptyName))
-
-        coVerifySequence {
-            rankRepo.getDialogItemArray(emptyName)
+        FastTest.Interactor.getRankDialogItemArray(rankRepo) {
+            interactor.getRankDialogItemArray(it)
         }
     }
 
@@ -149,7 +140,6 @@ class RollNoteInteractorTest : ParentInteractorTest() {
             callback.notifyNoteBind(item, rankIdList, sort)
         }
     }
-
 
     @Test fun updateRollCheck_byPosition() = startCoTest {
         val item = mockk<NoteItem.Roll>()
@@ -191,65 +181,48 @@ class RollNoteInteractorTest : ParentInteractorTest() {
         }
     }
 
+
     @Test fun getRankId() = startCoTest {
-        val check = Random.nextInt()
-        val id = Random.nextLong()
-
-        coEvery { rankRepo.getId(check) } returns id
-        assertEquals(id, interactor.getRankId(check))
-
-        coVerifySequence {
-            rankRepo.getId(check)
-        }
+        FastTest.Interactor.getRankId(rankRepo) { interactor.getRankId(it) }
     }
 
     @Test fun getDateList() = startCoTest {
-        val itemList = TestData.Notification.itemList
-        val dateList = itemList.map { it.alarm.date }
+        val size = getRandomSize()
+        val itemList = MutableList<NotificationItem>(size) { mockk() }
+        val alarmList = List<NotificationItem.Alarm>(size) { mockk() }
+        val dateList = List(size) { nextString() }
 
         coEvery { alarmRepo.getList() } returns itemList
+
+        for ((i, item) in itemList.withIndex()) {
+            every { item.alarm } returns alarmList[i]
+            every { alarmList[i].date } returns dateList[i]
+        }
+
         assertEquals(dateList, interactor.getDateList())
 
         coVerifySequence {
             alarmRepo.getList()
+
+            for ((i, item) in itemList.withIndex()) {
+                item.alarm
+                alarmList[i].date
+            }
         }
     }
 
     @Test fun clearDate() = startCoTest {
-        val item = mockk<NoteItem.Roll>()
-        val id = Random.nextLong()
-
-        every { item.id } returns id
-
-        interactor.clearDate(item)
-
-        coVerifySequence {
-            item.id
-            alarmRepo.delete(id)
-            item.id
-            callback.cancelAlarm(id)
+        FastTest.Interactor.clearDate<NoteItem.Roll>(alarmRepo, callback) {
+            interactor.clearDate(it)
         }
     }
 
     @Test fun setDate() = startCoTest {
-        val item = mockk<NoteItem.Roll>()
-        val id = Random.nextLong()
-        val calendar = mockk<Calendar>()
-        val date = nextString()
-
-        FastMock.timeExtension()
-        every { calendar.getText() } returns date
-        every { item.id } returns id
-
-        interactor.setDate(item, calendar)
-
-        coVerifySequence {
-            calendar.getText()
-            alarmRepo.insertOrUpdate(item, date)
-            item.id
-            callback.setAlarm(calendar, id)
+        FastTest.Interactor.setDate<NoteItem.Roll>(alarmRepo, callback) { item, calendar ->
+            interactor.setDate(item, calendar)
         }
     }
+
 
     @Test fun convertNote() = startCoTest {
         val item = mockk<NoteItem.Roll>()
@@ -262,7 +235,6 @@ class RollNoteInteractorTest : ParentInteractorTest() {
             noteRepo.convertNote(item, useCache = true)
         }
     }
-
 
     @Test fun restoreNote() = startCoTest {
         val item = mockk<NoteItem.Roll>()

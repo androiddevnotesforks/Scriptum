@@ -21,17 +21,19 @@ import java.util.*
  * Interactor for [ITextNoteViewModel].
  */
 class TextNoteInteractor(
-        private val preferenceRepo: IPreferenceRepo,
-        private val alarmRepo: IAlarmRepo,
-        private val rankRepo: IRankRepo,
-        private val noteRepo: INoteRepo,
-        @RunPrivate var callback: IParentNoteBridge?
+    private val preferenceRepo: IPreferenceRepo,
+    private val alarmRepo: IAlarmRepo,
+    private val rankRepo: IRankRepo,
+    private val noteRepo: INoteRepo,
+    @RunPrivate var callback: IParentNoteBridge?
 ) : ParentInteractor(),
-        ITextNoteInteractor {
+    ITextNoteInteractor {
 
-    private var rankIdVisibleList: List<Long>? = null
+    // TODO make common functions with RollNoteInteractor
 
-    private suspend fun getRankIdVisibleList(): List<Long> {
+    @RunPrivate var rankIdVisibleList: List<Long>? = null
+
+    @RunPrivate suspend fun getRankIdVisibleList(): List<Long> {
         return rankIdVisibleList ?: rankRepo.getIdVisibleList().also { rankIdVisibleList = it }
     }
 
@@ -65,6 +67,9 @@ class TextNoteInteractor(
 
     override suspend fun getRankId(check: Int): Long = rankRepo.getId(check)
 
+    /**
+     * TODO make common
+     */
     override suspend fun getDateList(): List<String> = alarmRepo.getList().map { it.alarm.date }
 
     override suspend fun clearDate(item: NoteItem.Text) {
@@ -79,10 +84,10 @@ class TextNoteInteractor(
         runMain { callback?.setAlarm(calendar, item.id) }
     }
 
+
     override suspend fun convertNote(item: NoteItem.Text) {
         noteRepo.convertNote(item)
     }
-
 
     override suspend fun restoreNote(item: NoteItem.Text) = noteRepo.restoreNote(item)
 

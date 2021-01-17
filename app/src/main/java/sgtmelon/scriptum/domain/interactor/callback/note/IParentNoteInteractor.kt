@@ -32,8 +32,8 @@ interface IParentNoteInteractor<N : NoteItem> : IParentInteractor {
 
     suspend fun setDate(item: N, calendar: Calendar)
 
-    suspend fun convertNote(item: N)
 
+    suspend fun convertNote(item: N)
 
     suspend fun restoreNote(item: N)
 
