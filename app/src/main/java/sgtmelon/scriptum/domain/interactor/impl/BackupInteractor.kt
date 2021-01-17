@@ -22,14 +22,14 @@ import sgtmelon.scriptum.presentation.control.file.IFileControl
  * Interactor for import/export backup files.
  */
 class BackupInteractor(
-        private val preferenceRepo: IPreferenceRepo,
-        private val alarmRepo: IAlarmRepo,
-        private val rankRepo: IRankRepo,
-        private val noteRepo: INoteRepo,
-        private val backupRepo: IBackupRepo,
-        private val backupParser: IBackupParser,
-        private val fileControl: IFileControl,
-        private val cipherControl: ICipherControl
+    private val preferenceRepo: IPreferenceRepo,
+    private val alarmRepo: IAlarmRepo,
+    private val rankRepo: IRankRepo,
+    private val noteRepo: INoteRepo,
+    private val backupRepo: IBackupRepo,
+    private val backupParser: IBackupParser,
+    private val fileControl: IFileControl,
+    private val cipherControl: ICipherControl
 ) : IBackupInteractor {
 
     @RunPrivate var fileList: List<FileItem>? = null

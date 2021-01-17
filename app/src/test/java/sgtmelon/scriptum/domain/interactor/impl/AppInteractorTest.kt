@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.domain.interactor.impl
 
+import io.mockk.confirmVerified
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Test
@@ -17,6 +18,10 @@ class AppInteractorTest : ParentInteractorTest() {
 
     private val interactor by lazy { AppInteractor(preferenceRepo) }
 
-    @Test fun getTheme() = FastTest.getTheme(preferenceRepo) { interactor.theme }
+    override fun tearDown() {
+        super.tearDown()
+        confirmVerified(preferenceRepo)
+    }
 
+    @Test fun getTheme() = FastTest.getTheme(preferenceRepo) { interactor.theme }
 }

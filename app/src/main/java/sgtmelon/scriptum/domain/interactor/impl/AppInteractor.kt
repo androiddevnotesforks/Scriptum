@@ -9,9 +9,9 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.IAppViewModel
  * Interactor for [IAppViewModel].
  */
 class AppInteractor(
-        private val preferenceRepo: IPreferenceRepo
+    private val preferenceRepo: IPreferenceRepo
 ) : ParentInteractor(),
-        IAppInteractor {
+    IAppInteractor {
 
     @Theme override val theme: Int get() = preferenceRepo.theme
 

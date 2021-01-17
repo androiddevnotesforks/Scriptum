@@ -39,7 +39,6 @@ class RollNoteInteractorTest : ParentInteractorTest() {
 
     override fun setUp() {
         super.setUp()
-
         assertNull(interactor.rankIdVisibleList)
     }
 
@@ -62,6 +61,9 @@ class RollNoteInteractorTest : ParentInteractorTest() {
 
         assertEquals(list, interactor.getRankIdVisibleList())
         assertEquals(list, interactor.rankIdVisibleList)
+
+        coEvery { rankRepo.getIdVisibleList() } returns emptyList()
+
         assertEquals(list, interactor.getRankIdVisibleList())
 
         coVerifySequence {

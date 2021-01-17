@@ -44,34 +44,38 @@ class BackupInteractorTest : ParentInteractorTest() {
 
     private val interactor by lazy {
         BackupInteractor(
-                preferenceRepo, alarmRepo, rankRepo, noteRepo, backupRepo,
-                backupParser, fileControl, cipherControl
+            preferenceRepo, alarmRepo, rankRepo, noteRepo, backupRepo,
+            backupParser, fileControl, cipherControl
         )
     }
     private val spyInteractor by lazy { spyk(interactor) }
 
     override fun setUp() {
         super.setUp()
-
         assertNull(interactor.fileList)
+    }
+
+    override fun tearDown() {
+        super.tearDown()
+
+        confirmVerified(
+            preferenceRepo, alarmRepo, rankRepo, noteRepo, backupRepo,
+            backupParser, fileControl, cipherControl
+        )
     }
 
 
     @Test fun getFileList() = startCoTest {
-        val fileList = List(size = 5) { FileItem(nextShortString(), nextString()) }
+        val list = mockk<List<FileItem>>()
 
-        coEvery { fileControl.getFileList(FileType.BACKUP) } returns fileList
+        coEvery { fileControl.getFileList(FileType.BACKUP) } returns list
 
-        assertEquals(fileList, interactor.getFileList())
-        assertEquals(fileList, interactor.fileList)
-
-        coVerifySequence {
-            fileControl.getFileList(FileType.BACKUP)
-        }
+        assertEquals(list, interactor.getFileList())
+        assertEquals(list, interactor.fileList)
 
         coEvery { fileControl.getFileList(FileType.BACKUP) } returns emptyList()
 
-        assertEquals(fileList, interactor.getFileList())
+        assertEquals(list, interactor.getFileList())
 
         coVerifySequence {
             fileControl.getFileList(FileType.BACKUP)
@@ -88,10 +92,10 @@ class BackupInteractorTest : ParentInteractorTest() {
 
     @Test fun export() = startCoTest {
         val noteList = listOf(
-                NoteEntity(id = Random.nextLong(), type = NoteType.TEXT),
-                NoteEntity(id = Random.nextLong(), type = NoteType.ROLL),
-                NoteEntity(id = Random.nextLong(), type = NoteType.ROLL),
-                NoteEntity(id = Random.nextLong(), type = NoteType.TEXT)
+            NoteEntity(id = Random.nextLong(), type = NoteType.TEXT),
+            NoteEntity(id = Random.nextLong(), type = NoteType.ROLL),
+            NoteEntity(id = Random.nextLong(), type = NoteType.ROLL),
+            NoteEntity(id = Random.nextLong(), type = NoteType.TEXT)
         )
 
         val noteIdList = noteList.filter { it.type == NoteType.ROLL }.map { it.id }
