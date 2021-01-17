@@ -24,4 +24,5 @@ class AppInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun getTheme() = FastTest.getTheme(preferenceRepo) { interactor.theme }
+
 }

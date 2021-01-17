@@ -76,5 +76,4 @@ class BackupInteractor(
 
         return backupRepo.insertData(BackupRepo.Model[parserResult], importSkip)
     }
-
 }
