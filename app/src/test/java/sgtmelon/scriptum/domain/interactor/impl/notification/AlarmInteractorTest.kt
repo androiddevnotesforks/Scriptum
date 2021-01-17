@@ -6,13 +6,11 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.extension.*
-import sgtmelon.scriptum.FastMock
-import sgtmelon.scriptum.FastTest
-import sgtmelon.scriptum.ParentInteractorTest
-import sgtmelon.scriptum.TestData
+import sgtmelon.scriptum.*
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
+import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.domain.model.item.NotificationItem.Alarm
 import sgtmelon.scriptum.domain.model.item.NotificationItem.Note
@@ -26,8 +24,6 @@ import kotlin.random.Random
  */
 @ExperimentalCoroutinesApi
 class AlarmInteractorTest : ParentInteractorTest() {
-
-    private val data = TestData.Note
 
     @MockK lateinit var preferenceRepo: IPreferenceRepo
     @MockK lateinit var alarmRepo: IAlarmRepo
@@ -59,23 +55,20 @@ class AlarmInteractorTest : ParentInteractorTest() {
     @Test fun getVolume() = FastTest.getVolume(preferenceRepo) { interactor.volume }
 
     @Test fun getVolumeIncrease() {
-        fun checkRequestGet(value: Boolean) {
-            every { preferenceRepo.volumeIncrease } returns value
-            assertEquals(value, interactor.volumeIncrease)
-        }
+        val value = Random.nextBoolean()
 
-        val valueList = listOf(Random.nextBoolean(), Random.nextBoolean())
-
-        for (it in valueList) checkRequestGet(it)
+        every { preferenceRepo.volumeIncrease } returns value
+        assertEquals(value, interactor.volumeIncrease)
 
         verifySequence {
-            repeat(valueList.size) { preferenceRepo.volumeIncrease }
+            preferenceRepo.volumeIncrease
         }
     }
 
+
     @Test fun getModel() = startCoTest {
         val noteId = Random.nextLong()
-        val item = data.itemList.random()
+        val item = mockk<NoteItem>()
 
         coEvery { noteRepo.getItem(noteId, isOptimal = true) } returns null
         assertEquals(null, interactor.getModel(noteId))
@@ -93,31 +86,37 @@ class AlarmInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun setupRepeat() = startCoTest {
-        val item = data.itemList.random()
-
-        val timeArray = intArrayOf(1, 2, 3, 4)
-        val repeat = timeArray.indices.random()
-        val minute = timeArray[repeat]
+        val item = mockk<NoteItem>()
+        val size = getRandomSize()
+        val valueArray = IntArray(size) { Random.nextInt() }
+        val repeat = valueArray.indices.random()
+        val minute = valueArray[repeat]
 
         val calendar = mockk<Calendar>()
         val calendarText = nextString()
+        val id = Random.nextLong()
 
         coEvery { spyInteractor.checkDateExist(calendar) } returns Unit
 
         FastMock.timeExtension()
         every { getCalendarWithAdd(minute) } returns calendar
         every { calendar.getText() } returns calendarText
+        every { item.id } returns id
 
-        spyInteractor.setupRepeat(item, intArrayOf(), Random.nextInt())
-        spyInteractor.setupRepeat(item, timeArray, repeat)
+        spyInteractor.setupRepeat(item, intArrayOf(), repeat)
+        spyInteractor.setupRepeat(item, valueArray, repeat)
 
-        coVerifyOrder {
+        coVerifySequence {
+            spyInteractor.setupRepeat(item, intArrayOf(), repeat)
+
+            spyInteractor.setupRepeat(item, valueArray, repeat)
             getCalendarWithAdd(minute)
             spyInteractor.checkDateExist(calendar)
-
             calendar.getText()
             alarmRepo.insertOrUpdate(item, calendarText)
-            callback.setAlarm(calendar, item.id)
+            spyInteractor.callback
+            item.id
+            callback.setAlarm(calendar, id)
         }
     }
 
@@ -149,5 +148,4 @@ class AlarmInteractorTest : ParentInteractorTest() {
             alarmRepo.getList()
         }
     }
-
 }

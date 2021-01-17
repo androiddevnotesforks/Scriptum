@@ -20,12 +20,12 @@ import java.util.*
  * Interactor for [IAlarmViewModel].
  */
 class AlarmInteractor(
-        private val preferenceRepo: IPreferenceRepo,
-        private val alarmRepo: IAlarmRepo,
-        private val noteRepo: INoteRepo,
-        @RunPrivate var callback: IAlarmBridge?
+    private val preferenceRepo: IPreferenceRepo,
+    private val alarmRepo: IAlarmRepo,
+    private val noteRepo: INoteRepo,
+    @RunPrivate var callback: IAlarmBridge?
 ) : ParentInteractor(),
-        IAlarmInteractor {
+    IAlarmInteractor {
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy { callback = null }
 
@@ -48,25 +48,26 @@ class AlarmInteractor(
         return noteRepo.getItem(id, isOptimal = true)
     }
 
-    override suspend fun setupRepeat(noteItem: NoteItem, valueArray: IntArray,
-                                     @Repeat repeat: Int) {
+    override suspend fun setupRepeat(
+        noteItem: NoteItem,
+        valueArray: IntArray,
+        @Repeat repeat: Int
+    ) {
         val minute = valueArray.getOrNull(repeat) ?: return
         val calendar = getCalendarWithAdd(minute)
 
         checkDateExist(calendar)
-        
+
         alarmRepo.insertOrUpdate(noteItem, calendar.getText())
 
         runMain { callback?.setAlarm(calendar, noteItem.id) }
     }
 
-    @RunPrivate
-    suspend fun checkDateExist(calendar: Calendar) {
+    @RunPrivate suspend fun checkDateExist(calendar: Calendar) {
         val dateList = alarmRepo.getList().map { it.alarm.date }
 
         while (dateList.contains(calendar.getText())) {
             calendar.add(Calendar.MINUTE, 1)
         }
     }
-
 }
