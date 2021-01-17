@@ -12,9 +12,19 @@ import sgtmelon.scriptum.domain.model.item.InputItem.Cursor.Companion.get
  */
 class InputItemTest : ParentTest() {
 
+    //region Data
+
+    private val valueFrom = "12345"
+    private val valueTo = "54321"
+    private val cursorFrom = 1
+    private val cursorTo = 4
+
+    private val cursor = InputItem.Cursor(cursorFrom, cursorTo)
+
+    //endregion
 
     @Test fun defaultValues() {
-        val item = InputItem(InputAction.COLOR, VALUE_FROM, VALUE_TO)
+        val item = InputItem(InputAction.COLOR, valueFrom, valueTo)
 
         assertEquals(InputItem.ND_CURSOR, item.cursor)
         assertEquals(InputItem.ND_POSITION, item.p)
@@ -23,65 +33,53 @@ class InputItemTest : ParentTest() {
 
     @Test fun throwOnNameTag() {
         assertThrows(NullPointerException::class.java) {
-            InputItem(InputAction.NAME, VALUE_FROM, VALUE_TO)
+            InputItem(InputAction.NAME, valueFrom, valueTo)
         }
     }
 
     @Test fun notThrowOnNameTag() {
-        InputItem(InputAction.NAME, VALUE_FROM, VALUE_TO, cursor)
+        InputItem(InputAction.NAME, valueFrom, valueTo, cursor)
     }
 
     @Test fun throwOnTextTag() {
         assertThrows(NullPointerException::class.java) {
-            InputItem(InputAction.TEXT, VALUE_FROM, VALUE_TO)
+            InputItem(InputAction.TEXT, valueFrom, valueTo)
         }
     }
 
     @Test fun notThrowOnTextTag() {
-        InputItem(InputAction.TEXT, VALUE_FROM, VALUE_TO, cursor)
+        InputItem(InputAction.TEXT, valueFrom, valueTo, cursor)
     }
 
     @Test fun throwOnRollTag() {
         assertThrows(NullPointerException::class.java) {
-            InputItem(InputAction.ROLL, VALUE_FROM, VALUE_TO)
+            InputItem(InputAction.ROLL, valueFrom, valueTo)
         }
     }
 
     @Test fun notThrowOnRollTag() {
-        InputItem(InputAction.ROLL, VALUE_FROM, VALUE_TO, cursor)
+        InputItem(InputAction.ROLL, valueFrom, valueTo, cursor)
     }
 
 
     @Test fun get() {
-        val item = InputItem(InputAction.TEXT, VALUE_FROM, VALUE_TO, cursor)
+        val item = InputItem(InputAction.TEXT, valueFrom, valueTo, cursor)
 
-        assertEquals(VALUE_FROM, item[true])
-        assertEquals(VALUE_TO, item[false])
+        assertEquals(valueFrom, item[true])
+        assertEquals(valueTo, item[false])
     }
 
     @Test fun cursorGet() {
-        val item = InputItem(InputAction.TEXT, VALUE_FROM, VALUE_TO, cursor)
+        val item = InputItem(InputAction.TEXT, valueFrom, valueTo, cursor)
 
-        assertEquals(CURSOR_FROM, item.cursor[true])
-        assertEquals(CURSOR_TO, item.cursor[false])
+        assertEquals(cursorFrom, item.cursor[true])
+        assertEquals(cursorTo, item.cursor[false])
     }
 
     @Test fun nullCursorGet() {
-        val item = InputItem(InputAction.COLOR, VALUE_FROM, VALUE_TO)
+        val item = InputItem(InputAction.COLOR, valueFrom, valueTo)
 
         assertEquals(InputItem.Cursor.ND_VALUE, item.cursor[true])
         assertEquals(InputItem.Cursor.ND_VALUE, item.cursor[false])
     }
-
-
-    private val cursor = InputItem.Cursor(CURSOR_FROM, CURSOR_TO)
-
-    companion object {
-        private const val VALUE_FROM = "12345"
-        private const val VALUE_TO = "54321"
-
-        private const val CURSOR_FROM = 1
-        private const val CURSOR_TO = 4
-    }
-
 }

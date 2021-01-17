@@ -14,6 +14,7 @@ import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.NotificationItem
+import sgtmelon.scriptum.domain.model.item.RollItem
 import sgtmelon.scriptum.getRandomSize
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.INotesBridge
 import kotlin.random.Random
@@ -136,62 +137,82 @@ class NotesInteractorTest : ParentInteractorTest() {
         }
     }
 
-    @Test fun makeMirror() = startCoTest {
+    @Test fun makeMirror_text() = startCoTest {
         TODO()
     }
 
-    @Test fun convertNote() = startCoTest {
+    @Test fun makeMirror_roll() = startCoTest {
         TODO()
-        //        val rankIdVisibleList = data.rankIdVisibleList
-        //        val sort = TestData.sort
-        //
-        //        val textItem = data.itemList.filterIsInstance<NoteItem.Text>().random()
-        //
-        //        val rollList = data.rollList
-        //        val rollItemSmall = data.itemList.filterIsInstance<NoteItem.Roll>().random().apply {
-        //            list.addAll(rollList.subList(0, 2))
-        //        }
-        //        val rollItemLarge = data.itemList.filterIsInstance<NoteItem.Roll>().random().apply {
-        //            list.addAll(rollList)
-        //        }
-        //        val rollItemLargePreview = rollItemLarge.deepCopy(list = rollList).apply {
-        //            with(list) { dropLast(size - NoteItem.Roll.PREVIEW_SIZE) }
-        //        }
-        //
-        //        /**
-        //         * Convert textNote.
-        //         */
-        //        coEvery { noteRepo.convertNote(textItem) } returns rollItemSmall
-        //        every { preferenceRepo.sort } returns sort
-        //        coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList
-        //        assertEquals(rollItemSmall, interactor.convertNote(textItem))
-        //
-        //        /**
-        //         * Convert textNote with list cut of return rollNote.
-        //         */
-        //        coEvery { noteRepo.convertNote(textItem) } returns rollItemLarge
-        //        assertEquals(rollItemLargePreview, interactor.convertNote(textItem))
-        //
-        //        /**
-        //         * Convert rollNote.
-        //         */
-        //        coEvery { noteRepo.convertNote(rollItemSmall, useCache = false) } returns textItem
-        //        assertEquals(textItem, interactor.convertNote(rollItemSmall))
-        //
-        //        coVerifySequence {
-        //            noteRepo.convertNote(textItem)
-        //            rankRepo.getIdVisibleList()
-        //            preferenceRepo.sort
-        //            callback.notifyNoteBind(textItem, rankIdVisibleList, sort)
-        //
-        //            noteRepo.convertNote(textItem)
-        //            preferenceRepo.sort
-        //            callback.notifyNoteBind(textItem, rankIdVisibleList, sort)
-        //
-        //            noteRepo.convertNote(rollItemSmall, useCache = false)
-        //            preferenceRepo.sort
-        //            callback.notifyNoteBind(rollItemSmall, rankIdVisibleList, sort)
-        //        }
+    }
+
+    @Test fun convertNote_text() = startCoTest {
+        val item = mockk<NoteItem.Text>()
+        val convertItem = mockk<NoteItem.Roll>()
+        val rankIdList = mockk<List<Long>>()
+        val sort = Random.nextInt()
+
+        coEvery { noteRepo.convertNote(item) } returns convertItem
+        coEvery { spyInteractor.getRankIdVisibleList() } returns rankIdList
+        every { preferenceRepo.sort } returns sort
+        every { spyInteractor.onConvertOptimisation(convertItem) } returns Unit
+
+        assertEquals(convertItem, spyInteractor.convertNote(item))
+
+        coVerifySequence {
+            spyInteractor.convertNote(item)
+            noteRepo.convertNote(item)
+            spyInteractor.getRankIdVisibleList()
+            spyInteractor.callback
+            preferenceRepo.sort
+            callback.notifyNoteBind(convertItem, rankIdList, sort)
+            spyInteractor.onConvertOptimisation(convertItem)
+        }
+    }
+
+    @Test fun convertNote_roll() = startCoTest {
+        val item = mockk<NoteItem.Roll>()
+        val convertItem = mockk<NoteItem.Text>()
+        val rankIdList = mockk<List<Long>>()
+        val sort = Random.nextInt()
+
+        coEvery { noteRepo.convertNote(item, useCache = false) } returns convertItem
+        coEvery { spyInteractor.getRankIdVisibleList() } returns rankIdList
+        every { preferenceRepo.sort } returns sort
+
+        assertEquals(convertItem, spyInteractor.convertNote(item))
+
+        coVerifySequence {
+            spyInteractor.convertNote(item)
+            noteRepo.convertNote(item, useCache = false)
+            spyInteractor.getRankIdVisibleList()
+            spyInteractor.callback
+            preferenceRepo.sort
+            callback.notifyNoteBind(convertItem, rankIdList, sort)
+        }
+    }
+
+    @Test fun onConvertOptimisation() {
+        val item = mockk<NoteItem.Roll>()
+        val size = getRandomSize()
+        val startList = MutableList<RollItem>(size) { mockk() }
+        val finishList = startList.take(NoteItem.Roll.PREVIEW_SIZE).toMutableList()
+
+        every { item.list } returns mutableListOf()
+        interactor.onConvertOptimisation(item)
+
+        every { item.list } returns finishList
+        interactor.onConvertOptimisation(item)
+        assertEquals(NoteItem.Roll.PREVIEW_SIZE, finishList.size)
+
+        every { item.list } returns startList
+        interactor.onConvertOptimisation(item)
+        assertEquals(startList, finishList)
+
+        verifySequence {
+            item.list
+            item.list
+            item.list
+        }
     }
 
 

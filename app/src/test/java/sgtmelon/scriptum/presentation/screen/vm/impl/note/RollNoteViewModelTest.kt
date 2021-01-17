@@ -18,6 +18,7 @@ import sgtmelon.scriptum.domain.model.item.RollItem
 import sgtmelon.scriptum.domain.model.state.NoteState
 import sgtmelon.scriptum.extension.move
 import sgtmelon.scriptum.extension.validRemoveAt
+import sgtmelon.scriptum.getRandomSize
 import sgtmelon.scriptum.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.presentation.control.note.save.ISaveControl
@@ -1137,7 +1138,8 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
 
     private fun mockDeepCopy(
-        item: NoteItem.Roll, id: Long = Random.nextLong(),
+        item: NoteItem.Roll,
+        id: Long = Random.nextLong(),
         create: String = nextString(),
         change: String = nextString(),
         name: String = nextString(),
@@ -1148,10 +1150,9 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         isBin: Boolean = Random.nextBoolean(),
         isStatus: Boolean = Random.nextBoolean(),
         alarmId: Long = Random.nextLong(),
-        alarmDate: String = nextString()
+        alarmDate: String = nextString(),
+        list: MutableList<RollItem> = MutableList(getRandomSize()) { mockk<RollItem>() }
     ) {
-        val list = MutableList(size = 5) { mockk<RollItem>() }
-
         every { item.id } returns id
         every { item.create } returns create
         every { item.change } returns change
@@ -1172,8 +1173,8 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
         every {
             item.deepCopy(
-                any(), any(), any(), any(), any(), any(),
-                any(), any(), any(), any(), any(), any(), any()
+                any(), any(), any(), any(), any(), any(), any(),
+                any(), any(), any(), any(), any(), any()
             )
         } returns item
     }
@@ -1193,8 +1194,8 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         item.alarmDate
 
         item.deepCopy(
-            any(), any(), any(), any(), any(), any(),
-            any(), any(), any(), any(), any(), any(), any()
+            any(), any(), any(), any(), any(), any(), any(),
+            any(), any(), any(), any(), any(), any()
         )
     }
 

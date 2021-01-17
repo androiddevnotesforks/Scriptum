@@ -289,5 +289,4 @@ class OpenStateTest : ParentTest() {
             bundle.putString(OpenState.KEY_TAG, tag)
         }
     }
-
 }

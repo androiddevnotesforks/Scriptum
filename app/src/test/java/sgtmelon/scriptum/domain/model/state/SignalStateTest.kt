@@ -19,5 +19,4 @@ class SignalStateTest : ParentTest() {
         val signalState = SignalState(isMelody, isVibration)
         assertEquals(signalState, SignalState[booleanArrayOf(isMelody, isVibration)])
     }
-
 }

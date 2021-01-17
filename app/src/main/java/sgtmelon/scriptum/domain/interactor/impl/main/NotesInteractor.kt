@@ -77,20 +77,25 @@ class NotesInteractor(
         }
 
         val rankIdList = getRankIdVisibleList()
-        runMain { callback?.notifyNoteBind(item, rankIdList, preferenceRepo.sort) }
+        runMain { callback?.notifyNoteBind(convertItem, rankIdList, preferenceRepo.sort) }
 
-        /**
-         * Optimisation for get only first 4 items
-         */
         if (convertItem is NoteItem.Roll) {
-            val previewSize = NoteItem.Roll.PREVIEW_SIZE
-
-            with(convertItem.list) {
-                if (size > previewSize) dropLast(n = size - previewSize)
-            }
+            onConvertOptimisation(convertItem)
         }
 
         return convertItem
+    }
+
+    /**
+     * Optimisation for get only first 4 items in roll list.
+     */
+    @RunPrivate fun onConvertOptimisation(item: NoteItem.Roll) {
+        val previewSize = NoteItem.Roll.PREVIEW_SIZE
+        val list = item.list
+
+        while (list.isNotEmpty() && list.size > previewSize) {
+            list.removeAt(list.lastIndex)
+        }
     }
 
 

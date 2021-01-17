@@ -10,6 +10,12 @@ import sgtmelon.scriptum.domain.model.data.DbData.Rank.Default
  */
 class RankItemTest : ParentTest() {
 
+    //region Data
+
+    private val rankItem = RankItem(id = 0, name = "item")
+
+    //endregion
+
     @Test fun defaultValues() = with(rankItem) {
         assertEquals(Default.NOTE_ID, noteId)
         assertEquals(Default.POSITION, position)
@@ -23,8 +29,4 @@ class RankItemTest : ParentTest() {
         assertTrue(rankItem.copy(isVisible = false).switchVisible().isVisible)
         assertFalse(rankItem.copy(isVisible = true).switchVisible().isVisible)
     }
-
-
-    private val rankItem = RankItem(id = 0, name = "item")
-
 }

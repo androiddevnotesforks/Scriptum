@@ -17,5 +17,4 @@ class NoteStateTest : ParentTest() {
 
         assertEquals(noteState.isEdit, noteState.isEdit)
     }
-
 }

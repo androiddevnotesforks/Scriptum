@@ -2,6 +2,7 @@ package sgtmelon.scriptum.domain.model.item
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentTest
 
 /**
@@ -10,21 +11,14 @@ import sgtmelon.scriptum.ParentTest
 class MelodyItemTest : ParentTest() {
 
     @Test fun secondConstructor() {
-        val item = MelodyItem(TITLE, URI, ID)
+        val title = nextString()
+        val uri = nextString()
+        val id = nextString()
+        val resultUri = "$uri/$id"
 
-        assertEquals(TITLE, item.title)
-        assertEquals(RESULT_URI, item.uri)
+        val item = MelodyItem(title, uri, id)
+
+        assertEquals(title, item.title)
+        assertEquals(resultUri, item.uri)
     }
-
-
-    companion object {
-        private const val PREFIX = "TEST"
-
-        private const val TITLE = "${PREFIX}_TITLE"
-        private const val URI = "${PREFIX}_URI"
-        private const val ID = "${PREFIX}_ID"
-
-        private const val RESULT_URI = "${URI}/${ID}"
-    }
-
 }

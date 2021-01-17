@@ -31,5 +31,4 @@ class MenuColorStateTest : ParentTest() {
         assertEquals(Color.rgb(15,15,15), menuColorState.blend(ratio = 0.5f))
         assertEquals(Color.rgb(17,17,17), menuColorState.blend(ratio = 0.7f))
     }
-
 }
