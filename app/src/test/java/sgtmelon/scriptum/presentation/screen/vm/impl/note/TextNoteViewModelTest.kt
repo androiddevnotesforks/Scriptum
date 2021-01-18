@@ -6,9 +6,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.extension.nextString
-import sgtmelon.scriptum.FastTest
-import sgtmelon.scriptum.ParentViewModelTest
-import sgtmelon.scriptum.R
+import sgtmelon.scriptum.*
 import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.domain.model.annotation.InputAction
@@ -44,7 +42,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
     private val fastTest by lazy {
         FastTest.ViewModel(
             callback, parentCallback, interactor, bindInteractor,
-            inputControl, viewModel, spyViewModel, { mockDeepCopy(it) },
+            inputControl, viewModel, spyViewModel, { FastMock.Note.deepCopy(it) },
             { verifyDeepCopy(it) }
         )
     }
@@ -131,7 +129,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
         assertFalse(spyViewModel.tryInitializeNote())
 
         coEvery { interactor.getItem(id) } returns noteItem
-        mockDeepCopy(noteItem)
+        FastMock.Note.deepCopy(noteItem)
         every { noteItem.isBin } returns isBin
 
         assertTrue(spyViewModel.tryInitializeNote())
@@ -252,7 +250,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
         every { noteItem.color } returns colorFrom
         every { spyViewModel.setupEditMode(isEdit = false) } returns Unit
 
-        mockDeepCopy(restoreItem, color = colorTo)
+        FastMock.Note.deepCopy(restoreItem, color = colorTo)
 
         spyViewModel.id = id
         spyViewModel.noteItem = noteItem
@@ -454,62 +452,5 @@ class TextNoteViewModelTest : ParentViewModelTest() {
     @Test fun onResultSaveControl() = fastTest.onResultSaveControl()
 
     @Test fun onInputTextChange() = fastTest.onInputTextChange(mockk())
-
-
-    private fun mockDeepCopy(
-        item: NoteItem.Text,
-        id: Long = Random.nextLong(),
-        create: String = nextString(),
-        change: String = nextString(),
-        name: String = nextString(),
-        text: String = nextString(),
-        color: Int = Random.nextInt(),
-        rankId: Long = Random.nextLong(),
-        rankPs: Int = Random.nextInt(),
-        isBin: Boolean = Random.nextBoolean(),
-        isStatus: Boolean = Random.nextBoolean(),
-        alarmId: Long = Random.nextLong(),
-        alarmDate: String = nextString()
-    ) {
-        every { item.id } returns id
-        every { item.create } returns create
-        every { item.change } returns change
-        every { item.name } returns name
-        every { item.text } returns text
-        every { item.color } returns color
-        every { item.rankId } returns rankId
-        every { item.rankPs } returns rankPs
-        every { item.isBin } returns isBin
-        every { item.isStatus } returns isStatus
-        every { item.alarmId } returns alarmId
-        every { item.alarmDate } returns alarmDate
-
-        every {
-            item.deepCopy(
-                any(), any(), any(), any(), any(), any(),
-                any(), any(), any(), any(), any(), any()
-            )
-        } returns item
-    }
-
-    private fun MockKVerificationScope.verifyDeepCopy(item: NoteItem.Text) {
-        item.id
-        item.create
-        item.change
-        item.name
-        item.text
-        item.color
-        item.rankId
-        item.rankPs
-        item.isBin
-        item.isStatus
-        item.alarmId
-        item.alarmDate
-
-        item.deepCopy(
-                any(), any(), any(), any(), any(), any(),
-                any(), any(), any(), any(), any(), any()
-        )
-    }
 
 }

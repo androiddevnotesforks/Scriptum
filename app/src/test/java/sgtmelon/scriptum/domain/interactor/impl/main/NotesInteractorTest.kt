@@ -6,8 +6,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.extension.nextString
-import sgtmelon.scriptum.FastTest
-import sgtmelon.scriptum.ParentInteractorTest
+import sgtmelon.scriptum.*
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
@@ -15,7 +14,6 @@ import sgtmelon.scriptum.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.domain.model.item.RollItem
-import sgtmelon.scriptum.getRandomSize
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.INotesBridge
 import kotlin.random.Random
 
@@ -138,11 +136,35 @@ class NotesInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun makeMirror_text() = startCoTest {
-        TODO()
+        val item = mockk<NoteItem.Text>()
+
+        FastMock.Note.deepCopy(item)
+
+        interactor.makeMirror(item)
+
+        verifySequence {
+            verifyDeepCopy(item)
+        }
     }
 
     @Test fun makeMirror_roll() = startCoTest {
-        TODO()
+        val item = mockk<NoteItem.Roll>()
+        val id = Random.nextLong()
+        val size = getRandomSize()
+        val list = MutableList<RollItem>(size) { mockk() }
+
+        FastMock.Note.deepCopy(item, list = list)
+
+        every { item.id } returns id
+        coEvery { noteRepo.getRollList(id) } returns list
+
+        interactor.makeMirror(item)
+
+        coVerifySequence {
+            item.id
+            noteRepo.getRollList(id)
+            verifyDeepCopy(item, list = list)
+        }
     }
 
     @Test fun convertNote_text() = startCoTest {

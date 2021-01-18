@@ -18,12 +18,12 @@ import sgtmelon.scriptum.domain.model.item.RollItem
 import sgtmelon.scriptum.domain.model.state.NoteState
 import sgtmelon.scriptum.extension.move
 import sgtmelon.scriptum.extension.validRemoveAt
-import sgtmelon.scriptum.getRandomSize
 import sgtmelon.scriptum.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.presentation.control.note.save.ISaveControl
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.IRollNoteFragment
+import sgtmelon.scriptum.verifyDeepCopy
 import kotlin.random.Random
 
 /**
@@ -47,7 +47,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     private val fastTest by lazy {
         FastTest.ViewModel(
             callback, parentCallback, interactor, bindInteractor,
-            inputControl, viewModel, spyViewModel, { mockDeepCopy(it) },
+            inputControl, viewModel, spyViewModel, { FastMock.Note.deepCopy(it) },
             { verifyDeepCopy(it) }
         )
     }
@@ -143,7 +143,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         //        assertFalse(spyViewModel.tryInitializeNote())
         //
         //        coEvery { interactor.getItem(id) } returns noteItem
-        //        mockDeepCopy(noteItem)
+        //        FastMock.Note.deepCopy(noteItem)
         //        every { noteItem.isBin } returns isBin
         //        coEvery { interactor.getVisible(id) } returns isVisible
         //
@@ -298,7 +298,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         every { spyViewModel.onUpdateInfo() } returns Unit
         every { spyViewModel.getList(restoreItem) } returns rollList
 
-        mockDeepCopy(restoreItem, color = colorTo)
+        FastMock.Note.deepCopy(restoreItem, color = colorTo)
 
         spyViewModel.id = id
         spyViewModel.noteItem = noteItem
@@ -1135,68 +1135,4 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     @Test fun notifyListByVisible() {
         TODO()
     }
-
-
-    private fun mockDeepCopy(
-        item: NoteItem.Roll,
-        id: Long = Random.nextLong(),
-        create: String = nextString(),
-        change: String = nextString(),
-        name: String = nextString(),
-        text: String = nextString(),
-        color: Int = Random.nextInt(),
-        rankId: Long = Random.nextLong(),
-        rankPs: Int = Random.nextInt(),
-        isBin: Boolean = Random.nextBoolean(),
-        isStatus: Boolean = Random.nextBoolean(),
-        alarmId: Long = Random.nextLong(),
-        alarmDate: String = nextString(),
-        list: MutableList<RollItem> = MutableList(getRandomSize()) { mockk<RollItem>() }
-    ) {
-        every { item.id } returns id
-        every { item.create } returns create
-        every { item.change } returns change
-        every { item.name } returns name
-        every { item.text } returns text
-        every { item.color } returns color
-        every { item.rankId } returns rankId
-        every { item.rankPs } returns rankPs
-        every { item.isBin } returns isBin
-        every { item.isStatus } returns isStatus
-        every { item.alarmId } returns alarmId
-        every { item.alarmDate } returns alarmDate
-        every { item.list } returns list
-
-        for (it in list) {
-            every { it.copy(any(), any(), any(), any()) } returns it
-        }
-
-        every {
-            item.deepCopy(
-                any(), any(), any(), any(), any(), any(), any(),
-                any(), any(), any(), any(), any(), any()
-            )
-        } returns item
-    }
-
-    private fun MockKVerificationScope.verifyDeepCopy(item: NoteItem.Roll) {
-        item.id
-        item.create
-        item.change
-        item.name
-        item.text
-        item.color
-        item.rankId
-        item.rankPs
-        item.isBin
-        item.isStatus
-        item.alarmId
-        item.alarmDate
-
-        item.deepCopy(
-            any(), any(), any(), any(), any(), any(), any(),
-            any(), any(), any(), any(), any(), any()
-        )
-    }
-
 }
