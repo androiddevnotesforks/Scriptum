@@ -573,31 +573,21 @@ object FastTest {
         }
 
         fun onMenuRestoreOpen(noteItem: N) {
-            TODO()
-            //                val noteState = mockk<NoteState>(relaxUnitFun = true)
-            //                val iconState = mockk<IconState>(relaxUnitFun = true)
-            //
-            //                every { noteItem.onRestore() } returns noteItem
-            //                every { spyViewModel.setupEditMode(isEdit = false) } returns Unit
-            //
-            //                spyViewModel.noteState = noteState
-            //                spyViewModel.noteItem = noteItem
-            //                spyViewModel.onMenuRestoreOpen()
-            //
-//                spyViewModel.iconState = iconState
-//                spyViewModel.onMenuRestoreOpen()
-//
-//                coVerifyOrder {
-//                    noteState.isBin = false
-//                    noteItem.onRestore()
-            //                    spyViewModel.setupEditMode(isEdit = false)
-            //                    interactor.updateNote(noteItem, updateBind = false)
-            //
-            //                    noteState.isBin = false
-            //                    noteItem.onRestore()
-            //                    iconState.notAnimate(any())
-            //                    interactor.updateNote(noteItem, updateBind = false)
-            //                }
+            val noteState = mockk<NoteState>(relaxUnitFun = true)
+
+            every { noteItem.onRestore() } returns noteItem
+            every { spyViewModel.setupEditMode(isEdit = false) } returns Unit
+
+            spyViewModel.noteState = noteState
+            spyViewModel.noteItem = noteItem
+            spyViewModel.onMenuRestoreOpen()
+
+            coVerifyOrder {
+                noteState.isBin = false
+                noteItem.onRestore()
+                spyViewModel.setupEditMode(isEdit = false)
+                interactor.updateNote(noteItem, updateBind = false)
+            }
         }
 
         fun onMenuClear(noteItem: N) {
