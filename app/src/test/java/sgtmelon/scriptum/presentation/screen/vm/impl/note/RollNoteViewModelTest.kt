@@ -4,18 +4,17 @@ import android.view.inputmethod.EditorInfo
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertTrue
+import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.extension.nextString
-import sgtmelon.scriptum.FastMock
-import sgtmelon.scriptum.FastTest
-import sgtmelon.scriptum.ParentViewModelTest
+import sgtmelon.scriptum.*
 import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.note.IRollNoteInteractor
+import sgtmelon.scriptum.domain.model.data.NoteData
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
 import sgtmelon.scriptum.domain.model.state.NoteState
+import sgtmelon.scriptum.extension.hide
 import sgtmelon.scriptum.extension.move
 import sgtmelon.scriptum.extension.validRemoveAt
 import sgtmelon.scriptum.presentation.control.note.input.IInputControl
@@ -23,7 +22,6 @@ import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.presentation.control.note.save.ISaveControl
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.IRollNoteFragment
-import sgtmelon.scriptum.verifyDeepCopy
 import kotlin.random.Random
 
 /**
@@ -55,21 +53,19 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     override fun setUp() {
         super.setUp()
 
-        TODO()
-        //        viewModel.setCallback(callback)
-        //        viewModel.setParentCallback(parentCallback)
-        //        viewModel.setInteractor(interactor, bindInteractor)
-        //
-        //        viewModel.inputControl = inputControl
-        //
-        //        assertEquals(NoteData.Default.ID, viewModel.id)
-        //        assertEquals(NoteData.Default.COLOR, viewModel.color)
-        //        assertTrue(viewModel.mayAnimateIcon)
-        //        assertTrue(viewModel.rankDialogItemArray.isEmpty())
-        ////        assertTrue(viewModel.isVisible)
-        //
-        //        assertNotNull(viewModel.callback)
-        //        assertNotNull(viewModel.parentCallback)
+        viewModel.setCallback(callback)
+        viewModel.setParentCallback(parentCallback)
+        viewModel.setInteractor(interactor, bindInteractor)
+
+        viewModel.inputControl = inputControl
+
+        assertEquals(NoteData.Default.ID, viewModel.id)
+        assertEquals(NoteData.Default.COLOR, viewModel.color)
+        assertTrue(viewModel.mayAnimateIcon)
+        assertTrue(viewModel.rankDialogItemArray.isEmpty())
+
+        assertNotNull(viewModel.callback)
+        assertNotNull(viewModel.parentCallback)
     }
 
     override fun tearDown() {
@@ -114,158 +110,151 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun tryInitializeNote() = startCoTest {
-        TODO()
-        //        val name = nextString()
-        //        val itemArray = Array(size = 10) { nextString() }
-        //        val defaultColor = Random.nextInt()
-        //        val noteItem = mockk<NoteItem.Roll>()
-        //        val id = Random.nextLong()
-        //        val isBin = Random.nextBoolean()
-        //        val isVisible = Random.nextBoolean()
-        //
-        //        every { spyViewModel.isNoteInitialized() } returns true
-        //
-        //        assertTrue(spyViewModel.tryInitializeNote())
-        //
-        //        every { spyViewModel.isNoteInitialized() } returns false
-        //        every { parentCallback.getString(R.string.dialog_item_rank) } returns name
-        //        coEvery { interactor.getRankDialogItemArray(name) } returns itemArray
-        //        every { interactor.defaultColor } returns defaultColor
-        //        mockkObject(NoteItem.Roll)
-        //        every { NoteItem.Roll.getCreate(defaultColor) } returns noteItem
-        //        every { spyViewModel.cacheData() } returns Unit
-        //
-        //        assertTrue(spyViewModel.tryInitializeNote())
-        //
-        //        coEvery { interactor.getItem(id) } returns null
-        //
-        //        spyViewModel.id = id
-        //        assertFalse(spyViewModel.tryInitializeNote())
-        //
-        //        coEvery { interactor.getItem(id) } returns noteItem
-        //        FastMock.Note.deepCopy(noteItem)
-        //        every { noteItem.isBin } returns isBin
-        //        coEvery { interactor.getVisible(id) } returns isVisible
-        //
-        //        assertTrue(spyViewModel.tryInitializeNote())
-        //
-        //        coVerifySequence {
-        //            spyViewModel.tryInitializeNote()
-        //            spyViewModel.isNoteInitialized()
-        //
-        //            spyViewModel.tryInitializeNote()
-        //            spyViewModel.isNoteInitialized()
-        //            spyViewModel.parentCallback
-        //            parentCallback.getString(R.string.dialog_item_rank)
-        //            spyViewModel.interactor
-        //            interactor.getRankDialogItemArray(name)
-        //            spyViewModel.rankDialogItemArray = itemArray
-        //            spyViewModel.id
-        //            spyViewModel.interactor
-        //            interactor.defaultColor
-        //            NoteItem.Roll.getCreate(defaultColor)
-        //            spyViewModel.noteItem = noteItem
-        //            spyViewModel.cacheData()
-        //            spyViewModel.noteState = NoteState(isCreate = true)
-        //
-        //            spyViewModel.id = id
-        //            spyViewModel.tryInitializeNote()
-        //            spyViewModel.isNoteInitialized()
-        //            spyViewModel.parentCallback
-        //            parentCallback.getString(R.string.dialog_item_rank)
-        //            spyViewModel.interactor
-        //            interactor.getRankDialogItemArray(name)
-        //            spyViewModel.rankDialogItemArray = itemArray
-        //            spyViewModel.id
-        //            spyViewModel.interactor
-        //            spyViewModel.id
-        //            interactor.getItem(id)
-        //            spyViewModel.parentCallback
-        //            parentCallback.finish()
-        //
-        //            spyViewModel.tryInitializeNote()
-        //            spyViewModel.isNoteInitialized()
-        //            spyViewModel.parentCallback
-        //            parentCallback.getString(R.string.dialog_item_rank)
-        //            spyViewModel.interactor
-        //            interactor.getRankDialogItemArray(name)
-        //            spyViewModel.rankDialogItemArray = itemArray
-        //            spyViewModel.id
-        //            spyViewModel.interactor
-        //            spyViewModel.id
-        //            interactor.getItem(id)
-        //            spyViewModel.noteItem = noteItem
-        //            verifyDeepCopy(noteItem)
-        //            spyViewModel.restoreItem = noteItem
-        //            spyViewModel.noteItem
-        //            noteItem.isBin
-        //            spyViewModel.noteState = NoteState(isBin = isBin)
-        //            spyViewModel.interactor
-        //            spyViewModel.id
-        //            interactor.getVisible(id)
-        //            spyViewModel.isVisible = isVisible
-        //        }
+        val name = nextString()
+        val itemArray = Array(size = 10) { nextString() }
+        val defaultColor = Random.nextInt()
+        val noteItem = mockk<NoteItem.Roll>()
+        val id = Random.nextLong()
+        val isBin = Random.nextBoolean()
+
+        every { spyViewModel.isNoteInitialized() } returns true
+
+        assertTrue(spyViewModel.tryInitializeNote())
+
+        every { spyViewModel.isNoteInitialized() } returns false
+        every { parentCallback.getString(R.string.dialog_item_rank) } returns name
+        coEvery { interactor.getRankDialogItemArray(name) } returns itemArray
+        every { interactor.defaultColor } returns defaultColor
+        mockkObject(NoteItem.Roll)
+        every { NoteItem.Roll.getCreate(defaultColor) } returns noteItem
+        every { spyViewModel.cacheData() } returns Unit
+
+        assertTrue(spyViewModel.tryInitializeNote())
+
+        coEvery { interactor.getItem(id) } returns null
+
+        spyViewModel.id = id
+        assertFalse(spyViewModel.tryInitializeNote())
+
+        coEvery { interactor.getItem(id) } returns noteItem
+        FastMock.Note.deepCopy(noteItem)
+        every { noteItem.isBin } returns isBin
+
+        assertTrue(spyViewModel.tryInitializeNote())
+
+        coVerifySequence {
+            spyViewModel.tryInitializeNote()
+            spyViewModel.isNoteInitialized()
+
+            spyViewModel.tryInitializeNote()
+            spyViewModel.isNoteInitialized()
+            spyViewModel.parentCallback
+            parentCallback.getString(R.string.dialog_item_rank)
+            spyViewModel.interactor
+            interactor.getRankDialogItemArray(name)
+            spyViewModel.rankDialogItemArray = itemArray
+            spyViewModel.id
+            spyViewModel.interactor
+            interactor.defaultColor
+            NoteItem.Roll.getCreate(defaultColor)
+            spyViewModel.noteItem = noteItem
+            spyViewModel.cacheData()
+            spyViewModel.noteState = NoteState(isCreate = true)
+
+            spyViewModel.id = id
+            spyViewModel.tryInitializeNote()
+            spyViewModel.isNoteInitialized()
+            spyViewModel.parentCallback
+            parentCallback.getString(R.string.dialog_item_rank)
+            spyViewModel.interactor
+            interactor.getRankDialogItemArray(name)
+            spyViewModel.rankDialogItemArray = itemArray
+            spyViewModel.id
+            spyViewModel.interactor
+            spyViewModel.id
+            interactor.getItem(id)
+            spyViewModel.parentCallback
+            parentCallback.finish()
+
+            spyViewModel.tryInitializeNote()
+            spyViewModel.isNoteInitialized()
+            spyViewModel.parentCallback
+            parentCallback.getString(R.string.dialog_item_rank)
+            spyViewModel.interactor
+            interactor.getRankDialogItemArray(name)
+            spyViewModel.rankDialogItemArray = itemArray
+            spyViewModel.id
+            spyViewModel.interactor
+            spyViewModel.id
+            interactor.getItem(id)
+            spyViewModel.noteItem = noteItem
+            verifyDeepCopy(noteItem)
+            spyViewModel.restoreItem = noteItem
+            spyViewModel.noteItem
+            noteItem.isBin
+            spyViewModel.noteState = NoteState(isBin = isBin)
+        }
     }
 
     @Test fun setupAfterInitialize() = startCoTest {
-        TODO()
-        //        val noteItem = mockk<NoteItem.Roll>()
-        //        val rollList = mockk<MutableList<RollItem>>()
-        //        val noteState = mockk<NoteState>(relaxUnitFun = true)
-        //
-        //        val isVisible = Random.nextBoolean()
-        //        val isRankEmpty = Random.nextBoolean()
-        //        val rankDialogItemArray = if (isRankEmpty) {
-        //            arrayOf(nextString())
-        //        } else {
-        //            arrayOf(nextString(), nextString())
-        //        }
-        //        val isEdit = Random.nextBoolean()
-        //
-        //        spyViewModel.noteItem = noteItem
-        //        spyViewModel.rankDialogItemArray = rankDialogItemArray
-        //        spyViewModel.noteState = noteState
-        //        spyViewModel.isVisible = isVisible
-        //
-        //        every { spyViewModel.getList(noteItem) } returns rollList
-        //        every { spyViewModel.onUpdateInfo() } returns Unit
-        //        every { noteState.isEdit } returns isEdit
-        //        every { spyViewModel.setupEditMode(isEdit) } returns Unit
-        //
-        //        spyViewModel.setupAfterInitialize()
-        //
-        //        coVerifySequence {
-        //            spyViewModel.noteItem = noteItem
-        //            spyViewModel.rankDialogItemArray = rankDialogItemArray
-        //            spyViewModel.noteState = noteState
-        //            spyViewModel.isVisible = isVisible
-        //            spyViewModel.setupAfterInitialize()
-        //
-        //            spyViewModel.callback
-        //            spyViewModel.rankDialogItemArray
-        //            callback.setupDialog(rankDialogItemArray)
-        //            spyViewModel.callback
-        //            callback.setupProgress()
-        //
-        //            spyViewModel.mayAnimateIcon = false
-        //            spyViewModel.noteState
-        //            noteState.isEdit
-        //            spyViewModel.setupEditMode(isEdit)
-        //            spyViewModel.mayAnimateIcon = true
-        //
-        //            spyViewModel.callback
-        //            callback.showToolbarVisibleIcon(isShow = true)
-        //            callback.setToolbarVisibleIcon(isVisible, needAnim = false)
-        //            spyViewModel.noteItem
-        //            spyViewModel.getList(noteItem)
-        //            callback.notifyDataSetChanged(rollList)
-        //
-        //            spyViewModel.onUpdateInfo()
-        //
-        //            spyViewModel.callback
-        //            spyViewModel.rankDialogItemArray
-        //            callback.onBindingLoad(isRankEmpty)
-        //        }
+        val noteItem = mockk<NoteItem.Roll>()
+        val rollList = mockk<MutableList<RollItem>>()
+        val noteState = mockk<NoteState>(relaxUnitFun = true)
+
+        val isVisible = Random.nextBoolean()
+        val isRankEmpty = Random.nextBoolean()
+        val rankDialogItemArray = if (isRankEmpty) {
+            arrayOf(nextString())
+        } else {
+            arrayOf(nextString(), nextString())
+        }
+        val isEdit = Random.nextBoolean()
+
+        spyViewModel.noteItem = noteItem
+        spyViewModel.rankDialogItemArray = rankDialogItemArray
+        spyViewModel.noteState = noteState
+
+        every { spyViewModel.getList(noteItem) } returns rollList
+        every { spyViewModel.onUpdateInfo() } returns Unit
+        every { noteState.isEdit } returns isEdit
+        every { spyViewModel.setupEditMode(isEdit) } returns Unit
+        every { noteItem.isVisible } returns isVisible
+
+        spyViewModel.setupAfterInitialize()
+
+        coVerifySequence {
+            spyViewModel.noteItem = noteItem
+            spyViewModel.rankDialogItemArray = rankDialogItemArray
+            spyViewModel.noteState = noteState
+            spyViewModel.setupAfterInitialize()
+
+            spyViewModel.callback
+            spyViewModel.rankDialogItemArray
+            callback.setupDialog(rankDialogItemArray)
+            spyViewModel.callback
+            callback.setupProgress()
+
+            spyViewModel.mayAnimateIcon = false
+            spyViewModel.noteState
+            noteState.isEdit
+            spyViewModel.setupEditMode(isEdit)
+            spyViewModel.mayAnimateIcon = true
+
+            spyViewModel.callback
+            callback.showToolbarVisibleIcon(isShow = true)
+            spyViewModel.noteItem
+            noteItem.isVisible
+            callback.setToolbarVisibleIcon(isVisible, needAnim = false)
+            spyViewModel.noteItem
+            spyViewModel.getList(noteItem)
+            callback.notifyDataSetChanged(rollList)
+
+            spyViewModel.onUpdateInfo()
+
+            spyViewModel.callback
+            spyViewModel.rankDialogItemArray
+            callback.onBindingLoad(isRankEmpty)
+        }
     }
 
     @Test fun isNoteInitialized() = fastTest.isNoteInitialized(mockk())
@@ -343,138 +332,154 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onClickVisible_onEdit() {
-        TODO()
-        //        val visibleFrom = Random.nextBoolean()
-        //        val visibleTo = !visibleFrom
-        //
-        //        val noteState = mockk<NoteState>(relaxUnitFun = true)
-        //        val noteItem = mockk<NoteItem.Roll>()
-        //        val id = Random.nextLong()
-        //
-        //        every { spyViewModel.notifyListByVisible() } returns Unit
-        //        every { noteState.isCreate } returns false
-        //        every { noteItem.id } returns id
-        //
-        //        spyViewModel.isVisible = visibleFrom
-        //        spyViewModel.noteState = noteState
-        //        spyViewModel.noteItem = noteItem
-        //
-        //        spyViewModel.onClickVisible()
-        //
-        //        coVerifyOrder {
-        //            spyViewModel.isVisible = visibleTo
-        //
-        //            callback.setToolbarVisibleIcon(visibleTo, needAnim = true)
-        //            spyViewModel.notifyListByVisible()
-        //            noteState.isCreate
-        //            noteItem.id
-        //            interactor.setVisible(id, visibleTo)
-        //        }
+        val visibleFrom = Random.nextBoolean()
+        val visibleTo = !visibleFrom
+
+        val noteState = mockk<NoteState>(relaxUnitFun = true)
+        val noteItem = mockk<NoteItem.Roll>(relaxUnitFun = true)
+        val isEdit = Random.nextBoolean()
+
+        every { noteItem.isVisible } returns visibleFrom
+        every { spyViewModel.notifyListByVisible() } returns Unit
+        every { noteState.isCreate } returns false
+        every { noteState.isEdit } returns isEdit
+
+        spyViewModel.noteState = noteState
+        spyViewModel.noteItem = noteItem
+        spyViewModel.onClickVisible()
+
+        coVerifyOrder {
+            spyViewModel.noteState = noteState
+            spyViewModel.noteItem = noteItem
+            spyViewModel.onClickVisible()
+
+            spyViewModel.noteItem
+            spyViewModel.noteItem
+            noteItem.isVisible
+            noteItem.isVisible = visibleTo
+
+            spyViewModel.callback
+            spyViewModel.noteItem
+            noteItem.isVisible
+            /**
+             * Here set visibleFrom (not visibleTo) because [NoteItem.Roll.isVisible] mock to
+             * return visibleFrom.
+             */
+            callback.setToolbarVisibleIcon(visibleFrom, needAnim = true)
+            spyViewModel.notifyListByVisible()
+            spyViewModel.noteState
+            noteState.isCreate
+
+            spyViewModel.interactor
+            spyViewModel.noteItem
+            spyViewModel.noteState
+            noteState.isEdit
+            interactor.setVisible(noteItem, !isEdit)
+        }
     }
 
     @Test fun onClickVisible_onCreate() {
-        TODO()
-        //        val visibleFrom = Random.nextBoolean()
-        //        val visibleTo = !visibleFrom
-        //
-        //        val noteState = mockk<NoteState>(relaxUnitFun = true)
-        //
-        //        every { spyViewModel.notifyListByVisible() } returns Unit
-        //        every { noteState.isCreate } returns true
-        //
-        //        spyViewModel.isVisible = visibleFrom
-        //        spyViewModel.noteState = noteState
-        //
-        //        spyViewModel.onClickVisible()
-        //
-        //        coVerifyOrder {
-        //            spyViewModel.isVisible = visibleTo
-        //
-        //            callback.setToolbarVisibleIcon(visibleTo, needAnim = true)
-        //            spyViewModel.notifyListByVisible()
-        //            noteState.isCreate
-        //        }
+        val visibleFrom = Random.nextBoolean()
+        val visibleTo = !visibleFrom
+
+        val noteState = mockk<NoteState>(relaxUnitFun = true)
+        val noteItem = mockk<NoteItem.Roll>(relaxUnitFun = true)
+
+        every { noteItem.isVisible } returns visibleFrom
+        every { spyViewModel.notifyListByVisible() } returns Unit
+        every { noteState.isCreate } returns true
+
+
+        spyViewModel.noteState = noteState
+        spyViewModel.noteItem = noteItem
+        spyViewModel.onClickVisible()
+
+        coVerifySequence {
+            spyViewModel.noteState = noteState
+            spyViewModel.noteItem = noteItem
+            spyViewModel.onClickVisible()
+
+            spyViewModel.noteItem
+            spyViewModel.noteItem
+            noteItem.isVisible
+            noteItem.isVisible = visibleTo
+
+            spyViewModel.callback
+            spyViewModel.noteItem
+            noteItem.isVisible
+            /**
+             * Here set visibleFrom (not visibleTo) because [NoteItem.Roll.isVisible] mock to
+             * return visibleFrom.
+             */
+            callback.setToolbarVisibleIcon(visibleFrom, needAnim = true)
+            spyViewModel.notifyListByVisible()
+            spyViewModel.noteState
+            noteState.isCreate
+        }
     }
 
     @Test fun onUpdateInfo() {
-        //        val noteItem = mockk<NoteItem.Roll>(relaxUnitFun = true)
-        //        val list = mockk<MutableList<RollItem>>(relaxUnitFun = true)
-        //        val hideList = mockk<MutableList<RollItem>>(relaxUnitFun = true)
-        //
-        //        every { noteItem.list } returns list
-        //        every { spyViewModel.hide(list) } returns hideList
-        //
-        //        spyViewModel.noteItem = noteItem
-        //        spyViewModel.isVisible = false
-        //
-        //        every { list.size } returns 1
-        //        every { hideList.size } returns 1
-        //        spyViewModel.onUpdateInfo()
-        //
-        //        every { hideList.size } returns 0
-        //        spyViewModel.onUpdateInfo()
-        //
-        //        every { list.size } returns 0
-        //        spyViewModel.isVisible = true
-        //        spyViewModel.onUpdateInfo()
-        //
-        //        every { list.size } returns 0
-        //        spyViewModel.isVisible = false
-        //        every { hideList.size } returns 0
-        //        spyViewModel.onUpdateInfo()
-        //
-        //        verifySequence {
-        //            spyViewModel.noteItem = noteItem
-        //            spyViewModel.isVisible = false
-        //            spyViewModel.onUpdateInfo()
-        //            spyViewModel.noteItem
-        //            noteItem.list
-        //            list.size
-        //            spyViewModel.noteItem
-        //            noteItem.list
-        //            spyViewModel.hide(list)
-        //            hideList.size
-        //            spyViewModel.callback
-        //            callback.animateInfoVisible()
-        //
-        //            spyViewModel.onUpdateInfo()
-        //            spyViewModel.noteItem
-        //            noteItem.list
-        //            list.size
-        //            spyViewModel.noteItem
-        //            noteItem.list
-        //            spyViewModel.hide(list)
-        //            hideList.size
-        //            spyViewModel.callback
-        //            callback.onBindingInfo(isListEmpty = false, isListHide = true)
-        //            spyViewModel.callback
-        //            callback.animateInfoVisible()
-        //
-        //            spyViewModel.isVisible = true
-        //            spyViewModel.onUpdateInfo()
-        //            spyViewModel.noteItem
-        //            noteItem.list
-        //            list.size
-        //            spyViewModel.callback
-        //            callback.onBindingInfo(isListEmpty = true, isListHide = false)
-        //            spyViewModel.callback
-        //            callback.animateInfoVisible()
-        //
-        //            spyViewModel.isVisible = false
-        //            spyViewModel.onUpdateInfo()
-        //            spyViewModel.noteItem
-        //            noteItem.list
-        //            list.size
-        //            spyViewModel.noteItem
-        //            noteItem.list
-        //            spyViewModel.hide(list)
-        //            hideList.size
-        //            spyViewModel.callback
-        //            callback.onBindingInfo(isListEmpty = true, isListHide = true)
-        //            spyViewModel.callback
-        //            callback.animateInfoVisible()
-        //        }
-        TODO()
+        val noteItem = mockk<NoteItem.Roll>()
+        val list = mockk<MutableList<RollItem>>()
+        val hideList = mockk<MutableList<RollItem>>()
+
+        FastMock.listExtension()
+
+        every { noteItem.list } returns list
+        every { list.hide() } returns hideList
+
+        viewModel.noteItem = noteItem
+
+        every { list.size } returns 1
+        every { noteItem.isVisible } returns false
+        every { hideList.size } returns 1
+        viewModel.onUpdateInfo()
+
+        every { hideList.size } returns 0
+        viewModel.onUpdateInfo()
+
+        every { list.size } returns 0
+        every { noteItem.isVisible } returns true
+        viewModel.onUpdateInfo()
+
+        every { list.size } returns 0
+        every { noteItem.isVisible } returns false
+        every { hideList.size } returns 0
+        viewModel.onUpdateInfo()
+
+        verifySequence {
+            noteItem.list
+            list.size
+            noteItem.isVisible
+            noteItem.list
+            list.hide()
+            hideList.size
+            callback.animateInfoVisible()
+
+            noteItem.list
+            list.size
+            noteItem.isVisible
+            noteItem.list
+            list.hide()
+            hideList.size
+            callback.onBindingInfo(isListEmpty = false, isListHide = true)
+            callback.animateInfoVisible()
+
+            noteItem.list
+            list.size
+            noteItem.isVisible
+            callback.onBindingInfo(isListEmpty = true, isListHide = false)
+            callback.animateInfoVisible()
+
+            noteItem.list
+            list.size
+            noteItem.isVisible
+            noteItem.list
+            list.hide()
+            hideList.size
+            callback.onBindingInfo(isListEmpty = true, isListHide = true)
+            callback.animateInfoVisible()
+        }
     }
 
     @Test fun onEditorClick() {
@@ -633,188 +638,190 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onClickItemCheck() {
-        //        val p = Random.nextInt()
-        //        val noteState = mockk<NoteState>(relaxUnitFun = true)
-        //        val noteItem = mockk<NoteItem.Roll>(relaxUnitFun = true)
-        //
-        //        val correctPosition = Random.nextInt()
-        //        val optimalList = mockk<MutableList<RollItem>>()
-        //        val normalList = mockk<MutableList<RollItem>>()
-        //        val check = Random.nextInt()
-        //        val size = Random.nextInt()
-        //
-        //        every { spyViewModel.getCorrectPosition(p, noteItem) } returns correctPosition
-        //        every { spyViewModel.getList(noteItem) } returns optimalList
-        //        every { spyViewModel.cacheData() } returns Unit
-        //        every { noteItem.getCheck() } returns check
-        //        every { noteItem.list } returns normalList
-        //        every { normalList.size } returns size
-        //
-        //        spyViewModel.noteState = noteState
-        //        spyViewModel.noteItem = noteItem
-        //
-        //        every { noteState.isEdit } returns true
-        //        spyViewModel.onClickItemCheck(p)
-        //
-        //        every { noteState.isEdit } returns false
-        //        spyViewModel.isVisible = false
-        //        spyViewModel.onClickItemCheck(p)
-        //
-        //        spyViewModel.isVisible = true
-        //        spyViewModel.onClickItemCheck(p)
-        //
-        //        coVerifyOrder {
-        //            spyViewModel.noteState = noteState
-        //            spyViewModel.noteItem = noteItem
-        //
-        //            spyViewModel.onClickItemCheck(p)
-        //            spyViewModel.noteState
-        //            noteState.isEdit
-        //
-        //
-        //            spyViewModel.isVisible = false
-        //            spyViewModel.onClickItemCheck(p)
-        //            spyViewModel.noteState
-        //            noteState.isEdit
-        //            spyViewModel.noteItem
-        //            spyViewModel.getCorrectPosition(p, noteItem)
-        //            spyViewModel.noteItem
-        //            noteItem.onItemCheck(correctPosition)
-        //            spyViewModel.cacheData()
-        //
-        //            spyViewModel.callback
-        //            spyViewModel.noteItem
-        //            spyViewModel.getList(noteItem)
-        //            callback.notifyItemRemoved(optimalList, p)
-        //
-        //            spyViewModel.noteItem
-        //            spyViewModel.callback
-        //            noteItem.getCheck()
-        //            noteItem.list
-        //            normalList.size
-        //            callback.updateProgress(check, size)
-        //
-        //            spyViewModel.noteItem
-        //            interactor.updateRollCheck(noteItem, correctPosition)
-        //
-        //
-        //            spyViewModel.isVisible = true
-        //            spyViewModel.onClickItemCheck(p)
-        //            spyViewModel.noteState
-        //            noteState.isEdit
-        //            spyViewModel.noteItem
-        //            spyViewModel.getCorrectPosition(p, noteItem)
-        //            spyViewModel.noteItem
-        //            noteItem.onItemCheck(correctPosition)
-        //            spyViewModel.cacheData()
-        //
-        //            spyViewModel.callback
-        //            spyViewModel.noteItem
-        //            spyViewModel.getList(noteItem)
-        //            callback.notifyItemChanged(optimalList, p)
-        //
-        //            spyViewModel.noteItem
-        //            spyViewModel.callback
-        //            noteItem.getCheck()
-        //            noteItem.list
-        //            normalList.size
-        //            callback.updateProgress(check, size)
-        //
-        //            spyViewModel.noteItem
-        //            interactor.updateRollCheck(noteItem, correctPosition)
-        //        }
-        TODO()
+        val p = Random.nextInt()
+        val noteState = mockk<NoteState>(relaxUnitFun = true)
+        val noteItem = mockk<NoteItem.Roll>(relaxUnitFun = true)
+
+        val correctPosition = Random.nextInt()
+        val optimalList = mockk<MutableList<RollItem>>()
+        val normalList = mockk<MutableList<RollItem>>()
+        val check = Random.nextInt()
+        val size = Random.nextInt()
+
+        every { spyViewModel.getCorrectPosition(p, noteItem) } returns correctPosition
+        every { spyViewModel.getList(noteItem) } returns optimalList
+        every { spyViewModel.cacheData() } returns Unit
+        every { noteItem.getCheck() } returns check
+        every { noteItem.list } returns normalList
+        every { normalList.size } returns size
+
+        spyViewModel.noteState = noteState
+        spyViewModel.noteItem = noteItem
+
+        every { noteState.isEdit } returns true
+        spyViewModel.onClickItemCheck(p)
+
+        every { noteState.isEdit } returns false
+        every { noteItem.isVisible } returns false
+        spyViewModel.onClickItemCheck(p)
+
+        every { noteItem.isVisible } returns true
+        spyViewModel.onClickItemCheck(p)
+
+        coVerifyOrder {
+            spyViewModel.noteState = noteState
+            spyViewModel.noteItem = noteItem
+
+            spyViewModel.onClickItemCheck(p)
+            spyViewModel.noteState
+            noteState.isEdit
+
+
+            spyViewModel.onClickItemCheck(p)
+            spyViewModel.noteState
+            noteState.isEdit
+            spyViewModel.noteItem
+            spyViewModel.getCorrectPosition(p, noteItem)
+            spyViewModel.noteItem
+            noteItem.onItemCheck(correctPosition)
+            spyViewModel.cacheData()
+
+            spyViewModel.noteItem
+            noteItem.isVisible
+            spyViewModel.callback
+            spyViewModel.noteItem
+            spyViewModel.getList(noteItem)
+            callback.notifyItemRemoved(optimalList, p)
+
+            spyViewModel.noteItem
+            spyViewModel.callback
+            noteItem.getCheck()
+            noteItem.list
+            normalList.size
+            callback.updateProgress(check, size)
+
+            spyViewModel.noteItem
+            interactor.updateRollCheck(noteItem, correctPosition)
+
+
+            spyViewModel.onClickItemCheck(p)
+            spyViewModel.noteState
+            noteState.isEdit
+            spyViewModel.noteItem
+            spyViewModel.getCorrectPosition(p, noteItem)
+            spyViewModel.noteItem
+            noteItem.onItemCheck(correctPosition)
+            spyViewModel.cacheData()
+
+            spyViewModel.noteItem
+            noteItem.isVisible
+            spyViewModel.callback
+            spyViewModel.noteItem
+            spyViewModel.getList(noteItem)
+            callback.notifyItemChanged(optimalList, p)
+
+            spyViewModel.noteItem
+            spyViewModel.callback
+            noteItem.getCheck()
+            noteItem.list
+            normalList.size
+            callback.updateProgress(check, size)
+
+            spyViewModel.noteItem
+            interactor.updateRollCheck(noteItem, correctPosition)
+        }
     }
 
     @Test fun onLongClickItemCheck() {
-        //        val noteState = mockk<NoteState>(relaxUnitFun = true)
-        //        val noteItem = mockk<NoteItem.Roll>(relaxUnitFun = true)
-        //
-        //        val isCheck = Random.nextBoolean()
-        //        val optimalList = mockk<MutableList<RollItem>>()
-        //        val normalList = mockk<MutableList<RollItem>>()
-        //        val check = Random.nextInt()
-        //        val size = Random.nextInt()
-        //
-        //        every { noteItem.onItemLongCheck() } returns isCheck
-        //        every { spyViewModel.cacheData() } returns Unit
-        //        every { spyViewModel.getList(noteItem) } returns optimalList
-        //        every { noteItem.getCheck() } returns check
-        //        every { noteItem.list } returns normalList
-        //        every { normalList.size } returns size
-        //        every { spyViewModel.notifyListByVisible() } returns Unit
-        //
-        //        spyViewModel.noteState = noteState
-        //        spyViewModel.noteItem = noteItem
-        //
-        //        every { noteState.isEdit } returns true
-        //        spyViewModel.onLongClickItemCheck()
-        //
-        //        every { noteState.isEdit } returns false
-        //        spyViewModel.isVisible = false
-        //        spyViewModel.onLongClickItemCheck()
-        //
-        //        spyViewModel.isVisible = true
-        //        spyViewModel.onLongClickItemCheck()
-        //
-        //        coVerifyOrder {
-        //            spyViewModel.noteState = noteState
-        //            spyViewModel.noteItem = noteItem
-        //
-        //            spyViewModel.onLongClickItemCheck()
-        //            spyViewModel.noteState
-        //            noteState.isEdit
-        //
-        //
-        //            spyViewModel.isVisible = false
-        //            spyViewModel.onLongClickItemCheck()
-        //            spyViewModel.noteState
-        //            noteState.isEdit
-        //            spyViewModel.noteItem
-        //            noteItem.onItemLongCheck()
-        //            spyViewModel.cacheData()
-        //
-        //            spyViewModel.callback
-        //            callback.changeCheckToggle(state = true)
-        //            spyViewModel.noteItem
-        //            spyViewModel.getList(noteItem)
-        //            callback.notifyDataRangeChanged(optimalList)
-        //            callback.changeCheckToggle(state = false)
-        //            spyViewModel.noteItem
-        //            noteItem.getCheck()
-        //            noteItem.list
-        //            normalList.size
-        //            callback.updateProgress(check, size)
-        //
-        //            spyViewModel.notifyListByVisible()
-        //            spyViewModel.noteItem
-        //            interactor.updateRollCheck(noteItem, isCheck)
-        //
-        //
-        //            spyViewModel.isVisible = true
-        //            spyViewModel.onLongClickItemCheck()
-        //            spyViewModel.noteState
-        //            noteState.isEdit
-        //            spyViewModel.noteItem
-        //            noteItem.onItemLongCheck()
-        //            spyViewModel.cacheData()
-        //
-        //            spyViewModel.callback
-        //            callback.changeCheckToggle(state = true)
-        //            spyViewModel.noteItem
-        //            spyViewModel.getList(noteItem)
-        //            callback.notifyDataRangeChanged(optimalList)
-        //            callback.changeCheckToggle(state = false)
-        //            spyViewModel.noteItem
-        //            noteItem.getCheck()
-        //            noteItem.list
-        //            normalList.size
-        //            callback.updateProgress(check, size)
-        //
-        //            spyViewModel.noteItem
-        //            interactor.updateRollCheck(noteItem, isCheck)
-        //        }
-        TODO()
+        val noteState = mockk<NoteState>(relaxUnitFun = true)
+        val noteItem = mockk<NoteItem.Roll>(relaxUnitFun = true)
+
+        val isCheck = Random.nextBoolean()
+        val optimalList = mockk<MutableList<RollItem>>()
+        val normalList = mockk<MutableList<RollItem>>()
+        val check = Random.nextInt()
+        val size = Random.nextInt()
+
+        every { noteItem.onItemLongCheck() } returns isCheck
+        every { spyViewModel.cacheData() } returns Unit
+        every { spyViewModel.getList(noteItem) } returns optimalList
+        every { noteItem.getCheck() } returns check
+        every { noteItem.list } returns normalList
+        every { normalList.size } returns size
+        every { spyViewModel.notifyListByVisible() } returns Unit
+
+        spyViewModel.noteState = noteState
+        spyViewModel.noteItem = noteItem
+
+        every { noteState.isEdit } returns true
+        spyViewModel.onLongClickItemCheck()
+
+        every { noteState.isEdit } returns false
+        every { noteItem.isVisible } returns false
+        spyViewModel.onLongClickItemCheck()
+
+        every { noteItem.isVisible } returns true
+        spyViewModel.onLongClickItemCheck()
+
+        coVerifyOrder {
+            spyViewModel.noteState = noteState
+            spyViewModel.noteItem = noteItem
+
+            spyViewModel.onLongClickItemCheck()
+            spyViewModel.noteState
+            noteState.isEdit
+
+
+            spyViewModel.onLongClickItemCheck()
+            spyViewModel.noteState
+            noteState.isEdit
+            spyViewModel.noteItem
+            noteItem.onItemLongCheck()
+            spyViewModel.cacheData()
+
+            spyViewModel.callback
+            callback.changeCheckToggle(state = true)
+            spyViewModel.noteItem
+            spyViewModel.getList(noteItem)
+            callback.notifyDataRangeChanged(optimalList)
+            callback.changeCheckToggle(state = false)
+            spyViewModel.noteItem
+            noteItem.getCheck()
+            noteItem.list
+            normalList.size
+            callback.updateProgress(check, size)
+
+            spyViewModel.noteItem
+            noteItem.isVisible
+            spyViewModel.notifyListByVisible()
+            spyViewModel.interactor
+            spyViewModel.noteItem
+            interactor.updateRollCheck(noteItem, isCheck)
+
+
+            spyViewModel.onLongClickItemCheck()
+            spyViewModel.noteState
+            noteState.isEdit
+            spyViewModel.noteItem
+            noteItem.onItemLongCheck()
+            spyViewModel.cacheData()
+
+            spyViewModel.callback
+            callback.changeCheckToggle(state = true)
+            spyViewModel.noteItem
+            spyViewModel.getList(noteItem)
+            callback.notifyDataRangeChanged(optimalList)
+            callback.changeCheckToggle(state = false)
+            spyViewModel.noteItem
+            noteItem.getCheck()
+            noteItem.list
+            normalList.size
+            callback.updateProgress(check, size)
+
+            spyViewModel.interactor
+            spyViewModel.noteItem
+            interactor.updateRollCheck(noteItem, isCheck)
+        }
     }
 
 
@@ -1121,15 +1128,63 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
 
     @Test fun getCorrectPosition() {
-        TODO()
-    }
+        val item = mockk<NoteItem.Roll>()
+        val list = mockk<MutableList<RollItem>>()
+        val hideList = mockk<MutableList<RollItem>>()
+        val p = Random.nextInt()
+        val index = Random.nextInt()
+        val rollItem = mockk<RollItem>()
 
-    @Test fun hide() {
-        TODO()
+        FastMock.listExtension()
+
+        every { item.isVisible } returns true
+
+        assertEquals(p, viewModel.getCorrectPosition(p, item))
+
+        every { item.isVisible } returns false
+        every { item.list } returns list
+        every { list.hide() } returns hideList
+        every { hideList[p] } returns rollItem
+        every { list.indexOf(rollItem) } returns index
+
+        assertEquals(index, viewModel.getCorrectPosition(p, item))
+
+        verifySequence {
+            item.isVisible
+
+            item.isVisible
+            item.list
+            list.hide()
+            hideList[p]
+            list.indexOf(rollItem)
+        }
     }
 
     @Test fun getList() {
-        TODO()
+        val item = mockk<NoteItem.Roll>()
+        val list = mockk<MutableList<RollItem>>()
+        val hideList = mockk<MutableList<RollItem>>()
+
+        FastMock.listExtension()
+
+        every { item.isVisible } returns true
+        every { item.list } returns list
+
+        assertEquals(list, viewModel.getList(item))
+
+        every { item.isVisible } returns false
+        every { list.hide() } returns hideList
+
+        assertEquals(hideList, viewModel.getList(item))
+
+        verifySequence {
+            item.list
+            item.isVisible
+
+            item.list
+            item.isVisible
+            list.hide()
+        }
     }
 
     @Test fun notifyListByVisible() {

@@ -351,7 +351,8 @@ class RollNoteViewModel(application: Application) :
                  * Need if [noteItem] isVisible changes wasn't set inside [onClickVisible] because of
                  * not created note.
                  *
-                 * Don't need update bind, because [interactor] already does it in [saveNote] func.
+                 * Don't need update bind, because [interactor] already does it
+                 * before in [onMenuSave] func.
                  */
                 runBack { interactor.setVisible(noteItem, updateBind = false) }
             }
@@ -471,16 +472,23 @@ class RollNoteViewModel(application: Application) :
      * @Test - Have duplicate in test screen.
      */
     @RunPrivate
-    fun getCorrectPosition(p: Int, noteItem: NoteItem.Roll): Int {
-        return if (noteItem.isVisible) p else noteItem.list.let { it.indexOf(it.hide()[p]) }
+    fun getCorrectPosition(p: Int, item: NoteItem.Roll): Int {
+        return if (item.isVisible) {
+            p
+        } else {
+            val list = item.list
+            list.indexOf(list.hide()[p])
+        }
     }
 
     /**
      * Use only for different notify functions. Don't use for change data.
      */
     @RunPrivate
-    fun getList(noteItem: NoteItem.Roll): MutableList<RollItem> {
-        return noteItem.list.let { if (noteItem.isVisible) it else it.hide() }
+    fun getList(item: NoteItem.Roll): MutableList<RollItem> {
+        val list = item.list
+
+        return if (item.isVisible) list else list.hide()
     }
 
     /**
