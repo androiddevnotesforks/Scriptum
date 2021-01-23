@@ -14,7 +14,7 @@ class AlarmConverterTest : ParentTest() {
     //region Data
 
     private val item = NoteItem.Text(id = 1, create = "123", color = 0, alarmId = 5, alarmDate = "12345")
-    private val entity = AlarmEntity(id = 5, noteId = 10, date = "12345")
+    private val entity = AlarmEntity(id = 5, noteId = 1, date = "12345")
 
     //endregion
 
