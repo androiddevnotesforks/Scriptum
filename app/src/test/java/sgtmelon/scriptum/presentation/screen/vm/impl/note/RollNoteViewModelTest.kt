@@ -10,12 +10,16 @@ import sgtmelon.extension.nextString
 import sgtmelon.scriptum.*
 import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.note.IRollNoteInteractor
+import sgtmelon.scriptum.domain.model.annotation.InputAction
 import sgtmelon.scriptum.domain.model.data.NoteData
+import sgtmelon.scriptum.domain.model.item.InputItem
+import sgtmelon.scriptum.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
 import sgtmelon.scriptum.domain.model.state.NoteState
 import sgtmelon.scriptum.extension.hide
 import sgtmelon.scriptum.extension.move
+import sgtmelon.scriptum.extension.validIndexOf
 import sgtmelon.scriptum.extension.validRemoveAt
 import sgtmelon.scriptum.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.presentation.control.note.input.InputControl
@@ -854,6 +858,108 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
     @Test fun onMenuUndoRedo() = fastTest.onMenuUndoRedo(mockk())
 
+    @Test fun onMenuUndoRedoSelect() {
+        val item = mockk<InputItem>()
+        val isUndo = Random.nextBoolean()
+
+        every { item.tag } returns InputAction.RANK
+        every { spyViewModel.onMenuUndoRedoRank(item, isUndo) } returns Unit
+        spyViewModel.onMenuUndoRedoSelect(item, isUndo)
+
+        every { item.tag } returns InputAction.COLOR
+        every { spyViewModel.onMenuUndoRedoColor(item, isUndo) } returns Unit
+        spyViewModel.onMenuUndoRedoSelect(item, isUndo)
+
+        every { item.tag } returns InputAction.NAME
+        every { spyViewModel.onMenuUndoRedoName(item, isUndo) } returns Unit
+        spyViewModel.onMenuUndoRedoSelect(item, isUndo)
+
+        every { item.tag } returns InputAction.ROLL_ADD
+        every { spyViewModel.onMenuUndoRedoRemove(item, isUndo = false) } returns Unit
+        spyViewModel.onMenuUndoRedoSelect(item, isUndo = false)
+
+        every { item.tag } returns InputAction.ROLL_ADD
+        every { spyViewModel.onMenuUndoRedoAdd(item) } returns Unit
+        spyViewModel.onMenuUndoRedoSelect(item, isUndo = true)
+
+        every { item.tag } returns InputAction.ROLL_REMOVE
+        spyViewModel.onMenuUndoRedoSelect(item, isUndo = false)
+
+        every { item.tag } returns InputAction.ROLL_REMOVE
+        every { spyViewModel.onMenuUndoRedoRemove(item, isUndo = true) } returns Unit
+        spyViewModel.onMenuUndoRedoSelect(item, isUndo = true)
+
+        every { item.tag } returns InputAction.ROLL_MOVE
+        every { spyViewModel.onMenuUndoRedoMove(item, isUndo) } returns Unit
+        spyViewModel.onMenuUndoRedoSelect(item, isUndo)
+
+        verifySequence {
+            spyViewModel.onMenuUndoRedoSelect(item, isUndo)
+            spyViewModel.inputControl
+            inputControl.isEnabled = false
+            item.tag
+            spyViewModel.onMenuUndoRedoRank(item, isUndo)
+            spyViewModel.inputControl
+            inputControl.isEnabled = true
+
+            spyViewModel.onMenuUndoRedoSelect(item, isUndo)
+            spyViewModel.inputControl
+            inputControl.isEnabled = false
+            item.tag
+            spyViewModel.onMenuUndoRedoColor(item, isUndo)
+            spyViewModel.inputControl
+            inputControl.isEnabled = true
+
+            spyViewModel.onMenuUndoRedoSelect(item, isUndo)
+            spyViewModel.inputControl
+            inputControl.isEnabled = false
+            item.tag
+            spyViewModel.onMenuUndoRedoName(item, isUndo)
+            spyViewModel.inputControl
+            inputControl.isEnabled = true
+
+            spyViewModel.onMenuUndoRedoSelect(item, isUndo = false)
+            spyViewModel.inputControl
+            inputControl.isEnabled = false
+            item.tag
+            spyViewModel.onMenuUndoRedoRemove(item, isUndo = false)
+            spyViewModel.inputControl
+            inputControl.isEnabled = true
+
+            spyViewModel.onMenuUndoRedoSelect(item, isUndo = true)
+            spyViewModel.inputControl
+            inputControl.isEnabled = false
+            item.tag
+            spyViewModel.onMenuUndoRedoAdd(item)
+            spyViewModel.inputControl
+            inputControl.isEnabled = true
+
+            spyViewModel.onMenuUndoRedoSelect(item, isUndo = false)
+            spyViewModel.inputControl
+            inputControl.isEnabled = false
+            item.tag
+            spyViewModel.onMenuUndoRedoAdd(item)
+            spyViewModel.inputControl
+            inputControl.isEnabled = true
+
+            spyViewModel.onMenuUndoRedoSelect(item, isUndo = true)
+            spyViewModel.inputControl
+            inputControl.isEnabled = false
+            item.tag
+            spyViewModel.onMenuUndoRedoRemove(item, isUndo = true)
+            spyViewModel.inputControl
+            inputControl.isEnabled = true
+
+            spyViewModel.onMenuUndoRedoSelect(item, isUndo)
+            spyViewModel.inputControl
+            inputControl.isEnabled = false
+            item.tag
+            spyViewModel.onMenuUndoRedoMove(item, isUndo)
+            spyViewModel.inputControl
+            inputControl.isEnabled = true
+        }
+    }
+
     @Test fun onMenuUndoRedoRank() = fastTest.onMenuUndoRedoRank(mockk(relaxUnitFun = true))
 
     @Test fun onMenuUndoRedoColor() = fastTest.onMenuUndoRedoColor(mockk())
@@ -861,7 +967,122 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     @Test fun onMenuUndoRedoName() = fastTest.onMenuUndoRedoName()
 
     @Test fun onMenuUndoRedoRoll() {
-        TODO()
+        val item = mockk<InputItem>()
+        val isUndo = Random.nextBoolean()
+
+        val noteItem = mockk<NoteItem.Roll>()
+        val size = getRandomSize()
+        val list = MutableList<RollItem>(size) { mockk() }
+        val p = list.indices.random()
+        val rollItem = list[p]
+        val returnList = mockk<MutableList<RollItem>>()
+        val validIndex = Random.nextInt()
+        val text = nextString()
+        val cursor = mockk<InputItem.Cursor>()
+        val cursorPosition = Random.nextInt()
+
+        FastMock.listExtension()
+
+        every { item.p } returns -1
+        every { noteItem.list } returns list
+
+        spyViewModel.noteItem = noteItem
+        spyViewModel.onMenuUndoRedoRoll(item, isUndo)
+
+        every { item.p } returns p
+        every { spyViewModel.getList(noteItem) } returns returnList
+        every { returnList.validIndexOf(rollItem) } returns null
+
+        spyViewModel.onMenuUndoRedoRoll(item, isUndo)
+
+        every { returnList.validIndexOf(rollItem) } returns validIndex
+        every { item[isUndo] } returns text
+        every { rollItem.text = text } returns Unit
+        every { noteItem.isVisible } returns true
+        every { item.cursor } returns cursor
+        every { cursor[isUndo] } returns cursorPosition
+
+        spyViewModel.onMenuUndoRedoRoll(item, isUndo)
+
+        every { noteItem.isVisible } returns false
+        every { rollItem.isCheck } returns true
+
+        spyViewModel.onMenuUndoRedoRoll(item, isUndo)
+
+        every { rollItem.isCheck } returns false
+
+        spyViewModel.onMenuUndoRedoRoll(item, isUndo)
+
+        verifySequence {
+            spyViewModel.noteItem = noteItem
+            spyViewModel.onMenuUndoRedoRoll(item, isUndo)
+
+            spyViewModel.noteItem
+            noteItem.list
+            item.p
+
+            spyViewModel.onMenuUndoRedoRoll(item, isUndo)
+
+            spyViewModel.noteItem
+            noteItem.list
+            item.p
+            spyViewModel.noteItem
+            spyViewModel.getList(noteItem)
+            returnList.validIndexOf(rollItem)
+
+            spyViewModel.onMenuUndoRedoRoll(item, isUndo)
+
+            spyViewModel.noteItem
+            noteItem.list
+            item.p
+            spyViewModel.noteItem
+            spyViewModel.getList(noteItem)
+            returnList.validIndexOf(rollItem)
+            item[isUndo]
+            rollItem.text = text
+            spyViewModel.noteItem
+            noteItem.isVisible
+            spyViewModel.callback
+            item.cursor
+            cursor[isUndo]
+            callback.notifyItemChanged(returnList, validIndex, cursorPosition)
+
+            spyViewModel.onMenuUndoRedoRoll(item, isUndo)
+
+            spyViewModel.noteItem
+            noteItem.list
+            item.p
+            spyViewModel.noteItem
+            spyViewModel.getList(noteItem)
+            returnList.validIndexOf(rollItem)
+            item[isUndo]
+            rollItem.text = text
+            spyViewModel.noteItem
+            noteItem.isVisible
+            spyViewModel.noteItem
+            noteItem.isVisible
+            rollItem.isCheck
+
+            spyViewModel.onMenuUndoRedoRoll(item, isUndo)
+
+            spyViewModel.noteItem
+            noteItem.list
+            item.p
+            spyViewModel.noteItem
+            spyViewModel.getList(noteItem)
+            returnList.validIndexOf(rollItem)
+            item[isUndo]
+            rollItem.text = text
+            spyViewModel.noteItem
+            noteItem.isVisible
+            spyViewModel.noteItem
+            noteItem.isVisible
+            rollItem.isCheck
+            spyViewModel.callback
+            item.cursor
+            cursor[isUndo]
+            callback.notifyItemChanged(returnList, validIndex, cursorPosition)
+        }
     }
 
     @Test fun onMenuUndoRedoAdd() {
