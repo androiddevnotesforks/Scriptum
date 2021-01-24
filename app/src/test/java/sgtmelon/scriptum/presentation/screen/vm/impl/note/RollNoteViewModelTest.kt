@@ -1086,7 +1086,138 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onMenuUndoRedoAdd() {
-        TODO()
+        val item = mockk<InputItem>()
+
+        val noteItem = mockk<NoteItem.Roll>()
+        val size = getRandomSize()
+        val list = MutableList<RollItem>(size) { mockk() }
+        val p = list.indices.random()
+        val rollItem = list[p]
+        val returnList = mockk<MutableList<RollItem>>()
+        val validIndex = Random.nextInt()
+
+        FastMock.listExtension()
+
+        every { item.p } returns -1
+        every { noteItem.list } returns list
+
+        spyViewModel.noteItem = noteItem
+        spyViewModel.onMenuUndoRedoAdd(item)
+
+        every { item.p } returns p
+        every { spyViewModel.getList(noteItem) } returns returnList
+        every { returnList.validIndexOf(rollItem) } returns null
+
+        spyViewModel.onMenuUndoRedoAdd(item)
+
+        every { returnList.validIndexOf(rollItem) } returns validIndex
+        every { list.validRemoveAt(p) } returns null
+
+        spyViewModel.onMenuUndoRedoAdd(item)
+
+        every { list.validRemoveAt(p) } returns rollItem
+        every { noteItem.isVisible } returns true
+
+        spyViewModel.onMenuUndoRedoAdd(item)
+
+        every { noteItem.isVisible } returns false
+        every { rollItem.isCheck } returns true
+
+        spyViewModel.onMenuUndoRedoAdd(item)
+
+        every { rollItem.isCheck } returns false
+
+        spyViewModel.onMenuUndoRedoAdd(item)
+
+        verifySequence {
+            spyViewModel.noteItem = noteItem
+            spyViewModel.onMenuUndoRedoAdd(item)
+
+            spyViewModel.noteItem
+            noteItem.list
+            item.p
+
+            spyViewModel.onMenuUndoRedoAdd(item)
+
+            spyViewModel.noteItem
+            noteItem.list
+            item.p
+            spyViewModel.noteItem
+            spyViewModel.getList(noteItem)
+            returnList.validIndexOf(rollItem)
+
+            spyViewModel.onMenuUndoRedoAdd(item)
+
+            spyViewModel.noteItem
+            noteItem.list
+            item.p
+            spyViewModel.noteItem
+            spyViewModel.getList(noteItem)
+            returnList.validIndexOf(rollItem)
+            spyViewModel.noteItem
+            noteItem.list
+            item.p
+            list.validRemoveAt(p)
+
+            spyViewModel.onMenuUndoRedoAdd(item)
+
+            spyViewModel.noteItem
+            noteItem.list
+            item.p
+            spyViewModel.noteItem
+            spyViewModel.getList(noteItem)
+            returnList.validIndexOf(rollItem)
+            spyViewModel.noteItem
+            noteItem.list
+            item.p
+            list.validRemoveAt(p)
+            spyViewModel.noteItem
+            noteItem.isVisible
+            spyViewModel.callback
+            spyViewModel.noteItem
+            spyViewModel.getList(noteItem)
+            callback.notifyItemRemoved(returnList, validIndex)
+
+            spyViewModel.onMenuUndoRedoAdd(item)
+
+            spyViewModel.noteItem
+            noteItem.list
+            item.p
+            spyViewModel.noteItem
+            spyViewModel.getList(noteItem)
+            returnList.validIndexOf(rollItem)
+            spyViewModel.noteItem
+            noteItem.list
+            item.p
+            list.validRemoveAt(p)
+            spyViewModel.noteItem
+            noteItem.isVisible
+            spyViewModel.noteItem
+            noteItem.isVisible
+            rollItem.isCheck
+
+            spyViewModel.onMenuUndoRedoAdd(item)
+
+            spyViewModel.noteItem
+            noteItem.list
+            item.p
+            spyViewModel.noteItem
+            spyViewModel.getList(noteItem)
+            returnList.validIndexOf(rollItem)
+            spyViewModel.noteItem
+            noteItem.list
+            item.p
+            list.validRemoveAt(p)
+            spyViewModel.noteItem
+            noteItem.isVisible
+            spyViewModel.noteItem
+            noteItem.isVisible
+            rollItem.isCheck
+            spyViewModel.callback
+            spyViewModel.noteItem
+            spyViewModel.getList(noteItem)
+            callback.notifyItemRemoved(returnList, validIndex)
+        }
     }
 
     @Test fun onMenuUndoRedoRemove() {
