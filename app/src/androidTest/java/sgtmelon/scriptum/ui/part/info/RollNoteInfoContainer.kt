@@ -31,7 +31,7 @@ class RollNoteInfoContainer(isListEmpty: Boolean, isListHide: Boolean) : ParentU
         includeContainer.isDisplayed(visible)
 
         iconImage.isDisplayed(visible = false)
-                .withDrawableAttr(resourceId = -1)
+            .withDrawableAttr(resourceId = null)
 
         titleText?.isDisplayed(visible)
                 ?.withTextColor(R.attr.clContent)

@@ -339,8 +339,10 @@ class RollNoteScreen(
         private const val STATE_ERROR_TEXT = "Wrong note state"
 
         operator fun invoke(
-            func: RollNoteScreen.() -> Unit, state: State,
-            noteItem: NoteItem.Roll, isRankEmpty: Boolean
+            func: RollNoteScreen.() -> Unit,
+            state: State,
+            noteItem: NoteItem.Roll,
+            isRankEmpty: Boolean
         ): RollNoteScreen {
             return RollNoteScreen(state, noteItem, isRankEmpty).fullAssert().apply(func)
         }

@@ -20,11 +20,11 @@ class SimpleToolbar(@StringRes titleId: Int, private val withBack: Boolean) : Pa
     )
 
     fun assert() {
-        val backIconDrawable = if (withBack) R.drawable.ic_cancel_exit else -1
-        val backIconTint = if (withBack) R.attr.clContent else -1
+        val backIconDrawable = if (withBack) R.drawable.ic_cancel_exit else null
+        val backIconTint = if (withBack) R.attr.clContent else null
 
         contentContainer.isDisplayed()
-                .withBackgroundAttr(R.attr.colorPrimary)
-                .withNavigationDrawable(backIconDrawable, backIconTint)
+            .withBackgroundAttr(R.attr.colorPrimary)
+            .withNavigationDrawable(backIconDrawable, backIconTint)
     }
 }

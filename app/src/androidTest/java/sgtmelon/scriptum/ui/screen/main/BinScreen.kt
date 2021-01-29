@@ -38,24 +38,35 @@ class BinScreen : ParentRecyclerScreen(R.id.bin_recycler) {
         ClearDialogUi(func)
     }
 
-    fun openNoteDialog(noteItem: NoteItem, p: Int? = random,
-                       func: NoteDialogUi.() -> Unit = {}) = apply {
+    fun openNoteDialog(
+        noteItem: NoteItem,
+        p: Int? = random,
+        func: NoteDialogUi.() -> Unit = {}
+    ) = apply {
         if (p == null) return@apply
 
         getItem(p).view.longClick()
         NoteDialogUi(func, noteItem)
     }
 
-    fun openTextNote(noteItem: NoteItem.Text, p: Int? = random, isRankEmpty: Boolean = true,
-                     func: TextNoteScreen.() -> Unit = {}) = apply {
+    fun openTextNote(
+        noteItem: NoteItem.Text,
+        p: Int? = random,
+        isRankEmpty: Boolean = true,
+        func: TextNoteScreen.() -> Unit = {}
+    ) = apply {
         if (p == null) return@apply
 
         getItem(p).view.click()
         TextNoteScreen(func, State.BIN, noteItem, isRankEmpty)
     }
 
-    fun openRollNote(noteItem: NoteItem.Roll, p: Int? = random, isRankEmpty: Boolean = true,
-                     func: RollNoteScreen.() -> Unit = {}) = apply {
+    fun openRollNote(
+        noteItem: NoteItem.Roll,
+        p: Int? = random,
+        isRankEmpty: Boolean = true,
+        func: RollNoteScreen.() -> Unit = {}
+    ) = apply {
         if (p == null) return@apply
 
         getItem(p).view.click()
@@ -75,8 +86,8 @@ class BinScreen : ParentRecyclerScreen(R.id.bin_recycler) {
 
         if (!empty) {
             toolbar.contentContainer
-                    .withMenuDrawable(R.id.item_clear, R.drawable.ic_clear)
-                    .withMenuTitle(R.id.item_clear, R.string.menu_clear_bin)
+                .withMenuDrawable(R.id.item_clear, R.drawable.ic_clear)
+                .withMenuTitle(R.id.item_clear, R.string.menu_clear_bin)
 
             clearMenuItem.isDisplayed()
         }

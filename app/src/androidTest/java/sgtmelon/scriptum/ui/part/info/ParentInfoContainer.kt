@@ -10,7 +10,7 @@ import sgtmelon.scriptum.ui.ParentUi
 /**
  * Parent class for UI abstraction of info
  */
-abstract class ParentInfoContainer(@IdRes private val iconId: Int = -1) : ParentUi() {
+abstract class ParentInfoContainer(@IdRes private val iconId: Int? = null) : ParentUi() {
 
     abstract val includeContainer: Matcher<View>
     abstract val titleText: Matcher<View>
