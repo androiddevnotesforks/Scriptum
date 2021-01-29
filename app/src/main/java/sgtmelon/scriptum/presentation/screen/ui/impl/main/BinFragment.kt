@@ -193,7 +193,8 @@ class BinFragment : ParentFragment(), IBinFragment {
     override fun notifyList(list: List<NoteItem>) = adapter.notifyList(list)
 
     override fun notifyDataSetChanged(list: List<NoteItem>) {
-        adapter.setList(list).notifyDataSetChanged()
+        adapter.setList(list)
+        recyclerView?.post { adapter.notifyDataSetChanged() }
     }
 
     override fun notifyItemRemoved(list: List<NoteItem>, p: Int) {

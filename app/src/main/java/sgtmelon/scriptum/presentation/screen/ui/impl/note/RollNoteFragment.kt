@@ -476,7 +476,8 @@ class RollNoteFragment : ParentFragment(),
             adapter.setList(list).notifyItemInserted(p)
         } else {
             recyclerView?.smoothScrollToPosition(p)
-            adapter.setList(list).notifyDataSetChanged()
+            adapter.setList(list)
+            recyclerView?.post { adapter.notifyDataSetChanged() }
         }
     }
 
@@ -485,7 +486,8 @@ class RollNoteFragment : ParentFragment(),
     }
 
     override fun updateNoteState(noteState: NoteState) {
-        adapter.apply { this.noteState = noteState }.notifyDataSetChanged()
+        adapter.noteState = noteState
+        recyclerView?.post { adapter.notifyDataSetChanged() }
     }
 
     override fun updateProgress(progress: Int, max: Int) {
@@ -503,7 +505,8 @@ class RollNoteFragment : ParentFragment(),
     }
 
     override fun notifyDataSetChanged(list: List<RollItem>) {
-        adapter.setList(list).notifyDataSetChanged()
+        adapter.setList(list)
+        recyclerView?.post { adapter.notifyDataSetChanged() }
     }
 
     override fun notifyDataRangeChanged(list: List<RollItem>) {
