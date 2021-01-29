@@ -11,6 +11,7 @@ import sgtmelon.scriptum.data.room.converter.model.RollConverter
 import sgtmelon.scriptum.data.room.entity.NoteEntity
 import sgtmelon.scriptum.data.room.entity.RankEntity
 import sgtmelon.scriptum.data.room.entity.RollEntity
+import sgtmelon.scriptum.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.data.ColorData
 import sgtmelon.scriptum.domain.model.item.NoteItem
@@ -49,6 +50,8 @@ class TestData(
             color = (0 until ColorData.size).random()
             type = NoteType.ROLL
         }
+
+    val isVisible: Boolean get() = Random.nextBoolean()
 
     val rollList: ArrayList<RollEntity>
         get() = ArrayList<RollEntity>().apply {
@@ -136,6 +139,7 @@ class TestData(
 
     fun insertRoll(
         note: NoteEntity = rollNote,
+        visible: Boolean = isVisible,
         list: ArrayList<RollEntity> = rollList
     ): NoteItem.Roll {
         inRoomTest {
@@ -145,10 +149,11 @@ class TestData(
                 it.noteId = note.id
                 rollDao.insert(it)
             }
+
+            rollVisibleDao.insert(RollVisibleEntity(noteId = note.id, value = visible))
         }
 
-        // TODO REFACTOR
-        val item = noteConverter.toItem(note, rollConverter.toItem(list))
+        val item = noteConverter.toItem(note, visible, rollConverter.toItem(list))
 
         if (item !is NoteItem.Roll) throw IllegalAccessException("Wrong note type")
 
@@ -161,9 +166,10 @@ class TestData(
 
     fun insertRollToBin(
         note: NoteEntity = rollNote,
+        visible: Boolean = isVisible,
         list: ArrayList<RollEntity> = rollList
     ): NoteItem.Roll {
-        return insertRoll(note.apply { isBin = true }, list)
+        return insertRoll(note.apply { isBin = true }, visible, list)
     }
 
 

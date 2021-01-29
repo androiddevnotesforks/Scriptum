@@ -138,7 +138,7 @@ class NoteRepo(
         if (isOptimal) {
             /**
              * If:
-             *  1. list items not hide -> get simple view
+             *  1. list items not hide (true or null) -> get simple view
              *  2. is hide and not all done -> get only not checked items view
              *  3. is hide and all done -> get simple view
              */

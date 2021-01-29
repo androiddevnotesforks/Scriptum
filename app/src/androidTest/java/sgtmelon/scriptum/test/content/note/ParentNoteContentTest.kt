@@ -31,14 +31,14 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
 
         onAssertList(ArrayList<NoteItem>().also { list ->
             for (it in Color.list) {
-                val note = when(type) {
+                val note = when (type) {
                     NoteType.TEXT -> data.textNote.copy(color = it)
                     NoteType.ROLL -> data.rollNote.copy(color = it)
                 }
 
-                list.add(when(page) {
+                list.add(when (page) {
                     MainPage.RANK -> throw IllegalAccessException(PAGE_ERROR_TEXT)
-                    MainPage.NOTES ->when (type) {
+                    MainPage.NOTES -> when (type) {
                         NoteType.TEXT -> data.insertText(note)
                         NoteType.ROLL -> data.insertRoll(note)
                     }
@@ -114,11 +114,11 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
             })
         }
 
-        onAssertList( ArrayList<NoteItem>().apply {
+        onAssertList(ArrayList<NoteItem>().apply {
             add(when (page) {
                 MainPage.RANK -> throw IllegalAccessException(PAGE_ERROR_TEXT)
-                MainPage.NOTES -> data.insertRoll(data.rollNote, rollList)
-                MainPage.BIN -> data.insertRollToBin(data.rollNote, rollList)
+                MainPage.NOTES -> data.insertRoll(list = rollList)
+                MainPage.BIN -> data.insertRollToBin(list = rollList)
             })
         })
     }
@@ -144,18 +144,17 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
             })
         }
 
-        var done = 0
-        for (entity in rollList) {
+        for ((done, entity) in rollList.withIndex()) {
             entity.isCheck = true
 
-            if (++done == check) break
+            if (done + 1 == check) break
         }
 
         onAssertList(ArrayList<NoteItem>().apply {
             add(when (page) {
                 MainPage.RANK -> throw IllegalAccessException(PAGE_ERROR_TEXT)
-                MainPage.NOTES -> data.insertRoll(data.rollNote, rollList)
-                MainPage.BIN -> data.insertRollToBin(data.rollNote, rollList)
+                MainPage.NOTES -> data.insertRoll(list = rollList)
+                MainPage.BIN -> data.insertRollToBin(list = rollList)
             })
         })
     }

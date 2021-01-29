@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.ui.item
 
 import android.view.View
+import androidx.annotation.CallSuper
 import androidx.annotation.IdRes
 import org.hamcrest.Matcher
 import sgtmelon.extension.formatPast
@@ -11,6 +12,7 @@ import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
 import sgtmelon.scriptum.domain.model.key.NoteType
+import sgtmelon.scriptum.extension.hide
 import sgtmelon.scriptum.presentation.adapter.NoteAdapter
 import sgtmelon.scriptum.ui.ParentRecyclerItem
 
@@ -27,6 +29,8 @@ class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
 
     private inner class Text : Parent<NoteItem.Text>(NoteType.TEXT) {
 
+        override val infoLayout = TextInfo()
+
         val contentText = getChild(getViewById(R.id.note_text_content_text))
 
         override fun assert(item: NoteItem.Text) {
@@ -35,9 +39,12 @@ class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
             contentText.isDisplayed().withText(item.text, R.attr.clContent, R.dimen.text_16sp)
         }
 
+        inner class TextInfo : Info<NoteItem.Text>()
     }
 
     private inner class Roll : Parent<NoteItem.Roll>(NoteType.ROLL) {
+
+        override val infoLayout = RollInfo()
 
         fun getRow(p: Int) = Row(when (p) {
             0 -> R.id.note_roll_row0_container
@@ -49,8 +56,12 @@ class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
         override fun assert(item: NoteItem.Roll) {
             super.assert(item)
 
+            val visibleList = with(item) {
+                if (isVisible) list else list.hide().takeIf { it.isNotEmpty() } ?: list
+            }
+
             for (i in 0 until 4) {
-                getRow(i).assert(item.list.getOrNull(i))
+                getRow(i).assert(visibleList.getOrNull(i))
             }
         }
 
@@ -81,6 +92,18 @@ class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
             }
         }
 
+        inner class RollInfo : Info<NoteItem.Roll>() {
+
+            private val visibleImage = getChild(getViewById(R.id.note_info_visible_image))
+
+            override fun assert(item: NoteItem.Roll) {
+                super.assert(item)
+
+                visibleImage.isDisplayed(item.isVisible) {
+                    withSize(R.dimen.icon_16dp, R.dimen.icon_16dp)
+                }.withDrawableAttr(R.drawable.ic_visible_exit, R.attr.clNoteIndicator)
+            }
+        }
     }
 
     private abstract inner class Parent<N : NoteItem>(type: NoteType) {
@@ -100,7 +123,7 @@ class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
             NoteType.ROLL -> R.id.note_roll_name_text
         }))
 
-        val infoLayout = Info()
+        abstract val infoLayout: Info<N>
 
         val colorView = getChild(getViewById(when (type) {
             NoteType.TEXT -> R.id.note_text_color_view
@@ -123,7 +146,7 @@ class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
             }
         }
 
-        inner class Info {
+        abstract inner class Info<N : NoteItem> {
             private val parentContainer = getChild(getViewById(R.id.note_info_container))
 
             private val notificationImage = getChild(getViewById(R.id.note_info_notification_image))
@@ -135,7 +158,7 @@ class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
             private val changeText = getChild(getViewById(R.id.note_info_change_text))
             private val createText = getChild(getViewById(R.id.note_info_create_text))
 
-            fun assert(item: NoteItem) {
+            @CallSuper open fun assert(item: N) {
                 val type = item.type
 
                 parentContainer.isDisplayed()

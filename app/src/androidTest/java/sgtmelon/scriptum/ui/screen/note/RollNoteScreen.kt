@@ -349,7 +349,12 @@ class RollNoteScreen(
     /**
      * @Test - duplicate of original function in [RollNoteViewModel].
      */
-    private fun getCorrectPosition(p: Int, noteItem: NoteItem.Roll): Int {
-        return if (noteItem.isVisible) p else noteItem.list.let { it.indexOf(it.hide()[p]) }
+    private fun getCorrectPosition(p: Int, item: NoteItem.Roll): Int {
+        return if (item.isVisible) {
+            p
+        } else {
+            val list = item.list
+            list.indexOf(list.hide()[p])
+        }
     }
 }
