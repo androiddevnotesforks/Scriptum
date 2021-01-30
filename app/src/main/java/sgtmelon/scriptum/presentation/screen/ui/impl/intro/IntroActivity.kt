@@ -138,9 +138,9 @@ class IntroActivity : ParentActivity(), IIntroActivity, ViewPager.OnPageChangeLi
         }
     }
 
-    override fun onPageSelected(position: Int) {}
+    override fun onPageSelected(position: Int) = Unit
 
-    override fun onPageScrollStateChanged(state: Int) {}
+    override fun onPageScrollStateChanged(state: Int) = Unit
 
     companion object {
         operator fun get(context: Context): Intent = Intent(context, IntroActivity::class.java)

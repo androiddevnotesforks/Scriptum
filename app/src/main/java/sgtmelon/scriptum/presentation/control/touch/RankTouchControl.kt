@@ -51,7 +51,7 @@ class RankTouchControl(private val callback: Callback) : EdgeDragTouchHelper(cal
         return callback.onTouchMove(viewHolder.adapterPosition, movePosition)
     }
 
-    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
+    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) = Unit
 
     interface Callback : ParentCallback {
         /**

@@ -76,9 +76,9 @@ class VolumeDialog : BlankDialog(), SeekBar.OnSeekBarChangeListener {
         setEnable()
     }
 
-    override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+    override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
 
-    override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+    override fun onStopTrackingTouch(seekBar: SeekBar?) = Unit
 
     companion object {
         const val MIN_VALUE = 10

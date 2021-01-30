@@ -20,7 +20,7 @@ fun Matcher<View>.getCount(): Int = let {
             return true
         }
 
-        override fun describeTo(description: Description) {}
+        override fun describeTo(description: Description) = Unit
     }
 
     onView(it).check(ViewAssertions.matches(recyclerMatcher))

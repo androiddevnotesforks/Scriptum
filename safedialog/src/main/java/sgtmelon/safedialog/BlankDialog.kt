@@ -47,7 +47,7 @@ abstract class BlankDialog : DialogFragment() {
     /**
      * Func for setup child view's of custom view
      */
-    @CallSuper protected open fun setupView() {}
+    @CallSuper protected open fun setupView() = Unit
 
     @CallSuper protected open fun setupButton() {
         val dialog = dialog
@@ -71,7 +71,7 @@ abstract class BlankDialog : DialogFragment() {
         }
     }
 
-    @CallSuper protected open fun setEnable() {}
+    @CallSuper protected open fun setEnable() = Unit
 
     companion object {
         const val PREFIX = "SAFE_DIALOG"

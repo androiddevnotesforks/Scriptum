@@ -26,9 +26,9 @@ abstract class ParentTest {
 
     val data = TestData(RoomProvider(context), preferenceRepo)
 
-    @Before @CallSuper open fun setUp() {}
+    @Before @CallSuper open fun setUp() = Unit
 
-    @After @CallSuper open fun tearDown() {}
+    @After @CallSuper open fun tearDown() = Unit
 
     protected companion object {
         const val DATE_1 = "1234-01-02 03:04:05"

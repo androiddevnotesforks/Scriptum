@@ -127,7 +127,7 @@ class MelodyControl(private val context: Context) : IMelodyControl,
         setVolume(startVolume)
     }
 
-    override fun onAudioFocusChange(focusChange: Int) {}
+    override fun onAudioFocusChange(focusChange: Int) = Unit
 
 
     /**
