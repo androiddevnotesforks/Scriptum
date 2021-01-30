@@ -6,10 +6,7 @@ import androidx.annotation.StringRes
 import com.google.android.material.snackbar.Snackbar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.Theme
-import sgtmelon.scriptum.extension.InsetsDir
-import sgtmelon.scriptum.extension.doOnApplyWindowInsets
-import sgtmelon.scriptum.extension.getCompatColor
-import sgtmelon.scriptum.extension.updateMargin
+import sgtmelon.scriptum.extension.*
 
 /**
  * Class for help control showing snackbar's.

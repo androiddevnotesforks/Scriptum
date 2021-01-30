@@ -152,7 +152,8 @@ class MainActivity : AppActivity(), IMainActivity {
             view.updateMargin(InsetsDir.LEFT, insets, margin)
             view.updateMargin(InsetsDir.TOP, insets, margin)
             view.updateMargin(InsetsDir.RIGHT, insets, margin)
-            view.updateMargin(InsetsDir.BOTTOM, insets, margin)
+            view.addSystemInsetsMargin(InsetsDir.BOTTOM, menuNavigation)
+
             return@doOnApplyWindowInsets insets
         }
     }

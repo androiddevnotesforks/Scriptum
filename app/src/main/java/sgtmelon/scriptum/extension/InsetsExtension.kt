@@ -9,11 +9,16 @@ import androidx.core.graphics.Insets
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
-fun View.addSystemInsetsPadding(dir: InsetsDir, withRemove: Boolean, targetView: View? = this) {
+fun View.addSystemInsetsPadding(
+    dir: InsetsDir,
+    targetView: View?,
+    withRemove: Boolean = true
+) {
     if (targetView == null) return
 
-    doOnApplyWindowInsets { _, insets, padding, _ ->
-        targetView.updatePadding(dir, insets, padding)
+    val initialPadding = recordInitialPadding(targetView)
+    doOnApplyWindowInsets { _, insets, _, _ ->
+        targetView.updatePadding(dir, insets, initialPadding)
 
         return@doOnApplyWindowInsets if (withRemove) {
             insets.removeSystemWindowInsets(dir)
@@ -24,19 +29,18 @@ fun View.addSystemInsetsPadding(dir: InsetsDir, withRemove: Boolean, targetView:
 }
 
 /**
- * [this] - если определён другой [targetView], то это должен быть viewGroup
+ * [this] - это должен быть viewGroup
  * [targetView] - view для которой в первую очередь применяется inset
  * [withRemove] - определяет, будет ли затёрт нужный inset после пременения
  */
 fun View.addSystemInsetsMargin(
     dir: InsetsDir,
-    withRemove: Boolean,
-    targetView: View? = this
+    targetView: View?,
+    withRemove: Boolean = true
 ) {
     if (targetView == null) return
 
     val initialMargin = recordInitialMargin(targetView) ?: return
-
     doOnApplyWindowInsets { _, insets, _, _ ->
         targetView.updateMargin(dir, insets, initialMargin)
 
