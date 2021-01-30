@@ -17,7 +17,7 @@ fun View.addSystemInsetsPadding(
     if (targetView == null) return
 
     val initialPadding = recordInitialPadding(targetView)
-    doOnApplyWindowInsets { _, insets, _, _ ->
+    doOnApplyWindowInsets { _, insets, _, _, _ ->
         targetView.updatePadding(dir, insets, initialPadding)
 
         return@doOnApplyWindowInsets if (withRemove) {
@@ -41,7 +41,7 @@ fun View.addSystemInsetsMargin(
     if (targetView == null) return
 
     val initialMargin = recordInitialMargin(targetView) ?: return
-    doOnApplyWindowInsets { _, insets, _, _ ->
+    doOnApplyWindowInsets { _, insets, _, _, _ ->
         targetView.updateMargin(dir, insets, initialMargin)
 
         return@doOnApplyWindowInsets if (withRemove) {
@@ -53,19 +53,38 @@ fun View.addSystemInsetsMargin(
 }
 
 inline fun View.doOnApplyWindowInsets(
-    crossinline block: (view: View, insets: WindowInsetsCompat, padding: Rect, margin: Rect?) -> WindowInsetsCompat
+    crossinline block: (
+        view: View,
+        insets: WindowInsetsCompat,
+        isFirstTime: Boolean,
+        padding: Rect,
+        margin: Rect?
+    ) -> WindowInsetsCompat
 ) {
     val initialPadding = recordInitialPadding(this)
     val initialMargin = recordInitialMargin(this)
 
+    /**
+     * Variable for detect fist applying of insets.
+     */
+    var isFirstTime = true
+
     ViewCompat.setOnApplyWindowInsetsListener(this) { view, insets ->
-        block(view, insets, initialPadding, initialMargin)
+        val result = block(view, insets, isFirstTime, initialPadding, initialMargin)
+
+        if (isFirstTime) {
+            isFirstTime = false
+        }
+
+        return@setOnApplyWindowInsetsListener result
     }
 
     requestApplyInsetsWhenAttached()
 }
 
-fun View.removeWindowInsetsListener() = ViewCompat.setOnApplyWindowInsetsListener(this, null)
+fun View.removeWindowInsetsListener() {
+    ViewCompat.setOnApplyWindowInsetsListener(this, null)
+}
 
 fun recordInitialPadding(view: View): Rect {
     return Rect(view.paddingLeft, view.paddingTop, view.paddingRight, view.paddingBottom)

@@ -155,14 +155,14 @@ class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallb
     }
 
     override fun setupInsets() {
-        parentContainer?.doOnApplyWindowInsets { view, insets, _, margin ->
+        parentContainer?.doOnApplyWindowInsets { view, insets, _, _, margin ->
             view.updateMargin(InsetsDir.LEFT, insets, margin)
             view.updateMargin(InsetsDir.TOP, insets, margin)
             view.updateMargin(InsetsDir.RIGHT, insets, margin)
             return@doOnApplyWindowInsets insets
         }
 
-        recyclerView?.doOnApplyWindowInsets { view, insets, padding, _ ->
+        recyclerView?.doOnApplyWindowInsets { view, insets, _, padding, _ ->
             view.updatePadding(InsetsDir.BOTTOM, insets, padding)
             return@doOnApplyWindowInsets insets
         }

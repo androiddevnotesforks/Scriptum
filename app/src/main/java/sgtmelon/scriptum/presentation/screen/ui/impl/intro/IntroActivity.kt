@@ -90,7 +90,7 @@ class IntroActivity : ParentActivity(), IIntroActivity, ViewPager.OnPageChangeLi
     }
 
     override fun setupInsets() {
-        viewPager.doOnApplyWindowInsets { view, insets, padding, _ ->
+        viewPager.doOnApplyWindowInsets { view, insets, _, padding, _ ->
             view.updatePadding(InsetsDir.LEFT, insets, padding)
             view.updatePadding(InsetsDir.TOP, insets, padding)
             view.updatePadding(InsetsDir.RIGHT, insets, padding)
@@ -98,14 +98,14 @@ class IntroActivity : ParentActivity(), IIntroActivity, ViewPager.OnPageChangeLi
             return@doOnApplyWindowInsets insets
         }
 
-        pageContainer.doOnApplyWindowInsets { view, insets, _, margin ->
+        pageContainer.doOnApplyWindowInsets { view, insets, _, _, margin ->
             view.updateMargin(InsetsDir.LEFT, insets, margin)
             view.updateMargin(InsetsDir.RIGHT, insets, margin)
             view.updateMargin(InsetsDir.BOTTOM, insets, margin)
             return@doOnApplyWindowInsets insets
         }
 
-        endButton.doOnApplyWindowInsets { view, insets, _, margin ->
+        endButton.doOnApplyWindowInsets { view, insets, _, _, margin ->
             view.updateMargin(InsetsDir.LEFT, insets, margin)
             view.updateMargin(InsetsDir.RIGHT, insets, margin)
             view.updateMargin(InsetsDir.BOTTOM, insets, margin)

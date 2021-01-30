@@ -48,7 +48,7 @@ class SnackbarControl(
                 .show()
 
         if (withInsets) {
-            snackbar?.view?.doOnApplyWindowInsets { view, insets, _, margin ->
+            snackbar?.view?.doOnApplyWindowInsets { view, insets, _, _, margin ->
                 view.updateMargin(InsetsDir.LEFT, insets, margin)
                 view.updateMargin(InsetsDir.RIGHT, insets, margin)
                 view.updateMargin(InsetsDir.BOTTOM, insets, margin)

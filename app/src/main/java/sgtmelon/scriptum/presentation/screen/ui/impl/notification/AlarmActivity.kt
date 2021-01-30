@@ -195,12 +195,12 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
      * This activity not rotatable (don't need setup margin for left and right).
      */
     override fun setupInsets() {
-        logoView?.doOnApplyWindowInsets { view, insets, _, margin ->
+        logoView?.doOnApplyWindowInsets { view, insets, _, _, margin ->
             view.updateMargin(InsetsDir.TOP, insets, margin)
             return@doOnApplyWindowInsets insets
         }
 
-        buttonContainer?.doOnApplyWindowInsets { view, insets, _, margin ->
+        buttonContainer?.doOnApplyWindowInsets { view, insets, _, _, margin ->
             view.updateMargin(InsetsDir.BOTTOM, insets, margin)
             return@doOnApplyWindowInsets insets
         }

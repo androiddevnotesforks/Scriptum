@@ -353,7 +353,7 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
 
     private fun setupInsets() {
         listView.clipToPadding = false
-        listView.doOnApplyWindowInsets { view, insets, padding, _ ->
+        listView.doOnApplyWindowInsets { view, insets, _, padding, _ ->
             view.updatePadding(InsetsDir.BOTTOM, insets, padding)
             return@doOnApplyWindowInsets insets
         }
