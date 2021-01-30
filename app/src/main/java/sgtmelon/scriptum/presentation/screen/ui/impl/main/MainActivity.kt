@@ -152,6 +152,11 @@ class MainActivity : AppActivity(), IMainActivity {
             view.updateMargin(InsetsDir.LEFT, insets, margin)
             view.updateMargin(InsetsDir.TOP, insets, margin)
             view.updateMargin(InsetsDir.RIGHT, insets, margin)
+
+            /**
+             * Need use this function (not [View.updateMargin]), because otherwise snackbar
+             * inside [RankFragment] will handle this inset (and this cause strange bottom padding)
+             */
             view.addSystemInsetsMargin(InsetsDir.BOTTOM, menuNavigation)
 
             return@doOnApplyWindowInsets insets
