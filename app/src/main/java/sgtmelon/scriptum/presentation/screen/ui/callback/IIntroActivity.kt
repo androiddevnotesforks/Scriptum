@@ -8,9 +8,13 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.IIntroViewModel
  */
 interface IIntroActivity {
 
-    fun setupViewPager()
+    fun setupViewPager(isLastPage: Boolean)
 
     fun setupInsets()
+
+    fun getCurrentPosition(): Int
+
+    fun getItemCount(): Int
 
     fun openMainScreen()
 }

@@ -55,11 +55,10 @@ class RenameDialog : BlankDialog(), TextView.OnEditorActionListener {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState.apply {
-            putInt(POSITION, position)
-            putString(INIT, title)
-            putStringArrayList(VALUE, nameList)
-        })
+        super.onSaveInstanceState(outState)
+        outState.putInt(POSITION, position)
+        outState.putString(INIT, title)
+        outState.putStringArrayList(VALUE, nameList)
     }
 
     override fun setupView() {

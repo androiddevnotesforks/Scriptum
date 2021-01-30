@@ -65,11 +65,10 @@ class DateDialog : DateTimeBlankDialog(), IDateDialog {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState.apply {
-            putLong(INIT, calendar.timeInMillis)
-            putBoolean(VALUE, neutralVisible)
-            putInt(POSITION, position)
-        })
+        super.onSaveInstanceState(outState)
+        outState.putLong(INIT, calendar.timeInMillis)
+        outState.putBoolean(VALUE, neutralVisible)
+        outState.putInt(POSITION, position)
     }
 
     override fun setupButton() {

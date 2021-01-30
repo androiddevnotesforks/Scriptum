@@ -44,7 +44,12 @@ class IntroActivity : ParentActivity(), IIntroActivity, ViewPager.OnPageChangeLi
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_intro)
 
-        viewModel.onSetup()
+        viewModel.onSetup(savedInstanceState)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        viewModel.onSaveData(outState)
     }
 
     override fun onDestroy() {
@@ -71,15 +76,10 @@ class IntroActivity : ParentActivity(), IIntroActivity, ViewPager.OnPageChangeLi
     }
 
 
-    override fun setupViewPager() {
-        endButton.apply {
-            alpha = 0f
-            isEnabled = false
-
-            setOnClickListener {
-                AppIdlingResource.worker.startHardWork()
-                beforeFinish { viewModel.onClickEnd() }
-            }
+    override fun setupViewPager(isLastPage: Boolean) {
+        endButton.setOnClickListener {
+            AppIdlingResource.worker.startHardWork()
+            beforeFinish { viewModel.onClickEnd() }
         }
 
         for (i in 0 until IntroData.count) pagerAdapter.addItem(IntroFragment[i])
@@ -87,6 +87,13 @@ class IntroActivity : ParentActivity(), IIntroActivity, ViewPager.OnPageChangeLi
         viewPager.adapter = pagerAdapter
         viewPager.offscreenPageLimit = pagerAdapter.count - 1
         viewPager.addOnPageChangeListener(this@IntroActivity)
+
+        if (isLastPage) {
+            pageIndicator.alpha = 0f
+        } else {
+            endButton.alpha = 0f
+            endButton.isEnabled = false
+        }
     }
 
     override fun setupInsets() {
@@ -112,6 +119,10 @@ class IntroActivity : ParentActivity(), IIntroActivity, ViewPager.OnPageChangeLi
             return@doOnApplyWindowInsets insets
         }
     }
+
+    override fun getCurrentPosition(): Int = viewPager.currentItem
+
+    override fun getItemCount(): Int = pagerAdapter.count
 
     override fun openMainScreen() = startActivity(MainActivity[this])
 
@@ -145,5 +156,4 @@ class IntroActivity : ParentActivity(), IIntroActivity, ViewPager.OnPageChangeLi
     companion object {
         operator fun get(context: Context): Intent = Intent(context, IntroActivity::class.java)
     }
-
 }

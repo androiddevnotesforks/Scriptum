@@ -106,7 +106,8 @@ class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallb
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState.apply { openState.save(bundle = this) })
+        super.onSaveInstanceState(outState)
+        openState.save(outState)
     }
 
     override fun setNavigationColor(@Theme theme: Int) {

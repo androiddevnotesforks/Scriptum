@@ -51,10 +51,9 @@ class OptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState.apply {
-            putStringArray(INIT, itemList.toTypedArray())
-            putInt(VALUE, position)
-        })
+        super.onSaveInstanceState(outState)
+        outState.putStringArray(INIT, itemList.toTypedArray())
+        outState.putInt(VALUE, position)
     }
 
     override fun onDismiss(dialog: DialogInterface) {

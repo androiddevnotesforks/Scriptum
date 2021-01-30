@@ -43,7 +43,8 @@ class IntroFragment : Fragment() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState.apply { putInt(PAGE_CURRENT, page) })
+        super.onSaveInstanceState(outState)
+        outState.putInt(PAGE_CURRENT, page)
     }
 
     /**

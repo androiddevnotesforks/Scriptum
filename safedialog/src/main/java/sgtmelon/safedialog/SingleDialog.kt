@@ -53,10 +53,9 @@ class SingleDialog : BlankDialog() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState.apply {
-            putInt(INIT, checkInit)
-            putInt(VALUE, check)
-        })
+        super.onSaveInstanceState(outState)
+        outState.putInt(INIT, checkInit)
+        outState.putInt(VALUE, check)
     }
 
     override fun setEnable() {

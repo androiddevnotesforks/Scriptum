@@ -68,11 +68,10 @@ class TimeDialog : DateTimeBlankDialog(), ITimeDialog {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState.apply {
-            putLong(INIT, calendar.timeInMillis)
-            putStringArrayList(VALUE, dateList)
-            putInt(POSITION, position)
-        })
+        super.onSaveInstanceState(outState)
+        outState.putLong(INIT, calendar.timeInMillis)
+        outState.putStringArrayList(VALUE, dateList)
+        outState.putInt(POSITION, position)
     }
 
     /**

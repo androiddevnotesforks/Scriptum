@@ -151,7 +151,8 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState.apply { openState.save(bundle = this) })
+        super.onSaveInstanceState(outState)
+        openState.save(outState)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>,

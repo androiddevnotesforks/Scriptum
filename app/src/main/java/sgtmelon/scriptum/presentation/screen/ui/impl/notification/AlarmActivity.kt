@@ -144,7 +144,8 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState.apply { viewModel.onSaveData(bundle = this) })
+        super.onSaveInstanceState(outState)
+        viewModel.onSaveData(outState)
     }
 
     override fun setStatusBarColor(@Theme theme: Int) {

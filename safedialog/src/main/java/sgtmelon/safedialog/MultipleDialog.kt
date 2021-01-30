@@ -49,10 +49,9 @@ class MultipleDialog : BlankDialog() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState.apply {
-            putBooleanArray(INIT, init)
-            putBooleanArray(VALUE, check)
-        })
+        super.onSaveInstanceState(outState)
+        outState.putBooleanArray(INIT, init)
+        outState.putBooleanArray(VALUE, check)
     }
 
     override fun setEnable() {

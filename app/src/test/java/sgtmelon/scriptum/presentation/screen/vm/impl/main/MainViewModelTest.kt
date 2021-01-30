@@ -2,6 +2,7 @@ package sgtmelon.scriptum.presentation.screen.vm.impl.main
 
 import android.os.Bundle
 import io.mockk.coVerifySequence
+import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verifySequence
@@ -37,6 +38,11 @@ class MainViewModelTest : ParentViewModelTest() {
 
         viewModel.setCallback(callback)
         viewModel.setInteractor(interactor, bindInteractor)
+    }
+
+    override fun tearDown() {
+        super.tearDown()
+        confirmVerified(callback, interactor, bindInteractor, bundle)
     }
 
     @Test override fun onDestroy() {

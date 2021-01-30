@@ -42,10 +42,9 @@ class VolumeDialog : BlankDialog(), SeekBar.OnSeekBarChangeListener {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState.apply {
-            putInt(INIT, init)
-            putInt(VALUE, progress)
-        })
+        super.onSaveInstanceState(outState)
+        outState.putInt(INIT, init)
+        outState.putInt(VALUE, progress)
     }
 
     override fun setupView() {

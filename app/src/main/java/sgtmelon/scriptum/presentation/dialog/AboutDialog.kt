@@ -33,7 +33,8 @@ class AboutDialog : BlankDialog(), View.OnClickListener {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState.apply { putInt(VALUE, click) })
+        super.onSaveInstanceState(outState)
+        outState.putInt(VALUE, click)
     }
 
     override fun setupView() {

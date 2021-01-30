@@ -171,10 +171,9 @@ class RollNoteFragment : ParentFragment(),
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState.apply {
-            openState.save(bundle = this)
-            viewModel.onSaveData(bundle = this)
-        })
+        super.onSaveInstanceState(outState)
+        openState.save(outState)
+        viewModel.onSaveData(outState)
     }
 
     override fun onMenuItemClick(item: MenuItem?): Boolean {
