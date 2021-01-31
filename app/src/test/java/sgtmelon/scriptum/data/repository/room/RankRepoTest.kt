@@ -8,7 +8,6 @@ import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentRoomRepoTest
 import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.data.room.converter.model.RankConverter
-import sgtmelon.scriptum.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.data.room.entity.NoteEntity
 import sgtmelon.scriptum.data.room.entity.RankEntity
 import sgtmelon.scriptum.domain.model.data.DbData.Note
@@ -53,26 +52,19 @@ class RankRepoTest : ParentRoomRepoTest() {
         val itemList = MutableList<RankItem>(size) { mockk() }
 
         val noteIdList = List<MutableList<Long>>(size) { mockk() }
-        val noteEntityList = List(size) { List<NoteEntity>(size) { mockk() } }
-        val isStatusList = List(size) { List(size) { Random.nextBoolean() } }
-        val alarmEntityList = List<List<AlarmEntity>>(size) { mockk() }
-        val isEmptyList = List(size) { Random.nextBoolean() }
+        val bindCountList = List(size) { Random.nextInt() }
+        val notificationCountList = List(size) { Random.nextInt() }
 
         coEvery { rankDao.get() } returns entityList
         every { converter.toItem(entityList) } returns itemList
 
         for ((i, item) in itemList.withIndex()) {
             every { item.noteId } returns noteIdList[i]
-            coEvery { noteDao.get(noteIdList[i]) } returns noteEntityList[i]
+            coEvery { noteDao.getBindCount(noteIdList[i]) } returns bindCountList[i]
+            every { item.bindCount = bindCountList[i] } returns Unit
 
-            for ((j, entity) in noteEntityList[i].withIndex()) {
-                every { entity.isStatus } returns isStatusList[i][j]
-            }
-            every { item.hasBind = any() } returns Unit
-
-            coEvery { alarmDao.get(noteIdList[i]) } returns alarmEntityList[i]
-            every { alarmEntityList[i].isEmpty() } returns isEmptyList[i]
-            every { item.hasNotification = !isEmptyList[i] } returns Unit
+            coEvery { alarmDao.getCount(noteIdList[i]) } returns notificationCountList[i]
+            every { item.notificationCount = notificationCountList[i] } returns Unit
         }
 
         assertEquals(itemList, rankRepo.getList())
@@ -84,51 +76,27 @@ class RankRepoTest : ParentRoomRepoTest() {
 
             for ((i, item) in itemList.withIndex()) {
                 item.noteId
-                noteDao.get(noteIdList[i])
-
-                var hasBind = false
-                for ((j, entity) in noteEntityList[i].withIndex()) {
-                    entity.isStatus
-
-                    if (isStatusList[i][j]) {
-                        hasBind = true
-                        break
-                    }
-                }
-                item.hasBind = hasBind
+                noteDao.getBindCount(noteIdList[i])
+                item.bindCount = bindCountList[i]
 
                 item.noteId
-                alarmDao.get(noteIdList[i])
-                alarmEntityList[i].isEmpty()
-                item.hasNotification = !isEmptyList[i]
+                alarmDao.getCount(noteIdList[i])
+                item.notificationCount = notificationCountList[i]
             }
         }
     }
 
-    @Test fun getBind() = startCoTest {
+    @Test fun getBindCount() = startCoTest {
         val idList = mockk<List<Long>>()
-        val size = getRandomSize()
-        val entityList = List<NoteEntity>(size) { mockk() }
-        val isStatusList = List(size) { Random.nextBoolean() }
+        val count = Random.nextInt()
 
-        coEvery { noteDao.get(idList) } returns entityList
-        for ((i, entity) in entityList.withIndex()) {
-            every { entity.isStatus } returns isStatusList[i]
-        }
+        coEvery { noteDao.getBindCount(idList) } returns count
 
-        assertEquals(isStatusList.any { it }, rankRepo.getBind(idList))
+        assertEquals(count, rankRepo.getBindCount(idList))
 
         coVerifySequence {
             roomProvider.openRoom()
-            noteDao.get(idList)
-
-            for ((i, entity) in entityList.withIndex()) {
-                entity.isStatus
-
-                if (isStatusList[i]) {
-                    break
-                }
-            }
+            noteDao.getBindCount(idList)
         }
     }
 

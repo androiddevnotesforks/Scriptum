@@ -248,7 +248,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
             for (item in itemList) {
                 if (!item.noteId.contains(id)) continue
 
-                item.hasBind = runBack { interactor.getBind(item.noteId) }
+                item.bindCount = runBack { interactor.getBindCount(item.noteId) }
             }
 
             callback?.notifyList(itemList)

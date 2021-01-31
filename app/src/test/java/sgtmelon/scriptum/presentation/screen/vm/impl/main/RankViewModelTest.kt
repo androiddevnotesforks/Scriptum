@@ -630,25 +630,25 @@ class RankViewModelTest : ParentViewModelTest() {
         viewModel.itemList.clearAdd(itemList)
         assertEquals(itemList, viewModel.itemList)
 
-        val hasValue = List(itemList.size) { Random.nextBoolean() }
+        val countList = List(itemList.size) { Random.nextInt() }
         val id = itemList.random().noteId.random()
         val updateList = itemList.filter { it.noteId.contains(id) }
 
         for ((i, item) in updateList.withIndex()) {
-            coEvery { interactor.getBind(item.noteId) } returns hasValue[i]
+            coEvery { interactor.getBindCount(item.noteId) } returns countList[i]
         }
 
         viewModel.onReceiveUnbindNote(id)
 
         for ((i, item) in updateList.withIndex()) {
-            itemList[itemList.indexOf(item)].hasBind = hasValue[i]
+            itemList[itemList.indexOf(item)].bindCount = countList[i]
         }
 
         assertEquals(itemList, viewModel.itemList)
 
         coVerifySequence {
             for (it in updateList) {
-                interactor.getBind(it.noteId)
+                interactor.getBindCount(it.noteId)
             }
 
             callback.notifyList(itemList)

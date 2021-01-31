@@ -37,6 +37,11 @@ interface INoteDao {
     """)
     suspend fun getCount(isBin: Boolean, rankIdList: List<Long>): Int
 
+    @Query(value = """SELECT COUNT(NT_ID) FROM NOTE_TABLE
+        WHERE NT_ID IN (:idList) AND NT_STATUS = 1
+    """)
+    suspend fun getBindCount(idList: List<Long>): Int
+
     @Query(value = "SELECT * FROM NOTE_TABLE WHERE NT_ID = :id")
     suspend fun get(id: Long): NoteEntity?
 

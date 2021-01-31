@@ -117,12 +117,24 @@ class AlarmDaoTest : ParentRoomTest() {
     @Test fun getCount() = inRoomTest {
         var size = 0
 
-        assertEquals(alarmDao.getCount(), size)
+        assertEquals(size, alarmDao.getCount())
 
         insertAlarmRelation(firstNote, firstAlarm)
-        assertEquals(alarmDao.getCount(), ++size)
+        assertEquals(++size, alarmDao.getCount())
 
         insertAlarmRelation(secondNote, secondAlarm)
-        assertEquals(alarmDao.getCount(), ++size)
+        assertEquals(++size, alarmDao.getCount())
+    }
+
+    @Test fun getCount_byIdList() = inRoomTest {
+        var size = 0
+
+        assertEquals(size, alarmDao.getCount(listOf()))
+
+        insertAlarmRelation(firstNote, firstAlarm)
+        assertEquals(++size, alarmDao.getCount(listOf(firstNote.id)))
+
+        insertAlarmRelation(secondNote, secondAlarm)
+        assertEquals(++size, alarmDao.getCount(listOf(firstNote.id, secondNote.id)))
     }
 }

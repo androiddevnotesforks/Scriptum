@@ -18,7 +18,7 @@ class UnbindReceiverTest : ParentNotificationTest() {
             mainScreen {
                 notesScreen { openNoteDialog(it.second) { onBind() } }
                 rankScreen {
-                    onOpen { onAssertItem(it.first.apply { hasBind = false }) }
+                    onOpen { onAssertItem(it.first.apply { bindCount = 0 }) }
                 }
             }
         }

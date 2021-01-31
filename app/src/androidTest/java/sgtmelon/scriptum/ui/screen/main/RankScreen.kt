@@ -9,6 +9,7 @@ import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.SimpleInfoPage
 import sgtmelon.scriptum.domain.model.item.RankItem
 import sgtmelon.scriptum.presentation.adapter.RankAdapter
+import sgtmelon.scriptum.presentation.adapter.holder.RankHolder
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.RankFragment
 import sgtmelon.scriptum.ui.ParentRecyclerItem
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
@@ -44,8 +45,10 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
 
     //endregion
 
-    fun openRenameDialog(title: String, p: Int? = random,
-                         func: RenameDialogUi.() -> Unit = {}) = apply {
+    fun openRenameDialog(
+        title: String, p: Int? = random,
+        func: RenameDialogUi.() -> Unit = {}
+    ) = apply {
         if (p == null) return@apply
 
         getItem(p).view.click()
@@ -110,9 +113,9 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
      * Class for UI control of [RankAdapter].
      */
     private class Item private constructor(
-            listMatcher: Matcher<View>,
-            itemMatcher: Matcher<View>?,
-            position: Int?
+        listMatcher: Matcher<View>,
+        itemMatcher: Matcher<View>?,
+        position: Int?
     ) : ParentRecyclerItem<RankItem>(listMatcher, itemMatcher, position) {
 
         constructor(listMatcher: Matcher<View>, position: Int) :
@@ -129,7 +132,10 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
         private val nameText by lazy { getChild(getViewById(R.id.rank_name_text)) }
         private val countText by lazy { getChild(getViewById(R.id.rank_text_count_text)) }
 
+        private val imageContainer by lazy { getChild(getViewById(R.id.rank_image_container)) }
+        private val notificationText by lazy { getChild(getViewById(R.id.rank_notification_text)) }
         private val notificationImage by lazy { getChild(getViewById(R.id.rank_notification_image)) }
+        private val bindText by lazy { getChild(getViewById(R.id.rank_bind_text)) }
         private val bindImage by lazy { getChild(getViewById(R.id.rank_bind_image)) }
 
         override fun assert(item: RankItem) {
@@ -139,30 +145,44 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
             val drawable = if (visible) R.drawable.ic_visible_enter else R.drawable.ic_visible_exit
             val tint = if (visible) R.attr.clAccent else R.attr.clContent
             val visibleDescription = if (visible) {
-                context.getString(R.string.description_item_rank_hide).plus(other = " ").plus(item.name)
+                context.getString(R.string.description_item_rank_hide).plus(other = " ")
+                    .plus(item.name)
             } else {
-                context.getString(R.string.description_item_rank_show).plus(other = " ").plus(item.name)
+                context.getString(R.string.description_item_rank_show).plus(other = " ")
+                    .plus(item.name)
             }
 
             visibleButton.isDisplayed()
-                    .withDrawableAttr(drawable, tint)
-                    .withContentDescription(visibleDescription)
+                .withDrawableAttr(drawable, tint)
+                .withContentDescription(visibleDescription)
 
-            val cancelDescription = context.getString(R.string.description_item_rank_cancel).plus(other = " ").plus(item.name)
+            val cancelDescription = context.getString(R.string.description_item_rank_cancel)
+                .plus(other = " ").plus(item.name)
             cancelButton.isDisplayed()
-                    .withDrawableAttr(R.drawable.ic_cancel_enter, R.attr.clContent)
-                    .withContentDescription(cancelDescription)
+                .withDrawableAttr(R.drawable.ic_cancel_enter, R.attr.clContent)
+                .withContentDescription(cancelDescription)
 
             nameText.isDisplayed().withText(item.name, R.attr.clContent, R.dimen.text_16sp)
 
             val text = "${context.getString(R.string.list_item_rank_count)} ${item.noteId.size}"
             countText.isDisplayed().withText(text, R.attr.clContentSecond, R.dimen.text_14sp)
 
-            notificationImage.isDisplayed(item.hasNotification) {
+            val isNotificationVisible = item.notificationCount != 0
+            val isBindVisible = item.bindCount != 0
+
+            imageContainer.isDisplayed(visible = isNotificationVisible || isBindVisible)
+
+            var indicator = min(item.notificationCount, RankHolder.INDICATOR_MAX_COUNT).toString()
+            notificationText.isDisplayed(isNotificationVisible)
+                .withText(indicator, R.attr.clContentSecond, R.dimen.text_14sp)
+            notificationImage.isDisplayed(isNotificationVisible) {
                 withSize(R.dimen.icon_16dp, R.dimen.icon_16dp)
             }.withDrawableAttr(R.drawable.ic_notifications, R.attr.clContent)
 
-            bindImage.isDisplayed(item.hasBind) {
+            indicator = min(item.bindCount, RankHolder.INDICATOR_MAX_COUNT).toString()
+            bindText.isDisplayed(isBindVisible)
+                .withText(indicator, R.attr.clContentSecond, R.dimen.text_14sp)
+            bindImage.isDisplayed(isBindVisible) {
                 withSize(R.dimen.icon_16dp, R.dimen.icon_16dp)
             }.withDrawableAttr(R.drawable.ic_bind_text, R.attr.clContent)
         }

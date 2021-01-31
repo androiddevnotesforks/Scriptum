@@ -54,7 +54,7 @@ class RankContentTest : ParentUiTest() {
             mainScreen {
                 rankScreen { onAssertItem(it.first) }
                 notesScreen { openNoteDialog(it.second) { onBind() } }
-                rankScreen { onAssertItem(it.first.apply { hasBind = true }) }
+                rankScreen { onAssertItem(it.first.apply { bindCount = 1 }) }
             }
         }
     }
@@ -68,11 +68,18 @@ class RankContentTest : ParentUiTest() {
                         onNotification { onDate(day = 1).onClickApply { onClickApply() } }
                     }
                 }
-                rankScreen { onAssertItem(it.first.apply { hasNotification = true }) }
+                rankScreen { onAssertItem(it.first.apply { notificationCount = 1 }) }
             }
         }
     }
 
+    @Test fun itemBindMax() {
+        TODO(reason = "Check max bind indicator (99)")
+    }
+
+    @Test fun itemNotificationMax() {
+        TODO(reason = "Check max notification indicator (99)")
+    }
 
     private companion object {
         const val ITEM_COUNT = 5

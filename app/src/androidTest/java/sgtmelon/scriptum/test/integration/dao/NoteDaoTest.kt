@@ -19,17 +19,20 @@ class NoteDaoTest : ParentRoomTest() {
 
     private val firstNote = NoteEntity(
         id = 1, create = DATE_1, change = DATE_2, text = "123", name = "456",
-        color = 1, type = NoteType.TEXT, rankId = -1, rankPs = -1, isBin = false
+        color = 1, type = NoteType.TEXT, rankId = -1, rankPs = -1, isBin = false,
+        isStatus = Random.nextBoolean()
     )
 
     private val secondNote = NoteEntity(
         id = 2, create = DATE_2, change = DATE_3, text = "654", name = "321",
-        color = 1, type = NoteType.TEXT, rankId = 1, rankPs = 1, isBin = true
+        color = 1, type = NoteType.TEXT, rankId = 1, rankPs = 1, isBin = true,
+        isStatus = Random.nextBoolean()
     )
 
     private val thirdNote = NoteEntity(
         id = 3, create = DATE_3, change = DATE_4, text = "123", name = "",
-        color = 3, type = NoteType.TEXT, rankId = 2, rankPs = 2, isBin = false
+        color = 3, type = NoteType.TEXT, rankId = 2, rankPs = 2, isBin = false,
+        isStatus = Random.nextBoolean()
     )
 
     private fun inNoteDao(func: suspend INoteDao.() -> Unit) = inRoomTest { noteDao.apply { func() } }
@@ -112,6 +115,17 @@ class NoteDaoTest : ParentRoomTest() {
         assertEquals(1, getCount(isBin = false, rankIdList = listOf()))
         assertEquals(2, getCount(isBin = false, rankIdList = listOf(2)))
         assertEquals(1, getCount(isBin = true, rankIdList = listOf(1)))
+    }
+
+    @Test fun getBindCount() = inNoteDao {
+        assertEquals(0, getBindCount(listOf()))
+
+        insert(firstNote)
+        insert(secondNote)
+        insert(thirdNote)
+
+        val bindCount = listOf(firstNote, secondNote, thirdNote).count { it.isStatus }
+        assertEquals(bindCount, getBindCount(listOf(firstNote.id, secondNote.id, thirdNote.id)))
     }
 
     @Test fun getByWrongId() = inNoteDao { assertNull(get(Random.nextLong())) }

@@ -58,21 +58,45 @@
                     android:visibility="gone"
                     tools:visibility="visible">
 
-                    <ImageView
-                        android:id="@+id/rank_notification_image"
-                        style="@style/Image.Rank"
-                        android:importantForAccessibility="no"
+                    <LinearLayout
+                        android:id="@+id/rank_notification_container"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:visibility="gone"
-                        app:srcCompat="@drawable/ic_notifications"
-                        tools:visibility="visible" />
+                        tools:visibility="visible">
 
-                    <ImageView
-                        android:id="@+id/rank_bind_image"
-                        style="@style/Image.Rank"
-                        android:importantForAccessibility="no"
+                        <TextView
+                            android:id="@+id/rank_notification_text"
+                            style="@style/Text.SmallCard.Info"
+                            tools:text="5" />
+
+                        <ImageView
+                            android:id="@+id/rank_notification_image"
+                            style="@style/Image.Rank"
+                            android:importantForAccessibility="no"
+                            app:srcCompat="@drawable/ic_notifications" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/rank_bind_container"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:visibility="gone"
-                        app:srcCompat="@drawable/ic_bind_text"
-                        tools:visibility="visible" />
+                        tools:visibility="visible">
+
+                        <TextView
+                            android:id="@+id/rank_bind_text"
+                            style="@style/Text.SmallCard.Info"
+                            tools:text="9" />
+
+                        <ImageView
+                            android:id="@+id/rank_bind_image"
+                            style="@style/Image.Rank"
+                            android:importantForAccessibility="no"
+                            app:srcCompat="@drawable/ic_bind_text" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 

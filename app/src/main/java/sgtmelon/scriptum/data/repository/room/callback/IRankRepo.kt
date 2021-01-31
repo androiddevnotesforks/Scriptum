@@ -14,7 +14,7 @@ interface IRankRepo {
 
     suspend fun getList(): MutableList<RankItem>
 
-    suspend fun getBind(idList: List<Long>): Boolean
+    suspend fun getBindCount(idList: List<Long>): Int
 
     suspend fun getIdVisibleList(): List<Long>
 

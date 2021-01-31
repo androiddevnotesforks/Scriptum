@@ -21,8 +21,8 @@ class RankItemTest : ParentTest() {
         assertEquals(Default.POSITION, position)
         assertEquals(Default.VISIBLE, isVisible)
 
-        assertEquals(RankItem.ND_HAS_BIND, hasBind)
-        assertEquals(RankItem.ND_HAS_NOTIFICATION, hasNotification)
+        assertEquals(RankItem.ND_BIND_COUNT, bindCount)
+        assertEquals(RankItem.ND_NOTIFICATION_COUNT, notificationCount)
     }
 
     @Test fun switchVisible() {

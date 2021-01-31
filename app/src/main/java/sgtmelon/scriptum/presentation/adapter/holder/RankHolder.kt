@@ -12,6 +12,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.item.RankItem
 import sgtmelon.scriptum.presentation.adapter.RankAdapter
 import sgtmelon.scriptum.presentation.listener.ItemListener
+import kotlin.math.min
 
 /**
  * Holder for rank, use in [RankAdapter].
@@ -31,8 +32,11 @@ class RankHolder(
 
     private val nameText: TextView = itemView.findViewById(R.id.rank_name_text)
     private val imageContainer: ViewGroup = itemView.findViewById(R.id.rank_image_container)
-    private val notificationImage: View = itemView.findViewById(R.id.rank_notification_image)
-    private val bindImage: View = itemView.findViewById(R.id.rank_bind_image)
+
+    private val notificationContainer: ViewGroup = itemView.findViewById(R.id.rank_notification_container)
+    private val notificationText: TextView = itemView.findViewById(R.id.rank_notification_text)
+    private val bindContainer: ViewGroup = itemView.findViewById(R.id.rank_bind_container)
+    private val bindText: TextView = itemView.findViewById(R.id.rank_bind_text)
     private val countText: TextView = itemView.findViewById(R.id.rank_text_count_text)
 
     private val cancelButton: ImageButton = itemView.findViewById(R.id.rank_cancel_button)
@@ -89,9 +93,19 @@ class RankHolder(
         visibleButton.contentDescription = visibleDescription
 
         nameText.text = item.name
-        imageContainer.visibility = if (item.hasNotification || item.hasBind) View.VISIBLE else View.GONE
-        notificationImage.visibility = if (item.hasNotification) View.VISIBLE else View.GONE
-        bindImage.visibility = if (item.hasBind) View.VISIBLE else View.GONE
+
+        val isNotificationEmpty = item.notificationCount == 0
+        val isBindEmpty = item.bindCount == 0
+        imageContainer.visibility = if (!isNotificationEmpty || !isBindEmpty) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
+        notificationContainer.visibility = if (!isNotificationEmpty) View.VISIBLE else View.GONE
+        notificationText.text = min(item.notificationCount, INDICATOR_MAX_COUNT).toString()
+        bindContainer.visibility = if (!isBindEmpty) View.VISIBLE else View.GONE
+        bindText.text = min(item.bindCount, INDICATOR_MAX_COUNT).toString()
+
         countText.text = context.getString(R.string.list_item_rank_count, item.noteId.size)
 
         val cancelDescription = context.getString(R.string.description_item_rank_cancel, item.name)
@@ -106,4 +120,7 @@ class RankHolder(
         return false
     }
 
+    companion object {
+        const val INDICATOR_MAX_COUNT = 99
+    }
 }

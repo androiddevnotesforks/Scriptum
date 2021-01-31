@@ -28,8 +28,8 @@ class RankRepo(
         val list = converter.toItem(rankDao.get())
 
         for (item in list) {
-            item.hasBind = noteDao.get(item.noteId).any { it.isStatus }
-            item.hasNotification = alarmDao.get(item.noteId).isNotEmpty()
+            item.bindCount = noteDao.getBindCount(item.noteId)
+            item.notificationCount = alarmDao.getCount(item.noteId)
         }
 
         return@takeFromRoom list
@@ -38,8 +38,8 @@ class RankRepo(
     /**
      * TODO similar func in [getList]. Make optimisation. Also see [IRoomWork]
      */
-    override suspend fun getBind(idList: List<Long>): Boolean = takeFromRoom {
-        noteDao.get(idList).any { it.isStatus }
+    override suspend fun getBindCount(idList: List<Long>): Int = takeFromRoom {
+        noteDao.getBindCount(idList)
     }
 
     /**

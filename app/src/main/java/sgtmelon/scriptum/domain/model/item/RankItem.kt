@@ -18,14 +18,14 @@ data class RankItem(
     @ColumnInfo(name = Rank.POSITION) var position: Int = Default.POSITION,
     @ColumnInfo(name = Rank.NAME) var name: String,
     @ColumnInfo(name = Rank.VISIBLE) var isVisible: Boolean = Default.VISIBLE,
-    var hasBind: Boolean = ND_HAS_BIND,
-    var hasNotification: Boolean = ND_HAS_NOTIFICATION
+    var bindCount: Int = ND_BIND_COUNT,
+    var notificationCount: Int = ND_NOTIFICATION_COUNT
 ) {
 
     fun switchVisible() = apply { isVisible = !isVisible }
 
     companion object {
-        const val ND_HAS_BIND = false
-        const val ND_HAS_NOTIFICATION = false
+        const val ND_BIND_COUNT = 0
+        const val ND_NOTIFICATION_COUNT = 0
     }
 }

@@ -23,7 +23,7 @@ class RankInteractor(
 
     override suspend fun getList(): MutableList<RankItem> = rankRepo.getList()
 
-    override suspend fun getBind(noteId: List<Long>): Boolean = rankRepo.getBind(noteId)
+    override suspend fun getBindCount(noteId: List<Long>): Int = rankRepo.getBindCount(noteId)
 
 
     override suspend fun insert(name: String): RankItem? {

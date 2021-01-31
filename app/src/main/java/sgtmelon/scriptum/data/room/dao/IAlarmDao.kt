@@ -44,4 +44,6 @@ interface IAlarmDao {
     @Query(value = """SELECT COUNT(AL_ID) FROM ALARM_TABLE""")
     suspend fun getCount(): Int
 
+    @Query(value = "SELECT COUNT(AL_ID) FROM ALARM_TABLE WHERE AL_NOTE_ID IN (:noteIdList)")
+    suspend fun getCount(noteIdList: List<Long>): Int
 }
