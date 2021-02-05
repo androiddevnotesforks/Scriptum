@@ -114,5 +114,4 @@ class MainScreen : ParentUi() {
             return MainScreen().assert(MainPage.NOTES, isFabVisible = true).apply(func)
         }
     }
-
 }

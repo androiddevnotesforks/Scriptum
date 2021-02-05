@@ -56,5 +56,4 @@ abstract class ParentRecyclerItem<T> protected constructor(
          */
         var PREVENT_SCROLL = false
     }
-
 }

@@ -391,10 +391,11 @@ class NotePanel<T: ParentUi, N : NoteItem>(
     @AttrRes private fun getEnableTint(b: Boolean) = if (b) R.attr.clContent else R.attr.clDisable
 
     companion object {
-        operator fun <T : ParentUi, N: NoteItem> invoke(func: NotePanel<T, N>.() -> Unit,
-                                                        callback: INoteScreen<T, N>): NotePanel<T, N> {
+        operator fun <T : ParentUi, N : NoteItem> invoke(
+            func: NotePanel<T, N>.() -> Unit,
+            callback: INoteScreen<T, N>
+        ): NotePanel<T, N> {
             return NotePanel(callback).apply(func)
         }
     }
-
 }

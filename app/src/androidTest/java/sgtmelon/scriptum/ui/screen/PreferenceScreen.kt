@@ -56,7 +56,6 @@ class PreferenceScreen : ParentRecyclerScreen(R.id.recycler_view),
     }
 
 
-
     fun assert() = apply {
         parentContainer.isDisplayed()
         toolbar.assert()
@@ -67,5 +66,4 @@ class PreferenceScreen : ParentRecyclerScreen(R.id.recycler_view),
             return PreferenceScreen().assert().apply(func)
         }
     }
-
 }

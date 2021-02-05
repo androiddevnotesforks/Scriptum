@@ -126,10 +126,11 @@ class RollEnterPanel<T: ParentUi>(private val callback: INoteScreen<T, NoteItem.
     }
 
     companion object {
-        operator fun <T: ParentUi> invoke(func: RollEnterPanel<T>.() -> Unit,
-                                          callback: INoteScreen<T, NoteItem.Roll>): RollEnterPanel<T> {
+        operator fun <T : ParentUi> invoke(
+            func: RollEnterPanel<T>.() -> Unit,
+            callback: INoteScreen<T, NoteItem.Roll>
+        ): RollEnterPanel<T> {
             return RollEnterPanel(callback).assert().apply(func)
         }
     }
-
 }

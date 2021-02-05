@@ -71,5 +71,4 @@ class IntroScreen : ParentUi() {
 
         operator fun invoke(func: IntroScreen.() -> Unit) = IntroScreen().assert().apply(func)
     }
-
 }

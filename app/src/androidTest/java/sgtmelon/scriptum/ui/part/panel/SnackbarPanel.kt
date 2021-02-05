@@ -45,11 +45,13 @@ class SnackbarPanel(
     companion object {
         private const val UPDATE_TIME = 500L
 
-        operator fun invoke(@StringRes messageId: Int, @StringRes actionId: Int,
-                            func: SnackbarPanel.() -> Unit): SnackbarPanel {
+        operator fun invoke(
+            @StringRes messageId: Int,
+            @StringRes actionId: Int,
+            func: SnackbarPanel.() -> Unit
+        ): SnackbarPanel {
             waitBefore(UPDATE_TIME)
             return SnackbarPanel(messageId, actionId).apply(func)
         }
     }
-
 }

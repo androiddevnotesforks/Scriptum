@@ -152,5 +152,4 @@ class NoteToolbar<T : ParentUi, N : NoteItem>(
             return NoteToolbar(callback, imeCallback).apply { assert() }.apply(func)
         }
     }
-
 }

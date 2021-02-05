@@ -101,5 +101,4 @@ class BinScreen : ParentRecyclerScreen(R.id.bin_recycler) {
             return BinScreen().assert(isEmpty).apply(func)
         }
     }
-
 }

@@ -53,7 +53,8 @@ class ConvertDialogUi(item: NoteItem, private val callback: Callback) : ParentUi
     companion object {
         operator fun invoke(
             func: ConvertDialogUi.() -> Unit,
-            item: NoteItem, callback: Callback
+            item: NoteItem,
+            callback: Callback
         ): ConvertDialogUi {
             return ConvertDialogUi(item, callback).apply { waitOpen { assert() } }.apply(func)
         }

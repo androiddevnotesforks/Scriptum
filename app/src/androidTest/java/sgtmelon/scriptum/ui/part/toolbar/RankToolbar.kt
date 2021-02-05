@@ -102,5 +102,4 @@ class RankToolbar : ParentUi(), IKeyboardOption {
     companion object {
         operator fun invoke(func: RankToolbar.() -> Unit) = RankToolbar().apply(func)
     }
-
 }
