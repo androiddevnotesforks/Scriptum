@@ -144,30 +144,27 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
             val drawable = if (visible) R.drawable.ic_visible_enter else R.drawable.ic_visible_exit
             val tint = if (visible) R.attr.clAccent else R.attr.clContent
             val visibleDescription = if (visible) {
-                context.getString(R.string.description_item_rank_hide).plus(other = " ")
-                    .plus(item.name)
+                context.getString(R.string.description_item_rank_hide, item.name)
             } else {
-                context.getString(R.string.description_item_rank_show).plus(other = " ")
-                    .plus(item.name)
+                context.getString(R.string.description_item_rank_show, item.name)
             }
-
             visibleButton.isDisplayed()
                 .withDrawableAttr(drawable, tint)
                 .withContentDescription(visibleDescription)
 
-            val cancelDescription = context.getString(R.string.description_item_rank_cancel)
-                .plus(other = " ").plus(item.name)
+            nameText.isDisplayed().withText(item.name, R.attr.clContent, R.dimen.text_16sp)
+
+            assertIndicators(item)
+
+            val cancelDescription = context.getString(R.string.description_item_rank_cancel, item.name)
             cancelButton.isDisplayed()
                 .withDrawableAttr(R.drawable.ic_cancel_enter, R.attr.clContent)
                 .withContentDescription(cancelDescription)
+        }
 
-            nameText.isDisplayed().withText(item.name, R.attr.clContent, R.dimen.text_16sp)
-
-            val text = "${context.getString(R.string.list_item_rank_count)} ${item.noteId.size}"
-            countText.isDisplayed().withText(text, R.attr.clContentSecond, R.dimen.text_14sp)
-
-            val isNotificationVisible = item.notificationCount != 0
-            val isBindVisible = item.bindCount != 0
+        private fun assertIndicators(item: RankItem) {
+            val isNotificationVisible = RankHolder.isMaxTest || item.notificationCount != 0
+            val isBindVisible = RankHolder.isMaxTest || item.bindCount != 0
 
             imageContainer.isDisplayed(isVisible = isNotificationVisible || isBindVisible)
 
@@ -194,8 +191,10 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
             bindImage.isDisplayed(isBindVisible) {
                 withSize(R.dimen.icon_16dp, R.dimen.icon_16dp)
             }.withDrawableAttr(R.drawable.ic_bind_text, R.attr.clContent)
-        }
 
+            val text = context.getString(R.string.list_item_rank_count, item.noteId.size)
+            countText.isDisplayed().withText(text, R.attr.clContentSecond, R.dimen.text_14sp)
+        }
     }
 
     companion object {

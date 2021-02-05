@@ -74,9 +74,11 @@ class RankContentTest : ParentUiTest() {
         }
     }
 
-    @Test fun itemMaxIndicator() = data.fillRank().let { list ->
-        launch(before = { RankHolder.isMaxTest = true }) {
-            mainScreen { rankScreen { for (it in list) onAssertItem(it) } }
+    @Test fun itemMaxIndicator() = data.insertRank().let {
+        launch(before = {
+            RankHolder.isMaxTest = true
+        }) {
+            mainScreen { rankScreen { onAssertItem(it) } }
         }
     }
 

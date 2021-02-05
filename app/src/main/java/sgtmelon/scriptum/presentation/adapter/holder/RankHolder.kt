@@ -95,22 +95,39 @@ class RankHolder(
 
         nameText.text = item.name
 
-        val isNotificationEmpty = item.notificationCount == 0
-        val isBindEmpty = item.bindCount == 0
-        imageContainer.visibility = if (!isNotificationEmpty || !isBindEmpty) {
+        notifyIndicators(item)
+
+        val cancelDescription = context.getString(R.string.description_item_rank_cancel, item.name)
+        cancelButton.contentDescription = cancelDescription
+    }
+
+    private fun notifyIndicators(item: RankItem) {
+        val context = itemView.context
+        val isNotificationVisible = isMaxTest || item.notificationCount != 0
+        val isBindVisible = isMaxTest || item.bindCount != 0
+
+        imageContainer.visibility = if (isNotificationVisible || isBindVisible) {
             View.VISIBLE
         } else {
             View.GONE
         }
 
-        notificationContainer.visibility = if (!isNotificationEmpty) View.VISIBLE else View.GONE
+        notificationContainer.visibility = if (isNotificationVisible) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
         notificationText.text = if (isMaxTest) {
             INDICATOR_MAX_COUNT.toString()
         } else {
             min(item.notificationCount, INDICATOR_MAX_COUNT).toString()
         }
 
-        bindContainer.visibility = if (!isBindEmpty) View.VISIBLE else View.GONE
+        bindContainer.visibility = if (isBindVisible) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
         bindText.text = if (isMaxTest) {
             INDICATOR_MAX_COUNT.toString()
         } else {
@@ -118,10 +135,6 @@ class RankHolder(
         }
 
         countText.text = context.getString(R.string.list_item_rank_count, item.noteId.size)
-
-        val cancelDescription = context.getString(R.string.description_item_rank_cancel, item.name)
-        cancelButton.contentDescription = cancelDescription
-
     }
 
     override fun onTouch(v: View, event: MotionEvent): Boolean {
@@ -134,6 +147,9 @@ class RankHolder(
     companion object {
         const val INDICATOR_MAX_COUNT = 99
 
+        /**
+         * Variable only for UI tests.
+         */
         @RunNone var isMaxTest = false
     }
 }

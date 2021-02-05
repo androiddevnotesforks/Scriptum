@@ -57,7 +57,7 @@
         android:orientation="vertical">
 
         <include
-            layout="@layout/include_toolbar_note"
+            layout="@layout/inc_toolbar_note"
             app:isDataLoad='@{isDataLoad}'
             app:isEditMode='@{isEditMode}'
             app:item='@{item}'
@@ -71,7 +71,7 @@
 
             <include
                 android:id="@+id/roll_note_info_include"
-                layout="@layout/include_info"
+                layout="@layout/inc_info"
                 android:visibility="gone"
                 app:details='@{isListEmpty ? R.string.info_roll_empty_details : isListHide ? R.string.info_roll_hide_details : R.string.info_null}'
                 app:title='@{isListEmpty ? R.string.info_roll_empty_title : isListHide ? R.string.info_roll_hide_title : R.string.info_null}' />
@@ -88,7 +88,7 @@
         </FrameLayout>
 
         <include
-            layout="@layout/include_roll_add_panel"
+            layout="@layout/inc_roll_add_panel"
             app:isEditMode='@{isEditMode}'
             app:isEnterEmpty='@{isEnterEmpty}' />
 
@@ -103,7 +103,7 @@
             tools:progress="65" />
 
         <include
-            layout="@layout/include_note_panel"
+            layout="@layout/inc_note_panel"
             app:inputAccess='@{inputAccess}'
             app:isDataLoad='@{isDataLoad}'
             app:isDividerHide='@{!isEditMode}'

@@ -43,7 +43,7 @@
         android:orientation="vertical">
 
         <include
-            layout="@layout/include_toolbar_note"
+            layout="@layout/inc_toolbar_note"
             app:isDataLoad='@{isDataLoad}'
             app:isEditMode='@{isEditMode}'
             app:item='@{item}'
@@ -100,7 +100,7 @@
         </FrameLayout>
 
         <include
-            layout="@layout/include_note_panel"
+            layout="@layout/inc_note_panel"
             app:inputAccess='@{inputAccess}'
             app:isDataLoad='@{isDataLoad}'
             app:isDividerHide='@{false}'

@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.databinding.IncludeInfoBinding
+import sgtmelon.scriptum.databinding.IncInfoBinding
 import sgtmelon.scriptum.domain.model.data.IntroData
 import sgtmelon.scriptum.extension.inflateBinding
 
@@ -15,7 +15,7 @@ import sgtmelon.scriptum.extension.inflateBinding
  */
 class IntroFragment : Fragment() {
 
-    private var binding: IncludeInfoBinding? = null
+    private var binding: IncInfoBinding? = null
 
     private var page: Int = ND_PAGE
 
@@ -26,7 +26,7 @@ class IntroFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        binding = inflater.inflateBinding(R.layout.include_info, container)
+        binding = inflater.inflateBinding(R.layout.inc_info, container)
         return binding?.root
     }
 
@@ -57,7 +57,7 @@ class IntroFragment : Fragment() {
     }
 
 
-    private fun IncludeInfoBinding.onBindingPage(page: Int) {
+    private fun IncInfoBinding.onBindingPage(page: Int) {
         icon = IntroData.icon[page]
         title = IntroData.title[page]
         details = IntroData.details[page]

@@ -40,25 +40,25 @@
 
                     <include
                         android:id="@+id/note_roll_row0_container"
-                        layout="@layout/include_item_note_roll"
+                        layout="@layout/inc_item_note_roll"
                         android:visibility="@{item.list.size() &gt;= 1 ? View.VISIBLE : View.GONE}"
                         app:item="@{item.list.size() &gt;= 1 ? item.list.get(0) : null}" />
 
                     <include
                         android:id="@+id/note_roll_row1_container"
-                        layout="@layout/include_item_note_roll"
+                        layout="@layout/inc_item_note_roll"
                         android:visibility="@{item.list.size() &gt;= 2 ? View.VISIBLE : View.GONE}"
                         app:item="@{item.list.size() &gt;= 2 ? item.list.get(1) : null}" />
 
                     <include
                         android:id="@+id/note_roll_row2_container"
-                        layout="@layout/include_item_note_roll"
+                        layout="@layout/inc_item_note_roll"
                         android:visibility="@{item.list.size() &gt;= 3 ? View.VISIBLE : View.GONE}"
                         app:item="@{item.list.size() &gt;= 3 ? item.list.get(2) : null}" />
 
                     <include
                         android:id="@+id/note_roll_row3_container"
-                        layout="@layout/include_item_note_roll"
+                        layout="@layout/inc_item_note_roll"
                         android:visibility="@{item.list.size() &gt;= 4 ? View.VISIBLE : View.GONE}"
                         app:item="@{item.list.size() &gt;= 4 ? item.list.get(3) : null}" />
 
