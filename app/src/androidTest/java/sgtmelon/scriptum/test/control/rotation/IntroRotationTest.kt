@@ -21,7 +21,7 @@ class IntroRotationTest : ParentRotationTest() {
             onPassThrough(Scroll.END)
             onRotate { onSwipe(Scroll.START) }
             onSwipe(Scroll.END)
-            onRotate { onSwipe(Scroll.START) }
+            onRotate { onClickEndButton() }
         }
     }
 }
