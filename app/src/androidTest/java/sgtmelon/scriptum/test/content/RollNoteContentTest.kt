@@ -24,7 +24,7 @@ class RollNoteContentTest : ParentUiTest() {
     @Test fun item_onChangeText() = data.createRoll().let {
         launch {
             mainScreen {
-                notesScreen(empty = true) {
+                notesScreen(isEmpty = true) {
                     openAddDialog {
                         createRoll(it) {
                             enterPanel { onAdd(nextString()) }
@@ -41,7 +41,7 @@ class RollNoteContentTest : ParentUiTest() {
     @Test fun item_onClickCheck() = data.createRoll().let {
         launch {
             mainScreen {
-                notesScreen(empty = true) {
+                notesScreen(isEmpty = true) {
                     openAddDialog {
                         createRoll(it) {
                             repeat(times = 3) { enterPanel { onAdd(nextString()) } }
@@ -59,7 +59,7 @@ class RollNoteContentTest : ParentUiTest() {
     @Test fun item_onLongClickCheck() = data.createRoll().let {
         launch {
             mainScreen {
-                notesScreen(empty = true) {
+                notesScreen(isEmpty = true) {
                     openAddDialog {
                         createRoll(it) {
                             repeat(times = 5) { enterPanel { onAdd(nextString()) } }
@@ -79,7 +79,7 @@ class RollNoteContentTest : ParentUiTest() {
     @Test fun item_onEmptyDelete() = data.createRoll().let {
         launch {
             mainScreen {
-                notesScreen(empty = true) {
+                notesScreen(isEmpty = true) {
                     openAddDialog {
                         createRoll(it) {
                             repeat(times = 5) { enterPanel { onAdd(nextString()) } }

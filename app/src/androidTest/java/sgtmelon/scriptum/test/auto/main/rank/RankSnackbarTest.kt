@@ -18,7 +18,7 @@ class RankSnackbarTest : ParentUiTest() {
                 rankScreen {
                     onScroll(Scroll.END)
                     repeat(times = 5) {
-                        onClickCancel(last, wait = true)
+                        onClickCancel(last, isWait = true)
                         assertSnackbarDismiss()
                     }
                 }
@@ -78,7 +78,7 @@ class RankSnackbarTest : ParentUiTest() {
                     openRenameDialog(it[1].name, p = 1) { onClickCancel() }
                 }
 
-                notesScreen(empty = true)
+                notesScreen(isEmpty = true)
 
                 rankScreen {
                     assertSnackbarDismiss()
@@ -100,18 +100,18 @@ class RankSnackbarTest : ParentUiTest() {
                     list.removeAt(0)
                 }
 
-                notesScreen(empty = true)
+                notesScreen(isEmpty = true)
                 rankScreen {
                     assertSnackbarDismiss()
 
-                    for ((i , item) in list.withIndex()) {
+                    for ((i, item) in list.withIndex()) {
                         openRenameDialog(item.name, i) { onCloseSoft() }
                     }
                     repeat(list.size) { onClickCancel(p = 0) }
                 }
 
-                notesScreen(empty = true)
-                rankScreen(empty = true) { assertSnackbarDismiss() }
+                notesScreen(isEmpty = true)
+                rankScreen(isEmpty = true) { assertSnackbarDismiss() }
             }
         }
     }

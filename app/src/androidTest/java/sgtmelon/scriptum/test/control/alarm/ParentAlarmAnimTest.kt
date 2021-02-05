@@ -33,8 +33,7 @@ abstract class ParentAlarmAnimTest(@Theme private val theme: Int) : ParentUiTest
         launchAlarm(noteItem) { waitAfter(TEST_TIME) { openAlarm(noteItem) } }
     }
 
-    private companion object {
-        const val TEST_TIME = 6000L
+    companion object {
+        private const val TEST_TIME = 6000L
     }
-
 }

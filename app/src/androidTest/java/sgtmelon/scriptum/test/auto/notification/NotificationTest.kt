@@ -14,15 +14,15 @@ class NotificationTest : ParentUiTest() {
 
     @Test fun close() = launch {
         mainScreen {
-            notesScreen(empty = true) {
-                openNotification(empty = true) { onPressBack() }
-                openNotification(empty = true) { onClickClose() }
+            notesScreen(isEmpty = true) {
+                openNotification(isEmpty = true) { onPressBack() }
+                openNotification(isEmpty = true) { onClickClose() }
             }
         }
     }
 
     @Test fun contentEmpty() = launch {
-        mainScreen { notesScreen(empty = true) { openNotification(empty = true) } }
+        mainScreen { notesScreen(isEmpty = true) { openNotification(isEmpty = true) } }
     }
 
     @Test fun contentList() = launch({ data.fillNotification() }) {
@@ -49,22 +49,22 @@ class NotificationTest : ParentUiTest() {
 
     @Test fun itemCancel() = data.insertNotification().let {
         launch {
-            mainScreen { notesScreen { openNotification { onClickCancel().assert(empty = true) } } }
+            mainScreen { notesScreen { openNotification { onClickCancel().assert(isEmpty = true) } } }
         }
     }
 
     @Test fun itemCancelOnDelete() = data.insertNotification().let {
         launch {
             mainScreen {
-                notesScreen { 
-                    openNoteDialog(it) { onDelete() }.openNotification(empty = true)
+                notesScreen {
+                    openNoteDialog(it) { onDelete() }.openNotification(isEmpty = true)
                 }
             }
         }
     }
 
     @Test fun itemCancelFromPast() = data.insertNotification(date = DATE_5).let {
-        launch { mainScreen { notesScreen { openNotification(empty = true) } } }
+        launch { mainScreen { notesScreen { openNotification(isEmpty = true) } } }
     }
 
 }

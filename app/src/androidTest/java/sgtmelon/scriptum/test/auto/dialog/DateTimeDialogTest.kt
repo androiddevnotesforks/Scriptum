@@ -27,7 +27,7 @@ class DateTimeDialogTest : ParentUiTest() {
             mainScreen {
                 notesScreen {
                     openTextNote(it) {
-                        controlPanel { onNotification(updateDate = true) { onClickReset() } }
+                        controlPanel { onNotification(isUpdateDate = true) { onClickReset() } }
                     }
                 }
             }
@@ -41,7 +41,7 @@ class DateTimeDialogTest : ParentUiTest() {
             mainScreen {
                 notesScreen {
                     openRollNote(it) {
-                        controlPanel { onNotification(updateDate = true) { onClickReset() } }
+                        controlPanel { onNotification(isUpdateDate = true) { onClickReset() } }
                     }
                 }
             }
@@ -156,8 +156,7 @@ class DateTimeDialogTest : ParentUiTest() {
         }
     }
 
-    private companion object {
-        const val TOAST_TIME = 1000L
+    companion object {
+        private const val TOAST_TIME = 1000L
     }
-
 }

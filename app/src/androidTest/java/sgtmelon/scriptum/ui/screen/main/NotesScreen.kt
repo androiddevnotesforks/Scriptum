@@ -36,9 +36,9 @@ class NotesScreen(private val isHide: Boolean) : ParentRecyclerScreen(R.id.notes
 
     //endregion
 
-    fun openNotification(empty: Boolean = false, func: NotificationScreen.() -> Unit = {}) {
+    fun openNotification(isEmpty: Boolean = false, func: NotificationScreen.() -> Unit = {}) {
         notificationMenuItem.click()
-        NotificationScreen(func, empty)
+        NotificationScreen(func, isEmpty)
     }
 
     fun openPreference(func: PreferenceScreen.() -> Unit = {}) {
@@ -46,59 +46,72 @@ class NotesScreen(private val isHide: Boolean) : ParentRecyclerScreen(R.id.notes
         PreferenceScreen(func)
     }
 
-    fun openNoteDialog(noteItem: NoteItem, p: Int? = random,
-                       func: NoteDialogUi.() -> Unit = {}) = apply {
+    fun openNoteDialog(
+        item: NoteItem,
+        p: Int? = random,
+        func: NoteDialogUi.() -> Unit = {}
+    ) = apply {
         if (p == null) return@apply
 
         getItem(p).view.longClick()
-        NoteDialogUi(func, noteItem)
+        NoteDialogUi(func, item)
     }
 
-    fun openTextNote(noteItem: NoteItem.Text, p: Int? = random, isRankEmpty: Boolean = true,
-                     func: TextNoteScreen.() -> Unit = {}) = apply {
+    fun openTextNote(
+        item: NoteItem.Text,
+        p: Int? = random,
+        isRankEmpty: Boolean = true,
+        func: TextNoteScreen.() -> Unit = {}
+    ) = apply {
         if (p == null) return@apply
 
         getItem(p).view.click()
-        TextNoteScreen(func, State.READ, noteItem, isRankEmpty)
+        TextNoteScreen(func, State.READ, item, isRankEmpty)
     }
 
-    fun openRollNote(noteItem: NoteItem.Roll, p: Int? = random, isRankEmpty: Boolean = true,
-                     func: RollNoteScreen.() -> Unit = {}) = apply {
+    fun openRollNote(
+        item: NoteItem.Roll,
+        p: Int? = random,
+        isRankEmpty: Boolean = true,
+        func: RollNoteScreen.() -> Unit = {}
+    ) = apply {
         if (p == null) return@apply
 
         getItem(p).view.click()
-        RollNoteScreen(func, State.READ, noteItem, isRankEmpty)
+        RollNoteScreen(func, State.READ, item, isRankEmpty)
     }
 
 
-    fun onAssertItem(noteItem: NoteItem, p: Int? = random) {
+    fun onAssertItem(item: NoteItem, p: Int? = random) {
         if (p == null) return
 
-        getItem(p).assert(noteItem)
+        getItem(p).assert(item)
     }
 
-    fun assert(empty: Boolean) = apply {
+    fun assert(isEmpty: Boolean) = apply {
         parentContainer.isDisplayed()
 
         toolbar.assert()
         toolbar.contentContainer
-                .withMenuDrawable(R.id.item_notification, R.drawable.ic_notifications)
-                .withMenuTitle(R.id.item_notification, R.string.menu_notifications)
-                .withMenuDrawable(R.id.item_preference, R.drawable.ic_preference)
-                .withMenuTitle(R.id.item_preference, R.string.menu_preference)
+            .withMenuDrawable(R.id.item_notification, R.drawable.ic_notifications)
+            .withMenuTitle(R.id.item_notification, R.string.menu_notifications)
+            .withMenuDrawable(R.id.item_preference, R.drawable.ic_preference)
+            .withMenuTitle(R.id.item_preference, R.string.menu_preference)
 
         notificationMenuItem.isDisplayed()
         preferenceMenuItem.isDisplayed()
 
-        infoContainer.assert(empty)
-        recyclerView.isDisplayed(!empty)
+        infoContainer.assert(isEmpty)
+        recyclerView.isDisplayed(!isEmpty)
     }
 
     companion object {
-        operator fun invoke(func: NotesScreen.() -> Unit,
-                            empty: Boolean, hide: Boolean): NotesScreen {
-            return NotesScreen(hide).assert(empty).apply(func)
+        operator fun invoke(
+            func: NotesScreen.() -> Unit,
+            isEmpty: Boolean,
+            isHide: Boolean
+        ): NotesScreen {
+            return NotesScreen(isHide).assert(isEmpty).apply(func)
         }
     }
-
 }

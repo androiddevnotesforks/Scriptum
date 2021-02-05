@@ -139,7 +139,7 @@ class NoteIconAnimTest : ParentUiTest() {
     }
 
 
-    private companion object {
-        const val TIME = 500L
+    companion object {
+        private const val TIME = 500L
     }
 }

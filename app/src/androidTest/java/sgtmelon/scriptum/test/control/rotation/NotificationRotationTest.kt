@@ -13,14 +13,14 @@ class NotificationRotationTest : ParentRotationTest() {
 
     @Test fun notificationContentEmpty() = launch {
         mainScreen {
-            notesScreen(empty = true) {
-                openNotification(empty = true) { onRotate { assert(empty = true) } }
+            notesScreen(isEmpty = true) {
+                openNotification(isEmpty = true) { onRotate { assert(isEmpty = true) } }
             }
         }
     }
 
     @Test fun notificationContentList() = launch({ data.fillNotification() }) {
-        mainScreen { notesScreen { openNotification { onRotate { assert(empty = false) } } } }
+        mainScreen { notesScreen { openNotification { onRotate { assert(isEmpty = false) } } } }
     }
 
     @Test fun alarmContent() = data.insertText().let {

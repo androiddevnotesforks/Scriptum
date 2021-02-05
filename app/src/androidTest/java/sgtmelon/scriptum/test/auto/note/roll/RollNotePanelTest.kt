@@ -16,8 +16,8 @@ class RollNotePanelTest : ParentUiTest() {
     @Test fun actionOnBinRestore() = data.insertRollToBin().let {
         launch {
             mainScreen {
-                notesScreen(empty = true)
-                binScreen { openRollNote(it) { controlPanel { onRestore() } }.assert(empty = true) }
+                notesScreen(isEmpty = true)
+                binScreen { openRollNote(it) { controlPanel { onRestore() } }.assert(isEmpty = true) }
                 notesScreen()
             }
         }
@@ -26,14 +26,14 @@ class RollNotePanelTest : ParentUiTest() {
     @Test fun actionOnBinRestoreOpen() = data.insertRollToBin().let {
         launch {
             mainScreen {
-                notesScreen(empty = true)
+                notesScreen(isEmpty = true)
 
                 binScreen {
                     openRollNote(it) {
                         controlPanel { onRestoreOpen() }
                         onPressBack()
                     }
-                    assert(empty = true)
+                    assert(isEmpty = true)
                 }
 
                 notesScreen()
@@ -44,9 +44,9 @@ class RollNotePanelTest : ParentUiTest() {
     @Test fun actionOnBinClear() = data.insertRollToBin().let {
         launch {
             mainScreen {
-                notesScreen(empty = true)
-                binScreen { openRollNote(it) { controlPanel { onClear() } }.assert(empty = true) }
-                notesScreen(empty = true)
+                notesScreen(isEmpty = true)
+                binScreen { openRollNote(it) { controlPanel { onClear() } }.assert(isEmpty = true) }
+                notesScreen(isEmpty = true)
             }
         }
     }
@@ -88,10 +88,10 @@ class RollNotePanelTest : ParentUiTest() {
     @Test fun actionOnReadDelete() = data.insertRoll().let {
         launch {
             mainScreen {
-                binScreen(empty = true)
+                binScreen(isEmpty = true)
 
                 notesScreen {
-                    openRollNote(it) { controlPanel { onDelete() } }.assert(empty = true)
+                    openRollNote(it) { controlPanel { onDelete() } }.assert(isEmpty = true)
                 }
 
                 binScreen()

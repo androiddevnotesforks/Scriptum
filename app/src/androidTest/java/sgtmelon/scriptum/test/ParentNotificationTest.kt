@@ -22,12 +22,11 @@ abstract class ParentNotificationTest : ParentUiTest() {
         waitBefore(OPEN_TIME) { afterFunc() }
     }
 
-    private companion object {
-        const val SEE_TIME = 3000L
-        const val SEE_TOAST = "SEE NOTIFICATION!!!"
+    companion object {
+        private const val SEE_TIME = 3000L
+        private const val SEE_TOAST = "SEE NOTIFICATION!!!"
 
-        const val OPEN_TIME = 7000L
-        const val OPEN_TOAST = "OPEN NOTIFICATION!!!"
+        private const val OPEN_TIME = 7000L
+        private const val OPEN_TOAST = "OPEN NOTIFICATION!!!"
     }
-
 }

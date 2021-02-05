@@ -17,6 +17,8 @@ import sgtmelon.scriptum.ui.screen.NotificationScreen
 @RunWith(AndroidJUnit4::class)
 class NotificationContentTest : ParentUiTest() {
 
+    private val nextArray = arrayOf(NEXT_HOUR, NEXT_DAY, NEXT_WEEK, NEXT_MONTH, NEXT_YEAR)
+
     @Test fun time() = onAssertList(ArrayList<NoteItem>().also { list ->
         for (it in nextArray) {
             list.add(data.insertNotification(date = getCalendarWithAdd(it).getText()))
@@ -51,14 +53,11 @@ class NotificationContentTest : ParentUiTest() {
         }
     }
 
-    private companion object {
-        const val NEXT_HOUR = 60
-        const val NEXT_DAY = NEXT_HOUR * 24
-        const val NEXT_WEEK = NEXT_DAY * 7
-        const val NEXT_MONTH = NEXT_DAY * 30
-        const val NEXT_YEAR = NEXT_MONTH * 12
-
-        val nextArray = arrayOf(NEXT_HOUR, NEXT_DAY, NEXT_WEEK, NEXT_MONTH, NEXT_YEAR)
+    companion object {
+        private const val NEXT_HOUR = 60
+        private const val NEXT_DAY = NEXT_HOUR * 24
+        private const val NEXT_WEEK = NEXT_DAY * 7
+        private const val NEXT_MONTH = NEXT_DAY * 30
+        private const val NEXT_YEAR = NEXT_MONTH * 12
     }
-
 }

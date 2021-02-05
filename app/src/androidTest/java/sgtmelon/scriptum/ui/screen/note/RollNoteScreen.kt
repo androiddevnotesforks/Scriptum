@@ -28,7 +28,7 @@ import sgtmelon.scriptum.ui.part.toolbar.NoteToolbar
  */
 class RollNoteScreen(
     override var state: State,
-    override var noteItem: NoteItem.Roll,
+    override var item: NoteItem.Roll,
     override val isRankEmpty: Boolean
 ) : ParentRecyclerScreen(R.id.roll_note_recycler),
     INoteScreen<RollNoteScreen, NoteItem.Roll>,
@@ -45,8 +45,8 @@ class RollNoteScreen(
     private val visibleMenuItem = getViewById(R.id.item_visible)
 
     private fun getInfoContainer(): RollNoteInfoContainer {
-        val isListEmpty = noteItem.list.size == 0
-        val isListHide = !noteItem.isVisible && noteItem.list.hide().size == 0
+        val isListEmpty = item.list.size == 0
+        val isListHide = !item.isVisible && item.list.hide().size == 0
 
         return RollNoteInfoContainer(isListEmpty, isListHide)
     }
@@ -78,7 +78,7 @@ class RollNoteScreen(
 
     //endregion
 
-    override var shadowItem: NoteItem.Roll = noteItem.deepCopy()
+    override var shadowItem: NoteItem.Roll = item.deepCopy()
 
     override val inputControl = InputControl()
 
@@ -95,7 +95,7 @@ class RollNoteScreen(
         throwOnWrongState(State.EDIT, State.NEW) {
             getItem(p).rollText.typeText(text)
 
-            val correctPosition = getCorrectPosition(p, noteItem)
+            val correctPosition = getCorrectPosition(p, item)
 
             val item = shadowItem.list[correctPosition]
             item.text = text
@@ -127,12 +127,12 @@ class RollNoteScreen(
             State.READ, State.BIN -> {
                 getItem(p).clickButton.click()
 
-                val correctPosition = getCorrectPosition(p, noteItem)
+                val correctPosition = getCorrectPosition(p, item)
 
-                noteItem.onItemCheck(correctPosition)
+                item.onItemCheck(correctPosition)
 
-                if (noteItem.isVisible) {
-                    getItem(p).assert(noteItem.list[correctPosition])
+                if (item.isVisible) {
+                    getItem(p).assert(item.list[correctPosition])
                 }
             }
             State.EDIT, State.NEW -> throw IllegalAccessException(STATE_ERROR_TEXT)
@@ -146,7 +146,7 @@ class RollNoteScreen(
             State.READ, State.BIN -> {
                 getItem(p).clickButton.longClick()
 
-                noteItem.onItemLongCheck()
+                item.onItemLongCheck()
 
                 onAssertAll()
             }
@@ -163,7 +163,7 @@ class RollNoteScreen(
 
         waitAfter(SWIPE_TIME) { recyclerView.swipeItem(p) }
 
-        val correctPosition = getCorrectPosition(p, noteItem)
+        val correctPosition = getCorrectPosition(p, item)
 
         shadowItem.list.apply {
             removeAt(correctPosition)
@@ -182,7 +182,7 @@ class RollNoteScreen(
     }
 
     override fun afterConvert(func: TextNoteScreen.() -> Unit) {
-        TextNoteScreen(func, State.READ, noteItem.onConvert(), isRankEmpty)
+        TextNoteScreen(func, State.READ, item.onConvert(), isRankEmpty)
     }
 
     override fun onPressBack() {
@@ -191,12 +191,12 @@ class RollNoteScreen(
         if (state == State.EDIT || state == State.NEW) {
             if (shadowItem.isSaveEnabled()) {
                 state = State.READ
-                noteItem = shadowItem.deepCopy()
+                item = shadowItem.deepCopy()
                 inputControl.reset()
                 fullAssert()
             } else if (state == State.EDIT) {
                 state = State.READ
-                shadowItem = noteItem.deepCopy()
+                shadowItem = item.deepCopy()
                 inputControl.reset()
                 fullAssert()
             }
@@ -205,11 +205,11 @@ class RollNoteScreen(
 
     fun onAssertAll() {
         val list = when (state) {
-            State.READ, State.BIN -> noteItem.list
+            State.READ, State.BIN -> item.list
             State.EDIT, State.NEW -> shadowItem.list
         }
 
-        val resultList = if (noteItem.isVisible) list else list.hide()
+        val resultList = if (item.isVisible) list else list.hide()
         for ((i, item) in resultList.withIndex()) {
             getItem(i).assert(item)
         }
@@ -217,7 +217,7 @@ class RollNoteScreen(
 
 
     fun assert() {
-        toolbarHolder.withBackgroundAppColor(theme, noteItem.color, needDark = false)
+        toolbarHolder.withBackgroundAppColor(theme, item.color, needDark = false)
             .withSizeAttr(heightAttr = android.R.attr.actionBarSize)
         panelHolder.withBackgroundAttr(R.attr.clPrimary)
             .withSize(heightId = R.dimen.note_panel_height)
@@ -225,14 +225,14 @@ class RollNoteScreen(
         fragmentContainer.isDisplayed()
 
         getInfoContainer().assert(when (state) {
-            State.READ, State.BIN -> noteItem.list
+            State.READ, State.BIN -> item.list
             State.EDIT, State.NEW -> shadowItem.list
         }.let {
-            if (noteItem.isVisible) it.size == 0 else it.hide().size == 0
+            if (item.isVisible) it.size == 0 else it.hide().size == 0
         })
 
         toolbar {
-            val value = noteItem.isVisible
+            val value = item.isVisible
 
             val itemIcon = if (value) R.drawable.ic_visible_enter else R.drawable.ic_visible_exit
             val itemTint = if (!value && theme == Theme.DARK) R.attr.clAccent else R.attr.clContent
@@ -244,9 +244,9 @@ class RollNoteScreen(
         }
 
         parentContainer.isDisplayed()
-        progressBar.isDisplayed(visible = state == State.READ || state == State.BIN) {
+        progressBar.isDisplayed(isVisible = state == State.READ || state == State.BIN) {
             withSize(heightId = R.dimen.layout_4dp)
-            withProgress(noteItem.getCheck(), noteItem.list.size)
+            withProgress(item.getCheck(), item.list.size)
         }
 
         recyclerView.isDisplayed()
@@ -301,14 +301,14 @@ class RollNoteScreen(
                         R.string.description_item_roll_check
                     }).plus(other = " ").plus(item.text)
 
-                    clickButton.isDisplayed(visible = state != State.BIN)
+                    clickButton.isDisplayed(isVisible = state != State.BIN)
                         .withContentDescription(description)
 
                     rollText.isDisplayed().withText(item.text, textColor, R.dimen.text_18sp)
                         .withBackgroundColor(android.R.color.transparent)
                 }
                 State.EDIT, State.NEW -> {
-                    checkBox.isDisplayed(visible = false)
+                    checkBox.isDisplayed(isVisible = false)
 
                     val color = if (item.isCheck) R.attr.clAccent else R.attr.clContent
                     val description = context.getString(R.string.description_item_roll_move)
@@ -341,10 +341,10 @@ class RollNoteScreen(
         operator fun invoke(
             func: RollNoteScreen.() -> Unit,
             state: State,
-            noteItem: NoteItem.Roll,
+            item: NoteItem.Roll,
             isRankEmpty: Boolean
         ): RollNoteScreen {
-            return RollNoteScreen(state, noteItem, isRankEmpty).fullAssert().apply(func)
+            return RollNoteScreen(state, item, isRankEmpty).fullAssert().apply(func)
         }
     }
 

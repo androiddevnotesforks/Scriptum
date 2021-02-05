@@ -60,13 +60,13 @@ class NoteToolbar<T : ParentUi, N : NoteItem>(
             if (state == State.EDIT) {
                 state = State.READ
 
-                when (noteItem) {
+                when (item) {
                     is NoteItem.Text -> {
-                        val copyItem = (noteItem as? NoteItem.Text)?.deepCopy() ?: onThrowCast()
+                        val copyItem = (item as? NoteItem.Text)?.deepCopy() ?: onThrowCast()
                         shadowItem = copyItem as? N ?: onThrowCast()
                     }
                     is NoteItem.Roll -> {
-                        val copyItem = (noteItem as? NoteItem.Roll)?.deepCopy() ?: onThrowCast()
+                        val copyItem = (item as? NoteItem.Roll)?.deepCopy() ?: onThrowCast()
                         shadowItem = copyItem as? N ?: onThrowCast()
                     }
                 }
@@ -101,16 +101,16 @@ class NoteToolbar<T : ParentUi, N : NoteItem>(
 
         nameScroll.isDisplayed()
 
-        colorView.isDisplayed(visible = theme == Theme.DARK) {
+        colorView.isDisplayed(isVisible = theme == Theme.DARK) {
             withBackgroundAppColor(theme, color, needDark = true)
         }
 
         callback.apply {
             when (state) {
                 State.READ, State.BIN -> {
-                    val name = noteItem.name
+                    val name = item.name
 
-                    nameEnter.isDisplayed(visible = false)
+                    nameEnter.isDisplayed(isVisible = false)
                     nameText.isDisplayed {
                         if (name.isNotEmpty()) {
                             withText(name, R.attr.clContent)
@@ -122,7 +122,7 @@ class NoteToolbar<T : ParentUi, N : NoteItem>(
                 State.EDIT, State.NEW -> {
                     val name = shadowItem.name
 
-                    nameText.isDisplayed(visible = false)
+                    nameText.isDisplayed(isVisible = false)
                     nameEnter.isDisplayed()
                         .withImeAction(EditorInfo.IME_ACTION_NEXT)
                         .withBackgroundColor(android.R.color.transparent)

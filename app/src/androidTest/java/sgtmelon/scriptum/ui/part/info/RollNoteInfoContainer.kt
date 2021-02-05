@@ -27,19 +27,18 @@ class RollNoteInfoContainer(isListEmpty: Boolean, isListHide: Boolean) : ParentU
         else -> null
     }
 
-    fun assert(visible: Boolean) = waitBefore(time = 400) {
-        includeContainer.isDisplayed(visible)
+    fun assert(isVisible: Boolean) = waitBefore(time = 400) {
+        includeContainer.isDisplayed(isVisible)
 
-        iconImage.isDisplayed(visible = false)
+        iconImage.isDisplayed(isVisible = false)
             .withDrawableAttr(resourceId = null)
 
-        titleText?.isDisplayed(visible)
-                ?.withTextColor(R.attr.clContent)
-                ?.withTextSize(R.dimen.text_18sp)
+        titleText?.isDisplayed(isVisible)
+            ?.withTextColor(R.attr.clContent)
+            ?.withTextSize(R.dimen.text_18sp)
 
-        detailsText?.isDisplayed(visible)
-                ?.withTextColor(R.attr.clContentSecond)
+        detailsText?.isDisplayed(isVisible)
+            ?.withTextColor(R.attr.clContentSecond)
                 ?.withTextSize(R.dimen.text_14sp)
     }
-
 }

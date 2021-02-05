@@ -17,8 +17,8 @@ import kotlin.collections.ArrayList
  * Class for UI control [DateDialog]
  */
 class DateDialogUi(
-        private val callback: DateTimeCallback,
-        private val updateDate: Boolean
+    private val callback: DateTimeCallback,
+    private val isUpdateDate: Boolean
 ) : ParentUi(),
         IDialogUi {
 
@@ -67,17 +67,19 @@ class DateDialogUi(
 
 
     fun assert() {
-        resetButton.isDisplayed(updateDate).isEnabled().withTextColor(R.attr.clAccent)
+        resetButton.isDisplayed(isUpdateDate).isEnabled().withTextColor(R.attr.clAccent)
 
         cancelButton.isDisplayed().isEnabled().withTextColor(R.attr.clAccent)
         applyButton.isDisplayed().isEnabled().withTextColor(R.attr.clAccent)
     }
 
     companion object {
-        operator fun invoke(func: DateDialogUi.() -> Unit, updateDate: Boolean,
-                            callback: DateTimeCallback): DateDialogUi {
-            return DateDialogUi(callback, updateDate).apply { waitOpen { assert() } }.apply(func)
+        operator fun invoke(
+            func: DateDialogUi.() -> Unit,
+            isUpdateDate: Boolean,
+            callback: DateTimeCallback
+        ): DateDialogUi {
+            return DateDialogUi(callback, isUpdateDate).apply { waitOpen { assert() } }.apply(func)
         }
     }
-
 }

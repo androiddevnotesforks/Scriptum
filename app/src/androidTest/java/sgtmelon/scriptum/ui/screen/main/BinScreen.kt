@@ -39,18 +39,18 @@ class BinScreen : ParentRecyclerScreen(R.id.bin_recycler) {
     }
 
     fun openNoteDialog(
-        noteItem: NoteItem,
+        item: NoteItem,
         p: Int? = random,
         func: NoteDialogUi.() -> Unit = {}
     ) = apply {
         if (p == null) return@apply
 
         getItem(p).view.longClick()
-        NoteDialogUi(func, noteItem)
+        NoteDialogUi(func, item)
     }
 
     fun openTextNote(
-        noteItem: NoteItem.Text,
+        item: NoteItem.Text,
         p: Int? = random,
         isRankEmpty: Boolean = true,
         func: TextNoteScreen.() -> Unit = {}
@@ -58,11 +58,11 @@ class BinScreen : ParentRecyclerScreen(R.id.bin_recycler) {
         if (p == null) return@apply
 
         getItem(p).view.click()
-        TextNoteScreen(func, State.BIN, noteItem, isRankEmpty)
+        TextNoteScreen(func, State.BIN, item, isRankEmpty)
     }
 
     fun openRollNote(
-        noteItem: NoteItem.Roll,
+        item: NoteItem.Roll,
         p: Int? = random,
         isRankEmpty: Boolean = true,
         func: RollNoteScreen.() -> Unit = {}
@@ -70,21 +70,21 @@ class BinScreen : ParentRecyclerScreen(R.id.bin_recycler) {
         if (p == null) return@apply
 
         getItem(p).view.click()
-        RollNoteScreen(func, State.BIN, noteItem, isRankEmpty)
+        RollNoteScreen(func, State.BIN, item, isRankEmpty)
     }
 
 
-    fun onAssertItem(noteItem: NoteItem, p: Int? = random) {
+    fun onAssertItem(item: NoteItem, p: Int? = random) {
         if (p == null) return
 
-        getItem(p).assert(noteItem)
+        getItem(p).assert(item)
     }
 
-    fun assert(empty: Boolean) = apply {
+    fun assert(isEmpty: Boolean) = apply {
         parentContainer.isDisplayed()
         toolbar.assert()
 
-        if (!empty) {
+        if (!isEmpty) {
             toolbar.contentContainer
                 .withMenuDrawable(R.id.item_clear, R.drawable.ic_clear)
                 .withMenuTitle(R.id.item_clear, R.string.menu_clear_bin)
@@ -92,13 +92,13 @@ class BinScreen : ParentRecyclerScreen(R.id.bin_recycler) {
             clearMenuItem.isDisplayed()
         }
 
-        infoContainer.assert(empty)
-        recyclerView.isDisplayed(!empty)
+        infoContainer.assert(isEmpty)
+        recyclerView.isDisplayed(!isEmpty)
     }
 
     companion object {
-        operator fun invoke(func: BinScreen.() -> Unit, empty: Boolean): BinScreen {
-            return BinScreen().assert(empty).apply(func)
+        operator fun invoke(func: BinScreen.() -> Unit, isEmpty: Boolean): BinScreen {
+            return BinScreen().assert(isEmpty).apply(func)
         }
     }
 

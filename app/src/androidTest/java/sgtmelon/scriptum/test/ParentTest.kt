@@ -37,5 +37,4 @@ abstract class ParentTest {
         const val DATE_4 = "1567-04-05 06:07:08"
         const val DATE_5 = "1998-08-25 07:08:09"
     }
-
 }

@@ -58,21 +58,21 @@ class RollNoteRotationTest : ParentRotationTest() {
      */
 
     @Test fun dateDialog() = data.insertRoll().let {
-        startDateDialogTest(it, updateDate = false)
+        startDateDialogTest(it, isUpdateDate = false)
     }
 
     @Test fun dateDialogReset() = data.insertNotification(data.insertRoll()).let {
         if (it !is NoteItem.Roll) throw NoteCastException()
 
-        startDateDialogTest(it, updateDate = true)
+        startDateDialogTest(it, isUpdateDate = true)
     }
 
-    private fun startDateDialogTest(noteItem: NoteItem.Roll, updateDate: Boolean) {
+    private fun startDateDialogTest(item: NoteItem.Roll, isUpdateDate: Boolean) {
         launch {
             mainScreen {
                 notesScreen {
-                    openRollNote(noteItem) {
-                        controlPanel { onNotification(updateDate) { onRotate { assert() } } }
+                    openRollNote(item) {
+                        controlPanel { onNotification(isUpdateDate) { onRotate { assert() } } }
                     }
                 }
             }

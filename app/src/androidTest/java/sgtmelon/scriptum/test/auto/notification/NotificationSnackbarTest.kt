@@ -23,7 +23,7 @@ class NotificationSnackbarTest : ParentUiTest() {
                     openNotification {
                         onScroll(Scroll.END)
                         repeat(times = 5) {
-                            onClickCancel(last, wait = true)
+                            onClickCancel(last, isWait = true)
                             assertSnackbarDismiss()
                         }
                     }
@@ -139,7 +139,7 @@ class NotificationSnackbarTest : ParentUiTest() {
                         onClickClose()
                     }
 
-                    openNotification(empty = true) { assertSnackbarDismiss() }
+                    openNotification(isEmpty = true) { assertSnackbarDismiss() }
                 }
             }
         }
@@ -203,5 +203,4 @@ class NotificationSnackbarTest : ParentUiTest() {
     companion object {
         private const val NEXT_HOUR = 60
     }
-
 }

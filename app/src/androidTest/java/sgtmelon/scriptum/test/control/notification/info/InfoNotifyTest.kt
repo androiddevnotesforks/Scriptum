@@ -67,7 +67,7 @@ class InfoNotifyTest : ParentNotificationTest() {
                         controlPanel {
                             onNotification { onClickApply { onTime(min = 3).onClickApply() } }
                             onSee()
-                            onNotification(updateDate = true) { onClickReset() }
+                            onNotification(isUpdateDate = true) { onClickReset() }
                             onSee()
                         }
                     }
@@ -91,7 +91,7 @@ class InfoNotifyTest : ParentNotificationTest() {
                         controlPanel {
                             onNotification { onClickApply { onTime(min = 3).onClickApply() } }
                             onSee()
-                            onNotification(updateDate = true) { onClickReset() }
+                            onNotification(isUpdateDate = true) { onClickReset() }
                             onSee()
                         }
                     }
@@ -108,8 +108,7 @@ class InfoNotifyTest : ParentNotificationTest() {
     }
 
 
-    private companion object {
-        const val NOTIFICATION_COUNT = 7
+    companion object {
+        private const val NOTIFICATION_COUNT = 7
     }
-
 }

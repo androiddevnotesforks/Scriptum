@@ -16,7 +16,7 @@ class TextNoteImeTest : ParentUiTest() {
     @Test fun toolbarImeNext() = data.createText().let {
         launch {
             mainScreen {
-                notesScreen(empty = true) {
+                notesScreen(isEmpty = true) {
                     openAddDialog {
                         createText(it) {
                             onEnterText(nextString())
@@ -34,7 +34,7 @@ class TextNoteImeTest : ParentUiTest() {
     @Test fun enterImeAction() = data.createText().let {
         launch {
             mainScreen {
-                notesScreen(empty = true) {
+                notesScreen(isEmpty = true) {
                     openAddDialog {
                         createText(it) {
                             onEnterText(nextString()).onImeOptionText()

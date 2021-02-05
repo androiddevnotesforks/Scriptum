@@ -19,12 +19,12 @@ class NotesFabTest : ParentUiTest() {
         mainScreen {
             for (it in listOf(MainPage.RANK, MainPage.BIN)) {
                 notesScreen { onScroll(Scroll.END, time = 5) }
-                assert(fabVisible = false)
+                assert(isFabVisible = false)
                 notesScreen { onScroll(Scroll.START, time = 1) }
-                assert(fabVisible = true)
+                assert(isFabVisible = true)
                 notesScreen { onScroll(Scroll.START, time = 2) }
                 onNavigateTo(it)
-                assert(fabVisible = false)
+                assert(isFabVisible = false)
                 onNavigateTo(MainPage.NOTES)
             }
         }
@@ -33,23 +33,23 @@ class NotesFabTest : ParentUiTest() {
     @Test fun onResume() = launch({ data.fillNotes() }) {
         mainScreen {
             notesScreen { onScroll(Scroll.END, time = 1) }
-            assert(fabVisible = false)
+            assert(isFabVisible = false)
             notesScreen { openPreference { onClickClose() } }
-            assert(fabVisible = true)
+            assert(isFabVisible = true)
         }
     }
 
     @Test fun standstill() = launch({ data.fillNotes() }) {
         mainScreen {
             notesScreen { onScroll(Scroll.END, time = 1) }
-            assert(fabVisible = false)
-            waitBefore(NotesFragment.FAB_STANDSTILL_TIME) { assert(fabVisible = true) }
+            assert(isFabVisible = false)
+            waitBefore(NotesFragment.FAB_STANDSTILL_TIME) { assert(isFabVisible = true) }
 
             onScrollTop()
             notesScreen { onScroll(Scroll.END, time = 1) }
-            assert(fabVisible = false)
+            assert(isFabVisible = false)
             onNavigateTo(MainPage.BIN)
-            waitBefore(NotesFragment.FAB_STANDSTILL_TIME) { assert(fabVisible = false) }
+            waitBefore(NotesFragment.FAB_STANDSTILL_TIME) { assert(isFabVisible = false) }
         }
     }
 

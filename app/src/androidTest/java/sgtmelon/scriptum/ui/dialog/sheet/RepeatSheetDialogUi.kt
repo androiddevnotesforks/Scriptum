@@ -51,5 +51,4 @@ class RepeatSheetDialogUi : ParentSheetDialogUi(R.id.repeat_container, R.id.repe
             return RepeatSheetDialogUi().apply { waitOpen { assert() } }.apply(func)
         }
     }
-
 }

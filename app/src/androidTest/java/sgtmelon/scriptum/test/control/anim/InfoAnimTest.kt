@@ -16,7 +16,7 @@ class InfoAnimTest : ParentUiTest() {
     @Test fun rankShowAndHide() = data.rankEntity.let {
         launch {
             mainScreen {
-                rankScreen(empty = true) {
+                rankScreen(isEmpty = true) {
                     repeat(times = 3) { _ ->
                         waitAfter(TIME) { toolbar { onEnterName(it.name).onClickAdd() } }
                         waitBefore(TIME) { onClickCancel() }
@@ -66,8 +66,7 @@ class InfoAnimTest : ParentUiTest() {
     }
 
 
-    private companion object {
-        const val TIME = 500L
+    companion object {
+        private const val TIME = 500L
     }
-
 }

@@ -58,21 +58,21 @@ class TextNoteRotationTest : ParentRotationTest() {
      */
 
     @Test fun dateDialog() = data.insertText().let {
-        startDateDialogTest(it, updateDate = false)
+        startDateDialogTest(it, isUpdateDate = false)
     }
 
     @Test fun dateDialogReset() = data.insertNotification(data.insertText()).let {
         if (it !is NoteItem.Text) throw NoteCastException()
 
-        startDateDialogTest(it, updateDate = true)
+        startDateDialogTest(it, isUpdateDate = true)
     }
 
-    private fun startDateDialogTest(noteItem: NoteItem.Text, updateDate: Boolean) {
+    private fun startDateDialogTest(item: NoteItem.Text, isUpdateDate: Boolean) {
         launch {
             mainScreen {
                 notesScreen {
-                    openTextNote(noteItem) {
-                        controlPanel { onNotification(updateDate) { onRotate { assert() } } }
+                    openTextNote(item) {
+                        controlPanel { onNotification(isUpdateDate) { onRotate { assert() } } }
                     }
                 }
             }

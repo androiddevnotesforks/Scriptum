@@ -17,23 +17,23 @@ import java.util.*
 /**
  * Class for UI control of [MultipleDialog] when cause long click on note.
  */
-class NoteDialogUi(private val noteItem: NoteItem) : ParentUi(), IDialogUi, DateTimeCallback {
+class NoteDialogUi(private val item: NoteItem) : ParentUi(), IDialogUi, DateTimeCallback {
 
     //region Views
 
-    private val notificationButton = getViewByText(if (noteItem.haveAlarm()) {
+    private val notificationButton = getViewByText(if (item.haveAlarm()) {
         R.string.dialog_menu_notification_update
     } else {
         R.string.dialog_menu_notification_set
     })
 
-    private val bindButton = getViewByText(if (noteItem.isStatus) {
+    private val bindButton = getViewByText(if (item.isStatus) {
         R.string.dialog_menu_status_unbind
     } else {
         R.string.dialog_menu_status_bind
     })
 
-    private val convertButton = getViewByText(when (noteItem) {
+    private val convertButton = getViewByText(when (item) {
         is NoteItem.Text -> R.string.dialog_menu_convert_text
         is NoteItem.Roll -> R.string.dialog_menu_convert_roll
     })
@@ -49,21 +49,21 @@ class NoteDialogUi(private val noteItem: NoteItem) : ParentUi(), IDialogUi, Date
     fun onNotification(func: DateDialogUi.() -> Unit) = waitClose {
         notificationButton.click()
 
-        DateDialogUi(func, noteItem.haveAlarm(), callback = this)
+        DateDialogUi(func, item.haveAlarm(), callback = this)
     }
 
     fun onBind() = waitClose {
         bindButton.click()
 
-        noteItem.switchStatus()
+        item.switchStatus()
     }
 
     fun onConvert() = waitClose {
         convertButton.click()
 
-        when (noteItem) {
-            is NoteItem.Text -> noteItem.onConvert()
-            is NoteItem.Roll -> noteItem.onConvert()
+        when (item) {
+            is NoteItem.Text -> item.onConvert()
+            is NoteItem.Roll -> item.onConvert()
         }
     }
 
@@ -72,28 +72,28 @@ class NoteDialogUi(private val noteItem: NoteItem) : ParentUi(), IDialogUi, Date
     fun onDelete() = waitClose {
         deleteButton.click()
 
-        noteItem.onDelete()
+        item.onDelete()
     }
 
     fun onRestore() = waitClose {
         restoreButton.click()
 
-        noteItem.onRestore()
+        item.onRestore()
     }
 
     fun onClear() = waitClose { clearButton.click() }
 
 
     override fun onDateDialogResetResult() {
-        noteItem.alarmDate = DbData.Alarm.Default.DATE
+        item.alarmDate = DbData.Alarm.Default.DATE
     }
 
     override fun onTimeDialogResult(calendar: Calendar) {
-        noteItem.alarmDate = calendar.getText()
+        item.alarmDate = calendar.getText()
     }
 
     fun assert() {
-        if (noteItem.isBin) {
+        if (item.isBin) {
             restoreButton.isDisplayed().isEnabled()
             copyButton.isDisplayed().isEnabled()
             clearButton.isDisplayed().isEnabled()
@@ -106,9 +106,8 @@ class NoteDialogUi(private val noteItem: NoteItem) : ParentUi(), IDialogUi, Date
     }
 
     companion object {
-        operator fun invoke(func: NoteDialogUi.() -> Unit, noteItem: NoteItem): NoteDialogUi {
-            return NoteDialogUi(noteItem).apply { waitOpen { assert() } }.apply(func)
+        operator fun invoke(func: NoteDialogUi.() -> Unit, item: NoteItem): NoteDialogUi {
+            return NoteDialogUi(item).apply { waitOpen { assert() } }.apply(func)
         }
     }
-
 }

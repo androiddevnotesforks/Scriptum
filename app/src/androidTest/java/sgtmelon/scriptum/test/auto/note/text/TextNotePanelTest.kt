@@ -16,8 +16,8 @@ class TextNotePanelTest : ParentUiTest() {
     @Test fun actionOnBinRestore()  = data.insertTextToBin().let {
         launch {
             mainScreen {
-                notesScreen(empty = true)
-                binScreen { openTextNote(it) { controlPanel { onRestore() } }.assert(empty = true) }
+                notesScreen(isEmpty = true)
+                binScreen { openTextNote(it) { controlPanel { onRestore() } }.assert(isEmpty = true) }
                 notesScreen()
             }
         }
@@ -26,11 +26,11 @@ class TextNotePanelTest : ParentUiTest() {
     @Test fun actionOnBinRestoreOpen()  = data.insertTextToBin().let {
         launch {
             mainScreen {
-                notesScreen(empty = true)
+                notesScreen(isEmpty = true)
 
                 binScreen {
                     openTextNote(it) { controlPanel { onRestoreOpen() }.onPressBack() }
-                    assert(empty = true)
+                    assert(isEmpty = true)
                 }
 
                 notesScreen()
@@ -41,9 +41,9 @@ class TextNotePanelTest : ParentUiTest() {
     @Test fun actionOnBinClear() = data.insertTextToBin().let {
         launch {
             mainScreen {
-                notesScreen(empty = true)
-                binScreen { openTextNote(it) { controlPanel { onClear() } }.assert(empty = true) }
-                notesScreen(empty = true)
+                notesScreen(isEmpty = true)
+                binScreen { openTextNote(it) { controlPanel { onClear() } }.assert(isEmpty = true) }
+                notesScreen(isEmpty = true)
             }
         }
     }
@@ -79,10 +79,10 @@ class TextNotePanelTest : ParentUiTest() {
     @Test fun actionOnReadDelete() = data.insertText().let {
         launch {
             mainScreen {
-                binScreen(empty = true)
+                binScreen(isEmpty = true)
 
                 notesScreen {
-                    openTextNote(it) { controlPanel { onDelete() } }.assert(empty = true)
+                    openTextNote(it) { controlPanel { onDelete() } }.assert(isEmpty = true)
                 }
 
                 binScreen()

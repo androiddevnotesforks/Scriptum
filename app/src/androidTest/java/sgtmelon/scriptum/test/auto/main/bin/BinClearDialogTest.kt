@@ -15,9 +15,9 @@ class BinClearDialogTest : ParentUiTest() {
     @Test fun closeAndWork() = launch({ data.fillBin() }) {
         mainScreen {
             binScreen {
-                clearDialog { onCloseSoft() }.assert(empty = false)
-                clearDialog { onClickNo() }.assert(empty = false)
-                clearDialog { onClickYes() }.assert(empty = true)
+                clearDialog { onCloseSoft() }.assert(isEmpty = false)
+                clearDialog { onClickNo() }.assert(isEmpty = false)
+                clearDialog { onClickYes() }.assert(isEmpty = true)
             }
         }
     }
@@ -28,10 +28,10 @@ class BinClearDialogTest : ParentUiTest() {
                 binScreen()
 
                 rankScreen { onClickVisible() }
-                binScreen { clearDialog { onClickYes() }.assert(empty = true) }
+                binScreen { clearDialog { onClickYes() }.assert(isEmpty = true) }
 
                 rankScreen { onClickVisible() }
-                binScreen(empty = true)
+                binScreen(isEmpty = true)
             }
         }
     }

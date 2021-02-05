@@ -3,6 +3,7 @@ package sgtmelon.scriptum.test.content
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.scriptum.presentation.adapter.holder.RankHolder
 import sgtmelon.scriptum.test.ParentUiTest
 import sgtmelon.scriptum.ui.screen.main.RankScreen
 
@@ -73,17 +74,14 @@ class RankContentTest : ParentUiTest() {
         }
     }
 
-    @Test fun itemBindMax() {
-        TODO(reason = "Check max bind indicator (99)")
+    @Test fun itemMaxIndicator() = data.fillRank().let { list ->
+        launch(before = { RankHolder.isMaxTest = true }) {
+            mainScreen { rankScreen { for (it in list) onAssertItem(it) } }
+        }
     }
 
-    @Test fun itemNotificationMax() {
-        TODO(reason = "Check max notification indicator (99)")
+    companion object {
+        private const val ITEM_COUNT = 5
+        private const val REPEAT_TIMES = 3
     }
-
-    private companion object {
-        const val ITEM_COUNT = 5
-        const val REPEAT_TIMES = 3
-    }
-
 }

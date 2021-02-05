@@ -13,14 +13,14 @@ import sgtmelon.scriptum.test.ParentRotationTest
 class PreferenceRotationTest : ParentRotationTest() {
 
     @Test fun content() = launch {
-        mainScreen { notesScreen(empty = true) { openPreference { onRotate { assert() } } } }
+        mainScreen { notesScreen(isEmpty = true) { openPreference { onRotate { assert() } } } }
     }
 
     @Test fun colorDialog() = launch {
-        val color = preferenceRepo.defaultColor ?: throw NullPointerException()
+        val color = preferenceRepo.defaultColor
 
         mainScreen {
-            notesScreen(empty = true) {
+            notesScreen(isEmpty = true) {
                 openPreference { openColorDialog(color) { onRotate { assert() } } }
             }
         }

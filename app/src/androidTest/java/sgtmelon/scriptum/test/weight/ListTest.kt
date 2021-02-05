@@ -18,6 +18,8 @@ class ListTest : ParentUiTest() {
 
     // TODO #TEST optimization textNote inside lists (because now i load all text length)
 
+    private val pageList = arrayListOf(MainPage.RANK, MainPage.NOTES, MainPage.BIN)
+
     private val weightData = WeightData(context, RoomProvider(context))
 
 
@@ -26,7 +28,7 @@ class ListTest : ParentUiTest() {
         data.fillNotes(NOTES_COUNT)
         data.fillBin(BIN_COUNT)
     }) {
-        mainScreen { repeat(REPEAT_COUNT) { for (it in pageList) openPage(it) } }
+        mainScreen { repeat(REPEAT_COUNT) { for (page in pageList) openPage(page) } }
     }
 
     @Test fun rankScroll() = launch(before = { data.fillRank(RANK_COUNT) }) {
@@ -100,18 +102,15 @@ class ListTest : ParentUiTest() {
         Log.i(TAG, "Time millis = ${endTime - startTime}")
     }
 
-    private companion object {
-        val TAG: String = ListTest::class.java.simpleName
+    companion object {
+        val TAG: String? = ListTest::class.java.canonicalName
 
-        const val RANK_COUNT = 200
-        const val NOTES_COUNT = 250
-        const val BIN_COUNT = 250
-        const val NOTIFICATION_COUNT = 200
+        private const val RANK_COUNT = 200
+        private const val NOTES_COUNT = 250
+        private const val BIN_COUNT = 250
+        private const val NOTIFICATION_COUNT = 200
 
-        const val REPEAT_COUNT = 10
-        const val SCROLL_COUNT = 15
-
-        val pageList = arrayListOf(MainPage.RANK, MainPage.NOTES, MainPage.BIN)
+        private const val REPEAT_COUNT = 10
+        private const val SCROLL_COUNT = 15
     }
-
 }

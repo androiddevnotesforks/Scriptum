@@ -17,6 +17,8 @@ import sgtmelon.scriptum.test.ParentUiTest
  */
 abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest() {
 
+    private val lastArray = arrayListOf(LAST_HOUR, LAST_DAY, LAST_MONTH, LAST_YEAR)
+
     open fun colorTextLight() = startColorTest(NoteType.TEXT, Theme.LIGHT)
 
     open fun colorTextDark() = startColorTest(NoteType.TEXT, Theme.DARK)
@@ -207,8 +209,5 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
         private const val LAST_DAY = LAST_HOUR * 24
         private const val LAST_MONTH = LAST_DAY * 30
         private const val LAST_YEAR = LAST_MONTH * 12
-
-        val lastArray = arrayListOf(LAST_HOUR, LAST_DAY, LAST_MONTH, LAST_YEAR)
     }
-
 }

@@ -23,7 +23,7 @@ class RollNoteErrorTest : ParentUiTest() {
 
         launch {
             mainScreen {
-                notesScreen(empty = true) {
+                notesScreen(isEmpty = true) {
                     openAddDialog {
                         createRoll(item) {
                             enterPanel { repeat(times = 4) { onAdd(nextString()) } }
@@ -32,7 +32,7 @@ class RollNoteErrorTest : ParentUiTest() {
                             controlPanel { onSave() }
                             onAssertAll()
 
-                            item = noteItem
+                            item = this.item
                             onPressBack()
                         }
                     }

@@ -20,9 +20,8 @@ abstract class ParentRotationTest : ParentUiTest() {
         waitBefore(ROTATE_TIME) { afterFunc() }
     }
 
-    private companion object {
-        const val ROTATE_TIME = 5000L
-        const val TOAST_TEXT = "ROTATE NOW!!!"
+    companion object {
+        private const val ROTATE_TIME = 5000L
+        private const val TOAST_TEXT = "ROTATE NOW!!!"
     }
-
 }

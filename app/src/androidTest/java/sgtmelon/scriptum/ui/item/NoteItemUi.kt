@@ -77,7 +77,7 @@ class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
             )
 
             fun assert(item: RollItem?) {
-                parentContainer.isDisplayed(visible = item != null)
+                parentContainer.isDisplayed(isVisible = item != null)
 
                 if (item == null) return
 
@@ -140,7 +140,7 @@ class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
 
             infoLayout.assert(item)
 
-            colorView.isDisplayed(visible = theme == Theme.DARK) {
+            colorView.isDisplayed(isVisible = theme == Theme.DARK) {
                 withSize(widthId = R.dimen.layout_8dp)
                 withColorIndicator(R.drawable.ic_color_indicator, theme, item.color)
             }

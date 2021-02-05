@@ -26,11 +26,11 @@ class RankToolbar : ParentUi(), IKeyboardOption {
 
     private var enter = ""
 
-    fun onEnterName(name: String, enabled: Boolean = true) = apply {
+    fun onEnterName(name: String, isEnabled: Boolean = true) = apply {
         enter = name
 
         nameEnter.typeText(name)
-        assert(isAddEnabled = enabled)
+        assert(isAddEnabled = isEnabled)
     }
 
     fun onClickClear() {

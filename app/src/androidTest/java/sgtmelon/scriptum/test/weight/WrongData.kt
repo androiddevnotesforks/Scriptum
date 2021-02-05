@@ -15,6 +15,10 @@ import sgtmelon.scriptum.test.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class WrongData : ParentUiTest() {
 
+    private val converter = NoteConverter()
+    private val textNote = converter.toItem(NoteEntity(WRONG_ID, type = NoteType.TEXT))
+    private val rollNote = converter.toItem(NoteEntity(WRONG_ID, type = NoteType.ROLL))
+
     @Test fun bindTextNoteOpen() = launchBind(textNote) { waitBefore(TIME) }
 
     @Test fun bindRollNoteOpen() = launchBind(rollNote) { waitBefore(TIME) }
@@ -23,13 +27,8 @@ class WrongData : ParentUiTest() {
 
     @Test fun alarmRollNoteOpen() = launchAlarm(rollNote) { waitBefore(TIME) }
 
-    private companion object {
-        const val WRONG_ID = 12345L
-        const val TIME = 1000L
-
-        val converter = NoteConverter()
-        val textNote = converter.toItem(NoteEntity(WRONG_ID, type = NoteType.TEXT))
-        val rollNote = converter.toItem(NoteEntity(WRONG_ID, type = NoteType.ROLL))
+    companion object {
+        private const val WRONG_ID = 12345L
+        private const val TIME = 1000L
     }
-
 }

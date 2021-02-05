@@ -77,7 +77,7 @@ class ColorDialogUi(place: Place, @Color private var check: Int, private val cal
         recyclerView.isDisplayed()
 
         cancelButton.isDisplayed().isEnabled().withTextColor(R.attr.clAccent)
-        applyButton.isDisplayed().isEnabled(enabled = check != initCheck) {
+        applyButton.isDisplayed().isEnabled(isEnabled = check != initCheck) {
             withTextColor(R.attr.clAccent)
         }
     }
@@ -140,5 +140,4 @@ class ColorDialogUi(place: Place, @Color private var check: Int, private val cal
             return ColorDialogUi(place, check, callback).apply { waitOpen { assert() } }.apply(func)
         }
     }
-
 }

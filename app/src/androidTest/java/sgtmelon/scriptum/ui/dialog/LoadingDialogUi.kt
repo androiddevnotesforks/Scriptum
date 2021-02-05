@@ -38,5 +38,4 @@ class LoadingDialogUi : ParentUi(), IDialogUi {
             return LoadingDialogUi().apply { waitOpen { assert() } }.apply(func)
         }
     }
-
 }

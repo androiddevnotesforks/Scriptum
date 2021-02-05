@@ -9,6 +9,7 @@ import android.widget.TextView
 import sgtmelon.iconanim.IconBlockCallback
 import sgtmelon.iconanim.widget.SwitchButton
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.domain.model.annotation.test.RunNone
 import sgtmelon.scriptum.domain.model.item.RankItem
 import sgtmelon.scriptum.presentation.adapter.RankAdapter
 import sgtmelon.scriptum.presentation.listener.ItemListener
@@ -101,10 +102,20 @@ class RankHolder(
         } else {
             View.GONE
         }
+
         notificationContainer.visibility = if (!isNotificationEmpty) View.VISIBLE else View.GONE
-        notificationText.text = min(item.notificationCount, INDICATOR_MAX_COUNT).toString()
+        notificationText.text = if (isMaxTest) {
+            INDICATOR_MAX_COUNT.toString()
+        } else {
+            min(item.notificationCount, INDICATOR_MAX_COUNT).toString()
+        }
+
         bindContainer.visibility = if (!isBindEmpty) View.VISIBLE else View.GONE
-        bindText.text = min(item.bindCount, INDICATOR_MAX_COUNT).toString()
+        bindText.text = if (isMaxTest) {
+            INDICATOR_MAX_COUNT.toString()
+        } else {
+            min(item.bindCount, INDICATOR_MAX_COUNT).toString()
+        }
 
         countText.text = context.getString(R.string.list_item_rank_count, item.noteId.size)
 
@@ -122,5 +133,7 @@ class RankHolder(
 
     companion object {
         const val INDICATOR_MAX_COUNT = 99
+
+        @RunNone var isMaxTest = false
     }
 }

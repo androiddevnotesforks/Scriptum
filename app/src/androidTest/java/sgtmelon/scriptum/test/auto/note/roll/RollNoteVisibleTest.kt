@@ -38,7 +38,7 @@ class RollNoteVisibleTest : ParentUiTest() {
 
         launch {
             mainScreen {
-                notesScreen(empty = true) {
+                notesScreen(isEmpty = true) {
                     openAddDialog {
                         createRoll(item) {
                             onClickVisible()
@@ -46,7 +46,7 @@ class RollNoteVisibleTest : ParentUiTest() {
                             enterPanel { onAdd(nextString()) }
                             controlPanel { onSave() }
 
-                            item = noteItem
+                            item = this.item
 
                             onPressBack()
                         }
@@ -61,7 +61,7 @@ class RollNoteVisibleTest : ParentUiTest() {
     @Test fun switch() = data.createRoll().let {
         launch {
             mainScreen {
-                notesScreen(empty = true) {
+                notesScreen(isEmpty = true) {
                     openAddDialog {
                         createRoll(it) {
                             onClickVisible().onClickVisible()
@@ -134,7 +134,7 @@ class RollNoteVisibleTest : ParentUiTest() {
     @Test fun itemAdd() = data.createRoll().let {
         launch {
             mainScreen {
-                notesScreen(empty = true) {
+                notesScreen(isEmpty = true) {
                     openAddDialog {
                         createRoll(it) {
                             onClickVisible()

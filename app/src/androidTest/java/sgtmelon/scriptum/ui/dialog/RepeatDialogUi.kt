@@ -57,14 +57,14 @@ class RepeatDialogUi : ParentRecyclerScreen(R.id.select_dialog_listview), IDialo
         recyclerView.isDisplayed()
         titleText.isDisplayed()
 
-        repeat0Button.isDisplayed().isChecked(checked = check == Repeat.MIN_10)
-        repeat1Button.isDisplayed().isChecked(checked = check == Repeat.MIN_30)
-        repeat2Button.isDisplayed().isChecked(checked = check == Repeat.MIN_60)
-        repeat3Button.isDisplayed().isChecked(checked = check == Repeat.MIN_180)
-        repeat4Button.isDisplayed().isChecked(checked = check == Repeat.MIN_1440)
+        repeat0Button.isDisplayed().isChecked(isChecked = check == Repeat.MIN_10)
+        repeat1Button.isDisplayed().isChecked(isChecked = check == Repeat.MIN_30)
+        repeat2Button.isDisplayed().isChecked(isChecked = check == Repeat.MIN_60)
+        repeat3Button.isDisplayed().isChecked(isChecked = check == Repeat.MIN_180)
+        repeat4Button.isDisplayed().isChecked(isChecked = check == Repeat.MIN_1440)
 
         cancelButton.isDisplayed().isEnabled().withTextColor(R.attr.clAccent)
-        applyButton.isDisplayed().isEnabled(enabled = check != repeat) {
+        applyButton.isDisplayed().isEnabled(isEnabled = check != repeat) {
             withTextColor(R.attr.clAccent)
         }
     }
@@ -74,5 +74,4 @@ class RepeatDialogUi : ParentRecyclerScreen(R.id.select_dialog_listview), IDialo
             return RepeatDialogUi().apply { waitOpen { assert() } }.apply(func)
         }
     }
-
 }

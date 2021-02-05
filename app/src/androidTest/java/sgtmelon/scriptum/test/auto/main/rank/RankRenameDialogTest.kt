@@ -17,8 +17,8 @@ class RankRenameDialogTest : ParentUiTest() {
         launch {
             mainScreen {
                 rankScreen {
-                    openRenameDialog(it.name) { onCloseSoft() }.assert(empty = false)
-                    openRenameDialog(it.name) { onClickCancel() }.assert(empty = false)
+                    openRenameDialog(it.name) { onCloseSoft() }.assert(isEmpty = false)
+                    openRenameDialog(it.name) { onClickCancel() }.assert(isEmpty = false)
                 }
             }
         }
@@ -27,7 +27,7 @@ class RankRenameDialogTest : ParentUiTest() {
     @Test fun dialogApplySameName() = data.insertRank().let {
         launch {
             mainScreen {
-                rankScreen { openRenameDialog(it.name) { onEnter(it.name, enabled = false) } }
+                rankScreen { openRenameDialog(it.name) { onEnter(it.name, isEnabled = false) } }
             }
         }
     }
@@ -36,7 +36,7 @@ class RankRenameDialogTest : ParentUiTest() {
         launch {
             mainScreen {
                 rankScreen {
-                    openRenameDialog(it[0].name, p = 0) { onEnter(it[1].name, enabled = false) }
+                    openRenameDialog(it[0].name, p = 0) { onEnter(it[1].name, isEnabled = false) }
                 }
             }
         }

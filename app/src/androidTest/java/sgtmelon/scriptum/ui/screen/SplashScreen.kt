@@ -17,24 +17,35 @@ class SplashScreen : ParentUi() {
 
     fun mainScreen(func: MainScreen.() -> Unit = {}) = MainScreen(func)
 
-    fun openTextNoteBind(noteItem: NoteItem.Text, isRankEmpty: Boolean = true,
-                         func: TextNoteScreen.() -> Unit = {}) = apply {
-        TextNoteScreen(func, State.READ, noteItem, isRankEmpty)
+    fun openTextNoteBind(
+        item: NoteItem.Text,
+        isRankEmpty: Boolean = true,
+        func: TextNoteScreen.() -> Unit = {}
+    ) = apply {
+        TextNoteScreen(func, State.READ, item, isRankEmpty)
     }
 
-    fun openRollNoteBind(noteItem: NoteItem.Roll, isRankEmpty: Boolean = true,
-                         func: RollNoteScreen.() -> Unit = {}) = apply {
-        RollNoteScreen(func, State.READ, noteItem, isRankEmpty)
+    fun openRollNoteBind(
+        item: NoteItem.Roll,
+        isRankEmpty: Boolean = true,
+        func: RollNoteScreen.() -> Unit = {}
+    ) = apply {
+        RollNoteScreen(func, State.READ, item, isRankEmpty)
     }
 
-    fun openAlarm(noteItem: NoteItem, dateList: List<String>? = null,
-                  func: AlarmScreen.() -> Unit = {}) = apply {
-        AlarmScreen(func, noteItem, dateList)
+    fun openAlarm(
+        item: NoteItem,
+        dateList: List<String>? = null,
+        func: AlarmScreen.() -> Unit = {}
+    ) = apply {
+        AlarmScreen(func, item, dateList)
     }
 
-    fun openNotification(empty: Boolean = false,
-                         func: NotificationScreen.() -> Unit = {}) = apply {
-        NotificationScreen(func, empty)
+    fun openNotification(
+        isEmpty: Boolean = false,
+        func: NotificationScreen.() -> Unit = {}
+    ) = apply {
+        NotificationScreen(func, isEmpty)
     }
 
 

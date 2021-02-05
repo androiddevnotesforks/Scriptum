@@ -6,5 +6,4 @@ package sgtmelon.scriptum.ui
 interface IKeyboardOption {
 
     fun onImeOptionClick(isSuccess: Boolean = true)
-
 }

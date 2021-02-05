@@ -37,5 +37,4 @@ abstract class ParentRecyclerScreen(@IdRes private val recyclerId: Int) : Parent
 
         const val REPEAT_COUNT = 2
     }
-
 }

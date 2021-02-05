@@ -16,26 +16,26 @@ class RankToolbarTest : ParentUiTest() {
 
     @Test fun enterAddEmpty() = launch {
         mainScreen {
-            rankScreen(empty = true) { toolbar { onEnterName(name = " ", enabled = false) } }
+            rankScreen(isEmpty = true) { toolbar { onEnterName(name = " ", isEnabled = false) } }
         }
     }
 
     @Test fun enterAddFromList() = data.insertRank().let {
         launch {
-            mainScreen { rankScreen { toolbar { onEnterName(it.name, enabled = false) } } }
+            mainScreen { rankScreen { toolbar { onEnterName(it.name, isEnabled = false) } } }
         }
     }
 
     @Test fun enterAddEnabled() = launch {
         val name = nextString()
-        mainScreen { rankScreen(empty = true) { toolbar { onEnterName(name) } } }
+        mainScreen { rankScreen(isEmpty = true) { toolbar { onEnterName(name) } } }
     }
 
     @Test fun enterClear() = launch {
         val name = nextString()
 
         mainScreen {
-            rankScreen(empty = true) {
+            rankScreen(isEmpty = true) {
                 toolbar {
                     onEnterName(nextString()).onClickClear()
                     onEnterName(name).onClickAdd()
@@ -50,7 +50,7 @@ class RankToolbarTest : ParentUiTest() {
         val name = nextString()
 
         mainScreen {
-            rankScreen(empty = true) {
+            rankScreen(isEmpty = true) {
                 toolbar { onEnterName(name).onClickAdd() }
                 openRenameDialog(name, p = 0) { onCloseSoft() }
 

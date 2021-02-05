@@ -12,7 +12,7 @@ import sgtmelon.scriptum.test.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class RankListTest : ParentUiTest() {
 
-    @Test fun contentEmpty() = launch { mainScreen { rankScreen(empty = true) } }
+    @Test fun contentEmpty() = launch { mainScreen { rankScreen(isEmpty = true) } }
 
     @Test fun contentList() = launch({ data.fillRank() }) { mainScreen { rankScreen() } }
 

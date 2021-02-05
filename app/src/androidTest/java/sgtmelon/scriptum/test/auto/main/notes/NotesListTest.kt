@@ -12,7 +12,7 @@ import sgtmelon.scriptum.test.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class NotesListTest : ParentUiTest() {
 
-    @Test fun contentEmpty() = launch { mainScreen { notesScreen(empty = true) } }
+    @Test fun contentEmpty() = launch { mainScreen { notesScreen(isEmpty = true) } }
 
     @Test fun contentList() = launch({ data.fillNotes() }) { mainScreen { notesScreen() } }
 
@@ -24,7 +24,7 @@ class NotesListTest : ParentUiTest() {
     @Test fun textNoteOpen() = data.insertText().let {
         launch {
             mainScreen {
-                notesScreen { openTextNote(it) { onPressBack() }.assert(empty = false) }
+                notesScreen { openTextNote(it) { onPressBack() }.assert(isEmpty = false) }
             }
         }
     }
@@ -32,7 +32,7 @@ class NotesListTest : ParentUiTest() {
     @Test fun rollNoteOpen() = data.insertRoll().let {
         launch {
             mainScreen {
-                notesScreen { openRollNote(it) { onPressBack() }.assert(empty = false) }
+                notesScreen { openRollNote(it) { onPressBack() }.assert(isEmpty = false) }
             }
         }
     }
@@ -41,9 +41,9 @@ class NotesListTest : ParentUiTest() {
     @Test fun textCreateAndReturn() = data.createText().let {
         launch {
             mainScreen {
-                notesScreen(empty = true)
+                notesScreen(isEmpty = true)
                 openAddDialog { createText(it) { onPressBack() } }
-                notesScreen(empty = true)
+                notesScreen(isEmpty = true)
             }
         }
     }
@@ -51,9 +51,9 @@ class NotesListTest : ParentUiTest() {
     @Test fun rollCreateAndReturn() = data.createRoll().let {
         launch {
             mainScreen {
-                notesScreen(empty = true)
+                notesScreen(isEmpty = true)
                 openAddDialog { createRoll(it) { onPressBack() } }
-                notesScreen(empty = true)
+                notesScreen(isEmpty = true)
             }
         }
     }
@@ -61,7 +61,7 @@ class NotesListTest : ParentUiTest() {
     @Test fun textCreateAndReturnWithSave() = data.createText().let {
         launch {
             mainScreen {
-                notesScreen(empty = true)
+                notesScreen(isEmpty = true)
 
                 openAddDialog {
                     createText(it) {
@@ -78,7 +78,7 @@ class NotesListTest : ParentUiTest() {
     @Test fun rollCreateAndReturnWithSave() = data.createRoll().let {
         launch {
             mainScreen {
-                notesScreen(empty = true)
+                notesScreen(isEmpty = true)
 
                 openAddDialog {
                     createRoll(it) {

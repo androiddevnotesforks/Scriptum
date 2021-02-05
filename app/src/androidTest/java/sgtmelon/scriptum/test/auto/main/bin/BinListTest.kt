@@ -13,7 +13,7 @@ import sgtmelon.scriptum.test.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class BinListTest : ParentUiTest() {
 
-    @Test fun contentEmpty() = launch { mainScreen { binScreen(empty = true) } }
+    @Test fun contentEmpty() = launch { mainScreen { binScreen(isEmpty = true) } }
 
     @Test fun contentList() = launch({ data.fillBin() }) { mainScreen { binScreen() } }
 
@@ -24,13 +24,13 @@ class BinListTest : ParentUiTest() {
 
     @Test fun textNoteOpen() = data.insertTextToBin().let {
         launch {
-            mainScreen { binScreen { openTextNote(it) { onPressBack() }.assert(empty = false) } }
+            mainScreen { binScreen { openTextNote(it) { onPressBack() }.assert(isEmpty = false) } }
         }
     }
 
     @Test fun rollNoteOpen() = data.insertRollToBin().let {
         launch {
-            mainScreen { binScreen { openRollNote(it) { onPressBack() }.assert(empty = false) } }
+            mainScreen { binScreen { openRollNote(it) { onPressBack() }.assert(isEmpty = false) } }
         }
     }
 

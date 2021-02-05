@@ -15,7 +15,7 @@ class NotesNoteDialogTest : ParentUiTest() {
     @Test fun textDialogClose() = data.insertText().let {
         launch {
             mainScreen {
-                notesScreen { openNoteDialog(it) { onCloseSoft() }.assert(empty = false) }
+                notesScreen { openNoteDialog(it) { onCloseSoft() }.assert(isEmpty = false) }
             }
         }
     }
@@ -58,7 +58,7 @@ class NotesNoteDialogTest : ParentUiTest() {
     @Test fun textDialogDelete() = data.insertText().let {
         launch {
             mainScreen {
-                notesScreen { openNoteDialog(it) { onDelete() }.assert(empty = true) }
+                notesScreen { openNoteDialog(it) { onDelete() }.assert(isEmpty = true) }
                 binScreen()
             }
         }
@@ -68,7 +68,7 @@ class NotesNoteDialogTest : ParentUiTest() {
     @Test fun rollDialogClose() = data.insertRoll().let {
         launch {
             mainScreen {
-                notesScreen { openNoteDialog(it) { onCloseSoft() }.assert(empty = false) }
+                notesScreen { openNoteDialog(it) { onCloseSoft() }.assert(isEmpty = false) }
             }
         }
     }
@@ -111,7 +111,7 @@ class NotesNoteDialogTest : ParentUiTest() {
     @Test fun rollDialogDelete() = data.insertRoll().let {
         launch {
             mainScreen {
-                notesScreen { openNoteDialog(it) { onDelete() }.assert(empty = true) }
+                notesScreen { openNoteDialog(it) { onDelete() }.assert(isEmpty = true) }
                 binScreen()
             }
         }

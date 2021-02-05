@@ -12,9 +12,9 @@ import sgtmelon.scriptum.extension.getNoteToolbarColor
  * Matcher for check background color.
  */
 class BackgroundAppColorMatcher(
-        @Theme private val theme: Int,
-        @Color private val color: Int,
-        private val needDark: Boolean
+    @Theme private val theme: Int,
+    @Color private val color: Int,
+    private val needDark: Boolean
 ) : TypeSafeMatcher<View>() {
 
     override fun matchesSafely(item: View?): Boolean {
@@ -31,5 +31,4 @@ class BackgroundAppColorMatcher(
     override fun describeTo(description: Description?) {
         description?.appendText("\nView with theme = $theme | color = $color | needDark = $needDark")
     }
-
 }

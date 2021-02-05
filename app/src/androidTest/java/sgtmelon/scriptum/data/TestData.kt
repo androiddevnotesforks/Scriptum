@@ -135,25 +135,25 @@ class TestData(
         return item
     }
 
-    fun insertTextToBin(note: NoteEntity = textNote) = insertText(note.apply { isBin = true })
+    fun insertTextToBin(entity: NoteEntity = textNote) = insertText(entity.apply { isBin = true })
 
     fun insertRoll(
-        note: NoteEntity = rollNote,
-        visible: Boolean = isVisible,
+        entity: NoteEntity = rollNote,
+        isVisible: Boolean = this.isVisible,
         list: ArrayList<RollEntity> = rollList
     ): NoteItem.Roll {
         inRoomTest {
-            note.id = noteDao.insert(note)
+            entity.id = noteDao.insert(entity)
 
             for (it in list) {
-                it.noteId = note.id
+                it.noteId = entity.id
                 rollDao.insert(it)
             }
 
-            rollVisibleDao.insert(RollVisibleEntity(noteId = note.id, value = visible))
+            rollVisibleDao.insert(RollVisibleEntity(noteId = entity.id, value = isVisible))
         }
 
-        val item = noteConverter.toItem(note, visible, rollConverter.toItem(list))
+        val item = noteConverter.toItem(entity, isVisible, rollConverter.toItem(list))
 
         if (item !is NoteItem.Roll) throw IllegalAccessException("Wrong note type")
 
@@ -165,11 +165,11 @@ class TestData(
     }
 
     fun insertRollToBin(
-        note: NoteEntity = rollNote,
-        visible: Boolean = isVisible,
+        entity: NoteEntity = rollNote,
+        isVisible: Boolean = this.isVisible,
         list: ArrayList<RollEntity> = rollList
     ): NoteItem.Roll {
-        return insertRoll(note.apply { isBin = true }, visible, list)
+        return insertRoll(entity.apply { isBin = true }, isVisible, list)
     }
 
 
@@ -202,14 +202,14 @@ class TestData(
     }
 
     fun insertNotification(
-        noteItem: NoteItem = insertNote(),
+        item: NoteItem = insertNote(),
         date: String = getRandomFutureTime()
     ): NoteItem {
-        noteItem.alarmDate = date
+        item.alarmDate = date
 
-        inRoomTest { noteItem.alarmId = alarmDao.insert(alarmConverter.toEntity(noteItem)) }
+        inRoomTest { item.alarmId = alarmDao.insert(alarmConverter.toEntity(item)) }
 
-        return noteItem
+        return item
     }
 
 

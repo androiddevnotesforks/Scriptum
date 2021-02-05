@@ -16,7 +16,7 @@ class RollNoteFocusTest : ParentUiTest() {
     @Test fun focusOnCreate() = data.createRoll().let {
         launch {
             mainScreen {
-                notesScreen(empty = true) {
+                notesScreen(isEmpty = true) {
                     openAddDialog { createRoll(it) { toolbar { assertFocus() } } }
                 }
             }

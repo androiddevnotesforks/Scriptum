@@ -16,7 +16,7 @@ class RollNoteImeTest : ParentUiTest() {
     @Test fun toolbarImeNext() = data.createRoll().let {
         launch {
             mainScreen {
-                notesScreen(empty = true) {
+                notesScreen(isEmpty = true) {
                     openAddDialog {
                         createRoll(it) {
                             enterPanel {
@@ -33,7 +33,7 @@ class RollNoteImeTest : ParentUiTest() {
     @Test fun itemImeNext() = data.createRoll().let {
         launch {
             mainScreen {
-                notesScreen(empty = true) {
+                notesScreen(isEmpty = true) {
                     openAddDialog {
                         createRoll(it) {
                             enterPanel {
@@ -51,7 +51,7 @@ class RollNoteImeTest : ParentUiTest() {
     @Test fun enterPanelImeDone() = data.createRoll().let {
         launch {
             mainScreen {
-                notesScreen(empty = true) {
+                notesScreen(isEmpty = true) {
                     openAddDialog {
                         createRoll(it) {
                             enterPanel {

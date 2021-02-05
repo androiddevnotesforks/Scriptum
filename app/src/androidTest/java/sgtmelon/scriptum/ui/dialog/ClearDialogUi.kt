@@ -42,5 +42,4 @@ class ClearDialogUi : ParentUi(), IDialogUi {
             return ClearDialogUi().apply { waitOpen { assert() } }.apply(func)
         }
     }
-
 }

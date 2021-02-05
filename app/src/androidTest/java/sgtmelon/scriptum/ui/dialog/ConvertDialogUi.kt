@@ -15,12 +15,12 @@ import sgtmelon.scriptum.ui.ParentUi
 /**
  * Class for UI control of [MessageDialog] which open from [NoteActivity] on convert.
  */
-class ConvertDialogUi(noteItem: NoteItem, private val callback: Callback) : ParentUi(), IDialogUi {
+class ConvertDialogUi(item: NoteItem, private val callback: Callback) : ParentUi(), IDialogUi {
 
     //region Views
 
     private val titleText = getViewByText(R.string.dialog_title_convert)
-    private val messageText = getViewByText(when (noteItem.type) {
+    private val messageText = getViewByText(when (item.type) {
         NoteType.TEXT -> R.string.dialog_text_convert_text
         NoteType.ROLL -> R.string.dialog_roll_convert_roll
     })
@@ -51,10 +51,11 @@ class ConvertDialogUi(noteItem: NoteItem, private val callback: Callback) : Pare
     }
 
     companion object {
-        operator fun invoke(func: ConvertDialogUi.() -> Unit,
-                            noteItem: NoteItem, callback: Callback): ConvertDialogUi {
-            return ConvertDialogUi(noteItem, callback).apply { waitOpen { assert() } }.apply(func)
+        operator fun invoke(
+            func: ConvertDialogUi.() -> Unit,
+            item: NoteItem, callback: Callback
+        ): ConvertDialogUi {
+            return ConvertDialogUi(item, callback).apply { waitOpen { assert() } }.apply(func)
         }
     }
-
 }

@@ -18,18 +18,18 @@ abstract class ParentInfoContainer(@IdRes private val iconId: Int? = null) : Par
 
     private val iconImage get() = getViewById(R.id.info_image).includeParent(includeContainer)
 
-    fun assert(visible: Boolean) {
-        includeContainer.isDisplayed(visible)
+    fun assert(isVisible: Boolean) {
+        includeContainer.isDisplayed(isVisible)
 
-        iconImage.isDisplayed(visible) {
+        iconImage.isDisplayed(isVisible) {
             withSize(R.dimen.icon_128dp, R.dimen.icon_128dp)
         }.withDrawableAttr(iconId, R.attr.clContent)
 
-        titleText.isDisplayed(visible)
-                .withTextColor(R.attr.clContent)
-                .withTextSize(R.dimen.text_18sp)
+        titleText.isDisplayed(isVisible)
+            .withTextColor(R.attr.clContent)
+            .withTextSize(R.dimen.text_18sp)
 
-        detailsText.isDisplayed(visible)
+        detailsText.isDisplayed(isVisible)
                 .withTextColor(R.attr.clContentSecond)
                 .withTextSize(R.dimen.text_14sp)
     }

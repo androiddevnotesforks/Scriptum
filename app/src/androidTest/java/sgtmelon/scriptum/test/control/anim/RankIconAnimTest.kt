@@ -22,7 +22,7 @@ class RankIconAnimTest : ParentUiTest() {
     }
 
 
-    private companion object {
-        const val REPEAT_COUNT = 7
+    companion object {
+        private const val REPEAT_COUNT = 7
     }
 }

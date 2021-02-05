@@ -15,7 +15,7 @@ class TextNoteFocusTest : ParentUiTest() {
     @Test fun focusOnCreate() = data.createText().let {
         launch {
             mainScreen {
-                notesScreen(empty = true) {
+                notesScreen(isEmpty = true) {
                     openAddDialog { createText(it) { toolbar { assertFocus() } } }
                 }
             }

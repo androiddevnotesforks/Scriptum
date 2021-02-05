@@ -17,7 +17,7 @@ class NoteTrimTest : ParentUiTest() {
     @Test fun textNote() = data.createText().let {
         launch {
             mainScreen {
-                notesScreen(empty = true) {
+                notesScreen(isEmpty = true) {
                     openAddDialog {
                         createText(it) {
                             toolbar { onEnterName(nextString().plus(other = ".   as")) }
@@ -33,7 +33,7 @@ class NoteTrimTest : ParentUiTest() {
     @Test fun rollNote() = data.createRoll().let {
         launch {
             mainScreen {
-                notesScreen(empty = true) {
+                notesScreen(isEmpty = true) {
                     openAddDialog {
                         createRoll(it) {
                             toolbar { onEnterName(nextString().plus(other = ".   as")) }

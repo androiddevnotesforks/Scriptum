@@ -27,8 +27,8 @@ class RenameDialogUi(title: String) : ParentUi(), IDialogUi, IKeyboardOption {
 
     //endregion
 
-    fun onEnter(name: String, enabled: Boolean = true) = apply {
-        applyEnabled = enabled
+    fun onEnter(name: String, isEnabled: Boolean = true) = apply {
+        applyEnabled = isEnabled
 
         renameEnter.typeText(name)
         assert(name)
@@ -74,5 +74,4 @@ class RenameDialogUi(title: String) : ParentUi(), IDialogUi, IKeyboardOption {
             return RenameDialogUi(title).apply { waitOpen { assert() } }.apply(func)
         }
     }
-
 }

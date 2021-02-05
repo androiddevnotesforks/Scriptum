@@ -9,7 +9,7 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.main.MainActivity
 import sgtmelon.scriptum.test.ParentRotationTest
 
 /**
- * Test of [MainActivity] work with phone rotation
+ * Test of [MainActivity] work with phone rotation.
  */
 @RunWith(AndroidJUnit4::class)
 class MainRotationTest : ParentRotationTest() {
@@ -22,13 +22,13 @@ class MainRotationTest : ParentRotationTest() {
 
     @Test fun rankContentEmpty() = launch {
         mainScreen {
-            rankScreen(empty = true) { onRotate { assert(empty = true) } }
-            assert(fabVisible = false)
+            rankScreen(isEmpty = true) { onRotate { assert(isEmpty = true) } }
+            assert(isFabVisible = false)
         }
     }
 
     @Test fun rankContentList() = launch({ data.fillRank() }) {
-        mainScreen { rankScreen { onRotate { assert(empty = false) } }.assert(fabVisible = false) }
+        mainScreen { rankScreen { onRotate { assert(isEmpty = false) } }.assert(isFabVisible = false) }
     }
 
     @Test fun rankRenameDialog() = data.insertRank().let {
@@ -52,13 +52,13 @@ class MainRotationTest : ParentRotationTest() {
 
     @Test fun notesContentEmpty() = launch {
         mainScreen {
-            notesScreen(empty = true) { onRotate { assert(empty = true) } }
-            assert(fabVisible = true)
+            notesScreen(isEmpty = true) { onRotate { assert(isEmpty = true) } }
+            assert(isFabVisible = true)
         }
     }
 
     @Test fun notesContentList() = launch({ data.fillNotes() }) {
-        mainScreen { notesScreen { onRotate { assert(empty = false) } }.assert(fabVisible = true) }
+        mainScreen { notesScreen { onRotate { assert(isEmpty = false) } }.assert(isFabVisible = true) }
     }
 
     @Test fun notesTextNoteDialog() = data.insertText().let {
@@ -75,11 +75,11 @@ class MainRotationTest : ParentRotationTest() {
         startDateDialogTest(it)
     }
 
-    private fun startDateDialogTest(noteItem: NoteItem) {
+    private fun startDateDialogTest(item: NoteItem) {
         launch {
             mainScreen {
                 notesScreen {
-                    openNoteDialog(noteItem) { onNotification { onRotate { assert() } } }
+                    openNoteDialog(item) { onNotification { onRotate { assert() } } }
                 }
             }
         }
@@ -103,13 +103,13 @@ class MainRotationTest : ParentRotationTest() {
 
     @Test fun binContentEmpty() = launch {
         mainScreen {
-            binScreen(empty = true) { onRotate { assert(empty = true) } }
-            assert(fabVisible = false)
+            binScreen(isEmpty = true) { onRotate { assert(isEmpty = true) } }
+            assert(isFabVisible = false)
         }
     }
 
     @Test fun binContentList() = launch({ data.fillBin() }) {
-        mainScreen { binScreen { onRotate { assert(empty = false) } }.assert(fabVisible = false) }
+        mainScreen { binScreen { onRotate { assert(isEmpty = false) } }.assert(isFabVisible = false) }
     }
 
     @Test fun binClearDialog() = launch({ data.fillBin() }) {

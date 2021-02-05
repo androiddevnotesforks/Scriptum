@@ -17,9 +17,9 @@ import sgtmelon.scriptum.ui.part.toolbar.NoteToolbar
  * Class for UI control of [NoteActivity], [TextNoteFragment].
  */
 class TextNoteScreen(
-        override var state: State,
-        override var noteItem: NoteItem.Text,
-        override val isRankEmpty: Boolean
+    override var state: State,
+    override var item: NoteItem.Text,
+    override val isRankEmpty: Boolean
 ) : ParentUi(),
         INoteScreen<TextNoteScreen, NoteItem.Text>,
         NoteToolbar.ImeCallback,
@@ -50,7 +50,7 @@ class TextNoteScreen(
 
     //endregion
 
-    override var shadowItem: NoteItem.Text = noteItem.deepCopy()
+    override var shadowItem: NoteItem.Text = item.deepCopy()
 
     override val inputControl = InputControl()
 
@@ -97,7 +97,7 @@ class TextNoteScreen(
     override fun assertToolbarIme() = assertFocus()
 
     override fun afterConvert(func: RollNoteScreen.() -> Unit) {
-        RollNoteScreen(func, State.READ, noteItem.onConvert(), isRankEmpty)
+        RollNoteScreen(func, State.READ, item.onConvert(), isRankEmpty)
     }
 
     override fun onPressBack() {
@@ -106,12 +106,12 @@ class TextNoteScreen(
         if (state == State.EDIT || state == State.NEW) {
             if (shadowItem.isSaveEnabled()) {
                 state = State.READ
-                noteItem = shadowItem.deepCopy()
+                item = shadowItem.deepCopy()
                 inputControl.reset()
                 fullAssert()
             } else if (state == State.EDIT) {
                 state = State.READ
-                shadowItem = noteItem.deepCopy()
+                shadowItem = item.deepCopy()
                 inputControl.reset()
                 fullAssert()
             }
@@ -124,7 +124,7 @@ class TextNoteScreen(
     }
 
     fun assert() {
-        toolbarHolder.withBackgroundAppColor(theme, noteItem.color, needDark = false)
+        toolbarHolder.withBackgroundAppColor(theme, item.color, needDark = false)
                 .withSizeAttr(heightAttr = android.R.attr.actionBarSize)
         panelHolder.withBackgroundAttr(R.attr.clPrimary)
                 .withSize(heightId = R.dimen.note_panel_height)
@@ -138,36 +138,39 @@ class TextNoteScreen(
         when (state) {
             State.READ, State.BIN -> {
                 contentText.isDisplayed()
-                        .withBackgroundColor(android.R.color.transparent)
-                        .withText(noteItem.text, R.attr.clContent, R.dimen.text_18sp)
+                    .withBackgroundColor(android.R.color.transparent)
+                    .withText(item.text, R.attr.clContent, R.dimen.text_18sp)
 
-                contentEnter.isDisplayed(visible = false)
+                contentEnter.isDisplayed(isVisible = false)
             }
             State.EDIT, State.NEW -> {
-                contentText.isDisplayed(visible = false)
+                contentText.isDisplayed(isVisible = false)
 
                 /**
                  * TODO not work with: withImeAction(EditorInfo.IME_ACTION_UNSPECIFIED)
                  */
                 val text = shadowItem.text
                 contentEnter.isDisplayed()
-                        .withBackgroundColor(android.R.color.transparent)
-                        .apply {
-                            if (text.isNotEmpty()) {
-                                withText(text, R.attr.clContent, R.dimen.text_18sp)
-                            } else {
-                                withHint(R.string.hint_enter_text, R.attr.clDisable, R.dimen.text_18sp)
-                            }
+                    .withBackgroundColor(android.R.color.transparent)
+                    .apply {
+                        if (text.isNotEmpty()) {
+                            withText(text, R.attr.clContent, R.dimen.text_18sp)
+                        } else {
+                            withHint(R.string.hint_enter_text, R.attr.clDisable, R.dimen.text_18sp)
                         }
+                    }
             }
         }
     }
 
     companion object {
-        operator fun invoke(func: TextNoteScreen.() -> Unit, state: State,
-                            noteItem: NoteItem.Text, isRankEmpty: Boolean): TextNoteScreen {
-            return TextNoteScreen(state, noteItem, isRankEmpty).fullAssert().apply(func)
+        operator fun invoke(
+            func: TextNoteScreen.() -> Unit,
+            state: State,
+            item: NoteItem.Text,
+            isRankEmpty: Boolean
+        ): TextNoteScreen {
+            return TextNoteScreen(state, item, isRankEmpty).fullAssert().apply(func)
         }
     }
-
 }

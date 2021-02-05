@@ -33,17 +33,17 @@ class IntroScreen : ParentUi() {
             Scroll.START -> count - 1 downTo 0
             Scroll.END -> 0 until count - 1
         }) {
-            assert(it, enabled = it == count - 1)
+            assert(it, isEnabled = it == count - 1)
             onSwipe(scroll)
         }
 
         when (scroll) {
             Scroll.START -> assert()
-            Scroll.END -> assert(p = count - 1, enabled = true)
+            Scroll.END -> assert(p = count - 1, isEnabled = true)
         }
     }
 
-    private fun onSwipe(scroll: Scroll) = waitAfter(SWIPE_TIME) {
+    fun onSwipe(scroll: Scroll) = waitAfter(SWIPE_TIME) {
         when (scroll) {
             Scroll.START -> viewPager.swipeRight()
             Scroll.END -> viewPager.swipeLeft()
@@ -56,14 +56,14 @@ class IntroScreen : ParentUi() {
     }
 
 
-    fun assert(p: Int = 0, enabled: Boolean = false) = apply {
+    fun assert(p: Int = 0, isEnabled: Boolean = false) = apply {
         viewPager.isDisplayed()
         pageIndicator.isDisplayed()
 
         getTitleText(p).isDisplayed()
         getDetailsText(p).isDisplayed()
 
-        endButton.isEnabled(enabled).apply { if (enabled) isDisplayed() }
+        endButton.isEnabled(isEnabled).apply { if (isEnabled) isDisplayed() }
     }
 
     companion object {

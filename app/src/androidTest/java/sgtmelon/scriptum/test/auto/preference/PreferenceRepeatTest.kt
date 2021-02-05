@@ -16,7 +16,7 @@ class PreferenceRepeatTest : ParentUiTest() {
 
     @Test fun dialogClose() = launch {
         mainScreen {
-            notesScreen(empty = true) {
+            notesScreen(isEmpty = true) {
                 openPreference {
                     openRepeatDialog { onCloseSoft() }.assert()
                     openRepeatDialog { onClickCancel() }.assert()
@@ -38,7 +38,7 @@ class PreferenceRepeatTest : ParentUiTest() {
 
     private fun startSelectRepeat(@Repeat repeat: Int) = launch(before = {checkRepeat(repeat)}) {
         mainScreen {
-            notesScreen(empty = true) {
+            notesScreen(isEmpty = true) {
                 openPreference { openRepeatDialog { onClickItem(repeat).onClickApply() } }
             }
         }

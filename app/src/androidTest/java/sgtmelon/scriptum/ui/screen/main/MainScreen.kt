@@ -30,33 +30,34 @@ class MainScreen : ParentUi() {
     private var wasNavigate = false
     private var page = MainPage.NOTES
 
-    fun openPage(page: MainPage, empty: Boolean = false) = when (page) {
-        MainPage.RANK -> rankScreen(empty)
-        MainPage.NOTES -> notesScreen(empty)
-        MainPage.BIN -> binScreen(empty)
+    fun openPage(page: MainPage, isEmpty: Boolean = false) = when (page) {
+        MainPage.RANK -> rankScreen(isEmpty)
+        MainPage.NOTES -> notesScreen(isEmpty)
+        MainPage.BIN -> binScreen(isEmpty)
     }
 
-    fun rankScreen(empty: Boolean = false, func: RankScreen.() -> Unit = {}) = apply {
+    fun rankScreen(isEmpty: Boolean = false, func: RankScreen.() -> Unit = {}) = apply {
         wasNavigate = true
         onNavigateTo(MainPage.RANK)
 
-        RankScreen(func, empty)
+        RankScreen(func, isEmpty)
     }
 
     fun notesScreen(
-        empty: Boolean = false, hide: Boolean = false,
+        isEmpty: Boolean = false,
+        isHide: Boolean = false,
         func: NotesScreen.() -> Unit = {}
     ) = apply {
         if (wasNavigate) onNavigateTo(MainPage.NOTES)
 
-        NotesScreen(func, empty, hide)
+        NotesScreen(func, isEmpty, isHide)
     }
 
-    fun binScreen(empty: Boolean = false, func: BinScreen.() -> Unit = {}) = apply {
+    fun binScreen(isEmpty: Boolean = false, func: BinScreen.() -> Unit = {}) = apply {
         wasNavigate = true
         onNavigateTo(MainPage.BIN)
 
-        BinScreen(func, empty)
+        BinScreen(func, isEmpty)
     }
 
     fun openAddDialog(func: AddSheetDialogUi.() -> Unit = {}) = apply {
@@ -73,7 +74,7 @@ class MainScreen : ParentUi() {
             MainPage.BIN -> binMenuItem.click()
         }
 
-        assert(page, fabVisible = page == MainPage.NOTES)
+        assert(page, isFabVisible = page == MainPage.NOTES)
     }
 
     fun onScrollTop() = waitAfter(SCROLL_TIME) {
@@ -85,7 +86,7 @@ class MainScreen : ParentUi() {
     }
 
 
-    fun assert(page: MainPage? = null, fabVisible: Boolean? = null) = apply {
+    fun assert(page: MainPage? = null, isFabVisible: Boolean? = null) = apply {
         parentContainer.isDisplayed()
 
         toolbarHolder.withBackgroundAttr(R.attr.clPrimary)
@@ -103,14 +104,14 @@ class MainScreen : ParentUi() {
             MainPage.BIN -> binMenuItem.isSelected()
         }
 
-        if (fabVisible != null) addFab.isDisplayed(fabVisible)
+        if (isFabVisible != null) addFab.isDisplayed(isFabVisible)
     }
 
     companion object {
         private const val SCROLL_TIME = 500L
 
         operator fun invoke(func: MainScreen.() -> Unit): MainScreen {
-            return MainScreen().assert(MainPage.NOTES, fabVisible = true).apply(func)
+            return MainScreen().assert(MainPage.NOTES, isFabVisible = true).apply(func)
         }
     }
 

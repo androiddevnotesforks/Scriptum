@@ -85,7 +85,7 @@ class BindNoteTest : ParentNotificationTest() {
             mainScreen {
                 notesScreen {
                     openTextNote(it) { controlPanel { onDelete() } }
-                    onSee { assert(empty = true) }
+                    onSee { assert(isEmpty = true) }
                 }
             }
         }
@@ -98,7 +98,7 @@ class BindNoteTest : ParentNotificationTest() {
             mainScreen {
                 notesScreen {
                     openRollNote(it) { controlPanel { onDelete() } }
-                    onSee { assert(empty = true) }
+                    onSee { assert(isEmpty = true) }
                 }
             }
         }

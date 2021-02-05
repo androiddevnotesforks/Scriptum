@@ -24,8 +24,8 @@ import java.util.*
  * Class for UI control of [AlarmActivity].
  */
 class AlarmScreen(
-        private val noteItem: NoteItem,
-        private val dateList: List<String>?
+    private val item: NoteItem,
+    private val dateList: List<String>?
 ) : ParentRecyclerScreen(R.id.alarm_recycler), IPressBack {
 
     private val repeatArray = context.resources.getIntArray(R.array.pref_alarm_repeat_array)
@@ -46,17 +46,17 @@ class AlarmScreen(
     //endregion
 
     fun openTextNote(isRankEmpty: Boolean = true, func: TextNoteScreen.() -> Unit = {}) {
-        if (noteItem !is NoteItem.Text) throw NoteCastException()
+        if (item !is NoteItem.Text) throw NoteCastException()
 
         recyclerView.click(p = 0)
-        TextNoteScreen(func, State.READ, noteItem, isRankEmpty)
+        TextNoteScreen(func, State.READ, item, isRankEmpty)
     }
 
     fun openRollNote(isRankEmpty: Boolean = true, func: RollNoteScreen.() -> Unit = {}) {
-        if (noteItem !is NoteItem.Roll) throw NoteCastException()
+        if (item !is NoteItem.Roll) throw NoteCastException()
 
         recyclerView.click(p = 0)
-        RollNoteScreen(func, State.READ, noteItem, isRankEmpty)
+        RollNoteScreen(func, State.READ, item, isRankEmpty)
     }
 
     fun onClickDisable() {
@@ -82,23 +82,21 @@ class AlarmScreen(
             calendar.add(Calendar.MINUTE, 1)
         }
 
-        noteItem.alarmDate = calendar.getText()
+        item.alarmDate = calendar.getText()
     }
 
 
-    fun onAssertItem(noteItem: NoteItem) {
-        getItem().assert(noteItem)
-    }
+    fun onAssertItem(item: NoteItem) = getItem().assert(item)
 
     fun assert() {
         parentContainer.isDisplayed()
 
-        val fillColor = context.getAppSimpleColor(noteItem.color, getRippleShade(theme))
+        val fillColor = context.getAppSimpleColor(item.color, getRippleShade(theme))
         rippleContainer.isDisplayed().withTag(fillColor)
 
         logoView.isDisplayed()
-                .withSize(R.dimen.icon_128dp, R.dimen.icon_128dp)
-                .withDrawableColor(R.mipmap.img_logo)
+            .withSize(R.dimen.icon_128dp, R.dimen.icon_128dp)
+            .withDrawableColor(R.mipmap.img_logo)
 
         recyclerView.isDisplayed()
 
@@ -107,16 +105,19 @@ class AlarmScreen(
         disableButton.isDisplayed().withText(R.string.button_disable, R.attr.clAccent)
         repeatButton.isDisplayed().withText(R.string.button_repeat, R.attr.clAccent)
         moreButton.isDisplayed()
-                .withDrawableAttr(R.drawable.ic_more, R.attr.clAccent)
-                .withContentDescription(R.string.description_button_alarm_more)
+            .withDrawableAttr(R.drawable.ic_more, R.attr.clAccent)
+            .withContentDescription(R.string.description_button_alarm_more)
     }
 
     companion object {
-        operator fun invoke(func: AlarmScreen.() -> Unit, noteItem: NoteItem,
-                            dateList: List<String>? = null): AlarmScreen {
-            return AlarmScreen(noteItem, dateList)
-                    .apply { waitBefore(time = 500) { assert() } }
-                    .apply(func)
+        operator fun invoke(
+            func: AlarmScreen.() -> Unit,
+            item: NoteItem,
+            dateList: List<String>? = null
+        ): AlarmScreen {
+            return AlarmScreen(item, dateList)
+                .apply { waitBefore(time = 500) { assert() } }
+                .apply(func)
         }
     }
 
@@ -126,5 +127,4 @@ class AlarmScreen(
     private fun getRippleShade(@Theme theme: Int): ColorShade {
         return if (theme == Theme.LIGHT) ColorShade.ACCENT else ColorShade.DARK
     }
-
 }

@@ -12,13 +12,13 @@ import sgtmelon.scriptum.ui.ParentRecyclerScreen
  * Class for UI control of [SingleDialog] with rank list.
  */
 class RankDialogUi(
-        private val noteItem: NoteItem,
-        private val rankList: List<RankItem>,
-        private val callback: Callback
+    private val item: NoteItem,
+    private val rankList: List<RankItem>,
+    private val callback: Callback
 ) : ParentRecyclerScreen(R.id.select_dialog_listview),
         IDialogUi {
 
-    private var check = noteItem.rankPs
+    private var check = item.rankPs
 
     //region Views
 
@@ -39,7 +39,7 @@ class RankDialogUi(
 
         check = p - 1
 
-        if (check == noteItem.rankPs) {
+        if (check == item.rankPs) {
             onClickItem()
         } else {
             if (check == -1) noCategoryButton.click() else getItem(rankList[check].name).click()
@@ -51,7 +51,7 @@ class RankDialogUi(
     fun onClickCancel() = waitClose { cancelButton.click() }
 
     fun onClickApply() = waitClose {
-        if (noteItem.rankPs == check) throw IllegalAccessException("Apply button not enabled")
+        if (item.rankPs == check) throw IllegalAccessException("Apply button not enabled")
 
         applyButton.click()
         callback.onResultRankDialog(rankList.getOrNull(check))
@@ -61,31 +61,32 @@ class RankDialogUi(
         recyclerView.isDisplayed()
         titleText.isDisplayed()
 
-        noCategoryButton.isDisplayed().isChecked(checked = check == -1)
+        noCategoryButton.isDisplayed().isChecked(isChecked = check == -1)
         for (it in rankList) {
-            getItem(it.name).isDisplayed().isChecked(checked = check == it.position)
+            getItem(it.name).isDisplayed().isChecked(isChecked = check == it.position)
         }
 
         cancelButton.isDisplayed().isEnabled().withTextColor(R.attr.clAccent)
-        applyButton.isDisplayed().isEnabled(enabled = noteItem.rankPs != check) {
+        applyButton.isDisplayed().isEnabled(isEnabled = item.rankPs != check) {
             withTextColor(R.attr.clAccent)
         }
     }
 
 
     interface Callback {
-        fun onResultRankDialog(rankItem: RankItem?)
+        fun onResultRankDialog(item: RankItem?)
     }
 
     companion object {
-        operator fun invoke(func: RankDialogUi.() -> Unit,
-                            noteItem: NoteItem,
-                            rankList: List<RankItem>,
-                            callback: Callback): RankDialogUi {
-            return RankDialogUi(noteItem, rankList, callback)
-                    .apply { waitOpen { assert() } }
-                    .apply(func)
+        operator fun invoke(
+            func: RankDialogUi.() -> Unit,
+            item: NoteItem,
+            rankList: List<RankItem>,
+            callback: Callback
+        ): RankDialogUi {
+            return RankDialogUi(item, rankList, callback)
+                .apply { waitOpen { assert() } }
+                .apply(func)
         }
     }
-
 }

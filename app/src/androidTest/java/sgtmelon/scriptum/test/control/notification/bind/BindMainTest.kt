@@ -69,7 +69,7 @@ class BindMainTest : ParentNotificationTest() {
             mainScreen {
                 notesScreen()
                 rankScreen { onSee { onClickVisible() } }
-                notesScreen(empty = true, hide = true)
+                notesScreen(isEmpty = true, isHide = true)
                 rankScreen { onSee { onClickVisible() } }
                 notesScreen { openNoteDialog(it) { onSee { onBind() } } }
             }
@@ -81,7 +81,7 @@ class BindMainTest : ParentNotificationTest() {
             mainScreen {
                 notesScreen()
                 rankScreen { onSee { onClickVisible() } }
-                notesScreen(empty = true, hide = true)
+                notesScreen(isEmpty = true, isHide = true)
                 rankScreen { onSee { onLongClickVisible() } }
                 notesScreen { openNoteDialog(it) { onSee { onBind() } } }
             }
@@ -92,7 +92,7 @@ class BindMainTest : ParentNotificationTest() {
         launch {
             mainScreen {
                 rankScreen { onSee { onClickVisible() } }
-                notesScreen(empty = true, hide = true)
+                notesScreen(isEmpty = true, isHide = true)
                 rankScreen { onSee { onClickCancel() } }
                 notesScreen { openNoteDialog(it) { onSee { onBind() } } }
             }

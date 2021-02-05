@@ -15,7 +15,7 @@ interface INoteScreen<T : ParentUi, N: NoteItem>  {
 
     var state: State
 
-    var noteItem: N
+    var item: N
 
     /**
      * Item for changes in edit mode.

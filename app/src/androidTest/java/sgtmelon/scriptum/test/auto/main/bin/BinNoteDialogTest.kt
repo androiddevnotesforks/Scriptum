@@ -14,15 +14,15 @@ class BinNoteDialogTest : ParentUiTest() {
 
     @Test fun textDialogClose() = data.insertTextToBin().let {
         launch {
-            mainScreen { binScreen { openNoteDialog(it) { onCloseSoft() }.assert(empty = false) } }
+            mainScreen { binScreen { openNoteDialog(it) { onCloseSoft() }.assert(isEmpty = false) } }
         }
     }
 
     @Test fun textDialogRestore() = data.insertTextToBin().let {
         launch {
             mainScreen {
-                notesScreen(empty = true)
-                binScreen { openNoteDialog(it) { onRestore() }.assert(empty = true) }
+                notesScreen(isEmpty = true)
+                binScreen { openNoteDialog(it) { onRestore() }.assert(isEmpty = true) }
                 notesScreen()
             }
         }
@@ -31,8 +31,8 @@ class BinNoteDialogTest : ParentUiTest() {
     @Test fun textDialogClear() = data.insertTextToBin().let {
         launch {
             mainScreen {
-                binScreen { openNoteDialog(it) { onClear() }.assert(empty = true) }
-                notesScreen(empty = true)
+                binScreen { openNoteDialog(it) { onClear() }.assert(isEmpty = true) }
+                notesScreen(isEmpty = true)
             }
         }
     }
@@ -40,15 +40,15 @@ class BinNoteDialogTest : ParentUiTest() {
 
     @Test fun rollDialogClose() = data.insertRollToBin().let {
         launch {
-            mainScreen { binScreen { openNoteDialog(it) { onCloseSoft() }.assert(empty = false) } }
+            mainScreen { binScreen { openNoteDialog(it) { onCloseSoft() }.assert(isEmpty = false) } }
         }
     }
 
     @Test fun rollDialogRestore() = data.insertRollToBin().let {
         launch {
             mainScreen {
-                notesScreen(empty = true)
-                binScreen { openNoteDialog(it) { onRestore() }.assert(empty = true) }
+                notesScreen(isEmpty = true)
+                binScreen { openNoteDialog(it) { onRestore() }.assert(isEmpty = true) }
                 notesScreen()
             }
         }
@@ -57,8 +57,8 @@ class BinNoteDialogTest : ParentUiTest() {
     @Test fun rollDialogClear() = data.insertRollToBin().let {
         launch {
             mainScreen {
-                binScreen { openNoteDialog(it) { onClear() }.assert(empty = true) }
-                notesScreen(empty = true)
+                binScreen { openNoteDialog(it) { onClear() }.assert(isEmpty = true) }
+                notesScreen(isEmpty = true)
             }
         }
     }

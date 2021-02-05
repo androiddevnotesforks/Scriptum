@@ -17,6 +17,7 @@ import sgtmelon.scriptum.ui.dialog.RenameDialogUi
 import sgtmelon.scriptum.ui.part.info.SimpleInfoContainer
 import sgtmelon.scriptum.ui.part.panel.SnackbarPanel
 import sgtmelon.scriptum.ui.part.toolbar.RankToolbar
+import kotlin.math.min
 
 /**
  * Class for UI control of [RankFragment].
@@ -35,8 +36,8 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
         return SnackbarPanel(message, action, func)
     }
 
-    private fun getItem(rankItem: RankItem): Item {
-        return Item(recyclerView, hasDescendant(getView(R.id.rank_name_text, rankItem.name)))
+    private fun getItem(item: RankItem): Item {
+        return Item(recyclerView, hasDescendant(getView(R.id.rank_name_text, item.name)))
     }
 
     private fun getItem(position: Int) = Item(recyclerView, position)
@@ -55,8 +56,8 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
         RenameDialogUi(func, title)
     }
 
-    fun onClickVisible(rankItem: RankItem) = apply {
-        waitAfter(ANIM_TIME) { getItem(rankItem).visibleButton.click() }
+    fun onClickVisible(item: RankItem) = apply {
+        waitAfter(ANIM_TIME) { getItem(item).visibleButton.click() }
     }
 
     fun onClickVisible(p: Int? = random) = apply {
@@ -65,8 +66,8 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
         waitAfter(ANIM_TIME) { getItem(p).visibleButton.click() }
     }
 
-    fun onLongClickVisible(rankItem: RankItem) = apply {
-        waitAfter(ANIM_TIME) { getItem(rankItem).visibleButton.longClick() }
+    fun onLongClickVisible(item: RankItem) = apply {
+        waitAfter(ANIM_TIME) { getItem(item).visibleButton.longClick() }
     }
 
     fun onLongClickVisible(p: Int? = random) = apply {
@@ -75,10 +76,10 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
         waitAfter(ANIM_TIME) { getItem(p).visibleButton.longClick() }
     }
 
-    fun onClickCancel(p: Int? = random, wait: Boolean = false) = apply {
+    fun onClickCancel(p: Int? = random, isWait: Boolean = false) = apply {
         if (p == null) return@apply
 
-        waitAfter(time = if (wait) SNACK_BAR_TIME else 0) {
+        waitAfter(time = if (isWait) SNACK_BAR_TIME else 0) {
             getItem(p).cancelButton.click()
             getSnackbar { assert() }
         }
@@ -86,17 +87,15 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
 
 
     // TODO add alternative fast assertion by position (use openRenameDialog)
-    fun onAssertItem(rankItem: RankItem) {
-        getItem(rankItem).assert(rankItem)
-    }
+    fun onAssertItem(item: RankItem) = getItem(item).assert(item)
 
-    fun assert(empty: Boolean) = apply {
+    fun assert(isEmpty: Boolean) = apply {
         toolbar { assert() }
 
         parentContainer.isDisplayed()
 
-        infoContainer.assert(empty)
-        recyclerView.isDisplayed(!empty)
+        infoContainer.assert(isEmpty)
+        recyclerView.isDisplayed(!isEmpty)
     }
 
     fun assertSnackbarDismiss() {
@@ -170,16 +169,26 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
             val isNotificationVisible = item.notificationCount != 0
             val isBindVisible = item.bindCount != 0
 
-            imageContainer.isDisplayed(visible = isNotificationVisible || isBindVisible)
+            imageContainer.isDisplayed(isVisible = isNotificationVisible || isBindVisible)
 
-            var indicator = min(item.notificationCount, RankHolder.INDICATOR_MAX_COUNT).toString()
+            var indicator = if (RankHolder.isMaxTest) {
+                RankHolder.INDICATOR_MAX_COUNT.toString()
+            } else {
+                min(item.notificationCount, RankHolder.INDICATOR_MAX_COUNT).toString()
+            }
+
             notificationText.isDisplayed(isNotificationVisible)
                 .withText(indicator, R.attr.clContentSecond, R.dimen.text_14sp)
             notificationImage.isDisplayed(isNotificationVisible) {
                 withSize(R.dimen.icon_16dp, R.dimen.icon_16dp)
             }.withDrawableAttr(R.drawable.ic_notifications, R.attr.clContent)
 
-            indicator = min(item.bindCount, RankHolder.INDICATOR_MAX_COUNT).toString()
+            indicator = if (RankHolder.isMaxTest) {
+                RankHolder.INDICATOR_MAX_COUNT.toString()
+            } else {
+                min(item.bindCount, RankHolder.INDICATOR_MAX_COUNT).toString()
+            }
+
             bindText.isDisplayed(isBindVisible)
                 .withText(indicator, R.attr.clContentSecond, R.dimen.text_14sp)
             bindImage.isDisplayed(isBindVisible) {
@@ -192,9 +201,8 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
     companion object {
         private const val ANIM_TIME = 300L
 
-        operator fun invoke(func: RankScreen.() -> Unit, empty: Boolean): RankScreen {
-            return RankScreen().assert(empty).apply(func)
+        operator fun invoke(func: RankScreen.() -> Unit, isEmpty: Boolean): RankScreen {
+            return RankScreen().assert(isEmpty).apply(func)
         }
     }
-
 }

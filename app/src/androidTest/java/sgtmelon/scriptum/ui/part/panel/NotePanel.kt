@@ -65,14 +65,14 @@ class NotePanel<T: ParentUi, N : NoteItem>(
      */
     fun onRestore() = callback.throwOnWrongState(State.BIN) {
         restoreButton.click()
-        callback.noteItem.change = sgtmelon.extension.getTime()
+        callback.item.change = sgtmelon.extension.getTime()
     }
 
     fun onRestoreOpen() = apply {
         callback.throwOnWrongState(State.BIN) {
             restoreOpenButton.click()
             callback.apply {
-                noteItem.change = sgtmelon.extension.getTime()
+                item.change = sgtmelon.extension.getTime()
                 state = State.READ
             }.fullAssert()
         }
@@ -119,7 +119,7 @@ class NotePanel<T: ParentUi, N : NoteItem>(
         callback.throwOnWrongState(State.EDIT, State.NEW) {
             colorButton.click()
 
-            val check = callback.noteItem.color
+            val check = callback.item.color
             ColorDialogUi(func, ColorDialogUi.Place.NOTE, check, callback = this)
         }
     }
@@ -131,18 +131,18 @@ class NotePanel<T: ParentUi, N : NoteItem>(
             callback.apply {
                 state = State.READ
 
-                when(noteItem) {
+                when (item) {
                     is NoteItem.Text -> {
                         val copyItem = (shadowItem as? NoteItem.Text)?.deepCopy() ?: onThrowCast()
-                        noteItem = copyItem as? N ?: onThrowCast()
+                        item = copyItem as? N ?: onThrowCast()
 
-                        (noteItem as? NoteItem.Text)?.onSave() ?: onThrowCast()
+                        (item as? NoteItem.Text)?.onSave() ?: onThrowCast()
                     }
                     is NoteItem.Roll -> {
                         val copyItem = (shadowItem as? NoteItem.Roll)?.deepCopy() ?: onThrowCast()
-                        noteItem = copyItem as? N ?: onThrowCast()
+                        item = copyItem as? N ?: onThrowCast()
 
-                        (noteItem as? NoteItem.Roll)?.onSave() ?: onThrowCast()
+                        (item as? NoteItem.Roll)?.onSave() ?: onThrowCast()
                     }
                 }
 
@@ -158,46 +158,46 @@ class NotePanel<T: ParentUi, N : NoteItem>(
             callback.apply {
                 state = State.EDIT
 
-                when(noteItem) {
+                when (item) {
                     is NoteItem.Text -> {
                         val copyItem = (shadowItem as? NoteItem.Text)?.deepCopy() ?: onThrowCast()
-                        noteItem = copyItem as? N ?: onThrowCast()
+                        item = copyItem as? N ?: onThrowCast()
 
-                        (noteItem as? NoteItem.Text)?.onSave() ?: onThrowCast()
+                        (item as? NoteItem.Text)?.onSave() ?: onThrowCast()
                     }
                     is NoteItem.Roll -> {
                         val copyItem = (shadowItem as? NoteItem.Roll)?.deepCopy() ?: onThrowCast()
-                        noteItem = copyItem as? N ?: onThrowCast()
+                        item = copyItem as? N ?: onThrowCast()
 
-                        (noteItem as? NoteItem.Roll)?.onSave() ?: onThrowCast()
+                        (item as? NoteItem.Roll)?.onSave() ?: onThrowCast()
                     }
                 }
             }.fullAssert()
         }
     }
 
-    fun onNotification(updateDate: Boolean = false, func: DateDialogUi.() -> Unit = {}) {
+    fun onNotification(isUpdateDate: Boolean = false, func: DateDialogUi.() -> Unit = {}) {
         callback.throwOnWrongState(State.READ) {
             notificationButton.click()
-            DateDialogUi(func, updateDate, callback = this)
+            DateDialogUi(func, isUpdateDate, callback = this)
         }
     }
 
     fun onBind() = apply {
         callback.throwOnWrongState(State.READ) {
             bindButton.click()
-            with(callback.noteItem) { isStatus = !isStatus }
+            with(callback.item) { isStatus = !isStatus }
         }
     }
 
     fun onConvert(func: ConvertDialogUi.() -> Unit = {}) = callback.throwOnWrongState(State.READ) {
         convertButton.click()
-        ConvertDialogUi(func, callback.noteItem, callback = this)
+        ConvertDialogUi(func, callback.item, callback = this)
     }
 
     fun onDelete() = callback.throwOnWrongState(State.READ) {
         deleteButton.click()
-        callback.noteItem.change = sgtmelon.extension.getTime()
+        callback.item.change = sgtmelon.extension.getTime()
     }
 
     fun onEdit() = apply {
@@ -207,13 +207,13 @@ class NotePanel<T: ParentUi, N : NoteItem>(
             callback.apply {
                 state = State.EDIT
 
-                when(noteItem) {
+                when (item) {
                     is NoteItem.Text -> {
-                        val copyItem = (noteItem as? NoteItem.Text)?.deepCopy() ?: onThrowCast()
+                        val copyItem = (item as? NoteItem.Text)?.deepCopy() ?: onThrowCast()
                         shadowItem = copyItem as? N ?: onThrowCast()
                     }
                     is NoteItem.Roll -> {
-                        val copyItem = (noteItem as? NoteItem.Roll)?.deepCopy() ?: onThrowCast()
+                        val copyItem = (item as? NoteItem.Roll)?.deepCopy() ?: onThrowCast()
                         shadowItem = copyItem as? N ?: onThrowCast()
                     }
                 }
@@ -226,33 +226,33 @@ class NotePanel<T: ParentUi, N : NoteItem>(
 
     override fun onDateDialogResetResult() {
         callback.apply {
-            noteItem.alarmDate = DbData.Alarm.Default.DATE
+            item.alarmDate = DbData.Alarm.Default.DATE
             fullAssert()
         }
     }
 
     override fun onTimeDialogResult(calendar: Calendar) {
         callback.apply {
-            noteItem.alarmId = 1
-            noteItem.alarmDate = calendar.getText()
+            item.alarmId = 1
+            item.alarmDate = calendar.getText()
 
             fullAssert()
         }
     }
 
     override fun onConvertDialogResult() = with(callback) {
-        when(noteItem) {
+        when (item) {
             is NoteItem.Text -> {
                 (shadowItem as NoteItem.Text).onConvert()
 
                 val copyItem = (shadowItem as? NoteItem.Text)?.deepCopy() ?: onThrowCast()
-                noteItem = copyItem as? N ?: onThrowCast()
+                item = copyItem as? N ?: onThrowCast()
             }
             is NoteItem.Roll -> {
                 (shadowItem as NoteItem.Roll).onConvert()
 
                 val copyItem = (shadowItem as? NoteItem.Roll)?.deepCopy() ?: onThrowCast()
-                noteItem = copyItem as? N ?: onThrowCast()
+                item = copyItem as? N ?: onThrowCast()
             }
         }
     }
@@ -266,10 +266,10 @@ class NotePanel<T: ParentUi, N : NoteItem>(
         }
     }
 
-    override fun onResultRankDialog(rankItem: RankItem?) {
+    override fun onResultRankDialog(item: RankItem?) {
         callback.apply {
-            val idTo = rankItem?.id ?: -1
-            val psTo = rankItem?.position ?: -1
+            val idTo = item?.id ?: -1
+            val psTo = item?.position ?: -1
 
             inputControl.onRankChange(shadowItem.rankId, shadowItem.rankPs, idTo, psTo)
             shadowItem.apply {
@@ -286,7 +286,7 @@ class NotePanel<T: ParentUi, N : NoteItem>(
         callback.apply {
             parentContainer.isDisplayed()
 
-            dividerView.isDisplayed(when(noteItem.type) {
+            dividerView.isDisplayed(when (item.type) {
                 NoteType.TEXT -> true
                 NoteType.ROLL -> state == State.EDIT || state == State.NEW
             }) {
@@ -299,87 +299,88 @@ class NotePanel<T: ParentUi, N : NoteItem>(
             when (state) {
                 State.READ -> {
                     readContainer.isDisplayed()
-                    binContainer.isDisplayed(visible = false)
-                    editContainer.isDisplayed(visible = false)
+                    binContainer.isDisplayed(isVisible = false)
+                    editContainer.isDisplayed(isVisible = false)
 
                     notificationButton.isDisplayed()
-                            .withDrawableAttr(R.drawable.ic_notifications, getTint(noteItem.haveAlarm()))
-                            .withContentDescription(R.string.description_note_notification)
+                        .withDrawableAttr(R.drawable.ic_notifications, getTint(item.haveAlarm()))
+                        .withContentDescription(R.string.description_note_notification)
 
-                    val drawable = when (noteItem.type) {
+                    val drawable = when (item.type) {
                         NoteType.TEXT -> R.drawable.ic_bind_text
                         NoteType.ROLL -> R.drawable.ic_bind_roll
                     }
 
                     bindButton.isDisplayed()
-                            .withDrawableAttr(drawable, getTint(noteItem.isStatus))
-                            .withContentDescription(if (noteItem.isStatus) {
-                                R.string.description_note_unbind
-                            } else {
-                                R.string.description_note_bind
-                            })
+                        .withDrawableAttr(drawable, getTint(item.isStatus))
+                        .withContentDescription(if (item.isStatus) {
+                            R.string.description_note_unbind
+                        } else {
+                            R.string.description_note_bind
+                        })
 
                     convertButton.isDisplayed()
-                            .withDrawableAttr(R.drawable.ic_convert, R.attr.clContent)
-                            .withContentDescription(when(noteItem.type) {
-                                NoteType.TEXT -> R.string.description_note_convert_text
-                                NoteType.ROLL -> R.string.description_note_convert_roll
-                            })
+                        .withDrawableAttr(R.drawable.ic_convert, R.attr.clContent)
+                        .withContentDescription(when (item.type) {
+                            NoteType.TEXT -> R.string.description_note_convert_text
+                            NoteType.ROLL -> R.string.description_note_convert_roll
+                        })
 
                     deleteButton.isDisplayed()
-                            .withDrawableAttr(R.drawable.ic_bin, R.attr.clContent)
-                            .withContentDescription(R.string.description_note_delete)
+                        .withDrawableAttr(R.drawable.ic_bin, R.attr.clContent)
+                        .withContentDescription(R.string.description_note_delete)
 
                     editButton.withText(R.string.button_note_edit).isDisplayed()
                 }
                 State.BIN -> {
-                    readContainer.isDisplayed(visible = false)
+                    readContainer.isDisplayed(isVisible = false)
                     binContainer.isDisplayed()
-                    editContainer.isDisplayed(visible = false)
+                    editContainer.isDisplayed(isVisible = false)
 
                     restoreButton.isDisplayed()
-                            .withDrawableAttr(R.drawable.ic_restore, R.attr.clContent)
-                            .withContentDescription(R.string.description_note_restore)
+                        .withDrawableAttr(R.drawable.ic_restore, R.attr.clContent)
+                        .withContentDescription(R.string.description_note_restore)
 
                     restoreOpenButton.isDisplayed()
-                            .withDrawableAttr(R.drawable.ic_restore_open, R.attr.clContent)
-                            .withContentDescription(R.string.description_note_restore_open)
+                        .withDrawableAttr(R.drawable.ic_restore_open, R.attr.clContent)
+                        .withContentDescription(R.string.description_note_restore_open)
 
                     clearButton.isDisplayed()
-                            .withDrawableAttr(R.drawable.ic_clear, R.attr.clAccent)
-                            .withContentDescription(R.string.description_note_clear)
+                        .withDrawableAttr(R.drawable.ic_clear, R.attr.clAccent)
+                        .withContentDescription(R.string.description_note_clear)
                 }
                 State.EDIT, State.NEW -> {
-                    readContainer.isDisplayed(visible = false)
-                    binContainer.isDisplayed(visible = false)
+                    readContainer.isDisplayed(isVisible = false)
+                    binContainer.isDisplayed(isVisible = false)
                     editContainer.isDisplayed()
 
                     val undo = inputControl.isUndoAccess
                     undoButton.isDisplayed()
-                            .withDrawableAttr(R.drawable.ic_undo, getEnableTint(undo))
-                            .withContentDescription(R.string.description_note_undo)
-                            .isEnabled(undo)
+                        .withDrawableAttr(R.drawable.ic_undo, getEnableTint(undo))
+                        .withContentDescription(R.string.description_note_undo)
+                        .isEnabled(undo)
 
                     val redo = inputControl.isRedoAccess
                     redoButton.isDisplayed()
-                            .withDrawableAttr(R.drawable.ic_redo, getEnableTint(redo))
-                            .withContentDescription(R.string.description_note_redo)
-                            .isEnabled(redo)
+                        .withDrawableAttr(R.drawable.ic_redo, getEnableTint(redo))
+                        .withContentDescription(R.string.description_note_redo)
+                        .isEnabled(redo)
 
                     rankButton.isDisplayed()
-                            .withDrawableAttr(R.drawable.ic_rank, if (isRankEmpty) {
-                                getEnableTint(b = false)
-                            } else {
-                                getTint(shadowItem.haveRank())
-                            })
-                            .withContentDescription(R.string.description_note_rank)
-                            .isEnabled(!isRankEmpty)
+                        .withDrawableAttr(R.drawable.ic_rank, if (isRankEmpty) {
+                            getEnableTint(b = false)
+                        } else {
+                            getTint(shadowItem.haveRank())
+                        })
+                        .withContentDescription(R.string.description_note_rank)
+                        .isEnabled(!isRankEmpty)
 
                     colorButton.isDisplayed()
-                            .withDrawableAttr(R.drawable.ic_palette, R.attr.clContent)
-                            .withContentDescription(R.string.description_note_color)
+                        .withDrawableAttr(R.drawable.ic_palette, R.attr.clContent)
+                        .withContentDescription(R.string.description_note_color)
 
-                    saveButton.withText(R.string.button_note_save).isDisplayed().isEnabled(shadowItem.isSaveEnabled())
+                    saveButton.withText(R.string.button_note_save).isDisplayed()
+                        .isEnabled(shadowItem.isSaveEnabled())
                 }
             }
         }

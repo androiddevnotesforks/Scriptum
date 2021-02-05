@@ -26,33 +26,33 @@ fun matchOnView(viewMatcher: Matcher<View>, checkMatcher: Matcher<in View>) {
 
 
 fun Matcher<View>.isDisplayed(
-    visible: Boolean = true,
+    isVisible: Boolean = true,
     onVisible: Matcher<View>.() -> Unit = {}
 ) = also {
-    matchOnView(it, if (visible) ViewMatchers.isDisplayed() else not(ViewMatchers.isDisplayed()))
+    matchOnView(it, if (isVisible) ViewMatchers.isDisplayed() else not(ViewMatchers.isDisplayed()))
 
-    if (visible) apply(onVisible)
+    if (isVisible) apply(onVisible)
 }
 
 fun Matcher<View>.isEnabled(
-    enabled: Boolean = true,
+    isEnabled: Boolean = true,
     onEnabled: Matcher<View>.() -> Unit = {}
 ) = also {
-    matchOnView(it, if (enabled) ViewMatchers.isEnabled() else not(ViewMatchers.isEnabled()))
+    matchOnView(it, if (isEnabled) ViewMatchers.isEnabled() else not(ViewMatchers.isEnabled()))
 
-    if (enabled) apply(onEnabled)
+    if (isEnabled) apply(onEnabled)
 }
 
-fun Matcher<View>.isSelected(selected: Boolean = true) = also {
-    matchOnView(it, if (selected) ViewMatchers.isSelected() else not(ViewMatchers.isSelected()))
+fun Matcher<View>.isSelected(isSelected: Boolean = true) = also {
+    matchOnView(it, if (isSelected) ViewMatchers.isSelected() else not(ViewMatchers.isSelected()))
 }
 
-fun Matcher<View>.isChecked(checked: Boolean = true) = also {
-    matchOnView(it, if (checked) ViewMatchers.isChecked() else not(ViewMatchers.isChecked()))
+fun Matcher<View>.isChecked(isChecked: Boolean = true) = also {
+    matchOnView(it, if (isChecked) ViewMatchers.isChecked() else not(ViewMatchers.isChecked()))
 }
 
-fun Matcher<View>.isFocused(focused: Boolean = true) = also {
-    matchOnView(it, FocusMather(focused))
+fun Matcher<View>.isFocused(isFocused: Boolean = true) = also {
+    matchOnView(it, FocusMather(isFocused))
 }
 
 fun Matcher<View>.withText(

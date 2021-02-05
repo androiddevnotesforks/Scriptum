@@ -48,42 +48,48 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler), IPr
         toolbar.getToolbarButton().click()
     }
 
-    fun openText(noteItem: NoteItem.Text, p: Int? = random, isRankEmpty: Boolean = true,
-                 func: TextNoteScreen.() -> Unit = {}) {
+    fun openText(
+        item: NoteItem.Text,
+        p: Int? = random,
+        isRankEmpty: Boolean = true,
+        func: TextNoteScreen.() -> Unit = {}
+    ) {
         if (p == null) return
 
         getItem(p).view.click()
-        TextNoteScreen(func, State.READ, noteItem, isRankEmpty)
+        TextNoteScreen(func, State.READ, item, isRankEmpty)
     }
 
-    fun openRoll(noteItem: NoteItem.Roll, p: Int? = random, isRankEmpty: Boolean = true,
-                 func: RollNoteScreen.() -> Unit = {}) {
+    fun openRoll(
+        item: NoteItem.Roll,
+        p: Int? = random,
+        isRankEmpty: Boolean = true,
+        func: RollNoteScreen.() -> Unit = {}
+    ) {
         if (p == null) return
 
         getItem(p).view.click()
-        RollNoteScreen(func, State.READ, noteItem, isRankEmpty)
+        RollNoteScreen(func, State.READ, item, isRankEmpty)
     }
 
-    fun onClickCancel(p: Int? = random, wait: Boolean = false) = apply {
+    fun onClickCancel(p: Int? = random, isWait: Boolean = false) = apply {
         if (p == null) return@apply
 
-        waitAfter(time = if (wait) SNACK_BAR_TIME else 0) {
+        waitAfter(time = if (isWait) SNACK_BAR_TIME else 0) {
             getItem(p).cancelButton.click()
             getSnackbar { assert() }
         }
     }
 
 
-    fun onAssertItem(p: Int, noteItem: NoteItem) {
-        getItem(p).assert(noteItem)
-    }
+    fun onAssertItem(p: Int, item: NoteItem) = getItem(p).assert(item)
 
-    fun assert(empty: Boolean) = apply {
+    fun assert(isEmpty: Boolean) = apply {
         parentContainer.isDisplayed()
         toolbar.assert()
 
-        infoContainer.assert(empty)
-        recyclerView.isDisplayed(!empty)
+        infoContainer.assert(isEmpty)
+        recyclerView.isDisplayed(!isEmpty)
     }
 
     fun assertSnackbarDismiss() {
@@ -100,7 +106,7 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler), IPr
      * Class for UI control of [NotificationAdapter].
      */
     private class Item(listMatcher: Matcher<View>, p: Int) :
-            ParentRecyclerItem<NoteItem>(listMatcher, p) {
+        ParentRecyclerItem<NoteItem>(listMatcher, p) {
 
         private val parentCard by lazy { getChild(getViewById(R.id.notification_parent_card)) }
 
@@ -122,22 +128,23 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler), IPr
             dateText.isDisplayed().withText(date, R.attr.clContentSecond, R.dimen.text_14sp)
 
             colorView.isDisplayed()
-                    .withSize(widthId = R.dimen.layout_8dp)
-                    .withColorIndicator(R.drawable.ic_color_indicator, theme, item.color)
+                .withSize(widthId = R.dimen.layout_8dp)
+                .withColorIndicator(R.drawable.ic_color_indicator, theme, item.color)
 
             val description = context.getString(R.string.description_item_notification_cancel, name, item.alarmDate)
             cancelButton.isDisplayed()
-                    .withDrawableAttr(R.drawable.ic_cancel_enter, R.attr.clContent)
-                    .withContentDescription(description)
+                .withDrawableAttr(R.drawable.ic_cancel_enter, R.attr.clContent)
+                .withContentDescription(description)
         }
 
     }
 
     companion object {
-        operator fun invoke(func: NotificationScreen.() -> Unit,
-                            empty: Boolean): NotificationScreen {
-            return NotificationScreen().assert(empty).apply(func)
+        operator fun invoke(
+            func: NotificationScreen.() -> Unit,
+            isEmpty: Boolean
+        ): NotificationScreen {
+            return NotificationScreen().assert(isEmpty).apply(func)
         }
     }
-
 }
