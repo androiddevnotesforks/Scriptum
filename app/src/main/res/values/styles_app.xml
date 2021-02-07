@@ -42,8 +42,6 @@
         <item name="snackbarStyle">@style/MaterialSnackbarTheme</item>
     </style>
 
-    <style name="MaterialSnackbarTheme" parent="Widget.MaterialComponents.Snackbar"/>
-
     <!--  Set colors of system UI not work from XML. This is for best understanding.  -->
     <style name="App.Light.UI">
         <item name="android:windowBackground">?attr/clBackgroundWindow</item>
@@ -86,6 +84,8 @@
         <item name="alertDialogTheme">@style/Alert.Dark</item>
 
         <item name="bottomSheetDialogTheme">@style/BottomSheetTheme.Dark</item>
+
+        <item name="snackbarStyle">@style/MaterialSnackbarTheme</item>
     </style>
 
     <!--  Set colors of system UI not work from XML. This is for best understanding.  -->
@@ -132,6 +132,8 @@
     <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@android:color/transparent</item>
     </style>
+
+    <style name="MaterialSnackbarTheme" parent="Widget.MaterialComponents.Snackbar" />
 
     <style name="PopupTheme.Light" parent="ThemeOverlay.AppCompat.Light">
         <item name="android:textColorPrimary">?attr/clContent</item>

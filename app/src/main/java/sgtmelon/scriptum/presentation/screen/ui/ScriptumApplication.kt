@@ -28,5 +28,4 @@ class ScriptumApplication : Application() {
     companion object {
         lateinit var component: ScriptumComponent
     }
-
 }
