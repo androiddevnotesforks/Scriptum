@@ -3,9 +3,7 @@
        xmlns:tools="http://schemas.android.com/tools"
        android:shape="rectangle">
 
-    <!--  Separate drawable related with attr bug on preLollipop versions.  -->
-
-    <solid android:color="@color/primary_dark"/>
+    <solid android:color="?attr/clPrimary" />
     <corners android:radius="@dimen/radius_4dp"/>
     <size tools:height="@dimen/icon_48dp" tools:width="@dimen/icon_128dp"/>
 

@@ -7,7 +7,6 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.isDisplayed
 import sgtmelon.scriptum.basic.extension.swipeDown
 import sgtmelon.scriptum.basic.extension.withBackground
-import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.ui.IDialogUi
 import sgtmelon.scriptum.ui.ParentUi
 
@@ -25,12 +24,7 @@ abstract class ParentSheetDialogUi(
     fun onCloseSwipe() = waitClose { navigationView.swipeDown() }
 
     @CallSuper open fun assert() {
-        navigationContainer.isDisplayed().withBackground(when(theme == Theme.LIGHT) {
-            true -> R.drawable.bg_dialog_light
-            false -> R.drawable.bg_dialog_dark
-        })
-
+        navigationContainer.isDisplayed().withBackground(R.drawable.bg_dialog)
         navigationView.isDisplayed()
     }
-
 }

@@ -31,7 +31,7 @@
         <item name="styleToolbar">@style/Toolbar.Light</item>
         <item name="themePopup">@style/PopupTheme.Light</item>
         <item name="styleFab">@style/Fab.Light</item>
-        <item name="styleSheetAdd">@style/SheetDialog.Light</item>
+        <item name="styleSheetAdd">@style/SheetDialog</item>
         <item name="styleProgressHorizontal">@style/ProgressBar.Horizontal.Light</item>
 
         <item name="alertDialogStyle">@style/Alert.Light</item>
@@ -77,7 +77,7 @@
         <item name="styleToolbar">@style/Toolbar.Dark</item>
         <item name="themePopup">@style/PopupTheme.Dark</item>
         <item name="styleFab">@style/Fab.Dark</item>
-        <item name="styleSheetAdd">@style/SheetDialog.Dark</item>
+        <item name="styleSheetAdd">@style/SheetDialog</item>
         <item name="styleProgressHorizontal">@style/ProgressBar.Horizontal.Dark</item>
 
         <item name="alertDialogStyle">@style/Alert.Dark</item>
@@ -151,15 +151,8 @@
 
     <!-- -->
 
-    <!--  Separate drawable related with attr bug on preLollipop versions.  -->
-    <style name="SheetDialog"/>
-
-    <style name="SheetDialog.Light">
-        <item name="android:background">@drawable/bg_dialog_light</item>
-    </style>
-
-    <style name="SheetDialog.Dark">
-        <item name="android:background">@drawable/bg_dialog_dark</item>
+    <style name="SheetDialog">
+        <item name="android:background">@drawable/bg_dialog</item>
     </style>
 
     <!-- -->
