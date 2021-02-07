@@ -200,8 +200,8 @@ class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallb
 
     override fun openNoteScreen(item: NotificationItem) = startActivity(NoteActivity[this, item])
 
-    override fun showSnackbar(@Theme theme: Int) {
-        recyclerContainer?.let { snackbarControl.show(it, theme, withInsets = true) }
+    override fun showSnackbar() {
+        recyclerContainer?.let { snackbarControl.show(it, withInsets = true) }
     }
 
     override fun onSnackbarAction() = openState.tryInvoke { viewModel.onSnackbarAction() }

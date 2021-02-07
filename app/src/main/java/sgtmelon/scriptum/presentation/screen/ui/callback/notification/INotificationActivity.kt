@@ -30,7 +30,7 @@ interface INotificationActivity : INotificationBridge {
     fun openNoteScreen(item: NotificationItem)
 
 
-    fun showSnackbar(@Theme theme: Int)
+    fun showSnackbar()
 
     fun notifyList(list: List<NotificationItem>)
 

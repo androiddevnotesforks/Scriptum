@@ -444,9 +444,6 @@ class RankViewModelTest : ParentViewModelTest() {
     @Test fun onClickCancel() = startCoTest {
         viewModel.onClickCancel(Random.nextInt())
 
-        val theme = Random.nextInt()
-        every { interactor.theme } returns theme
-
         val itemList = data.secondCorrectList
         val noteIdList = listOf(4L, 6, 1, 2)
 
@@ -466,8 +463,7 @@ class RankViewModelTest : ParentViewModelTest() {
 
         coVerifySequence {
             callback.notifyItemRemoved(itemList, p)
-            interactor.theme
-            callback.showSnackbar(theme)
+            callback.showSnackbar()
 
             interactor.delete(item)
             interactor.updatePosition(itemList, noteIdList)
@@ -494,9 +490,6 @@ class RankViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onSnackbarAction_correct() {
-        val theme = Random.nextInt()
-        every { interactor.theme } returns theme
-
         viewModel.onSnackbarAction()
 
         val item = mockk<RankItem>()
@@ -528,8 +521,7 @@ class RankViewModelTest : ParentViewModelTest() {
         coVerifyOrder {
             callback.apply {
                 notifyItemInsertedScroll(resultList, secondPair.first)
-                interactor.theme
-                showSnackbar(theme)
+                showSnackbar()
             }
 
             interactor.insert(item)

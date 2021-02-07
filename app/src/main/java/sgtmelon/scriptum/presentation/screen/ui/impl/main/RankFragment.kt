@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.iconanim.IconBlockCallback
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.FragmentRankBinding
-import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RankItem
 import sgtmelon.scriptum.domain.model.state.OpenState
@@ -256,8 +255,8 @@ class RankFragment : ParentFragment(), IRankFragment, MainReceiver.BindCallback,
         recyclerView?.smoothScrollToPosition(0)
     }
 
-    override fun showSnackbar(@Theme theme: Int) {
-        recyclerContainer?.let { snackbarControl.show(it, theme, withInsets = false) }
+    override fun showSnackbar() {
+        recyclerContainer?.let { snackbarControl.show(it, withInsets = false) }
     }
 
     override fun dismissSnackbar() = snackbarControl.dismiss()

@@ -160,9 +160,6 @@ class NotificationViewModelTest : ParentViewModelTest() {
     @Test fun onClickCancel() = startCoTest {
         viewModel.onClickCancel(Random.nextInt())
 
-        val theme = Random.nextInt()
-        every { interactor.theme } returns theme
-
         val itemList = data.itemList
         viewModel.itemList.clearAdd(itemList)
 
@@ -183,17 +180,13 @@ class NotificationViewModelTest : ParentViewModelTest() {
             callback.apply {
                 notifyInfoBind(itemList.size)
                 notifyItemRemoved(itemList, p)
-                interactor.theme
-                showSnackbar(theme)
+                showSnackbar()
             }
         }
     }
 
 
     @Test fun onSnackbarAction_correct() {
-        val theme = Random.nextInt()
-        every { interactor.theme } returns theme
-
         viewModel.onSnackbarAction()
 
         val item = mockk<NotificationItem>()
@@ -224,8 +217,7 @@ class NotificationViewModelTest : ParentViewModelTest() {
             callback.apply {
                 notifyInfoBind(itemList.size)
                 notifyItemInsertedScroll(itemList, secondPair.first)
-                interactor.theme
-                showSnackbar(theme)
+                showSnackbar()
             }
 
             interactor.setNotification(item)

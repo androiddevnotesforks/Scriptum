@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.presentation.screen.ui.callback.main
 
-import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.RankItem
 import sgtmelon.scriptum.domain.model.state.OpenState
 import sgtmelon.scriptum.presentation.control.system.BindControl
@@ -35,7 +34,7 @@ interface IRankFragment : BindControl.NoteBridge.NotifyAll {
 
     fun scrollTop()
 
-    fun showSnackbar(@Theme theme: Int)
+    fun showSnackbar()
 
     fun dismissSnackbar()
 

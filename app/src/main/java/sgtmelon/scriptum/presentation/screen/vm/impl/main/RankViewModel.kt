@@ -174,7 +174,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         cancelList.add(Pair(p, item))
 
         callback?.notifyItemRemoved(itemList, p)
-        callback?.showSnackbar(interactor.theme)
+        callback?.showSnackbar()
 
         viewModelScope.launchBack {
             interactor.delete(item)
@@ -223,7 +223,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
              * Show snackbar for next item undo.
              */
             if (cancelList.isNotEmpty()) {
-                showSnackbar(interactor.theme)
+                showSnackbar()
             }
         }
 

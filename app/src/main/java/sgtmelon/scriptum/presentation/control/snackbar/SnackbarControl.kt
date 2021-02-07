@@ -5,7 +5,6 @@ import android.widget.TextView
 import androidx.annotation.StringRes
 import com.google.android.material.snackbar.Snackbar
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.extension.*
 
 /**
@@ -33,7 +32,7 @@ class SnackbarControl(
     }
 
 
-    override fun show(parent: ViewGroup, @Theme theme: Int, withInsets: Boolean) {
+    override fun show(parent: ViewGroup, withInsets: Boolean) {
         /**
          * Need remove callback before dismiss for prevent call [Snackbar.Callback.onDismissed].
          */
@@ -41,9 +40,9 @@ class SnackbarControl(
         snackbar?.dismiss()
 
         Snackbar.make(parent, messageId, Snackbar.LENGTH_LONG)
-                .setAction(actionId) { callback.onSnackbarAction() }
-                .addCallback(dismissCallback)
-                .setTheme(theme)
+            .setAction(actionId) { callback.onSnackbarAction() }
+            .addCallback(dismissCallback)
+            .setupTheme()
                 .also { snackbar = it }
                 .show()
 
@@ -65,27 +64,14 @@ class SnackbarControl(
     }
 
 
-    private fun Snackbar.setTheme(@Theme theme: Int) = apply {
-        val background = view.context.getDrawable(when (theme) {
-            Theme.LIGHT -> R.drawable.bg_snackbar_light
-            Theme.DARK -> R.drawable.bg_snackbar_dark
-            else -> return@apply
-        })
-
-        val textColor = view.context.getCompatColor(when (theme) {
-            Theme.LIGHT -> R.color.content_light
-            Theme.DARK -> R.color.content_dark
-            else -> return@apply
-        })
-
-        val actionColor = view.context.getCompatColor(when (theme) {
-            Theme.LIGHT -> R.color.accent_light
-            Theme.DARK -> R.color.accent_dark
-            else -> return@apply
-        })
+    private fun Snackbar.setupTheme() = apply {
+        val background = view.context.getDrawable(R.drawable.bg_snackbar)
+        val textColor = view.context.getColorAttr(R.attr.clContent)
+        val actionColor = view.context.getColorAttr(R.attr.clAccent)
 
         view.background = background
-        view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).setTextColor(textColor)
+        view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
+            .setTextColor(textColor)
         setActionTextColor(actionColor)
     }
 

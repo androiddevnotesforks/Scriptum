@@ -1,23 +1,16 @@
 package sgtmelon.scriptum.domain.interactor.impl.main
 
-import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.domain.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
-import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.RankItem
 import sgtmelon.scriptum.presentation.screen.vm.callback.main.IRankViewModel
 
 /**
  * Interactor for [IRankViewModel].
  */
-class RankInteractor(
-    private val preferenceRepo: IPreferenceRepo,
-    private val rankRepo: IRankRepo
-) : ParentInteractor(), IRankInteractor {
-
-    @Theme override val theme: Int get() = preferenceRepo.theme
-
+class RankInteractor(private val rankRepo: IRankRepo) : ParentInteractor(),
+    IRankInteractor {
 
     override suspend fun getCount(): Int = rankRepo.getCount()
 

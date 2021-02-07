@@ -85,18 +85,26 @@ class MainViewModelTest : ParentViewModelTest() {
         viewModel.onSetup(bundle)
 
         verifySequence {
+            bundle.getBoolean(MainViewModel.FIRST_START)
+            bundle.getInt(MainViewModel.PAGE_CURRENT)
             callback.setupNavigation(R.id.item_page_rank)
             callback.setupInsets()
             callback.setFabState(state = false)
 
+            bundle.getBoolean(MainViewModel.FIRST_START)
+            bundle.getInt(MainViewModel.PAGE_CURRENT)
             callback.setupNavigation(R.id.item_page_notes)
             callback.setupInsets()
             callback.setFabState(state = true)
 
+            bundle.getBoolean(MainViewModel.FIRST_START)
+            bundle.getInt(MainViewModel.PAGE_CURRENT)
             callback.setupNavigation(R.id.item_page_bin)
             callback.setupInsets()
             callback.setFabState(state = false)
 
+            bundle.getBoolean(MainViewModel.FIRST_START)
+            bundle.getInt(MainViewModel.PAGE_CURRENT)
             callback.setupNavigation(R.id.item_page_notes)
             callback.setupInsets()
             callback.setFabState(state = true)
