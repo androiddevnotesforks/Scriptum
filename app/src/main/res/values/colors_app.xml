@@ -5,10 +5,10 @@
     <color name="background_launcher">#1C2024</color>
 
     <color name="navigation_bar_light">#59FAFAFA</color>
-    <color name="navigation_bar_dark">#40303030</color>
+    <color name="navigation_bar_dark">#40202020</color>
 
     <color name="navigation_bar_divider_light">#73FAFAFA</color>
-    <color name="navigation_bar_divider_dark">#59303030</color>
+    <color name="navigation_bar_divider_dark">#59202020</color>
 
     <!--  Color for create accent on views: fab, button, image, text, etc.  -->
     <color name="accent_light">#039BE5</color>
@@ -19,23 +19,23 @@
 
     <!--  Color for main app views: toolbar, panels, etc.  -->
     <color name="primary_light">#FAFAFA</color>
-    <color name="primary_dark">#303030</color>
+    <color name="primary_dark">#262626</color>
 
     <!-- Color for dividers.  -->
     <color name="divider_light">#E0E0E0</color>
-    <color name="divider_dark">#282828</color>
+    <color name="divider_dark">#202020</color>
 
     <!-- Color for window background.  -->
     <color name="background_window_light">#EEEEEE</color>
-    <color name="background_window_dark">#454545</color>
+    <color name="background_window_dark">#202020</color>
 
     <!--  Color for views which placed upper background_window_light/dark.  -->
     <color name="background_view_light">#FFFFFF</color>
-    <color name="background_view_dark">#363636</color>
+    <color name="background_view_dark">#2C2C2C</color>
 
     <!--  Color for views which placed upper primary_light/dark.  -->
     <color name="background_enter_light">#FFFFFF</color>
-    <color name="background_enter_dark">#454545</color>
+    <color name="background_enter_dark">#202020</color>
 
     <!--  Color for important content. For give user main information.  -->
     <color name="content_light">#353535</color>
@@ -43,14 +43,14 @@
 
     <!--  Color for information content. For give user second information.  -->
     <color name="content_second_light">#868686</color>
-    <color name="content_second_dark">#C8C8C8</color>
+    <color name="content_second_dark">#818181</color>
 
     <!--  Color for create contrast with content_light/dark  -->
     <color name="contrast_light">#AAAAAA</color>
-    <color name="contrast_dark">#999999</color>
+    <color name="contrast_dark">#505050</color>
 
     <!--  Color for not enabled views or hints.  -->
     <color name="disable_light">#CFCFCF</color>
-    <color name="disable_dark">#6A6A6A</color>
+    <color name="disable_dark">#3B3B3B</color>
 
 </resources>
