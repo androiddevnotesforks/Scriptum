@@ -58,7 +58,8 @@ ext {
     ]
 
     other = [
-            pageindicator: "com.romandanylyk:pageindicatorview:1.0.1"
+            pageindicator: "com.romandanylyk:pageindicatorview:1.0.1",
+            leakcanary   : "com.squareup.leakcanary:leakcanary-android:2.6"
     ]
 
     junit = [
