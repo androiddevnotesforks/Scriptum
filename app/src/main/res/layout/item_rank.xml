@@ -67,7 +67,7 @@
 
                         <TextView
                             android:id="@+id/rank_notification_text"
-                            style="@style/Text.SmallCard.Info"
+                            style="@style/Text.SmallCard.Indicator"
                             tools:text="5" />
 
                         <ImageView
@@ -87,7 +87,7 @@
 
                         <TextView
                             android:id="@+id/rank_bind_text"
-                            style="@style/Text.SmallCard.Info"
+                            style="@style/Text.SmallCard.Indicator"
                             tools:text="9" />
 
                         <ImageView

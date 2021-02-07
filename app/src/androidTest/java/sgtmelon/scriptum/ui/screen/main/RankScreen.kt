@@ -175,10 +175,10 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
             }
 
             notificationText.isDisplayed(isNotificationVisible)
-                .withText(indicator, R.attr.clContentSecond, R.dimen.text_14sp)
+                .withText(indicator, R.attr.clCardIndicator, R.dimen.text_14sp)
             notificationImage.isDisplayed(isNotificationVisible) {
                 withSize(R.dimen.icon_16dp, R.dimen.icon_16dp)
-            }.withDrawableAttr(R.drawable.ic_notifications, R.attr.clContent)
+            }.withDrawableAttr(R.drawable.ic_notifications, R.attr.clCardIndicator)
 
             indicator = if (RankHolder.isMaxTest) {
                 RankHolder.INDICATOR_MAX_COUNT.toString()
@@ -187,10 +187,10 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
             }
 
             bindText.isDisplayed(isBindVisible)
-                .withText(indicator, R.attr.clContentSecond, R.dimen.text_14sp)
+                .withText(indicator, R.attr.clCardIndicator, R.dimen.text_14sp)
             bindImage.isDisplayed(isBindVisible) {
                 withSize(R.dimen.icon_16dp, R.dimen.icon_16dp)
-            }.withDrawableAttr(R.drawable.ic_bind_text, R.attr.clContent)
+            }.withDrawableAttr(R.drawable.ic_bind_text, R.attr.clCardIndicator)
 
             val text = context.getString(R.string.list_item_rank_count, item.noteId.size)
             countText.isDisplayed().withText(text, R.attr.clContentSecond, R.dimen.text_14sp)

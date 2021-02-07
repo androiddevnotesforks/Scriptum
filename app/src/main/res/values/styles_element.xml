@@ -141,12 +141,12 @@
         <item name="android:textSize">@dimen/text_14sp</item>
     </style>
 
-    <style name="Text.SmallCard.Info">
+    <style name="Text.SmallCard.Indicator">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:ellipsize">end</item>
         <item name="android:maxLines">1</item>
-        <item name="android:textAppearance">@style/Appearance.Second</item>
+        <item name="android:textAppearance">@style/Appearance.Indicator</item>
         <item name="android:textSize">@dimen/text_14sp</item>
     </style>
 
@@ -383,7 +383,7 @@
     </style>
 
     <style name="Image.Note.Info">
-        <item name="android:tint">?attr/clNoteIndicator</item>
+        <item name="android:tint">?attr/clCardIndicator</item>
     </style>
 
     <style name="Image.Rank">
@@ -392,7 +392,7 @@
         <item name="android:layout_gravity">bottom</item>
         <item name="android:layout_marginBottom">@dimen/layout_1dp</item>
         <item name="android:layout_marginStart">@dimen/layout_1dp</item>
-        <item name="android:tint">?attr/clContent</item>
+        <item name="android:tint">?attr/clCardIndicator</item>
     </style>
 
     <!-- ProgressBar -->

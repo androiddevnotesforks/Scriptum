@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Appearance"/>
+    <style name="Appearance" />
 
     <style name="Appearance.Main">
         <item name="android:textColor">?attr/clContent</item>
@@ -9,6 +9,10 @@
 
     <style name="Appearance.Second">
         <item name="android:textColor">?attr/clContentSecond</item>
+    </style>
+
+    <style name="Appearance.Indicator">
+        <item name="android:textColor">?attr/clCardIndicator</item>
     </style>
 
 </resources>
