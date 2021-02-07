@@ -32,7 +32,7 @@
         <item name="themePopup">@style/PopupTheme.Light</item>
         <item name="styleFab">@style/Fab.Light</item>
         <item name="styleSheetAdd">@style/SheetDialog</item>
-        <item name="styleProgressHorizontal">@style/ProgressBar.Horizontal.Light</item>
+        <item name="styleProgressHorizontal">@style/ProgressBar.Horizontal</item>
 
         <item name="alertDialogStyle">@style/Alert.Light</item>
         <item name="alertDialogTheme">@style/Alert.Light</item>
@@ -78,7 +78,7 @@
         <item name="themePopup">@style/PopupTheme.Dark</item>
         <item name="styleFab">@style/Fab.Dark</item>
         <item name="styleSheetAdd">@style/SheetDialog</item>
-        <item name="styleProgressHorizontal">@style/ProgressBar.Horizontal.Dark</item>
+        <item name="styleProgressHorizontal">@style/ProgressBar.Horizontal</item>
 
         <item name="alertDialogStyle">@style/Alert.Dark</item>
         <item name="alertDialogTheme">@style/Alert.Dark</item>
@@ -179,15 +179,8 @@
         <item name="android:tint">?attr/clBackgroundView</item>
     </style>
 
-    <!--  Separate drawable related with attr bug on preLollipop versions.  -->
-    <style name="ProgressBar.Horizontal" parent="Widget.AppCompat.ProgressBar.Horizontal"/>
-
-    <style name="ProgressBar.Horizontal.Light">
-        <item name="android:progressDrawable">@drawable/bg_progress_light</item>
-    </style>
-
-    <style name="ProgressBar.Horizontal.Dark">
-        <item name="android:progressDrawable">@drawable/bg_progress_dark</item>
+    <style name="ProgressBar.Horizontal" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/bg_progress</item>
     </style>
 
 </resources>

@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!--  Separate drawable related with attr bug on preLollipop versions.  -->
-
     <item android:id="@android:id/background">
         <shape android:shape="rectangle">
-            <solid android:color="@color/disable_dark" />
+            <solid android:color="?attr/clDisable" />
         </shape>
     </item>
 
     <item android:id="@android:id/secondaryProgress">
         <scale android:scaleWidth="100%">
             <shape android:shape="rectangle">
-                <solid android:color="@color/contrast_dark" />
+                <solid android:color="?attr/clContrast" />
             </shape>
         </scale>
     </item>
@@ -20,7 +18,7 @@
     <item android:id="@android:id/progress">
         <scale android:scaleWidth="100%">
             <shape android:shape="rectangle">
-                <solid android:color="@color/accent_dark" />
+                <solid android:color="?attr/clAccent" />
             </shape>
         </scale>
     </item>
