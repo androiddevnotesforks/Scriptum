@@ -168,9 +168,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     override fun releasePhone() = powerControl.release()
 
 
-    override fun setupView(@Theme theme: Int) {
-        adapter.theme = theme
-
+    override fun setupView() {
         recyclerView?.let {
             it.layoutManager = LinearLayoutManager(this)
             it.adapter = adapter

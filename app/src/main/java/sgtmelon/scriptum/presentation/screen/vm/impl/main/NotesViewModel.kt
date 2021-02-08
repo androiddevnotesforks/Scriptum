@@ -42,11 +42,9 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
     @RunPrivate val itemList: MutableList<NoteItem> = ArrayList()
 
     override fun onSetup(bundle: Bundle?) {
-        callback?.apply {
-            setupToolbar()
-            setupRecycler(interactor.theme)
-            setupDialog()
-        }
+        callback?.setupToolbar()
+        callback?.setupRecycler()
+        callback?.setupDialog()
     }
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy { interactor.onDestroy() }

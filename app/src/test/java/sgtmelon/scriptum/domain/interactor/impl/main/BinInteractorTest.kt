@@ -9,7 +9,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.extension.nextString
-import sgtmelon.scriptum.FastTest
 import sgtmelon.scriptum.ParentInteractorTest
 import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
@@ -42,8 +41,6 @@ class BinInteractorTest : ParentInteractorTest() {
         assertNull(interactor.callback)
     }
 
-
-    @Test fun getTheme() = FastTest.getTheme(preferenceRepo) { interactor.theme }
 
     @Test fun getCount() = startCoTest {
         val countList = listOf(Random.nextInt(), Random.nextInt())

@@ -55,6 +55,11 @@ class AlarmViewModelTest : ParentViewModelTest() {
         viewModel.setInteractor(interactor, signalInteractor, bindInteractor)
     }
 
+    override fun tearDown() {
+        super.tearDown()
+        confirmVerified(callback, interactor, signalInteractor, bindInteractor, bundle)
+    }
+
     @Test override fun onDestroy() {
         assertNotNull(viewModel.callback)
 
@@ -94,14 +99,12 @@ class AlarmViewModelTest : ParentViewModelTest() {
         val id = Random.nextLong()
         val noteItem = data.thirdNote
 
-        val theme = Random.nextInt()
         val volume = Random.nextInt()
         val volumeIncrease = Random.nextBoolean()
 
         every { bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID) } returns id
         coEvery { signalInteractor.getMelodyUri() } returns URI
 
-        every { interactor.theme } returns theme
         every { interactor.volume } returns volume
         every { interactor.volumeIncrease } returns volumeIncrease
         every { signalInteractor.state } returns null
@@ -115,8 +118,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
             bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
             callback.apply {
                 acquirePhone(AlarmViewModel.CANCEL_DELAY)
-                interactor.theme
-                setupView(theme)
+                setupView()
                 setupInsets()
 
                 signalInteractor.getMelodyUri()
@@ -129,8 +131,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
             bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
             callback.apply {
                 acquirePhone(AlarmViewModel.CANCEL_DELAY)
-                interactor.theme
-                setupView(theme)
+                setupView()
                 setupInsets()
 
                 signalInteractor.getMelodyUri()
@@ -152,7 +153,6 @@ class AlarmViewModelTest : ParentViewModelTest() {
     @Test fun onSetup_onFirstStart_withBadModel() = startCoTest {
         val id = Random.nextLong()
 
-        val theme = Random.nextInt()
         val volume = Random.nextInt()
         val volumeIncrease = Random.nextBoolean()
 
@@ -166,7 +166,6 @@ class AlarmViewModelTest : ParentViewModelTest() {
             viewModel.onSetup(bundle)
         }
 
-        every { interactor.theme } returns theme
         every { interactor.volume } returns volume
         every { interactor.volumeIncrease } returns volumeIncrease
         every { signalInteractor.state } returns null
@@ -184,8 +183,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
                 callback.apply {
                     acquirePhone(AlarmViewModel.CANCEL_DELAY)
-                    interactor.theme
-                    setupView(theme)
+                    setupView()
                     setupInsets()
 
                     signalInteractor.getMelodyUri()
@@ -201,8 +199,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
                 callback.apply {
                     acquirePhone(AlarmViewModel.CANCEL_DELAY)
-                    interactor.theme
-                    setupView(theme)
+                    setupView()
                     setupInsets()
 
                     signalInteractor.getMelodyUri()
@@ -230,7 +227,6 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
         viewModel.noteItem = noteItem
 
-        every { interactor.theme } returns Theme.DARK
         every { interactor.volume } returns 1
         every { interactor.volumeIncrease } returns true
 
@@ -241,8 +237,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
             bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
             callback.apply {
                 acquirePhone(AlarmViewModel.CANCEL_DELAY)
-                interactor.theme
-                setupView(Theme.DARK)
+                setupView()
                 setupInsets()
 
                 signalInteractor.getMelodyUri()
@@ -253,8 +248,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
             callback.apply {
                 acquirePhone(AlarmViewModel.CANCEL_DELAY)
-                interactor.theme
-                setupView(Theme.DARK)
+                setupView()
                 setupInsets()
 
                 signalInteractor.getMelodyUri()

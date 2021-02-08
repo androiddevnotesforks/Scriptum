@@ -34,7 +34,7 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
 
     override fun onSetup(bundle: Bundle?) {
         callback?.setupToolbar()
-        callback?.setupRecycler(interactor.theme)
+        callback?.setupRecycler()
     }
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy { interactor.onDestroy() }

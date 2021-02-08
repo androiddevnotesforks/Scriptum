@@ -24,7 +24,7 @@ interface IAlarmActivity : IAlarmBridge {
     fun releasePhone()
 
 
-    fun setupView(@Theme theme: Int)
+    fun setupView()
 
     fun setupInsets()
 

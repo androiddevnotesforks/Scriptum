@@ -68,7 +68,6 @@ class NotesInteractorTest : ParentInteractorTest() {
         }
     }
 
-    @Test fun getTheme() = FastTest.getTheme(preferenceRepo) { interactor.theme }
 
     @Test fun getSort() = FastTest.getSort(preferenceRepo) { interactor.sort }
 

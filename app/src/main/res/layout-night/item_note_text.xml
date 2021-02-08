@@ -1,38 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <import type="android.view.View" />
 
+        <import type="sgtmelon.scriptum.domain.model.annotation.Theme" />
+
         <variable
             name="item"
-            type="sgtmelon.scriptum.domain.model.item.NoteItem.Roll" />
+            type="sgtmelon.scriptum.domain.model.item.NoteItem.Text" />
     </data>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/note_roll_parent_card"
+        android:id="@+id/note_text_parent_card"
         style="@style/Card"
-        app:noteColor='@{item.color}'
-        tools:cardBackgroundColor="@color/note_red_light">
+        app:cardBackgroundColor="?attr/clBackgroundView">
 
         <FrameLayout
-            android:id="@+id/note_roll_click_container"
+            android:id="@+id/note_text_click_container"
             style="@style/Container.Note.Click">
 
             <LinearLayout style="@style/Container.Note.Content">
 
                 <include
-                    layout="@layout/inc_note_roll_content"
+                    layout="@layout/inc_note_text_content"
                     app:item="@{item}" />
 
                 <View
-                    android:id="@+id/note_roll_color_view"
+                    android:id="@+id/note_text_color_view"
                     style="@style/Image.Color.Vertical.End"
                     android:importantForAccessibility="no"
-                    android:visibility="gone" />
+                    app:indicatorColor='@{item.color}'
+                    app:indicatorTheme='@{Theme.DARK}' />
 
             </LinearLayout>
 

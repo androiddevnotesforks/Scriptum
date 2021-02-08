@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.FragmentBinBinding
-import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.presentation.adapter.NoteAdapter
@@ -117,13 +116,10 @@ class BinFragment : ParentFragment(), IBinFragment {
         }
     }
 
-    override fun setupRecycler(@Theme theme: Int) {
+    override fun setupRecycler() {
         parentContainer = view?.findViewById(R.id.bin_parent_container)
         emptyInfoView = view?.findViewById(R.id.bin_info_include)
         progressBar = view?.findViewById(R.id.bin_progress)
-
-
-        adapter.theme = theme
 
         recyclerView = view?.findViewById(R.id.bin_recycler)
         recyclerView?.let {

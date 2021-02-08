@@ -4,18 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View" />
-        <import type="sgtmelon.scriptum.domain.model.annotation.Theme" />
 
-        <variable name="theme" type="int" />
-        <variable name="item" type="sgtmelon.scriptum.domain.model.item.NoteItem.Text" />
+        <import type="android.view.View" />
+
+        <variable
+            name="item"
+            type="sgtmelon.scriptum.domain.model.item.NoteItem.Text" />
     </data>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/note_text_parent_card"
         style="@style/Card"
         app:noteColor='@{item.color}'
-        app:noteTheme='@{theme}'
         tools:cardBackgroundColor="@color/note_green_light">
 
         <FrameLayout
@@ -24,41 +24,15 @@
 
             <LinearLayout style="@style/Container.Note.Content">
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/note_text_name_text"
-                        style="@style/Text.Note.Name"
-                        android:text='@{item.name}'
-                        android:visibility='@{!item.name.isEmpty() ? View.VISIBLE : View.GONE}'
-                        tools:text="@string/preview_note_name" />
-
-                    <TextView
-                        android:id="@+id/note_text_content_text"
-                        style="@style/Text.Note.Content"
-                        android:text='@{item.text}'
-                        tools:text="@string/preview_note_text" />
-
-                    <include
-                        layout="@layout/inc_note_text_info"
-                        app:item='@{item}' />
-
-                </LinearLayout>
+                <include
+                    layout="@layout/inc_note_text_content"
+                    app:item="@{item}" />
 
                 <View
                     android:id="@+id/note_text_color_view"
                     style="@style/Image.Color.Vertical.End"
                     android:importantForAccessibility="no"
-                    app:indicatorColor='@{item.color}'
-                    app:indicatorTheme='@{theme}'
-                    app:visibleOn='@{Theme.DARK}'
-                    app:visibleTheme='@{theme}'
-                    tools:tint="@color/note_green_dark"
-                    tools:visibility="gone" />
+                    android:visibility="gone" />
 
             </LinearLayout>
 

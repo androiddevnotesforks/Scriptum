@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="item"
+            type="sgtmelon.scriptum.domain.model.item.NoteItem.Roll" />
+    </data>
+
+    <merge>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/note_roll_name_text"
+                style="@style/Text.Note.Name"
+                android:text='@{item.name}'
+                android:visibility='@{item.name.isEmpty() ? View.GONE : View.VISIBLE}'
+                tools:text="@string/preview_note_name" />
+
+            <include
+                android:id="@+id/note_roll_row0_container"
+                layout="@layout/inc_item_note_roll"
+                android:visibility="@{item.list.size() &gt;= 1 ? View.VISIBLE : View.GONE}"
+                app:item="@{item.list.size() &gt;= 1 ? item.list.get(0) : null}" />
+
+            <include
+                android:id="@+id/note_roll_row1_container"
+                layout="@layout/inc_item_note_roll"
+                android:visibility="@{item.list.size() &gt;= 2 ? View.VISIBLE : View.GONE}"
+                app:item="@{item.list.size() &gt;= 2 ? item.list.get(1) : null}" />
+
+            <include
+                android:id="@+id/note_roll_row2_container"
+                layout="@layout/inc_item_note_roll"
+                android:visibility="@{item.list.size() &gt;= 3 ? View.VISIBLE : View.GONE}"
+                app:item="@{item.list.size() &gt;= 3 ? item.list.get(2) : null}" />
+
+            <include
+                android:id="@+id/note_roll_row3_container"
+                layout="@layout/inc_item_note_roll"
+                android:visibility="@{item.list.size() &gt;= 4 ? View.VISIBLE : View.GONE}"
+                app:item="@{item.list.size() &gt;= 4 ? item.list.get(3) : null}" />
+
+            <include
+                layout="@layout/inc_note_roll_info"
+                app:item='@{item}' />
+
+        </LinearLayout>
+
+    </merge>
+
+</layout>

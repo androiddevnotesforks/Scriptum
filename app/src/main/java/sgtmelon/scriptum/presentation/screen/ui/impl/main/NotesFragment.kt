@@ -13,7 +13,6 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.FragmentNotesBinding
 import sgtmelon.scriptum.domain.model.annotation.Options
 import sgtmelon.scriptum.domain.model.annotation.Sort
-import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.state.OpenState
 import sgtmelon.scriptum.extension.*
@@ -152,12 +151,10 @@ class NotesFragment : ParentFragment(),
         }
     }
 
-    override fun setupRecycler(@Theme theme: Int) {
+    override fun setupRecycler() {
         parentContainer = view?.findViewById(R.id.notes_parent_container)
         emptyInfoView = view?.findViewById(R.id.notes_info_include)
         progressBar = view?.findViewById(R.id.notes_progress)
-
-        adapter.theme = theme
 
         recyclerView = view?.findViewById(R.id.notes_recycler)
         recyclerView?.let {

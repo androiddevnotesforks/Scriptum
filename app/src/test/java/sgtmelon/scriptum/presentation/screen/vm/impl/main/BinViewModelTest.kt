@@ -13,7 +13,6 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.domain.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.domain.model.annotation.Options
-import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.extension.clearAdd
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IBinFragment
@@ -51,19 +50,11 @@ class BinViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onSetup() {
-        val themeList = listOf(Theme.LIGHT, Random.nextInt())
-
-        for (it in themeList) {
-            every { interactor.theme } returns it
-            viewModel.onSetup()
-        }
+        viewModel.onSetup()
 
         verifySequence {
-            for (it in themeList) {
-                callback.setupToolbar()
-                interactor.theme
-                callback.setupRecycler(it)
-            }
+            callback.setupToolbar()
+            callback.setupRecycler()
         }
     }
 

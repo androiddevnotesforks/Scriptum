@@ -3,7 +3,6 @@ package sgtmelon.scriptum.presentation.screen.ui.callback.main
 
 import androidx.annotation.ArrayRes
 import androidx.annotation.StringRes
-import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.NotesFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.main.INotesViewModel
@@ -16,7 +15,7 @@ interface INotesFragment : INotesBridge {
 
     fun setupToolbar()
 
-    fun setupRecycler(@Theme theme: Int)
+    fun setupRecycler()
 
     fun setupDialog()
 

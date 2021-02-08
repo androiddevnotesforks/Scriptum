@@ -2,7 +2,6 @@ package sgtmelon.scriptum.domain.interactor.callback.main
 
 import sgtmelon.scriptum.domain.interactor.callback.IParentInteractor
 import sgtmelon.scriptum.domain.interactor.impl.main.BinInteractor
-import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.screen.vm.callback.main.IBinViewModel
 
@@ -10,8 +9,6 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.main.IBinViewModel
  * Interface for communication [IBinViewModel] with [BinInteractor].
  */
 interface IBinInteractor : IParentInteractor {
-
-    @Theme val theme: Int
 
     suspend fun getCount(): Int
 

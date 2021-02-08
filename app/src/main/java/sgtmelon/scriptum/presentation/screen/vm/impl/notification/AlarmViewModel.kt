@@ -32,8 +32,11 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     private lateinit var signalInteractor: ISignalInteractor
     private lateinit var bindInteractor: IBindInteractor
 
-    fun setInteractor(interactor: IAlarmInteractor, signalInteractor: ISignalInteractor,
-                      bindInteractor: IBindInteractor) {
+    fun setInteractor(
+        interactor: IAlarmInteractor,
+        signalInteractor: ISignalInteractor,
+        bindInteractor: IBindInteractor
+    ) {
         this.interactor = interactor
         this.signalInteractor = signalInteractor
         this.bindInteractor = bindInteractor
@@ -59,7 +62,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
 
         callback?.apply {
             acquirePhone(CANCEL_DELAY)
-            setupView(interactor.theme)
+            setupView()
             setupInsets()
         }
 

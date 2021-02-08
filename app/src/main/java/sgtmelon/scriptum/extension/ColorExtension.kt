@@ -45,9 +45,15 @@ fun Context.getNoteCardColor(@Theme theme: Int, @Color color: Int): Int {
     }
 }
 
+/**
+ * Get note color for cards
+ */
+@ColorInt
+fun Context.getNoteCardColor(@Color color: Int): Int = getCompatColor(light[color])
+
 @ColorInt
 fun Context.getAppSimpleColor(@Color color: Int, shade: ColorShade): Int {
-    return getCompatColor(when(shade) {
+    return getCompatColor(when (shade) {
         ColorShade.LIGHT -> light[color]
         ColorShade.ACCENT -> accent[color]
         ColorShade.DARK -> dark[color]

@@ -3,7 +3,6 @@ package sgtmelon.scriptum.domain.interactor.callback.main
 import sgtmelon.scriptum.domain.interactor.callback.IParentInteractor
 import sgtmelon.scriptum.domain.interactor.impl.main.NotesInteractor
 import sgtmelon.scriptum.domain.model.annotation.Sort
-import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.presentation.screen.vm.callback.main.INotesViewModel
@@ -13,8 +12,6 @@ import java.util.*
  * Interface for communication [INotesViewModel] with [NotesInteractor].
  */
 interface INotesInteractor : IParentInteractor {
-
-    @Theme val theme: Int
 
     @Sort val sort: Int
 

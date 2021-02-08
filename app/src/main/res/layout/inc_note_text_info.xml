@@ -8,7 +8,9 @@
 
         <import type="android.view.View" />
 
-        <variable name="item" type="sgtmelon.scriptum.domain.model.item.NoteItem.Text" />
+        <variable
+            name="item"
+            type="sgtmelon.scriptum.domain.model.item.NoteItem.Text" />
     </data>
 
     <LinearLayout

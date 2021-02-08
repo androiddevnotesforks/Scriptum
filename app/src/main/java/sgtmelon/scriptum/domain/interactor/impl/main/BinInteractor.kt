@@ -4,7 +4,6 @@ import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.domain.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
-import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.extension.runMain
@@ -23,8 +22,6 @@ class BinInteractor(
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy { callback = null }
 
-
-    @Theme override val theme: Int get() = preferenceRepo.theme
 
     override suspend fun getCount(): Int = noteRepo.getCount(isBin = true)
 

@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.presentation.screen.ui.callback.main
 
 import androidx.annotation.ArrayRes
-import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.BinFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.main.IBinViewModel
@@ -13,7 +12,7 @@ interface IBinFragment : IBinBridge{
 
     fun setupToolbar()
 
-    fun setupRecycler(@Theme theme: Int)
+    fun setupRecycler()
 
 
     /**
