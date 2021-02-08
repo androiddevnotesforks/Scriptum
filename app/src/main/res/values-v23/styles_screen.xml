@@ -2,7 +2,7 @@
 <resources>
 
     <!--  Set colors of system UI not work from XML. This is for best understanding.  -->
-    <style name="App.Light.UI">
+    <style name="App.Screen.Light.Main">
         <item name="colorPrimaryDark">?attr/clPrimary</item>
 
         <item name="android:windowBackground">?attr/clBackgroundWindow</item>
@@ -13,7 +13,7 @@
     </style>
 
     <!--  Set colors of system UI not work from XML. This is for best understanding.  -->
-    <style name="App.Dark.UI">
+    <style name="App.Screen.Dark.Main">
         <item name="android:windowBackground">?attr/clBackgroundWindow</item>
 
         <item name="android:windowLightStatusBar">false</item>

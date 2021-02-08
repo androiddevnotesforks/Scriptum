@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="App.Screen.Light" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="clNavigationBar">@color/navigation_bar_light</item>
+        <item name="clNavigationBarDivider">@color/navigation_bar_divider_light</item>
+
+        <item name="clAccent">@color/accent_light</item>
+        <item name="clAccentRipple">@color/accent_ripple_light</item>
+
+        <item name="clPrimary">@color/primary_light</item>
+
+        <item name="clDivider">@color/divider_light</item>
+        <item name="clBackgroundWindow">@color/background_window_light</item>
+        <item name="clBackgroundView">@color/background_view_light</item>
+        <item name="clBackgroundEnter">@color/background_enter_light</item>
+
+        <item name="clContent">@color/content_light</item>
+        <item name="clContentSecond">@color/content_second_light</item>
+        <item name="clContrast">@color/contrast_light</item>
+        <item name="clDisable">@color/disable_light</item>
+
+        <item name="clCardIndicator">?attr/clContent</item>
+
+        <item name="colorPrimary">?attr/clPrimary</item>
+        <item name="colorPrimaryDark">?attr/clContentSecond</item>
+        <item name="colorAccent">?attr/clAccent</item>
+
+        <item name="styleToolbar">@style/App.Style.Toolbar</item>
+        <item name="themePopup">@style/App.Theme.Popup</item>
+        <item name="styleFab">@style/App.Style.Fab</item>
+        <item name="styleSheetAdd">@style/App.Style.SheetDialog</item>
+        <item name="styleProgressHorizontal">@style/App.Style.Progress.Horizontal</item>
+
+        <item name="alertDialogStyle">@style/App.Alert</item>
+        <item name="alertDialogTheme">@style/App.Alert</item>
+        <item name="bottomSheetDialogTheme">@style/App.Theme.BottomSheet</item>
+        <item name="snackbarStyle">@style/App.Theme.Snackbar</item>
+    </style>
+
+    <!--  Set colors of system UI not work from XML. This is for best understanding.  -->
+    <style name="App.Screen.Light.Main">
+        <item name="android:windowBackground">?attr/clBackgroundWindow</item>
+
+        <item name="android:navigationBarColor">?attr/colorPrimaryDark</item>
+    </style>
+
+    <style name="App.Screen.Dark" parent="Theme.AppCompat.NoActionBar">
+        <item name="clNavigationBar">@color/navigation_bar_dark</item>
+        <item name="clNavigationBarDivider">@color/navigation_bar_divider_dark</item>
+
+        <item name="clAccent">@color/accent_dark</item>
+        <item name="clAccentRipple">@color/accent_ripple_dark</item>
+
+        <item name="clPrimary">@color/primary_dark</item>
+
+        <item name="clDivider">@color/divider_dark</item>
+        <item name="clBackgroundWindow">@color/background_window_dark</item>
+        <item name="clBackgroundView">@color/background_view_dark</item>
+        <item name="clBackgroundEnter">@color/background_enter_dark</item>
+
+        <item name="clContent">@color/content_dark</item>
+        <item name="clContentSecond">@color/content_second_dark</item>
+        <item name="clContrast">@color/contrast_dark</item>
+        <item name="clDisable">@color/disable_dark</item>
+
+        <item name="clCardIndicator">?attr/clAccent</item>
+
+        <item name="colorPrimary">?attr/clPrimary</item>
+        <item name="colorPrimaryDark">?attr/clPrimary</item>
+        <item name="colorAccent">?attr/clAccent</item>
+
+        <item name="styleToolbar">@style/App.Style.Toolbar</item>
+        <item name="themePopup">@style/App.Theme.Popup</item>
+        <item name="styleFab">@style/App.Style.Fab</item>
+        <item name="styleSheetAdd">@style/App.Style.SheetDialog</item>
+        <item name="styleProgressHorizontal">@style/App.Style.Progress.Horizontal</item>
+
+        <item name="alertDialogStyle">@style/App.Alert</item>
+        <item name="alertDialogTheme">@style/App.Alert</item>
+        <item name="bottomSheetDialogTheme">@style/App.Theme.BottomSheet</item>
+        <item name="snackbarStyle">@style/App.Theme.Snackbar</item>
+    </style>
+
+    <!--  Set colors of system UI not work from XML. This is for best understanding.  -->
+    <style name="App.Screen.Dark.Main">
+        <item name="android:windowBackground">?attr/clBackgroundWindow</item>
+
+        <item name="android:navigationBarColor">?attr/colorPrimary</item>
+    </style>
+
+    <!-- -->
+
+    <!--  Set colors of system UI not work from XML. This is for best understanding.  -->
+    <style name="App.Screen.Splash" parent="App.Screen.Dark">
+        <item name="android:windowBackground">@drawable/bg_splash_screen</item>
+
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
+    <!--  Set colors of system UI not work from XML. This is for best understanding.  -->
+    <style name="App.Screen.Intro" parent="App.Screen.Dark">
+        <item name="android:windowBackground">?attr/colorPrimaryDark</item>
+
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
+</resources>

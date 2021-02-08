@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="App" />
+
+    <style name="App.Screen" />
+
+    <style name="App.Theme" />
+
+    <style name="App.Style" />
+
+    <!-- -->
+
+    <style name="App.Alert" parent="Theme.AppCompat.DayNight.Dialog.Alert">
+        <item name="colorAccent">?attr/clAccent</item>
+    </style>
+
+    <style name="App.Style.BottomSheet" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="App.Style.SheetDialog">
+        <item name="android:background">@drawable/bg_dialog</item>
+    </style>
+
+    <style name="App.Style.Toolbar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:background">?attr/colorPrimary</item>
+        <item name="android:theme">@style/App.Theme.Popup</item>
+    </style>
+
+    <style name="App.Theme.Snackbar" parent="Widget.MaterialComponents.Snackbar" />
+
+    <style name="App.Style.Progress.Horizontal" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/bg_progress</item>
+    </style>
+
+    <!-- -->
+
+    <style name="App.Style.Fab" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:tint">?attr/clBackgroundView</item>
+    </style>
+
+    <style name="App.Theme.BottomSheet" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/App.Style.BottomSheet</item>
+    </style>
+
+    <style name="App.Theme.Popup" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textColorPrimary">?attr/clContent</item>
+        <item name="android:textColorSecondary">?attr/clContent</item>
+        <item name="colorControlNormal">?attr/clContent</item>
+        <item name="actionMenuTextColor">?attr/clContent</item>
+    </style>
+
+</resources>
