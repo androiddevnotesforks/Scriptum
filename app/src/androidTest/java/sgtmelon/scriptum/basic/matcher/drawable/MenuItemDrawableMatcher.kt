@@ -12,9 +12,9 @@ import sgtmelon.scriptum.extension.getColorAttr
  * Matcher for check toolbar menuItem icon.
  */
 class MenuItemDrawableMatcher(
-        @IdRes private val itemId: Int,
-        @IdRes resourceId: Int,
-        @AttrRes private val attrColor: Int
+    @IdRes private val itemId: Int,
+    @IdRes resourceId: Int,
+    @AttrRes private val attrColor: Int
 ) : ParentImageMatcher(resourceId) {
 
     override fun matchesSafely(item: View?): Boolean {
@@ -29,7 +29,7 @@ class MenuItemDrawableMatcher(
 
         expected.setColorFilter(context.getColorAttr(attrColor), PorterDuff.Mode.SRC_ATOP)
 
-        return compare(itemIcon, expected)
+        return compare(expected, itemIcon)
     }
 
     override fun describeTo(description: Description?) {

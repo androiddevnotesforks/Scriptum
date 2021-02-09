@@ -48,5 +48,4 @@ class NoteDefaultColorTest : ParentUiTest(), IColorTest {
             }
         }
     }
-
 }

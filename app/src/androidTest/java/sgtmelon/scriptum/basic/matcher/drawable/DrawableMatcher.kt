@@ -17,9 +17,9 @@ import sgtmelon.scriptum.extension.getCompatColor
  * If [colorId]/[attrColor] is null => check without colorFilter.
  */
 class DrawableMatcher(
-        @IdRes resourceId: Int?,
-        @ColorRes private val colorId: Int?,
-        @AttrRes private val attrColor: Int?
+    @IdRes resourceId: Int?,
+    @ColorRes private val colorId: Int?,
+    @AttrRes private val attrColor: Int?
 ) : ParentImageMatcher(resourceId) {
 
     override fun matchesSafely(item: View?): Boolean {
@@ -39,7 +39,7 @@ class DrawableMatcher(
             }
         }
 
-        return compare(item.drawable, expected)
+        return compare(expected, item.drawable)
     }
 
     override fun describeTo(description: Description?) {

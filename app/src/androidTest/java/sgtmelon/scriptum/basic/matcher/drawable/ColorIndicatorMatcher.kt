@@ -35,6 +35,6 @@ class ColorIndicatorMatcher(@IdRes resourceId: Int?, @Theme theme: Int, @Color c
 
         expected.setColor(context, colorItem)
 
-        return compare(item.background, expected)
+        return compare(expected, item.background)
     }
 }

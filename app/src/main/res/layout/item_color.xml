@@ -2,8 +2,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/color_parent_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
         android:padding="@dimen/layout_8dp">
@@ -23,8 +23,6 @@
             android:layout_gravity="center"
             android:importantForAccessibility="no"
             app:srcCompat="@drawable/ic_check"/>
-
-    <!-- TODO 13.10.18 Сделать область нажатия круглой, для pre API21 -->
 
     <!-- android:contentDescription - programmatically setup -->
     <View

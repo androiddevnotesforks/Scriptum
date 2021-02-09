@@ -15,8 +15,8 @@ import sgtmelon.scriptum.extension.getColorAttr
  * If [attrColor] is null => check without colorFilter.
  */
 class NavigationDrawableMatcher(
-        @IdRes resourceId: Int?,
-        @AttrRes private val attrColor: Int?
+    @IdRes resourceId: Int?,
+    @AttrRes private val attrColor: Int?
 ) : ParentImageMatcher(resourceId) {
 
     override fun matchesSafely(item: View?): Boolean {
@@ -35,7 +35,7 @@ class NavigationDrawableMatcher(
             expected.setColorFilter(context.getColorAttr(attrColor), PorterDuff.Mode.SRC_ATOP)
         }
 
-        return compare(navigationIcon, expected)
+        return compare(expected, navigationIcon)
     }
 
     override fun describeTo(description: Description?) {

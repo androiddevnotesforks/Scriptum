@@ -13,8 +13,8 @@ import org.hamcrest.TypeSafeMatcher
  */
 abstract class ParentImageMatcher(@IdRes protected val resourceId: Int?) : TypeSafeMatcher<View>() {
 
-    private var viewWidth = 1
-    private var viewHeight = 1
+    private var viewWidth = ND_SIZE
+    private var viewHeight = ND_SIZE
 
     /**
      * Need when drawable without size.
@@ -28,16 +28,16 @@ abstract class ParentImageMatcher(@IdRes protected val resourceId: Int?) : TypeS
         description?.appendText("\nView with drawable from resource id = $resourceId")
     }
 
-    protected fun compare(actual: Drawable, expected: Drawable): Boolean {
-        return getBitmap(actual).sameAs(getBitmap(expected))
+    protected fun compare(expected: Drawable, actual: Drawable): Boolean {
+        return getBitmap(expected).sameAs(getBitmap(actual))
     }
 
     /**
      * Create bitmap from [drawable].
      */
     private fun getBitmap(drawable: Drawable): Bitmap = with(drawable) {
-        val width = if (intrinsicWidth > 0) intrinsicWidth else viewWidth
-        val height = if (intrinsicHeight > 0) intrinsicHeight else viewHeight
+        val width = if (viewWidth != ND_SIZE) viewWidth else intrinsicWidth
+        val height = if (viewHeight != ND_SIZE) viewHeight else intrinsicHeight
 
         val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
 
@@ -48,4 +48,7 @@ abstract class ParentImageMatcher(@IdRes protected val resourceId: Int?) : TypeS
         return bitmap
     }
 
+    companion object {
+        private const val ND_SIZE = 1
+    }
 }

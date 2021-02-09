@@ -123,7 +123,7 @@ fun Matcher<View>.withContentDescription(string: String) = also {
 }
 
 
-fun Matcher<View>.withBackground(resourceId: Int) = also {
+fun Matcher<View>.withBackground(@DrawableRes resourceId: Int) = also {
     matchOnView(it, BackgroundMatcher(resourceId))
 }
 
