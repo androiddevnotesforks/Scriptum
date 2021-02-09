@@ -1,10 +1,7 @@
 package sgtmelon.scriptum.presentation.screen.vm.impl.notification
 
-import io.mockk.coEvery
-import io.mockk.coVerifySequence
+import io.mockk.*
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
-import io.mockk.verifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
@@ -40,6 +37,11 @@ class NotificationViewModelTest : ParentViewModelTest() {
 
         assertTrue(viewModel.cancelList.isEmpty())
         assertTrue(viewModel.itemList.isEmpty())
+    }
+
+    override fun tearDown() {
+        super.tearDown()
+        confirmVerified(callback, interactor)
     }
 
     @Test override fun onDestroy() {

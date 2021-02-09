@@ -45,6 +45,11 @@ class NotesViewModelTest : ParentViewModelTest() {
         viewModel.setInteractor(interactor, bindInteractor)
     }
 
+    override fun tearDown() {
+        super.tearDown()
+        confirmVerified(callback, interactor, bindInteractor, calendar)
+    }
+
     @Test override fun onDestroy() {
         assertNotNull(viewModel.callback)
 

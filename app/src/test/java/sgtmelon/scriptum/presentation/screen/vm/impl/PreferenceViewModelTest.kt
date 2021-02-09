@@ -37,10 +37,15 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
     private val viewModel by lazy {
         PreferenceViewModel(
-                interactor, signalInteractor, backupInteractor, bindInteractor, callback
+            interactor, signalInteractor, backupInteractor, bindInteractor, callback
         )
     }
     private val spyViewModel by lazy { spyk(viewModel) }
+
+    override fun tearDown() {
+        super.tearDown()
+        confirmVerified(interactor, signalInteractor, backupInteractor, bindInteractor, callback)
+    }
 
     @Test override fun onDestroy() {
         assertNotNull(viewModel.callback)

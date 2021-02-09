@@ -4,6 +4,7 @@ import android.app.Application
 import android.os.Bundle
 import sgtmelon.scriptum.domain.interactor.callback.IAppInteractor
 import sgtmelon.scriptum.domain.model.annotation.Theme
+import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.presentation.screen.ui.callback.IAppActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.IAppViewModel
 
@@ -20,7 +21,8 @@ class AppViewModel(application: Application) : ParentViewModel<IAppActivity>(app
     }
 
 
-    @Theme private var theme: Int = Theme.UNDEFINED
+    @Theme
+    @RunPrivate var theme: Int = Theme.UNDEFINED
 
     override fun onSetup(bundle: Bundle?) {
         theme = interactor.theme

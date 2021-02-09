@@ -1,10 +1,7 @@
 package sgtmelon.scriptum.presentation.screen.vm.impl.main
 
-import io.mockk.coEvery
-import io.mockk.coVerifySequence
-import io.mockk.every
+import io.mockk.*
 import io.mockk.impl.annotations.MockK
-import io.mockk.verifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
@@ -37,6 +34,11 @@ class BinViewModelTest : ParentViewModelTest() {
 
         viewModel.setCallback(callback)
         viewModel.setInteractor(interactor)
+    }
+
+    override fun tearDown() {
+        super.tearDown()
+        confirmVerified(callback, interactor)
     }
 
     @Test override fun onDestroy() {

@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.presentation.screen.vm.impl
 
+import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verifySequence
@@ -7,7 +8,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.scriptum.ParentViewModelTest
-import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.interactor.callback.IAppInteractor
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.presentation.screen.ui.callback.IAppActivity
@@ -31,6 +31,11 @@ class AppViewModelTest : ParentViewModelTest() {
         viewModel.setInteractor(interactor)
     }
 
+    override fun tearDown() {
+        super.tearDown()
+        confirmVerified(callback, interactor)
+    }
+
     @Test override fun onDestroy() {
         assertNotNull(viewModel.callback)
         viewModel.onDestroy()
@@ -41,19 +46,21 @@ class AppViewModelTest : ParentViewModelTest() {
     @Test fun onSetup() {
         every { interactor.theme } returns Theme.LIGHT
         viewModel.onSetup()
+        assertEquals(Theme.LIGHT, viewModel.theme)
 
         every { interactor.theme } returns Theme.DARK
         viewModel.onSetup()
+        assertEquals(Theme.DARK, viewModel.theme)
 
         verifySequence {
             interactor.theme
+            callback.setupTheme(Theme.LIGHT)
             callback.changeControlColor()
-            callback.setTheme(R.style.App_Light_UI)
             callback.changeSystemColor()
 
             interactor.theme
+            callback.setupTheme(Theme.DARK)
             callback.changeControlColor()
-            callback.setTheme(R.style.App_Dark_UI)
             callback.changeSystemColor()
         }
     }
@@ -68,6 +75,13 @@ class AppViewModelTest : ParentViewModelTest() {
 
         every { interactor.theme } returns Theme.DARK
         assertTrue(viewModel.isThemeChange())
-    }
 
+        verifySequence {
+            interactor.theme
+
+            callback.setupTheme(Theme.LIGHT)
+            callback.changeControlColor()
+            callback.changeSystemColor()
+        }
+    }
 }

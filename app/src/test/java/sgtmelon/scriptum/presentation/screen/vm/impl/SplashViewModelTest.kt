@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.presentation.screen.vm.impl
 
 import android.os.Bundle
+import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verifySequence
@@ -27,6 +28,11 @@ class SplashViewModelTest : ParentViewModelTest() {
     @MockK lateinit var bundle: Bundle
 
     private val viewModel by lazy { SplashViewModel(application) }
+
+    override fun tearDown() {
+        super.tearDown()
+        confirmVerified(callback, interactor, bundle)
+    }
 
     override fun setUp() {
         super.setUp()
