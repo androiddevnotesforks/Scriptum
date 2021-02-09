@@ -58,10 +58,10 @@ class NoteDialogUi(private val item: NoteItem) : ParentUi(), IDialogUi, DateTime
         item.switchStatus()
     }
 
-    fun onConvert() = waitClose {
-        convertButton.click()
+    fun onConvert(): NoteItem {
+        waitClose { convertButton.click() }
 
-        when (item) {
+        return when (item) {
             is NoteItem.Text -> item.onConvert()
             is NoteItem.Roll -> item.onConvert()
         }

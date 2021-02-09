@@ -3,6 +3,7 @@ package sgtmelon.scriptum.test.auto.main.notes
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.NotesFragment
 import sgtmelon.scriptum.test.ParentUiTest
 
@@ -50,7 +51,11 @@ class NotesNoteDialogTest : ParentUiTest() {
     }.let {
         launch {
             mainScreen {
-                notesScreen { openNoteDialog(it, p = 1) { onConvert() }.onAssertItem(it, p = 0) }
+                notesScreen {
+                    var convertItem: NoteItem? = null
+                    openNoteDialog(it, p = 1) { convertItem = onConvert() }
+                    onAssertItem(convertItem!!, p = 0)
+                }
             }
         }
     }
@@ -103,7 +108,11 @@ class NotesNoteDialogTest : ParentUiTest() {
     }.let {
         launch {
             mainScreen {
-                notesScreen { openNoteDialog(it, p = 1) { onConvert() }.onAssertItem(it, p = 0) }
+                notesScreen {
+                    var convertItem: NoteItem? = null
+                    openNoteDialog(it, p = 1) { convertItem = onConvert() }
+                    onAssertItem(convertItem!!, p = 0)
+                }
             }
         }
     }
