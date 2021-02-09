@@ -131,7 +131,13 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler), IPr
                 .withSize(widthId = R.dimen.layout_8dp)
                 .withColorIndicator(R.drawable.ic_color_indicator, theme, item.color)
 
-            val description = context.getString(R.string.description_item_notification_cancel, name, item.alarmDate)
+            val description = context.getString(R.string.description_item_notification_cancel)
+                .plus(other = " ")
+                .plus(name)
+                .plus(context.getString(R.string.description_item_notification_cancel_at))
+                .plus(other = " ")
+                .plus(item.alarmDate)
+
             cancelButton.isDisplayed()
                 .withDrawableAttr(R.drawable.ic_cancel_enter, R.attr.clContent)
                 .withContentDescription(description)

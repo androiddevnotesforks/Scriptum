@@ -30,8 +30,7 @@
                     android:id="@+id/note_text_color_view"
                     style="@style/Image.Color.Vertical.End"
                     android:importantForAccessibility="no"
-                    app:indicatorColor='@{item.color}'
-                    app:isNight="true" />
+                    app:indicatorColor='@{item.color}' />
 
             </LinearLayout>
 

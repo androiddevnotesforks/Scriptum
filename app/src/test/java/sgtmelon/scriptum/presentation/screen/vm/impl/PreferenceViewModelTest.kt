@@ -418,18 +418,15 @@ class PreferenceViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onClickNoteColor() {
-        val valueColor = Random.nextInt()
-        val valueTheme = Random.nextInt()
+        val color = Random.nextInt()
 
-        every { interactor.defaultColor } returns valueColor
-        every { interactor.theme } returns valueTheme
+        every { interactor.defaultColor } returns color
 
         assertTrue(viewModel.onClickNoteColor())
 
         verifySequence {
             interactor.defaultColor
-            interactor.theme
-            callback.showColorDialog(valueColor, valueTheme)
+            callback.showColorDialog(color)
         }
     }
 

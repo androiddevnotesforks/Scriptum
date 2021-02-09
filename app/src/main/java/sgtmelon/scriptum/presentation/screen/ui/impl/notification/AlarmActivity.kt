@@ -25,7 +25,6 @@ import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.data.NoteData
 import sgtmelon.scriptum.domain.model.data.ReceiverData
 import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.domain.model.key.ColorShade
 import sgtmelon.scriptum.domain.model.state.OpenState
 import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.presentation.adapter.NoteAdapter
@@ -238,10 +237,10 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         parentContainer?.afterLayoutConfiguration { viewModel.onStart() }
     }
 
-    override fun startRippleAnimation(@Theme theme: Int, @Color color: Int, shade: ColorShade) {
-        val fillColor = getAppSimpleColor(color, shade)
+    override fun startRippleAnimation(@Color color: Int) {
+        val logoView = logoView ?: return
 
-        logoView?.let { rippleContainer?.setupAnimation(theme, fillColor, it)?.startAnimation() }
+        rippleContainer?.setupAnimation(color, logoView)?.startAnimation()
     }
 
     override fun startButtonFadeInAnimation() {

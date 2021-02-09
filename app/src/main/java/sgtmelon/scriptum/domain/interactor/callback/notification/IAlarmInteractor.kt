@@ -3,7 +3,6 @@ package sgtmelon.scriptum.domain.interactor.callback.notification
 import sgtmelon.scriptum.domain.interactor.callback.IParentInteractor
 import sgtmelon.scriptum.domain.interactor.impl.notification.AlarmInteractor
 import sgtmelon.scriptum.domain.model.annotation.Repeat
-import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.screen.vm.callback.notification.IAlarmViewModel
 
@@ -11,8 +10,6 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.notification.IAlarmView
  * Interface for communication [IAlarmViewModel] with [AlarmInteractor].
  */
 interface IAlarmInteractor : IParentInteractor {
-
-    @Theme val theme: Int
 
     @Repeat val repeat: Int
 

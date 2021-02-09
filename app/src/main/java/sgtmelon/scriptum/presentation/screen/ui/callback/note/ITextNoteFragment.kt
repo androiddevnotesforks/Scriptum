@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.presentation.screen.ui.callback.note
 
 import sgtmelon.scriptum.domain.model.annotation.Color
-import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
@@ -15,9 +14,9 @@ interface ITextNoteFragment : IParentNoteFragment<NoteItem.Text> {
     /**
      * Setup elements for binding which is constants
      */
-    fun setupBinding(@Theme theme: Int)
+    fun setupBinding()
 
-    fun setupToolbar(@Theme theme: Int, @Color color: Int)
+    fun setupToolbar(@Color color: Int)
 
     fun setupDialog(rankNameArray: Array<String>)
 

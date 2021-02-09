@@ -3,7 +3,6 @@ package sgtmelon.scriptum.presentation.adapter
 import android.view.ViewGroup
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.Color
-import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.extension.inflateView
 import sgtmelon.scriptum.presentation.adapter.holder.ColorHolder
 import sgtmelon.scriptum.presentation.dialog.ColorDialog
@@ -13,8 +12,7 @@ import sgtmelon.scriptum.presentation.listener.ItemListener
  * Adapter which displays list of application colors for [ColorDialog].
  */
 class ColorAdapter(
-        @Theme private val theme: Int, 
-        private val clickListener: ItemListener.Click
+    private val clickListener: ItemListener.Click
 ) : ParentAdapter<Int, ColorHolder>() {
 
     private val visibleArray: BooleanArray
@@ -37,7 +35,7 @@ class ColorAdapter(
     }
 
     override fun onBindViewHolder(holder: ColorHolder, position: Int) {
-        holder.bindColor(theme, list[position])
+        holder.bindColor(list[position])
 
         holder.clickView.setOnClickListener { v ->
             clickListener.onItemClick(v, position)

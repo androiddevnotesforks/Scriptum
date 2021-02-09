@@ -52,5 +52,4 @@ abstract class AppActivity : ParentActivity(), IAppActivity {
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
         startActivity(intent)
     }
-
 }

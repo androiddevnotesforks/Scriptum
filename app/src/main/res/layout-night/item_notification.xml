@@ -29,7 +29,6 @@
                 style="@style/Image.Color.Vertical.Start"
                 android:importantForAccessibility="no"
                 app:indicatorColor='@{item.note.color}'
-                app:isNight="true"
                 tools:visibility="visible" />
 
             <include

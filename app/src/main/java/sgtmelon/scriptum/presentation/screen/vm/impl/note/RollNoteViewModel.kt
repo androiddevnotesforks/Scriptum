@@ -35,10 +35,9 @@ class RollNoteViewModel(application: Application) :
     }
 
     override fun setupBeforeInitialize() {
-        val theme = interactor.theme
         callback?.apply {
-            setupBinding(theme)
-            setupToolbar(theme, color)
+            setupBinding()
+            setupToolbar(color)
             setupEnter(inputControl)
             setupRecycler(inputControl, isFirstRun)
 

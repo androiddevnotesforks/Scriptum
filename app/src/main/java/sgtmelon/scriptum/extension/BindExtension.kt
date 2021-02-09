@@ -29,9 +29,10 @@ fun CardView.bindNoteColor(@Color color: Int) {
     setCardBackgroundColor(context.getNoteCardColor(color))
 }
 
-@BindingAdapter(value = ["indicatorColor", "isNight"])
-fun View.bindIndicatorColor(@Color color: Int, isNight: Boolean): ColorItem {
-    val colorItem = ColorData.getColorItem(color, isNight)
+@BindingAdapter(value = ["indicatorColor"])
+fun View.bindIndicatorColor(@Color color: Int): ColorItem? {
+    val theme = context.getAppTheme() ?: return null
+    val colorItem = ColorData.getColorItem(theme, color)
 
     background.setColor(context, colorItem)
 

@@ -39,7 +39,7 @@ class NoteViewModel(application: Application) : ParentViewModel<INoteActivity>(a
             color = interactor.defaultColor
         }
 
-        callback?.updateHolder(interactor.theme, color)
+        callback?.updateHolder(color)
         callback?.setupInsets()
     }
 
@@ -70,7 +70,7 @@ class NoteViewModel(application: Application) : ParentViewModel<INoteActivity>(a
     override fun onUpdateNoteColor(color: Int) {
         this.color = color
 
-        callback?.updateHolder(interactor.theme, color)
+        callback?.updateHolder(color)
     }
 
     override fun onConvertNote() {

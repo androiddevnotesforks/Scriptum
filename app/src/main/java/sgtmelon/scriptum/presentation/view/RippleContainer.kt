@@ -10,19 +10,22 @@ import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.widget.RelativeLayout
-import androidx.annotation.ColorInt
 import androidx.annotation.StringDef
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Theme
+import sgtmelon.scriptum.domain.model.key.ColorShade
+import sgtmelon.scriptum.extension.getAppSimpleColor
+import sgtmelon.scriptum.extension.getAppTheme
 import java.util.*
 
 /**
  * ViewGroup element for create ripple animation.
  */
 class RippleContainer @JvmOverloads constructor(
-        context: Context,
-        attrs: AttributeSet? = null,
-        defStyleAttr: Int = 0
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
 ) : RelativeLayout(context, attrs, defStyleAttr) {
 
     private var isAnimate = false
@@ -44,8 +47,12 @@ class RippleContainer @JvmOverloads constructor(
      *
      * Element, which center will be start position for ripple, pass throw [hookView].
      */
-    fun setupAnimation(@Theme theme: Int, @ColorInt fillColor: Int, hookView: View) = apply {
+    fun setupAnimation(@Color noteColor: Int, hookView: View) = apply {
         if (isConfigure) return@apply
+
+        val theme = context.getAppTheme() ?: return@apply
+        val shade = getRippleShade(theme)
+        val fillColor = context.getAppSimpleColor(noteColor, shade)
 
         tag = fillColor
 
@@ -58,7 +65,7 @@ class RippleContainer @JvmOverloads constructor(
             val paint = Paint().apply {
                 isAntiAlias = true
 
-                style = if (theme == Theme.LIGHT) Paint.Style.STROKE else Paint.Style.FILL
+                style = getPaintStyle(theme)
                 strokeWidth = resources.getDimension(R.dimen.stroke_4dp)
                 color = fillColor
             }
@@ -82,6 +89,14 @@ class RippleContainer @JvmOverloads constructor(
         animatorSet.playTogether(animatorList)
 
         isConfigure = true
+    }
+
+    private fun getRippleShade(@Theme theme: Int): ColorShade {
+        return if (theme == Theme.LIGHT) ColorShade.ACCENT else ColorShade.DARK
+    }
+
+    private fun getPaintStyle(@Theme theme: Int): Paint.Style {
+        return if (theme == Theme.LIGHT) Paint.Style.STROKE else Paint.Style.FILL
     }
 
     fun startAnimation() {

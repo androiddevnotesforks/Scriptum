@@ -12,7 +12,7 @@
     </style>
 
     <style name="Appearance.Indicator">
-        <item name="android:textColor">?attr/clCardIndicator</item>
+        <item name="android:textColor">?attr/clIndicator</item>
     </style>
 
 </resources>

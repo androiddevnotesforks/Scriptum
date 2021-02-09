@@ -362,7 +362,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
     override fun onMenuColor() {
         if (!noteState.isEdit) return
 
-        callback?.showColorDialog(noteItem.color, interactor.theme)
+        callback?.showColorDialog(noteItem.color)
     }
 
 

@@ -2,9 +2,7 @@ package sgtmelon.scriptum.presentation.screen.ui.callback.notification
 
 import androidx.annotation.ArrayRes
 import sgtmelon.scriptum.domain.model.annotation.Color
-import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.domain.model.key.ColorShade
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.AlarmActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.notification.IAlarmViewModel
 
@@ -37,7 +35,7 @@ interface IAlarmActivity : IAlarmBridge {
 
     fun waitLayoutConfigure()
 
-    fun startRippleAnimation(@Theme theme: Int, @Color color: Int, shade: ColorShade)
+    fun startRippleAnimation(@Color color: Int)
 
     fun startButtonFadeInAnimation()
 

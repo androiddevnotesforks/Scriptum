@@ -213,7 +213,7 @@ class PreferenceViewModel(
     }
 
     override fun onClickNoteColor() = takeTrue {
-        callback?.showColorDialog(interactor.defaultColor, interactor.theme)
+        callback?.showColorDialog(interactor.defaultColor)
     }
 
     override fun onResultNoteColor(@Color value: Int) {

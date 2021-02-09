@@ -41,19 +41,10 @@ object ColorData {
         throw IndexOutOfBoundsException("Arrays have different size")
     }
 
-    /**
-     * TODO remove
-     */
+
     fun getColorItem(@Theme theme: Int, @Color color: Int) = if (theme == Theme.LIGHT) {
         ColorItem(dark[color], light[color], dark[color])
     } else {
         ColorItem(dark[color], dark[color], light[color])
     }
-
-    fun getColorItem(@Color color: Int, isNight: Boolean) = if (isNight) {
-        ColorItem(dark[color], dark[color], light[color])
-    } else {
-        ColorItem(dark[color], light[color], dark[color])
-    }
-
 }

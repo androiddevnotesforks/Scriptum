@@ -28,12 +28,9 @@ class TextNoteViewModel(application: Application) :
     }
 
     override fun setupBeforeInitialize() {
-        val theme = interactor.theme
-        callback?.apply {
-            setupBinding(theme)
-            setupToolbar(theme, color)
-            setupEnter(inputControl)
-        }
+        callback?.setupBinding()
+        callback?.setupToolbar(color)
+        callback?.setupEnter(inputControl)
     }
 
     override suspend fun tryInitializeNote(): Boolean {

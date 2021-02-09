@@ -8,7 +8,6 @@ import sgtmelon.scriptum.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.domain.model.annotation.Color
-import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.extension.runMain
@@ -43,8 +42,6 @@ class RollNoteInteractor(
     override fun getSaveModel(): SaveControl.Model = with(preferenceRepo) {
         return@with SaveControl.Model(pauseSaveOn, autoSaveOn, savePeriod)
     }
-
-    @Theme override val theme: Int get() = preferenceRepo.theme
 
     @Color override val defaultColor: Int get() = preferenceRepo.defaultColor
 

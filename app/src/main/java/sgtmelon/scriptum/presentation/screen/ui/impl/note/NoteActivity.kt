@@ -8,7 +8,6 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.Color
-import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.data.NoteData
 import sgtmelon.scriptum.domain.model.data.ReceiverData
 import sgtmelon.scriptum.domain.model.item.NoteItem
@@ -84,9 +83,7 @@ class NoteActivity : AppActivity(), INoteActivity, INoteConnector, NoteReceiver.
     }
 
 
-    override fun updateHolder(@Theme theme: Int, @Color color: Int) {
-        holderTintControl.setupColor(theme, color)
-    }
+    override fun updateHolder(@Color color: Int) = holderTintControl.setupColor(color)
 
     override fun setupInsets() {
         parentContainer?.doOnApplyWindowInsets { view, insets, isFirstTime, _, margin ->

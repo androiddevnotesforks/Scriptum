@@ -83,19 +83,15 @@ class TextNoteViewModelTest : ParentViewModelTest() {
     @Test fun getBundleData() = fastTest.getBundleData()
 
     @Test fun setupBeforeInitialize() {
-        val theme = Random.nextInt()
         val color = Random.nextInt()
 
         viewModel.color = color
-        every { interactor.theme } returns theme
-
         viewModel.setupBeforeInitialize()
 
         verifySequence {
-            interactor.theme
             callback.apply {
-                setupBinding(theme)
-                setupToolbar(theme, color)
+                setupBinding()
+                setupToolbar(color)
                 setupEnter(inputControl)
             }
         }

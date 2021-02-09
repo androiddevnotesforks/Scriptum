@@ -796,12 +796,10 @@ object FastTest {
 
         fun onMenuColor(noteItem: N) {
             val color = Random.nextInt()
-            val theme = Random.nextInt()
 
             val noteState = mockk<NoteState>()
 
             every { noteItem.color } returns color
-            every { interactor.theme } returns theme
 
             viewModel.noteItem = noteItem
             viewModel.noteState = noteState
@@ -817,8 +815,7 @@ object FastTest {
 
                 noteState.isEdit
                 noteItem.color
-                interactor.theme
-                callback.showColorDialog(color, theme)
+                callback.showColorDialog(color)
             }
         }
 

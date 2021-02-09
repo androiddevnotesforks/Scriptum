@@ -2,7 +2,6 @@ package sgtmelon.scriptum.presentation.screen.vm.impl
 
 import android.app.Application
 import android.os.Bundle
-import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.interactor.callback.IAppInteractor
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.presentation.screen.ui.callback.IAppActivity
@@ -26,14 +25,9 @@ class AppViewModel(application: Application) : ParentViewModel<IAppActivity>(app
     override fun onSetup(bundle: Bundle?) {
         theme = interactor.theme
 
-        callback?.changeControlColor(theme == Theme.LIGHT)
-
-        when (theme) {
-            Theme.LIGHT -> callback?.setTheme(R.style.App_Light_UI)
-            Theme.DARK -> callback?.setTheme(R.style.App_Dark_UI)
-        }
-
-        callback?.changeSystemColor(theme)
+        callback?.setupTheme(theme)
+        callback?.changeControlColor()
+        callback?.changeSystemColor()
     }
 
     override fun isThemeChange(): Boolean = theme != interactor.theme

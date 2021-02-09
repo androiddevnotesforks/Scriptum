@@ -3,7 +3,7 @@
 
     <bool name="pref_first_start">true</bool>
 
-    <integer name="pref_app_theme">0</integer>
+    <integer name="pref_app_theme">2</integer>
 
     <bool name="pref_backup_import_skip">true</bool>
 

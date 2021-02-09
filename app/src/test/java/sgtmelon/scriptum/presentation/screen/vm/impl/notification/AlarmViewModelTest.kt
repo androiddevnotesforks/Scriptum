@@ -13,10 +13,8 @@ import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.domain.model.annotation.Repeat
-import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.data.NoteData
 import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.domain.model.key.ColorShade
 import sgtmelon.scriptum.domain.model.state.SignalState
 import sgtmelon.scriptum.isDivideTwoEntirely
 import sgtmelon.scriptum.presentation.screen.ui.callback.notification.IAlarmActivity
@@ -271,38 +269,26 @@ class AlarmViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onStart() {
-        val firstTheme = Theme.LIGHT
-        val secondTheme = Theme.DARK
-
         val firstNote = data.firstNote.deepCopy()
         val secondNote = data.secondNote.deepCopy()
 
-        every { interactor.theme } returns firstTheme
         viewModel.noteItem = firstNote
         viewModel.signalState = firstSignal
         viewModel.onStart()
 
-        every { interactor.theme } returns secondTheme
         viewModel.noteItem = secondNote
         viewModel.signalState = secondSignal
         viewModel.onStart()
 
         verifySequence {
-            verifyOnStart(firstTheme, ColorShade.ACCENT, firstNote, firstSignal)
-            verifyOnStart(secondTheme, ColorShade.DARK, secondNote, secondSignal)
+            verifyOnStart(firstNote, firstSignal)
+            verifyOnStart(secondNote, secondSignal)
         }
     }
 
-    private fun MockKVerificationScope.verifyOnStart(
-        @Theme theme: Int,
-        colorShade: ColorShade,
-        noteItem: NoteItem,
-        state: SignalState
-    ) {
-        interactor.theme
-
+    private fun MockKVerificationScope.verifyOnStart(noteItem: NoteItem, state: SignalState) {
         callback.apply {
-            startRippleAnimation(theme, noteItem.color, colorShade)
+            startRippleAnimation(noteItem.color)
             startButtonFadeInAnimation()
 
             if (state.isMelody) {
@@ -402,13 +388,6 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
         assertFalse(noteItem.isStatus)
         verifySequence { callback.notifyList(noteItem) }
-    }
-
-
-    @Test fun getRippleShade() {
-        assertEquals(ColorShade.ACCENT, viewModel.getRippleShade(Theme.LIGHT))
-        assertEquals(ColorShade.DARK, viewModel.getRippleShade(Theme.DARK))
-        assertEquals(ColorShade.DARK, viewModel.getRippleShade(Random.nextInt()))
     }
 
     companion object {

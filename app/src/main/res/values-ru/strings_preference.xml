@@ -65,6 +65,7 @@
     <string-array name="pref_text_app_theme">
         <item>Светлая</item>
         <item>Тёмная</item>
+        <item>Системная</item>
     </string-array>
 
     <string-array name="pref_text_note_sort">

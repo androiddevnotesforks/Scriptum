@@ -383,7 +383,7 @@
     </style>
 
     <style name="Image.Note.Info">
-        <item name="android:tint">?attr/clCardIndicator</item>
+        <item name="android:tint">?attr/clIndicator</item>
     </style>
 
     <style name="Image.Rank">
@@ -392,7 +392,7 @@
         <item name="android:layout_gravity">bottom</item>
         <item name="android:layout_marginBottom">@dimen/layout_1dp</item>
         <item name="android:layout_marginStart">@dimen/layout_1dp</item>
-        <item name="android:tint">?attr/clCardIndicator</item>
+        <item name="android:tint">?attr/clIndicator</item>
     </style>
 
     <!-- ProgressBar -->

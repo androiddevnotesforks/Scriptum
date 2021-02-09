@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.presentation.screen.ui.callback.note
 
 import sgtmelon.scriptum.domain.model.annotation.Color
-import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.note.INoteViewModel
 
@@ -10,7 +9,7 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.note.INoteViewModel
  */
 interface INoteActivity {
 
-    fun updateHolder(@Theme theme: Int, @Color color: Int)
+    fun updateHolder(@Color color: Int)
 
     fun setupInsets()
 

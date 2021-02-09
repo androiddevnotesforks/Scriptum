@@ -25,7 +25,6 @@ import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.InputAction
 import sgtmelon.scriptum.domain.model.annotation.Sort
-import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.data.NoteData
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
@@ -202,14 +201,11 @@ class RollNoteFragment : ParentFragment(),
     }
 
 
-    override fun setupBinding(@Theme theme: Int) {
-        binding?.apply {
-            this.theme = theme
-            this.menuCallback = viewModel
-        }
+    override fun setupBinding() {
+        binding?.apply { this.menuCallback = viewModel }
     }
 
-    override fun setupToolbar(@Theme theme: Int, @Color color: Int) {
+    override fun setupToolbar(@Color color: Int) {
         val toolbar: Toolbar? = view?.findViewById(R.id.toolbar_note_content_container)
         val indicator: View? = view?.findViewById(R.id.toolbar_note_color_view)
 
@@ -217,9 +213,9 @@ class RollNoteFragment : ParentFragment(),
         visibleMenuItem = toolbar?.menu?.findItem(R.id.item_visible)
 
         activity?.let {
-            toolbarTintControl = ToolbarTintControl(it, it.window, toolbar, indicator, theme, color)
+            toolbarTintControl = ToolbarTintControl(it, it.window, toolbar, indicator, color)
             navigationIconControl = NavigationIconControl(it, toolbar, callback = this)
-            visibleIconControl = VisibleIconControl(it, theme, visibleMenuItem, callback = this)
+            visibleIconControl = VisibleIconControl(it, visibleMenuItem, callback = this)
         }
 
         toolbar?.setNavigationOnClickListener { viewModel.onClickBackArrow() }
@@ -538,11 +534,11 @@ class RollNoteFragment : ParentFragment(),
         rankDialog.setArguments(check).show(fm, DialogFactory.Note.RANK)
     }
 
-    override fun showColorDialog(@Color color: Int, @Theme theme: Int) = openState.tryInvoke {
+    override fun showColorDialog(@Color color: Int) = openState.tryInvoke {
         toolbarTintControl?.setColorFrom(color)
 
         hideKeyboard()
-        colorDialog.setArguments(color, theme).show(fm, DialogFactory.Note.COLOR)
+        colorDialog.setArguments(color).show(fm, DialogFactory.Note.COLOR)
     }
 
     override fun showDateDialog(calendar: Calendar, resetVisible: Boolean) = openState.tryInvoke {

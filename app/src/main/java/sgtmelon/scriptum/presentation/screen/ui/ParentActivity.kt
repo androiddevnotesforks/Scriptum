@@ -5,14 +5,17 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.Theme
+import sgtmelon.scriptum.extension.getAppTheme
 import sgtmelon.scriptum.extension.getColorAttr
+import sgtmelon.scriptum.presentation.screen.ui.callback.IAppActivity
 
 /**
  * Parent class for all activities.
  */
-abstract class ParentActivity : AppCompatActivity() {
+abstract class ParentActivity : AppCompatActivity(), IAppActivity {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,10 +28,24 @@ abstract class ParentActivity : AppCompatActivity() {
                 View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
     }
 
+    override fun setupTheme(@Theme theme: Int) {
+        val mode = when (theme) {
+            Theme.LIGHT -> AppCompatDelegate.MODE_NIGHT_NO
+            Theme.DARK -> AppCompatDelegate.MODE_NIGHT_YES
+            Theme.SYSTEM -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+            else -> AppCompatDelegate.MODE_NIGHT_UNSPECIFIED
+        }
+
+        AppCompatDelegate.setDefaultNightMode(mode)
+    }
+
     /**
      * Set light statusBar and navigationBar from xml not working.
      */
-    fun changeControlColor(onLight: Boolean) {
+    override fun changeControlColor() {
+        val theme = getAppTheme() ?: return
+        val onLight = theme == Theme.LIGHT
+
         changeStatusControl(onLight)
         changeNavigationControl(onLight)
     }
@@ -60,7 +77,9 @@ abstract class ParentActivity : AppCompatActivity() {
     /**
      * Set system colors from xml not working.
      */
-    fun changeSystemColor(@Theme theme: Int) {
+    override fun changeSystemColor() {
+        val theme = getAppTheme() ?: return
+
         setWindowBackground(theme)
         setStatusBarColor(theme)
         setNavigationColor(theme)

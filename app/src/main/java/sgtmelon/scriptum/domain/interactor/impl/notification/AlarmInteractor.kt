@@ -8,7 +8,6 @@ import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.domain.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.domain.model.annotation.Repeat
-import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.extension.runMain
@@ -29,8 +28,6 @@ class AlarmInteractor(
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy { callback = null }
 
-
-    @Theme override val theme: Int get() = preferenceRepo.theme
 
     @Repeat override val repeat: Int get() = preferenceRepo.repeat
 

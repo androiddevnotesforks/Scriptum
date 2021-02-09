@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.presentation.screen.ui.callback.note
 
 import sgtmelon.scriptum.domain.model.annotation.Color
-import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import java.util.*
@@ -33,7 +32,7 @@ interface IParentNoteFragment<N : NoteItem> : IParentNoteBridge {
 
     fun showRankDialog(check: Int)
 
-    fun showColorDialog(@Color color: Int, @Theme theme: Int)
+    fun showColorDialog(@Color color: Int)
 
     fun showDateDialog(calendar: Calendar, resetVisible: Boolean)
 

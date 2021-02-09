@@ -17,8 +17,6 @@ class NoteInteractorTest : ParentInteractorTest() {
 
     private val interactor by lazy { NoteInteractor(preferenceRepo) }
 
-    @Test fun getTheme() = FastTest.getTheme(preferenceRepo) { interactor.theme }
-
     @Test fun getDefaultColor() = FastTest.getDefaultColor(preferenceRepo) {
         interactor.defaultColor
     }

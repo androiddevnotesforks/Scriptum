@@ -10,12 +10,10 @@ import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.domain.model.annotation.Repeat
-import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.data.NoteData.Default
 import sgtmelon.scriptum.domain.model.data.NoteData.Intent
 import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.domain.model.key.ColorShade
 import sgtmelon.scriptum.domain.model.state.SignalState
 import sgtmelon.scriptum.extension.runBack
 import sgtmelon.scriptum.presentation.screen.ui.callback.notification.IAlarmActivity
@@ -113,10 +111,8 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     override fun onSaveData(bundle: Bundle) = with(bundle) { putLong(Intent.ID, id) }
 
     override fun onStart() {
-        val theme = interactor.theme
-
         callback?.apply {
-            startRippleAnimation(theme, noteItem.color, getRippleShade(theme))
+            startRippleAnimation(noteItem.color)
             startButtonFadeInAnimation()
 
             if (signalState?.isMelody == true) {
@@ -181,20 +177,10 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         callback?.notifyList(noteItem.apply { isStatus = false })
     }
 
-
-    /**
-     * @Test - Have duplicate in test screen.
-     */
-    @RunPrivate
-    fun getRippleShade(@Theme theme: Int): ColorShade {
-        return if (theme == Theme.LIGHT) ColorShade.ACCENT else ColorShade.DARK
-    }
-
     private val vibratorPattern = longArrayOf(500, 750, 500, 750, 500, 0)
 
     companion object {
         @RunPrivate const val START_DELAY = 0L
         @RunPrivate const val CANCEL_DELAY = 20000L
     }
-
 }

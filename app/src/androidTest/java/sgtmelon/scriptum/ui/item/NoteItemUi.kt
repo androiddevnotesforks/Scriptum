@@ -101,7 +101,7 @@ class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
 
                 visibleImage.isDisplayed(item.isVisible) {
                     withSize(R.dimen.icon_16dp, R.dimen.icon_16dp)
-                }.withDrawableAttr(R.drawable.ic_visible_exit, R.attr.clCardIndicator)
+                }.withDrawableAttr(R.drawable.ic_visible_exit, R.attr.clIndicator)
             }
         }
     }
@@ -165,18 +165,18 @@ class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
 
                 notificationImage.isDisplayed(item.haveAlarm()) {
                     withSize(R.dimen.icon_16dp, R.dimen.icon_16dp)
-                }.withDrawableAttr(R.drawable.ic_notifications, R.attr.clCardIndicator)
+                }.withDrawableAttr(R.drawable.ic_notifications, R.attr.clIndicator)
 
                 bindImage.isDisplayed(item.isStatus) {
                     withSize(R.dimen.icon_16dp, R.dimen.icon_16dp)
                 }.withDrawableAttr(when (type) {
                     NoteType.TEXT -> R.drawable.ic_bind_text
                     NoteType.ROLL -> R.drawable.ic_bind_roll
-                }, R.attr.clCardIndicator)
+                }, R.attr.clIndicator)
 
                 rankImage.isDisplayed(item.haveRank()) {
                     withSize(R.dimen.icon_16dp, R.dimen.icon_16dp)
-                }.withDrawableAttr(R.drawable.ic_rank, R.attr.clCardIndicator)
+                }.withDrawableAttr(R.drawable.ic_rank, R.attr.clIndicator)
 
                 val visible = type == NoteType.ROLL
                 progressText.isDisplayed(visible) {

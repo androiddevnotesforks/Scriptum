@@ -64,8 +64,10 @@ class ViewModelModule {
 
     @Provides
     @ActivityScope
-    fun provideSplashViewModel(activity: SplashActivity,
-                               interactor: ISplashInteractor): ISplashViewModel {
+    fun provideSplashViewModel(
+        activity: SplashActivity,
+        interactor: ISplashInteractor
+    ): ISplashViewModel {
         return ViewModelProvider(activity).get(SplashViewModel::class.java).apply {
             setCallback(activity)
             setInteractor(interactor)
@@ -74,8 +76,10 @@ class ViewModelModule {
 
     @Provides
     @ActivityScope
-    fun provideIntroViewModel(activity: IntroActivity,
-                              interactor: IIntroInteractor): IIntroViewModel {
+    fun provideIntroViewModel(
+        activity: IntroActivity,
+        interactor: IIntroInteractor
+    ): IIntroViewModel {
         return ViewModelProvider(activity).get(IntroViewModel::class.java).apply {
             setCallback(activity)
             setInteractor(interactor)
@@ -86,8 +90,11 @@ class ViewModelModule {
 
     @Provides
     @ActivityScope
-    fun provideMainViewModel(activity: MainActivity, interactor: IMainInteractor,
-                             bindInteractor: IBindInteractor): IMainViewModel {
+    fun provideMainViewModel(
+        activity: MainActivity,
+        interactor: IMainInteractor,
+        bindInteractor: IBindInteractor
+    ): IMainViewModel {
         return ViewModelProvider(activity).get(MainViewModel::class.java).apply {
             setCallback(activity)
             setInteractor(interactor, bindInteractor)
@@ -96,8 +103,11 @@ class ViewModelModule {
 
     @Provides
     @ActivityScope
-    fun provideRankViewModel(fragment: RankFragment, interactor: IRankInteractor,
-                             bindInteractor: IBindInteractor): IRankViewModel {
+    fun provideRankViewModel(
+        fragment: RankFragment,
+        interactor: IRankInteractor,
+        bindInteractor: IBindInteractor
+    ): IRankViewModel {
         return ViewModelProvider(fragment).get(RankViewModel::class.java).apply {
             setCallback(fragment)
             setInteractor(interactor, bindInteractor)
@@ -106,8 +116,11 @@ class ViewModelModule {
 
     @Provides
     @ActivityScope
-    fun provideNotesViewModel(fragment: NotesFragment, interactor: INotesInteractor,
-                              bindInteractor: IBindInteractor): INotesViewModel {
+    fun provideNotesViewModel(
+        fragment: NotesFragment,
+        interactor: INotesInteractor,
+        bindInteractor: IBindInteractor
+    ): INotesViewModel {
         return ViewModelProvider(fragment).get(NotesViewModel::class.java).apply {
             setCallback(fragment)
             setInteractor(interactor, bindInteractor)
@@ -139,8 +152,11 @@ class ViewModelModule {
 
     @Provides
     @ActivityScope
-    fun provideTextNoteViewModel(fragment: TextNoteFragment, interactor: ITextNoteInteractor,
-                                 bindInteractor: IBindInteractor): ITextNoteViewModel {
+    fun provideTextNoteViewModel(
+        fragment: TextNoteFragment,
+        interactor: ITextNoteInteractor,
+        bindInteractor: IBindInteractor
+    ): ITextNoteViewModel {
         return ViewModelProvider(fragment).get(TextNoteViewModel::class.java).apply {
             setCallback(fragment)
             setParentCallback(fragment.context as? INoteConnector)
@@ -151,8 +167,11 @@ class ViewModelModule {
 
     @Provides
     @ActivityScope
-    fun provideRollNoteViewModel(fragment: RollNoteFragment, interactor: IRollNoteInteractor,
-                                 bindInteractor: IBindInteractor): IRollNoteViewModel {
+    fun provideRollNoteViewModel(
+        fragment: RollNoteFragment,
+        interactor: IRollNoteInteractor,
+        bindInteractor: IBindInteractor
+    ): IRollNoteViewModel {
         return ViewModelProvider(fragment).get(RollNoteViewModel::class.java).apply {
             setCallback(fragment)
             setParentCallback(fragment.context as? INoteConnector)
@@ -164,9 +183,12 @@ class ViewModelModule {
 
     @Provides
     @ActivityScope
-    fun provideAlarmViewModel(activity: AlarmActivity, interactor: IAlarmInteractor,
-                              signalInteractor: ISignalInteractor,
-                              bindInteractor: IBindInteractor): IAlarmViewModel {
+    fun provideAlarmViewModel(
+        activity: AlarmActivity,
+        interactor: IAlarmInteractor,
+        signalInteractor: ISignalInteractor,
+        bindInteractor: IBindInteractor
+    ): IAlarmViewModel {
         return ViewModelProvider(activity).get(AlarmViewModel::class.java).apply {
             setCallback(activity)
             setInteractor(interactor, signalInteractor, bindInteractor)
@@ -175,8 +197,10 @@ class ViewModelModule {
 
     @Provides
     @ActivityScope
-    fun provideNotificationViewModel(activity: NotificationActivity,
-                                     interactor: INotificationInteractor): INotificationViewModel {
+    fun provideNotificationViewModel(
+        activity: NotificationActivity,
+        interactor: INotificationInteractor
+    ): INotificationViewModel {
         return ViewModelProvider(activity).get(NotificationViewModel::class.java).apply {
             setCallback(activity)
             setInteractor(interactor)
@@ -186,20 +210,24 @@ class ViewModelModule {
 
     @Provides
     @ActivityScope
-    fun providePreferenceViewModel(fragment: PreferenceFragment,
-                                   preferenceInteractor: IPreferenceInteractor,
-                                   signalInteractor: ISignalInteractor,
-                                   backupInteractor: IBackupInteractor,
-                                   bindInteractor: IBindInteractor): IPreferenceViewModel {
+    fun providePreferenceViewModel(
+        fragment: PreferenceFragment,
+        preferenceInteractor: IPreferenceInteractor,
+        signalInteractor: ISignalInteractor,
+        backupInteractor: IBackupInteractor,
+        bindInteractor: IBindInteractor
+    ): IPreferenceViewModel {
         return PreferenceViewModel(
-                preferenceInteractor, signalInteractor, backupInteractor, bindInteractor, fragment
+            preferenceInteractor, signalInteractor, backupInteractor, bindInteractor, fragment
         )
     }
 
     @Provides
     @ActivityScope
-    fun provideDevelopViewModel(activity: DevelopActivity,
-                                interactor: IDevelopInteractor): IDevelopViewModel {
+    fun provideDevelopViewModel(
+        activity: DevelopActivity,
+        interactor: IDevelopInteractor
+    ): IDevelopViewModel {
         return ViewModelProvider(activity).get(DevelopViewModel::class.java).apply {
             setCallback(activity)
             setInteractor(interactor)

@@ -12,20 +12,22 @@ import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.key.ColorShade
 import sgtmelon.scriptum.domain.model.state.MenuColorState
 import sgtmelon.scriptum.extension.getAppSimpleColor
+import sgtmelon.scriptum.extension.getAppTheme
 import sgtmelon.scriptum.extension.getNoteToolbarColor
 
 /**
  * Control note toolbar tint.
  */
 class ToolbarTintControl(
-        context: Context,
-        private val window: Window,
-        private val toolbar: View?,
-        private val indicator: View?,
-        @Theme private val theme: Int,
-        @Color startColor: Int
+    context: Context,
+    private val window: Window,
+    private val toolbar: View?,
+    private val indicator: View?,
+    @Color startColor: Int
 ) : ParentTintControl(context),
-        IToolbarTintControl {
+    IToolbarTintControl {
+
+    @Theme private val theme: Int? = context.getAppTheme()
 
     private val colorAnimator: ValueAnimator = ValueAnimator.ofFloat(0F, 1F)
 
@@ -39,6 +41,8 @@ class ToolbarTintControl(
     }
 
     private fun setupColorAnimator() {
+        if (theme == null) return
+
         val updateListener = ValueAnimator.AnimatorUpdateListener {
             val ratio = it.animatedFraction
             var blended: Int
@@ -57,10 +61,13 @@ class ToolbarTintControl(
 
         colorAnimator.removeAllUpdateListeners()
         colorAnimator.addUpdateListener(updateListener)
-        colorAnimator.duration = context.resources.getInteger(R.integer.color_transition_time).toLong()
+        colorAnimator.duration = context.resources.getInteger(R.integer.color_transition_time)
+            .toLong()
     }
 
     private fun setupColor(@Color color: Int) {
+        if (theme == null) return
+
         if (theme != Theme.DARK) {
             window.statusBarColor = getStatusBarColor(theme, color)
 
@@ -74,12 +81,16 @@ class ToolbarTintControl(
 
 
     override fun setColorFrom(@Color color: Int) = apply {
+        if (theme == null) return@apply
+
         statusState.from = context.getNoteToolbarColor(theme, color, statusOnDark)
         toolbarState.from = context.getNoteToolbarColor(theme, color, needDark = false)
         indicatorState.from = context.getAppSimpleColor(color, ColorShade.DARK)
     }
 
     override fun startTint(@Color color: Int) {
+        if (theme == null) return
+
         statusState.to = context.getNoteToolbarColor(theme, color, statusOnDark)
         toolbarState.to = context.getNoteToolbarColor(theme, color, needDark = false)
         indicatorState.to = context.getAppSimpleColor(color, ColorShade.DARK)

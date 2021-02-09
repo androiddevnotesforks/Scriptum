@@ -12,6 +12,7 @@ import sgtmelon.scriptum.domain.model.key.ColorShade
 import sgtmelon.scriptum.extension.getAppSimpleColor
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.AlarmActivity
 import sgtmelon.scriptum.presentation.screen.vm.impl.notification.AlarmViewModel
+import sgtmelon.scriptum.presentation.view.RippleContainer
 import sgtmelon.scriptum.ui.IPressBack
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.dialog.sheet.RepeatSheetDialogUi
@@ -122,7 +123,7 @@ class AlarmScreen(
     }
 
     /**
-     * @Test - duplicate of original function in [AlarmViewModel].
+     * @Test - duplicate of original function in [RippleContainer].
      */
     private fun getRippleShade(@Theme theme: Int): ColorShade {
         return if (theme == Theme.LIGHT) ColorShade.ACCENT else ColorShade.DARK

@@ -75,8 +75,6 @@ class RollNoteInteractorTest : ParentInteractorTest() {
         interactor.getSaveModel()
     }
 
-    @Test fun getTheme() = FastTest.getTheme(preferenceRepo) { interactor.theme }
-
     @Test fun getDefaultColor() = FastTest.getDefaultColor(preferenceRepo) {
         interactor.defaultColor
     }

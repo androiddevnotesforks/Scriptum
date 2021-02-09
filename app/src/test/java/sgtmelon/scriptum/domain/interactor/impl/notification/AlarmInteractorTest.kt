@@ -47,8 +47,6 @@ class AlarmInteractorTest : ParentInteractorTest() {
     }
 
 
-    @Test fun getTheme() = FastTest.getTheme(preferenceRepo) { interactor.theme }
-
     @Test fun getRepeat() = FastTest.getRepeat(preferenceRepo) { interactor.repeat }
 
     @Test fun getVolume() = FastTest.getVolume(preferenceRepo) { interactor.volume }

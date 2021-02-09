@@ -12,34 +12,26 @@ import sgtmelon.safedialog.BlankDialog
 import sgtmelon.safedialog.applyAnimation
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.Color
-import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.presentation.adapter.ColorAdapter
 import sgtmelon.scriptum.presentation.listener.ItemListener
 
-class ColorDialog : BlankDialog() {
+class ColorDialog : BlankDialog(), ItemListener.Click {
 
     private var init: Int = 0
 
     var check: Int = 0
         private set
 
-    /**
-     * Variable for pass into [ColorAdapter].
-     */
-    @Theme private var appTheme: Int = Theme.UNDEFINED
-
-    fun setArguments(@Color check: Int, @Theme theme: Int) = apply {
+    fun setArguments(@Color check: Int) = apply {
         arguments = Bundle().apply {
             putInt(INIT, check)
             putInt(VALUE, check)
-            putInt(THEME, theme)
         }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         init = savedInstanceState?.getInt(INIT) ?: arguments?.getInt(INIT) ?: 0
         check = savedInstanceState?.getInt(VALUE) ?: arguments?.getInt(VALUE) ?: 0
-        appTheme = savedInstanceState?.getInt(THEME) ?: arguments?.getInt(THEME) ?: Theme.UNDEFINED
 
         val context = context as Context
 
@@ -55,12 +47,7 @@ class ColorDialog : BlankDialog() {
 
             (itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
 
-            adapter = ColorAdapter(appTheme, object : ItemListener.Click {
-                override fun onItemClick(view: View, p: Int) {
-                    check = p
-                    setEnable()
-                }
-            }).setCheck(check)
+            adapter = ColorAdapter(clickListener = this@ColorDialog).setCheck(check)
         }
 
         return AlertDialog.Builder(context)
@@ -77,7 +64,6 @@ class ColorDialog : BlankDialog() {
         super.onSaveInstanceState(outState)
         outState.putInt(INIT, init)
         outState.putInt(VALUE, check)
-        outState.putInt(THEME, appTheme)
     }
 
     override fun setEnable() {
@@ -85,8 +71,8 @@ class ColorDialog : BlankDialog() {
         positiveButton?.isEnabled = init != check
     }
 
-    companion object {
-        const val THEME = "${PREFIX}_THEME"
+    override fun onItemClick(view: View, p: Int) {
+        check = p
+        setEnable()
     }
-
 }

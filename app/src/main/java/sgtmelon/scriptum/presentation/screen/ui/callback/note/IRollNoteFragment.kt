@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.presentation.screen.ui.callback.note
 
 import sgtmelon.scriptum.domain.model.annotation.Color
-import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
 import sgtmelon.scriptum.domain.model.state.NoteState
@@ -20,9 +19,9 @@ interface IRollNoteFragment : IParentNoteFragment<NoteItem.Roll> {
     /**
      * Setup elements for binding which is constants
      */
-    fun setupBinding(@Theme theme: Int)
+    fun setupBinding()
 
-    fun setupToolbar(@Theme theme: Int, @Color color: Int)
+    fun setupToolbar(@Color color: Int)
 
     fun setupDialog(rankNameArray: Array<String>)
 

@@ -43,7 +43,7 @@
 
     <!--  Attr for control card text and indicators color in list. (Switch by theme)  -->
     <declare-styleable name="CardTheme">
-        <attr name="clCardIndicator" format="color" />
+        <attr name="clIndicator" format="color" />
     </declare-styleable>
 
     <!--  Attr for control view styles. (Switch by theme)  -->

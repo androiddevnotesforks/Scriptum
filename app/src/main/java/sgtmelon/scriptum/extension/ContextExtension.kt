@@ -2,15 +2,26 @@ package sgtmelon.scriptum.extension
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.util.TypedValue
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import androidx.core.content.ContextCompat
+import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.data.ReceiverData
 
 fun Context.getCompatColor(@ColorRes id: Int) = let { ContextCompat.getColor(it, id) }
+
+@Theme
+fun Context.getAppTheme(): Int? {
+    return when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+        Configuration.UI_MODE_NIGHT_NO -> Theme.LIGHT
+        Configuration.UI_MODE_NIGHT_YES -> Theme.DARK
+        else -> null
+    }
+}
 
 //region Get resource value
 

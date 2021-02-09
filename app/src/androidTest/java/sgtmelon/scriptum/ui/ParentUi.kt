@@ -12,6 +12,7 @@ import org.hamcrest.Matchers.not
 import sgtmelon.scriptum.dagger.module.base.ProviderModule
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.preference.PreferenceRepo
+import sgtmelon.scriptum.extension.getAppTheme
 
 /**
  * Parent class for access standard UI functions.
@@ -26,7 +27,7 @@ abstract class ParentUi {
             ProviderModule().provideSharedPreferences(context)
     )
 
-    protected val theme: Int get() = preferenceRepo.theme
+    protected val theme: Int get() = context.getAppTheme() ?: throw NullPointerException()
     protected val repeat: Int get() = preferenceRepo.repeat
 
     protected fun getViewByName(name: String): Matcher<View> = withResourceName(name)

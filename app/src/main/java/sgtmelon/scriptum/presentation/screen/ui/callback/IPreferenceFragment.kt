@@ -66,7 +66,7 @@ interface IPreferenceFragment : BindControl.NoteBridge.NotifyAll, BindControl.In
 
     fun updateColorSummary(summary: String?)
 
-    fun showColorDialog(@Color color: Int, @Theme theme: Int)
+    fun showColorDialog(@Color color: Int)
 
 
     fun updateRepeatSummary(summary: String?)

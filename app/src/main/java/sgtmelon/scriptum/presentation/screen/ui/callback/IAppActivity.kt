@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.presentation.screen.ui.callback
 
-import androidx.annotation.StyleRes
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.presentation.screen.ui.impl.AppActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.IAppViewModel
@@ -10,9 +9,9 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.IAppViewModel
  */
 interface IAppActivity {
 
-    fun setTheme(@StyleRes resId: Int)
+    fun setupTheme(@Theme theme: Int)
 
-    fun changeControlColor(onLight: Boolean)
+    fun changeControlColor()
 
-    fun changeSystemColor(@Theme theme: Int)
+    fun changeSystemColor()
 }

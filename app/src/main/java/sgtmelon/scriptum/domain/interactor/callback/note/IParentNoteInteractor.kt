@@ -2,7 +2,6 @@ package sgtmelon.scriptum.domain.interactor.callback.note
 
 import sgtmelon.scriptum.domain.interactor.callback.IParentInteractor
 import sgtmelon.scriptum.domain.model.annotation.Color
-import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.control.note.save.SaveControl
 import java.util.*
@@ -13,8 +12,6 @@ import java.util.*
 interface IParentNoteInteractor<N : NoteItem> : IParentInteractor {
 
     fun getSaveModel(): SaveControl.Model
-
-    @Theme val theme: Int
 
     @Color val defaultColor: Int
 
