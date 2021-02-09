@@ -2,8 +2,6 @@ package sgtmelon.scriptum.domain.interactor.callback.notification
 
 import sgtmelon.scriptum.domain.interactor.callback.IParentInteractor
 import sgtmelon.scriptum.domain.interactor.impl.notification.NotificationInteractor
-
-import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.presentation.screen.vm.callback.notification.INotificationViewModel
 
@@ -11,8 +9,6 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.notification.INotificat
  * Interface for communication [INotificationViewModel] with [NotificationInteractor].
  */
 interface INotificationInteractor : IParentInteractor {
-
-    @Theme val theme: Int
 
     suspend fun getCount(): Int
 

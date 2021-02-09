@@ -8,9 +8,7 @@ import org.junit.Test
 import sgtmelon.extension.getCalendarOrNull
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.FastMock
-import sgtmelon.scriptum.FastTest
 import sgtmelon.scriptum.ParentInteractorTest
-import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.data.repository.room.callback.IBindRepo
 import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
@@ -26,14 +24,13 @@ import kotlin.random.Random
 @ExperimentalCoroutinesApi
 class NotificationInteractorTest : ParentInteractorTest() {
 
-    @MockK lateinit var preferenceRepo: IPreferenceRepo
     @MockK lateinit var noteRepo: INoteRepo
     @MockK lateinit var alarmRepo: IAlarmRepo
     @MockK lateinit var bindRepo: IBindRepo
     @MockK lateinit var callback: INotificationBridge
 
     private val interactor by lazy {
-        NotificationInteractor(preferenceRepo, noteRepo, alarmRepo, bindRepo, callback)
+        NotificationInteractor(noteRepo, alarmRepo, bindRepo, callback)
     }
 
     @Test override fun onDestroy() {
@@ -44,11 +41,9 @@ class NotificationInteractorTest : ParentInteractorTest() {
 
     override fun tearDown() {
         super.tearDown()
-        confirmVerified(preferenceRepo, noteRepo, alarmRepo, bindRepo, callback)
+        confirmVerified(noteRepo, alarmRepo, bindRepo, callback)
     }
 
-
-    @Test fun getTheme() = FastTest.getTheme(preferenceRepo) { interactor.theme }
 
     @Test fun getCount() = startCoTest {
         val count = Random.nextInt()

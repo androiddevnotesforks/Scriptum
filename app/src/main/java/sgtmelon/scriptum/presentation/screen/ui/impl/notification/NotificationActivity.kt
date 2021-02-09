@@ -137,9 +137,7 @@ class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallb
         }
     }
 
-    override fun setupRecycler(@Theme theme: Int) {
-        adapter.theme = theme
-
+    override fun setupRecycler() {
         recyclerView?.let {
             it.setDefaultAnimator {
                 onBindingList()
@@ -249,5 +247,4 @@ class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallb
     companion object {
         operator fun get(context: Context) = Intent(context, NotificationActivity::class.java)
     }
-
 }

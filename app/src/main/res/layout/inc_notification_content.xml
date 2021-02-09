@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="sgtmelon.scriptum.domain.model.item.NotificationItem" />
+    </data>
+
+    <merge>
+
+        <LinearLayout
+            android:id="@+id/notification_content_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/layout_4dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/notification_name_text"
+                style="@style/Text.SmallCard.Title"
+                android:text='@{item.note.name.isEmpty() ? @string/hint_text_name : item.note.name}'
+                tools:text="@string/preview_notification_name" />
+
+            <TextView
+                android:id="@+id/notification_date_text"
+                style="@style/Text.SmallCard.Subtitle"
+                android:layout_marginEnd="@dimen/layout_4dp"
+                app:futureTime='@{item.alarm.date}'
+                tools:text="@string/preview_notification_date" />
+
+        </LinearLayout>
+
+    </merge>
+
+</layout>

@@ -31,7 +31,7 @@
                 style="@style/Image.Color.Vertical.Start"
                 android:importantForAccessibility="no"
                 app:indicatorColor='@{item.note.color}'
-                app:indicatorTheme='@{Theme.LIGHT}'
+                app:indicatorTheme='@{Theme.DARK}'
                 tools:visibility="visible" />
 
             <include

@@ -195,12 +195,11 @@ class InteractorModule {
     @ActivityScope
     fun provideNotificationInteractor(
         activity: NotificationActivity,
-        preferenceRepo: IPreferenceRepo,
         noteRepo: INoteRepo,
         alarmRepo: IAlarmRepo,
         bindRepo: IBindRepo
     ): INotificationInteractor {
-        return NotificationInteractor(preferenceRepo, noteRepo, alarmRepo, bindRepo, activity)
+        return NotificationInteractor(noteRepo, alarmRepo, bindRepo, activity)
     }
 
 

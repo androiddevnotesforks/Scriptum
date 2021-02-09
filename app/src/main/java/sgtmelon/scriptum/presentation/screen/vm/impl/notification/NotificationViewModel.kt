@@ -34,7 +34,7 @@ class NotificationViewModel(application: Application) :
 
     override fun onSetup(bundle: Bundle?) {
         callback?.setupToolbar()
-        callback?.setupRecycler(interactor.theme)
+        callback?.setupRecycler()
         callback?.setupInsets()
     }
 

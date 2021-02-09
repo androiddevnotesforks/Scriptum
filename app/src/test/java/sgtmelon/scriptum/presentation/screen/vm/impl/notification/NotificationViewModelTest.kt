@@ -1,14 +1,16 @@
 package sgtmelon.scriptum.presentation.screen.vm.impl.notification
 
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.coVerifySequence
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
+import io.mockk.verifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.domain.interactor.callback.notification.INotificationInteractor
-import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.extension.clearAdd
@@ -51,20 +53,12 @@ class NotificationViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onSetup() {
-        val themeList = listOf(Theme.LIGHT, Random.nextInt())
-
-        for (it in themeList) {
-            every { interactor.theme } returns it
-            viewModel.onSetup()
-        }
+        viewModel.onSetup()
 
         verifySequence {
-            for (it in themeList) {
-                callback.setupToolbar()
-                interactor.theme
-                callback.setupRecycler(it)
-                callback.setupInsets()
-            }
+            callback.setupToolbar()
+            callback.setupRecycler()
+            callback.setupInsets()
         }
     }
 
