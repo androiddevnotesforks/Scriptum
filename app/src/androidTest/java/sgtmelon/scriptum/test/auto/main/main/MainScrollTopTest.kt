@@ -14,12 +14,12 @@ import sgtmelon.scriptum.ui.ParentRecyclerItem
 @RunWith(AndroidJUnit4::class)
 class MainScrollTopTest : ParentUiTest() {
 
-    @Test fun onRank() = data.fillRank().let {
+    @Test fun onRank() = data.fillRank(count = 20).let {
         launch {
             mainScreen {
                 rankScreen { onScroll(Scroll.END) }.onScrollTop()
                 ParentRecyclerItem.PREVENT_SCROLL = true
-                rankScreen { onAssertItem(it.first()) }
+                rankScreen { openRenameDialog(it.first().name, p = 0) { onCloseSoft() } }
             }
         }
     }

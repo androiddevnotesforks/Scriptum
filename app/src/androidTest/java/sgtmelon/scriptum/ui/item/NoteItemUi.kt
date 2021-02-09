@@ -95,13 +95,17 @@ class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
         inner class RollInfo : Info<NoteItem.Roll>() {
 
             private val visibleImage = getChild(getViewById(R.id.note_info_visible_image))
+            private val progressText by lazy { getChild(getViewById(R.id.note_info_progress_text)) }
 
             override fun assert(item: NoteItem.Roll) {
                 super.assert(item)
 
-                visibleImage.isDisplayed(item.isVisible) {
+                visibleImage.isDisplayed(!item.isVisible) {
                     withSize(R.dimen.icon_16dp, R.dimen.icon_16dp)
                 }.withDrawableAttr(R.drawable.ic_visible_exit, R.attr.clIndicator)
+
+                progressText.isDisplayed()
+                    .withText(item.text, R.attr.clContentSecond, R.dimen.text_12sp)
             }
         }
     }
@@ -153,8 +157,6 @@ class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
             private val bindImage = getChild(getViewById(R.id.note_info_bind_image))
             private val rankImage = getChild(getViewById(R.id.note_info_rank_image))
 
-            private val progressText = getChild(getViewById(R.id.note_info_progress_text))
-
             private val changeText = getChild(getViewById(R.id.note_info_change_text))
             private val createText = getChild(getViewById(R.id.note_info_create_text))
 
@@ -177,11 +179,6 @@ class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
                 rankImage.isDisplayed(item.haveRank()) {
                     withSize(R.dimen.icon_16dp, R.dimen.icon_16dp)
                 }.withDrawableAttr(R.drawable.ic_rank, R.attr.clIndicator)
-
-                val visible = type == NoteType.ROLL
-                progressText.isDisplayed(visible) {
-                    withText(item.text, R.attr.clContentSecond, R.dimen.text_12sp)
-                }
 
                 val change = item.change.getCalendar().formatPast()
                 changeText.isDisplayed().withText(change, R.attr.clContentSecond, R.dimen.text_12sp)
