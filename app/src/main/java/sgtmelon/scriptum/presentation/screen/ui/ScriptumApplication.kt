@@ -4,6 +4,8 @@ import android.app.Application
 import android.content.Context
 import sgtmelon.scriptum.dagger.component.DaggerScriptumComponent
 import sgtmelon.scriptum.dagger.component.ScriptumComponent
+import sgtmelon.scriptum.domain.model.annotation.Theme
+import sgtmelon.scriptum.domain.model.annotation.test.RunNone
 import sgtmelon.scriptum.extension.initLazy
 
 /**
@@ -27,5 +29,8 @@ class ScriptumApplication : Application() {
 
     companion object {
         lateinit var component: ScriptumComponent
+
+        @Theme
+        @RunNone var theme: Int? = null
     }
 }

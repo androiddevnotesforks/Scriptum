@@ -26,7 +26,7 @@ import java.util.*
  */
 @Suppress("UNCHECKED_CAST")
 class NotePanel<T: ParentUi, N : NoteItem>(
-        private val callback: INoteScreen<T, N>
+    private val callback: INoteScreen<T, N>
 ) : ParentUi(),
         DateTimeCallback,
         ConvertDialogUi.Callback,

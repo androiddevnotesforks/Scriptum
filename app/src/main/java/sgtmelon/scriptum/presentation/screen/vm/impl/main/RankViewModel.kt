@@ -11,6 +11,7 @@ import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RankItem
 import sgtmelon.scriptum.extension.*
+import sgtmelon.scriptum.idling.AppIdlingResource
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IRankFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.main.IRankViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
@@ -49,6 +50,8 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
 
 
     override fun onUpdateData() {
+        AppIdlingResource.worker.startHardWork()
+
         callback?.beforeLoad()
 
         fun updateList() = callback?.apply {
@@ -75,6 +78,8 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
             }
 
             updateList()
+
+            AppIdlingResource.worker.stopHardWork()
         }
     }
 

@@ -10,6 +10,7 @@ import sgtmelon.scriptum.idling.AppIdlingResource
 import sgtmelon.scriptum.presentation.adapter.holder.RankHolder
 import sgtmelon.scriptum.presentation.control.system.AlarmControl
 import sgtmelon.scriptum.presentation.control.system.BindControl
+import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.ui.screen.SplashScreen
 import kotlin.random.Random
@@ -42,6 +43,7 @@ abstract class ParentUiTest : ParentTest() {
     override fun tearDown() {
         super.tearDown()
 
+        ScriptumApplication.theme = null
         RankHolder.isMaxTest = false
 
         BindControl.callback?.clearRecent()

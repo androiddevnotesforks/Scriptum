@@ -12,7 +12,7 @@ import org.hamcrest.Matchers.not
 import sgtmelon.scriptum.dagger.module.base.ProviderModule
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.preference.PreferenceRepo
-import sgtmelon.scriptum.extension.getAppTheme
+import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 
 /**
  * Parent class for access standard UI functions.
@@ -22,13 +22,15 @@ abstract class ParentUi {
     protected val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
 
     private val preferenceRepo: IPreferenceRepo = PreferenceRepo(
-            ProviderModule().providePreferenceKeyProvider(context.resources),
-            ProviderModule().providePreferenceDefProvider(context.resources),
-            ProviderModule().provideSharedPreferences(context)
+        ProviderModule().providePreferenceKeyProvider(context.resources),
+        ProviderModule().providePreferenceDefProvider(context.resources),
+        ProviderModule().provideSharedPreferences(context)
     )
 
-    protected val theme: Int get() = context.getAppTheme() ?: throw NullPointerException()
+    protected val theme: Int get() = ScriptumApplication.theme ?: throw NullPointerException()
     protected val repeat: Int get() = preferenceRepo.repeat
+
+    //region getView func
 
     protected fun getViewByName(name: String): Matcher<View> = withResourceName(name)
 
@@ -45,6 +47,8 @@ abstract class ParentUi {
     protected fun getView(@IdRes viewId: Int, string: String): Matcher<View> {
         return allOf(getViewById(viewId), getViewByText(string))
     }
+
+    //endregion
 
 
     protected fun Matcher<View>.includeParent(parentMatcher: Matcher<View>): Matcher<View> = let {
