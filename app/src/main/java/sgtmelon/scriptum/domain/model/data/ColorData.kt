@@ -29,22 +29,31 @@ object ColorData {
     )
 
     val dark = intArrayOf(
-            R.color.note_red_dark, R.color.note_purple_dark,
-            R.color.note_indigo_dark, R.color.note_blue_dark,
-            R.color.note_teal_dark, R.color.note_green_dark,
-            R.color.note_yellow_dark, R.color.note_orange_dark,
-            R.color.note_brown_dark, R.color.note_blue_grey_dark,
-            R.color.note_white_dark
+        R.color.note_red_dark, R.color.note_purple_dark,
+        R.color.note_indigo_dark, R.color.note_blue_dark,
+        R.color.note_teal_dark, R.color.note_green_dark,
+        R.color.note_yellow_dark, R.color.note_orange_dark,
+        R.color.note_brown_dark, R.color.note_blue_grey_dark,
+        R.color.note_white_dark
     )
 
     val size = if (light.size == accent.size && accent.size == dark.size) light.size else {
         throw IndexOutOfBoundsException("Arrays have different size")
     }
 
+    /**
+     * TODO remove
+     */
     fun getColorItem(@Theme theme: Int, @Color color: Int) = if (theme == Theme.LIGHT) {
         ColorItem(dark[color], light[color], dark[color])
     } else {
         ColorItem(dark[color], dark[color], light[color])
+    }
+
+    fun getColorItem(@Color color: Int, isNight: Boolean) = if (isNight) {
+        ColorItem(dark[color], dark[color], light[color])
+    } else {
+        ColorItem(dark[color], light[color], dark[color])
     }
 
 }

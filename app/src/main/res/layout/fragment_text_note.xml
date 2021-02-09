@@ -8,10 +8,6 @@
         <import type="android.view.View" />
 
         <variable
-            name="theme"
-            type="int" />
-
-        <variable
             name="menuCallback"
             type="sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteMenu" />
 
@@ -46,8 +42,7 @@
             layout="@layout/inc_toolbar_note"
             app:isDataLoad='@{isDataLoad}'
             app:isEditMode='@{isEditMode}'
-            app:item='@{item}'
-            app:theme='@{theme}' />
+            app:item='@{item}' />
 
         <FrameLayout
             android:layout_width="match_parent"

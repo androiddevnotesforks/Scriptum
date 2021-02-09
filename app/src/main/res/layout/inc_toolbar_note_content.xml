@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="@layout/inc_toolbar_note">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="isDataLoad"
+            type="boolean" />
+
+        <variable
+            name="item"
+            type="sgtmelon.scriptum.domain.model.item.NoteItem" />
+
+        <variable
+            name="isEditMode"
+            type="boolean" />
+    </data>
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_note_content_container"
+        style="?attr/styleToolbar"
+        app:contentInsetEnd="@dimen/layout_8dp"
+        app:contentInsetStart="@dimen/layout_8dp"
+        app:contentInsetStartWithNavigation="56dp"
+        app:popupTheme="?attr/themePopup">
+
+        <HorizontalScrollView
+            android:id="@+id/toolbar_note_scroll"
+            style="@style/Container.ToolbarNote.Scroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility='@{isDataLoad ? View.VISIBLE : View.INVISIBLE}'>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/layout_24dp">
+
+                <EditText
+                    android:id="@+id/toolbar_note_enter"
+                    style="@style/EditText.ToolbarNote"
+                    android:hint="@string/hint_enter_name"
+                    android:importantForAutofill="noExcludeDescendants"
+                    android:text='@={item.name}'
+                    android:visibility='@{isEditMode ? View.VISIBLE : View.INVISIBLE}'
+                    tools:targetApi="o"
+                    tools:visibility="invisible" />
+
+                <!-- Set empty text need for editText may change size -->
+                <TextView
+                    android:id="@+id/toolbar_note_text"
+                    style="@style/Text.ToolbarNote"
+                    android:hint="@string/hint_text_name"
+                    android:text='@{isEditMode ? "" : item.name}'
+                    android:visibility='@{!isEditMode ? View.VISIBLE : View.INVISIBLE}'
+                    tools:text="@string/preview_note_name" />
+
+            </FrameLayout>
+
+        </HorizontalScrollView>
+
+    </androidx.appcompat.widget.Toolbar>
+
+</layout>

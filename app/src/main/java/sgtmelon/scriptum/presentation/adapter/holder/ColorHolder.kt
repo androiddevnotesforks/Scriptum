@@ -26,7 +26,7 @@ class ColorHolder(view: View) : ParentHolder(view) {
     val clickView: View = itemView.findViewById(R.id.color_click_view)
 
     fun bindColor(@Theme theme: Int, @Color color: Int) {
-        val colorItem = backgroundView.bindIndicatorColor(theme, color)
+        val colorItem = backgroundView.bindIndicatorColor(color, theme)
         checkImage.setColorFilter(context.getCompatColor(colorItem.content))
 
         val context = itemView.context ?: return

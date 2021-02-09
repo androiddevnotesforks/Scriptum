@@ -6,8 +6,6 @@
 
         <import type="android.view.View" />
 
-        <import type="sgtmelon.scriptum.domain.model.annotation.Theme" />
-
         <variable
             name="item"
             type="sgtmelon.scriptum.domain.model.item.NoteItem.Roll" />
@@ -33,7 +31,7 @@
                     style="@style/Image.Color.Vertical.End"
                     android:importantForAccessibility="no"
                     app:indicatorColor='@{item.color}'
-                    app:indicatorTheme='@{Theme.DARK}' />
+                    app:isNight="true" />
 
             </LinearLayout>
 
