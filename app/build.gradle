@@ -76,9 +76,6 @@ dependencies {
     implementation project(":safedialog")
     implementation project(":extension")
 
-    //On generate signed bundle/apk need remove all func calls and imports
-    debugImplementation project(":idling")
-
     //region Kotlin
 
     implementation jetbrains.kotlin

@@ -28,7 +28,7 @@ class DrawableMatcher(
         if (resourceId == null) return item.drawable == null
 
         val context = item.context ?: return false
-        val expected = context.getDrawable(resourceId) ?: return false
+        val expected = context.getDrawable(resourceId)?.mutate() ?: return false
 
         when {
             colorId != null -> {

@@ -11,4 +11,4 @@ import sgtmelon.scriptum.presentation.dialog.ColorDialog
  * - for [ColorDialog], list element in [ColorAdapter];
  * - for notes and notification color indicators.
  */
-class ColorItem(@ColorRes val stroke: Int, @ColorRes val fill: Int, @ColorRes val content: Int)
+data class ColorItem(@ColorRes val stroke: Int, @ColorRes val fill: Int, @ColorRes val content: Int)

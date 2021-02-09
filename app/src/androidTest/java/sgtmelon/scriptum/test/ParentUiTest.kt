@@ -6,6 +6,7 @@ import org.junit.Rule
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
+import sgtmelon.scriptum.idling.AppIdlingResource
 import sgtmelon.scriptum.presentation.adapter.holder.RankHolder
 import sgtmelon.scriptum.presentation.control.system.AlarmControl
 import sgtmelon.scriptum.presentation.control.system.BindControl
@@ -45,6 +46,8 @@ abstract class ParentUiTest : ParentTest() {
 
         BindControl.callback?.clearRecent()
         AlarmControl.callback?.clear()
+
+        AppIdlingResource.worker.clearWork()
     }
 
     protected fun launch(

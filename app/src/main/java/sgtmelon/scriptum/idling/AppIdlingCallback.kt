@@ -1,4 +1,4 @@
-package sgtmelon.idling
+package sgtmelon.scriptum.idling
 
 /**
  * Interface for [AppIdlingResource]
@@ -9,4 +9,5 @@ internal interface AppIdlingCallback {
 
     fun stopHardWork()
 
+    fun clearWork()
 }

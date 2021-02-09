@@ -26,6 +26,4 @@ android {
 
 dependencies {
     implementation jetbrains.kotlin
-
-    debugImplementation androidx.test.espresso.idling
 }

@@ -25,7 +25,7 @@ class MenuItemDrawableMatcher(
         if (resourceId == null) return itemIcon == null
 
         val context = item.context ?: return false
-        val expected = context.getDrawable(resourceId) ?: return false
+        val expected = context.getDrawable(resourceId)?.mutate() ?: return false
 
         expected.setColorFilter(context.getColorAttr(attrColor), PorterDuff.Mode.SRC_ATOP)
 

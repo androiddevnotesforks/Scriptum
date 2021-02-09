@@ -10,11 +10,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.viewpager.widget.ViewPager
-import sgtmelon.idling.AppIdlingResource
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.data.IntroData
 import sgtmelon.scriptum.extension.*
+import sgtmelon.scriptum.idling.AppIdlingResource
 import sgtmelon.scriptum.presentation.adapter.PagerAdapter
 import sgtmelon.scriptum.presentation.screen.ui.ParentActivity
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication

@@ -14,7 +14,7 @@ class BackgroundMatcher(@IdRes resourceId: Int) : ParentImageMatcher(resourceId)
         if (resourceId == null) return item.background == null
 
         val context = item.context ?: return false
-        val expected = context.getDrawable(resourceId) ?: return false
+        val expected = context.getDrawable(resourceId)?.mutate() ?: return false
 
         return compare(item.background, expected)
     }

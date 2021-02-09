@@ -31,7 +31,7 @@ class ColorIndicatorMatcher(@IdRes resourceId: Int?, @Theme theme: Int, @Color c
         if (resourceId == null) return item.background == null
 
         val context = item.context ?: return false
-        val expected = context.getDrawable(resourceId) ?: return false
+        val expected = context.getDrawable(resourceId)?.mutate() ?: return false
 
         expected.setColor(context, colorItem)
 

@@ -29,7 +29,7 @@ class NavigationDrawableMatcher(
         if (navigationIcon == null) return false
 
         val context = item.context ?: return false
-        val expected = context.getDrawable(resourceId) ?: return false
+        val expected = context.getDrawable(resourceId)?.mutate() ?: return false
 
         if (attrColor != null) {
             expected.setColorFilter(context.getColorAttr(attrColor), PorterDuff.Mode.SRC_ATOP)

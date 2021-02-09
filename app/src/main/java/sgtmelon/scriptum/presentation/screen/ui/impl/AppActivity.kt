@@ -2,8 +2,8 @@ package sgtmelon.scriptum.presentation.screen.ui.impl
 
 import android.content.Intent
 import android.os.Bundle
-import sgtmelon.idling.AppIdlingResource
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.idling.AppIdlingResource
 import sgtmelon.scriptum.presentation.screen.ui.ParentActivity
 import sgtmelon.scriptum.presentation.screen.ui.callback.IAppActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.IAppViewModel
