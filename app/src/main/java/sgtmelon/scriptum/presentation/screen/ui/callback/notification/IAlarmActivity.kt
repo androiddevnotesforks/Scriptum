@@ -33,8 +33,6 @@ interface IAlarmActivity : IAlarmBridge {
     fun notifyList(item: NoteItem)
 
 
-    fun waitLayoutConfigure()
-
     fun startRippleAnimation(@Color color: Int)
 
     fun startButtonFadeInAnimation()

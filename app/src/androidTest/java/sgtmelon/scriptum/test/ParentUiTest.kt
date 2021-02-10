@@ -12,6 +12,7 @@ import sgtmelon.scriptum.presentation.control.system.AlarmControl
 import sgtmelon.scriptum.presentation.control.system.BindControl
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
+import sgtmelon.scriptum.presentation.screen.ui.impl.notification.AlarmActivity
 import sgtmelon.scriptum.ui.screen.SplashScreen
 import kotlin.random.Random
 
@@ -38,13 +39,17 @@ abstract class ParentUiTest : ParentTest() {
         }
 
         data.clear()
+
+        AlarmActivity.isFinishOnStop = false
     }
 
     override fun tearDown() {
         super.tearDown()
 
         ScriptumApplication.theme = null
+
         RankHolder.isMaxTest = false
+        AlarmActivity.isFinishOnStop = true
 
         BindControl.callback?.clearRecent()
         AlarmControl.callback?.clear()

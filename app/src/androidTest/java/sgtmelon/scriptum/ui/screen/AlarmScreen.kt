@@ -89,7 +89,7 @@ class AlarmScreen(
 
     fun onAssertItem(item: NoteItem) = getItem().assert(item)
 
-    fun assert() {
+    fun assert() = apply {
         parentContainer.isDisplayed()
 
         val fillColor = context.getAppSimpleColor(item.color, getRippleShade(theme))
@@ -116,9 +116,7 @@ class AlarmScreen(
             item: NoteItem,
             dateList: List<String>? = null
         ): AlarmScreen {
-            return AlarmScreen(item, dateList)
-                .apply { waitBefore(time = 500) { assert() } }
-                .apply(func)
+            return AlarmScreen(item, dateList).assert().apply(func)
         }
     }
 

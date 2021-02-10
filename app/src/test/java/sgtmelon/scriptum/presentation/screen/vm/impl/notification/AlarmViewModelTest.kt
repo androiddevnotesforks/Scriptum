@@ -143,7 +143,6 @@ class AlarmViewModelTest : ParentViewModelTest() {
             callback.apply {
                 prepareLogoAnimation()
                 notifyList(noteItem)
-                waitLayoutConfigure()
             }
         }
     }
@@ -241,7 +240,6 @@ class AlarmViewModelTest : ParentViewModelTest() {
                 signalInteractor.getMelodyUri()
                 prepareLogoAnimation()
                 notifyList(noteItem)
-                waitLayoutConfigure()
             }
 
             callback.apply {
@@ -252,7 +250,6 @@ class AlarmViewModelTest : ParentViewModelTest() {
                 signalInteractor.getMelodyUri()
                 prepareLogoAnimation()
                 notifyList(noteItem)
-                waitLayoutConfigure()
             }
         }
     }

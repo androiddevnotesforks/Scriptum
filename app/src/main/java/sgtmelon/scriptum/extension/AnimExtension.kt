@@ -85,3 +85,28 @@ fun Transition.addIdlingListener(): Transition = apply {
         }
     })
 }
+
+fun Animator.addIdlingListener(): Animator = apply {
+    addListener(object : AnimatorListenerAdapter() {
+        override fun onAnimationStart(animation: Animator?) {
+            AppIdlingResource.worker.startHardWork(IdlingTag.Anim.TRANSITION)
+        }
+
+        override fun onAnimationEnd(animation: Animator?) {
+            AppIdlingResource.worker.stopHardWork(IdlingTag.Anim.TRANSITION)
+        }
+
+        override fun onAnimationCancel(animation: Animator?) {
+            AppIdlingResource.worker.stopHardWork(IdlingTag.Anim.TRANSITION)
+        }
+
+        override fun onAnimationPause(animation: Animator?) {
+            AppIdlingResource.worker.stopHardWork(IdlingTag.Anim.TRANSITION)
+
+        }
+
+        override fun onAnimationResume(animation: Animator?) {
+            AppIdlingResource.worker.startHardWork(IdlingTag.Anim.TRANSITION)
+        }
+    })
+}

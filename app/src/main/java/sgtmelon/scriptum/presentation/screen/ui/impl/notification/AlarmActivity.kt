@@ -17,16 +17,21 @@ import androidx.annotation.ArrayRes
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.AutoTransition
+import androidx.transition.Transition
+import androidx.transition.TransitionListenerAdapter
 import androidx.transition.TransitionManager
 import com.google.android.material.navigation.NavigationView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Theme
+import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.data.NoteData
 import sgtmelon.scriptum.domain.model.data.ReceiverData
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.state.OpenState
 import sgtmelon.scriptum.extension.*
+import sgtmelon.scriptum.idling.AppIdlingResource
+import sgtmelon.scriptum.idling.IdlingTag
 import sgtmelon.scriptum.presentation.adapter.NoteAdapter
 import sgtmelon.scriptum.presentation.control.system.*
 import sgtmelon.scriptum.presentation.control.system.callback.IMelodyControl
@@ -94,10 +99,15 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
     //endregion
 
+    /**
+     * Variable for detect layout is completely configure and ready for animation.
+     */
+    private var isLayoutConfigure = false
+
     @Suppress("DEPRECATION")
     override fun onCreate(savedInstanceState: Bundle?) {
         ScriptumApplication.component.getAlarmBuilder().set(activity = this).build()
-                .inject(activity = this)
+            .inject(activity = this)
 
         super.onCreate(savedInstanceState)
 
@@ -125,7 +135,10 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
     override fun onStop() {
         super.onStop()
-        finish()
+
+        if (isFinishOnStop) {
+            finish()
+        }
     }
 
     override fun onDestroy() {
@@ -168,6 +181,8 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
 
     override fun setupView() {
+        parentContainer?.afterLayoutConfiguration { isLayoutConfigure = true }
+
         recyclerView?.let {
             it.layoutManager = LinearLayoutManager(this)
             it.adapter = adapter
@@ -220,6 +235,10 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         val transition = AutoTransition()
             .setInterpolator(AccelerateInterpolator())
             .addTarget(logoView)
+            .addIdlingListener()
+            .addListener(object : TransitionListenerAdapter() {
+                override fun onTransitionEnd(transition: Transition) = onLogoTransitionEnd()
+            })
 
         TransitionManager.beginDelayedTransition(parentContainer, transition)
 
@@ -227,15 +246,24 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         buttonContainer?.visibility = View.VISIBLE
     }
 
-    override fun notifyList(item: NoteItem) = adapter.notifyList(arrayListOf(item))
-
-
-    /**
-     * Need call on coroutine end, because layout may be configure before coroutine end.
-     */
-    override fun waitLayoutConfigure() {
-        parentContainer?.afterLayoutConfiguration { viewModel.onStart() }
+    private fun onLogoTransitionEnd() {
+        if (isLayoutConfigure) {
+            viewModel.onStart()
+        } else {
+            waitLayoutConfigure()
+        }
     }
+
+    private fun waitLayoutConfigure() {
+        AppIdlingResource.worker.startHardWork(IdlingTag.Alarm.CONFIGURE)
+
+        parentContainer?.afterLayoutConfiguration {
+            viewModel.onStart()
+            AppIdlingResource.worker.stopHardWork(IdlingTag.Alarm.CONFIGURE)
+        }
+    }
+
+    override fun notifyList(item: NoteItem) = adapter.notifyList(arrayListOf(item))
 
     override fun startRippleAnimation(@Color color: Int) {
         val logoView = logoView ?: return
@@ -256,6 +284,8 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
                 getAlphaAnimator(recyclerView, alphaTo = 1f),
                 getAlphaAnimator(buttonContainer, alphaTo = 1f)
             )
+
+            addIdlingListener()
         }.start()
     }
 
@@ -317,9 +347,11 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     }
 
     companion object {
+        @RunPrivate var isFinishOnStop = true
+
         operator fun get(context: Context, id: Long): Intent {
             return Intent(context, AlarmActivity::class.java)
-                    .putExtra(NoteData.Intent.ID, id)
+                .putExtra(NoteData.Intent.ID, id)
         }
     }
 

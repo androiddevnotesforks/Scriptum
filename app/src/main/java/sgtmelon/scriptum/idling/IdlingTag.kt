@@ -14,6 +14,15 @@ annotation class IdlingTag {
     }
 
 
+    @StringDef(Alarm.CONFIGURE)
+    annotation class Alarm {
+        companion object {
+            private const val PREFIX = "ALARM"
+
+            const val CONFIGURE = "${PREFIX}_CONFIGURE"
+        }
+    }
+
     @StringDef(Intro.FINISH)
     annotation class Intro {
         companion object {
