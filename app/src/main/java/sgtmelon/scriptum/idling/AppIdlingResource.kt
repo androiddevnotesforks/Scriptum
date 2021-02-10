@@ -2,6 +2,7 @@ package sgtmelon.scriptum.idling
 
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.IdlingResource
+import sgtmelon.scriptum.extension.validIndexOf
 
 /**
  * Class for maintain test work while app is freeze without Thread.sleep(...)
@@ -14,7 +15,7 @@ class AppIdlingResource : IdlingResource, AppIdlingCallback {
      * Список сделан для тех случаев, когда происходит параллельный запрос к сервера. И ответ
      * может прийти раньше другого.
      */
-    private val idleList = mutableListOf<Boolean>()
+    private val idleList = mutableListOf<String>()
 
     private var callback: IdlingResource.ResourceCallback? = null
 
@@ -26,13 +27,14 @@ class AppIdlingResource : IdlingResource, AppIdlingCallback {
         this.callback = callback
     }
 
-    override fun startHardWork() {
-        idleList.add(false)
+    override fun startHardWork(@IdlingTag tag: String) {
+        idleList.add(tag)
     }
 
-    override fun stopHardWork() {
-        if (idleList.isNotEmpty()) {
-            idleList.removeAt(index = 0)
+    override fun stopHardWork(@IdlingTag tag: String) {
+        val index = idleList.validIndexOf { it == tag }
+        if (index != null) {
+            idleList.removeAt(index)
         }
 
         if (isIdleNow) {
@@ -55,7 +57,5 @@ class AppIdlingResource : IdlingResource, AppIdlingCallback {
                 IdlingRegistry.getInstance().register(this)
             }
         }
-
     }
-
 }

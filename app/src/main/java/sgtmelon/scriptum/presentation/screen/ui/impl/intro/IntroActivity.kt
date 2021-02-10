@@ -15,6 +15,7 @@ import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.data.IntroData
 import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.idling.AppIdlingResource
+import sgtmelon.scriptum.idling.IdlingTag
 import sgtmelon.scriptum.presentation.adapter.PagerAdapter
 import sgtmelon.scriptum.presentation.screen.ui.ParentActivity
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
@@ -78,7 +79,7 @@ class IntroActivity : ParentActivity(), IIntroActivity, ViewPager.OnPageChangeLi
 
     override fun setupViewPager(isLastPage: Boolean) {
         endButton.setOnClickListener {
-            AppIdlingResource.worker.startHardWork()
+            AppIdlingResource.worker.startHardWork(IdlingTag.Intro.FINISH)
             beforeFinish { viewModel.onClickEnd() }
         }
 

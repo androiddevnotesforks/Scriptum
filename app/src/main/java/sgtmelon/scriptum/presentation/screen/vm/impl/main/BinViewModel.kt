@@ -13,6 +13,7 @@ import sgtmelon.scriptum.extension.launchBack
 import sgtmelon.scriptum.extension.runBack
 import sgtmelon.scriptum.extension.validRemoveAt
 import sgtmelon.scriptum.idling.AppIdlingResource
+import sgtmelon.scriptum.idling.IdlingTag
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IBinFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.main.IBinViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
@@ -42,7 +43,7 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
 
 
     override fun onUpdateData() {
-        AppIdlingResource.worker.startHardWork()
+        AppIdlingResource.worker.startHardWork(IdlingTag.Bin.LOAD_DATA)
 
         callback?.beforeLoad()
 
@@ -72,7 +73,7 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
 
             updateList()
 
-            AppIdlingResource.worker.stopHardWork()
+            AppIdlingResource.worker.stopHardWork(IdlingTag.Bin.LOAD_DATA)
         }
     }
 

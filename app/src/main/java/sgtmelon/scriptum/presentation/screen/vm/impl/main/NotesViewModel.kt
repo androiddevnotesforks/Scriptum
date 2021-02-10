@@ -18,6 +18,7 @@ import sgtmelon.scriptum.extension.launchBack
 import sgtmelon.scriptum.extension.runBack
 import sgtmelon.scriptum.extension.validRemoveAt
 import sgtmelon.scriptum.idling.AppIdlingResource
+import sgtmelon.scriptum.idling.IdlingTag
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.INotesFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.main.INotesViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
@@ -52,7 +53,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
 
 
     override fun onUpdateData() {
-        AppIdlingResource.worker.startHardWork()
+        AppIdlingResource.worker.startHardWork(IdlingTag.Notes.LOAD_DATA)
 
         callback?.beforeLoad()
 
@@ -87,7 +88,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
                 onBindingList()
             }
 
-            AppIdlingResource.worker.stopHardWork()
+            AppIdlingResource.worker.stopHardWork(IdlingTag.Notes.LOAD_DATA)
         }
     }
 

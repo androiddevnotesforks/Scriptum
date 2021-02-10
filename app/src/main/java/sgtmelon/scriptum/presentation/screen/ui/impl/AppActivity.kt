@@ -3,7 +3,6 @@ package sgtmelon.scriptum.presentation.screen.ui.impl
 import android.content.Intent
 import android.os.Bundle
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.idling.AppIdlingResource
 import sgtmelon.scriptum.presentation.screen.ui.ParentActivity
 import sgtmelon.scriptum.presentation.screen.ui.callback.IAppActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.IAppViewModel
@@ -29,11 +28,6 @@ abstract class AppActivity : ParentActivity(), IAppActivity {
     override fun onResume() {
         super.onResume()
         checkThemeChange()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        AppIdlingResource.worker.stopHardWork()
     }
 
     override fun onDestroy() {

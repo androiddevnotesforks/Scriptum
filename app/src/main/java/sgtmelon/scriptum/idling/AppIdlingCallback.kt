@@ -5,9 +5,9 @@ package sgtmelon.scriptum.idling
  */
 internal interface AppIdlingCallback {
 
-    fun startHardWork()
+    fun startHardWork(@IdlingTag tag: String)
 
-    fun stopHardWork()
+    fun stopHardWork(@IdlingTag tag: String)
 
     fun clearWork()
 }

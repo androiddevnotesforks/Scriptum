@@ -12,6 +12,7 @@ import sgtmelon.scriptum.extension.launchBack
 import sgtmelon.scriptum.extension.runBack
 import sgtmelon.scriptum.extension.validRemoveAt
 import sgtmelon.scriptum.idling.AppIdlingResource
+import sgtmelon.scriptum.idling.IdlingTag
 import sgtmelon.scriptum.presentation.screen.ui.callback.notification.INotificationActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.notification.INotificationViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
@@ -46,7 +47,7 @@ class NotificationViewModel(application: Application) :
      * Get count before load all data because it's faster.
      */
     override fun onUpdateData() {
-        AppIdlingResource.worker.startHardWork()
+        AppIdlingResource.worker.startHardWork(IdlingTag.Notification.LOAD_DATA)
 
         callback?.beforeLoad()
 
@@ -75,7 +76,7 @@ class NotificationViewModel(application: Application) :
 
             updateList()
 
-            AppIdlingResource.worker.stopHardWork()
+            AppIdlingResource.worker.stopHardWork(IdlingTag.Notification.LOAD_DATA)
         }
     }
 
