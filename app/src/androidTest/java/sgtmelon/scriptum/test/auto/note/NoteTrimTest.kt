@@ -38,7 +38,7 @@ class NoteTrimTest : ParentUiTest() {
                         createRoll(it) {
                             toolbar { onEnterName(nextString().plus(other = ".   as")) }
 
-                            val itemText = nextString().plus(other = ".   ll.   ")
+                            val itemText = nextString().plus(other = ".   LL.   ")
 
                             enterPanel { onAdd(itemText) }
                             onAssertAll()
