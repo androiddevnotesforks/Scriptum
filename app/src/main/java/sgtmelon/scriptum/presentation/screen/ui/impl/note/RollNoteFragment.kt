@@ -342,7 +342,7 @@ class RollNoteFragment : ParentFragment(),
     override fun onBindingLoad(isRankEmpty: Boolean) {
         parentContainer?.let {
             val time = resources.getInteger(R.integer.note_open_time)
-            val transition = Fade().setDuration(time.toLong())
+            val transition = Fade().setDuration(time.toLong()).addIdlingListener()
 
             TransitionManager.beginDelayedTransition(it, transition)
         }

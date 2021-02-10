@@ -7,6 +7,7 @@ import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.Color
+import sgtmelon.scriptum.extension.addIdlingListener
 import sgtmelon.scriptum.extension.bindIndicatorColor
 import sgtmelon.scriptum.extension.getCompatColor
 import sgtmelon.scriptum.presentation.adapter.ColorAdapter
@@ -50,7 +51,9 @@ class ColorHolder(view: View) : ParentHolder(view) {
 
     private fun prepareCheckTransition(func: () -> Unit) {
         val time = context.resources.getInteger(R.integer.color_fade_time)
-        val transition = Fade().setDuration(time.toLong()).addTarget(checkImage)
+        val transition = Fade().setDuration(time.toLong())
+            .addTarget(checkImage)
+            .addIdlingListener()
 
         TransitionManager.beginDelayedTransition(parentContainer, transition)
 

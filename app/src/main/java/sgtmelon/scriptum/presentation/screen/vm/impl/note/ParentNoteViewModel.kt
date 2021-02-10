@@ -19,6 +19,8 @@ import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.state.NoteState
 import sgtmelon.scriptum.extension.launchBack
 import sgtmelon.scriptum.extension.runBack
+import sgtmelon.scriptum.idling.AppIdlingResource
+import sgtmelon.scriptum.idling.IdlingTag
 import sgtmelon.scriptum.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.presentation.control.note.save.ISaveControl
@@ -96,6 +98,8 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
     abstract fun cacheData()
 
     override fun onSetup(bundle: Bundle?) {
+        AppIdlingResource.worker.startHardWork(IdlingTag.Note.LOAD_DATA)
+
         getBundleData(bundle)
         setupBeforeInitialize()
 
@@ -103,6 +107,8 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
             if (tryInitializeNote()) {
                 setupAfterInitialize()
             }
+
+            AppIdlingResource.worker.stopHardWork(IdlingTag.Note.LOAD_DATA)
         }
     }
 

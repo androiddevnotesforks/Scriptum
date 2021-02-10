@@ -4,6 +4,16 @@ import androidx.annotation.StringDef
 
 annotation class IdlingTag {
 
+    @StringDef(Anim.TRANSITION)
+    annotation class Anim {
+        companion object {
+            private const val PREFIX = "ANIM"
+
+            const val TRANSITION = "${PREFIX}_TRANSITION"
+        }
+    }
+
+
     @StringDef(Intro.FINISH)
     annotation class Intro {
         companion object {
@@ -46,6 +56,17 @@ annotation class IdlingTag {
 
         companion object {
             private const val PREFIX = "NOTIFICATION"
+
+            const val LOAD_DATA = "${PREFIX}_LOAD_DATA"
+        }
+    }
+
+
+    @StringDef(Note.LOAD_DATA)
+    annotation class Note {
+
+        companion object {
+            private const val PREFIX = "NOTE"
 
             const val LOAD_DATA = "${PREFIX}_LOAD_DATA"
         }

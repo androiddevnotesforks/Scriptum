@@ -10,7 +10,11 @@ import android.view.animation.DecelerateInterpolator
 import android.view.animation.Interpolator
 import androidx.annotation.DimenRes
 import androidx.cardview.widget.CardView
+import androidx.transition.Transition
+import androidx.transition.TransitionListenerAdapter
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.idling.AppIdlingResource
+import sgtmelon.scriptum.idling.IdlingTag
 
 fun getAlphaAnimator(view: View, alphaTo: Float): Animator {
     return ObjectAnimator.ofFloat(view, View.ALPHA, view.alpha, alphaTo)
@@ -56,4 +60,28 @@ inline fun View.animateAlpha(
             override fun onAnimationEnd(animation: Animator?) = onEnd()
         })
     }.start()
+}
+
+fun Transition.addIdlingListener(): Transition = apply {
+    addListener(object : TransitionListenerAdapter() {
+        override fun onTransitionStart(transition: Transition) {
+            AppIdlingResource.worker.startHardWork(IdlingTag.Anim.TRANSITION)
+        }
+
+        override fun onTransitionEnd(transition: Transition) {
+            AppIdlingResource.worker.stopHardWork(IdlingTag.Anim.TRANSITION)
+        }
+
+        override fun onTransitionCancel(transition: Transition) {
+            AppIdlingResource.worker.stopHardWork(IdlingTag.Anim.TRANSITION)
+        }
+
+        override fun onTransitionPause(transition: Transition) {
+            AppIdlingResource.worker.stopHardWork(IdlingTag.Anim.TRANSITION)
+        }
+
+        override fun onTransitionResume(transition: Transition) {
+            AppIdlingResource.worker.startHardWork(IdlingTag.Anim.TRANSITION)
+        }
+    })
 }
