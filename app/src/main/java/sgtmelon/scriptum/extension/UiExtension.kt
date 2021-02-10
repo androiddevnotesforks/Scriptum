@@ -51,7 +51,7 @@ fun ViewGroup.createVisibleAnim(target: View?, isVisible: Boolean,
     if (target == null || target.visibility == visibility) return@let
 
     val time = context.resources.getInteger(durationId)
-    val transition = Fade().setDuration(time.toLong()).addTarget(target)
+    val transition = Fade().setDuration(time.toLong()).addTarget(target).addIdlingListener()
 
     TransitionManager.beginDelayedTransition(it, transition)
 

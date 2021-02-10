@@ -13,8 +13,6 @@ import sgtmelon.scriptum.test.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class RollNoteVisibleTest : ParentUiTest() {
 
-    // TODO add undo/redo
-
     @Test fun changeOpen() = data.insertRoll().let {
         launch {
             mainScreen {
@@ -168,4 +166,7 @@ class RollNoteVisibleTest : ParentUiTest() {
         }
     }
 
+    @Test fun itemUndoRedo() {
+        TODO()
+    }
 }

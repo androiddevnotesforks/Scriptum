@@ -6,7 +6,6 @@ import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.State
-import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
 import sgtmelon.scriptum.extension.hide
@@ -116,6 +115,12 @@ class RollNoteScreen(
     fun onClickVisible() = apply {
         visibleMenuItem.click()
 
+        when (state) {
+            State.READ, State.BIN -> item.isVisible = !item.isVisible
+            State.EDIT, State.NEW -> shadowItem.isVisible = !shadowItem.isVisible
+
+        }
+
         fullAssert()
         onAssertAll()
     }
@@ -204,14 +209,15 @@ class RollNoteScreen(
     }
 
     fun onAssertAll() {
-        val list = when (state) {
-            State.READ, State.BIN -> item.list
-            State.EDIT, State.NEW -> shadowItem.list
+        val item = when (state) {
+            State.READ, State.BIN -> item
+            State.EDIT, State.NEW -> shadowItem
         }
-
+        val list = item.list
         val resultList = if (item.isVisible) list else list.hide()
-        for ((i, item) in resultList.withIndex()) {
-            getItem(i).assert(item)
+
+        for ((i, it) in resultList.withIndex()) {
+            getItem(i).assert(it)
         }
     }
 
@@ -232,10 +238,13 @@ class RollNoteScreen(
         })
 
         toolbar {
-            val value = item.isVisible
+            val value = when (state) {
+                State.READ, State.BIN -> item.isVisible
+                State.EDIT, State.NEW -> shadowItem.isVisible
+            }
 
             val itemIcon = if (value) R.drawable.ic_visible_enter else R.drawable.ic_visible_exit
-            val itemTint = if (!value && theme == Theme.DARK) R.attr.clAccent else R.attr.clContent
+            val itemTint = if (value) R.attr.clContent else R.attr.clIndicator
             val itemTitle = if (value) R.string.menu_roll_visible else R.string.menu_roll_invisible
 
             contentContainer
