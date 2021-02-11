@@ -20,6 +20,7 @@ annotation class IdlingTag {
             private const val PREFIX = "ALARM"
 
             const val CONFIGURE = "${PREFIX}_CONFIGURE"
+            const val START = "${PREFIX}_START"
         }
     }
 

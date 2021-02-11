@@ -116,7 +116,11 @@ class AlarmScreen(
             item: NoteItem,
             dateList: List<String>? = null
         ): AlarmScreen {
-            return AlarmScreen(item, dateList).assert().apply(func)
+            waitBefore(time = 2000)
+
+            return AlarmScreen(item, dateList)
+                .assert()
+                .apply(func)
         }
     }
 

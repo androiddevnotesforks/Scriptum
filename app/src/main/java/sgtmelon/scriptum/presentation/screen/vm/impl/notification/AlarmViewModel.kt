@@ -16,6 +16,8 @@ import sgtmelon.scriptum.domain.model.data.NoteData.Intent
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.state.SignalState
 import sgtmelon.scriptum.extension.runBack
+import sgtmelon.scriptum.idling.AppIdlingResource
+import sgtmelon.scriptum.idling.IdlingTag
 import sgtmelon.scriptum.presentation.screen.ui.callback.notification.IAlarmActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.notification.IAlarmViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
@@ -110,6 +112,8 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     override fun onSaveData(bundle: Bundle) = with(bundle) { putLong(Intent.ID, id) }
 
     override fun onStart() {
+        AppIdlingResource.worker.startHardWork(IdlingTag.Alarm.START)
+
         callback?.apply {
             startRippleAnimation(noteItem.color)
             startButtonFadeInAnimation()
@@ -124,6 +128,8 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
 
             startLongWaitHandler(CANCEL_DELAY, longWaitRunnable)
         }
+
+        AppIdlingResource.worker.stopHardWork(IdlingTag.Alarm.START)
     }
 
     override fun onClickNote() {
