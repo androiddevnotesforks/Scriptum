@@ -43,8 +43,6 @@ class SplashActivity : ParentActivity(), ISplashActivity {
 
         super.onCreate(savedInstanceState)
 
-        WaitIdlingResource(waitMillis = 2000)
-
         /**
          * If keyboard was open in another app.
          */
@@ -83,14 +81,17 @@ class SplashActivity : ParentActivity(), ISplashActivity {
     override fun openMainScreen() = startActivity(MainActivity[this])
 
     override fun openAlarmScreen(id: Long) {
+        WaitIdlingResource(waitMillis = 2000)
         startActivities(arrayOf(MainActivity[this], AlarmActivity[this, id]))
     }
 
     override fun openNoteScreen(id: Long, @Color color: Int, type: Int) {
+        WaitIdlingResource(waitMillis = 2000)
         startActivities(arrayOf(MainActivity[this], NoteActivity[this, type, id, color]))
     }
 
     override fun openNotificationScreen() {
+        WaitIdlingResource(waitMillis = 2000)
         startActivities(arrayOf(MainActivity[this], NotificationActivity[this]))
     }
 

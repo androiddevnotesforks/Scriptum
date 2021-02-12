@@ -56,7 +56,7 @@ class RippleContainer @JvmOverloads constructor(
 
         tag = fillColor
 
-        params = RippleParams(theme, parentView = this, hookView = hookView).also {
+        params = RippleParams(theme, hookView, parentView = this).also {
             animatorList.apply {
                 add(hookView.getAnimator(Anim.SCALE_X, NO_DELAY, it.delay, *LOGO_PULSE))
                 add(hookView.getAnimator(Anim.SCALE_Y, NO_DELAY, it.delay, *LOGO_PULSE))
@@ -140,8 +140,12 @@ class RippleContainer @JvmOverloads constructor(
      * Strange bug without 'when' and with lift return (try replace with 'if' and you will see).
      */
     @Suppress("LiftReturnOrAssignment")
-    private fun View.getAnimator(@Anim animName: String, startDelay: Long, duration: Long,
-                                 vararg values: Float): ObjectAnimator {
+    private fun View.getAnimator(
+        @Anim animName: String,
+        startDelay: Long,
+        duration: Long,
+        vararg values: Float
+    ): ObjectAnimator {
         return ObjectAnimator.ofFloat(this, animName, *values).apply {
             repeatCount = ObjectAnimator.INFINITE
             repeatMode = ObjectAnimator.RESTART

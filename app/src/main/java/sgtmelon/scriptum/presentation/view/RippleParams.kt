@@ -8,7 +8,11 @@ import kotlin.math.max
 /**
  * Model with params for [RippleContainer]
  */
-class RippleParams(@Theme private val theme: Int, private val parentView: View, val hookView: View) {
+class RippleParams(
+    @Theme private val theme: Int,
+    val hookView: View,
+    private val parentView: View
+) {
 
     private val minSize get() = hookView.width / 1.3
     private val maxSize get() = max(parentView.width, parentView.height)
@@ -17,7 +21,7 @@ class RippleParams(@Theme private val theme: Int, private val parentView: View, 
     val duration get() = 1000L * count / 2
     val delay get() = duration / count
 
-    private val scaleFactor get() =  if (theme == Theme.LIGHT) 2f else 1.5f
+    private val scaleFactor get() = if (theme == Theme.LIGHT) 2f else 1.5f
 
     val scaleTo get() = (maxSize / minSize).toFloat() * scaleFactor
 

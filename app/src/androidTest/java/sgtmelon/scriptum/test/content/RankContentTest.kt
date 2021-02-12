@@ -83,7 +83,7 @@ class RankContentTest : ParentUiTest() {
     }
 
     companion object {
-        private const val ITEM_COUNT = 5
+        private const val ITEM_COUNT = 3
         private const val REPEAT_TIMES = 3
     }
 }
