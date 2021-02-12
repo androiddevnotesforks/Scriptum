@@ -255,11 +255,11 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     }
 
     private fun waitLayoutConfigure() {
-        AppIdlingResource.worker.startHardWork(IdlingTag.Alarm.CONFIGURE)
+        AppIdlingResource.getInstance().startHardWork(IdlingTag.Alarm.CONFIGURE)
 
         parentContainer?.afterLayoutConfiguration {
             viewModel.onStart()
-            AppIdlingResource.worker.stopHardWork(IdlingTag.Alarm.CONFIGURE)
+            AppIdlingResource.getInstance().stopHardWork(IdlingTag.Alarm.CONFIGURE)
         }
     }
 

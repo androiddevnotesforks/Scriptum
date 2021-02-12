@@ -3,7 +3,7 @@ package sgtmelon.scriptum.idling
 /**
  * Interface for [AppIdlingResource]
  */
-internal interface AppIdlingCallback {
+interface AppIdlingCallback {
 
     fun startHardWork(@IdlingTag tag: String)
 

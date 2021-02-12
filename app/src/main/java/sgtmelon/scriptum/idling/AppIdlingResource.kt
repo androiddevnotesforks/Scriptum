@@ -2,6 +2,7 @@ package sgtmelon.scriptum.idling
 
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.IdlingResource
+import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.extension.validIndexOf
 
 /**
@@ -50,13 +51,16 @@ class AppIdlingResource : IdlingResource, AppIdlingCallback {
         }
 
         IdlingRegistry.getInstance().unregister(this)
+        worker = null
     }
 
     companion object {
+        @RunPrivate var worker: AppIdlingCallback? = null
 
-        val worker by lazy {
-            AppIdlingResource().apply {
-                IdlingRegistry.getInstance().register(this)
+        fun getInstance(): AppIdlingCallback {
+            return worker ?: AppIdlingResource().also {
+                IdlingRegistry.getInstance().register(it)
+                worker = it
             }
         }
     }

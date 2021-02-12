@@ -98,7 +98,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
     abstract fun cacheData()
 
     override fun onSetup(bundle: Bundle?) {
-        AppIdlingResource.worker.startHardWork(IdlingTag.Note.LOAD_DATA)
+        AppIdlingResource.getInstance().startHardWork(IdlingTag.Note.LOAD_DATA)
 
         getBundleData(bundle)
         setupBeforeInitialize()
@@ -108,7 +108,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
                 setupAfterInitialize()
             }
 
-            AppIdlingResource.worker.stopHardWork(IdlingTag.Note.LOAD_DATA)
+            AppIdlingResource.getInstance().stopHardWork(IdlingTag.Note.LOAD_DATA)
         }
     }
 

@@ -43,7 +43,7 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
 
 
     override fun onUpdateData() {
-        AppIdlingResource.worker.startHardWork(IdlingTag.Bin.LOAD_DATA)
+        AppIdlingResource.getInstance().startHardWork(IdlingTag.Bin.LOAD_DATA)
 
         callback?.beforeLoad()
 
@@ -73,7 +73,7 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
 
             updateList()
 
-            AppIdlingResource.worker.stopHardWork(IdlingTag.Bin.LOAD_DATA)
+            AppIdlingResource.getInstance().stopHardWork(IdlingTag.Bin.LOAD_DATA)
         }
     }
 

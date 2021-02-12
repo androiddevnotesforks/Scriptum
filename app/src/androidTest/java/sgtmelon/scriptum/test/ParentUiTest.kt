@@ -54,7 +54,7 @@ abstract class ParentUiTest : ParentTest() {
         BindControl.callback?.clearRecent()
         AlarmControl.callback?.clear()
 
-        AppIdlingResource.worker.clearWork()
+        AppIdlingResource.getInstance().clearWork()
     }
 
     protected fun launch(
