@@ -48,6 +48,8 @@ class AppIdlingResource : IdlingResource, AppIdlingCallback {
         if (isIdleNow) {
             callback?.onTransitionToIdle()
         }
+
+        IdlingRegistry.getInstance().unregister(this)
     }
 
     companion object {

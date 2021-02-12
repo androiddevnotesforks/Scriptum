@@ -13,6 +13,7 @@ import sgtmelon.scriptum.domain.model.data.NoteData
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.extension.beforeFinish
 import sgtmelon.scriptum.extension.hideKeyboard
+import sgtmelon.scriptum.idling.WaitIdlingResource
 import sgtmelon.scriptum.presentation.screen.ui.ParentActivity
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.callback.ISplashActivity
@@ -38,9 +39,11 @@ class SplashActivity : ParentActivity(), ISplashActivity {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         ScriptumApplication.component.getSplashBuilder().set(activity = this).build()
-                .inject(activity = this)
+            .inject(activity = this)
 
         super.onCreate(savedInstanceState)
+
+        WaitIdlingResource(waitMillis = 2000)
 
         /**
          * If keyboard was open in another app.
