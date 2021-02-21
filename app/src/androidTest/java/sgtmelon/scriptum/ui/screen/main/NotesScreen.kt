@@ -106,6 +106,10 @@ class NotesScreen(private val isHide: Boolean) : ParentRecyclerScreen(R.id.notes
     }
 
     companion object {
+
+        /**
+         * Even if all list [isHide], need pass [isEmpty] = true.
+         */
         operator fun invoke(
             func: NotesScreen.() -> Unit,
             isEmpty: Boolean,

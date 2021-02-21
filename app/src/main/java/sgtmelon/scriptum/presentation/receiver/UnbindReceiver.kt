@@ -29,7 +29,7 @@ class UnbindReceiver : BroadcastReceiver() {
         if (id == NoteData.Default.ID) return
 
         GlobalScope.launch {
-            if (BindRepo(RoomProvider(context)).unbindNote(id) == true) {
+            if (BindRepo(RoomProvider(context)).unbindNote(id)) {
                 BindControl[context].cancelNote(id)
             }
 
@@ -46,7 +46,7 @@ class UnbindReceiver : BroadcastReceiver() {
                     .putExtra(Values.NOTE_ID, noteItem.id)
 
             return PendingIntent.getBroadcast(
-                    context, noteItem.id.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT
+                context, noteItem.id.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT
             )
         }
     }

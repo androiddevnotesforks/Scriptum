@@ -39,7 +39,7 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
                 }
 
                 list.add(when (page) {
-                    MainPage.RANK -> throw IllegalAccessException(PAGE_ERROR_TEXT)
+                    MainPage.RANK -> throw throwPageError()
                     MainPage.NOTES -> when (type) {
                         NoteType.TEXT -> data.insertText(note)
                         NoteType.ROLL -> data.insertRoll(note)
@@ -83,7 +83,7 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
                 }
 
                 list.add(when (page) {
-                    MainPage.RANK -> throw IllegalAccessException(PAGE_ERROR_TEXT)
+                    MainPage.RANK -> throw throwPageError()
                     MainPage.NOTES -> when (type) {
                         NoteType.TEXT -> data.insertText(note)
                         NoteType.ROLL -> data.insertRoll(note)
@@ -118,7 +118,7 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
 
         onAssertList(ArrayList<NoteItem>().apply {
             add(when (page) {
-                MainPage.RANK -> throw IllegalAccessException(PAGE_ERROR_TEXT)
+                MainPage.RANK -> throw throwPageError()
                 MainPage.NOTES -> data.insertRoll(list = rollList)
                 MainPage.BIN -> data.insertRollToBin(list = rollList)
             })
@@ -154,7 +154,7 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
 
         onAssertList(ArrayList<NoteItem>().apply {
             add(when (page) {
-                MainPage.RANK -> throw IllegalAccessException(PAGE_ERROR_TEXT)
+                MainPage.RANK -> throw throwPageError()
                 MainPage.NOTES -> data.insertRoll(list = rollList)
                 MainPage.BIN -> data.insertRollToBin(list = rollList)
             })
@@ -167,7 +167,7 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
 
         onAssertList(ArrayList<NoteItem>().apply {
             add(when (page) {
-                MainPage.RANK -> throw IllegalAccessException(PAGE_ERROR_TEXT)
+                MainPage.RANK -> throw throwPageError()
                 MainPage.NOTES -> data.insertText(data.textNote)
                 MainPage.BIN -> data.insertTextToBin(data.textNote)
             })
@@ -176,19 +176,44 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
         TODO(reason = "#TEST write test")
     }
 
-    open fun rankTextCancel() {
-        TODO(reason = "#TEST write test")
-    }
+    open fun rankTextCancel() = startRankCancelTest(NoteType.TEXT)
 
-    open fun rankRollCancel() {
-        TODO(reason = "#TEST write test")
+    open fun rankRollCancel() = startRankCancelTest(NoteType.ROLL)
+
+    private fun startRankCancelTest(type: NoteType) {
+        val pair = when (page) {
+            MainPage.RANK -> throw IllegalAccessError(PAGE_ERROR_TEXT)
+            MainPage.NOTES -> data.insertRankForNotes(type = type)
+            MainPage.BIN -> data.insertRankForBin(type = type)
+        }
+
+        launch {
+            mainScreen {
+                rankScreen { onClickVisible(pair.first) }
+
+                when (page) {
+                    MainPage.RANK -> throw throwPageError()
+                    MainPage.NOTES -> notesScreen(isEmpty = true, isHide = true)
+                    MainPage.BIN -> binScreen { onAssertItem(pair.second) }
+                }
+
+                rankScreen { onClickCancel(pair.first) }
+                pair.second.clearRank()
+
+                when (page) {
+                    MainPage.RANK -> throw throwPageError()
+                    MainPage.NOTES -> notesScreen { onAssertItem(pair.second) }
+                    MainPage.BIN -> binScreen { onAssertItem(pair.second) }
+                }
+            }
+        }
     }
 
     private fun onAssertList(list: List<NoteItem>) {
         launch {
             mainScreen {
                 when (page) {
-                    MainPage.RANK -> throw IllegalAccessException(PAGE_ERROR_TEXT)
+                    MainPage.RANK -> throw throwPageError()
                     MainPage.NOTES -> notesScreen {
                         for ((i, item) in list.withIndex()) onAssertItem(item, i)
                     }
@@ -199,6 +224,8 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
             }
         }
     }
+
+    private fun throwPageError(): Exception = Exception(PAGE_ERROR_TEXT)
 
     companion object {
         private const val PAGE_ERROR_TEXT = "This class test only screens with [NoteAdapter]"

@@ -85,6 +85,13 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
         }
     }
 
+    fun onClickCancel(item: RankItem, isWait: Boolean = false) = apply {
+        waitAfter(time = if (isWait) SNACK_BAR_TIME else 0) {
+            getItem(item).cancelButton.click()
+            getSnackbar { assert() }
+        }
+    }
+
 
     // TODO add alternative fast assertion by position (use openRenameDialog)
     fun onAssertItem(item: RankItem) = getItem(item).assert(item)

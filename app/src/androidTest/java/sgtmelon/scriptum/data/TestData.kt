@@ -91,10 +91,13 @@ class TestData(
         return rankConverter.toItem(entity)
     }
 
-    fun insertRankForNotes(): Pair<RankItem, NoteItem> {
-        val noteItem = insertNote()
+    fun insertRankForNotes(
+        entity: RankEntity = rankEntity,
+        type: NoteType = NoteType.values().random()
+    ): Pair<RankItem, NoteItem> {
+        val noteItem = insertNote(type = type)
 
-        val rankItem = insertRank(rankEntity.apply {
+        val rankItem = insertRank(entity.apply {
             noteId.add(noteItem.id)
         })
 
@@ -108,10 +111,13 @@ class TestData(
         return Pair(rankItem, noteItem)
     }
 
-    fun insertRankForBin(): Pair<RankItem, NoteItem> {
-        val noteItem = insertNoteToBin()
+    fun insertRankForBin(
+        entity: RankEntity = rankEntity,
+        type: NoteType = NoteType.values().random()
+    ): Pair<RankItem, NoteItem> {
+        val noteItem = insertNoteToBin(type = type)
 
-        val rankItem = insertRank(rankEntity.apply {
+        val rankItem = insertRank(entity.apply {
             noteId.add(noteItem.id)
         })
 
@@ -173,29 +179,41 @@ class TestData(
     }
 
 
-    fun insertNote(time: String? = null): NoteItem {
-        val entity = if (Random.nextBoolean()) textNote else rollNote
+    fun insertNote(
+        time: String? = null,
+        type: NoteType = NoteType.values().random()
+    ): NoteItem {
+        val entity = when (type) {
+            NoteType.TEXT -> textNote
+            NoteType.ROLL -> rollNote
+        }
 
         if (time != null) {
             entity.change = time
             entity.create = time
         }
 
-        return when (entity.type) {
+        return when (type) {
             NoteType.TEXT -> insertText(entity)
             NoteType.ROLL -> insertRoll(entity)
         }
     }
 
-    fun insertNoteToBin(time: String? = null): NoteItem {
-        val entity = if (Random.nextBoolean()) textNote else rollNote
+    fun insertNoteToBin(
+        time: String? = null,
+        type: NoteType = NoteType.values().random()
+    ): NoteItem {
+        val entity = when (type) {
+            NoteType.TEXT -> textNote
+            NoteType.ROLL -> rollNote
+        }
 
         if (time != null) {
             entity.change = time
             entity.create = time
         }
 
-        return when (entity.type) {
+        return when (type) {
             NoteType.TEXT -> insertTextToBin(entity)
             NoteType.ROLL -> insertRollToBin(entity)
         }
