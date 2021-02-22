@@ -25,7 +25,7 @@ class BindErrorTest : ParentNotificationTest() {
                     openTextNote(it) {
                         controlPanel { onEdit() }
                         onEnterText(nextString())
-                        onOpen { item.isStatus = false }
+                        automator?.unbind(item)
                         toolbar { onClickBack() }
                     }
                 }
@@ -45,13 +45,11 @@ class BindErrorTest : ParentNotificationTest() {
                     openRollNote(it) {
                         controlPanel { onEdit() }
                         enterPanel { onAdd(nextString()) }
-                        onOpen { item.isStatus = false }
+                        automator?.unbind(item)
                         toolbar { onClickBack() }
                     }
                 }
             }
         }
     }
-
-
 }

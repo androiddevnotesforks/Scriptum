@@ -8,6 +8,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.TaskStackBuilder
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
 import sgtmelon.scriptum.domain.model.key.ColorShade
@@ -38,19 +39,8 @@ object NotificationFactory {
         }
 
         val color = context.getAppSimpleColor(noteItem.color, ColorShade.DARK)
-        val title = noteItem.getStatusTitle(context)
-        val text = when (noteItem) {
-            is NoteItem.Text -> noteItem.text
-            is NoteItem.Roll -> {
-                val list = if (noteItem.isVisible) noteItem.list else noteItem.list.hide()
-
-                if (noteItem.isVisible || list.isNotEmpty()) {
-                    list.toStatusText()
-                } else {
-                    context.getString(R.string.info_roll_hide_title)
-                }
-            }
-        }
+        val title = getStatusTitle(context, noteItem)
+        val text = getStatusText(context, noteItem)
 
         val id = noteItem.id.toInt()
         val contentIntent = TaskStackBuilder.create(context)
@@ -74,9 +64,27 @@ object NotificationFactory {
             .build()
     }
 
-    private fun NoteItem.getStatusTitle(context: Context): String {
-        return (if (type == NoteType.ROLL) "$text | " else "")
-            .plus(if (name.isEmpty()) context.getString(R.string.hint_text_name) else name)
+    /**
+     * If [NoteType.ROLL] - title will starts with amount of done list items.
+     */
+    @RunPrivate fun getStatusTitle(context: Context, item: NoteItem): String = with(item) {
+        val titleStart = if (type == NoteType.ROLL) "$text | " else ""
+
+        return titleStart.plus(if (name.isEmpty()) context.getString(R.string.hint_text_name) else name)
+    }
+
+    @RunPrivate fun getStatusText(context: Context, item: NoteItem): String {
+        return when (item) {
+            is NoteItem.Text -> item.text
+            is NoteItem.Roll -> {
+                val finalList = if (item.isVisible) item.list else item.list.hide()
+                if (item.isVisible || finalList.isNotEmpty()) {
+                    finalList.toStatusText()
+                } else {
+                    context.getString(R.string.info_roll_hide_title)
+                }
+            }
+        }
     }
 
     private fun List<RollItem>.toStatusText() = joinToString(separator = "\n") {
