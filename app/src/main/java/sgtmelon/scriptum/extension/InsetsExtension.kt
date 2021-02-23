@@ -180,6 +180,7 @@ private fun updateMarginAnimation(
         this.interpolator = DecelerateInterpolator()
         this.duration = 35L
 
+        addIdlingListener()
         addUpdateListener {
             val value = it.animatedValue as? Int ?: return@addUpdateListener
 

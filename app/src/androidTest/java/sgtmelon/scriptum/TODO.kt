@@ -3,7 +3,7 @@
 package sgtmelon.scriptum
 
 import sgtmelon.scriptum.test.auto.content.note.ParentNoteContentTest
-import sgtmelon.scriptum.test.control.anim.NoteIconAnimTest
+import sgtmelon.scriptum.test.control.anim.note.NoteIconAnimTest
 
 // EXAMPLE: TODO(reason = "#TEST write test")
 

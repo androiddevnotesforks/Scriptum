@@ -1,15 +1,17 @@
-package sgtmelon.scriptum.test.control.anim
+package sgtmelon.scriptum.test.control.anim.note
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.extension.nextString
 import sgtmelon.scriptum.presentation.control.toolbar.icon.NavigationIconControl
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.test.ParentUiTest
 
 /**
- * Test of [NavigationIconControl] animations for [TextNoteFragment], [RollNoteFragment]
+ * Test of [NavigationIconControl] and visibleRollIcon animations for [TextNoteFragment],
+ * [RollNoteFragment].
  */
 @RunWith(AndroidJUnit4::class)
 class NoteIconAnimTest : ParentUiTest() {
@@ -27,7 +29,7 @@ class NoteIconAnimTest : ParentUiTest() {
         launch {
             mainScreen {
                 openAddDialog {
-                    createText(it) { onEnterText(data.textNote.text).controlPanel { onSave() } }
+                    createText(it) { onEnterText(nextString()).controlPanel { onSave() } }
                 }
             }
         }
@@ -107,5 +109,18 @@ class NoteIconAnimTest : ParentUiTest() {
                 }
             }
         }
+    }
+
+    @Test fun visibleClick() = data.insertRoll().let {
+        launch {
+            mainScreen {
+                notesScreen { openRollNote(it) { repeat(REPEAT_COUNT) { onClickVisible() } } }
+            }
+        }
+    }
+
+
+    companion object {
+        private const val REPEAT_COUNT = 5
     }
 }

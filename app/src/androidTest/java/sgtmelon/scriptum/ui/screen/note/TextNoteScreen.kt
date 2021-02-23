@@ -8,6 +8,7 @@ import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
+import sgtmelon.scriptum.ui.IKeyboardClose
 import sgtmelon.scriptum.ui.IPressBack
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.part.panel.NotePanel
@@ -21,10 +22,11 @@ class TextNoteScreen(
     override var item: NoteItem.Text,
     override val isRankEmpty: Boolean
 ) : ParentUi(),
-        INoteScreen<TextNoteScreen, NoteItem.Text>,
-        NoteToolbar.ImeCallback,
-        INoteAfterConvert<RollNoteScreen>,
-        IPressBack {
+    INoteScreen<TextNoteScreen, NoteItem.Text>,
+    NoteToolbar.ImeCallback,
+    INoteAfterConvert<RollNoteScreen>,
+    IKeyboardClose,
+    IPressBack {
 
     //region Views
 
@@ -67,7 +69,7 @@ class TextNoteScreen(
         if (text.isEmpty()) {
             val valueFrom = shadowItem.text
             inputControl.onTextChange(
-                    valueFrom, valueTo = "", cursor = InputItem.Cursor(valueFrom.length, 0)
+                valueFrom, valueTo = "", cursor = InputItem.Cursor(valueFrom.length, 0)
             )
         } else {
             for ((i, c) in text.withIndex()) {
@@ -125,9 +127,9 @@ class TextNoteScreen(
 
     fun assert() {
         toolbarHolder.withBackgroundAppColor(theme, item.color, needDark = false)
-                .withSizeAttr(heightAttr = android.R.attr.actionBarSize)
+            .withSizeAttr(heightAttr = android.R.attr.actionBarSize)
         panelHolder.withBackgroundAttr(R.attr.clPrimary)
-                .withSize(heightId = R.dimen.note_panel_height)
+            .withSize(heightId = R.dimen.note_panel_height)
 
         fragmentContainer.isDisplayed()
 

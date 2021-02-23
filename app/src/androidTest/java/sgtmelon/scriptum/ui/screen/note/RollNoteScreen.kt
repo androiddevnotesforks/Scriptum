@@ -14,6 +14,7 @@ import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel
+import sgtmelon.scriptum.ui.IKeyboardClose
 import sgtmelon.scriptum.ui.IPressBack
 import sgtmelon.scriptum.ui.ParentRecyclerItem
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
@@ -33,6 +34,7 @@ class RollNoteScreen(
     INoteScreen<RollNoteScreen, NoteItem.Roll>,
     NoteToolbar.ImeCallback,
     INoteAfterConvert<TextNoteScreen>,
+    IKeyboardClose,
     IPressBack {
 
     //region Views
