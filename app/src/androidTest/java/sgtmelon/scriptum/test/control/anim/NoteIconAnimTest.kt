@@ -3,7 +3,6 @@ package sgtmelon.scriptum.test.control.anim
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.basic.extension.waitAfter
 import sgtmelon.scriptum.presentation.control.toolbar.icon.NavigationIconControl
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
@@ -16,11 +15,11 @@ import sgtmelon.scriptum.test.ParentUiTest
 class NoteIconAnimTest : ParentUiTest() {
 
     @Test fun arrowBackOnCreateTextNote() = data.createText().let {
-        launch { mainScreen { openAddDialog { waitAfter(TIME) { createText(it) } } } }
+        launch { mainScreen { openAddDialog { createText(it) } } }
     }
 
     @Test fun arrowBackOnCreateRollNote() = data.createRoll().let {
-        launch { mainScreen { openAddDialog { waitAfter(TIME) { createRoll(it) } } } }
+        launch { mainScreen { openAddDialog { createRoll(it) } } }
     }
 
 
@@ -28,11 +27,7 @@ class NoteIconAnimTest : ParentUiTest() {
         launch {
             mainScreen {
                 openAddDialog {
-                    createText(it) {
-                        waitAfter(TIME) {
-                            onEnterText(data.textNote.text).controlPanel { onSave() }
-                        }
-                    }
+                    createText(it) { onEnterText(data.textNote.text).controlPanel { onSave() } }
                 }
             }
         }
@@ -43,10 +38,8 @@ class NoteIconAnimTest : ParentUiTest() {
             mainScreen {
                 openAddDialog {
                     createRoll(it) {
-                        waitAfter(TIME) {
-                            enterPanel { onAdd(data.rollList.first().text) }
-                            controlPanel { onSave() }
-                        }
+                        enterPanel { onAdd(data.rollList.first().text) }
+                        controlPanel { onSave() }
                     }
                 }
             }
@@ -55,21 +48,13 @@ class NoteIconAnimTest : ParentUiTest() {
 
     @Test fun notAnimateOnRestoreOpenTextNote() = data.insertTextToBin().let {
         launch {
-            mainScreen {
-                binScreen {
-                    openTextNote(it) { waitAfter(TIME) { controlPanel { onRestoreOpen() } } }
-                }
-            }
+            mainScreen { binScreen { openTextNote(it) { controlPanel { onRestoreOpen() } } } }
         }
     }
 
     @Test fun notAnimateOnRestoreOpenRollNote() = data.insertRollToBin().let {
         launch {
-            mainScreen {
-                binScreen {
-                    openRollNote(it) { waitAfter(TIME) { controlPanel { onRestoreOpen() } } }
-                }
-            }
+            mainScreen { binScreen { openRollNote(it) { controlPanel { onRestoreOpen() } } } }
         }
     }
 
@@ -78,14 +63,7 @@ class NoteIconAnimTest : ParentUiTest() {
         launch {
             mainScreen {
                 notesScreen {
-                    openTextNote(it) {
-                        controlPanel {
-                            repeat(times = 3) {
-                                waitAfter(TIME) { onEdit() }
-                                waitAfter(TIME) { onSave() }
-                            }
-                        }
-                    }
+                    openTextNote(it) { controlPanel { repeat(times = 3) { onEdit().onSave() } } }
                 }
             }
         }
@@ -95,14 +73,7 @@ class NoteIconAnimTest : ParentUiTest() {
         launch {
             mainScreen {
                 notesScreen {
-                    openRollNote(it) {
-                        controlPanel {
-                            repeat(times = 3) {
-                                waitAfter(TIME) { onEdit() }
-                                waitAfter(TIME) { onSave() }
-                            }
-                        }
-                    }
+                    openRollNote(it) { controlPanel { repeat(times = 3) { onEdit().onSave() } } }
                 }
             }
         }
@@ -113,10 +84,10 @@ class NoteIconAnimTest : ParentUiTest() {
             mainScreen {
                 notesScreen {
                     openTextNote(it) {
-                        waitAfter(TIME) { controlPanel { onEdit() } }
-                        waitAfter(TIME) { onPressBack() }
-                        waitAfter(TIME) { controlPanel { onEdit() } }
-                        waitAfter(TIME) { toolbar { onClickBack() } }
+                        controlPanel { onEdit() }
+                        onPressBack()
+                        controlPanel { onEdit() }
+                        toolbar { onClickBack() }
                     }
                 }
             }
@@ -128,18 +99,13 @@ class NoteIconAnimTest : ParentUiTest() {
             mainScreen {
                 notesScreen {
                     openRollNote(it) {
-                        waitAfter(TIME) { controlPanel { onEdit() } }
-                        waitAfter(TIME) { onPressBack() }
-                        waitAfter(TIME) { controlPanel { onEdit() } }
-                        waitAfter(TIME) { toolbar { onClickBack() } }
+                        controlPanel { onEdit() }
+                        onPressBack()
+                        controlPanel { onEdit() }
+                        toolbar { onClickBack() }
                     }
                 }
             }
         }
-    }
-
-
-    companion object {
-        private const val TIME = 500L
     }
 }
