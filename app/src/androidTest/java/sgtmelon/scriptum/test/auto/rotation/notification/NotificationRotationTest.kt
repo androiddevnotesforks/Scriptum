@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.test.control.rotation.notification
+package sgtmelon.scriptum.test.auto.rotation.notification
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test

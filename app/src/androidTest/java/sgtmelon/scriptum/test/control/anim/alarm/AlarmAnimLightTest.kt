@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.test.control.alarm
+package sgtmelon.scriptum.test.control.anim.alarm
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
@@ -7,10 +7,10 @@ import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.AlarmActivity
 
 /**
- * Test of animation and color scheme of [AlarmActivity] in dark theme
+ * Test of animation and color scheme of [AlarmActivity] in light theme
  */
 @RunWith(AndroidJUnit4::class)
-class AlarmAnimDarkTest: ParentAlarmAnimTest(Theme.DARK) {
+class AlarmAnimLightTest : ParentAlarmAnimTest(Theme.LIGHT) {
 
     @Test override fun colorRed() = super.colorRed()
 

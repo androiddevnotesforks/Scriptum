@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.test.control.alarm
+package sgtmelon.scriptum.test.control.anim.alarm
 
 import sgtmelon.scriptum.basic.extension.waitAfter
 import sgtmelon.scriptum.domain.model.annotation.Color

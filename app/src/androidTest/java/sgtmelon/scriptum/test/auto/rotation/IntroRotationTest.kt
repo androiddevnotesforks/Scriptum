@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.test.control.rotation
+package sgtmelon.scriptum.test.auto.rotation
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
