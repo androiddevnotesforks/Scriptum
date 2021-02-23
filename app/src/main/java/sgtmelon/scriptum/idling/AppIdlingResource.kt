@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.idling
 
+import android.util.Log
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.IdlingResource
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
@@ -48,6 +49,8 @@ class AppIdlingResource : IdlingResource, AppIdlingCallback {
     }
 
     override fun clearWork() {
+        Log.i(TAG, idleList.joinToString())
+
         idleList.clear()
 
         if (isIdleNow) {
@@ -59,6 +62,8 @@ class AppIdlingResource : IdlingResource, AppIdlingCallback {
     }
 
     companion object {
+        private val TAG = AppIdlingResource::class.java.simpleName
+
         @RunPrivate var worker: AppIdlingCallback? = null
 
         fun getInstance(): AppIdlingCallback {

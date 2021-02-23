@@ -24,6 +24,12 @@ class IconAnimControl(
      */
     private var isEnterIcon: Boolean = false
 
+    /**
+     * Variable for prevent double call of [blockCallback]. Because happen tests idling crashes.
+     * Double call happen because of calls [waitAnimationEnd] inside [runnable] and [getIcon].
+     */
+    private var isEnabled = true
+
     private val duration = context.resources.getInteger(R.integer.icon_animation_time).toLong()
 
     private val handler = Handler()
@@ -33,7 +39,11 @@ class IconAnimControl(
         if (enterIcon.isRunning || exitIcon.isRunning) {
             waitAnimationEnd()
         } else {
-            blockCallback?.setEnabled(isEnabled = true)
+            if (!isEnabled) {
+                isEnabled = true
+                blockCallback?.setEnabled(isEnabled)
+            }
+
             changeCallback.setDrawable(isEnterIcon, needAnim = false)
         }
     }
@@ -50,7 +60,11 @@ class IconAnimControl(
     }
 
     private fun waitAnimationEnd() {
-        blockCallback?.setEnabled(isEnabled = false)
+        if (isEnabled) {
+            isEnabled = false
+            blockCallback?.setEnabled(isEnabled)
+        }
+
         handler.postDelayed(runnable, duration)
     }
 }
