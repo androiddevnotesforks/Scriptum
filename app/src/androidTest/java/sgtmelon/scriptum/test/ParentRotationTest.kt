@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.test
 
-import sgtmelon.scriptum.basic.extension.waitBefore
-import sgtmelon.scriptum.extension.showToast
+import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
+import sgtmelon.scriptum.basic.automator.RotateAutomator
 
 /**
  * Parent class for Rotation tests
@@ -10,18 +10,18 @@ import sgtmelon.scriptum.extension.showToast
  */
 abstract class ParentRotationTest : ParentUiTest() {
 
-    protected fun onRotate(beforeFunc: () -> Unit, afterFunc: () -> Unit) {
-        beforeFunc()
-        onRotate(afterFunc)
+    protected var automator: RotateAutomator? = null
+
+    override fun setUp() {
+        super.setUp()
+
+        automator = RotateAutomator(getInstrumentation())
     }
 
-    protected fun onRotate(afterFunc: () -> Unit) {
-        testRule.activity?.runOnUiThread { context.showToast(TOAST_TEXT) }
-        waitBefore(ROTATE_TIME) { afterFunc() }
-    }
+    override fun tearDown() {
+        super.tearDown()
 
-    companion object {
-        private const val ROTATE_TIME = 5000L
-        private const val TOAST_TEXT = "ROTATE NOW!!!"
+        automator?.rotateNatural()
+        automator = null
     }
 }

@@ -18,14 +18,17 @@ abstract class ParentNotificationTest : ParentUiTest() {
 
     override fun setUp() {
         super.setUp()
+
         automator = NotificationAutomator(context, getInstrumentation())
     }
 
     override fun tearDown() {
         super.tearDown()
+
         automator = null
     }
 
+    // TODO remove
     protected fun onSee(afterFunc: () -> Unit = {}) {
         testRule.activity?.runOnUiThread { context.showToast(SEE_TOAST) }
         waitBefore(SEE_TIME) { afterFunc() }

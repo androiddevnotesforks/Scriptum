@@ -12,8 +12,17 @@ import sgtmelon.scriptum.test.ParentRotationTest
 @RunWith(AndroidJUnit4::class)
 class PreferenceRotationTest : ParentRotationTest() {
 
+    // TODO finish
+
     @Test fun content() = launch {
-        mainScreen { notesScreen(isEmpty = true) { openPreference { onRotate { assert() } } } }
+        mainScreen {
+            notesScreen(isEmpty = true) {
+                openPreference {
+                    automator?.rotateSide()
+                    assert()
+                }
+            }
+        }
     }
 
     @Test fun colorDialog() = launch {
@@ -21,7 +30,12 @@ class PreferenceRotationTest : ParentRotationTest() {
 
         mainScreen {
             notesScreen(isEmpty = true) {
-                openPreference { openColorDialog(color) { onRotate { assert() } } }
+                openPreference {
+                    openColorDialog(color) {
+                        automator?.rotateSide()
+                        assert()
+                    }
+                }
             }
         }
     }

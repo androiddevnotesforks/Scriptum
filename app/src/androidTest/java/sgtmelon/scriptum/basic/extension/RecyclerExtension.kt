@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.basic.extension
 
 import android.view.View
+import android.widget.ListView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions
@@ -13,9 +14,11 @@ fun Matcher<View>.getCount(): Int = let {
 
     val recyclerMatcher = object : TypeSafeMatcher<View>() {
         override fun matchesSafely(item: View): Boolean {
-            if (item !is RecyclerView) return false
-
-            count = item.adapter?.itemCount ?: return false
+            count = when (item) {
+                is RecyclerView -> item.adapter?.itemCount ?: return false
+                is ListView -> item.adapter?.count ?: return false
+                else -> return false
+            }
 
             return true
         }

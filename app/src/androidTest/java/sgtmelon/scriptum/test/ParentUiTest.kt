@@ -21,6 +21,7 @@ import kotlin.random.Random
  */
 abstract class ParentUiTest : ParentTest() {
 
+    // TODO make private
     @get:Rule val testRule = ActivityTestRule(
         SplashActivity::class.java, true, false
     )

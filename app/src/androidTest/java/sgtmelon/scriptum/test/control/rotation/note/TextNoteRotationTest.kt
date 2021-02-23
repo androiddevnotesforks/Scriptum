@@ -19,7 +19,16 @@ class TextNoteRotationTest : ParentRotationTest() {
      */
 
     @Test fun contentOnBin() = data.insertTextToBin().let {
-        launch { mainScreen { binScreen { openTextNote(it) { onRotate { assert() } } } } }
+        launch {
+            mainScreen {
+                binScreen {
+                    openTextNote(it) {
+                        automator?.rotateSide()
+                        assert()
+                    }
+                }
+            }
+        }
     }
 
     @Test fun contentOnRestoreOpen() = data.insertTextToBin().let {
@@ -28,7 +37,8 @@ class TextNoteRotationTest : ParentRotationTest() {
                 binScreen {
                     openTextNote(it) {
                         controlPanel { onRestoreOpen() }
-                        onRotate { assert() }
+                        automator?.rotateSide()
+                        assert()
                     }
                 }
             }
@@ -36,18 +46,40 @@ class TextNoteRotationTest : ParentRotationTest() {
     }
 
     @Test fun contentOnCreate() = data.createText().let {
-        launch { mainScreen { openAddDialog { createText(it) { onRotate { assert() } } } } }
+        launch {
+            mainScreen {
+                openAddDialog {
+                    createText(it) {
+                        automator?.rotateSide()
+                        assert()
+                    }
+                }
+            }
+        }
     }
 
     @Test fun contentOnRead() = data.insertText().let {
-        launch { mainScreen { notesScreen { openTextNote(it) { onRotate { assert() } } } } }
+        launch {
+            mainScreen {
+                notesScreen {
+                    openTextNote(it) {
+                        automator?.rotateSide()
+                        assert()
+                    }
+                }
+            }
+        }
     }
 
     @Test fun contentOnEdit() = data.insertText().let {
         launch {
             mainScreen {
                 notesScreen {
-                    openTextNote(it) { onRotate({ controlPanel { onEdit() } }) { assert() } }
+                    openTextNote(it) {
+                        controlPanel { onEdit() }
+                        automator?.rotateSide()
+                        assert()
+                    }
                 }
             }
         }
@@ -72,7 +104,12 @@ class TextNoteRotationTest : ParentRotationTest() {
             mainScreen {
                 notesScreen {
                     openTextNote(item) {
-                        controlPanel { onNotification(isUpdateDate) { onRotate { assert() } } }
+                        controlPanel {
+                            onNotification(isUpdateDate) {
+                                automator?.rotateSide()
+                                assert()
+                            }
+                        }
                     }
                 }
             }
@@ -84,7 +121,14 @@ class TextNoteRotationTest : ParentRotationTest() {
             mainScreen {
                 notesScreen {
                     openTextNote(it) {
-                        controlPanel { onNotification { onClickApply { onRotate { assert() } } } }
+                        controlPanel {
+                            onNotification {
+                                onClickApply {
+                                    automator?.rotateSide()
+                                    assert()
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -96,7 +140,14 @@ class TextNoteRotationTest : ParentRotationTest() {
         launch {
             mainScreen {
                 notesScreen {
-                    openTextNote(it) { controlPanel { onConvert { onRotate { assert() } } } }
+                    openTextNote(it) {
+                        controlPanel {
+                            onConvert {
+                                automator?.rotateSide()
+                                assert()
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -109,7 +160,8 @@ class TextNoteRotationTest : ParentRotationTest() {
                     openTextNote(it) {
                         controlPanel {
                             onConvert { onClickYes() }
-                            onRotate { afterConvert() }
+                            automator?.rotateSide()
+                            afterConvert()
                         }
                     }
                 }
@@ -125,7 +177,8 @@ class TextNoteRotationTest : ParentRotationTest() {
                         controlPanel {
                             onColor {
                                 onClickItem()
-                                onRotate { assert() }
+                                automator?.rotateSide()
+                                assert()
                             }
                         }
                     }
@@ -142,7 +195,8 @@ class TextNoteRotationTest : ParentRotationTest() {
                         controlPanel {
                             onRank(it) {
                                 onClickItem()
-                                onRotate { assert() }
+                                automator?.rotateSide()
+                                assert()
                             }
                         }
                     }

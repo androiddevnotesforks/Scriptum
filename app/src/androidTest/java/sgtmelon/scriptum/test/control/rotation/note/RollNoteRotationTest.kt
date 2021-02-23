@@ -19,7 +19,16 @@ class RollNoteRotationTest : ParentRotationTest() {
      */
 
     @Test fun contentOnBin() = data.insertRollToBin().let {
-        launch { mainScreen { binScreen { openRollNote(it) { onRotate { assert() } } } } }
+        launch {
+            mainScreen {
+                binScreen {
+                    openRollNote(it) {
+                        automator?.rotateSide()
+                        assert()
+                    }
+                }
+            }
+        }
     }
 
     @Test fun contentOnRestoreOpen() = data.insertRollToBin().let {
@@ -28,7 +37,8 @@ class RollNoteRotationTest : ParentRotationTest() {
                 binScreen {
                     openRollNote(it) {
                         controlPanel { onRestoreOpen() }
-                        onRotate { assert() }
+                        automator?.rotateSide()
+                        assert()
                     }
                 }
             }
@@ -36,18 +46,40 @@ class RollNoteRotationTest : ParentRotationTest() {
     }
 
     @Test fun contentOnCreate() = data.createRoll().let {
-        launch { mainScreen { openAddDialog { createRoll(it) { onRotate { assert() } } } } }
+        launch {
+            mainScreen {
+                openAddDialog {
+                    createRoll(it) {
+                        automator?.rotateSide()
+                        assert()
+                    }
+                }
+            }
+        }
     }
 
     @Test fun contentOnRead() = data.insertRoll().let {
-        launch { mainScreen { notesScreen { openRollNote(it) { onRotate { assert() } } } } }
+        launch {
+            mainScreen {
+                notesScreen {
+                    openRollNote(it) {
+                        automator?.rotateSide()
+                        assert()
+                    }
+                }
+            }
+        }
     }
 
     @Test fun contentOnEdit() = data.insertRoll().let {
         launch {
             mainScreen {
                 notesScreen {
-                    openRollNote(it) { onRotate({ controlPanel { onEdit() } }) { assert() } }
+                    openRollNote(it) {
+                        controlPanel { onEdit() }
+                        automator?.rotateSide()
+                        assert()
+                    }
                 }
             }
         }
@@ -72,7 +104,12 @@ class RollNoteRotationTest : ParentRotationTest() {
             mainScreen {
                 notesScreen {
                     openRollNote(item) {
-                        controlPanel { onNotification(isUpdateDate) { onRotate { assert() } } }
+                        controlPanel {
+                            onNotification(isUpdateDate) {
+                                automator?.rotateSide()
+                                assert()
+                            }
+                        }
                     }
                 }
             }
@@ -84,7 +121,14 @@ class RollNoteRotationTest : ParentRotationTest() {
             mainScreen {
                 notesScreen {
                     openRollNote(it) {
-                        controlPanel { onNotification { onClickApply { onRotate { assert() } } } }
+                        controlPanel {
+                            onNotification {
+                                onClickApply {
+                                    automator?.rotateSide()
+                                    assert()
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -96,7 +140,14 @@ class RollNoteRotationTest : ParentRotationTest() {
         launch {
             mainScreen {
                 notesScreen {
-                    openRollNote(it) { controlPanel { onConvert { onRotate { assert() } } } }
+                    openRollNote(it) {
+                        controlPanel {
+                            onConvert {
+                                automator?.rotateSide()
+                                assert()
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -108,7 +159,8 @@ class RollNoteRotationTest : ParentRotationTest() {
                 notesScreen {
                     openRollNote(it) {
                         controlPanel { onConvert { onClickYes() } }
-                        onRotate { afterConvert() }
+                        automator?.rotateSide()
+                        afterConvert()
                     }
                 }
             }
@@ -123,7 +175,8 @@ class RollNoteRotationTest : ParentRotationTest() {
                         controlPanel {
                             onColor {
                                 onClickItem()
-                                onRotate { assert() }
+                                automator?.rotateSide()
+                                assert()
                             }
                         }
                     }
@@ -140,7 +193,8 @@ class RollNoteRotationTest : ParentRotationTest() {
                         controlPanel {
                             onRank(it) {
                                 onClickItem()
-                                onRotate { assert() }
+                                automator?.rotateSide()
+                                assert()
                             }
                         }
                     }

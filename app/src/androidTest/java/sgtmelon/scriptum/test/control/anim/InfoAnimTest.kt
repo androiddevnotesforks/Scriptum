@@ -63,7 +63,7 @@ class InfoAnimTest : ParentUiTest() {
         mainScreen {
             notesScreen {
                 openNotification {
-                    repeat(times = 3) { _ ->
+                    repeat(times = 3) {
                         onClickCancel()
                         getSnackbar().onClickCancel()
                     }

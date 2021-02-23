@@ -14,8 +14,8 @@ import sgtmelon.scriptum.ui.ParentUi
  * Parent class for UI control [BlankMenuSheetDialog].
  */
 abstract class ParentSheetDialogUi(
-        @IdRes containerId: Int,
-        @IdRes navigationId: Int
+    @IdRes containerId: Int,
+    @IdRes navigationId: Int
 ) : ParentUi(), IDialogUi {
 
     private val navigationContainer = getViewById(containerId)
