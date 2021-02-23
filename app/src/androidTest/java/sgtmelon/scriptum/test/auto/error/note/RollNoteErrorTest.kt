@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.test.error.note
+package sgtmelon.scriptum.test.auto.error.note
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
@@ -6,7 +6,7 @@ import org.junit.runner.RunWith
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.test.ParentUiTest
-import sgtmelon.scriptum.test.error.Description
+import sgtmelon.scriptum.test.auto.error.Description
 
 /**
  * Test fix of old errors for [RollNoteFragment].

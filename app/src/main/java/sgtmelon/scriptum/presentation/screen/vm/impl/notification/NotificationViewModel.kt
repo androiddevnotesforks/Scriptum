@@ -47,7 +47,7 @@ class NotificationViewModel(application: Application) :
      * Get count before load all data because it's faster.
      */
     override fun onUpdateData() {
-        AppIdlingResource.getInstance().startHardWork(IdlingTag.Notification.LOAD_DATA)
+        AppIdlingResource.getInstance().startWork(IdlingTag.Notification.LOAD_DATA)
 
         callback?.beforeLoad()
 
@@ -76,7 +76,7 @@ class NotificationViewModel(application: Application) :
 
             updateList()
 
-            AppIdlingResource.getInstance().stopHardWork(IdlingTag.Notification.LOAD_DATA)
+            AppIdlingResource.getInstance().stopWork(IdlingTag.Notification.LOAD_DATA)
         }
     }
 

@@ -18,6 +18,8 @@ import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RankItem
 import sgtmelon.scriptum.domain.model.state.OpenState
 import sgtmelon.scriptum.extension.*
+import sgtmelon.scriptum.idling.AppIdlingResource
+import sgtmelon.scriptum.idling.IdlingTag
 import sgtmelon.scriptum.presentation.adapter.RankAdapter
 import sgtmelon.scriptum.presentation.control.snackbar.SnackbarCallback
 import sgtmelon.scriptum.presentation.control.snackbar.SnackbarControl
@@ -52,9 +54,11 @@ class RankFragment : ParentFragment(), IRankFragment, MainReceiver.BindCallback,
 
     private val adapter by lazy {
         RankAdapter(object : IconBlockCallback {
-            override fun setEnabled(enabled: Boolean) {
-                openState?.value = !enabled
-                openState?.tag = if (enabled) OpenState.Tag.ND else OpenState.Tag.ANIM
+            override fun setEnabled(isEnabled: Boolean) {
+                AppIdlingResource.getInstance().changeWork(!isEnabled, IdlingTag.Anim.ICON)
+
+                openState?.value = !isEnabled
+                openState?.tag = if (isEnabled) OpenState.Tag.ND else OpenState.Tag.ANIM
             }
         }, object : ItemListener.ActionClick {
             override fun onItemClick(view: View, p: Int, action: () -> Unit) {
@@ -236,7 +240,7 @@ class RankFragment : ParentFragment(), IRankFragment, MainReceiver.BindCallback,
         } else {
             recyclerView?.visibility = View.VISIBLE
 
-            emptyInfoView?.animateAlpha(isVisible = true) {
+            emptyInfoView?.animateAlpha(isVisible = false) {
                 emptyInfoView?.visibility = View.GONE
             }
         }

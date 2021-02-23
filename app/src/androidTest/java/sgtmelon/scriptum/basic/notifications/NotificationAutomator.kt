@@ -23,17 +23,22 @@ class NotificationAutomator(
 
     private val uiDevice = UiDevice.getInstance(instrumentation)
 
+    fun assert(item: NoteItem) {
+        assertNotification(item)
+    }
+
     fun open(item: NoteItem) {
         TODO()
     }
 
     fun unbind(item: NoteItem) {
         openStatusBar()
+
         val notification = assertNotification(item)
         notification.unbindObject.click()
-        closeStatusBar()
-
         item.isStatus = false
+
+        closeStatusBar()
     }
 
     private fun openStatusBar() {
@@ -45,7 +50,7 @@ class NotificationAutomator(
 
     private fun closeStatusBar() {
         uiDevice.pressBack()
-        uiDevice.waitForIdle(500)
+        uiDevice.waitForIdle(700)
     }
 
     private fun assertNotification(item: NoteItem): NotificationUi.Note {

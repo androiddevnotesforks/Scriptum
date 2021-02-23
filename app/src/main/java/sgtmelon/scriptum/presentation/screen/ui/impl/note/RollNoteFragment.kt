@@ -32,6 +32,8 @@ import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.domain.model.state.NoteState
 import sgtmelon.scriptum.domain.model.state.OpenState
 import sgtmelon.scriptum.extension.*
+import sgtmelon.scriptum.idling.AppIdlingResource
+import sgtmelon.scriptum.idling.IdlingTag
 import sgtmelon.scriptum.presentation.adapter.RollAdapter
 import sgtmelon.scriptum.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.presentation.control.note.input.InputControl
@@ -184,8 +186,9 @@ class RollNoteFragment : ParentFragment(),
 
     override fun onReceiveUnbindNote(id: Long) = viewModel.onReceiveUnbindNote(id)
 
-    override fun setEnabled(enabled: Boolean) {
-        openState.value = !enabled
+    override fun setEnabled(isEnabled: Boolean) {
+        AppIdlingResource.getInstance().changeWork(!isEnabled, IdlingTag.Anim.ICON)
+        openState.value = !isEnabled
     }
 
     //endregion

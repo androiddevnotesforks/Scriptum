@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.test.content.note
+package sgtmelon.scriptum.test.auto.content.note
 
 import sgtmelon.extension.getCalendarWithAdd
 import sgtmelon.extension.getText

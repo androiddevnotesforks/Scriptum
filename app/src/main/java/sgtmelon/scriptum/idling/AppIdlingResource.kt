@@ -28,11 +28,11 @@ class AppIdlingResource : IdlingResource, AppIdlingCallback {
         this.callback = callback
     }
 
-    override fun startHardWork(@IdlingTag tag: String) {
+    override fun startWork(@IdlingTag tag: String) {
         idleList.add(tag)
     }
 
-    override fun stopHardWork(@IdlingTag tag: String) {
+    override fun stopWork(@IdlingTag tag: String) {
         val index = idleList.validIndexOf { it == tag }
         if (index != null) {
             idleList.removeAt(index)
@@ -41,6 +41,10 @@ class AppIdlingResource : IdlingResource, AppIdlingCallback {
         if (isIdleNow) {
             callback?.onTransitionToIdle()
         }
+    }
+
+    override fun changeWork(isWork: Boolean, @IdlingTag tag: String) {
+        if (isWork) startWork(tag) else stopWork(tag)
     }
 
     override fun clearWork() {

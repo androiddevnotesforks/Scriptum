@@ -10,6 +10,7 @@ annotation class IdlingTag {
             private const val PREFIX = "ANIM"
 
             const val TRANSITION = "${PREFIX}_TRANSITION"
+            const val ICON = "${PREFIX}_ICON"
         }
     }
 

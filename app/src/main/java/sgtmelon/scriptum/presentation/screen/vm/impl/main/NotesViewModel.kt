@@ -53,7 +53,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
 
 
     override fun onUpdateData() {
-        AppIdlingResource.getInstance().startHardWork(IdlingTag.Notes.LOAD_DATA)
+        AppIdlingResource.getInstance().startWork(IdlingTag.Notes.LOAD_DATA)
 
         callback?.beforeLoad()
 
@@ -88,7 +88,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
                 onBindingList()
             }
 
-            AppIdlingResource.getInstance().stopHardWork(IdlingTag.Notes.LOAD_DATA)
+            AppIdlingResource.getInstance().stopWork(IdlingTag.Notes.LOAD_DATA)
         }
     }
 

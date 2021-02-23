@@ -11,10 +11,10 @@ import androidx.annotation.RequiresApi
  */
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 class IconAnimControl(
-        context: Context,
-        val enterIcon: AnimatedVectorDrawable?,
-        val exitIcon: AnimatedVectorDrawable?,
-        private val changeCallback: IconChangeCallback
+    context: Context,
+    private val enterIcon: AnimatedVectorDrawable?,
+    private val exitIcon: AnimatedVectorDrawable?,
+    private val changeCallback: IconChangeCallback
 ) {
 
     var blockCallback: IconBlockCallback? = null
@@ -33,7 +33,7 @@ class IconAnimControl(
         if (enterIcon.isRunning || exitIcon.isRunning) {
             waitAnimationEnd()
         } else {
-            blockCallback?.setEnabled(enabled = true)
+            blockCallback?.setEnabled(isEnabled = true)
             changeCallback.setDrawable(isEnterIcon, needAnim = false)
         }
     }
@@ -50,8 +50,7 @@ class IconAnimControl(
     }
 
     private fun waitAnimationEnd() {
-        blockCallback?.setEnabled(enabled = false)
+        blockCallback?.setEnabled(isEnabled = false)
         handler.postDelayed(runnable, duration)
     }
-
 }

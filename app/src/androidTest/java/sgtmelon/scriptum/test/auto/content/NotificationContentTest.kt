@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.test.content
+package sgtmelon.scriptum.test.auto.content
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test

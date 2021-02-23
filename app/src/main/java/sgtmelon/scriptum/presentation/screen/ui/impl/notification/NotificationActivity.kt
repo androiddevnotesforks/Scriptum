@@ -190,7 +190,7 @@ class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallb
         } else {
             recyclerView?.visibility = View.VISIBLE
 
-            emptyInfoView?.animateAlpha(isVisible = true) {
+            emptyInfoView?.animateAlpha(isVisible = false) {
                 emptyInfoView?.visibility = View.GONE
             }
         }

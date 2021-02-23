@@ -112,7 +112,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     override fun onSaveData(bundle: Bundle) = with(bundle) { putLong(Intent.ID, id) }
 
     override fun onStart() {
-        AppIdlingResource.getInstance().startHardWork(IdlingTag.Alarm.START)
+        AppIdlingResource.getInstance().startWork(IdlingTag.Alarm.START)
 
         callback?.apply {
             startRippleAnimation(noteItem.color)
@@ -129,7 +129,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
             startLongWaitHandler(CANCEL_DELAY, longWaitRunnable)
         }
 
-        AppIdlingResource.getInstance().stopHardWork(IdlingTag.Alarm.START)
+        AppIdlingResource.getInstance().stopWork(IdlingTag.Alarm.START)
     }
 
     override fun onClickNote() {

@@ -1,11 +1,11 @@
-package sgtmelon.scriptum.test.error.notification
+package sgtmelon.scriptum.test.auto.error.notification
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.test.ParentNotificationTest
-import sgtmelon.scriptum.test.error.Description
+import sgtmelon.scriptum.test.auto.error.Description
 
 /**
  * Test fix of old errors for bind in status bar.

@@ -51,7 +51,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
 
 
     override fun onUpdateData() {
-        AppIdlingResource.getInstance().startHardWork(IdlingTag.Rank.LOAD_DATA)
+        AppIdlingResource.getInstance().startWork(IdlingTag.Rank.LOAD_DATA)
 
         callback?.beforeLoad()
 
@@ -80,7 +80,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
 
             updateList()
 
-            AppIdlingResource.getInstance().stopHardWork(IdlingTag.Rank.LOAD_DATA)
+            AppIdlingResource.getInstance().stopWork(IdlingTag.Rank.LOAD_DATA)
         }
     }
 

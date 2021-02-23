@@ -8,6 +8,6 @@ interface IconBlockCallback {
     /**
      * Block button fow prevent lags.
      */
-    fun setEnabled(enabled: Boolean)
+    fun setEnabled(isEnabled: Boolean)
 
 }

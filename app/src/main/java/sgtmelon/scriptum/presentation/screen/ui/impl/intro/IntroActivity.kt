@@ -79,7 +79,7 @@ class IntroActivity : ParentActivity(), IIntroActivity, ViewPager.OnPageChangeLi
 
     override fun setupViewPager(isLastPage: Boolean) {
         endButton.setOnClickListener {
-            AppIdlingResource.getInstance().startHardWork(IdlingTag.Intro.FINISH)
+            AppIdlingResource.getInstance().startWork(IdlingTag.Intro.FINISH)
             beforeFinish { viewModel.onClickEnd() }
         }
 

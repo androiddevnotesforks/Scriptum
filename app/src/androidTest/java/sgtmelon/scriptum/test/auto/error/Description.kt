@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.test.error
+package sgtmelon.scriptum.test.auto.error
 
 class Description {
 

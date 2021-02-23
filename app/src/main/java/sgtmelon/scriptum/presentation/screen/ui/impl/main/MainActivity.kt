@@ -81,7 +81,7 @@ class MainActivity : AppActivity(), IMainActivity {
 
         registerReceiver(mainReceiver, IntentFilter(ReceiverData.Filter.MAIN))
 
-        AppIdlingResource.getInstance().stopHardWork(IdlingTag.Intro.FINISH)
+        AppIdlingResource.getInstance().stopWork(IdlingTag.Intro.FINISH)
     }
 
     override fun onResume() {
