@@ -44,8 +44,11 @@ fun Context.showToast(text: String, length: Int = Toast.LENGTH_SHORT) {
 }
 
 
-fun ViewGroup.createVisibleAnim(target: View?, isVisible: Boolean,
-                                @IntegerRes durationId: Int = R.integer.info_fade_time) = let {
+fun ViewGroup.createVisibleAnim(
+    target: View?,
+    isVisible: Boolean,
+    @IntegerRes durationId: Int = R.integer.info_fade_time
+) = let {
     val visibility = if (isVisible) View.VISIBLE else View.GONE
 
     if (target == null || target.visibility == visibility) return@let

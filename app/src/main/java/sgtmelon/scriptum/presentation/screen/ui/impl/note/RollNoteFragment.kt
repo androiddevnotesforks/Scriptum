@@ -149,8 +149,11 @@ class RollNoteFragment : ParentFragment(),
 
         openState.get(savedInstanceState)
 
+        setupView(view)
         viewModel.onSetup(bundle = arguments ?: savedInstanceState)
+    }
 
+    private fun setupView(view: View) {
         parentContainer = view.findViewById(R.id.roll_note_parent_container)
         panelContainer = view.findViewById(R.id.note_panel_container)
         emptyInfoView = view.findViewById(R.id.roll_note_info_include)

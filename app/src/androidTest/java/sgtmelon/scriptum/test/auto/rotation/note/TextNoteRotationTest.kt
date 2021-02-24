@@ -9,7 +9,7 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.test.ParentRotationTest
 
 /**
- * Test of [TextNoteFragment] work with phone rotation
+ * Test of [TextNoteFragment] work with phone rotation.
  */
 @RunWith(AndroidJUnit4::class)
 class TextNoteRotationTest : ParentRotationTest() {

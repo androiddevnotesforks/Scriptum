@@ -7,7 +7,7 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.notification.AlarmActivity
 import sgtmelon.scriptum.test.ParentRotationTest
 
 /**
- * Test of [AlarmActivity] work with phone rotation
+ * Test of [AlarmActivity] work with phone rotation.
  */
 @RunWith(AndroidJUnit4::class)
 class AlarmRotationTest : ParentRotationTest() {

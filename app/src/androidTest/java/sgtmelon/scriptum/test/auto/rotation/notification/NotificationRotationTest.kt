@@ -7,7 +7,7 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.notification.NotificationAc
 import sgtmelon.scriptum.test.ParentRotationTest
 
 /**
- * Test of [NotificationActivity] work with phone rotation
+ * Test of [NotificationActivity] work with phone rotation.
  */
 @RunWith(AndroidJUnit4::class)
 class NotificationRotationTest : ParentRotationTest() {

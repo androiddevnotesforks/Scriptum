@@ -7,7 +7,7 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragme
 import sgtmelon.scriptum.test.ParentRotationTest
 
 /**
- * Test of [PreferenceFragment] work with phone rotation
+ * Test of [PreferenceFragment] work with phone rotation.
  */
 @RunWith(AndroidJUnit4::class)
 class PreferenceRotationTest : ParentRotationTest() {

@@ -95,8 +95,12 @@ class TextNoteFragment : ParentFragment(),
 
         openState.get(savedInstanceState)
 
-        viewModel.onSetup(bundle = savedInstanceState ?: arguments)
+        setupView(view)
+        viewModel.onSetup(bundle = arguments ?: savedInstanceState)
+    }
 
+
+    private fun setupView(view: View) {
         parentContainer = view.findViewById(R.id.text_note_parent_container)
         panelContainer = view.findViewById(R.id.note_panel_container)
     }
