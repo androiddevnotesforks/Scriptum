@@ -8,16 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-
 import com.google.android.material.navigation.NavigationView
 
 /**
  * Parent dialog for sheet's with [NavigationView].
  */
 abstract class BlankMenuSheetDialog(
-        @LayoutRes private val layoutId: Int,
-        @IdRes private val navigationId: Int
+    @LayoutRes private val layoutId: Int,
+    @IdRes private val navigationId: Int
 ) : BottomSheetDialogFragment(),
         NavigationView.OnNavigationItemSelectedListener {
 
@@ -34,6 +35,21 @@ abstract class BlankMenuSheetDialog(
 
         val navigationView = view.findViewById<NavigationView?>(navigationId)
         navigationView?.setNavigationItemSelectedListener(this)
+
+        setPeekHeight(view)
+    }
+
+    /**
+     * Function for disable half height display after screen rotation.
+     */
+    private fun setPeekHeight(view: View) {
+        val parentContainer = view.findViewById<CoordinatorLayout>(R.id.sheet_parent_container)
+
+        dialog?.setOnShowListener {
+            val dialogParent = parentContainer.parent as View
+            BottomSheetBehavior.from(dialogParent).peekHeight = parentContainer.height
+            dialogParent.requestLayout()
+        }
     }
 
     override fun onDismiss(dialog: DialogInterface) {
