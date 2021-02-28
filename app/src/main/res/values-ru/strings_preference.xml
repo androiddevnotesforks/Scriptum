@@ -16,7 +16,7 @@
     <string name="pref_title_backup_import_skip">Пропускать одинаковые заметки</string>
 
     <string name="pref_title_note_sort">Сортировка заметок</string>
-    <string name="pref_title_note_color">Цвет заметки по-умолчанию</string>
+    <string name="pref_title_note_color">Цвет заметки по умолчанию</string>
     <string name="pref_title_note_save_pause">Сохранять при остановке</string>
     <string name="pref_title_note_save_auto">Автоматическое сохранение</string>
     <string name="pref_title_note_save_period">Период</string>
@@ -40,8 +40,8 @@
         добавлена при резервном копировании
     </string>
 
-    <string name="pref_summary_note_sort">Будет применяться по-умолчанию</string>
-    <string name="pref_summary_note_color">Будет применяться по-умолчанию</string>
+    <string name="pref_summary_note_sort">Будет применяться по умолчанию</string>
+    <string name="pref_summary_note_color">Будет применяться по умолчанию</string>
     <string name="pref_summary_note_save_pause">
         Сохранять изменения в заметке при сворачивании приложения
     </string>
