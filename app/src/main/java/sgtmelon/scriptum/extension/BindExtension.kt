@@ -19,11 +19,6 @@ import sgtmelon.scriptum.domain.model.item.ColorItem
 
 //region Color and Theme
 
-@BindingAdapter(value = ["noteTheme", "noteColor"])
-fun CardView.bindNoteColor(@Theme theme: Int, @Color color: Int) {
-    setCardBackgroundColor(context.getNoteCardColor(theme, color))
-}
-
 @BindingAdapter(value = ["noteColor"])
 fun CardView.bindNoteColor(@Color color: Int) {
     setCardBackgroundColor(context.getNoteCardColor(color))

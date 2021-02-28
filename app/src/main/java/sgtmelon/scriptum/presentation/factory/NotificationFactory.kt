@@ -33,6 +33,7 @@ object NotificationFactory {
      * - If you need only call [BindControl.cancelNote]
      */
     fun getBind(context: Context, noteItem: NoteItem): Notification {
+        val channelId = context.getString(R.string.notification_notes_channel_id)
         val icon = when (noteItem) {
             is NoteItem.Text -> R.drawable.notif_bind_text
             is NoteItem.Roll -> R.drawable.notif_bind_roll
@@ -47,7 +48,7 @@ object NotificationFactory {
             .addNextIntent(SplashActivity.getBindInstance(context, noteItem))
             .getPendingIntent(id, PendingIntent.FLAG_UPDATE_CURRENT)
 
-        return NotificationCompat.Builder(context, context.getString(R.string.notification_notes_channel_id))
+        return NotificationCompat.Builder(context, channelId)
             .setSmallIcon(icon)
             .setColor(color)
             .setContentTitle(title)

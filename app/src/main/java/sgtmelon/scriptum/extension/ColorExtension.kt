@@ -34,18 +34,6 @@ fun Context.getNoteToolbarColor(@Theme theme: Int, @Color color: Int, needDark: 
 }
 
 /**
- * Get note color for cards rely on theme
- */
-@ColorInt
-fun Context.getNoteCardColor(@Theme theme: Int, @Color color: Int): Int {
-    return if (theme == Theme.LIGHT) {
-        getCompatColor(light[color])
-    } else {
-        getColorAttr(R.attr.clBackgroundView)
-    }
-}
-
-/**
  * Get note color for cards
  */
 @ColorInt
