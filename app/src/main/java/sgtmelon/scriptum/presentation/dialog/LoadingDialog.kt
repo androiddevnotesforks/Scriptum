@@ -14,6 +14,8 @@ import sgtmelon.scriptum.R
 class LoadingDialog : BlankDialog() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        super.onCreateDialog(savedInstanceState)
+
         return AlertDialog.Builder(context as Context)
             .setView(R.layout.view_loading)
             .setCancelable(false)

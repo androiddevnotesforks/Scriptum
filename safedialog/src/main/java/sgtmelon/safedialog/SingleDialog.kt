@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
+import sgtmelon.safedialog.annotation.NdValue
+import sgtmelon.safedialog.annotation.SavedTag
 
 /**
  * Dialog for single choice
@@ -18,25 +20,24 @@ class SingleDialog : BlankDialog() {
      */
     var applyEnable: Boolean = false
 
-    private var checkInit = 0
-    var check = 0
+    private var checkInit = NdValue.CHECK
+    var check = NdValue.CHECK
         private set
 
     var itemListener: DialogInterface.OnClickListener? = null
 
     /**
-     * Call before [show]
+     * Call before [show].
      */
     fun setArguments(check: Int) = apply {
         arguments = Bundle().apply {
-            putInt(INIT, check)
-            putInt(VALUE, check)
+            putInt(SavedTag.INIT, check)
+            putInt(SavedTag.VALUE, check)
         }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        checkInit = savedInstanceState?.getInt(INIT) ?: arguments?.getInt(INIT) ?: 0
-        check = savedInstanceState?.getInt(VALUE) ?: arguments?.getInt(VALUE) ?: 0
+        super.onCreateDialog(savedInstanceState)
 
         return AlertDialog.Builder(context as Context)
             .setTitle(title)
@@ -52,15 +53,27 @@ class SingleDialog : BlankDialog() {
             .applyAnimation()
     }
 
+    override fun onRestoreContentState(savedInstanceState: Bundle) {
+        super.onRestoreContentState(savedInstanceState)
+        itemArray = savedInstanceState.getStringArray(SavedTag.LIST) ?: arrayOf()
+    }
+
+    override fun onRestoreInstanceState(bundle: Bundle?) {
+        super.onRestoreInstanceState(bundle)
+        checkInit = bundle?.getInt(SavedTag.INIT) ?: NdValue.CHECK
+        check = bundle?.getInt(SavedTag.VALUE) ?: NdValue.CHECK
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putInt(INIT, checkInit)
-        outState.putInt(VALUE, check)
+        outState.putStringArray(SavedTag.LIST, itemArray)
+
+        outState.putInt(SavedTag.INIT, checkInit)
+        outState.putInt(SavedTag.VALUE, check)
     }
 
     override fun setEnable() {
         super.setEnable()
         positiveButton?.isEnabled = applyEnable || checkInit != check
     }
-
 }

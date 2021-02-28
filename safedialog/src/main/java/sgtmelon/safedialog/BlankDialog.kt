@@ -1,10 +1,14 @@
 package sgtmelon.safedialog
 
+import android.app.Dialog
 import android.content.DialogInterface
+import android.os.Bundle
 import android.widget.Button
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import sgtmelon.safedialog.annotation.NdValue
+import sgtmelon.safedialog.annotation.SavedTag
 import android.app.AlertDialog as AlertDialogOld
 
 /**
@@ -12,8 +16,8 @@ import android.app.AlertDialog as AlertDialogOld
  */
 abstract class BlankDialog : DialogFragment() {
 
-    var title: String = ""
-    var message: String = ""
+    var title: String = NdValue.TEXT
+    var message: String = NdValue.TEXT
 
     protected var positiveButton: Button? = null
     protected var negativeButton: Button? = null
@@ -27,6 +31,41 @@ abstract class BlankDialog : DialogFragment() {
     }
 
     var dismissListener: DialogInterface.OnDismissListener? = null
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        if (savedInstanceState != null) {
+            onRestoreContentState(savedInstanceState)
+        }
+
+        onRestoreInstanceState(bundle = savedInstanceState ?: arguments)
+
+        return super.onCreateDialog(savedInstanceState)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(SavedTag.TITLE, title)
+        outState.putString(SavedTag.MESSAGE, message)
+    }
+
+    /**
+     * Use for restore dialog content which was written before [show]
+     * (e.g. title, nameArray and ect.).
+     *
+     * Call inside [onCreateDialog] before create them.
+     */
+    @CallSuper
+    open fun onRestoreContentState(savedInstanceState: Bundle) {
+        title = savedInstanceState.getString(SavedTag.TITLE) ?: NdValue.TEXT
+        message = savedInstanceState.getString(SavedTag.MESSAGE) ?: NdValue.TEXT
+    }
+
+    /**
+     * Function for restore content which was passed throw setArgument functions
+     * (e.g. position, check and ect.).
+     */
+    @CallSuper
+    open fun onRestoreInstanceState(bundle: Bundle?) = Unit
 
     override fun onStart() {
         super.onStart()
@@ -79,8 +118,6 @@ abstract class BlankDialog : DialogFragment() {
         const val POSITION = "${PREFIX}_POSITION"
         const val INIT = "${PREFIX}_INIT"
         const val VALUE = "${PREFIX}_VALUE"
-
-        const val ND_POSITION = -1
     }
 
 }

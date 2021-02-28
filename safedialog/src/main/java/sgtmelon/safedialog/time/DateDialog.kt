@@ -10,6 +10,8 @@ import androidx.annotation.VisibleForTesting
 import sgtmelon.extension.clearSeconds
 import sgtmelon.safedialog.BuildConfig
 import sgtmelon.safedialog.R
+import sgtmelon.safedialog.annotation.NdValue
+import sgtmelon.safedialog.annotation.SavedTag
 import sgtmelon.safedialog.applyAnimation
 import java.util.*
 
@@ -20,39 +22,35 @@ class DateDialog : DateTimeBlankDialog(), IDateDialog {
 
     var neutralListener: DialogInterface.OnClickListener? = null
 
-    private var neutralVisible: Boolean = false
+    private var neutralVisible: Boolean = NdValue.KEY
 
     /**
      * Save item position in list for next operations
      */
-    var position: Int = ND_POSITION
+    var position: Int = NdValue.POSITION
         private set
 
     /**
-     * Call before [show]
+     * Call before [show].
      */
     fun setArguments(
-        calendar: Calendar, neutralVisible: Boolean,
-        p: Int = ND_POSITION
+        calendar: Calendar,
+        neutralVisible: Boolean,
+        p: Int = NdValue.POSITION
     ) = apply {
         arguments = Bundle().apply {
-            putLong(INIT, calendar.clearSeconds().timeInMillis)
-            putBoolean(VALUE, neutralVisible)
-            putInt(POSITION, p)
+            putLong(SavedTag.TIME, calendar.clearSeconds().timeInMillis)
+            putBoolean(SavedTag.VISIBLE, neutralVisible)
+            putInt(SavedTag.POSITION, p)
         }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        if (BuildConfig.DEBUG) callback = this
+        super.onCreateDialog(savedInstanceState)
 
-        calendar.timeInMillis = savedInstanceState?.getLong(INIT) ?: arguments?.getLong(INIT)
-                ?: defaultTime
-
-        neutralVisible = savedInstanceState?.getBoolean(VALUE) ?: arguments?.getBoolean(VALUE)
-                ?: false
-
-        position = savedInstanceState?.getInt(POSITION)
-                ?: arguments?.getInt(POSITION) ?: ND_POSITION
+        if (BuildConfig.DEBUG) {
+            callback = this
+        }
 
         return DatePickerDialog(context as Context, this,
             calendar.get(Calendar.YEAR),
@@ -64,11 +62,18 @@ class DateDialog : DateTimeBlankDialog(), IDateDialog {
         }.applyAnimation()
     }
 
+    override fun onRestoreInstanceState(bundle: Bundle?) {
+        super.onRestoreInstanceState(bundle)
+        calendar.timeInMillis = bundle?.getLong(SavedTag.TIME) ?: defaultTime
+        neutralVisible = bundle?.getBoolean(SavedTag.VISIBLE) ?: NdValue.KEY
+        position = bundle?.getInt(SavedTag.POSITION) ?: NdValue.POSITION
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putLong(INIT, calendar.timeInMillis)
-        outState.putBoolean(VALUE, neutralVisible)
-        outState.putInt(POSITION, position)
+        outState.putLong(SavedTag.TIME, calendar.timeInMillis)
+        outState.putBoolean(SavedTag.VISIBLE, neutralVisible)
+        outState.putInt(SavedTag.POSITION, position)
     }
 
     override fun setupButton() {

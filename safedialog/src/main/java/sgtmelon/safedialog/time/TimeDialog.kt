@@ -10,6 +10,8 @@ import sgtmelon.extension.clearSeconds
 import sgtmelon.extension.getText
 import sgtmelon.extension.is24Format
 import sgtmelon.safedialog.BuildConfig
+import sgtmelon.safedialog.annotation.NdValue
+import sgtmelon.safedialog.annotation.SavedTag
 import sgtmelon.safedialog.applyAnimation
 import java.util.*
 import kotlin.collections.ArrayList
@@ -22,36 +24,32 @@ class TimeDialog : DateTimeBlankDialog(), ITimeDialog {
     private var dateList: ArrayList<String> = ArrayList()
 
     /**
-     * Save item position in list for next operations
+     * Save item position in list for next operations.
      */
-    var position: Int = ND_POSITION
+    var position: Int = NdValue.POSITION
         private set
 
     /**
-     * Call before [show]
+     * Call before [show].
      */
     fun setArguments(
-        calendar: Calendar, dateList: List<String>,
-        p: Int = ND_POSITION
+        calendar: Calendar,
+        dateList: List<String>,
+        p: Int = NdValue.POSITION
     ) = apply {
         arguments = Bundle().apply {
-            putLong(INIT, calendar.clearSeconds().timeInMillis)
-            putStringArrayList(VALUE, ArrayList(dateList))
-            putInt(POSITION, p)
+            putLong(SavedTag.TIME, calendar.clearSeconds().timeInMillis)
+            putStringArrayList(SavedTag.LIST, ArrayList(dateList))
+            putInt(SavedTag.POSITION, p)
         }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        if (BuildConfig.DEBUG) callback = this
+        super.onCreateDialog(savedInstanceState)
 
-        calendar.timeInMillis = savedInstanceState?.getLong(INIT)
-                ?: arguments?.getLong(INIT) ?: defaultTime
-
-        dateList = savedInstanceState?.getStringArrayList(VALUE)
-                ?: arguments?.getStringArrayList(VALUE) ?: ArrayList()
-
-        position = savedInstanceState?.getInt(POSITION)
-                ?: arguments?.getInt(POSITION) ?: ND_POSITION
+        if (BuildConfig.DEBUG) {
+            callback = this
+        }
 
         val changeListener = TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
@@ -67,11 +65,18 @@ class TimeDialog : DateTimeBlankDialog(), ITimeDialog {
         ).applyAnimation()
     }
 
+    override fun onRestoreInstanceState(bundle: Bundle?) {
+        super.onRestoreInstanceState(bundle)
+        calendar.timeInMillis = bundle?.getLong(SavedTag.TIME) ?: defaultTime
+        dateList = bundle?.getStringArrayList(SavedTag.LIST) ?: ArrayList()
+        position = bundle?.getInt(SavedTag.POSITION) ?: NdValue.POSITION
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putLong(INIT, calendar.timeInMillis)
-        outState.putStringArrayList(VALUE, dateList)
-        outState.putInt(POSITION, position)
+        outState.putLong(SavedTag.TIME, calendar.timeInMillis)
+        outState.putStringArrayList(SavedTag.LIST, dateList)
+        outState.putInt(SavedTag.POSITION, position)
     }
 
     /**
@@ -103,5 +108,4 @@ class TimeDialog : DateTimeBlankDialog(), ITimeDialog {
             return calendar.afterNow() && !dateList.contains(calendar.getText())
         }
     }
-
 }

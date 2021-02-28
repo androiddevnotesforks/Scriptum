@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import sgtmelon.safedialog.BlankDialog
+import sgtmelon.safedialog.annotation.NdValue
+import sgtmelon.safedialog.annotation.SavedTag
 import sgtmelon.safedialog.applyAnimation
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.Color
@@ -17,24 +19,21 @@ import sgtmelon.scriptum.presentation.listener.ItemListener
 
 class ColorDialog : BlankDialog(), ItemListener.Click {
 
-    private var init: Int = 0
-
-    var check: Int = 0
+    private var init: Int = NdValue.CHECK
+    var check: Int = NdValue.CHECK
         private set
 
     fun setArguments(@Color check: Int) = apply {
         arguments = Bundle().apply {
-            putInt(INIT, check)
-            putInt(VALUE, check)
+            putInt(SavedTag.INIT, check)
+            putInt(SavedTag.VALUE, check)
         }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        init = savedInstanceState?.getInt(INIT) ?: arguments?.getInt(INIT) ?: 0
-        check = savedInstanceState?.getInt(VALUE) ?: arguments?.getInt(VALUE) ?: 0
+        super.onCreateDialog(savedInstanceState)
 
         val context = context as Context
-
         val padding = 24
         val recyclerView = RecyclerView(context).apply {
             id = R.id.color_recycler_view
@@ -60,10 +59,16 @@ class ColorDialog : BlankDialog(), ItemListener.Click {
             .applyAnimation()
     }
 
+    override fun onRestoreInstanceState(bundle: Bundle?) {
+        super.onRestoreInstanceState(bundle)
+        init = bundle?.getInt(SavedTag.INIT) ?: NdValue.CHECK
+        check = bundle?.getInt(SavedTag.VALUE) ?: NdValue.CHECK
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putInt(INIT, init)
-        outState.putInt(VALUE, check)
+        outState.putInt(SavedTag.INIT, init)
+        outState.putInt(SavedTag.VALUE, check)
     }
 
     override fun setEnable() {

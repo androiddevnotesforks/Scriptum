@@ -52,27 +52,27 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
 
     //region Dialogs
 
-    private val dialogFactory by lazy { DialogFactory.Preference(activity, fm) }
+    private val dialogFactory get() = DialogFactory.Preference(activity, fm)
 
-    private val themeDialog by lazy { dialogFactory.getThemeDialog() }
+    private val themeDialog get() = dialogFactory.getThemeDialog()
 
-    private val exportPermissionDialog by lazy { dialogFactory.getExportPermissionDialog() }
-    private val exportDenyDialog by lazy { dialogFactory.getExportDenyDialog() }
-    private val importPermissionDialog by lazy { dialogFactory.getImportPermissionDialog() }
-    private val importDialog by lazy { dialogFactory.getImportDialog() }
-    private val loadingDialog by lazy { dialogFactory.getLoadingDialog() }
+    private val exportPermissionDialog get() = dialogFactory.getExportPermissionDialog()
+    private val exportDenyDialog get() = dialogFactory.getExportDenyDialog()
+    private val importPermissionDialog get() = dialogFactory.getImportPermissionDialog()
+    private val importDialog get() = dialogFactory.getImportDialog()
+    private val loadingDialog get() = dialogFactory.getLoadingDialog()
 
-    private val sortDialog by lazy { dialogFactory.getSortDialog() }
-    private val colorDialog by lazy { dialogFactory.getColorDialog() }
-    private val savePeriodDialog by lazy { dialogFactory.getSavePeriodDialog() }
+    private val sortDialog get() = dialogFactory.getSortDialog()
+    private val colorDialog get() = dialogFactory.getColorDialog()
+    private val savePeriodDialog get() = dialogFactory.getSavePeriodDialog()
 
-    private val repeatDialog by lazy { dialogFactory.getRepeatDialog() }
-    private val signalDialog by lazy { dialogFactory.getSignalDialog() }
-    private val melodyPermissionDialog by lazy { dialogFactory.getMelodyPermissionDialog() }
-    private val melodyDialog by lazy { dialogFactory.getMelodyDialog() }
-    private val volumeDialog by lazy { dialogFactory.getVolumeDialog() }
+    private val repeatDialog get() = dialogFactory.getRepeatDialog()
+    private val signalDialog get() = dialogFactory.getSignalDialog()
+    private val melodyPermissionDialog get() = dialogFactory.getMelodyPermissionDialog()
+    private val melodyDialog get() = dialogFactory.getMelodyDialog()
+    private val volumeDialog get() = dialogFactory.getVolumeDialog()
 
-    private val aboutDialog by lazy { dialogFactory.getAboutDialog() }
+    private val aboutDialog get() = dialogFactory.getAboutDialog()
 
     //endregion
 
@@ -346,7 +346,9 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
         aboutDialog.dismissListener = DialogInterface.OnDismissListener {
             openState.clear()
 
-            if (aboutDialog.hideOpen) startActivity(Intent(activity, DevelopActivity::class.java))
+            if (aboutDialog.hideOpen) {
+                startActivity(Intent(activity, DevelopActivity::class.java))
+            }
 
             aboutDialog.clear()
         }

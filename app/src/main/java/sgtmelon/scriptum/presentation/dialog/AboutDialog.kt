@@ -8,6 +8,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import sgtmelon.safedialog.BlankDialog
+import sgtmelon.safedialog.annotation.NdValue
+import sgtmelon.safedialog.annotation.SavedTag
 import sgtmelon.safedialog.applyAnimation
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
@@ -17,13 +19,12 @@ class AboutDialog : BlankDialog(), View.OnClickListener {
     private val logoImage get() = dialog?.findViewById<ImageView?>(R.id.about_logo_image)
     private val versionText get() = dialog?.findViewById<TextView?>(R.id.about_version)
 
-    private var click = 0
-
-    var hideOpen = false
+    private var click = NdValue.CHECK
+    var hideOpen = NdValue.KEY
         private set
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        savedInstanceState?.also { click = it.getInt(VALUE) }
+        super.onCreateDialog(savedInstanceState)
 
         return AlertDialog.Builder(context as Context)
             .setView(R.layout.view_about)
@@ -32,9 +33,16 @@ class AboutDialog : BlankDialog(), View.OnClickListener {
             .applyAnimation()
     }
 
+    override fun onRestoreContentState(savedInstanceState: Bundle) {
+        super.onRestoreContentState(savedInstanceState)
+        click = savedInstanceState.getInt(SavedTag.VALUE)
+        hideOpen = savedInstanceState.getBoolean(SavedTag.KEY)
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putInt(VALUE, click)
+        outState.putInt(SavedTag.VALUE, click)
+        outState.putBoolean(SavedTag.KEY, hideOpen)
     }
 
     override fun setupView() {
@@ -52,8 +60,7 @@ class AboutDialog : BlankDialog(), View.OnClickListener {
     }
 
     fun clear() {
-        click = 0
-        hideOpen = false
+        click = NdValue.CHECK
+        hideOpen = NdValue.KEY
     }
-
 }

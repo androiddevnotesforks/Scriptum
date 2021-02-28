@@ -2,7 +2,11 @@ package sgtmelon.scriptum.presentation.factory
 
 import android.content.Context
 import androidx.fragment.app.FragmentManager
-import sgtmelon.safedialog.*
+import sgtmelon.safedialog.MessageDialog
+import sgtmelon.safedialog.MultipleDialog
+import sgtmelon.safedialog.OptionsDialog
+import sgtmelon.safedialog.SingleDialog
+import sgtmelon.safedialog.annotation.MessageType
 import sgtmelon.safedialog.time.DateDialog
 import sgtmelon.safedialog.time.TimeDialog
 import sgtmelon.scriptum.R
@@ -244,7 +248,7 @@ object DialogFactory {
 
             dialog.needOneSelect = true
             dialog.title = context.getString(R.string.pref_title_alarm_signal)
-            dialog.itemList = context.resources.getStringArray(R.array.pref_text_alarm_signal).toList()
+            dialog.itemArray = context.resources.getStringArray(R.array.pref_text_alarm_signal)
 
             return dialog
         }

@@ -8,6 +8,8 @@ import android.widget.TextView
 import androidx.annotation.IntRange
 import androidx.appcompat.app.AlertDialog
 import sgtmelon.safedialog.BlankDialog
+import sgtmelon.safedialog.annotation.NdValue
+import sgtmelon.safedialog.annotation.SavedTag
 import sgtmelon.safedialog.applyAnimation
 import sgtmelon.scriptum.R
 
@@ -16,20 +18,19 @@ class VolumeDialog : BlankDialog(), SeekBar.OnSeekBarChangeListener {
     private val seekBar get() = dialog?.findViewById<SeekBar?>(R.id.volume_seek_bar)
     private val progressText get() = dialog?.findViewById<TextView?>(R.id.volume_progress_text)
 
-    private var init = 0
-    var progress = 0
+    private var init = NdValue.CHECK
+    var progress = NdValue.CHECK
         private set
 
     fun setArguments(@IntRange(from = 10, to = 100) progress: Int) = apply {
         arguments = Bundle().apply {
-            putInt(INIT, progress)
-            putInt(VALUE, progress)
+            putInt(SavedTag.INIT, progress)
+            putInt(SavedTag.VALUE, progress)
         }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        init = savedInstanceState?.getInt(INIT) ?: arguments?.getInt(INIT) ?: 0
-        progress = savedInstanceState?.getInt(VALUE) ?: arguments?.getInt(VALUE) ?: 0
+        super.onCreateDialog(savedInstanceState)
 
         return AlertDialog.Builder(context as Context)
             .setTitle(title)
@@ -41,10 +42,17 @@ class VolumeDialog : BlankDialog(), SeekBar.OnSeekBarChangeListener {
             .applyAnimation()
     }
 
+    override fun onRestoreInstanceState(bundle: Bundle?) {
+        super.onRestoreInstanceState(bundle)
+
+        init = bundle?.getInt(SavedTag.INIT) ?: NdValue.CHECK
+        progress = bundle?.getInt(SavedTag.VALUE) ?: NdValue.CHECK
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putInt(INIT, init)
-        outState.putInt(VALUE, progress)
+        outState.putInt(SavedTag.INIT, init)
+        outState.putInt(SavedTag.VALUE, progress)
     }
 
     override fun setupView() {
@@ -82,5 +90,4 @@ class VolumeDialog : BlankDialog(), SeekBar.OnSeekBarChangeListener {
     companion object {
         const val MIN_VALUE = 10
     }
-
 }

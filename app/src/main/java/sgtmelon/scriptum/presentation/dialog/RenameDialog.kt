@@ -10,6 +10,8 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import sgtmelon.safedialog.BlankDialog
+import sgtmelon.safedialog.annotation.NdValue
+import sgtmelon.safedialog.annotation.SavedTag
 import sgtmelon.safedialog.applyAnimation
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.addTextChangedListener
@@ -23,25 +25,21 @@ class RenameDialog : BlankDialog(), TextView.OnEditorActionListener {
     private val nameEnter get() = dialog?.findViewById<EditText?>(R.id.rename_enter)
 
     private var nameList: ArrayList<String> = ArrayList()
-    var position = 0
+    var position = NdValue.POSITION
         private set
 
     val name: String get() = nameEnter?.text?.toString()?.clearSpace() ?: ""
 
     fun setArguments(p: Int, title: String, nameList: List<String>) = apply {
         arguments = Bundle().apply {
-            putInt(POSITION, p)
-            putString(INIT, title)
-            putStringArrayList(VALUE, ArrayList(nameList))
+            putInt(SavedTag.POSITION, p)
+            putString(SavedTag.INIT, title)
+            putStringArrayList(SavedTag.VALUE, ArrayList(nameList))
         }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        position = savedInstanceState?.getInt(POSITION) ?: arguments?.getInt(POSITION) ?: 0
-        title = savedInstanceState?.getString(INIT) ?: arguments?.getString(INIT) ?: ""
-
-        nameList = savedInstanceState?.getStringArrayList(VALUE)
-                ?: arguments?.getStringArrayList(VALUE) ?: ArrayList()
+        super.onCreateDialog(savedInstanceState)
 
         return AlertDialog.Builder(context as Context)
             .setTitle(title)
@@ -54,11 +52,18 @@ class RenameDialog : BlankDialog(), TextView.OnEditorActionListener {
             .applyAnimation()
     }
 
+    override fun onRestoreInstanceState(bundle: Bundle?) {
+        super.onRestoreInstanceState(bundle)
+        position = bundle?.getInt(SavedTag.POSITION) ?: NdValue.POSITION
+        title = bundle?.getString(SavedTag.INIT) ?: NdValue.TEXT
+        nameList = bundle?.getStringArrayList(SavedTag.VALUE) ?: ArrayList()
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putInt(POSITION, position)
-        outState.putString(INIT, title)
-        outState.putStringArrayList(VALUE, nameList)
+        outState.putInt(SavedTag.POSITION, position)
+        outState.putString(SavedTag.INIT, title)
+        outState.putStringArrayList(SavedTag.VALUE, nameList)
     }
 
     override fun setupView() {
@@ -94,5 +99,4 @@ class RenameDialog : BlankDialog(), TextView.OnEditorActionListener {
 
         return false
     }
-
 }

@@ -1,4 +1,4 @@
-package sgtmelon.safedialog
+package sgtmelon.safedialog.annotation
 
 import androidx.annotation.IntDef
 
