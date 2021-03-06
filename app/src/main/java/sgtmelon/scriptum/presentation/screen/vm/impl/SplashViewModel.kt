@@ -4,7 +4,7 @@ import android.app.Application
 import android.os.Bundle
 import sgtmelon.scriptum.domain.interactor.callback.ISplashInteractor
 import sgtmelon.scriptum.domain.model.annotation.OpenFrom
-import sgtmelon.scriptum.domain.model.data.NoteData
+import sgtmelon.scriptum.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.presentation.screen.ui.callback.ISplashActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.ISplashViewModel
 
@@ -49,15 +49,15 @@ class SplashViewModel(application: Application) : ParentViewModel<ISplashActivit
     }
 
     private fun onAlarmStart(bundle: Bundle) {
-        val id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
+        val id = bundle.getLong(Note.Intent.ID, Note.Default.ID)
 
         callback?.openAlarmScreen(id)
     }
 
     private fun onBindStart(bundle: Bundle) {
-        val id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
-        val color = bundle.getInt(NoteData.Intent.COLOR, NoteData.Default.COLOR)
-        val type = bundle.getInt(NoteData.Intent.TYPE, NoteData.Default.TYPE)
+        val id = bundle.getLong(Note.Intent.ID, Note.Default.ID)
+        val color = bundle.getInt(Note.Intent.COLOR, Note.Default.COLOR)
+        val type = bundle.getInt(Note.Intent.TYPE, Note.Default.TYPE)
 
         callback?.openNoteScreen(id, color, type)
     }

@@ -12,7 +12,7 @@ import org.junit.Test
 import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.domain.interactor.callback.ISplashInteractor
 import sgtmelon.scriptum.domain.model.annotation.OpenFrom
-import sgtmelon.scriptum.domain.model.data.NoteData
+import sgtmelon.scriptum.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.presentation.screen.ui.callback.ISplashActivity
 
 /**
@@ -85,7 +85,7 @@ class SplashViewModelTest : ParentViewModelTest() {
 
     @Test fun onSetup_alarmStart() {
         every { bundle.getString(OpenFrom.INTENT_KEY) } returns OpenFrom.ALARM
-        every { bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID) } returns ID
+        every { bundle.getLong(Note.Intent.ID, Note.Default.ID) } returns ID
 
         viewModel.onSetup(bundle)
 
@@ -94,9 +94,9 @@ class SplashViewModelTest : ParentViewModelTest() {
 
     @Test fun onSetup_bindStart() {
         every { bundle.getString(OpenFrom.INTENT_KEY) } returns OpenFrom.BIND
-        every { bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID) } returns ID
-        every { bundle.getInt(NoteData.Intent.COLOR, NoteData.Default.COLOR) } returns COLOR
-        every { bundle.getInt(NoteData.Intent.TYPE, NoteData.Default.TYPE) } returns TYPE
+        every { bundle.getLong(Note.Intent.ID, Note.Default.ID) } returns ID
+        every { bundle.getInt(Note.Intent.COLOR, Note.Default.COLOR) } returns COLOR
+        every { bundle.getInt(Note.Intent.TYPE, Note.Default.TYPE) } returns TYPE
 
         viewModel.onSetup(bundle)
 

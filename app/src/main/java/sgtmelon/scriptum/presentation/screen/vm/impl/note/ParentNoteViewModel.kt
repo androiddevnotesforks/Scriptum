@@ -11,8 +11,8 @@ import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.note.IParentNoteInteractor
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.annotation.test.RunProtected
-import sgtmelon.scriptum.domain.model.data.NoteData.Default
-import sgtmelon.scriptum.domain.model.data.NoteData.Intent
+import sgtmelon.scriptum.domain.model.data.IntentData.Note.Default
+import sgtmelon.scriptum.domain.model.data.IntentData.Note.Intent
 import sgtmelon.scriptum.domain.model.item.InputItem
 import sgtmelon.scriptum.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.domain.model.item.NoteItem

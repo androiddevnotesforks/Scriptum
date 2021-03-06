@@ -25,7 +25,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
-import sgtmelon.scriptum.domain.model.data.NoteData
+import sgtmelon.scriptum.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.domain.model.data.ReceiverData
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.state.OpenState
@@ -351,7 +351,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
         operator fun get(context: Context, id: Long): Intent {
             return Intent(context, AlarmActivity::class.java)
-                .putExtra(NoteData.Intent.ID, id)
+                .putExtra(Note.Intent.ID, id)
         }
     }
 

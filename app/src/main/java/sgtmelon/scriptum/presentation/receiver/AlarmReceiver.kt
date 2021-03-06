@@ -4,7 +4,7 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import sgtmelon.scriptum.domain.model.data.NoteData
+import sgtmelon.scriptum.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.domain.model.data.ReceiverData.Values
 import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.AlarmActivity
@@ -18,9 +18,9 @@ class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         if (context == null || intent == null) return
 
-        val id = intent.getLongExtra(Values.NOTE_ID, NoteData.Default.ID)
+        val id = intent.getLongExtra(Values.NOTE_ID, Note.Default.ID)
 
-        if (id == NoteData.Default.ID) return
+        if (id == Note.Default.ID) return
 
         context.startActivity(SplashActivity.getAlarmInstance(context, id))
     }

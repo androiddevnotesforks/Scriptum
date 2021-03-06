@@ -16,7 +16,7 @@ import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Repeat
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.Theme
-import sgtmelon.scriptum.domain.model.data.NoteData
+import sgtmelon.scriptum.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.domain.model.item.InputItem
 import sgtmelon.scriptum.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.domain.model.item.NoteItem
@@ -198,11 +198,11 @@ object FastTest {
             every { interactor.defaultColor } returns defaultColor
             viewModel.getBundleData(bundle = null)
 
-            assertEquals(NoteData.Default.ID, viewModel.id)
+            assertEquals(Note.Default.ID, viewModel.id)
             assertEquals(defaultColor, viewModel.color)
 
-            every { bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID) } returns id
-            every { bundle.getInt(NoteData.Intent.COLOR, NoteData.Default.COLOR) } returns color
+            every { bundle.getLong(Note.Intent.ID, Note.Default.ID) } returns id
+            every { bundle.getInt(Note.Intent.COLOR, Note.Default.COLOR) } returns color
             viewModel.getBundleData(bundle)
 
             assertEquals(id, viewModel.id)
@@ -211,8 +211,8 @@ object FastTest {
             verifySequence {
                 interactor.defaultColor
 
-                bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
-                bundle.getInt(NoteData.Intent.COLOR, NoteData.Default.COLOR)
+                bundle.getLong(Note.Intent.ID, Note.Default.ID)
+                bundle.getInt(Note.Intent.COLOR, Note.Default.COLOR)
             }
         }
 
@@ -250,8 +250,8 @@ object FastTest {
             viewModel.onSaveData(bundle)
 
             verifySequence {
-                bundle.putLong(NoteData.Intent.ID, id)
-                bundle.putInt(NoteData.Intent.COLOR, color)
+                bundle.putLong(Note.Intent.ID, id)
+                bundle.putInt(Note.Intent.COLOR, color)
             }
         }
 

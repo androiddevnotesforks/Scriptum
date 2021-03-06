@@ -8,7 +8,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.data.provider.RoomProvider
 import sgtmelon.scriptum.data.repository.room.BindRepo
-import sgtmelon.scriptum.domain.model.data.NoteData
+import sgtmelon.scriptum.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.domain.model.data.ReceiverData.Command
 import sgtmelon.scriptum.domain.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.domain.model.data.ReceiverData.Values
@@ -24,9 +24,9 @@ class UnbindReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         if (context == null || intent == null) return
 
-        val id = intent.getLongExtra(Values.NOTE_ID, NoteData.Default.ID)
+        val id = intent.getLongExtra(Values.NOTE_ID, Note.Default.ID)
 
-        if (id == NoteData.Default.ID) return
+        if (id == Note.Default.ID) return
 
         GlobalScope.launch {
             if (BindRepo(RoomProvider(context)).unbindNote(id)) {

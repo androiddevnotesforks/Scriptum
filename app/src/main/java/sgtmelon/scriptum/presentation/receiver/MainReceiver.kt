@@ -3,7 +3,7 @@ package sgtmelon.scriptum.presentation.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import sgtmelon.scriptum.domain.model.data.NoteData
+import sgtmelon.scriptum.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.domain.model.data.ReceiverData.Command
 import sgtmelon.scriptum.domain.model.data.ReceiverData.Values
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.MainActivity
@@ -11,15 +11,15 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.main.MainActivity
 /**
  * Receiver for [MainActivity] commands.
  */
-class MainReceiver() : BroadcastReceiver() {
+class MainReceiver : BroadcastReceiver() {
 
     private var bindCallback: BindCallback? = null
     private var alarmCallback: AlarmCallback? = null
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        val id = intent?.getLongExtra(Values.NOTE_ID, NoteData.Default.ID) ?: return
+        val id = intent?.getLongExtra(Values.NOTE_ID, Note.Default.ID) ?: return
 
-        if (id == NoteData.Default.ID) return
+        if (id == Note.Default.ID) return
 
         when (intent.getStringExtra(Values.COMMAND)) {
             Command.UNBIND_NOTE -> bindCallback?.onReceiveUnbindNote(id)

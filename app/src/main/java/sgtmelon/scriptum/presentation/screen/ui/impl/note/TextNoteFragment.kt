@@ -16,7 +16,7 @@ import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.InputAction
 import sgtmelon.scriptum.domain.model.annotation.Sort
-import sgtmelon.scriptum.domain.model.data.NoteData
+import sgtmelon.scriptum.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.domain.model.state.OpenState
@@ -358,8 +358,8 @@ class TextNoteFragment : ParentFragment(),
     companion object {
         operator fun get(id: Long, @Color color: Int) = TextNoteFragment().apply {
             arguments = Bundle().apply {
-                putLong(NoteData.Intent.ID, id)
-                putInt(NoteData.Intent.COLOR, color)
+                putLong(Note.Intent.ID, id)
+                putInt(Note.Intent.COLOR, color)
             }
         }
     }

@@ -9,7 +9,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.OpenFrom
 import sgtmelon.scriptum.domain.model.annotation.Theme
-import sgtmelon.scriptum.domain.model.data.NoteData
+import sgtmelon.scriptum.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.extension.beforeFinish
 import sgtmelon.scriptum.extension.hideKeyboard
@@ -101,17 +101,17 @@ class SplashActivity : ParentActivity(), ISplashActivity {
             val flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
 
             return Intent(context, SplashActivity::class.java)
-                    .addFlags(flags)
-                    .putExtra(OpenFrom.INTENT_KEY, OpenFrom.ALARM)
-                    .putExtra(NoteData.Intent.ID, id)
+                .addFlags(flags)
+                .putExtra(OpenFrom.INTENT_KEY, OpenFrom.ALARM)
+                .putExtra(Note.Intent.ID, id)
         }
 
         fun getBindInstance(context: Context, item: NoteItem): Intent {
             return Intent(context, SplashActivity::class.java)
-                    .putExtra(OpenFrom.INTENT_KEY, OpenFrom.BIND)
-                    .putExtra(NoteData.Intent.ID, item.id)
-                    .putExtra(NoteData.Intent.COLOR, item.color)
-                    .putExtra(NoteData.Intent.TYPE, item.type.ordinal)
+                .putExtra(OpenFrom.INTENT_KEY, OpenFrom.BIND)
+                .putExtra(Note.Intent.ID, item.id)
+                .putExtra(Note.Intent.COLOR, item.color)
+                .putExtra(Note.Intent.TYPE, item.type.ordinal)
         }
 
         fun getNotificationInstance(context: Context): Intent {

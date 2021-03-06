@@ -11,7 +11,7 @@ import sgtmelon.scriptum.*
 import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.domain.model.annotation.InputAction
-import sgtmelon.scriptum.domain.model.data.NoteData
+import sgtmelon.scriptum.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.domain.model.item.InputItem
 import sgtmelon.scriptum.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.domain.model.item.NoteItem
@@ -63,8 +63,8 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
         viewModel.inputControl = inputControl
 
-        assertEquals(NoteData.Default.ID, viewModel.id)
-        assertEquals(NoteData.Default.COLOR, viewModel.color)
+        assertEquals(Note.Default.ID, viewModel.id)
+        assertEquals(Note.Default.COLOR, viewModel.color)
         assertTrue(viewModel.mayAnimateIcon)
         assertTrue(viewModel.rankDialogItemArray.isEmpty())
 

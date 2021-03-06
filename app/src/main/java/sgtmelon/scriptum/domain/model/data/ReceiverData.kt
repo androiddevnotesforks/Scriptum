@@ -1,31 +1,41 @@
 package sgtmelon.scriptum.domain.model.data
 
 import android.content.BroadcastReceiver
+import androidx.annotation.StringDef
 
 /**
  * Keys for work with [BroadcastReceiver]
  */
 object ReceiverData {
 
-    object Filter {
-        private const val PREFIX = "RECEIVER_FILTER"
+    @StringDef(Filter.MAIN, Filter.NOTE)
+    annotation class Filter {
+        companion object {
+            private const val PREFIX = "RECEIVER_FILTER"
 
-        const val MAIN = "${PREFIX}_MAIN"
-        const val NOTE = "${PREFIX}_NOTE"
+            const val MAIN = "${PREFIX}_MAIN"
+            const val NOTE = "${PREFIX}_NOTE"
+        }
     }
 
-    object Command {
-        private const val PREFIX = "RECEIVER_COMMAND"
+    @StringDef(Command.UNBIND_NOTE, Command.UPDATE_ALARM)
+    annotation class Command {
+        companion object {
+            private const val PREFIX = "RECEIVER_COMMAND"
 
-        const val UNBIND_NOTE = "${PREFIX}_UNBIND_NOTE"
-        const val UPDATE_ALARM = "${PREFIX}_UPDATE_ALARM"
+            const val UNBIND_NOTE = "${PREFIX}_UNBIND_NOTE"
+            const val UPDATE_ALARM = "${PREFIX}_UPDATE_ALARM"
+        }
     }
 
-    object Values {
-        private const val PREFIX = "RECEIVER_VALUES"
+    @StringDef(Values.COMMAND, Values.NOTE_ID)
+    annotation class Values {
+        companion object {
+            private const val PREFIX = "RECEIVER_VALUES"
 
-        const val COMMAND = "${PREFIX}_COMMAND"
-        const val NOTE_ID = "${PREFIX}_NOTE_ID"
+            const val COMMAND = "${PREFIX}_COMMAND"
+            const val NOTE_ID = "${PREFIX}_NOTE_ID"
+        }
     }
 
 }

@@ -4,8 +4,8 @@ import android.app.Application
 import android.os.Bundle
 import sgtmelon.scriptum.domain.interactor.callback.note.INoteInteractor
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
-import sgtmelon.scriptum.domain.model.data.NoteData.Default
-import sgtmelon.scriptum.domain.model.data.NoteData.Intent
+import sgtmelon.scriptum.domain.model.data.IntentData.Note.Default
+import sgtmelon.scriptum.domain.model.data.IntentData.Note.Intent
 import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.note.INoteViewModel

@@ -13,7 +13,7 @@ import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.domain.model.annotation.Repeat
-import sgtmelon.scriptum.domain.model.data.NoteData
+import sgtmelon.scriptum.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.state.SignalState
 import sgtmelon.scriptum.isDivideTwoEntirely
@@ -100,7 +100,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
         val volume = Random.nextInt()
         val volumeIncrease = Random.nextBoolean()
 
-        every { bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID) } returns id
+        every { bundle.getLong(Note.Intent.ID, Note.Default.ID) } returns id
         coEvery { signalInteractor.getMelodyUri() } returns URI
 
         every { interactor.volume } returns volume
@@ -113,7 +113,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
         viewModel.onSetup(bundle)
 
         coVerifySequence {
-            bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
+            bundle.getLong(Note.Intent.ID, Note.Default.ID)
             callback.apply {
                 acquirePhone(AlarmViewModel.CANCEL_DELAY)
                 setupView()
@@ -126,7 +126,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
             }
             signalInteractor.state
 
-            bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
+            bundle.getLong(Note.Intent.ID, Note.Default.ID)
             callback.apply {
                 acquirePhone(AlarmViewModel.CANCEL_DELAY)
                 setupView()
@@ -153,13 +153,13 @@ class AlarmViewModelTest : ParentViewModelTest() {
         val volume = Random.nextInt()
         val volumeIncrease = Random.nextBoolean()
 
-        every { bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID) } returns id
+        every { bundle.getLong(Note.Intent.ID, Note.Default.ID) } returns id
         coEvery { signalInteractor.getMelodyUri() } returns URI
 
         fun callOnSetup() {
-            viewModel.id = NoteData.Default.ID
+            viewModel.id = Note.Default.ID
             viewModel.onSetup()
-            viewModel.id = NoteData.Default.ID
+            viewModel.id = Note.Default.ID
             viewModel.onSetup(bundle)
         }
 
@@ -175,7 +175,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
         coVerifySequence {
             repeat(times = 2) {
                 if (!it.isDivideTwoEntirely()) {
-                    bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
+                    bundle.getLong(Note.Intent.ID, Note.Default.ID)
                 }
 
                 callback.apply {
@@ -192,7 +192,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
             }
 
             repeat(times = 2) {
-                if (!it.isDivideTwoEntirely()) bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
+                if (!it.isDivideTwoEntirely()) bundle.getLong(Note.Intent.ID, Note.Default.ID)
 
                 callback.apply {
                     acquirePhone(AlarmViewModel.CANCEL_DELAY)
@@ -206,7 +206,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
                 }
                 signalInteractor.state
                 if (it.isDivideTwoEntirely()) {
-                    interactor.getModel(NoteData.Default.ID)
+                    interactor.getModel(Note.Default.ID)
                 } else {
                     interactor.getModel(id)
                 }
@@ -219,7 +219,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
         val id = Random.nextLong()
         val noteItem = data.firstNote.deepCopy()
 
-        every { bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID) } returns id
+        every { bundle.getLong(Note.Intent.ID, Note.Default.ID) } returns id
         coEvery { signalInteractor.getMelodyUri() } returns null
 
         viewModel.noteItem = noteItem
@@ -231,7 +231,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
         viewModel.onSetup()
 
         coVerifySequence {
-            bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
+            bundle.getLong(Note.Intent.ID, Note.Default.ID)
             callback.apply {
                 acquirePhone(AlarmViewModel.CANCEL_DELAY)
                 setupView()
@@ -257,12 +257,12 @@ class AlarmViewModelTest : ParentViewModelTest() {
     @Test fun onSaveData() {
         val id = Random.nextLong()
 
-        every { bundle.putLong(NoteData.Intent.ID, any()) } returns Unit
+        every { bundle.putLong(Note.Intent.ID, any()) } returns Unit
 
         viewModel.id = id
         viewModel.onSaveData(bundle)
 
-        verifySequence { bundle.putLong(NoteData.Intent.ID, id) }
+        verifySequence { bundle.putLong(Note.Intent.ID, id) }
     }
 
     @Test fun onStart() {

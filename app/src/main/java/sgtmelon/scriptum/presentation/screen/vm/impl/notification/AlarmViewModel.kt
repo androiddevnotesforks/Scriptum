@@ -11,8 +11,8 @@ import sgtmelon.scriptum.domain.interactor.callback.notification.IAlarmInteracto
 import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.domain.model.annotation.Repeat
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
-import sgtmelon.scriptum.domain.model.data.NoteData.Default
-import sgtmelon.scriptum.domain.model.data.NoteData.Intent
+import sgtmelon.scriptum.domain.model.data.IntentData.Note.Default
+import sgtmelon.scriptum.domain.model.data.IntentData.Note.Intent
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.state.SignalState
 import sgtmelon.scriptum.extension.runBack

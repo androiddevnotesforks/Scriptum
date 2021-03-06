@@ -8,7 +8,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.Color
-import sgtmelon.scriptum.domain.model.data.NoteData
+import sgtmelon.scriptum.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.domain.model.data.ReceiverData
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.NotificationItem
@@ -147,14 +147,15 @@ class NoteActivity : AppActivity(), INoteActivity, INoteConnector, NoteReceiver.
          * If [id] and [color] isDefault - it means that note will be create, not open.
          */
         operator fun get(
-            context: Context, type: Int,
-            id: Long = NoteData.Default.ID,
-            @Color color: Int = NoteData.Default.COLOR
+            context: Context,
+            type: Int,
+            id: Long = Note.Default.ID,
+            @Color color: Int = Note.Default.COLOR
         ): Intent {
             return Intent(context, NoteActivity::class.java)
-                .putExtra(NoteData.Intent.ID, id)
-                .putExtra(NoteData.Intent.COLOR, color)
-                .putExtra(NoteData.Intent.TYPE, type)
+                .putExtra(Note.Intent.ID, id)
+                .putExtra(Note.Intent.COLOR, color)
+                .putExtra(Note.Intent.TYPE, type)
         }
     }
 
