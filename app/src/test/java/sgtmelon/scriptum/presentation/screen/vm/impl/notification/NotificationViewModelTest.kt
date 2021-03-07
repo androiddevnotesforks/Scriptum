@@ -1,17 +1,21 @@
 package sgtmelon.scriptum.presentation.screen.vm.impl.notification
 
+import android.os.Bundle
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
+import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.domain.interactor.callback.notification.INotificationInteractor
+import sgtmelon.scriptum.domain.model.data.IntentData.Snackbar
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.extension.clearAdd
 import sgtmelon.scriptum.getRandomSize
+import sgtmelon.scriptum.isDivideTwoEntirely
 import sgtmelon.scriptum.presentation.screen.ui.callback.notification.INotificationActivity
 import kotlin.random.Random
 
@@ -28,6 +32,7 @@ class NotificationViewModelTest : ParentViewModelTest() {
     @MockK lateinit var interactor: INotificationInteractor
 
     private val viewModel by lazy { NotificationViewModel(application) }
+    private val spyViewModel by lazy { spyk(viewModel) }
 
     override fun setUp() {
         super.setUp()
@@ -55,12 +60,104 @@ class NotificationViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onSetup() {
+        val bundle = mockk<Bundle>()
+
         viewModel.onSetup()
+
+        every { spyViewModel.restoreSnackbar(bundle) } returns Unit
+        spyViewModel.onSetup(bundle)
 
         verifySequence {
             callback.setupToolbar()
             callback.setupRecycler()
             callback.setupInsets()
+
+            spyViewModel.onSetup(bundle)
+            spyViewModel.callback
+            callback.setupToolbar()
+            spyViewModel.callback
+            callback.setupRecycler()
+            spyViewModel.callback
+            callback.setupInsets()
+            spyViewModel.restoreSnackbar(bundle)
+        }
+    }
+
+    @Test fun restoreSnackbar() {
+        val bundle = mockk<Bundle>()
+
+        val size = getRandomSize()
+        val positionArray = IntArray(size) { Random.nextInt() }
+        val jsonArray = Array(size) { nextString() }
+        val itemList = List<NotificationItem?>(size) {
+            if (it.isDivideTwoEntirely()) mockk() else null
+        }
+
+        val cancelList = mutableListOf<Pair<Int, NotificationItem>>()
+
+        mockkObject(NotificationItem)
+        for ((i, item) in itemList.withIndex()) {
+            every { NotificationItem[jsonArray[i]] } returns item
+
+            if (item != null) {
+                cancelList.add(Pair(positionArray[i], item))
+            }
+        }
+
+        every { bundle.getIntArray(Snackbar.Intent.POSITIONS) } returns null
+        viewModel.restoreSnackbar(bundle)
+
+        assertTrue(viewModel.cancelList.isEmpty())
+
+        every { bundle.getIntArray(Snackbar.Intent.POSITIONS) } returns positionArray
+        every { bundle.getStringArray(Snackbar.Intent.ITEMS) } returns null
+        viewModel.restoreSnackbar(bundle)
+
+        assertTrue(viewModel.cancelList.isEmpty())
+
+        every { bundle.getStringArray(Snackbar.Intent.ITEMS) } returns jsonArray
+        viewModel.restoreSnackbar(bundle)
+
+        assertEquals(cancelList, viewModel.cancelList)
+
+        verifySequence {
+            bundle.getIntArray(Snackbar.Intent.POSITIONS)
+
+            bundle.getIntArray(Snackbar.Intent.POSITIONS)
+            bundle.getStringArray(Snackbar.Intent.ITEMS)
+
+            bundle.getIntArray(Snackbar.Intent.POSITIONS)
+            bundle.getStringArray(Snackbar.Intent.ITEMS)
+            for (i in itemList.indices) {
+                NotificationItem[jsonArray[i]]
+            }
+            callback.showSnackbar()
+        }
+    }
+
+    @Test fun onSaveData() {
+        val size = getRandomSize()
+        val positionArray = IntArray(size) { Random.nextInt() }
+        val jsonArray = Array(size) { nextString() }
+        val itemList = List(size) { mockk<NotificationItem>() }
+
+        val bundle = mockk<Bundle>()
+
+        for ((i, item) in itemList.withIndex()) {
+            every { item.toJson() } returns jsonArray[i]
+
+            viewModel.cancelList.add(Pair(positionArray[i], item))
+        }
+
+        every { bundle.putIntArray(Snackbar.Intent.POSITIONS, positionArray) } returns Unit
+        every { bundle.putStringArray(Snackbar.Intent.ITEMS, jsonArray) } returns Unit
+
+        viewModel.onSaveData(bundle)
+        assertTrue(viewModel.cancelList.isEmpty())
+
+        verifySequence {
+            bundle.putIntArray(Snackbar.Intent.POSITIONS, positionArray)
+            bundle.putStringArray(Snackbar.Intent.ITEMS, jsonArray)
         }
     }
 

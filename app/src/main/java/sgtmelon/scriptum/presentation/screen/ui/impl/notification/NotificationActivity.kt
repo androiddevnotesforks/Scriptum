@@ -69,7 +69,7 @@ class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallb
 
     override fun onCreate(savedInstanceState: Bundle?) {
         ScriptumApplication.component.getNotificationBuilder().set(activity = this).build()
-                .inject(activity = this)
+            .inject(activity = this)
 
         super.onCreate(savedInstanceState)
         binding = inflateBinding(R.layout.activity_notification)
@@ -79,7 +79,10 @@ class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallb
 
         openState.get(savedInstanceState)
 
-        viewModel.onSetup()
+        /**
+         * Inside [savedInstanceState] saved snackbar data.
+         */
+        viewModel.onSetup(savedInstanceState)
     }
 
     override fun onResume() {
@@ -92,10 +95,9 @@ class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallb
         viewModel.onUpdateData()
     }
 
-    override fun onPause() {
-        super.onPause()
-
-        snackbarControl.dismiss()
+    override fun onStop() {
+        super.onStop()
+        snackbarControl.dismiss(withCallback = false)
     }
 
     override fun onDestroy() {
@@ -105,9 +107,18 @@ class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallb
         viewModel.onDestroy()
     }
 
+    /**
+     * Save snackbar data on rotation and screen turn off. Func [onSaveInstanceState] will be
+     * called in both cases.
+     *
+     * - But on rotation case [outState] will be restored inside [onCreate].
+     * - On turn off screen case [outState] will be restored only if activity will be
+     *   recreated.
+     */
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         openState.save(outState)
+        viewModel.onSaveData(outState)
     }
 
     override fun setNavigationColor(@Theme theme: Int) {

@@ -117,6 +117,9 @@ class RankFragment : ParentFragment(), IRankFragment, MainReceiver.BindCallback,
 
         bindControl.initLazy()
 
+        /**
+         * Inside [savedInstanceState] saved snackbar data.
+         */
         viewModel.onSetup(savedInstanceState)
     }
 

@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.domain.interactor.callback.notification.INotificationInteractor
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
+import sgtmelon.scriptum.domain.model.data.IntentData.Snackbar
 import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.extension.clearAdd
 import sgtmelon.scriptum.extension.launchBack
@@ -38,10 +39,50 @@ class NotificationViewModel(application: Application) :
         callback?.setupToolbar()
         callback?.setupRecycler()
         callback?.setupInsets()
+
+        if (bundle != null) {
+            restoreSnackbar(bundle)
+        }
+    }
+
+    /**
+     * Restore saved snackbar data inside [onSaveData].
+     */
+    @RunPrivate fun restoreSnackbar(bundle: Bundle) {
+        val positionArray = bundle.getIntArray(Snackbar.Intent.POSITIONS) ?: return
+        val itemArray = bundle.getStringArray(Snackbar.Intent.ITEMS) ?: return
+
+        /**
+         * itemArray.isNotEmpty is implied.
+         */
+        if (positionArray.isNotEmpty() && positionArray.size == itemArray.size) {
+            for (i in positionArray.indices) {
+                val p = positionArray.getOrNull(i) ?: continue
+                val json = itemArray.getOrNull(i) ?: continue
+                val item = NotificationItem[json] ?: continue
+
+                cancelList.add(Pair(p, item))
+            }
+
+            callback?.showSnackbar()
+        }
     }
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy { interactor.onDestroy() }
 
+
+    /**
+     * Save snackbar data and restore it inside [restoreSnackbar].
+     */
+    override fun onSaveData(bundle: Bundle) {
+        val positionArray = cancelList.map { it.first }.toIntArray()
+        val itemArray = cancelList.map { it.second.toJson() }.toTypedArray()
+
+        bundle.putIntArray(Snackbar.Intent.POSITIONS, positionArray)
+        bundle.putStringArray(Snackbar.Intent.ITEMS, itemArray)
+
+        cancelList.clear()
+    }
 
     /**
      * Get count before load all data because it's faster.
