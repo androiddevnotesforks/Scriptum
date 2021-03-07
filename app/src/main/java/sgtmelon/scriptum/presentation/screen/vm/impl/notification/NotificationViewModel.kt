@@ -128,7 +128,7 @@ class NotificationViewModel(application: Application) :
             }
 
             /**
-             * Show snackbar for next item undo.
+             * Show snackbar for next item undo remove.
              */
             if (cancelList.isNotEmpty()) {
                 showSnackbar()

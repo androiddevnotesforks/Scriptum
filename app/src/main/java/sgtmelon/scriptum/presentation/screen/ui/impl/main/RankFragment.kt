@@ -117,7 +117,7 @@ class RankFragment : ParentFragment(), IRankFragment, MainReceiver.BindCallback,
 
         bindControl.initLazy()
 
-        viewModel.onSetup()
+        viewModel.onSetup(savedInstanceState)
     }
 
     override fun onResume() {
@@ -125,17 +125,34 @@ class RankFragment : ParentFragment(), IRankFragment, MainReceiver.BindCallback,
         viewModel.onUpdateData()
     }
 
-    override fun onPause() {
-        super.onPause()
-
-        snackbarControl.dismiss()
-        viewModel.onSnackbarDismiss()
-    }
-
     override fun onDestroy() {
         super.onDestroy()
-
         viewModel.onDestroy()
+    }
+
+    /**
+     * When user change page from this to another - inside [MainActivity] happen call of
+     * func: [onPause], and manually run func: [dismissSnackbar]. It mean that [onStop]
+     * will never call on navigation page change.
+     */
+    override fun onStop() {
+        super.onStop()
+        dismissSnackbar(withCallback = false)
+    }
+
+    /**
+     * Save snackbar data on rotation and screen turn off. Func [onSaveInstanceState] will be
+     * called in both cases.
+     *
+     * - But on rotation case [outState] will be restored inside [onViewCreated].
+     * - On turn off screen case [outState] will be restored only if activity will be
+     *   recreated.
+     *
+     * On navigation page change this func will not be called. See [onStop] comment.
+     */
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        viewModel.onSaveData(outState)
     }
 
     //region Receiver functions
@@ -263,7 +280,7 @@ class RankFragment : ParentFragment(), IRankFragment, MainReceiver.BindCallback,
         recyclerContainer?.let { snackbarControl.show(it, withInsets = false) }
     }
 
-    override fun dismissSnackbar() = snackbarControl.dismiss()
+    override fun dismissSnackbar(withCallback: Boolean) = snackbarControl.dismiss(withCallback)
 
 
     override fun onSnackbarAction() {

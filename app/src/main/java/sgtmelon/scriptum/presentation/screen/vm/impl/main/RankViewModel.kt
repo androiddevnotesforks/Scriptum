@@ -8,6 +8,7 @@ import kotlinx.coroutines.launch
 import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
+import sgtmelon.scriptum.domain.model.data.IntentData.Snackbar
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RankItem
 import sgtmelon.scriptum.extension.*
@@ -45,10 +46,50 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     override fun onSetup(bundle: Bundle?) {
         callback?.setupToolbar()
         callback?.setupRecycler()
+
+        if (bundle != null) {
+            restoreSnackbar(bundle)
+        }
+    }
+
+    /**
+     * Restore saved snackbar data inside [onSaveData].
+     */
+    @RunPrivate fun restoreSnackbar(bundle: Bundle) {
+        val positionArray = bundle.getIntArray(Snackbar.Intent.POSITIONS) ?: return
+        val itemArray = bundle.getStringArray(Snackbar.Intent.ITEMS) ?: return
+
+        /**
+         * itemArray.isNotEmpty is implied.
+         */
+        if (positionArray.isNotEmpty() && positionArray.size == itemArray.size) {
+            for (i in positionArray.indices) {
+                val p = positionArray.getOrNull(i) ?: continue
+                val json = itemArray.getOrNull(i) ?: continue
+                val item = RankItem[json] ?: continue
+
+                cancelList.add(Pair(p, item))
+            }
+
+            callback?.showSnackbar()
+        }
     }
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy { interactor.onDestroy() }
 
+
+    /**
+     * Save snackbar data and restore it inside [restoreSnackbar].
+     */
+    override fun onSaveData(bundle: Bundle) {
+        val positionArray = cancelList.map { it.first }.toIntArray()
+        val itemArray = cancelList.map { it.second.toJson() }.toTypedArray()
+
+        bundle.putIntArray(Snackbar.Intent.POSITIONS, positionArray)
+        bundle.putStringArray(Snackbar.Intent.ITEMS, itemArray)
+
+        cancelList.clear()
+    }
 
     override fun onUpdateData() {
         AppIdlingResource.getInstance().startWork(IdlingTag.Rank.LOAD_DATA)
@@ -226,7 +267,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
             }
 
             /**
-             * Show snackbar for next item undo.
+             * Show snackbar for next item undo remove.
              */
             if (cancelList.isNotEmpty()) {
                 showSnackbar()

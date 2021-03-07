@@ -53,9 +53,17 @@ class RankRotationTest : ParentRotationTest() {
         launch {
             mainScreen {
                 rankScreen {
-                    onClickCancel(it)
-                    automator?.rotateSide()
-                    getSnackbar().onClickCancel()
+                    repeat(times = 3) { time ->
+                        onClickCancel(it)
+
+                        if (time % 2 == 0) {
+                            automator?.rotateSide()
+                        } else {
+                            automator?.rotateNatural()
+                        }
+
+                        getSnackbar().onClickCancel()
+                    }
                 }
             }
         }

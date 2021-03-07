@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.presentation.screen.vm.impl.main
 
+import android.os.Bundle
 import android.view.inputmethod.EditorInfo
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
@@ -7,11 +8,10 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.extension.nextString
-import sgtmelon.scriptum.FastMock
-import sgtmelon.scriptum.ParentViewModelTest
-import sgtmelon.scriptum.TestData
+import sgtmelon.scriptum.*
 import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.IRankInteractor
+import sgtmelon.scriptum.domain.model.data.IntentData.Snackbar
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RankItem
 import sgtmelon.scriptum.domain.model.state.OpenState
@@ -68,11 +68,99 @@ class RankViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onSetup() {
+        val bundle = mockk<Bundle>()
+
         viewModel.onSetup()
+
+        every { spyViewModel.restoreSnackbar(bundle) } returns Unit
+        spyViewModel.onSetup(bundle)
 
         verifySequence {
             callback.setupToolbar()
             callback.setupRecycler()
+
+            spyViewModel.onSetup(bundle)
+            spyViewModel.callback
+            callback.setupToolbar()
+            spyViewModel.callback
+            callback.setupRecycler()
+            spyViewModel.restoreSnackbar(bundle)
+        }
+    }
+
+    @Test fun restoreSnackbar() {
+        val bundle = mockk<Bundle>()
+
+        val size = getRandomSize()
+        val positionArray = IntArray(size) { Random.nextInt() }
+        val jsonArray = Array(size) { nextString() }
+        val itemList = List<RankItem?>(size) { if (it.isDivideTwoEntirely()) mockk() else null }
+
+        val cancelList = mutableListOf<Pair<Int, RankItem>>()
+
+        mockkObject(RankItem)
+        for ((i, item) in itemList.withIndex()) {
+            every { RankItem[jsonArray[i]] } returns item
+
+            if (item != null) {
+                cancelList.add(Pair(positionArray[i], item))
+            }
+        }
+
+        every { bundle.getIntArray(Snackbar.Intent.POSITIONS) } returns null
+        viewModel.restoreSnackbar(bundle)
+
+        assertTrue(viewModel.cancelList.isEmpty())
+
+        every { bundle.getIntArray(Snackbar.Intent.POSITIONS) } returns positionArray
+        every { bundle.getStringArray(Snackbar.Intent.ITEMS) } returns null
+        viewModel.restoreSnackbar(bundle)
+
+        assertTrue(viewModel.cancelList.isEmpty())
+
+        every { bundle.getStringArray(Snackbar.Intent.ITEMS) } returns jsonArray
+        viewModel.restoreSnackbar(bundle)
+
+        assertEquals(cancelList, viewModel.cancelList)
+
+        verifySequence {
+            bundle.getIntArray(Snackbar.Intent.POSITIONS)
+
+            bundle.getIntArray(Snackbar.Intent.POSITIONS)
+            bundle.getStringArray(Snackbar.Intent.ITEMS)
+
+            bundle.getIntArray(Snackbar.Intent.POSITIONS)
+            bundle.getStringArray(Snackbar.Intent.ITEMS)
+            for (i in itemList.indices) {
+                RankItem[jsonArray[i]]
+            }
+            callback.showSnackbar()
+        }
+    }
+
+    @Test fun onSaveData() {
+        val size = getRandomSize()
+        val positionArray = IntArray(size) { Random.nextInt() }
+        val jsonArray = Array(size) { nextString() }
+        val itemList = List(size) { mockk<RankItem>() }
+
+        val bundle = mockk<Bundle>()
+
+        for ((i, item) in itemList.withIndex()) {
+            every { item.toJson() } returns jsonArray[i]
+
+            viewModel.cancelList.add(Pair(positionArray[i], item))
+        }
+
+        every { bundle.putIntArray(Snackbar.Intent.POSITIONS, positionArray) } returns Unit
+        every { bundle.putStringArray(Snackbar.Intent.ITEMS, jsonArray) } returns Unit
+
+        viewModel.onSaveData(bundle)
+        assertTrue(viewModel.cancelList.isEmpty())
+
+        verifySequence {
+            bundle.putIntArray(Snackbar.Intent.POSITIONS, positionArray)
+            bundle.putStringArray(Snackbar.Intent.ITEMS, jsonArray)
         }
     }
 

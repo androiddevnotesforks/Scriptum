@@ -36,7 +36,7 @@ interface IRankFragment : BindControl.NoteBridge.NotifyAll {
 
     fun showSnackbar()
 
-    fun dismissSnackbar()
+    fun dismissSnackbar(withCallback: Boolean = true)
 
 
     fun getEnterText(): String

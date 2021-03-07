@@ -23,7 +23,7 @@ class SnackbarControl(
             super.onDismissed(transientBottomBar, event)
 
             /**
-             * If user not click on action button (timeout dismiss, dismiss by swipe).
+             * If user not click on action button (this mean: timeout dismiss, dismiss by swipe).
              */
             if (event != DISMISS_EVENT_ACTION) {
                 callback.onSnackbarDismiss()
@@ -56,13 +56,21 @@ class SnackbarControl(
         }
     }
 
-    /**
-     * Need remove callback before dismiss for prevent call [Snackbar.Callback.onDismissed].
-     */
     override fun dismiss() {
         snackbar?.dismiss()
     }
 
+    /**
+     * If without callback it mean that [SnackbarCallback.onSnackbarDismiss] will not
+     * call on dismiss.
+     */
+    override fun dismiss(withCallback: Boolean) {
+        if (!withCallback) {
+            snackbar?.removeCallback(dismissCallback)
+        }
+
+        snackbar?.dismiss()
+    }
 
     private fun Snackbar.setupTheme() = apply {
         val background = view.context.getDrawable(R.drawable.bg_snackbar)
@@ -74,5 +82,4 @@ class SnackbarControl(
             .setTextColor(textColor)
         setActionTextColor(actionColor)
     }
-
 }

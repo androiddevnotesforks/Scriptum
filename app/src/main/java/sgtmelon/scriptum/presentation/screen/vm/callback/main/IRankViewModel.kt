@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.presentation.screen.vm.callback.main
 
+import android.os.Bundle
 import sgtmelon.scriptum.presentation.control.touch.RankTouchControl
 import sgtmelon.scriptum.presentation.receiver.MainReceiver
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IRankFragment
@@ -12,6 +13,8 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.main.RankViewModel
 interface IRankViewModel : IParentViewModel,
         MainReceiver.BindCallback,
         RankTouchControl.Callback {
+
+    fun onSaveData(bundle: Bundle)
 
     fun onUpdateData()
 

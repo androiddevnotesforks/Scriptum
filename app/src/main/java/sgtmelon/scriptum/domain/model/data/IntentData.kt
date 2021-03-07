@@ -5,6 +5,18 @@ import sgtmelon.scriptum.domain.model.annotation.Color
 
 object IntentData {
 
+    object Snackbar {
+        @StringDef(Intent.POSITIONS, Intent.ITEMS)
+        annotation class Intent {
+            companion object {
+                private const val PREFIX = "INTENT_SNACKBAR"
+
+                const val POSITIONS = "${PREFIX}_POSITIONS"
+                const val ITEMS = "${PREFIX}_ITEMS"
+            }
+        }
+    }
+
     /**
      * Object for store information about NOTE between screens and save it
      * inside onSavedInstanceState.

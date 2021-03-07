@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.domain.model.data
 
 import sgtmelon.scriptum.data.room.converter.type.StringConverter
+import sgtmelon.scriptum.domain.model.item.RankItem
 import sgtmelon.scriptum.domain.model.key.NoteType
 
 /**
@@ -122,12 +123,24 @@ object DbData {
 
         const val INDEX_NAME = "${TABLE}_NAME_INDEX"
 
+        /**
+         * This values not for dataBase. Only for [RankItem].
+         */
+        const val BIND_COUNT = "${PREFIX}_BIND_COUNT"
+        const val NOTIFICATION_COUNT = "${PREFIX}_NOTIFICATION_COUNT"
+
         object Default {
             const val ID = 0L
             val NOTE_ID = ArrayList<Long>()
             const val POSITION = 0
             const val NAME = ""
             const val VISIBLE = true
+
+            /**
+             * This values not for dataBase. Only for [RankItem].
+             */
+            const val BIND_COUNT = 0
+            const val NOTIFICATION_COUNT = 0
         }
 
         object Room {

@@ -11,4 +11,6 @@ interface ISnackbarControl {
 
     fun dismiss()
 
+    fun dismiss(withCallback: Boolean)
+
 }

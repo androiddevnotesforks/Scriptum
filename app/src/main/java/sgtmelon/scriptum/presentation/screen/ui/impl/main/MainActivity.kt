@@ -193,6 +193,14 @@ class MainActivity : AppActivity(), IMainActivity {
 
                     hide(fragmentFrom)
                     fragmentFrom.onPause()
+
+                    /**
+                     * Dismiss without callback happen inside [Fragment.onStop] function.
+                     * So be careful when call it manually.
+                     */
+                    if (fragmentFrom is RankFragment) {
+                        fragmentFrom.dismissSnackbar()
+                    }
                 }
 
                 val fragmentTo = pageTo.getFragmentByName()
