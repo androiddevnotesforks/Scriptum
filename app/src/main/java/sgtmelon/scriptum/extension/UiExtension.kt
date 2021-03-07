@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.idling.WaitIdlingResource
 
 fun Activity.beforeFinish(func: () -> Unit) {
     func()
@@ -37,10 +38,23 @@ fun Activity.hideKeyboard() {
 
 fun Context.showToast(@StringRes stringId: Int, length: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this, getString(stringId), length).show()
+    runToastIdling(length)
 }
 
 fun Context.showToast(text: String, length: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this, text, length).show()
+    runToastIdling(length)
+}
+
+/**
+ * Run idling while toast is shown.
+ */
+private fun runToastIdling(length: Int) {
+    WaitIdlingResource(waitMillis = when (length) {
+        Toast.LENGTH_SHORT -> 2000
+        Toast.LENGTH_LONG -> 3500
+        else -> return
+    })
 }
 
 

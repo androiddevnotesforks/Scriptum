@@ -5,7 +5,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.extension.getCalendar
 import sgtmelon.scriptum.basic.exception.NoteCastException
-import sgtmelon.scriptum.basic.extension.waitAfter
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.test.ParentUiTest
 
@@ -54,12 +53,7 @@ class DateTimeDialogTest : ParentUiTest() {
             mainScreen {
                 notesScreen {
                     openNoteDialog(it) {
-                        onNotification {
-                            onClickApply {
-                                onTime(min = 2)
-                                waitAfter(TOAST_TIME) { onClickApply() }
-                            }
-                        }
+                        onNotification { onClickApply { onTime(min = 2).onClickApply() } }
                     }
                 }
             }
@@ -72,12 +66,7 @@ class DateTimeDialogTest : ParentUiTest() {
                 notesScreen {
                     openTextNote(it) {
                         controlPanel {
-                            onNotification {
-                                onClickApply {
-                                    onTime(min = 2)
-                                    waitAfter(TOAST_TIME) { onClickApply() }
-                                }
-                            }
+                            onNotification { onClickApply { onTime(min = 2).onClickApply() } }
                         }
                     }
                 }
@@ -92,8 +81,7 @@ class DateTimeDialogTest : ParentUiTest() {
                     openNoteDialog(it) {
                         onNotification {
                             onDate(day = 1).onClickApply {
-                                onTime(min = 2)
-                                waitAfter(TOAST_TIME) { onClickApply() }
+                                onTime(min = 2).onClickApply()
                             }
                         }
                     }
@@ -110,8 +98,7 @@ class DateTimeDialogTest : ParentUiTest() {
                         controlPanel {
                             onNotification {
                                 onDate(day = 1).onClickApply {
-                                    onTime(min = 2)
-                                    waitAfter(TOAST_TIME) { onClickApply() }
+                                    onTime(min = 2).onClickApply()
                                 }
                             }
                         }
@@ -154,9 +141,5 @@ class DateTimeDialogTest : ParentUiTest() {
                 }
             }
         }
-    }
-
-    companion object {
-        private const val TOAST_TIME = 1000L
     }
 }
