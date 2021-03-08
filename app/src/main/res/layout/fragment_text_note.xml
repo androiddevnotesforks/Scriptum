@@ -95,10 +95,9 @@
         </FrameLayout>
 
         <include
-            layout="@layout/inc_note_panel"
+            layout="@layout/inc_note_panel_text"
             app:inputAccess='@{inputAccess}'
             app:isDataLoad='@{isDataLoad}'
-            app:isDividerHide='@{false}'
             app:isEditMode='@{isEditMode}'
             app:isRankEmpty='@{isRankEmpty}'
             app:item='@{item}'

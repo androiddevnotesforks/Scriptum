@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="@layout/fragment_roll_note">
+
+    <data>
+
+        <import type="sgtmelon.scriptum.R" />
+
+        <import type="android.view.View" />
+
+        <import
+            alias="Type"
+            type="sgtmelon.scriptum.domain.model.key.NoteType" />
+
+        <variable
+            name="isDividerHide"
+            type="boolean" />
+
+        <variable
+            name="menuCallback"
+            type="sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteMenu" />
+
+        <variable
+            name="isDataLoad"
+            type="boolean" />
+
+        <variable
+            name="item"
+            type="sgtmelon.scriptum.domain.model.item.NoteItem" />
+
+        <variable
+            name="isRankEmpty"
+            type="boolean" />
+
+        <variable
+            name="isEditMode"
+            type="boolean" />
+
+        <variable
+            name="inputAccess"
+            type="sgtmelon.scriptum.presentation.control.note.input.InputControl.Access" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/note_panel_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/clPrimary"
+        android:orientation="vertical"
+        tools:layout_gravity="center">
+
+        <View
+            android:id="@+id/note_panel_divider_view"
+            style="@style/Divider.Horizontal"
+            android:layout_marginHorizontal="@dimen/layout_8dp"
+            android:visibility='@{!isDividerHide ? View.VISIBLE : View.GONE}'
+            tools:visibility="visible" />
+
+        <include
+            layout="@layout/inc_note_panel_content"
+            app:inputAccess='@{inputAccess}'
+            app:isDataLoad='@{isDataLoad}'
+            app:isEditMode='@{isEditMode}'
+            app:isRankEmpty='@{isRankEmpty}'
+            app:item='@{item}'
+            app:menuCallback='@{menuCallback}' />
+
+    </LinearLayout>
+
+</layout>

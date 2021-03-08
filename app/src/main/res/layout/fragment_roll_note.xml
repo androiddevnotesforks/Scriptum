@@ -93,12 +93,13 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/layout_4dp"
             android:max="0"
+            tools:visibility="gone"
             android:visibility='@{!isEditMode ? View.VISIBLE : View.GONE}'
             tools:max="100"
             tools:progress="65" />
 
         <include
-            layout="@layout/inc_note_panel"
+            layout="@layout/inc_note_panel_roll"
             app:inputAccess='@{inputAccess}'
             app:isDataLoad='@{isDataLoad}'
             app:isDividerHide='@{!isEditMode}'
