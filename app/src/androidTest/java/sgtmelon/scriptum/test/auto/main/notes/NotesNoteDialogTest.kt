@@ -13,6 +13,10 @@ import sgtmelon.scriptum.test.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class NotesNoteDialogTest : ParentUiTest() {
 
+    @Test fun textDialogUntitled() = data.insertText(data.textNote.apply { name = "" }).let {
+        launch { mainScreen { notesScreen { openNoteDialog(it) } } }
+    }
+
     @Test fun textDialogClose() = data.insertText().let {
         launch {
             mainScreen {
@@ -69,6 +73,10 @@ class NotesNoteDialogTest : ParentUiTest() {
         }
     }
 
+
+    @Test fun rollDialogUntitled() = data.insertRoll(data.rollNote.apply { name = "" }).let {
+        launch { mainScreen { notesScreen { openNoteDialog(it) } } }
+    }
 
     @Test fun rollDialogClose() = data.insertRoll().let {
         launch {

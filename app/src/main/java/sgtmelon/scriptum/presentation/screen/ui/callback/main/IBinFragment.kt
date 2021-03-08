@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.presentation.screen.ui.callback.main
 
 import androidx.annotation.ArrayRes
+import androidx.annotation.StringRes
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.BinFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.main.IBinViewModel
@@ -29,7 +30,7 @@ interface IBinFragment : IBinBridge{
 
     fun openNoteScreen(item: NoteItem)
 
-    fun showOptionsDialog(itemArray: Array<String>, p: Int)
+    fun showOptionsDialog(title: String, itemArray: Array<String>, p: Int)
 
 
     fun notifyMenuClearBin()
@@ -40,6 +41,8 @@ interface IBinFragment : IBinBridge{
 
     fun notifyItemRemoved(list: List<NoteItem>, p: Int)
 
+
+    fun getString(@StringRes resId: Int): String
 
     fun getStringArray(@ArrayRes arrayId: Int): Array<String>
 

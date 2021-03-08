@@ -94,9 +94,17 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
     }
 
     override fun onShowOptionsDialog(p: Int) {
-        val itemArray = callback?.getStringArray(R.array.dialog_menu_bin) ?: return
+        val callback = callback ?: return
 
-        callback?.showOptionsDialog(itemArray, p)
+        val item = itemList.getOrNull(p) ?: return
+        val title = if (item.name.isNotEmpty()) {
+            item.name
+        } else {
+            callback.getString(R.string.hint_text_name)
+        }
+        val itemArray = callback.getStringArray(R.array.dialog_menu_bin)
+
+        callback.showOptionsDialog(title, itemArray, p)
     }
 
     override fun onResultOptionsDialog(p: Int, which: Int) {

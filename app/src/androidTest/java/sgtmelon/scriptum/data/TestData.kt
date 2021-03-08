@@ -17,6 +17,8 @@ import sgtmelon.scriptum.domain.model.data.ColorData
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RankItem
 import sgtmelon.scriptum.domain.model.key.NoteType
+import sgtmelon.scriptum.test.auto.main.bin.BinNoteDialogTest
+import sgtmelon.scriptum.test.auto.main.notes.NotesNoteDialogTest
 import kotlin.random.Random
 
 /**
@@ -32,6 +34,9 @@ class TestData(
     private val rankConverter = RankConverter()
     private val alarmConverter = AlarmConverter()
 
+    /**
+     * For [NotesNoteDialogTest] and [BinNoteDialogTest] need filled [NoteEntity.name] by default.
+     */
     val textNote: NoteEntity
         get() = NoteEntity().apply {
             create = getTime()
@@ -42,6 +47,9 @@ class TestData(
             type = NoteType.TEXT
         }
 
+    /**
+     * For [NotesNoteDialogTest] and [BinNoteDialogTest] need filled [NoteEntity.name] by default.
+     */
     val rollNote: NoteEntity
         get() = NoteEntity().apply {
             create = getTime()

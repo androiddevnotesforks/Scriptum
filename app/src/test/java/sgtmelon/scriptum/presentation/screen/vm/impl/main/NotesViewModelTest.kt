@@ -8,6 +8,7 @@ import org.junit.Test
 import sgtmelon.extension.getCalendar
 import sgtmelon.extension.getRandomFutureTime
 import sgtmelon.extension.getRandomPastTime
+import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.TestData
@@ -17,6 +18,7 @@ import sgtmelon.scriptum.domain.model.annotation.Options
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.extension.clearAdd
+import sgtmelon.scriptum.getRandomSize
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.INotesFragment
 import java.util.*
 import kotlin.random.Random
@@ -182,42 +184,102 @@ class NotesViewModelTest : ParentViewModelTest() {
     @Test fun onShowOptionsDialog() {
         viewModel.onShowOptionsDialog(Random.nextInt())
 
-        val textArray = arrayOf("", "", "text")
-        val rollArray = arrayOf("", "", "roll")
+        val itemArray0 = Array(getRandomSize()) { nextString() }
+        val itemArray1 = Array(getRandomSize()) { nextString() }
+        val itemArray2 = Array(getRandomSize()) { nextString() }
+        val itemArray3 = Array(getRandomSize()) { nextString() }
 
-        every { callback.getStringArray(R.array.dialog_menu_text) } returns textArray
-        every { callback.getStringArray(R.array.dialog_menu_roll) } returns rollArray
+        val textItem = mockk<NoteItem.Text>()
+        val rollItem = mockk<NoteItem.Roll>()
+        val untitledName = nextString()
+        val name = nextString()
 
-        every { callback.getString(R.string.dialog_menu_notification_update) } returns "update"
-        every { callback.getString(R.string.dialog_menu_notification_set) } returns "set"
+        val updateString = nextString()
+        val setString = nextString()
+        val unbindString = nextString()
+        val bindString = nextString()
 
-        every { callback.getString(R.string.dialog_menu_status_unbind) } returns "unbind"
-        every { callback.getString(R.string.dialog_menu_status_bind) } returns "bind"
+        viewModel.itemList.clear()
+        viewModel.itemList.addAll(listOf(textItem, rollItem))
 
-        val itemList = data.itemList
-        viewModel.itemList.clearAdd(itemList)
-        assertEquals(itemList, viewModel.itemList)
+        every { callback.getString(R.string.hint_text_name) } returns untitledName
 
+        every { callback.getString(R.string.dialog_menu_notification_update) } returns updateString
+        every { callback.getString(R.string.dialog_menu_notification_set) } returns setString
+        every { callback.getString(R.string.dialog_menu_status_unbind) } returns unbindString
+        every { callback.getString(R.string.dialog_menu_status_bind) } returns bindString
+
+        every { textItem.name } returns ""
+        every { callback.getStringArray(R.array.dialog_menu_text) } returns itemArray0.copyOf()
+        every { textItem.haveAlarm() } returns false
+        every { textItem.isStatus } returns true
         viewModel.onShowOptionsDialog(p = 0)
+
+        every { textItem.name } returns name
+        every { callback.getStringArray(R.array.dialog_menu_text) } returns itemArray1.copyOf()
+        every { textItem.haveAlarm() } returns true
+        every { textItem.isStatus } returns false
+        viewModel.onShowOptionsDialog(p = 0)
+
+        every { rollItem.name } returns ""
+        every { callback.getStringArray(R.array.dialog_menu_roll) } returns itemArray2.copyOf()
+        every { rollItem.haveAlarm() } returns false
+        every { rollItem.isStatus } returns false
+        viewModel.onShowOptionsDialog(p = 1)
+
+        every { rollItem.name } returns name
+        every { callback.getStringArray(R.array.dialog_menu_roll) } returns itemArray3.copyOf()
+        every { rollItem.haveAlarm() } returns true
+        every { rollItem.isStatus } returns true
         viewModel.onShowOptionsDialog(p = 1)
 
         verifySequence {
+            textItem.name
+            callback.getString(R.string.hint_text_name)
             callback.getStringArray(R.array.dialog_menu_text)
-            callback.getString(R.string.dialog_menu_notification_update)
-            callback.getString(R.string.dialog_menu_status_bind)
-
-            callback.showOptionsDialog(textArray.apply {
-                set(0, "update")
-                set(1, "bind")
+            textItem.haveAlarm()
+            callback.getString(R.string.dialog_menu_notification_set)
+            textItem.isStatus
+            callback.getString(R.string.dialog_menu_status_unbind)
+            callback.showOptionsDialog(untitledName, itemArray0.copyOf().apply {
+                set(Options.Notes.NOTIFICATION, setString)
+                set(Options.Notes.BIND, unbindString)
             }, p = 0)
 
-            callback.getStringArray(R.array.dialog_menu_roll)
-            callback.getString(R.string.dialog_menu_notification_set)
-            callback.getString(R.string.dialog_menu_status_unbind)
+            textItem.name
+            textItem.name
+            callback.getStringArray(R.array.dialog_menu_text)
+            textItem.haveAlarm()
+            callback.getString(R.string.dialog_menu_notification_update)
+            textItem.isStatus
+            callback.getString(R.string.dialog_menu_status_bind)
+            callback.showOptionsDialog(name, itemArray1.copyOf().apply {
+                set(Options.Notes.NOTIFICATION, updateString)
+                set(Options.Notes.BIND, bindString)
+            }, p = 0)
 
-            callback.showOptionsDialog(rollArray.apply {
-                set(0, "set")
-                set(1, "unbind")
+            rollItem.name
+            callback.getString(R.string.hint_text_name)
+            callback.getStringArray(R.array.dialog_menu_roll)
+            rollItem.haveAlarm()
+            callback.getString(R.string.dialog_menu_notification_set)
+            rollItem.isStatus
+            callback.getString(R.string.dialog_menu_status_bind)
+            callback.showOptionsDialog(untitledName, itemArray2.copyOf().apply {
+                set(Options.Notes.NOTIFICATION, setString)
+                set(Options.Notes.BIND, bindString)
+            }, p = 1)
+
+            rollItem.name
+            rollItem.name
+            callback.getStringArray(R.array.dialog_menu_roll)
+            rollItem.haveAlarm()
+            callback.getString(R.string.dialog_menu_notification_update)
+            rollItem.isStatus
+            callback.getString(R.string.dialog_menu_status_unbind)
+            callback.showOptionsDialog(name, itemArray3.copyOf().apply {
+                set(Options.Notes.NOTIFICATION, updateString)
+                set(Options.Notes.BIND, unbindString)
             }, p = 1)
         }
     }

@@ -8,14 +8,17 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import sgtmelon.safedialog.BlankDialog.Companion.INIT
 import sgtmelon.safedialog.BlankDialog.Companion.VALUE
+import sgtmelon.safedialog.annotation.NdValue
+import sgtmelon.safedialog.annotation.SavedTag
 
 /**
  * Dialog showing options with list item
  */
 class OptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
 
-    var itemListener: DialogInterface.OnClickListener? = null
+    var title: String = NdValue.TEXT
 
+    var itemListener: DialogInterface.OnClickListener? = null
     var dismissListener: DialogInterface.OnDismissListener? = null
 
     private var itemList: List<String> = ArrayList()
@@ -23,7 +26,7 @@ class OptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
     /**
      * Save item position in list for next operations
      */
-    var position: Int = 0
+    var position: Int = NdValue.POSITION
         private set
 
     /**
@@ -37,23 +40,46 @@ class OptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        itemList = savedInstanceState?.getStringArray(INIT)?.toList()
-                ?: arguments?.getStringArray(INIT)?.toList() ?: ArrayList()
+        if (savedInstanceState != null) {
+            onRestoreContentState(savedInstanceState)
+        }
 
-        position = savedInstanceState?.getInt(VALUE)
-                ?: arguments?.getInt(VALUE) ?: 0
+        onRestoreInstanceState(bundle = savedInstanceState ?: arguments)
 
-        return AlertDialog.Builder(context as Context)
+        val builder = AlertDialog.Builder(context as Context)
             .setItems(itemList.toTypedArray(), this)
             .setCancelable(true)
-            .create()
-            .applyAnimation()
+
+        if (title != NdValue.TEXT) {
+            builder.setTitle(title)
+        }
+
+        return builder.create().applyAnimation()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putStringArray(INIT, itemList.toTypedArray())
         outState.putInt(VALUE, position)
+    }
+
+    /**
+     * Use for restore dialog content which was written before [show]
+     * (e.g. title, nameArray and ect.).
+     *
+     * Call inside [onCreateDialog] before create them.
+     */
+    private fun onRestoreContentState(savedInstanceState: Bundle) {
+        title = savedInstanceState.getString(SavedTag.TITLE) ?: NdValue.TEXT
+    }
+
+    /**
+     * Function for restore content which was passed throw setArgument functions
+     * (e.g. position, check and ect.).
+     */
+    private fun onRestoreInstanceState(bundle: Bundle?) {
+        itemList = bundle?.getStringArray(INIT)?.toList() ?: ArrayList()
+        position = bundle?.getInt(VALUE) ?: NdValue.POSITION
     }
 
     override fun onDismiss(dialog: DialogInterface) {

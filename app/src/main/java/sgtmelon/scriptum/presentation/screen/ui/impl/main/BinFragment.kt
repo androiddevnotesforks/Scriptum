@@ -175,8 +175,9 @@ class BinFragment : ParentFragment(), IBinFragment {
         startActivity(NoteActivity[context ?: return, item])
     }
 
-    override fun showOptionsDialog(itemArray: Array<String>, p: Int) {
+    override fun showOptionsDialog(title: String, itemArray: Array<String>, p: Int) {
         openState?.tryInvoke {
+            optionsDialog.title = title
             optionsDialog.setArguments(itemArray, p).show(fm, DialogFactory.Main.OPTIONS)
         }
     }

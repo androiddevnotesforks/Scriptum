@@ -5,6 +5,7 @@ import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
+import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.TestData
@@ -12,6 +13,7 @@ import sgtmelon.scriptum.domain.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.domain.model.annotation.Options
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.extension.clearAdd
+import sgtmelon.scriptum.getRandomSize
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IBinFragment
 import kotlin.random.Random
 
@@ -170,15 +172,34 @@ class BinViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onShowOptionsDialog() {
-        val p = Random.nextInt()
+        viewModel.onShowOptionsDialog(Random.nextInt())
 
-        every { callback.getStringArray(R.array.dialog_menu_bin) } returns arrayOf()
+        val p = 0
+        val itemArray = Array(getRandomSize()) { nextString() }
 
+        val item = mockk<NoteItem>()
+        val untitledName = nextString()
+        val name = nextString()
+
+        viewModel.itemList.add(item)
+
+        every { item.name } returns ""
+        every { callback.getString(R.string.hint_text_name) } returns untitledName
+        every { callback.getStringArray(R.array.dialog_menu_bin) } returns itemArray
+        viewModel.onShowOptionsDialog(p)
+
+        every { item.name } returns name
         viewModel.onShowOptionsDialog(p)
 
         verifySequence {
+            item.name
+            callback.getString(R.string.hint_text_name)
             callback.getStringArray(R.array.dialog_menu_bin)
-            callback.showOptionsDialog(arrayOf(), p)
+            callback.showOptionsDialog(untitledName, itemArray, p)
+
+            item.name
+            callback.getStringArray(R.array.dialog_menu_bin)
+            callback.showOptionsDialog(name, itemArray, p)
         }
     }
 

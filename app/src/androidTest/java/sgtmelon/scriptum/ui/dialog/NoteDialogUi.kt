@@ -21,6 +21,12 @@ class NoteDialogUi(private val item: NoteItem) : ParentUi(), IDialogUi, DateTime
 
     //region Views
 
+    private val titleText = getViewByText(if (item.name.isNotEmpty()) {
+        item.name
+    } else {
+        context.getString(R.string.hint_text_name)
+    })
+
     private val notificationButton = getViewByText(if (item.haveAlarm()) {
         R.string.dialog_menu_notification_update
     } else {
@@ -93,6 +99,8 @@ class NoteDialogUi(private val item: NoteItem) : ParentUi(), IDialogUi, DateTime
     }
 
     fun assert() {
+        titleText.isDisplayed()
+
         if (item.isBin) {
             restoreButton.isDisplayed().isEnabled()
             copyButton.isDisplayed().isEnabled()

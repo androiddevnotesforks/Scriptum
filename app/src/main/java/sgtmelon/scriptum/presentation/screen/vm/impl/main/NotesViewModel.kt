@@ -99,26 +99,32 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
 
     override fun onShowOptionsDialog(p: Int) {
         val callback = callback ?: return
-        val noteItem = itemList.getOrNull(p) ?: return
+        val item = itemList.getOrNull(p) ?: return
 
-        val itemArray: Array<String> = callback.getStringArray(when (noteItem) {
+        val title = if (item.name.isNotEmpty()) {
+            item.name
+        } else {
+            callback.getString(R.string.hint_text_name)
+        }
+
+        val itemArray: Array<String> = callback.getStringArray(when (item) {
             is NoteItem.Text -> R.array.dialog_menu_text
             is NoteItem.Roll -> R.array.dialog_menu_roll
         })
 
-        itemArray[Options.NOTIFICATION] = if (noteItem.haveAlarm()) {
+        itemArray[Options.NOTIFICATION] = if (item.haveAlarm()) {
             callback.getString(R.string.dialog_menu_notification_update)
         } else {
             callback.getString(R.string.dialog_menu_notification_set)
         }
 
-        itemArray[Options.BIND] = if (noteItem.isStatus) {
+        itemArray[Options.BIND] = if (item.isStatus) {
             callback.getString(R.string.dialog_menu_status_unbind)
         } else {
             callback.getString(R.string.dialog_menu_status_bind)
         }
 
-        callback.showOptionsDialog(itemArray, p)
+        callback.showOptionsDialog(title, itemArray, p)
     }
 
 

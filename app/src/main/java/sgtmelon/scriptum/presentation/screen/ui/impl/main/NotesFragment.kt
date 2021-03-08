@@ -253,10 +253,11 @@ class NotesFragment : ParentFragment(),
     }
 
 
-    override fun showOptionsDialog(itemArray: Array<String>, p: Int) {
+    override fun showOptionsDialog(title: String, itemArray: Array<String>, p: Int) {
         openState?.tryInvoke {
             openState?.tag = OpenState.Tag.DIALOG
 
+            optionsDialog.title = title
             optionsDialog.setArguments(itemArray, p).show(fm, DialogFactory.Main.OPTIONS)
         }
     }

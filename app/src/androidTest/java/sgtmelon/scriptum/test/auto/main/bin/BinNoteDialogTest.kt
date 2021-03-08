@@ -12,6 +12,10 @@ import sgtmelon.scriptum.test.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class BinNoteDialogTest : ParentUiTest() {
 
+    @Test fun textDialogUntitled() = data.insertTextToBin(data.textNote.apply { name = "" }).let {
+        launch { mainScreen { binScreen { openNoteDialog(it) } } }
+    }
+
     @Test fun textDialogClose() = data.insertTextToBin().let {
         launch {
             mainScreen { binScreen { openNoteDialog(it) { onCloseSoft() }.assert(isEmpty = false) } }
@@ -37,6 +41,10 @@ class BinNoteDialogTest : ParentUiTest() {
         }
     }
 
+
+    @Test fun rollDialogUntitled() = data.insertRollToBin(data.rollNote.apply { name = "" }).let {
+        launch { mainScreen { binScreen { openNoteDialog(it) } } }
+    }
 
     @Test fun rollDialogClose() = data.insertRollToBin().let {
         launch {

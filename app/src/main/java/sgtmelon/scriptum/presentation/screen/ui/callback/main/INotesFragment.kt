@@ -37,7 +37,7 @@ interface INotesFragment : INotesBridge {
     fun openNoteScreen(item: NoteItem)
 
 
-    fun showOptionsDialog(itemArray: Array<String>, p: Int)
+    fun showOptionsDialog(title: String, itemArray: Array<String>, p: Int)
 
     fun showDateDialog(calendar: Calendar, resetVisible: Boolean, p: Int)
 
