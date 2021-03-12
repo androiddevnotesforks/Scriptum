@@ -47,13 +47,11 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:paddingTop="@dimen/recycler_margin"
-            android:paddingBottom="@dimen/recycler_margin">
+            android:layout_weight="1">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/text_note_content_card"
-                style="@style/Card"
+                style="@style/Card.TextNote"
                 android:layout_height="match_parent"
                 app:cardBackgroundColor="?attr/clBackgroundView">
 

@@ -14,7 +14,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/note_text_parent_card"
-        style="@style/Card"
+        style="@style/Card.Item"
         app:noteColor='@{item.color}'
         tools:cardBackgroundColor="@color/note_green_light">
 

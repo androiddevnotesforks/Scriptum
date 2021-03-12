@@ -16,17 +16,17 @@
     </data>
 
     <androidx.cardview.widget.CardView
-            android:id="@+id/roll_write_parent_card"
-            style="@style/Card"
-            app:cardBackgroundColor="?attr/clBackgroundView">
+        android:id="@+id/roll_write_parent_card"
+        style="@style/Card.Item"
+        app:cardBackgroundColor="?attr/clBackgroundView">
 
         <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
 
                 <CheckBox
                         android:id="@+id/roll_write_check"

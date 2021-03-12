@@ -44,6 +44,8 @@ class DrawableMatcher(
         /**
          * Vector may have different sizes (which declared not in xml), so need remember it and
          * set size across [setSize].
+         *
+         * TODO check on wide screen devices. It sometimes not work.
          */
         if (expected is VectorDrawable || actual is VectorDrawable) {
             setSize(item)

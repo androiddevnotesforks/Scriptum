@@ -44,7 +44,7 @@
                 android:layout_height="match_parent"
                 android:visibility="invisible"
                 tools:visibility="visible"
-                tools:itemCount="1"
+                tools:itemCount="3"
                 tools:listitem="@layout/item_note_roll" />
 
         </FrameLayout>

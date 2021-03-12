@@ -9,22 +9,34 @@
     <style name="BottomNavigationView">
         <item name="colorControlHighlight">?attr/clAccentRipple</item>
     </style>
-    
-    <style name="Card">
+
+    <style name="Card" />
+
+    <style name="Card.Item">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">@dimen/card_margin_vertical</item>
-        <item name="android:layout_marginBottom">@dimen/card_margin_vertical</item>
-        <item name="android:layout_marginStart">@dimen/card_margin_horizontal</item>
-        <item name="android:layout_marginEnd">@dimen/card_margin_horizontal</item>
-        <item name="cardElevation">@dimen/elevation_2dp</item>
-        <item name="cardCornerRadius">@dimen/radius_4dp</item>
+        <item name="android:layout_marginTop">@dimen/item_card_vertical_margin</item>
+        <item name="android:layout_marginBottom">@dimen/item_card_vertical_margin</item>
+        <item name="android:layout_marginStart">@dimen/item_card_horizontal_margin</item>
+        <item name="android:layout_marginEnd">@dimen/item_card_horizontal_margin</item>
+        <item name="cardElevation">@dimen/item_card_elevation</item>
+        <item name="cardCornerRadius">@dimen/item_card_radius</item>
+    </style>
+
+    <style name="Card.TextNote">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/text_note_card_margin</item>
+        <item name="cardElevation">@dimen/text_note_card_elevation</item>
+        <item name="cardCornerRadius">@dimen/text_note_card_radius</item>
     </style>
 
     <style name="RecyclerView">
         <item name="android:clipToPadding">false</item>
-        <item name="android:paddingBottom">@dimen/recycler_margin</item>
-        <item name="android:paddingTop">@dimen/recycler_margin</item>
+        <item name="android:paddingBottom">@dimen/recycler_vertical_margin</item>
+        <item name="android:paddingTop">@dimen/recycler_vertical_margin</item>
+        <item name="android:paddingStart">@dimen/recycler_horizontal_margin</item>
+        <item name="android:paddingEnd">@dimen/recycler_horizontal_margin</item>
         <item name="android:scrollbars">vertical</item>
     </style>
 

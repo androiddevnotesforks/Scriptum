@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="card_margin_horizontal">@dimen/layout_8dp</dimen>
-    <dimen name="card_margin_vertical">@dimen/layout_4dp</dimen>
+    <dimen name="item_card_horizontal_margin">8dp</dimen>
+    <dimen name="item_card_vertical_margin">4dp</dimen>
+    <dimen name="item_card_elevation">2dp</dimen>
+    <dimen name="item_card_radius">4dp</dimen>
 
-    <dimen name="recycler_margin">@dimen/layout_4dp</dimen>
+    <dimen name="text_note_card_margin">8dp</dimen>
+    <dimen name="text_note_card_elevation">2dp</dimen>
+    <dimen name="text_note_card_radius">4dp</dimen>
+
+    <dimen name="recycler_vertical_margin">4dp</dimen>
+    <dimen name="recycler_horizontal_margin">0dp</dimen>
 
 </resources>
