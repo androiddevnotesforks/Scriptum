@@ -23,10 +23,7 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/toolbar_note_parent_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:elevation="@dimen/elevation_8dp"
-        android:stateListAnimator="@null">
+        style="@style/Toolbar.Flex">
 
         <include
             layout="@layout/inc_toolbar_note_content"

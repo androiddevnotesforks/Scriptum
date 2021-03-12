@@ -13,4 +13,6 @@
     <dimen name="recycler_vertical_margin">8dp</dimen> <!--2dp-->
     <dimen name="recycler_horizontal_margin">12dp</dimen> <!--8dp-4dp-->
 
+    <dimen name="toolbar_elevation">8dp</dimen>
+
 </resources>
