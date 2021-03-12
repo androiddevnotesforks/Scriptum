@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.basic.matcher.drawable
 
 import android.graphics.PorterDuff
+import android.graphics.drawable.VectorDrawable
 import android.view.View
 import android.widget.ImageView
 import androidx.annotation.AttrRes
@@ -29,6 +30,7 @@ class DrawableMatcher(
 
         val context = item.context ?: return false
         val expected = context.getDrawable(resourceId)?.mutate() ?: return false
+        val actual = item.drawable
 
         when {
             colorId != null -> {
@@ -39,7 +41,15 @@ class DrawableMatcher(
             }
         }
 
-        return compare(expected, item.drawable)
+        /**
+         * Vector may have different sizes (which declared not in xml), so need remember it and
+         * set size across [setSize].
+         */
+        if (expected is VectorDrawable || actual is VectorDrawable) {
+            setSize(item)
+        }
+
+        return compare(expected, actual)
     }
 
     override fun describeTo(description: Description?) {
