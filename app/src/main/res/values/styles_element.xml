@@ -40,6 +40,33 @@
         <item name="android:scrollbars">vertical</item>
     </style>
 
+    <!-- View -->
+
+    <style name="View" />
+
+    <style name="View.Color" />
+
+    <style name="View.Color.Vertical">
+        <item name="android:layout_width">@dimen/color_vertical_size</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@drawable/ic_color_indicator</item>
+    </style>
+
+    <style name="View.Color.Vertical.Start">
+        <item name="android:layout_marginEnd">@dimen/color_vertical_space</item>
+        <item name="android:layout_marginRight">@dimen/color_vertical_space</item>
+    </style>
+
+    <style name="View.Color.Vertical.End">
+        <item name="android:layout_marginStart">@dimen/color_vertical_space</item>
+        <item name="android:layout_marginLeft">@dimen/color_vertical_space</item>
+    </style>
+
+    <style name="View.Color.Horizontal">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/color_horizontal_size</item>
+    </style>
+
     <!-- Divider -->
 
     <style name="Divider">
@@ -117,19 +144,19 @@
     </style>
 
     <style name="Text.Info.Title">
-        <item name="android:padding">@dimen/layout_4dp</item>
-        <item name="android:layout_marginBottom">@dimen/layout_8dp</item>
+        <item name="android:padding">@dimen/info_title_inside_space</item>
+        <item name="android:layout_marginBottom">@dimen/info_content_bottom_space</item>
         <item name="android:textAppearance">@style/Appearance.Main</item>
-        <item name="android:textSize">@dimen/text_18sp</item>
+        <item name="android:textSize">@dimen/info_title_text</item>
     </style>
 
     <style name="Text.Info.Details">
-        <item name="android:paddingLeft">@dimen/layout_16dp</item>
-        <item name="android:paddingTop">@dimen/layout_4dp</item>
-        <item name="android:paddingRight">@dimen/layout_16dp</item>
-        <item name="android:paddingBottom">@dimen/layout_4dp</item>
+        <item name="android:paddingLeft">@dimen/info_details_horizontal_inside_space</item>
+        <item name="android:paddingTop">@dimen/info_details_vertical_inside_space</item>
+        <item name="android:paddingRight">@dimen/info_details_horizontal_inside_space</item>
+        <item name="android:paddingBottom">@dimen/info_details_vertical_inside_space</item>
         <item name="android:textAppearance">@style/Appearance.Second</item>
-        <item name="android:textSize">@dimen/text_14sp</item>
+        <item name="android:textSize">@dimen/info_details_text</item>
     </style>
 
     <style name="Text.SmallCard"/>
@@ -348,9 +375,9 @@
     <style name="Image"/>
 
     <style name="Image.Info">
-        <item name="android:layout_width">@dimen/icon_128dp</item>
-        <item name="android:layout_height">@dimen/icon_128dp</item>
-        <item name="android:layout_marginBottom">@dimen/layout_8dp</item>
+        <item name="android:layout_width">@dimen/info_icon_size</item>
+        <item name="android:layout_height">@dimen/info_icon_size</item>
+        <item name="android:layout_marginBottom">@dimen/info_content_bottom_space</item>
     </style>
 
     <style name="Image.Logo">
@@ -358,29 +385,6 @@
         <item name="android:layout_height">@dimen/icon_128dp</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:src">@mipmap/img_logo</item>
-    </style>
-
-    <style name="Image.Color"/>
-
-    <style name="Image.Color.Vertical">
-        <item name="android:layout_width">@dimen/layout_8dp</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:background">@drawable/ic_color_indicator</item>
-    </style>
-
-    <style name="Image.Color.Vertical.Start">
-        <item name="android:layout_marginEnd">@dimen/layout_8dp</item>
-        <item name="android:layout_marginRight">@dimen/layout_8dp</item>
-    </style>
-
-    <style name="Image.Color.Vertical.End">
-        <item name="android:layout_marginStart">@dimen/layout_8dp</item>
-        <item name="android:layout_marginLeft">@dimen/layout_8dp</item>
-    </style>
-
-    <style name="Image.Color.Horizontal">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/layout_4dp</item>
     </style>
 
     <style name="Image.Note">

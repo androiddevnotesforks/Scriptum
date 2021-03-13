@@ -15,4 +15,16 @@
 
     <dimen name="toolbar_elevation">8dp</dimen>
 
+    <dimen name="color_vertical_size">8dp</dimen>
+    <dimen name="color_vertical_space">8dp</dimen>
+    <dimen name="color_horizontal_size">4dp</dimen>
+
+    <dimen name="info_icon_size">128dp</dimen>
+    <dimen name="info_content_bottom_space">8dp</dimen>
+    <dimen name="info_title_text">18sp</dimen>
+    <dimen name="info_title_inside_space">4dp</dimen>
+    <dimen name="info_details_text">14sp</dimen>
+    <dimen name="info_details_horizontal_inside_space">16dp</dimen>
+    <dimen name="info_details_vertical_inside_space">4dp</dimen>
+
 </resources>

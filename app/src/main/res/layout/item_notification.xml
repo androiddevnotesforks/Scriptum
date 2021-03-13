@@ -26,7 +26,7 @@
 
             <View
                 android:id="@+id/notification_color_view"
-                style="@style/Image.Color.Vertical.Start"
+                style="@style/View.Color.Vertical.Start"
                 android:importantForAccessibility="no"
                 app:indicatorColor='@{item.note.color}'
                 tools:visibility="visible" />

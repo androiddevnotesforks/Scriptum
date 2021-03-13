@@ -1,18 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="item_card_horizontal_margin">10dp</dimen> <!--2dp-->
-    <dimen name="item_card_vertical_margin">4.5dp</dimen> <!--0.5dp-->
-    <dimen name="item_card_elevation">2.5dp</dimen> <!--0.5dp-->
+    <dimen name="item_card_horizontal_margin">9dp</dimen> <!--1dp-->
+    <dimen name="item_card_vertical_margin">4.3dp</dimen> <!--0.3dp-->
+    <dimen name="item_card_elevation">2.3dp</dimen> <!--0.3dp-->
     <dimen name="item_card_radius">5dp</dimen> <!--1dp-->
 
-    <dimen name="text_note_card_margin">10dp</dimen> <!--2dp-->
-    <dimen name="text_note_card_elevation">2.5dp</dimen> <!--0.5dp-->
+    <dimen name="text_note_card_margin">9dp</dimen> <!--1dp-->
+    <dimen name="text_note_card_elevation">2.3dp</dimen> <!--0.3dp-->
     <dimen name="text_note_card_radius">5dp</dimen> <!--1dp-->
 
-    <dimen name="recycler_vertical_margin">6dp</dimen> <!--2dp-->
-    <dimen name="recycler_horizontal_margin">8dp</dimen> <!--8dp-->
+    <dimen name="recycler_vertical_margin">5dp</dimen> <!--1dp-->
+    <dimen name="recycler_horizontal_margin">6dp</dimen> <!--6dp-->
 
-    <dimen name="toolbar_elevation">8dp</dimen>
+    <dimen name="toolbar_elevation">8.3dp</dimen> <!--0.3dp-->
+
+    <dimen name="color_vertical_size">8dp</dimen> <!--TODO-->
+    <dimen name="color_vertical_space">8dp</dimen> <!--TODO-->
+    <dimen name="color_horizontal_size">5.5dp</dimen> <!--1.5dp-->
+
+    <dimen name="info_icon_size">152dp</dimen> <!--24dp-->
+    <dimen name="info_content_bottom_space">12dp</dimen> <!--4dp-->
+    <dimen name="info_title_text">20sp</dimen> <!--2sp-->
+    <dimen name="info_title_inside_space">6dp</dimen> <!--2dp-->
+    <dimen name="info_details_text">16sp</dimen> <!--2sp-->
+    <dimen name="info_details_horizontal_inside_space">24dp</dimen> <!--8dp-->
+    <dimen name="info_details_vertical_inside_space">6dp</dimen> <!--2dp-->
 
 </resources>

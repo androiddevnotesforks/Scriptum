@@ -33,7 +33,7 @@
 
         <View
             android:id="@+id/toolbar_note_color_view"
-            style="@style/Image.Color.Horizontal"
+            style="@style/View.Color.Horizontal"
             tools:background="@color/note_red_dark" />
 
     </com.google.android.material.appbar.AppBarLayout>
