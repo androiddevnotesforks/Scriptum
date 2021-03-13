@@ -52,11 +52,6 @@
         <item name="android:background">@drawable/ic_color_indicator</item>
     </style>
 
-    <style name="View.Color.Vertical.Start">
-        <item name="android:layout_marginEnd">@dimen/color_vertical_space</item>
-        <item name="android:layout_marginRight">@dimen/color_vertical_space</item>
-    </style>
-
     <style name="View.Color.Vertical.End">
         <item name="android:layout_marginStart">@dimen/color_vertical_space</item>
         <item name="android:layout_marginLeft">@dimen/color_vertical_space</item>
@@ -164,11 +159,11 @@
     <style name="Text.SmallCard.Title">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginBottom">@dimen/layout_8dp</item>
+        <item name="android:layout_marginBottom">@dimen/item_small_title_bottom_space</item>
         <item name="android:ellipsize">end</item>
-        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
         <item name="android:textAppearance">@style/Appearance.Main</item>
-        <item name="android:textSize">@dimen/text_16sp</item>
+        <item name="android:textSize">@dimen/item_small_title_text</item>
     </style>
 
     <style name="Text.SmallCard.Subtitle">
@@ -177,16 +172,16 @@
         <item name="android:ellipsize">end</item>
         <item name="android:singleLine">true</item>
         <item name="android:textAppearance">@style/Appearance.Second</item>
-        <item name="android:textSize">@dimen/text_14sp</item>
+        <item name="android:textSize">@dimen/item_small_subtitle_text</item>
     </style>
 
     <style name="Text.SmallCard.Indicator">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:ellipsize">end</item>
-        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
         <item name="android:textAppearance">@style/Appearance.Indicator</item>
-        <item name="android:textSize">@dimen/text_14sp</item>
+        <item name="android:textSize">@dimen/item_small_subtitle_text</item>
     </style>
 
     <style name="Text.About">
@@ -211,7 +206,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginBottom">@dimen/layout_8dp</item>
         <item name="android:ellipsize">end</item>
-        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
         <item name="android:textAppearance">@style/Appearance.Main</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/text_16sp</item>
@@ -223,7 +218,7 @@
         <item name="android:layout_gravity">center</item>
         <item name="android:layout_marginLeft">@dimen/layout_4dp</item>
         <item name="android:ellipsize">end</item>
-        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
         <item name="android:textAppearance">@style/Appearance.Main</item>
         <item name="android:textSize">@dimen/text_16sp</item>
     </style>
@@ -240,7 +235,7 @@
     <style name="Text.Note.Info">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:ellipsize">end</item>
-        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
         <item name="android:textAppearance">@style/Appearance.Second</item>
         <item name="android:textSize">@dimen/text_12sp</item>
     </style>
@@ -403,11 +398,11 @@
     </style>
 
     <style name="Image.Rank">
-        <item name="android:layout_width">@dimen/icon_16dp</item>
-        <item name="android:layout_height">@dimen/icon_16dp</item>
+        <item name="android:layout_width">@dimen/item_rank_indicator_icon_size</item>
+        <item name="android:layout_height">@dimen/item_rank_indicator_icon_size</item>
         <item name="android:layout_gravity">bottom</item>
-        <item name="android:layout_marginBottom">@dimen/layout_1dp</item>
-        <item name="android:layout_marginStart">@dimen/layout_1dp</item>
+        <item name="android:layout_marginBottom">@dimen/item_rank_indicator_space</item>
+        <item name="android:layout_marginStart">@dimen/item_rank_indicator_space</item>
         <item name="android:tint">?attr/clIndicator</item>
     </style>
 

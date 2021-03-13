@@ -12,14 +12,15 @@
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
         android:orientation="horizontal"
-        android:padding="@dimen/layout_8dp"
+        android:padding="@dimen/item_small_container_space"
         android:weightSum="1">
 
+        <!--TODO change size for another screens-->
         <sgtmelon.iconanim.widget.SwitchButton
             android:id="@+id/rank_visible_button"
             style="@style/Button.Medium"
-            android:layout_marginStart="@dimen/layout_4dp"
-            android:layout_marginEnd="@dimen/layout_8dp"
+            android:layout_marginStart="@dimen/item_small_content_horizontal_space"
+            android:layout_marginEnd="@dimen/item_small_content_between_space"
             app:srcDisable="@drawable/ic_visible_exit"
             app:srcDisableAnim="@drawable/anim_visible_exit"
             app:srcDisableColor="?attr/clContent"
@@ -32,8 +33,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/layout_4dp"
-            android:layout_marginEnd="@dimen/layout_4dp"
+            android:layout_marginHorizontal="@dimen/item_small_content_half_between_space"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -109,11 +109,12 @@
 
         </LinearLayout>
 
+        <!--TODO change size for another screens-->
         <ImageButton
             android:id="@+id/rank_cancel_button"
             style="@style/Button.Medium"
-            android:layout_marginStart="@dimen/layout_8dp"
-            android:layout_marginEnd="@dimen/layout_4dp"
+            android:layout_marginStart="@dimen/item_small_content_between_space"
+            android:layout_marginEnd="@dimen/item_small_content_horizontal_space"
             android:contentDescription="@null"
             android:tint="?attr/clContent"
             app:srcCompat="@drawable/ic_cancel_enter" />

@@ -19,6 +19,8 @@
     <dimen name="color_vertical_space">8dp</dimen>
     <dimen name="color_horizontal_size">4dp</dimen>
 
+    <!-- Info page dimens -->
+
     <dimen name="info_icon_size">128dp</dimen>
     <dimen name="info_content_bottom_space">8dp</dimen>
     <dimen name="info_title_text">18sp</dimen>
@@ -26,5 +28,23 @@
     <dimen name="info_details_text">14sp</dimen>
     <dimen name="info_details_horizontal_inside_space">16dp</dimen>
     <dimen name="info_details_vertical_inside_space">4dp</dimen>
+
+    <!-- Item dimens -->
+
+    <dimen name="item_rank_indicator_icon_size">16dp</dimen>
+    <dimen name="item_rank_indicator_space">1dp</dimen>
+
+    <dimen name="item_small_container_space">8dp</dimen>
+    <dimen name="item_small_content_horizontal_space">4dp</dimen>
+    <dimen name="item_small_content_between_space">8dp</dimen>
+    <dimen name="item_small_content_half_between_space">4dp</dimen>
+    <dimen name="item_small_title_text">16sp</dimen>
+    <dimen name="item_small_title_bottom_space">8dp</dimen>
+    <dimen name="item_small_subtitle_text">14sp</dimen>
+
+    <dimen name="item_color_indicator_space">0dp</dimen>
+
+    <dimen name="divider_small_space">4dp</dimen>
+    <dimen name="divider_middle_space">8dp</dimen>
 
 </resources>
