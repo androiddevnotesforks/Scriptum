@@ -15,8 +15,9 @@
         android:id="@+id/note_info_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/layout_8dp"
-        android:divider="@drawable/div_space_middle"
+        android:layout_marginTop="@dimen/item_content_between_space"
+        android:divider="@drawable/div_vertical_middle"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
         android:showDividers="middle">
 
@@ -31,8 +32,9 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:divider="@drawable/div_space_small"
+            android:divider="@drawable/div_vertical_small"
             android:orientation="horizontal"
+            android:gravity="center"
             android:showDividers="middle"
             android:visibility='@{!item.isVisible || item.haveAlarm() || item.status || item.haveRank() ? View.VISIBLE : View.GONE}'
             tools:visibility="visible">

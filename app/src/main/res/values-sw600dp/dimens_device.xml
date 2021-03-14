@@ -15,8 +15,8 @@
 
     <dimen name="toolbar_elevation">8.3dp</dimen> <!--0.3dp-->
 
-    <dimen name="color_vertical_size">8dp</dimen> <!--TODO-->
-    <dimen name="color_vertical_space">8dp</dimen> <!--TODO-->
+    <dimen name="color_vertical_size">8.5dp</dimen> <!--0.5dp-->
+    <dimen name="color_vertical_shift_space">1dp</dimen> <!--1dp-->
     <dimen name="color_horizontal_size">5.5dp</dimen> <!--1.5dp-->
 
     <!-- Info page dimens -->
@@ -31,19 +31,17 @@
 
     <!-- Item dimens -->
 
-    <dimen name="item_rank_indicator_icon_size">18dp</dimen> <!--2dp-->
-    <dimen name="item_rank_indicator_space">1.25dp</dimen> <!--0.25dp-->
+    <dimen name="item_container_space">10dp</dimen> <!--2dp-->
+    <dimen name="item_content_horizontal_space">5dp</dimen> <!--1dp-->
+    <dimen name="item_content_between_space">9dp</dimen> <!--1dp-->
+    <dimen name="item_content_half_between_space">4.5dp</dimen> <!--0.5dp-->
+    <dimen name="item_first_text">18sp</dimen> <!--2sp-->
+    <dimen name="item_second_text">16sp</dimen> <!--2dp-->
+    <dimen name="item_third_text">14sp</dimen> <!--2sp-->
+    <dimen name="item_small_icon_size">18dp</dimen> <!--2dp-->
+    <dimen name="item_count_icon_space">1.25dp</dimen> <!--0.25dp-->
 
-    <dimen name="item_small_container_space">10dp</dimen> <!--2dp-->
-    <dimen name="item_small_content_horizontal_space">5dp</dimen> <!--1dp-->
-    <dimen name="item_small_content_between_space">9dp</dimen> <!--1dp-->
-    <dimen name="item_small_content_half_between_space">4.5dp</dimen> <!--0.5dp-->
-    <dimen name="item_small_title_text">18sp</dimen> <!--2sp-->
-    <dimen name="item_small_title_bottom_space">8.5dp</dimen> <!--0.5dp-->
-    <dimen name="item_small_subtitle_text">16sp</dimen> <!--2dp-->
-
-    <dimen name="item_color_indicator_space">1dp</dimen> <!--1dp-->
-
+    <dimen name="divider_tiny_space">1dp</dimen> <!--1dp-->
     <dimen name="divider_small_space">5dp</dimen> <!--1dp-->
     <dimen name="divider_middle_space">9dp</dimen> <!--1dp-->
 

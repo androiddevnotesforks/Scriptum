@@ -21,14 +21,14 @@
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
             android:orientation="horizontal"
-            android:padding="@dimen/item_small_container_space"
+            android:padding="@dimen/item_container_space"
             android:weightSum="1">
 
             <View
                 android:id="@+id/notification_color_view"
                 style="@style/View.Color.Vertical"
-                android:layout_marginStart="@dimen/item_color_indicator_space"
-                android:layout_marginEnd="@dimen/item_small_content_between_space"
+                android:layout_marginStart="@dimen/color_vertical_shift_space"
+                android:layout_marginEnd="@dimen/item_content_between_space"
                 android:importantForAccessibility="no"
                 app:indicatorColor='@{item.note.color}'
                 tools:visibility="visible" />
@@ -37,7 +37,7 @@
                 android:id="@+id/notification_content_container"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/item_small_content_half_between_space"
+                android:layout_marginHorizontal="@dimen/item_content_half_between_space"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -59,8 +59,8 @@
             <ImageButton
                 android:id="@+id/notification_cancel_button"
                 style="@style/Button.Medium"
-                android:layout_marginStart="@dimen/item_small_content_between_space"
-                android:layout_marginEnd="@dimen/item_small_content_horizontal_space"
+                android:layout_marginStart="@dimen/item_content_between_space"
+                android:layout_marginEnd="@dimen/item_content_horizontal_space"
                 android:contentDescription='@{@string/description_item_notification_cancel + " " + (item.note.name.isEmpty() ? @string/hint_text_name : item.note.name) + @string/description_item_notification_cancel_at + " " + item.alarm.date}'
                 android:tint="?attr/clContent"
                 app:srcCompat="@drawable/ic_cancel_enter" />

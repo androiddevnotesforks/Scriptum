@@ -28,7 +28,7 @@
 
                 <View
                     android:id="@+id/note_roll_color_view"
-                    style="@style/View.Color.Vertical.End"
+                    style="@style/View.Color.Vertical.Note"
                     android:importantForAccessibility="no"
                     app:indicatorColor='@{item.color}' />
 

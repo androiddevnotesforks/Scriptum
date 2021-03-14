@@ -12,15 +12,15 @@
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
         android:orientation="horizontal"
-        android:padding="@dimen/item_small_container_space"
+        android:padding="@dimen/item_container_space"
         android:weightSum="1">
 
         <!--TODO change size for another screens-->
         <sgtmelon.iconanim.widget.SwitchButton
             android:id="@+id/rank_visible_button"
             style="@style/Button.Medium"
-            android:layout_marginStart="@dimen/item_small_content_horizontal_space"
-            android:layout_marginEnd="@dimen/item_small_content_between_space"
+            android:layout_marginStart="@dimen/item_content_horizontal_space"
+            android:layout_marginEnd="@dimen/item_content_between_space"
             app:srcDisable="@drawable/ic_visible_exit"
             app:srcDisableAnim="@drawable/anim_visible_exit"
             app:srcDisableColor="?attr/clContent"
@@ -33,7 +33,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/item_small_content_half_between_space"
+            android:layout_marginHorizontal="@dimen/item_content_half_between_space"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -45,7 +45,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:divider="@drawable/div_space_middle"
+                android:divider="@drawable/div_vertical_middle"
                 android:showDividers="middle">
 
                 <LinearLayout
@@ -53,7 +53,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:divider="@drawable/div_space_small"
+                    android:divider="@drawable/div_vertical_small"
                     android:showDividers="middle"
                     android:visibility="gone"
                     tools:visibility="visible">
@@ -113,8 +113,8 @@
         <ImageButton
             android:id="@+id/rank_cancel_button"
             style="@style/Button.Medium"
-            android:layout_marginStart="@dimen/item_small_content_between_space"
-            android:layout_marginEnd="@dimen/item_small_content_horizontal_space"
+            android:layout_marginStart="@dimen/item_content_between_space"
+            android:layout_marginEnd="@dimen/item_content_horizontal_space"
             android:contentDescription="@null"
             android:tint="?attr/clContent"
             app:srcCompat="@drawable/ic_cancel_enter" />
