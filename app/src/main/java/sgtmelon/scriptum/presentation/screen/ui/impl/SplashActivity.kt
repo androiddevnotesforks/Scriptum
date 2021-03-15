@@ -56,7 +56,7 @@ class SplashActivity : ParentActivity(), ISplashActivity {
         viewModel.onDestroy()
     }
 
-    override fun setStatusBarColor(@Theme theme: Int) {
+    override fun setStatusBarColor() {
         window.statusBarColor = AndroidColor.TRANSPARENT
     }
 

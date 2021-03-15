@@ -58,11 +58,11 @@ class IntroActivity : ParentActivity(), IIntroActivity, ViewPager.OnPageChangeLi
         viewModel.onDestroy()
     }
 
-    override fun setWindowBackground(@Theme theme: Int) {
+    override fun setWindowBackground() {
         window.setBackgroundDrawable(ColorDrawable(getColorAttr(R.attr.colorPrimaryDark)))
     }
 
-    override fun setStatusBarColor(@Theme theme: Int) {
+    override fun setStatusBarColor() {
         window.statusBarColor = Color.TRANSPARENT
     }
 

@@ -7,5 +7,6 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.AppViewModel
  * Interface for communication [IAppActivity] with [AppViewModel].
  */
 interface IAppViewModel : IParentViewModel {
+
     fun isThemeChange(): Boolean
 }

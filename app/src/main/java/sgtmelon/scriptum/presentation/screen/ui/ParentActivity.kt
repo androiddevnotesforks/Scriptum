@@ -80,17 +80,17 @@ abstract class ParentActivity : AppCompatActivity(), IAppActivity {
     override fun changeSystemColor() {
         val theme = getAppTheme() ?: return
 
-        setWindowBackground(theme)
-        setStatusBarColor(theme)
+        setWindowBackground()
+        setStatusBarColor()
         setNavigationColor(theme)
         setNavigationDividerColor(theme)
     }
 
-    protected open fun setWindowBackground(@Theme theme: Int) {
+    protected open fun setWindowBackground() {
         window.setBackgroundDrawable(ColorDrawable(getColorAttr(R.attr.clBackgroundWindow)))
     }
 
-    protected open fun setStatusBarColor(@Theme theme: Int) {
+    protected open fun setStatusBarColor() {
         window.statusBarColor = getColorAttr(R.attr.colorPrimaryDark)
     }
 

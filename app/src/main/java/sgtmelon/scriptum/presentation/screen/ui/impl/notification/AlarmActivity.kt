@@ -160,7 +160,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         viewModel.onSaveData(outState)
     }
 
-    override fun setStatusBarColor(@Theme theme: Int) {
+    override fun setStatusBarColor() {
         window.statusBarColor = AndroidColor.TRANSPARENT
     }
 
