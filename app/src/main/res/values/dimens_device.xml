@@ -12,6 +12,8 @@
 
     <dimen name="recycler_vertical_margin">4dp</dimen>
     <dimen name="recycler_horizontal_margin">0dp</dimen>
+    <dimen name="recycler_small_vertical_margin">4dp</dimen>
+    <dimen name="recycler_small_horizontal_margin">0dp</dimen>
 
     <dimen name="toolbar_elevation">8dp</dimen>
 
@@ -44,5 +46,11 @@
     <dimen name="divider_tiny_space">0dp</dimen>
     <dimen name="divider_small_space">4dp</dimen>
     <dimen name="divider_middle_space">8dp</dimen>
+
+    <!--  Item roll dimens  -->
+
+    <dimen name="item_roll_text">18sp</dimen>
+    <dimen name="item_roll_space">8dp</dimen>
+    <dimen name="item_roll_icon_horizontal_space">0dp</dimen>
 
 </resources>

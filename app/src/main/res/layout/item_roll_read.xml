@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="sgtmelon.scriptum.R"/>
-        <import type="android.view.View"/>
 
-        <variable name="item" type="sgtmelon.scriptum.domain.model.item.RollItem"/>
+        <import type="sgtmelon.scriptum.R" />
 
-        <variable name="isBin" type="boolean"/>
-        <variable name="isToggleCheck" type="boolean"/>
+        <import type="android.view.View" />
+
+        <variable
+            name="item"
+            type="sgtmelon.scriptum.domain.model.item.RollItem" />
+
+        <variable
+            name="isBin"
+            type="boolean" />
+
+        <variable
+            name="isToggleCheck"
+            type="boolean" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -24,32 +33,33 @@
 
             <FrameLayout
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:paddingHorizontal="@dimen/item_roll_icon_horizontal_space">
 
                 <CheckBox
-                        android:id="@+id/roll_read_check"
-                        style="@style/Button.Roll.Read"
-                        app:checkState='@{item.check}'
-                        app:checkToggle='@{isToggleCheck}'
-                        tools:checked="true"/>
+                    android:id="@+id/roll_read_check"
+                    style="@style/Button.Roll.Read"
+                    app:checkState='@{item.check}'
+                    app:checkToggle='@{isToggleCheck}'
+                    tools:checked="true" />
 
                 <ImageButton
-                        android:id="@+id/roll_read_click_button"
-                        style="@style/Container.Roll.Click"
-                        android:contentDescription='@{(item.check ? @string/description_item_roll_uncheck : @string/description_item_roll_check) + " " + item.text}'
-                        android:visibility='@{!isBin ? View.VISIBLE : View.INVISIBLE}'/>
+                    android:id="@+id/roll_read_click_button"
+                    style="@style/Container.Roll.Click"
+                    android:contentDescription='@{(item.check ? @string/description_item_roll_uncheck : @string/description_item_roll_check) + " " + item.text}'
+                    android:visibility='@{!isBin ? View.VISIBLE : View.INVISIBLE}' />
 
             </FrameLayout>
 
             <TextView
-                    android:id="@+id/roll_read_text"
-                    style="@style/EditText.Roll.Read"
-                    android:text='@{item.text}'
-                    app:boolExpression='@{!item.check}'
-                    app:falseColor='@{R.attr.clContrast}'
-                    app:trueColor='@{R.attr.clContent}'
-                    tools:text="@string/preview_note_roll"
-                    tools:textColor="?attr/clContrast"/>
+                android:id="@+id/roll_read_text"
+                style="@style/EditText.Roll.Read"
+                android:text='@{item.text}'
+                app:boolExpression='@{!item.check}'
+                app:falseColor='@{R.attr.clContrast}'
+                app:trueColor='@{R.attr.clContent}'
+                tools:text="@string/preview_note_roll"
+                tools:textColor="?attr/clContrast" />
 
         </LinearLayout>
 

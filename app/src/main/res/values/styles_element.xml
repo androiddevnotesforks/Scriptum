@@ -33,11 +33,21 @@
 
     <style name="RecyclerView">
         <item name="android:clipToPadding">false</item>
+        <item name="android:scrollbars">vertical</item>
+    </style>
+
+    <style name="RecyclerView.Normal">
         <item name="android:paddingBottom">@dimen/recycler_vertical_margin</item>
         <item name="android:paddingTop">@dimen/recycler_vertical_margin</item>
         <item name="android:paddingStart">@dimen/recycler_horizontal_margin</item>
         <item name="android:paddingEnd">@dimen/recycler_horizontal_margin</item>
-        <item name="android:scrollbars">vertical</item>
+    </style>
+
+    <style name="RecyclerView.Small">
+        <item name="android:paddingBottom">@dimen/recycler_small_vertical_margin</item>
+        <item name="android:paddingTop">@dimen/recycler_small_vertical_margin</item>
+        <item name="android:paddingStart">@dimen/recycler_small_horizontal_margin</item>
+        <item name="android:paddingEnd">@dimen/recycler_small_horizontal_margin</item>
     </style>
 
     <!-- View -->
@@ -303,8 +313,8 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@android:color/transparent</item>
-        <item name="android:padding">@dimen/layout_8dp</item>
-        <item name="android:textSize">@dimen/text_18sp</item>
+        <item name="android:padding">@dimen/item_roll_space</item>
+        <item name="android:textSize">@dimen/item_roll_text</item>
     </style>
 
     <style name="EditText.Roll.Read">
@@ -354,6 +364,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:clickable">false</item>
+        <item name="android:layout_gravity">center</item>
     </style>
 
 

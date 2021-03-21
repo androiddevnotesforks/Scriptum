@@ -73,7 +73,7 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/roll_note_recycler"
-                style="@style/RecyclerView"
+                style="@style/RecyclerView.Small"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility='@{isDataLoad ? View.VISIBLE : View.INVISIBLE}'

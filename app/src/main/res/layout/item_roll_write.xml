@@ -26,17 +26,18 @@
 
             <FrameLayout
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:paddingHorizontal="@dimen/item_roll_icon_horizontal_space">
 
                 <CheckBox
-                        android:id="@+id/roll_write_check"
-                        style="@style/Button.Roll.Write"/>
+                    android:id="@+id/roll_write_check"
+                    style="@style/Button.Roll.Write" />
 
                 <ImageButton
-                        android:id="@+id/roll_write_drag_button"
-                        style="@style/Container.Roll.Click"
-                        android:contentDescription='@{@string/description_item_roll_move + " " + descText}'
-                        app:boolExpression='@{item.check}'
+                    android:id="@+id/roll_write_drag_button"
+                    style="@style/Container.Roll.Click"
+                    android:contentDescription='@{@string/description_item_roll_move + " " + descText}'
+                    app:boolExpression='@{item.check}'
                         app:falseColor='@{R.attr.clContent}'
                         app:srcCompat="@drawable/ic_move"
                         app:trueColor='@{R.attr.clAccent}'
