@@ -39,9 +39,10 @@ interface ItemListener {
 
     interface Drag {
         /**
-         * Interface for control cards drag inside [EdgeDragTouchHelper].
+         * Interface for control cards drag inside [EdgeDragTouchHelper]. It helps to know
+         * which view can be dragged and which can't.
          */
-        fun setDrag(drag: Boolean)
+        fun setDrag(mayDrag: Boolean)
     }
 
 }

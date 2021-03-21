@@ -1322,12 +1322,16 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         viewModel.noteState = noteState
 
         every { noteState.isEdit } returns false
-        assertFalse(viewModel.onTouchGetDrag())
+        assertFalse(viewModel.onTouchGetDrag(mayDrag = false))
+        assertFalse(viewModel.onTouchGetDrag(mayDrag = true))
 
         every { noteState.isEdit } returns true
-        assertTrue(viewModel.onTouchGetDrag())
+        assertFalse(viewModel.onTouchGetDrag(mayDrag = false))
+        assertTrue(viewModel.onTouchGetDrag(mayDrag = true))
 
         verifySequence {
+            noteState.isEdit
+            noteState.isEdit
             noteState.isEdit
 
             noteState.isEdit

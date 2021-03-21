@@ -9,19 +9,25 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.main.RankViewModel
  * Control drag for [RankFragment], setup in [RankViewModel]
  */
 class RankTouchControl(private val callback: Callback) : EdgeDragTouchHelper(callback),
-        ItemListener.Drag {
+    ItemListener.Drag {
 
-    private var drag = false
+    /**
+     * Variable for control press section. If user use long press on view which don't uses
+     * for drag it will be false. More information you can find inside usage links for [setDrag].
+     */
+    private var mayDrag = false
 
-    override fun setDrag(drag: Boolean) {
-        this.drag = drag
+    override fun setDrag(mayDrag: Boolean) {
+        this.mayDrag = mayDrag
     }
 
     private var dragFrom: Int = RecyclerView.NO_POSITION
 
-    override fun getMovementFlags(recyclerView: RecyclerView,
-                                  viewHolder: RecyclerView.ViewHolder): Int {
-        val dragFlags = getDrag(isEnabled = callback.onTouchGetDrag() && drag)
+    override fun getMovementFlags(
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder
+    ): Int {
+        val dragFlags = getDrag(isEnabled = callback.onTouchGetDrag() && mayDrag)
         val swipeFlags = getSwipe(isEnabled = false)
 
         return makeMovementFlags(dragFlags, swipeFlags)
@@ -44,8 +50,10 @@ class RankTouchControl(private val callback: Callback) : EdgeDragTouchHelper(cal
         }
     }
 
-    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
-                        target: RecyclerView.ViewHolder): Boolean {
+    override fun onMove(
+        recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
+        target: RecyclerView.ViewHolder
+    ): Boolean {
         super.onMove(recyclerView, viewHolder, target)
 
         return callback.onTouchMove(viewHolder.adapterPosition, movePosition)

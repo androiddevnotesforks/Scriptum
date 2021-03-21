@@ -78,6 +78,7 @@ class RollWriteHolder(
         if (event.action == MotionEvent.ACTION_DOWN) {
             dragListener?.setDrag(v.id == dragView.id)
         }
+
         return false
     }
 

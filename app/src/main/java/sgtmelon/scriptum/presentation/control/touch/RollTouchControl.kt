@@ -13,20 +13,26 @@ import kotlin.math.min
  * Control drag and swipe for [RollNoteFragment], setup in [RollNoteViewModel]
  */
 class RollTouchControl(private val callback: Callback) : EdgeDragTouchHelper(callback),
-        ItemListener.Drag {
+    ItemListener.Drag {
 
-    private var drag = false
+    /**
+     * Variable for control press section. If user use long press on view which don't uses
+     * for drag it will be false. More information you can find inside usage links for [setDrag].
+     */
+    private var mayDrag = false
 
-    override fun setDrag(drag: Boolean) {
-        this.drag = drag
+    override fun setDrag(mayDrag: Boolean) {
+        this.mayDrag = mayDrag
     }
 
     private var dragFrom = RecyclerView.NO_POSITION
 
-    override fun getMovementFlags(recyclerView: RecyclerView,
-                                  viewHolder: RecyclerView.ViewHolder): Int {
-        val dragFlags = getDrag(isEnabled = callback.onTouchGetDrag() && drag)
-        val swipeFlags = getSwipe(isEnabled = callback.onTouchGetSwipe())
+    override fun getMovementFlags(
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder
+    ): Int {
+        val dragFlags = getDrag(callback.onTouchGetDrag(mayDrag))
+        val swipeFlags = getSwipe(callback.onTouchGetSwipe())
 
         return makeMovementFlags(dragFlags, swipeFlags)
     }
@@ -43,8 +49,10 @@ class RollTouchControl(private val callback: Callback) : EdgeDragTouchHelper(cal
         }
     }
 
-    override fun clearView(recyclerView: RecyclerView,
-                           viewHolder: RecyclerView.ViewHolder) {
+    override fun clearView(
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder
+    ) {
         super.clearView(recyclerView, viewHolder)
 
         val dragTo = viewHolder.adapterPosition
@@ -61,16 +69,21 @@ class RollTouchControl(private val callback: Callback) : EdgeDragTouchHelper(cal
         callback.onTouchSwiped(viewHolder.adapterPosition)
     }
 
-    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
-                        target: RecyclerView.ViewHolder) : Boolean {
+    override fun onMove(
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder,
+        target: RecyclerView.ViewHolder
+    ): Boolean {
         super.onMove(recyclerView, viewHolder, target)
 
         return callback.onTouchMove(viewHolder.adapterPosition, target.adapterPosition)
     }
 
-    override fun onChildDraw(c: Canvas, recyclerView: RecyclerView,
-                             viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float,
-                             actionState: Int, isCurrentlyActive: Boolean) {
+    override fun onChildDraw(
+        c: Canvas, recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float,
+        actionState: Int, isCurrentlyActive: Boolean
+    ) {
         if (actionState.isSwipe()) {
             /**
              * End position where alpha equal 0
@@ -95,8 +108,11 @@ class RollTouchControl(private val callback: Callback) : EdgeDragTouchHelper(cal
          * Need for check permission for drag/swipe.
          *
          * @return true if user can drag/swipe cards.
+         *
+         * Pass here [mayDrag] need for detect when to close keyboard. Otherwise keyboard will
+         * be closed on long press inside rollEnter.
          */
-        fun onTouchGetDrag(): Boolean
+        fun onTouchGetDrag(mayDrag: Boolean): Boolean
         fun onTouchGetSwipe(): Boolean
 
         /**
