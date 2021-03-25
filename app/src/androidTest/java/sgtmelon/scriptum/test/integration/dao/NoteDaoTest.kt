@@ -35,22 +35,31 @@ class NoteDaoTest : ParentRoomTest() {
         isStatus = Random.nextBoolean()
     )
 
+    private val fourthNote = NoteEntity(
+        id = 4, create = DATE_2, change = DATE_5, text = "789", name = "",
+        color = 4, type = NoteType.TEXT, rankId = 2, rankPs = 2, isBin = false,
+        isStatus = Random.nextBoolean()
+    )
+
     private fun inNoteDao(func: suspend INoteDao.() -> Unit) = inRoomTest { noteDao.apply { func() } }
 
     private suspend fun INoteDao.insertAllTo(isBin: Boolean) {
         insert(firstNote.copy(isBin = isBin))
         insert(secondNote.copy(isBin = isBin))
         insert(thirdNote.copy(isBin = isBin))
+        insert(fourthNote.copy(isBin = isBin))
 
         assertNotNull(get(firstNote.id))
         assertNotNull(get(secondNote.id))
         assertNotNull(get(thirdNote.id))
+        assertNotNull(get(fourthNote.id))
     }
 
     private suspend fun INoteDao.updateAllTo(isBin: Boolean) {
         update(firstNote.copy(isBin = isBin))
         update(secondNote.copy(isBin = isBin))
         update(thirdNote.copy(isBin = isBin))
+        update(fourthNote.copy(isBin = isBin))
     }
 
     // Dao common functions
@@ -71,7 +80,7 @@ class NoteDaoTest : ParentRoomTest() {
     @Test fun deleteByList() = inNoteDao {
         insertAllTo(isBin = false)
 
-        val list = listOf(firstNote, secondNote, thirdNote)
+        val list = listOf(firstNote, secondNote, thirdNote, fourthNote)
 
         delete(list)
         for (it in list) {
@@ -145,11 +154,11 @@ class NoteDaoTest : ParentRoomTest() {
         insertAllTo(isBin = false)
 
         assertEquals(listOf(firstNote, thirdNote), get(listOf(
-                firstNote.id, thirdNote.id, Random.nextLong()
+            firstNote.id, thirdNote.id, Random.nextLong()
         )))
 
         assertEquals(listOf(secondNote.copy(isBin = false), thirdNote), get(listOf(
-                secondNote.id, thirdNote.id
+            secondNote.id, thirdNote.id
         )))
     }
 
@@ -168,13 +177,13 @@ class NoteDaoTest : ParentRoomTest() {
         insertAllTo(isBin = false)
 
         assertEquals(arrayListOf(
-                thirdNote, secondNote.copy(isBin = false), firstNote
+            thirdNote, secondNote.copy(isBin = false), firstNote
         ), getByChange(bin = false))
 
         updateAllTo(isBin = true)
 
         assertEquals(arrayListOf(
-                thirdNote.copy(isBin = true), secondNote, firstNote.copy(isBin = true)
+            thirdNote.copy(isBin = true), secondNote, firstNote.copy(isBin = true)
         ), getByChange(bin = true))
     }
 
@@ -182,13 +191,13 @@ class NoteDaoTest : ParentRoomTest() {
         insertAllTo(isBin = false)
 
         assertEquals(arrayListOf(
-                thirdNote, secondNote.copy(isBin = false), firstNote
+            thirdNote, secondNote.copy(isBin = false), firstNote
         ), getByCreate(bin = false))
 
         updateAllTo(isBin = true)
 
         assertEquals(arrayListOf(
-                thirdNote.copy(isBin = true), secondNote, firstNote.copy(isBin = true)
+            thirdNote.copy(isBin = true), secondNote, firstNote.copy(isBin = true)
         ), getByCreate(bin = true))
     }
 
@@ -196,13 +205,16 @@ class NoteDaoTest : ParentRoomTest() {
         insertAllTo(isBin = false)
 
         assertEquals(arrayListOf(
-                firstNote, secondNote.copy(isBin = false), thirdNote
+            firstNote, secondNote.copy(isBin = false), fourthNote, thirdNote
         ), getByRank(bin = false))
 
         updateAllTo(isBin = true)
 
         assertEquals(arrayListOf(
-                firstNote.copy(isBin = true), secondNote, thirdNote.copy(isBin = true)
+            firstNote.copy(isBin = true),
+            secondNote,
+            fourthNote.copy(isBin = true),
+            thirdNote.copy(isBin = true)
         ), getByRank(bin = true))
     }
 
@@ -210,13 +222,16 @@ class NoteDaoTest : ParentRoomTest() {
         insertAllTo(isBin = false)
 
         assertEquals(arrayListOf(
-                secondNote.copy(isBin = false), firstNote, thirdNote
+            secondNote.copy(isBin = false), firstNote, thirdNote, fourthNote
         ), getByColor(bin = false))
 
         updateAllTo(isBin = true)
 
         assertEquals(arrayListOf(
-                secondNote, firstNote.copy(isBin = true), thirdNote.copy(isBin = true)
+            secondNote,
+            firstNote.copy(isBin = true),
+            thirdNote.copy(isBin = true),
+            fourthNote.copy(isBin = true)
         ), getByColor(bin = true))
     }
 }

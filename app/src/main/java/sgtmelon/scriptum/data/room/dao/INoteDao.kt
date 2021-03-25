@@ -66,13 +66,13 @@ interface INoteDao {
 
     @Query(value = """SELECT * FROM NOTE_TABLE
         WHERE NT_BIN = :bin
-        ORDER BY NT_RANK_PS ASC, DATE(NT_CREATE) DESC, TIME(NT_CREATE) DESC
+        ORDER BY NT_RANK_PS ASC, DATE(NT_CHANGE) DESC, TIME(NT_CHANGE) DESC
     """)
     suspend fun getByRank(bin: Boolean): List<NoteEntity>
 
     @Query(value = """SELECT * FROM NOTE_TABLE
         WHERE NT_BIN = :bin
-        ORDER BY NT_COLOR ASC, DATE(NT_CREATE) DESC, TIME(NT_CREATE) DESC
+        ORDER BY NT_COLOR ASC, DATE(NT_CHANGE) DESC, TIME(NT_CHANGE) DESC
     """)
     suspend fun getByColor(bin: Boolean): List<NoteEntity>
 
