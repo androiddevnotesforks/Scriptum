@@ -49,7 +49,13 @@ class NotesContentTest : ParentNoteContentTest(MainPage.NOTES) {
     @Test override fun progressIndicator4() = super.progressIndicator4()
 
 
-    @Test override fun rankSort() = super.rankSort()
+    @Test override fun rankTextLight() = super.rankTextLight()
+
+    @Test override fun rankTextDark() = super.rankTextDark()
+
+    @Test override fun rankRollLight() = super.rankRollLight()
+
+    @Test override fun rankRollDark() = super.rankRollDark()
 
     @Test override fun rankTextCancel() = super.rankTextCancel()
 

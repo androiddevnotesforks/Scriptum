@@ -19,15 +19,15 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
 
     private val lastArray = arrayListOf(LAST_HOUR, LAST_DAY, LAST_MONTH, LAST_YEAR)
 
-    open fun colorTextLight() = startColorTest(NoteType.TEXT, Theme.LIGHT)
+    open fun colorTextLight() = startColorTest(Theme.LIGHT, NoteType.TEXT)
 
-    open fun colorTextDark() = startColorTest(NoteType.TEXT, Theme.DARK)
+    open fun colorTextDark() = startColorTest(Theme.DARK, NoteType.TEXT)
 
-    open fun colorRollLight() = startColorTest(NoteType.ROLL, Theme.LIGHT)
+    open fun colorRollLight() = startColorTest(Theme.LIGHT, NoteType.ROLL)
 
-    open fun colorRollDark() = startColorTest(NoteType.ROLL, Theme.DARK)
+    open fun colorRollDark() = startColorTest(Theme.DARK, NoteType.ROLL)
 
-    private fun startColorTest(type: NoteType, @Theme theme: Int) {
+    private fun startColorTest(@Theme theme: Int, type: NoteType) {
         preferenceRepo.theme = theme
         preferenceRepo.sort = Sort.COLOR
 
@@ -162,18 +162,29 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
     }
 
 
-    open fun rankSort() {
+    open fun rankTextLight() = startRankTest(Theme.LIGHT, NoteType.TEXT)
+
+    open fun rankTextDark() = startRankTest(Theme.DARK, NoteType.TEXT)
+
+    open fun rankRollLight() = startRankTest(Theme.LIGHT, NoteType.ROLL)
+
+    open fun rankRollDark() = startRankTest(Theme.DARK, NoteType.ROLL)
+
+    private fun startRankTest(@Theme theme: Int, type: NoteType) {
+        preferenceRepo.theme = theme
         preferenceRepo.sort = Sort.RANK
 
-        onAssertList(ArrayList<NoteItem>().apply {
-            add(when (page) {
-                MainPage.RANK -> throwPageError()
-                MainPage.NOTES -> data.insertText(data.textNote)
-                MainPage.BIN -> data.insertTextToBin(data.textNote)
-            })
-        })
+        onAssertList(ArrayList<NoteItem>().also { list ->
+            for (i in 10 downTo 0) {
+                val rankEntity = data.rankEntity.apply { position = i }
 
-        TODO(reason = "#TEST write test")
+                list.add(when (page) {
+                    MainPage.RANK -> throwPageError()
+                    MainPage.NOTES -> data.insertRankForNotes(rankEntity, type).second
+                    MainPage.BIN -> data.insertRankForBin(rankEntity, type).second
+                })
+            }
+        }.reversed())
     }
 
     open fun rankTextCancel() = startRankCancelTest(NoteType.TEXT)
