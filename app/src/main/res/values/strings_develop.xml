@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="pref_header_prints" translatable="false">Print of entities</string>
+    <string name="pref_header_screen" translatable="false">Open screen</string>
+
+    <!---->
+
+    <string name="pref_title_prints_rank" translatable="false">Rank entities</string>
+    <string name="pref_title_prints_note" translatable="false">Note entities</string>
+    <string name="pref_title_prints_roll" translatable="false">Roll entities</string>
+    <string name="pref_title_prints_alarm" translatable="false">Alarm entities</string>
+    <string name="pref_title_prints_roll_visible" translatable="false">Roll visible entities</string>
+    <string name="pref_title_prints_pref" translatable="false">Preference keys</string>
+
+    <string name="pref_title_screen_intro" translatable="false">Intro screen</string>
+    <string name="pref_title_screen_alarm" translatable="false">Alarm screen</string>
+
+    <string name="pref_title_other_reset" translatable="false">Reset preference</string>
+
+    <!---->
+
+    <string name="pref_summary_screen_intro" translatable="false">Application will be restarted</string>
+    <string name="pref_summary_screen_alarm" translatable="false">Open alarm for random note</string>
+    <string name="pref_summary_other_reset" translatable="false">Keys will be set by default</string>
+
+    <!---->
+
+    <string name="pref_key_prints_rank" translatable="false">key_prints_rank</string>
+    <string name="pref_key_prints_note" translatable="false">key_prints_note</string>
+    <string name="pref_key_prints_roll" translatable="false">key_prints_roll</string>
+    <string name="pref_key_prints_alarm" translatable="false">key_prints_alarm</string>
+    <string name="pref_key_prints_roll_visible" translatable="false">key_prints_roll_visible</string>
+    <string name="pref_key_prints_pref" translatable="false">key_prints_pref</string>
+
+    <string name="pref_key_screen_intro" translatable="false">key_screen_intro</string>
+    <string name="pref_key_screen_alarm" translatable="false">key_screen_alarm</string>
+
+    <string name="pref_key_other_reset" translatable="false">pref_key_other_reset</string>
+
+</resources>

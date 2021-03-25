@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:key="screen">
+
+    <PreferenceCategory android:title="@string/pref_header_prints"
+        app:iconSpaceReserved="false">
+
+        <Preference android:key="@string/pref_key_prints_rank"
+            android:title="@string/pref_title_prints_rank"
+            app:iconSpaceReserved="false" />
+
+        <Preference android:key="@string/pref_key_prints_note"
+            android:title="@string/pref_title_prints_note"
+            app:iconSpaceReserved="false" />
+
+        <Preference android:key="@string/pref_key_prints_roll"
+            android:title="@string/pref_title_prints_roll"
+            app:iconSpaceReserved="false" />
+
+        <Preference android:key="@string/pref_key_prints_alarm"
+            android:title="@string/pref_title_prints_alarm"
+            app:iconSpaceReserved="false" />
+
+        <Preference android:key="@string/pref_key_prints_roll_visible"
+            android:title="@string/pref_title_prints_roll_visible"
+            app:iconSpaceReserved="false" />
+
+        <Preference android:key="@string/pref_key_prints_pref"
+            android:title="@string/pref_title_prints_pref"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_header_screen"
+        app:iconSpaceReserved="false">
+
+        <Preference android:key="@string/pref_key_screen_intro"
+            android:summary="@string/pref_summary_screen_intro"
+            android:title="@string/pref_title_screen_intro"
+            app:iconSpaceReserved="false" />
+
+        <Preference android:key="@string/pref_key_screen_alarm"
+            android:summary="@string/pref_summary_screen_alarm"
+            android:title="@string/pref_title_screen_alarm"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_header_other"
+        app:iconSpaceReserved="false">
+
+        <Preference android:key="@string/pref_key_other_reset"
+            android:summary="@string/pref_summary_other_reset"
+            android:title="@string/pref_title_other_reset"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

@@ -101,7 +101,7 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
     private val melodyControl: IMelodyControl by lazy { MelodyControl(activity) }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        setPreferencesFromResource(R.xml.preference, rootKey)
+        setPreferencesFromResource(R.xml.preference_main, rootKey)
 
         ScriptumApplication.component.getPreferenceBuilder().set(fragment = this).build()
                 .inject(fragment = this)
