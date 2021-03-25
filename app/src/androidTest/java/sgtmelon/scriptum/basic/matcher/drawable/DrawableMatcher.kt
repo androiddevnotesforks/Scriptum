@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.basic.matcher.drawable
 
 import android.graphics.PorterDuff
-import android.graphics.drawable.VectorDrawable
 import android.view.View
 import android.widget.ImageView
 import androidx.annotation.AttrRes
@@ -47,9 +46,9 @@ class DrawableMatcher(
          *
          * TODO check on wide screen devices. It sometimes not work.
          */
-        if (expected is VectorDrawable || actual is VectorDrawable) {
-            setSize(item)
-        }
+        //        if (expected is VectorDrawable || actual is VectorDrawable) {
+        //            setSize(item)
+        //        }
 
         return compare(expected, actual)
     }
