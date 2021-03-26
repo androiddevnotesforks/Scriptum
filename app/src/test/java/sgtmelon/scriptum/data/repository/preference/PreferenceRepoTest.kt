@@ -481,6 +481,39 @@ class PreferenceRepoTest : ParentTest() {
     }
 
 
+    @Test fun getIsDeveloper() {
+        val keyValue = nextString()
+        val defValue = Random.nextBoolean()
+        val value = Random.nextBoolean()
+
+        every { keyProvider.isDeveloper } returns keyValue
+        every { defProvider.isDeveloper } returns defValue
+        every { preferences.getBoolean(keyValue, defValue) } returns value
+        assertEquals(value, preferenceRepo.isDeveloper)
+
+        verifySequence {
+            keyProvider.isDeveloper
+            defProvider.isDeveloper
+
+            preferences.getBoolean(keyValue, defValue)
+        }
+    }
+
+    @Test fun setIsDeveloper() {
+        val keyValue = nextString()
+        val value = Random.nextBoolean()
+
+        every { keyProvider.isDeveloper } returns keyValue
+        preferenceRepo.isDeveloper = value
+
+        verifySequence {
+            preferences.edit()
+            keyProvider.isDeveloper
+            preferencesEditor.putBoolean(keyValue, value)
+            preferencesEditor.apply()
+        }
+    }
+
     @Test fun clear() {
         preferenceRepo.clear()
 

@@ -54,7 +54,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
     }
 
 
-    @Test fun onSetup() {
+    @Test fun onSetup_forUser() {
         val themeSummary = nextString()
         val sortSummary = nextString()
         val defaultColorSummary = nextString()
@@ -66,6 +66,8 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
         coEvery { spyViewModel.setupMelody() } returns Unit
         coEvery { spyViewModel.setupBackup() } returns Unit
+
+        every { interactor.isDeveloper } returns false
 
         every { interactor.getThemeSummary() } returns themeSummary
         every { interactor.getSortSummary() } returns sortSummary
@@ -85,9 +87,80 @@ class PreferenceViewModelTest : ParentViewModelTest() {
                 setupApp()
                 setupBackup()
                 setupNote()
-                setupNotification()
                 setupSave()
+                setupNotification()
                 setupOther()
+
+                interactor.isDeveloper
+
+                interactor.getThemeSummary()
+                updateThemeSummary(themeSummary)
+
+                updateExportEnabled(isEnabled = false)
+                updateImportEnabled(isEnabled = false)
+
+                interactor.getSortSummary()
+                updateSortSummary(sortSummary)
+                interactor.getDefaultColorSummary()
+                updateColorSummary(defaultColorSummary)
+                interactor.getSavePeriodSummary()
+                updateSavePeriodSummary(savePeriodSummary)
+
+                interactor.getRepeatSummary()
+                updateRepeatSummary(repeatSummary)
+                signalInteractor.typeCheck
+                interactor.getSignalSummary(typeCheck)
+                updateSignalSummary(signalSummary)
+
+                updateMelodyGroupEnabled(isEnabled = false)
+                interactor.getVolumeSummary()
+                updateVolumeSummary(volumeSummary)
+            }
+
+            spyViewModel.setupBackup()
+            spyViewModel.setupMelody()
+        }
+    }
+
+    @Test fun onSetup_forDeveloper() {
+        val themeSummary = nextString()
+        val sortSummary = nextString()
+        val defaultColorSummary = nextString()
+        val savePeriodSummary = nextString()
+        val repeatSummary = nextString()
+        val typeCheck = BooleanArray(size = 3) { Random.nextBoolean() }
+        val signalSummary = nextString()
+        val volumeSummary = nextString()
+
+        coEvery { spyViewModel.setupMelody() } returns Unit
+        coEvery { spyViewModel.setupBackup() } returns Unit
+
+        every { interactor.isDeveloper } returns true
+
+        every { interactor.getThemeSummary() } returns themeSummary
+        every { interactor.getSortSummary() } returns sortSummary
+        every { interactor.getDefaultColorSummary() } returns defaultColorSummary
+        every { interactor.getSavePeriodSummary() } returns savePeriodSummary
+        every { interactor.getRepeatSummary() } returns repeatSummary
+        every { signalInteractor.typeCheck } returns typeCheck
+        every { interactor.getSignalSummary(typeCheck) } returns signalSummary
+        every { interactor.getVolumeSummary() } returns volumeSummary
+
+        spyViewModel.onSetup()
+
+        coVerifySequence {
+            spyViewModel.onSetup()
+
+            callback.apply {
+                setupApp()
+                setupBackup()
+                setupNote()
+                setupSave()
+                setupNotification()
+                setupOther()
+
+                interactor.isDeveloper
+                setupDeveloper()
 
                 interactor.getThemeSummary()
                 updateThemeSummary(themeSummary)
@@ -739,4 +812,23 @@ class PreferenceViewModelTest : ParentViewModelTest() {
         }
     }
 
+
+    @Test fun onUnlockDeveloper() {
+        every { interactor.isDeveloper } returns false
+        every { interactor.isDeveloper = true } returns Unit
+        viewModel.onUnlockDeveloper()
+
+        every { interactor.isDeveloper } returns true
+        viewModel.onUnlockDeveloper()
+
+        verifySequence {
+            interactor.isDeveloper
+            interactor.isDeveloper = true
+            callback.setupDeveloper()
+            callback.showToast(R.string.pref_toast_developer_unlock)
+
+            interactor.isDeveloper
+            callback.showToast(R.string.pref_toast_developer_already)
+        }
+    }
 }

@@ -350,4 +350,29 @@ class PreferenceInteractorTest : ParentInteractorTest() {
             spyInteractor.getVolumeSummary()
         }
     }
+
+
+    @Test fun getIsDeveloper() {
+        val value = Random.nextBoolean()
+
+        every { preferenceRepo.isDeveloper } returns value
+
+        assertEquals(value, interactor.isDeveloper)
+
+        verifySequence {
+            preferenceRepo.isDeveloper
+        }
+    }
+
+    @Test fun setIsDeveloper() {
+        val value = Random.nextBoolean()
+
+        every { preferenceRepo.isDeveloper = value } returns Unit
+
+        interactor.isDeveloper = value
+
+        verifySequence {
+            preferenceRepo.isDeveloper = value
+        }
+    }
 }

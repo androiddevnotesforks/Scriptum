@@ -41,6 +41,7 @@ class PreferenceProviderTest : ParentTest() {
         val melodyUri = nextString()
         val volume = nextString()
         val volumeIncrease = nextString()
+        val isDeveloper = nextString()
 
         every { resources.getString(R.string.pref_key_first_start) } returns firstStart
         every { resources.getString(R.string.pref_key_app_theme) } returns theme
@@ -55,6 +56,7 @@ class PreferenceProviderTest : ParentTest() {
         every { resources.getString(R.string.pref_key_alarm_melody) } returns melodyUri
         every { resources.getString(R.string.pref_key_alarm_volume) } returns volume
         every { resources.getString(R.string.pref_key_alarm_increase) } returns volumeIncrease
+        every { resources.getString(R.string.pref_key_other_developer) } returns isDeveloper
 
         assertEquals(firstStart, providerKey.firstStart)
         assertEquals(theme, providerKey.theme)
@@ -69,6 +71,7 @@ class PreferenceProviderTest : ParentTest() {
         assertEquals(melodyUri, providerKey.melodyUri)
         assertEquals(volume, providerKey.volume)
         assertEquals(volumeIncrease, providerKey.volumeIncrease)
+        assertEquals(isDeveloper, providerKey.isDeveloper)
 
         verifySequence {
             resources.getString(R.string.pref_key_first_start)
@@ -84,6 +87,7 @@ class PreferenceProviderTest : ParentTest() {
             resources.getString(R.string.pref_key_alarm_melody)
             resources.getString(R.string.pref_key_alarm_volume)
             resources.getString(R.string.pref_key_alarm_increase)
+            resources.getString(R.string.pref_key_other_developer)
         }
     }
 
@@ -101,6 +105,7 @@ class PreferenceProviderTest : ParentTest() {
         val melodyUri = nextString()
         val volume = Random.nextInt()
         val volumeIncrease = Random.nextBoolean()
+        val isDeveloper = Random.nextBoolean()
 
         every { resources.getBoolean(R.bool.pref_first_start) } returns firstStart
         every { resources.getInteger(R.integer.pref_app_theme) } returns theme
@@ -115,6 +120,7 @@ class PreferenceProviderTest : ParentTest() {
         every { resources.getString(R.string.pref_alarm_melody) } returns melodyUri
         every { resources.getInteger(R.integer.pref_alarm_volume) } returns volume
         every { resources.getBoolean(R.bool.pref_alarm_increase) } returns volumeIncrease
+        every { resources.getBoolean(R.bool.pref_other_developer) } returns isDeveloper
 
         assertEquals(firstStart, providerDef.firstStart)
         assertEquals(theme, providerDef.theme)
@@ -129,6 +135,7 @@ class PreferenceProviderTest : ParentTest() {
         assertEquals(melodyUri, providerDef.melodyUri)
         assertEquals(volume, providerDef.volume)
         assertEquals(volumeIncrease, providerDef.volumeIncrease)
+        assertEquals(isDeveloper, providerDef.isDeveloper)
 
         verifySequence {
             resources.getBoolean(R.bool.pref_first_start)
@@ -144,6 +151,7 @@ class PreferenceProviderTest : ParentTest() {
             resources.getString(R.string.pref_alarm_melody)
             resources.getInteger(R.integer.pref_alarm_volume)
             resources.getBoolean(R.bool.pref_alarm_increase)
+            resources.getBoolean(R.bool.pref_other_developer)
         }
     }
 }
