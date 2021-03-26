@@ -39,9 +39,13 @@ class PreferenceViewModel(
             setupApp()
             setupBackup()
             setupNote()
-            setupNotification()
             setupSave()
+            setupNotification()
             setupOther()
+
+            if (interactor.isDeveloper) {
+                setupDeveloper()
+            }
 
             updateThemeSummary(interactor.getThemeSummary())
 
@@ -314,6 +318,16 @@ class PreferenceViewModel(
         callback?.updateVolumeSummary(interactor.updateVolume(value))
     }
 
+
+    override fun onUnlockDeveloper() {
+        if (interactor.isDeveloper) {
+            callback?.showToast(R.string.pref_toast_developer_already)
+        } else {
+            interactor.isDeveloper = true
+            callback?.setupDeveloper()
+            callback?.showToast(R.string.pref_toast_developer_unlock)
+        }
+    }
 
     private fun takeTrue(func: () -> Unit): Boolean {
         func()

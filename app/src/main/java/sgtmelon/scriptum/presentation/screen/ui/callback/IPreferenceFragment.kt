@@ -27,11 +27,13 @@ interface IPreferenceFragment : BindControl.NoteBridge.NotifyAll, BindControl.In
 
     fun setupNote()
 
-    fun setupNotification()
-
     fun setupSave()
 
+    fun setupNotification()
+
     fun setupOther()
+
+    fun setupDeveloper()
 
 
     fun updateThemeSummary(summary: String?)

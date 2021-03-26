@@ -59,4 +59,7 @@ interface IPreferenceViewModel : IParentViewModel {
 
     fun onResultVolume(value: Int)
 
+
+    fun onUnlockDeveloper()
+
 }

@@ -73,11 +73,14 @@ class PreferenceRepo(
         set(value) = edit { putBoolean(key.volumeIncrease, value) }
 
 
+    override var isDeveloper: Boolean
+        get() = preferences.getBoolean(key.isDeveloper, def.isDeveloper)
+        set(value) = edit { putBoolean(key.isDeveloper, value) }
+
     override fun clear() = edit { clear() }
 
 
     private fun edit(func: SharedPreferences.Editor.() -> Unit) {
         preferences.edit().apply(func).apply()
     }
-
 }

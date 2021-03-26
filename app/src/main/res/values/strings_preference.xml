@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Preference headers -->
+
     <string name="pref_header_app">App</string>
     <string name="pref_header_backup">Backup</string>
     <string name="pref_header_note">Notes</string>
     <string name="pref_header_alarm">Notifications</string>
     <string name="pref_header_other">Other</string>
 
-    <!---->
+    <string name="pref_header_prints" translatable="false">Print of entities</string>
+    <string name="pref_header_screen" translatable="false">Open screen</string>
+
+    <!-- Preference titles -->
 
     <string name="pref_title_app_theme">Theme</string>
 
     <string name="pref_title_backup_export">Save data to file</string>
     <string name="pref_title_backup_import">Load data from file</string>
-    <string name="pref_title_backup_import_skip">Skip identical notes</string>
+    <string name="pref_title_backup_skip">Skip identical notes</string>
 
     <string name="pref_title_note_sort">Sort notes</string>
     <string name="pref_title_note_color">Default note color</string>
@@ -29,13 +34,26 @@
 
     <string name="pref_title_other_rate">Rate</string>
     <string name="pref_title_other_privacy_policy">Privacy policy</string>
+    <string name="pref_title_other_developer">Developer settings</string>
     <string name="pref_title_other_about">About app</string>
 
-    <!---->
+    <string name="pref_title_prints_rank" translatable="false">Rank entities</string>
+    <string name="pref_title_prints_note" translatable="false">Note entities</string>
+    <string name="pref_title_prints_roll" translatable="false">Roll entities</string>
+    <string name="pref_title_prints_alarm" translatable="false">Alarm entities</string>
+    <string name="pref_title_prints_visible" translatable="false">Roll visible entities</string>
+    <string name="pref_title_prints_pref" translatable="false">Preference keys</string>
+
+    <string name="pref_title_screen_intro" translatable="false">Intro screen</string>
+    <string name="pref_title_screen_alarm" translatable="false">Alarm screen</string>
+
+    <string name="pref_title_other_reset" translatable="false">Reset preference</string>
+
+    <!-- Preference summaries -->
 
     <string name="pref_summary_app_theme">Selected theme</string>
 
-    <string name="pref_summary_backup_import_skip">
+    <string name="pref_summary_backup_skip">
         If an application already has a note with the same name and content, then it will not be
         added during backup.
     </string>
@@ -52,7 +70,11 @@
     <string name="pref_summary_alarm_volume">Percent of volume: %d%%</string>
     <string name="pref_summary_alarm_increase">Smooth volume increase from minimum</string>
 
-    <!---->
+    <string name="pref_summary_screen_intro" translatable="false">Application will be restarted</string>
+    <string name="pref_summary_screen_alarm" translatable="false">Open alarm for random note</string>
+    <string name="pref_summary_other_reset" translatable="false">Keys will be set by default</string>
+
+    <!-- Preference arrays -->
 
     <string-array name="pref_text_app_theme">
         <item>Light</item>
@@ -100,7 +122,7 @@
         <item>Vibration</item>
     </string-array>
 
-    <!---->
+    <!-- Preference toast text -->
 
     <string name="pref_toast_import_error">Sorry, but file is damaged! :(</string>
     <string name="pref_toast_import_result">Data successfully added! :)</string>
@@ -118,30 +140,46 @@
         Sorry, you don\'t have any melodies! :(
     </string>
 
-    <!---->
+    <string name="pref_toast_developer_unlock">Hello! You become a developer!</string>
+    <string name="pref_toast_developer_already">There is nothing to catch anymore :)</string>
+
+    <!-- Preference keys -->
 
     <string name="pref_key_first_start" translatable="false">key_first_start</string>
 
-    <string name="pref_key_app_theme" translatable="false">key_theme</string>
+    <string name="pref_key_app_theme" translatable="false">key_app_theme</string>
 
     <string name="pref_key_backup_export" translatable="false">key_backup_export</string>
     <string name="pref_key_backup_import" translatable="false">key_backup_import</string>
-    <string name="pref_key_backup_import_skip" translatable="false">key_backup_import_skip</string>
+    <string name="pref_key_backup_skip" translatable="false">key_backup_skip</string>
 
     <string name="pref_key_note_sort" translatable="false">key_note_sort</string>
-    <string name="pref_key_note_color" translatable="false">key_color</string>
-    <string name="pref_key_note_pause" translatable="false">key_save_pause</string>
-    <string name="pref_key_note_auto" translatable="false">key_save_auto</string>
-    <string name="pref_key_note_time" translatable="false">key_save_time</string>
+    <string name="pref_key_note_color" translatable="false">key_note_color</string>
+    <string name="pref_key_note_pause" translatable="false">key_note_pause</string>
+    <string name="pref_key_note_auto" translatable="false">key_note_auto</string>
+    <string name="pref_key_note_time" translatable="false">key_note_time</string>
 
     <string name="pref_key_alarm_repeat" translatable="false">key_alarm_repeat</string>
     <string name="pref_key_alarm_signal" translatable="false">key_alarm_signal</string>
     <string name="pref_key_alarm_melody" translatable="false">key_alarm_melody</string>
     <string name="pref_key_alarm_volume" translatable="false">key_alarm_volume</string>
     <string name="pref_key_alarm_increase" translatable="false">key_alarm_increase</string>
-    
-    <string name="pref_key_other_rate" translatable="false">key_rate</string>
-    <string name="pref_key_other_privacy_policy" translatable="false">key_privacy_policy</string>
-    <string name="pref_key_other_about" translatable="false">key_about</string>
+
+    <string name="pref_key_other_rate" translatable="false">key_other_rate</string>
+    <string name="pref_key_other_privacy_policy" translatable="false">key_other_privacy_policy</string>
+    <string name="pref_key_other_developer" translatable="false">key_other_developer</string>
+    <string name="pref_key_other_about" translatable="false">key_other_about</string>
+
+    <string name="pref_key_prints_rank" translatable="false">key_prints_rank</string>
+    <string name="pref_key_prints_note" translatable="false">key_prints_note</string>
+    <string name="pref_key_prints_roll" translatable="false">key_prints_roll</string>
+    <string name="pref_key_prints_alarm" translatable="false">key_prints_alarm</string>
+    <string name="pref_key_prints_visible" translatable="false">key_prints_visible</string>
+    <string name="pref_key_prints_pref" translatable="false">key_prints_pref</string>
+
+    <string name="pref_key_screen_intro" translatable="false">key_screen_intro</string>
+    <string name="pref_key_screen_alarm" translatable="false">key_screen_alarm</string>
+
+    <string name="pref_key_other_reset" translatable="false">pref_key_other_reset</string>
 
 </resources>

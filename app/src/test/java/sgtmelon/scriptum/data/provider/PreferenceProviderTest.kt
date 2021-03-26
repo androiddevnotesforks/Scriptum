@@ -44,7 +44,7 @@ class PreferenceProviderTest : ParentTest() {
 
         every { resources.getString(R.string.pref_key_first_start) } returns firstStart
         every { resources.getString(R.string.pref_key_app_theme) } returns theme
-        every { resources.getString(R.string.pref_key_backup_import_skip) } returns importSkip
+        every { resources.getString(R.string.pref_key_backup_skip) } returns importSkip
         every { resources.getString(R.string.pref_key_note_sort) } returns sort
         every { resources.getString(R.string.pref_key_note_color) } returns defaultColor
         every { resources.getString(R.string.pref_key_note_pause) } returns pauseSaveOn
@@ -73,7 +73,7 @@ class PreferenceProviderTest : ParentTest() {
         verifySequence {
             resources.getString(R.string.pref_key_first_start)
             resources.getString(R.string.pref_key_app_theme)
-            resources.getString(R.string.pref_key_backup_import_skip)
+            resources.getString(R.string.pref_key_backup_skip)
             resources.getString(R.string.pref_key_note_sort)
             resources.getString(R.string.pref_key_note_color)
             resources.getString(R.string.pref_key_note_pause)

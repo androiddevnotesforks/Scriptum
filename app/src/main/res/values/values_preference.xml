@@ -35,6 +35,7 @@
     <integer name="pref_alarm_volume">75</integer>
     <bool name="pref_alarm_increase">false</bool>
 
+    <bool name="pref_other_developer">false</bool>
     <integer name="pref_develop_open">9</integer>
 
 </resources>

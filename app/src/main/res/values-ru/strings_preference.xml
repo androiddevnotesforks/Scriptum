@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Preference headers -->
+
     <string name="pref_header_app">Приложение</string>
     <string name="pref_header_backup">Резервное копирование</string>
     <string name="pref_header_note">Заметки</string>
     <string name="pref_header_alarm">Уведомления</string>
     <string name="pref_header_other">Прочее</string>
 
-    <!---->
+    <!-- Preference titles -->
 
     <string name="pref_title_app_theme">Тема</string>
 
     <string name="pref_title_backup_export">Сохранить данные в файл</string>
     <string name="pref_title_backup_import">Загрузить данные из файла</string>
-    <string name="pref_title_backup_import_skip">Пропускать одинаковые заметки</string>
+    <string name="pref_title_backup_skip">Пропускать одинаковые заметки</string>
 
     <string name="pref_title_note_sort">Сортировка заметок</string>
     <string name="pref_title_note_color">Цвет заметки по умолчанию</string>
@@ -29,13 +31,14 @@
 
     <string name="pref_title_other_rate">Оценить</string>
     <string name="pref_title_other_privacy_policy">Политика конфиденциальности</string>
+    <string name="pref_title_other_developer">Настройки разработчика</string>
     <string name="pref_title_other_about">О приложении</string>
 
-    <!---->
+    <!-- Preference summaries -->
 
     <string name="pref_summary_app_theme">Выбранная тема</string>
 
-    <string name="pref_summary_backup_import_skip">
+    <string name="pref_summary_backup_skip">
         Если в приложении уже есть заметка с таким же именем и содержанием, то она не будет
         добавлена при резервном копировании
     </string>
@@ -60,7 +63,7 @@
         Плавное увеличение громкости начиная с минимальной
     </string>
 
-    <!---->
+    <!-- Preference arrays -->
 
     <string-array name="pref_text_app_theme">
         <item>Светлая</item>
@@ -108,7 +111,7 @@
         <item>Вибрация</item>
     </string-array>
 
-    <!---->
+    <!-- Preference toast text -->
 
     <string name="pref_toast_import_error">Извините, но файл повреждён! :(</string>
     <string name="pref_toast_import_result">Данные успешно добавлены! :)</string>
@@ -125,5 +128,8 @@
     <string name="pref_toast_melody_empty">
         Извините, у вас нет ни одной мелодии! :(
     </string>
+
+    <string name="pref_toast_developer_unlock">Привет! Ты стал разработчиком!</string>
+    <string name="pref_toast_developer_already">Тут больше нечего ловить :)</string>
 
 </resources>

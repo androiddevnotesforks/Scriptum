@@ -15,7 +15,7 @@ class PreferenceProvider {
         val firstStart: String = resources.getString(R.string.pref_key_first_start)
         val theme: String = resources.getString(R.string.pref_key_app_theme)
 
-        val importSkip: String = resources.getString(R.string.pref_key_backup_import_skip)
+        val importSkip: String = resources.getString(R.string.pref_key_backup_skip)
 
         val sort: String = resources.getString(R.string.pref_key_note_sort)
         val defaultColor: String = resources.getString(R.string.pref_key_note_color)
@@ -28,6 +28,8 @@ class PreferenceProvider {
         val melodyUri: String = resources.getString(R.string.pref_key_alarm_melody)
         val volume: String = resources.getString(R.string.pref_key_alarm_volume)
         val volumeIncrease: String = resources.getString(R.string.pref_key_alarm_increase)
+
+        val isDeveloper: String = resources.getString(R.string.pref_key_other_developer)
     }
 
     class Def(resources: Resources) {
@@ -47,6 +49,8 @@ class PreferenceProvider {
         val melodyUri: String = resources.getString(R.string.pref_alarm_melody)
         val volume: Int = resources.getInteger(R.integer.pref_alarm_volume)
         val volumeIncrease: Boolean = resources.getBoolean(R.bool.pref_alarm_increase)
+
+        val isDeveloper: Boolean = resources.getBoolean(R.bool.pref_other_developer)
     }
 
 }

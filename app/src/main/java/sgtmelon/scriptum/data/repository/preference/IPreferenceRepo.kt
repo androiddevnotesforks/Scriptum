@@ -40,6 +40,8 @@ interface IPreferenceRepo {
     var volumeIncrease: Boolean
 
 
+    var isDeveloper: Boolean
+
     fun clear()
 
 }

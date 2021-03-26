@@ -82,7 +82,7 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
 
     private val exportPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_backup_export)) }
     private val importPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_backup_import)) }
-    private val importSkipPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_backup_import_skip)) }
+    private val importSkipPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_backup_skip)) }
 
     private val sortPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_note_sort)) }
     private val colorPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_note_color)) }
@@ -94,6 +94,8 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
     private val volumePreference by lazy { findPreference<Preference>(getString(R.string.pref_key_alarm_volume)) }
 
     private val savePeriodPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_note_time)) }
+
+    private val developerPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_other_developer)) }
 
     //endregion
 
@@ -255,6 +257,15 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
         colorDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }
 
+    override fun setupSave() {
+        savePeriodPreference?.setOnPreferenceClickListener { viewModel.onClickSaveTime() }
+
+        savePeriodDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
+            viewModel.onResultSaveTime(savePeriodDialog.check)
+        }
+        savePeriodDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+    }
+
     override fun setupNotification() {
         repeatPreference?.setOnPreferenceClickListener { viewModel.onClickRepeat() }
 
@@ -304,15 +315,6 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
         volumeDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }
 
-    override fun setupSave() {
-        savePeriodPreference?.setOnPreferenceClickListener { viewModel.onClickSaveTime() }
-
-        savePeriodDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            viewModel.onResultSaveTime(savePeriodDialog.check)
-        }
-        savePeriodDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
-    }
-
     override fun setupOther() {
         findPreference<Preference>(getString(R.string.pref_key_other_rate))?.setOnPreferenceClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
@@ -347,10 +349,18 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
             openState.clear()
 
             if (aboutDialog.hideOpen) {
-                startActivity(Intent(activity, DevelopActivity::class.java))
+                viewModel.onUnlockDeveloper()
             }
 
             aboutDialog.clear()
+        }
+    }
+
+    override fun setupDeveloper() {
+        developerPreference?.isVisible = true
+        developerPreference?.setOnPreferenceClickListener {
+            startActivity(Intent(activity, DevelopActivity::class.java))
+            return@setOnPreferenceClickListener true
         }
     }
 

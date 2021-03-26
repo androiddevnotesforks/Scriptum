@@ -105,4 +105,10 @@ class PreferenceInteractor(
         preferenceRepo.volume = value
         return getVolumeSummary()
     }
+
+    override var isDeveloper: Boolean
+        get() = preferenceRepo.isDeveloper
+        set(value) {
+            preferenceRepo.isDeveloper = value
+        }
 }

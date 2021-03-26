@@ -1,135 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:key="screen">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:key="screen">
 
-    <PreferenceCategory android:title="@string/pref_header_app" app:iconSpaceReserved="false">
+    <PreferenceCategory android:title="@string/pref_header_app"
+        app:iconSpaceReserved="false">
 
-        <Preference
-                android:defaultValue="@integer/pref_app_theme"
-                android:key="@string/pref_key_app_theme"
-                android:summary="@string/pref_summary_app_theme"
-                android:title="@string/pref_title_app_theme"
-                app:iconSpaceReserved="false"/>
-
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="@string/pref_header_backup" app:iconSpaceReserved="false">
-
-        <Preference
-                android:key="@string/pref_key_backup_export"
-                android:title="@string/pref_title_backup_export"
-                app:iconSpaceReserved="false"/>
-
-        <Preference
-                android:key="@string/pref_key_backup_import"
-                android:title="@string/pref_title_backup_import"
-                app:iconSpaceReserved="false"/>
-
-        <SwitchPreferenceCompat
-                android:defaultValue="@bool/pref_backup_import_skip"
-                android:key="@string/pref_key_backup_import_skip"
-                android:summary="@string/pref_summary_backup_import_skip"
-                android:title="@string/pref_title_backup_import_skip"
-                app:iconSpaceReserved="false"/>
+        <Preference android:defaultValue="@integer/pref_app_theme"
+            android:key="@string/pref_key_app_theme"
+            android:summary="@string/pref_summary_app_theme"
+            android:title="@string/pref_title_app_theme"
+            app:iconSpaceReserved="false" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_header_note" app:iconSpaceReserved="false">
+    <PreferenceCategory android:title="@string/pref_header_backup"
+        app:iconSpaceReserved="false">
 
-        <Preference
-                android:defaultValue="@integer/pref_note_sort"
-                android:key="@string/pref_key_note_sort"
-                android:summary="@string/pref_summary_note_sort"
-                android:title="@string/pref_title_note_sort"
-                app:iconSpaceReserved="false"/>
+        <Preference android:key="@string/pref_key_backup_export"
+            android:title="@string/pref_title_backup_export"
+            app:iconSpaceReserved="false" />
 
-        <Preference
-                android:defaultValue="@integer/pref_note_color"
-                android:key="@string/pref_key_note_color"
-                android:summary="@string/pref_summary_note_color"
-                android:title="@string/pref_title_note_color"
-                app:iconSpaceReserved="false"/>
+        <Preference android:key="@string/pref_key_backup_import"
+            android:title="@string/pref_title_backup_import"
+            app:iconSpaceReserved="false" />
 
-        <SwitchPreferenceCompat
-                android:defaultValue="@bool/pref_note_save_pause"
-                android:key="@string/pref_key_note_pause"
-                android:summary="@string/pref_summary_note_save_pause"
-                android:title="@string/pref_title_note_save_pause"
-                app:iconSpaceReserved="false"/>
-
-        <SwitchPreferenceCompat
-                android:defaultValue="@bool/pref_note_save_auto"
-                android:key="@string/pref_key_note_auto"
-                android:summary="@string/pref_summary_note_save_auto"
-                android:title="@string/pref_title_note_save_auto"
-                app:iconSpaceReserved="false"/>
-
-        <Preference
-                android:defaultValue="@integer/pref_note_save_time"
-                android:key="@string/pref_key_note_time"
-                android:summary="@string/pref_summary_note_save_period"
-                android:title="@string/pref_title_note_save_period"
-                app:dependency="@string/pref_key_note_auto"
-                app:iconSpaceReserved="false"/>
+        <SwitchPreferenceCompat android:defaultValue="@bool/pref_backup_import_skip"
+            android:key="@string/pref_key_backup_skip"
+            android:summary="@string/pref_summary_backup_skip"
+            android:title="@string/pref_title_backup_skip"
+            app:iconSpaceReserved="false" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_header_alarm" app:iconSpaceReserved="false">
+    <PreferenceCategory android:title="@string/pref_header_note"
+        app:iconSpaceReserved="false">
 
-        <Preference
-                android:defaultValue="@integer/pref_alarm_repeat"
-                android:key="@string/pref_key_alarm_repeat"
-                android:summary="@string/pref_summary_alarm_repeat"
-                android:title="@string/pref_title_alarm_repeat"
-                app:iconSpaceReserved="false"/>
+        <Preference android:defaultValue="@integer/pref_note_sort"
+            android:key="@string/pref_key_note_sort"
+            android:summary="@string/pref_summary_note_sort"
+            android:title="@string/pref_title_note_sort"
+            app:iconSpaceReserved="false" />
 
-        <Preference
-                android:defaultValue="@integer/pref_alarm_signal"
-                android:key="@string/pref_key_alarm_signal"
-                android:summary="@string/pref_summary_alarm_signal"
-                android:title="@string/pref_title_alarm_signal"
-                app:iconSpaceReserved="false"/>
+        <Preference android:defaultValue="@integer/pref_note_color"
+            android:key="@string/pref_key_note_color"
+            android:summary="@string/pref_summary_note_color"
+            android:title="@string/pref_title_note_color"
+            app:iconSpaceReserved="false" />
 
-        <Preference
-                android:key="@string/pref_key_alarm_melody"
-                android:summary="@string/pref_summary_alarm_melody"
-                android:title="@string/pref_title_alarm_melody"
-                app:iconSpaceReserved="false"/>
+        <SwitchPreferenceCompat android:defaultValue="@bool/pref_note_save_pause"
+            android:key="@string/pref_key_note_pause"
+            android:summary="@string/pref_summary_note_save_pause"
+            android:title="@string/pref_title_note_save_pause"
+            app:iconSpaceReserved="false" />
 
-        <Preference
-                android:defaultValue="@integer/pref_alarm_volume"
-                android:key="@string/pref_key_alarm_volume"
-                android:summary="@string/pref_summary_alarm_volume"
-                android:title="@string/pref_title_alarm_volume"
-                app:iconSpaceReserved="false"/>
+        <SwitchPreferenceCompat android:defaultValue="@bool/pref_note_save_auto"
+            android:key="@string/pref_key_note_auto"
+            android:summary="@string/pref_summary_note_save_auto"
+            android:title="@string/pref_title_note_save_auto"
+            app:iconSpaceReserved="false" />
 
-        <SwitchPreferenceCompat
-                android:defaultValue="@bool/pref_alarm_increase"
-                android:key="@string/pref_key_alarm_increase"
-                android:summary="@string/pref_summary_alarm_increase"
-                android:title="@string/pref_title_alarm_increase"
-                app:iconSpaceReserved="false"/>
+        <Preference android:defaultValue="@integer/pref_note_save_time"
+            android:key="@string/pref_key_note_time"
+            android:summary="@string/pref_summary_note_save_period"
+            android:title="@string/pref_title_note_save_period"
+            app:dependency="@string/pref_key_note_auto"
+            app:iconSpaceReserved="false" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_header_other" app:iconSpaceReserved="false">
+    <PreferenceCategory android:title="@string/pref_header_alarm"
+        app:iconSpaceReserved="false">
 
-        <Preference
-                android:key="@string/pref_key_other_rate"
-                android:title="@string/pref_title_other_rate"
-                app:iconSpaceReserved="false"/>
+        <Preference android:defaultValue="@integer/pref_alarm_repeat"
+            android:key="@string/pref_key_alarm_repeat"
+            android:summary="@string/pref_summary_alarm_repeat"
+            android:title="@string/pref_title_alarm_repeat"
+            app:iconSpaceReserved="false"
+            app:isPreferenceVisible="false" />
 
-        <Preference
-                android:key="@string/pref_key_other_privacy_policy"
-                android:title="@string/pref_title_other_privacy_policy"
-                app:iconSpaceReserved="false"/>
+        <Preference android:defaultValue="@integer/pref_alarm_signal"
+            android:key="@string/pref_key_alarm_signal"
+            android:summary="@string/pref_summary_alarm_signal"
+            android:title="@string/pref_title_alarm_signal"
+            app:iconSpaceReserved="false" />
 
-        <Preference
-                android:key="@string/pref_key_other_about"
-                android:title="@string/pref_title_other_about"
-                app:iconSpaceReserved="false"/>
+        <Preference android:key="@string/pref_key_alarm_melody"
+            android:summary="@string/pref_summary_alarm_melody"
+            android:title="@string/pref_title_alarm_melody"
+            app:iconSpaceReserved="false" />
+
+        <Preference android:defaultValue="@integer/pref_alarm_volume"
+            android:key="@string/pref_key_alarm_volume"
+            android:summary="@string/pref_summary_alarm_volume"
+            android:title="@string/pref_title_alarm_volume"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat android:defaultValue="@bool/pref_alarm_increase"
+            android:key="@string/pref_key_alarm_increase"
+            android:summary="@string/pref_summary_alarm_increase"
+            android:title="@string/pref_title_alarm_increase"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_header_other"
+        app:iconSpaceReserved="false">
+
+        <Preference android:key="@string/pref_key_other_rate"
+            android:title="@string/pref_title_other_rate"
+            app:iconSpaceReserved="false" />
+
+        <Preference android:key="@string/pref_key_other_privacy_policy"
+            android:title="@string/pref_title_other_privacy_policy"
+            app:iconSpaceReserved="false" />
+
+        <Preference android:key="@string/pref_key_other_developer"
+            app:iconSpaceReserved="false"
+            app:isPreferenceVisible="@bool/pref_other_developer"
+            app:title="@string/pref_title_other_developer" />
+
+        <Preference android:key="@string/pref_key_other_about"
+            android:title="@string/pref_title_other_about"
+            app:iconSpaceReserved="false" />
 
     </PreferenceCategory>
 

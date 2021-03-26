@@ -57,4 +57,7 @@ interface IPreferenceInteractor {
     fun getVolumeSummary(): String
 
     fun updateVolume(value: Int): String
+
+
+    var isDeveloper: Boolean
 }
