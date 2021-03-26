@@ -62,6 +62,7 @@ class SplashViewModelTest : ParentViewModelTest() {
             interactor.firstStart
             callback.openIntroScreen()
 
+            bundle.getString(OpenFrom.INTENT_KEY)
             interactor.firstStart
             callback.openIntroScreen()
         }
@@ -78,6 +79,7 @@ class SplashViewModelTest : ParentViewModelTest() {
             interactor.firstStart
             callback.openMainScreen()
 
+            bundle.getString(OpenFrom.INTENT_KEY)
             interactor.firstStart
             callback.openMainScreen()
         }
@@ -89,7 +91,11 @@ class SplashViewModelTest : ParentViewModelTest() {
 
         viewModel.onSetup(bundle)
 
-        verifySequence { callback.openAlarmScreen(ID) }
+        verifySequence {
+            bundle.getString(OpenFrom.INTENT_KEY)
+            bundle.getLong(Note.Intent.ID, Note.Default.ID)
+            callback.openAlarmScreen(ID)
+        }
     }
 
     @Test fun onSetup_bindStart() {
@@ -100,7 +106,13 @@ class SplashViewModelTest : ParentViewModelTest() {
 
         viewModel.onSetup(bundle)
 
-        verifySequence { callback.openNoteScreen(ID, COLOR, TYPE) }
+        verifySequence {
+            bundle.getString(OpenFrom.INTENT_KEY)
+            bundle.getLong(Note.Intent.ID, Note.Default.ID)
+            bundle.getInt(Note.Intent.COLOR, Note.Default.COLOR)
+            bundle.getInt(Note.Intent.TYPE, Note.Default.TYPE)
+            callback.openNoteScreen(ID, COLOR, TYPE)
+        }
     }
 
     @Test fun onSetup_notificationStart() {
@@ -108,7 +120,10 @@ class SplashViewModelTest : ParentViewModelTest() {
 
         viewModel.onSetup(bundle)
 
-        verifySequence { callback.openNotificationScreen() }
+        verifySequence {
+            bundle.getString(OpenFrom.INTENT_KEY)
+            callback.openNotificationScreen()
+        }
     }
 
 
