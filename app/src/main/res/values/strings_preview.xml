@@ -32,12 +32,6 @@
         25 авг. 2020г в 10:30 | Дата уведомления не может быть такой длинной, но всё же
     </string>
 
-    <!-- Activity develop test -->
-    <string name="preview_note_data_base" translatable="false">Note Data Base:</string>
-    <string name="preview_roll_data_base" translatable="false">Roll Data Base:</string>
-    <string name="preview_rank_data_base" translatable="false">Rank Data Base:</string>
-    <string name="preview_preference" translatable="false">Preference:</string>
-
     <string name="preview_version" translatable="false">1.0-0-g000000</string>
 
 </resources>

@@ -56,7 +56,7 @@ class PreferenceProviderTest : ParentTest() {
         every { resources.getString(R.string.pref_key_alarm_melody) } returns melodyUri
         every { resources.getString(R.string.pref_key_alarm_volume) } returns volume
         every { resources.getString(R.string.pref_key_alarm_increase) } returns volumeIncrease
-        every { resources.getString(R.string.pref_key_other_developer) } returns isDeveloper
+        every { resources.getString(R.string.pref_key_other_develop) } returns isDeveloper
 
         assertEquals(firstStart, providerKey.firstStart)
         assertEquals(theme, providerKey.theme)
@@ -87,7 +87,7 @@ class PreferenceProviderTest : ParentTest() {
             resources.getString(R.string.pref_key_alarm_melody)
             resources.getString(R.string.pref_key_alarm_volume)
             resources.getString(R.string.pref_key_alarm_increase)
-            resources.getString(R.string.pref_key_other_developer)
+            resources.getString(R.string.pref_key_other_develop)
         }
     }
 
@@ -120,7 +120,7 @@ class PreferenceProviderTest : ParentTest() {
         every { resources.getString(R.string.pref_alarm_melody) } returns melodyUri
         every { resources.getInteger(R.integer.pref_alarm_volume) } returns volume
         every { resources.getBoolean(R.bool.pref_alarm_increase) } returns volumeIncrease
-        every { resources.getBoolean(R.bool.pref_other_developer) } returns isDeveloper
+        every { resources.getBoolean(R.bool.pref_other_develop) } returns isDeveloper
 
         assertEquals(firstStart, providerDef.firstStart)
         assertEquals(theme, providerDef.theme)
@@ -151,7 +151,7 @@ class PreferenceProviderTest : ParentTest() {
             resources.getString(R.string.pref_alarm_melody)
             resources.getInteger(R.integer.pref_alarm_volume)
             resources.getBoolean(R.bool.pref_alarm_increase)
-            resources.getBoolean(R.bool.pref_other_developer)
+            resources.getBoolean(R.bool.pref_other_develop)
         }
     }
 }

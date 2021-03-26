@@ -1,12 +1,7 @@
 package sgtmelon.scriptum.presentation.screen.ui.impl
 
 import android.os.Bundle
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ProgressBar
-import android.widget.ScrollView
-import android.widget.TextView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.InsetsDir
 import sgtmelon.scriptum.extension.doOnApplyWindowInsets
@@ -34,7 +29,7 @@ class DevelopActivity : AppActivity(), IDevelopActivity {
     @Inject internal lateinit var viewModel: IDevelopViewModel
 
     private val parentContainer by lazy { findViewById<ViewGroup>(R.id.develop_parent_container) }
-    private val introButton by lazy { findViewById<Button?>(R.id.develop_intro_button) }
+//    private val introButton by lazy { findViewById<Button?>(R.id.develop_intro_button) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         ScriptumApplication.component.getDevelopBuilder().set(activity = this).build()
@@ -45,7 +40,7 @@ class DevelopActivity : AppActivity(), IDevelopActivity {
 
         viewModel.onSetup()
 
-        introButton?.setOnClickListener { viewModel.onIntroClick() }
+        //        introButton?.setOnClickListener { viewModel.onIntroClick() }
     }
 
     override fun onDestroy() {
@@ -64,31 +59,31 @@ class DevelopActivity : AppActivity(), IDevelopActivity {
     }
 
     override fun fillAboutNoteTable(data: String) {
-        findViewById<ProgressBar?>(R.id.develop_note_progress)?.visibility = View.GONE
-        findViewById<ScrollView?>(R.id.develop_note_scroll)?.visibility = View.VISIBLE
-
-        findViewById<TextView?>(R.id.develop_note_text)?.text = data
+        //        findViewById<ProgressBar?>(R.id.develop_note_progress)?.visibility = View.GONE
+        //        findViewById<ScrollView?>(R.id.develop_note_scroll)?.visibility = View.VISIBLE
+        //
+        //        findViewById<TextView?>(R.id.develop_note_text)?.text = data
     }
 
     override fun fillAboutRollTable(data: String) {
-        findViewById<ProgressBar?>(R.id.develop_roll_progress)?.visibility = View.GONE
-        findViewById<ScrollView?>(R.id.develop_roll_scroll)?.visibility = View.VISIBLE
-
-        findViewById<TextView?>(R.id.develop_roll_text)?.text = data
+        //        findViewById<ProgressBar?>(R.id.develop_roll_progress)?.visibility = View.GONE
+        //        findViewById<ScrollView?>(R.id.develop_roll_scroll)?.visibility = View.VISIBLE
+        //
+        //        findViewById<TextView?>(R.id.develop_roll_text)?.text = data
     }
 
     override fun fillAboutRankTable(data: String) {
-        findViewById<ProgressBar?>(R.id.develop_rank_progress)?.visibility = View.GONE
-        findViewById<ScrollView?>(R.id.develop_rank_scroll)?.visibility = View.VISIBLE
-
-        findViewById<TextView?>(R.id.develop_rank_text)?.text = data
+        //        findViewById<ProgressBar?>(R.id.develop_rank_progress)?.visibility = View.GONE
+        //        findViewById<ScrollView?>(R.id.develop_rank_scroll)?.visibility = View.VISIBLE
+        //
+        //        findViewById<TextView?>(R.id.develop_rank_text)?.text = data
     }
 
     override fun fillAboutPreference(data: String) {
-        findViewById<ProgressBar?>(R.id.develop_preference_progress)?.visibility = View.GONE
-        findViewById<ScrollView?>(R.id.develop_preference_scroll)?.visibility = View.VISIBLE
-
-        findViewById<TextView?>(R.id.develop_preference_text)?.text = data
+        //        findViewById<ProgressBar?>(R.id.develop_preference_progress)?.visibility = View.GONE
+        //        findViewById<ScrollView?>(R.id.develop_preference_scroll)?.visibility = View.VISIBLE
+        //
+        //        findViewById<TextView?>(R.id.develop_preference_text)?.text = data
     }
 
     override fun openIntroScreen() = startActivity(IntroActivity[this])

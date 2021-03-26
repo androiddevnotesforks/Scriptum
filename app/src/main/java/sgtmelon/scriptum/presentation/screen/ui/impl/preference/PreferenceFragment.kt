@@ -8,9 +8,7 @@ import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.annotation.StringRes
-import androidx.fragment.app.FragmentManager
 import androidx.preference.Preference
-import androidx.preference.PreferenceFragmentCompat
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.*
@@ -23,31 +21,25 @@ import sgtmelon.scriptum.presentation.control.system.BindControl
 import sgtmelon.scriptum.presentation.control.system.MelodyControl
 import sgtmelon.scriptum.presentation.control.system.callback.IMelodyControl
 import sgtmelon.scriptum.presentation.factory.DialogFactory
+import sgtmelon.scriptum.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.callback.IPreferenceFragment
-import sgtmelon.scriptum.presentation.screen.ui.impl.DevelopActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.IPreferenceViewModel
 import javax.inject.Inject
 
 /**
  * Fragment of preference.
  */
-class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
-
-    /**
-     * TODO nullability.
-     */
-    private val activity: PreferenceActivity by lazy { getActivity() as PreferenceActivity }
-    private val fm: FragmentManager by lazy { activity.supportFragmentManager }
+class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
 
     @Inject internal lateinit var viewModel: IPreferenceViewModel
 
     private val openState = OpenState()
     private val readPermissionState by lazy {
-        PermissionState(activity, Manifest.permission.READ_EXTERNAL_STORAGE)
+        PermissionState(Manifest.permission.READ_EXTERNAL_STORAGE, activity)
     }
     private val writePermissionState by lazy {
-        PermissionState(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        PermissionState(Manifest.permission.WRITE_EXTERNAL_STORAGE, activity)
     }
 
     //region Dialogs
@@ -95,7 +87,7 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
 
     private val savePeriodPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_note_time)) }
 
-    private val developerPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_other_developer)) }
+    private val developerPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_other_develop)) }
 
     //endregion
 
@@ -124,8 +116,6 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
          * It's unnecessary doing inside [onResume], because after first start summary will be set.
          */
         updateMelodySummary(summary = "")
-
-        setupInsets()
     }
 
     override fun onResume() {
@@ -172,18 +162,20 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
     }
 
 
-    override fun showToast(@StringRes stringId: Int) = activity.showToast(stringId)
+    override fun showToast(@StringRes stringId: Int) {
+        activity?.showToast(stringId)
+    }
 
     override fun showExportPathToast(path: String) {
-        val text = activity.resources.getString(R.string.pref_toast_export_result, path)
+        val text = resources.getString(R.string.pref_toast_export_result, path)
 
-        activity.showToast(text, Toast.LENGTH_LONG)
+        activity?.showToast(text, Toast.LENGTH_LONG)
     }
 
     override fun showImportSkipToast(count: Int) {
-        val text = activity.resources.getString(R.string.pref_toast_import_result_skip, count)
+        val text = resources.getString(R.string.pref_toast_import_result_skip, count)
 
-        activity.showToast(text, Toast.LENGTH_LONG)
+        activity?.showToast(text, Toast.LENGTH_LONG)
     }
 
     override fun setupApp() {
@@ -191,7 +183,7 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
 
         themeDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             viewModel.onResultTheme(themeDialog.check)
-            activity.checkThemeChange()
+            activity?.checkThemeChange()
         }
         themeDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }
@@ -318,15 +310,18 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
     override fun setupOther() {
         findPreference<Preference>(getString(R.string.pref_key_other_rate))?.setOnPreferenceClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
+            val packageName = activity?.packageName
 
-            try {
-                startActivity(intent.apply {
-                    data = BuildConfig.MARKET_URL.plus(activity.packageName).toUri()
-                })
-            } catch (e: ActivityNotFoundException) {
-                startActivity(intent.apply {
-                    data = BuildConfig.BROWSER_URL.plus(activity.packageName).toUri()
-                })
+            if (packageName != null) {
+                try {
+                    startActivity(intent.apply {
+                        data = BuildConfig.MARKET_URL.plus(packageName).toUri()
+                    })
+                } catch (e: ActivityNotFoundException) {
+                    startActivity(intent.apply {
+                        data = BuildConfig.BROWSER_URL.plus(packageName).toUri()
+                    })
+                }
             }
 
             return@setOnPreferenceClickListener true
@@ -363,15 +358,6 @@ class PreferenceFragment : PreferenceFragmentCompat(), IPreferenceFragment {
             return@setOnPreferenceClickListener true
         }
     }
-
-    private fun setupInsets() {
-        listView.clipToPadding = false
-        listView.doOnApplyWindowInsets { view, insets, _, padding, _ ->
-            view.updatePadding(InsetsDir.BOTTOM, insets, padding)
-            return@doOnApplyWindowInsets insets
-        }
-    }
-
 
 
     override fun updateThemeSummary(summary: String?) {

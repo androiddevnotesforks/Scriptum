@@ -31,7 +31,7 @@
 
     <string name="pref_title_other_rate">Оценить</string>
     <string name="pref_title_other_privacy_policy">Политика конфиденциальности</string>
-    <string name="pref_title_other_developer">Настройки разработчика</string>
+    <string name="pref_title_other_develop">Настройки разработчика</string>
     <string name="pref_title_other_about">О приложении</string>
 
     <!-- Preference summaries -->
@@ -129,7 +129,7 @@
         Извините, у вас нет ни одной мелодии! :(
     </string>
 
-    <string name="pref_toast_developer_unlock">Привет! Ты стал разработчиком!</string>
-    <string name="pref_toast_developer_already">Тут больше нечего ловить :)</string>
+    <string name="pref_toast_develop_unlock">Привет! Ты стал разработчиком!</string>
+    <string name="pref_toast_develop_already">Тут больше нечего ловить :)</string>
 
 </resources>

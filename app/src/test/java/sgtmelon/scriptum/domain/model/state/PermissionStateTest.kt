@@ -6,6 +6,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkObject
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentTest
@@ -20,7 +21,7 @@ class PermissionStateTest : ParentTest() {
     @MockK lateinit var activity: Activity
 
     private val permission = nextString()
-    private val permissionState by lazy { PermissionState(activity, permission) }
+    private val permissionState by lazy { PermissionState(permission, activity) }
 
     @Test fun getResult() {
         mockkObject(Version)
@@ -38,6 +39,8 @@ class PermissionStateTest : ParentTest() {
 
         every { activity.shouldShowRequestPermissionRationale(permission) } returns true
         assertEquals(PermissionResult.ALLOWED, permissionState.getResult())
+
+        assertNull(PermissionState(permission, activity = null).getResult())
     }
 
 }

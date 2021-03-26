@@ -37,8 +37,6 @@
     <string name="button_disable">Отключить</string>
     <string name="button_repeat">Отложить</string>
 
-    <string name="button_show_intro">Вступление</string>
-
     <string name="button_note_edit">Изменить</string>
     <string name="button_note_save">Сохранить</string>
 

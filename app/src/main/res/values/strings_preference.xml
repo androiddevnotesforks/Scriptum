@@ -34,7 +34,7 @@
 
     <string name="pref_title_other_rate">Rate</string>
     <string name="pref_title_other_privacy_policy">Privacy policy</string>
-    <string name="pref_title_other_developer">Developer settings</string>
+    <string name="pref_title_other_develop">Developer settings</string>
     <string name="pref_title_other_about">About app</string>
 
     <string name="pref_title_prints_rank" translatable="false">Rank entities</string>
@@ -140,8 +140,8 @@
         Sorry, you don\'t have any melodies! :(
     </string>
 
-    <string name="pref_toast_developer_unlock">Hello! You become a developer!</string>
-    <string name="pref_toast_developer_already">There is nothing to catch anymore :)</string>
+    <string name="pref_toast_develop_unlock">Hello! You become a developer!</string>
+    <string name="pref_toast_develop_already">There is nothing to catch anymore :)</string>
 
     <!-- Preference keys -->
 
@@ -167,7 +167,7 @@
 
     <string name="pref_key_other_rate" translatable="false">key_other_rate</string>
     <string name="pref_key_other_privacy_policy" translatable="false">key_other_privacy_policy</string>
-    <string name="pref_key_other_developer" translatable="false">key_other_developer</string>
+    <string name="pref_key_other_develop" translatable="false">key_other_develop</string>
     <string name="pref_key_other_about" translatable="false">key_other_about</string>
 
     <string name="pref_key_prints_rank" translatable="false">key_prints_rank</string>

@@ -9,6 +9,7 @@
     <string name="title_bin">Bin</string>
     <string name="title_notification">Notifications</string>
     <string name="title_preference">Settings</string>
+    <string name="title_develop" translatable="false">Develop</string>
 
     <!-- Menu items -->
     <string name="menu_notifications">@string/title_notification</string>
@@ -51,8 +52,6 @@
     <!-- Button -->
     <string name="button_disable">Disable</string>
     <string name="button_repeat">Repeat</string>
-
-    <string name="button_show_intro">Show intro</string>
 
     <string name="button_note_edit">Change</string>
     <string name="button_note_save">Save</string>

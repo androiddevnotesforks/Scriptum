@@ -8,5 +8,4 @@ import androidx.fragment.app.Fragment
 abstract class ParentFragment : Fragment() {
 
     protected val fm get() = parentFragmentManager
-
 }

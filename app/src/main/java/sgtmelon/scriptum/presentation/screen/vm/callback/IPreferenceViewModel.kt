@@ -21,9 +21,9 @@ interface IPreferenceViewModel : IParentViewModel {
     fun onResultTheme(@Theme value: Int)
 
 
-    fun onClickExport(result: PermissionResult): Boolean
+    fun onClickExport(result: PermissionResult?): Boolean
 
-    fun onClickImport(result: PermissionResult): Boolean
+    fun onClickImport(result: PermissionResult?): Boolean
 
     fun onResultImport(name: String)
 
@@ -49,7 +49,7 @@ interface IPreferenceViewModel : IParentViewModel {
 
     fun onResultSignal(valueArray: BooleanArray)
 
-    fun onClickMelody(result: PermissionResult): Boolean
+    fun onClickMelody(result: PermissionResult?): Boolean
 
     fun onSelectMelody(value: Int)
 

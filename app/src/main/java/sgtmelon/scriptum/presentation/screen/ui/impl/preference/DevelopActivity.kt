@@ -14,31 +14,31 @@ import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.impl.AppActivity
 
 /**
- * Screen for display [PreferenceFragment].
+ * Screen for display [DevelopFragment].
  */
-class PreferenceActivity : AppActivity() {
+class DevelopActivity : AppActivity() {
 
-    private val parentContainer by lazy { findViewById<ViewGroup>(R.id.preference_parent_container) }
+    private val parentContainer by lazy { findViewById<ViewGroup>(R.id.develop_parent_container) }
     private val toolbar by lazy { findViewById<Toolbar>(R.id.toolbar_container) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         ScriptumApplication.component.getAppBuilder().set(activity = this).build()
-                .inject(activity = this)
+            .inject(activity = this)
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_preference)
+        setContentView(R.layout.activity_develop)
 
         setupView()
         setupInsets()
 
         fm.beginTransaction()
-                .replace(R.id.preference_fragment_container, PreferenceFragment())
-                .commit()
+            .replace(R.id.develop_fragment_container, DevelopFragment())
+            .commit()
     }
 
     private fun setupView() {
         toolbar?.apply {
-            title = getString(R.string.title_preference)
+            title = getString(R.string.title_develop)
             navigationIcon = getTintDrawable(R.drawable.ic_cancel_exit)
             setNavigationOnClickListener { finish() }
         }
@@ -72,6 +72,6 @@ class PreferenceActivity : AppActivity() {
     }
 
     companion object {
-        operator fun get(context: Context) = Intent(context, PreferenceActivity::class.java)
+        operator fun get(context: Context) = Intent(context, DevelopActivity::class.java)
     }
 }

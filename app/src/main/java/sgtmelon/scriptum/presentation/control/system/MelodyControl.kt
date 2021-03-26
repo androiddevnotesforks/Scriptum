@@ -14,24 +14,23 @@ import sgtmelon.scriptum.presentation.control.system.callback.IMelodyControl
 /**
  * Class for help control [MediaPlayer] and [AudioManager]
  */
-class MelodyControl(private val context: Context) : IMelodyControl,
-        AudioManager.OnAudioFocusChangeListener {
+class MelodyControl(private val context: Context?) : IMelodyControl,
+    AudioManager.OnAudioFocusChangeListener {
 
-    private val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as? AudioManager
+    private val audioManager = context?.getSystemService(Context.AUDIO_SERVICE) as? AudioManager
 
-    private val audioAttributes =
-        AudioAttributes.Builder()
-                .setUsage(AudioAttributes.USAGE_ALARM)
-                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                .build()
+    private val audioAttributes = AudioAttributes.Builder()
+        .setUsage(AudioAttributes.USAGE_ALARM)
+        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+        .build()
 
     private val audioFocusRequest = if (VERSION.SDK_INT >= VERSION_CODES.O) {
         audioAttributes?.let {
             AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN_TRANSIENT)
-                    .setAudioAttributes(it)
-                    .setAcceptsDelayedFocusGain(true)
-                    .setOnAudioFocusChangeListener(this)
-                    .build()
+                .setAudioAttributes(it)
+                .setAcceptsDelayedFocusGain(true)
+                .setOnAudioFocusChangeListener(this)
+                .build()
         }
     } else {
         null
@@ -83,6 +82,8 @@ class MelodyControl(private val context: Context) : IMelodyControl,
     }
 
     override fun setupPlayer(uri: Uri, isLooping: Boolean) {
+        if (context == null) return
+
         mediaPlayer = MediaPlayer().apply {
             setAudioAttributes(audioAttributes)
 
@@ -99,7 +100,7 @@ class MelodyControl(private val context: Context) : IMelodyControl,
             audioFocusRequest?.let { audioManager?.requestAudioFocus(it) }
         } else {
             audioManager?.requestAudioFocus(
-                    this, AudioManager.STREAM_ALARM, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT
+                this, AudioManager.STREAM_ALARM, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT
             )
         }
 

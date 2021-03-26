@@ -339,6 +339,8 @@ class PreferenceViewModelTest : ParentViewModelTest() {
             assertTrue(spyViewModel.onClickExport(it))
         }
 
+        assertTrue(spyViewModel.onClickExport(result = null))
+
         coVerifySequence {
             spyViewModel.onClickExport(PermissionResult.LOW_API)
             spyViewModel.startExport()
@@ -353,6 +355,8 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
             spyViewModel.onClickExport(PermissionResult.GRANTED)
             spyViewModel.startExport()
+
+            spyViewModel.onClickExport(result = null)
         }
     }
 
@@ -393,6 +397,8 @@ class PreferenceViewModelTest : ParentViewModelTest() {
             assertTrue(spyViewModel.onClickImport(it))
         }
 
+        assertTrue(spyViewModel.onClickImport(result = null))
+
         coVerifySequence {
             spyViewModel.onClickImport(PermissionResult.LOW_API)
             spyViewModel.prepareImportDialog()
@@ -406,6 +412,8 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
             spyViewModel.onClickImport(PermissionResult.GRANTED)
             spyViewModel.prepareImportDialog()
+
+            spyViewModel.onClickImport(result = null)
         }
     }
 
@@ -655,10 +663,12 @@ class PreferenceViewModelTest : ParentViewModelTest() {
     @Test fun onClickMelody() {
         coEvery { spyViewModel.prepareMelodyDialog() } returns Unit
 
-        assertTrue(spyViewModel.onClickMelody(PermissionResult.LOW_API))
-        assertTrue(spyViewModel.onClickMelody(PermissionResult.ALLOWED))
-        assertTrue(spyViewModel.onClickMelody(PermissionResult.FORBIDDEN))
-        assertTrue(spyViewModel.onClickMelody(PermissionResult.GRANTED))
+
+        for (it in PermissionResult.values()) {
+            assertTrue(spyViewModel.onClickMelody(it))
+        }
+
+        assertTrue(spyViewModel.onClickMelody(result = null))
 
         coVerifySequence {
             spyViewModel.onClickMelody(PermissionResult.LOW_API)
@@ -673,6 +683,8 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
             spyViewModel.onClickMelody(PermissionResult.GRANTED)
             spyViewModel.prepareMelodyDialog()
+
+            spyViewModel.onClickMelody(result = null)
         }
     }
 
@@ -825,10 +837,10 @@ class PreferenceViewModelTest : ParentViewModelTest() {
             interactor.isDeveloper
             interactor.isDeveloper = true
             callback.setupDeveloper()
-            callback.showToast(R.string.pref_toast_developer_unlock)
+            callback.showToast(R.string.pref_toast_develop_unlock)
 
             interactor.isDeveloper
-            callback.showToast(R.string.pref_toast_developer_already)
+            callback.showToast(R.string.pref_toast_develop_already)
         }
     }
 }

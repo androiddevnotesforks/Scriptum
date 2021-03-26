@@ -8,10 +8,12 @@ import sgtmelon.scriptum.presentation.provider.BuildProvider.Version
 /**
  * State for permission request
  */
-class PermissionState(private val activity: Activity, val permission: String) {
+class PermissionState(val permission: String, private val activity: Activity?) {
 
-    fun getResult(): PermissionResult {
+    fun getResult(): PermissionResult? {
         if (Version.isMarshmallowLess()) return PermissionResult.LOW_API
+
+        if (activity == null) return null
 
         return if (activity.checkSelfPermission(permission).notGranted()) {
             if (activity.shouldShowRequestPermissionRationale(permission)) {

@@ -129,15 +129,6 @@
         <item name="android:scrollbars">none</item>
     </style>
 
-    <style name="Container.Develop"/>
-
-    <style name="Container.Develop.Scroll">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:fillViewport">true</item>
-        <item name="android:visibility">gone</item>
-    </style>
-
     <!-- Text -->
 
     <style name="Text"/>
@@ -261,12 +252,6 @@
         <item name="android:textAppearance">@style/Appearance.Main</item>
         <item name="android:textColorHint">?attr/clContentSecond</item>
         <item name="android:textIsSelectable">true</item>
-    </style>
-
-    <style name="Text.Develop">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:padding">@dimen/layout_4dp</item>
     </style>
 
     <!-- EditText -->
@@ -416,16 +401,6 @@
         <item name="android:layout_marginBottom">@dimen/item_count_icon_space</item>
         <item name="android:layout_marginStart">@dimen/item_count_icon_space</item>
         <item name="android:tint">?attr/clIndicator</item>
-    </style>
-
-    <!-- ProgressBar -->
-
-    <style name="ProgressBar" />
-
-    <style name="ProgressBar.Develop">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_gravity">center</item>
     </style>
 
     <!--  Toolbar  -->

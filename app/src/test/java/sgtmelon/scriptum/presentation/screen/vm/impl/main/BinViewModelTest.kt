@@ -198,6 +198,7 @@ class BinViewModelTest : ParentViewModelTest() {
             callback.showOptionsDialog(untitledName, itemArray, p)
 
             item.name
+            item.name
             callback.getStringArray(R.array.dialog_menu_bin)
             callback.showOptionsDialog(name, itemArray, p)
         }

@@ -29,7 +29,7 @@ class PreferenceProvider {
         val volume: String = resources.getString(R.string.pref_key_alarm_volume)
         val volumeIncrease: String = resources.getString(R.string.pref_key_alarm_increase)
 
-        val isDeveloper: String = resources.getString(R.string.pref_key_other_developer)
+        val isDeveloper: String = resources.getString(R.string.pref_key_other_develop)
     }
 
     class Def(resources: Resources) {
@@ -50,7 +50,7 @@ class PreferenceProvider {
         val volume: Int = resources.getInteger(R.integer.pref_alarm_volume)
         val volumeIncrease: Boolean = resources.getBoolean(R.bool.pref_alarm_increase)
 
-        val isDeveloper: Boolean = resources.getBoolean(R.bool.pref_other_developer)
+        val isDeveloper: Boolean = resources.getBoolean(R.bool.pref_other_develop)
     }
 
 }

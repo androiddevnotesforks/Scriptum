@@ -134,8 +134,10 @@ class PreferenceViewModel(
      * Call [startExport] only if [result] equals [PermissionResult.LOW_API] or
      * [PermissionResult.GRANTED]. Otherwise we must show dialog.
      */
-    override fun onClickExport(result: PermissionResult) = takeTrue {
-        when(result) {
+    override fun onClickExport(result: PermissionResult?) = takeTrue {
+        if (result == null) return@takeTrue
+
+        when (result) {
             PermissionResult.ALLOWED -> callback?.showExportPermissionDialog()
             PermissionResult.LOW_API, PermissionResult.GRANTED -> {
                 viewModelScope.launch { startExport() }
@@ -170,7 +172,9 @@ class PreferenceViewModel(
      * Show permission only on [PermissionResult.ALLOWED] because we
      * can display files which not located on SD card.
      */
-    override fun onClickImport(result: PermissionResult) = takeTrue {
+    override fun onClickImport(result: PermissionResult?) = takeTrue {
+        if (result == null) return@takeTrue
+
         when (result) {
             PermissionResult.ALLOWED -> callback?.showImportPermissionDialog()
             else -> viewModelScope.launch { prepareImportDialog() }
@@ -268,7 +272,9 @@ class PreferenceViewModel(
      * Show permission only on [PermissionResult.ALLOWED] because we
      * can display melodies which not located on SD card.
      */
-    override fun onClickMelody(result: PermissionResult) = takeTrue {
+    override fun onClickMelody(result: PermissionResult?) = takeTrue {
+        if (result == null) return@takeTrue
+
         when (result) {
             PermissionResult.ALLOWED -> callback?.showMelodyPermissionDialog()
             else -> viewModelScope.launch { prepareMelodyDialog() }
@@ -321,11 +327,11 @@ class PreferenceViewModel(
 
     override fun onUnlockDeveloper() {
         if (interactor.isDeveloper) {
-            callback?.showToast(R.string.pref_toast_developer_already)
+            callback?.showToast(R.string.pref_toast_develop_already)
         } else {
             interactor.isDeveloper = true
             callback?.setupDeveloper()
-            callback?.showToast(R.string.pref_toast_developer_unlock)
+            callback?.showToast(R.string.pref_toast_develop_unlock)
         }
     }
 
