@@ -13,4 +13,8 @@ interface IDevelopFragment {
     fun setupScreens()
 
     fun setupOther()
+
+
+    fun openAlarmScreen(noteId: Long)
+
 }

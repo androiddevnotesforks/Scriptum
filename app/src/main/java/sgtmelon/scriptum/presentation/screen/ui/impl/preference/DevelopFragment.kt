@@ -7,6 +7,7 @@ import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.callback.preference.IDevelopFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.intro.IntroActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IDevelopViewModel
 import javax.inject.Inject
@@ -88,7 +89,7 @@ class DevelopFragment : ParentPreferenceFragment(), IDevelopFragment {
             return@setOnPreferenceClickListener true
         }
         alarmPreference?.setOnPreferenceClickListener {
-            context?.showToast("click")
+            viewModel.onClickScreenAlarm()
             return@setOnPreferenceClickListener true
         }
     }
@@ -98,5 +99,13 @@ class DevelopFragment : ParentPreferenceFragment(), IDevelopFragment {
             context?.showToast("click")
             return@setOnPreferenceClickListener true
         }
+    }
+
+    // TODO
+
+    override fun openAlarmScreen(noteId: Long) {
+        val context = context ?: return
+
+        startActivity(SplashActivity.getAlarmInstance(context, noteId))
     }
 }

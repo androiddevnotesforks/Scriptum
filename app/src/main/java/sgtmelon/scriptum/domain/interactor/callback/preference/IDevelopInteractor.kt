@@ -6,4 +6,9 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IDevelopView
 /**
  * Interface for communication [IDevelopViewModel] with [DevelopInteractor].
  */
-interface IDevelopInteractor
+interface IDevelopInteractor {
+
+    // TODO
+
+    suspend fun getRandomNoteId(): Long
+}

@@ -23,9 +23,11 @@ class RepoModule {
 
     @Provides
     @Singleton
-    fun providePreferenceRepo(keyProvider: PreferenceProvider.Key,
-                              defProvider: PreferenceProvider.Def,
-                              preferences: SharedPreferences): IPreferenceRepo {
+    fun providePreferenceRepo(
+        keyProvider: PreferenceProvider.Key,
+        defProvider: PreferenceProvider.Def,
+        preferences: SharedPreferences
+    ): IPreferenceRepo {
         return PreferenceRepo(keyProvider, defProvider, preferences)
     }
 
@@ -46,8 +48,11 @@ class RepoModule {
 
     @Provides
     @Singleton
-    fun provideNoteRepo(roomProvider: RoomProvider, noteConverter: NoteConverter,
-                        rollConverter: RollConverter): INoteRepo {
+    fun provideNoteRepo(
+        roomProvider: RoomProvider,
+        noteConverter: NoteConverter,
+        rollConverter: RollConverter
+    ): INoteRepo {
         return NoteRepo(roomProvider, noteConverter, rollConverter)
     }
 

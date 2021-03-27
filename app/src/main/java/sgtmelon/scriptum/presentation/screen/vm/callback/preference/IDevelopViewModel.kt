@@ -7,4 +7,11 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.preference.DevelopViewModel
 /**
  * Interface for communication [IDevelopFragment] with [DevelopViewModel]
  */
-interface IDevelopViewModel : IParentViewModel
+interface IDevelopViewModel : IParentViewModel {
+
+
+    // TODO
+
+    fun onClickScreenAlarm()
+
+}

@@ -17,4 +17,5 @@ class DevelopInteractor(
 
     // TODO add tests
 
+    override suspend fun getRandomNoteId(): Long = developRepo.getRandomNoteId()
 }
