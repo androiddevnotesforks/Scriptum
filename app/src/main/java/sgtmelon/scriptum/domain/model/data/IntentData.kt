@@ -41,4 +41,25 @@ object IntentData {
             }
         }
     }
+
+    /**
+     * Object for store information about NOTE between screens and save it
+     * inside onSavedInstanceState.
+     */
+    object Print {
+        @StringDef(Intent.TYPE)
+        annotation class Intent {
+            companion object {
+                private const val PREFIX = "INTENT_PRINT"
+
+                const val TYPE = "${PREFIX}_TYPE"
+            }
+        }
+
+        annotation class Default {
+            companion object {
+                const val TYPE = -1
+            }
+        }
+    }
 }

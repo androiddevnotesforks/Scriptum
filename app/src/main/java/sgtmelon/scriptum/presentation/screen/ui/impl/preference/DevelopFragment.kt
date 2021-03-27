@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.annotation.StringRes
 import androidx.preference.Preference
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.domain.model.key.PrintType
 import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
@@ -55,32 +56,34 @@ class DevelopFragment : ParentPreferenceFragment(), IDevelopFragment {
     }
 
     override fun setupPrints() {
+        val context = context ?: return
+
         printNotePreference?.setOnPreferenceClickListener {
-            context?.showToast("click")
+            startActivity(PrintActivity[context, PrintType.NOTE])
             return@setOnPreferenceClickListener true
         }
         printBinPreference?.setOnPreferenceClickListener {
-            context?.showToast("click")
+            startActivity(PrintActivity[context, PrintType.BIN])
             return@setOnPreferenceClickListener true
         }
         printRollPreference?.setOnPreferenceClickListener {
-            context?.showToast("click")
+            startActivity(PrintActivity[context, PrintType.ROLL])
             return@setOnPreferenceClickListener true
         }
         printVisiblePreference?.setOnPreferenceClickListener {
-            context?.showToast("click")
+            startActivity(PrintActivity[context, PrintType.VISIBLE])
             return@setOnPreferenceClickListener true
         }
         printRankPreference?.setOnPreferenceClickListener {
-            context?.showToast("click")
+            startActivity(PrintActivity[context, PrintType.RANK])
             return@setOnPreferenceClickListener true
         }
         printAlarmPreference?.setOnPreferenceClickListener {
-            context?.showToast("click")
+            startActivity(PrintActivity[context, PrintType.ALARM])
             return@setOnPreferenceClickListener true
         }
         printPrefPreference?.setOnPreferenceClickListener {
-            context?.showToast("click")
+            startActivity(PrintActivity[context, PrintType.PREFERENCE])
             return@setOnPreferenceClickListener true
         }
     }
