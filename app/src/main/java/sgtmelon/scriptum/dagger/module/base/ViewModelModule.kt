@@ -20,6 +20,7 @@ import sgtmelon.scriptum.domain.interactor.callback.notification.INotificationIn
 import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.domain.interactor.callback.preference.IDevelopInteractor
 import sgtmelon.scriptum.domain.interactor.callback.preference.IPreferenceInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.IPrintInteractor
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.intro.IntroActivity
@@ -34,6 +35,7 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.notification.AlarmActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.NotificationActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.DevelopFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PrintActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.IIntroViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.ISplashViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.main.IBinViewModel
@@ -47,6 +49,7 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.notification.IAlarmView
 import sgtmelon.scriptum.presentation.screen.vm.callback.notification.INotificationViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IDevelopViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IPreferenceViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IPrintViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.IntroViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.SplashViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.main.BinViewModel
@@ -60,6 +63,7 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.notification.AlarmViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.notification.NotificationViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.preference.DevelopViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.preference.PreferenceViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.preference.PrintViewModel
 
 /**
  * Module for provide viewModel's.
@@ -236,6 +240,18 @@ class ViewModelModule {
     ): IDevelopViewModel {
         return ViewModelProvider(fragment).get(DevelopViewModel::class.java).apply {
             setCallback(fragment)
+            setInteractor(interactor)
+        }
+    }
+
+    @Provides
+    @ActivityScope
+    fun providePrintViewModel(
+        activity: PrintActivity,
+        interactor: IPrintInteractor
+    ): IPrintViewModel {
+        return ViewModelProvider(activity).get(PrintViewModel::class.java).apply {
+            setCallback(activity)
             setInteractor(interactor)
         }
     }

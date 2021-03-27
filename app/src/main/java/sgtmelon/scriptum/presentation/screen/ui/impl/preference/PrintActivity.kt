@@ -11,12 +11,17 @@ import sgtmelon.scriptum.domain.model.data.IntentData
 import sgtmelon.scriptum.domain.model.key.PrintType
 import sgtmelon.scriptum.extension.getTintDrawable
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
+import sgtmelon.scriptum.presentation.screen.ui.callback.preference.IPrintActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.AppActivity
+import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IPrintViewModel
+import javax.inject.Inject
 
 /**
  * Screen for print data of data base and preference
  */
-class PrintActivity : AppActivity() {
+class PrintActivity : AppActivity(), IPrintActivity {
+
+    @Inject internal lateinit var viewModel: IPrintViewModel
 
     // TODO insets
 
@@ -25,8 +30,7 @@ class PrintActivity : AppActivity() {
     private val text by lazy { findViewById<TextView>(R.id.print_text) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // TODO replace
-        ScriptumApplication.component.getAppBuilder().set(activity = this).build()
+        ScriptumApplication.component.getPrintBuilder().set(activity = this).build()
             .inject(activity = this)
 
         super.onCreate(savedInstanceState)
@@ -41,6 +45,11 @@ class PrintActivity : AppActivity() {
         text.text = type?.name
 
         //        viewModel.onSetup(savedInstanceState)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.onDestroy()
     }
 
     private fun setupView() {

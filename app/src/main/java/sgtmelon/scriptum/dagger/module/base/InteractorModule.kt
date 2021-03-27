@@ -21,6 +21,7 @@ import sgtmelon.scriptum.domain.interactor.callback.notification.INotificationIn
 import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.domain.interactor.callback.preference.IDevelopInteractor
 import sgtmelon.scriptum.domain.interactor.callback.preference.IPreferenceInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.IPrintInteractor
 import sgtmelon.scriptum.domain.interactor.impl.*
 import sgtmelon.scriptum.domain.interactor.impl.main.BinInteractor
 import sgtmelon.scriptum.domain.interactor.impl.main.MainInteractor
@@ -34,6 +35,7 @@ import sgtmelon.scriptum.domain.interactor.impl.notification.NotificationInterac
 import sgtmelon.scriptum.domain.interactor.impl.notification.SignalInteractor
 import sgtmelon.scriptum.domain.interactor.impl.preference.DevelopInteractor
 import sgtmelon.scriptum.domain.interactor.impl.preference.PreferenceInteractor
+import sgtmelon.scriptum.domain.interactor.impl.preference.PrintInteractor
 import sgtmelon.scriptum.presentation.control.cipher.ICipherControl
 import sgtmelon.scriptum.presentation.control.file.IFileControl
 import sgtmelon.scriptum.presentation.control.system.callback.IRingtoneControl
@@ -224,5 +226,11 @@ class InteractorModule {
         preferenceRepo: IPreferenceRepo
     ): IDevelopInteractor {
         return DevelopInteractor(developRepo, preferenceRepo)
+    }
+
+    @Provides
+    @ActivityScope
+    fun providePrintInteractor(): IPrintInteractor {
+        return PrintInteractor()
     }
 }

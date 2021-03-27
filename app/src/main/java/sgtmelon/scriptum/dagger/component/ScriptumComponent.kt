@@ -53,6 +53,8 @@ interface ScriptumComponent {
 
     fun getDevelopBuilder(): DevelopComponent.Builder
 
+    fun getPrintBuilder(): PrintComponent.Builder
+
     @Component.Builder
     interface Builder {
         @BindsInstance

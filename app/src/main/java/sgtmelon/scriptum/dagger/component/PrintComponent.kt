@@ -3,27 +3,29 @@ package sgtmelon.scriptum.dagger.component
 import dagger.BindsInstance
 import dagger.Subcomponent
 import sgtmelon.scriptum.dagger.ActivityScope
+import sgtmelon.scriptum.dagger.module.PrintModule
 import sgtmelon.scriptum.dagger.module.base.InteractorModule
 import sgtmelon.scriptum.dagger.module.base.ViewModelModule
-import sgtmelon.scriptum.presentation.screen.ui.impl.preference.DevelopFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PrintActivity
 
 /**
- * Component for [DevelopFragment].
+ * Component for [PrintActivity].
  */
 @ActivityScope
 @Subcomponent(modules = [
     InteractorModule::class,
-    ViewModelModule::class
+    ViewModelModule::class,
+    PrintModule::class
 ])
-interface DevelopComponent {
+interface PrintComponent {
 
-    fun inject(fragment: DevelopFragment)
+    fun inject(activity: PrintActivity)
 
     @Subcomponent.Builder
     interface Builder {
         @BindsInstance
-        fun set(fragment: DevelopFragment): Builder
+        fun set(activity: PrintActivity): Builder
 
-        fun build(): DevelopComponent
+        fun build(): PrintComponent
     }
 }
