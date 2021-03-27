@@ -48,7 +48,7 @@ class SplashActivity : ParentActivity(), ISplashActivity {
          */
         hideKeyboard()
 
-        beforeFinish { viewModel.onSetup(intent.extras) }
+        viewModel.onSetup(intent.extras)
     }
 
     override fun onDestroy() {
@@ -76,21 +76,24 @@ class SplashActivity : ParentActivity(), ISplashActivity {
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
     }
 
+    /**
+     * [beforeFinish] not needed because inside [IntroActivity.get] happen clear start.
+     */
     override fun openIntroScreen() = startActivity(IntroActivity[this])
 
-    override fun openMainScreen() = startActivity(MainActivity[this])
+    override fun openMainScreen() = beforeFinish { startActivity(MainActivity[this]) }
 
-    override fun openAlarmScreen(id: Long) {
+    override fun openAlarmScreen(id: Long) = beforeFinish {
         WaitIdlingResource(waitMillis = 2000)
         startActivities(arrayOf(MainActivity[this], AlarmActivity[this, id]))
     }
 
-    override fun openNoteScreen(id: Long, @Color color: Int, type: Int) {
+    override fun openNoteScreen(id: Long, @Color color: Int, type: Int) = beforeFinish {
         WaitIdlingResource(waitMillis = 2000)
         startActivities(arrayOf(MainActivity[this], NoteActivity[this, type, id, color]))
     }
 
-    override fun openNotificationScreen() {
+    override fun openNotificationScreen() = beforeFinish {
         WaitIdlingResource(waitMillis = 2000)
         startActivities(arrayOf(MainActivity[this], NotificationActivity[this]))
     }

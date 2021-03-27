@@ -13,4 +13,8 @@ class DevelopInteractor(
     private val developRepo: IDevelopRepo,
     private val preferenceRepo: IPreferenceRepo
 ) : ParentInteractor(),
-    IDevelopInteractor
+    IDevelopInteractor {
+
+    // TODO add tests
+
+}

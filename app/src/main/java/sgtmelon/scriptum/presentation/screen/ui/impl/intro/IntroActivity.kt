@@ -155,6 +155,14 @@ class IntroActivity : ParentActivity(), IIntroActivity, ViewPager.OnPageChangeLi
     override fun onPageScrollStateChanged(state: Int) = Unit
 
     companion object {
-        operator fun get(context: Context): Intent = Intent(context, IntroActivity::class.java)
+        /**
+         * After call [get] and [Intent] run application will be restarted with only this screen.
+         */
+        operator fun get(context: Context): Intent {
+            return Intent(context, IntroActivity::class.java)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
     }
 }

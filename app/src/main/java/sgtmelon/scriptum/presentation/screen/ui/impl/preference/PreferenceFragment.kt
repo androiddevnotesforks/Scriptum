@@ -91,14 +91,14 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
 
     //endregion
 
-    private val bindControl by lazy { BindControl[activity] }
-    private val melodyControl: IMelodyControl by lazy { MelodyControl(activity) }
+    private val bindControl by lazy { BindControl[context] }
+    private val melodyControl: IMelodyControl by lazy { MelodyControl(context) }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preference_main, rootKey)
 
         ScriptumApplication.component.getPreferenceBuilder().set(fragment = this).build()
-                .inject(fragment = this)
+            .inject(fragment = this)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -357,7 +357,11 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
     override fun setupDeveloper() {
         developerPreference?.isVisible = true
         developerPreference?.setOnPreferenceClickListener {
-            startActivity(Intent(context, DevelopActivity::class.java))
+            val context = context
+            if (context != null) {
+                startActivity(DevelopActivity[context])
+            }
+
             return@setOnPreferenceClickListener true
         }
     }

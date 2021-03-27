@@ -57,7 +57,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
     }
 
 
-    @Test fun onSetup_forUser() {
+    @Test fun onSetup_forUser() = startCoTest {
         val themeSummary = nextString()
         val sortSummary = nextString()
         val defaultColorSummary = nextString()
@@ -86,6 +86,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
         coVerifySequence {
             spyViewModel.onSetup()
 
+            spyViewModel.callback
             callback.apply {
                 setupApp()
                 setupBackup()
@@ -125,7 +126,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
         }
     }
 
-    @Test fun onSetup_forDeveloper() {
+    @Test fun onSetup_forDeveloper() = startCoTest {
         val themeSummary = nextString()
         val sortSummary = nextString()
         val defaultColorSummary = nextString()
@@ -154,6 +155,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
         coVerifySequence {
             spyViewModel.onSetup()
 
+            spyViewModel.callback
             callback.apply {
                 setupApp()
                 setupBackup()
@@ -335,7 +337,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
     }
 
 
-    @Test fun onClickExport() {
+    @Test fun onClickExport() = startCoTest {
         coEvery { spyViewModel.startExport() } returns Unit
 
         for (it in PermissionResult.values()) {
@@ -377,23 +379,30 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
         coVerifySequence {
             spyViewModel.startExport()
+            spyViewModel.callback
             callback.showExportLoadingDialog()
             backupInteractor.export()
+            spyViewModel.callback
             callback.hideExportLoadingDialog()
+            spyViewModel.callback
             callback.showToast(R.string.pref_toast_export_error)
 
             spyViewModel.startExport()
+            spyViewModel.callback
             callback.showExportLoadingDialog()
             backupInteractor.export()
+            spyViewModel.callback
             callback.hideExportLoadingDialog()
+            spyViewModel.callback
             callback.showExportPathToast(path)
+            spyViewModel.callback
             callback.updateImportEnabled(isEnabled = false)
             backupInteractor.resetFileList()
             spyViewModel.setupBackup()
         }
     }
 
-    @Test fun onClickImport() {
+    @Test fun onClickImport() = startCoTest {
         coEvery { spyViewModel.prepareImportDialog() } returns Unit
 
         for (it in PermissionResult.values()) {
@@ -663,7 +672,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
     }
 
 
-    @Test fun onClickMelody() {
+    @Test fun onClickMelody() = startCoTest {
         coEvery { spyViewModel.prepareMelodyDialog() } returns Unit
 
 

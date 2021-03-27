@@ -13,6 +13,8 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
 class DevelopViewModel(application: Application) : ParentViewModel<IDevelopFragment>(application),
     IDevelopViewModel {
 
+    // TODO add tests
+
     private lateinit var interactor: IDevelopInteractor
 
     fun setInteractor(interactor: IDevelopInteractor) {

@@ -7,6 +7,7 @@ import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.callback.preference.IDevelopFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.intro.IntroActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IDevelopViewModel
 import javax.inject.Inject
 
@@ -79,7 +80,11 @@ class DevelopFragment : ParentPreferenceFragment(), IDevelopFragment {
 
     override fun setupScreens() {
         introPreference?.setOnPreferenceClickListener {
-            context?.showToast("click")
+            val context = context
+            if (context != null) {
+                startActivity(IntroActivity[context])
+            }
+
             return@setOnPreferenceClickListener true
         }
         alarmPreference?.setOnPreferenceClickListener {
