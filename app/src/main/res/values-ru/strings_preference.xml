@@ -129,7 +129,4 @@
         Извините, у вас нет ни одной мелодии! :(
     </string>
 
-    <string name="pref_toast_develop_unlock">Привет! Ты стал разработчиком!</string>
-    <string name="pref_toast_develop_already">Тут больше нечего ловить :)</string>
-
 </resources>

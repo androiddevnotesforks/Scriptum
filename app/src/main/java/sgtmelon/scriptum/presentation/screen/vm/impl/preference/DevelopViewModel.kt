@@ -4,6 +4,7 @@ import android.app.Application
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.interactor.callback.preference.IDevelopInteractor
 import sgtmelon.scriptum.extension.runBack
 import sgtmelon.scriptum.presentation.screen.ui.callback.preference.IDevelopFragment
@@ -38,5 +39,10 @@ class DevelopViewModel(application: Application) : ParentViewModel<IDevelopFragm
             val noteId = runBack { interactor.getRandomNoteId() }
             callback?.openAlarmScreen(noteId)
         }
+    }
+
+    override fun onClickReset() {
+        interactor.resetPreferences()
+        callback?.showToast(R.string.pref_toast_develop_clear)
     }
 }

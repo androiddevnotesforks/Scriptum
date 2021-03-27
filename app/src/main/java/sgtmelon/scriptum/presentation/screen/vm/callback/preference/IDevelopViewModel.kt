@@ -14,4 +14,5 @@ interface IDevelopViewModel : IParentViewModel {
 
     fun onClickScreenAlarm()
 
+    fun onClickReset()
 }

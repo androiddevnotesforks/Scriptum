@@ -11,4 +11,7 @@ interface IDevelopInteractor {
     // TODO
 
     suspend fun getRandomNoteId(): Long
+
+    fun resetPreferences()
+
 }

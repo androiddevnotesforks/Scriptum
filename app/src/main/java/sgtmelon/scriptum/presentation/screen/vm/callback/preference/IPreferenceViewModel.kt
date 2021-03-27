@@ -17,46 +17,46 @@ interface IPreferenceViewModel : IParentViewModel {
     fun onPause()
 
 
-    fun onClickTheme(): Boolean
+    fun onClickTheme()
 
     fun onResultTheme(@Theme value: Int)
 
 
-    fun onClickExport(result: PermissionResult?): Boolean
+    fun onClickExport(result: PermissionResult?)
 
-    fun onClickImport(result: PermissionResult?): Boolean
+    fun onClickImport(result: PermissionResult?)
 
     fun onResultImport(name: String)
 
 
-    fun onClickSort(): Boolean
+    fun onClickSort()
 
     fun onResultNoteSort(@Sort value: Int)
 
-    fun onClickNoteColor(): Boolean
+    fun onClickNoteColor()
 
     fun onResultNoteColor(@Color value: Int)
 
-    fun onClickSaveTime(): Boolean
+    fun onClickSaveTime()
 
     fun onResultSaveTime(value: Int)
 
 
-    fun onClickRepeat(): Boolean
+    fun onClickRepeat()
 
     fun onResultRepeat(@Repeat value: Int)
 
-    fun onClickSignal(): Boolean
+    fun onClickSignal()
 
     fun onResultSignal(valueArray: BooleanArray)
 
-    fun onClickMelody(result: PermissionResult?): Boolean
+    fun onClickMelody(result: PermissionResult?)
 
     fun onSelectMelody(value: Int)
 
     fun onResultMelody(title: String)
 
-    fun onClickVolume(): Boolean
+    fun onClickVolume()
 
     fun onResultVolume(value: Int)
 

@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.presentation.screen.ui.impl.preference
 
 import android.os.Bundle
+import androidx.annotation.StringRes
 import androidx.preference.Preference
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.showToast
@@ -96,9 +97,13 @@ class DevelopFragment : ParentPreferenceFragment(), IDevelopFragment {
 
     override fun setupOther() {
         resetPreference?.setOnPreferenceClickListener {
-            context?.showToast("click")
+            viewModel.onClickReset()
             return@setOnPreferenceClickListener true
         }
+    }
+
+    override fun showToast(@StringRes stringId: Int) {
+        context?.showToast(stringId)
     }
 
     // TODO

@@ -140,8 +140,9 @@
         Sorry, you don\'t have any melodies! :(
     </string>
 
-    <string name="pref_toast_develop_unlock">Hello! You become a developer!</string>
-    <string name="pref_toast_develop_already">There is nothing to catch anymore :)</string>
+    <string name="pref_toast_develop_unlock" translatable="false">Hello! You become a developer!</string>
+    <string name="pref_toast_develop_already" translatable="false">There is nothing to catch anymore :)</string>
+    <string name="pref_toast_develop_clear" translatable="false">Success preference data clear!</string>
 
     <!-- Preference keys -->
 

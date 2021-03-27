@@ -131,7 +131,9 @@ class PreferenceViewModel(
     }
 
 
-    override fun onClickTheme() = takeTrue { callback?.showThemeDialog(interactor.theme) }
+    override fun onClickTheme() {
+        callback?.showThemeDialog(interactor.theme)
+    }
 
     override fun onResultTheme(@Theme value: Int) {
         callback?.updateThemeSummary(interactor.updateTheme(value))
@@ -142,8 +144,8 @@ class PreferenceViewModel(
      * Call [startExport] only if [result] equals [PermissionResult.LOW_API] or
      * [PermissionResult.GRANTED]. Otherwise we must show dialog.
      */
-    override fun onClickExport(result: PermissionResult?) = takeTrue {
-        if (result == null) return@takeTrue
+    override fun onClickExport(result: PermissionResult?) {
+        if (result == null) return
 
         when (result) {
             PermissionResult.ALLOWED -> callback?.showExportPermissionDialog()
@@ -180,8 +182,8 @@ class PreferenceViewModel(
      * Show permission only on [PermissionResult.ALLOWED] because we
      * can display files which not located on SD card.
      */
-    override fun onClickImport(result: PermissionResult?) = takeTrue {
-        if (result == null) return@takeTrue
+    override fun onClickImport(result: PermissionResult?) {
+        if (result == null) return
 
         when (result) {
             PermissionResult.ALLOWED -> callback?.showImportPermissionDialog()
@@ -222,13 +224,15 @@ class PreferenceViewModel(
     }
 
 
-    override fun onClickSort() = takeTrue { callback?.showSortDialog(interactor.sort) }
+    override fun onClickSort() {
+        callback?.showSortDialog(interactor.sort)
+    }
 
     override fun onResultNoteSort(@Sort value: Int) {
         callback?.updateSortSummary(interactor.updateSort(value))
     }
 
-    override fun onClickNoteColor() = takeTrue {
+    override fun onClickNoteColor() {
         callback?.showColorDialog(interactor.defaultColor)
     }
 
@@ -236,7 +240,7 @@ class PreferenceViewModel(
         callback?.updateColorSummary(interactor.updateDefaultColor(value))
     }
 
-    override fun onClickSaveTime() = takeTrue {
+    override fun onClickSaveTime() {
         callback?.showSaveTimeDialog(interactor.savePeriod)
     }
 
@@ -245,13 +249,15 @@ class PreferenceViewModel(
     }
 
 
-    override fun onClickRepeat() = takeTrue { callback?.showRepeatDialog(interactor.repeat) }
+    override fun onClickRepeat() {
+        callback?.showRepeatDialog(interactor.repeat)
+    }
 
     override fun onResultRepeat(@Repeat value: Int) {
         callback?.updateRepeatSummary(interactor.updateRepeat(value))
     }
 
-    override fun onClickSignal() = takeTrue {
+    override fun onClickSignal() {
         callback?.showSignalDialog(signalInteractor.typeCheck)
     }
 
@@ -280,8 +286,8 @@ class PreferenceViewModel(
      * Show permission only on [PermissionResult.ALLOWED] because we
      * can display melodies which not located on SD card.
      */
-    override fun onClickMelody(result: PermissionResult?) = takeTrue {
-        if (result == null) return@takeTrue
+    override fun onClickMelody(result: PermissionResult?) {
+        if (result == null) return
 
         when (result) {
             PermissionResult.ALLOWED -> callback?.showMelodyPermissionDialog()
@@ -326,7 +332,9 @@ class PreferenceViewModel(
         }
     }
 
-    override fun onClickVolume() = takeTrue { callback?.showVolumeDialog(interactor.volume) }
+    override fun onClickVolume() {
+        callback?.showVolumeDialog(interactor.volume)
+    }
 
     override fun onResultVolume(value: Int) {
         callback?.updateVolumeSummary(interactor.updateVolume(value))
@@ -342,10 +350,4 @@ class PreferenceViewModel(
             callback?.showToast(R.string.pref_toast_develop_unlock)
         }
     }
-
-    private fun takeTrue(func: () -> Unit): Boolean {
-        func()
-        return true
-    }
-
 }

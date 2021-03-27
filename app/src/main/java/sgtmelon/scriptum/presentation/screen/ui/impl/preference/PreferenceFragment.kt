@@ -182,7 +182,10 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
     }
 
     override fun setupApp() {
-        themePreference?.setOnPreferenceClickListener { viewModel.onClickTheme() }
+        themePreference?.setOnPreferenceClickListener {
+            viewModel.onClickTheme()
+            return@setOnPreferenceClickListener true
+        }
 
         themeDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             viewModel.onResultTheme(themeDialog.check)
@@ -194,10 +197,12 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
     override fun setupBackup() {
         exportPreference?.setOnPreferenceClickListener {
             viewModel.onClickExport(writePermissionState.getResult())
+            return@setOnPreferenceClickListener true
         }
 
         importPreference?.setOnPreferenceClickListener {
             viewModel.onClickImport(readPermissionState.getResult())
+            return@setOnPreferenceClickListener true
         }
 
         exportPermissionDialog.isCancelable = false
@@ -237,14 +242,20 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
     }
 
     override fun setupNote() {
-        sortPreference?.setOnPreferenceClickListener { viewModel.onClickSort() }
+        sortPreference?.setOnPreferenceClickListener {
+            viewModel.onClickSort()
+            return@setOnPreferenceClickListener true
+        }
 
         sortDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             viewModel.onResultNoteSort(sortDialog.check)
         }
         sortDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
 
-        colorPreference?.setOnPreferenceClickListener { viewModel.onClickNoteColor() }
+        colorPreference?.setOnPreferenceClickListener {
+            viewModel.onClickNoteColor()
+            return@setOnPreferenceClickListener true
+        }
 
         colorDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             viewModel.onResultNoteColor(colorDialog.check)
@@ -253,7 +264,10 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
     }
 
     override fun setupSave() {
-        savePeriodPreference?.setOnPreferenceClickListener { viewModel.onClickSaveTime() }
+        savePeriodPreference?.setOnPreferenceClickListener {
+            viewModel.onClickSaveTime()
+            return@setOnPreferenceClickListener true
+        }
 
         savePeriodDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             viewModel.onResultSaveTime(savePeriodDialog.check)
@@ -262,14 +276,20 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
     }
 
     override fun setupNotification() {
-        repeatPreference?.setOnPreferenceClickListener { viewModel.onClickRepeat() }
+        repeatPreference?.setOnPreferenceClickListener {
+            viewModel.onClickRepeat()
+            return@setOnPreferenceClickListener true
+        }
 
         repeatDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             viewModel.onResultRepeat(repeatDialog.check)
         }
         repeatDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
 
-        signalPreference?.setOnPreferenceClickListener { viewModel.onClickSignal() }
+        signalPreference?.setOnPreferenceClickListener {
+            viewModel.onClickSignal()
+            return@setOnPreferenceClickListener true
+        }
 
         signalDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             viewModel.onResultSignal(signalDialog.check)
@@ -278,6 +298,7 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
 
         melodyPreference?.setOnPreferenceClickListener {
             viewModel.onClickMelody(readPermissionState.getResult())
+            return@setOnPreferenceClickListener true
         }
 
         melodyPermissionDialog.isCancelable = false
@@ -302,7 +323,10 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
             openState.clear()
         }
 
-        volumePreference?.setOnPreferenceClickListener { viewModel.onClickVolume() }
+        volumePreference?.setOnPreferenceClickListener {
+            viewModel.onClickVolume()
+            return@setOnPreferenceClickListener true
+        }
 
         volumeDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             viewModel.onResultVolume(volumeDialog.progress)
