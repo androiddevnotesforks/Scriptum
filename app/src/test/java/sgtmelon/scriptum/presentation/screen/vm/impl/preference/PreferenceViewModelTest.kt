@@ -47,7 +47,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
     override fun tearDown() {
         super.tearDown()
-        confirmVerified(interactor, signalInteractor, backupInteractor, bindInteractor, callback)
+        confirmVerified(callback, interactor, signalInteractor, backupInteractor, bindInteractor)
     }
 
     @Test override fun onDestroy() {
@@ -83,7 +83,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
         spyViewModel.onSetup()
 
-        coVerifySequence {
+        coVerify {
             spyViewModel.onSetup()
 
             spyViewModel.callback
@@ -152,7 +152,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
         spyViewModel.onSetup()
 
-        coVerifySequence {
+        coVerify {
             spyViewModel.onSetup()
 
             spyViewModel.callback
@@ -346,7 +346,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
         assertTrue(spyViewModel.onClickExport(result = null))
 
-        coVerifySequence {
+        coVerify {
             spyViewModel.onClickExport(PermissionResult.LOW_API)
             spyViewModel.startExport()
 
@@ -411,7 +411,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
         assertTrue(spyViewModel.onClickImport(result = null))
 
-        coVerifySequence {
+        coVerify {
             spyViewModel.onClickImport(PermissionResult.LOW_API)
             spyViewModel.prepareImportDialog()
 
@@ -675,14 +675,13 @@ class PreferenceViewModelTest : ParentViewModelTest() {
     @Test fun onClickMelody() = startCoTest {
         coEvery { spyViewModel.prepareMelodyDialog() } returns Unit
 
-
         for (it in PermissionResult.values()) {
             assertTrue(spyViewModel.onClickMelody(it))
         }
 
         assertTrue(spyViewModel.onClickMelody(result = null))
 
-        coVerifySequence {
+        coVerify {
             spyViewModel.onClickMelody(PermissionResult.LOW_API)
             spyViewModel.prepareMelodyDialog()
 

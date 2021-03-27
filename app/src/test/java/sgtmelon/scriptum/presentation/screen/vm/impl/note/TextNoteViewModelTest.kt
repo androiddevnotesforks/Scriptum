@@ -201,20 +201,23 @@ class TextNoteViewModelTest : ParentViewModelTest() {
         spyViewModel.noteState = noteState
         spyViewModel.setupAfterInitialize()
 
-        coVerify {
+        coVerifySequence {
             spyViewModel.rankDialogItemArray = rankDialogItemArray
-            spyViewModel.noteState
+            spyViewModel.noteState = noteState
             spyViewModel.setupAfterInitialize()
 
             spyViewModel.callback
+            spyViewModel.rankDialogItemArray
             callback.setupDialog(rankDialogItemArray)
 
             spyViewModel.mayAnimateIcon = false
+            spyViewModel.noteState
             noteState.isEdit
             spyViewModel.setupEditMode(isEdit)
             spyViewModel.mayAnimateIcon = true
 
             spyViewModel.callback
+            spyViewModel.rankDialogItemArray
             callback.onBindingLoad(isRankEmpty)
         }
     }
