@@ -23,8 +23,8 @@ import sgtmelon.scriptum.presentation.control.system.callback.IMelodyControl
 import sgtmelon.scriptum.presentation.factory.DialogFactory
 import sgtmelon.scriptum.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
-import sgtmelon.scriptum.presentation.screen.ui.callback.IPreferenceFragment
-import sgtmelon.scriptum.presentation.screen.vm.callback.IPreferenceViewModel
+import sgtmelon.scriptum.presentation.screen.ui.callback.preference.IPreferenceFragment
+import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IPreferenceViewModel
 import javax.inject.Inject
 
 /**
@@ -44,7 +44,7 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
 
     //region Dialogs
 
-    private val dialogFactory by lazy { DialogFactory.Preference(activity, fm) }
+    private val dialogFactory by lazy { DialogFactory.Preference(context, fm) }
 
     private val themeDialog by lazy { dialogFactory.getThemeDialog() }
 
@@ -147,8 +147,11 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
         openState.save(outState)
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>,
-                                            grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
         val isGranted = grantResults.firstOrNull()?.isGranted() ?: return
@@ -163,19 +166,19 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
 
 
     override fun showToast(@StringRes stringId: Int) {
-        activity?.showToast(stringId)
+        context?.showToast(stringId)
     }
 
     override fun showExportPathToast(path: String) {
-        val text = resources.getString(R.string.pref_toast_export_result, path)
+        val text = getString(R.string.pref_toast_export_result, path)
 
-        activity?.showToast(text, Toast.LENGTH_LONG)
+        context?.showToast(text, Toast.LENGTH_LONG)
     }
 
     override fun showImportSkipToast(count: Int) {
-        val text = resources.getString(R.string.pref_toast_import_result_skip, count)
+        val text = getString(R.string.pref_toast_import_result_skip, count)
 
-        activity?.showToast(text, Toast.LENGTH_LONG)
+        context?.showToast(text, Toast.LENGTH_LONG)
     }
 
     override fun setupApp() {
@@ -310,7 +313,7 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
     override fun setupOther() {
         findPreference<Preference>(getString(R.string.pref_key_other_rate))?.setOnPreferenceClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
-            val packageName = activity?.packageName
+            val packageName = context?.packageName
 
             if (packageName != null) {
                 try {
@@ -354,7 +357,7 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
     override fun setupDeveloper() {
         developerPreference?.isVisible = true
         developerPreference?.setOnPreferenceClickListener {
-            startActivity(Intent(activity, DevelopActivity::class.java))
+            startActivity(Intent(context, DevelopActivity::class.java))
             return@setOnPreferenceClickListener true
         }
     }

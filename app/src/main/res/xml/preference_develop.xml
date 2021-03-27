@@ -6,27 +6,27 @@
     <PreferenceCategory android:title="@string/pref_header_prints"
         app:iconSpaceReserved="false">
 
-        <Preference android:key="@string/pref_key_prints_rank"
+        <Preference android:key="@string/pref_key_print_rank"
             android:title="@string/pref_title_prints_rank"
             app:iconSpaceReserved="false" />
 
-        <Preference android:key="@string/pref_key_prints_note"
+        <Preference android:key="@string/pref_key_print_note"
             android:title="@string/pref_title_prints_note"
             app:iconSpaceReserved="false" />
 
-        <Preference android:key="@string/pref_key_prints_roll"
+        <Preference android:key="@string/pref_key_print_roll"
             android:title="@string/pref_title_prints_roll"
             app:iconSpaceReserved="false" />
 
-        <Preference android:key="@string/pref_key_prints_alarm"
+        <Preference android:key="@string/pref_key_print_alarm"
             android:title="@string/pref_title_prints_alarm"
             app:iconSpaceReserved="false" />
 
-        <Preference android:key="@string/pref_key_prints_visible"
+        <Preference android:key="@string/pref_key_print_visible"
             android:title="@string/pref_title_prints_visible"
             app:iconSpaceReserved="false" />
 
-        <Preference android:key="@string/pref_key_prints_pref"
+        <Preference android:key="@string/pref_key_print_pref"
             android:title="@string/pref_title_prints_pref"
             app:iconSpaceReserved="false" />
 

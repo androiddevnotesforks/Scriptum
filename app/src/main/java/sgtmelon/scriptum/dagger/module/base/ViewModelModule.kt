@@ -4,7 +4,10 @@ import androidx.lifecycle.ViewModelProvider
 import dagger.Module
 import dagger.Provides
 import sgtmelon.scriptum.dagger.ActivityScope
-import sgtmelon.scriptum.domain.interactor.callback.*
+import sgtmelon.scriptum.domain.interactor.callback.IBackupInteractor
+import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
+import sgtmelon.scriptum.domain.interactor.callback.IIntroInteractor
+import sgtmelon.scriptum.domain.interactor.callback.ISplashInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.IMainInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.INotesInteractor
@@ -15,8 +18,9 @@ import sgtmelon.scriptum.domain.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.INotificationInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.IDevelopInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.IPreferenceInteractor
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteConnector
-import sgtmelon.scriptum.presentation.screen.ui.impl.DevelopActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.intro.IntroActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.BinFragment
@@ -28,10 +32,9 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.AlarmActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.NotificationActivity
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.DevelopFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
-import sgtmelon.scriptum.presentation.screen.vm.callback.IDevelopViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.IIntroViewModel
-import sgtmelon.scriptum.presentation.screen.vm.callback.IPreferenceViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.ISplashViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.main.IBinViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.main.IMainViewModel
@@ -42,9 +45,9 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.note.IRollNoteViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.note.ITextNoteViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.notification.IAlarmViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.notification.INotificationViewModel
-import sgtmelon.scriptum.presentation.screen.vm.impl.DevelopViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IDevelopViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IPreferenceViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.IntroViewModel
-import sgtmelon.scriptum.presentation.screen.vm.impl.PreferenceViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.SplashViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.main.BinViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.main.MainViewModel
@@ -55,6 +58,8 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.note.TextNoteViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.notification.AlarmViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.notification.NotificationViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.preference.DevelopViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.preference.PreferenceViewModel
 
 /**
  * Module for provide viewModel's.
@@ -212,24 +217,25 @@ class ViewModelModule {
     @ActivityScope
     fun providePreferenceViewModel(
         fragment: PreferenceFragment,
-        preferenceInteractor: IPreferenceInteractor,
+        interactor: IPreferenceInteractor,
         signalInteractor: ISignalInteractor,
         backupInteractor: IBackupInteractor,
         bindInteractor: IBindInteractor
     ): IPreferenceViewModel {
-        return PreferenceViewModel(
-            preferenceInteractor, signalInteractor, backupInteractor, bindInteractor, fragment
-        )
+        return ViewModelProvider(fragment).get(PreferenceViewModel::class.java).apply {
+            setCallback(fragment)
+            setInteractor(interactor, signalInteractor, backupInteractor, bindInteractor)
+        }
     }
 
     @Provides
     @ActivityScope
     fun provideDevelopViewModel(
-        activity: DevelopActivity,
+        fragment: DevelopFragment,
         interactor: IDevelopInteractor
     ): IDevelopViewModel {
-        return ViewModelProvider(activity).get(DevelopViewModel::class.java).apply {
-            setCallback(activity)
+        return ViewModelProvider(fragment).get(DevelopViewModel::class.java).apply {
+            setCallback(fragment)
             setInteractor(interactor)
         }
     }

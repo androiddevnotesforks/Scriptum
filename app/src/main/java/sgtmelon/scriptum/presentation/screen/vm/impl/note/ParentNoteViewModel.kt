@@ -35,9 +35,9 @@ import java.util.*
  * Parent viewModel for [TextNoteViewModel] and [RollNoteViewModel].
  */
 abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I : IParentNoteInteractor<N>>(
-        application: Application
+    application: Application
 ) : ParentViewModel<C>(application),
-        IParentNoteViewModel {
+    IParentNoteViewModel {
 
     //region Variables
 

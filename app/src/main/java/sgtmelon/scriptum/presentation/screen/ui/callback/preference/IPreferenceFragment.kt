@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.presentation.screen.ui.callback
+package sgtmelon.scriptum.presentation.screen.ui.callback.preference
 
 import androidx.annotation.StringRes
 import sgtmelon.scriptum.domain.model.annotation.Color
@@ -7,7 +7,7 @@ import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.presentation.control.system.BindControl
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
-import sgtmelon.scriptum.presentation.screen.vm.callback.IPreferenceViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IPreferenceViewModel
 
 /**
  * Interface for communication [IPreferenceViewModel] with [PreferenceFragment].

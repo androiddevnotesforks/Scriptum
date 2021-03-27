@@ -16,6 +16,7 @@ abstract class ParentViewModel<C>(application: Application) :
     AndroidViewModel(application),
     IParentViewModel {
 
+    // TODO remove context
     protected val context: Context = application.applicationContext
 
     @RunProtected

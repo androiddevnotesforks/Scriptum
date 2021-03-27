@@ -1,12 +1,14 @@
-package sgtmelon.scriptum.presentation.screen.vm.impl
+package sgtmelon.scriptum.presentation.screen.vm.impl.preference
 
+import android.app.Application
 import android.os.Bundle
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.interactor.callback.IBackupInteractor
 import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
-import sgtmelon.scriptum.domain.interactor.callback.IPreferenceInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.IPreferenceInteractor
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Repeat
 import sgtmelon.scriptum.domain.model.annotation.Sort
@@ -16,23 +18,35 @@ import sgtmelon.scriptum.domain.model.key.PermissionResult
 import sgtmelon.scriptum.domain.model.result.ExportResult
 import sgtmelon.scriptum.domain.model.result.ImportResult
 import sgtmelon.scriptum.extension.runBack
-import sgtmelon.scriptum.presentation.screen.ui.callback.IPreferenceFragment
-import sgtmelon.scriptum.presentation.screen.vm.callback.IPreferenceViewModel
+import sgtmelon.scriptum.presentation.screen.ui.callback.preference.IPreferenceFragment
+import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IPreferenceViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
 
 /**
  * ViewModel for [IPreferenceFragment].
  */
 class PreferenceViewModel(
-        private val interactor: IPreferenceInteractor,
-        private val signalInteractor: ISignalInteractor,
-        private val backupInteractor: IBackupInteractor,
-        private val bindInteractor: IBindInteractor,
-        @RunPrivate var callback: IPreferenceFragment?
-) : IPreferenceViewModel {
+    application: Application
+) : ParentViewModel<IPreferenceFragment>(application),
+    IPreferenceViewModel {
 
-    private val viewModelScope by lazy {
-        CoroutineScope(context = SupervisorJob() + Dispatchers.Main.immediate)
+    private lateinit var interactor: IPreferenceInteractor
+    private lateinit var signalInteractor: ISignalInteractor
+    private lateinit var backupInteractor: IBackupInteractor
+    private lateinit var bindInteractor: IBindInteractor
+
+    fun setInteractor(
+        interactor: IPreferenceInteractor,
+        signalInteractor: ISignalInteractor,
+        backupInteractor: IBackupInteractor,
+        bindInteractor: IBindInteractor
+    ) {
+        this.interactor = interactor
+        this.signalInteractor = signalInteractor
+        this.backupInteractor = backupInteractor
+        this.bindInteractor = bindInteractor
     }
+
 
     override fun onSetup(bundle: Bundle?) {
         callback?.apply {
@@ -103,12 +117,6 @@ class PreferenceViewModel(
 
         callback?.updateMelodyGroupEnabled(state.isMelody)
         callback?.updateMelodySummary(melodyItem.title)
-    }
-
-    override fun onDestroy(func: () -> Unit) {
-        callback = null
-
-        viewModelScope.cancel()
     }
 
     /**

@@ -6,10 +6,10 @@ import sgtmelon.scriptum.dagger.ActivityScope
 import sgtmelon.scriptum.dagger.module.DevelopModule
 import sgtmelon.scriptum.dagger.module.base.InteractorModule
 import sgtmelon.scriptum.dagger.module.base.ViewModelModule
-import sgtmelon.scriptum.presentation.screen.ui.impl.DevelopActivity
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.DevelopFragment
 
 /**
- * Component for [DevelopActivity].
+ * Component for [DevelopFragment].
  */
 @ActivityScope
 @Subcomponent(modules = [
@@ -19,12 +19,12 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.DevelopActivity
 ])
 interface DevelopComponent {
 
-    fun inject(activity: DevelopActivity)
+    fun inject(fragment: DevelopFragment)
 
     @Subcomponent.Builder
     interface Builder {
         @BindsInstance
-        fun set(activity: DevelopActivity): Builder
+        fun set(fragment: DevelopFragment): Builder
 
         fun build(): DevelopComponent
     }

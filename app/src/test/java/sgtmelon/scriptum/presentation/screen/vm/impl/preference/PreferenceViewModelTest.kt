@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.presentation.screen.vm.impl
+package sgtmelon.scriptum.presentation.screen.vm.impl.preference
 
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
@@ -11,13 +11,13 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.domain.interactor.callback.IBackupInteractor
 import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
-import sgtmelon.scriptum.domain.interactor.callback.IPreferenceInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.IPreferenceInteractor
 import sgtmelon.scriptum.domain.model.key.PermissionResult
 import sgtmelon.scriptum.domain.model.result.ExportResult
 import sgtmelon.scriptum.domain.model.result.ImportResult
 import sgtmelon.scriptum.domain.model.state.SignalState
-import sgtmelon.scriptum.presentation.screen.ui.callback.IPreferenceFragment
+import sgtmelon.scriptum.presentation.screen.ui.callback.preference.IPreferenceFragment
 import kotlin.random.Random
 
 /**
@@ -35,12 +35,15 @@ class PreferenceViewModelTest : ParentViewModelTest() {
     private val melodyList = TestData.Melody.melodyList
     private val fileList = TestData.Backup.fileList
 
-    private val viewModel by lazy {
-        PreferenceViewModel(
-            interactor, signalInteractor, backupInteractor, bindInteractor, callback
-        )
-    }
+    private val viewModel by lazy { PreferenceViewModel(application) }
     private val spyViewModel by lazy { spyk(viewModel) }
+
+    override fun setUp() {
+        super.setUp()
+
+        viewModel.setCallback(callback)
+        viewModel.setInteractor(interactor, signalInteractor, backupInteractor, bindInteractor)
+    }
 
     override fun tearDown() {
         super.tearDown()

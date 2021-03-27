@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.domain.interactor.impl
+package sgtmelon.scriptum.domain.interactor.impl.preference
 
 import io.mockk.*
 import io.mockk.impl.annotations.MockK

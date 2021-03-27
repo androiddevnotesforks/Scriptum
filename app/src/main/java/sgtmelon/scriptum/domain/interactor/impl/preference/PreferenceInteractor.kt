@@ -1,14 +1,14 @@
-package sgtmelon.scriptum.domain.interactor.impl
+package sgtmelon.scriptum.domain.interactor.impl.preference
 
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.room.converter.type.IntConverter
-import sgtmelon.scriptum.domain.interactor.callback.IPreferenceInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.IPreferenceInteractor
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Repeat
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.presentation.provider.SummaryProvider
-import sgtmelon.scriptum.presentation.screen.vm.callback.IPreferenceViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IPreferenceViewModel
 import java.util.*
 
 /**

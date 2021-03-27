@@ -19,6 +19,8 @@ import sgtmelon.scriptum.domain.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.INotificationInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.IDevelopInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.IPreferenceInteractor
 import sgtmelon.scriptum.domain.interactor.impl.*
 import sgtmelon.scriptum.domain.interactor.impl.main.BinInteractor
 import sgtmelon.scriptum.domain.interactor.impl.main.MainInteractor
@@ -30,6 +32,8 @@ import sgtmelon.scriptum.domain.interactor.impl.note.TextNoteInteractor
 import sgtmelon.scriptum.domain.interactor.impl.notification.AlarmInteractor
 import sgtmelon.scriptum.domain.interactor.impl.notification.NotificationInteractor
 import sgtmelon.scriptum.domain.interactor.impl.notification.SignalInteractor
+import sgtmelon.scriptum.domain.interactor.impl.preference.DevelopInteractor
+import sgtmelon.scriptum.domain.interactor.impl.preference.PreferenceInteractor
 import sgtmelon.scriptum.presentation.control.cipher.ICipherControl
 import sgtmelon.scriptum.presentation.control.file.IFileControl
 import sgtmelon.scriptum.presentation.control.system.callback.IRingtoneControl
