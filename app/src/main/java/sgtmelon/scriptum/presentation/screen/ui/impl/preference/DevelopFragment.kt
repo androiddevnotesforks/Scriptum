@@ -22,11 +22,12 @@ class DevelopFragment : ParentPreferenceFragment(), IDevelopFragment {
 
     //region Preferences
 
-    private val printRankPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_print_rank)) }
     private val printNotePreference by lazy { findPreference<Preference>(getString(R.string.pref_key_print_note)) }
+    private val printBinPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_print_bin)) }
     private val printRollPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_print_roll)) }
-    private val printAlarmPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_print_alarm)) }
     private val printVisiblePreference by lazy { findPreference<Preference>(getString(R.string.pref_key_print_visible)) }
+    private val printRankPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_print_rank)) }
+    private val printAlarmPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_print_alarm)) }
     private val printPrefPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_print_pref)) }
 
     private val introPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_screen_intro)) }
@@ -54,11 +55,11 @@ class DevelopFragment : ParentPreferenceFragment(), IDevelopFragment {
     }
 
     override fun setupPrints() {
-        printRankPreference?.setOnPreferenceClickListener {
+        printNotePreference?.setOnPreferenceClickListener {
             context?.showToast("click")
             return@setOnPreferenceClickListener true
         }
-        printNotePreference?.setOnPreferenceClickListener {
+        printBinPreference?.setOnPreferenceClickListener {
             context?.showToast("click")
             return@setOnPreferenceClickListener true
         }
@@ -66,11 +67,15 @@ class DevelopFragment : ParentPreferenceFragment(), IDevelopFragment {
             context?.showToast("click")
             return@setOnPreferenceClickListener true
         }
-        printAlarmPreference?.setOnPreferenceClickListener {
+        printVisiblePreference?.setOnPreferenceClickListener {
             context?.showToast("click")
             return@setOnPreferenceClickListener true
         }
-        printVisiblePreference?.setOnPreferenceClickListener {
+        printRankPreference?.setOnPreferenceClickListener {
+            context?.showToast("click")
+            return@setOnPreferenceClickListener true
+        }
+        printAlarmPreference?.setOnPreferenceClickListener {
             context?.showToast("click")
             return@setOnPreferenceClickListener true
         }
