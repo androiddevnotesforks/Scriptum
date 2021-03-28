@@ -77,6 +77,10 @@ class AlarmDaoTest : ParentRoomTest() {
         }
     }
 
+    @Test fun get() {
+        TODO()
+    }
+
     @Test fun getOnWrongId() = inRoomTest { assertNull(alarmDao.get(Random.nextLong())) }
 
     @Test fun getOnCorrectId() = inRoomTest {

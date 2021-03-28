@@ -9,5 +9,5 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IPrintViewMo
  * Interface for communication [IPrintViewModel] with [PrintInteractor].
  */
 interface IPrintInteractor {
-    fun getList(type: PrintType): List<PrintItem>
+    suspend fun getList(type: PrintType): List<PrintItem>
 }

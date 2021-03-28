@@ -166,4 +166,8 @@ class RollDaoTest : ParentRoomTest() {
             )
         }
     }
+
+    @Test fun get() {
+        TODO()
+    }
 }

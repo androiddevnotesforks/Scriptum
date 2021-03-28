@@ -77,4 +77,8 @@ class RollVisibleDaoTest : ParentRoomTest() {
         assertTrue(resultList.contains(firstModel.entity))
         assertTrue(resultList.contains(secondModel.entity))
     }
+
+    @Test fun get() = inRoomTest {
+        TODO()
+    }
 }
