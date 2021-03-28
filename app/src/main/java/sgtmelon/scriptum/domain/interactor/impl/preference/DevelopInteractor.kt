@@ -15,8 +15,6 @@ class DevelopInteractor(
 ) : ParentInteractor(),
     IDevelopInteractor {
 
-    // TODO add tests
-
     override suspend fun getRandomNoteId(): Long = developRepo.getRandomNoteId()
 
     override fun resetPreferences() = preferenceRepo.clear()

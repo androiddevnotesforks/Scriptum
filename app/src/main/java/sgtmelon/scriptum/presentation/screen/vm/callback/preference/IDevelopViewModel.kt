@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.presentation.screen.vm.callback.preference
 
+import sgtmelon.scriptum.domain.model.key.PrintType
 import sgtmelon.scriptum.presentation.screen.ui.callback.preference.IDevelopFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.IParentViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.preference.DevelopViewModel
@@ -9,10 +10,9 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.preference.DevelopViewModel
  */
 interface IDevelopViewModel : IParentViewModel {
 
+    fun onClickPrint(type: PrintType)
 
-    // TODO
-
-    fun onClickScreenAlarm()
+    fun onClickAlarm()
 
     fun onClickReset()
 }

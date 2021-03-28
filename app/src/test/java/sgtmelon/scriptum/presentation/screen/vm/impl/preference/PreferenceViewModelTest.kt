@@ -3,7 +3,8 @@ package sgtmelon.scriptum.presentation.screen.vm.impl.preference
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.Assert.*
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentViewModelTest
@@ -21,7 +22,7 @@ import sgtmelon.scriptum.presentation.screen.ui.callback.preference.IPreferenceF
 import kotlin.random.Random
 
 /**
- * Test fo [PreferenceViewModel].
+ * Test for [PreferenceViewModel].
  */
 @ExperimentalCoroutinesApi
 class PreferenceViewModelTest : ParentViewModelTest() {
@@ -314,7 +315,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
         every { interactor.theme } returns value
 
-        assertTrue(viewModel.onClickTheme())
+        viewModel.onClickTheme()
 
         verifySequence {
             interactor.theme
@@ -341,10 +342,10 @@ class PreferenceViewModelTest : ParentViewModelTest() {
         coEvery { spyViewModel.startExport() } returns Unit
 
         for (it in PermissionResult.values()) {
-            assertTrue(spyViewModel.onClickExport(it))
+            spyViewModel.onClickExport(it)
         }
 
-        assertTrue(spyViewModel.onClickExport(result = null))
+        spyViewModel.onClickExport(result = null)
 
         coVerify {
             spyViewModel.onClickExport(PermissionResult.LOW_API)
@@ -406,10 +407,10 @@ class PreferenceViewModelTest : ParentViewModelTest() {
         coEvery { spyViewModel.prepareImportDialog() } returns Unit
 
         for (it in PermissionResult.values()) {
-            assertTrue(spyViewModel.onClickImport(it))
+            spyViewModel.onClickImport(it)
         }
 
-        assertTrue(spyViewModel.onClickImport(result = null))
+        spyViewModel.onClickImport(result = null)
 
         coVerify {
             spyViewModel.onClickImport(PermissionResult.LOW_API)
@@ -493,7 +494,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
         every { interactor.sort } returns value
 
-        assertTrue(viewModel.onClickSort())
+        viewModel.onClickSort()
 
         verifySequence {
             interactor.sort
@@ -520,7 +521,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
         every { interactor.defaultColor } returns color
 
-        assertTrue(viewModel.onClickNoteColor())
+        viewModel.onClickNoteColor()
 
         verifySequence {
             interactor.defaultColor
@@ -547,7 +548,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
         every { interactor.savePeriod } returns value
 
-        assertTrue(viewModel.onClickSaveTime())
+        viewModel.onClickSaveTime()
 
         verifySequence {
             interactor.savePeriod
@@ -575,7 +576,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
         every { interactor.repeat } returns value
 
-        assertTrue(viewModel.onClickRepeat())
+        viewModel.onClickRepeat()
 
         verifySequence {
             interactor.repeat
@@ -602,7 +603,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
         every { signalInteractor.typeCheck } returns valueArray
 
-        assertTrue(viewModel.onClickSignal())
+        viewModel.onClickSignal()
 
         verifySequence {
             signalInteractor.typeCheck
@@ -676,10 +677,10 @@ class PreferenceViewModelTest : ParentViewModelTest() {
         coEvery { spyViewModel.prepareMelodyDialog() } returns Unit
 
         for (it in PermissionResult.values()) {
-            assertTrue(spyViewModel.onClickMelody(it))
+            spyViewModel.onClickMelody(it)
         }
 
-        assertTrue(spyViewModel.onClickMelody(result = null))
+        spyViewModel.onClickMelody(result = null)
 
         coVerify {
             spyViewModel.onClickMelody(PermissionResult.LOW_API)
@@ -813,7 +814,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
         every { interactor.volume } returns value
 
-        assertTrue(viewModel.onClickVolume())
+        viewModel.onClickVolume()
 
         verifySequence {
             interactor.volume

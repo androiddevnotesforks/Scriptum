@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.interactor.callback.preference.IDevelopInteractor
+import sgtmelon.scriptum.domain.model.key.PrintType
 import sgtmelon.scriptum.extension.runBack
 import sgtmelon.scriptum.presentation.screen.ui.callback.preference.IDevelopFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IDevelopViewModel
@@ -16,8 +17,6 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
  */
 class DevelopViewModel(application: Application) : ParentViewModel<IDevelopFragment>(application),
     IDevelopViewModel {
-
-    // TODO add tests
 
     private lateinit var interactor: IDevelopInteractor
 
@@ -32,9 +31,12 @@ class DevelopViewModel(application: Application) : ParentViewModel<IDevelopFragm
         callback?.setupOther()
     }
 
-    // TODO
 
-    override fun onClickScreenAlarm() {
+    override fun onClickPrint(type: PrintType) {
+        callback?.openPrintScreen(type)
+    }
+
+    override fun onClickAlarm() {
         viewModelScope.launch {
             val noteId = runBack { interactor.getRandomNoteId() }
             callback?.openAlarmScreen(noteId)

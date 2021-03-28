@@ -56,34 +56,32 @@ class DevelopFragment : ParentPreferenceFragment(), IDevelopFragment {
     }
 
     override fun setupPrints() {
-        val context = context ?: return
-
         printNotePreference?.setOnPreferenceClickListener {
-            startActivity(PrintActivity[context, PrintType.NOTE])
+            viewModel.onClickPrint(PrintType.NOTE)
             return@setOnPreferenceClickListener true
         }
         printBinPreference?.setOnPreferenceClickListener {
-            startActivity(PrintActivity[context, PrintType.BIN])
+            viewModel.onClickPrint(PrintType.BIN)
             return@setOnPreferenceClickListener true
         }
         printRollPreference?.setOnPreferenceClickListener {
-            startActivity(PrintActivity[context, PrintType.ROLL])
+            viewModel.onClickPrint(PrintType.ROLL)
             return@setOnPreferenceClickListener true
         }
         printVisiblePreference?.setOnPreferenceClickListener {
-            startActivity(PrintActivity[context, PrintType.VISIBLE])
+            viewModel.onClickPrint(PrintType.VISIBLE)
             return@setOnPreferenceClickListener true
         }
         printRankPreference?.setOnPreferenceClickListener {
-            startActivity(PrintActivity[context, PrintType.RANK])
+            viewModel.onClickPrint(PrintType.RANK)
             return@setOnPreferenceClickListener true
         }
         printAlarmPreference?.setOnPreferenceClickListener {
-            startActivity(PrintActivity[context, PrintType.ALARM])
+            viewModel.onClickPrint(PrintType.ALARM)
             return@setOnPreferenceClickListener true
         }
         printPrefPreference?.setOnPreferenceClickListener {
-            startActivity(PrintActivity[context, PrintType.PREFERENCE])
+            viewModel.onClickPrint(PrintType.PREFERENCE)
             return@setOnPreferenceClickListener true
         }
     }
@@ -98,7 +96,7 @@ class DevelopFragment : ParentPreferenceFragment(), IDevelopFragment {
             return@setOnPreferenceClickListener true
         }
         alarmPreference?.setOnPreferenceClickListener {
-            viewModel.onClickScreenAlarm()
+            viewModel.onClickAlarm()
             return@setOnPreferenceClickListener true
         }
     }
@@ -114,7 +112,12 @@ class DevelopFragment : ParentPreferenceFragment(), IDevelopFragment {
         context?.showToast(stringId)
     }
 
-    // TODO
+
+    override fun openPrintScreen(type: PrintType) {
+        val context = context ?: return
+
+        startActivity(PrintActivity[context, type])
+    }
 
     override fun openAlarmScreen(noteId: Long) {
         val context = context ?: return
