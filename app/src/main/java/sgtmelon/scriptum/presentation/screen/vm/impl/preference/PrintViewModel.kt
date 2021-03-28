@@ -9,6 +9,7 @@ import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.data.IntentData
 import sgtmelon.scriptum.domain.model.data.IntentData.Print.Default
 import sgtmelon.scriptum.domain.model.data.IntentData.Print.Intent
+import sgtmelon.scriptum.domain.model.item.PrintItem
 import sgtmelon.scriptum.domain.model.key.PrintType
 import sgtmelon.scriptum.extension.clearAdd
 import sgtmelon.scriptum.extension.runBack
@@ -33,7 +34,7 @@ class PrintViewModel(
     }
 
 
-    @RunPrivate val itemList: MutableList<Any> = ArrayList()
+    @RunPrivate val itemList: MutableList<PrintItem> = ArrayList()
 
     @RunPrivate var type: PrintType? = null
 
@@ -46,22 +47,36 @@ class PrintViewModel(
         callback?.setupInsets()
     }
 
+    override fun onSaveData(bundle: Bundle) = with(bundle) {
+        putInt(IntentData.Note.Intent.TYPE, type?.ordinal ?: Default.TYPE)
+    }
+
     override fun onUpdateData() {
+        val type = type ?: return
+
         AppIdlingResource.getInstance().startWork(IdlingTag.Print.LOAD_DATA)
 
-        viewModelScope.launch {
+        callback?.beforeLoad()
+
+        fun updateList() = callback?.apply {
+            notifyList(itemList)
+            onBindingList()
+        }
+
+        /**
+         * If was rotation need show list. After that fetch updates.
+         */
+        if (itemList.isNotEmpty()) {
+            updateList()
+        } else {
             callback?.showProgress()
+        }
 
-            runBack { itemList.clearAdd(interactor.getList()) }
-
-            callback?.notifyList(itemList)
-            callback?.onBindingList()
+        viewModelScope.launch {
+            runBack { itemList.clearAdd(interactor.getList(type)) }
+            updateList()
 
             AppIdlingResource.getInstance().stopWork(IdlingTag.Print.LOAD_DATA)
         }
-    }
-
-    override fun onSaveData(bundle: Bundle) = with(bundle) {
-        putInt(IntentData.Note.Intent.TYPE, type?.ordinal ?: Default.TYPE)
     }
 }

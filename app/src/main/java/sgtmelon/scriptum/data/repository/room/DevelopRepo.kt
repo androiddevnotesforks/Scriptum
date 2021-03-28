@@ -6,7 +6,7 @@ import sgtmelon.scriptum.data.room.IRoomWork
 import sgtmelon.scriptum.data.room.RoomDb
 
 /**
- * Repository of [RoomDb] which work with all tables data.
+ * Repository of [RoomDb] which work with all tables data and only for developer screen.
  */
 class DevelopRepo(
     override val roomProvider: RoomProvider

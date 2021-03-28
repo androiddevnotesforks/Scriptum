@@ -230,7 +230,10 @@ class InteractorModule {
 
     @Provides
     @ActivityScope
-    fun providePrintInteractor(): IPrintInteractor {
-        return PrintInteractor()
+    fun providePrintInteractor(
+        developRepo: IDevelopRepo,
+        preferenceRepo: IPreferenceRepo
+    ): IPrintInteractor {
+        return PrintInteractor(developRepo, preferenceRepo)
     }
 }

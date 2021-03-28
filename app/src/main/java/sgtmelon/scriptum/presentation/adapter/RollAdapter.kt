@@ -2,6 +2,7 @@ package sgtmelon.scriptum.presentation.adapter
 
 import android.view.ViewGroup
 import android.widget.CheckBox
+import androidx.annotation.IntDef
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.item.RollItem
@@ -17,9 +18,9 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
  * Adapter which displays list of rolls for [RollNoteFragment].
  */
 class RollAdapter(
-        private val rollWriteCallback: RollWriteHolder.Callback,
-        private val clickListener: ItemListener.ActionClick,
-        private val longClickListener: ItemListener.LongClick
+    private val rollWriteCallback: RollWriteHolder.Callback,
+    private val clickListener: ItemListener.ActionClick,
+    private val longClickListener: ItemListener.LongClick
 ) : ParentAdapter<RollItem, RecyclerView.ViewHolder>() {
 
     var dragListener: ItemListener.Drag? = null
@@ -34,18 +35,15 @@ class RollAdapter(
     var isToggleCheck: Boolean = false
     var cursorPosition = ND_CURSOR
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if (viewType == TYPE_WRITE) {
-            RollWriteHolder(
-                    parent.inflateBinding(R.layout.item_roll_write),
-                    dragListener, rollWriteCallback, inputControl
-            )
-        } else {
-            RollReadHolder(
-                    parent.inflateBinding(R.layout.item_roll_read),
-                    clickListener, longClickListener
-            )
-        }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
+        Type.WRITE -> RollWriteHolder(
+            parent.inflateBinding(R.layout.item_roll_write),
+            dragListener, rollWriteCallback, inputControl
+        )
+        else -> RollReadHolder(
+            parent.inflateBinding(R.layout.item_roll_read),
+            clickListener, longClickListener
+        )
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -65,15 +63,18 @@ class RollAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (noteState?.isEdit == true) TYPE_WRITE else TYPE_READ
+        return if (noteState?.isEdit == true) Type.WRITE else Type.READ
     }
 
+    @IntDef(Type.WRITE, Type.READ)
+    private annotation class Type {
+        companion object {
+            const val WRITE = 0
+            const val READ = 1
+        }
+    }
 
     private companion object {
         const val ND_CURSOR = -1
-
-        const val TYPE_WRITE = 0
-        const val TYPE_READ = 1
     }
-
 }

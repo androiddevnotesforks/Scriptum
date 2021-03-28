@@ -9,9 +9,10 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.data.IntentData
+import sgtmelon.scriptum.domain.model.item.PrintItem
 import sgtmelon.scriptum.domain.model.key.PrintType
 import sgtmelon.scriptum.extension.*
-import sgtmelon.scriptum.presentation.adapter.NoteAdapter
+import sgtmelon.scriptum.presentation.adapter.PrintAdapter
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.callback.preference.IPrintActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.AppActivity
@@ -32,7 +33,7 @@ class PrintActivity : AppActivity(), IPrintActivity {
     private val progressBar by lazy { findViewById<View>(R.id.print_progress) }
     private val recyclerView by lazy { findViewById<RecyclerView>(R.id.print_recycler) }
 
-    private val adapter: NoteAdapter? = null
+    private val adapter = PrintAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         ScriptumApplication.component.getPrintBuilder().set(activity = this).build()
@@ -118,17 +119,23 @@ class PrintActivity : AppActivity(), IPrintActivity {
     override fun onBindingList() {
         progressBar?.visibility = View.GONE
 
-        if (adapter?.itemCount == 0) {
+        if (adapter.itemCount == 0) {
             emptyInfoView?.visibility = View.VISIBLE
+            recyclerView?.visibility = View.INVISIBLE
+
             emptyInfoView?.alpha = 0f
             emptyInfoView?.animateAlpha(isVisible = true)
         } else {
             recyclerView?.visibility = View.VISIBLE
+
+            emptyInfoView?.animateAlpha(isVisible = false) {
+                emptyInfoView?.visibility = View.GONE
+            }
         }
     }
 
-    override fun notifyList(list: List<Any>) {
-        TODO("Not yet implemented")
+    override fun notifyList(list: List<PrintItem>) {
+        adapter.setList(list).notifyDataSetChanged()
     }
 
     companion object {
