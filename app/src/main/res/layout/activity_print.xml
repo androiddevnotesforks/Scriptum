@@ -9,13 +9,13 @@
 
     <include layout="@layout/inc_toolbar_simple" />
 
-    <TextView
-        android:id="@+id/print_text"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/print_recycler"
+        style="@style/RecyclerView.Normal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:textColor="?attr/clContent"
-        android:textSize="100sp"
-        tools:text="123" />
+        android:visibility="invisible"
+        tools:itemCount="3"
+        tools:visibility="visible" />
 
 </LinearLayout>

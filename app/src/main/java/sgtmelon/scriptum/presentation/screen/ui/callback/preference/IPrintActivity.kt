@@ -1,3 +1,10 @@
 package sgtmelon.scriptum.presentation.screen.ui.callback.preference
 
-interface IPrintActivity
+import sgtmelon.scriptum.domain.model.key.PrintType
+
+interface IPrintActivity {
+
+    fun setupView(type: PrintType)
+
+    fun setupInsets()
+}
