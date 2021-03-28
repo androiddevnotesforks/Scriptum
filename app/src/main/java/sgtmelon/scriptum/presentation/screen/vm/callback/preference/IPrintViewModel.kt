@@ -11,4 +11,6 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.preference.PrintViewModel
 interface IPrintViewModel : IParentViewModel {
 
     fun onSaveData(bundle: Bundle)
+
+    fun onUpdateData()
 }

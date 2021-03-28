@@ -7,4 +7,13 @@ interface IPrintActivity {
     fun setupView(type: PrintType)
 
     fun setupInsets()
+
+    fun beforeLoad()
+
+    fun showProgress()
+
+    fun onBindingList()
+
+    fun notifyList(list: List<Any>)
+
 }

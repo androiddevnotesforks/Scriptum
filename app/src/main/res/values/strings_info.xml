@@ -34,6 +34,7 @@
     <string name="info_notification_empty_title">No notifications</string>
     <string name="info_roll_hide_title">All items done!</string>
     <string name="info_roll_empty_title">You have not created items</string>
+    <string name="info_print_empty_title" translatable="false">Sorry!</string>
 
     <string name="info_rank_empty_details">You can create category using field above</string>
     <string name="info_notes_empty_details">You can create new note using plus button</string>
@@ -42,5 +43,6 @@
     <string name="info_notification_empty_details">You can create notification inside note</string>
     <string name="info_roll_hide_details">You can display them using visible button</string>
     <string name="info_roll_empty_details">You can create them using bottom panel</string>
+    <string name="info_print_empty_details" translatable="false">There is nothing to print</string>
 
 </resources>

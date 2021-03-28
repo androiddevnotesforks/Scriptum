@@ -3,6 +3,7 @@ package sgtmelon.scriptum.presentation.screen.ui.impl.preference
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
@@ -10,6 +11,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.data.IntentData
 import sgtmelon.scriptum.domain.model.key.PrintType
 import sgtmelon.scriptum.extension.*
+import sgtmelon.scriptum.presentation.adapter.NoteAdapter
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.callback.preference.IPrintActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.AppActivity
@@ -25,7 +27,12 @@ class PrintActivity : AppActivity(), IPrintActivity {
 
     private val parentContainer by lazy { findViewById<ViewGroup>(R.id.print_parent_container) }
     private val toolbar by lazy { findViewById<Toolbar>(R.id.toolbar_container) }
+
+    private val emptyInfoView by lazy { findViewById<View>(R.id.print_info_include) }
+    private val progressBar by lazy { findViewById<View>(R.id.print_progress) }
     private val recyclerView by lazy { findViewById<RecyclerView>(R.id.print_recycler) }
+
+    private val adapter: NoteAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         ScriptumApplication.component.getPrintBuilder().set(activity = this).build()
@@ -35,6 +42,11 @@ class PrintActivity : AppActivity(), IPrintActivity {
         setContentView(R.layout.activity_print)
 
         viewModel.onSetup(bundle = savedInstanceState ?: intent.extras)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.onUpdateData()
     }
 
     override fun onDestroy() {
@@ -49,27 +61,32 @@ class PrintActivity : AppActivity(), IPrintActivity {
 
 
     override fun setupView(type: PrintType) {
-        toolbar?.apply {
-            val titleText = getString(when (type) {
-                PrintType.NOTE, PrintType.BIN -> R.string.pref_title_prints_note
-                PrintType.ROLL -> R.string.pref_title_prints_roll
-                PrintType.VISIBLE -> R.string.pref_title_prints_visible
-                PrintType.RANK -> R.string.pref_title_prints_rank
-                PrintType.ALARM -> R.string.pref_title_prints_alarm
-                PrintType.PREFERENCE -> R.string.pref_title_prints_pref
-            }).toLowerCase()
+        val toolbar = toolbar ?: return
+        val recyclerView = recyclerView ?: return
 
-            title = getString(R.string.title_print, titleText)
+        val titleText = getString(when (type) {
+            PrintType.NOTE, PrintType.BIN -> R.string.pref_title_prints_note
+            PrintType.ROLL -> R.string.pref_title_prints_roll
+            PrintType.VISIBLE -> R.string.pref_title_prints_visible
+            PrintType.RANK -> R.string.pref_title_prints_rank
+            PrintType.ALARM -> R.string.pref_title_prints_alarm
+            PrintType.PREFERENCE -> R.string.pref_title_prints_pref
+        }).toLowerCase()
 
-            if (type == PrintType.NOTE) {
-                subtitle = getString(R.string.pref_summary_print_note)
-            } else if (type == PrintType.BIN) {
-                subtitle = getString(R.string.pref_summary_print_bin)
-            }
+        toolbar.title = getString(R.string.title_print, titleText)
 
-            navigationIcon = getTintDrawable(R.drawable.ic_cancel_exit)
-            setNavigationOnClickListener { finish() }
+        if (type == PrintType.NOTE) {
+            toolbar.subtitle = getString(R.string.pref_summary_print_note)
+        } else if (type == PrintType.BIN) {
+            toolbar.subtitle = getString(R.string.pref_summary_print_bin)
         }
+
+        toolbar.navigationIcon = getTintDrawable(R.drawable.ic_cancel_exit)
+        toolbar.setNavigationOnClickListener { finish() }
+
+        recyclerView.setHasFixedSize(true)
+        // TODO
+        //        recyclerView.adapter = adapter
     }
 
     override fun setupInsets() {
@@ -84,6 +101,34 @@ class PrintActivity : AppActivity(), IPrintActivity {
             view.updatePadding(InsetsDir.BOTTOM, insets, padding)
             return@doOnApplyWindowInsets insets
         }
+    }
+
+    /**
+     * For first time [recyclerView] visibility flag set inside xml file.
+     */
+    override fun beforeLoad() {
+        emptyInfoView?.visibility = View.GONE
+        progressBar?.visibility = View.GONE
+    }
+
+    override fun showProgress() {
+        progressBar?.visibility = View.VISIBLE
+    }
+
+    override fun onBindingList() {
+        progressBar?.visibility = View.GONE
+
+        if (adapter?.itemCount == 0) {
+            emptyInfoView?.visibility = View.VISIBLE
+            emptyInfoView?.alpha = 0f
+            emptyInfoView?.animateAlpha(isVisible = true)
+        } else {
+            recyclerView?.visibility = View.VISIBLE
+        }
+    }
+
+    override fun notifyList(list: List<Any>) {
+        TODO("Not yet implemented")
     }
 
     companion object {

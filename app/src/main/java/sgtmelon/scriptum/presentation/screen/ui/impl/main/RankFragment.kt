@@ -237,7 +237,9 @@ class RankFragment : ParentFragment(), IRankFragment, MainReceiver.BindCallback,
         }
     }
 
-
+    /**
+     * For first time [recyclerView] visibility flag set inside xml file.
+     */
     override fun beforeLoad() {
         emptyInfoView?.visibility = View.GONE
         progressBar?.visibility = View.GONE

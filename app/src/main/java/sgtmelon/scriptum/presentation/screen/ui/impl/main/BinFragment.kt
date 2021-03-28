@@ -137,7 +137,9 @@ class BinFragment : ParentFragment(), IBinFragment {
         }
     }
 
-
+    /**
+     * For first time [recyclerView] visibility flag set inside xml file.
+     */
     override fun beforeLoad() {
         emptyInfoView?.visibility = View.GONE
         progressBar?.visibility = View.GONE

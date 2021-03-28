@@ -54,7 +54,6 @@ annotation class IdlingTag {
 
     @StringDef(Bin.LOAD_DATA)
     annotation class Bin {
-
         companion object {
             private const val PREFIX = "BIN"
 
@@ -64,7 +63,6 @@ annotation class IdlingTag {
 
     @StringDef(Notification.LOAD_DATA)
     annotation class Notification {
-
         companion object {
             private const val PREFIX = "NOTIFICATION"
 
@@ -75,9 +73,17 @@ annotation class IdlingTag {
 
     @StringDef(Note.LOAD_DATA)
     annotation class Note {
-
         companion object {
             private const val PREFIX = "NOTE"
+
+            const val LOAD_DATA = "${PREFIX}_LOAD_DATA"
+        }
+    }
+
+    @StringDef(Print.LOAD_DATA)
+    annotation class Print {
+        companion object {
+            private const val PREFIX = "PRINT"
 
             const val LOAD_DATA = "${PREFIX}_LOAD_DATA"
         }

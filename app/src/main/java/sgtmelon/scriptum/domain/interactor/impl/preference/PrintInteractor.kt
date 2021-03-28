@@ -8,4 +8,9 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IPrintViewMo
  * Interactor for [IPrintViewModel].
  */
 class PrintInteractor : ParentInteractor(),
-    IPrintInteractor
+    IPrintInteractor {
+
+    override fun getList(): List<Any> {
+        TODO("Not yet implemented")
+    }
+}
