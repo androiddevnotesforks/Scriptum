@@ -9,6 +9,7 @@
     <string name="title_bin">Bin</string>
     <string name="title_notification">Notifications</string>
     <string name="title_preference">Settings</string>
+
     <string name="title_develop" translatable="false">Develop</string>
     <string name="title_print" translatable="false">Print:  %s</string>
 

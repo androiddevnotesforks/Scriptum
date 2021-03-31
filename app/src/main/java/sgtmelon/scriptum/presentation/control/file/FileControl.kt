@@ -18,6 +18,8 @@ class FileControl(private val context: Context) : IFileControl {
 
     override val cacheDirectory: File = context.cacheDir
 
+    override val saveDirectory: File get() = Environment.getExternalStorageDirectory()
+
 
     override fun readFile(path: String): String? {
         try {
@@ -48,7 +50,7 @@ class FileControl(private val context: Context) : IFileControl {
      * Return path to created file.
      */
     override fun writeFile(name: String, data: String): String? {
-        val file = File(Environment.getExternalStorageDirectory(), name)
+        val file = File(saveDirectory, name)
 
         try {
             file.createNewFile()
@@ -78,7 +80,7 @@ class FileControl(private val context: Context) : IFileControl {
     override suspend fun getFileList(@FileType type: String): List<FileItem> {
         val list = mutableListOf<FileItem>()
 
-        list.addAll(getFileList(Environment.getExternalStorageDirectory(), type))
+        list.addAll(getFileList(saveDirectory, type))
 
         for (it in ContextCompat.getExternalFilesDirs(context, null).filterNotNull()) {
             list.addAll(getFileList(it, type))

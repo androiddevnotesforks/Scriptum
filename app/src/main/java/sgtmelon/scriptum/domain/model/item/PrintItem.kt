@@ -20,7 +20,7 @@ sealed class PrintItem {
     data class Alarm(val entity: AlarmEntity) : PrintItem()
 
     sealed class Preference : PrintItem() {
-        data class Divider(@StringRes val title: Int) : Preference()
+        data class Title(@StringRes val title: Int) : Preference()
 
         data class Item(val key: String, val def: String, val value: String) : Preference() {
             constructor(
@@ -37,5 +37,7 @@ sealed class PrintItem {
         }
 
         data class Custom(@StringRes val title: Int, val value: String) : Preference()
+
+        data class File(val item: FileItem) : Preference()
     }
 }

@@ -13,6 +13,8 @@ interface IFileControl {
 
     val cacheDirectory: File
 
+    val saveDirectory: File
+
 
     fun readFile(path: String): String?
 
