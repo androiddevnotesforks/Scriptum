@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.domain.interactor.impl.preference
 
+import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.provider.PreferenceProvider
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.IDevelopRepo
@@ -35,26 +36,26 @@ class PrintInteractor(
     // TODO add custom things (save path)
     @RunPrivate fun getPreferenceList(): List<PrintItem.Preference> {
         return listOf(
-            Preference.Divider("TODO"),
+            Preference.Divider(R.string.pref_header_app),
             Preference.Item(key.firstStart, def.firstStart, preferenceRepo.firstStart),
             Preference.Item(key.theme, def.theme, preferenceRepo.theme),
-            Preference.Divider("TODO"),
+            Preference.Divider(R.string.pref_header_backup),
             Preference.Item(key.importSkip, def.importSkip, preferenceRepo.importSkip),
-            Preference.Divider("TODO"),
+            Preference.Divider(R.string.pref_header_note),
             Preference.Item(key.sort, def.sort, preferenceRepo.sort),
             Preference.Item(key.defaultColor, def.defaultColor, preferenceRepo.defaultColor),
             Preference.Item(key.pauseSaveOn, def.pauseSaveOn, preferenceRepo.pauseSaveOn),
             Preference.Item(key.autoSaveOn, def.autoSaveOn, preferenceRepo.autoSaveOn),
             Preference.Item(key.savePeriod, def.savePeriod, preferenceRepo.savePeriod),
-            Preference.Divider("TODO"),
+            Preference.Divider(R.string.pref_header_alarm),
             Preference.Item(key.repeat, def.repeat, preferenceRepo.repeat),
             Preference.Item(key.signal, def.signal, preferenceRepo.signal),
             Preference.Item(key.melodyUri, def.melodyUri, preferenceRepo.melodyUri),
             Preference.Item(key.volume, def.volume, preferenceRepo.volume),
             Preference.Item(key.volumeIncrease, def.volumeIncrease, preferenceRepo.volumeIncrease),
-            Preference.Divider("TODO"),
+            Preference.Divider(R.string.pref_header_other),
             Preference.Item(key.isDeveloper, def.isDeveloper, preferenceRepo.isDeveloper),
-            Preference.Divider("TODO")
+            Preference.Divider(R.string.pref_header_develop)
         )
     }
 

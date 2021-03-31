@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.domain.model.item
 
+import androidx.annotation.StringRes
 import sgtmelon.scriptum.data.room.entity.*
 import sgtmelon.scriptum.presentation.adapter.PrintAdapter
 
@@ -19,7 +20,7 @@ sealed class PrintItem {
     data class Alarm(val entity: AlarmEntity) : PrintItem()
 
     sealed class Preference : PrintItem() {
-        data class Divider(val title: String) : Preference()
+        data class Divider(@StringRes val title: Int) : Preference()
 
         data class Item(val key: String, val def: String, val value: String) : Preference() {
             constructor(
@@ -34,5 +35,7 @@ sealed class PrintItem {
                 value: Int
             ) : this(key, def.toString(), value.toString())
         }
+
+        data class Custom(@StringRes val title: Int, val value: String) : Preference()
     }
 }

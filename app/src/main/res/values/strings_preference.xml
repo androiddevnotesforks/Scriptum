@@ -9,6 +9,7 @@
     <string name="pref_header_alarm">Notifications</string>
     <string name="pref_header_other">Other</string>
 
+    <string name="pref_header_develop" translatable="false">Develop</string>
     <string name="pref_header_prints" translatable="false">Print of entities</string>
     <string name="pref_header_screen" translatable="false">Open screen</string>
 
