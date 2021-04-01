@@ -11,7 +11,9 @@
 
     <string name="pref_header_prints" translatable="false">Print of entities</string>
     <string name="pref_header_screen" translatable="false">Open screen</string>
-    <string name="pref_header_path" translatable="false">Paths</string>
+    <string name="pref_header_path_save" translatable="false">Save file path</string>
+    <string name="pref_header_path_files" translatable="false">External file path</string>
+    <string name="pref_header_path_cache" translatable="false">External cache path</string>
     <string name="pref_header_backup_files" translatable="false">Backup files</string>
 
     <!-- Preference titles -->
@@ -50,10 +52,6 @@
     <string name="pref_title_screen_alarm" translatable="false">Alarm screen</string>
 
     <string name="pref_title_other_reset" translatable="false">Reset preference</string>
-
-    <string name="pref_title_path_app" translatable="false">App file path</string>
-    <string name="pref_title_path_cache" translatable="false">Cache file path</string>
-    <string name="pref_title_path_save" translatable="false">Save file path</string>
 
     <!-- Preference summaries -->
 

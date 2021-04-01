@@ -14,12 +14,15 @@ import java.io.*
  */
 class FileControl(private val context: Context) : IFileControl {
 
-    override val appDirectory: File = context.filesDir
-
-    override val cacheDirectory: File = context.cacheDir
-
     override val saveDirectory: File get() = Environment.getExternalStorageDirectory()
 
+    override fun getExternalFiles(): List<File> {
+        return ContextCompat.getExternalFilesDirs(context, null).filterNotNull()
+    }
+
+    override fun getExternalCache(): List<File> {
+        return ContextCompat.getExternalCacheDirs(context).filterNotNull()
+    }
 
     override fun readFile(path: String): String? {
         try {
@@ -82,11 +85,11 @@ class FileControl(private val context: Context) : IFileControl {
 
         list.addAll(getFileList(saveDirectory, type))
 
-        for (it in ContextCompat.getExternalFilesDirs(context, null).filterNotNull()) {
+        for (it in getExternalFiles()) {
             list.addAll(getFileList(it, type))
         }
 
-        for (it in ContextCompat.getExternalCacheDirs(context).filterNotNull()) {
+        for (it in getExternalCache()) {
             list.addAll(getFileList(it, type))
         }
 

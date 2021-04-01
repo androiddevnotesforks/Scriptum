@@ -9,11 +9,11 @@ import java.io.File
  */
 interface IFileControl {
 
-    val appDirectory: File
-
-    val cacheDirectory: File
-
     val saveDirectory: File
+
+    fun getExternalFiles(): List<File>
+
+    fun getExternalCache(): List<File>
 
 
     fun readFile(path: String): String?

@@ -36,39 +36,43 @@ class PrintInteractor(
         PrintType.PREFERENCE -> getPreferenceList()
     }
 
-    // TODO add custom things (save path)
+    // TODO add custom things (file size)
     @RunPrivate suspend fun getPreferenceList(): List<Preference> {
         val list = mutableListOf(
             Preference.Title(R.string.pref_header_app),
-            Preference.Item(key.firstStart, def.firstStart, preferenceRepo.firstStart),
-            Preference.Item(key.theme, def.theme, preferenceRepo.theme),
+            Preference.Key(key.firstStart, def.firstStart, preferenceRepo.firstStart),
+            Preference.Key(key.theme, def.theme, preferenceRepo.theme),
             Preference.Title(R.string.pref_header_backup),
-            Preference.Item(key.importSkip, def.importSkip, preferenceRepo.importSkip),
+            Preference.Key(key.importSkip, def.importSkip, preferenceRepo.importSkip),
             Preference.Title(R.string.pref_header_note),
-            Preference.Item(key.sort, def.sort, preferenceRepo.sort),
-            Preference.Item(key.defaultColor, def.defaultColor, preferenceRepo.defaultColor),
-            Preference.Item(key.pauseSaveOn, def.pauseSaveOn, preferenceRepo.pauseSaveOn),
-            Preference.Item(key.autoSaveOn, def.autoSaveOn, preferenceRepo.autoSaveOn),
-            Preference.Item(key.savePeriod, def.savePeriod, preferenceRepo.savePeriod),
+            Preference.Key(key.sort, def.sort, preferenceRepo.sort),
+            Preference.Key(key.defaultColor, def.defaultColor, preferenceRepo.defaultColor),
+            Preference.Key(key.pauseSaveOn, def.pauseSaveOn, preferenceRepo.pauseSaveOn),
+            Preference.Key(key.autoSaveOn, def.autoSaveOn, preferenceRepo.autoSaveOn),
+            Preference.Key(key.savePeriod, def.savePeriod, preferenceRepo.savePeriod),
             Preference.Title(R.string.pref_header_alarm),
-            Preference.Item(key.repeat, def.repeat, preferenceRepo.repeat),
-            Preference.Item(key.signal, def.signal, preferenceRepo.signal),
-            Preference.Item(key.melodyUri, def.melodyUri, preferenceRepo.melodyUri),
-            Preference.Item(key.volume, def.volume, preferenceRepo.volume),
-            Preference.Item(key.volumeIncrease, def.volumeIncrease, preferenceRepo.volumeIncrease),
+            Preference.Key(key.repeat, def.repeat, preferenceRepo.repeat),
+            Preference.Key(key.signal, def.signal, preferenceRepo.signal),
+            Preference.Key(key.melodyUri, def.melodyUri, preferenceRepo.melodyUri),
+            Preference.Key(key.volume, def.volume, preferenceRepo.volume),
+            Preference.Key(key.volumeIncrease, def.volumeIncrease, preferenceRepo.volumeIncrease),
             Preference.Title(R.string.pref_header_other),
-            Preference.Item(key.isDeveloper, def.isDeveloper, preferenceRepo.isDeveloper),
-            Preference.Title(R.string.pref_header_path),
-            Preference.Custom(R.string.pref_title_path_app, fileControl.appDirectory.path),
-            Preference.Custom(R.string.pref_title_path_cache, fileControl.cacheDirectory.path),
-            Preference.Custom(R.string.pref_title_path_save, fileControl.saveDirectory.path),
-            Preference.Title(R.string.pref_header_backup_files)
+            Preference.Key(key.isDeveloper, def.isDeveloper, preferenceRepo.isDeveloper),
+            Preference.Title(R.string.pref_header_path_save),
+            Preference.Path(fileControl.saveDirectory)
         )
 
-        // TODO replace cache and app paths
-        //        ContextCompat.getExternalFilesDirs()
-        //        ContextCompat.getExternalCacheDirs()
+        Preference.Title(R.string.pref_header_path_files)
+        for (it in fileControl.getExternalFiles()) {
+            list.add(Preference.Path(it))
+        }
 
+        Preference.Title(R.string.pref_header_path_cache)
+        for (it in fileControl.getExternalCache()) {
+            list.add(Preference.Path(it))
+        }
+
+        list.add(Preference.Title(R.string.pref_header_backup_files))
         list.addAll(fileControl.getFileList(FileType.BACKUP).map { Preference.File(it) })
 
         return list

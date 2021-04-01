@@ -3,7 +3,10 @@ package sgtmelon.scriptum.presentation.adapter
 import android.view.ViewGroup
 import androidx.annotation.IntDef
 import androidx.recyclerview.widget.RecyclerView
+import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.item.PrintItem
+import sgtmelon.scriptum.extension.inflateView
+import sgtmelon.scriptum.presentation.adapter.holder.print.*
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PrintActivity
 
 /**
@@ -11,8 +14,16 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PrintActivity
  */
 class PrintAdapter : ParentAdapter<PrintItem, RecyclerView.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        TODO("Not yet implemented")
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
+        Type.NOTE -> PrintNoteHolder(parent.inflateView(R.layout.item_print_note))
+        Type.ROLL -> PrintRollHolder(parent.inflateView(R.layout.item_print_roll))
+        Type.VISIBLE -> PrintVisibleHolder(parent.inflateView(R.layout.item_print_visible))
+        Type.RANK -> PrintRankHolder(parent.inflateView(R.layout.item_print_rank))
+        Type.ALARM -> PrintAlarmHolder(parent.inflateView(R.layout.item_print_alarm))
+        Type.PREF_TITLE -> PrintPrefTitleHolder(parent.inflateView(R.layout.item_print_pref_title))
+        Type.PREF_KEY -> PrintPrefKeyHolder(parent.inflateView(R.layout.item_print_pref_key))
+        Type.PREF_PATH -> PrintPrefPathHolder(parent.inflateView(R.layout.item_print_pref_path))
+        else -> PrintPrefFileHolder(parent.inflateView(R.layout.item_print_pref_file))
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -25,10 +36,10 @@ class PrintAdapter : ParentAdapter<PrintItem, RecyclerView.ViewHolder>() {
         is PrintItem.Visible -> Type.VISIBLE
         is PrintItem.Rank -> Type.RANK
         is PrintItem.Alarm -> Type.ALARM
-        is PrintItem.Preference.Title -> Type.PREFERENCE_TITLE
-        is PrintItem.Preference.Item -> Type.PREFERENCE_ITEM
-        is PrintItem.Preference.Custom -> Type.PREFERENCE_CUSTOM
-        is PrintItem.Preference.File -> Type.PREFERENCE_FILE
+        is PrintItem.Preference.Title -> Type.PREF_TITLE
+        is PrintItem.Preference.Key -> Type.PREF_KEY
+        is PrintItem.Preference.Path -> Type.PREF_PATH
+        is PrintItem.Preference.File -> Type.PREF_FILE
     }
 
     @IntDef(
@@ -37,10 +48,10 @@ class PrintAdapter : ParentAdapter<PrintItem, RecyclerView.ViewHolder>() {
         Type.VISIBLE,
         Type.RANK,
         Type.ALARM,
-        Type.PREFERENCE_TITLE,
-        Type.PREFERENCE_ITEM,
-        Type.PREFERENCE_CUSTOM,
-        Type.PREFERENCE_FILE
+        Type.PREF_TITLE,
+        Type.PREF_KEY,
+        Type.PREF_PATH,
+        Type.PREF_FILE
     )
     private annotation class Type {
         companion object {
@@ -49,10 +60,10 @@ class PrintAdapter : ParentAdapter<PrintItem, RecyclerView.ViewHolder>() {
             const val VISIBLE = 2
             const val RANK = 3
             const val ALARM = 4
-            const val PREFERENCE_TITLE = 5
-            const val PREFERENCE_ITEM = 6
-            const val PREFERENCE_CUSTOM = 7
-            const val PREFERENCE_FILE = 8
+            const val PREF_TITLE = 5
+            const val PREF_KEY = 6
+            const val PREF_PATH = 7
+            const val PREF_FILE = 8
         }
     }
 }

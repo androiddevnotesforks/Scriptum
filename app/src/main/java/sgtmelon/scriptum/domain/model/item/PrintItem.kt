@@ -22,7 +22,7 @@ sealed class PrintItem {
     sealed class Preference : PrintItem() {
         data class Title(@StringRes val title: Int) : Preference()
 
-        data class Item(val key: String, val def: String, val value: String) : Preference() {
+        data class Key(val key: String, val def: String, val value: String) : Preference() {
             constructor(
                 key: String,
                 def: Boolean,
@@ -36,7 +36,7 @@ sealed class PrintItem {
             ) : this(key, def.toString(), value.toString())
         }
 
-        data class Custom(@StringRes val title: Int, val value: String) : Preference()
+        data class Path(val item: java.io.File) : Preference()
 
         data class File(val item: FileItem) : Preference()
     }

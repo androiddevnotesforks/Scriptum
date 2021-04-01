@@ -13,9 +13,9 @@ import sgtmelon.scriptum.presentation.listener.ItemListener
  * Holder of note roll row read state, use in [RollAdapter].
  */
 class RollReadHolder(
-        private val binding: ItemRollReadBinding,
-        private val clickListener: ItemListener.ActionClick,
-        private val longClickListener: ItemListener.LongClick
+    private val binding: ItemRollReadBinding,
+    private val clickListener: ItemListener.ActionClick,
+    private val longClickListener: ItemListener.LongClick
 ) : ParentHolder(binding.root) {
 
     /**

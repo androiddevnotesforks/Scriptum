@@ -15,9 +15,9 @@ import sgtmelon.scriptum.presentation.adapter.ColorAdapter
 /**
  * Holder for app color, use in [ColorAdapter]
  */
-class ColorHolder(view: View) : ParentHolder(view) {
+class ColorHolder(itemView: View) : ParentHolder(itemView) {
 
-    private val context = view.context
+    private val context = itemView.context
 
     private val parentContainer: ViewGroup = itemView.findViewById(R.id.color_parent_container)
     private val backgroundView: View = itemView.findViewById(R.id.color_background_view)
