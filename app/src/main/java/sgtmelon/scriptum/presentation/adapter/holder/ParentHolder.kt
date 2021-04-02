@@ -16,5 +16,4 @@ abstract class ParentHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         func(position)
         return true
     }
-
 }

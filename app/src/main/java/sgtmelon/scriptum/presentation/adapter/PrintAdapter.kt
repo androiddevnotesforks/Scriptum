@@ -27,7 +27,17 @@ class PrintAdapter : ParentAdapter<PrintItem, RecyclerView.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        when (val item = list.getOrNull(position)) {
+            is PrintItem.Note -> (holder as? PrintNoteHolder)?.bind(item)
+            is PrintItem.Roll -> (holder as? PrintRollHolder)?.bind(item)
+            is PrintItem.Visible -> (holder as? PrintVisibleHolder)?.bind(item)
+            is PrintItem.Rank -> (holder as? PrintRankHolder)?.bind(item)
+            is PrintItem.Alarm -> (holder as? PrintAlarmHolder)?.bind(item)
+            is PrintItem.Preference.Title -> (holder as? PrintPrefTitleHolder)?.bind(item)
+            is PrintItem.Preference.Key -> (holder as? PrintPrefKeyHolder)?.bind(item)
+            is PrintItem.Preference.Path -> (holder as? PrintPrefPathHolder)?.bind(item)
+            is PrintItem.Preference.File -> (holder as? PrintPrefFileHolder)?.bind(item)
+        }
     }
 
     override fun getItemViewType(position: Int) = when (list[position]) {
