@@ -37,8 +37,8 @@ sealed class PrintItem {
             ) : this(key, def.toString(), value.toString())
         }
 
-        data class Path(val item: JavaFile) : Preference()
+        data class Path(val file: JavaFile) : Preference()
 
-        data class File(val item: FileItem) : Preference()
+        data class File(val file: FileItem) : Preference()
     }
 }
