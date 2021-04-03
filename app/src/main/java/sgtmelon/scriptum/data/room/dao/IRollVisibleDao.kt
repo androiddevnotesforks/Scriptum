@@ -22,7 +22,7 @@ interface IRollVisibleDao {
     @Query(value = "UPDATE ROLL_VISIBLE_TABLE SET RL_VS_VALUE = :value WHERE RL_VS_NOTE_ID = :noteId")
     suspend fun update(noteId: Long, value: Boolean)
 
-    @Query(value = "SELECT * FROM ROLL_VISIBLE_TABLE")
+    @Query(value = "SELECT * FROM ROLL_VISIBLE_TABLE ORDER BY RL_VS_NOTE_ID")
     suspend fun get(): List<RollVisibleEntity>
 
     @Query(value = "SELECT RL_VS_VALUE FROM ROLL_VISIBLE_TABLE WHERE RL_VS_NOTE_ID = :noteId")
