@@ -204,6 +204,10 @@
         <item name="android:textSize">@dimen/item_second_text</item>
     </style>
 
+    <style name="Text.SmallCard.Print.Order">
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="Text.About">
         <item name="android:gravity">center</item>
     </style>

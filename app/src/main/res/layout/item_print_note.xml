@@ -15,7 +15,7 @@
 
             <TextView
                 android:id="@+id/print_note_id_text"
-                style="@style/Text.SmallCard.Print"
+                style="@style/Text.SmallCard.Print.Order"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/item_content_between_space"

@@ -12,5 +12,8 @@
     <string name="print_status" translatable="false">ST: %s</string>
     <string name="print_name" translatable="false">NM: %s</string>
     <string name="print_text" translatable="false">TX: %s</string>
+    <string name="print_position" translatable="false">PS: %s</string>
+    <string name="print_visible" translatable="false">VS: %s</string>
+    <string name="print_note_id" translatable="false">NT_ID: %s</string>
 
 </resources>
