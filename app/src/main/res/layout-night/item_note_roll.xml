@@ -13,8 +13,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/note_roll_parent_card"
-        style="@style/Card.Item"
-        app:cardBackgroundColor="?attr/clBackgroundView">
+        style="@style/Card.Item.Common">
 
         <FrameLayout
             android:id="@+id/note_roll_click_container"

@@ -12,8 +12,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/notification_parent_card"
-        style="@style/Card.Item"
-        app:cardBackgroundColor="?attr/clBackgroundView">
+        style="@style/Card.Item.Common">
 
         <LinearLayout
             android:id="@+id/notification_click_container"

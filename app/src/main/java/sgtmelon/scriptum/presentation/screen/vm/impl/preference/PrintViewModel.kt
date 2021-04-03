@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.domain.interactor.callback.preference.IPrintInteractor
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
-import sgtmelon.scriptum.domain.model.data.IntentData
 import sgtmelon.scriptum.domain.model.data.IntentData.Print.Default
 import sgtmelon.scriptum.domain.model.data.IntentData.Print.Intent
 import sgtmelon.scriptum.domain.model.item.PrintItem
@@ -48,7 +47,7 @@ class PrintViewModel(
     }
 
     override fun onSaveData(bundle: Bundle) = with(bundle) {
-        putInt(IntentData.Note.Intent.TYPE, type?.ordinal ?: Default.TYPE)
+        putInt(Intent.TYPE, type?.ordinal ?: Default.TYPE)
     }
 
     override fun onUpdateData() {

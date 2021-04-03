@@ -4,6 +4,7 @@ import dagger.BindsInstance
 import dagger.Subcomponent
 import sgtmelon.scriptum.dagger.ActivityScope
 import sgtmelon.scriptum.dagger.module.PrintModule
+import sgtmelon.scriptum.dagger.module.base.ControlModule
 import sgtmelon.scriptum.dagger.module.base.InteractorModule
 import sgtmelon.scriptum.dagger.module.base.ViewModelModule
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PrintActivity
@@ -15,6 +16,7 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PrintActivity
 @Subcomponent(modules = [
     InteractorModule::class,
     ViewModelModule::class,
+    ControlModule::class,
     PrintModule::class
 ])
 interface PrintComponent {

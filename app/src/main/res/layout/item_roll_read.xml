@@ -24,8 +24,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/roll_read_parent_card"
-        style="@style/Card.Item"
-        app:cardBackgroundColor="?attr/clBackgroundView">
+        style="@style/Card.Item.Common">
 
         <LinearLayout
             android:layout_width="match_parent"

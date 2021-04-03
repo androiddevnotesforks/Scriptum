@@ -4,6 +4,7 @@ import android.content.res.Resources
 import dagger.Module
 import dagger.Provides
 import sgtmelon.scriptum.dagger.ActivityScope
+import sgtmelon.scriptum.data.provider.PreferenceProvider
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.*
 import sgtmelon.scriptum.data.room.backup.IBackupParser
@@ -232,8 +233,11 @@ class InteractorModule {
     @ActivityScope
     fun providePrintInteractor(
         developRepo: IDevelopRepo,
-        preferenceRepo: IPreferenceRepo
+        key: PreferenceProvider.Key,
+        def: PreferenceProvider.Def,
+        preferenceRepo: IPreferenceRepo,
+        fileControl: IFileControl
     ): IPrintInteractor {
-        return PrintInteractor(developRepo, preferenceRepo)
+        return PrintInteractor(developRepo, key, def, preferenceRepo, fileControl)
     }
 }

@@ -23,6 +23,10 @@
         <item name="cardCornerRadius">@dimen/item_card_radius</item>
     </style>
 
+    <style name="Card.Item.Common">
+        <item name="cardBackgroundColor">?attr/clBackgroundView</item>
+    </style>
+
     <style name="Card.TextNote">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -121,7 +125,7 @@
         <item name="android:background">?attr/selectableItemBackground</item>
     </style>
 
-    <style name="Container.ToolbarNote"/>
+    <style name="Container.ToolbarNote" />
 
     <style name="Container.ToolbarNote.Scroll">
         <item name="android:layout_gravity">center</item>
@@ -129,9 +133,17 @@
         <item name="android:scrollbars">none</item>
     </style>
 
+    <style name="Container.Print">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:clickable">true</item>
+        <item name="android:padding">@dimen/item_container_space</item>
+    </style>
+
     <!-- Text -->
 
-    <style name="Text"/>
+    <style name="Text" />
 
     <style name="Text.Info">
         <item name="android:layout_width">wrap_content</item>
@@ -182,6 +194,13 @@
         <item name="android:ellipsize">end</item>
         <item name="android:singleLine">true</item>
         <item name="android:textAppearance">@style/Appearance.Indicator</item>
+        <item name="android:textSize">@dimen/item_second_text</item>
+    </style>
+
+    <style name="Text.SmallCard.Print">
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textAppearance">@style/Appearance.Main</item>
         <item name="android:textSize">@dimen/item_second_text</item>
     </style>
 

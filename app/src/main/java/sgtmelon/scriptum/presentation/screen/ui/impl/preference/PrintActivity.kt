@@ -2,12 +2,15 @@ package sgtmelon.scriptum.presentation.screen.ui.impl.preference
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.data.IntentData
 import sgtmelon.scriptum.domain.model.item.PrintItem
 import sgtmelon.scriptum.domain.model.key.PrintType
@@ -60,6 +63,24 @@ class PrintActivity : AppActivity(), IPrintActivity {
         viewModel.onSaveData(outState)
     }
 
+    override fun setNavigationColor(@Theme theme: Int) {
+        if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            window.navigationBarColor = getColorAttr(R.attr.clNavigationBar)
+        } else {
+            super.setNavigationColor(theme)
+        }
+    }
+
+    override fun setNavigationDividerColor(@Theme theme: Int) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) return
+
+        if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            window.navigationBarDividerColor = getColorAttr(R.attr.clNavigationBarDivider)
+        } else {
+            super.setNavigationDividerColor(theme)
+        }
+    }
+
 
     override fun setupView(type: PrintType) {
         val toolbar = toolbar ?: return
@@ -86,8 +107,7 @@ class PrintActivity : AppActivity(), IPrintActivity {
         toolbar.setNavigationOnClickListener { finish() }
 
         recyclerView.setHasFixedSize(true)
-        // TODO
-        //        recyclerView.adapter = adapter
+        recyclerView.adapter = adapter
     }
 
     override fun setupInsets() {
