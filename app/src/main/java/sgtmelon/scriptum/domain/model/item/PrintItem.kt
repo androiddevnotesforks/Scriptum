@@ -3,6 +3,7 @@ package sgtmelon.scriptum.domain.model.item
 import androidx.annotation.StringRes
 import sgtmelon.scriptum.data.room.entity.*
 import sgtmelon.scriptum.presentation.adapter.PrintAdapter
+import java.io.File as JavaFile
 
 /**
  * Model for store information about entities and preference keys, use in [PrintAdapter].
@@ -36,7 +37,7 @@ sealed class PrintItem {
             ) : this(key, def.toString(), value.toString())
         }
 
-        data class Path(val item: java.io.File) : Preference()
+        data class Path(val item: JavaFile) : Preference()
 
         data class File(val item: FileItem) : Preference()
     }

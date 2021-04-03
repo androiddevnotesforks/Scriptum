@@ -23,4 +23,6 @@
     <string name="print_pref_def" translatable="false">Def: %s</string>
     <string name="print_pref_value" translatable="false">Value: %s</string>
 
+    <string name="print_pref_file_path" translatable="false">Path: %s</string>
+
 </resources>
