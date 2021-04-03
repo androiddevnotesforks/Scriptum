@@ -35,7 +35,7 @@ interface IAlarmDao {
         ORDER BY DATE(AL_DATE) ASC, TIME(AL_DATE) ASC""")
     suspend fun getList(): MutableList<NotificationItem>
 
-    @Query(value = "SELECT * FROM ALARM_TABLE")
+    @Query(value = "SELECT * FROM ALARM_TABLE ORDER BY AL_NOTE_ID")
     suspend fun get(): List<AlarmEntity>
 
     @Query(value = "SELECT * FROM ALARM_TABLE WHERE AL_NOTE_ID = :noteId")
