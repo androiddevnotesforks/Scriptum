@@ -15,5 +15,6 @@
     <string name="print_position" translatable="false">PS: %s</string>
     <string name="print_visible" translatable="false">VS: %s</string>
     <string name="print_note_id" translatable="false">NT_ID: %s</string>
+    <string name="print_check" translatable="false">CH: %s</string>
 
 </resources>

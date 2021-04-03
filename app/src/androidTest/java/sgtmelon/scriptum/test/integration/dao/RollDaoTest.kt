@@ -107,6 +107,10 @@ class RollDaoTest : ParentRoomTest() {
 
     // Dao get functions
 
+    @Test fun get() {
+        TODO()
+    }
+
     @Test fun get_byId() = inRoomTest {
         firstModel.let {
             insertRollRelation(it)
@@ -165,9 +169,5 @@ class RollDaoTest : ParentRoomTest() {
                 rollDao.getViewHide(it.entity.id)
             )
         }
-    }
-
-    @Test fun get() {
-        TODO()
     }
 }

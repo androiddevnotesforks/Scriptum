@@ -42,7 +42,7 @@ interface IRollDao {
     suspend fun delete(noteId: Long)
 
 
-    @Query(value = "SELECT * FROM ROLL_TABLE")
+    @Query(value = "SELECT * FROM ROLL_TABLE ORDER BY RL_NOTE_ID, RL_POSITION")
     suspend fun get(): List<RollEntity>
 
     @Query(value = "SELECT * FROM ROLL_TABLE WHERE RL_NOTE_ID = :noteId ORDER BY RL_POSITION")
