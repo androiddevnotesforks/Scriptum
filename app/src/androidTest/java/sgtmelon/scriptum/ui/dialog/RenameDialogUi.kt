@@ -57,9 +57,13 @@ class RenameDialogUi(title: String) : ParentUi(), IDialogUi, IKeyboardOption {
                 .withBackgroundColor(android.R.color.transparent)
                 .apply {
                     if (enter.isNotEmpty()) {
-                        withText(enter, dimenId = R.dimen.text_18sp)
+                        withText(enter, R.attr.clContent, R.dimen.text_18sp)
                     } else {
-                        withHint(R.string.hint_enter_rank_rename, dimenId = R.dimen.text_18sp)
+                        withHint(
+                            R.string.hint_enter_rank_rename,
+                            R.attr.clContentSecond,
+                            R.dimen.text_18sp
+                        )
                     }
                 }
 

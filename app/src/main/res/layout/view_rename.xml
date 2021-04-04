@@ -9,6 +9,7 @@
     android:paddingTop="@dimen/layout_16dp"
     tools:layout_gravity="center">
 
+    <!--  Setting of textColor and textColorHint through code -->
     <EditText
         android:id="@+id/rename_enter"
         android:layout_width="match_parent"
