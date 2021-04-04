@@ -8,6 +8,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.IMainInteractor
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
+import sgtmelon.scriptum.domain.model.data.IntentData.Main.Intent
 import sgtmelon.scriptum.domain.model.key.MainPage
 import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.extension.launchBack
@@ -50,8 +51,10 @@ class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(a
                 bindInteractor.notifyInfoBind(callback)
             }
         } else {
-            firstStart = bundle.getBoolean(FIRST_START)
-            pageFrom = MainPage.values().getOrNull(bundle.getInt(PAGE_CURRENT)) ?: START_PAGE
+            firstStart = bundle.getBoolean(Intent.FIRST_START)
+
+            val pageOrdinal = bundle.getInt(Intent.PAGE_CURRENT)
+            pageFrom = MainPage.values().getOrNull(pageOrdinal) ?: START_PAGE
         }
 
         callback?.setupNavigation(pageFrom.getMenuId())
@@ -74,8 +77,8 @@ class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(a
 
 
     override fun onSaveData(bundle: Bundle) = with(bundle) {
-        putBoolean(FIRST_START, firstStart)
-        putInt(PAGE_CURRENT, pageFrom.ordinal)
+        putBoolean(Intent.FIRST_START, firstStart)
+        putInt(Intent.PAGE_CURRENT, pageFrom.ordinal)
     }
 
     override fun onSelectItem(@IdRes itemId: Int) {
@@ -135,11 +138,5 @@ class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(a
 
     companion object {
         private val START_PAGE = MainPage.NOTES
-
-        private const val PREFIX = "MAIN"
-
-        @RunPrivate const val FIRST_START = "${PREFIX}_FIRST_START"
-        @RunPrivate const val PAGE_CURRENT = "${PREFIX}_PAGE_CURRENT"
     }
-
 }

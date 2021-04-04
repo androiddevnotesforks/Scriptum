@@ -17,11 +17,25 @@ object IntentData {
         }
     }
 
-    /**
-     * Object for store information about NOTE between screens and save it
-     * inside onSavedInstanceState.
-     */
+    object Main {
+        @StringDef(Intent.FIRST_START, Intent.PAGE_CURRENT)
+        annotation class Intent {
+            companion object {
+                private const val PREFIX = "MAIN"
+
+                const val FIRST_START = "${PREFIX}_FIRST_START"
+                const val PAGE_CURRENT = "${PREFIX}_PAGE_CURRENT"
+            }
+        }
+
+
+    }
+
     object Note {
+        /**
+         * Object for store information between screens and save it
+         * inside onSavedInstanceState.
+         */
         @StringDef(Intent.ID, Intent.COLOR, Intent.TYPE)
         annotation class Intent {
             companion object {
@@ -42,11 +56,11 @@ object IntentData {
         }
     }
 
-    /**
-     * Object for store information about NOTE between screens and save it
-     * inside onSavedInstanceState.
-     */
     object Print {
+        /**
+         * Object for store information between screens and save it
+         * inside onSavedInstanceState.
+         */
         @StringDef(Intent.TYPE)
         annotation class Intent {
             companion object {

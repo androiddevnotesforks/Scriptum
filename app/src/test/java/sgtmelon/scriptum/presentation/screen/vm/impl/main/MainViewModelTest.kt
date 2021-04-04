@@ -13,6 +13,7 @@ import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.IMainInteractor
+import sgtmelon.scriptum.domain.model.data.IntentData.Main.Intent
 import sgtmelon.scriptum.domain.model.key.MainPage
 import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IMainActivity
@@ -70,41 +71,41 @@ class MainViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onSetup_onOtherStart() {
-        every { bundle.getBoolean(MainViewModel.FIRST_START) } returns false
+        every { bundle.getBoolean(Intent.FIRST_START) } returns false
 
-        every { bundle.getInt(MainViewModel.PAGE_CURRENT) } returns MainPage.RANK.ordinal
+        every { bundle.getInt(Intent.PAGE_CURRENT) } returns MainPage.RANK.ordinal
         viewModel.onSetup(bundle)
 
-        every { bundle.getInt(MainViewModel.PAGE_CURRENT) } returns MainPage.NOTES.ordinal
+        every { bundle.getInt(Intent.PAGE_CURRENT) } returns MainPage.NOTES.ordinal
         viewModel.onSetup(bundle)
 
-        every { bundle.getInt(MainViewModel.PAGE_CURRENT) } returns MainPage.BIN.ordinal
+        every { bundle.getInt(Intent.PAGE_CURRENT) } returns MainPage.BIN.ordinal
         viewModel.onSetup(bundle)
 
-        every { bundle.getInt(MainViewModel.PAGE_CURRENT) } returns -1
+        every { bundle.getInt(Intent.PAGE_CURRENT) } returns -1
         viewModel.onSetup(bundle)
 
         verifySequence {
-            bundle.getBoolean(MainViewModel.FIRST_START)
-            bundle.getInt(MainViewModel.PAGE_CURRENT)
+            bundle.getBoolean(Intent.FIRST_START)
+            bundle.getInt(Intent.PAGE_CURRENT)
             callback.setupNavigation(R.id.item_page_rank)
             callback.setupInsets()
             callback.setFabState(state = false)
 
-            bundle.getBoolean(MainViewModel.FIRST_START)
-            bundle.getInt(MainViewModel.PAGE_CURRENT)
+            bundle.getBoolean(Intent.FIRST_START)
+            bundle.getInt(Intent.PAGE_CURRENT)
             callback.setupNavigation(R.id.item_page_notes)
             callback.setupInsets()
             callback.setFabState(state = true)
 
-            bundle.getBoolean(MainViewModel.FIRST_START)
-            bundle.getInt(MainViewModel.PAGE_CURRENT)
+            bundle.getBoolean(Intent.FIRST_START)
+            bundle.getInt(Intent.PAGE_CURRENT)
             callback.setupNavigation(R.id.item_page_bin)
             callback.setupInsets()
             callback.setFabState(state = false)
 
-            bundle.getBoolean(MainViewModel.FIRST_START)
-            bundle.getInt(MainViewModel.PAGE_CURRENT)
+            bundle.getBoolean(Intent.FIRST_START)
+            bundle.getInt(Intent.PAGE_CURRENT)
             callback.setupNavigation(R.id.item_page_notes)
             callback.setupInsets()
             callback.setFabState(state = true)
@@ -112,23 +113,19 @@ class MainViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onSaveData() {
-        every { bundle.putBoolean(MainViewModel.FIRST_START, any()) } returns Unit
-        every { bundle.putInt(MainViewModel.PAGE_CURRENT, any()) } returns Unit
+        val firstStart = Random.nextBoolean()
+        val pageFrom = MainPage.values().random()
 
-        viewModel.firstStart = false
-        viewModel.pageFrom = MainPage.BIN
-        viewModel.onSaveData(bundle)
+        every { bundle.putBoolean(Intent.FIRST_START, firstStart) } returns Unit
+        every { bundle.putInt(Intent.PAGE_CURRENT, pageFrom.ordinal) } returns Unit
 
-        viewModel.firstStart = true
-        viewModel.pageFrom = MainPage.NOTES
+        viewModel.firstStart = firstStart
+        viewModel.pageFrom = pageFrom
         viewModel.onSaveData(bundle)
 
         verifySequence {
-            bundle.putBoolean(MainViewModel.FIRST_START, false)
-            bundle.putInt(MainViewModel.PAGE_CURRENT, MainPage.BIN.ordinal)
-
-            bundle.putBoolean(MainViewModel.FIRST_START, true)
-            bundle.putInt(MainViewModel.PAGE_CURRENT, MainPage.NOTES.ordinal)
+            bundle.putBoolean(Intent.FIRST_START, firstStart)
+            bundle.putInt(Intent.PAGE_CURRENT, pageFrom.ordinal)
         }
     }
 
