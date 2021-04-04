@@ -12,8 +12,8 @@
     <TextView
         android:id="@+id/print_pref_title_text"
         style="@style/Text.SmallCard.Title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:textColor="?attr/clAccent"
         android:singleLine="false"
         tools:text="Test title" />
 
