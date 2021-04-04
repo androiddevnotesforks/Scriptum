@@ -15,9 +15,6 @@ class PrintPrefPathHolder(itemView: View) : ParentHolder(itemView) {
     private val pathText = itemView.findViewById<TextView>(R.id.print_pref_path_text)
 
     fun bind(item: PrintItem.Preference.Path) {
-        val context = itemView.context
-        val file = item.file
-
-        pathText.text = context.getString(R.string.print_pref_file_path, file.path)
+        pathText.text = item.file.path
     }
 }
