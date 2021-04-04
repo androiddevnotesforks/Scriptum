@@ -29,7 +29,7 @@
         <item name="styleToolbar">@style/App.Style.Toolbar</item>
         <item name="themePopup">@style/App.Theme.Popup</item>
         <item name="styleFab">@style/App.Style.Fab</item>
-        <item name="styleSheetAdd">@style/App.Style.SheetDialog</item>
+        <item name="styleSheet">@style/App.Style.SheetDialog</item>
         <item name="styleProgressHorizontal">@style/App.Style.Progress.Horizontal</item>
 
         <item name="alertDialogStyle">@style/App.Alert</item>
@@ -73,7 +73,7 @@
         <item name="styleToolbar">@style/App.Style.Toolbar</item>
         <item name="themePopup">@style/App.Theme.Popup</item>
         <item name="styleFab">@style/App.Style.Fab</item>
-        <item name="styleSheetAdd">@style/App.Style.SheetDialog</item>
+        <item name="styleSheet">@style/App.Style.SheetDialog</item>
         <item name="styleProgressHorizontal">@style/App.Style.Progress.Horizontal</item>
 
         <item name="alertDialogStyle">@style/App.Alert</item>

@@ -8,10 +8,7 @@
 
     <FrameLayout
         android:id="@+id/repeat_container"
-        style="?attr/styleSheetAdd"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/layout_8dp">
+        style="?attr/styleSheet">
 
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/repeat_navigation"

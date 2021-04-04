@@ -22,6 +22,9 @@
 
     <style name="App.Style.SheetDialog">
         <item name="android:background">@drawable/bg_dialog</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/layout_16dp</item>
     </style>
 
     <style name="App.Style.Toolbar">

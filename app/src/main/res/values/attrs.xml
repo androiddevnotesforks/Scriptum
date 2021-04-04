@@ -51,7 +51,7 @@
         <attr name="styleToolbar" format="integer" />
         <attr name="themePopup" format="integer" />
         <attr name="styleFab" format="integer" />
-        <attr name="styleSheetAdd" format="integer" />
+        <attr name="styleSheet" format="integer" />
         <attr name="styleProgressHorizontal" format="integer" />
     </declare-styleable>
 
