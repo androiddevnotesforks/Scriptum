@@ -4,6 +4,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import sgtmelon.scriptum.R
@@ -83,7 +84,10 @@ abstract class ParentActivity : AppCompatActivity(), IAppActivity {
         setWindowBackground()
         setStatusBarColor()
         setNavigationColor(theme)
-        setNavigationDividerColor(theme)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            setNavigationDividerColor(theme)
+        }
     }
 
     protected open fun setWindowBackground() {
@@ -116,10 +120,9 @@ abstract class ParentActivity : AppCompatActivity(), IAppActivity {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.P)
     protected open fun setNavigationDividerColor(@Theme theme: Int) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            window.navigationBarDividerColor = getColorAttr(R.attr.clDivider)
-        }
+        window.navigationBarDividerColor = getColorAttr(R.attr.clDivider)
     }
 
 }

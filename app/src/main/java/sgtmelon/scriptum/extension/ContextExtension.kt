@@ -64,3 +64,6 @@ fun Context.sendTo(place: String, command: String, extras: Intent.() -> Unit = {
     })
 }
 
+fun Context.isPortraitMode(): Boolean {
+    return resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
+}

@@ -14,6 +14,7 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.view.WindowManager
 import android.view.animation.AccelerateInterpolator
 import androidx.annotation.ArrayRes
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.AutoTransition
@@ -168,10 +169,9 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         window.navigationBarColor = getColorAttr(R.attr.clNavigationBar)
     }
 
+    @RequiresApi(Build.VERSION_CODES.P)
     override fun setNavigationDividerColor(@Theme theme: Int) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            window.navigationBarDividerColor = getColorAttr(R.attr.clNavigationBarDivider)
-        }
+        window.navigationBarDividerColor = getColorAttr(R.attr.clNavigationBarDivider)
     }
 
 

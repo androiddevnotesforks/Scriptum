@@ -2,11 +2,11 @@ package sgtmelon.scriptum.presentation.screen.ui.impl.notification
 
 import android.content.Context
 import android.content.Intent
-import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -121,18 +121,23 @@ class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallb
         viewModel.onSaveData(outState)
     }
 
+    /**
+     * Make navigation translucent in portrait orientation.
+     */
     override fun setNavigationColor(@Theme theme: Int) {
-        if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+        if (isPortraitMode()) {
             window.navigationBarColor = getColorAttr(R.attr.clNavigationBar)
         } else {
             super.setNavigationColor(theme)
         }
     }
 
+    /**
+     * Make navigation translucent in portrait orientation.
+     */
+    @RequiresApi(Build.VERSION_CODES.P)
     override fun setNavigationDividerColor(@Theme theme: Int) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) return
-
-        if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+        if (isPortraitMode()) {
             window.navigationBarDividerColor = getColorAttr(R.attr.clNavigationBarDivider)
         } else {
             super.setNavigationDividerColor(theme)
