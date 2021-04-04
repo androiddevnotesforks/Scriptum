@@ -104,7 +104,10 @@ class MainScreen : ParentUi() {
             MainPage.BIN -> binMenuItem.isSelected()
         }
 
-        if (isFabVisible != null) addFab.isDisplayed(isFabVisible)
+        if (isFabVisible != null) {
+            addFab.isDisplayed(isFabVisible)
+                .withContentDescription(R.string.description_add_note)
+        }
     }
 
     companion object {

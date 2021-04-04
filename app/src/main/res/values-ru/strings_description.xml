@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="description_add_note">Добавить заметку</string>
+
     <string name="description_note_restore">Восстановить</string>
     <string name="description_note_restore_open">Восстановить и открыть</string>
     <string name="description_note_clear">Удалить навсегда</string>
