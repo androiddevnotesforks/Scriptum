@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.presentation.adapter.holder.print
+package sgtmelon.scriptum.presentation.adapter.holder.print.preference
 
 import android.view.View
 import android.widget.TextView

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.presentation.adapter.holder.print
+package sgtmelon.scriptum.presentation.adapter.holder.print.entity
 
 import android.view.View
 import android.widget.TextView
@@ -18,10 +18,11 @@ class PrintVisibleHolder(itemView: View) : ParentHolder(itemView) {
 
     fun bind(item: PrintItem.Visible) {
         val context = itemView.context
-        val entity = item.entity
 
-        idText.text = context.getString(R.string.print_id, entity.id.toString())
-        noteIdText.text = context.getString(R.string.print_note_id, entity.noteId.toString())
-        valueText.text = context.getString(R.string.print_value, entity.value.toString())
+        with(item.entity) {
+            idText.text = context.getString(R.string.print_db_id, id.toString())
+            noteIdText.text = context.getString(R.string.print_db_note_id, noteId.toString())
+            valueText.text = context.getString(R.string.print_db_value, value.toString())
+        }
     }
 }

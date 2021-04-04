@@ -37,8 +37,8 @@ class PrintInteractor(
         PrintType.FILE -> getPreferenceFileList()
     }
 
-    @RunPrivate suspend fun getPreferenceKeyList(): List<Preference> {
-        val list = mutableListOf(
+    @RunPrivate fun getPreferenceKeyList(): List<Preference> {
+        return listOf(
             Preference.Title(R.string.pref_header_app),
             Preference.Key(key.firstStart, def.firstStart, preferenceRepo.firstStart),
             Preference.Key(key.theme, def.theme, preferenceRepo.theme),
@@ -59,12 +59,8 @@ class PrintInteractor(
             Preference.Title(R.string.pref_header_other),
             Preference.Key(key.isDeveloper, def.isDeveloper, preferenceRepo.isDeveloper),
         )
-
-        return list
     }
 
-
-    // TODO add custom things (file size)
     @RunPrivate suspend fun getPreferenceFileList(): List<Preference> {
         val list = mutableListOf(
             Preference.Title(R.string.pref_header_path_save),

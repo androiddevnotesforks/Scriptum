@@ -6,7 +6,11 @@ import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.item.PrintItem
 import sgtmelon.scriptum.extension.inflateView
-import sgtmelon.scriptum.presentation.adapter.holder.print.*
+import sgtmelon.scriptum.presentation.adapter.holder.print.entity.*
+import sgtmelon.scriptum.presentation.adapter.holder.print.preference.PrintPrefFileHolder
+import sgtmelon.scriptum.presentation.adapter.holder.print.preference.PrintPrefKeyHolder
+import sgtmelon.scriptum.presentation.adapter.holder.print.preference.PrintPrefPathHolder
+import sgtmelon.scriptum.presentation.adapter.holder.print.preference.PrintPrefTitleHolder
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PrintActivity
 
 /**

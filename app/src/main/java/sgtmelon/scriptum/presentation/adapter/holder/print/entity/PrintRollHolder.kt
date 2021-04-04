@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.presentation.adapter.holder.print
+package sgtmelon.scriptum.presentation.adapter.holder.print.entity
 
 import android.view.View
 import android.widget.TextView
@@ -20,12 +20,13 @@ class PrintRollHolder(itemView: View) : ParentHolder(itemView) {
 
     fun bind(item: PrintItem.Roll) {
         val context = itemView.context
-        val entity = item.entity
 
-        idText.text = context.getString(R.string.print_id, entity.id.toString())
-        noteIdText.text = context.getString(R.string.print_note_id, entity.noteId.toString())
-        positionText.text = context.getString(R.string.print_position, entity.position.toString())
-        checkText.text = context.getString(R.string.print_check, entity.isCheck.toString())
-        textView.text = context.getString(R.string.print_text, entity.text)
+        with(item.entity) {
+            idText.text = context.getString(R.string.print_db_id, id.toString())
+            noteIdText.text = context.getString(R.string.print_db_note_id, noteId.toString())
+            positionText.text = context.getString(R.string.print_db_position, position.toString())
+            checkText.text = context.getString(R.string.print_db_check, isCheck.toString())
+            textView.text = context.getString(R.string.print_db_text, text)
+        }
     }
 }

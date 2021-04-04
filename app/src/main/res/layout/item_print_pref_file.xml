@@ -1,6 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Card.Item.Common">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        style="@style/Container.Print"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/item_content_between_space">
+
+            <TextView
+                android:id="@+id/print_pref_name_text"
+                style="@style/Text.SmallCard.Print"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/item_content_between_space"
+                tools:text="Name: RHCP" />
+
+            <View style="@style/Divider.Vertical" />
+
+            <TextView
+                android:id="@+id/print_pref_size_text"
+                style="@style/Text.SmallCard.Print"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/item_content_between_space"
+                tools:text="Size: 10 Mb" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/print_pref_path_text"
+            style="@style/Text.SmallCard.Print"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Path: root/android/0/.../" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

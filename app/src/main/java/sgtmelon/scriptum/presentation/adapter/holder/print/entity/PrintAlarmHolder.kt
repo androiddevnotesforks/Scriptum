@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.presentation.adapter.holder.print
+package sgtmelon.scriptum.presentation.adapter.holder.print.entity
 
 import android.view.View
 import android.widget.TextView
@@ -18,10 +18,11 @@ class PrintAlarmHolder(itemView: View) : ParentHolder(itemView) {
 
     fun bind(item: PrintItem.Alarm) {
         val context = itemView.context
-        val entity = item.entity
 
-        idText.text = context.getString(R.string.print_id, entity.id.toString())
-        noteIdText.text = context.getString(R.string.print_note_id, entity.noteId.toString())
-        dateText.text = context.getString(R.string.print_date, entity.date)
+        with(item.entity) {
+            idText.text = context.getString(R.string.print_db_id, id.toString())
+            noteIdText.text = context.getString(R.string.print_db_note_id, noteId.toString())
+            dateText.text = context.getString(R.string.print_db_date, date)
+        }
     }
 }

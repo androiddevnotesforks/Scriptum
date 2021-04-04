@@ -1,28 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="print_id" translatable="false">ID: %s</string>
-    <string name="print_create" translatable="false">CR: %s</string>
-    <string name="print_change" translatable="false">CH: %s</string>
-    <string name="print_color" translatable="false">CL: %s</string>
-    <string name="print_type" translatable="false">TP: %s</string>
-    <string name="print_rank_id" translatable="false">RK_ID: %s</string>
-    <string name="print_rank_position" translatable="false">RK_PS: %s</string>
-    <string name="print_bin" translatable="false">BN: %s</string>
-    <string name="print_status" translatable="false">ST: %s</string>
-    <string name="print_name" translatable="false">NM: %s</string>
-    <string name="print_text" translatable="false">TX: %s</string>
-    <string name="print_position" translatable="false">PS: %s</string>
-    <string name="print_visible" translatable="false">VS: %s</string>
-    <string name="print_note_id" translatable="false">NT_ID: %s</string>
-    <string name="print_check" translatable="false">CH: %s</string>
-    <string name="print_value" translatable="false">VL: %s</string>
-    <string name="print_date" translatable="false">DT: %s</string>
+    <string name="print_db_id" translatable="false">ID: %s</string>
+    <string name="print_db_create" translatable="false">CR: %s</string>
+    <string name="print_db_change" translatable="false">CH: %s</string>
+    <string name="print_db_color" translatable="false">CL: %s</string>
+    <string name="print_db_type" translatable="false">TP: %s</string>
+    <string name="print_db_rank_id" translatable="false">RK_ID: %s</string>
+    <string name="print_db_rank_position" translatable="false">RK_PS: %s</string>
+    <string name="print_db_bin" translatable="false">BN: %s</string>
+    <string name="print_db_status" translatable="false">ST: %s</string>
+    <string name="print_db_name" translatable="false">NM: %s</string>
+    <string name="print_db_text" translatable="false">TX: %s</string>
+    <string name="print_db_position" translatable="false">PS: %s</string>
+    <string name="print_db_visible" translatable="false">VS: %s</string>
+    <string name="print_db_note_id" translatable="false">NT_ID: %s</string>
+    <string name="print_db_check" translatable="false">CH: %s</string>
+    <string name="print_db_value" translatable="false">VL: %s</string>
+    <string name="print_db_date" translatable="false">DT: %s</string>
 
     <string name="print_pref_key" translatable="false">Key: %s</string>
     <string name="print_pref_def" translatable="false">Def: \"%s\"</string>
     <string name="print_pref_value" translatable="false">Value: %s</string>
 
     <string name="print_pref_file_path" translatable="false">Path: %s</string>
+    <string name="print_pref_file_name" translatable="false">Name: %s</string>
+    <string name="print_pref_file_size" translatable="false">Size: %s</string>
 
 </resources>

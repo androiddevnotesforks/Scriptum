@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.presentation.adapter.holder.print
+package sgtmelon.scriptum.presentation.adapter.holder.print.entity
 
 import android.view.View
 import android.widget.TextView
@@ -20,12 +20,13 @@ class PrintRankHolder(itemView: View) : ParentHolder(itemView) {
 
     fun bind(item: PrintItem.Rank) {
         val context = itemView.context
-        val entity = item.entity
 
-        idText.text = context.getString(R.string.print_id, entity.id.toString())
-        positionText.text = context.getString(R.string.print_position, entity.position.toString())
-        visibleText.text = context.getString(R.string.print_visible, entity.isVisible.toString())
-        nameText.text = context.getString(R.string.print_name, entity.name)
-        noteIdText.text = context.getString(R.string.print_note_id, entity.noteId.joinToString())
+        with(item.entity) {
+            idText.text = context.getString(R.string.print_db_id, id.toString())
+            positionText.text = context.getString(R.string.print_db_position, position.toString())
+            visibleText.text = context.getString(R.string.print_db_visible, isVisible.toString())
+            nameText.text = context.getString(R.string.print_db_name, name)
+            noteIdText.text = context.getString(R.string.print_db_note_id, noteId.joinToString())
+        }
     }
 }

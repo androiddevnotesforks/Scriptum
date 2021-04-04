@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.presentation.adapter.holder.print
+package sgtmelon.scriptum.presentation.adapter.holder.print.entity
 
 import android.view.View
 import android.widget.TextView
@@ -26,18 +26,19 @@ class PrintNoteHolder(itemView: View) : ParentHolder(itemView) {
 
     fun bind(item: PrintItem.Note) {
         val context = itemView.context
-        val entity = item.entity
 
-        idText.text = context.getString(R.string.print_id, entity.id.toString())
-        createText.text = context.getString(R.string.print_create, entity.create)
-        changeText.text = context.getString(R.string.print_change, entity.change)
-        colorText.text = context.getString(R.string.print_color, entity.color.toString())
-        typeText.text = context.getString(R.string.print_type, entity.type.name)
-        rankIdText.text = context.getString(R.string.print_rank_id, entity.rankId.toString())
-        rankPsText.text = context.getString(R.string.print_rank_position, entity.rankPs.toString())
-        binText.text = context.getString(R.string.print_bin, entity.isBin.toString())
-        statusText.text = context.getString(R.string.print_status, entity.isStatus.toString())
-        nameText.text = context.getString(R.string.print_name, entity.name)
-        textView.text = context.getString(R.string.print_text, entity.text)
+        with(item.entity) {
+            idText.text = context.getString(R.string.print_db_id, id.toString())
+            createText.text = context.getString(R.string.print_db_create, create)
+            changeText.text = context.getString(R.string.print_db_change, change)
+            colorText.text = context.getString(R.string.print_db_color, color.toString())
+            typeText.text = context.getString(R.string.print_db_type, type.name)
+            rankIdText.text = context.getString(R.string.print_db_rank_id, rankId.toString())
+            rankPsText.text = context.getString(R.string.print_db_rank_position, rankPs.toString())
+            binText.text = context.getString(R.string.print_db_bin, isBin.toString())
+            statusText.text = context.getString(R.string.print_db_status, isStatus.toString())
+            nameText.text = context.getString(R.string.print_db_name, name)
+            textView.text = context.getString(R.string.print_db_text, text)
+        }
     }
 }
