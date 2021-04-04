@@ -13,6 +13,7 @@
 
     <style name="App.Alert" parent="Theme.AppCompat.DayNight.Dialog.Alert">
         <item name="colorAccent">?attr/clAccent</item>
+        <item name="android:background">?attr/clPrimary</item>
     </style>
 
     <style name="App.Style.BottomSheet" parent="Widget.Design.BottomSheet.Modal">

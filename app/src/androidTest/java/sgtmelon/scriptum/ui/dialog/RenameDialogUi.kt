@@ -61,7 +61,7 @@ class RenameDialogUi(title: String) : ParentUi(), IDialogUi, IKeyboardOption {
                     } else {
                         withHint(
                             R.string.hint_enter_rank_rename,
-                            R.attr.clContentSecond,
+                            R.attr.clDisable,
                             R.dimen.text_18sp
                         )
                     }
