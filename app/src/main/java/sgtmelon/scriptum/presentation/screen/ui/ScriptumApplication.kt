@@ -31,6 +31,7 @@ class ScriptumApplication : Application() {
         lateinit var component: ScriptumComponent
 
         @Theme
-        @RunNone var theme: Int? = null
+        @RunNone
+        var theme: Int? = null
     }
 }

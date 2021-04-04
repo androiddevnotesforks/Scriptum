@@ -56,6 +56,19 @@ class RollNoteVisibleTest : ParentUiTest() {
         }
     }
 
+    @Test fun changeRestore() = data.insertRoll().let {
+        launch {
+            mainScreen {
+                notesScreen {
+                    openRollNote(it) {
+                        controlPanel { onEdit() }.onClickVisible()
+                        toolbar { onClickBack() }.onClickVisible()
+                    }
+                }
+            }
+        }
+    }
+
     @Test fun switch() = data.createRoll().let {
         launch {
             mainScreen {

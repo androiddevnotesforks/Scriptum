@@ -1,8 +1,8 @@
 package sgtmelon.scriptum.basic.exception
 
-class NoteCastException : TypeCastException(NOTE_CAST_EXCEPTION) {
+class NoteCastException : TypeCastException(DESCRIPTION) {
 
     companion object {
-        const val NOTE_CAST_EXCEPTION = "Wrong noteItem type"
+        private const val DESCRIPTION = "Wrong noteItem type"
     }
 }

@@ -280,9 +280,11 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
         val id = Random.nextLong()
         val colorFrom = Random.nextInt()
+        val isVisible = Random.nextBoolean()
         val colorTo = Random.nextInt()
 
         every { noteItem.color } returns colorFrom
+        every { noteItem.isVisible } returns isVisible
         every { spyViewModel.setupEditMode(isEdit = false) } returns Unit
         every { spyViewModel.onUpdateInfo() } returns Unit
         every { spyViewModel.getList(restoreItem) } returns rollList
@@ -307,8 +309,10 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.id
             spyViewModel.noteItem
             noteItem.color
+            spyViewModel.noteItem
+            noteItem.isVisible
             spyViewModel.restoreItem
-            verifyDeepCopy(restoreItem)
+            verifyDeepCopy(restoreItem, isVisible = isVisible)
             spyViewModel.noteItem = restoreItem
             spyViewModel.noteItem
             restoreItem.color

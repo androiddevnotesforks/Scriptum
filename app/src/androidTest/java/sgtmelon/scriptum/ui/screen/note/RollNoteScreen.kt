@@ -117,11 +117,7 @@ class RollNoteScreen(
     fun onClickVisible() = apply {
         visibleMenuItem.click()
 
-        when (state) {
-            State.READ, State.BIN -> item.isVisible = !item.isVisible
-            State.EDIT, State.NEW -> shadowItem.isVisible = !shadowItem.isVisible
-
-        }
+        item.isVisible = !item.isVisible
 
         fullAssert()
         onAssertAll()
@@ -211,11 +207,10 @@ class RollNoteScreen(
     }
 
     fun onAssertAll() {
-        val item = when (state) {
-            State.READ, State.BIN -> item
-            State.EDIT, State.NEW -> shadowItem
+        val list = when (state) {
+            State.READ, State.BIN -> item.list
+            State.EDIT, State.NEW -> shadowItem.list
         }
-        val list = item.list
         val resultList = if (item.isVisible) list else list.hide()
 
         for ((i, it) in resultList.withIndex()) {
@@ -240,11 +235,7 @@ class RollNoteScreen(
         })
 
         toolbar {
-            val value = when (state) {
-                State.READ, State.BIN -> item.isVisible
-                State.EDIT, State.NEW -> shadowItem.isVisible
-            }
-
+            val value = item.isVisible
             val itemIcon = if (value) R.drawable.ic_visible_enter else R.drawable.ic_visible_exit
             val itemTint = if (value) R.attr.clContent else R.attr.clIndicator
             val itemTitle = if (value) R.string.menu_roll_visible else R.string.menu_roll_invisible

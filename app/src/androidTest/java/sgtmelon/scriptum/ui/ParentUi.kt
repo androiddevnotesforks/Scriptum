@@ -9,6 +9,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.not
+import sgtmelon.scriptum.basic.exception.ThemeException
 import sgtmelon.scriptum.dagger.module.base.ProviderModule
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.preference.PreferenceRepo
@@ -27,7 +28,7 @@ abstract class ParentUi {
         ProviderModule().provideSharedPreferences(context)
     )
 
-    protected val theme: Int get() = ScriptumApplication.theme ?: throw NullPointerException()
+    protected val theme: Int get() = ScriptumApplication.theme ?: throw ThemeException()
     protected val repeat: Int get() = preferenceRepo.repeat
 
     //region getView func

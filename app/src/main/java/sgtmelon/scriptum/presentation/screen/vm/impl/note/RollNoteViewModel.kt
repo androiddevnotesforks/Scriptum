@@ -101,10 +101,12 @@ class RollNoteViewModel(application: Application) :
         if (id == Default.ID) return false
 
         /**
-         * Get color before restore data.
+         * Get color before restore data. Also get [NoteItem.Roll.isVisible] before
+         * restore, because it should be the same after restore.
          */
         val colorFrom = noteItem.color
-        noteItem = restoreItem.deepCopy()
+        val isVisible = noteItem.isVisible
+        noteItem = restoreItem.deepCopy(isVisible = isVisible)
         val colorTo = noteItem.color
 
         callback?.notifyDataSetChanged(getList(noteItem))

@@ -78,9 +78,9 @@ fun MockKVerificationScope.verifyDeepCopy(
     if (isStatus == null) item.isStatus
     if (alarmId == null) item.alarmId
     if (alarmDate == null) item.alarmDate
+    if (isVisible == null) item.isVisible
 
-     // TODO check tests with this code (it will fail in deep copy) (may be it related with public values?)
-    //    if (isVisible == null) item.isVisible
+    // TODO check tests with this code (it will fail in deep copy) (may be it related with public values?)
     //    if (list == null) item.list
 
     item.deepCopy(
