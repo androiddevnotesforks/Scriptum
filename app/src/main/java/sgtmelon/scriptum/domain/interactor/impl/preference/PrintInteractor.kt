@@ -33,11 +33,11 @@ class PrintInteractor(
         PrintType.VISIBLE -> developRepo.getPrintVisibleList()
         PrintType.RANK -> developRepo.getPrintRankList()
         PrintType.ALARM -> developRepo.getPrintAlarmList()
-        PrintType.PREFERENCE -> getPreferenceList()
+        PrintType.KEY -> getPreferenceKeyList()
+        PrintType.FILE -> getPreferenceFileList()
     }
 
-    // TODO add custom things (file size)
-    @RunPrivate suspend fun getPreferenceList(): List<Preference> {
+    @RunPrivate suspend fun getPreferenceKeyList(): List<Preference> {
         val list = mutableListOf(
             Preference.Title(R.string.pref_header_app),
             Preference.Key(key.firstStart, def.firstStart, preferenceRepo.firstStart),
@@ -58,16 +58,25 @@ class PrintInteractor(
             Preference.Key(key.volumeIncrease, def.volumeIncrease, preferenceRepo.volumeIncrease),
             Preference.Title(R.string.pref_header_other),
             Preference.Key(key.isDeveloper, def.isDeveloper, preferenceRepo.isDeveloper),
+        )
+
+        return list
+    }
+
+
+    // TODO add custom things (file size)
+    @RunPrivate suspend fun getPreferenceFileList(): List<Preference> {
+        val list = mutableListOf(
             Preference.Title(R.string.pref_header_path_save),
             Preference.Path(fileControl.saveDirectory)
         )
 
-        Preference.Title(R.string.pref_header_path_files)
+        list.add(Preference.Title(R.string.pref_header_path_files))
         for (it in fileControl.getExternalFiles()) {
             list.add(Preference.Path(it))
         }
 
-        Preference.Title(R.string.pref_header_path_cache)
+        list.add(Preference.Title(R.string.pref_header_path_cache))
         for (it in fileControl.getExternalCache()) {
             list.add(Preference.Path(it))
         }

@@ -3,37 +3,46 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:key="screen">
 
-    <PreferenceCategory android:title="@string/pref_header_prints"
+    <PreferenceCategory android:title="@string/pref_header_entities_print"
         app:iconSpaceReserved="false">
 
         <Preference android:key="@string/pref_key_print_note"
-            android:title="@string/pref_title_prints_note"
+            android:title="@string/pref_title_print_note"
             android:summary="@string/pref_summary_print_note"
             app:iconSpaceReserved="false" />
 
         <Preference android:key="@string/pref_key_print_bin"
             android:summary="@string/pref_summary_print_bin"
-            android:title="@string/pref_title_prints_note"
+            android:title="@string/pref_title_print_note"
             app:iconSpaceReserved="false" />
 
         <Preference android:key="@string/pref_key_print_roll"
-            android:title="@string/pref_title_prints_roll"
+            android:title="@string/pref_title_print_roll"
             app:iconSpaceReserved="false" />
 
         <Preference android:key="@string/pref_key_print_visible"
-            android:title="@string/pref_title_prints_visible"
+            android:title="@string/pref_title_print_visible"
             app:iconSpaceReserved="false" />
 
         <Preference android:key="@string/pref_key_print_rank"
-            android:title="@string/pref_title_prints_rank"
+            android:title="@string/pref_title_print_rank"
             app:iconSpaceReserved="false" />
 
         <Preference android:key="@string/pref_key_print_alarm"
-            android:title="@string/pref_title_prints_alarm"
+            android:title="@string/pref_title_print_alarm"
             app:iconSpaceReserved="false" />
 
-        <Preference android:key="@string/pref_key_print_pref"
-            android:title="@string/pref_title_prints_pref"
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_header_preference_print"
+        app:iconSpaceReserved="false">
+
+        <Preference android:key="@string/pref_key_print_key"
+            android:title="@string/pref_title_print_key"
+            app:iconSpaceReserved="false" />
+
+        <Preference android:key="@string/pref_key_print_file"
+            android:title="@string/pref_title_print_file"
             app:iconSpaceReserved="false" />
 
     </PreferenceCategory>

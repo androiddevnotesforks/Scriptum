@@ -87,12 +87,13 @@ class PrintActivity : AppActivity(), IPrintActivity {
         val recyclerView = recyclerView ?: return
 
         val titleText = getString(when (type) {
-            PrintType.NOTE, PrintType.BIN -> R.string.pref_title_prints_note
-            PrintType.ROLL -> R.string.pref_title_prints_roll
-            PrintType.VISIBLE -> R.string.pref_title_prints_visible
-            PrintType.RANK -> R.string.pref_title_prints_rank
-            PrintType.ALARM -> R.string.pref_title_prints_alarm
-            PrintType.PREFERENCE -> R.string.pref_title_prints_pref
+            PrintType.NOTE, PrintType.BIN -> R.string.pref_title_print_note
+            PrintType.ROLL -> R.string.pref_title_print_roll
+            PrintType.VISIBLE -> R.string.pref_title_print_visible
+            PrintType.RANK -> R.string.pref_title_print_rank
+            PrintType.ALARM -> R.string.pref_title_print_alarm
+            PrintType.KEY -> R.string.pref_title_print_key
+            PrintType.FILE -> R.string.pref_title_print_file
         }).toLowerCase()
 
         toolbar.title = getString(R.string.title_print, titleText)

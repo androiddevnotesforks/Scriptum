@@ -9,7 +9,8 @@
     <string name="pref_header_alarm">Notifications</string>
     <string name="pref_header_other">Other</string>
 
-    <string name="pref_header_prints" translatable="false">Print of entities</string>
+    <string name="pref_header_entities_print" translatable="false">Print of entities</string>
+    <string name="pref_header_preference_print" translatable="false">Print of preferences</string>
     <string name="pref_header_screen" translatable="false">Open screen</string>
     <string name="pref_header_path_save" translatable="false">Save file path</string>
     <string name="pref_header_path_files" translatable="false">External file path</string>
@@ -41,12 +42,13 @@
     <string name="pref_title_other_develop">Developer settings</string>
     <string name="pref_title_other_about">About app</string>
 
-    <string name="pref_title_prints_note" translatable="false">Note entities</string>
-    <string name="pref_title_prints_roll" translatable="false">Roll entities</string>
-    <string name="pref_title_prints_visible" translatable="false">Roll visible entities</string>
-    <string name="pref_title_prints_rank" translatable="false">Rank entities</string>
-    <string name="pref_title_prints_alarm" translatable="false">Alarm entities</string>
-    <string name="pref_title_prints_pref" translatable="false">Preference keys</string>
+    <string name="pref_title_print_note" translatable="false">Note entities</string>
+    <string name="pref_title_print_roll" translatable="false">Roll entities</string>
+    <string name="pref_title_print_visible" translatable="false">Roll visible entities</string>
+    <string name="pref_title_print_rank" translatable="false">Rank entities</string>
+    <string name="pref_title_print_alarm" translatable="false">Alarm entities</string>
+    <string name="pref_title_print_key" translatable="false">Keys</string>
+    <string name="pref_title_print_file" translatable="false">Files</string>
 
     <string name="pref_title_screen_intro" translatable="false">Intro screen</string>
     <string name="pref_title_screen_alarm" translatable="false">Alarm screen</string>
@@ -184,7 +186,8 @@
     <string name="pref_key_print_visible" translatable="false">key_print_visible</string>
     <string name="pref_key_print_rank" translatable="false">key_print_rank</string>
     <string name="pref_key_print_alarm" translatable="false">key_print_alarm</string>
-    <string name="pref_key_print_pref" translatable="false">key_print_pref</string>
+    <string name="pref_key_print_key" translatable="false">key_print_key</string>
+    <string name="pref_key_print_file" translatable="false">key_print_file</string>
 
     <string name="pref_key_screen_intro" translatable="false">key_screen_intro</string>
     <string name="pref_key_screen_alarm" translatable="false">key_screen_alarm</string>

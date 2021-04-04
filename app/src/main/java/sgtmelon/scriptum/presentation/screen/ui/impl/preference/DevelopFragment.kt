@@ -29,7 +29,9 @@ class DevelopFragment : ParentPreferenceFragment(), IDevelopFragment {
     private val printVisiblePreference by lazy { findPreference<Preference>(getString(R.string.pref_key_print_visible)) }
     private val printRankPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_print_rank)) }
     private val printAlarmPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_print_alarm)) }
-    private val printPrefPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_print_pref)) }
+
+    private val printKeyPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_print_key)) }
+    private val printFilePreference by lazy { findPreference<Preference>(getString(R.string.pref_key_print_file)) }
 
     private val introPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_screen_intro)) }
     private val alarmPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_screen_alarm)) }
@@ -80,8 +82,12 @@ class DevelopFragment : ParentPreferenceFragment(), IDevelopFragment {
             viewModel.onClickPrint(PrintType.ALARM)
             return@setOnPreferenceClickListener true
         }
-        printPrefPreference?.setOnPreferenceClickListener {
-            viewModel.onClickPrint(PrintType.PREFERENCE)
+        printKeyPreference?.setOnPreferenceClickListener {
+            viewModel.onClickPrint(PrintType.KEY)
+            return@setOnPreferenceClickListener true
+        }
+        printFilePreference?.setOnPreferenceClickListener {
+            viewModel.onClickPrint(PrintType.FILE)
             return@setOnPreferenceClickListener true
         }
     }

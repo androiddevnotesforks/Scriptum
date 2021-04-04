@@ -10,6 +10,6 @@ import sgtmelon.scriptum.presentation.adapter.holder.ParentHolder
  */
 class PrintPrefFileHolder(itemView: View) : ParentHolder(itemView) {
     fun bind(item: PrintItem.Preference.File) {
-        TODO("Not yet implemented")
+//        TODO("Not yet implemented")
     }
 }
