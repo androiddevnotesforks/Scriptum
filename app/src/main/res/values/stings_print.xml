@@ -20,7 +20,7 @@
     <string name="print_date" translatable="false">DT: %s</string>
 
     <string name="print_pref_key" translatable="false">Key: %s</string>
-    <string name="print_pref_def" translatable="false">Def: %s</string>
+    <string name="print_pref_def" translatable="false">Def: \"%s\"</string>
     <string name="print_pref_value" translatable="false">Value: %s</string>
 
     <string name="print_pref_file_path" translatable="false">Path: %s</string>

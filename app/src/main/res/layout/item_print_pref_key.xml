@@ -18,7 +18,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/item_content_between_space"
-                tools:text="KEY: 1" />
+                tools:text="Key: 1" />
 
             <View style="@style/Divider.Vertical" />
 
@@ -28,7 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/item_content_between_space"
-                tools:text="DEF: 10" />
+                tools:text="Def: 10" />
 
         </LinearLayout>
 
@@ -37,7 +37,7 @@
             style="@style/Text.SmallCard.Print"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="VALUE: false" />
+            tools:text="Value: false" />
 
     </LinearLayout>
 
