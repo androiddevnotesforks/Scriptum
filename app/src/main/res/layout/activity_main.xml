@@ -48,6 +48,7 @@
         android:background="?attr/clPrimary"
         app:itemIconTint="@drawable/se_menu_main_item"
         app:itemTextColor="@drawable/se_menu_main_item"
+        app:labelVisibilityMode="selected"
         app:menu="@menu/activity_main" />
 
 </LinearLayout>
