@@ -57,7 +57,7 @@ class PrintInteractor(
             Preference.Key(key.volume, def.volume, preferenceRepo.volume),
             Preference.Key(key.volumeIncrease, def.volumeIncrease, preferenceRepo.volumeIncrease),
             Preference.Title(R.string.pref_header_other),
-            Preference.Key(key.isDeveloper, def.isDeveloper, preferenceRepo.isDeveloper),
+            Preference.Key(key.isDeveloper, def.isDeveloper, preferenceRepo.isDeveloper)
         )
     }
 
@@ -78,7 +78,9 @@ class PrintInteractor(
         }
 
         list.add(Preference.Title(R.string.pref_header_backup_files))
-        list.addAll(fileControl.getFileList(FileType.BACKUP).map { Preference.File(it) })
+        for (it in fileControl.getFileList(FileType.BACKUP)) {
+            list.add(Preference.File(it))
+        }
 
         return list
     }
