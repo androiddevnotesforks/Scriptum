@@ -40,7 +40,7 @@ class RollDaoTest : ParentRoomTest() {
 
     private suspend fun RoomDb.insertRollRelation(model: Model) = with(model) {
         noteDao.insert(entity)
-        for (it in rollList) {
+        for (it in rollList.asReversed()) {
             rollDao.insert(it)
         }
     }
@@ -107,8 +107,15 @@ class RollDaoTest : ParentRoomTest() {
 
     // Dao get functions
 
-    @Test fun get() {
-        TODO()
+    @Test fun get() = inRoomTest {
+        insertRollRelation(secondModel)
+        insertRollRelation(firstModel)
+
+        val expectedList = mutableListOf<RollEntity>()
+        expectedList.addAll(firstModel.rollList)
+        expectedList.addAll(secondModel.rollList)
+
+        assertEquals(expectedList, rollDao.get())
     }
 
     @Test fun get_byId() = inRoomTest {

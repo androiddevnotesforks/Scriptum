@@ -77,8 +77,11 @@ class AlarmDaoTest : ParentRoomTest() {
         }
     }
 
-    @Test fun get() {
-        TODO()
+    @Test fun get() = inRoomTest {
+        insertAlarmRelation(secondNote, secondAlarm)
+        insertAlarmRelation(firstNote, firstAlarm)
+
+        assertEquals(listOf(firstAlarm, secondAlarm), alarmDao.get())
     }
 
     @Test fun getOnWrongId() = inRoomTest { assertNull(alarmDao.get(Random.nextLong())) }

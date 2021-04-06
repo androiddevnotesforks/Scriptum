@@ -79,6 +79,12 @@ class RollVisibleDaoTest : ParentRoomTest() {
     }
 
     @Test fun get() = inRoomTest {
-        TODO()
+        noteDao.insert(firstModel.noteEntity)
+        noteDao.insert(secondModel.noteEntity)
+
+        rollVisibleDao.insert(firstModel.entity)
+        rollVisibleDao.insert(secondModel.entity)
+
+        assertEquals(listOf(firstModel.entity, secondModel.entity), rollVisibleDao.get())
     }
 }
