@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.presentation.screen.vm.impl.note
 
 import android.app.Application
+import android.util.Log
 import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
@@ -197,8 +198,8 @@ class RollNoteViewModel(application: Application) :
     override fun onClickItemCheck(p: Int) {
         if (noteState.isEdit) return
 
-        val correctPosition = getCorrectPosition(p, noteItem)
-        noteItem.onItemCheck(correctPosition)
+        val absolutePosition = getAbsolutePosition(p)
+        noteItem.onItemCheck(absolutePosition)
         cacheData()
 
         if (noteItem.isVisible) {
@@ -209,7 +210,7 @@ class RollNoteViewModel(application: Application) :
 
         with(noteItem) { callback?.updateProgress(getCheck(), list.size) }
 
-        viewModelScope.launchBack { interactor.updateRollCheck(noteItem, correctPosition) }
+        viewModelScope.launchBack { interactor.updateRollCheck(noteItem, absolutePosition) }
     }
 
     override fun onLongClickItemCheck() {
@@ -261,6 +262,8 @@ class RollNoteViewModel(application: Application) :
         val rollItem = noteItem.list.getOrNull(item.p) ?: return
         val list = getList(noteItem)
         val position = list.validIndexOf(rollItem) ?: return
+
+        Log.i("HERE", "position: $position | item.p: ${item.p}")
 
         rollItem.text = item[isUndo]
 
@@ -396,12 +399,26 @@ class RollNoteViewModel(application: Application) :
     //endregion
 
     override fun onInputRollChange(p: Int, text: String) {
-        val correctPosition = getCorrectPosition(p, noteItem)
-        noteItem.list.getOrNull(correctPosition)?.text = text
+        val absolutePosition = getAbsolutePosition(p)
+        noteItem.list.getOrNull(absolutePosition)?.text = text
 
         callback?.apply {
             setList(getList(noteItem))
             onBindingInput(noteItem, inputControl.access)
+        }
+    }
+
+    /**
+     * Convert not pure position [adapterPosition] to absolute position in list (without hide).
+     *
+     * @Test - Have duplicate in test screen.
+     */
+    override fun getAbsolutePosition(adapterPosition: Int): Int {
+        return if (noteItem.isVisible) {
+            adapterPosition
+        } else {
+            val list = noteItem.list
+            list.indexOf(list.hide()[adapterPosition])
         }
     }
 
@@ -434,10 +451,10 @@ class RollNoteViewModel(application: Application) :
      * to control in Edit.
      */
     override fun onTouchSwiped(p: Int) {
-        val correctPosition = getCorrectPosition(p, noteItem)
-        val item = noteItem.list.validRemoveAt(correctPosition) ?: return
+        val absolutePosition = getAbsolutePosition(p)
+        val item = noteItem.list.validRemoveAt(absolutePosition) ?: return
 
-        inputControl.onRollRemove(correctPosition, item.toJson())
+        inputControl.onRollRemove(absolutePosition, item.toJson())
 
         callback?.apply {
             onBindingInput(noteItem, inputControl.access)
@@ -450,8 +467,8 @@ class RollNoteViewModel(application: Application) :
      * to control in Edit.
      */
     override fun onTouchMove(from: Int, to: Int): Boolean {
-        val correctFrom = getCorrectPosition(from, noteItem)
-        val correctTo = getCorrectPosition(to, noteItem)
+        val correctFrom = getAbsolutePosition(from)
+        val correctTo = getAbsolutePosition(to)
 
         noteItem.list.move(correctFrom, correctTo)
 
@@ -462,8 +479,8 @@ class RollNoteViewModel(application: Application) :
     }
 
     override fun onTouchMoveResult(from: Int, to: Int) {
-        val correctFrom = getCorrectPosition(from, noteItem)
-        val correctTo = getCorrectPosition(to, noteItem)
+        val correctFrom = getAbsolutePosition(from)
+        val correctTo = getAbsolutePosition(to)
 
         inputControl.onRollMove(correctFrom, correctTo)
 
@@ -471,21 +488,6 @@ class RollNoteViewModel(application: Application) :
     }
 
     //endregion
-
-    /**
-     * If have hide items when need correct position.
-     *
-     * @Test - Have duplicate in test screen.
-     */
-    @RunPrivate
-    fun getCorrectPosition(p: Int, item: NoteItem.Roll): Int {
-        return if (item.isVisible) {
-            p
-        } else {
-            val list = item.list
-            list.indexOf(list.hide()[p])
-        }
-    }
 
     /**
      * Use only for different notify functions. Don't use for change data.
