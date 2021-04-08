@@ -241,31 +241,8 @@ class RollNoteViewModel(application: Application) :
             InputAction.COLOR -> onMenuUndoRedoColor(item, isUndo)
             InputAction.NAME -> onMenuUndoRedoName(item, isUndo)
             InputAction.ROLL -> onMenuUndoRedoRoll(item, isUndo)
-            InputAction.ROLL_ADD -> {
-                if (isUndo) {
-                    onMenuUndoRedoRemove(item)
-                } else {
-                    onMenuUndoRedoAdd(item, isUndo = false)
-                }
-            }
-            InputAction.ROLL_REMOVE -> {
-                if (isUndo) {
-                    onMenuUndoRedoAdd(item, isUndo = true)
-                } else {
-                    onMenuUndoRedoRemove(item)
-                }
-
-                //                val isAddUndo = isUndo && tag == InputAction.ROLL_ADD
-                //                val isRemoveRedo = !isUndo && tag == InputAction.ROLL_REMOVE
-                //
-                //                Log.i("HERE", "isAddUndo: $isAddUndo | isRemoveRedo: $isRemoveRedo")
-
-                //                if (isAddUndo || isRemoveRedo) {
-                //                    onMenuUndoRedoAdd(item)
-                //                } else {
-                //                    onMenuUndoRedoRemove(item, isUndo)
-                //                }
-            }
+            InputAction.ROLL_ADD -> onMenuUndoRedoAdd(item, isUndo)
+            InputAction.ROLL_REMOVE -> onMenuUndoRedoRemove(item, isUndo)
             InputAction.ROLL_MOVE -> onMenuUndoRedoMove(item, isUndo)
         }
 
@@ -288,7 +265,26 @@ class RollNoteViewModel(application: Application) :
         }
     }
 
-    @RunPrivate fun onMenuUndoRedoRemove(item: InputItem) {
+    // TODO test
+    @RunPrivate fun onMenuUndoRedoAdd(item: InputItem, isUndo: Boolean) {
+        if (isUndo) {
+            onRemoveItem(item)
+        } else {
+            onInsertItem(item, isUndo = false)
+        }
+    }
+
+    // TODO test
+    @RunPrivate fun onMenuUndoRedoRemove(item: InputItem, isUndo: Boolean) {
+        if (isUndo) {
+            onInsertItem(item, isUndo = true)
+        } else {
+            onRemoveItem(item)
+        }
+    }
+
+    // TODO test
+    @RunPrivate fun onRemoveItem(item: InputItem) {
         val rollItem = noteItem.list.getOrNull(item.p) ?: return
         val adapterPosition = getAdapterList(noteItem).validIndexOf(rollItem)
 
@@ -310,7 +306,8 @@ class RollNoteViewModel(application: Application) :
         }
     }
 
-    @RunPrivate fun onMenuUndoRedoAdd(item: InputItem, isUndo: Boolean) {
+    // TODO test
+    @RunPrivate fun onInsertItem(item: InputItem, isUndo: Boolean) {
         val rollItem = RollItem[item[isUndo]] ?: return
 
         /**
@@ -336,9 +333,14 @@ class RollNoteViewModel(application: Application) :
 
         val rollItem = noteItem.list.getOrNull(from) ?: return
 
-        val shiftFrom = getAdapterList(noteItem).validIndexOf(rollItem) ?: return
+        /**
+         * Need update data anyway! Even if this item in list is currently hided.
+         */
+        val shiftFrom = getAdapterList(noteItem).validIndexOf(rollItem)
         noteItem.list.move(from, to)
-        val shiftTo = getAdapterList(noteItem).validIndexOf(rollItem) ?: return
+        val shiftTo = getAdapterList(noteItem).validIndexOf(rollItem)
+
+        if (shiftFrom == null || shiftTo == null) return
 
         if (noteItem.isVisible || (!noteItem.isVisible && !rollItem.isCheck)) {
             callback?.notifyItemMoved(getAdapterList(noteItem), shiftFrom, shiftTo)

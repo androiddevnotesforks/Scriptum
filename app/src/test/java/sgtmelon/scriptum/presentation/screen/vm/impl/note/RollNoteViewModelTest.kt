@@ -875,18 +875,18 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         spyViewModel.onMenuUndoRedoSelect(item, isUndo)
 
         every { item.tag } returns InputAction.ROLL_ADD
-        every { spyViewModel.onMenuUndoRedoAdd(item, isUndo = false) } returns Unit
+        every { spyViewModel.onInsertItem(item, isUndo = false) } returns Unit
         spyViewModel.onMenuUndoRedoSelect(item, isUndo = false)
 
         every { item.tag } returns InputAction.ROLL_ADD
-        every { spyViewModel.onMenuUndoRedoRemove(item) } returns Unit
+        every { spyViewModel.onRemoveItem(item) } returns Unit
         spyViewModel.onMenuUndoRedoSelect(item, isUndo = true)
 
         every { item.tag } returns InputAction.ROLL_REMOVE
         spyViewModel.onMenuUndoRedoSelect(item, isUndo = false)
 
         every { item.tag } returns InputAction.ROLL_REMOVE
-        every { spyViewModel.onMenuUndoRedoAdd(item, isUndo = true) } returns Unit
+        every { spyViewModel.onInsertItem(item, isUndo = true) } returns Unit
         spyViewModel.onMenuUndoRedoSelect(item, isUndo = true)
 
         every { item.tag } returns InputAction.ROLL_MOVE
@@ -922,7 +922,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.inputControl
             inputControl.isEnabled = false
             item.tag
-            spyViewModel.onMenuUndoRedoAdd(item, isUndo = false)
+            spyViewModel.onInsertItem(item, isUndo = false)
             spyViewModel.inputControl
             inputControl.isEnabled = true
 
@@ -930,7 +930,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.inputControl
             inputControl.isEnabled = false
             item.tag
-            spyViewModel.onMenuUndoRedoRemove(item)
+            spyViewModel.onRemoveItem(item)
             spyViewModel.inputControl
             inputControl.isEnabled = true
 
@@ -938,7 +938,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.inputControl
             inputControl.isEnabled = false
             item.tag
-            spyViewModel.onMenuUndoRedoRemove(item)
+            spyViewModel.onRemoveItem(item)
             spyViewModel.inputControl
             inputControl.isEnabled = true
 
@@ -946,7 +946,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.inputControl
             inputControl.isEnabled = false
             item.tag
-            spyViewModel.onMenuUndoRedoAdd(item, isUndo = true)
+            spyViewModel.onInsertItem(item, isUndo = true)
             spyViewModel.inputControl
             inputControl.isEnabled = true
 
@@ -1104,42 +1104,42 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         every { noteItem.list } returns list
 
         spyViewModel.noteItem = noteItem
-        spyViewModel.onMenuUndoRedoRemove(item)
+        spyViewModel.onRemoveItem(item)
 
         every { item.p } returns p
         every { spyViewModel.getAdapterList(noteItem) } returns returnList
         every { returnList.validIndexOf(rollItem) } returns null
 
-        spyViewModel.onMenuUndoRedoRemove(item)
+        spyViewModel.onRemoveItem(item)
 
         every { returnList.validIndexOf(rollItem) } returns validIndex
         every { list.validRemoveAt(p) } returns null
 
-        spyViewModel.onMenuUndoRedoRemove(item)
+        spyViewModel.onRemoveItem(item)
 
         every { list.validRemoveAt(p) } returns rollItem
         every { noteItem.isVisible } returns true
 
-        spyViewModel.onMenuUndoRedoRemove(item)
+        spyViewModel.onRemoveItem(item)
 
         every { noteItem.isVisible } returns false
         every { rollItem.isCheck } returns true
 
-        spyViewModel.onMenuUndoRedoRemove(item)
+        spyViewModel.onRemoveItem(item)
 
         every { rollItem.isCheck } returns false
 
-        spyViewModel.onMenuUndoRedoRemove(item)
+        spyViewModel.onRemoveItem(item)
 
         verifySequence {
             spyViewModel.noteItem = noteItem
-            spyViewModel.onMenuUndoRedoRemove(item)
+            spyViewModel.onRemoveItem(item)
 
             spyViewModel.noteItem
             noteItem.list
             item.p
 
-            spyViewModel.onMenuUndoRedoRemove(item)
+            spyViewModel.onRemoveItem(item)
 
             spyViewModel.noteItem
             noteItem.list
@@ -1148,7 +1148,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.getAdapterList(noteItem)
             returnList.validIndexOf(rollItem)
 
-            spyViewModel.onMenuUndoRedoRemove(item)
+            spyViewModel.onRemoveItem(item)
 
             spyViewModel.noteItem
             noteItem.list
@@ -1161,7 +1161,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             item.p
             list.validRemoveAt(p)
 
-            spyViewModel.onMenuUndoRedoRemove(item)
+            spyViewModel.onRemoveItem(item)
 
             spyViewModel.noteItem
             noteItem.list
@@ -1180,7 +1180,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.getAdapterList(noteItem)
             callback.notifyItemRemoved(returnList, validIndex)
 
-            spyViewModel.onMenuUndoRedoRemove(item)
+            spyViewModel.onRemoveItem(item)
 
             spyViewModel.noteItem
             noteItem.list
@@ -1198,7 +1198,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             noteItem.isVisible
             rollItem.isCheck
 
-            spyViewModel.onMenuUndoRedoRemove(item)
+            spyViewModel.onRemoveItem(item)
 
             spyViewModel.noteItem
             noteItem.list
