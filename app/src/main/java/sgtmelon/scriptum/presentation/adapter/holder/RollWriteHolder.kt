@@ -100,7 +100,7 @@ class RollWriteHolder(
 
         textFrom?.let {
             val cursorItem = InputItem.Cursor(cursorFrom, cursorTo)
-            val absolutePosition = callback.getAbsolutePosition(adapterPosition)
+            val absolutePosition = callback.getAbsolutePosition(adapterPosition) ?: return
             inputControl?.onRollChange(absolutePosition, it, textTo, cursorItem)
 
             textFrom = textTo
@@ -117,7 +117,7 @@ class RollWriteHolder(
 
     interface Callback {
         fun onInputRollChange(p: Int, text: String)
-        fun getAbsolutePosition(adapterPosition: Int): Int
+        fun getAbsolutePosition(adapterPosition: Int): Int?
         fun onRollActionNext()
     }
 

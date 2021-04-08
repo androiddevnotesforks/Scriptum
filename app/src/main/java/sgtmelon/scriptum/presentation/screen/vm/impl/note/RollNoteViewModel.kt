@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.presentation.screen.vm.impl.note
 
 import android.app.Application
-import android.util.Log
 import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
@@ -90,7 +89,7 @@ class RollNoteViewModel(application: Application) :
         callback?.apply {
             showToolbarVisibleIcon(isShow = true)
             setToolbarVisibleIcon(noteItem.isVisible, needAnim = false)
-            notifyDataSetChanged(getList(noteItem))
+            notifyDataSetChanged(getAdapterList(noteItem))
         }
 
         onUpdateInfo()
@@ -110,7 +109,7 @@ class RollNoteViewModel(application: Application) :
         noteItem = restoreItem.deepCopy(isVisible = isVisible)
         val colorTo = noteItem.color
 
-        callback?.notifyDataSetChanged(getList(noteItem))
+        callback?.notifyDataSetChanged(getAdapterList(noteItem))
 
         setupEditMode(isEdit = false)
         onUpdateInfo()
@@ -191,21 +190,21 @@ class RollNoteViewModel(application: Application) :
 
         callback?.apply {
             onBindingInput(noteItem, inputControl.access)
-            scrollToItem(simpleClick, p, getList(noteItem))
+            scrollToItem(simpleClick, p, getAdapterList(noteItem))
         }
     }
 
     override fun onClickItemCheck(p: Int) {
         if (noteState.isEdit) return
 
-        val absolutePosition = getAbsolutePosition(p)
+        val absolutePosition = getAbsolutePosition(p) ?: return
         noteItem.onItemCheck(absolutePosition)
         cacheData()
 
         if (noteItem.isVisible) {
-            callback?.notifyItemChanged(getList(noteItem), p)
+            callback?.notifyItemChanged(getAdapterList(noteItem), p)
         } else {
-            callback?.notifyItemRemoved(getList(noteItem), p)
+            callback?.notifyItemRemoved(getAdapterList(noteItem), p)
         }
 
         with(noteItem) { callback?.updateProgress(getCheck(), list.size) }
@@ -221,7 +220,7 @@ class RollNoteViewModel(application: Application) :
 
         callback?.apply {
             changeCheckToggle(state = true)
-            notifyDataRangeChanged(getList(noteItem))
+            notifyDataRangeChanged(getAdapterList(noteItem))
             changeCheckToggle(state = false)
 
             with(noteItem) { updateProgress(getCheck(), list.size) }
@@ -242,15 +241,30 @@ class RollNoteViewModel(application: Application) :
             InputAction.COLOR -> onMenuUndoRedoColor(item, isUndo)
             InputAction.NAME -> onMenuUndoRedoName(item, isUndo)
             InputAction.ROLL -> onMenuUndoRedoRoll(item, isUndo)
-            InputAction.ROLL_ADD, InputAction.ROLL_REMOVE -> {
-                val isAddUndo = isUndo && tag == InputAction.ROLL_ADD
-                val isRemoveRedo = !isUndo && tag == InputAction.ROLL_REMOVE
-
-                if (isAddUndo || isRemoveRedo) {
-                    onMenuUndoRedoAdd(item)
+            InputAction.ROLL_ADD -> {
+                if (isUndo) {
+                    onMenuUndoRedoRemove(item)
                 } else {
-                    onMenuUndoRedoRemove(item, isUndo)
+                    onMenuUndoRedoAdd(item, isUndo = false)
                 }
+            }
+            InputAction.ROLL_REMOVE -> {
+                if (isUndo) {
+                    onMenuUndoRedoAdd(item, isUndo = true)
+                } else {
+                    onMenuUndoRedoRemove(item)
+                }
+
+                //                val isAddUndo = isUndo && tag == InputAction.ROLL_ADD
+                //                val isRemoveRedo = !isUndo && tag == InputAction.ROLL_REMOVE
+                //
+                //                Log.i("HERE", "isAddUndo: $isAddUndo | isRemoveRedo: $isRemoveRedo")
+
+                //                if (isAddUndo || isRemoveRedo) {
+                //                    onMenuUndoRedoAdd(item)
+                //                } else {
+                //                    onMenuUndoRedoRemove(item, isUndo)
+                //                }
             }
             InputAction.ROLL_MOVE -> onMenuUndoRedoMove(item, isUndo)
         }
@@ -260,45 +274,59 @@ class RollNoteViewModel(application: Application) :
 
     @RunPrivate fun onMenuUndoRedoRoll(item: InputItem, isUndo: Boolean) {
         val rollItem = noteItem.list.getOrNull(item.p) ?: return
-        val list = getList(noteItem)
-        val position = list.validIndexOf(rollItem) ?: return
 
-        Log.i("HERE", "position: $position | item.p: ${item.p}")
-
+        /**
+         * Need update data anyway! Even if this item in list is currently hided.
+         */
         rollItem.text = item[isUndo]
 
+        val adapterList = getAdapterList(noteItem)
+        val adapterPosition = adapterList.validIndexOf(rollItem) ?: return
+
         if (noteItem.isVisible || (!noteItem.isVisible && !rollItem.isCheck)) {
-            callback?.notifyItemChanged(list, position, item.cursor[isUndo])
+            callback?.notifyItemChanged(adapterList, adapterPosition, item.cursor[isUndo])
         }
     }
 
-
-
-    @RunPrivate fun onMenuUndoRedoAdd(item: InputItem) {
+    @RunPrivate fun onMenuUndoRedoRemove(item: InputItem) {
         val rollItem = noteItem.list.getOrNull(item.p) ?: return
-        val position = getList(noteItem).validIndexOf(rollItem) ?: return
+        val adapterPosition = getAdapterList(noteItem).validIndexOf(rollItem)
 
+        /**
+         * Need update data anyway! Even if this item in list is currently hided.
+         *
+         * Also need remove item at the end. Because [getAdapterList] return list without
+         * that item and you will get not valid index of item.
+         */
         noteItem.list.validRemoveAt(item.p) ?: return
 
+        if (adapterPosition == null) return
+
         if (noteItem.isVisible || (!noteItem.isVisible && !rollItem.isCheck)) {
-            callback?.notifyItemRemoved(getList(noteItem), position)
+            /**
+             * Need get new [getAdapterList] for clear effect, cause we remove one item from it.
+             */
+            callback?.notifyItemRemoved(getAdapterList(noteItem), adapterPosition)
         }
     }
 
-    @RunPrivate fun onMenuUndoRedoRemove(item: InputItem, isUndo: Boolean) {
+    @RunPrivate fun onMenuUndoRedoAdd(item: InputItem, isUndo: Boolean) {
         val rollItem = RollItem[item[isUndo]] ?: return
 
+        /**
+         * Need update data anyway! Even if this item in list is currently hided.
+         */
         noteItem.list.add(item.p, rollItem)
 
         if (noteItem.isVisible) {
-            callback?.notifyItemInserted(getList(noteItem), item.p, rollItem.text.length)
+            callback?.notifyItemInserted(getAdapterList(noteItem), item.p, rollItem.text.length)
         } else if (!rollItem.isCheck) {
             fun getShiftPosition(p: Int): Int {
                 return p - noteItem.list.subList(0, p).let { it.size - it.hide().size }
             }
 
             val position = getShiftPosition(item.p)
-            callback?.notifyItemInserted(getList(noteItem), position, rollItem.text.length)
+            callback?.notifyItemInserted(getAdapterList(noteItem), position, rollItem.text.length)
         }
     }
 
@@ -308,12 +336,12 @@ class RollNoteViewModel(application: Application) :
 
         val rollItem = noteItem.list.getOrNull(from) ?: return
 
-        val shiftFrom = getList(noteItem).validIndexOf(rollItem) ?: return
+        val shiftFrom = getAdapterList(noteItem).validIndexOf(rollItem) ?: return
         noteItem.list.move(from, to)
-        val shiftTo = getList(noteItem).validIndexOf(rollItem) ?: return
+        val shiftTo = getAdapterList(noteItem).validIndexOf(rollItem) ?: return
 
         if (noteItem.isVisible || (!noteItem.isVisible && !rollItem.isCheck)) {
-            callback?.notifyItemMoved(getList(noteItem), shiftFrom, shiftTo)
+            callback?.notifyItemMoved(getAdapterList(noteItem), shiftFrom, shiftTo)
         }
     }
 
@@ -327,7 +355,7 @@ class RollNoteViewModel(application: Application) :
         /**
          * Need update adapter after remove rows with empty text.
          */
-        callback?.setList(getList(noteItem))
+        callback?.setList(getAdapterList(noteItem))
 
         if (changeMode) {
             callback?.hideKeyboard()
@@ -362,7 +390,7 @@ class RollNoteViewModel(application: Application) :
                 runBack { interactor.setVisible(noteItem, updateBind = false) }
             }
 
-            callback?.setList(getList(noteItem))
+            callback?.setList(getAdapterList(noteItem))
         }
 
         return true
@@ -399,11 +427,11 @@ class RollNoteViewModel(application: Application) :
     //endregion
 
     override fun onInputRollChange(p: Int, text: String) {
-        val absolutePosition = getAbsolutePosition(p)
+        val absolutePosition = getAbsolutePosition(p) ?: return
         noteItem.list.getOrNull(absolutePosition)?.text = text
 
         callback?.apply {
-            setList(getList(noteItem))
+            setList(getAdapterList(noteItem))
             onBindingInput(noteItem, inputControl.access)
         }
     }
@@ -413,12 +441,14 @@ class RollNoteViewModel(application: Application) :
      *
      * @Test - Have duplicate in test screen.
      */
-    override fun getAbsolutePosition(adapterPosition: Int): Int {
+    override fun getAbsolutePosition(adapterPosition: Int): Int? {
         return if (noteItem.isVisible) {
             adapterPosition
         } else {
             val list = noteItem.list
-            list.indexOf(list.hide()[adapterPosition])
+            val hideItem = list.hide().getOrNull(adapterPosition) ?: return null
+
+            return list.validIndexOf(hideItem)
         }
     }
 
@@ -451,14 +481,14 @@ class RollNoteViewModel(application: Application) :
      * to control in Edit.
      */
     override fun onTouchSwiped(p: Int) {
-        val absolutePosition = getAbsolutePosition(p)
+        val absolutePosition = getAbsolutePosition(p) ?: return
         val item = noteItem.list.validRemoveAt(absolutePosition) ?: return
 
         inputControl.onRollRemove(absolutePosition, item.toJson())
 
         callback?.apply {
             onBindingInput(noteItem, inputControl.access)
-            notifyItemRemoved(getList(noteItem), p)
+            notifyItemRemoved(getAdapterList(noteItem), p)
         }
     }
 
@@ -467,22 +497,22 @@ class RollNoteViewModel(application: Application) :
      * to control in Edit.
      */
     override fun onTouchMove(from: Int, to: Int): Boolean {
-        val correctFrom = getAbsolutePosition(from)
-        val correctTo = getAbsolutePosition(to)
+        val absoluteFrom = getAbsolutePosition(from) ?: return true
+        val absoluteTo = getAbsolutePosition(to) ?: return true
 
-        noteItem.list.move(correctFrom, correctTo)
+        noteItem.list.move(absoluteFrom, absoluteTo)
 
-        callback?.notifyItemMoved(getList(noteItem), from, to)
+        callback?.notifyItemMoved(getAdapterList(noteItem), from, to)
         callback?.hideKeyboard()
 
         return true
     }
 
     override fun onTouchMoveResult(from: Int, to: Int) {
-        val correctFrom = getAbsolutePosition(from)
-        val correctTo = getAbsolutePosition(to)
+        val absoluteFrom = getAbsolutePosition(from) ?: return
+        val absoluteTo = getAbsolutePosition(to) ?: return
 
-        inputControl.onRollMove(correctFrom, correctTo)
+        inputControl.onRollMove(absoluteFrom, absoluteTo)
 
         callback?.onBindingInput(noteItem, inputControl.access)
     }
@@ -491,9 +521,11 @@ class RollNoteViewModel(application: Application) :
 
     /**
      * Use only for different notify functions. Don't use for change data.
+     *
+     * @return - list which uses for screen adapter.
      */
     @RunPrivate
-    fun getList(item: NoteItem.Roll): MutableList<RollItem> {
+    fun getAdapterList(item: NoteItem.Roll): MutableList<RollItem> {
         val list = item.list
 
         return if (item.isVisible) list else list.hide()
