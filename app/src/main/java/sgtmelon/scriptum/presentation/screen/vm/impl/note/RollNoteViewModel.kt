@@ -265,7 +265,6 @@ class RollNoteViewModel(application: Application) :
         }
     }
 
-    // TODO test
     @RunPrivate fun onMenuUndoRedoAdd(item: InputItem, isUndo: Boolean) {
         if (isUndo) {
             onRemoveItem(item)
@@ -274,7 +273,6 @@ class RollNoteViewModel(application: Application) :
         }
     }
 
-    // TODO test
     @RunPrivate fun onMenuUndoRedoRemove(item: InputItem, isUndo: Boolean) {
         if (isUndo) {
             onInsertItem(item, isUndo = true)
@@ -283,7 +281,6 @@ class RollNoteViewModel(application: Application) :
         }
     }
 
-    // TODO test
     @RunPrivate fun onRemoveItem(item: InputItem) {
         val rollItem = noteItem.list.getOrNull(item.p) ?: return
         val adapterPosition = getAdapterList(noteItem).validIndexOf(rollItem)
@@ -306,7 +303,6 @@ class RollNoteViewModel(application: Application) :
         }
     }
 
-    // TODO test
     @RunPrivate fun onInsertItem(item: InputItem, isUndo: Boolean) {
         val rollItem = RollItem[item[isUndo]] ?: return
 
