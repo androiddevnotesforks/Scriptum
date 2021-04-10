@@ -652,7 +652,6 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         val check = Random.nextInt()
         val size = Random.nextInt()
 
-        every { spyViewModel.getAbsolutePosition(p) } returns absolutePosition
         every { spyViewModel.getAdapterList(noteItem) } returns optimalList
         every { spyViewModel.cacheData() } returns Unit
         every { noteItem.getCheck() } returns check
@@ -666,6 +665,10 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         spyViewModel.onClickItemCheck(p)
 
         every { noteState.isEdit } returns false
+        every { spyViewModel.getAbsolutePosition(p) } returns null
+        spyViewModel.onClickItemCheck(p)
+
+        every { spyViewModel.getAbsolutePosition(p) } returns absolutePosition
         every { noteItem.isVisible } returns false
         spyViewModel.onClickItemCheck(p)
 
@@ -680,57 +683,52 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.noteState
             noteState.isEdit
 
+            spyViewModel.onClickItemCheck(p)
+            spyViewModel.noteState
+            noteState.isEdit
+            spyViewModel.getAbsolutePosition(p)
 
             spyViewModel.onClickItemCheck(p)
             spyViewModel.noteState
             noteState.isEdit
-            spyViewModel.noteItem
             spyViewModel.getAbsolutePosition(p)
             spyViewModel.noteItem
             noteItem.onItemCheck(absolutePosition)
             spyViewModel.cacheData()
-
             spyViewModel.noteItem
             noteItem.isVisible
             spyViewModel.callback
             spyViewModel.noteItem
             spyViewModel.getAdapterList(noteItem)
             callback.notifyItemRemoved(optimalList, p)
-
             spyViewModel.noteItem
             spyViewModel.callback
             noteItem.getCheck()
             noteItem.list
             normalList.size
             callback.updateProgress(check, size)
-
             spyViewModel.noteItem
             interactor.updateRollCheck(noteItem, absolutePosition)
-
 
             spyViewModel.onClickItemCheck(p)
             spyViewModel.noteState
             noteState.isEdit
-            spyViewModel.noteItem
             spyViewModel.getAbsolutePosition(p)
             spyViewModel.noteItem
             noteItem.onItemCheck(absolutePosition)
             spyViewModel.cacheData()
-
             spyViewModel.noteItem
             noteItem.isVisible
             spyViewModel.callback
             spyViewModel.noteItem
             spyViewModel.getAdapterList(noteItem)
             callback.notifyItemChanged(optimalList, p)
-
             spyViewModel.noteItem
             spyViewModel.callback
             noteItem.getCheck()
             noteItem.list
             normalList.size
             callback.updateProgress(check, size)
-
             spyViewModel.noteItem
             interactor.updateRollCheck(noteItem, absolutePosition)
         }
@@ -957,7 +955,6 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     @Test fun onMenuUndoRedoName() = fastTest.onMenuUndoRedoName()
 
     @Test fun onMenuUndoRedoRoll() {
-        TODO()
         val item = mockk<InputItem>()
         val isUndo = Random.nextBoolean()
 
@@ -981,14 +978,14 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         spyViewModel.onMenuUndoRedoRoll(item, isUndo)
 
         every { item.p } returns p
+        every { item[isUndo] } returns text
+        every { rollItem.text = text } returns Unit
         every { spyViewModel.getAdapterList(noteItem) } returns returnList
         every { returnList.validIndexOf(rollItem) } returns null
 
         spyViewModel.onMenuUndoRedoRoll(item, isUndo)
 
         every { returnList.validIndexOf(rollItem) } returns validIndex
-        every { item[isUndo] } returns text
-        every { rollItem.text = text } returns Unit
         every { noteItem.isVisible } returns true
         every { item.cursor } returns cursor
         every { cursor[isUndo] } returns cursorPosition
@@ -1017,6 +1014,8 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.noteItem
             noteItem.list
             item.p
+            item[isUndo]
+            rollItem.text = text
             spyViewModel.noteItem
             spyViewModel.getAdapterList(noteItem)
             returnList.validIndexOf(rollItem)
@@ -1113,7 +1112,6 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onRemoveItem() {
-        TODO()
         val item = mockk<InputItem>()
 
         val noteItem = mockk<NoteItem.Roll>()
@@ -1135,15 +1133,15 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         every { item.p } returns p
         every { spyViewModel.getAdapterList(noteItem) } returns returnList
         every { returnList.validIndexOf(rollItem) } returns null
-
-        spyViewModel.onRemoveItem(item)
-
-        every { returnList.validIndexOf(rollItem) } returns validIndex
         every { list.validRemoveAt(p) } returns null
 
         spyViewModel.onRemoveItem(item)
 
         every { list.validRemoveAt(p) } returns rollItem
+
+        spyViewModel.onRemoveItem(item)
+
+        every { returnList.validIndexOf(rollItem) } returns validIndex
         every { noteItem.isVisible } returns true
 
         spyViewModel.onRemoveItem(item)
@@ -1173,6 +1171,10 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.noteItem
             spyViewModel.getAdapterList(noteItem)
             returnList.validIndexOf(rollItem)
+            spyViewModel.noteItem
+            noteItem.list
+            item.p
+            list.validRemoveAt(p)
 
             spyViewModel.onRemoveItem(item)
 
@@ -1285,7 +1287,6 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     @Test fun onInputTextChange() = fastTest.onInputTextChange(mockk())
 
     @Test fun onInputRollChange() {
-        TODO()
         val p = Random.nextInt()
         val text = nextString()
 
@@ -1296,7 +1297,10 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         val newList = mockk<MutableList<RollItem>>()
         val access = mockk<InputControl.Access>()
 
+        every { spyViewModel.getAbsolutePosition(p) } returns null
+
         spyViewModel.noteItem = noteItem
+        spyViewModel.onInputRollChange(p, text)
 
         every { spyViewModel.getAbsolutePosition(p) } returns -1
         every { noteItem.list } returns list
@@ -1310,22 +1314,35 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
         spyViewModel.onInputRollChange(p, text)
 
-        verifyOrder {
+        verifySequence {
+            spyViewModel.noteItem = noteItem
+            spyViewModel.onInputRollChange(p, text)
             spyViewModel.getAbsolutePosition(p)
-            noteItem.list
 
+            spyViewModel.onInputRollChange(p, text)
+            spyViewModel.getAbsolutePosition(p)
+            spyViewModel.noteItem
+            noteItem.list
+            spyViewModel.callback
+            spyViewModel.noteItem
             spyViewModel.getAdapterList(noteItem)
             callback.setList(newList)
+            spyViewModel.noteItem
+            spyViewModel.inputControl
             inputControl.access
             callback.onBindingInput(noteItem, access)
 
-
+            spyViewModel.onInputRollChange(p, text)
             spyViewModel.getAbsolutePosition(p)
+            spyViewModel.noteItem
             noteItem.list
             item.text = text
-
+            spyViewModel.callback
+            spyViewModel.noteItem
             spyViewModel.getAdapterList(noteItem)
             callback.setList(newList)
+            spyViewModel.noteItem
+            spyViewModel.inputControl
             inputControl.access
             callback.onBindingInput(noteItem, access)
         }
@@ -1333,34 +1350,29 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
     @Test fun getAbsolutePosition() {
         val item = mockk<NoteItem.Roll>()
-        val list = mockk<MutableList<RollItem>>()
-        val hideList = mockk<MutableList<RollItem>>()
-        val p = Random.nextInt()
-        val index = Random.nextInt()
-        val rollItem = mockk<RollItem>()
+        val adapterPosition = Random.nextInt()
+        val list = MutableList(getRandomSize()) { mockk<RollItem>() }
+        val hideList = MutableList(getRandomSize()) { mockk<RollItem>() }
+        val hideListPosition = hideList.indices.random()
+        val hideItem = hideList[hideListPosition]
+        val absolutePosition = Random.nextInt()
 
         FastMock.listExtension()
 
         every { item.isVisible } returns true
-
         viewModel.noteItem = item
-        assertEquals(p, viewModel.getAbsolutePosition(p))
+        assertEquals(adapterPosition, viewModel.getAbsolutePosition(adapterPosition))
 
         every { item.isVisible } returns false
         every { item.list } returns list
         every { list.hide() } returns hideList
-        every { hideList[p] } returns rollItem
-        every { list.indexOf(rollItem) } returns index
+        assertNull(viewModel.getAbsolutePosition(adapterPosition = -1))
 
-        assertEquals(index, viewModel.getAbsolutePosition(p))
+        every { list.validIndexOf(hideItem) } returns null
+        assertNull(viewModel.getAbsolutePosition(hideListPosition))
 
-        every { item.isVisible } returns false
-        every { item.list } returns list
-        every { list.hide() } returns hideList
-        every { hideList[p] } returns rollItem
-        every { list.indexOf(rollItem) } returns index
-
-        assertEquals(index, viewModel.getAbsolutePosition(p))
+        every { list.validIndexOf(hideItem) } returns absolutePosition
+        assertEquals(absolutePosition, viewModel.getAbsolutePosition(hideListPosition))
 
         verifySequence {
             item.isVisible
@@ -1368,8 +1380,16 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             item.isVisible
             item.list
             list.hide()
-            hideList[p]
-            list.indexOf(rollItem)
+
+            item.isVisible
+            item.list
+            list.hide()
+            list.validIndexOf(hideItem)
+
+            item.isVisible
+            item.list
+            list.hide()
+            list.validIndexOf(hideItem)
         }
     }
 
@@ -1434,7 +1454,6 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onTouchSwiped() {
-        TODO()
         val p = Random.nextInt()
         val absolutePosition = Random.nextInt()
         val noteItem = mockk<NoteItem.Roll>()
@@ -1445,15 +1464,17 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
         val inputAccess = mockk<InputControl.Access>()
 
-        spyViewModel.noteItem = noteItem
-
         FastMock.listExtension()
+
+        every { spyViewModel.getAbsolutePosition(p) } returns null
+
+        spyViewModel.onTouchSwiped(p)
 
         every { spyViewModel.getAbsolutePosition(p) } returns absolutePosition
         every { noteItem.list } returns list
-
         every { list.validRemoveAt(absolutePosition) } returns null
 
+        spyViewModel.noteItem = noteItem
         spyViewModel.onTouchSwiped(p)
 
         every { list.validRemoveAt(absolutePosition) } returns item
@@ -1464,16 +1485,21 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         spyViewModel.onTouchSwiped(p)
 
         verifyOrder {
+            spyViewModel.onTouchSwiped(p)
+            spyViewModel.getAbsolutePosition(p)
+
+            spyViewModel.noteItem = noteItem
+            spyViewModel.onTouchSwiped(p)
             spyViewModel.getAbsolutePosition(p)
             noteItem.list
             list.validRemoveAt(absolutePosition)
 
+            spyViewModel.onTouchSwiped(p)
             spyViewModel.getAbsolutePosition(p)
             noteItem.list
             list.validRemoveAt(absolutePosition)
             item.toJson()
             inputControl.onRollRemove(absolutePosition, itemJson)
-
             inputControl.access
             callback.onBindingInput(noteItem, inputAccess)
             spyViewModel.getAdapterList(noteItem)
@@ -1482,7 +1508,6 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onTouchMove() {
-        TODO()
         val from = Random.nextInt()
         val absoluteFrom = Random.nextInt()
         val to = Random.nextInt()
@@ -1496,12 +1521,18 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
         FastMock.listExtension()
 
-        every { spyViewModel.getAbsolutePosition(from) } returns absoluteFrom
-        every { spyViewModel.getAbsolutePosition(to) } returns absoluteTo
+        every { spyViewModel.getAbsolutePosition(from) } returns null
 
+        assertTrue(spyViewModel.onTouchMove(from, to))
+
+        every { spyViewModel.getAbsolutePosition(from) } returns absoluteFrom
+        every { spyViewModel.getAbsolutePosition(to) } returns null
+
+        assertTrue(spyViewModel.onTouchMove(from, to))
+
+        every { spyViewModel.getAbsolutePosition(to) } returns absoluteTo
         every { noteItem.list } returns list
         every { list.move(absoluteFrom, absoluteTo) } returns Unit
-
         every { spyViewModel.getAdapterList(noteItem) } returns newList
 
         assertTrue(spyViewModel.onTouchMove(from, to))
@@ -1509,21 +1540,22 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         verifySequence {
             spyViewModel.noteItem = noteItem
             spyViewModel.onTouchMove(from, to)
-
-            spyViewModel.noteItem
             spyViewModel.getAbsolutePosition(from)
-            spyViewModel.noteItem
+
+            spyViewModel.onTouchMove(from, to)
+            spyViewModel.getAbsolutePosition(from)
             spyViewModel.getAbsolutePosition(to)
 
+            spyViewModel.onTouchMove(from, to)
+            spyViewModel.getAbsolutePosition(from)
+            spyViewModel.getAbsolutePosition(to)
             spyViewModel.noteItem
             noteItem.list
             list.move(absoluteFrom, absoluteTo)
-
             spyViewModel.callback
             spyViewModel.noteItem
             spyViewModel.getAdapterList(noteItem)
             callback.notifyItemMoved(newList, from, to)
-
             spyViewModel.callback
             callback.hideKeyboard()
         }
