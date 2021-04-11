@@ -330,8 +330,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
      */
     abstract fun onMenuUndoRedoSelect(item: InputItem, isUndo: Boolean)
 
-    @RunProtected
-    fun onMenuUndoRedoRank(item: InputItem, isUndo: Boolean) {
+    @RunProtected fun onMenuUndoRedoRank(item: InputItem, isUndo: Boolean) {
         val list = StringConverter().toList(item[isUndo])
 
         if (list.size != 2) return

@@ -324,8 +324,8 @@ class RollNoteViewModel(application: Application) :
     }
 
     @RunPrivate fun onMenuUndoRedoMove(item: InputItem, isUndo: Boolean) {
-        val from = item[!isUndo].toInt()
-        val to = item[isUndo].toInt()
+        val from = item[!isUndo].toIntOrNull() ?: return
+        val to = item[isUndo].toIntOrNull() ?: return
 
         val rollItem = noteItem.list.getOrNull(from) ?: return
 
@@ -522,6 +522,7 @@ class RollNoteViewModel(application: Application) :
      *
      * @return - list which uses for screen adapter.
      */
+    // TODO remove [item] paramether and move it to function.
     @RunPrivate
     fun getAdapterList(item: NoteItem.Roll): MutableList<RollItem> {
         val list = item.list

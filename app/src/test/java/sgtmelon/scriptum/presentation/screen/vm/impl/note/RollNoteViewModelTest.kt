@@ -1255,7 +1255,145 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onMenuUndoRedoMove() {
-        TODO()
+        val item = mockk<InputItem>()
+        val isUndo = Random.nextBoolean()
+
+        val noteItem = mockk<NoteItem.Roll>()
+        val size = getRandomSize()
+        val list = MutableList<RollItem>(size) { mockk() }
+        val from = list.indices.random()
+        val to = Random.nextInt()
+
+        val adapterList = mockk<MutableList<RollItem>>()
+        val rollItem = list[from]
+        val validIndex = Random.nextInt()
+
+        FastMock.listExtension()
+
+        every { item[!isUndo] } returns nextString()
+        viewModel.onMenuUndoRedoMove(item, isUndo)
+
+        /**
+         * Return not index of list for getOnNull return call.
+         */
+        every { item[!isUndo] } returns "-1"
+        every { item[isUndo] } returns nextString()
+        viewModel.onMenuUndoRedoMove(item, isUndo)
+
+        every { item[isUndo] } returns to.toString()
+        every { noteItem.list } returns list
+        viewModel.noteItem = noteItem
+        viewModel.onMenuUndoRedoMove(item, isUndo)
+
+        every { item[!isUndo] } returns from.toString()
+        every { spyViewModel.getAdapterList(noteItem) } returns adapterList
+        every { adapterList.validIndexOf(rollItem) } returns null
+        every { list.move(from, to) } returns Unit
+        spyViewModel.onMenuUndoRedoMove(item, isUndo)
+
+        every { adapterList.validIndexOf(rollItem) } returns validIndex
+        every { noteItem.isVisible } returns true
+        spyViewModel.onMenuUndoRedoMove(item, isUndo)
+
+        every { noteItem.isVisible } returns false
+        every { rollItem.isCheck } returns true
+
+        spyViewModel.onMenuUndoRedoMove(item, isUndo)
+
+        every { rollItem.isCheck } returns false
+
+        spyViewModel.onMenuUndoRedoMove(item, isUndo)
+
+        verifySequence {
+            item[!isUndo]
+
+            item[!isUndo]
+            item[isUndo]
+
+            item[!isUndo]
+            item[isUndo]
+            noteItem.list
+
+            spyViewModel.onMenuUndoRedoMove(item, isUndo)
+            item[!isUndo]
+            item[isUndo]
+            spyViewModel.noteItem
+            noteItem.list
+            spyViewModel.noteItem
+            spyViewModel.getAdapterList(noteItem)
+            adapterList.validIndexOf(rollItem)
+            spyViewModel.noteItem
+            noteItem.list
+            list.move(from, to)
+            spyViewModel.noteItem
+            spyViewModel.getAdapterList(noteItem)
+            adapterList.validIndexOf(rollItem)
+
+            spyViewModel.onMenuUndoRedoMove(item, isUndo)
+            item[!isUndo]
+            item[isUndo]
+            spyViewModel.noteItem
+            noteItem.list
+            spyViewModel.noteItem
+            spyViewModel.getAdapterList(noteItem)
+            adapterList.validIndexOf(rollItem)
+            spyViewModel.noteItem
+            noteItem.list
+            list.move(from, to)
+            spyViewModel.noteItem
+            spyViewModel.getAdapterList(noteItem)
+            adapterList.validIndexOf(rollItem)
+            spyViewModel.noteItem
+            noteItem.isVisible
+            spyViewModel.callback
+            spyViewModel.noteItem
+            spyViewModel.getAdapterList(noteItem)
+            callback.notifyItemMoved(adapterList, validIndex, validIndex)
+
+            spyViewModel.onMenuUndoRedoMove(item, isUndo)
+            item[!isUndo]
+            item[isUndo]
+            spyViewModel.noteItem
+            noteItem.list
+            spyViewModel.noteItem
+            spyViewModel.getAdapterList(noteItem)
+            adapterList.validIndexOf(rollItem)
+            spyViewModel.noteItem
+            noteItem.list
+            list.move(from, to)
+            spyViewModel.noteItem
+            spyViewModel.getAdapterList(noteItem)
+            adapterList.validIndexOf(rollItem)
+            spyViewModel.noteItem
+            noteItem.isVisible
+            spyViewModel.noteItem
+            noteItem.isVisible
+            rollItem.isCheck
+
+            spyViewModel.onMenuUndoRedoMove(item, isUndo)
+            item[!isUndo]
+            item[isUndo]
+            spyViewModel.noteItem
+            noteItem.list
+            spyViewModel.noteItem
+            spyViewModel.getAdapterList(noteItem)
+            adapterList.validIndexOf(rollItem)
+            spyViewModel.noteItem
+            noteItem.list
+            list.move(from, to)
+            spyViewModel.noteItem
+            spyViewModel.getAdapterList(noteItem)
+            adapterList.validIndexOf(rollItem)
+            spyViewModel.noteItem
+            noteItem.isVisible
+            spyViewModel.noteItem
+            noteItem.isVisible
+            rollItem.isCheck
+            spyViewModel.callback
+            spyViewModel.noteItem
+            spyViewModel.getAdapterList(noteItem)
+            callback.notifyItemMoved(adapterList, validIndex, validIndex)
+        }
     }
 
     @Test fun onMenuRank() = fastTest.onMenuRank(mockk())
