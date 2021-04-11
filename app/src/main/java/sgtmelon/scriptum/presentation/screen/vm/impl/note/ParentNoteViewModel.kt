@@ -370,6 +370,11 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
         callback?.showColorDialog(noteItem.color)
     }
 
+    /**
+     * Function of background work for note saving.
+     */
+    abstract suspend fun saveBackgroundWork()
+
 
     override fun onMenuNotification() {
         if (noteState.isEdit) return
@@ -414,7 +419,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
     }
 
     /**
-     * Function must describe
+     * Function must describe changing of edit/read modes.
      */
     abstract fun setupEditMode(isEdit: Boolean)
 

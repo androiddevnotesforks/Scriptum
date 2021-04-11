@@ -818,6 +818,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         }
     }
 
+    //region Dialog results
 
     @Test fun onResultColorDialog() = fastTest.onResultColorDialog(mockk())
 
@@ -831,6 +832,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
     @Test fun onResultConvertDialog() = fastTest.onResultConvertDialog(mockk())
 
+    //endregion
 
     @Test fun onReceiveUnbindNote() = fastTest.onReceiveUnbindNote(mockk(), mockk())
 
@@ -1372,6 +1374,10 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     @Test fun onMenuColor() = fastTest.onMenuColor(mockk())
 
     @Test fun onMenuSave() {
+        TODO()
+    }
+
+    @Test fun saveBackgroundWork() {
         TODO()
     }
 

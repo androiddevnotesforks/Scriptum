@@ -285,6 +285,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
         }
     }
 
+    //region Dialog results
 
     @Test fun onResultColorDialog() = fastTest.onResultColorDialog(mockk())
 
@@ -298,9 +299,11 @@ class TextNoteViewModelTest : ParentViewModelTest() {
 
     @Test fun onResultConvertDialog() = fastTest.onResultConvertDialog(mockk())
 
+    //endregion
 
     @Test fun onReceiveUnbindNote() = fastTest.onReceiveUnbindNote(mockk(), mockk())
 
+    //region Menu click
 
     @Test fun onMenuRestore() = fastTest.onMenuRestore(mockk())
 
@@ -408,6 +411,61 @@ class TextNoteViewModelTest : ParentViewModelTest() {
         TODO()
     }
 
+    @Test fun saveBackgroundWork() = startCoTest {
+        val noteItem = mockk<NoteItem.Text>()
+        val noteState = mockk<NoteState>()
+        val id = Random.nextLong()
+
+        every { spyViewModel.cacheData() } returns Unit
+        every { noteState.isCreate } returns false
+
+        spyViewModel.noteItem = noteItem
+        spyViewModel.noteState = noteState
+        spyViewModel.saveBackgroundWork()
+        assertEquals(Default.ID, spyViewModel.id)
+
+        every { noteState.isCreate } returns true
+        every { noteState.isCreate = NoteState.ND_CREATE } returns Unit
+        every { noteItem.id } returns id
+
+        spyViewModel.saveBackgroundWork()
+        assertEquals(id, spyViewModel.id)
+
+        coVerifySequence {
+            spyViewModel.noteItem = noteItem
+            spyViewModel.noteState = noteState
+            spyViewModel.saveBackgroundWork()
+            spyViewModel.interactor
+            spyViewModel.noteItem
+            spyViewModel.noteState
+            noteState.isCreate
+            interactor.saveNote(noteItem, isCreate = false)
+            spyViewModel.cacheData()
+            spyViewModel.noteState
+            noteState.isCreate
+            spyViewModel.id
+
+            spyViewModel.saveBackgroundWork()
+            spyViewModel.interactor
+            spyViewModel.noteItem
+            spyViewModel.noteState
+            noteState.isCreate
+            interactor.saveNote(noteItem, isCreate = true)
+            spyViewModel.cacheData()
+            spyViewModel.noteState
+            noteState.isCreate
+            spyViewModel.noteState
+            noteState.isCreate = NoteState.ND_CREATE
+            spyViewModel.noteItem
+            noteItem.id
+            spyViewModel.id = id
+            spyViewModel.parentCallback
+            spyViewModel.id
+            parentCallback.onUpdateNoteId(id)
+            spyViewModel.id
+        }
+    }
+
     @Test fun onMenuNotification() = fastTest.onMenuNotification(mockk())
 
     @Test fun onMenuBind() = fastTest.onMenuBind(mockk(), mockk())
@@ -447,6 +505,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
         //                }
     }
 
+    //endregion
 
     @Test fun onResultSaveControl() = fastTest.onResultSaveControl()
 

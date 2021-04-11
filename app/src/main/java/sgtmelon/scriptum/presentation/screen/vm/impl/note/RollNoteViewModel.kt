@@ -368,32 +368,33 @@ class RollNoteViewModel(application: Application) :
 
         parentCallback?.onUpdateNoteColor(noteItem.color)
 
-        viewModelScope.launch {
-            runBack { interactor.saveNote(noteItem, noteState.isCreate) }
-            cacheData()
-
-            if (noteState.isCreate) {
-                noteState.isCreate = NoteState.ND_CREATE
-
-                id = noteItem.id
-                parentCallback?.onUpdateNoteId(id)
-
-                /**
-                 * Need if [noteItem] isVisible changes wasn't set inside [onClickVisible] because of
-                 * not created note.
-                 *
-                 * Don't need update bind, because [interactor] already does it
-                 * before in [onMenuSave] func.
-                 */
-                runBack { interactor.setVisible(noteItem, updateBind = false) }
-            }
-
-            callback?.setList(getAdapterList())
-        }
+        viewModelScope.launch { saveBackgroundWork() }
 
         return true
     }
 
+    override suspend fun saveBackgroundWork() {
+        runBack { interactor.saveNote(noteItem, noteState.isCreate) }
+        cacheData()
+
+        if (noteState.isCreate) {
+            noteState.isCreate = NoteState.ND_CREATE
+
+            id = noteItem.id
+            parentCallback?.onUpdateNoteId(id)
+
+            /**
+             * Need if [noteItem] isVisible changes wasn't set inside [onClickVisible] because of
+             * not created note.
+             *
+             * Don't need update bind, because [interactor] already does it
+             * before in [onMenuSave] func.
+             */
+            runBack { interactor.setVisible(noteItem, updateBind = false) }
+        }
+
+        callback?.setList(getAdapterList())
+    }
 
     override fun setupEditMode(isEdit: Boolean) {
         inputControl.isEnabled = false

@@ -133,21 +133,22 @@ class TextNoteViewModel(application: Application) :
 
         parentCallback?.onUpdateNoteColor(noteItem.color)
 
-        viewModelScope.launch {
-            runBack { interactor.saveNote(noteItem, noteState.isCreate) }
-            cacheData()
-
-            if (noteState.isCreate) {
-                noteState.isCreate = NoteState.ND_CREATE
-
-                id = noteItem.id
-                parentCallback?.onUpdateNoteId(id)
-            }
-        }
+        viewModelScope.launch { saveBackgroundWork() }
 
         return true
     }
 
+    override suspend fun saveBackgroundWork() {
+        runBack { interactor.saveNote(noteItem, noteState.isCreate) }
+        cacheData()
+
+        if (noteState.isCreate) {
+            noteState.isCreate = NoteState.ND_CREATE
+
+            id = noteItem.id
+            parentCallback?.onUpdateNoteId(id)
+        }
+    }
 
     override fun setupEditMode(isEdit: Boolean) {
         inputControl.isEnabled = false
