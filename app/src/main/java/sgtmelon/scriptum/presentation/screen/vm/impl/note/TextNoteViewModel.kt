@@ -126,7 +126,7 @@ class TextNoteViewModel(application: Application) :
             inputControl.reset()
         } else if (noteState.isCreate) {
             /**
-             * Change toolbar icon from arrow to cancel.
+             * Change toolbar icon from arrow to cancel for auto save case.
              */
             callback?.setToolbarBackIcon(isCancel = true, needAnim = true)
         }

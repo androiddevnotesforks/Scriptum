@@ -1377,8 +1377,70 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         TODO()
     }
 
-    @Test fun saveBackgroundWork() {
-        TODO()
+    @Test fun saveBackgroundWork() = startCoTest {
+        val noteItem = mockk<NoteItem.Roll>()
+        val noteState = mockk<NoteState>()
+        val id = Random.nextLong()
+        val adapterList = mockk<MutableList<RollItem>>()
+
+        every { spyViewModel.cacheData() } returns Unit
+        every { noteState.isCreate } returns false
+        every { spyViewModel.getAdapterList() } returns adapterList
+
+        spyViewModel.noteItem = noteItem
+        spyViewModel.noteState = noteState
+        spyViewModel.saveBackgroundWork()
+        assertEquals(Note.Default.ID, spyViewModel.id)
+
+        every { noteState.isCreate } returns true
+        every { noteState.isCreate = NoteState.ND_CREATE } returns Unit
+        every { noteItem.id } returns id
+
+        spyViewModel.saveBackgroundWork()
+        assertEquals(id, spyViewModel.id)
+
+        coVerifySequence {
+            spyViewModel.noteItem = noteItem
+            spyViewModel.noteState = noteState
+            spyViewModel.saveBackgroundWork()
+            spyViewModel.interactor
+            spyViewModel.noteItem
+            spyViewModel.noteState
+            noteState.isCreate
+            interactor.saveNote(noteItem, isCreate = false)
+            spyViewModel.cacheData()
+            spyViewModel.noteState
+            noteState.isCreate
+            spyViewModel.callback
+            spyViewModel.getAdapterList()
+            callback.setList(adapterList)
+            spyViewModel.id
+
+            spyViewModel.saveBackgroundWork()
+            spyViewModel.interactor
+            spyViewModel.noteItem
+            spyViewModel.noteState
+            noteState.isCreate
+            interactor.saveNote(noteItem, isCreate = true)
+            spyViewModel.cacheData()
+            spyViewModel.noteState
+            noteState.isCreate
+            spyViewModel.noteState
+            noteState.isCreate = NoteState.ND_CREATE
+            spyViewModel.noteItem
+            noteItem.id
+            spyViewModel.id = id
+            spyViewModel.parentCallback
+            spyViewModel.id
+            parentCallback.onUpdateNoteId(id)
+            spyViewModel.interactor
+            spyViewModel.noteItem
+            interactor.setVisible(noteItem, updateBind = false)
+            spyViewModel.callback
+            spyViewModel.getAdapterList()
+            callback.setList(adapterList)
+            spyViewModel.id
+        }
     }
 
     @Test fun onMenuNotification() = fastTest.onMenuNotification(mockk())
