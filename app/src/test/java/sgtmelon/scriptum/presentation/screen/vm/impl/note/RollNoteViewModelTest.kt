@@ -1234,7 +1234,112 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onInsertItem() {
-        TODO()
+        val item = mockk<InputItem>()
+        val isUndo = Random.nextBoolean()
+        val data = nextString()
+        val rollItem = mockk<RollItem>()
+        val noteItem = mockk<NoteItem.Roll>()
+        val list = mockk<MutableList<RollItem>>()
+        val p = Random.nextInt()
+        val adapterList = mockk<MutableList<RollItem>>()
+
+        val position = Random.nextInt()
+        val text = nextString()
+
+        every { item[isUndo] } returns data
+        mockkObject(RollItem)
+        every { RollItem[data] } returns null
+        viewModel.onInsertItem(item, isUndo)
+
+        /**
+         * It should be before [spyViewModel] first call, cause of lazy initialization.
+         */
+        viewModel.noteItem = noteItem
+
+        every { RollItem[data] } returns rollItem
+        every { noteItem.list } returns list
+        every { item.p } returns p
+        every { list.add(p, rollItem) } returns Unit
+        every { spyViewModel.getAdapterList() } returns adapterList
+        every { spyViewModel.getInsertPosition(item, rollItem) } returns null
+        spyViewModel.onInsertItem(item, isUndo)
+
+        every { spyViewModel.getInsertPosition(item, rollItem) } returns position
+        every { rollItem.text } returns text
+        spyViewModel.onInsertItem(item, isUndo)
+
+        verifySequence {
+            item[isUndo]
+            RollItem[data]
+
+            spyViewModel.onInsertItem(item, isUndo)
+            item[isUndo]
+            RollItem[data]
+            spyViewModel.noteItem
+            noteItem.list
+            item.p
+            list.add(p, rollItem)
+            spyViewModel.getAdapterList()
+            spyViewModel.getInsertPosition(item, rollItem)
+
+            spyViewModel.onInsertItem(item, isUndo)
+            item[isUndo]
+            RollItem[data]
+            spyViewModel.noteItem
+            noteItem.list
+            item.p
+            list.add(p, rollItem)
+            spyViewModel.getAdapterList()
+            spyViewModel.getInsertPosition(item, rollItem)
+            rollItem.text
+            spyViewModel.callback
+            callback.notifyItemInserted(adapterList, position, text.length)
+        }
+    }
+
+    @Test fun getInsertPosition() {
+        val noteItem = mockk<NoteItem.Roll>()
+        val size = 3 * getRandomSize()
+        val list = MutableList<RollItem>(size) { mockk() }
+        val hideSize = getRandomSize()
+        val hideList = mockk<MutableList<RollItem>>()
+
+        val item = mockk<InputItem>()
+        val p = list.indices.random()
+        val rollItem = mockk<RollItem>()
+        val sublist = list.subList(0, p)
+
+        every { noteItem.isVisible } returns false
+        every { rollItem.isCheck } returns true
+        viewModel.noteItem = noteItem
+        assertNull(viewModel.getInsertPosition(item, rollItem))
+
+        every { noteItem.isVisible } returns true
+        every { item.p } returns p
+        assertEquals(p, viewModel.getInsertPosition(item, rollItem))
+
+        every { noteItem.isVisible } returns false
+        every { rollItem.isCheck } returns false
+        FastMock.listExtension()
+        every { noteItem.list } returns list
+        every { sublist.hide() } returns hideList
+        every { hideList.size } returns hideSize
+        assertEquals(hideSize, viewModel.getInsertPosition(item, rollItem))
+
+        verifySequence {
+            noteItem.isVisible
+            rollItem.isCheck
+
+            noteItem.isVisible
+            item.p
+
+            noteItem.isVisible
+            rollItem.isCheck
+            noteItem.list
+            item.p
+            sublist.hide()
+            hideList.size
+        }
     }
 
     @Test fun onMenuUndoRedoMove() {

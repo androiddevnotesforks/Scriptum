@@ -311,16 +311,17 @@ class RollNoteViewModel(application: Application) :
          */
         noteItem.list.add(item.p, rollItem)
 
-        if (noteItem.isVisible) {
-            callback?.notifyItemInserted(getAdapterList(), item.p, rollItem.text.length)
-        } else if (!rollItem.isCheck) {
-            fun getShiftPosition(p: Int): Int {
-                return p - noteItem.list.subList(0, p).let { it.size - it.hide().size }
-            }
+        val list = getAdapterList()
+        val position = getInsertPosition(item, rollItem) ?: return
+        val cursor = rollItem.text.length
 
-            val position = getShiftPosition(item.p)
-            callback?.notifyItemInserted(getAdapterList(), position, rollItem.text.length)
-        }
+        callback?.notifyItemInserted(list, position, cursor)
+    }
+
+    @RunPrivate fun getInsertPosition(item: InputItem, rollItem: RollItem): Int? = when {
+        noteItem.isVisible -> item.p
+        !rollItem.isCheck -> noteItem.list.subList(0, item.p).hide().size
+        else -> null
     }
 
     @RunPrivate fun onMenuUndoRedoMove(item: InputItem, isUndo: Boolean) {
