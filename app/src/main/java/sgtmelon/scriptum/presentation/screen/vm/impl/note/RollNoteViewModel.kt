@@ -533,27 +533,34 @@ class RollNoteViewModel(application: Application) :
     /**
      * Make good animation for items, remove or insert one by one.
      */
-    @RunPrivate
-    fun notifyListByVisible() {
+    @RunPrivate fun notifyListByVisible() {
         val list = ArrayList(noteItem.list)
 
         if (list.size == 0) return
 
         if (noteItem.isVisible) {
-            if (!list.any { !it.isCheck }) {
-                callback?.animateInfoVisible(isVisible = false)
-            }
-
-            for (item in list.filter { it.isCheck }) {
-                val index = list.validIndexOf(item) ?: continue
-                callback?.notifyItemInserted(list, index)
-            }
+            notifyVisibleList(list)
         } else {
-            while (list.any { it.isCheck }) {
-                list.validIndexOf { it.isCheck }?.also {
-                    list.validRemoveAt(it) ?: return@also
-                    callback?.notifyItemRemoved(list, it)
-                }
+            notifyInvisibleList(list)
+        }
+    }
+
+    @RunPrivate fun notifyVisibleList(list: MutableList<RollItem>) {
+        if (!list.any { !it.isCheck }) {
+            callback?.animateInfoVisible(isVisible = false)
+        }
+
+        for (item in list.filter { it.isCheck }) {
+            val index = list.validIndexOf(item) ?: continue
+            callback?.notifyItemInserted(list, index)
+        }
+    }
+
+    @RunPrivate fun notifyInvisibleList(list: MutableList<RollItem>) {
+        while (list.any { it.isCheck }) {
+            list.validIndexOf { it.isCheck }?.also {
+                list.validRemoveAt(it) ?: return@also
+                callback?.notifyItemRemoved(list, it)
             }
         }
     }

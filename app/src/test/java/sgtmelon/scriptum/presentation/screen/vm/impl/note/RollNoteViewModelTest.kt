@@ -1900,6 +1900,46 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun notifyListByVisible() {
+        val noteItem = mockk<NoteItem.Roll>()
+        val list = MutableList<RollItem>(getRandomSize()) { mockk() }
+
+        every { noteItem.list } returns mutableListOf()
+        viewModel.noteItem = noteItem
+        viewModel.notifyListByVisible()
+
+        every { noteItem.list } returns list
+        every { noteItem.isVisible } returns false
+        every { spyViewModel.notifyInvisibleList(list) } returns Unit
+        spyViewModel.notifyListByVisible()
+
+        every { noteItem.isVisible } returns true
+        every { spyViewModel.notifyVisibleList(list) } returns Unit
+        spyViewModel.notifyListByVisible()
+
+        verifySequence {
+            noteItem.list
+
+            spyViewModel.notifyListByVisible()
+            spyViewModel.noteItem
+            noteItem.list
+            spyViewModel.noteItem
+            noteItem.isVisible
+            spyViewModel.notifyInvisibleList(list)
+
+            spyViewModel.notifyListByVisible()
+            spyViewModel.noteItem
+            noteItem.list
+            spyViewModel.noteItem
+            noteItem.isVisible
+            spyViewModel.notifyVisibleList(list)
+        }
+    }
+
+    @Test fun notifyVisibleList() {
+        TODO()
+    }
+
+    @Test fun notifyInvisibleList() {
         TODO()
     }
 }
