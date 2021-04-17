@@ -59,8 +59,4 @@ abstract class ParentUi {
     protected fun Matcher<View>.excludeParent(parentMatcher: Matcher<View>): Matcher<View> = let {
         allOf(it, not(withParent(parentMatcher)))
     }
-
-
-    protected fun onThrowCast(): Nothing = throw ClassCastException()
-
 }

@@ -16,6 +16,7 @@ import sgtmelon.scriptum.ui.dialog.RankDialogUi
 import sgtmelon.scriptum.ui.dialog.time.DateDialogUi
 import sgtmelon.scriptum.ui.dialog.time.DateTimeCallback
 import sgtmelon.scriptum.ui.screen.main.BinScreen
+import sgtmelon.scriptum.ui.screen.note.INoteAfterConvert
 import sgtmelon.scriptum.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
@@ -24,14 +25,14 @@ import java.util.*
 /**
  * Part of UI abstraction for [TextNoteScreen] or [RollNoteScreen].
  */
-@Suppress("UNCHECKED_CAST")
-class NotePanel<T: ParentUi, N : NoteItem>(
+
+class NotePanel<T : ParentUi, N : NoteItem>(
     private val callback: INoteScreen<T, N>
 ) : ParentUi(),
-        DateTimeCallback,
-        ConvertDialogUi.Callback,
-        ColorDialogUi.Callback,
-        RankDialogUi.Callback {
+    DateTimeCallback,
+    ConvertDialogUi.Callback,
+    ColorDialogUi.Callback,
+    RankDialogUi.Callback {
 
     //region Views
 
@@ -132,18 +133,8 @@ class NotePanel<T: ParentUi, N : NoteItem>(
                 state = State.READ
 
                 when (item) {
-                    is NoteItem.Text -> {
-                        val copyItem = (shadowItem as? NoteItem.Text)?.deepCopy() ?: onThrowCast()
-                        item = copyItem as? N ?: onThrowCast()
-
-                        (item as? NoteItem.Text)?.onSave() ?: onThrowCast()
-                    }
-                    is NoteItem.Roll -> {
-                        val copyItem = (shadowItem as? NoteItem.Roll)?.deepCopy() ?: onThrowCast()
-                        item = copyItem as? N ?: onThrowCast()
-
-                        (item as? NoteItem.Roll)?.onSave() ?: onThrowCast()
-                    }
+                    is NoteItem.Text -> applyShadowText().onSave()
+                    is NoteItem.Roll -> applyShadowRoll().onSave()
                 }
 
                 inputControl.reset()
@@ -155,24 +146,12 @@ class NotePanel<T: ParentUi, N : NoteItem>(
         callback.throwOnWrongState(State.EDIT, State.NEW) {
             saveButton.longClick()
 
-            callback.apply {
-                state = State.EDIT
-
-                when (item) {
-                    is NoteItem.Text -> {
-                        val copyItem = (shadowItem as? NoteItem.Text)?.deepCopy() ?: onThrowCast()
-                        item = copyItem as? N ?: onThrowCast()
-
-                        (item as? NoteItem.Text)?.onSave() ?: onThrowCast()
-                    }
-                    is NoteItem.Roll -> {
-                        val copyItem = (shadowItem as? NoteItem.Roll)?.deepCopy() ?: onThrowCast()
-                        item = copyItem as? N ?: onThrowCast()
-
-                        (item as? NoteItem.Roll)?.onSave() ?: onThrowCast()
-                    }
-                }
-            }.fullAssert()
+            it.state = State.EDIT
+            when (it.item) {
+                is NoteItem.Text -> it.applyShadowText().onSave()
+                is NoteItem.Roll -> it.applyShadowRoll().onSave()
+            }
+            it.fullAssert()
         }
     }
 
@@ -204,22 +183,10 @@ class NotePanel<T: ParentUi, N : NoteItem>(
         callback.throwOnWrongState(State.READ) {
             editButton.click()
 
-            callback.apply {
-                state = State.EDIT
-
-                when (item) {
-                    is NoteItem.Text -> {
-                        val copyItem = (item as? NoteItem.Text)?.deepCopy() ?: onThrowCast()
-                        shadowItem = copyItem as? N ?: onThrowCast()
-                    }
-                    is NoteItem.Roll -> {
-                        val copyItem = (item as? NoteItem.Roll)?.deepCopy() ?: onThrowCast()
-                        shadowItem = copyItem as? N ?: onThrowCast()
-                    }
-                }
-
-                inputControl.reset()
-            }.fullAssert()
+            it.state = State.EDIT
+            it.applyItem()
+            it.inputControl.reset()
+            it.fullAssert()
         }
     }
 
@@ -240,20 +207,13 @@ class NotePanel<T: ParentUi, N : NoteItem>(
         }
     }
 
-    override fun onConvertDialogResult() = with(callback) {
-        when (item) {
-            is NoteItem.Text -> {
-                (shadowItem as NoteItem.Text).onConvert()
-
-                val copyItem = (shadowItem as? NoteItem.Text)?.deepCopy() ?: onThrowCast()
-                item = copyItem as? N ?: onThrowCast()
-            }
-            is NoteItem.Roll -> {
-                (shadowItem as NoteItem.Roll).onConvert()
-
-                val copyItem = (shadowItem as? NoteItem.Roll)?.deepCopy() ?: onThrowCast()
-                item = copyItem as? N ?: onThrowCast()
-            }
+    /**
+     * [NoteItem.Text.onConvert]/[NoteItem.Roll.onConvert] happen inside [INoteAfterConvert]
+     */
+    override fun onConvertDialogResult() {
+        when (callback.item) {
+            is NoteItem.Text -> callback.applyShadowText()
+            is NoteItem.Roll -> callback.applyShadowRoll()
         }
     }
 
@@ -281,7 +241,6 @@ class NotePanel<T: ParentUi, N : NoteItem>(
         }
     }
 
-
     fun assert() {
         callback.apply {
             parentContainer.isDisplayed()
@@ -294,7 +253,7 @@ class NotePanel<T: ParentUi, N : NoteItem>(
             }.withBackgroundAttr(R.attr.clDivider)
 
             buttonContainer.isDisplayed().withBackgroundAttr(R.attr.clPrimary)
-                    .withSize(heightId = R.dimen.note_panel_height)
+                .withSize(heightId = R.dimen.note_panel_height)
 
             when (state) {
                 State.READ -> {

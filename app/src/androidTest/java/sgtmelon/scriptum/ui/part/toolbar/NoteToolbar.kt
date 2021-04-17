@@ -60,16 +60,7 @@ class NoteToolbar<T : ParentUi, N : NoteItem>(
             if (state == State.EDIT) {
                 state = State.READ
 
-                when (item) {
-                    is NoteItem.Text -> {
-                        val copyItem = (item as? NoteItem.Text)?.deepCopy() ?: onThrowCast()
-                        shadowItem = copyItem as? N ?: onThrowCast()
-                    }
-                    is NoteItem.Roll -> {
-                        val copyItem = (item as? NoteItem.Roll)?.deepCopy() ?: onThrowCast()
-                        shadowItem = copyItem as? N ?: onThrowCast()
-                    }
-                }
+                applyItem()
 
                 inputControl.reset()
                 fullAssert()
