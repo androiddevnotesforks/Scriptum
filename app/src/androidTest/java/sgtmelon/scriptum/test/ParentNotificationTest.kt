@@ -19,6 +19,8 @@ abstract class ParentNotificationTest : ParentUiTest() {
     override fun setUp() {
         super.setUp()
 
+        throw NullPointerException("Not ready yet :(")
+
         automator = NotificationAutomator(context, getInstrumentation())
     }
 
@@ -30,11 +32,15 @@ abstract class ParentNotificationTest : ParentUiTest() {
 
     // TODO remove
     protected fun onSee(afterFunc: () -> Unit = {}) {
+        TODO("remove it")
+
         testRule.activity?.runOnUiThread { context.showToast(SEE_TOAST) }
         waitBefore(SEE_TIME) { afterFunc() }
     }
 
     protected fun onOpen(afterFunc: () -> Unit = {}) {
+        TODO("remove it")
+
         testRule.activity?.runOnUiThread { context.showToast(OPEN_TOAST) }
         waitBefore(OPEN_TIME) { afterFunc() }
     }

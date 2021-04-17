@@ -6,8 +6,6 @@ import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
-import sgtmelon.safedialog.BlankDialog.Companion.INIT
-import sgtmelon.safedialog.BlankDialog.Companion.VALUE
 import sgtmelon.safedialog.annotation.NdValue
 import sgtmelon.safedialog.annotation.SavedTag
 
@@ -34,8 +32,8 @@ class OptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
      */
     fun setArguments(itemArray: Array<String>, p: Int) = apply {
         arguments = Bundle().apply {
-            putStringArray(INIT, itemArray)
-            putInt(VALUE, p)
+            putStringArray(SavedTag.INIT, itemArray)
+            putInt(SavedTag.VALUE, p)
         }
     }
 
@@ -59,8 +57,9 @@ class OptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putStringArray(INIT, itemList.toTypedArray())
-        outState.putInt(VALUE, position)
+        outState.putString(SavedTag.TITLE, title)
+        outState.putStringArray(SavedTag.INIT, itemList.toTypedArray())
+        outState.putInt(SavedTag.VALUE, position)
     }
 
     /**
@@ -78,8 +77,8 @@ class OptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
      * (e.g. position, check and ect.).
      */
     private fun onRestoreInstanceState(bundle: Bundle?) {
-        itemList = bundle?.getStringArray(INIT)?.toList() ?: ArrayList()
-        position = bundle?.getInt(VALUE) ?: NdValue.POSITION
+        itemList = bundle?.getStringArray(SavedTag.INIT)?.toList() ?: ArrayList()
+        position = bundle?.getInt(SavedTag.VALUE) ?: NdValue.POSITION
     }
 
     override fun onDismiss(dialog: DialogInterface) {

@@ -111,13 +111,4 @@ abstract class BlankDialog : DialogFragment() {
     }
 
     @CallSuper protected open fun setEnable() = Unit
-
-    companion object {
-        const val PREFIX = "SAFE_DIALOG"
-
-        const val POSITION = "${PREFIX}_POSITION"
-        const val INIT = "${PREFIX}_INIT"
-        const val VALUE = "${PREFIX}_VALUE"
-    }
-
 }
