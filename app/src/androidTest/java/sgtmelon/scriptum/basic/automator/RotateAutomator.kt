@@ -16,11 +16,13 @@ class RotateAutomator(instrumentation: Instrumentation) {
             uiDevice.setOrientationRight()
         }
 
-        waitBefore(time = 3000)
+        waitBefore(time = 2000)
     }
 
     fun rotateNatural() {
         uiDevice.setOrientationNatural()
+
+        waitBefore(time = 2000)
     }
 
 }
