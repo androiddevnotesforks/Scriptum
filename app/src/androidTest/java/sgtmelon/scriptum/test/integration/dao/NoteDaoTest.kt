@@ -36,7 +36,7 @@ class NoteDaoTest : ParentRoomTest() {
     )
 
     private val fourthNote = NoteEntity(
-        id = 4, create = DATE_2, change = DATE_5, text = "789", name = "",
+        id = 4, create = DATE_4, change = DATE_5, text = "789", name = "",
         color = 4, type = NoteType.TEXT, rankId = 2, rankPs = 2, isBin = false,
         isStatus = Random.nextBoolean()
     )
@@ -177,13 +177,14 @@ class NoteDaoTest : ParentRoomTest() {
         insertAllTo(isBin = false)
 
         assertEquals(arrayListOf(
-            thirdNote, secondNote.copy(isBin = false), firstNote
+            fourthNote, thirdNote, secondNote.copy(isBin = false), firstNote
         ), getByChange(bin = false))
 
         updateAllTo(isBin = true)
 
         assertEquals(arrayListOf(
-            thirdNote.copy(isBin = true), secondNote, firstNote.copy(isBin = true)
+            fourthNote.copy(isBin = true), thirdNote.copy(isBin = true),
+            secondNote, firstNote.copy(isBin = true)
         ), getByChange(bin = true))
     }
 
@@ -191,13 +192,14 @@ class NoteDaoTest : ParentRoomTest() {
         insertAllTo(isBin = false)
 
         assertEquals(arrayListOf(
-            thirdNote, secondNote.copy(isBin = false), firstNote
+            fourthNote, thirdNote, secondNote.copy(isBin = false), firstNote
         ), getByCreate(bin = false))
 
         updateAllTo(isBin = true)
 
         assertEquals(arrayListOf(
-            thirdNote.copy(isBin = true), secondNote, firstNote.copy(isBin = true)
+            fourthNote.copy(isBin = true), thirdNote.copy(isBin = true),
+            secondNote, firstNote.copy(isBin = true)
         ), getByCreate(bin = true))
     }
 
