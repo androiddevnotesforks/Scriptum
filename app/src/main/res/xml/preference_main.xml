@@ -76,8 +76,7 @@
             android:key="@string/pref_key_alarm_repeat"
             android:summary="@string/pref_summary_alarm_repeat"
             android:title="@string/pref_title_alarm_repeat"
-            app:iconSpaceReserved="false"
-            app:isPreferenceVisible="false" />
+            app:iconSpaceReserved="false" />
 
         <Preference android:defaultValue="@integer/pref_alarm_signal"
             android:key="@string/pref_key_alarm_signal"
