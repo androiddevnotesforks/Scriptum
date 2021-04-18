@@ -242,7 +242,7 @@ class RollNoteViewModel(application: Application) :
     override fun onMenuUndoRedoSelect(item: InputItem, isUndo: Boolean) {
         inputControl.isEnabled = false
 
-        when (val tag = item.tag) {
+        when (item.tag) {
             InputAction.RANK -> onMenuUndoRedoRank(item, isUndo)
             InputAction.COLOR -> onMenuUndoRedoColor(item, isUndo)
             InputAction.NAME -> onMenuUndoRedoName(item, isUndo)

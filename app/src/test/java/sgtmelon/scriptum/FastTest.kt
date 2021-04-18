@@ -138,6 +138,7 @@ object FastTest {
         private val parentCallback: INoteConnector,
         private val interactor: IParentNoteInteractor<N>,
         private val bindInteractor: IBindInteractor,
+        private val saveControl: ISaveControl,
         private val inputControl: IInputControl,
         private val viewModel: ParentNoteViewModel<N, C, I>,
         private val spyViewModel: ParentNoteViewModel<N, C, I>,
@@ -225,14 +226,10 @@ object FastTest {
         }
 
         fun onDestroy() {
-            val saveControl = mockk<ISaveControl>(relaxUnitFun = true)
+            viewModel.onDestroy()
 
-            every { spyViewModel.saveControl } returns saveControl
-
-            spyViewModel.onDestroy()
-
-            assertNull(spyViewModel.callback)
-            assertNull(spyViewModel.parentCallback)
+            assertNull(viewModel.callback)
+            assertNull(viewModel.parentCallback)
 
             verifySequence {
                 interactor.onDestroy()
@@ -256,18 +253,15 @@ object FastTest {
         }
 
         fun onResume() {
-            val saveControl = mockk<ISaveControl>(relaxUnitFun = true)
             val noteState = mockk<NoteState>(relaxUnitFun = true)
 
-            every { spyViewModel.saveControl } returns saveControl
-
-            spyViewModel.noteState = noteState
 
             every { noteState.isEdit } returns false
-            spyViewModel.onResume()
+            viewModel.noteState = noteState
+            viewModel.onResume()
 
             every { noteState.isEdit } returns true
-            spyViewModel.onResume()
+            viewModel.onResume()
 
             verifySequence {
                 noteState.isEdit
@@ -278,18 +272,14 @@ object FastTest {
         }
 
         fun onPause() {
-            val saveControl = mockk<ISaveControl>(relaxUnitFun = true)
             val noteState = mockk<NoteState>(relaxUnitFun = true)
 
-            every { spyViewModel.saveControl } returns saveControl
-
-            spyViewModel.noteState = noteState
-
             every { noteState.isEdit } returns false
-            spyViewModel.onPause()
+            viewModel.noteState = noteState
+            viewModel.onPause()
 
             every { noteState.isEdit } returns true
-            spyViewModel.onPause()
+            viewModel.onPause()
 
             verifySequence {
                 noteState.isEdit
@@ -302,15 +292,11 @@ object FastTest {
 
 
         fun onClickBackArrow() {
-            val saveControl = mockk<ISaveControl>(relaxUnitFun = true)
             val noteState = mockk<NoteState>(relaxUnitFun = true)
             val id = Random.nextLong()
 
-            every { spyViewModel.saveControl } returns saveControl
-
-            spyViewModel.noteState = noteState
-
             every { noteState.isCreate } returns true
+            spyViewModel.noteState = noteState
             spyViewModel.onClickBackArrow()
 
             every { noteState.isCreate } returns false
@@ -329,21 +315,18 @@ object FastTest {
 
                 spyViewModel.onClickBackArrow()
                 noteState.isCreate
-                spyViewModel.saveControl
                 saveControl.needSave = false
                 parentCallback.finish()
 
                 spyViewModel.onClickBackArrow()
                 noteState.isCreate
                 noteState.isEdit
-                spyViewModel.saveControl
                 saveControl.needSave = false
                 parentCallback.finish()
 
                 spyViewModel.onClickBackArrow()
                 noteState.isCreate
                 noteState.isEdit
-                spyViewModel.saveControl
                 saveControl.needSave = false
                 parentCallback.finish()
 
@@ -358,10 +341,8 @@ object FastTest {
         }
 
         fun onPressBack() {
-            val saveControl = mockk<ISaveControl>(relaxUnitFun = true)
             val noteState = mockk<NoteState>(relaxUnitFun = true)
 
-            every { spyViewModel.saveControl } returns saveControl
             every { noteState.isEdit } returns false
 
             spyViewModel.noteState = noteState

@@ -40,8 +40,8 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     @MockK lateinit var interactor: IRollNoteInteractor
     @MockK lateinit var bindInteractor: IBindInteractor
 
-    @MockK lateinit var inputControl: IInputControl
     @MockK lateinit var saveControl: ISaveControl
+    @MockK lateinit var inputControl: IInputControl
 
     private val viewModel by lazy { RollNoteViewModel(application) }
     private val spyViewModel by lazy { spyk(viewModel, recordPrivateCalls = true) }
@@ -49,7 +49,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     private val fastTest by lazy {
         FastTest.ViewModel(
             callback, parentCallback, interactor, bindInteractor,
-            inputControl, viewModel, spyViewModel, { FastMock.Note.deepCopy(it) },
+            saveControl, inputControl, viewModel, spyViewModel, { FastMock.Note.deepCopy(it) },
             { verifyDeepCopy(it) }
         )
     }
@@ -1479,8 +1479,150 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
     @Test fun onMenuColor() = fastTest.onMenuColor(mockk())
 
-    @Test fun onMenuSave() {
-        TODO()
+    @Test fun onMenuSave_startSkip() {
+        val noteItem = mockk<NoteItem.Roll>()
+        val noteState = mockk<NoteState>(relaxUnitFun = true)
+
+        viewModel.noteState = noteState
+        viewModel.noteItem = noteItem
+
+        every { callback.isDialogOpen } returns true
+        assertFalse(viewModel.onMenuSave(changeMode = true))
+
+        every { noteState.isEdit } returns false
+        every { callback.isDialogOpen } returns false
+        assertFalse(viewModel.onMenuSave(changeMode = true))
+
+        assertFalse(viewModel.onMenuSave(changeMode = false))
+
+        every { noteState.isEdit } returns true
+        every { noteItem.isSaveEnabled() } returns false
+        assertFalse(viewModel.onMenuSave(Random.nextBoolean()))
+
+        coVerify {
+            callback.isDialogOpen
+
+            callback.isDialogOpen
+            noteState.isEdit
+
+            noteState.isEdit
+
+            noteState.isEdit
+            noteItem.isSaveEnabled()
+        }
+    }
+
+    @Test fun onMenuSave_notChangeMode() {
+        val noteItem = mockk<NoteItem.Roll>()
+        val noteState = mockk<NoteState>(relaxUnitFun = true)
+        val color = Random.nextInt()
+        val list = mockk<MutableList<RollItem>>()
+
+        viewModel.noteState = noteState
+        viewModel.noteItem = noteItem
+
+        every { noteState.isEdit } returns true
+        every { noteItem.isSaveEnabled() } returns true
+        every { noteItem.onSave() } returns Unit
+        every { spyViewModel.getAdapterList() } returns list
+        every { noteState.isCreate } returns false
+        every { noteItem.color } returns color
+        coEvery { spyViewModel.saveBackgroundWork() } returns Unit
+        assertTrue(spyViewModel.onMenuSave(changeMode = false))
+
+        every { noteState.isCreate } returns true
+        assertTrue(spyViewModel.onMenuSave(changeMode = false))
+
+        coVerify {
+            spyViewModel.onMenuSave(changeMode = false)
+            spyViewModel.noteState
+            noteState.isEdit
+            spyViewModel.noteItem
+            noteItem.isSaveEnabled()
+            spyViewModel.noteItem
+            noteItem.onSave()
+            spyViewModel.callback
+            spyViewModel.getAdapterList()
+            callback.setList(list)
+            spyViewModel.noteState
+            noteState.isCreate
+            spyViewModel.noteItem
+            noteItem.color
+            spyViewModel.parentCallback
+            spyViewModel.noteItem
+            noteItem.color
+            parentCallback.onUpdateNoteColor(color)
+            spyViewModel.saveBackgroundWork()
+
+            spyViewModel.onMenuSave(changeMode = false)
+            spyViewModel.noteState
+            noteState.isEdit
+            spyViewModel.noteItem
+            noteItem.isSaveEnabled()
+            spyViewModel.noteItem
+            noteItem.onSave()
+            spyViewModel.callback
+            spyViewModel.getAdapterList()
+            callback.setList(list)
+            spyViewModel.noteState
+            noteState.isCreate
+            spyViewModel.callback
+            callback.setToolbarBackIcon(isCancel = true, needAnim = true)
+            spyViewModel.noteItem
+            noteItem.color
+            spyViewModel.parentCallback
+            spyViewModel.noteItem
+            noteItem.color
+            parentCallback.onUpdateNoteColor(color)
+            spyViewModel.saveBackgroundWork()
+        }
+    }
+
+    @Test fun onMenuSave_changeMode() {
+        val noteItem = mockk<NoteItem.Roll>()
+        val noteState = mockk<NoteState>(relaxUnitFun = true)
+        val color = Random.nextInt()
+        val list = mockk<MutableList<RollItem>>()
+
+        viewModel.noteState = noteState
+        viewModel.noteItem = noteItem
+
+        every { callback.isDialogOpen } returns false
+        every { noteState.isEdit } returns true
+        every { noteItem.isSaveEnabled() } returns true
+        every { noteItem.onSave() } returns Unit
+        every { spyViewModel.getAdapterList() } returns list
+        every { spyViewModel.setupEditMode(isEdit = false) } returns Unit
+        every { noteItem.color } returns color
+        coEvery { spyViewModel.saveBackgroundWork() } returns Unit
+        assertTrue(spyViewModel.onMenuSave(changeMode = true))
+
+        coVerify {
+            spyViewModel.onMenuSave(changeMode = true)
+            spyViewModel.callback
+            callback.isDialogOpen
+            spyViewModel.noteState
+            noteState.isEdit
+            spyViewModel.noteItem
+            noteItem.isSaveEnabled()
+            spyViewModel.noteItem
+            noteItem.onSave()
+            spyViewModel.callback
+            spyViewModel.getAdapterList()
+            callback.setList(list)
+            spyViewModel.callback
+            callback.hideKeyboard()
+            spyViewModel.setupEditMode(isEdit = false)
+            spyViewModel.inputControl
+            inputControl.reset()
+            spyViewModel.noteItem
+            noteItem.color
+            spyViewModel.parentCallback
+            spyViewModel.noteItem
+            noteItem.color
+            parentCallback.onUpdateNoteColor(color)
+            spyViewModel.saveBackgroundWork()
+        }
     }
 
     @Test fun saveBackgroundWork() = startCoTest {
@@ -1559,7 +1701,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
     @Test fun onMenuEdit() = fastTest.onMenuEdit()
 
-    @Test fun setupEditMode() = startCoTest {
+    @Test fun setupEditMode() {
         val noteItem = mockk<NoteItem.Roll>()
         val noteState = mockk<NoteState>(relaxUnitFun = true)
 
