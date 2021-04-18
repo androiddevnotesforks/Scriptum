@@ -62,6 +62,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         viewModel.setInteractor(interactor, bindInteractor)
 
         viewModel.inputControl = inputControl
+        viewModel.saveControl = saveControl
 
         assertEquals(Note.Default.ID, viewModel.id)
         assertEquals(Note.Default.COLOR, viewModel.color)
@@ -1558,8 +1559,68 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
     @Test fun onMenuEdit() = fastTest.onMenuEdit()
 
-    @Test fun setupEditMode() {
-        TODO()
+    @Test fun setupEditMode() = startCoTest {
+        val noteItem = mockk<NoteItem.Roll>()
+        val noteState = mockk<NoteState>(relaxUnitFun = true)
+
+        val isCreate = Random.nextBoolean()
+        val mayAnimateIcon = Random.nextBoolean()
+        val access = mockk<InputControl.Access>()
+        val check = Random.nextInt()
+        val list = mockk<MutableList<RollItem>>()
+        val size = Random.nextInt()
+
+        every { noteState.isCreate } returns isCreate
+        every { inputControl.access } returns access
+        every { noteItem.getCheck() } returns check
+        every { noteItem.list } returns list
+        every { list.size } returns size
+
+        viewModel.noteItem = noteItem
+        viewModel.noteState = noteState
+        viewModel.mayAnimateIcon = mayAnimateIcon
+
+        viewModel.setupEditMode(isEdit = false)
+        viewModel.setupEditMode(isEdit = true)
+
+        verifySequence {
+            inputControl.isEnabled = false
+            noteState.isEdit = false
+            noteState.isCreate
+            callback.setToolbarBackIcon(
+                isCancel = false,
+                needAnim = !isCreate && mayAnimateIcon
+            )
+            callback.onBindingEdit(noteItem, isEditMode = false)
+            inputControl.access
+            callback.onBindingInput(noteItem, access)
+            callback.updateNoteState(noteState)
+            noteItem.getCheck()
+            noteItem.list
+            list.size
+            callback.updateProgress(check, size)
+            saveControl.needSave = true
+            saveControl.setSaveEvent(isWork = false)
+            inputControl.isEnabled = true
+
+            inputControl.isEnabled = false
+            noteState.isEdit = true
+            noteState.isCreate
+            noteState.isCreate
+            callback.setToolbarBackIcon(
+                isCancel = !isCreate,
+                needAnim = !isCreate && mayAnimateIcon
+            )
+            callback.onBindingEdit(noteItem, isEditMode = true)
+            inputControl.access
+            callback.onBindingInput(noteItem, access)
+            callback.updateNoteState(noteState)
+            noteState.isCreate
+            callback.focusOnEdit(isCreate)
+            saveControl.needSave = true
+            saveControl.setSaveEvent(isWork = true)
+            inputControl.isEnabled = true
+        }
     }
 
     //endregion
