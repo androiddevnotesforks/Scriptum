@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.presentation.control.note.save
 
-import android.content.Context
+import android.content.res.Resources
 import android.os.Handler
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
@@ -8,14 +8,13 @@ import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 /**
  * Class for help control note pause/auto save.
  */
-class SaveControl(context: Context, val model: Model, private val callback: Callback) :
-        ISaveControl {
+class SaveControl(resources: Resources, val model: Model, private val callback: Callback) :
+    ISaveControl {
 
     @RunPrivate var saveHandler = Handler()
 
     @RunPrivate val periodTime: Int? = if (model.autoSaveOn) {
-        val intArray = context.resources.getIntArray(R.array.pref_note_save_time_array)
-        intArray.getOrNull(model.savePeriod)
+        resources.getIntArray(R.array.pref_note_save_time_array).getOrNull(model.savePeriod)
     } else {
         null
     }
@@ -55,4 +54,7 @@ class SaveControl(context: Context, val model: Model, private val callback: Call
         fun onResultSaveControl()
     }
 
+    interface Setup {
+        fun getSaveModel(): Model
+    }
 }

@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.presentation.control.note.save
 
-import android.content.Context
 import android.content.res.Resources
 import android.os.Handler
 import io.mockk.every
@@ -19,13 +18,12 @@ import kotlin.random.Random
  */
 class SaveControlTest : ParentTest() {
 
-    @MockK lateinit var context: Context
     @MockK lateinit var resources: Resources
 
     @MockK lateinit var model: SaveControl.Model
     @MockK lateinit var callback: SaveControl.Callback
 
-    private val saveControl by lazy { SaveControl(context, model, callback) }
+    private val saveControl by lazy { SaveControl(resources, model, callback) }
     private val spySaveControl by lazy { spyk(saveControl) }
 
     override fun setUp() {
@@ -38,23 +36,22 @@ class SaveControlTest : ParentTest() {
         val array = IntArray(size = 5) { Random.nextInt() }
         val index = array.indices.random()
 
-        every { context.resources } returns resources
         every { resources.getIntArray(R.array.pref_note_save_time_array) } returns array
 
         every { model.autoSaveOn } returns false
 
-        var saveControl = SaveControl(context, model, callback)
+        var saveControl = SaveControl(resources, model, callback)
         assertNull(saveControl.periodTime)
 
         every { model.autoSaveOn } returns true
         every { model.savePeriod } returns -1
 
-        saveControl = SaveControl(context, model, callback)
+        saveControl = SaveControl(resources, model, callback)
         assertNull(saveControl.periodTime)
 
         every { model.savePeriod } returns index
 
-        saveControl = SaveControl(context, model, callback)
+        saveControl = SaveControl(resources, model, callback)
         assertEquals(array[index], saveControl.periodTime)
 
         verifySequence {
@@ -62,7 +59,6 @@ class SaveControlTest : ParentTest() {
 
             repeat(times = 2) {
                 model.autoSaveOn
-                context.resources
                 resources.getIntArray(R.array.pref_note_save_time_array)
                 model.savePeriod
             }
@@ -90,16 +86,15 @@ class SaveControlTest : ParentTest() {
 
         every { model.autoSaveOn } returns false
 
-        val saveControl = SaveControl(context, model, callback)
+        val saveControl = SaveControl(resources, model, callback)
 
         saveControl.setSaveEvent(Random.nextBoolean())
 
         every { model.autoSaveOn } returns true
-        every { context.resources } returns resources
         every { resources.getIntArray(R.array.pref_note_save_time_array) } returns array
         every { model.savePeriod } returns -1
 
-        val firstSpySaveControl = spyk(SaveControl(context, model, callback))
+        val firstSpySaveControl = spyk(SaveControl(resources, model, callback))
         firstSpySaveControl.saveHandler = handler
 
         firstSpySaveControl.setSaveEvent(isWork = false)
@@ -108,7 +103,7 @@ class SaveControlTest : ParentTest() {
         every { model.savePeriod } returns index
         every { handler.postDelayed(any(), array[index].toLong()) } returns true
 
-        val secondSpySaveControl = spyk(SaveControl(context, model, callback))
+        val secondSpySaveControl = spyk(SaveControl(resources, model, callback))
         secondSpySaveControl.saveHandler = handler
 
         secondSpySaveControl.setSaveEvent(isWork = false)

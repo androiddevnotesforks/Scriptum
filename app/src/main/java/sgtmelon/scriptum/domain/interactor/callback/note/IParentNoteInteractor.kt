@@ -9,9 +9,7 @@ import java.util.*
 /**
  * Parent interface for [ITextNoteInteractor] and [IRollNoteInteractor].
  */
-interface IParentNoteInteractor<N : NoteItem> : IParentInteractor {
-
-    fun getSaveModel(): SaveControl.Model
+interface IParentNoteInteractor<N : NoteItem> : IParentInteractor, SaveControl.Setup {
 
     @Color val defaultColor: Int
 

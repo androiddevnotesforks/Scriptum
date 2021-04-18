@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.presentation.screen.vm.impl.note
 
 import android.app.Application
+import android.content.res.Resources
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
@@ -51,19 +52,22 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
     @RunProtected lateinit var interactor: I
     @RunProtected lateinit var bindInteractor: IBindInteractor
 
+    /**
+     * Abstract because need setup callback but this class not final.
+     */
+    @RunProtected lateinit var saveControl: ISaveControl
+
     fun setInteractor(interactor: I, bindInteractor: IBindInteractor) {
         this.interactor = interactor
         this.bindInteractor = bindInteractor
     }
 
-    @RunProtected var inputControl: IInputControl = InputControl()
-
     /**
-     * Abstract because need setup callback but this class not final.
+     * Need call after [interactor] initialization.
      */
-    @RunProtected val saveControl: ISaveControl by lazy {
-        SaveControl(context, interactor.getSaveModel(), callback = this)
-    }
+    abstract fun setSaveControl(resources: Resources, setup: SaveControl.Setup)
+
+    @RunProtected var inputControl: IInputControl = InputControl()
 
     @RunProtected var id: Long = Default.ID
     @RunProtected var color: Int = Default.COLOR

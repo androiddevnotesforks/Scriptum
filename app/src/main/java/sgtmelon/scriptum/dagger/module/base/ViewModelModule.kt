@@ -170,6 +170,7 @@ class ViewModelModule {
             setCallback(fragment)
             setParentCallback(fragment.context as? INoteConnector)
             setInteractor(interactor, bindInteractor)
+            setSaveControl(fragment.resources, interactor)
         }
     }
 
@@ -185,6 +186,7 @@ class ViewModelModule {
             setCallback(fragment)
             setParentCallback(fragment.context as? INoteConnector)
             setInteractor(interactor, bindInteractor)
+            setSaveControl(fragment.resources, interactor)
         }
     }
 

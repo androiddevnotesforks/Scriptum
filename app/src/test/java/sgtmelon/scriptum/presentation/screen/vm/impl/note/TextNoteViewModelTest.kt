@@ -16,6 +16,7 @@ import sgtmelon.scriptum.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.state.NoteState
 import sgtmelon.scriptum.presentation.control.note.input.IInputControl
+import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.presentation.control.note.save.ISaveControl
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.ITextNoteFragment
@@ -55,6 +56,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
         viewModel.setInteractor(interactor, bindInteractor)
 
         viewModel.inputControl = inputControl
+        viewModel.saveControl = saveControl
 
         assertEquals(Default.ID, viewModel.id)
         assertEquals(Default.COLOR, viewModel.color)
@@ -477,32 +479,55 @@ class TextNoteViewModelTest : ParentViewModelTest() {
     @Test fun onMenuEdit() = fastTest.onMenuEdit()
 
     @Test fun setupEditMode() {
-        TODO()
-//        val noteItem = mockk<NoteItem.Text>()
-//        val noteState = mockk<NoteState>(relaxUnitFun = true)
-//        val iconState = mockk<IconState>(relaxUnitFun = true)
-//
-//        val isCreate = Random.nextBoolean()
-//        val mayAnimate = Random.nextBoolean()
-//
-//        every { noteState.isCreate } returns isCreate
-//        every { iconState.mayAnimate } returns mayAnimate
-//
-//        viewModel.noteItem = noteItem
-//        viewModel.noteState = noteState
-//        viewModel.iconState = iconState
-//
-//        viewModel.setupEditMode(isEdit = false)
-//        viewModel.setupEditMode(isEdit = true)
-//
-//        verifySequence {
-//            inputControl.isEnabled = false
-//            noteState.isEdit = false
-//            callback.setToolbarBackIcon(
-//                isCancel =
-//            )
-//            inputControl.isEnabled = true
-        //                }
+        val noteItem = mockk<NoteItem.Text>()
+        val noteState = mockk<NoteState>(relaxUnitFun = true)
+
+        val isCreate = Random.nextBoolean()
+        val mayAnimateIcon = Random.nextBoolean()
+        val access = mockk<InputControl.Access>()
+
+        every { noteState.isCreate } returns isCreate
+        every { inputControl.access } returns access
+
+        viewModel.noteItem = noteItem
+        viewModel.noteState = noteState
+        viewModel.mayAnimateIcon = mayAnimateIcon
+
+        viewModel.setupEditMode(isEdit = false)
+        viewModel.setupEditMode(isEdit = true)
+
+        verifySequence {
+            inputControl.isEnabled = false
+            noteState.isEdit = false
+            noteState.isCreate
+            callback.setToolbarBackIcon(
+                isCancel = false,
+                needAnim = !isCreate && mayAnimateIcon
+            )
+            callback.onBindingEdit(noteItem, isEditMode = false)
+            inputControl.access
+            callback.onBindingInput(noteItem, access)
+            saveControl.needSave = true
+            saveControl.setSaveEvent(isWork = false)
+            inputControl.isEnabled = true
+
+            inputControl.isEnabled = false
+            noteState.isEdit = true
+            noteState.isCreate
+            noteState.isCreate
+            callback.setToolbarBackIcon(
+                isCancel = !isCreate,
+                needAnim = !isCreate && mayAnimateIcon
+            )
+            callback.onBindingEdit(noteItem, isEditMode = true)
+            inputControl.access
+            callback.onBindingInput(noteItem, access)
+            noteState.isCreate
+            callback.focusOnEdit(isCreate)
+            saveControl.needSave = true
+            saveControl.setSaveEvent(isWork = true)
+            inputControl.isEnabled = true
+        }
     }
 
     //endregion
