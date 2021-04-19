@@ -91,6 +91,28 @@ class RollNoteVisibleTest : ParentUiTest() {
         }
     }
 
+    @Test fun fullSwitch() = data.createRoll().let {
+        launch {
+            mainScreen {
+                notesScreen(isEmpty = true) {
+                    openAddDialog {
+                        createRoll(it) {
+                            onClickVisible().onClickVisible()
+
+                            repeat(times = 3) { enterPanel { onAdd(nextString()) } }
+                            controlPanel { onSave() }
+                            onClickVisible()
+                            repeat(times = 3) { onClickCheck() }
+
+                            controlPanel { onEdit() }
+                            onClickVisible()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     @Test fun itemCheck() = data.insertRoll().let {
         launch {
             mainScreen {

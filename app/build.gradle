@@ -116,7 +116,7 @@ dependencies {
 
     //region Testing
 
-    debugImplementation other.leakcanary
+//    debugImplementation other.leakcanary
 
     androidTestImplementation androidx.test.runner
     androidTestImplementation androidx.test.rules

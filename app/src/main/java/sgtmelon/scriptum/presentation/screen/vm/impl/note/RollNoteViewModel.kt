@@ -552,22 +552,27 @@ class RollNoteViewModel(application: Application) :
     }
 
     @RunPrivate fun notifyVisibleList(list: MutableList<RollItem>) {
-        if (!list.any { !it.isCheck }) {
+        val filterList = list.filter { it.isCheck }
+
+        /**
+         * If all items are checked (and hided).
+         */
+        if (filterList.size == list.size) {
             callback?.animateInfoVisible(isVisible = false)
         }
 
-        for (item in list.filter { it.isCheck }) {
+        for (item in filterList) {
             val index = list.validIndexOf(item) ?: continue
             callback?.notifyItemInserted(list, index)
         }
     }
 
     @RunPrivate fun notifyInvisibleList(list: MutableList<RollItem>) {
-        while (list.any { it.isCheck }) {
-            list.validIndexOf { it.isCheck }?.also {
-                list.validRemoveAt(it) ?: return@also
-                callback?.notifyItemRemoved(list, it)
-            }
+        for (item in list.filter { it.isCheck }) {
+            val index = list.validIndexOf(item) ?: continue
+
+            list.validRemoveAt(index)
+            callback?.notifyItemRemoved(list, index)
         }
     }
 }

@@ -2143,6 +2143,28 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun notifyInvisibleList() {
-        TODO()
+        val size = getRandomSize()
+        val list = List(size) {
+            RollItem(
+                position = Random.nextInt(),
+                isCheck = Random.nextBoolean(),
+                text = nextString()
+            )
+        }
+        val resultList = list.filter { !it.isCheck }
+        val checkList = ArrayList(list).toMutableList()
+        val verifyList = ArrayList(list).toMutableList()
+
+        viewModel.notifyInvisibleList(checkList)
+
+        assertEquals(resultList, checkList)
+
+        verifySequence {
+            for (item in list.filter { it.isCheck }) {
+                val index = verifyList.indexOf(item)
+                verifyList.validRemoveAt(index)
+                callback.notifyItemRemoved(resultList, index)
+            }
+        }
     }
 }
