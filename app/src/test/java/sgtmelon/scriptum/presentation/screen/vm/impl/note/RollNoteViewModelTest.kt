@@ -2138,18 +2138,52 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         }
     }
 
-    @Test fun notifyVisibleList() {
-        TODO()
+    @Test fun notifyVisibleList_allCheck() {
+        val size = getRandomSize()
+        val list = MutableList(size) {
+            RollItem(Random.nextLong(), Random.nextInt(), isCheck = true, nextString())
+        }
+
+        viewModel.notifyVisibleList(list)
+
+        verifySequence {
+            callback.animateInfoVisible(isVisible = false)
+
+            for (i in list.indices) {
+                callback.notifyItemInserted(list, i)
+            }
+        }
+    }
+
+    @Test fun notifyVisibleList_notAllCheck() {
+        val size = getRandomSize()
+        val list = MutableList(size) {
+            RollItem(Random.nextLong(), Random.nextInt(), Random.nextBoolean(), nextString())
+        }
+
+        /**
+         * Need be sure for 100%.
+         */
+        repeat(times = size / 3) {
+            list.random().isCheck = false
+        }
+
+        val filterList = list.filter { it.isCheck }
+
+        viewModel.notifyVisibleList(list)
+
+        verifySequence {
+            for (item in filterList) {
+                val index = list.validIndexOf(item) ?: continue
+                callback.notifyItemInserted(list, index)
+            }
+        }
     }
 
     @Test fun notifyInvisibleList() {
         val size = getRandomSize()
         val list = List(size) {
-            RollItem(
-                position = Random.nextInt(),
-                isCheck = Random.nextBoolean(),
-                text = nextString()
-            )
+            RollItem(Random.nextLong(), Random.nextInt(), Random.nextBoolean(), nextString())
         }
         val resultList = list.filter { !it.isCheck }
         val checkList = ArrayList(list).toMutableList()

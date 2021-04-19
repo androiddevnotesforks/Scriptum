@@ -559,11 +559,15 @@ class RollNoteViewModel(application: Application) :
          */
         if (filterList.size == list.size) {
             callback?.animateInfoVisible(isVisible = false)
-        }
 
-        for (item in filterList) {
-            val index = list.validIndexOf(item) ?: continue
-            callback?.notifyItemInserted(list, index)
+            for (i in list.indices) {
+                callback?.notifyItemInserted(list, i)
+            }
+        } else {
+            for (item in filterList) {
+                val index = list.validIndexOf(item) ?: continue
+                callback?.notifyItemInserted(list, index)
+            }
         }
     }
 
