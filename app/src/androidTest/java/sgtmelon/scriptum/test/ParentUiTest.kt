@@ -44,6 +44,14 @@ abstract class ParentUiTest : ParentTest() {
         AlarmActivity.isFinishOnStop = false
     }
 
+    private fun prepareDevice() {
+        /**
+         * Close all system windows (even opened statusBar), need for prevent interruptions
+         * during tests run.
+         */
+        context.sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
+    }
+
     override fun tearDown() {
         super.tearDown()
 

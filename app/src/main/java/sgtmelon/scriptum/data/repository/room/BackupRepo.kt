@@ -24,7 +24,7 @@ import java.util.*
  * Repository of [RoomDb] which work with backup data.
  */
 class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
-        IRoomWork {
+    IRoomWork {
 
     override suspend fun insertData(model: Model, importSkip: Boolean): ImportResult {
         return takeFromRoom {
@@ -63,7 +63,11 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
 
         for (item in model.noteList) {
             when (item.type) {
-                NoteType.TEXT -> if (needSkipTextNote(item, existNoteList)) removeList.add(item)
+                NoteType.TEXT -> {
+                    if (needSkipTextNote(item, existNoteList)) {
+                        removeList.add(item)
+                    }
+                }
                 NoteType.ROLL -> {
                     val itemRollList = model.rollList.filter { it.noteId == item.id }
                     if (needSkipRollNote(item, itemRollList, existRollNoteList, roomDb)) {
@@ -89,30 +93,34 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
      */
     @RunPrivate
     suspend fun needSkipRollNote(
-            item: NoteEntity,
-            rollList: List<RollEntity>,
-            existNoteList: List<NoteEntity>,
-            roomDb: RoomDb
+        item: NoteEntity,
+        rollList: List<RollEntity>,
+        existNoteList: List<NoteEntity>,
+        roomDb: RoomDb
     ): Boolean {
         for (existItem in existNoteList.filter { it.name == item.name }) {
             val existRollList = roomDb.rollDao.get(existItem.id)
 
             if (rollList.size != existRollList.size) continue
 
-            var needSkip = true
-            for (rollItem in rollList) {
-                if (!existRollList.any { it.text == rollItem.text }) {
-                    needSkip = false
-                    break
-                }
+            if (isContainSameItems(rollList, existRollList)) {
+                return true
             }
-
-            if (needSkip) return true
         }
 
         return false
     }
 
+    @RunPrivate
+    fun isContainSameItems(list: List<RollEntity>, existList: List<RollEntity>): Boolean {
+        for (item in list) {
+            if (!existList.any { item.text == it.text }) {
+                return false
+            }
+        }
+
+        return true
+    }
 
     /**
      * Remove every mention about items of [removeNoteList] inside lists.
@@ -189,9 +197,9 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
 
     @RunPrivate
     fun moveNotificationTime(
-            item: AlarmEntity,
-            calendar: Calendar,
-            list: List<NotificationItem>
+        item: AlarmEntity,
+        calendar: Calendar,
+        list: List<NotificationItem>
     ) {
         while (list.any { it.alarm.date == item.date }) {
             item.date = calendar.apply { add(Calendar.MINUTE, 1) }.getText()
@@ -333,11 +341,11 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
     }
 
     data class Model(
-            val noteList: MutableList<NoteEntity>,
-            val rollList: MutableList<RollEntity>,
-            val rollVisibleList: MutableList<RollVisibleEntity>,
-            val rankList: MutableList<RankEntity>,
-            val alarmList: MutableList<AlarmEntity>
+        val noteList: MutableList<NoteEntity>,
+        val rollList: MutableList<RollEntity>,
+        val rollVisibleList: MutableList<RollVisibleEntity>,
+        val rankList: MutableList<RankEntity>,
+        val alarmList: MutableList<AlarmEntity>
     ) {
         companion object {
             operator fun get(parserResult: ParserResult): Model = with(parserResult) {
