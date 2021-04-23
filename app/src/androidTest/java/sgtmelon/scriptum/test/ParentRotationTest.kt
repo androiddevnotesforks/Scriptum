@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.test
 
-import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import sgtmelon.scriptum.basic.automator.RotateAutomator
 
 /**
@@ -15,7 +14,7 @@ abstract class ParentRotationTest : ParentUiTest() {
     override fun setUp() {
         super.setUp()
 
-        automator = RotateAutomator(getInstrumentation())
+        automator = RotateAutomator(uiDevice)
     }
 
     override fun tearDown() {

@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.test
 
-import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import sgtmelon.scriptum.basic.extension.waitBefore
 import sgtmelon.scriptum.basic.notifications.NotificationAutomator
 import sgtmelon.scriptum.extension.showToast
@@ -21,7 +20,7 @@ abstract class ParentNotificationTest : ParentUiTest() {
 
         throw NullPointerException("Not ready yet :(")
 
-        automator = NotificationAutomator(context, getInstrumentation())
+        automator = NotificationAutomator(context, uiDevice)
     }
 
     override fun tearDown() {

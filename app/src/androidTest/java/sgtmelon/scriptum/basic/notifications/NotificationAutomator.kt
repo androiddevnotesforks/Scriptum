@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.basic.notifications
 
-import android.app.Instrumentation
 import android.content.Context
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
@@ -18,10 +17,8 @@ import sgtmelon.scriptum.ui.automator.NotificationUi
  */
 class NotificationAutomator(
     private val context: Context,
-    instrumentation: Instrumentation
+    private val uiDevice: UiDevice
 ) {
-
-    private val uiDevice = UiDevice.getInstance(instrumentation)
 
     fun assert(item: NoteItem) {
         assertNotification(item)

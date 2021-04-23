@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.test
 
+import android.app.Instrumentation
 import android.content.Context
 import androidx.annotation.CallSuper
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
@@ -16,15 +17,16 @@ import sgtmelon.scriptum.data.repository.preference.PreferenceRepo
  */
 abstract class ParentTest {
 
-    val context: Context = getInstrumentation().targetContext
+    protected val instrumentation: Instrumentation = getInstrumentation()
+    protected val context: Context = instrumentation.targetContext
 
-    val preferenceRepo: IPreferenceRepo = PreferenceRepo(
-            ProviderModule().providePreferenceKeyProvider(context.resources),
-            ProviderModule().providePreferenceDefProvider(context.resources),
-            ProviderModule().provideSharedPreferences(context)
+    protected val preferenceRepo: IPreferenceRepo = PreferenceRepo(
+        ProviderModule().providePreferenceKeyProvider(context.resources),
+        ProviderModule().providePreferenceDefProvider(context.resources),
+        ProviderModule().provideSharedPreferences(context)
     )
 
-    val data = TestData(RoomProvider(context), preferenceRepo)
+    protected val data = TestData(RoomProvider(context), preferenceRepo)
 
     @Before @CallSuper open fun setUp() = Unit
 

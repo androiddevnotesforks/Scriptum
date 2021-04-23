@@ -2,6 +2,7 @@ package sgtmelon.scriptum.test
 
 import android.content.Intent
 import androidx.test.rule.ActivityTestRule
+import androidx.test.uiautomator.UiDevice
 import org.junit.Rule
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.Theme
@@ -20,6 +21,8 @@ import kotlin.random.Random
  * Parent class for UI tests.
  */
 abstract class ParentUiTest : ParentTest() {
+
+    protected val uiDevice: UiDevice = UiDevice.getInstance(instrumentation)
 
     // TODO make private
     @get:Rule val testRule = ActivityTestRule(
@@ -50,6 +53,11 @@ abstract class ParentUiTest : ParentTest() {
          * during tests run.
          */
         context.sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
+
+        /**
+         * Включение wi-fi соединения, если вдруг тестировщик забыл его включить на девайсе.
+         */
+        uiDevice.executeShellCommand("svc wifi enable")
     }
 
     override fun tearDown() {
