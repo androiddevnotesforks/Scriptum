@@ -16,7 +16,7 @@ import sgtmelon.scriptum.test.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class ListTest : ParentUiTest() {
 
-    // TODO #TEST optimization textNote inside lists (because now i load all text length)
+    // TODO #TEST optimization textNote inside lists (because now I load all text length)
 
     private val pageList = arrayListOf(MainPage.RANK, MainPage.NOTES, MainPage.BIN)
 
@@ -74,7 +74,10 @@ class ListTest : ParentUiTest() {
         }
     }
 
-    @Test fun rollNoteOpen() = data.insertRoll(list = weightData.rollList).let { model ->
+    @Test fun rollNoteOpen() = data.insertRoll(
+        isVisible = true,
+        list = weightData.rollList
+    ).let { model ->
         launch {
             mainScreen {
                 notesScreen {
@@ -84,7 +87,10 @@ class ListTest : ParentUiTest() {
         }
     }
 
-    @Test fun rollNoteScroll() = data.insertRoll(list = weightData.rollList).let {
+    @Test fun rollNoteScroll() = data.insertRoll(
+        isVisible = true,
+        list = weightData.rollList
+    ).let {
         launch {
             mainScreen { notesScreen { openRollNote(it) { onScroll(Scroll.END, SCROLL_COUNT) } } }
         }

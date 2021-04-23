@@ -18,8 +18,7 @@ abstract class ParentNotificationTest : ParentUiTest() {
     override fun setUp() {
         super.setUp()
 
-        throw NullPointerException("Not ready yet :(")
-
+        TODO("write correct tests")
         automator = NotificationAutomator(context, uiDevice)
     }
 

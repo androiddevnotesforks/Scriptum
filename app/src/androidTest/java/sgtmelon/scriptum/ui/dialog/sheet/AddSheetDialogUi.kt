@@ -1,11 +1,13 @@
 package sgtmelon.scriptum.ui.dialog.sheet
 
+import sgtmelon.extension.getTime
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
 import sgtmelon.scriptum.basic.extension.isDisplayed
 import sgtmelon.scriptum.basic.extension.isEnabled
 import sgtmelon.scriptum.basic.extension.withTextColor
 import sgtmelon.scriptum.data.State
+import sgtmelon.scriptum.data.TestData
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.dialog.SheetAddDialog
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
@@ -29,6 +31,13 @@ class AddSheetDialogUi : ParentSheetDialogUi(R.id.add_container, R.id.add_naviga
         isRankEmpty: Boolean = true,
         func: TextNoteScreen.() -> Unit = {}
     ) {
+        /**
+         * Was assertion error in tests where time difference was 1 minute. I think it was
+         * happened when calendar time was ~00:59 on note create inside [TestData]. But time
+         * of actual note creation was ~01:.. (after [TestData] note was created).
+         */
+        item.create = getTime()
+
         textButton.click()
         TextNoteScreen(func, State.NEW, item, isRankEmpty)
     }
@@ -38,6 +47,13 @@ class AddSheetDialogUi : ParentSheetDialogUi(R.id.add_container, R.id.add_naviga
         isRankEmpty: Boolean = true,
         func: RollNoteScreen.() -> Unit = {}
     ) {
+        /**
+         * Was assertion error in tests where time difference was 1 minute. I think it was
+         * happened when calendar time was ~00:59 on note create inside [TestData]. But time
+         * of actual note creation was ~01:.. (after [TestData] note was created).
+         */
+        item.create = getTime()
+
         rollButton.click()
         RollNoteScreen(func, State.NEW, item, isRankEmpty)
     }
