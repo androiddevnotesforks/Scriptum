@@ -133,6 +133,8 @@ class NotificationViewModel(application: Application) :
          */
         cancelList.add(Pair(p, item))
 
+        // TODO if cancel list is too big (eg 10 items) need remove first
+
         viewModelScope.launchBack { interactor.cancelNotification(item) }
 
         callback?.apply {

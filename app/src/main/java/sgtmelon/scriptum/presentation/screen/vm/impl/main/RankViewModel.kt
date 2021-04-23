@@ -220,6 +220,8 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
          */
         cancelList.add(Pair(p, item))
 
+        // TODO if cancel list is too big (eg 10 items) need remove first
+
         callback?.notifyItemRemoved(itemList, p)
         callback?.showSnackbar()
 

@@ -5,6 +5,9 @@ apply plugin: 'kotlin-kapt'
 
 apply plugin: 'org.jetbrains.dokka-android'
 
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
+
 apply from: '../values.gradle'
 
 android {
@@ -83,6 +86,9 @@ dependencies {
     implementation jetbrains.coroutines.android
 
     //endregion
+
+    implementation google.firebase.analytics
+    implementation google.firebase.crashlytics
 
     implementation google.material
 

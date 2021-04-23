@@ -16,6 +16,10 @@ ext {
     ]
 
     google = [
+            firebase : [
+                    analytics  : "com.google.firebase:firebase-analytics-ktx:18.0.2",
+                    crashlytics: "com.google.firebase:firebase-crashlytics-ktx:17.4.1"
+            ],
             material: "com.google.android.material:material:1.0.0",
             dagger  : [
                     core    : "com.google.dagger:dagger:2.25.4",

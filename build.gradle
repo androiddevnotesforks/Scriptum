@@ -3,7 +3,7 @@
 buildscript {
     ext.gradle_ver = '4.1.2'
     ext.dokka_ver = "0.9.18"
-    ext.kotlin_ver = '1.4.21'
+    ext.kotlin_ver = '1.4.31'
 
     repositories {
         google()
@@ -16,6 +16,9 @@ buildscript {
 
         classpath "org.jetbrains.dokka:dokka-android-gradle-plugin:$dokka_ver"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_ver"
+
+        classpath 'com.google.gms:google-services:4.3.5'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.5.2'
     }
 }
 
