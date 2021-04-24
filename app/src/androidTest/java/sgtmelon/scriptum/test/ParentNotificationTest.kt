@@ -1,8 +1,9 @@
 package sgtmelon.scriptum.test
 
+import org.junit.After
+import org.junit.Before
 import sgtmelon.scriptum.basic.extension.waitBefore
 import sgtmelon.scriptum.basic.notifications.NotificationAutomator
-import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.presentation.control.system.BindControl
 import sgtmelon.scriptum.presentation.control.system.callback.IBindControl
 
@@ -15,14 +16,14 @@ abstract class ParentNotificationTest : ParentUiTest() {
 
     protected var automator: NotificationAutomator? = null
 
-    override fun setUp() {
-        super.setUp()
+    @Before override fun setup() {
+        super.setup()
 
         TODO("write correct tests")
         automator = NotificationAutomator(context, uiDevice)
     }
 
-    override fun tearDown() {
+    @After override fun tearDown() {
         super.tearDown()
 
         automator = null
@@ -32,14 +33,14 @@ abstract class ParentNotificationTest : ParentUiTest() {
     protected fun onSee(afterFunc: () -> Unit = {}) {
         TODO("remove it")
 
-        testRule.activity?.runOnUiThread { context.showToast(SEE_TOAST) }
+        //        testRule.activity?.runOnUiThread { context.showToast(SEE_TOAST) }
         waitBefore(SEE_TIME) { afterFunc() }
     }
 
     protected fun onOpen(afterFunc: () -> Unit = {}) {
         TODO("remove it")
 
-        testRule.activity?.runOnUiThread { context.showToast(OPEN_TOAST) }
+        //        testRule.activity?.runOnUiThread { context.showToast(OPEN_TOAST) }
         waitBefore(OPEN_TIME) { afterFunc() }
     }
 

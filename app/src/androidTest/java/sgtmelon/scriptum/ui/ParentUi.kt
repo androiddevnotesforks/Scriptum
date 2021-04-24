@@ -13,7 +13,7 @@ import sgtmelon.scriptum.basic.exception.ThemeException
 import sgtmelon.scriptum.dagger.module.base.ProviderModule
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.preference.PreferenceRepo
-import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
+import sgtmelon.scriptum.domain.model.annotation.Theme
 
 /**
  * Parent class for access standard UI functions.
@@ -28,7 +28,7 @@ abstract class ParentUi {
         ProviderModule().provideSharedPreferences(context)
     )
 
-    protected val theme: Int get() = ScriptumApplication.theme ?: throw ThemeException()
+    protected val theme: Int get() = Companion.theme ?: throw ThemeException()
     protected val repeat: Int get() = preferenceRepo.repeat
 
     //region getView func
@@ -58,5 +58,9 @@ abstract class ParentUi {
 
     protected fun Matcher<View>.excludeParent(parentMatcher: Matcher<View>): Matcher<View> = let {
         allOf(it, not(withParent(parentMatcher)))
+    }
+
+    companion object {
+        @Theme var theme: Int? = null
     }
 }

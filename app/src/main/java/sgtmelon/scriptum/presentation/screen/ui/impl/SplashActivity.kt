@@ -84,17 +84,17 @@ class SplashActivity : ParentActivity(), ISplashActivity {
     override fun openMainScreen() = beforeFinish { startActivity(MainActivity[this]) }
 
     override fun openAlarmScreen(id: Long) = beforeFinish {
-        WaitIdlingResource(waitMillis = 2000)
+        WaitIdlingResource.getInstance().fireWork(waitMillis = 3000)
         startActivities(arrayOf(MainActivity[this], AlarmActivity[this, id]))
     }
 
     override fun openNoteScreen(id: Long, @Color color: Int, type: Int) = beforeFinish {
-        WaitIdlingResource(waitMillis = 2000)
+        WaitIdlingResource.getInstance().fireWork(waitMillis = 3000)
         startActivities(arrayOf(MainActivity[this], NoteActivity[this, type, id, color]))
     }
 
     override fun openNotificationScreen() = beforeFinish {
-        WaitIdlingResource(waitMillis = 2000)
+        WaitIdlingResource.getInstance().fireWork(waitMillis = 3000)
         startActivities(arrayOf(MainActivity[this], NotificationActivity[this]))
     }
 

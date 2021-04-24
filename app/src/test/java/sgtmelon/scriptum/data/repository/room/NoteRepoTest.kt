@@ -30,7 +30,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
     private val noteRepo by lazy { NoteRepo(roomProvider, noteConverter, rollConverter) }
     private val spyNoteRepo by lazy { spyk(noteRepo) }
 
-    override fun tearDown() {
+    @After override fun tearDown() {
         super.tearDown()
         confirmVerified(noteConverter, rollConverter)
     }

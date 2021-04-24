@@ -39,14 +39,14 @@ class PreferenceViewModelTest : ParentViewModelTest() {
     private val viewModel by lazy { PreferenceViewModel(application) }
     private val spyViewModel by lazy { spyk(viewModel) }
 
-    override fun setUp() {
-        super.setUp()
+    @Before override fun setup() {
+        super.setup()
 
         viewModel.setCallback(callback)
         viewModel.setInteractor(interactor, signalInteractor, backupInteractor, bindInteractor)
     }
 
-    override fun tearDown() {
+    @After override fun tearDown() {
         super.tearDown()
         confirmVerified(callback, interactor, signalInteractor, backupInteractor, bindInteractor)
     }

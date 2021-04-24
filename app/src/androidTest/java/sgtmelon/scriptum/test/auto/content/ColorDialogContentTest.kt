@@ -18,7 +18,7 @@ class ColorDialogContentTest : ParentUiTest() {
     @Test fun darkTheme() = startTest(Theme.DARK)
 
     private fun startTest(@Theme theme: Int) = data.createText().let {
-        preferenceRepo.theme = theme
+        setupTheme(theme)
 
         launch {
             mainScreen {
@@ -26,5 +26,4 @@ class ColorDialogContentTest : ParentUiTest() {
             }
         }
     }
-
 }

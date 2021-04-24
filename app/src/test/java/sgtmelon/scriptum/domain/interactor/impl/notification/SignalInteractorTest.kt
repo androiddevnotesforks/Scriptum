@@ -34,12 +34,12 @@ class SignalInteractorTest : ParentInteractorTest() {
     }
     private val spyInteractor by lazy { spyk(interactor) }
 
-    override fun setUp() {
-        super.setUp()
+    @Before override fun setup() {
+        super.setup()
         assertNull(interactor.melodyList)
     }
 
-    override fun tearDown() {
+    @After override fun tearDown() {
         super.tearDown()
         confirmVerified(ringtoneControl, preferenceRepo, intConverter)
     }

@@ -30,7 +30,7 @@ class NotificationContentTest : ParentUiTest() {
     @Test fun colorDark() = startColorTest(Theme.DARK)
 
     private fun startColorTest(@Theme theme: Int) {
-        preferenceRepo.theme = theme
+        setupTheme(theme)
 
         onAssertList(ArrayList<NoteItem>().also { list ->
             for ((i, it) in Color.list.withIndex()) {

@@ -33,6 +33,9 @@ android {
         buildConfigField "String", "BROWSER_URL", '"https://play.google.com/sore/apps/details?id="'
         buildConfigField "String", "PRIVACY_POLICY_URL", '"https://drive.google.com/open?id=1f5tfXeBM6dxUqpsHW3SqMHa-mtKf5RSx"'
 
+        /**
+         * Use only in debug mode (in release minifyEnabled do the deal)
+         */
 //        multiDexEnabled true
     }
 
@@ -124,7 +127,7 @@ dependencies {
     androidTestImplementation androidx.test.rules
     androidTestImplementation androidx.test.junit
 
-    debugImplementation androidx.test.espresso.idling
+    implementation androidx.test.espresso.idling
     androidTestImplementation androidx.test.espresso.core
     androidTestImplementation androidx.test.espresso.contrib
     androidTestImplementation androidx.test.uiautomator

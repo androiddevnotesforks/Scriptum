@@ -29,7 +29,7 @@ class BindInteractorTest : ParentInteractorTest() {
 
     private val interactor by lazy { BindInteractor(preferenceRepo, bindRepo, rankRepo, noteRepo) }
 
-    override fun tearDown() {
+    @After override fun tearDown() {
         super.tearDown()
         confirmVerified(preferenceRepo, bindRepo, rankRepo, noteRepo, noteCallback, infoCallback)
     }

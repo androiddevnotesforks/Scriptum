@@ -31,7 +31,7 @@ class PreferenceInteractorTest : ParentInteractorTest() {
     }
     private val spyInteractor by lazy { spyk(interactor) }
 
-    override fun tearDown() {
+    @After override fun tearDown() {
         super.tearDown()
         confirmVerified(summaryProvider, preferenceRepo, intConverter)
     }

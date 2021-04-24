@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.test.auto.other
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.data.Scroll
@@ -13,8 +14,8 @@ import sgtmelon.scriptum.test.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class IntroTest : ParentUiTest() {
 
-    override fun setUp() {
-        super.setUp()
+    @Before override fun setup() {
+        super.setup()
         preferenceRepo.firstStart = true
     }
 

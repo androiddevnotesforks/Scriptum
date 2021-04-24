@@ -3,6 +3,8 @@ package sgtmelon.scriptum
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
+import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import sgtmelon.scriptum.extension.isTesting
 
@@ -14,12 +16,12 @@ abstract class ParentCoTest : ParentTest() {
 
     @get:Rule val coTestRule = CoroutinesTestRule()
 
-    override fun setUp() {
-        super.setUp()
+    @Before override fun setup() {
+        super.setup()
         isTesting = true
     }
 
-    override fun tearDown() {
+    @After override fun tearDown() {
         super.tearDown()
         isTesting = false
     }

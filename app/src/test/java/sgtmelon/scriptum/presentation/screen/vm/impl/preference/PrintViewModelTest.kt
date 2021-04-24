@@ -30,8 +30,8 @@ class PrintViewModelTest : ParentViewModelTest() {
 
     private val viewModel by lazy { PrintViewModel(application) }
 
-    override fun setUp() {
-        super.setUp()
+    @Before override fun setup() {
+        super.setup()
 
         viewModel.setCallback(callback)
         viewModel.setInteractor(interactor)
@@ -40,7 +40,7 @@ class PrintViewModelTest : ParentViewModelTest() {
         assertNull(viewModel.type)
     }
 
-    override fun tearDown() {
+    @After override fun tearDown() {
         super.tearDown()
         confirmVerified(callback, interactor, bundle)
     }

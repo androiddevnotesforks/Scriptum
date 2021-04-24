@@ -22,7 +22,7 @@ class PreferenceProviderTest : ParentTest() {
     private val providerKey by lazy { PreferenceProvider.Key(resources) }
     private val providerDef by lazy { PreferenceProvider.Def(resources) }
 
-    override fun tearDown() {
+    @After override fun tearDown() {
         super.tearDown()
         confirmVerified(resources)
     }

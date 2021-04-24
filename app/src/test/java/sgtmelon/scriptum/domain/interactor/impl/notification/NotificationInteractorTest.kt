@@ -39,7 +39,7 @@ class NotificationInteractorTest : ParentInteractorTest() {
         assertNull(interactor.callback)
     }
 
-    override fun tearDown() {
+    @After override fun tearDown() {
         super.tearDown()
         confirmVerified(noteRepo, alarmRepo, bindRepo, callback)
     }

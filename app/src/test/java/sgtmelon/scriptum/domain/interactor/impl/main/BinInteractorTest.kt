@@ -30,7 +30,7 @@ class BinInteractorTest : ParentInteractorTest() {
 
     private val interactor by lazy { BinInteractor(preferenceRepo, noteRepo, callback) }
 
-    override fun tearDown() {
+    @After override fun tearDown() {
         super.tearDown()
         confirmVerified(preferenceRepo, noteRepo, callback)
     }

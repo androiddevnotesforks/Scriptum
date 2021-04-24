@@ -38,8 +38,8 @@ class RankViewModelTest : ParentViewModelTest() {
     private val viewModel by lazy { RankViewModel(application) }
     private val spyViewModel by lazy { spyk(viewModel) }
 
-    override fun setUp() {
-        super.setUp()
+    @Before override fun setup() {
+        super.setup()
 
         every { callback.openState } returns openState
 
@@ -52,7 +52,7 @@ class RankViewModelTest : ParentViewModelTest() {
         assertFalse(viewModel.inTouchAction)
     }
 
-    override fun tearDown() {
+    @After override fun tearDown() {
         super.tearDown()
         confirmVerified(callback, interactor, bindInteractor, openState)
     }

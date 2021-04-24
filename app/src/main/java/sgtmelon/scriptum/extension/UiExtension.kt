@@ -50,7 +50,7 @@ fun Context.showToast(text: String, length: Int = Toast.LENGTH_SHORT) {
  * Run idling while toast is shown.
  */
 private fun runToastIdling(length: Int) {
-    WaitIdlingResource(waitMillis = when (length) {
+    WaitIdlingResource.getInstance().fireWork(waitMillis = when (length) {
         Toast.LENGTH_SHORT -> 2000
         Toast.LENGTH_LONG -> 3500
         else -> return

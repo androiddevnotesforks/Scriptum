@@ -32,5 +32,4 @@ class SplashTest : ParentUiTest() {
         openNotification(isEmpty = true) { onPressBack() }
         mainScreen()
     }
-
 }

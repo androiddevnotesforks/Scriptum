@@ -15,8 +15,8 @@ abstract class ParentViewModelTest : ParentCoTest() {
     @MockK protected lateinit var application: Application
     @MockK protected lateinit var context: Context
 
-    override fun setUp() {
-        super.setUp()
+    @Before override fun setup() {
+        super.setup()
 
         every { application.applicationContext } returns context
     }

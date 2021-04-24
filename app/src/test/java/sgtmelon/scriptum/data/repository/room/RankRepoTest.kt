@@ -28,7 +28,7 @@ class RankRepoTest : ParentRoomRepoTest() {
     private val rankRepo by lazy { RankRepo(roomProvider, converter) }
     private val spyRankRepo by lazy { spyk(rankRepo) }
 
-    override fun tearDown() {
+    @After override fun tearDown() {
         super.tearDown()
         confirmVerified(converter)
     }

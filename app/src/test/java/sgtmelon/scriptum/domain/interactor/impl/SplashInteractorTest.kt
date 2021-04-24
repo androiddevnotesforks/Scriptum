@@ -18,7 +18,7 @@ class SplashInteractorTest : ParentInteractorTest() {
 
     private val interactor by lazy { SplashInteractor(preferenceRepo) }
 
-    override fun tearDown() {
+    @After override fun tearDown() {
         super.tearDown()
         confirmVerified(preferenceRepo)
     }

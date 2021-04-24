@@ -8,6 +8,7 @@ import io.mockk.mockk
 import io.mockk.spyk
 import io.mockk.verifySequence
 import org.junit.Assert.*
+import org.junit.Before
 import org.junit.Test
 import sgtmelon.scriptum.ParentTest
 import sgtmelon.scriptum.R
@@ -26,8 +27,8 @@ class SaveControlTest : ParentTest() {
     private val saveControl by lazy { SaveControl(resources, model, callback) }
     private val spySaveControl by lazy { spyk(saveControl) }
 
-    override fun setUp() {
-        super.setUp()
+    @Before override fun setup() {
+        super.setup()
 
         every { model.autoSaveOn } returns false
     }

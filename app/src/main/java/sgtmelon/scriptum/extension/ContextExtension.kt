@@ -11,21 +11,16 @@ import androidx.annotation.DimenRes
 import androidx.core.content.ContextCompat
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.data.ReceiverData
-import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 
 fun Context.getCompatColor(@ColorRes id: Int) = let { ContextCompat.getColor(it, id) }
 
 @Theme
 fun Context.getAppTheme(): Int? {
-    val theme = when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+    return when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
         Configuration.UI_MODE_NIGHT_NO -> Theme.LIGHT
         Configuration.UI_MODE_NIGHT_YES -> Theme.DARK
         else -> null
     }
-
-    ScriptumApplication.theme = theme
-
-    return theme
 }
 
 //region Get resource value

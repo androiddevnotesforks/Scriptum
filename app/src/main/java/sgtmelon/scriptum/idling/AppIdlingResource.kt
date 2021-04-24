@@ -2,14 +2,12 @@ package sgtmelon.scriptum.idling
 
 import android.util.Log
 import androidx.test.espresso.IdlingRegistry
-import androidx.test.espresso.IdlingResource
-import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.extension.validIndexOf
 
 /**
  * Class for maintain test work while app is freeze without Thread.sleep(...)
  */
-class AppIdlingResource : IdlingResource, AppIdlingCallback {
+class AppIdlingResource : ParentIdlingResource(), AppIdlingCallback {
 
     /**
      * isEmpty - не надо ждать операции, isNotEmpty - надо ждать окончание операции
@@ -19,15 +17,9 @@ class AppIdlingResource : IdlingResource, AppIdlingCallback {
      */
     private val idleList = mutableListOf<String>()
 
-    private var callback: IdlingResource.ResourceCallback? = null
-
-    override fun getName(): String = AppIdlingResource::class.java.simpleName
+    override fun getName(): String = TAG
 
     override fun isIdleNow() = idleList.isEmpty()
-
-    override fun registerIdleTransitionCallback(callback: IdlingResource.ResourceCallback?) {
-        this.callback = callback
-    }
 
     override fun startWork(@IdlingTag tag: String) {
         idleList.add(tag)
@@ -48,7 +40,11 @@ class AppIdlingResource : IdlingResource, AppIdlingCallback {
         if (isWork) startWork(tag) else stopWork(tag)
     }
 
-    override fun clearWork() {
+    override fun register() {
+        IdlingRegistry.getInstance().register(this)
+    }
+
+    override fun unregister() {
         Log.i(TAG, idleList.joinToString())
 
         idleList.clear()
@@ -64,13 +60,10 @@ class AppIdlingResource : IdlingResource, AppIdlingCallback {
     companion object {
         private val TAG = AppIdlingResource::class.java.simpleName
 
-        @RunPrivate var worker: AppIdlingCallback? = null
+        private var worker: AppIdlingCallback? = null
 
         fun getInstance(): AppIdlingCallback {
-            return worker ?: AppIdlingResource().also {
-                IdlingRegistry.getInstance().register(it)
-                worker = it
-            }
+            return worker ?: AppIdlingResource().also { worker = it }
         }
     }
 }

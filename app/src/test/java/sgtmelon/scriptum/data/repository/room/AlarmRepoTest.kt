@@ -24,7 +24,7 @@ class AlarmRepoTest : ParentRoomRepoTest() {
 
     private val alarmRepo by lazy { AlarmRepo(roomProvider, converter) }
 
-    override fun tearDown() {
+    @After override fun tearDown() {
         super.tearDown()
         confirmVerified(converter)
     }

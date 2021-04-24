@@ -31,7 +31,7 @@ class MainInteractorTest : ParentInteractorTest() {
 
     private val interactor by lazy { MainInteractor(alarmRepo, callback) }
 
-    override fun tearDown() {
+    @After override fun tearDown() {
         super.tearDown()
         confirmVerified(alarmRepo, callback)
     }

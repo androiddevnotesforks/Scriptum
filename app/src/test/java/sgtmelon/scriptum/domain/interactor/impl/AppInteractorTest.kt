@@ -18,7 +18,7 @@ class AppInteractorTest : ParentInteractorTest() {
 
     private val interactor by lazy { AppInteractor(preferenceRepo) }
 
-    override fun tearDown() {
+    @After override fun tearDown() {
         super.tearDown()
         confirmVerified(preferenceRepo)
     }

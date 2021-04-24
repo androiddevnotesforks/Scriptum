@@ -25,8 +25,8 @@ class PreferenceRepoTest : ParentTest() {
 
     private val preferenceRepo by lazy { PreferenceRepo(keyProvider, defProvider, preferences) }
 
-    override fun setUp() {
-        super.setUp()
+    @Before override fun setup() {
+        super.setup()
 
         every { preferences.edit() } returns preferencesEditor
 
@@ -36,7 +36,7 @@ class PreferenceRepoTest : ParentTest() {
         every { preferencesEditor.clear() } returns preferencesEditor
     }
 
-    override fun tearDown() {
+    @After override fun tearDown() {
         super.tearDown()
         confirmVerified(keyProvider, defProvider, preferences, preferencesEditor)
     }

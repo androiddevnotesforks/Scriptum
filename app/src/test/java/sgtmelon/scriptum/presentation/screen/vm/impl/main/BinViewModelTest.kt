@@ -31,14 +31,14 @@ class BinViewModelTest : ParentViewModelTest() {
 
     private val viewModel by lazy { BinViewModel(application) }
 
-    override fun setUp() {
-        super.setUp()
+    @Before override fun setup() {
+        super.setup()
 
         viewModel.setCallback(callback)
         viewModel.setInteractor(interactor)
     }
 
-    override fun tearDown() {
+    @After override fun tearDown() {
         super.tearDown()
         confirmVerified(callback, interactor)
     }

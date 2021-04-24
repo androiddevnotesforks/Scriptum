@@ -24,8 +24,8 @@ abstract class ParentRoomRepoTest : ParentCoTest() {
     @MockK lateinit var rankDao: IRankDao
     @MockK lateinit var alarmDao: IAlarmDao
 
-    override fun setUp() {
-        super.setUp()
+    @Before override fun setup() {
+        super.setup()
 
         every { roomProvider.openRoom() } returns roomDb
 
@@ -36,7 +36,7 @@ abstract class ParentRoomRepoTest : ParentCoTest() {
         every { roomDb.alarmDao } returns alarmDao
     }
 
-    override fun tearDown() {
+    @After override fun tearDown() {
         super.tearDown()
         confirmVerified(roomProvider, noteDao, rollDao, rollVisibleDao, rankDao, alarmDao)
     }

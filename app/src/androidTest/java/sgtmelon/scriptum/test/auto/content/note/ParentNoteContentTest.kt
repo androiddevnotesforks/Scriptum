@@ -28,7 +28,7 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
     open fun colorRollDark() = startColorTest(Theme.DARK, NoteType.ROLL)
 
     private fun startColorTest(@Theme theme: Int, type: NoteType) {
-        preferenceRepo.theme = theme
+        setupTheme(theme)
         preferenceRepo.sort = Sort.COLOR
 
         onAssertList(ArrayList<NoteItem>().also { list ->
@@ -171,7 +171,7 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
     open fun rankRollDark() = startRankTest(Theme.DARK, NoteType.ROLL)
 
     private fun startRankTest(@Theme theme: Int, type: NoteType) {
-        preferenceRepo.theme = theme
+        setupTheme(theme)
         preferenceRepo.sort = Sort.RANK
 
         onAssertList(ArrayList<NoteItem>().also { list ->

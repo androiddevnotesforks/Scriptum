@@ -25,7 +25,7 @@ class RankInteractorTest : ParentInteractorTest() {
 
     private val interactor by lazy { RankInteractor(rankRepo) }
 
-    override fun tearDown() {
+    @After override fun tearDown() {
         super.tearDown()
         confirmVerified(rankRepo)
     }

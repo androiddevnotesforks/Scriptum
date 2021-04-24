@@ -11,7 +11,7 @@ import org.junit.Before
  */
 abstract class ParentTest {
 
-    @Before @CallSuper open fun setUp() {
+    @Before @CallSuper open fun setup() {
         MockKAnnotations.init(this, relaxUnitFun = true)
     }
 

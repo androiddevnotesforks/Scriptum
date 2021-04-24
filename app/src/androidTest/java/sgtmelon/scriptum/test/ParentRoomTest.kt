@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.test
 
+import org.junit.Before
 import sgtmelon.scriptum.data.provider.RoomProvider
 import sgtmelon.scriptum.data.room.IRoomWork
 
@@ -10,9 +11,8 @@ abstract class ParentRoomTest : ParentTest(), IRoomWork {
 
     override val roomProvider = RoomProvider(context)
 
-    override fun setUp() {
-        super.setUp()
+    @Before override fun setup() {
+        super.setup()
         inRoomTest { clearAllTables() }
     }
-
 }

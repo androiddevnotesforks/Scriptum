@@ -20,8 +20,8 @@ class OpenStateTest : ParentTest() {
     private val openState by lazy { OpenState() }
     private val spyOpenState by lazy { spyk(openState) }
 
-    override fun setUp() {
-        super.setUp()
+    @Before override fun setup() {
+        super.setup()
 
         assertFalse(openState.value)
         assertTrue(openState.changeEnabled)

@@ -42,7 +42,7 @@ class BackupParserTest : ParentBackupTest() {
     private val tagHash = nextString()
     private val tagRoom = nextString()
 
-    override fun tearDown() {
+    @After override fun tearDown() {
         super.tearDown()
         confirmVerified(context, selector)
     }

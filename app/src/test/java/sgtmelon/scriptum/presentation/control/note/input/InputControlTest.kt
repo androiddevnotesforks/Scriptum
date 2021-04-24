@@ -18,8 +18,8 @@ class InputControlTest : ParentTest() {
     private val inputControl by lazy { InputControl() }
     private val spyInputControl by lazy { spyk(inputControl) }
 
-    override fun setUp() {
-        super.setUp()
+    @Before override fun setup() {
+        super.setup()
 
         assertTrue(inputControl.list.isEmpty())
         assertEquals(InputControl.ND_POSITION, inputControl.position)

@@ -6,32 +6,53 @@ import androidx.test.espresso.IdlingResource
 /**
  * [IdlingResource] which will idle when [waitMillis] left.
  */
-class WaitIdlingResource(private val waitMillis: Long) : IdlingResource {
+class WaitIdlingResource : ParentIdlingResource(), WaitIdlingCallback {
 
-    init {
-        IdlingRegistry.getInstance().register(this)
-    }
+    private var startTime: Long? = null
+    private var waitMillis: Long = 0
 
-    private val startTime: Long = System.currentTimeMillis()
-
-    private var callback: IdlingResource.ResourceCallback? = null
-
-    override fun getName(): String = WaitIdlingResource::class.java.simpleName
-        .plus(other = " : $waitMillis")
+    override fun getName(): String = TAG
 
     override fun isIdleNow(): Boolean {
+        val startTime = startTime ?: return true
         val timeDiff = System.currentTimeMillis() - startTime
         val isIdle = timeDiff >= waitMillis
 
         if (isIdle) {
             callback?.onTransitionToIdle()
-            IdlingRegistry.getInstance().unregister(this)
+
+            this.startTime = null
+            this.waitMillis = 0
         }
 
         return isIdle
     }
 
-    override fun registerIdleTransitionCallback(callback: IdlingResource.ResourceCallback?) {
-        this.callback = callback
+    override fun fireWork(waitMillis: Long) {
+        this.startTime = System.currentTimeMillis()
+        this.waitMillis = waitMillis
+    }
+
+    override fun register() {
+        IdlingRegistry.getInstance().register(this)
+    }
+
+    override fun unregister() {
+        if (isIdleNow) {
+            callback?.onTransitionToIdle()
+        }
+
+        IdlingRegistry.getInstance().unregister(this)
+        worker = null
+    }
+
+    companion object {
+        private val TAG = WaitIdlingResource::class.java.simpleName
+
+        private var worker: WaitIdlingCallback? = null
+
+        fun getInstance(): WaitIdlingCallback {
+            return worker ?: WaitIdlingResource().also { worker = it }
+        }
     }
 }

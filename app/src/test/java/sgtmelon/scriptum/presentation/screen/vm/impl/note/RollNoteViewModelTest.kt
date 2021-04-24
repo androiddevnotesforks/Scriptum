@@ -54,8 +54,8 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         )
     }
 
-    override fun setUp() {
-        super.setUp()
+    @Before override fun setup() {
+        super.setup()
 
         viewModel.setCallback(callback)
         viewModel.setParentCallback(parentCallback)
@@ -73,7 +73,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         assertNotNull(viewModel.parentCallback)
     }
 
-    override fun tearDown() {
+    @After override fun tearDown() {
         super.tearDown()
 
         confirmVerified(

@@ -34,8 +34,8 @@ class NotificationViewModelTest : ParentViewModelTest() {
     private val viewModel by lazy { NotificationViewModel(application) }
     private val spyViewModel by lazy { spyk(viewModel) }
 
-    override fun setUp() {
-        super.setUp()
+    @Before override fun setup() {
+        super.setup()
 
         viewModel.setCallback(callback)
         viewModel.setInteractor(interactor)
@@ -44,7 +44,7 @@ class NotificationViewModelTest : ParentViewModelTest() {
         assertTrue(viewModel.itemList.isEmpty())
     }
 
-    override fun tearDown() {
+    @After override fun tearDown() {
         super.tearDown()
         confirmVerified(callback, interactor)
     }

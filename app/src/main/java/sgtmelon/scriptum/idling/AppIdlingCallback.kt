@@ -1,15 +1,13 @@
 package sgtmelon.scriptum.idling
 
 /**
- * Interface for [AppIdlingResource]
+ * Interface for [AppIdlingResource].
  */
-interface AppIdlingCallback {
+interface AppIdlingCallback : ParentIdlingCallback {
 
     fun startWork(@IdlingTag tag: String)
 
     fun stopWork(@IdlingTag tag: String)
 
     fun changeWork(isWork: Boolean, @IdlingTag tag: String)
-
-    fun clearWork()
 }

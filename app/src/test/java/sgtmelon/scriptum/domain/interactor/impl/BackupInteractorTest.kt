@@ -50,12 +50,12 @@ class BackupInteractorTest : ParentInteractorTest() {
     }
     private val spyInteractor by lazy { spyk(interactor) }
 
-    override fun setUp() {
-        super.setUp()
+    @Before override fun setup() {
+        super.setup()
         assertNull(interactor.fileList)
     }
 
-    override fun tearDown() {
+    @After override fun tearDown() {
         super.tearDown()
 
         confirmVerified(

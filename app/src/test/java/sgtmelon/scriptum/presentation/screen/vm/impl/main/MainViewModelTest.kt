@@ -34,14 +34,14 @@ class MainViewModelTest : ParentViewModelTest() {
 
     private val viewModel by lazy { MainViewModel(application) }
 
-    override fun setUp() {
-        super.setUp()
+    @Before override fun setup() {
+        super.setup()
 
         viewModel.setCallback(callback)
         viewModel.setInteractor(interactor, bindInteractor)
     }
 
-    override fun tearDown() {
+    @After override fun tearDown() {
         super.tearDown()
         confirmVerified(callback, interactor, bindInteractor, bundle)
     }

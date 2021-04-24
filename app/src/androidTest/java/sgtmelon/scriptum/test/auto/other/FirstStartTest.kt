@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.test.auto.other
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.junit.Before
 import org.junit.FixMethodOrder
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -16,7 +17,7 @@ import sgtmelon.scriptum.test.ParentUiTest
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class FirstStartTest : ParentUiTest() {
 
-    override fun setUp() = Unit
+    @Before override fun setup() = Unit
 
     @Test fun order0_notFinishIntro() = launch({ preferenceRepo.firstStart = true }) {
         introScreen()
