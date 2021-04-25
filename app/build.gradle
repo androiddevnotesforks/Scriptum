@@ -52,6 +52,10 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+
     buildTypes {
         release {
             minifyEnabled true
@@ -123,6 +127,7 @@ dependencies {
 
 //    debugImplementation other.leakcanary
 
+    androidTestImplementation androidx.test.core
     androidTestImplementation androidx.test.runner
     androidTestImplementation androidx.test.rules
     androidTestImplementation androidx.test.junit

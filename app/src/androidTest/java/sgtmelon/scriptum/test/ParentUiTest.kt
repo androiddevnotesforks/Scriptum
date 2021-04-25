@@ -2,6 +2,7 @@ package sgtmelon.scriptum.test
 
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.launchActivity
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.uiautomator.UiDevice
 import org.junit.After
@@ -25,6 +26,8 @@ import kotlin.random.Random
  */
 abstract class ParentUiTest : ParentTest() {
 
+    private var scenario: ActivityScenario<SplashActivity>? = null
+
     protected val uiDevice: UiDevice = UiDevice.getInstance(getInstrumentation())
 
     //region Setup functions
@@ -37,6 +40,10 @@ abstract class ParentUiTest : ParentTest() {
         setupCompanionData()
     }
 
+    /**
+     * Call theme setup only with that function. Otherwise you get plenty assertion errors
+     * related with theme. It's because need set [ParentUi.theme].
+     */
     protected fun setupTheme(@Theme theme: Int) {
         ParentUi.theme = theme
         preferenceRepo.theme = theme
@@ -89,6 +96,9 @@ abstract class ParentUiTest : ParentTest() {
     @After override fun tearDown() {
         super.tearDown()
 
+        scenario?.close()
+        scenario = null
+
         tearDownIdling()
         tearDownCompanionData()
     }
@@ -112,31 +122,37 @@ abstract class ParentUiTest : ParentTest() {
 
     //region Launch functions
 
-    protected fun launch(
+    protected fun launch(before: () -> Unit = {}, after: SplashScreen.() -> Unit) {
+        before()
+        scenario = launchActivity()
+        SplashScreen(after)
+    }
+
+    protected fun launchBind(
+        item: NoteItem,
         before: () -> Unit = {},
-        intent: Intent? = null,
         after: SplashScreen.() -> Unit
     ) {
         before()
-
-        if (intent == null) {
-            ActivityScenario.launch(SplashActivity::class.java).use { SplashScreen(after) }
-        } else {
-            ActivityScenario.launch<SplashActivity>(intent).use { SplashScreen(after) }
-        }
+        scenario = launchActivity(SplashActivity.getBindInstance(context, item))
+        SplashScreen(after)
     }
 
-    protected fun launchBind(item: NoteItem, func: SplashScreen.() -> Unit) = launch(
-        intent = SplashActivity.getBindInstance(context, item), after = func
-    )
+    protected fun launchInfo(before: () -> Unit = {}, after: SplashScreen.() -> Unit) {
+        before()
+        scenario = launchActivity(SplashActivity.getNotificationInstance(context))
+        SplashScreen(after)
+    }
 
-    protected fun launchInfo(func: SplashScreen.() -> Unit) = launch(
-        intent = SplashActivity.getNotificationInstance(context), after = func
-    )
-
-    protected fun launchAlarm(item: NoteItem, func: SplashScreen.() -> Unit) = launch(
-        intent = SplashActivity.getAlarmInstance(context, item.id), after = func
-    )
+    protected fun launchAlarm(
+        item: NoteItem,
+        before: () -> Unit = {},
+        after: SplashScreen.() -> Unit
+    ) {
+        before()
+        scenario = launchActivity(SplashActivity.getAlarmInstance(context, item.id))
+        SplashScreen(after)
+    }
 
     //endregion
 
