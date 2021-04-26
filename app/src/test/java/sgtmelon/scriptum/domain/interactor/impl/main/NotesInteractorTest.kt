@@ -3,7 +3,9 @@ package sgtmelon.scriptum.domain.interactor.impl.main
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.junit.After
 import org.junit.Assert.*
+import org.junit.Before
 import org.junit.Test
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.*

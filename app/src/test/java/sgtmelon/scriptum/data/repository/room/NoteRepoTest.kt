@@ -2,6 +2,7 @@ package sgtmelon.scriptum.data.repository.room
 
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.junit.After
 import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.extension.nextString

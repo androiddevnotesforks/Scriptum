@@ -7,6 +7,7 @@ import io.mockk.mockk
 import io.mockk.spyk
 import io.mockk.verifySequence
 import org.junit.Assert.*
+import org.junit.Before
 import org.junit.Test
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentTest

@@ -260,12 +260,12 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
                     else -> 0
                 }
             }.thenByDescending {
-                it.create.getCalendar().timeInMillis
+                it.change.getCalendar().timeInMillis
             })
             Sort.COLOR -> list.sortedWith(compareBy<NoteItem> {
                 it.color
             }.thenByDescending {
-                it.create.getCalendar().timeInMillis
+                it.change.getCalendar().timeInMillis
             })
             else -> list
         }

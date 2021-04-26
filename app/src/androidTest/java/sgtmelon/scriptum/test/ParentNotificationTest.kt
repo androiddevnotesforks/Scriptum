@@ -12,7 +12,7 @@ import sgtmelon.scriptum.presentation.control.system.callback.IBindControl
  */
 abstract class ParentNotificationTest : ParentUiTest() {
 
-    protected val bindControl: IBindControl = BindControl(context)
+    protected val bindControl: IBindControl = BindControl[context]
 
     protected var automator: NotificationAutomator? = null
 

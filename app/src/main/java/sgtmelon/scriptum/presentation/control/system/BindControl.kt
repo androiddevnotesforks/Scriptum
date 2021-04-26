@@ -238,8 +238,7 @@ class BindControl(private val context: Context?) : IBindControl {
         @RunPrivate var callback: IBindControl? = null
 
         operator fun get(context: Context?): IBindControl {
-            return callback ?: BindControl(context).also { callback = it }
+            return callback ?: BindControl(context?.applicationContext).also { callback = it }
         }
     }
-
 }

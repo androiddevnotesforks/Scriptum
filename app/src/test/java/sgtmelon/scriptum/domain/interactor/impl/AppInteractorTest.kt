@@ -3,6 +3,7 @@ package sgtmelon.scriptum.domain.interactor.impl
 import io.mockk.confirmVerified
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.junit.After
 import org.junit.Test
 import sgtmelon.scriptum.FastTest
 import sgtmelon.scriptum.ParentInteractorTest

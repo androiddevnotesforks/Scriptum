@@ -57,32 +57,34 @@ object TestData {
         )
 
         val thirdNote get() = NoteItem.Text(
-                id = 2, create = DATE_3, change = DATE_0, color = 4,
-                rankId = 1, rankPs = 1, alarmId = 2, alarmDate = DATE_2
+            id = 2, create = DATE_3, change = DATE_0, color = 4,
+            rankId = 1, rankPs = 1, alarmId = 2, alarmDate = DATE_2
         )
 
-        val fourthNote get() = NoteItem.Roll(
+        val fourthNote
+            get() = NoteItem.Roll(
                 id = 3, create = DATE_2, change = DATE_1, color = 2,
                 rankId = 2, rankPs = 2, isStatus = true
-        )
+            )
 
         val itemList get() = mutableListOf(firstNote, secondNote, thirdNote, fourthNote)
 
         val changeList get() = listOf(secondNote, firstNote, fourthNote, thirdNote)
         val createList get() = listOf(thirdNote, fourthNote, firstNote, secondNote)
-        val rankList get() = listOf(thirdNote, secondNote, fourthNote, firstNote)
-        val colorList get() = listOf(firstNote, fourthNote, secondNote, thirdNote)
+        val rankList get() = listOf(secondNote, thirdNote, fourthNote, firstNote)
+        val colorList get() = listOf(firstNote, secondNote, fourthNote, thirdNote)
 
         val dateList = listOf(DATE_0, DATE_1, DATE_2, DATE_3)
 
-        val rollList get() = mutableListOf(
+        val rollList
+            get() = mutableListOf(
                 RollItem(id = 0, position = 0, isCheck = Random.nextBoolean(), text = nextString()),
                 RollItem(id = 1, position = 1, isCheck = Random.nextBoolean(), text = nextString()),
                 RollItem(id = 2, position = 2, isCheck = Random.nextBoolean(), text = nextString()),
                 RollItem(id = 3, position = 3, isCheck = Random.nextBoolean(), text = nextString()),
                 RollItem(id = 4, position = 4, isCheck = Random.nextBoolean(), text = nextString()),
                 RollItem(id = 5, position = 5, isCheck = Random.nextBoolean(), text = nextString())
-        )
+            )
 
         val rankIdVisibleList get() = List(size = 5) { Random.nextLong() }
     }

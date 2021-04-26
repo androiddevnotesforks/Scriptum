@@ -2,6 +2,7 @@ package sgtmelon.scriptum.presentation.control.note.input
 
 import io.mockk.*
 import org.junit.Assert.*
+import org.junit.Before
 import org.junit.Test
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentTest

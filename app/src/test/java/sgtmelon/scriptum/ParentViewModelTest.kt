@@ -5,6 +5,7 @@ import android.content.Context
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.junit.Before
 
 /**
  * Parent class for ViewModel tests.
