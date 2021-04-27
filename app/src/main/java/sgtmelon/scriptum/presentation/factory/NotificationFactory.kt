@@ -1,8 +1,11 @@
 package sgtmelon.scriptum.presentation.factory
 
 import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
+import android.os.Build
 import android.os.Build.VERSION_CODES
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
@@ -24,106 +27,139 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
  */
 object NotificationFactory {
 
-    /**
-     * Model for [BindControl.notifyNote]
-     *
-     * Don't care about [NoteItem.Roll.list] if:
-     * - If note type is [NoteType.TEXT]
-     * - If type is [NoteType.ROLL] and [NoteItem.Roll.list] is completely load
-     * - If you need only call [BindControl.cancelNote]
-     */
-    fun getBind(context: Context, noteItem: NoteItem): Notification {
-        val channelId = context.getString(R.string.notification_notes_channel_id)
-        val icon = when (noteItem) {
-            is NoteItem.Text -> R.drawable.notif_bind_text
-            is NoteItem.Roll -> R.drawable.notif_bind_roll
+    object Notes {
+
+        @RequiresApi(Build.VERSION_CODES.O)
+        fun getChannel(context: Context): NotificationChannel {
+            val id = context.getString(R.string.notification_notes_channel_id)
+            val name = context.getString(R.string.notification_notes_channel_title)
+            val description = context.getString(R.string.notification_notes_channel_description)
+
+            return NotificationChannel(id, name, NotificationManager.IMPORTANCE_DEFAULT).apply {
+                setSound(null, null)
+                this.vibrationPattern = null
+                this.description = description
+            }
         }
 
-        val color = context.getAppSimpleColor(noteItem.color, ColorShade.DARK)
-        val title = getStatusTitle(context, noteItem)
-        val text = getStatusText(context, noteItem)
+        /**
+         * Model for [BindControl.notifyNote]
+         *
+         * Don't care about [NoteItem.Roll.list] if:
+         * - If note type is [NoteType.TEXT]
+         * - If type is [NoteType.ROLL] and [NoteItem.Roll.list] is completely load
+         * - If you need only call [BindControl.cancelNote]
+         */
+        fun getBind(context: Context, noteItem: NoteItem): Notification {
+            val channelId = context.getString(R.string.notification_notes_channel_id)
+            val icon = when (noteItem) {
+                is NoteItem.Text -> R.drawable.notif_bind_text
+                is NoteItem.Roll -> R.drawable.notif_bind_roll
+            }
 
-        val id = noteItem.id.toInt()
-        val contentIntent = TaskStackBuilder.create(context)
-            .addNextIntent(SplashActivity.getBindInstance(context, noteItem))
-            .getPendingIntent(id, PendingIntent.FLAG_UPDATE_CURRENT)
+            val color = context.getAppSimpleColor(noteItem.color, ColorShade.DARK)
+            val title = getStatusTitle(context, noteItem)
+            val text = getStatusText(context, noteItem)
 
-        return NotificationCompat.Builder(context, channelId)
-            .setSmallIcon(icon)
-            .setColor(color)
-            .setContentTitle(title)
-            .setContentText(text)
-            .setCategory(NotificationCompat.CATEGORY_EVENT)
-            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-            .setStyle(NotificationCompat.BigTextStyle().bigText(text))
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setContentIntent(contentIntent)
-            .addAction(0, context.getString(R.string.notification_button_unbind), UnbindReceiver[context, noteItem])
-            .setAutoCancel(false)
-            .setOngoing(true)
-            .setGroup(context.getString(R.string.notification_group_notes))
-            .build()
-    }
+            val id = noteItem.id.toInt()
+            val contentIntent = TaskStackBuilder.create(context)
+                .addNextIntent(SplashActivity.getBindInstance(context, noteItem))
+                .getPendingIntent(id, PendingIntent.FLAG_UPDATE_CURRENT)
 
-    /**
-     * If [NoteType.ROLL] - title will starts with amount of done list items.
-     */
-    @RunPrivate fun getStatusTitle(context: Context, item: NoteItem): String = with(item) {
-        val titleStart = if (type == NoteType.ROLL) "$text | " else ""
+            return NotificationCompat.Builder(context, channelId)
+                .setSmallIcon(icon)
+                .setColor(color)
+                .setContentTitle(title)
+                .setContentText(text)
+                .setCategory(NotificationCompat.CATEGORY_EVENT)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setStyle(NotificationCompat.BigTextStyle().bigText(text))
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(contentIntent)
+                .addAction(0, context.getString(R.string.notification_button_unbind), UnbindReceiver[context, noteItem])
+                .setAutoCancel(false)
+                .setOngoing(true)
+                .setGroup(context.getString(R.string.notification_group_notes))
+                .build()
+        }
 
-        return titleStart.plus(if (name.isEmpty()) context.getString(R.string.hint_text_name) else name)
-    }
+        /**
+         * If [NoteType.ROLL] - title will starts with amount of done list items.
+         */
+        @RunPrivate fun getStatusTitle(context: Context, item: NoteItem): String = with(item) {
+            val titleStart = if (type == NoteType.ROLL) "$text | " else ""
 
-    @RunPrivate fun getStatusText(context: Context, item: NoteItem): String {
-        return when (item) {
-            is NoteItem.Text -> item.text
-            is NoteItem.Roll -> {
-                val finalList = if (item.isVisible) item.list else item.list.hide()
-                if (item.isVisible || finalList.isNotEmpty()) {
-                    finalList.toStatusText()
-                } else {
-                    context.getString(R.string.info_roll_hide_title)
+            return titleStart.plus(if (name.isEmpty()) context.getString(R.string.hint_text_name) else name)
+        }
+
+        @RunPrivate fun getStatusText(context: Context, item: NoteItem): String {
+            return when (item) {
+                is NoteItem.Text -> item.text
+                is NoteItem.Roll -> {
+                    val finalList = if (item.isVisible) item.list else item.list.hide()
+                    if (item.isVisible || finalList.isNotEmpty()) {
+                        finalList.toStatusText()
+                    } else {
+                        context.getString(R.string.info_roll_hide_title)
+                    }
                 }
             }
         }
+
+        private fun List<RollItem>.toStatusText() = joinToString(separator = "\n") {
+            "${if (it.isCheck) "\u25CF" else "\u25CB"} ${it.text}"
+        }
+
+        @RequiresApi(VERSION_CODES.N)
+        fun getBindSummary(context: Context): Notification {
+            return NotificationCompat.Builder(context, context.getString(R.string.notification_notes_channel_id))
+                .setSmallIcon(R.drawable.notif_bind_group)
+                .setCategory(NotificationCompat.CATEGORY_EVENT)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setAutoCancel(false)
+                .setOngoing(true)
+                .setGroup(context.getString(R.string.notification_group_notes))
+                .setGroupSummary(true)
+                .build()
+        }
     }
 
-    private fun List<RollItem>.toStatusText() = joinToString(separator = "\n") {
-        "${if (it.isCheck) "\u25CF" else "\u25CB"} ${it.text}"
+    object Info {
+
+        @RequiresApi(Build.VERSION_CODES.O)
+        fun getChannel(context: Context): NotificationChannel {
+            val id = context.getString(R.string.notification_info_channel_id)
+            val name = context.getString(R.string.notification_info_channel_title)
+            val description = context.getString(R.string.notification_info_channel_description)
+
+            return NotificationChannel(id, name, NotificationManager.IMPORTANCE_DEFAULT).apply {
+                setSound(null, null)
+                this.vibrationPattern = null
+                this.description = description
+            }
+        }
+
+        /**
+         * Notification for display count of alarm.
+         */
+        fun getBind(context: Context, id: Int, count: Int): Notification {
+            val contentIntent = TaskStackBuilder.create(context)
+                .addNextIntent(SplashActivity.getNotificationInstance(context))
+                .getPendingIntent(id, PendingIntent.FLAG_UPDATE_CURRENT)
+
+            return NotificationCompat.Builder(context, context.getString(R.string.notification_info_channel_id))
+                .setSmallIcon(R.drawable.notif_info)
+                .setContentTitle(context.resources.getQuantityString(R.plurals.notification_info_title, count, count))
+                .setContentText(context.getString(R.string.notification_info_description))
+                .setCategory(NotificationCompat.CATEGORY_EVENT)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setContentIntent(contentIntent)
+                .setAutoCancel(false)
+                .setOngoing(true)
+                .setGroup(context.getString(R.string.notification_group_info))
+                .build()
+        }
     }
-
-    @RequiresApi(VERSION_CODES.N)
-    fun getBindSummary(context: Context): Notification {
-        return NotificationCompat.Builder(context, context.getString(R.string.notification_notes_channel_id))
-            .setSmallIcon(R.drawable.notif_bind_group)
-            .setCategory(NotificationCompat.CATEGORY_EVENT)
-            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setAutoCancel(false)
-            .setOngoing(true)
-            .setGroup(context.getString(R.string.notification_group_notes))
-            .setGroupSummary(true)
-            .build()
-    }
-
-
-    fun getInfo(context: Context, id: Int, count: Int): Notification {
-        val contentIntent = TaskStackBuilder.create(context)
-            .addNextIntent(SplashActivity.getNotificationInstance(context))
-            .getPendingIntent(id, PendingIntent.FLAG_UPDATE_CURRENT)
-
-        return NotificationCompat.Builder(context, context.getString(R.string.notification_info_channel_id))
-            .setSmallIcon(R.drawable.notif_info)
-            .setContentTitle(context.resources.getQuantityString(R.plurals.notification_info_title, count, count))
-            .setContentText(context.getString(R.string.notification_info_description))
-            .setCategory(NotificationCompat.CATEGORY_EVENT)
-            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setContentIntent(contentIntent)
-            .setAutoCancel(false)
-            .setOngoing(true)
-            .setGroup(context.getString(R.string.notification_group_info))
-            .build()
-    }
-
 }

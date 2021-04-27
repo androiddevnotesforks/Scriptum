@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.presentation.control.system
 
 import android.content.Context
-import android.os.Build
 import android.os.PowerManager
 import sgtmelon.scriptum.presentation.control.system.callback.IPowerControl
 
@@ -12,12 +11,7 @@ class PowerControl(context: Context?) : IPowerControl {
 
     private val powerManager = context?.getSystemService(Context.POWER_SERVICE) as? PowerManager
 
-    override val isScreenOn: Boolean
-        get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
-            powerManager?.isInteractive == true
-        } else {
-            powerManager?.isScreenOn == true
-        }
+    override val isScreenOn: Boolean get() = powerManager?.isInteractive == true
 
     override fun acquire(timeout: Long) {
         if (isScreenOn) return

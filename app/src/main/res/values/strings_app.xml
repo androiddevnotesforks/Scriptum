@@ -33,8 +33,12 @@
     <string name="notification_group_notes" translatable="false">scriptum_notes_group_key</string>
     <string name="notification_group_info" translatable="false">scriptum_info_group_key</string>
 
-    <string name="notification_info_channel">Info</string>
-    <string name="notification_notes_channel">Notes</string>
+    <string name="notification_info_channel_title">Info</string>
+    <string name="notification_info_channel_description">
+        Channel for display different information, like count of alarm notifications
+    </string>
+    <string name="notification_notes_channel_title">Notes</string>
+    <string name="notification_notes_channel_description">Channel for display bind notes</string>
 
     <string name="notification_notes_group_summary">Notes</string>
 

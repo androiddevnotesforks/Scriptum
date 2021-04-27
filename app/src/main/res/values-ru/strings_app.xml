@@ -17,8 +17,15 @@
     <string name="menu_roll_invisible">Показать выполненные пункты</string>
 
     <!-- Notifications -->
-    <string name="notification_info_channel">Информация</string>
-    <string name="notification_notes_channel">Заметки</string>
+    <string name="notification_info_channel_title">Информация</string>
+    <string name="notification_info_channel_description">
+        Канал для отображения различной информации, например, для количества установленных
+        уведомлений по времени
+    </string>
+    <string name="notification_notes_channel_title">Заметки</string>
+    <string name="notification_notes_channel_description">
+        Канал для отображения закреплённых заметок
+    </string>
 
     <string name="notification_notes_group_summary">Заметки</string>
 

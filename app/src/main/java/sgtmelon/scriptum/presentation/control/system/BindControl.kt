@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.presentation.control.system
 
-import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
@@ -16,8 +15,8 @@ import sgtmelon.scriptum.extension.clearAdd
 import sgtmelon.scriptum.extension.validIndexOf
 import sgtmelon.scriptum.extension.validRemoveAt
 import sgtmelon.scriptum.presentation.control.system.callback.IBindControl
-import sgtmelon.scriptum.presentation.factory.NotificationFactory
 import sgtmelon.scriptum.presentation.screen.vm.impl.main.NotesViewModel.Companion.sortList
+import sgtmelon.scriptum.presentation.factory.NotificationFactory as Factory
 
 /**
  * Class for help control [NoteItem] notification bind in statusBar
@@ -42,32 +41,10 @@ class BindControl(private val context: Context?) : IBindControl {
 
     init {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && context != null) {
-            manager?.createNotificationChannel(getInfoChannel(context))
-            manager?.createNotificationChannel(getNotesChannel(context))
+            manager?.createNotificationChannel(Factory.Info.getChannel(context))
+            manager?.createNotificationChannel(Factory.Notes.getChannel(context))
 
             deleteOldChannel(context)
-        }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun getInfoChannel(context: Context): NotificationChannel {
-        val id = context.getString(R.string.notification_info_channel_id)
-        val name = context.getString(R.string.notification_info_channel)
-
-        return NotificationChannel(id, name, NotificationManager.IMPORTANCE_DEFAULT).apply {
-            setSound(null, null)
-            vibrationPattern = null
-        }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun getNotesChannel(context: Context): NotificationChannel {
-        val id = context.getString(R.string.notification_notes_channel_id)
-        val name = context.getString(R.string.notification_notes_channel)
-
-        return NotificationChannel(id, name, NotificationManager.IMPORTANCE_DEFAULT).apply {
-            setSound(null, null)
-            vibrationPattern = null
         }
     }
 
@@ -115,7 +92,7 @@ class BindControl(private val context: Context?) : IBindControl {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             if (noteItemList.size > 1) {
-                val summaryNotification = NotificationFactory.getBindSummary(context)
+                val summaryNotification = Factory.Notes.getBindSummary(context)
 
                 manager?.notify(Tag.NOTE_GROUP, Id.NOTE_GROUP, summaryNotification)
                 tagIdMap[Tag.NOTE_GROUP] = Id.NOTE_GROUP
@@ -127,7 +104,7 @@ class BindControl(private val context: Context?) : IBindControl {
         for (it in noteItemList.reversed()) {
             val id = it.id.toInt()
 
-            manager?.notify(Tag.NOTE, id, NotificationFactory.getBind(context, it))
+            manager?.notify(Tag.NOTE, id, Factory.Notes.getBind(context, it))
             noteIdList.add(id)
         }
     }
@@ -144,7 +121,7 @@ class BindControl(private val context: Context?) : IBindControl {
         if (context == null) return
 
         if (count != 0) {
-            manager?.notify(Tag.INFO, Id.INFO, NotificationFactory.getInfo(context, Id.INFO, count))
+            manager?.notify(Tag.INFO, Id.INFO, Factory.Info.getBind(context, Id.INFO, count))
             tagIdMap[Tag.INFO] = Id.INFO
         } else {
             manager?.cancel(Tag.INFO, Id.INFO)
