@@ -3,6 +3,7 @@ package sgtmelon.scriptum.presentation.service
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.app.Service
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.IBinder
@@ -79,5 +80,17 @@ class EternalService : Service(), IEternalService {
 
         val service = applicationContext.getAlarmService()
         service?.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
+    }
+
+    companion object {
+        fun start(context: Context) {
+            val intent = Intent(context, EternalService::class.java)
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                context.startForegroundService(intent)
+            } else {
+                context.startService(intent)
+            }
+        }
     }
 }
