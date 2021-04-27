@@ -9,6 +9,7 @@ import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.extension.clearAdd
+import sgtmelon.scriptum.extension.getNotificationService
 import sgtmelon.scriptum.extension.validIndexOf
 import sgtmelon.scriptum.extension.validRemoveAt
 import sgtmelon.scriptum.presentation.control.system.callback.IBindControl
@@ -20,7 +21,7 @@ import sgtmelon.scriptum.presentation.factory.NotificationFactory as Factory
  */
 class BindControl(private val context: Context?) : IBindControl {
 
-    private val manager = Factory.getService(context)
+    private val manager = context?.getNotificationService()
 
     private val noteItemList: MutableList<NoteItem> = ArrayList()
 

@@ -18,6 +18,7 @@ import sgtmelon.scriptum.domain.model.item.RollItem
 import sgtmelon.scriptum.domain.model.key.ColorShade
 import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.extension.getAppSimpleColor
+import sgtmelon.scriptum.extension.getNotificationService
 import sgtmelon.scriptum.extension.hide
 import sgtmelon.scriptum.presentation.control.system.BindControl
 import sgtmelon.scriptum.presentation.receiver.UnbindReceiver
@@ -29,17 +30,12 @@ import sgtmelon.scriptum.presentation.service.EternalService
  */
 object NotificationFactory {
 
-    fun getService(context: Context?): NotificationManager? {
-        return context?.getSystemService(Context.NOTIFICATION_SERVICE)
-                as? NotificationManager
-    }
-
     @RequiresApi(VERSION_CODES.O)
     fun deleteOldChannel(context: Context?) {
         if (context == null) return
 
         val id = context.getString(R.string.notification_old_channel_id)
-        getService(context)?.deleteNotificationChannel(id)
+        context.getNotificationService()?.deleteNotificationChannel(id)
     }
 
     object Notes {
@@ -48,7 +44,7 @@ object NotificationFactory {
         fun createChannel(context: Context?) {
             if (context == null) return
 
-            getService(context)?.createNotificationChannel(getChannel(context))
+            context.getNotificationService()?.createNotificationChannel(getChannel(context))
         }
 
         @RequiresApi(VERSION_CODES.O)
@@ -153,7 +149,7 @@ object NotificationFactory {
         fun createChannel(context: Context?) {
             if (context == null) return
 
-            getService(context)?.createNotificationChannel(getChannel(context))
+            context.getNotificationService()?.createNotificationChannel(getChannel(context))
         }
 
         @RequiresApi(VERSION_CODES.O)
@@ -194,42 +190,11 @@ object NotificationFactory {
 
     object Service {
 
-        /**
-         * Notification for good work of [EternalService].
-         */
-        operator fun get(context: Context): Notification {
-            /**
-             * Intent for open application settings on tap.
-             */
-            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-            intent.data = Uri.fromParts("package", context.packageName, null)
-
-            val contentIntent = TaskStackBuilder.create(context)
-                .addNextIntent(intent)
-                .getPendingIntent(ID, PendingIntent.FLAG_UPDATE_CURRENT)
-
-            val text = context.getString(R.string.notification_eternal_description)
-
-            return NotificationCompat.Builder(context, context.getString(R.string.notification_eternal_channel_id))
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle(context.getString(R.string.notification_eternal_title))
-                .setContentText(text)
-                .setCategory(NotificationCompat.CATEGORY_EVENT)
-                .setStyle(NotificationCompat.BigTextStyle().bigText(text))
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setContentIntent(contentIntent)
-                .setAutoCancel(false)
-                .setOngoing(true)
-                .setGroup(context.getString(R.string.notification_group_eternal))
-                .build()
-        }
-
         @RequiresApi(VERSION_CODES.O)
         fun createChannel(context: Context?) {
             if (context == null) return
 
-            getService(context)?.createNotificationChannel(getChannel(context))
+            context.getNotificationService()?.createNotificationChannel(getChannel(context))
         }
 
         @RequiresApi(VERSION_CODES.O)
@@ -246,6 +211,38 @@ object NotificationFactory {
                 this.vibrationPattern = null
                 this.description = description
             }
+        }
+
+        /**
+         * Notification for good work of [EternalService].
+         */
+        operator fun get(context: Context): Notification {
+            /**
+             * Intent for open application settings on tap.
+             */
+            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+            intent.data = Uri.fromParts("package", context.packageName, null)
+
+            val contentIntent = TaskStackBuilder.create(context)
+                .addNextIntent(intent)
+                .getPendingIntent(ID, PendingIntent.FLAG_UPDATE_CURRENT)
+
+            val text = context.getString(R.string.notification_eternal_description)
+
+            // TODO change icon it looks ugly
+            return NotificationCompat.Builder(context, context.getString(R.string.notification_eternal_channel_id))
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(context.getString(R.string.notification_eternal_title))
+                .setContentText(text)
+                .setCategory(NotificationCompat.CATEGORY_EVENT)
+                .setStyle(NotificationCompat.BigTextStyle().bigText(text))
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setContentIntent(contentIntent)
+                .setAutoCancel(false)
+                .setOngoing(true)
+                .setGroup(context.getString(R.string.notification_group_eternal))
+                .build()
         }
 
         const val ID = 1

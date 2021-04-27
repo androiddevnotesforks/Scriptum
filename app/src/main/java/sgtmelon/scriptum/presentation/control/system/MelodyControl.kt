@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import android.os.Handler
+import sgtmelon.scriptum.extension.getAudioService
 import sgtmelon.scriptum.presentation.control.system.callback.IMelodyControl
 
 /**
@@ -17,7 +18,7 @@ import sgtmelon.scriptum.presentation.control.system.callback.IMelodyControl
 class MelodyControl(private val context: Context?) : IMelodyControl,
     AudioManager.OnAudioFocusChangeListener {
 
-    private val audioManager = context?.getSystemService(Context.AUDIO_SERVICE) as? AudioManager
+    private val audioManager = context?.getAudioService()
 
     private val audioAttributes = AudioAttributes.Builder()
         .setUsage(AudioAttributes.USAGE_ALARM)

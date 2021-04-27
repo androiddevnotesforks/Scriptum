@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
+import sgtmelon.scriptum.extension.getVibratorService
 import sgtmelon.scriptum.presentation.control.system.callback.IVibratorControl
 
 /**
@@ -11,22 +12,22 @@ import sgtmelon.scriptum.presentation.control.system.callback.IVibratorControl
  */
 class VibratorControl(context: Context?) : IVibratorControl {
 
-    private val vibrator = context?.getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
+    private val manager = context?.getVibratorService()
 
     override fun start(pattern: LongArray) {
-        if (vibrator?.hasVibrator() == false) return
+        if (manager?.hasVibrator() == false) return
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            vibrator?.vibrate(VibrationEffect.createWaveform(
-                    pattern, VibrationEffect.DEFAULT_AMPLITUDE
+            manager?.vibrate(VibrationEffect.createWaveform(
+                pattern, VibrationEffect.DEFAULT_AMPLITUDE
             ))
         } else {
-            vibrator?.vibrate(pattern, -1)
+            manager?.vibrate(pattern, -1)
         }
     }
 
     override fun cancel() {
-        vibrator?.cancel()
+        manager?.cancel()
     }
 
 }

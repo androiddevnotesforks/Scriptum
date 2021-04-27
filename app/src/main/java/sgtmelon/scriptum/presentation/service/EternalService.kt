@@ -3,11 +3,11 @@ package sgtmelon.scriptum.presentation.service
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.app.Service
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.IBinder
 import android.os.SystemClock
+import sgtmelon.scriptum.extension.getAlarmService
 import sgtmelon.scriptum.presentation.control.system.BindControl
 import sgtmelon.scriptum.presentation.factory.NotificationFactory as Factory
 
@@ -37,6 +37,7 @@ class EternalService : Service(), IEternalService {
         }
         startForeground(Factory.Service.ID, Factory.Service[this])
 
+        // TODO
         //        registerReceiver(bindReceiver, IntentFilter(ReceiverData.Filter.BIND))
     }
 
@@ -57,7 +58,7 @@ class EternalService : Service(), IEternalService {
             this, Factory.Service.REQUEST_CODE, intent, PendingIntent.FLAG_ONE_SHOT
         )
         val triggerTime = SystemClock.elapsedRealtime() + 2000L
-        val service = applicationContext.getSystemService(Context.ALARM_SERVICE) as? AlarmManager
+        val service = applicationContext.getAlarmService()
         service?.set(AlarmManager.ELAPSED_REALTIME, triggerTime, pendingIntent)
     }
 }

@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.AnimRes
 import androidx.annotation.IntegerRes
@@ -26,13 +25,11 @@ fun Activity.beforeFinish(func: () -> Unit) {
 
 
 fun View.showKeyboard() {
-    (context.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager)
-            ?.showSoftInput(this, 0)
+    context.getInputService()?.showSoftInput(this, 0)
 }
 
 fun Activity.hideKeyboard() {
-    (getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager)
-            ?.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+    getInputService()?.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
 }
 
 

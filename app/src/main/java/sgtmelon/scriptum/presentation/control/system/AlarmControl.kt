@@ -9,6 +9,7 @@ import sgtmelon.extension.formatFuture
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
+import sgtmelon.scriptum.extension.getAlarmService
 import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.extension.toLowerCase
 import sgtmelon.scriptum.presentation.control.system.callback.IAlarmControl
@@ -20,7 +21,7 @@ import java.util.*
  */
 class AlarmControl(private val context: Context?) : IAlarmControl {
 
-    private val alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as? AlarmManager
+    private val alarmManager = context?.getAlarmService()
 
     override fun set(calendar: Calendar, id: Long, showToast: Boolean) {
         if (context == null) return

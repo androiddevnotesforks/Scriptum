@@ -2,6 +2,7 @@ package sgtmelon.scriptum.presentation.control.system
 
 import android.content.Context
 import android.os.PowerManager
+import sgtmelon.scriptum.extension.getPowerService
 import sgtmelon.scriptum.presentation.control.system.callback.IPowerControl
 
 /**
@@ -9,7 +10,7 @@ import sgtmelon.scriptum.presentation.control.system.callback.IPowerControl
  */
 class PowerControl(context: Context?) : IPowerControl {
 
-    private val powerManager = context?.getSystemService(Context.POWER_SERVICE) as? PowerManager
+    private val powerManager = context?.getPowerService()
 
     override val isScreenOn: Boolean get() = powerManager?.isInteractive == true
 

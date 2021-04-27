@@ -1,10 +1,10 @@
 package sgtmelon.scriptum.presentation.control.system
 
 import android.content.ClipData
-import android.content.ClipboardManager
 import android.content.Context
 import androidx.annotation.MainThread
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.extension.getClipboardService
 import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.presentation.control.system.callback.IClipboardControl
 
@@ -13,7 +13,7 @@ import sgtmelon.scriptum.presentation.control.system.callback.IClipboardControl
  */
 class ClipboardControl(private val context: Context?) : IClipboardControl {
 
-    private val manager = context?.getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
+    private val manager = context?.getClipboardService()
 
     override fun copy(text: String) {
         val context = context ?: return
