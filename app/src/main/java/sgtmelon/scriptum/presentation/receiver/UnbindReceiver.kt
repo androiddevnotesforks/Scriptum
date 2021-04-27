@@ -30,6 +30,7 @@ class UnbindReceiver : BroadcastReceiver() {
         if (id == Note.Default.ID) return
 
         GlobalScope.launch(Dispatchers.IO) {
+            // TODO send intent to EternalService and unbind note there.
             if (BindRepo(RoomProvider(context)).unbindNote(id)) {
                 BindControl[null].cancelNote(id)
             }

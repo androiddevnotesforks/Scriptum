@@ -5,12 +5,18 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Build
 import android.os.IBinder
 import sgtmelon.extension.getNewCalendar
+import sgtmelon.scriptum.domain.model.data.ReceiverData
 import sgtmelon.scriptum.extension.getAlarmService
 import sgtmelon.scriptum.presentation.control.system.BindControl
+import sgtmelon.scriptum.presentation.receiver.BindReceiver
+import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
+import sgtmelon.scriptum.presentation.service.presenter.IEternalPresenter
 import java.util.*
+import javax.inject.Inject
 import sgtmelon.scriptum.presentation.factory.NotificationFactory as Factory
 
 /**
@@ -18,13 +24,11 @@ import sgtmelon.scriptum.presentation.factory.NotificationFactory as Factory
  */
 class EternalService : Service(), IEternalService {
 
-    // TODO
-    //    @Inject internal lateinit var presenter: IEternalPresenter
+    @Inject internal lateinit var presenter: IEternalPresenter
 
     private val bindControl by lazy { BindControl[this] }
 
-    // TODO
-    //    private val bindReceiver by lazy { BindReceiver[presenter] }
+    private val bindReceiver by lazy { BindReceiver[presenter] }
 
     override fun onBind(intent: Intent?): IBinder? = null
 
@@ -37,6 +41,9 @@ class EternalService : Service(), IEternalService {
     override fun onCreate() {
         super.onCreate()
 
+        ScriptumApplication.component.getEternalBuilder().set(service = this).build()
+            .inject(service = this)
+
         /**
          * Attach this service to notification, which provide long life for them.
          */
@@ -45,8 +52,7 @@ class EternalService : Service(), IEternalService {
         }
         startForeground(Factory.Service.ID, Factory.Service[this])
 
-        // TODO
-        //        registerReceiver(bindReceiver, IntentFilter(ReceiverData.Filter.BIND))
+        registerReceiver(bindReceiver, IntentFilter(ReceiverData.Filter.BIND))
     }
 
     override fun onDestroy() {
@@ -54,11 +60,11 @@ class EternalService : Service(), IEternalService {
          * Need call before "super".
          */
         restartService()
+        unregisterReceiver(bindReceiver)
 
         super.onDestroy()
 
-        //        TODO()
-        //        unregisterReceiver(bindReceiver)
+        presenter.onDestroy()
     }
 
     /**

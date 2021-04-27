@@ -2,6 +2,7 @@ package sgtmelon.scriptum.dagger.component
 
 import dagger.BindsInstance
 import dagger.Component
+import sgtmelon.scriptum.dagger.component.service.EternalComponent
 import sgtmelon.scriptum.dagger.module.base.ContextModule
 import sgtmelon.scriptum.dagger.module.base.ConverterModule
 import sgtmelon.scriptum.dagger.module.base.ProviderModule
@@ -54,6 +55,10 @@ interface ScriptumComponent {
     fun getDevelopBuilder(): DevelopComponent.Builder
 
     fun getPrintBuilder(): PrintComponent.Builder
+
+
+    fun getEternalBuilder(): EternalComponent.Builder
+
 
     @Component.Builder
     interface Builder {

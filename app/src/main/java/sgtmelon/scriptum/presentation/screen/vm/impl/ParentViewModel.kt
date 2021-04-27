@@ -20,7 +20,7 @@ abstract class ParentViewModel<C>(application: Application) :
         private set
 
     /**
-     * Call this func from when create viewModel.
+     * Call this func when create viewModel.
      */
     @CallSuper fun setCallback(callback: C?) {
         this.callback = callback
@@ -30,5 +30,4 @@ abstract class ParentViewModel<C>(application: Application) :
         func()
         callback = null
     }
-
 }
