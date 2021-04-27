@@ -26,6 +26,12 @@
     <string name="notification_notes_channel_description">
         Канал для отображения закреплённых заметок
     </string>
+    <string name="notification_eternal_channel_title">Вечный сервис</string>
+    <string name="notification_eternal_channel_description">
+        Канал нужен для \"вечной\" привязки заметок в шторке уведомлений, а так же для
+        предотвращения их исчезновения при закрытии приложения. Пожалуйста, выключите уведомления
+        для этого канала.
+    </string>
 
     <string name="notification_notes_group_summary">Заметки</string>
 
@@ -39,6 +45,12 @@
     </plurals>
 
     <string name="notification_info_description">Нажмите, чтобы посмотреть подробности</string>
+
+    <string name="notification_eternal_title">Вечный сервис работает</string>
+    <string name="notification_eternal_description">
+        Привет! Это уведомление жизненно важно для постоянной работы уведомлений в приложении
+        (чтобы они не исчезали). Вы можете скрыть данный канал в настройках приложения.
+    </string>
 
     <!-- Button -->
     <string name="button_disable">Отключить</string>

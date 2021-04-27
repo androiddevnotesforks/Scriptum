@@ -15,6 +15,7 @@ object ReceiverData {
 
             const val MAIN = "${PREFIX}_MAIN"
             const val NOTE = "${PREFIX}_NOTE"
+            const val BIND = "${PREFIX}_BIND"
         }
     }
 

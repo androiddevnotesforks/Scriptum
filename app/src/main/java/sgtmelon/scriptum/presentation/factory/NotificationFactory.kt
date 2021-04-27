@@ -5,13 +5,14 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
-import android.os.Build
+import android.content.Intent
+import android.net.Uri
 import android.os.Build.VERSION_CODES
+import android.provider.Settings
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.TaskStackBuilder
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
 import sgtmelon.scriptum.domain.model.key.ColorShade
@@ -21,16 +22,37 @@ import sgtmelon.scriptum.extension.hide
 import sgtmelon.scriptum.presentation.control.system.BindControl
 import sgtmelon.scriptum.presentation.receiver.UnbindReceiver
 import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
+import sgtmelon.scriptum.presentation.service.EternalService
 
 /**
  * Factory for create notifications
  */
 object NotificationFactory {
 
+    fun getService(context: Context?): NotificationManager? {
+        return context?.getSystemService(Context.NOTIFICATION_SERVICE)
+                as? NotificationManager
+    }
+
+    @RequiresApi(VERSION_CODES.O)
+    fun deleteOldChannel(context: Context?) {
+        if (context == null) return
+
+        val id = context.getString(R.string.notification_old_channel_id)
+        getService(context)?.deleteNotificationChannel(id)
+    }
+
     object Notes {
 
-        @RequiresApi(Build.VERSION_CODES.O)
-        fun getChannel(context: Context): NotificationChannel {
+        @RequiresApi(VERSION_CODES.O)
+        fun createChannel(context: Context?) {
+            if (context == null) return
+
+            getService(context)?.createNotificationChannel(getChannel(context))
+        }
+
+        @RequiresApi(VERSION_CODES.O)
+        private fun getChannel(context: Context): NotificationChannel {
             val id = context.getString(R.string.notification_notes_channel_id)
             val name = context.getString(R.string.notification_notes_channel_title)
             val description = context.getString(R.string.notification_notes_channel_description)
@@ -50,7 +72,7 @@ object NotificationFactory {
          * - If type is [NoteType.ROLL] and [NoteItem.Roll.list] is completely load
          * - If you need only call [BindControl.cancelNote]
          */
-        fun getBind(context: Context, noteItem: NoteItem): Notification {
+        operator fun get(context: Context, noteItem: NoteItem): Notification {
             val channelId = context.getString(R.string.notification_notes_channel_id)
             val icon = when (noteItem) {
                 is NoteItem.Text -> R.drawable.notif_bind_text
@@ -86,13 +108,13 @@ object NotificationFactory {
         /**
          * If [NoteType.ROLL] - title will starts with amount of done list items.
          */
-        @RunPrivate fun getStatusTitle(context: Context, item: NoteItem): String = with(item) {
+        private fun getStatusTitle(context: Context, item: NoteItem): String = with(item) {
             val titleStart = if (type == NoteType.ROLL) "$text | " else ""
 
             return titleStart.plus(if (name.isEmpty()) context.getString(R.string.hint_text_name) else name)
         }
 
-        @RunPrivate fun getStatusText(context: Context, item: NoteItem): String {
+        private fun getStatusText(context: Context, item: NoteItem): String {
             return when (item) {
                 is NoteItem.Text -> item.text
                 is NoteItem.Roll -> {
@@ -127,8 +149,15 @@ object NotificationFactory {
 
     object Info {
 
-        @RequiresApi(Build.VERSION_CODES.O)
-        fun getChannel(context: Context): NotificationChannel {
+        @RequiresApi(VERSION_CODES.O)
+        fun createChannel(context: Context?) {
+            if (context == null) return
+
+            getService(context)?.createNotificationChannel(getChannel(context))
+        }
+
+        @RequiresApi(VERSION_CODES.O)
+        private fun getChannel(context: Context): NotificationChannel {
             val id = context.getString(R.string.notification_info_channel_id)
             val name = context.getString(R.string.notification_info_channel_title)
             val description = context.getString(R.string.notification_info_channel_description)
@@ -143,7 +172,7 @@ object NotificationFactory {
         /**
          * Notification for display count of alarm.
          */
-        fun getBind(context: Context, id: Int, count: Int): Notification {
+        operator fun get(context: Context, id: Int, count: Int): Notification {
             val contentIntent = TaskStackBuilder.create(context)
                 .addNextIntent(SplashActivity.getNotificationInstance(context))
                 .getPendingIntent(id, PendingIntent.FLAG_UPDATE_CURRENT)
@@ -152,7 +181,7 @@ object NotificationFactory {
                 .setSmallIcon(R.drawable.notif_info)
                 .setContentTitle(context.resources.getQuantityString(R.plurals.notification_info_title, count, count))
                 .setContentText(context.getString(R.string.notification_info_description))
-                .setCategory(NotificationCompat.CATEGORY_EVENT)
+                .setCategory(NotificationCompat.CATEGORY_REMINDER)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setContentIntent(contentIntent)
@@ -161,5 +190,62 @@ object NotificationFactory {
                 .setGroup(context.getString(R.string.notification_group_info))
                 .build()
         }
+    }
+
+    object Service {
+
+        /**
+         * Notification for good work of [EternalService].
+         */
+        operator fun get(context: Context): Notification {
+            /**
+             * Intent for open application settings on tap.
+             */
+            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+            intent.data = Uri.fromParts("package", context.packageName, null)
+
+            val contentIntent = TaskStackBuilder.create(context)
+                .addNextIntent(intent)
+                .getPendingIntent(ID, PendingIntent.FLAG_UPDATE_CURRENT)
+
+            return NotificationCompat.Builder(context, context.getString(R.string.notification_eternal_channel_id))
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(context.getString(R.string.notification_eternal_title))
+                .setContentText(context.getString(R.string.notification_eternal_description))
+                .setCategory(NotificationCompat.CATEGORY_SERVICE)
+                .setVisibility(NotificationCompat.VISIBILITY_SECRET)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setContentIntent(contentIntent)
+                .setAutoCancel(false)
+                .setOngoing(true)
+                .setGroup(context.getString(R.string.notification_group_eternal))
+                .build()
+        }
+
+        @RequiresApi(VERSION_CODES.O)
+        fun createChannel(context: Context?) {
+            if (context == null) return
+
+            getService(context)?.createNotificationChannel(getChannel(context))
+        }
+
+        @RequiresApi(VERSION_CODES.O)
+        private fun getChannel(context: Context): NotificationChannel {
+            val id = context.getString(R.string.notification_eternal_channel_id)
+            val name = context.getString(R.string.notification_eternal_channel_title)
+            val description = context.getString(R.string.notification_eternal_channel_description)
+
+            /**
+             * [NotificationManager.IMPORTANCE_HIGH] need for prevent closing of [EternalService].
+             */
+            return NotificationChannel(id, name, NotificationManager.IMPORTANCE_HIGH).apply {
+                setSound(null, null)
+                this.vibrationPattern = null
+                this.description = description
+            }
+        }
+
+        const val ID = 0
+        const val REQUEST_CODE = 0
     }
 }

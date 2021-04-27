@@ -2,9 +2,13 @@ package sgtmelon.scriptum.presentation.screen.ui
 
 import android.app.Application
 import android.content.Context
+import android.content.Intent
+import android.os.Build
+import android.util.Log
 import sgtmelon.scriptum.dagger.component.DaggerScriptumComponent
 import sgtmelon.scriptum.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.extension.initLazy
+import sgtmelon.scriptum.presentation.service.EternalService
 
 /**
  * Guideline for maintain project:
@@ -23,6 +27,19 @@ class ScriptumApplication : Application() {
         super.onCreate()
 
         component = DaggerScriptumComponent.builder().set(application = this).build()
+
+        startEternalService()
+    }
+
+    private fun startEternalService() {
+        Log.i("HERE", "start service")
+        val intent = Intent(this, EternalService::class.java)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(intent)
+        } else {
+            startService(intent)
+        }
     }
 
     companion object {

@@ -45,7 +45,7 @@ class MainActivity : AppActivity(), IMainActivity {
     @Inject internal lateinit var viewModel: IMainViewModel
 
     private val alarmControl by lazy { AlarmControl[this] }
-    private val bindControl by lazy { BindControl[this] }
+    private val bindControl by lazy { BindControl[null] }
     private val holderControl by lazy { HolderShowControl[toolbarHolder] }
 
     private val mainReceiver by lazy { MainReceiver[viewModel, viewModel] }

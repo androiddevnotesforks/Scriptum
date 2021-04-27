@@ -50,7 +50,7 @@ class NotesFragment : ParentFragment(),
     @Inject internal lateinit var viewModel: INotesViewModel
 
     private val alarmControl by lazy { AlarmControl[context] }
-    private val bindControl by lazy { BindControl[context] }
+    private val bindControl by lazy { BindControl[null] }
     private val clipboardControl: IClipboardControl by lazy { ClipboardControl(context) }
 
     private val openState get() = callback?.openState

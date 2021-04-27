@@ -29,9 +29,11 @@
 
     <string name="notification_notes_channel_id" translatable="false">scriptum_notes_channel_id</string>
     <string name="notification_info_channel_id" translatable="false">scriptum_info_channel_id</string>
+    <string name="notification_eternal_channel_id" translatable="false">scriptum_eternal_channel_id</string>
 
     <string name="notification_group_notes" translatable="false">scriptum_notes_group_key</string>
     <string name="notification_group_info" translatable="false">scriptum_info_group_key</string>
+    <string name="notification_group_eternal" translatable="false">scriptum_eternal_group_key</string>
 
     <string name="notification_info_channel_title">Info</string>
     <string name="notification_info_channel_description">
@@ -39,6 +41,11 @@
     </string>
     <string name="notification_notes_channel_title">Notes</string>
     <string name="notification_notes_channel_description">Channel for display bind notes</string>
+    <string name="notification_eternal_channel_title">Eternal service</string>
+    <string name="notification_eternal_channel_description">
+        Channel need for \"life long\" bind of notes in status bar and prevent disappearing after
+        application close. Please turn off notifications for this channel.
+    </string>
 
     <string name="notification_notes_group_summary">Notes</string>
 
@@ -54,6 +61,12 @@
     </plurals>
 
     <string name="notification_info_description">Press for details</string>
+
+    <string name="notification_eternal_title">Eternal service is working</string>
+    <string name="notification_eternal_description">
+        Hi! This notification very important for good work of application notifications
+        (prevent disappearing). You may turn off channel for this message in application settings.
+    </string>
 
     <!-- Button -->
     <string name="button_disable">Disable</string>

@@ -47,7 +47,7 @@ class RankFragment : ParentFragment(), IRankFragment, MainReceiver.BindCallback,
 
     @Inject internal lateinit var viewModel: IRankViewModel
 
-    private val bindControl by lazy { BindControl[context] }
+    private val bindControl by lazy { BindControl[null] }
 
     override val openState get() = callback?.openState
     private val renameDialog by lazy { DialogFactory.Main(context, fm).getRenameDialog() }

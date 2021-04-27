@@ -1,0 +1,3 @@
+package sgtmelon.scriptum.presentation.service.presenter
+
+class EternalPresenter

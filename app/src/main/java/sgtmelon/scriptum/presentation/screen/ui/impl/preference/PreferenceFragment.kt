@@ -91,7 +91,7 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
 
     //endregion
 
-    private val bindControl by lazy { BindControl[context] }
+    private val bindControl by lazy { BindControl[null] }
     private val melodyControl: IMelodyControl by lazy { MelodyControl(context) }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {

@@ -114,7 +114,7 @@ abstract class ParentUiTest : ParentTest() {
         RankHolder.isMaxTest = false
         AlarmActivity.isFinishOnStop = true
 
-        BindControl.callback?.clearRecent()
+        BindControl.instance?.clearRecent()
         AlarmControl.callback?.clear()
     }
 

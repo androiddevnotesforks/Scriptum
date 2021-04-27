@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="sgtmelon.scriptum">
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -112,6 +113,11 @@
         <receiver android:name=".presentation.receiver.MainReceiver" />
         <receiver android:name=".presentation.receiver.NoteReceiver" />
         <receiver android:name=".presentation.receiver.UnbindReceiver" />
+
+        <service
+            android:name=".presentation.service.EternalService"
+            android:enabled="true"
+            android:exported="false" />
 
     </application>
 

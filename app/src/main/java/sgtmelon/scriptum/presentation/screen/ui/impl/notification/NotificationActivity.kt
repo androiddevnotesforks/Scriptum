@@ -40,7 +40,7 @@ class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallb
     @Inject internal lateinit var viewModel: INotificationViewModel
 
     private val alarmControl by lazy { AlarmControl[this] }
-    private val bindControl by lazy { BindControl[this] }
+    private val bindControl by lazy { BindControl[null] }
 
     private val openState = OpenState()
 

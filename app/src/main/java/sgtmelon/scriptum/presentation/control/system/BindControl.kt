@@ -1,13 +1,10 @@
 package sgtmelon.scriptum.presentation.control.system
 
-import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import androidx.annotation.IntDef
 import androidx.annotation.MainThread
-import androidx.annotation.RequiresApi
 import androidx.annotation.StringDef
-import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
@@ -23,8 +20,7 @@ import sgtmelon.scriptum.presentation.factory.NotificationFactory as Factory
  */
 class BindControl(private val context: Context?) : IBindControl {
 
-    private val manager = context?.getSystemService(Context.NOTIFICATION_SERVICE)
-            as? NotificationManager
+    private val manager = Factory.getService(context)
 
     private val noteItemList: MutableList<NoteItem> = ArrayList()
 
@@ -40,20 +36,12 @@ class BindControl(private val context: Context?) : IBindControl {
     private val tagIdMap: MutableMap<String, Int> = mutableMapOf()
 
     init {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && context != null) {
-            manager?.createNotificationChannel(Factory.Info.getChannel(context))
-            manager?.createNotificationChannel(Factory.Notes.getChannel(context))
-
-            deleteOldChannel(context)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Factory.Info.createChannel(context)
+            Factory.Notes.createChannel(context)
+            Factory.deleteOldChannel(context)
         }
     }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun deleteOldChannel(context: Context) {
-        val id = context.getString(R.string.notification_old_channel_id)
-        manager?.deleteNotificationChannel(id)
-    }
-
 
     /**
      * Update notification if note isStatus and isVisible, otherwise cancel notification
@@ -104,7 +92,7 @@ class BindControl(private val context: Context?) : IBindControl {
         for (it in noteItemList.reversed()) {
             val id = it.id.toInt()
 
-            manager?.notify(Tag.NOTE, id, Factory.Notes.getBind(context, it))
+            manager?.notify(Tag.NOTE, id, Factory.Notes[context, it])
             noteIdList.add(id)
         }
     }
@@ -121,7 +109,7 @@ class BindControl(private val context: Context?) : IBindControl {
         if (context == null) return
 
         if (count != 0) {
-            manager?.notify(Tag.INFO, Id.INFO, Factory.Info.getBind(context, Id.INFO, count))
+            manager?.notify(Tag.INFO, Id.INFO, Factory.Info[context, Id.INFO, count])
             tagIdMap[Tag.INFO] = Id.INFO
         } else {
             manager?.cancel(Tag.INFO, Id.INFO)
@@ -212,10 +200,10 @@ class BindControl(private val context: Context?) : IBindControl {
     }
 
     companion object {
-        @RunPrivate var callback: IBindControl? = null
+        @RunPrivate var instance: IBindControl? = null
 
         operator fun get(context: Context?): IBindControl {
-            return callback ?: BindControl(context?.applicationContext).also { callback = it }
+            return instance ?: BindControl(context).also { instance = it }
         }
     }
 }

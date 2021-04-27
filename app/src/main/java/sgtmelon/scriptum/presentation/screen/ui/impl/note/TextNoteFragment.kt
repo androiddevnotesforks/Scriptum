@@ -53,7 +53,7 @@ class TextNoteFragment : ParentFragment(),
     @Inject internal lateinit var viewModel: ITextNoteViewModel
 
     private val alarmControl by lazy { AlarmControl[context] }
-    private val bindControl by lazy { BindControl[context] }
+    private val bindControl by lazy { BindControl[null] }
 
     private var toolbarTintControl: IToolbarTintControl? = null
     private var navigationIconControl: IconChangeCallback? = null

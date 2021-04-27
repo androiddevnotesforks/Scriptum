@@ -11,8 +11,11 @@ interface IBindControl {
 
     fun notifyNote(noteItem: NoteItem, rankIdVisibleList: List<Long>, @Sort sort: Int)
 
-    fun notifyNote(itemList: List<NoteItem>, rankIdVisibleList: List<Long>? = null,
-                   @Sort sort: Int? = null)
+    fun notifyNote(
+        itemList: List<NoteItem>,
+        rankIdVisibleList: List<Long>? = null,
+        @Sort sort: Int? = null
+    )
 
     fun cancelNote(id: Long)
 

@@ -68,7 +68,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     private val vibratorControl: IVibratorControl by lazy { VibratorControl(context = this) }
     private val alarmControl by lazy { AlarmControl[this] }
     private val powerControl: IPowerControl by lazy { PowerControl(context = this) }
-    private val bindControl by lazy { BindControl[this] }
+    private val bindControl by lazy { BindControl[null] }
 
     private val noteReceiver by lazy { NoteReceiver[viewModel] }
 
