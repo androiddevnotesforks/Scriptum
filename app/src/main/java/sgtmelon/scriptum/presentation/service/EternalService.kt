@@ -6,9 +6,10 @@ import android.app.Service
 import android.content.Intent
 import android.os.Build
 import android.os.IBinder
-import android.os.SystemClock
+import sgtmelon.extension.getNewCalendar
 import sgtmelon.scriptum.extension.getAlarmService
 import sgtmelon.scriptum.presentation.control.system.BindControl
+import java.util.*
 import sgtmelon.scriptum.presentation.factory.NotificationFactory as Factory
 
 /**
@@ -26,6 +27,12 @@ class EternalService : Service(), IEternalService {
 
     override fun onBind(intent: Intent?): IBinder? = null
 
+    /**
+     * By returning [Service.START_STICKY] we make sure the service is restarted if the
+     * system kills the service.
+     */
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int = START_STICKY
+
     override fun onCreate() {
         super.onCreate()
 
@@ -41,24 +48,36 @@ class EternalService : Service(), IEternalService {
         //        registerReceiver(bindReceiver, IntentFilter(ReceiverData.Filter.BIND))
     }
 
-    /**
-     * By returning [Service.START_STICKY] we make sure the service is restarted if the
-     * system kills the service.
-     */
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int = START_STICKY
+    override fun onDestroy() {
+        /**
+         * Need call before "super".
+         */
+        restartService()
+
+        super.onDestroy()
+
+        //        TODO()
+        //        unregisterReceiver(bindReceiver)
+    }
 
     /**
      * Restart our service if it was closed.
      */
-    override fun onTaskRemoved(rootIntent: Intent?) {
+    private fun restartService() {
         val intent = Intent(applicationContext, EternalService::class.java)
         intent.setPackage(packageName)
 
         val pendingIntent = PendingIntent.getService(
             this, Factory.Service.REQUEST_CODE, intent, PendingIntent.FLAG_ONE_SHOT
         )
-        val triggerTime = SystemClock.elapsedRealtime() + 2000L
+
+        /**
+         * Fire next [EternalService] after 5 seconds.
+         */
+        val calendar = getNewCalendar()
+        calendar.add(Calendar.SECOND, 5)
+
         val service = applicationContext.getAlarmService()
-        service?.set(AlarmManager.ELAPSED_REALTIME, triggerTime, pendingIntent)
+        service?.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
     }
 }
