@@ -44,7 +44,7 @@
     <string name="notification_eternal_channel_title">Eternal service</string>
     <string name="notification_eternal_channel_description">
         Channel need for \"life long\" bind of notes in status bar and prevent disappearing after
-        application close. Please turn off notifications for this channel.
+        application close. Please turn off notifications for this channel
     </string>
 
     <string name="notification_notes_group_summary">Notes</string>
@@ -64,8 +64,9 @@
 
     <string name="notification_eternal_title">Eternal service is working</string>
     <string name="notification_eternal_description">
-        Hi! This notification very important for good work of application notifications
-        (prevent disappearing). You may turn off channel for this message in application settings.
+        Hello! This notification very important for good work of application
+        (prevent notifications disappearing). You may turn off channel for this message in
+        application settings. Just click on me and settings will open.
     </string>
 
     <!-- Button -->

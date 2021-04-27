@@ -8,7 +8,6 @@ import android.content.Intent
 import android.os.Build
 import android.os.IBinder
 import android.os.SystemClock
-import android.util.Log
 import sgtmelon.scriptum.presentation.control.system.BindControl
 import sgtmelon.scriptum.presentation.factory.NotificationFactory as Factory
 
@@ -29,7 +28,6 @@ class EternalService : Service(), IEternalService {
 
     override fun onCreate() {
         super.onCreate()
-        Log.i("HERE", "i am here now!")
 
         /**
          * Attach this service to notification, which provide long life for them.
@@ -40,9 +38,6 @@ class EternalService : Service(), IEternalService {
         startForeground(Factory.Service.ID, Factory.Service[this])
 
         //        registerReceiver(bindReceiver, IntentFilter(ReceiverData.Filter.BIND))
-
-        // TODO remove
-        bindControl.notifyInfo(count = 100)
     }
 
     /**
@@ -55,14 +50,13 @@ class EternalService : Service(), IEternalService {
      * Restart our service if it was closed.
      */
     override fun onTaskRemoved(rootIntent: Intent?) {
-        Log.i("HERE", "onTaskRemove")
         val intent = Intent(applicationContext, EternalService::class.java)
         intent.setPackage(packageName)
 
         val pendingIntent = PendingIntent.getService(
             this, Factory.Service.REQUEST_CODE, intent, PendingIntent.FLAG_ONE_SHOT
         )
-        val triggerTime = SystemClock.elapsedRealtime() + 1000L
+        val triggerTime = SystemClock.elapsedRealtime() + 2000L
         val service = applicationContext.getSystemService(Context.ALARM_SERVICE) as? AlarmManager
         service?.set(AlarmManager.ELAPSED_REALTIME, triggerTime, pendingIntent)
     }

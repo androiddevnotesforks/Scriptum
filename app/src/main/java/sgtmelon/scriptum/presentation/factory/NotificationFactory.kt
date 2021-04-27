@@ -208,12 +208,15 @@ object NotificationFactory {
                 .addNextIntent(intent)
                 .getPendingIntent(ID, PendingIntent.FLAG_UPDATE_CURRENT)
 
+            val text = context.getString(R.string.notification_eternal_description)
+
             return NotificationCompat.Builder(context, context.getString(R.string.notification_eternal_channel_id))
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(context.getString(R.string.notification_eternal_title))
-                .setContentText(context.getString(R.string.notification_eternal_description))
-                .setCategory(NotificationCompat.CATEGORY_SERVICE)
-                .setVisibility(NotificationCompat.VISIBILITY_SECRET)
+                .setContentText(text)
+                .setCategory(NotificationCompat.CATEGORY_EVENT)
+                .setStyle(NotificationCompat.BigTextStyle().bigText(text))
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setContentIntent(contentIntent)
                 .setAutoCancel(false)
@@ -245,7 +248,7 @@ object NotificationFactory {
             }
         }
 
-        const val ID = 0
-        const val REQUEST_CODE = 0
+        const val ID = 1
+        const val REQUEST_CODE = 1
     }
 }

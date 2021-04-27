@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.util.Log
 import sgtmelon.scriptum.dagger.component.DaggerScriptumComponent
 import sgtmelon.scriptum.dagger.component.ScriptumComponent
 import sgtmelon.scriptum.extension.initLazy
@@ -32,7 +31,6 @@ class ScriptumApplication : Application() {
     }
 
     private fun startEternalService() {
-        Log.i("HERE", "start service")
         val intent = Intent(this, EternalService::class.java)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
