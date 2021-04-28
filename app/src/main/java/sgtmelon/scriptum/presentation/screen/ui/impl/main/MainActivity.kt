@@ -22,7 +22,6 @@ import sgtmelon.scriptum.domain.model.state.OpenState
 import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.idling.AppIdlingResource
 import sgtmelon.scriptum.idling.IdlingTag
-import sgtmelon.scriptum.presentation.control.system.AlarmControl
 import sgtmelon.scriptum.presentation.control.toolbar.show.HolderShowControl
 import sgtmelon.scriptum.presentation.factory.DialogFactory
 import sgtmelon.scriptum.presentation.factory.FragmentFactory
@@ -42,7 +41,6 @@ class MainActivity : AppActivity(), IMainActivity {
 
     @Inject internal lateinit var viewModel: IMainViewModel
 
-    private val alarmControl by lazy { AlarmControl[this] }
     private val holderControl by lazy { HolderShowControl[toolbarHolder] }
 
     private val mainReceiver by lazy { MainScreenReceiver[viewModel, viewModel] }
@@ -68,8 +66,6 @@ class MainActivity : AppActivity(), IMainActivity {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        alarmControl.initLazy()
 
         openState.get(savedInstanceState)
 

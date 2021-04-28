@@ -17,10 +17,9 @@ import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.domain.model.state.OpenState
 import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.presentation.adapter.NotificationAdapter
+import sgtmelon.scriptum.presentation.control.broadcast.BroadcastControl
 import sgtmelon.scriptum.presentation.control.snackbar.SnackbarCallback
 import sgtmelon.scriptum.presentation.control.snackbar.SnackbarControl
-import sgtmelon.scriptum.presentation.control.system.AlarmControl
-import sgtmelon.scriptum.presentation.control.system.BindControl
 import sgtmelon.scriptum.presentation.listener.ItemListener
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.callback.notification.INotificationActivity
@@ -39,8 +38,7 @@ class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallb
 
     @Inject internal lateinit var viewModel: INotificationViewModel
 
-    private val alarmControl by lazy { AlarmControl[this] }
-    private val bindControl by lazy { BindControl[null] }
+    private val broadcastControl by lazy { BroadcastControl[this] }
 
     private val openState = OpenState()
 
@@ -74,8 +72,7 @@ class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallb
         super.onCreate(savedInstanceState)
         binding = inflateBinding(R.layout.activity_notification)
 
-        alarmControl.initLazy()
-        bindControl.initLazy()
+        broadcastControl.initLazy()
 
         openState.get(savedInstanceState)
 
@@ -254,13 +251,27 @@ class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallb
     }
 
 
-    override fun setAlarm(id: Long, calendar: Calendar, showToast: Boolean) {
-        alarmControl.set(calendar, id, showToast)
+    //region Broadcast functions
+
+    override fun sendSetAlarmBroadcast(id: Long, calendar: Calendar, showToast: Boolean) {
+        broadcastControl.sendSetAlarm(id, calendar, showToast)
     }
 
-    override fun cancelAlarm(id: Long) = alarmControl.cancel(id)
+    override fun sendCancelAlarmBroadcast(id: Long) = broadcastControl.sendCancelAlarm(id)
 
-    override fun notifyInfoBind(count: Int) = bindControl.notifyInfo(count)
+    /**
+     * Not used here.
+     */
+    override fun sendNotifyNotesBroadcast() = Unit
+
+    /**
+     * Not used here.
+     */
+    override fun sendCancelNoteBroadcast(id: Long) = Unit
+
+    override fun sendNotifyInfoBroadcast(count: Int?) = broadcastControl.sendNotifyInfoBind(count)
+
+    //endregion
 
     companion object {
         operator fun get(context: Context) = Intent(context, NotificationActivity::class.java)

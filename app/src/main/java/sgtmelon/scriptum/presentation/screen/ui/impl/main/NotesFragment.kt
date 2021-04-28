@@ -288,7 +288,7 @@ class NotesFragment : ParentFragment(),
 
     override fun getStringArray(arrayId: Int): Array<String> = resources.getStringArray(arrayId)
 
-    //region Broadcast callback
+    //region Broadcast functions
 
     override fun sendSetAlarmBroadcast(id: Long, calendar: Calendar, showToast: Boolean) {
         broadcastControl.sendSetAlarm(id, calendar, showToast)

@@ -4,14 +4,12 @@ import android.app.Application
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import sgtmelon.extension.getCalendar
 import sgtmelon.scriptum.domain.interactor.callback.notification.INotificationInteractor
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.data.IntentData.Snackbar
 import sgtmelon.scriptum.domain.model.item.NotificationItem
-import sgtmelon.scriptum.extension.clearAdd
-import sgtmelon.scriptum.extension.launchBack
-import sgtmelon.scriptum.extension.runBack
-import sgtmelon.scriptum.extension.validRemoveAt
+import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.idling.AppIdlingResource
 import sgtmelon.scriptum.idling.IdlingTag
 import sgtmelon.scriptum.presentation.screen.ui.callback.notification.INotificationActivity
@@ -135,10 +133,13 @@ class NotificationViewModel(application: Application) :
 
         // TODO if cancel list is too big (eg 10 items) need remove first
 
-        viewModelScope.launchBack { interactor.cancelNotification(item) }
+        viewModelScope.launchBack {
+            interactor.cancelNotification(item)
+            callback?.sendCancelAlarmBroadcast(item.note.id)
+        }
 
         callback?.apply {
-            notifyInfoBind(itemList.size)
+            sendNotifyInfoBroadcast(itemList.size)
             notifyItemRemoved(itemList, p)
             showSnackbar()
         }
@@ -160,7 +161,7 @@ class NotificationViewModel(application: Application) :
         itemList.add(position, item)
 
         callback?.apply {
-            notifyInfoBind(itemList.size)
+            sendNotifyInfoBroadcast(itemList.size)
             notifyItemInsertedScroll(itemList, position)
 
             /**
@@ -182,11 +183,13 @@ class NotificationViewModel(application: Application) :
          * After insert need update item in list (due to new item id).
          */
         viewModelScope.launch {
-            itemList[position] = runBack {
-                interactor.setNotification(item)
-            } ?: return@launch
+            val newItem = runBack { interactor.setNotification(item) } ?: return@launch
 
+            itemList[position] = newItem
             callback?.setList(itemList)
+
+            val calendar = newItem.alarm.date.getCalendar()
+            callback?.sendSetAlarmBroadcast(newItem.note.id, calendar, showToast = false)
         }
     }
 

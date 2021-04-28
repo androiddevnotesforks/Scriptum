@@ -34,6 +34,7 @@ class NotesInteractor(
 
     @Sort override val sort: Int get() = preferenceRepo.sort
 
+
     override suspend fun getCount(): Int = noteRepo.getCount(isBin = false)
 
     override suspend fun getList(): MutableList<NoteItem> {
@@ -44,16 +45,6 @@ class NotesInteractor(
     override suspend fun isListHide(): Boolean = noteRepo.isListHide()
 
     override suspend fun updateNote(item: NoteItem) = noteRepo.updateNote(item)
-
-    /**
-     * Need for prevent overriding noteItem rollList in list model
-     */
-    @RunPrivate suspend fun makeMirror(item: NoteItem): NoteItem {
-        return when (item) {
-            is NoteItem.Text -> item.deepCopy()
-            is NoteItem.Roll -> item.deepCopy(list = noteRepo.getRollList(item.id))
-        }
-    }
 
     override suspend fun convertNote(item: NoteItem): NoteItem {
         val convertItem = when (item) {

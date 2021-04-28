@@ -15,7 +15,6 @@ import sgtmelon.scriptum.data.repository.room.callback.IBindRepo
 import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.NotificationItem
-import sgtmelon.scriptum.presentation.screen.ui.callback.notification.INotificationBridge
 import java.util.*
 import kotlin.random.Random
 
