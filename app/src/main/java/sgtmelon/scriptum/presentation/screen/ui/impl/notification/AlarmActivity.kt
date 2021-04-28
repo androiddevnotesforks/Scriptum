@@ -27,7 +27,6 @@ import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.data.IntentData.Note
-import sgtmelon.scriptum.domain.model.data.ReceiverData.Command
 import sgtmelon.scriptum.domain.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.state.OpenState
@@ -35,6 +34,7 @@ import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.idling.AppIdlingResource
 import sgtmelon.scriptum.idling.IdlingTag
 import sgtmelon.scriptum.presentation.adapter.NoteAdapter
+import sgtmelon.scriptum.presentation.control.broadcast.BroadcastControl
 import sgtmelon.scriptum.presentation.control.system.*
 import sgtmelon.scriptum.presentation.control.system.callback.IMelodyControl
 import sgtmelon.scriptum.presentation.control.system.callback.IPowerControl
@@ -70,6 +70,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     private val alarmControl by lazy { AlarmControl[this] }
     private val powerControl: IPowerControl by lazy { PowerControl(context = this) }
     private val bindControl by lazy { BindControl[null] }
+    private val broadcastControl by lazy { BroadcastControl[this] }
 
     private val noteReceiver by lazy { NoteScreenReceiver[viewModel] }
 
@@ -320,9 +321,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
     override fun getIntArray(@ArrayRes arrayId: Int): IntArray = resources.getIntArray(arrayId)
 
-    override fun sendUpdateBroadcast(id: Long) = sendTo(Filter.MAIN, Command.UPDATE_ALARM) {
-        putExtra(Note.Intent.ID, id)
-    }
+    override fun sendUpdateBroadcast(id: Long) = broadcastControl.sendUpdateAlarmUI(id)
 
 
     override fun setAlarm(calendar: Calendar, id: Long, showToast: Boolean) {

@@ -15,7 +15,7 @@ object ReceiverData {
 
             const val MAIN = "${PREFIX}_MAIN"
             const val NOTE = "${PREFIX}_NOTE"
-            const val BIND = "${PREFIX}_BIND"
+            const val ETERNAL = "${PREFIX}_BIND"
         }
     }
 
@@ -28,8 +28,8 @@ object ReceiverData {
             const val UPDATE_ALARM = "${PREFIX}_UPDATE_ALARM"
         }
 
-        @StringDef(Bind.NOTIFY_NOTES, Bind.CANCEL_NOTE, Bind.NOTIFY_INFO)
-        annotation class Bind {
+        @StringDef(Eternal.NOTIFY_NOTES, Eternal.CANCEL_NOTE, Eternal.NOTIFY_INFO)
+        annotation class Eternal {
             companion object {
                 const val NOTIFY_NOTES = "${PREFIX}_NOTIFY_ALL"
                 const val CANCEL_NOTE = "${PREFIX}_CANCEL_NOTE"

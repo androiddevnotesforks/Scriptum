@@ -12,15 +12,12 @@ import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.FragmentNotesBinding
 import sgtmelon.scriptum.domain.model.annotation.Options
-import sgtmelon.scriptum.domain.model.data.IntentData.Note
-import sgtmelon.scriptum.domain.model.data.ReceiverData.Command
-import sgtmelon.scriptum.domain.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.state.OpenState
 import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.presentation.adapter.NoteAdapter
+import sgtmelon.scriptum.presentation.control.broadcast.BroadcastControl
 import sgtmelon.scriptum.presentation.control.system.AlarmControl
-import sgtmelon.scriptum.presentation.control.system.BindControl
 import sgtmelon.scriptum.presentation.control.system.ClipboardControl
 import sgtmelon.scriptum.presentation.control.system.callback.IClipboardControl
 import sgtmelon.scriptum.presentation.factory.DialogFactory
@@ -52,7 +49,7 @@ class NotesFragment : ParentFragment(),
     @Inject internal lateinit var viewModel: INotesViewModel
 
     private val alarmControl by lazy { AlarmControl[context] }
-    private val bindControl by lazy { BindControl[null] }
+    private val broadcastControl by lazy { BroadcastControl[context] }
     private val clipboardControl: IClipboardControl by lazy { ClipboardControl(context) }
 
     private val openState get() = callback?.openState
@@ -99,7 +96,7 @@ class NotesFragment : ParentFragment(),
         super.onViewCreated(view, savedInstanceState)
 
         alarmControl.initLazy()
-        bindControl.initLazy()
+        broadcastControl.initLazy()
         clipboardControl.initLazy()
 
         viewModel.onSetup()
@@ -296,17 +293,11 @@ class NotesFragment : ParentFragment(),
 
     //region Broadcast callback
 
-    override fun sendNotifyNotesBroadcast() {
-        context?.sendTo(Filter.BIND, Command.Bind.NOTIFY_NOTES)
-    }
+    override fun sendNotifyNotesBroadcast() = broadcastControl.sendNotifyNotesBind()
 
-    override fun sendCancelNoteBroadcast(id: Long) {
-        context?.sendTo(Filter.BIND, Command.Bind.CANCEL_NOTE) { putExtra(Note.Intent.ID, id) }
-    }
+    override fun sendCancelNoteBroadcast(id: Long) = broadcastControl.sendCancelNoteBind(id)
 
-    override fun sendNotifyInfoBroadcast(count: Int?) {
-        context?.sendTo(Filter.BIND, Command.Bind.NOTIFY_INFO)
-    }
+    override fun sendNotifyInfoBroadcast(count: Int?) = broadcastControl.sendNotifyInfoBind(count)
 
     //endregion
 

@@ -73,7 +73,7 @@ object IntentData {
         }
     }
 
-    object Bind {
+    object Eternal {
 
         @StringDef(Intent.COUNT)
         annotation class Intent {

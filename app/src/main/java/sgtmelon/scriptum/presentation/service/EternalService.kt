@@ -15,7 +15,7 @@ import sgtmelon.scriptum.extension.getAlarmService
 import sgtmelon.scriptum.extension.initLazy
 import sgtmelon.scriptum.presentation.control.system.AlarmControl
 import sgtmelon.scriptum.presentation.control.system.BindControl
-import sgtmelon.scriptum.presentation.receiver.eternal.BindEternalReceiver
+import sgtmelon.scriptum.presentation.receiver.EternalReceiver
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.service.presenter.IEternalPresenter
 import java.util.*
@@ -32,7 +32,7 @@ class EternalService : Service(), IEternalService {
     private val alarmControl by lazy { AlarmControl[this] }
     private val bindControl by lazy { BindControl[this] }
 
-    private val bindReceiver by lazy { BindEternalReceiver[presenter] }
+    private val eternalReceiver by lazy { EternalReceiver[presenter] }
 
     override fun onBind(intent: Intent?): IBinder? = null
 
@@ -56,7 +56,7 @@ class EternalService : Service(), IEternalService {
         }
         startForeground(Factory.Service.ID, Factory.Service[this])
 
-        registerReceiver(bindReceiver, IntentFilter(ReceiverData.Filter.BIND))
+        registerReceiver(eternalReceiver, IntentFilter(ReceiverData.Filter.ETERNAL))
 
         alarmControl.initLazy()
         bindControl.initLazy()
@@ -69,7 +69,7 @@ class EternalService : Service(), IEternalService {
          * Need call before "super".
          */
         restartService()
-        unregisterReceiver(bindReceiver)
+        unregisterReceiver(eternalReceiver)
 
         super.onDestroy()
 

@@ -6,7 +6,7 @@ import androidx.annotation.StringRes
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.control.system.AlarmControl
 import sgtmelon.scriptum.presentation.control.system.ClipboardControl
-import sgtmelon.scriptum.presentation.receiver.eternal.BindEternalReceiver
+import sgtmelon.scriptum.presentation.receiver.EternalReceiver
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.NotesFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.main.INotesViewModel
 import java.util.*
@@ -14,7 +14,7 @@ import java.util.*
 /**
  * Interface for communication [INotesViewModel] with [NotesFragment].
  */
-interface INotesFragment : BindEternalReceiver.Broadcast,
+interface INotesFragment : EternalReceiver.Bridge.Bind,
     AlarmControl.Bridge.Full,
     ClipboardControl.Bridge {
 

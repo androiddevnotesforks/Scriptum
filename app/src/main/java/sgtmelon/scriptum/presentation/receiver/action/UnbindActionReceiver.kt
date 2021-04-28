@@ -8,10 +8,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.domain.model.data.IntentData.Note
-import sgtmelon.scriptum.domain.model.data.ReceiverData.Command
-import sgtmelon.scriptum.domain.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.extension.sendTo
+import sgtmelon.scriptum.presentation.control.broadcast.BroadcastControl
 import sgtmelon.scriptum.presentation.control.system.BindControl
 
 /**
@@ -27,11 +25,10 @@ class UnbindActionReceiver : BroadcastReceiver() {
         if (id == Note.Default.ID) return
 
         GlobalScope.launch(Dispatchers.IO) {
-            context.apply {
-                sendTo(Filter.BIND, Command.Bind.CANCEL_NOTE) { putExtra(Note.Intent.ID, id) }
-                sendTo(Filter.MAIN, Command.UNBIND_NOTE) { putExtra(Note.Intent.ID, id) }
-                sendTo(Filter.NOTE, Command.UNBIND_NOTE) { putExtra(Note.Intent.ID, id) }
-            }
+            val broadcastControl = BroadcastControl[context]
+
+            broadcastControl.sendCancelNoteBind(id)
+            broadcastControl.sendUnbindNoteUI(id)
         }
     }
 

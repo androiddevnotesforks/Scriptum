@@ -71,12 +71,12 @@ class AlarmControl(private val context: Context?) : IAlarmControl {
     }
 
     companion object {
-        @RunPrivate var callback: IAlarmControl? = null
-
         @RunPrivate val intentList: MutableList<PendingIntent> = mutableListOf()
 
+        @RunPrivate var instance: IAlarmControl? = null
+
         operator fun get(context: Context?): IAlarmControl {
-            return callback ?: AlarmControl(context).also { callback = it }
+            return instance ?: AlarmControl(context).also { instance = it }
         }
     }
 
