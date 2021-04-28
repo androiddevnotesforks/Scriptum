@@ -5,7 +5,7 @@ import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.ParentRoomRepoTest
 import sgtmelon.scriptum.data.room.entity.NoteEntity
@@ -23,13 +23,16 @@ class BindRepoTest : ParentRoomRepoTest() {
         val id = Random.nextLong()
         val noteEntity = mockk<NoteEntity>()
 
-        every { noteEntity.isStatus = false } returns Unit
-
         coEvery { noteDao.get(id) } returns null
-        assertFalse(bindRepo.unbindNote(id))
+        bindRepo.unbindNote(id)
 
         coEvery { noteDao.get(id) } returns noteEntity
-        assertTrue(bindRepo.unbindNote(id))
+        every { noteEntity.isStatus } returns false
+        bindRepo.unbindNote(id)
+
+        every { noteEntity.isStatus } returns true
+        every { noteEntity.isStatus = false } returns Unit
+        bindRepo.unbindNote(id)
 
         coVerifySequence {
             roomProvider.openRoom()
@@ -37,6 +40,11 @@ class BindRepoTest : ParentRoomRepoTest() {
 
             roomProvider.openRoom()
             noteDao.get(id)
+            noteEntity.isStatus
+
+            roomProvider.openRoom()
+            noteDao.get(id)
+            noteEntity.isStatus
             noteEntity.isStatus = false
             noteDao.update(noteEntity)
         }
