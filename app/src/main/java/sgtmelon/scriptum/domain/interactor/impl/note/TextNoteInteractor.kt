@@ -78,7 +78,7 @@ class TextNoteInteractor(
     override suspend fun setDate(item: NoteItem.Text, calendar: Calendar) {
         alarmRepo.insertOrUpdate(item, calendar.getText())
 
-        runMain { callback?.setAlarm(item.id, calendar) }
+        runMain { callback?.setAlarm(item.id, calendar, true) }
     }
 
 

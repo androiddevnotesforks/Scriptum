@@ -108,12 +108,11 @@ class ViewModelModule {
     @ActivityScope
     fun provideRankViewModel(
         fragment: RankFragment,
-        interactor: IRankInteractor,
-        bindInteractor: IBindInteractor
+        interactor: IRankInteractor
     ): IRankViewModel {
         return ViewModelProvider(fragment).get(RankViewModel::class.java).apply {
             setCallback(fragment)
-            setInteractor(interactor, bindInteractor)
+            setInteractor(interactor)
         }
     }
 

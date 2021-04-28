@@ -14,16 +14,15 @@ import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.iconanim.IconBlockCallback
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.FragmentRankBinding
-import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RankItem
 import sgtmelon.scriptum.domain.model.state.OpenState
 import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.idling.AppIdlingResource
 import sgtmelon.scriptum.idling.IdlingTag
 import sgtmelon.scriptum.presentation.adapter.RankAdapter
+import sgtmelon.scriptum.presentation.control.broadcast.BroadcastControl
 import sgtmelon.scriptum.presentation.control.snackbar.SnackbarCallback
 import sgtmelon.scriptum.presentation.control.snackbar.SnackbarControl
-import sgtmelon.scriptum.presentation.control.system.BindControl
 import sgtmelon.scriptum.presentation.control.touch.RankTouchControl
 import sgtmelon.scriptum.presentation.factory.DialogFactory
 import sgtmelon.scriptum.presentation.listener.ItemListener
@@ -47,7 +46,7 @@ class RankFragment : ParentFragment(), IRankFragment, MainScreenReceiver.BindCal
 
     @Inject internal lateinit var viewModel: IRankViewModel
 
-    private val bindControl by lazy { BindControl[null] }
+    private val broadcastControl by lazy { BroadcastControl[context] }
 
     override val openState get() = callback?.openState
     private val renameDialog by lazy { DialogFactory.Main(context, fm).getRenameDialog() }
@@ -115,7 +114,7 @@ class RankFragment : ParentFragment(), IRankFragment, MainScreenReceiver.BindCal
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        bindControl.initLazy()
+        broadcastControl.initLazy()
 
         /**
          * Inside [savedInstanceState] saved snackbar data.
@@ -384,9 +383,20 @@ class RankFragment : ParentFragment(), IRankFragment, MainScreenReceiver.BindCal
         }
     }
 
+    //region Broadcast functions
 
-    override fun notifyNotesBind(itemList: List<NoteItem>, rankIdVisibleList: List<Long>) {
-        bindControl.notifyNotes(itemList, rankIdVisibleList)
-    }
+    override fun sendNotifyNotesBroadcast() = broadcastControl.sendNotifyNotesBind()
+
+    /**
+     * Not used here.
+     */
+    override fun sendCancelNoteBroadcast(id: Long) = Unit
+
+    /**
+     * Not used here.
+     */
+    override fun sendNotifyInfoBroadcast(count: Int?) = Unit
+
+    //endregion
 
 }

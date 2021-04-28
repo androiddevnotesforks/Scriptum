@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.data.IntentData.Snackbar
@@ -25,11 +24,9 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         IRankViewModel {
 
     private lateinit var interactor: IRankInteractor
-    private lateinit var bindInteractor: IBindInteractor
 
-    fun setInteractor(interactor: IRankInteractor, bindInteractor: IBindInteractor) {
+    fun setInteractor(interactor: IRankInteractor) {
         this.interactor = interactor
-        this.bindInteractor = bindInteractor
     }
 
 
@@ -194,7 +191,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
 
         viewModelScope.launchBack {
             interactor.update(item)
-            bindInteractor.notifyNoteBind(callback)
+            callback?.sendNotifyNotesBroadcast()
         }
     }
 
@@ -207,7 +204,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
 
         viewModelScope.launchBack {
             interactor.update(itemList)
-            bindInteractor.notifyNoteBind(callback)
+            callback?.sendNotifyNotesBroadcast()
         }
     }
 
@@ -228,7 +225,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         viewModelScope.launchBack {
             interactor.delete(item)
             interactor.updatePosition(itemList, noteIdList)
-            bindInteractor.notifyNoteBind(callback)
+            callback?.sendNotifyNotesBroadcast()
         }
     }
 
@@ -286,6 +283,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
             }
 
             callback?.setList(itemList)
+            callback?.sendNotifyNotesBroadcast()
         }
     }
 

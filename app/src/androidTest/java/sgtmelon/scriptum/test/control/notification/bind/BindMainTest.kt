@@ -99,6 +99,13 @@ class BindMainTest : ParentNotificationTest() {
         }
     }
 
+    /**
+     * Update binds on snackbar undo
+     */
+    @Test fun rankUndo() {
+        TODO()
+    }
+
     private fun insertRankWithStatusNote(): NoteItem {
         val noteItem = with(data) {
             return@with if (Random.nextBoolean()) {
