@@ -99,7 +99,7 @@ class EternalService : Service(), IEternalService {
 
     //region Bridge callback
 
-    override fun setAlarm(calendar: Calendar, id: Long, showToast: Boolean) {
+    override fun setAlarm(id: Long, calendar: Calendar, showToast: Boolean) {
         alarmControl.set(calendar, id, showToast)
     }
 

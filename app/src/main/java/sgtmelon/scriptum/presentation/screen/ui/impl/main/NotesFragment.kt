@@ -17,7 +17,6 @@ import sgtmelon.scriptum.domain.model.state.OpenState
 import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.presentation.adapter.NoteAdapter
 import sgtmelon.scriptum.presentation.control.broadcast.BroadcastControl
-import sgtmelon.scriptum.presentation.control.system.AlarmControl
 import sgtmelon.scriptum.presentation.control.system.ClipboardControl
 import sgtmelon.scriptum.presentation.control.system.callback.IClipboardControl
 import sgtmelon.scriptum.presentation.factory.DialogFactory
@@ -48,7 +47,6 @@ class NotesFragment : ParentFragment(),
 
     @Inject internal lateinit var viewModel: INotesViewModel
 
-    private val alarmControl by lazy { AlarmControl[context] }
     private val broadcastControl by lazy { BroadcastControl[context] }
     private val clipboardControl: IClipboardControl by lazy { ClipboardControl(context) }
 
@@ -95,7 +93,6 @@ class NotesFragment : ParentFragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        alarmControl.initLazy()
         broadcastControl.initLazy()
         clipboardControl.initLazy()
 
@@ -293,6 +290,12 @@ class NotesFragment : ParentFragment(),
 
     //region Broadcast callback
 
+    override fun sendSetAlarmBroadcast(id: Long, calendar: Calendar, showToast: Boolean) {
+        broadcastControl.sendSetAlarm(id, calendar, showToast)
+    }
+
+    override fun sendCancelAlarmBroadcast(id: Long) = broadcastControl.sendCancelAlarm(id)
+
     override fun sendNotifyNotesBroadcast() = broadcastControl.sendNotifyNotesBind()
 
     override fun sendCancelNoteBroadcast(id: Long) = broadcastControl.sendCancelNoteBind(id)
@@ -301,19 +304,10 @@ class NotesFragment : ParentFragment(),
 
     //endregion
 
-    // TODO remove/optimizatio
-
-    override fun cancelAlarm(id: Long) = alarmControl.cancel(id)
-
-    override fun setAlarm(calendar: Calendar, id: Long, showToast: Boolean) {
-        alarmControl.set(calendar, id, showToast)
-    }
-
     override fun copyClipboard(text: String) = clipboardControl.copy(text)
 
 
     companion object {
         const val FAB_STANDSTILL_TIME = 2000L
     }
-
 }

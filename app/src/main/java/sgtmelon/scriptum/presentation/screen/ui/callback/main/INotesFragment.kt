@@ -4,7 +4,6 @@ package sgtmelon.scriptum.presentation.screen.ui.callback.main
 import androidx.annotation.ArrayRes
 import androidx.annotation.StringRes
 import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.presentation.control.system.AlarmControl
 import sgtmelon.scriptum.presentation.control.system.ClipboardControl
 import sgtmelon.scriptum.presentation.receiver.EternalReceiver
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.NotesFragment
@@ -14,8 +13,8 @@ import java.util.*
 /**
  * Interface for communication [INotesViewModel] with [NotesFragment].
  */
-interface INotesFragment : EternalReceiver.Bridge.Bind,
-    AlarmControl.Bridge.Full,
+interface INotesFragment : EternalReceiver.Bridge.Alarm,
+    EternalReceiver.Bridge.Bind,
     ClipboardControl.Bridge {
 
     fun setupToolbar()

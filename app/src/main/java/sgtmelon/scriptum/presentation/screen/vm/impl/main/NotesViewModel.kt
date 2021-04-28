@@ -180,7 +180,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
         viewModelScope.launchBack {
             interactor.deleteNote(item)
 
-            runMain { callback?.cancelAlarm(item.id) }
+            callback?.sendCancelAlarmBroadcast(item.id)
             callback?.sendCancelNoteBroadcast(item.id)
             callback?.sendNotifyInfoBroadcast()
         }
@@ -195,16 +195,16 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
     }
 
     override fun onResultDateDialogClear(p: Int) {
-        val noteItem = itemList.getOrNull(p) ?: return
+        val item = itemList.getOrNull(p) ?: return
 
-        noteItem.clearAlarm()
+        item.clearAlarm()
 
         callback?.notifyItemChanged(itemList, p)
 
         viewModelScope.launchBack {
-            interactor.clearDate(noteItem)
+            interactor.clearDate(item)
 
-            runMain { callback?.cancelAlarm(noteItem.id) }
+            callback?.sendCancelAlarmBroadcast(item.id)
             callback?.sendNotifyInfoBroadcast()
         }
     }
@@ -218,7 +218,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
             runBack { interactor.setDate(item, calendar) }
             callback?.notifyItemChanged(itemList, p)
 
-            runMain { callback?.setAlarm(calendar, item.id) }
+            callback?.sendSetAlarmBroadcast(item.id, calendar)
             callback?.sendNotifyInfoBroadcast()
         }
     }

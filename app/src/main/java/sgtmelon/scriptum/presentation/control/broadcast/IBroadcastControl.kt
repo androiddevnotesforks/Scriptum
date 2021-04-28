@@ -23,7 +23,7 @@ interface IBroadcastControl {
 
     //region Alarm functions
 
-    fun sendSetAlarm(calendar: Calendar, id: Long, showToast: Boolean)
+    fun sendSetAlarm(id: Long, calendar: Calendar, showToast: Boolean)
 
     fun sendCancelAlarm(id: Long)
 

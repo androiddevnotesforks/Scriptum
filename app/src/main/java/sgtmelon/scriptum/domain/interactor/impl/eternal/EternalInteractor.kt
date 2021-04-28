@@ -38,7 +38,7 @@ class EternalInteractor(
                 runMain { callback?.cancelAlarm(id) }
                 alarmRepo.delete(id)
             } else {
-                runMain { callback?.setAlarm(calendar, id, showToast = false) }
+                runMain { callback?.setAlarm(id, calendar, showToast = false) }
             }
         }
     }

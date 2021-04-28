@@ -28,9 +28,14 @@ object ReceiverData {
             const val UPDATE_ALARM = "${PREFIX}_UPDATE_ALARM"
         }
 
-        @StringDef(Eternal.NOTIFY_NOTES, Eternal.CANCEL_NOTE, Eternal.NOTIFY_INFO)
+        @StringDef(
+            Eternal.SET_ALARM, Eternal.CANCEL_ALARM,
+            Eternal.NOTIFY_NOTES, Eternal.CANCEL_NOTE, Eternal.NOTIFY_INFO
+        )
         annotation class Eternal {
             companion object {
+                const val SET_ALARM = "${PREFIX}_SET_ALARM"
+                const val CANCEL_ALARM = "${PREFIX}_CANCEL_ALARM"
                 const val NOTIFY_NOTES = "${PREFIX}_NOTIFY_ALL"
                 const val CANCEL_NOTE = "${PREFIX}_CANCEL_NOTE"
                 const val NOTIFY_INFO = "${PREFIX}_NOTIFY_INFO"

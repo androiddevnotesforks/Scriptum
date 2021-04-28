@@ -108,7 +108,7 @@ class RollNoteInteractor(
     override suspend fun setDate(item: NoteItem.Roll, calendar: Calendar) {
         alarmRepo.insertOrUpdate(item, calendar.getText())
 
-        runMain { callback?.setAlarm(calendar, item.id) }
+        runMain { callback?.setAlarm(item.id, calendar) }
     }
 
 

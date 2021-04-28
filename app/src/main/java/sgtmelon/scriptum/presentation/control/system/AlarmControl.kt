@@ -62,7 +62,7 @@ class AlarmControl(private val context: Context?) : IAlarmControl {
         interface Full : Set, Cancel
 
         interface Set {
-            @MainThread fun setAlarm(calendar: Calendar, id: Long, showToast: Boolean = true)
+            @MainThread fun setAlarm(id: Long, calendar: Calendar, showToast: Boolean = true)
         }
 
         interface Cancel {

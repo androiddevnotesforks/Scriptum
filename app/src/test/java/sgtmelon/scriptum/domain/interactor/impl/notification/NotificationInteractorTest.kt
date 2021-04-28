@@ -123,7 +123,7 @@ class NotificationInteractorTest : ParentInteractorTest() {
                 noteRepo.getItem(id, isOptimal = true)
                 date.getCalendarOrNull()
                 alarmRepo.insertOrUpdate(noteItem, date)
-                callback.setAlarm(calendar, id)
+                callback.setAlarm(id, calendar)
                 alarmRepo.getItem(id)
             }
         }

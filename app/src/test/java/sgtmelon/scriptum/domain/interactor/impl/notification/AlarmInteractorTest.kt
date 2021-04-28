@@ -114,7 +114,7 @@ class AlarmInteractorTest : ParentInteractorTest() {
             alarmRepo.insertOrUpdate(item, calendarText)
             spyInteractor.callback
             item.id
-            callback.setAlarm(calendar, id)
+            callback.setAlarm(id, calendar)
         }
     }
 

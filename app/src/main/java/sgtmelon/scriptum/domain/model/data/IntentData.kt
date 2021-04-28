@@ -81,12 +81,15 @@ object IntentData {
                 private const val PREFIX = "INTENT_BIND"
 
                 const val COUNT = "${PREFIX}_COUNT"
+                const val DATE = "${PREFIX}_DATE"
+                const val TOAST = "${PREFIX}_TOAST"
             }
         }
 
         annotation class Default {
             companion object {
                 const val COUNT = -1
+                const val TOAST = true
             }
         }
     }

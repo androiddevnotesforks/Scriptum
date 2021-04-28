@@ -1118,7 +1118,7 @@ object FastTest {
                 calendar.getText()
                 alarmRepo.insertOrUpdate(item, date)
                 item.id
-                callback.setAlarm(calendar, id)
+                callback.setAlarm(id, calendar)
             }
         }
     }

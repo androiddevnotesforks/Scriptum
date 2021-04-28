@@ -3,6 +3,7 @@ package sgtmelon.scriptum.presentation.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import sgtmelon.extension.getCalendarOrNull
 import sgtmelon.scriptum.domain.model.data.IntentData.Eternal
 import sgtmelon.scriptum.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.domain.model.data.ReceiverData.Command
@@ -22,6 +23,24 @@ class EternalReceiver : BroadcastReceiver() {
         if (intent == null) return
 
         when (intent.getStringExtra(Values.COMMAND)) {
+            Command.Eternal.SET_ALARM -> {
+                val id = intent.getLongExtra(Note.Intent.ID, Note.Default.ID)
+                val date = intent.getStringExtra(Eternal.Intent.DATE)
+                val showToast = intent.getBooleanExtra(Eternal.Intent.TOAST, Eternal.Default.TOAST)
+
+                val calendar = date?.getCalendarOrNull()
+
+                if (id == Note.Default.ID || calendar == null) return
+
+                callback?.setAlarm(id, calendar, showToast)
+            }
+            Command.Eternal.CANCEL_ALARM -> {
+                val id = intent.getLongExtra(Note.Intent.ID, Note.Default.ID)
+
+                if (id == Note.Default.ID) return
+
+                callback?.cancelAlarm(id)
+            }
             Command.Eternal.NOTIFY_NOTES -> callback?.notifyAllNotes()
             Command.Eternal.CANCEL_NOTE -> {
                 val id = intent.getLongExtra(Note.Intent.ID, Note.Default.ID)
@@ -41,7 +60,13 @@ class EternalReceiver : BroadcastReceiver() {
     }
 
     interface Callback {
+
+        fun setAlarm(id: Long, calendar: Calendar, showToast: Boolean)
+
+        fun cancelAlarm(id: Long)
+
         fun notifyAllNotes()
+
         fun cancelNote(id: Long)
 
         /**
@@ -52,6 +77,11 @@ class EternalReceiver : BroadcastReceiver() {
 
     interface Bridge {
 
+        interface Alarm {
+            fun sendSetAlarmBroadcast(id: Long, calendar: Calendar, showToast: Boolean = true)
+            fun sendCancelAlarmBroadcast(id: Long)
+        }
+
         interface Bind {
             fun sendNotifyNotesBroadcast()
             fun sendCancelNoteBroadcast(id: Long)
@@ -60,11 +90,6 @@ class EternalReceiver : BroadcastReceiver() {
              * If [count] == null it means what need take value from database.
              */
             fun sendNotifyInfoBroadcast(count: Int? = null)
-        }
-
-        interface Alarm {
-            fun sendSetAlarmBroadcast(calendar: Calendar, id: Long, showToast: Boolean = true)
-            fun sendCancelAlarmBroadcast(id: Long)
         }
     }
 

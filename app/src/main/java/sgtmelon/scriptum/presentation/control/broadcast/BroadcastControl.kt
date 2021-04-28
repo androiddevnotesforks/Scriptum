@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.presentation.control.broadcast
 
 import android.content.Context
+import sgtmelon.extension.getText
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.data.IntentData
 import sgtmelon.scriptum.domain.model.data.ReceiverData.Command
@@ -52,12 +53,18 @@ class BroadcastControl(private val context: Context?) : IBroadcastControl {
 
     //region Alarm functions
 
-    override fun sendSetAlarm(calendar: Calendar, id: Long, showToast: Boolean) {
-        TODO("Not yet implemented")
+    override fun sendSetAlarm(id: Long, calendar: Calendar, showToast: Boolean) {
+        context?.sendTo(Filter.ETERNAL, Command.Eternal.SET_ALARM) {
+            putExtra(IntentData.Note.Intent.ID, id)
+            putExtra(IntentData.Eternal.Intent.DATE, calendar.getText())
+            putExtra(IntentData.Eternal.Intent.TOAST, showToast)
+        }
     }
 
     override fun sendCancelAlarm(id: Long) {
-        TODO("Not yet implemented")
+        context?.sendTo(Filter.ETERNAL, Command.Eternal.CANCEL_ALARM) {
+            putExtra(IntentData.Note.Intent.ID, id)
+        }
     }
 
     //endregion
