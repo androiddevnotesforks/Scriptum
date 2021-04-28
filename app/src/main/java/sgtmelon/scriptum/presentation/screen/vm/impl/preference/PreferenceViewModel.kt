@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.interactor.callback.IBackupInteractor
-import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.domain.interactor.callback.preference.IPreferenceInteractor
 import sgtmelon.scriptum.domain.model.annotation.Color
@@ -33,18 +32,15 @@ class PreferenceViewModel(
     private lateinit var interactor: IPreferenceInteractor
     private lateinit var signalInteractor: ISignalInteractor
     private lateinit var backupInteractor: IBackupInteractor
-    private lateinit var bindInteractor: IBindInteractor
 
     fun setInteractor(
         interactor: IPreferenceInteractor,
         signalInteractor: ISignalInteractor,
-        backupInteractor: IBackupInteractor,
-        bindInteractor: IBindInteractor
+        backupInteractor: IBackupInteractor
     ) {
         this.interactor = interactor
         this.signalInteractor = signalInteractor
         this.backupInteractor = backupInteractor
-        this.bindInteractor = bindInteractor
     }
 
 
@@ -216,10 +212,9 @@ class PreferenceViewModel(
 
             if (result == ImportResult.Error) return@launch
 
-            runBack {
-                bindInteractor.notifyNoteBind(callback)
-                bindInteractor.notifyInfoBind(callback)
-            }
+            // TODO update alarm binds (all) after adding new notes
+            callback?.sendNotifyNotesBroadcast()
+            callback?.sendNotifyInfoBroadcast()
         }
     }
 
@@ -230,6 +225,7 @@ class PreferenceViewModel(
 
     override fun onResultNoteSort(@Sort value: Int) {
         callback?.updateSortSummary(interactor.updateSort(value))
+        callback?.sendNotifyNotesBroadcast()
     }
 
     override fun onClickNoteColor() {

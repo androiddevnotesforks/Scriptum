@@ -130,4 +130,19 @@ class BindMainTest : ParentNotificationTest() {
         return noteItem
     }
 
+
+    /**
+     * Notify notes order in status bar after change sort
+     */
+    @Test fun preferenceChangeSort() {
+        TODO()
+    }
+
+    /**
+     * Notify after adding notes from backup file
+     */
+    @Test fun preferenceBackupResult() {
+        TODO()
+    }
+
 }

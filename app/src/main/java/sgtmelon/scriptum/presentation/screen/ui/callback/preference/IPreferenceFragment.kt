@@ -5,14 +5,14 @@ import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Repeat
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.Theme
-import sgtmelon.scriptum.presentation.control.system.BindControl
+import sgtmelon.scriptum.presentation.receiver.EternalReceiver
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IPreferenceViewModel
 
 /**
  * Interface for communication [IPreferenceViewModel] with [PreferenceFragment].
  */
-interface IPreferenceFragment : BindControl.NoteBridge.NotifyAll, BindControl.InfoBridge {
+interface IPreferenceFragment : EternalReceiver.Bridge.Bind {
 
     fun showToast(@StringRes stringId: Int)
 

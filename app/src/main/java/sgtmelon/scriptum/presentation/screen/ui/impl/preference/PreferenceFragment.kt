@@ -12,12 +12,11 @@ import androidx.preference.Preference
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.*
-import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.key.PermissionResult
 import sgtmelon.scriptum.domain.model.state.OpenState
 import sgtmelon.scriptum.domain.model.state.PermissionState
 import sgtmelon.scriptum.extension.*
-import sgtmelon.scriptum.presentation.control.system.BindControl
+import sgtmelon.scriptum.presentation.control.broadcast.BroadcastControl
 import sgtmelon.scriptum.presentation.control.system.MelodyControl
 import sgtmelon.scriptum.presentation.control.system.callback.IMelodyControl
 import sgtmelon.scriptum.presentation.factory.DialogFactory
@@ -91,7 +90,7 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
 
     //endregion
 
-    private val bindControl by lazy { BindControl[null] }
+    private val broadcastControl by lazy { BroadcastControl[context] }
     private val melodyControl: IMelodyControl by lazy { MelodyControl(context) }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -104,7 +103,7 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        bindControl.initLazy()
+        broadcastControl.initLazy()
         melodyControl.initLazy()
 
         openState.get(savedInstanceState)
@@ -520,11 +519,17 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
         savePeriodDialog.setArguments(value).show(fm, DialogFactory.Preference.SAVE_PERIOD)
     }
 
+    //region Broadcast functions
 
-    override fun notifyNotesBind(itemList: List<NoteItem>, rankIdVisibleList: List<Long>) {
-        bindControl.notifyNotes(itemList, rankIdVisibleList)
-    }
+    override fun sendNotifyNotesBroadcast() = broadcastControl.sendNotifyNotesBind()
 
-    override fun notifyInfoBind(count: Int) = bindControl.notifyInfo(count)
+    /**
+     * Not used here.
+     */
+    override fun sendCancelNoteBroadcast(id: Long) = Unit
+
+    override fun sendNotifyInfoBroadcast(count: Int?) = broadcastControl.sendNotifyInfoBind(count)
+
+    //endregion
 
 }

@@ -216,12 +216,11 @@ class ViewModelModule {
         fragment: PreferenceFragment,
         interactor: IPreferenceInteractor,
         signalInteractor: ISignalInteractor,
-        backupInteractor: IBackupInteractor,
-        bindInteractor: IBindInteractor
+        backupInteractor: IBackupInteractor
     ): IPreferenceViewModel {
         return ViewModelProvider(fragment).get(PreferenceViewModel::class.java).apply {
             setCallback(fragment)
-            setInteractor(interactor, signalInteractor, backupInteractor, bindInteractor)
+            setInteractor(interactor, signalInteractor, backupInteractor)
         }
     }
 
