@@ -379,7 +379,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.noteItem
             spyViewModel.noteState
             noteState.isEdit
-            interactor.setVisible(noteItem, !isEdit)
+            interactor.setVisible(noteItem)
         }
     }
 
@@ -1685,7 +1685,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             parentCallback.onUpdateNoteId(id)
             spyViewModel.interactor
             spyViewModel.noteItem
-            interactor.setVisible(noteItem, updateBind = false)
+            interactor.setVisible(noteItem)
             spyViewModel.callback
             spyViewModel.getAdapterList()
             callback.setList(adapterList)

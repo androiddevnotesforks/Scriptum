@@ -24,7 +24,6 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.InputAction
-import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
@@ -35,11 +34,10 @@ import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.idling.AppIdlingResource
 import sgtmelon.scriptum.idling.IdlingTag
 import sgtmelon.scriptum.presentation.adapter.RollAdapter
+import sgtmelon.scriptum.presentation.control.broadcast.BroadcastControl
 import sgtmelon.scriptum.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.presentation.control.note.input.watcher.InputTextWatcher
-import sgtmelon.scriptum.presentation.control.system.AlarmControl
-import sgtmelon.scriptum.presentation.control.system.BindControl
 import sgtmelon.scriptum.presentation.control.toolbar.icon.NavigationIconControl
 import sgtmelon.scriptum.presentation.control.toolbar.icon.VisibleIconControl
 import sgtmelon.scriptum.presentation.control.toolbar.tint.IToolbarTintControl
@@ -68,8 +66,7 @@ class RollNoteFragment : ParentFragment(),
 
     @Inject internal lateinit var viewModel: IRollNoteViewModel
 
-    private val alarmControl by lazy { AlarmControl[context] }
-    private val bindControl by lazy { BindControl[null] }
+    private val broadcastControl by lazy { BroadcastControl[context] }
 
     private var toolbarTintControl: IToolbarTintControl? = null
     private var navigationIconControl: IconChangeCallback? = null
@@ -144,8 +141,7 @@ class RollNoteFragment : ParentFragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        alarmControl.initLazy()
-        bindControl.initLazy()
+        broadcastControl.initLazy()
 
         openState.get(savedInstanceState)
 
@@ -571,20 +567,21 @@ class RollNoteFragment : ParentFragment(),
         context?.showToast(text)
     }
 
+    //region Broadcast functions
 
-    override fun setAlarm(id: Long, calendar: Calendar, showToast: Boolean) {
-        alarmControl.set(calendar, id, showToast)
+    override fun sendSetAlarmBroadcast(id: Long, calendar: Calendar, showToast: Boolean) {
+        broadcastControl.sendSetAlarm(id, calendar, showToast)
     }
 
-    override fun cancelAlarm(id: Long) = alarmControl.cancel(id)
+    override fun sendCancelAlarmBroadcast(id: Long) = broadcastControl.sendCancelAlarm(id)
 
-    override fun notifyNoteBind(item: NoteItem, rankIdVisibleList: List<Long>, @Sort sort: Int) {
-        bindControl.notifyNote(item, rankIdVisibleList, sort)
-    }
+    override fun sendNotifyNotesBroadcast() = broadcastControl.sendNotifyNotesBind()
 
-    override fun cancelNoteBind(id: Long) = bindControl.cancelNote(id)
+    override fun sendCancelNoteBroadcast(id: Long) = broadcastControl.sendCancelNoteBind(id)
 
-    override fun notifyInfoBind(count: Int) = bindControl.notifyInfo(count)
+    override fun sendNotifyInfoBroadcast(count: Int?) = broadcastControl.sendNotifyInfoBind(count)
+
+    //endregion
 
     companion object {
         operator fun get(id: Long, @Color color: Int) = RollNoteFragment().apply {
@@ -594,5 +591,4 @@ class RollNoteFragment : ParentFragment(),
             }
         }
     }
-
 }

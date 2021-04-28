@@ -567,7 +567,7 @@ object FastTest {
                 noteState.isBin = false
                 noteItem.onRestore()
                 spyViewModel.setupEditMode(isEdit = false)
-                interactor.updateNote(noteItem, updateBind = false)
+                interactor.updateNote(noteItem)
             }
         }
 
@@ -878,7 +878,7 @@ object FastTest {
                 verifyDeepCopy(noteItem)
                 noteState.isEdit
                 callback.onBindingEdit(noteItem, isEditMode = false)
-                interactor.updateNote(noteItem, updateBind = true)
+                interactor.updateNote(noteItem)
             }
 
             assertEquals(noteItem, viewModel.restoreItem)

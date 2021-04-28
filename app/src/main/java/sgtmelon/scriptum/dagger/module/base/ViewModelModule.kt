@@ -5,7 +5,6 @@ import dagger.Module
 import dagger.Provides
 import sgtmelon.scriptum.dagger.ActivityScope
 import sgtmelon.scriptum.domain.interactor.callback.IBackupInteractor
-import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.IIntroInteractor
 import sgtmelon.scriptum.domain.interactor.callback.ISplashInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.IBinInteractor
@@ -155,13 +154,12 @@ class ViewModelModule {
     @ActivityScope
     fun provideTextNoteViewModel(
         fragment: TextNoteFragment,
-        interactor: ITextNoteInteractor,
-        bindInteractor: IBindInteractor
+        interactor: ITextNoteInteractor
     ): ITextNoteViewModel {
         return ViewModelProvider(fragment).get(TextNoteViewModel::class.java).apply {
             setCallback(fragment)
             setParentCallback(fragment.context as? INoteConnector)
-            setInteractor(interactor, bindInteractor)
+            setInteractor(interactor)
             setSaveControl(fragment.resources, interactor)
         }
     }
@@ -171,13 +169,12 @@ class ViewModelModule {
     @ActivityScope
     fun provideRollNoteViewModel(
         fragment: RollNoteFragment,
-        interactor: IRollNoteInteractor,
-        bindInteractor: IBindInteractor
+        interactor: IRollNoteInteractor
     ): IRollNoteViewModel {
         return ViewModelProvider(fragment).get(RollNoteViewModel::class.java).apply {
             setCallback(fragment)
             setParentCallback(fragment.context as? INoteConnector)
-            setInteractor(interactor, bindInteractor)
+            setInteractor(interactor)
             setSaveControl(fragment.resources, interactor)
         }
     }

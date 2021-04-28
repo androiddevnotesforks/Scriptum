@@ -56,6 +56,8 @@ class TextNoteViewModel(application: Application) :
                 runBack { interactor.getItem(id) }?.let {
                     noteItem = it
                     restoreItem = it.deepCopy()
+
+                    callback?.sendNotifyNotesBroadcast()
                 } ?: run {
                     parentCallback?.finish()
                     return false
@@ -154,6 +156,8 @@ class TextNoteViewModel(application: Application) :
             id = noteItem.id
             parentCallback?.onUpdateNoteId(id)
         }
+
+        callback?.sendNotifyNotesBroadcast()
     }
 
     override fun setupEditMode(isEdit: Boolean) {

@@ -25,13 +25,6 @@ class NotesInteractor(
 ) : ParentInteractor(),
     INotesInteractor {
 
-    @RunPrivate var rankIdVisibleList: List<Long>? = null
-
-    @RunPrivate suspend fun getRankIdVisibleList(): List<Long> {
-        return rankIdVisibleList ?: rankRepo.getIdVisibleList().also { rankIdVisibleList = it }
-    }
-
-
     @Sort override val sort: Int get() = preferenceRepo.sort
 
 

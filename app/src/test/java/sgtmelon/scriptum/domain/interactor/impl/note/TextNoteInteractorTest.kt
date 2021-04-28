@@ -17,7 +17,6 @@ import sgtmelon.scriptum.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.getRandomSize
-import sgtmelon.scriptum.presentation.screen.ui.callback.note.IParentNoteBridge
 import kotlin.random.Random
 
 /**
@@ -189,16 +188,16 @@ class TextNoteInteractorTest : ParentInteractorTest() {
         val rankIdList = mockk<List<Long>>()
         val sort = Random.nextInt()
 
-        interactor.updateNote(item, updateBind = false)
+        interactor.updateNote(item)
 
         coEvery { spyInteractor.getRankIdVisibleList() } returns rankIdList
         every { preferenceRepo.sort } returns sort
-        spyInteractor.updateNote(item, updateBind = true)
+        spyInteractor.updateNote(item)
 
         coVerifySequence {
             noteRepo.updateNote(item)
 
-            spyInteractor.updateNote(item, updateBind = true)
+            spyInteractor.updateNote(item)
             noteRepo.updateNote(item)
             spyInteractor.getRankIdVisibleList()
             spyInteractor.callback

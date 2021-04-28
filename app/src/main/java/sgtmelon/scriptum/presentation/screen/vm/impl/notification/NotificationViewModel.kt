@@ -135,7 +135,9 @@ class NotificationViewModel(application: Application) :
 
         viewModelScope.launchBack {
             interactor.cancelNotification(item)
+
             callback?.sendCancelAlarmBroadcast(item.note.id)
+            callback?.sendNotifyInfoBroadcast(itemList.size)
         }
 
         callback?.apply {

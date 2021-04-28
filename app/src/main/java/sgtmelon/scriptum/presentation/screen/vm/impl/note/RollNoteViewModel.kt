@@ -72,6 +72,8 @@ class RollNoteViewModel(application: Application) :
                 runBack { interactor.getItem(id) }?.let {
                     noteItem = it
                     restoreItem = it.deepCopy()
+
+                    callback?.sendNotifyNotesBroadcast()
                 } ?: run {
                     parentCallback?.finish()
                     return false
@@ -140,7 +142,13 @@ class RollNoteViewModel(application: Application) :
          * Insert will happen inside [onMenuSave].
          */
         if (!noteState.isCreate) {
-            viewModelScope.launchBack { interactor.setVisible(noteItem, !noteState.isEdit) }
+            viewModelScope.launch {
+                runBack { interactor.setVisible(noteItem) }
+
+                if (!noteState.isEdit) {
+                    callback?.sendNotifyNotesBroadcast()
+                }
+            }
         }
     }
 
@@ -215,7 +223,11 @@ class RollNoteViewModel(application: Application) :
 
         with(noteItem) { callback?.updateProgress(getCheck(), list.size) }
 
-        viewModelScope.launchBack { interactor.updateRollCheck(noteItem, absolutePosition) }
+        viewModelScope.launch {
+            runBack { interactor.updateRollCheck(noteItem, absolutePosition) }
+
+            callback?.sendNotifyNotesBroadcast()
+        }
     }
 
     override fun onLongClickItemCheck() {
@@ -234,7 +246,11 @@ class RollNoteViewModel(application: Application) :
 
         if (!noteItem.isVisible) notifyListByVisible()
 
-        viewModelScope.launchBack { interactor.updateRollCheck(noteItem, isCheck) }
+        viewModelScope.launch {
+            runBack { interactor.updateRollCheck(noteItem, isCheck) }
+
+            callback?.sendNotifyNotesBroadcast()
+        }
     }
 
     //region Menu click
@@ -393,14 +409,13 @@ class RollNoteViewModel(application: Application) :
             /**
              * Need if [noteItem] isVisible changes wasn't set inside [onClickVisible] because of
              * not created note.
-             *
-             * Don't need update bind, because [interactor] already does it
-             * before in [onMenuSave] func.
              */
-            runBack { interactor.setVisible(noteItem, updateBind = false) }
+            runBack { interactor.setVisible(noteItem) }
         }
 
         callback?.setList(getAdapterList())
+
+        callback?.sendNotifyNotesBroadcast()
     }
 
     override fun setupEditMode(isEdit: Boolean) {

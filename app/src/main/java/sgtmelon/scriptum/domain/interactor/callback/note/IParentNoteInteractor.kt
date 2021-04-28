@@ -32,7 +32,7 @@ interface IParentNoteInteractor<N : NoteItem> : IParentInteractor, SaveControl.S
 
     suspend fun restoreNote(item: N)
 
-    suspend fun updateNote(item: N, updateBind: Boolean)
+    suspend fun updateNote(item: N)
 
     suspend fun clearNote(item: N)
 

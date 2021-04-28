@@ -8,7 +8,6 @@ import kotlinx.coroutines.launch
 import sgtmelon.extension.beforeNow
 import sgtmelon.extension.getCalendar
 import sgtmelon.scriptum.data.room.converter.type.StringConverter
-import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.note.IParentNoteInteractor
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.annotation.test.RunProtected
@@ -50,16 +49,15 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
     }
 
     @RunProtected lateinit var interactor: I
-    @RunProtected lateinit var bindInteractor: IBindInteractor
+        private set
 
     /**
      * Abstract because need setup callback but this class not final.
      */
     @RunProtected lateinit var saveControl: ISaveControl
 
-    fun setInteractor(interactor: I, bindInteractor: IBindInteractor) {
+    fun setInteractor(interactor: I) {
         this.interactor = interactor
-        this.bindInteractor = bindInteractor
     }
 
     /**
@@ -239,9 +237,11 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
     }
 
     override fun onResultDateDialogClear() {
-        viewModelScope.launchBack {
-            interactor.clearDate(noteItem)
-            bindInteractor.notifyInfoBind(callback)
+        viewModelScope.launch {
+            runBack { interactor.clearDate(noteItem) }
+
+            callback?.sendCancelAlarmBroadcast(noteItem.id)
+            callback?.sendNotifyInfoBroadcast()
         }
 
         noteItem.clearAlarm()
@@ -259,7 +259,8 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
 
             callback?.onBindingNote(noteItem)
 
-            runBack { bindInteractor.notifyInfoBind(callback) }
+            callback?.sendSetAlarmBroadcast(noteItem.id, calendar)
+            callback?.sendNotifyInfoBroadcast()
         }
     }
 
@@ -302,7 +303,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
         setupEditMode(isEdit = false)
         mayAnimateIcon = true
 
-        viewModelScope.launchBack { interactor.updateNote(noteItem, updateBind = false) }
+        viewModelScope.launchBack { interactor.updateNote(noteItem) }
     }
 
     override fun onMenuClear() {
@@ -394,7 +395,11 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
 
         callback?.onBindingEdit(noteItem, noteState.isEdit)
 
-        viewModelScope.launchBack { interactor.updateNote(noteItem, updateBind = true) }
+        viewModelScope.launch {
+            runBack { interactor.updateNote(noteItem) }
+
+            callback?.sendNotifyNotesBroadcast()
+        }
     }
 
     override fun onMenuConvert() {
@@ -407,10 +412,11 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
         if (callback?.isDialogOpen == true || noteState.isEdit) return
 
         viewModelScope.launch {
-            runBack {
-                interactor.deleteNote(noteItem)
-                bindInteractor.notifyInfoBind(callback)
-            }
+            runBack { interactor.deleteNote(noteItem) }
+
+            callback?.sendCancelAlarmBroadcast(noteItem.id)
+            callback?.sendCancelNoteBroadcast(noteItem.id)
+            callback?.sendNotifyInfoBroadcast()
 
             parentCallback?.finish()
         }

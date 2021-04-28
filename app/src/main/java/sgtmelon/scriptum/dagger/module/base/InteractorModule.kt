@@ -42,8 +42,6 @@ import sgtmelon.scriptum.presentation.control.file.IFileControl
 import sgtmelon.scriptum.presentation.control.system.callback.IRingtoneControl
 import sgtmelon.scriptum.presentation.provider.SummaryProvider
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.BinFragment
-import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
-import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.presentation.service.EternalService
 
 /**
@@ -154,25 +152,23 @@ class InteractorModule {
     @Provides
     @ActivityScope
     fun provideTextNoteInteractor(
-        fragment: TextNoteFragment,
         preferenceRepo: IPreferenceRepo,
         alarmRepo: IAlarmRepo,
         rankRepo: IRankRepo,
         noteRepo: INoteRepo
     ): ITextNoteInteractor {
-        return TextNoteInteractor(preferenceRepo, alarmRepo, rankRepo, noteRepo, fragment)
+        return TextNoteInteractor(preferenceRepo, alarmRepo, rankRepo, noteRepo)
     }
 
     @Provides
     @ActivityScope
     fun provideRollNoteInteractor(
-        fragment: RollNoteFragment,
         preferenceRepo: IPreferenceRepo,
         alarmRepo: IAlarmRepo,
         rankRepo: IRankRepo,
         noteRepo: INoteRepo
     ): IRollNoteInteractor {
-        return RollNoteInteractor(preferenceRepo, alarmRepo, rankRepo, noteRepo, fragment)
+        return RollNoteInteractor(preferenceRepo, alarmRepo, rankRepo, noteRepo)
     }
 
     //endregion

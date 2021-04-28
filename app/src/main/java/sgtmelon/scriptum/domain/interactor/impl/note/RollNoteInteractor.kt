@@ -8,11 +8,8 @@ import sgtmelon.scriptum.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.domain.model.annotation.Color
-import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.extension.runMain
 import sgtmelon.scriptum.presentation.control.note.save.SaveControl
-import sgtmelon.scriptum.presentation.screen.ui.callback.note.IParentNoteBridge
 import sgtmelon.scriptum.presentation.screen.vm.callback.note.IRollNoteViewModel
 import java.util.*
 
@@ -23,21 +20,9 @@ class RollNoteInteractor(
     private val preferenceRepo: IPreferenceRepo,
     private val alarmRepo: IAlarmRepo,
     private val rankRepo: IRankRepo,
-    private val noteRepo: INoteRepo,
-    @RunPrivate var callback: IParentNoteBridge?
+    private val noteRepo: INoteRepo
 ) : ParentInteractor(),
     IRollNoteInteractor {
-
-    // TODO make common functions with TextNoteInteractor
-
-    @RunPrivate var rankIdVisibleList: List<Long>? = null
-
-    @RunPrivate suspend fun getRankIdVisibleList(): List<Long> {
-        return rankIdVisibleList ?: rankRepo.getIdVisibleList().also { rankIdVisibleList = it }
-    }
-
-    override fun onDestroy(func: () -> Unit) = super.onDestroy { callback = null }
-
 
     override fun getSaveModel(): SaveControl.Model = with(preferenceRepo) {
         return@with SaveControl.Model(pauseSaveOn, autoSaveOn, savePeriod)
@@ -51,9 +36,6 @@ class RollNoteInteractor(
 
         if (noteItem !is NoteItem.Roll) return null
 
-        val rankIdList = getRankIdVisibleList()
-        runMain { callback?.notifyNoteBind(noteItem, rankIdList, preferenceRepo.sort) }
-
         return noteItem
     }
 
@@ -62,23 +44,13 @@ class RollNoteInteractor(
     }
 
 
-    override suspend fun setVisible(noteItem: NoteItem.Roll, updateBind: Boolean) {
-        noteRepo.setRollVisible(noteItem)
-
-        if (updateBind) {
-            val rankIdList = getRankIdVisibleList()
-            runMain { callback?.notifyNoteBind(noteItem, rankIdList, preferenceRepo.sort) }
-        }
-    }
+    override suspend fun setVisible(noteItem: NoteItem.Roll) = noteRepo.setRollVisible(noteItem)
 
     /**
      * Update single roll.
      */
     override suspend fun updateRollCheck(noteItem: NoteItem.Roll, p: Int) {
         noteRepo.updateRollCheck(noteItem, p)
-
-        val rankIdList = getRankIdVisibleList()
-        runMain { callback?.notifyNoteBind(noteItem, rankIdList, preferenceRepo.sort) }
     }
 
     /**
@@ -86,9 +58,6 @@ class RollNoteInteractor(
      */
     override suspend fun updateRollCheck(noteItem: NoteItem.Roll, isCheck: Boolean) {
         noteRepo.updateRollCheck(noteItem, isCheck)
-
-        val rankIdList = getRankIdVisibleList()
-        runMain { callback?.notifyNoteBind(noteItem, rankIdList, preferenceRepo.sort) }
     }
 
 
@@ -99,16 +68,10 @@ class RollNoteInteractor(
      */
     override suspend fun getDateList(): List<String> = alarmRepo.getList().map { it.alarm.date }
 
-    override suspend fun clearDate(item: NoteItem.Roll) {
-        alarmRepo.delete(item.id)
-
-        runMain { callback?.cancelAlarm(item.id) }
-    }
+    override suspend fun clearDate(item: NoteItem.Roll) = alarmRepo.delete(item.id)
 
     override suspend fun setDate(item: NoteItem.Roll, calendar: Calendar) {
         alarmRepo.insertOrUpdate(item, calendar.getText())
-
-        runMain { callback?.setAlarm(item.id, calendar, true) }
     }
 
 
@@ -118,31 +81,14 @@ class RollNoteInteractor(
 
     override suspend fun restoreNote(item: NoteItem.Roll) = noteRepo.restoreNote(item)
 
-    override suspend fun updateNote(item: NoteItem.Roll, updateBind: Boolean) {
-        noteRepo.updateNote(item)
-
-        if (updateBind) {
-            val rankIdList = getRankIdVisibleList()
-            runMain { callback?.notifyNoteBind(item, rankIdList, preferenceRepo.sort) }
-        }
-    }
+    override suspend fun updateNote(item: NoteItem.Roll) = noteRepo.updateNote(item)
 
     override suspend fun clearNote(item: NoteItem.Roll) = noteRepo.clearNote(item)
 
     override suspend fun saveNote(item: NoteItem.Roll, isCreate: Boolean) {
         noteRepo.saveNote(item, isCreate)
         rankRepo.updateConnection(item)
-
-        val rankIdList = getRankIdVisibleList()
-        runMain { callback?.notifyNoteBind(item, rankIdList, preferenceRepo.sort) }
     }
 
-    override suspend fun deleteNote(item: NoteItem.Roll) {
-        noteRepo.deleteNote(item)
-
-        runMain {
-            callback?.cancelAlarm(item.id)
-            callback?.cancelNoteBind(item.id)
-        }
-    }
+    override suspend fun deleteNote(item: NoteItem.Roll) = noteRepo.deleteNote(item)
 }
