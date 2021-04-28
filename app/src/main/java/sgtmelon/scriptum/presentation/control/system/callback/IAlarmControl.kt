@@ -8,7 +8,7 @@ import java.util.*
  */
 interface IAlarmControl {
 
-    fun set(calendar: Calendar, id: Long, showToast: Boolean = true)
+    fun set(calendar: Calendar, id: Long, showToast: Boolean)
 
     fun cancel(id: Long)
 

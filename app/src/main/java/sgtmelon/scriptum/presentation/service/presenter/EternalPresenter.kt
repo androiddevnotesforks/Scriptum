@@ -1,22 +1,42 @@
 package sgtmelon.scriptum.presentation.service.presenter
 
+import sgtmelon.scriptum.domain.interactor.callback.eternal.IEternalInteractor
+import sgtmelon.scriptum.extension.launchBack
 import sgtmelon.scriptum.presentation.service.IEternalService
 
 /**
  * Presenter for [IEternalService].
  */
-class EternalPresenter : ParentPresenter<IEternalService>(),
+class EternalPresenter(
+    private val interactor: IEternalInteractor
+) : ParentPresenter<IEternalService>(),
     IEternalPresenter {
 
-    override fun notifyNoteList() {
-        TODO("Not yet implemented")
+    override fun onSetup() {
+        mainScope.launchBack {
+            interactor.tidyUpAlarm()
+            interactor.notifyNotesBind()
+            interactor.notifyInfoBind()
+        }
+    }
+
+    override fun onDestroy(func: () -> Unit) = super.onDestroy { interactor.onDestroy() }
+
+    //region Receiver callback
+
+    override fun notifyAllNotes() {
+        mainScope.launchBack { interactor.notifyNotesBind() }
     }
 
     override fun cancelNote(id: Long) {
-        TODO("Not yet implemented")
+        mainScope.launchBack { interactor.unbindNote(id) }
+        callback?.cancelNoteBind(id)
     }
 
-    override fun notifyInfo(count: Int) {
-        TODO("Not yet implemented")
+    override fun notifyInfo(count: Int?) {
+        mainScope.launchBack { interactor.notifyInfoBind() }
     }
+
+    //endregion
+
 }

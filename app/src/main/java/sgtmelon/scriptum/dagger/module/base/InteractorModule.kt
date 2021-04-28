@@ -10,8 +10,8 @@ import sgtmelon.scriptum.data.repository.room.callback.*
 import sgtmelon.scriptum.data.room.backup.IBackupParser
 import sgtmelon.scriptum.data.room.converter.type.IntConverter
 import sgtmelon.scriptum.domain.interactor.callback.*
+import sgtmelon.scriptum.domain.interactor.callback.eternal.IEternalInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.IBinInteractor
-import sgtmelon.scriptum.domain.interactor.callback.main.IMainInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.domain.interactor.callback.note.INoteInteractor
@@ -24,8 +24,8 @@ import sgtmelon.scriptum.domain.interactor.callback.preference.IDevelopInteracto
 import sgtmelon.scriptum.domain.interactor.callback.preference.IPreferenceInteractor
 import sgtmelon.scriptum.domain.interactor.callback.preference.IPrintInteractor
 import sgtmelon.scriptum.domain.interactor.impl.*
+import sgtmelon.scriptum.domain.interactor.impl.eternal.EternalInteractor
 import sgtmelon.scriptum.domain.interactor.impl.main.BinInteractor
-import sgtmelon.scriptum.domain.interactor.impl.main.MainInteractor
 import sgtmelon.scriptum.domain.interactor.impl.main.NotesInteractor
 import sgtmelon.scriptum.domain.interactor.impl.main.RankInteractor
 import sgtmelon.scriptum.domain.interactor.impl.note.NoteInteractor
@@ -42,12 +42,11 @@ import sgtmelon.scriptum.presentation.control.file.IFileControl
 import sgtmelon.scriptum.presentation.control.system.callback.IRingtoneControl
 import sgtmelon.scriptum.presentation.provider.SummaryProvider
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.BinFragment
-import sgtmelon.scriptum.presentation.screen.ui.impl.main.MainActivity
-import sgtmelon.scriptum.presentation.screen.ui.impl.main.NotesFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.AlarmActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.NotificationActivity
+import sgtmelon.scriptum.presentation.service.EternalService
 
 /**
  * Module for provide interactor's
@@ -120,25 +119,18 @@ class InteractorModule {
 
     @Provides
     @ActivityScope
-    fun provideMainInteractor(activity: MainActivity, alarmRepo: IAlarmRepo): IMainInteractor {
-        return MainInteractor(alarmRepo, activity)
-    }
-
-    @Provides
-    @ActivityScope
     fun provideRankInteractor(rankRepo: IRankRepo): IRankInteractor = RankInteractor(rankRepo)
 
 
     @Provides
     @ActivityScope
     fun provideNotesInteractor(
-        fragment: NotesFragment,
         preferenceRepo: IPreferenceRepo,
         noteRepo: INoteRepo,
         alarmRepo: IAlarmRepo,
         rankRepo: IRankRepo
     ): INotesInteractor {
-        return NotesInteractor(preferenceRepo, alarmRepo, rankRepo, noteRepo, fragment)
+        return NotesInteractor(preferenceRepo, alarmRepo, rankRepo, noteRepo)
     }
 
     @Provides
@@ -220,6 +212,8 @@ class InteractorModule {
         return PreferenceInteractor(SummaryProvider(resources), preferenceRepo, intConverter)
     }
 
+    //region Develop
+
     @Provides
     @ActivityScope
     fun provideDevelopInteractor(
@@ -240,4 +234,23 @@ class InteractorModule {
     ): IPrintInteractor {
         return PrintInteractor(developRepo, key, def, preferenceRepo, fileControl)
     }
+
+    //endregion
+
+    //region Service
+
+    @Provides
+    @ActivityScope
+    fun provideEternalInteractor(
+        service: EternalService,
+        preferenceRepo: IPreferenceRepo,
+        bindRepo: IBindRepo,
+        alarmRepo: IAlarmRepo,
+        rankRepo: IRankRepo,
+        noteRepo: INoteRepo
+    ): IEternalInteractor {
+        return EternalInteractor(preferenceRepo, bindRepo, alarmRepo, rankRepo, noteRepo, service)
+    }
+
+    //endregion
 }

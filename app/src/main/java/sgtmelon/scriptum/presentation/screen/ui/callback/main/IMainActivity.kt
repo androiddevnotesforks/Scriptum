@@ -11,8 +11,7 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.main.IMainViewModel
 /**
  * Interface for communication [IMainViewModel] with [MainActivity].
  */
-interface IMainActivity : IMainBridge,
-    MainScreenReceiver.BindCallback,
+interface IMainActivity : MainScreenReceiver.BindCallback,
     MainScreenReceiver.AlarmCallback {
 
     val openState: OpenState

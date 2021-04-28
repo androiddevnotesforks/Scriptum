@@ -9,7 +9,6 @@ import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.IIntroInteractor
 import sgtmelon.scriptum.domain.interactor.callback.ISplashInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.IBinInteractor
-import sgtmelon.scriptum.domain.interactor.callback.main.IMainInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.domain.interactor.callback.note.INoteInteractor
@@ -99,14 +98,9 @@ class ViewModelModule {
 
     @Provides
     @ActivityScope
-    fun provideMainViewModel(
-        activity: MainActivity,
-        interactor: IMainInteractor,
-        bindInteractor: IBindInteractor
-    ): IMainViewModel {
+    fun provideMainViewModel(activity: MainActivity): IMainViewModel {
         return ViewModelProvider(activity).get(MainViewModel::class.java).apply {
             setCallback(activity)
-            setInteractor(interactor, bindInteractor)
         }
     }
 
@@ -127,12 +121,11 @@ class ViewModelModule {
     @ActivityScope
     fun provideNotesViewModel(
         fragment: NotesFragment,
-        interactor: INotesInteractor,
-        bindInteractor: IBindInteractor
+        interactor: INotesInteractor
     ): INotesViewModel {
         return ViewModelProvider(fragment).get(NotesViewModel::class.java).apply {
             setCallback(fragment)
-            setInteractor(interactor, bindInteractor)
+            setInteractor(interactor)
         }
     }
 

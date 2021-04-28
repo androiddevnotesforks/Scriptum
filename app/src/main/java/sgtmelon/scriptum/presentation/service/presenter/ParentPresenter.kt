@@ -1,6 +1,8 @@
 package sgtmelon.scriptum.presentation.service.presenter
 
 import androidx.annotation.CallSuper
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import sgtmelon.scriptum.domain.model.annotation.test.RunProtected
 
 /**
@@ -11,6 +13,8 @@ abstract class ParentPresenter<C> : IParentPresenter {
     @RunProtected
     var callback: C? = null
         private set
+
+    @RunProtected val mainScope by lazy { CoroutineScope(Dispatchers.Main) }
 
     /**
      * Call this func when create presenter.

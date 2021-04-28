@@ -34,7 +34,7 @@ interface INotesInteractor : IParentInteractor {
     suspend fun setDate(item: NoteItem, calendar: Calendar)
 
 
-    suspend fun copy(item: NoteItem)
+    suspend fun copy(item: NoteItem): String
 
     suspend fun deleteNote(item: NoteItem)
 

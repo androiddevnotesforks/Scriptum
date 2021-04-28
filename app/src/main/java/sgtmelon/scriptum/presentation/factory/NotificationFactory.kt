@@ -61,7 +61,7 @@ object NotificationFactory {
         }
 
         /**
-         * Model for [BindControl.notifyNote]
+         * Model for [BindControl.notifyNotes]
          *
          * Don't care about [NoteItem.Roll.list] if:
          * - If note type is [NoteType.TEXT]

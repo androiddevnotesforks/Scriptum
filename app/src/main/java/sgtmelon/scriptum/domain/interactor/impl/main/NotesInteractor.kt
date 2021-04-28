@@ -11,8 +11,6 @@ import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.NotificationItem
-import sgtmelon.scriptum.extension.runMain
-import sgtmelon.scriptum.presentation.screen.ui.callback.main.INotesBridge
 import sgtmelon.scriptum.presentation.screen.vm.callback.main.INotesViewModel
 import java.util.*
 
@@ -23,8 +21,7 @@ class NotesInteractor(
     private val preferenceRepo: IPreferenceRepo,
     private val alarmRepo: IAlarmRepo,
     private val rankRepo: IRankRepo,
-    private val noteRepo: INoteRepo,
-    @RunPrivate var callback: INotesBridge?
+    private val noteRepo: INoteRepo
 ) : ParentInteractor(),
     INotesInteractor {
 
@@ -34,11 +31,8 @@ class NotesInteractor(
         return rankIdVisibleList ?: rankRepo.getIdVisibleList().also { rankIdVisibleList = it }
     }
 
-    override fun onDestroy(func: () -> Unit) = super.onDestroy { callback = null }
-
 
     @Sort override val sort: Int get() = preferenceRepo.sort
-
 
     override suspend fun getCount(): Int = noteRepo.getCount(isBin = false)
 
@@ -49,13 +43,7 @@ class NotesInteractor(
 
     override suspend fun isListHide(): Boolean = noteRepo.isListHide()
 
-    override suspend fun updateNote(item: NoteItem) {
-        noteRepo.updateNote(item)
-
-        val noteMirror = makeMirror(item)
-        val rankIdList = getRankIdVisibleList()
-        runMain { callback?.notifyNoteBind(noteMirror, rankIdList, preferenceRepo.sort) }
-    }
+    override suspend fun updateNote(item: NoteItem) = noteRepo.updateNote(item)
 
     /**
      * Need for prevent overriding noteItem rollList in list model
@@ -72,9 +60,6 @@ class NotesInteractor(
             is NoteItem.Text -> noteRepo.convertNote(item)
             is NoteItem.Roll -> noteRepo.convertNote(item, useCache = false)
         }
-
-        val rankIdList = getRankIdVisibleList()
-        runMain { callback?.notifyNoteBind(convertItem, rankIdList, preferenceRepo.sort) }
 
         if (convertItem is NoteItem.Roll) {
             onConvertOptimisation(convertItem)
@@ -101,32 +86,16 @@ class NotesInteractor(
      */
     override suspend fun getDateList(): List<String> = alarmRepo.getList().map { it.alarm.date }
 
-    override suspend fun clearDate(item: NoteItem) {
-        alarmRepo.delete(item.id)
-
-        runMain { callback?.cancelAlarm(item.id) }
-    }
+    override suspend fun clearDate(item: NoteItem) = alarmRepo.delete(item.id)
 
     override suspend fun setDate(item: NoteItem, calendar: Calendar) {
         alarmRepo.insertOrUpdate(item, calendar.getText())
-
-        runMain { callback?.setAlarm(calendar, item.id) }
     }
 
 
-    override suspend fun copy(item: NoteItem) {
-        val text = noteRepo.getCopyText(item)
-        runMain { callback?.copyClipboard(text) }
-    }
+    override suspend fun copy(item: NoteItem) = noteRepo.getCopyText(item)
 
-    override suspend fun deleteNote(item: NoteItem) {
-        noteRepo.deleteNote(item)
-
-        runMain {
-            callback?.cancelAlarm(item.id)
-            callback?.cancelNoteBind(item.id)
-        }
-    }
+    override suspend fun deleteNote(item: NoteItem) = noteRepo.deleteNote(item)
 
 
     override suspend fun getNotification(noteId: Long): NotificationItem? {

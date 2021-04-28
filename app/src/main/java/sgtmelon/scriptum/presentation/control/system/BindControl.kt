@@ -57,14 +57,14 @@ class BindControl(private val context: Context?) : IBindControl {
             noteItemList.add(noteItem)
         }
 
-        notifyNote(noteItemList, rankIdVisibleList, sort)
+        notifyNotes(noteItemList, rankIdVisibleList, sort)
     }
 
     /**
      * If [sort] is null when don't need sort.
      * If [rankIdVisibleList] is null when don't need filter list by visibility.
      */
-    override fun notifyNote(
+    override fun notifyNotes(
         itemList: List<NoteItem>,
         rankIdVisibleList: List<Long>?,
         @Sort sort: Int?
@@ -103,7 +103,7 @@ class BindControl(private val context: Context?) : IBindControl {
             validRemoveAt(indexOfFirst { it.id == id }) ?: return
         }
 
-        notifyNote(noteItemList)
+        notifyNotes(noteItemList)
     }
 
     override fun notifyInfo(count: Int) {
@@ -149,7 +149,7 @@ class BindControl(private val context: Context?) : IBindControl {
 
     /**
      * Callback which need implement in interface what pass to Interactor
-     * Use when needs get access to [notifyNote] and [cancelNote] inside Interactor
+     * Use when needs get access to [notifyNotes] and [cancelNote] inside Interactor
      */
     interface NoteBridge {
         interface Full : Notify, Cancel
@@ -163,7 +163,7 @@ class BindControl(private val context: Context?) : IBindControl {
         }
 
         interface NotifyAll {
-            @MainThread fun notifyNoteBind(itemList: List<NoteItem>, rankIdVisibleList: List<Long>)
+            @MainThread fun notifyNotesBind(itemList: List<NoteItem>, rankIdVisibleList: List<Long>)
         }
 
         interface Cancel {

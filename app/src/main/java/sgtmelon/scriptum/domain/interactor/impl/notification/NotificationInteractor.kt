@@ -40,7 +40,7 @@ class NotificationInteractor(
 
         alarmRepo.insertOrUpdate(noteItem, date)
 
-        runMain { callback?.setAlarm(calendar, id) }
+        runMain { callback?.setAlarm(calendar, id, showToast = false) }
 
         /**
          * After insert need return item with new id.

@@ -15,8 +15,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.domain.model.data.ReceiverData
-import sgtmelon.scriptum.domain.model.item.NoteItem
+import sgtmelon.scriptum.domain.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.domain.model.key.MainPage
 import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.domain.model.state.OpenState
@@ -24,7 +23,6 @@ import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.idling.AppIdlingResource
 import sgtmelon.scriptum.idling.IdlingTag
 import sgtmelon.scriptum.presentation.control.system.AlarmControl
-import sgtmelon.scriptum.presentation.control.system.BindControl
 import sgtmelon.scriptum.presentation.control.toolbar.show.HolderShowControl
 import sgtmelon.scriptum.presentation.factory.DialogFactory
 import sgtmelon.scriptum.presentation.factory.FragmentFactory
@@ -45,7 +43,6 @@ class MainActivity : AppActivity(), IMainActivity {
     @Inject internal lateinit var viewModel: IMainViewModel
 
     private val alarmControl by lazy { AlarmControl[this] }
-    private val bindControl by lazy { BindControl[null] }
     private val holderControl by lazy { HolderShowControl[toolbarHolder] }
 
     private val mainReceiver by lazy { MainScreenReceiver[viewModel, viewModel] }
@@ -73,13 +70,12 @@ class MainActivity : AppActivity(), IMainActivity {
         setContentView(R.layout.activity_main)
 
         alarmControl.initLazy()
-        bindControl.initLazy()
 
         openState.get(savedInstanceState)
 
         viewModel.onSetup(savedInstanceState)
 
-        registerReceiver(mainReceiver, IntentFilter(ReceiverData.Filter.MAIN))
+        registerReceiver(mainReceiver, IntentFilter(Filter.MAIN))
 
         AppIdlingResource.getInstance().stopWork(IdlingTag.Intro.FINISH)
     }
@@ -222,19 +218,7 @@ class MainActivity : AppActivity(), IMainActivity {
         startActivity(NoteActivity[this, noteType.ordinal])
     }
 
-
-    override fun setAlarm(calendar: Calendar, id: Long) {
-        alarmControl.set(calendar, id, showToast = false)
-    }
-
-    override fun cancelAlarm(id: Long) = alarmControl.cancel(id)
-
-    override fun notifyNoteBind(itemList: List<NoteItem>, rankIdVisibleList: List<Long>) {
-        bindControl.notifyNote(itemList, rankIdVisibleList)
-    }
-
-    override fun notifyInfoBind(count: Int) = bindControl.notifyInfo(count)
-
+    //region Receiver callback
 
     override fun onReceiveUnbindNote(id: Long) {
         onFragmentAdd(MainPage.RANK) { rankFragment.onReceiveUnbindNote(id) }
@@ -245,6 +229,7 @@ class MainActivity : AppActivity(), IMainActivity {
         onFragmentAdd(MainPage.NOTES) { notesFragment.onReceiveUpdateAlarm(id) }
     }
 
+    //endregion
 
     private fun MainPage.getFragmentByName(): Fragment = when (this) {
         MainPage.RANK -> rankFragment

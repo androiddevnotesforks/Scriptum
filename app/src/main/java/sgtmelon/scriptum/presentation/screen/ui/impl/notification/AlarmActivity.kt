@@ -27,7 +27,8 @@ import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.data.IntentData.Note
-import sgtmelon.scriptum.domain.model.data.ReceiverData
+import sgtmelon.scriptum.domain.model.data.ReceiverData.Command
+import sgtmelon.scriptum.domain.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.state.OpenState
 import sgtmelon.scriptum.extension.*
@@ -126,7 +127,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
         viewModel.onSetup(bundle = savedInstanceState ?: intent.extras)
 
-        registerReceiver(noteReceiver, IntentFilter(ReceiverData.Filter.NOTE))
+        registerReceiver(noteReceiver, IntentFilter(Filter.NOTE))
     }
 
     override fun onPause() {
@@ -319,20 +320,16 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
     override fun getIntArray(@ArrayRes arrayId: Int): IntArray = resources.getIntArray(arrayId)
 
-    override fun sendUpdateBroadcast(id: Long) {
-        sendTo(ReceiverData.Filter.MAIN, ReceiverData.Command.UPDATE_ALARM) {
-            putExtra(Note.Intent.ID, id)
-        }
+    override fun sendUpdateBroadcast(id: Long) = sendTo(Filter.MAIN, Command.UPDATE_ALARM) {
+        putExtra(Note.Intent.ID, id)
     }
 
 
-    override fun setAlarm(calendar: Calendar, id: Long) {
-        alarmControl.set(calendar, id, showToast = false)
+    override fun setAlarm(calendar: Calendar, id: Long, showToast: Boolean) {
+        alarmControl.set(calendar, id, showToast)
     }
 
-    override fun notifyInfoBind(count: Int) {
-        bindControl.notifyInfo(count)
-    }
+    override fun notifyInfoBind(count: Int) = bindControl.notifyInfo(count)
 
     /**
      * Function for detect when layout completely configure.

@@ -254,8 +254,8 @@ class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallb
     }
 
 
-    override fun setAlarm(calendar: Calendar, id: Long) {
-        alarmControl.set(calendar, id, showToast = false)
+    override fun setAlarm(calendar: Calendar, id: Long, showToast: Boolean) {
+        alarmControl.set(calendar, id, showToast)
     }
 
     override fun cancelAlarm(id: Long) = alarmControl.cancel(id)

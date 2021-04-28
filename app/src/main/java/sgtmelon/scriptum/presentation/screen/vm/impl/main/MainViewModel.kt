@@ -3,17 +3,12 @@ package sgtmelon.scriptum.presentation.screen.vm.impl.main
 import android.app.Application
 import android.os.Bundle
 import androidx.annotation.IdRes
-import androidx.lifecycle.viewModelScope
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
-import sgtmelon.scriptum.domain.interactor.callback.main.IMainInteractor
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.data.IntentData.Main.Intent
 import sgtmelon.scriptum.domain.model.key.MainPage
 import sgtmelon.scriptum.domain.model.key.NoteType
-import sgtmelon.scriptum.extension.launchBack
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IMainActivity
-import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.main.IMainViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
 
@@ -23,15 +18,6 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
 class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(application),
         IMainViewModel {
 
-    private lateinit var interactor: IMainInteractor
-    private lateinit var bindInteractor: IBindInteractor
-
-    fun setInteractor(interactor: IMainInteractor, bindInteractor: IBindInteractor) {
-        this.interactor = interactor
-        this.bindInteractor = bindInteractor
-    }
-
-
     /**
      * Key for detect application start and pageTo == [pageFrom] inside [onSelectItem].
      */
@@ -40,17 +26,7 @@ class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(a
     @RunPrivate var pageFrom: MainPage = START_PAGE
 
     override fun onSetup(bundle: Bundle?) {
-        if (bundle == null) {
-            /**
-             * Work with alarm and notification coroutines need do here.
-             * Because [SplashActivity] will be quickly destroyed.
-             */
-            viewModelScope.launchBack {
-                interactor.tidyUpAlarm()
-                bindInteractor.notifyNoteBind(callback)
-                bindInteractor.notifyInfoBind(callback)
-            }
-        } else {
+        if (bundle != null) {
             firstStart = bundle.getBoolean(Intent.FIRST_START)
 
             val pageOrdinal = bundle.getInt(Intent.PAGE_CURRENT)
@@ -72,8 +48,6 @@ class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(a
             MainPage.BIN -> R.id.item_page_bin
         }
     }
-
-    override fun onDestroy(func: () -> Unit) = super.onDestroy { interactor.onDestroy() }
 
 
     override fun onSaveData(bundle: Bundle) = with(bundle) {
@@ -124,6 +98,7 @@ class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(a
         else -> null
     }
 
+    //region Receiver callback
 
     override fun onReceiveUnbindNote(id: Long) {
         callback?.onReceiveUnbindNote(id)
@@ -133,6 +108,7 @@ class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(a
         if (!pageFrom.isStartPage()) callback?.onReceiveUpdateAlarm(id)
     }
 
+    //endregion
 
     private fun MainPage.isStartPage() = this == START_PAGE
 

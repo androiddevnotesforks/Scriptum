@@ -10,7 +10,10 @@ import android.os.Build
 import android.os.IBinder
 import sgtmelon.extension.getNewCalendar
 import sgtmelon.scriptum.domain.model.data.ReceiverData
+import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.extension.getAlarmService
+import sgtmelon.scriptum.extension.initLazy
+import sgtmelon.scriptum.presentation.control.system.AlarmControl
 import sgtmelon.scriptum.presentation.control.system.BindControl
 import sgtmelon.scriptum.presentation.receiver.eternal.BindEternalReceiver
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
@@ -26,6 +29,7 @@ class EternalService : Service(), IEternalService {
 
     @Inject internal lateinit var presenter: IEternalPresenter
 
+    private val alarmControl by lazy { AlarmControl[this] }
     private val bindControl by lazy { BindControl[this] }
 
     private val bindReceiver by lazy { BindEternalReceiver[presenter] }
@@ -53,6 +57,11 @@ class EternalService : Service(), IEternalService {
         startForeground(Factory.Service.ID, Factory.Service[this])
 
         registerReceiver(bindReceiver, IntentFilter(ReceiverData.Filter.BIND))
+
+        alarmControl.initLazy()
+        bindControl.initLazy()
+
+        presenter.onSetup()
     }
 
     override fun onDestroy() {
@@ -87,6 +96,24 @@ class EternalService : Service(), IEternalService {
         val service = applicationContext.getAlarmService()
         service?.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
     }
+
+    //region Bridge callback
+
+    override fun setAlarm(calendar: Calendar, id: Long, showToast: Boolean) {
+        alarmControl.set(calendar, id, showToast)
+    }
+
+    override fun cancelAlarm(id: Long) = alarmControl.cancel(id)
+
+    override fun notifyNotesBind(itemList: List<NoteItem>, rankIdVisibleList: List<Long>) {
+        bindControl.notifyNotes(itemList, rankIdVisibleList)
+    }
+
+    override fun cancelNoteBind(id: Long) = bindControl.cancelNote(id)
+
+    override fun notifyInfoBind(count: Int) = bindControl.notifyInfo(count)
+
+    //endregion
 
     companion object {
         fun start(context: Context) {

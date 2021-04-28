@@ -521,8 +521,8 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
     }
 
 
-    override fun notifyNoteBind(itemList: List<NoteItem>, rankIdVisibleList: List<Long>) {
-        bindControl.notifyNote(itemList, rankIdVisibleList)
+    override fun notifyNotesBind(itemList: List<NoteItem>, rankIdVisibleList: List<Long>) {
+        bindControl.notifyNotes(itemList, rankIdVisibleList)
     }
 
     override fun notifyInfoBind(count: Int) = bindControl.notifyInfo(count)

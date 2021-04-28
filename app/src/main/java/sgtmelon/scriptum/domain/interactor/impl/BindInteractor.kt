@@ -28,7 +28,7 @@ class BindInteractor(
         val rankIdVisibleList = rankRepo.getIdVisibleList()
         val itemList = noteRepo.getList(sort, isBin = false, isOptimal = false, filterVisible = false)
 
-        callback.notifyNoteBind(itemList, rankIdVisibleList)
+        callback.notifyNotesBind(itemList, rankIdVisibleList)
     }
 
     override suspend fun notifyInfoBind(callback: BindControl.InfoBridge?) {

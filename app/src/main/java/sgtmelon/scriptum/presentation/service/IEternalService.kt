@@ -1,3 +1,3 @@
 package sgtmelon.scriptum.presentation.service
 
-interface IEternalService
+interface IEternalService : IEternalBridge

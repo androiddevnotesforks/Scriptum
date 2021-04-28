@@ -7,7 +7,7 @@ import sgtmelon.scriptum.data.repository.room.BindRepo
  */
 interface IBindRepo {
 
-    suspend fun unbindNote(id: Long): Boolean
+    suspend fun unbindNote(id: Long): Unit
 
     suspend fun getNotificationCount(): Int
 

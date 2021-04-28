@@ -8,15 +8,11 @@ import sgtmelon.extension.beforeNow
 import sgtmelon.extension.getCalendar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.room.dao.INoteDao
-import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.extension.clearAdd
-import sgtmelon.scriptum.extension.launchBack
-import sgtmelon.scriptum.extension.runBack
-import sgtmelon.scriptum.extension.validRemoveAt
+import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.idling.AppIdlingResource
 import sgtmelon.scriptum.idling.IdlingTag
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.INotesFragment
@@ -33,11 +29,9 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
     INotesViewModel {
 
     private lateinit var interactor: INotesInteractor
-    private lateinit var bindInteractor: IBindInteractor
 
-    fun setInteractor(interactor: INotesInteractor, bindInteractor: IBindInteractor) {
+    fun setInteractor(interactor: INotesInteractor) {
         this.interactor = interactor
-        this.bindInteractor = bindInteractor
     }
 
 
@@ -149,7 +143,11 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
 
         callback?.notifyItemChanged(itemList, p)
 
-        viewModelScope.launchBack { interactor.updateNote(item) }
+        viewModelScope.launchBack {
+            interactor.updateNote(item)
+
+            callback?.sendNotifyNotesBroadcast()
+        }
     }
 
     private fun onMenuConvert(p: Int) {
@@ -160,13 +158,18 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
 
             val sortList = runBack { sortList(itemList, interactor.sort) }
             callback?.notifyList(itemList.clearAdd(sortList))
+
+            callback?.sendNotifyNotesBroadcast()
         }
     }
 
     private fun onMenuCopy(p: Int) {
         val item = itemList.getOrNull(p) ?: return
 
-        viewModelScope.launchBack { interactor.copy(item) }
+        viewModelScope.launchBack {
+            val text = interactor.copy(item)
+            runMain { callback?.copyClipboard(text) }
+        }
     }
 
     private fun onMenuDelete(p: Int) {
@@ -176,7 +179,10 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
 
         viewModelScope.launchBack {
             interactor.deleteNote(item)
-            bindInteractor.notifyInfoBind(callback)
+
+            runMain { callback?.cancelAlarm(item.id) }
+            callback?.sendCancelNoteBroadcast(item.id)
+            callback?.sendNotifyInfoBroadcast()
         }
     }
 
@@ -197,7 +203,9 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
 
         viewModelScope.launchBack {
             interactor.clearDate(noteItem)
-            bindInteractor.notifyInfoBind(callback)
+
+            runMain { callback?.cancelAlarm(noteItem.id) }
+            callback?.sendNotifyInfoBroadcast()
         }
     }
 
@@ -209,7 +217,9 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
         viewModelScope.launch {
             runBack { interactor.setDate(item, calendar) }
             callback?.notifyItemChanged(itemList, p)
-            runBack { bindInteractor.notifyInfoBind(callback) }
+
+            runMain { callback?.setAlarm(calendar, item.id) }
+            callback?.sendNotifyInfoBroadcast()
         }
     }
 

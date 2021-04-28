@@ -21,7 +21,7 @@ class BindEternalReceiver : BroadcastReceiver() {
         if (intent == null) return
 
         when (intent.getStringExtra(Values.COMMAND)) {
-            Command.Bind.NOTIFY_ALL -> callback?.notifyNoteList()
+            Command.Bind.NOTIFY_NOTES -> callback?.notifyAllNotes()
             Command.Bind.CANCEL_NOTE -> {
                 val id = intent.getLongExtra(Note.Intent.ID, Note.Default.ID)
 
@@ -30,21 +30,33 @@ class BindEternalReceiver : BroadcastReceiver() {
                 callback?.cancelNote(id)
             }
             Command.Bind.NOTIFY_INFO -> {
-                val count = intent.getIntExtra(Bind.Intent.COUNT, Bind.Default.COUNT)
+                val count = intent.getIntExtra(Bind.Intent.COUNT, Bind.Default.COUNT).takeIf {
+                    it != Bind.Default.COUNT
+                }
 
-                /**
-                 * If [count] == [Bind.Default.COUNT] it means what need take value from
-                 * database.
-                 */
                 callback?.notifyInfo(count)
             }
         }
     }
 
     interface Callback {
-        fun notifyNoteList()
+        fun notifyAllNotes()
         fun cancelNote(id: Long)
-        fun notifyInfo(count: Int)
+
+        /**
+         * If [count] == null it means what need take value from database.
+         */
+        fun notifyInfo(count: Int?)
+    }
+
+    interface Broadcast {
+        fun sendNotifyNotesBroadcast()
+        fun sendCancelNoteBroadcast(id: Long)
+
+        /**
+         * If [count] == null it means what need take value from database.
+         */
+        fun sendNotifyInfoBroadcast(count: Int? = null)
     }
 
     companion object {

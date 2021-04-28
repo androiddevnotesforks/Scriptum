@@ -385,8 +385,8 @@ class RankFragment : ParentFragment(), IRankFragment, MainScreenReceiver.BindCal
     }
 
 
-    override fun notifyNoteBind(itemList: List<NoteItem>, rankIdVisibleList: List<Long>) {
-        bindControl.notifyNote(itemList, rankIdVisibleList)
+    override fun notifyNotesBind(itemList: List<NoteItem>, rankIdVisibleList: List<Long>) {
+        bindControl.notifyNotes(itemList, rankIdVisibleList)
     }
 
 }

@@ -14,7 +14,6 @@ import org.junit.Test
 import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
-import sgtmelon.scriptum.domain.interactor.callback.main.IMainInteractor
 import sgtmelon.scriptum.domain.model.data.IntentData.Main.Intent
 import sgtmelon.scriptum.domain.model.key.MainPage
 import sgtmelon.scriptum.domain.model.key.NoteType

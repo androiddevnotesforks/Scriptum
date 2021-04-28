@@ -12,7 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.FragmentNotesBinding
 import sgtmelon.scriptum.domain.model.annotation.Options
-import sgtmelon.scriptum.domain.model.annotation.Sort
+import sgtmelon.scriptum.domain.model.data.IntentData.Note
+import sgtmelon.scriptum.domain.model.data.ReceiverData.Command
+import sgtmelon.scriptum.domain.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.state.OpenState
 import sgtmelon.scriptum.extension.*
@@ -292,18 +294,29 @@ class NotesFragment : ParentFragment(),
 
     override fun getStringArray(arrayId: Int): Array<String> = resources.getStringArray(arrayId)
 
+    //region Broadcast callback
+
+    override fun sendNotifyNotesBroadcast() {
+        context?.sendTo(Filter.BIND, Command.Bind.NOTIFY_NOTES)
+    }
+
+    override fun sendCancelNoteBroadcast(id: Long) {
+        context?.sendTo(Filter.BIND, Command.Bind.CANCEL_NOTE) { putExtra(Note.Intent.ID, id) }
+    }
+
+    override fun sendNotifyInfoBroadcast(count: Int?) {
+        context?.sendTo(Filter.BIND, Command.Bind.NOTIFY_INFO)
+    }
+
+    //endregion
+
+    // TODO remove/optimizatio
 
     override fun cancelAlarm(id: Long) = alarmControl.cancel(id)
 
-    override fun setAlarm(calendar: Calendar, id: Long) = alarmControl.set(calendar, id)
-
-    override fun notifyNoteBind(item: NoteItem, rankIdVisibleList: List<Long>, @Sort sort: Int) {
-        bindControl.notifyNote(item, rankIdVisibleList, sort)
+    override fun setAlarm(calendar: Calendar, id: Long, showToast: Boolean) {
+        alarmControl.set(calendar, id, showToast)
     }
-
-    override fun cancelNoteBind(id: Long) = bindControl.cancelNote(id)
-
-    override fun notifyInfoBind(count: Int) = bindControl.notifyInfo(count)
 
     override fun copyClipboard(text: String) = clipboardControl.copy(text)
 

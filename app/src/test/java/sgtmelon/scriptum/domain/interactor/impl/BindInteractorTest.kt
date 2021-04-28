@@ -54,7 +54,7 @@ class BindInteractorTest : ParentInteractorTest() {
             preferenceRepo.sort
             rankRepo.getIdVisibleList()
             noteRepo.getList(sort, isBin = false, isOptimal = false, filterVisible = false)
-            noteCallback.notifyNoteBind(itemList, rankIdVisibleList)
+            noteCallback.notifyNotesBind(itemList, rankIdVisibleList)
         }
     }
 

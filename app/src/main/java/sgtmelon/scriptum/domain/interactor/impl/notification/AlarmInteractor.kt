@@ -57,7 +57,7 @@ class AlarmInteractor(
 
         alarmRepo.insertOrUpdate(noteItem, calendar.getText())
 
-        runMain { callback?.setAlarm(calendar, noteItem.id) }
+        runMain { callback?.setAlarm(calendar, noteItem.id, showToast = false) }
     }
 
     @RunPrivate suspend fun checkDateExist(calendar: Calendar) {
