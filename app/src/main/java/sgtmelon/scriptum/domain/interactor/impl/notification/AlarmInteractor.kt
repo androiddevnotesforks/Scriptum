@@ -10,8 +10,6 @@ import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.domain.model.annotation.Repeat
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.extension.runMain
-import sgtmelon.scriptum.presentation.screen.ui.callback.notification.IAlarmBridge
 import sgtmelon.scriptum.presentation.screen.vm.callback.notification.IAlarmViewModel
 import java.util.*
 
@@ -21,13 +19,9 @@ import java.util.*
 class AlarmInteractor(
     private val preferenceRepo: IPreferenceRepo,
     private val alarmRepo: IAlarmRepo,
-    private val noteRepo: INoteRepo,
-    @RunPrivate var callback: IAlarmBridge?
+    private val noteRepo: INoteRepo
 ) : ParentInteractor(),
     IAlarmInteractor {
-
-    override fun onDestroy(func: () -> Unit) = super.onDestroy { callback = null }
-
 
     @Repeat override val repeat: Int get() = preferenceRepo.repeat
 
@@ -38,7 +32,8 @@ class AlarmInteractor(
 
     override suspend fun getModel(id: Long): NoteItem? {
         /**
-         * Delete before return noteModel for hide alarm icon.
+         * Delete before return noteModel. This is need for hide alarm icon and decrement
+         * notification info count (next alarms count).
          */
         alarmRepo.delete(id)
 
@@ -46,18 +41,18 @@ class AlarmInteractor(
     }
 
     override suspend fun setupRepeat(
-        noteItem: NoteItem,
+        item: NoteItem,
         valueArray: IntArray,
         @Repeat repeat: Int
-    ) {
-        val minute = valueArray.getOrNull(repeat) ?: return
+    ): Calendar? {
+        val minute = valueArray.getOrNull(repeat) ?: return null
         val calendar = getCalendarWithAdd(minute)
 
         checkDateExist(calendar)
 
-        alarmRepo.insertOrUpdate(noteItem, calendar.getText())
+        alarmRepo.insertOrUpdate(item, calendar.getText())
 
-        runMain { callback?.setAlarm(noteItem.id, calendar, showToast = false) }
+        return calendar
     }
 
     @RunPrivate suspend fun checkDateExist(calendar: Calendar) {

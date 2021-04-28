@@ -10,7 +10,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.view.WindowManager
 import android.view.animation.AccelerateInterpolator
 import androidx.annotation.ArrayRes
@@ -67,9 +66,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
      */
     private val melodyControl: IMelodyControl by lazy { MelodyControl(context = this) }
     private val vibratorControl: IVibratorControl by lazy { VibratorControl(context = this) }
-    private val alarmControl by lazy { AlarmControl[this] }
     private val powerControl: IPowerControl by lazy { PowerControl(context = this) }
-    private val bindControl by lazy { BindControl[null] }
     private val broadcastControl by lazy { BroadcastControl[this] }
 
     private val noteReceiver by lazy { NoteScreenReceiver[viewModel] }
@@ -321,26 +318,32 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
     override fun getIntArray(@ArrayRes arrayId: Int): IntArray = resources.getIntArray(arrayId)
 
+    //region Broadcast functions
+
     override fun sendUpdateBroadcast(id: Long) = broadcastControl.sendUpdateAlarmUI(id)
 
-
-    override fun setAlarm(id: Long, calendar: Calendar, showToast: Boolean) {
-        alarmControl.set(calendar, id, showToast)
+    override fun sendSetAlarmBroadcast(id: Long, calendar: Calendar, showToast: Boolean) {
+        broadcastControl.sendSetAlarm(id, calendar, showToast)
     }
-
-    override fun notifyInfoBind(count: Int) = bindControl.notifyInfo(count)
 
     /**
-     * Function for detect when layout completely configure.
+     * Not used here.
      */
-    private fun ViewGroup.afterLayoutConfiguration(func: () -> Unit) {
-        viewTreeObserver?.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                viewTreeObserver?.removeOnGlobalLayoutListener(this)
-                func()
-            }
-        })
-    }
+    override fun sendCancelAlarmBroadcast(id: Long) = Unit
+
+    /**
+     * Not used here.
+     */
+    override fun sendNotifyNotesBroadcast() = Unit
+
+    /**
+     * Not used here.
+     */
+    override fun sendCancelNoteBroadcast(id: Long) = Unit
+
+    override fun sendNotifyInfoBroadcast(count: Int?) = broadcastControl.sendNotifyInfoBind(count)
+
+    //endregion
 
     companion object {
         @RunPrivate var isFinishOnStop = true
@@ -350,5 +353,4 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
                 .putExtra(Note.Intent.ID, id)
         }
     }
-
 }

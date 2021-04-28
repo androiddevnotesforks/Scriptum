@@ -16,7 +16,6 @@ import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.domain.model.item.NotificationItem.Alarm
 import sgtmelon.scriptum.domain.model.item.NotificationItem.Note
 import sgtmelon.scriptum.domain.model.key.NoteType
-import sgtmelon.scriptum.presentation.screen.ui.callback.notification.IAlarmBridge
 import java.util.*
 import kotlin.random.Random
 

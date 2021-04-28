@@ -6,7 +6,6 @@ import androidx.annotation.IdRes
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.domain.model.annotation.Repeat
@@ -30,16 +29,13 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
 
     private lateinit var interactor: IAlarmInteractor
     private lateinit var signalInteractor: ISignalInteractor
-    private lateinit var bindInteractor: IBindInteractor
 
     fun setInteractor(
         interactor: IAlarmInteractor,
-        signalInteractor: ISignalInteractor,
-        bindInteractor: IBindInteractor
+        signalInteractor: ISignalInteractor
     ) {
         this.interactor = interactor
         this.signalInteractor = signalInteractor
-        this.bindInteractor = bindInteractor
     }
 
 
@@ -85,7 +81,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
                     return@launch
                 }
 
-                bindInteractor.notifyInfoBind(callback)
+                callback?.sendNotifyInfoBroadcast()
             }
 
             callback?.apply {
@@ -165,7 +161,12 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         val valueArray = callback?.getIntArray(R.array.pref_alarm_repeat_array) ?: return
 
         viewModelScope.launch {
-            runBack { interactor.setupRepeat(noteItem, valueArray, repeat) }
+            val calendar = runBack { interactor.setupRepeat(noteItem, valueArray, repeat) }
+
+            if (calendar != null) {
+                callback?.sendSetAlarmBroadcast(noteItem.id, calendar, showToast = false)
+                callback?.sendNotifyInfoBroadcast()
+            }
 
             callback?.showRepeatToast(repeat)
             callback?.sendUpdateBroadcast(id)

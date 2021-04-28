@@ -190,12 +190,11 @@ class ViewModelModule {
     fun provideAlarmViewModel(
         activity: AlarmActivity,
         interactor: IAlarmInteractor,
-        signalInteractor: ISignalInteractor,
-        bindInteractor: IBindInteractor
+        signalInteractor: ISignalInteractor
     ): IAlarmViewModel {
         return ViewModelProvider(activity).get(AlarmViewModel::class.java).apply {
             setCallback(activity)
-            setInteractor(interactor, signalInteractor, bindInteractor)
+            setInteractor(interactor, signalInteractor)
         }
     }
 

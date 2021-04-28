@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Toast
@@ -54,6 +55,17 @@ private fun runToastIdling(length: Int) {
     })
 }
 
+/**
+ * Function for detect when layout completely configure.
+ */
+fun ViewGroup.afterLayoutConfiguration(func: () -> Unit) {
+    viewTreeObserver?.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+        override fun onGlobalLayout() {
+            viewTreeObserver?.removeOnGlobalLayoutListener(this)
+            func()
+        }
+    })
+}
 
 fun ViewGroup.createVisibleAnim(
     target: View?,

@@ -18,6 +18,13 @@ class InfoNotifyTest : ParentNotificationTest() {
      */
 
     /**
+     * Should hide info notification on alarm start
+     */
+    @Test fun alarmNotifyOnStart() {
+        TODO()
+    }
+
+    /**
      * Notification in status bar should show - "You have 1 notification".
      */
     @Test fun alarmNotify() {
@@ -27,6 +34,9 @@ class InfoNotifyTest : ParentNotificationTest() {
         launchAlarm(item) { openAlarm(item) { onSee { onClickRepeat() } } }
     }
 
+    /**
+     * Update info count on item cancel
+     */
     @Test fun notificationNotifyOnCancel() = data.fillNotification(NOTIFICATION_COUNT).let {
         launch {
             mainScreen {
@@ -35,6 +45,13 @@ class InfoNotifyTest : ParentNotificationTest() {
                 }
             }
         }
+    }
+
+    /**
+     * Update info count after snackbar undo
+     */
+    @Test fun notificationNotifyOnUndo() {
+        TODO()
     }
 
 

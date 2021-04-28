@@ -44,8 +44,6 @@ import sgtmelon.scriptum.presentation.provider.SummaryProvider
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.BinFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
-import sgtmelon.scriptum.presentation.screen.ui.impl.notification.AlarmActivity
-import sgtmelon.scriptum.presentation.screen.ui.impl.notification.NotificationActivity
 import sgtmelon.scriptum.presentation.service.EternalService
 
 /**
@@ -182,23 +180,21 @@ class InteractorModule {
     @Provides
     @ActivityScope
     fun provideAlarmInteractor(
-        activity: AlarmActivity,
         preferenceRepo: IPreferenceRepo,
         alarmRepo: IAlarmRepo,
         noteRepo: INoteRepo
     ): IAlarmInteractor {
-        return AlarmInteractor(preferenceRepo, alarmRepo, noteRepo, activity)
+        return AlarmInteractor(preferenceRepo, alarmRepo, noteRepo)
     }
 
     @Provides
     @ActivityScope
     fun provideNotificationInteractor(
-        activity: NotificationActivity,
         noteRepo: INoteRepo,
         alarmRepo: IAlarmRepo,
         bindRepo: IBindRepo
     ): INotificationInteractor {
-        return NotificationInteractor(noteRepo, alarmRepo, bindRepo, activity)
+        return NotificationInteractor(noteRepo, alarmRepo, bindRepo)
     }
 
 
