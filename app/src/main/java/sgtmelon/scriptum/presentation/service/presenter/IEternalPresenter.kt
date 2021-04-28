@@ -1,5 +1,5 @@
 package sgtmelon.scriptum.presentation.service.presenter
 
-import sgtmelon.scriptum.presentation.receiver.BindReceiver
+import sgtmelon.scriptum.presentation.receiver.eternal.BindEternalReceiver
 
-interface IEternalPresenter : IParentPresenter, BindReceiver.Callback
+interface IEternalPresenter : IParentPresenter, BindEternalReceiver.Callback

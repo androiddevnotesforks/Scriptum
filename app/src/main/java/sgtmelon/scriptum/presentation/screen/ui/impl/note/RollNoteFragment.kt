@@ -47,7 +47,7 @@ import sgtmelon.scriptum.presentation.control.toolbar.tint.ToolbarTintControl
 import sgtmelon.scriptum.presentation.control.touch.RollTouchControl
 import sgtmelon.scriptum.presentation.factory.DialogFactory
 import sgtmelon.scriptum.presentation.listener.ItemListener
-import sgtmelon.scriptum.presentation.receiver.NoteReceiver
+import sgtmelon.scriptum.presentation.receiver.screen.NoteScreenReceiver
 import sgtmelon.scriptum.presentation.screen.ui.ParentFragment
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.IRollNoteFragment
@@ -61,7 +61,7 @@ import javax.inject.Inject
 class RollNoteFragment : ParentFragment(),
     IRollNoteFragment,
     Toolbar.OnMenuItemClickListener,
-    NoteReceiver.Callback,
+    NoteScreenReceiver.Callback,
     IconBlockCallback {
 
     private var binding: FragmentRollNoteBinding? = null

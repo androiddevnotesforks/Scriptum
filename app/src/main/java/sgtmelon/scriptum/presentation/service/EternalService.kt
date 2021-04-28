@@ -12,7 +12,7 @@ import sgtmelon.extension.getNewCalendar
 import sgtmelon.scriptum.domain.model.data.ReceiverData
 import sgtmelon.scriptum.extension.getAlarmService
 import sgtmelon.scriptum.presentation.control.system.BindControl
-import sgtmelon.scriptum.presentation.receiver.BindReceiver
+import sgtmelon.scriptum.presentation.receiver.eternal.BindEternalReceiver
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.service.presenter.IEternalPresenter
 import java.util.*
@@ -28,7 +28,7 @@ class EternalService : Service(), IEternalService {
 
     private val bindControl by lazy { BindControl[this] }
 
-    private val bindReceiver by lazy { BindReceiver[presenter] }
+    private val bindReceiver by lazy { BindEternalReceiver[presenter] }
 
     override fun onBind(intent: Intent?): IBinder? = null
 

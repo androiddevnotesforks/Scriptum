@@ -32,7 +32,7 @@ import sgtmelon.scriptum.presentation.control.toolbar.icon.NavigationIconControl
 import sgtmelon.scriptum.presentation.control.toolbar.tint.IToolbarTintControl
 import sgtmelon.scriptum.presentation.control.toolbar.tint.ToolbarTintControl
 import sgtmelon.scriptum.presentation.factory.DialogFactory
-import sgtmelon.scriptum.presentation.receiver.NoteReceiver
+import sgtmelon.scriptum.presentation.receiver.screen.NoteScreenReceiver
 import sgtmelon.scriptum.presentation.screen.ui.ParentFragment
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.ITextNoteFragment
@@ -44,9 +44,9 @@ import javax.inject.Inject
  * Fragment for display text note.
  */
 class TextNoteFragment : ParentFragment(),
-        ITextNoteFragment,
-        NoteReceiver.Callback,
-        IconBlockCallback {
+    ITextNoteFragment,
+    NoteScreenReceiver.Callback,
+    IconBlockCallback {
 
     private var binding: FragmentTextNoteBinding? = null
 

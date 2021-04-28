@@ -28,7 +28,7 @@ import sgtmelon.scriptum.presentation.control.system.BindControl
 import sgtmelon.scriptum.presentation.control.toolbar.show.HolderShowControl
 import sgtmelon.scriptum.presentation.factory.DialogFactory
 import sgtmelon.scriptum.presentation.factory.FragmentFactory
-import sgtmelon.scriptum.presentation.receiver.MainReceiver
+import sgtmelon.scriptum.presentation.receiver.screen.MainScreenReceiver
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.AppActivity
@@ -48,7 +48,7 @@ class MainActivity : AppActivity(), IMainActivity {
     private val bindControl by lazy { BindControl[null] }
     private val holderControl by lazy { HolderShowControl[toolbarHolder] }
 
-    private val mainReceiver by lazy { MainReceiver[viewModel, viewModel] }
+    private val mainReceiver by lazy { MainScreenReceiver[viewModel, viewModel] }
 
     private val fragmentFactory = FragmentFactory.Main(fm)
     private val rankFragment by lazy { fragmentFactory.getRankFragment() }

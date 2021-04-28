@@ -40,7 +40,7 @@ import sgtmelon.scriptum.presentation.control.system.callback.IPowerControl
 import sgtmelon.scriptum.presentation.control.system.callback.IVibratorControl
 import sgtmelon.scriptum.presentation.factory.DialogFactory
 import sgtmelon.scriptum.presentation.listener.ItemListener
-import sgtmelon.scriptum.presentation.receiver.NoteReceiver
+import sgtmelon.scriptum.presentation.receiver.screen.NoteScreenReceiver
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.callback.notification.IAlarmActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.AppActivity
@@ -70,7 +70,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     private val powerControl: IPowerControl by lazy { PowerControl(context = this) }
     private val bindControl by lazy { BindControl[null] }
 
-    private val noteReceiver by lazy { NoteReceiver[viewModel] }
+    private val noteReceiver by lazy { NoteScreenReceiver[viewModel] }
 
     private val openState = OpenState()
 
@@ -321,7 +321,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
     override fun sendUpdateBroadcast(id: Long) {
         sendTo(ReceiverData.Filter.MAIN, ReceiverData.Command.UPDATE_ALARM) {
-            putExtra(ReceiverData.Values.NOTE_ID, id)
+            putExtra(Note.Intent.ID, id)
         }
     }
 

@@ -1,11 +1,10 @@
-package sgtmelon.scriptum.presentation.receiver
+package sgtmelon.scriptum.presentation.receiver.action
 
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import sgtmelon.scriptum.domain.model.data.IntentData.Note
-import sgtmelon.scriptum.domain.model.data.ReceiverData.Values
 import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.AlarmActivity
 
@@ -13,12 +12,12 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.notification.AlarmActivity
 /**
  * Receiver for open [AlarmActivity] by time.
  */
-class AlarmReceiver : BroadcastReceiver() {
+class AlarmActionReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
         if (context == null || intent == null) return
 
-        val id = intent.getLongExtra(Values.NOTE_ID, Note.Default.ID)
+        val id = intent.getLongExtra(Note.Intent.ID, Note.Default.ID)
 
         if (id == Note.Default.ID) return
 
@@ -27,11 +26,11 @@ class AlarmReceiver : BroadcastReceiver() {
 
     companion object {
         operator fun get(context: Context, id: Long): PendingIntent {
-            val intent = Intent(context, AlarmReceiver::class.java)
-                    .putExtra(Values.NOTE_ID, id)
+            val intent = Intent(context, AlarmActionReceiver::class.java)
+                .putExtra(Note.Intent.ID, id)
 
             return PendingIntent.getBroadcast(
-                    context, id.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT
+                context, id.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT
             )
         }
     }

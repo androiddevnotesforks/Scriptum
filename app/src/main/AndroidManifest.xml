@@ -110,10 +110,10 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".presentation.receiver.AlarmReceiver" />
-        <receiver android:name=".presentation.receiver.MainReceiver" />
-        <receiver android:name=".presentation.receiver.NoteReceiver" />
-        <receiver android:name=".presentation.receiver.UnbindReceiver" />
+        <receiver android:name=".presentation.receiver.action.AlarmActionReceiver" />
+        <receiver android:name=".presentation.receiver.screen.MainScreenReceiver" />
+        <receiver android:name=".presentation.receiver.screen.NoteScreenReceiver" />
+        <receiver android:name=".presentation.receiver.action.UnbindActionReceiver" />
 
         <receiver
             android:name=".presentation.receiver.BootReceiver"

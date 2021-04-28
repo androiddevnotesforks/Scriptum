@@ -3,6 +3,10 @@ package sgtmelon.scriptum.domain.model.data
 import androidx.annotation.StringDef
 import sgtmelon.scriptum.domain.model.annotation.Color
 
+/**
+ * Object for store information between screens and save it
+ * inside onSavedInstanceState. Also it used inside application receivers.
+ */
 object IntentData {
 
     object Snackbar {
@@ -27,15 +31,10 @@ object IntentData {
                 const val PAGE_CURRENT = "${PREFIX}_PAGE_CURRENT"
             }
         }
-
-
     }
 
     object Note {
-        /**
-         * Object for store information between screens and save it
-         * inside onSavedInstanceState.
-         */
+
         @StringDef(Intent.ID, Intent.COLOR, Intent.TYPE)
         annotation class Intent {
             companion object {
@@ -57,10 +56,7 @@ object IntentData {
     }
 
     object Print {
-        /**
-         * Object for store information between screens and save it
-         * inside onSavedInstanceState.
-         */
+
         @StringDef(Intent.TYPE)
         annotation class Intent {
             companion object {
@@ -73,6 +69,24 @@ object IntentData {
         annotation class Default {
             companion object {
                 const val TYPE = -1
+            }
+        }
+    }
+
+    object Bind {
+
+        @StringDef(Intent.COUNT)
+        annotation class Intent {
+            companion object {
+                private const val PREFIX = "INTENT_BIND"
+
+                const val COUNT = "${PREFIX}_COUNT"
+            }
+        }
+
+        annotation class Default {
+            companion object {
+                const val COUNT = -1
             }
         }
     }

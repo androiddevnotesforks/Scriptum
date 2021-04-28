@@ -13,7 +13,7 @@ import sgtmelon.scriptum.extension.getAlarmService
 import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.extension.toLowerCase
 import sgtmelon.scriptum.presentation.control.system.callback.IAlarmControl
-import sgtmelon.scriptum.presentation.receiver.AlarmReceiver
+import sgtmelon.scriptum.presentation.receiver.action.AlarmActionReceiver
 import java.util.*
 
 /**
@@ -26,7 +26,7 @@ class AlarmControl(private val context: Context?) : IAlarmControl {
     override fun set(calendar: Calendar, id: Long, showToast: Boolean) {
         if (context == null) return
 
-        val intent = AlarmReceiver[context, id]
+        val intent = AlarmActionReceiver[context, id]
         alarmManager?.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, intent)
 
         if (showToast) {
@@ -42,7 +42,7 @@ class AlarmControl(private val context: Context?) : IAlarmControl {
     override fun cancel(id: Long) {
         if (context == null) return
 
-        alarmManager?.cancel(AlarmReceiver[context, id])
+        alarmManager?.cancel(AlarmActionReceiver[context, id])
     }
 
     override fun clear() {

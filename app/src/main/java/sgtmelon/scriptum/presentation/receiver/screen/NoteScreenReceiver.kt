@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.presentation.receiver
+package sgtmelon.scriptum.presentation.receiver.screen
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -11,14 +11,14 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
 /**
  * Receiver for [NoteActivity] commands.
  */
-class NoteReceiver : BroadcastReceiver() {
+class NoteScreenReceiver : BroadcastReceiver() {
 
     private var callback: Callback? = null
 
     override fun onReceive(context: Context?, intent: Intent?) {
         when (intent?.getStringExtra(Values.COMMAND)) {
             Command.UNBIND_NOTE -> {
-                val id = intent.getLongExtra(Values.NOTE_ID, Note.Default.ID)
+                val id = intent.getLongExtra(Note.Intent.ID, Note.Default.ID)
 
                 if (id != Note.Default.ID) callback?.onReceiveUnbindNote(id)
             }
@@ -33,8 +33,8 @@ class NoteReceiver : BroadcastReceiver() {
     }
 
     companion object {
-        operator fun get(callback: Callback): NoteReceiver {
-            return NoteReceiver().apply { this.callback = callback }
+        operator fun get(callback: Callback): NoteScreenReceiver {
+            return NoteScreenReceiver().apply { this.callback = callback }
         }
     }
 

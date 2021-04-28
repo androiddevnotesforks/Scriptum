@@ -21,7 +21,7 @@ import sgtmelon.scriptum.extension.getAppSimpleColor
 import sgtmelon.scriptum.extension.getNotificationService
 import sgtmelon.scriptum.extension.hide
 import sgtmelon.scriptum.presentation.control.system.BindControl
-import sgtmelon.scriptum.presentation.receiver.UnbindReceiver
+import sgtmelon.scriptum.presentation.receiver.action.UnbindActionReceiver
 import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.presentation.service.EternalService
 
@@ -94,7 +94,7 @@ object NotificationFactory {
                 .setStyle(NotificationCompat.BigTextStyle().bigText(text))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(contentIntent)
-                .addAction(0, context.getString(R.string.notification_button_unbind), UnbindReceiver[context, noteItem])
+                .addAction(0, context.getString(R.string.notification_button_unbind), UnbindActionReceiver[context, noteItem])
                 .setAutoCancel(false)
                 .setOngoing(true)
                 .setGroup(context.getString(R.string.notification_group_notes))

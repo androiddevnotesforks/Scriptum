@@ -27,15 +27,23 @@ object ReceiverData {
             const val UNBIND_NOTE = "${PREFIX}_UNBIND_NOTE"
             const val UPDATE_ALARM = "${PREFIX}_UPDATE_ALARM"
         }
+
+        @StringDef(Bind.NOTIFY_ALL, Bind.CANCEL_NOTE, Bind.NOTIFY_INFO)
+        annotation class Bind {
+            companion object {
+                const val NOTIFY_ALL = "${PREFIX}_NOTIFY_ALL"
+                const val CANCEL_NOTE = "${PREFIX}_CANCEL_NOTE"
+                const val NOTIFY_INFO = "${PREFIX}_NOTIFY_INFO"
+            }
+        }
     }
 
-    @StringDef(Values.COMMAND, Values.NOTE_ID)
+    @StringDef(Values.COMMAND)
     annotation class Values {
         companion object {
             private const val PREFIX = "RECEIVER_VALUES"
 
             const val COMMAND = "${PREFIX}_COMMAND"
-            const val NOTE_ID = "${PREFIX}_NOTE_ID"
         }
     }
 

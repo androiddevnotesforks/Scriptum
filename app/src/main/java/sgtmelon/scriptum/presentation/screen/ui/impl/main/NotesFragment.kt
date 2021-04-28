@@ -23,7 +23,7 @@ import sgtmelon.scriptum.presentation.control.system.ClipboardControl
 import sgtmelon.scriptum.presentation.control.system.callback.IClipboardControl
 import sgtmelon.scriptum.presentation.factory.DialogFactory
 import sgtmelon.scriptum.presentation.listener.ItemListener
-import sgtmelon.scriptum.presentation.receiver.MainReceiver
+import sgtmelon.scriptum.presentation.receiver.screen.MainScreenReceiver
 import sgtmelon.scriptum.presentation.screen.ui.ParentFragment
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IMainActivity
@@ -39,9 +39,9 @@ import javax.inject.Inject
  * Fragment which displays list of notes - [NoteItem].
  */
 class NotesFragment : ParentFragment(),
-        INotesFragment,
-        MainReceiver.BindCallback,
-        MainReceiver.AlarmCallback {
+    INotesFragment,
+    MainScreenReceiver.BindCallback,
+    MainScreenReceiver.AlarmCallback {
 
     private val callback: IMainActivity? by lazy { context as? IMainActivity }
 

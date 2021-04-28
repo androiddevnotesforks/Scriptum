@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.presentation.receiver
+package sgtmelon.scriptum.presentation.receiver.screen
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -11,13 +11,13 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.main.MainActivity
 /**
  * Receiver for [MainActivity] commands.
  */
-class MainReceiver : BroadcastReceiver() {
+class MainScreenReceiver : BroadcastReceiver() {
 
     private var bindCallback: BindCallback? = null
     private var alarmCallback: AlarmCallback? = null
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        val id = intent?.getLongExtra(Values.NOTE_ID, Note.Default.ID) ?: return
+        val id = intent?.getLongExtra(Note.Intent.ID, Note.Default.ID) ?: return
 
         if (id == Note.Default.ID) return
 
@@ -49,8 +49,11 @@ class MainReceiver : BroadcastReceiver() {
     }
 
     companion object {
-        operator fun get(bindCallback: BindCallback, alarmCallback: AlarmCallback): MainReceiver {
-            return MainReceiver().apply {
+        operator fun get(
+            bindCallback: BindCallback,
+            alarmCallback: AlarmCallback
+        ): MainScreenReceiver {
+            return MainScreenReceiver().apply {
                 this.bindCallback = bindCallback
                 this.alarmCallback = alarmCallback
             }

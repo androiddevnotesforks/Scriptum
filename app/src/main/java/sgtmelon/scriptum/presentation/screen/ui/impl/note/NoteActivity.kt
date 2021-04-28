@@ -19,7 +19,7 @@ import sgtmelon.scriptum.extension.updateMargin
 import sgtmelon.scriptum.presentation.control.toolbar.show.HolderShowControl
 import sgtmelon.scriptum.presentation.control.toolbar.tint.HolderTintControl
 import sgtmelon.scriptum.presentation.factory.FragmentFactory
-import sgtmelon.scriptum.presentation.receiver.NoteReceiver
+import sgtmelon.scriptum.presentation.receiver.screen.NoteScreenReceiver
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteActivity
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteConnector
@@ -30,7 +30,7 @@ import javax.inject.Inject
 /**
  * Screen which display note - [TextNoteFragment], [RollNoteFragment].
  */
-class NoteActivity : AppActivity(), INoteActivity, INoteConnector, NoteReceiver.Callback {
+class NoteActivity : AppActivity(), INoteActivity, INoteConnector, NoteScreenReceiver.Callback {
 
     @Inject internal lateinit var viewModel: INoteViewModel
 
@@ -41,7 +41,7 @@ class NoteActivity : AppActivity(), INoteActivity, INoteConnector, NoteReceiver.
     private val textNoteFragment get() = fragmentFactory.getTextNoteFragment()
     private val rollNoteFragment get() = fragmentFactory.getRollNoteFragment()
 
-    private val noteReceiver by lazy { NoteReceiver[this] }
+    private val noteReceiver by lazy { NoteScreenReceiver[this] }
 
     private val parentContainer by lazy { findViewById<View?>(R.id.note_parent_container) }
     private val toolbarHolder by lazy { findViewById<View?>(R.id.note_toolbar_holder) }

@@ -1,11 +1,11 @@
 package sgtmelon.scriptum.test.control.notification.bind
 
 import org.junit.Test
-import sgtmelon.scriptum.presentation.receiver.MainReceiver
+import sgtmelon.scriptum.presentation.receiver.screen.MainScreenReceiver
 import sgtmelon.scriptum.test.ParentNotificationTest
 
 /**
- * Test for UI realisation of [MainReceiver.BindCallback].
+ * Test for UI realisation of [MainScreenReceiver.BindCallback].
  */
 class UnbindReceiverTest : ParentNotificationTest() {
 
