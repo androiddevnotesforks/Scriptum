@@ -11,7 +11,6 @@ import org.junit.Before
 import org.junit.Test
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.*
-import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.domain.model.data.IntentData.Snackbar
 import sgtmelon.scriptum.domain.model.item.NoteItem

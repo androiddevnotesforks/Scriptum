@@ -166,9 +166,9 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
     private fun onMenuCopy(p: Int) {
         val item = itemList.getOrNull(p) ?: return
 
-        viewModelScope.launchBack {
-            val text = interactor.copy(item)
-            runMain { callback?.copyClipboard(text) }
+        viewModelScope.launch {
+            val text = runBack { interactor.copy(item) }
+            callback?.copyClipboard(text)
         }
     }
 

@@ -18,7 +18,7 @@ interface IBinInteractor : IParentInteractor {
 
     suspend fun restoreNote(item: NoteItem)
 
-    suspend fun copy(item: NoteItem)
+    suspend fun copy(item: NoteItem): String
 
     suspend fun clearNote(item: NoteItem)
 

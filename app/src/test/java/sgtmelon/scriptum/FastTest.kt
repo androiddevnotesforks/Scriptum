@@ -10,7 +10,6 @@ import sgtmelon.extension.nextString
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.data.repository.room.callback.IRankRepo
-import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.note.IParentNoteInteractor
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Repeat

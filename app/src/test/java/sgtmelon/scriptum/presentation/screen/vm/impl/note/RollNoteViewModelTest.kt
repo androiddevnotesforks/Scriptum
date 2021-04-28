@@ -10,7 +10,6 @@ import org.junit.Before
 import org.junit.Test
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.*
-import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.domain.model.annotation.InputAction
 import sgtmelon.scriptum.domain.model.data.IntentData.Note

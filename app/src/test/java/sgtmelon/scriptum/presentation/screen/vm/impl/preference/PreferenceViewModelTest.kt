@@ -13,7 +13,6 @@ import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.domain.interactor.callback.IBackupInteractor
-import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.domain.interactor.callback.preference.IPreferenceInteractor
 import sgtmelon.scriptum.domain.model.key.PermissionResult

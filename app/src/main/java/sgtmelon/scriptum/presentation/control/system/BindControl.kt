@@ -3,7 +3,6 @@ package sgtmelon.scriptum.presentation.control.system
 import android.content.Context
 import android.os.Build
 import androidx.annotation.IntDef
-import androidx.annotation.MainThread
 import androidx.annotation.StringDef
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
@@ -144,38 +143,6 @@ class BindControl(private val context: Context?) : IBindControl {
                 tagIdMap.clear()
             }
         }
-    }
-
-
-    /**
-     * Callback which need implement in interface what pass to Interactor
-     * Use when needs get access to [notifyNotes] and [cancelNote] inside Interactor
-     */
-    interface NoteBridge {
-        interface Full : Notify, Cancel
-
-        interface Notify {
-            @MainThread fun notifyNoteBind(
-                item: NoteItem,
-                rankIdVisibleList: List<Long>,
-                @Sort sort: Int
-            )
-        }
-
-        interface NotifyAll {
-            @MainThread fun notifyNotesBind(itemList: List<NoteItem>, rankIdVisibleList: List<Long>)
-        }
-
-        interface Cancel {
-            @MainThread fun cancelNoteBind(id: Long)
-        }
-    }
-
-    /**
-     * Use when needs get access to [notifyInfo] inside Interactor
-     */
-    interface InfoBridge {
-        fun notifyInfoBind(count: Int)
     }
 
     @StringDef(Tag.NOTE, Tag.NOTE_GROUP, Tag.INFO)

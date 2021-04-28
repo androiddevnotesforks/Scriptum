@@ -127,7 +127,10 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
     private fun onMenuCopy(p: Int) {
         val item = itemList.getOrNull(p) ?: return
 
-        viewModelScope.launchBack { interactor.copy(item) }
+        viewModelScope.launch {
+            val text = runBack { interactor.copy(item) }
+            callback?.copyClipboard(text)
+        }
     }
 
     private fun onMenuClear(p: Int) {

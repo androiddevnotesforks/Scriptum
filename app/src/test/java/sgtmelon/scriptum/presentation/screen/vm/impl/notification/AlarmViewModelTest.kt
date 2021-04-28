@@ -11,7 +11,6 @@ import org.junit.Test
 import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.TestData
-import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.domain.model.annotation.Repeat

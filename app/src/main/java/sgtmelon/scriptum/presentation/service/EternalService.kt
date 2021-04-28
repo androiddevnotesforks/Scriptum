@@ -97,7 +97,7 @@ class EternalService : Service(), IEternalService {
         service?.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
     }
 
-    //region Bridge callback
+    //region Bridge functions
 
     override fun setAlarm(id: Long, calendar: Calendar, showToast: Boolean) {
         alarmControl.set(calendar, id, showToast)

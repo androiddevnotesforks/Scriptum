@@ -14,7 +14,6 @@ import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.TestData
-import sgtmelon.scriptum.domain.interactor.callback.IBindInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.domain.model.annotation.Options
 import sgtmelon.scriptum.domain.model.annotation.Sort

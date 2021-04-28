@@ -27,11 +27,9 @@ class ClipboardControl(private val context: Context?) : IClipboardControl {
     }
 
     /**
-     * Callback which need implement in interface what pass to Interactor.
-     * It's need to get access [ClipboardControl] inside Interactor.
+     * Interface for fast access to this class.
      */
     interface Bridge {
         @MainThread fun copyClipboard(text: String)
     }
-
 }

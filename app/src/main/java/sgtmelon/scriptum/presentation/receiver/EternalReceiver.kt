@@ -8,6 +8,7 @@ import sgtmelon.scriptum.domain.model.data.IntentData.Eternal
 import sgtmelon.scriptum.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.domain.model.data.ReceiverData.Command
 import sgtmelon.scriptum.domain.model.data.ReceiverData.Values
+import sgtmelon.scriptum.presentation.control.broadcast.BroadcastControl
 import sgtmelon.scriptum.presentation.control.system.BindControl
 import sgtmelon.scriptum.presentation.service.EternalService
 import java.util.*
@@ -59,6 +60,9 @@ class EternalReceiver : BroadcastReceiver() {
         }
     }
 
+    /**
+     * Callback which will call after getting [Intent] inside [onReceive].
+     */
     interface Callback {
 
         fun setAlarm(id: Long, calendar: Calendar, showToast: Boolean)
@@ -75,6 +79,9 @@ class EternalReceiver : BroadcastReceiver() {
         fun notifyInfo(count: Int?)
     }
 
+    /**
+     * Interface for fast data pass to this class. ALso see [BroadcastControl].
+     */
     interface Bridge {
 
         interface Alarm {

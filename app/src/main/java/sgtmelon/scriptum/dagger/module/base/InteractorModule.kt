@@ -9,7 +9,10 @@ import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.*
 import sgtmelon.scriptum.data.room.backup.IBackupParser
 import sgtmelon.scriptum.data.room.converter.type.IntConverter
-import sgtmelon.scriptum.domain.interactor.callback.*
+import sgtmelon.scriptum.domain.interactor.callback.IAppInteractor
+import sgtmelon.scriptum.domain.interactor.callback.IBackupInteractor
+import sgtmelon.scriptum.domain.interactor.callback.IIntroInteractor
+import sgtmelon.scriptum.domain.interactor.callback.ISplashInteractor
 import sgtmelon.scriptum.domain.interactor.callback.eternal.IEternalInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.INotesInteractor
@@ -23,7 +26,10 @@ import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteract
 import sgtmelon.scriptum.domain.interactor.callback.preference.IDevelopInteractor
 import sgtmelon.scriptum.domain.interactor.callback.preference.IPreferenceInteractor
 import sgtmelon.scriptum.domain.interactor.callback.preference.IPrintInteractor
-import sgtmelon.scriptum.domain.interactor.impl.*
+import sgtmelon.scriptum.domain.interactor.impl.AppInteractor
+import sgtmelon.scriptum.domain.interactor.impl.BackupInteractor
+import sgtmelon.scriptum.domain.interactor.impl.IntroInteractor
+import sgtmelon.scriptum.domain.interactor.impl.SplashInteractor
 import sgtmelon.scriptum.domain.interactor.impl.eternal.EternalInteractor
 import sgtmelon.scriptum.domain.interactor.impl.main.BinInteractor
 import sgtmelon.scriptum.domain.interactor.impl.main.NotesInteractor
@@ -51,17 +57,6 @@ import sgtmelon.scriptum.presentation.service.EternalService
 class InteractorModule {
 
     //region Common
-
-    @Provides
-    @ActivityScope
-    fun provideBindInteractor(
-        preferenceRepo: IPreferenceRepo,
-        bindRepo: IBindRepo,
-        rankRepo: IRankRepo,
-        noteRepo: INoteRepo
-    ): IBindInteractor {
-        return BindInteractor(preferenceRepo, bindRepo, rankRepo, noteRepo)
-    }
 
     @Provides
     @ActivityScope
@@ -229,8 +224,6 @@ class InteractorModule {
 
     //endregion
 
-    //region Service
-
     @Provides
     @ActivityScope
     fun provideEternalInteractor(
@@ -243,6 +236,4 @@ class InteractorModule {
     ): IEternalInteractor {
         return EternalInteractor(preferenceRepo, bindRepo, alarmRepo, rankRepo, noteRepo, service)
     }
-
-    //endregion
 }

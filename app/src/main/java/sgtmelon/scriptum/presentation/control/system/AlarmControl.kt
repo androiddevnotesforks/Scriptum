@@ -4,7 +4,6 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.text.format.DateUtils
-import androidx.annotation.MainThread
 import sgtmelon.extension.formatFuture
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
@@ -51,22 +50,6 @@ class AlarmControl(private val context: Context?) : IAlarmControl {
                 alarmManager?.cancel(it)
             }
             intentList.clear()
-        }
-    }
-
-    /**
-     * Callback which need implement in interface what pass to Interactor
-     * It's need to get access [AlarmControl] inside Interactor
-     */
-    interface Bridge {
-        interface Full : Set, Cancel
-
-        interface Set {
-            @MainThread fun setAlarm(id: Long, calendar: Calendar, showToast: Boolean)
-        }
-
-        interface Cancel {
-            @MainThread fun cancelAlarm(id: Long)
         }
     }
 
