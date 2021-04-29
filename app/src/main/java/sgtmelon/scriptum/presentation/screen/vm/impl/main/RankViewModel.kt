@@ -187,8 +187,9 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
 
         callback?.setList(itemList)
 
-        viewModelScope.launchBack {
-            interactor.update(item)
+        viewModelScope.launch {
+            runBack { interactor.update(item) }
+
             callback?.sendNotifyNotesBroadcast()
         }
     }
@@ -200,8 +201,9 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
 
         callback?.notifyDataSetChanged(itemList, animationArray)
 
-        viewModelScope.launchBack {
-            interactor.update(itemList)
+        viewModelScope.launch {
+            runBack { interactor.update(itemList) }
+
             callback?.sendNotifyNotesBroadcast()
         }
     }
@@ -220,9 +222,12 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         callback?.notifyItemRemoved(itemList, p)
         callback?.showSnackbar()
 
-        viewModelScope.launchBack {
-            interactor.delete(item)
-            interactor.updatePosition(itemList, noteIdList)
+        viewModelScope.launch {
+            launchBack {
+                interactor.delete(item)
+                interactor.updatePosition(itemList, noteIdList)
+            }
+
             callback?.sendNotifyNotesBroadcast()
         }
     }

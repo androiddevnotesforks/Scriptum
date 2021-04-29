@@ -25,32 +25,19 @@ class MainViewModelTest : ParentViewModelTest() {
 
     @MockK lateinit var callback: IMainActivity
 
-    //    @MockK lateinit var interactor: IMainInteractor
-    //    @MockK lateinit var bindInteractor: IBindInteractor
-
     @MockK lateinit var bundle: Bundle
 
     private val viewModel by lazy { MainViewModel(application) }
 
     @Before override fun setup() {
         super.setup()
-
         viewModel.setCallback(callback)
-        //        viewModel.setInteractor(interactor, bindInteractor)
     }
-
-    //    @After override fun tearDown() {
-    //        super.tearDown()
-    //        confirmVerified(callback, interactor, bindInteractor, bundle)
-    //    }
 
     @Test override fun onDestroy() {
         assertNotNull(viewModel.callback)
-
         viewModel.onDestroy()
-
         assertNull(viewModel.callback)
-        //        verifySequence { interactor.onDestroy() }
     }
 
 
@@ -59,10 +46,6 @@ class MainViewModelTest : ParentViewModelTest() {
         viewModel.onSetup()
 
         coVerifySequence {
-            //            interactor.tidyUpAlarm()
-            //            bindInteractor.notifyNoteBind(callback)
-            //            bindInteractor.notifyInfoBind(callback)
-
             callback.setupNavigation(R.id.item_page_notes)
             callback.setupInsets()
         }

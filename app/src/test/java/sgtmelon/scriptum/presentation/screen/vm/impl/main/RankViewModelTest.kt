@@ -32,7 +32,6 @@ class RankViewModelTest : ParentViewModelTest() {
     @MockK lateinit var callback: IRankFragment
 
     @MockK lateinit var interactor: IRankInteractor
-//    @MockK lateinit var bindInteractor: IBindInteractor
 
     @MockK lateinit var openState: OpenState
 
@@ -45,7 +44,7 @@ class RankViewModelTest : ParentViewModelTest() {
         every { callback.openState } returns openState
 
         viewModel.setCallback(callback)
-        viewModel.setInteractor(interactor/*, bindInteractor*/)
+        viewModel.setInteractor(interactor)
 
         assertTrue(viewModel.itemList.isEmpty())
         assertTrue(viewModel.cancelList.isEmpty())
@@ -55,7 +54,7 @@ class RankViewModelTest : ParentViewModelTest() {
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(callback, interactor/*, bindInteractor*/, openState)
+        confirmVerified(callback, interactor, openState)
     }
 
     @Test override fun onDestroy() {
@@ -500,7 +499,7 @@ class RankViewModelTest : ParentViewModelTest() {
             callback.setList(itemList)
 
             interactor.update(item)
-            //            bindInteractor.notifyNoteBind(callback)
+            callback.sendNotifyNotesBroadcast()
         }
     }
 
@@ -523,7 +522,7 @@ class RankViewModelTest : ParentViewModelTest() {
             callback.notifyDataSetChanged(itemList, animationArray)
 
             interactor.update(itemList)
-            //            bindInteractor.notifyNoteBind(callback)
+            callback.sendNotifyNotesBroadcast()
         }
     }
 
@@ -553,7 +552,8 @@ class RankViewModelTest : ParentViewModelTest() {
 
             interactor.delete(item)
             interactor.updatePosition(itemList, noteIdList)
-            //            bindInteractor.notifyNoteBind(callback)
+
+            callback.sendNotifyNotesBroadcast()
         }
     }
 
@@ -614,6 +614,7 @@ class RankViewModelTest : ParentViewModelTest() {
             spyViewModel.correctPositions(resultList)
             interactor.updatePosition(resultList, noteIdList)
             callback.setList(resultList)
+            callback.sendNotifyNotesBroadcast()
         }
     }
 
@@ -651,6 +652,7 @@ class RankViewModelTest : ParentViewModelTest() {
             spyViewModel.correctPositions(resultList)
             interactor.updatePosition(resultList, noteIdList)
             callback.setList(resultList)
+            callback.sendNotifyNotesBroadcast()
         }
     }
 
@@ -688,6 +690,7 @@ class RankViewModelTest : ParentViewModelTest() {
             spyViewModel.correctPositions(resultList)
             interactor.updatePosition(resultList, noteIdList)
             callback.setList(resultList)
+            callback.sendNotifyNotesBroadcast()
         }
     }
 

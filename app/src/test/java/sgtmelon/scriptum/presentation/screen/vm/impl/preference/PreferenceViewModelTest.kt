@@ -472,15 +472,15 @@ class PreferenceViewModelTest : ParentViewModelTest() {
             backupInteractor.import(name)
             callback.hideImportLoadingDialog()
             callback.showToast(R.string.pref_toast_import_result)
-            //            bindInteractor.notifyNoteBind(callback)
-            //            bindInteractor.notifyInfoBind(callback)
+            callback.sendNotifyNotesBroadcast()
+            callback.sendNotifyInfoBroadcast()
 
             callback.showImportLoadingDialog()
             backupInteractor.import(name)
             callback.hideImportLoadingDialog()
             callback.showImportSkipToast(skipCount)
-            //            bindInteractor.notifyNoteBind(callback)
-            //            bindInteractor.notifyInfoBind(callback)
+            callback.sendNotifyNotesBroadcast()
+            callback.sendNotifyInfoBroadcast()
 
             callback.showImportLoadingDialog()
             backupInteractor.import(name)
@@ -514,6 +514,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
         verifySequence {
             interactor.updateSort(value)
             callback.updateSortSummary(summary)
+            callback.sendNotifyNotesBroadcast()
         }
     }
 
