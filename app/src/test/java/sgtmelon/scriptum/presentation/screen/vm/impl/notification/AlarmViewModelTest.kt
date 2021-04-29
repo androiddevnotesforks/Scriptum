@@ -41,7 +41,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
     @MockK lateinit var interactor: IAlarmInteractor
     @MockK lateinit var signalInteractor: ISignalInteractor
-    @MockK lateinit var bindInteractor: IBindInteractor
+//    @MockK lateinit var bindInteractor: IBindInteractor
 
     @MockK lateinit var bundle: Bundle
 
@@ -51,12 +51,12 @@ class AlarmViewModelTest : ParentViewModelTest() {
         super.setup()
 
         viewModel.setCallback(callback)
-        viewModel.setInteractor(interactor, signalInteractor, bindInteractor)
+        viewModel.setInteractor(interactor, signalInteractor/*, bindInteractor*/)
     }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(callback, interactor, signalInteractor, bindInteractor, bundle)
+        confirmVerified(callback, interactor, signalInteractor/*, bindInteractor*/, bundle)
     }
 
     @Test override fun onDestroy() {
@@ -140,7 +140,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
             }
             signalInteractor.state
             interactor.getModel(id)
-            bindInteractor.notifyInfoBind(callback)
+            //            bindInteractor.notifyInfoBind(callback)
             callback.apply {
                 prepareLogoAnimation()
                 notifyList(noteItem)

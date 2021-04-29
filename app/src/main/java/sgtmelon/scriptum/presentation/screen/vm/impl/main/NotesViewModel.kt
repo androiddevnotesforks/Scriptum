@@ -43,8 +43,6 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
         callback?.setupDialog()
     }
 
-    override fun onDestroy(func: () -> Unit) = super.onDestroy { interactor.onDestroy() }
-
 
     override fun onUpdateData() {
         AppIdlingResource.getInstance().startWork(IdlingTag.Notes.LOAD_DATA)

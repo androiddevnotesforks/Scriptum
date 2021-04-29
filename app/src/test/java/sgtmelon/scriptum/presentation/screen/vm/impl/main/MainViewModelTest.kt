@@ -2,12 +2,10 @@ package sgtmelon.scriptum.presentation.screen.vm.impl.main
 
 import android.os.Bundle
 import io.mockk.coVerifySequence
-import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -27,8 +25,8 @@ class MainViewModelTest : ParentViewModelTest() {
 
     @MockK lateinit var callback: IMainActivity
 
-    @MockK lateinit var interactor: IMainInteractor
-    @MockK lateinit var bindInteractor: IBindInteractor
+    //    @MockK lateinit var interactor: IMainInteractor
+    //    @MockK lateinit var bindInteractor: IBindInteractor
 
     @MockK lateinit var bundle: Bundle
 
@@ -38,13 +36,13 @@ class MainViewModelTest : ParentViewModelTest() {
         super.setup()
 
         viewModel.setCallback(callback)
-        viewModel.setInteractor(interactor, bindInteractor)
+        //        viewModel.setInteractor(interactor, bindInteractor)
     }
 
-    @After override fun tearDown() {
-        super.tearDown()
-        confirmVerified(callback, interactor, bindInteractor, bundle)
-    }
+    //    @After override fun tearDown() {
+    //        super.tearDown()
+    //        confirmVerified(callback, interactor, bindInteractor, bundle)
+    //    }
 
     @Test override fun onDestroy() {
         assertNotNull(viewModel.callback)
@@ -52,7 +50,7 @@ class MainViewModelTest : ParentViewModelTest() {
         viewModel.onDestroy()
 
         assertNull(viewModel.callback)
-        verifySequence { interactor.onDestroy() }
+        //        verifySequence { interactor.onDestroy() }
     }
 
 
@@ -61,9 +59,9 @@ class MainViewModelTest : ParentViewModelTest() {
         viewModel.onSetup()
 
         coVerifySequence {
-            interactor.tidyUpAlarm()
-            bindInteractor.notifyNoteBind(callback)
-            bindInteractor.notifyInfoBind(callback)
+            //            interactor.tidyUpAlarm()
+            //            bindInteractor.notifyNoteBind(callback)
+            //            bindInteractor.notifyInfoBind(callback)
 
             callback.setupNavigation(R.id.item_page_notes)
             callback.setupInsets()

@@ -47,7 +47,6 @@ import sgtmelon.scriptum.presentation.control.cipher.ICipherControl
 import sgtmelon.scriptum.presentation.control.file.IFileControl
 import sgtmelon.scriptum.presentation.control.system.callback.IRingtoneControl
 import sgtmelon.scriptum.presentation.provider.SummaryProvider
-import sgtmelon.scriptum.presentation.screen.ui.impl.main.BinFragment
 import sgtmelon.scriptum.presentation.service.EternalService
 
 /**
@@ -127,11 +126,10 @@ class InteractorModule {
     @Provides
     @ActivityScope
     fun provideBinInteractor(
-        fragment: BinFragment,
         preferenceRepo: IPreferenceRepo,
         noteRepo: INoteRepo
     ): IBinInteractor {
-        return BinInteractor(preferenceRepo, noteRepo, fragment)
+        return BinInteractor(preferenceRepo, noteRepo)
     }
 
     //endregion

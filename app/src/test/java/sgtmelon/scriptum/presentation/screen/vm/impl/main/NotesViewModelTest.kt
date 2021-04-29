@@ -35,7 +35,7 @@ class NotesViewModelTest : ParentViewModelTest() {
     @MockK lateinit var callback: INotesFragment
 
     @MockK lateinit var interactor: INotesInteractor
-    @MockK lateinit var bindInteractor: IBindInteractor
+//    @MockK lateinit var bindInteractor: IBindInteractor
 
     @MockK lateinit var calendar: Calendar
 
@@ -45,12 +45,12 @@ class NotesViewModelTest : ParentViewModelTest() {
         super.setup()
 
         viewModel.setCallback(callback)
-        viewModel.setInteractor(interactor, bindInteractor)
+        viewModel.setInteractor(interactor/*, bindInteractor*/)
     }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(callback, interactor, bindInteractor, calendar)
+        confirmVerified(callback, interactor/*, bindInteractor*/, calendar)
     }
 
     @Test override fun onDestroy() {
@@ -385,7 +385,7 @@ class NotesViewModelTest : ParentViewModelTest() {
             callback.notifyItemRemoved(itemList, p)
 
             interactor.deleteNote(item)
-            bindInteractor.notifyInfoBind(callback)
+            //            bindInteractor.notifyInfoBind(callback)
         }
     }
 
@@ -420,7 +420,7 @@ class NotesViewModelTest : ParentViewModelTest() {
             callback.notifyItemChanged(itemList, p)
 
             interactor.clearDate(item)
-            bindInteractor.notifyInfoBind(callback)
+            //            bindInteractor.notifyInfoBind(callback)
         }
     }
 
@@ -444,7 +444,7 @@ class NotesViewModelTest : ParentViewModelTest() {
             interactor.setDate(item, calendarFuture)
             callback.notifyItemChanged(itemList, p)
 
-            bindInteractor.notifyInfoBind(callback)
+            //            bindInteractor.notifyInfoBind(callback)
         }
     }
 

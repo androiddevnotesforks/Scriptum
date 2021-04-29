@@ -66,8 +66,6 @@ class NotificationViewModel(application: Application) :
         }
     }
 
-    override fun onDestroy(func: () -> Unit) = super.onDestroy { interactor.onDestroy() }
-
 
     /**
      * Save snackbar data and restore it inside [restoreSnackbar].

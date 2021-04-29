@@ -4,7 +4,8 @@ import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.extension.getCalendarOrNull
 import sgtmelon.extension.nextString
@@ -27,21 +28,21 @@ class NotificationInteractorTest : ParentInteractorTest() {
     @MockK lateinit var noteRepo: INoteRepo
     @MockK lateinit var alarmRepo: IAlarmRepo
     @MockK lateinit var bindRepo: IBindRepo
-    @MockK lateinit var callback: INotificationBridge
+    //    @MockK lateinit var callback: INotificationBridge
 
     private val interactor by lazy {
-        NotificationInteractor(noteRepo, alarmRepo, bindRepo, callback)
+        NotificationInteractor(noteRepo, alarmRepo, bindRepo/*, callback*/)
     }
 
-    @Test override fun onDestroy() {
-        assertNotNull(interactor.callback)
-        interactor.onDestroy()
-        assertNull(interactor.callback)
-    }
+    //    @Test override fun onDestroy() {
+    //        assertNotNull(interactor.callback)
+    //        interactor.onDestroy()
+    //        assertNull(interactor.callback)
+    //    }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(noteRepo, alarmRepo, bindRepo, callback)
+        confirmVerified(noteRepo, alarmRepo, bindRepo/*, callback*/)
     }
 
 
@@ -122,7 +123,7 @@ class NotificationInteractorTest : ParentInteractorTest() {
                 noteRepo.getItem(id, isOptimal = true)
                 date.getCalendarOrNull()
                 alarmRepo.insertOrUpdate(noteItem, date)
-                callback.setAlarm(id, calendar)
+                //                callback.setAlarm(id, calendar)
                 alarmRepo.getItem(id)
             }
         }
@@ -142,7 +143,7 @@ class NotificationInteractorTest : ParentInteractorTest() {
             item.note
             note.id
             alarmRepo.delete(id)
-            callback.cancelAlarm(id)
+            //            callback.cancelAlarm(id)
         }
     }
 }

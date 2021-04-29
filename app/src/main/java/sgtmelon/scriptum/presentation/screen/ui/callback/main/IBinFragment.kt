@@ -3,13 +3,14 @@ package sgtmelon.scriptum.presentation.screen.ui.callback.main
 import androidx.annotation.ArrayRes
 import androidx.annotation.StringRes
 import sgtmelon.scriptum.domain.model.item.NoteItem
+import sgtmelon.scriptum.presentation.control.system.ClipboardControl
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.BinFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.main.IBinViewModel
 
 /**
  * Interface for communication [IBinViewModel] with [BinFragment].
  */
-interface IBinFragment : IBinBridge{
+interface IBinFragment : ClipboardControl.Bridge {
 
     fun setupToolbar()
 

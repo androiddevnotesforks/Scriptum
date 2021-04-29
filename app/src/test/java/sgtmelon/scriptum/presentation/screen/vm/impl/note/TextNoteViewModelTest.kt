@@ -33,7 +33,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
     @MockK lateinit var parentCallback: INoteConnector
 
     @MockK lateinit var interactor: ITextNoteInteractor
-    @MockK lateinit var bindInteractor: IBindInteractor
+//    @MockK lateinit var bindInteractor: IBindInteractor
 
     @MockK lateinit var saveControl: ISaveControl
     @MockK lateinit var inputControl: IInputControl
@@ -43,7 +43,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
 
     private val fastTest by lazy {
         FastTest.ViewModel(
-            callback, parentCallback, interactor, bindInteractor,
+            callback, parentCallback, interactor/*, bindInteractor*/,
             saveControl, inputControl, viewModel, spyViewModel, { FastMock.Note.deepCopy(it) },
             { verifyDeepCopy(it) }
         )
@@ -54,7 +54,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
 
         viewModel.setCallback(callback)
         viewModel.setParentCallback(parentCallback)
-        viewModel.setInteractor(interactor, bindInteractor)
+        viewModel.setInteractor(interactor/*, bindInteractor*/)
 
         viewModel.inputControl = inputControl
         viewModel.saveControl = saveControl
@@ -72,7 +72,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
         super.tearDown()
 
         confirmVerified(
-            callback, parentCallback, interactor, bindInteractor, inputControl, saveControl
+            callback, parentCallback, interactor/*, bindInteractor*/, inputControl, saveControl
         )
     }
 

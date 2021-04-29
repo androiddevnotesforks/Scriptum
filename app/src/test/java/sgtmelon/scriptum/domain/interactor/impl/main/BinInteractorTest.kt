@@ -7,14 +7,13 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentInteractorTest
 import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
-import sgtmelon.scriptum.presentation.screen.ui.callback.main.IBinBridge
 import kotlin.random.Random
 
 /**
@@ -27,20 +26,20 @@ class BinInteractorTest : ParentInteractorTest() {
 
     @MockK lateinit var preferenceRepo: IPreferenceRepo
     @MockK lateinit var noteRepo: INoteRepo
-    @MockK lateinit var callback: IBinBridge
+    //    @MockK lateinit var callback: IBinBridge
 
-    private val interactor by lazy { BinInteractor(preferenceRepo, noteRepo, callback) }
+    private val interactor by lazy { BinInteractor(preferenceRepo, noteRepo/*, callback*/) }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(preferenceRepo, noteRepo, callback)
+        confirmVerified(preferenceRepo, noteRepo/*, callback*/)
     }
 
-    @Test override fun onDestroy() {
-        assertNotNull(interactor.callback)
-        interactor.onDestroy()
-        assertNull(interactor.callback)
-    }
+    //    @Test override fun onDestroy() {
+    //        assertNotNull(interactor.callback)
+    //        interactor.onDestroy()
+    //        assertNull(interactor.callback)
+    //    }
 
 
     @Test fun getCount() = startCoTest {
@@ -108,7 +107,7 @@ class BinInteractorTest : ParentInteractorTest() {
 
         coVerifySequence {
             noteRepo.getCopyText(item)
-            callback.copyClipboard(text)
+            //            callback.copyClipboard(text)
         }
     }
 

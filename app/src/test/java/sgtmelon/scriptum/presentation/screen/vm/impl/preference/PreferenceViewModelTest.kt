@@ -31,7 +31,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
     @MockK lateinit var interactor: IPreferenceInteractor
     @MockK lateinit var signalInteractor: ISignalInteractor
     @MockK lateinit var backupInteractor: IBackupInteractor
-    @MockK lateinit var bindInteractor: IBindInteractor
+//    @MockK lateinit var bindInteractor: IBindInteractor
     @MockK lateinit var callback: IPreferenceFragment
 
     private val melodyList = TestData.Melody.melodyList
@@ -44,12 +44,12 @@ class PreferenceViewModelTest : ParentViewModelTest() {
         super.setup()
 
         viewModel.setCallback(callback)
-        viewModel.setInteractor(interactor, signalInteractor, backupInteractor, bindInteractor)
+        viewModel.setInteractor(interactor, signalInteractor, backupInteractor/*, bindInteractor*/)
     }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(callback, interactor, signalInteractor, backupInteractor, bindInteractor)
+        confirmVerified(callback, interactor, signalInteractor, backupInteractor/*, bindInteractor*/)
     }
 
     @Test override fun onDestroy() {
@@ -472,15 +472,15 @@ class PreferenceViewModelTest : ParentViewModelTest() {
             backupInteractor.import(name)
             callback.hideImportLoadingDialog()
             callback.showToast(R.string.pref_toast_import_result)
-            bindInteractor.notifyNoteBind(callback)
-            bindInteractor.notifyInfoBind(callback)
+            //            bindInteractor.notifyNoteBind(callback)
+            //            bindInteractor.notifyInfoBind(callback)
 
             callback.showImportLoadingDialog()
             backupInteractor.import(name)
             callback.hideImportLoadingDialog()
             callback.showImportSkipToast(skipCount)
-            bindInteractor.notifyNoteBind(callback)
-            bindInteractor.notifyInfoBind(callback)
+            //            bindInteractor.notifyNoteBind(callback)
+            //            bindInteractor.notifyInfoBind(callback)
 
             callback.showImportLoadingDialog()
             backupInteractor.import(name)

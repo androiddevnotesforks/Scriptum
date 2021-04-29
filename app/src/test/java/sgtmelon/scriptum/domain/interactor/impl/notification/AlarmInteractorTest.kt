@@ -28,23 +28,23 @@ class AlarmInteractorTest : ParentInteractorTest() {
     @MockK lateinit var preferenceRepo: IPreferenceRepo
     @MockK lateinit var alarmRepo: IAlarmRepo
     @MockK lateinit var noteRepo: INoteRepo
-    @MockK lateinit var callback: IAlarmBridge
+//    @MockK lateinit var callback: IAlarmBridge
 
     private val interactor by lazy {
-        AlarmInteractor(preferenceRepo, alarmRepo, noteRepo, callback)
+        AlarmInteractor(preferenceRepo, alarmRepo, noteRepo/*, callback*/)
     }
     private val spyInteractor by lazy { spyk(interactor) }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(preferenceRepo, alarmRepo, noteRepo, callback)
+        confirmVerified(preferenceRepo, alarmRepo, noteRepo/*, callback*/)
     }
 
-    @Test override fun onDestroy() {
-        assertNotNull(interactor.callback)
-        interactor.onDestroy()
-        assertNull(interactor.callback)
-    }
+    //    @Test override fun onDestroy() {
+    //        assertNotNull(interactor.callback)
+    //        interactor.onDestroy()
+    //        assertNull(interactor.callback)
+    //    }
 
 
     @Test fun getRepeat() = FastTest.getRepeat(preferenceRepo) { interactor.repeat }
@@ -111,9 +111,9 @@ class AlarmInteractorTest : ParentInteractorTest() {
             spyInteractor.checkDateExist(calendar)
             calendar.getText()
             alarmRepo.insertOrUpdate(item, calendarText)
-            spyInteractor.callback
+            //            spyInteractor.callback
             item.id
-            callback.setAlarm(id, calendar)
+            //            callback.setAlarm(id, calendar)
         }
     }
 

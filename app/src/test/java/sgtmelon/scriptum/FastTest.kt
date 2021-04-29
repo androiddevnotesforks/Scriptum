@@ -24,7 +24,6 @@ import sgtmelon.scriptum.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.presentation.control.note.save.ISaveControl
 import sgtmelon.scriptum.presentation.control.note.save.SaveControl
-import sgtmelon.scriptum.presentation.control.system.AlarmControl
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.IParentNoteFragment
 import sgtmelon.scriptum.presentation.screen.vm.impl.note.ParentNoteViewModel
@@ -136,7 +135,7 @@ object FastTest {
         private val callback: IParentNoteFragment<N>,
         private val parentCallback: INoteConnector,
         private val interactor: IParentNoteInteractor<N>,
-        private val bindInteractor: IBindInteractor,
+        //        private val bindInteractor: IBindInteractor,
         private val saveControl: ISaveControl,
         private val inputControl: IInputControl,
         private val viewModel: ParentNoteViewModel<N, C, I>,
@@ -469,7 +468,7 @@ object FastTest {
 
             coVerifySequence {
                 interactor.clearDate(noteItem)
-                bindInteractor.notifyInfoBind(callback)
+                //                bindInteractor.notifyInfoBind(callback)
 
                 noteItem.clearAlarm()
                 verifyDeepCopy(noteItem)
@@ -502,7 +501,7 @@ object FastTest {
                 interactor.setDate(noteItem, calendar)
                 verifyDeepCopy(noteItem)
                 callback.onBindingNote(noteItem)
-                bindInteractor.notifyInfoBind(callback)
+                //                bindInteractor.notifyInfoBind(callback)
             }
 
             assertEquals(noteItem, viewModel.restoreItem)
@@ -933,7 +932,7 @@ object FastTest {
                 callback.isDialogOpen
                 noteState.isEdit
                 interactor.deleteNote(noteItem)
-                bindInteractor.notifyInfoBind(callback)
+                //                bindInteractor.notifyInfoBind(callback)
                 parentCallback.finish()
             }
         }
@@ -1079,7 +1078,7 @@ object FastTest {
 
         suspend inline fun <reified T : NoteItem> clearDate(
             alarmRepo: IAlarmRepo,
-            callback: AlarmControl.Bridge.Cancel,
+            /*callback: AlarmControl.Bridge.Cancel,*/
             callFunc: (item: T) -> Unit
         ) {
             val item = mockk<T>()
@@ -1093,13 +1092,13 @@ object FastTest {
                 item.id
                 alarmRepo.delete(id)
                 item.id
-                callback.cancelAlarm(id)
+                //                callback.cancelAlarm(id)
             }
         }
 
         suspend inline fun <reified T : NoteItem> setDate(
             alarmRepo: IAlarmRepo,
-            callback: AlarmControl.Bridge.Set,
+            /*callback: AlarmControl.Bridge.Set,*/
             callFunc: (item: T, calendar: Calendar) -> Unit
         ) {
             val item = mockk<T>()
@@ -1117,7 +1116,7 @@ object FastTest {
                 calendar.getText()
                 alarmRepo.insertOrUpdate(item, date)
                 item.id
-                callback.setAlarm(id, calendar)
+                //                callback.setAlarm(id, calendar)
             }
         }
     }

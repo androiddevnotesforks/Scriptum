@@ -4,7 +4,8 @@ import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import sgtmelon.extension.nextString
@@ -31,28 +32,28 @@ class TextNoteInteractorTest : ParentInteractorTest() {
     @MockK lateinit var alarmRepo: IAlarmRepo
     @MockK lateinit var rankRepo: IRankRepo
     @MockK lateinit var noteRepo: INoteRepo
-    @MockK lateinit var callback: IParentNoteBridge
+    //    @MockK lateinit var callback: IParentNoteBridge
 
     private val interactor by lazy {
-        TextNoteInteractor(preferenceRepo, alarmRepo, rankRepo, noteRepo, callback)
+        TextNoteInteractor(preferenceRepo, alarmRepo, rankRepo, noteRepo/*, callback*/)
     }
     private val spyInteractor by lazy { spyk(interactor) }
 
     @Before override fun setup() {
         super.setup()
-        assertNull(interactor.rankIdVisibleList)
+        //        assertNull(interactor.rankIdVisibleList)
     }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(preferenceRepo, alarmRepo, rankRepo, noteRepo, callback)
+        confirmVerified(preferenceRepo, alarmRepo, rankRepo, noteRepo/*, callback*/)
     }
 
-    @Test override fun onDestroy() {
-        assertNotNull(interactor.callback)
-        interactor.onDestroy()
-        assertNull(interactor.callback)
-    }
+    //    @Test override fun onDestroy() {
+    //        assertNotNull(interactor.callback)
+    //        interactor.onDestroy()
+    //        assertNull(interactor.callback)
+    //    }
 
 
     @Test fun getRankIdVisibleList() = startCoTest {
@@ -60,12 +61,12 @@ class TextNoteInteractorTest : ParentInteractorTest() {
 
         coEvery { rankRepo.getIdVisibleList() } returns list
 
-        assertEquals(list, interactor.getRankIdVisibleList())
-        assertEquals(list, interactor.rankIdVisibleList)
+        //        assertEquals(list, interactor.getRankIdVisibleList())
+        //        assertEquals(list, interactor.rankIdVisibleList)
 
         coEvery { rankRepo.getIdVisibleList() } returns emptyList()
 
-        assertEquals(list, interactor.getRankIdVisibleList())
+        //        assertEquals(list, interactor.getRankIdVisibleList())
 
         coVerifySequence {
             rankRepo.getIdVisibleList()
@@ -95,7 +96,7 @@ class TextNoteInteractorTest : ParentInteractorTest() {
         assertNull(interactor.getItem(id))
 
         coEvery { noteRepo.getItem(id, isOptimal = false) } returns item
-        coEvery { spyInteractor.getRankIdVisibleList() } returns rankIdList
+        //        coEvery { spyInteractor.getRankIdVisibleList() } returns rankIdList
         every { preferenceRepo.sort } returns sort
         assertEquals(item, spyInteractor.getItem(id))
 
@@ -105,10 +106,10 @@ class TextNoteInteractorTest : ParentInteractorTest() {
 
             spyInteractor.getItem(id)
             noteRepo.getItem(id, isOptimal = false)
-            spyInteractor.getRankIdVisibleList()
-            spyInteractor.callback
+            //            spyInteractor.getRankIdVisibleList()
+            //            spyInteractor.callback
             preferenceRepo.sort
-            callback.notifyNoteBind(item, rankIdList, sort)
+            //            callback.notifyNoteBind(item, rankIdList, sort)
         }
     }
 
@@ -149,13 +150,13 @@ class TextNoteInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun clearDate() = startCoTest {
-        FastTest.Interactor.clearDate<NoteItem.Text>(alarmRepo, callback) {
+        FastTest.Interactor.clearDate<NoteItem.Text>(alarmRepo/*, callback*/) {
             interactor.clearDate(it)
         }
     }
 
     @Test fun setDate() = startCoTest {
-        FastTest.Interactor.setDate<NoteItem.Text>(alarmRepo, callback) { item, calendar ->
+        FastTest.Interactor.setDate<NoteItem.Text>(alarmRepo/*, callback*/) { item, calendar ->
             interactor.setDate(item, calendar)
         }
     }
@@ -190,7 +191,7 @@ class TextNoteInteractorTest : ParentInteractorTest() {
 
         interactor.updateNote(item)
 
-        coEvery { spyInteractor.getRankIdVisibleList() } returns rankIdList
+        //        coEvery { spyInteractor.getRankIdVisibleList() } returns rankIdList
         every { preferenceRepo.sort } returns sort
         spyInteractor.updateNote(item)
 
@@ -199,10 +200,10 @@ class TextNoteInteractorTest : ParentInteractorTest() {
 
             spyInteractor.updateNote(item)
             noteRepo.updateNote(item)
-            spyInteractor.getRankIdVisibleList()
-            spyInteractor.callback
+            //            spyInteractor.getRankIdVisibleList()
+            //            spyInteractor.callback
             preferenceRepo.sort
-            callback.notifyNoteBind(item, rankIdList, sort)
+            //            callback.notifyNoteBind(item, rankIdList, sort)
         }
     }
 
@@ -222,7 +223,7 @@ class TextNoteInteractorTest : ParentInteractorTest() {
         val rankIdList = mockk<List<Long>>()
         val sort = Random.nextInt()
 
-        coEvery { spyInteractor.getRankIdVisibleList() } returns rankIdList
+        //        coEvery { spyInteractor.getRankIdVisibleList() } returns rankIdList
         every { preferenceRepo.sort } returns sort
         spyInteractor.saveNote(item, isCreate)
 
@@ -230,10 +231,10 @@ class TextNoteInteractorTest : ParentInteractorTest() {
             spyInteractor.saveNote(item, isCreate)
             noteRepo.saveNote(item, isCreate)
             rankRepo.updateConnection(item)
-            spyInteractor.getRankIdVisibleList()
-            spyInteractor.callback
+            //            spyInteractor.getRankIdVisibleList()
+            //            spyInteractor.callback
             preferenceRepo.sort
-            callback.notifyNoteBind(item, rankIdList, sort)
+            //            callback.notifyNoteBind(item, rankIdList, sort)
         }
     }
 
@@ -249,9 +250,9 @@ class TextNoteInteractorTest : ParentInteractorTest() {
             noteRepo.deleteNote(item)
 
             item.id
-            callback.cancelAlarm(id)
+            //            callback.cancelAlarm(id)
             item.id
-            callback.cancelNoteBind(id)
+            //            callback.cancelNoteBind(id)
         }
     }
 

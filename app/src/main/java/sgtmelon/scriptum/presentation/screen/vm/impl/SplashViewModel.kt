@@ -37,8 +37,6 @@ class SplashViewModel(application: Application) : ParentViewModel<ISplashActivit
         }
     }
 
-    override fun onDestroy(func: () -> Unit) = super.onDestroy { interactor.onDestroy() }
-
 
     private fun onSimpleStart() {
         if (interactor.firstStart) {

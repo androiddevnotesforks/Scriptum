@@ -273,7 +273,7 @@ class NotificationViewModelTest : ParentViewModelTest() {
             interactor.cancelNotification(item)
 
             callback.apply {
-                notifyInfoBind(itemList.size)
+//                notifyInfoBind(itemList.size)
                 notifyItemRemoved(itemList, p)
                 showSnackbar()
             }
@@ -310,7 +310,7 @@ class NotificationViewModelTest : ParentViewModelTest() {
 
         coVerifySequence {
             callback.apply {
-                notifyInfoBind(itemList.size)
+                //                notifyInfoBind(itemList.size)
                 notifyItemInsertedScroll(itemList, secondPair.first)
                 showSnackbar()
             }
@@ -347,7 +347,7 @@ class NotificationViewModelTest : ParentViewModelTest() {
 
         coVerifySequence {
             callback.apply {
-                notifyInfoBind(itemList.size)
+                //                notifyInfoBind(itemList.size)
                 notifyItemInsertedScroll(itemList, itemList.lastIndex)
                 onBindingList()
             }

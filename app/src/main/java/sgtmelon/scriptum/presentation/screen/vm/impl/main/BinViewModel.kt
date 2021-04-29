@@ -39,8 +39,6 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
         callback?.setupRecycler()
     }
 
-    override fun onDestroy(func: () -> Unit) = super.onDestroy { interactor.onDestroy() }
-
 
     override fun onUpdateData() {
         AppIdlingResource.getInstance().startWork(IdlingTag.Bin.LOAD_DATA)

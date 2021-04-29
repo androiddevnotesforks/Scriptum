@@ -32,7 +32,7 @@ class RankViewModelTest : ParentViewModelTest() {
     @MockK lateinit var callback: IRankFragment
 
     @MockK lateinit var interactor: IRankInteractor
-    @MockK lateinit var bindInteractor: IBindInteractor
+//    @MockK lateinit var bindInteractor: IBindInteractor
 
     @MockK lateinit var openState: OpenState
 
@@ -45,7 +45,7 @@ class RankViewModelTest : ParentViewModelTest() {
         every { callback.openState } returns openState
 
         viewModel.setCallback(callback)
-        viewModel.setInteractor(interactor, bindInteractor)
+        viewModel.setInteractor(interactor/*, bindInteractor*/)
 
         assertTrue(viewModel.itemList.isEmpty())
         assertTrue(viewModel.cancelList.isEmpty())
@@ -55,7 +55,7 @@ class RankViewModelTest : ParentViewModelTest() {
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(callback, interactor, bindInteractor, openState)
+        confirmVerified(callback, interactor/*, bindInteractor*/, openState)
     }
 
     @Test override fun onDestroy() {
@@ -503,7 +503,7 @@ class RankViewModelTest : ParentViewModelTest() {
             callback.setList(itemList)
 
             interactor.update(item)
-            bindInteractor.notifyNoteBind(callback)
+            //            bindInteractor.notifyNoteBind(callback)
         }
     }
 
@@ -526,7 +526,7 @@ class RankViewModelTest : ParentViewModelTest() {
             callback.notifyDataSetChanged(itemList, animationArray)
 
             interactor.update(itemList)
-            bindInteractor.notifyNoteBind(callback)
+            //            bindInteractor.notifyNoteBind(callback)
         }
     }
 
@@ -556,7 +556,7 @@ class RankViewModelTest : ParentViewModelTest() {
 
             interactor.delete(item)
             interactor.updatePosition(itemList, noteIdList)
-            bindInteractor.notifyNoteBind(callback)
+            //            bindInteractor.notifyNoteBind(callback)
         }
     }
 
