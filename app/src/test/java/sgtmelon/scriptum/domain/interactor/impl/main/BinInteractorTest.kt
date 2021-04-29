@@ -10,10 +10,12 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.extension.nextString
+import sgtmelon.scriptum.FastTest
 import sgtmelon.scriptum.ParentInteractorTest
 import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
+import sgtmelon.scriptum.domain.model.item.NoteItem
 import kotlin.random.Random
 
 /**
@@ -88,13 +90,7 @@ class BinInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun restoreNote() = startCoTest {
-        val item = data.itemList.random()
-
-        interactor.restoreNote(item)
-
-        coVerifySequence {
-            noteRepo.restoreNote(item)
-        }
+        FastTest.Interactor.restoreNote<NoteItem>(noteRepo) { interactor.restoreNote(it) }
     }
 
     @Test fun copy() = startCoTest {
@@ -112,12 +108,6 @@ class BinInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun clearNote() = startCoTest {
-        val item = data.itemList.random()
-
-        interactor.clearNote(item)
-
-        coVerifySequence {
-            noteRepo.clearNote(item)
-        }
+        FastTest.Interactor.clearNote<NoteItem>(noteRepo) { interactor.clearNote(it) }
     }
 }

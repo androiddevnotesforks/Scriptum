@@ -45,11 +45,8 @@ class SplashViewModelTest : ParentViewModelTest() {
 
     @Test override fun onDestroy() {
         assertNotNull(viewModel.callback)
-
         viewModel.onDestroy()
-
         assertNull(viewModel.callback)
-        verifySequence { interactor.onDestroy() }
     }
 
 
@@ -134,5 +131,4 @@ class SplashViewModelTest : ParentViewModelTest() {
         private const val COLOR = 5
         private const val TYPE = 0
     }
-
 }

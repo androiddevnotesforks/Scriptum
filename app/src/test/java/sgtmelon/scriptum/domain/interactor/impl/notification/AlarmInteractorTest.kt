@@ -40,12 +40,6 @@ class AlarmInteractorTest : ParentInteractorTest() {
         confirmVerified(preferenceRepo, alarmRepo, noteRepo/*, callback*/)
     }
 
-    //    @Test override fun onDestroy() {
-    //        assertNotNull(interactor.callback)
-    //        interactor.onDestroy()
-    //        assertNull(interactor.callback)
-    //    }
-
 
     @Test fun getRepeat() = FastTest.getRepeat(preferenceRepo) { interactor.repeat }
 
@@ -100,8 +94,8 @@ class AlarmInteractorTest : ParentInteractorTest() {
         every { calendar.getText() } returns calendarText
         every { item.id } returns id
 
-        spyInteractor.setupRepeat(item, intArrayOf(), repeat)
-        spyInteractor.setupRepeat(item, valueArray, repeat)
+        assertNull(spyInteractor.setupRepeat(item, intArrayOf(), repeat))
+        assertEquals(calendar, spyInteractor.setupRepeat(item, valueArray, repeat))
 
         coVerifySequence {
             spyInteractor.setupRepeat(item, intArrayOf(), repeat)
@@ -111,9 +105,6 @@ class AlarmInteractorTest : ParentInteractorTest() {
             spyInteractor.checkDateExist(calendar)
             calendar.getText()
             alarmRepo.insertOrUpdate(item, calendarText)
-            //            spyInteractor.callback
-            item.id
-            //            callback.setAlarm(id, calendar)
         }
     }
 

@@ -9,6 +9,7 @@ import sgtmelon.extension.getText
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
+import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.domain.interactor.callback.note.IParentNoteInteractor
 import sgtmelon.scriptum.domain.model.annotation.Color
@@ -19,6 +20,7 @@ import sgtmelon.scriptum.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.domain.model.item.InputItem
 import sgtmelon.scriptum.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.domain.model.item.NoteItem
+import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.domain.model.state.NoteState
 import sgtmelon.scriptum.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.presentation.control.note.input.InputControl
@@ -34,6 +36,8 @@ import kotlin.random.Random
  * Object for describe common and fast tests.
  */
 object FastTest {
+
+    // TODO create common interactor or anything else for remove some fast test functions (like date)
 
     fun getFirstStart(preferenceRepo: IPreferenceRepo, callFunc: () -> Boolean) {
         fun checkRequestGet(value: Boolean) {
@@ -1030,6 +1034,8 @@ object FastTest {
 
     object Interactor {
 
+        //region Note
+
         fun getSaveModel(preferenceRepo: IPreferenceRepo, callFunc: () -> SaveControl.Model) {
             val model = with(Random) { SaveControl.Model(nextBoolean(), nextBoolean(), nextInt()) }
 
@@ -1076,9 +1082,121 @@ object FastTest {
             }
         }
 
+        suspend inline fun <reified T : NoteItem> restoreNote(
+            noteRepo: INoteRepo,
+            callFunc: (T) -> Unit
+        ) {
+            val item = mockk<T>()
+
+            coEvery { noteRepo.restoreNote(item) } returns mockk()
+
+            callFunc(item)
+
+            coVerifySequence {
+                noteRepo.restoreNote(item)
+            }
+        }
+
+        suspend inline fun <reified T : NoteItem> updateNote(
+            noteRepo: INoteRepo,
+            callFunc: (T) -> Unit
+        ) {
+            val item = mockk<T>()
+
+            coEvery { noteRepo.updateNote(item) } returns mockk()
+
+            callFunc(item)
+
+            coVerifySequence {
+                noteRepo.updateNote(item)
+            }
+        }
+
+        suspend inline fun <reified T : NoteItem> clearNote(
+            noteRepo: INoteRepo,
+            callFunc: (T) -> Unit
+        ) {
+            val item = mockk<T>()
+
+            coEvery { noteRepo.clearNote(item) } returns mockk()
+
+            callFunc(item)
+
+            coVerifySequence {
+                noteRepo.clearNote(item)
+            }
+        }
+
+        suspend inline fun <reified T : NoteItem> saveNote(
+            noteRepo: INoteRepo,
+            rankRepo: IRankRepo,
+            callFunc: (item: T, isCreate: Boolean) -> Unit
+        ) {
+            val item = mockk<T>()
+            val isCreate = Random.nextBoolean()
+
+            callFunc(item, isCreate)
+
+            coVerifySequence {
+                when (item) {
+                    is NoteItem.Text -> noteRepo.saveNote(item, isCreate)
+                    is NoteItem.Roll -> noteRepo.saveNote(item, isCreate)
+                }
+
+                rankRepo.updateConnection(item)
+            }
+        }
+
+
+        suspend inline fun <reified T : NoteItem> deleteNote(
+            noteRepo: INoteRepo,
+            callFunc: (T) -> Unit
+        ) {
+            val item = mockk<T>()
+
+            coEvery { noteRepo.deleteNote(item) } returns mockk()
+
+            callFunc(item)
+
+            coVerifySequence {
+                noteRepo.deleteNote(item)
+            }
+        }
+
+        //endregion
+
+        //region Date work
+
+        suspend inline fun getDateList(
+            alarmRepo: IAlarmRepo,
+            callFunc: () -> List<String>
+        ) {
+            val size = getRandomSize()
+            val itemList = MutableList<NotificationItem>(size) { mockk() }
+            val alarmList = List<NotificationItem.Alarm>(size) { mockk() }
+            val dateList = List(size) { nextString() }
+
+            coEvery { alarmRepo.getList() } returns itemList
+
+            for ((i, item) in itemList.withIndex()) {
+                every { item.alarm } returns alarmList[i]
+                every { alarmList[i].date } returns dateList[i]
+            }
+
+            assertEquals(dateList, callFunc())
+
+            coVerifySequence {
+                alarmRepo.getList()
+
+                for ((i, item) in itemList.withIndex()) {
+                    item.alarm
+                    alarmList[i].date
+                }
+            }
+        }
+
         suspend inline fun <reified T : NoteItem> clearDate(
             alarmRepo: IAlarmRepo,
-            /*callback: AlarmControl.Bridge.Cancel,*/
             callFunc: (item: T) -> Unit
         ) {
             val item = mockk<T>()
@@ -1091,14 +1209,11 @@ object FastTest {
             coVerifySequence {
                 item.id
                 alarmRepo.delete(id)
-                item.id
-                //                callback.cancelAlarm(id)
             }
         }
 
         suspend inline fun <reified T : NoteItem> setDate(
             alarmRepo: IAlarmRepo,
-            /*callback: AlarmControl.Bridge.Set,*/
             callFunc: (item: T, calendar: Calendar) -> Unit
         ) {
             val item = mockk<T>()
@@ -1115,10 +1230,11 @@ object FastTest {
             coVerifySequence {
                 calendar.getText()
                 alarmRepo.insertOrUpdate(item, date)
-                item.id
-                //                callback.setAlarm(id, calendar)
             }
         }
+
+        //endregion
+
     }
 
 }

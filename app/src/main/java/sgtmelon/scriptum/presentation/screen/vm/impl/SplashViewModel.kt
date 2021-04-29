@@ -37,7 +37,6 @@ class SplashViewModel(application: Application) : ParentViewModel<ISplashActivit
         }
     }
 
-
     private fun onSimpleStart() {
         if (interactor.firstStart) {
             callback?.openIntroScreen()

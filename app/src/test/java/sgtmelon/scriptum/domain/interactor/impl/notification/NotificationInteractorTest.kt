@@ -7,16 +7,13 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
-import sgtmelon.extension.getCalendarOrNull
 import sgtmelon.extension.nextString
-import sgtmelon.scriptum.FastMock
 import sgtmelon.scriptum.ParentInteractorTest
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.data.repository.room.callback.IBindRepo
 import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.NotificationItem
-import java.util.*
 import kotlin.random.Random
 
 /**
@@ -28,21 +25,14 @@ class NotificationInteractorTest : ParentInteractorTest() {
     @MockK lateinit var noteRepo: INoteRepo
     @MockK lateinit var alarmRepo: IAlarmRepo
     @MockK lateinit var bindRepo: IBindRepo
-    //    @MockK lateinit var callback: INotificationBridge
 
     private val interactor by lazy {
-        NotificationInteractor(noteRepo, alarmRepo, bindRepo/*, callback*/)
+        NotificationInteractor(noteRepo, alarmRepo, bindRepo)
     }
-
-    //    @Test override fun onDestroy() {
-    //        assertNotNull(interactor.callback)
-    //        interactor.onDestroy()
-    //        assertNull(interactor.callback)
-    //    }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(noteRepo, alarmRepo, bindRepo/*, callback*/)
+        confirmVerified(noteRepo, alarmRepo, bindRepo)
     }
 
 
@@ -79,22 +69,15 @@ class NotificationInteractorTest : ParentInteractorTest() {
 
         val id = Random.nextLong()
         val date = nextString()
-        val calendar = mockk<Calendar>()
 
-        FastMock.timeExtension()
         every { notificationItem.note } returns note
-        every { notificationItem.alarm } returns alarm
         every { note.id } returns id
-        every { alarm.date } returns date
-
         coEvery { noteRepo.getItem(id, isOptimal = true) } returns null
-        every { date.getCalendarOrNull() } returns null
         assertNull(interactor.setNotification(notificationItem))
 
         coEvery { noteRepo.getItem(id, isOptimal = true) } returns noteItem
-        assertNull(interactor.setNotification(notificationItem))
-
-        every { date.getCalendarOrNull() } returns calendar
+        every { notificationItem.alarm } returns alarm
+        every { alarm.date } returns date
         coEvery { alarmRepo.getItem(id) } returns null
         assertNull(interactor.setNotification(notificationItem))
 
@@ -104,26 +87,15 @@ class NotificationInteractorTest : ParentInteractorTest() {
         coVerifySequence {
             notificationItem.note
             note.id
-            notificationItem.alarm
-            alarm.date
             noteRepo.getItem(id, isOptimal = true)
-
-            notificationItem.note
-            note.id
-            notificationItem.alarm
-            alarm.date
-            noteRepo.getItem(id, isOptimal = true)
-            date.getCalendarOrNull()
 
             repeat(times = 2) {
                 notificationItem.note
                 note.id
+                noteRepo.getItem(id, isOptimal = true)
                 notificationItem.alarm
                 alarm.date
-                noteRepo.getItem(id, isOptimal = true)
-                date.getCalendarOrNull()
                 alarmRepo.insertOrUpdate(noteItem, date)
-                //                callback.setAlarm(id, calendar)
                 alarmRepo.getItem(id)
             }
         }
@@ -143,7 +115,6 @@ class NotificationInteractorTest : ParentInteractorTest() {
             item.note
             note.id
             alarmRepo.delete(id)
-            //            callback.cancelAlarm(id)
         }
     }
 }

@@ -60,11 +60,8 @@ class RankViewModelTest : ParentViewModelTest() {
 
     @Test override fun onDestroy() {
         assertNotNull(viewModel.callback)
-
         viewModel.onDestroy()
-
         assertNull(viewModel.callback)
-        verifySequence { interactor.onDestroy() }
     }
 
 
