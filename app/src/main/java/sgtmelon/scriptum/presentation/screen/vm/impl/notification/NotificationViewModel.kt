@@ -9,7 +9,10 @@ import sgtmelon.scriptum.domain.interactor.callback.notification.INotificationIn
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.data.IntentData.Snackbar
 import sgtmelon.scriptum.domain.model.item.NotificationItem
-import sgtmelon.scriptum.extension.*
+import sgtmelon.scriptum.extension.clearAdd
+import sgtmelon.scriptum.extension.launchBack
+import sgtmelon.scriptum.extension.runBack
+import sgtmelon.scriptum.extension.validRemoveAt
 import sgtmelon.scriptum.idling.AppIdlingResource
 import sgtmelon.scriptum.idling.IdlingTag
 import sgtmelon.scriptum.presentation.screen.ui.callback.notification.INotificationActivity
@@ -139,7 +142,6 @@ class NotificationViewModel(application: Application) :
         }
 
         callback?.apply {
-            sendNotifyInfoBroadcast(itemList.size)
             notifyItemRemoved(itemList, p)
             showSnackbar()
         }
@@ -179,18 +181,20 @@ class NotificationViewModel(application: Application) :
             }
         }
 
-        /**
-         * After insert need update item in list (due to new item id).
-         */
-        viewModelScope.launch {
-            val newItem = runBack { interactor.setNotification(item) } ?: return@launch
+        viewModelScope.launch { snackbarActionBackground(item, position) }
+    }
 
-            itemList[position] = newItem
-            callback?.setList(itemList)
+    /**
+     * After insert need update item in list (due to new item id).
+     */
+    @RunPrivate suspend fun snackbarActionBackground(item: NotificationItem, position: Int) {
+        val newItem = runBack { interactor.setNotification(item) } ?: return
 
-            val calendar = newItem.alarm.date.getCalendar()
-            callback?.sendSetAlarmBroadcast(newItem.note.id, calendar, showToast = false)
-        }
+        itemList[position] = newItem
+        callback?.setList(itemList)
+
+        val calendar = newItem.alarm.date.getCalendar()
+        callback?.sendSetAlarmBroadcast(newItem.note.id, calendar, showToast = false)
     }
 
     override fun onSnackbarDismiss() = cancelList.clear()

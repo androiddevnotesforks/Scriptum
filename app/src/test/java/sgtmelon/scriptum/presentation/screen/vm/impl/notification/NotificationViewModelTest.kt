@@ -8,17 +8,17 @@ import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
+import sgtmelon.extension.getCalendar
 import sgtmelon.extension.nextString
-import sgtmelon.scriptum.ParentViewModelTest
-import sgtmelon.scriptum.TestData
+import sgtmelon.scriptum.*
 import sgtmelon.scriptum.domain.interactor.callback.notification.INotificationInteractor
 import sgtmelon.scriptum.domain.model.data.IntentData.Snackbar
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.extension.clearAdd
-import sgtmelon.scriptum.getRandomSize
-import sgtmelon.scriptum.isDivideTwoEntirely
 import sgtmelon.scriptum.presentation.screen.ui.callback.notification.INotificationActivity
+import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.random.Random
 
 /**
@@ -270,7 +270,8 @@ class NotificationViewModelTest : ParentViewModelTest() {
             interactor.cancelNotification(item)
 
             callback.apply {
-//                notifyInfoBind(itemList.size)
+                callback.sendCancelAlarmBroadcast(item.note.id)
+                sendNotifyInfoBroadcast(itemList.size)
                 notifyItemRemoved(itemList, p)
                 showSnackbar()
             }
@@ -282,8 +283,6 @@ class NotificationViewModelTest : ParentViewModelTest() {
         viewModel.onSnackbarAction()
 
         val item = mockk<NotificationItem>()
-        val newItem = mockk<NotificationItem>()
-
         val firstPair = Pair(Random.nextInt(), mockk<NotificationItem>())
         val secondPair = Pair(0, item)
 
@@ -296,24 +295,24 @@ class NotificationViewModelTest : ParentViewModelTest() {
         assertEquals(itemList, viewModel.itemList)
         assertEquals(cancelList, viewModel.cancelList)
 
-        coEvery { interactor.setNotification(item) } returns newItem
-        viewModel.onSnackbarAction()
+        coEvery { spyViewModel.snackbarActionBackground(item, secondPair.first) } returns Unit
+        spyViewModel.onSnackbarAction()
 
-        itemList.add(0, newItem)
+        itemList.add(0, item)
         cancelList.removeAt(index = 1)
 
         assertEquals(itemList, viewModel.itemList)
         assertEquals(cancelList, viewModel.cancelList)
 
-        coVerifySequence {
+        coVerify {
+            spyViewModel.onSnackbarAction()
+            spyViewModel.callback
             callback.apply {
-                //                notifyInfoBind(itemList.size)
+                sendNotifyInfoBroadcast(itemList.size)
                 notifyItemInsertedScroll(itemList, secondPair.first)
                 showSnackbar()
             }
-
-            interactor.setNotification(item)
-            callback.setList(itemList)
+            spyViewModel.snackbarActionBackground(item, secondPair.first)
         }
     }
 
@@ -321,8 +320,6 @@ class NotificationViewModelTest : ParentViewModelTest() {
         viewModel.onSnackbarAction()
 
         val item = mockk<NotificationItem>()
-        val newItem = mockk<NotificationItem>()
-
         val pair = Pair(Random.nextInt(), item)
 
         val itemList = mutableListOf<NotificationItem>()
@@ -333,25 +330,72 @@ class NotificationViewModelTest : ParentViewModelTest() {
         assertEquals(itemList, viewModel.itemList)
         assertEquals(cancelList, viewModel.cancelList)
 
-        coEvery { interactor.setNotification(item) } returns newItem
-        viewModel.onSnackbarAction()
+        coEvery { spyViewModel.snackbarActionBackground(item, position = 0) } returns Unit
+        spyViewModel.onSnackbarAction()
 
-        itemList.add(0, newItem)
+        itemList.add(0, item)
         cancelList.removeAt(index = 0)
 
         assertEquals(itemList, viewModel.itemList)
         assertEquals(cancelList, viewModel.cancelList)
 
-        coVerifySequence {
+        coVerify {
+            spyViewModel.onSnackbarAction()
+            spyViewModel.callback
             callback.apply {
-                //                notifyInfoBind(itemList.size)
+                sendNotifyInfoBroadcast(itemList.size)
                 notifyItemInsertedScroll(itemList, itemList.lastIndex)
                 onBindingList()
             }
+            spyViewModel.snackbarActionBackground(item, position = 0)
+        }
+    }
+
+    @Test fun snackbarActionBackground() = startCoTest {
+        val item = mockk<NotificationItem>()
+        val newItem = mockk<NotificationItem>()
+        val itemList = MutableList<NotificationItem>(getRandomSize()) { mockk() }
+        val position = itemList.indices.random()
+
+        val resultList = ArrayList(itemList).toMutableList()
+        resultList[position] = newItem
+
+        val alarm = mockk<NotificationItem.Alarm>()
+        val date = nextString()
+        val calendar = mockk<Calendar>()
+        val note = mockk<NotificationItem.Note>()
+        val id = Random.nextLong()
+
+        coEvery { interactor.setNotification(item) } returns null
+
+        viewModel.snackbarActionBackground(item, position)
+        assertTrue(viewModel.itemList.isEmpty())
+
+        coEvery { interactor.setNotification(item) } returns newItem
+        every { newItem.alarm } returns alarm
+        every { alarm.date } returns date
+        FastMock.timeExtension()
+        every { date.getCalendar() } returns calendar
+        every { newItem.note } returns note
+        every { note.id } returns id
+
+        viewModel.itemList.clearAdd(itemList)
+        viewModel.snackbarActionBackground(item, position)
+
+        coVerifySequence {
+            interactor.setNotification(item)
 
             interactor.setNotification(item)
-            callback.setList(itemList)
+            callback.setList(resultList)
+            newItem.alarm
+            alarm.date
+            date.getCalendar()
+            newItem.note
+            note.id
+            callback.sendSetAlarmBroadcast(id, calendar, showToast = false)
         }
+
+        assertEquals(resultList, viewModel.itemList)
     }
 
     @Test fun onSnackbarDismiss() {
