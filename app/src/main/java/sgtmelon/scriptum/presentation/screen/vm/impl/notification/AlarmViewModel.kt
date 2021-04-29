@@ -137,15 +137,13 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         callback?.finish()
     }
 
-    override fun onClickRepeat() {
-        repeatFinish(interactor.repeat)
-    }
+    override fun onClickRepeat() = repeatFinish(interactor.repeat)
 
     override fun onResultRepeatDialog(@IdRes itemId: Int) {
         repeatFinish(repeat = getRepeatById(itemId) ?: interactor.repeat)
     }
 
-    private fun getRepeatById(@IdRes itemId: Int): Int? = when(itemId) {
+    @RunPrivate fun getRepeatById(@IdRes itemId: Int): Int? = when (itemId) {
         R.id.item_repeat_0 -> Repeat.MIN_10
         R.id.item_repeat_1 -> Repeat.MIN_30
         R.id.item_repeat_2 -> Repeat.MIN_60
@@ -157,14 +155,14 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     /**
      * Call this when need set alarm repeat with screen finish.
      */
-    private fun repeatFinish(@Repeat repeat: Int) {
+    @RunPrivate fun repeatFinish(@Repeat repeat: Int) {
         val valueArray = callback?.getIntArray(R.array.pref_alarm_repeat_array) ?: return
 
         viewModelScope.launch {
             val calendar = runBack { interactor.setupRepeat(noteItem, valueArray, repeat) }
 
             if (calendar != null) {
-                callback?.sendSetAlarmBroadcast(noteItem.id, calendar, showToast = false)
+                callback?.sendSetAlarmBroadcast(id, calendar, showToast = false)
                 callback?.sendNotifyInfoBroadcast()
             }
 

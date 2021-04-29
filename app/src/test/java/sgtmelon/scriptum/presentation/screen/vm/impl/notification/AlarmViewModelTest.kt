@@ -8,17 +8,15 @@ import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
-import sgtmelon.scriptum.ParentViewModelTest
-import sgtmelon.scriptum.R
-import sgtmelon.scriptum.TestData
+import sgtmelon.scriptum.*
 import sgtmelon.scriptum.domain.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.domain.model.annotation.Repeat
 import sgtmelon.scriptum.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.state.SignalState
-import sgtmelon.scriptum.isDivideTwoEntirely
 import sgtmelon.scriptum.presentation.screen.ui.callback.notification.IAlarmActivity
+import java.util.*
 import kotlin.random.Random
 
 /**
@@ -31,7 +29,6 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
     private val firstSignal = SignalState(isMelody = false, isVibration = true)
     private val secondSignal = SignalState(isMelody = true, isVibration = false)
-    private val repeatArray = intArrayOf(Repeat.MIN_180, Repeat.MIN_1440)
 
     //endregion
 
@@ -41,22 +38,22 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
     @MockK lateinit var interactor: IAlarmInteractor
     @MockK lateinit var signalInteractor: ISignalInteractor
-//    @MockK lateinit var bindInteractor: IBindInteractor
 
     @MockK lateinit var bundle: Bundle
 
     private val viewModel by lazy { AlarmViewModel(application) }
+    private val spyViewModel by lazy { spyk(viewModel) }
 
     @Before override fun setup() {
         super.setup()
 
         viewModel.setCallback(callback)
-        viewModel.setInteractor(interactor, signalInteractor/*, bindInteractor*/)
+        viewModel.setInteractor(interactor, signalInteractor)
     }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(callback, interactor, signalInteractor/*, bindInteractor*/, bundle)
+        confirmVerified(callback, interactor, signalInteractor, bundle)
     }
 
     @Test override fun onDestroy() {
@@ -140,7 +137,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
             }
             signalInteractor.state
             interactor.getModel(id)
-            //            bindInteractor.notifyInfoBind(callback)
+            callback.sendNotifyInfoBroadcast()
             callback.apply {
                 prepareLogoAnimation()
                 notifyList(noteItem)
@@ -319,60 +316,90 @@ class AlarmViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onClickRepeat() = startCoTest {
-        val noteItem = data.firstNote.deepCopy()
-        val repeat = Repeat.MIN_10
-
-        every { callback.getIntArray(R.array.pref_alarm_repeat_array) } returns repeatArray
-
-        viewModel.id = noteItem.id
-        viewModel.noteItem = noteItem
+        val repeat = Random.nextInt()
 
         every { interactor.repeat } returns repeat
-        viewModel.onClickRepeat()
+        every { spyViewModel.repeatFinish(repeat) } returns Unit
 
-        coVerifySequence {
+        spyViewModel.onClickRepeat()
+
+        verifySequence {
+            spyViewModel.onClickRepeat()
             interactor.repeat
-            verifyRepeatFinish(repeat, noteItem)
+            spyViewModel.repeatFinish(repeat)
         }
     }
 
     @Test fun onResultRepeatDialog() = startCoTest {
-        val noteItem = data.firstNote.deepCopy()
-        val repeat = Repeat.MIN_10
+        val itemId = Random.nextInt()
+        val repeatFirst = Random.nextInt()
+        val repeatSecond = Random.nextInt()
 
-        every { callback.getIntArray(R.array.pref_alarm_repeat_array) } returns repeatArray
+        every { spyViewModel.getRepeatById(itemId) } returns null
+        every { interactor.repeat } returns repeatFirst
+        every { spyViewModel.repeatFinish(repeatFirst) } returns Unit
 
-        viewModel.id = noteItem.id
-        viewModel.noteItem = noteItem
+        spyViewModel.onResultRepeatDialog(itemId)
 
-        viewModel.onResultRepeatDialog(R.id.item_repeat_0)
-        viewModel.onResultRepeatDialog(R.id.item_repeat_1)
-        viewModel.onResultRepeatDialog(R.id.item_repeat_2)
-        viewModel.onResultRepeatDialog(R.id.item_repeat_3)
-        viewModel.onResultRepeatDialog(R.id.item_repeat_4)
+        every { spyViewModel.getRepeatById(itemId) } returns repeatSecond
+        every { spyViewModel.repeatFinish(repeatSecond) } returns Unit
 
-        every { interactor.repeat } returns repeat
-        viewModel.onResultRepeatDialog(itemId = -1)
+        spyViewModel.onResultRepeatDialog(itemId)
 
-        coVerifySequence {
-            verifyRepeatFinish(Repeat.MIN_10, noteItem)
-            verifyRepeatFinish(Repeat.MIN_30, noteItem)
-            verifyRepeatFinish(Repeat.MIN_60, noteItem)
-            verifyRepeatFinish(Repeat.MIN_180, noteItem)
-            verifyRepeatFinish(Repeat.MIN_1440, noteItem)
-
+        verifySequence {
+            spyViewModel.onResultRepeatDialog(itemId)
+            spyViewModel.getRepeatById(itemId)
             interactor.repeat
-            verifyRepeatFinish(repeat, noteItem)
+            spyViewModel.repeatFinish(repeatFirst)
+
+            spyViewModel.onResultRepeatDialog(itemId)
+            spyViewModel.getRepeatById(itemId)
+            spyViewModel.repeatFinish(repeatSecond)
         }
     }
 
-    private suspend fun verifyRepeatFinish(@Repeat repeat: Int, noteItem: NoteItem) {
-        callback.getIntArray(R.array.pref_alarm_repeat_array)
-        interactor.setupRepeat(noteItem, repeatArray, repeat)
+    @Test fun getRepeatById() {
+        assertEquals(Repeat.MIN_10, viewModel.getRepeatById(R.id.item_repeat_0))
+        assertEquals(Repeat.MIN_30, viewModel.getRepeatById(R.id.item_repeat_1))
+        assertEquals(Repeat.MIN_60, viewModel.getRepeatById(R.id.item_repeat_2))
+        assertEquals(Repeat.MIN_180, viewModel.getRepeatById(R.id.item_repeat_3))
+        assertEquals(Repeat.MIN_1440, viewModel.getRepeatById(R.id.item_repeat_4))
+        assertNull(viewModel.getRepeatById(itemId = -1))
+    }
 
-        callback.showRepeatToast(repeat)
-        callback.sendUpdateBroadcast(noteItem.id)
-        callback.finish()
+    @Test fun repeatFinish() {
+        val id = Random.nextLong()
+        val item = mockk<NoteItem>()
+        val repeat = Random.nextInt()
+        val repeatArray = IntArray(getRandomSize()) { Random.nextInt() }
+        val calendar = mockk<Calendar>()
+
+        every { callback.getIntArray(R.array.pref_alarm_repeat_array) } returns repeatArray
+
+        viewModel.id = id
+        viewModel.noteItem = item
+
+        coEvery { interactor.setupRepeat(item, repeatArray, repeat) } returns null
+        viewModel.repeatFinish(repeat)
+
+        coEvery { interactor.setupRepeat(item, repeatArray, repeat) } returns calendar
+        viewModel.repeatFinish(repeat)
+
+        coVerifySequence {
+            callback.getIntArray(R.array.pref_alarm_repeat_array)
+            interactor.setupRepeat(item, repeatArray, repeat)
+            callback.showRepeatToast(repeat)
+            callback.sendUpdateBroadcast(id)
+            callback.finish()
+
+            callback.getIntArray(R.array.pref_alarm_repeat_array)
+            interactor.setupRepeat(item, repeatArray, repeat)
+            callback.sendSetAlarmBroadcast(id, calendar, showToast = false)
+            callback.sendNotifyInfoBroadcast()
+            callback.showRepeatToast(repeat)
+            callback.sendUpdateBroadcast(id)
+            callback.finish()
+        }
     }
 
     @Test fun onReceiveUnbindNote() {
