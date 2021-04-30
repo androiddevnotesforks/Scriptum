@@ -139,7 +139,6 @@ object FastTest {
         private val callback: IParentNoteFragment<N>,
         private val parentCallback: INoteConnector,
         private val interactor: IParentNoteInteractor<N>,
-        //        private val bindInteractor: IBindInteractor,
         private val saveControl: ISaveControl,
         private val inputControl: IInputControl,
         private val viewModel: ParentNoteViewModel<N, C, I>,
@@ -178,7 +177,7 @@ object FastTest {
 
             spyViewModel.onSetup(bundle)
 
-            coVerify {
+            coVerifyOrder {
                 spyViewModel.onSetup(bundle)
                 spyViewModel.getBundleData(bundle)
                 spyViewModel.setupBeforeInitialize()
@@ -462,53 +461,79 @@ object FastTest {
         }
 
         fun onResultDateDialogClear(noteItem: N, restoreItem: N) {
+            val id = Random.nextLong()
+
+            every { noteItem.id } returns id
             every { noteItem.clearAlarm() } returns noteItem
-            mockDeepCopy(noteItem)
+            every { spyViewModel.cacheData() } returns Unit
 
-            viewModel.noteItem = noteItem
-            viewModel.restoreItem = restoreItem
+            spyViewModel.noteItem = noteItem
+            spyViewModel.restoreItem = restoreItem
+            spyViewModel.onResultDateDialogClear()
 
-            viewModel.onResultDateDialogClear()
+            coVerifyOrder {
+                spyViewModel.noteItem = noteItem
+                spyViewModel.restoreItem = restoreItem
+                spyViewModel.onResultDateDialogClear()
 
-            coVerifySequence {
+                spyViewModel.interactor
+                spyViewModel.noteItem
                 interactor.clearDate(noteItem)
-                //                bindInteractor.notifyInfoBind(callback)
+
+                spyViewModel.callback
+                spyViewModel.noteItem
+                noteItem.id
+                callback.sendCancelAlarmBroadcast(id)
+                spyViewModel.callback
+                callback.sendNotifyInfoBroadcast()
 
                 noteItem.clearAlarm()
-                verifyDeepCopy(noteItem)
+                spyViewModel.cacheData()
 
+                spyViewModel.callback
                 callback.onBindingNote(noteItem)
             }
-
-            assertEquals(noteItem, viewModel.restoreItem)
         }
 
         fun onResultTimeDialog(noteItem: N, restoreItem: N) {
             val calendar = mockk<Calendar>()
+            val id = Random.nextLong()
 
             FastMock.timeExtension()
-            mockDeepCopy(noteItem)
-
-            viewModel.noteItem = noteItem
-            viewModel.restoreItem = restoreItem
-
             every { calendar.beforeNow() } returns true
-            viewModel.onResultTimeDialog(calendar)
+            every { spyViewModel.cacheData() } returns Unit
+            every { noteItem.id } returns id
+
+            spyViewModel.noteItem = noteItem
+            spyViewModel.restoreItem = restoreItem
+            spyViewModel.onResultTimeDialog(calendar)
 
             every { calendar.beforeNow() } returns false
-            viewModel.onResultTimeDialog(calendar)
 
-            coVerifySequence {
+            spyViewModel.onResultTimeDialog(calendar)
+
+            coVerifyOrder {
+                spyViewModel.noteItem = noteItem
+                spyViewModel.restoreItem = restoreItem
+                spyViewModel.onResultTimeDialog(calendar)
                 calendar.beforeNow()
 
+                spyViewModel.onResultTimeDialog(calendar)
                 calendar.beforeNow()
+                spyViewModel.interactor
+                spyViewModel.noteItem
                 interactor.setDate(noteItem, calendar)
-                verifyDeepCopy(noteItem)
+                spyViewModel.cacheData()
+                spyViewModel.callback
+                spyViewModel.noteItem
                 callback.onBindingNote(noteItem)
-                //                bindInteractor.notifyInfoBind(callback)
+                spyViewModel.callback
+                spyViewModel.noteItem
+                noteItem.id
+                callback.sendSetAlarmBroadcast(id, calendar)
+                spyViewModel.callback
+                callback.sendNotifyInfoBroadcast()
             }
-
-            assertEquals(noteItem, viewModel.restoreItem)
         }
 
         fun onResultConvertDialog(noteItem: N) {
@@ -881,6 +906,7 @@ object FastTest {
                 noteState.isEdit
                 callback.onBindingEdit(noteItem, isEditMode = false)
                 interactor.updateNote(noteItem)
+                callback.sendNotifyNotesBroadcast()
             }
 
             assertEquals(noteItem, viewModel.restoreItem)
@@ -907,6 +933,7 @@ object FastTest {
 
         fun onMenuDelete(noteItem: N) {
             val noteState = mockk<NoteState>()
+            val id = Random.nextLong()
 
             viewModel.noteItem = noteItem
             viewModel.noteState = noteState
@@ -925,6 +952,7 @@ object FastTest {
 
             every { callback.isDialogOpen } returns false
             every { noteState.isEdit } returns false
+            every { noteItem.id } returns id
             viewModel.onMenuDelete()
 
             coVerifySequence {
@@ -936,7 +964,11 @@ object FastTest {
                 callback.isDialogOpen
                 noteState.isEdit
                 interactor.deleteNote(noteItem)
-                //                bindInteractor.notifyInfoBind(callback)
+                noteItem.id
+                callback.sendCancelAlarmBroadcast(id)
+                noteItem.id
+                callback.sendCancelNoteBroadcast(id)
+                callback.sendNotifyInfoBroadcast()
                 parentCallback.finish()
             }
         }

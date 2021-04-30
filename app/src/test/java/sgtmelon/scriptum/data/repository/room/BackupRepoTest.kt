@@ -50,7 +50,7 @@ class BackupRepoTest : ParentRoomRepoTest() {
         val skipResult = ImportResult.Skip(skipCount = 0)
         assertEquals(skipResult, spyBackupRepo.insertData(model, importSkip = true))
 
-        coVerify {
+        coVerifyOrder {
             spyBackupRepo.insertData(model, importSkip = false)
             roomProvider.openRoom()
             model.noteList

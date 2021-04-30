@@ -89,7 +89,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
         /**
          * Can't create verify for [IRoomWork.takeFromRoom] func.
          */
-        coVerify {
+        coVerifyOrder {
             spyNoteRepo.getList(sort, isBin, isOptimal, filterVisible = false)
             spyNoteRepo.roomProvider
             roomProvider.openRoom()
@@ -195,7 +195,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
         /**
          * Can't create verify for [IRoomWork.takeFromRoom] func.
          */
-        coVerify {
+        coVerifyOrder {
             roomProvider.openRoom()
             noteDao.get(id)
 
@@ -661,7 +661,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
         /**
          * Can't create verify sequence because of list items (equals checks in log).
          */
-        coVerify {
+        coVerifyOrder {
             roomProvider.openRoom()
             noteConverter.toEntity(item)
             noteDao.insert(entity)

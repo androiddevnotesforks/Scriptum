@@ -49,7 +49,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
     private val fastTest by lazy {
         FastTest.ViewModel(
-            callback, parentCallback, interactor/*, bindInteractor*/,
+            callback, parentCallback, interactor,
             saveControl, inputControl, viewModel, spyViewModel, { FastMock.Note.deepCopy(it) },
             { verifyDeepCopy(it) }
         )
@@ -60,7 +60,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
         viewModel.setCallback(callback)
         viewModel.setParentCallback(parentCallback)
-        viewModel.setInteractor(interactor/*, bindInteractor*/)
+        viewModel.setInteractor(interactor)
 
         viewModel.inputControl = inputControl
         viewModel.saveControl = saveControl
@@ -77,9 +77,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     @After override fun tearDown() {
         super.tearDown()
 
-        confirmVerified(
-            callback, parentCallback, interactor/*, bindInteractor*/, inputControl, saveControl
-        )
+        confirmVerified(callback, parentCallback, interactor, inputControl, saveControl)
     }
 
     @Test override fun onDestroy() = fastTest.onDestroy()
@@ -192,6 +190,8 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.noteItem = noteItem
             verifyDeepCopy(noteItem)
             spyViewModel.restoreItem = noteItem
+            spyViewModel.callback
+            callback.sendNotifyNotesBroadcast()
             spyViewModel.noteItem
             noteItem.isBin
             spyViewModel.noteState = NoteState(isBin = isBin)
@@ -341,15 +341,18 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
         val noteState = mockk<NoteState>(relaxUnitFun = true)
         val noteItem = mockk<NoteItem.Roll>(relaxUnitFun = true)
-        val isEdit = Random.nextBoolean()
 
         every { noteItem.isVisible } returns visibleFrom
         every { spyViewModel.notifyListByVisible() } returns Unit
         every { noteState.isCreate } returns false
-        every { noteState.isEdit } returns isEdit
+        every { noteState.isEdit } returns true
 
         spyViewModel.noteState = noteState
         spyViewModel.noteItem = noteItem
+        spyViewModel.onClickVisible()
+
+        every { noteState.isEdit } returns false
+
         spyViewModel.onClickVisible()
 
         coVerifyOrder {
@@ -376,9 +379,36 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
             spyViewModel.interactor
             spyViewModel.noteItem
+            interactor.setVisible(noteItem)
             spyViewModel.noteState
             noteState.isEdit
+
+            spyViewModel.onClickVisible()
+
+            spyViewModel.noteItem
+            spyViewModel.noteItem
+            noteItem.isVisible
+            noteItem.isVisible = visibleTo
+
+            spyViewModel.callback
+            spyViewModel.noteItem
+            noteItem.isVisible
+            /**
+             * Here set visibleFrom (not visibleTo) because [NoteItem.Roll.isVisible] mock to
+             * return visibleFrom.
+             */
+            callback.setToolbarVisibleIcon(visibleFrom, needAnim = true)
+            spyViewModel.notifyListByVisible()
+            spyViewModel.noteState
+            noteState.isCreate
+
+            spyViewModel.interactor
+            spyViewModel.noteItem
             interactor.setVisible(noteItem)
+            spyViewModel.noteState
+            noteState.isEdit
+            spyViewModel.callback
+            callback.sendNotifyNotesBroadcast()
         }
     }
 
@@ -392,7 +422,6 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         every { noteItem.isVisible } returns visibleFrom
         every { spyViewModel.notifyListByVisible() } returns Unit
         every { noteState.isCreate } returns true
-
 
         spyViewModel.noteState = noteState
         spyViewModel.noteItem = noteItem
@@ -706,6 +735,8 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             callback.updateProgress(check, size)
             spyViewModel.noteItem
             interactor.updateRollCheck(noteItem, absolutePosition)
+            spyViewModel.callback
+            callback.sendNotifyNotesBroadcast()
 
             spyViewModel.onClickItemCheck(p)
             spyViewModel.noteState
@@ -727,6 +758,8 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             callback.updateProgress(check, size)
             spyViewModel.noteItem
             interactor.updateRollCheck(noteItem, absolutePosition)
+            spyViewModel.callback
+            callback.sendNotifyNotesBroadcast()
         }
     }
 
@@ -794,6 +827,8 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.interactor
             spyViewModel.noteItem
             interactor.updateRollCheck(noteItem, isCheck)
+            spyViewModel.callback
+            callback.sendNotifyNotesBroadcast()
 
 
             spyViewModel.onLongClickItemCheck()
@@ -817,6 +852,8 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.interactor
             spyViewModel.noteItem
             interactor.updateRollCheck(noteItem, isCheck)
+            spyViewModel.callback
+            callback.sendNotifyNotesBroadcast()
         }
     }
 
@@ -1496,11 +1533,13 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
         assertFalse(viewModel.onMenuSave(changeMode = false))
 
+        val changeMode = Random.nextBoolean()
+
         every { noteState.isEdit } returns true
         every { noteItem.isSaveEnabled() } returns false
-        assertFalse(viewModel.onMenuSave(Random.nextBoolean()))
+        assertFalse(viewModel.onMenuSave(changeMode = false))
 
-        coVerify {
+        coVerifyOrder {
             callback.isDialogOpen
 
             callback.isDialogOpen
@@ -1508,6 +1547,9 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
             noteState.isEdit
 
+            if (changeMode) {
+                callback.isDialogOpen
+            }
             noteState.isEdit
             noteItem.isSaveEnabled()
         }
@@ -1534,7 +1576,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         every { noteState.isCreate } returns true
         assertTrue(spyViewModel.onMenuSave(changeMode = false))
 
-        coVerify {
+        coVerifyOrder {
             spyViewModel.onMenuSave(changeMode = false)
             spyViewModel.noteState
             noteState.isEdit
@@ -1547,8 +1589,6 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             callback.setList(list)
             spyViewModel.noteState
             noteState.isCreate
-            spyViewModel.noteItem
-            noteItem.color
             spyViewModel.parentCallback
             spyViewModel.noteItem
             noteItem.color
@@ -1569,8 +1609,6 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             noteState.isCreate
             spyViewModel.callback
             callback.setToolbarBackIcon(isCancel = true, needAnim = true)
-            spyViewModel.noteItem
-            noteItem.color
             spyViewModel.parentCallback
             spyViewModel.noteItem
             noteItem.color
@@ -1598,7 +1636,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         coEvery { spyViewModel.saveBackgroundWork() } returns Unit
         assertTrue(spyViewModel.onMenuSave(changeMode = true))
 
-        coVerify {
+        coVerifyOrder {
             spyViewModel.onMenuSave(changeMode = true)
             spyViewModel.callback
             callback.isDialogOpen
@@ -1616,8 +1654,6 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.setupEditMode(isEdit = false)
             spyViewModel.inputControl
             inputControl.reset()
-            spyViewModel.noteItem
-            noteItem.color
             spyViewModel.parentCallback
             spyViewModel.noteItem
             noteItem.color
@@ -1663,6 +1699,8 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.callback
             spyViewModel.getAdapterList()
             callback.setList(adapterList)
+            spyViewModel.callback
+            callback.sendNotifyNotesBroadcast()
             spyViewModel.id
 
             spyViewModel.saveBackgroundWork()
@@ -1688,6 +1726,8 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.callback
             spyViewModel.getAdapterList()
             callback.setList(adapterList)
+            spyViewModel.callback
+            callback.sendNotifyNotesBroadcast()
             spyViewModel.id
         }
     }

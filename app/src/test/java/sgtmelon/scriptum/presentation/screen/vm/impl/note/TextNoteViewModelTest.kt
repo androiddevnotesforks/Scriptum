@@ -43,7 +43,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
 
     private val fastTest by lazy {
         FastTest.ViewModel(
-            callback, parentCallback, interactor/*, bindInteractor*/,
+            callback, parentCallback, interactor,
             saveControl, inputControl, viewModel, spyViewModel, { FastMock.Note.deepCopy(it) },
             { verifyDeepCopy(it) }
         )
@@ -54,7 +54,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
 
         viewModel.setCallback(callback)
         viewModel.setParentCallback(parentCallback)
-        viewModel.setInteractor(interactor/*, bindInteractor*/)
+        viewModel.setInteractor(interactor)
 
         viewModel.inputControl = inputControl
         viewModel.saveControl = saveControl
@@ -71,9 +71,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
     @After override fun tearDown() {
         super.tearDown()
 
-        confirmVerified(
-            callback, parentCallback, interactor/*, bindInteractor*/, inputControl, saveControl
-        )
+        confirmVerified(callback, parentCallback, interactor, inputControl, saveControl)
     }
 
     @Test override fun onDestroy() = fastTest.onDestroy()
@@ -181,6 +179,8 @@ class TextNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.noteItem = noteItem
             verifyDeepCopy(noteItem)
             spyViewModel.restoreItem = noteItem
+            spyViewModel.callback
+            callback.sendNotifyNotesBroadcast()
             spyViewModel.noteItem
             noteItem.isBin
             spyViewModel.noteState = NoteState(isBin = isBin)
@@ -426,11 +426,13 @@ class TextNoteViewModelTest : ParentViewModelTest() {
 
         assertFalse(viewModel.onMenuSave(changeMode = false))
 
+        val changeMode = Random.nextBoolean()
+
         every { noteState.isEdit } returns true
         every { noteItem.isSaveEnabled() } returns false
-        assertFalse(viewModel.onMenuSave(Random.nextBoolean()))
+        assertFalse(viewModel.onMenuSave(changeMode))
 
-        coVerify {
+        coVerifyOrder {
             callback.isDialogOpen
 
             callback.isDialogOpen
@@ -438,6 +440,9 @@ class TextNoteViewModelTest : ParentViewModelTest() {
 
             noteState.isEdit
 
+            if (changeMode) {
+                callback.isDialogOpen
+            }
             noteState.isEdit
             noteItem.isSaveEnabled()
         }
@@ -462,7 +467,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
         every { noteState.isCreate } returns true
         assertTrue(spyViewModel.onMenuSave(changeMode = false))
 
-        coVerify {
+        coVerifyOrder {
             spyViewModel.onMenuSave(changeMode = false)
             spyViewModel.noteState
             noteState.isEdit
@@ -472,8 +477,6 @@ class TextNoteViewModelTest : ParentViewModelTest() {
             noteItem.onSave()
             spyViewModel.noteState
             noteState.isCreate
-            spyViewModel.noteItem
-            noteItem.color
             spyViewModel.parentCallback
             spyViewModel.noteItem
             noteItem.color
@@ -491,8 +494,6 @@ class TextNoteViewModelTest : ParentViewModelTest() {
             noteState.isCreate
             spyViewModel.callback
             callback.setToolbarBackIcon(isCancel = true, needAnim = true)
-            spyViewModel.noteItem
-            noteItem.color
             spyViewModel.parentCallback
             spyViewModel.noteItem
             noteItem.color
@@ -518,7 +519,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
         coEvery { spyViewModel.saveBackgroundWork() } returns Unit
         assertTrue(spyViewModel.onMenuSave(changeMode = true))
 
-        coVerify {
+        coVerifyOrder {
             spyViewModel.onMenuSave(changeMode = true)
             spyViewModel.callback
             callback.isDialogOpen
@@ -533,8 +534,6 @@ class TextNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.setupEditMode(isEdit = false)
             spyViewModel.inputControl
             inputControl.reset()
-            spyViewModel.noteItem
-            noteItem.color
             spyViewModel.parentCallback
             spyViewModel.noteItem
             noteItem.color
@@ -575,6 +574,8 @@ class TextNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.cacheData()
             spyViewModel.noteState
             noteState.isCreate
+            spyViewModel.callback
+            callback.sendNotifyNotesBroadcast()
             spyViewModel.id
 
             spyViewModel.saveBackgroundWork()
@@ -594,6 +595,8 @@ class TextNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.parentCallback
             spyViewModel.id
             parentCallback.onUpdateNoteId(id)
+            spyViewModel.callback
+            callback.sendNotifyNotesBroadcast()
             spyViewModel.id
         }
     }

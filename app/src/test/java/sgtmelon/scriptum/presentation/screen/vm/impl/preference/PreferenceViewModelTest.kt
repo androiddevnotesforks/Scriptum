@@ -44,12 +44,12 @@ class PreferenceViewModelTest : ParentViewModelTest() {
         super.setup()
 
         viewModel.setCallback(callback)
-        viewModel.setInteractor(interactor, signalInteractor, backupInteractor/*, bindInteractor*/)
+        viewModel.setInteractor(interactor, signalInteractor, backupInteractor)
     }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(callback, interactor, signalInteractor, backupInteractor/*, bindInteractor*/)
+        confirmVerified(callback, interactor, signalInteractor, backupInteractor)
     }
 
     @Test override fun onDestroy() {
@@ -85,7 +85,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
         spyViewModel.onSetup()
 
-        coVerify {
+        coVerifyOrder {
             spyViewModel.onSetup()
 
             spyViewModel.callback
@@ -154,7 +154,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
         spyViewModel.onSetup()
 
-        coVerify {
+        coVerifyOrder {
             spyViewModel.onSetup()
 
             spyViewModel.callback
@@ -348,7 +348,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
         spyViewModel.onClickExport(result = null)
 
-        coVerify {
+        coVerifyOrder {
             spyViewModel.onClickExport(PermissionResult.LOW_API)
             spyViewModel.startExport()
 
@@ -413,7 +413,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
         spyViewModel.onClickImport(result = null)
 
-        coVerify {
+        coVerifyOrder {
             spyViewModel.onClickImport(PermissionResult.LOW_API)
             spyViewModel.prepareImportDialog()
 
@@ -684,7 +684,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
         spyViewModel.onClickMelody(result = null)
 
-        coVerify {
+        coVerifyOrder {
             spyViewModel.onClickMelody(PermissionResult.LOW_API)
             spyViewModel.prepareMelodyDialog()
 

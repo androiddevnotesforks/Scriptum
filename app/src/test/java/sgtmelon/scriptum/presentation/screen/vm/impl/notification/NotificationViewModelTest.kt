@@ -304,7 +304,7 @@ class NotificationViewModelTest : ParentViewModelTest() {
         assertEquals(itemList, viewModel.itemList)
         assertEquals(cancelList, viewModel.cancelList)
 
-        coVerify {
+        coVerifyOrder {
             spyViewModel.onSnackbarAction()
             spyViewModel.callback
             callback.apply {
@@ -339,7 +339,7 @@ class NotificationViewModelTest : ParentViewModelTest() {
         assertEquals(itemList, viewModel.itemList)
         assertEquals(cancelList, viewModel.cancelList)
 
-        coVerify {
+        coVerifyOrder {
             spyViewModel.onSnackbarAction()
             spyViewModel.callback
             callback.apply {
