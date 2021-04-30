@@ -113,7 +113,7 @@ class NotesViewModelTest : ParentViewModelTest() {
 
     @Test fun onUpdateData_startNotEmpty_getNotEmpty() = startCoTest {
         val startList = List<NoteItem>(getRandomSize()) { mockk() }
-        val returnList = startList.shuffled().toMutableList()
+        val returnList = MutableList<NoteItem>(getRandomSize()) { mockk() }
         val isListHide = Random.nextBoolean()
 
         coEvery { interactor.getCount() } returns returnList.size
@@ -174,6 +174,8 @@ class NotesViewModelTest : ParentViewModelTest() {
         val item = itemList[index]
 
         viewModel.itemList.clearAdd(itemList)
+        assertEquals(itemList, viewModel.itemList)
+
         viewModel.onClickNote(index)
 
         verifySequence { callback.openNoteScreen(item) }
@@ -363,6 +365,8 @@ class NotesViewModelTest : ParentViewModelTest() {
         every { item.switchStatus() } returns item
 
         viewModel.itemList.clearAdd(itemList)
+        assertEquals(itemList, viewModel.itemList)
+
         viewModel.onMenuBind(index)
 
         coVerifySequence {
@@ -418,6 +422,8 @@ class NotesViewModelTest : ParentViewModelTest() {
         coEvery { interactor.copy(item) } returns text
 
         viewModel.itemList.clearAdd(itemList)
+        assertEquals(itemList, viewModel.itemList)
+
         viewModel.onMenuCopy(index)
 
         coVerifySequence {

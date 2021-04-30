@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.presentation.screen.vm.callback.main
 
+import sgtmelon.scriptum.domain.model.annotation.Options
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IBinFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.IParentViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.main.BinViewModel
@@ -17,6 +18,6 @@ interface IBinViewModel : IParentViewModel {
 
     fun onShowOptionsDialog(p: Int)
 
-    fun onResultOptionsDialog(p: Int, which: Int)
+    fun onResultOptionsDialog(p: Int, @Options.Bin which: Int)
 
 }
