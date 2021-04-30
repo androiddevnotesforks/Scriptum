@@ -120,7 +120,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
     }
 
 
-    override fun onResultOptionsDialog(p: Int, which: Int) {
+    override fun onResultOptionsDialog(p: Int, @Options which: Int) {
         when (which) {
             Options.NOTIFICATION -> onMenuNotification(p)
             Options.BIND -> onMenuBind(p)
@@ -130,25 +130,25 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
         }
     }
 
-    private fun onMenuNotification(p: Int) {
+    @RunPrivate fun onMenuNotification(p: Int) {
         val item = itemList.getOrNull(p) ?: return
 
         callback?.showDateDialog(item.alarmDate.getCalendar(), item.haveAlarm(), p)
     }
 
-    private fun onMenuBind(p: Int) {
+    @RunPrivate fun onMenuBind(p: Int) {
         val item = itemList.getOrNull(p)?.switchStatus() ?: return
 
         callback?.notifyItemChanged(itemList, p)
 
-        viewModelScope.launchBack {
-            interactor.updateNote(item)
+        viewModelScope.launch {
+            runBack { interactor.updateNote(item) }
 
             callback?.sendNotifyNotesBroadcast()
         }
     }
 
-    private fun onMenuConvert(p: Int) {
+    @RunPrivate fun onMenuConvert(p: Int) {
         val item = itemList.getOrNull(p) ?: return
 
         viewModelScope.launch {
@@ -161,7 +161,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
         }
     }
 
-    private fun onMenuCopy(p: Int) {
+    @RunPrivate fun onMenuCopy(p: Int) {
         val item = itemList.getOrNull(p) ?: return
 
         viewModelScope.launch {
@@ -170,13 +170,13 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
         }
     }
 
-    private fun onMenuDelete(p: Int) {
+    @RunPrivate fun onMenuDelete(p: Int) {
         val item = itemList.validRemoveAt(p) ?: return
 
         callback?.notifyItemRemoved(itemList, p)
 
-        viewModelScope.launchBack {
-            interactor.deleteNote(item)
+        viewModelScope.launch {
+            runBack { interactor.deleteNote(item) }
 
             callback?.sendCancelAlarmBroadcast(item.id)
             callback?.sendCancelNoteBroadcast(item.id)
@@ -199,8 +199,8 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
 
         callback?.notifyItemChanged(itemList, p)
 
-        viewModelScope.launchBack {
-            interactor.clearDate(item)
+        viewModelScope.launch {
+            runBack { interactor.clearDate(item) }
 
             callback?.sendCancelAlarmBroadcast(item.id)
             callback?.sendNotifyInfoBroadcast()

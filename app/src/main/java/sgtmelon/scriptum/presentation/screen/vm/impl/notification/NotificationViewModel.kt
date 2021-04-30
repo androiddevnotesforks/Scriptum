@@ -10,7 +10,6 @@ import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.data.IntentData.Snackbar
 import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.extension.clearAdd
-import sgtmelon.scriptum.extension.launchBack
 import sgtmelon.scriptum.extension.runBack
 import sgtmelon.scriptum.extension.validRemoveAt
 import sgtmelon.scriptum.idling.AppIdlingResource
@@ -134,8 +133,8 @@ class NotificationViewModel(application: Application) :
 
         // TODO if cancel list is too big (eg 10 items) need remove first
 
-        viewModelScope.launchBack {
-            interactor.cancelNotification(item)
+        viewModelScope.launch {
+            runBack { interactor.cancelNotification(item) }
 
             callback?.sendCancelAlarmBroadcast(item.note.id)
             callback?.sendNotifyInfoBroadcast(itemList.size)

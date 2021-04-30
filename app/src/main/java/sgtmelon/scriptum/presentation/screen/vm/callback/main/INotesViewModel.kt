@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.presentation.screen.vm.callback.main
 
+import sgtmelon.scriptum.domain.model.annotation.Options
 import sgtmelon.scriptum.presentation.receiver.screen.MainScreenReceiver
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.INotesFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.IParentViewModel
@@ -21,7 +22,7 @@ interface INotesViewModel : IParentViewModel,
     fun onShowOptionsDialog(p: Int)
 
 
-    fun onResultOptionsDialog(p: Int, which: Int)
+    fun onResultOptionsDialog(p: Int, @Options.Notes which: Int)
 
     fun onResultDateDialog(calendar: Calendar, p: Int)
 

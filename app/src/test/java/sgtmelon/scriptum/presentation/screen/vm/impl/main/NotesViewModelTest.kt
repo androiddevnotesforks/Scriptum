@@ -7,21 +7,18 @@ import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
+import sgtmelon.extension.beforeNow
 import sgtmelon.extension.getCalendar
-import sgtmelon.extension.getRandomFutureTime
-import sgtmelon.extension.getRandomPastTime
 import sgtmelon.extension.nextString
-import sgtmelon.scriptum.ParentViewModelTest
-import sgtmelon.scriptum.R
-import sgtmelon.scriptum.TestData
+import sgtmelon.scriptum.*
 import sgtmelon.scriptum.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.domain.model.annotation.Options
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.extension.clearAdd
-import sgtmelon.scriptum.getRandomSize
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.INotesFragment
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.random.Random
 
 /**
@@ -35,22 +32,22 @@ class NotesViewModelTest : ParentViewModelTest() {
     @MockK lateinit var callback: INotesFragment
 
     @MockK lateinit var interactor: INotesInteractor
-//    @MockK lateinit var bindInteractor: IBindInteractor
 
     @MockK lateinit var calendar: Calendar
 
     private val viewModel by lazy { NotesViewModel(application) }
+    private val spyViewModel by lazy { spyk(viewModel) }
 
     @Before override fun setup() {
         super.setup()
 
         viewModel.setCallback(callback)
-        viewModel.setInteractor(interactor/*, bindInteractor*/)
+        viewModel.setInteractor(interactor)
     }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(callback, interactor/*, bindInteractor*/, calendar)
+        confirmVerified(callback, interactor, calendar)
     }
 
     @Test override fun onDestroy() {
@@ -71,7 +68,7 @@ class NotesViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onUpdateData_startEmpty_getNotEmpty() = startCoTest {
-        val itemList = data.itemList
+        val itemList = MutableList<NoteItem>(getRandomSize()) { mockk() }
         val isListHide = Random.nextBoolean()
 
         coEvery { interactor.getCount() } returns itemList.size
@@ -86,6 +83,7 @@ class NotesViewModelTest : ParentViewModelTest() {
             interactor.getCount()
             callback.showProgress()
             interactor.getList()
+
             interactor.isListHide()
             callback.notifyList(itemList)
             callback.setupBinding(isListHide)
@@ -114,8 +112,8 @@ class NotesViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onUpdateData_startNotEmpty_getNotEmpty() = startCoTest {
-        val startList = data.itemList
-        val returnList = data.itemList.apply { shuffle() }
+        val startList = List<NoteItem>(getRandomSize()) { mockk() }
+        val returnList = startList.shuffled().toMutableList()
         val isListHide = Random.nextBoolean()
 
         coEvery { interactor.getCount() } returns returnList.size
@@ -124,6 +122,7 @@ class NotesViewModelTest : ParentViewModelTest() {
 
         viewModel.itemList.clearAdd(startList)
         assertEquals(startList, viewModel.itemList)
+
         viewModel.onUpdateData()
 
         coVerifySequence {
@@ -137,10 +136,12 @@ class NotesViewModelTest : ParentViewModelTest() {
             callback.setupBinding(isListHide)
             callback.onBindingList()
         }
+
+        assertEquals(returnList, viewModel.itemList)
     }
 
     @Test fun onUpdateData_startNotEmpty_getEmpty() = startCoTest {
-        val startList = data.itemList
+        val startList = List<NoteItem>(getRandomSize()) { mockk() }
         val returnList = mutableListOf<NoteItem>()
         val isListHide = Random.nextBoolean()
 
@@ -149,6 +150,7 @@ class NotesViewModelTest : ParentViewModelTest() {
 
         viewModel.itemList.clearAdd(startList)
         assertEquals(startList, viewModel.itemList)
+
         viewModel.onUpdateData()
 
         coVerifySequence {
@@ -167,16 +169,16 @@ class NotesViewModelTest : ParentViewModelTest() {
     @Test fun onClickNote() {
         viewModel.onClickNote(Random.nextInt())
 
-        val itemList = data.itemList
+        val itemList = List<NoteItem>(getRandomSize()) { mockk() }
+        val index = itemList.indices.random()
+        val item = itemList[index]
+
         viewModel.itemList.clearAdd(itemList)
-        assertEquals(itemList, viewModel.itemList)
-
-        val p = itemList.indices.random()
-        val item = itemList[p]
-
-        viewModel.onClickNote(p)
+        viewModel.onClickNote(index)
 
         verifySequence { callback.openNoteScreen(item) }
+
+        assertEquals(itemList, viewModel.itemList)
     }
 
     @Test fun onShowOptionsDialog() {
@@ -282,108 +284,178 @@ class NotesViewModelTest : ParentViewModelTest() {
         }
     }
 
-    @Test fun onResultOptionsDialog_onNotification() {
-        viewModel.onResultOptionsDialog(Random.nextInt(), Options.Notes.NOTIFICATION)
+    @Test fun onResultOptionsDialog() {
+        val p = Random.nextInt()
+        val which = -1
 
-        val itemList = data.itemList
-        viewModel.itemList.clearAdd(itemList)
-        assertEquals(itemList, viewModel.itemList)
+        spyViewModel.onResultOptionsDialog(p, which)
 
-        val p = 0
-        val item = itemList[p]
+        every { spyViewModel.onMenuNotification(p) } returns Unit
+        spyViewModel.onResultOptionsDialog(p, Options.Notes.NOTIFICATION)
 
-        viewModel.onResultOptionsDialog(p, Options.Notes.NOTIFICATION)
+        every { spyViewModel.onMenuBind(p) } returns Unit
+        spyViewModel.onResultOptionsDialog(p, Options.Notes.BIND)
+
+        every { spyViewModel.onMenuConvert(p) } returns Unit
+        spyViewModel.onResultOptionsDialog(p, Options.Notes.CONVERT)
+
+        every { spyViewModel.onMenuCopy(p) } returns Unit
+        spyViewModel.onResultOptionsDialog(p, Options.Notes.COPY)
+
+        every { spyViewModel.onMenuDelete(p) } returns Unit
+        spyViewModel.onResultOptionsDialog(p, Options.Notes.DELETE)
 
         verifySequence {
-            callback.showDateDialog(item.alarmDate.getCalendar(), item.haveAlarm(), p)
+            spyViewModel.onResultOptionsDialog(p, which)
+
+            spyViewModel.onResultOptionsDialog(p, Options.Notes.NOTIFICATION)
+            spyViewModel.onMenuNotification(p)
+
+            spyViewModel.onResultOptionsDialog(p, Options.Notes.BIND)
+            spyViewModel.onMenuBind(p)
+
+            spyViewModel.onResultOptionsDialog(p, Options.Notes.CONVERT)
+            spyViewModel.onMenuConvert(p)
+
+            spyViewModel.onResultOptionsDialog(p, Options.Notes.COPY)
+            spyViewModel.onMenuCopy(p)
+
+            spyViewModel.onResultOptionsDialog(p, Options.Notes.DELETE)
+            spyViewModel.onMenuDelete(p)
         }
     }
 
-    @Test fun onResultOptionsDialog_onBind() = startCoTest {
-        viewModel.onResultOptionsDialog(Random.nextInt(), Options.Notes.BIND)
+    @Test fun onMenuNotification() {
+        viewModel.onMenuNotification(Random.nextInt())
 
-        val itemList = data.itemList
+        val itemList = List<NoteItem>(getRandomSize()) { mockk() }
+        val index = itemList.indices.random()
+        val item = itemList[index]
+        val alarmDate = nextString()
+        val calendar = mockk<Calendar>()
+        val haveAlarm = Random.nextBoolean()
+
+        every { item.alarmDate } returns alarmDate
+        FastMock.timeExtension()
+        every { alarmDate.getCalendar() } returns calendar
+        every { item.haveAlarm() } returns haveAlarm
+
         viewModel.itemList.clearAdd(itemList)
+        viewModel.onMenuNotification(index)
+
+        verifySequence {
+            item.alarmDate
+            alarmDate.getCalendar()
+            item.haveAlarm()
+            callback.showDateDialog(calendar, haveAlarm, index)
+        }
+
         assertEquals(itemList, viewModel.itemList)
+    }
 
-        val p = itemList.indices.random()
-        val item = itemList[p]
+    @Test fun onMenuBind() = startCoTest {
+        viewModel.onMenuBind(Random.nextInt())
 
-        viewModel.onResultOptionsDialog(p, Options.Notes.BIND)
-        item.switchStatus()
+        val itemList = List<NoteItem>(getRandomSize()) { mockk() }
+        val index = itemList.indices.random()
+        val item = itemList[index]
+
+        every { item.switchStatus() } returns item
+
+        viewModel.itemList.clearAdd(itemList)
+        viewModel.onMenuBind(index)
 
         coVerifySequence {
-            callback.notifyItemChanged(itemList, p)
+            callback.notifyItemChanged(itemList, index)
 
             interactor.updateNote(item)
+            callback.sendNotifyNotesBroadcast()
+
         }
+        assertEquals(itemList, viewModel.itemList)
     }
 
-    @Test fun onResultOptionsDialog_onConvert() = startCoTest {
-        viewModel.onResultOptionsDialog(Random.nextInt(), Options.Notes.CONVERT)
+    @Test fun onMenuConvert() = startCoTest {
+        viewModel.onMenuConvert(Random.nextInt())
 
+        val itemList = List<NoteItem>(getRandomSize()) { mockk() }
+        val index = itemList.indices.random()
+        val item = itemList[index]
+        val convertItem = mockk<NoteItem>()
+        val resultList = List<NoteItem>(getRandomSize()) { mockk() }
         val sort = Random.nextInt()
-        val itemList = data.itemList
-        val sortList = data.itemList.reversed()
 
-        val item = itemList[0]
-        val itemReturn = itemList[1]
-
+        coEvery { interactor.convertNote(item) } returns convertItem
         every { interactor.sort } returns sort
-        coEvery { interactor.convertNote(item) } returns itemReturn
-
         mockkObject(NotesViewModel)
-        every { NotesViewModel.sortList(any(), sort) } returns sortList
+        every { NotesViewModel.sortList(any(), sort) } returns resultList
 
         viewModel.itemList.clearAdd(itemList)
         assertEquals(itemList, viewModel.itemList)
 
-        viewModel.onResultOptionsDialog(0, Options.Notes.CONVERT)
-
-        assertEquals(sortList, viewModel.itemList)
+        viewModel.onMenuConvert(index)
 
         coVerifySequence {
             interactor.convertNote(item)
             interactor.sort
-
             NotesViewModel.sortList(any(), sort)
-            callback.notifyList(sortList)
+
+            callback.notifyList(resultList)
+            callback.sendNotifyNotesBroadcast()
         }
+
+        assertEquals(resultList, viewModel.itemList)
     }
 
-    @Test fun onResultOptionsDialog_onCopy() {
-        viewModel.onResultOptionsDialog(Random.nextInt(), Options.Notes.COPY)
+    @Test fun onMenuCopy() {
+        viewModel.onMenuCopy(Random.nextInt())
 
-        val itemList = data.itemList
+        val itemList = List<NoteItem>(getRandomSize()) { mockk() }
+        val index = itemList.indices.random()
+        val item = itemList[index]
+        val text = nextString()
+
+        coEvery { interactor.copy(item) } returns text
+
         viewModel.itemList.clearAdd(itemList)
-        assertEquals(itemList, viewModel.itemList)
-
-        val p = data.itemList.indices.random()
-        val item = itemList[p]
-
-        viewModel.onResultOptionsDialog(p, Options.Notes.COPY)
-
-        coVerifySequence { interactor.copy(item) }
-    }
-
-    @Test fun onResultOptionsDialog_onDelete() {
-        viewModel.onResultOptionsDialog(Random.nextInt(), Options.Notes.DELETE)
-
-        val itemList = data.itemList
-        viewModel.itemList.clearAdd(itemList)
-        assertEquals(itemList, viewModel.itemList)
-
-        val p = itemList.indices.random()
-        val item = itemList.removeAt(p)
-
-        viewModel.onResultOptionsDialog(p, Options.Notes.DELETE)
+        viewModel.onMenuCopy(index)
 
         coVerifySequence {
-            callback.notifyItemRemoved(itemList, p)
+            interactor.copy(item)
+            callback.copyClipboard(text)
+        }
+
+        assertEquals(itemList, viewModel.itemList)
+    }
+
+    @Test fun onMenuDelete() {
+        viewModel.onMenuDelete(Random.nextInt())
+
+        val itemList = List<NoteItem>(getRandomSize()) { mockk() }
+        val index = itemList.indices.random()
+        val item = itemList[index]
+        val id = Random.nextLong()
+
+        val resultList = ArrayList(itemList)
+        resultList.removeAt(index)
+
+        viewModel.itemList.clearAdd(itemList)
+        assertEquals(itemList, viewModel.itemList)
+
+        every { item.id } returns id
+        viewModel.onMenuDelete(index)
+
+        coVerifySequence {
+            callback.notifyItemRemoved(resultList, index)
 
             interactor.deleteNote(item)
-            //            bindInteractor.notifyInfoBind(callback)
+
+            callback.sendCancelAlarmBroadcast(id)
+            callback.sendCancelNoteBroadcast(id)
+            callback.sendNotifyInfoBroadcast()
         }
+
+        assertEquals(resultList, viewModel.itemList)
     }
 
 
@@ -403,46 +475,66 @@ class NotesViewModelTest : ParentViewModelTest() {
     @Test fun onResultDateDialogClear() = startCoTest {
         viewModel.onResultDateDialogClear(Random.nextInt())
 
-        val itemList = data.itemList
+        val itemList = List<NoteItem>(getRandomSize()) { mockk() }
+        val index = itemList.indices.random()
+        val item = itemList[index]
+        val id = Random.nextLong()
+
         viewModel.itemList.clearAdd(itemList)
-        assertEquals(itemList, viewModel.itemList)
 
-        val p = itemList.indices.random()
-        val item = itemList[p]
+        every { item.clearAlarm() } returns item
+        every { item.id } returns id
 
-        viewModel.onResultDateDialogClear(p)
-        item.clearAlarm()
+        viewModel.onResultDateDialogClear(index)
 
         coVerifySequence {
-            callback.notifyItemChanged(itemList, p)
+            item.clearAlarm()
+            callback.notifyItemChanged(itemList, index)
 
             interactor.clearDate(item)
-            //            bindInteractor.notifyInfoBind(callback)
+
+            item.id
+            callback.sendCancelAlarmBroadcast(id)
+            callback.sendNotifyInfoBroadcast()
         }
+
+        assertEquals(itemList, viewModel.itemList)
     }
 
     @Test fun onResultTimeDialog() = startCoTest {
-        val calendarPast = getRandomPastTime().getCalendar()
-        viewModel.onResultTimeDialog(calendarPast, Random.nextInt())
+        val calendar = mockk<Calendar>()
+        val itemList = List<NoteItem>(getRandomSize()) { mockk() }
+        val index = itemList.indices.random()
+        val item = itemList[index]
+        val id = Random.nextLong()
 
-        val calendarFuture = getRandomFutureTime().getCalendar()
-        viewModel.onResultTimeDialog(calendarFuture, Random.nextInt())
+        FastMock.timeExtension()
 
-        val itemList = data.itemList
+        every { calendar.beforeNow() } returns true
+        viewModel.onResultTimeDialog(calendar, Random.nextInt())
+
+        every { calendar.beforeNow() } returns false
+        viewModel.onResultTimeDialog(calendar, Random.nextInt())
+
+        every { item.id } returns id
         viewModel.itemList.clearAdd(itemList)
-        assertEquals(itemList, viewModel.itemList)
-
-        val p = itemList.indices.random()
-        val item = itemList[p]
-
-        viewModel.onResultTimeDialog(calendarFuture, p)
+        viewModel.onResultTimeDialog(calendar, index)
 
         coVerifySequence {
-            interactor.setDate(item, calendarFuture)
-            callback.notifyItemChanged(itemList, p)
+            calendar.beforeNow()
 
-            //            bindInteractor.notifyInfoBind(callback)
+            calendar.beforeNow()
+
+            calendar.beforeNow()
+            interactor.setDate(item, calendar)
+            callback.notifyItemChanged(itemList, index)
+
+            item.id
+            callback.sendSetAlarmBroadcast(id, calendar)
+            callback.sendNotifyInfoBroadcast()
         }
+
+        assertEquals(itemList, viewModel.itemList)
     }
 
 
