@@ -40,6 +40,7 @@ class EternalInteractorTest : ParentInteractorTest() {
     private val interactor by lazy {
         EternalInteractor(preferenceRepo, bindRepo, alarmRepo, rankRepo, noteRepo, callback)
     }
+    private val spyInteractor by lazy { spyk(interactor) }
 
     override fun tearDown() {
         super.tearDown()
@@ -100,25 +101,29 @@ class EternalInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun notifyNotesBind() = startCoTest {
-        TODO()
         val sort = Random.nextInt()
-        val rankIdVisibleList = mockk<List<Long>>()
         val itemList = mockk<MutableList<NoteItem>>()
+        val rankIdVisibleList = mockk<List<Long>>()
+        val filterList = mockk<List<NoteItem>>()
 
         every { preferenceRepo.sort } returns sort
         coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList
         coEvery {
             noteRepo.getList(sort, isBin = false, isOptimal = false, filterVisible = false)
         } returns itemList
+        coEvery { spyInteractor.getFilterList(itemList, rankIdVisibleList) } returns filterList
 
-        interactor.notifyNotesBind()
+        spyInteractor.notifyNotesBind()
 
         coVerifySequence {
-            preferenceRepo.sort
-            rankRepo.getIdVisibleList()
-            noteRepo.getList(sort, isBin = false, isOptimal = false, filterVisible = false)
+            spyInteractor.notifyNotesBind()
 
-            //            callback.notifyNotesBind(itemList, rankIdVisibleList)
+            preferenceRepo.sort
+            noteRepo.getList(sort, isBin = false, isOptimal = false, filterVisible = false)
+            rankRepo.getIdVisibleList()
+            spyInteractor.getFilterList(itemList, rankIdVisibleList)
+
+            callback.notifyNotesBind(filterList)
         }
     }
 
