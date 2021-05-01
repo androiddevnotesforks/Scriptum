@@ -20,7 +20,7 @@ interface IEternalBridge {
 
     //region Bind functions
 
-    @MainThread fun notifyNotesBind(itemList: List<NoteItem>, rankIdVisibleList: List<Long>)
+    @MainThread fun notifyNotesBind(itemList: List<NoteItem>)
 
     @MainThread fun cancelNoteBind(id: Long)
 

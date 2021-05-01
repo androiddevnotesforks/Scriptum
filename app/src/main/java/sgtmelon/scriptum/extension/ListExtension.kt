@@ -12,11 +12,11 @@ fun <T> MutableList<T>.validRemoveAt(index: Int): T? {
 
 private const val ND_INDEX = -1
 
-fun <T> List<T>.validIndexOf(item: T): Int? {
+fun <T> List<T>.validIndexOfFirst(item: T): Int? {
     return indexOf(item).takeIf { it != ND_INDEX }
 }
 
-fun <T> List<T>.validIndexOf(predicate: (T) -> Boolean): Int? {
+fun <T> List<T>.validIndexOfFirst(predicate: (T) -> Boolean): Int? {
     return indexOfFirst(predicate).takeIf { it != ND_INDEX }
 }
 

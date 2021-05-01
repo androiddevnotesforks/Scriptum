@@ -13,9 +13,9 @@ import sgtmelon.extension.nextString
 import sgtmelon.scriptum.*
 import sgtmelon.scriptum.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.domain.model.annotation.Options
-import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.extension.clearAdd
+import sgtmelon.scriptum.presentation.control.SortControl
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.INotesFragment
 import java.util.*
 import kotlin.collections.ArrayList
@@ -391,8 +391,8 @@ class NotesViewModelTest : ParentViewModelTest() {
 
         coEvery { interactor.convertNote(item) } returns convertItem
         every { interactor.sort } returns sort
-        mockkObject(NotesViewModel)
-        every { NotesViewModel.sortList(any(), sort) } returns resultList
+        mockkObject(SortControl)
+        coEvery { SortControl.sortList(any(), sort) } returns resultList
 
         viewModel.itemList.clearAdd(itemList)
         assertEquals(itemList, viewModel.itemList)
@@ -402,7 +402,7 @@ class NotesViewModelTest : ParentViewModelTest() {
         coVerifySequence {
             interactor.convertNote(item)
             interactor.sort
-            NotesViewModel.sortList(any(), sort)
+            SortControl.sortList(any(), sort)
 
             callback.notifyList(resultList)
             callback.sendNotifyNotesBroadcast()
@@ -590,16 +590,4 @@ class NotesViewModelTest : ParentViewModelTest() {
             callback.notifyItemChanged(itemList, p)
         }
     }
-
-    //region Companion test
-
-    @Test fun sortList() = with(data) {
-        assertEquals(changeList, NotesViewModel.sortList(itemList, Sort.CHANGE))
-        assertEquals(createList, NotesViewModel.sortList(itemList, Sort.CREATE))
-        assertEquals(rankList, NotesViewModel.sortList(itemList, Sort.RANK))
-        assertEquals(colorList, NotesViewModel.sortList(itemList, Sort.COLOR))
-    }
-
-    //endregion
-
 }

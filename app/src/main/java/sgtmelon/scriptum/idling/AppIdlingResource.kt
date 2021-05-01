@@ -2,7 +2,7 @@ package sgtmelon.scriptum.idling
 
 import android.util.Log
 import androidx.test.espresso.IdlingRegistry
-import sgtmelon.scriptum.extension.validIndexOf
+import sgtmelon.scriptum.extension.validIndexOfFirst
 
 /**
  * Class for maintain test work while app is freeze without Thread.sleep(...)
@@ -26,7 +26,7 @@ class AppIdlingResource : ParentIdlingResource(), AppIdlingCallback {
     }
 
     override fun stopWork(@IdlingTag tag: String) {
-        val index = idleList.validIndexOf { it == tag }
+        val index = idleList.validIndexOfFirst { it == tag }
         if (index != null) {
             idleList.removeAt(index)
         }

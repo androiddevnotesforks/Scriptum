@@ -4,15 +4,13 @@ import android.content.Context
 import android.os.Build
 import androidx.annotation.IntDef
 import androidx.annotation.StringDef
-import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.extension.clearAdd
 import sgtmelon.scriptum.extension.getNotificationService
-import sgtmelon.scriptum.extension.validIndexOf
+import sgtmelon.scriptum.extension.validIndexOfFirst
 import sgtmelon.scriptum.extension.validRemoveAt
 import sgtmelon.scriptum.presentation.control.system.callback.IBindControl
-import sgtmelon.scriptum.presentation.screen.vm.impl.main.NotesViewModel.Companion.sortList
 import sgtmelon.scriptum.presentation.factory.NotificationFactory as Factory
 
 /**
@@ -22,6 +20,9 @@ class BindControl(private val context: Context?) : IBindControl {
 
     private val manager = context?.getNotificationService()
 
+    /**
+     * Cached note list for binding in status bar.
+     */
     private val noteItemList: MutableList<NoteItem> = ArrayList()
 
     /**
@@ -43,40 +44,12 @@ class BindControl(private val context: Context?) : IBindControl {
         }
     }
 
-    /**
-     * Update notification if note isStatus and isVisible, otherwise cancel notification
-     */
-    override fun notifyNote(noteItem: NoteItem, rankIdVisibleList: List<Long>, @Sort sort: Int) {
-        if (context == null) return
-
-        val index = noteItemList.validIndexOf { it.id == noteItem.id }
-        if (index != null) {
-            noteItemList[index] = noteItem
-        } else {
-            noteItemList.add(noteItem)
-        }
-
-        notifyNotes(noteItemList, rankIdVisibleList, sort)
-    }
-
-    /**
-     * If [sort] is null when don't need sort.
-     * If [rankIdVisibleList] is null when don't need filter list by visibility.
-     */
-    override fun notifyNotes(
-        itemList: List<NoteItem>,
-        rankIdVisibleList: List<Long>?,
-        @Sort sort: Int?
-    ) {
+    override fun notifyNotes(itemList: List<NoteItem>) {
         if (context == null) return
 
         clearRecent(Tag.NOTE)
 
-        noteItemList.clearAdd(sortList(itemList.filter {
-            val isRankVisible = rankIdVisibleList?.let { list -> it.isRankVisible(list) } ?: true
-
-            return@filter !it.isBin && it.isStatus && isRankVisible
-        }, sort))
+        noteItemList.clearAdd(itemList)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             if (noteItemList.size > 1) {
@@ -89,20 +62,23 @@ class BindControl(private val context: Context?) : IBindControl {
             }
         }
 
-        for (it in noteItemList.reversed()) {
-            val id = it.id.toInt()
+        for (item in noteItemList.reversed()) {
+            val id = item.id.toInt()
 
-            manager?.notify(Tag.NOTE, id, Factory.Notes[context, it])
+            manager?.notify(Tag.NOTE, id, Factory.Notes[context, item])
             noteIdList.add(id)
         }
     }
 
     override fun cancelNote(id: Long) {
-        with(noteItemList) {
-            validRemoveAt(indexOfFirst { it.id == id }) ?: return
-        }
+        val index = noteItemList.validIndexOfFirst { it.id == id } ?: return
+        noteItemList.validRemoveAt(index) ?: return
 
-        notifyNotes(noteItemList)
+        /**
+         * Need copy [noteItemList] because inside [notifyNotes] happen call of [clearRecent]
+         * and [noteItemList] will be cleared before show notes data in status bar.
+         */
+        notifyNotes(ArrayList(noteItemList))
     }
 
     override fun notifyInfo(count: Int) {
@@ -125,8 +101,8 @@ class BindControl(private val context: Context?) : IBindControl {
     override fun clearRecent(@Tag tag: String?) {
         when (tag) {
             Tag.NOTE -> {
-                for (it in noteIdList) {
-                    manager?.cancel(Tag.NOTE, it)
+                for (id in noteIdList) {
+                    manager?.cancel(Tag.NOTE, id)
                 }
 
                 noteIdList.clear()
@@ -157,10 +133,11 @@ class BindControl(private val context: Context?) : IBindControl {
     }
 
     /**
-     * Id's for [Tag.NOTE_GROUP] and [Tag.INFO] notifications. For [Tag.NOTE] need use id of note.
+     * Id's for [Tag.NOTE_GROUP] and [Tag.INFO] notifications. For [Tag.NOTE] need
+     * use [NoteItem.id].
      */
     @IntDef(Id.NOTE_GROUP, Id.INFO)
-    annotation class Id {
+    private annotation class Id {
         companion object {
             const val NOTE_GROUP = 0
             const val INFO = 1

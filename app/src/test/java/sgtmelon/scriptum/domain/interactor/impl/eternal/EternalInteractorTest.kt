@@ -100,6 +100,7 @@ class EternalInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun notifyNotesBind() = startCoTest {
+        TODO()
         val sort = Random.nextInt()
         val rankIdVisibleList = mockk<List<Long>>()
         val itemList = mockk<MutableList<NoteItem>>()
@@ -117,8 +118,12 @@ class EternalInteractorTest : ParentInteractorTest() {
             rankRepo.getIdVisibleList()
             noteRepo.getList(sort, isBin = false, isOptimal = false, filterVisible = false)
 
-            callback.notifyNotesBind(itemList, rankIdVisibleList)
+            //            callback.notifyNotesBind(itemList, rankIdVisibleList)
         }
+    }
+
+    @Test fun getFilterList() {
+        TODO()
     }
 
     @Test fun notifyInfoBind() = startCoTest {

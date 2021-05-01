@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.presentation.control.system.callback
 
-import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.control.system.BindControl
 
@@ -9,13 +8,7 @@ import sgtmelon.scriptum.presentation.control.system.BindControl
  */
 interface IBindControl {
 
-    fun notifyNote(noteItem: NoteItem, rankIdVisibleList: List<Long>, @Sort sort: Int)
-
-    fun notifyNotes(
-        itemList: List<NoteItem>,
-        rankIdVisibleList: List<Long>? = null,
-        @Sort sort: Int? = null
-    )
+    fun notifyNotes(itemList: List<NoteItem>)
 
     fun cancelNote(id: Long)
 

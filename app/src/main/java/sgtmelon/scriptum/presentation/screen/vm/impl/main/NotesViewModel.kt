@@ -7,14 +7,13 @@ import kotlinx.coroutines.launch
 import sgtmelon.extension.beforeNow
 import sgtmelon.extension.getCalendar
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.data.room.dao.INoteDao
 import sgtmelon.scriptum.domain.interactor.callback.main.INotesInteractor
-import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.idling.AppIdlingResource
 import sgtmelon.scriptum.idling.IdlingTag
+import sgtmelon.scriptum.presentation.control.SortControl
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.INotesFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.main.INotesViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
@@ -154,7 +153,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
         viewModelScope.launch {
             itemList[p] = runBack { interactor.convertNote(item) }
 
-            val sortList = runBack { sortList(itemList, interactor.sort) }
+            val sortList = runBack { SortControl.sortList(itemList, interactor.sort) }
             callback?.notifyList(itemList.clearAdd(sortList))
 
             callback?.sendNotifyNotesBroadcast()
@@ -247,36 +246,4 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
             callback?.notifyItemChanged(itemList, p)
         }
     }
-
-    companion object {
-        /**
-         * Sort must be like in [INoteDao] queries.
-         *
-         * [1]  - Move to end of list;
-         * [-1] - Move to start of list;
-         * [0]  - Not move.
-         */
-        fun sortList(list: List<NoteItem>, @Sort sort: Int?): List<NoteItem> = when (sort) {
-            Sort.CHANGE -> list.sortedByDescending { it.change.getCalendar().timeInMillis }
-            Sort.CREATE -> list.sortedByDescending { it.create.getCalendar().timeInMillis }
-            Sort.RANK -> list.sortedWith(Comparator<NoteItem> { o1, o2 ->
-                return@Comparator when {
-                    !o1.haveRank() && o2.haveRank() -> 1
-                    o1.haveRank() && !o2.haveRank() -> -1
-                    o1.rankPs > o2.rankPs -> 1
-                    o1.rankPs < o2.rankPs -> -1
-                    else -> 0
-                }
-            }.thenByDescending {
-                it.change.getCalendar().timeInMillis
-            })
-            Sort.COLOR -> list.sortedWith(compareBy<NoteItem> {
-                it.color
-            }.thenByDescending {
-                it.change.getCalendar().timeInMillis
-            })
-            else -> list
-        }
-    }
-
 }

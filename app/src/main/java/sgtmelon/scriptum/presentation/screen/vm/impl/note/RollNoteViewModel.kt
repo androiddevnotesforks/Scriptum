@@ -280,7 +280,7 @@ class RollNoteViewModel(application: Application) :
         rollItem.text = item[isUndo]
 
         val adapterList = getAdapterList()
-        val adapterPosition = adapterList.validIndexOf(rollItem) ?: return
+        val adapterPosition = adapterList.validIndexOfFirst(rollItem) ?: return
 
         if (noteItem.isVisible || (!noteItem.isVisible && !rollItem.isCheck)) {
             callback?.notifyItemChanged(adapterList, adapterPosition, item.cursor[isUndo])
@@ -305,7 +305,7 @@ class RollNoteViewModel(application: Application) :
 
     @RunPrivate fun onRemoveItem(item: InputItem) {
         val rollItem = noteItem.list.getOrNull(item.p) ?: return
-        val adapterPosition = getAdapterList().validIndexOf(rollItem)
+        val adapterPosition = getAdapterList().validIndexOfFirst(rollItem)
 
         /**
          * Need update data anyway! Even if this item in list is currently hided.
@@ -355,9 +355,9 @@ class RollNoteViewModel(application: Application) :
         /**
          * Need update data anyway! Even if this item in list is currently hided.
          */
-        val shiftFrom = getAdapterList().validIndexOf(rollItem)
+        val shiftFrom = getAdapterList().validIndexOfFirst(rollItem)
         noteItem.list.move(from, to)
-        val shiftTo = getAdapterList().validIndexOf(rollItem)
+        val shiftTo = getAdapterList().validIndexOfFirst(rollItem)
 
         if (shiftFrom == null || shiftTo == null) return
 
@@ -469,7 +469,7 @@ class RollNoteViewModel(application: Application) :
             val list = noteItem.list
             val hideItem = list.hide().getOrNull(adapterPosition) ?: return null
 
-            return list.validIndexOf(hideItem)
+            return list.validIndexOfFirst(hideItem)
         }
     }
 
@@ -580,7 +580,7 @@ class RollNoteViewModel(application: Application) :
             }
         } else {
             for (item in filterList) {
-                val index = list.validIndexOf(item) ?: continue
+                val index = list.validIndexOfFirst(item) ?: continue
                 callback?.notifyItemInserted(list, index)
             }
         }
@@ -588,7 +588,7 @@ class RollNoteViewModel(application: Application) :
 
     @RunPrivate fun notifyInvisibleList(list: MutableList<RollItem>) {
         for (item in list.filter { it.isCheck }) {
-            val index = list.validIndexOf(item) ?: continue
+            val index = list.validIndexOfFirst(item) ?: continue
 
             list.validRemoveAt(index)
             callback?.notifyItemRemoved(list, index)

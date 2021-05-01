@@ -105,9 +105,7 @@ class EternalService : Service(), IEternalService {
 
     override fun cancelAlarm(id: Long) = alarmControl.cancel(id)
 
-    override fun notifyNotesBind(itemList: List<NoteItem>, rankIdVisibleList: List<Long>) {
-        bindControl.notifyNotes(itemList, rankIdVisibleList)
-    }
+    override fun notifyNotesBind(itemList: List<NoteItem>) = bindControl.notifyNotes(itemList)
 
     override fun cancelNoteBind(id: Long) = bindControl.cancelNote(id)
 

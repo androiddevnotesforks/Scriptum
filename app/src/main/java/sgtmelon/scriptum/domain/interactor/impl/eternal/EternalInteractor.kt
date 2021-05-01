@@ -10,6 +10,7 @@ import sgtmelon.scriptum.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.domain.interactor.callback.eternal.IEternalInteractor
 import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
+import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.extension.runMain
 import sgtmelon.scriptum.presentation.service.IEternalBridge
 import sgtmelon.scriptum.presentation.service.presenter.IEternalPresenter
@@ -51,7 +52,16 @@ class EternalInteractor(
         val rankIdVisibleList = rankRepo.getIdVisibleList()
         val itemList = noteRepo.getList(sort, isBin = false, isOptimal = false, filterVisible = false)
 
-        callback?.notifyNotesBind(itemList, rankIdVisibleList)
+        val filterList = getFilterList(itemList, rankIdVisibleList)
+
+        callback?.notifyNotesBind(filterList)
+    }
+
+    @RunPrivate fun getFilterList(
+        itemList: List<NoteItem>,
+        rankIdVisibleList: List<Long>
+    ): List<NoteItem> {
+        return itemList.filter { !it.isBin && it.isStatus && it.isRankVisible(rankIdVisibleList) }
     }
 
     override suspend fun notifyInfoBind() {
