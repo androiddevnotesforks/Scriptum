@@ -17,7 +17,7 @@ class EternalPresenter(
         mainScope.launchBack {
             interactor.tidyUpAlarm()
             interactor.notifyNotesBind()
-            interactor.notifyInfoBind()
+            interactor.notifyCountBind()
         }
     }
 
@@ -42,8 +42,8 @@ class EternalPresenter(
         callback?.cancelNoteBind(id)
     }
 
-    override fun notifyInfo(count: Int?) {
-        mainScope.launchBack { interactor.notifyInfoBind() }
+    override fun notifyCount(count: Int?) {
+        mainScope.launchBack { interactor.notifyCountBind() }
     }
 
     //endregion

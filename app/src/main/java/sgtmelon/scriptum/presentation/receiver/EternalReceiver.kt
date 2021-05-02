@@ -55,7 +55,7 @@ class EternalReceiver : BroadcastReceiver() {
                     it != Eternal.Default.COUNT
                 }
 
-                callback?.notifyInfo(count)
+                callback?.notifyCount(count)
             }
         }
     }
@@ -76,7 +76,7 @@ class EternalReceiver : BroadcastReceiver() {
         /**
          * If [count] == null it means what need take value from database.
          */
-        fun notifyInfo(count: Int?)
+        fun notifyCount(count: Int?)
     }
 
     /**

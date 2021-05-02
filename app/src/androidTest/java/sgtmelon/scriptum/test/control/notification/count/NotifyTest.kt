@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.test.control.notification.info
+package sgtmelon.scriptum.test.control.notification.count
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
@@ -11,7 +11,7 @@ import sgtmelon.scriptum.test.ParentNotificationTest
  * Test of info about notification in status bar
  */
 @RunWith(AndroidJUnit4::class)
-class InfoNotifyTest : ParentNotificationTest() {
+class NotifyTest : ParentNotificationTest() {
 
     /**
      * Notify on start is implied

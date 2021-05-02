@@ -26,18 +26,19 @@
 
     <!-- Notifications -->
     <string name="notification_old_channel_id" translatable="false">scriptum_channel_id</string>
+    <string name="notification_old_info_channel_id" translatable="false">scriptum_info_channel_id</string>
 
     <string name="notification_notes_channel_id" translatable="false">scriptum_notes_channel_id</string>
-    <string name="notification_info_channel_id" translatable="false">scriptum_info_channel_id</string>
+    <string name="notification_count_channel_id" translatable="false">scriptum_count_channel_id</string>
     <string name="notification_eternal_channel_id" translatable="false">scriptum_eternal_channel_id</string>
 
     <string name="notification_group_notes" translatable="false">scriptum_notes_group_key</string>
     <string name="notification_group_info" translatable="false">scriptum_info_group_key</string>
     <string name="notification_group_eternal" translatable="false">scriptum_eternal_group_key</string>
 
-    <string name="notification_info_channel_title">Info</string>
-    <string name="notification_info_channel_description">
-        Channel for display different information, like count of alarm notifications
+    <string name="notification_count_channel_title">Notification count</string>
+    <string name="notification_count_channel_description">
+        Channel for display information about count of future alarm notifications
     </string>
     <string name="notification_notes_channel_title">Notes</string>
     <string name="notification_notes_channel_description">Channel for display bind notes</string>
@@ -51,7 +52,7 @@
 
     <string name="notification_button_unbind">Unbind</string>
 
-    <plurals name="notification_info_title">
+    <plurals name="notification_count_title">
         <item quantity="zero">You have %1$d notifications</item>
         <item quantity="one">You have %1$d notification</item>
         <item quantity="two">You have %1$d notifications</item>

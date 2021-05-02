@@ -24,7 +24,7 @@ interface IEternalBridge {
 
     @MainThread fun cancelNoteBind(id: Long)
 
-    @MainThread fun notifyInfoBind(count: Int)
+    @MainThread fun notifyCountBind(count: Int)
 
     //endregion
 

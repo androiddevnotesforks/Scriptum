@@ -13,7 +13,7 @@ interface IEternalInteractor : IParentInteractor {
 
     suspend fun notifyNotesBind()
 
-    suspend fun notifyInfoBind()
+    suspend fun notifyCountBind()
 
     suspend fun unbindNote(id: Long)
 }

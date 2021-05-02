@@ -109,7 +109,7 @@ class EternalService : Service(), IEternalService {
 
     override fun cancelNoteBind(id: Long) = bindControl.cancelNote(id)
 
-    override fun notifyInfoBind(count: Int) = bindControl.notifyInfo(count)
+    override fun notifyCountBind(count: Int) = bindControl.notifyCount(count)
 
     //endregion
 

@@ -12,7 +12,7 @@ interface IBindControl {
 
     fun cancelNote(id: Long)
 
-    fun notifyInfo(count: Int)
+    fun notifyCount(count: Int)
 
     /**
      * Clear notifications on test tearDown.

@@ -64,8 +64,8 @@ class EternalInteractor(
         return itemList.filter { !it.isBin && it.isStatus && it.isRankVisible(rankIdVisibleList) }
     }
 
-    override suspend fun notifyInfoBind() {
-        callback?.notifyInfoBind(bindRepo.getNotificationCount())
+    override suspend fun notifyCountBind() {
+        callback?.notifyCountBind(bindRepo.getNotificationCount())
     }
 
     override suspend fun unbindNote(id: Long) = bindRepo.unbindNote(id)

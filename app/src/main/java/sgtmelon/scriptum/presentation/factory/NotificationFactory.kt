@@ -36,6 +36,9 @@ object NotificationFactory {
 
         val id = context.getString(R.string.notification_old_channel_id)
         context.getNotificationService()?.deleteNotificationChannel(id)
+
+        val infoId = context.getString(R.string.notification_old_info_channel_id)
+        context.getNotificationService()?.deleteNotificationChannel(infoId)
     }
 
     object Notes {
@@ -143,7 +146,7 @@ object NotificationFactory {
         }
     }
 
-    object Info {
+    object Count {
 
         @RequiresApi(VERSION_CODES.O)
         fun createChannel(context: Context?) {
@@ -154,9 +157,9 @@ object NotificationFactory {
 
         @RequiresApi(VERSION_CODES.O)
         private fun getChannel(context: Context): NotificationChannel {
-            val id = context.getString(R.string.notification_info_channel_id)
-            val name = context.getString(R.string.notification_info_channel_title)
-            val description = context.getString(R.string.notification_info_channel_description)
+            val id = context.getString(R.string.notification_count_channel_id)
+            val name = context.getString(R.string.notification_count_channel_title)
+            val description = context.getString(R.string.notification_count_channel_description)
 
             return NotificationChannel(id, name, NotificationManager.IMPORTANCE_DEFAULT).apply {
                 setSound(null, null)
@@ -173,9 +176,9 @@ object NotificationFactory {
                 .addNextIntent(SplashActivity.getNotificationInstance(context))
                 .getPendingIntent(id, PendingIntent.FLAG_UPDATE_CURRENT)
 
-            return NotificationCompat.Builder(context, context.getString(R.string.notification_info_channel_id))
+            return NotificationCompat.Builder(context, context.getString(R.string.notification_count_channel_id))
                 .setSmallIcon(R.drawable.notif_info)
-                .setContentTitle(context.resources.getQuantityString(R.plurals.notification_info_title, count, count))
+                .setContentTitle(context.resources.getQuantityString(R.plurals.notification_count_title, count, count))
                 .setContentText(context.getString(R.string.notification_info_description))
                 .setCategory(NotificationCompat.CATEGORY_REMINDER)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)

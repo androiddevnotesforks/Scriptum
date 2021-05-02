@@ -38,7 +38,7 @@ class BindControl(private val context: Context?) : IBindControl {
 
     init {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Factory.Info.createChannel(context)
+            Factory.Count.createChannel(context)
             Factory.Notes.createChannel(context)
             Factory.deleteOldChannel(context)
         }
@@ -81,11 +81,11 @@ class BindControl(private val context: Context?) : IBindControl {
         notifyNotes(ArrayList(noteItemList))
     }
 
-    override fun notifyInfo(count: Int) {
+    override fun notifyCount(count: Int) {
         if (context == null) return
 
         if (count != 0) {
-            manager?.notify(Tag.INFO, Id.INFO, Factory.Info[context, Id.INFO, count])
+            manager?.notify(Tag.INFO, Id.INFO, Factory.Count[context, Id.INFO, count])
             tagIdMap[Tag.INFO] = Id.INFO
         } else {
             manager?.cancel(Tag.INFO, Id.INFO)

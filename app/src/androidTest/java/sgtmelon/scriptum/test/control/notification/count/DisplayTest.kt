@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.test.control.notification.info
+package sgtmelon.scriptum.test.control.notification.count
 
 import org.junit.Test
 import sgtmelon.scriptum.test.ParentNotificationTest
@@ -6,7 +6,7 @@ import sgtmelon.scriptum.test.ParentNotificationTest
 /**
  * Test for alarm notification count text.
  */
-class InfoCountTest : ParentNotificationTest() {
+class DisplayTest : ParentNotificationTest() {
 
     /**
      * Notify on start is implied

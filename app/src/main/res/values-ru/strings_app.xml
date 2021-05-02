@@ -17,10 +17,9 @@
     <string name="menu_roll_invisible">Показать выполненные пункты</string>
 
     <!-- Notifications -->
-    <string name="notification_info_channel_title">Информация</string>
-    <string name="notification_info_channel_description">
-        Канал для отображения различной информации, например, для количества установленных
-        уведомлений по времени
+    <string name="notification_count_channel_title">Количество уведомлений</string>
+    <string name="notification_count_channel_description">
+        Канал для отображения информации о количестве предстоящих уведомлений по времени
     </string>
     <string name="notification_notes_channel_title">Заметки</string>
     <string name="notification_notes_channel_description">
@@ -37,7 +36,7 @@
 
     <string name="notification_button_unbind">Открепить</string>
 
-    <plurals name="notification_info_title">
+    <plurals name="notification_count_title">
         <item quantity="one">У вас %1$d уведомление</item>  <!-- 1, 21, 31, 41 -->
         <item quantity="few">У вас %1$d уведомления</item>  <!-- 2, 3, 4, 24 -->
         <item quantity="many">У вас %1$d уведомлений</item> <!-- 5, 6, 10, 19 -->

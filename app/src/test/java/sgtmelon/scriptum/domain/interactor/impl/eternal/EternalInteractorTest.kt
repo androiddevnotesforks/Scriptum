@@ -131,16 +131,16 @@ class EternalInteractorTest : ParentInteractorTest() {
         TODO()
     }
 
-    @Test fun notifyInfoBind() = startCoTest {
+    @Test fun notifyCountBind() = startCoTest {
         val count = Random.nextInt()
 
         coEvery { bindRepo.getNotificationCount() } returns count
 
-        interactor.notifyInfoBind()
+        interactor.notifyCountBind()
 
         coVerifySequence {
             bindRepo.getNotificationCount()
-            callback.notifyInfoBind(count)
+            callback.notifyCountBind(count)
         }
     }
 
