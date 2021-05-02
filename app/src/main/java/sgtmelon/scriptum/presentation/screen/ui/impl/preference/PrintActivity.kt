@@ -4,12 +4,14 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.databinding.ActivityPrintBinding
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.data.IntentData
 import sgtmelon.scriptum.domain.model.item.PrintItem
@@ -27,6 +29,8 @@ import javax.inject.Inject
  */
 class PrintActivity : AppActivity(), IPrintActivity {
 
+    private var binding: ActivityPrintBinding? = null
+
     @Inject internal lateinit var viewModel: IPrintViewModel
 
     private val parentContainer by lazy { findViewById<ViewGroup>(R.id.print_parent_container) }
@@ -43,7 +47,7 @@ class PrintActivity : AppActivity(), IPrintActivity {
             .inject(activity = this)
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_print)
+        binding = inflateBinding(R.layout.activity_print)
 
         viewModel.onSetup(bundle = savedInstanceState ?: intent.extras)
     }
@@ -150,11 +154,14 @@ class PrintActivity : AppActivity(), IPrintActivity {
             recyclerView?.visibility = View.INVISIBLE
 
             emptyInfoView?.alpha = 0f
-            emptyInfoView?.animateAlpha(isVisible = true)
+            emptyInfoView?.animateAlpha(isVisible = true) {
+                Log.i("HERE", "show")
+            }
         } else {
             recyclerView?.visibility = View.VISIBLE
 
             emptyInfoView?.animateAlpha(isVisible = false) {
+                Log.i("HERE", "hide")
                 emptyInfoView?.visibility = View.GONE
             }
         }
