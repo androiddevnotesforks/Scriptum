@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.dagger.component
+package sgtmelon.scriptum.dagger.component.note
 
 import dagger.BindsInstance
 import dagger.Subcomponent

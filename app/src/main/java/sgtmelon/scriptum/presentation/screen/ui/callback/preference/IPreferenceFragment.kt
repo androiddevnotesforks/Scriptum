@@ -16,18 +16,10 @@ interface IPreferenceFragment : EternalReceiver.Bridge.Bind {
 
     fun showToast(@StringRes stringId: Int)
 
-    fun showExportPathToast(path: String)
-
-    fun showImportSkipToast(count: Int)
-
 
     fun setupApp()
 
-    fun setupBackup()
-
     fun setupNote()
-
-    fun setupSave()
 
     fun setupNotification()
 
@@ -40,27 +32,7 @@ interface IPreferenceFragment : EternalReceiver.Bridge.Bind {
 
     fun showThemeDialog(@Theme value: Int)
 
-
-    fun updateExportEnabled(isEnabled: Boolean)
-
-    fun showExportPermissionDialog()
-
-    fun showExportDenyDialog()
-
-    fun showExportLoadingDialog()
-
-    fun hideExportLoadingDialog()
-
-    fun updateImportEnabled(isEnabled: Boolean)
-
-    fun showImportPermissionDialog()
-
-    fun showImportDialog(titleArray: Array<String>)
-
-    fun showImportLoadingDialog()
-
-    fun hideImportLoadingDialog()
-
+    //region Note functions
 
     fun updateSortSummary(summary: String?)
 
@@ -70,6 +42,13 @@ interface IPreferenceFragment : EternalReceiver.Bridge.Bind {
 
     fun showColorDialog(@Color color: Int)
 
+    fun updateSavePeriodSummary(summary: String?)
+
+    fun showSaveTimeDialog(value: Int)
+
+    //endregion
+
+    //region Notification functions
 
     fun updateRepeatSummary(summary: String?)
 
@@ -93,9 +72,6 @@ interface IPreferenceFragment : EternalReceiver.Bridge.Bind {
 
     fun showVolumeDialog(value: Int)
 
-
-    fun updateSavePeriodSummary(summary: String?)
-
-    fun showSaveTimeDialog(value: Int)
+    //endregion
 
 }

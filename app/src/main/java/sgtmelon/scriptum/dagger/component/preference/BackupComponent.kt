@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.dagger.component
+package sgtmelon.scriptum.dagger.component.preference
 
 import dagger.BindsInstance
 import dagger.Subcomponent
@@ -7,10 +7,10 @@ import sgtmelon.scriptum.dagger.module.base.ControlModule
 import sgtmelon.scriptum.dagger.module.base.InteractorModule
 import sgtmelon.scriptum.dagger.module.base.ParserModule
 import sgtmelon.scriptum.dagger.module.base.ViewModelModule
-import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.BackupFragment
 
 /**
- * Component for [PreferenceFragment].
+ * Component for [BackupFragment].
  */
 @ActivityScope
 @Subcomponent(modules = [
@@ -19,15 +19,15 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragme
     ControlModule::class,
     ParserModule::class
 ])
-interface PreferenceComponent {
+interface BackupComponent {
 
-    fun inject(fragment: PreferenceFragment)
+    fun inject(fragment: BackupFragment)
 
     @Subcomponent.Builder
     interface Builder {
         @BindsInstance
-        fun set(fragment: PreferenceFragment): Builder
+        fun set(fragment: BackupFragment): Builder
 
-        fun build(): PreferenceComponent
+        fun build(): BackupComponent
     }
 }

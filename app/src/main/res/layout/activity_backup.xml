@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/develop_parent_container"
+    android:id="@+id/backup_parent_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".presentation.screen.ui.impl.preference.develop.DevelopActivity">
+    tools:context=".presentation.screen.ui.impl.preference.BackupActivity">
 
     <include layout="@layout/inc_toolbar_simple" />
 
     <FrameLayout
-        android:id="@+id/develop_fragment_container"
+        android:id="@+id/backup_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

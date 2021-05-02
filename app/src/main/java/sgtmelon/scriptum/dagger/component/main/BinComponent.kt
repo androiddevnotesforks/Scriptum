@@ -1,29 +1,29 @@
-package sgtmelon.scriptum.dagger.component
+package sgtmelon.scriptum.dagger.component.main
 
 import dagger.BindsInstance
 import dagger.Subcomponent
 import sgtmelon.scriptum.dagger.ActivityScope
 import sgtmelon.scriptum.dagger.module.base.InteractorModule
 import sgtmelon.scriptum.dagger.module.base.ViewModelModule
-import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.main.BinFragment
 
 /**
- * Component for [TextNoteFragment].
+ * Component for [BinFragment].
  */
 @ActivityScope
 @Subcomponent(modules = [
     InteractorModule::class,
     ViewModelModule::class
 ])
-interface TextNoteComponent {
+interface BinComponent {
 
-    fun inject(fragment: TextNoteFragment)
+    fun inject(fragment: BinFragment)
 
     @Subcomponent.Builder
     interface Builder {
         @BindsInstance
-        fun set(fragment: TextNoteFragment): Builder
+        fun set(fragment: BinFragment): Builder
 
-        fun build(): TextNoteComponent
+        fun build(): BinComponent
     }
 }

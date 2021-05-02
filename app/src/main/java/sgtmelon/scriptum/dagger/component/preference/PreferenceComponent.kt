@@ -1,33 +1,31 @@
-package sgtmelon.scriptum.dagger.component
+package sgtmelon.scriptum.dagger.component.preference
 
 import dagger.BindsInstance
 import dagger.Subcomponent
 import sgtmelon.scriptum.dagger.ActivityScope
-import sgtmelon.scriptum.dagger.module.PrintModule
 import sgtmelon.scriptum.dagger.module.base.ControlModule
 import sgtmelon.scriptum.dagger.module.base.InteractorModule
 import sgtmelon.scriptum.dagger.module.base.ViewModelModule
-import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PrintActivity
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
 
 /**
- * Component for [PrintActivity].
+ * Component for [PreferenceFragment].
  */
 @ActivityScope
 @Subcomponent(modules = [
     InteractorModule::class,
     ViewModelModule::class,
-    ControlModule::class,
-    PrintModule::class
+    ControlModule::class
 ])
-interface PrintComponent {
+interface PreferenceComponent {
 
-    fun inject(activity: PrintActivity)
+    fun inject(fragment: PreferenceFragment)
 
     @Subcomponent.Builder
     interface Builder {
         @BindsInstance
-        fun set(activity: PrintActivity): Builder
+        fun set(fragment: PreferenceFragment): Builder
 
-        fun build(): PrintComponent
+        fun build(): PreferenceComponent
     }
 }

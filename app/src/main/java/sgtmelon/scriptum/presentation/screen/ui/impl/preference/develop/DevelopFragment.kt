@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.presentation.screen.ui.impl.preference
+package sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop
 
 import android.os.Bundle
 import androidx.annotation.StringRes
@@ -8,10 +8,10 @@ import sgtmelon.scriptum.domain.model.key.PrintType
 import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
-import sgtmelon.scriptum.presentation.screen.ui.callback.preference.IDevelopFragment
+import sgtmelon.scriptum.presentation.screen.ui.callback.preference.develop.IDevelopFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.intro.IntroActivity
-import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IDevelopViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.preference.develop.IDevelopViewModel
 import javax.inject.Inject
 
 /**

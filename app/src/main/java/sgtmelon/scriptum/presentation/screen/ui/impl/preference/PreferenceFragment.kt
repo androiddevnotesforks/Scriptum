@@ -6,7 +6,6 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.preference.Preference
 import sgtmelon.scriptum.BuildConfig
@@ -23,6 +22,7 @@ import sgtmelon.scriptum.presentation.factory.DialogFactory
 import sgtmelon.scriptum.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.callback.preference.IPreferenceFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop.DevelopActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IPreferenceViewModel
 import javax.inject.Inject
 
@@ -37,21 +37,12 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
     private val readPermissionState by lazy {
         PermissionState(Manifest.permission.READ_EXTERNAL_STORAGE, activity)
     }
-    private val writePermissionState by lazy {
-        PermissionState(Manifest.permission.WRITE_EXTERNAL_STORAGE, activity)
-    }
 
     //region Dialogs
 
     private val dialogFactory by lazy { DialogFactory.Preference(context, fm) }
 
     private val themeDialog by lazy { dialogFactory.getThemeDialog() }
-
-    private val exportPermissionDialog by lazy { dialogFactory.getExportPermissionDialog() }
-    private val exportDenyDialog by lazy { dialogFactory.getExportDenyDialog() }
-    private val importPermissionDialog by lazy { dialogFactory.getImportPermissionDialog() }
-    private val importDialog by lazy { dialogFactory.getImportDialog() }
-    private val loadingDialog by lazy { dialogFactory.getLoadingDialog() }
 
     private val sortDialog by lazy { dialogFactory.getSortDialog() }
     private val colorDialog by lazy { dialogFactory.getColorDialog() }
@@ -70,21 +61,17 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
     //region Preferences
 
     private val themePreference by lazy { findPreference<Preference>(getString(R.string.pref_key_app_theme)) }
-
-    private val exportPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_backup_export)) }
-    private val importPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_backup_import)) }
-    private val importSkipPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_backup_skip)) }
+    private val backupPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_app_backup)) }
 
     private val sortPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_note_sort)) }
     private val colorPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_note_color)) }
+    private val savePeriodPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_note_time)) }
 
     private val repeatPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_alarm_repeat)) }
     private val signalPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_alarm_signal)) }
     private val melodyPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_alarm_melody)) }
     private val increasePreference by lazy { findPreference<Preference>(getString(R.string.pref_key_alarm_increase)) }
     private val volumePreference by lazy { findPreference<Preference>(getString(R.string.pref_key_alarm_volume)) }
-
-    private val savePeriodPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_note_time)) }
 
     private val developerPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_other_develop)) }
 
@@ -128,10 +115,9 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
         viewModel.onPause()
 
         /**
-         * After call [IPreferenceViewModel.onPause] this dialog's will not have any items.
+         * After call [IPreferenceViewModel.onPause] this dialog will not have any items.
          */
         melodyDialog.safeDismiss()
-        importDialog.safeDismiss()
     }
 
     override fun onDestroy() {
@@ -158,26 +144,12 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
 
         when (requestCode) {
             PermissionRequest.MELODY -> viewModel.onClickMelody(result)
-            PermissionRequest.EXPORT -> viewModel.onClickExport(result)
-            PermissionRequest.IMPORT -> viewModel.onClickImport(result)
         }
     }
 
 
     override fun showToast(@StringRes stringId: Int) {
         context?.showToast(stringId)
-    }
-
-    override fun showExportPathToast(path: String) {
-        val text = getString(R.string.pref_toast_export_result, path)
-
-        context?.showToast(text, Toast.LENGTH_LONG)
-    }
-
-    override fun showImportSkipToast(count: Int) {
-        val text = getString(R.string.pref_toast_import_result_skip, count)
-
-        context?.showToast(text, Toast.LENGTH_LONG)
     }
 
     override fun setupApp() {
@@ -191,53 +163,15 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
             activity?.checkThemeChange()
         }
         themeDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
-    }
 
-    override fun setupBackup() {
-        exportPreference?.setOnPreferenceClickListener {
-            viewModel.onClickExport(writePermissionState.getResult())
+        backupPreference?.setOnPreferenceClickListener {
+            val context = context
+            if (context != null) {
+                startActivity(BackupActivity[context])
+            }
+
             return@setOnPreferenceClickListener true
         }
-
-        importPreference?.setOnPreferenceClickListener {
-            viewModel.onClickImport(readPermissionState.getResult())
-            return@setOnPreferenceClickListener true
-        }
-
-        exportPermissionDialog.isCancelable = false
-        exportPermissionDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return@OnClickListener
-
-            requestPermissions(arrayOf(writePermissionState.permission), PermissionRequest.EXPORT)
-        }
-        exportPermissionDialog.dismissListener = DialogInterface.OnDismissListener {
-            openState.clear()
-        }
-
-        exportDenyDialog.dismissListener = DialogInterface.OnDismissListener {
-            openState.clear()
-        }
-
-        importPermissionDialog.isCancelable = false
-        importPermissionDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return@OnClickListener
-
-            requestPermissions(arrayOf(readPermissionState.permission), PermissionRequest.IMPORT)
-        }
-        importPermissionDialog.dismissListener = DialogInterface.OnDismissListener {
-            openState.clear()
-        }
-
-        importDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            val name = with(importDialog) { itemArray.getOrNull(check) } ?: return@OnClickListener
-
-            openState.skipClear = true
-            viewModel.onResultImport(name)
-        }
-        importDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
-
-        loadingDialog.isCancelable = false
-        loadingDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }
 
     override fun setupNote() {
@@ -260,9 +194,7 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
             viewModel.onResultNoteColor(colorDialog.check)
         }
         colorDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
-    }
 
-    override fun setupSave() {
         savePeriodPreference?.setOnPreferenceClickListener {
             viewModel.onClickSaveTime()
             return@setOnPreferenceClickListener true
@@ -398,47 +330,7 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
         themeDialog.setArguments(value).show(fm, DialogFactory.Preference.THEME)
     }
 
-
-    override fun updateExportEnabled(isEnabled: Boolean) {
-        exportPreference?.isEnabled = isEnabled
-    }
-
-    override fun showExportPermissionDialog() {
-        exportPermissionDialog.show(fm, DialogFactory.Preference.EXPORT_PERMISSION)
-    }
-
-    override fun showExportDenyDialog() {
-        exportDenyDialog.show(fm, DialogFactory.Preference.EXPORT_DENY)
-    }
-
-    override fun showExportLoadingDialog() = openState.tryInvoke {
-        loadingDialog.show(fm, DialogFactory.Preference.LOADING)
-    }
-
-    override fun hideExportLoadingDialog() = loadingDialog.safeDismiss()
-
-    override fun updateImportEnabled(isEnabled: Boolean) {
-        importPreference?.isEnabled = isEnabled
-        importSkipPreference?.isEnabled = isEnabled
-    }
-
-    override fun showImportPermissionDialog() = openState.tryInvoke {
-        importPermissionDialog.show(fm, DialogFactory.Preference.IMPORT_PERMISSION)
-    }
-
-    override fun showImportDialog(titleArray: Array<String>) = openState.tryInvoke {
-        openState.tag = OpenState.Tag.DIALOG
-
-        importDialog.itemArray = titleArray
-        importDialog.show(fm, DialogFactory.Preference.IMPORT)
-    }
-
-    override fun showImportLoadingDialog() = openState.tryInvoke(OpenState.Tag.DIALOG) {
-        loadingDialog.show(fm, DialogFactory.Preference.LOADING)
-    }
-
-    override fun hideImportLoadingDialog() = loadingDialog.safeDismiss()
-
+    //region Note functions
 
     override fun updateSortSummary(summary: String?) {
         sortPreference?.summary = summary
@@ -456,6 +348,17 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
         colorDialog.setArguments(color).show(fm, DialogFactory.Preference.COLOR)
     }
 
+    override fun updateSavePeriodSummary(summary: String?) {
+        savePeriodPreference?.summary = summary
+    }
+
+    override fun showSaveTimeDialog(value: Int) = openState.tryInvoke {
+        savePeriodDialog.setArguments(value).show(fm, DialogFactory.Preference.SAVE_PERIOD)
+    }
+
+    //endregion
+
+    //region Notification functions
 
     override fun updateRepeatSummary(summary: String?) {
         repeatPreference?.summary = summary
@@ -510,14 +413,7 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
         volumeDialog.setArguments(value).show(fm, DialogFactory.Preference.VOLUME)
     }
 
-
-    override fun updateSavePeriodSummary(summary: String?) {
-        savePeriodPreference?.summary = summary
-    }
-
-    override fun showSaveTimeDialog(value: Int) = openState.tryInvoke {
-        savePeriodDialog.setArguments(value).show(fm, DialogFactory.Preference.SAVE_PERIOD)
-    }
+    //endregion
 
     //region Broadcast functions
 

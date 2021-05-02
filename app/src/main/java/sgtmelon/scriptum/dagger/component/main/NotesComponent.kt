@@ -1,29 +1,29 @@
-package sgtmelon.scriptum.dagger.component
+package sgtmelon.scriptum.dagger.component.main
 
 import dagger.BindsInstance
 import dagger.Subcomponent
 import sgtmelon.scriptum.dagger.ActivityScope
 import sgtmelon.scriptum.dagger.module.base.InteractorModule
 import sgtmelon.scriptum.dagger.module.base.ViewModelModule
-import sgtmelon.scriptum.presentation.screen.ui.impl.main.RankFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.main.NotesFragment
 
 /**
- * Component for [RankFragment].
+ * Component for [NotesFragment].
  */
 @ActivityScope
 @Subcomponent(modules = [
     InteractorModule::class,
     ViewModelModule::class
 ])
-interface RankComponent {
+interface NotesComponent {
 
-    fun inject(fragment: RankFragment)
+    fun inject(fragment: NotesFragment)
 
     @Subcomponent.Builder
     interface Builder {
         @BindsInstance
-        fun set(fragment: RankFragment): Builder
+        fun set(fragment: NotesFragment): Builder
 
-        fun build(): RankComponent
+        fun build(): NotesComponent
     }
 }

@@ -12,7 +12,7 @@ import sgtmelon.scriptum.domain.model.item.PrintItem
 import sgtmelon.scriptum.domain.model.item.PrintItem.Preference
 import sgtmelon.scriptum.domain.model.key.PrintType
 import sgtmelon.scriptum.presentation.control.file.IFileControl
-import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IPrintViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.preference.develop.IPrintViewModel
 
 /**
  * Interactor for [IPrintViewModel].

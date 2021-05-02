@@ -158,6 +158,7 @@
     <string name="pref_key_first_start" translatable="false">key_first_start</string>
 
     <string name="pref_key_app_theme" translatable="false">key_app_theme</string>
+    <string name="pref_key_app_backup" translatable="false">key_app_backup</string>
 
     <string name="pref_key_backup_export" translatable="false">key_backup_export</string>
     <string name="pref_key_backup_import" translatable="false">key_backup_import</string>

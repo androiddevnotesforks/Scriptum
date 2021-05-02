@@ -11,7 +11,7 @@ import sgtmelon.scriptum.presentation.adapter.holder.print.preference.PrintPrefF
 import sgtmelon.scriptum.presentation.adapter.holder.print.preference.PrintPrefKeyHolder
 import sgtmelon.scriptum.presentation.adapter.holder.print.preference.PrintPrefPathHolder
 import sgtmelon.scriptum.presentation.adapter.holder.print.preference.PrintPrefTitleHolder
-import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PrintActivity
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop.PrintActivity
 
 /**
  * Adapter which displays print list of db entities or preference keys for [PrintActivity].

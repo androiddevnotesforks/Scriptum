@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.presentation.screen.vm.impl.preference
+package sgtmelon.scriptum.presentation.screen.vm.impl.preference.develop
 
 import android.app.Application
 import android.os.Bundle
@@ -14,8 +14,8 @@ import sgtmelon.scriptum.extension.clearAdd
 import sgtmelon.scriptum.extension.runBack
 import sgtmelon.scriptum.idling.AppIdlingResource
 import sgtmelon.scriptum.idling.IdlingTag
-import sgtmelon.scriptum.presentation.screen.ui.callback.preference.IPrintActivity
-import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IPrintViewModel
+import sgtmelon.scriptum.presentation.screen.ui.callback.preference.develop.IPrintActivity
+import sgtmelon.scriptum.presentation.screen.vm.callback.preference.develop.IPrintViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
 
 /**

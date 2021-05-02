@@ -12,24 +12,9 @@
             android:title="@string/pref_title_app_theme"
             app:iconSpaceReserved="false" />
 
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="@string/pref_header_backup"
-        app:iconSpaceReserved="false">
-
-        <Preference android:key="@string/pref_key_backup_export"
-            android:title="@string/pref_title_backup_export"
-            app:iconSpaceReserved="false" />
-
-        <Preference android:key="@string/pref_key_backup_import"
-            android:title="@string/pref_title_backup_import"
-            app:iconSpaceReserved="false" />
-
-        <SwitchPreferenceCompat android:defaultValue="@bool/pref_backup_import_skip"
-            android:key="@string/pref_key_backup_skip"
-            android:summary="@string/pref_summary_backup_skip"
-            android:title="@string/pref_title_backup_skip"
-            app:iconSpaceReserved="false" />
+        <Preference android:key="@string/pref_key_app_backup"
+            app:iconSpaceReserved="false"
+            app:title="@string/pref_header_backup" />
 
     </PreferenceCategory>
 

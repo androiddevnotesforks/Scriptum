@@ -12,12 +12,9 @@ import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.TestData
-import sgtmelon.scriptum.domain.interactor.callback.IBackupInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.domain.interactor.callback.preference.IPreferenceInteractor
 import sgtmelon.scriptum.domain.model.key.PermissionResult
-import sgtmelon.scriptum.domain.model.result.ExportResult
-import sgtmelon.scriptum.domain.model.result.ImportResult
 import sgtmelon.scriptum.domain.model.state.SignalState
 import sgtmelon.scriptum.presentation.screen.ui.callback.preference.IPreferenceFragment
 import kotlin.random.Random
@@ -30,12 +27,9 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
     @MockK lateinit var interactor: IPreferenceInteractor
     @MockK lateinit var signalInteractor: ISignalInteractor
-    @MockK lateinit var backupInteractor: IBackupInteractor
-//    @MockK lateinit var bindInteractor: IBindInteractor
     @MockK lateinit var callback: IPreferenceFragment
 
     private val melodyList = TestData.Melody.melodyList
-    private val fileList = TestData.Backup.fileList
 
     private val viewModel by lazy { PreferenceViewModel(application) }
     private val spyViewModel by lazy { spyk(viewModel) }
@@ -44,12 +38,12 @@ class PreferenceViewModelTest : ParentViewModelTest() {
         super.setup()
 
         viewModel.setCallback(callback)
-        viewModel.setInteractor(interactor, signalInteractor, backupInteractor)
+        viewModel.setInteractor(interactor, signalInteractor)
     }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(callback, interactor, signalInteractor, backupInteractor)
+        confirmVerified(callback, interactor, signalInteractor)
     }
 
     @Test override fun onDestroy() {
@@ -70,7 +64,6 @@ class PreferenceViewModelTest : ParentViewModelTest() {
         val volumeSummary = nextString()
 
         coEvery { spyViewModel.setupMelody() } returns Unit
-        coEvery { spyViewModel.setupBackup() } returns Unit
 
         every { interactor.isDeveloper } returns false
 
@@ -91,9 +84,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
             spyViewModel.callback
             callback.apply {
                 setupApp()
-                setupBackup()
                 setupNote()
-                setupSave()
                 setupNotification()
                 setupOther()
 
@@ -101,9 +92,6 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
                 interactor.getThemeSummary()
                 updateThemeSummary(themeSummary)
-
-                updateExportEnabled(isEnabled = false)
-                updateImportEnabled(isEnabled = false)
 
                 interactor.getSortSummary()
                 updateSortSummary(sortSummary)
@@ -123,7 +111,6 @@ class PreferenceViewModelTest : ParentViewModelTest() {
                 updateVolumeSummary(volumeSummary)
             }
 
-            spyViewModel.setupBackup()
             spyViewModel.setupMelody()
         }
     }
@@ -139,7 +126,6 @@ class PreferenceViewModelTest : ParentViewModelTest() {
         val volumeSummary = nextString()
 
         coEvery { spyViewModel.setupMelody() } returns Unit
-        coEvery { spyViewModel.setupBackup() } returns Unit
 
         every { interactor.isDeveloper } returns true
 
@@ -160,9 +146,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
             spyViewModel.callback
             callback.apply {
                 setupApp()
-                setupBackup()
                 setupNote()
-                setupSave()
                 setupNotification()
                 setupOther()
 
@@ -171,9 +155,6 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
                 interactor.getThemeSummary()
                 updateThemeSummary(themeSummary)
-
-                updateExportEnabled(isEnabled = false)
-                updateImportEnabled(isEnabled = false)
 
                 interactor.getSortSummary()
                 updateSortSummary(sortSummary)
@@ -193,27 +174,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
                 updateVolumeSummary(volumeSummary)
             }
 
-            spyViewModel.setupBackup()
             spyViewModel.setupMelody()
-        }
-    }
-
-    @Test fun setupBackup() = startCoTest {
-        coEvery { backupInteractor.getFileList() } returns emptyList()
-
-        viewModel.setupBackup()
-
-        coEvery { backupInteractor.getFileList() } returns fileList
-
-        viewModel.setupBackup()
-
-        coVerifySequence {
-            backupInteractor.getFileList()
-            callback.updateExportEnabled(isEnabled = true)
-
-            backupInteractor.getFileList()
-            callback.updateExportEnabled(isEnabled = true)
-            callback.updateImportEnabled(isEnabled = true)
         }
     }
 
@@ -306,7 +267,6 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
         verifySequence {
             signalInteractor.resetMelodyList()
-            backupInteractor.resetFileList()
         }
     }
 
@@ -338,157 +298,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
         }
     }
 
-
-    @Test fun onClickExport() = startCoTest {
-        coEvery { spyViewModel.startExport() } returns Unit
-
-        for (it in PermissionResult.values()) {
-            spyViewModel.onClickExport(it)
-        }
-
-        spyViewModel.onClickExport(result = null)
-
-        coVerifyOrder {
-            spyViewModel.onClickExport(PermissionResult.LOW_API)
-            spyViewModel.startExport()
-
-            spyViewModel.onClickExport(PermissionResult.ALLOWED)
-            spyViewModel.callback
-            callback.showExportPermissionDialog()
-
-            spyViewModel.onClickExport(PermissionResult.FORBIDDEN)
-            spyViewModel.callback
-            callback.showExportDenyDialog()
-
-            spyViewModel.onClickExport(PermissionResult.GRANTED)
-            spyViewModel.startExport()
-
-            spyViewModel.onClickExport(result = null)
-        }
-    }
-
-    @Test fun startExport() = startCoTest {
-        val path = nextString()
-
-        coEvery { backupInteractor.export() } returns ExportResult.Error
-
-        spyViewModel.startExport()
-
-        coEvery { backupInteractor.export() } returns ExportResult.Success(path)
-        coEvery { spyViewModel.setupBackup() } returns Unit
-
-        spyViewModel.startExport()
-
-        coVerifySequence {
-            spyViewModel.startExport()
-            spyViewModel.callback
-            callback.showExportLoadingDialog()
-            backupInteractor.export()
-            spyViewModel.callback
-            callback.hideExportLoadingDialog()
-            spyViewModel.callback
-            callback.showToast(R.string.pref_toast_export_error)
-
-            spyViewModel.startExport()
-            spyViewModel.callback
-            callback.showExportLoadingDialog()
-            backupInteractor.export()
-            spyViewModel.callback
-            callback.hideExportLoadingDialog()
-            spyViewModel.callback
-            callback.showExportPathToast(path)
-            spyViewModel.callback
-            callback.updateImportEnabled(isEnabled = false)
-            backupInteractor.resetFileList()
-            spyViewModel.setupBackup()
-        }
-    }
-
-    @Test fun onClickImport() = startCoTest {
-        coEvery { spyViewModel.prepareImportDialog() } returns Unit
-
-        for (it in PermissionResult.values()) {
-            spyViewModel.onClickImport(it)
-        }
-
-        spyViewModel.onClickImport(result = null)
-
-        coVerifyOrder {
-            spyViewModel.onClickImport(PermissionResult.LOW_API)
-            spyViewModel.prepareImportDialog()
-
-            spyViewModel.onClickImport(PermissionResult.ALLOWED)
-            spyViewModel.callback
-            callback.showImportPermissionDialog()
-
-            spyViewModel.onClickImport(PermissionResult.FORBIDDEN)
-            spyViewModel.prepareImportDialog()
-
-            spyViewModel.onClickImport(PermissionResult.GRANTED)
-            spyViewModel.prepareImportDialog()
-
-            spyViewModel.onClickImport(result = null)
-        }
-    }
-
-    @Test fun prepareImportDialog() = startCoTest {
-        val titleArray = fileList.map { it.name }.toTypedArray()
-
-        coEvery { backupInteractor.getFileList() } returns emptyList()
-
-        viewModel.prepareImportDialog()
-
-        coEvery { backupInteractor.getFileList() } returns fileList
-
-        viewModel.prepareImportDialog()
-
-        coVerifySequence {
-            backupInteractor.getFileList()
-            callback.updateImportEnabled(isEnabled = false)
-
-            backupInteractor.getFileList()
-            callback.showImportDialog(titleArray)
-        }
-    }
-
-    @Test fun onResultImport() {
-        val name = nextString()
-        val skipCount = Random.nextInt()
-
-        coEvery { backupInteractor.import(name) } returns ImportResult.Simple
-
-        viewModel.onResultImport(name)
-
-        coEvery { backupInteractor.import(name) } returns ImportResult.Skip(skipCount)
-
-        viewModel.onResultImport(name)
-
-        coEvery { backupInteractor.import(name) } returns ImportResult.Error
-
-        viewModel.onResultImport(name)
-
-        coVerifySequence {
-            callback.showImportLoadingDialog()
-            backupInteractor.import(name)
-            callback.hideImportLoadingDialog()
-            callback.showToast(R.string.pref_toast_import_result)
-            callback.sendNotifyNotesBroadcast()
-            callback.sendNotifyInfoBroadcast()
-
-            callback.showImportLoadingDialog()
-            backupInteractor.import(name)
-            callback.hideImportLoadingDialog()
-            callback.showImportSkipToast(skipCount)
-            callback.sendNotifyNotesBroadcast()
-            callback.sendNotifyInfoBroadcast()
-
-            callback.showImportLoadingDialog()
-            backupInteractor.import(name)
-            callback.hideImportLoadingDialog()
-            callback.showToast(R.string.pref_toast_import_error)
-        }
-    }
-
+    //region Note tests
 
     @Test fun onClickSort() {
         val value = Random.nextInt()
@@ -572,6 +382,9 @@ class PreferenceViewModelTest : ParentViewModelTest() {
         }
     }
 
+    //endregion
+
+    //region Notification tests
 
     @Test fun onClickRepeat() {
         val value = Random.nextInt()
@@ -673,7 +486,6 @@ class PreferenceViewModelTest : ParentViewModelTest() {
             callback.updateMelodyGroupEnabled(isEnabled = false)
         }
     }
-
 
     @Test fun onClickMelody() = startCoTest {
         coEvery { spyViewModel.prepareMelodyDialog() } returns Unit
@@ -838,6 +650,7 @@ class PreferenceViewModelTest : ParentViewModelTest() {
         }
     }
 
+    //endregion
 
     @Test fun onUnlockDeveloper() {
         every { interactor.isDeveloper } returns false

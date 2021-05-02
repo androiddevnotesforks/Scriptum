@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.presentation.screen.ui.impl.preference
+package sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop
 
 import android.content.Context
 import android.content.Intent
@@ -19,9 +19,9 @@ import sgtmelon.scriptum.domain.model.key.PrintType
 import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.presentation.adapter.PrintAdapter
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
-import sgtmelon.scriptum.presentation.screen.ui.callback.preference.IPrintActivity
+import sgtmelon.scriptum.presentation.screen.ui.callback.preference.develop.IPrintActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.AppActivity
-import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IPrintViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.preference.develop.IPrintViewModel
 import javax.inject.Inject
 
 /**

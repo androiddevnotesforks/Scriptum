@@ -15,7 +15,8 @@ import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.interactor.callback.preference.IDevelopInteractor
 import sgtmelon.scriptum.domain.model.key.PrintType
-import sgtmelon.scriptum.presentation.screen.ui.callback.preference.IDevelopFragment
+import sgtmelon.scriptum.presentation.screen.ui.callback.preference.develop.IDevelopFragment
+import sgtmelon.scriptum.presentation.screen.vm.impl.preference.develop.DevelopViewModel
 import kotlin.random.Random
 
 /**

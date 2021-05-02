@@ -31,9 +31,10 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.AlarmActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.NotificationActivity
-import sgtmelon.scriptum.presentation.screen.ui.impl.preference.DevelopFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.BackupFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
-import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PrintActivity
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop.DevelopFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop.PrintActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.IIntroViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.ISplashViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.main.IBinViewModel
@@ -45,9 +46,10 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.note.IRollNoteViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.note.ITextNoteViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.notification.IAlarmViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.notification.INotificationViewModel
-import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IDevelopViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IBackupViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IPreferenceViewModel
-import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IPrintViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.preference.develop.IDevelopViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.preference.develop.IPrintViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.IntroViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.SplashViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.main.BinViewModel
@@ -59,9 +61,10 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.note.TextNoteViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.notification.AlarmViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.notification.NotificationViewModel
-import sgtmelon.scriptum.presentation.screen.vm.impl.preference.DevelopViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.preference.BackupViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.preference.PreferenceViewModel
-import sgtmelon.scriptum.presentation.screen.vm.impl.preference.PrintViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.preference.develop.DevelopViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.preference.develop.PrintViewModel
 
 /**
  * Module for provide viewModel's.
@@ -206,18 +209,30 @@ class ViewModelModule {
         }
     }
 
+    //region Preference
 
     @Provides
     @ActivityScope
     fun providePreferenceViewModel(
         fragment: PreferenceFragment,
         interactor: IPreferenceInteractor,
-        signalInteractor: ISignalInteractor,
-        backupInteractor: IBackupInteractor
+        signalInteractor: ISignalInteractor
     ): IPreferenceViewModel {
         return ViewModelProvider(fragment).get(PreferenceViewModel::class.java).apply {
             setCallback(fragment)
-            setInteractor(interactor, signalInteractor, backupInteractor)
+            setInteractor(interactor, signalInteractor)
+        }
+    }
+
+    @Provides
+    @ActivityScope
+    fun provideBackupViewModel(
+        fragment: BackupFragment,
+        interactor: IBackupInteractor
+    ): IBackupViewModel {
+        return ViewModelProvider(fragment).get(BackupViewModel::class.java).apply {
+            setCallback(fragment)
+            setInteractor(interactor)
         }
     }
 
@@ -244,5 +259,7 @@ class ViewModelModule {
             setInteractor(interactor)
         }
     }
+
+    //endregion
 
 }

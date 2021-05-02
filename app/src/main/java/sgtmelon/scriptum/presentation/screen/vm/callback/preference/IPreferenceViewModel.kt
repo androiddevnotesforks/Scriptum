@@ -21,13 +21,7 @@ interface IPreferenceViewModel : IParentViewModel {
 
     fun onResultTheme(@Theme value: Int)
 
-
-    fun onClickExport(result: PermissionResult?)
-
-    fun onClickImport(result: PermissionResult?)
-
-    fun onResultImport(name: String)
-
+    //region Note functions
 
     fun onClickSort()
 
@@ -41,6 +35,9 @@ interface IPreferenceViewModel : IParentViewModel {
 
     fun onResultSaveTime(value: Int)
 
+    //endregion
+
+    //region Notification functions
 
     fun onClickRepeat()
 
@@ -60,6 +57,7 @@ interface IPreferenceViewModel : IParentViewModel {
 
     fun onResultVolume(value: Int)
 
+    //endregion
 
     fun onUnlockDeveloper()
 

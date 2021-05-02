@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.domain.interactor.callback.IBackupInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.domain.interactor.callback.preference.IPreferenceInteractor
 import sgtmelon.scriptum.domain.model.annotation.Color
@@ -14,8 +13,6 @@ import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.key.PermissionResult
-import sgtmelon.scriptum.domain.model.result.ExportResult
-import sgtmelon.scriptum.domain.model.result.ImportResult
 import sgtmelon.scriptum.extension.runBack
 import sgtmelon.scriptum.presentation.screen.ui.callback.preference.IPreferenceFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IPreferenceViewModel
@@ -31,25 +28,17 @@ class PreferenceViewModel(
 
     private lateinit var interactor: IPreferenceInteractor
     private lateinit var signalInteractor: ISignalInteractor
-    private lateinit var backupInteractor: IBackupInteractor
 
-    fun setInteractor(
-        interactor: IPreferenceInteractor,
-        signalInteractor: ISignalInteractor,
-        backupInteractor: IBackupInteractor
-    ) {
+    fun setInteractor(interactor: IPreferenceInteractor, signalInteractor: ISignalInteractor) {
         this.interactor = interactor
         this.signalInteractor = signalInteractor
-        this.backupInteractor = backupInteractor
     }
 
 
     override fun onSetup(bundle: Bundle?) {
         callback?.apply {
             setupApp()
-            setupBackup()
             setupNote()
-            setupSave()
             setupNotification()
             setupOther()
 
@@ -58,12 +47,6 @@ class PreferenceViewModel(
             }
 
             updateThemeSummary(interactor.getThemeSummary())
-
-            /**
-             * Make import permission not enabled before [setupBackup] load data.
-             */
-            updateExportEnabled(isEnabled = false)
-            updateImportEnabled(isEnabled = false)
 
             updateSortSummary(interactor.getSortSummary())
             updateColorSummary(interactor.getDefaultColorSummary())
@@ -79,20 +62,7 @@ class PreferenceViewModel(
             updateVolumeSummary(interactor.getVolumeSummary())
         }
 
-        viewModelScope.launch {
-            setupBackup()
-            setupMelody()
-        }
-    }
-
-    @RunPrivate suspend fun setupBackup() {
-        val fileList = runBack { backupInteractor.getFileList() }
-
-        callback?.updateExportEnabled(isEnabled = true)
-
-        if (fileList.isEmpty()) return
-
-        callback?.updateImportEnabled(isEnabled = true)
+        viewModelScope.launch { setupMelody() }
     }
 
     @RunPrivate suspend fun setupMelody() {
@@ -116,14 +86,13 @@ class PreferenceViewModel(
     }
 
     /**
-     * Need reset lists, because user can change permission or
+     * Need reset list, because user can change permission or
      * delete some files or remove sd card.
      *
      * It calls even after permission dialog.
      */
     override fun onPause() {
         signalInteractor.resetMelodyList()
-        backupInteractor.resetFileList()
     }
 
 
@@ -135,89 +104,7 @@ class PreferenceViewModel(
         callback?.updateThemeSummary(interactor.updateTheme(value))
     }
 
-
-    /**
-     * Call [startExport] only if [result] equals [PermissionResult.LOW_API] or
-     * [PermissionResult.GRANTED]. Otherwise we must show dialog.
-     */
-    override fun onClickExport(result: PermissionResult?) {
-        if (result == null) return
-
-        when (result) {
-            PermissionResult.ALLOWED -> callback?.showExportPermissionDialog()
-            PermissionResult.LOW_API, PermissionResult.GRANTED -> {
-                viewModelScope.launch { startExport() }
-            }
-            PermissionResult.FORBIDDEN -> callback?.showExportDenyDialog()
-        }
-    }
-
-    @RunPrivate suspend fun startExport() {
-        callback?.showExportLoadingDialog()
-        val result: ExportResult = runBack { backupInteractor.export() }
-        callback?.hideExportLoadingDialog()
-
-        when(result) {
-            is ExportResult.Success -> {
-                callback?.showExportPathToast(result.path)
-
-                /**
-                 * Need update file list for feature import.
-                 */
-                callback?.updateImportEnabled(isEnabled = false)
-                backupInteractor.resetFileList()
-                setupBackup()
-            }
-            is ExportResult.Error -> {
-                callback?.showToast(R.string.pref_toast_export_error)
-            }
-        }
-    }
-
-    /**
-     * Show permission only on [PermissionResult.ALLOWED] because we
-     * can display files which not located on SD card.
-     */
-    override fun onClickImport(result: PermissionResult?) {
-        if (result == null) return
-
-        when (result) {
-            PermissionResult.ALLOWED -> callback?.showImportPermissionDialog()
-            else -> viewModelScope.launch { prepareImportDialog() }
-        }
-    }
-
-    @RunPrivate suspend fun prepareImportDialog() {
-        val fileList = runBack { backupInteractor.getFileList() }
-        val titleArray = fileList.map { it.name }.toTypedArray()
-
-        if (titleArray.isEmpty()) {
-            callback?.updateImportEnabled(isEnabled = false)
-        } else {
-            callback?.showImportDialog(titleArray)
-        }
-    }
-
-    override fun onResultImport(name: String) {
-        viewModelScope.launch {
-            callback?.showImportLoadingDialog()
-            val result: ImportResult = runBack { backupInteractor.import(name) }
-            callback?.hideImportLoadingDialog()
-
-            when (result) {
-                is ImportResult.Simple -> callback?.showToast(R.string.pref_toast_import_result)
-                is ImportResult.Skip -> callback?.showImportSkipToast(result.skipCount)
-                is ImportResult.Error -> callback?.showToast(R.string.pref_toast_import_error)
-            }
-
-            if (result == ImportResult.Error) return@launch
-
-            // TODO update alarm binds (all) after adding new notes
-            callback?.sendNotifyNotesBroadcast()
-            callback?.sendNotifyInfoBroadcast()
-        }
-    }
-
+    //region Note functions
 
     override fun onClickSort() {
         callback?.showSortDialog(interactor.sort)
@@ -244,6 +131,9 @@ class PreferenceViewModel(
         callback?.updateSavePeriodSummary(interactor.updateSavePeriod(value))
     }
 
+    //endregion
+
+    //region Notification functions
 
     override fun onClickRepeat() {
         callback?.showRepeatDialog(interactor.repeat)
@@ -276,7 +166,6 @@ class PreferenceViewModel(
             }
         }
     }
-
 
     /**
      * Show permission only on [PermissionResult.ALLOWED] because we
@@ -336,6 +225,7 @@ class PreferenceViewModel(
         callback?.updateVolumeSummary(interactor.updateVolume(value))
     }
 
+    //endregion
 
     override fun onUnlockDeveloper() {
         if (interactor.isDeveloper) {

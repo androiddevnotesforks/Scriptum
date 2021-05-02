@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.presentation.screen.vm.impl.preference
+package sgtmelon.scriptum.presentation.screen.vm.impl.preference.develop
 
 import android.app.Application
 import android.os.Bundle
@@ -8,12 +8,12 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.interactor.callback.preference.IDevelopInteractor
 import sgtmelon.scriptum.domain.model.key.PrintType
 import sgtmelon.scriptum.extension.runBack
-import sgtmelon.scriptum.presentation.screen.ui.callback.preference.IDevelopFragment
-import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IDevelopViewModel
+import sgtmelon.scriptum.presentation.screen.ui.callback.preference.develop.IDevelopFragment
+import sgtmelon.scriptum.presentation.screen.vm.callback.preference.develop.IDevelopViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
 
 /**
- * ViewModel for [IDevelopFragment]
+ * ViewModel for [IDevelopFragment].
  */
 class DevelopViewModel(application: Application) : ParentViewModel<IDevelopFragment>(application),
     IDevelopViewModel {

@@ -33,7 +33,6 @@ class TextNoteViewModelTest : ParentViewModelTest() {
     @MockK lateinit var parentCallback: INoteConnector
 
     @MockK lateinit var interactor: ITextNoteInteractor
-//    @MockK lateinit var bindInteractor: IBindInteractor
 
     @MockK lateinit var saveControl: ISaveControl
     @MockK lateinit var inputControl: IInputControl

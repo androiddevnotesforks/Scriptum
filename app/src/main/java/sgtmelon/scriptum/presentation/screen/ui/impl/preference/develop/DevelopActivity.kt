@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.presentation.screen.ui.impl.preference
+package sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop
 
 import android.content.Context
 import android.content.Intent
@@ -13,7 +13,7 @@ class DevelopActivity : ParentPreferenceActivity(
     R.layout.activity_develop,
     R.id.develop_parent_container,
     R.id.develop_fragment_container,
-    R.string.title_develop
+    R.string.pref_title_other_develop
 ) {
 
     override val tag: String = FragmentFactory.Preference.Tag.DEVELOP

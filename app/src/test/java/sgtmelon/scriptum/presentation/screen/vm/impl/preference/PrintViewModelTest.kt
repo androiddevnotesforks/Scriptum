@@ -16,7 +16,8 @@ import sgtmelon.scriptum.domain.model.item.PrintItem
 import sgtmelon.scriptum.domain.model.key.PrintType
 import sgtmelon.scriptum.extension.clearAdd
 import sgtmelon.scriptum.getRandomSize
-import sgtmelon.scriptum.presentation.screen.ui.callback.preference.IPrintActivity
+import sgtmelon.scriptum.presentation.screen.ui.callback.preference.develop.IPrintActivity
+import sgtmelon.scriptum.presentation.screen.vm.impl.preference.develop.PrintViewModel
 
 /**
  * Test for [PrintViewModel].
