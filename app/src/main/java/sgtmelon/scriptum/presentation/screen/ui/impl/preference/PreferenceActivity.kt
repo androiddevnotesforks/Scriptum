@@ -2,8 +2,8 @@ package sgtmelon.scriptum.presentation.screen.ui.impl.preference
 
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.presentation.factory.FragmentFactory
 import sgtmelon.scriptum.presentation.screen.ui.ParentPreferenceActivity
 
 /**
@@ -16,10 +16,9 @@ class PreferenceActivity : ParentPreferenceActivity(
     R.string.title_preference
 ) {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        showFragment(PreferenceFragment())
-    }
+    override val tag: String = FragmentFactory.Preference.Tag.PREF
+
+    override val fragment by lazy { fragmentFactory.getPreferenceFragment() }
 
     companion object {
         operator fun get(context: Context) = Intent(context, PreferenceActivity::class.java)

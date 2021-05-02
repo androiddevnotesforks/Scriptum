@@ -233,10 +233,11 @@ class MainActivity : AppActivity(), IMainActivity {
         MainPage.BIN -> binFragment
     }
 
+    @FragmentFactory.Main.Tag
     private fun MainPage.getFragmentTag(): String = when (this) {
-        MainPage.RANK -> FragmentFactory.Main.RANK
-        MainPage.NOTES -> FragmentFactory.Main.NOTES
-        MainPage.BIN -> FragmentFactory.Main.BIN
+        MainPage.RANK -> FragmentFactory.Main.Tag.RANK
+        MainPage.NOTES -> FragmentFactory.Main.Tag.NOTES
+        MainPage.BIN -> FragmentFactory.Main.Tag.BIN
     }
 
     private fun FloatingActionButton.setState(isVisible: Boolean) {

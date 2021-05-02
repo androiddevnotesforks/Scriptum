@@ -11,6 +11,7 @@ import androidx.appcompat.widget.Toolbar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.extension.*
+import sgtmelon.scriptum.presentation.factory.FragmentFactory
 import sgtmelon.scriptum.presentation.screen.ui.impl.AppActivity
 
 /**
@@ -26,6 +27,13 @@ abstract class ParentPreferenceActivity(
     private val parentContainer by lazy { findViewById<ViewGroup>(parentContainerId) }
     private val toolbar by lazy { findViewById<Toolbar>(R.id.toolbar_container) }
 
+    protected val fragmentFactory = FragmentFactory.Preference(fm)
+
+    @FragmentFactory.Preference.Tag
+    abstract val tag: String
+
+    abstract val fragment: ParentPreferenceFragment
+
     override fun onCreate(savedInstanceState: Bundle?) {
         ScriptumApplication.component.getAppBuilder().set(activity = this).build()
             .inject(activity = this)
@@ -35,6 +43,7 @@ abstract class ParentPreferenceActivity(
 
         setupView()
         setupInsets()
+        showFragment()
     }
 
     private fun setupView() {
@@ -54,9 +63,9 @@ abstract class ParentPreferenceActivity(
         }
     }
 
-    protected fun showFragment(fragment: ParentPreferenceFragment) {
+    private fun showFragment() {
         fm.beginTransaction()
-            .replace(fragmentContainerId, fragment)
+            .replace(fragmentContainerId, fragment, tag)
             .commit()
     }
 
@@ -82,5 +91,4 @@ abstract class ParentPreferenceActivity(
             super.setNavigationDividerColor(theme)
         }
     }
-
 }

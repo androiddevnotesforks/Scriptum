@@ -96,7 +96,7 @@ class NoteActivity : AppActivity(), INoteActivity, INoteConnector, NoteScreenRec
     }
 
     override fun showTextFragment(id: Long, @Color color: Int, checkCache: Boolean) {
-        showFragment(FragmentFactory.Note.TEXT, if (checkCache) {
+        showFragment(FragmentFactory.Note.Tag.TEXT, if (checkCache) {
             textNoteFragment ?: TextNoteFragment[id, color]
         } else {
             TextNoteFragment[id, color]
@@ -104,7 +104,7 @@ class NoteActivity : AppActivity(), INoteActivity, INoteConnector, NoteScreenRec
     }
 
     override fun showRollFragment(id: Long, @Color color: Int, checkCache: Boolean) {
-        showFragment(FragmentFactory.Note.ROLL, if (checkCache) {
+        showFragment(FragmentFactory.Note.Tag.ROLL, if (checkCache) {
             rollNoteFragment ?: RollNoteFragment[id, color]
         } else {
             RollNoteFragment[id, color]
@@ -127,7 +127,7 @@ class NoteActivity : AppActivity(), INoteActivity, INoteConnector, NoteScreenRec
     override fun onConvertNote() = viewModel.onConvertNote()
 
 
-    private fun showFragment(key: String, fragment: Fragment) {
+    private fun showFragment(@FragmentFactory.Note.Tag key: String, fragment: Fragment) {
         holderShowControl.show()
 
         fm.beginTransaction()
