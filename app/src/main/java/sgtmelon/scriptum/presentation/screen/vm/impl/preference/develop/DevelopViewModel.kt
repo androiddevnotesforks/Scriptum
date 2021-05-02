@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.domain.interactor.callback.preference.IDevelopInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.develop.IDevelopInteractor
 import sgtmelon.scriptum.domain.model.key.PrintType
 import sgtmelon.scriptum.extension.runBack
 import sgtmelon.scriptum.presentation.screen.ui.callback.preference.develop.IDevelopFragment

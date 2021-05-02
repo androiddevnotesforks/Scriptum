@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.domain.interactor.impl
+package sgtmelon.scriptum.domain.interactor.impl.preference
 
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.BackupRepo
@@ -7,7 +7,7 @@ import sgtmelon.scriptum.data.repository.room.callback.IBackupRepo
 import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.data.room.backup.IBackupParser
-import sgtmelon.scriptum.domain.interactor.callback.IBackupPrefInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.IBackupPrefInteractor
 import sgtmelon.scriptum.domain.model.annotation.FileType
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.FileItem

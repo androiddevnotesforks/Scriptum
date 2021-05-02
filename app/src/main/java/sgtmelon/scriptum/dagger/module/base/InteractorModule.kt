@@ -10,7 +10,6 @@ import sgtmelon.scriptum.data.repository.room.callback.*
 import sgtmelon.scriptum.data.room.backup.IBackupParser
 import sgtmelon.scriptum.data.room.converter.type.IntConverter
 import sgtmelon.scriptum.domain.interactor.callback.IAppInteractor
-import sgtmelon.scriptum.domain.interactor.callback.IBackupPrefInteractor
 import sgtmelon.scriptum.domain.interactor.callback.IIntroInteractor
 import sgtmelon.scriptum.domain.interactor.callback.ISplashInteractor
 import sgtmelon.scriptum.domain.interactor.callback.eternal.IEternalInteractor
@@ -23,11 +22,12 @@ import sgtmelon.scriptum.domain.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.INotificationInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteractor
-import sgtmelon.scriptum.domain.interactor.callback.preference.IDevelopInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.IBackupPrefInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.INotePrefInteractor
 import sgtmelon.scriptum.domain.interactor.callback.preference.IPreferenceInteractor
-import sgtmelon.scriptum.domain.interactor.callback.preference.IPrintInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.develop.IDevelopInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.develop.IPrintInteractor
 import sgtmelon.scriptum.domain.interactor.impl.AppInteractor
-import sgtmelon.scriptum.domain.interactor.impl.BackupPrefInteractor
 import sgtmelon.scriptum.domain.interactor.impl.IntroInteractor
 import sgtmelon.scriptum.domain.interactor.impl.SplashInteractor
 import sgtmelon.scriptum.domain.interactor.impl.eternal.EternalInteractor
@@ -40,9 +40,11 @@ import sgtmelon.scriptum.domain.interactor.impl.note.TextNoteInteractor
 import sgtmelon.scriptum.domain.interactor.impl.notification.AlarmInteractor
 import sgtmelon.scriptum.domain.interactor.impl.notification.NotificationInteractor
 import sgtmelon.scriptum.domain.interactor.impl.notification.SignalInteractor
-import sgtmelon.scriptum.domain.interactor.impl.preference.DevelopInteractor
+import sgtmelon.scriptum.domain.interactor.impl.preference.BackupPrefInteractor
+import sgtmelon.scriptum.domain.interactor.impl.preference.NotePrefInteractor
 import sgtmelon.scriptum.domain.interactor.impl.preference.PreferenceInteractor
-import sgtmelon.scriptum.domain.interactor.impl.preference.PrintInteractor
+import sgtmelon.scriptum.domain.interactor.impl.preference.develop.DevelopInteractor
+import sgtmelon.scriptum.domain.interactor.impl.preference.develop.PrintInteractor
 import sgtmelon.scriptum.presentation.control.cipher.ICipherControl
 import sgtmelon.scriptum.presentation.control.file.IFileControl
 import sgtmelon.scriptum.presentation.control.system.callback.IRingtoneControl
@@ -65,24 +67,6 @@ class InteractorModule {
         intConverter: IntConverter
     ): ISignalInteractor {
         return SignalInteractor(ringtoneControl, preferenceRepo, intConverter)
-    }
-
-    @Provides
-    @ActivityScope
-    fun provideBackupInteractor(
-        preferenceRepo: IPreferenceRepo,
-        alarmRepo: IAlarmRepo,
-        rankRepo: IRankRepo,
-        noteRepo: INoteRepo,
-        backupRepo: IBackupRepo,
-        backupParser: IBackupParser,
-        fileControl: IFileControl,
-        cipherControl: ICipherControl
-    ): IBackupPrefInteractor {
-        return BackupPrefInteractor(
-            preferenceRepo, alarmRepo, rankRepo, noteRepo, backupRepo,
-            backupParser, fileControl, cipherControl
-        )
     }
 
     //endregion
@@ -186,6 +170,7 @@ class InteractorModule {
         return NotificationInteractor(noteRepo, alarmRepo, bindRepo)
     }
 
+    //region Preference
 
     @Provides
     @ActivityScope
@@ -197,7 +182,32 @@ class InteractorModule {
         return PreferenceInteractor(SummaryProvider(resources), preferenceRepo, intConverter)
     }
 
-    //region Develop
+    @Provides
+    @ActivityScope
+    fun provideBackupPrefInteractor(
+        preferenceRepo: IPreferenceRepo,
+        alarmRepo: IAlarmRepo,
+        rankRepo: IRankRepo,
+        noteRepo: INoteRepo,
+        backupRepo: IBackupRepo,
+        backupParser: IBackupParser,
+        fileControl: IFileControl,
+        cipherControl: ICipherControl
+    ): IBackupPrefInteractor {
+        return BackupPrefInteractor(
+            preferenceRepo, alarmRepo, rankRepo, noteRepo, backupRepo,
+            backupParser, fileControl, cipherControl
+        )
+    }
+
+    @Provides
+    @ActivityScope
+    fun provideNotePrefInteractor(
+        resources: Resources,
+        preferenceRepo: IPreferenceRepo
+    ): INotePrefInteractor {
+        return NotePrefInteractor(SummaryProvider(resources), preferenceRepo)
+    }
 
     @Provides
     @ActivityScope

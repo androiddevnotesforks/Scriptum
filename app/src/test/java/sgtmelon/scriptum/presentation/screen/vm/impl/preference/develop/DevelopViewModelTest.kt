@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.presentation.screen.vm.impl.preference
+package sgtmelon.scriptum.presentation.screen.vm.impl.preference.develop
 
 import io.mockk.coEvery
 import io.mockk.coVerifySequence
@@ -13,10 +13,9 @@ import org.junit.Before
 import org.junit.Test
 import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.domain.interactor.callback.preference.IDevelopInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.develop.IDevelopInteractor
 import sgtmelon.scriptum.domain.model.key.PrintType
 import sgtmelon.scriptum.presentation.screen.ui.callback.preference.develop.IDevelopFragment
-import sgtmelon.scriptum.presentation.screen.vm.impl.preference.develop.DevelopViewModel
 import kotlin.random.Random
 
 /**

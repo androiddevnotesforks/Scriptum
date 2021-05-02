@@ -16,41 +16,9 @@
             app:iconSpaceReserved="false"
             app:title="@string/pref_header_backup" />
 
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="@string/pref_header_note"
-        app:iconSpaceReserved="false">
-
-        <Preference android:defaultValue="@integer/pref_note_sort"
-            android:key="@string/pref_key_note_sort"
-            android:summary="@string/pref_summary_note_sort"
-            android:title="@string/pref_title_note_sort"
-            app:iconSpaceReserved="false" />
-
-        <Preference android:defaultValue="@integer/pref_note_color"
-            android:key="@string/pref_key_note_color"
-            android:summary="@string/pref_summary_note_color"
-            android:title="@string/pref_title_note_color"
-            app:iconSpaceReserved="false" />
-
-        <SwitchPreferenceCompat android:defaultValue="@bool/pref_note_save_pause"
-            android:key="@string/pref_key_note_pause"
-            android:summary="@string/pref_summary_note_save_pause"
-            android:title="@string/pref_title_note_save_pause"
-            app:iconSpaceReserved="false" />
-
-        <SwitchPreferenceCompat android:defaultValue="@bool/pref_note_save_auto"
-            android:key="@string/pref_key_note_auto"
-            android:summary="@string/pref_summary_note_save_auto"
-            android:title="@string/pref_title_note_save_auto"
-            app:iconSpaceReserved="false" />
-
-        <Preference android:defaultValue="@integer/pref_note_save_time"
-            android:key="@string/pref_key_note_time"
-            android:summary="@string/pref_summary_note_save_period"
-            android:title="@string/pref_title_note_save_period"
-            app:dependency="@string/pref_key_note_auto"
-            app:iconSpaceReserved="false" />
+        <Preference android:key="@string/pref_key_app_note"
+            app:iconSpaceReserved="false"
+            app:title="@string/pref_header_note" />
 
     </PreferenceCategory>
 

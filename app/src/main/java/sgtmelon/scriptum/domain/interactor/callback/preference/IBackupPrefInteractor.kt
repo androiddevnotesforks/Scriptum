@@ -1,6 +1,6 @@
-package sgtmelon.scriptum.domain.interactor.callback
+package sgtmelon.scriptum.domain.interactor.callback.preference
 
-import sgtmelon.scriptum.domain.interactor.impl.BackupPrefInteractor
+import sgtmelon.scriptum.domain.interactor.impl.preference.BackupPrefInteractor
 import sgtmelon.scriptum.domain.model.item.FileItem
 import sgtmelon.scriptum.domain.model.result.ExportResult
 import sgtmelon.scriptum.domain.model.result.ImportResult

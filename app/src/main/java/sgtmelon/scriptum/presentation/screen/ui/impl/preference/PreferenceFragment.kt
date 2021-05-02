@@ -15,7 +15,6 @@ import sgtmelon.scriptum.domain.model.key.PermissionResult
 import sgtmelon.scriptum.domain.model.state.OpenState
 import sgtmelon.scriptum.domain.model.state.PermissionState
 import sgtmelon.scriptum.extension.*
-import sgtmelon.scriptum.presentation.control.broadcast.BroadcastControl
 import sgtmelon.scriptum.presentation.control.system.MelodyControl
 import sgtmelon.scriptum.presentation.control.system.callback.IMelodyControl
 import sgtmelon.scriptum.presentation.factory.DialogFactory
@@ -44,10 +43,6 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
 
     private val themeDialog by lazy { dialogFactory.getThemeDialog() }
 
-    private val sortDialog by lazy { dialogFactory.getSortDialog() }
-    private val colorDialog by lazy { dialogFactory.getColorDialog() }
-    private val savePeriodDialog by lazy { dialogFactory.getSavePeriodDialog() }
-
     private val repeatDialog by lazy { dialogFactory.getRepeatDialog() }
     private val signalDialog by lazy { dialogFactory.getSignalDialog() }
     private val melodyPermissionDialog by lazy { dialogFactory.getMelodyPermissionDialog() }
@@ -62,10 +57,7 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
 
     private val themePreference by lazy { findPreference<Preference>(getString(R.string.pref_key_app_theme)) }
     private val backupPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_app_backup)) }
-
-    private val sortPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_note_sort)) }
-    private val colorPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_note_color)) }
-    private val savePeriodPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_note_time)) }
+    private val notePreference by lazy { findPreference<Preference>(getString(R.string.pref_key_app_note)) }
 
     private val repeatPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_alarm_repeat)) }
     private val signalPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_alarm_signal)) }
@@ -77,7 +69,6 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
 
     //endregion
 
-    private val broadcastControl by lazy { BroadcastControl[context] }
     private val melodyControl: IMelodyControl by lazy { MelodyControl(context) }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -90,7 +81,6 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        broadcastControl.initLazy()
         melodyControl.initLazy()
 
         openState.get(savedInstanceState)
@@ -172,38 +162,15 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
 
             return@setOnPreferenceClickListener true
         }
-    }
 
-    override fun setupNote() {
-        sortPreference?.setOnPreferenceClickListener {
-            viewModel.onClickSort()
+        notePreference?.setOnPreferenceClickListener {
+            val context = context
+            if (context != null) {
+                startActivity(NotePrefActivity[context])
+            }
+
             return@setOnPreferenceClickListener true
         }
-
-        sortDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            viewModel.onResultNoteSort(sortDialog.check)
-        }
-        sortDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
-
-        colorPreference?.setOnPreferenceClickListener {
-            viewModel.onClickNoteColor()
-            return@setOnPreferenceClickListener true
-        }
-
-        colorDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            viewModel.onResultNoteColor(colorDialog.check)
-        }
-        colorDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
-
-        savePeriodPreference?.setOnPreferenceClickListener {
-            viewModel.onClickSaveTime()
-            return@setOnPreferenceClickListener true
-        }
-
-        savePeriodDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            viewModel.onResultSaveTime(savePeriodDialog.check)
-        }
-        savePeriodDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }
 
     override fun setupNotification() {
@@ -330,34 +297,6 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
         themeDialog.setArguments(value).show(fm, DialogFactory.Preference.THEME)
     }
 
-    //region Note functions
-
-    override fun updateSortSummary(summary: String?) {
-        sortPreference?.summary = summary
-    }
-
-    override fun showSortDialog(@Sort value: Int) = openState.tryInvoke {
-        sortDialog.setArguments(value).show(fm, DialogFactory.Preference.SORT)
-    }
-
-    override fun updateColorSummary(summary: String?) {
-        colorPreference?.summary = summary
-    }
-
-    override fun showColorDialog(@Color color: Int) = openState.tryInvoke {
-        colorDialog.setArguments(color).show(fm, DialogFactory.Preference.COLOR)
-    }
-
-    override fun updateSavePeriodSummary(summary: String?) {
-        savePeriodPreference?.summary = summary
-    }
-
-    override fun showSaveTimeDialog(value: Int) = openState.tryInvoke {
-        savePeriodDialog.setArguments(value).show(fm, DialogFactory.Preference.SAVE_PERIOD)
-    }
-
-    //endregion
-
     //region Notification functions
 
     override fun updateRepeatSummary(summary: String?) {
@@ -412,19 +351,6 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
     override fun showVolumeDialog(value: Int) = openState.tryInvoke {
         volumeDialog.setArguments(value).show(fm, DialogFactory.Preference.VOLUME)
     }
-
-    //endregion
-
-    //region Broadcast functions
-
-    override fun sendNotifyNotesBroadcast() = broadcastControl.sendNotifyNotesBind()
-
-    /**
-     * Not used here.
-     */
-    override fun sendCancelNoteBroadcast(id: Long) = Unit
-
-    override fun sendNotifyInfoBroadcast(count: Int?) = broadcastControl.sendNotifyInfoBind(count)
 
     //endregion
 

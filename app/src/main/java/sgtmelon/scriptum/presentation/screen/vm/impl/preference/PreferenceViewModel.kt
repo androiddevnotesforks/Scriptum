@@ -7,9 +7,7 @@ import kotlinx.coroutines.*
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.domain.interactor.callback.preference.IPreferenceInteractor
-import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Repeat
-import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.key.PermissionResult
@@ -38,7 +36,6 @@ class PreferenceViewModel(
     override fun onSetup(bundle: Bundle?) {
         callback?.apply {
             setupApp()
-            setupNote()
             setupNotification()
             setupOther()
 
@@ -47,10 +44,6 @@ class PreferenceViewModel(
             }
 
             updateThemeSummary(interactor.getThemeSummary())
-
-            updateSortSummary(interactor.getSortSummary())
-            updateColorSummary(interactor.getDefaultColorSummary())
-            updateSavePeriodSummary(interactor.getSavePeriodSummary())
 
             updateRepeatSummary(interactor.getRepeatSummary())
             updateSignalSummary(interactor.getSignalSummary(signalInteractor.typeCheck))
@@ -103,35 +96,6 @@ class PreferenceViewModel(
     override fun onResultTheme(@Theme value: Int) {
         callback?.updateThemeSummary(interactor.updateTheme(value))
     }
-
-    //region Note functions
-
-    override fun onClickSort() {
-        callback?.showSortDialog(interactor.sort)
-    }
-
-    override fun onResultNoteSort(@Sort value: Int) {
-        callback?.updateSortSummary(interactor.updateSort(value))
-        callback?.sendNotifyNotesBroadcast()
-    }
-
-    override fun onClickNoteColor() {
-        callback?.showColorDialog(interactor.defaultColor)
-    }
-
-    override fun onResultNoteColor(@Color value: Int) {
-        callback?.updateColorSummary(interactor.updateDefaultColor(value))
-    }
-
-    override fun onClickSaveTime() {
-        callback?.showSaveTimeDialog(interactor.savePeriod)
-    }
-
-    override fun onResultSaveTime(value: Int) {
-        callback?.updateSavePeriodSummary(interactor.updateSavePeriod(value))
-    }
-
-    //endregion
 
     //region Notification functions
 

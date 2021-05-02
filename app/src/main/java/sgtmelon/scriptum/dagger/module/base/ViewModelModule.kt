@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModelProvider
 import dagger.Module
 import dagger.Provides
 import sgtmelon.scriptum.dagger.ActivityScope
-import sgtmelon.scriptum.domain.interactor.callback.IBackupPrefInteractor
 import sgtmelon.scriptum.domain.interactor.callback.IIntroInteractor
 import sgtmelon.scriptum.domain.interactor.callback.ISplashInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.IBinInteractor
@@ -16,9 +15,11 @@ import sgtmelon.scriptum.domain.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.INotificationInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteractor
-import sgtmelon.scriptum.domain.interactor.callback.preference.IDevelopInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.IBackupPrefInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.INotePrefInteractor
 import sgtmelon.scriptum.domain.interactor.callback.preference.IPreferenceInteractor
-import sgtmelon.scriptum.domain.interactor.callback.preference.IPrintInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.develop.IDevelopInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.develop.IPrintInteractor
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.intro.IntroActivity
@@ -32,6 +33,7 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.AlarmActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.NotificationActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.BackupPrefFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.NotePrefFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop.DevelopFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop.PrintActivity
@@ -47,6 +49,7 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.note.ITextNoteViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.notification.IAlarmViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.notification.INotificationViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IBackupPrefViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.preference.INotePrefViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IPreferenceViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.preference.develop.IDevelopViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.preference.develop.IPrintViewModel
@@ -62,6 +65,7 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.note.TextNoteViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.notification.AlarmViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.notification.NotificationViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.preference.BackupPrefViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.preference.NotePrefViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.preference.PreferenceViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.preference.develop.DevelopViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.preference.develop.PrintViewModel
@@ -231,6 +235,18 @@ class ViewModelModule {
         interactor: IBackupPrefInteractor
     ): IBackupPrefViewModel {
         return ViewModelProvider(fragment).get(BackupPrefViewModel::class.java).apply {
+            setCallback(fragment)
+            setInteractor(interactor)
+        }
+    }
+
+    @Provides
+    @ActivityScope
+    fun provideNotePrefViewModel(
+        fragment: NotePrefFragment,
+        interactor: INotePrefInteractor
+    ): INotePrefViewModel {
+        return ViewModelProvider(fragment).get(NotePrefViewModel::class.java).apply {
             setCallback(fragment)
             setInteractor(interactor)
         }

@@ -12,7 +12,7 @@ import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.TestData
-import sgtmelon.scriptum.domain.interactor.callback.IBackupPrefInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.IBackupPrefInteractor
 import sgtmelon.scriptum.domain.model.key.PermissionResult
 import sgtmelon.scriptum.domain.model.result.ExportResult
 import sgtmelon.scriptum.domain.model.result.ImportResult

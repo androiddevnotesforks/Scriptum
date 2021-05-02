@@ -1,8 +1,6 @@
 package sgtmelon.scriptum.presentation.screen.vm.callback.preference
 
-import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Repeat
-import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.key.PermissionResult
 import sgtmelon.scriptum.presentation.screen.ui.callback.preference.IPreferenceFragment
@@ -20,22 +18,6 @@ interface IPreferenceViewModel : IParentViewModel {
     fun onClickTheme()
 
     fun onResultTheme(@Theme value: Int)
-
-    //region Note functions
-
-    fun onClickSort()
-
-    fun onResultNoteSort(@Sort value: Int)
-
-    fun onClickNoteColor()
-
-    fun onResultNoteColor(@Color value: Int)
-
-    fun onClickSaveTime()
-
-    fun onResultSaveTime(value: Int)
-
-    //endregion
 
     //region Notification functions
 

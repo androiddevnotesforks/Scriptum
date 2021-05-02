@@ -25,6 +25,8 @@ import kotlin.random.Random
 @ExperimentalCoroutinesApi
 class PreferenceViewModelTest : ParentViewModelTest() {
 
+    //region Setup
+
     @MockK lateinit var interactor: IPreferenceInteractor
     @MockK lateinit var signalInteractor: ISignalInteractor
     @MockK lateinit var callback: IPreferenceFragment
@@ -52,12 +54,10 @@ class PreferenceViewModelTest : ParentViewModelTest() {
         assertNull(viewModel.callback)
     }
 
+    //endregion
 
     @Test fun onSetup_forUser() = startCoTest {
         val themeSummary = nextString()
-        val sortSummary = nextString()
-        val defaultColorSummary = nextString()
-        val savePeriodSummary = nextString()
         val repeatSummary = nextString()
         val typeCheck = BooleanArray(size = 3) { Random.nextBoolean() }
         val signalSummary = nextString()
@@ -68,9 +68,6 @@ class PreferenceViewModelTest : ParentViewModelTest() {
         every { interactor.isDeveloper } returns false
 
         every { interactor.getThemeSummary() } returns themeSummary
-        every { interactor.getSortSummary() } returns sortSummary
-        every { interactor.getDefaultColorSummary() } returns defaultColorSummary
-        every { interactor.getSavePeriodSummary() } returns savePeriodSummary
         every { interactor.getRepeatSummary() } returns repeatSummary
         every { signalInteractor.typeCheck } returns typeCheck
         every { interactor.getSignalSummary(typeCheck) } returns signalSummary
@@ -84,7 +81,6 @@ class PreferenceViewModelTest : ParentViewModelTest() {
             spyViewModel.callback
             callback.apply {
                 setupApp()
-                setupNote()
                 setupNotification()
                 setupOther()
 
@@ -93,15 +89,9 @@ class PreferenceViewModelTest : ParentViewModelTest() {
                 interactor.getThemeSummary()
                 updateThemeSummary(themeSummary)
 
-                interactor.getSortSummary()
-                updateSortSummary(sortSummary)
-                interactor.getDefaultColorSummary()
-                updateColorSummary(defaultColorSummary)
-                interactor.getSavePeriodSummary()
-                updateSavePeriodSummary(savePeriodSummary)
-
                 interactor.getRepeatSummary()
                 updateRepeatSummary(repeatSummary)
+
                 signalInteractor.typeCheck
                 interactor.getSignalSummary(typeCheck)
                 updateSignalSummary(signalSummary)
@@ -117,9 +107,6 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
     @Test fun onSetup_forDeveloper() = startCoTest {
         val themeSummary = nextString()
-        val sortSummary = nextString()
-        val defaultColorSummary = nextString()
-        val savePeriodSummary = nextString()
         val repeatSummary = nextString()
         val typeCheck = BooleanArray(size = 3) { Random.nextBoolean() }
         val signalSummary = nextString()
@@ -130,9 +117,6 @@ class PreferenceViewModelTest : ParentViewModelTest() {
         every { interactor.isDeveloper } returns true
 
         every { interactor.getThemeSummary() } returns themeSummary
-        every { interactor.getSortSummary() } returns sortSummary
-        every { interactor.getDefaultColorSummary() } returns defaultColorSummary
-        every { interactor.getSavePeriodSummary() } returns savePeriodSummary
         every { interactor.getRepeatSummary() } returns repeatSummary
         every { signalInteractor.typeCheck } returns typeCheck
         every { interactor.getSignalSummary(typeCheck) } returns signalSummary
@@ -146,7 +130,6 @@ class PreferenceViewModelTest : ParentViewModelTest() {
             spyViewModel.callback
             callback.apply {
                 setupApp()
-                setupNote()
                 setupNotification()
                 setupOther()
 
@@ -155,13 +138,6 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
                 interactor.getThemeSummary()
                 updateThemeSummary(themeSummary)
-
-                interactor.getSortSummary()
-                updateSortSummary(sortSummary)
-                interactor.getDefaultColorSummary()
-                updateColorSummary(defaultColorSummary)
-                interactor.getSavePeriodSummary()
-                updateSavePeriodSummary(savePeriodSummary)
 
                 interactor.getRepeatSummary()
                 updateRepeatSummary(repeatSummary)
@@ -297,92 +273,6 @@ class PreferenceViewModelTest : ParentViewModelTest() {
             callback.updateThemeSummary(summary)
         }
     }
-
-    //region Note tests
-
-    @Test fun onClickSort() {
-        val value = Random.nextInt()
-
-        every { interactor.sort } returns value
-
-        viewModel.onClickSort()
-
-        verifySequence {
-            interactor.sort
-            callback.showSortDialog(value)
-        }
-    }
-
-    @Test fun onResultNoteSort() {
-        val value = Random.nextInt()
-        val summary = nextString()
-
-        every { interactor.updateSort(value) } returns summary
-
-        viewModel.onResultNoteSort(value)
-
-        verifySequence {
-            interactor.updateSort(value)
-            callback.updateSortSummary(summary)
-            callback.sendNotifyNotesBroadcast()
-        }
-    }
-
-    @Test fun onClickNoteColor() {
-        val color = Random.nextInt()
-
-        every { interactor.defaultColor } returns color
-
-        viewModel.onClickNoteColor()
-
-        verifySequence {
-            interactor.defaultColor
-            callback.showColorDialog(color)
-        }
-    }
-
-    @Test fun onResultNoteColor() {
-        val value = Random.nextInt()
-        val summary = nextString()
-
-        every { interactor.updateDefaultColor(value) } returns summary
-
-        viewModel.onResultNoteColor(value)
-
-        verifySequence {
-            interactor.updateDefaultColor(value)
-            callback.updateColorSummary(summary)
-        }
-    }
-
-    @Test fun onClickSaveTime() {
-        val value = Random.nextInt()
-
-        every { interactor.savePeriod } returns value
-
-        viewModel.onClickSaveTime()
-
-        verifySequence {
-            interactor.savePeriod
-            callback.showSaveTimeDialog(value)
-        }
-    }
-
-    @Test fun onResultSaveTime() {
-        val value = Random.nextInt()
-        val summary = nextString()
-
-        every { interactor.updateSavePeriod(value) } returns summary
-
-        viewModel.onResultSaveTime(value)
-
-        verifySequence {
-            interactor.updateSavePeriod(value)
-            callback.updateSavePeriodSummary(summary)
-        }
-    }
-
-    //endregion
 
     //region Notification tests
 

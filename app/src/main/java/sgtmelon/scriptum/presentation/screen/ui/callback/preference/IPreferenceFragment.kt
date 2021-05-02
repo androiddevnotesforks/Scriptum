@@ -1,25 +1,20 @@
 package sgtmelon.scriptum.presentation.screen.ui.callback.preference
 
 import androidx.annotation.StringRes
-import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Repeat
-import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.Theme
-import sgtmelon.scriptum.presentation.receiver.EternalReceiver
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IPreferenceViewModel
 
 /**
  * Interface for communication [IPreferenceViewModel] with [PreferenceFragment].
  */
-interface IPreferenceFragment : EternalReceiver.Bridge.Bind {
+interface IPreferenceFragment {
 
     fun showToast(@StringRes stringId: Int)
 
 
     fun setupApp()
-
-    fun setupNote()
 
     fun setupNotification()
 
@@ -31,22 +26,6 @@ interface IPreferenceFragment : EternalReceiver.Bridge.Bind {
     fun updateThemeSummary(summary: String?)
 
     fun showThemeDialog(@Theme value: Int)
-
-    //region Note functions
-
-    fun updateSortSummary(summary: String?)
-
-    fun showSortDialog(@Sort value: Int)
-
-    fun updateColorSummary(summary: String?)
-
-    fun showColorDialog(@Color color: Int)
-
-    fun updateSavePeriodSummary(summary: String?)
-
-    fun showSaveTimeDialog(value: Int)
-
-    //endregion
 
     //region Notification functions
 

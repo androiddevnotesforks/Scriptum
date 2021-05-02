@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.presentation.screen.vm.impl.preference
+package sgtmelon.scriptum.presentation.screen.vm.impl.preference.develop
 
 import android.os.Bundle
 import io.mockk.*
@@ -9,7 +9,7 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import sgtmelon.scriptum.ParentViewModelTest
-import sgtmelon.scriptum.domain.interactor.callback.preference.IPrintInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.develop.IPrintInteractor
 import sgtmelon.scriptum.domain.model.data.IntentData.Print.Default
 import sgtmelon.scriptum.domain.model.data.IntentData.Print.Intent
 import sgtmelon.scriptum.domain.model.item.PrintItem
@@ -17,7 +17,6 @@ import sgtmelon.scriptum.domain.model.key.PrintType
 import sgtmelon.scriptum.extension.clearAdd
 import sgtmelon.scriptum.getRandomSize
 import sgtmelon.scriptum.presentation.screen.ui.callback.preference.develop.IPrintActivity
-import sgtmelon.scriptum.presentation.screen.vm.impl.preference.develop.PrintViewModel
 
 /**
  * Test for [PrintViewModel].

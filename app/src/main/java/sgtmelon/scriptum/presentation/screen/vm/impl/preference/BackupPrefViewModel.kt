@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.domain.interactor.callback.IBackupPrefInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.IBackupPrefInteractor
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.key.PermissionResult
 import sgtmelon.scriptum.domain.model.result.ExportResult

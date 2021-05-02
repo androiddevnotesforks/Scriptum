@@ -1,6 +1,6 @@
-package sgtmelon.scriptum.domain.interactor.callback.preference
+package sgtmelon.scriptum.domain.interactor.callback.preference.develop
 
-import sgtmelon.scriptum.domain.interactor.impl.preference.DevelopInteractor
+import sgtmelon.scriptum.domain.interactor.impl.preference.develop.DevelopInteractor
 import sgtmelon.scriptum.presentation.screen.vm.callback.preference.develop.IDevelopViewModel
 
 /**

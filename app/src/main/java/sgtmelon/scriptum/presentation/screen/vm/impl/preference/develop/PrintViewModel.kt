@@ -4,7 +4,7 @@ import android.app.Application
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import sgtmelon.scriptum.domain.interactor.callback.preference.IPrintInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.develop.IPrintInteractor
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.data.IntentData.Print.Default
 import sgtmelon.scriptum.domain.model.data.IntentData.Print.Intent

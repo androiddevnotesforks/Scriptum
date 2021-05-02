@@ -6,6 +6,8 @@
     <string name="pref_header_app">App</string>
     <string name="pref_header_backup">Backup</string>
     <string name="pref_header_note">Notes</string>
+    <string name="pref_header_common">Common</string>
+    <string name="pref_header_save">Save</string>
     <string name="pref_header_alarm">Notifications</string>
     <string name="pref_header_other">Other</string>
 
@@ -159,6 +161,7 @@
 
     <string name="pref_key_app_theme" translatable="false">key_app_theme</string>
     <string name="pref_key_app_backup" translatable="false">key_app_backup</string>
+    <string name="pref_key_app_note" translatable="false">key_app_note</string>
 
     <string name="pref_key_backup_export" translatable="false">key_backup_export</string>
     <string name="pref_key_backup_import" translatable="false">key_backup_import</string>

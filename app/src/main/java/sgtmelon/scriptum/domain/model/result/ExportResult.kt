@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.domain.model.result
 
-import sgtmelon.scriptum.domain.interactor.callback.IBackupPrefInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.IBackupPrefInteractor
 
 /**
  * Class for result processing of [IBackupPrefInteractor.export].

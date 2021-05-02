@@ -1,10 +1,10 @@
-package sgtmelon.scriptum.domain.interactor.impl.preference
+package sgtmelon.scriptum.domain.interactor.impl.preference.develop
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.provider.PreferenceProvider
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.IDevelopRepo
-import sgtmelon.scriptum.domain.interactor.callback.preference.IPrintInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.develop.IPrintInteractor
 import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.domain.model.annotation.FileType
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate

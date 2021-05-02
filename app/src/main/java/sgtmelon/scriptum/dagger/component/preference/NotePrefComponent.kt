@@ -5,25 +5,25 @@ import dagger.Subcomponent
 import sgtmelon.scriptum.dagger.ActivityScope
 import sgtmelon.scriptum.dagger.module.base.InteractorModule
 import sgtmelon.scriptum.dagger.module.base.ViewModelModule
-import sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop.DevelopFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.NotePrefFragment
 
 /**
- * Component for [DevelopFragment].
+ * Component for [NotePrefFragment].
  */
 @ActivityScope
 @Subcomponent(modules = [
     InteractorModule::class,
     ViewModelModule::class
 ])
-interface DevelopComponent {
+interface NotePrefComponent {
 
-    fun inject(fragment: DevelopFragment)
+    fun inject(fragment: NotePrefFragment)
 
     @Subcomponent.Builder
     interface Builder {
         @BindsInstance
-        fun set(fragment: DevelopFragment): Builder
+        fun set(fragment: NotePrefFragment): Builder
 
-        fun build(): DevelopComponent
+        fun build(): NotePrefComponent
     }
 }

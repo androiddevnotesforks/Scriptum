@@ -1536,7 +1536,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
         every { noteState.isEdit } returns true
         every { noteItem.isSaveEnabled() } returns false
-        assertFalse(viewModel.onMenuSave(changeMode = false))
+        assertFalse(viewModel.onMenuSave(changeMode))
 
         coVerifyOrder {
             callback.isDialogOpen

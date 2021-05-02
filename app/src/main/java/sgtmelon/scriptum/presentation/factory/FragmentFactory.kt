@@ -8,6 +8,7 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.main.RankFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.BackupPrefFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.NotePrefFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop.DevelopFragment
 
@@ -77,7 +78,11 @@ object FragmentFactory {
             return fm.findFragmentByTag(Tag.BACKUP) as? BackupPrefFragment ?: BackupPrefFragment()
         }
 
-        @StringDef(Tag.PREF, Tag.DEVELOP, Tag.BACKUP)
+        fun getNoteFragment(): NotePrefFragment {
+            return fm.findFragmentByTag(Tag.BACKUP) as? NotePrefFragment ?: NotePrefFragment()
+        }
+
+        @StringDef(Tag.PREF, Tag.DEVELOP, Tag.BACKUP, Tag.NOTE)
         annotation class Tag {
             companion object {
                 private const val PREFIX = "FRAGMENT_PREFERENCE"
@@ -85,6 +90,7 @@ object FragmentFactory {
                 const val PREF = "${PREFIX}_PREF"
                 const val DEVELOP = "${PREFIX}_DEVELOP"
                 const val BACKUP = "${PREFIX}_BACKUP"
+                const val NOTE = "${PREFIX}_NOTE"
             }
         }
     }

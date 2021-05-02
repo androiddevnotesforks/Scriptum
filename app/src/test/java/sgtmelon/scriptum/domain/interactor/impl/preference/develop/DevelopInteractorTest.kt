@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.domain.interactor.impl.preference
+package sgtmelon.scriptum.domain.interactor.impl.preference.develop
 
 import io.mockk.coEvery
 import io.mockk.coVerifySequence

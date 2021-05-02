@@ -10,9 +10,10 @@ import sgtmelon.scriptum.dagger.component.note.NoteComponent
 import sgtmelon.scriptum.dagger.component.note.RollNoteComponent
 import sgtmelon.scriptum.dagger.component.note.TextNoteComponent
 import sgtmelon.scriptum.dagger.component.preference.BackupPrefComponent
-import sgtmelon.scriptum.dagger.component.preference.DevelopComponent
+import sgtmelon.scriptum.dagger.component.preference.NotePrefComponent
 import sgtmelon.scriptum.dagger.component.preference.PreferenceComponent
-import sgtmelon.scriptum.dagger.component.preference.PrintComponent
+import sgtmelon.scriptum.dagger.component.preference.develop.DevelopComponent
+import sgtmelon.scriptum.dagger.component.preference.develop.PrintComponent
 import sgtmelon.scriptum.dagger.component.service.EternalComponent
 import sgtmelon.scriptum.dagger.module.base.ContextModule
 import sgtmelon.scriptum.dagger.module.base.ConverterModule
@@ -64,6 +65,8 @@ interface ScriptumComponent {
     fun getPreferenceBuilder(): PreferenceComponent.Builder
 
     fun getBackupPrefBuilder(): BackupPrefComponent.Builder
+
+    fun getNotePrefBuilder(): NotePrefComponent.Builder
 
     fun getDevelopBuilder(): DevelopComponent.Builder
 
