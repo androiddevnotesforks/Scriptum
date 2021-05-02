@@ -3,8 +3,7 @@ package sgtmelon.scriptum.domain.interactor.impl.eternal
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertNull
+import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.extension.beforeNow
 import sgtmelon.extension.getCalendar
@@ -21,6 +20,7 @@ import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.getRandomSize
 import sgtmelon.scriptum.presentation.service.IEternalBridge
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.random.Random
 
 /**
@@ -128,7 +128,26 @@ class EternalInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun getFilterList() {
-        TODO()
+        val rankIdVisibleList = mockk<List<Long>>()
+
+        val size = getRandomSize()
+        val itemList = List<NoteItem>(size) { mockk() }
+        val isBinList = List(size) { Random.nextBoolean() }
+        val isStatusList = List(size) { Random.nextBoolean() }
+        val isRankVisibleList = List(size) { Random.nextBoolean() }
+
+        for ((i, item) in itemList.withIndex()) {
+            every { item.isBin } returns isBinList[i]
+            every { item.isStatus } returns isStatusList[i]
+            every { item.isRankVisible(rankIdVisibleList) } returns isRankVisibleList[i]
+        }
+
+        val resultList = ArrayList(itemList)
+        resultList.removeAll { isBinList[itemList.indexOf(it)] }
+        resultList.removeAll { !isStatusList[itemList.indexOf(it)] }
+        resultList.removeAll { !isRankVisibleList[itemList.indexOf(it)] }
+
+        assertEquals(resultList, interactor.getFilterList(itemList, rankIdVisibleList))
     }
 
     @Test fun notifyCountBind() = startCoTest {
