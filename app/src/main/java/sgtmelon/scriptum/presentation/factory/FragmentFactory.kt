@@ -7,7 +7,7 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.main.NotesFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.RankFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
-import sgtmelon.scriptum.presentation.screen.ui.impl.preference.BackupFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.BackupPrefFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop.DevelopFragment
 
@@ -73,8 +73,8 @@ object FragmentFactory {
             return fm.findFragmentByTag(Tag.DEVELOP) as? DevelopFragment ?: DevelopFragment()
         }
 
-        fun getBackupFragment(): BackupFragment {
-            return fm.findFragmentByTag(Tag.BACKUP) as? BackupFragment ?: BackupFragment()
+        fun getBackupFragment(): BackupPrefFragment {
+            return fm.findFragmentByTag(Tag.BACKUP) as? BackupPrefFragment ?: BackupPrefFragment()
         }
 
         @StringDef(Tag.PREF, Tag.DEVELOP, Tag.BACKUP)

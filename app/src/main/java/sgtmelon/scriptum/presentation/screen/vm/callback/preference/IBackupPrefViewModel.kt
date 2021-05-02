@@ -1,14 +1,14 @@
 package sgtmelon.scriptum.presentation.screen.vm.callback.preference
 
 import sgtmelon.scriptum.domain.model.key.PermissionResult
-import sgtmelon.scriptum.presentation.screen.ui.callback.preference.IBackupFragment
+import sgtmelon.scriptum.presentation.screen.ui.callback.preference.IBackupPrefFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.IParentViewModel
-import sgtmelon.scriptum.presentation.screen.vm.impl.preference.BackupViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.preference.BackupPrefViewModel
 
 /**
- * Interface for communication [IBackupFragment] with [BackupViewModel].
+ * Interface for communication [IBackupPrefFragment] with [BackupPrefViewModel].
  */
-interface IBackupViewModel : IParentViewModel {
+interface IBackupPrefViewModel : IParentViewModel {
 
     fun onPause()
 

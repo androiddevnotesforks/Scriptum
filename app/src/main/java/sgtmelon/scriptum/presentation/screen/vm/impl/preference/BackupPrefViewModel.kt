@@ -5,27 +5,27 @@ import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.domain.interactor.callback.IBackupInteractor
+import sgtmelon.scriptum.domain.interactor.callback.IBackupPrefInteractor
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.key.PermissionResult
 import sgtmelon.scriptum.domain.model.result.ExportResult
 import sgtmelon.scriptum.domain.model.result.ImportResult
 import sgtmelon.scriptum.extension.runBack
-import sgtmelon.scriptum.presentation.screen.ui.callback.preference.IBackupFragment
-import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IBackupViewModel
+import sgtmelon.scriptum.presentation.screen.ui.callback.preference.IBackupPrefFragment
+import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IBackupPrefViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
 
 /**
- * ViewModel for [IBackupFragment].
+ * ViewModel for [IBackupPrefFragment].
  */
-class BackupViewModel(
+class BackupPrefViewModel(
     application: Application
-) : ParentViewModel<IBackupFragment>(application),
-    IBackupViewModel {
+) : ParentViewModel<IBackupPrefFragment>(application),
+    IBackupPrefViewModel {
 
-    private lateinit var interactor: IBackupInteractor
+    private lateinit var interactor: IBackupPrefInteractor
 
-    fun setInteractor(interactor: IBackupInteractor) {
+    fun setInteractor(interactor: IBackupPrefInteractor) {
         this.interactor = interactor
     }
 

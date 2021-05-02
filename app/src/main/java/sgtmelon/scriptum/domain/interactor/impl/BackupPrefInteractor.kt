@@ -7,7 +7,7 @@ import sgtmelon.scriptum.data.repository.room.callback.IBackupRepo
 import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.data.room.backup.IBackupParser
-import sgtmelon.scriptum.domain.interactor.callback.IBackupInteractor
+import sgtmelon.scriptum.domain.interactor.callback.IBackupPrefInteractor
 import sgtmelon.scriptum.domain.model.annotation.FileType
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.FileItem
@@ -21,7 +21,7 @@ import sgtmelon.scriptum.presentation.control.file.IFileControl
 /**
  * Interactor for import/export backup files.
  */
-class BackupInteractor(
+class BackupPrefInteractor(
     private val preferenceRepo: IPreferenceRepo,
     private val alarmRepo: IAlarmRepo,
     private val rankRepo: IRankRepo,
@@ -30,7 +30,7 @@ class BackupInteractor(
     private val backupParser: IBackupParser,
     private val fileControl: IFileControl,
     private val cipherControl: ICipherControl
-) : IBackupInteractor {
+) : IBackupPrefInteractor {
 
     @RunPrivate var fileList: List<FileItem>? = null
 

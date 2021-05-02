@@ -167,7 +167,7 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
         backupPreference?.setOnPreferenceClickListener {
             val context = context
             if (context != null) {
-                startActivity(BackupActivity[context])
+                startActivity(BackupPrefActivity[context])
             }
 
             return@setOnPreferenceClickListener true

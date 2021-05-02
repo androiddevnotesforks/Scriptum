@@ -12,25 +12,25 @@ import sgtmelon.extension.nextString
 import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.TestData
-import sgtmelon.scriptum.domain.interactor.callback.IBackupInteractor
+import sgtmelon.scriptum.domain.interactor.callback.IBackupPrefInteractor
 import sgtmelon.scriptum.domain.model.key.PermissionResult
 import sgtmelon.scriptum.domain.model.result.ExportResult
 import sgtmelon.scriptum.domain.model.result.ImportResult
-import sgtmelon.scriptum.presentation.screen.ui.callback.preference.IBackupFragment
+import sgtmelon.scriptum.presentation.screen.ui.callback.preference.IBackupPrefFragment
 import kotlin.random.Random
 
 /**
- * Test for [BackupViewModel].
+ * Test for [BackupPrefViewModel].
  */
 @ExperimentalCoroutinesApi
-class BackupViewModelTest : ParentViewModelTest() {
+class BackupPrefViewModelTest : ParentViewModelTest() {
 
-    @MockK lateinit var interactor: IBackupInteractor
-    @MockK lateinit var callback: IBackupFragment
+    @MockK lateinit var interactor: IBackupPrefInteractor
+    @MockK lateinit var callback: IBackupPrefFragment
 
     private val fileList = TestData.Backup.fileList
 
-    private val viewModel by lazy { BackupViewModel(application) }
+    private val viewModel by lazy { BackupPrefViewModel(application) }
     private val spyViewModel by lazy { spyk(viewModel) }
 
     @Before override fun setup() {

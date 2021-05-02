@@ -19,16 +19,16 @@ import sgtmelon.scriptum.presentation.control.broadcast.BroadcastControl
 import sgtmelon.scriptum.presentation.factory.DialogFactory
 import sgtmelon.scriptum.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
-import sgtmelon.scriptum.presentation.screen.ui.callback.preference.IBackupFragment
-import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IBackupViewModel
+import sgtmelon.scriptum.presentation.screen.ui.callback.preference.IBackupPrefFragment
+import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IBackupPrefViewModel
 import javax.inject.Inject
 
 /**
  * Fragment of backup preferences.
  */
-class BackupFragment : ParentPreferenceFragment(), IBackupFragment {
+class BackupPrefFragment : ParentPreferenceFragment(), IBackupPrefFragment {
 
-    @Inject internal lateinit var viewModel: IBackupViewModel
+    @Inject internal lateinit var viewModel: IBackupPrefViewModel
 
     private val openState = OpenState()
     private val readPermissionState by lazy {
@@ -63,7 +63,7 @@ class BackupFragment : ParentPreferenceFragment(), IBackupFragment {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preference_backup, rootKey)
 
-        ScriptumApplication.component.getBackupBuilder().set(fragment = this).build()
+        ScriptumApplication.component.getBackupPrefBuilder().set(fragment = this).build()
             .inject(fragment = this)
     }
 
@@ -86,7 +86,7 @@ class BackupFragment : ParentPreferenceFragment(), IBackupFragment {
         viewModel.onPause()
 
         /**
-         * After call [IBackupViewModel.onPause] this dialog will not have any items.
+         * After call [IBackupPrefViewModel.onPause] this dialog will not have any items.
          */
         importDialog.safeDismiss()
     }

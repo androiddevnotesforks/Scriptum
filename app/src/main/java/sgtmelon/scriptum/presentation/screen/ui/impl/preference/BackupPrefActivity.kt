@@ -7,12 +7,12 @@ import sgtmelon.scriptum.presentation.factory.FragmentFactory
 import sgtmelon.scriptum.presentation.screen.ui.ParentPreferenceActivity
 
 /**
- * Screen for display [BackupFragment]
+ * Screen for display [BackupPrefFragment]
  */
-class BackupActivity : ParentPreferenceActivity(
-    R.layout.activity_backup,
-    R.id.backup_parent_container,
-    R.id.backup_fragment_container,
+class BackupPrefActivity : ParentPreferenceActivity(
+    R.layout.activity_preference_backup,
+    R.id.backup_pref_parent_container,
+    R.id.backup_pref_fragment_container,
     R.string.pref_header_backup
 ) {
 
@@ -21,6 +21,6 @@ class BackupActivity : ParentPreferenceActivity(
     override val fragment by lazy { fragmentFactory.getBackupFragment() }
 
     companion object {
-        operator fun get(context: Context) = Intent(context, BackupActivity::class.java)
+        operator fun get(context: Context) = Intent(context, BackupPrefActivity::class.java)
     }
 }

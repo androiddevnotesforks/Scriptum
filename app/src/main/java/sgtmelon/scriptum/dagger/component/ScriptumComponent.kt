@@ -9,7 +9,7 @@ import sgtmelon.scriptum.dagger.component.main.RankComponent
 import sgtmelon.scriptum.dagger.component.note.NoteComponent
 import sgtmelon.scriptum.dagger.component.note.RollNoteComponent
 import sgtmelon.scriptum.dagger.component.note.TextNoteComponent
-import sgtmelon.scriptum.dagger.component.preference.BackupComponent
+import sgtmelon.scriptum.dagger.component.preference.BackupPrefComponent
 import sgtmelon.scriptum.dagger.component.preference.DevelopComponent
 import sgtmelon.scriptum.dagger.component.preference.PreferenceComponent
 import sgtmelon.scriptum.dagger.component.preference.PrintComponent
@@ -63,7 +63,7 @@ interface ScriptumComponent {
 
     fun getPreferenceBuilder(): PreferenceComponent.Builder
 
-    fun getBackupBuilder(): BackupComponent.Builder
+    fun getBackupPrefBuilder(): BackupPrefComponent.Builder
 
     fun getDevelopBuilder(): DevelopComponent.Builder
 

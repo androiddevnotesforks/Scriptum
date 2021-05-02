@@ -1,9 +1,9 @@
 package sgtmelon.scriptum.domain.model.result
 
-import sgtmelon.scriptum.domain.interactor.callback.IBackupInteractor
+import sgtmelon.scriptum.domain.interactor.callback.IBackupPrefInteractor
 
 /**
- * Class for result processing of [IBackupInteractor.import].
+ * Class for result processing of [IBackupPrefInteractor.import].
  */
 sealed class ImportResult {
     object Simple : ImportResult()

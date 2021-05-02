@@ -7,10 +7,10 @@ import sgtmelon.scriptum.dagger.module.base.ControlModule
 import sgtmelon.scriptum.dagger.module.base.InteractorModule
 import sgtmelon.scriptum.dagger.module.base.ParserModule
 import sgtmelon.scriptum.dagger.module.base.ViewModelModule
-import sgtmelon.scriptum.presentation.screen.ui.impl.preference.BackupFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.BackupPrefFragment
 
 /**
- * Component for [BackupFragment].
+ * Component for [BackupPrefFragment].
  */
 @ActivityScope
 @Subcomponent(modules = [
@@ -19,15 +19,15 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.preference.BackupFragment
     ControlModule::class,
     ParserModule::class
 ])
-interface BackupComponent {
+interface BackupPrefComponent {
 
-    fun inject(fragment: BackupFragment)
+    fun inject(fragment: BackupPrefFragment)
 
     @Subcomponent.Builder
     interface Builder {
         @BindsInstance
-        fun set(fragment: BackupFragment): Builder
+        fun set(fragment: BackupPrefFragment): Builder
 
-        fun build(): BackupComponent
+        fun build(): BackupPrefComponent
     }
 }

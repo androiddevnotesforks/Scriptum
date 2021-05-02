@@ -70,7 +70,7 @@
         </activity>
 
         <activity
-            android:name=".presentation.screen.ui.impl.preference.BackupActivity"
+            android:name=".presentation.screen.ui.impl.preference.BackupPrefActivity"
             android:configChanges="keyboardHidden"
             android:parentActivityName=".presentation.screen.ui.impl.preference.PreferenceActivity">
             <intent-filter>

@@ -10,7 +10,7 @@ import sgtmelon.scriptum.data.repository.room.callback.*
 import sgtmelon.scriptum.data.room.backup.IBackupParser
 import sgtmelon.scriptum.data.room.converter.type.IntConverter
 import sgtmelon.scriptum.domain.interactor.callback.IAppInteractor
-import sgtmelon.scriptum.domain.interactor.callback.IBackupInteractor
+import sgtmelon.scriptum.domain.interactor.callback.IBackupPrefInteractor
 import sgtmelon.scriptum.domain.interactor.callback.IIntroInteractor
 import sgtmelon.scriptum.domain.interactor.callback.ISplashInteractor
 import sgtmelon.scriptum.domain.interactor.callback.eternal.IEternalInteractor
@@ -27,7 +27,7 @@ import sgtmelon.scriptum.domain.interactor.callback.preference.IDevelopInteracto
 import sgtmelon.scriptum.domain.interactor.callback.preference.IPreferenceInteractor
 import sgtmelon.scriptum.domain.interactor.callback.preference.IPrintInteractor
 import sgtmelon.scriptum.domain.interactor.impl.AppInteractor
-import sgtmelon.scriptum.domain.interactor.impl.BackupInteractor
+import sgtmelon.scriptum.domain.interactor.impl.BackupPrefInteractor
 import sgtmelon.scriptum.domain.interactor.impl.IntroInteractor
 import sgtmelon.scriptum.domain.interactor.impl.SplashInteractor
 import sgtmelon.scriptum.domain.interactor.impl.eternal.EternalInteractor
@@ -78,8 +78,8 @@ class InteractorModule {
         backupParser: IBackupParser,
         fileControl: IFileControl,
         cipherControl: ICipherControl
-    ): IBackupInteractor {
-        return BackupInteractor(
+    ): IBackupPrefInteractor {
+        return BackupPrefInteractor(
             preferenceRepo, alarmRepo, rankRepo, noteRepo, backupRepo,
             backupParser, fileControl, cipherControl
         )

@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModelProvider
 import dagger.Module
 import dagger.Provides
 import sgtmelon.scriptum.dagger.ActivityScope
-import sgtmelon.scriptum.domain.interactor.callback.IBackupInteractor
+import sgtmelon.scriptum.domain.interactor.callback.IBackupPrefInteractor
 import sgtmelon.scriptum.domain.interactor.callback.IIntroInteractor
 import sgtmelon.scriptum.domain.interactor.callback.ISplashInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.IBinInteractor
@@ -31,7 +31,7 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.AlarmActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.NotificationActivity
-import sgtmelon.scriptum.presentation.screen.ui.impl.preference.BackupFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.BackupPrefFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop.DevelopFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop.PrintActivity
@@ -46,7 +46,7 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.note.IRollNoteViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.note.ITextNoteViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.notification.IAlarmViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.notification.INotificationViewModel
-import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IBackupViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IBackupPrefViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IPreferenceViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.preference.develop.IDevelopViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.preference.develop.IPrintViewModel
@@ -61,7 +61,7 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.note.TextNoteViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.notification.AlarmViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.notification.NotificationViewModel
-import sgtmelon.scriptum.presentation.screen.vm.impl.preference.BackupViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.preference.BackupPrefViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.preference.PreferenceViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.preference.develop.DevelopViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.preference.develop.PrintViewModel
@@ -227,10 +227,10 @@ class ViewModelModule {
     @Provides
     @ActivityScope
     fun provideBackupViewModel(
-        fragment: BackupFragment,
-        interactor: IBackupInteractor
-    ): IBackupViewModel {
-        return ViewModelProvider(fragment).get(BackupViewModel::class.java).apply {
+        fragment: BackupPrefFragment,
+        interactor: IBackupPrefInteractor
+    ): IBackupPrefViewModel {
+        return ViewModelProvider(fragment).get(BackupPrefViewModel::class.java).apply {
             setCallback(fragment)
             setInteractor(interactor)
         }
