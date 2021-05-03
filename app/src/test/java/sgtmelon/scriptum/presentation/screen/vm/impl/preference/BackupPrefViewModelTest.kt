@@ -4,8 +4,7 @@ import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertNull
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import sgtmelon.extension.nextString
@@ -13,9 +12,11 @@ import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.domain.interactor.callback.preference.IBackupPrefInteractor
+import sgtmelon.scriptum.domain.model.item.FileItem
 import sgtmelon.scriptum.domain.model.key.PermissionResult
 import sgtmelon.scriptum.domain.model.result.ExportResult
 import sgtmelon.scriptum.domain.model.result.ImportResult
+import sgtmelon.scriptum.getRandomSize
 import sgtmelon.scriptum.presentation.screen.ui.callback.preference.IBackupPrefFragment
 import kotlin.random.Random
 
@@ -53,40 +54,164 @@ class BackupPrefViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onSetup() {
-        coEvery { spyViewModel.setupBackground() } returns Unit
+        coEvery { spyViewModel.isExportAllowed() } returns null
+        spyViewModel.onSetup()
 
+        coEvery { spyViewModel.isExportAllowed() } returns true
+        coEvery { spyViewModel.isImportAllowed() } returns null
+        spyViewModel.onSetup()
+
+        coEvery { spyViewModel.isImportAllowed() } returns false
+        spyViewModel.onSetup()
+
+        coEvery { spyViewModel.isExportAllowed() } returns false
+        spyViewModel.onSetup()
+
+        coEvery { spyViewModel.isImportAllowed() } returns true
+        spyViewModel.onSetup()
+
+        coEvery { spyViewModel.isExportAllowed() } returns true
+        coEvery { spyViewModel.isImportAllowed() } returns true
+        coEvery { spyViewModel.setupBackground() } returns Unit
         spyViewModel.onSetup()
 
         coVerifyOrder {
             spyViewModel.onSetup()
-
             spyViewModel.callback
             callback.setup()
-            spyViewModel.callback
-            callback.updateExportEnabled(isEnabled = false)
-            spyViewModel.callback
-            callback.updateImportEnabled(isEnabled = false)
+            spyViewModel.isExportAllowed()
 
+            spyViewModel.onSetup()
+            spyViewModel.callback
+            callback.setup()
+            spyViewModel.isExportAllowed()
+            spyViewModel.isImportAllowed()
+
+            spyViewModel.onSetup()
+            spyViewModel.callback
+            callback.setup()
+            spyViewModel.isExportAllowed()
+            spyViewModel.isImportAllowed()
+
+            spyViewModel.onSetup()
+            spyViewModel.callback
+            callback.setup()
+            spyViewModel.isExportAllowed()
+
+            spyViewModel.onSetup()
+            spyViewModel.callback
+            callback.setup()
+            spyViewModel.isExportAllowed()
+
+            spyViewModel.onSetup()
+            spyViewModel.callback
+            callback.setup()
+            spyViewModel.isExportAllowed()
+            spyViewModel.isImportAllowed()
             spyViewModel.setupBackground()
         }
     }
 
+    @Test fun isExportAllowed() {
+        every { callback.getExportPermissionResult() } returns null
+        assertNull(viewModel.isExportAllowed())
+
+        every { callback.getExportPermissionResult() } returns PermissionResult.LOW_API
+        assertEquals(true, viewModel.isExportAllowed())
+
+        every { callback.getExportPermissionResult() } returns PermissionResult.ALLOWED
+        assertEquals(false, viewModel.isExportAllowed())
+
+        every { callback.getExportPermissionResult() } returns PermissionResult.FORBIDDEN
+        assertEquals(false, viewModel.isExportAllowed())
+
+        every { callback.getExportPermissionResult() } returns PermissionResult.GRANTED
+        assertEquals(true, viewModel.isExportAllowed())
+
+        verifySequence {
+            callback.getExportPermissionResult()
+
+            callback.getExportPermissionResult()
+
+            callback.getExportPermissionResult()
+            callback.updateExportEnabled(isEnabled = true)
+            callback.updateExportSummary(R.string.pref_summary_permission_need)
+
+            callback.getExportPermissionResult()
+            callback.updateExportEnabled(isEnabled = true)
+            callback.updateExportSummary(R.string.pref_summary_permission_need)
+
+            callback.getExportPermissionResult()
+        }
+    }
+
+    @Test fun isImportAllowed() {
+        every { callback.getImportPermissionResult() } returns null
+        assertNull(viewModel.isImportAllowed())
+
+        every { callback.getImportPermissionResult() } returns PermissionResult.LOW_API
+        assertEquals(true, viewModel.isImportAllowed())
+
+        every { callback.getImportPermissionResult() } returns PermissionResult.ALLOWED
+        assertEquals(false, viewModel.isImportAllowed())
+
+        every { callback.getImportPermissionResult() } returns PermissionResult.FORBIDDEN
+        assertEquals(false, viewModel.isImportAllowed())
+
+        every { callback.getImportPermissionResult() } returns PermissionResult.GRANTED
+        assertEquals(true, viewModel.isImportAllowed())
+
+        verifySequence {
+            callback.getImportPermissionResult()
+
+            callback.getImportPermissionResult()
+
+            callback.getImportPermissionResult()
+            callback.updateImportEnabled(isEnabled = true)
+            callback.updateImportSummary(R.string.pref_summary_permission_need)
+
+            callback.getImportPermissionResult()
+            callback.updateImportEnabled(isEnabled = true)
+            callback.updateImportSummary(R.string.pref_summary_permission_need)
+
+            callback.getImportPermissionResult()
+        }
+    }
+
     @Test fun setupBackground() = startCoTest {
-        coEvery { interactor.getFileList() } returns emptyList()
+        val list = mockk<List<FileItem>>()
+        val size = getRandomSize()
+
+        coEvery { interactor.getFileList() } returns list
+        every { list.isEmpty() } returns true
 
         viewModel.setupBackground()
 
-        coEvery { interactor.getFileList() } returns fileList
+        every { list.isEmpty() } returns false
+        every { list.size } returns size
 
         viewModel.setupBackground()
 
         coVerifySequence {
+            callback.updateExportEnabled(isEnabled = false)
+            callback.resetExportSummary()
+            callback.updateImportEnabled(isEnabled = false)
+            callback.updateImportSummary(R.string.pref_summary_backup_import_search)
             interactor.getFileList()
+            list.isEmpty()
+            callback.updateImportSummary(R.string.pref_summary_backup_import_empty)
             callback.updateExportEnabled(isEnabled = true)
 
+            callback.updateExportEnabled(isEnabled = false)
+            callback.resetExportSummary()
+            callback.updateImportEnabled(isEnabled = false)
+            callback.updateImportSummary(R.string.pref_summary_backup_import_search)
             interactor.getFileList()
-            callback.updateExportEnabled(isEnabled = true)
+            list.isEmpty()
+            list.size
+            callback.updateImportSummaryFound(size)
             callback.updateImportEnabled(isEnabled = true)
+            callback.updateExportEnabled(isEnabled = true)
         }
     }
 
@@ -99,31 +224,42 @@ class BackupPrefViewModelTest : ParentViewModelTest() {
     }
 
 
-    @Test fun onClickExport() = startCoTest {
-        coEvery { spyViewModel.startExport() } returns Unit
+    @Test fun onClickExport() {
+        val resultList = mutableListOf<PermissionResult?>(null)
+        resultList.addAll(PermissionResult.values())
 
-        for (it in PermissionResult.values()) {
-            spyViewModel.onClickExport(it)
+        every { spyViewModel.onClickExport(any()) } returns Unit
+
+        for (exportItem in resultList) {
+            every { callback.getExportPermissionResult() } returns exportItem
+            for (importItem in resultList) {
+                every { callback.getImportPermissionResult() } returns importItem
+                spyViewModel.onClickExport()
+            }
         }
 
-        spyViewModel.onClickExport(result = null)
+        verifySequence {
+            for (exportItem in resultList) {
+                for (importItem in resultList) {
+                    spyViewModel.onClickExport()
+                    spyViewModel.callback
+                    callback.getExportPermissionResult()
 
-        coVerifyOrder {
-            spyViewModel.onClickExport(PermissionResult.LOW_API)
-            spyViewModel.startExport()
+                    if (exportItem == null) continue
 
-            spyViewModel.onClickExport(PermissionResult.ALLOWED)
-            spyViewModel.callback
-            callback.showExportPermissionDialog()
+                    spyViewModel.callback
+                    callback.getImportPermissionResult()
 
-            spyViewModel.onClickExport(PermissionResult.FORBIDDEN)
-            spyViewModel.callback
-            callback.showExportDenyDialog()
+                    if (importItem == null) continue
 
-            spyViewModel.onClickExport(PermissionResult.GRANTED)
-            spyViewModel.startExport()
-
-            spyViewModel.onClickExport(result = null)
+                    if (exportItem == PermissionResult.FORBIDDEN
+                            || importItem == PermissionResult.FORBIDDEN) {
+                        spyViewModel.onClickExport(PermissionResult.FORBIDDEN)
+                    } else {
+                        spyViewModel.onClickExport(exportItem)
+                    }
+                }
+            }
         }
     }
 
@@ -134,8 +270,6 @@ class BackupPrefViewModelTest : ParentViewModelTest() {
             spyViewModel.onClickExport(it)
         }
 
-        spyViewModel.onClickExport(result = null)
-
         coVerifyOrder {
             spyViewModel.onClickExport(PermissionResult.LOW_API)
             spyViewModel.startExport()
@@ -150,8 +284,6 @@ class BackupPrefViewModelTest : ParentViewModelTest() {
 
             spyViewModel.onClickExport(PermissionResult.GRANTED)
             spyViewModel.startExport()
-
-            spyViewModel.onClickExport(result = null)
         }
     }
 
@@ -185,8 +317,6 @@ class BackupPrefViewModelTest : ParentViewModelTest() {
             callback.hideExportLoadingDialog()
             spyViewModel.callback
             callback.showExportPathToast(path)
-            spyViewModel.callback
-            callback.updateImportEnabled(isEnabled = false)
             interactor.resetFileList()
             spyViewModel.setupBackground()
         }
@@ -194,29 +324,41 @@ class BackupPrefViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onClickImport() {
-        coEvery { spyViewModel.prepareImportDialog() } returns Unit
+        val resultList = mutableListOf<PermissionResult?>(null)
+        resultList.addAll(PermissionResult.values())
 
-        for (it in PermissionResult.values()) {
-            spyViewModel.onClickImport(it)
+        every { spyViewModel.onClickImport(any()) } returns Unit
+
+        for (exportItem in resultList) {
+            every { callback.getExportPermissionResult() } returns exportItem
+            for (importItem in resultList) {
+                every { callback.getImportPermissionResult() } returns importItem
+                spyViewModel.onClickImport()
+            }
         }
 
-        spyViewModel.onClickImport(result = null)
+        verifySequence {
+            for (exportItem in resultList) {
+                for (importItem in resultList) {
+                    spyViewModel.onClickImport()
+                    spyViewModel.callback
+                    callback.getExportPermissionResult()
 
-        coVerifyOrder {
-            spyViewModel.onClickImport(PermissionResult.LOW_API)
-            spyViewModel.prepareImportDialog()
+                    if (exportItem == null) continue
 
-            spyViewModel.onClickImport(PermissionResult.ALLOWED)
-            spyViewModel.callback
-            callback.showImportPermissionDialog()
+                    spyViewModel.callback
+                    callback.getImportPermissionResult()
 
-            spyViewModel.onClickImport(PermissionResult.FORBIDDEN)
-            spyViewModel.prepareImportDialog()
+                    if (importItem == null) continue
 
-            spyViewModel.onClickImport(PermissionResult.GRANTED)
-            spyViewModel.prepareImportDialog()
-
-            spyViewModel.onClickImport(result = null)
+                    if (exportItem == PermissionResult.FORBIDDEN
+                            || importItem == PermissionResult.FORBIDDEN) {
+                        spyViewModel.onClickImport(PermissionResult.FORBIDDEN)
+                    } else {
+                        spyViewModel.onClickImport(importItem)
+                    }
+                }
+            }
         }
     }
 
@@ -227,8 +369,6 @@ class BackupPrefViewModelTest : ParentViewModelTest() {
             spyViewModel.onClickImport(it)
         }
 
-        spyViewModel.onClickImport(result = null)
-
         coVerifyOrder {
             spyViewModel.onClickImport(PermissionResult.LOW_API)
             spyViewModel.prepareImportDialog()
@@ -238,12 +378,11 @@ class BackupPrefViewModelTest : ParentViewModelTest() {
             callback.showImportPermissionDialog()
 
             spyViewModel.onClickImport(PermissionResult.FORBIDDEN)
-            spyViewModel.prepareImportDialog()
+            spyViewModel.callback
+            callback.showImportDenyDialog()
 
             spyViewModel.onClickImport(PermissionResult.GRANTED)
             spyViewModel.prepareImportDialog()
-
-            spyViewModel.onClickImport(result = null)
         }
     }
 
@@ -260,6 +399,7 @@ class BackupPrefViewModelTest : ParentViewModelTest() {
 
         coVerifySequence {
             interactor.getFileList()
+            callback.updateImportSummary(R.string.pref_summary_backup_import_empty)
             callback.updateImportEnabled(isEnabled = false)
 
             interactor.getFileList()

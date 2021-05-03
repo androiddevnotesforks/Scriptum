@@ -33,27 +33,38 @@ class BackupPrefViewModel(
     override fun onSetup(bundle: Bundle?) {
         callback?.setup()
 
-        val exportResult = callback?.getExportPermissionResult() ?: return
-        val importResult = callback?.getImportPermissionResult() ?: return
-
-        val isExportAllowed = exportResult == Permission.LOW_API
-                || exportResult == Permission.GRANTED
-        val isImportAllowed = importResult == Permission.LOW_API
-                || importResult == Permission.GRANTED
-
-        if (!isExportAllowed) {
-            callback?.updateExportEnabled(isEnabled = true)
-            callback?.updateExportSummary(R.string.pref_summary_permission_need)
-        }
-
-        if (!isImportAllowed) {
-            callback?.updateImportEnabled(isEnabled = true)
-            callback?.updateImportSummary(R.string.pref_summary_permission_need)
-        }
+        val isExportAllowed = isExportAllowed() ?: return
+        val isImportAllowed = isImportAllowed() ?: return
 
         if (isExportAllowed && isImportAllowed) {
             viewModelScope.launch { setupBackground() }
         }
+    }
+
+    @RunPrivate fun isExportAllowed(): Boolean? {
+        val result = callback?.getExportPermissionResult() ?: return null
+
+        val isAllowed = result == Permission.LOW_API || result == Permission.GRANTED
+
+        if (!isAllowed) {
+            callback?.updateExportEnabled(isEnabled = true)
+            callback?.updateExportSummary(R.string.pref_summary_permission_need)
+        }
+
+        return isAllowed
+    }
+
+    @RunPrivate fun isImportAllowed(): Boolean? {
+        val result = callback?.getImportPermissionResult() ?: return null
+
+        val isAllowed = result == Permission.LOW_API || result == Permission.GRANTED
+
+        if (!isAllowed) {
+            callback?.updateImportEnabled(isEnabled = true)
+            callback?.updateImportSummary(R.string.pref_summary_permission_need)
+        }
+
+        return isAllowed
     }
 
     @RunPrivate suspend fun setupBackground() {
@@ -106,7 +117,7 @@ class BackupPrefViewModel(
      * Call [startExport] only if [result] equals [Permission.LOW_API] or
      * [Permission.GRANTED]. Otherwise we must show dialog.
      */
-    override fun onClickExport(result: sgtmelon.scriptum.domain.model.key.PermissionResult) {
+    override fun onClickExport(result: Permission) {
         when (result) {
             Permission.ALLOWED -> callback?.showExportPermissionDialog()
             Permission.LOW_API, Permission.GRANTED -> viewModelScope.launch { startExport() }
@@ -155,7 +166,7 @@ class BackupPrefViewModel(
      * Call [prepareImportDialog] only if [result] equals [Permission.LOW_API] or
      * [Permission.GRANTED]. Otherwise we must show dialog.
      */
-    override fun onClickImport(result: sgtmelon.scriptum.domain.model.key.PermissionResult) {
+    override fun onClickImport(result: Permission) {
         when (result) {
             Permission.ALLOWED -> callback?.showImportPermissionDialog()
             Permission.LOW_API, Permission.GRANTED -> viewModelScope.launch {

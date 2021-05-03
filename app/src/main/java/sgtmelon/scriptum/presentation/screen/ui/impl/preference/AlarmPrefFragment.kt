@@ -135,7 +135,6 @@ class AlarmPrefFragment : ParentPreferenceFragment(), IAlarmPrefFragment {
         context?.showToast(stringId)
     }
 
-
     override fun setup() {
         repeatPreference?.setOnPreferenceClickListener {
             viewModel.onClickRepeat()
