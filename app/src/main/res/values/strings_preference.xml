@@ -7,10 +7,12 @@
     <string name="pref_header_backup">Backup</string>
     <string name="pref_header_note">Notes</string>
     <string name="pref_header_common">Common</string>
+    <string name="pref_header_main">Main</string>
     <string name="pref_header_save">Save</string>
     <string name="pref_header_alarm">Notifications</string>
     <string name="pref_header_sound">Sound</string>
     <string name="pref_header_other">Other</string>
+    <string name="pref_header_options">Options</string>
 
     <string name="pref_header_entities_print" translatable="false">Print of entities</string>
     <string name="pref_header_preference_print" translatable="false">Print of preferences</string>
@@ -42,8 +44,8 @@
 
     <string name="pref_title_other_rate">Rate</string>
     <string name="pref_title_other_privacy_policy">Privacy policy</string>
-    <string name="pref_title_other_develop">Developer settings</string>
     <string name="pref_title_other_about">About app</string>
+    <string name="pref_title_other_develop">For developer</string>
 
     <string name="pref_title_print_note" translatable="false">Note entities</string>
     <string name="pref_title_print_roll" translatable="false">Roll entities</string>
@@ -60,8 +62,17 @@
 
     <!-- Preference summaries -->
 
+    <string name="pref_summary_permission_need">Application need a permission</string>
+
     <string name="pref_summary_app_theme">Selected theme</string>
 
+    <string name="pref_summary_backup_import_search">
+        We searching for a backup files, give us few seconds…
+    </string>
+    <string name="pref_summary_backup_import_empty">
+        You don\'t have any backup files
+    </string>
+    <string name="pref_summary_backup_import_found">Founded files: %d</string>
     <string name="pref_summary_backup_skip">
         If an application already has a note with the same name and content, then it will not be
         added during backup.
@@ -182,8 +193,8 @@
 
     <string name="pref_key_other_rate" translatable="false">key_other_rate</string>
     <string name="pref_key_other_privacy_policy" translatable="false">key_other_privacy_policy</string>
-    <string name="pref_key_other_develop" translatable="false">key_other_develop</string>
     <string name="pref_key_other_about" translatable="false">key_other_about</string>
+    <string name="pref_key_other_develop" translatable="false">key_other_develop</string>
 
     <string name="pref_key_print_note" translatable="false">key_print_note</string>
     <string name="pref_key_print_bin" translatable="false">key_print_bin</string>

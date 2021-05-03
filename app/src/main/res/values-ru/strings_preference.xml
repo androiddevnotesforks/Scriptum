@@ -7,10 +7,12 @@
     <string name="pref_header_backup">Резервное копирование</string>
     <string name="pref_header_note">Заметки</string>
     <string name="pref_header_common">Общее</string>
+    <string name="pref_header_main">Основное</string>
     <string name="pref_header_save">Сохранение</string>
     <string name="pref_header_alarm">Уведомления</string>
     <string name="pref_header_sound">Звук</string>
     <string name="pref_header_other">Прочее</string>
+    <string name="pref_header_options">Параметры</string>
 
     <!-- Preference titles -->
 
@@ -34,13 +36,22 @@
 
     <string name="pref_title_other_rate">Оценить</string>
     <string name="pref_title_other_privacy_policy">Политика конфиденциальности</string>
-    <string name="pref_title_other_develop">Настройки разработчика</string>
     <string name="pref_title_other_about">О приложении</string>
+    <string name="pref_title_other_develop">Для разработчика</string>
 
     <!-- Preference summaries -->
 
+    <string name="pref_summary_permission_need">Приложению требуется разрешение</string>
+
     <string name="pref_summary_app_theme">Выбранная тема</string>
 
+    <string name="pref_summary_backup_import_search">
+        Мы ищем резервный файлы, дайте нам пару секунд…
+    </string>
+    <string name="pref_summary_backup_import_empty">
+        У Вас нет файлов для восстановления данных
+    </string>
+    <string name="pref_summary_backup_import_found">Найдено файлов: %d</string>
     <string name="pref_summary_backup_skip">
         Если в приложении уже есть заметка с таким же именем и содержанием, то она не будет
         добавлена при резервном копировании

@@ -37,14 +37,14 @@
             android:title="@string/pref_title_other_privacy_policy"
             app:iconSpaceReserved="false" />
 
+        <Preference android:key="@string/pref_key_other_about"
+            android:title="@string/pref_title_other_about"
+            app:iconSpaceReserved="false" />
+
         <Preference android:key="@string/pref_key_other_develop"
             app:iconSpaceReserved="false"
             app:isPreferenceVisible="@bool/pref_other_develop"
             app:title="@string/pref_title_other_develop" />
-
-        <Preference android:key="@string/pref_key_other_about"
-            android:title="@string/pref_title_other_about"
-            app:iconSpaceReserved="false" />
 
     </PreferenceCategory>
 

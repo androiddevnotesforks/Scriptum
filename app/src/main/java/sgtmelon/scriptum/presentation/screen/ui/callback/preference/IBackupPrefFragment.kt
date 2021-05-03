@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.presentation.screen.ui.callback.preference
 
 import androidx.annotation.StringRes
+import sgtmelon.scriptum.domain.model.key.PermissionResult
 import sgtmelon.scriptum.presentation.receiver.EternalReceiver
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.BackupPrefFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IBackupPrefViewModel
@@ -22,9 +23,15 @@ interface IBackupPrefFragment : EternalReceiver.Bridge.Bind {
 
     fun setup()
 
-    //region Dialog functions
+    //region Export functions
+
+    fun getExportPermissionResult(): PermissionResult?
 
     fun updateExportEnabled(isEnabled: Boolean)
+
+    fun updateExportSummary(@StringRes summaryId: Int)
+
+    fun resetExportSummary()
 
     fun showExportPermissionDialog()
 
@@ -34,9 +41,21 @@ interface IBackupPrefFragment : EternalReceiver.Bridge.Bind {
 
     fun hideExportLoadingDialog()
 
+    //endregion
+
+    //region Import functions
+
+    fun getImportPermissionResult(): PermissionResult?
+
     fun updateImportEnabled(isEnabled: Boolean)
 
+    fun updateImportSummary(@StringRes summaryId: Int)
+
+    fun updateImportSummaryFound(count: Int)
+
     fun showImportPermissionDialog()
+
+    fun showImportDenyDialog()
 
     fun showImportDialog(titleArray: Array<String>)
 

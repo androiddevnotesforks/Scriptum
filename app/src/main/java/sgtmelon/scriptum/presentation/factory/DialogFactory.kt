@@ -19,6 +19,7 @@ import sgtmelon.scriptum.presentation.dialog.*
 object DialogFactory {
 
     class Alarm(private val fm: FragmentManager) {
+
         fun getRepeatDialog(): SheetRepeatDialog {
             return fm.findFragmentByTag(REPEAT) as? SheetRepeatDialog ?: SheetRepeatDialog()
         }
@@ -31,6 +32,7 @@ object DialogFactory {
     }
 
     class Main(private val context: Context?, private val fm: FragmentManager) {
+
         fun getRenameDialog(): RenameDialog {
             return fm.findFragmentByTag(RENAME) as? RenameDialog ?: RenameDialog()
         }
@@ -124,7 +126,6 @@ object DialogFactory {
             const val RANK = "${PREFIX}_RANK"
             const val COLOR = "${PREFIX}_COLOR"
         }
-
     }
 
     class Preference(private val context: Context?, private val fm: FragmentManager) {
@@ -140,30 +141,6 @@ object DialogFactory {
             return dialog
         }
 
-
-        fun getImportPermissionDialog(): MessageDialog {
-            val dialog  = fm.findFragmentByTag(IMPORT_PERMISSION) as? MessageDialog
-                    ?: MessageDialog()
-
-            if (context == null) return dialog
-
-            dialog.type = MessageType.INFO
-            dialog.title = context.getString(R.string.dialog_title_import_permission)
-            dialog.message = context.getString(R.string.dialog_text_import_permission)
-
-            return dialog
-        }
-
-        fun getImportDialog(): SingleDialog {
-            val dialog = fm.findFragmentByTag(IMPORT) as? SingleDialog ?: SingleDialog()
-
-            if (context == null) return dialog
-
-            dialog.applyEnable = true
-            dialog.title = context.getString(R.string.dialog_title_import)
-
-            return dialog
-        }
 
         fun getExportPermissionDialog(): MessageDialog {
             val dialog  = fm.findFragmentByTag(EXPORT_PERMISSION) as? MessageDialog
@@ -195,6 +172,42 @@ object DialogFactory {
             return fm.findFragmentByTag(LOADING) as? LoadingDialog ?: LoadingDialog()
         }
 
+        fun getImportPermissionDialog(): MessageDialog {
+            val dialog = fm.findFragmentByTag(IMPORT_PERMISSION) as? MessageDialog
+                    ?: MessageDialog()
+
+            if (context == null) return dialog
+
+            dialog.type = MessageType.INFO
+            dialog.title = context.getString(R.string.dialog_title_import_permission)
+            dialog.message = context.getString(R.string.dialog_text_import_permission)
+
+            return dialog
+        }
+
+        fun getImportDenyDialog(): MessageDialog {
+            val dialog = fm.findFragmentByTag(IMPORT_DENY) as? MessageDialog
+                    ?: MessageDialog()
+
+            if (context == null) return dialog
+
+            dialog.type = MessageType.INFO
+            dialog.title = context.getString(R.string.dialog_title_import_deny)
+            dialog.message = context.getString(R.string.dialog_text_import_deny)
+
+            return dialog
+        }
+
+        fun getImportDialog(): SingleDialog {
+            val dialog = fm.findFragmentByTag(IMPORT) as? SingleDialog ?: SingleDialog()
+
+            if (context == null) return dialog
+
+            dialog.applyEnable = true
+            dialog.title = context.getString(R.string.dialog_title_import)
+
+            return dialog
+        }
 
 
         fun getSortDialog(): SingleDialog {
@@ -296,10 +309,11 @@ object DialogFactory {
 
             const val THEME = "${PREFIX}_THEME"
 
-            const val IMPORT_PERMISSION = "${PREFIX}_IMPORT_PERMISSION"
-            const val IMPORT = "${PREFIX}_IMPORT"
             const val EXPORT_PERMISSION = "${PREFIX}_EXPORT_PERMISSION"
             const val EXPORT_DENY = "${PREFIX}_EXPORT_DENY"
+            const val IMPORT_PERMISSION = "${PREFIX}_IMPORT_PERMISSION"
+            const val IMPORT_DENY = "${PREFIX}_IMPORT_DENY"
+            const val IMPORT = "${PREFIX}_IMPORT"
             const val LOADING = "${PREFIX}_LOADING"
 
             const val SORT = "${PREFIX}_SORT"
@@ -314,7 +328,6 @@ object DialogFactory {
 
             const val ABOUT = "${PREFIX}_ABOUT"
         }
-
     }
 
 }

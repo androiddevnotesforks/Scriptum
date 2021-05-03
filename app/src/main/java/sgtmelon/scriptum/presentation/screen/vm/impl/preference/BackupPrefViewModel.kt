@@ -7,13 +7,13 @@ import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.interactor.callback.preference.IBackupPrefInteractor
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
-import sgtmelon.scriptum.domain.model.key.PermissionResult
 import sgtmelon.scriptum.domain.model.result.ExportResult
 import sgtmelon.scriptum.domain.model.result.ImportResult
 import sgtmelon.scriptum.extension.runBack
 import sgtmelon.scriptum.presentation.screen.ui.callback.preference.IBackupPrefFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IBackupPrefViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
+import sgtmelon.scriptum.domain.model.key.PermissionResult as Permission
 
 /**
  * ViewModel for [IBackupPrefFragment].
@@ -33,23 +33,46 @@ class BackupPrefViewModel(
     override fun onSetup(bundle: Bundle?) {
         callback?.setup()
 
-        /**
-         * Make import permission not enabled before [setupBackground] load data.
-         */
-        callback?.updateExportEnabled(isEnabled = false)
-        callback?.updateImportEnabled(isEnabled = false)
+        val exportResult = callback?.getExportPermissionResult() ?: return
+        val importResult = callback?.getImportPermissionResult() ?: return
 
-        viewModelScope.launch { setupBackground() }
+        val isExportAllowed = exportResult == Permission.LOW_API
+                || exportResult == Permission.GRANTED
+        val isImportAllowed = importResult == Permission.LOW_API
+                || importResult == Permission.GRANTED
+
+        if (!isExportAllowed) {
+            callback?.updateExportEnabled(isEnabled = true)
+            callback?.updateExportSummary(R.string.pref_summary_permission_need)
+        }
+
+        if (!isImportAllowed) {
+            callback?.updateImportEnabled(isEnabled = true)
+            callback?.updateImportSummary(R.string.pref_summary_permission_need)
+        }
+
+        if (isExportAllowed && isImportAllowed) {
+            viewModelScope.launch {
+                callback?.resetExportSummary()
+                callback?.updateExportEnabled(isEnabled = false)
+                setupBackground()
+                callback?.updateExportEnabled(isEnabled = true)
+            }
+        }
     }
 
     @RunPrivate suspend fun setupBackground() {
+        callback?.updateImportEnabled(isEnabled = false)
+        callback?.updateImportSummary(R.string.pref_summary_backup_import_search)
+
         val fileList = runBack { interactor.getFileList() }
 
-        callback?.updateExportEnabled(isEnabled = true)
-
-        if (fileList.isEmpty()) return
-
-        callback?.updateImportEnabled(isEnabled = true)
+        if (fileList.isEmpty()) {
+            callback?.updateImportSummary(R.string.pref_summary_backup_import_empty)
+        } else {
+            callback?.updateImportSummaryFound(fileList.size)
+            callback?.updateImportEnabled(isEnabled = true)
+        }
     }
 
     /**
@@ -62,20 +85,33 @@ class BackupPrefViewModel(
         interactor.resetFileList()
     }
 
+    //region Export functions
 
     /**
-     * Call [startExport] only if [result] equals [PermissionResult.LOW_API] or
-     * [PermissionResult.GRANTED]. Otherwise we must show dialog.
+     * If [result] == null it means what need check both permissions and if one of them is
+     * [Permission.FORBIDDEN] need call [onClickExport] with that [Permission].
+     *
+     * Call [startExport] only if [result] equals [Permission.LOW_API] or
+     * [Permission.GRANTED]. Otherwise we must show dialog.
      */
-    override fun onClickExport(result: PermissionResult?) {
-        if (result == null) return
+    override fun onClickExport(result: Permission?) {
+        if (result == null) {
+            val exportResult = callback?.getExportPermissionResult() ?: return
+            val importResult = callback?.getImportPermissionResult() ?: return
+
+            if (exportResult == Permission.FORBIDDEN || importResult == Permission.FORBIDDEN) {
+                onClickExport(Permission.FORBIDDEN)
+            } else {
+                onClickExport(exportResult)
+            }
+
+            return
+        }
 
         when (result) {
-            PermissionResult.ALLOWED -> callback?.showExportPermissionDialog()
-            PermissionResult.LOW_API, PermissionResult.GRANTED -> {
-                viewModelScope.launch { startExport() }
-            }
-            PermissionResult.FORBIDDEN -> callback?.showExportDenyDialog()
+            Permission.ALLOWED -> callback?.showExportPermissionDialog()
+            Permission.LOW_API, Permission.GRANTED -> viewModelScope.launch { startExport() }
+            Permission.FORBIDDEN -> callback?.showExportDenyDialog()
         }
     }
 
@@ -91,7 +127,6 @@ class BackupPrefViewModel(
                 /**
                  * Need update file list for feature import.
                  */
-                callback?.updateImportEnabled(isEnabled = false)
                 interactor.resetFileList()
                 setupBackground()
             }
@@ -101,16 +136,37 @@ class BackupPrefViewModel(
         }
     }
 
+    //endregion
+
+    //region Import functions
+
     /**
-     * Show permission only on [PermissionResult.ALLOWED] because we
-     * can display files which not located on SD card.
+     * If [result] == null it means what need check both permissions and if one of them is
+     * [Permission.FORBIDDEN] need call [onClickImport] with that [Permission].
+     *
+     * Call [prepareImportDialog] only if [result] equals [Permission.LOW_API] or
+     * [Permission.GRANTED]. Otherwise we must show dialog.
      */
-    override fun onClickImport(result: PermissionResult?) {
-        if (result == null) return
+    override fun onClickImport(result: Permission?) {
+        if (result == null) {
+            val exportResult = callback?.getExportPermissionResult() ?: return
+            val importResult = callback?.getImportPermissionResult() ?: return
+
+            if (exportResult == Permission.FORBIDDEN || importResult == Permission.FORBIDDEN) {
+                onClickImport(Permission.FORBIDDEN)
+            } else {
+                onClickImport(importResult)
+            }
+
+            return
+        }
 
         when (result) {
-            PermissionResult.ALLOWED -> callback?.showImportPermissionDialog()
-            else -> viewModelScope.launch { prepareImportDialog() }
+            Permission.ALLOWED -> callback?.showImportPermissionDialog()
+            Permission.LOW_API, Permission.GRANTED -> viewModelScope.launch {
+                prepareImportDialog()
+            }
+            Permission.FORBIDDEN -> callback?.showImportDenyDialog()
         }
     }
 
@@ -119,6 +175,7 @@ class BackupPrefViewModel(
         val titleArray = fileList.map { it.name }.toTypedArray()
 
         if (titleArray.isEmpty()) {
+            callback?.updateImportSummary(R.string.pref_summary_backup_import_empty)
             callback?.updateImportEnabled(isEnabled = false)
         } else {
             callback?.showImportDialog(titleArray)
@@ -144,5 +201,7 @@ class BackupPrefViewModel(
             callback?.sendNotifyInfoBroadcast()
         }
     }
+
+    //endregion
 
 }

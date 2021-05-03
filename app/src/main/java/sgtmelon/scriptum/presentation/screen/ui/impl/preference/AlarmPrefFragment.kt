@@ -229,7 +229,7 @@ class AlarmPrefFragment : ParentPreferenceFragment(), IAlarmPrefFragment {
         melodyPreference?.summary = summary
     }
 
-    override fun updateMelodySummary(summaryId: Int) {
+    override fun updateMelodySummary(@StringRes summaryId: Int) {
         melodyPreference?.summary = getString(summaryId)
     }
 

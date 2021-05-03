@@ -3,18 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:key="screen">
 
-    <Preference android:key="@string/pref_key_backup_export"
-        android:title="@string/pref_title_backup_export"
-        app:iconSpaceReserved="false" />
+    <PreferenceCategory android:title="@string/pref_header_main"
+        app:iconSpaceReserved="false">
 
-    <Preference android:key="@string/pref_key_backup_import"
-        android:title="@string/pref_title_backup_import"
-        app:iconSpaceReserved="false" />
+        <Preference android:key="@string/pref_key_backup_export"
+            android:title="@string/pref_title_backup_export"
+            app:iconSpaceReserved="false" />
 
-    <SwitchPreferenceCompat android:defaultValue="@bool/pref_backup_import_skip"
-        android:key="@string/pref_key_backup_skip"
-        android:summary="@string/pref_summary_backup_skip"
-        android:title="@string/pref_title_backup_skip"
-        app:iconSpaceReserved="false" />
+        <Preference android:key="@string/pref_key_backup_import"
+            android:title="@string/pref_title_backup_import"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_header_options"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreferenceCompat android:defaultValue="@bool/pref_backup_import_skip"
+            android:key="@string/pref_key_backup_skip"
+            android:summary="@string/pref_summary_backup_skip"
+            android:title="@string/pref_title_backup_skip"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
 
 </androidx.preference.PreferenceScreen>
