@@ -24,9 +24,13 @@ interface IAlarmPrefFragment {
 
     fun showMelodyPermissionDialog()
 
+    fun updateMelodyEnabled(isEnabled: Boolean)
+
     fun updateMelodyGroupEnabled(isEnabled: Boolean)
 
     fun updateMelodySummary(summary: String)
+
+    fun updateMelodySummary(@StringRes summaryId: Int)
 
     fun showMelodyDialog(titleArray: Array<String>, value: Int)
 

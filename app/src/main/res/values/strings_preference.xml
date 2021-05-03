@@ -76,6 +76,8 @@
     <string name="pref_summary_alarm_repeat">Will be used for repeat notification</string>
     <string name="pref_summary_alarm_signal">will be used for notify you</string>
     <string name="pref_summary_alarm_melody">Will be play on notification</string>
+    <string name="pref_summary_alarm_melody_prepare">We check out your melodies…</string>
+    <string name="pref_summary_alarm_melody_empty">Sorry, you don\'t have any melodies! :(</string>
     <string name="pref_summary_alarm_volume">Percent of volume: %d%%</string>
     <string name="pref_summary_alarm_increase">Smooth volume increase from minimum</string>
 
@@ -147,9 +149,6 @@
 
     <string name="pref_toast_melody_replace">
         Sorry, we can\'t set selected melody! We replace it. :(
-    </string>
-    <string name="pref_toast_melody_empty">
-        Sorry, you don\'t have any melodies! :(
     </string>
 
     <string name="pref_toast_develop_unlock" translatable="false">Hello! You become a developer!</string>

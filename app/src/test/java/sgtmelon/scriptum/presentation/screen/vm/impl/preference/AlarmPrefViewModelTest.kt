@@ -123,15 +123,21 @@ class AlarmPrefViewModelTest : ParentViewModelTest() {
 
             signalInteractor.state
             signalInteractor.getMelodyCheck()
+            callback.updateMelodyGroupEnabled(isEnabled = false)
+            callback.updateMelodyEnabled(isEnabled = false)
+            callback.updateMelodySummary(R.string.pref_summary_alarm_melody_empty)
 
             signalInteractor.state
             signalInteractor.getMelodyCheck()
             signalInteractor.getMelodyList()
+            callback.updateMelodyGroupEnabled(isEnabled = false)
+            callback.updateMelodyEnabled(isEnabled = false)
+            callback.updateMelodySummary(R.string.pref_summary_alarm_melody_empty)
 
             signalInteractor.state
             signalInteractor.getMelodyCheck()
             signalInteractor.getMelodyList()
-            callback.updateMelodyGroupEnabled(state.isMelody)
+            callback.updateMelodyGroupEnabled(isEnabled = false)
             callback.updateMelodySummary(item.title)
         }
     }
@@ -164,17 +170,21 @@ class AlarmPrefViewModelTest : ParentViewModelTest() {
 
             signalInteractor.state
             signalInteractor.getMelodyCheck()
-            callback.showToast(R.string.pref_toast_melody_empty)
+            callback.updateMelodyGroupEnabled(isEnabled = true)
+            callback.updateMelodyEnabled(isEnabled = false)
+            callback.updateMelodySummary(R.string.pref_summary_alarm_melody_empty)
 
             signalInteractor.state
             signalInteractor.getMelodyCheck()
             signalInteractor.getMelodyList()
-            callback.showToast(R.string.pref_toast_melody_empty)
+            callback.updateMelodyGroupEnabled(isEnabled = true)
+            callback.updateMelodyEnabled(isEnabled = false)
+            callback.updateMelodySummary(R.string.pref_summary_alarm_melody_empty)
 
             signalInteractor.state
             signalInteractor.getMelodyCheck()
             signalInteractor.getMelodyList()
-            callback.updateMelodyGroupEnabled(state.isMelody)
+            callback.updateMelodyGroupEnabled(isEnabled = true)
             callback.updateMelodySummary(item.title)
         }
     }
@@ -254,7 +264,9 @@ class AlarmPrefViewModelTest : ParentViewModelTest() {
             callback.updateSignalSummary(summary)
             signalInteractor.state
             signalInteractor.getMelodyList()
-            callback.showToast(R.string.pref_toast_melody_empty)
+            callback.updateMelodyGroupEnabled(isEnabled = true)
+            callback.updateMelodyEnabled(isEnabled = false)
+            callback.updateMelodySummary(R.string.pref_summary_alarm_melody_empty)
 
             interactor.updateSignal(valueArray)
             callback.updateSignalSummary(summary)
@@ -421,7 +433,8 @@ class AlarmPrefViewModelTest : ParentViewModelTest() {
         coVerifySequence {
             signalInteractor.setMelodyUri(item.title)
 
-            callback.showToast(R.string.pref_toast_melody_empty)
+            callback.updateMelodyEnabled(isEnabled = false)
+            callback.updateMelodySummary(R.string.pref_summary_alarm_melody_empty)
         }
     }
 

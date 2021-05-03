@@ -61,6 +61,8 @@
     </string>
     <string name="pref_summary_alarm_signal">Будет применяться, чтобы предупредить вас</string>
     <string name="pref_summary_alarm_melody">Будет играть в уведомлении</string>
+    <string name="pref_summary_alarm_melody_prepare">Мы проверяем ваши мелодии…</string>
+    <string name="pref_summary_alarm_melody_empty">Извините, у вас нет ни одной мелодии! :(</string>
     <string name="pref_summary_alarm_volume">Процент громкости: %d%%</string>
     <string name="pref_summary_alarm_increase">
         Плавное увеличение громкости начиная с минимальной
@@ -127,9 +129,6 @@
 
     <string name="pref_toast_melody_replace">
         Извините, мы не смогли установить выбранную мелодию! Мы заменили её. :(
-    </string>
-    <string name="pref_toast_melody_empty">
-        Извините, у вас нет ни одной мелодии! :(
     </string>
 
 </resources>

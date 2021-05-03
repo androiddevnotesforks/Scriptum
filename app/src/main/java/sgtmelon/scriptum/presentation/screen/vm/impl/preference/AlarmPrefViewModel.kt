@@ -48,22 +48,21 @@ class AlarmPrefViewModel(
 
     @RunPrivate suspend fun setupBackground() {
         val state = signalInteractor.state ?: return
-
-        fun onEmptyError() {
-            if (!state.isMelody) return
-
-            callback?.showToast(R.string.pref_toast_melody_empty)
-        }
-
         val melodyItem = runBack {
             val check = signalInteractor.getMelodyCheck() ?: return@runBack null
             val list = signalInteractor.getMelodyList()
 
             return@runBack list.getOrNull(check)
-        } ?: return onEmptyError()
+        }
 
         callback?.updateMelodyGroupEnabled(state.isMelody)
-        callback?.updateMelodySummary(melodyItem.title)
+
+        if (melodyItem != null) {
+            callback?.updateMelodySummary(melodyItem.title)
+        } else {
+            callback?.updateMelodyEnabled(isEnabled = false)
+            callback?.updateMelodySummary(R.string.pref_summary_alarm_melody_empty)
+        }
     }
 
     /**
@@ -99,10 +98,11 @@ class AlarmPrefViewModel(
             viewModelScope.launch {
                 val melodyList = runBack { signalInteractor.getMelodyList() }
 
+                callback?.updateMelodyGroupEnabled(isEnabled = true)
+
                 if (melodyList.isEmpty()) {
-                    callback?.showToast(R.string.pref_toast_melody_empty)
-                } else {
-                    callback?.updateMelodyGroupEnabled(isEnabled = true)
+                    callback?.updateMelodyEnabled(isEnabled = false)
+                    callback?.updateMelodySummary(R.string.pref_summary_alarm_melody_empty)
                 }
             }
         }
@@ -153,7 +153,10 @@ class AlarmPrefViewModel(
                     callback?.updateMelodySummary(resultTitle)
                     callback?.showToast(R.string.pref_toast_melody_replace)
                 }
-                else -> callback?.showToast(R.string.pref_toast_melody_empty)
+                else -> {
+                    callback?.updateMelodyEnabled(isEnabled = false)
+                    callback?.updateMelodySummary(R.string.pref_summary_alarm_melody_empty)
+                }
             }
         }
     }

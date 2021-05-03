@@ -23,7 +23,6 @@ import sgtmelon.scriptum.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.callback.preference.IAlarmPrefFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IAlarmPrefViewModel
-import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IPreferenceViewModel
 import javax.inject.Inject
 
 /**
@@ -62,6 +61,8 @@ class AlarmPrefFragment : ParentPreferenceFragment(), IAlarmPrefFragment {
 
     private val melodyControl: IMelodyControl by lazy { MelodyControl(context) }
 
+    //region System
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preference_alarm, rootKey)
 
@@ -82,7 +83,7 @@ class AlarmPrefFragment : ParentPreferenceFragment(), IAlarmPrefFragment {
          *
          * It's unnecessary doing inside [onResume], because after first start summary will be set.
          */
-        updateMelodySummary(summary = "")
+        updateMelodySummary(R.string.pref_summary_alarm_melody_prepare)
     }
 
     override fun onResume() {
@@ -96,7 +97,7 @@ class AlarmPrefFragment : ParentPreferenceFragment(), IAlarmPrefFragment {
         viewModel.onPause()
 
         /**
-         * After call [IPreferenceViewModel.onPause] this dialog will not have any items.
+         * After call [IAlarmPrefViewModel.onPause] this dialog will not have any items.
          */
         melodyDialog.safeDismiss()
     }
@@ -128,10 +129,12 @@ class AlarmPrefFragment : ParentPreferenceFragment(), IAlarmPrefFragment {
         }
     }
 
+    //endregion
 
     override fun showToast(@StringRes stringId: Int) {
         context?.showToast(stringId)
     }
+
 
     override fun setup() {
         repeatPreference?.setOnPreferenceClickListener {
@@ -212,6 +215,10 @@ class AlarmPrefFragment : ParentPreferenceFragment(), IAlarmPrefFragment {
         melodyPermissionDialog.show(fm, DialogFactory.Preference.MELODY_PERMISSION)
     }
 
+    override fun updateMelodyEnabled(isEnabled: Boolean) {
+        melodyPreference?.isEnabled = isEnabled
+    }
+
     override fun updateMelodyGroupEnabled(isEnabled: Boolean) {
         melodyPreference?.isEnabled = isEnabled
         increasePreference?.isEnabled = isEnabled
@@ -220,6 +227,10 @@ class AlarmPrefFragment : ParentPreferenceFragment(), IAlarmPrefFragment {
 
     override fun updateMelodySummary(summary: String) {
         melodyPreference?.summary = summary
+    }
+
+    override fun updateMelodySummary(summaryId: Int) {
+        melodyPreference?.summary = getString(summaryId)
     }
 
     override fun showMelodyDialog(titleArray: Array<String>, value: Int) = openState.tryInvoke {
