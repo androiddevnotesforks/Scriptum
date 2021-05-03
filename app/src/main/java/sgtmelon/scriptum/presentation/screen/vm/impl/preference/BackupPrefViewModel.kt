@@ -52,16 +52,14 @@ class BackupPrefViewModel(
         }
 
         if (isExportAllowed && isImportAllowed) {
-            viewModelScope.launch {
-                callback?.resetExportSummary()
-                callback?.updateExportEnabled(isEnabled = false)
-                setupBackground()
-                callback?.updateExportEnabled(isEnabled = true)
-            }
+            viewModelScope.launch { setupBackground() }
         }
     }
 
     @RunPrivate suspend fun setupBackground() {
+        callback?.updateExportEnabled(isEnabled = false)
+        callback?.resetExportSummary()
+
         callback?.updateImportEnabled(isEnabled = false)
         callback?.updateImportSummary(R.string.pref_summary_backup_import_search)
 
@@ -73,6 +71,8 @@ class BackupPrefViewModel(
             callback?.updateImportSummaryFound(fileList.size)
             callback?.updateImportEnabled(isEnabled = true)
         }
+
+        callback?.updateExportEnabled(isEnabled = true)
     }
 
     /**
@@ -85,29 +85,28 @@ class BackupPrefViewModel(
         interactor.resetFileList()
     }
 
-    //region Export functions
+    //region Export/import functions
 
     /**
-     * If [result] == null it means what need check both permissions and if one of them is
-     * [Permission.FORBIDDEN] need call [onClickExport] with that [Permission].
-     *
+     * This functions for check both permissions and if one of them is [Permission.FORBIDDEN]
+     * need call [onClickExport] with that [Permission].
+     */
+    override fun onClickExport() {
+        val exportResult = callback?.getExportPermissionResult() ?: return
+        val importResult = callback?.getImportPermissionResult() ?: return
+
+        if (exportResult == Permission.FORBIDDEN || importResult == Permission.FORBIDDEN) {
+            onClickExport(Permission.FORBIDDEN)
+        } else {
+            onClickExport(exportResult)
+        }
+    }
+
+    /**
      * Call [startExport] only if [result] equals [Permission.LOW_API] or
      * [Permission.GRANTED]. Otherwise we must show dialog.
      */
-    override fun onClickExport(result: Permission?) {
-        if (result == null) {
-            val exportResult = callback?.getExportPermissionResult() ?: return
-            val importResult = callback?.getImportPermissionResult() ?: return
-
-            if (exportResult == Permission.FORBIDDEN || importResult == Permission.FORBIDDEN) {
-                onClickExport(Permission.FORBIDDEN)
-            } else {
-                onClickExport(exportResult)
-            }
-
-            return
-        }
-
+    override fun onClickExport(result: sgtmelon.scriptum.domain.model.key.PermissionResult) {
         when (result) {
             Permission.ALLOWED -> callback?.showExportPermissionDialog()
             Permission.LOW_API, Permission.GRANTED -> viewModelScope.launch { startExport() }
@@ -136,31 +135,27 @@ class BackupPrefViewModel(
         }
     }
 
-    //endregion
-
-    //region Import functions
 
     /**
-     * If [result] == null it means what need check both permissions and if one of them is
-     * [Permission.FORBIDDEN] need call [onClickImport] with that [Permission].
-     *
+     * This functions for check both permissions and if one of them is [Permission.FORBIDDEN]
+     * need call [onClickImport] with that [Permission].
+     */
+    override fun onClickImport() {
+        val exportResult = callback?.getExportPermissionResult() ?: return
+        val importResult = callback?.getImportPermissionResult() ?: return
+
+        if (exportResult == Permission.FORBIDDEN || importResult == Permission.FORBIDDEN) {
+            onClickImport(Permission.FORBIDDEN)
+        } else {
+            onClickImport(importResult)
+        }
+    }
+
+    /**
      * Call [prepareImportDialog] only if [result] equals [Permission.LOW_API] or
      * [Permission.GRANTED]. Otherwise we must show dialog.
      */
-    override fun onClickImport(result: Permission?) {
-        if (result == null) {
-            val exportResult = callback?.getExportPermissionResult() ?: return
-            val importResult = callback?.getImportPermissionResult() ?: return
-
-            if (exportResult == Permission.FORBIDDEN || importResult == Permission.FORBIDDEN) {
-                onClickImport(Permission.FORBIDDEN)
-            } else {
-                onClickImport(importResult)
-            }
-
-            return
-        }
-
+    override fun onClickImport(result: sgtmelon.scriptum.domain.model.key.PermissionResult) {
         when (result) {
             Permission.ALLOWED -> callback?.showImportPermissionDialog()
             Permission.LOW_API, Permission.GRANTED -> viewModelScope.launch {

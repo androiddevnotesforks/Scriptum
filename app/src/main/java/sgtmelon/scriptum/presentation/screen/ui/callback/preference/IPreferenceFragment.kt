@@ -12,13 +12,11 @@ interface IPreferenceFragment {
 
     fun showToast(@StringRes stringId: Int)
 
-
     fun setupApp()
 
     fun setupOther()
 
     fun setupDeveloper()
-
 
     fun updateThemeSummary(summary: String?)
 

@@ -128,206 +128,224 @@ object DialogFactory {
         }
     }
 
-    class Preference(private val context: Context?, private val fm: FragmentManager) {
+    object Preference {
 
-        fun getThemeDialog(): SingleDialog {
-            val dialog = fm.findFragmentByTag(THEME) as? SingleDialog ?: SingleDialog()
+        class Main(private val context: Context?, private val fm: FragmentManager) {
 
-            if (context == null) return dialog
+            fun getThemeDialog(): SingleDialog {
+                val dialog = fm.findFragmentByTag(THEME) as? SingleDialog ?: SingleDialog()
 
-            dialog.title = context.getString(R.string.pref_title_app_theme)
-            dialog.itemArray = context.resources.getStringArray(R.array.pref_text_app_theme)
+                if (context == null) return dialog
 
-            return dialog
+                dialog.title = context.getString(R.string.pref_title_app_theme)
+                dialog.itemArray = context.resources.getStringArray(R.array.pref_text_app_theme)
+
+                return dialog
+            }
+
+            fun getAboutDialog(): AboutDialog {
+                return fm.findFragmentByTag(ABOUT) as? AboutDialog ?: AboutDialog()
+            }
+
+            companion object {
+                private const val PREFIX = "DIALOG_PREF_MAIN"
+
+                const val THEME = "${PREFIX}_THEME"
+                const val ABOUT = "${PREFIX}_ABOUT"
+            }
         }
 
+        class Backup(private val context: Context?, private val fm: FragmentManager) {
 
-        fun getExportPermissionDialog(): MessageDialog {
-            val dialog  = fm.findFragmentByTag(EXPORT_PERMISSION) as? MessageDialog
-                    ?: MessageDialog()
+            fun getExportPermissionDialog(): MessageDialog {
+                val dialog = fm.findFragmentByTag(EXPORT_PERMISSION) as? MessageDialog
+                        ?: MessageDialog()
 
-            if (context == null) return dialog
+                if (context == null) return dialog
 
-            dialog.type = MessageType.INFO
-            dialog.title = context.getString(R.string.dialog_title_export_permission)
-            dialog.message = context.getString(R.string.dialog_text_export_permission)
+                dialog.type = MessageType.INFO
+                dialog.title = context.getString(R.string.dialog_title_export_permission)
+                dialog.message = context.getString(R.string.dialog_text_export_permission)
 
-            return dialog
+                return dialog
+            }
+
+            fun getExportDenyDialog(): MessageDialog {
+                val dialog = fm.findFragmentByTag(EXPORT_DENY) as? MessageDialog
+                        ?: MessageDialog()
+
+                if (context == null) return dialog
+
+                dialog.type = MessageType.INFO
+                dialog.title = context.getString(R.string.dialog_title_export_deny)
+                dialog.message = context.getString(R.string.dialog_text_export_deny)
+
+                return dialog
+            }
+
+            fun getLoadingDialog(): LoadingDialog {
+                return fm.findFragmentByTag(LOADING) as? LoadingDialog ?: LoadingDialog()
+            }
+
+            fun getImportPermissionDialog(): MessageDialog {
+                val dialog = fm.findFragmentByTag(IMPORT_PERMISSION) as? MessageDialog
+                        ?: MessageDialog()
+
+                if (context == null) return dialog
+
+                dialog.type = MessageType.INFO
+                dialog.title = context.getString(R.string.dialog_title_import_permission)
+                dialog.message = context.getString(R.string.dialog_text_import_permission)
+
+                return dialog
+            }
+
+            fun getImportDenyDialog(): MessageDialog {
+                val dialog = fm.findFragmentByTag(IMPORT_DENY) as? MessageDialog
+                        ?: MessageDialog()
+
+                if (context == null) return dialog
+
+                dialog.type = MessageType.INFO
+                dialog.title = context.getString(R.string.dialog_title_import_deny)
+                dialog.message = context.getString(R.string.dialog_text_import_deny)
+
+                return dialog
+            }
+
+            fun getImportDialog(): SingleDialog {
+                val dialog = fm.findFragmentByTag(IMPORT) as? SingleDialog ?: SingleDialog()
+
+                if (context == null) return dialog
+
+                dialog.applyEnable = true
+                dialog.title = context.getString(R.string.dialog_title_import)
+
+                return dialog
+            }
+
+            companion object {
+                private const val PREFIX = "DIALOG_PREF_BACKUP"
+
+                const val EXPORT_PERMISSION = "${PREFIX}_EXPORT_PERMISSION"
+                const val EXPORT_DENY = "${PREFIX}_EXPORT_DENY"
+                const val IMPORT_PERMISSION = "${PREFIX}_IMPORT_PERMISSION"
+                const val IMPORT_DENY = "${PREFIX}_IMPORT_DENY"
+                const val IMPORT = "${PREFIX}_IMPORT"
+                const val LOADING = "${PREFIX}_LOADING"
+            }
         }
 
-        fun getExportDenyDialog(): MessageDialog {
-            val dialog  = fm.findFragmentByTag(EXPORT_DENY) as? MessageDialog
-                    ?: MessageDialog()
+        class Notes(private val context: Context?, private val fm: FragmentManager) {
 
-            if (context == null) return dialog
+            fun getSortDialog(): SingleDialog {
+                val dialog = fm.findFragmentByTag(SORT) as? SingleDialog ?: SingleDialog()
 
-            dialog.type = MessageType.INFO
-            dialog.title = context.getString(R.string.dialog_title_export_deny)
-            dialog.message = context.getString(R.string.dialog_text_export_deny)
+                if (context == null) return dialog
 
-            return dialog
+                dialog.title = context.getString(R.string.pref_title_note_sort)
+                dialog.itemArray = context.resources.getStringArray(R.array.pref_text_note_sort)
+
+                return dialog
+            }
+
+            fun getColorDialog(): ColorDialog {
+                val dialog = fm.findFragmentByTag(COLOR) as? ColorDialog ?: ColorDialog()
+
+                if (context == null) return dialog
+
+                dialog.title = context.getString(R.string.pref_title_note_color)
+
+                return dialog
+            }
+
+            fun getSavePeriodDialog(): SingleDialog {
+                val dialog = fm.findFragmentByTag(SAVE_PERIOD) as? SingleDialog ?: SingleDialog()
+
+                if (context == null) return dialog
+
+                dialog.title = context.getString(R.string.pref_title_note_save_period)
+                dialog.itemArray = context.resources.getStringArray(R.array.pref_text_note_save_period)
+
+                return dialog
+            }
+
+            companion object {
+                private const val PREFIX = "DIALOG_PREF_NOTES"
+
+                const val SORT = "${PREFIX}_SORT"
+                const val COLOR = "${PREFIX}_COLOR"
+                const val SAVE_PERIOD = "${PREFIX}_SAVE_PERIOD"
+            }
         }
 
-        fun getLoadingDialog(): LoadingDialog {
-            return fm.findFragmentByTag(LOADING) as? LoadingDialog ?: LoadingDialog()
-        }
+        class Alarm(private val context: Context?, private val fm: FragmentManager) {
 
-        fun getImportPermissionDialog(): MessageDialog {
-            val dialog = fm.findFragmentByTag(IMPORT_PERMISSION) as? MessageDialog
-                    ?: MessageDialog()
+            fun getRepeatDialog(): SingleDialog {
+                val dialog = fm.findFragmentByTag(REPEAT) as? SingleDialog ?: SingleDialog()
 
-            if (context == null) return dialog
+                if (context == null) return dialog
 
-            dialog.type = MessageType.INFO
-            dialog.title = context.getString(R.string.dialog_title_import_permission)
-            dialog.message = context.getString(R.string.dialog_text_import_permission)
+                dialog.title = context.getString(R.string.pref_title_alarm_repeat)
+                dialog.itemArray = context.resources.getStringArray(R.array.pref_text_alarm_repeat)
 
-            return dialog
-        }
+                return dialog
+            }
 
-        fun getImportDenyDialog(): MessageDialog {
-            val dialog = fm.findFragmentByTag(IMPORT_DENY) as? MessageDialog
-                    ?: MessageDialog()
+            fun getSignalDialog(): MultipleDialog {
+                val dialog = fm.findFragmentByTag(SIGNAL) as? MultipleDialog ?: MultipleDialog()
 
-            if (context == null) return dialog
+                if (context == null) return dialog
 
-            dialog.type = MessageType.INFO
-            dialog.title = context.getString(R.string.dialog_title_import_deny)
-            dialog.message = context.getString(R.string.dialog_text_import_deny)
+                dialog.needOneSelect = true
+                dialog.title = context.getString(R.string.pref_title_alarm_signal)
+                dialog.itemArray = context.resources.getStringArray(R.array.pref_text_alarm_signal)
 
-            return dialog
-        }
+                return dialog
+            }
 
-        fun getImportDialog(): SingleDialog {
-            val dialog = fm.findFragmentByTag(IMPORT) as? SingleDialog ?: SingleDialog()
+            fun getMelodyPermissionDialog(): MessageDialog {
+                val dialog = fm.findFragmentByTag(MELODY_PERMISSION) as? MessageDialog
+                        ?: MessageDialog()
 
-            if (context == null) return dialog
+                if (context == null) return dialog
 
-            dialog.applyEnable = true
-            dialog.title = context.getString(R.string.dialog_title_import)
+                dialog.type = MessageType.INFO
+                dialog.title = context.getString(R.string.dialog_title_melody_permission)
+                dialog.message = context.getString(R.string.dialog_text_melody_permission)
 
-            return dialog
-        }
+                return dialog
+            }
 
+            fun getMelodyDialog(): SingleDialog {
+                val dialog = fm.findFragmentByTag(MELODY) as? SingleDialog ?: SingleDialog()
 
-        fun getSortDialog(): SingleDialog {
-            val dialog = fm.findFragmentByTag(SORT) as? SingleDialog ?: SingleDialog()
+                if (context == null) return dialog
 
-            if (context == null) return dialog
+                dialog.title = context.getString(R.string.pref_title_alarm_melody)
 
-            dialog.title = context.getString(R.string.pref_title_note_sort)
-            dialog.itemArray = context.resources.getStringArray(R.array.pref_text_note_sort)
+                return dialog
+            }
 
-            return dialog
-        }
+            fun getVolumeDialog(): VolumeDialog {
+                val dialog = fm.findFragmentByTag(VOLUME) as? VolumeDialog ?: VolumeDialog()
 
-        fun getColorDialog(): ColorDialog {
-            val dialog = fm.findFragmentByTag(COLOR) as? ColorDialog ?: ColorDialog()
+                if (context == null) return dialog
 
-            if (context == null) return dialog
+                dialog.title = context.getString(R.string.pref_title_alarm_volume)
 
-            dialog.title = context.getString(R.string.pref_title_note_color)
+                return dialog
+            }
 
-            return dialog
-        }
+            companion object {
+                private const val PREFIX = "DIALOG_PREF_ALARM"
 
-        fun getSavePeriodDialog(): SingleDialog {
-            val dialog = fm.findFragmentByTag(SAVE_PERIOD) as? SingleDialog ?: SingleDialog()
-
-            if (context == null) return dialog
-
-            dialog.title = context.getString(R.string.pref_title_note_save_period)
-            dialog.itemArray = context.resources.getStringArray(R.array.pref_text_note_save_period)
-
-            return dialog
-        }
-
-
-        fun getRepeatDialog(): SingleDialog {
-            val dialog = fm.findFragmentByTag(REPEAT) as? SingleDialog ?: SingleDialog()
-
-            if (context == null) return dialog
-
-            dialog.title = context.getString(R.string.pref_title_alarm_repeat)
-            dialog.itemArray = context.resources.getStringArray(R.array.pref_text_alarm_repeat)
-
-            return dialog
-        }
-
-        fun getSignalDialog(): MultipleDialog {
-            val dialog = fm.findFragmentByTag(SIGNAL) as? MultipleDialog ?: MultipleDialog()
-
-            if (context == null) return dialog
-
-            dialog.needOneSelect = true
-            dialog.title = context.getString(R.string.pref_title_alarm_signal)
-            dialog.itemArray = context.resources.getStringArray(R.array.pref_text_alarm_signal)
-
-            return dialog
-        }
-
-        fun getMelodyPermissionDialog(): MessageDialog {
-            val dialog  = fm.findFragmentByTag(MELODY_PERMISSION) as? MessageDialog
-                    ?: MessageDialog()
-
-            if (context == null) return dialog
-
-            dialog.type = MessageType.INFO
-            dialog.title = context.getString(R.string.dialog_title_melody_permission)
-            dialog.message = context.getString(R.string.dialog_text_melody_permission)
-
-            return dialog
-        }
-
-        fun getMelodyDialog(): SingleDialog {
-            val dialog = fm.findFragmentByTag(MELODY) as? SingleDialog ?: SingleDialog()
-
-            if (context == null) return dialog
-
-            dialog.title = context.getString(R.string.pref_title_alarm_melody)
-
-            return dialog
-        }
-
-        fun getVolumeDialog(): VolumeDialog {
-            val dialog = fm.findFragmentByTag(VOLUME) as? VolumeDialog ?: VolumeDialog()
-
-            if (context == null) return dialog
-
-            dialog.title = context.getString(R.string.pref_title_alarm_volume)
-
-            return dialog
-        }
-
-
-        fun getAboutDialog(): AboutDialog {
-            return fm.findFragmentByTag(ABOUT) as? AboutDialog ?: AboutDialog()
-        }
-
-        companion object {
-            private const val PREFIX = "DIALOG_PREF"
-
-            const val THEME = "${PREFIX}_THEME"
-
-            const val EXPORT_PERMISSION = "${PREFIX}_EXPORT_PERMISSION"
-            const val EXPORT_DENY = "${PREFIX}_EXPORT_DENY"
-            const val IMPORT_PERMISSION = "${PREFIX}_IMPORT_PERMISSION"
-            const val IMPORT_DENY = "${PREFIX}_IMPORT_DENY"
-            const val IMPORT = "${PREFIX}_IMPORT"
-            const val LOADING = "${PREFIX}_LOADING"
-
-            const val SORT = "${PREFIX}_SORT"
-            const val COLOR = "${PREFIX}_COLOR"
-            const val SAVE_PERIOD = "${PREFIX}_SAVE_PERIOD"
-
-            const val REPEAT = "${PREFIX}_REPEAT"
-            const val SIGNAL = "${PREFIX}_SIGNAL"
-            const val MELODY_PERMISSION = "${PREFIX}_MELODY_PERMISSION"
-            const val MELODY = "${PREFIX}_MELODY"
-            const val VOLUME = "${PREFIX}_VOLUME"
-
-            const val ABOUT = "${PREFIX}_ABOUT"
+                const val REPEAT = "${PREFIX}_REPEAT"
+                const val SIGNAL = "${PREFIX}_SIGNAL"
+                const val MELODY_PERMISSION = "${PREFIX}_MELODY_PERMISSION"
+                const val MELODY = "${PREFIX}_MELODY"
+                const val VOLUME = "${PREFIX}_VOLUME"
+            }
         }
     }
-
 }

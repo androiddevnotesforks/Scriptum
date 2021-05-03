@@ -39,7 +39,7 @@ class AlarmPrefFragment : ParentPreferenceFragment(), IAlarmPrefFragment {
 
     //region Dialogs
 
-    private val dialogFactory by lazy { DialogFactory.Preference(context, fm) }
+    private val dialogFactory by lazy { DialogFactory.Preference.Alarm(context, fm) }
 
     private val repeatDialog by lazy { dialogFactory.getRepeatDialog() }
     private val signalDialog by lazy { dialogFactory.getSignalDialog() }
@@ -200,7 +200,7 @@ class AlarmPrefFragment : ParentPreferenceFragment(), IAlarmPrefFragment {
     }
 
     override fun showRepeatDialog(@Repeat value: Int) = openState.tryInvoke {
-        repeatDialog.setArguments(value).show(fm, DialogFactory.Preference.REPEAT)
+        repeatDialog.setArguments(value).show(fm, DialogFactory.Preference.Alarm.REPEAT)
     }
 
     override fun updateSignalSummary(summary: String?) {
@@ -208,11 +208,11 @@ class AlarmPrefFragment : ParentPreferenceFragment(), IAlarmPrefFragment {
     }
 
     override fun showSignalDialog(valueArray: BooleanArray) = openState.tryInvoke {
-        signalDialog.setArguments(valueArray).show(fm, DialogFactory.Preference.SIGNAL)
+        signalDialog.setArguments(valueArray).show(fm, DialogFactory.Preference.Alarm.SIGNAL)
     }
 
     override fun showMelodyPermissionDialog() = openState.tryInvoke {
-        melodyPermissionDialog.show(fm, DialogFactory.Preference.MELODY_PERMISSION)
+        melodyPermissionDialog.show(fm, DialogFactory.Preference.Alarm.MELODY_PERMISSION)
     }
 
     override fun updateMelodyEnabled(isEnabled: Boolean) {
@@ -235,7 +235,7 @@ class AlarmPrefFragment : ParentPreferenceFragment(), IAlarmPrefFragment {
 
     override fun showMelodyDialog(titleArray: Array<String>, value: Int) = openState.tryInvoke {
         melodyDialog.itemArray = titleArray
-        melodyDialog.setArguments(value).show(fm, DialogFactory.Preference.MELODY)
+        melodyDialog.setArguments(value).show(fm, DialogFactory.Preference.Alarm.MELODY)
     }
 
     override fun playMelody(stringUri: String) {
@@ -253,6 +253,6 @@ class AlarmPrefFragment : ParentPreferenceFragment(), IAlarmPrefFragment {
     }
 
     override fun showVolumeDialog(value: Int) = openState.tryInvoke {
-        volumeDialog.setArguments(value).show(fm, DialogFactory.Preference.VOLUME)
+        volumeDialog.setArguments(value).show(fm, DialogFactory.Preference.Alarm.VOLUME)
     }
 }

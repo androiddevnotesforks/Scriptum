@@ -27,7 +27,7 @@ class NotePrefFragment : ParentPreferenceFragment(), INotePrefFragment {
 
     //region Dialogs
 
-    private val dialogFactory by lazy { DialogFactory.Preference(context, fm) }
+    private val dialogFactory by lazy { DialogFactory.Preference.Notes(context, fm) }
 
     private val sortDialog by lazy { dialogFactory.getSortDialog() }
     private val colorDialog by lazy { dialogFactory.getColorDialog() }
@@ -44,6 +44,8 @@ class NotePrefFragment : ParentPreferenceFragment(), INotePrefFragment {
     //endregion
 
     private val broadcastControl by lazy { BroadcastControl[context] }
+
+    //region System
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preference_note, rootKey)
@@ -74,6 +76,8 @@ class NotePrefFragment : ParentPreferenceFragment(), INotePrefFragment {
         super.onSaveInstanceState(outState)
         openState.save(outState)
     }
+
+    //endregion
 
     override fun setup() {
         sortPreference?.setOnPreferenceClickListener {
@@ -112,7 +116,7 @@ class NotePrefFragment : ParentPreferenceFragment(), INotePrefFragment {
     }
 
     override fun showSortDialog(@Sort value: Int) = openState.tryInvoke {
-        sortDialog.setArguments(value).show(fm, DialogFactory.Preference.SORT)
+        sortDialog.setArguments(value).show(fm, DialogFactory.Preference.Notes.SORT)
     }
 
     override fun updateColorSummary(summary: String?) {
@@ -120,7 +124,7 @@ class NotePrefFragment : ParentPreferenceFragment(), INotePrefFragment {
     }
 
     override fun showColorDialog(@Color color: Int) = openState.tryInvoke {
-        colorDialog.setArguments(color).show(fm, DialogFactory.Preference.COLOR)
+        colorDialog.setArguments(color).show(fm, DialogFactory.Preference.Notes.COLOR)
     }
 
     override fun updateSavePeriodSummary(summary: String?) {
@@ -128,7 +132,7 @@ class NotePrefFragment : ParentPreferenceFragment(), INotePrefFragment {
     }
 
     override fun showSaveTimeDialog(value: Int) = openState.tryInvoke {
-        savePeriodDialog.setArguments(value).show(fm, DialogFactory.Preference.SAVE_PERIOD)
+        savePeriodDialog.setArguments(value).show(fm, DialogFactory.Preference.Notes.SAVE_PERIOD)
     }
 
     //region Broadcast functions

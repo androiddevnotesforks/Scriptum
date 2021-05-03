@@ -30,7 +30,7 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
 
     //region Dialogs
 
-    private val dialogFactory by lazy { DialogFactory.Preference(context, fm) }
+    private val dialogFactory by lazy { DialogFactory.Preference.Main(context, fm) }
 
     private val themeDialog by lazy { dialogFactory.getThemeDialog() }
     private val aboutDialog by lazy { dialogFactory.getAboutDialog() }
@@ -48,6 +48,8 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
     private val developerPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_other_develop)) }
 
     //endregion
+
+    //region System
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preference_main, rootKey)
@@ -76,10 +78,11 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
         openState.save(outState)
     }
 
+    //endregion
+
     override fun showToast(@StringRes stringId: Int) {
         context?.showToast(stringId)
     }
-
 
     override fun setupApp() {
         themePreference?.setOnPreferenceClickListener {
@@ -150,7 +153,7 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
         }
 
         findPreference<Preference>(getString(R.string.pref_key_other_about))?.setOnPreferenceClickListener {
-            openState.tryInvoke { aboutDialog.show(fm, DialogFactory.Preference.ABOUT) }
+            openState.tryInvoke { aboutDialog.show(fm, DialogFactory.Preference.Main.ABOUT) }
             return@setOnPreferenceClickListener true
         }
 
@@ -177,13 +180,12 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
         }
     }
 
-
     override fun updateThemeSummary(summary: String?) {
         themePreference?.summary = summary
     }
 
     override fun showThemeDialog(@Theme value: Int) = openState.tryInvoke {
-        themeDialog.setArguments(value).show(fm, DialogFactory.Preference.THEME)
+        themeDialog.setArguments(value).show(fm, DialogFactory.Preference.Main.THEME)
     }
 
 }

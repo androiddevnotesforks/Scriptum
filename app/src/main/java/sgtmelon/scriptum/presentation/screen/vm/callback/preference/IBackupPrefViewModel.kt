@@ -12,9 +12,13 @@ interface IBackupPrefViewModel : IParentViewModel {
 
     fun onPause()
 
-    fun onClickExport(result: PermissionResult?)
+    fun onClickExport()
 
-    fun onClickImport(result: PermissionResult?)
+    fun onClickExport(result: PermissionResult)
+
+    fun onClickImport()
+
+    fun onClickImport(result: PermissionResult)
 
     fun onResultImport(name: String)
 

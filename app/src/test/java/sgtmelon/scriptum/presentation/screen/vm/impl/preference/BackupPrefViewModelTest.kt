@@ -127,6 +127,34 @@ class BackupPrefViewModelTest : ParentViewModelTest() {
         }
     }
 
+    @Test fun onClickExport_withResult() {
+        coEvery { spyViewModel.startExport() } returns Unit
+
+        for (it in PermissionResult.values()) {
+            spyViewModel.onClickExport(it)
+        }
+
+        spyViewModel.onClickExport(result = null)
+
+        coVerifyOrder {
+            spyViewModel.onClickExport(PermissionResult.LOW_API)
+            spyViewModel.startExport()
+
+            spyViewModel.onClickExport(PermissionResult.ALLOWED)
+            spyViewModel.callback
+            callback.showExportPermissionDialog()
+
+            spyViewModel.onClickExport(PermissionResult.FORBIDDEN)
+            spyViewModel.callback
+            callback.showExportDenyDialog()
+
+            spyViewModel.onClickExport(PermissionResult.GRANTED)
+            spyViewModel.startExport()
+
+            spyViewModel.onClickExport(result = null)
+        }
+    }
+
     @Test fun startExport() = startCoTest {
         val path = nextString()
 
@@ -164,7 +192,35 @@ class BackupPrefViewModelTest : ParentViewModelTest() {
         }
     }
 
-    @Test fun onClickImport() = startCoTest {
+
+    @Test fun onClickImport() {
+        coEvery { spyViewModel.prepareImportDialog() } returns Unit
+
+        for (it in PermissionResult.values()) {
+            spyViewModel.onClickImport(it)
+        }
+
+        spyViewModel.onClickImport(result = null)
+
+        coVerifyOrder {
+            spyViewModel.onClickImport(PermissionResult.LOW_API)
+            spyViewModel.prepareImportDialog()
+
+            spyViewModel.onClickImport(PermissionResult.ALLOWED)
+            spyViewModel.callback
+            callback.showImportPermissionDialog()
+
+            spyViewModel.onClickImport(PermissionResult.FORBIDDEN)
+            spyViewModel.prepareImportDialog()
+
+            spyViewModel.onClickImport(PermissionResult.GRANTED)
+            spyViewModel.prepareImportDialog()
+
+            spyViewModel.onClickImport(result = null)
+        }
+    }
+
+    @Test fun onClickImport_withResult() {
         coEvery { spyViewModel.prepareImportDialog() } returns Unit
 
         for (it in PermissionResult.values()) {

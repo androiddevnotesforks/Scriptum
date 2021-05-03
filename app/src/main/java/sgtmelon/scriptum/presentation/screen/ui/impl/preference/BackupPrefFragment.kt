@@ -40,7 +40,7 @@ class BackupPrefFragment : ParentPreferenceFragment(), IBackupPrefFragment {
 
     //region Dialogs
 
-    private val dialogFactory by lazy { DialogFactory.Preference(context, fm) }
+    private val dialogFactory by lazy { DialogFactory.Preference.Backup(context, fm) }
 
     private val exportPermissionDialog by lazy { dialogFactory.getExportPermissionDialog() }
     private val exportDenyDialog by lazy { dialogFactory.getExportDenyDialog() }
@@ -60,6 +60,8 @@ class BackupPrefFragment : ParentPreferenceFragment(), IBackupPrefFragment {
     //endregion
 
     private val broadcastControl by lazy { BroadcastControl[context] }
+
+    //region System
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preference_backup, rootKey)
@@ -118,6 +120,8 @@ class BackupPrefFragment : ParentPreferenceFragment(), IBackupPrefFragment {
         }
     }
 
+    //endregion
+
     //region Toast functions
 
     override fun showToast(@StringRes stringId: Int) {
@@ -140,12 +144,12 @@ class BackupPrefFragment : ParentPreferenceFragment(), IBackupPrefFragment {
 
     override fun setup() {
         exportPreference?.setOnPreferenceClickListener {
-            viewModel.onClickExport(result = null)
+            viewModel.onClickExport()
             return@setOnPreferenceClickListener true
         }
 
         importPreference?.setOnPreferenceClickListener {
-            viewModel.onClickImport(result = null)
+            viewModel.onClickImport()
             return@setOnPreferenceClickListener true
         }
 
@@ -206,15 +210,15 @@ class BackupPrefFragment : ParentPreferenceFragment(), IBackupPrefFragment {
     }
 
     override fun showExportPermissionDialog() {
-        exportPermissionDialog.show(fm, DialogFactory.Preference.EXPORT_PERMISSION)
+        exportPermissionDialog.show(fm, DialogFactory.Preference.Backup.EXPORT_PERMISSION)
     }
 
     override fun showExportDenyDialog() {
-        exportDenyDialog.show(fm, DialogFactory.Preference.EXPORT_DENY)
+        exportDenyDialog.show(fm, DialogFactory.Preference.Backup.EXPORT_DENY)
     }
 
     override fun showExportLoadingDialog() = openState.tryInvoke {
-        loadingDialog.show(fm, DialogFactory.Preference.LOADING)
+        loadingDialog.show(fm, DialogFactory.Preference.Backup.LOADING)
     }
 
     override fun hideExportLoadingDialog() = loadingDialog.safeDismiss()
@@ -238,22 +242,22 @@ class BackupPrefFragment : ParentPreferenceFragment(), IBackupPrefFragment {
     }
 
     override fun showImportPermissionDialog() = openState.tryInvoke {
-        importPermissionDialog.show(fm, DialogFactory.Preference.IMPORT_PERMISSION)
+        importPermissionDialog.show(fm, DialogFactory.Preference.Backup.IMPORT_PERMISSION)
     }
 
     override fun showImportDenyDialog() {
-        importDenyDialog.show(fm, DialogFactory.Preference.IMPORT_DENY)
+        importDenyDialog.show(fm, DialogFactory.Preference.Backup.IMPORT_DENY)
     }
 
     override fun showImportDialog(titleArray: Array<String>) = openState.tryInvoke {
         openState.tag = OpenState.Tag.DIALOG
 
         importDialog.itemArray = titleArray
-        importDialog.show(fm, DialogFactory.Preference.IMPORT)
+        importDialog.show(fm, DialogFactory.Preference.Backup.IMPORT)
     }
 
     override fun showImportLoadingDialog() = openState.tryInvoke(OpenState.Tag.DIALOG) {
-        loadingDialog.show(fm, DialogFactory.Preference.LOADING)
+        loadingDialog.show(fm, DialogFactory.Preference.Backup.LOADING)
     }
 
     override fun hideImportLoadingDialog() = loadingDialog.safeDismiss()
