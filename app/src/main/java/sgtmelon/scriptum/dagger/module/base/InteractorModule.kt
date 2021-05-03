@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.dagger.module.base
 
-import android.content.res.Resources
 import dagger.Module
 import dagger.Provides
 import sgtmelon.scriptum.dagger.ActivityScope
@@ -22,6 +21,7 @@ import sgtmelon.scriptum.domain.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.INotificationInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.IAlarmPrefInteractor
 import sgtmelon.scriptum.domain.interactor.callback.preference.IBackupPrefInteractor
 import sgtmelon.scriptum.domain.interactor.callback.preference.INotePrefInteractor
 import sgtmelon.scriptum.domain.interactor.callback.preference.IPreferenceInteractor
@@ -40,6 +40,7 @@ import sgtmelon.scriptum.domain.interactor.impl.note.TextNoteInteractor
 import sgtmelon.scriptum.domain.interactor.impl.notification.AlarmInteractor
 import sgtmelon.scriptum.domain.interactor.impl.notification.NotificationInteractor
 import sgtmelon.scriptum.domain.interactor.impl.notification.SignalInteractor
+import sgtmelon.scriptum.domain.interactor.impl.preference.AlarmPrefInteractor
 import sgtmelon.scriptum.domain.interactor.impl.preference.BackupPrefInteractor
 import sgtmelon.scriptum.domain.interactor.impl.preference.NotePrefInteractor
 import sgtmelon.scriptum.domain.interactor.impl.preference.PreferenceInteractor
@@ -175,11 +176,10 @@ class InteractorModule {
     @Provides
     @ActivityScope
     fun providePreferenceInteractor(
-        resources: Resources,
-        preferenceRepo: IPreferenceRepo,
-        intConverter: IntConverter
+        summaryProvider: SummaryProvider,
+        preferenceRepo: IPreferenceRepo
     ): IPreferenceInteractor {
-        return PreferenceInteractor(SummaryProvider(resources), preferenceRepo, intConverter)
+        return PreferenceInteractor(summaryProvider, preferenceRepo)
     }
 
     @Provides
@@ -203,10 +203,20 @@ class InteractorModule {
     @Provides
     @ActivityScope
     fun provideNotePrefInteractor(
-        resources: Resources,
+        summaryProvider: SummaryProvider,
         preferenceRepo: IPreferenceRepo
     ): INotePrefInteractor {
-        return NotePrefInteractor(SummaryProvider(resources), preferenceRepo)
+        return NotePrefInteractor(summaryProvider, preferenceRepo)
+    }
+
+    @Provides
+    @ActivityScope
+    fun provideAlarmPrefInteractor(
+        summaryProvider: SummaryProvider,
+        preferenceRepo: IPreferenceRepo,
+        intConverter: IntConverter
+    ): IAlarmPrefInteractor {
+        return AlarmPrefInteractor(summaryProvider, preferenceRepo, intConverter)
     }
 
     @Provides

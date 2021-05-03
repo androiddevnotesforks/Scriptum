@@ -9,6 +9,7 @@
     <string name="pref_header_common">Common</string>
     <string name="pref_header_save">Save</string>
     <string name="pref_header_alarm">Notifications</string>
+    <string name="pref_header_sound">Sound</string>
     <string name="pref_header_other">Other</string>
 
     <string name="pref_header_entities_print" translatable="false">Print of entities</string>
@@ -160,19 +161,20 @@
     <string name="pref_key_first_start" translatable="false">key_first_start</string>
 
     <string name="pref_key_app_theme" translatable="false">key_app_theme</string>
-    <string name="pref_key_app_backup" translatable="false">key_app_backup</string>
-    <string name="pref_key_app_note" translatable="false">key_app_note</string>
 
+    <string name="pref_key_backup" translatable="false">key_backup</string>
     <string name="pref_key_backup_export" translatable="false">key_backup_export</string>
     <string name="pref_key_backup_import" translatable="false">key_backup_import</string>
     <string name="pref_key_backup_skip" translatable="false">key_backup_skip</string>
 
+    <string name="pref_key_note" translatable="false">key_note</string>
     <string name="pref_key_note_sort" translatable="false">key_note_sort</string>
     <string name="pref_key_note_color" translatable="false">key_note_color</string>
     <string name="pref_key_note_pause" translatable="false">key_note_pause</string>
     <string name="pref_key_note_auto" translatable="false">key_note_auto</string>
     <string name="pref_key_note_time" translatable="false">key_note_time</string>
 
+    <string name="pref_key_alarm" translatable="false">key_alarm</string>
     <string name="pref_key_alarm_repeat" translatable="false">key_alarm_repeat</string>
     <string name="pref_key_alarm_signal" translatable="false">key_alarm_signal</string>
     <string name="pref_key_alarm_melody" translatable="false">key_alarm_melody</string>

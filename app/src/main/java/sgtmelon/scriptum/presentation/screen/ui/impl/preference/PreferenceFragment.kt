@@ -1,22 +1,16 @@
 package sgtmelon.scriptum.presentation.screen.ui.impl.preference
 
-import android.Manifest
 import android.content.ActivityNotFoundException
 import android.content.DialogInterface
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import androidx.annotation.StringRes
 import androidx.preference.Preference
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.*
-import sgtmelon.scriptum.domain.model.key.PermissionResult
 import sgtmelon.scriptum.domain.model.state.OpenState
-import sgtmelon.scriptum.domain.model.state.PermissionState
 import sgtmelon.scriptum.extension.*
-import sgtmelon.scriptum.presentation.control.system.MelodyControl
-import sgtmelon.scriptum.presentation.control.system.callback.IMelodyControl
 import sgtmelon.scriptum.presentation.factory.DialogFactory
 import sgtmelon.scriptum.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
@@ -33,22 +27,12 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
     @Inject internal lateinit var viewModel: IPreferenceViewModel
 
     private val openState = OpenState()
-    private val readPermissionState by lazy {
-        PermissionState(Manifest.permission.READ_EXTERNAL_STORAGE, activity)
-    }
 
     //region Dialogs
 
     private val dialogFactory by lazy { DialogFactory.Preference(context, fm) }
 
     private val themeDialog by lazy { dialogFactory.getThemeDialog() }
-
-    private val repeatDialog by lazy { dialogFactory.getRepeatDialog() }
-    private val signalDialog by lazy { dialogFactory.getSignalDialog() }
-    private val melodyPermissionDialog by lazy { dialogFactory.getMelodyPermissionDialog() }
-    private val melodyDialog by lazy { dialogFactory.getMelodyDialog() }
-    private val volumeDialog by lazy { dialogFactory.getVolumeDialog() }
-
     private val aboutDialog by lazy { dialogFactory.getAboutDialog() }
 
     //endregion
@@ -56,20 +40,14 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
     //region Preferences
 
     private val themePreference by lazy { findPreference<Preference>(getString(R.string.pref_key_app_theme)) }
-    private val backupPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_app_backup)) }
-    private val notePreference by lazy { findPreference<Preference>(getString(R.string.pref_key_app_note)) }
 
-    private val repeatPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_alarm_repeat)) }
-    private val signalPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_alarm_signal)) }
-    private val melodyPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_alarm_melody)) }
-    private val increasePreference by lazy { findPreference<Preference>(getString(R.string.pref_key_alarm_increase)) }
-    private val volumePreference by lazy { findPreference<Preference>(getString(R.string.pref_key_alarm_volume)) }
+    private val backupPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_backup)) }
+    private val notePreference by lazy { findPreference<Preference>(getString(R.string.pref_key_note)) }
+    private val alarmPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_alarm)) }
 
     private val developerPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_other_develop)) }
 
     //endregion
-
-    private val melodyControl: IMelodyControl by lazy { MelodyControl(context) }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preference_main, rootKey)
@@ -80,18 +58,7 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        melodyControl.initLazy()
-
         openState.get(savedInstanceState)
-
-        /**
-         * Need reset default summary for [melodyPreference] in [onActivityCreated], because
-         * [viewModel] will update summary inside coroutine.
-         *
-         * It's unnecessary doing inside [onResume], because after first start summary will be set.
-         */
-        updateMelodySummary(summary = "")
     }
 
     override fun onResume() {
@@ -99,22 +66,9 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
         viewModel.onSetup()
     }
 
-    override fun onPause() {
-        super.onPause()
-
-        viewModel.onPause()
-
-        /**
-         * After call [IPreferenceViewModel.onPause] this dialog will not have any items.
-         */
-        melodyDialog.safeDismiss()
-    }
-
     override fun onDestroy() {
         super.onDestroy()
-
         viewModel.onDestroy()
-        melodyControl.release()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -122,25 +76,10 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
         openState.save(outState)
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        val isGranted = grantResults.firstOrNull()?.isGranted() ?: return
-        val result = if (isGranted) PermissionResult.GRANTED else PermissionResult.FORBIDDEN
-
-        when (requestCode) {
-            PermissionRequest.MELODY -> viewModel.onClickMelody(result)
-        }
-    }
-
-
     override fun showToast(@StringRes stringId: Int) {
         context?.showToast(stringId)
     }
+
 
     override fun setupApp() {
         themePreference?.setOnPreferenceClickListener {
@@ -171,65 +110,15 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
 
             return@setOnPreferenceClickListener true
         }
-    }
 
-    override fun setupNotification() {
-        repeatPreference?.setOnPreferenceClickListener {
-            viewModel.onClickRepeat()
+        alarmPreference?.setOnPreferenceClickListener {
+            val context = context
+            if (context != null) {
+                startActivity(AlarmPrefActivity[context])
+            }
+
             return@setOnPreferenceClickListener true
         }
-
-        repeatDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            viewModel.onResultRepeat(repeatDialog.check)
-        }
-        repeatDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
-
-        signalPreference?.setOnPreferenceClickListener {
-            viewModel.onClickSignal()
-            return@setOnPreferenceClickListener true
-        }
-
-        signalDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            viewModel.onResultSignal(signalDialog.check)
-        }
-        signalDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
-
-        melodyPreference?.setOnPreferenceClickListener {
-            viewModel.onClickMelody(readPermissionState.getResult())
-            return@setOnPreferenceClickListener true
-        }
-
-        melodyPermissionDialog.isCancelable = false
-        melodyPermissionDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return@OnClickListener
-
-            requestPermissions(arrayOf(readPermissionState.permission), PermissionRequest.MELODY)
-        }
-        melodyPermissionDialog.dismissListener = DialogInterface.OnDismissListener {
-            openState.clear()
-        }
-
-        melodyDialog.itemListener = DialogInterface.OnClickListener { _, i ->
-            viewModel.onSelectMelody(i)
-        }
-        melodyDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            val title = with(melodyDialog) { itemArray.getOrNull(check) } ?: return@OnClickListener
-            viewModel.onResultMelody(title)
-        }
-        melodyDialog.dismissListener = DialogInterface.OnDismissListener {
-            melodyControl.stop()
-            openState.clear()
-        }
-
-        volumePreference?.setOnPreferenceClickListener {
-            viewModel.onClickVolume()
-            return@setOnPreferenceClickListener true
-        }
-
-        volumeDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            viewModel.onResultVolume(volumeDialog.progress)
-        }
-        volumeDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }
 
     override fun setupOther() {
@@ -296,62 +185,5 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
     override fun showThemeDialog(@Theme value: Int) = openState.tryInvoke {
         themeDialog.setArguments(value).show(fm, DialogFactory.Preference.THEME)
     }
-
-    //region Notification functions
-
-    override fun updateRepeatSummary(summary: String?) {
-        repeatPreference?.summary = summary
-    }
-
-    override fun showRepeatDialog(@Repeat value: Int) = openState.tryInvoke {
-        repeatDialog.setArguments(value).show(fm, DialogFactory.Preference.REPEAT)
-    }
-
-    override fun updateSignalSummary(summary: String?) {
-        signalPreference?.summary = summary
-    }
-
-    override fun showSignalDialog(valueArray: BooleanArray) = openState.tryInvoke {
-        signalDialog.setArguments(valueArray).show(fm, DialogFactory.Preference.SIGNAL)
-    }
-
-    override fun showMelodyPermissionDialog() = openState.tryInvoke {
-        melodyPermissionDialog.show(fm, DialogFactory.Preference.MELODY_PERMISSION)
-    }
-
-    override fun updateMelodyGroupEnabled(isEnabled: Boolean) {
-        melodyPreference?.isEnabled = isEnabled
-        increasePreference?.isEnabled = isEnabled
-        volumePreference?.isEnabled = isEnabled
-    }
-
-    override fun updateMelodySummary(summary: String) {
-        melodyPreference?.summary = summary
-    }
-
-    override fun showMelodyDialog(titleArray: Array<String>, value: Int) = openState.tryInvoke {
-        melodyDialog.itemArray = titleArray
-        melodyDialog.setArguments(value).show(fm, DialogFactory.Preference.MELODY)
-    }
-
-    override fun playMelody(stringUri: String) {
-        val uri = stringUri.toUri() ?: return
-
-        with(melodyControl) {
-            stop()
-            setupPlayer(uri, isLooping = false)
-            start()
-        }
-    }
-
-    override fun updateVolumeSummary(summary: String) {
-        volumePreference?.summary = summary
-    }
-
-    override fun showVolumeDialog(value: Int) = openState.tryInvoke {
-        volumeDialog.setArguments(value).show(fm, DialogFactory.Preference.VOLUME)
-    }
-
-    //endregion
 
 }

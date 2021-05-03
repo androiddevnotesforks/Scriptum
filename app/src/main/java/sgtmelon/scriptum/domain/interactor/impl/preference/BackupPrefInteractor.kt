@@ -17,9 +17,10 @@ import sgtmelon.scriptum.domain.model.result.ImportResult
 import sgtmelon.scriptum.domain.model.result.ParserResult
 import sgtmelon.scriptum.presentation.control.cipher.ICipherControl
 import sgtmelon.scriptum.presentation.control.file.IFileControl
+import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IBackupPrefViewModel
 
 /**
- * Interactor for import/export backup files.
+ * Interactor for import/export backup files (for [IBackupPrefViewModel]).
  */
 class BackupPrefInteractor(
     private val preferenceRepo: IPreferenceRepo,

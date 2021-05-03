@@ -9,6 +9,7 @@ import sgtmelon.scriptum.dagger.component.main.RankComponent
 import sgtmelon.scriptum.dagger.component.note.NoteComponent
 import sgtmelon.scriptum.dagger.component.note.RollNoteComponent
 import sgtmelon.scriptum.dagger.component.note.TextNoteComponent
+import sgtmelon.scriptum.dagger.component.preference.AlarmPrefComponent
 import sgtmelon.scriptum.dagger.component.preference.BackupPrefComponent
 import sgtmelon.scriptum.dagger.component.preference.NotePrefComponent
 import sgtmelon.scriptum.dagger.component.preference.PreferenceComponent
@@ -61,6 +62,7 @@ interface ScriptumComponent {
 
     fun getAlarmBuilder(): AlarmComponent.Builder
 
+    //region Preferences
 
     fun getPreferenceBuilder(): PreferenceComponent.Builder
 
@@ -68,10 +70,13 @@ interface ScriptumComponent {
 
     fun getNotePrefBuilder(): NotePrefComponent.Builder
 
+    fun getAlarmPrefBuilder(): AlarmPrefComponent.Builder
+
     fun getDevelopBuilder(): DevelopComponent.Builder
 
     fun getPrintBuilder(): PrintComponent.Builder
 
+    //endregion
 
     fun getEternalBuilder(): EternalComponent.Builder
 

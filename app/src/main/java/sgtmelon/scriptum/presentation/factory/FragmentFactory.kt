@@ -7,6 +7,7 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.main.NotesFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.RankFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.AlarmPrefFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.BackupPrefFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.NotePrefFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
@@ -79,10 +80,14 @@ object FragmentFactory {
         }
 
         fun getNoteFragment(): NotePrefFragment {
-            return fm.findFragmentByTag(Tag.BACKUP) as? NotePrefFragment ?: NotePrefFragment()
+            return fm.findFragmentByTag(Tag.NOTE) as? NotePrefFragment ?: NotePrefFragment()
         }
 
-        @StringDef(Tag.PREF, Tag.DEVELOP, Tag.BACKUP, Tag.NOTE)
+        fun getAlarmFragment(): AlarmPrefFragment {
+            return fm.findFragmentByTag(Tag.ALARM) as? AlarmPrefFragment ?: AlarmPrefFragment()
+        }
+
+        @StringDef(Tag.PREF, Tag.DEVELOP, Tag.BACKUP, Tag.NOTE, Tag.ALARM)
         annotation class Tag {
             companion object {
                 private const val PREFIX = "FRAGMENT_PREFERENCE"
@@ -91,6 +96,7 @@ object FragmentFactory {
                 const val DEVELOP = "${PREFIX}_DEVELOP"
                 const val BACKUP = "${PREFIX}_BACKUP"
                 const val NOTE = "${PREFIX}_NOTE"
+                const val ALARM = "${PREFIX}_ALARM"
             }
         }
     }

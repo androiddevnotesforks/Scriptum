@@ -9,6 +9,7 @@
     <string name="pref_header_common">Общее</string>
     <string name="pref_header_save">Сохранение</string>
     <string name="pref_header_alarm">Уведомления</string>
+    <string name="pref_header_sound">Звук</string>
     <string name="pref_header_other">Прочее</string>
 
     <!-- Preference titles -->

@@ -12,49 +12,19 @@
             android:title="@string/pref_title_app_theme"
             app:iconSpaceReserved="false" />
 
-        <Preference android:key="@string/pref_key_app_backup"
-            app:iconSpaceReserved="false"
-            app:title="@string/pref_header_backup" />
-
-        <Preference android:key="@string/pref_key_app_note"
-            app:iconSpaceReserved="false"
-            app:title="@string/pref_header_note" />
-
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_header_alarm"
-        app:iconSpaceReserved="false">
+    <Preference android:key="@string/pref_key_backup"
+        app:iconSpaceReserved="false"
+        app:title="@string/pref_header_backup" />
 
-        <Preference android:defaultValue="@integer/pref_alarm_repeat"
-            android:key="@string/pref_key_alarm_repeat"
-            android:summary="@string/pref_summary_alarm_repeat"
-            android:title="@string/pref_title_alarm_repeat"
-            app:iconSpaceReserved="false" />
+    <Preference android:key="@string/pref_key_note"
+        app:iconSpaceReserved="false"
+        app:title="@string/pref_header_note" />
 
-        <Preference android:defaultValue="@integer/pref_alarm_signal"
-            android:key="@string/pref_key_alarm_signal"
-            android:summary="@string/pref_summary_alarm_signal"
-            android:title="@string/pref_title_alarm_signal"
-            app:iconSpaceReserved="false" />
-
-        <Preference android:key="@string/pref_key_alarm_melody"
-            android:summary="@string/pref_summary_alarm_melody"
-            android:title="@string/pref_title_alarm_melody"
-            app:iconSpaceReserved="false" />
-
-        <Preference android:defaultValue="@integer/pref_alarm_volume"
-            android:key="@string/pref_key_alarm_volume"
-            android:summary="@string/pref_summary_alarm_volume"
-            android:title="@string/pref_title_alarm_volume"
-            app:iconSpaceReserved="false" />
-
-        <SwitchPreferenceCompat android:defaultValue="@bool/pref_alarm_increase"
-            android:key="@string/pref_key_alarm_increase"
-            android:summary="@string/pref_summary_alarm_increase"
-            android:title="@string/pref_title_alarm_increase"
-            app:iconSpaceReserved="false" />
-
-    </PreferenceCategory>
+    <Preference android:key="@string/pref_key_alarm"
+        app:iconSpaceReserved="false"
+        app:title="@string/pref_header_alarm" />
 
     <PreferenceCategory android:title="@string/pref_header_other"
         app:iconSpaceReserved="false">

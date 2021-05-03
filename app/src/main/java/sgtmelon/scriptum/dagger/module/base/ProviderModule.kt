@@ -8,6 +8,7 @@ import dagger.Module
 import dagger.Provides
 import sgtmelon.scriptum.data.provider.PreferenceProvider
 import sgtmelon.scriptum.data.provider.RoomProvider
+import sgtmelon.scriptum.presentation.provider.SummaryProvider
 import javax.inject.Singleton
 
 /**
@@ -37,5 +38,11 @@ class ProviderModule {
     @Provides
     @Singleton
     fun provideRoomProvider(context: Context): RoomProvider = RoomProvider(context)
+
+    @Provides
+    @Singleton
+    fun provideSummaryProvider(resources: Resources): SummaryProvider {
+        return SummaryProvider(resources)
+    }
 
 }

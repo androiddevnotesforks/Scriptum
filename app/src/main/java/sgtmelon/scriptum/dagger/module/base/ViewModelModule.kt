@@ -15,6 +15,7 @@ import sgtmelon.scriptum.domain.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.INotificationInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.IAlarmPrefInteractor
 import sgtmelon.scriptum.domain.interactor.callback.preference.IBackupPrefInteractor
 import sgtmelon.scriptum.domain.interactor.callback.preference.INotePrefInteractor
 import sgtmelon.scriptum.domain.interactor.callback.preference.IPreferenceInteractor
@@ -32,6 +33,7 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.AlarmActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.NotificationActivity
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.AlarmPrefFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.BackupPrefFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.NotePrefFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
@@ -48,6 +50,7 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.note.IRollNoteViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.note.ITextNoteViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.notification.IAlarmViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.notification.INotificationViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IAlarmPrefViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IBackupPrefViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.preference.INotePrefViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IPreferenceViewModel
@@ -64,6 +67,7 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.note.TextNoteViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.notification.AlarmViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.notification.NotificationViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.preference.AlarmPrefViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.preference.BackupPrefViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.preference.NotePrefViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.preference.PreferenceViewModel
@@ -219,12 +223,11 @@ class ViewModelModule {
     @ActivityScope
     fun providePreferenceViewModel(
         fragment: PreferenceFragment,
-        interactor: IPreferenceInteractor,
-        signalInteractor: ISignalInteractor
+        interactor: IPreferenceInteractor
     ): IPreferenceViewModel {
         return ViewModelProvider(fragment).get(PreferenceViewModel::class.java).apply {
             setCallback(fragment)
-            setInteractor(interactor, signalInteractor)
+            setInteractor(interactor)
         }
     }
 
@@ -249,6 +252,19 @@ class ViewModelModule {
         return ViewModelProvider(fragment).get(NotePrefViewModel::class.java).apply {
             setCallback(fragment)
             setInteractor(interactor)
+        }
+    }
+
+    @Provides
+    @ActivityScope
+    fun provideAlarmPrefViewModel(
+        fragment: AlarmPrefFragment,
+        interactor: IAlarmPrefInteractor,
+        signalInteractor: ISignalInteractor
+    ): IAlarmPrefViewModel {
+        return ViewModelProvider(fragment).get(AlarmPrefViewModel::class.java).apply {
+            setCallback(fragment)
+            setInteractor(interactor, signalInteractor)
         }
     }
 
