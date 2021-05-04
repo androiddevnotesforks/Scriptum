@@ -112,10 +112,7 @@ class BindControl(private val context: Context?) : IBindControl {
                 tagIdMap.remove(tag)
             }
             null -> {
-                for (it in tagIdMap) {
-                    manager?.cancel(it.key, it.value)
-                }
-
+                manager?.cancelAll()
                 tagIdMap.clear()
             }
         }
