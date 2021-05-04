@@ -12,20 +12,40 @@ import android.widget.TextView
 import androidx.annotation.Size
 import androidx.annotation.StringRes
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.domain.model.key.DotAnimType
 import sgtmelon.scriptum.extension.addIdlingListener
 
 /**
  * Class for help animate [TextView] ending with loading dots.
  */
-class DotAnimControl(private val callback: Callback) {
+class DotAnimControl(private val type: DotAnimType, private val callback: Callback) {
 
     private var animator: ValueAnimator? = null
 
     fun start(context: Context, @StringRes stringId: Int) = apply {
-        val textList = getSpanList(context, stringId)
+        val textList = when (type) {
+            DotAnimType.COUNT -> getCountList(context, stringId)
+            DotAnimType.SPAN -> getSpanList(context, stringId)
+        }
 
         animator = getAnimator(context, textList)
         animator?.start()
+    }
+
+    private fun getCountList(context: Context, @StringRes stringId: Int): List<String> {
+        val simpleText = context.getString(stringId)
+        val dotText = context.getString(R.string.dot)
+
+        val textList = mutableListOf<String>()
+        for (i in 0 until DOT_COUNT + 1) {
+            val text = StringBuilder(simpleText).apply {
+                repeat(i) { append(dotText) }
+            }.toString()
+
+            textList.add(text)
+        }
+
+        return textList
     }
 
     private fun getSpanList(context: Context, @StringRes stringId: Int): List<SpannableString> {

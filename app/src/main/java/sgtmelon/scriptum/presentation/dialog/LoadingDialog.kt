@@ -9,6 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import sgtmelon.safedialog.BlankDialog
 import sgtmelon.safedialog.applyAnimation
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.domain.model.key.DotAnimType
 import sgtmelon.scriptum.presentation.control.anim.DotAnimControl
 
 /**
@@ -19,7 +20,7 @@ class LoadingDialog : BlankDialog(),
 
     private val loadingText get() = dialog?.findViewById<TextView?>(R.id.loading_text)
 
-    private val dotAnimControl = DotAnimControl(callback = this)
+    private val dotAnimControl = DotAnimControl(DotAnimType.SPAN, callback = this)
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         super.onCreateDialog(savedInstanceState)

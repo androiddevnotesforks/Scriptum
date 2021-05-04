@@ -9,12 +9,14 @@ import androidx.annotation.StringRes
 import androidx.preference.Preference
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.PermissionRequest
+import sgtmelon.scriptum.domain.model.key.DotAnimType
 import sgtmelon.scriptum.domain.model.key.PermissionResult
 import sgtmelon.scriptum.domain.model.state.OpenState
 import sgtmelon.scriptum.domain.model.state.PermissionState
 import sgtmelon.scriptum.extension.initLazy
 import sgtmelon.scriptum.extension.isGranted
 import sgtmelon.scriptum.extension.showToast
+import sgtmelon.scriptum.presentation.control.anim.DotAnimControl
 import sgtmelon.scriptum.presentation.control.broadcast.BroadcastControl
 import sgtmelon.scriptum.presentation.factory.DialogFactory
 import sgtmelon.scriptum.presentation.screen.ui.ParentPreferenceFragment
@@ -26,7 +28,9 @@ import javax.inject.Inject
 /**
  * Fragment of backup preferences.
  */
-class BackupPrefFragment : ParentPreferenceFragment(), IBackupPrefFragment {
+class BackupPrefFragment : ParentPreferenceFragment(),
+    IBackupPrefFragment,
+    DotAnimControl.Callback {
 
     @Inject internal lateinit var viewModel: IBackupPrefViewModel
 
@@ -55,6 +59,7 @@ class BackupPrefFragment : ParentPreferenceFragment(), IBackupPrefFragment {
     private val importPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_backup_import)) }
 
     private val broadcastControl by lazy { BroadcastControl[context] }
+    private val dotAnimControl = DotAnimControl(DotAnimType.COUNT, callback = this)
 
     //region System
 
@@ -228,6 +233,14 @@ class BackupPrefFragment : ParentPreferenceFragment(), IBackupPrefFragment {
         importPreference?.isEnabled = isEnabled
     }
 
+    override fun startImportSummarySearch() {
+        val context = context ?: return
+
+        dotAnimControl.start(context, R.string.pref_summary_backup_import_search)
+    }
+
+    override fun stopImportSummarySearch() = dotAnimControl.stop()
+
     override fun updateImportSummary(@StringRes summaryId: Int) {
         importPreference?.summary = getString(summaryId)
     }
@@ -272,4 +285,7 @@ class BackupPrefFragment : ParentPreferenceFragment(), IBackupPrefFragment {
 
     //endregion
 
+    override fun onDotAnimUpdate(text: CharSequence) {
+        importPreference?.summary = text
+    }
 }

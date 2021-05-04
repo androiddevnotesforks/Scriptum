@@ -3,7 +3,6 @@ package sgtmelon.scriptum.presentation.screen.vm.impl.preference
 import android.app.Application
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.interactor.callback.preference.IBackupPrefInteractor
@@ -73,9 +72,9 @@ class BackupPrefViewModel(
         callback?.resetExportSummary()
 
         callback?.updateImportEnabled(isEnabled = false)
-        callback?.updateImportSummary(R.string.pref_summary_backup_import_search)
-
+        callback?.startImportSummarySearch()
         val fileList = runBack { interactor.getFileList() }
+        callback?.stopImportSummarySearch()
 
         if (fileList.isEmpty()) {
             callback?.updateImportSummary(R.string.pref_summary_backup_import_empty)

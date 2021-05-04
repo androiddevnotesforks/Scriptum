@@ -49,6 +49,10 @@ interface IBackupPrefFragment : EternalReceiver.Bridge.Bind {
 
     fun updateImportEnabled(isEnabled: Boolean)
 
+    fun startImportSummarySearch()
+
+    fun stopImportSummarySearch()
+
     fun updateImportSummary(@StringRes summaryId: Int)
 
     fun updateImportSummaryFound(count: Int)
