@@ -51,8 +51,8 @@ class NotificationAutomator(
     }
 
     private fun assertNotification(item: NoteItem): NotificationUi.Note {
-        val statusTitle = NotificationFactory.getStatusTitle(context, item)
-        val statusText = NotificationFactory.getStatusText(context, item)
+        val statusTitle = NotificationFactory.Notes.getStatusTitle(context, item)
+        val statusText = NotificationFactory.Notes.getStatusText(context, item)
         val unbindText = context.getString(R.string.notification_button_unbind).toUpperCase()
 
         val titleObject = uiDevice.findObject(By.text(statusTitle))

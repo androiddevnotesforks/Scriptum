@@ -13,6 +13,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.TaskStackBuilder
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
 import sgtmelon.scriptum.domain.model.key.ColorShade
@@ -107,13 +108,13 @@ object NotificationFactory {
         /**
          * If [NoteType.ROLL] - title will starts with amount of done list items.
          */
-        private fun getStatusTitle(context: Context, item: NoteItem): String = with(item) {
+        @RunPrivate fun getStatusTitle(context: Context, item: NoteItem): String = with(item) {
             val titleStart = if (type == NoteType.ROLL) "$text | " else ""
 
             return titleStart.plus(if (name.isEmpty()) context.getString(R.string.hint_text_name) else name)
         }
 
-        private fun getStatusText(context: Context, item: NoteItem): String {
+        @RunPrivate fun getStatusText(context: Context, item: NoteItem): String {
             return when (item) {
                 is NoteItem.Text -> item.text
                 is NoteItem.Roll -> {
