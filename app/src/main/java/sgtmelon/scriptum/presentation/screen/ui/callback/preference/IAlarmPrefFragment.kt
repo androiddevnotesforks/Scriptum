@@ -28,6 +28,10 @@ interface IAlarmPrefFragment {
 
     fun updateMelodyGroupEnabled(isEnabled: Boolean)
 
+    fun startMelodySummarySearch()
+
+    fun stopMelodySummarySearch()
+
     fun updateMelodySummary(summary: String)
 
     fun updateMelodySummary(@StringRes summaryId: Int)

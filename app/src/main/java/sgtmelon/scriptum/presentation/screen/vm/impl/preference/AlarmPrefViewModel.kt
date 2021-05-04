@@ -31,16 +31,15 @@ class AlarmPrefViewModel(
         this.signalInteractor = signalInteractor
     }
 
+    override fun onFirstStart() {
+        callback?.startMelodySummarySearch()
+    }
+
     override fun onSetup(bundle: Bundle?) {
         callback?.setup()
 
         callback?.updateRepeatSummary(interactor.getRepeatSummary())
         callback?.updateSignalSummary(interactor.getSignalSummary(signalInteractor.typeCheck))
-
-        /**
-         * Make melody permissions not enabled before [setupBackground] load data.
-         */
-        callback?.updateMelodyGroupEnabled(isEnabled = false)
         callback?.updateVolumeSummary(interactor.getVolumeSummary())
 
         viewModelScope.launch { setupBackground() }
@@ -48,6 +47,13 @@ class AlarmPrefViewModel(
 
     @RunPrivate suspend fun setupBackground() {
         val state = signalInteractor.state ?: return
+
+        /**
+         * Make melody preference not enabled in every way, before we load data
+         */
+        callback?.updateMelodyGroupEnabled(state.isMelody)
+        callback?.updateMelodyEnabled(isEnabled = false)
+
         val melodyItem = runBack {
             val check = signalInteractor.getMelodyCheck() ?: return@runBack null
             val list = signalInteractor.getMelodyList()
@@ -55,12 +61,15 @@ class AlarmPrefViewModel(
             return@runBack list.getOrNull(check)
         }
 
-        callback?.updateMelodyGroupEnabled(state.isMelody)
+        callback?.stopMelodySummarySearch()
 
         if (melodyItem != null) {
+            callback?.updateMelodyEnabled(state.isMelody)
             callback?.updateMelodySummary(melodyItem.title)
         } else {
-            callback?.updateMelodyEnabled(isEnabled = false)
+            /**
+             * Melody preference not enabled in that case.
+             */
             callback?.updateMelodySummary(R.string.pref_summary_alarm_melody_empty)
         }
     }

@@ -20,7 +20,7 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_header_sound"
+    <PreferenceCategory android:title="@string/pref_header_melody_options"
         app:iconSpaceReserved="false">
 
         <Preference android:key="@string/pref_key_alarm_melody"

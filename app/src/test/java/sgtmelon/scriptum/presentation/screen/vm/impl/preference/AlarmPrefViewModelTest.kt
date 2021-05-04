@@ -56,7 +56,13 @@ class AlarmPrefViewModelTest : ParentViewModelTest() {
 
     //endregion
 
-    @Test fun onSetup() = startCoTest {
+    @Test fun onFirstStart() {
+        viewModel.onFirstStart()
+
+        verifySequence { callback.startMelodySummarySearch() }
+    }
+
+    @Test fun onSetup() {
         val repeatSummary = nextString()
         val typeCheck = BooleanArray(size = 3) { Random.nextBoolean() }
         val signalSummary = nextString()
@@ -95,7 +101,7 @@ class AlarmPrefViewModelTest : ParentViewModelTest() {
         }
     }
 
-    @Test fun setupMelody_notMelody() = startCoTest {
+    @Test fun setupBackground_notMelody() = startCoTest {
         val state = SignalState(isMelody = false, isVibration = Random.nextBoolean())
         val item = melodyList.random()
         val index = melodyList.indexOf(item)
@@ -123,6 +129,7 @@ class AlarmPrefViewModelTest : ParentViewModelTest() {
 
             signalInteractor.state
             signalInteractor.getMelodyCheck()
+            callback.stopMelodySummarySearch()
             callback.updateMelodyGroupEnabled(isEnabled = false)
             callback.updateMelodyEnabled(isEnabled = false)
             callback.updateMelodySummary(R.string.pref_summary_alarm_melody_empty)
@@ -130,6 +137,7 @@ class AlarmPrefViewModelTest : ParentViewModelTest() {
             signalInteractor.state
             signalInteractor.getMelodyCheck()
             signalInteractor.getMelodyList()
+            callback.stopMelodySummarySearch()
             callback.updateMelodyGroupEnabled(isEnabled = false)
             callback.updateMelodyEnabled(isEnabled = false)
             callback.updateMelodySummary(R.string.pref_summary_alarm_melody_empty)
@@ -137,12 +145,13 @@ class AlarmPrefViewModelTest : ParentViewModelTest() {
             signalInteractor.state
             signalInteractor.getMelodyCheck()
             signalInteractor.getMelodyList()
+            callback.stopMelodySummarySearch()
             callback.updateMelodyGroupEnabled(isEnabled = false)
             callback.updateMelodySummary(item.title)
         }
     }
 
-    @Test fun setupMelody_isMelody() = startCoTest {
+    @Test fun setupBackground_isMelody() = startCoTest {
         val state = SignalState(isMelody = true, isVibration = Random.nextBoolean())
         val item = melodyList.random()
         val index = melodyList.indexOf(item)
@@ -170,6 +179,7 @@ class AlarmPrefViewModelTest : ParentViewModelTest() {
 
             signalInteractor.state
             signalInteractor.getMelodyCheck()
+            callback.stopMelodySummarySearch()
             callback.updateMelodyGroupEnabled(isEnabled = true)
             callback.updateMelodyEnabled(isEnabled = false)
             callback.updateMelodySummary(R.string.pref_summary_alarm_melody_empty)
@@ -177,6 +187,7 @@ class AlarmPrefViewModelTest : ParentViewModelTest() {
             signalInteractor.state
             signalInteractor.getMelodyCheck()
             signalInteractor.getMelodyList()
+            callback.stopMelodySummarySearch()
             callback.updateMelodyGroupEnabled(isEnabled = true)
             callback.updateMelodyEnabled(isEnabled = false)
             callback.updateMelodySummary(R.string.pref_summary_alarm_melody_empty)
@@ -184,6 +195,7 @@ class AlarmPrefViewModelTest : ParentViewModelTest() {
             signalInteractor.state
             signalInteractor.getMelodyCheck()
             signalInteractor.getMelodyList()
+            callback.stopMelodySummarySearch()
             callback.updateMelodyGroupEnabled(isEnabled = true)
             callback.updateMelodySummary(item.title)
         }

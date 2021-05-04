@@ -241,6 +241,10 @@ class BackupPrefFragment : ParentPreferenceFragment(),
 
     override fun stopImportSummarySearch() = dotAnimControl.stop()
 
+    override fun onDotAnimUpdate(text: CharSequence) {
+        importPreference?.summary = text
+    }
+
     override fun updateImportSummary(@StringRes summaryId: Int) {
         importPreference?.summary = getString(summaryId)
     }
@@ -285,7 +289,4 @@ class BackupPrefFragment : ParentPreferenceFragment(),
 
     //endregion
 
-    override fun onDotAnimUpdate(text: CharSequence) {
-        importPreference?.summary = text
-    }
 }

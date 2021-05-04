@@ -10,7 +10,7 @@
     <string name="pref_header_main">Основное</string>
     <string name="pref_header_save">Сохранение</string>
     <string name="pref_header_alarm">Уведомления</string>
-    <string name="pref_header_sound">Звук</string>
+    <string name="pref_header_melody_options">Параметры мелодии</string>
     <string name="pref_header_other">Прочее</string>
     <string name="pref_header_options">Параметры</string>
 
@@ -45,7 +45,7 @@
 
     <string name="pref_summary_app_theme">Выбранная тема</string>
 
-    <string name="pref_summary_backup_import_search">Мы ищем резервный файлы</string>
+    <string name="pref_summary_backup_import_search">Ищем резервный файлы</string>
     <string name="pref_summary_backup_import_empty">
         У Вас нет файлов для восстановления данных
     </string>
@@ -70,7 +70,7 @@
     </string>
     <string name="pref_summary_alarm_signal">Будет применяться, чтобы предупредить вас</string>
     <string name="pref_summary_alarm_melody">Будет играть в уведомлении</string>
-    <string name="pref_summary_alarm_melody_prepare">Мы проверяем ваши мелодии…</string>
+    <string name="pref_summary_alarm_melody_search">Проверяем ваши мелодии</string>
     <string name="pref_summary_alarm_melody_empty">Извините, у вас нет ни одной мелодии! :(</string>
     <string name="pref_summary_alarm_volume">Процент громкости: %d%%</string>
     <string name="pref_summary_alarm_increase">

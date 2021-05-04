@@ -9,6 +9,7 @@ import androidx.preference.Preference
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.PermissionRequest
 import sgtmelon.scriptum.domain.model.annotation.Repeat
+import sgtmelon.scriptum.domain.model.key.DotAnimType
 import sgtmelon.scriptum.domain.model.key.PermissionResult
 import sgtmelon.scriptum.domain.model.state.OpenState
 import sgtmelon.scriptum.domain.model.state.PermissionState
@@ -16,6 +17,7 @@ import sgtmelon.scriptum.extension.initLazy
 import sgtmelon.scriptum.extension.isGranted
 import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.extension.toUri
+import sgtmelon.scriptum.presentation.control.anim.DotAnimControl
 import sgtmelon.scriptum.presentation.control.system.MelodyControl
 import sgtmelon.scriptum.presentation.control.system.callback.IMelodyControl
 import sgtmelon.scriptum.presentation.factory.DialogFactory
@@ -28,7 +30,9 @@ import javax.inject.Inject
 /**
  * Fragment of notification (alarm) preferences.
  */
-class AlarmPrefFragment : ParentPreferenceFragment(), IAlarmPrefFragment {
+class AlarmPrefFragment : ParentPreferenceFragment(),
+    IAlarmPrefFragment,
+    DotAnimControl.Callback {
 
     @Inject internal lateinit var viewModel: IAlarmPrefViewModel
 
@@ -60,6 +64,7 @@ class AlarmPrefFragment : ParentPreferenceFragment(), IAlarmPrefFragment {
     //endregion
 
     private val melodyControl: IMelodyControl by lazy { MelodyControl(context) }
+    private val dotAnimControl = DotAnimControl(DotAnimType.COUNT, callback = this)
 
     //region System
 
@@ -83,7 +88,7 @@ class AlarmPrefFragment : ParentPreferenceFragment(), IAlarmPrefFragment {
          *
          * It's unnecessary doing inside [onResume], because after first start summary will be set.
          */
-        updateMelodySummary(R.string.pref_summary_alarm_melody_prepare)
+        viewModel.onFirstStart()
     }
 
     override fun onResume() {
@@ -222,6 +227,18 @@ class AlarmPrefFragment : ParentPreferenceFragment(), IAlarmPrefFragment {
         melodyPreference?.isEnabled = isEnabled
         increasePreference?.isEnabled = isEnabled
         volumePreference?.isEnabled = isEnabled
+    }
+
+    override fun startMelodySummarySearch() {
+        val context = context ?: return
+
+        dotAnimControl.start(context, R.string.pref_summary_alarm_melody_search)
+    }
+
+    override fun stopMelodySummarySearch() = dotAnimControl.stop()
+
+    override fun onDotAnimUpdate(text: CharSequence) {
+        melodyPreference?.summary = text
     }
 
     override fun updateMelodySummary(summary: String) {
