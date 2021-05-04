@@ -3,6 +3,9 @@
 
     <string name="app_name" translatable="false">Scriptum</string>
 
+    <!--  String for create load dots in text ending  -->
+    <string name="dot" translatable="false">.</string>
+
     <!-- Titles -->
     <string name="title_rank">Categories</string>
     <string name="title_notes">Notes</string>

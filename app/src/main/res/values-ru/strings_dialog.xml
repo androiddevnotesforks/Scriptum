@@ -26,7 +26,7 @@
     <string name="dialog_add_text">Текст</string>
     <string name="dialog_add_roll">Список</string>
 
-    <string name="dialog_text_loading">Загрузка…</string>
+    <string name="dialog_text_loading">Загрузка</string>
 
     <string name="dialog_title_melody_permission">Требуется разрешение</string>
     <string name="dialog_text_melody_permission">

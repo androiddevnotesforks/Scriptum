@@ -51,13 +51,8 @@ class BackupPrefFragment : ParentPreferenceFragment(), IBackupPrefFragment {
 
     //endregion
 
-    //region Preferences
-
     private val exportPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_backup_export)) }
     private val importPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_backup_import)) }
-    private val importSkipPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_backup_skip)) }
-
-    //endregion
 
     private val broadcastControl by lazy { BroadcastControl[context] }
 

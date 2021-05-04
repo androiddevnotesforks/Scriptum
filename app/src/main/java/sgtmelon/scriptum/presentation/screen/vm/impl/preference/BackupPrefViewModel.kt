@@ -3,6 +3,7 @@ package sgtmelon.scriptum.presentation.screen.vm.impl.preference
 import android.app.Application
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.interactor.callback.preference.IBackupPrefInteractor

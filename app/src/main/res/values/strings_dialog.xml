@@ -26,7 +26,7 @@
     <string name="dialog_add_roll">List</string>
 
     <string name="dialog_text_volume" translatable="false">%d%%</string>
-    <string name="dialog_text_loading">Loading…</string>
+    <string name="dialog_text_loading">Loading</string>
 
     <string name="dialog_title_melody_permission">Required permission</string>
     <string name="dialog_text_melody_permission">
