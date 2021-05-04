@@ -31,9 +31,6 @@ class AlarmPrefViewModel(
         this.signalInteractor = signalInteractor
     }
 
-    override fun onFirstStart() {
-        callback?.startMelodySummarySearch()
-    }
 
     override fun onSetup(bundle: Bundle?) {
         callback?.setup()
@@ -54,13 +51,13 @@ class AlarmPrefViewModel(
         callback?.updateMelodyGroupEnabled(state.isMelody)
         callback?.updateMelodyEnabled(isEnabled = false)
 
+        callback?.startMelodySummarySearch()
         val melodyItem = runBack {
             val check = signalInteractor.getMelodyCheck() ?: return@runBack null
             val list = signalInteractor.getMelodyList()
 
             return@runBack list.getOrNull(check)
         }
-
         callback?.stopMelodySummarySearch()
 
         if (melodyItem != null) {

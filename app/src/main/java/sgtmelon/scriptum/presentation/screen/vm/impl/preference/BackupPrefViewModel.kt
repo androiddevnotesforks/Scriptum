@@ -68,6 +68,12 @@ class BackupPrefViewModel(
     }
 
     @RunPrivate suspend fun setupBackground() {
+        /**
+         * Need to block export preference, otherwise user may come to coroutines circle.
+         *
+         * When save dialog dismiss -> onResume happen -> and it call [onSetup] -> and launch
+         * the [setupBackground] coroutine (even if last one not ending).
+         */
         callback?.updateExportEnabled(isEnabled = false)
         callback?.resetExportSummary()
 

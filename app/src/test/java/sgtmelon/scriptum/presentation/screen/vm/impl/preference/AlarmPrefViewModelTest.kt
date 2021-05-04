@@ -56,12 +56,6 @@ class AlarmPrefViewModelTest : ParentViewModelTest() {
 
     //endregion
 
-    @Test fun onFirstStart() {
-        viewModel.onFirstStart()
-
-        verifySequence { callback.startMelodySummarySearch() }
-    }
-
     @Test fun onSetup() {
         val repeatSummary = nextString()
         val typeCheck = BooleanArray(size = 3) { Random.nextBoolean() }
@@ -91,8 +85,6 @@ class AlarmPrefViewModelTest : ParentViewModelTest() {
             interactor.getSignalSummary(typeCheck)
             callback.updateSignalSummary(signalSummary)
 
-            spyViewModel.callback
-            callback.updateMelodyGroupEnabled(isEnabled = false)
             spyViewModel.callback
             interactor.getVolumeSummary()
             callback.updateVolumeSummary(volumeSummary)
@@ -128,25 +120,30 @@ class AlarmPrefViewModelTest : ParentViewModelTest() {
             signalInteractor.state
 
             signalInteractor.state
-            signalInteractor.getMelodyCheck()
-            callback.stopMelodySummarySearch()
             callback.updateMelodyGroupEnabled(isEnabled = false)
             callback.updateMelodyEnabled(isEnabled = false)
+            callback.startMelodySummarySearch()
+            signalInteractor.getMelodyCheck()
+            callback.stopMelodySummarySearch()
             callback.updateMelodySummary(R.string.pref_summary_alarm_melody_empty)
 
             signalInteractor.state
+            callback.updateMelodyGroupEnabled(isEnabled = false)
+            callback.updateMelodyEnabled(isEnabled = false)
+            callback.startMelodySummarySearch()
             signalInteractor.getMelodyCheck()
             signalInteractor.getMelodyList()
             callback.stopMelodySummarySearch()
-            callback.updateMelodyGroupEnabled(isEnabled = false)
-            callback.updateMelodyEnabled(isEnabled = false)
             callback.updateMelodySummary(R.string.pref_summary_alarm_melody_empty)
 
             signalInteractor.state
+            callback.updateMelodyGroupEnabled(isEnabled = false)
+            callback.updateMelodyEnabled(isEnabled = false)
+            callback.startMelodySummarySearch()
             signalInteractor.getMelodyCheck()
             signalInteractor.getMelodyList()
             callback.stopMelodySummarySearch()
-            callback.updateMelodyGroupEnabled(isEnabled = false)
+            callback.updateMelodyEnabled(isEnabled = false)
             callback.updateMelodySummary(item.title)
         }
     }
@@ -178,25 +175,30 @@ class AlarmPrefViewModelTest : ParentViewModelTest() {
             signalInteractor.state
 
             signalInteractor.state
-            signalInteractor.getMelodyCheck()
-            callback.stopMelodySummarySearch()
             callback.updateMelodyGroupEnabled(isEnabled = true)
             callback.updateMelodyEnabled(isEnabled = false)
+            callback.startMelodySummarySearch()
+            signalInteractor.getMelodyCheck()
+            callback.stopMelodySummarySearch()
             callback.updateMelodySummary(R.string.pref_summary_alarm_melody_empty)
 
             signalInteractor.state
+            callback.updateMelodyGroupEnabled(isEnabled = true)
+            callback.updateMelodyEnabled(isEnabled = false)
+            callback.startMelodySummarySearch()
             signalInteractor.getMelodyCheck()
             signalInteractor.getMelodyList()
             callback.stopMelodySummarySearch()
-            callback.updateMelodyGroupEnabled(isEnabled = true)
-            callback.updateMelodyEnabled(isEnabled = false)
             callback.updateMelodySummary(R.string.pref_summary_alarm_melody_empty)
 
             signalInteractor.state
+            callback.updateMelodyGroupEnabled(isEnabled = true)
+            callback.updateMelodyEnabled(isEnabled = false)
+            callback.startMelodySummarySearch()
             signalInteractor.getMelodyCheck()
             signalInteractor.getMelodyList()
             callback.stopMelodySummarySearch()
-            callback.updateMelodyGroupEnabled(isEnabled = true)
+            callback.updateMelodyEnabled(isEnabled = true)
             callback.updateMelodySummary(item.title)
         }
     }

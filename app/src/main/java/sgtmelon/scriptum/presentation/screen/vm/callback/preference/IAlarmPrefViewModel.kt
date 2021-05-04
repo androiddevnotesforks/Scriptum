@@ -11,8 +11,6 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.preference.AlarmPrefViewMod
  */
 interface IAlarmPrefViewModel : IParentViewModel {
 
-    fun onFirstStart()
-
     fun onPause()
 
 

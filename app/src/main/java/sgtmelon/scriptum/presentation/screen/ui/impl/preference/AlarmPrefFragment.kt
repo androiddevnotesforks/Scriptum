@@ -81,14 +81,6 @@ class AlarmPrefFragment : ParentPreferenceFragment(),
         melodyControl.initLazy()
 
         openState.get(savedInstanceState)
-
-        /**
-         * Need reset default summary for [melodyPreference] in [onActivityCreated], because
-         * [viewModel] will update summary inside coroutine.
-         *
-         * It's unnecessary doing inside [onResume], because after first start summary will be set.
-         */
-        viewModel.onFirstStart()
     }
 
     override fun onResume() {
