@@ -12,7 +12,7 @@
     <integer name="fade_anim_time">200</integer>
     <integer name="color_fade_time">200</integer>
     <integer name="color_transition_time">200</integer>
-    <integer name="dots_anim_time">1500</integer>
+    <integer name="dots_anim_time">1200</integer>
 
     <integer name="recycler_enter_time">250</integer>
 
