@@ -1,14 +1,14 @@
-package sgtmelon.scriptum.presentation.service
+package sgtmelon.scriptum.presentation.screen.system
 
 import androidx.annotation.MainThread
-import sgtmelon.scriptum.domain.interactor.callback.eternal.IEternalInteractor
+import sgtmelon.scriptum.domain.interactor.callback.system.ISystemInteractor
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import java.util.*
 
 /**
- * Interface for communication [IEternalInteractor] with [EternalService]
+ * Interface for communication [ISystemInteractor] with [EternalService]
  */
-interface IEternalBridge {
+interface ISystemBridge {
 
     //region Alarm functions
 

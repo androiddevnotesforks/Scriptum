@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.domain.interactor.impl.eternal
+package sgtmelon.scriptum.domain.interactor.impl.system
 
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
@@ -18,16 +18,16 @@ import sgtmelon.scriptum.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.getRandomSize
-import sgtmelon.scriptum.presentation.service.IEternalBridge
+import sgtmelon.scriptum.presentation.screen.system.ISystemBridge
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.random.Random
 
 /**
- * Test for [EternalInteractor]
+ * Test for [SystemInteractor]
  */
 @ExperimentalCoroutinesApi
-class EternalInteractorTest : ParentInteractorTest() {
+class SystemInteractorTest : ParentInteractorTest() {
 
     @MockK lateinit var preferenceRepo: IPreferenceRepo
     @MockK lateinit var bindRepo: IBindRepo
@@ -35,10 +35,10 @@ class EternalInteractorTest : ParentInteractorTest() {
     @MockK lateinit var rankRepo: IRankRepo
     @MockK lateinit var noteRepo: INoteRepo
 
-    @MockK lateinit var callback: IEternalBridge
+    @MockK lateinit var callback: ISystemBridge
 
     private val interactor by lazy {
-        EternalInteractor(preferenceRepo, bindRepo, alarmRepo, rankRepo, noteRepo, callback)
+        SystemInteractor(preferenceRepo, bindRepo, alarmRepo, rankRepo, noteRepo, callback)
     }
     private val spyInteractor by lazy { spyk(interactor) }
 

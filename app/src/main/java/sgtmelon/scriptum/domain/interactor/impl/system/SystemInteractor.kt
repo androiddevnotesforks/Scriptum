@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.domain.interactor.impl.eternal
+package sgtmelon.scriptum.domain.interactor.impl.system
 
 import sgtmelon.extension.beforeNow
 import sgtmelon.extension.getCalendar
@@ -7,26 +7,26 @@ import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.data.repository.room.callback.IBindRepo
 import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.data.repository.room.callback.IRankRepo
-import sgtmelon.scriptum.domain.interactor.callback.eternal.IEternalInteractor
+import sgtmelon.scriptum.domain.interactor.callback.system.ISystemInteractor
 import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.extension.runMain
-import sgtmelon.scriptum.presentation.service.IEternalBridge
-import sgtmelon.scriptum.presentation.service.presenter.IEternalPresenter
+import sgtmelon.scriptum.presentation.screen.presenter.system.ISystemPresenter
+import sgtmelon.scriptum.presentation.screen.system.ISystemBridge
 
 /**
- * Interactor for [IEternalPresenter]
+ * Interactor for [ISystemPresenter]
  */
-class EternalInteractor(
+class SystemInteractor(
     private val preferenceRepo: IPreferenceRepo,
     private val bindRepo: IBindRepo,
     private val alarmRepo: IAlarmRepo,
     private val rankRepo: IRankRepo,
     private val noteRepo: INoteRepo,
-    @RunPrivate var callback: IEternalBridge?
+    @RunPrivate var callback: ISystemBridge?
 ) : ParentInteractor(),
-    IEternalInteractor {
+    ISystemInteractor {
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy { callback = null }
 

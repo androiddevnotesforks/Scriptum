@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.presentation.service.presenter
+package sgtmelon.scriptum.presentation.screen.presenter
 
 import androidx.annotation.CallSuper
 import kotlinx.coroutines.CoroutineScope

@@ -15,7 +15,7 @@ import sgtmelon.scriptum.dagger.component.preference.NotePrefComponent
 import sgtmelon.scriptum.dagger.component.preference.PreferenceComponent
 import sgtmelon.scriptum.dagger.component.preference.develop.DevelopComponent
 import sgtmelon.scriptum.dagger.component.preference.develop.PrintComponent
-import sgtmelon.scriptum.dagger.component.service.EternalComponent
+import sgtmelon.scriptum.dagger.component.service.SystemComponent
 import sgtmelon.scriptum.dagger.module.base.ContextModule
 import sgtmelon.scriptum.dagger.module.base.ConverterModule
 import sgtmelon.scriptum.dagger.module.base.ProviderModule
@@ -78,7 +78,7 @@ interface ScriptumComponent {
 
     //endregion
 
-    fun getEternalBuilder(): EternalComponent.Builder
+    fun getSystemBuilder(): SystemComponent.Builder
 
 
     @Component.Builder

@@ -1,17 +1,18 @@
-package sgtmelon.scriptum.presentation.service.presenter
+package sgtmelon.scriptum.presentation.screen.presenter.system
 
-import sgtmelon.scriptum.domain.interactor.callback.eternal.IEternalInteractor
+import sgtmelon.scriptum.domain.interactor.callback.system.ISystemInteractor
 import sgtmelon.scriptum.extension.launchBack
-import sgtmelon.scriptum.presentation.service.IEternalService
+import sgtmelon.scriptum.presentation.screen.presenter.ParentPresenter
+import sgtmelon.scriptum.presentation.screen.system.ISystemLogic
 import java.util.*
 
 /**
- * Presenter for [IEternalService].
+ * Presenter for [ISystemLogic].
  */
-class EternalPresenter(
-    private val interactor: IEternalInteractor
-) : ParentPresenter<IEternalService>(),
-    IEternalPresenter {
+class SystemPresenter(
+    private val interactor: ISystemInteractor
+) : ParentPresenter<ISystemLogic>(),
+    ISystemPresenter {
 
     override fun onSetup() {
         mainScope.launchBack {

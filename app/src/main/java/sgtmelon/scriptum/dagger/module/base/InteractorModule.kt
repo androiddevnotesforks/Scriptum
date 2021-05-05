@@ -11,7 +11,6 @@ import sgtmelon.scriptum.data.room.converter.type.IntConverter
 import sgtmelon.scriptum.domain.interactor.callback.IAppInteractor
 import sgtmelon.scriptum.domain.interactor.callback.IIntroInteractor
 import sgtmelon.scriptum.domain.interactor.callback.ISplashInteractor
-import sgtmelon.scriptum.domain.interactor.callback.eternal.IEternalInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.IRankInteractor
@@ -27,10 +26,10 @@ import sgtmelon.scriptum.domain.interactor.callback.preference.INotePrefInteract
 import sgtmelon.scriptum.domain.interactor.callback.preference.IPreferenceInteractor
 import sgtmelon.scriptum.domain.interactor.callback.preference.develop.IDevelopInteractor
 import sgtmelon.scriptum.domain.interactor.callback.preference.develop.IPrintInteractor
+import sgtmelon.scriptum.domain.interactor.callback.system.ISystemInteractor
 import sgtmelon.scriptum.domain.interactor.impl.AppInteractor
 import sgtmelon.scriptum.domain.interactor.impl.IntroInteractor
 import sgtmelon.scriptum.domain.interactor.impl.SplashInteractor
-import sgtmelon.scriptum.domain.interactor.impl.eternal.EternalInteractor
 import sgtmelon.scriptum.domain.interactor.impl.main.BinInteractor
 import sgtmelon.scriptum.domain.interactor.impl.main.NotesInteractor
 import sgtmelon.scriptum.domain.interactor.impl.main.RankInteractor
@@ -46,11 +45,12 @@ import sgtmelon.scriptum.domain.interactor.impl.preference.NotePrefInteractor
 import sgtmelon.scriptum.domain.interactor.impl.preference.PreferenceInteractor
 import sgtmelon.scriptum.domain.interactor.impl.preference.develop.DevelopInteractor
 import sgtmelon.scriptum.domain.interactor.impl.preference.develop.PrintInteractor
+import sgtmelon.scriptum.domain.interactor.impl.system.SystemInteractor
 import sgtmelon.scriptum.presentation.control.cipher.ICipherControl
 import sgtmelon.scriptum.presentation.control.file.IFileControl
 import sgtmelon.scriptum.presentation.control.system.callback.IRingtoneControl
 import sgtmelon.scriptum.presentation.provider.SummaryProvider
-import sgtmelon.scriptum.presentation.service.EternalService
+import sgtmelon.scriptum.presentation.screen.system.SystemLogic
 
 /**
  * Module for provide interactor's
@@ -245,13 +245,13 @@ class InteractorModule {
     @Provides
     @ActivityScope
     fun provideEternalInteractor(
-        service: EternalService,
+        logic: SystemLogic,
         preferenceRepo: IPreferenceRepo,
         bindRepo: IBindRepo,
         alarmRepo: IAlarmRepo,
         rankRepo: IRankRepo,
         noteRepo: INoteRepo
-    ): IEternalInteractor {
-        return EternalInteractor(preferenceRepo, bindRepo, alarmRepo, rankRepo, noteRepo, service)
+    ): ISystemInteractor {
+        return SystemInteractor(preferenceRepo, bindRepo, alarmRepo, rankRepo, noteRepo, logic)
     }
 }

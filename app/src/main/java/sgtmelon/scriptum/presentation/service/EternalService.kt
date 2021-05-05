@@ -5,34 +5,23 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.os.Build
 import android.os.IBinder
+import androidx.annotation.RequiresApi
 import sgtmelon.extension.getNewCalendar
-import sgtmelon.scriptum.domain.model.data.ReceiverData
-import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.extension.getAlarmService
-import sgtmelon.scriptum.extension.initLazy
-import sgtmelon.scriptum.presentation.control.system.AlarmControl
-import sgtmelon.scriptum.presentation.control.system.BindControl
-import sgtmelon.scriptum.presentation.receiver.EternalReceiver
-import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
-import sgtmelon.scriptum.presentation.service.presenter.IEternalPresenter
+import sgtmelon.scriptum.presentation.screen.system.ISystemLogic
+import sgtmelon.scriptum.presentation.screen.system.SystemLogic
 import java.util.*
-import javax.inject.Inject
 import sgtmelon.scriptum.presentation.factory.NotificationFactory as Factory
 
 /**
  * [Service] that never will die.
  */
-class EternalService : Service(), IEternalService {
+@RequiresApi(Build.VERSION_CODES.O)
+class EternalService : Service() {
 
-    @Inject internal lateinit var presenter: IEternalPresenter
-
-    private val alarmControl by lazy { AlarmControl[this] }
-    private val bindControl by lazy { BindControl[this] }
-
-    private val eternalReceiver by lazy { EternalReceiver[presenter] }
+    private val systemLogic: ISystemLogic = SystemLogic()
 
     override fun onBind(intent: Intent?): IBinder? = null
 
@@ -45,23 +34,13 @@ class EternalService : Service(), IEternalService {
     override fun onCreate() {
         super.onCreate()
 
-        ScriptumApplication.component.getEternalBuilder().set(service = this).build()
-            .inject(service = this)
-
         /**
          * Attach this service to notification, which provide long life for them.
          */
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Factory.Service.createChannel(context = this)
-        }
+        Factory.Service.createChannel(context = this)
         startForeground(Factory.Service.ID, Factory.Service[this])
 
-        registerReceiver(eternalReceiver, IntentFilter(ReceiverData.Filter.ETERNAL))
-
-        alarmControl.initLazy()
-        bindControl.initLazy()
-
-        presenter.onSetup()
+        systemLogic.onCreate(context = this)
     }
 
     override fun onDestroy() {
@@ -69,11 +48,10 @@ class EternalService : Service(), IEternalService {
          * Need call before "super".
          */
         restartService()
-        unregisterReceiver(eternalReceiver)
 
         super.onDestroy()
 
-        presenter.onDestroy()
+        systemLogic.onDestroy(context = this)
     }
 
     /**
@@ -97,31 +75,14 @@ class EternalService : Service(), IEternalService {
         service?.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
     }
 
-    //region Bridge functions
-
-    override fun setAlarm(id: Long, calendar: Calendar, showToast: Boolean) {
-        alarmControl.set(calendar, id, showToast)
-    }
-
-    override fun cancelAlarm(id: Long) = alarmControl.cancel(id)
-
-    override fun notifyNotesBind(itemList: List<NoteItem>) = bindControl.notifyNotes(itemList)
-
-    override fun cancelNoteBind(id: Long) = bindControl.cancelNote(id)
-
-    override fun notifyCountBind(count: Int) = bindControl.notifyCount(count)
-
-    //endregion
-
     companion object {
+        /**
+         * Start this foreground service only on API which has channel notifications
+         * (for disable it in settings). It means API >= Oreo (26).
+         */
+        @RequiresApi(Build.VERSION_CODES.O)
         fun start(context: Context) {
-            val intent = Intent(context, EternalService::class.java)
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                context.startForegroundService(intent)
-            } else {
-                context.startService(intent)
-            }
+            context.startForegroundService(Intent(context, EternalService::class.java))
         }
     }
 }

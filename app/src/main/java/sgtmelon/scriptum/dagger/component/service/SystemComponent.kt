@@ -5,25 +5,25 @@ import dagger.Subcomponent
 import sgtmelon.scriptum.dagger.ActivityScope
 import sgtmelon.scriptum.dagger.module.base.InteractorModule
 import sgtmelon.scriptum.dagger.module.base.PresenterModule
-import sgtmelon.scriptum.presentation.service.EternalService
+import sgtmelon.scriptum.presentation.screen.system.SystemLogic
 
 /**
- * Component for [EternalService].
+ * Component for [SystemLogic].
  */
 @ActivityScope
 @Subcomponent(modules = [
     InteractorModule::class,
     PresenterModule::class
 ])
-interface EternalComponent {
+interface SystemComponent {
 
-    fun inject(service: EternalService)
+    fun inject(logic: SystemLogic)
 
     @Subcomponent.Builder
     interface Builder {
         @BindsInstance
-        fun set(service: EternalService): Builder
+        fun set(logic: SystemLogic): Builder
 
-        fun build(): EternalComponent
+        fun build(): SystemComponent
     }
 }
