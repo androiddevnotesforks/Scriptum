@@ -9,9 +9,9 @@ import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
-import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.domain.interactor.callback.IAppInteractor
 import sgtmelon.scriptum.domain.model.annotation.Theme
+import sgtmelon.scriptum.parent.ParentViewModelTest
 import sgtmelon.scriptum.presentation.screen.ui.callback.IAppActivity
 
 /**

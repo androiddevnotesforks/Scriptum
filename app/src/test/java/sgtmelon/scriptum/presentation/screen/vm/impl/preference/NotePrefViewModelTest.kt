@@ -12,8 +12,8 @@ import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import sgtmelon.extension.nextString
-import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.domain.interactor.callback.preference.INotePrefInteractor
+import sgtmelon.scriptum.parent.ParentViewModelTest
 import sgtmelon.scriptum.presentation.screen.ui.callback.preference.INotePrefFragment
 import kotlin.random.Random
 

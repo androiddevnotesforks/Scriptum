@@ -3,7 +3,7 @@ package sgtmelon.scriptum.domain.model.state
 import android.graphics.Color
 import org.junit.Assert.*
 import org.junit.Test
-import sgtmelon.scriptum.ParentTest
+import sgtmelon.scriptum.parent.ParentTest
 
 /**
  * Test for [MenuColorState].

@@ -2,8 +2,8 @@ package sgtmelon.scriptum.data.room.entity
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.scriptum.ParentTest
 import sgtmelon.scriptum.domain.model.data.DbData.RollVisible.Default
+import sgtmelon.scriptum.parent.ParentTest
 
 /**
  * Test for [RollVisibleEntity].

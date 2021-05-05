@@ -3,7 +3,7 @@ package sgtmelon.scriptum.domain.model.item
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.extension.nextString
-import sgtmelon.scriptum.ParentTest
+import sgtmelon.scriptum.parent.ParentTest
 
 /**
  * Test for [MelodyItem].

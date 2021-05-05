@@ -12,9 +12,9 @@ import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import sgtmelon.extension.nextString
-import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.interactor.callback.preference.IPreferenceInteractor
+import sgtmelon.scriptum.parent.ParentViewModelTest
 import sgtmelon.scriptum.presentation.screen.ui.callback.preference.IPreferenceFragment
 import kotlin.random.Random
 

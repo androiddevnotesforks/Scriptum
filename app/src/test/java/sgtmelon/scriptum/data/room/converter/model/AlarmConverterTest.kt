@@ -2,9 +2,9 @@ package sgtmelon.scriptum.data.room.converter.model
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.scriptum.ParentTest
 import sgtmelon.scriptum.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.domain.model.item.NoteItem
+import sgtmelon.scriptum.parent.ParentTest
 
 /**
  * Test for [AlarmConverter].

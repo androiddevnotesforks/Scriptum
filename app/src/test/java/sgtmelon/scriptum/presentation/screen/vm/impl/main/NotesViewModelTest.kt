@@ -10,11 +10,15 @@ import org.junit.Test
 import sgtmelon.extension.beforeNow
 import sgtmelon.extension.getCalendar
 import sgtmelon.extension.nextString
-import sgtmelon.scriptum.*
+import sgtmelon.scriptum.FastMock
+import sgtmelon.scriptum.R
+import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.domain.model.annotation.Options
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.extension.clearAdd
+import sgtmelon.scriptum.getRandomSize
+import sgtmelon.scriptum.parent.ParentViewModelTest
 import sgtmelon.scriptum.presentation.control.SortControl
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.INotesFragment
 import java.util.*

@@ -2,7 +2,7 @@ package sgtmelon.scriptum.data.room.converter.type
 
 import org.junit.Assert.*
 import org.junit.Test
-import sgtmelon.scriptum.ParentTest
+import sgtmelon.scriptum.parent.ParentTest
 
 /**
  * Test for [BoolConverter].

@@ -3,14 +3,14 @@ package sgtmelon.scriptum.presentation.screen.ui.callback.note
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.control.note.input.InputControl
-import sgtmelon.scriptum.presentation.receiver.EternalReceiver
+import sgtmelon.scriptum.presentation.receiver.SystemReceiver
 import java.util.*
 
 /**
  * Parent interface for [ITextNoteFragment] and [IRollNoteFragment].
  */
-interface IParentNoteFragment<N : NoteItem> : EternalReceiver.Bridge.Alarm,
-    EternalReceiver.Bridge.Bind {
+interface IParentNoteFragment<N : NoteItem> : SystemReceiver.Bridge.Alarm,
+    SystemReceiver.Bridge.Bind {
 
     val isDialogOpen: Boolean
 

@@ -5,9 +5,9 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import sgtmelon.extension.nextString
-import sgtmelon.scriptum.ParentTest
 import sgtmelon.scriptum.domain.model.annotation.InputAction
 import sgtmelon.scriptum.domain.model.item.InputItem
+import sgtmelon.scriptum.parent.ParentTest
 import sgtmelon.scriptum.presentation.provider.BuildProvider
 import kotlin.random.Random
 

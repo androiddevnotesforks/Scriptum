@@ -11,9 +11,9 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.extension.nextString
-import sgtmelon.scriptum.ParentInteractorTest
 import sgtmelon.scriptum.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.domain.model.item.RankItem
+import sgtmelon.scriptum.parent.ParentInteractorTest
 import kotlin.random.Random
 
 /**

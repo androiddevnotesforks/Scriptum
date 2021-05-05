@@ -4,10 +4,10 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.extension.nextString
-import sgtmelon.scriptum.ParentTest
 import sgtmelon.scriptum.domain.model.item.NotificationItem.Alarm
 import sgtmelon.scriptum.domain.model.item.NotificationItem.Note
 import sgtmelon.scriptum.domain.model.key.NoteType
+import sgtmelon.scriptum.parent.ParentTest
 
 /**
  * Test for [NotificationItem]

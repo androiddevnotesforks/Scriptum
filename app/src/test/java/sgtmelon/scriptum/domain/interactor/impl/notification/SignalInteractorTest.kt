@@ -8,7 +8,6 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import sgtmelon.extension.nextString
-import sgtmelon.scriptum.ParentInteractorTest
 import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.room.converter.type.IntConverter
@@ -16,6 +15,7 @@ import sgtmelon.scriptum.domain.model.annotation.Signal
 import sgtmelon.scriptum.domain.model.item.MelodyItem
 import sgtmelon.scriptum.domain.model.state.SignalState
 import sgtmelon.scriptum.getRandomSize
+import sgtmelon.scriptum.parent.ParentInteractorTest
 import sgtmelon.scriptum.presentation.control.system.callback.IRingtoneControl
 import kotlin.random.Random
 

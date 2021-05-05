@@ -9,7 +9,6 @@ import org.junit.Before
 import org.junit.Test
 import sgtmelon.extension.nextShortString
 import sgtmelon.extension.nextString
-import sgtmelon.scriptum.ParentInteractorTest
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.BackupRepo
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
@@ -24,6 +23,7 @@ import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.domain.model.result.ExportResult
 import sgtmelon.scriptum.domain.model.result.ImportResult
 import sgtmelon.scriptum.domain.model.result.ParserResult
+import sgtmelon.scriptum.parent.ParentInteractorTest
 import sgtmelon.scriptum.presentation.control.cipher.ICipherControl
 import sgtmelon.scriptum.presentation.control.file.IFileControl
 import kotlin.random.Random

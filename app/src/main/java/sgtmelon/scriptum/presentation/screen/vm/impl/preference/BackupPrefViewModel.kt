@@ -208,7 +208,7 @@ class BackupPrefViewModel(
 
             if (result == ImportResult.Error) return@launch
 
-            // TODO update alarm binds (all) after adding new notes
+            callback?.sendTidyUpAlarmBroadcast()
             callback?.sendNotifyNotesBroadcast()
             callback?.sendNotifyInfoBroadcast()
         }

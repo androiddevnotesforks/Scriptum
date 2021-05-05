@@ -11,8 +11,8 @@ import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
-import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.domain.interactor.callback.IIntroInteractor
+import sgtmelon.scriptum.parent.ParentViewModelTest
 import sgtmelon.scriptum.presentation.screen.ui.callback.IIntroActivity
 import sgtmelon.scriptum.presentation.screen.vm.impl.IntroViewModel.Companion.IS_LAST_PAGE
 import sgtmelon.scriptum.presentation.screen.vm.impl.IntroViewModel.Companion.ND_LAST_PAGE

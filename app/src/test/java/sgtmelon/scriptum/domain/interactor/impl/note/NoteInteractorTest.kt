@@ -4,8 +4,8 @@ import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Test
 import sgtmelon.scriptum.FastTest
-import sgtmelon.scriptum.ParentInteractorTest
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
+import sgtmelon.scriptum.parent.ParentInteractorTest
 
 /**
  * Test for [NoteInteractor].

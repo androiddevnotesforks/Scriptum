@@ -9,7 +9,6 @@ import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.FastTest
-import sgtmelon.scriptum.ParentInteractorTest
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.data.repository.room.callback.INoteRepo
@@ -18,6 +17,7 @@ import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.domain.model.item.RollItem
 import sgtmelon.scriptum.getRandomSize
+import sgtmelon.scriptum.parent.ParentInteractorTest
 import kotlin.random.Random
 
 /**

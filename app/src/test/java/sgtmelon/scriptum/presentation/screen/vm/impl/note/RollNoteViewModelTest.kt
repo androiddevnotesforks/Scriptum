@@ -22,6 +22,7 @@ import sgtmelon.scriptum.extension.hide
 import sgtmelon.scriptum.extension.move
 import sgtmelon.scriptum.extension.validIndexOfFirst
 import sgtmelon.scriptum.extension.validRemoveAt
+import sgtmelon.scriptum.parent.ParentViewModelTest
 import sgtmelon.scriptum.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.presentation.control.note.save.ISaveControl

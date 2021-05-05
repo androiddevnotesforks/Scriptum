@@ -22,8 +22,8 @@ class MainScreenReceiver : BroadcastReceiver() {
         if (id == Note.Default.ID) return
 
         when (intent.getStringExtra(Values.COMMAND)) {
-            Command.UNBIND_NOTE -> bindCallback?.onReceiveUnbindNote(id)
-            Command.UPDATE_ALARM -> alarmCallback?.onReceiveUpdateAlarm(id)
+            Command.UI.UNBIND_NOTE -> bindCallback?.onReceiveUnbindNote(id)
+            Command.UI.UPDATE_ALARM -> alarmCallback?.onReceiveUpdateAlarm(id)
         }
     }
 

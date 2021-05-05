@@ -8,7 +8,6 @@ import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
-import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.domain.interactor.callback.preference.develop.IPrintInteractor
 import sgtmelon.scriptum.domain.model.data.IntentData.Print.Default
 import sgtmelon.scriptum.domain.model.data.IntentData.Print.Intent
@@ -16,6 +15,7 @@ import sgtmelon.scriptum.domain.model.item.PrintItem
 import sgtmelon.scriptum.domain.model.key.PrintType
 import sgtmelon.scriptum.extension.clearAdd
 import sgtmelon.scriptum.getRandomSize
+import sgtmelon.scriptum.parent.ParentViewModelTest
 import sgtmelon.scriptum.presentation.screen.ui.callback.preference.develop.IPrintActivity
 
 /**

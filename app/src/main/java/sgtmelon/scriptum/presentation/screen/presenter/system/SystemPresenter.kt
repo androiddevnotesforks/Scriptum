@@ -15,16 +15,18 @@ class SystemPresenter(
     ISystemPresenter {
 
     override fun onSetup() {
-        mainScope.launchBack {
-            interactor.tidyUpAlarm()
-            interactor.notifyNotesBind()
-            interactor.notifyCountBind()
-        }
+        tidyUpAlarm()
+        notifyAllNotes()
+        notifyCount(count = null)
     }
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy { interactor.onDestroy() }
 
     //region Receiver callback
+
+    override fun tidyUpAlarm() {
+        mainScope.launchBack { interactor.tidyUpAlarm() }
+    }
 
     override fun setAlarm(id: Long, calendar: Calendar, showToast: Boolean) {
         callback?.setAlarm(id, calendar, showToast)
@@ -44,7 +46,11 @@ class SystemPresenter(
     }
 
     override fun notifyCount(count: Int?) {
-        mainScope.launchBack { interactor.notifyCountBind() }
+        if (count != null) {
+            callback?.notifyCountBind(count)
+        } else {
+            mainScope.launchBack { interactor.notifyCountBind() }
+        }
     }
 
     //endregion

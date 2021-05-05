@@ -4,8 +4,8 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.extension.nextString
-import sgtmelon.scriptum.ParentTest
 import sgtmelon.scriptum.domain.model.data.DbData.Roll.Default
+import sgtmelon.scriptum.parent.ParentTest
 import kotlin.random.Random
 
 /**

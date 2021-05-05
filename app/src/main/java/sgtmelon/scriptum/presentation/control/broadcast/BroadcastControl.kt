@@ -18,17 +18,17 @@ class BroadcastControl(private val context: Context?) : IBroadcastControl {
      * Function for let UI know about note unbind (throw status bar notification).
      */
     override fun sendUnbindNoteUI(id: Long) {
-        context?.sendTo(Filter.MAIN, Command.UNBIND_NOTE) {
+        context?.sendTo(Filter.MAIN, Command.UI.UNBIND_NOTE) {
             putExtra(IntentData.Note.Intent.ID, id)
         }
 
-        context?.sendTo(Filter.NOTE, Command.UNBIND_NOTE) {
+        context?.sendTo(Filter.NOTE, Command.UI.UNBIND_NOTE) {
             putExtra(IntentData.Note.Intent.ID, id)
         }
     }
 
     override fun sendUpdateAlarmUI(id: Long) {
-        context?.sendTo(Filter.MAIN, Command.UPDATE_ALARM) {
+        context?.sendTo(Filter.MAIN, Command.UI.UPDATE_ALARM) {
             putExtra(IntentData.Note.Intent.ID, id)
         }
     }
@@ -36,25 +36,29 @@ class BroadcastControl(private val context: Context?) : IBroadcastControl {
     //region Bind functions
 
     override fun sendNotifyNotesBind() {
-        context?.sendTo(Filter.ETERNAL, Command.Eternal.NOTIFY_NOTES)
+        context?.sendTo(Filter.SYSTEM, Command.System.NOTIFY_NOTES)
     }
 
     override fun sendCancelNoteBind(id: Long) {
-        context?.sendTo(Filter.ETERNAL, Command.Eternal.CANCEL_NOTE) {
+        context?.sendTo(Filter.SYSTEM, Command.System.CANCEL_NOTE) {
             putExtra(IntentData.Note.Intent.ID, id)
         }
     }
 
     override fun sendNotifyInfoBind(count: Int?) {
-        context?.sendTo(Filter.ETERNAL, Command.Eternal.NOTIFY_INFO)
+        context?.sendTo(Filter.SYSTEM, Command.System.NOTIFY_INFO)
     }
 
     //endregion
 
     //region Alarm functions
 
+    override fun sendTidyUpAlarm() {
+        context?.sendTo(Filter.SYSTEM, Command.System.TIDY_UP_ALARM)
+    }
+
     override fun sendSetAlarm(id: Long, calendar: Calendar, showToast: Boolean) {
-        context?.sendTo(Filter.ETERNAL, Command.Eternal.SET_ALARM) {
+        context?.sendTo(Filter.SYSTEM, Command.System.SET_ALARM) {
             putExtra(IntentData.Note.Intent.ID, id)
             putExtra(IntentData.Eternal.Intent.DATE, calendar.getText())
             putExtra(IntentData.Eternal.Intent.TOAST, showToast)
@@ -62,7 +66,7 @@ class BroadcastControl(private val context: Context?) : IBroadcastControl {
     }
 
     override fun sendCancelAlarm(id: Long) {
-        context?.sendTo(Filter.ETERNAL, Command.Eternal.CANCEL_ALARM) {
+        context?.sendTo(Filter.SYSTEM, Command.System.CANCEL_ALARM) {
             putExtra(IntentData.Note.Intent.ID, id)
         }
     }

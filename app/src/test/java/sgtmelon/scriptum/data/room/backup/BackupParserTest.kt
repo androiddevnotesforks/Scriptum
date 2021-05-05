@@ -9,7 +9,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.extension.nextString
-import sgtmelon.scriptum.ParentBackupTest
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.room.converter.type.NoteTypeConverter
 import sgtmelon.scriptum.data.room.converter.type.StringConverter
@@ -20,6 +19,7 @@ import sgtmelon.scriptum.domain.model.data.DbData.Rank
 import sgtmelon.scriptum.domain.model.data.DbData.Roll
 import sgtmelon.scriptum.domain.model.data.DbData.RollVisible
 import sgtmelon.scriptum.domain.model.result.ParserResult
+import sgtmelon.scriptum.parent.ParentBackupTest
 import kotlin.random.Random
 
 /**

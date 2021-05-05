@@ -7,8 +7,8 @@ import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.scriptum.ParentRoomRepoTest
 import sgtmelon.scriptum.data.room.entity.NoteEntity
+import sgtmelon.scriptum.parent.ParentRoomRepoTest
 import kotlin.random.Random
 
 /**

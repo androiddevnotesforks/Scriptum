@@ -3,9 +3,9 @@ package sgtmelon.scriptum.domain.model.item
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertThrows
 import org.junit.Test
-import sgtmelon.scriptum.ParentTest
 import sgtmelon.scriptum.domain.model.annotation.InputAction
 import sgtmelon.scriptum.domain.model.item.InputItem.Cursor.Companion.get
+import sgtmelon.scriptum.parent.ParentTest
 
 /**
  * Test for [InputItem].

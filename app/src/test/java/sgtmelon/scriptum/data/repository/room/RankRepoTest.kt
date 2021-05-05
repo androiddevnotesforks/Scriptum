@@ -6,7 +6,6 @@ import org.junit.After
 import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.extension.nextString
-import sgtmelon.scriptum.ParentRoomRepoTest
 import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.data.room.converter.model.RankConverter
 import sgtmelon.scriptum.data.room.entity.NoteEntity
@@ -16,6 +15,7 @@ import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RankItem
 import sgtmelon.scriptum.getRandomSize
 import sgtmelon.scriptum.isDivideTwoEntirely
+import sgtmelon.scriptum.parent.ParentRoomRepoTest
 import kotlin.random.Random
 
 /**

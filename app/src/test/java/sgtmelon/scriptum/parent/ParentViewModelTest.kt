@@ -1,4 +1,4 @@
-package sgtmelon.scriptum
+package sgtmelon.scriptum.parent
 
 import android.app.Application
 import android.content.Context

@@ -9,9 +9,9 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.scriptum.ParentInteractorTest
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.IDevelopRepo
+import sgtmelon.scriptum.parent.ParentInteractorTest
 import kotlin.random.Random
 
 /**

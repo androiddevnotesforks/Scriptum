@@ -9,7 +9,6 @@ import sgtmelon.extension.beforeNow
 import sgtmelon.extension.getCalendar
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.FastMock
-import sgtmelon.scriptum.ParentInteractorTest
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.data.repository.room.callback.IBindRepo
@@ -18,6 +17,7 @@ import sgtmelon.scriptum.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.getRandomSize
+import sgtmelon.scriptum.parent.ParentInteractorTest
 import sgtmelon.scriptum.presentation.screen.system.ISystemBridge
 import java.util.*
 import kotlin.collections.ArrayList

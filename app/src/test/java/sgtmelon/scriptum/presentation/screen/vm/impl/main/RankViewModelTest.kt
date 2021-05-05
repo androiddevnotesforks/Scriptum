@@ -10,7 +10,8 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import sgtmelon.extension.nextString
-import sgtmelon.scriptum.*
+import sgtmelon.scriptum.FastMock
+import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.domain.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.domain.model.data.IntentData.Snackbar
 import sgtmelon.scriptum.domain.model.item.NoteItem
@@ -18,6 +19,9 @@ import sgtmelon.scriptum.domain.model.item.RankItem
 import sgtmelon.scriptum.domain.model.state.OpenState
 import sgtmelon.scriptum.extension.clearAdd
 import sgtmelon.scriptum.extension.move
+import sgtmelon.scriptum.getRandomSize
+import sgtmelon.scriptum.isDivideTwoEntirely
+import sgtmelon.scriptum.parent.ParentViewModelTest
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IRankFragment
 import kotlin.random.Random
 

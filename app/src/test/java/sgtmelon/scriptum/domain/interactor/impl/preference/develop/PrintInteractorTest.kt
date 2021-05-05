@@ -6,7 +6,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.extension.nextString
-import sgtmelon.scriptum.ParentInteractorTest
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.provider.PreferenceProvider
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
@@ -17,6 +16,7 @@ import sgtmelon.scriptum.domain.model.item.PrintItem
 import sgtmelon.scriptum.domain.model.item.PrintItem.Preference
 import sgtmelon.scriptum.domain.model.key.PrintType
 import sgtmelon.scriptum.getRandomSize
+import sgtmelon.scriptum.parent.ParentInteractorTest
 import sgtmelon.scriptum.presentation.control.file.IFileControl
 import java.io.File
 import kotlin.random.Random

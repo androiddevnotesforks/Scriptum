@@ -9,8 +9,8 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.extension.nextString
-import sgtmelon.scriptum.ParentTest
 import sgtmelon.scriptum.domain.model.key.PermissionResult
+import sgtmelon.scriptum.parent.ParentTest
 import sgtmelon.scriptum.presentation.provider.BuildProvider.Version
 
 /**

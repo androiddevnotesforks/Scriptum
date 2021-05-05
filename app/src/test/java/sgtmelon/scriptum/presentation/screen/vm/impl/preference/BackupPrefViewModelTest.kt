@@ -8,7 +8,6 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import sgtmelon.extension.nextString
-import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.domain.interactor.callback.preference.IBackupPrefInteractor
@@ -17,6 +16,7 @@ import sgtmelon.scriptum.domain.model.key.PermissionResult
 import sgtmelon.scriptum.domain.model.result.ExportResult
 import sgtmelon.scriptum.domain.model.result.ImportResult
 import sgtmelon.scriptum.getRandomSize
+import sgtmelon.scriptum.parent.ParentViewModelTest
 import sgtmelon.scriptum.presentation.screen.ui.callback.preference.IBackupPrefFragment
 import kotlin.random.Random
 
@@ -430,6 +430,7 @@ class BackupPrefViewModelTest : ParentViewModelTest() {
             interactor.import(name)
             callback.hideImportLoadingDialog()
             callback.showToast(R.string.pref_toast_import_result)
+            callback.sendTidyUpAlarmBroadcast()
             callback.sendNotifyNotesBroadcast()
             callback.sendNotifyInfoBroadcast()
 
@@ -437,6 +438,7 @@ class BackupPrefViewModelTest : ParentViewModelTest() {
             interactor.import(name)
             callback.hideImportLoadingDialog()
             callback.showImportSkipToast(skipCount)
+            callback.sendTidyUpAlarmBroadcast()
             callback.sendNotifyNotesBroadcast()
             callback.sendNotifyInfoBroadcast()
 

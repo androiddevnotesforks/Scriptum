@@ -8,7 +8,7 @@ import sgtmelon.scriptum.presentation.control.system.AlarmControl
 import sgtmelon.scriptum.presentation.control.system.BindControl
 import sgtmelon.scriptum.presentation.control.system.callback.IAlarmControl
 import sgtmelon.scriptum.presentation.control.system.callback.IBindControl
-import sgtmelon.scriptum.presentation.receiver.EternalReceiver
+import sgtmelon.scriptum.presentation.receiver.SystemReceiver
 import sgtmelon.scriptum.presentation.screen.presenter.system.ISystemPresenter
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import java.util.*
@@ -24,13 +24,13 @@ class SystemLogic : ISystemLogic {
     private lateinit var alarmControl: IAlarmControl
     private lateinit var bindControl: IBindControl
 
-    private val eternalReceiver by lazy { EternalReceiver[presenter] }
+    private val receiver by lazy { SystemReceiver[presenter] }
 
     override fun onCreate(context: Context) {
         ScriptumApplication.component.getSystemBuilder().set(logic = this).build()
             .inject(logic = this)
 
-        context.registerReceiver(eternalReceiver, IntentFilter(ReceiverData.Filter.ETERNAL))
+        context.registerReceiver(receiver, IntentFilter(ReceiverData.Filter.SYSTEM))
 
         alarmControl = AlarmControl[context]
         bindControl = BindControl[context]
@@ -40,7 +40,7 @@ class SystemLogic : ISystemLogic {
 
     override fun onDestroy(context: Context) {
         presenter.onDestroy()
-        context.unregisterReceiver(eternalReceiver)
+        context.unregisterReceiver(receiver)
     }
 
     //region Bridge functions

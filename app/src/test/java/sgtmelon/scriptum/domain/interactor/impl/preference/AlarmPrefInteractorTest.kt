@@ -9,10 +9,10 @@ import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.FastTest
-import sgtmelon.scriptum.ParentInteractorTest
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.room.converter.type.IntConverter
 import sgtmelon.scriptum.getRandomSize
+import sgtmelon.scriptum.parent.ParentInteractorTest
 import sgtmelon.scriptum.presentation.provider.SummaryProvider
 import java.util.*
 import kotlin.random.Random

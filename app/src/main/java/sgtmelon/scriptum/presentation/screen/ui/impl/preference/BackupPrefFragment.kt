@@ -278,6 +278,8 @@ class BackupPrefFragment : ParentPreferenceFragment(),
 
     //region Broadcast functions
 
+    override fun sendTidyUpAlarmBroadcast() = broadcastControl.sendTidyUpAlarm()
+
     override fun sendNotifyNotesBroadcast() = broadcastControl.sendNotifyNotesBind()
 
     /**

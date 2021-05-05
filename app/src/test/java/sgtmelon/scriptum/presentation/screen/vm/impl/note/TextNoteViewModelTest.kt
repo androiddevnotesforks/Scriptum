@@ -8,7 +8,9 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import sgtmelon.extension.nextString
-import sgtmelon.scriptum.*
+import sgtmelon.scriptum.FastMock
+import sgtmelon.scriptum.FastTest
+import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.domain.model.annotation.InputAction
 import sgtmelon.scriptum.domain.model.data.IntentData.Note.Default
@@ -16,11 +18,13 @@ import sgtmelon.scriptum.domain.model.item.InputItem
 import sgtmelon.scriptum.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.state.NoteState
+import sgtmelon.scriptum.parent.ParentViewModelTest
 import sgtmelon.scriptum.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.presentation.control.note.save.ISaveControl
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.ITextNoteFragment
+import sgtmelon.scriptum.verifyDeepCopy
 import kotlin.random.Random
 
 /**

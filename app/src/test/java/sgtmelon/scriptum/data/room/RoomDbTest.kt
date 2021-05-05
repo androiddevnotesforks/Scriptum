@@ -5,7 +5,7 @@ import io.mockk.impl.annotations.MockK
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
-import sgtmelon.scriptum.ParentTest
+import sgtmelon.scriptum.parent.ParentTest
 
 /**
  * Test for [RoomDb].

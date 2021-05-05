@@ -15,25 +15,30 @@ object ReceiverData {
 
             const val MAIN = "${PREFIX}_MAIN"
             const val NOTE = "${PREFIX}_NOTE"
-            const val ETERNAL = "${PREFIX}_BIND"
+            const val SYSTEM = "${PREFIX}_SYSTEM"
         }
     }
 
-    @StringDef(Command.UNBIND_NOTE, Command.UPDATE_ALARM)
     annotation class Command {
         companion object {
             private const val PREFIX = "RECEIVER_COMMAND"
+        }
 
-            const val UNBIND_NOTE = "${PREFIX}_UNBIND_NOTE"
-            const val UPDATE_ALARM = "${PREFIX}_UPDATE_ALARM"
+        @StringDef(UI.UNBIND_NOTE, UI.UPDATE_ALARM)
+        annotation class UI {
+            companion object {
+                const val UNBIND_NOTE = "${PREFIX}_UNBIND_NOTE"
+                const val UPDATE_ALARM = "${PREFIX}_UPDATE_ALARM"
+            }
         }
 
         @StringDef(
-            Eternal.SET_ALARM, Eternal.CANCEL_ALARM,
-            Eternal.NOTIFY_NOTES, Eternal.CANCEL_NOTE, Eternal.NOTIFY_INFO
+            System.TIDY_UP_ALARM, System.SET_ALARM, System.CANCEL_ALARM,
+            System.NOTIFY_NOTES, System.CANCEL_NOTE, System.NOTIFY_INFO
         )
-        annotation class Eternal {
+        annotation class System {
             companion object {
+                const val TIDY_UP_ALARM = "${PREFIX}_TIDY_UP_ALARM"
                 const val SET_ALARM = "${PREFIX}_SET_ALARM"
                 const val CANCEL_ALARM = "${PREFIX}_CANCEL_ALARM"
                 const val NOTIFY_NOTES = "${PREFIX}_NOTIFY_ALL"

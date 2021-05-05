@@ -2,7 +2,7 @@ package sgtmelon.scriptum.domain.model.state
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.scriptum.ParentTest
+import sgtmelon.scriptum.parent.ParentTest
 
 /**
  * Test for [NoteState].

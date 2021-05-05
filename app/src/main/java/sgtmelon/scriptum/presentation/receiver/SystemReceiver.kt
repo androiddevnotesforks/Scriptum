@@ -9,14 +9,13 @@ import sgtmelon.scriptum.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.domain.model.data.ReceiverData.Command
 import sgtmelon.scriptum.domain.model.data.ReceiverData.Values
 import sgtmelon.scriptum.presentation.control.broadcast.BroadcastControl
-import sgtmelon.scriptum.presentation.control.system.BindControl
-import sgtmelon.scriptum.presentation.service.EternalService
+import sgtmelon.scriptum.presentation.screen.system.SystemLogic
 import java.util.*
 
 /**
- * Receiver for connection between UI and [EternalService]/[BindControl].
+ * Receiver for [SystemLogic] commands.
  */
-class EternalReceiver : BroadcastReceiver() {
+class SystemReceiver : BroadcastReceiver() {
 
     private var callback: Callback? = null
 
@@ -24,7 +23,8 @@ class EternalReceiver : BroadcastReceiver() {
         if (intent == null) return
 
         when (intent.getStringExtra(Values.COMMAND)) {
-            Command.Eternal.SET_ALARM -> {
+            Command.System.TIDY_UP_ALARM -> callback?.tidyUpAlarm()
+            Command.System.SET_ALARM -> {
                 val id = intent.getLongExtra(Note.Intent.ID, Note.Default.ID)
                 val date = intent.getStringExtra(Eternal.Intent.DATE)
                 val showToast = intent.getBooleanExtra(Eternal.Intent.TOAST, Eternal.Default.TOAST)
@@ -35,22 +35,22 @@ class EternalReceiver : BroadcastReceiver() {
 
                 callback?.setAlarm(id, calendar, showToast)
             }
-            Command.Eternal.CANCEL_ALARM -> {
+            Command.System.CANCEL_ALARM -> {
                 val id = intent.getLongExtra(Note.Intent.ID, Note.Default.ID)
 
                 if (id == Note.Default.ID) return
 
                 callback?.cancelAlarm(id)
             }
-            Command.Eternal.NOTIFY_NOTES -> callback?.notifyAllNotes()
-            Command.Eternal.CANCEL_NOTE -> {
+            Command.System.NOTIFY_NOTES -> callback?.notifyAllNotes()
+            Command.System.CANCEL_NOTE -> {
                 val id = intent.getLongExtra(Note.Intent.ID, Note.Default.ID)
 
                 if (id == Note.Default.ID) return
 
                 callback?.cancelNote(id)
             }
-            Command.Eternal.NOTIFY_INFO -> {
+            Command.System.NOTIFY_INFO -> {
                 val count = intent.getIntExtra(Eternal.Intent.COUNT, Eternal.Default.COUNT).takeIf {
                     it != Eternal.Default.COUNT
                 }
@@ -64,6 +64,8 @@ class EternalReceiver : BroadcastReceiver() {
      * Callback which will call after getting [Intent] inside [onReceive].
      */
     interface Callback {
+
+        fun tidyUpAlarm()
 
         fun setAlarm(id: Long, calendar: Calendar, showToast: Boolean)
 
@@ -84,6 +86,10 @@ class EternalReceiver : BroadcastReceiver() {
      */
     interface Bridge {
 
+        interface TidyUp {
+            fun sendTidyUpAlarmBroadcast()
+        }
+
         interface Alarm {
             fun sendSetAlarmBroadcast(id: Long, calendar: Calendar, showToast: Boolean = true)
             fun sendCancelAlarmBroadcast(id: Long)
@@ -101,8 +107,8 @@ class EternalReceiver : BroadcastReceiver() {
     }
 
     companion object {
-        operator fun get(callback: Callback): EternalReceiver {
-            return EternalReceiver().apply { this.callback = callback }
+        operator fun get(callback: Callback): SystemReceiver {
+            return SystemReceiver().apply { this.callback = callback }
         }
     }
 }

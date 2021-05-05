@@ -2,9 +2,9 @@ package sgtmelon.scriptum.data.room.converter.model
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.scriptum.ParentTest
 import sgtmelon.scriptum.data.room.entity.RankEntity
 import sgtmelon.scriptum.domain.model.item.RankItem
+import sgtmelon.scriptum.parent.ParentTest
 
 /**
  * Test for [RankConverter].

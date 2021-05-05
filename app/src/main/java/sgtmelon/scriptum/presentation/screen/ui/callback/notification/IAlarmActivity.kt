@@ -3,15 +3,15 @@ package sgtmelon.scriptum.presentation.screen.ui.callback.notification
 import androidx.annotation.ArrayRes
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.presentation.receiver.EternalReceiver
+import sgtmelon.scriptum.presentation.receiver.SystemReceiver
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.AlarmActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.notification.IAlarmViewModel
 
 /**
  * Interface for communication [IAlarmViewModel] with [AlarmActivity].
  */
-interface IAlarmActivity : EternalReceiver.Bridge.Alarm,
-    EternalReceiver.Bridge.Bind {
+interface IAlarmActivity : SystemReceiver.Bridge.Alarm,
+    SystemReceiver.Bridge.Bind {
 
     /**
      * Awake phone if it sleeps

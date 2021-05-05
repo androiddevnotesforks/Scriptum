@@ -11,10 +11,10 @@ import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
-import sgtmelon.scriptum.ParentViewModelTest
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.interactor.callback.preference.develop.IDevelopInteractor
 import sgtmelon.scriptum.domain.model.key.PrintType
+import sgtmelon.scriptum.parent.ParentViewModelTest
 import sgtmelon.scriptum.presentation.screen.ui.callback.preference.develop.IDevelopFragment
 import kotlin.random.Random
 
@@ -23,6 +23,8 @@ import kotlin.random.Random
  */
 @ExperimentalCoroutinesApi
 class DevelopViewModelTest : ParentViewModelTest() {
+
+    //region Setup
 
     @MockK lateinit var callback: IDevelopFragment
 
@@ -48,6 +50,7 @@ class DevelopViewModelTest : ParentViewModelTest() {
         assertNull(viewModel.callback)
     }
 
+    //endregion
 
     @Test fun onSetup() {
         viewModel.onSetup()
