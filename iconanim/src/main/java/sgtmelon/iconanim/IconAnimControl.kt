@@ -2,14 +2,11 @@ package sgtmelon.iconanim
 
 import android.content.Context
 import android.graphics.drawable.AnimatedVectorDrawable
-import android.os.Build
 import android.os.Handler
-import androidx.annotation.RequiresApi
 
 /**
  * Handler for register animation start/end
  */
-@RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 class IconAnimControl(
     context: Context,
     private val enterIcon: AnimatedVectorDrawable?,

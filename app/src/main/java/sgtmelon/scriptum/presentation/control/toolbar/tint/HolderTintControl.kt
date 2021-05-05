@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.presentation.control.toolbar.tint
 
 import android.content.Context
-import android.os.Build
 import android.view.View
 import android.view.Window
 import sgtmelon.scriptum.domain.model.annotation.Color
@@ -23,9 +22,7 @@ class HolderTintControl(
     override fun setupColor(@Color color: Int) {
         if (theme == null || theme == Theme.DARK) return
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.statusBarColor = getStatusBarColor(theme, color)
-        }
+        window.statusBarColor = getStatusBarColor(theme, color)
 
         holder?.setBackgroundColor(getToolbarColor(theme, color))
     }

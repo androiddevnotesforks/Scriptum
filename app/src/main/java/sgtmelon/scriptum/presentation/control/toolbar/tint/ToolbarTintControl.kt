@@ -2,8 +2,6 @@ package sgtmelon.scriptum.presentation.control.toolbar.tint
 
 import android.animation.ValueAnimator
 import android.content.Context
-import android.os.Build.VERSION
-import android.os.Build.VERSION_CODES
 import android.view.View
 import android.view.Window
 import sgtmelon.scriptum.R
@@ -47,7 +45,7 @@ class ToolbarTintControl(
             val ratio = it.animatedFraction
             var blended: Int
 
-            if (theme != Theme.DARK && VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
+            if (theme != Theme.DARK) {
                 blended = statusState.blend(ratio)
                 window.statusBarColor = blended
             }
