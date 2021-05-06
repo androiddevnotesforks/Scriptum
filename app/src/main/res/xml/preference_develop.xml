@@ -34,7 +34,7 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_header_preference_print"
+    <PreferenceCategory android:title="@string/pref_header_other_print"
         app:iconSpaceReserved="false">
 
         <Preference android:key="@string/pref_key_print_key"
