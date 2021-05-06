@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.IBinder
-import androidx.annotation.RequiresApi
 import sgtmelon.extension.getNewCalendar
 import sgtmelon.scriptum.extension.getAlarmService
 import sgtmelon.scriptum.presentation.screen.system.ISystemLogic
@@ -18,7 +17,6 @@ import sgtmelon.scriptum.presentation.factory.NotificationFactory as Factory
 /**
  * [Service] that never will die.
  */
-@RequiresApi(Build.VERSION_CODES.O)
 class EternalService : Service() {
 
     private val systemLogic: ISystemLogic = SystemLogic()
@@ -37,7 +35,9 @@ class EternalService : Service() {
         /**
          * Attach this service to notification, which provide long life for them.
          */
-        Factory.Service.createChannel(context = this)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Factory.Service.createChannel(context = this)
+        }
         startForeground(Factory.Service.ID, Factory.Service[this])
 
         systemLogic.onCreate(context = this)
@@ -80,9 +80,14 @@ class EternalService : Service() {
          * Start this foreground service only on API which has channel notifications
          * (for disable it in settings). It means API >= Oreo (26).
          */
-        @RequiresApi(Build.VERSION_CODES.O)
         fun start(context: Context) {
-            context.startForegroundService(Intent(context, EternalService::class.java))
+            val intent = Intent(context, EternalService::class.java)
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                context.startForegroundService(intent)
+            } else {
+                context.startService(intent)
+            }
         }
     }
 }
