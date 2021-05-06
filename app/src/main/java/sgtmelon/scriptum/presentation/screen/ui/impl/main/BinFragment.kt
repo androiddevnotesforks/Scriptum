@@ -128,7 +128,9 @@ class BinFragment : ParentFragment(), IBinFragment {
             it.layoutManager = LinearLayoutManager(context)
             it.adapter = adapter
         }
+    }
 
+    override fun setupDialog() {
         optionsDialog.apply {
             itemListener = DialogInterface.OnClickListener { _, which ->
                 viewModel.onResultOptionsDialog(optionsDialog.position, which)
@@ -137,16 +139,21 @@ class BinFragment : ParentFragment(), IBinFragment {
         }
     }
 
+
     /**
      * For first time [recyclerView] visibility flag set inside xml file.
      */
-    override fun beforeLoad() {
+    override fun prepareForLoad() {
         emptyInfoView?.visibility = View.GONE
         progressBar?.visibility = View.GONE
     }
 
     override fun showProgress() {
         progressBar?.visibility = View.VISIBLE
+    }
+
+    override fun hideEmptyInfo() {
+        emptyInfoView?.visibility = View.GONE
     }
 
 
@@ -158,12 +165,24 @@ class BinFragment : ParentFragment(), IBinFragment {
          * on other screens may cause [onBindingList].
          */
         if (adapter.itemCount == 0) {
+            /**
+             * Prevent useless calls from [RecyclerView.setDefaultAnimator].
+             */
+            if (emptyInfoView?.visibility == View.VISIBLE
+                    && recyclerView?.visibility == View.INVISIBLE) return
+
             emptyInfoView?.visibility = View.VISIBLE
             recyclerView?.visibility = View.INVISIBLE
 
             emptyInfoView?.alpha = 0f
             emptyInfoView?.animateAlpha(isVisible = true)
         } else {
+            /**
+             * Prevent useless calls from [RecyclerView.setDefaultAnimator].
+             */
+            if (emptyInfoView?.visibility == View.GONE
+                    && recyclerView?.visibility == View.VISIBLE) return
+
             emptyInfoView?.visibility = View.GONE
             recyclerView?.visibility = View.VISIBLE
         }

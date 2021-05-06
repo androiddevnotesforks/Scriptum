@@ -24,6 +24,8 @@ import kotlin.random.Random
 @ExperimentalCoroutinesApi
 class BinViewModelTest : ParentViewModelTest() {
 
+    //region Setup
+
     @MockK lateinit var callback: IBinFragment
 
     @MockK lateinit var interactor: IBinInteractor
@@ -49,6 +51,7 @@ class BinViewModelTest : ParentViewModelTest() {
         assertNull(viewModel.callback)
     }
 
+    //endregion
 
     @Test fun onSetup() {
         viewModel.onSetup()
@@ -56,6 +59,9 @@ class BinViewModelTest : ParentViewModelTest() {
         verifySequence {
             callback.setupToolbar()
             callback.setupRecycler()
+            callback.setupDialog()
+
+            callback.prepareForLoad()
         }
     }
 
@@ -69,8 +75,8 @@ class BinViewModelTest : ParentViewModelTest() {
         viewModel.onUpdateData()
 
         coVerifySequence {
-            callback.beforeLoad()
             interactor.getCount()
+            callback.hideEmptyInfo()
             callback.showProgress()
             interactor.getList()
             updateList(itemList)
@@ -86,7 +92,6 @@ class BinViewModelTest : ParentViewModelTest() {
         viewModel.onUpdateData()
 
         coVerifySequence {
-            callback.beforeLoad()
             interactor.getCount()
             updateList(itemList)
         }
@@ -105,7 +110,6 @@ class BinViewModelTest : ParentViewModelTest() {
         viewModel.onUpdateData()
 
         coVerifySequence {
-            callback.beforeLoad()
             updateList(any())
             interactor.getCount()
             interactor.getList()
@@ -126,7 +130,6 @@ class BinViewModelTest : ParentViewModelTest() {
         viewModel.onUpdateData()
 
         coVerifySequence {
-            callback.beforeLoad()
             updateList(any())
             interactor.getCount()
             updateList(returnList)

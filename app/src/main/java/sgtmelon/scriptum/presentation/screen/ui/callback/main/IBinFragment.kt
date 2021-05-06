@@ -16,13 +16,14 @@ interface IBinFragment : ClipboardControl.Bridge {
 
     fun setupRecycler()
 
+    fun setupDialog()
 
-    /**
-     * Calls before load data inside list.
-     */
-    fun beforeLoad()
+
+    fun prepareForLoad()
 
     fun showProgress()
+
+    fun hideEmptyInfo()
 
 
     fun onBindingList()

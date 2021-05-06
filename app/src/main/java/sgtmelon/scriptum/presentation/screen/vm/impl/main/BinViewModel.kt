@@ -37,13 +37,14 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
     override fun onSetup(bundle: Bundle?) {
         callback?.setupToolbar()
         callback?.setupRecycler()
+        callback?.setupDialog()
+
+        callback?.prepareForLoad()
     }
 
 
     override fun onUpdateData() {
         AppIdlingResource.getInstance().startWork(IdlingTag.Bin.LOAD_DATA)
-
-        callback?.beforeLoad()
 
         fun updateList() = callback?.apply {
             notifyList(itemList)
@@ -63,6 +64,7 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
                 itemList.clear()
             } else {
                 if (itemList.isEmpty()) {
+                    callback?.hideEmptyInfo()
                     callback?.showProgress()
                 }
 
