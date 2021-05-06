@@ -19,13 +19,17 @@ interface IRankFragment : SystemReceiver.Bridge.Bind {
 
     fun setupRecycler()
 
+    fun setupDialog()
+
 
     /**
      * Calls before load data inside list.
      */
-    fun beforeLoad()
+    fun prepareForLoad()
 
     fun showProgress()
+
+    fun hideEmptyInfo()
 
 
     fun onBindingList()

@@ -43,6 +43,9 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     override fun onSetup(bundle: Bundle?) {
         callback?.setupToolbar()
         callback?.setupRecycler()
+        callback?.setupDialog()
+
+        callback?.prepareForLoad()
 
         if (bundle != null) {
             restoreSnackbar(bundle)
@@ -89,8 +92,6 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     override fun onUpdateData() {
         AppIdlingResource.getInstance().startWork(IdlingTag.Rank.LOAD_DATA)
 
-        callback?.beforeLoad()
-
         fun updateList() = callback?.apply {
             notifyList(itemList)
             onBindingList()
@@ -108,6 +109,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
                 itemList.clear()
             } else {
                 if (itemList.isEmpty()) {
+                    callback?.hideEmptyInfo()
                     callback?.showProgress()
                 }
 

@@ -31,6 +31,8 @@ import kotlin.random.Random
 @ExperimentalCoroutinesApi
 class RankViewModelTest : ParentViewModelTest() {
 
+    //region Setup
+
     private val data = TestData.Rank
 
     @MockK lateinit var callback: IRankFragment
@@ -67,6 +69,7 @@ class RankViewModelTest : ParentViewModelTest() {
         assertNull(viewModel.callback)
     }
 
+    //endregion
 
     @Test fun onSetup() {
         val bundle = mockk<Bundle>()
@@ -79,12 +82,18 @@ class RankViewModelTest : ParentViewModelTest() {
         verifySequence {
             callback.setupToolbar()
             callback.setupRecycler()
+            callback.setupDialog()
+            callback.prepareForLoad()
 
             spyViewModel.onSetup(bundle)
             spyViewModel.callback
             callback.setupToolbar()
             spyViewModel.callback
             callback.setupRecycler()
+            spyViewModel.callback
+            callback.setupDialog()
+            spyViewModel.callback
+            callback.prepareForLoad()
             spyViewModel.restoreSnackbar(bundle)
         }
     }
@@ -175,8 +184,8 @@ class RankViewModelTest : ParentViewModelTest() {
         viewModel.onUpdateData()
 
         coVerifySequence {
-            callback.beforeLoad()
             interactor.getCount()
+            callback.hideEmptyInfo()
             callback.showProgress()
             interactor.getList()
             updateList(itemList)
@@ -191,7 +200,6 @@ class RankViewModelTest : ParentViewModelTest() {
         viewModel.onUpdateData()
 
         coVerifySequence {
-            callback.beforeLoad()
             interactor.getCount()
             updateList(itemList)
         }
@@ -209,7 +217,6 @@ class RankViewModelTest : ParentViewModelTest() {
         viewModel.onUpdateData()
 
         coVerifySequence {
-            callback.beforeLoad()
             updateList(any())
             interactor.getCount()
             interactor.getList()
@@ -228,7 +235,6 @@ class RankViewModelTest : ParentViewModelTest() {
         viewModel.onUpdateData()
 
         coVerifySequence {
-            callback.beforeLoad()
             updateList(any())
             interactor.getCount()
             updateList(mutableListOf())

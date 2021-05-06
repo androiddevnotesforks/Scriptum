@@ -71,5 +71,4 @@ class UnbindReceiverTest : ParentNotificationTest() {
             openAlarm(it) { onOpen { onAssertItem(it.apply { isStatus = false }) } }
         }
     }
-
 }

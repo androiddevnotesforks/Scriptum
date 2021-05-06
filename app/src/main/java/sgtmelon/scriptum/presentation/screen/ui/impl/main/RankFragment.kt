@@ -40,6 +40,8 @@ import javax.inject.Inject
 class RankFragment : ParentFragment(), IRankFragment, MainScreenReceiver.BindCallback,
     SnackbarCallback {
 
+    //region Variables
+
     private val callback: IMainActivity? by lazy { context as? IMainActivity }
 
     private var binding: FragmentRankBinding? = null
@@ -99,6 +101,10 @@ class RankFragment : ParentFragment(), IRankFragment, MainScreenReceiver.BindCal
     private var progressBar: View? = null
     private var recyclerView: RecyclerView? = null
 
+    //endregion
+
+    //region System
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -156,6 +162,8 @@ class RankFragment : ParentFragment(), IRankFragment, MainScreenReceiver.BindCal
         super.onSaveInstanceState(outState)
         viewModel.onSaveData(outState)
     }
+
+    //endregion
 
     //region Receiver functions
 
@@ -227,7 +235,9 @@ class RankFragment : ParentFragment(), IRankFragment, MainScreenReceiver.BindCal
         }
 
         ItemTouchHelper(touchCallback).attachToRecyclerView(recyclerView)
+    }
 
+    override fun setupDialog() {
         renameDialog.apply {
             positiveListener = DialogInterface.OnClickListener { _, _ ->
                 viewModel.onResultRenameDialog(position, name)
@@ -236,10 +246,11 @@ class RankFragment : ParentFragment(), IRankFragment, MainScreenReceiver.BindCal
         }
     }
 
+
     /**
      * For first time [recyclerView] visibility flag set inside xml file.
      */
-    override fun beforeLoad() {
+    override fun prepareForLoad() {
         emptyInfoView?.visibility = View.GONE
         progressBar?.visibility = View.GONE
     }
@@ -248,17 +259,33 @@ class RankFragment : ParentFragment(), IRankFragment, MainScreenReceiver.BindCal
         progressBar?.visibility = View.VISIBLE
     }
 
+    override fun hideEmptyInfo() {
+        emptyInfoView?.visibility = View.GONE
+    }
+
 
     override fun onBindingList() {
         progressBar?.visibility = View.GONE
 
         if (adapter.itemCount == 0) {
+            /**
+             * Prevent useless calls from [RecyclerView.setDefaultAnimator].
+             */
+            if (emptyInfoView?.visibility == View.VISIBLE
+                    && recyclerView?.visibility == View.INVISIBLE) return
+
             emptyInfoView?.visibility = View.VISIBLE
             recyclerView?.visibility = View.INVISIBLE
 
             emptyInfoView?.alpha = 0f
             emptyInfoView?.animateAlpha(isVisible = true)
         } else {
+            /**
+             * Prevent useless calls from [RecyclerView.setDefaultAnimator].
+             */
+            if (emptyInfoView?.visibility == View.GONE
+                    && recyclerView?.visibility == View.VISIBLE) return
+
             recyclerView?.visibility = View.VISIBLE
 
             emptyInfoView?.animateAlpha(isVisible = false) {
@@ -266,6 +293,9 @@ class RankFragment : ParentFragment(), IRankFragment, MainScreenReceiver.BindCal
             }
         }
 
+        /**
+         * If toolbar enter contains text then need update add button.
+         */
         viewModel.onUpdateToolbar()
     }
 
