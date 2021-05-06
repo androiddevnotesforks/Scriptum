@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
@@ -154,14 +153,11 @@ class PrintActivity : AppActivity(), IPrintActivity {
             recyclerView?.visibility = View.INVISIBLE
 
             emptyInfoView?.alpha = 0f
-            emptyInfoView?.animateAlpha(isVisible = true) {
-                Log.i("HERE", "show")
-            }
+            emptyInfoView?.animateAlpha(isVisible = true)
         } else {
             recyclerView?.visibility = View.VISIBLE
 
             emptyInfoView?.animateAlpha(isVisible = false) {
-                Log.i("HERE", "hide")
                 emptyInfoView?.visibility = View.GONE
             }
         }

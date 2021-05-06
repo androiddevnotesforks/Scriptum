@@ -30,7 +30,7 @@ abstract class ParentUiTest : ParentTest() {
 
     protected val uiDevice: UiDevice = UiDevice.getInstance(getInstrumentation())
 
-    //region Setup functions
+    //region Setup
 
     @Before override fun setup() {
         super.setup()

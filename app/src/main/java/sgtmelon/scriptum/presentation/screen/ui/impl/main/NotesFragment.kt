@@ -41,6 +41,8 @@ class NotesFragment : ParentFragment(),
     MainScreenReceiver.BindCallback,
     MainScreenReceiver.AlarmCallback {
 
+    //region Variables
+
     private val callback: IMainActivity? by lazy { context as? IMainActivity }
 
     private var binding: FragmentNotesBinding? = null
@@ -80,12 +82,18 @@ class NotesFragment : ParentFragment(),
      */
     private val fabHandler = Handler()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    //endregion
+
+    //region System
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = inflater.inflateBinding(R.layout.fragment_notes, container)
 
         ScriptumApplication.component.getNotesBuilder().set(fragment = this).build()
-                .inject(fragment = this)
+            .inject(fragment = this)
 
         return binding?.root
     }
@@ -113,6 +121,8 @@ class NotesFragment : ParentFragment(),
         super.onDestroy()
         viewModel.onDestroy()
     }
+
+    //endregion
 
     //region Receiver functions
 
@@ -214,13 +224,17 @@ class NotesFragment : ParentFragment(),
     /**
      * For first time [recyclerView] visibility flag set inside xml file.
      */
-    override fun beforeLoad() {
+    override fun prepareForLoad() {
         emptyInfoView?.visibility = View.GONE
         progressBar?.visibility = View.GONE
     }
 
     override fun showProgress() {
         progressBar?.visibility = View.VISIBLE
+    }
+
+    override fun hideEmptyInfo() {
+        emptyInfoView?.visibility = View.GONE
     }
 
 
@@ -232,12 +246,24 @@ class NotesFragment : ParentFragment(),
          * on other screens may cause [onBindingList].
          */
         if (adapter.itemCount == 0) {
+            /**
+             * Prevent useless calls from [RecyclerView.setDefaultAnimator].
+             */
+            if (emptyInfoView?.visibility == View.VISIBLE
+                    && recyclerView?.visibility == View.INVISIBLE) return
+
             emptyInfoView?.visibility = View.VISIBLE
             recyclerView?.visibility = View.INVISIBLE
 
             emptyInfoView?.alpha = 0f
             emptyInfoView?.animateAlpha(isVisible = true)
         } else {
+            /**
+             * Prevent useless calls from [RecyclerView.setDefaultAnimator].
+             */
+            if (emptyInfoView?.visibility == View.GONE
+                    && recyclerView?.visibility == View.VISIBLE) return
+
             emptyInfoView?.visibility = View.GONE
             recyclerView?.visibility = View.VISIBLE
         }

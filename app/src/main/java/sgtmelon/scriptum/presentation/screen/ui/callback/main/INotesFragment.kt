@@ -26,12 +26,11 @@ interface INotesFragment : SystemReceiver.Bridge.Alarm,
     fun setupBinding(isListHide: Boolean)
 
 
-    /**
-     * Calls before load data inside list.
-     */
-    fun beforeLoad()
+    fun prepareForLoad()
 
     fun showProgress()
+
+    fun hideEmptyInfo()
 
 
     fun onBindingList()

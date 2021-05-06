@@ -40,13 +40,13 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
         callback?.setupToolbar()
         callback?.setupRecycler()
         callback?.setupDialog()
+
+        callback?.prepareForLoad()
     }
 
 
     override fun onUpdateData() {
         AppIdlingResource.getInstance().startWork(IdlingTag.Notes.LOAD_DATA)
-
-        callback?.beforeLoad()
 
         /**
          * If was rotation need show list. After that fetch updates.
@@ -65,6 +65,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
                 itemList.clear()
             } else {
                 if (itemList.isEmpty()) {
+                    callback?.hideEmptyInfo()
                     callback?.showProgress()
                 }
 

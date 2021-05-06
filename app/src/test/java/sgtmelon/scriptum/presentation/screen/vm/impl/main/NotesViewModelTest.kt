@@ -31,6 +31,8 @@ import kotlin.random.Random
 @ExperimentalCoroutinesApi
 class NotesViewModelTest : ParentViewModelTest() {
 
+    //region Setup
+
     private val data = TestData.Note
 
     @MockK lateinit var callback: INotesFragment
@@ -60,6 +62,7 @@ class NotesViewModelTest : ParentViewModelTest() {
         assertNull(viewModel.callback)
     }
 
+    //endregion
 
     @Test fun onSetup() {
         viewModel.onSetup()
@@ -68,6 +71,8 @@ class NotesViewModelTest : ParentViewModelTest() {
             callback.setupToolbar()
             callback.setupRecycler()
             callback.setupDialog()
+
+            callback.prepareForLoad()
         }
     }
 
@@ -83,8 +88,8 @@ class NotesViewModelTest : ParentViewModelTest() {
         viewModel.onUpdateData()
 
         coVerifySequence {
-            callback.beforeLoad()
             interactor.getCount()
+            callback.hideEmptyInfo()
             callback.showProgress()
             interactor.getList()
 
@@ -106,7 +111,6 @@ class NotesViewModelTest : ParentViewModelTest() {
         viewModel.onUpdateData()
 
         coVerifySequence {
-            callback.beforeLoad()
             interactor.getCount()
             interactor.isListHide()
             callback.notifyList(itemList)
@@ -130,7 +134,6 @@ class NotesViewModelTest : ParentViewModelTest() {
         viewModel.onUpdateData()
 
         coVerifySequence {
-            callback.beforeLoad()
             callback.notifyList(returnList)
             callback.onBindingList()
             interactor.getCount()
@@ -158,7 +161,6 @@ class NotesViewModelTest : ParentViewModelTest() {
         viewModel.onUpdateData()
 
         coVerifySequence {
-            callback.beforeLoad()
             callback.notifyList(any())
             callback.onBindingList()
             interactor.getCount()
