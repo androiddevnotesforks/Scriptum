@@ -87,20 +87,6 @@ class RankRepoTest : ParentRoomRepoTest() {
         }
     }
 
-    @Test fun getBindCount() = startCoTest {
-        val idList = mockk<List<Long>>()
-        val count = Random.nextInt()
-
-        coEvery { noteDao.getBindCount(idList) } returns count
-
-        assertEquals(count, rankRepo.getBindCount(idList))
-
-        coVerifySequence {
-            roomProvider.openRoom()
-            noteDao.getBindCount(idList)
-        }
-    }
-
     @Test fun getIdVisibleList() = startCoTest {
         val idVisibleList = mockk<List<Long>>()
 

@@ -16,6 +16,7 @@ import sgtmelon.scriptum.idling.IdlingTag
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IRankFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.main.IRankViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
+import kotlin.math.max
 
 /**
  * ViewModel for [IRankFragment].
@@ -300,7 +301,15 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
             for (item in itemList) {
                 if (!item.noteId.contains(id)) continue
 
-                item.bindCount = runBack { interactor.getBindCount(item.noteId) }
+                /**
+                 * Decrement [RankItem.bindCount] without using interactor.
+                 */
+                item.bindCount = max(a = 0, b = item.bindCount - 1)
+
+                /**
+                 * Note may have only one category and it mean what we can use break.
+                 */
+                break
             }
 
             callback?.notifyList(itemList)

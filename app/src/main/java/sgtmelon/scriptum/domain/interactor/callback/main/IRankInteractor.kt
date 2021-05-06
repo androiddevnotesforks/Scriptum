@@ -14,8 +14,6 @@ interface IRankInteractor : IParentInteractor {
 
     suspend fun getList(): MutableList<RankItem>
 
-    suspend fun getBindCount(noteId: List<Long>): Int
-
 
     suspend fun insert(name: String): RankItem?
 

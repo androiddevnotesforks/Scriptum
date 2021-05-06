@@ -36,13 +36,6 @@ class RankRepo(
     }
 
     /**
-     * TODO similar func in [getList]. Make optimisation. Also see [IRoomWork]
-     */
-    override suspend fun getBindCount(idList: List<Long>): Int = takeFromRoom {
-        noteDao.getBindCount(idList)
-    }
-
-    /**
      * Return list of rank id's which is visible.
      */
     override suspend fun getIdVisibleList(): List<Long> = takeFromRoom {

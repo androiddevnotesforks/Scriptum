@@ -54,18 +54,6 @@ class RankInteractorTest : ParentInteractorTest() {
         }
     }
 
-    @Test fun getBindCount() = startCoTest {
-        val count = Random.nextInt()
-        val noteId = mockk<List<Long>>()
-
-        coEvery { rankRepo.getBindCount(noteId) } returns count
-        assertEquals(count, interactor.getBindCount(noteId))
-
-        coVerifySequence {
-            rankRepo.getBindCount(noteId)
-        }
-    }
-
 
     @Test fun insert_byName() = startCoTest {
         val id = Random.nextLong()

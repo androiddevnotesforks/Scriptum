@@ -16,8 +16,6 @@ class RankInteractor(private val rankRepo: IRankRepo) : ParentInteractor(),
 
     override suspend fun getList(): MutableList<RankItem> = rankRepo.getList()
 
-    override suspend fun getBindCount(noteId: List<Long>): Int = rankRepo.getBindCount(noteId)
-
 
     override suspend fun insert(name: String): RankItem? {
         val id = rankRepo.insert(name) ?: return null

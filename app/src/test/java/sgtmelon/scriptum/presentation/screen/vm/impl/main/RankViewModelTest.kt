@@ -23,6 +23,7 @@ import sgtmelon.scriptum.getRandomSize
 import sgtmelon.scriptum.isDivideTwoEntirely
 import sgtmelon.scriptum.parent.ParentViewModelTest
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.IRankFragment
+import kotlin.math.max
 import kotlin.random.Random
 
 /**
@@ -717,29 +718,38 @@ class RankViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onReceiveUnbindNote() {
-        val itemList = data.itemList
-        viewModel.itemList.clearAdd(itemList)
-        assertEquals(itemList, viewModel.itemList)
+        val itemList = List<RankItem>(getRandomSize()) { mockk() }
+        val index = itemList.indices.random()
+        val item = itemList[index]
 
-        val countList = List(itemList.size) { Random.nextInt() }
-        val id = itemList.random().noteId.random()
-        val updateList = itemList.filter { it.noteId.contains(id) }
+        val id = Random.nextLong()
+        val bindCount = (0..10).random()
+        val resultBindCount = max(a = 0, b = bindCount - 1)
 
-        for ((i, item) in updateList.withIndex()) {
-            coEvery { interactor.getBindCount(item.noteId) } returns countList[i]
+        every { item.noteId } returns mutableListOf(id)
+        every { item.bindCount } returns bindCount
+        every { item.bindCount = resultBindCount } returns Unit
+
+        for ((i, rank) in itemList.withIndex()) {
+            if (i == index) break
+
+            every { rank.noteId } returns mutableListOf()
         }
 
+        viewModel.itemList.clearAdd(itemList)
         viewModel.onReceiveUnbindNote(id)
 
-        for ((i, item) in updateList.withIndex()) {
-            itemList[itemList.indexOf(item)].bindCount = countList[i]
-        }
-
-        assertEquals(itemList, viewModel.itemList)
-
         coVerifySequence {
-            for (it in updateList) {
-                interactor.getBindCount(it.noteId)
+            for ((i, rank) in itemList.withIndex()) {
+                when {
+                    i < index -> rank.noteId
+                    i == index -> {
+                        item.noteId
+                        item.bindCount
+                        item.bindCount = resultBindCount
+                    }
+                    i > index -> break
+                }
             }
 
             callback.notifyList(itemList)
