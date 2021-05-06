@@ -18,12 +18,15 @@ class InfoAnimTest : ParentUiTest() {
                     repeat(times = 3) { _ ->
                         toolbar { onEnterName(it.name).onClickAdd() }
                         onClickCancel()
+                        assert(isEmpty = true)
                     }
 
                     toolbar { onEnterName(it.name).onClickAdd() }
                     repeat(times = 3) { _ ->
                         onClickCancel()
+                        assert(isEmpty = true)
                         getSnackbar().onClickCancel()
+                        assert(isEmpty = false)
                     }
                 }
             }
@@ -32,12 +35,20 @@ class InfoAnimTest : ParentUiTest() {
 
 
     @Test fun notesInfoShow() = data.insertText().let {
-        launch { mainScreen { notesScreen { openNoteDialog(it) { onDelete() } } } }
+        launch {
+            mainScreen {
+                notesScreen {
+                    openTextNote(it) { controlPanel { onDelete() } }
+                    assert(isEmpty = true)
+                }
+            }
+        }
     }
 
     @Test fun notesInfoHide() = data.insertTextToBin().let {
         launch {
             mainScreen {
+                notesScreen(isEmpty = true)
                 binScreen { openNoteDialog(it) { onRestore() } }
                 notesScreen()
             }
@@ -46,12 +57,20 @@ class InfoAnimTest : ParentUiTest() {
 
 
     @Test fun binInfoShow() = data.insertTextToBin().let {
-        launch { mainScreen { binScreen { openNoteDialog(it) { onClear() } } } }
+        launch {
+            mainScreen {
+                binScreen {
+                    openTextNote(it) { controlPanel { onClear() } }
+                    assert(isEmpty = true)
+                }
+            }
+        }
     }
 
     @Test fun binInfoHide() = data.insertText().let {
         launch {
             mainScreen {
+                binScreen(isEmpty = true)
                 notesScreen { openNoteDialog(it) { onDelete() } }
                 binScreen()
             }
@@ -65,7 +84,9 @@ class InfoAnimTest : ParentUiTest() {
                 openNotification {
                     repeat(times = 3) {
                         onClickCancel()
+                        assert(isEmpty = true)
                         getSnackbar().onClickCancel()
+                        assert(isEmpty = false)
                     }
                 }
             }
