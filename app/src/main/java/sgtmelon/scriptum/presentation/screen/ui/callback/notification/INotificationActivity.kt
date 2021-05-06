@@ -18,12 +18,11 @@ interface INotificationActivity : SystemReceiver.Bridge.Alarm,
     fun setupInsets()
 
 
-    /**
-     * Calls before load data inside list.
-     */
-    fun beforeLoad()
+    fun prepareForLoad()
 
     fun showProgress()
+
+    fun hideEmptyInfo()
 
 
     fun onBindingList()

@@ -34,6 +34,8 @@ import javax.inject.Inject
  */
 class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallback {
 
+    //region Variables
+
     private var binding: ActivityNotificationBinding? = null
 
     @Inject internal lateinit var viewModel: INotificationViewModel
@@ -55,15 +57,19 @@ class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallb
     private val layoutManager by lazy { LinearLayoutManager(this) }
 
     private val snackbarControl = SnackbarControl(
-            R.string.snackbar_message_notification, R.string.snackbar_action_cancel,
-            callback = this
+        R.string.snackbar_message_notification, R.string.snackbar_action_cancel,
+        callback = this
     )
 
     private val parentContainer by lazy { findViewById<ViewGroup?>(R.id.notification_parent_container) }
     private val recyclerContainer by lazy { findViewById<ViewGroup?>(R.id.notification_recycler_container) }
     private val emptyInfoView by lazy { findViewById<View?>(R.id.notification_info_include) }
-    private val progressBar by lazy { findViewById<View?>(R.id.notification_progress)}
+    private val progressBar by lazy { findViewById<View?>(R.id.notification_progress) }
     private val recyclerView by lazy { findViewById<RecyclerView?>(R.id.notification_recycler) }
+
+    //endregion
+
+    //region System
 
     override fun onCreate(savedInstanceState: Bundle?) {
         ScriptumApplication.component.getNotificationBuilder().set(activity = this).build()
@@ -141,6 +147,7 @@ class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallb
         }
     }
 
+    //endregion
 
     override fun setupToolbar() {
         findViewById<Toolbar>(R.id.toolbar_container).apply {
@@ -183,7 +190,7 @@ class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallb
     /**
      * For first time [recyclerView] visibility flag set inside xml file.
      */
-    override fun beforeLoad() {
+    override fun prepareForLoad() {
         emptyInfoView?.visibility = View.GONE
         progressBar?.visibility = View.GONE
     }
@@ -192,17 +199,33 @@ class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallb
         progressBar?.visibility = View.VISIBLE
     }
 
+    override fun hideEmptyInfo() {
+        emptyInfoView?.visibility = View.GONE
+    }
+
 
     override fun onBindingList() {
         progressBar?.visibility = View.GONE
 
         if (adapter.itemCount == 0) {
+            /**
+             * Prevent useless calls from [RecyclerView.setDefaultAnimator].
+             */
+            if (emptyInfoView?.visibility == View.VISIBLE
+                    && recyclerView?.visibility == View.INVISIBLE) return
+
             emptyInfoView?.visibility = View.VISIBLE
             recyclerView?.visibility = View.INVISIBLE
 
             emptyInfoView?.alpha = 0f
             emptyInfoView?.animateAlpha(isVisible = true)
         } else {
+            /**
+             * Prevent useless calls from [RecyclerView.setDefaultAnimator].
+             */
+            if (emptyInfoView?.visibility == View.GONE
+                    && recyclerView?.visibility == View.VISIBLE) return
+
             recyclerView?.visibility = View.VISIBLE
 
             emptyInfoView?.animateAlpha(isVisible = false) {

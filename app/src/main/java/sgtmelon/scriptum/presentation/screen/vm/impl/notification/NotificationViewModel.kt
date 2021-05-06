@@ -40,6 +40,8 @@ class NotificationViewModel(application: Application) :
         callback?.setupRecycler()
         callback?.setupInsets()
 
+        callback?.prepareForLoad()
+
         if (bundle != null) {
             restoreSnackbar(bundle)
         }
@@ -88,8 +90,6 @@ class NotificationViewModel(application: Application) :
     override fun onUpdateData() {
         AppIdlingResource.getInstance().startWork(IdlingTag.Notification.LOAD_DATA)
 
-        callback?.beforeLoad()
-
         fun updateList() = callback?.apply {
             notifyList(itemList)
             onBindingList()
@@ -107,6 +107,7 @@ class NotificationViewModel(application: Application) :
                 itemList.clear()
             } else {
                 if (itemList.isEmpty()) {
+                    callback?.hideEmptyInfo()
                     callback?.showProgress()
                 }
 

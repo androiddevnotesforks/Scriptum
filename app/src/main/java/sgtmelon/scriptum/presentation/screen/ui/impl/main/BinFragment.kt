@@ -32,6 +32,8 @@ import javax.inject.Inject
  */
 class BinFragment : ParentFragment(), IBinFragment {
 
+    //region Variables
+
     private val callback: IMainActivity? by lazy { context as? IMainActivity }
 
     private var binding: FragmentBinBinding? = null
@@ -67,12 +69,18 @@ class BinFragment : ParentFragment(), IBinFragment {
     private var progressBar: View? = null
     private var recyclerView: RecyclerView? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    //endregion
+
+    //region System
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = inflater.inflateBinding(R.layout.fragment_bin, container)
 
         ScriptumApplication.component.getBinBuilder().set(fragment = this).build()
-                .inject(fragment = this)
+            .inject(fragment = this)
 
         return binding?.root
     }
@@ -95,6 +103,7 @@ class BinFragment : ParentFragment(), IBinFragment {
         viewModel.onDestroy()
     }
 
+    //endregion
 
     override fun setupToolbar() {
         toolbar = view?.findViewById(R.id.toolbar_container)

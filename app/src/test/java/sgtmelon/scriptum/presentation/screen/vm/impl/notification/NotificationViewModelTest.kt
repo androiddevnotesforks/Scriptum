@@ -31,6 +31,8 @@ import kotlin.random.Random
 @ExperimentalCoroutinesApi
 class NotificationViewModelTest : ParentViewModelTest() {
 
+    //region Setup
+
     private val data = TestData.Notification
 
     @MockK lateinit var callback: INotificationActivity
@@ -61,6 +63,7 @@ class NotificationViewModelTest : ParentViewModelTest() {
         assertNull(viewModel.callback)
     }
 
+    //endregion
 
     @Test fun onSetup() {
         val bundle = mockk<Bundle>()
@@ -74,6 +77,7 @@ class NotificationViewModelTest : ParentViewModelTest() {
             callback.setupToolbar()
             callback.setupRecycler()
             callback.setupInsets()
+            callback.prepareForLoad()
 
             spyViewModel.onSetup(bundle)
             spyViewModel.callback
@@ -82,6 +86,8 @@ class NotificationViewModelTest : ParentViewModelTest() {
             callback.setupRecycler()
             spyViewModel.callback
             callback.setupInsets()
+            spyViewModel.callback
+            callback.prepareForLoad()
             spyViewModel.restoreSnackbar(bundle)
         }
     }
@@ -174,8 +180,8 @@ class NotificationViewModelTest : ParentViewModelTest() {
         viewModel.onUpdateData()
 
         coVerifySequence {
-            callback.beforeLoad()
             interactor.getCount()
+            callback.hideEmptyInfo()
             callback.showProgress()
             interactor.getList()
             updateList(itemList)
@@ -190,7 +196,6 @@ class NotificationViewModelTest : ParentViewModelTest() {
         viewModel.onUpdateData()
 
         coVerifySequence {
-            callback.beforeLoad()
             interactor.getCount()
             updateList(itemList)
         }
@@ -208,7 +213,6 @@ class NotificationViewModelTest : ParentViewModelTest() {
         viewModel.onUpdateData()
 
         coVerifySequence {
-            callback.beforeLoad()
             updateList(any())
             interactor.getCount()
             interactor.getList()
@@ -227,7 +231,6 @@ class NotificationViewModelTest : ParentViewModelTest() {
         viewModel.onUpdateData()
 
         coVerifySequence {
-            callback.beforeLoad()
             updateList(any())
             interactor.getCount()
             updateList(any())

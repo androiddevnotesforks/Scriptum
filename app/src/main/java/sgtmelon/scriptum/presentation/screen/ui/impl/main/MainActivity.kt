@@ -79,6 +79,9 @@ class MainActivity : AppActivity(), IMainActivity {
     override fun onResume() {
         super.onResume()
 
+        /**
+         * Clear [openState] after click on item container.
+         */
         openState.changeEnabled = true
         openState.clear()
 
