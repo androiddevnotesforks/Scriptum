@@ -5,10 +5,15 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Build
 import android.os.IBinder
 import sgtmelon.extension.getNewCalendar
+import sgtmelon.scriptum.domain.model.data.ReceiverData
 import sgtmelon.scriptum.extension.getAlarmService
+import sgtmelon.scriptum.extension.initLazy
+import sgtmelon.scriptum.presentation.control.broadcast.BroadcastControl
+import sgtmelon.scriptum.presentation.receiver.EternalReceiver
 import sgtmelon.scriptum.presentation.screen.system.ISystemLogic
 import sgtmelon.scriptum.presentation.screen.system.SystemLogic
 import java.util.*
@@ -17,9 +22,16 @@ import sgtmelon.scriptum.presentation.factory.NotificationFactory as Factory
 /**
  * [Service] that never will die.
  */
-class EternalService : Service() {
+class EternalService : Service(),
+    EternalReceiver.Callback {
 
     private val systemLogic: ISystemLogic = SystemLogic()
+
+    private val receiver by lazy { EternalReceiver[this] }
+
+    private val broadcastControl by lazy { BroadcastControl(context = this) }
+
+    //region System
 
     override fun onBind(intent: Intent?): IBinder? = null
 
@@ -41,6 +53,9 @@ class EternalService : Service() {
         startForeground(Factory.Service.ID, Factory.Service[this])
 
         systemLogic.onCreate(context = this)
+        registerReceiver(receiver, IntentFilter(ReceiverData.Filter.ETERNAL))
+
+        broadcastControl.initLazy()
     }
 
     override fun onDestroy() {
@@ -52,6 +67,7 @@ class EternalService : Service() {
         super.onDestroy()
 
         systemLogic.onDestroy(context = this)
+        unregisterReceiver(receiver)
     }
 
     /**
@@ -74,6 +90,12 @@ class EternalService : Service() {
         val service = applicationContext.getAlarmService()
         service?.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
     }
+
+    //endregion
+
+    override fun killService() = stopSelf()
+
+    override fun sendEternalPongBroadcast() = broadcastControl.sendEternalPong()
 
     companion object {
         /**

@@ -31,4 +31,14 @@ interface IBroadcastControl {
 
     //endregion
 
+    //region Eternal functions
+
+    fun sendEternalKill()
+
+    fun sendEternalPing()
+
+    fun sendEternalPong()
+
+    //endregion
+
 }

@@ -8,7 +8,7 @@ import androidx.annotation.StringDef
  */
 object ReceiverData {
 
-    @StringDef(Filter.MAIN, Filter.NOTE)
+    @StringDef(Filter.MAIN, Filter.NOTE, Filter.SYSTEM, Filter.ETERNAL, Filter.DEVELOP)
     annotation class Filter {
         companion object {
             private const val PREFIX = "RECEIVER_FILTER"
@@ -16,6 +16,8 @@ object ReceiverData {
             const val MAIN = "${PREFIX}_MAIN"
             const val NOTE = "${PREFIX}_NOTE"
             const val SYSTEM = "${PREFIX}_SYSTEM"
+            const val ETERNAL = "${PREFIX}_ETERNAL"
+            const val DEVELOP = "${PREFIX}_DEVELOP"
         }
     }
 
@@ -44,6 +46,15 @@ object ReceiverData {
                 const val NOTIFY_NOTES = "${PREFIX}_NOTIFY_ALL"
                 const val CANCEL_NOTE = "${PREFIX}_CANCEL_NOTE"
                 const val NOTIFY_INFO = "${PREFIX}_NOTIFY_INFO"
+            }
+        }
+
+        @StringDef(Eternal.KILL, Eternal.PING, Eternal.PONG)
+        annotation class Eternal {
+            companion object {
+                const val KILL = "${PREFIX}_KILL"
+                const val PING = "${PREFIX}_PING"
+                const val PONG = "${PREFIX}_PONG"
             }
         }
     }

@@ -14,6 +14,8 @@ interface IDevelopFragment {
 
     fun setupScreens()
 
+    fun setupEternal()
+
     fun setupOther()
 
     fun showToast(@StringRes stringId: Int)
@@ -22,4 +24,27 @@ interface IDevelopFragment {
     fun openPrintScreen(type: PrintType)
 
     fun openAlarmScreen(noteId: Long)
+
+    //region Eternal functions
+
+    fun updateEternalRefreshEnabled(isEnabled: Boolean)
+
+    fun resetEternalRefreshSummary()
+
+    fun updateEternalRunEnabled(isEnabled: Boolean)
+
+    fun updateEternalKillEnabled(isEnabled: Boolean)
+
+    fun startEternalPingSummary()
+
+    fun stopEternalPingSummary()
+
+    fun sendEternalPingBroadcast()
+
+    fun sendEternalKillBroadcast()
+
+    fun runEternalService()
+
+    //endregion
+
 }

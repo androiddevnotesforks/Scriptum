@@ -73,6 +73,22 @@ class BroadcastControl(private val context: Context?) : IBroadcastControl {
 
     //endregion
 
+    //region Eternal functions
+
+    override fun sendEternalKill() {
+        context?.sendTo(Filter.ETERNAL, Command.Eternal.KILL)
+    }
+
+    override fun sendEternalPing() {
+        context?.sendTo(Filter.ETERNAL, Command.Eternal.PING)
+    }
+
+    override fun sendEternalPong() {
+        context?.sendTo(Filter.DEVELOP, Command.Eternal.PONG)
+    }
+
+    //endregion
+
     companion object {
         @RunPrivate var instance: IBroadcastControl? = null
 
