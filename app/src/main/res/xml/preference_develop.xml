@@ -47,6 +47,15 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/pref_header_service"
+        app:iconSpaceReserved="false">
+
+        <Preference android:key="@string/pref_key_service_eternal"
+            android:title="@string/pref_title_service_eternal"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/pref_header_screen"
         app:iconSpaceReserved="false">
 
@@ -58,24 +67,6 @@
         <Preference android:key="@string/pref_key_screen_alarm"
             android:summary="@string/pref_summary_screen_alarm"
             android:title="@string/pref_title_screen_alarm"
-            app:iconSpaceReserved="false" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="@string/pref_header_service"
-        app:iconSpaceReserved="false">
-
-        <Preference android:key="@string/pref_key_service_refresh"
-            android:summary="@string/pref_summary_eternal_refresh"
-            android:title="@string/pref_title_service_refresh"
-            app:iconSpaceReserved="false" />
-
-        <Preference android:key="@string/pref_key_service_run"
-            android:title="@string/pref_title_service_run"
-            app:iconSpaceReserved="false" />
-
-        <Preference android:key="@string/pref_key_service_kill"
-            android:title="@string/pref_title_service_kill"
             app:iconSpaceReserved="false" />
 
     </PreferenceCategory>

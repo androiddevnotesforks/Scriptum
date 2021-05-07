@@ -12,6 +12,7 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.preference.BackupPrefFragme
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.NotePrefFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop.DevelopFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop.ServiceFragment
 
 /**
  * Factory for create/get fragments
@@ -75,6 +76,10 @@ object FragmentFactory {
             return fm.findFragmentByTag(Tag.DEVELOP) as? DevelopFragment ?: DevelopFragment()
         }
 
+        fun getServiceFragment(): ServiceFragment {
+            return fm.findFragmentByTag(Tag.SERVICE) as? ServiceFragment ?: ServiceFragment()
+        }
+
         fun getBackupFragment(): BackupPrefFragment {
             return fm.findFragmentByTag(Tag.BACKUP) as? BackupPrefFragment ?: BackupPrefFragment()
         }
@@ -94,6 +99,7 @@ object FragmentFactory {
 
                 const val PREF = "${PREFIX}_PREF"
                 const val DEVELOP = "${PREFIX}_DEVELOP"
+                const val SERVICE = "${PREFIX}_SERVICE"
                 const val BACKUP = "${PREFIX}_BACKUP"
                 const val NOTE = "${PREFIX}_NOTE"
                 const val ALARM = "${PREFIX}_ALARM"

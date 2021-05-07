@@ -5,10 +5,9 @@ import android.content.Context
 import android.content.Intent
 import sgtmelon.scriptum.domain.model.data.ReceiverData.Command
 import sgtmelon.scriptum.domain.model.data.ReceiverData.Values
-import sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop.DevelopFragment
 
 /**
- * Receiver for [DevelopFragment] commands.
+ * Receiver for developer commands.
  */
 class DevelopScreenReceiver : BroadcastReceiver() {
 

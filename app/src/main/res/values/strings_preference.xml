@@ -22,7 +22,8 @@
     <string name="pref_header_path_files" translatable="false">External file path</string>
     <string name="pref_header_path_cache" translatable="false">External cache path</string>
     <string name="pref_header_backup_files" translatable="false">Backup files</string>
-    <string name="pref_header_service" translatable="false">Eternal service</string>
+    <string name="pref_header_service" translatable="false">Service</string>
+    <string name="pref_header_action" translatable="false">Action</string>
 
     <!-- Preference titles -->
 
@@ -60,6 +61,7 @@
     <string name="pref_title_screen_intro" translatable="false">Intro screen</string>
     <string name="pref_title_screen_alarm" translatable="false">Alarm screen</string>
 
+    <string name="pref_title_service_eternal" translatable="false">Eternal service</string>
     <string name="pref_title_service_refresh" translatable="false">Refresh service state</string>
     <string name="pref_title_service_run" translatable="false">Run service</string>
     <string name="pref_title_service_kill" translatable="false">Kill service</string>
@@ -215,6 +217,7 @@
     <string name="pref_key_screen_intro" translatable="false">key_screen_intro</string>
     <string name="pref_key_screen_alarm" translatable="false">key_screen_alarm</string>
 
+    <string name="pref_key_service_eternal" translatable="false">pref_key_service_eternal</string>
     <string name="pref_key_service_refresh" translatable="false">pref_key_service_refresh</string>
     <string name="pref_key_service_run" translatable="false">pref_key_service_run</string>
     <string name="pref_key_service_kill" translatable="false">pref_key_service_kill</string>

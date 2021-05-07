@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:key="screen">
+
+    <Preference android:key="@string/pref_key_service_refresh"
+        android:summary="@string/pref_summary_eternal_refresh"
+        android:title="@string/pref_title_service_refresh"
+        app:iconSpaceReserved="false" />
+
+    <PreferenceCategory android:title="@string/pref_header_action"
+        app:iconSpaceReserved="false">
+
+        <Preference android:key="@string/pref_key_service_run"
+            android:title="@string/pref_title_service_run"
+            app:iconSpaceReserved="false" />
+
+        <Preference android:key="@string/pref_key_service_kill"
+            android:title="@string/pref_title_service_kill"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

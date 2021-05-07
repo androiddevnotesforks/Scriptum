@@ -126,6 +126,16 @@
         </activity>
 
         <activity
+            android:name=".presentation.screen.ui.impl.preference.develop.ServiceActivity"
+            android:configChanges="keyboardHidden"
+            android:parentActivityName=".presentation.screen.ui.impl.preference.develop.DevelopActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name=".presentation.screen.ui.impl.notification.NotificationActivity"
             android:configChanges="keyboardHidden"
             android:parentActivityName=".presentation.screen.ui.impl.main.MainActivity">

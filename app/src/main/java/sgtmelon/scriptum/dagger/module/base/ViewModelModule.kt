@@ -39,6 +39,7 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.preference.NotePrefFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop.DevelopFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop.PrintActivity
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop.ServiceFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.IIntroViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.ISplashViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.main.IBinViewModel
@@ -56,6 +57,7 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.preference.INotePrefVie
 import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IPreferenceViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.preference.develop.IDevelopViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.preference.develop.IPrintViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.preference.develop.IServiceViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.IntroViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.SplashViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.main.BinViewModel
@@ -73,6 +75,7 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.preference.NotePrefViewMode
 import sgtmelon.scriptum.presentation.screen.vm.impl.preference.PreferenceViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.preference.develop.DevelopViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.preference.develop.PrintViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.preference.develop.ServiceViewModel
 
 /**
  * Module for provide viewModel's.
@@ -289,6 +292,14 @@ class ViewModelModule {
         return ViewModelProvider(activity).get(PrintViewModel::class.java).apply {
             setCallback(activity)
             setInteractor(interactor)
+        }
+    }
+
+    @Provides
+    @ActivityScope
+    fun provideServiceViewModel(fragment: ServiceFragment): IServiceViewModel {
+        return ViewModelProvider(fragment).get(ServiceViewModel::class.java).apply {
+            setCallback(fragment)
         }
     }
 

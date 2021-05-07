@@ -10,7 +10,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.databinding.ActivityPrintBinding
+import sgtmelon.scriptum.databinding.ActivityPreferencePrintBinding
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.data.IntentData
 import sgtmelon.scriptum.domain.model.item.PrintItem
@@ -28,7 +28,7 @@ import javax.inject.Inject
  */
 class PrintActivity : AppActivity(), IPrintActivity {
 
-    private var binding: ActivityPrintBinding? = null
+    private var binding: ActivityPreferencePrintBinding? = null
 
     @Inject internal lateinit var viewModel: IPrintViewModel
 
@@ -46,7 +46,7 @@ class PrintActivity : AppActivity(), IPrintActivity {
             .inject(activity = this)
 
         super.onCreate(savedInstanceState)
-        binding = inflateBinding(R.layout.activity_print)
+        binding = inflateBinding(R.layout.activity_preference_print)
 
         viewModel.onSetup(bundle = savedInstanceState ?: intent.extras)
     }

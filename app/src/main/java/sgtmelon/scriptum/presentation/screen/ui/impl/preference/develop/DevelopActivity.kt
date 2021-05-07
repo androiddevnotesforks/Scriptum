@@ -10,7 +10,7 @@ import sgtmelon.scriptum.presentation.screen.ui.ParentPreferenceActivity
  * Screen for display [DevelopFragment].
  */
 class DevelopActivity : ParentPreferenceActivity(
-    R.layout.activity_develop,
+    R.layout.activity_preference_develop,
     R.id.develop_parent_container,
     R.id.develop_fragment_container,
     R.string.pref_title_other_develop
