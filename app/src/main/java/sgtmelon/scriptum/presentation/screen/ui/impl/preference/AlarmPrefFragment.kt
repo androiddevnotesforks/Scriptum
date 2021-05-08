@@ -37,8 +37,8 @@ class AlarmPrefFragment : ParentPreferenceFragment(),
     @Inject internal lateinit var viewModel: IAlarmPrefViewModel
 
     private val openState = OpenState()
-    private val readPermissionState by lazy {
-        PermissionState(Manifest.permission.READ_EXTERNAL_STORAGE, activity)
+    private val storagePermissionState by lazy {
+        PermissionState(Manifest.permission.WRITE_EXTERNAL_STORAGE, activity)
     }
 
     //region Dialogs
@@ -154,7 +154,7 @@ class AlarmPrefFragment : ParentPreferenceFragment(),
         signalDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
 
         melodyPreference?.setOnPreferenceClickListener {
-            viewModel.onClickMelody(readPermissionState.getResult())
+            viewModel.onClickMelody(storagePermissionState.getResult())
             return@setOnPreferenceClickListener true
         }
 
@@ -162,7 +162,7 @@ class AlarmPrefFragment : ParentPreferenceFragment(),
         melodyPermissionDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return@OnClickListener
 
-            requestPermissions(arrayOf(readPermissionState.permission), PermissionRequest.MELODY)
+            requestPermissions(arrayOf(storagePermissionState.permission), PermissionRequest.MELODY)
         }
         melodyPermissionDialog.dismissListener = DialogInterface.OnDismissListener {
             openState.clear()

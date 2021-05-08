@@ -33,38 +33,18 @@ class BackupPrefViewModel(
     override fun onSetup(bundle: Bundle?) {
         callback?.setup()
 
-        val isExportAllowed = isExportAllowed() ?: return
-        val isImportAllowed = isImportAllowed() ?: return
-
-        if (isExportAllowed && isImportAllowed) {
-            viewModelScope.launch { setupBackground() }
-        }
-    }
-
-    @RunPrivate fun isExportAllowed(): Boolean? {
-        val result = callback?.getExportPermissionResult() ?: return null
+        val result = callback?.getStoragePermissionResult() ?: return
 
         val isAllowed = result == Permission.LOW_API || result == Permission.GRANTED
 
         if (!isAllowed) {
             callback?.updateExportEnabled(isEnabled = true)
             callback?.updateExportSummary(R.string.pref_summary_permission_need)
-        }
-
-        return isAllowed
-    }
-
-    @RunPrivate fun isImportAllowed(): Boolean? {
-        val result = callback?.getImportPermissionResult() ?: return null
-
-        val isAllowed = result == Permission.LOW_API || result == Permission.GRANTED
-
-        if (!isAllowed) {
             callback?.updateImportEnabled(isEnabled = true)
             callback?.updateImportSummary(R.string.pref_summary_permission_need)
+        } else {
+            viewModelScope.launch { setupBackground() }
         }
-
-        return isAllowed
     }
 
     @RunPrivate suspend fun setupBackground() {
@@ -109,13 +89,12 @@ class BackupPrefViewModel(
      * need call [onClickExport] with that [Permission].
      */
     override fun onClickExport() {
-        val exportResult = callback?.getExportPermissionResult() ?: return
-        val importResult = callback?.getImportPermissionResult() ?: return
+        val storageResult = callback?.getStoragePermissionResult() ?: return
 
-        if (exportResult == Permission.FORBIDDEN || importResult == Permission.FORBIDDEN) {
+        if (storageResult == Permission.FORBIDDEN) {
             onClickExport(Permission.FORBIDDEN)
         } else {
-            onClickExport(exportResult)
+            onClickExport(storageResult)
         }
     }
 
@@ -158,13 +137,12 @@ class BackupPrefViewModel(
      * need call [onClickImport] with that [Permission].
      */
     override fun onClickImport() {
-        val exportResult = callback?.getExportPermissionResult() ?: return
-        val importResult = callback?.getImportPermissionResult() ?: return
+        val storageResult = callback?.getStoragePermissionResult() ?: return
 
-        if (exportResult == Permission.FORBIDDEN || importResult == Permission.FORBIDDEN) {
+        if (storageResult == Permission.FORBIDDEN) {
             onClickImport(Permission.FORBIDDEN)
         } else {
-            onClickImport(importResult)
+            onClickImport(storageResult)
         }
     }
 

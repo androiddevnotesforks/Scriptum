@@ -35,10 +35,7 @@ class BackupPrefFragment : ParentPreferenceFragment(),
     @Inject internal lateinit var viewModel: IBackupPrefViewModel
 
     private val openState = OpenState()
-    private val readPermissionState by lazy {
-        PermissionState(Manifest.permission.READ_EXTERNAL_STORAGE, activity)
-    }
-    private val writePermissionState by lazy {
+    private val storagePermissionState by lazy {
         PermissionState(Manifest.permission.WRITE_EXTERNAL_STORAGE, activity)
     }
 
@@ -157,7 +154,7 @@ class BackupPrefFragment : ParentPreferenceFragment(),
         exportPermissionDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return@OnClickListener
 
-            requestPermissions(arrayOf(writePermissionState.permission), PermissionRequest.EXPORT)
+            requestPermissions(arrayOf(storagePermissionState.permission), PermissionRequest.EXPORT)
         }
         exportPermissionDialog.dismissListener = DialogInterface.OnDismissListener {
             openState.clear()
@@ -171,7 +168,7 @@ class BackupPrefFragment : ParentPreferenceFragment(),
         importPermissionDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return@OnClickListener
 
-            requestPermissions(arrayOf(readPermissionState.permission), PermissionRequest.IMPORT)
+            requestPermissions(arrayOf(storagePermissionState.permission), PermissionRequest.IMPORT)
         }
         importPermissionDialog.dismissListener = DialogInterface.OnDismissListener {
             openState.clear()
@@ -193,9 +190,11 @@ class BackupPrefFragment : ParentPreferenceFragment(),
         loadingDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }
 
-    //region Export functions
+    override fun getStoragePermissionResult(): PermissionResult? {
+        return storagePermissionState.getResult()
+    }
 
-    override fun getExportPermissionResult(): PermissionResult? = writePermissionState.getResult()
+    //region Export functions
 
     override fun updateExportEnabled(isEnabled: Boolean) {
         exportPreference?.isEnabled = isEnabled
@@ -226,8 +225,6 @@ class BackupPrefFragment : ParentPreferenceFragment(),
     //endregion
 
     //region Import functions
-
-    override fun getImportPermissionResult(): PermissionResult? = readPermissionState.getResult()
 
     override fun updateImportEnabled(isEnabled: Boolean) {
         importPreference?.isEnabled = isEnabled

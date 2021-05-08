@@ -24,9 +24,9 @@ interface IBackupPrefFragment : SystemReceiver.Bridge.TidyUp,
 
     fun setup()
 
-    //region Export functions
+    fun getStoragePermissionResult(): PermissionResult?
 
-    fun getExportPermissionResult(): PermissionResult?
+    //region Export functions
 
     fun updateExportEnabled(isEnabled: Boolean)
 
@@ -45,8 +45,6 @@ interface IBackupPrefFragment : SystemReceiver.Bridge.TidyUp,
     //endregion
 
     //region Import functions
-
-    fun getImportPermissionResult(): PermissionResult?
 
     fun updateImportEnabled(isEnabled: Boolean)
 
