@@ -53,4 +53,8 @@
     <dimen name="item_roll_space">12dp</dimen> <!--4dp-->
     <dimen name="item_roll_icon_horizontal_space">8dp</dimen> <!--8dp-->
 
+    <!--  View dimens  -->
+
+    <dimen name="view_volume_seek_space">12dp</dimen> <!--2dp-->
+
 </resources>
