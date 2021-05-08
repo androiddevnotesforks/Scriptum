@@ -7,7 +7,7 @@
     <string name="pref_header_common">Общее</string>
     <string name="pref_header_main">Основное</string>
     <string name="pref_header_save">Сохранение</string>
-    <string name="pref_header_auto_save">Автоматическое сохранение</string>
+
     <string name="pref_header_melody_options">Параметры мелодии</string>
     <string name="pref_header_other">Прочее</string>
     <string name="pref_header_options">Параметры</string>
@@ -25,10 +25,8 @@
     <string name="pref_title_note_sort">Сортировка заметок</string>
     <string name="pref_title_note_color">Цвет заметки по умолчанию</string>
     <string name="pref_title_note_save_pause">При остановке</string>
-    <string name="pref_title_note_save_auto">
-        Сохранять изменения в заметке после определенного периода времени
-    </string>
-    <string name="pref_title_note_save_period">Период</string>
+    <string name="pref_title_note_auto_save">Автоматическое сохранение</string>
+    <string name="pref_title_note_save_period">Период автосохранения</string>
 
     <string name="pref_title_alarm">Уведомления</string>
     <string name="pref_title_alarm_repeat">Время повтора</string>
@@ -65,6 +63,9 @@
     <string name="pref_summary_note_color">Будет применяться по умолчанию</string>
     <string name="pref_summary_note_save_pause">
         Сохранять изменения в заметке при сворачивании приложения
+    </string>
+    <string name="pref_summary_note_save_auto">
+        Сохранять изменения в заметке после определенного периода времени
     </string>
     <string name="pref_summary_note_save_period">Количество минут</string>
 
