@@ -4,13 +4,10 @@
     <!-- Preference headers -->
 
     <string name="pref_header_app">Приложение</string>
-    <string name="pref_header_backup">Резервное копирование</string>
-    <string name="pref_header_note">Заметки</string>
     <string name="pref_header_common">Общее</string>
     <string name="pref_header_main">Основное</string>
     <string name="pref_header_save">Сохранение</string>
     <string name="pref_header_auto_save">Автоматическое сохранение</string>
-    <string name="pref_header_alarm">Уведомления</string>
     <string name="pref_header_melody_options">Параметры мелодии</string>
     <string name="pref_header_other">Прочее</string>
     <string name="pref_header_options">Параметры</string>
@@ -19,10 +16,12 @@
 
     <string name="pref_title_app_theme">Тема</string>
 
+    <string name="pref_title_backup">Резервное копирование</string>
     <string name="pref_title_backup_export">Сохранить данные в файл</string>
     <string name="pref_title_backup_import">Загрузить данные из файла</string>
     <string name="pref_title_backup_skip">Пропускать одинаковые заметки</string>
 
+    <string name="pref_title_note">Заметки</string>
     <string name="pref_title_note_sort">Сортировка заметок</string>
     <string name="pref_title_note_color">Цвет заметки по умолчанию</string>
     <string name="pref_title_note_save_pause">При остановке</string>
@@ -31,6 +30,7 @@
     </string>
     <string name="pref_title_note_save_period">Период</string>
 
+    <string name="pref_title_alarm">Уведомления</string>
     <string name="pref_title_alarm_repeat">Время повтора</string>
     <string name="pref_title_alarm_signal">Тип сигнала</string>
     <string name="pref_title_alarm_melody">Мелодия</string>
@@ -38,9 +38,12 @@
     <string name="pref_title_alarm_increase">Нарастание громкости</string>
 
     <string name="pref_title_other_rate">Оценить</string>
-    <string name="pref_title_other_privacy_policy">Политика конфиденциальности</string>
+    <string name="pref_title_other_help">Помощь</string>
     <string name="pref_title_other_about">О приложении</string>
     <string name="pref_title_other_develop">Для разработчика</string>
+
+    <string name="pref_title_help_eternal_notification">Почему пропадают уведомления?</string>
+    <string name="pref_title_help_privacy_policy">Политика конфиденциальности</string>
 
     <!-- Preference summaries -->
 
@@ -76,6 +79,8 @@
     <string name="pref_summary_alarm_increase">
         Плавное увеличение громкости начиная с минимальной
     </string>
+
+    <string name="pref_summary_help_eternal_notification">И как исправить это</string>
 
     <!-- Preference arrays -->
 

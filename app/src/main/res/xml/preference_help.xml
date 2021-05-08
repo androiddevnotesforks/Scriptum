@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:key="screen">
+
+    <Preference android:key="@string/pref_key_help_eternal_notification"
+        android:summary="@string/pref_summary_help_eternal_notification"
+        android:title="@string/pref_title_help_eternal_notification"
+        app:iconSpaceReserved="false" />
+
+    <PreferenceCategory android:title="@string/pref_header_other"
+        app:iconSpaceReserved="false">
+
+        <Preference android:key="@string/pref_key_help_privacy_policy"
+            android:title="@string/pref_title_help_privacy_policy"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

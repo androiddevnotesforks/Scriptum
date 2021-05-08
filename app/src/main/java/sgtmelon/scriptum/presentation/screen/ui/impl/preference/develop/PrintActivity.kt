@@ -24,7 +24,7 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.preference.develop.IPri
 import javax.inject.Inject
 
 /**
- * Screen for print data of data base and preference
+ * Screen for print data of data base and preference.
  */
 class PrintActivity : AppActivity(), IPrintActivity {
 

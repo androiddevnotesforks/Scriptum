@@ -13,7 +13,7 @@ class AlarmPrefActivity : ParentPreferenceActivity(
     R.layout.activity_preference_alarm,
     R.id.alarm_pref_parent_container,
     R.id.alarm_pref_fragment_container,
-    R.string.pref_header_alarm
+    R.string.pref_title_alarm
 ) {
 
     override val tag: String = FragmentFactory.Preference.Tag.ALARM

@@ -16,15 +16,15 @@
 
     <Preference android:key="@string/pref_key_backup"
         app:iconSpaceReserved="false"
-        app:title="@string/pref_header_backup" />
+        app:title="@string/pref_title_backup" />
 
     <Preference android:key="@string/pref_key_note"
         app:iconSpaceReserved="false"
-        app:title="@string/pref_header_note" />
+        app:title="@string/pref_title_note" />
 
     <Preference android:key="@string/pref_key_alarm"
         app:iconSpaceReserved="false"
-        app:title="@string/pref_header_alarm" />
+        app:title="@string/pref_title_alarm" />
 
     <PreferenceCategory android:title="@string/pref_header_other"
         app:iconSpaceReserved="false">
@@ -33,8 +33,8 @@
             android:title="@string/pref_title_other_rate"
             app:iconSpaceReserved="false" />
 
-        <Preference android:key="@string/pref_key_other_privacy_policy"
-            android:title="@string/pref_title_other_privacy_policy"
+        <Preference android:key="@string/pref_key_other_help"
+            android:title="@string/pref_title_other_help"
             app:iconSpaceReserved="false" />
 
         <Preference android:key="@string/pref_key_other_about"

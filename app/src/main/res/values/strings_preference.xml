@@ -4,13 +4,10 @@
     <!-- Preference headers -->
 
     <string name="pref_header_app">App</string>
-    <string name="pref_header_backup">Backup</string>
-    <string name="pref_header_note">Notes</string>
     <string name="pref_header_common">Common</string>
     <string name="pref_header_main">Main</string>
     <string name="pref_header_save">Save</string>
     <string name="pref_header_auto_save">Auto save</string>
-    <string name="pref_header_alarm">Notifications</string>
     <string name="pref_header_melody_options">Melody options</string>
     <string name="pref_header_other">Other</string>
     <string name="pref_header_options">Options</string>
@@ -29,16 +26,19 @@
 
     <string name="pref_title_app_theme">Theme</string>
 
+    <string name="pref_title_backup">Backup</string>
     <string name="pref_title_backup_export">Save data to file</string>
     <string name="pref_title_backup_import">Load data from file</string>
     <string name="pref_title_backup_skip">Skip identical notes</string>
 
+    <string name="pref_title_note">Notes</string>
     <string name="pref_title_note_sort">Sort notes</string>
     <string name="pref_title_note_color">Default note color</string>
     <string name="pref_title_note_save_pause">On stop</string>
     <string name="pref_title_note_save_auto">Save note changes after period of time</string>
     <string name="pref_title_note_save_period">Period</string>
 
+    <string name="pref_title_alarm">Notifications</string>
     <string name="pref_title_alarm_repeat">Repeat time</string>
     <string name="pref_title_alarm_signal">Signal type</string>
     <string name="pref_title_alarm_melody">Melody</string>
@@ -46,9 +46,12 @@
     <string name="pref_title_alarm_increase">Volume increase</string>
 
     <string name="pref_title_other_rate">Rate</string>
-    <string name="pref_title_other_privacy_policy">Privacy policy</string>
+    <string name="pref_title_other_help">Help</string>
     <string name="pref_title_other_about">About app</string>
     <string name="pref_title_other_develop">For developer</string>
+
+    <string name="pref_title_help_eternal_notification">Why notifications disappear?</string>
+    <string name="pref_title_help_privacy_policy">Privacy policy</string>
 
     <string name="pref_title_print_note" translatable="false">Note entities</string>
     <string name="pref_title_print_roll" translatable="false">Roll entities</string>
@@ -96,6 +99,8 @@
     <string name="pref_summary_alarm_melody_empty">Sorry, you don\'t have any melodies! :(</string>
     <string name="pref_summary_alarm_volume">Percent of volume: %d%%</string>
     <string name="pref_summary_alarm_increase">Smooth volume increase from minimum</string>
+
+    <string name="pref_summary_help_eternal_notification">And how get it work</string>
 
     <string name="pref_summary_print_note" translatable="false">Which located in NOTES page</string>
     <string name="pref_summary_print_bin" translatable="false">Which located in BIN page</string>
@@ -201,9 +206,12 @@
     <string name="pref_key_alarm_increase" translatable="false">key_alarm_increase</string>
 
     <string name="pref_key_other_rate" translatable="false">key_other_rate</string>
-    <string name="pref_key_other_privacy_policy" translatable="false">key_other_privacy_policy</string>
+    <string name="pref_key_other_help" translatable="false">key_other_help</string>
     <string name="pref_key_other_about" translatable="false">key_other_about</string>
     <string name="pref_key_other_develop" translatable="false">key_other_develop</string>
+
+    <string name="pref_key_help_eternal_notification" translatable="false">key_help_eternal_notification</string>
+    <string name="pref_key_help_privacy_policy" translatable="false">key_help_privacy_policy</string>
 
     <string name="pref_key_print_note" translatable="false">key_print_note</string>
     <string name="pref_key_print_bin" translatable="false">key_print_bin</string>
@@ -217,11 +225,11 @@
     <string name="pref_key_screen_intro" translatable="false">key_screen_intro</string>
     <string name="pref_key_screen_alarm" translatable="false">key_screen_alarm</string>
 
-    <string name="pref_key_service_eternal" translatable="false">pref_key_service_eternal</string>
-    <string name="pref_key_service_refresh" translatable="false">pref_key_service_refresh</string>
-    <string name="pref_key_service_run" translatable="false">pref_key_service_run</string>
-    <string name="pref_key_service_kill" translatable="false">pref_key_service_kill</string>
+    <string name="pref_key_service_eternal" translatable="false">key_service_eternal</string>
+    <string name="pref_key_service_refresh" translatable="false">key_service_refresh</string>
+    <string name="pref_key_service_run" translatable="false">key_service_run</string>
+    <string name="pref_key_service_kill" translatable="false">key_service_kill</string>
 
-    <string name="pref_key_other_reset" translatable="false">pref_key_other_reset</string>
+    <string name="pref_key_other_reset" translatable="false">key_other_reset</string>
 
 </resources>

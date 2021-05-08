@@ -13,7 +13,7 @@ class NotePrefActivity : ParentPreferenceActivity(
     R.layout.activity_preference_note,
     R.id.note_pref_parent_container,
     R.id.note_pref_fragment_container,
-    R.string.pref_header_note
+    R.string.pref_title_note
 ) {
 
     override val tag: String = FragmentFactory.Preference.Tag.NOTE

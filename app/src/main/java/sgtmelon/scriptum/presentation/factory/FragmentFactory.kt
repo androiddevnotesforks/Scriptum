@@ -7,10 +7,7 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.main.NotesFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.RankFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
-import sgtmelon.scriptum.presentation.screen.ui.impl.preference.AlarmPrefFragment
-import sgtmelon.scriptum.presentation.screen.ui.impl.preference.BackupPrefFragment
-import sgtmelon.scriptum.presentation.screen.ui.impl.preference.NotePrefFragment
-import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.*
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop.DevelopFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop.ServiceFragment
 
@@ -72,14 +69,6 @@ object FragmentFactory {
             return fm.findFragmentByTag(Tag.PREF) as? PreferenceFragment ?: PreferenceFragment()
         }
 
-        fun getDevelopFragment(): DevelopFragment {
-            return fm.findFragmentByTag(Tag.DEVELOP) as? DevelopFragment ?: DevelopFragment()
-        }
-
-        fun getServiceFragment(): ServiceFragment {
-            return fm.findFragmentByTag(Tag.SERVICE) as? ServiceFragment ?: ServiceFragment()
-        }
-
         fun getBackupFragment(): BackupPrefFragment {
             return fm.findFragmentByTag(Tag.BACKUP) as? BackupPrefFragment ?: BackupPrefFragment()
         }
@@ -92,17 +81,30 @@ object FragmentFactory {
             return fm.findFragmentByTag(Tag.ALARM) as? AlarmPrefFragment ?: AlarmPrefFragment()
         }
 
-        @StringDef(Tag.PREF, Tag.DEVELOP, Tag.BACKUP, Tag.NOTE, Tag.ALARM)
+        fun getHelpFragment(): HelpPrefFragment {
+            return fm.findFragmentByTag(Tag.HELP) as? HelpPrefFragment ?: HelpPrefFragment()
+        }
+
+        fun getDevelopFragment(): DevelopFragment {
+            return fm.findFragmentByTag(Tag.DEVELOP) as? DevelopFragment ?: DevelopFragment()
+        }
+
+        fun getServiceFragment(): ServiceFragment {
+            return fm.findFragmentByTag(Tag.SERVICE) as? ServiceFragment ?: ServiceFragment()
+        }
+
+        @StringDef(Tag.PREF, Tag.BACKUP, Tag.NOTE, Tag.ALARM, Tag.HELP, Tag.DEVELOP, Tag.SERVICE)
         annotation class Tag {
             companion object {
                 private const val PREFIX = "FRAGMENT_PREFERENCE"
 
                 const val PREF = "${PREFIX}_PREF"
-                const val DEVELOP = "${PREFIX}_DEVELOP"
-                const val SERVICE = "${PREFIX}_SERVICE"
                 const val BACKUP = "${PREFIX}_BACKUP"
                 const val NOTE = "${PREFIX}_NOTE"
                 const val ALARM = "${PREFIX}_ALARM"
+                const val HELP = "${PREFIX}_HELP"
+                const val DEVELOP = "${PREFIX}_DEVELOP"
+                const val SERVICE = "${PREFIX}_SERVICE"
             }
         }
     }

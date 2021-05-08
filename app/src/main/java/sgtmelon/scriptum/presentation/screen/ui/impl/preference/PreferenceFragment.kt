@@ -144,10 +144,11 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
             return@setOnPreferenceClickListener true
         }
 
-        findPreference<Preference>(getString(R.string.pref_key_other_privacy_policy))?.setOnPreferenceClickListener {
-            startActivity(Intent(Intent.ACTION_VIEW).apply {
-                data = BuildConfig.PRIVACY_POLICY_URL.toUri()
-            })
+        findPreference<Preference>(getString(R.string.pref_key_other_help))?.setOnPreferenceClickListener {
+            val context = context
+            if (context != null) {
+                startActivity(HelpPrefActivity[context])
+            }
 
             return@setOnPreferenceClickListener true
         }
