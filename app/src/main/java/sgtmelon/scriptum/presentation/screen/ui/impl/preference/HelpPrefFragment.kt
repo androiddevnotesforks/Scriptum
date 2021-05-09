@@ -13,7 +13,7 @@ import sgtmelon.scriptum.presentation.screen.ui.ParentPreferenceFragment
  */
 class HelpPrefFragment : ParentPreferenceFragment() {
 
-
+    private val notificationPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_help_eternal_notification)) }
     private val policyPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_help_privacy_policy)) }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -26,6 +26,14 @@ class HelpPrefFragment : ParentPreferenceFragment() {
     }
 
     private fun onSetup() {
+        notificationPreference?.setOnPreferenceClickListener {
+            val context = context
+            if (context != null) {
+                startActivity(DescriptionActivity[context])
+            }
+
+            return@setOnPreferenceClickListener true
+        }
         policyPreference?.setOnPreferenceClickListener {
             startActivity(Intent(Intent.ACTION_VIEW).apply {
                 data = BuildConfig.PRIVACY_POLICY_URL.toUri()
