@@ -76,7 +76,7 @@
         </activity>
 
         <activity
-            android:name=".presentation.screen.ui.impl.preference.DescriptionActivity"
+            android:name=".presentation.screen.ui.impl.preference.HelpDescriptionActivity"
             android:configChanges="keyboardHidden"
             android:parentActivityName=".presentation.screen.ui.impl.preference.PreferenceActivity">
             <intent-filter>

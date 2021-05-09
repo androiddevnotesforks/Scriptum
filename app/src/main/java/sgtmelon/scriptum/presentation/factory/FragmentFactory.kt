@@ -93,31 +93,31 @@ object FragmentFactory {
             }
         }
 
-        fun getPreferenceFragment(): PreferenceFragment {
+        private fun getPreferenceFragment(): PreferenceFragment {
             return fm.findFragmentByTag(Tag.PREF) as? PreferenceFragment ?: PreferenceFragment()
         }
 
-        fun getBackupFragment(): BackupPrefFragment {
+        private fun getBackupFragment(): BackupPrefFragment {
             return fm.findFragmentByTag(Tag.BACKUP) as? BackupPrefFragment ?: BackupPrefFragment()
         }
 
-        fun getNoteFragment(): NotePrefFragment {
+        private fun getNoteFragment(): NotePrefFragment {
             return fm.findFragmentByTag(Tag.NOTE) as? NotePrefFragment ?: NotePrefFragment()
         }
 
-        fun getAlarmFragment(): AlarmPrefFragment {
+        private fun getAlarmFragment(): AlarmPrefFragment {
             return fm.findFragmentByTag(Tag.ALARM) as? AlarmPrefFragment ?: AlarmPrefFragment()
         }
 
-        fun getHelpFragment(): HelpPrefFragment {
+        private fun getHelpFragment(): HelpPrefFragment {
             return fm.findFragmentByTag(Tag.HELP) as? HelpPrefFragment ?: HelpPrefFragment()
         }
 
-        fun getDevelopFragment(): DevelopFragment {
+        private fun getDevelopFragment(): DevelopFragment {
             return fm.findFragmentByTag(Tag.DEVELOP) as? DevelopFragment ?: DevelopFragment()
         }
 
-        fun getServiceFragment(): ServiceFragment {
+        private fun getServiceFragment(): ServiceFragment {
             return fm.findFragmentByTag(Tag.SERVICE) as? ServiceFragment ?: ServiceFragment()
         }
 

@@ -29,7 +29,7 @@ class HelpPrefFragment : ParentPreferenceFragment() {
         notificationPreference?.setOnPreferenceClickListener {
             val context = context
             if (context != null) {
-                startActivity(DescriptionActivity[context])
+                startActivity(HelpDescriptionActivity[context])
             }
 
             return@setOnPreferenceClickListener true
