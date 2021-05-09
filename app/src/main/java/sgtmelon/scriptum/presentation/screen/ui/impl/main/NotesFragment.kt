@@ -13,6 +13,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.FragmentNotesBinding
 import sgtmelon.scriptum.domain.model.annotation.Options
 import sgtmelon.scriptum.domain.model.item.NoteItem
+import sgtmelon.scriptum.domain.model.key.PreferenceScreen
 import sgtmelon.scriptum.domain.model.state.OpenState
 import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.presentation.adapter.NoteAdapter
@@ -141,7 +142,7 @@ class NotesFragment : ParentFragment(),
                 openState?.tryInvoke {
                     startActivity(when (it.itemId) {
                         R.id.item_notification -> NotificationActivity[context]
-                        else -> PreferenceActivity[context]
+                        else -> PreferenceActivity[context, PreferenceScreen.PREFERENCE]
                     })
                 }
 

@@ -76,47 +76,7 @@
         </activity>
 
         <activity
-            android:name=".presentation.screen.ui.impl.preference.BackupPrefActivity"
-            android:configChanges="keyboardHidden"
-            android:parentActivityName=".presentation.screen.ui.impl.preference.PreferenceActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".presentation.screen.ui.impl.preference.NotePrefActivity"
-            android:configChanges="keyboardHidden"
-            android:parentActivityName=".presentation.screen.ui.impl.preference.PreferenceActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".presentation.screen.ui.impl.preference.AlarmPrefActivity"
-            android:configChanges="keyboardHidden"
-            android:parentActivityName=".presentation.screen.ui.impl.preference.PreferenceActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".presentation.screen.ui.impl.preference.HelpPrefActivity"
-            android:configChanges="keyboardHidden"
-            android:parentActivityName=".presentation.screen.ui.impl.preference.PreferenceActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".presentation.screen.ui.impl.preference.develop.DevelopActivity"
+            android:name=".presentation.screen.ui.impl.preference.DescriptionActivity"
             android:configChanges="keyboardHidden"
             android:parentActivityName=".presentation.screen.ui.impl.preference.PreferenceActivity">
             <intent-filter>
@@ -128,17 +88,7 @@
         <activity
             android:name=".presentation.screen.ui.impl.preference.develop.PrintActivity"
             android:configChanges="keyboardHidden"
-            android:parentActivityName=".presentation.screen.ui.impl.preference.develop.DevelopActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".presentation.screen.ui.impl.preference.develop.ServiceActivity"
-            android:configChanges="keyboardHidden"
-            android:parentActivityName=".presentation.screen.ui.impl.preference.develop.DevelopActivity">
+            android:parentActivityName=".presentation.screen.ui.impl.preference.PreferenceActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />

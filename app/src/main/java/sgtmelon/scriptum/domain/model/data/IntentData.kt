@@ -55,6 +55,24 @@ object IntentData {
         }
     }
 
+    object Preference {
+
+        @StringDef(Intent.SCREEN)
+        annotation class Intent {
+            companion object {
+                private const val PREFIX = "INTENT_PREFERENCE"
+
+                const val SCREEN = "${PREFIX}_SCREEN"
+            }
+        }
+
+        annotation class Default {
+            companion object {
+                const val SCREEN = -1
+            }
+        }
+    }
+
     object Print {
 
         @StringDef(Intent.TYPE)

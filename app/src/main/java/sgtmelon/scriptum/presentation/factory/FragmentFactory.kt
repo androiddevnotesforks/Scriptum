@@ -2,6 +2,8 @@ package sgtmelon.scriptum.presentation.factory
 
 import androidx.annotation.StringDef
 import androidx.fragment.app.FragmentManager
+import sgtmelon.scriptum.domain.model.key.PreferenceScreen
+import sgtmelon.scriptum.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.BinFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.NotesFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.RankFragment
@@ -64,6 +66,32 @@ object FragmentFactory {
     }
 
     class Preference(private val fm: FragmentManager) {
+
+        fun getFragment(screen: PreferenceScreen?): ParentPreferenceFragment? {
+            return when (screen) {
+                PreferenceScreen.PREFERENCE -> getPreferenceFragment()
+                PreferenceScreen.BACKUP -> getBackupFragment()
+                PreferenceScreen.NOTE -> getNoteFragment()
+                PreferenceScreen.ALARM -> getAlarmFragment()
+                PreferenceScreen.HELP -> getHelpFragment()
+                PreferenceScreen.DEVELOP -> getDevelopFragment()
+                PreferenceScreen.SERVICE -> getServiceFragment()
+                null -> null
+            }
+        }
+
+        fun getTag(screen: PreferenceScreen?): String? {
+            return when (screen) {
+                PreferenceScreen.PREFERENCE -> Tag.PREF
+                PreferenceScreen.BACKUP -> Tag.BACKUP
+                PreferenceScreen.NOTE -> Tag.NOTE
+                PreferenceScreen.ALARM -> Tag.ALARM
+                PreferenceScreen.HELP -> Tag.HELP
+                PreferenceScreen.DEVELOP -> Tag.DEVELOP
+                PreferenceScreen.SERVICE -> Tag.SERVICE
+                null -> null
+            }
+        }
 
         fun getPreferenceFragment(): PreferenceFragment {
             return fm.findFragmentByTag(Tag.PREF) as? PreferenceFragment ?: PreferenceFragment()

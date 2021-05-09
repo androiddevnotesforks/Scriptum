@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.annotation.StringRes
 import androidx.preference.Preference
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.domain.model.key.PreferenceScreen
 import sgtmelon.scriptum.domain.model.key.PrintType
 import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.presentation.screen.ui.ParentPreferenceFragment
@@ -11,6 +12,7 @@ import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.callback.preference.develop.IDevelopFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.intro.IntroActivity
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.preference.develop.IDevelopViewModel
 import javax.inject.Inject
 
@@ -118,7 +120,7 @@ class DevelopFragment : ParentPreferenceFragment(),
         eternalPreference?.setOnPreferenceClickListener {
             val context = context
             if (context != null) {
-                startActivity(ServiceActivity[context])
+                startActivity(PreferenceActivity[context, PreferenceScreen.SERVICE])
             }
 
             return@setOnPreferenceClickListener true
