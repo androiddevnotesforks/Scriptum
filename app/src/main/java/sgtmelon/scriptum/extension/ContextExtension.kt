@@ -16,6 +16,8 @@ import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.data.ReceiverData
 
@@ -101,3 +103,7 @@ fun Context.getVibratorService(): Vibrator? {
 }
 
 //endregion
+
+inline fun <reified F : Fragment> FragmentManager.getFragmentByTag(tag: String): F? {
+    return findFragmentByTag(tag) as? F
+}

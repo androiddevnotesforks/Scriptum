@@ -3,6 +3,7 @@ package sgtmelon.scriptum.presentation.factory
 import androidx.annotation.StringDef
 import androidx.fragment.app.FragmentManager
 import sgtmelon.scriptum.domain.model.key.PreferenceScreen
+import sgtmelon.scriptum.extension.getFragmentByTag
 import sgtmelon.scriptum.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.BinFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.NotesFragment
@@ -10,8 +11,8 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.main.RankFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.*
-import sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop.DevelopFragment
-import sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop.ServiceFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop.DevelopPreferenceFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop.ServicePreferenceFragment
 
 /**
  * Factory for create/get fragments
@@ -20,13 +21,9 @@ object FragmentFactory {
 
     class Note(private val fm: FragmentManager) {
 
-        fun getTextNoteFragment(): TextNoteFragment? {
-            return fm.findFragmentByTag(Tag.TEXT) as? TextNoteFragment
-        }
+        fun getTextNoteFragment(): TextNoteFragment? = fm.getFragmentByTag(Tag.TEXT)
 
-        fun getRollNoteFragment(): RollNoteFragment? {
-            return fm.findFragmentByTag(Tag.ROLL) as? RollNoteFragment
-        }
+        fun getRollNoteFragment(): RollNoteFragment? = fm.getFragmentByTag(Tag.ROLL)
 
         @StringDef(Tag.TEXT, Tag.ROLL)
         annotation class Tag {
@@ -41,17 +38,11 @@ object FragmentFactory {
 
     class Main(private val fm: FragmentManager) {
 
-        fun getRankFragment(): RankFragment {
-            return fm.findFragmentByTag(Tag.RANK) as? RankFragment ?: RankFragment()
-        }
+        fun getRankFragment(): RankFragment = fm.getFragmentByTag(Tag.RANK) ?: RankFragment()
 
-        fun getNotesFragment(): NotesFragment {
-            return fm.findFragmentByTag(Tag.NOTES) as? NotesFragment ?: NotesFragment()
-        }
+        fun getNotesFragment(): NotesFragment = fm.getFragmentByTag(Tag.NOTES) ?: NotesFragment()
 
-        fun getBinFragment(): BinFragment {
-            return fm.findFragmentByTag(Tag.BIN) as? BinFragment ?: BinFragment()
-        }
+        fun getBinFragment(): BinFragment = fm.getFragmentByTag(Tag.BIN) ?: BinFragment()
 
         @StringDef(Tag.RANK, Tag.NOTES, Tag.BIN)
         annotation class Tag {
@@ -94,31 +85,31 @@ object FragmentFactory {
         }
 
         private fun getPreferenceFragment(): PreferenceFragment {
-            return fm.findFragmentByTag(Tag.PREF) as? PreferenceFragment ?: PreferenceFragment()
+            return fm.getFragmentByTag(Tag.PREF) ?: PreferenceFragment()
         }
 
-        private fun getBackupFragment(): BackupPrefFragment {
-            return fm.findFragmentByTag(Tag.BACKUP) as? BackupPrefFragment ?: BackupPrefFragment()
+        private fun getBackupFragment(): BackupPreferenceFragment {
+            return fm.getFragmentByTag(Tag.BACKUP) ?: BackupPreferenceFragment()
         }
 
-        private fun getNoteFragment(): NotePrefFragment {
-            return fm.findFragmentByTag(Tag.NOTE) as? NotePrefFragment ?: NotePrefFragment()
+        private fun getNoteFragment(): NotePreferenceFragment {
+            return fm.getFragmentByTag(Tag.NOTE) ?: NotePreferenceFragment()
         }
 
-        private fun getAlarmFragment(): AlarmPrefFragment {
-            return fm.findFragmentByTag(Tag.ALARM) as? AlarmPrefFragment ?: AlarmPrefFragment()
+        private fun getAlarmFragment(): AlarmPreferenceFragment {
+            return fm.getFragmentByTag(Tag.ALARM) ?: AlarmPreferenceFragment()
         }
 
-        private fun getHelpFragment(): HelpPrefFragment {
-            return fm.findFragmentByTag(Tag.HELP) as? HelpPrefFragment ?: HelpPrefFragment()
+        private fun getHelpFragment(): HelpPreferenceFragment {
+            return fm.getFragmentByTag(Tag.HELP) ?: HelpPreferenceFragment()
         }
 
-        private fun getDevelopFragment(): DevelopFragment {
-            return fm.findFragmentByTag(Tag.DEVELOP) as? DevelopFragment ?: DevelopFragment()
+        private fun getDevelopFragment(): DevelopPreferenceFragment {
+            return fm.getFragmentByTag(Tag.DEVELOP) ?: DevelopPreferenceFragment()
         }
 
-        private fun getServiceFragment(): ServiceFragment {
-            return fm.findFragmentByTag(Tag.SERVICE) as? ServiceFragment ?: ServiceFragment()
+        private fun getServiceFragment(): ServicePreferenceFragment {
+            return fm.getFragmentByTag(Tag.SERVICE) ?: ServicePreferenceFragment()
         }
 
         @StringDef(Tag.PREF, Tag.BACKUP, Tag.NOTE, Tag.ALARM, Tag.HELP, Tag.DEVELOP, Tag.SERVICE)
