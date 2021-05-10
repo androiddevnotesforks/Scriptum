@@ -12,28 +12,28 @@ import sgtmelon.extension.nextString
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteractor
-import sgtmelon.scriptum.domain.interactor.callback.preference.IAlarmPrefInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.IAlarmPreferenceInteractor
 import sgtmelon.scriptum.domain.model.key.PermissionResult
 import sgtmelon.scriptum.domain.model.state.SignalState
 import sgtmelon.scriptum.parent.ParentViewModelTest
-import sgtmelon.scriptum.presentation.screen.ui.callback.preference.IAlarmPrefFragment
+import sgtmelon.scriptum.presentation.screen.ui.callback.preference.IAlarmPreferenceFragment
 import kotlin.random.Random
 
 /**
- * Test for [AlarmPrefViewModel].
+ * Test for [AlarmPreferenceViewModel].
  */
 @ExperimentalCoroutinesApi
-class AlarmPrefViewModelTest : ParentViewModelTest() {
+class AlarmPreferenceViewModelTest : ParentViewModelTest() {
 
     //region Setup
 
-    @MockK lateinit var interactor: IAlarmPrefInteractor
+    @MockK lateinit var interactor: IAlarmPreferenceInteractor
     @MockK lateinit var signalInteractor: ISignalInteractor
-    @MockK lateinit var callback: IAlarmPrefFragment
+    @MockK lateinit var callback: IAlarmPreferenceFragment
 
     private val melodyList = TestData.Melody.melodyList
 
-    private val viewModel by lazy { AlarmPrefViewModel(application) }
+    private val viewModel by lazy { AlarmPreferenceViewModel(application) }
     private val spyViewModel by lazy { spyk(viewModel) }
 
     @Before override fun setup() {

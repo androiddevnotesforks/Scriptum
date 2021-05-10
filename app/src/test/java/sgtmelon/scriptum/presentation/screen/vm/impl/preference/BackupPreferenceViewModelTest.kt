@@ -11,28 +11,28 @@ import org.junit.Test
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.TestData
-import sgtmelon.scriptum.domain.interactor.callback.preference.IBackupPrefInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.IBackupPreferenceInteractor
 import sgtmelon.scriptum.domain.model.item.FileItem
 import sgtmelon.scriptum.domain.model.key.PermissionResult
 import sgtmelon.scriptum.domain.model.result.ExportResult
 import sgtmelon.scriptum.domain.model.result.ImportResult
 import sgtmelon.scriptum.getRandomSize
 import sgtmelon.scriptum.parent.ParentViewModelTest
-import sgtmelon.scriptum.presentation.screen.ui.callback.preference.IBackupPrefFragment
+import sgtmelon.scriptum.presentation.screen.ui.callback.preference.IBackupPreferenceFragment
 import kotlin.random.Random
 
 /**
- * Test for [BackupPrefViewModel].
+ * Test for [BackupPreferenceViewModel].
  */
 @ExperimentalCoroutinesApi
-class BackupPrefViewModelTest : ParentViewModelTest() {
+class BackupPreferenceViewModelTest : ParentViewModelTest() {
 
-    @MockK lateinit var interactor: IBackupPrefInteractor
-    @MockK lateinit var callback: IBackupPrefFragment
+    @MockK lateinit var interactor: IBackupPreferenceInteractor
+    @MockK lateinit var callback: IBackupPreferenceFragment
 
     private val fileList = TestData.Backup.fileList
 
-    private val viewModel by lazy { BackupPrefViewModel(application) }
+    private val viewModel by lazy { BackupPreferenceViewModel(application) }
     private val spyViewModel by lazy { spyk(viewModel) }
 
     @Before override fun setup() {

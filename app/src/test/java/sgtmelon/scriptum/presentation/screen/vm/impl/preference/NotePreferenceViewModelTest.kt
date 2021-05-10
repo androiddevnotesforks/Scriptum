@@ -21,7 +21,7 @@ import kotlin.random.Random
  * ViewModel for [NotePreferenceViewModel].
  */
 @ExperimentalCoroutinesApi
-class NotePrefViewModelTest : ParentViewModelTest() {
+class NotePreferenceViewModelTest : ParentViewModelTest() {
 
     //region Setup
 

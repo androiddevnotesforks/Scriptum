@@ -29,10 +29,10 @@ import sgtmelon.scriptum.presentation.control.file.IFileControl
 import kotlin.random.Random
 
 /**
- * Test for [BackupPrefInteractor].
+ * Test for [BackupPreferenceInteractor].
  */
 @ExperimentalCoroutinesApi
-class BackupPrefInteractorTest : ParentInteractorTest() {
+class BackupPreferenceInteractorTest : ParentInteractorTest() {
 
     @MockK lateinit var preferenceRepo: IPreferenceRepo
     @MockK lateinit var alarmRepo: IAlarmRepo
@@ -45,7 +45,7 @@ class BackupPrefInteractorTest : ParentInteractorTest() {
     @MockK lateinit var cipherControl: ICipherControl
 
     private val interactor by lazy {
-        BackupPrefInteractor(
+        BackupPreferenceInteractor(
             preferenceRepo, alarmRepo, rankRepo, noteRepo, backupRepo,
             backupParser, fileControl, cipherControl
         )

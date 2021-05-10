@@ -19,15 +19,15 @@ import sgtmelon.scriptum.presentation.provider.SummaryProvider
 import kotlin.random.Random
 
 /**
- * Test for [NotePrefInteractor].
+ * Test for [NotePreferenceInteractor].
  */
 @ExperimentalCoroutinesApi
-class NotePrefInteractorTest : ParentInteractorTest() {
+class NotePreferenceInteractorTest : ParentInteractorTest() {
 
     @MockK lateinit var summaryProvider: SummaryProvider
     @MockK lateinit var preferenceRepo: IPreferenceRepo
 
-    private val interactor by lazy { NotePrefInteractor(summaryProvider, preferenceRepo) }
+    private val interactor by lazy { NotePreferenceInteractor(summaryProvider, preferenceRepo) }
     private val spyInteractor by lazy { spyk(interactor) }
 
     @After override fun tearDown() {

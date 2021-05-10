@@ -18,10 +18,10 @@ import java.util.*
 import kotlin.random.Random
 
 /**
- * Test for [AlarmPrefInteractor].
+ * Test for [AlarmPreferenceInteractor].
  */
 @ExperimentalCoroutinesApi
-class AlarmPrefInteractorTest : ParentInteractorTest() {
+class AlarmPreferenceInteractorTest : ParentInteractorTest() {
 
     //region Setup
 
@@ -30,7 +30,7 @@ class AlarmPrefInteractorTest : ParentInteractorTest() {
     @MockK lateinit var intConverter: IntConverter
 
     private val interactor by lazy {
-        AlarmPrefInteractor(summaryProvider, preferenceRepo, intConverter)
+        AlarmPreferenceInteractor(summaryProvider, preferenceRepo, intConverter)
     }
     private val spyInteractor by lazy { spyk(interactor) }
 

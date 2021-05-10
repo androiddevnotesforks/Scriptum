@@ -22,10 +22,10 @@ import java.io.File
 import kotlin.random.Random
 
 /**
- * Test for [PrintInteractor]
+ * Test for [PrintDevelopInteractor]
  */
 @ExperimentalCoroutinesApi
-class PrintInteractorTest : ParentInteractorTest() {
+class PrintDevelopInteractorTest : ParentInteractorTest() {
 
     @MockK lateinit var developRepo: IDevelopRepo
     @MockK lateinit var key: PreferenceProvider.Key
@@ -34,7 +34,7 @@ class PrintInteractorTest : ParentInteractorTest() {
     @MockK lateinit var fileControl: IFileControl
 
     private val interactor by lazy {
-        PrintInteractor(developRepo, key, def, preferenceRepo, fileControl)
+        PrintDevelopInteractor(developRepo, key, def, preferenceRepo, fileControl)
     }
     private val spyInteractor by lazy { spyk(interactor) }
 

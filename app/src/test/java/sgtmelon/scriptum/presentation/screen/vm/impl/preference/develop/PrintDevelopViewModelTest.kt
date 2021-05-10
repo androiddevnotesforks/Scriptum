@@ -8,7 +8,7 @@ import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
-import sgtmelon.scriptum.domain.interactor.callback.preference.develop.IPrintInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.develop.IPrintDevelopInteractor
 import sgtmelon.scriptum.domain.model.data.IntentData.Print.Default
 import sgtmelon.scriptum.domain.model.data.IntentData.Print.Intent
 import sgtmelon.scriptum.domain.model.item.PrintItem
@@ -16,21 +16,21 @@ import sgtmelon.scriptum.domain.model.key.PrintType
 import sgtmelon.scriptum.extension.clearAdd
 import sgtmelon.scriptum.getRandomSize
 import sgtmelon.scriptum.parent.ParentViewModelTest
-import sgtmelon.scriptum.presentation.screen.ui.callback.preference.develop.IPrintActivity
+import sgtmelon.scriptum.presentation.screen.ui.callback.preference.develop.IPrintDevelopActivity
 
 /**
- * Test for [PrintViewModel].
+ * Test for [PrintDevelopViewModel].
  */
 @ExperimentalCoroutinesApi
-class PrintViewModelTest : ParentViewModelTest() {
+class PrintDevelopViewModelTest : ParentViewModelTest() {
 
-    @MockK lateinit var callback: IPrintActivity
+    @MockK lateinit var callback: IPrintDevelopActivity
 
-    @MockK lateinit var interactor: IPrintInteractor
+    @MockK lateinit var interactor: IPrintDevelopInteractor
 
     @MockK lateinit var bundle: Bundle
 
-    private val viewModel by lazy { PrintViewModel(application) }
+    private val viewModel by lazy { PrintDevelopViewModel(application) }
 
     @Before override fun setup() {
         super.setup()
