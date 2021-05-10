@@ -14,6 +14,7 @@ import sgtmelon.scriptum.domain.model.data.IntentData.Preference.Default
 import sgtmelon.scriptum.domain.model.key.PreferenceScreen
 import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.presentation.factory.FragmentFactory
+import sgtmelon.scriptum.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.impl.AppActivity
 
@@ -80,6 +81,9 @@ class PreferenceActivity : AppActivity() {
         }
     }
 
+    /**
+     * [InsetsDir.BOTTOM] setup in [ParentPreferenceFragment].
+     */
     private fun setupInsets() {
         parentContainer?.doOnApplyWindowInsets { view, insets, _, _, margin ->
             view.updateMargin(InsetsDir.LEFT, insets, margin)

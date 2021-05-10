@@ -6,9 +6,11 @@
     <dimen name="item_card_elevation">2dp</dimen>
     <dimen name="item_card_radius">4dp</dimen>
 
-    <dimen name="text_note_card_margin">8dp</dimen>
-    <dimen name="text_note_card_elevation">2dp</dimen>
-    <dimen name="text_note_card_radius">4dp</dimen>
+    <dimen name="text_card_margin">8dp</dimen>
+    <dimen name="text_card_elevation">2dp</dimen>
+    <dimen name="text_card_radius">4dp</dimen>
+    <dimen name="text_card_text">18sp</dimen>
+    <dimen name="text_card_space">8dp</dimen>
 
     <dimen name="recycler_vertical_margin">4dp</dimen>
     <dimen name="recycler_horizontal_margin">0dp</dimen>
@@ -20,6 +22,10 @@
     <dimen name="color_vertical_size">8dp</dimen>
     <dimen name="color_vertical_shift_space">0dp</dimen>
     <dimen name="color_horizontal_size">4dp</dimen>
+
+    <dimen name="button_borderless_text">14sp</dimen>
+    <dimen name="button_borderless_inside_vertical_space">12dp</dimen>
+    <dimen name="button_borderless_inside_horizontal_space">24dp</dimen>
 
     <!-- Info page dimens -->
 

@@ -51,9 +51,8 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/text_note_content_card"
-                style="@style/Card.TextNote"
-                android:layout_height="match_parent"
-                app:cardBackgroundColor="?attr/clBackgroundView">
+                style="@style/Card.Text"
+                android:layout_height="match_parent">
 
                 <ScrollView
                     android:id="@+id/text_note_content_scroll"

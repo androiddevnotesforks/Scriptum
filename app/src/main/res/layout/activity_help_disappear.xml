@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/description_parent_container"
+    android:id="@+id/disappear_parent_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".presentation.screen.ui.impl.preference.help.HelpDescriptionActivity">
+    tools:context=".presentation.screen.ui.impl.preference.help.HelpDisappearActivity">
 
     <include layout="@layout/inc_toolbar_simple" />
 
@@ -16,10 +15,9 @@
         android:layout_weight="1">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/text_note_content_card"
-            style="@style/Card.TextNote"
-            android:layout_height="match_parent"
-            app:cardBackgroundColor="?attr/clBackgroundView">
+            android:id="@+id/disappear_content_card"
+            style="@style/Card.Text"
+            android:layout_height="match_parent">
 
             <ScrollView
                 android:layout_width="match_parent"
@@ -32,15 +30,29 @@
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:gravity="top"
-                    android:padding="@dimen/layout_8dp"
+                    android:padding="@dimen/text_card_space"
                     android:text="@string/help_notification_disappear"
                     android:textColor="?attr/clContent"
-                    android:textSize="@dimen/text_18sp" />
+                    android:textSize="@dimen/text_card_text" />
 
             </ScrollView>
 
         </androidx.cardview.widget.CardView>
 
     </FrameLayout>
+
+    <androidx.cardview.widget.CardView
+        style="@style/Card.Text"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp">
+
+        <TextView
+            style="@style/Button.Borderless"
+            android:layout_width="match_parent"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="@string/info_intro_button" />
+
+    </androidx.cardview.widget.CardView>
 
 </LinearLayout>

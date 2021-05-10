@@ -5,12 +5,12 @@ import dagger.Module
 import dagger.Provides
 import sgtmelon.scriptum.dagger.ActivityScope
 import sgtmelon.scriptum.domain.interactor.callback.IAppInteractor
-import sgtmelon.scriptum.presentation.screen.ui.impl.preference.help.HelpDescriptionActivity
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.help.HelpDisappearActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.IAppViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.AppViewModel
 
 /**
- * Module for [HelpDescriptionActivity].
+ * Module for [HelpDisappearActivity].
  */
 @Module
 class HelpDescriptionModule {
@@ -18,7 +18,7 @@ class HelpDescriptionModule {
     @Provides
     @ActivityScope
     fun provideAppViewModel(
-        activity: HelpDescriptionActivity,
+        activity: HelpDisappearActivity,
         interactor: IAppInteractor
     ): IAppViewModel {
         return ViewModelProvider(activity).get(AppViewModel::class.java).apply {

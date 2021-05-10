@@ -8,7 +8,6 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.viewpager.widget.ViewPager
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.Theme
@@ -36,7 +35,7 @@ class IntroActivity : ParentActivity(), IIntroActivity, ViewPager.OnPageChangeLi
     private val viewPager by lazy { findViewById<ViewPager>(R.id.intro_pager) }
     private val pageContainer by lazy { findViewById<ViewGroup>(R.id.intro_page_container) }
     private val pageIndicator by lazy { findViewById<View>(R.id.intro_page_indicator) }
-    private val endButton by lazy { findViewById<Button>(R.id.intro_end_button) }
+    private val endButton by lazy { findViewById<View>(R.id.intro_end_button) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         ScriptumApplication.component.getIntroBuilder().set(activity = this).build()

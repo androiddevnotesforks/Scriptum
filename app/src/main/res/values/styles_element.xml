@@ -27,12 +27,16 @@
         <item name="cardBackgroundColor">?attr/clBackgroundView</item>
     </style>
 
-    <style name="Card.TextNote">
+    <style name="Card.Text">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_margin">@dimen/text_note_card_margin</item>
-        <item name="cardElevation">@dimen/text_note_card_elevation</item>
-        <item name="cardCornerRadius">@dimen/text_note_card_radius</item>
+        <item name="android:layout_marginStart">@dimen/text_card_margin</item>
+        <item name="android:layout_marginEnd">@dimen/text_card_margin</item>
+        <item name="android:layout_marginBottom">@dimen/text_card_margin</item>
+        <item name="android:layout_marginTop">@dimen/text_card_margin</item>
+        <item name="cardElevation">@dimen/text_card_elevation</item>
+        <item name="cardCornerRadius">@dimen/text_card_radius</item>
+        <item name="cardBackgroundColor">?attr/clBackgroundView</item>
     </style>
 
     <style name="RecyclerView">
@@ -289,8 +293,8 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@android:color/transparent</item>
         <item name="android:gravity">top</item>
-        <item name="android:padding">@dimen/layout_8dp</item>
-        <item name="android:textSize">@dimen/text_18sp</item>
+        <item name="android:padding">@dimen/text_card_space</item>
+        <item name="android:textSize">@dimen/text_card_text</item>
     </style>
 
     <style name="EditText.TextNote.Enter">
@@ -368,13 +372,26 @@
         <item name="android:padding">@dimen/layout_8dp</item>
     </style>
 
+    <style name="Button.Borderless">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">?attr/clAccent</item>
+        <item name="android:textSize">@dimen/button_borderless_text</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:paddingStart">@dimen/button_borderless_inside_horizontal_space</item>
+        <item name="android:paddingEnd">@dimen/button_borderless_inside_horizontal_space</item>
+        <item name="android:paddingTop">@dimen/button_borderless_inside_vertical_space</item>
+        <item name="android:paddingBottom">@dimen/button_borderless_inside_vertical_space</item>
+        <item name="android:gravity">center</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
     <style name="Button.Roll">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:clickable">false</item>
         <item name="android:layout_gravity">center</item>
     </style>
-
 
     <style name="Button.Roll.Read">
         <item name="android:visibility">visible</item>

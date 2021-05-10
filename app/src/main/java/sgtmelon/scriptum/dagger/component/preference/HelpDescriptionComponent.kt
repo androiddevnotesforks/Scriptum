@@ -6,10 +6,10 @@ import sgtmelon.scriptum.dagger.ActivityScope
 import sgtmelon.scriptum.dagger.module.HelpDescriptionModule
 import sgtmelon.scriptum.dagger.module.base.InteractorModule
 import sgtmelon.scriptum.dagger.module.base.ViewModelModule
-import sgtmelon.scriptum.presentation.screen.ui.impl.preference.help.HelpDescriptionActivity
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.help.HelpDisappearActivity
 
 /**
- * Component for [HelpDescriptionActivity].
+ * Component for [HelpDisappearActivity].
  */
 @ActivityScope
 @Subcomponent(modules = [
@@ -19,12 +19,12 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.preference.help.HelpDescrip
 ])
 interface HelpDescriptionComponent {
 
-    fun inject(activity: HelpDescriptionActivity)
+    fun inject(activity: HelpDisappearActivity)
 
     @Subcomponent.Builder
     interface Builder {
         @BindsInstance
-        fun set(activity: HelpDescriptionActivity): Builder
+        fun set(activity: HelpDisappearActivity): Builder
 
         fun build(): HelpDescriptionComponent
     }

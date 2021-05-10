@@ -20,8 +20,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/layout_4dp">
+        android:layout_height="wrap_content">
 
         <!--  Need container for work properly (it's related with layout_gravity)  -->
         <FrameLayout
@@ -45,13 +44,11 @@
 
         </FrameLayout>
 
-        <Button
+        <TextView
             android:id="@+id/intro_end_button"
-            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            style="@style/Button.Borderless"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/info_intro_button"
-            android:textColor="?attr/clAccent" />
+            android:text="@string/info_intro_button" />
 
     </FrameLayout>
 
