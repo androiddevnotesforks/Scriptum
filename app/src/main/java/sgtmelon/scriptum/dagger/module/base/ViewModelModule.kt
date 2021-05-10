@@ -15,12 +15,12 @@ import sgtmelon.scriptum.domain.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.INotificationInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteractor
-import sgtmelon.scriptum.domain.interactor.callback.preference.IAlarmPrefInteractor
-import sgtmelon.scriptum.domain.interactor.callback.preference.IBackupPrefInteractor
-import sgtmelon.scriptum.domain.interactor.callback.preference.INotePrefInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.IAlarmPreferenceInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.IBackupPreferenceInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.INotePreferenceInteractor
 import sgtmelon.scriptum.domain.interactor.callback.preference.IPreferenceInteractor
 import sgtmelon.scriptum.domain.interactor.callback.preference.develop.IDevelopInteractor
-import sgtmelon.scriptum.domain.interactor.callback.preference.develop.IPrintInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.develop.IPrintDevelopInteractor
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.intro.IntroActivity
@@ -33,13 +33,13 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.AlarmActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.NotificationActivity
-import sgtmelon.scriptum.presentation.screen.ui.impl.preference.AlarmPrefFragment
-import sgtmelon.scriptum.presentation.screen.ui.impl.preference.BackupPrefFragment
-import sgtmelon.scriptum.presentation.screen.ui.impl.preference.NotePrefFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.AlarmPreferenceFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.BackupPreferenceFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.NotePreferenceFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop.DevelopFragment
-import sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop.PrintActivity
-import sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop.ServiceFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop.PrintDevelopActivity
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop.ServiceDevelopFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.IIntroViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.ISplashViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.main.IBinViewModel
@@ -51,13 +51,13 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.note.IRollNoteViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.note.ITextNoteViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.notification.IAlarmViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.notification.INotificationViewModel
-import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IAlarmPrefViewModel
-import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IBackupPrefViewModel
-import sgtmelon.scriptum.presentation.screen.vm.callback.preference.INotePrefViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IAlarmPreferenceViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IBackupPreferenceViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.preference.INotePreferenceViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IPreferenceViewModel
 import sgtmelon.scriptum.presentation.screen.vm.callback.preference.develop.IDevelopViewModel
-import sgtmelon.scriptum.presentation.screen.vm.callback.preference.develop.IPrintViewModel
-import sgtmelon.scriptum.presentation.screen.vm.callback.preference.develop.IServiceViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.preference.develop.IPrintDevelopViewModel
+import sgtmelon.scriptum.presentation.screen.vm.callback.preference.develop.IServiceDevelopViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.IntroViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.SplashViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.main.BinViewModel
@@ -69,13 +69,13 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.note.TextNoteViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.notification.AlarmViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.notification.NotificationViewModel
-import sgtmelon.scriptum.presentation.screen.vm.impl.preference.AlarmPrefViewModel
-import sgtmelon.scriptum.presentation.screen.vm.impl.preference.BackupPrefViewModel
-import sgtmelon.scriptum.presentation.screen.vm.impl.preference.NotePrefViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.preference.AlarmPreferenceViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.preference.BackupPreferenceViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.preference.NotePreferenceViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.preference.PreferenceViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.preference.develop.DevelopViewModel
-import sgtmelon.scriptum.presentation.screen.vm.impl.preference.develop.PrintViewModel
-import sgtmelon.scriptum.presentation.screen.vm.impl.preference.develop.ServiceViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.preference.develop.PrintDevelopViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.preference.develop.ServiceDevelopViewModel
 
 /**
  * Module for provide viewModel's.
@@ -236,11 +236,11 @@ class ViewModelModule {
 
     @Provides
     @ActivityScope
-    fun provideBackupViewModel(
-        fragment: BackupPrefFragment,
-        interactor: IBackupPrefInteractor
-    ): IBackupPrefViewModel {
-        return ViewModelProvider(fragment).get(BackupPrefViewModel::class.java).apply {
+    fun provideBackupPreferenceViewModel(
+        fragment: BackupPreferenceFragment,
+        interactor: IBackupPreferenceInteractor
+    ): IBackupPreferenceViewModel {
+        return ViewModelProvider(fragment).get(BackupPreferenceViewModel::class.java).apply {
             setCallback(fragment)
             setInteractor(interactor)
         }
@@ -248,11 +248,11 @@ class ViewModelModule {
 
     @Provides
     @ActivityScope
-    fun provideNotePrefViewModel(
-        fragment: NotePrefFragment,
-        interactor: INotePrefInteractor
-    ): INotePrefViewModel {
-        return ViewModelProvider(fragment).get(NotePrefViewModel::class.java).apply {
+    fun provideNotePreferenceViewModel(
+        fragment: NotePreferenceFragment,
+        interactor: INotePreferenceInteractor
+    ): INotePreferenceViewModel {
+        return ViewModelProvider(fragment).get(NotePreferenceViewModel::class.java).apply {
             setCallback(fragment)
             setInteractor(interactor)
         }
@@ -260,12 +260,12 @@ class ViewModelModule {
 
     @Provides
     @ActivityScope
-    fun provideAlarmPrefViewModel(
-        fragment: AlarmPrefFragment,
-        interactor: IAlarmPrefInteractor,
+    fun provideAlarmPreferenceViewModel(
+        fragment: AlarmPreferenceFragment,
+        interactor: IAlarmPreferenceInteractor,
         signalInteractor: ISignalInteractor
-    ): IAlarmPrefViewModel {
-        return ViewModelProvider(fragment).get(AlarmPrefViewModel::class.java).apply {
+    ): IAlarmPreferenceViewModel {
+        return ViewModelProvider(fragment).get(AlarmPreferenceViewModel::class.java).apply {
             setCallback(fragment)
             setInteractor(interactor, signalInteractor)
         }
@@ -285,11 +285,11 @@ class ViewModelModule {
 
     @Provides
     @ActivityScope
-    fun providePrintViewModel(
-        activity: PrintActivity,
-        interactor: IPrintInteractor
-    ): IPrintViewModel {
-        return ViewModelProvider(activity).get(PrintViewModel::class.java).apply {
+    fun providePrintDevelopViewModel(
+        activity: PrintDevelopActivity,
+        interactor: IPrintDevelopInteractor
+    ): IPrintDevelopViewModel {
+        return ViewModelProvider(activity).get(PrintDevelopViewModel::class.java).apply {
             setCallback(activity)
             setInteractor(interactor)
         }
@@ -297,8 +297,8 @@ class ViewModelModule {
 
     @Provides
     @ActivityScope
-    fun provideServiceViewModel(fragment: ServiceFragment): IServiceViewModel {
-        return ViewModelProvider(fragment).get(ServiceViewModel::class.java).apply {
+    fun provideServiceDevelopViewModel(fragment: ServiceDevelopFragment): IServiceDevelopViewModel {
+        return ViewModelProvider(fragment).get(ServiceDevelopViewModel::class.java).apply {
             setCallback(fragment)
         }
     }

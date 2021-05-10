@@ -10,9 +10,9 @@ import sgtmelon.scriptum.dagger.component.note.NoteComponent
 import sgtmelon.scriptum.dagger.component.note.RollNoteComponent
 import sgtmelon.scriptum.dagger.component.note.TextNoteComponent
 import sgtmelon.scriptum.dagger.component.preference.*
-import sgtmelon.scriptum.dagger.component.preference.develop.DevelopComponent
-import sgtmelon.scriptum.dagger.component.preference.develop.PrintComponent
-import sgtmelon.scriptum.dagger.component.preference.develop.ServiceComponent
+import sgtmelon.scriptum.dagger.component.preference.develop.DevelopPreferenceComponent
+import sgtmelon.scriptum.dagger.component.preference.develop.PrintDevelopComponent
+import sgtmelon.scriptum.dagger.component.preference.develop.ServiceDevelopComponent
 import sgtmelon.scriptum.dagger.component.service.SystemComponent
 import sgtmelon.scriptum.dagger.module.base.ContextModule
 import sgtmelon.scriptum.dagger.module.base.ConverterModule
@@ -64,19 +64,19 @@ interface ScriptumComponent {
 
     fun getPreferenceBuilder(): PreferenceComponent.Builder
 
-    fun getBackupPrefBuilder(): BackupPrefComponent.Builder
+    fun getBackupPrefBuilder(): BackupPreferenceComponent.Builder
 
-    fun getNotePrefBuilder(): NotePrefComponent.Builder
+    fun getNotePrefBuilder(): NotePreferenceComponent.Builder
 
-    fun getAlarmPrefBuilder(): AlarmPrefComponent.Builder
+    fun getAlarmPrefBuilder(): AlarmPreferenceComponent.Builder
 
     fun getHelpDescriptionBuilder(): HelpDescriptionComponent.Builder
 
-    fun getDevelopBuilder(): DevelopComponent.Builder
+    fun getDevelopBuilder(): DevelopPreferenceComponent.Builder
 
-    fun getPrintBuilder(): PrintComponent.Builder
+    fun getPrintBuilder(): PrintDevelopComponent.Builder
 
-    fun getServiceBuilder(): ServiceComponent.Builder
+    fun getServiceBuilder(): ServiceDevelopComponent.Builder
 
     //endregion
 

@@ -3,29 +3,29 @@ package sgtmelon.scriptum.dagger.component.preference
 import dagger.BindsInstance
 import dagger.Subcomponent
 import sgtmelon.scriptum.dagger.ActivityScope
-import sgtmelon.scriptum.dagger.module.HelpDescriptionModule
+import sgtmelon.scriptum.dagger.module.base.ControlModule
 import sgtmelon.scriptum.dagger.module.base.InteractorModule
 import sgtmelon.scriptum.dagger.module.base.ViewModelModule
-import sgtmelon.scriptum.presentation.screen.ui.impl.preference.help.HelpDescriptionActivity
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.AlarmPreferenceFragment
 
 /**
- * Component for [HelpDescriptionActivity].
+ * Component for [AlarmPreferenceFragment].
  */
 @ActivityScope
 @Subcomponent(modules = [
     InteractorModule::class,
     ViewModelModule::class,
-    HelpDescriptionModule::class
+    ControlModule::class
 ])
-interface HelpDescriptionComponent {
+interface AlarmPreferenceComponent {
 
-    fun inject(activity: HelpDescriptionActivity)
+    fun inject(fragment: AlarmPreferenceFragment)
 
     @Subcomponent.Builder
     interface Builder {
         @BindsInstance
-        fun set(activity: HelpDescriptionActivity): Builder
+        fun set(fragment: AlarmPreferenceFragment): Builder
 
-        fun build(): HelpDescriptionComponent
+        fun build(): AlarmPreferenceComponent
     }
 }

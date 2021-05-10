@@ -142,7 +142,7 @@ class DevelopFragment : ParentPreferenceFragment(),
     override fun openPrintScreen(type: PrintType) {
         val context = context ?: return
 
-        startActivity(PrintActivity[context, type])
+        startActivity(PrintDevelopActivity[context, type])
     }
 
     override fun openAlarmScreen(noteId: Long) {

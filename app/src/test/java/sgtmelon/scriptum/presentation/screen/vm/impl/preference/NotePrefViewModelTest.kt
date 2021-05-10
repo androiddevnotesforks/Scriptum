@@ -12,23 +12,23 @@ import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import sgtmelon.extension.nextString
-import sgtmelon.scriptum.domain.interactor.callback.preference.INotePrefInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.INotePreferenceInteractor
 import sgtmelon.scriptum.parent.ParentViewModelTest
-import sgtmelon.scriptum.presentation.screen.ui.callback.preference.INotePrefFragment
+import sgtmelon.scriptum.presentation.screen.ui.callback.preference.INotePreferenceFragment
 import kotlin.random.Random
 
 /**
- * ViewModel for [NotePrefViewModel].
+ * ViewModel for [NotePreferenceViewModel].
  */
 @ExperimentalCoroutinesApi
 class NotePrefViewModelTest : ParentViewModelTest() {
 
     //region Setup
 
-    @MockK lateinit var interactor: INotePrefInteractor
-    @MockK lateinit var callback: INotePrefFragment
+    @MockK lateinit var interactor: INotePreferenceInteractor
+    @MockK lateinit var callback: INotePreferenceFragment
 
-    private val viewModel by lazy { NotePrefViewModel(application) }
+    private val viewModel by lazy { NotePreferenceViewModel(application) }
 
     @Before override fun setup() {
         super.setup()

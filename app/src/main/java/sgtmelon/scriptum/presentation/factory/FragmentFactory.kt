@@ -10,9 +10,13 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.main.NotesFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.RankFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
-import sgtmelon.scriptum.presentation.screen.ui.impl.preference.*
-import sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop.DevelopPreferenceFragment
-import sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop.ServicePreferenceFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.AlarmPreferenceFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.BackupPreferenceFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.NotePreferenceFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop.DevelopFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop.ServiceDevelopFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.help.HelpPreferenceFragment
 
 /**
  * Factory for create/get fragments
@@ -104,12 +108,12 @@ object FragmentFactory {
             return fm.getFragmentByTag(Tag.HELP) ?: HelpPreferenceFragment()
         }
 
-        private fun getDevelopFragment(): DevelopPreferenceFragment {
-            return fm.getFragmentByTag(Tag.DEVELOP) ?: DevelopPreferenceFragment()
+        private fun getDevelopFragment(): DevelopFragment {
+            return fm.getFragmentByTag(Tag.DEVELOP) ?: DevelopFragment()
         }
 
-        private fun getServiceFragment(): ServicePreferenceFragment {
-            return fm.getFragmentByTag(Tag.SERVICE) ?: ServicePreferenceFragment()
+        private fun getServiceFragment(): ServiceDevelopFragment {
+            return fm.getFragmentByTag(Tag.SERVICE) ?: ServiceDevelopFragment()
         }
 
         @StringDef(Tag.PREF, Tag.BACKUP, Tag.NOTE, Tag.ALARM, Tag.HELP, Tag.DEVELOP, Tag.SERVICE)

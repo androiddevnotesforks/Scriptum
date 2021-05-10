@@ -1,9 +1,9 @@
 package sgtmelon.scriptum.domain.model.result
 
-import sgtmelon.scriptum.domain.interactor.callback.preference.IBackupPrefInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.IBackupPreferenceInteractor
 
 /**
- * Class for result processing of [IBackupPrefInteractor.export].
+ * Class for result processing of [IBackupPreferenceInteractor.export].
  */
 sealed class ExportResult {
     data class Success(val path: String) : ExportResult()

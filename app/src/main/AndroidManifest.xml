@@ -76,7 +76,7 @@
         </activity>
 
         <activity
-            android:name=".presentation.screen.ui.impl.preference.HelpDescriptionActivity"
+            android:name=".presentation.screen.ui.impl.preference.help.HelpDescriptionActivity"
             android:configChanges="keyboardHidden"
             android:parentActivityName=".presentation.screen.ui.impl.preference.PreferenceActivity">
             <intent-filter>
@@ -86,7 +86,7 @@
         </activity>
 
         <activity
-            android:name=".presentation.screen.ui.impl.preference.develop.PrintActivity"
+            android:name=".presentation.screen.ui.impl.preference.develop.PrintDevelopActivity"
             android:configChanges="keyboardHidden"
             android:parentActivityName=".presentation.screen.ui.impl.preference.PreferenceActivity">
             <intent-filter>
