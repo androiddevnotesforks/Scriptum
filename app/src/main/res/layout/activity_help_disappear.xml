@@ -25,7 +25,7 @@
                 android:fillViewport="true">
 
                 <TextView
-                    android:id="@+id/text_note_content_text"
+                    android:id="@+id/disappear_content_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
@@ -47,11 +47,12 @@
         android:layout_marginTop="0dp">
 
         <TextView
+            android:id="@+id/disappear_settings_button"
             style="@style/Button.Borderless"
             android:layout_width="match_parent"
             android:clickable="true"
             android:focusable="true"
-            android:text="@string/info_intro_button" />
+            android:text="@string/help_settings_button" />
 
     </androidx.cardview.widget.CardView>
 

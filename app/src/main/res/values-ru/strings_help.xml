@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="help_notification_disappear"></string>
+    <string name="help_notification_disappear">
+
+
+
+        Чтобы предотвратить исчезновение уведомлений нужно сделать несколько не сложных действий:\n
+        1. Закрепить приложение в диспетчере задач (откройте \n
+        2.\n
+        3.\n
+        4.\n
+    </string>
+
+    <string name="help_settings_button">Настройки приложения</string>
 
 </resources>

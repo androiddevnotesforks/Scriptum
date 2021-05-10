@@ -2,7 +2,10 @@ package sgtmelon.scriptum.presentation.screen.ui.impl.preference.help
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
+import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import sgtmelon.scriptum.R
@@ -20,6 +23,7 @@ class HelpDisappearActivity : AppActivity() {
 
     private val parentContainer by lazy { findViewById<ViewGroup?>(R.id.disappear_parent_container) }
     private val toolbar by lazy { findViewById<Toolbar>(R.id.toolbar_container) }
+    private val settingsButton by lazy { findViewById<View>(R.id.disappear_settings_button) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         ScriptumApplication.component.getHelpDescriptionBuilder().set(activity = this).build()
@@ -33,10 +37,20 @@ class HelpDisappearActivity : AppActivity() {
     }
 
     private fun setupView() {
-        toolbar?.apply {
+        toolbar.apply {
             title = getString(R.string.pref_title_help_notification_disappear)
             navigationIcon = getTintDrawable(R.drawable.ic_cancel_exit)
             setNavigationOnClickListener { finish() }
+        }
+
+        settingsButton.setOnClickListener {
+            /**
+             * Intent for open application settings on tap.
+             */
+            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+            intent.data = Uri.fromParts("package", packageName, null)
+
+            startActivity(intent)
         }
     }
 
