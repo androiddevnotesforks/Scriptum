@@ -16,6 +16,10 @@ class SplashTest : ParentUiTest() {
 
     @Test fun mainScreenOpen() = launch { mainScreen() }
 
+    @Test fun alarmTextNoteOpen() = data.insertText().let { launchAlarm(it) { openAlarm(it) } }
+
+    @Test fun alarmRollNoteOpen() = data.insertRoll().let { launchAlarm(it) { openAlarm(it) } }
+
     @Test fun bindTextNoteOpen() = data.insertText().let {
         launchBind(it) { openTextNoteBind(it) { onPressBack() }.mainScreen() }
     }
@@ -24,12 +28,10 @@ class SplashTest : ParentUiTest() {
         launchBind(it) { openRollNoteBind(it) { onPressBack() }.mainScreen() }
     }
 
-    @Test fun alarmTextNoteOpen() = data.insertText().let { launchAlarm(it) { openAlarm(it) } }
-
-    @Test fun alarmRollNoteOpen() = data.insertRoll().let { launchAlarm(it) { openAlarm(it) } }
-
-    @Test fun infoOpen() = launchInfo {
+    @Test fun notificationsOpen() = launchNotifications {
         openNotification(isEmpty = true) { onPressBack() }
         mainScreen()
     }
+
+    @Test fun helpDisappearOpen() = launchHelpDisappear { TODO() }
 }

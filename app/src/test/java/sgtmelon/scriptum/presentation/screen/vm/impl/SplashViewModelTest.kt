@@ -114,14 +114,25 @@ class SplashViewModelTest : ParentViewModelTest() {
         }
     }
 
-    @Test fun onSetup_notificationStart() {
-        every { bundle.getString(OpenFrom.INTENT_KEY) } returns OpenFrom.INFO
+    @Test fun onSetup_notificationsStart() {
+        every { bundle.getString(OpenFrom.INTENT_KEY) } returns OpenFrom.NOTIFICATIONS
 
         viewModel.onSetup(bundle)
 
         verifySequence {
             bundle.getString(OpenFrom.INTENT_KEY)
             callback.openNotificationScreen()
+        }
+    }
+
+    @Test fun onSetup_helpDisappearStart() {
+        every { bundle.getString(OpenFrom.INTENT_KEY) } returns OpenFrom.HELP_DISAPPEAR
+
+        viewModel.onSetup(bundle)
+
+        verifySequence {
+            bundle.getString(OpenFrom.INTENT_KEY)
+            callback.openHelpDisappearScreen()
         }
     }
 

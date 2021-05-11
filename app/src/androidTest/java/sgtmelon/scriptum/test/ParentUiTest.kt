@@ -128,6 +128,16 @@ abstract class ParentUiTest : ParentTest() {
         SplashScreen(after)
     }
 
+    protected fun launchAlarm(
+        item: NoteItem,
+        before: () -> Unit = {},
+        after: SplashScreen.() -> Unit
+    ) {
+        before()
+        scenario = launchActivity(SplashActivity.getAlarmInstance(context, item.id))
+        SplashScreen(after)
+    }
+
     protected fun launchBind(
         item: NoteItem,
         before: () -> Unit = {},
@@ -138,19 +148,15 @@ abstract class ParentUiTest : ParentTest() {
         SplashScreen(after)
     }
 
-    protected fun launchInfo(before: () -> Unit = {}, after: SplashScreen.() -> Unit) {
+    protected fun launchNotifications(before: () -> Unit = {}, after: SplashScreen.() -> Unit) {
         before()
         scenario = launchActivity(SplashActivity.getNotificationInstance(context))
         SplashScreen(after)
     }
 
-    protected fun launchAlarm(
-        item: NoteItem,
-        before: () -> Unit = {},
-        after: SplashScreen.() -> Unit
-    ) {
+    protected fun launchHelpDisappear(before: () -> Unit = {}, after: SplashScreen.() -> Unit) {
         before()
-        scenario = launchActivity(SplashActivity.getAlarmInstance(context, item.id))
+        scenario = launchActivity(SplashActivity.getHelpDisappearInstance(context))
         SplashScreen(after)
     }
 

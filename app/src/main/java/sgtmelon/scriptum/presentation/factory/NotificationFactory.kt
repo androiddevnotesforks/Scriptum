@@ -5,10 +5,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import android.os.Build.VERSION_CODES
-import android.provider.Settings
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.TaskStackBuilder
@@ -221,14 +218,8 @@ object NotificationFactory {
          * Notification for good work of [EternalService].
          */
         operator fun get(context: Context): Notification {
-            /**
-             * Intent for open application settings on tap.
-             */
-            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-            intent.data = Uri.fromParts("package", context.packageName, null)
-
             val contentIntent = TaskStackBuilder.create(context)
-                .addNextIntent(intent)
+                .addNextIntent(SplashActivity.getHelpDisappearInstance(context))
                 .getPendingIntent(ID, PendingIntent.FLAG_UPDATE_CURRENT)
 
             val text = context.getString(R.string.notification_eternal_description)

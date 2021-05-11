@@ -31,7 +31,8 @@ class SplashViewModel(application: Application) : ParentViewModel<ISplashActivit
             when (bundle.getString(OpenFrom.INTENT_KEY)) {
                 OpenFrom.ALARM -> onAlarmStart(bundle)
                 OpenFrom.BIND -> onBindStart(bundle)
-                OpenFrom.INFO -> callback?.openNotificationScreen()
+                OpenFrom.NOTIFICATIONS -> callback?.openNotificationScreen()
+                OpenFrom.HELP_DISAPPEAR -> callback?.openHelpDisappearScreen()
                 else -> onSimpleStart()
             }
         }

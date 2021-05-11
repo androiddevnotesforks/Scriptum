@@ -19,4 +19,6 @@ interface ISplashActivity {
 
     fun openNotificationScreen()
 
+    fun openHelpDisappearScreen()
+
 }

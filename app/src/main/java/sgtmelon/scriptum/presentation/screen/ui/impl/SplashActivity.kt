@@ -11,6 +11,7 @@ import sgtmelon.scriptum.domain.model.annotation.OpenFrom
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.domain.model.item.NoteItem
+import sgtmelon.scriptum.domain.model.key.PreferenceScreen
 import sgtmelon.scriptum.extension.beforeFinish
 import sgtmelon.scriptum.extension.hideKeyboard
 import sgtmelon.scriptum.idling.WaitIdlingResource
@@ -22,6 +23,8 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.main.MainActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.AlarmActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.NotificationActivity
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceActivity
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.help.HelpDisappearActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.ISplashViewModel
 import javax.inject.Inject
 import android.graphics.Color as AndroidColor
@@ -98,6 +101,15 @@ class SplashActivity : ParentActivity(), ISplashActivity {
         startActivities(arrayOf(MainActivity[this], NotificationActivity[this]))
     }
 
+    override fun openHelpDisappearScreen() {
+        WaitIdlingResource.getInstance().fireWork(waitMillis = 3000)
+        startActivities(arrayOf(
+            MainActivity[this],
+            PreferenceActivity[this, PreferenceScreen.PREFERENCE],
+            PreferenceActivity[this, PreferenceScreen.HELP],
+            HelpDisappearActivity[this]
+        ))
+    }
 
     companion object {
         fun getAlarmInstance(context: Context, id: Long): Intent {
@@ -119,7 +131,12 @@ class SplashActivity : ParentActivity(), ISplashActivity {
 
         fun getNotificationInstance(context: Context): Intent {
             return Intent(context, SplashActivity::class.java)
-                    .putExtra(OpenFrom.INTENT_KEY, OpenFrom.INFO)
+                .putExtra(OpenFrom.INTENT_KEY, OpenFrom.NOTIFICATIONS)
+        }
+
+        fun getHelpDisappearInstance(context: Context): Intent {
+            return Intent(context, SplashActivity::class.java)
+                .putExtra(OpenFrom.INTENT_KEY, OpenFrom.HELP_DISAPPEAR)
         }
     }
 
