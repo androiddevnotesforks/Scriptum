@@ -21,6 +21,7 @@ import androidx.transition.Transition
 import androidx.transition.TransitionListenerAdapter
 import androidx.transition.TransitionManager
 import com.google.android.material.navigation.NavigationView
+import sgtmelon.safedialog.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Theme
@@ -190,7 +191,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         disableButton?.setOnClickListener { openState.tryInvoke { viewModel.onClickDisable() } }
         repeatButton?.setOnClickListener { openState.tryInvoke { viewModel.onClickRepeat() } }
         moreButton?.setOnClickListener {
-            openState.tryInvoke { repeatDialog.show(fm, DialogFactory.Alarm.REPEAT) }
+            openState.tryInvoke { repeatDialog.safeShow(fm, DialogFactory.Alarm.REPEAT) }
         }
 
         repeatDialog.apply {

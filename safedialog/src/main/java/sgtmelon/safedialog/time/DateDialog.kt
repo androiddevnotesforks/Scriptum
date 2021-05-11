@@ -13,6 +13,7 @@ import sgtmelon.safedialog.R
 import sgtmelon.safedialog.annotation.NdValue
 import sgtmelon.safedialog.annotation.SavedTag
 import sgtmelon.safedialog.applyAnimation
+import sgtmelon.safedialog.safeShow
 import java.util.*
 
 /**
@@ -31,7 +32,7 @@ class DateDialog : DateTimeBlankDialog(), IDateDialog {
         private set
 
     /**
-     * Call before [show].
+     * Call before [safeShow].
      */
     fun setArguments(
         calendar: Calendar,

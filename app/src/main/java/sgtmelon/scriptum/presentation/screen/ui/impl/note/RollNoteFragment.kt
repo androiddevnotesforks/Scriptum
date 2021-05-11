@@ -20,6 +20,7 @@ import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import sgtmelon.iconanim.IconBlockCallback
 import sgtmelon.iconanim.IconChangeCallback
+import sgtmelon.safedialog.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
 import sgtmelon.scriptum.domain.model.annotation.Color
@@ -531,33 +532,33 @@ class RollNoteFragment : ParentFragment(),
 
     override fun showRankDialog(check: Int) = openState.tryInvoke {
         hideKeyboard()
-        rankDialog.setArguments(check).show(fm, DialogFactory.Note.RANK)
+        rankDialog.setArguments(check).safeShow(fm, DialogFactory.Note.RANK)
     }
 
     override fun showColorDialog(@Color color: Int) = openState.tryInvoke {
         toolbarTintControl?.setColorFrom(color)
 
         hideKeyboard()
-        colorDialog.setArguments(color).show(fm, DialogFactory.Note.COLOR)
+        colorDialog.setArguments(color).safeShow(fm, DialogFactory.Note.COLOR)
     }
 
     override fun showDateDialog(calendar: Calendar, resetVisible: Boolean) = openState.tryInvoke {
         openState.tag = OpenState.Tag.DIALOG
 
         hideKeyboard()
-        dateDialog.setArguments(calendar, resetVisible).show(fm, DialogFactory.Note.DATE)
+        dateDialog.setArguments(calendar, resetVisible).safeShow(fm, DialogFactory.Note.DATE)
     }
 
     override fun showTimeDialog(calendar: Calendar, dateList: List<String>) {
         openState.tryInvoke(OpenState.Tag.DIALOG) {
             hideKeyboard()
-            timeDialog.setArguments(calendar, dateList).show(fm, DialogFactory.Note.TIME)
+            timeDialog.setArguments(calendar, dateList).safeShow(fm, DialogFactory.Note.TIME)
         }
     }
 
     override fun showConvertDialog() = openState.tryInvoke {
         hideKeyboard()
-        convertDialog.show(fm, DialogFactory.Note.CONVERT)
+        convertDialog.safeShow(fm, DialogFactory.Note.CONVERT)
     }
 
 

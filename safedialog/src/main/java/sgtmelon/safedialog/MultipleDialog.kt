@@ -21,7 +21,7 @@ class MultipleDialog : BlankDialog() {
     var needOneSelect = NdValue.KEY
 
     /**
-     * Call before [show].
+     * Call before [safeShow].
      */
     fun setArguments(checkArray: BooleanArray) = apply {
         arguments = Bundle().apply {

@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import sgtmelon.safedialog.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.FragmentNotesBinding
 import sgtmelon.scriptum.domain.model.annotation.Options
@@ -284,20 +285,20 @@ class NotesFragment : ParentFragment(),
             openState?.tag = OpenState.Tag.DIALOG
 
             optionsDialog.title = title
-            optionsDialog.setArguments(itemArray, p).show(fm, DialogFactory.Main.OPTIONS)
+            optionsDialog.setArguments(itemArray, p).safeShow(fm, DialogFactory.Main.OPTIONS)
         }
     }
 
     override fun showDateDialog(calendar: Calendar, resetVisible: Boolean, p: Int) {
         openState?.tryInvoke(OpenState.Tag.DIALOG) {
-            dateDialog.setArguments(calendar, resetVisible, p).show(fm, DialogFactory.Main.DATE)
+            dateDialog.setArguments(calendar, resetVisible, p).safeShow(fm, DialogFactory.Main.DATE)
         }
     }
 
     override fun showTimeDialog(calendar: Calendar, dateList: List<String>, p: Int) {
         openState?.tryInvoke(OpenState.Tag.DIALOG) {
             activity?.hideKeyboard()
-            timeDialog.setArguments(calendar, dateList, p).show(fm, DialogFactory.Main.TIME)
+            timeDialog.setArguments(calendar, dateList, p).safeShow(fm, DialogFactory.Main.TIME)
         }
     }
 

@@ -49,7 +49,7 @@ abstract class BlankDialog : DialogFragment() {
     }
 
     /**
-     * Use for restore dialog content which was written before [show]
+     * Use for restore dialog content which was written before [safeShow]
      * (e.g. title, nameArray and ect.).
      *
      * Call inside [onCreateDialog] before create them.

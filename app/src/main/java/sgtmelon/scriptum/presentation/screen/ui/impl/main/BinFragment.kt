@@ -10,6 +10,7 @@ import androidx.annotation.ArrayRes
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import sgtmelon.safedialog.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.FragmentBinBinding
 import sgtmelon.scriptum.domain.model.item.NoteItem
@@ -111,7 +112,7 @@ class BinFragment : ParentFragment(), IBinFragment {
             title = getString(R.string.title_bin)
             inflateMenu(R.menu.fragment_bin)
             setOnMenuItemClickListener {
-                openState?.tryInvoke { clearBinDialog.show(fm, DialogFactory.Main.CLEAR_BIN) }
+                openState?.tryInvoke { clearBinDialog.safeShow(fm, DialogFactory.Main.CLEAR_BIN) }
                 return@setOnMenuItemClickListener true
             }
         }
@@ -208,7 +209,7 @@ class BinFragment : ParentFragment(), IBinFragment {
     override fun showOptionsDialog(title: String, itemArray: Array<String>, p: Int) {
         openState?.tryInvoke {
             optionsDialog.title = title
-            optionsDialog.setArguments(itemArray, p).show(fm, DialogFactory.Main.OPTIONS)
+            optionsDialog.setArguments(itemArray, p).safeShow(fm, DialogFactory.Main.OPTIONS)
         }
     }
 

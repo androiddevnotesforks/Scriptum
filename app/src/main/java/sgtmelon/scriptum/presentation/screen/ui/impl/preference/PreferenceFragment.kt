@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.annotation.StringRes
 import androidx.preference.Preference
+import sgtmelon.safedialog.safeShow
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.*
@@ -154,7 +155,7 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
         }
 
         findPreference<Preference>(getString(R.string.pref_key_other_about))?.setOnPreferenceClickListener {
-            openState.tryInvoke { aboutDialog.show(fm, DialogFactory.Preference.Main.ABOUT) }
+            openState.tryInvoke { aboutDialog.safeShow(fm, DialogFactory.Preference.Main.ABOUT) }
             return@setOnPreferenceClickListener true
         }
 
@@ -186,7 +187,7 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
     }
 
     override fun showThemeDialog(@Theme value: Int) = openState.tryInvoke {
-        themeDialog.setArguments(value).show(fm, DialogFactory.Preference.Main.THEME)
+        themeDialog.setArguments(value).safeShow(fm, DialogFactory.Preference.Main.THEME)
     }
 
 }

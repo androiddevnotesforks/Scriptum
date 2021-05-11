@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.iconanim.IconBlockCallback
+import sgtmelon.safedialog.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.FragmentRankBinding
 import sgtmelon.scriptum.domain.model.item.RankItem
@@ -359,7 +360,7 @@ class RankFragment : ParentFragment(), IRankFragment, MainScreenReceiver.BindCal
     }
 
     override fun showRenameDialog(p: Int, name: String, nameList: List<String>) {
-        renameDialog.setArguments(p, name, nameList).show(fm, DialogFactory.Main.RENAME)
+        renameDialog.setArguments(p, name, nameList).safeShow(fm, DialogFactory.Main.RENAME)
     }
 
 

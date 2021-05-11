@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.preference.Preference
+import sgtmelon.safedialog.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.PermissionRequest
 import sgtmelon.scriptum.domain.model.key.DotAnimType
@@ -209,15 +210,15 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
     }
 
     override fun showExportPermissionDialog() {
-        exportPermissionDialog.show(fm, DialogFactory.Preference.Backup.EXPORT_PERMISSION)
+        exportPermissionDialog.safeShow(fm, DialogFactory.Preference.Backup.EXPORT_PERMISSION)
     }
 
     override fun showExportDenyDialog() {
-        exportDenyDialog.show(fm, DialogFactory.Preference.Backup.EXPORT_DENY)
+        exportDenyDialog.safeShow(fm, DialogFactory.Preference.Backup.EXPORT_DENY)
     }
 
     override fun showExportLoadingDialog() = openState.tryInvoke {
-        loadingDialog.show(fm, DialogFactory.Preference.Backup.LOADING)
+        loadingDialog.safeShow(fm, DialogFactory.Preference.Backup.LOADING)
     }
 
     override fun hideExportLoadingDialog() = loadingDialog.safeDismiss()
@@ -251,22 +252,22 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
     }
 
     override fun showImportPermissionDialog() = openState.tryInvoke {
-        importPermissionDialog.show(fm, DialogFactory.Preference.Backup.IMPORT_PERMISSION)
+        importPermissionDialog.safeShow(fm, DialogFactory.Preference.Backup.IMPORT_PERMISSION)
     }
 
     override fun showImportDenyDialog() {
-        importDenyDialog.show(fm, DialogFactory.Preference.Backup.IMPORT_DENY)
+        importDenyDialog.safeShow(fm, DialogFactory.Preference.Backup.IMPORT_DENY)
     }
 
     override fun showImportDialog(titleArray: Array<String>) = openState.tryInvoke {
         openState.tag = OpenState.Tag.DIALOG
 
         importDialog.itemArray = titleArray
-        importDialog.show(fm, DialogFactory.Preference.Backup.IMPORT)
+        importDialog.safeShow(fm, DialogFactory.Preference.Backup.IMPORT)
     }
 
     override fun showImportLoadingDialog() = openState.tryInvoke(OpenState.Tag.DIALOG) {
-        loadingDialog.show(fm, DialogFactory.Preference.Backup.LOADING)
+        loadingDialog.safeShow(fm, DialogFactory.Preference.Backup.LOADING)
     }
 
     override fun hideImportLoadingDialog() = loadingDialog.safeDismiss()

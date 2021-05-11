@@ -28,7 +28,7 @@ class OptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
         private set
 
     /**
-     * Call before [show].
+     * Call before [safeShow].
      */
     fun setArguments(itemArray: Array<String>, p: Int) = apply {
         arguments = Bundle().apply {
@@ -63,7 +63,7 @@ class OptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
     }
 
     /**
-     * Use for restore dialog content which was written before [show]
+     * Use for restore dialog content which was written before [safeShow]
      * (e.g. title, nameArray and ect.).
      *
      * Call inside [onCreateDialog] before create them.

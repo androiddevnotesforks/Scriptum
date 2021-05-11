@@ -3,6 +3,7 @@ package sgtmelon.scriptum.presentation.screen.ui.impl.preference
 import android.content.DialogInterface
 import android.os.Bundle
 import androidx.preference.Preference
+import sgtmelon.safedialog.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Sort
@@ -116,7 +117,7 @@ class NotePreferenceFragment : ParentPreferenceFragment(), INotePreferenceFragme
     }
 
     override fun showSortDialog(@Sort value: Int) = openState.tryInvoke {
-        sortDialog.setArguments(value).show(fm, DialogFactory.Preference.Notes.SORT)
+        sortDialog.setArguments(value).safeShow(fm, DialogFactory.Preference.Notes.SORT)
     }
 
     override fun updateColorSummary(summary: String?) {
@@ -124,7 +125,7 @@ class NotePreferenceFragment : ParentPreferenceFragment(), INotePreferenceFragme
     }
 
     override fun showColorDialog(@Color color: Int) = openState.tryInvoke {
-        colorDialog.setArguments(color).show(fm, DialogFactory.Preference.Notes.COLOR)
+        colorDialog.setArguments(color).safeShow(fm, DialogFactory.Preference.Notes.COLOR)
     }
 
     override fun updateSavePeriodSummary(summary: String?) {
@@ -132,7 +133,8 @@ class NotePreferenceFragment : ParentPreferenceFragment(), INotePreferenceFragme
     }
 
     override fun showSaveTimeDialog(value: Int) = openState.tryInvoke {
-        savePeriodDialog.setArguments(value).show(fm, DialogFactory.Preference.Notes.SAVE_PERIOD)
+        savePeriodDialog.setArguments(value)
+            .safeShow(fm, DialogFactory.Preference.Notes.SAVE_PERIOD)
     }
 
     //region Broadcast functions

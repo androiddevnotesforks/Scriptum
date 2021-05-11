@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import androidx.annotation.StringRes
 import androidx.preference.Preference
+import sgtmelon.safedialog.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.PermissionRequest
 import sgtmelon.scriptum.domain.model.annotation.Repeat
@@ -196,7 +197,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
     }
 
     override fun showRepeatDialog(@Repeat value: Int) = openState.tryInvoke {
-        repeatDialog.setArguments(value).show(fm, DialogFactory.Preference.Alarm.REPEAT)
+        repeatDialog.setArguments(value).safeShow(fm, DialogFactory.Preference.Alarm.REPEAT)
     }
 
     override fun updateSignalSummary(summary: String?) {
@@ -204,11 +205,11 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
     }
 
     override fun showSignalDialog(valueArray: BooleanArray) = openState.tryInvoke {
-        signalDialog.setArguments(valueArray).show(fm, DialogFactory.Preference.Alarm.SIGNAL)
+        signalDialog.setArguments(valueArray).safeShow(fm, DialogFactory.Preference.Alarm.SIGNAL)
     }
 
     override fun showMelodyPermissionDialog() = openState.tryInvoke {
-        melodyPermissionDialog.show(fm, DialogFactory.Preference.Alarm.MELODY_PERMISSION)
+        melodyPermissionDialog.safeShow(fm, DialogFactory.Preference.Alarm.MELODY_PERMISSION)
     }
 
     override fun updateMelodyEnabled(isEnabled: Boolean) {
@@ -243,7 +244,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
 
     override fun showMelodyDialog(titleArray: Array<String>, value: Int) = openState.tryInvoke {
         melodyDialog.itemArray = titleArray
-        melodyDialog.setArguments(value).show(fm, DialogFactory.Preference.Alarm.MELODY)
+        melodyDialog.setArguments(value).safeShow(fm, DialogFactory.Preference.Alarm.MELODY)
     }
 
     override fun playMelody(stringUri: String) {
@@ -261,6 +262,6 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
     }
 
     override fun showVolumeDialog(value: Int) = openState.tryInvoke {
-        volumeDialog.setArguments(value).show(fm, DialogFactory.Preference.Alarm.VOLUME)
+        volumeDialog.setArguments(value).safeShow(fm, DialogFactory.Preference.Alarm.VOLUME)
     }
 }
