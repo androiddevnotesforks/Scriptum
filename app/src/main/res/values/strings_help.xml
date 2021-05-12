@@ -2,9 +2,29 @@
 <resources>
 
     <string name="help_notification_disappear">
-
-        \n1.\n\n2.\n\n3.\n\n4.\n\n5.\n\n6.\n\n7.\n\n8.\n\n9.\n\n10.\n\n11.\n\n12.\n\n13.\n\n14.
-        \n\n15.\n\n16.\n\n17.\n\n18.\n\n19.\n\n20.\n\n21.\n\n22.\n\n23.\n\n24.
+        Note:
+        \nEveryone has different phones, which makes it difficult to put together a single
+        list of things to do. Someone may have some items in application settings, it all depends
+        on the phone manufacturer (in such cases skip the step). You can also watch a video
+        demonstration by click on the \"video\" icon.
+        \n
+        \nI apologize for the inconvenience. Unfortunately, there is no other way to make
+        notifications that will not disappear.
+        \n
+        \nThings to do:
+        \n1. Open minimized apps screen (application manager) and lock Scriptum. Use long click on
+        application preview and click on lock image. This prevent application cleaning by system.
+        \n2. In application settings turn on \"Autostart\". This will allow show notifications
+        after phone restart.
+        \n3. In application settings open tab \"Battery saver\", and there select
+        \"No restrictions\". This will prevent application close by system.
+        \n4. In application settings open tab \"Notifications\", and there select category
+        \"Eternal service\". Turn off notifications for it (it\'s only available for Android Oreo
+        and above). This need for hide system notification of application.
+        \n5. Restart your phone for apply all changes.
+        \n
+        \nHope it will help! If you have any questions please write to email:
+        \nserjant.arbuz@yandex.ru
     </string>
     <string name="help_notification_disappear_video_url">
         https://drive.google.com/file/d/1Lf49jBtoVELN9ufmXQMod3Qhugizyi3H
