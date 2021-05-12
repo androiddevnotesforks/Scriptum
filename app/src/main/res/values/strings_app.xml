@@ -65,11 +65,10 @@
 
     <string name="notification_info_description">Press for details</string>
 
-    <string name="notification_eternal_title">Eternal service is working</string>
+    <string name="notification_eternal_title">Background service for notifications</string>
     <string name="notification_eternal_description">
-        Hello! This notification very important for good work of application
-        (prevent notifications disappearing). You may turn off channel for this message in
-        application settings. Just click on me and settings will open.
+        Click here for more information about how hide this notification and how prevent note
+        notifications disappearing
     </string>
 
     <!-- Button -->
