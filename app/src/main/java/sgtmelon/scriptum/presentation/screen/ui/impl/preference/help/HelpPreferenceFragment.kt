@@ -5,6 +5,7 @@ import androidx.preference.Preference
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.getUrlIntent
+import sgtmelon.scriptum.extension.startActivitySafe
 import sgtmelon.scriptum.presentation.screen.ui.ParentPreferenceFragment
 
 /**
@@ -36,7 +37,7 @@ class HelpPreferenceFragment : ParentPreferenceFragment() {
         policyPreference?.setOnPreferenceClickListener {
             val intent = getUrlIntent(BuildConfig.PRIVACY_POLICY_URL)
             if (intent != null) {
-                startActivity(intent)
+                startActivitySafe(intent)
             }
 
             return@setOnPreferenceClickListener true

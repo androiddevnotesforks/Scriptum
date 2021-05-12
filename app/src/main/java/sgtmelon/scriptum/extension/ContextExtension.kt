@@ -17,9 +17,11 @@ import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.data.ReceiverData
 
@@ -129,6 +131,22 @@ fun Context.getSettingsIntent(): Intent {
     intent.data = Uri.fromParts("package", packageName, null)
 
     return intent
+}
+
+fun AppCompatActivity.startActivitySafe(intent: Intent) {
+    try {
+        startActivity(intent)
+    } catch (e: Throwable) {
+        showToast(R.string.error_something_wrong)
+    }
+}
+
+fun Fragment.startActivitySafe(intent: Intent) {
+    try {
+        startActivity(intent)
+    } catch (e: Throwable) {
+        context?.showToast(R.string.error_something_wrong)
+    }
 }
 
 //endregion

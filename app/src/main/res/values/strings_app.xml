@@ -107,5 +107,9 @@
 
     <string name="snackbar_action_cancel">Cancel</string>
 
+    <!--  Error text  -->
+    <string name="error_something_wrong">
+        Something went wrong :( Please, write about it to developer on email
+    </string>
 
 </resources>

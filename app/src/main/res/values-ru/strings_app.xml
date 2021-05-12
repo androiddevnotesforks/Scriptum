@@ -87,4 +87,9 @@
 
     <string name="snackbar_action_cancel">Отмена</string>
 
+    <!--  Error text  -->
+    <string name="error_something_wrong">
+        Что-то пошло не так :( Пожалуйста, напишите об этом разработчику на email
+    </string>
+
 </resources>

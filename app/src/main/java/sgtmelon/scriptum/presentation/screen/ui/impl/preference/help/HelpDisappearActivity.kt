@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
-import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
@@ -40,9 +39,10 @@ class HelpDisappearActivity : AppActivity() {
 
             inflateMenu(R.menu.activity_help_disappear)
             setOnMenuItemClickListener {
-                val intent = getUrlIntent(BuildConfig.HELP_DISAPPEAR_URL)
+                val url = getString(R.string.help_notification_disappear_video_url)
+                val intent = getUrlIntent(url)
                 if (intent != null) {
-                    startActivity(intent)
+                    startActivitySafe(intent)
                 }
 
                 return@setOnMenuItemClickListener true
@@ -51,7 +51,7 @@ class HelpDisappearActivity : AppActivity() {
             menu?.findItem(R.id.item_video_lesson)?.tintIcon(context = this@HelpDisappearActivity)
         }
 
-        settingsButton.setOnClickListener { startActivity(getSettingsIntent()) }
+        settingsButton.setOnClickListener { startActivitySafe(getSettingsIntent()) }
     }
 
     private fun setupInsets() {
