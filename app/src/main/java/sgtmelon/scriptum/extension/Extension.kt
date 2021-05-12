@@ -14,6 +14,7 @@ import java.util.*
  */
 fun Any.initLazy() = this.run {}
 
+// TODO add firebase log
 fun String.toUri(): Uri? = let {
     return@let try {
         Uri.parse(it)

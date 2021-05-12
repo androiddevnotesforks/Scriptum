@@ -7,8 +7,10 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.media.AudioManager
+import android.net.Uri
 import android.os.PowerManager
 import android.os.Vibrator
+import android.provider.Settings
 import android.util.TypedValue
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.AttrRes
@@ -108,8 +110,25 @@ inline fun <reified F : Fragment> FragmentManager.getFragmentByTag(tag: String):
     return findFragmentByTag(tag) as? F
 }
 
+//region Intent functions
+
 fun getUrlIntent(url: String): Intent? {
     val uri = url.toUri() ?: return null
 
-    return Intent(Intent.ACTION_VIEW).apply { data = uri }
+    val intent = Intent(Intent.ACTION_VIEW)
+    intent.data = uri
+
+    return intent
 }
+
+/**
+ * Intent for open application settings on tap.
+ */
+fun Context.getSettingsIntent(): Intent {
+    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+    intent.data = Uri.fromParts("package", packageName, null)
+
+    return intent
+}
+
+//endregion

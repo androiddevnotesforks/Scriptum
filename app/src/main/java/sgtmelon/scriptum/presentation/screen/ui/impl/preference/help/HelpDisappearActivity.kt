@@ -2,12 +2,11 @@ package sgtmelon.scriptum.presentation.screen.ui.impl.preference.help
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.provider.Settings
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
+import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
@@ -41,23 +40,18 @@ class HelpDisappearActivity : AppActivity() {
 
             inflateMenu(R.menu.activity_help_disappear)
             setOnMenuItemClickListener {
-                // TODO
-                showToast("open lesson")
+                val intent = getUrlIntent(BuildConfig.HELP_DISAPPEAR_URL)
+                if (intent != null) {
+                    startActivity(intent)
+                }
+
                 return@setOnMenuItemClickListener true
             }
 
             menu?.findItem(R.id.item_video_lesson)?.tintIcon(context = this@HelpDisappearActivity)
         }
 
-        settingsButton.setOnClickListener {
-            /**
-             * Intent for open application settings on tap.
-             */
-            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-            intent.data = Uri.fromParts("package", packageName, null)
-
-            startActivity(intent)
-        }
+        settingsButton.setOnClickListener { startActivity(getSettingsIntent()) }
     }
 
     private fun setupInsets() {

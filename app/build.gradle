@@ -32,6 +32,7 @@ android {
         buildConfigField "String", "MARKET_URL", '"market://details?id="'
         buildConfigField "String", "BROWSER_URL", '"https://play.google.com/sore/apps/details?id="'
         buildConfigField "String", "PRIVACY_POLICY_URL", '"https://drive.google.com/open?id=1f5tfXeBM6dxUqpsHW3SqMHa-mtKf5RSx"'
+        buildConfigField "String", "HELP_DISAPPEAR_URL", '"TODO"'
 
         /**
          * Use only in debug mode (in release minifyEnabled do the deal)
