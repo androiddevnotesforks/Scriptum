@@ -151,10 +151,8 @@ class NotesFragment : ParentFragment(),
             }
 
             activity?.let {
-                menu?.apply {
-                    findItem(R.id.item_notification)?.tintIcon(it)
-                    findItem(R.id.item_preference)?.tintIcon(it)
-                }
+                menu?.findItem(R.id.item_notification)?.tintIcon(it)
+                menu?.findItem(R.id.item_preference)?.tintIcon(it)
             }
         }
     }

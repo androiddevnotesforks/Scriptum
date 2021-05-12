@@ -2,9 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/item_visible"
-        android:icon="@drawable/ic_visible_enter"
-        android:title="@string/menu_roll_visible"
+    <item android:id="@+id/item_video_lesson"
+        android:icon="@drawable/ic_video"
+        android:title="@string/menu_video_lesson"
         app:showAsAction="always" />
 
 </menu>

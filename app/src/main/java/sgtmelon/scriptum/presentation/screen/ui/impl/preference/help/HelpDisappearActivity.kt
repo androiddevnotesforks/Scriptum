@@ -9,10 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.extension.InsetsDir
-import sgtmelon.scriptum.extension.doOnApplyWindowInsets
-import sgtmelon.scriptum.extension.getTintDrawable
-import sgtmelon.scriptum.extension.updateMargin
+import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.impl.AppActivity
 
@@ -41,6 +38,15 @@ class HelpDisappearActivity : AppActivity() {
             title = getString(R.string.pref_title_help_notification_disappear)
             navigationIcon = getTintDrawable(R.drawable.ic_cancel_exit)
             setNavigationOnClickListener { finish() }
+
+            inflateMenu(R.menu.activity_help_disappear)
+            setOnMenuItemClickListener {
+                // TODO
+                showToast("open lesson")
+                return@setOnMenuItemClickListener true
+            }
+
+            menu?.findItem(R.id.item_video_lesson)?.tintIcon(context = this@HelpDisappearActivity)
         }
 
         settingsButton.setOnClickListener {

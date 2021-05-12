@@ -23,6 +23,8 @@
     <string name="menu_roll_visible">Hide done items</string>
     <string name="menu_roll_invisible">Show done items</string>
 
+    <string name="menu_video_lesson">Open video lesson</string>
+
     <!-- Clipboard -->
     <string name="clipboard_label" translatable="false">Scriptum note</string>
 

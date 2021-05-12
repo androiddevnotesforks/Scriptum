@@ -1,11 +1,10 @@
 package sgtmelon.scriptum.presentation.screen.ui.impl.preference.help
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.preference.Preference
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.extension.toUri
+import sgtmelon.scriptum.extension.getUrlIntent
 import sgtmelon.scriptum.presentation.screen.ui.ParentPreferenceFragment
 
 /**
@@ -35,9 +34,10 @@ class HelpPreferenceFragment : ParentPreferenceFragment() {
             return@setOnPreferenceClickListener true
         }
         policyPreference?.setOnPreferenceClickListener {
-            startActivity(Intent(Intent.ACTION_VIEW).apply {
-                data = BuildConfig.PRIVACY_POLICY_URL.toUri()
-            })
+            val intent = getUrlIntent(BuildConfig.PRIVACY_POLICY_URL)
+            if (intent != null) {
+                startActivity(intent)
+            }
 
             return@setOnPreferenceClickListener true
         }

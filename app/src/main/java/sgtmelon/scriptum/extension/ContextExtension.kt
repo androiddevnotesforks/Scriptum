@@ -107,3 +107,9 @@ fun Context.getVibratorService(): Vibrator? {
 inline fun <reified F : Fragment> FragmentManager.getFragmentByTag(tag: String): F? {
     return findFragmentByTag(tag) as? F
 }
+
+fun getUrlIntent(url: String): Intent? {
+    val uri = url.toUri() ?: return null
+
+    return Intent(Intent.ACTION_VIEW).apply { data = uri }
+}
