@@ -137,6 +137,7 @@ fun AppCompatActivity.startActivitySafe(intent: Intent) {
     try {
         startActivity(intent)
     } catch (e: Throwable) {
+        // TODO send to firebase
         showToast(R.string.error_something_wrong)
     }
 }
@@ -145,6 +146,7 @@ fun Fragment.startActivitySafe(intent: Intent) {
     try {
         startActivity(intent)
     } catch (e: Throwable) {
+        // TODO send to firebase
         context?.showToast(R.string.error_something_wrong)
     }
 }

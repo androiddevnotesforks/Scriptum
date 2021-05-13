@@ -52,6 +52,7 @@ class BackupSelector(
 
             return ParserResult(noteList, rollList, rollVisibleList, rankList, alarmList)
         } catch (e: Throwable) {
+            // TODO send to firebase
             Log.i(TAG, e.toString())
         }
 
