@@ -2,7 +2,7 @@ package sgtmelon.scriptum.domain.model.key
 
 import sgtmelon.scriptum.domain.model.key.DotAnimType.COUNT
 import sgtmelon.scriptum.domain.model.key.DotAnimType.SPAN
-import sgtmelon.scriptum.presentation.control.anim.DotAnimControl
+import sgtmelon.scriptum.presentation.control.DotAnimControl
 
 /**
  * Class identifying type of animation for [DotAnimControl].

@@ -6,7 +6,6 @@ import androidx.preference.Preference
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.key.PreferenceScreen
 import sgtmelon.scriptum.domain.model.key.PrintType
-import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.callback.preference.develop.IDevelopFragment
@@ -135,7 +134,7 @@ class DevelopFragment : ParentPreferenceFragment(),
     }
 
     override fun showToast(@StringRes stringId: Int) {
-        context?.showToast(stringId)
+        toastControl.show(stringId)
     }
 
 

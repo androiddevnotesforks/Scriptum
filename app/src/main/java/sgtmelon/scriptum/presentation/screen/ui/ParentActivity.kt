@@ -11,12 +11,15 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.extension.getAppTheme
 import sgtmelon.scriptum.extension.getColorAttr
+import sgtmelon.scriptum.presentation.control.toast.ToastControl
 import sgtmelon.scriptum.presentation.screen.ui.callback.IAppActivity
 
 /**
  * Parent class for all activities.
  */
 abstract class ParentActivity : AppCompatActivity(), IAppActivity {
+
+    val toastControl by lazy { ToastControl(context = this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +30,11 @@ abstract class ParentActivity : AppCompatActivity(), IAppActivity {
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
                 View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
                 View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        toastControl.onDestroy()
     }
 
     override fun setupTheme(@Theme theme: Int) {
@@ -124,5 +132,4 @@ abstract class ParentActivity : AppCompatActivity(), IAppActivity {
     protected open fun setNavigationDividerColor(@Theme theme: Int) {
         window.navigationBarDividerColor = getColorAttr(R.attr.clDivider)
     }
-
 }

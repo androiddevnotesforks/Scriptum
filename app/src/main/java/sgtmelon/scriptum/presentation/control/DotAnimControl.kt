@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.presentation.control.anim
+package sgtmelon.scriptum.presentation.control
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator

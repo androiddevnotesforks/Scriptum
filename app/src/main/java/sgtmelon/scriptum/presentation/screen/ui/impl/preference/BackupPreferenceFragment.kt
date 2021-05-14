@@ -16,8 +16,7 @@ import sgtmelon.scriptum.domain.model.state.OpenState
 import sgtmelon.scriptum.domain.model.state.PermissionState
 import sgtmelon.scriptum.extension.initLazy
 import sgtmelon.scriptum.extension.isGranted
-import sgtmelon.scriptum.extension.showToast
-import sgtmelon.scriptum.presentation.control.anim.DotAnimControl
+import sgtmelon.scriptum.presentation.control.DotAnimControl
 import sgtmelon.scriptum.presentation.control.broadcast.BroadcastControl
 import sgtmelon.scriptum.presentation.factory.DialogFactory
 import sgtmelon.scriptum.presentation.screen.ui.ParentPreferenceFragment
@@ -122,20 +121,18 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
 
     //region Toast functions
 
-    override fun showToast(@StringRes stringId: Int) {
-        context?.showToast(stringId)
-    }
+    override fun showToast(@StringRes stringId: Int) = toastControl.show(stringId)
 
     override fun showExportPathToast(path: String) {
         val text = getString(R.string.pref_toast_export_result, path)
 
-        context?.showToast(text, Toast.LENGTH_LONG)
+        toastControl.show(text, Toast.LENGTH_LONG)
     }
 
     override fun showImportSkipToast(count: Int) {
         val text = getString(R.string.pref_toast_import_result_skip, count)
 
-        context?.showToast(text, Toast.LENGTH_LONG)
+        toastControl.show(text, Toast.LENGTH_LONG)
     }
 
     //endregion

@@ -565,7 +565,7 @@ class RollNoteFragment : ParentFragment(),
     override fun showSaveToast(success: Boolean) {
         val text = if (success) R.string.toast_note_save_done else R.string.toast_note_save_error
 
-        context?.showToast(text)
+        toastControl.show(text)
     }
 
     //region Broadcast functions

@@ -17,7 +17,6 @@ import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.presentation.adapter.NoteAdapter
 import sgtmelon.scriptum.presentation.control.system.ClipboardControl
-import sgtmelon.scriptum.presentation.control.system.callback.IClipboardControl
 import sgtmelon.scriptum.presentation.factory.DialogFactory
 import sgtmelon.scriptum.presentation.listener.ItemListener
 import sgtmelon.scriptum.presentation.screen.ui.ParentFragment
@@ -41,7 +40,7 @@ class BinFragment : ParentFragment(), IBinFragment {
 
     @Inject internal lateinit var viewModel: IBinViewModel
 
-    private val clipboardControl: IClipboardControl by lazy { ClipboardControl(context) }
+    private val clipboardControl by lazy { ClipboardControl[context, toastControl] }
 
     private val openState get() = callback?.openState
     private val dialogFactory by lazy { DialogFactory.Main(context, fm) }
