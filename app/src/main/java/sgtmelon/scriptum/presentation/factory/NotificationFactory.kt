@@ -224,9 +224,8 @@ object NotificationFactory {
 
             val text = context.getString(R.string.notification_eternal_description)
 
-            // TODO change icon it looks ugly
             return NotificationCompat.Builder(context, context.getString(R.string.notification_eternal_channel_id))
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.notif_app)
                 .setContentTitle(context.getString(R.string.notification_eternal_title))
                 .setContentText(text)
                 .setCategory(NotificationCompat.CATEGORY_EVENT)
