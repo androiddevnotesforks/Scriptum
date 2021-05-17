@@ -275,6 +275,10 @@ object FastTest {
         fun onPause() {
             val noteState = mockk<NoteState>(relaxUnitFun = true)
 
+            every { parentCallback.isOrientationChanging() } returns true
+            viewModel.onPause()
+
+            every { parentCallback.isOrientationChanging() } returns false
             every { noteState.isEdit } returns false
             viewModel.noteState = noteState
             viewModel.onPause()
@@ -283,8 +287,12 @@ object FastTest {
             viewModel.onPause()
 
             verifySequence {
+                parentCallback.isOrientationChanging()
+
+                parentCallback.isOrientationChanging()
                 noteState.isEdit
 
+                parentCallback.isOrientationChanging()
                 noteState.isEdit
                 saveControl.onPauseSave()
                 saveControl.setSaveEvent(isWork = false)

@@ -24,6 +24,8 @@ interface INoteConnector {
 
     fun onConvertNote()
 
+    fun isOrientationChanging(): Boolean
+
 
     fun getString(@StringRes resId: Int): String
 

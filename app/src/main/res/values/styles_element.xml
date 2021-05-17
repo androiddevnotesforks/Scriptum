@@ -449,8 +449,7 @@
 
     <style name="Toolbar.Flex">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:minHeight">?attr/actionBarSize</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
         <item name="android:elevation">@dimen/toolbar_elevation</item>
         <item name="android:stateListAnimator">@null</item>
     </style>

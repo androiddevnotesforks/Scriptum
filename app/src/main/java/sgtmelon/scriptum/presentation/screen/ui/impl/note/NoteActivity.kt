@@ -32,6 +32,8 @@ import javax.inject.Inject
  */
 class NoteActivity : AppActivity(), INoteActivity, INoteConnector, NoteScreenReceiver.Callback {
 
+    //region Variables
+
     @Inject internal lateinit var viewModel: INoteViewModel
 
     private val holderShowControl by lazy { HolderShowControl[toolbarHolder, panelHolder] }
@@ -46,6 +48,10 @@ class NoteActivity : AppActivity(), INoteActivity, INoteConnector, NoteScreenRec
     private val parentContainer by lazy { findViewById<View?>(R.id.note_parent_container) }
     private val toolbarHolder by lazy { findViewById<View?>(R.id.note_toolbar_holder) }
     private val panelHolder by lazy { findViewById<View?>(R.id.note_panel_holder) }
+
+    //endregion
+
+    //region System
 
     override fun onCreate(savedInstanceState: Bundle?) {
         ScriptumApplication.component.getNoteBuilder().set(activity = this).build()
@@ -82,6 +88,7 @@ class NoteActivity : AppActivity(), INoteActivity, INoteConnector, NoteScreenRec
         if (!viewModel.onPressBack()) super.onBackPressed()
     }
 
+    //endregion
 
     override fun updateHolder(@Color color: Int) = holderTintControl.setupColor(color)
 
@@ -120,12 +127,17 @@ class NoteActivity : AppActivity(), INoteActivity, INoteConnector, NoteScreenRec
         rollNoteFragment?.onReceiveUnbindNote(id)
     }
 
+    //region Parent callback
+
     override fun onUpdateNoteId(id: Long) = viewModel.onUpdateNoteId(id)
 
     override fun onUpdateNoteColor(@Color color: Int) = viewModel.onUpdateNoteColor(color)
 
     override fun onConvertNote() = viewModel.onConvertNote()
 
+    override fun isOrientationChanging(): Boolean = isChangingConfigurations
+
+    //endregion
 
     private fun showFragment(@FragmentFactory.Note.Tag key: String, fragment: Fragment) {
         holderShowControl.show()

@@ -159,6 +159,8 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
     }
 
     override fun onPause() {
+        if (parentCallback?.isOrientationChanging() == true) return
+
         if (noteState.isEdit) {
             saveControl.onPauseSave()
             saveControl.setSaveEvent(isWork = false)
