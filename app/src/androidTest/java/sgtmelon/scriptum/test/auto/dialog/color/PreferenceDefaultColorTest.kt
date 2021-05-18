@@ -15,6 +15,7 @@ import sgtmelon.scriptum.test.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class PreferenceDefaultColorTest : ParentUiTest(), IColorTest {
 
+    // TODO all tests fail
     @Test override fun colorRed() = super.colorRed()
 
     @Test override fun colorPurple() = super.colorPurple()

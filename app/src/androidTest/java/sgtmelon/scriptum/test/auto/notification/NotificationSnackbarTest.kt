@@ -108,6 +108,7 @@ class NotificationSnackbarTest : ParentUiTest() {
         }
     }
 
+    // TODO finish test
     @Test fun actionClick_noteCheck() {
         TODO()
     }

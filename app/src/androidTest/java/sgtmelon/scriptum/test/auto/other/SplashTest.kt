@@ -33,5 +33,6 @@ class SplashTest : ParentUiTest() {
         mainScreen()
     }
 
+    // TODO finish test
     @Test fun helpDisappearOpen() = launchHelpDisappear { TODO() }
 }

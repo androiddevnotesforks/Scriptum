@@ -164,6 +164,11 @@ class RollNoteVisibleTest : ParentUiTest() {
         }
     }
 
+    /**
+     * androidx.test.espresso.base.DefaultFailureHandler$AssertionFailedWithCauseError: 'with text: is "21079e04-72bd-4c"' doesn't match the selected view.
+     * Expected: with text: is "21079e04-72bd-4c"
+     * Got: "AppCompatEditText{id=2131296665, res-name=roll_add_panel_enter, visibility=VISIBLE, width=408, height=25, has-focus=true, has-focusable=true, has-window-focus=true, is-clickable=true, is-enabled=true, is-focused=true, is-focusable=true, is-layout-requested=false, is-selected=false, layout-params=android.widget.LinearLayout$LayoutParams@41a5a6a, tag=null, root-is-layout-requested=false, has-input-connection=true, editor-info=[inputType=0x1c001 imeOptions=0x6000006 privateImeOptions=null actionLabel=null actionId=0 initialSelStart=15 initialSelEnd=15 initialCapsMode=0x0 hintText=Your list item label=null packageName=null fieldId=0 fieldName=null extras=null hintLocales=null contentMimeTypes=null ], x=12.0, y=11.0, text=21079e04-72bd-4, hint=Your list item, input-type=114689, ime-target=true, has-links=false}"
+     */
     @Test fun itemAdd() = data.createRoll().let {
         launch {
             mainScreen {
@@ -201,6 +206,7 @@ class RollNoteVisibleTest : ParentUiTest() {
         }
     }
 
+    // TODO finish test
     @Test fun itemUndoRedo() {
         TODO()
     }

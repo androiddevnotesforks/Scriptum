@@ -14,6 +14,8 @@ import sgtmelon.scriptum.test.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class PreferenceRepeatTest : ParentUiTest() {
 
+    // TODO fix all
+
     @Test fun dialogClose() = launch {
         mainScreen {
             notesScreen(isEmpty = true) {

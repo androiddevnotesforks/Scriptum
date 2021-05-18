@@ -95,6 +95,7 @@ class TextNotePanelTest : ParentUiTest() {
     }
 
 
+    // TODO finish test
     @Test fun actionOnEditUndoRedo() {
         TODO(reason = "#TEST write test")
     }

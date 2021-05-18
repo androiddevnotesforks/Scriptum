@@ -16,7 +16,7 @@ class RankRotationTest : ParentRotationTest() {
     @Test fun contentEmpty() = launch {
         mainScreen {
             rankScreen(isEmpty = true) {
-                automator?.rotateSide()
+                automator.rotateSide()
                 assert(isEmpty = true)
             }
             assert(isFabVisible = false)
@@ -26,7 +26,7 @@ class RankRotationTest : ParentRotationTest() {
     @Test fun contentList() = launch({ data.fillRank() }) {
         mainScreen {
             rankScreen {
-                automator?.rotateSide()
+                automator.rotateSide()
                 assert(isEmpty = false)
             }
             assert(isFabVisible = false)
@@ -41,7 +41,7 @@ class RankRotationTest : ParentRotationTest() {
                 rankScreen {
                     openRenameDialog(it.name) {
                         onEnter(newName)
-                        automator?.rotateSide()
+                        automator.rotateSide()
                         assert(newName)
                     }
                 }
@@ -57,9 +57,9 @@ class RankRotationTest : ParentRotationTest() {
                         onClickCancel(it)
 
                         if (time % 2 == 0) {
-                            automator?.rotateSide()
+                            automator.rotateSide()
                         } else {
-                            automator?.rotateNatural()
+                            automator.rotateNatural()
                         }
 
                         getSnackbar().onClickCancel()
