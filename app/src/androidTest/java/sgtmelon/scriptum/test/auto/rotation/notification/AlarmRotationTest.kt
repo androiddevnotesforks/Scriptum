@@ -15,7 +15,7 @@ class AlarmRotationTest : ParentRotationTest() {
     @Test fun contentText() = data.insertText().let {
         launchAlarm(it) {
             openAlarm(it) {
-                automator?.rotateSide()
+                automator.rotateSide()
                 assert()
                 onAssertItem(it)
             }
@@ -25,7 +25,7 @@ class AlarmRotationTest : ParentRotationTest() {
     @Test fun contentRoll() = data.insertRoll().let {
         launchAlarm(it) {
             openAlarm(it) {
-                automator?.rotateSide()
+                automator.rotateSide()
                 assert()
                 onAssertItem(it)
             }

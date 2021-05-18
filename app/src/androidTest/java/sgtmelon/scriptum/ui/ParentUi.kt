@@ -5,7 +5,7 @@ import android.view.View
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.test.espresso.matcher.ViewMatchers.*
-import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.not
@@ -20,7 +20,9 @@ import sgtmelon.scriptum.domain.model.annotation.Theme
  */
 abstract class ParentUi {
 
-    protected val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
+    // TODO get all this data from ParentTest class
+
+    protected val context: Context = getInstrumentation().targetContext
 
     private val preferenceRepo: IPreferenceRepo = PreferenceRepo(
         ProviderModule().providePreferenceKeyProvider(context.resources),

@@ -15,7 +15,7 @@ class BinRotationTest : ParentRotationTest() {
     @Test fun contentEmpty() = launch {
         mainScreen {
             binScreen(isEmpty = true) {
-                automator?.rotateSide()
+                automator.rotateSide()
                 assert(isEmpty = true)
             }
             assert(isFabVisible = false)
@@ -25,7 +25,7 @@ class BinRotationTest : ParentRotationTest() {
     @Test fun contentList() = launch({ data.fillBin() }) {
         mainScreen {
             binScreen {
-                automator?.rotateSide()
+                automator.rotateSide()
                 assert(isEmpty = false)
             }
             assert(isFabVisible = false)
@@ -36,7 +36,7 @@ class BinRotationTest : ParentRotationTest() {
         mainScreen {
             binScreen {
                 clearDialog {
-                    automator?.rotateSide()
+                    automator.rotateSide()
                     assert()
                 }
             }
@@ -48,7 +48,7 @@ class BinRotationTest : ParentRotationTest() {
             mainScreen {
                 binScreen {
                     openNoteDialog(it) {
-                        automator?.rotateSide()
+                        automator.rotateSide()
                         assert()
                     }
                 }
@@ -61,7 +61,7 @@ class BinRotationTest : ParentRotationTest() {
             mainScreen {
                 binScreen {
                     openNoteDialog(it) {
-                        automator?.rotateSide()
+                        automator.rotateSide()
                         assert()
                     }
                 }

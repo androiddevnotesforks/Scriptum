@@ -2,7 +2,7 @@ package sgtmelon.scriptum.test
 
 import android.content.Context
 import androidx.annotation.CallSuper
-import androidx.test.core.app.ApplicationProvider
+import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.After
 import org.junit.Before
 import sgtmelon.scriptum.dagger.module.base.ProviderModule
@@ -16,7 +16,8 @@ import sgtmelon.scriptum.data.repository.preference.PreferenceRepo
  */
 abstract class ParentTest {
 
-    protected val context: Context = ApplicationProvider.getApplicationContext()
+    protected val instrumentation = InstrumentationRegistry.getInstrumentation()
+    protected val context: Context = instrumentation.targetContext
 
     protected val preferenceRepo: IPreferenceRepo = PreferenceRepo(
         ProviderModule().providePreferenceKeyProvider(context.resources),
