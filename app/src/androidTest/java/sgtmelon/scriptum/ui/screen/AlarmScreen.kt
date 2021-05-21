@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.ui.screen
 
 import sgtmelon.extension.getCalendarWithAdd
+import sgtmelon.extension.getNewCalendar
 import sgtmelon.extension.getText
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.exception.NoteCastException
@@ -64,9 +65,17 @@ class AlarmScreen(
         disableButton.click()
     }
 
-    fun onClickRepeat() {
+    fun onClickRepeat(): Calendar {
+        /**
+         * If click happen in corner seconds value (like 0.59) and calendar will be receiver in
+         * another minute (like 1.10) this may lead false tests.
+         */
+        while (getNewCalendar().get(Calendar.SECOND) > 50) {
+            waitBefore(time = 5000)
+        }
+
         repeatButton.click()
-        onRepeat()
+        return onRepeat()
     }
 
     fun openMoreDialog(func: RepeatSheetDialogUi.() -> Unit = {}) = apply {
@@ -76,7 +85,7 @@ class AlarmScreen(
 
     fun waitRepeat() = waitBefore(AlarmViewModel.CANCEL_DELAY) { onRepeat() }
 
-    private fun onRepeat() {
+    private fun onRepeat(): Calendar {
         val calendar = getCalendarWithAdd(min = repeatArray[repeat])
 
         while (dateList?.contains(calendar.getText()) == true) {
@@ -84,6 +93,8 @@ class AlarmScreen(
         }
 
         item.alarmDate = calendar.getText()
+
+        return calendar
     }
 
 

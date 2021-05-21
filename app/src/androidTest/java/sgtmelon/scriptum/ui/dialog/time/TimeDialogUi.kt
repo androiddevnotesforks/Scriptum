@@ -14,9 +14,9 @@ import java.util.*
  * Class for UI control [TimeDialog]
  */
 class TimeDialogUi(
-        private val callback: DateTimeCallback,
-        private val calendar: Calendar,
-        private val dateList: List<String>
+    private val callback: DateTimeCallback,
+    private val calendar: Calendar,
+    private val dateList: List<String>
 ) : ParentUi(), IDialogUi {
 
     //region Views
