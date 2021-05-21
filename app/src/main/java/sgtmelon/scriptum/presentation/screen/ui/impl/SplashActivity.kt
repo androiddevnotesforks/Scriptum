@@ -15,6 +15,7 @@ import sgtmelon.scriptum.domain.model.key.PreferenceScreen
 import sgtmelon.scriptum.extension.beforeFinish
 import sgtmelon.scriptum.extension.hideKeyboard
 import sgtmelon.scriptum.idling.WaitIdlingResource
+import sgtmelon.scriptum.presentation.control.broadcast.BroadcastControl
 import sgtmelon.scriptum.presentation.screen.ui.ParentActivity
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.callback.ISplashActivity
@@ -39,6 +40,8 @@ class SplashActivity : ParentActivity(), ISplashActivity {
     }
 
     @Inject internal lateinit var viewModel: ISplashViewModel
+
+    private val broadcastControl by lazy { BroadcastControl[this] }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         ScriptumApplication.component.getSplashBuilder().set(activity = this).build()
@@ -110,6 +113,21 @@ class SplashActivity : ParentActivity(), ISplashActivity {
             HelpDisappearActivity[this]
         ))
     }
+
+    //region Broadcast functions
+
+    override fun sendTidyUpAlarmBroadcast() = broadcastControl.sendTidyUpAlarm()
+
+    override fun sendNotifyNotesBroadcast() = broadcastControl.sendNotifyNotesBind()
+
+    /**
+     * Not used here.
+     */
+    override fun sendCancelNoteBroadcast(id: Long) = Unit
+
+    override fun sendNotifyInfoBroadcast(count: Int?) = broadcastControl.sendNotifyInfoBind(count)
+
+    //endregion
 
     companion object {
         fun getAlarmInstance(context: Context, id: Long): Intent {

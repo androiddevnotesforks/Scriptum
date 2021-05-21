@@ -58,8 +58,16 @@ class SplashViewModelTest : ParentViewModelTest() {
         viewModel.onSetup(bundle)
 
         verifySequence {
+            callback.sendTidyUpAlarmBroadcast()
+            callback.sendNotifyNotesBroadcast()
+            callback.sendNotifyInfoBroadcast()
+
             interactor.firstStart
             callback.openIntroScreen()
+
+            callback.sendTidyUpAlarmBroadcast()
+            callback.sendNotifyNotesBroadcast()
+            callback.sendNotifyInfoBroadcast()
 
             bundle.getString(OpenFrom.INTENT_KEY)
             interactor.firstStart
@@ -75,8 +83,16 @@ class SplashViewModelTest : ParentViewModelTest() {
         viewModel.onSetup(bundle)
 
         verifySequence {
+            callback.sendTidyUpAlarmBroadcast()
+            callback.sendNotifyNotesBroadcast()
+            callback.sendNotifyInfoBroadcast()
+
             interactor.firstStart
             callback.openMainScreen()
+
+            callback.sendTidyUpAlarmBroadcast()
+            callback.sendNotifyNotesBroadcast()
+            callback.sendNotifyInfoBroadcast()
 
             bundle.getString(OpenFrom.INTENT_KEY)
             interactor.firstStart
@@ -91,6 +107,10 @@ class SplashViewModelTest : ParentViewModelTest() {
         viewModel.onSetup(bundle)
 
         verifySequence {
+            callback.sendTidyUpAlarmBroadcast()
+            callback.sendNotifyNotesBroadcast()
+            callback.sendNotifyInfoBroadcast()
+
             bundle.getString(OpenFrom.INTENT_KEY)
             bundle.getLong(Note.Intent.ID, Note.Default.ID)
             callback.openAlarmScreen(ID)
@@ -106,6 +126,10 @@ class SplashViewModelTest : ParentViewModelTest() {
         viewModel.onSetup(bundle)
 
         verifySequence {
+            callback.sendTidyUpAlarmBroadcast()
+            callback.sendNotifyNotesBroadcast()
+            callback.sendNotifyInfoBroadcast()
+
             bundle.getString(OpenFrom.INTENT_KEY)
             bundle.getLong(Note.Intent.ID, Note.Default.ID)
             bundle.getInt(Note.Intent.COLOR, Note.Default.COLOR)
@@ -120,6 +144,10 @@ class SplashViewModelTest : ParentViewModelTest() {
         viewModel.onSetup(bundle)
 
         verifySequence {
+            callback.sendTidyUpAlarmBroadcast()
+            callback.sendNotifyNotesBroadcast()
+            callback.sendNotifyInfoBroadcast()
+
             bundle.getString(OpenFrom.INTENT_KEY)
             callback.openNotificationScreen()
         }
@@ -131,6 +159,10 @@ class SplashViewModelTest : ParentViewModelTest() {
         viewModel.onSetup(bundle)
 
         verifySequence {
+            callback.sendTidyUpAlarmBroadcast()
+            callback.sendNotifyNotesBroadcast()
+            callback.sendNotifyInfoBroadcast()
+
             bundle.getString(OpenFrom.INTENT_KEY)
             callback.openHelpDisappearScreen()
         }

@@ -25,6 +25,10 @@ class SplashViewModel(application: Application) : ParentViewModel<ISplashActivit
      * Don't use coroutines here. Activity will be quickly destroyed.
      */
     override fun onSetup(bundle: Bundle?) {
+        callback?.sendTidyUpAlarmBroadcast()
+        callback?.sendNotifyNotesBroadcast()
+        callback?.sendNotifyInfoBroadcast()
+
         if (bundle == null) {
             onSimpleStart()
         } else {

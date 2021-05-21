@@ -197,11 +197,6 @@ class RollNotePanelTest : ParentUiTest() {
         }
     }
 
-    /**
-     * androidx.test.espresso.base.DefaultFailureHandler$AssertionFailedWithCauseError: 'not is displayed on the screen to the user' doesn't match the selected view.
-     * Expected: not is displayed on the screen to the user
-     * Got: "LinearLayout{id=2131296666, res-name=roll_note_info_include, visibility=VISIBLE, width=480, height=340, has-focus=false, has-focusable=false, has-window-focus=true, is-clickable=false, is-enabled=true, is-focused=false, is-focusable=false, is-layout-requested=false, is-selected=false, layout-params=android.widget.FrameLayout$LayoutParams@b5a28cf, tag=null, root-is-layout-requested=false, has-input-connection=false, x=0.0, y=0.0, child-count=3}"
-     */
     @Test fun actionOnEditLongSave() = data.insertRoll().let {
         launch {
             mainScreen {
