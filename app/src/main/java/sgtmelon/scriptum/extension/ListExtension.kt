@@ -46,4 +46,4 @@ fun List<RollItem>.getText(): String = joinToString(separator = "\n") { it.text 
 
 fun MutableList<RollItem>.copy() = map { it.copy() }.toMutableList()
 
-fun MutableList<RollItem>.hide(): MutableList<RollItem> = ArrayList(filter { !it.isCheck })
+fun List<RollItem>.hide(): MutableList<RollItem> = ArrayList(filter { !it.isCheck })

@@ -25,6 +25,10 @@ import sgtmelon.scriptum.ui.part.toolbar.NoteToolbar
 
 /**
  * Class for UI control of [NoteActivity], [RollNoteFragment].
+ *
+ * Note:
+ *  Call [NoteItem.Roll.isVisible] only from [INoteScreen.item] because it's a save way.
+ *  It always set correct only on [INoteScreen.item].
  */
 class RollNoteScreen(
     override var state: State,
@@ -46,8 +50,13 @@ class RollNoteScreen(
     private val visibleMenuItem = getViewById(R.id.item_visible)
 
     private fun getInfoContainer(): RollNoteInfoContainer {
-        val isListEmpty = item.list.size == 0
-        val isListHide = !item.isVisible && item.list.hide().size == 0
+        val list = when (state) {
+            State.READ, State.BIN -> item.list
+            State.EDIT, State.NEW -> shadowItem.list
+        }
+
+        val isListEmpty = list.size == 0
+        val isListHide = !item.isVisible && list.hide().size == 0
 
         return RollNoteInfoContainer(isListEmpty, isListHide)
     }
@@ -96,7 +105,7 @@ class RollNoteScreen(
         throwOnWrongState(State.EDIT, State.NEW) {
             getItem(p).rollText.typeText(text)
 
-            val correctPosition = getCorrectPosition(p, item)
+            val correctPosition = getCorrectPosition(p, item.list)
 
             val item = shadowItem.list[correctPosition]
             item.text = text
@@ -130,7 +139,7 @@ class RollNoteScreen(
             State.READ, State.BIN -> {
                 getItem(p).clickButton.click()
 
-                val correctPosition = getCorrectPosition(p, item)
+                val correctPosition = getCorrectPosition(p, item.list)
 
                 item.onItemCheck(correctPosition)
 
@@ -166,7 +175,7 @@ class RollNoteScreen(
 
         waitAfter(SWIPE_TIME) { recyclerView.swipeItem(p) }
 
-        val correctPosition = getCorrectPosition(p, item)
+        val correctPosition = getCorrectPosition(p, shadowItem.list)
 
         shadowItem.list.apply {
             removeAt(correctPosition)
@@ -353,12 +362,7 @@ class RollNoteScreen(
     /**
      * @Test - duplicate of original function in [RollNoteViewModel].
      */
-    private fun getCorrectPosition(p: Int, item: NoteItem.Roll): Int {
-        return if (item.isVisible) {
-            p
-        } else {
-            val list = item.list
-            list.indexOf(list.hide()[p])
-        }
+    private fun getCorrectPosition(p: Int, list: List<RollItem>): Int {
+        return if (item.isVisible) p else list.indexOf(list.hide()[p])
     }
 }

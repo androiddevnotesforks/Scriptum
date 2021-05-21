@@ -146,12 +146,19 @@ class NotePanel<T : ParentUi, N : NoteItem>(
         callback.throwOnWrongState(State.EDIT, State.NEW) {
             saveButton.longClick()
 
-            it.state = State.EDIT
-            when (it.item) {
-                is NoteItem.Text -> it.applyShadowText().onSave()
-                is NoteItem.Roll -> it.applyShadowRoll().onSave()
-            }
-            it.fullAssert()
+            callback.apply {
+                state = State.EDIT
+
+                when (item) {
+                    is NoteItem.Text -> applyShadowText().onSave()
+                    is NoteItem.Roll -> applyShadowRoll().onSave()
+                }
+                /**
+                 * Need apply [NoteItem.Text.onSave]/[NoteItem.Roll.onSave] for
+                 * [INoteScreen.shadowItem] because [INoteScreen.state] not changed.
+                 */
+                applyItem()
+            }.fullAssert()
         }
     }
 
