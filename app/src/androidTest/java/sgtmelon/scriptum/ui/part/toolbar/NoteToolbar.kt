@@ -84,7 +84,7 @@ class NoteToolbar<T : ParentUi, N : NoteItem>(
         parentContainer.isDisplayed()
 
         contentContainer.isDisplayed()
-            .withBackgroundAppColor(theme, color, needDark = false)
+            .withBackgroundAppColor(appTheme, color, needDark = false)
             .withNavigationDrawable(when (callback.state) {
                 State.READ, State.BIN, State.NEW -> R.drawable.ic_cancel_exit
                 State.EDIT -> R.drawable.ic_cancel_enter
@@ -92,8 +92,8 @@ class NoteToolbar<T : ParentUi, N : NoteItem>(
 
         nameScroll.isDisplayed()
 
-        colorView.isDisplayed(isVisible = theme == Theme.DARK) {
-            withBackgroundAppColor(theme, color, needDark = true)
+        colorView.isDisplayed(isVisible = appTheme == Theme.DARK) {
+            withBackgroundAppColor(appTheme, color, needDark = true)
         }
 
         callback.apply {

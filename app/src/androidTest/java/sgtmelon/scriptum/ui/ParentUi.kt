@@ -24,14 +24,13 @@ abstract class ParentUi {
 
     protected val context: Context = getInstrumentation().targetContext
 
-    private val preferenceRepo: IPreferenceRepo = PreferenceRepo(
+    protected val preferenceRepo: IPreferenceRepo = PreferenceRepo(
         ProviderModule().providePreferenceKeyProvider(context.resources),
         ProviderModule().providePreferenceDefProvider(context.resources),
         ProviderModule().provideSharedPreferences(context)
     )
 
-    protected val theme: Int get() = Companion.theme ?: throw ThemeException()
-    protected val repeat: Int get() = preferenceRepo.repeat
+    protected val appTheme: Int get() = Companion.theme ?: throw ThemeException()
 
     //region getView func
 

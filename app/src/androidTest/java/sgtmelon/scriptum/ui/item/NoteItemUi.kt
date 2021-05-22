@@ -19,8 +19,10 @@ import sgtmelon.scriptum.ui.ParentRecyclerItem
 /**
  * Class for UI control of [NoteAdapter].
  */
-class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
-    ParentRecyclerItem<NoteItem>(listMatcher, p) {
+class NoteItemUi(
+    listMatcher: Matcher<View>,
+    p: Int
+) : ParentRecyclerItem<NoteItem>(listMatcher, p) {
 
     override fun assert(item: NoteItem) = when (item) {
         is NoteItem.Text -> Text().assert(item)
@@ -135,7 +137,7 @@ class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
         }))
 
         open fun assert(item: N) {
-            parentCard.isDisplayed().withCardBackground(theme, item.color)
+            parentCard.isDisplayed().withCardBackground(appTheme, item.color)
             clickContainer.isDisplayed()
 
             val name = item.name
@@ -144,9 +146,9 @@ class NoteItemUi(listMatcher: Matcher<View>, p: Int) :
 
             infoLayout.assert(item)
 
-            colorView.isDisplayed(isVisible = theme == Theme.DARK) {
+            colorView.isDisplayed(isVisible = appTheme == Theme.DARK) {
                 withSize(widthId = R.dimen.layout_8dp)
-                withColorIndicator(R.drawable.ic_color_indicator, theme, item.color)
+                withColorIndicator(R.drawable.ic_color_indicator, appTheme, item.color)
             }
         }
 

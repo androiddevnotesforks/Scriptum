@@ -77,9 +77,7 @@ class RankContentTest : ParentUiTest() {
     }
 
     @Test fun itemMaxIndicator() = data.insertRank().let {
-        launch(before = {
-            RankHolder.isMaxTest = true
-        }) {
+        launch({ RankHolder.isMaxTest = true }) {
             mainScreen { rankScreen { onAssertItem(it) } }
         }
     }

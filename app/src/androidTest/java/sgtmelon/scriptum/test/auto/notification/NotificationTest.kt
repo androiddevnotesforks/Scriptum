@@ -7,7 +7,7 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.notification.NotificationAc
 import sgtmelon.scriptum.test.ParentUiTest
 
 /**
- * Test for [NotificationActivity]
+ * Test for [NotificationActivity].
  */
 @RunWith(AndroidJUnit4::class)
 class NotificationTest : ParentUiTest() {

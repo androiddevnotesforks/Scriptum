@@ -86,7 +86,7 @@ class AlarmScreen(
     fun waitRepeat() = waitBefore(AlarmViewModel.CANCEL_DELAY) { onRepeat() }
 
     private fun onRepeat(): Calendar {
-        val calendar = getCalendarWithAdd(min = repeatArray[repeat])
+        val calendar = getCalendarWithAdd(min = repeatArray[preferenceRepo.repeat])
 
         while (dateList?.contains(calendar.getText()) == true) {
             calendar.add(Calendar.MINUTE, 1)
@@ -103,7 +103,7 @@ class AlarmScreen(
     fun assert() = apply {
         parentContainer.isDisplayed()
 
-        val fillColor = context.getAppSimpleColor(item.color, getRippleShade(theme))
+        val fillColor = context.getAppSimpleColor(item.color, getRippleShade(appTheme))
         rippleContainer.isDisplayed().withTag(fillColor)
 
         logoView.isDisplayed()

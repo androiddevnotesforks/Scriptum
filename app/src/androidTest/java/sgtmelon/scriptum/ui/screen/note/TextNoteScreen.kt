@@ -95,6 +95,7 @@ class TextNoteScreen(
         }
     }
 
+    //region Common callback functions
 
     override fun assertToolbarIme() = assertFocus()
 
@@ -120,13 +121,16 @@ class TextNoteScreen(
         }
     }
 
+    //endregion
+
+    //region Assertion
 
     fun assertFocus() = throwOnWrongState(State.EDIT, State.NEW) {
         contentEnter.isFocused().withCursor(shadowItem.text.length)
     }
 
     fun assert() {
-        toolbarHolder.withBackgroundAppColor(theme, item.color, needDark = false)
+        toolbarHolder.withBackgroundAppColor(appTheme, item.color, needDark = false)
             .withSizeAttr(heightAttr = android.R.attr.actionBarSize)
         panelHolder.withBackgroundAttr(R.attr.clPrimary)
             .withSize(heightId = R.dimen.note_panel_height)
@@ -164,6 +168,8 @@ class TextNoteScreen(
             }
         }
     }
+
+    //endregion
 
     companion object {
         operator fun invoke(

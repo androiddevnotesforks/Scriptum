@@ -43,7 +43,7 @@ abstract class ParentUiTest : ParentTest() {
 
     /**
      * Call theme setup only with that function. Otherwise you get plenty assertion errors
-     * related with theme. It's because need set [ParentUi.theme].
+     * related with theme. It's because need set [ParentUi.appTheme].
      */
     protected fun setupTheme(@Theme theme: Int) {
         ParentUi.theme = theme

@@ -20,8 +20,11 @@ class PreferenceRepeatTest : ParentUiTest() {
         mainScreen {
             notesScreen(isEmpty = true) {
                 openPreference {
-                    openRepeatDialog { onCloseSoft() }.assert()
-                    openRepeatDialog { onClickCancel() }.assert()
+                    TODO()
+                    //                    openRepeatDialog { onCloseSoft() }.assert()
+                    //                    assert()
+                    //                    openRepeatDialog { onClickCancel() }.assert()
+                    //                    assert()
                 }
             }
         }
@@ -38,10 +41,13 @@ class PreferenceRepeatTest : ParentUiTest() {
 
     @Test fun selectRepeatMin1440() = startSelectRepeat(Repeat.MIN_1440)
 
-    private fun startSelectRepeat(@Repeat repeat: Int) = launch(before = {checkRepeat(repeat)}) {
+    private fun startSelectRepeat(@Repeat repeat: Int) = launch({ checkRepeat(repeat) }) {
         mainScreen {
             notesScreen(isEmpty = true) {
-                openPreference { openRepeatDialog { onClickItem(repeat).onClickApply() } }
+                openPreference {
+                    TODO()
+                    //                    openRepeatDialog { onClickItem(repeat).onClickApply() }
+                }
             }
         }
     }

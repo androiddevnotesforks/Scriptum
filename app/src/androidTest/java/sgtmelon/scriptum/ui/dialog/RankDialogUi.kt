@@ -18,6 +18,8 @@ class RankDialogUi(
 ) : ParentRecyclerScreen(R.id.select_dialog_listview),
         IDialogUi {
 
+    // TODO make it common (RepeatDialogUi, RankDialogUi, ThemeDialogUi)
+
     private var check = item.rankPs
 
     //region Views

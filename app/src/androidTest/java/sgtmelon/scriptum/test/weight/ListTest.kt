@@ -31,30 +31,26 @@ class ListTest : ParentUiTest() {
         mainScreen { repeat(REPEAT_COUNT) { for (page in pageList) openPage(page) } }
     }
 
-    @Test fun rankScroll() = launch(before = { data.fillRank(RANK_COUNT) }) {
+    @Test fun rankScroll() = launch({ data.fillRank(RANK_COUNT) }) {
         mainScreen { rankScreen { onScroll(Scroll.END, SCROLL_COUNT) } }
     }
 
-    @Test fun notesScroll() = launch(before = { data.fillNotes(NOTES_COUNT) }) {
+    @Test fun notesScroll() = launch({ data.fillNotes(NOTES_COUNT) }) {
         mainScreen { notesScreen { onScroll(Scroll.END, SCROLL_COUNT) } }
     }
 
-    @Test fun binScroll() = launch(before = { data.fillBin(BIN_COUNT) }) {
+    @Test fun binScroll() = launch({ data.fillBin(BIN_COUNT) }) {
         mainScreen { binScreen { onScroll(Scroll.END, SCROLL_COUNT) } }
     }
 
 
-    @Test fun notificationOpen() = launch(before = {
-        data.fillNotification(NOTIFICATION_COUNT)
-    }) {
+    @Test fun notificationOpen() = launch({ data.fillNotification(NOTIFICATION_COUNT) }) {
         mainScreen {
             notesScreen { repeat(REPEAT_COUNT) { openNotification { onClickClose() } } }
         }
     }
 
-    @Test fun notificationScroll() = launch(before = {
-        data.fillNotification(NOTIFICATION_COUNT)
-    }) {
+    @Test fun notificationScroll() = launch({ data.fillNotification(NOTIFICATION_COUNT) }) {
         mainScreen { notesScreen { openNotification { onScroll(Scroll.END, SCROLL_COUNT) } } }
     }
 

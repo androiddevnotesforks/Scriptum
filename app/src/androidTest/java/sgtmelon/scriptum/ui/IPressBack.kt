@@ -12,5 +12,4 @@ interface IPressBack {
         closeSoftKeyboard()
         pressBack()
     }
-
 }

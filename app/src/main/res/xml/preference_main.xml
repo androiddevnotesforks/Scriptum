@@ -16,15 +16,15 @@
 
     <Preference android:key="@string/pref_key_backup"
         app:iconSpaceReserved="false"
-        app:title="@string/pref_title_backup" />
+        android:title="@string/pref_title_backup" />
 
     <Preference android:key="@string/pref_key_note"
         app:iconSpaceReserved="false"
-        app:title="@string/pref_title_note" />
+        android:title="@string/pref_title_note" />
 
     <Preference android:key="@string/pref_key_alarm"
         app:iconSpaceReserved="false"
-        app:title="@string/pref_title_alarm" />
+        android:title="@string/pref_title_alarm" />
 
     <PreferenceCategory android:title="@string/pref_header_other"
         app:iconSpaceReserved="false">
@@ -44,7 +44,7 @@
         <Preference android:key="@string/pref_key_other_develop"
             app:iconSpaceReserved="false"
             app:isPreferenceVisible="@bool/pref_other_develop"
-            app:title="@string/pref_title_other_develop" />
+            android:title="@string/pref_title_other_develop" />
 
     </PreferenceCategory>
 

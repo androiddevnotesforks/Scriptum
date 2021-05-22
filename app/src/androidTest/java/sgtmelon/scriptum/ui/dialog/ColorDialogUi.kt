@@ -92,8 +92,10 @@ class ColorDialogUi(place: Place, @Color private var check: Int, private val cal
     /**
      * Class for UI control of [ColorAdapter].
      */
-    private class Item(listMatcher: Matcher<View>, p: Int) :
-            ParentRecyclerItem<ColorItem>(listMatcher, p) {
+    private class Item(
+        listMatcher: Matcher<View>,
+        p: Int
+    ) : ParentRecyclerItem<ColorItem>(listMatcher, p) {
 
         private val parentContainer by lazy { getChild(getViewById(R.id.color_parent_container)) }
         private val backgroundView by lazy { getChild(getViewById(R.id.color_background_view)) }
@@ -104,10 +106,10 @@ class ColorDialogUi(place: Place, @Color private var check: Int, private val cal
             parentContainer.isDisplayed()
 
             backgroundView.isDisplayed()
-                    .withSize(R.dimen.icon_48dp, R.dimen.icon_48dp)
-                    .withColorIndicator(R.drawable.ic_color, theme, item.color)
+                .withSize(R.dimen.icon_48dp, R.dimen.icon_48dp)
+                .withColorIndicator(R.drawable.ic_color, appTheme, item.color)
 
-            val colorId = ColorData.getColorItem(theme, item.color).content
+            val colorId = ColorData.getColorItem(appTheme, item.color).content
             checkImage.isDisplayed(item.isCheck).withDrawableColor(R.drawable.ic_check, colorId)
 
             val colorName = context.resources.getStringArray(R.array.pref_text_note_color)[item.color]

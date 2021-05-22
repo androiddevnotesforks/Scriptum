@@ -1,23 +1,19 @@
 package sgtmelon.scriptum.ui.screen.note
 
-import android.view.View
-import android.view.inputmethod.EditorInfo
-import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
 import sgtmelon.scriptum.extension.hide
-import sgtmelon.scriptum.presentation.adapter.RollAdapter
 import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel
 import sgtmelon.scriptum.ui.IKeyboardClose
 import sgtmelon.scriptum.ui.IPressBack
-import sgtmelon.scriptum.ui.ParentRecyclerItem
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
+import sgtmelon.scriptum.ui.item.RollItemUi
 import sgtmelon.scriptum.ui.part.info.RollNoteInfoContainer
 import sgtmelon.scriptum.ui.part.panel.NotePanel
 import sgtmelon.scriptum.ui.part.panel.RollEnterPanel
@@ -64,7 +60,7 @@ class RollNoteScreen(
     private val parentContainer = getViewById(R.id.roll_note_parent_container)
     private val progressBar = getViewById(R.id.roll_note_progress)
 
-    private fun getItem(position: Int) = Item(recyclerView, position, state)
+    private fun getItem(p: Int) = RollItemUi(recyclerView, p, state)
 
     /**
      * Cause of [RollEnterPanel.enterText] is local variable, need return
@@ -98,6 +94,7 @@ class RollNoteScreen(
         controlPanel { assert() }
         enterPanel { assert() }
     }
+
 
     fun onEnterText(text: String = "", p: Int? = random) = apply {
         if (p == null) return@apply
@@ -188,6 +185,7 @@ class RollNoteScreen(
         assert()
     }
 
+    //region Common callback functions
 
     override fun assertToolbarIme() = throwOnWrongState(State.EDIT, State.NEW) {
         enterPanel { assertFocus() }
@@ -215,6 +213,10 @@ class RollNoteScreen(
         }
     }
 
+    //endregion
+
+    //region Assertion
+
     fun onAssertAll() {
         val list = when (state) {
             State.READ, State.BIN -> item.list
@@ -227,9 +229,8 @@ class RollNoteScreen(
         }
     }
 
-
     fun assert() {
-        toolbarHolder.withBackgroundAppColor(theme, item.color, needDark = false)
+        toolbarHolder.withBackgroundAppColor(appTheme, item.color, needDark = false)
             .withSizeAttr(heightAttr = android.R.attr.actionBarSize)
         panelHolder.withBackgroundAttr(R.attr.clPrimary)
             .withSize(heightId = R.dimen.note_panel_height)
@@ -263,85 +264,13 @@ class RollNoteScreen(
         recyclerView.isDisplayed()
     }
 
+    //endregion
+
     /**
-     * Class for UI control of [RollAdapter].
+     * @Test - duplicate of original function in [RollNoteViewModel].
      */
-    class Item(listMatcher: Matcher<View>, position: Int, private val state: State) :
-        ParentRecyclerItem<RollItem>(listMatcher, position) {
-
-        private val parentCard by lazy {
-            getChild(getViewById(when (state) {
-                State.READ, State.BIN -> R.id.roll_read_parent_card
-                State.EDIT, State.NEW -> R.id.roll_write_parent_card
-            }))
-        }
-
-        private val checkBox by lazy {
-            getChild(getViewById(when (state) {
-                State.READ, State.BIN -> R.id.roll_read_check
-                State.EDIT, State.NEW -> R.id.roll_write_check
-            }))
-        }
-
-        val clickButton by lazy {
-            getChild(getViewById(when (state) {
-                State.READ, State.BIN -> R.id.roll_read_click_button
-                State.EDIT, State.NEW -> R.id.roll_write_drag_button
-            }))
-        }
-
-        val rollText by lazy {
-            getChild(getViewById(when (state) {
-                State.READ, State.BIN -> R.id.roll_read_text
-                State.EDIT, State.NEW -> R.id.roll_write_enter
-            }))
-        }
-
-        override fun assert(item: RollItem) {
-            parentCard.isDisplayed().withCardBackground(R.attr.clBackgroundView)
-
-            val textColor = if (!item.isCheck) R.attr.clContent else R.attr.clContrast
-
-            when (state) {
-                State.READ, State.BIN -> {
-                    checkBox.isDisplayed().isChecked(item.isCheck)
-
-                    val description = context.getString(if (item.isCheck) {
-                        R.string.description_item_roll_uncheck
-                    } else {
-                        R.string.description_item_roll_check
-                    }).plus(other = " ").plus(item.text)
-
-                    clickButton.isDisplayed(isVisible = state != State.BIN)
-                        .withContentDescription(description)
-
-                    rollText.isDisplayed().withText(item.text, textColor, R.dimen.text_18sp)
-                        .withBackgroundColor(android.R.color.transparent)
-                }
-                State.EDIT, State.NEW -> {
-                    checkBox.isDisplayed(isVisible = false)
-
-                    val color = if (item.isCheck) R.attr.clAccent else R.attr.clContent
-                    val description = context.getString(R.string.description_item_roll_move)
-                        .plus(other = " ").plus(item.text)
-                    clickButton.isDisplayed()
-                        .withDrawableAttr(R.drawable.ic_move, color)
-                        .withContentDescription(description)
-
-                    rollText.isDisplayed()
-                        .withImeAction(EditorInfo.IME_ACTION_NEXT)
-                        .withBackgroundColor(android.R.color.transparent)
-                        .apply {
-                            if (item.text.isNotEmpty()) {
-                                withText(item.text, textColor, R.dimen.text_18sp)
-                            } else {
-                                withHint(R.string.hind_enter_roll_empty, R.attr.clDisable, R.dimen.text_18sp)
-                            }
-                        }
-                }
-            }
-        }
-
+    private fun getCorrectPosition(p: Int, list: List<RollItem>): Int {
+        return if (item.isVisible) p else list.indexOf(list.hide()[p])
     }
 
     companion object {
@@ -357,12 +286,5 @@ class RollNoteScreen(
         ): RollNoteScreen {
             return RollNoteScreen(state, item, isRankEmpty).fullAssert().apply(func)
         }
-    }
-
-    /**
-     * @Test - duplicate of original function in [RollNoteViewModel].
-     */
-    private fun getCorrectPosition(p: Int, list: List<RollItem>): Int {
-        return if (item.isVisible) p else list.indexOf(list.hide()[p])
     }
 }
