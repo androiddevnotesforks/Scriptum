@@ -54,7 +54,7 @@ class RankRotationTest : ParentRotationTest() {
             mainScreen {
                 rankScreen {
                     repeat(times = 3) { time ->
-                        onClickCancel(it)
+                        onClickCancel()
 
                         if (time % 2 == 0) {
                             automator.rotateSide()

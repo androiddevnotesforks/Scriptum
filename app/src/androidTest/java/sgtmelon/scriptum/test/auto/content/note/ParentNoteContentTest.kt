@@ -200,7 +200,7 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
 
         launch {
             mainScreen {
-                rankScreen { onClickVisible(pair.first) }
+                rankScreen { onClickVisible() }
 
                 when (page) {
                     MainPage.RANK -> throwPageError()
@@ -208,7 +208,7 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
                     MainPage.BIN -> binScreen { onAssertItem(pair.second) }
                 }
 
-                rankScreen { onClickCancel(pair.first) }
+                rankScreen { onClickCancel() }
                 pair.second.clearRank()
 
                 when (page) {

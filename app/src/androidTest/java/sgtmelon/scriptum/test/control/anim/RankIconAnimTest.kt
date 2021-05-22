@@ -18,7 +18,7 @@ class RankIconAnimTest : ParentUiTest() {
     }
 
     @Test fun visibleLongClick() = data.fillRank(REPEAT_COUNT).let {
-        launch { mainScreen { rankScreen { for (item in it) onLongClickVisible(item) } } }
+        launch { mainScreen { rankScreen { for (i in it.indices) onLongClickVisible(i) } } }
     }
 
 

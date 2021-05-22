@@ -19,7 +19,7 @@ class MainScrollTopTest : ParentUiTest() {
             mainScreen {
                 rankScreen { onScroll(Scroll.END) }.onScrollTop()
                 ParentRecyclerItem.PREVENT_SCROLL = true
-                rankScreen { openRenameDialog(it.first().name, p = 0) { onCloseSoft() } }
+                rankScreen { onAssertItem(it.first(), p = 0) }
             }
         }
     }

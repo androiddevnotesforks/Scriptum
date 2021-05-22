@@ -58,7 +58,9 @@ class RankImeTest : ParentUiTest() {
                     }
 
                     openRenameDialog(it.name) { onEnter(newName).onImeOptionClick() }
-                    openRenameDialog(newName)
+
+                    it.name = newName
+                    onAssertItem(it)
                 }
             }
         }

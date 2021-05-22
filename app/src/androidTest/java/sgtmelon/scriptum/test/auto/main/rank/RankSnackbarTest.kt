@@ -12,6 +12,9 @@ import sgtmelon.scriptum.ui.ParentRecyclerItem
  */
 class RankSnackbarTest : ParentUiTest() {
 
+    /**
+     * Check snackbar container display correct
+     */
     @Test fun containerBottomDisplay() = data.fillRank(count = 15).let {
         launch {
             mainScreen {
@@ -35,7 +38,7 @@ class RankSnackbarTest : ParentUiTest() {
                     onClickCancel(p)
                     getSnackbar { onClickCancel() }
                     assertSnackbarDismiss()
-                    openRenameDialog(it[p].name, p)
+                    onAssertItem(it[p], p)
                 }
             }
         }
@@ -56,7 +59,7 @@ class RankSnackbarTest : ParentUiTest() {
                     assertSnackbarDismiss()
 
                     for ((i , item) in list.withIndex()) {
-                        openRenameDialog(item.name, i) { onCloseSoft() }
+                        onAssertItem(item, i)
                     }
                 }
             }
@@ -84,7 +87,7 @@ class RankSnackbarTest : ParentUiTest() {
                     assertSnackbarDismiss()
 
                     for ((i , item) in it.withIndex()) {
-                        openRenameDialog(item.name, i) { onCloseSoft() }
+                        onAssertItem(item, i)
                     }
                 }
             }
@@ -105,7 +108,7 @@ class RankSnackbarTest : ParentUiTest() {
                     assertSnackbarDismiss()
 
                     for ((i, item) in list.withIndex()) {
-                        openRenameDialog(item.name, i) { onCloseSoft() }
+                        onAssertItem(item, i)
                     }
                     repeat(list.size) { onClickCancel(p = 0) }
                 }
@@ -132,7 +135,7 @@ class RankSnackbarTest : ParentUiTest() {
 
                     assertSnackbarDismiss()
                     for ((i , item) in list.withIndex()) {
-                        openRenameDialog(item.name, i) { onCloseSoft() }
+                        onAssertItem(item, i)
                     }
                 }
             }
@@ -152,7 +155,7 @@ class RankSnackbarTest : ParentUiTest() {
 
                     assertSnackbarDismiss()
                     for ((i , item) in list.withIndex()) {
-                        openRenameDialog(item.name, p = i + 1) { onCloseSoft() }
+                        onAssertItem(item, p = i + 1)
                     }
                     openRenameDialog(name, p = 0)
                 }
@@ -173,7 +176,7 @@ class RankSnackbarTest : ParentUiTest() {
 
                     assertSnackbarDismiss()
                     for ((i , item) in list.withIndex()) {
-                        openRenameDialog(item.name, i) { onCloseSoft() }
+                        onAssertItem(item, i)
                     }
                     openRenameDialog(name, p = count - 1)
                 }
@@ -194,7 +197,7 @@ class RankSnackbarTest : ParentUiTest() {
 
                     assertSnackbarDismiss()
                     for ((i , item) in list.withIndex()) {
-                        openRenameDialog(item.name, i) { onCloseSoft() }
+                        onAssertItem(item, i)
                     }
                     openRenameDialog(name, p = count - 1)
                 }
@@ -216,7 +219,7 @@ class RankSnackbarTest : ParentUiTest() {
                     assertSnackbarDismiss()
 
                     ParentRecyclerItem.PREVENT_SCROLL = true
-                    openRenameDialog(it[p].name, p)
+                    onAssertItem(it[p], p)
                 }
             }
         }
@@ -235,7 +238,7 @@ class RankSnackbarTest : ParentUiTest() {
                     assertSnackbarDismiss()
 
                     ParentRecyclerItem.PREVENT_SCROLL = true
-                    openRenameDialog(it[p].name, p)
+                    onAssertItem(it[p], p)
                 }
             }
         }

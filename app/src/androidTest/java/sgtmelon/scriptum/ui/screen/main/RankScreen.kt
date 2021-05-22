@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.ui.screen.main
 
 import android.view.View
-import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import org.hamcrest.Matcher
 import org.junit.Assert.assertTrue
 import sgtmelon.scriptum.R
@@ -36,10 +35,6 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
         return SnackbarPanel(message, action, func)
     }
 
-    private fun getItem(item: RankItem): Item {
-        return Item(recyclerView, hasDescendant(getView(R.id.rank_name_text, item.name)))
-    }
-
     private fun getItem(position: Int) = Item(recyclerView, position)
 
     fun toolbar(func: RankToolbar.() -> Unit) = RankToolbar(func)
@@ -57,18 +52,10 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
         RenameDialogUi(func, title)
     }
 
-    fun onClickVisible(item: RankItem) = apply {
-        getItem(item).visibleButton.click()
-    }
-
     fun onClickVisible(p: Int? = random) = apply {
         if (p == null) return@apply
 
         getItem(p).visibleButton.click()
-    }
-
-    fun onLongClickVisible(item: RankItem) = apply {
-        getItem(item).visibleButton.longClick()
     }
 
     fun onLongClickVisible(p: Int? = random) = apply {
@@ -86,16 +73,12 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
         }
     }
 
-    fun onClickCancel(item: RankItem, isWait: Boolean = false) = apply {
-        waitAfter(time = if (isWait) SNACK_BAR_TIME else 0) {
-            getItem(item).cancelButton.click()
-            getSnackbar { assert() }
-        }
+
+    fun onAssertItem(item: RankItem, p: Int? = random) {
+        if (p == null) return
+
+        getItem(p).assert(item)
     }
-
-
-    // TODO add alternative fast assertion by position (use openRenameDialog)
-    fun onAssertItem(item: RankItem) = getItem(item).assert(item)
 
     fun assert(isEmpty: Boolean) = apply {
         toolbar { assert() }

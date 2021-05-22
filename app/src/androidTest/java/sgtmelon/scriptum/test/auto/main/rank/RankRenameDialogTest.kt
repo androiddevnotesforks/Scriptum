@@ -57,7 +57,8 @@ class RankRenameDialogTest : ParentUiTest() {
             mainScreen {
                 rankScreen {
                     openRenameDialog(it.name) { onEnter(newName).onClickApply() }
-                    openRenameDialog(newName)
+                    it.name = newName
+                    onAssertItem(it)
                 }
             }
         }
