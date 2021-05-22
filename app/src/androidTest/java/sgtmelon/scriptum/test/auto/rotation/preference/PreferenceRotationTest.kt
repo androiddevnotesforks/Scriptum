@@ -35,21 +35,22 @@ class PreferenceRotationTest : ParentRotationTest() {
 
 
     //    // TODO fix
-    //    @Test fun colorDialog() = launch {
-    //        val color = preferenceRepo.defaultColor
-    //
-    //        mainScreen {
-    //            notesScreen(isEmpty = true) {
-    //                openPreference {
-    //                    TODO()
-    ////                    openColorDialog(color) {
-    ////                        automator.rotateSide()
-    ////                        assert()
-    ////                    }
-    //                }
-    //            }
-    //        }
-    //    }
+    @Test fun colorDialog() = launch {
+        TODO()
+        //            val color = preferenceRepo.defaultColor
+
+        //            mainScreen {
+        //                notesScreen(isEmpty = true) {
+        //                    openPreference {
+        //                        TODO()
+        //                        openColorDialog(color) {
+        //                            automator.rotateSide()
+        //                            assert()
+        //                        }
+        //                    }
+        //                }
+        //            }
+    }
     //
     //    // TODO all dialogs
 
