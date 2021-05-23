@@ -6,7 +6,7 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
 import sgtmelon.scriptum.test.ParentRotationTest
-import sgtmelon.scriptum.ui.screen.PreferenceScreen
+import sgtmelon.scriptum.ui.screen.preference.PreferenceScreen
 
 /**
  * Test of [PreferenceFragment] work with phone rotation.
@@ -33,6 +33,10 @@ class PreferenceRotationTest : ParentRotationTest() {
         assert()
     }
 
+    @Test fun aboutDialog() = runTest {
+        //        about dialog click several times -> rotate -> click to unlock
+        TODO()
+    }
 
     //    // TODO fix
     @Test fun colorDialog() = launch {

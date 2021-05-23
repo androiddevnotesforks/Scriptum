@@ -11,9 +11,9 @@ import sgtmelon.scriptum.ui.item.NoteItemUi
 import sgtmelon.scriptum.ui.part.info.NotesInfoContainer
 import sgtmelon.scriptum.ui.part.toolbar.SimpleToolbar
 import sgtmelon.scriptum.ui.screen.NotificationScreen
-import sgtmelon.scriptum.ui.screen.PreferenceScreen
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
+import sgtmelon.scriptum.ui.screen.preference.PreferenceScreen
 
 /**
  * Class for UI control of [NotesFragment].

@@ -6,7 +6,7 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
 import sgtmelon.scriptum.test.ParentUiTest
-import sgtmelon.scriptum.ui.screen.PreferenceScreen
+import sgtmelon.scriptum.ui.screen.preference.PreferenceScreen
 
 /**
  * Test for [PreferenceFragment].
@@ -39,24 +39,24 @@ class PreferenceTest : ParentUiTest() {
         assert()
     }
 
-    /**
-     * TODO
-     * + theme dialog every item click and apply - and check summary
-     * + theme dialog close (backpress/cancel)
-     * - open backup screen
-     * - open notes screen
-     * - open notifications
-     *
-     * - open rate
-     * - open help
-     * - about dialog click for unlock developer
-     * - about dialog close
-     * - open developer
-     *
-     * Rotation:
-     * + theme dialog open + check item -> rotate -> apply and assert items
-     * - screen rotation and every item assert
-     * - about dialog click several times -> rotate -> click to unlock
-     */
+    @Test fun openBackup() = runTest { openBackup() }
+
+    @Test fun openNote() = runTest { openNote() }
+
+    @Test fun openNotification() = runTest { openNotification() }
+
+    @Test fun openRate() = runTest { openRate() }
+
+    @Test fun openHelp() = runTest { openHelp() }
+
+    @Test fun aboutDialogWork() = runTest {
+        TODO()
+    }
+
+    @Test fun aboutDialogClose() = runTest {
+        TODO()
+    }
+
+    @Test fun openDeveloper() = runTest({ preferenceRepo.isDeveloper = true }) { openDeveloper() }
 
 }
