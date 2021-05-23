@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.test.auto.preference
+package sgtmelon.scriptum.test.auto.preference.alarm
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
@@ -41,7 +41,7 @@ class AlarmPreferenceRepeatTest : ParentUiTest() {
 
     @Test fun selectRepeatMin1440() = startSelectRepeat(Repeat.MIN_1440)
 
-    private fun startSelectRepeat(@Repeat repeat: Int) = launch({ checkRepeat(repeat) }) {
+    private fun startSelectRepeat(@Repeat repeat: Int) = launch({ turnRepeat(repeat) }) {
         mainScreen {
             notesScreen(isEmpty = true) {
                 openPreference {
@@ -55,10 +55,8 @@ class AlarmPreferenceRepeatTest : ParentUiTest() {
     /**
      * Switch [Repeat] to another one.
      */
-    private fun checkRepeat(@Repeat repeat: Int) {
-        val list = listOf(
-            Repeat.MIN_10, Repeat.MIN_30, Repeat.MIN_60, Repeat.MIN_180, Repeat.MIN_1440
-        )
+    private fun turnRepeat(@Repeat repeat: Int) {
+        val list = Repeat.list
 
         while (preferenceRepo.repeat == repeat) {
             preferenceRepo.repeat = list.random()

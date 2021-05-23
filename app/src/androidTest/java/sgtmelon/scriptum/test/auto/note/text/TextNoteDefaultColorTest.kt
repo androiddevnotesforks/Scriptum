@@ -1,21 +1,20 @@
-package sgtmelon.scriptum.test.auto.dialog.color
+package sgtmelon.scriptum.test.auto.note.text
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.data.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.domain.model.annotation.Color
-import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.test.IColorTest
 import sgtmelon.scriptum.test.ParentUiTest
 
 /**
- * Test of [PreferenceRepo.defaultColor] setup for [PreferenceFragment]
+ * Test of [PreferenceRepo.defaultColor] setup for [TextNoteFragment].
  */
 @RunWith(AndroidJUnit4::class)
-class PreferenceDefaultColorTest : ParentUiTest(), IColorTest {
+class TextNoteDefaultColorTest : ParentUiTest(), IColorTest {
 
-    // TODO all tests fail
     @Test override fun colorRed() = super.colorRed()
 
     @Test override fun colorPurple() = super.colorPurple()
@@ -41,14 +40,10 @@ class PreferenceDefaultColorTest : ParentUiTest(), IColorTest {
     override fun startTest(@Color color: Int) {
         preferenceRepo.defaultColor = color
 
+        val item = data.createText()
         launch {
             mainScreen {
-                notesScreen(isEmpty = true) {
-                    openPreference {
-                        TODO()
-                        //                        openColorDialog(color) { onAssertItem() }
-                    }
-                }
+                openAddDialog { createText(item) { controlPanel { onColor { onAssertItem() } } } }
             }
         }
     }

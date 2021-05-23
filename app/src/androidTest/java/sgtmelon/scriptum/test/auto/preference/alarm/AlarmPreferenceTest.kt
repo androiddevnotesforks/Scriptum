@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.test.auto.preference
+package sgtmelon.scriptum.test.auto.preference.alarm
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test

@@ -35,7 +35,7 @@
     <string name="pref_title_note_sort">Sort notes</string>
     <string name="pref_title_note_color">Default note color</string>
     <string name="pref_title_note_save_pause">On stop</string>
-    <string name="pref_title_note_auto_save">Auto save</string>
+    <string name="pref_title_note_save_auto">Auto save</string>
     <string name="pref_title_note_save_period">Period of auto save</string>
 
     <string name="pref_title_alarm">Notifications</string>

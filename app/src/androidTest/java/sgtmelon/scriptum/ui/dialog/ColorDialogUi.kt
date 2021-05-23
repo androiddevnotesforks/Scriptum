@@ -56,7 +56,7 @@ class ColorDialogUi(place: Place, @Color private var check: Int, private val cal
     }
 
 
-    fun onAssertItem(p: Int = check) {
+    fun onAssertItem(p: Int = check) = apply {
         getItem(p).assert(ColorItem(p, isCheck = p == check))
     }
 

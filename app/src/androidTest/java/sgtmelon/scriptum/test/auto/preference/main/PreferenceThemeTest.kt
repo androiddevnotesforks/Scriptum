@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.test.auto.preference
+package sgtmelon.scriptum.test.auto.preference.main
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
@@ -25,7 +25,7 @@ class PreferenceThemeTest : ParentUiTest() {
 
     @Test fun themeSelectSystem() = startThemeSelect(Theme.SYSTEM)
 
-    private fun startThemeSelect(@Theme theme: Int) = runTest({ checkTheme(theme) }) {
+    private fun startThemeSelect(@Theme theme: Int) = runTest({ turnTheme(theme) }) {
         openThemeDialog { onClickItem(theme).onClickApply() }
         assert()
     }
@@ -33,8 +33,8 @@ class PreferenceThemeTest : ParentUiTest() {
     /**
      * Switch [Theme] to another one.
      */
-    private fun checkTheme(@Theme theme: Int) {
-        val list = listOf(Theme.LIGHT, Theme.DARK, Theme.SYSTEM)
+    private fun turnTheme(@Theme theme: Int) {
+        val list = Theme.list
 
         while (preferenceRepo.theme == theme) {
             preferenceRepo.theme = list.random()

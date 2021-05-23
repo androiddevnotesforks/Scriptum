@@ -1,19 +1,19 @@
-package sgtmelon.scriptum.test.auto.dialog.color
+package sgtmelon.scriptum.test.auto.preference.note
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.data.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.domain.model.annotation.Color
-import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
 import sgtmelon.scriptum.test.IColorTest
 import sgtmelon.scriptum.test.ParentUiTest
 
 /**
- * Test of [PreferenceRepo.defaultColor] setup for [NoteActivity]
+ * Test of [PreferenceRepo.defaultColor] setup for [PreferenceFragment]
  */
 @RunWith(AndroidJUnit4::class)
-class NoteDefaultColorTest : ParentUiTest(), IColorTest {
+class NotePreferenceColorTest : ParentUiTest(), IColorTest {
 
     @Test override fun colorRed() = super.colorRed()
 
@@ -38,14 +38,34 @@ class NoteDefaultColorTest : ParentUiTest(), IColorTest {
     @Test override fun colorWhite() = super.colorWhite()
 
     override fun startTest(@Color color: Int) {
-        preferenceRepo.defaultColor = color
+        turnColor(color)
 
-        data.createText().let {
-            launch {
-                mainScreen {
-                    openAddDialog { createText(it) { controlPanel { onColor { onAssertItem() } } } }
+        val initColor = preferenceRepo.defaultColor
+
+        launch {
+            mainScreen {
+                notesScreen(isEmpty = true) {
+                    openPreference {
+                        openNote {
+                            openColorDialog(initColor) {
+                                onAssertItem().onClickItem(color).onClickApply()
+                            }
+                            assert()
+                        }
+                    }
                 }
             }
+        }
+    }
+
+    /**
+     * Switch [Color] to another one.
+     */
+    private fun turnColor(@Color color: Int) {
+        val list = Color.list
+
+        while (preferenceRepo.defaultColor == color) {
+            preferenceRepo.defaultColor = list.random()
         }
     }
 }

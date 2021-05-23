@@ -13,5 +13,7 @@ annotation class Theme {
         const val LIGHT = 0
         const val DARK = 1
         const val SYSTEM = 2
+
+        val list = listOf(LIGHT, DARK, SYSTEM)
     }
 }

@@ -32,7 +32,7 @@
         <SwitchPreferenceCompat android:defaultValue="@bool/pref_note_save_auto"
             android:key="@string/pref_key_note_auto"
             android:summary="@string/pref_summary_note_save_auto"
-            android:title="@string/pref_title_note_auto_save"
+            android:title="@string/pref_title_note_save_auto"
             app:iconSpaceReserved="false" />
 
         <Preference android:defaultValue="@integer/pref_note_save_time"

@@ -14,5 +14,7 @@ annotation class Repeat {
         const val MIN_60 = 2
         const val MIN_180 = 3
         const val MIN_1440 = 4
+
+        val list = listOf(MIN_10, MIN_30, MIN_60, MIN_180, MIN_1440)
     }
 }
