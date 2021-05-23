@@ -3,6 +3,7 @@ package sgtmelon.scriptum.ui.screen.preference
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.item.PreferenceItem
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
+import sgtmelon.scriptum.ui.dialog.preference.AboutDialogUi
 import sgtmelon.scriptum.ui.dialog.preference.ThemeDialogUi
 
 /**
@@ -57,8 +58,9 @@ class PreferenceScreen : ParentPreferenceScreen(R.string.title_preference) {
         HelpPreferenceScreen(func)
     }
 
-    fun openAboutDialog() {
-        TODO()
+    fun openAboutDialog(func: AboutDialogUi.() -> Unit = {}) {
+        getItem(p = 8).Simple().onItemClick()
+        AboutDialogUi(func)
     }
 
     fun openDeveloper(func: DeveloperPreferenceScreen.() -> Unit = {}) {

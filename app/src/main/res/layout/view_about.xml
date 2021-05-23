@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/about_parent_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -33,13 +34,14 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/about_app_text"
                 style="@style/Text.About.Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/app_name" />
 
             <TextView
-                android:id="@+id/about_version"
+                android:id="@+id/about_version_text"
                 style="@style/Text.About.Subtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -47,6 +49,7 @@
                 tools:text="@string/preview_version" />
 
             <TextView
+                android:id="@+id/about_developer_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/layout_8dp"
@@ -56,6 +59,7 @@
                 android:textSize="@dimen/text_16sp" />
 
             <TextView
+                android:id="@+id/about_designer_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -68,11 +72,11 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/about_email"
+        android:id="@+id/about_email_text"
         style="@style/Text.About.Subtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/layout_8dp"
-        tools:text="@string/dialog_about_developer_email" />
+        tools:text="@string/dialog_about_email" />
 
 </LinearLayout>

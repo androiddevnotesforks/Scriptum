@@ -17,7 +17,7 @@ import sgtmelon.scriptum.R
 class AboutDialog : BlankDialog(), View.OnClickListener {
 
     private val logoImage get() = dialog?.findViewById<ImageView?>(R.id.about_logo_image)
-    private val versionText get() = dialog?.findViewById<TextView?>(R.id.about_version)
+    private val versionText get() = dialog?.findViewById<TextView?>(R.id.about_version_text)
 
     private var click = NdValue.CHECK
     var hideOpen = NdValue.KEY

@@ -49,12 +49,15 @@ class PreferenceTest : ParentUiTest() {
 
     @Test fun openHelp() = runTest { openHelp() }
 
-    @Test fun aboutDialogWork() = runTest {
-        TODO()
+    @Test fun aboutDialogWork() = runTest({ preferenceRepo.isDeveloper = false }) {
+        openAboutDialog { unlockDeveloper() }
+        openDeveloper { onClickClose() }
+        openAboutDialog { unlockDeveloper() }
     }
 
     @Test fun aboutDialogClose() = runTest {
-        TODO()
+        openAboutDialog { onCloseSoft() }
+        assert()
     }
 
     @Test fun openDeveloper() = runTest({ preferenceRepo.isDeveloper = true }) { openDeveloper() }

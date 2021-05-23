@@ -144,6 +144,12 @@ fun Matcher<View>.withBackgroundAttr(@AttrRes attrId: Int) = also {
 }
 
 
+fun Matcher<View>.withDrawable(
+    @IdRes resourceId: Int? = null
+) = also {
+    matchOnView(it, DrawableMatcher(resourceId, null, null))
+}
+
 fun Matcher<View>.withDrawableColor(
     @IdRes resourceId: Int? = null,
     @ColorRes colorId: Int? = null
