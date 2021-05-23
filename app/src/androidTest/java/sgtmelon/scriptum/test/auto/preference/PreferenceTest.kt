@@ -3,7 +3,6 @@ package sgtmelon.scriptum.test.auto.preference
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
 import sgtmelon.scriptum.test.ParentUiTest
 import sgtmelon.scriptum.ui.screen.preference.PreferenceScreen
@@ -23,21 +22,6 @@ class PreferenceTest : ParentUiTest() {
     @Test fun assertAllNotDeveloper() = runTest({ preferenceRepo.isDeveloper = false }) { assert() }
 
     @Test fun assertAllDeveloper() = runTest({ preferenceRepo.isDeveloper = true }) { assert() }
-
-    @Test fun themeDialogWork() = runTest({ preferenceRepo.theme = Theme.LIGHT }) {
-        openThemeDialog { onClickItem(Theme.DARK).onClickApply() }
-        assert()
-        openThemeDialog { onClickItem(Theme.SYSTEM).onClickApply() }
-        assert()
-        openThemeDialog { onClickItem(Theme.LIGHT).onClickApply() }
-    }
-
-    @Test fun themeDialogClose() = runTest({ preferenceRepo.theme = Theme.LIGHT }) {
-        openThemeDialog { onClickCancel() }
-        assert()
-        openThemeDialog { onCloseSoft() }
-        assert()
-    }
 
     @Test fun openBackup() = runTest { openBackup() }
 

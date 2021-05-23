@@ -24,12 +24,19 @@ class AboutDialogUi : ParentUi(), IDialogUi {
 
     //endregion
 
-    private var clickCount = 0
+    var clickCount = 0
+        private set
+
     private val maxClickCount = context.resources.getInteger(R.integer.pref_develop_open)
+
+    fun clickLogo() {
+        logoImage.click()
+        clickCount++
+    }
 
     fun unlockDeveloper() {
         while (clickCount != maxClickCount) {
-            logoImage.click()
+            clickLogo()
         }
     }
 

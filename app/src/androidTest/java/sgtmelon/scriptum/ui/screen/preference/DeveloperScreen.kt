@@ -7,7 +7,7 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop.DevelopF
 /**
  * Class for UI control of [DevelopFragment].
  */
-class DeveloperPreferenceScreen : ParentPreferenceScreen(R.string.pref_title_other_develop) {
+class DeveloperScreen : ParentPreferenceScreen(R.string.pref_title_other_develop) {
 
     override fun getScreenList(): List<PreferenceItem> {
         return emptyList()
@@ -32,8 +32,8 @@ class DeveloperPreferenceScreen : ParentPreferenceScreen(R.string.pref_title_oth
     }
 
     companion object {
-        operator fun invoke(func: DeveloperPreferenceScreen.() -> Unit): DeveloperPreferenceScreen {
-            return DeveloperPreferenceScreen().apply { assert() }.apply(func)
+        operator fun invoke(func: DeveloperScreen.() -> Unit): DeveloperScreen {
+            return DeveloperScreen().apply { assert() }.apply(func)
         }
     }
 }

@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.test.auto.rotation.preference
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.domain.model.annotation.Theme
@@ -33,9 +34,16 @@ class PreferenceRotationTest : ParentRotationTest() {
         assert()
     }
 
-    @Test fun aboutDialog() = runTest {
-        //        about dialog click several times -> rotate -> click to unlock
-        TODO()
+    @Test fun aboutDialog() = runTest({ preferenceRepo.isDeveloper = false }) {
+        val clickTimes = (1..3).random()
+
+        openAboutDialog {
+            repeat(clickTimes) { clickLogo() }
+            automator.rotateSide()
+            assertEquals(clickTimes, clickCount)
+            unlockDeveloper()
+        }
+        openDeveloper()
     }
 
     //    // TODO fix

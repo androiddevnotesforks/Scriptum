@@ -77,6 +77,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/layout_8dp"
-        tools:text="@string/dialog_about_email" />
+        android:text="@string/dialog_about_email" />
 
 </LinearLayout>

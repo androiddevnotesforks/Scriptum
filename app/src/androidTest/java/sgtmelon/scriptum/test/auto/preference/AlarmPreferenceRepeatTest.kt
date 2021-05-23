@@ -4,15 +4,15 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.domain.model.annotation.Repeat
-import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceActivity
-import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.AlarmPreferenceFragment
 import sgtmelon.scriptum.test.ParentUiTest
+import sgtmelon.scriptum.ui.dialog.preference.RepeatDialogUi
 
 /**
- * Test for [PreferenceActivity], [PreferenceFragment].
+ * Test for [AlarmPreferenceFragment] and [RepeatDialogUi].
  */
 @RunWith(AndroidJUnit4::class)
-class PreferenceRepeatTest : ParentUiTest() {
+class AlarmPreferenceRepeatTest : ParentUiTest() {
 
     // TODO fix all
 
@@ -52,9 +52,12 @@ class PreferenceRepeatTest : ParentUiTest() {
         }
     }
 
+    /**
+     * Switch [Repeat] to another one.
+     */
     private fun checkRepeat(@Repeat repeat: Int) {
         val list = listOf(
-                Repeat.MIN_10, Repeat.MIN_30, Repeat.MIN_60, Repeat.MIN_180, Repeat.MIN_1440
+            Repeat.MIN_10, Repeat.MIN_30, Repeat.MIN_60, Repeat.MIN_180, Repeat.MIN_1440
         )
 
         while (preferenceRepo.repeat == repeat) {

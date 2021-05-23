@@ -63,13 +63,13 @@ class PreferenceScreen : ParentPreferenceScreen(R.string.title_preference) {
         AboutDialogUi(func)
     }
 
-    fun openDeveloper(func: DeveloperPreferenceScreen.() -> Unit = {}) {
+    fun openDeveloper(func: DeveloperScreen.() -> Unit = {}) {
         if (!preferenceRepo.isDeveloper) {
             throw IllegalAccessException("You need turn on developer options")
         }
 
         getItem(p = 9).Simple().onItemClick()
-        DeveloperPreferenceScreen(func)
+        DeveloperScreen(func)
     }
 
     companion object {

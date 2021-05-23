@@ -3,14 +3,14 @@ package sgtmelon.scriptum.test.auto.preference
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop.DevelopFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.BackupPreferenceFragment
 import sgtmelon.scriptum.test.ParentUiTest
 
 /**
- * Test for [DevelopFragment].
+ * Test for [BackupPreferenceFragment].
  */
 @RunWith(AndroidJUnit4::class)
-class DevelopTest : ParentUiTest() {
+class BackupPreferenceTest : ParentUiTest() {
 
     @Test fun fill() {
         TODO()
