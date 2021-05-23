@@ -9,7 +9,7 @@ import sgtmelon.scriptum.data.room.dao.IRollVisibleDao
 import sgtmelon.scriptum.data.room.entity.NoteEntity
 import sgtmelon.scriptum.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.domain.model.key.NoteType
-import sgtmelon.scriptum.test.ParentRoomTest
+import sgtmelon.scriptum.test.parent.ParentRoomTest
 
 /**
  * Integration test for [IRollVisibleDao].

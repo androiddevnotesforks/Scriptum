@@ -6,7 +6,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
-import sgtmelon.scriptum.test.ParentRotationTest
+import sgtmelon.scriptum.test.parent.ParentRotationTest
 import sgtmelon.scriptum.ui.screen.preference.PreferenceScreen
 
 /**

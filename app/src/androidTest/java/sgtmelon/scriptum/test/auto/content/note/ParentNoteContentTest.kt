@@ -10,7 +10,7 @@ import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.key.MainPage
 import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.presentation.adapter.NoteAdapter
-import sgtmelon.scriptum.test.ParentUiTest
+import sgtmelon.scriptum.test.parent.ParentUiTest
 
 /**
  * Parent class for tests of [NoteAdapter]

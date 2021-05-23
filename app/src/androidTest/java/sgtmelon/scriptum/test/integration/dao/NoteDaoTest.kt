@@ -8,7 +8,7 @@ import sgtmelon.scriptum.data.room.RoomDb
 import sgtmelon.scriptum.data.room.dao.INoteDao
 import sgtmelon.scriptum.data.room.entity.NoteEntity
 import sgtmelon.scriptum.domain.model.key.NoteType
-import sgtmelon.scriptum.test.ParentRoomTest
+import sgtmelon.scriptum.test.parent.ParentRoomTest
 import kotlin.random.Random
 
 /**

@@ -10,7 +10,7 @@ import sgtmelon.scriptum.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.data.room.entity.NoteEntity
 import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.domain.model.key.NoteType
-import sgtmelon.scriptum.test.ParentRoomTest
+import sgtmelon.scriptum.test.parent.ParentRoomTest
 import kotlin.random.Random
 
 /**

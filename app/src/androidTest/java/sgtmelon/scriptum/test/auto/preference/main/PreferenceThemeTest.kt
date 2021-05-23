@@ -5,7 +5,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
-import sgtmelon.scriptum.test.ParentUiTest
+import sgtmelon.scriptum.test.parent.ParentUiTest
 import sgtmelon.scriptum.ui.dialog.preference.ThemeDialogUi
 import sgtmelon.scriptum.ui.screen.preference.PreferenceScreen
 

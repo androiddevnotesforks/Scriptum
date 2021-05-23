@@ -5,7 +5,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
-import sgtmelon.scriptum.test.ParentUiTest
+import sgtmelon.scriptum.test.parent.ParentUiTest
 
 /**
  * Test enter focus for [RollNoteFragment].

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.test
+package sgtmelon.scriptum.test.parent.situation
 
 import sgtmelon.scriptum.domain.model.annotation.Color
 

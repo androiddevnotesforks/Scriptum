@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.test
+package sgtmelon.scriptum.test.parent
 
 import android.content.Intent
 import androidx.test.rule.ActivityTestRule

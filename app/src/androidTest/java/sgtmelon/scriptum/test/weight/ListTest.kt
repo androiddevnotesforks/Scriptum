@@ -8,7 +8,7 @@ import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.data.WeightData
 import sgtmelon.scriptum.data.provider.RoomProvider
 import sgtmelon.scriptum.domain.model.key.MainPage
-import sgtmelon.scriptum.test.ParentUiTest
+import sgtmelon.scriptum.test.parent.ParentUiTest
 
 /**
  * Test recyclerView lists for lags

@@ -4,7 +4,7 @@ import org.junit.Test
 import sgtmelon.extension.nextShortString
 import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.RankFragment
-import sgtmelon.scriptum.test.ParentUiTest
+import sgtmelon.scriptum.test.parent.ParentUiTest
 import sgtmelon.scriptum.ui.ParentRecyclerItem
 
 /**

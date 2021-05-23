@@ -7,7 +7,7 @@ import sgtmelon.extension.nextString
 import sgtmelon.scriptum.presentation.control.toolbar.icon.NavigationIconControl
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
-import sgtmelon.scriptum.test.ParentUiTest
+import sgtmelon.scriptum.test.parent.ParentUiTest
 
 /**
  * Test of [NavigationIconControl] and visibleRollIcon animations for [TextNoteFragment],

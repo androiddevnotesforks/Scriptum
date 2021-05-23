@@ -6,7 +6,7 @@ import sgtmelon.extension.getText
 import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.NotificationActivity
-import sgtmelon.scriptum.test.ParentUiTest
+import sgtmelon.scriptum.test.parent.ParentUiTest
 import sgtmelon.scriptum.ui.ParentRecyclerItem
 
 /**

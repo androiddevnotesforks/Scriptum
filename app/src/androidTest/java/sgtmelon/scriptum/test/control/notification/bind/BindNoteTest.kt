@@ -4,7 +4,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
-import sgtmelon.scriptum.test.ParentNotificationTest
+import sgtmelon.scriptum.test.parent.ParentNotificationTest
 
 /**
  * Test for bind notification inside [NoteActivity].

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.test
+package sgtmelon.scriptum.test.parent
 
 import org.junit.After
 import org.junit.Before

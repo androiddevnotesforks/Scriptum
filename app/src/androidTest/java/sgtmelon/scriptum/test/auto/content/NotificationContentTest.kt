@@ -8,7 +8,7 @@ import sgtmelon.extension.getText
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.test.ParentUiTest
+import sgtmelon.scriptum.test.parent.ParentUiTest
 import sgtmelon.scriptum.ui.screen.NotificationScreen
 
 /**

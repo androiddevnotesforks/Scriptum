@@ -5,7 +5,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.basic.exception.NoteCastException
 import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.test.ParentNotificationTest
+import sgtmelon.scriptum.test.parent.ParentNotificationTest
 
 /**
  * Test of info about notification in status bar

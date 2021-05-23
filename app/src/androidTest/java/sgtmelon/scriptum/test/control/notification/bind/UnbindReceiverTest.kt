@@ -2,7 +2,7 @@ package sgtmelon.scriptum.test.control.notification.bind
 
 import org.junit.Test
 import sgtmelon.scriptum.presentation.receiver.screen.MainScreenReceiver
-import sgtmelon.scriptum.test.ParentNotificationTest
+import sgtmelon.scriptum.test.parent.ParentNotificationTest
 
 /**
  * Test for UI realisation of [MainScreenReceiver.BindCallback].

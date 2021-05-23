@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.test
+package sgtmelon.scriptum.test.parent
 
 import org.junit.After
 import sgtmelon.scriptum.basic.automator.RotateAutomator

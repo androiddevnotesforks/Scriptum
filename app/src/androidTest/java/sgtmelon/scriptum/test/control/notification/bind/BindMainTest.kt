@@ -4,7 +4,7 @@ import org.junit.Test
 import sgtmelon.scriptum.data.room.converter.model.NoteConverter
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.MainActivity
-import sgtmelon.scriptum.test.ParentNotificationTest
+import sgtmelon.scriptum.test.parent.ParentNotificationTest
 import kotlin.random.Random
 
 /**

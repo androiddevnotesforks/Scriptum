@@ -5,7 +5,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.presentation.control.cipher.CipherControl
-import sgtmelon.scriptum.test.ParentTest
+import sgtmelon.scriptum.test.parent.ParentTest
 
 /**
  * Test for [CipherControl].

@@ -6,8 +6,8 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.data.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
-import sgtmelon.scriptum.test.IColorTest
-import sgtmelon.scriptum.test.ParentUiTest
+import sgtmelon.scriptum.test.parent.ParentUiTest
+import sgtmelon.scriptum.test.parent.situation.IColorTest
 
 /**
  * Test of [PreferenceRepo.defaultColor] setup for [RollNoteFragment].

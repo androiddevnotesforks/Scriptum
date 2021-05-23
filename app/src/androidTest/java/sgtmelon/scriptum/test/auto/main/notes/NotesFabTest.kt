@@ -7,7 +7,7 @@ import sgtmelon.scriptum.basic.extension.waitBefore
 import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.domain.model.key.MainPage
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.NotesFragment
-import sgtmelon.scriptum.test.ParentUiTest
+import sgtmelon.scriptum.test.parent.ParentUiTest
 
 /**
  * Test fab for [NotesFragment].

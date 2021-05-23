@@ -5,8 +5,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.basic.exception.NoteCastException
 import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.test.IDateTimeDialogTest
-import sgtmelon.scriptum.test.ParentUiTest
+import sgtmelon.scriptum.test.parent.ParentUiTest
+import sgtmelon.scriptum.test.parent.situation.IDateTimeDialogTest
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 
 @RunWith(AndroidJUnit4::class)
