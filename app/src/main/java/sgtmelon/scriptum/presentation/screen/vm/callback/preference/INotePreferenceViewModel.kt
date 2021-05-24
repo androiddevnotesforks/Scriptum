@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.presentation.screen.vm.callback.preference
 
 import sgtmelon.scriptum.domain.model.annotation.Color
+import sgtmelon.scriptum.domain.model.annotation.SavePeriod
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.presentation.screen.ui.callback.preference.INotePreferenceFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.IParentViewModel
@@ -21,6 +22,6 @@ interface INotePreferenceViewModel : IParentViewModel {
 
     fun onClickSaveTime()
 
-    fun onResultSaveTime(value: Int)
+    fun onResultSaveTime(@SavePeriod value: Int)
 
 }

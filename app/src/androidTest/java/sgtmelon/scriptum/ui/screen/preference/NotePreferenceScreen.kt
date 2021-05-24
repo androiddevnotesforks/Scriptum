@@ -6,6 +6,8 @@ import sgtmelon.scriptum.data.item.PreferenceItem
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.NotePreferenceFragment
 import sgtmelon.scriptum.ui.dialog.ColorDialogUi
+import sgtmelon.scriptum.ui.dialog.preference.SavePeriodDialogUi
+import sgtmelon.scriptum.ui.dialog.preference.SortDialogUi
 
 /**
  * Class for UI control of [NotePreferenceFragment].
@@ -23,6 +25,11 @@ class NotePreferenceScreen : ParentPreferenceScreen(R.string.pref_title_note),
         PreferenceItem.Summary(R.string.pref_title_note_save_period, provider.savePeriod[preferenceRepo.savePeriod], preferenceRepo.autoSaveOn)
     )
 
+    fun openSortDialog(func: SortDialogUi.() -> Unit = {}) {
+        getItem(p = 1).Summary().onItemClick()
+        SortDialogUi(func)
+    }
+
     fun openColorDialog(@Color check: Int, func: ColorDialogUi.() -> Unit) {
         getItem(p = 2).Summary().onItemClick()
         ColorDialogUi(func, ColorDialogUi.Place.PREF, check, this)
@@ -31,6 +38,21 @@ class NotePreferenceScreen : ParentPreferenceScreen(R.string.pref_title_note),
     override fun onColorDialogResult(@Color check: Int) {
         assertEquals(check, preferenceRepo.defaultColor)
         assert()
+    }
+
+    fun onPauseSaveClick() {
+        getItem(p = 4).Switch().onItemClick()
+        assert()
+    }
+
+    fun onAutoSaveClick() {
+        getItem(p = 5).Switch().onItemClick()
+        assert()
+    }
+
+    fun openSavePeriodDialog(func: SavePeriodDialogUi.() -> Unit = {}) {
+        getItem(p = 6).Summary().onItemClick()
+        SavePeriodDialogUi(func)
     }
 
     companion object {

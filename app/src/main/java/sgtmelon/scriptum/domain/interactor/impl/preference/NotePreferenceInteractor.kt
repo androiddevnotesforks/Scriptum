@@ -3,6 +3,7 @@ package sgtmelon.scriptum.domain.interactor.impl.preference
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.domain.interactor.callback.preference.INotePreferenceInteractor
 import sgtmelon.scriptum.domain.model.annotation.Color
+import sgtmelon.scriptum.domain.model.annotation.SavePeriod
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.presentation.provider.SummaryProvider
 import sgtmelon.scriptum.presentation.screen.vm.callback.preference.INotePreferenceViewModel
@@ -35,11 +36,11 @@ class NotePreferenceInteractor(
     }
 
 
-    override val savePeriod: Int get() = preferenceRepo.savePeriod
+    @SavePeriod override val savePeriod: Int get() = preferenceRepo.savePeriod
 
     override fun getSavePeriodSummary(): String? = summaryProvider.savePeriod.getOrNull(savePeriod)
 
-    override fun updateSavePeriod(value: Int): String? {
+    override fun updateSavePeriod(@SavePeriod value: Int): String? {
         preferenceRepo.savePeriod = value
         return getSavePeriodSummary()
     }

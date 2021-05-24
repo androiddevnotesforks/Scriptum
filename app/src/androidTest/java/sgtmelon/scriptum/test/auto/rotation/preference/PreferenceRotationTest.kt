@@ -24,14 +24,23 @@ class PreferenceRotationTest : ParentRotationTest() {
         assert()
     }
 
-    @Test fun themeDialog() = runTest({ preferenceRepo.theme = Theme.LIGHT }) {
-        openThemeDialog {
-            onClickItem(listOf(Theme.DARK, Theme.SYSTEM).random())
-            automator.rotateSide()
+    @Test fun themeDialog() {
+        val initValue = Theme.list.random()
+
+        runTest({ preferenceRepo.theme = initValue }) {
+            openThemeDialog {
+                onClickItem(getThemeClick(initValue))
+                automator.rotateSide()
+                assert()
+                onClickApply()
+            }
             assert()
-            onClickApply()
         }
-        assert()
+    }
+
+    @Theme private fun getThemeClick(@Theme initValue: Int): Int {
+        val newValue = Theme.list.random()
+        return if (newValue == initValue) getThemeClick(initValue) else newValue
     }
 
     @Test fun aboutDialog() = runTest({ preferenceRepo.isDeveloper = false }) {
@@ -45,25 +54,4 @@ class PreferenceRotationTest : ParentRotationTest() {
         }
         openDeveloper()
     }
-
-    //    // TODO fix
-    @Test fun colorDialog() = launch {
-        TODO()
-        //            val color = preferenceRepo.defaultColor
-
-        //            mainScreen {
-        //                notesScreen(isEmpty = true) {
-        //                    openPreference {
-        //                        TODO()
-        //                        openColorDialog(color) {
-        //                            automator.rotateSide()
-        //                            assert()
-        //                        }
-        //                    }
-        //                }
-        //            }
-    }
-    //
-    //    // TODO all dialogs
-
 }

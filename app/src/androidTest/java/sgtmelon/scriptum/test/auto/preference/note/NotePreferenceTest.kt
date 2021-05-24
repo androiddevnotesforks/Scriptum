@@ -1,11 +1,16 @@
 package sgtmelon.scriptum.test.auto.preference.note
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.scriptum.domain.model.annotation.Color
+import sgtmelon.scriptum.domain.model.annotation.SavePeriod
+import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.NotePreferenceFragment
 import sgtmelon.scriptum.test.parent.ParentUiTest
 import sgtmelon.scriptum.ui.screen.preference.NotePreferenceScreen
+import kotlin.random.Random
 
 /**
  * Test for [NotePreferenceFragment].
@@ -19,44 +24,31 @@ class NotePreferenceTest : ParentUiTest() {
         }
     }
 
-    @Test fun fill() {
-        TODO()
+    @Test fun close() = runTest { onClickClose() }
+
+    @Test fun assertAll() = runTest({
+        preferenceRepo.sort = Sort.list.random()
+        preferenceRepo.defaultColor = Color.list.random()
+        preferenceRepo.pauseSaveOn = Random.nextBoolean()
+        preferenceRepo.autoSaveOn = Random.nextBoolean()
+        preferenceRepo.savePeriod = SavePeriod.list.random()
+    }) {
+        assert()
     }
 
-    /**
-     * TODO
-     * - close
-     * - assertAll
-     *   - on stop - false
-     *   - on stop - true
-     *   - auto save - false (period not enabled)
-     *   - auto save - true (period is enabled)
-     *
-     * - sort tests
-     *   - select all items like in [PreferenceThemeTest]
-     *   - close
-     *
-     * - default color
-     *   - select all items like in [PreferenceThemeTest]
-     *   - close
-     *
-     * - on stop click
-     * - on auto save click (period enabled change)
-     *
-     * - period
-     *   - select all items like in [PreferenceThemeTest]
-     *   - close
-     *
-     * Rotate:
-     * - content
-     *   - on stop - false
-     *   - on stop - true
-     *   - auto save - false (period not enabled)
-     *   - auto save - true (period is enabled)
-     *
-     * - sort dialog
-     * - default color dialog
-     * - period dialog
-     */
+    @Test fun pauseSaveWork() {
+        val value = Random.nextBoolean()
 
+        runTest({ preferenceRepo.pauseSaveOn = value }) { onPauseSaveClick() }
+
+        assertEquals(!value, preferenceRepo.pauseSaveOn)
+    }
+
+    @Test fun autoSaveWork() {
+        val value = Random.nextBoolean()
+
+        runTest({ preferenceRepo.autoSaveOn = value }) { onAutoSaveClick() }
+
+        assertEquals(!value, preferenceRepo.autoSaveOn)
+    }
 }

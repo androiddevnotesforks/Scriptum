@@ -6,6 +6,7 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
 import sgtmelon.scriptum.test.parent.ParentUiTest
+import sgtmelon.scriptum.test.parent.situation.IThemeTest
 import sgtmelon.scriptum.ui.dialog.preference.ThemeDialogUi
 import sgtmelon.scriptum.ui.screen.preference.PreferenceScreen
 
@@ -13,19 +14,26 @@ import sgtmelon.scriptum.ui.screen.preference.PreferenceScreen
  * Test for [PreferenceFragment] and [ThemeDialogUi].
  */
 @RunWith(AndroidJUnit4::class)
-class PreferenceThemeTest : ParentUiTest() {
+class PreferenceThemeTest : ParentUiTest(), IThemeTest {
 
     private fun runTest(before: () -> Unit = {}, func: PreferenceScreen.() -> Unit) {
         launch(before) { mainScreen { notesScreen(isEmpty = true) { openPreference(func) } } }
     }
 
-    @Test fun themeSelectLight() = startThemeSelect(Theme.LIGHT)
+    @Test fun dialogClose() = runTest({ preferenceRepo.theme = Theme.LIGHT }) {
+        openThemeDialog { onClickCancel() }
+        assert()
+        openThemeDialog { onCloseSoft() }
+        assert()
+    }
 
-    @Test fun themeSelectDark() = startThemeSelect(Theme.DARK)
+    @Test override fun themeLight() = super.themeLight()
 
-    @Test fun themeSelectSystem() = startThemeSelect(Theme.SYSTEM)
+    @Test override fun themeDark() = super.themeDark()
 
-    private fun startThemeSelect(@Theme theme: Int) = runTest({ turnTheme(theme) }) {
+    @Test override fun themeSystem() = super.themeSystem()
+
+    override fun startTest(@Theme theme: Int) = runTest({ switchValue(theme) }) {
         openThemeDialog { onClickItem(theme).onClickApply() }
         assert()
     }
@@ -33,19 +41,11 @@ class PreferenceThemeTest : ParentUiTest() {
     /**
      * Switch [Theme] to another one.
      */
-    private fun turnTheme(@Theme theme: Int) {
+    private fun switchValue(@Theme theme: Int) {
         val list = Theme.list
 
         while (preferenceRepo.theme == theme) {
             preferenceRepo.theme = list.random()
         }
     }
-
-    @Test fun themeDialogClose() = runTest({ preferenceRepo.theme = Theme.LIGHT }) {
-        openThemeDialog { onClickCancel() }
-        assert()
-        openThemeDialog { onCloseSoft() }
-        assert()
-    }
-
 }

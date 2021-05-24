@@ -1,9 +1,6 @@
 package sgtmelon.scriptum.data.repository.preference
 
-import sgtmelon.scriptum.domain.model.annotation.Color
-import sgtmelon.scriptum.domain.model.annotation.Repeat
-import sgtmelon.scriptum.domain.model.annotation.Sort
-import sgtmelon.scriptum.domain.model.annotation.Theme
+import sgtmelon.scriptum.domain.model.annotation.*
 
 /**
  * Interface for communicate with [PreferenceRepo]
@@ -26,7 +23,7 @@ interface IPreferenceRepo {
 
     var autoSaveOn: Boolean
 
-    var savePeriod: Int
+    @SavePeriod var savePeriod: Int
 
 
     @Repeat var repeat: Int

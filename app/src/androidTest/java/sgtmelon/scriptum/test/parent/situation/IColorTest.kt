@@ -3,7 +3,7 @@ package sgtmelon.scriptum.test.parent.situation
 import sgtmelon.scriptum.domain.model.annotation.Color
 
 /**
- * Interface describes color tests.
+ * Interface describes [Color] tests.
  */
 interface IColorTest {
 

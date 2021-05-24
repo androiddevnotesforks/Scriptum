@@ -38,7 +38,7 @@ class NotePreferenceColorTest : ParentUiTest(), IColorTest {
     @Test override fun colorWhite() = super.colorWhite()
 
     override fun startTest(@Color color: Int) {
-        turnColor(color)
+        switchValue(color)
 
         val initColor = preferenceRepo.defaultColor
 
@@ -61,7 +61,7 @@ class NotePreferenceColorTest : ParentUiTest(), IColorTest {
     /**
      * Switch [Color] to another one.
      */
-    private fun turnColor(@Color color: Int) {
+    private fun switchValue(@Color color: Int) {
         val list = Color.list
 
         while (preferenceRepo.defaultColor == color) {

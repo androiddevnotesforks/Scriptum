@@ -2,6 +2,7 @@ package sgtmelon.scriptum.domain.interactor.callback.preference
 
 import sgtmelon.scriptum.domain.interactor.impl.preference.NotePreferenceInteractor
 import sgtmelon.scriptum.domain.model.annotation.Color
+import sgtmelon.scriptum.domain.model.annotation.SavePeriod
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.presentation.screen.vm.callback.preference.INotePreferenceViewModel
 
@@ -24,7 +25,7 @@ interface INotePreferenceInteractor {
     fun updateDefaultColor(@Color value: Int): String?
 
 
-    val savePeriod: Int
+    @SavePeriod val savePeriod: Int
 
     fun getSavePeriodSummary(): String?
 

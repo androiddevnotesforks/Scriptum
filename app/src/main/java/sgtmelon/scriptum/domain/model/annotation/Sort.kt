@@ -12,5 +12,7 @@ annotation class Sort {
         const val CREATE = 1
         const val RANK = 2
         const val COLOR = 3
+
+        val list = listOf(CHANGE, CREATE, RANK, COLOR)
     }
 }

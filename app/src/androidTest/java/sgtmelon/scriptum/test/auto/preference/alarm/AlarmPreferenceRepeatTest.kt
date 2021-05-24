@@ -6,13 +6,14 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.domain.model.annotation.Repeat
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.AlarmPreferenceFragment
 import sgtmelon.scriptum.test.parent.ParentUiTest
+import sgtmelon.scriptum.test.parent.situation.IRepeatTest
 import sgtmelon.scriptum.ui.dialog.preference.RepeatDialogUi
 
 /**
  * Test for [AlarmPreferenceFragment] and [RepeatDialogUi].
  */
 @RunWith(AndroidJUnit4::class)
-class AlarmPreferenceRepeatTest : ParentUiTest() {
+class AlarmPreferenceRepeatTest : ParentUiTest(), IRepeatTest {
 
     // TODO fix all
 
@@ -30,18 +31,17 @@ class AlarmPreferenceRepeatTest : ParentUiTest() {
         }
     }
 
+    @Test override fun repeatMin10() = super.repeatMin10()
 
-    @Test fun selectRepeatMin10() = startSelectRepeat(Repeat.MIN_10)
+    @Test override fun repeatMin30() = super.repeatMin30()
 
-    @Test fun selectRepeatMin30() = startSelectRepeat(Repeat.MIN_30)
+    @Test override fun repeatMin60() = super.repeatMin60()
 
-    @Test fun selectRepeatMin60() = startSelectRepeat(Repeat.MIN_60)
+    @Test override fun repeatMin180() = super.repeatMin180()
 
-    @Test fun selectRepeatMin180() = startSelectRepeat(Repeat.MIN_180)
+    @Test override fun repeatMin1440() = super.repeatMin1440()
 
-    @Test fun selectRepeatMin1440() = startSelectRepeat(Repeat.MIN_1440)
-
-    private fun startSelectRepeat(@Repeat repeat: Int) = launch({ turnRepeat(repeat) }) {
+    override fun startTest(@Repeat repeat: Int) = launch({ switchValue(repeat) }) {
         mainScreen {
             notesScreen(isEmpty = true) {
                 openPreference {
@@ -55,7 +55,7 @@ class AlarmPreferenceRepeatTest : ParentUiTest() {
     /**
      * Switch [Repeat] to another one.
      */
-    private fun turnRepeat(@Repeat repeat: Int) {
+    private fun switchValue(@Repeat repeat: Int) {
         val list = Repeat.list
 
         while (preferenceRepo.repeat == repeat) {

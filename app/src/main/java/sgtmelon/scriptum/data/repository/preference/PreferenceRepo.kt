@@ -44,7 +44,7 @@ class PreferenceRepo(
         get() = preferences.getBoolean(key.autoSaveOn, def.autoSaveOn)
         set(value) = edit { putBoolean(key.autoSaveOn, value) }
 
-    override var savePeriod: Int
+    @SavePeriod override var savePeriod: Int
         get() = preferences.getInt(key.savePeriod, def.savePeriod)
         set(value) = edit { putInt(key.savePeriod, value) }
 
