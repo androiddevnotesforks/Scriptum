@@ -17,8 +17,8 @@ import sgtmelon.scriptum.domain.model.data.ColorData
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RankItem
 import sgtmelon.scriptum.domain.model.key.NoteType
-import sgtmelon.scriptum.test.auto.main.bin.BinNoteDialogTest
-import sgtmelon.scriptum.test.auto.main.notes.NotesNoteDialogTest
+import sgtmelon.scriptum.test.auto.screen.main.bin.BinNoteDialogTest
+import sgtmelon.scriptum.test.auto.screen.main.notes.NotesNoteDialogTest
 import kotlin.random.Random
 
 /**
