@@ -8,6 +8,7 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.preference.AlarmPreferenceF
 import sgtmelon.scriptum.test.parent.ParentUiTest
 import sgtmelon.scriptum.test.parent.situation.IRepeatTest
 import sgtmelon.scriptum.ui.dialog.preference.RepeatDialogUi
+import sgtmelon.scriptum.ui.screen.preference.AlarmPreferenceScreen
 
 /**
  * Test for [AlarmPreferenceFragment] and [RepeatDialogUi].
@@ -15,20 +16,17 @@ import sgtmelon.scriptum.ui.dialog.preference.RepeatDialogUi
 @RunWith(AndroidJUnit4::class)
 class AlarmPreferenceRepeatTest : ParentUiTest(), IRepeatTest {
 
-    // TODO fix all
-
-    @Test fun dialogClose() = launch {
-        mainScreen {
-            notesScreen(isEmpty = true) {
-                openPreference {
-                    TODO()
-                    //                    openRepeatDialog { onCloseSoft() }.assert()
-                    //                    assert()
-                    //                    openRepeatDialog { onClickCancel() }.assert()
-                    //                    assert()
-                }
-            }
+    private fun runTest(before: () -> Unit = {}, func: AlarmPreferenceScreen.() -> Unit) {
+        launch(before) {
+            mainScreen { notesScreen(isEmpty = true) { openPreference { openAlarm(func) } } }
         }
+    }
+
+    @Test fun dialogClose() = runTest {
+        openRepeatDialog { onCloseSoft() }
+        assert()
+        openRepeatDialog { onClickCancel() }
+        assert()
     }
 
     @Test override fun repeatMin10() = super.repeatMin10()
@@ -41,15 +39,9 @@ class AlarmPreferenceRepeatTest : ParentUiTest(), IRepeatTest {
 
     @Test override fun repeatMin1440() = super.repeatMin1440()
 
-    override fun startTest(@Repeat repeat: Int) = launch({ switchValue(repeat) }) {
-        mainScreen {
-            notesScreen(isEmpty = true) {
-                openPreference {
-                    TODO()
-                    //                    openRepeatDialog { onClickItem(repeat).onClickApply() }
-                }
-            }
-        }
+    override fun startTest(@Repeat repeat: Int) = runTest({ switchValue(repeat) }) {
+        openRepeatDialog { onClickItem(repeat).onClickApply() }
+        assert()
     }
 
     /**

@@ -22,7 +22,7 @@ class NotePreferenceSortTest : ParentUiTest(), ISortTest {
         }
     }
 
-    @Test fun dialogClose() = runTest({ preferenceRepo.autoSaveOn = true }) {
+    @Test fun dialogClose() = runTest {
         openSortDialog { onClickCancel() }
         assert()
         openSortDialog { onCloseSoft() }

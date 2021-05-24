@@ -8,12 +8,28 @@ import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
 import sgtmelon.scriptum.test.parent.ParentUiTest
 import sgtmelon.scriptum.test.parent.situation.IColorTest
+import sgtmelon.scriptum.ui.screen.preference.NotePreferenceScreen
 
 /**
  * Test of [PreferenceRepo.defaultColor] setup for [PreferenceFragment]
  */
 @RunWith(AndroidJUnit4::class)
 class NotePreferenceColorTest : ParentUiTest(), IColorTest {
+
+    private fun runTest(before: () -> Unit = {}, func: NotePreferenceScreen.() -> Unit) {
+        launch(before) {
+            mainScreen { notesScreen(isEmpty = true) { openPreference { openNote(func) } } }
+        }
+    }
+
+    @Test fun dialogClose() = runTest {
+        val check = preferenceRepo.defaultColor
+
+        openColorDialog(check) { onClickCancel() }
+        assert()
+        openColorDialog(check) { onCloseSoft() }
+        assert()
+    }
 
     @Test override fun colorRed() = super.colorRed()
 
@@ -42,19 +58,11 @@ class NotePreferenceColorTest : ParentUiTest(), IColorTest {
 
         val initColor = preferenceRepo.defaultColor
 
-        launch {
-            mainScreen {
-                notesScreen(isEmpty = true) {
-                    openPreference {
-                        openNote {
-                            openColorDialog(initColor) {
-                                onAssertItem().onClickItem(color).onClickApply()
-                            }
-                            assert()
-                        }
-                    }
-                }
+        runTest {
+            openColorDialog(initColor) {
+                onAssertItem().onClickItem(color).onClickApply()
             }
+            assert()
         }
     }
 

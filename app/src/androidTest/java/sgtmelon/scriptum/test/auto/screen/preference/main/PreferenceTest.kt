@@ -27,7 +27,7 @@ class PreferenceTest : ParentUiTest() {
 
     @Test fun openNote() = runTest { openNote() }
 
-    @Test fun openNotification() = runTest { openNotification() }
+    @Test fun openAlarm() = runTest { openAlarm() }
 
     @Test fun openRate() = runTest { openRate() }
 

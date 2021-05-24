@@ -46,7 +46,7 @@ class PreferenceScreen : ParentPreferenceScreen(R.string.title_preference) {
         NotePreferenceScreen(func)
     }
 
-    fun openNotification(func: AlarmPreferenceScreen.() -> Unit = {}) {
+    fun openAlarm(func: AlarmPreferenceScreen.() -> Unit = {}) {
         getItem(p = 4).Simple().onItemClick()
         AlarmPreferenceScreen(func)
     }
