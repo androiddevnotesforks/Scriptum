@@ -6,7 +6,7 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.test.parent.ParentUiTest
 
 /**
- * Test of animation info about empty list
+ * Test of animation info about empty list.
  */
 @RunWith(AndroidJUnit4::class)
 class InfoAnimTest : ParentUiTest() {

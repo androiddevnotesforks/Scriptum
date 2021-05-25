@@ -13,7 +13,6 @@ import sgtmelon.scriptum.test.parent.ParentNotificationTest
 @RunWith(AndroidJUnit4::class)
 class BindErrorTest : ParentNotificationTest() {
 
-    // TODO fix bouth
     /**
      * [Description.Note.RestoreChanges]
      */
@@ -26,7 +25,7 @@ class BindErrorTest : ParentNotificationTest() {
                     openTextNote(it) {
                         controlPanel { onEdit() }
                         onEnterText(nextString())
-                        automator?.unbind(item)
+                        automator.unbind(item)
                         toolbar { onClickBack() }
                     }
                 }
@@ -46,7 +45,7 @@ class BindErrorTest : ParentNotificationTest() {
                     openRollNote(it) {
                         controlPanel { onEdit() }
                         enterPanel { onAdd(nextString()) }
-                        automator?.unbind(item)
+                        automator.unbind(item)
                         toolbar { onClickBack() }
                     }
                 }

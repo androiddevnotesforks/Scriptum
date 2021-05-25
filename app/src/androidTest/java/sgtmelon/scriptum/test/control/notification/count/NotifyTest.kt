@@ -30,6 +30,8 @@ class NotifyTest : ParentNotificationTest() {
      * Notification in status bar should show - "You have 1 notification".
      */
     @Test fun alarmNotify() {
+        TODO()
+
         val item = data.insertNotification()
         data.insertNotification()
 
@@ -40,6 +42,7 @@ class NotifyTest : ParentNotificationTest() {
      * Update info count on item cancel
      */
     @Test fun notificationNotifyOnCancel() = data.fillNotification(NOTIFICATION_COUNT).let {
+        TODO()
         launch {
             mainScreen {
                 notesScreen {
@@ -58,6 +61,7 @@ class NotifyTest : ParentNotificationTest() {
 
 
     @Test fun notesNotifyOnDate() = data.insertNote().let {
+        TODO()
         launch {
             mainScreen {
                 notesScreen {
@@ -73,12 +77,14 @@ class NotifyTest : ParentNotificationTest() {
     }
 
     @Test fun notesNotifyOnDelete() = data.insertNotification().let {
+        TODO()
         launch { mainScreen { notesScreen { openNoteDialog(it) { onDelete() } } } }
         onSee()
     }
 
 
     @Test fun textNoteNotifyOnDate() = data.insertText().let {
+        TODO()
         launch {
             mainScreen {
                 notesScreen {
@@ -98,11 +104,13 @@ class NotifyTest : ParentNotificationTest() {
     @Test fun textNoteNotifyOnDelete() = with(data) { insertNotification(insertText()) }.let {
         if (it !is NoteItem.Text) throw NoteCastException()
 
+        TODO()
         launch { mainScreen { notesScreen { openTextNote(it) { controlPanel { onDelete() } } } } }
         onSee()
     }
 
     @Test fun rollNoteNotifyOnDate() = data.insertRoll().let {
+        TODO()
         launch {
             mainScreen {
                 notesScreen {
@@ -122,6 +130,7 @@ class NotifyTest : ParentNotificationTest() {
     @Test fun rollNoteNotifyOnDelete() = with(data) { insertNotification(insertRoll()) }.let {
         if (it !is NoteItem.Roll) throw NoteCastException()
 
+        TODO()
         launch { mainScreen { notesScreen { openRollNote(it) { controlPanel { onDelete() } } } } }
         onSee()
     }

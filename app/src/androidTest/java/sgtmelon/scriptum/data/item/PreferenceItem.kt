@@ -20,6 +20,7 @@ sealed class PreferenceItem {
     class Switch(
         @StringRes val titleId: Int,
         @StringRes val summaryId: Int,
-        val isChecked: Boolean
+        val isChecked: Boolean,
+        val isEnabled: Boolean = true
     ) : PreferenceItem()
 }

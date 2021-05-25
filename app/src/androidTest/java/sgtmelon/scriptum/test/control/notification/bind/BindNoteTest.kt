@@ -20,6 +20,8 @@ class BindNoteTest : ParentNotificationTest() {
      */
 
     @Test fun textNoteBindUnbind() = data.insertText().let {
+        TODO()
+
         launch {
             mainScreen {
                 notesScreen {
@@ -34,6 +36,7 @@ class BindNoteTest : ParentNotificationTest() {
     }
 
     @Test fun rollNoteBindUnbind() = data.insertRoll().let {
+        TODO()
         launch {
             mainScreen {
                 notesScreen {
@@ -50,6 +53,7 @@ class BindNoteTest : ParentNotificationTest() {
     @Test fun textNoteUpdateOnConvert() = with(data) {
         insertText(textNote.copy(isStatus = true))
     }.let {
+        TODO()
         launch {
             mainScreen {
                 notesScreen {
@@ -67,6 +71,7 @@ class BindNoteTest : ParentNotificationTest() {
     @Test fun rollNoteUpdateOnConvert() = with(data) {
         insertRoll(rollNote.copy(isStatus = true))
     }.let {
+        TODO()
         launch {
             mainScreen {
                 notesScreen {
@@ -84,6 +89,7 @@ class BindNoteTest : ParentNotificationTest() {
     @Test fun textNoteUnbindOnDelete() = with(data) {
         insertText(textNote.copy(isStatus = true))
     }.let {
+        TODO()
         launch {
             mainScreen {
                 notesScreen {
@@ -97,6 +103,7 @@ class BindNoteTest : ParentNotificationTest() {
     @Test fun rollNoteUnbindOnDelete() = with(data) {
         insertRoll(rollNote.copy(isStatus = true))
     }.let {
+        TODO()
         launch {
             mainScreen {
                 notesScreen {

@@ -25,11 +25,11 @@ abstract class ParentPreferenceScreen(@StringRes titleId: Int) : ParentUi(),
     private val parentContainer = getViewById(R.id.preference_parent_container)
     private val toolbar = SimpleToolbar(titleId, withBack = true)
 
-    protected val provider = SummaryProvider(context.resources)
-
     protected fun getItem(p: Int) = PreferenceItemUi(recyclerView, p)
 
     //endregion
+
+    protected val provider = SummaryProvider(context.resources)
 
     abstract fun getScreenList(): List<PreferenceItem>
 

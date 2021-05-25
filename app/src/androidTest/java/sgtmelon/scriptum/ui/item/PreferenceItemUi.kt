@@ -75,11 +75,15 @@ class PreferenceItemUi(
 
         fun assert(item: PreferenceItem.Switch) {
             titleText.isDisplayed()
+                .isEnabled(item.isEnabled)
                 .withText(item.titleId)
             summaryText.isDisplayed()
+                .isEnabled(item.isEnabled)
                 .withText(item.summaryId)
 
-            switchView.isChecked(item.isChecked)
+            switchView.isDisplayed()
+                .isEnabled(item.isEnabled)
+                .isChecked(item.isChecked)
         }
 
         fun onItemClick() {

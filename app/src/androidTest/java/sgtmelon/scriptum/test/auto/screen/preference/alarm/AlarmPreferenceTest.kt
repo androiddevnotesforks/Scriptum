@@ -5,6 +5,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.AlarmPreferenceFragment
 import sgtmelon.scriptum.test.parent.ParentUiTest
+import sgtmelon.scriptum.ui.screen.preference.AlarmPreferenceScreen
 
 /**
  * Test for [AlarmPreferenceFragment].
@@ -12,7 +13,12 @@ import sgtmelon.scriptum.test.parent.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class AlarmPreferenceTest : ParentUiTest() {
 
-    @Test fun fill() {
-        TODO()
+    private fun runTest(before: () -> Unit = {}, func: AlarmPreferenceScreen.() -> Unit) {
+        launch(before) {
+            mainScreen { notesScreen(isEmpty = true) { openPreference { openAlarm(func) } } }
+        }
     }
+
+    @Test fun close() = runTest { onClickClose() }
+
 }

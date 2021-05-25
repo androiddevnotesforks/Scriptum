@@ -23,6 +23,8 @@ class BindMainTest : ParentNotificationTest() {
     @Test fun notesRollBindUnbind() = startNotesBindUnbindTest(data.insertRoll())
 
     private fun startNotesBindUnbindTest(item: NoteItem) = launch {
+        TODO()
+
         mainScreen {
             notesScreen {
                 apply { onSee() }.openNoteDialog(item) { onBind() }
@@ -41,6 +43,8 @@ class BindMainTest : ParentNotificationTest() {
     })
 
     private fun startNotesUpdateOnConvertText(item: NoteItem) = launch {
+        TODO()
+
         mainScreen {
             notesScreen {
                 apply { onSee() }.openNoteDialog(item) { onConvert() }
@@ -59,6 +63,8 @@ class BindMainTest : ParentNotificationTest() {
     })
 
     private fun startNotesUnbindOnDeleteTest(item: NoteItem) = launch {
+        TODO()
+
         mainScreen {
             notesScreen { openNoteDialog(item) { onSee { onDelete() } } }
             binScreen { onSee { onAssertItem(item, 0) } }
@@ -109,6 +115,8 @@ class BindMainTest : ParentNotificationTest() {
     }
 
     private fun insertRankWithStatusNote(): NoteItem {
+        TODO()
+
         val noteItem = with(data) {
             return@with if (Random.nextBoolean()) {
                 insertText(textNote.copy(isStatus = true))

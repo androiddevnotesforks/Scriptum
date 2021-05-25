@@ -28,6 +28,8 @@ class DisplayTest : ParentNotificationTest() {
     @Test fun displayInfoMany() = startDisplayTest(count = 7)
 
     private fun startDisplayTest(count: Int) {
+        TODO()
+
         repeat(count) { data.insertNotification() }
 
         launch { onSee { mainScreen() } }

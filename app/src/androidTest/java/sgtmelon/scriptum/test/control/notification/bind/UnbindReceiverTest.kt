@@ -16,6 +16,7 @@ class UnbindReceiverTest : ParentNotificationTest() {
      */
 
     @Test fun rankUnbindReceiver() = data.insertRankForNotes().let {
+        TODO()
         launch {
             mainScreen {
                 notesScreen { openNoteDialog(it.second) { onBind() } }
@@ -29,6 +30,7 @@ class UnbindReceiverTest : ParentNotificationTest() {
     @Test fun notesUnbindReceiver() = with(data) {
         insertText(textNote.copy(isStatus = true))
     }.let {
+        TODO()
         launch {
             mainScreen {
                 notesScreen {
@@ -41,6 +43,7 @@ class UnbindReceiverTest : ParentNotificationTest() {
     @Test fun textNoteUnbindReceiver() = with(data) {
         insertText(textNote.copy(isStatus = true))
     }.let {
+        TODO()
         launch {
             mainScreen {
                 notesScreen {
@@ -55,6 +58,7 @@ class UnbindReceiverTest : ParentNotificationTest() {
     @Test fun rollNoteUnbindReceiver() = with(data) {
         insertRoll(rollNote.copy(isStatus = true))
     }.let {
+        TODO()
         launch {
             mainScreen {
                 notesScreen {
@@ -69,6 +73,7 @@ class UnbindReceiverTest : ParentNotificationTest() {
     @Test fun alarmUnbindReceiver() = with(data) {
         insertText(textNote.copy(isStatus = true))
     }.let {
+        TODO()
         launchAlarm(it) {
             openAlarm(it) { onOpen { onAssertItem(it.apply { isStatus = false }) } }
         }

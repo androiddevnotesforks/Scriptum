@@ -11,6 +11,8 @@ class BindGroupTest : ParentNotificationTest() {
 
     //TODO fix
     @Test fun notesGroup() = data.fillNotes(count = 3).let {
+        TODO()
+
         launch {
             mainScreen {
                 notesScreen {
