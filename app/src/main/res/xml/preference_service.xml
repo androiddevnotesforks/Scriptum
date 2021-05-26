@@ -21,4 +21,25 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/pref_header_broadcast"
+        app:iconSpaceReserved="false">
+
+        <Preference android:key="@string/pref_key_service_notification_clear"
+            android:title="@string/pref_title_service_notification_clear"
+            app:iconSpaceReserved="false" />
+
+        <Preference android:key="@string/pref_key_service_alarm_clear"
+            android:title="@string/pref_title_service_alarm_clear"
+            app:iconSpaceReserved="false" />
+
+        <Preference android:key="@string/pref_key_service_notify_notes"
+            android:title="@string/pref_title_service_notify_notes"
+            app:iconSpaceReserved="false" />
+
+        <Preference android:key="@string/pref_key_service_notify_info"
+            android:title="@string/pref_title_service_notify_info"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
 </androidx.preference.PreferenceScreen>

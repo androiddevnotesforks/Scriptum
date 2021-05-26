@@ -5,17 +5,19 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
 import sgtmelon.scriptum.basic.extension.isDisplayed
 import sgtmelon.scriptum.data.item.PreferenceItem
-import sgtmelon.scriptum.presentation.provider.SummaryProvider
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceActivity
 import sgtmelon.scriptum.ui.IPressBack
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.item.PreferenceItemUi
+import sgtmelon.scriptum.ui.logic.parent.ParentPreferenceLogic
 import sgtmelon.scriptum.ui.part.toolbar.SimpleToolbar
 
 /**
  * Class for UI control of fragments inside [PreferenceActivity].
  */
-abstract class ParentPreferenceScreen(@StringRes titleId: Int) : ParentUi(),
+abstract class ParentPreferenceScreen<L : ParentPreferenceLogic>(
+    @StringRes titleId: Int
+) : ParentUi(),
     IPressBack {
 
     //region Views
@@ -29,9 +31,9 @@ abstract class ParentPreferenceScreen(@StringRes titleId: Int) : ParentUi(),
 
     //endregion
 
-    protected val provider = SummaryProvider(context.resources)
+    abstract val screenLogic: L
 
-    abstract fun getScreenList(): List<PreferenceItem>
+    private fun getScreenList(): List<PreferenceItem> = screenLogic.getScreenList()
 
     fun onClickClose() {
         toolbar.getToolbarButton().click()

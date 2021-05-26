@@ -1,35 +1,17 @@
 package sgtmelon.scriptum.ui.screen.preference
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.data.item.PreferenceItem
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
 import sgtmelon.scriptum.ui.dialog.preference.AboutDialogUi
 import sgtmelon.scriptum.ui.dialog.preference.ThemeDialogUi
+import sgtmelon.scriptum.ui.logic.preference.PreferenceLogic
 
 /**
  * Class for UI control of [PreferenceFragment].
  */
-class PreferenceScreen : ParentPreferenceScreen(R.string.title_preference) {
+class PreferenceScreen : ParentPreferenceScreen<PreferenceLogic>(R.string.title_preference) {
 
-    override fun getScreenList(): List<PreferenceItem> {
-        val list = mutableListOf(
-            PreferenceItem.Header(R.string.pref_header_app),
-            PreferenceItem.Summary(R.string.pref_title_app_theme, provider.theme[preferenceRepo.theme]),
-            PreferenceItem.Simple(R.string.pref_title_backup),
-            PreferenceItem.Simple(R.string.pref_title_note),
-            PreferenceItem.Simple(R.string.pref_title_alarm),
-            PreferenceItem.Header(R.string.pref_header_other),
-            PreferenceItem.Simple(R.string.pref_title_other_rate),
-            PreferenceItem.Simple(R.string.pref_title_other_help),
-            PreferenceItem.Simple(R.string.pref_title_other_about)
-        )
-
-        if (preferenceRepo.isDeveloper) {
-            list.add(PreferenceItem.Simple(R.string.pref_title_other_develop))
-        }
-
-        return list
-    }
+    override val screenLogic = PreferenceLogic()
 
     fun openThemeDialog(func: ThemeDialogUi.() -> Unit = {}) {
         getItem(p = 1).Summary().onItemClick()

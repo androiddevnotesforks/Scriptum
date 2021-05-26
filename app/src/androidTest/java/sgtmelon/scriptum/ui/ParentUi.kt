@@ -30,7 +30,7 @@ abstract class ParentUi {
         ProviderModule().provideSharedPreferences(context)
     )
 
-    protected val appTheme: Int get() = Companion.theme ?: throw ThemeException()
+    protected val appTheme: Int get() = theme ?: throw ThemeException()
 
     //region getView func
 

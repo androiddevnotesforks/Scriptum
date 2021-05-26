@@ -21,6 +21,7 @@
     <string name="pref_header_backup_files" translatable="false">Backup files</string>
     <string name="pref_header_service" translatable="false">Service</string>
     <string name="pref_header_action" translatable="false">Action</string>
+    <string name="pref_header_broadcast" translatable="false">Send broadcast</string>
 
     <!-- Preference titles -->
 
@@ -68,6 +69,10 @@
     <string name="pref_title_service_refresh" translatable="false">Refresh service state</string>
     <string name="pref_title_service_run" translatable="false">Run service</string>
     <string name="pref_title_service_kill" translatable="false">Kill service</string>
+    <string name="pref_title_service_notification_clear" translatable="false">Clear notifications</string>
+    <string name="pref_title_service_alarm_clear" translatable="false">Clear alarms</string>
+    <string name="pref_title_service_notify_notes" translatable="false">Notify notes</string>
+    <string name="pref_title_service_notify_info" translatable="false">Notify notification count</string>
 
     <string name="pref_title_other_reset" translatable="false">Reset preference</string>
 
@@ -230,6 +235,10 @@
     <string name="pref_key_service_refresh" translatable="false">key_service_refresh</string>
     <string name="pref_key_service_run" translatable="false">key_service_run</string>
     <string name="pref_key_service_kill" translatable="false">key_service_kill</string>
+    <string name="pref_key_service_notification_clear" translatable="false">key_service_notification_clear</string>
+    <string name="pref_key_service_alarm_clear" translatable="false">key_service_alarm_clear</string>
+    <string name="pref_key_service_notify_notes" translatable="false">key_service_notify_notes</string>
+    <string name="pref_key_service_notify_info" translatable="false">key_service_notify_info</string>
 
     <string name="pref_key_other_reset" translatable="false">key_other_reset</string>
 

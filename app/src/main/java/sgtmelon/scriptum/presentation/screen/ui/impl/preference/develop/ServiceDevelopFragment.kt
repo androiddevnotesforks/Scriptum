@@ -30,6 +30,11 @@ class ServiceDevelopFragment : ParentPreferenceFragment(),
     private val runPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_service_run)) }
     private val killPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_service_kill)) }
 
+    private val notificationClear by lazy { findPreference<Preference>(getString(R.string.pref_key_service_notification_clear)) }
+    private val alarmClear by lazy { findPreference<Preference>(getString(R.string.pref_key_service_alarm_clear)) }
+    private val notifyNotes by lazy { findPreference<Preference>(getString(R.string.pref_key_service_notify_notes)) }
+    private val notifyInfo by lazy { findPreference<Preference>(getString(R.string.pref_key_service_notify_info)) }
+
     private val broadcastControl by lazy { BroadcastControl[context] }
     private val dotAnimControl = DotAnimControl(DotAnimType.COUNT, callback = this)
 
@@ -71,6 +76,23 @@ class ServiceDevelopFragment : ParentPreferenceFragment(),
         }
         killPreference?.setOnPreferenceClickListener {
             viewModel.onClickKill()
+            return@setOnPreferenceClickListener true
+        }
+
+        notificationClear?.setOnPreferenceClickListener {
+            toastControl.show(string = "click")
+            return@setOnPreferenceClickListener true
+        }
+        alarmClear?.setOnPreferenceClickListener {
+            toastControl.show(string = "click")
+            return@setOnPreferenceClickListener true
+        }
+        notifyNotes?.setOnPreferenceClickListener {
+            toastControl.show(string = "click")
+            return@setOnPreferenceClickListener true
+        }
+        notifyInfo?.setOnPreferenceClickListener {
+            toastControl.show(string = "click")
             return@setOnPreferenceClickListener true
         }
     }
