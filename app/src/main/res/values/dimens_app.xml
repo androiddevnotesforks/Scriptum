@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <dimen name="page_indicator_size">8dp</dimen>
+    <dimen name="page_indicator_select_size">12dp</dimen>
+    <dimen name="page_indicator_space">10dp</dimen>
+
     <dimen name="text_18sp">18sp</dimen>
     <dimen name="text_16sp">16sp</dimen>
     <dimen name="text_14sp">14sp</dimen>

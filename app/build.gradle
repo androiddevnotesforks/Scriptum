@@ -115,6 +115,7 @@ dependencies {
     implementation androidx.appcompat
     implementation androidx.cardview
     implementation androidx.constraintlayout
+    implementation androidx.viewpager
 
     implementation androidx.vector.drawable
     implementation androidx.vector.animated

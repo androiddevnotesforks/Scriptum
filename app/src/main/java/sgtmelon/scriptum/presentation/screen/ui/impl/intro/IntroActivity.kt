@@ -8,14 +8,14 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
+import ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.Theme
-import sgtmelon.scriptum.domain.model.data.IntroData
 import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.idling.AppIdlingResource
 import sgtmelon.scriptum.idling.IdlingTag
-import sgtmelon.scriptum.presentation.adapter.PagerAdapter
+import sgtmelon.scriptum.presentation.adapter.IntroPageAdapter
 import sgtmelon.scriptum.presentation.screen.ui.ParentActivity
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.presentation.screen.ui.callback.IIntroActivity
@@ -26,16 +26,44 @@ import javax.inject.Inject
 /**
  * Activity with start intro.
  */
-class IntroActivity : ParentActivity(), IIntroActivity, ViewPager.OnPageChangeListener {
+class IntroActivity : ParentActivity(), IIntroActivity {
 
     @Inject internal lateinit var viewModel: IIntroViewModel
 
-    private val pagerAdapter = PagerAdapter(supportFragmentManager)
+    private val pagerAdapter = IntroPageAdapter(supportFragmentManager, lifecycle)
 
-    private val viewPager by lazy { findViewById<ViewPager>(R.id.intro_pager) }
+    private val viewPager by lazy { findViewById<ViewPager2>(R.id.intro_view_pager) }
     private val pageContainer by lazy { findViewById<ViewGroup>(R.id.intro_page_container) }
-    private val pageIndicator by lazy { findViewById<View>(R.id.intro_page_indicator) }
+    private val pageIndicator by lazy { findViewById<ScrollingPagerIndicator>(R.id.intro_page_indicator) }
     private val endButton by lazy { findViewById<View>(R.id.intro_end_button) }
+
+    private val pageChangeListener = object : ViewPager2.OnPageChangeCallback() {
+        override fun onPageScrolled(
+            position: Int,
+            positionOffset: Float,
+            positionOffsetPixels: Int
+        ) {
+            pagerAdapter.notifyItem(position, 1 - positionOffset)
+
+            if (position != pagerAdapter.itemCount - 1) {
+                pagerAdapter.notifyItem(position + 1, positionOffset)
+            }
+
+            endButton.isEnabled = position == pagerAdapter.itemCount - 1
+
+            if (position == pagerAdapter.itemCount - 2) {
+                pageIndicator.apply {
+                    alpha = 1 - 2 * positionOffset
+                    translationY = -positionOffset * height
+                }
+
+                endButton.apply {
+                    alpha = positionOffset
+                    translationY = height - positionOffset * height
+                }
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         ScriptumApplication.component.getIntroBuilder().set(activity = this).build()
@@ -82,11 +110,11 @@ class IntroActivity : ParentActivity(), IIntroActivity, ViewPager.OnPageChangeLi
             beforeFinish { viewModel.onClickEnd() }
         }
 
-        for (i in 0 until IntroData.count) pagerAdapter.addItem(IntroFragment[i])
-
         viewPager.adapter = pagerAdapter
-        viewPager.offscreenPageLimit = pagerAdapter.count - 1
-        viewPager.addOnPageChangeListener(this@IntroActivity)
+        viewPager.offscreenPageLimit = pagerAdapter.itemCount
+        viewPager.registerOnPageChangeCallback(pageChangeListener)
+
+        pageIndicator.attachToPager(viewPager)
 
         if (isLastPage) {
             pageIndicator.alpha = 0f
@@ -122,36 +150,9 @@ class IntroActivity : ParentActivity(), IIntroActivity, ViewPager.OnPageChangeLi
 
     override fun getCurrentPosition(): Int = viewPager.currentItem
 
-    override fun getItemCount(): Int = pagerAdapter.count
+    override fun getItemCount(): Int = pagerAdapter.itemCount
 
     override fun openMainScreen() = startActivity(MainActivity[this])
-
-
-    override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-        pagerAdapter.notifyItem(position, 1 - positionOffset)
-
-        if (position != pagerAdapter.count - 1) {
-            pagerAdapter.notifyItem(position + 1, positionOffset)
-        }
-
-        endButton.isEnabled = position == pagerAdapter.count - 1
-
-        if (position == pagerAdapter.count - 2) {
-            pageIndicator.apply {
-                alpha = 1 - 2 * positionOffset
-                translationY = -positionOffset * height
-            }
-
-            endButton.apply {
-                alpha = positionOffset
-                translationY = height - positionOffset * height
-            }
-        }
-    }
-
-    override fun onPageSelected(position: Int) = Unit
-
-    override fun onPageScrollStateChanged(state: Int) = Unit
 
     companion object {
         /**

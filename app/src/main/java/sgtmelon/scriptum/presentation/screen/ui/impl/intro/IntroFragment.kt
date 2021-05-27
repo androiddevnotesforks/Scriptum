@@ -9,6 +9,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.IncInfoBinding
 import sgtmelon.scriptum.domain.model.data.IntroData
 import sgtmelon.scriptum.extension.inflateBinding
+import kotlin.math.max
 
 /**
  * Fragment page for [IntroActivity].
@@ -50,7 +51,10 @@ class IntroFragment : Fragment() {
     /**
      * Update screen content display.
      */
-    fun setChange(alpha: Float, scale: Float) {
+    fun setChange(offset: Float) {
+        val alpha = max(0.2F, offset)
+        val scale = max(0.75F, offset)
+
         parentContainer?.apply {
             this.alpha = alpha
             this.scaleX = scale
