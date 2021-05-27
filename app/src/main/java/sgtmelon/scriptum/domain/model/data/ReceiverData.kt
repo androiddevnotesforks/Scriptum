@@ -36,7 +36,8 @@ object ReceiverData {
 
         @StringDef(
             System.TIDY_UP_ALARM, System.SET_ALARM, System.CANCEL_ALARM,
-            System.NOTIFY_NOTES, System.CANCEL_NOTE, System.NOTIFY_INFO
+            System.NOTIFY_NOTES, System.CANCEL_NOTE, System.NOTIFY_INFO,
+            System.CLEAR_BIND, System.CLEAR_ALARM
         )
         annotation class System {
             companion object {
@@ -46,6 +47,8 @@ object ReceiverData {
                 const val NOTIFY_NOTES = "${PREFIX}_NOTIFY_ALL"
                 const val CANCEL_NOTE = "${PREFIX}_CANCEL_NOTE"
                 const val NOTIFY_INFO = "${PREFIX}_NOTIFY_INFO"
+                const val CLEAR_BIND = "${PREFIX}_CLEAR_BIND"
+                const val CLEAR_ALARM = "${PREFIX}_CLEAR_ALARM"
             }
         }
 

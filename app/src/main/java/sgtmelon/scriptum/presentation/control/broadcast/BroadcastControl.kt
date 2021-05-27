@@ -49,6 +49,10 @@ class BroadcastControl(private val context: Context?) : IBroadcastControl {
         context?.sendTo(Filter.SYSTEM, Command.System.NOTIFY_INFO)
     }
 
+    override fun sendClearBind() {
+        context?.sendTo(Filter.SYSTEM, Command.System.CLEAR_BIND)
+    }
+
     //endregion
 
     //region Alarm functions
@@ -69,6 +73,10 @@ class BroadcastControl(private val context: Context?) : IBroadcastControl {
         context?.sendTo(Filter.SYSTEM, Command.System.CANCEL_ALARM) {
             putExtra(IntentData.Note.Intent.ID, id)
         }
+    }
+
+    override fun sendClearAlarm() {
+        context?.sendTo(Filter.SYSTEM, Command.System.CLEAR_ALARM)
     }
 
     //endregion

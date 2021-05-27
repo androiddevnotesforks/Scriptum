@@ -48,12 +48,14 @@ class IntroFragment : Fragment() {
     }
 
     /**
-     * Update screen content display
+     * Update screen content display.
      */
-    fun setChange(alpha: Float, scale: Float) = parentContainer?.apply {
-        this.alpha = alpha
-        this.scaleX = scale
-        this.scaleY = scale
+    fun setChange(alpha: Float, scale: Float) {
+        parentContainer?.apply {
+            this.alpha = alpha
+            this.scaleX = scale
+            this.scaleY = scale
+        }
     }
 
 

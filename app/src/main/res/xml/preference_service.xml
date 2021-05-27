@@ -40,6 +40,10 @@
             android:title="@string/pref_title_service_notify_info"
             app:iconSpaceReserved="false" />
 
+        <Preference android:key="@string/pref_key_service_notify_alarm"
+            android:title="@string/pref_title_service_notify_alarm"
+            app:iconSpaceReserved="false" />
+
     </PreferenceCategory>
 
 </androidx.preference.PreferenceScreen>

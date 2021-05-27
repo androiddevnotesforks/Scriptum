@@ -48,12 +48,10 @@ class AlarmControl(
     }
 
     override fun clear() {
-        if (BuildConfig.DEBUG) {
-            for (it in intentList) {
-                alarmManager?.cancel(it)
-            }
-            intentList.clear()
+        for (it in intentList) {
+            alarmManager?.cancel(it)
         }
+        intentList.clear()
     }
 
     companion object {

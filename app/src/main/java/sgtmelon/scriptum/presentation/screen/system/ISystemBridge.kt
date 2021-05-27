@@ -10,14 +10,6 @@ import java.util.*
  */
 interface ISystemBridge {
 
-    //region Alarm functions
-
-    @MainThread fun setAlarm(id: Long, calendar: Calendar, showToast: Boolean)
-
-    @MainThread fun cancelAlarm(id: Long)
-
-    //endregion
-
     //region Bind functions
 
     @MainThread fun notifyNotesBind(itemList: List<NoteItem>)
@@ -25,6 +17,18 @@ interface ISystemBridge {
     @MainThread fun cancelNoteBind(id: Long)
 
     @MainThread fun notifyCountBind(count: Int)
+
+    @MainThread fun clearBind()
+
+    //endregion
+
+    //region Alarm functions
+
+    @MainThread fun setAlarm(id: Long, calendar: Calendar, showToast: Boolean)
+
+    @MainThread fun cancelAlarm(id: Long)
+
+    @MainThread fun clearAlarm()
 
     //endregion
 

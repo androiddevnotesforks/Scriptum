@@ -30,10 +30,11 @@ class ServiceDevelopFragment : ParentPreferenceFragment(),
     private val runPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_service_run)) }
     private val killPreference by lazy { findPreference<Preference>(getString(R.string.pref_key_service_kill)) }
 
-    private val notificationClear by lazy { findPreference<Preference>(getString(R.string.pref_key_service_notification_clear)) }
     private val alarmClear by lazy { findPreference<Preference>(getString(R.string.pref_key_service_alarm_clear)) }
+    private val notificationClear by lazy { findPreference<Preference>(getString(R.string.pref_key_service_notification_clear)) }
     private val notifyNotes by lazy { findPreference<Preference>(getString(R.string.pref_key_service_notify_notes)) }
     private val notifyInfo by lazy { findPreference<Preference>(getString(R.string.pref_key_service_notify_info)) }
+    private val notifyAlarm by lazy { findPreference<Preference>(getString(R.string.pref_key_service_notify_alarm)) }
 
     private val broadcastControl by lazy { BroadcastControl[context] }
     private val dotAnimControl = DotAnimControl(DotAnimType.COUNT, callback = this)
@@ -79,20 +80,24 @@ class ServiceDevelopFragment : ParentPreferenceFragment(),
             return@setOnPreferenceClickListener true
         }
 
-        notificationClear?.setOnPreferenceClickListener {
-            toastControl.show(string = "click")
+        alarmClear?.setOnPreferenceClickListener {
+            broadcastControl.sendClearAlarm()
             return@setOnPreferenceClickListener true
         }
-        alarmClear?.setOnPreferenceClickListener {
-            toastControl.show(string = "click")
+        notificationClear?.setOnPreferenceClickListener {
+            broadcastControl.sendClearBind()
             return@setOnPreferenceClickListener true
         }
         notifyNotes?.setOnPreferenceClickListener {
-            toastControl.show(string = "click")
+            broadcastControl.sendNotifyNotesBind()
             return@setOnPreferenceClickListener true
         }
         notifyInfo?.setOnPreferenceClickListener {
-            toastControl.show(string = "click")
+            broadcastControl.sendNotifyInfoBind(count = null)
+            return@setOnPreferenceClickListener true
+        }
+        notifyAlarm?.setOnPreferenceClickListener {
+            broadcastControl.sendTidyUpAlarm()
             return@setOnPreferenceClickListener true
         }
     }

@@ -23,8 +23,8 @@ class SystemLogic : ISystemLogic {
     @Inject internal lateinit var presenter: ISystemPresenter
 
     private lateinit var toastControl: ToastControl
-    private lateinit var alarmControl: IAlarmControl
     private lateinit var bindControl: IBindControl
+    private lateinit var alarmControl: IAlarmControl
 
     private val receiver by lazy { SystemReceiver[presenter] }
 
@@ -35,8 +35,8 @@ class SystemLogic : ISystemLogic {
         context.registerReceiver(receiver, IntentFilter(ReceiverData.Filter.SYSTEM))
 
         toastControl = ToastControl(context)
-        alarmControl = AlarmControl[context, toastControl]
         bindControl = BindControl[context]
+        alarmControl = AlarmControl[context, toastControl]
 
         presenter.onSetup()
     }
@@ -50,17 +50,22 @@ class SystemLogic : ISystemLogic {
 
     //region Bridge functions
 
-    override fun setAlarm(id: Long, calendar: Calendar, showToast: Boolean) {
-        alarmControl.set(calendar, id, showToast)
-    }
-
-    override fun cancelAlarm(id: Long) = alarmControl.cancel(id)
 
     override fun notifyNotesBind(itemList: List<NoteItem>) = bindControl.notifyNotes(itemList)
 
     override fun cancelNoteBind(id: Long) = bindControl.cancelNote(id)
 
     override fun notifyCountBind(count: Int) = bindControl.notifyCount(count)
+
+    override fun clearBind() = bindControl.clearRecent()
+
+    override fun setAlarm(id: Long, calendar: Calendar, showToast: Boolean) {
+        alarmControl.set(calendar, id, showToast)
+    }
+
+    override fun cancelAlarm(id: Long) = alarmControl.cancel(id)
+
+    override fun clearAlarm() = alarmControl.clear()
 
     //endregion
 

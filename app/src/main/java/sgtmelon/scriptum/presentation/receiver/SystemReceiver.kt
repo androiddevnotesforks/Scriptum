@@ -57,6 +57,8 @@ class SystemReceiver : BroadcastReceiver() {
 
                 callback?.notifyCount(count)
             }
+            Command.System.CLEAR_BIND -> callback?.clearBind()
+            Command.System.CLEAR_ALARM -> callback?.clearAlarm()
         }
     }
 
@@ -79,6 +81,10 @@ class SystemReceiver : BroadcastReceiver() {
          * If [count] == null it means what need take value from database.
          */
         fun notifyCount(count: Int?)
+
+        fun clearBind()
+
+        fun clearAlarm()
     }
 
     /**

@@ -53,6 +53,14 @@ class SystemPresenter(
         }
     }
 
+    override fun clearBind() {
+        callback?.clearBind()
+    }
+
+    override fun clearAlarm() {
+        callback?.clearAlarm()
+    }
+
     //endregion
 
 }

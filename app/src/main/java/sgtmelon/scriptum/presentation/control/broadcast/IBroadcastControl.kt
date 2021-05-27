@@ -19,6 +19,9 @@ interface IBroadcastControl {
 
     fun sendNotifyInfoBind(count: Int?)
 
+    fun sendClearBind()
+
+
     //endregion
 
     //region Alarm functions
@@ -28,6 +31,8 @@ interface IBroadcastControl {
     fun sendSetAlarm(id: Long, calendar: Calendar, showToast: Boolean)
 
     fun sendCancelAlarm(id: Long)
+
+    fun sendClearAlarm()
 
     //endregion
 
