@@ -18,7 +18,7 @@ import sgtmelon.scriptum.ui.screen.preference.AlarmPreferenceScreen
  */
 class AlarmPreferenceLogic : ParentPreferenceLogic() {
 
-    private val interactor: IAlarmPreferenceInteractor = AlarmPreferenceInteractor(
+    val interactor: IAlarmPreferenceInteractor = AlarmPreferenceInteractor(
         provider, preferenceRepo, IntConverter()
     )
 

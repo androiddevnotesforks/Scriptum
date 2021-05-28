@@ -53,7 +53,7 @@ class PreferenceRepo(
         get() = preferences.getInt(key.repeat, def.repeat)
         set(value) = edit { putInt(key.repeat, value) }
 
-    @Signal override var signal: Int
+    override var signal: Int
         get() = preferences.getInt(key.signal, def.signal)
         set(value) = edit { putInt(key.signal, value) }
 

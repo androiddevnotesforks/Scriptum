@@ -4,7 +4,7 @@ import sgtmelon.scriptum.data.item.PreferenceItem
 import sgtmelon.scriptum.presentation.provider.SummaryProvider
 
 /**
- *
+ * Parent class for preference screen/test logic.
  */
 abstract class ParentPreferenceLogic : ParentLogic() {
 
