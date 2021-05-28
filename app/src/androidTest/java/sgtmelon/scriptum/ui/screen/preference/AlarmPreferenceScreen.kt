@@ -18,6 +18,12 @@ class AlarmPreferenceScreen :
         RepeatDialogUi(func)
     }
 
+
+    fun onVolumeIncreaseClick() {
+        getItem(p = 6).Switch().onItemClick()
+        assert()
+    }
+
     companion object {
         operator fun invoke(func: AlarmPreferenceScreen.() -> Unit): AlarmPreferenceScreen {
             return AlarmPreferenceScreen().apply { assert() }.apply(func)
