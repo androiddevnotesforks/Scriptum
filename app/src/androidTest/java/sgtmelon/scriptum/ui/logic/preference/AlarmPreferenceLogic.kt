@@ -18,11 +18,11 @@ import sgtmelon.scriptum.ui.screen.preference.AlarmPreferenceScreen
  */
 class AlarmPreferenceLogic : ParentPreferenceLogic() {
 
-    val interactor: IAlarmPreferenceInteractor = AlarmPreferenceInteractor(
+    val alarmInteractor: IAlarmPreferenceInteractor = AlarmPreferenceInteractor(
         provider, preferenceRepo, IntConverter()
     )
 
-    private val signalInteractor: ISignalInteractor = SignalInteractor(
+    val signalInteractor: ISignalInteractor = SignalInteractor(
         RingtoneControl(context), preferenceRepo, IntConverter()
     )
 
@@ -32,7 +32,7 @@ class AlarmPreferenceLogic : ParentPreferenceLogic() {
             Summary(R.string.pref_title_alarm_repeat, provider.repeat[preferenceRepo.repeat])
         )
 
-        val signalSummary = interactor.getSignalSummary(signalInteractor.typeCheck)
+        val signalSummary = alarmInteractor.getSignalSummary(signalInteractor.typeCheck)
         list.add(Summary(R.string.pref_title_alarm_signal, signalSummary!!))
 
         list.add(Header(R.string.pref_header_melody_options))
@@ -44,7 +44,7 @@ class AlarmPreferenceLogic : ParentPreferenceLogic() {
         }
 
         list.add(Summary(R.string.pref_title_alarm_melody, melodyItem.title, isMelody))
-        list.add(Summary(R.string.pref_title_alarm_volume, interactor.getVolumeSummary(), isMelody))
+        list.add(Summary(R.string.pref_title_alarm_volume, alarmInteractor.getVolumeSummary(), isMelody))
         list.add(Switch(
             R.string.pref_title_alarm_increase,
             R.string.pref_summary_alarm_increase,

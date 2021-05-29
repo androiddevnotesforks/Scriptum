@@ -54,5 +54,4 @@ class AlarmPreferenceRepeatTest : ParentUiTest(), IRepeatTest {
             preferenceRepo.repeat = list.random()
         }
     }
-
 }

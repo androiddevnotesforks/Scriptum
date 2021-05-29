@@ -5,6 +5,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.NotePreferenceFragment
+import sgtmelon.scriptum.ui.dialog.parent.ParentSelectDialogUi
 
 /**
  * Class for UI control of [SingleDialog] which open from [NotePreferenceFragment] for select sort.
@@ -15,7 +16,7 @@ class SortDialogUi : ParentSelectDialogUi(
 ) {
 
     override val initCheck: Int = preferenceRepo.sort
-    override var check: Int = preferenceRepo.sort
+    override var check: Int = initCheck
 
     fun onClickItem(@Sort value: Int) = apply {
         check = value

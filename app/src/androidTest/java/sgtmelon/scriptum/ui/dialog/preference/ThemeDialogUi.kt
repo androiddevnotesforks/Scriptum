@@ -5,6 +5,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
+import sgtmelon.scriptum.ui.dialog.parent.ParentSelectDialogUi
 
 /**
  * Class for UI control of [SingleDialog] which open from [PreferenceFragment] for select theme.
@@ -15,7 +16,7 @@ class ThemeDialogUi : ParentSelectDialogUi(
 ) {
 
     override val initCheck: Int = preferenceRepo.theme
-    override var check: Int = preferenceRepo.theme
+    override var check: Int = initCheck
 
     fun onClickItem(@Theme value: Int) = apply {
         check = value

@@ -33,7 +33,7 @@ class AlarmPreferenceTest : ParentUiTest() {
     @Test fun assertBoth() = startAssertTest(isMelody = true, isVibration = true)
 
     private fun startAssertTest(isMelody: Boolean, isVibration: Boolean) = runTest({
-        logic.interactor.updateSignal(booleanArrayOf(isMelody, isVibration))
+        logic.alarmInteractor.updateSignal(booleanArrayOf(isMelody, isVibration))
     }) { assert() }
 
 
@@ -41,11 +41,10 @@ class AlarmPreferenceTest : ParentUiTest() {
         val value = Random.nextBoolean()
 
         runTest({
-            logic.interactor.updateSignal(booleanArrayOf(true, Random.nextBoolean()))
+            logic.alarmInteractor.updateSignal(booleanArrayOf(true, Random.nextBoolean()))
             preferenceRepo.volumeIncrease = value
         }) { onVolumeIncreaseClick() }
 
         assertEquals(!value, preferenceRepo.volumeIncrease)
     }
-
 }

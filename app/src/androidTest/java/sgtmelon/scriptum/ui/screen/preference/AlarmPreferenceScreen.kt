@@ -3,6 +3,7 @@ package sgtmelon.scriptum.ui.screen.preference
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.AlarmPreferenceFragment
 import sgtmelon.scriptum.ui.dialog.preference.RepeatDialogUi
+import sgtmelon.scriptum.ui.dialog.preference.SignalDialogUi
 import sgtmelon.scriptum.ui.logic.preference.AlarmPreferenceLogic
 
 /**
@@ -16,6 +17,11 @@ class AlarmPreferenceScreen :
     fun openRepeatDialog(func: RepeatDialogUi.() -> Unit = {}) {
         getItem(p = 1).Summary().onItemClick()
         RepeatDialogUi(func)
+    }
+
+    fun openSignalDialog(func: SignalDialogUi.() -> Unit = {}) {
+        getItem(p = 2).Summary().onItemClick()
+        SignalDialogUi(screenLogic.signalInteractor.typeCheck, func)
     }
 
 

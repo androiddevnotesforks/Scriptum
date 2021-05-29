@@ -5,6 +5,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
 import sgtmelon.scriptum.domain.model.annotation.Repeat
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.NotePreferenceFragment
+import sgtmelon.scriptum.ui.dialog.parent.ParentSelectDialogUi
 
 /**
  * Class for UI control of [SingleDialog] which open from [NotePreferenceFragment] for select
@@ -16,7 +17,7 @@ class RepeatDialogUi : ParentSelectDialogUi(
 ) {
 
     override val initCheck: Int = preferenceRepo.repeat
-    override var check: Int = preferenceRepo.repeat
+    override var check: Int = initCheck
 
     fun onClickItem(@Repeat value: Int) = apply {
         check = value
