@@ -18,10 +18,10 @@ class SortDialogUi : ParentSelectDialogUi(
     override val initCheck: Int = preferenceRepo.sort
     override var check: Int = initCheck
 
-    fun onClickItem(@Sort value: Int) = apply {
-        check = value
+    fun onClickItem(@Sort position: Int) = apply {
+        check = position
 
-        getItem(textArray[value]).click()
+        getItem(position).click()
         assert()
     }
 

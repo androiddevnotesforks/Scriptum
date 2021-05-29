@@ -1,6 +1,8 @@
 package sgtmelon.scriptum.test.auto.screen.preference.note
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.domain.model.annotation.Sort
@@ -8,19 +10,14 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.preference.NotePreferenceFr
 import sgtmelon.scriptum.test.parent.ParentUiTest
 import sgtmelon.scriptum.test.parent.situation.ISortTest
 import sgtmelon.scriptum.ui.dialog.preference.SortDialogUi
-import sgtmelon.scriptum.ui.screen.preference.NotePreferenceScreen
 
 /**
  * Test for [NotePreferenceFragment] and [SortDialogUi].
  */
 @RunWith(AndroidJUnit4::class)
-class NotePreferenceSortTest : ParentUiTest(), ISortTest {
-
-    private fun runTest(before: () -> Unit = {}, func: NotePreferenceScreen.() -> Unit) {
-        launch(before) {
-            mainScreen { notesScreen(isEmpty = true) { openPreference { openNote(func) } } }
-        }
-    }
+class NotePreferenceSortTest : ParentUiTest(),
+    INotePreferenceTest,
+    ISortTest {
 
     @Test fun dialogClose() = runTest {
         openSortDialog { onClickCancel() }
@@ -37,19 +34,33 @@ class NotePreferenceSortTest : ParentUiTest(), ISortTest {
 
     @Test override fun sortColor() = super.sortColor()
 
-    override fun startTest(@Sort sort: Int) = runTest({ switchValue(sort) }) {
-        openSortDialog { onClickItem(sort).onClickApply() }
-        assert()
+    override fun startTest(@Sort value: Int) {
+        val initValue = switchValue(value)
+
+        assertNotEquals(initValue, value)
+
+        runTest {
+            openSortDialog {
+                onClickItem(value).onClickItem(initValue).onClickItem(value).onClickApply()
+            }
+            assert()
+        }
+
+        assertEquals(value, preferenceRepo.sort)
     }
 
     /**
      * Switch [Sort] to another one.
      */
-    private fun switchValue(@Sort sort: Int) {
+    @Sort private fun switchValue(@Sort value: Int): Int {
         val list = Sort.list
+        var initValue: Int
 
-        while (preferenceRepo.sort == sort) {
-            preferenceRepo.sort = list.random()
-        }
+        do {
+            initValue = list.random()
+            preferenceRepo.sort = initValue
+        } while (preferenceRepo.sort == value)
+
+        return initValue
     }
 }

@@ -5,24 +5,14 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.AlarmPreferenceFragment
 import sgtmelon.scriptum.test.parent.ParentUiTest
-import sgtmelon.scriptum.ui.dialog.preference.RepeatDialogUi
-import sgtmelon.scriptum.ui.logic.preference.AlarmPreferenceLogic
-import sgtmelon.scriptum.ui.screen.preference.AlarmPreferenceScreen
+import sgtmelon.scriptum.ui.dialog.preference.SignalDialogUi
 
 
 /**
- * Test for [AlarmPreferenceFragment] and [RepeatDialogUi].
+ * Test for [AlarmPreferenceFragment] and [SignalDialogUi].
  */
 @RunWith(AndroidJUnit4::class)
-class AlarmPreferenceSignalTest : ParentUiTest() {
-
-    private val logic = AlarmPreferenceLogic()
-
-    private fun runTest(before: () -> Unit = {}, func: AlarmPreferenceScreen.() -> Unit) {
-        launch(before) {
-            mainScreen { notesScreen(isEmpty = true) { openPreference { openAlarm(func) } } }
-        }
-    }
+class AlarmPreferenceSignalTest : ParentUiTest(), IAlarmPreferenceTest {
 
     @Test fun dialogClose() = runTest {
         openSignalDialog { onCloseSoft() }
@@ -32,7 +22,7 @@ class AlarmPreferenceSignalTest : ParentUiTest() {
     }
 
     @Test fun dialogWork() = runTest({
-        logic.alarmInteractor.updateSignal(booleanArrayOf(true, true))
+        getLogic().alarmInteractor.updateSignal(booleanArrayOf(true, true))
     }) {
         openSignalDialog {
             repeat(times = 2) {

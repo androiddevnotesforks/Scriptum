@@ -7,21 +7,15 @@ import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.SavePeriod
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.NotePreferenceFragment
+import sgtmelon.scriptum.test.auto.screen.preference.note.INotePreferenceTest
 import sgtmelon.scriptum.test.parent.ParentRotationTest
-import sgtmelon.scriptum.ui.screen.preference.NotePreferenceScreen
 import kotlin.random.Random
 
 /**
  * Test of [NotePreferenceFragment] work with phone rotation.
  */
 @RunWith(AndroidJUnit4::class)
-class NotePreferenceRotationTest : ParentRotationTest() {
-
-    private fun runTest(before: () -> Unit = {}, func: NotePreferenceScreen.() -> Unit) {
-        launch(before) {
-            mainScreen { notesScreen(isEmpty = true) { openPreference { openNote(func) } } }
-        }
-    }
+class NotePreferenceRotationTest : ParentRotationTest(), INotePreferenceTest {
 
     @Test fun content() = runTest({
         preferenceRepo.sort = Sort.list.random()

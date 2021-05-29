@@ -15,6 +15,6 @@ interface ISortTest {
 
     fun sortColor() = startTest(Sort.COLOR)
 
-    fun startTest(@Sort sort: Int)
+    fun startTest(@Sort value: Int)
 
 }

@@ -13,6 +13,6 @@ interface ISavePeriodTest {
 
     fun savePeriodMin7() = startText(SavePeriod.MIN_7)
 
-    fun startText(@SavePeriod savePeriod: Int)
+    fun startText(@SavePeriod value: Int)
 
 }

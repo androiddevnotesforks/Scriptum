@@ -69,8 +69,8 @@ class TextNoteColorDialogTest : ParentUiTest(), IColorTest {
     /**
      * Check [PreferenceRepo.defaultColor] work.
      */
-    override fun startTest(@Color color: Int) {
-        preferenceRepo.defaultColor = color
+    override fun startTest(@Color value: Int) {
+        preferenceRepo.defaultColor = value
 
         val item = data.createText()
         launch {

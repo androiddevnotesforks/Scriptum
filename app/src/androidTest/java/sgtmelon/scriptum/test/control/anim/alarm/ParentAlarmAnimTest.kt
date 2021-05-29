@@ -13,7 +13,7 @@ import kotlin.random.Random
  */
 abstract class ParentAlarmAnimTest(@Theme private val theme: Int) : ParentUiTest(), IColorTest {
 
-    override fun startTest(@Color color: Int) {
+    override fun startTest(@Color value: Int) {
         setupTheme(theme)
 
         with(preferenceRepo) {
@@ -24,9 +24,9 @@ abstract class ParentAlarmAnimTest(@Theme private val theme: Int) : ParentUiTest
 
         val noteItem = data.clear().let {
             return@let if (Random.nextBoolean()) {
-                it.insertText(it.textNote.apply { this.color = color })
+                it.insertText(it.textNote.apply { this.color = value })
             } else {
-                it.insertRoll(it.rollNote.apply { this.color = color })
+                it.insertRoll(it.rollNote.apply { this.color = value })
             }
         }
 

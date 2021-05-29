@@ -54,4 +54,13 @@ class AlarmPreferenceLogic : ParentPreferenceLogic() {
 
         return list
     }
+
+    fun getMelodyDialogPair(): Pair<Array<String>, Int> {
+        val textArray = runBlocking {
+            signalInteractor.getMelodyList().map { it.title }.toTypedArray()
+        }
+        val initCheck = runBlocking { signalInteractor.getMelodyCheck() }
+
+        return Pair(textArray, initCheck!!)
+    }
 }

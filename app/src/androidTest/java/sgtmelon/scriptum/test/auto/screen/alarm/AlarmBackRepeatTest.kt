@@ -25,8 +25,8 @@ class AlarmBackRepeatTest : ParentUiTest(), IRepeatTest {
 
     @Test override fun repeatMin1440() = super.repeatMin1440()
 
-    override fun startTest(@Repeat repeat: Int) {
-        preferenceRepo.repeat = repeat
+    override fun startTest(@Repeat value: Int) {
+        preferenceRepo.repeat = value
 
         data.insertNote().let {
             launchAlarm(it) { openAlarm(it) { onPressBack() }.mainScreen() }

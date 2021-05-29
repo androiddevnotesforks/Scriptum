@@ -1,6 +1,8 @@
 package sgtmelon.scriptum.test.auto.screen.preference.main
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.domain.model.annotation.Theme
@@ -8,17 +10,14 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragme
 import sgtmelon.scriptum.test.parent.ParentUiTest
 import sgtmelon.scriptum.test.parent.situation.IThemeTest
 import sgtmelon.scriptum.ui.dialog.preference.ThemeDialogUi
-import sgtmelon.scriptum.ui.screen.preference.PreferenceScreen
 
 /**
  * Test for [PreferenceFragment] and [ThemeDialogUi].
  */
 @RunWith(AndroidJUnit4::class)
-class PreferenceThemeTest : ParentUiTest(), IThemeTest {
-
-    private fun runTest(before: () -> Unit = {}, func: PreferenceScreen.() -> Unit) {
-        launch(before) { mainScreen { notesScreen(isEmpty = true) { openPreference(func) } } }
-    }
+class PreferenceThemeTest : ParentUiTest(),
+    IPreferenceTest,
+    IThemeTest {
 
     @Test fun dialogClose() = runTest({ preferenceRepo.theme = Theme.LIGHT }) {
         openThemeDialog { onClickCancel() }
@@ -33,19 +32,33 @@ class PreferenceThemeTest : ParentUiTest(), IThemeTest {
 
     @Test override fun themeSystem() = super.themeSystem()
 
-    override fun startTest(@Theme theme: Int) = runTest({ switchValue(theme) }) {
-        openThemeDialog { onClickItem(theme).onClickApply() }
-        assert()
+    override fun startTest(@Theme value: Int) {
+        val initValue = switchValue(value)
+
+        assertNotEquals(initValue, value)
+
+        runTest {
+            openThemeDialog {
+                onClickItem(value).onClickItem(initValue).onClickItem(value).onClickApply()
+            }
+            assert()
+        }
+
+        assertEquals(value, preferenceRepo.theme)
     }
 
     /**
      * Switch [Theme] to another one.
      */
-    private fun switchValue(@Theme theme: Int) {
+    @Theme private fun switchValue(@Theme value: Int): Int {
         val list = Theme.list
+        var initValue: Int
 
-        while (preferenceRepo.theme == theme) {
-            preferenceRepo.theme = list.random()
-        }
+        do {
+            initValue = list.random()
+            preferenceRepo.theme = initValue
+        } while (preferenceRepo.theme == value)
+
+        return initValue
     }
 }

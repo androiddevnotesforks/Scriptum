@@ -18,10 +18,10 @@ class ThemeDialogUi : ParentSelectDialogUi(
     override val initCheck: Int = preferenceRepo.theme
     override var check: Int = initCheck
 
-    fun onClickItem(@Theme value: Int) = apply {
-        check = value
+    fun onClickItem(@Theme position: Int) = apply {
+        check = position
 
-        getItem(textArray[value]).click()
+        getItem(position).click()
         assert()
     }
 

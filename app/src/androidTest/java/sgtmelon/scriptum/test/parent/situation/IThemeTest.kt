@@ -13,7 +13,6 @@ interface IThemeTest {
 
     fun themeSystem() = startTest(Theme.SYSTEM)
 
-
-    fun startTest(@Theme theme: Int)
+    fun startTest(@Theme value: Int)
 
 }

@@ -6,18 +6,14 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
+import sgtmelon.scriptum.test.auto.screen.preference.main.IPreferenceTest
 import sgtmelon.scriptum.test.parent.ParentRotationTest
-import sgtmelon.scriptum.ui.screen.preference.PreferenceScreen
 
 /**
  * Test of [PreferenceFragment] work with phone rotation.
  */
 @RunWith(AndroidJUnit4::class)
-class PreferenceRotationTest : ParentRotationTest() {
-
-    private fun runTest(before: () -> Unit = {}, func: PreferenceScreen.() -> Unit) {
-        launch(before) { mainScreen { notesScreen(isEmpty = true) { openPreference(func) } } }
-    }
+class PreferenceRotationTest : ParentRotationTest(), IPreferenceTest {
 
     @Test fun content() = runTest {
         automator.rotateSide()

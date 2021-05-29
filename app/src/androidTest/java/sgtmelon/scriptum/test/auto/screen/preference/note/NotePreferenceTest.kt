@@ -9,20 +9,13 @@ import sgtmelon.scriptum.domain.model.annotation.SavePeriod
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.NotePreferenceFragment
 import sgtmelon.scriptum.test.parent.ParentUiTest
-import sgtmelon.scriptum.ui.screen.preference.NotePreferenceScreen
 import kotlin.random.Random
 
 /**
  * Test for [NotePreferenceFragment].
  */
 @RunWith(AndroidJUnit4::class)
-class NotePreferenceTest : ParentUiTest() {
-
-    private fun runTest(before: () -> Unit = {}, func: NotePreferenceScreen.() -> Unit) {
-        launch(before) {
-            mainScreen { notesScreen(isEmpty = true) { openPreference { openNote(func) } } }
-        }
-    }
+class NotePreferenceTest : ParentUiTest(), INotePreferenceTest {
 
     @Test fun close() = runTest { onClickClose() }
 

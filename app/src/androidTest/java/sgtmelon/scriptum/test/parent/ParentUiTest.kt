@@ -120,7 +120,7 @@ abstract class ParentUiTest : ParentTest() {
 
     //region Launch functions
 
-    protected fun launch(before: () -> Unit = {}, after: SplashScreen.() -> Unit) {
+    fun launch(before: () -> Unit = {}, after: SplashScreen.() -> Unit) {
         before()
         testRule.launchActivity(Intent())
         SplashScreen(after)

@@ -13,9 +13,9 @@ import sgtmelon.scriptum.test.parent.situation.IColorTest
  */
 abstract class ParentToolbarColorTest(@Theme private val theme: Int) : ParentUiTest(), IColorTest {
 
-    override fun startTest(@Color color: Int) {
+    override fun startTest(@Color value: Int) {
         setupTheme(theme)
-        preferenceRepo.defaultColor = Color.list.filter { it != color }.random()
+        preferenceRepo.defaultColor = Color.list.filter { it != value }.random()
 
         launch {
             mainScreen {
@@ -25,7 +25,7 @@ abstract class ParentToolbarColorTest(@Theme private val theme: Int) : ParentUiT
                             is NoteItem.Text -> {
                                 createText(noteItem) {
                                     controlPanel {
-                                        onColor { onClickItem(color).onClickApply() }
+                                        onColor { onClickItem(value).onClickApply() }
                                         onEnterText(nextString())
                                         onSave()
                                     }
@@ -35,7 +35,7 @@ abstract class ParentToolbarColorTest(@Theme private val theme: Int) : ParentUiT
                             is NoteItem.Roll -> {
                                 createRoll(noteItem) {
                                     controlPanel {
-                                        onColor { onClickItem(color).onClickApply() }
+                                        onColor { onClickItem(value).onClickApply() }
                                         enterPanel { onAdd(nextString()) }
                                         onSave()
                                     }

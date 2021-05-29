@@ -24,7 +24,7 @@ class SignalDialogUi(
         val value = check[position]
         check[position] = !value
 
-        getItem(textArray[position]).click()
+        getItem(position).click()
         assert()
     }
 

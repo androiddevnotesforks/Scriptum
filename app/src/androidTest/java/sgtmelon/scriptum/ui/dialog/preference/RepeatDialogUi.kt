@@ -19,10 +19,10 @@ class RepeatDialogUi : ParentSelectDialogUi(
     override val initCheck: Int = preferenceRepo.repeat
     override var check: Int = initCheck
 
-    fun onClickItem(@Repeat value: Int) = apply {
-        check = value
+    fun onClickItem(@Repeat position: Int) = apply {
+        check = position
 
-        getItem(textArray[value]).click()
+        getItem(position).click()
         assert()
     }
 

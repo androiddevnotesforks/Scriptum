@@ -33,7 +33,7 @@ class RingtoneControl(private val context: Context) : IRingtoneControl {
             }.close()
         }
 
-        return list.sortedBy { it.title }
+        return list.distinctBy { it.title }.sortedBy { it.title }
     }
 
 }

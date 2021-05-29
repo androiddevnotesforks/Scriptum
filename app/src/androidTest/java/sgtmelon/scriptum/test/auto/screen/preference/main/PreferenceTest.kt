@@ -5,17 +5,12 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
 import sgtmelon.scriptum.test.parent.ParentUiTest
-import sgtmelon.scriptum.ui.screen.preference.PreferenceScreen
 
 /**
  * Test for [PreferenceFragment].
  */
 @RunWith(AndroidJUnit4::class)
-class PreferenceTest : ParentUiTest() {
-
-    private fun runTest(before: () -> Unit = {}, func: PreferenceScreen.() -> Unit) {
-        launch(before) { mainScreen { notesScreen(isEmpty = true) { openPreference(func) } } }
-    }
+class PreferenceTest : ParentUiTest(), IPreferenceTest {
 
     @Test fun close() = runTest { onClickClose() }
 

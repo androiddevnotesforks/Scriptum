@@ -1,6 +1,8 @@
 package sgtmelon.scriptum.test.auto.screen.preference.note
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.data.repository.preference.PreferenceRepo
@@ -8,19 +10,14 @@ import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
 import sgtmelon.scriptum.test.parent.ParentUiTest
 import sgtmelon.scriptum.test.parent.situation.IColorTest
-import sgtmelon.scriptum.ui.screen.preference.NotePreferenceScreen
 
 /**
  * Test of [PreferenceRepo.defaultColor] setup for [PreferenceFragment]
  */
 @RunWith(AndroidJUnit4::class)
-class NotePreferenceColorTest : ParentUiTest(), IColorTest {
-
-    private fun runTest(before: () -> Unit = {}, func: NotePreferenceScreen.() -> Unit) {
-        launch(before) {
-            mainScreen { notesScreen(isEmpty = true) { openPreference { openNote(func) } } }
-        }
-    }
+class NotePreferenceColorTest : ParentUiTest(),
+    INotePreferenceTest,
+    IColorTest {
 
     @Test fun dialogClose() = runTest {
         val check = preferenceRepo.defaultColor
@@ -53,27 +50,31 @@ class NotePreferenceColorTest : ParentUiTest(), IColorTest {
 
     @Test override fun colorWhite() = super.colorWhite()
 
-    override fun startTest(@Color color: Int) {
-        switchValue(color)
+    override fun startTest(@Color value: Int) {
+        val initValue = switchValue(value)
 
-        val initColor = preferenceRepo.defaultColor
+        assertNotEquals(initValue, value)
 
         runTest {
-            openColorDialog(initColor) {
-                onAssertItem().onClickItem(color).onClickApply()
-            }
+            openColorDialog(initValue) { onAssertItem().onClickItem(value).onClickApply() }
             assert()
         }
+
+        assertEquals(value, preferenceRepo.defaultColor)
     }
 
     /**
      * Switch [Color] to another one.
      */
-    private fun switchValue(@Color color: Int) {
+    private fun switchValue(@Color value: Int): Int {
         val list = Color.list
+        var initValue: Int
 
-        while (preferenceRepo.defaultColor == color) {
-            preferenceRepo.defaultColor = list.random()
-        }
+        do {
+            initValue = list.random()
+            preferenceRepo.defaultColor = initValue
+        } while (preferenceRepo.defaultColor == value)
+
+        return initValue
     }
 }

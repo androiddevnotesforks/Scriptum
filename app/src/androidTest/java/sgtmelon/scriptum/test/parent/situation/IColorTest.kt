@@ -30,6 +30,6 @@ interface IColorTest {
     fun colorWhite() = startTest(Color.WHITE)
 
 
-    fun startTest(@Color color: Int)
+    fun startTest(@Color value: Int)
 
 }

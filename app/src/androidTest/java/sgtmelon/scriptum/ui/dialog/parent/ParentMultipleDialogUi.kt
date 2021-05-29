@@ -34,8 +34,8 @@ abstract class ParentMultipleDialogUi(
     override fun assert() {
         super.assert()
 
-        for ((i, name) in textArray.withIndex()) {
-            getItem(name).isDisplayed().isChecked(check[i])
+        for (i in itemArray.indices) {
+            getItem(i).isDisplayed().isChecked(check[i])
         }
 
         val isEnabled = if (needOneSelect) {
