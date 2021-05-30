@@ -2,6 +2,7 @@ package sgtmelon.scriptum.test.auto.rotation.preference
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.domain.model.annotation.Theme
@@ -22,16 +23,21 @@ class PreferenceRotationTest : ParentRotationTest(), IPreferenceTest {
 
     @Test fun themeDialog() {
         val initValue = Theme.list.random()
+        val value = getThemeClick(initValue)
+
+        assertNotEquals(initValue, value)
 
         runTest({ preferenceRepo.theme = initValue }) {
             openThemeDialog {
-                onClickItem(getThemeClick(initValue))
+                onClickItem(value)
                 automator.rotateSide()
                 assert()
                 onClickApply()
             }
             assert()
         }
+
+        assertEquals(value, preferenceRepo.theme)
     }
 
     @Theme private fun getThemeClick(@Theme initValue: Int): Int {

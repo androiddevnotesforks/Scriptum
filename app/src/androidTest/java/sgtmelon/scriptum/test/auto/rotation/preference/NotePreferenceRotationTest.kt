@@ -1,6 +1,8 @@
 package sgtmelon.scriptum.test.auto.rotation.preference
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.domain.model.annotation.Color
@@ -30,16 +32,21 @@ class NotePreferenceRotationTest : ParentRotationTest(), INotePreferenceTest {
 
     @Test fun sortDialog() {
         val initValue = Sort.list.random()
+        val value = getSortClick(initValue)
+
+        assertNotEquals(initValue, value)
 
         runTest({ preferenceRepo.sort = initValue }) {
             openSortDialog {
-                onClickItem(getSortClick(initValue))
+                onClickItem(value)
                 automator.rotateSide()
                 assert()
                 onClickApply()
             }
             assert()
         }
+
+        assertEquals(value, preferenceRepo.sort)
     }
 
     @Sort private fun getSortClick(@Sort initValue: Int): Int {
@@ -49,16 +56,21 @@ class NotePreferenceRotationTest : ParentRotationTest(), INotePreferenceTest {
 
     @Test fun colorDialog() {
         val initValue = Color.list.random()
+        val value = getColorClick(initValue)
+
+        assertNotEquals(initValue, value)
 
         runTest({ preferenceRepo.defaultColor = initValue }) {
             openColorDialog(initValue) {
-                onClickItem(getColorClick(initValue))
+                onClickItem(value)
                 automator.rotateSide()
                 assert()
                 onClickApply()
             }
             assert()
         }
+
+        assertEquals(value, preferenceRepo.defaultColor)
     }
 
     @Color private fun getColorClick(@Color initValue: Int): Int {
@@ -68,19 +80,25 @@ class NotePreferenceRotationTest : ParentRotationTest(), INotePreferenceTest {
 
     @Test fun savePeriodDialog() {
         val initValue = SavePeriod.list.random()
+        val value = getSavePeriodClick(initValue)
+
+        assertNotEquals(initValue, value)
 
         runTest({
             preferenceRepo.autoSaveOn = true
             preferenceRepo.savePeriod = initValue
         }) {
             openSavePeriodDialog {
-                onClickItem(getSavePeriodClick(initValue))
+                onClickItem(value)
                 automator.rotateSide()
                 assert()
                 onClickApply()
             }
             assert()
         }
+
+        assertEquals(value, preferenceRepo.savePeriod)
+
     }
 
     @SavePeriod private fun getSavePeriodClick(@SavePeriod initValue: Int): Int {

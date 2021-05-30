@@ -39,7 +39,7 @@ abstract class ParentDialogUi(
 
     //region Views
 
-    protected val listView = getViewById(R.id.select_dialog_listview)
+    private val listView = getViewById(R.id.select_dialog_listview)
 
     /**
      * Exclude this parent for prevent match error with summary (similar strings).

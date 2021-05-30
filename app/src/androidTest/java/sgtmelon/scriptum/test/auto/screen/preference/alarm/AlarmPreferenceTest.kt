@@ -26,7 +26,6 @@ class AlarmPreferenceTest : ParentUiTest(), IAlarmPreferenceTest {
         getLogic().alarmInteractor.updateSignal(booleanArrayOf(isMelody, isVibration))
     }) { assert() }
 
-
     @Test fun volumeIncreaseWork() {
         val value = Random.nextBoolean()
 
