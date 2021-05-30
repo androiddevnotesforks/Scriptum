@@ -138,7 +138,8 @@ class TextNoteScreen(
         fragmentContainer.isDisplayed()
 
         parentContainer.isDisplayed()
-        contentCard.isDisplayed()
+        // TODO radius/elevation assertion
+        contentCard.isDisplayed().withCardBackground(R.attr.clBackgroundView)
         contentScroll.isDisplayed()
 
         when (state) {

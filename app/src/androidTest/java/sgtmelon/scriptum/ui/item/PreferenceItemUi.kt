@@ -19,7 +19,8 @@ class PreferenceItemUi(
     override fun assert(item: PreferenceItem) = when (item) {
         is PreferenceItem.Header -> Header().assert(item)
         is PreferenceItem.Simple -> Simple().assert(item)
-        is PreferenceItem.Summary -> Summary().assert(item)
+        is PreferenceItem.Summary.Text -> Summary().assert(item)
+        is PreferenceItem.Summary.Id -> Summary().assert(item)
         is PreferenceItem.Switch -> Switch().assert(item)
     }
 
@@ -57,9 +58,15 @@ class PreferenceItemUi(
             titleText.isDisplayed()
                 .isEnabled(item.isEnabled)
                 .withText(item.titleId)
+
+            val summary = when (item) {
+                is PreferenceItem.Summary.Id -> context.getString(item.summaryId)
+                is PreferenceItem.Summary.Text -> item.summaryText
+            }
+
             summaryText.isDisplayed()
                 .isEnabled(item.isEnabled)
-                .withText(item.summaryText)
+                .withText(summary)
         }
 
         fun onItemClick() {

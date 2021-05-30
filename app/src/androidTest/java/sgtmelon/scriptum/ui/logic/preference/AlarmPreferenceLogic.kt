@@ -30,11 +30,11 @@ class AlarmPreferenceLogic : ParentPreferenceLogic() {
     override fun getScreenList(): List<PreferenceItem> {
         val list = mutableListOf(
             Header(R.string.pref_header_common),
-            Summary(R.string.pref_title_alarm_repeat, provider.repeat[preferenceRepo.repeat])
+            Summary.Text(R.string.pref_title_alarm_repeat, provider.repeat[preferenceRepo.repeat])
         )
 
         val signalSummary = alarmInteractor.getSignalSummary(signalInteractor.typeCheck)
-        list.add(Summary(R.string.pref_title_alarm_signal, signalSummary!!))
+        list.add(Summary.Text(R.string.pref_title_alarm_signal, signalSummary!!))
 
         list.add(Header(R.string.pref_header_melody_options))
 
@@ -44,8 +44,12 @@ class AlarmPreferenceLogic : ParentPreferenceLogic() {
             return@runBlocking signalInteractor.getMelodyList()[check]
         }
 
-        list.add(Summary(R.string.pref_title_alarm_melody, melodyItem.title, isMelody))
-        list.add(Summary(R.string.pref_title_alarm_volume, alarmInteractor.getVolumeSummary(), isMelody))
+        list.add(Summary.Text(R.string.pref_title_alarm_melody, melodyItem.title, isMelody))
+        list.add(Summary.Text(
+            R.string.pref_title_alarm_volume,
+            alarmInteractor.getVolumeSummary(),
+            isMelody
+        ))
         list.add(Switch(
             R.string.pref_title_alarm_increase,
             R.string.pref_summary_alarm_increase,

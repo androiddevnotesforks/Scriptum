@@ -5,6 +5,7 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragme
 import sgtmelon.scriptum.ui.dialog.preference.AboutDialogUi
 import sgtmelon.scriptum.ui.dialog.preference.ThemeDialogUi
 import sgtmelon.scriptum.ui.logic.preference.PreferenceLogic
+import sgtmelon.scriptum.ui.screen.preference.help.HelpPreferenceScreen
 
 /**
  * Class for UI control of [PreferenceFragment].

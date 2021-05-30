@@ -13,11 +13,11 @@ class NotePreferenceLogic : ParentPreferenceLogic() {
     override fun getScreenList(): List<PreferenceItem> {
         return listOf(
             PreferenceItem.Header(R.string.pref_header_common),
-            PreferenceItem.Summary(
+            PreferenceItem.Summary.Text(
                 R.string.pref_title_note_sort,
                 provider.sort[preferenceRepo.sort]
             ),
-            PreferenceItem.Summary(
+            PreferenceItem.Summary.Text(
                 R.string.pref_title_note_color,
                 provider.color[preferenceRepo.defaultColor]
             ),
@@ -32,7 +32,7 @@ class NotePreferenceLogic : ParentPreferenceLogic() {
                 R.string.pref_summary_note_save_auto,
                 preferenceRepo.autoSaveOn
             ),
-            PreferenceItem.Summary(
+            PreferenceItem.Summary.Text(
                 R.string.pref_title_note_save_period,
                 provider.savePeriod[preferenceRepo.savePeriod],
                 preferenceRepo.autoSaveOn

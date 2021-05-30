@@ -1,0 +1,74 @@
+package sgtmelon.scriptum.ui.screen.preference.help
+
+import sgtmelon.scriptum.R
+import sgtmelon.scriptum.basic.extension.*
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.help.HelpDisappearActivity
+import sgtmelon.scriptum.ui.ParentUi
+import sgtmelon.scriptum.ui.part.toolbar.SimpleToolbar
+
+/**
+ * Class for UI control of [HelpDisappearActivity].
+ */
+class HelpDisappearScreen : ParentUi() {
+
+    //region Views
+
+    private val parentContainer = getViewById(R.id.disappear_parent_container)
+
+    private val toolbar = SimpleToolbar(
+        R.string.pref_title_help_notification_disappear,
+        withBack = true
+    )
+    private val videoItem = getViewById(R.id.item_video_lesson)
+
+    private val contentCard = getViewById(R.id.disappear_content_card)
+    private val guideText = getViewById(R.id.disappear_content_text)
+
+    private val buttonCard = getViewById(R.id.disappear_settings_button_card)
+    private val settingsButton = getViewById(R.id.disappear_settings_button)
+
+    //endregion
+
+    fun onClickClose() {
+        toolbar.getToolbarButton().click()
+    }
+
+    fun openVideo() {
+        videoItem.click()
+    }
+
+    fun openSettings() {
+        settingsButton.click()
+    }
+
+    fun assert() = apply {
+        parentContainer.isDisplayed()
+
+        toolbar.contentContainer
+            .withMenuDrawable(R.id.item_video_lesson, R.drawable.ic_video)
+            .withMenuTitle(R.id.item_video_lesson, R.string.menu_video_lesson)
+        videoItem.isDisplayed()
+
+        // TODO radius/elevation assertion
+        contentCard.isDisplayed().withCardBackground(R.attr.clBackgroundView)
+        guideText.isDisplayed().withText(
+            R.string.help_notification_disappear,
+            R.attr.clContent,
+            R.dimen.text_18sp
+        )
+
+        // TODO radius/elevation assertion
+        buttonCard.isDisplayed().withCardBackground(R.attr.clBackgroundView)
+        settingsButton.isDisplayed().withText(
+            R.string.help_settings_button,
+            R.attr.clAccent,
+            R.dimen.button_borderless_text
+        )
+    }
+
+    companion object {
+        operator fun invoke(func: HelpDisappearScreen.() -> Unit): HelpDisappearScreen {
+            return HelpDisappearScreen().assert().apply(func)
+        }
+    }
+}

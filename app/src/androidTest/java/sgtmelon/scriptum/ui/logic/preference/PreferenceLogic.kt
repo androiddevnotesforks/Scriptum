@@ -13,7 +13,10 @@ class PreferenceLogic : ParentPreferenceLogic() {
     override fun getScreenList(): List<PreferenceItem> {
         val list = mutableListOf(
             PreferenceItem.Header(R.string.pref_header_app),
-            PreferenceItem.Summary(R.string.pref_title_app_theme, provider.theme[preferenceRepo.theme]),
+            PreferenceItem.Summary.Text(
+                R.string.pref_title_app_theme,
+                provider.theme[preferenceRepo.theme]
+            ),
             PreferenceItem.Simple(R.string.pref_title_backup),
             PreferenceItem.Simple(R.string.pref_title_note),
             PreferenceItem.Simple(R.string.pref_title_alarm),

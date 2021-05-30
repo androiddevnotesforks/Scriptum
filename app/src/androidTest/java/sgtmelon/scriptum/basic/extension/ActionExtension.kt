@@ -1,17 +1,15 @@
 package sgtmelon.scriptum.basic.extension
 
 import android.view.View
-import android.widget.SeekBar
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.clearText
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
-import androidx.test.espresso.matcher.ViewMatchers
 import org.hamcrest.Matcher
+import sgtmelon.scriptum.basic.actions.SeekBarAction
 import kotlin.random.Random
 
 
@@ -66,16 +64,4 @@ fun Matcher<View>.swipeItem(p: Int) = also {
     onView(it).perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(p, action))
 }
 
-fun Matcher<View>.setProgress(progress: Int) = also {
-    actionOnView(it, object : ViewAction {
-        override fun perform(uiController: UiController?, view: View?) {
-            (view as? SeekBar)?.progress = progress
-        }
-
-        override fun getDescription(): String = "Set progress ($progress) on SeekBar"
-
-        override fun getConstraints(): Matcher<View> {
-            return ViewMatchers.isAssignableFrom(SeekBar::class.java)
-        }
-    })
-}
+fun Matcher<View>.setProgress(progress: Int) = also { actionOnView(it, SeekBarAction(progress)) }
