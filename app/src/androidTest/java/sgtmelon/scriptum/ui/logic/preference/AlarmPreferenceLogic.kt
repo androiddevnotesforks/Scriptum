@@ -12,6 +12,7 @@ import sgtmelon.scriptum.domain.interactor.impl.preference.AlarmPreferenceIntera
 import sgtmelon.scriptum.presentation.control.system.RingtoneControl
 import sgtmelon.scriptum.ui.logic.parent.ParentPreferenceLogic
 import sgtmelon.scriptum.ui.screen.preference.AlarmPreferenceScreen
+import kotlin.random.Random
 
 /**
  * Logic for [AlarmPreferenceScreen].
@@ -62,5 +63,17 @@ class AlarmPreferenceLogic : ParentPreferenceLogic() {
         val initCheck = runBlocking { signalInteractor.getMelodyCheck() }
 
         return Pair(textArray, initCheck!!)
+    }
+
+    /**
+     * It can't contains only false values. At least need one true.
+     */
+    fun getRandomSignal(): BooleanArray {
+        val melodyValue = Random.nextBoolean()
+        val vibrationValue = Random.nextBoolean()
+
+        if (!melodyValue && !vibrationValue) return getRandomSignal()
+
+        return booleanArrayOf(melodyValue, vibrationValue)
     }
 }

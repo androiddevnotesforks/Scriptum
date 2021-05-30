@@ -2,8 +2,7 @@ package sgtmelon.scriptum.test.auto.rotation.preference
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotEquals
+import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.domain.model.annotation.Repeat
@@ -23,8 +22,8 @@ class AlarmPreferenceRotationTest : ParentRotationTest(), IAlarmPreferenceTest {
     @Test fun content() = runTest({
         preferenceRepo.repeat = Repeat.list.random()
 
-        val signalValue = Random.nextBoolean()
-        getLogic().alarmInteractor.updateSignal(booleanArrayOf(signalValue, !signalValue))
+        val signalArray = getLogic().getRandomSignal()
+        getLogic().alarmInteractor.updateSignal(signalArray)
 
         val melodyList = runBlocking { getLogic().signalInteractor.getMelodyList() }
         preferenceRepo.melodyUri = melodyList.random().uri
@@ -61,7 +60,32 @@ class AlarmPreferenceRotationTest : ParentRotationTest(), IAlarmPreferenceTest {
     }
 
     @Test fun signalDialog() {
-        TODO()
+        val initArray = getLogic().getRandomSignal()
+        val array = getSignalClick(initArray)
+
+        assertFalse(initArray.contentEquals(array))
+        assertEquals(initArray.size, array.size)
+
+        runTest({ getLogic().alarmInteractor.updateSignal(initArray) }) {
+            openSignalDialog {
+                for ((i, value) in array.withIndex()) {
+                    if (value == initArray[i]) continue
+
+                    onClickItem(i)
+                }
+                automator.rotateSide()
+                assert()
+                onClickApply()
+            }
+            assert()
+        }
+
+        assertTrue(getLogic().signalInteractor.typeCheck.contentEquals(array))
+    }
+
+    private fun getSignalClick(initArray: BooleanArray): BooleanArray {
+        val newArray = getLogic().getRandomSignal()
+        return if (initArray.contentEquals(newArray)) getSignalClick(initArray) else newArray
     }
 
     @Test fun melodyDialog() {
