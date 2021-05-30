@@ -28,6 +28,14 @@ class SignalDialogUi(
         assert()
     }
 
+    fun onClickItem(newCheck: BooleanArray) = apply {
+        for ((i, item) in newCheck.withIndex()) {
+            if (item == check[i]) continue
+
+            onClickItem(i)
+        }
+    }
+
     companion object {
         operator fun invoke(
             initCheck: BooleanArray,

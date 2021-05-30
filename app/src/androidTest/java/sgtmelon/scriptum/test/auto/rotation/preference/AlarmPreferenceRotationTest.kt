@@ -60,19 +60,15 @@ class AlarmPreferenceRotationTest : ParentRotationTest(), IAlarmPreferenceTest {
     }
 
     @Test fun signalDialog() {
-        val initArray = getLogic().getRandomSignal()
-        val array = getSignalClick(initArray)
+        val initValue = getLogic().getRandomSignal()
+        val value = getSignalClick(initValue)
 
-        assertFalse(initArray.contentEquals(array))
-        assertEquals(initArray.size, array.size)
+        assertFalse(initValue.contentEquals(value))
+        assertEquals(initValue.size, value.size)
 
-        runTest({ getLogic().alarmInteractor.updateSignal(initArray) }) {
+        runTest({ getLogic().alarmInteractor.updateSignal(initValue) }) {
             openSignalDialog {
-                for ((i, value) in array.withIndex()) {
-                    if (value == initArray[i]) continue
-
-                    onClickItem(i)
-                }
+                onClickItem(value)
                 automator.rotateSide()
                 assert()
                 onClickApply()
@@ -80,7 +76,7 @@ class AlarmPreferenceRotationTest : ParentRotationTest(), IAlarmPreferenceTest {
             assert()
         }
 
-        assertTrue(getLogic().signalInteractor.typeCheck.contentEquals(array))
+        assertTrue(getLogic().signalInteractor.typeCheck.contentEquals(value))
     }
 
     private fun getSignalClick(initArray: BooleanArray): BooleanArray {

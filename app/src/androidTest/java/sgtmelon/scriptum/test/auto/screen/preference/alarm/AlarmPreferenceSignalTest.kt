@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.test.auto.screen.preference.alarm
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.AlarmPreferenceFragment
@@ -21,17 +22,34 @@ class AlarmPreferenceSignalTest : ParentUiTest(), IAlarmPreferenceTest {
         assert()
     }
 
-    @Test fun dialogWork() = runTest({
-        getLogic().alarmInteractor.updateSignal(booleanArrayOf(true, true))
-    }) {
-        openSignalDialog {
-            repeat(times = 2) {
-                onClickItem(position = 0)
-                onClickItem(position = 1)
+    @Test fun dialogWork() {
+        val value = getLogic().getRandomSignal()
+        val initValue = switchValue(value)
+
+        assertFalse(initValue.contentEquals(value))
+        assertEquals(initValue.size, value.size)
+
+        runTest {
+            openSignalDialog {
+                onClickItem(value).onClickItem(initValue).onClickItem(value).onClickApply()
             }
-            onClickItem((0..1).random())
-            onClickApply()
+            assert()
         }
-        assert()
+
+        assertTrue(getLogic().signalInteractor.typeCheck.contentEquals(value))
+    }
+
+    /**
+     * Switch signal to another one.
+     */
+    private fun switchValue(value: BooleanArray): BooleanArray {
+        var initValue: BooleanArray
+
+        do {
+            initValue = getLogic().getRandomSignal()
+            getLogic().alarmInteractor.updateSignal(initValue)
+        } while (getLogic().signalInteractor.typeCheck.contentEquals(value))
+
+        return initValue
     }
 }
