@@ -48,7 +48,11 @@ class RollItemUi(
     }
 
     override fun assert(item: RollItem) {
-        parentCard.isDisplayed().withCardBackground(R.attr.clBackgroundView)
+        parentCard.isDisplayed().withCardBackground(
+            R.attr.clBackgroundView,
+            R.dimen.item_card_radius,
+            R.dimen.item_card_elevation
+        )
 
         val textColor = if (!item.isCheck) R.attr.clContent else R.attr.clContrast
 

@@ -73,17 +73,21 @@ class RankToolbar : ParentUi(), IKeyboardOption {
             .withBackgroundAttr(R.attr.colorPrimary)
             .withNavigationDrawable(resourceId = null)
 
-        parentCard.isDisplayed().withCardBackground(R.attr.clBackgroundEnter)
+        parentCard.isDisplayed().withCardBackground(
+            R.attr.clBackgroundEnter,
+            R.dimen.radius_8dp,
+            R.dimen.elevation_2dp
+        )
 
         val enterEmpty = enter.isEmpty()
 
         nameEnter.isDisplayed()
-                .withImeAction(EditorInfo.IME_ACTION_DONE)
-                .withBackgroundColor(android.R.color.transparent)
-                .apply {
-                    if (!enterEmpty) {
-                        withText(enter, R.attr.clContent, R.dimen.text_18sp)
-                    } else {
+            .withImeAction(EditorInfo.IME_ACTION_DONE)
+            .withBackgroundColor(android.R.color.transparent)
+            .apply {
+                if (!enterEmpty) {
+                    withText(enter, R.attr.clContent, R.dimen.text_18sp)
+                } else {
                         withHint(R.string.hint_enter_rank_new, R.attr.clDisable, R.dimen.text_18sp)
                     }
                 }

@@ -137,7 +137,12 @@ class NoteItemUi(
         }))
 
         open fun assert(item: N) {
-            parentCard.isDisplayed().withCardBackground(appTheme, item.color)
+            parentCard.isDisplayed().withCardBackground(
+                appTheme,
+                item.color,
+                R.dimen.item_card_radius,
+                R.dimen.item_card_elevation
+            )
             clickContainer.isDisplayed()
 
             val name = item.name

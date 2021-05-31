@@ -28,7 +28,11 @@ class NotificationItemUi(
     val cancelButton by lazy { getChild(getViewById(R.id.notification_cancel_button)) }
 
     override fun assert(item: NoteItem) {
-        parentCard.isDisplayed().withCardBackground(R.attr.clBackgroundView)
+        parentCard.isDisplayed().withCardBackground(
+            R.attr.clBackgroundView,
+            R.dimen.item_card_radius,
+            R.dimen.item_card_elevation
+        )
 
         val name = if (item.name.isEmpty()) context.getString(R.string.hint_text_name) else item.name
 

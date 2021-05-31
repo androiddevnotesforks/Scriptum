@@ -49,16 +49,22 @@ class HelpDisappearScreen : ParentUi() {
             .withMenuTitle(R.id.item_video_lesson, R.string.menu_video_lesson)
         videoItem.isDisplayed()
 
-        // TODO radius/elevation assertion
-        contentCard.isDisplayed().withCardBackground(R.attr.clBackgroundView)
+        contentCard.isDisplayed().withCardBackground(
+            R.attr.clBackgroundView,
+            R.dimen.text_card_radius,
+            R.dimen.text_card_elevation
+        )
         guideText.isDisplayed().withText(
             R.string.help_notification_disappear,
             R.attr.clContent,
             R.dimen.text_18sp
         )
 
-        // TODO radius/elevation assertion
-        buttonCard.isDisplayed().withCardBackground(R.attr.clBackgroundView)
+        buttonCard.isDisplayed().withCardBackground(
+            R.attr.clBackgroundView,
+            R.dimen.text_card_radius,
+            R.dimen.text_card_elevation
+        )
         settingsButton.isDisplayed().withText(
             R.string.help_settings_button,
             R.attr.clAccent,

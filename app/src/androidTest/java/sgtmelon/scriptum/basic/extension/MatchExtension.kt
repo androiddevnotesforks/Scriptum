@@ -12,6 +12,8 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.matcher.*
 import sgtmelon.scriptum.basic.matcher.card.CardBackgroundAttrMatcher
 import sgtmelon.scriptum.basic.matcher.card.CardBackgroundColorMatcher
+import sgtmelon.scriptum.basic.matcher.card.CardElevationMatcher
+import sgtmelon.scriptum.basic.matcher.card.CardRadiusMatcher
 import sgtmelon.scriptum.basic.matcher.drawable.*
 import sgtmelon.scriptum.basic.matcher.text.HintAttrColorMatcher
 import sgtmelon.scriptum.basic.matcher.text.MenuItemTitleMatcher
@@ -188,12 +190,25 @@ fun Matcher<View>.withColorIndicator(
     matchOnView(it, ColorIndicatorMatcher(resourceId, theme, color))
 }
 
-fun Matcher<View>.withCardBackground(@Theme theme: Int, @Color color: Int) = also {
+fun Matcher<View>.withCardBackground(
+    @Theme theme: Int,
+    @Color color: Int,
+    @DimenRes radiusId: Int,
+    @DimenRes elevationId: Int
+) = also {
     matchOnView(it, CardBackgroundColorMatcher(theme, color))
+    matchOnView(it, CardRadiusMatcher(radiusId))
+    matchOnView(it, CardElevationMatcher(elevationId))
 }
 
-fun Matcher<View>.withCardBackground(@AttrRes attrColor: Int) = also {
+fun Matcher<View>.withCardBackground(
+    @AttrRes attrColor: Int,
+    @DimenRes radiusId: Int,
+    @DimenRes elevationId: Int
+) = also {
     matchOnView(it, CardBackgroundAttrMatcher(attrColor))
+    matchOnView(it, CardRadiusMatcher(radiusId))
+    matchOnView(it, CardElevationMatcher(elevationId))
 }
 
 

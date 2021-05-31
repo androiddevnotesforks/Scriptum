@@ -33,7 +33,11 @@ class RankItemUi(
     private val bindImage by lazy { getChild(getViewById(R.id.rank_bind_image)) }
 
     override fun assert(item: RankItem) {
-        parentCard.isDisplayed().withCardBackground(R.attr.clBackgroundView)
+        parentCard.isDisplayed().withCardBackground(
+            R.attr.clBackgroundView,
+            R.dimen.item_card_radius,
+            R.dimen.item_card_elevation
+        )
 
         val visible = item.isVisible
         val drawable = if (visible) R.drawable.ic_visible_enter else R.drawable.ic_visible_exit

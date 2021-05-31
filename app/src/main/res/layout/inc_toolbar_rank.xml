@@ -29,6 +29,7 @@
                 android:focusableInTouchMode="true"
                 app:cardBackgroundColor="?attr/clBackgroundEnter"
                 app:cardCornerRadius="@dimen/radius_8dp"
+                app:cardElevation="@dimen/elevation_2dp"
                 app:cardUseCompatPadding="false">
 
                 <LinearLayout
