@@ -13,7 +13,6 @@ import sgtmelon.scriptum.data.room.converter.model.NoteConverter
 import sgtmelon.scriptum.data.room.converter.model.RollConverter
 import sgtmelon.scriptum.data.room.entity.*
 import sgtmelon.scriptum.data.room.extension.fromRoom
-import sgtmelon.scriptum.data.room.extension.inRoom
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
@@ -363,7 +362,6 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
         coVerifySequence {
             spyNoteRepo.clearBin()
-            spyNoteRepo.inRoom(any())
             spyNoteRepo.roomProvider
 
             roomProvider.openRoom()
@@ -434,7 +432,6 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
         coVerifySequence {
             spyNoteRepo.clearNote(item)
-            spyNoteRepo.inRoom(any())
             spyNoteRepo.roomProvider
 
             roomProvider.openRoom()

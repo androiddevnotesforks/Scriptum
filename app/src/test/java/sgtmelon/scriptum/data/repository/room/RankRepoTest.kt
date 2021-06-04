@@ -10,7 +10,6 @@ import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.data.room.converter.model.RankConverter
 import sgtmelon.scriptum.data.room.entity.NoteEntity
 import sgtmelon.scriptum.data.room.entity.RankEntity
-import sgtmelon.scriptum.data.room.extension.inRoom
 import sgtmelon.scriptum.domain.model.data.DbData.Note
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RankItem
@@ -268,7 +267,6 @@ class RankRepoTest : ParentRoomRepoTest() {
 
         coVerifySequence {
             spyRankRepo.updatePosition(rankList, noteIdList)
-            spyRankRepo.inRoom(any())
             spyRankRepo.roomProvider
 
             roomProvider.openRoom()
@@ -351,7 +349,6 @@ class RankRepoTest : ParentRoomRepoTest() {
 
         coVerifySequence {
             spyRankRepo.updateConnection(noteItem)
-            spyRankRepo.inRoom(any())
             spyRankRepo.roomProvider
 
             roomProvider.openRoom()
