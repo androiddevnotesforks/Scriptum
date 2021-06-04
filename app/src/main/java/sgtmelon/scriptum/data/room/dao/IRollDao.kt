@@ -2,6 +2,7 @@ package sgtmelon.scriptum.data.room.dao
 
 import androidx.room.*
 import sgtmelon.scriptum.data.room.RoomDb
+import sgtmelon.scriptum.data.room.annotation.DaoDeprecated
 import sgtmelon.scriptum.data.room.converter.type.BoolConverter
 import sgtmelon.scriptum.data.room.entity.RollEntity
 import sgtmelon.scriptum.domain.model.data.DbData
@@ -14,9 +15,7 @@ import sgtmelon.scriptum.domain.model.item.NoteItem.Roll.Companion.PREVIEW_SIZE
 @TypeConverters(BoolConverter::class)
 interface IRollDao {
 
-    /**
-     * TODO add -1 value convert to null
-     */
+    @Deprecated(DaoDeprecated.INSERT)
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(rollEntity: RollEntity): Long
 
@@ -32,6 +31,7 @@ interface IRollDao {
     /**
      * [idSaveList] - list of rolls which don't need delete
      */
+    @Deprecated(DaoDeprecated.LIST)
     @Query(value = "DELETE FROM ROLL_TABLE WHERE RL_NOTE_ID = :noteId AND RL_ID NOT IN (:idSaveList)")
     suspend fun delete(noteId: Long, idSaveList: List<Long>)
 
@@ -48,6 +48,7 @@ interface IRollDao {
     @Query(value = "SELECT * FROM ROLL_TABLE WHERE RL_NOTE_ID = :noteId ORDER BY RL_POSITION")
     suspend fun get(noteId: Long): MutableList<RollEntity>
 
+    @Deprecated(DaoDeprecated.LIST)
     @Query(value = "SELECT * FROM ROLL_TABLE WHERE RL_NOTE_ID IN (:noteIdList)")
     suspend fun get(noteIdList: List<Long>): List<RollEntity>
 

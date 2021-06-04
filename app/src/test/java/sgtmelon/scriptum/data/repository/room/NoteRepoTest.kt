@@ -12,6 +12,8 @@ import sgtmelon.scriptum.data.room.IRoomWork
 import sgtmelon.scriptum.data.room.converter.model.NoteConverter
 import sgtmelon.scriptum.data.room.converter.model.RollConverter
 import sgtmelon.scriptum.data.room.entity.*
+import sgtmelon.scriptum.data.room.extension.fromRoom
+import sgtmelon.scriptum.data.room.extension.inRoom
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
@@ -91,7 +93,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
         assertEquals(itemList, spyNoteRepo.getList(sort, isBin, isOptimal, filterVisible = true))
 
         /**
-         * Can't create verify for [IRoomWork.takeFromRoom] func.
+         * Can't create verify for [IRoomWork.fromRoom] func.
          */
         coVerifyOrder {
             spyNoteRepo.getList(sort, isBin, isOptimal, filterVisible = false)
@@ -197,7 +199,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
         assertEquals(item, spyNoteRepo.getItem(id, isOptimal))
 
         /**
-         * Can't create verify for [IRoomWork.takeFromRoom] func.
+         * Can't create verify for [IRoomWork.fromRoom] func.
          */
         coVerifyOrder {
             roomProvider.openRoom()

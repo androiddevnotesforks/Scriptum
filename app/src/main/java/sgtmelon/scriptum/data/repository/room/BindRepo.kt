@@ -4,6 +4,8 @@ import sgtmelon.scriptum.data.provider.RoomProvider
 import sgtmelon.scriptum.data.repository.room.callback.IBindRepo
 import sgtmelon.scriptum.data.room.IRoomWork
 import sgtmelon.scriptum.data.room.RoomDb
+import sgtmelon.scriptum.data.room.extension.fromRoom
+import sgtmelon.scriptum.data.room.extension.inRoom
 
 /**
  * Repository of [RoomDb] which work with notes bind in status bar.
@@ -19,6 +21,6 @@ class BindRepo(override val roomProvider: RoomProvider) : IBindRepo, IRoomWork {
         noteDao.update(noteEntity)
     }
 
-    override suspend fun getNotificationCount(): Int = takeFromRoom { alarmDao.getCount() }
+    override suspend fun getNotificationCount(): Int = fromRoom { alarmDao.getCount() }
 
 }

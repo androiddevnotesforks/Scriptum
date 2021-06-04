@@ -8,6 +8,7 @@ import sgtmelon.scriptum.data.repository.room.callback.IBackupRepo
 import sgtmelon.scriptum.data.room.IRoomWork
 import sgtmelon.scriptum.data.room.RoomDb
 import sgtmelon.scriptum.data.room.entity.*
+import sgtmelon.scriptum.data.room.extension.fromRoom
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.data.DbData.Alarm
 import sgtmelon.scriptum.domain.model.data.DbData.Note
@@ -27,7 +28,7 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
     IRoomWork {
 
     override suspend fun insertData(model: Model, importSkip: Boolean): ImportResult {
-        return takeFromRoom {
+        return fromRoom {
             val startSize = model.noteList.size
 
             if (importSkip) clearList(getRemoveNoteList(model, roomDb = this), model)
@@ -41,7 +42,7 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
             insertRankList(model, roomDb = this)
             insertAlarmList(model, roomDb = this)
 
-            return@takeFromRoom if (importSkip) {
+            return@fromRoom if (importSkip) {
                 ImportResult.Skip(skipCount = startSize - model.noteList.size)
             } else {
                 ImportResult.Simple

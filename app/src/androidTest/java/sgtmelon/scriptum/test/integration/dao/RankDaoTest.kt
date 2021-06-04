@@ -8,6 +8,7 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.data.room.RoomDb
 import sgtmelon.scriptum.data.room.dao.IRankDao
 import sgtmelon.scriptum.data.room.entity.RankEntity
+import sgtmelon.scriptum.data.room.extension.inRoomTest
 import sgtmelon.scriptum.test.parent.ParentRoomTest
 import kotlin.random.Random
 

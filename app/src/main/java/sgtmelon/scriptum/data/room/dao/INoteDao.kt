@@ -2,6 +2,7 @@ package sgtmelon.scriptum.data.room.dao
 
 import androidx.room.*
 import sgtmelon.scriptum.data.room.RoomDb
+import sgtmelon.scriptum.data.room.annotation.DaoDeprecated
 import sgtmelon.scriptum.data.room.converter.type.BoolConverter
 import sgtmelon.scriptum.data.room.converter.type.NoteTypeConverter
 import sgtmelon.scriptum.data.room.entity.NoteEntity
@@ -14,9 +15,7 @@ import sgtmelon.scriptum.domain.model.data.DbData
 @TypeConverters(BoolConverter::class, NoteTypeConverter::class)
 interface INoteDao {
 
-    /**
-     * TODO add -1 value convert to null
-     */
+    @Deprecated(DaoDeprecated.INSERT)
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(noteEntity: NoteEntity): Long
 
@@ -32,19 +31,28 @@ interface INoteDao {
     @Update
     suspend fun update(list: List<NoteEntity>)
 
-    @Query(value = """SELECT COUNT(NT_ID) FROM NOTE_TABLE
-        WHERE NT_BIN = :isBin AND (NT_RANK_ID = -1 OR NT_RANK_ID IN (:rankIdList))
-    """)
+    @Deprecated(DaoDeprecated.LIST)
+    @Query(
+        value = """
+            SELECT COUNT(NT_ID) FROM NOTE_TABLE
+            WHERE NT_BIN = :isBin AND (NT_RANK_ID = -1 OR NT_RANK_ID IN (:rankIdList))
+        """
+    )
     suspend fun getCount(isBin: Boolean, rankIdList: List<Long>): Int
 
-    @Query(value = """SELECT COUNT(NT_ID) FROM NOTE_TABLE
-        WHERE NT_ID IN (:idList) AND NT_STATUS = 1
-    """)
+    @Deprecated(DaoDeprecated.LIST)
+    @Query(
+        value = """
+            SELECT COUNT(NT_ID) FROM NOTE_TABLE
+            WHERE NT_ID IN (:idList) AND NT_STATUS = 1
+        """
+    )
     suspend fun getBindCount(idList: List<Long>): Int
 
     @Query(value = "SELECT * FROM NOTE_TABLE WHERE NT_ID = :id")
     suspend fun get(id: Long): NoteEntity?
 
+    @Deprecated(DaoDeprecated.LIST)
     @Query(value = "SELECT * FROM NOTE_TABLE WHERE NT_ID IN (:idList)")
     suspend fun get(idList: List<Long>): List<NoteEntity>
 

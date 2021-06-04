@@ -8,6 +8,7 @@ import sgtmelon.scriptum.data.room.RoomDb
 import sgtmelon.scriptum.data.room.dao.IAlarmDao
 import sgtmelon.scriptum.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.data.room.entity.NoteEntity
+import sgtmelon.scriptum.data.room.extension.inRoomTest
 import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.test.parent.ParentRoomTest
@@ -18,6 +19,8 @@ import kotlin.random.Random
  */
 @RunWith(AndroidJUnit4::class)
 class AlarmDaoTest : ParentRoomTest() {
+
+    //region Variables
 
     private val firstNote = NoteEntity(
         id = 1, create = DATE_1, change = DATE_1, text = "123", name = "456",
@@ -43,6 +46,8 @@ class AlarmDaoTest : ParentRoomTest() {
     )
 
     private val notificationList = arrayListOf(firstNotification, secondNotification)
+
+    //endregion
 
     private suspend fun RoomDb.insertAlarmRelation(
         noteEntity: NoteEntity,
@@ -102,6 +107,8 @@ class AlarmDaoTest : ParentRoomTest() {
         assertEquals(alarmList, alarmDao.get(noteIdList))
     }
 
+    @Test fun getListByIdCrowd() = inRoomTest { alarmDao.get(crowdList) }
+
     @Test fun getItem() = inRoomTest {
         assertNull(alarmDao.getItem(Random.nextLong()))
 
@@ -133,7 +140,7 @@ class AlarmDaoTest : ParentRoomTest() {
         assertEquals(++size, alarmDao.getCount())
     }
 
-    @Test fun getCount_byIdList() = inRoomTest {
+    @Test fun getCountByIdList() = inRoomTest {
         var size = 0
 
         assertEquals(size, alarmDao.getCount(listOf()))
@@ -144,4 +151,6 @@ class AlarmDaoTest : ParentRoomTest() {
         insertAlarmRelation(secondNote, secondAlarm)
         assertEquals(++size, alarmDao.getCount(listOf(firstNote.id, secondNote.id)))
     }
+
+    @Test fun getCountByIdListCrowd() = inRoomTest { alarmDao.getCount(crowdList) }
 }

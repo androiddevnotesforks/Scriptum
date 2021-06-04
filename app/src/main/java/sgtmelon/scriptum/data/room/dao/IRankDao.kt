@@ -2,6 +2,7 @@ package sgtmelon.scriptum.data.room.dao
 
 import androidx.room.*
 import sgtmelon.scriptum.data.room.RoomDb
+import sgtmelon.scriptum.data.room.annotation.DaoDeprecated
 import sgtmelon.scriptum.data.room.converter.type.BoolConverter
 import sgtmelon.scriptum.data.room.entity.RankEntity
 import sgtmelon.scriptum.domain.model.data.DbData
@@ -15,14 +16,15 @@ interface IRankDao {
 
     // TODO use rankItem not entity
 
+    @Deprecated(DaoDeprecated.INSERT)
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(rankEntity: RankEntity): Long
+    suspend fun insert(entity: RankEntity): Long
 
     @Query(value = "DELETE FROM RANK_TABLE WHERE RK_NAME = :name")
     suspend fun delete(name: String)
 
     @Update(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun update(rankEntity: RankEntity)
+    suspend fun update(entity: RankEntity)
 
     @Update(onConflict = OnConflictStrategy.IGNORE)
     suspend fun update(list: List<RankEntity>)

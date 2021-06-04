@@ -12,6 +12,8 @@ import sgtmelon.scriptum.data.room.entity.NoteEntity
 import sgtmelon.scriptum.data.room.entity.RankEntity
 import sgtmelon.scriptum.data.room.entity.RollEntity
 import sgtmelon.scriptum.data.room.entity.RollVisibleEntity
+import sgtmelon.scriptum.data.room.extension.fromRoom
+import sgtmelon.scriptum.data.room.extension.inRoom
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
@@ -34,10 +36,10 @@ class NoteRepo(
      * - For notes page need take only visible items count
      * - For bin page need take all items count
      */
-    override suspend fun getCount(isBin: Boolean): Int = takeFromRoom {
+    override suspend fun getCount(isBin: Boolean): Int = fromRoom {
         val rankIdList = if (isBin) rankDao.getIdList() else rankDao.getIdVisibleList()
 
-        return@takeFromRoom noteDao.getCount(isBin, rankIdList)
+        return@fromRoom noteDao.getCount(isBin, rankIdList)
     }
 
     /**
@@ -51,7 +53,7 @@ class NoteRepo(
         isBin: Boolean,
         isOptimal: Boolean,
         filterVisible: Boolean
-    ): MutableList<NoteItem> = takeFromRoom {
+    ): MutableList<NoteItem> = fromRoom {
         var entityList = getSortBy(isBin, sort, noteDao)
 
         if (filterVisible) entityList = filterVisible(entityList, rankDao)
@@ -60,7 +62,7 @@ class NoteRepo(
             transformNoteEntity(it, isOptimal, db = this)
         }.toMutableList()
 
-        return@takeFromRoom correctRankSort(itemList, sort)
+        return@fromRoom correctRankSort(itemList, sort)
     }
 
     @RunPrivate
@@ -109,10 +111,10 @@ class NoteRepo(
      * [id] - note item id.
      * [isOptimal] - need for note lists where displays short information.
      */
-    override suspend fun getItem(id: Long, isOptimal: Boolean): NoteItem? = takeFromRoom {
-        val entity = noteDao.get(id) ?: return@takeFromRoom null
+    override suspend fun getItem(id: Long, isOptimal: Boolean): NoteItem? = fromRoom {
+        val entity = noteDao.get(id) ?: return@fromRoom null
 
-        return@takeFromRoom transformNoteEntity(entity, isOptimal, db = this)
+        return@fromRoom transformNoteEntity(entity, isOptimal, db = this)
     }
 
     @RunPrivate
@@ -155,7 +157,7 @@ class NoteRepo(
     /**
      * Return empty list if don't have [RollEntity] for this [noteId]
      */
-    override suspend fun getRollList(noteId: Long): MutableList<RollItem> = takeFromRoom {
+    override suspend fun getRollList(noteId: Long): MutableList<RollItem> = fromRoom {
         rollConverter.toItem(rollDao.get(noteId))
     }
 
@@ -164,10 +166,10 @@ class NoteRepo(
     /**
      * Have hide notes in list or not.
      */
-    override suspend fun isListHide(): Boolean = takeFromRoom {
+    override suspend fun isListHide(): Boolean = fromRoom {
         val rankIdVisibleList = rankDao.getIdVisibleList()
 
-        return@takeFromRoom noteDao.get(false).any {
+        return@fromRoom noteDao.get(false).any {
             !noteConverter.toItem(it).isRankVisible(rankIdVisibleList)
         }
     }
@@ -213,7 +215,7 @@ class NoteRepo(
 
     // Repo save and update functions
 
-    override suspend fun convertNote(item: NoteItem.Text): NoteItem.Roll = takeFromRoom {
+    override suspend fun convertNote(item: NoteItem.Text): NoteItem.Roll = fromRoom {
         val newItem = item.onConvert()
 
         for (it in newItem.list) {
@@ -222,13 +224,13 @@ class NoteRepo(
 
         noteDao.update(noteConverter.toEntity(newItem))
 
-        return@takeFromRoom newItem
+        return@fromRoom newItem
     }
 
     override suspend fun convertNote(
         item: NoteItem.Roll,
         useCache: Boolean
-    ): NoteItem.Text = takeFromRoom {
+    ): NoteItem.Text = fromRoom {
         val newItem = if (useCache) {
             item.onConvert()
         } else {
@@ -238,7 +240,7 @@ class NoteRepo(
         noteDao.update(noteConverter.toEntity(newItem))
         rollDao.delete(newItem.id)
 
-        return@takeFromRoom newItem
+        return@fromRoom newItem
     }
 
     override suspend fun getCopyText(item: NoteItem) = StringBuilder().apply {
@@ -329,15 +331,15 @@ class NoteRepo(
     // Repo backup functions
 
     override suspend fun getNoteBackup(): List<NoteEntity> {
-        return takeFromRoom { noteDao.get(bin = false) }
+        return fromRoom { noteDao.get(bin = false) }
     }
 
     override suspend fun getRollBackup(noteIdList: List<Long>): List<RollEntity> {
-        return takeFromRoom { rollDao.get(noteIdList) }
+        return fromRoom { rollDao.get(noteIdList) }
     }
 
     override suspend fun getRollVisibleBackup(noteIdList: List<Long>): List<RollVisibleEntity> {
-        return takeFromRoom { rollVisibleDao.get(noteIdList) }
+        return fromRoom { rollVisibleDao.get(noteIdList) }
     }
 
 }

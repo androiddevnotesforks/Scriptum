@@ -58,6 +58,7 @@ class DevelopViewModelTest : ParentViewModelTest() {
         verifySequence {
             callback.setupPrints()
             callback.setupScreens()
+            callback.setupService()
             callback.setupOther()
         }
     }

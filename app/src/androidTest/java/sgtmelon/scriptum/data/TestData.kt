@@ -12,6 +12,7 @@ import sgtmelon.scriptum.data.room.entity.NoteEntity
 import sgtmelon.scriptum.data.room.entity.RankEntity
 import sgtmelon.scriptum.data.room.entity.RollEntity
 import sgtmelon.scriptum.data.room.entity.RollVisibleEntity
+import sgtmelon.scriptum.data.room.extension.inRoomTest
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.data.ColorData
 import sgtmelon.scriptum.domain.model.item.NoteItem

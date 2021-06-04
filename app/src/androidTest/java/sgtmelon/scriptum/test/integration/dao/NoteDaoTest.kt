@@ -7,6 +7,7 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.data.room.RoomDb
 import sgtmelon.scriptum.data.room.dao.INoteDao
 import sgtmelon.scriptum.data.room.entity.NoteEntity
+import sgtmelon.scriptum.data.room.extension.inRoomTest
 import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.test.parent.ParentRoomTest
 import kotlin.random.Random
@@ -16,6 +17,8 @@ import kotlin.random.Random
  */
 @RunWith(AndroidJUnit4::class)
 class NoteDaoTest : ParentRoomTest() {
+
+    //region Variables
 
     private val firstNote = NoteEntity(
         id = 1, create = DATE_1, change = DATE_2, text = "123", name = "456",
@@ -41,7 +44,11 @@ class NoteDaoTest : ParentRoomTest() {
         isStatus = Random.nextBoolean()
     )
 
-    private fun inNoteDao(func: suspend INoteDao.() -> Unit) = inRoomTest { noteDao.apply { func() } }
+    //endregion
+
+    private fun inNoteDao(func: suspend INoteDao.() -> Unit) = inRoomTest {
+        noteDao.apply { func() }
+    }
 
     private suspend fun INoteDao.insertAllTo(isBin: Boolean) {
         insert(firstNote.copy(isBin = isBin))
@@ -126,6 +133,8 @@ class NoteDaoTest : ParentRoomTest() {
         assertEquals(1, getCount(isBin = true, rankIdList = listOf(1)))
     }
 
+    @Test fun getCountCrowd() = inNoteDao { getCount(Random.nextBoolean(), crowdList) }
+
     @Test fun getBindCount() = inNoteDao {
         assertEquals(0, getBindCount(listOf()))
 
@@ -136,6 +145,8 @@ class NoteDaoTest : ParentRoomTest() {
         val bindCount = listOf(firstNote, secondNote, thirdNote).count { it.isStatus }
         assertEquals(bindCount, getBindCount(listOf(firstNote.id, secondNote.id, thirdNote.id)))
     }
+
+    @Test fun getBindCountCrowd() = inNoteDao { getBindCount(crowdList) }
 
     @Test fun getByWrongId() = inNoteDao { assertNull(get(Random.nextLong())) }
 
@@ -153,14 +164,18 @@ class NoteDaoTest : ParentRoomTest() {
     @Test fun getByIdList() = inNoteDao {
         insertAllTo(isBin = false)
 
-        assertEquals(listOf(firstNote, thirdNote), get(listOf(
-            firstNote.id, thirdNote.id, Random.nextLong()
-        )))
+        assertEquals(
+            listOf(firstNote, thirdNote),
+            get(listOf(firstNote.id, thirdNote.id, Random.nextLong()))
+        )
 
-        assertEquals(listOf(secondNote.copy(isBin = false), thirdNote), get(listOf(
-            secondNote.id, thirdNote.id
-        )))
+        assertEquals(
+            listOf(secondNote.copy(isBin = false), thirdNote),
+            get(listOf(secondNote.id, thirdNote.id))
+        )
     }
+
+    @Test fun getByIdListCrowd() = inNoteDao { get(crowdList) }
 
     @Test fun getByBin() = inNoteDao {
         insert(firstNote)

@@ -31,8 +31,6 @@ abstract class RoomDb : RoomDatabase() {
 
     abstract val alarmDao: IAlarmDao
 
-    fun checkInsertIgnore(id: Long): Long? = id.takeIf { it != UNIQUE_ERROR_ID }
-
     companion object {
         const val UNIQUE_ERROR_ID = -1L
 

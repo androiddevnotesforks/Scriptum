@@ -8,6 +8,7 @@ import sgtmelon.scriptum.data.room.RoomDb
 import sgtmelon.scriptum.data.room.dao.IRollVisibleDao
 import sgtmelon.scriptum.data.room.entity.NoteEntity
 import sgtmelon.scriptum.data.room.entity.RollVisibleEntity
+import sgtmelon.scriptum.data.room.extension.inRoomTest
 import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.test.parent.ParentRoomTest
 
@@ -17,17 +18,27 @@ import sgtmelon.scriptum.test.parent.ParentRoomTest
 @RunWith(AndroidJUnit4::class)
 class RollVisibleDaoTest : ParentRoomTest() {
 
+    //region Variables
+
     private data class Model(val noteEntity: NoteEntity, val entity: RollVisibleEntity)
 
-    private val firstModel = Model(NoteEntity(id = 1,
-        create = DATE_5, change = DATE_3, name = "NAME 1", text = "TEXT 1", color = 0,
-        type = NoteType.TEXT, rankId = -1, rankPs = -1, isBin = false, isStatus = true
-    ), RollVisibleEntity(id = 1, noteId = 1, value = false))
+    private val firstModel = Model(
+        NoteEntity(
+            id = 1,
+            create = DATE_5, change = DATE_3, name = "NAME 1", text = "TEXT 1", color = 0,
+            type = NoteType.TEXT, rankId = -1, rankPs = -1, isBin = false, isStatus = true
+        ), RollVisibleEntity(id = 1, noteId = 1, value = false)
+    )
 
-    private val secondModel = Model(NoteEntity(id = 2,
-        create = DATE_1, change = DATE_2, name = "NAME 2", text = "3/5", color = 1,
-        type = NoteType.ROLL, rankId = 10, rankPs = 1, isBin = true, isStatus = false
-    ), RollVisibleEntity(id = 2, noteId = 2, value = false))
+    private val secondModel = Model(
+        NoteEntity(
+            id = 2,
+            create = DATE_1, change = DATE_2, name = "NAME 2", text = "3/5", color = 1,
+            type = NoteType.ROLL, rankId = 10, rankPs = 1, isBin = true, isStatus = false
+        ), RollVisibleEntity(id = 2, noteId = 2, value = false)
+    )
+
+    //endregion
 
     // Dao functions
 
@@ -52,7 +63,17 @@ class RollVisibleDaoTest : ParentRoomTest() {
         }
     }
 
-    @Test fun get_byId() = inRoomTest {
+    @Test fun get() = inRoomTest {
+        noteDao.insert(firstModel.noteEntity)
+        noteDao.insert(secondModel.noteEntity)
+
+        rollVisibleDao.insert(firstModel.entity)
+        rollVisibleDao.insert(secondModel.entity)
+
+        assertEquals(listOf(firstModel.entity, secondModel.entity), rollVisibleDao.get())
+    }
+
+    @Test fun getById() = inRoomTest {
         firstModel.let {
             noteDao.insert(it.noteEntity)
 
@@ -63,7 +84,7 @@ class RollVisibleDaoTest : ParentRoomTest() {
         }
     }
 
-    @Test fun get_byIdList() = inRoomTest {
+    @Test fun getByIdList() = inRoomTest {
         noteDao.insert(firstModel.noteEntity)
         noteDao.insert(secondModel.noteEntity)
 
@@ -78,13 +99,6 @@ class RollVisibleDaoTest : ParentRoomTest() {
         assertTrue(resultList.contains(secondModel.entity))
     }
 
-    @Test fun get() = inRoomTest {
-        noteDao.insert(firstModel.noteEntity)
-        noteDao.insert(secondModel.noteEntity)
+    @Test fun getByIdListCrowd() = inRoomTest { rollVisibleDao.get(crowdList) }
 
-        rollVisibleDao.insert(firstModel.entity)
-        rollVisibleDao.insert(secondModel.entity)
-
-        assertEquals(listOf(firstModel.entity, secondModel.entity), rollVisibleDao.get())
-    }
 }

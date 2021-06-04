@@ -75,7 +75,7 @@ class DotAnimControl(private val type: DotAnimType, private val callback: Callba
         context: Context,
         @Size(value = DOT_COUNT + 1L) list: List<CharSequence>
     ): ValueAnimator {
-        val valueTo = DOT_COUNT + 1
+        val valueTo = list.size
 
         return ValueAnimator.ofInt(0, valueTo).apply {
             this.interpolator = LinearInterpolator()
@@ -89,7 +89,7 @@ class DotAnimControl(private val type: DotAnimType, private val callback: Callba
 
 
                 /**
-                 * Sometimes [ValueAnimator] give a corner value.
+                 * Sometimes [ValueAnimator] give a corner value which equals valueTo.
                  */
                 if (value == null || value == valueTo) return@addUpdateListener
 

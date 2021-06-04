@@ -9,8 +9,10 @@ import sgtmelon.scriptum.data.room.RoomDb
 import sgtmelon.scriptum.data.room.dao.IRollDao
 import sgtmelon.scriptum.data.room.entity.NoteEntity
 import sgtmelon.scriptum.data.room.entity.RollEntity
+import sgtmelon.scriptum.data.room.extension.inRoomTest
 import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.test.parent.ParentRoomTest
+import kotlin.random.Random
 
 /**
  * Integration test for [IRollDao]
@@ -18,25 +20,33 @@ import sgtmelon.scriptum.test.parent.ParentRoomTest
 @RunWith(AndroidJUnit4::class)
 class RollDaoTest : ParentRoomTest() {
 
+    //region Variables
+
     private data class Model(val entity: NoteEntity, val rollList: List<RollEntity>)
 
-    private val firstModel = Model(NoteEntity(
-        id = 1, create = DATE_1, change = DATE_2, type = NoteType.ROLL
-    ), arrayListOf(
-        RollEntity(id = 1, noteId = 1, position = 0, isCheck = false, text = "01234"),
-        RollEntity(id = 2, noteId = 1, position = 1, isCheck = true, text = "12345"),
-        RollEntity(id = 3, noteId = 1, position = 2, isCheck = false, text = "23456"),
-        RollEntity(id = 4, noteId = 1, position = 3, isCheck = true, text = "34567")
-    ))
+    private val firstModel = Model(
+        NoteEntity(
+            id = 1, create = DATE_1, change = DATE_2, type = NoteType.ROLL
+        ), arrayListOf(
+            RollEntity(id = 1, noteId = 1, position = 0, isCheck = false, text = "01234"),
+            RollEntity(id = 2, noteId = 1, position = 1, isCheck = true, text = "12345"),
+            RollEntity(id = 3, noteId = 1, position = 2, isCheck = false, text = "23456"),
+            RollEntity(id = 4, noteId = 1, position = 3, isCheck = true, text = "34567")
+        )
+    )
 
-    private val secondModel = Model(NoteEntity(
-        id = 2, create = DATE_3, change = DATE_4, type = NoteType.ROLL
-    ), arrayListOf(
-        RollEntity(id = 5, noteId = 2, position = 0, isCheck = false, text = "01234"),
-        RollEntity(id = 6, noteId = 2, position = 1, isCheck = true, text = "12345"),
-        RollEntity(id = 7, noteId = 2, position = 2, isCheck = false, text = "23456"),
-        RollEntity(id = 8, noteId = 2, position = 3, isCheck = true, text = "34567")
-    ))
+    private val secondModel = Model(
+        NoteEntity(
+            id = 2, create = DATE_3, change = DATE_4, type = NoteType.ROLL
+        ), arrayListOf(
+            RollEntity(id = 5, noteId = 2, position = 0, isCheck = false, text = "01234"),
+            RollEntity(id = 6, noteId = 2, position = 1, isCheck = true, text = "12345"),
+            RollEntity(id = 7, noteId = 2, position = 2, isCheck = false, text = "23456"),
+            RollEntity(id = 8, noteId = 2, position = 3, isCheck = true, text = "34567")
+        )
+    )
+
+    //endregion
 
     private suspend fun RoomDb.insertRollRelation(model: Model) = with(model) {
         noteDao.insert(entity)
@@ -86,24 +96,22 @@ class RollDaoTest : ParentRoomTest() {
     @Test fun deleteAfterSwipe() = inRoomTest {
         insertRollRelation(firstModel)
 
-        with(firstModel) {
-            val listSave = rollList.filter { it.isCheck }
+        val listSave = firstModel.rollList.filter { it.isCheck }
+        val id = firstModel.entity.id
 
-            entity.id.let { id ->
-                rollDao.delete(id, listSave.map { it.id ?: -1 })
-                assertEquals(listSave, rollDao.get(id))
-            }
-        }
+        rollDao.delete(id, listSave.map { it.id ?: -1 })
+        assertEquals(listSave, rollDao.get(id))
     }
 
     @Test fun deleteAll() = inRoomTest {
         insertRollRelation(firstModel)
 
-        firstModel.entity.id.let {
-            rollDao.delete(it)
-            assertTrue(rollDao.get(it).isEmpty())
-        }
+        val id = firstModel.entity.id
+        rollDao.delete(id)
+        assertTrue(rollDao.get(id).isEmpty())
     }
+
+    @Test fun deleteCrowd() = inRoomTest { rollDao.delete(Random.nextLong(), crowdList) }
 
     // Dao get functions
 
@@ -118,7 +126,7 @@ class RollDaoTest : ParentRoomTest() {
         assertEquals(expectedList, rollDao.get())
     }
 
-    @Test fun get_byId() = inRoomTest {
+    @Test fun getById() = inRoomTest {
         firstModel.let {
             insertRollRelation(it)
             assertEquals(it.rollList, rollDao.get(it.entity.id))
@@ -130,7 +138,7 @@ class RollDaoTest : ParentRoomTest() {
         }
     }
 
-    @Test fun get_byIdList() = inRoomTest {
+    @Test fun getByIdList() = inRoomTest {
         insertRollRelation(firstModel)
         insertRollRelation(secondModel)
 
@@ -141,6 +149,8 @@ class RollDaoTest : ParentRoomTest() {
         assertTrue(resultList.containsAll(firstModel.rollList))
         assertTrue(resultList.containsAll(secondModel.rollList))
     }
+
+    @Test fun getByIdListCrowd() = inRoomTest { rollDao.get(crowdList) }
 
     @Test fun getView() = inRoomTest {
         firstModel.let {

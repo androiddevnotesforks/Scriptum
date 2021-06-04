@@ -50,9 +50,6 @@ abstract class ParentUi {
         return allOf(getViewById(viewId), getViewByText(string))
     }
 
-    //endregion
-
-
     protected fun Matcher<View>.includeParent(parentMatcher: Matcher<View>): Matcher<View> = let {
         allOf(it, withParent(parentMatcher))
     }
@@ -60,6 +57,8 @@ abstract class ParentUi {
     protected fun Matcher<View>.excludeParent(parentMatcher: Matcher<View>): Matcher<View> = let {
         allOf(it, not(withParent(parentMatcher)))
     }
+
+    //endregion
 
     companion object {
         @Theme var theme: Int? = null

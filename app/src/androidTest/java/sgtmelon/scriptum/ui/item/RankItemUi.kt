@@ -16,7 +16,7 @@ import kotlin.math.min
 class RankItemUi(
     listMatcher: Matcher<View>,
     position: Int
-) : ParentRecyclerItem<RankItem>(listMatcher, itemMatcher = null, position) {
+) : ParentRecyclerItem<RankItem>(listMatcher, position) {
 
     private val parentCard by lazy { getChild(getViewById(R.id.rank_parent_card)) }
 

@@ -6,6 +6,8 @@ import sgtmelon.scriptum.data.room.IRoomWork
 import sgtmelon.scriptum.data.room.RoomDb
 import sgtmelon.scriptum.data.room.converter.model.AlarmConverter
 import sgtmelon.scriptum.data.room.entity.AlarmEntity
+import sgtmelon.scriptum.data.room.extension.fromRoom
+import sgtmelon.scriptum.data.room.extension.inRoom
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.NotificationItem
 
@@ -32,17 +34,17 @@ class AlarmRepo(
     override suspend fun delete(noteId: Long) = inRoom { alarmDao.delete(noteId) }
 
 
-    override suspend fun getItem(noteId: Long): NotificationItem? = takeFromRoom {
+    override suspend fun getItem(noteId: Long): NotificationItem? = fromRoom {
         alarmDao.getItem(noteId)
     }
 
-    override suspend fun getList(): MutableList<NotificationItem> = takeFromRoom {
+    override suspend fun getList(): MutableList<NotificationItem> = fromRoom {
         alarmDao.getList()
     }
 
 
-    override suspend fun getAlarmBackup(noteIdList: List<Long>): List<AlarmEntity> {
-        return takeFromRoom { alarmDao.get(noteIdList) }
+    override suspend fun getAlarmBackup(noteIdList: List<Long>): List<AlarmEntity> = fromRoom {
+        alarmDao.get(noteIdList)
     }
 
 }

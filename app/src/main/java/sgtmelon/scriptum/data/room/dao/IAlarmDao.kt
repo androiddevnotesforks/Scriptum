@@ -2,6 +2,7 @@ package sgtmelon.scriptum.data.room.dao
 
 import androidx.room.*
 import sgtmelon.scriptum.data.room.RoomDb
+import sgtmelon.scriptum.data.room.annotation.DaoDeprecated
 import sgtmelon.scriptum.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.domain.model.data.DbData
 import sgtmelon.scriptum.domain.model.item.NotificationItem
@@ -12,6 +13,7 @@ import sgtmelon.scriptum.domain.model.item.NotificationItem
 @Dao
 interface IAlarmDao {
 
+    @Deprecated(DaoDeprecated.INSERT)
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(alarmEntity: AlarmEntity): Long
 
@@ -41,12 +43,14 @@ interface IAlarmDao {
     @Query(value = "SELECT * FROM ALARM_TABLE WHERE AL_NOTE_ID = :noteId")
     suspend fun get(noteId: Long): AlarmEntity?
 
+    @Deprecated(DaoDeprecated.LIST)
     @Query(value = "SELECT * FROM ALARM_TABLE WHERE AL_NOTE_ID IN (:noteIdList)")
     suspend fun get(noteIdList: List<Long>): List<AlarmEntity>
 
     @Query(value = """SELECT COUNT(AL_ID) FROM ALARM_TABLE""")
     suspend fun getCount(): Int
 
+    @Deprecated(DaoDeprecated.LIST)
     @Query(value = "SELECT COUNT(AL_ID) FROM ALARM_TABLE WHERE AL_NOTE_ID IN (:noteIdList)")
     suspend fun getCount(noteIdList: List<Long>): Int
 }

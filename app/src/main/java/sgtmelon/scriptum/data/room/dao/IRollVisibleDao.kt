@@ -2,6 +2,7 @@ package sgtmelon.scriptum.data.room.dao
 
 import androidx.room.*
 import sgtmelon.scriptum.data.room.RoomDb
+import sgtmelon.scriptum.data.room.annotation.DaoDeprecated
 import sgtmelon.scriptum.data.room.converter.type.BoolConverter
 import sgtmelon.scriptum.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.domain.model.data.DbData
@@ -13,9 +14,7 @@ import sgtmelon.scriptum.domain.model.data.DbData
 @TypeConverters(BoolConverter::class)
 interface IRollVisibleDao {
 
-    /**
-     * TODO add -1 value convert to null
-     */
+    @Deprecated(DaoDeprecated.INSERT)
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(entity: RollVisibleEntity): Long
 
@@ -28,6 +27,7 @@ interface IRollVisibleDao {
     @Query(value = "SELECT RL_VS_VALUE FROM ROLL_VISIBLE_TABLE WHERE RL_VS_NOTE_ID = :noteId")
     suspend fun get(noteId: Long): Boolean?
 
+    @Deprecated(DaoDeprecated.LIST)
     @Query(value = "SELECT * FROM ROLL_VISIBLE_TABLE WHERE RL_VS_NOTE_ID IN (:noteIdList)")
     suspend fun get(noteIdList: List<Long>): List<RollVisibleEntity>
 

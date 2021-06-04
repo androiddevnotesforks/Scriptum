@@ -8,6 +8,9 @@ import sgtmelon.scriptum.data.room.converter.model.RankConverter
 import sgtmelon.scriptum.data.room.dao.INoteDao
 import sgtmelon.scriptum.data.room.entity.NoteEntity
 import sgtmelon.scriptum.data.room.entity.RankEntity
+import sgtmelon.scriptum.data.room.extension.fromRoom
+import sgtmelon.scriptum.data.room.extension.inRoom
+import sgtmelon.scriptum.data.room.extension.safeInsert
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.data.DbData.Note
 import sgtmelon.scriptum.domain.model.item.NoteItem
@@ -22,9 +25,9 @@ class RankRepo(
 ) : IRankRepo,
     IRoomWork {
 
-    override suspend fun getCount(): Int = takeFromRoom { rankDao.getCount() }
+    override suspend fun getCount(): Int = fromRoom { rankDao.getCount() }
 
-    override suspend fun getList(): MutableList<RankItem> = takeFromRoom {
+    override suspend fun getList(): MutableList<RankItem> = fromRoom {
         val list = converter.toItem(rankDao.get())
 
         for (item in list) {
@@ -32,21 +35,17 @@ class RankRepo(
             item.notificationCount = alarmDao.getCount(item.noteId)
         }
 
-        return@takeFromRoom list
+        return@fromRoom list
     }
 
     /**
      * Return list of rank id's which is visible.
      */
-    override suspend fun getIdVisibleList(): List<Long> = takeFromRoom {
-        rankDao.getIdVisibleList()
-    }
+    override suspend fun getIdVisibleList(): List<Long> = fromRoom { rankDao.getIdVisibleList() }
 
 
-    override suspend fun insert(name: String): Long? = takeFromRoom {
-        val id = rankDao.insert(RankEntity(name = name))
-
-        return@takeFromRoom checkInsertIgnore(id)
+    override suspend fun insert(name: String): Long? = fromRoom {
+        rankDao.safeInsert(RankEntity[name])
     }
 
     override suspend fun insert(item: RankItem) = inRoom {
@@ -160,7 +159,7 @@ class RankRepo(
     /**
      * Return array with all rank names.
      */
-    override suspend fun getDialogItemArray(emptyName: String): Array<String> = takeFromRoom {
+    override suspend fun getDialogItemArray(emptyName: String): Array<String> = fromRoom {
         ArrayList<String>().apply {
             add(emptyName)
             addAll(rankDao.getNameList())
@@ -174,11 +173,11 @@ class RankRepo(
         return if (position == Note.Default.RANK_PS) {
             Note.Default.RANK_ID
         } else {
-            takeFromRoom { rankDao.getId(position) ?: Note.Default.RANK_ID }
+            fromRoom { rankDao.getId(position) ?: Note.Default.RANK_ID }
         }
     }
 
 
-    override suspend fun getRankBackup(): List<RankEntity> = takeFromRoom { rankDao.get() }
+    override suspend fun getRankBackup(): List<RankEntity> = fromRoom { rankDao.get() }
 
 }
