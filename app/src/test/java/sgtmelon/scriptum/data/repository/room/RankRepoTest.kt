@@ -7,6 +7,7 @@ import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.extension.nextString
 import sgtmelon.scriptum.TestData
+import sgtmelon.scriptum.data.room.RoomDb
 import sgtmelon.scriptum.data.room.converter.model.RankConverter
 import sgtmelon.scriptum.data.room.entity.NoteEntity
 import sgtmelon.scriptum.data.room.entity.RankEntity
@@ -101,18 +102,16 @@ class RankRepoTest : ParentRoomRepoTest() {
     }
 
 
+    @Suppress("DEPRECATION")
     @Test fun insert_byName() = startCoTest {
-        TODO()
         val id = Random.nextLong()
         val name = nextString()
         val entity = RankEntity(name = name)
 
-        coEvery { rankDao.insert(entity) } returns id
-
-        //        every { rankDao.safeInsert(id) } returns null
+        coEvery { rankDao.insert(entity) } returns RoomDb.UNIQUE_ERROR_ID
         assertNull(rankRepo.insert(name))
 
-        //        every { rankDao.safeInsert(id) } returns id
+        coEvery { rankDao.insert(entity) } returns id
         assertEquals(id, rankRepo.insert(name))
 
         coVerifySequence {
@@ -121,7 +120,6 @@ class RankRepoTest : ParentRoomRepoTest() {
 
                 roomDb.rankDao
                 rankDao.insert(entity)
-                //                rankDao.safeInsert(id)
                 roomDb.close()
             }
         }

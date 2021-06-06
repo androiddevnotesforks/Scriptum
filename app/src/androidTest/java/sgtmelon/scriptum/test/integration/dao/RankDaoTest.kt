@@ -1,14 +1,14 @@
 package sgtmelon.scriptum.test.integration.dao
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNull
+import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.data.room.RoomDb
 import sgtmelon.scriptum.data.room.dao.IRankDao
 import sgtmelon.scriptum.data.room.entity.RankEntity
 import sgtmelon.scriptum.data.room.extension.inRoomTest
+import sgtmelon.scriptum.data.room.extension.safeInsert
 import sgtmelon.scriptum.test.parent.ParentRoomTest
 import kotlin.random.Random
 
@@ -33,7 +33,7 @@ class RankDaoTest : ParentRoomTest() {
     private suspend fun IRankDao.insertAll(): List<RankEntity> {
         return arrayListOf(firstRank, secondRank, thirdRank).apply {
             for (it in this) {
-                insert(it)
+                assertNotNull(safeInsert(it))
             }
 
             sortBy { it.position }
@@ -42,20 +42,29 @@ class RankDaoTest : ParentRoomTest() {
 
     // Dao common functions
 
+    @Suppress("DEPRECATION")
     @Test fun insertWithUnique() = inRankDao {
         assertEquals(1, insert(firstRank))
-        assertEquals(RoomDb.UNIQUE_ERROR_ID, insert(secondRank.copy(id = firstRank.id)))
-        assertEquals(RoomDb.UNIQUE_ERROR_ID, insert(secondRank.copy(name = firstRank.name)))
+
+        val sameId = secondRank.copy(id = firstRank.id)
+
+        assertEquals(RoomDb.UNIQUE_ERROR_ID, insert(sameId))
+        assertNull(safeInsert(sameId))
+
+        val sameName = secondRank.copy(name = firstRank.name)
+
+        assertEquals(RoomDb.UNIQUE_ERROR_ID, insert(sameName))
+        assertNull(safeInsert(sameName))
     }
 
     @Test fun delete() = inRankDao {
-        insert(firstRank)
+        assertNotNull(safeInsert(firstRank))
         delete(firstRank.name)
         assertNull(get(firstRank.id))
     }
 
     @Test fun update() = inRankDao {
-        insert(firstRank)
+        assertNotNull(safeInsert(firstRank))
 
         firstRank.copy(name = "12345", isVisible = false).let {
             update(it)
@@ -64,8 +73,8 @@ class RankDaoTest : ParentRoomTest() {
     }
 
     @Test fun updateByList() = inRankDao {
-        insert(firstRank)
-        insert(secondRank)
+        assertNotNull(safeInsert(firstRank))
+        assertNotNull(safeInsert(secondRank))
 
         val updateList = arrayListOf(firstRank.copy(position = 0), secondRank.copy(position = 1))
 
@@ -77,8 +86,8 @@ class RankDaoTest : ParentRoomTest() {
     }
 
     @Test fun updateWithUnique() = inRankDao {
-        insert(firstRank)
-        insert(secondRank)
+        assertNotNull(safeInsert(firstRank))
+        assertNotNull(safeInsert(secondRank))
 
         secondRank.copy(id = firstRank.id).let {
             update(it)
