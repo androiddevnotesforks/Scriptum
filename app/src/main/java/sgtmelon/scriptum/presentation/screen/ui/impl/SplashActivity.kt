@@ -5,13 +5,18 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
+import com.google.firebase.crashlytics.FirebaseCrashlytics
+import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.OpenFrom
 import sgtmelon.scriptum.domain.model.annotation.Theme
+import sgtmelon.scriptum.domain.model.annotation.firebase.FireKey
+import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.key.PreferenceScreen
+import sgtmelon.scriptum.domain.model.key.firebase.RunType
 import sgtmelon.scriptum.extension.beforeFinish
 import sgtmelon.scriptum.extension.hideKeyboard
 import sgtmelon.scriptum.idling.WaitIdlingResource
@@ -49,12 +54,24 @@ class SplashActivity : ParentActivity(), ISplashActivity {
 
         super.onCreate(savedInstanceState)
 
+        setCrashlyticsKeys()
+
         /**
          * If keyboard was open in another app.
          */
         hideKeyboard()
 
         viewModel.onSetup(intent.extras)
+    }
+
+    private fun setCrashlyticsKeys() {
+        val instance = FirebaseCrashlytics.getInstance()
+
+        instance.setCustomKey(FireKey.RUN_TYPE, when {
+            BuildConfig.DEBUG && isTesting -> RunType.TEST.toString()
+            BuildConfig.DEBUG && !isTesting -> RunType.DEBUG.toString()
+            else -> RunType.RELEASE.toString()
+        })
     }
 
     override fun onDestroy() {
@@ -130,6 +147,11 @@ class SplashActivity : ParentActivity(), ISplashActivity {
     //endregion
 
     companion object {
+        /**
+         * Variable for detect test running.
+         */
+        @RunPrivate var isTesting = false
+
         fun getAlarmInstance(context: Context, id: Long): Intent {
             val flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
 

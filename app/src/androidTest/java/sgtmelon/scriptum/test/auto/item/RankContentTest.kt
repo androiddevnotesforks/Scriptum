@@ -80,6 +80,8 @@ class RankContentTest : ParentUiTest() {
         launch({ RankHolder.isMaxTest = true }) {
             mainScreen { rankScreen { onAssertItem(it) } }
         }
+
+        RankHolder.isMaxTest = false
     }
 
     companion object {

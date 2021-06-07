@@ -87,6 +87,7 @@ abstract class ParentUiTest : ParentTest() {
     }
 
     private fun setupCompanionData() {
+        SplashActivity.isTesting = true
         AlarmActivity.isFinishOnStop = false
     }
 
@@ -109,7 +110,7 @@ abstract class ParentUiTest : ParentTest() {
     private fun tearDownCompanionData() {
         ParentUi.theme = null
 
-        RankHolder.isMaxTest = false
+        SplashActivity.isTesting = false
         AlarmActivity.isFinishOnStop = true
 
         BindControl.instance?.clearRecent()

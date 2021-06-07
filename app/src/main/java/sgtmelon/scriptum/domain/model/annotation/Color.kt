@@ -6,11 +6,11 @@ import androidx.annotation.IntDef
  * Describes standard colors
  */
 @IntDef(
-        Color.UNDEFINED,
-        Color.RED, Color.PURPLE, Color.INDIGO,
-        Color.BLUE, Color.TEAL, Color.GREEN,
-        Color.YELLOW, Color.ORANGE, Color.BROWN,
-        Color.BLUE_GREY, Color.WHITE
+    Color.UNDEFINED,
+    Color.RED, Color.PURPLE, Color.INDIGO,
+    Color.BLUE, Color.TEAL, Color.GREEN,
+    Color.YELLOW, Color.ORANGE, Color.BROWN,
+    Color.BLUE_GREY, Color.WHITE
 )
 annotation class Color {
     companion object {
@@ -28,10 +28,10 @@ annotation class Color {
         const val WHITE = 10
 
         val list = arrayListOf(
-                RED, PURPLE, INDIGO,
-                BLUE, TEAL, GREEN,
-                YELLOW, ORANGE, BROWN,
-                BLUE_GREY, WHITE
+            RED, PURPLE, INDIGO,
+            BLUE, TEAL, GREEN,
+            YELLOW, ORANGE, BROWN,
+            BLUE_GREY, WHITE
         )
     }
 }
