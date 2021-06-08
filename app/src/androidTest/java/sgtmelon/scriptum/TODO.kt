@@ -2,8 +2,8 @@
 
 package sgtmelon.scriptum
 
-import sgtmelon.scriptum.test.auto.screen.main.ParentNoteContentTest
-import sgtmelon.scriptum.test.control.anim.note.NoteIconAnimTest
+import sgtmelon.scriptum.test.ui.auto.screen.main.ParentNoteContentTest
+import sgtmelon.scriptum.test.ui.control.anim.note.NoteIconAnimTest
 
 // EXAMPLE: TODO(reason = "#TEST write test")
 

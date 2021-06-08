@@ -9,7 +9,7 @@ import sgtmelon.scriptum.domain.model.annotation.test.RunNone
  * Function only for integration tests.
  */
 @RunNone
-inline fun IRoomWork.inRoomTest(crossinline func: suspend RoomDb.() -> Unit) {
+fun IRoomWork.inRoomTest(func: suspend RoomDb.() -> Unit) {
     runBlocking { inRoom(func) }
 }
 
