@@ -32,7 +32,7 @@ class NotificationSnackbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun actionClick_single() {
+    @Test fun actionClickSingle() {
         val list = fillScreen(count = 5)
         val p = list.indices.random()
 
@@ -50,7 +50,7 @@ class NotificationSnackbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun actionClick_many() {
+    @Test fun actionClickMany() {
         val list = fillScreen(count = 3)
 
         launch {
@@ -76,7 +76,7 @@ class NotificationSnackbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun actionClick_dismiss() {
+    @Test fun actionClickDismiss() {
         val list = fillScreen(count = 5)
         val removePosition = 1
         val actionPosition = 2
@@ -108,9 +108,30 @@ class NotificationSnackbarTest : ParentUiTest() {
         }
     }
 
-    // TODO finish test
-    @Test fun actionClick_noteCheck() {
-        TODO()
+    @Test fun actionClickNoteCheck() {
+        val list = fillScreen(count = 5)
+        val p = list.indices.random()
+
+        launch {
+            mainScreen {
+                notesScreen {
+                    openNotification {
+                        onClickCancel(p)
+                        getSnackbar { onClickCancel() }
+                        assertSnackbarDismiss()
+
+                        when (val item = list[p]) {
+                            is NoteItem.Text -> openText(item, p) {
+                                controlPanel { onNotification(isUpdateDate = true) }
+                            }
+                            is NoteItem.Roll -> openRoll(item, p) {
+                                controlPanel { onNotification(isUpdateDate = true) }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
 
@@ -147,7 +168,7 @@ class NotificationSnackbarTest : ParentUiTest() {
     }
 
 
-    @Test fun scrollToUndoItem_onTop() {
+    @Test fun scrollToUndoItemOnTop() {
         val list = fillScreen(count = 15)
         val p = list.indices.first()
 
@@ -169,7 +190,7 @@ class NotificationSnackbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun scrollToUndoItem_onBottom() {
+    @Test fun scrollToUndoItemOnBottom() {
         val list = fillScreen(count = 15)
         val p = list.lastIndex
 

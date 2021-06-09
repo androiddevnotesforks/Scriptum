@@ -13,15 +13,15 @@ import sgtmelon.scriptum.ui.item.RollItemUi
 @RunWith(AndroidJUnit4::class)
 class RollNoteContentTest : ParentUiTest() {
 
-    @Test fun itemList_onNotes() = data.insertRoll().let {
+    @Test fun itemListOnNotes() = data.insertRoll().let {
         launch { mainScreen { notesScreen { openRollNote(it) { onAssertAll() } } } }
     }
 
-    @Test fun itemList_onBin() = data.insertRollToBin().let {
+    @Test fun itemListOnBin() = data.insertRollToBin().let {
         launch { mainScreen { binScreen { openRollNote(it) { onAssertAll() } } } }
     }
 
-    @Test fun item_onChangeText() = data.createRoll().let {
+    @Test fun itemOnChangeText() = data.createRoll().let {
         launch {
             mainScreen {
                 notesScreen(isEmpty = true) {
@@ -38,7 +38,7 @@ class RollNoteContentTest : ParentUiTest() {
         }
     }
 
-    @Test fun item_onClickCheck() = data.createRoll().let {
+    @Test fun itemOnClickCheck() = data.createRoll().let {
         launch {
             mainScreen {
                 notesScreen(isEmpty = true) {
@@ -56,7 +56,7 @@ class RollNoteContentTest : ParentUiTest() {
         }
     }
 
-    @Test fun item_onLongClickCheck() = data.createRoll().let {
+    @Test fun itemOnLongClickCheck() = data.createRoll().let {
         launch {
             mainScreen {
                 notesScreen(isEmpty = true) {
@@ -76,7 +76,7 @@ class RollNoteContentTest : ParentUiTest() {
         }
     }
 
-    @Test fun item_onEmptyDelete() = data.createRoll().let {
+    @Test fun itemOnEmptyDelete() = data.createRoll().let {
         launch {
             mainScreen {
                 notesScreen(isEmpty = true) {

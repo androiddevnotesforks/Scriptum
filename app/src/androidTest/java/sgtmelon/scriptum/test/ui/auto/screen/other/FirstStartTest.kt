@@ -19,17 +19,17 @@ class FirstStartTest : ParentUiTest() {
 
     @Before override fun setup() = Unit
 
-    @Test fun order0_notFinishIntro() = launch({ preferenceRepo.firstStart = true }) {
+    @Test fun order0NotFinishIntro() = launch({ preferenceRepo.firstStart = true }) {
         introScreen()
     }
 
-    @Test fun order1_finishIntro() = launch {
+    @Test fun order1FinishIntro() = launch {
         introScreen {
             onPassThrough(Scroll.END)
             onClickEndButton()
         }
     }
 
-    @Test fun order2_openAfterIntro() = launch { mainScreen() }
+    @Test fun order2OpenAfterIntro() = launch { mainScreen() }
 
 }

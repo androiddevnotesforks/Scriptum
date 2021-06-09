@@ -11,18 +11,18 @@ import sgtmelon.scriptum.test.parent.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class InfoAnimTest : ParentUiTest() {
 
-    @Test fun rankInfoShowAndHide() = data.rankEntity.let {
+    @Test fun rankInfoShowAndHide() = data.rankEntity.let { entity ->
         launch {
             mainScreen {
                 rankScreen(isEmpty = true) {
-                    repeat(times = 3) { _ ->
-                        toolbar { onEnterName(it.name).onClickAdd() }
+                    repeat(times = 3) {
+                        toolbar { onEnterName(entity.name).onClickAdd() }
                         onClickCancel()
                         assert(isEmpty = true)
                     }
 
-                    toolbar { onEnterName(it.name).onClickAdd() }
-                    repeat(times = 3) { _ ->
+                    toolbar { onEnterName(entity.name).onClickAdd() }
+                    repeat(times = 3) {
                         onClickCancel()
                         assert(isEmpty = true)
                         getSnackbar().onClickCancel()

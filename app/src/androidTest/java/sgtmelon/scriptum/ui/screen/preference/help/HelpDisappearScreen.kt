@@ -38,6 +38,7 @@ class HelpDisappearScreen : ParentUi() {
     }
 
     fun openSettings() {
+        TODO("test will crash next ones")
         settingsButton.click()
     }
 

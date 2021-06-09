@@ -29,7 +29,7 @@ class RankSnackbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun actionClick_single() = data.fillRank(count = 5).let {
+    @Test fun actionClickSingle() = data.fillRank(count = 5).let {
         val p = it.indices.random()
 
         launch {
@@ -44,7 +44,7 @@ class RankSnackbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun actionClick_many() = data.fillRank(count = 3).let { list ->
+    @Test fun actionClickMany() = data.fillRank(count = 3).let { list ->
         launch {
             mainScreen {
                 rankScreen {
@@ -66,7 +66,7 @@ class RankSnackbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun actionClick_dismiss() = data.fillRank(count = 3).let {
+    @Test fun actionClickDismiss() = data.fillRank(count = 3).let {
         val removePosition = 1
 
         launch {
