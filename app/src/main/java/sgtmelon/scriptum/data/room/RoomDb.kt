@@ -33,6 +33,7 @@ abstract class RoomDb : RoomDatabase() {
 
     companion object {
         const val UNIQUE_ERROR_ID = -1L
+        const val OVERFLOW_COUNT = 900
 
         /**
          * Caution!

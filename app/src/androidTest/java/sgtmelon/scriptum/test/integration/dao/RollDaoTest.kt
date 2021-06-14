@@ -10,6 +10,7 @@ import sgtmelon.scriptum.data.room.dao.IRollDao
 import sgtmelon.scriptum.data.room.entity.NoteEntity
 import sgtmelon.scriptum.data.room.entity.RollEntity
 import sgtmelon.scriptum.data.room.extension.inRoomTest
+import sgtmelon.scriptum.data.room.extension.safeDelete
 import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.test.parent.ParentRoomTest
 import kotlin.random.Random
@@ -111,7 +112,7 @@ class RollDaoTest : ParentRoomTest() {
         assertTrue(rollDao.get(id).isEmpty())
     }
 
-    @Test fun deleteCrowd() = inRoomTest { rollDao.delete(Random.nextLong(), crowdList) }
+    @Test fun deleteCrowd() = inRoomTest { rollDao.safeDelete(Random.nextLong(), crowdList) }
 
     // Dao get functions
 

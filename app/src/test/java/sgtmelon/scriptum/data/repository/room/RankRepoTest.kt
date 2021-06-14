@@ -6,11 +6,13 @@ import org.junit.After
 import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.extension.nextString
+import sgtmelon.scriptum.FastMock
 import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.data.room.RoomDb
 import sgtmelon.scriptum.data.room.converter.model.RankConverter
 import sgtmelon.scriptum.data.room.entity.NoteEntity
 import sgtmelon.scriptum.data.room.entity.RankEntity
+import sgtmelon.scriptum.data.room.extension.safeInsert
 import sgtmelon.scriptum.domain.model.data.DbData.Note
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RankItem
@@ -102,16 +104,17 @@ class RankRepoTest : ParentRoomRepoTest() {
     }
 
 
-    @Suppress("DEPRECATION")
     @Test fun insert_byName() = startCoTest {
         val id = Random.nextLong()
         val name = nextString()
         val entity = RankEntity(name = name)
 
-        coEvery { rankDao.insert(entity) } returns RoomDb.UNIQUE_ERROR_ID
+        FastMock.daoExtension()
+
+        coEvery { rankDao.safeInsert(entity) } returns null
         assertNull(rankRepo.insert(name))
 
-        coEvery { rankDao.insert(entity) } returns id
+        coEvery { rankDao.safeInsert(entity) } returns id
         assertEquals(id, rankRepo.insert(name))
 
         coVerifySequence {
@@ -119,7 +122,7 @@ class RankRepoTest : ParentRoomRepoTest() {
                 roomProvider.openRoom()
 
                 roomDb.rankDao
-                rankDao.insert(entity)
+                rankDao.safeInsert(entity)
                 roomDb.close()
             }
         }
