@@ -13,6 +13,7 @@ import sgtmelon.scriptum.data.room.entity.RankEntity
 import sgtmelon.scriptum.data.room.entity.RollEntity
 import sgtmelon.scriptum.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.data.room.extension.inRoomTest
+import sgtmelon.scriptum.data.room.extension.safeInsert
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.data.ColorData
 import sgtmelon.scriptum.domain.model.item.NoteItem
@@ -95,7 +96,7 @@ class TestData(
 
 
     fun insertRank(entity: RankEntity = rankEntity): RankItem {
-        inRoomTest { entity.id = rankDao.insert(entity) }
+        inRoomTest { entity.id = rankDao.safeInsert(entity) ?: throw NullPointerException() }
 
         return rankConverter.toItem(entity)
     }

@@ -54,7 +54,6 @@ class RankDaoTest : ParentRoomTest() {
         val sameName = secondRank.copy(name = firstRank.name)
 
         assertEquals(RoomDb.UNIQUE_ERROR_ID, insert(sameName))
-        assertNull(safeInsert(sameName))
     }
 
     @Test fun delete() = inRankDao {

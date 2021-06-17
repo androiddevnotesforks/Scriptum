@@ -64,7 +64,7 @@ class RankRepo(
         /**
          * Id after insert will be the same, like in [item].
          */
-        rankDao.insert(converter.toEntity(item))
+        rankDao.safeInsert(converter.toEntity(item))
     }
 
     override suspend fun delete(item: RankItem) = inRoom {

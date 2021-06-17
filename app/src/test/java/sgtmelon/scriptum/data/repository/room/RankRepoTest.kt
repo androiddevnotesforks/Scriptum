@@ -107,9 +107,11 @@ class RankRepoTest : ParentRoomRepoTest() {
     @Test fun insert_byName() = startCoTest {
         val id = Random.nextLong()
         val name = nextString()
-        val entity = RankEntity(name = name)
+        val entity = mockk<RankEntity>()
 
         FastMock.daoExtension()
+        mockkObject(RankEntity)
+        every { RankEntity[name] } returns entity
 
         coEvery { rankDao.safeInsert(entity) } returns null
         assertNull(rankRepo.insert(name))
@@ -122,6 +124,7 @@ class RankRepoTest : ParentRoomRepoTest() {
                 roomProvider.openRoom()
 
                 roomDb.rankDao
+                RankEntity[name]
                 rankDao.safeInsert(entity)
                 roomDb.close()
             }
@@ -155,7 +158,8 @@ class RankRepoTest : ParentRoomRepoTest() {
         }
 
         every { converter.toEntity(rankItem) } returns rankEntity
-        coEvery { rankDao.insert(rankEntity) } returns id
+        FastMock.daoExtension()
+        coEvery { rankDao.safeInsert(rankEntity) } returns id
 
         rankRepo.insert(rankItem)
 
@@ -177,7 +181,7 @@ class RankRepoTest : ParentRoomRepoTest() {
             }
 
             converter.toEntity(rankItem)
-            rankDao.insert(rankEntity)
+            rankDao.safeInsert(rankEntity)
         }
     }
 
