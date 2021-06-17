@@ -14,6 +14,7 @@ import sgtmelon.scriptum.data.room.entity.RollEntity
 import sgtmelon.scriptum.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.data.room.extension.fromRoom
 import sgtmelon.scriptum.data.room.extension.inRoom
+import sgtmelon.scriptum.data.room.extension.safeDelete
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
@@ -296,7 +297,7 @@ class NoteRepo(
             /**
              * Remove swiped rolls.
              */
-            rollDao.delete(item.id, idSaveList)
+            rollDao.safeDelete(item.id, idSaveList)
         }
     }
 

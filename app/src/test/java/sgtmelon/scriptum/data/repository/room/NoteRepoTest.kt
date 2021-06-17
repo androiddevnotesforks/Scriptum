@@ -13,6 +13,7 @@ import sgtmelon.scriptum.data.room.converter.model.NoteConverter
 import sgtmelon.scriptum.data.room.converter.model.RollConverter
 import sgtmelon.scriptum.data.room.entity.*
 import sgtmelon.scriptum.data.room.extension.fromRoom
+import sgtmelon.scriptum.data.room.extension.safeDelete
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
@@ -715,6 +716,9 @@ class NoteRepoTest : ParentRoomRepoTest() {
             }
         }
 
+        FastMock.daoExtension()
+        coEvery { rollDao.safeDelete(id, idSaveList) } returns Unit
+
         noteRepo.saveNote(item, isCreate = false)
 
         /**
@@ -745,7 +749,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
             }
 
             item.id
-            rollDao.delete(id, idSaveList)
+            rollDao.safeDelete(id, idSaveList)
         }
     }
 
