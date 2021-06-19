@@ -5,12 +5,14 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.extension.nextString
 import sgtmelon.scriptum.data.room.RoomDb
 import sgtmelon.scriptum.data.room.dao.IRollDao
 import sgtmelon.scriptum.data.room.entity.NoteEntity
 import sgtmelon.scriptum.data.room.entity.RollEntity
 import sgtmelon.scriptum.data.room.extension.inRoomTest
 import sgtmelon.scriptum.data.room.extension.safeDelete
+import sgtmelon.scriptum.data.room.extension.safeDeleteByList
 import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.test.parent.ParentRoomTest
 import kotlin.random.Random
@@ -25,26 +27,18 @@ class RollDaoTest : ParentRoomTest() {
 
     private data class Model(val entity: NoteEntity, val rollList: List<RollEntity>)
 
+    private fun getRandomRoll(id: Long, position: Int, noteId: Long): RollEntity {
+        return RollEntity(id, noteId, position, Random.nextBoolean(), nextString())
+    }
+
     private val firstModel = Model(
-        NoteEntity(
-            id = 1, create = DATE_1, change = DATE_2, type = NoteType.ROLL
-        ), arrayListOf(
-            RollEntity(id = 1, noteId = 1, position = 0, isCheck = false, text = "01234"),
-            RollEntity(id = 2, noteId = 1, position = 1, isCheck = true, text = "12345"),
-            RollEntity(id = 3, noteId = 1, position = 2, isCheck = false, text = "23456"),
-            RollEntity(id = 4, noteId = 1, position = 3, isCheck = true, text = "34567")
-        )
+        NoteEntity(id = 1, create = DATE_1, change = DATE_2, type = NoteType.ROLL),
+        List(size = 20) { getRandomRoll(it.toLong(), it, noteId = 1) }
     )
 
     private val secondModel = Model(
-        NoteEntity(
-            id = 2, create = DATE_3, change = DATE_4, type = NoteType.ROLL
-        ), arrayListOf(
-            RollEntity(id = 5, noteId = 2, position = 0, isCheck = false, text = "01234"),
-            RollEntity(id = 6, noteId = 2, position = 1, isCheck = true, text = "12345"),
-            RollEntity(id = 7, noteId = 2, position = 2, isCheck = false, text = "23456"),
-            RollEntity(id = 8, noteId = 2, position = 3, isCheck = true, text = "34567")
-        )
+        NoteEntity(id = 2, create = DATE_3, change = DATE_4, type = NoteType.ROLL),
+        List(size = 20) { getRandomRoll((firstModel.rollList.size + it).toLong(), it, noteId = 2) }
     )
 
     //endregion
@@ -94,14 +88,30 @@ class RollDaoTest : ParentRoomTest() {
         }
     }
 
+    @Suppress("DEPRECATION")
     @Test fun deleteAfterSwipe() = inRoomTest {
         insertRollRelation(firstModel)
 
-        val listSave = firstModel.rollList.filter { it.isCheck }
+        val saveList = firstModel.rollList.filter { it.isCheck }
         val id = firstModel.entity.id
 
-        rollDao.delete(id, listSave.map { it.id ?: -1 })
-        assertEquals(listSave, rollDao.get(id))
+        rollDao.delete(id, saveList.map { it.id!! })
+        assertEquals(saveList, rollDao.get(id))
+    }
+
+    @Suppress("DEPRECATION")
+    @Test fun deleteByList() = inRoomTest {
+        insertRollRelation(firstModel)
+
+        val rollList = firstModel.rollList
+        val id = firstModel.entity.id
+
+        val filterValue = Random.nextBoolean()
+        val deleteList = ArrayList(rollList.filter { it.isCheck == filterValue })
+        val saveList = ArrayList(rollList).apply { removeAll(deleteList) }
+
+        rollDao.deleteByList(id, deleteList.map { it.id!! })
+        assertEquals(saveList, rollDao.get(id))
     }
 
     @Test fun deleteAll() = inRoomTest {
@@ -112,7 +122,35 @@ class RollDaoTest : ParentRoomTest() {
         assertTrue(rollDao.get(id).isEmpty())
     }
 
-    @Test fun deleteCrowd() = inRoomTest { rollDao.safeDelete(Random.nextLong(), crowdList) }
+    @Test fun deleteCrowd() = inRoomTest {
+        val noteId = firstModel.entity.id
+        val rollList = List(size = 5000) { getRandomRoll(it.toLong(), it, noteId) }
+        val model = firstModel.copy(rollList = rollList)
+
+        insertRollRelation(model)
+
+        val saveList = model.rollList.filter { it.isCheck }
+
+        rollDao.safeDelete(noteId, saveList.map { it.id!! })
+
+        assertEquals(saveList, rollDao.get(noteId))
+    }
+
+    @Test fun deleteByListCrowd() = inRoomTest {
+        val noteId = firstModel.entity.id
+        val rollList = List(size = 5000) { getRandomRoll(it.toLong(), it, noteId) }
+        val model = firstModel.copy(rollList = rollList)
+
+        insertRollRelation(model)
+
+        val filterValue = Random.nextBoolean()
+        val deleteList = ArrayList(rollList.filter { it.isCheck == filterValue })
+        val saveList = ArrayList(rollList).apply { removeAll(deleteList) }
+
+        rollDao.safeDeleteByList(noteId, deleteList.map { it.id!! })
+
+        assertEquals(saveList, rollDao.get(noteId))
+    }
 
     // Dao get functions
 
@@ -175,7 +213,7 @@ class RollDaoTest : ParentRoomTest() {
         firstModel.let {
             insertRollRelation(it)
             assertEquals(
-                it.rollList.filter { roll -> roll.position < 4 && !roll.isCheck },
+                it.rollList.filter { roll -> !roll.isCheck }.take(n = 4),
                 rollDao.getViewHide(it.entity.id)
             )
         }
@@ -183,7 +221,7 @@ class RollDaoTest : ParentRoomTest() {
         secondModel.let {
             insertRollRelation(it)
             assertEquals(
-                it.rollList.filter { roll -> roll.position < 4 && !roll.isCheck },
+                it.rollList.filter { roll -> !roll.isCheck }.take(n = 4),
                 rollDao.getViewHide(it.entity.id)
             )
         }

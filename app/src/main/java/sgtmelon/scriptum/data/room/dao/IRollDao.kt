@@ -29,14 +29,21 @@ interface IRollDao {
     suspend fun updateAllCheck(noteId: Long, check: Boolean)
 
     /**
-     * [idSaveList] - list of rolls which don't need delete
+     * [saveList] - list of roll id's which don't need delete.
      */
     @Deprecated(DaoDeprecated.LIST)
-    @Query(value = "DELETE FROM ROLL_TABLE WHERE RL_NOTE_ID = :noteId AND RL_ID NOT IN (:idSaveList)")
-    suspend fun delete(noteId: Long, idSaveList: List<Long>)
+    @Query(value = "DELETE FROM ROLL_TABLE WHERE RL_NOTE_ID = :noteId AND RL_ID NOT IN (:saveList)")
+    suspend fun delete(noteId: Long, saveList: List<Long>)
 
     /**
-     * Delete all items from note
+     * [deleteList] - list of roll id's which need delete.
+     */
+    @Deprecated(DaoDeprecated.LIST)
+    @Query(value = "DELETE FROM ROLL_TABLE WHERE RL_NOTE_ID = :noteId AND RL_ID IN (:deleteList)")
+    suspend fun deleteByList(noteId: Long, deleteList: List<Long>)
+
+    /**
+     * Delete all items from note.
      */
     @Query(value = "DELETE FROM ROLL_TABLE WHERE RL_NOTE_ID = :noteId")
     suspend fun delete(noteId: Long)
