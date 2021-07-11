@@ -1951,12 +1951,9 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         assertTrue(viewModel.onTouchGetDrag(mayDrag = true))
 
         verifySequence {
-            noteState.isEdit
-            noteState.isEdit
-            noteState.isEdit
-
-            noteState.isEdit
-            callback.hideKeyboard()
+            repeat(times = 4) {
+                noteState.isEdit
+            }
         }
     }
 

@@ -483,17 +483,7 @@ class RollNoteViewModel(application: Application) :
         callback?.setTouchAction(inAction)
     }
 
-    /**
-     * Pass here [mayDrag] need for detect when to close keyboard. Otherwise keyboard will
-     * be closed on long press inside rollEnter.
-     */
-    override fun onTouchGetDrag(mayDrag: Boolean): Boolean {
-        val value = noteState.isEdit && mayDrag
-
-        if (value) callback?.hideKeyboard()
-
-        return value
-    }
+    override fun onTouchGetDrag(mayDrag: Boolean): Boolean = noteState.isEdit && mayDrag
 
     override fun onTouchGetSwipe(): Boolean = noteState.isEdit
 
