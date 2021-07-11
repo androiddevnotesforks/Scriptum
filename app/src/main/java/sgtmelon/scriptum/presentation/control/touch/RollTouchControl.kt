@@ -55,14 +55,16 @@ class RollTouchControl(private val callback: Callback) : EdgeDragTouchHelper(cal
     ) {
         super.clearView(recyclerView, viewHolder)
 
-        val dragTo = viewHolder.adapterPosition
-        if (dragFrom == RecyclerView.NO_POSITION
-                || dragTo == RecyclerView.NO_POSITION
-                || dragFrom == dragTo) return
+        val position = viewHolder.adapterPosition
 
-        callback.onTouchMoveResult(dragFrom, dragTo)
+        if (position == RecyclerView.NO_POSITION) return
 
-        dragFrom = RecyclerView.NO_POSITION
+        callback.onTouchClear(position)
+
+        if (dragFrom != RecyclerView.NO_POSITION && dragFrom != position) {
+            callback.onTouchMoveResult(dragFrom, position)
+            dragFrom = RecyclerView.NO_POSITION
+        }
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
@@ -127,6 +129,14 @@ class RollTouchControl(private val callback: Callback) : EdgeDragTouchHelper(cal
          * @return true if user cad drag card to another position.
          */
         fun onTouchMove(from: Int, to: Int): Boolean
+
+        /**
+         * Calls inside [clearView].
+         *
+         * Need update item for prevent lags in future. After change note mode list disappear for
+         * a second if don't call [RecyclerView.Adapter.notifyItemChanged] inside [clearView].
+         */
+        fun onTouchClear(position: Int)
 
         /**
          * Calls only after user cancel hold need update positions, inside [clearView].

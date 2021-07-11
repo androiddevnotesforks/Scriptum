@@ -519,6 +519,12 @@ class RollNoteViewModel(application: Application) :
         return true
     }
 
+    override fun onTouchClear(position: Int) {
+        val absolute = getAbsolutePosition(position) ?: return
+
+        callback?.notifyItemChanged(getAdapterList(), absolute)
+    }
+
     override fun onTouchMoveResult(from: Int, to: Int) {
         val absoluteFrom = getAbsolutePosition(from) ?: return
         val absoluteTo = getAbsolutePosition(to) ?: return

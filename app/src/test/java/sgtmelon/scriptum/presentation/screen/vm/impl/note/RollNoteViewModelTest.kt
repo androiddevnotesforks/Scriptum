@@ -2081,6 +2081,32 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         }
     }
 
+    @Test fun onTouchClear() {
+        val position = Random.nextInt()
+        val absolute = Random.nextInt()
+        val list = mockk<MutableList<RollItem>>()
+
+        every { spyViewModel.getAbsolutePosition(position) } returns null
+
+        spyViewModel.onTouchClear(position)
+
+        every { spyViewModel.getAbsolutePosition(position) } returns absolute
+        every { spyViewModel.getAdapterList() } returns list
+
+        spyViewModel.onTouchClear(position)
+
+        verifySequence {
+            spyViewModel.onTouchClear(position)
+            spyViewModel.getAbsolutePosition(position)
+
+            spyViewModel.onTouchClear(position)
+            spyViewModel.getAbsolutePosition(position)
+            spyViewModel.getAdapterList()
+            spyViewModel.callback
+            callback.notifyItemChanged(list, absolute)
+        }
+    }
+
     @Test fun onTouchMoveResult() {
         val from = Random.nextInt()
         val absoluteFrom = Random.nextInt()
