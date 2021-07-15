@@ -1974,6 +1974,14 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         }
     }
 
+    @Test fun onTouchDragStart() {
+        viewModel.onTouchDragStart()
+
+        verifySequence {
+            callback.hideKeyboard()
+        }
+    }
+
     @Test fun onTouchSwiped() {
         val p = Random.nextInt()
         val absolutePosition = Random.nextInt()

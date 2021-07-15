@@ -40,6 +40,10 @@ class RollTouchControl(private val callback: Callback) : EdgeDragTouchHelper(cal
     override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
         super.onSelectedChanged(viewHolder, actionState)
 
+        if (actionState.isDrag()) {
+            callback.onTouchDragStart()
+        }
+
         if (dragFrom != RecyclerView.NO_POSITION) return
 
         dragFrom = if (actionState.isDrag()) {
@@ -116,6 +120,11 @@ class RollTouchControl(private val callback: Callback) : EdgeDragTouchHelper(cal
          */
         fun onTouchGetDrag(mayDrag: Boolean): Boolean
         fun onTouchGetSwipe(): Boolean
+
+        /**
+         * Calls when user only start drag item.
+         */
+        fun onTouchDragStart()
 
         /**
          * Calls when user swipe card, inside [onSwiped]

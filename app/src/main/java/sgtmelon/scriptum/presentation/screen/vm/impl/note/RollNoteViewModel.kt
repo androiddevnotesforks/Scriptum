@@ -487,6 +487,10 @@ class RollNoteViewModel(application: Application) :
 
     override fun onTouchGetSwipe(): Boolean = noteState.isEdit
 
+    override fun onTouchDragStart() {
+        callback?.hideKeyboard()
+    }
+
     /**
      * All item positions updates after call [onMenuSave], because it's hard
      * to control in Edit.
