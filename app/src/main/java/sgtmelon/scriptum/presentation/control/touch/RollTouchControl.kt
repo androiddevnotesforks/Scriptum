@@ -101,8 +101,10 @@ class RollTouchControl(private val callback: Callback) : EdgeDragTouchHelper(cal
              */
             val translationX = abs(if (dX > 0) min(dX, targetX) else max(dX, -targetX))
 
-            val alpha = (ALPHA_SWIPE_MAX - translationX / targetX)
-            viewHolder.itemView.alpha = max(alpha, ALPHA_SWIPE_MIN)
+            val alpha = ALPHA_SWIPE_MAX - translationX / targetX
+            val resultAlpha = max(alpha, ALPHA_SWIPE_MIN)
+
+            viewHolder.itemView.alpha = resultAlpha
         }
 
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
