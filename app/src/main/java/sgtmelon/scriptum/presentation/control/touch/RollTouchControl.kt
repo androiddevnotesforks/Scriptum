@@ -92,16 +92,21 @@ class RollTouchControl(private val callback: Callback) : EdgeDragTouchHelper(cal
     ) {
         if (actionState.isSwipe()) {
             /**
-             * End position where alpha equal 0
+             * Corner position where alpha will be equal [ALPHA_SWIPE_MIN].
              */
             val targetX = viewHolder.itemView.width.toFloat() / 2
 
             /**
-             * Shift between start and end position
+             * Position of x between -targetX and targetX.
              */
             val translationX = abs(if (dX > 0) min(dX, targetX) else max(dX, -targetX))
 
-            val alpha = ALPHA_SWIPE_MAX - translationX / targetX
+            /**
+             * Have values between 0.0 and 1.0.
+             */
+            val ratio = translationX / targetX
+
+            val alpha = ALPHA_SWIPE_MAX - ratio
             val resultAlpha = max(alpha, ALPHA_SWIPE_MIN)
 
             viewHolder.itemView.alpha = resultAlpha
