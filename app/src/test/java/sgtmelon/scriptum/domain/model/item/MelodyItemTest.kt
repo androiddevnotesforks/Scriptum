@@ -2,7 +2,7 @@ package sgtmelon.scriptum.domain.model.item
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.extension.nextString
+import sgtmelon.common.nextString
 import sgtmelon.scriptum.parent.ParentTest
 
 /**

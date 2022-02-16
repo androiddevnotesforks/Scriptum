@@ -2,7 +2,7 @@ package sgtmelon.scriptum.domain.model.item
 
 import org.junit.Assert.*
 import org.junit.Test
-import sgtmelon.extension.getTime
+import sgtmelon.common.getTime
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.data.DbData.Alarm
 import sgtmelon.scriptum.domain.model.data.DbData.Note

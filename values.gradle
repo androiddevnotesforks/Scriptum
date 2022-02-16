@@ -42,7 +42,7 @@ ext {
             ],
             preference      : "androidx.preference:preference-ktx:1.1.0",
             appcompat       : "androidx.appcompat:appcompat:1.2.0",
-            cardview        : "androidx.cardview:cardview:1.0.0 ",
+            cardview        : "androidx.cardview:cardview:1.0.0",
             constraintlayout: "androidx.constraintlayout:constraintlayout:2.0.4",
             viewpager       : "androidx.viewpager2:viewpager2:1.0.0",
             vector          : [

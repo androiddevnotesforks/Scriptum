@@ -7,9 +7,9 @@ import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
-import sgtmelon.extension.beforeNow
-import sgtmelon.extension.getCalendar
-import sgtmelon.extension.nextString
+import sgtmelon.common.beforeNow
+import sgtmelon.common.getCalendar
+import sgtmelon.common.nextString
 import sgtmelon.scriptum.FastMock
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.TestData

@@ -3,7 +3,7 @@ package sgtmelon.scriptum
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
-import sgtmelon.extension.nextString
+import sgtmelon.common.nextString
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
 import kotlin.random.Random

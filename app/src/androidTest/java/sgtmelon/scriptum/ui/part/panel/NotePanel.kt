@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.ui.part.panel
 
 import androidx.annotation.AttrRes
-import sgtmelon.extension.getText
+import sgtmelon.common.getText
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.State
@@ -66,14 +66,14 @@ class NotePanel<T : ParentUi, N : NoteItem>(
      */
     fun onRestore() = callback.throwOnWrongState(State.BIN) {
         restoreButton.click()
-        callback.item.change = sgtmelon.extension.getTime()
+        callback.item.change = sgtmelon.common.getTime()
     }
 
     fun onRestoreOpen() = apply {
         callback.throwOnWrongState(State.BIN) {
             restoreOpenButton.click()
             callback.apply {
-                item.change = sgtmelon.extension.getTime()
+                item.change = sgtmelon.common.getTime()
                 state = State.READ
             }.fullAssert()
         }
@@ -183,7 +183,7 @@ class NotePanel<T : ParentUi, N : NoteItem>(
 
     fun onDelete() = callback.throwOnWrongState(State.READ) {
         deleteButton.click()
-        callback.item.change = sgtmelon.extension.getTime()
+        callback.item.change = sgtmelon.common.getTime()
     }
 
     fun onEdit() = apply {

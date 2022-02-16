@@ -3,8 +3,8 @@ package sgtmelon.scriptum.test.ui.auto.item
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.extension.getCalendarWithAdd
-import sgtmelon.extension.getText
+import sgtmelon.common.getCalendarWithAdd
+import sgtmelon.common.getText
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem

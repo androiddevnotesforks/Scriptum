@@ -10,7 +10,7 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
-import sgtmelon.extension.nextString
+import sgtmelon.common.nextString
 import sgtmelon.scriptum.FastTest
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.getRandomSize

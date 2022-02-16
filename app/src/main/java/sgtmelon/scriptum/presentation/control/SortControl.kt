@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.presentation.control
 
-import sgtmelon.extension.getCalendar
+import sgtmelon.common.getCalendar
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.item.NoteItem
 

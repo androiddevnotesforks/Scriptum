@@ -1,4 +1,4 @@
-package sgtmelon.extension
+package sgtmelon.common
 
 import java.util.*
 

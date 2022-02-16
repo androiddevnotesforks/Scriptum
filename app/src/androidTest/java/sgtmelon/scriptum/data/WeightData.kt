@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.data
 
 import android.content.Context
-import sgtmelon.extension.getTime
+import sgtmelon.common.getTime
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.provider.RoomProvider
 import sgtmelon.scriptum.data.room.IRoomWork

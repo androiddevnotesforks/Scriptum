@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.ui.dialog.time
 
-import sgtmelon.extension.clearSeconds
-import sgtmelon.extension.getNewCalendar
+import sgtmelon.common.clearSeconds
+import sgtmelon.common.getNewCalendar
 import sgtmelon.safedialog.time.DateDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click

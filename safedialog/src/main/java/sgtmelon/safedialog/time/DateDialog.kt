@@ -7,7 +7,7 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.VisibleForTesting
-import sgtmelon.extension.clearSeconds
+import sgtmelon.common.clearSeconds
 import sgtmelon.safedialog.BuildConfig
 import sgtmelon.safedialog.R
 import sgtmelon.safedialog.annotation.NdValue

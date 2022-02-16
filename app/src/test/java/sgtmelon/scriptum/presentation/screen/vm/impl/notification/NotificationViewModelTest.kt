@@ -8,8 +8,8 @@ import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
-import sgtmelon.extension.getCalendar
-import sgtmelon.extension.nextString
+import sgtmelon.common.getCalendar
+import sgtmelon.common.nextString
 import sgtmelon.scriptum.FastMock
 import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.domain.interactor.callback.notification.INotificationInteractor

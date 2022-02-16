@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.test.ui.auto.screen.main.rank
 
 import org.junit.Test
-import sgtmelon.extension.nextShortString
+import sgtmelon.common.nextShortString
 import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.RankFragment
 import sgtmelon.scriptum.test.parent.ParentUiTest

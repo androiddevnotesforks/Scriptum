@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.domain.interactor.impl.note
 
-import sgtmelon.extension.getText
+import sgtmelon.common.getText
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.data.repository.room.callback.INoteRepo

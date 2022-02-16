@@ -3,9 +3,9 @@ package sgtmelon.scriptum.test.ui.auto.screen.alarm
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.extension.getCalendarWithAdd
-import sgtmelon.extension.getNewCalendar
-import sgtmelon.extension.getText
+import sgtmelon.common.getCalendarWithAdd
+import sgtmelon.common.getNewCalendar
+import sgtmelon.common.getText
 import sgtmelon.scriptum.domain.model.annotation.Repeat
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.AlarmActivity

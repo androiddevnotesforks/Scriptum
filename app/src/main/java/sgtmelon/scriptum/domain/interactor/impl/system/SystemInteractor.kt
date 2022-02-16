@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.domain.interactor.impl.system
 
-import sgtmelon.extension.beforeNow
-import sgtmelon.extension.getCalendar
+import sgtmelon.common.beforeNow
+import sgtmelon.common.getCalendar
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.data.repository.room.callback.IBindRepo

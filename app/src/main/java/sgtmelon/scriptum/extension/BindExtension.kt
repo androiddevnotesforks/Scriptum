@@ -9,9 +9,9 @@ import androidx.annotation.AttrRes
 import androidx.annotation.DrawableRes
 import androidx.cardview.widget.CardView
 import androidx.databinding.BindingAdapter
-import sgtmelon.extension.formatFuture
-import sgtmelon.extension.formatPast
-import sgtmelon.extension.getCalendar
+import sgtmelon.common.formatFuture
+import sgtmelon.common.formatPast
+import sgtmelon.common.getCalendar
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.data.ColorData

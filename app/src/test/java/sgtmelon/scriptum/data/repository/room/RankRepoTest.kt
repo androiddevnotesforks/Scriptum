@@ -5,10 +5,9 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Test
-import sgtmelon.extension.nextString
+import sgtmelon.common.nextString
 import sgtmelon.scriptum.FastMock
 import sgtmelon.scriptum.TestData
-import sgtmelon.scriptum.data.room.RoomDb
 import sgtmelon.scriptum.data.room.converter.model.RankConverter
 import sgtmelon.scriptum.data.room.entity.NoteEntity
 import sgtmelon.scriptum.data.room.entity.RankEntity

@@ -9,7 +9,7 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import sgtmelon.extension.nextString
+import sgtmelon.common.nextString
 import sgtmelon.scriptum.data.provider.PreferenceProvider
 import sgtmelon.scriptum.parent.ParentTest
 import kotlin.random.Random

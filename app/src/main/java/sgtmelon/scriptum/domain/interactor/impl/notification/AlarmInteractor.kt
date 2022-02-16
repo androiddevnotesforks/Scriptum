@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.domain.interactor.impl.notification
 
-import sgtmelon.extension.getCalendarWithAdd
-import sgtmelon.extension.getText
+import sgtmelon.common.getCalendarWithAdd
+import sgtmelon.common.getText
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.data.repository.room.callback.INoteRepo

@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.test.parent.situation
 
-import sgtmelon.extension.getCalendar
+import sgtmelon.common.getCalendar
 import sgtmelon.scriptum.ui.dialog.time.DateDialogUi
 import sgtmelon.scriptum.ui.dialog.time.TimeDialogUi
 

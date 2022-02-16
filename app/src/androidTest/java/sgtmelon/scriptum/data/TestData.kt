@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.data
 
-import sgtmelon.extension.*
+import sgtmelon.common.*
 import sgtmelon.scriptum.data.provider.RoomProvider
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.room.IRoomWork

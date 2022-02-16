@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.domain.model.item
 
-import sgtmelon.extension.getTime
+import sgtmelon.common.getTime
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.data.DbData.Alarm
 import sgtmelon.scriptum.domain.model.data.DbData.Note

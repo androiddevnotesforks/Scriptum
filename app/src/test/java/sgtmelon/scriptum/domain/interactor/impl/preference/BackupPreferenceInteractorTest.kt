@@ -7,8 +7,8 @@ import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
-import sgtmelon.extension.nextShortString
-import sgtmelon.extension.nextString
+import sgtmelon.common.nextShortString
+import sgtmelon.common.nextString
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.BackupRepo
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo

@@ -5,8 +5,8 @@ import android.content.res.Resources
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import sgtmelon.extension.beforeNow
-import sgtmelon.extension.getCalendar
+import sgtmelon.common.beforeNow
+import sgtmelon.common.getCalendar
 import sgtmelon.scriptum.data.room.converter.type.StringConverter
 import sgtmelon.scriptum.domain.interactor.callback.note.IParentNoteInteractor
 import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate

@@ -1,6 +1,6 @@
 @file:JvmName(name = "TimeExtensionUtils")
 
-package sgtmelon.extension
+package sgtmelon.common
 
 import android.content.Context
 import android.text.format.DateUtils

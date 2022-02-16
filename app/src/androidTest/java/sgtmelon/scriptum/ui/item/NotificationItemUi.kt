@@ -2,8 +2,8 @@ package sgtmelon.scriptum.ui.item
 
 import android.view.View
 import org.hamcrest.Matcher
-import sgtmelon.extension.formatFuture
-import sgtmelon.extension.getCalendar
+import sgtmelon.common.formatFuture
+import sgtmelon.common.getCalendar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.domain.model.item.NoteItem

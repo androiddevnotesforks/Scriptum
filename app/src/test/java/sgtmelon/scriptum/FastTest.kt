@@ -3,10 +3,10 @@ package sgtmelon.scriptum
 import android.os.Bundle
 import io.mockk.*
 import org.junit.Assert.*
-import sgtmelon.extension.beforeNow
-import sgtmelon.extension.getCalendar
-import sgtmelon.extension.getText
-import sgtmelon.extension.nextString
+import sgtmelon.common.beforeNow
+import sgtmelon.common.getCalendar
+import sgtmelon.common.getText
+import sgtmelon.common.nextString
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.data.repository.room.callback.INoteRepo

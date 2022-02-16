@@ -3,7 +3,7 @@ package sgtmelon.scriptum.presentation.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import sgtmelon.extension.getCalendarOrNull
+import sgtmelon.common.getCalendarOrNull
 import sgtmelon.scriptum.domain.model.data.IntentData.Eternal
 import sgtmelon.scriptum.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.domain.model.data.ReceiverData.Command

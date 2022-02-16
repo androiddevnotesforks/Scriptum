@@ -5,10 +5,10 @@ import android.app.TimePickerDialog
 import android.content.Context
 import android.os.Bundle
 import androidx.annotation.VisibleForTesting
-import sgtmelon.extension.afterNow
-import sgtmelon.extension.clearSeconds
-import sgtmelon.extension.getText
-import sgtmelon.extension.is24Format
+import sgtmelon.common.afterNow
+import sgtmelon.common.clearSeconds
+import sgtmelon.common.getText
+import sgtmelon.common.is24Format
 import sgtmelon.safedialog.BuildConfig
 import sgtmelon.safedialog.annotation.NdValue
 import sgtmelon.safedialog.annotation.SavedTag
