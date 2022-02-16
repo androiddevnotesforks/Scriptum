@@ -7,6 +7,7 @@ import sgtmelon.scriptum.data.room.RoomDb
 import sgtmelon.scriptum.data.room.dao.IRankDao
 import sgtmelon.scriptum.data.room.dao.IRollDao
 import sgtmelon.scriptum.data.room.entity.RankEntity
+import sgtmelon.scriptum.data.room.entity.RollEntity
 
 //region Insert
 
@@ -42,6 +43,16 @@ suspend fun IRollDao.safeDeleteByList(noteId: Long, deleteList: List<Long>) {
         deleteByList(noteId, deleteList)
     } else {
         safeOverflow(deleteList) { deleteByList(noteId, it) }
+    }
+}
+
+suspend fun IRollDao.safeGet(noteIdList: List<Long>): List<RollEntity> {
+    return if (noteIdList.size <= RoomDb.OVERFLOW_COUNT) {
+        get(noteIdList)
+    } else {
+        val resultList = mutableListOf<RollEntity>()
+        safeOverflow(noteIdList) { resultList.addAll(get(it)) }
+        resultList
     }
 }
 

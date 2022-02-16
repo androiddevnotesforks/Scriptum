@@ -13,6 +13,7 @@ import sgtmelon.scriptum.data.room.entity.RollEntity
 import sgtmelon.scriptum.data.room.extension.inRoomTest
 import sgtmelon.scriptum.data.room.extension.safeDelete
 import sgtmelon.scriptum.data.room.extension.safeDeleteByList
+import sgtmelon.scriptum.data.room.extension.safeGet
 import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.test.parent.ParentRoomTest
 import kotlin.random.Random
@@ -124,7 +125,7 @@ class RollDaoTest : ParentRoomTest() {
 
     @Test fun deleteCrowd() = inRoomTest {
         val noteId = firstModel.entity.id
-        val rollList = List(size = 5000) { getRandomRoll(it.toLong(), it, noteId) }
+        val rollList = List(CROWD_SIZE) { getRandomRoll(it.toLong(), it, noteId) }
         val model = firstModel.copy(rollList = rollList)
 
         insertRollRelation(model)
@@ -138,14 +139,14 @@ class RollDaoTest : ParentRoomTest() {
 
     @Test fun deleteByListCrowd() = inRoomTest {
         val noteId = firstModel.entity.id
-        val rollList = List(size = 5000) { getRandomRoll(it.toLong(), it, noteId) }
+        val rollList = List(CROWD_SIZE) { getRandomRoll(it.toLong(), it, noteId) }
         val model = firstModel.copy(rollList = rollList)
 
         insertRollRelation(model)
 
         val filterValue = Random.nextBoolean()
         val deleteList = ArrayList(rollList.filter { it.isCheck == filterValue })
-        val saveList = ArrayList(rollList).apply { removeAll(deleteList) }
+        val saveList = ArrayList(rollList).apply { removeAll(deleteList.toSet()) }
 
         rollDao.safeDeleteByList(noteId, deleteList.map { it.id!! })
 
@@ -177,6 +178,7 @@ class RollDaoTest : ParentRoomTest() {
         }
     }
 
+    @Suppress("DEPRECATION")
     @Test fun getByIdList() = inRoomTest {
         insertRollRelation(firstModel)
         insertRollRelation(secondModel)
@@ -184,12 +186,46 @@ class RollDaoTest : ParentRoomTest() {
         val noteIdList = listOf(firstModel.entity.id, secondModel.entity.id)
         val resultList = rollDao.get(noteIdList)
 
-        assertEquals(firstModel.rollList.size + secondModel.rollList.size, resultList.size)
-        assertTrue(resultList.containsAll(firstModel.rollList))
-        assertTrue(resultList.containsAll(secondModel.rollList))
+        val insertList = mutableListOf<RollEntity>()
+        insertList.addAll(firstModel.rollList)
+        insertList.addAll(secondModel.rollList)
+
+        assertEquals(insertList.size, resultList.size)
+        assertTrue(insertList.containsAll(resultList))
+        assertTrue(resultList.containsAll(insertList))
     }
 
-    @Test fun getByIdListCrowd() = inRoomTest { rollDao.get(crowdList) }
+    @Test fun getByIdListCrowd() = inRoomTest {
+        /**
+         * Roll id must be unique. So that is why this variable exist.
+         */
+        var rollId = 1L
+        val modelList = List(CROWD_SIZE) {
+            val noteId = it.toLong() + 1
+            val list = List(size = (2..4).random()) { index ->
+                getRandomRoll(rollId++, index, noteId)
+            }
+
+            return@List Model(
+                NoteEntity(noteId, dateList.random(), dateList.random(), type = NoteType.ROLL),
+                list
+            )
+        }
+
+        /**
+         * Insert our modelList inside data base.
+         */
+        for (model in modelList) {
+            insertRollRelation(model)
+        }
+
+        val resultRollGetList = rollDao.safeGet(modelList.map { it.entity.id })
+        val rollGetList = modelList.map { it.rollList }.flatten()
+
+        assertEquals(rollGetList.size, resultRollGetList.size)
+        assertTrue(rollGetList.containsAll(resultRollGetList))
+        assertTrue(resultRollGetList.containsAll(rollGetList))
+    }
 
     @Test fun getView() = inRoomTest {
         firstModel.let {

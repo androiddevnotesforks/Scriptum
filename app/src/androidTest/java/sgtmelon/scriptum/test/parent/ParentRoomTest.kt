@@ -21,5 +21,6 @@ abstract class ParentRoomTest : ParentTest(), IRoomWork {
 
     companion object {
         const val QUESTION_LIMIT = 1000
+        const val CROWD_SIZE = 5000
     }
 }

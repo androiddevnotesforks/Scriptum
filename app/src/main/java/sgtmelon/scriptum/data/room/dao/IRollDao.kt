@@ -60,7 +60,7 @@ interface IRollDao {
     suspend fun get(noteIdList: List<Long>): List<RollEntity>
 
     /**
-     * Get only first 4 items for preview
+     * Get only first 4 items for preview.
      */
     @Query(value = """SELECT * FROM ROLL_TABLE
             WHERE RL_NOTE_ID = :noteId
@@ -69,7 +69,7 @@ interface IRollDao {
     suspend fun getView(noteId: Long): MutableList<RollEntity>
 
     /**
-     * Get only first 4 not hided items for preview
+     * Get only first 4 visible items (not hide) for preview.
      */
     @Query(value = """SELECT * FROM ROLL_TABLE
             WHERE RL_NOTE_ID = :noteId AND RL_CHECK = "0"

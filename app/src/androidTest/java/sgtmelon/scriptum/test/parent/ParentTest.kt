@@ -27,6 +27,8 @@ abstract class ParentTest {
 
     protected val data = TestData(RoomProvider(context), preferenceRepo)
 
+    protected val dateList = listOf(DATE_1, DATE_2, DATE_3, DATE_4, DATE_5)
+
     @Before @CallSuper open fun setup() = Unit
 
     @After @CallSuper open fun tearDown() = Unit
