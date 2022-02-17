@@ -9,12 +9,12 @@ apply plugin: 'com.google.firebase.crashlytics'
 apply from: '../values.gradle'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 31
 
     defaultConfig {
         applicationId "sgtmelon.scriptum"
         minSdkVersion 21
-        targetSdkVersion 29
+        targetSdkVersion 31
         versionCode 23
         versionName git.version.windows.execute().text.trim()
 

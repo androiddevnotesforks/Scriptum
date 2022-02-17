@@ -24,6 +24,7 @@
         <activity
             android:name=".presentation.screen.ui.impl.SplashActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
             android:theme="@style/App.Screen.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,68 +35,44 @@
         <activity
             android:name=".presentation.screen.ui.impl.intro.IntroActivity"
             android:configChanges="keyboardHidden"
+            android:exported="false"
             android:parentActivityName=".presentation.screen.ui.impl.SplashActivity"
-            android:theme="@style/App.Screen.Intro">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/App.Screen.Intro"/>
 
         <activity
             android:name=".presentation.screen.ui.impl.main.MainActivity"
-            android:windowSoftInputMode="adjustPan">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.HOME" />
-            </intent-filter>
-        </activity>
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan"/>
 
         <activity
             android:name=".presentation.screen.ui.impl.note.NoteActivity"
-            android:parentActivityName=".presentation.screen.ui.impl.main.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.EDIT" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+            android:exported="false"
+            android:parentActivityName=".presentation.screen.ui.impl.main.MainActivity"/>
 
         <activity
             android:name=".presentation.screen.ui.impl.preference.PreferenceActivity"
             android:configChanges="keyboardHidden"
-            android:parentActivityName=".presentation.screen.ui.impl.main.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+            android:exported="false"
+            android:parentActivityName=".presentation.screen.ui.impl.main.MainActivity"/>
 
         <activity
             android:name=".presentation.screen.ui.impl.preference.help.HelpDisappearActivity"
             android:configChanges="keyboardHidden"
-            android:parentActivityName=".presentation.screen.ui.impl.preference.PreferenceActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+            android:exported="false"
+            android:parentActivityName=".presentation.screen.ui.impl.preference.PreferenceActivity"/>
 
         <activity
             android:name=".presentation.screen.ui.impl.preference.develop.PrintDevelopActivity"
             android:configChanges="keyboardHidden"
-            android:parentActivityName=".presentation.screen.ui.impl.preference.PreferenceActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+            android:exported="false"
+            android:parentActivityName=".presentation.screen.ui.impl.preference.PreferenceActivity"/>
 
         <activity
             android:name=".presentation.screen.ui.impl.notification.NotificationActivity"
             android:configChanges="keyboardHidden"
+            android:exported="false"
             android:parentActivityName=".presentation.screen.ui.impl.main.MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -103,10 +80,10 @@
         <activity
             android:name=".presentation.screen.ui.impl.notification.AlarmActivity"
             android:configChanges="keyboardHidden"
+            android:exported="false"
             android:parentActivityName=".presentation.screen.ui.impl.main.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -122,6 +99,7 @@
 
         <receiver
             android:name=".presentation.receiver.BootReceiver"
+            android:exported="false"
             android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

@@ -9,5 +9,4 @@ annotation class MessageType {
         const val INFO = 0
         const val CHOICE = 1
     }
-
 }
