@@ -42,7 +42,6 @@ class RankDaoTest : ParentRoomTest() {
 
     // Dao common functions
 
-    @Suppress("DEPRECATION")
     @Test fun insertWithUnique() = inRankDao {
         assertEquals(1, insert(firstRank))
 

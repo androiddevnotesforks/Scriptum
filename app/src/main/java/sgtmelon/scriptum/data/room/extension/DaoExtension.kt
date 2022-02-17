@@ -1,4 +1,3 @@
-@file:Suppress("DEPRECATION")
 @file:JvmName("DaoExtensionUtils")
 
 package sgtmelon.scriptum.data.room.extension

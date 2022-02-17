@@ -89,7 +89,6 @@ class RollDaoTest : ParentRoomTest() {
         }
     }
 
-    @Suppress("DEPRECATION")
     @Test fun deleteAfterSwipe() = inRoomTest {
         insertRollRelation(firstModel)
 
@@ -100,7 +99,6 @@ class RollDaoTest : ParentRoomTest() {
         assertEquals(saveList, rollDao.get(id))
     }
 
-    @Suppress("DEPRECATION")
     @Test fun deleteByList() = inRoomTest {
         insertRollRelation(firstModel)
 
@@ -178,7 +176,6 @@ class RollDaoTest : ParentRoomTest() {
         }
     }
 
-    @Suppress("DEPRECATION")
     @Test fun getByIdList() = inRoomTest {
         insertRollRelation(firstModel)
         insertRollRelation(secondModel)

@@ -105,7 +105,6 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
      */
     private var isLayoutConfigure = false
 
-    @Suppress("DEPRECATION")
     override fun onCreate(savedInstanceState: Bundle?) {
         ScriptumApplication.component.getAlarmBuilder().set(activity = this).build()
             .inject(activity = this)
