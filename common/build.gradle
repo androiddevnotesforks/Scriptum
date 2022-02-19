@@ -4,11 +4,11 @@ apply plugin: 'kotlin-android'
 apply from: '../values.gradle'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 31
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 29
+        targetSdkVersion 31
 
         buildConfigField "String", "DATE_FORMAT_DB", '"yyyy-MM-dd HH:mm:ss"'
         buildConfigField "String", "DATE_FORMAT_DATE_MEDIUM", '"d MMM"'
