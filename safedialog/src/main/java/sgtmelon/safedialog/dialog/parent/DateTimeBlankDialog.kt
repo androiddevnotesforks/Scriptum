@@ -1,4 +1,4 @@
-package sgtmelon.safedialog.time
+package sgtmelon.safedialog.dialog.parent
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
@@ -7,7 +7,7 @@ import android.widget.DatePicker
 import android.widget.TimePicker
 import sgtmelon.common.clearSeconds
 import sgtmelon.common.getNewCalendar
-import sgtmelon.safedialog.BlankDialog
+import sgtmelon.safedialog.dialog.parent.BlankDialog
 import sgtmelon.safedialog.R
 import java.util.*
 

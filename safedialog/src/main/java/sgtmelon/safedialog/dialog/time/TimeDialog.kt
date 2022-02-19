@@ -1,4 +1,4 @@
-package sgtmelon.safedialog.time
+package sgtmelon.safedialog.dialog.time
 
 import android.app.Dialog
 import android.app.TimePickerDialog
@@ -13,6 +13,8 @@ import sgtmelon.safedialog.BuildConfig
 import sgtmelon.safedialog.annotation.NdValue
 import sgtmelon.safedialog.annotation.SavedTag
 import sgtmelon.safedialog.applyAnimation
+import sgtmelon.safedialog.dialog.parent.DateTimeBlankDialog
+import sgtmelon.safedialog.dialog.callback.ITimeDialog
 import sgtmelon.safedialog.safeShow
 import java.util.*
 import kotlin.collections.ArrayList

@@ -1,4 +1,4 @@
-package sgtmelon.safedialog
+package sgtmelon.safedialog.dialog.parent
 
 import android.app.Dialog
 import android.content.DialogInterface

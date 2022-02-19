@@ -1,4 +1,4 @@
-package sgtmelon.safedialog.time
+package sgtmelon.safedialog.dialog.callback
 
 import java.util.*
 

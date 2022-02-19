@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.ui.dialog
 
-import sgtmelon.safedialog.SingleDialog
+import sgtmelon.safedialog.dialog.SingleDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.domain.model.item.NoteItem

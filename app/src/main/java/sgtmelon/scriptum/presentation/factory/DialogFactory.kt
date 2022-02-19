@@ -2,13 +2,13 @@ package sgtmelon.scriptum.presentation.factory
 
 import android.content.Context
 import androidx.fragment.app.FragmentManager
-import sgtmelon.safedialog.MessageDialog
-import sgtmelon.safedialog.MultipleDialog
-import sgtmelon.safedialog.OptionsDialog
-import sgtmelon.safedialog.SingleDialog
+import sgtmelon.safedialog.dialog.MessageDialog
+import sgtmelon.safedialog.dialog.MultipleDialog
+import sgtmelon.safedialog.dialog.OptionsDialog
+import sgtmelon.safedialog.dialog.SingleDialog
 import sgtmelon.safedialog.annotation.MessageType
-import sgtmelon.safedialog.time.DateDialog
-import sgtmelon.safedialog.time.TimeDialog
+import sgtmelon.safedialog.dialog.time.DateDialog
+import sgtmelon.safedialog.dialog.time.TimeDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.extension.getFragmentByTag

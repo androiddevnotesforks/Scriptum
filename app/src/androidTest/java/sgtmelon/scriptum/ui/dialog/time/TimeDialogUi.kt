@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.ui.dialog.time
 
-import sgtmelon.safedialog.time.TimeDialog
+import sgtmelon.safedialog.dialog.time.TimeDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
 import sgtmelon.scriptum.basic.extension.isDisplayed

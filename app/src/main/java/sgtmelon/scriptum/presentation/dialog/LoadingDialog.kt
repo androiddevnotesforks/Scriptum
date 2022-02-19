@@ -6,7 +6,7 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import sgtmelon.safedialog.BlankDialog
+import sgtmelon.safedialog.dialog.parent.BlankDialog
 import sgtmelon.safedialog.applyAnimation
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.key.DotAnimType

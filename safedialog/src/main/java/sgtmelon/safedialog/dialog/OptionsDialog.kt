@@ -1,4 +1,4 @@
-package sgtmelon.safedialog
+package sgtmelon.safedialog.dialog
 
 import android.app.Dialog
 import android.content.Context
@@ -8,6 +8,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import sgtmelon.safedialog.annotation.NdValue
 import sgtmelon.safedialog.annotation.SavedTag
+import sgtmelon.safedialog.applyAnimation
 
 /**
  * Dialog showing options with list item

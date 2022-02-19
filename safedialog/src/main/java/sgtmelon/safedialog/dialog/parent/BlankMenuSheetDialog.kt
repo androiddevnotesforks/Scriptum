@@ -1,4 +1,4 @@
-package sgtmelon.safedialog
+package sgtmelon.safedialog.dialog.parent
 
 import android.content.DialogInterface
 import android.os.Bundle
@@ -12,6 +12,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.navigation.NavigationView
+import sgtmelon.safedialog.R
 
 /**
  * Parent dialog for sheet's with [NavigationView].

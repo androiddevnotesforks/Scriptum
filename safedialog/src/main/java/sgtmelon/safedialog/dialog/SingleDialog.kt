@@ -1,12 +1,15 @@
-package sgtmelon.safedialog
+package sgtmelon.safedialog.dialog
 
 import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
+import sgtmelon.safedialog.R
 import sgtmelon.safedialog.annotation.NdValue
 import sgtmelon.safedialog.annotation.SavedTag
+import sgtmelon.safedialog.applyAnimation
+import sgtmelon.safedialog.dialog.parent.BlankDialog
 
 /**
  * Dialog for single choice

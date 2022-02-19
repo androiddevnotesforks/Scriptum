@@ -2,7 +2,7 @@ package sgtmelon.scriptum.ui.dialog.sheet
 
 import androidx.annotation.CallSuper
 import androidx.annotation.IdRes
-import sgtmelon.safedialog.BlankMenuSheetDialog
+import sgtmelon.safedialog.dialog.parent.BlankMenuSheetDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.isDisplayed
 import sgtmelon.scriptum.basic.extension.swipeDown

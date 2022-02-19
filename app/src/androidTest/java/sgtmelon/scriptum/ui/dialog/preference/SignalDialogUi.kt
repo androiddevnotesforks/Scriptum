@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.ui.dialog.preference
 
-import sgtmelon.safedialog.MultipleDialog
+import sgtmelon.safedialog.dialog.MultipleDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.AlarmPreferenceFragment

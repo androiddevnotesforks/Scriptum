@@ -2,7 +2,7 @@ package sgtmelon.scriptum.ui.dialog.parent
 
 import androidx.annotation.ArrayRes
 import androidx.annotation.StringRes
-import sgtmelon.safedialog.SingleDialog
+import sgtmelon.safedialog.dialog.SingleDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
 

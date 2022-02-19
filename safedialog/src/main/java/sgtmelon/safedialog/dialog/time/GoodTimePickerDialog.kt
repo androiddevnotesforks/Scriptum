@@ -1,4 +1,4 @@
-package sgtmelon.safedialog.time
+package sgtmelon.safedialog.dialog.time
 
 import android.app.TimePickerDialog
 import android.content.Context
