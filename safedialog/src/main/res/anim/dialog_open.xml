@@ -15,4 +15,9 @@
         android:toXScale="1"
         android:toYScale="1" />
 
+    <translate android:duration="@integer/dialog_anim_time"
+        android:fromYDelta="15%"
+        android:interpolator="@android:anim/accelerate_interpolator"
+        android:toYDelta="0%" />
+
 </set>
