@@ -1,12 +1,11 @@
 package sgtmelon.safedialog.annotation
 
-import androidx.annotation.IntDef
+import sgtmelon.safedialog.dialog.MessageDialog
 
-@IntDef(MessageType.INFO, MessageType.CHOICE)
-annotation class MessageType {
-
-    companion object {
-        const val INFO = 0
-        const val CHOICE = 1
-    }
-}
+/**
+ * Enum class for choose between different types of [MessageDialog].
+ *
+ * [INFO] - With single button (OK)
+ * [CHOICE] - With two buttons (NO/YES)
+ */
+enum class MessageType { INFO, CHOICE }

@@ -11,11 +11,11 @@ import sgtmelon.safedialog.applyAnimation
 import sgtmelon.safedialog.dialog.parent.BlankDialog
 
 /**
- * Dialog with message for user
+ * Dialog with title and message for user.
  */
 class MessageDialog : BlankDialog() {
 
-    @MessageType var type: Int = MessageType.INFO
+    var type: MessageType = MessageType.INFO
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         super.onCreateDialog(savedInstanceState)
@@ -31,16 +31,21 @@ class MessageDialog : BlankDialog() {
             builder.setNegativeButton(getString(R.string.dialog_button_no)) { dialog, _ -> dialog.cancel() }
         }
 
-        return builder.setCancelable(true).create().applyAnimation()
+        return builder.setCancelable(true)
+            .create()
+            .applyAnimation()
     }
 
     override fun onRestoreContentState(savedInstanceState: Bundle) {
         super.onRestoreContentState(savedInstanceState)
-        type = savedInstanceState.getInt(SavedTag.INIT)
+
+        val ordinal = savedInstanceState.getInt(SavedTag.INIT)
+        type = MessageType.values().getOrNull(ordinal) ?: MessageType.INFO
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putInt(SavedTag.INIT, type)
+
+        outState.putInt(SavedTag.INIT, type.ordinal)
     }
 }
