@@ -1,7 +1,8 @@
-package sgtmelon.common.test.idling.callback
+package sgtmelon.common.test.idling.impl
 
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.IdlingResource
+import sgtmelon.common.test.idling.callback.ParentIdlingCallback
 
 /**
  * Parent class for idling resources.

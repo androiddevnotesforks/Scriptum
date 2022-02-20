@@ -11,7 +11,7 @@ import sgtmelon.scriptum.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.extension.*
-import sgtmelon.common.test.idling.AppIdlingResource
+import sgtmelon.common.test.idling.impl.AppIdlingResource
 import sgtmelon.scriptum.domain.model.annotation.test.IdlingTag
 import sgtmelon.scriptum.presentation.control.SortControl
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.INotesFragment

@@ -13,7 +13,7 @@ import ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.extension.*
-import sgtmelon.common.test.idling.AppIdlingResource
+import sgtmelon.common.test.idling.impl.AppIdlingResource
 import sgtmelon.scriptum.domain.model.annotation.test.IdlingTag
 import sgtmelon.scriptum.presentation.adapter.IntroPageAdapter
 import sgtmelon.scriptum.presentation.screen.ui.ParentActivity

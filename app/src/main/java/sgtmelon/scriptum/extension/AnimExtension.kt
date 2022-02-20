@@ -13,7 +13,7 @@ import androidx.cardview.widget.CardView
 import androidx.transition.Transition
 import androidx.transition.TransitionListenerAdapter
 import sgtmelon.scriptum.R
-import sgtmelon.common.test.idling.AppIdlingResource
+import sgtmelon.common.test.idling.impl.AppIdlingResource
 import sgtmelon.scriptum.domain.model.annotation.test.IdlingTag
 
 fun getAlphaAnimator(view: View, alphaTo: Float): Animator {

@@ -18,7 +18,7 @@ import sgtmelon.scriptum.databinding.FragmentRankBinding
 import sgtmelon.scriptum.domain.model.item.RankItem
 import sgtmelon.scriptum.domain.model.state.OpenState
 import sgtmelon.scriptum.extension.*
-import sgtmelon.common.test.idling.AppIdlingResource
+import sgtmelon.common.test.idling.impl.AppIdlingResource
 import sgtmelon.scriptum.domain.model.annotation.test.IdlingTag
 import sgtmelon.scriptum.presentation.adapter.RankAdapter
 import sgtmelon.scriptum.presentation.control.broadcast.BroadcastControl

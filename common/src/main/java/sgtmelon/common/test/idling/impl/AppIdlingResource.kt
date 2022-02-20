@@ -1,20 +1,23 @@
-package sgtmelon.common.test.idling
+package sgtmelon.common.test.idling.impl
 
 import android.util.Log
 import androidx.test.espresso.IdlingRegistry
+import sgtmelon.common.BuildConfig
 import sgtmelon.common.test.idling.callback.AppIdlingCallback
-import sgtmelon.common.test.idling.callback.ParentIdlingResource
 
 /**
- * Class for maintain test work while app is freeze without Thread.sleep(...)
+ * Class for maintain test work while app is freeze without Thread.sleep(...).
+ *
+ * Tag - used for detect where work was running.
  */
 class AppIdlingResource : ParentIdlingResource(), AppIdlingCallback {
 
     /**
-     * isEmpty - не надо ждать операции, isNotEmpty - надо ждать окончание операции
+     * isEmpty    - don't need wait operation end.
+     * isNotEmpty - otherwise need wait.
      *
-     * Список сделан для тех случаев, когда происходит параллельный запрос к сервера. И ответ
-     * может прийти раньше другого.
+     * List created for cases when [startWork] calls from different places in one time.
+     * And [stopWork] may come not at the same time.
      */
     private val idleList = mutableListOf<String>()
 
@@ -23,10 +26,14 @@ class AppIdlingResource : ParentIdlingResource(), AppIdlingCallback {
     override fun isIdleNow() = idleList.isEmpty()
 
     override fun startWork(tag: String) {
+        if (!BuildConfig.DEBUG) return
+
         idleList.add(tag)
     }
 
     override fun stopWork(tag: String) {
+        if (!BuildConfig.DEBUG) return
+
         val index = idleList.indexOfFirst { it == tag }
         if (index in idleList.indices) {
             idleList.removeAt(index)

@@ -1,8 +1,9 @@
-package sgtmelon.common.test.idling
+package sgtmelon.common.test.idling.impl
 
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.IdlingResource
-import sgtmelon.common.test.idling.callback.ParentIdlingResource
+import sgtmelon.common.BuildConfig
+import sgtmelon.common.test.idling.callback.WaitIdlingCallback
 
 /**
  * [IdlingResource] which will idle when [waitMillis] left.
@@ -11,6 +12,11 @@ class WaitIdlingResource : ParentIdlingResource(), WaitIdlingCallback {
 
     private var startTime: Long? = null
     private var waitMillis: Long = 0
+
+    private fun reset() {
+        startTime = null
+        waitMillis = 0
+    }
 
     override fun getName(): String = TAG
 
@@ -21,15 +27,15 @@ class WaitIdlingResource : ParentIdlingResource(), WaitIdlingCallback {
 
         if (isIdle) {
             callback?.onTransitionToIdle()
-
-            this.startTime = null
-            this.waitMillis = 0
+            reset()
         }
 
         return isIdle
     }
 
-    override fun fireWork(waitMillis: Long) {
+    override fun startWork(waitMillis: Long) {
+        if (!BuildConfig.DEBUG) return
+
         this.startTime = System.currentTimeMillis()
         this.waitMillis = waitMillis
     }

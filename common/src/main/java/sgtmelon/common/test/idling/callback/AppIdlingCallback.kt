@@ -1,7 +1,9 @@
 package sgtmelon.common.test.idling.callback
 
+import sgtmelon.common.test.idling.impl.AppIdlingResource
+
 /**
- * Interface for [AppIdlingResource].
+ * Interface for work with [AppIdlingResource].
  */
 interface AppIdlingCallback : ParentIdlingCallback {
 

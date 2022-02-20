@@ -12,7 +12,7 @@ import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.extension.clearAdd
 import sgtmelon.scriptum.extension.runBack
 import sgtmelon.scriptum.extension.validRemoveAt
-import sgtmelon.common.test.idling.AppIdlingResource
+import sgtmelon.common.test.idling.impl.AppIdlingResource
 import sgtmelon.scriptum.domain.model.annotation.test.IdlingTag
 import sgtmelon.scriptum.presentation.screen.ui.callback.notification.INotificationActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.notification.INotificationViewModel

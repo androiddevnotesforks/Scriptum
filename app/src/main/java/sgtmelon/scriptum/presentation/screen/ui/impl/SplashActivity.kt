@@ -19,7 +19,7 @@ import sgtmelon.scriptum.domain.model.key.PreferenceScreen
 import sgtmelon.scriptum.domain.model.key.firebase.RunType
 import sgtmelon.scriptum.extension.beforeFinish
 import sgtmelon.scriptum.extension.hideKeyboard
-import sgtmelon.common.test.idling.WaitIdlingResource
+import sgtmelon.common.test.idling.impl.WaitIdlingResource
 import sgtmelon.scriptum.presentation.control.broadcast.BroadcastControl
 import sgtmelon.scriptum.presentation.screen.ui.ParentActivity
 import sgtmelon.scriptum.presentation.screen.ui.ScriptumApplication
@@ -107,22 +107,22 @@ class SplashActivity : ParentActivity(), ISplashActivity {
     override fun openMainScreen() = beforeFinish { startActivity(MainActivity[this]) }
 
     override fun openAlarmScreen(id: Long) = beforeFinish {
-        WaitIdlingResource.getInstance().fireWork(waitMillis = 3000)
+        WaitIdlingResource.getInstance().startWork(waitMillis = 3000)
         startActivities(arrayOf(MainActivity[this], AlarmActivity[this, id]))
     }
 
     override fun openNoteScreen(id: Long, @Color color: Int, type: Int) = beforeFinish {
-        WaitIdlingResource.getInstance().fireWork(waitMillis = 3000)
+        WaitIdlingResource.getInstance().startWork(waitMillis = 3000)
         startActivities(arrayOf(MainActivity[this], NoteActivity[this, type, id, color]))
     }
 
     override fun openNotificationScreen() = beforeFinish {
-        WaitIdlingResource.getInstance().fireWork(waitMillis = 3000)
+        WaitIdlingResource.getInstance().startWork(waitMillis = 3000)
         startActivities(arrayOf(MainActivity[this], NotificationActivity[this]))
     }
 
     override fun openHelpDisappearScreen() = beforeFinish {
-        WaitIdlingResource.getInstance().fireWork(waitMillis = 3000)
+        WaitIdlingResource.getInstance().startWork(waitMillis = 3000)
         startActivities(arrayOf(
             MainActivity[this],
             PreferenceActivity[this, PreferenceScreen.PREFERENCE],
