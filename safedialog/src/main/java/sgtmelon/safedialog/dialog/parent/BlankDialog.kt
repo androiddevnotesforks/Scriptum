@@ -28,12 +28,6 @@ abstract class BlankDialog : BlankEmptyDialog() {
         dialogInterface.cancel()
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        onRestoreArgumentState(bundle = savedInstanceState ?: arguments)
-
-        return super.onCreateDialog(savedInstanceState)
-    }
-
     //region Save/Restore functions
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -47,13 +41,6 @@ abstract class BlankDialog : BlankEmptyDialog() {
 
         title = savedState.getString(SavedTag.TITLE) ?: NdValue.TEXT
     }
-
-    /**
-     * Function for restore content which was passed through setArgument function
-     * (e.g. position, check and ect.).
-     */
-    @CallSuper
-    protected open fun onRestoreArgumentState(bundle: Bundle?) = Unit
 
     //endregion
 

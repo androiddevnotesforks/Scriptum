@@ -4,27 +4,27 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.DialogFragment
-import sgtmelon.safedialog.annotation.NdValue
 import sgtmelon.safedialog.annotation.SavedTag
+import sgtmelon.safedialog.dialog.parent.BlankEmptyDialog
 import sgtmelon.safedialog.utils.applyAnimation
+import sgtmelon.safedialog.utils.safeShow
 
 /**
- * Dialog showing options with list item
+ * Dialog showing options for choose (also work with list items - [position]).
  */
-class OptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
+class OptionsDialog : BlankEmptyDialog(),
+    DialogInterface.OnClickListener {
 
-    var title: String = NdValue.TEXT
-
+    var title: String = DEF_TITLE
     var itemListener: DialogInterface.OnClickListener? = null
-    var dismissListener: DialogInterface.OnDismissListener? = null
 
-    private var itemList: List<String> = ArrayList()
+    private var itemList: List<String> = emptyList()
 
     /**
-     * Save item position in list for next operations
+     * Save note item position in list for next operations. [DEF_POSITION] - if dialog open
+     * happened not from list (and probably not for notes).
      */
-    var position: Int = NdValue.POSITION
+    var position: Int = DEF_POSITION
         private set
 
     /**
@@ -32,23 +32,19 @@ class OptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
      */
     fun setArguments(itemArray: Array<String>, p: Int) = apply {
         arguments = Bundle().apply {
-            putStringArray(SavedTag.INIT, itemArray)
-            putInt(SavedTag.VALUE, p)
+            putStringArray(SavedTag.Options.LIST, itemArray)
+            putInt(SavedTag.Options.POSITION, p)
         }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        if (savedInstanceState != null) {
-            onRestoreContentState(savedInstanceState)
-        }
-
-        onRestoreInstanceState(bundle = savedInstanceState ?: arguments)
+        super.onCreateDialog(savedInstanceState)
 
         val builder = AlertDialog.Builder(requireContext())
             .setItems(itemList.toTypedArray(), this)
             .setCancelable(true)
 
-        if (title != NdValue.TEXT) {
+        if (title != DEF_TITLE) {
             builder.setTitle(title)
         }
 
@@ -57,36 +53,31 @@ class OptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString(SavedTag.TITLE, title)
-        outState.putStringArray(SavedTag.INIT, itemList.toTypedArray())
-        outState.putInt(SavedTag.VALUE, position)
+
+        outState.putString(SavedTag.Options.TITLE, title)
+        outState.putStringArray(SavedTag.Options.LIST, itemList.toTypedArray())
+        outState.putInt(SavedTag.Options.POSITION, position)
     }
 
-    /**
-     * Use for restore dialog content which was written before [safeShow]
-     * (e.g. title, nameArray and ect.).
-     *
-     * Call inside [onCreateDialog] before create them.
-     */
-    private fun onRestoreContentState(savedInstanceState: Bundle) {
-        title = savedInstanceState.getString(SavedTag.TITLE) ?: NdValue.TEXT
+    override fun onRestoreContentState(savedState: Bundle) {
+        super.onRestoreContentState(savedState)
+
+        title = savedState.getString(SavedTag.Options.TITLE) ?: DEF_TITLE
     }
 
-    /**
-     * Function for restore content which was passed throw setArgument functions
-     * (e.g. position, check and ect.).
-     */
-    private fun onRestoreInstanceState(bundle: Bundle?) {
-        itemList = bundle?.getStringArray(SavedTag.INIT)?.toList() ?: ArrayList()
-        position = bundle?.getInt(SavedTag.VALUE) ?: NdValue.POSITION
-    }
+    override fun onRestoreArgumentState(bundle: Bundle?) {
+        super.onRestoreArgumentState(bundle)
 
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
-        dismissListener?.onDismiss(dialog)
+        itemList = bundle?.getStringArray(SavedTag.Options.LIST)?.toList() ?: emptyList()
+        position = bundle?.getInt(SavedTag.Options.POSITION) ?: DEF_POSITION
     }
 
     override fun onClick(dialogInterface: DialogInterface, i: Int) {
         itemListener?.onClick(dialogInterface, i)
+    }
+
+    companion object {
+        private const val DEF_TITLE = ""
+        private const val DEF_POSITION = -1
     }
 }

@@ -28,7 +28,7 @@ class DateDialog : BlankDateTimeDialog(),
     private var neutralVisible: Boolean = DEF_NEUTRAL
 
     /**
-     * Save note item position in list for next operations. [DEF_POSITION] if dialog open
+     * Save note item position in list for next operations. [DEF_POSITION] - if dialog open
      * happened not from list.
      */
     var position: Int = DEF_POSITION

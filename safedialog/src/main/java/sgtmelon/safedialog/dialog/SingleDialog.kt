@@ -9,6 +9,7 @@ import sgtmelon.safedialog.annotation.NdValue
 import sgtmelon.safedialog.annotation.SavedTag
 import sgtmelon.safedialog.utils.applyAnimation
 import sgtmelon.safedialog.dialog.parent.BlankDialog
+import sgtmelon.safedialog.utils.safeShow
 
 /**
  * Dialog for single choice

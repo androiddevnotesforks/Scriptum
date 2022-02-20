@@ -20,17 +20,28 @@ abstract class BlankEmptyDialog : DialogFragment() {
             onRestoreContentState(savedInstanceState)
         }
 
+        onRestoreArgumentState(bundle = savedInstanceState ?: arguments)
+
         return super.onCreateDialog(savedInstanceState)
     }
 
     /**
      * Use for restore dialog content which was written before [safeShow]
-     * (e.g. title, nameArray and ect.).
+     * (e.g. title, nameArray and etc.).
      *
      * Call inside [onCreateDialog] before create them.
      */
     @CallSuper
     protected open fun onRestoreContentState(savedState: Bundle) = Unit
+
+    /**
+     * Function for restore content which was passed through setArgument function
+     * (e.g. position, check and etc.).
+     *
+     * Call inside [onCreateDialog] before create them.
+     */
+    @CallSuper
+    protected open fun onRestoreArgumentState(bundle: Bundle?) = Unit
 
     override fun onStart() {
         super.onStart()
