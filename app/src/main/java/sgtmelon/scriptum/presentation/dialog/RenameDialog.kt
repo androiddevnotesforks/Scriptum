@@ -24,7 +24,7 @@ class RenameDialog : BlankDialog(), TextView.OnEditorActionListener {
     private val nameEnter get() = dialog?.findViewById<EditText?>(R.id.rename_enter)
 
     private var nameList: ArrayList<String> = ArrayList()
-    var position = NdValue.POSITION
+    var position = DEF_POSITION
         private set
 
     val name: String get() = nameEnter?.text?.toString()?.clearSpace() ?: ""
@@ -53,8 +53,8 @@ class RenameDialog : BlankDialog(), TextView.OnEditorActionListener {
 
     override fun onRestoreArgumentState(bundle: Bundle?) {
         super.onRestoreArgumentState(bundle)
-        position = bundle?.getInt(SavedTag.POSITION) ?: NdValue.POSITION
-        title = bundle?.getString(SavedTag.INIT) ?: NdValue.TEXT
+        position = bundle?.getInt(SavedTag.POSITION) ?: DEF_POSITION
+        title = bundle?.getString(SavedTag.INIT) ?: DEF_TITLE
         nameList = bundle?.getStringArrayList(SavedTag.VALUE) ?: ArrayList()
     }
 
@@ -97,5 +97,10 @@ class RenameDialog : BlankDialog(), TextView.OnEditorActionListener {
         }
 
         return false
+    }
+
+    companion object {
+        private const val DEF_POSITION = -1
+        private const val DEF_TITLE = ""
     }
 }

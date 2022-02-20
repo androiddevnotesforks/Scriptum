@@ -288,7 +288,7 @@ object DialogFactory {
 
                 if (context == null) return dialog
 
-                dialog.needOneSelect = true
+                dialog.atLeastOne = true
                 dialog.title = context.getString(R.string.pref_title_alarm_signal)
                 dialog.itemArray = context.resources.getStringArray(R.array.pref_text_alarm_signal)
 

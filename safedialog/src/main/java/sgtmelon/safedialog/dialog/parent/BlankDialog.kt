@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AlertDialog
-import sgtmelon.safedialog.annotation.NdValue
 import sgtmelon.safedialog.annotation.SavedTag
 import android.app.AlertDialog as AlertDialogOld
 

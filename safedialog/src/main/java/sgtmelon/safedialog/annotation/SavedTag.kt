@@ -10,7 +10,6 @@ annotation class SavedTag {
         const val POSITION = "${PREFIX}_POSITION"
         const val INIT = "${PREFIX}_INIT"
         const val VALUE = "${PREFIX}_VALUE"
-        const val LIST = "${PREFIX}_LIST"
         const val KEY = "${PREFIX}_KEY"
     }
 
@@ -44,12 +43,25 @@ annotation class SavedTag {
         }
     }
 
-    @StringDef(Single.LIST, Single.CHECK_INIT, Single.CHECK)
+    @StringDef(Single.LIST, Single.APPLY, Single.CHECK_INIT, Single.CHECK)
     annotation class Single {
         companion object {
             private const val PREFIX = "SAFE_SINGLE"
 
             const val LIST = "${PREFIX}_LIST"
+            const val APPLY = "${PREFIX}_APPLY"
+            const val CHECK_INIT = "${PREFIX}_CHECK_INIT"
+            const val CHECK = "${PREFIX}_CHECK"
+        }
+    }
+
+    @StringDef(Multiple.LIST, Multiple.AT_LEAST, Multiple.CHECK_INIT, Multiple.CHECK)
+    annotation class Multiple {
+        companion object {
+            private const val PREFIX = "SAFE_MULTIPLE"
+
+            const val LIST = "${PREFIX}_LIST"
+            const val AT_LEAST = "${PREFIX}_AT_LEAST"
             const val CHECK_INIT = "${PREFIX}_CHECK_INIT"
             const val CHECK = "${PREFIX}_CHECK"
         }

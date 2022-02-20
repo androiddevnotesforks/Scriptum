@@ -5,7 +5,6 @@ import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import sgtmelon.safedialog.R
-import sgtmelon.safedialog.annotation.NdValue
 import sgtmelon.safedialog.annotation.SavedTag
 import sgtmelon.safedialog.utils.applyAnimation
 import sgtmelon.safedialog.dialog.parent.BlankDialog
@@ -19,10 +18,10 @@ class SingleDialog : BlankDialog() {
     var itemArray: Array<String> = emptyArray()
 
     /**
-     * If value is TRUE - it means what user can choose any dialog item. Otherwise see
-     * [changeButtonEnable].
+     * If value is TRUE - it means what user can choose any dialog item (even previous).
+     * Otherwise see [changeButtonEnable].
      */
-    var applyEnable: Boolean = false
+    var applyEnable: Boolean = DEF_APPLY
 
     private var checkInit = DEF_CHECK
 
@@ -67,6 +66,7 @@ class SingleDialog : BlankDialog() {
         super.onRestoreContentState(savedState)
 
         itemArray = savedState.getStringArray(SavedTag.Single.LIST) ?: emptyArray()
+        applyEnable = savedState.getBoolean(SavedTag.Single.APPLY, DEF_APPLY)
     }
 
     override fun onRestoreArgumentState(bundle: Bundle?) {
@@ -80,6 +80,8 @@ class SingleDialog : BlankDialog() {
         super.onSaveInstanceState(outState)
 
         outState.putStringArray(SavedTag.Single.LIST, itemArray)
+        outState.putBoolean(SavedTag.Single.APPLY, applyEnable)
+
         outState.putInt(SavedTag.Single.CHECK_INIT, checkInit)
         outState.putInt(SavedTag.Single.CHECK, check)
     }
@@ -92,5 +94,6 @@ class SingleDialog : BlankDialog() {
 
     companion object {
         private const val DEF_CHECK = 0
+        private const val DEF_APPLY = false
     }
 }
