@@ -2,29 +2,14 @@ package sgtmelon.safedialog.annotation
 
 import androidx.annotation.StringDef
 
-@StringDef(
-    SavedTag.TITLE,
-    SavedTag.MESSAGE,
-    SavedTag.POSITION,
-    SavedTag.INIT,
-    SavedTag.VALUE,
-    SavedTag.VISIBLE,
-    SavedTag.TIME,
-    SavedTag.LIST,
-    SavedTag.KEY
-)
 // TODO stringDEf
 annotation class SavedTag {
     companion object {
         private const val PREFIX = "SAFE_DIALOG"
 
-        const val TITLE = "${PREFIX}_TITLE"
-        const val MESSAGE = "${PREFIX}_MESSAGE"
         const val POSITION = "${PREFIX}_POSITION"
         const val INIT = "${PREFIX}_INIT"
         const val VALUE = "${PREFIX}_VALUE"
-        const val VISIBLE = "${PREFIX}_VISIBLE"
-        const val TIME = "${PREFIX}_TIME"
         const val LIST = "${PREFIX}_LIST"
         const val KEY = "${PREFIX}_KEY"
     }
@@ -57,12 +42,24 @@ annotation class SavedTag {
         }
     }
 
+    @StringDef(Time.VALUE, Time.LIST, Time.POSITION)
     annotation class Time {
         companion object {
             private const val PREFIX = "SAFE_TIME"
 
             const val VALUE = "${PREFIX}_VALUE"
             const val LIST = "${PREFIX}_LIST"
+            const val POSITION = "${PREFIX}_POSITION"
+        }
+    }
+
+    @StringDef(Date.VALUE, Date.VISIBLE, Date.POSITION)
+    annotation class Date {
+        companion object {
+            private const val PREFIX = "SAFE_DATE"
+
+            const val VALUE = "${PREFIX}_VALUE"
+            const val VISIBLE = "${PREFIX}_VISIBLE"
             const val POSITION = "${PREFIX}_POSITION"
         }
     }

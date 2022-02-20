@@ -35,6 +35,10 @@ class DateDialog : BlankDateTimeDialog(),
 
     /**
      * Call before [safeShow].
+     *
+     * [calendar] - for set current time
+     * [neutralVisible] - show or hide [neutralButton]/reset button.
+     * [p] - position of item in list
      */
     fun setArguments(
         calendar: Calendar,
@@ -42,9 +46,9 @@ class DateDialog : BlankDateTimeDialog(),
         p: Int = DEF_POSITION
     ) = apply {
         arguments = Bundle().apply {
-            putLong(SavedTag.TIME, calendar.clearSeconds().timeInMillis)
-            putBoolean(SavedTag.VISIBLE, neutralVisible)
-            putInt(SavedTag.POSITION, p)
+            putLong(SavedTag.Date.VALUE, calendar.clearSeconds().timeInMillis)
+            putBoolean(SavedTag.Date.VISIBLE, neutralVisible)
+            putInt(SavedTag.Date.POSITION, p)
         }
     }
 
@@ -67,16 +71,16 @@ class DateDialog : BlankDateTimeDialog(),
 
     override fun onRestoreArgumentState(bundle: Bundle?) {
         super.onRestoreArgumentState(bundle)
-        calendar.timeInMillis = bundle?.getLong(SavedTag.TIME) ?: defaultTime
-        neutralVisible = bundle?.getBoolean(SavedTag.VISIBLE) ?: DEF_NEUTRAL
-        position = bundle?.getInt(SavedTag.POSITION) ?: DEF_POSITION
+        calendar.timeInMillis = bundle?.getLong(SavedTag.Date.VALUE) ?: defaultTime
+        neutralVisible = bundle?.getBoolean(SavedTag.Date.VISIBLE) ?: DEF_NEUTRAL
+        position = bundle?.getInt(SavedTag.Date.POSITION) ?: DEF_POSITION
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putLong(SavedTag.TIME, calendar.timeInMillis)
-        outState.putBoolean(SavedTag.VISIBLE, neutralVisible)
-        outState.putInt(SavedTag.POSITION, position)
+        outState.putLong(SavedTag.Date.VALUE, calendar.timeInMillis)
+        outState.putBoolean(SavedTag.Date.VISIBLE, neutralVisible)
+        outState.putInt(SavedTag.Date.POSITION, position)
     }
 
     override fun setupButton() {
@@ -96,9 +100,9 @@ class DateDialog : BlankDateTimeDialog(),
     }
 
     companion object {
+        @RunNone var callback: DateTestCallback? = null
+
         private const val DEF_POSITION = -1
         private const val DEF_NEUTRAL = false
-
-        @RunNone var callback: DateTestCallback? = null
     }
 }
