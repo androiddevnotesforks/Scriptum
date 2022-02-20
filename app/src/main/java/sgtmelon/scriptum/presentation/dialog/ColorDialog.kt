@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import sgtmelon.safedialog.dialog.parent.BlankDialog
-import sgtmelon.safedialog.annotation.NdValue
 import sgtmelon.safedialog.annotation.SavedTag
 import sgtmelon.safedialog.utils.applyAnimation
 import sgtmelon.scriptum.R
@@ -18,14 +17,14 @@ import sgtmelon.scriptum.presentation.listener.ItemListener
 
 class ColorDialog : BlankDialog(), ItemListener.Click {
 
-    private var init: Int = NdValue.CHECK
-    var check: Int = NdValue.CHECK
+    private var checkInit: Int = DEF_CHECK
+    var check: Int = DEF_CHECK
         private set
 
     fun setArguments(@Color check: Int) = apply {
         arguments = Bundle().apply {
-            putInt(SavedTag.INIT, check)
-            putInt(SavedTag.VALUE, check)
+            putInt(SavedTag.Common.VALUE_INIT, check)
+            putInt(SavedTag.Common.VALUE, check)
         }
     }
 
@@ -60,23 +59,29 @@ class ColorDialog : BlankDialog(), ItemListener.Click {
 
     override fun onRestoreArgumentState(bundle: Bundle?) {
         super.onRestoreArgumentState(bundle)
-        init = bundle?.getInt(SavedTag.INIT) ?: NdValue.CHECK
-        check = bundle?.getInt(SavedTag.VALUE) ?: NdValue.CHECK
+
+        checkInit = bundle?.getInt(SavedTag.Common.VALUE_INIT) ?: DEF_CHECK
+        check = bundle?.getInt(SavedTag.Common.VALUE) ?: DEF_CHECK
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putInt(SavedTag.INIT, init)
-        outState.putInt(SavedTag.VALUE, check)
+
+        outState.putInt(SavedTag.Common.VALUE_INIT, checkInit)
+        outState.putInt(SavedTag.Common.VALUE, check)
     }
 
     override fun changeButtonEnable() {
         super.changeButtonEnable()
-        positiveButton?.isEnabled = init != check
+        positiveButton?.isEnabled = checkInit != check
     }
 
     override fun onItemClick(view: View, p: Int) {
         check = p
         changeButtonEnable()
+    }
+
+    companion object {
+        private const val DEF_CHECK = 0
     }
 }

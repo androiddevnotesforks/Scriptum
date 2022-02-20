@@ -9,7 +9,6 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import sgtmelon.safedialog.dialog.parent.BlankDialog
-import sgtmelon.safedialog.annotation.NdValue
 import sgtmelon.safedialog.annotation.SavedTag
 import sgtmelon.safedialog.utils.applyAnimation
 import sgtmelon.scriptum.R
@@ -31,9 +30,9 @@ class RenameDialog : BlankDialog(), TextView.OnEditorActionListener {
 
     fun setArguments(p: Int, title: String, nameList: List<String>) = apply {
         arguments = Bundle().apply {
-            putInt(SavedTag.POSITION, p)
-            putString(SavedTag.INIT, title)
-            putStringArrayList(SavedTag.VALUE, ArrayList(nameList))
+            putInt(SavedTag.Common.POSITION, p)
+            putString(SavedTag.Common.TITLE, title)
+            putStringArrayList(SavedTag.Common.LIST, ArrayList(nameList))
         }
     }
 
@@ -53,16 +52,16 @@ class RenameDialog : BlankDialog(), TextView.OnEditorActionListener {
 
     override fun onRestoreArgumentState(bundle: Bundle?) {
         super.onRestoreArgumentState(bundle)
-        position = bundle?.getInt(SavedTag.POSITION) ?: DEF_POSITION
-        title = bundle?.getString(SavedTag.INIT) ?: DEF_TITLE
-        nameList = bundle?.getStringArrayList(SavedTag.VALUE) ?: ArrayList()
+        position = bundle?.getInt(SavedTag.Common.POSITION) ?: DEF_POSITION
+        title = bundle?.getString(SavedTag.Common.TITLE) ?: DEF_TITLE
+        nameList = bundle?.getStringArrayList(SavedTag.Common.LIST) ?: ArrayList()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putInt(SavedTag.POSITION, position)
-        outState.putString(SavedTag.INIT, title)
-        outState.putStringArrayList(SavedTag.VALUE, nameList)
+        outState.putInt(SavedTag.Common.POSITION, position)
+        outState.putString(SavedTag.Common.TITLE, title)
+        outState.putStringArrayList(SavedTag.Common.LIST, nameList)
     }
 
     override fun setupView() {

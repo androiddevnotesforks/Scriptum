@@ -2,15 +2,32 @@ package sgtmelon.safedialog.annotation
 
 import androidx.annotation.StringDef
 
-// TODO stringDEf
+/**
+ * Annotation for save instance tags. Use it for work with Bundle.
+ *
+ * If dialog outside of this module - use [Common].
+ */
 annotation class SavedTag {
-    companion object {
-        private const val PREFIX = "SAFE_DIALOG"
 
-        const val POSITION = "${PREFIX}_POSITION"
-        const val INIT = "${PREFIX}_INIT"
-        const val VALUE = "${PREFIX}_VALUE"
-        const val KEY = "${PREFIX}_KEY"
+    @StringDef(
+        Common.TITLE,
+        Common.POSITION,
+        Common.VALUE_INIT,
+        Common.VALUE,
+        Common.LIST,
+        Common.KEY
+    )
+    annotation class Common {
+        companion object {
+            private const val PREFIX = "SAFE_COMMON"
+
+            const val TITLE = "${PREFIX}_TITLE"
+            const val POSITION = "${PREFIX}_POSITION"
+            const val VALUE_INIT = "${PREFIX}_VALUE_INIT"
+            const val VALUE = "${PREFIX}_VALUE"
+            const val LIST = "${PREFIX}_LIST"
+            const val KEY = "${PREFIX}_KEY"
+        }
     }
 
     @StringDef(Blank.TITLE)

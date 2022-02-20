@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import sgtmelon.safedialog.annotation.NdValue
 import sgtmelon.safedialog.annotation.SavedTag
 import sgtmelon.safedialog.dialog.parent.BlankEmptyDialog
 import sgtmelon.safedialog.utils.applyAnimation
@@ -19,8 +18,8 @@ class AboutDialog : BlankEmptyDialog(),
     private val logoImage get() = dialog?.findViewById<ImageView?>(R.id.about_logo_image)
     private val versionText get() = dialog?.findViewById<TextView?>(R.id.about_version_text)
 
-    private var click = NdValue.CHECK
-    var hideOpen = NdValue.KEY
+    private var click = DEF_CLICK
+    var hideOpen = DEF_HIDE
         private set
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -35,14 +34,16 @@ class AboutDialog : BlankEmptyDialog(),
 
     override fun onRestoreContentState(savedState: Bundle) {
         super.onRestoreContentState(savedState)
-        click = savedState.getInt(SavedTag.VALUE)
-        hideOpen = savedState.getBoolean(SavedTag.KEY)
+
+        click = savedState.getInt(SavedTag.Common.VALUE)
+        hideOpen = savedState.getBoolean(SavedTag.Common.KEY)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putInt(SavedTag.VALUE, click)
-        outState.putBoolean(SavedTag.KEY, hideOpen)
+
+        outState.putInt(SavedTag.Common.VALUE, click)
+        outState.putBoolean(SavedTag.Common.KEY, hideOpen)
     }
 
     override fun setupView() {
@@ -60,7 +61,12 @@ class AboutDialog : BlankEmptyDialog(),
     }
 
     fun clear() {
-        click = NdValue.CHECK
-        hideOpen = NdValue.KEY
+        click = DEF_CLICK
+        hideOpen = DEF_HIDE
+    }
+
+    companion object {
+        private const val DEF_CLICK = 0
+        private const val DEF_HIDE = false
     }
 }
