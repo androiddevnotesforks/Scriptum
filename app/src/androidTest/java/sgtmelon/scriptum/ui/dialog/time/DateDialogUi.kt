@@ -35,7 +35,7 @@ class DateDialogUi(
     fun onDate(day: Int) = apply {
         calendar.add(Calendar.DAY_OF_YEAR, day)
 
-        DateDialog.callback?.updateDate(calendar)
+        DateDialog.callback?.onTestUpdateDate(calendar)
 
         waitOperation { assert() }
     }
@@ -47,7 +47,7 @@ class DateDialogUi(
             set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH))
         }
 
-        DateDialog.callback?.updateDate(calendar)
+        DateDialog.callback?.onTestUpdateDate(calendar)
 
         waitOperation { assert() }
     }

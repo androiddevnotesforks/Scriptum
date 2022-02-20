@@ -31,12 +31,16 @@ annotation class SavedTag {
 
     annotation class Blank {
         companion object {
+            private const val PREFIX = "SAFE_BLANK"
+
             const val TITLE = "${PREFIX}_TITLE"
         }
     }
 
     annotation class Options {
         companion object {
+            private const val PREFIX = "SAFE_OPTIONS"
+
             const val TITLE = "${PREFIX}_TITLE"
             const val LIST = "${PREFIX}_LIST"
             const val POSITION = "${PREFIX}_POSITION"
@@ -46,8 +50,20 @@ annotation class SavedTag {
     @StringDef(Message.TYPE, Message.TEXT)
     annotation class Message {
         companion object {
+            private const val PREFIX = "SAFE_MESSAGE"
+
             const val TYPE = "${PREFIX}_TYPE"
             const val TEXT = "${PREFIX}_TEXT"
+        }
+    }
+
+    annotation class Time {
+        companion object {
+            private const val PREFIX = "SAFE_TIME"
+
+            const val VALUE = "${PREFIX}_VALUE"
+            const val LIST = "${PREFIX}_LIST"
+            const val POSITION = "${PREFIX}_POSITION"
         }
     }
 }

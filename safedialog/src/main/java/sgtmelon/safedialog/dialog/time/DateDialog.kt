@@ -9,11 +9,10 @@ import sgtmelon.common.utils.clearSeconds
 import sgtmelon.common.test.annotation.RunNone
 import sgtmelon.safedialog.BuildConfig
 import sgtmelon.safedialog.R
-import sgtmelon.safedialog.annotation.NdValue
 import sgtmelon.safedialog.annotation.SavedTag
 import sgtmelon.safedialog.utils.applyAnimation
 import sgtmelon.safedialog.dialog.parent.BlankDateTimeDialog
-import sgtmelon.safedialog.dialog.callback.IDateDialog
+import sgtmelon.safedialog.dialog.callback.DateTestCallback
 import sgtmelon.safedialog.utils.safeShow
 import java.util.*
 
@@ -21,7 +20,7 @@ import java.util.*
  * Dialog for choose date
  */
 class DateDialog : BlankDateTimeDialog(),
-    IDateDialog {
+    DateTestCallback {
 
     var neutralListener: DialogInterface.OnClickListener? = null
 
@@ -86,7 +85,7 @@ class DateDialog : BlankDateTimeDialog(),
         neutralButton?.visibility = if (neutralVisible) View.VISIBLE else View.GONE
     }
 
-    override fun updateDate(calendar: Calendar) {
+    override fun onTestUpdateDate(calendar: Calendar) {
         activity?.runOnUiThread {
             (dialog as? DatePickerDialog)?.updateDate(
                 calendar.get(Calendar.YEAR),
@@ -100,6 +99,6 @@ class DateDialog : BlankDateTimeDialog(),
         private const val DEF_POSITION = -1
         private const val DEF_NEUTRAL = false
 
-        @RunNone var callback: IDateDialog? = null
+        @RunNone var callback: DateTestCallback? = null
     }
 }

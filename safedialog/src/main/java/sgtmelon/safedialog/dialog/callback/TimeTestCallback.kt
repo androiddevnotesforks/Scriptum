@@ -6,6 +6,6 @@ import java.util.*
 /**
  * Interface for manipulate [TimeDialog]. Call it only from UI tests.
  */
-interface ITimeDialog {
-    fun updateTime(calendar: Calendar)
+interface TimeTestCallback {
+    fun onTestUpdateTime(calendar: Calendar)
 }

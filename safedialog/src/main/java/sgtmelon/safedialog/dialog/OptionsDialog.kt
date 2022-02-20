@@ -29,6 +29,9 @@ class OptionsDialog : BlankEmptyDialog(),
 
     /**
      * Call before [safeShow].
+     *
+     * [itemArray] - buttons for display
+     * [p] - position of item in list
      */
     fun setArguments(itemArray: Array<String>, p: Int) = apply {
         arguments = Bundle().apply {

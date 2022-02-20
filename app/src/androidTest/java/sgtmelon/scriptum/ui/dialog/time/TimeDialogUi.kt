@@ -29,7 +29,7 @@ class TimeDialogUi(
     fun onTime(min: Int) = apply {
         calendar.add(Calendar.MINUTE, min)
 
-        TimeDialog.callback?.updateTime(calendar)
+        TimeDialog.callback?.onTestUpdateTime(calendar)
 
         waitOperation { assert() }
     }
@@ -40,7 +40,7 @@ class TimeDialogUi(
             set(Calendar.MINUTE, calendar.get(Calendar.MINUTE))
         }
 
-        TimeDialog.callback?.updateTime(calendar)
+        TimeDialog.callback?.onTestUpdateTime(calendar)
 
         waitOperation { assert() }
     }
