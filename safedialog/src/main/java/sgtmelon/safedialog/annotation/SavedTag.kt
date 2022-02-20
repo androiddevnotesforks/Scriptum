@@ -27,4 +27,12 @@ annotation class SavedTag {
         const val LIST = "${PREFIX}_LIST"
         const val KEY = "${PREFIX}_KEY"
     }
+
+    @StringDef(Message.TYPE, Message.TEXT)
+    annotation class Message {
+        companion object {
+            const val TYPE = "${PREFIX}_TYPE"
+            const val TEXT = "${PREFIX}_TEXT"
+        }
+    }
 }

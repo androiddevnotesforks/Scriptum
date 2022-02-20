@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import sgtmelon.safedialog.dialog.parent.BlankDialog
 import sgtmelon.safedialog.annotation.NdValue
 import sgtmelon.safedialog.annotation.SavedTag
 import sgtmelon.safedialog.dialog.parent.BlankEmptyDialog
@@ -34,10 +33,10 @@ class AboutDialog : BlankEmptyDialog(),
             .applyAnimation()
     }
 
-    override fun onRestoreContentState(savedInstanceState: Bundle) {
-        super.onRestoreContentState(savedInstanceState)
-        click = savedInstanceState.getInt(SavedTag.VALUE)
-        hideOpen = savedInstanceState.getBoolean(SavedTag.KEY)
+    override fun onRestoreContentState(savedState: Bundle) {
+        super.onRestoreContentState(savedState)
+        click = savedState.getInt(SavedTag.VALUE)
+        hideOpen = savedState.getBoolean(SavedTag.KEY)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

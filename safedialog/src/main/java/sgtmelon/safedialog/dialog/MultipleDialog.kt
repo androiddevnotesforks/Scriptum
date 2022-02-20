@@ -48,10 +48,10 @@ class MultipleDialog : BlankDialog() {
             .applyAnimation()
     }
 
-    override fun onRestoreContentState(savedInstanceState: Bundle) {
-        super.onRestoreContentState(savedInstanceState)
-        itemArray = savedInstanceState.getStringArray(SavedTag.LIST) ?: arrayOf()
-        needOneSelect = savedInstanceState.getBoolean(SavedTag.KEY)
+    override fun onRestoreContentState(savedState: Bundle) {
+        super.onRestoreContentState(savedState)
+        itemArray = savedState.getStringArray(SavedTag.LIST) ?: arrayOf()
+        needOneSelect = savedState.getBoolean(SavedTag.KEY)
     }
 
     override fun onRestoreArgumentState(bundle: Bundle?) {

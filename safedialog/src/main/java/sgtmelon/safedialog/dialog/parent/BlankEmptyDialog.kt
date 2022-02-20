@@ -30,7 +30,7 @@ abstract class BlankEmptyDialog : DialogFragment() {
      * Call inside [onCreateDialog] before create them.
      */
     @CallSuper
-    protected open fun onRestoreContentState(savedInstanceState: Bundle) = Unit
+    protected open fun onRestoreContentState(savedState: Bundle) = Unit
 
     override fun onStart() {
         super.onStart()

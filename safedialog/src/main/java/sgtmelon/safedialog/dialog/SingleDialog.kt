@@ -55,9 +55,9 @@ class SingleDialog : BlankDialog() {
             .applyAnimation()
     }
 
-    override fun onRestoreContentState(savedInstanceState: Bundle) {
-        super.onRestoreContentState(savedInstanceState)
-        itemArray = savedInstanceState.getStringArray(SavedTag.LIST) ?: arrayOf()
+    override fun onRestoreContentState(savedState: Bundle) {
+        super.onRestoreContentState(savedState)
+        itemArray = savedState.getStringArray(SavedTag.LIST) ?: arrayOf()
     }
 
     override fun onRestoreArgumentState(bundle: Bundle?) {

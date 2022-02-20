@@ -25,13 +25,13 @@ class DateDialog : BlankDateTimeDialog(),
 
     var neutralListener: DialogInterface.OnClickListener? = null
 
-    private var neutralVisible: Boolean = NO_NEUTRAL
+    private var neutralVisible: Boolean = DEF_NEUTRAL
 
     /**
-     * Save note item position in list for next operations. [NO_POSITION] if dialog open
+     * Save note item position in list for next operations. [DEF_POSITION] if dialog open
      * happened not from list.
      */
-    var position: Int = NO_POSITION
+    var position: Int = DEF_POSITION
         private set
 
     /**
@@ -40,7 +40,7 @@ class DateDialog : BlankDateTimeDialog(),
     fun setArguments(
         calendar: Calendar,
         neutralVisible: Boolean,
-        p: Int = NO_POSITION
+        p: Int = DEF_POSITION
     ) = apply {
         arguments = Bundle().apply {
             putLong(SavedTag.TIME, calendar.clearSeconds().timeInMillis)
@@ -69,8 +69,8 @@ class DateDialog : BlankDateTimeDialog(),
     override fun onRestoreArgumentState(bundle: Bundle?) {
         super.onRestoreArgumentState(bundle)
         calendar.timeInMillis = bundle?.getLong(SavedTag.TIME) ?: defaultTime
-        neutralVisible = bundle?.getBoolean(SavedTag.VISIBLE) ?: NdValue.KEY
-        position = bundle?.getInt(SavedTag.POSITION) ?: NO_POSITION
+        neutralVisible = bundle?.getBoolean(SavedTag.VISIBLE) ?: DEF_NEUTRAL
+        position = bundle?.getInt(SavedTag.POSITION) ?: DEF_POSITION
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -97,8 +97,8 @@ class DateDialog : BlankDateTimeDialog(),
     }
 
     companion object {
-        private const val NO_POSITION = -1
-        private const val NO_NEUTRAL = false
+        private const val DEF_POSITION = -1
+        private const val DEF_NEUTRAL = false
 
         @RunNone var callback: IDateDialog? = null
     }

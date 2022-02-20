@@ -14,7 +14,8 @@ import sgtmelon.safedialog.dialog.parent.BlankDialog
  */
 class MessageDialog : BlankDialog() {
 
-    var type: MessageType = MessageType.INFO
+    var type: MessageType = DEF_TYPE
+    var message: String = DEF_TEXT
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         super.onCreateDialog(savedInstanceState)
@@ -35,16 +36,23 @@ class MessageDialog : BlankDialog() {
             .applyAnimation()
     }
 
-    override fun onRestoreContentState(savedInstanceState: Bundle) {
-        super.onRestoreContentState(savedInstanceState)
-
-        val ordinal = savedInstanceState.getInt(SavedTag.INIT)
-        type = MessageType.values().getOrNull(ordinal) ?: MessageType.INFO
-    }
-
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
-        outState.putInt(SavedTag.INIT, type.ordinal)
+        outState.putInt(SavedTag.Message.TYPE, type.ordinal)
+        outState.putString(SavedTag.Message.TEXT, message)
+    }
+
+    override fun onRestoreContentState(savedState: Bundle) {
+        super.onRestoreContentState(savedState)
+
+        val ordinal = savedState.getInt(SavedTag.Message.TYPE)
+        type = MessageType.values().getOrNull(ordinal) ?: DEF_TYPE
+        message = savedState.getString(SavedTag.Message.TEXT) ?: DEF_TEXT
+    }
+
+    companion object {
+        private val DEF_TYPE = MessageType.INFO
+        private const val DEF_TEXT = ""
     }
 }

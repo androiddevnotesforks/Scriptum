@@ -6,11 +6,9 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.DialogFragment
 import sgtmelon.safedialog.annotation.NdValue
 import sgtmelon.safedialog.annotation.SavedTag
 import android.app.AlertDialog as AlertDialogOld
-import sgtmelon.safedialog.utils.safeShow
 
 /**
  * Base class for safe dialogs
@@ -18,9 +16,6 @@ import sgtmelon.safedialog.utils.safeShow
 abstract class BlankDialog : BlankEmptyDialog() {
 
     var title: String = NdValue.TEXT
-
-    // TODO move into message dialog
-    var message: String = NdValue.TEXT
 
     protected var positiveButton: Button? = null
     protected var negativeButton: Button? = null
@@ -34,10 +29,6 @@ abstract class BlankDialog : BlankEmptyDialog() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        if (savedInstanceState != null) {
-            onRestoreContentState(savedInstanceState)
-        }
-
         onRestoreArgumentState(bundle = savedInstanceState ?: arguments)
 
         return super.onCreateDialog(savedInstanceState)
@@ -49,14 +40,12 @@ abstract class BlankDialog : BlankEmptyDialog() {
         super.onSaveInstanceState(outState)
 
         outState.putString(SavedTag.TITLE, title)
-        outState.putString(SavedTag.MESSAGE, message)
     }
 
-    override fun onRestoreContentState(savedInstanceState: Bundle) {
-        super.onRestoreContentState(savedInstanceState)
+    override fun onRestoreContentState(savedState: Bundle) {
+        super.onRestoreContentState(savedState)
 
-        title = savedInstanceState.getString(SavedTag.TITLE) ?: NdValue.TEXT
-        message = savedInstanceState.getString(SavedTag.MESSAGE) ?: NdValue.TEXT
+        title = savedState.getString(SavedTag.TITLE) ?: NdValue.TEXT
     }
 
     /**
