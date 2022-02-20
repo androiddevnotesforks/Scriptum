@@ -13,6 +13,8 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.extension.getFragmentByTag
 import sgtmelon.scriptum.presentation.dialog.*
+import sgtmelon.scriptum.presentation.dialog.sheet.AddSheetDialog
+import sgtmelon.scriptum.presentation.dialog.sheet.RepeatSheetDialog
 
 /**
  * Factory for create/get dialogs
@@ -21,8 +23,8 @@ object DialogFactory {
 
     class Alarm(private val fm: FragmentManager) {
 
-        fun getRepeatDialog(): SheetRepeatDialog {
-            return fm.getFragmentByTag(REPEAT) ?: SheetRepeatDialog()
+        fun getRepeatDialog(): RepeatSheetDialog {
+            return fm.getFragmentByTag(REPEAT) ?: RepeatSheetDialog()
         }
 
         companion object {
@@ -36,7 +38,7 @@ object DialogFactory {
 
         fun getRenameDialog(): RenameDialog = fm.getFragmentByTag(RENAME) ?: RenameDialog()
 
-        fun getAddDialog(): SheetAddDialog = fm.getFragmentByTag(ADD) ?: SheetAddDialog()
+        fun getAddDialog(): AddSheetDialog = fm.getFragmentByTag(ADD) ?: AddSheetDialog()
 
         fun getOptionsDialog(): OptionsDialog = fm.getFragmentByTag(OPTIONS) ?: OptionsDialog()
 

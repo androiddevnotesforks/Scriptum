@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.presentation.dialog
+package sgtmelon.scriptum.presentation.dialog.sheet
 
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
@@ -8,7 +8,7 @@ import sgtmelon.scriptum.R
 /**
  * Sheet dialog for select alarm repeat.
  */
-class SheetRepeatDialog : BlankMenuSheetDialog() {
+class RepeatSheetDialog : BlankMenuSheetDialog() {
     @get:LayoutRes override val layoutId: Int = R.layout.view_sheet_repeat
     @get:IdRes override val navigationId: Int = R.id.repeat_navigation
 }

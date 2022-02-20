@@ -9,12 +9,12 @@ import sgtmelon.scriptum.basic.extension.withTextColor
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.data.TestData
 import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.presentation.dialog.SheetAddDialog
+import sgtmelon.scriptum.presentation.dialog.sheet.AddSheetDialog
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 
 /**
- * Class for UI control [SheetAddDialog].
+ * Class for UI control [AddSheetDialog].
  */
 class AddSheetDialogUi : ParentSheetDialogUi(R.id.add_container, R.id.add_navigation) {
 
