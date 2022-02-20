@@ -13,6 +13,7 @@ import androidx.annotation.StringDef
     SavedTag.LIST,
     SavedTag.KEY
 )
+// TODO stringDEf
 annotation class SavedTag {
     companion object {
         private const val PREFIX = "SAFE_DIALOG"
@@ -26,6 +27,12 @@ annotation class SavedTag {
         const val TIME = "${PREFIX}_TIME"
         const val LIST = "${PREFIX}_LIST"
         const val KEY = "${PREFIX}_KEY"
+    }
+
+    annotation class Blank {
+        companion object {
+            const val TITLE = "${PREFIX}_TITLE"
+        }
     }
 
     annotation class Options {

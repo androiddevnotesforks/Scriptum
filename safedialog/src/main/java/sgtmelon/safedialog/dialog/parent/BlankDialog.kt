@@ -15,7 +15,7 @@ import android.app.AlertDialog as AlertDialogOld
  */
 abstract class BlankDialog : BlankEmptyDialog() {
 
-    var title: String = NdValue.TEXT
+    var title: String = DEF_TITLE
 
     protected var positiveButton: Button? = null
     protected var negativeButton: Button? = null
@@ -28,21 +28,21 @@ abstract class BlankDialog : BlankEmptyDialog() {
         dialogInterface.cancel()
     }
 
-    //region Save/Restore functions
+    protected val onNegativeClick = DialogInterface.OnClickListener { dialogInterface, i ->
+        dialogInterface.cancel()
+    }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
-        outState.putString(SavedTag.TITLE, title)
+        outState.putString(SavedTag.Blank.TITLE, title)
     }
 
     override fun onRestoreContentState(savedState: Bundle) {
         super.onRestoreContentState(savedState)
 
-        title = savedState.getString(SavedTag.TITLE) ?: NdValue.TEXT
+        title = savedState.getString(SavedTag.Blank.TITLE) ?: DEF_TITLE
     }
-
-    //endregion
 
     override fun onStart() {
         super.onStart()
@@ -50,7 +50,8 @@ abstract class BlankDialog : BlankEmptyDialog() {
         changeButtonEnable()
     }
 
-    @CallSuper protected open fun setupButton() {
+    @CallSuper
+    protected open fun setupButton() {
         val dialog = dialog
 
         positiveButton = when (dialog) {
@@ -73,8 +74,12 @@ abstract class BlankDialog : BlankEmptyDialog() {
     }
 
     /**
-     * Function for change [positiveButton]/[negativeButton]/[neutralButton] enable state.
+     * Func for change [positiveButton]/[negativeButton]/[neutralButton] enable state.
      */
-    @CallSuper protected open fun changeButtonEnable() = Unit
+    @CallSuper
+    protected open fun changeButtonEnable() = Unit
 
+    companion object {
+        private const val DEF_TITLE = ""
+    }
 }

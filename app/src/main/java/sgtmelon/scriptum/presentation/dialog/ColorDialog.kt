@@ -52,7 +52,7 @@ class ColorDialog : BlankDialog(), ItemListener.Click {
             .setTitle(title)
             .setView(recyclerView)
             .setPositiveButton(getString(R.string.dialog_button_apply), onPositiveClick)
-            .setNegativeButton(getString(R.string.dialog_button_cancel)) { dialog, _ -> dialog.cancel() }
+            .setNegativeButton(getString(R.string.dialog_button_cancel), onNegativeClick)
             .setCancelable(true)
             .create()
             .applyAnimation()

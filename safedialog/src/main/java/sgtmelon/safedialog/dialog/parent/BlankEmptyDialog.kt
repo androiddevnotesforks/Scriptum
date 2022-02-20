@@ -51,7 +51,8 @@ abstract class BlankEmptyDialog : DialogFragment() {
     /**
      * Func for setup child some view's of custom view
      */
-    @CallSuper protected open fun setupView() = Unit
+    @CallSuper
+    protected open fun setupView() = Unit
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)

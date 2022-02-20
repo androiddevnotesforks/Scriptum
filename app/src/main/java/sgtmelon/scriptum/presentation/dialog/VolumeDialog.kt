@@ -35,7 +35,7 @@ class VolumeDialog : BlankDialog(), SeekBar.OnSeekBarChangeListener {
             .setTitle(title)
             .setView(R.layout.view_volume)
             .setPositiveButton(getString(R.string.dialog_button_apply), onPositiveClick)
-            .setNegativeButton(getString(R.string.dialog_button_cancel)) { dialog, _ -> dialog.cancel() }
+            .setNegativeButton(getString(R.string.dialog_button_cancel), onNegativeClick)
             .setCancelable(true)
             .create()
             .applyAnimation()

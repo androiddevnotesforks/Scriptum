@@ -28,7 +28,7 @@ class MessageDialog : BlankDialog() {
             builder.setPositiveButton(getString(R.string.dialog_button_ok), onPositiveClick)
         } else {
             builder.setPositiveButton(getString(R.string.dialog_button_yes), onPositiveClick)
-            builder.setNegativeButton(getString(R.string.dialog_button_no)) { dialog, _ -> dialog.cancel() }
+            builder.setNegativeButton(getString(R.string.dialog_button_no), onNegativeClick)
         }
 
         return builder.setCancelable(true)
