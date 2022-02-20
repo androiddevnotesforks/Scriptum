@@ -21,7 +21,7 @@
     </style>
 
     <style name="App.Style.SheetDialog">
-        <item name="android:background">@drawable/bg_dialog</item>
+        <item name="android:background">@drawable/bg_sheet_dialog</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_margin">@dimen/layout_16dp</item>
@@ -46,7 +46,7 @@
         <item name="android:tint">?attr/clBackgroundView</item>
     </style>
 
-    <style name="App.Theme.BottomSheet" parent="Theme.Design.Light.BottomSheetDialog">
+    <style name="App.Theme.BottomSheet" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/App.Style.BottomSheet</item>
     </style>
 

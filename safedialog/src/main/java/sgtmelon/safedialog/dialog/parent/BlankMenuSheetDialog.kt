@@ -47,7 +47,7 @@ abstract class BlankMenuSheetDialog(
         val parentContainer = view.findViewById<CoordinatorLayout>(R.id.sheet_parent_container)
 
         dialog?.setOnShowListener {
-            val dialogParent = parentContainer.parent as View
+            val dialogParent = parentContainer.parent as? View ?: return@setOnShowListener
             BottomSheetBehavior.from(dialogParent).peekHeight = parentContainer.height
             dialogParent.requestLayout()
         }

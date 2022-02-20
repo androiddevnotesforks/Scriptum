@@ -354,6 +354,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     }
 
 
+    // TODO #REFACTOR join with variable
     @RunPrivate
     fun getNameList(list: List<RankItem>): List<String> = list.map { it.name.toUpperCase() }
 

@@ -24,7 +24,7 @@ abstract class ParentSheetDialogUi(
     fun onCloseSwipe() = waitClose { navigationView.swipeDown() }
 
     @CallSuper open fun assert() {
-        navigationContainer.isDisplayed().withBackground(R.drawable.bg_dialog)
+        navigationContainer.isDisplayed().withBackground(R.drawable.bg_sheet_dialog)
         navigationView.isDisplayed()
     }
 }
