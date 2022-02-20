@@ -1,6 +1,5 @@
 package sgtmelon.safedialog.dialog.parent
 
-import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.widget.Button
