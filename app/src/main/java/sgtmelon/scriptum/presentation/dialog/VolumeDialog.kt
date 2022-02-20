@@ -11,7 +11,11 @@ import sgtmelon.safedialog.annotation.SavedTag
 import sgtmelon.safedialog.utils.applyAnimation
 import sgtmelon.scriptum.R
 
-class VolumeDialog : BlankDialog(), SeekBar.OnSeekBarChangeListener {
+/**
+ * Dialog with seekBar for change volume level.
+ */
+class VolumeDialog : BlankDialog(),
+    SeekBar.OnSeekBarChangeListener {
 
     private val seekBar get() = dialog?.findViewById<SeekBar?>(R.id.volume_seek_bar)
     private val progressText get() = dialog?.findViewById<TextView?>(R.id.volume_progress_text)
@@ -49,6 +53,7 @@ class VolumeDialog : BlankDialog(), SeekBar.OnSeekBarChangeListener {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
+
         outState.putInt(SavedTag.Common.VALUE_INIT, progressInit)
         outState.putInt(SavedTag.Common.VALUE, progress)
     }
@@ -56,12 +61,10 @@ class VolumeDialog : BlankDialog(), SeekBar.OnSeekBarChangeListener {
     override fun setupView() {
         super.setupView()
 
-        seekBar?.apply {
-            progress = this@VolumeDialog.progress
-            setOnSeekBarChangeListener(this@VolumeDialog)
-        }
+        seekBar?.progress = progress
+        seekBar?.setOnSeekBarChangeListener(this@VolumeDialog)
 
-        progressText?.text = getString(R.string.dialog_text_volume, progress)
+        updateProgressText()
     }
 
     override fun changeButtonEnable() {
@@ -77,8 +80,12 @@ class VolumeDialog : BlankDialog(), SeekBar.OnSeekBarChangeListener {
             this.progress = progress
         }
 
-        progressText?.text = getString(R.string.dialog_text_volume, this.progress)
+        updateProgressText()
         changeButtonEnable()
+    }
+
+    private fun updateProgressText() {
+        progressText?.text = getString(R.string.dialog_text_volume, progress)
     }
 
     override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit

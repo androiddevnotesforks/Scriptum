@@ -34,6 +34,7 @@ fun View.requestFocusOnVisible(editText: EditText?) = setOnTouchListener { _, ev
     return@setOnTouchListener false
 }
 
+@Deprecated("use TextViewKtx")
 fun EditText.addTextChangedListener(before: (String) -> Unit = {},
                                     on: (String) -> Unit = {},
                                     after: (String) -> Unit = {}) {

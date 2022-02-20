@@ -8,21 +8,24 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.core.widget.addTextChangedListener
 import sgtmelon.safedialog.dialog.parent.BlankDialog
 import sgtmelon.safedialog.annotation.SavedTag
 import sgtmelon.safedialog.utils.applyAnimation
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.extension.addTextChangedListener
-import sgtmelon.scriptum.extension.clearSpace
-import sgtmelon.scriptum.extension.getColorAttr
-import sgtmelon.scriptum.extension.toUpperCase
+import sgtmelon.scriptum.extension.*
 import java.util.*
 
-class RenameDialog : BlankDialog(), TextView.OnEditorActionListener {
+/**
+ * Dialog with EditText for rename category.
+ */
+class RenameDialog : BlankDialog(),
+    TextView.OnEditorActionListener {
 
     private val nameEnter get() = dialog?.findViewById<EditText?>(R.id.rename_enter)
 
     private var nameList: ArrayList<String> = ArrayList()
+
     var position = DEF_POSITION
         private set
 
@@ -46,12 +49,13 @@ class RenameDialog : BlankDialog(), TextView.OnEditorActionListener {
             .setNegativeButton(getString(R.string.dialog_button_cancel), onNegativeClick)
             .setCancelable(true)
             .create()
-            .apply { window?.setSoftInputMode(SOFT_INPUT_STATE_VISIBLE) }
+            .showKeyboard()
             .applyAnimation()
     }
 
     override fun onRestoreArgumentState(bundle: Bundle?) {
         super.onRestoreArgumentState(bundle)
+
         position = bundle?.getInt(SavedTag.Common.POSITION) ?: DEF_POSITION
         title = bundle?.getString(SavedTag.Common.TITLE) ?: DEF_TITLE
         nameList = bundle?.getStringArrayList(SavedTag.Common.LIST) ?: ArrayList()
@@ -59,6 +63,7 @@ class RenameDialog : BlankDialog(), TextView.OnEditorActionListener {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
+
         outState.putInt(SavedTag.Common.POSITION, position)
         outState.putString(SavedTag.Common.TITLE, title)
         outState.putStringArrayList(SavedTag.Common.LIST, nameList)
@@ -72,7 +77,7 @@ class RenameDialog : BlankDialog(), TextView.OnEditorActionListener {
             setHintTextColor(context.getColorAttr(R.attr.clDisable))
 
             setOnEditorActionListener(this@RenameDialog)
-            addTextChangedListener(on = { changeButtonEnable() })
+            addTextChangedListener(onTextChanged = { _, _, _, _ -> changeButtonEnable() })
 
             requestFocus()
         }
@@ -81,21 +86,34 @@ class RenameDialog : BlankDialog(), TextView.OnEditorActionListener {
     override fun changeButtonEnable() {
         super.changeButtonEnable()
 
-        val isTitle = title.toUpperCase() == name.toUpperCase()
-
-        positiveButton?.isEnabled = name.isNotEmpty() &&
-                if (isTitle) title != name else !nameList.contains(name.toUpperCase())
+        positiveButton?.isEnabled = isSaveEnabled()
     }
 
     override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
         if (actionId != EditorInfo.IME_ACTION_DONE) return false
 
-        if (name.isNotEmpty() && !nameList.contains(name.toUpperCase())) {
+        if (isSaveEnabled()) {
             positiveButton?.callOnClick()
             return true
         }
 
         return false
+    }
+
+    private fun isSaveEnabled(): Boolean {
+        if (name.isEmpty()) return false
+
+        /**
+         * If currently entered a title (ignore letter case) -> we may change name without
+         * problem if it's not completely equals (without ignore letter case).
+         */
+        val isEqualTitle = title.uppercase() == name.uppercase()
+
+        /**
+         * If [name] not title -> check [nameList] for allowed name (if [nameList] not contains
+         * our [name] -> may save).
+         */
+        return if (isEqualTitle) title != name else !nameList.contains(name.uppercase())
     }
 
     companion object {

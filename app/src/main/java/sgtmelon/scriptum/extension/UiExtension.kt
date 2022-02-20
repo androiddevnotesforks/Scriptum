@@ -1,10 +1,12 @@
 package sgtmelon.scriptum.extension
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.pm.PackageManager
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.annotation.AnimRes
@@ -20,11 +22,16 @@ fun Activity.beforeFinish(func: () -> Unit) {
     finish()
 }
 
+fun Dialog.showKeyboard() = apply {
+    window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+}
 
+// TODO work with flag
 fun View.showKeyboard() {
     context.getInputService()?.showSoftInput(this, 0)
 }
 
+// TODO work with flag
 fun Activity.hideKeyboard() {
     getInputService()?.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
 }

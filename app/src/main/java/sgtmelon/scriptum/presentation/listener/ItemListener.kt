@@ -7,6 +7,7 @@ import sgtmelon.scriptum.presentation.control.touch.EdgeDragTouchHelper
 /**
  * Interface for different touches on view
  */
+// TODO remove/rebuild
 interface ItemListener {
 
     interface Click {

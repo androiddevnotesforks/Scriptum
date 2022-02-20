@@ -15,7 +15,11 @@ import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.presentation.adapter.ColorAdapter
 import sgtmelon.scriptum.presentation.listener.ItemListener
 
-class ColorDialog : BlankDialog(), ItemListener.Click {
+/**
+ * Dialog for display application available colors for notes.
+ */
+class ColorDialog : BlankDialog(),
+    ItemListener.Click {
 
     private var checkInit: Int = DEF_CHECK
     var check: Int = DEF_CHECK
@@ -31,30 +35,33 @@ class ColorDialog : BlankDialog(), ItemListener.Click {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         super.onCreateDialog(savedInstanceState)
 
-        val context = requireContext()
-        val padding = 24
-        val recyclerView = RecyclerView(context).apply {
-            id = R.id.color_recycler_view
-
-            setPadding(padding, padding, padding, padding)
-            overScrollMode = View.OVER_SCROLL_NEVER
-
-            setHasFixedSize(true)
-            layoutManager = GridLayoutManager(context, resources.getInteger(R.integer.color_column_count))
-
-            (itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
-
-            adapter = ColorAdapter(clickListener = this@ColorDialog).setCheck(check)
-        }
-
-        return AlertDialog.Builder(context)
+        return AlertDialog.Builder(requireContext())
             .setTitle(title)
-            .setView(recyclerView)
+            .setView(createRecycler())
             .setPositiveButton(getString(R.string.dialog_button_apply), onPositiveClick)
             .setNegativeButton(getString(R.string.dialog_button_cancel), onNegativeClick)
             .setCancelable(true)
             .create()
             .applyAnimation()
+    }
+
+    private fun createRecycler(): View {
+        val recyclerView = RecyclerView(requireContext())
+
+        recyclerView.id = R.id.color_recycler_view
+
+        val padding = 24
+        recyclerView.setPadding(padding, padding, padding, padding)
+        recyclerView.overScrollMode = View.OVER_SCROLL_NEVER
+
+        val columnCount = resources.getInteger(R.integer.color_column_count)
+        recyclerView.layoutManager = GridLayoutManager(context, columnCount)
+        recyclerView.adapter = ColorAdapter(clickListener = this@ColorDialog).setCheck(check)
+
+        (recyclerView.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
+        recyclerView.setHasFixedSize(true)
+
+        return recyclerView
     }
 
     override fun onRestoreArgumentState(bundle: Bundle?) {

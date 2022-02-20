@@ -13,7 +13,7 @@ import sgtmelon.scriptum.domain.model.key.DotAnimType
 import sgtmelon.scriptum.presentation.control.DotAnimControl
 
 /**
- * Dialog with endless progress bar.
+ * Dialog with endless progress bar and loading text.
  */
 class LoadingDialog : BlankEmptyDialog(),
     DotAnimControl.Callback {

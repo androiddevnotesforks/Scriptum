@@ -12,13 +12,17 @@ import sgtmelon.safedialog.utils.applyAnimation
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 
+/**
+ * Dialog with information about project.
+ */
 class AboutDialog : BlankEmptyDialog(),
     View.OnClickListener {
 
     private val logoImage get() = dialog?.findViewById<ImageView?>(R.id.about_logo_image)
     private val versionText get() = dialog?.findViewById<TextView?>(R.id.about_version_text)
 
-    private var click = DEF_CLICK
+    private var clickCount = DEF_CLICK
+
     var hideOpen = DEF_HIDE
         private set
 
@@ -35,14 +39,14 @@ class AboutDialog : BlankEmptyDialog(),
     override fun onRestoreContentState(savedState: Bundle) {
         super.onRestoreContentState(savedState)
 
-        click = savedState.getInt(SavedTag.Common.VALUE)
+        clickCount = savedState.getInt(SavedTag.Common.VALUE)
         hideOpen = savedState.getBoolean(SavedTag.Common.KEY)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
-        outState.putInt(SavedTag.Common.VALUE, click)
+        outState.putInt(SavedTag.Common.VALUE, clickCount)
         outState.putBoolean(SavedTag.Common.KEY, hideOpen)
     }
 
@@ -54,14 +58,14 @@ class AboutDialog : BlankEmptyDialog(),
     }
 
     override fun onClick(v: View) {
-        if (++click == context?.resources?.getInteger(R.integer.pref_develop_open)) {
+        if (++clickCount == context?.resources?.getInteger(R.integer.pref_develop_open)) {
             hideOpen = true
             dialog?.cancel()
         }
     }
 
     fun clear() {
-        click = DEF_CLICK
+        clickCount = DEF_CLICK
         hideOpen = DEF_HIDE
     }
 

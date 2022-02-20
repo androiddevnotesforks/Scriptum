@@ -26,7 +26,9 @@ fun String.toUri(): Uri? = let {
 /**
  * Make string upper/lowerCase without warning and without arguments.
  */
+@Deprecated("use uppercase")
 fun String.toUpperCase() = toUpperCase(Locale.ROOT)
+@Deprecated("use lowercase")
 fun String.toLowerCase() = toLowerCase(Locale.ROOT)
 
 fun String.clearSpace() = trim().replace("\\s+".toRegex(), replacement = " ")

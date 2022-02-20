@@ -65,5 +65,4 @@ class ColorAdapter(
         check = position
         notifyItemChanged(positionOld)
     }
-
 }
