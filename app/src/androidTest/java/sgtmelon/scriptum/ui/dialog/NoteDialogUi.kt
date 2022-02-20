@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.ui.dialog
 
-import sgtmelon.common.getText
+import sgtmelon.common.utils.getText
 import sgtmelon.safedialog.dialog.MultipleDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click

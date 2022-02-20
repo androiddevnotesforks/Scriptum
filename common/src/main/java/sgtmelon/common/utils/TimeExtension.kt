@@ -1,15 +1,17 @@
 @file:JvmName(name = "TimeExtensionUtils")
 
-package sgtmelon.common
+package sgtmelon.common.utils
 
 import android.content.Context
 import android.text.format.DateUtils
+import sgtmelon.common.BuildConfig
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import android.text.format.DateFormat as DateFormatAndroid
 
 // TODO add unit tests
+// TODO make all access to calendar - suspendable
 
 fun getNewCalendar(): Calendar = Calendar.getInstance()
 
@@ -23,7 +25,6 @@ fun Context?.is24Format(): Boolean {
     return if (this != null) DateFormatAndroid.is24HourFormat(this) else true
 }
 
-// TODO make all access to calendar - suspendable
 fun getTime(): String = getNewCalendar().getText()
 
 fun Calendar.isToday() = DateUtils.isToday(timeInMillis)

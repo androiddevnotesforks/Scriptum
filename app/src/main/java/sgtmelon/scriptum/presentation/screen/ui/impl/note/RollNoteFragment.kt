@@ -20,7 +20,7 @@ import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import sgtmelon.iconanim.IconBlockCallback
 import sgtmelon.iconanim.IconChangeCallback
-import sgtmelon.safedialog.safeShow
+import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
 import sgtmelon.scriptum.domain.model.annotation.Color

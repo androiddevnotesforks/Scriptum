@@ -1,14 +1,13 @@
 package sgtmelon.safedialog.dialog
 
 import android.app.Dialog
-import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import sgtmelon.safedialog.annotation.NdValue
 import sgtmelon.safedialog.annotation.SavedTag
-import sgtmelon.safedialog.applyAnimation
+import sgtmelon.safedialog.utils.applyAnimation
 
 /**
  * Dialog showing options with list item
@@ -45,7 +44,7 @@ class OptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
 
         onRestoreInstanceState(bundle = savedInstanceState ?: arguments)
 
-        val builder = AlertDialog.Builder(context as Context)
+        val builder = AlertDialog.Builder(requireContext())
             .setItems(itemList.toTypedArray(), this)
             .setCancelable(true)
 

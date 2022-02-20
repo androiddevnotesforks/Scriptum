@@ -1,13 +1,12 @@
 package sgtmelon.safedialog.dialog
 
 import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import sgtmelon.safedialog.R
 import sgtmelon.safedialog.annotation.MessageType
 import sgtmelon.safedialog.annotation.SavedTag
-import sgtmelon.safedialog.applyAnimation
+import sgtmelon.safedialog.utils.applyAnimation
 import sgtmelon.safedialog.dialog.parent.BlankDialog
 
 /**
@@ -20,7 +19,7 @@ class MessageDialog : BlankDialog() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         super.onCreateDialog(savedInstanceState)
 
-        val builder = AlertDialog.Builder(context as Context)
+        val builder = AlertDialog.Builder(requireContext())
             .setTitle(title)
             .setMessage(message)
 

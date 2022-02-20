@@ -6,7 +6,8 @@ import android.os.Build
 import android.os.Bundle
 import androidx.annotation.StringRes
 import androidx.preference.Preference
-import sgtmelon.safedialog.safeShow
+import sgtmelon.safedialog.utils.safeDismiss
+import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.PermissionRequest
 import sgtmelon.scriptum.domain.model.annotation.Repeat

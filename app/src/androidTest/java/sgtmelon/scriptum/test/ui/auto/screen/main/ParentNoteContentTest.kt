@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.test.ui.auto.screen.main
 
-import sgtmelon.common.getCalendarWithAdd
-import sgtmelon.common.getText
+import sgtmelon.common.utils.getCalendarWithAdd
+import sgtmelon.common.utils.getText
 import sgtmelon.scriptum.data.room.entity.RollEntity
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Sort

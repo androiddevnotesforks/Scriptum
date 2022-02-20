@@ -5,8 +5,8 @@ import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.*
 import org.junit.Test
-import sgtmelon.common.beforeNow
-import sgtmelon.common.getCalendar
+import sgtmelon.common.utils.beforeNow
+import sgtmelon.common.utils.getCalendar
 import sgtmelon.common.nextString
 import sgtmelon.scriptum.FastMock
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo

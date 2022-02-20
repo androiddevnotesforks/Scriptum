@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.ui.dialog.sheet
 
-import sgtmelon.common.getTime
+import sgtmelon.common.utils.getTime
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
 import sgtmelon.scriptum.basic.extension.isDisplayed

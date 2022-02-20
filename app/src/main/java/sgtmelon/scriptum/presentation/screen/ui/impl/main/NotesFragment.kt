@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import sgtmelon.safedialog.safeShow
+import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.FragmentNotesBinding
 import sgtmelon.scriptum.domain.model.annotation.Options

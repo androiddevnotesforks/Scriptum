@@ -3,7 +3,7 @@ package sgtmelon.scriptum.presentation.screen.ui.impl.preference
 import android.content.DialogInterface
 import android.os.Bundle
 import androidx.preference.Preference
-import sgtmelon.safedialog.safeShow
+import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Sort

@@ -4,8 +4,8 @@ import android.app.Application
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import sgtmelon.common.beforeNow
-import sgtmelon.common.getCalendar
+import sgtmelon.common.utils.beforeNow
+import sgtmelon.common.utils.getCalendar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.common.test.annotation.RunPrivate

@@ -10,7 +10,7 @@ import androidx.annotation.ArrayRes
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import sgtmelon.safedialog.safeShow
+import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.FragmentBinBinding
 import sgtmelon.scriptum.domain.model.item.NoteItem

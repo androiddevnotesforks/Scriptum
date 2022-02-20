@@ -1,13 +1,12 @@
 package sgtmelon.safedialog.dialog
 
 import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import sgtmelon.safedialog.R
 import sgtmelon.safedialog.annotation.NdValue
 import sgtmelon.safedialog.annotation.SavedTag
-import sgtmelon.safedialog.applyAnimation
+import sgtmelon.safedialog.utils.applyAnimation
 import sgtmelon.safedialog.dialog.parent.BlankDialog
 
 /**
@@ -36,11 +35,11 @@ class MultipleDialog : BlankDialog() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         super.onCreateDialog(savedInstanceState)
 
-        return AlertDialog.Builder(context as Context)
+        return AlertDialog.Builder(requireContext())
             .setTitle(title)
             .setMultiChoiceItems(itemArray, check) { _, which, isChecked ->
                 check[which] = isChecked
-                setEnable()
+                changeButtonEnable()
             }
             .setPositiveButton(getString(R.string.dialog_button_apply), onPositiveClick)
             .setNegativeButton(getString(R.string.dialog_button_cancel)) { dialog, _ -> dialog.cancel() }
@@ -55,8 +54,8 @@ class MultipleDialog : BlankDialog() {
         needOneSelect = savedInstanceState.getBoolean(SavedTag.KEY)
     }
 
-    override fun onRestoreInstanceState(bundle: Bundle?) {
-        super.onRestoreInstanceState(bundle)
+    override fun onRestoreArgumentState(bundle: Bundle?) {
+        super.onRestoreArgumentState(bundle)
         init = bundle?.getBooleanArray(SavedTag.INIT) ?: BooleanArray(size = 0)
         check = bundle?.getBooleanArray(SavedTag.VALUE) ?: BooleanArray(size = 0)
     }
@@ -70,8 +69,8 @@ class MultipleDialog : BlankDialog() {
         outState.putBooleanArray(SavedTag.VALUE, check)
     }
 
-    override fun setEnable() {
-        super.setEnable()
+    override fun changeButtonEnable() {
+        super.changeButtonEnable()
         positiveButton?.isEnabled =
                 !init.contentEquals(check) && if (needOneSelect) check.contains(true) else true
     }

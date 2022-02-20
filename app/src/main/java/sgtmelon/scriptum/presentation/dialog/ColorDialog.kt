@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.presentation.dialog
 
 import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
@@ -11,7 +10,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import sgtmelon.safedialog.dialog.parent.BlankDialog
 import sgtmelon.safedialog.annotation.NdValue
 import sgtmelon.safedialog.annotation.SavedTag
-import sgtmelon.safedialog.applyAnimation
+import sgtmelon.safedialog.utils.applyAnimation
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.presentation.adapter.ColorAdapter
@@ -33,7 +32,7 @@ class ColorDialog : BlankDialog(), ItemListener.Click {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         super.onCreateDialog(savedInstanceState)
 
-        val context = context as Context
+        val context = requireContext()
         val padding = 24
         val recyclerView = RecyclerView(context).apply {
             id = R.id.color_recycler_view
@@ -59,8 +58,8 @@ class ColorDialog : BlankDialog(), ItemListener.Click {
             .applyAnimation()
     }
 
-    override fun onRestoreInstanceState(bundle: Bundle?) {
-        super.onRestoreInstanceState(bundle)
+    override fun onRestoreArgumentState(bundle: Bundle?) {
+        super.onRestoreArgumentState(bundle)
         init = bundle?.getInt(SavedTag.INIT) ?: NdValue.CHECK
         check = bundle?.getInt(SavedTag.VALUE) ?: NdValue.CHECK
     }
@@ -71,13 +70,13 @@ class ColorDialog : BlankDialog(), ItemListener.Click {
         outState.putInt(SavedTag.VALUE, check)
     }
 
-    override fun setEnable() {
-        super.setEnable()
+    override fun changeButtonEnable() {
+        super.changeButtonEnable()
         positiveButton?.isEnabled = init != check
     }
 
     override fun onItemClick(view: View, p: Int) {
         check = p
-        setEnable()
+        changeButtonEnable()
     }
 }

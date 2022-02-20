@@ -1,8 +1,8 @@
 package sgtmelon.scriptum.test.ui.auto.screen.notification
 
 import org.junit.Test
-import sgtmelon.common.getCalendarWithAdd
-import sgtmelon.common.getText
+import sgtmelon.common.utils.getCalendarWithAdd
+import sgtmelon.common.utils.getText
 import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.NotificationActivity

@@ -1,14 +1,13 @@
 package sgtmelon.safedialog.dialog
 
 import android.app.Dialog
-import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import sgtmelon.safedialog.R
 import sgtmelon.safedialog.annotation.NdValue
 import sgtmelon.safedialog.annotation.SavedTag
-import sgtmelon.safedialog.applyAnimation
+import sgtmelon.safedialog.utils.applyAnimation
 import sgtmelon.safedialog.dialog.parent.BlankDialog
 
 /**
@@ -19,7 +18,7 @@ class SingleDialog : BlankDialog() {
     var itemArray: Array<String> = arrayOf()
 
     /**
-     * If value is TRUE - it means what user can choose any dialog item. Otherwise see [setEnable].
+     * If value is TRUE - it means what user can choose any dialog item. Otherwise see [changeButtonEnable].
      */
     var applyEnable: Boolean = false
 
@@ -42,12 +41,12 @@ class SingleDialog : BlankDialog() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         super.onCreateDialog(savedInstanceState)
 
-        return AlertDialog.Builder(context as Context)
+        return AlertDialog.Builder(requireContext())
             .setTitle(title)
             .setSingleChoiceItems(itemArray, check) { _, i ->
                 itemListener?.onClick(dialog, i)
                 check = i
-                setEnable()
+                changeButtonEnable()
             }
             .setPositiveButton(getString(R.string.dialog_button_apply), onPositiveClick)
             .setNegativeButton(getString(R.string.dialog_button_cancel)) { dialog, _ -> dialog.cancel() }
@@ -61,8 +60,8 @@ class SingleDialog : BlankDialog() {
         itemArray = savedInstanceState.getStringArray(SavedTag.LIST) ?: arrayOf()
     }
 
-    override fun onRestoreInstanceState(bundle: Bundle?) {
-        super.onRestoreInstanceState(bundle)
+    override fun onRestoreArgumentState(bundle: Bundle?) {
+        super.onRestoreArgumentState(bundle)
         checkInit = bundle?.getInt(SavedTag.INIT) ?: NdValue.CHECK
         check = bundle?.getInt(SavedTag.VALUE) ?: NdValue.CHECK
     }
@@ -75,8 +74,8 @@ class SingleDialog : BlankDialog() {
         outState.putInt(SavedTag.VALUE, check)
     }
 
-    override fun setEnable() {
-        super.setEnable()
+    override fun changeButtonEnable() {
+        super.changeButtonEnable()
         positiveButton?.isEnabled = applyEnable || checkInit != check
     }
 }

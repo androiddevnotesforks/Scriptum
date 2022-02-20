@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
-import sgtmelon.safedialog.safeShow
+import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.domain.model.key.MainPage

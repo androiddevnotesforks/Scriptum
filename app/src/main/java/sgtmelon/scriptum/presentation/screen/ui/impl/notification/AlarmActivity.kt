@@ -21,7 +21,7 @@ import androidx.transition.Transition
 import androidx.transition.TransitionListenerAdapter
 import androidx.transition.TransitionManager
 import com.google.android.material.navigation.NavigationView
-import sgtmelon.safedialog.safeShow
+import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Theme
@@ -32,6 +32,7 @@ import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.state.OpenState
 import sgtmelon.scriptum.extension.*
 import sgtmelon.common.test.idling.impl.AppIdlingResource
+import sgtmelon.safedialog.utils.safeDismiss
 import sgtmelon.scriptum.domain.model.annotation.test.IdlingTag
 import sgtmelon.scriptum.presentation.adapter.NoteAdapter
 import sgtmelon.scriptum.presentation.control.broadcast.BroadcastControl
@@ -195,7 +196,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
         repeatDialog.apply {
             itemSelectedListener = NavigationView.OnNavigationItemSelectedListener {
-                dismiss()
+                safeDismiss()
                 viewModel.onResultRepeatDialog(it.itemId)
                 return@OnNavigationItemSelectedListener true
             }

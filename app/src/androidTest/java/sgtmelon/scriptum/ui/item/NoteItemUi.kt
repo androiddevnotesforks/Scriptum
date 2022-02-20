@@ -4,8 +4,8 @@ import android.view.View
 import androidx.annotation.CallSuper
 import androidx.annotation.IdRes
 import org.hamcrest.Matcher
-import sgtmelon.common.formatPast
-import sgtmelon.common.getCalendar
+import sgtmelon.common.utils.formatPast
+import sgtmelon.common.utils.getCalendar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.domain.model.annotation.Theme

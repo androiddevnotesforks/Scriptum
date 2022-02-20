@@ -4,7 +4,7 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.text.format.DateUtils
-import sgtmelon.common.formatFuture
+import sgtmelon.common.utils.formatFuture
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.common.test.annotation.RunPrivate

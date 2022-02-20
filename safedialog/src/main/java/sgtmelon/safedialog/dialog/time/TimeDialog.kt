@@ -2,27 +2,26 @@ package sgtmelon.safedialog.dialog.time
 
 import android.app.Dialog
 import android.app.TimePickerDialog
-import android.content.Context
 import android.os.Bundle
-import androidx.annotation.VisibleForTesting
-import sgtmelon.common.afterNow
-import sgtmelon.common.clearSeconds
-import sgtmelon.common.getText
-import sgtmelon.common.is24Format
+import sgtmelon.common.utils.afterNow
+import sgtmelon.common.utils.clearSeconds
+import sgtmelon.common.utils.getText
+import sgtmelon.common.utils.is24Format
+import sgtmelon.common.test.annotation.RunNone
 import sgtmelon.safedialog.BuildConfig
 import sgtmelon.safedialog.annotation.NdValue
 import sgtmelon.safedialog.annotation.SavedTag
-import sgtmelon.safedialog.applyAnimation
-import sgtmelon.safedialog.dialog.parent.DateTimeBlankDialog
+import sgtmelon.safedialog.utils.applyAnimation
+import sgtmelon.safedialog.dialog.parent.BlankDateTimeDialog
 import sgtmelon.safedialog.dialog.callback.ITimeDialog
-import sgtmelon.safedialog.safeShow
+import sgtmelon.safedialog.utils.safeShow
 import java.util.*
 import kotlin.collections.ArrayList
 
 /**
  * Dialog for choose time
  */
-class TimeDialog : DateTimeBlankDialog(), ITimeDialog {
+class TimeDialog : BlankDateTimeDialog(), ITimeDialog {
 
     private var dateList: ArrayList<String> = ArrayList()
 
@@ -58,18 +57,18 @@ class TimeDialog : DateTimeBlankDialog(), ITimeDialog {
             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
             calendar.set(Calendar.MINUTE, minute)
 
-            setEnable()
+            changeButtonEnable()
         }
 
-        return GoodTimePickerDialog(context as Context, this, changeListener,
+        return GoodTimePickerDialog(requireContext(), this, changeListener,
             calendar.get(Calendar.HOUR_OF_DAY),
             calendar.get(Calendar.MINUTE),
             context.is24Format()
         ).applyAnimation()
     }
 
-    override fun onRestoreInstanceState(bundle: Bundle?) {
-        super.onRestoreInstanceState(bundle)
+    override fun onRestoreArgumentState(bundle: Bundle?) {
+        super.onRestoreArgumentState(bundle)
         calendar.timeInMillis = bundle?.getLong(SavedTag.TIME) ?: defaultTime
         dateList = bundle?.getStringArrayList(SavedTag.LIST) ?: ArrayList()
         position = bundle?.getInt(SavedTag.POSITION) ?: NdValue.POSITION
@@ -82,12 +81,12 @@ class TimeDialog : DateTimeBlankDialog(), ITimeDialog {
         outState.putInt(SavedTag.POSITION, position)
     }
 
-    /**
-     * Check that date and time of [calendar] are not from the past
-     */
-    override fun setEnable() {
-        super.setEnable()
+    override fun changeButtonEnable() {
+        super.changeButtonEnable()
 
+        /**
+         * Check that date and time of [calendar] are not from the past
+         */
         positiveButton?.isEnabled = getPositiveEnabled(calendar, dateList)
     }
 
@@ -101,8 +100,7 @@ class TimeDialog : DateTimeBlankDialog(), ITimeDialog {
     }
 
     companion object {
-        @VisibleForTesting
-        var callback: ITimeDialog? = null
+        @RunNone var callback: ITimeDialog? = null
 
         /**
          * TODO #TEST write unit test

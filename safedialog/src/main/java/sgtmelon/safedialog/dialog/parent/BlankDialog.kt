@@ -10,13 +10,16 @@ import androidx.fragment.app.DialogFragment
 import sgtmelon.safedialog.annotation.NdValue
 import sgtmelon.safedialog.annotation.SavedTag
 import android.app.AlertDialog as AlertDialogOld
+import sgtmelon.safedialog.utils.safeShow
 
 /**
  * Base class for safe dialogs
  */
-abstract class BlankDialog : DialogFragment() {
+abstract class BlankDialog : BlankEmptyDialog() {
 
     var title: String = NdValue.TEXT
+
+    // TODO move into message dialog
     var message: String = NdValue.TEXT
 
     protected var positiveButton: Button? = null
@@ -30,63 +33,46 @@ abstract class BlankDialog : DialogFragment() {
         dialogInterface.cancel()
     }
 
-    var dismissListener: DialogInterface.OnDismissListener? = null
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         if (savedInstanceState != null) {
             onRestoreContentState(savedInstanceState)
         }
 
-        onRestoreInstanceState(bundle = savedInstanceState ?: arguments)
+        onRestoreArgumentState(bundle = savedInstanceState ?: arguments)
 
         return super.onCreateDialog(savedInstanceState)
     }
 
+    //region Save/Restore functions
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
+
         outState.putString(SavedTag.TITLE, title)
         outState.putString(SavedTag.MESSAGE, message)
     }
 
-    /**
-     * Use for restore dialog content which was written before [safeShow]
-     * (e.g. title, nameArray and ect.).
-     *
-     * Call inside [onCreateDialog] before create them.
-     */
-    @CallSuper
-    open fun onRestoreContentState(savedInstanceState: Bundle) {
+    override fun onRestoreContentState(savedInstanceState: Bundle) {
+        super.onRestoreContentState(savedInstanceState)
+
         title = savedInstanceState.getString(SavedTag.TITLE) ?: NdValue.TEXT
         message = savedInstanceState.getString(SavedTag.MESSAGE) ?: NdValue.TEXT
     }
 
     /**
-     * Function for restore content which was passed throw setArgument functions
+     * Function for restore content which was passed through setArgument function
      * (e.g. position, check and ect.).
      */
     @CallSuper
-    open fun onRestoreInstanceState(bundle: Bundle?) = Unit
+    protected open fun onRestoreArgumentState(bundle: Bundle?) = Unit
+
+    //endregion
 
     override fun onStart() {
         super.onStart()
-        setupView()
         setupButton()
-        setEnable()
+        changeButtonEnable()
     }
-
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
-        dismissListener?.onDismiss(dialog)
-    }
-
-    fun safeDismiss() {
-        if (isAdded) dismiss()
-    }
-
-    /**
-     * Func for setup child view's of custom view
-     */
-    @CallSuper protected open fun setupView() = Unit
 
     @CallSuper protected open fun setupButton() {
         val dialog = dialog
@@ -110,5 +96,9 @@ abstract class BlankDialog : DialogFragment() {
         }
     }
 
-    @CallSuper protected open fun setEnable() = Unit
+    /**
+     * Function for change [positiveButton]/[negativeButton]/[neutralButton] enable state.
+     */
+    @CallSuper protected open fun changeButtonEnable() = Unit
+
 }

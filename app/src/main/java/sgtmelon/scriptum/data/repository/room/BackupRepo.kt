@@ -1,8 +1,8 @@
 package sgtmelon.scriptum.data.repository.room
 
-import sgtmelon.common.beforeNow
-import sgtmelon.common.getCalendarOrNull
-import sgtmelon.common.getText
+import sgtmelon.common.utils.beforeNow
+import sgtmelon.common.utils.getCalendarOrNull
+import sgtmelon.common.utils.getText
 import sgtmelon.scriptum.data.provider.RoomProvider
 import sgtmelon.scriptum.data.repository.room.callback.IBackupRepo
 import sgtmelon.scriptum.data.room.IRoomWork

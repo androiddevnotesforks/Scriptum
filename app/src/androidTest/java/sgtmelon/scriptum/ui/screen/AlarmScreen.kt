@@ -1,8 +1,8 @@
 package sgtmelon.scriptum.ui.screen
 
-import sgtmelon.common.getCalendarWithAdd
-import sgtmelon.common.getNewCalendar
-import sgtmelon.common.getText
+import sgtmelon.common.utils.getCalendarWithAdd
+import sgtmelon.common.utils.getNewCalendar
+import sgtmelon.common.utils.getText
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.exception.NoteCastException
 import sgtmelon.scriptum.basic.extension.*

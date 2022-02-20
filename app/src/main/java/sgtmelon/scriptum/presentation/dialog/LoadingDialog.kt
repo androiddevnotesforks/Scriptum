@@ -1,13 +1,13 @@
 package sgtmelon.scriptum.presentation.dialog
 
 import android.app.Dialog
-import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import sgtmelon.safedialog.dialog.parent.BlankDialog
-import sgtmelon.safedialog.applyAnimation
+import sgtmelon.safedialog.dialog.parent.BlankEmptyDialog
+import sgtmelon.safedialog.utils.applyAnimation
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.key.DotAnimType
 import sgtmelon.scriptum.presentation.control.DotAnimControl
@@ -15,7 +15,7 @@ import sgtmelon.scriptum.presentation.control.DotAnimControl
 /**
  * Dialog with endless progress bar.
  */
-class LoadingDialog : BlankDialog(),
+class LoadingDialog : BlankEmptyDialog(),
     DotAnimControl.Callback {
 
     private val loadingText get() = dialog?.findViewById<TextView?>(R.id.loading_text)
@@ -25,7 +25,7 @@ class LoadingDialog : BlankDialog(),
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         super.onCreateDialog(savedInstanceState)
 
-        return AlertDialog.Builder(context as Context)
+        return AlertDialog.Builder(requireContext())
             .setView(R.layout.view_loading)
             .setCancelable(false)
             .create()

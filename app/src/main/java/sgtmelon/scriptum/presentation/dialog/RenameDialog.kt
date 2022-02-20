@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.presentation.dialog
 
 import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE
@@ -12,7 +11,7 @@ import androidx.appcompat.app.AlertDialog
 import sgtmelon.safedialog.dialog.parent.BlankDialog
 import sgtmelon.safedialog.annotation.NdValue
 import sgtmelon.safedialog.annotation.SavedTag
-import sgtmelon.safedialog.applyAnimation
+import sgtmelon.safedialog.utils.applyAnimation
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.addTextChangedListener
 import sgtmelon.scriptum.extension.clearSpace
@@ -41,7 +40,7 @@ class RenameDialog : BlankDialog(), TextView.OnEditorActionListener {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         super.onCreateDialog(savedInstanceState)
 
-        return AlertDialog.Builder(context as Context)
+        return AlertDialog.Builder(requireContext())
             .setTitle(title)
             .setView(R.layout.view_rename)
             .setPositiveButton(getString(R.string.dialog_button_apply), onPositiveClick)
@@ -52,8 +51,8 @@ class RenameDialog : BlankDialog(), TextView.OnEditorActionListener {
             .applyAnimation()
     }
 
-    override fun onRestoreInstanceState(bundle: Bundle?) {
-        super.onRestoreInstanceState(bundle)
+    override fun onRestoreArgumentState(bundle: Bundle?) {
+        super.onRestoreArgumentState(bundle)
         position = bundle?.getInt(SavedTag.POSITION) ?: NdValue.POSITION
         title = bundle?.getString(SavedTag.INIT) ?: NdValue.TEXT
         nameList = bundle?.getStringArrayList(SavedTag.VALUE) ?: ArrayList()
@@ -74,14 +73,14 @@ class RenameDialog : BlankDialog(), TextView.OnEditorActionListener {
             setHintTextColor(context.getColorAttr(R.attr.clDisable))
 
             setOnEditorActionListener(this@RenameDialog)
-            addTextChangedListener(on = { setEnable() })
+            addTextChangedListener(on = { changeButtonEnable() })
 
             requestFocus()
         }
     }
 
-    override fun setEnable() {
-        super.setEnable()
+    override fun changeButtonEnable() {
+        super.changeButtonEnable()
 
         val isTitle = title.toUpperCase() == name.toUpperCase()
 

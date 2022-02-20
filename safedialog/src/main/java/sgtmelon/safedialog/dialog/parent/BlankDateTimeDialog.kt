@@ -5,18 +5,19 @@ import android.app.TimePickerDialog
 import android.content.DialogInterface
 import android.widget.DatePicker
 import android.widget.TimePicker
-import sgtmelon.common.clearSeconds
-import sgtmelon.common.getNewCalendar
-import sgtmelon.safedialog.dialog.parent.BlankDialog
+import sgtmelon.common.utils.clearSeconds
+import sgtmelon.common.utils.getNewCalendar
 import sgtmelon.safedialog.R
+import sgtmelon.safedialog.dialog.time.DateDialog
+import sgtmelon.safedialog.dialog.time.TimeDialog
 import java.util.*
 
 /**
- * Base class for [DateDialog] and [TimeDialog]
+ * Base class for work with [DateDialog] and [TimeDialog].
  */
-abstract class DateTimeBlankDialog : BlankDialog(),
-        DatePickerDialog.OnDateSetListener,
-        TimePickerDialog.OnTimeSetListener {
+abstract class BlankDateTimeDialog : BlankDialog(),
+    DatePickerDialog.OnDateSetListener,
+    TimePickerDialog.OnTimeSetListener {
 
     protected val defaultTime get() = getNewCalendar().clearSeconds().timeInMillis
 
@@ -28,12 +29,13 @@ abstract class DateTimeBlankDialog : BlankDialog(),
      */
     override fun setupButton() {
         super.setupButton()
+
         positiveButton?.text = getString(R.string.dialog_button_apply)
         negativeButton?.text = getString(R.string.dialog_button_cancel)
     }
 
     /**
-     * This func calls after [positiveButton] click
+     * This func calls after [positiveButton] click.
      */
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
         calendar.set(Calendar.YEAR, year)
@@ -44,7 +46,7 @@ abstract class DateTimeBlankDialog : BlankDialog(),
     }
 
     /**
-     * This func calls after [positiveButton] click
+     * This func calls after [positiveButton] click.
      */
     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
@@ -52,5 +54,4 @@ abstract class DateTimeBlankDialog : BlankDialog(),
 
         onPositiveClick.onClick(dialog, DialogInterface.BUTTON_POSITIVE)
     }
-
 }

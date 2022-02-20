@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.presentation.dialog
 
 import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
 import android.widget.SeekBar
 import android.widget.TextView
@@ -10,7 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import sgtmelon.safedialog.dialog.parent.BlankDialog
 import sgtmelon.safedialog.annotation.NdValue
 import sgtmelon.safedialog.annotation.SavedTag
-import sgtmelon.safedialog.applyAnimation
+import sgtmelon.safedialog.utils.applyAnimation
 import sgtmelon.scriptum.R
 
 class VolumeDialog : BlankDialog(), SeekBar.OnSeekBarChangeListener {
@@ -32,7 +31,7 @@ class VolumeDialog : BlankDialog(), SeekBar.OnSeekBarChangeListener {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         super.onCreateDialog(savedInstanceState)
 
-        return AlertDialog.Builder(context as Context)
+        return AlertDialog.Builder(requireContext())
             .setTitle(title)
             .setView(R.layout.view_volume)
             .setPositiveButton(getString(R.string.dialog_button_apply), onPositiveClick)
@@ -42,8 +41,8 @@ class VolumeDialog : BlankDialog(), SeekBar.OnSeekBarChangeListener {
             .applyAnimation()
     }
 
-    override fun onRestoreInstanceState(bundle: Bundle?) {
-        super.onRestoreInstanceState(bundle)
+    override fun onRestoreArgumentState(bundle: Bundle?) {
+        super.onRestoreArgumentState(bundle)
 
         init = bundle?.getInt(SavedTag.INIT) ?: NdValue.CHECK
         progress = bundle?.getInt(SavedTag.VALUE) ?: NdValue.CHECK
@@ -66,8 +65,8 @@ class VolumeDialog : BlankDialog(), SeekBar.OnSeekBarChangeListener {
         progressText?.text = getString(R.string.dialog_text_volume, progress)
     }
 
-    override fun setEnable() {
-        super.setEnable()
+    override fun changeButtonEnable() {
+        super.changeButtonEnable()
         positiveButton?.isEnabled = init != progress
     }
 
@@ -80,7 +79,7 @@ class VolumeDialog : BlankDialog(), SeekBar.OnSeekBarChangeListener {
         }
 
         progressText?.text = getString(R.string.dialog_text_volume, this.progress)
-        setEnable()
+        changeButtonEnable()
     }
 
     override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit

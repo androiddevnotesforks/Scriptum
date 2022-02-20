@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.presentation.dialog
 
 import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
@@ -10,11 +9,13 @@ import androidx.appcompat.app.AlertDialog
 import sgtmelon.safedialog.dialog.parent.BlankDialog
 import sgtmelon.safedialog.annotation.NdValue
 import sgtmelon.safedialog.annotation.SavedTag
-import sgtmelon.safedialog.applyAnimation
+import sgtmelon.safedialog.dialog.parent.BlankEmptyDialog
+import sgtmelon.safedialog.utils.applyAnimation
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 
-class AboutDialog : BlankDialog(), View.OnClickListener {
+class AboutDialog : BlankEmptyDialog(),
+    View.OnClickListener {
 
     private val logoImage get() = dialog?.findViewById<ImageView?>(R.id.about_logo_image)
     private val versionText get() = dialog?.findViewById<TextView?>(R.id.about_version_text)
@@ -26,7 +27,7 @@ class AboutDialog : BlankDialog(), View.OnClickListener {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         super.onCreateDialog(savedInstanceState)
 
-        return AlertDialog.Builder(context as Context)
+        return AlertDialog.Builder(requireContext())
             .setView(R.layout.view_about)
             .setCancelable(true)
             .create()

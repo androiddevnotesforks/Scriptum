@@ -4,7 +4,7 @@ import android.app.Application
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import sgtmelon.common.getCalendar
+import sgtmelon.common.utils.getCalendar
 import sgtmelon.scriptum.domain.interactor.callback.notification.INotificationInteractor
 import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.domain.model.data.IntentData.Snackbar
