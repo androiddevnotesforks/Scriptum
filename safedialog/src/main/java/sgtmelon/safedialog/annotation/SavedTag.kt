@@ -14,6 +14,7 @@ annotation class SavedTag {
         const val KEY = "${PREFIX}_KEY"
     }
 
+    @StringDef(Blank.TITLE)
     annotation class Blank {
         companion object {
             private const val PREFIX = "SAFE_BLANK"
@@ -22,6 +23,7 @@ annotation class SavedTag {
         }
     }
 
+    @StringDef(Options.TITLE, Options.LIST, Options.POSITION)
     annotation class Options {
         companion object {
             private const val PREFIX = "SAFE_OPTIONS"
@@ -39,6 +41,17 @@ annotation class SavedTag {
 
             const val TYPE = "${PREFIX}_TYPE"
             const val TEXT = "${PREFIX}_TEXT"
+        }
+    }
+
+    @StringDef(Single.LIST, Single.CHECK_INIT, Single.CHECK)
+    annotation class Single {
+        companion object {
+            private const val PREFIX = "SAFE_SINGLE"
+
+            const val LIST = "${PREFIX}_LIST"
+            const val CHECK_INIT = "${PREFIX}_CHECK_INIT"
+            const val CHECK = "${PREFIX}_CHECK"
         }
     }
 

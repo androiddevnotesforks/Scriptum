@@ -32,16 +32,16 @@ abstract class BlankDialog : BlankEmptyDialog() {
         dialogInterface.cancel()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-
-        outState.putString(SavedTag.Blank.TITLE, title)
-    }
-
     override fun onRestoreContentState(savedState: Bundle) {
         super.onRestoreContentState(savedState)
 
         title = savedState.getString(SavedTag.Blank.TITLE) ?: DEF_TITLE
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        outState.putString(SavedTag.Blank.TITLE, title)
     }
 
     override fun onStart() {

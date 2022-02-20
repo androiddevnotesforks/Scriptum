@@ -12,30 +12,37 @@ import sgtmelon.safedialog.dialog.parent.BlankDialog
 import sgtmelon.safedialog.utils.safeShow
 
 /**
- * Dialog for single choice
+ * Dialog for single choice.
  */
 class SingleDialog : BlankDialog() {
 
-    var itemArray: Array<String> = arrayOf()
+    var itemArray: Array<String> = emptyArray()
 
     /**
-     * If value is TRUE - it means what user can choose any dialog item. Otherwise see [changeButtonEnable].
+     * If value is TRUE - it means what user can choose any dialog item. Otherwise see
+     * [changeButtonEnable].
      */
     var applyEnable: Boolean = false
 
-    private var checkInit = NdValue.CHECK
-    var check = NdValue.CHECK
+    private var checkInit = DEF_CHECK
+
+    /**
+     * This is a result check position.
+     */
+    var check = DEF_CHECK
         private set
 
     var itemListener: DialogInterface.OnClickListener? = null
 
     /**
      * Call before [safeShow].
+     *
+     * [check] - position of selected item inside [itemArray].
      */
     fun setArguments(check: Int) = apply {
         arguments = Bundle().apply {
-            putInt(SavedTag.INIT, check)
-            putInt(SavedTag.VALUE, check)
+            putInt(SavedTag.Single.CHECK_INIT, check)
+            putInt(SavedTag.Single.CHECK, check)
         }
     }
 
@@ -58,25 +65,32 @@ class SingleDialog : BlankDialog() {
 
     override fun onRestoreContentState(savedState: Bundle) {
         super.onRestoreContentState(savedState)
-        itemArray = savedState.getStringArray(SavedTag.LIST) ?: arrayOf()
+
+        itemArray = savedState.getStringArray(SavedTag.Single.LIST) ?: emptyArray()
     }
 
     override fun onRestoreArgumentState(bundle: Bundle?) {
         super.onRestoreArgumentState(bundle)
-        checkInit = bundle?.getInt(SavedTag.INIT) ?: NdValue.CHECK
-        check = bundle?.getInt(SavedTag.VALUE) ?: NdValue.CHECK
+
+        checkInit = bundle?.getInt(SavedTag.Single.CHECK_INIT) ?: DEF_CHECK
+        check = bundle?.getInt(SavedTag.Single.CHECK) ?: DEF_CHECK
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putStringArray(SavedTag.LIST, itemArray)
 
-        outState.putInt(SavedTag.INIT, checkInit)
-        outState.putInt(SavedTag.VALUE, check)
+        outState.putStringArray(SavedTag.Single.LIST, itemArray)
+        outState.putInt(SavedTag.Single.CHECK_INIT, checkInit)
+        outState.putInt(SavedTag.Single.CHECK, check)
     }
 
     override fun changeButtonEnable() {
         super.changeButtonEnable()
+
         positiveButton?.isEnabled = applyEnable || checkInit != check
+    }
+
+    companion object {
+        private const val DEF_CHECK = 0
     }
 }

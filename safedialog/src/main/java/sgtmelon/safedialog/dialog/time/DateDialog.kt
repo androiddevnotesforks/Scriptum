@@ -71,6 +71,7 @@ class DateDialog : BlankDateTimeDialog(),
 
     override fun onRestoreArgumentState(bundle: Bundle?) {
         super.onRestoreArgumentState(bundle)
+
         calendar.timeInMillis = bundle?.getLong(SavedTag.Date.VALUE) ?: defaultTime
         neutralVisible = bundle?.getBoolean(SavedTag.Date.VISIBLE) ?: DEF_NEUTRAL
         position = bundle?.getInt(SavedTag.Date.POSITION) ?: DEF_POSITION
@@ -78,6 +79,7 @@ class DateDialog : BlankDateTimeDialog(),
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
+
         outState.putLong(SavedTag.Date.VALUE, calendar.timeInMillis)
         outState.putBoolean(SavedTag.Date.VISIBLE, neutralVisible)
         outState.putInt(SavedTag.Date.POSITION, position)
