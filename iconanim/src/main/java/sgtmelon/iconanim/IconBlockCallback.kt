@@ -1,13 +1,8 @@
 package sgtmelon.iconanim
 
 /**
- * Interface for communicate with [IconAnimControl].
+ * Callback for [IconAnimControl]. Help block button for prevent lags.
  */
 interface IconBlockCallback {
-
-    /**
-     * Block button fow prevent lags.
-     */
     fun setEnabled(isEnabled: Boolean)
-
 }

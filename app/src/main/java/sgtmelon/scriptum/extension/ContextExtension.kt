@@ -38,10 +38,6 @@ fun Context.getAppTheme(): Int? {
 
 //region Get resource value
 
-fun Context.getDrawableCompat(@DrawableRes resId: Int): Drawable? {
-    return AppCompatResources.getDrawable(this, resId)
-}
-
 @ColorInt
 fun Context.getColorAttr(@AttrRes attr: Int): Int {
     val typedValue = TypedValue()

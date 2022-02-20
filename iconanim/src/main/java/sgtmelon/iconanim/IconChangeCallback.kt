@@ -3,13 +3,12 @@ package sgtmelon.iconanim
 import android.graphics.drawable.AnimatedVectorDrawable
 
 /**
- * Interface for communicate with [IconAnimControl]
+ * Callback for change drawables and run animation.
  */
 interface IconChangeCallback {
 
     /**
-     * [needAnim] - need only for [AnimatedVectorDrawable]
+     * [needAnim] - need for start [AnimatedVectorDrawable].
      */
     fun setDrawable(isEnterIcon: Boolean, needAnim: Boolean)
-
 }

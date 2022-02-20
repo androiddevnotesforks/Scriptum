@@ -32,6 +32,7 @@ dependencies {
     implementation jetbrains.kotlin
 
     implementation androidx.core
+    implementation androidx.appcompat
 
     implementation androidx.test.espresso.idling
 }

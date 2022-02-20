@@ -3,6 +3,7 @@ package sgtmelon.iconanim
 import android.content.Context
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Handler
+import sgtmelon.iconanim.control.IIconAnimControl
 
 /**
  * Handler for register animation start/end
@@ -12,9 +13,9 @@ class IconAnimControl(
     private val enterIcon: AnimatedVectorDrawable?,
     private val exitIcon: AnimatedVectorDrawable?,
     private val changeCallback: IconChangeCallback
-) {
+) : IIconAnimControl {
 
-    var blockCallback: IconBlockCallback? = null
+    override var blockCallback: IconBlockCallback? = null
 
     /**
      * Variable for save icon state.
@@ -29,6 +30,7 @@ class IconAnimControl(
 
     private val duration = context.resources.getInteger(R.integer.icon_animation_time).toLong()
 
+    // TODO coroutines
     private val handler = Handler()
     private val runnable: Runnable = Runnable {
         if (enterIcon == null || exitIcon == null) return@Runnable
@@ -45,7 +47,7 @@ class IconAnimControl(
         }
     }
 
-    fun getIcon(isEnterIcon: Boolean): AnimatedVectorDrawable? {
+    override fun getIcon(isEnterIcon: Boolean): AnimatedVectorDrawable? {
         this.isEnterIcon = isEnterIcon
 
         val icon = if (isEnterIcon) enterIcon else exitIcon
