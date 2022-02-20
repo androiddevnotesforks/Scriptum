@@ -3,7 +3,7 @@ package sgtmelon.scriptum.data.room.converter.model
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
-import sgtmelon.common.nextString
+import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.data.room.converter.type.StringConverter
 import sgtmelon.scriptum.parent.ParentTest
 

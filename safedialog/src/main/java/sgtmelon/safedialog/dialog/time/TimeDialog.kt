@@ -112,9 +112,6 @@ class TimeDialog : BlankDateTimeDialog(), TimeTestCallback {
 
         private const val DEF_POSITION = -1
 
-        /**
-         * TODO #TEST write unit test
-         */
         fun getPositiveEnabled(calendar: Calendar, dateList: List<String>): Boolean {
             return calendar.afterNow() && !dateList.contains(calendar.getText())
         }

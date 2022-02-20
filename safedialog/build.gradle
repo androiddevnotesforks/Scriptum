@@ -35,4 +35,7 @@ dependencies {
 
     implementation androidx.appcompat
     implementation androidx.lifecycle.extensions
+
+    testImplementation junit.core
+    testImplementation mockk.core
 }

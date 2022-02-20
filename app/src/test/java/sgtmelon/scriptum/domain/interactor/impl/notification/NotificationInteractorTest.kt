@@ -7,7 +7,7 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
-import sgtmelon.common.nextString
+import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.data.repository.room.callback.IBindRepo
 import sgtmelon.scriptum.data.repository.room.callback.INoteRepo

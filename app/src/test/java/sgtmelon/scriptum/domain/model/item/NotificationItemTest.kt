@@ -3,7 +3,7 @@ package sgtmelon.scriptum.domain.model.item
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
-import sgtmelon.common.nextString
+import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.domain.model.item.NotificationItem.Alarm
 import sgtmelon.scriptum.domain.model.item.NotificationItem.Note
 import sgtmelon.scriptum.domain.model.key.NoteType

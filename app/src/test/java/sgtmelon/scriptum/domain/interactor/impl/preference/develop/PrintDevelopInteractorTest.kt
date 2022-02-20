@@ -5,7 +5,7 @@ import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.common.nextString
+import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.provider.PreferenceProvider
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo

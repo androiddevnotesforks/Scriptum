@@ -7,10 +7,7 @@ import org.junit.After
 import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.common.*
-import sgtmelon.common.utils.clearSeconds
-import sgtmelon.common.utils.getCalendarWithAdd
-import sgtmelon.common.utils.getNewCalendar
-import sgtmelon.common.utils.getText
+import sgtmelon.common.utils.*
 import sgtmelon.scriptum.*
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo

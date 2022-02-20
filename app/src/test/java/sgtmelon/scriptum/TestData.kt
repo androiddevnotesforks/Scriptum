@@ -1,6 +1,6 @@
 package sgtmelon.scriptum
 
-import sgtmelon.common.nextString
+import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.item.*
 import sgtmelon.scriptum.domain.model.item.NotificationItem.Alarm

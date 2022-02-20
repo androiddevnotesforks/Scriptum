@@ -4,7 +4,7 @@ import io.mockk.*
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
-import sgtmelon.common.nextString
+import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.domain.model.annotation.InputAction
 import sgtmelon.scriptum.domain.model.item.InputItem
 import sgtmelon.scriptum.parent.ParentTest

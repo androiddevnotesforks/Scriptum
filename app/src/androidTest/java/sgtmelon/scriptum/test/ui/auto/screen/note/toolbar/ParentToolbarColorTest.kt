@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.test.ui.auto.screen.note.toolbar
 
-import sgtmelon.common.nextString
+import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.domain.model.annotation.Color
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem

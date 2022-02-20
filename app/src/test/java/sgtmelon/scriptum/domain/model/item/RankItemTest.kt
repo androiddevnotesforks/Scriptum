@@ -2,7 +2,7 @@ package sgtmelon.scriptum.domain.model.item
 
 import org.junit.Assert.*
 import org.junit.Test
-import sgtmelon.common.nextString
+import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.domain.model.data.DbData.Rank.Default
 import sgtmelon.scriptum.parent.ParentTest
 

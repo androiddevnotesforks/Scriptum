@@ -7,7 +7,7 @@ import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.common.utils.beforeNow
 import sgtmelon.common.utils.getCalendar
-import sgtmelon.common.nextString
+import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.FastMock
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.IAlarmRepo

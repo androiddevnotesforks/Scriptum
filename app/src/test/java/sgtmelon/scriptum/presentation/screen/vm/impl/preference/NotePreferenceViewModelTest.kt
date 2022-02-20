@@ -11,7 +11,7 @@ import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
-import sgtmelon.common.nextString
+import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.domain.interactor.callback.preference.INotePreferenceInteractor
 import sgtmelon.scriptum.parent.ParentViewModelTest
 import sgtmelon.scriptum.presentation.screen.ui.callback.preference.INotePreferenceFragment

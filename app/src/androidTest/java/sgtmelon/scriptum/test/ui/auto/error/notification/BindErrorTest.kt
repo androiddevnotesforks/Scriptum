@@ -3,7 +3,7 @@ package sgtmelon.scriptum.test.ui.auto.error.notification
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.common.nextString
+import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.test.ui.auto.error.Description
 import sgtmelon.scriptum.test.parent.ParentNotificationTest
 

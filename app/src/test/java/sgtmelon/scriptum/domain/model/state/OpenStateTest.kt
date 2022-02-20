@@ -9,7 +9,7 @@ import io.mockk.verifySequence
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
-import sgtmelon.common.nextString
+import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.parent.ParentTest
 import kotlin.random.Random
 

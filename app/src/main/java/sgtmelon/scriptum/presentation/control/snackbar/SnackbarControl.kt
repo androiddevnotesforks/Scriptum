@@ -73,7 +73,7 @@ class SnackbarControl(
     }
 
     private fun Snackbar.setupTheme() = apply {
-        val background = view.context.getDrawable(R.drawable.bg_snackbar)
+        val background = view.context.getDrawableCompat(R.drawable.bg_snackbar)
         val textColor = view.context.getColorAttr(R.attr.clContent)
         val actionColor = view.context.getColorAttr(R.attr.clAccent)
 
