@@ -4,10 +4,10 @@ import android.content.Context
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.graphics.drawable.Drawable
 import androidx.appcompat.widget.Toolbar
-import sgtmelon.iconanim.IconAnimControl
-import sgtmelon.iconanim.IconBlockCallback
+import sgtmelon.iconanim.control.IconAnimControl
+import sgtmelon.iconanim.callback.IconBlockCallback
 
-import sgtmelon.iconanim.IconChangeCallback
+import sgtmelon.iconanim.callback.IconChangeCallback
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.getTintDrawable
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment

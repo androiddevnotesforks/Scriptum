@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
-import sgtmelon.iconanim.IconBlockCallback
+import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.iconanim.widget.SwitchButton
 import sgtmelon.scriptum.R
 import sgtmelon.common.test.annotation.RunNone

@@ -1,4 +1,4 @@
-package sgtmelon.iconanim
+package sgtmelon.iconanim.callback
 
 import android.graphics.drawable.AnimatedVectorDrawable
 

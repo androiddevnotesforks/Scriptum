@@ -2,20 +2,17 @@ package sgtmelon.iconanim.widget
 
 import android.content.Context
 import android.graphics.Color
-import android.graphics.PorterDuff
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatImageButton
-import androidx.core.graphics.BlendModeColorFilterCompat
-import androidx.core.graphics.BlendModeCompat
 import sgtmelon.common.utils.getDrawableCompat
 import sgtmelon.common.utils.setColorFilterCompat
-import sgtmelon.iconanim.IconAnimControl
-import sgtmelon.iconanim.IconBlockCallback
-import sgtmelon.iconanim.IconChangeCallback
+import sgtmelon.iconanim.control.IconAnimControl
+import sgtmelon.iconanim.callback.IconBlockCallback
+import sgtmelon.iconanim.callback.IconChangeCallback
 import sgtmelon.iconanim.R
 import sgtmelon.iconanim.control.IIconAnimControl
 

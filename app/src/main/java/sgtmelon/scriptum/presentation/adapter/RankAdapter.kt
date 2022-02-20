@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.presentation.adapter
 
 import android.view.ViewGroup
-import sgtmelon.iconanim.IconBlockCallback
+import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.item.RankItem
 import sgtmelon.scriptum.extension.clearAdd

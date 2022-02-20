@@ -30,6 +30,7 @@ dependencies {
     implementation project(':common')
 
     implementation jetbrains.kotlin
+    implementation jetbrains.coroutines.core
 
     implementation androidx.appcompat
 }

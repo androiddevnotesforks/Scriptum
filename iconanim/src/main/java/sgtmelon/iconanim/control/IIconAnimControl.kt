@@ -1,11 +1,10 @@
 package sgtmelon.iconanim.control
 
 import android.graphics.drawable.AnimatedVectorDrawable
-import sgtmelon.iconanim.IconAnimControl
-import sgtmelon.iconanim.IconBlockCallback
+import sgtmelon.iconanim.callback.IconBlockCallback
 
 /**
- * Interface for communicate with [IconAnimControl]
+ * Interface for communicate with [IconAnimControl].
  */
 interface IIconAnimControl {
 

@@ -14,6 +14,7 @@ abstract class ParentPresenter<C> : IParentPresenter {
     var callback: C? = null
         private set
 
+    // TODO change dispatcher
     @RunProtected val mainScope by lazy { CoroutineScope(Dispatchers.Main) }
 
     /**

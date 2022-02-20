@@ -9,8 +9,8 @@ import android.widget.EditText
 import androidx.appcompat.widget.Toolbar
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
-import sgtmelon.iconanim.IconBlockCallback
-import sgtmelon.iconanim.IconChangeCallback
+import sgtmelon.iconanim.callback.IconBlockCallback
+import sgtmelon.iconanim.callback.IconChangeCallback
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
