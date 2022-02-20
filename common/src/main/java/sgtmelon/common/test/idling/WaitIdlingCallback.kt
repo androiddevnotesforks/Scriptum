@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.idling
+package sgtmelon.common.test.idling
 
 /**
  * Interface for [WaitIdlingResource].

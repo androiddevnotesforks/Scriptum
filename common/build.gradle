@@ -30,4 +30,8 @@ android {
 
 dependencies {
     implementation jetbrains.kotlin
+
+    implementation androidx.core
+
+    implementation androidx.test.espresso.idling
 }

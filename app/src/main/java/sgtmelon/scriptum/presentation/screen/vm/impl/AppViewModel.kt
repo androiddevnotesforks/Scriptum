@@ -4,7 +4,7 @@ import android.app.Application
 import android.os.Bundle
 import sgtmelon.scriptum.domain.interactor.callback.IAppInteractor
 import sgtmelon.scriptum.domain.model.annotation.Theme
-import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
+import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.presentation.screen.ui.callback.IAppActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.IAppViewModel
 

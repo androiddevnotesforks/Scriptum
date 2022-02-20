@@ -3,7 +3,7 @@ package sgtmelon.scriptum.presentation.screen.vm.impl.note
 import android.app.Application
 import android.os.Bundle
 import sgtmelon.scriptum.domain.interactor.callback.note.INoteInteractor
-import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
+import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.domain.model.data.IntentData.Note.Default
 import sgtmelon.scriptum.domain.model.data.IntentData.Note.Intent
 import sgtmelon.scriptum.domain.model.key.NoteType

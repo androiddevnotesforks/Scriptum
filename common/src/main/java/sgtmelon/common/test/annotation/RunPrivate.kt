@@ -1,9 +1,9 @@
-package sgtmelon.scriptum.domain.model.annotation.test
+package sgtmelon.common.test.annotation
 
 import androidx.annotation.VisibleForTesting
 
 /**
  * Short annotation for make variables and functions visible for tests.
  */
-@VisibleForTesting
+@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 annotation class RunPrivate

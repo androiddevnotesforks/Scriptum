@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.extension
 
 import kotlinx.coroutines.*
-import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
+import sgtmelon.common.test.annotation.RunPrivate
 
 /**
  * Variable only for coroutine tests.

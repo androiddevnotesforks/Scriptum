@@ -9,9 +9,8 @@ import org.junit.Rule
 import sgtmelon.scriptum.domain.model.annotation.Sort
 import sgtmelon.scriptum.domain.model.annotation.Theme
 import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.idling.AppIdlingResource
-import sgtmelon.scriptum.idling.WaitIdlingResource
-import sgtmelon.scriptum.presentation.adapter.holder.RankHolder
+import sgtmelon.common.test.idling.AppIdlingResource
+import sgtmelon.common.test.idling.WaitIdlingResource
 import sgtmelon.scriptum.presentation.control.system.AlarmControl
 import sgtmelon.scriptum.presentation.control.system.BindControl
 import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.domain.model.annotation.test
+package sgtmelon.common.test.annotation
 
 import androidx.annotation.VisibleForTesting
 

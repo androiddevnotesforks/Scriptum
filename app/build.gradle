@@ -133,7 +133,6 @@ dependencies {
     androidTestImplementation androidx.test.rules
     androidTestImplementation androidx.test.junit
 
-    implementation androidx.test.espresso.idling
     androidTestImplementation androidx.test.espresso.core
     androidTestImplementation androidx.test.espresso.contrib
     androidTestImplementation androidx.test.uiautomator

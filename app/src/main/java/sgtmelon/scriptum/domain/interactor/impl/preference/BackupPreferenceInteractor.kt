@@ -9,7 +9,7 @@ import sgtmelon.scriptum.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.data.room.backup.IBackupParser
 import sgtmelon.scriptum.domain.interactor.callback.preference.IBackupPreferenceInteractor
 import sgtmelon.scriptum.domain.model.annotation.FileType
-import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
+import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.domain.model.item.FileItem
 import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.domain.model.result.ExportResult

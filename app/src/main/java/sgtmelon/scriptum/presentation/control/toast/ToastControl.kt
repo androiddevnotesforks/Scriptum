@@ -3,7 +3,7 @@ package sgtmelon.scriptum.presentation.control.toast
 import android.content.Context
 import android.widget.Toast
 import androidx.annotation.StringRes
-import sgtmelon.scriptum.idling.WaitIdlingResource
+import sgtmelon.common.test.idling.WaitIdlingResource
 
 /**
  * Class for displaying toast's with on time destroy for prevent memory leaks.

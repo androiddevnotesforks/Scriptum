@@ -8,11 +8,11 @@ import sgtmelon.common.beforeNow
 import sgtmelon.common.getCalendar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.interactor.callback.main.INotesInteractor
-import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
+import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.extension.*
-import sgtmelon.scriptum.idling.AppIdlingResource
-import sgtmelon.scriptum.idling.IdlingTag
+import sgtmelon.common.test.idling.AppIdlingResource
+import sgtmelon.scriptum.domain.model.annotation.test.IdlingTag
 import sgtmelon.scriptum.presentation.control.SortControl
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.INotesFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.main.INotesViewModel

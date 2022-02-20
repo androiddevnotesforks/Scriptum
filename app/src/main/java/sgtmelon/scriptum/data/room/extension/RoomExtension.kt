@@ -3,7 +3,7 @@ package sgtmelon.scriptum.data.room.extension
 import kotlinx.coroutines.runBlocking
 import sgtmelon.scriptum.data.room.IRoomWork
 import sgtmelon.scriptum.data.room.RoomDb
-import sgtmelon.scriptum.domain.model.annotation.test.RunNone
+import sgtmelon.common.test.annotation.RunNone
 
 /**
  * Function only for integration tests.

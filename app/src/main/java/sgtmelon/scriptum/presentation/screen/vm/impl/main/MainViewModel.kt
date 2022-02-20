@@ -4,7 +4,7 @@ import android.app.Application
 import android.os.Bundle
 import androidx.annotation.IdRes
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
+import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.domain.model.data.IntentData.Main.Intent
 import sgtmelon.scriptum.domain.model.key.MainPage
 import sgtmelon.scriptum.domain.model.key.NoteType

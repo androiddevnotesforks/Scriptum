@@ -11,7 +11,7 @@ import sgtmelon.scriptum.data.room.entity.RankEntity
 import sgtmelon.scriptum.data.room.extension.fromRoom
 import sgtmelon.scriptum.data.room.extension.inRoom
 import sgtmelon.scriptum.data.room.extension.safeInsert
-import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
+import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.domain.model.data.DbData.Note
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RankItem

@@ -3,7 +3,7 @@ package sgtmelon.scriptum.presentation.control.note.save
 import android.content.res.Resources
 import android.os.Handler
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
+import sgtmelon.common.test.annotation.RunPrivate
 
 /**
  * Class for help control note pause/auto save.

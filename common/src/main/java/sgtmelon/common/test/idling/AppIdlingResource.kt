@@ -1,8 +1,9 @@
-package sgtmelon.scriptum.idling
+package sgtmelon.common.test.idling
 
 import android.util.Log
 import androidx.test.espresso.IdlingRegistry
-import sgtmelon.scriptum.extension.validIndexOfFirst
+import sgtmelon.common.test.idling.callback.AppIdlingCallback
+import sgtmelon.common.test.idling.callback.ParentIdlingResource
 
 /**
  * Class for maintain test work while app is freeze without Thread.sleep(...)
@@ -21,13 +22,13 @@ class AppIdlingResource : ParentIdlingResource(), AppIdlingCallback {
 
     override fun isIdleNow() = idleList.isEmpty()
 
-    override fun startWork(@IdlingTag tag: String) {
+    override fun startWork(tag: String) {
         idleList.add(tag)
     }
 
-    override fun stopWork(@IdlingTag tag: String) {
-        val index = idleList.validIndexOfFirst { it == tag }
-        if (index != null) {
+    override fun stopWork(tag: String) {
+        val index = idleList.indexOfFirst { it == tag }
+        if (index in idleList.indices) {
             idleList.removeAt(index)
         }
 
@@ -36,12 +37,8 @@ class AppIdlingResource : ParentIdlingResource(), AppIdlingCallback {
         }
     }
 
-    override fun changeWork(isWork: Boolean, @IdlingTag tag: String) {
+    override fun changeWork(isWork: Boolean, tag: String) {
         if (isWork) startWork(tag) else stopWork(tag)
-    }
-
-    override fun register() {
-        IdlingRegistry.getInstance().register(this)
     }
 
     override fun unregister() {

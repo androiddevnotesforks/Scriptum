@@ -3,7 +3,7 @@ package sgtmelon.scriptum.presentation.screen.vm.impl
 import android.app.Application
 import androidx.annotation.CallSuper
 import androidx.lifecycle.AndroidViewModel
-import sgtmelon.scriptum.domain.model.annotation.test.RunProtected
+import sgtmelon.common.test.annotation.RunProtected
 import sgtmelon.scriptum.presentation.screen.vm.callback.IParentViewModel
 
 /**

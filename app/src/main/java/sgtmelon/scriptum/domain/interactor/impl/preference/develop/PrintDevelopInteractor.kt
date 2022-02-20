@@ -7,7 +7,7 @@ import sgtmelon.scriptum.data.repository.room.callback.IDevelopRepo
 import sgtmelon.scriptum.domain.interactor.callback.preference.develop.IPrintDevelopInteractor
 import sgtmelon.scriptum.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.domain.model.annotation.FileType
-import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
+import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.domain.model.item.PrintItem
 import sgtmelon.scriptum.domain.model.item.PrintItem.Preference
 import sgtmelon.scriptum.domain.model.key.PrintType

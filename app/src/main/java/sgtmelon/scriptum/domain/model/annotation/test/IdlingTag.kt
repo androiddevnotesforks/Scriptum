@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.idling
+package sgtmelon.scriptum.domain.model.annotation.test
 
 import androidx.annotation.StringDef
 

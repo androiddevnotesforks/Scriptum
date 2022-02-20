@@ -3,7 +3,7 @@ package sgtmelon.scriptum.presentation.screen.presenter
 import androidx.annotation.CallSuper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import sgtmelon.scriptum.domain.model.annotation.test.RunProtected
+import sgtmelon.common.test.annotation.RunProtected
 
 /**
  * Basic class for all presenters with callback.

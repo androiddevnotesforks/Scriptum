@@ -2,7 +2,7 @@ package sgtmelon.scriptum.presentation.control.broadcast
 
 import android.content.Context
 import sgtmelon.common.getText
-import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
+import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.domain.model.data.IntentData
 import sgtmelon.scriptum.domain.model.data.ReceiverData.Command
 import sgtmelon.scriptum.domain.model.data.ReceiverData.Filter

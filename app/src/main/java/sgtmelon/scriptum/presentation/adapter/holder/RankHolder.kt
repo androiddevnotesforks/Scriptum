@@ -9,7 +9,7 @@ import android.widget.TextView
 import sgtmelon.iconanim.IconBlockCallback
 import sgtmelon.iconanim.widget.SwitchButton
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.domain.model.annotation.test.RunNone
+import sgtmelon.common.test.annotation.RunNone
 import sgtmelon.scriptum.domain.model.item.RankItem
 import sgtmelon.scriptum.presentation.adapter.RankAdapter
 import sgtmelon.scriptum.presentation.listener.ItemListener

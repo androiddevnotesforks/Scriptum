@@ -3,7 +3,7 @@ package sgtmelon.scriptum.presentation.screen.vm.impl
 import android.app.Application
 import android.os.Bundle
 import sgtmelon.scriptum.domain.interactor.callback.IIntroInteractor
-import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
+import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.presentation.screen.ui.callback.IIntroActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.IIntroViewModel
 

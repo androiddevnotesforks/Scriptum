@@ -4,7 +4,7 @@ import android.content.Context
 import android.os.Build
 import androidx.annotation.IntDef
 import androidx.annotation.StringDef
-import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
+import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.extension.clearAdd
 import sgtmelon.scriptum.extension.getNotificationService

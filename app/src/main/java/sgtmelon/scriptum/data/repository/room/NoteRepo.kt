@@ -16,7 +16,7 @@ import sgtmelon.scriptum.data.room.extension.fromRoom
 import sgtmelon.scriptum.data.room.extension.inRoom
 import sgtmelon.scriptum.data.room.extension.safeDelete
 import sgtmelon.scriptum.domain.model.annotation.Sort
-import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
+import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
 import sgtmelon.scriptum.extension.getText

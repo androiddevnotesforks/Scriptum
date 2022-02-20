@@ -2,7 +2,7 @@ package sgtmelon.scriptum.presentation.control.note.input
 
 import android.util.Log
 import sgtmelon.scriptum.domain.model.annotation.InputAction
-import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
+import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.domain.model.item.InputItem
 import sgtmelon.scriptum.extension.validRemoveAt
 import sgtmelon.scriptum.presentation.provider.BuildProvider

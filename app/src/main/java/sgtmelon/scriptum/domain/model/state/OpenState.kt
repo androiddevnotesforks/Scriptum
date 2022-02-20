@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import androidx.annotation.StringDef
 import androidx.fragment.app.Fragment
-import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
+import sgtmelon.common.test.annotation.RunPrivate
 
 /**
  * State for dialogs which give us know open them or not.

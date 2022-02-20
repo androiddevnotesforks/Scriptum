@@ -3,7 +3,7 @@
 package sgtmelon.scriptum.data.room.extension
 
 import sgtmelon.scriptum.data.room.RoomDb
-import sgtmelon.scriptum.domain.model.annotation.test.RunPrivate
+import sgtmelon.common.test.annotation.RunPrivate
 
 @RunPrivate fun Long.checkSafe(): Long? = this.takeIf { it != RoomDb.UNIQUE_ERROR_ID }
 
