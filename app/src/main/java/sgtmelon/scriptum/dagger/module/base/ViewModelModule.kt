@@ -100,10 +100,8 @@ class ViewModelModule {
         activity: IntroActivity,
         interactor: IIntroInteractor
     ): IIntroViewModel {
-        return ViewModelProvider(activity).get(IntroViewModel::class.java).apply {
-            setCallback(activity)
-            setInteractor(interactor)
-        }
+        val factory = ViewModelFactory.Intro(activity, interactor)
+        return ViewModelProvider(activity, factory)[IntroViewModel::class.java]
     }
 
     //region Main

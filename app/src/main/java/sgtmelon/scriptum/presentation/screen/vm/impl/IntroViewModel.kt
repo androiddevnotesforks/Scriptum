@@ -10,15 +10,11 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.IIntroViewModel
 /**
  * ViewModel for [IIntroActivity].
  */
-class IntroViewModel(application: Application) : ParentViewModel<IIntroActivity>(application),
+class IntroViewModel(
+    callback: IIntroActivity,
+    private val interactor: IIntroInteractor
+) : ParentViewModel<IIntroActivity>(callback),
         IIntroViewModel {
-
-    private lateinit var interactor: IIntroInteractor
-
-    fun setInteractor(interactor: IIntroInteractor) {
-        this.interactor = interactor
-    }
-
 
     override fun onSetup(bundle: Bundle?) {
         val isLastPage = bundle?.getBoolean(IS_LAST_PAGE, ND_LAST_PAGE) ?: ND_LAST_PAGE

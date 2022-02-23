@@ -14,7 +14,7 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.ISplashViewModel
  */
 class SplashViewModel(
     callback: ISplashActivity?,
-    @RunPrivate val interactor: ISplashInteractor
+    private val interactor: ISplashInteractor
 ) : ParentViewModel<ISplashActivity>(callback),
     ISplashViewModel {
 

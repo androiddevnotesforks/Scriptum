@@ -25,19 +25,11 @@ import kotlin.random.Random
 class IntroViewModelTest : ParentViewModelTest() {
 
     @MockK lateinit var callback: IIntroActivity
-
     @MockK lateinit var interactor: IIntroInteractor
 
     @MockK lateinit var bundle: Bundle
 
-    private val viewModel by lazy { IntroViewModel(application) }
-
-    @Before override fun setup() {
-        super.setup()
-
-        viewModel.setCallback(callback)
-        viewModel.setInteractor(interactor)
-    }
+    private val viewModel by lazy { IntroViewModel(callback, interactor) }
 
     @After override fun tearDown() {
         super.tearDown()

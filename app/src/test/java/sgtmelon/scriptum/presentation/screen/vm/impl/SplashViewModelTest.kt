@@ -24,7 +24,6 @@ import sgtmelon.scriptum.presentation.screen.ui.callback.ISplashActivity
 class SplashViewModelTest : ParentViewModelTest() {
 
     @MockK lateinit var callback: ISplashActivity
-
     @MockK lateinit var interactor: ISplashInteractor
 
     @MockK lateinit var bundle: Bundle
