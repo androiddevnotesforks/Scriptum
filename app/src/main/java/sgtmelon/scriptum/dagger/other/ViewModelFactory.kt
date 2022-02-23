@@ -6,8 +6,10 @@ import sgtmelon.scriptum.domain.interactor.callback.IIntroInteractor
 import sgtmelon.scriptum.domain.interactor.callback.ISplashInteractor
 import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.intro.IntroActivity
+import sgtmelon.scriptum.presentation.screen.ui.impl.main.MainActivity
 import sgtmelon.scriptum.presentation.screen.vm.impl.IntroViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.SplashViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.main.MainViewModel
 import kotlin.reflect.KClass
 
 /**
@@ -46,6 +48,14 @@ object ViewModelFactory {
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return modelClass.create { IntroViewModel(activity, interactor) }
+        }
+    }
+
+    class Main(
+        private val activity: MainActivity
+        ) : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return modelClass.create { MainViewModel(activity) }
         }
     }
 }

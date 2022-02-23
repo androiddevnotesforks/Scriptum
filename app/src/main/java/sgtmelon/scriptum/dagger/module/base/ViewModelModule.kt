@@ -109,9 +109,8 @@ class ViewModelModule {
     @Provides
     @ActivityScope
     fun provideMainViewModel(activity: MainActivity): IMainViewModel {
-        return ViewModelProvider(activity).get(MainViewModel::class.java).apply {
-            setCallback(activity)
-        }
+        val factory = ViewModelFactory.Main(activity)
+        return ViewModelProvider(activity, factory)[MainViewModel::class.java]
     }
 
     @Provides

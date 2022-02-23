@@ -27,12 +27,7 @@ class MainViewModelTest : ParentViewModelTest() {
 
     @MockK lateinit var bundle: Bundle
 
-    private val viewModel by lazy { MainViewModel(application) }
-
-    @Before override fun setup() {
-        super.setup()
-        viewModel.setCallback(callback)
-    }
+    private val viewModel by lazy { MainViewModel(callback) }
 
     @Test override fun onDestroy() {
         assertNotNull(viewModel.callback)
