@@ -4,12 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import sgtmelon.scriptum.domain.interactor.callback.IIntroInteractor
 import sgtmelon.scriptum.domain.interactor.callback.ISplashInteractor
-import sgtmelon.scriptum.presentation.screen.ui.callback.ISplashActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.intro.IntroActivity
-import sgtmelon.scriptum.presentation.screen.ui.impl.intro.IntroActivity_MembersInjector
 import sgtmelon.scriptum.presentation.screen.vm.impl.IntroViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.SplashViewModel
+import kotlin.reflect.KClass
 
 /**
  * ViewModel factory for create ViewModels with constructor parameters.
@@ -17,18 +16,27 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.SplashViewModel
 @Suppress("UNCHECKED_CAST")
 object ViewModelFactory {
 
-    fun onNotFound() = IllegalArgumentException("ViewModel Not Found")
+    // region Help func
+
+    private fun onNotFound() = IllegalArgumentException("ViewModel Not Found")
+
+    private fun <T> Class<T>.create(createFunc: () -> Any): T {
+        return if (isAssignableFrom(createFunc::class.java)) createFunc() as T else throw onNotFound()
+    }
+
+    // TODO check if upper func work - remove it
+    private fun <T> Class<T>.create(modelClass: KClass<*>, createFunc: () -> Any): T {
+        return if (isAssignableFrom(modelClass.java)) createFunc() as T else throw onNotFound()
+    }
+
+    //endregion
 
     class Splash(
         private val activity: SplashActivity,
         private val interactor: ISplashInteractor
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return if (modelClass.isAssignableFrom(SplashViewModel::class.java)) {
-                SplashViewModel(activity, interactor) as T
-            } else {
-                throw onNotFound()
-            }
+            return modelClass.create { SplashViewModel(activity, interactor) }
         }
     }
 
@@ -37,12 +45,7 @@ object ViewModelFactory {
         private val interactor: IIntroInteractor
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return if (modelClass.isAssignableFrom(IntroViewModel::class.java)) {
-                IntroViewModel(activity, interactor) as T
-            } else {
-                throw onNotFound()
-            }
+            return modelClass.create { IntroViewModel(activity, interactor) }
         }
     }
-
 }
