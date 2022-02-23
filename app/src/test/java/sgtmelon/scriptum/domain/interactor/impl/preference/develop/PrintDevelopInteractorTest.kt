@@ -117,7 +117,7 @@ class PrintDevelopInteractorTest : ParentInteractorTest() {
 
     @Test fun getList_forKey() = startCoTest {
         val type = PrintType.KEY
-        val list = mockk<List<PrintItem.Preference>>()
+        val list = mockk<List<Preference>>()
 
         coEvery { spyInteractor.getPreferenceKeyList() } returns list
 
@@ -131,7 +131,7 @@ class PrintDevelopInteractorTest : ParentInteractorTest() {
 
     @Test fun getList_forFile() = startCoTest {
         val type = PrintType.FILE
-        val list = mockk<List<PrintItem.Preference>>()
+        val list = mockk<List<Preference>>()
 
         coEvery { spyInteractor.getPreferenceFileList() } returns list
 

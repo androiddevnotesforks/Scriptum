@@ -71,7 +71,7 @@ object FastMock {
             alarmId: Long = Random.nextLong(),
             alarmDate: String = nextString(),
             isVisible: Boolean = Random.nextBoolean(),
-            list: MutableList<RollItem> = MutableList(getRandomSize()) { mockk<RollItem>() }
+            list: MutableList<RollItem> = MutableList(getRandomSize()) { mockk() }
         ) {
             every { item.id } returns id
             every { item.create } returns create

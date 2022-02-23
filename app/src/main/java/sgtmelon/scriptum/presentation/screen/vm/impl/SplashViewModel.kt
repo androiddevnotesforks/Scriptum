@@ -1,7 +1,8 @@
 package sgtmelon.scriptum.presentation.screen.vm.impl
 
-import android.app.Application
 import android.os.Bundle
+import androidx.lifecycle.ViewModel
+import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.domain.interactor.callback.ISplashInteractor
 import sgtmelon.scriptum.domain.model.annotation.OpenFrom
 import sgtmelon.scriptum.domain.model.data.IntentData.Note
@@ -11,15 +12,11 @@ import sgtmelon.scriptum.presentation.screen.vm.callback.ISplashViewModel
 /**
  * ViewModel for [ISplashActivity].
  */
-class SplashViewModel(application: Application) : ParentViewModel<ISplashActivity>(application),
-        ISplashViewModel {
-
-    private lateinit var interactor: ISplashInteractor
-
-    fun setInteractor(interactor: ISplashInteractor) {
-        this.interactor = interactor
-    }
-
+class SplashViewModel(
+    callback: ISplashActivity?,
+    @RunPrivate val interactor: ISplashInteractor
+) : ParentViewModel<ISplashActivity>(callback),
+    ISplashViewModel {
 
     /**
      * Don't use coroutines here. Activity will be quickly destroyed.

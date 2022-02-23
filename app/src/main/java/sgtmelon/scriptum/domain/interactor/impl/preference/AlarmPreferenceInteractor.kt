@@ -41,7 +41,7 @@ class AlarmPreferenceInteractor(
                         firstAppend = false
                         summaryArray[i]
                     } else {
-                        (", ").plus(summaryArray[i].toLowerCase(Locale.getDefault()))
+                        (", ").plus(summaryArray[i].lowercase(Locale.getDefault()))
                     })
                 }
             }

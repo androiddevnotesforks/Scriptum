@@ -2,7 +2,7 @@ package sgtmelon.scriptum.dagger.component
 
 import dagger.BindsInstance
 import dagger.Subcomponent
-import sgtmelon.scriptum.dagger.ActivityScope
+import sgtmelon.scriptum.dagger.other.ActivityScope
 import sgtmelon.scriptum.dagger.module.AlarmModule
 import sgtmelon.scriptum.dagger.module.base.ControlModule
 import sgtmelon.scriptum.dagger.module.base.InteractorModule

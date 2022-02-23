@@ -140,7 +140,7 @@ class RankRepoTest : ParentRoomRepoTest() {
         val position = Random.nextInt()
 
         val noteEntityList: MutableList<NoteEntity?> = MutableList(size) {
-            if (it == 0) null else mockk<NoteEntity>()
+            if (it == 0) null else mockk()
         }
 
         every { rankItem.noteId } returns idList

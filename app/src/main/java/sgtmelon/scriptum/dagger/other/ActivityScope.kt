@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.dagger
+package sgtmelon.scriptum.dagger.other
 
 import javax.inject.Scope
 

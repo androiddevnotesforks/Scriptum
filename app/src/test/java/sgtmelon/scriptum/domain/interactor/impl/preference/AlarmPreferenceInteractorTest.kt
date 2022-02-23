@@ -11,6 +11,7 @@ import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.FastTest
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.room.converter.type.IntConverter
+import sgtmelon.scriptum.extension.toLowerCase
 import sgtmelon.scriptum.getRandomSize
 import sgtmelon.scriptum.parent.ParentInteractorTest
 import sgtmelon.scriptum.presentation.provider.SummaryProvider
@@ -90,7 +91,7 @@ class AlarmPreferenceInteractorTest : ParentInteractorTest() {
         val summaryArray = Array(size = 3) { nextString() }
         val checkArray = booleanArrayOf(true, false, true)
 
-        fun String.getLow() = toLowerCase(Locale.getDefault())
+        fun String.getLow() = lowercase(Locale.getDefault())
         val resultString = "${summaryArray.first().getLow()}, ${summaryArray.last().getLow()}"
 
         coEvery { summaryProvider.signal } returns arrayOf(nextString())

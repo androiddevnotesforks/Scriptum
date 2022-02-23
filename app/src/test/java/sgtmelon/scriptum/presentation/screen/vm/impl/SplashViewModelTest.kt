@@ -29,18 +29,11 @@ class SplashViewModelTest : ParentViewModelTest() {
 
     @MockK lateinit var bundle: Bundle
 
-    private val viewModel by lazy { SplashViewModel(application) }
+    private val viewModel by lazy { SplashViewModel(callback, interactor) }
 
     @After override fun tearDown() {
         super.tearDown()
         confirmVerified(callback, interactor, bundle)
-    }
-
-    @Before override fun setup() {
-        super.setup()
-
-        viewModel.setCallback(callback)
-        viewModel.setInteractor(interactor)
     }
 
     @Test override fun onDestroy() {

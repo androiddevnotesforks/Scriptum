@@ -3,7 +3,6 @@ package sgtmelon.scriptum.presentation.dialog
 import android.app.Dialog
 import android.os.Bundle
 import android.view.KeyEvent
-import android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
@@ -107,15 +106,16 @@ class RenameDialog : BlankDialog(),
          * If currently entered a title (ignore letter case) -> we may change name without
          * problem if it's not completely equals (without ignore letter case).
          */
-        val isEqualTitle = title.uppercase() == name.uppercase()
+        val isEqualTitle = title.toUpperCase() == name.toUpperCase()
 
         /**
          * If [name] not title -> check [nameList] for allowed name (if [nameList] not contains
          * our [name] -> may save).
          */
-        return if (isEqualTitle) title != name else !nameList.contains(name.uppercase())
+        return if (isEqualTitle) title != name else !nameList.contains(name.toUpperCase())
     }
 
+    // TODO test for isSaveEnabled
     companion object {
         private const val DEF_POSITION = -1
         private const val DEF_TITLE = ""

@@ -3,7 +3,8 @@ package sgtmelon.scriptum.dagger.module.base
 import androidx.lifecycle.ViewModelProvider
 import dagger.Module
 import dagger.Provides
-import sgtmelon.scriptum.dagger.ActivityScope
+import sgtmelon.scriptum.dagger.other.ActivityScope
+import sgtmelon.scriptum.dagger.other.ViewModelFactory
 import sgtmelon.scriptum.domain.interactor.callback.IIntroInteractor
 import sgtmelon.scriptum.domain.interactor.callback.ISplashInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.IBinInteractor
@@ -89,10 +90,8 @@ class ViewModelModule {
         activity: SplashActivity,
         interactor: ISplashInteractor
     ): ISplashViewModel {
-        return ViewModelProvider(activity).get(SplashViewModel::class.java).apply {
-            setCallback(activity)
-            setInteractor(interactor)
-        }
+        val factory = ViewModelFactory.Splash(activity, interactor)
+        return ViewModelProvider(activity, factory)[SplashViewModel::class.java]
     }
 
     @Provides

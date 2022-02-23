@@ -14,7 +14,7 @@ import javax.inject.Singleton
 @Module
 class ConverterModule {
 
-    //region Model
+    //region Model converters
 
     @Provides
     @Singleton
@@ -34,7 +34,7 @@ class ConverterModule {
 
     //endregion
 
-    //region Type
+    //region Type converters
 
     @Provides
     @Singleton

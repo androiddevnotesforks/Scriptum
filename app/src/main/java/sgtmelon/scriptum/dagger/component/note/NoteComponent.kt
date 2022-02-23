@@ -2,7 +2,7 @@ package sgtmelon.scriptum.dagger.component.note
 
 import dagger.BindsInstance
 import dagger.Subcomponent
-import sgtmelon.scriptum.dagger.ActivityScope
+import sgtmelon.scriptum.dagger.other.ActivityScope
 import sgtmelon.scriptum.dagger.module.NoteModule
 import sgtmelon.scriptum.dagger.module.base.InteractorModule
 import sgtmelon.scriptum.dagger.module.base.ViewModelModule

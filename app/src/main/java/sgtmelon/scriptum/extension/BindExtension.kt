@@ -34,14 +34,6 @@ fun View.bindIndicatorColor(@Color color: Int): ColorItem? {
     return colorItem
 }
 
-/**
- * Set visibility rely on current theme
- */
-@BindingAdapter(value = ["visibleTheme", "visibleOn"])
-fun View.bindVisibleTheme(@Theme visibleOn: Int, @Theme theme: Int) {
-    visibility = if (visibleOn == theme) View.VISIBLE else View.GONE
-}
-
 @BindingAdapter(value = ["drawableId", "colorAttr"])
 fun ImageView.bindDrawable(@DrawableRes drawableId: Int, @AttrRes color: Int) {
     if (drawableId == 0) {

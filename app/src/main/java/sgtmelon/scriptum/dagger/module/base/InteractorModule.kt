@@ -2,7 +2,7 @@ package sgtmelon.scriptum.dagger.module.base
 
 import dagger.Module
 import dagger.Provides
-import sgtmelon.scriptum.dagger.ActivityScope
+import sgtmelon.scriptum.dagger.other.ActivityScope
 import sgtmelon.scriptum.data.provider.PreferenceProvider
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.repository.room.callback.*

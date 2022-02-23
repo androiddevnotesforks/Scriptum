@@ -3,7 +3,7 @@ package sgtmelon.scriptum.dagger.module.base
 import android.content.Context
 import dagger.Module
 import dagger.Provides
-import sgtmelon.scriptum.dagger.ActivityScope
+import sgtmelon.scriptum.dagger.other.ActivityScope
 import sgtmelon.scriptum.presentation.control.cipher.CipherControl
 import sgtmelon.scriptum.presentation.control.cipher.ICipherControl
 import sgtmelon.scriptum.presentation.control.file.FileControl

@@ -8,6 +8,7 @@ import sgtmelon.iconanim.control.IconAnimControl
 import sgtmelon.iconanim.callback.IconBlockCallback
 
 import sgtmelon.iconanim.callback.IconChangeCallback
+import sgtmelon.iconanim.control.IIconAnimControl
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.getTintDrawable
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
@@ -31,7 +32,7 @@ class NavigationIconControl(
     private val cancelExitIcon = context.getTintDrawable(R.drawable.anim_cancel_exit)
             as? AnimatedVectorDrawable
 
-    private val iconAnimControl: IconAnimControl = IconAnimControl(
+    private val iconAnimControl: IIconAnimControl = IconAnimControl(
         context, cancelEnterIcon, cancelExitIcon, changeCallback = this
     ).apply { this.blockCallback = callback }
 
