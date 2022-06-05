@@ -24,15 +24,11 @@ import sgtmelon.scriptum.domain.model.annotation.Options.Notes as Options
 /**
  * ViewModel for [INotesFragment].
  */
-class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>(application),
+class NotesViewModel(
+    callback: INotesFragment,
+    private val interactor: INotesInteractor
+) : ParentViewModel<INotesFragment>(callback),
     INotesViewModel {
-
-    private lateinit var interactor: INotesInteractor
-
-    fun setInteractor(interactor: INotesInteractor) {
-        this.interactor = interactor
-    }
-
 
     @RunPrivate val itemList: MutableList<NoteItem> = ArrayList()
 

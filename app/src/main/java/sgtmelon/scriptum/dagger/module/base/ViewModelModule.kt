@@ -129,10 +129,8 @@ class ViewModelModule {
         fragment: NotesFragment,
         interactor: INotesInteractor
     ): INotesViewModel {
-        return ViewModelProvider(fragment).get(NotesViewModel::class.java).apply {
-            setCallback(fragment)
-            setInteractor(interactor)
-        }
+        val factory = ViewModelFactory.Notes(fragment, interactor)
+        return ViewModelProvider(fragment, factory)[NotesViewModel::class.java]
     }
 
     @Provides

@@ -4,14 +4,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import sgtmelon.scriptum.domain.interactor.callback.IIntroInteractor
 import sgtmelon.scriptum.domain.interactor.callback.ISplashInteractor
+import sgtmelon.scriptum.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.intro.IntroActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.MainActivity
+import sgtmelon.scriptum.presentation.screen.ui.impl.main.NotesFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.RankFragment
 import sgtmelon.scriptum.presentation.screen.vm.impl.IntroViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.SplashViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.main.MainViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.main.NotesViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.main.RankViewModel
 import kotlin.reflect.KClass
 
@@ -68,6 +71,15 @@ object ViewModelFactory {
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return modelClass.create { RankViewModel(fragment, interactor) }
+        }
+    }
+
+    class Notes(
+        private val fragment: NotesFragment,
+        private val interactor: INotesInteractor
+    ) : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return modelClass.create { NotesViewModel(fragment, interactor) }
         }
     }
 }
