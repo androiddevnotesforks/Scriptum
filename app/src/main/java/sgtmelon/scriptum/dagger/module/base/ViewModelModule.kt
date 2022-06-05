@@ -23,7 +23,6 @@ import sgtmelon.scriptum.domain.interactor.callback.preference.IPreferenceIntera
 import sgtmelon.scriptum.domain.interactor.callback.preference.develop.IDevelopInteractor
 import sgtmelon.scriptum.domain.interactor.callback.preference.develop.IPrintDevelopInteractor
 import sgtmelon.scriptum.presentation.control.note.save.SaveControl
-import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.intro.IntroActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.BinFragment
@@ -189,10 +188,8 @@ class ViewModelModule {
         interactor: IAlarmInteractor,
         signalInteractor: ISignalInteractor
     ): IAlarmViewModel {
-        return ViewModelProvider(activity).get(AlarmViewModel::class.java).apply {
-            setCallback(activity)
-            setInteractor(interactor, signalInteractor)
-        }
+        val factory = ViewModelFactory.Alarm(activity, interactor, signalInteractor)
+        return ViewModelProvider(activity, factory)[AlarmViewModel::class.java]
     }
 
     @Provides

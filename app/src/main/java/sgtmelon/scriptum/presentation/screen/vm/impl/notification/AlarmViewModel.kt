@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.presentation.screen.vm.impl.notification
 
-import android.app.Application
 import android.os.Bundle
 import androidx.annotation.IdRes
 import androidx.lifecycle.viewModelScope
@@ -24,20 +23,12 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
 /**
  * ViewModel for [IAlarmActivity].
  */
-class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>(application),
+class AlarmViewModel(
+    callback: IAlarmActivity,
+    private val interactor: IAlarmInteractor,
+    private val signalInteractor: ISignalInteractor
+) : ParentViewModel<IAlarmActivity>(callback),
         IAlarmViewModel {
-
-    private lateinit var interactor: IAlarmInteractor
-    private lateinit var signalInteractor: ISignalInteractor
-
-    fun setInteractor(
-        interactor: IAlarmInteractor,
-        signalInteractor: ISignalInteractor
-    ) {
-        this.interactor = interactor
-        this.signalInteractor = signalInteractor
-    }
-
 
     @RunPrivate var id: Long = Default.ID
 
@@ -48,8 +39,8 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     private val longWaitRunnable = Runnable { repeatFinish(interactor.repeat) }
     private val vibratorRunnable = object : Runnable {
         override fun run() {
-            callback?.vibrateStart(vibratorPattern)
-            callback?.startVibratorHandler(vibratorPattern.sum(), r = this)
+            callback.vibrateStart(vibratorPattern)
+            callback.startVibratorHandler(vibratorPattern.sum(), r = this)
         }
     }
 
