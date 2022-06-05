@@ -44,8 +44,8 @@ class SnackbarControl(
             .setAction(actionId) { callback.onSnackbarAction() }
             .addCallback(dismissCallback)
             .setupTheme()
-                .also { snackbar = it }
-                .show()
+            .also { snackbar = it }
+            .show()
 
         if (withInsets) {
             snackbar?.view?.doOnApplyWindowInsets { view, insets, _, _, margin ->

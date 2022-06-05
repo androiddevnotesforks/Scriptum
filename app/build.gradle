@@ -137,7 +137,10 @@ dependencies {
     androidTestImplementation androidx.test.espresso.contrib
     androidTestImplementation androidx.test.uiautomator
 
-    debugImplementation junit.core
+    // Exclude need for prevent bug: import org.hamcrest.Matchers - not found
+    debugImplementation (junit.core) {
+        exclude group: 'org.hamcrest'
+    }
     debugImplementation jetbrains.coroutines.test
 
     testImplementation mockk.core

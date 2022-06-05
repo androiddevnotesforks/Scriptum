@@ -193,6 +193,7 @@ class RollDaoTest : ParentRoomTest() {
     }
 
     @Test fun getByIdListCrowd() = inRoomTest {
+        // TODO test this safeGet through simple get func (first half of func)
         /**
          * Roll id must be unique. So that is why this variable exist.
          */
@@ -222,6 +223,8 @@ class RollDaoTest : ParentRoomTest() {
         assertEquals(rollGetList.size, resultRollGetList.size)
         assertTrue(rollGetList.containsAll(resultRollGetList))
         assertTrue(resultRollGetList.containsAll(rollGetList))
+
+        TODO()
     }
 
     @Test fun getView() = inRoomTest {
