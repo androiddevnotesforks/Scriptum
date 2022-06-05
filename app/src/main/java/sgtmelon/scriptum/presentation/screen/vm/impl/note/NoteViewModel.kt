@@ -8,21 +8,18 @@ import sgtmelon.scriptum.domain.model.data.IntentData.Note.Default
 import sgtmelon.scriptum.domain.model.data.IntentData.Note.Intent
 import sgtmelon.scriptum.domain.model.key.NoteType
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteActivity
+import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.presentation.screen.vm.callback.note.INoteViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
 
 /**
  * ViewModel for [INoteActivity].
  */
-class NoteViewModel(application: Application) : ParentViewModel<INoteActivity>(application),
+class NoteViewModel(
+    callback: INoteActivity,
+    private val interactor: INoteInteractor
+) : ParentViewModel<INoteActivity>(callback),
         INoteViewModel {
-
-    private lateinit var interactor: INoteInteractor
-
-    fun setInteractor(interactor: INoteInteractor) {
-        this.interactor = interactor
-    }
-
 
     @RunPrivate var id: Long = Default.ID
     @RunPrivate var color: Int = Default.COLOR

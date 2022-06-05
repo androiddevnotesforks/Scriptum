@@ -109,7 +109,7 @@ class ViewModelModule {
     @Provides
     @ActivityScope
     fun provideMainViewModel(activity: MainActivity): IMainViewModel {
-        val factory = ViewModelFactory.Main(activity)
+        val factory = ViewModelFactory.MainScreen.Main(activity)
         return ViewModelProvider(activity, factory)[MainViewModel::class.java]
     }
 
@@ -119,7 +119,7 @@ class ViewModelModule {
         fragment: RankFragment,
         interactor: IRankInteractor
     ): IRankViewModel {
-        val factory = ViewModelFactory.Rank(fragment, interactor)
+        val factory = ViewModelFactory.MainScreen.Rank(fragment, interactor)
         return ViewModelProvider(fragment, factory)[RankViewModel::class.java]
     }
 
@@ -129,19 +129,16 @@ class ViewModelModule {
         fragment: NotesFragment,
         interactor: INotesInteractor
     ): INotesViewModel {
-        val factory = ViewModelFactory.Notes(fragment, interactor)
+        val factory = ViewModelFactory.MainScreen.Notes(fragment, interactor)
         return ViewModelProvider(fragment, factory)[NotesViewModel::class.java]
     }
 
     @Provides
     @ActivityScope
     fun provideBinViewModel(fragment: BinFragment, interactor: IBinInteractor): IBinViewModel {
-        return ViewModelProvider(fragment).get(BinViewModel::class.java).apply {
-            setCallback(fragment)
-            setInteractor(interactor)
-        }
+        val factory = ViewModelFactory.MainScreen.Bin(fragment, interactor)
+        return ViewModelProvider(fragment, factory)[BinViewModel::class.java]
     }
-
 
     //endregion
 
@@ -150,10 +147,8 @@ class ViewModelModule {
     @Provides
     @ActivityScope
     fun provideNoteViewModel(activity: NoteActivity, interactor: INoteInteractor): INoteViewModel {
-        return ViewModelProvider(activity).get(NoteViewModel::class.java).apply {
-            setCallback(activity)
-            setInteractor(interactor)
-        }
+        val factory = ViewModelFactory.NoteScreen.Note(activity, interactor)
+        return ViewModelProvider(activity, factory)[NoteViewModel::class.java]
     }
 
     @Provides
@@ -169,7 +164,6 @@ class ViewModelModule {
             setSaveControl(fragment.resources, interactor)
         }
     }
-
 
     @Provides
     @ActivityScope

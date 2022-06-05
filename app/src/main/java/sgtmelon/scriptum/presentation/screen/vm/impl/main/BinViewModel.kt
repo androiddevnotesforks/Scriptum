@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.presentation.screen.vm.impl.main
 
-import android.app.Application
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
@@ -22,15 +21,11 @@ import sgtmelon.scriptum.domain.model.annotation.Options.Bin as Options
 /**
  * ViewModel for [IBinFragment].
  */
-class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(application),
+class BinViewModel(
+    callback: IBinFragment,
+    private val interactor: IBinInteractor
+) : ParentViewModel<IBinFragment>(callback),
         IBinViewModel {
-
-    private lateinit var interactor: IBinInteractor
-
-    fun setInteractor(interactor: IBinInteractor) {
-        this.interactor = interactor
-    }
-
 
     @RunPrivate val itemList: MutableList<NoteItem> = ArrayList()
 
@@ -97,11 +92,7 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
         val callback = callback ?: return
 
         val item = itemList.getOrNull(p) ?: return
-        val title = if (item.name.isNotEmpty()) {
-            item.name
-        } else {
-            callback.getString(R.string.hint_text_name)
-        }
+        val title = item.name.ifEmpty { callback.getString(R.string.hint_text_name) }
         val itemArray = callback.getStringArray(R.array.dialog_menu_bin)
 
         callback.showOptionsDialog(title, itemArray, p)
