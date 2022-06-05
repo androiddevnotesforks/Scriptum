@@ -198,10 +198,8 @@ class ViewModelModule {
         activity: NotificationActivity,
         interactor: INotificationInteractor
     ): INotificationViewModel {
-        return ViewModelProvider(activity).get(NotificationViewModel::class.java).apply {
-            setCallback(activity)
-            setInteractor(interactor)
-        }
+        val factory = ViewModelFactory.Notification(activity, interactor)
+        return ViewModelProvider(activity, factory)[NotificationViewModel::class.java]
     }
 
     //region Preference

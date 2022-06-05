@@ -11,6 +11,7 @@ import sgtmelon.scriptum.domain.interactor.callback.note.INoteInteractor
 import sgtmelon.scriptum.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.domain.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.IAlarmInteractor
+import sgtmelon.scriptum.domain.interactor.callback.notification.INotificationInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
@@ -23,6 +24,7 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.AlarmActivity
+import sgtmelon.scriptum.presentation.screen.ui.impl.notification.NotificationActivity
 import sgtmelon.scriptum.presentation.screen.vm.impl.IntroViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.SplashViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.main.BinViewModel
@@ -33,6 +35,7 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.note.NoteViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.note.TextNoteViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.notification.AlarmViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.notification.NotificationViewModel
 import kotlin.reflect.KClass
 
 /**
@@ -155,6 +158,15 @@ object ViewModelFactory {
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return modelClass.create { AlarmViewModel(activity, interactor, signalInteractor) }
+        }
+    }
+
+    class Notification(
+        private val activity: NotificationActivity,
+        private val interactor: INotificationInteractor
+    ) : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return modelClass.create { NotificationViewModel(activity, interactor) }
         }
     }
 }

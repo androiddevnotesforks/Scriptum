@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.presentation.screen.vm.impl.notification
 
-import android.app.Application
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
@@ -21,16 +20,11 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
 /**
  * ViewModel for [INotificationActivity].
  */
-class NotificationViewModel(application: Application) :
-        ParentViewModel<INotificationActivity>(application),
+class NotificationViewModel(
+    callback: INotificationActivity,
+    private val interactor: INotificationInteractor
+) : ParentViewModel<INotificationActivity>(callback),
         INotificationViewModel {
-
-    private lateinit var interactor: INotificationInteractor
-
-    fun setInteractor(interactor: INotificationInteractor) {
-        this.interactor = interactor
-    }
-
 
     @RunPrivate val itemList: MutableList<NotificationItem> = mutableListOf()
     @RunPrivate val cancelList: MutableList<Pair<Int, NotificationItem>> = mutableListOf()
