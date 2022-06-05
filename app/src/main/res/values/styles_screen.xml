@@ -26,6 +26,10 @@
         <item name="colorPrimaryDark">?attr/clContentSecond</item>
         <item name="colorAccent">?attr/clAccent</item>
 
+        <!--  This two colors needed for snackbar theme  -->
+        <item name="colorSurface">@android:color/transparent</item>
+        <item name="colorOnSurface">@android:color/transparent</item>
+
         <item name="styleToolbar">@style/App.Style.Toolbar</item>
         <item name="themePopup">@style/App.Theme.Popup</item>
         <item name="styleFab">@style/App.Style.Fab</item>
@@ -69,6 +73,10 @@
         <item name="colorPrimary">?attr/clPrimary</item>
         <item name="colorPrimaryDark">?attr/clPrimary</item>
         <item name="colorAccent">?attr/clAccent</item>
+
+        <!--  This two colors needed for snackbar theme  -->
+        <item name="colorSurface">@android:color/transparent</item>
+        <item name="colorOnSurface">@android:color/transparent</item>
 
         <item name="styleToolbar">@style/App.Style.Toolbar</item>
         <item name="themePopup">@style/App.Theme.Popup</item>
