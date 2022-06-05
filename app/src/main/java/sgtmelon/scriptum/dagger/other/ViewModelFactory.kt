@@ -2,6 +2,7 @@ package sgtmelon.scriptum.dagger.other
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import sgtmelon.scriptum.domain.interactor.callback.IAppInteractor
 import sgtmelon.scriptum.domain.interactor.callback.IIntroInteractor
 import sgtmelon.scriptum.domain.interactor.callback.ISplashInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.IBinInteractor
@@ -19,7 +20,9 @@ import sgtmelon.scriptum.domain.interactor.callback.preference.INotePreferenceIn
 import sgtmelon.scriptum.domain.interactor.callback.preference.IPreferenceInteractor
 import sgtmelon.scriptum.domain.interactor.callback.preference.develop.IDevelopInteractor
 import sgtmelon.scriptum.domain.interactor.callback.preference.develop.IPrintDevelopInteractor
+import sgtmelon.scriptum.presentation.screen.ui.callback.IAppActivity
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteConnector
+import sgtmelon.scriptum.presentation.screen.ui.impl.AppActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.intro.IntroActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.BinFragment
@@ -38,6 +41,7 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragme
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop.DevelopFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop.PrintDevelopActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop.ServiceDevelopFragment
+import sgtmelon.scriptum.presentation.screen.vm.impl.AppViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.IntroViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.SplashViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.main.BinViewModel
@@ -78,6 +82,15 @@ object ViewModelFactory {
     }
 
     //endregion
+
+    class App(
+        private val activity: IAppActivity,
+        private val interactor: IAppInteractor
+    ) : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return modelClass.create { AppViewModel(activity, interactor) }
+        }
+    }
 
     class Splash(
         private val activity: SplashActivity,

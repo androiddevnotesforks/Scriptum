@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.presentation.screen.vm.impl.main
 
-import android.app.Application
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.viewModelScope
@@ -216,7 +215,7 @@ class RankViewModel(
          */
         cancelList.add(Pair(p, item))
 
-        // TODO if cancel list is too big (eg 10 items) need remove first
+        // TODO if cancel list is too big (eg 10 items) need remove first in cancelList
 
         callback?.notifyItemRemoved(itemList, p)
         callback?.showSnackbar()
