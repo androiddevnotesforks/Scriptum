@@ -119,10 +119,8 @@ class ViewModelModule {
         fragment: RankFragment,
         interactor: IRankInteractor
     ): IRankViewModel {
-        return ViewModelProvider(fragment).get(RankViewModel::class.java).apply {
-            setCallback(fragment)
-            setInteractor(interactor)
-        }
+        val factory = ViewModelFactory.Rank(fragment, interactor)
+        return ViewModelProvider(fragment, factory)[RankViewModel::class.java]
     }
 
     @Provides

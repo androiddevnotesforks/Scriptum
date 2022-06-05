@@ -21,15 +21,11 @@ import kotlin.math.max
 /**
  * ViewModel for [IRankFragment].
  */
-class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(application),
+class RankViewModel(
+    callback: IRankFragment,
+    private val interactor: IRankInteractor
+) : ParentViewModel<IRankFragment>(callback),
         IRankViewModel {
-
-    private lateinit var interactor: IRankInteractor
-
-    fun setInteractor(interactor: IRankInteractor) {
-        this.interactor = interactor
-    }
-
 
     @RunPrivate val itemList: MutableList<RankItem> = mutableListOf()
     @RunPrivate val cancelList: MutableList<Pair<Int, RankItem>> = mutableListOf()
