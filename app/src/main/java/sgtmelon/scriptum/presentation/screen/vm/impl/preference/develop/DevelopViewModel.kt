@@ -15,15 +15,11 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
 /**
  * ViewModel for [IDevelopFragment].
  */
-class DevelopViewModel(application: Application) : ParentViewModel<IDevelopFragment>(application),
+class DevelopViewModel(
+    callback: IDevelopFragment,
+    private val interactor: IDevelopInteractor
+) : ParentViewModel<IDevelopFragment>(callback),
     IDevelopViewModel {
-
-    private lateinit var interactor: IDevelopInteractor
-
-    fun setInteractor(interactor: IDevelopInteractor) {
-        this.interactor = interactor
-    }
-
 
     override fun onSetup(bundle: Bundle?) {
         callback?.setupPrints()

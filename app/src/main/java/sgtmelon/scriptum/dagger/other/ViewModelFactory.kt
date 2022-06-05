@@ -17,6 +17,8 @@ import sgtmelon.scriptum.domain.interactor.callback.preference.IAlarmPreferenceI
 import sgtmelon.scriptum.domain.interactor.callback.preference.IBackupPreferenceInteractor
 import sgtmelon.scriptum.domain.interactor.callback.preference.INotePreferenceInteractor
 import sgtmelon.scriptum.domain.interactor.callback.preference.IPreferenceInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.develop.IDevelopInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.develop.IPrintDevelopInteractor
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.intro.IntroActivity
@@ -33,6 +35,9 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.preference.AlarmPreferenceF
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.BackupPreferenceFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.NotePreferenceFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop.DevelopFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop.PrintDevelopActivity
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.develop.ServiceDevelopFragment
 import sgtmelon.scriptum.presentation.screen.vm.impl.IntroViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.SplashViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.main.BinViewModel
@@ -48,6 +53,9 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.preference.AlarmPreferenceV
 import sgtmelon.scriptum.presentation.screen.vm.impl.preference.BackupPreferenceViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.preference.NotePreferenceViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.preference.PreferenceViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.preference.develop.DevelopViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.preference.develop.PrintDevelopViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.preference.develop.ServiceDevelopViewModel
 import kotlin.reflect.KClass
 
 /**
@@ -220,6 +228,35 @@ object ViewModelFactory {
                 return modelClass.create {
                     AlarmPreferenceViewModel(fragment, interactor, signalInteractor)
                 }
+            }
+        }
+    }
+
+    object Develop {
+
+        class Main(
+            private val fragment: DevelopFragment,
+            private val interactor: IDevelopInteractor
+        ) : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                return modelClass.create { DevelopViewModel(fragment, interactor) }
+            }
+        }
+
+        class Print(
+            private val activity: PrintDevelopActivity,
+            private val interactor: IPrintDevelopInteractor
+        ) : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                return modelClass.create { PrintDevelopViewModel(activity, interactor) }
+            }
+        }
+
+        class Service(
+            private val fragment: ServiceDevelopFragment
+        ) : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                return modelClass.create { ServiceDevelopViewModel(fragment) }
             }
         }
     }

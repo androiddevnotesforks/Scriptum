@@ -16,8 +16,9 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
 /**
  * ViewModel for [IServiceDevelopFragment].
  */
-class ServiceDevelopViewModel(application: Application) :
-    ParentViewModel<IServiceDevelopFragment>(application),
+class ServiceDevelopViewModel(
+    callback: IServiceDevelopFragment
+) : ParentViewModel<IServiceDevelopFragment>(callback),
     IServiceDevelopViewModel {
 
     private var pingJob: Job? = null

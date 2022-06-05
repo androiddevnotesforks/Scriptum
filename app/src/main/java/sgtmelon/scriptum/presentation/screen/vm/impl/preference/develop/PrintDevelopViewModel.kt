@@ -22,16 +22,10 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
  * ViewModel for [IPrintDevelopActivity].
  */
 class PrintDevelopViewModel(
-    application: Application
-) : ParentViewModel<IPrintDevelopActivity>(application),
+    callback: IPrintDevelopActivity,
+    private val interactor: IPrintDevelopInteractor
+) : ParentViewModel<IPrintDevelopActivity>(callback),
     IPrintDevelopViewModel {
-
-    private lateinit var interactor: IPrintDevelopInteractor
-
-    fun setInteractor(interactor: IPrintDevelopInteractor) {
-        this.interactor = interactor
-    }
-
 
     @RunPrivate val itemList: MutableList<PrintItem> = ArrayList()
 

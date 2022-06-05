@@ -251,10 +251,8 @@ class ViewModelModule {
         fragment: DevelopFragment,
         interactor: IDevelopInteractor
     ): IDevelopViewModel {
-        return ViewModelProvider(fragment).get(DevelopViewModel::class.java).apply {
-            setCallback(fragment)
-            setInteractor(interactor)
-        }
+        val factory = ViewModelFactory.Develop.Main(fragment, interactor)
+        return ViewModelProvider(fragment, factory)[DevelopViewModel::class.java]
     }
 
     @Provides
@@ -263,18 +261,15 @@ class ViewModelModule {
         activity: PrintDevelopActivity,
         interactor: IPrintDevelopInteractor
     ): IPrintDevelopViewModel {
-        return ViewModelProvider(activity).get(PrintDevelopViewModel::class.java).apply {
-            setCallback(activity)
-            setInteractor(interactor)
-        }
+        val factory = ViewModelFactory.Develop.Print(activity, interactor)
+        return ViewModelProvider(activity, factory)[PrintDevelopViewModel::class.java]
     }
 
     @Provides
     @ActivityScope
     fun provideServiceDevelopViewModel(fragment: ServiceDevelopFragment): IServiceDevelopViewModel {
-        return ViewModelProvider(fragment).get(ServiceDevelopViewModel::class.java).apply {
-            setCallback(fragment)
-        }
+        val factory = ViewModelFactory.Develop.Service(fragment)
+        return ViewModelProvider(fragment, factory)[ServiceDevelopViewModel::class.java]
     }
 
     //endregion
