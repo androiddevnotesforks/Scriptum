@@ -22,7 +22,6 @@ import sgtmelon.scriptum.domain.interactor.callback.preference.develop.IDevelopI
 import sgtmelon.scriptum.domain.interactor.callback.preference.develop.IPrintDevelopInteractor
 import sgtmelon.scriptum.presentation.screen.ui.callback.IAppActivity
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteConnector
-import sgtmelon.scriptum.presentation.screen.ui.impl.AppActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.intro.IntroActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.BinFragment
@@ -72,11 +71,6 @@ object ViewModelFactory {
 
     private fun onNotFound() = IllegalArgumentException("ViewModel Not Found")
 
-    private fun <T> Class<T>.create(createFunc: () -> Any): T {
-        return if (isAssignableFrom(createFunc::class.java)) createFunc() as T else throw onNotFound()
-    }
-
-    // TODO check if upper func work - remove it
     private fun <T> Class<T>.create(modelClass: KClass<*>, createFunc: () -> Any): T {
         return if (isAssignableFrom(modelClass.java)) createFunc() as T else throw onNotFound()
     }
@@ -88,7 +82,9 @@ object ViewModelFactory {
         private val interactor: IAppInteractor
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return modelClass.create { AppViewModel(activity, interactor) }
+            return modelClass.create(AppViewModel::class) {
+                AppViewModel(activity, interactor)
+            }
         }
     }
 
@@ -97,7 +93,9 @@ object ViewModelFactory {
         private val interactor: ISplashInteractor
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return modelClass.create { SplashViewModel(activity, interactor) }
+            return modelClass.create(SplashViewModel::class) {
+                SplashViewModel(activity, interactor)
+            }
         }
     }
 
@@ -106,7 +104,9 @@ object ViewModelFactory {
         private val interactor: IIntroInteractor
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return modelClass.create { IntroViewModel(activity, interactor) }
+            return modelClass.create(IntroViewModel::class) {
+                IntroViewModel(activity, interactor)
+            }
         }
     }
 
@@ -116,7 +116,9 @@ object ViewModelFactory {
             private val activity: MainActivity
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create { MainViewModel(activity) }
+                return modelClass.create(MainViewModel::class) {
+                    MainViewModel(activity)
+                }
             }
         }
 
@@ -125,7 +127,9 @@ object ViewModelFactory {
             private val interactor: IRankInteractor
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create { RankViewModel(fragment, interactor) }
+                return modelClass.create(RankViewModel::class) {
+                    RankViewModel(fragment, interactor)
+                }
             }
         }
 
@@ -134,7 +138,9 @@ object ViewModelFactory {
             private val interactor: INotesInteractor
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create { NotesViewModel(fragment, interactor) }
+                return modelClass.create(NotesViewModel::class) {
+                    NotesViewModel(fragment, interactor)
+                }
             }
         }
 
@@ -143,7 +149,9 @@ object ViewModelFactory {
             private val interactor: IBinInteractor
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create { BinViewModel(fragment, interactor) }
+                return modelClass.create(BinViewModel::class) {
+                    BinViewModel(fragment, interactor)
+                }
             }
         }
     }
@@ -155,7 +163,9 @@ object ViewModelFactory {
             private val interactor: INoteInteractor
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create { NoteViewModel(activity, interactor) }
+                return modelClass.create(NoteViewModel::class) {
+                    NoteViewModel(activity, interactor)
+                }
             }
         }
 
@@ -164,7 +174,7 @@ object ViewModelFactory {
             private val interactor: ITextNoteInteractor
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create {
+                return modelClass.create(TextNoteViewModel::class) {
                     val parentCallback = fragment.context as? INoteConnector
                     TextNoteViewModel(fragment, parentCallback, interactor)
                 }
@@ -176,7 +186,7 @@ object ViewModelFactory {
             private val interactor: IRollNoteInteractor
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create {
+                return modelClass.create(RollNoteViewModel::class) {
                     val parentCallback = fragment.context as? INoteConnector
                     RollNoteViewModel(fragment, parentCallback, interactor)
                 }
@@ -190,7 +200,9 @@ object ViewModelFactory {
         private val signalInteractor: ISignalInteractor
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return modelClass.create { AlarmViewModel(activity, interactor, signalInteractor) }
+            return modelClass.create(AlarmViewModel::class) {
+                AlarmViewModel(activity, interactor, signalInteractor)
+            }
         }
     }
 
@@ -199,7 +211,9 @@ object ViewModelFactory {
         private val interactor: INotificationInteractor
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return modelClass.create { NotificationViewModel(activity, interactor) }
+            return modelClass.create(NotificationViewModel::class) {
+                NotificationViewModel(activity, interactor)
+            }
         }
     }
 
@@ -210,7 +224,9 @@ object ViewModelFactory {
             private val interactor: IPreferenceInteractor
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create { PreferenceViewModel(fragment, interactor) }
+                return modelClass.create(PreferenceViewModel::class) {
+                    PreferenceViewModel(fragment, interactor)
+                }
             }
         }
 
@@ -219,7 +235,9 @@ object ViewModelFactory {
             private val interactor: IBackupPreferenceInteractor
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create { BackupPreferenceViewModel(fragment, interactor) }
+                return modelClass.create(BackupPreferenceViewModel::class) {
+                    BackupPreferenceViewModel(fragment, interactor)
+                }
             }
         }
 
@@ -228,7 +246,9 @@ object ViewModelFactory {
             private val interactor: INotePreferenceInteractor
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create { NotePreferenceViewModel(fragment, interactor) }
+                return modelClass.create(NotePreferenceViewModel::class) {
+                    NotePreferenceViewModel(fragment, interactor)
+                }
             }
         }
 
@@ -238,7 +258,7 @@ object ViewModelFactory {
             private val signalInteractor: ISignalInteractor
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create {
+                return modelClass.create(AlarmPreferenceViewModel::class) {
                     AlarmPreferenceViewModel(fragment, interactor, signalInteractor)
                 }
             }
@@ -252,7 +272,9 @@ object ViewModelFactory {
             private val interactor: IDevelopInteractor
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create { DevelopViewModel(fragment, interactor) }
+                return modelClass.create(DevelopViewModel::class) {
+                    DevelopViewModel(fragment, interactor)
+                }
             }
         }
 
@@ -261,7 +283,9 @@ object ViewModelFactory {
             private val interactor: IPrintDevelopInteractor
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create { PrintDevelopViewModel(activity, interactor) }
+                return modelClass.create(PrintDevelopViewModel::class) {
+                    PrintDevelopViewModel(activity, interactor)
+                }
             }
         }
 
@@ -269,7 +293,9 @@ object ViewModelFactory {
             private val fragment: ServiceDevelopFragment
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return modelClass.create { ServiceDevelopViewModel(fragment) }
+                return modelClass.create(ServiceDevelopViewModel::class) {
+                    ServiceDevelopViewModel(fragment)
+                }
             }
         }
     }
