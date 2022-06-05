@@ -14,16 +14,10 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
  * ViewModel for [INotePreferenceFragment].
  */
 class NotePreferenceViewModel(
-    application: Application
-) : ParentViewModel<INotePreferenceFragment>(application),
+    callback: INotePreferenceFragment,
+    private val interactor: INotePreferenceInteractor
+) : ParentViewModel<INotePreferenceFragment>(callback),
     INotePreferenceViewModel {
-
-    private lateinit var interactor: INotePreferenceInteractor
-
-    fun setInteractor(interactor: INotePreferenceInteractor) {
-        this.interactor = interactor
-    }
-
 
     override fun onSetup(bundle: Bundle?) {
         callback?.setup()

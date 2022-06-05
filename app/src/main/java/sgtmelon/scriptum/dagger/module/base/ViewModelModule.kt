@@ -210,10 +210,8 @@ class ViewModelModule {
         fragment: PreferenceFragment,
         interactor: IPreferenceInteractor
     ): IPreferenceViewModel {
-        return ViewModelProvider(fragment).get(PreferenceViewModel::class.java).apply {
-            setCallback(fragment)
-            setInteractor(interactor)
-        }
+        val factory = ViewModelFactory.Preference.Main(fragment, interactor)
+        return ViewModelProvider(fragment, factory)[PreferenceViewModel::class.java]
     }
 
     @Provides
@@ -222,10 +220,8 @@ class ViewModelModule {
         fragment: BackupPreferenceFragment,
         interactor: IBackupPreferenceInteractor
     ): IBackupPreferenceViewModel {
-        return ViewModelProvider(fragment).get(BackupPreferenceViewModel::class.java).apply {
-            setCallback(fragment)
-            setInteractor(interactor)
-        }
+        val factory = ViewModelFactory.Preference.Backup(fragment, interactor)
+        return ViewModelProvider(fragment, factory)[BackupPreferenceViewModel::class.java]
     }
 
     @Provides
@@ -234,10 +230,8 @@ class ViewModelModule {
         fragment: NotePreferenceFragment,
         interactor: INotePreferenceInteractor
     ): INotePreferenceViewModel {
-        return ViewModelProvider(fragment).get(NotePreferenceViewModel::class.java).apply {
-            setCallback(fragment)
-            setInteractor(interactor)
-        }
+        val factory = ViewModelFactory.Preference.Note(fragment, interactor)
+        return ViewModelProvider(fragment, factory)[NotePreferenceViewModel::class.java]
     }
 
     @Provides
@@ -247,10 +241,8 @@ class ViewModelModule {
         interactor: IAlarmPreferenceInteractor,
         signalInteractor: ISignalInteractor
     ): IAlarmPreferenceViewModel {
-        return ViewModelProvider(fragment).get(AlarmPreferenceViewModel::class.java).apply {
-            setCallback(fragment)
-            setInteractor(interactor, signalInteractor)
-        }
+        val factory = ViewModelFactory.Preference.Alarm(fragment, interactor, signalInteractor)
+        return ViewModelProvider(fragment, factory)[AlarmPreferenceViewModel::class.java]
     }
 
     @Provides

@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.presentation.screen.vm.impl.preference
 
-import android.app.Application
 import android.os.Bundle
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.interactor.callback.preference.IPreferenceInteractor
@@ -13,16 +12,10 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
  * ViewModel for [IPreferenceFragment].
  */
 class PreferenceViewModel(
-    application: Application
-) : ParentViewModel<IPreferenceFragment>(application),
+    callback: IPreferenceFragment,
+    private val interactor: IPreferenceInteractor
+) : ParentViewModel<IPreferenceFragment>(callback),
     IPreferenceViewModel {
-
-    private lateinit var interactor: IPreferenceInteractor
-
-    fun setInteractor(interactor: IPreferenceInteractor) {
-        this.interactor = interactor
-    }
-
 
     override fun onSetup(bundle: Bundle?) {
         callback?.setupApp()

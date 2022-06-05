@@ -13,6 +13,10 @@ import sgtmelon.scriptum.domain.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.INotificationInteractor
 import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.IAlarmPreferenceInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.IBackupPreferenceInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.INotePreferenceInteractor
+import sgtmelon.scriptum.domain.interactor.callback.preference.IPreferenceInteractor
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.intro.IntroActivity
@@ -25,6 +29,10 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.AlarmActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.notification.NotificationActivity
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.AlarmPreferenceFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.BackupPreferenceFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.NotePreferenceFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
 import sgtmelon.scriptum.presentation.screen.vm.impl.IntroViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.SplashViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.main.BinViewModel
@@ -36,6 +44,10 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.note.TextNoteViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.notification.AlarmViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.notification.NotificationViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.preference.AlarmPreferenceViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.preference.BackupPreferenceViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.preference.NotePreferenceViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.preference.PreferenceViewModel
 import kotlin.reflect.KClass
 
 /**
@@ -167,6 +179,48 @@ object ViewModelFactory {
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return modelClass.create { NotificationViewModel(activity, interactor) }
+        }
+    }
+
+    object Preference {
+
+        class Main(
+            private val fragment: PreferenceFragment,
+            private val interactor: IPreferenceInteractor
+        ) : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                return modelClass.create { PreferenceViewModel(fragment, interactor) }
+            }
+        }
+
+        class Backup(
+            private val fragment: BackupPreferenceFragment,
+            private val interactor: IBackupPreferenceInteractor
+        ) : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                return modelClass.create { BackupPreferenceViewModel(fragment, interactor) }
+            }
+        }
+
+        class Note(
+            private val fragment: NotePreferenceFragment,
+            private val interactor: INotePreferenceInteractor
+        ) : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                return modelClass.create { NotePreferenceViewModel(fragment, interactor) }
+            }
+        }
+
+        class Alarm(
+            private val fragment: AlarmPreferenceFragment,
+            private val interactor: IAlarmPreferenceInteractor,
+            private val signalInteractor: ISignalInteractor
+        ) : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                return modelClass.create {
+                    AlarmPreferenceViewModel(fragment, interactor, signalInteractor)
+                }
+            }
         }
     }
 }

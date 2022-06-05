@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.presentation.screen.vm.impl.preference
 
-import android.app.Application
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
@@ -19,16 +18,10 @@ import sgtmelon.scriptum.domain.model.key.PermissionResult as Permission
  * ViewModel for [IBackupPreferenceFragment].
  */
 class BackupPreferenceViewModel(
-    application: Application
-) : ParentViewModel<IBackupPreferenceFragment>(application),
+    callback: IBackupPreferenceFragment,
+    private val interactor: IBackupPreferenceInteractor
+) : ParentViewModel<IBackupPreferenceFragment>(callback),
     IBackupPreferenceViewModel {
-
-    private lateinit var interactor: IBackupPreferenceInteractor
-
-    fun setInteractor(interactor: IBackupPreferenceInteractor) {
-        this.interactor = interactor
-    }
-
 
     override fun onSetup(bundle: Bundle?) {
         callback?.setup()

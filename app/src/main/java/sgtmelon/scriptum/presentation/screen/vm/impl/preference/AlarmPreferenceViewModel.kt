@@ -19,18 +19,11 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel
  * ViewModel for [IAlarmPreferenceFragment].
  */
 class AlarmPreferenceViewModel(
-    application: Application
-) : ParentViewModel<IAlarmPreferenceFragment>(application),
+    callback: IAlarmPreferenceFragment,
+    private val interactor: IAlarmPreferenceInteractor,
+    private val signalInteractor: ISignalInteractor
+) : ParentViewModel<IAlarmPreferenceFragment>(callback),
     IAlarmPreferenceViewModel {
-
-    private lateinit var interactor: IAlarmPreferenceInteractor
-    private lateinit var signalInteractor: ISignalInteractor
-
-    fun setInteractor(interactor: IAlarmPreferenceInteractor, signalInteractor: ISignalInteractor) {
-        this.interactor = interactor
-        this.signalInteractor = signalInteractor
-    }
-
 
     override fun onSetup(bundle: Bundle?) {
         callback?.setup()
