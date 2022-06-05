@@ -8,8 +8,11 @@ import sgtmelon.common.test.annotation.RunPrivate
 /**
  * Class for help control note pause/auto save.
  */
-class SaveControl(resources: Resources, val model: Model, private val callback: Callback) :
-    ISaveControl {
+class SaveControl(
+    resources: Resources,
+    val model: Model,
+    private val callback: Callback
+) : ISaveControl {
 
     @RunPrivate var saveHandler = Handler()
 

@@ -1,16 +1,16 @@
 package sgtmelon.scriptum.presentation.screen.vm.impl.note
 
-import android.app.Application
-import android.content.res.Resources
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import sgtmelon.common.test.annotation.RunPrivate
+import sgtmelon.common.test.annotation.RunProtected
+import sgtmelon.common.test.idling.impl.AppIdlingResource
 import sgtmelon.common.utils.beforeNow
 import sgtmelon.common.utils.getCalendar
 import sgtmelon.scriptum.data.room.converter.type.StringConverter
 import sgtmelon.scriptum.domain.interactor.callback.note.IParentNoteInteractor
-import sgtmelon.common.test.annotation.RunPrivate
-import sgtmelon.common.test.annotation.RunProtected
+import sgtmelon.scriptum.domain.model.annotation.test.IdlingTag
 import sgtmelon.scriptum.domain.model.data.IntentData.Note.Default
 import sgtmelon.scriptum.domain.model.data.IntentData.Note.Intent
 import sgtmelon.scriptum.domain.model.item.InputItem
@@ -19,12 +19,9 @@ import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.state.NoteState
 import sgtmelon.scriptum.extension.launchBack
 import sgtmelon.scriptum.extension.runBack
-import sgtmelon.common.test.idling.impl.AppIdlingResource
-import sgtmelon.scriptum.domain.model.annotation.test.IdlingTag
 import sgtmelon.scriptum.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.presentation.control.note.save.ISaveControl
-import sgtmelon.scriptum.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.IParentNoteFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.note.IParentNoteViewModel
@@ -35,35 +32,26 @@ import java.util.*
  * Parent viewModel for [TextNoteViewModel] and [RollNoteViewModel].
  */
 abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I : IParentNoteInteractor<N>>(
-    application: Application
-) : ParentViewModel<C>(application),
+    callback: C,
+    @RunProtected var parentCallback: INoteConnector?,
+    @RunProtected val interactor: I
+) : ParentViewModel<C>(callback),
     IParentNoteViewModel {
 
     //region Variables
-
-    @RunProtected var parentCallback: INoteConnector? = null
-        private set
-
-    fun setParentCallback(callback: INoteConnector?) {
-        parentCallback = callback
-    }
-
-    @RunProtected lateinit var interactor: I
-        private set
 
     /**
      * Abstract because need setup callback but this class not final.
      */
     @RunProtected lateinit var saveControl: ISaveControl
-
-    fun setInteractor(interactor: I) {
-        this.interactor = interactor
-    }
+        private set
 
     /**
      * Need call after [interactor] initialization.
      */
-    abstract fun setSaveControl(resources: Resources, setup: SaveControl.Setup)
+    fun setSaveControl(saveControl: ISaveControl) {
+        this.saveControl = saveControl
+    }
 
     @RunProtected var inputControl: IInputControl = InputControl()
 

@@ -8,6 +8,9 @@ import sgtmelon.scriptum.domain.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.domain.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.domain.interactor.callback.note.INoteInteractor
+import sgtmelon.scriptum.domain.interactor.callback.note.IRollNoteInteractor
+import sgtmelon.scriptum.domain.interactor.callback.note.ITextNoteInteractor
+import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.intro.IntroActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.BinFragment
@@ -15,6 +18,8 @@ import sgtmelon.scriptum.presentation.screen.ui.impl.main.MainActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.NotesFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.RankFragment
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
+import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
+import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.presentation.screen.vm.impl.IntroViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.SplashViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.main.BinViewModel
@@ -22,6 +27,8 @@ import sgtmelon.scriptum.presentation.screen.vm.impl.main.MainViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.main.NotesViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.main.RankViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.note.NoteViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.note.RollNoteViewModel
+import sgtmelon.scriptum.presentation.screen.vm.impl.note.TextNoteViewModel
 import kotlin.reflect.KClass
 
 /**
@@ -109,6 +116,30 @@ object ViewModelFactory {
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create { NoteViewModel(activity, interactor) }
+            }
+        }
+
+        class TextNote(
+            private val fragment: TextNoteFragment,
+            private val interactor: ITextNoteInteractor
+        ) : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                return modelClass.create {
+                    val parentCallback = fragment.context as? INoteConnector
+                    TextNoteViewModel(fragment, parentCallback, interactor)
+                }
+            }
+        }
+
+        class RollNote(
+            private val fragment: RollNoteFragment,
+            private val interactor: IRollNoteInteractor
+        ) : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                return modelClass.create {
+                    val parentCallback = fragment.context as? INoteConnector
+                    RollNoteViewModel(fragment, parentCallback, interactor)
+                }
             }
         }
 

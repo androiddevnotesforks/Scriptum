@@ -14,20 +14,20 @@ import sgtmelon.scriptum.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.state.NoteState
 import sgtmelon.scriptum.extension.runBack
-import sgtmelon.scriptum.presentation.control.note.save.SaveControl
+import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.ITextNoteFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.note.ITextNoteViewModel
 
 /**
  * ViewModel for [ITextNoteFragment].
  */
-class TextNoteViewModel(application: Application) :
-    ParentNoteViewModel<NoteItem.Text, ITextNoteFragment, ITextNoteInteractor>(application),
-    ITextNoteViewModel {
-
-    override fun setSaveControl(resources: Resources, setup: SaveControl.Setup) {
-        saveControl = SaveControl(resources, setup.getSaveModel(), callback = this)
-    }
+class TextNoteViewModel(
+    callback: ITextNoteFragment,
+    parentCallback: INoteConnector?,
+    interactor: ITextNoteInteractor
+) : ParentNoteViewModel<NoteItem.Text, ITextNoteFragment, ITextNoteInteractor>(
+    callback, parentCallback, interactor
+), ITextNoteViewModel {
 
     override fun cacheData() {
         restoreItem = noteItem.deepCopy()

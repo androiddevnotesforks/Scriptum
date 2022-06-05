@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.presentation.screen.vm.impl.note
 
-import android.app.Application
 import android.content.res.Resources
 import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.viewModelScope
@@ -16,20 +15,20 @@ import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.item.RollItem
 import sgtmelon.scriptum.domain.model.state.NoteState
 import sgtmelon.scriptum.extension.*
-import sgtmelon.scriptum.presentation.control.note.save.SaveControl
+import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.IRollNoteFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.note.IRollNoteViewModel
 
 /**
  * ViewModel for [IRollNoteFragment].
  */
-class RollNoteViewModel(application: Application) :
-    ParentNoteViewModel<NoteItem.Roll, IRollNoteFragment, IRollNoteInteractor>(application),
-    IRollNoteViewModel {
-
-    override fun setSaveControl(resources: Resources, setup: SaveControl.Setup) {
-        saveControl = SaveControl(resources, setup.getSaveModel(), callback = this)
-    }
+class RollNoteViewModel(
+    callback: IRollNoteFragment,
+    parentCallback: INoteConnector?,
+    interactor: IRollNoteInteractor
+) : ParentNoteViewModel<NoteItem.Roll, IRollNoteFragment, IRollNoteInteractor>(
+    callback, parentCallback, interactor
+), IRollNoteViewModel {
 
     /**
      * Variable for detect first screen run. After rotations it will be false.

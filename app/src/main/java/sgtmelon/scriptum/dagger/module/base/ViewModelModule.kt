@@ -22,6 +22,7 @@ import sgtmelon.scriptum.domain.interactor.callback.preference.INotePreferenceIn
 import sgtmelon.scriptum.domain.interactor.callback.preference.IPreferenceInteractor
 import sgtmelon.scriptum.domain.interactor.callback.preference.develop.IDevelopInteractor
 import sgtmelon.scriptum.domain.interactor.callback.preference.develop.IPrintDevelopInteractor
+import sgtmelon.scriptum.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.presentation.screen.ui.impl.intro.IntroActivity
@@ -157,12 +158,12 @@ class ViewModelModule {
         fragment: TextNoteFragment,
         interactor: ITextNoteInteractor
     ): ITextNoteViewModel {
-        return ViewModelProvider(fragment).get(TextNoteViewModel::class.java).apply {
-            setCallback(fragment)
-            setParentCallback(fragment.context as? INoteConnector)
-            setInteractor(interactor)
-            setSaveControl(fragment.resources, interactor)
-        }
+        val factory = ViewModelFactory.NoteScreen.TextNote(fragment, interactor)
+        val viewModel = ViewModelProvider(fragment, factory)[TextNoteViewModel::class.java]
+        val saveControl = SaveControl(fragment.resources, interactor.getSaveModel(), viewModel)
+        viewModel.setSaveControl(saveControl)
+
+        return viewModel
     }
 
     @Provides
@@ -171,12 +172,12 @@ class ViewModelModule {
         fragment: RollNoteFragment,
         interactor: IRollNoteInteractor
     ): IRollNoteViewModel {
-        return ViewModelProvider(fragment).get(RollNoteViewModel::class.java).apply {
-            setCallback(fragment)
-            setParentCallback(fragment.context as? INoteConnector)
-            setInteractor(interactor)
-            setSaveControl(fragment.resources, interactor)
-        }
+        val factory = ViewModelFactory.NoteScreen.RollNote(fragment, interactor)
+        val viewModel = ViewModelProvider(fragment, factory)[RollNoteViewModel::class.java]
+        val saveControl = SaveControl(fragment.resources, interactor.getSaveModel(), viewModel)
+        viewModel.setSaveControl(saveControl)
+
+        return viewModel
     }
 
     //endregion
