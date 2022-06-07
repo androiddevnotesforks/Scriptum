@@ -9,7 +9,6 @@ import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.extension.getAlarmService
-import sgtmelon.scriptum.extension.toLowerCase
 import sgtmelon.scriptum.presentation.control.system.callback.IAlarmControl
 import sgtmelon.scriptum.presentation.control.toast.IToastControl
 import sgtmelon.scriptum.presentation.receiver.action.AlarmActionReceiver

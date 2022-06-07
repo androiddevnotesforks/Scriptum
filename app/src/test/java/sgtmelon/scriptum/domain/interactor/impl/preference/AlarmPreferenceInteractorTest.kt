@@ -11,7 +11,6 @@ import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.FastTest
 import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.data.room.converter.type.IntConverter
-import sgtmelon.scriptum.extension.toLowerCase
 import sgtmelon.scriptum.getRandomSize
 import sgtmelon.scriptum.parent.ParentInteractorTest
 import sgtmelon.scriptum.presentation.provider.SummaryProvider

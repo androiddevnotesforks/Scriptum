@@ -8,7 +8,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.extension.toUpperCase
 import sgtmelon.scriptum.presentation.factory.NotificationFactory
 import sgtmelon.scriptum.ui.automator.NotificationUi
 

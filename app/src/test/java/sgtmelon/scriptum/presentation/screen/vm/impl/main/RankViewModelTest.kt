@@ -19,7 +19,6 @@ import sgtmelon.scriptum.domain.model.item.RankItem
 import sgtmelon.scriptum.domain.model.state.OpenState
 import sgtmelon.scriptum.extension.clearAdd
 import sgtmelon.scriptum.extension.move
-import sgtmelon.scriptum.extension.toUpperCase
 import sgtmelon.scriptum.getRandomSize
 import sgtmelon.scriptum.isDivideTwoEntirely
 import sgtmelon.scriptum.parent.ParentViewModelTest
