@@ -6,7 +6,7 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
-import sgtmelon.scriptum.extension.isTesting
+import sgtmelon.common.utils.isTesting
 
 /**
  * Parent class for coroutines tests.

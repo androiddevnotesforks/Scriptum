@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.presentation.screen.vm.impl.note
 
-import android.content.res.Resources
 import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
@@ -8,6 +7,8 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.domain.model.annotation.InputAction
 import sgtmelon.common.test.annotation.RunPrivate
+import sgtmelon.common.utils.launchBack
+import sgtmelon.common.utils.runBack
 import sgtmelon.scriptum.domain.model.data.IntentData.Note.Default
 import sgtmelon.scriptum.domain.model.item.InputItem
 import sgtmelon.scriptum.domain.model.item.InputItem.Cursor.Companion.get

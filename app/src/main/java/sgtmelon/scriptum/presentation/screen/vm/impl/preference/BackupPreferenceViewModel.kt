@@ -8,7 +8,7 @@ import sgtmelon.scriptum.domain.interactor.callback.preference.IBackupPreference
 import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.domain.model.result.ExportResult
 import sgtmelon.scriptum.domain.model.result.ImportResult
-import sgtmelon.scriptum.extension.runBack
+import sgtmelon.common.utils.runBack
 import sgtmelon.scriptum.presentation.screen.ui.callback.preference.IBackupPreferenceFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IBackupPreferenceViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel

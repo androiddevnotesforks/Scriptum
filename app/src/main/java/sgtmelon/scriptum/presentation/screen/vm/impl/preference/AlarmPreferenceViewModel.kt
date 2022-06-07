@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.presentation.screen.vm.impl.preference
 
-import android.app.Application
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
@@ -10,7 +9,7 @@ import sgtmelon.scriptum.domain.interactor.callback.preference.IAlarmPreferenceI
 import sgtmelon.scriptum.domain.model.annotation.Repeat
 import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.domain.model.key.PermissionResult
-import sgtmelon.scriptum.extension.runBack
+import sgtmelon.common.utils.runBack
 import sgtmelon.scriptum.presentation.screen.ui.callback.preference.IAlarmPreferenceFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.preference.IAlarmPreferenceViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel

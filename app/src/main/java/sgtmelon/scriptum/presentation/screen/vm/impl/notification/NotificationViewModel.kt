@@ -9,7 +9,7 @@ import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.domain.model.data.IntentData.Snackbar
 import sgtmelon.scriptum.domain.model.item.NotificationItem
 import sgtmelon.scriptum.extension.clearAdd
-import sgtmelon.scriptum.extension.runBack
+import sgtmelon.common.utils.runBack
 import sgtmelon.scriptum.extension.validRemoveAt
 import sgtmelon.common.test.idling.impl.AppIdlingResource
 import sgtmelon.scriptum.domain.model.annotation.test.IdlingTag

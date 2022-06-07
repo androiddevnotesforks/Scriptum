@@ -1,13 +1,12 @@
 package sgtmelon.scriptum.presentation.screen.vm.impl.preference.develop
 
-import android.app.Application
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.domain.interactor.callback.preference.develop.IDevelopInteractor
 import sgtmelon.scriptum.domain.model.key.PrintType
-import sgtmelon.scriptum.extension.runBack
+import sgtmelon.common.utils.runBack
 import sgtmelon.scriptum.presentation.screen.ui.callback.preference.develop.IDevelopFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.preference.develop.IDevelopViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel

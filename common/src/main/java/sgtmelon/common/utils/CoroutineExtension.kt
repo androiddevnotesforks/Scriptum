@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.extension
+package sgtmelon.common.utils
 
 import kotlinx.coroutines.*
 import sgtmelon.common.test.annotation.RunPrivate

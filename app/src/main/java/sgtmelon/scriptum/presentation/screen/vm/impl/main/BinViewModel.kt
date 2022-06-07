@@ -8,8 +8,8 @@ import sgtmelon.scriptum.domain.interactor.callback.main.IBinInteractor
 import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.extension.clearAdd
-import sgtmelon.scriptum.extension.launchBack
-import sgtmelon.scriptum.extension.runBack
+import sgtmelon.common.utils.launchBack
+import sgtmelon.common.utils.runBack
 import sgtmelon.scriptum.extension.validRemoveAt
 import sgtmelon.common.test.idling.impl.AppIdlingResource
 import sgtmelon.scriptum.domain.model.annotation.test.IdlingTag

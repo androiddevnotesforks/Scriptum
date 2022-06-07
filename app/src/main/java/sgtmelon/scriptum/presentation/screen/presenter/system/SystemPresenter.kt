@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.presentation.screen.presenter.system
 
 import sgtmelon.scriptum.domain.interactor.callback.system.ISystemInteractor
-import sgtmelon.scriptum.extension.launchBack
+import sgtmelon.common.utils.launchBack
 import sgtmelon.scriptum.presentation.screen.presenter.ParentPresenter
 import sgtmelon.scriptum.presentation.screen.system.ISystemLogic
 import java.util.*

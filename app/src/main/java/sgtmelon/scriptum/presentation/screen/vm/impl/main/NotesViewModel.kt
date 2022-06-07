@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.presentation.screen.vm.impl.main
 
-import android.app.Application
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
@@ -12,6 +11,7 @@ import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.extension.*
 import sgtmelon.common.test.idling.impl.AppIdlingResource
+import sgtmelon.common.utils.runBack
 import sgtmelon.scriptum.domain.model.annotation.test.IdlingTag
 import sgtmelon.scriptum.presentation.control.SortControl
 import sgtmelon.scriptum.presentation.screen.ui.callback.main.INotesFragment

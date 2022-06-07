@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.presentation.screen.vm.impl.preference.develop
 
-import android.app.Application
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
@@ -11,7 +10,7 @@ import sgtmelon.scriptum.domain.model.data.IntentData.Print.Intent
 import sgtmelon.scriptum.domain.model.item.PrintItem
 import sgtmelon.scriptum.domain.model.key.PrintType
 import sgtmelon.scriptum.extension.clearAdd
-import sgtmelon.scriptum.extension.runBack
+import sgtmelon.common.utils.runBack
 import sgtmelon.common.test.idling.impl.AppIdlingResource
 import sgtmelon.scriptum.domain.model.annotation.test.IdlingTag
 import sgtmelon.scriptum.presentation.screen.ui.callback.preference.develop.IPrintDevelopActivity

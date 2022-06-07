@@ -17,8 +17,8 @@ import sgtmelon.scriptum.domain.model.item.InputItem
 import sgtmelon.scriptum.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.state.NoteState
-import sgtmelon.scriptum.extension.launchBack
-import sgtmelon.scriptum.extension.runBack
+import sgtmelon.common.utils.launchBack
+import sgtmelon.common.utils.runBack
 import sgtmelon.scriptum.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.presentation.control.note.save.ISaveControl

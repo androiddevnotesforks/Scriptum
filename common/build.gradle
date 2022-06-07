@@ -30,6 +30,7 @@ android {
 
 dependencies {
     implementation jetbrains.kotlin
+    implementation jetbrains.coroutines.core
 
     implementation androidx.core
     implementation androidx.appcompat

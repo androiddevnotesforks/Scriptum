@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.presentation.screen.vm.impl.preference.develop
 
-import android.app.Application
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
@@ -8,7 +7,7 @@ import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import sgtmelon.common.test.annotation.RunPrivate
-import sgtmelon.scriptum.extension.runBack
+import sgtmelon.common.utils.runBack
 import sgtmelon.scriptum.presentation.screen.ui.callback.preference.develop.IServiceDevelopFragment
 import sgtmelon.scriptum.presentation.screen.vm.callback.preference.develop.IServiceDevelopViewModel
 import sgtmelon.scriptum.presentation.screen.vm.impl.ParentViewModel

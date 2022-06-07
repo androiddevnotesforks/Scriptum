@@ -13,7 +13,7 @@ import sgtmelon.scriptum.domain.model.data.IntentData.Note.Default
 import sgtmelon.scriptum.domain.model.data.IntentData.Note.Intent
 import sgtmelon.scriptum.domain.model.item.NoteItem
 import sgtmelon.scriptum.domain.model.state.SignalState
-import sgtmelon.scriptum.extension.runBack
+import sgtmelon.common.utils.runBack
 import sgtmelon.common.test.idling.impl.AppIdlingResource
 import sgtmelon.scriptum.domain.model.annotation.test.IdlingTag
 import sgtmelon.scriptum.presentation.screen.ui.callback.notification.IAlarmActivity
