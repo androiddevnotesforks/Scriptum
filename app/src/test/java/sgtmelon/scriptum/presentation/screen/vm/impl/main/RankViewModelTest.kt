@@ -844,7 +844,7 @@ class RankViewModelTest : ParentViewModelTest() {
         val itemList = List(size = 5) {
             RankItem(id = Random.nextLong(), name = nextString())
         }
-        val nameList = itemList.map { it.name.toUpperCase() }
+        val nameList = itemList.map { it.name.uppercase() }
 
         assertEquals(nameList, viewModel.getNameList(itemList))
     }

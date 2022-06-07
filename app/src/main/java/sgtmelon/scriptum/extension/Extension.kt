@@ -23,10 +23,4 @@ fun String.toUri(): Uri? = let {
     }
 }
 
-/**
- * Make string upper/lowerCase without warning and without arguments.
- */
-fun String.toUpperCase() = uppercase(Locale.ROOT)
-fun String.toLowerCase() = uppercase(Locale.ROOT)
-
 fun String.clearSpace() = trim().replace("\\s+".toRegex(), replacement = " ")

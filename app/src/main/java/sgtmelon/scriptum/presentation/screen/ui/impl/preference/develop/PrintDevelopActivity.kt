@@ -102,7 +102,7 @@ class PrintDevelopActivity : AppActivity(), IPrintDevelopActivity {
             PrintType.ALARM -> R.string.pref_title_print_alarm
             PrintType.KEY -> R.string.pref_title_print_key
             PrintType.FILE -> R.string.pref_title_print_file
-        }).toLowerCase()
+        }).lowercase()
 
         toolbar.title = getString(R.string.title_print, titleText)
 

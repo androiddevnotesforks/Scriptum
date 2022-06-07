@@ -32,7 +32,7 @@ class AlarmControl(
         alarmManager?.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, intent)
 
         if (showToast) {
-            val date = calendar.formatFuture(context, DateUtils.DAY_IN_MILLIS).toLowerCase()
+            val date = calendar.formatFuture(context, DateUtils.DAY_IN_MILLIS).lowercase()
             toastControl.show(context.getString(R.string.toast_alarm_set, date))
         }
 

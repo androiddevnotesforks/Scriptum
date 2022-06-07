@@ -38,7 +38,8 @@ import android.graphics.Color as AndroidColor
 /**
  * Start screen of application.
  */
-class SplashActivity : ParentActivity(), ISplashActivity {
+class SplashActivity : ParentActivity(),
+    ISplashActivity {
 
     init {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)

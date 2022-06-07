@@ -46,7 +46,7 @@ class RankRenameDialogTest : ParentUiTest() {
     @Test fun dialogApplyRegister()  = data.insertRank().let {
         launch {
             mainScreen {
-                rankScreen { openRenameDialog(it.name) { onEnter(it.name.toUpperCase()) } }
+                rankScreen { openRenameDialog(it.name) { onEnter(it.name.uppercase()) } }
             }
         }
     }

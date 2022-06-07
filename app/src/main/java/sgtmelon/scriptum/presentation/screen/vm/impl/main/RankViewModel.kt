@@ -120,7 +120,7 @@ class RankViewModel(
 
     override fun onUpdateToolbar() {
         val enterName = callback?.getEnterText() ?: return
-        val clearName = enterName.clearSpace().toUpperCase()
+        val clearName = enterName.clearSpace().uppercase()
 
         callback?.onBindingToolbar(
                 isClearEnable = enterName.isNotEmpty(),
@@ -152,7 +152,7 @@ class RankViewModel(
     override fun onEditorClick(i: Int): Boolean {
         if (i != EditorInfo.IME_ACTION_DONE) return false
 
-        val name = callback?.getEnterText()?.clearSpace()?.toUpperCase()
+        val name = callback?.getEnterText()?.clearSpace()?.uppercase()
 
         if (name.isNullOrEmpty() || nameList.contains(name)) return false
 
@@ -164,7 +164,7 @@ class RankViewModel(
     override fun onClickEnterAdd(simpleClick: Boolean) {
         val name = callback?.clearEnter()?.clearSpace()
 
-        if (name.isNullOrEmpty() || nameList.contains(name.toUpperCase())) return
+        if (name.isNullOrEmpty() || nameList.contains(name.uppercase())) return
 
         callback?.dismissSnackbar()
 
@@ -214,8 +214,6 @@ class RankViewModel(
          * Save item for snackbar undo action.
          */
         cancelList.add(Pair(p, item))
-
-        // TODO if cancel list is too big (eg 10 items) need remove first in cancelList
 
         callback?.notifyItemRemoved(itemList, p)
         callback?.showSnackbar()
@@ -351,7 +349,7 @@ class RankViewModel(
 
     // TODO #REFACTOR join with variable
     @RunPrivate
-    fun getNameList(list: List<RankItem>): List<String> = list.map { it.name.toUpperCase() }
+    fun getNameList(list: List<RankItem>): List<String> = list.map { it.name.uppercase() }
 
     /**
      * Switch visible for all list. Make visible only item with position equal [p].

@@ -106,13 +106,13 @@ class RenameDialog : BlankDialog(),
          * If currently entered a title (ignore letter case) -> we may change name without
          * problem if it's not completely equals (without ignore letter case).
          */
-        val isEqualTitle = title.toUpperCase() == name.toUpperCase()
+        val isEqualTitle = title.uppercase() == name.uppercase()
 
         /**
          * If [name] not title -> check [nameList] for allowed name (if [nameList] not contains
          * our [name] -> may save).
          */
-        return if (isEqualTitle) title != name else !nameList.contains(name.toUpperCase())
+        return if (isEqualTitle) title != name else !nameList.contains(name.uppercase())
     }
 
     // TODO test for isSaveEnabled
