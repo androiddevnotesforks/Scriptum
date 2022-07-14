@@ -10,11 +10,13 @@ fun Dialog.applyAnimation() = apply {
 }
 
 fun DialogFragment.safeShow(fm: FragmentManager, tag: String?) {
-    if (isAdded) return
-
-    show(fm, tag)
+    if (!isAdded) {
+        show(fm, tag)
+    }
 }
 
 fun DialogFragment.safeDismiss() {
-    if (isAdded) dismiss()
+    if (isAdded) {
+        dismiss()
+    }
 }

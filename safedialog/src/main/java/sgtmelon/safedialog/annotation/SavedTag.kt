@@ -10,99 +10,80 @@ import androidx.annotation.StringDef
 annotation class SavedTag {
 
     @StringDef(
-        Common.TITLE,
-        Common.POSITION,
-        Common.VALUE_INIT,
-        Common.VALUE,
-        Common.LIST,
-        Common.KEY
+        Common.TITLE, Common.POSITION,
+        Common.VALUE_INIT, Common.VALUE,
+        Common.LIST, Common.KEY
     )
     annotation class Common {
         companion object {
-            private const val PREFIX = "SAFE_COMMON"
-
-            const val TITLE = "${PREFIX}_TITLE"
-            const val POSITION = "${PREFIX}_POSITION"
-            const val VALUE_INIT = "${PREFIX}_VALUE_INIT"
-            const val VALUE = "${PREFIX}_VALUE"
-            const val LIST = "${PREFIX}_LIST"
-            const val KEY = "${PREFIX}_KEY"
+            const val TITLE = "SAFE_COMMON_TITLE"
+            const val POSITION = "SAFE_COMMON_POSITION"
+            const val VALUE_INIT = "SAFE_COMMON_VALUE_INIT"
+            const val VALUE = "SAFE_COMMON_VALUE"
+            const val LIST = "SAFE_COMMON_LIST"
+            const val KEY = "SAFE_COMMON_KEY"
         }
     }
 
     @StringDef(Blank.TITLE)
     annotation class Blank {
         companion object {
-            private const val PREFIX = "SAFE_BLANK"
-
-            const val TITLE = "${PREFIX}_TITLE"
+            const val TITLE = "SAFE_BLANK_TITLE"
         }
     }
 
     @StringDef(Options.TITLE, Options.LIST, Options.POSITION)
     annotation class Options {
         companion object {
-            private const val PREFIX = "SAFE_OPTIONS"
-
-            const val TITLE = "${PREFIX}_TITLE"
-            const val LIST = "${PREFIX}_LIST"
-            const val POSITION = "${PREFIX}_POSITION"
+            const val TITLE = "SAFE_OPTIONS_TITLE"
+            const val LIST = "SAFE_OPTIONS_LIST"
+            const val POSITION = "SAFE_OPTIONS_POSITION"
         }
     }
 
     @StringDef(Message.TYPE, Message.TEXT)
     annotation class Message {
         companion object {
-            private const val PREFIX = "SAFE_MESSAGE"
-
-            const val TYPE = "${PREFIX}_TYPE"
-            const val TEXT = "${PREFIX}_TEXT"
+            const val TYPE = "SAFE_MESSAGE_TYPE"
+            const val TEXT = "SAFE_MESSAGE_TEXT"
         }
     }
 
     @StringDef(Single.LIST, Single.APPLY, Single.CHECK_INIT, Single.CHECK)
     annotation class Single {
         companion object {
-            private const val PREFIX = "SAFE_SINGLE"
-
-            const val LIST = "${PREFIX}_LIST"
-            const val APPLY = "${PREFIX}_APPLY"
-            const val CHECK_INIT = "${PREFIX}_CHECK_INIT"
-            const val CHECK = "${PREFIX}_CHECK"
+            const val LIST = "SAFE_SINGLE_LIST"
+            const val APPLY = "SAFE_SINGLE_APPLY"
+            const val CHECK_INIT = "SAFE_SINGLE_CHECK_INIT"
+            const val CHECK = "SAFE_SINGLE_CHECK"
         }
     }
 
     @StringDef(Multiple.LIST, Multiple.AT_LEAST, Multiple.CHECK_INIT, Multiple.CHECK)
     annotation class Multiple {
         companion object {
-            private const val PREFIX = "SAFE_MULTIPLE"
-
-            const val LIST = "${PREFIX}_LIST"
-            const val AT_LEAST = "${PREFIX}_AT_LEAST"
-            const val CHECK_INIT = "${PREFIX}_CHECK_INIT"
-            const val CHECK = "${PREFIX}_CHECK"
+            const val LIST = "SAFE_MULTIPLE_LIST"
+            const val AT_LEAST = "SAFE_MULTIPLE_AT_LEAST"
+            const val CHECK_INIT = "SAFE_MULTIPLE_CHECK_INIT"
+            const val CHECK = "SAFE_MULTIPLE_CHECK"
         }
     }
 
     @StringDef(Time.VALUE, Time.LIST, Time.POSITION)
     annotation class Time {
         companion object {
-            private const val PREFIX = "SAFE_TIME"
-
-            const val VALUE = "${PREFIX}_VALUE"
-            const val LIST = "${PREFIX}_LIST"
-            const val POSITION = "${PREFIX}_POSITION"
+            const val VALUE = "SAFE_TIME_VALUE"
+            const val LIST = "SAFE_TIME_LIST"
+            const val POSITION = "SAFE_TIME_POSITION"
         }
     }
 
     @StringDef(Date.VALUE, Date.VISIBLE, Date.POSITION)
     annotation class Date {
         companion object {
-            private const val PREFIX = "SAFE_DATE"
-
-            const val VALUE = "${PREFIX}_VALUE"
-            const val VISIBLE = "${PREFIX}_VISIBLE"
-            const val POSITION = "${PREFIX}_POSITION"
+            const val VALUE = "SAFE_DATE_VALUE"
+            const val VISIBLE = "SAFE_DATE_VISIBLE"
+            const val POSITION = "SAFE_DATE_POSITION"
         }
     }
 }

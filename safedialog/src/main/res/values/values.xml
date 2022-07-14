@@ -2,5 +2,4 @@
 <resources>
 
     <integer name="dialog_anim_time">150</integer>
-
 </resources>
