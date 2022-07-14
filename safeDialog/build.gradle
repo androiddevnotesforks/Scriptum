@@ -1,7 +1,7 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-
-apply from: '../values.gradle'
+plugins {
+    id "com.android.library"
+    id "kotlin-android"
+}
 
 android {
     compileSdkVersion 31
@@ -11,29 +11,30 @@ android {
         targetSdkVersion 31
     }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
     implementation project(':common')
 
-    implementation jetbrains.kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.10"
 
-    implementation google.material
+    implementation "com.google.android.material:material:1.5.0"
 
-    implementation androidx.appcompat
-    implementation androidx.lifecycle.extensions
+    implementation "androidx.appcompat:appcompat:1.4.1"
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
 
-    testImplementation junit.core
-    testImplementation mockk.core
+    // TODO why testImplementation?
+//    testImplementation junit.core
+    testImplementation "io.mockk:mockk:1.12.2"
 }
