@@ -1,1 +1,1 @@
-include ':app', ':iconanim', ':safeDialog', ':common'
+include ':app', ':iconAnim', ':safeDialog', ':common'
