@@ -72,7 +72,7 @@ android {
 
 dependencies {
     implementation project(':iconAnim')
-    implementation project(':safeDialog')
+    implementation project(':libraries:safeDialog')
     implementation project(':common')
 
     //region Kotlin

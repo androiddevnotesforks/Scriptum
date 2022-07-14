@@ -26,7 +26,7 @@ abstract class BlankDialog : BlankEmptyDialog() {
         dialogInterface.cancel()
     }
 
-    protected val onNegativeClick = DialogInterface.OnClickListener { dialogInterface, i ->
+    protected val onNegativeClick = DialogInterface.OnClickListener { dialogInterface, _ ->
         dialogInterface.cancel()
     }
 

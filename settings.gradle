@@ -1,1 +1,2 @@
 include ':app', ':iconAnim', ':safeDialog', ':common'
+include ':libraries:safeDialog'

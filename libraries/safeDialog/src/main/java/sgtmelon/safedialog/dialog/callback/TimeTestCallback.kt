@@ -1,7 +1,7 @@
 package sgtmelon.safedialog.dialog.callback
 
 import sgtmelon.safedialog.dialog.time.TimeDialog
-import java.util.*
+import java.util.Calendar
 
 /**
  * Interface for manipulate [TimeDialog]. Call it only from UI tests.

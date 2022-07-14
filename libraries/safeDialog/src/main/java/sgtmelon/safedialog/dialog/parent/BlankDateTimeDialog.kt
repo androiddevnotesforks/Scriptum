@@ -10,7 +10,7 @@ import sgtmelon.common.utils.getNewCalendar
 import sgtmelon.safedialog.R
 import sgtmelon.safedialog.dialog.time.DateDialog
 import sgtmelon.safedialog.dialog.time.TimeDialog
-import java.util.*
+import java.util.Calendar
 
 /**
  * Base class for work with [DateDialog] and [TimeDialog].
