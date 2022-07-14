@@ -20,8 +20,6 @@ android {
 
         testInstrumentationRunner androidx.test.instrumentationRunner
 
-        vectorDrawables.useSupportLibrary = true
-
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
