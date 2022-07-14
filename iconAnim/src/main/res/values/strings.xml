@@ -9,5 +9,4 @@
 
     <string name="anim_cancel_group" translatable="false">cancel_group</string>
     <string name="anim_cancel_path" translatable="false">cancel_path</string>
-
 </resources>

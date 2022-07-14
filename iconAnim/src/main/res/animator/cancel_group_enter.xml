@@ -7,5 +7,4 @@
             android:valueFrom="360"
             android:valueTo="225"
             android:valueType="floatType"/>
-
 </set>

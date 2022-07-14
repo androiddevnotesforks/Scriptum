@@ -2,5 +2,4 @@
 <resources>
 
     <integer name="icon_animation_time">200</integer>
-
 </resources>

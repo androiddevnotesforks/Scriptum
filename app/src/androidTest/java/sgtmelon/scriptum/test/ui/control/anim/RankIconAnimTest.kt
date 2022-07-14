@@ -3,12 +3,12 @@ package sgtmelon.scriptum.test.ui.control.anim
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.iconanim.control.IconAnimControl
+import sgtmelon.iconanim.control.IconAnimControlImpl
 import sgtmelon.scriptum.presentation.screen.ui.impl.main.RankFragment
 import sgtmelon.scriptum.test.parent.ParentUiTest
 
 /**
- * Test of [IconAnimControl] animations for [RankFragment]
+ * Test of [IconAnimControlImpl] animations for [RankFragment]
  */
 @RunWith(AndroidJUnit4::class)
 class RankIconAnimTest : ParentUiTest() {

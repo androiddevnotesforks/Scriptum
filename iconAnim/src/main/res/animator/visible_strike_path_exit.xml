@@ -7,5 +7,4 @@
             android:valueFrom="M 2 4.27 L 3.27 3 L 3.27 3 L 2 4.27 Z"
             android:valueTo="M 19.73 22 L 21 20.73 L 3.27 3 L 2 4.27 Z"
             android:valueType="pathType"/>
-
 </set>

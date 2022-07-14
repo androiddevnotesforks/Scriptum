@@ -9,5 +9,4 @@
 
     <target android:name="@string/anim_visible_strike_mask"
             android:animation="@animator/visible_strike_mask_enter"/>
-
 </animated-vector>

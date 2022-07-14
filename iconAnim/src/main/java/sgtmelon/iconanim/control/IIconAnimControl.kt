@@ -4,7 +4,7 @@ import android.graphics.drawable.AnimatedVectorDrawable
 import sgtmelon.iconanim.callback.IconBlockCallback
 
 /**
- * Interface for communicate with [IconAnimControl].
+ * Interface for communicate with [IconAnimControlImpl].
  */
 interface IIconAnimControl {
 

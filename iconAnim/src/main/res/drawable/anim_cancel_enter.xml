@@ -8,5 +8,4 @@
 
     <target android:name="@string/anim_cancel_path"
             android:animation="@animator/cancel_path_enter"/>
-
 </animated-vector>

@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.graphics.drawable.Drawable
 import android.view.MenuItem
-import sgtmelon.iconanim.control.IconAnimControl
+import sgtmelon.iconanim.control.IconAnimControlImpl
 import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.iconanim.callback.IconChangeCallback
 import sgtmelon.iconanim.control.IIconAnimControl
@@ -29,7 +29,7 @@ class VisibleIconControl(
     private val visibleExitIcon = context.getTintDrawable(R.drawable.anim_visible_exit, R.attr.clIndicator)
             as? AnimatedVectorDrawable
 
-    private val iconAnimControl: IIconAnimControl = IconAnimControl(
+    private val iconAnimControl: IIconAnimControl = IconAnimControlImpl(
         context, visibleEnterIcon, visibleExitIcon, changeCallback = this
     ).apply { this.blockCallback = callback }
 

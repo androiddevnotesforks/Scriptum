@@ -10,7 +10,7 @@ import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatImageButton
 import sgtmelon.common.utils.getDrawableCompat
 import sgtmelon.common.utils.setColorFilterCompat
-import sgtmelon.iconanim.control.IconAnimControl
+import sgtmelon.iconanim.control.IconAnimControlImpl
 import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.iconanim.callback.IconChangeCallback
 import sgtmelon.iconanim.R
@@ -68,7 +68,7 @@ class SwitchButton(
             null
         }
 
-        animControl = IconAnimControl(context, iconSelectAnim, iconDisableAnim, changeCallback = this)
+        animControl = IconAnimControlImpl(context, iconSelectAnim, iconDisableAnim, changeCallback = this)
     }
 
     init {

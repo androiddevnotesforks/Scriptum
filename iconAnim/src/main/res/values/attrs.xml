@@ -10,5 +10,4 @@
         <attr name="srcSelectColor" format="color"/>
         <attr name="srcState" format="boolean"/>
     </declare-styleable>
-
 </resources>
