@@ -3,8 +3,8 @@ package sgtmelon.scriptum.cleanup.dagger.module.base
 import dagger.Module
 import dagger.Provides
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
-import sgtmelon.scriptum.cleanup.data.provider.PreferenceProvider
-import sgtmelon.scriptum.cleanup.data.repository.preference.IPreferenceRepo
+import sgtmelon.scriptum.infrastructure.preferences.PreferenceProvider
+import sgtmelon.scriptum.infrastructure.preferences.IPreferenceRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.*
 import sgtmelon.scriptum.cleanup.data.room.backup.IBackupParser
 import sgtmelon.scriptum.cleanup.data.room.converter.type.IntConverter

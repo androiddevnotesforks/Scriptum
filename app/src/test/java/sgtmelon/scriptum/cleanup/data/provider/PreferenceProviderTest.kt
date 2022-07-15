@@ -12,6 +12,7 @@ import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.parent.ParentTest
 import kotlin.random.Random
+import sgtmelon.scriptum.infrastructure.preferences.PreferenceProvider
 
 /**
  * Test of [PreferenceProvider].

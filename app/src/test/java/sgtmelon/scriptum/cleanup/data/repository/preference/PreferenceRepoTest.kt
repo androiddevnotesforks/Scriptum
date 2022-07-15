@@ -10,9 +10,10 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import sgtmelon.common.utils.nextString
-import sgtmelon.scriptum.cleanup.data.provider.PreferenceProvider
+import sgtmelon.scriptum.infrastructure.preferences.PreferenceProvider
 import sgtmelon.scriptum.parent.ParentTest
 import kotlin.random.Random
+import sgtmelon.scriptum.infrastructure.preferences.PreferenceRepo
 
 /**
  * Test for [PreferenceRepo].

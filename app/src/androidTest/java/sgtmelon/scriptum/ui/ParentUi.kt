@@ -11,8 +11,8 @@ import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.not
 import sgtmelon.scriptum.basic.exception.ThemeException
 import sgtmelon.scriptum.cleanup.dagger.module.base.ProviderModule
-import sgtmelon.scriptum.cleanup.data.repository.preference.IPreferenceRepo
-import sgtmelon.scriptum.cleanup.data.repository.preference.PreferenceRepo
+import sgtmelon.scriptum.infrastructure.preferences.IPreferenceRepo
+import sgtmelon.scriptum.infrastructure.preferences.PreferenceRepo
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
 
 /**

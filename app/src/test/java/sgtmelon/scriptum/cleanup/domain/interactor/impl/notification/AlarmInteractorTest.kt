@@ -8,7 +8,7 @@ import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.common.utils.*
 import sgtmelon.scriptum.*
-import sgtmelon.scriptum.cleanup.data.repository.preference.IPreferenceRepo
+import sgtmelon.scriptum.infrastructure.preferences.IPreferenceRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem

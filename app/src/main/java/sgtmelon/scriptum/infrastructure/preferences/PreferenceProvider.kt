@@ -1,10 +1,9 @@
-package sgtmelon.scriptum.cleanup.data.provider
+package sgtmelon.scriptum.infrastructure.preferences
 
 import android.content.res.Resources
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.data.provider.PreferenceProvider.Def
-import sgtmelon.scriptum.cleanup.data.provider.PreferenceProvider.Key
-import sgtmelon.scriptum.cleanup.data.repository.preference.PreferenceRepo
+import sgtmelon.scriptum.infrastructure.preferences.PreferenceProvider.Def
+import sgtmelon.scriptum.infrastructure.preferences.PreferenceProvider.Key
 
 /**
  * Provider of [Key] and [Def] values for [PreferenceRepo].

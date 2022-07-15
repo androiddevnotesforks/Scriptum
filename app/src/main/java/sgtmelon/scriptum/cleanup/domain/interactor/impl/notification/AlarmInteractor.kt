@@ -2,7 +2,7 @@ package sgtmelon.scriptum.cleanup.domain.interactor.impl.notification
 
 import sgtmelon.common.utils.getCalendarWithAdd
 import sgtmelon.common.utils.getText
-import sgtmelon.scriptum.cleanup.data.repository.preference.IPreferenceRepo
+import sgtmelon.scriptum.infrastructure.preferences.IPreferenceRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.IAlarmInteractor

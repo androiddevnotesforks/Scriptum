@@ -7,7 +7,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
 import sgtmelon.scriptum.data.Scroll
-import sgtmelon.scriptum.cleanup.data.repository.preference.PreferenceRepo
+import sgtmelon.scriptum.infrastructure.preferences.PreferenceRepo
 import sgtmelon.scriptum.test.parent.ParentUiTest
 
 /**

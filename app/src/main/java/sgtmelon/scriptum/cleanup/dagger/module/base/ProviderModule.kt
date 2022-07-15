@@ -6,7 +6,7 @@ import android.content.res.Resources
 import androidx.preference.PreferenceManager
 import dagger.Module
 import dagger.Provides
-import sgtmelon.scriptum.cleanup.data.provider.PreferenceProvider
+import sgtmelon.scriptum.infrastructure.preferences.PreferenceProvider
 import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
 import sgtmelon.scriptum.cleanup.presentation.provider.SummaryProvider
 import javax.inject.Singleton

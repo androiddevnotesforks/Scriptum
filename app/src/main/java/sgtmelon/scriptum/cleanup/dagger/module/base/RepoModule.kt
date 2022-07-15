@@ -3,10 +3,10 @@ package sgtmelon.scriptum.cleanup.dagger.module.base
 import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
-import sgtmelon.scriptum.cleanup.data.provider.PreferenceProvider
+import sgtmelon.scriptum.infrastructure.preferences.PreferenceProvider
 import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
-import sgtmelon.scriptum.cleanup.data.repository.preference.IPreferenceRepo
-import sgtmelon.scriptum.cleanup.data.repository.preference.PreferenceRepo
+import sgtmelon.scriptum.infrastructure.preferences.IPreferenceRepo
+import sgtmelon.scriptum.infrastructure.preferences.PreferenceRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.*
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.*
 import sgtmelon.scriptum.cleanup.data.room.converter.model.AlarmConverter

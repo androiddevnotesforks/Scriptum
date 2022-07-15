@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.data.repository.preference
+package sgtmelon.scriptum.infrastructure.preferences
 
 import sgtmelon.scriptum.cleanup.domain.model.annotation.*
 

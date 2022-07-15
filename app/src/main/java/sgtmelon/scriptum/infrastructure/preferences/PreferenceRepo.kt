@@ -1,7 +1,6 @@
-package sgtmelon.scriptum.cleanup.data.repository.preference
+package sgtmelon.scriptum.infrastructure.preferences
 
 import android.content.SharedPreferences
-import sgtmelon.scriptum.cleanup.data.provider.PreferenceProvider
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.notification.SignalInteractor
 import sgtmelon.scriptum.cleanup.domain.model.annotation.*
 

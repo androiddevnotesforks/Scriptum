@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.cleanup.domain.model.annotation
 
 import androidx.annotation.IntDef
-import sgtmelon.scriptum.cleanup.data.repository.preference.PreferenceRepo
+import sgtmelon.scriptum.infrastructure.preferences.PreferenceRepo
 
 /**
  * Describes signals in [PreferenceRepo.signal]
