@@ -4,10 +4,11 @@ package sgtmelon.common.utils
 
 import android.content.Context
 import android.text.format.DateUtils
-import sgtmelon.common.BuildConfig
 import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Locale
+import sgtmelon.common.BuildConfig
 import android.text.format.DateFormat as DateFormatAndroid
 
 // TODO add unit tests

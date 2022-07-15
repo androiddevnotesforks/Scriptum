@@ -3,20 +3,19 @@ package sgtmelon.safedialog.dialog.time
 import android.app.Dialog
 import android.app.TimePickerDialog
 import android.os.Bundle
+import java.util.Calendar
+import sgtmelon.common.test.annotation.RunNone
 import sgtmelon.common.utils.afterNow
 import sgtmelon.common.utils.clearSeconds
 import sgtmelon.common.utils.getText
 import sgtmelon.common.utils.is24Format
-import sgtmelon.common.test.annotation.RunNone
 import sgtmelon.safedialog.BuildConfig
 import sgtmelon.safedialog.annotation.SavedTag
-import sgtmelon.safedialog.utils.applyAnimation
-import sgtmelon.safedialog.dialog.parent.BlankDateTimeDialog
 import sgtmelon.safedialog.dialog.callback.TimeTestCallback
+import sgtmelon.safedialog.dialog.parent.BlankDateTimeDialog
 import sgtmelon.safedialog.dialog.parent.TouchTimePickerDialog
+import sgtmelon.safedialog.utils.applyAnimation
 import sgtmelon.safedialog.utils.safeShow
-import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * Dialog for choose time
@@ -26,9 +25,9 @@ class TimeDialog : BlankDateTimeDialog(), TimeTestCallback {
     private var dateList: ArrayList<String> = ArrayList()
 
     /**
-    * Save note item position in list for next operations. [DEF_POSITION] - if dialog open
-    * happened not from list.
-    */
+     * Save note item position in list for next operations. [DEF_POSITION] - if dialog open
+     * happened not from list.
+     */
     var position: Int = DEF_POSITION
         private set
 

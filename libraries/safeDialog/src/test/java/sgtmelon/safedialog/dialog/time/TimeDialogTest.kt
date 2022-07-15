@@ -4,6 +4,7 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.verifySequence
+import java.util.Calendar
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -11,7 +12,6 @@ import sgtmelon.common.utils.afterNow
 import sgtmelon.common.utils.getText
 import sgtmelon.common.utils.nextString
 import sgtmelon.safedialog.ParentTest
-import java.util.*
 
 /**
  * Test for [TimeDialog].
