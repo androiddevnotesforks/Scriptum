@@ -46,7 +46,7 @@ class NotePreferenceSortTest : ParentUiTest(),
             assert()
         }
 
-        assertEquals(value, preferenceRepo.sort)
+        assertEquals(value, appPreferences.sort)
     }
 
     /**
@@ -58,8 +58,8 @@ class NotePreferenceSortTest : ParentUiTest(),
 
         do {
             initValue = list.random()
-            preferenceRepo.sort = initValue
-        } while (preferenceRepo.sort == value)
+            appPreferences.sort = initValue
+        } while (appPreferences.sort == value)
 
         return initValue
     }

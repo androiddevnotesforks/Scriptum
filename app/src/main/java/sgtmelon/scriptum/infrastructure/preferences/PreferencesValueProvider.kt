@@ -2,13 +2,13 @@ package sgtmelon.scriptum.infrastructure.preferences
 
 import android.content.res.Resources
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.infrastructure.preferences.PreferenceProvider.Def
-import sgtmelon.scriptum.infrastructure.preferences.PreferenceProvider.Key
+import sgtmelon.scriptum.infrastructure.preferences.PreferencesValueProvider.Def
+import sgtmelon.scriptum.infrastructure.preferences.PreferencesValueProvider.Key
 
 /**
- * Provider of [Key] and [Def] values for [PreferenceRepo].
+ * Provider of [Key] and [Def] values for [AppPreferencesImpl].
  */
-class PreferenceProvider {
+class PreferencesValueProvider {
 
     class Key(resources: Resources) {
         val firstStart: String = resources.getString(R.string.pref_key_first_start)

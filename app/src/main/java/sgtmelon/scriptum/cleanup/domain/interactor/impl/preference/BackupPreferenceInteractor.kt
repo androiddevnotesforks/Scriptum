@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.impl.preference
 
-import sgtmelon.scriptum.infrastructure.preferences.IPreferenceRepo
+import sgtmelon.scriptum.infrastructure.preferences.AppPreferences
 import sgtmelon.scriptum.cleanup.data.repository.room.BackupRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IBackupRepo
@@ -23,7 +23,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IBac
  * Interactor for import/export backup files (for [IBackupPreferenceViewModel]).
  */
 class BackupPreferenceInteractor(
-    private val preferenceRepo: IPreferenceRepo,
+    private val preferenceRepo: AppPreferences,
     private val alarmRepo: IAlarmRepo,
     private val rankRepo: IRankRepo,
     private val noteRepo: INoteRepo,

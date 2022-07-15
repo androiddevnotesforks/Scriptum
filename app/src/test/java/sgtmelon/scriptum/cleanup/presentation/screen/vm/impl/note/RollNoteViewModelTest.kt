@@ -36,6 +36,8 @@ import kotlin.random.Random
 @ExperimentalCoroutinesApi
 class RollNoteViewModelTest : ParentViewModelTest() {
 
+    //region Setup
+
     @MockK lateinit var callback: IRollNoteFragment
     @MockK lateinit var parentCallback: INoteConnector
 
@@ -44,7 +46,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     @MockK lateinit var saveControl: ISaveControl
     @MockK lateinit var inputControl: IInputControl
 
-    private val viewModel by lazy { RollNoteViewModel(application) }
+    private val viewModel by lazy { RollNoteViewModel(callback, parentCallback, interactor) }
     private val spyViewModel by lazy { spyk(viewModel, recordPrivateCalls = true) }
 
     private val fastTest by lazy {
@@ -58,12 +60,8 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     @Before override fun setup() {
         super.setup()
 
-        viewModel.setCallback(callback)
-        viewModel.setParentCallback(parentCallback)
-        viewModel.setInteractor(interactor)
-
         viewModel.inputControl = inputControl
-        viewModel.saveControl = saveControl
+        viewModel.setSaveControl(saveControl)
 
         assertEquals(Note.Default.ID, viewModel.id)
         assertEquals(Note.Default.COLOR, viewModel.color)
@@ -82,6 +80,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
     @Test override fun onDestroy() = fastTest.onDestroy()
 
+    //endregion
 
     @Test fun cacheData() = fastTest.cacheData(mockk())
 

@@ -27,7 +27,7 @@ class PreferenceRotationTest : ParentRotationTest(), IPreferenceTest {
 
         assertNotEquals(initValue, value)
 
-        runTest({ preferenceRepo.theme = initValue }) {
+        runTest({ appPreferences.theme = initValue }) {
             openThemeDialog {
                 onClickItem(value)
                 automator.rotateSide()
@@ -37,7 +37,7 @@ class PreferenceRotationTest : ParentRotationTest(), IPreferenceTest {
             assert()
         }
 
-        assertEquals(value, preferenceRepo.theme)
+        assertEquals(value, appPreferences.theme)
     }
 
     @Theme private fun getThemeClick(@Theme initValue: Int): Int {
@@ -45,7 +45,7 @@ class PreferenceRotationTest : ParentRotationTest(), IPreferenceTest {
         return if (newValue == initValue) getThemeClick(initValue) else newValue
     }
 
-    @Test fun aboutDialog() = runTest({ preferenceRepo.isDeveloper = false }) {
+    @Test fun aboutDialog() = runTest({ appPreferences.isDeveloper = false }) {
         val clickTimes = (1..3).random()
 
         openAboutDialog {

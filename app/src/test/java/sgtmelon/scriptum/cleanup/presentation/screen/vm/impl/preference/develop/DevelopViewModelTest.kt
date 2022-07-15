@@ -27,17 +27,9 @@ class DevelopViewModelTest : ParentViewModelTest() {
     //region Setup
 
     @MockK lateinit var callback: IDevelopFragment
-
     @MockK lateinit var interactor: IDevelopInteractor
 
-    private val viewModel by lazy { DevelopViewModel(application) }
-
-    @Before override fun setup() {
-        super.setup()
-
-        viewModel.setCallback(callback)
-        viewModel.setInteractor(interactor)
-    }
+    private val viewModel by lazy { DevelopViewModel(callback, interactor) }
 
     @After override fun tearDown() {
         super.tearDown()

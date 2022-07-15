@@ -16,7 +16,7 @@ class SavePeriodDialogUi : ParentSelectDialogUi(
     R.array.pref_text_note_save_period
 ) {
 
-    override val initCheck: Int = preferenceRepo.savePeriod
+    override val initCheck: Int = appPreferences.savePeriod
     override var check: Int = initCheck
 
     fun onClickItem(@SavePeriod position: Int) = apply {

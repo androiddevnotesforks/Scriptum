@@ -40,7 +40,7 @@ class AlarmPreferenceVolumeTest : ParentUiTest(), IAlarmPreferenceTest {
             assert()
         }
 
-        assertEquals(value, preferenceRepo.volume)
+        assertEquals(value, appPreferences.volume)
     }
 
     /**
@@ -51,8 +51,8 @@ class AlarmPreferenceVolumeTest : ParentUiTest(), IAlarmPreferenceTest {
 
         do {
             initValue = VolumeDialogUi.random()
-            preferenceRepo.volume = initValue
-        } while (preferenceRepo.volume == value)
+            appPreferences.volume = initValue
+        } while (appPreferences.volume == value)
 
         return initValue
     }

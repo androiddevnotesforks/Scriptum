@@ -13,8 +13,8 @@ import sgtmelon.scriptum.ui.ParentUi
 class VolumeDialogUi : ParentUi(),
     IDialogUi {
 
-    private val initValue = preferenceRepo.volume
-    private var value = preferenceRepo.volume
+    private val initValue = appPreferences.volume
+    private var value = appPreferences.volume
 
     //region Views
 

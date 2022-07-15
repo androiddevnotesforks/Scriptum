@@ -25,17 +25,10 @@ class NotePreferenceViewModelTest : ParentViewModelTest() {
 
     //region Setup
 
-    @MockK lateinit var interactor: INotePreferenceInteractor
     @MockK lateinit var callback: INotePreferenceFragment
+    @MockK lateinit var interactor: INotePreferenceInteractor
 
-    private val viewModel by lazy { NotePreferenceViewModel(application) }
-
-    @Before override fun setup() {
-        super.setup()
-
-        viewModel.setCallback(callback)
-        viewModel.setInteractor(interactor)
-    }
+    private val viewModel by lazy { NotePreferenceViewModel(callback, interactor) }
 
     @After override fun tearDown() {
         super.tearDown()

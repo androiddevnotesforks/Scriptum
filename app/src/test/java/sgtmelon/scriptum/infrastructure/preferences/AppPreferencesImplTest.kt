@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.data.repository.preference
+package sgtmelon.scriptum.infrastructure.preferences
 
 import android.content.SharedPreferences
 import io.mockk.confirmVerified
@@ -10,23 +10,21 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import sgtmelon.common.utils.nextString
-import sgtmelon.scriptum.infrastructure.preferences.PreferenceProvider
 import sgtmelon.scriptum.parent.ParentTest
 import kotlin.random.Random
-import sgtmelon.scriptum.infrastructure.preferences.PreferenceRepo
 
 /**
- * Test for [PreferenceRepo].
+ * Test for [AppPreferencesImpl].
  */
-class PreferenceRepoTest : ParentTest() {
+class AppPreferencesImplTest : ParentTest() {
 
-    @MockK lateinit var keyProvider: PreferenceProvider.Key
-    @MockK lateinit var defProvider: PreferenceProvider.Def
+    @MockK lateinit var keyProvider: PreferencesValueProvider.Key
+    @MockK lateinit var defProvider: PreferencesValueProvider.Def
 
     @MockK lateinit var preferences: SharedPreferences
     @MockK lateinit var preferencesEditor: SharedPreferences.Editor
 
-    private val preferenceRepo by lazy { PreferenceRepo(keyProvider, defProvider, preferences) }
+    private val appPreferences by lazy { AppPreferencesImpl(keyProvider, defProvider, preferences) }
 
     @Before override fun setup() {
         super.setup()
@@ -52,7 +50,7 @@ class PreferenceRepoTest : ParentTest() {
         every { keyProvider.firstStart } returns keyValue
         every { defProvider.firstStart } returns defValue
         every { preferences.getBoolean(keyValue, defValue) } returns value
-        assertEquals(value, preferenceRepo.firstStart)
+        assertEquals(value, appPreferences.firstStart)
 
         verifySequence {
             keyProvider.firstStart
@@ -67,7 +65,7 @@ class PreferenceRepoTest : ParentTest() {
         val value = Random.nextBoolean()
 
         every { keyProvider.firstStart } returns keyValue
-        preferenceRepo.firstStart = value
+        appPreferences.firstStart = value
 
         verifySequence {
             preferences.edit()
@@ -85,7 +83,7 @@ class PreferenceRepoTest : ParentTest() {
         every { keyProvider.theme } returns keyValue
         every { defProvider.theme } returns defValue
         every { preferences.getInt(keyValue, defValue) } returns value
-        assertEquals(value, preferenceRepo.theme)
+        assertEquals(value, appPreferences.theme)
 
         verifySequence {
             keyProvider.theme
@@ -100,7 +98,7 @@ class PreferenceRepoTest : ParentTest() {
         val value = Random.nextInt()
 
         every { keyProvider.theme } returns keyValue
-        preferenceRepo.theme = value
+        appPreferences.theme = value
 
         verifySequence {
             preferences.edit()
@@ -119,7 +117,7 @@ class PreferenceRepoTest : ParentTest() {
         every { keyProvider.importSkip } returns keyValue
         every { defProvider.importSkip } returns defValue
         every { preferences.getBoolean(keyValue, defValue) } returns value
-        assertEquals(value, preferenceRepo.importSkip)
+        assertEquals(value, appPreferences.importSkip)
 
         verifySequence {
             keyProvider.importSkip
@@ -134,7 +132,7 @@ class PreferenceRepoTest : ParentTest() {
         val value = Random.nextBoolean()
 
         every { keyProvider.importSkip } returns keyValue
-        preferenceRepo.importSkip = value
+        appPreferences.importSkip = value
 
         verifySequence {
             preferences.edit()
@@ -153,7 +151,7 @@ class PreferenceRepoTest : ParentTest() {
         every { keyProvider.sort } returns keyValue
         every { defProvider.sort } returns defValue
         every { preferences.getInt(keyValue, defValue) } returns value
-        assertEquals(value, preferenceRepo.sort)
+        assertEquals(value, appPreferences.sort)
 
         verifySequence {
             keyProvider.sort
@@ -168,7 +166,7 @@ class PreferenceRepoTest : ParentTest() {
         val value = Random.nextInt()
 
         every { keyProvider.sort } returns keyValue
-        preferenceRepo.sort = value
+        appPreferences.sort = value
 
         verifySequence {
             preferences.edit()
@@ -186,7 +184,7 @@ class PreferenceRepoTest : ParentTest() {
         every { keyProvider.defaultColor } returns keyValue
         every { defProvider.defaultColor } returns defValue
         every { preferences.getInt(keyValue, defValue) } returns value
-        assertEquals(value, preferenceRepo.defaultColor)
+        assertEquals(value, appPreferences.defaultColor)
 
         verifySequence {
             keyProvider.defaultColor
@@ -201,7 +199,7 @@ class PreferenceRepoTest : ParentTest() {
         val value = Random.nextInt()
 
         every { keyProvider.defaultColor } returns keyValue
-        preferenceRepo.defaultColor = value
+        appPreferences.defaultColor = value
 
         verifySequence {
             preferences.edit()
@@ -219,7 +217,7 @@ class PreferenceRepoTest : ParentTest() {
         every { keyProvider.pauseSaveOn } returns keyValue
         every { defProvider.pauseSaveOn } returns defValue
         every { preferences.getBoolean(keyValue, defValue) } returns value
-        assertEquals(value, preferenceRepo.pauseSaveOn)
+        assertEquals(value, appPreferences.pauseSaveOn)
 
         verifySequence {
             keyProvider.pauseSaveOn
@@ -234,7 +232,7 @@ class PreferenceRepoTest : ParentTest() {
         val value = Random.nextBoolean()
 
         every { keyProvider.pauseSaveOn } returns keyValue
-        preferenceRepo.pauseSaveOn = value
+        appPreferences.pauseSaveOn = value
 
         verifySequence {
             preferences.edit()
@@ -252,7 +250,7 @@ class PreferenceRepoTest : ParentTest() {
         every { keyProvider.autoSaveOn } returns keyValue
         every { defProvider.autoSaveOn } returns defValue
         every { preferences.getBoolean(keyValue, defValue) } returns value
-        assertEquals(value, preferenceRepo.autoSaveOn)
+        assertEquals(value, appPreferences.autoSaveOn)
 
         verifySequence {
             keyProvider.autoSaveOn
@@ -267,7 +265,7 @@ class PreferenceRepoTest : ParentTest() {
         val value = Random.nextBoolean()
 
         every { keyProvider.autoSaveOn } returns keyValue
-        preferenceRepo.autoSaveOn = value
+        appPreferences.autoSaveOn = value
 
         verifySequence {
             preferences.edit()
@@ -285,7 +283,7 @@ class PreferenceRepoTest : ParentTest() {
         every { keyProvider.savePeriod } returns keyValue
         every { defProvider.savePeriod } returns defValue
         every { preferences.getInt(keyValue, defValue) } returns value
-        assertEquals(value, preferenceRepo.savePeriod)
+        assertEquals(value, appPreferences.savePeriod)
 
         verifySequence {
             keyProvider.savePeriod
@@ -300,7 +298,7 @@ class PreferenceRepoTest : ParentTest() {
         val value = Random.nextInt()
 
         every { keyProvider.savePeriod } returns keyValue
-        preferenceRepo.savePeriod = value
+        appPreferences.savePeriod = value
 
         verifySequence {
             preferences.edit()
@@ -319,7 +317,7 @@ class PreferenceRepoTest : ParentTest() {
         every { keyProvider.repeat } returns keyValue
         every { defProvider.repeat } returns defValue
         every { preferences.getInt(keyValue, defValue) } returns value
-        assertEquals(value, preferenceRepo.repeat)
+        assertEquals(value, appPreferences.repeat)
 
         verifySequence {
             keyProvider.repeat
@@ -334,7 +332,7 @@ class PreferenceRepoTest : ParentTest() {
         val value = Random.nextInt()
 
         every { keyProvider.repeat } returns keyValue
-        preferenceRepo.repeat = value
+        appPreferences.repeat = value
 
         verifySequence {
             preferences.edit()
@@ -352,7 +350,7 @@ class PreferenceRepoTest : ParentTest() {
         every { keyProvider.signal } returns keyValue
         every { defProvider.signal } returns defValue
         every { preferences.getInt(keyValue, defValue) } returns value
-        assertEquals(value, preferenceRepo.signal)
+        assertEquals(value, appPreferences.signal)
 
         verifySequence {
             keyProvider.signal
@@ -367,7 +365,7 @@ class PreferenceRepoTest : ParentTest() {
         val value = Random.nextInt()
 
         every { keyProvider.signal } returns keyValue
-        preferenceRepo.signal = value
+        appPreferences.signal = value
 
         verifySequence {
             preferences.edit()
@@ -385,10 +383,10 @@ class PreferenceRepoTest : ParentTest() {
         every { keyProvider.melodyUri } returns keyValue
         every { defProvider.melodyUri } returns defValue
         every { preferences.getString(keyValue, defValue) } returns null
-        assertEquals(defValue, preferenceRepo.melodyUri)
+        assertEquals(defValue, appPreferences.melodyUri)
 
         every { preferences.getString(keyValue, defValue) } returns value
-        assertEquals(value, preferenceRepo.melodyUri)
+        assertEquals(value, appPreferences.melodyUri)
 
         verifySequence {
             keyProvider.melodyUri
@@ -407,7 +405,7 @@ class PreferenceRepoTest : ParentTest() {
         val value = nextString()
 
         every { keyProvider.melodyUri } returns keyValue
-        preferenceRepo.melodyUri = value
+        appPreferences.melodyUri = value
 
         verifySequence {
             preferences.edit()
@@ -425,7 +423,7 @@ class PreferenceRepoTest : ParentTest() {
         every { keyProvider.volume } returns keyValue
         every { defProvider.volume } returns defValue
         every { preferences.getInt(keyValue, defValue) } returns value
-        assertEquals(value, preferenceRepo.volume)
+        assertEquals(value, appPreferences.volume)
 
         verifySequence {
             keyProvider.volume
@@ -440,7 +438,7 @@ class PreferenceRepoTest : ParentTest() {
         val value = Random.nextInt()
 
         every { keyProvider.volume } returns keyValue
-        preferenceRepo.volume = value
+        appPreferences.volume = value
 
         verifySequence {
             preferences.edit()
@@ -458,7 +456,7 @@ class PreferenceRepoTest : ParentTest() {
         every { keyProvider.volumeIncrease } returns keyValue
         every { defProvider.volumeIncrease } returns defValue
         every { preferences.getBoolean(keyValue, defValue) } returns value
-        assertEquals(value, preferenceRepo.volumeIncrease)
+        assertEquals(value, appPreferences.volumeIncrease)
 
         verifySequence {
             keyProvider.volumeIncrease
@@ -473,7 +471,7 @@ class PreferenceRepoTest : ParentTest() {
         val value = Random.nextBoolean()
 
         every { keyProvider.volumeIncrease } returns keyValue
-        preferenceRepo.volumeIncrease = value
+        appPreferences.volumeIncrease = value
 
         verifySequence {
             preferences.edit()
@@ -492,7 +490,7 @@ class PreferenceRepoTest : ParentTest() {
         every { keyProvider.isDeveloper } returns keyValue
         every { defProvider.isDeveloper } returns defValue
         every { preferences.getBoolean(keyValue, defValue) } returns value
-        assertEquals(value, preferenceRepo.isDeveloper)
+        assertEquals(value, appPreferences.isDeveloper)
 
         verifySequence {
             keyProvider.isDeveloper
@@ -507,7 +505,7 @@ class PreferenceRepoTest : ParentTest() {
         val value = Random.nextBoolean()
 
         every { keyProvider.isDeveloper } returns keyValue
-        preferenceRepo.isDeveloper = value
+        appPreferences.isDeveloper = value
 
         verifySequence {
             preferences.edit()
@@ -518,7 +516,7 @@ class PreferenceRepoTest : ParentTest() {
     }
 
     @Test fun clear() {
-        preferenceRepo.clear()
+        appPreferences.clear()
 
         verifySequence {
             preferences.edit()

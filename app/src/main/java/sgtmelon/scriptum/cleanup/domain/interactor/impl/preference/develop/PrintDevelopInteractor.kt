@@ -1,8 +1,8 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.impl.preference.develop
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.infrastructure.preferences.PreferenceProvider
-import sgtmelon.scriptum.infrastructure.preferences.IPreferenceRepo
+import sgtmelon.scriptum.infrastructure.preferences.PreferencesValueProvider
+import sgtmelon.scriptum.infrastructure.preferences.AppPreferences
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IDevelopRepo
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IPrintDevelopInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.ParentInteractor
@@ -19,9 +19,9 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.deve
  */
 class PrintDevelopInteractor(
     private val developRepo: IDevelopRepo,
-    private val key: PreferenceProvider.Key,
-    private val def: PreferenceProvider.Def,
-    private val preferenceRepo: IPreferenceRepo,
+    private val key: PreferencesValueProvider.Key,
+    private val def: PreferencesValueProvider.Def,
+    private val preferenceRepo: AppPreferences,
     private val fileControl: IFileControl
 ) : ParentInteractor(),
     IPrintDevelopInteractor {

@@ -20,17 +20,17 @@ import kotlin.random.Random
 class AlarmPreferenceLogic : ParentPreferenceLogic() {
 
     val alarmInteractor: IAlarmPreferenceInteractor = AlarmPreferenceInteractor(
-        provider, preferenceRepo, IntConverter()
+        provider, appPreferences, IntConverter()
     )
 
     val signalInteractor: ISignalInteractor = SignalInteractor(
-        RingtoneControl(context), preferenceRepo, IntConverter()
+        RingtoneControl(context), appPreferences, IntConverter()
     )
 
     override fun getScreenList(): List<PreferenceItem> {
         val list = mutableListOf(
             Header(R.string.pref_header_common),
-            Summary.Text(R.string.pref_title_alarm_repeat, provider.repeat[preferenceRepo.repeat])
+            Summary.Text(R.string.pref_title_alarm_repeat, provider.repeat[appPreferences.repeat])
         )
 
         val signalSummary = alarmInteractor.getSignalSummary(signalInteractor.typeCheck)
@@ -53,7 +53,7 @@ class AlarmPreferenceLogic : ParentPreferenceLogic() {
         list.add(Switch(
             R.string.pref_title_alarm_increase,
             R.string.pref_summary_alarm_increase,
-            preferenceRepo.volumeIncrease,
+            appPreferences.volumeIncrease,
             isMelody
         ))
 

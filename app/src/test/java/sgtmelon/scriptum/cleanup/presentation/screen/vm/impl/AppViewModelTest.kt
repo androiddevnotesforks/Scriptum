@@ -20,18 +20,12 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.IAppActivity
 @ExperimentalCoroutinesApi
 class AppViewModelTest : ParentViewModelTest() {
 
-    @MockK lateinit var callback: IAppActivity
+    //region Setup
 
+    @MockK lateinit var callback: IAppActivity
     @MockK lateinit var interactor: IAppInteractor
 
-    private val viewModel by lazy { AppViewModel(application) }
-
-    @Before override fun setup() {
-        super.setup()
-
-        viewModel.setCallback(callback)
-        viewModel.setInteractor(interactor)
-    }
+    private val viewModel by lazy { AppViewModel(callback, interactor) }
 
     @After override fun tearDown() {
         super.tearDown()
@@ -44,6 +38,7 @@ class AppViewModelTest : ParentViewModelTest() {
         assertNull(viewModel.callback)
     }
 
+    //endregion
 
     @Test fun onSetup() {
         every { interactor.theme } returns Theme.LIGHT

@@ -9,7 +9,7 @@ import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.FastTest
-import sgtmelon.scriptum.infrastructure.preferences.IPreferenceRepo
+import sgtmelon.scriptum.infrastructure.preferences.AppPreferences
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
@@ -26,7 +26,7 @@ import kotlin.random.Random
 @ExperimentalCoroutinesApi
 class NotesInteractorTest : ParentInteractorTest() {
 
-    @MockK lateinit var preferenceRepo: IPreferenceRepo
+    @MockK lateinit var preferenceRepo: AppPreferences
     @MockK lateinit var noteRepo: INoteRepo
     @MockK lateinit var alarmRepo: IAlarmRepo
     @MockK lateinit var rankRepo: IRankRepo

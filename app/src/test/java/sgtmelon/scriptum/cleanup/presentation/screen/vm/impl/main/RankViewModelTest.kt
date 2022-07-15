@@ -37,21 +37,17 @@ class RankViewModelTest : ParentViewModelTest() {
     private val data = TestData.Rank
 
     @MockK lateinit var callback: IRankFragment
-
     @MockK lateinit var interactor: IRankInteractor
 
     @MockK lateinit var openState: OpenState
 
-    private val viewModel by lazy { RankViewModel(application) }
+    private val viewModel by lazy { RankViewModel(callback, interactor) }
     private val spyViewModel by lazy { spyk(viewModel) }
 
     @Before override fun setup() {
         super.setup()
 
         every { callback.openState } returns openState
-
-        viewModel.setCallback(callback)
-        viewModel.setInteractor(interactor)
 
         assertTrue(viewModel.itemList.isEmpty())
         assertTrue(viewModel.cancelList.isEmpty())

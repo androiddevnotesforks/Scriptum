@@ -16,7 +16,7 @@ class RepeatDialogUi : ParentSelectDialogUi(
     R.array.pref_text_alarm_repeat
 ) {
 
-    override val initCheck: Int = preferenceRepo.repeat
+    override val initCheck: Int = appPreferences.repeat
     override var check: Int = initCheck
 
     fun onClickItem(@Repeat position: Int) = apply {

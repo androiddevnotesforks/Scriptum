@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.data.provider
+package sgtmelon.scriptum.infrastructure.preferences
 
 import android.content.res.Resources
 import io.mockk.confirmVerified
@@ -12,17 +12,17 @@ import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.parent.ParentTest
 import kotlin.random.Random
-import sgtmelon.scriptum.infrastructure.preferences.PreferenceProvider
+import sgtmelon.scriptum.infrastructure.preferences.PreferencesValueProvider
 
 /**
- * Test of [PreferenceProvider].
+ * Test of [PreferencesValueProvider].
  */
-class PreferenceProviderTest : ParentTest() {
+class PreferencesValueProviderTest : ParentTest() {
 
     @MockK lateinit var resources: Resources
 
-    private val providerKey by lazy { PreferenceProvider.Key(resources) }
-    private val providerDef by lazy { PreferenceProvider.Def(resources) }
+    private val providerKey by lazy { PreferencesValueProvider.Key(resources) }
+    private val providerDef by lazy { PreferencesValueProvider.Def(resources) }
 
     @After override fun tearDown() {
         super.tearDown()

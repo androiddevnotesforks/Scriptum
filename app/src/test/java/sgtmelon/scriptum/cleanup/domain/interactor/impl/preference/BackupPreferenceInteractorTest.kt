@@ -9,7 +9,7 @@ import org.junit.Before
 import org.junit.Test
 import sgtmelon.common.utils.nextShortString
 import sgtmelon.common.utils.nextString
-import sgtmelon.scriptum.infrastructure.preferences.IPreferenceRepo
+import sgtmelon.scriptum.infrastructure.preferences.AppPreferences
 import sgtmelon.scriptum.cleanup.data.repository.room.BackupRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IBackupRepo
@@ -34,7 +34,7 @@ import kotlin.random.Random
 @ExperimentalCoroutinesApi
 class BackupPreferenceInteractorTest : ParentInteractorTest() {
 
-    @MockK lateinit var preferenceRepo: IPreferenceRepo
+    @MockK lateinit var preferenceRepo: AppPreferences
     @MockK lateinit var alarmRepo: IAlarmRepo
     @MockK lateinit var rankRepo: IRankRepo
     @MockK lateinit var noteRepo: INoteRepo

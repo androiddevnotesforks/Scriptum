@@ -27,18 +27,10 @@ class BinViewModelTest : ParentViewModelTest() {
     //region Setup
 
     @MockK lateinit var callback: IBinFragment
-
     @MockK lateinit var interactor: IBinInteractor
 
-    private val viewModel by lazy { BinViewModel(application) }
+    private val viewModel by lazy { BinViewModel(callback, interactor) }
     private val spyViewModel by lazy { spyk(viewModel) }
-
-    @Before override fun setup() {
-        super.setup()
-
-        viewModel.setCallback(callback)
-        viewModel.setInteractor(interactor)
-    }
 
     @After override fun tearDown() {
         super.tearDown()

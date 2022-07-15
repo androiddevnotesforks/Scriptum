@@ -12,7 +12,7 @@ import sgtmelon.scriptum.test.parent.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class SplashTest : ParentUiTest() {
 
-    @Test fun introScreenOpen() = launch({ preferenceRepo.firstStart = true }) { introScreen() }
+    @Test fun introScreenOpen() = launch({ appPreferences.firstStart = true }) { introScreen() }
 
     @Test fun mainScreenOpen() = launch { mainScreen() }
 

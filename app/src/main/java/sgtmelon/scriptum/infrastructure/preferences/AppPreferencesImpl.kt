@@ -7,11 +7,11 @@ import sgtmelon.scriptum.cleanup.domain.model.annotation.*
 /**
  * Repository for work with [SharedPreferences]
  */
-class PreferenceRepo(
-    private val key: PreferenceProvider.Key,
-    private val def: PreferenceProvider.Def,
+class AppPreferencesImpl(
+    private val key: PreferencesValueProvider.Key,
+    private val def: PreferencesValueProvider.Def,
     private val preferences: SharedPreferences
-) : IPreferenceRepo {
+) : AppPreferences {
 
     override var firstStart: Boolean
         get() = preferences.getBoolean(key.firstStart, def.firstStart)

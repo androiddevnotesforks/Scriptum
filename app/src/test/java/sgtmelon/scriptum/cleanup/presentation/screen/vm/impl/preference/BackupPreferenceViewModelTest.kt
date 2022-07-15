@@ -27,20 +27,15 @@ import kotlin.random.Random
 @ExperimentalCoroutinesApi
 class BackupPreferenceViewModelTest : ParentViewModelTest() {
 
-    @MockK lateinit var interactor: IBackupPreferenceInteractor
+    //region Setup
+
     @MockK lateinit var callback: IBackupPreferenceFragment
+    @MockK lateinit var interactor: IBackupPreferenceInteractor
 
     private val fileList = TestData.Backup.fileList
 
-    private val viewModel by lazy { BackupPreferenceViewModel(application) }
+    private val viewModel by lazy { BackupPreferenceViewModel(callback, interactor) }
     private val spyViewModel by lazy { spyk(viewModel) }
-
-    @Before override fun setup() {
-        super.setup()
-
-        viewModel.setCallback(callback)
-        viewModel.setInteractor(interactor)
-    }
 
     @After override fun tearDown() {
         super.tearDown()
@@ -53,6 +48,7 @@ class BackupPreferenceViewModelTest : ParentViewModelTest() {
         assertNull(viewModel.callback)
     }
 
+    //endregion
 
     @Test fun onSetup() {
         every { callback.getStoragePermissionResult() } returns null

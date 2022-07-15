@@ -2,7 +2,7 @@ package sgtmelon.scriptum.cleanup.domain.interactor.impl.system
 
 import sgtmelon.common.utils.beforeNow
 import sgtmelon.common.utils.getCalendar
-import sgtmelon.scriptum.infrastructure.preferences.IPreferenceRepo
+import sgtmelon.scriptum.infrastructure.preferences.AppPreferences
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IBindRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
@@ -19,7 +19,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.system.ISystemBridge
  * Interactor for [ISystemPresenter]
  */
 class SystemInteractor(
-    private val preferenceRepo: IPreferenceRepo,
+    private val preferenceRepo: AppPreferences,
     private val bindRepo: IBindRepo,
     private val alarmRepo: IAlarmRepo,
     private val rankRepo: IRankRepo,

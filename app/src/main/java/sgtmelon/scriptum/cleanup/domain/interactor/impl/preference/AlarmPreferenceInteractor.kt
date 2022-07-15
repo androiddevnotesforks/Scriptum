@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.impl.preference
 
-import sgtmelon.scriptum.infrastructure.preferences.IPreferenceRepo
+import sgtmelon.scriptum.infrastructure.preferences.AppPreferences
 import sgtmelon.scriptum.cleanup.data.room.converter.type.IntConverter
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IAlarmPreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Repeat
@@ -13,7 +13,7 @@ import java.util.*
  */
 class AlarmPreferenceInteractor(
     private val summaryProvider: SummaryProvider,
-    private val preferenceRepo: IPreferenceRepo,
+    private val preferenceRepo: AppPreferences,
     private val intConverter: IntConverter
 ) : IAlarmPreferenceInteractor {
 

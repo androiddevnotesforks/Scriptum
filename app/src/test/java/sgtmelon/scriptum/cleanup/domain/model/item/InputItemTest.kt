@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.cleanup.domain.model.item
 
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertThrows
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem.Cursor.Companion.get
@@ -32,9 +31,10 @@ class InputItemTest : ParentTest() {
 
 
     @Test fun throwOnNameTag() {
-        assertThrows(NullPointerException::class.java) {
-            InputItem(InputAction.NAME, valueFrom, valueTo)
-        }
+        TODO()
+//        assertThrows(NullPointerException::class.java) {
+//            InputItem(InputAction.NAME, valueFrom, valueTo)
+//        }
     }
 
     @Test fun notThrowOnNameTag() {
@@ -42,9 +42,10 @@ class InputItemTest : ParentTest() {
     }
 
     @Test fun throwOnTextTag() {
-        assertThrows(NullPointerException::class.java) {
-            InputItem(InputAction.TEXT, valueFrom, valueTo)
-        }
+        TODO()
+//        assertThrows(NullPointerException::class.java) {
+//            InputItem(InputAction.TEXT, valueFrom, valueTo)
+//        }
     }
 
     @Test fun notThrowOnTextTag() {
@@ -52,9 +53,10 @@ class InputItemTest : ParentTest() {
     }
 
     @Test fun throwOnRollTag() {
-        assertThrows(NullPointerException::class.java) {
-            InputItem(InputAction.ROLL, valueFrom, valueTo)
-        }
+        TODO()
+//        assertThrows(NullPointerException::class.java) {
+//            InputItem(InputAction.ROLL, valueFrom, valueTo)
+//        }
     }
 
     @Test fun notThrowOnRollTag() {

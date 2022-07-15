@@ -47,7 +47,7 @@ class PreferenceScreen : ParentPreferenceScreen<PreferenceLogic>(R.string.title_
     }
 
     fun openDeveloper(func: DeveloperScreen.() -> Unit = {}) {
-        if (!preferenceRepo.isDeveloper) {
+        if (!appPreferences.isDeveloper) {
             throw IllegalAccessException("You need turn on developer options")
         }
 

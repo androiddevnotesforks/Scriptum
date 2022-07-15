@@ -36,20 +36,12 @@ class NotesViewModelTest : ParentViewModelTest() {
     private val data = TestData.Note
 
     @MockK lateinit var callback: INotesFragment
-
     @MockK lateinit var interactor: INotesInteractor
 
     @MockK lateinit var calendar: Calendar
 
-    private val viewModel by lazy { NotesViewModel(application) }
+    private val viewModel by lazy { NotesViewModel(callback, interactor) }
     private val spyViewModel by lazy { spyk(viewModel) }
-
-    @Before override fun setup() {
-        super.setup()
-
-        viewModel.setCallback(callback)
-        viewModel.setInteractor(interactor)
-    }
 
     @After override fun tearDown() {
         super.tearDown()

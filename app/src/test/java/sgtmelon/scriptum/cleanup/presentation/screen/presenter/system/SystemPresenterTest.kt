@@ -23,7 +23,6 @@ class SystemPresenterTest : ParentPresenterTest() {
     //region Setup
 
     @MockK lateinit var callback: ISystemLogic
-
     @MockK lateinit var interactor: ISystemInteractor
 
     private val presenter by lazy { SystemPresenter(interactor) }

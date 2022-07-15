@@ -22,6 +22,8 @@ import kotlin.random.Random
 @ExperimentalCoroutinesApi
 class MainViewModelTest : ParentViewModelTest() {
 
+    //region Setup
+
     @MockK lateinit var callback: IMainActivity
 
     @MockK lateinit var bundle: Bundle
@@ -34,6 +36,7 @@ class MainViewModelTest : ParentViewModelTest() {
         assertNull(viewModel.callback)
     }
 
+    //endregion
 
     @Test fun onSetup_onFirstStart() = startCoTest {
         viewModel.pageFrom = MainPage.NOTES

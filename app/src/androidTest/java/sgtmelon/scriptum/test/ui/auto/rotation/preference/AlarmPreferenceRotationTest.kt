@@ -20,16 +20,16 @@ import kotlin.random.Random
 class AlarmPreferenceRotationTest : ParentRotationTest(), IAlarmPreferenceTest {
 
     @Test fun content() = runTest({
-        preferenceRepo.repeat = Repeat.list.random()
+        appPreferences.repeat = Repeat.list.random()
 
         val signalArray = getLogic().getRandomSignal()
         getLogic().alarmInteractor.updateSignal(signalArray)
 
         val melodyList = runBlocking { getLogic().signalInteractor.getMelodyList() }
-        preferenceRepo.melodyUri = melodyList.random().uri
+        appPreferences.melodyUri = melodyList.random().uri
 
-        preferenceRepo.volume = VolumeDialogUi.random()
-        preferenceRepo.volumeIncrease = Random.nextBoolean()
+        appPreferences.volume = VolumeDialogUi.random()
+        appPreferences.volumeIncrease = Random.nextBoolean()
     }) {
         automator.rotateSide()
         assert()
@@ -41,7 +41,7 @@ class AlarmPreferenceRotationTest : ParentRotationTest(), IAlarmPreferenceTest {
 
         assertNotEquals(initValue, value)
 
-        runTest({ preferenceRepo.repeat = initValue }) {
+        runTest({ appPreferences.repeat = initValue }) {
             openRepeatDialog {
                 onClickItem(value)
                 automator.rotateSide()
@@ -51,7 +51,7 @@ class AlarmPreferenceRotationTest : ParentRotationTest(), IAlarmPreferenceTest {
             assert()
         }
 
-        assertEquals(value, preferenceRepo.repeat)
+        assertEquals(value, appPreferences.repeat)
     }
 
     @Repeat private fun getRepeatClick(@Repeat initValue: Int): Int {
@@ -93,7 +93,7 @@ class AlarmPreferenceRotationTest : ParentRotationTest(), IAlarmPreferenceTest {
 
         runTest({
             getLogic().alarmInteractor.updateSignal(booleanArrayOf(true, Random.nextBoolean()))
-            preferenceRepo.melodyUri = initValue.uri
+            appPreferences.melodyUri = initValue.uri
         }) {
             openMelodyDialog {
                 onClickItem(list.indexOf(value))
@@ -102,7 +102,7 @@ class AlarmPreferenceRotationTest : ParentRotationTest(), IAlarmPreferenceTest {
             assert()
         }
 
-        assertEquals(initValue.uri, preferenceRepo.melodyUri)
+        assertEquals(initValue.uri, appPreferences.melodyUri)
     }
 
     private fun getMelodyClick(list: List<MelodyItem>, initValue: MelodyItem): MelodyItem {
@@ -118,7 +118,7 @@ class AlarmPreferenceRotationTest : ParentRotationTest(), IAlarmPreferenceTest {
 
         runTest({
             getLogic().alarmInteractor.updateSignal(booleanArrayOf(true, Random.nextBoolean()))
-            preferenceRepo.volume = initValue
+            appPreferences.volume = initValue
         }) {
             openVolumeDialog {
                 seekTo(value)
@@ -129,7 +129,7 @@ class AlarmPreferenceRotationTest : ParentRotationTest(), IAlarmPreferenceTest {
             assert()
         }
 
-        assertEquals(value, preferenceRepo.volume)
+        assertEquals(value, appPreferences.volume)
     }
 
     private fun getVolumeClick(initValue: Int): Int {

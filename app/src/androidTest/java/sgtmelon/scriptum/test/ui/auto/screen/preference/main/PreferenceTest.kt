@@ -14,9 +14,9 @@ class PreferenceTest : ParentUiTest(), IPreferenceTest {
 
     @Test fun close() = runTest { onClickClose() }
 
-    @Test fun assertAllNotDeveloper() = runTest({ preferenceRepo.isDeveloper = false }) { assert() }
+    @Test fun assertAllNotDeveloper() = runTest({ appPreferences.isDeveloper = false }) { assert() }
 
-    @Test fun assertAllDeveloper() = runTest({ preferenceRepo.isDeveloper = true }) { assert() }
+    @Test fun assertAllDeveloper() = runTest({ appPreferences.isDeveloper = true }) { assert() }
 
     @Test fun openBackup() = runTest { openBackup() }
 
@@ -28,7 +28,7 @@ class PreferenceTest : ParentUiTest(), IPreferenceTest {
 
     @Test fun openHelp() = runTest { openHelp() }
 
-    @Test fun aboutDialogWork() = runTest({ preferenceRepo.isDeveloper = false }) {
+    @Test fun aboutDialogWork() = runTest({ appPreferences.isDeveloper = false }) {
         openAboutDialog { unlockDeveloper() }
         openDeveloper { onClickClose() }
         openAboutDialog { unlockDeveloper() }
@@ -39,6 +39,6 @@ class PreferenceTest : ParentUiTest(), IPreferenceTest {
         assert()
     }
 
-    @Test fun openDeveloper() = runTest({ preferenceRepo.isDeveloper = true }) { openDeveloper() }
+    @Test fun openDeveloper() = runTest({ appPreferences.isDeveloper = true }) { openDeveloper() }
 
 }

@@ -22,6 +22,8 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.ISplashActivity
 @ExperimentalCoroutinesApi
 class SplashViewModelTest : ParentViewModelTest() {
 
+    //region Setup
+
     @MockK lateinit var callback: ISplashActivity
     @MockK lateinit var interactor: ISplashInteractor
 
@@ -40,6 +42,7 @@ class SplashViewModelTest : ParentViewModelTest() {
         assertNull(viewModel.callback)
     }
 
+    //endregion
 
     @Test fun onSetup_introStart() {
         every { bundle.getString(OpenFrom.INTENT_KEY) } returns null

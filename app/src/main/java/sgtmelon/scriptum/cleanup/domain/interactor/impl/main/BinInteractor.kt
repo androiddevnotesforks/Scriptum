@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.impl.main
 
-import sgtmelon.scriptum.infrastructure.preferences.IPreferenceRepo
+import sgtmelon.scriptum.infrastructure.preferences.AppPreferences
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.ParentInteractor
@@ -11,7 +11,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IBinViewMo
  * Interactor for [IBinViewModel].
  */
 class BinInteractor(
-    private val preferenceRepo: IPreferenceRepo,
+    private val preferenceRepo: AppPreferences,
     private val noteRepo: INoteRepo
 ) : ParentInteractor(),
     IBinInteractor {

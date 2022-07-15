@@ -36,17 +36,13 @@ class NotificationViewModelTest : ParentViewModelTest() {
     private val data = TestData.Notification
 
     @MockK lateinit var callback: INotificationActivity
-
     @MockK lateinit var interactor: INotificationInteractor
 
-    private val viewModel by lazy { NotificationViewModel(application) }
+    private val viewModel by lazy { NotificationViewModel(callback, interactor) }
     private val spyViewModel by lazy { spyk(viewModel) }
 
     @Before override fun setup() {
         super.setup()
-
-        viewModel.setCallback(callback)
-        viewModel.setInteractor(interactor)
 
         assertTrue(viewModel.cancelList.isEmpty())
         assertTrue(viewModel.itemList.isEmpty())

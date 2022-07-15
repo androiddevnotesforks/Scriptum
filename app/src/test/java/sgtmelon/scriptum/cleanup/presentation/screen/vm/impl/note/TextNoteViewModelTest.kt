@@ -33,6 +33,8 @@ import kotlin.random.Random
 @ExperimentalCoroutinesApi
 class TextNoteViewModelTest : ParentViewModelTest() {
 
+    //region Setup
+
     @MockK lateinit var callback: ITextNoteFragment
     @MockK lateinit var parentCallback: INoteConnector
 
@@ -41,7 +43,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
     @MockK lateinit var saveControl: ISaveControl
     @MockK lateinit var inputControl: IInputControl
 
-    private val viewModel by lazy { TextNoteViewModel(application) }
+    private val viewModel by lazy { TextNoteViewModel(callback, parentCallback, interactor) }
     private val spyViewModel by lazy { spyk(viewModel, recordPrivateCalls = true) }
 
     private val fastTest by lazy {
@@ -55,12 +57,8 @@ class TextNoteViewModelTest : ParentViewModelTest() {
     @Before override fun setup() {
         super.setup()
 
-        viewModel.setCallback(callback)
-        viewModel.setParentCallback(parentCallback)
-        viewModel.setInteractor(interactor)
-
         viewModel.inputControl = inputControl
-        viewModel.saveControl = saveControl
+        viewModel.setSaveControl(saveControl)
 
         assertEquals(Default.ID, viewModel.id)
         assertEquals(Default.COLOR, viewModel.color)
@@ -79,6 +77,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
 
     @Test override fun onDestroy() = fastTest.onDestroy()
 
+    //endregion
 
     @Test fun cacheData() = fastTest.cacheData(mockk())
 

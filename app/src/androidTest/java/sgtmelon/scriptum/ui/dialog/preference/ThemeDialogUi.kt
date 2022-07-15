@@ -15,7 +15,7 @@ class ThemeDialogUi : ParentSelectDialogUi(
     R.array.pref_text_app_theme
 ) {
 
-    override val initCheck: Int = preferenceRepo.theme
+    override val initCheck: Int = appPreferences.theme
     override var check: Int = initCheck
 
     fun onClickItem(@Theme position: Int) = apply {

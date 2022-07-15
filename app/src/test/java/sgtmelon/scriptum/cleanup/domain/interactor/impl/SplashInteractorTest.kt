@@ -6,7 +6,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Test
 import sgtmelon.scriptum.FastTest
-import sgtmelon.scriptum.infrastructure.preferences.IPreferenceRepo
+import sgtmelon.scriptum.infrastructure.preferences.AppPreferences
 import sgtmelon.scriptum.parent.ParentInteractorTest
 
 /**
@@ -15,7 +15,7 @@ import sgtmelon.scriptum.parent.ParentInteractorTest
 @ExperimentalCoroutinesApi
 class SplashInteractorTest : ParentInteractorTest() {
 
-    @MockK lateinit var preferenceRepo: IPreferenceRepo
+    @MockK lateinit var preferenceRepo: AppPreferences
 
     private val interactor by lazy { SplashInteractor(preferenceRepo) }
 

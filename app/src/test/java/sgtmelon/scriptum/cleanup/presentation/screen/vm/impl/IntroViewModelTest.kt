@@ -23,6 +23,8 @@ import kotlin.random.Random
 @ExperimentalCoroutinesApi
 class IntroViewModelTest : ParentViewModelTest() {
 
+    //region Setup
+
     @MockK lateinit var callback: IIntroActivity
     @MockK lateinit var interactor: IIntroInteractor
 
@@ -41,6 +43,7 @@ class IntroViewModelTest : ParentViewModelTest() {
         assertNull(viewModel.callback)
     }
 
+    //endregion
 
     @Test fun onSetup() {
         val isLastPage = Random.nextBoolean()

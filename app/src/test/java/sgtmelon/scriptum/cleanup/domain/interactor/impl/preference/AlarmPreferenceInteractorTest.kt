@@ -9,7 +9,7 @@ import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.FastTest
-import sgtmelon.scriptum.infrastructure.preferences.IPreferenceRepo
+import sgtmelon.scriptum.infrastructure.preferences.AppPreferences
 import sgtmelon.scriptum.cleanup.data.room.converter.type.IntConverter
 import sgtmelon.scriptum.getRandomSize
 import sgtmelon.scriptum.parent.ParentInteractorTest
@@ -26,7 +26,7 @@ class AlarmPreferenceInteractorTest : ParentInteractorTest() {
     //region Setup
 
     @MockK lateinit var summaryProvider: SummaryProvider
-    @MockK lateinit var preferenceRepo: IPreferenceRepo
+    @MockK lateinit var preferenceRepo: AppPreferences
     @MockK lateinit var intConverter: IntConverter
 
     private val interactor by lazy {

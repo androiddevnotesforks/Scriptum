@@ -26,17 +26,10 @@ class PreferenceViewModelTest : ParentViewModelTest() {
 
     //region Setup
 
-    @MockK lateinit var interactor: IPreferenceInteractor
     @MockK lateinit var callback: IPreferenceFragment
+    @MockK lateinit var interactor: IPreferenceInteractor
 
-    private val viewModel by lazy { PreferenceViewModel(application) }
-
-    @Before override fun setup() {
-        super.setup()
-
-        viewModel.setCallback(callback)
-        viewModel.setInteractor(interactor)
-    }
+    private val viewModel by lazy { PreferenceViewModel(callback, interactor) }
 
     @After override fun tearDown() {
         super.tearDown()

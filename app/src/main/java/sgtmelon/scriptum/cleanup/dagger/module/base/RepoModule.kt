@@ -3,10 +3,10 @@ package sgtmelon.scriptum.cleanup.dagger.module.base
 import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
-import sgtmelon.scriptum.infrastructure.preferences.PreferenceProvider
+import sgtmelon.scriptum.infrastructure.preferences.PreferencesValueProvider
 import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
-import sgtmelon.scriptum.infrastructure.preferences.IPreferenceRepo
-import sgtmelon.scriptum.infrastructure.preferences.PreferenceRepo
+import sgtmelon.scriptum.infrastructure.preferences.AppPreferences
+import sgtmelon.scriptum.infrastructure.preferences.AppPreferencesImpl
 import sgtmelon.scriptum.cleanup.data.repository.room.*
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.*
 import sgtmelon.scriptum.cleanup.data.room.converter.model.AlarmConverter
@@ -24,11 +24,11 @@ class RepoModule {
     @Provides
     @Singleton
     fun providePreferenceRepo(
-        keyProvider: PreferenceProvider.Key,
-        defProvider: PreferenceProvider.Def,
+        keyProvider: PreferencesValueProvider.Key,
+        defProvider: PreferencesValueProvider.Def,
         preferences: SharedPreferences
-    ): IPreferenceRepo {
-        return PreferenceRepo(keyProvider, defProvider, preferences)
+    ): AppPreferences {
+        return AppPreferencesImpl(keyProvider, defProvider, preferences)
     }
 
 

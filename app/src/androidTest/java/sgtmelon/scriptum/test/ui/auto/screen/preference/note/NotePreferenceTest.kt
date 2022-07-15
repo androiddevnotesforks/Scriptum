@@ -20,11 +20,11 @@ class NotePreferenceTest : ParentUiTest(), INotePreferenceTest {
     @Test fun close() = runTest { onClickClose() }
 
     @Test fun assertAll() = runTest({
-        preferenceRepo.sort = Sort.list.random()
-        preferenceRepo.defaultColor = Color.list.random()
-        preferenceRepo.pauseSaveOn = Random.nextBoolean()
-        preferenceRepo.autoSaveOn = Random.nextBoolean()
-        preferenceRepo.savePeriod = SavePeriod.list.random()
+        appPreferences.sort = Sort.list.random()
+        appPreferences.defaultColor = Color.list.random()
+        appPreferences.pauseSaveOn = Random.nextBoolean()
+        appPreferences.autoSaveOn = Random.nextBoolean()
+        appPreferences.savePeriod = SavePeriod.list.random()
     }) {
         assert()
     }
@@ -32,16 +32,16 @@ class NotePreferenceTest : ParentUiTest(), INotePreferenceTest {
     @Test fun pauseSaveWork() {
         val value = Random.nextBoolean()
 
-        runTest({ preferenceRepo.pauseSaveOn = value }) { onPauseSaveClick() }
+        runTest({ appPreferences.pauseSaveOn = value }) { onPauseSaveClick() }
 
-        assertEquals(!value, preferenceRepo.pauseSaveOn)
+        assertEquals(!value, appPreferences.pauseSaveOn)
     }
 
     @Test fun autoSaveWork() {
         val value = Random.nextBoolean()
 
-        runTest({ preferenceRepo.autoSaveOn = value }) { onAutoSaveClick() }
+        runTest({ appPreferences.autoSaveOn = value }) { onAutoSaveClick() }
 
-        assertEquals(!value, preferenceRepo.autoSaveOn)
+        assertEquals(!value, appPreferences.autoSaveOn)
     }
 }

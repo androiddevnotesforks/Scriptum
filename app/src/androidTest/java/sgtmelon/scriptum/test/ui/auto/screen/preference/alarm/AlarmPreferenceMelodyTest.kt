@@ -38,7 +38,7 @@ class AlarmPreferenceMelodyTest : ParentUiTest(), IAlarmPreferenceTest {
         val valueIndex = list.indexOf(pair.second)
 
         assertNotEquals(initIndex, valueIndex)
-        assertEquals(pair.first.uri, preferenceRepo.melodyUri)
+        assertEquals(pair.first.uri, appPreferences.melodyUri)
 
         runTest {
             openMelodyDialog {
@@ -50,7 +50,7 @@ class AlarmPreferenceMelodyTest : ParentUiTest(), IAlarmPreferenceTest {
             assert()
         }
 
-        assertEquals(pair.second.uri, preferenceRepo.melodyUri)
+        assertEquals(pair.second.uri, appPreferences.melodyUri)
     }
 
     /**
@@ -62,8 +62,8 @@ class AlarmPreferenceMelodyTest : ParentUiTest(), IAlarmPreferenceTest {
 
         do {
             initValue = list.random()
-            preferenceRepo.melodyUri = initValue.uri
-        } while (preferenceRepo.melodyUri == value.uri)
+            appPreferences.melodyUri = initValue.uri
+        } while (appPreferences.melodyUri == value.uri)
 
         return Pair(initValue, value)
     }

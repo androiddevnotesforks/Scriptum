@@ -8,7 +8,7 @@ import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.common.utils.*
 import sgtmelon.scriptum.*
-import sgtmelon.scriptum.infrastructure.preferences.IPreferenceRepo
+import sgtmelon.scriptum.infrastructure.preferences.AppPreferences
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
@@ -26,7 +26,7 @@ import kotlin.random.Random
 @ExperimentalCoroutinesApi
 class AlarmInteractorTest : ParentInteractorTest() {
 
-    @MockK lateinit var preferenceRepo: IPreferenceRepo
+    @MockK lateinit var preferenceRepo: AppPreferences
     @MockK lateinit var alarmRepo: IAlarmRepo
     @MockK lateinit var noteRepo: INoteRepo
 //    @MockK lateinit var callback: IAlarmBridge

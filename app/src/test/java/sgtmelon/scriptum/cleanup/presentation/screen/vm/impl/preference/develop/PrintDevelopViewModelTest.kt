@@ -24,19 +24,17 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.deve
 @ExperimentalCoroutinesApi
 class PrintDevelopViewModelTest : ParentViewModelTest() {
 
-    @MockK lateinit var callback: IPrintDevelopActivity
+    //region Setup
 
+    @MockK lateinit var callback: IPrintDevelopActivity
     @MockK lateinit var interactor: IPrintDevelopInteractor
 
     @MockK lateinit var bundle: Bundle
 
-    private val viewModel by lazy { PrintDevelopViewModel(application) }
+    private val viewModel by lazy { PrintDevelopViewModel(callback, interactor) }
 
     @Before override fun setup() {
         super.setup()
-
-        viewModel.setCallback(callback)
-        viewModel.setInteractor(interactor)
 
         assertTrue(viewModel.itemList.isEmpty())
         assertNull(viewModel.type)
@@ -53,6 +51,7 @@ class PrintDevelopViewModelTest : ParentViewModelTest() {
         assertNull(viewModel.callback)
     }
 
+    //endregion
 
     @Test fun onSetup() {
         val type = PrintType.values().random()

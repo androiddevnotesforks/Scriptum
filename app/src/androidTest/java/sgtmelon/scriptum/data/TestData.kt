@@ -2,7 +2,7 @@ package sgtmelon.scriptum.data
 
 import sgtmelon.common.utils.*
 import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
-import sgtmelon.scriptum.infrastructure.preferences.IPreferenceRepo
+import sgtmelon.scriptum.infrastructure.preferences.AppPreferences
 import sgtmelon.scriptum.cleanup.data.room.IRoomWork
 import sgtmelon.scriptum.cleanup.data.room.converter.model.AlarmConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.model.NoteConverter
@@ -28,7 +28,7 @@ import kotlin.random.Random
  */
 class TestData(
     override val roomProvider: RoomProvider,
-    private val preferenceRepo: IPreferenceRepo
+    private val preferenceRepo: AppPreferences
 ) : IRoomWork {
 
     private val noteConverter = NoteConverter()

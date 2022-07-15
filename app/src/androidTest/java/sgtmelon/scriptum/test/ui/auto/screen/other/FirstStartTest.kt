@@ -7,11 +7,11 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
 import sgtmelon.scriptum.data.Scroll
-import sgtmelon.scriptum.infrastructure.preferences.PreferenceRepo
+import sgtmelon.scriptum.infrastructure.preferences.AppPreferencesImpl
 import sgtmelon.scriptum.test.parent.ParentUiTest
 
 /**
- * Test for [PreferenceRepo.firstStart] logic
+ * Test for [AppPreferencesImpl.firstStart] logic
  */
 @RunWith(AndroidJUnit4::class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -19,7 +19,7 @@ class FirstStartTest : ParentUiTest() {
 
     @Before override fun setup() = Unit
 
-    @Test fun order0NotFinishIntro() = launch({ preferenceRepo.firstStart = true }) {
+    @Test fun order0NotFinishIntro() = launch({ appPreferences.firstStart = true }) {
         introScreen()
     }
 

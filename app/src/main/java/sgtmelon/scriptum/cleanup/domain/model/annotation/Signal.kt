@@ -1,10 +1,10 @@
 package sgtmelon.scriptum.cleanup.domain.model.annotation
 
 import androidx.annotation.IntDef
-import sgtmelon.scriptum.infrastructure.preferences.PreferenceRepo
+import sgtmelon.scriptum.infrastructure.preferences.AppPreferencesImpl
 
 /**
- * Describes signals in [PreferenceRepo.signal]
+ * Describes signals in [AppPreferencesImpl.signal]
  */
 @IntDef(Signal.MELODY, Signal.VIBRATION)
 annotation class Signal {

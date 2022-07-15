@@ -36,24 +36,18 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
     //endregion
 
+    //region Setup
+
     private val data = TestData.Note
 
     @MockK lateinit var callback: IAlarmActivity
-
     @MockK lateinit var interactor: IAlarmInteractor
     @MockK lateinit var signalInteractor: ISignalInteractor
 
     @MockK lateinit var bundle: Bundle
 
-    private val viewModel by lazy { AlarmViewModel(application) }
+    private val viewModel by lazy { AlarmViewModel(callback, interactor, signalInteractor) }
     private val spyViewModel by lazy { spyk(viewModel) }
-
-    @Before override fun setup() {
-        super.setup()
-
-        viewModel.setCallback(callback)
-        viewModel.setInteractor(interactor, signalInteractor)
-    }
 
     @After override fun tearDown() {
         super.tearDown()
@@ -63,36 +57,27 @@ class AlarmViewModelTest : ParentViewModelTest() {
     @Test override fun onDestroy() {
         assertNotNull(viewModel.callback)
 
-        viewModel.signalState = firstSignal
-        viewModel.onDestroy()
-
-        assertNull(viewModel.callback)
-        viewModel.setCallback(callback)
-        assertNotNull(viewModel.callback)
-
-        viewModel.signalState = secondSignal
+        val state = listOf(firstSignal, secondSignal).random()
+        viewModel.signalState = state
         viewModel.onDestroy()
 
         assertNull(viewModel.callback)
 
         verifySequence {
-            verifyOnDestroy(firstSignal)
-            verifyOnDestroy(secondSignal)
+            if (state.isMelody) {
+                callback.melodyStop()
+            }
+
+            if (state.isVibration) {
+                callback.vibrateCancel()
+            }
+
+            callback.releasePhone()
+            interactor.onDestroy()
         }
     }
 
-    private fun verifyOnDestroy(state: SignalState) {
-        if (state.isMelody) {
-            callback.melodyStop()
-        }
-
-        if (state.isVibration) {
-            callback.vibrateCancel()
-        }
-
-        callback.releasePhone()
-        interactor.onDestroy()
-    }
+    //endregion
 
 
     @Test fun onSetup_onFirstStart_withGoodModel() = startCoTest {

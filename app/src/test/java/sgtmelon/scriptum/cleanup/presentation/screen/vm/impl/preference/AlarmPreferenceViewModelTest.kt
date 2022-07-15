@@ -27,21 +27,16 @@ class AlarmPreferenceViewModelTest : ParentViewModelTest() {
 
     //region Setup
 
+    @MockK lateinit var callback: IAlarmPreferenceFragment
     @MockK lateinit var interactor: IAlarmPreferenceInteractor
     @MockK lateinit var signalInteractor: ISignalInteractor
-    @MockK lateinit var callback: IAlarmPreferenceFragment
 
     private val melodyList = TestData.Melody.melodyList
 
-    private val viewModel by lazy { AlarmPreferenceViewModel(application) }
-    private val spyViewModel by lazy { spyk(viewModel) }
-
-    @Before override fun setup() {
-        super.setup()
-
-        viewModel.setCallback(callback)
-        viewModel.setInteractor(interactor, signalInteractor)
+    private val viewModel by lazy {
+        AlarmPreferenceViewModel(callback, interactor, signalInteractor)
     }
+    private val spyViewModel by lazy { spyk(viewModel) }
 
     @After override fun tearDown() {
         super.tearDown()

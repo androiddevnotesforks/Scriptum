@@ -24,20 +24,14 @@ import kotlin.random.Random
 @ExperimentalCoroutinesApi
 class NoteViewModelTest : ParentViewModelTest() {
 
-    @MockK lateinit var callback: INoteActivity
+    //region Setup
 
+    @MockK lateinit var callback: INoteActivity
     @MockK lateinit var interactor: INoteInteractor
 
     @MockK lateinit var bundle: Bundle
 
-    private val viewModel by lazy { NoteViewModel(application) }
-
-    @Before override fun setup() {
-        super.setup()
-
-        viewModel.setCallback(callback)
-        viewModel.setInteractor(interactor)
-    }
+    private val viewModel by lazy { NoteViewModel(callback, interactor) }
 
     @After override fun tearDown() {
         super.tearDown()
@@ -49,6 +43,8 @@ class NoteViewModelTest : ParentViewModelTest() {
         viewModel.onDestroy()
         assertNull(viewModel.callback)
     }
+
+    //endregion
 
     @Test fun onSetup_nullBundle() {
         val color = Random.nextInt()
