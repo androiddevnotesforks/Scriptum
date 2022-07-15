@@ -18,12 +18,11 @@ class IconAnimControlImpl(
     context: Context,
     private val enterIcon: AnimatedVectorDrawable?,
     private val exitIcon: AnimatedVectorDrawable?,
-    private val changeCallback: IconChangeCallback
-) : IIconAnimControl {
+    private val changeCallback: IconChangeCallback,
+    override var blockCallback: IconBlockCallback? = null
+) : IconAnimControl {
 
     private val ioScope = CoroutineScope(Dispatchers.IO)
-
-    override var blockCallback: IconBlockCallback? = null
 
     /**
      * Variable for prevent double call of [blockCallback]. Sometimes happen tests idling

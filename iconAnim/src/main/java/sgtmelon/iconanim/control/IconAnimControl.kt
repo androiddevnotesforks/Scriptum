@@ -6,7 +6,7 @@ import sgtmelon.iconanim.callback.IconBlockCallback
 /**
  * Interface for communicate with [IconAnimControlImpl].
  */
-interface IIconAnimControl {
+interface IconAnimControl {
 
     var blockCallback: IconBlockCallback?
 

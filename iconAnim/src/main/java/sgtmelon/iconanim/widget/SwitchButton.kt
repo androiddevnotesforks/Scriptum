@@ -10,11 +10,11 @@ import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatImageButton
 import sgtmelon.common.utils.getDrawableCompat
 import sgtmelon.common.utils.setColorFilterCompat
-import sgtmelon.iconanim.control.IconAnimControlImpl
+import sgtmelon.iconanim.R
 import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.iconanim.callback.IconChangeCallback
-import sgtmelon.iconanim.R
-import sgtmelon.iconanim.control.IIconAnimControl
+import sgtmelon.iconanim.control.IconAnimControl
+import sgtmelon.iconanim.control.IconAnimControlImpl
 
 /**
  * Button with automatic icon change via [setDrawable] func.
@@ -38,7 +38,7 @@ class SwitchButton(
     private val iconDisableAnim: AnimatedVectorDrawable?
     private val iconSelectAnim: AnimatedVectorDrawable?
 
-    private val animControl: IIconAnimControl
+    private val animControl: IconAnimControl
 
     init {
         val array = context.obtainStyledAttributes(attrs, R.styleable.SwitchButton)
@@ -68,7 +68,9 @@ class SwitchButton(
             null
         }
 
-        animControl = IconAnimControlImpl(context, iconSelectAnim, iconDisableAnim, changeCallback = this)
+        animControl = IconAnimControlImpl(
+            context, iconSelectAnim, iconDisableAnim, changeCallback = this
+        )
     }
 
     init {

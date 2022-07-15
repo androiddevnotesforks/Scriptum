@@ -16,9 +16,8 @@ import sgtmelon.scriptum.presentation.listener.ItemListener
 import kotlin.math.min
 
 /**
- * Holder for rank, use in [RankAdapter].
+ * Holder for category items ([RankItem]), use inside [RankAdapter].
  */
-@SuppressLint("ClickableViewAccessibility")
 class RankHolder(
     itemView: View,
     private val clickListener: ItemListener.ActionClick,
@@ -67,7 +66,7 @@ class RankHolder(
             checkNoPosition {
                 clickListener.onItemClick(v, it) {
                     /**
-                     * It's important to update binding item, because adapter notify
+                     * It's important to update item, because adapter notify
                      * methods will not be called.
                      */
                     item.isVisible = !item.isVisible

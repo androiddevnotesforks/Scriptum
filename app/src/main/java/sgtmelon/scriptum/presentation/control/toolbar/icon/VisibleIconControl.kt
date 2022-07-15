@@ -7,7 +7,7 @@ import android.view.MenuItem
 import sgtmelon.iconanim.control.IconAnimControlImpl
 import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.iconanim.callback.IconChangeCallback
-import sgtmelon.iconanim.control.IIconAnimControl
+import sgtmelon.iconanim.control.IconAnimControl
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.getTintDrawable
 import sgtmelon.scriptum.presentation.screen.ui.impl.note.RollNoteFragment
@@ -29,9 +29,9 @@ class VisibleIconControl(
     private val visibleExitIcon = context.getTintDrawable(R.drawable.anim_visible_exit, R.attr.clIndicator)
             as? AnimatedVectorDrawable
 
-    private val iconAnimControl: IIconAnimControl = IconAnimControlImpl(
-        context, visibleEnterIcon, visibleExitIcon, changeCallback = this
-    ).apply { this.blockCallback = callback }
+    private val iconAnimControl: IconAnimControl = IconAnimControlImpl(
+        context, visibleEnterIcon, visibleExitIcon, changeCallback = this, callback
+    )
 
     override fun setDrawable(isEnterIcon: Boolean, needAnim: Boolean) {
         if (needAnim) {
