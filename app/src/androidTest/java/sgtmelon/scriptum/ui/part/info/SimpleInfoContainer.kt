@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.ui.part.info
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.data.SimpleInfoPage
+import sgtmelon.scriptum.data.SimpleInfoPage
 
 /**
  * Part of UI abstraction for control info. Use for simple constructions.

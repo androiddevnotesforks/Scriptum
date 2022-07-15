@@ -2,8 +2,8 @@ package sgtmelon.scriptum.ui.logic.preference
 
 import kotlinx.coroutines.runBlocking
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.data.item.PreferenceItem
-import sgtmelon.scriptum.cleanup.data.item.PreferenceItem.*
+import sgtmelon.scriptum.data.item.PreferenceItem
+import sgtmelon.scriptum.data.item.PreferenceItem.*
 import sgtmelon.scriptum.cleanup.data.room.converter.type.IntConverter
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IAlarmPreferenceInteractor

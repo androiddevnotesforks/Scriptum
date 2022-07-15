@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.ui.screen.note
 
 import org.junit.Assert.assertTrue
-import sgtmelon.scriptum.cleanup.data.State
+import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.ui.ParentUi

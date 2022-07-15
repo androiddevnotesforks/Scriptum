@@ -3,7 +3,7 @@ package sgtmelon.scriptum.ui
 import androidx.annotation.IdRes
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.basic.extension.*
-import sgtmelon.scriptum.cleanup.data.Scroll
+import sgtmelon.scriptum.data.Scroll
 
 /**
  * Parent class for screens which contains [RecyclerView].

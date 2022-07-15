@@ -2,7 +2,7 @@ package sgtmelon.scriptum.test.ui.auto.screen.main.rank
 
 import org.junit.Test
 import sgtmelon.common.utils.nextShortString
-import sgtmelon.scriptum.cleanup.data.Scroll
+import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.RankFragment
 import sgtmelon.scriptum.test.parent.ParentUiTest
 import sgtmelon.scriptum.ui.ParentRecyclerItem

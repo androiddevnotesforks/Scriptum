@@ -3,7 +3,7 @@ package sgtmelon.scriptum.ui.screen.main
 import org.junit.Assert.assertTrue
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
-import sgtmelon.scriptum.cleanup.data.SimpleInfoPage
+import sgtmelon.scriptum.data.SimpleInfoPage
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.RankFragment
 import sgtmelon.scriptum.ui.ParentRecyclerScreen

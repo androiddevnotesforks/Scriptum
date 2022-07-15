@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.data.Scroll
-import sgtmelon.scriptum.cleanup.data.WeightData
+import sgtmelon.scriptum.data.Scroll
+import sgtmelon.scriptum.data.WeightData
 import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
 import sgtmelon.scriptum.cleanup.domain.model.key.MainPage
 import sgtmelon.scriptum.test.parent.ParentUiTest

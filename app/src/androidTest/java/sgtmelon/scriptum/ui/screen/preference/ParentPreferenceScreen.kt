@@ -4,7 +4,7 @@ import androidx.annotation.StringRes
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
 import sgtmelon.scriptum.basic.extension.isDisplayed
-import sgtmelon.scriptum.cleanup.data.item.PreferenceItem
+import sgtmelon.scriptum.data.item.PreferenceItem
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceActivity
 import sgtmelon.scriptum.ui.IPressBack
 import sgtmelon.scriptum.ui.ParentUi

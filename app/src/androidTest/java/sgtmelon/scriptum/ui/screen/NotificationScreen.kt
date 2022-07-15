@@ -3,8 +3,8 @@ package sgtmelon.scriptum.ui.screen
 import org.junit.Assert.assertTrue
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
-import sgtmelon.scriptum.cleanup.data.SimpleInfoPage
-import sgtmelon.scriptum.cleanup.data.State
+import sgtmelon.scriptum.data.SimpleInfoPage
+import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.NotificationActivity
 import sgtmelon.scriptum.ui.IPressBack

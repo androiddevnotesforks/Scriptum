@@ -6,7 +6,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.After
 import org.junit.Before
 import sgtmelon.scriptum.cleanup.dagger.module.base.ProviderModule
-import sgtmelon.scriptum.cleanup.data.TestData
+import sgtmelon.scriptum.data.TestData
 import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
 import sgtmelon.scriptum.cleanup.data.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.cleanup.data.repository.preference.PreferenceRepo

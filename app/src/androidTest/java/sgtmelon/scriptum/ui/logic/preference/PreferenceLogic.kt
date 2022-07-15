@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.ui.logic.preference
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.data.item.PreferenceItem
+import sgtmelon.scriptum.data.item.PreferenceItem
 import sgtmelon.scriptum.ui.logic.parent.ParentPreferenceLogic
 import sgtmelon.scriptum.ui.screen.preference.PreferenceScreen
 

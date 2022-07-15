@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.ui.logic.parent
 
-import sgtmelon.scriptum.cleanup.data.item.PreferenceItem
+import sgtmelon.scriptum.data.item.PreferenceItem
 import sgtmelon.scriptum.cleanup.presentation.provider.SummaryProvider
 
 /**
