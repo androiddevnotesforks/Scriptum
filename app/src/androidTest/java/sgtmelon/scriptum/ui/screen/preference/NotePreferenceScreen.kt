@@ -28,7 +28,7 @@ class NotePreferenceScreen : ParentPreferenceScreen<NotePreferenceLogic>(R.strin
     }
 
     override fun onColorDialogResult(@Color check: Int) {
-        assertEquals(check, appPreferences.defaultColor)
+        assertEquals(check, preferences.defaultColor)
         assert()
     }
 

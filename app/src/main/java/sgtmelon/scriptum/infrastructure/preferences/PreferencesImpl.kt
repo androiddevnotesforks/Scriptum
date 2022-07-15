@@ -3,15 +3,17 @@ package sgtmelon.scriptum.infrastructure.preferences
 import android.content.SharedPreferences
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.notification.SignalInteractor
 import sgtmelon.scriptum.cleanup.domain.model.annotation.*
+import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesKeyProvider
+import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvider
 
 /**
  * Repository for work with [SharedPreferences]
  */
-class AppPreferencesImpl(
-    private val key: PreferencesValueProvider.Key,
-    private val def: PreferencesValueProvider.Def,
+class PreferencesImpl(
+    private val key: PreferencesKeyProvider,
+    private val def: PreferencesDefProvider,
     private val preferences: SharedPreferences
-) : AppPreferences {
+) : Preferences {
 
     override var firstStart: Boolean
         get() = preferences.getBoolean(key.firstStart, def.firstStart)

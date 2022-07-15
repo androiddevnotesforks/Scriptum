@@ -12,7 +12,7 @@ import org.junit.Test
 import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.FastTest
 import sgtmelon.scriptum.TestData
-import sgtmelon.scriptum.infrastructure.preferences.AppPreferences
+import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.parent.ParentInteractorTest
@@ -26,7 +26,7 @@ class BinInteractorTest : ParentInteractorTest() {
 
     private val data = TestData.Note
 
-    @MockK lateinit var preferenceRepo: AppPreferences
+    @MockK lateinit var preferenceRepo: Preferences
     @MockK lateinit var noteRepo: INoteRepo
     //    @MockK lateinit var callback: IBinBridge
 

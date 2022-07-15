@@ -15,7 +15,7 @@ class SortDialogUi : ParentSelectDialogUi(
     R.array.pref_text_note_sort
 ) {
 
-    override val initCheck: Int = appPreferences.sort
+    override val initCheck: Int = preferences.sort
     override var check: Int = initCheck
 
     fun onClickItem(@Sort position: Int) = apply {

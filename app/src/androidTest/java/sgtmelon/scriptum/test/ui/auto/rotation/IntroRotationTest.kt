@@ -16,7 +16,7 @@ class IntroRotationTest : ParentRotationTest() {
     /**
      * Was bug, when end button disappear after rotation on last page.
      */
-    @Test fun endButton() = launch({ appPreferences.firstStart = true }) {
+    @Test fun endButton() = launch({ preferences.firstStart = true }) {
         introScreen {
             onPassThrough(Scroll.END)
             automator.rotateSide()

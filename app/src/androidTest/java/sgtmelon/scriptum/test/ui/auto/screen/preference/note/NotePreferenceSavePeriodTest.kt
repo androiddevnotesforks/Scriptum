@@ -19,7 +19,7 @@ class NotePreferenceSavePeriodTest : ParentUiTest(),
     INotePreferenceTest,
     ISavePeriodTest {
 
-    @Test fun dialogClose() = runTest({ appPreferences.autoSaveOn = true }) {
+    @Test fun dialogClose() = runTest({ preferences.autoSaveOn = true }) {
         openSavePeriodDialog { onClickCancel() }
         assert()
         openSavePeriodDialog { onCloseSoft() }
@@ -37,12 +37,12 @@ class NotePreferenceSavePeriodTest : ParentUiTest(),
 
         assertNotEquals(initValue, value)
 
-        runTest({ appPreferences.autoSaveOn = true }) {
+        runTest({ preferences.autoSaveOn = true }) {
             openSavePeriodDialog { onClickItem(value).onClickApply() }
             assert()
         }
 
-        assertEquals(value, appPreferences.savePeriod)
+        assertEquals(value, preferences.savePeriod)
     }
 
     /**
@@ -54,8 +54,8 @@ class NotePreferenceSavePeriodTest : ParentUiTest(),
 
         do {
             initValue = list.random()
-            appPreferences.savePeriod = initValue
-        } while (appPreferences.savePeriod == value)
+            preferences.savePeriod = initValue
+        } while (preferences.savePeriod == value)
 
         return initValue
     }

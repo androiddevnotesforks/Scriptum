@@ -29,7 +29,7 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
 
     private fun startColorTest(@Theme theme: Int, type: NoteType) {
         setupTheme(theme)
-        appPreferences.sort = Sort.COLOR
+        preferences.sort = Sort.COLOR
 
         onAssertList(ArrayList<NoteItem>().also { list ->
             for (it in Color.list) {
@@ -63,7 +63,7 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
     open fun timeChangeRoll() = startTimeTest(NoteType.ROLL, Sort.CHANGE)
 
     private fun startTimeTest(type: NoteType, @Sort sort: Int) {
-        appPreferences.sort = sort
+        preferences.sort = sort
 
         onAssertList(ArrayList<NoteItem>().also { list ->
             for (it in lastArray) {
@@ -172,7 +172,7 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
 
     private fun startRankTest(@Theme theme: Int, type: NoteType) {
         setupTheme(theme)
-        appPreferences.sort = Sort.RANK
+        preferences.sort = Sort.RANK
 
         onAssertList(ArrayList<NoteItem>().also { list ->
             for (i in 10 downTo 0) {

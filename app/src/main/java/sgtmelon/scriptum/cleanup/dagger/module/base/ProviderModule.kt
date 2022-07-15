@@ -6,10 +6,11 @@ import android.content.res.Resources
 import androidx.preference.PreferenceManager
 import dagger.Module
 import dagger.Provides
-import sgtmelon.scriptum.infrastructure.preferences.PreferencesValueProvider
+import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvider
 import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
 import sgtmelon.scriptum.cleanup.presentation.provider.SummaryProvider
 import javax.inject.Singleton
+import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesKeyProvider
 
 /**
  * Module for provide providers classes.
@@ -25,14 +26,14 @@ class ProviderModule {
 
     @Provides
     @Singleton
-    fun providePreferenceKeyProvider(resources: Resources): PreferencesValueProvider.Key {
-        return PreferencesValueProvider.Key(resources)
+    fun providePreferenceKeyProvider(resources: Resources): PreferencesKeyProvider {
+        return PreferencesKeyProvider(resources)
     }
 
     @Provides
     @Singleton
-    fun providePreferenceDefProvider(resources: Resources): PreferencesValueProvider.Def {
-        return PreferencesValueProvider.Def(resources)
+    fun providePreferenceDefProvider(resources: Resources): PreferencesDefProvider {
+        return PreferencesDefProvider(resources)
     }
 
     @Provides

@@ -2,7 +2,7 @@ package sgtmelon.scriptum.cleanup.domain.interactor.impl.notification
 
 import sgtmelon.common.utils.getCalendarWithAdd
 import sgtmelon.common.utils.getText
-import sgtmelon.scriptum.infrastructure.preferences.AppPreferences
+import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.IAlarmInteractor
@@ -17,7 +17,7 @@ import java.util.*
  * Interactor for [IAlarmViewModel].
  */
 class AlarmInteractor(
-    private val preferenceRepo: AppPreferences,
+    private val preferenceRepo: Preferences,
     private val alarmRepo: IAlarmRepo,
     private val noteRepo: INoteRepo
 ) : ParentInteractor(),

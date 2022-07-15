@@ -6,7 +6,7 @@ import io.mockk.verifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Test
-import sgtmelon.scriptum.infrastructure.preferences.AppPreferences
+import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.parent.ParentInteractorTest
 
 /**
@@ -15,7 +15,7 @@ import sgtmelon.scriptum.parent.ParentInteractorTest
 @ExperimentalCoroutinesApi
 class IntroInteractorTest : ParentInteractorTest() {
 
-    @MockK lateinit var preferenceRepo: AppPreferences
+    @MockK lateinit var preferenceRepo: Preferences
 
     private val interactor by lazy { IntroInteractor(preferenceRepo) }
 

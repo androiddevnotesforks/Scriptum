@@ -1,10 +1,10 @@
 package sgtmelon.scriptum.cleanup.domain.model.annotation
 
 import androidx.annotation.IntDef
-import sgtmelon.scriptum.infrastructure.preferences.AppPreferencesImpl
+import sgtmelon.scriptum.infrastructure.preferences.PreferencesImpl
 
 /**
- * Describes repeat in [AppPreferencesImpl.repeat]
+ * Describes repeat in [PreferencesImpl.repeat]
  */
 @IntDef(Repeat.MIN_10, Repeat.MIN_30, Repeat.MIN_60, Repeat.MIN_180, Repeat.MIN_1440)
 annotation class Repeat {

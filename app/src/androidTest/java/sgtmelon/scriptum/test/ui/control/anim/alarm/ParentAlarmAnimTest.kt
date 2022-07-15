@@ -16,7 +16,7 @@ abstract class ParentAlarmAnimTest(@Theme private val theme: Int) : ParentUiTest
     override fun startTest(@Color value: Int) {
         setupTheme(theme)
 
-        with(appPreferences) {
+        with(preferences) {
             signal = Random.nextInt(from = 1, until = 3)
             volume = Random.nextInt(from = 50, until = 100)
             volumeIncrease = Random.nextBoolean()

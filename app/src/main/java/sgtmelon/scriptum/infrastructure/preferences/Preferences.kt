@@ -3,9 +3,9 @@ package sgtmelon.scriptum.infrastructure.preferences
 import sgtmelon.scriptum.cleanup.domain.model.annotation.*
 
 /**
- * Interface for communicate with [AppPreferencesImpl]
+ * Interface for communicate with [PreferencesImpl]
  */
-interface AppPreferences {
+interface Preferences {
 
     var firstStart: Boolean
 

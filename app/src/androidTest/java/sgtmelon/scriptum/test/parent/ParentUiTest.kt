@@ -46,7 +46,7 @@ abstract class ParentUiTest : ParentTest() {
      */
     protected fun setupTheme(@Theme theme: Int) {
         ParentUi.theme = theme
-        appPreferences.theme = theme
+        preferences.theme = theme
     }
 
     private fun setupIdling() {
@@ -70,7 +70,7 @@ abstract class ParentUiTest : ParentTest() {
          * Prepare preferences.
          */
         setupTheme(if (Random.nextBoolean()) Theme.LIGHT else Theme.DARK)
-        appPreferences.apply {
+        preferences.apply {
             firstStart = false
 
             sort = Sort.CHANGE

@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.impl.preference
 
-import sgtmelon.scriptum.infrastructure.preferences.AppPreferences
+import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.INotePreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.domain.model.annotation.SavePeriod
@@ -13,7 +13,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.INot
  */
 class NotePreferenceInteractor(
     private val summaryProvider: SummaryProvider,
-    private val preferenceRepo: AppPreferences
+    private val preferenceRepo: Preferences
 ) : INotePreferenceInteractor {
 
     @Sort override val sort: Int get() = preferenceRepo.sort

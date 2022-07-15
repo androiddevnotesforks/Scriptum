@@ -9,7 +9,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.scriptum.infrastructure.preferences.AppPreferences
+import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IDevelopRepo
 import sgtmelon.scriptum.parent.ParentInteractorTest
 import kotlin.random.Random
@@ -21,7 +21,7 @@ import kotlin.random.Random
 class DevelopInteractorTest : ParentInteractorTest() {
 
     @MockK lateinit var developRepo: IDevelopRepo
-    @MockK lateinit var preferenceRepo: AppPreferences
+    @MockK lateinit var preferenceRepo: Preferences
 
     private val interactor by lazy { DevelopInteractor(developRepo, preferenceRepo) }
 

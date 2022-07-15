@@ -15,7 +15,7 @@ abstract class ParentToolbarColorTest(@Theme private val theme: Int) : ParentUiT
 
     override fun startTest(@Color value: Int) {
         setupTheme(theme)
-        appPreferences.defaultColor = Color.list.filter { it != value }.random()
+        preferences.defaultColor = Color.list.filter { it != value }.random()
 
         launch {
             mainScreen {

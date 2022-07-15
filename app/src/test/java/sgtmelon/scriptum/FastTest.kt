@@ -7,7 +7,7 @@ import sgtmelon.common.utils.beforeNow
 import sgtmelon.common.utils.getCalendar
 import sgtmelon.common.utils.getText
 import sgtmelon.common.utils.nextString
-import sgtmelon.scriptum.infrastructure.preferences.AppPreferences
+import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
@@ -39,7 +39,7 @@ object FastTest {
 
     // TODO create common interactor or anything else for remove some fast test functions (like date)
 
-    fun getFirstStart(preferenceRepo: AppPreferences, callFunc: () -> Boolean) {
+    fun getFirstStart(preferenceRepo: Preferences, callFunc: () -> Boolean) {
         fun checkRequestGet(value: Boolean) {
             every { preferenceRepo.firstStart } returns value
             assertEquals(callFunc(), value)
@@ -55,7 +55,7 @@ object FastTest {
         }
     }
 
-    fun getTheme(preferenceRepo: AppPreferences, callFunc: () -> Int) {
+    fun getTheme(preferenceRepo: Preferences, callFunc: () -> Int) {
         fun checkRequestGet(value: Int) {
             every { preferenceRepo.theme } returns value
             assertEquals(callFunc(), value)
@@ -71,7 +71,7 @@ object FastTest {
         }
     }
 
-    fun getSort(preferenceRepo: AppPreferences, callFunc: () -> Int) {
+    fun getSort(preferenceRepo: Preferences, callFunc: () -> Int) {
         fun checkRequestGet(value: Int) {
             every { preferenceRepo.sort } returns value
             assertEquals(callFunc(), value)
@@ -87,7 +87,7 @@ object FastTest {
         }
     }
 
-    fun getDefaultColor(preferenceRepo: AppPreferences, callFunc: () -> Int) {
+    fun getDefaultColor(preferenceRepo: Preferences, callFunc: () -> Int) {
         fun checkRequestGet(value: Int) {
             every { preferenceRepo.defaultColor } returns value
             assertEquals(callFunc(), value)
@@ -103,7 +103,7 @@ object FastTest {
         }
     }
 
-    fun getRepeat(preferenceRepo: AppPreferences, callFunc: () -> Int) {
+    fun getRepeat(preferenceRepo: Preferences, callFunc: () -> Int) {
         fun checkRequestGet(value: Int) {
             every { preferenceRepo.repeat } returns value
             assertEquals(callFunc(), value)
@@ -119,7 +119,7 @@ object FastTest {
         }
     }
 
-    fun getVolume(preferenceRepo: AppPreferences, callFunc: () -> Int) {
+    fun getVolume(preferenceRepo: Preferences, callFunc: () -> Int) {
         fun checkRequestGet(value: Int) {
             every { preferenceRepo.volume } returns value
             assertEquals(callFunc(), value)
@@ -1076,7 +1076,7 @@ object FastTest {
 
         //region Note
 
-        fun getSaveModel(preferenceRepo: AppPreferences, callFunc: () -> SaveControl.Model) {
+        fun getSaveModel(preferenceRepo: Preferences, callFunc: () -> SaveControl.Model) {
             val model = with(Random) { SaveControl.Model(nextBoolean(), nextBoolean(), nextInt()) }
 
             every { preferenceRepo.pauseSaveOn } returns model.pauseSaveOn

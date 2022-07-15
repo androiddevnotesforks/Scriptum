@@ -31,9 +31,9 @@ class AlarmPreferenceTest : ParentUiTest(), IAlarmPreferenceTest {
 
         runTest({
             getLogic().alarmInteractor.updateSignal(booleanArrayOf(true, Random.nextBoolean()))
-            appPreferences.volumeIncrease = value
+            preferences.volumeIncrease = value
         }) { onVolumeIncreaseClick() }
 
-        assertEquals(!value, appPreferences.volumeIncrease)
+        assertEquals(!value, preferences.volumeIncrease)
     }
 }

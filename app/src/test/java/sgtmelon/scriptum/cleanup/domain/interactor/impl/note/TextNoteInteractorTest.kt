@@ -8,7 +8,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.scriptum.FastTest
-import sgtmelon.scriptum.infrastructure.preferences.AppPreferences
+import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
@@ -24,7 +24,7 @@ class TextNoteInteractorTest : ParentInteractorTest() {
 
     // TODO many items are common with [RollNoteInteractor]
 
-    @MockK lateinit var preferenceRepo: AppPreferences
+    @MockK lateinit var preferenceRepo: Preferences
     @MockK lateinit var alarmRepo: IAlarmRepo
     @MockK lateinit var rankRepo: IRankRepo
     @MockK lateinit var noteRepo: INoteRepo

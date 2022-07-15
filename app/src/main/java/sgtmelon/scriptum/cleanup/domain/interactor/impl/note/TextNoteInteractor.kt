@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.impl.note
 
 import sgtmelon.common.utils.getText
-import sgtmelon.scriptum.infrastructure.preferences.AppPreferences
+import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
@@ -17,7 +17,7 @@ import java.util.*
  * Interactor for [ITextNoteViewModel].
  */
 class TextNoteInteractor(
-    private val preferenceRepo: AppPreferences,
+    private val preferenceRepo: Preferences,
     private val alarmRepo: IAlarmRepo,
     private val rankRepo: IRankRepo,
     private val noteRepo: INoteRepo

@@ -15,27 +15,27 @@ class NotePreferenceLogic : ParentPreferenceLogic() {
             PreferenceItem.Header(R.string.pref_header_common),
             PreferenceItem.Summary.Text(
                 R.string.pref_title_note_sort,
-                provider.sort[appPreferences.sort]
+                provider.sort[preferences.sort]
             ),
             PreferenceItem.Summary.Text(
                 R.string.pref_title_note_color,
-                provider.color[appPreferences.defaultColor]
+                provider.color[preferences.defaultColor]
             ),
             PreferenceItem.Header(R.string.pref_header_save),
             PreferenceItem.Switch(
                 R.string.pref_title_note_save_pause,
                 R.string.pref_summary_note_save_pause,
-                appPreferences.pauseSaveOn
+                preferences.pauseSaveOn
             ),
             PreferenceItem.Switch(
                 R.string.pref_title_note_save_auto,
                 R.string.pref_summary_note_save_auto,
-                appPreferences.autoSaveOn
+                preferences.autoSaveOn
             ),
             PreferenceItem.Summary.Text(
                 R.string.pref_title_note_save_period,
-                provider.savePeriod[appPreferences.savePeriod],
-                appPreferences.autoSaveOn
+                provider.savePeriod[preferences.savePeriod],
+                preferences.autoSaveOn
             )
         )
     }

@@ -5,14 +5,14 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.infrastructure.preferences.AppPreferencesImpl
+import sgtmelon.scriptum.infrastructure.preferences.PreferencesImpl
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceFragment
 import sgtmelon.scriptum.test.parent.ParentUiTest
 import sgtmelon.scriptum.test.parent.situation.IColorTest
 
 /**
- * Test of [AppPreferencesImpl.defaultColor] setup for [PreferenceFragment]
+ * Test of [PreferencesImpl.defaultColor] setup for [PreferenceFragment]
  */
 @RunWith(AndroidJUnit4::class)
 class NotePreferenceColorTest : ParentUiTest(),
@@ -20,7 +20,7 @@ class NotePreferenceColorTest : ParentUiTest(),
     IColorTest {
 
     @Test fun dialogClose() = runTest {
-        val check = appPreferences.defaultColor
+        val check = preferences.defaultColor
 
         openColorDialog(check) { onClickCancel() }
         assert()
@@ -60,7 +60,7 @@ class NotePreferenceColorTest : ParentUiTest(),
             assert()
         }
 
-        assertEquals(value, appPreferences.defaultColor)
+        assertEquals(value, preferences.defaultColor)
     }
 
     /**
@@ -72,8 +72,8 @@ class NotePreferenceColorTest : ParentUiTest(),
 
         do {
             initValue = list.random()
-            appPreferences.defaultColor = initValue
-        } while (appPreferences.defaultColor == value)
+            preferences.defaultColor = initValue
+        } while (preferences.defaultColor == value)
 
         return initValue
     }

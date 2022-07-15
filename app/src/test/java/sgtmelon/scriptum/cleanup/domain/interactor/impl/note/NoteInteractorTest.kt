@@ -4,7 +4,7 @@ import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Test
 import sgtmelon.scriptum.FastTest
-import sgtmelon.scriptum.infrastructure.preferences.AppPreferences
+import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.parent.ParentInteractorTest
 
 /**
@@ -13,7 +13,7 @@ import sgtmelon.scriptum.parent.ParentInteractorTest
 @ExperimentalCoroutinesApi
 class NoteInteractorTest : ParentInteractorTest() {
 
-    @MockK lateinit var preferenceRepo: AppPreferences
+    @MockK lateinit var preferenceRepo: Preferences
 
     private val interactor by lazy { NoteInteractor(preferenceRepo) }
 

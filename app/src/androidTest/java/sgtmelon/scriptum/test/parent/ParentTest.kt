@@ -8,8 +8,8 @@ import org.junit.Before
 import sgtmelon.scriptum.cleanup.dagger.module.base.ProviderModule
 import sgtmelon.scriptum.data.TestData
 import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
-import sgtmelon.scriptum.infrastructure.preferences.AppPreferences
-import sgtmelon.scriptum.infrastructure.preferences.AppPreferencesImpl
+import sgtmelon.scriptum.infrastructure.preferences.Preferences
+import sgtmelon.scriptum.infrastructure.preferences.PreferencesImpl
 
 /**
  * Parent class for tests
@@ -19,13 +19,13 @@ abstract class ParentTest {
     protected val instrumentation = InstrumentationRegistry.getInstrumentation()
     protected val context: Context = instrumentation.targetContext
 
-    protected val appPreferences: AppPreferences = AppPreferencesImpl(
+    protected val preferences: Preferences = PreferencesImpl(
         ProviderModule().providePreferenceKeyProvider(context.resources),
         ProviderModule().providePreferenceDefProvider(context.resources),
         ProviderModule().provideSharedPreferences(context)
     )
 
-    protected val data = TestData(RoomProvider(context), appPreferences)
+    protected val data = TestData(RoomProvider(context), preferences)
 
     protected val dateList = listOf(DATE_1, DATE_2, DATE_3, DATE_4, DATE_5)
 

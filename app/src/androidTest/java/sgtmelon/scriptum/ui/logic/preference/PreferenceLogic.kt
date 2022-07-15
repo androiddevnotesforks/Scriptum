@@ -15,7 +15,7 @@ class PreferenceLogic : ParentPreferenceLogic() {
             PreferenceItem.Header(R.string.pref_header_app),
             PreferenceItem.Summary.Text(
                 R.string.pref_title_app_theme,
-                provider.theme[appPreferences.theme]
+                provider.theme[preferences.theme]
             ),
             PreferenceItem.Simple(R.string.pref_title_backup),
             PreferenceItem.Simple(R.string.pref_title_note),
@@ -26,7 +26,7 @@ class PreferenceLogic : ParentPreferenceLogic() {
             PreferenceItem.Simple(R.string.pref_title_other_about)
         )
 
-        if (appPreferences.isDeveloper) {
+        if (preferences.isDeveloper) {
             list.add(PreferenceItem.Simple(R.string.pref_title_other_develop))
         }
 

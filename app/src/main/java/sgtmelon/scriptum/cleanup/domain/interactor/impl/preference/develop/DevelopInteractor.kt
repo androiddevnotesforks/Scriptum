@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.impl.preference.develop
 
-import sgtmelon.scriptum.infrastructure.preferences.AppPreferences
+import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IDevelopRepo
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IDevelopInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.ParentInteractor
@@ -11,7 +11,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.deve
  */
 class DevelopInteractor(
     private val developRepo: IDevelopRepo,
-    private val preferenceRepo: AppPreferences
+    private val preferenceRepo: Preferences
 ) : ParentInteractor(),
     IDevelopInteractor {
 

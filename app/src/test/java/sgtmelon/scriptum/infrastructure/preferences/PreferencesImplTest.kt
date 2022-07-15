@@ -12,19 +12,21 @@ import org.junit.Test
 import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.parent.ParentTest
 import kotlin.random.Random
+import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesKeyProvider
+import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvider
 
 /**
- * Test for [AppPreferencesImpl].
+ * Test for [PreferencesImpl].
  */
-class AppPreferencesImplTest : ParentTest() {
+class PreferencesImplTest : ParentTest() {
 
-    @MockK lateinit var keyProvider: PreferencesValueProvider.Key
-    @MockK lateinit var defProvider: PreferencesValueProvider.Def
+    @MockK lateinit var keyProvider: PreferencesKeyProvider
+    @MockK lateinit var defProvider: PreferencesDefProvider
 
     @MockK lateinit var preferences: SharedPreferences
     @MockK lateinit var preferencesEditor: SharedPreferences.Editor
 
-    private val appPreferences by lazy { AppPreferencesImpl(keyProvider, defProvider, preferences) }
+    private val appPreferences by lazy { PreferencesImpl(keyProvider, defProvider, preferences) }
 
     @Before override fun setup() {
         super.setup()

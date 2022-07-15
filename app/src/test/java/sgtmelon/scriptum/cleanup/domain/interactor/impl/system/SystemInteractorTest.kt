@@ -9,7 +9,7 @@ import sgtmelon.common.utils.beforeNow
 import sgtmelon.common.utils.getCalendar
 import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.FastMock
-import sgtmelon.scriptum.infrastructure.preferences.AppPreferences
+import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IBindRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
@@ -29,7 +29,7 @@ import kotlin.random.Random
 @ExperimentalCoroutinesApi
 class SystemInteractorTest : ParentInteractorTest() {
 
-    @MockK lateinit var preferenceRepo: AppPreferences
+    @MockK lateinit var preferenceRepo: Preferences
     @MockK lateinit var bindRepo: IBindRepo
     @MockK lateinit var alarmRepo: IAlarmRepo
     @MockK lateinit var rankRepo: IRankRepo

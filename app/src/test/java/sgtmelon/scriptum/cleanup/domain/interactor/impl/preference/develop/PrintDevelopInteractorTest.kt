@@ -7,8 +7,8 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.infrastructure.preferences.PreferencesValueProvider
-import sgtmelon.scriptum.infrastructure.preferences.AppPreferences
+import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvider
+import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IDevelopRepo
 import sgtmelon.scriptum.cleanup.domain.model.annotation.FileType
 import sgtmelon.scriptum.cleanup.domain.model.item.FileItem
@@ -20,6 +20,7 @@ import sgtmelon.scriptum.parent.ParentInteractorTest
 import sgtmelon.scriptum.cleanup.presentation.control.file.IFileControl
 import java.io.File
 import kotlin.random.Random
+import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesKeyProvider
 
 /**
  * Test for [PrintDevelopInteractor]
@@ -28,9 +29,9 @@ import kotlin.random.Random
 class PrintDevelopInteractorTest : ParentInteractorTest() {
 
     @MockK lateinit var developRepo: IDevelopRepo
-    @MockK lateinit var key: PreferencesValueProvider.Key
-    @MockK lateinit var def: PreferencesValueProvider.Def
-    @MockK lateinit var preferenceRepo: AppPreferences
+    @MockK lateinit var key: PreferencesKeyProvider
+    @MockK lateinit var def: PreferencesDefProvider
+    @MockK lateinit var preferenceRepo: Preferences
     @MockK lateinit var fileControl: IFileControl
 
     private val interactor by lazy {

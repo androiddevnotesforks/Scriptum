@@ -48,7 +48,7 @@ class AlarmPreferenceRepeatTest : ParentUiTest(),
             assert()
         }
 
-        assertEquals(value, appPreferences.repeat)
+        assertEquals(value, preferences.repeat)
     }
 
     /**
@@ -60,8 +60,8 @@ class AlarmPreferenceRepeatTest : ParentUiTest(),
 
         do {
             initValue = list.random()
-            appPreferences.repeat = initValue
-        } while (appPreferences.repeat == repeat)
+            preferences.repeat = initValue
+        } while (preferences.repeat == repeat)
 
         return initValue
     }

@@ -11,8 +11,8 @@ import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.not
 import sgtmelon.scriptum.basic.exception.ThemeException
 import sgtmelon.scriptum.cleanup.dagger.module.base.ProviderModule
-import sgtmelon.scriptum.infrastructure.preferences.AppPreferences
-import sgtmelon.scriptum.infrastructure.preferences.AppPreferencesImpl
+import sgtmelon.scriptum.infrastructure.preferences.Preferences
+import sgtmelon.scriptum.infrastructure.preferences.PreferencesImpl
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
 
 /**
@@ -24,7 +24,7 @@ abstract class ParentUi {
 
     protected val context: Context = getInstrumentation().targetContext
 
-    protected val appPreferences: AppPreferences = AppPreferencesImpl(
+    protected val preferences: Preferences = PreferencesImpl(
         ProviderModule().providePreferenceKeyProvider(context.resources),
         ProviderModule().providePreferenceDefProvider(context.resources),
         ProviderModule().provideSharedPreferences(context)

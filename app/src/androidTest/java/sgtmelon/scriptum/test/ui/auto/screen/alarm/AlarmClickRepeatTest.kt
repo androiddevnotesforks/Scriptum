@@ -29,7 +29,7 @@ class AlarmClickRepeatTest : ParentUiTest(), IRepeatTest {
     @Test override fun repeatMin1440() = super.repeatMin1440()
 
     override fun startTest(@Repeat value: Int) {
-        appPreferences.repeat = value
+        preferences.repeat = value
 
         data.insertNote().let {
             launchAlarm(it) { openAlarm(it) { onClickRepeat() }.mainScreen() }
@@ -37,7 +37,7 @@ class AlarmClickRepeatTest : ParentUiTest(), IRepeatTest {
     }
 
     @Test fun dateExist() = data.insertText().let {
-        appPreferences.repeat = Repeat.MIN_10
+        preferences.repeat = Repeat.MIN_10
 
         launchAlarm(it) {
             val existDate = getCalendarWithAdd(min = 10).getText()
@@ -52,8 +52,8 @@ class AlarmClickRepeatTest : ParentUiTest(), IRepeatTest {
      * Check reset seconds on click repeat button. And check alarm receiver work with notes screen.
      */
     @Test fun correctSeconds() = data.insertText(data.textNote.copy(color = 1)).let {
-        appPreferences.sort = Sort.COLOR
-        appPreferences.repeat = listOf(
+        preferences.sort = Sort.COLOR
+        preferences.repeat = listOf(
             Repeat.MIN_10, Repeat.MIN_30, Repeat.MIN_60,
             Repeat.MIN_180, Repeat.MIN_1440
         ).random()

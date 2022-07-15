@@ -3,10 +3,10 @@ package sgtmelon.scriptum.cleanup.dagger.module.base
 import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
-import sgtmelon.scriptum.infrastructure.preferences.PreferencesValueProvider
+import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvider
 import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
-import sgtmelon.scriptum.infrastructure.preferences.AppPreferences
-import sgtmelon.scriptum.infrastructure.preferences.AppPreferencesImpl
+import sgtmelon.scriptum.infrastructure.preferences.Preferences
+import sgtmelon.scriptum.infrastructure.preferences.PreferencesImpl
 import sgtmelon.scriptum.cleanup.data.repository.room.*
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.*
 import sgtmelon.scriptum.cleanup.data.room.converter.model.AlarmConverter
@@ -14,6 +14,7 @@ import sgtmelon.scriptum.cleanup.data.room.converter.model.NoteConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.model.RankConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.model.RollConverter
 import javax.inject.Singleton
+import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesKeyProvider
 
 /**
  * Module for provide repo's
@@ -24,11 +25,11 @@ class RepoModule {
     @Provides
     @Singleton
     fun providePreferenceRepo(
-        keyProvider: PreferencesValueProvider.Key,
-        defProvider: PreferencesValueProvider.Def,
+        keyProvider: PreferencesKeyProvider,
+        defProvider: PreferencesDefProvider,
         preferences: SharedPreferences
-    ): AppPreferences {
-        return AppPreferencesImpl(keyProvider, defProvider, preferences)
+    ): Preferences {
+        return PreferencesImpl(keyProvider, defProvider, preferences)
     }
 
 

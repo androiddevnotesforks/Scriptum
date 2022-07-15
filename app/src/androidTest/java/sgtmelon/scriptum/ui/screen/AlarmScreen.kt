@@ -86,7 +86,7 @@ class AlarmScreen(
     fun waitRepeat() = waitBefore(AlarmViewModel.CANCEL_DELAY) { onRepeat() }
 
     private fun onRepeat(): Calendar {
-        val calendar = getCalendarWithAdd(min = repeatArray[appPreferences.repeat])
+        val calendar = getCalendarWithAdd(min = repeatArray[preferences.repeat])
 
         while (dateList?.contains(calendar.getText()) == true) {
             calendar.add(Calendar.MINUTE, 1)

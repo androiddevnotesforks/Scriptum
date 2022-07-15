@@ -19,7 +19,7 @@ class PreferenceThemeTest : ParentUiTest(),
     IPreferenceTest,
     IThemeTest {
 
-    @Test fun dialogClose() = runTest({ appPreferences.theme = Theme.LIGHT }) {
+    @Test fun dialogClose() = runTest({ preferences.theme = Theme.LIGHT }) {
         openThemeDialog { onClickCancel() }
         assert()
         openThemeDialog { onCloseSoft() }
@@ -44,7 +44,7 @@ class PreferenceThemeTest : ParentUiTest(),
             assert()
         }
 
-        assertEquals(value, appPreferences.theme)
+        assertEquals(value, preferences.theme)
     }
 
     /**
@@ -56,8 +56,8 @@ class PreferenceThemeTest : ParentUiTest(),
 
         do {
             initValue = list.random()
-            appPreferences.theme = initValue
-        } while (appPreferences.theme == value)
+            preferences.theme = initValue
+        } while (preferences.theme == value)
 
         return initValue
     }

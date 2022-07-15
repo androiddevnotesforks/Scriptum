@@ -9,7 +9,7 @@ import org.junit.Before
 import org.junit.Test
 import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.TestData
-import sgtmelon.scriptum.infrastructure.preferences.AppPreferences
+import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.cleanup.data.room.converter.type.IntConverter
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Signal
 import sgtmelon.scriptum.cleanup.domain.model.item.MelodyItem
@@ -26,7 +26,7 @@ import kotlin.random.Random
 class SignalInteractorTest : ParentInteractorTest() {
 
     @MockK lateinit var ringtoneControl: IRingtoneControl
-    @MockK lateinit var preferenceRepo: AppPreferences
+    @MockK lateinit var preferenceRepo: Preferences
     @MockK lateinit var intConverter: IntConverter
 
     private val melodyList = TestData.Melody.melodyList
