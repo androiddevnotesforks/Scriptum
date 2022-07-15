@@ -19,8 +19,8 @@ import sgtmelon.scriptum.basic.matcher.text.HintAttrColorMatcher
 import sgtmelon.scriptum.basic.matcher.text.MenuItemTitleMatcher
 import sgtmelon.scriptum.basic.matcher.text.TextAttrColorMatcher
 import sgtmelon.scriptum.basic.matcher.text.TextSizeMatcher
-import sgtmelon.scriptum.domain.model.annotation.Color
-import sgtmelon.scriptum.domain.model.annotation.Theme
+import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
+import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
 
 fun matchOnView(viewMatcher: Matcher<View>, checkMatcher: Matcher<in View>) {
     onView(viewMatcher).check(matches(checkMatcher))

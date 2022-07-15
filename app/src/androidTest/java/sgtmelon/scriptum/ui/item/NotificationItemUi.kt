@@ -6,8 +6,8 @@ import sgtmelon.common.utils.formatFuture
 import sgtmelon.common.utils.getCalendar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
-import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.presentation.adapter.NotificationAdapter
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.cleanup.presentation.adapter.NotificationAdapter
 import sgtmelon.scriptum.ui.ParentRecyclerItem
 
 /**

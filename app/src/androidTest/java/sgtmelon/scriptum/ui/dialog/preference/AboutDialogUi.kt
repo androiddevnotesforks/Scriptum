@@ -3,7 +3,7 @@ package sgtmelon.scriptum.ui.dialog.preference
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
-import sgtmelon.scriptum.presentation.dialog.AboutDialog
+import sgtmelon.scriptum.cleanup.presentation.dialog.AboutDialog
 import sgtmelon.scriptum.ui.IDialogUi
 import sgtmelon.scriptum.ui.ParentUi
 

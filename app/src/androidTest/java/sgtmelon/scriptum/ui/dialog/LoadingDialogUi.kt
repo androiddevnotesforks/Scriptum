@@ -6,7 +6,7 @@ import sgtmelon.scriptum.basic.extension.isDisplayed
 import sgtmelon.scriptum.basic.extension.withParent
 import sgtmelon.scriptum.basic.extension.withSizeCode
 import sgtmelon.scriptum.basic.extension.withText
-import sgtmelon.scriptum.presentation.dialog.LoadingDialog
+import sgtmelon.scriptum.cleanup.presentation.dialog.LoadingDialog
 import sgtmelon.scriptum.ui.IDialogUi
 import sgtmelon.scriptum.ui.ParentUi
 

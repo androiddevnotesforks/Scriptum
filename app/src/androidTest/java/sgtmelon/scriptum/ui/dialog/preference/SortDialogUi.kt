@@ -3,8 +3,8 @@ package sgtmelon.scriptum.ui.dialog.preference
 import sgtmelon.safedialog.dialog.SingleDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
-import sgtmelon.scriptum.domain.model.annotation.Sort
-import sgtmelon.scriptum.presentation.screen.ui.impl.preference.NotePreferenceFragment
+import sgtmelon.scriptum.cleanup.domain.model.annotation.Sort
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.NotePreferenceFragment
 import sgtmelon.scriptum.ui.dialog.parent.ParentSelectDialogUi
 
 /**

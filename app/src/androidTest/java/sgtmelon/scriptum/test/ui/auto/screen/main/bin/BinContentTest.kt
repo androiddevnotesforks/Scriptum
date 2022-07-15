@@ -3,7 +3,7 @@ package sgtmelon.scriptum.test.ui.auto.screen.main.bin
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.domain.model.key.MainPage
+import sgtmelon.scriptum.cleanup.domain.model.key.MainPage
 import sgtmelon.scriptum.test.ui.auto.screen.main.ParentNoteContentTest
 import sgtmelon.scriptum.ui.item.NoteItemUi
 import sgtmelon.scriptum.ui.screen.main.BinScreen

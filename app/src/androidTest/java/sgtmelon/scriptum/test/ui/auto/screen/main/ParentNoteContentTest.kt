@@ -2,14 +2,14 @@ package sgtmelon.scriptum.test.ui.auto.screen.main
 
 import sgtmelon.common.utils.getCalendarWithAdd
 import sgtmelon.common.utils.getText
-import sgtmelon.scriptum.data.room.entity.RollEntity
-import sgtmelon.scriptum.domain.model.annotation.Color
-import sgtmelon.scriptum.domain.model.annotation.Sort
-import sgtmelon.scriptum.domain.model.annotation.Theme
-import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.domain.model.key.MainPage
-import sgtmelon.scriptum.domain.model.key.NoteType
-import sgtmelon.scriptum.presentation.adapter.NoteAdapter
+import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
+import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
+import sgtmelon.scriptum.cleanup.domain.model.annotation.Sort
+import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.cleanup.domain.model.key.MainPage
+import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
+import sgtmelon.scriptum.cleanup.presentation.adapter.NoteAdapter
 import sgtmelon.scriptum.test.parent.ParentUiTest
 
 /**

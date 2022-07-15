@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.ui.screen.preference.help
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.presentation.screen.ui.impl.preference.help.HelpPreferenceFragment
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.help.HelpPreferenceFragment
 import sgtmelon.scriptum.ui.logic.preference.HelpPreferenceLogic
 import sgtmelon.scriptum.ui.screen.preference.ParentPreferenceScreen
 

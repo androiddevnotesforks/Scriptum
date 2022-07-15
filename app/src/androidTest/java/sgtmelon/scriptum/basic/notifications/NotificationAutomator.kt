@@ -7,8 +7,8 @@ import androidx.test.uiautomator.Until
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.presentation.factory.NotificationFactory
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.cleanup.presentation.factory.NotificationFactory
 import sgtmelon.scriptum.ui.automator.NotificationUi
 
 /**

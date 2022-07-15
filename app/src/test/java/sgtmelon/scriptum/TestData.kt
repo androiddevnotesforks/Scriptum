@@ -1,11 +1,11 @@
 package sgtmelon.scriptum
 
 import sgtmelon.common.utils.nextString
-import sgtmelon.scriptum.domain.model.annotation.Sort
-import sgtmelon.scriptum.domain.model.item.*
-import sgtmelon.scriptum.domain.model.item.NotificationItem.Alarm
-import sgtmelon.scriptum.domain.model.item.NotificationItem.Note
-import sgtmelon.scriptum.domain.model.key.NoteType
+import sgtmelon.scriptum.cleanup.domain.model.annotation.Sort
+import sgtmelon.scriptum.cleanup.domain.model.item.*
+import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem.Alarm
+import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem.Note
+import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import kotlin.random.Random
 
 /**

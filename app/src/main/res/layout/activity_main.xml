@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".presentation.screen.ui.impl.main.MainActivity">
+    tools:context="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.MainActivity">
 
     <FrameLayout
         android:layout_width="match_parent"

@@ -6,8 +6,8 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
 import sgtmelon.scriptum.basic.extension.isDisplayed
 import sgtmelon.scriptum.basic.extension.isEnabled
-import sgtmelon.scriptum.domain.model.data.DbData
-import sgtmelon.scriptum.domain.model.item.NoteItem
+import sgtmelon.scriptum.cleanup.domain.model.data.DbData
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.ui.IDialogUi
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.dialog.time.DateDialogUi

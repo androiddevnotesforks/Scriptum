@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.test.parent.situation
 
-import sgtmelon.scriptum.domain.model.annotation.Repeat
+import sgtmelon.scriptum.cleanup.domain.model.annotation.Repeat
 
 /**
  * Interface describes [Repeat] tests.

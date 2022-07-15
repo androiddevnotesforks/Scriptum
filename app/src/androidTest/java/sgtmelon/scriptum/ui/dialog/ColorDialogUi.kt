@@ -4,10 +4,10 @@ import android.view.View
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
-import sgtmelon.scriptum.domain.model.annotation.Color
-import sgtmelon.scriptum.domain.model.data.ColorData
-import sgtmelon.scriptum.presentation.adapter.ColorAdapter
-import sgtmelon.scriptum.presentation.dialog.ColorDialog
+import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
+import sgtmelon.scriptum.cleanup.domain.model.data.ColorData
+import sgtmelon.scriptum.cleanup.presentation.adapter.ColorAdapter
+import sgtmelon.scriptum.cleanup.presentation.dialog.ColorDialog
 import sgtmelon.scriptum.ui.IDialogUi
 import sgtmelon.scriptum.ui.ParentRecyclerItem
 import sgtmelon.scriptum.ui.ParentRecyclerScreen

@@ -4,8 +4,8 @@ import android.view.View
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
-import sgtmelon.scriptum.data.item.PreferenceItem
-import sgtmelon.scriptum.presentation.screen.ui.ParentPreferenceFragment
+import sgtmelon.scriptum.cleanup.data.item.PreferenceItem
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.ui.ParentRecyclerItem
 
 /**

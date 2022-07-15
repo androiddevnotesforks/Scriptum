@@ -1,8 +1,8 @@
 package sgtmelon.scriptum.ui.screen
 
-import sgtmelon.scriptum.data.State
-import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.presentation.screen.ui.impl.SplashActivity
+import sgtmelon.scriptum.cleanup.data.State
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.screen.main.MainScreen
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen

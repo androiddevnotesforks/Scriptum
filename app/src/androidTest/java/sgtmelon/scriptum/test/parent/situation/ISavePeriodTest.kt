@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.test.parent.situation
 
-import sgtmelon.scriptum.domain.model.annotation.SavePeriod
+import sgtmelon.scriptum.cleanup.domain.model.annotation.SavePeriod
 
 /**
  * Interface describes [SavePeriod] tests.

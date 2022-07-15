@@ -5,7 +5,7 @@ import androidx.annotation.AttrRes
 import androidx.annotation.DimenRes
 import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
-import sgtmelon.scriptum.extension.getDimenAttr
+import sgtmelon.scriptum.cleanup.extension.getDimenAttr
 
 /**
  * Matcher for check view size.

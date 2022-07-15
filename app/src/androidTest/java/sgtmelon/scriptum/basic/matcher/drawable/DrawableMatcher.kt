@@ -7,8 +7,8 @@ import androidx.annotation.AttrRes
 import androidx.annotation.ColorRes
 import androidx.annotation.IdRes
 import org.hamcrest.Description
-import sgtmelon.scriptum.extension.getColorAttr
-import sgtmelon.scriptum.extension.getCompatColor
+import sgtmelon.scriptum.cleanup.extension.getColorAttr
+import sgtmelon.scriptum.cleanup.extension.getCompatColor
 
 /**
  * Matcher for check android:src which gets with [resourceId].

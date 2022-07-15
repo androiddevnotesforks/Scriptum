@@ -1,10 +1,10 @@
 package sgtmelon.scriptum.test.ui.auto.screen.note.toolbar
 
 import sgtmelon.common.utils.nextString
-import sgtmelon.scriptum.domain.model.annotation.Color
-import sgtmelon.scriptum.domain.model.annotation.Theme
-import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
+import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
+import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.test.parent.ParentUiTest
 import sgtmelon.scriptum.test.parent.situation.IColorTest
 

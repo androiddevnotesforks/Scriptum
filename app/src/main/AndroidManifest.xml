@@ -11,7 +11,7 @@
 
     <!--  Better don't use configChanges: rotation/screenSize  -->
     <application
-        android:name=".presentation.screen.ui.ScriptumApplication"
+        android:name="sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication"
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/ic_launcher"
@@ -22,7 +22,7 @@
         android:theme="@style/App.Screen.DayNight">
 
         <activity
-            android:name=".presentation.screen.ui.impl.SplashActivity"
+            android:name="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.SplashActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:theme="@style/App.Screen.Splash">
@@ -33,72 +33,72 @@
         </activity>
 
         <activity
-            android:name=".presentation.screen.ui.impl.intro.IntroActivity"
+            android:name="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.intro.IntroActivity"
             android:configChanges="keyboardHidden"
             android:exported="false"
-            android:parentActivityName=".presentation.screen.ui.impl.SplashActivity"
+            android:parentActivityName="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.SplashActivity"
             android:theme="@style/App.Screen.Intro"/>
 
         <activity
-            android:name=".presentation.screen.ui.impl.main.MainActivity"
+            android:name="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.MainActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustPan"/>
 
         <activity
-            android:name=".presentation.screen.ui.impl.note.NoteActivity"
+            android:name="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity"
             android:exported="false"
-            android:parentActivityName=".presentation.screen.ui.impl.main.MainActivity"/>
+            android:parentActivityName="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.MainActivity"/>
 
         <activity
-            android:name=".presentation.screen.ui.impl.preference.PreferenceActivity"
+            android:name="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceActivity"
             android:configChanges="keyboardHidden"
             android:exported="false"
-            android:parentActivityName=".presentation.screen.ui.impl.main.MainActivity"/>
+            android:parentActivityName="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.MainActivity"/>
 
         <activity
-            android:name=".presentation.screen.ui.impl.preference.help.HelpDisappearActivity"
+            android:name="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.help.HelpDisappearActivity"
             android:configChanges="keyboardHidden"
             android:exported="false"
-            android:parentActivityName=".presentation.screen.ui.impl.preference.PreferenceActivity"/>
+            android:parentActivityName="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceActivity"/>
 
         <activity
-            android:name=".presentation.screen.ui.impl.preference.develop.PrintDevelopActivity"
+            android:name="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop.PrintDevelopActivity"
             android:configChanges="keyboardHidden"
             android:exported="false"
-            android:parentActivityName=".presentation.screen.ui.impl.preference.PreferenceActivity"/>
+            android:parentActivityName="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceActivity"/>
 
         <activity
-            android:name=".presentation.screen.ui.impl.notification.NotificationActivity"
+            android:name="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.NotificationActivity"
             android:configChanges="keyboardHidden"
             android:exported="false"
-            android:parentActivityName=".presentation.screen.ui.impl.main.MainActivity">
+            android:parentActivityName="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.MainActivity">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
         <activity
-            android:name=".presentation.screen.ui.impl.notification.AlarmActivity"
+            android:name="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.AlarmActivity"
             android:configChanges="keyboardHidden"
             android:exported="false"
-            android:parentActivityName=".presentation.screen.ui.impl.main.MainActivity"
+            android:parentActivityName="sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
-        <receiver android:name=".presentation.receiver.action.AlarmActionReceiver" />
-        <receiver android:name=".presentation.receiver.action.UnbindActionReceiver" />
+        <receiver android:name="sgtmelon.scriptum.cleanup.presentation.receiver.action.AlarmActionReceiver" />
+        <receiver android:name="sgtmelon.scriptum.cleanup.presentation.receiver.action.UnbindActionReceiver" />
 
-        <receiver android:name=".presentation.receiver.screen.DevelopScreenReceiver" />
-        <receiver android:name=".presentation.receiver.screen.MainScreenReceiver" />
-        <receiver android:name=".presentation.receiver.screen.NoteScreenReceiver" />
+        <receiver android:name="sgtmelon.scriptum.cleanup.presentation.receiver.screen.DevelopScreenReceiver" />
+        <receiver android:name="sgtmelon.scriptum.cleanup.presentation.receiver.screen.MainScreenReceiver" />
+        <receiver android:name="sgtmelon.scriptum.cleanup.presentation.receiver.screen.NoteScreenReceiver" />
 
-        <receiver android:name=".presentation.receiver.EternalReceiver" />
+        <receiver android:name="sgtmelon.scriptum.cleanup.presentation.receiver.EternalReceiver" />
 
         <receiver
-            android:name=".presentation.receiver.BootReceiver"
+            android:name="sgtmelon.scriptum.cleanup.presentation.receiver.BootReceiver"
             android:exported="false"
             android:enabled="true">
             <intent-filter>
@@ -107,7 +107,7 @@
         </receiver>
 
         <service
-            android:name=".presentation.service.EternalService"
+            android:name="sgtmelon.scriptum.cleanup.presentation.service.EternalService"
             android:enabled="true"
             android:exported="false"
             android:stopWithTask="false" />

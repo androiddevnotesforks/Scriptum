@@ -14,7 +14,7 @@
 
         <variable
             name="item"
-            type="sgtmelon.scriptum.domain.model.item.NoteItem" />
+            type="sgtmelon.scriptum.cleanup.domain.model.item.NoteItem" />
 
         <variable
             name="isEditMode"

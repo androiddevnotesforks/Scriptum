@@ -1,9 +1,9 @@
 package sgtmelon.scriptum.test.parent
 
 import org.junit.Before
-import sgtmelon.scriptum.data.provider.RoomProvider
-import sgtmelon.scriptum.data.room.IRoomWork
-import sgtmelon.scriptum.data.room.extension.inRoomTest
+import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
+import sgtmelon.scriptum.cleanup.data.room.IRoomWork
+import sgtmelon.scriptum.cleanup.data.room.extension.inRoomTest
 
 /**
  * Parent class for Integration tests

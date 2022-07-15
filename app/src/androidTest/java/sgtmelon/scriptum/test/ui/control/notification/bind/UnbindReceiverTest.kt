@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.test.ui.control.notification.bind
 
 import org.junit.Test
-import sgtmelon.scriptum.presentation.receiver.screen.MainScreenReceiver
+import sgtmelon.scriptum.cleanup.presentation.receiver.screen.MainScreenReceiver
 import sgtmelon.scriptum.test.parent.ParentNotificationTest
 
 /**

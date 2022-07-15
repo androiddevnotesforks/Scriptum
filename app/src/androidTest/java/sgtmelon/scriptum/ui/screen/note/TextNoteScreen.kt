@@ -2,12 +2,12 @@ package sgtmelon.scriptum.ui.screen.note
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
-import sgtmelon.scriptum.data.State
-import sgtmelon.scriptum.domain.model.item.InputItem
-import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.presentation.control.note.input.InputControl
-import sgtmelon.scriptum.presentation.screen.ui.impl.note.NoteActivity
-import sgtmelon.scriptum.presentation.screen.ui.impl.note.TextNoteFragment
+import sgtmelon.scriptum.cleanup.data.State
+import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.ui.IKeyboardClose
 import sgtmelon.scriptum.ui.IPressBack
 import sgtmelon.scriptum.ui.ParentUi

@@ -2,7 +2,7 @@ package sgtmelon.scriptum.ui.screen.preference.help
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
-import sgtmelon.scriptum.presentation.screen.ui.impl.preference.help.HelpDisappearActivity
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.help.HelpDisappearActivity
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.part.toolbar.SimpleToolbar
 

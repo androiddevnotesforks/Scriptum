@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.test.parent.situation
 
-import sgtmelon.scriptum.domain.model.annotation.Theme
+import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
 
 /**
  * Interface describes [Theme] tests.

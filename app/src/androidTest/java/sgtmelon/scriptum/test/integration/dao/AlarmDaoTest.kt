@@ -4,13 +4,13 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.data.room.RoomDb
-import sgtmelon.scriptum.data.room.dao.IAlarmDao
-import sgtmelon.scriptum.data.room.entity.AlarmEntity
-import sgtmelon.scriptum.data.room.entity.NoteEntity
-import sgtmelon.scriptum.data.room.extension.inRoomTest
-import sgtmelon.scriptum.domain.model.item.NotificationItem
-import sgtmelon.scriptum.domain.model.key.NoteType
+import sgtmelon.scriptum.cleanup.data.room.RoomDb
+import sgtmelon.scriptum.cleanup.data.room.dao.IAlarmDao
+import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
+import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
+import sgtmelon.scriptum.cleanup.data.room.extension.inRoomTest
+import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
+import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.test.parent.ParentRoomTest
 import kotlin.random.Random
 

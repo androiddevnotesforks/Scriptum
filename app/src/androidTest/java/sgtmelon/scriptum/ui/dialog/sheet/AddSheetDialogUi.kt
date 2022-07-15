@@ -6,10 +6,10 @@ import sgtmelon.scriptum.basic.extension.click
 import sgtmelon.scriptum.basic.extension.isDisplayed
 import sgtmelon.scriptum.basic.extension.isEnabled
 import sgtmelon.scriptum.basic.extension.withTextColor
-import sgtmelon.scriptum.data.State
-import sgtmelon.scriptum.data.TestData
-import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.presentation.dialog.sheet.AddSheetDialog
+import sgtmelon.scriptum.cleanup.data.State
+import sgtmelon.scriptum.cleanup.data.TestData
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.cleanup.presentation.dialog.sheet.AddSheetDialog
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 

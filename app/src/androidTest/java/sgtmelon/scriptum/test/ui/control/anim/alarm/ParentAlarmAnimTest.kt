@@ -1,9 +1,9 @@
 package sgtmelon.scriptum.test.ui.control.anim.alarm
 
 import sgtmelon.scriptum.basic.extension.waitAfter
-import sgtmelon.scriptum.domain.model.annotation.Color
-import sgtmelon.scriptum.domain.model.annotation.Theme
-import sgtmelon.scriptum.presentation.screen.ui.impl.notification.AlarmActivity
+import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
+import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.AlarmActivity
 import sgtmelon.scriptum.test.parent.ParentUiTest
 import sgtmelon.scriptum.test.parent.situation.IColorTest
 import kotlin.random.Random

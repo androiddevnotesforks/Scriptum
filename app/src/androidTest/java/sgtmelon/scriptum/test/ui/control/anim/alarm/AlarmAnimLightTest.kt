@@ -3,8 +3,8 @@ package sgtmelon.scriptum.test.ui.control.anim.alarm
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.domain.model.annotation.Theme
-import sgtmelon.scriptum.presentation.screen.ui.impl.notification.AlarmActivity
+import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.AlarmActivity
 
 /**
  * Test of animation and color scheme of [AlarmActivity] in light theme

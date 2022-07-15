@@ -5,11 +5,11 @@ import sgtmelon.common.utils.getText
 import sgtmelon.common.utils.getTime
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
-import sgtmelon.scriptum.data.State
-import sgtmelon.scriptum.domain.model.data.DbData
-import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.domain.model.item.RankItem
-import sgtmelon.scriptum.domain.model.key.NoteType
+import sgtmelon.scriptum.cleanup.data.State
+import sgtmelon.scriptum.cleanup.domain.model.data.DbData
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
+import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.dialog.ColorDialogUi
 import sgtmelon.scriptum.ui.dialog.ConvertDialogUi

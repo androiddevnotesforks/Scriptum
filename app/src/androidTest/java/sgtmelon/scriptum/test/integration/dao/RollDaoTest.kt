@@ -6,15 +6,15 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.common.utils.nextString
-import sgtmelon.scriptum.data.room.RoomDb
-import sgtmelon.scriptum.data.room.dao.IRollDao
-import sgtmelon.scriptum.data.room.entity.NoteEntity
-import sgtmelon.scriptum.data.room.entity.RollEntity
-import sgtmelon.scriptum.data.room.extension.inRoomTest
-import sgtmelon.scriptum.data.room.extension.safeDelete
-import sgtmelon.scriptum.data.room.extension.safeDeleteByList
-import sgtmelon.scriptum.data.room.extension.safeGet
-import sgtmelon.scriptum.domain.model.key.NoteType
+import sgtmelon.scriptum.cleanup.data.room.RoomDb
+import sgtmelon.scriptum.cleanup.data.room.dao.IRollDao
+import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
+import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
+import sgtmelon.scriptum.cleanup.data.room.extension.inRoomTest
+import sgtmelon.scriptum.cleanup.data.room.extension.safeDelete
+import sgtmelon.scriptum.cleanup.data.room.extension.safeDeleteByList
+import sgtmelon.scriptum.cleanup.data.room.extension.safeGet
+import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.test.parent.ParentRoomTest
 import kotlin.random.Random
 

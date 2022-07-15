@@ -1,0 +1,29 @@
+package sgtmelon.scriptum.cleanup.dagger.component.preference.develop
+
+import dagger.BindsInstance
+import dagger.Subcomponent
+import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
+import sgtmelon.scriptum.cleanup.dagger.module.base.InteractorModule
+import sgtmelon.scriptum.cleanup.dagger.module.base.ViewModelModule
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.develop.DevelopFragment
+
+/**
+ * Component for [DevelopFragment].
+ */
+@ActivityScope
+@Subcomponent(modules = [
+    InteractorModule::class,
+    ViewModelModule::class
+])
+interface DevelopPreferenceComponent {
+
+    fun inject(fragment: DevelopFragment)
+
+    @Subcomponent.Builder
+    interface Builder {
+        @BindsInstance
+        fun set(fragment: DevelopFragment): Builder
+
+        fun build(): DevelopPreferenceComponent
+    }
+}

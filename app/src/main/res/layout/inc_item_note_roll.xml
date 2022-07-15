@@ -5,7 +5,7 @@
 
     <data>
 
-        <variable name="item" type="sgtmelon.scriptum.domain.model.item.RollItem" />
+        <variable name="item" type="sgtmelon.scriptum.cleanup.domain.model.item.RollItem" />
     </data>
 
     <LinearLayout

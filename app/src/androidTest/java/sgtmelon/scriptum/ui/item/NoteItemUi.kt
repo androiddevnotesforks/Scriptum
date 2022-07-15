@@ -8,12 +8,12 @@ import sgtmelon.common.utils.formatPast
 import sgtmelon.common.utils.getCalendar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
-import sgtmelon.scriptum.domain.model.annotation.Theme
-import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.domain.model.item.RollItem
-import sgtmelon.scriptum.domain.model.key.NoteType
-import sgtmelon.scriptum.extension.hide
-import sgtmelon.scriptum.presentation.adapter.NoteAdapter
+import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
+import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
+import sgtmelon.scriptum.cleanup.extension.hide
+import sgtmelon.scriptum.cleanup.presentation.adapter.NoteAdapter
 import sgtmelon.scriptum.ui.ParentRecyclerItem
 
 /**

@@ -2,14 +2,14 @@ package sgtmelon.scriptum.ui.logic.preference
 
 import kotlinx.coroutines.runBlocking
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.data.item.PreferenceItem
-import sgtmelon.scriptum.data.item.PreferenceItem.*
-import sgtmelon.scriptum.data.room.converter.type.IntConverter
-import sgtmelon.scriptum.domain.interactor.callback.notification.ISignalInteractor
-import sgtmelon.scriptum.domain.interactor.callback.preference.IAlarmPreferenceInteractor
-import sgtmelon.scriptum.domain.interactor.impl.notification.SignalInteractor
-import sgtmelon.scriptum.domain.interactor.impl.preference.AlarmPreferenceInteractor
-import sgtmelon.scriptum.presentation.control.system.RingtoneControl
+import sgtmelon.scriptum.cleanup.data.item.PreferenceItem
+import sgtmelon.scriptum.cleanup.data.item.PreferenceItem.*
+import sgtmelon.scriptum.cleanup.data.room.converter.type.IntConverter
+import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.ISignalInteractor
+import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IAlarmPreferenceInteractor
+import sgtmelon.scriptum.cleanup.domain.interactor.impl.notification.SignalInteractor
+import sgtmelon.scriptum.cleanup.domain.interactor.impl.preference.AlarmPreferenceInteractor
+import sgtmelon.scriptum.cleanup.presentation.control.system.RingtoneControl
 import sgtmelon.scriptum.ui.logic.parent.ParentPreferenceLogic
 import sgtmelon.scriptum.ui.screen.preference.AlarmPreferenceScreen
 import kotlin.random.Random

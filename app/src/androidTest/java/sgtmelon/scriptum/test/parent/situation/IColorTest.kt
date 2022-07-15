@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.test.parent.situation
 
-import sgtmelon.scriptum.domain.model.annotation.Color
+import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 
 /**
  * Interface describes [Color] tests.

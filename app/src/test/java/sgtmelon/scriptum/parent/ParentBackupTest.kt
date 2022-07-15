@@ -1,9 +1,9 @@
 package sgtmelon.scriptum.parent
 
-import sgtmelon.scriptum.data.room.backup.BackupParserTest
-import sgtmelon.scriptum.data.room.backup.BackupSelectorTest
-import sgtmelon.scriptum.data.room.entity.*
-import sgtmelon.scriptum.domain.model.key.NoteType
+import sgtmelon.scriptum.cleanup.data.room.backup.BackupParserTest
+import sgtmelon.scriptum.cleanup.data.room.backup.BackupSelectorTest
+import sgtmelon.scriptum.cleanup.data.room.entity.*
+import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 
 /**
  * Parent test for [BackupParserTest] and [BackupSelectorTest].

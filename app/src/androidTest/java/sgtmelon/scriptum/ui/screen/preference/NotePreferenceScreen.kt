@@ -2,8 +2,8 @@ package sgtmelon.scriptum.ui.screen.preference
 
 import org.junit.Assert.assertEquals
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.domain.model.annotation.Color
-import sgtmelon.scriptum.presentation.screen.ui.impl.preference.NotePreferenceFragment
+import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.NotePreferenceFragment
 import sgtmelon.scriptum.ui.dialog.ColorDialogUi
 import sgtmelon.scriptum.ui.dialog.preference.SavePeriodDialogUi
 import sgtmelon.scriptum.ui.dialog.preference.SortDialogUi

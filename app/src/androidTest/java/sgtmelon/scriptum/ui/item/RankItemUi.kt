@@ -4,9 +4,9 @@ import android.view.View
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
-import sgtmelon.scriptum.domain.model.item.RankItem
-import sgtmelon.scriptum.presentation.adapter.RankAdapter
-import sgtmelon.scriptum.presentation.adapter.holder.RankHolder
+import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
+import sgtmelon.scriptum.cleanup.presentation.adapter.RankAdapter
+import sgtmelon.scriptum.cleanup.presentation.adapter.holder.RankHolder
 import sgtmelon.scriptum.ui.ParentRecyclerItem
 import kotlin.math.min
 

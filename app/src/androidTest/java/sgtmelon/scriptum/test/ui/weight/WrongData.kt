@@ -3,9 +3,9 @@ package sgtmelon.scriptum.test.ui.weight
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.data.room.converter.model.NoteConverter
-import sgtmelon.scriptum.data.room.entity.NoteEntity
-import sgtmelon.scriptum.domain.model.key.NoteType
+import sgtmelon.scriptum.cleanup.data.room.converter.model.NoteConverter
+import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
+import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.test.parent.ParentUiTest
 
 /**

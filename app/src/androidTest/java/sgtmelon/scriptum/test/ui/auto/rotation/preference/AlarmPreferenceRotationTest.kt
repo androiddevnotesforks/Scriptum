@@ -5,9 +5,9 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.domain.model.annotation.Repeat
-import sgtmelon.scriptum.domain.model.item.MelodyItem
-import sgtmelon.scriptum.presentation.screen.ui.impl.preference.AlarmPreferenceFragment
+import sgtmelon.scriptum.cleanup.domain.model.annotation.Repeat
+import sgtmelon.scriptum.cleanup.domain.model.item.MelodyItem
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.AlarmPreferenceFragment
 import sgtmelon.scriptum.test.ui.auto.screen.preference.alarm.IAlarmPreferenceTest
 import sgtmelon.scriptum.test.parent.ParentRotationTest
 import sgtmelon.scriptum.ui.dialog.preference.VolumeDialogUi

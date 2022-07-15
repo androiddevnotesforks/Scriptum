@@ -5,7 +5,7 @@ import androidx.annotation.AttrRes
 import androidx.cardview.widget.CardView
 import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
-import sgtmelon.scriptum.extension.getColorAttr
+import sgtmelon.scriptum.cleanup.extension.getColorAttr
 
 /**
  * Matcher for check app:cardBackground which gets with [attrColor].

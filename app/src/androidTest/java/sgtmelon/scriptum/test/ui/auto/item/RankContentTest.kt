@@ -3,7 +3,7 @@ package sgtmelon.scriptum.test.ui.auto.item
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.presentation.adapter.holder.RankHolder
+import sgtmelon.scriptum.cleanup.presentation.adapter.holder.RankHolder
 import sgtmelon.scriptum.test.parent.ParentUiTest
 import sgtmelon.scriptum.ui.item.RankItemUi
 

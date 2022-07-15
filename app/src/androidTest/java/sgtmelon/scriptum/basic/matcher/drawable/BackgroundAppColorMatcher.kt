@@ -5,9 +5,9 @@ import android.view.View
 import androidx.annotation.ColorInt
 import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
-import sgtmelon.scriptum.domain.model.annotation.Color
-import sgtmelon.scriptum.domain.model.annotation.Theme
-import sgtmelon.scriptum.extension.getNoteToolbarColor
+import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
+import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
+import sgtmelon.scriptum.cleanup.extension.getNoteToolbarColor
 
 /**
  * Matcher for check background color.

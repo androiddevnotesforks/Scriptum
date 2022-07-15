@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.ui.screen.preference
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.presentation.screen.ui.impl.preference.PreferenceFragment
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceFragment
 import sgtmelon.scriptum.ui.dialog.preference.AboutDialogUi
 import sgtmelon.scriptum.ui.dialog.preference.ThemeDialogUi
 import sgtmelon.scriptum.ui.logic.preference.PreferenceLogic

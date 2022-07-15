@@ -3,7 +3,7 @@ package sgtmelon.scriptum.ui.dialog.preference
 import androidx.annotation.IntRange
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
-import sgtmelon.scriptum.presentation.dialog.VolumeDialog
+import sgtmelon.scriptum.cleanup.presentation.dialog.VolumeDialog
 import sgtmelon.scriptum.ui.IDialogUi
 import sgtmelon.scriptum.ui.ParentUi
 

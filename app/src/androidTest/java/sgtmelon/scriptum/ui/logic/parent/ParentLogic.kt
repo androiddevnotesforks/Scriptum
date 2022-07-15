@@ -2,9 +2,9 @@ package sgtmelon.scriptum.ui.logic.parent
 
 import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
-import sgtmelon.scriptum.dagger.module.base.ProviderModule
-import sgtmelon.scriptum.data.repository.preference.IPreferenceRepo
-import sgtmelon.scriptum.data.repository.preference.PreferenceRepo
+import sgtmelon.scriptum.cleanup.dagger.module.base.ProviderModule
+import sgtmelon.scriptum.cleanup.data.repository.preference.IPreferenceRepo
+import sgtmelon.scriptum.cleanup.data.repository.preference.PreferenceRepo
 
 /**
  * Parent class for UI tests simple logic.

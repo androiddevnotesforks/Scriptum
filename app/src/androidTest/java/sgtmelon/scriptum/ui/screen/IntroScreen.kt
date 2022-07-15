@@ -2,10 +2,10 @@ package sgtmelon.scriptum.ui.screen
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
-import sgtmelon.scriptum.data.Scroll
-import sgtmelon.scriptum.domain.model.data.IntroData
-import sgtmelon.scriptum.presentation.screen.ui.impl.intro.IntroActivity
-import sgtmelon.scriptum.presentation.screen.ui.impl.intro.IntroFragment
+import sgtmelon.scriptum.cleanup.data.Scroll
+import sgtmelon.scriptum.cleanup.domain.model.data.IntroData
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.intro.IntroActivity
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.intro.IntroFragment
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.screen.main.MainScreen
 

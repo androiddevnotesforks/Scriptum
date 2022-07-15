@@ -1,10 +1,10 @@
 package sgtmelon.scriptum.test.ui.control.notification.bind
 
 import org.junit.Test
-import sgtmelon.scriptum.data.room.converter.model.NoteConverter
-import sgtmelon.scriptum.data.room.extension.inRoomTest
-import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.presentation.screen.ui.impl.main.MainActivity
+import sgtmelon.scriptum.cleanup.data.room.converter.model.NoteConverter
+import sgtmelon.scriptum.cleanup.data.room.extension.inRoomTest
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.MainActivity
 import sgtmelon.scriptum.test.parent.ParentNotificationTest
 import kotlin.random.Random
 

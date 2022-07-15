@@ -6,9 +6,9 @@ import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Before
-import sgtmelon.scriptum.data.provider.RoomProvider
-import sgtmelon.scriptum.data.room.RoomDb
-import sgtmelon.scriptum.data.room.dao.*
+import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
+import sgtmelon.scriptum.cleanup.data.room.RoomDb
+import sgtmelon.scriptum.cleanup.data.room.dao.*
 
 /**
  * Parent class for RoomRepo tests.

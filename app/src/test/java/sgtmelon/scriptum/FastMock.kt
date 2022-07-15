@@ -4,19 +4,19 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
 import sgtmelon.common.utils.nextString
-import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.domain.model.item.RollItem
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import kotlin.random.Random
 
 object FastMock {
 
     fun timeExtension() = mockkStatic("sgtmelon.common.utils.TimeExtensionUtils")
 
-    fun listExtension() = mockkStatic("sgtmelon.scriptum.extension.ListExtensionUtils")
+    fun listExtension() = mockkStatic("sgtmelon.scriptum.cleanup.extension.ListExtensionUtils")
 
-    fun daoExtension() = mockkStatic("sgtmelon.scriptum.data.room.extension.DaoExtensionUtils")
+    fun daoExtension() = mockkStatic("sgtmelon.scriptum.cleanup.data.room.extension.DaoExtensionUtils")
 
-    fun daoHelpExtension() = mockkStatic("sgtmelon.scriptum.data.room.extension.DaoHelpExtensionUtils")
+    fun daoHelpExtension() = mockkStatic("sgtmelon.scriptum.cleanup.data.room.extension.DaoHelpExtensionUtils")
 
     object Note {
 

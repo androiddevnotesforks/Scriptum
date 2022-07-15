@@ -9,7 +9,7 @@
 
         <variable
             name="menuCallback"
-            type="sgtmelon.scriptum.presentation.screen.ui.callback.note.INoteMenu" />
+            type="sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteMenu" />
 
         <variable
             name="isDataLoad"
@@ -17,7 +17,7 @@
 
         <variable
             name="item"
-            type="sgtmelon.scriptum.domain.model.item.NoteItem.Text" />
+            type="sgtmelon.scriptum.cleanup.domain.model.item.NoteItem.Text" />
 
         <variable
             name="isRankEmpty"
@@ -29,7 +29,7 @@
 
         <variable
             name="inputAccess"
-            type="sgtmelon.scriptum.presentation.control.note.input.InputControl.Access" />
+            type="sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl.Access" />
     </data>
 
     <LinearLayout

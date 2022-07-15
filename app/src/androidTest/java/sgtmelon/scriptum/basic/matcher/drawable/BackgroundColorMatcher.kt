@@ -8,8 +8,8 @@ import androidx.annotation.ColorRes
 import com.google.android.material.shape.MaterialShapeDrawable
 import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
-import sgtmelon.scriptum.extension.getColorAttr
-import sgtmelon.scriptum.extension.getCompatColor
+import sgtmelon.scriptum.cleanup.extension.getColorAttr
+import sgtmelon.scriptum.cleanup.extension.getCompatColor
 
 /**
  * Matcher for check background color.

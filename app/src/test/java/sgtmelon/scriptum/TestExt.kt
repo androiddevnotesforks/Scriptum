@@ -1,10 +1,10 @@
 package sgtmelon.scriptum
 
 import io.mockk.MockKVerificationScope
-import sgtmelon.scriptum.domain.model.item.NoteItem
-import sgtmelon.scriptum.domain.model.item.RollItem
-import sgtmelon.scriptum.presentation.screen.vm.impl.main.BinViewModelTest
-import sgtmelon.scriptum.presentation.screen.vm.impl.main.NotesViewModelTest
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.BinViewModelTest
+import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.NotesViewModelTest
 
 fun Int.isDivideTwoEntirely(): Boolean = this % 2 == 0
 
