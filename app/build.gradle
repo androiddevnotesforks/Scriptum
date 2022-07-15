@@ -71,7 +71,7 @@ android {
 }
 
 dependencies {
-    implementation project(':iconAnim')
+    implementation project(':libraries:iconAnim')
     implementation project(':libraries:safeDialog')
     implementation project(':common')
 
