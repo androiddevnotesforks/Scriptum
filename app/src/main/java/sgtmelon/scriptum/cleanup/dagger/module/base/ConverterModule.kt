@@ -2,11 +2,13 @@ package sgtmelon.scriptum.cleanup.dagger.module.base
 
 import dagger.Module
 import dagger.Provides
-import sgtmelon.scriptum.cleanup.data.room.converter.model.*
-import sgtmelon.scriptum.cleanup.data.room.converter.type.IntConverter
+import javax.inject.Singleton
+import sgtmelon.scriptum.cleanup.data.room.converter.model.AlarmConverter
+import sgtmelon.scriptum.cleanup.data.room.converter.model.NoteConverter
+import sgtmelon.scriptum.cleanup.data.room.converter.model.RankConverter
+import sgtmelon.scriptum.cleanup.data.room.converter.model.RollConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.type.NoteTypeConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.type.StringConverter
-import javax.inject.Singleton
 import sgtmelon.scriptum.infrastructure.preferences.converter.SignalConverter
 
 /**

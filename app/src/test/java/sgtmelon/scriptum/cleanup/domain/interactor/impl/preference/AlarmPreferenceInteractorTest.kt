@@ -1,7 +1,13 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.impl.preference
 
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.confirmVerified
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.spyk
+import io.mockk.verifySequence
+import java.util.Locale
+import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -9,14 +15,11 @@ import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.FastTest
-import sgtmelon.scriptum.infrastructure.preferences.Preferences
-import sgtmelon.scriptum.cleanup.data.room.converter.type.IntConverter
-import sgtmelon.scriptum.getRandomSize
-import sgtmelon.scriptum.parent.ParentInteractorTest
 import sgtmelon.scriptum.cleanup.presentation.provider.SummaryProvider
-import java.util.*
-import kotlin.random.Random
+import sgtmelon.scriptum.getRandomSize
+import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.infrastructure.preferences.converter.SignalConverter
+import sgtmelon.scriptum.parent.ParentInteractorTest
 
 /**
  * Test for [AlarmPreferenceInteractor].

@@ -9,8 +9,10 @@ import sgtmelon.scriptum.infrastructure.preferences.model.state.SignalState
  */
 interface ISignalInteractor {
 
+    // TODO rename: signalTypeCheck
     val typeCheck: BooleanArray
 
+    // TODO rename: signalState
     val state: SignalState?
 
 
