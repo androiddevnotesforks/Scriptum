@@ -33,7 +33,7 @@ class PreferencesDefProviderTest : ParentTest() {
         val isBackupSkipImports = Random.nextBoolean()
         val sort = Random.nextInt()
         val defaultColor = Random.nextInt()
-        val pauseSaveOn = Random.nextBoolean()
+        val isPauseSaveOn = Random.nextBoolean()
         val autoSaveOn = Random.nextBoolean()
         val savePeriod = Random.nextInt()
         val repeat = Random.nextInt()
@@ -48,7 +48,7 @@ class PreferencesDefProviderTest : ParentTest() {
         every { resources.getBoolean(R.bool.pref_backup_import_skip) } returns isBackupSkipImports
         every { resources.getInteger(R.integer.pref_note_sort) } returns sort
         every { resources.getInteger(R.integer.pref_note_color) } returns defaultColor
-        every { resources.getBoolean(R.bool.pref_note_save_pause) } returns pauseSaveOn
+        every { resources.getBoolean(R.bool.pref_note_save_pause) } returns isPauseSaveOn
         every { resources.getBoolean(R.bool.pref_note_save_auto) } returns autoSaveOn
         every { resources.getInteger(R.integer.pref_note_save_time) } returns savePeriod
         every { resources.getInteger(R.integer.pref_alarm_repeat) } returns repeat
@@ -63,7 +63,7 @@ class PreferencesDefProviderTest : ParentTest() {
         assertEquals(isBackupSkipImports, providerDef.isBackupSkipImports)
         assertEquals(sort, providerDef.sort)
         assertEquals(defaultColor, providerDef.defaultColor)
-        assertEquals(pauseSaveOn, providerDef.pauseSaveOn)
+        assertEquals(isPauseSaveOn, providerDef.isPauseSaveOn)
         assertEquals(autoSaveOn, providerDef.autoSaveOn)
         assertEquals(savePeriod, providerDef.savePeriod)
         assertEquals(repeat, providerDef.repeat)

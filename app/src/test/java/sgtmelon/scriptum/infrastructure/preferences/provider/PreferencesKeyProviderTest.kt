@@ -32,7 +32,7 @@ class PreferencesKeyProviderTest : ParentTest() {
         val isBackupSkipImports = nextString()
         val sort = nextString()
         val defaultColor = nextString()
-        val pauseSaveOn = nextString()
+        val isPauseSaveOn = nextString()
         val autoSaveOn = nextString()
         val savePeriod = nextString()
         val repeat = nextString()
@@ -47,7 +47,7 @@ class PreferencesKeyProviderTest : ParentTest() {
         every { resources.getString(R.string.pref_key_backup_skip) } returns isBackupSkipImports
         every { resources.getString(R.string.pref_key_note_sort) } returns sort
         every { resources.getString(R.string.pref_key_note_color) } returns defaultColor
-        every { resources.getString(R.string.pref_key_note_pause) } returns pauseSaveOn
+        every { resources.getString(R.string.pref_key_note_pause) } returns isPauseSaveOn
         every { resources.getString(R.string.pref_key_note_auto) } returns autoSaveOn
         every { resources.getString(R.string.pref_key_note_time) } returns savePeriod
         every { resources.getString(R.string.pref_key_alarm_repeat) } returns repeat
@@ -62,7 +62,7 @@ class PreferencesKeyProviderTest : ParentTest() {
         assertEquals(isBackupSkipImports, providerKey.isBackupSkipImports)
         assertEquals(sort, providerKey.sort)
         assertEquals(defaultColor, providerKey.defaultColor)
-        assertEquals(pauseSaveOn, providerKey.pauseSaveOn)
+        assertEquals(isPauseSaveOn, providerKey.isPauseSaveOn)
         assertEquals(autoSaveOn, providerKey.autoSaveOn)
         assertEquals(savePeriod, providerKey.savePeriod)
         assertEquals(repeat, providerKey.repeat)

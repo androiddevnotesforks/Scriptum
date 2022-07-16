@@ -216,14 +216,14 @@ class PreferencesImplTest : ParentTest() {
         val defValue = Random.nextBoolean()
         val value = Random.nextBoolean()
 
-        every { keyProvider.pauseSaveOn } returns keyValue
-        every { defProvider.pauseSaveOn } returns defValue
+        every { keyProvider.isPauseSaveOn } returns keyValue
+        every { defProvider.isPauseSaveOn } returns defValue
         every { preferences.getBoolean(keyValue, defValue) } returns value
-        assertEquals(value, appPreferences.pauseSaveOn)
+        assertEquals(value, appPreferences.isPauseSaveOn)
 
         verifySequence {
-            keyProvider.pauseSaveOn
-            defProvider.pauseSaveOn
+            keyProvider.isPauseSaveOn
+            defProvider.isPauseSaveOn
 
             preferences.getBoolean(keyValue, defValue)
         }
@@ -233,12 +233,12 @@ class PreferencesImplTest : ParentTest() {
         val keyValue = nextString()
         val value = Random.nextBoolean()
 
-        every { keyProvider.pauseSaveOn } returns keyValue
-        appPreferences.pauseSaveOn = value
+        every { keyProvider.isPauseSaveOn } returns keyValue
+        appPreferences.isPauseSaveOn = value
 
         verifySequence {
             preferences.edit()
-            keyProvider.pauseSaveOn
+            keyProvider.isPauseSaveOn
             preferencesEditor.putBoolean(keyValue, value)
             preferencesEditor.apply()
         }

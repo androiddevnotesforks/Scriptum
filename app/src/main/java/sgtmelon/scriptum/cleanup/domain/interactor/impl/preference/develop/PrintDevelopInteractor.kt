@@ -48,7 +48,7 @@ class PrintDevelopInteractor(
             Preference.Title(R.string.pref_title_note),
             Preference.Key(key.sort, def.sort, preferenceRepo.sort),
             Preference.Key(key.defaultColor, def.defaultColor, preferenceRepo.defaultColor),
-            Preference.Key(key.pauseSaveOn, def.pauseSaveOn, preferenceRepo.pauseSaveOn),
+            Preference.Key(key.isPauseSaveOn, def.isPauseSaveOn, preferenceRepo.isPauseSaveOn),
             Preference.Key(key.autoSaveOn, def.autoSaveOn, preferenceRepo.autoSaveOn),
             Preference.Key(key.savePeriod, def.savePeriod, preferenceRepo.savePeriod),
             Preference.Title(R.string.pref_title_alarm),

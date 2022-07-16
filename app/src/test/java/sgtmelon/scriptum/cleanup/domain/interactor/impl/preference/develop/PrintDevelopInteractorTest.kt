@@ -194,9 +194,9 @@ class PrintDevelopInteractorTest : ParentInteractorTest() {
         every { def.defaultColor } returns pairDefaultColor.second
         every { preferenceRepo.defaultColor } returns valDefaultColor
 
-        every { key.pauseSaveOn } returns pairPauseSaveOn.first
-        every { def.pauseSaveOn } returns pairPauseSaveOn.second
-        every { preferenceRepo.pauseSaveOn } returns valPauseSaveOn
+        every { key.isPauseSaveOn } returns pairPauseSaveOn.first
+        every { def.isPauseSaveOn } returns pairPauseSaveOn.second
+        every { preferenceRepo.isPauseSaveOn } returns valPauseSaveOn
 
         every { key.autoSaveOn } returns pairAutoSaveOn.first
         every { def.autoSaveOn } returns pairAutoSaveOn.second
@@ -270,9 +270,9 @@ class PrintDevelopInteractorTest : ParentInteractorTest() {
             key.defaultColor
             def.defaultColor
             preferenceRepo.defaultColor
-            key.pauseSaveOn
-            def.pauseSaveOn
-            preferenceRepo.pauseSaveOn
+            key.isPauseSaveOn
+            def.isPauseSaveOn
+            preferenceRepo.isPauseSaveOn
             key.autoSaveOn
             def.autoSaveOn
             preferenceRepo.autoSaveOn

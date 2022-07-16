@@ -144,10 +144,10 @@ class SaveControlTest : ParentTest() {
     }
 
     @Test fun onPauseSave() {
-        every { model.pauseSaveOn } returns false
+        every { model.isPauseSaveOn } returns false
         saveControl.onPauseSave()
 
-        every { model.pauseSaveOn } returns true
+        every { model.isPauseSaveOn } returns true
         saveControl.needSave = false
         saveControl.onPauseSave()
 
@@ -157,9 +157,9 @@ class SaveControlTest : ParentTest() {
         verifySequence {
             model.autoSaveOn
 
-            repeat(times = 2) { model.pauseSaveOn }
+            repeat(times = 2) { model.isPauseSaveOn }
 
-            model.pauseSaveOn
+            model.isPauseSaveOn
             callback.onResultSaveControl()
         }
     }

@@ -24,8 +24,9 @@ class RollNoteInteractor(
 ) : ParentInteractor(),
     IRollNoteInteractor {
 
+    // TODO #PREF create noteSaveState
     override fun getSaveModel(): SaveControl.Model = with(preferenceRepo) {
-        return@with SaveControl.Model(pauseSaveOn, autoSaveOn, savePeriod)
+        return@with SaveControl.Model(isPauseSaveOn, autoSaveOn, savePeriod)
     }
 
     @Color override val defaultColor: Int get() = preferenceRepo.defaultColor

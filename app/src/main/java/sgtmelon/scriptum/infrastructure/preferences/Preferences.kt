@@ -19,7 +19,7 @@ interface Preferences {
 
     @Color var defaultColor: Int
 
-    var pauseSaveOn: Boolean
+    var isPauseSaveOn: Boolean
 
     var autoSaveOn: Boolean
 

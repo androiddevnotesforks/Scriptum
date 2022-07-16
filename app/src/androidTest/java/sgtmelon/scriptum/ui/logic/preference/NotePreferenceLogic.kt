@@ -25,7 +25,7 @@ class NotePreferenceLogic : ParentPreferenceLogic() {
             PreferenceItem.Switch(
                 R.string.pref_title_note_save_pause,
                 R.string.pref_summary_note_save_pause,
-                preferences.pauseSaveOn
+                preferences.isPauseSaveOn
             ),
             PreferenceItem.Switch(
                 R.string.pref_title_note_save_auto,

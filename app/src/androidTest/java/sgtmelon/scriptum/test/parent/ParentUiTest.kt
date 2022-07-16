@@ -76,7 +76,7 @@ abstract class ParentUiTest : ParentTest() {
             sort = Sort.CHANGE
 
             autoSaveOn = false
-            pauseSaveOn = false
+            isPauseSaveOn = false
         }
 
         /**

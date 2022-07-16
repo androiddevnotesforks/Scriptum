@@ -1079,13 +1079,13 @@ object FastTest {
         fun getSaveModel(preferenceRepo: Preferences, callFunc: () -> SaveControl.Model) {
             val model = with(Random) { SaveControl.Model(nextBoolean(), nextBoolean(), nextInt()) }
 
-            every { preferenceRepo.pauseSaveOn } returns model.pauseSaveOn
+            every { preferenceRepo.isPauseSaveOn } returns model.isPauseSaveOn
             every { preferenceRepo.autoSaveOn } returns model.autoSaveOn
             every { preferenceRepo.savePeriod } returns model.savePeriod
             assertEquals(model, callFunc())
 
             verifySequence {
-                preferenceRepo.pauseSaveOn
+                preferenceRepo.isPauseSaveOn
                 preferenceRepo.autoSaveOn
                 preferenceRepo.savePeriod
             }

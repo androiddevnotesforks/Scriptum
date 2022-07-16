@@ -15,6 +15,7 @@ import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IRingtoneC
 /**
  * Interactor for work with alarm signal.
  */
+// TODO #PREF move staff from here into preferenceRepo
 class SignalInteractor(
     private val ringtoneControl: IRingtoneControl,
     private val preferenceRepo: Preferences,

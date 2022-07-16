@@ -22,7 +22,7 @@ class NotePreferenceRotationTest : ParentRotationTest(), INotePreferenceTest {
     @Test fun content() = runTest({
         preferences.sort = Sort.list.random()
         preferences.defaultColor = Color.list.random()
-        preferences.pauseSaveOn = Random.nextBoolean()
+        preferences.isPauseSaveOn = Random.nextBoolean()
         preferences.autoSaveOn = Random.nextBoolean()
         preferences.savePeriod = SavePeriod.list.random()
     }) {

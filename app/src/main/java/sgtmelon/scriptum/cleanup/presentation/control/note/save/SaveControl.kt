@@ -44,14 +44,14 @@ class SaveControl(
     }
 
     override fun onPauseSave() {
-        if (!model.pauseSaveOn) return
+        if (!model.isPauseSaveOn) return
 
         if (needSave) {
             callback.onResultSaveControl()
         }
     }
 
-    data class Model(val pauseSaveOn: Boolean, val autoSaveOn: Boolean, val savePeriod: Int)
+    data class Model(val isPauseSaveOn: Boolean, val autoSaveOn: Boolean, val savePeriod: Int)
 
     interface Callback {
         fun onResultSaveControl()

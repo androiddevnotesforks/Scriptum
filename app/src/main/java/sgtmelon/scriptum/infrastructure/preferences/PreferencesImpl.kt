@@ -37,9 +37,9 @@ class PreferencesImpl(
         get() = preferences.getInt(key.defaultColor, def.defaultColor)
         set(value) = edit { putInt(key.defaultColor, value) }
 
-    override var pauseSaveOn: Boolean
-        get() = preferences.getBoolean(key.pauseSaveOn, def.pauseSaveOn)
-        set(value) = edit { putBoolean(key.pauseSaveOn, value) }
+    override var isPauseSaveOn: Boolean
+        get() = preferences.getBoolean(key.isPauseSaveOn, def.isPauseSaveOn)
+        set(value) = edit { putBoolean(key.isPauseSaveOn, value) }
 
     override var autoSaveOn: Boolean
         get() = preferences.getBoolean(key.autoSaveOn, def.autoSaveOn)
