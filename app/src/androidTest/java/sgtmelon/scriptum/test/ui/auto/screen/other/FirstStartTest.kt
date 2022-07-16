@@ -11,7 +11,7 @@ import sgtmelon.scriptum.infrastructure.preferences.PreferencesImpl
 import sgtmelon.scriptum.test.parent.ParentUiTest
 
 /**
- * Test for [PreferencesImpl.firstStart] logic
+ * Test for [PreferencesImpl.isFirstStart] logic
  */
 @RunWith(AndroidJUnit4::class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -19,7 +19,7 @@ class FirstStartTest : ParentUiTest() {
 
     @Before override fun setup() = Unit
 
-    @Test fun order0NotFinishIntro() = launch({ preferences.firstStart = true }) {
+    @Test fun order0NotFinishIntro() = launch({ preferences.isFirstStart = true }) {
         introScreen()
     }
 

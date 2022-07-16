@@ -25,6 +25,6 @@ class SplashInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun getFirstStart() = FastTest.getFirstStart(preferenceRepo) {
-        preferenceRepo.firstStart
+        preferenceRepo.isFirstStart
     }
 }

@@ -91,24 +91,24 @@ class MainViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onSaveData() {
-        val firstStart = Random.nextBoolean()
+        val isFirstStart = Random.nextBoolean()
         val pageFrom = MainPage.values().random()
 
-        every { bundle.putBoolean(Intent.FIRST_START, firstStart) } returns Unit
+        every { bundle.putBoolean(Intent.FIRST_START, isFirstStart) } returns Unit
         every { bundle.putInt(Intent.PAGE_CURRENT, pageFrom.ordinal) } returns Unit
 
-        viewModel.firstStart = firstStart
+        viewModel.isFirstStart = isFirstStart
         viewModel.pageFrom = pageFrom
         viewModel.onSaveData(bundle)
 
         verifySequence {
-            bundle.putBoolean(Intent.FIRST_START, firstStart)
+            bundle.putBoolean(Intent.FIRST_START, isFirstStart)
             bundle.putInt(Intent.PAGE_CURRENT, pageFrom.ordinal)
         }
     }
 
     @Test fun onSelectItem_onScrollTOp() {
-        viewModel.firstStart = false
+        viewModel.isFirstStart = false
 
         viewModel.pageFrom = MainPage.RANK
         viewModel.onSelectItem(R.id.item_page_rank)
@@ -129,25 +129,25 @@ class MainViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onSelectItem_onChangePage() {
-        viewModel.firstStart = true
+        viewModel.isFirstStart = true
         viewModel.pageFrom = MainPage.RANK
         viewModel.onSelectItem(R.id.item_page_rank)
 
-        assertFalse(viewModel.firstStart)
+        assertFalse(viewModel.isFirstStart)
         assertEquals(MainPage.RANK, viewModel.pageFrom)
 
-        viewModel.firstStart = false
+        viewModel.isFirstStart = false
         viewModel.pageFrom = MainPage.BIN
         viewModel.onSelectItem(R.id.item_page_notes)
 
-        assertFalse(viewModel.firstStart)
+        assertFalse(viewModel.isFirstStart)
         assertEquals(MainPage.NOTES, viewModel.pageFrom)
 
-        viewModel.firstStart = false
+        viewModel.isFirstStart = false
         viewModel.pageFrom = MainPage.NOTES
         viewModel.onSelectItem(R.id.item_page_bin)
 
-        assertFalse(viewModel.firstStart)
+        assertFalse(viewModel.isFirstStart)
         assertEquals(MainPage.BIN, viewModel.pageFrom)
 
         viewModel.onSelectItem(itemId = -1)

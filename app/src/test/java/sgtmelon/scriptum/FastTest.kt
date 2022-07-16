@@ -41,7 +41,7 @@ object FastTest {
 
     fun getFirstStart(preferenceRepo: Preferences, callFunc: () -> Boolean) {
         fun checkRequestGet(value: Boolean) {
-            every { preferenceRepo.firstStart } returns value
+            every { preferenceRepo.isFirstStart } returns value
             assertEquals(callFunc(), value)
         }
 
@@ -51,7 +51,7 @@ object FastTest {
         }
 
         verifySequence {
-            repeat(valueList.size) { preferenceRepo.firstStart }
+            repeat(valueList.size) { preferenceRepo.isFirstStart }
         }
     }
 

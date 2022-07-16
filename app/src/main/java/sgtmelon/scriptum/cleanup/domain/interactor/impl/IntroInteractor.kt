@@ -11,6 +11,6 @@ class IntroInteractor(private val preferenceRepo: Preferences) : ParentInteracto
     IIntroInteractor {
 
     override fun onIntroFinish() {
-        preferenceRepo.firstStart = false
+        preferenceRepo.isFirstStart = false
     }
 }

@@ -20,13 +20,13 @@ class MainViewModel(callback: IMainActivity) : ParentViewModel<IMainActivity>(ca
     /**
      * Key for detect application start and pageTo == [pageFrom] inside [onSelectItem].
      */
-    @RunPrivate var firstStart: Boolean = true
+    @RunPrivate var isFirstStart: Boolean = true
 
     @RunPrivate var pageFrom: MainPage = START_PAGE
 
     override fun onSetup(bundle: Bundle?) {
         if (bundle != null) {
-            firstStart = bundle.getBoolean(Intent.FIRST_START)
+            isFirstStart = bundle.getBoolean(Intent.FIRST_START)
 
             val pageOrdinal = bundle.getInt(Intent.PAGE_CURRENT)
             pageFrom = MainPage.values().getOrNull(pageOrdinal) ?: START_PAGE
@@ -50,17 +50,17 @@ class MainViewModel(callback: IMainActivity) : ParentViewModel<IMainActivity>(ca
 
 
     override fun onSaveData(bundle: Bundle) = with(bundle) {
-        putBoolean(Intent.FIRST_START, firstStart)
+        putBoolean(Intent.FIRST_START, isFirstStart)
         putInt(Intent.PAGE_CURRENT, pageFrom.ordinal)
     }
 
     override fun onSelectItem(@IdRes itemId: Int) {
         val pageTo = itemId.getPageById() ?: return
 
-        if (!firstStart && pageTo == pageFrom) {
+        if (!isFirstStart && pageTo == pageFrom) {
             callback?.scrollTop(pageTo)
         } else {
-            firstStart = false
+            isFirstStart = false
 
             callback?.apply {
                 setFabState(pageTo.isStartPage())

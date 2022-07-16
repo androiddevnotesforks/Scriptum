@@ -71,7 +71,7 @@ abstract class ParentUiTest : ParentTest() {
          */
         setupTheme(if (Random.nextBoolean()) Theme.LIGHT else Theme.DARK)
         preferences.apply {
-            firstStart = false
+            isFirstStart = false
 
             sort = Sort.CHANGE
 

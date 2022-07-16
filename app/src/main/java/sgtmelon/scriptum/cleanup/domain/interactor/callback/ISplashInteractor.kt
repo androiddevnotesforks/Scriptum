@@ -7,5 +7,5 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.ISplashViewMode
  * Interface for communication [ISplashViewModel] with [SplashInteractor].
  */
 interface ISplashInteractor : IParentInteractor {
-    val firstStart: Boolean
+    val isFirstStart: Boolean
 }

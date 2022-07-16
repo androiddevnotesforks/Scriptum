@@ -38,7 +38,7 @@ class SplashViewModel(
     }
 
     private fun onSimpleStart() {
-        if (interactor.firstStart) {
+        if (interactor.isFirstStart) {
             callback?.openIntroScreen()
         } else {
             callback?.openMainScreen()

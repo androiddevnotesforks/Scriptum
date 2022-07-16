@@ -174,9 +174,9 @@ class PrintDevelopInteractorTest : ParentInteractorTest() {
         val pairIsDeveloper = Pair(nextString(), Random.nextBoolean())
         val valIsDeveloper = Random.nextBoolean()
 
-        every { key.firstStart } returns pairFirstStart.first
-        every { def.firstStart } returns pairFirstStart.second
-        every { preferenceRepo.firstStart } returns valFirstStart
+        every { key.isFirstStart } returns pairFirstStart.first
+        every { def.isFirstStart } returns pairFirstStart.second
+        every { preferenceRepo.isFirstStart } returns valFirstStart
 
         every { key.theme } returns pairTheme.first
         every { def.theme } returns pairTheme.second
@@ -255,9 +255,9 @@ class PrintDevelopInteractorTest : ParentInteractorTest() {
         assertEquals(list, interactor.getPreferenceKeyList())
 
         verifySequence {
-            key.firstStart
-            def.firstStart
-            preferenceRepo.firstStart
+            key.isFirstStart
+            def.isFirstStart
+            preferenceRepo.isFirstStart
             key.theme
             def.theme
             preferenceRepo.theme

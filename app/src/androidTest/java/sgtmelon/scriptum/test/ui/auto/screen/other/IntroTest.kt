@@ -16,7 +16,7 @@ class IntroTest : ParentUiTest() {
 
     @Before override fun setup() {
         super.setup()
-        preferences.firstStart = true
+        preferences.isFirstStart = true
     }
 
     @Test fun contentPlacement() = launch {

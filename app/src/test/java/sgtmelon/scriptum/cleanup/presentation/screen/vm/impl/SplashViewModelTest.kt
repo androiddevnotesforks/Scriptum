@@ -46,7 +46,7 @@ class SplashViewModelTest : ParentViewModelTest() {
 
     @Test fun onSetup_introStart() {
         every { bundle.getString(OpenFrom.INTENT_KEY) } returns null
-        every { interactor.firstStart } returns true
+        every { interactor.isFirstStart } returns true
 
         viewModel.onSetup(bundle = null)
         viewModel.onSetup(bundle)
@@ -56,7 +56,7 @@ class SplashViewModelTest : ParentViewModelTest() {
             callback.sendNotifyNotesBroadcast()
             callback.sendNotifyInfoBroadcast()
 
-            interactor.firstStart
+            interactor.isFirstStart
             callback.openIntroScreen()
 
             callback.sendTidyUpAlarmBroadcast()
@@ -64,14 +64,14 @@ class SplashViewModelTest : ParentViewModelTest() {
             callback.sendNotifyInfoBroadcast()
 
             bundle.getString(OpenFrom.INTENT_KEY)
-            interactor.firstStart
+            interactor.isFirstStart
             callback.openIntroScreen()
         }
     }
 
     @Test fun onSetup_mainStart() {
         every { bundle.getString(OpenFrom.INTENT_KEY) } returns null
-        every { interactor.firstStart } returns false
+        every { interactor.isFirstStart } returns false
 
         viewModel.onSetup(bundle = null)
         viewModel.onSetup(bundle)
@@ -81,7 +81,7 @@ class SplashViewModelTest : ParentViewModelTest() {
             callback.sendNotifyNotesBroadcast()
             callback.sendNotifyInfoBroadcast()
 
-            interactor.firstStart
+            interactor.isFirstStart
             callback.openMainScreen()
 
             callback.sendTidyUpAlarmBroadcast()
@@ -89,7 +89,7 @@ class SplashViewModelTest : ParentViewModelTest() {
             callback.sendNotifyInfoBroadcast()
 
             bundle.getString(OpenFrom.INTENT_KEY)
-            interactor.firstStart
+            interactor.isFirstStart
             callback.openMainScreen()
         }
     }

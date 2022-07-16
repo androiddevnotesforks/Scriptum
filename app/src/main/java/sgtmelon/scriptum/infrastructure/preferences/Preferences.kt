@@ -7,7 +7,7 @@ import sgtmelon.scriptum.cleanup.domain.model.annotation.*
  */
 interface Preferences {
 
-    var firstStart: Boolean
+    var isFirstStart: Boolean
 
     @Theme var theme: Int
 

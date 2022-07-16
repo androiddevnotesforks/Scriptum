@@ -49,14 +49,14 @@ class PreferencesImplTest : ParentTest() {
         val defValue = Random.nextBoolean()
         val value = Random.nextBoolean()
 
-        every { keyProvider.firstStart } returns keyValue
-        every { defProvider.firstStart } returns defValue
+        every { keyProvider.isFirstStart } returns keyValue
+        every { defProvider.isFirstStart } returns defValue
         every { preferences.getBoolean(keyValue, defValue) } returns value
-        assertEquals(value, appPreferences.firstStart)
+        assertEquals(value, appPreferences.isFirstStart)
 
         verifySequence {
-            keyProvider.firstStart
-            defProvider.firstStart
+            keyProvider.isFirstStart
+            defProvider.isFirstStart
 
             preferences.getBoolean(keyValue, defValue)
         }
@@ -66,12 +66,12 @@ class PreferencesImplTest : ParentTest() {
         val keyValue = nextString()
         val value = Random.nextBoolean()
 
-        every { keyProvider.firstStart } returns keyValue
-        appPreferences.firstStart = value
+        every { keyProvider.isFirstStart } returns keyValue
+        appPreferences.isFirstStart = value
 
         verifySequence {
             preferences.edit()
-            keyProvider.firstStart
+            keyProvider.isFirstStart
             preferencesEditor.putBoolean(keyValue, value)
             preferencesEditor.apply()
         }

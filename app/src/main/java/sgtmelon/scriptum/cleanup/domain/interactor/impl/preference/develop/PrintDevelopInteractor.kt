@@ -41,7 +41,7 @@ class PrintDevelopInteractor(
     @RunPrivate fun getPreferenceKeyList(): List<Preference> {
         return listOf(
             Preference.Title(R.string.pref_header_app),
-            Preference.Key(key.firstStart, def.firstStart, preferenceRepo.firstStart),
+            Preference.Key(key.isFirstStart, def.isFirstStart, preferenceRepo.isFirstStart),
             Preference.Key(key.theme, def.theme, preferenceRepo.theme),
             Preference.Title(R.string.pref_title_backup),
             Preference.Key(key.importSkip, def.importSkip, preferenceRepo.importSkip),

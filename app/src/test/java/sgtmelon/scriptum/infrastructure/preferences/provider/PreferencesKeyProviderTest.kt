@@ -5,9 +5,7 @@ import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verifySequence
-import kotlin.random.Random
 import org.junit.After
-import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.common.utils.nextString
@@ -29,7 +27,7 @@ class PreferencesKeyProviderTest : ParentTest() {
     }
 
     @Test fun `correct links`() {
-        val firstStart = nextString()
+        val isFirstStart = nextString()
         val theme = nextString()
         val importSkip = nextString()
         val sort = nextString()
@@ -44,7 +42,7 @@ class PreferencesKeyProviderTest : ParentTest() {
         val volumeIncrease = nextString()
         val isDeveloper = nextString()
 
-        every { resources.getString(R.string.pref_key_first_start) } returns firstStart
+        every { resources.getString(R.string.pref_key_first_start) } returns isFirstStart
         every { resources.getString(R.string.pref_key_app_theme) } returns theme
         every { resources.getString(R.string.pref_key_backup_skip) } returns importSkip
         every { resources.getString(R.string.pref_key_note_sort) } returns sort
@@ -59,7 +57,7 @@ class PreferencesKeyProviderTest : ParentTest() {
         every { resources.getString(R.string.pref_key_alarm_increase) } returns volumeIncrease
         every { resources.getString(R.string.pref_key_other_develop) } returns isDeveloper
 
-        assertEquals(firstStart, providerKey.firstStart)
+        assertEquals(isFirstStart, providerKey.isFirstStart)
         assertEquals(theme, providerKey.theme)
         assertEquals(importSkip, providerKey.importSkip)
         assertEquals(sort, providerKey.sort)

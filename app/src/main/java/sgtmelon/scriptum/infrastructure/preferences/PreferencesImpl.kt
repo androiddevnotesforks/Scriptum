@@ -15,9 +15,9 @@ class PreferencesImpl(
     private val preferences: SharedPreferences
 ) : Preferences {
 
-    override var firstStart: Boolean
-        get() = preferences.getBoolean(key.firstStart, def.firstStart)
-        set(value) = edit { putBoolean(key.firstStart, value) }
+    override var isFirstStart: Boolean
+        get() = preferences.getBoolean(key.isFirstStart, def.isFirstStart)
+        set(value) = edit { putBoolean(key.isFirstStart, value) }
 
     @Theme override var theme: Int
         get() = preferences.getInt(key.theme, def.theme)

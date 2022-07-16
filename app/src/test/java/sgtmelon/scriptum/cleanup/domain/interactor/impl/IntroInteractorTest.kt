@@ -28,7 +28,7 @@ class IntroInteractorTest : ParentInteractorTest() {
         interactor.onIntroFinish()
 
         verifySequence {
-            preferenceRepo.firstStart = false
+            preferenceRepo.isFirstStart = false
         }
     }
 }

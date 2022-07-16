@@ -28,7 +28,7 @@ class PreferencesDefProviderTest : ParentTest() {
     }
 
     @Test fun `correct links`() {
-        val firstStart = Random.nextBoolean()
+        val isFirstStart = Random.nextBoolean()
         val theme = Random.nextInt()
         val importSkip = Random.nextBoolean()
         val sort = Random.nextInt()
@@ -43,7 +43,7 @@ class PreferencesDefProviderTest : ParentTest() {
         val volumeIncrease = Random.nextBoolean()
         val isDeveloper = Random.nextBoolean()
 
-        every { resources.getBoolean(R.bool.pref_first_start) } returns firstStart
+        every { resources.getBoolean(R.bool.pref_first_start) } returns isFirstStart
         every { resources.getInteger(R.integer.pref_app_theme) } returns theme
         every { resources.getBoolean(R.bool.pref_backup_import_skip) } returns importSkip
         every { resources.getInteger(R.integer.pref_note_sort) } returns sort
@@ -58,7 +58,7 @@ class PreferencesDefProviderTest : ParentTest() {
         every { resources.getBoolean(R.bool.pref_alarm_increase) } returns volumeIncrease
         every { resources.getBoolean(R.bool.pref_other_develop) } returns isDeveloper
 
-        assertEquals(firstStart, providerDef.firstStart)
+        assertEquals(isFirstStart, providerDef.isFirstStart)
         assertEquals(theme, providerDef.theme)
         assertEquals(importSkip, providerDef.importSkip)
         assertEquals(sort, providerDef.sort)
