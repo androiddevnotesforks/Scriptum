@@ -56,7 +56,7 @@ class AlarmViewModel(
         viewModelScope.launch {
             val melodyUri = runBack { signalInteractor.getMelodyUri() }
             if (melodyUri != null) {
-                callback?.setupPlayer(melodyUri, interactor.volume, interactor.volumeIncrease)
+                callback?.setupPlayer(melodyUri, interactor.volume, interactor.isVolumeIncrease)
             }
 
             /**

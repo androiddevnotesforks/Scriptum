@@ -222,9 +222,9 @@ class PrintDevelopInteractorTest : ParentInteractorTest() {
         every { def.volume } returns pairVolume.second
         every { preferenceRepo.volume } returns valVolume
 
-        every { key.volumeIncrease } returns pairVolumeIncrease.first
-        every { def.volumeIncrease } returns pairVolumeIncrease.second
-        every { preferenceRepo.volumeIncrease } returns valVolumeIncrease
+        every { key.isVolumeIncrease } returns pairVolumeIncrease.first
+        every { def.isVolumeIncrease } returns pairVolumeIncrease.second
+        every { preferenceRepo.isVolumeIncrease } returns valVolumeIncrease
 
         every { key.isDeveloper } returns pairIsDeveloper.first
         every { def.isDeveloper } returns pairIsDeveloper.second
@@ -291,9 +291,9 @@ class PrintDevelopInteractorTest : ParentInteractorTest() {
             key.volume
             def.volume
             preferenceRepo.volume
-            key.volumeIncrease
-            def.volumeIncrease
-            preferenceRepo.volumeIncrease
+            key.isVolumeIncrease
+            def.isVolumeIncrease
+            preferenceRepo.isVolumeIncrease
             key.isDeveloper
             def.isDeveloper
             preferenceRepo.isDeveloper

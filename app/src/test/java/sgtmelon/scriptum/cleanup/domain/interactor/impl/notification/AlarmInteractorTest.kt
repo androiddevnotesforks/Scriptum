@@ -49,11 +49,11 @@ class AlarmInteractorTest : ParentInteractorTest() {
     @Test fun getVolumeIncrease() {
         val value = Random.nextBoolean()
 
-        every { preferenceRepo.volumeIncrease } returns value
-        assertEquals(value, interactor.volumeIncrease)
+        every { preferenceRepo.isVolumeIncrease } returns value
+        assertEquals(value, interactor.isVolumeIncrease)
 
         verifySequence {
-            preferenceRepo.volumeIncrease
+            preferenceRepo.isVolumeIncrease
         }
     }
 

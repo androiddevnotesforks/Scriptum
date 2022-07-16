@@ -53,7 +53,7 @@ class AlarmPreferenceLogic : ParentPreferenceLogic() {
         list.add(Switch(
             R.string.pref_title_alarm_increase,
             R.string.pref_summary_alarm_increase,
-            preferences.volumeIncrease,
+            preferences.isVolumeIncrease,
             isMelody
         ))
 

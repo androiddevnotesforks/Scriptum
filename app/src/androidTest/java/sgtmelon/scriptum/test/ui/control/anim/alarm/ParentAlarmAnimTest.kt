@@ -19,7 +19,7 @@ abstract class ParentAlarmAnimTest(@Theme private val theme: Int) : ParentUiTest
         with(preferences) {
             signal = Random.nextInt(from = 1, until = 3)
             volume = Random.nextInt(from = 50, until = 100)
-            volumeIncrease = Random.nextBoolean()
+            isVolumeIncrease = Random.nextBoolean()
         }
 
         val noteItem = data.clear().let {

@@ -34,7 +34,7 @@ interface Preferences {
 
     var volume: Int
 
-    var volumeIncrease: Boolean
+    var isVolumeIncrease: Boolean
 
 
     var isDeveloper: Boolean

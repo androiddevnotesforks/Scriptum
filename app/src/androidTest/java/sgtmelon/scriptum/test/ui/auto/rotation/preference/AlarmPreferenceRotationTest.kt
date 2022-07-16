@@ -29,7 +29,7 @@ class AlarmPreferenceRotationTest : ParentRotationTest(), IAlarmPreferenceTest {
         preferences.melodyUri = melodyList.random().uri
 
         preferences.volume = VolumeDialogUi.random()
-        preferences.volumeIncrease = Random.nextBoolean()
+        preferences.isVolumeIncrease = Random.nextBoolean()
     }) {
         automator.rotateSide()
         assert()

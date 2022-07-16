@@ -56,7 +56,7 @@ class PrintDevelopInteractor(
             Preference.Key(key.signal, def.signal, preferenceRepo.signal),
             Preference.Key(key.melodyUri, def.melodyUri, preferenceRepo.melodyUri),
             Preference.Key(key.volume, def.volume, preferenceRepo.volume),
-            Preference.Key(key.volumeIncrease, def.volumeIncrease, preferenceRepo.volumeIncrease),
+            Preference.Key(key.isVolumeIncrease, def.isVolumeIncrease, preferenceRepo.isVolumeIncrease),
             Preference.Title(R.string.pref_header_other),
             Preference.Key(key.isDeveloper, def.isDeveloper, preferenceRepo.isDeveloper)
         )

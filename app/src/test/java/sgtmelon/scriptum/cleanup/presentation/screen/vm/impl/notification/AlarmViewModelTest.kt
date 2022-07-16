@@ -6,7 +6,6 @@ import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Assert.*
-import org.junit.Before
 import org.junit.Test
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.TestData
@@ -85,13 +84,13 @@ class AlarmViewModelTest : ParentViewModelTest() {
         val noteItem = data.thirdNote
 
         val volume = Random.nextInt()
-        val volumeIncrease = Random.nextBoolean()
+        val isVolumeIncrease = Random.nextBoolean()
 
         every { bundle.getLong(Note.Intent.ID, Note.Default.ID) } returns id
         coEvery { signalInteractor.getMelodyUri() } returns URI
 
         every { interactor.volume } returns volume
-        every { interactor.volumeIncrease } returns volumeIncrease
+        every { interactor.isVolumeIncrease } returns isVolumeIncrease
         every { signalInteractor.state } returns null
         viewModel.onSetup(bundle)
 
@@ -108,8 +107,8 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
                 signalInteractor.getMelodyUri()
                 interactor.volume
-                interactor.volumeIncrease
-                setupPlayer(URI, volume, volumeIncrease)
+                interactor.isVolumeIncrease
+                setupPlayer(URI, volume, isVolumeIncrease)
             }
             signalInteractor.state
 
@@ -121,8 +120,8 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
                 signalInteractor.getMelodyUri()
                 interactor.volume
-                interactor.volumeIncrease
-                setupPlayer(URI, volume, volumeIncrease)
+                interactor.isVolumeIncrease
+                setupPlayer(URI, volume, isVolumeIncrease)
             }
             signalInteractor.state
             interactor.getModel(id)
@@ -138,7 +137,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
         val id = Random.nextLong()
 
         val volume = Random.nextInt()
-        val volumeIncrease = Random.nextBoolean()
+        val isVolumeIncrease = Random.nextBoolean()
 
         every { bundle.getLong(Note.Intent.ID, Note.Default.ID) } returns id
         coEvery { signalInteractor.getMelodyUri() } returns URI
@@ -151,7 +150,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
         }
 
         every { interactor.volume } returns volume
-        every { interactor.volumeIncrease } returns volumeIncrease
+        every { interactor.isVolumeIncrease } returns isVolumeIncrease
         every { signalInteractor.state } returns null
         callOnSetup()
 
@@ -172,8 +171,8 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
                     signalInteractor.getMelodyUri()
                     interactor.volume
-                    interactor.volumeIncrease
-                    setupPlayer(URI, volume, volumeIncrease)
+                    interactor.isVolumeIncrease
+                    setupPlayer(URI, volume, isVolumeIncrease)
                 }
                 signalInteractor.state
             }
@@ -188,8 +187,8 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
                     signalInteractor.getMelodyUri()
                     interactor.volume
-                    interactor.volumeIncrease
-                    setupPlayer(URI, volume, volumeIncrease)
+                    interactor.isVolumeIncrease
+                    setupPlayer(URI, volume, isVolumeIncrease)
                 }
                 signalInteractor.state
                 if (it.isDivideTwoEntirely()) {
@@ -212,7 +211,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
         viewModel.noteItem = noteItem
 
         every { interactor.volume } returns 1
-        every { interactor.volumeIncrease } returns true
+        every { interactor.isVolumeIncrease } returns true
 
         viewModel.onSetup(bundle)
         viewModel.onSetup()

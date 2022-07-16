@@ -39,7 +39,7 @@ class PreferencesKeyProviderTest : ParentTest() {
         val signal = nextString()
         val melodyUri = nextString()
         val volume = nextString()
-        val volumeIncrease = nextString()
+        val isVolumeIncrease = nextString()
         val isDeveloper = nextString()
 
         every { resources.getString(R.string.pref_key_first_start) } returns isFirstStart
@@ -54,7 +54,7 @@ class PreferencesKeyProviderTest : ParentTest() {
         every { resources.getString(R.string.pref_key_alarm_signal) } returns signal
         every { resources.getString(R.string.pref_key_alarm_melody) } returns melodyUri
         every { resources.getString(R.string.pref_key_alarm_volume) } returns volume
-        every { resources.getString(R.string.pref_key_alarm_increase) } returns volumeIncrease
+        every { resources.getString(R.string.pref_key_alarm_increase) } returns isVolumeIncrease
         every { resources.getString(R.string.pref_key_other_develop) } returns isDeveloper
 
         assertEquals(isFirstStart, providerKey.isFirstStart)
@@ -69,7 +69,7 @@ class PreferencesKeyProviderTest : ParentTest() {
         assertEquals(signal, providerKey.signal)
         assertEquals(melodyUri, providerKey.melodyUri)
         assertEquals(volume, providerKey.volume)
-        assertEquals(volumeIncrease, providerKey.volumeIncrease)
+        assertEquals(isVolumeIncrease, providerKey.isVolumeIncrease)
         assertEquals(isDeveloper, providerKey.isDeveloper)
 
         verifySequence {

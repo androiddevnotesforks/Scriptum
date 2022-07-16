@@ -40,7 +40,7 @@ class PreferencesDefProviderTest : ParentTest() {
         val signal = Random.nextInt()
         val melodyUri = nextString()
         val volume = Random.nextInt()
-        val volumeIncrease = Random.nextBoolean()
+        val isVolumeIncrease = Random.nextBoolean()
         val isDeveloper = Random.nextBoolean()
 
         every { resources.getBoolean(R.bool.pref_first_start) } returns isFirstStart
@@ -55,7 +55,7 @@ class PreferencesDefProviderTest : ParentTest() {
         every { resources.getInteger(R.integer.pref_alarm_signal) } returns signal
         every { resources.getString(R.string.pref_alarm_melody) } returns melodyUri
         every { resources.getInteger(R.integer.pref_alarm_volume) } returns volume
-        every { resources.getBoolean(R.bool.pref_alarm_increase) } returns volumeIncrease
+        every { resources.getBoolean(R.bool.pref_alarm_increase) } returns isVolumeIncrease
         every { resources.getBoolean(R.bool.pref_other_develop) } returns isDeveloper
 
         assertEquals(isFirstStart, providerDef.isFirstStart)
@@ -70,7 +70,7 @@ class PreferencesDefProviderTest : ParentTest() {
         assertEquals(signal, providerDef.signal)
         assertEquals(melodyUri, providerDef.melodyUri)
         assertEquals(volume, providerDef.volume)
-        assertEquals(volumeIncrease, providerDef.volumeIncrease)
+        assertEquals(isVolumeIncrease, providerDef.isVolumeIncrease)
         assertEquals(isDeveloper, providerDef.isDeveloper)
 
         verifySequence {

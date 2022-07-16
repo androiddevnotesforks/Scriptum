@@ -69,9 +69,9 @@ class PreferencesImpl(
         get() = preferences.getInt(key.volume, def.volume)
         set(value) = edit { putInt(key.volume, value) }
 
-    override var volumeIncrease: Boolean
-        get() = preferences.getBoolean(key.volumeIncrease, def.volumeIncrease)
-        set(value) = edit { putBoolean(key.volumeIncrease, value) }
+    override var isVolumeIncrease: Boolean
+        get() = preferences.getBoolean(key.isVolumeIncrease, def.isVolumeIncrease)
+        set(value) = edit { putBoolean(key.isVolumeIncrease, value) }
 
 
     override var isDeveloper: Boolean

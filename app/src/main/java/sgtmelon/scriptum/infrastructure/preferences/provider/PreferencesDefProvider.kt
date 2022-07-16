@@ -24,7 +24,7 @@ class PreferencesDefProvider(resources: Resources) {
     val signal: Int = resources.getInteger(R.integer.pref_alarm_signal)
     val melodyUri: String = resources.getString(R.string.pref_alarm_melody)
     val volume: Int = resources.getInteger(R.integer.pref_alarm_volume)
-    val volumeIncrease: Boolean = resources.getBoolean(R.bool.pref_alarm_increase)
+    val isVolumeIncrease: Boolean = resources.getBoolean(R.bool.pref_alarm_increase)
 
     val isDeveloper: Boolean = resources.getBoolean(R.bool.pref_other_develop)
 }

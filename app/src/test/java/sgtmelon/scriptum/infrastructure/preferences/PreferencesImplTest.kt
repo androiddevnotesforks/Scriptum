@@ -455,14 +455,14 @@ class PreferencesImplTest : ParentTest() {
         val defValue = Random.nextBoolean()
         val value = Random.nextBoolean()
 
-        every { keyProvider.volumeIncrease } returns keyValue
-        every { defProvider.volumeIncrease } returns defValue
+        every { keyProvider.isVolumeIncrease } returns keyValue
+        every { defProvider.isVolumeIncrease } returns defValue
         every { preferences.getBoolean(keyValue, defValue) } returns value
-        assertEquals(value, appPreferences.volumeIncrease)
+        assertEquals(value, appPreferences.isVolumeIncrease)
 
         verifySequence {
-            keyProvider.volumeIncrease
-            defProvider.volumeIncrease
+            keyProvider.isVolumeIncrease
+            defProvider.isVolumeIncrease
 
             preferences.getBoolean(keyValue, defValue)
         }
@@ -472,12 +472,12 @@ class PreferencesImplTest : ParentTest() {
         val keyValue = nextString()
         val value = Random.nextBoolean()
 
-        every { keyProvider.volumeIncrease } returns keyValue
-        appPreferences.volumeIncrease = value
+        every { keyProvider.isVolumeIncrease } returns keyValue
+        appPreferences.isVolumeIncrease = value
 
         verifySequence {
             preferences.edit()
-            keyProvider.volumeIncrease
+            keyProvider.isVolumeIncrease
             preferencesEditor.putBoolean(keyValue, value)
             preferencesEditor.apply()
         }

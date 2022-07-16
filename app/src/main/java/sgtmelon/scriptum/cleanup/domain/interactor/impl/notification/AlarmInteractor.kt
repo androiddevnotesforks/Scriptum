@@ -27,7 +27,7 @@ class AlarmInteractor(
 
     override val volume: Int get() = preferenceRepo.volume
 
-    override val volumeIncrease: Boolean get() = preferenceRepo.volumeIncrease
+    override val isVolumeIncrease: Boolean get() = preferenceRepo.isVolumeIncrease
 
 
     override suspend fun getModel(id: Long): NoteItem? {

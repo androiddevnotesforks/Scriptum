@@ -16,7 +16,7 @@ interface IAlarmInteractor : IParentInteractor {
 
     val volume: Int
 
-    val volumeIncrease: Boolean
+    val isVolumeIncrease: Boolean
 
 
     suspend fun getModel(id: Long): NoteItem?
