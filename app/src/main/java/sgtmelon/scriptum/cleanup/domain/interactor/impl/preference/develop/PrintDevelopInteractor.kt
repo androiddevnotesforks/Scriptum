@@ -22,7 +22,7 @@ class PrintDevelopInteractor(
     private val developRepo: IDevelopRepo,
     private val key: PreferencesKeyProvider,
     private val def: PreferencesDefProvider,
-    private val preferenceRepo: Preferences,
+    private val preferences: Preferences,
     private val fileControl: IFileControl
 ) : ParentInteractor(),
     IPrintDevelopInteractor {
@@ -41,24 +41,24 @@ class PrintDevelopInteractor(
     @RunPrivate fun getPreferenceKeyList(): List<Preference> {
         return listOf(
             Preference.Title(R.string.pref_header_app),
-            Preference.Key(key.isFirstStart, def.isFirstStart, preferenceRepo.isFirstStart),
-            Preference.Key(key.theme, def.theme, preferenceRepo.theme),
+            Preference.Key(key.isFirstStart, def.isFirstStart, preferences.isFirstStart),
+            Preference.Key(key.theme, def.theme, preferences.theme),
             Preference.Title(R.string.pref_title_backup),
-            Preference.Key(key.isBackupSkipImports, def.isBackupSkipImports, preferenceRepo.isBackupSkipImports),
+            Preference.Key(key.isBackupSkipImports, def.isBackupSkipImports, preferences.isBackupSkipImports),
             Preference.Title(R.string.pref_title_note),
-            Preference.Key(key.sort, def.sort, preferenceRepo.sort),
-            Preference.Key(key.defaultColor, def.defaultColor, preferenceRepo.defaultColor),
-            Preference.Key(key.isPauseSaveOn, def.isPauseSaveOn, preferenceRepo.isPauseSaveOn),
-            Preference.Key(key.isAutoSaveOn, def.isAutoSaveOn, preferenceRepo.isAutoSaveOn),
-            Preference.Key(key.savePeriod, def.savePeriod, preferenceRepo.savePeriod),
+            Preference.Key(key.sort, def.sort, preferences.sort),
+            Preference.Key(key.defaultColor, def.defaultColor, preferences.defaultColor),
+            Preference.Key(key.isPauseSaveOn, def.isPauseSaveOn, preferences.isPauseSaveOn),
+            Preference.Key(key.isAutoSaveOn, def.isAutoSaveOn, preferences.isAutoSaveOn),
+            Preference.Key(key.savePeriod, def.savePeriod, preferences.savePeriod),
             Preference.Title(R.string.pref_title_alarm),
-            Preference.Key(key.repeat, def.repeat, preferenceRepo.repeat),
-            Preference.Key(key.signal, def.signal, preferenceRepo.signal),
-            Preference.Key(key.melodyUri, def.melodyUri, preferenceRepo.melodyUri),
-            Preference.Key(key.volume, def.volume, preferenceRepo.volume),
-            Preference.Key(key.isVolumeIncrease, def.isVolumeIncrease, preferenceRepo.isVolumeIncrease),
+            Preference.Key(key.repeat, def.repeat, preferences.repeat),
+            Preference.Key(key.signal, def.signal, preferences.signal),
+            Preference.Key(key.melodyUri, def.melodyUri, preferences.melodyUri),
+            Preference.Key(key.volume, def.volume, preferences.volume),
+            Preference.Key(key.isVolumeIncrease, def.isVolumeIncrease, preferences.isVolumeIncrease),
             Preference.Title(R.string.pref_header_other),
-            Preference.Key(key.isDeveloper, def.isDeveloper, preferenceRepo.isDeveloper)
+            Preference.Key(key.isDeveloper, def.isDeveloper, preferences.isDeveloper)
         )
     }
 

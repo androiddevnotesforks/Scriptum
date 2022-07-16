@@ -31,11 +31,11 @@ class PrintDevelopInteractorTest : ParentInteractorTest() {
     @MockK lateinit var developRepo: IDevelopRepo
     @MockK lateinit var key: PreferencesKeyProvider
     @MockK lateinit var def: PreferencesDefProvider
-    @MockK lateinit var preferenceRepo: Preferences
+    @MockK lateinit var preferences: Preferences
     @MockK lateinit var fileControl: IFileControl
 
     private val interactor by lazy {
-        PrintDevelopInteractor(developRepo, key, def, preferenceRepo, fileControl)
+        PrintDevelopInteractor(developRepo, key, def, preferences, fileControl)
     }
     private val spyInteractor by lazy { spyk(interactor) }
 
@@ -176,59 +176,59 @@ class PrintDevelopInteractorTest : ParentInteractorTest() {
 
         every { key.isFirstStart } returns pairFirstStart.first
         every { def.isFirstStart } returns pairFirstStart.second
-        every { preferenceRepo.isFirstStart } returns valFirstStart
+        every { preferences.isFirstStart } returns valFirstStart
 
         every { key.theme } returns pairTheme.first
         every { def.theme } returns pairTheme.second
-        every { preferenceRepo.theme } returns valTheme
+        every { preferences.theme } returns valTheme
 
         every { key.isBackupSkipImports } returns pairImportSkip.first
         every { def.isBackupSkipImports } returns pairImportSkip.second
-        every { preferenceRepo.isBackupSkipImports } returns valImportSkip
+        every { preferences.isBackupSkipImports } returns valImportSkip
 
         every { key.sort } returns pairSort.first
         every { def.sort } returns pairSort.second
-        every { preferenceRepo.sort } returns valSort
+        every { preferences.sort } returns valSort
 
         every { key.defaultColor } returns pairDefaultColor.first
         every { def.defaultColor } returns pairDefaultColor.second
-        every { preferenceRepo.defaultColor } returns valDefaultColor
+        every { preferences.defaultColor } returns valDefaultColor
 
         every { key.isPauseSaveOn } returns pairPauseSaveOn.first
         every { def.isPauseSaveOn } returns pairPauseSaveOn.second
-        every { preferenceRepo.isPauseSaveOn } returns valPauseSaveOn
+        every { preferences.isPauseSaveOn } returns valPauseSaveOn
 
         every { key.isAutoSaveOn } returns pairAutoSaveOn.first
         every { def.isAutoSaveOn } returns pairAutoSaveOn.second
-        every { preferenceRepo.isAutoSaveOn } returns valAutoSaveOn
+        every { preferences.isAutoSaveOn } returns valAutoSaveOn
 
         every { key.savePeriod } returns pairSavePeriod.first
         every { def.savePeriod } returns pairSavePeriod.second
-        every { preferenceRepo.savePeriod } returns valSavePeriod
+        every { preferences.savePeriod } returns valSavePeriod
 
         every { key.repeat } returns pairRepeat.first
         every { def.repeat } returns pairRepeat.second
-        every { preferenceRepo.repeat } returns valRepeat
+        every { preferences.repeat } returns valRepeat
 
         every { key.signal } returns pairSignal.first
         every { def.signal } returns pairSignal.second
-        every { preferenceRepo.signal } returns valSignal
+        every { preferences.signal } returns valSignal
 
         every { key.melodyUri } returns pairMelodyUri.first
         every { def.melodyUri } returns pairMelodyUri.second
-        every { preferenceRepo.melodyUri } returns valMelodyUri
+        every { preferences.melodyUri } returns valMelodyUri
 
         every { key.volume } returns pairVolume.first
         every { def.volume } returns pairVolume.second
-        every { preferenceRepo.volume } returns valVolume
+        every { preferences.volume } returns valVolume
 
         every { key.isVolumeIncrease } returns pairVolumeIncrease.first
         every { def.isVolumeIncrease } returns pairVolumeIncrease.second
-        every { preferenceRepo.isVolumeIncrease } returns valVolumeIncrease
+        every { preferences.isVolumeIncrease } returns valVolumeIncrease
 
         every { key.isDeveloper } returns pairIsDeveloper.first
         every { def.isDeveloper } returns pairIsDeveloper.second
-        every { preferenceRepo.isDeveloper } returns valIsDeveloper
+        every { preferences.isDeveloper } returns valIsDeveloper
 
         val list = listOf(
             Preference.Title(R.string.pref_header_app),
@@ -257,46 +257,46 @@ class PrintDevelopInteractorTest : ParentInteractorTest() {
         verifySequence {
             key.isFirstStart
             def.isFirstStart
-            preferenceRepo.isFirstStart
+            preferences.isFirstStart
             key.theme
             def.theme
-            preferenceRepo.theme
+            preferences.theme
             key.isBackupSkipImports
             def.isBackupSkipImports
-            preferenceRepo.isBackupSkipImports
+            preferences.isBackupSkipImports
             key.sort
             def.sort
-            preferenceRepo.sort
+            preferences.sort
             key.defaultColor
             def.defaultColor
-            preferenceRepo.defaultColor
+            preferences.defaultColor
             key.isPauseSaveOn
             def.isPauseSaveOn
-            preferenceRepo.isPauseSaveOn
+            preferences.isPauseSaveOn
             key.isAutoSaveOn
             def.isAutoSaveOn
-            preferenceRepo.isAutoSaveOn
+            preferences.isAutoSaveOn
             key.savePeriod
             def.savePeriod
-            preferenceRepo.savePeriod
+            preferences.savePeriod
             key.repeat
             def.repeat
-            preferenceRepo.repeat
+            preferences.repeat
             key.signal
             def.signal
-            preferenceRepo.signal
+            preferences.signal
             key.melodyUri
             def.melodyUri
-            preferenceRepo.melodyUri
+            preferences.melodyUri
             key.volume
             def.volume
-            preferenceRepo.volume
+            preferences.volume
             key.isVolumeIncrease
             def.isVolumeIncrease
-            preferenceRepo.isVolumeIncrease
+            preferences.isVolumeIncrease
             key.isDeveloper
             def.isDeveloper
-            preferenceRepo.isDeveloper
+            preferences.isDeveloper
         }
     }
 

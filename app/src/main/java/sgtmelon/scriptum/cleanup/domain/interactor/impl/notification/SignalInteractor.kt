@@ -18,7 +18,7 @@ import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IRingtoneC
 // TODO #PREF move staff from here into preferenceRepo
 class SignalInteractor(
     private val ringtoneControl: IRingtoneControl,
-    private val preferenceRepo: Preferences,
+    private val preferences: Preferences,
     private val intConverter: IntConverter
 ) : ParentInteractor(),
     ISignalInteractor {
@@ -27,7 +27,7 @@ class SignalInteractor(
 
 
     override val typeCheck: BooleanArray
-        get() = intConverter.toArray(preferenceRepo.signal, Signal.digitCount)
+        get() = intConverter.toArray(preferences.signal, Signal.digitCount)
 
     override val state: SignalState? get() = SignalState[typeCheck]
 
@@ -51,14 +51,14 @@ class SignalInteractor(
     override suspend fun getMelodyUri(): String? {
         val list = getMelodyList()
 
-        var value = preferenceRepo.melodyUri
+        var value = preferences.melodyUri
 
         /**
          * Check uri exist.
          */
         if (value.isEmpty() || !list.any { it.uri == value }) {
             value = list.firstOrNull()?.uri ?: return null
-            preferenceRepo.melodyUri = value
+            preferences.melodyUri = value
         }
 
         return value
@@ -76,7 +76,7 @@ class SignalInteractor(
          * Check uri exist.
          */
         val item = list.firstOrNull { it.title == title } ?: list.firstOrNull()
-        preferenceRepo.melodyUri = item?.uri ?: return null
+        preferences.melodyUri = item?.uri ?: return null
 
         return item.title
     }

@@ -39,9 +39,9 @@ object FastTest {
 
     // TODO create common interactor or anything else for remove some fast test functions (like date)
 
-    fun getFirstStart(preferenceRepo: Preferences, callFunc: () -> Boolean) {
+    fun getFirstStart(preferences: Preferences, callFunc: () -> Boolean) {
         fun checkRequestGet(value: Boolean) {
-            every { preferenceRepo.isFirstStart } returns value
+            every { preferences.isFirstStart } returns value
             assertEquals(callFunc(), value)
         }
 
@@ -51,13 +51,13 @@ object FastTest {
         }
 
         verifySequence {
-            repeat(valueList.size) { preferenceRepo.isFirstStart }
+            repeat(valueList.size) { preferences.isFirstStart }
         }
     }
 
-    fun getTheme(preferenceRepo: Preferences, callFunc: () -> Int) {
+    fun getTheme(preferences: Preferences, callFunc: () -> Int) {
         fun checkRequestGet(value: Int) {
-            every { preferenceRepo.theme } returns value
+            every { preferences.theme } returns value
             assertEquals(callFunc(), value)
         }
 
@@ -67,13 +67,13 @@ object FastTest {
         }
 
         verifySequence {
-            repeat(valueList.size) { preferenceRepo.theme }
+            repeat(valueList.size) { preferences.theme }
         }
     }
 
-    fun getSort(preferenceRepo: Preferences, callFunc: () -> Int) {
+    fun getSort(preferences: Preferences, callFunc: () -> Int) {
         fun checkRequestGet(value: Int) {
-            every { preferenceRepo.sort } returns value
+            every { preferences.sort } returns value
             assertEquals(callFunc(), value)
         }
 
@@ -83,13 +83,13 @@ object FastTest {
         }
 
         verifySequence {
-            repeat(valueList.size) { preferenceRepo.sort }
+            repeat(valueList.size) { preferences.sort }
         }
     }
 
-    fun getDefaultColor(preferenceRepo: Preferences, callFunc: () -> Int) {
+    fun getDefaultColor(preferences: Preferences, callFunc: () -> Int) {
         fun checkRequestGet(value: Int) {
-            every { preferenceRepo.defaultColor } returns value
+            every { preferences.defaultColor } returns value
             assertEquals(callFunc(), value)
         }
 
@@ -99,13 +99,13 @@ object FastTest {
         }
 
         verifySequence {
-            repeat(valueList.size) { preferenceRepo.defaultColor }
+            repeat(valueList.size) { preferences.defaultColor }
         }
     }
 
-    fun getRepeat(preferenceRepo: Preferences, callFunc: () -> Int) {
+    fun getRepeat(preferences: Preferences, callFunc: () -> Int) {
         fun checkRequestGet(value: Int) {
-            every { preferenceRepo.repeat } returns value
+            every { preferences.repeat } returns value
             assertEquals(callFunc(), value)
         }
 
@@ -115,13 +115,13 @@ object FastTest {
         }
 
         verifySequence {
-            repeat(valueList.size) { preferenceRepo.repeat }
+            repeat(valueList.size) { preferences.repeat }
         }
     }
 
-    fun getVolume(preferenceRepo: Preferences, callFunc: () -> Int) {
+    fun getVolume(preferences: Preferences, callFunc: () -> Int) {
         fun checkRequestGet(value: Int) {
-            every { preferenceRepo.volume } returns value
+            every { preferences.volume } returns value
             assertEquals(callFunc(), value)
         }
 
@@ -131,7 +131,7 @@ object FastTest {
         }
 
         verifySequence {
-            repeat(valueList.size) { preferenceRepo.volume }
+            repeat(valueList.size) { preferences.volume }
         }
     }
 
@@ -1076,18 +1076,18 @@ object FastTest {
 
         //region Note
 
-        fun getSaveModel(preferenceRepo: Preferences, callFunc: () -> SaveControl.Model) {
+        fun getSaveModel(preferences: Preferences, callFunc: () -> SaveControl.Model) {
             val model = with(Random) { SaveControl.Model(nextBoolean(), nextBoolean(), nextInt()) }
 
-            every { preferenceRepo.isPauseSaveOn } returns model.isPauseSaveOn
-            every { preferenceRepo.isAutoSaveOn } returns model.isAutoSaveOn
-            every { preferenceRepo.savePeriod } returns model.savePeriod
+            every { preferences.isPauseSaveOn } returns model.isPauseSaveOn
+            every { preferences.isAutoSaveOn } returns model.isAutoSaveOn
+            every { preferences.savePeriod } returns model.savePeriod
             assertEquals(model, callFunc())
 
             verifySequence {
-                preferenceRepo.isPauseSaveOn
-                preferenceRepo.isAutoSaveOn
-                preferenceRepo.savePeriod
+                preferences.isPauseSaveOn
+                preferences.isAutoSaveOn
+                preferences.savePeriod
             }
         }
 

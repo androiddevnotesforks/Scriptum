@@ -9,8 +9,8 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.INoteViewM
 /**
  * Interactor for [INoteViewModel].
  */
-class NoteInteractor(private val preferenceRepo: Preferences) : ParentInteractor(),
+class NoteInteractor(private val preferences: Preferences) : ParentInteractor(),
         INoteInteractor {
 
-    @Color override val defaultColor: Int get() = preferenceRepo.defaultColor
+    @Color override val defaultColor: Int get() = preferences.defaultColor
 }

@@ -11,7 +11,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IBinViewMo
  * Interactor for [IBinViewModel].
  */
 class BinInteractor(
-    private val preferenceRepo: Preferences,
+    private val preferences: Preferences,
     private val noteRepo: INoteRepo
 ) : ParentInteractor(),
     IBinInteractor {
@@ -19,7 +19,7 @@ class BinInteractor(
     override suspend fun getCount(): Int = noteRepo.getCount(isBin = true)
 
     override suspend fun getList(): MutableList<NoteItem> {
-        val sort = preferenceRepo.sort
+        val sort = preferences.sort
         return noteRepo.getList(sort, isBin = true, isOptimal = true, filterVisible = false)
     }
 

@@ -7,10 +7,10 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IIntroViewModel
 /**
  * Interactor for [IIntroViewModel].
  */
-class IntroInteractor(private val preferenceRepo: Preferences) : ParentInteractor(),
+class IntroInteractor(private val preferences: Preferences) : ParentInteractor(),
     IIntroInteractor {
 
     override fun onIntroFinish() {
-        preferenceRepo.isFirstStart = false
+        preferences.isFirstStart = false
     }
 }

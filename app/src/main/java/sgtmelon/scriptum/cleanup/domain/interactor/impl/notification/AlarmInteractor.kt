@@ -17,17 +17,17 @@ import java.util.*
  * Interactor for [IAlarmViewModel].
  */
 class AlarmInteractor(
-    private val preferenceRepo: Preferences,
+    private val preferences: Preferences,
     private val alarmRepo: IAlarmRepo,
     private val noteRepo: INoteRepo
 ) : ParentInteractor(),
     IAlarmInteractor {
 
-    @Repeat override val repeat: Int get() = preferenceRepo.repeat
+    @Repeat override val repeat: Int get() = preferences.repeat
 
-    override val volume: Int get() = preferenceRepo.volume
+    override val volume: Int get() = preferences.volume
 
-    override val isVolumeIncrease: Boolean get() = preferenceRepo.isVolumeIncrease
+    override val isVolumeIncrease: Boolean get() = preferences.isVolumeIncrease
 
 
     override suspend fun getModel(id: Long): NoteItem? {

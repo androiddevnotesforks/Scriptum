@@ -13,16 +13,16 @@ import java.util.*
  */
 class AlarmPreferenceInteractor(
     private val summaryProvider: SummaryProvider,
-    private val preferenceRepo: Preferences,
+    private val preferences: Preferences,
     private val intConverter: IntConverter
 ) : IAlarmPreferenceInteractor {
 
-    @Repeat override val repeat: Int get() = preferenceRepo.repeat
+    @Repeat override val repeat: Int get() = preferences.repeat
 
     override fun getRepeatSummary(): String? = summaryProvider.repeat.getOrNull(repeat)
 
     override fun updateRepeat(@Repeat value: Int): String? {
-        preferenceRepo.repeat = value
+        preferences.repeat = value
         return getRepeatSummary()
     }
 
@@ -49,17 +49,17 @@ class AlarmPreferenceInteractor(
     }
 
     override fun updateSignal(valueArray: BooleanArray): String? {
-        preferenceRepo.signal = intConverter.toInt(valueArray)
+        preferences.signal = intConverter.toInt(valueArray)
         return getSignalSummary(valueArray)
     }
 
 
-    override val volume: Int get() = preferenceRepo.volume
+    override val volume: Int get() = preferences.volume
 
     override fun getVolumeSummary(): String = summaryProvider.getVolume(volume)
 
     override fun updateVolume(value: Int): String {
-        preferenceRepo.volume = value
+        preferences.volume = value
         return getVolumeSummary()
     }
 

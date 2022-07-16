@@ -26,23 +26,23 @@ import kotlin.random.Random
 @ExperimentalCoroutinesApi
 class NotesInteractorTest : ParentInteractorTest() {
 
-    @MockK lateinit var preferenceRepo: Preferences
+    @MockK lateinit var preferences: Preferences
     @MockK lateinit var noteRepo: INoteRepo
     @MockK lateinit var alarmRepo: IAlarmRepo
     @MockK lateinit var rankRepo: IRankRepo
 
     private val interactor by lazy {
-        NotesInteractor(preferenceRepo, alarmRepo, rankRepo, noteRepo)
+        NotesInteractor(preferences, alarmRepo, rankRepo, noteRepo)
     }
     private val spyInteractor by lazy { spyk(interactor) }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(preferenceRepo, noteRepo, alarmRepo, rankRepo)
+        confirmVerified(preferences, noteRepo, alarmRepo, rankRepo)
     }
 
 
-    @Test fun getSort() = FastTest.getSort(preferenceRepo) { interactor.sort }
+    @Test fun getSort() = FastTest.getSort(preferences) { interactor.sort }
 
 
     @Test fun getCount() = startCoTest {
@@ -60,7 +60,7 @@ class NotesInteractorTest : ParentInteractorTest() {
         val sort = Random.nextInt()
         val list = mockk<MutableList<NoteItem>>()
 
-        every { preferenceRepo.sort } returns sort
+        every { preferences.sort } returns sort
         coEvery {
             noteRepo.getList(sort, isBin = false, isOptimal = true, filterVisible = true)
         } returns list
@@ -68,7 +68,7 @@ class NotesInteractorTest : ParentInteractorTest() {
         interactor.getList()
 
         coVerifySequence {
-            preferenceRepo.sort
+            preferences.sort
             noteRepo.getList(sort, isBin = false, isOptimal = true, filterVisible = true)
         }
     }

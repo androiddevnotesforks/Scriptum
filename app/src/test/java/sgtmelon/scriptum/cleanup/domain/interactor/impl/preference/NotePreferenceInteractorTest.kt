@@ -25,18 +25,18 @@ import kotlin.random.Random
 class NotePreferenceInteractorTest : ParentInteractorTest() {
 
     @MockK lateinit var summaryProvider: SummaryProvider
-    @MockK lateinit var preferenceRepo: Preferences
+    @MockK lateinit var preferences: Preferences
 
-    private val interactor by lazy { NotePreferenceInteractor(summaryProvider, preferenceRepo) }
+    private val interactor by lazy { NotePreferenceInteractor(summaryProvider, preferences) }
     private val spyInteractor by lazy { spyk(interactor) }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(summaryProvider, preferenceRepo)
+        confirmVerified(summaryProvider, preferences)
     }
 
 
-    @Test fun getSort() = FastTest.getSort(preferenceRepo) { interactor.sort }
+    @Test fun getSort() = FastTest.getSort(preferences) { interactor.sort }
 
     @Test fun getSortSummary() {
         val size = getRandomSize()
@@ -64,7 +64,7 @@ class NotePreferenceInteractorTest : ParentInteractorTest() {
         val value = Random.nextInt()
         val summary = nextString()
 
-        every { preferenceRepo.sort = value } returns Unit
+        every { preferences.sort = value } returns Unit
         every { spyInteractor.getSortSummary() } returns null
         assertNull(spyInteractor.updateSort(value))
 
@@ -74,14 +74,14 @@ class NotePreferenceInteractorTest : ParentInteractorTest() {
         verifySequence {
             repeat(times = 2) {
                 spyInteractor.updateSort(value)
-                preferenceRepo.sort = value
+                preferences.sort = value
                 spyInteractor.getSortSummary()
             }
         }
     }
 
 
-    @Test fun getDefaultColor() = FastTest.getDefaultColor(preferenceRepo) {
+    @Test fun getDefaultColor() = FastTest.getDefaultColor(preferences) {
         interactor.defaultColor
     }
 
@@ -111,7 +111,7 @@ class NotePreferenceInteractorTest : ParentInteractorTest() {
         val value = Random.nextInt()
         val summary = nextString()
 
-        every { preferenceRepo.defaultColor = value } returns Unit
+        every { preferences.defaultColor = value } returns Unit
         every { spyInteractor.getDefaultColorSummary() } returns null
         assertNull(spyInteractor.updateDefaultColor(value))
 
@@ -121,7 +121,7 @@ class NotePreferenceInteractorTest : ParentInteractorTest() {
         verifySequence {
             repeat(times = 2) {
                 spyInteractor.updateDefaultColor(value)
-                preferenceRepo.defaultColor = value
+                preferences.defaultColor = value
                 spyInteractor.getDefaultColorSummary()
             }
         }
@@ -131,11 +131,11 @@ class NotePreferenceInteractorTest : ParentInteractorTest() {
     @Test fun getSavePeriod() {
         val value = Random.nextInt()
 
-        every { preferenceRepo.savePeriod } returns value
+        every { preferences.savePeriod } returns value
         assertEquals(value, interactor.savePeriod)
 
         verifySequence {
-            preferenceRepo.savePeriod
+            preferences.savePeriod
         }
     }
 
@@ -165,7 +165,7 @@ class NotePreferenceInteractorTest : ParentInteractorTest() {
         val value = Random.nextInt()
         val summary = nextString()
 
-        every { preferenceRepo.savePeriod = value } returns Unit
+        every { preferences.savePeriod = value } returns Unit
         every { spyInteractor.getSavePeriodSummary() } returns null
         assertNull(spyInteractor.updateSavePeriod(value))
 
@@ -175,7 +175,7 @@ class NotePreferenceInteractorTest : ParentInteractorTest() {
         verifySequence {
             repeat(times = 2) {
                 spyInteractor.updateSavePeriod(value)
-                preferenceRepo.savePeriod = value
+                preferences.savePeriod = value
                 spyInteractor.getSavePeriodSummary()
             }
         }

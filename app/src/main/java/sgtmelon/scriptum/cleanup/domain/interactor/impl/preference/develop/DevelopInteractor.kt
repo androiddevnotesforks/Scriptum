@@ -11,11 +11,11 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.deve
  */
 class DevelopInteractor(
     private val developRepo: IDevelopRepo,
-    private val preferenceRepo: Preferences
+    private val preferences: Preferences
 ) : ParentInteractor(),
     IDevelopInteractor {
 
     override suspend fun getRandomNoteId(): Long = developRepo.getRandomNoteId()
 
-    override fun resetPreferences() = preferenceRepo.clear()
+    override fun resetPreferences() = preferences.clear()
 }

@@ -15,16 +15,16 @@ import sgtmelon.scriptum.parent.ParentInteractorTest
 @ExperimentalCoroutinesApi
 class SplashInteractorTest : ParentInteractorTest() {
 
-    @MockK lateinit var preferenceRepo: Preferences
+    @MockK lateinit var preferences: Preferences
 
-    private val interactor by lazy { SplashInteractor(preferenceRepo) }
+    private val interactor by lazy { SplashInteractor(preferences) }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(preferenceRepo)
+        confirmVerified(preferences)
     }
 
-    @Test fun getFirstStart() = FastTest.getFirstStart(preferenceRepo) {
-        preferenceRepo.isFirstStart
+    @Test fun getFirstStart() = FastTest.getFirstStart(preferences) {
+        preferences.isFirstStart
     }
 }

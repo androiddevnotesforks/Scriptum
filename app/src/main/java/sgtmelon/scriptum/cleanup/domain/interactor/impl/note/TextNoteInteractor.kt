@@ -17,18 +17,18 @@ import java.util.*
  * Interactor for [ITextNoteViewModel].
  */
 class TextNoteInteractor(
-    private val preferenceRepo: Preferences,
+    private val preferences: Preferences,
     private val alarmRepo: IAlarmRepo,
     private val rankRepo: IRankRepo,
     private val noteRepo: INoteRepo
 ) : ParentInteractor(),
     ITextNoteInteractor {
 
-    override fun getSaveModel(): SaveControl.Model = with(preferenceRepo) {
+    override fun getSaveModel(): SaveControl.Model = with(preferences) {
         return@with SaveControl.Model(isPauseSaveOn, isAutoSaveOn, savePeriod)
     }
 
-    @Color override val defaultColor: Int get() = preferenceRepo.defaultColor
+    @Color override val defaultColor: Int get() = preferences.defaultColor
 
 
     override suspend fun getItem(id: Long): NoteItem.Text? {

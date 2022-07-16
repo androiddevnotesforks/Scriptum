@@ -65,30 +65,30 @@ class InteractorModule {
     @ActivityScope
     fun provideSignalInteractor(
         ringtoneControl: IRingtoneControl,
-        preferenceRepo: Preferences,
+        preferences: Preferences,
         intConverter: IntConverter
     ): ISignalInteractor {
-        return SignalInteractor(ringtoneControl, preferenceRepo, intConverter)
+        return SignalInteractor(ringtoneControl, preferences, intConverter)
     }
 
     //endregion
 
     @Provides
     @ActivityScope
-    fun provideAppInteractor(preferenceRepo: Preferences): IAppInteractor {
-        return AppInteractor(preferenceRepo)
+    fun provideAppInteractor(preferences: Preferences): IAppInteractor {
+        return AppInteractor(preferences)
     }
 
     @Provides
     @ActivityScope
-    fun provideSplashInteractor(preferenceRepo: Preferences): ISplashInteractor {
-        return SplashInteractor(preferenceRepo)
+    fun provideSplashInteractor(preferences: Preferences): ISplashInteractor {
+        return SplashInteractor(preferences)
     }
 
     @Provides
     @ActivityScope
-    fun provideIntroInteractor(preferenceRepo: Preferences): IIntroInteractor {
-        return IntroInteractor(preferenceRepo)
+    fun provideIntroInteractor(preferences: Preferences): IIntroInteractor {
+        return IntroInteractor(preferences)
     }
 
     //region Main
@@ -101,21 +101,21 @@ class InteractorModule {
     @Provides
     @ActivityScope
     fun provideNotesInteractor(
-        preferenceRepo: Preferences,
+        preferences: Preferences,
         noteRepo: INoteRepo,
         alarmRepo: IAlarmRepo,
         rankRepo: IRankRepo
     ): INotesInteractor {
-        return NotesInteractor(preferenceRepo, alarmRepo, rankRepo, noteRepo)
+        return NotesInteractor(preferences, alarmRepo, rankRepo, noteRepo)
     }
 
     @Provides
     @ActivityScope
     fun provideBinInteractor(
-        preferenceRepo: Preferences,
+        preferences: Preferences,
         noteRepo: INoteRepo
     ): IBinInteractor {
-        return BinInteractor(preferenceRepo, noteRepo)
+        return BinInteractor(preferences, noteRepo)
     }
 
     //endregion
@@ -124,30 +124,30 @@ class InteractorModule {
 
     @Provides
     @ActivityScope
-    fun provideNoteInteractor(preferenceRepo: Preferences): INoteInteractor {
-        return NoteInteractor(preferenceRepo)
+    fun provideNoteInteractor(preferences: Preferences): INoteInteractor {
+        return NoteInteractor(preferences)
     }
 
     @Provides
     @ActivityScope
     fun provideTextNoteInteractor(
-        preferenceRepo: Preferences,
+        preferences: Preferences,
         alarmRepo: IAlarmRepo,
         rankRepo: IRankRepo,
         noteRepo: INoteRepo
     ): ITextNoteInteractor {
-        return TextNoteInteractor(preferenceRepo, alarmRepo, rankRepo, noteRepo)
+        return TextNoteInteractor(preferences, alarmRepo, rankRepo, noteRepo)
     }
 
     @Provides
     @ActivityScope
     fun provideRollNoteInteractor(
-        preferenceRepo: Preferences,
+        preferences: Preferences,
         alarmRepo: IAlarmRepo,
         rankRepo: IRankRepo,
         noteRepo: INoteRepo
     ): IRollNoteInteractor {
-        return RollNoteInteractor(preferenceRepo, alarmRepo, rankRepo, noteRepo)
+        return RollNoteInteractor(preferences, alarmRepo, rankRepo, noteRepo)
     }
 
     //endregion
@@ -155,11 +155,11 @@ class InteractorModule {
     @Provides
     @ActivityScope
     fun provideAlarmInteractor(
-        preferenceRepo: Preferences,
+        preferences: Preferences,
         alarmRepo: IAlarmRepo,
         noteRepo: INoteRepo
     ): IAlarmInteractor {
-        return AlarmInteractor(preferenceRepo, alarmRepo, noteRepo)
+        return AlarmInteractor(preferences, alarmRepo, noteRepo)
     }
 
     @Provides
@@ -178,15 +178,15 @@ class InteractorModule {
     @ActivityScope
     fun providePreferenceInteractor(
         summaryProvider: SummaryProvider,
-        preferenceRepo: Preferences
+        preferences: Preferences
     ): IPreferenceInteractor {
-        return PreferenceInteractor(summaryProvider, preferenceRepo)
+        return PreferenceInteractor(summaryProvider, preferences)
     }
 
     @Provides
     @ActivityScope
     fun provideBackupPreferenceInteractor(
-        preferenceRepo: Preferences,
+        preferences: Preferences,
         alarmRepo: IAlarmRepo,
         rankRepo: IRankRepo,
         noteRepo: INoteRepo,
@@ -196,7 +196,7 @@ class InteractorModule {
         cipherControl: ICipherControl
     ): IBackupPreferenceInteractor {
         return BackupPreferenceInteractor(
-            preferenceRepo, alarmRepo, rankRepo, noteRepo, backupRepo,
+            preferences, alarmRepo, rankRepo, noteRepo, backupRepo,
             backupParser, fileControl, cipherControl
         )
     }
@@ -205,28 +205,28 @@ class InteractorModule {
     @ActivityScope
     fun provideNotePreferenceInteractor(
         summaryProvider: SummaryProvider,
-        preferenceRepo: Preferences
+        preferences: Preferences
     ): INotePreferenceInteractor {
-        return NotePreferenceInteractor(summaryProvider, preferenceRepo)
+        return NotePreferenceInteractor(summaryProvider, preferences)
     }
 
     @Provides
     @ActivityScope
     fun provideAlarmPreferenceInteractor(
         summaryProvider: SummaryProvider,
-        preferenceRepo: Preferences,
+        preferences: Preferences,
         intConverter: IntConverter
     ): IAlarmPreferenceInteractor {
-        return AlarmPreferenceInteractor(summaryProvider, preferenceRepo, intConverter)
+        return AlarmPreferenceInteractor(summaryProvider, preferences, intConverter)
     }
 
     @Provides
     @ActivityScope
     fun provideDevelopInteractor(
         developRepo: IDevelopRepo,
-        preferenceRepo: Preferences
+        preferences: Preferences
     ): IDevelopInteractor {
-        return DevelopInteractor(developRepo, preferenceRepo)
+        return DevelopInteractor(developRepo, preferences)
     }
 
     @Provides
@@ -235,10 +235,10 @@ class InteractorModule {
         developRepo: IDevelopRepo,
         key: PreferencesKeyProvider,
         def: PreferencesDefProvider,
-        preferenceRepo: Preferences,
+        preferences: Preferences,
         fileControl: IFileControl
     ): IPrintDevelopInteractor {
-        return PrintDevelopInteractor(developRepo, key, def, preferenceRepo, fileControl)
+        return PrintDevelopInteractor(developRepo, key, def, preferences, fileControl)
     }
 
     //endregion
@@ -247,12 +247,12 @@ class InteractorModule {
     @ActivityScope
     fun provideSystemInteractor(
         logic: SystemLogic,
-        preferenceRepo: Preferences,
+        preferences: Preferences,
         bindRepo: IBindRepo,
         alarmRepo: IAlarmRepo,
         rankRepo: IRankRepo,
         noteRepo: INoteRepo
     ): ISystemInteractor {
-        return SystemInteractor(preferenceRepo, bindRepo, alarmRepo, rankRepo, noteRepo, logic)
+        return SystemInteractor(preferences, bindRepo, alarmRepo, rankRepo, noteRepo, logic)
     }
 }

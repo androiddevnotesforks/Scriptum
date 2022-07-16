@@ -29,7 +29,7 @@ import kotlin.random.Random
 @ExperimentalCoroutinesApi
 class SystemInteractorTest : ParentInteractorTest() {
 
-    @MockK lateinit var preferenceRepo: Preferences
+    @MockK lateinit var preferences: Preferences
     @MockK lateinit var bindRepo: IBindRepo
     @MockK lateinit var alarmRepo: IAlarmRepo
     @MockK lateinit var rankRepo: IRankRepo
@@ -38,13 +38,13 @@ class SystemInteractorTest : ParentInteractorTest() {
     @MockK lateinit var callback: ISystemBridge
 
     private val interactor by lazy {
-        SystemInteractor(preferenceRepo, bindRepo, alarmRepo, rankRepo, noteRepo, callback)
+        SystemInteractor(preferences, bindRepo, alarmRepo, rankRepo, noteRepo, callback)
     }
     private val spyInteractor by lazy { spyk(interactor) }
 
     override fun tearDown() {
         super.tearDown()
-        confirmVerified(preferenceRepo, bindRepo, alarmRepo, rankRepo, noteRepo, callback)
+        confirmVerified(preferences, bindRepo, alarmRepo, rankRepo, noteRepo, callback)
     }
 
     @Test override fun onDestroy() {
@@ -106,7 +106,7 @@ class SystemInteractorTest : ParentInteractorTest() {
         val rankIdVisibleList = mockk<List<Long>>()
         val filterList = mockk<List<NoteItem>>()
 
-        every { preferenceRepo.sort } returns sort
+        every { preferences.sort } returns sort
         coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList
         coEvery {
             noteRepo.getList(sort, isBin = false, isOptimal = false, filterVisible = false)
@@ -118,7 +118,7 @@ class SystemInteractorTest : ParentInteractorTest() {
         coVerifySequence {
             spyInteractor.notifyNotesBind()
 
-            preferenceRepo.sort
+            preferences.sort
             noteRepo.getList(sort, isBin = false, isOptimal = false, filterVisible = false)
             rankRepo.getIdVisibleList()
             spyInteractor.getFilterList(itemList, rankIdVisibleList)

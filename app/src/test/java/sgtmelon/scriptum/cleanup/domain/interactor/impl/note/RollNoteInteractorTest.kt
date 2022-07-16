@@ -27,26 +27,26 @@ class RollNoteInteractorTest : ParentInteractorTest() {
 
     // TODO many items are common with [TextNoteInteractor]
 
-    @MockK lateinit var preferenceRepo: Preferences
+    @MockK lateinit var preferences: Preferences
     @MockK lateinit var alarmRepo: IAlarmRepo
     @MockK lateinit var rankRepo: IRankRepo
     @MockK lateinit var noteRepo: INoteRepo
 
     private val interactor by lazy {
-        RollNoteInteractor(preferenceRepo, alarmRepo, rankRepo, noteRepo)
+        RollNoteInteractor(preferences, alarmRepo, rankRepo, noteRepo)
     }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(preferenceRepo, alarmRepo, rankRepo, noteRepo)
+        confirmVerified(preferences, alarmRepo, rankRepo, noteRepo)
     }
 
 
-    @Test fun getSaveModel() = FastTest.Interactor.getSaveModel(preferenceRepo) {
+    @Test fun getSaveModel() = FastTest.Interactor.getSaveModel(preferences) {
         interactor.getSaveModel()
     }
 
-    @Test fun getDefaultColor() = FastTest.getDefaultColor(preferenceRepo) {
+    @Test fun getDefaultColor() = FastTest.getDefaultColor(preferences) {
         interactor.defaultColor
     }
 

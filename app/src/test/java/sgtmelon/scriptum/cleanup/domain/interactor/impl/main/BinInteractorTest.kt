@@ -26,22 +26,15 @@ class BinInteractorTest : ParentInteractorTest() {
 
     private val data = TestData.Note
 
-    @MockK lateinit var preferenceRepo: Preferences
+    @MockK lateinit var preferences: Preferences
     @MockK lateinit var noteRepo: INoteRepo
-    //    @MockK lateinit var callback: IBinBridge
 
-    private val interactor by lazy { BinInteractor(preferenceRepo, noteRepo/*, callback*/) }
+    private val interactor by lazy { BinInteractor(preferences, noteRepo) }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(preferenceRepo, noteRepo/*, callback*/)
+        confirmVerified(preferences, noteRepo)
     }
-
-    //    @Test override fun onDestroy() {
-    //        assertNotNull(interactor.callback)
-    //        interactor.onDestroy()
-    //        assertNull(interactor.callback)
-    //    }
 
 
     @Test fun getCount() = startCoTest {
@@ -65,18 +58,18 @@ class BinInteractorTest : ParentInteractorTest() {
         } returns itemList
 
         val firstSort = TestData.sort
-        every { preferenceRepo.sort } returns firstSort
+        every { preferences.sort } returns firstSort
         interactor.getList()
 
         val secondSort = TestData.sort
-        every { preferenceRepo.sort } returns secondSort
+        every { preferences.sort } returns secondSort
         interactor.getList()
 
         coVerifySequence {
-            preferenceRepo.sort
+            preferences.sort
             noteRepo.getList(firstSort, isBin = true, isOptimal = true, filterVisible = false)
 
-            preferenceRepo.sort
+            preferences.sort
             noteRepo.getList(secondSort, isBin = true, isOptimal = true, filterVisible = false)
         }
     }
@@ -103,7 +96,6 @@ class BinInteractorTest : ParentInteractorTest() {
 
         coVerifySequence {
             noteRepo.getCopyText(item)
-            //            callback.copyClipboard(text)
         }
     }
 

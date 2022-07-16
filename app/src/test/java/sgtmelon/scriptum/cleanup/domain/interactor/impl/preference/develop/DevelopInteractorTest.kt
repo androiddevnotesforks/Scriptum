@@ -21,13 +21,13 @@ import kotlin.random.Random
 class DevelopInteractorTest : ParentInteractorTest() {
 
     @MockK lateinit var developRepo: IDevelopRepo
-    @MockK lateinit var preferenceRepo: Preferences
+    @MockK lateinit var preferences: Preferences
 
-    private val interactor by lazy { DevelopInteractor(developRepo, preferenceRepo) }
+    private val interactor by lazy { DevelopInteractor(developRepo, preferences) }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(developRepo, preferenceRepo)
+        confirmVerified(developRepo, preferences)
     }
 
     @Test fun getRandomNoteId() = startCoTest {
@@ -46,7 +46,7 @@ class DevelopInteractorTest : ParentInteractorTest() {
         interactor.resetPreferences()
 
         verifySequence {
-            preferenceRepo.clear()
+            preferences.clear()
         }
     }
 }

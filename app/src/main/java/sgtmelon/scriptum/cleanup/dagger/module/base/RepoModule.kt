@@ -22,9 +22,10 @@ import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesKeyProvi
 @Module
 class RepoModule {
 
+    // TODO #PREF move into another place
     @Provides
     @Singleton
-    fun providePreferenceRepo(
+    fun providePreferences(
         keyProvider: PreferencesKeyProvider,
         defProvider: PreferencesDefProvider,
         preferences: SharedPreferences

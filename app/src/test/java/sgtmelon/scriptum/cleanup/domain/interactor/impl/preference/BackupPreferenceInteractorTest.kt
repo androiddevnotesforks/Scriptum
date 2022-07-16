@@ -34,7 +34,7 @@ import kotlin.random.Random
 @ExperimentalCoroutinesApi
 class BackupPreferenceInteractorTest : ParentInteractorTest() {
 
-    @MockK lateinit var preferenceRepo: Preferences
+    @MockK lateinit var preferences: Preferences
     @MockK lateinit var alarmRepo: IAlarmRepo
     @MockK lateinit var rankRepo: IRankRepo
     @MockK lateinit var noteRepo: INoteRepo
@@ -46,7 +46,7 @@ class BackupPreferenceInteractorTest : ParentInteractorTest() {
 
     private val interactor by lazy {
         BackupPreferenceInteractor(
-            preferenceRepo, alarmRepo, rankRepo, noteRepo, backupRepo,
+            preferences, alarmRepo, rankRepo, noteRepo, backupRepo,
             backupParser, fileControl, cipherControl
         )
     }
@@ -61,7 +61,7 @@ class BackupPreferenceInteractorTest : ParentInteractorTest() {
         super.tearDown()
 
         confirmVerified(
-            preferenceRepo, alarmRepo, rankRepo, noteRepo, backupRepo,
+            preferences, alarmRepo, rankRepo, noteRepo, backupRepo,
             backupParser, fileControl, cipherControl
         )
     }
@@ -177,7 +177,7 @@ class BackupPreferenceInteractorTest : ParentInteractorTest() {
         every { BackupRepo.Model[parserResult] } returns backupModel
 
         every { backupParser.parse(data) } returns parserResult
-        every { preferenceRepo.isBackupSkipImports } returns isSkipImports
+        every { preferences.isBackupSkipImports } returns isSkipImports
         coEvery { backupRepo.insertData(backupModel, isSkipImports) } returns ImportResult.Simple
 
         assertEquals(ImportResult.Simple, spyInteractor.import(item.name))
@@ -206,7 +206,7 @@ class BackupPreferenceInteractorTest : ParentInteractorTest() {
                 fileControl.readFile(item.path)
                 cipherControl.decrypt(encryptData)
                 backupParser.parse(data)
-                preferenceRepo.isBackupSkipImports
+                preferences.isBackupSkipImports
                 BackupRepo.Model[parserResult]
                 backupRepo.insertData(backupModel, isSkipImports)
             }

@@ -15,20 +15,20 @@ import sgtmelon.scriptum.parent.ParentInteractorTest
 @ExperimentalCoroutinesApi
 class IntroInteractorTest : ParentInteractorTest() {
 
-    @MockK lateinit var preferenceRepo: Preferences
+    @MockK lateinit var preferences: Preferences
 
-    private val interactor by lazy { IntroInteractor(preferenceRepo) }
+    private val interactor by lazy { IntroInteractor(preferences) }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(preferenceRepo)
+        confirmVerified(preferences)
     }
 
     @Test fun onIntroFinish() {
         interactor.onIntroFinish()
 
         verifySequence {
-            preferenceRepo.isFirstStart = false
+            preferences.isFirstStart = false
         }
     }
 }

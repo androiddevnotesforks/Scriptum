@@ -27,19 +27,19 @@ class PreferenceInteractorTest : ParentInteractorTest() {
     //region Setup
 
     @MockK lateinit var summaryProvider: SummaryProvider
-    @MockK lateinit var preferenceRepo: Preferences
+    @MockK lateinit var preferences: Preferences
 
-    private val interactor by lazy { PreferenceInteractor(summaryProvider, preferenceRepo) }
+    private val interactor by lazy { PreferenceInteractor(summaryProvider, preferences) }
     private val spyInteractor by lazy { spyk(interactor) }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(summaryProvider, preferenceRepo)
+        confirmVerified(summaryProvider, preferences)
     }
 
     //endregion
 
-    @Test fun getTheme() = FastTest.getTheme(preferenceRepo) { interactor.theme }
+    @Test fun getTheme() = FastTest.getTheme(preferences) { interactor.theme }
 
     @Test fun getThemeSummary() {
         val size = getRandomSize()
@@ -67,7 +67,7 @@ class PreferenceInteractorTest : ParentInteractorTest() {
         val value = Random.nextInt()
         val summary = nextString()
 
-        every { preferenceRepo.theme = value } returns Unit
+        every { preferences.theme = value } returns Unit
         every { spyInteractor.getThemeSummary() } returns null
         assertNull(spyInteractor.updateTheme(value))
 
@@ -77,7 +77,7 @@ class PreferenceInteractorTest : ParentInteractorTest() {
         verifySequence {
             repeat(times = 2) {
                 spyInteractor.updateTheme(value)
-                preferenceRepo.theme = value
+                preferences.theme = value
                 spyInteractor.getThemeSummary()
             }
         }
@@ -87,24 +87,24 @@ class PreferenceInteractorTest : ParentInteractorTest() {
     @Test fun getIsDeveloper() {
         val value = Random.nextBoolean()
 
-        every { preferenceRepo.isDeveloper } returns value
+        every { preferences.isDeveloper } returns value
 
         assertEquals(value, interactor.isDeveloper)
 
         verifySequence {
-            preferenceRepo.isDeveloper
+            preferences.isDeveloper
         }
     }
 
     @Test fun setIsDeveloper() {
         val value = Random.nextBoolean()
 
-        every { preferenceRepo.isDeveloper = value } returns Unit
+        every { preferences.isDeveloper = value } returns Unit
 
         interactor.isDeveloper = value
 
         verifySequence {
-            preferenceRepo.isDeveloper = value
+            preferences.isDeveloper = value
         }
     }
 }

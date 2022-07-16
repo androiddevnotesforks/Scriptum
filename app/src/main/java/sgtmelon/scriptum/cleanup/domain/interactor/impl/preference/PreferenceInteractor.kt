@@ -11,22 +11,22 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IPre
  */
 class PreferenceInteractor(
     private val summaryProvider: SummaryProvider,
-    private val preferenceRepo: Preferences
+    private val preferences: Preferences
 ) : IPreferenceInteractor {
 
-    @Theme override val theme: Int get() = preferenceRepo.theme
+    @Theme override val theme: Int get() = preferences.theme
 
     override fun getThemeSummary(): String? = summaryProvider.theme.getOrNull(theme)
 
     override fun updateTheme(@Theme value: Int): String? {
-        preferenceRepo.theme = value
+        preferences.theme = value
         return getThemeSummary()
     }
 
 
     override var isDeveloper: Boolean
-        get() = preferenceRepo.isDeveloper
+        get() = preferences.isDeveloper
         set(value) {
-            preferenceRepo.isDeveloper = value
+            preferences.isDeveloper = value
         }
 }

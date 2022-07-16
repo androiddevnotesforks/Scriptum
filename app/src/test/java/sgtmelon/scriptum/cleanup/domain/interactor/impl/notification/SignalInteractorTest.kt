@@ -26,13 +26,13 @@ import kotlin.random.Random
 class SignalInteractorTest : ParentInteractorTest() {
 
     @MockK lateinit var ringtoneControl: IRingtoneControl
-    @MockK lateinit var preferenceRepo: Preferences
+    @MockK lateinit var preferences: Preferences
     @MockK lateinit var intConverter: IntConverter
 
     private val melodyList = TestData.Melody.melodyList
 
     private val interactor by lazy {
-        SignalInteractor(ringtoneControl, preferenceRepo, intConverter)
+        SignalInteractor(ringtoneControl, preferences, intConverter)
     }
     private val spyInteractor by lazy { spyk(interactor) }
 
@@ -43,7 +43,7 @@ class SignalInteractorTest : ParentInteractorTest() {
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(ringtoneControl, preferenceRepo, intConverter)
+        confirmVerified(ringtoneControl, preferences, intConverter)
     }
 
 
@@ -52,13 +52,13 @@ class SignalInteractorTest : ParentInteractorTest() {
         val size = getRandomSize()
         val typeCheck = BooleanArray(size) { Random.nextBoolean() }
 
-        every { preferenceRepo.signal } returns signal
+        every { preferences.signal } returns signal
         every { intConverter.toArray(signal, Signal.digitCount) } returns typeCheck
 
         assertArrayEquals(typeCheck, interactor.typeCheck)
 
         verifySequence {
-            preferenceRepo.signal
+            preferences.signal
             intConverter.toArray(signal, Signal.digitCount)
         }
     }
@@ -109,35 +109,35 @@ class SignalInteractorTest : ParentInteractorTest() {
 
         coEvery { spyInteractor.getMelodyList() } returns emptyList()
 
-        every { preferenceRepo.melodyUri } returns ""
+        every { preferences.melodyUri } returns ""
         assertNull(spyInteractor.getMelodyUri())
 
         coEvery { spyInteractor.getMelodyList() } returns melodyList
 
-        every { preferenceRepo.melodyUri } returns ""
+        every { preferences.melodyUri } returns ""
         assertEquals(wrongReturnUri, spyInteractor.getMelodyUri())
 
-        every { preferenceRepo.melodyUri } returns wrongUri
+        every { preferences.melodyUri } returns wrongUri
         assertEquals(wrongReturnUri, spyInteractor.getMelodyUri())
 
-        every { preferenceRepo.melodyUri } returns goodUri
+        every { preferences.melodyUri } returns goodUri
         assertEquals(goodUri, spyInteractor.getMelodyUri())
 
         coVerifySequence {
             spyInteractor.getMelodyUri()
             spyInteractor.getMelodyList()
-            preferenceRepo.melodyUri
+            preferences.melodyUri
 
             repeat(times = 2) {
                 spyInteractor.getMelodyUri()
                 spyInteractor.getMelodyList()
-                preferenceRepo.melodyUri
-                preferenceRepo.melodyUri = wrongReturnUri
+                preferences.melodyUri
+                preferences.melodyUri = wrongReturnUri
             }
 
             spyInteractor.getMelodyUri()
             spyInteractor.getMelodyList()
-            preferenceRepo.melodyUri
+            preferences.melodyUri
         }
     }
 
@@ -161,11 +161,11 @@ class SignalInteractorTest : ParentInteractorTest() {
 
             spyInteractor.setMelodyUri(wrongTitle)
             spyInteractor.getMelodyList()
-            preferenceRepo.melodyUri = wrongItem.uri
+            preferences.melodyUri = wrongItem.uri
 
             spyInteractor.setMelodyUri(melodyItem.title)
             spyInteractor.getMelodyList()
-            preferenceRepo.melodyUri = melodyItem.uri
+            preferences.melodyUri = melodyItem.uri
         }
     }
 

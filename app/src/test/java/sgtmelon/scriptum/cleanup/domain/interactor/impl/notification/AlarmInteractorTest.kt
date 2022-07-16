@@ -26,34 +26,33 @@ import kotlin.random.Random
 @ExperimentalCoroutinesApi
 class AlarmInteractorTest : ParentInteractorTest() {
 
-    @MockK lateinit var preferenceRepo: Preferences
+    @MockK lateinit var preferences: Preferences
     @MockK lateinit var alarmRepo: IAlarmRepo
     @MockK lateinit var noteRepo: INoteRepo
-//    @MockK lateinit var callback: IAlarmBridge
 
     private val interactor by lazy {
-        AlarmInteractor(preferenceRepo, alarmRepo, noteRepo/*, callback*/)
+        AlarmInteractor(preferences, alarmRepo, noteRepo)
     }
     private val spyInteractor by lazy { spyk(interactor) }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(preferenceRepo, alarmRepo, noteRepo/*, callback*/)
+        confirmVerified(preferences, alarmRepo, noteRepo)
     }
 
 
-    @Test fun getRepeat() = FastTest.getRepeat(preferenceRepo) { interactor.repeat }
+    @Test fun getRepeat() = FastTest.getRepeat(preferences) { interactor.repeat }
 
-    @Test fun getVolume() = FastTest.getVolume(preferenceRepo) { interactor.volume }
+    @Test fun getVolume() = FastTest.getVolume(preferences) { interactor.volume }
 
     @Test fun getVolumeIncrease() {
         val value = Random.nextBoolean()
 
-        every { preferenceRepo.isVolumeIncrease } returns value
+        every { preferences.isVolumeIncrease } returns value
         assertEquals(value, interactor.isVolumeIncrease)
 
         verifySequence {
-            preferenceRepo.isVolumeIncrease
+            preferences.isVolumeIncrease
         }
     }
 

@@ -26,22 +26,22 @@ class AlarmPreferenceInteractorTest : ParentInteractorTest() {
     //region Setup
 
     @MockK lateinit var summaryProvider: SummaryProvider
-    @MockK lateinit var preferenceRepo: Preferences
+    @MockK lateinit var preferences: Preferences
     @MockK lateinit var intConverter: IntConverter
 
     private val interactor by lazy {
-        AlarmPreferenceInteractor(summaryProvider, preferenceRepo, intConverter)
+        AlarmPreferenceInteractor(summaryProvider, preferences, intConverter)
     }
     private val spyInteractor by lazy { spyk(interactor) }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(summaryProvider, preferenceRepo)
+        confirmVerified(summaryProvider, preferences)
     }
 
     //endregion
 
-    @Test fun getRepeat() = FastTest.getRepeat(preferenceRepo) { interactor.repeat }
+    @Test fun getRepeat() = FastTest.getRepeat(preferences) { interactor.repeat }
 
     @Test fun getRepeatSummary() {
         val size = getRandomSize()
@@ -69,7 +69,7 @@ class AlarmPreferenceInteractorTest : ParentInteractorTest() {
         val value = Random.nextInt()
         val summary = nextString()
 
-        every { preferenceRepo.repeat = value } returns Unit
+        every { preferences.repeat = value } returns Unit
         every { spyInteractor.getRepeatSummary() } returns null
         assertNull(spyInteractor.updateRepeat(value))
 
@@ -79,7 +79,7 @@ class AlarmPreferenceInteractorTest : ParentInteractorTest() {
         verifySequence {
             repeat(times = 2) {
                 spyInteractor.updateRepeat(value)
-                preferenceRepo.repeat = value
+                preferences.repeat = value
                 spyInteractor.getRepeatSummary()
             }
         }
@@ -115,7 +115,7 @@ class AlarmPreferenceInteractorTest : ParentInteractorTest() {
         val summary = nextString()
 
         every { intConverter.toInt(valueArray) } returns value
-        every { preferenceRepo.signal = value } returns Unit
+        every { preferences.signal = value } returns Unit
         every { spyInteractor.getSignalSummary(valueArray) } returns null
         assertNull(spyInteractor.updateSignal(valueArray))
 
@@ -126,14 +126,14 @@ class AlarmPreferenceInteractorTest : ParentInteractorTest() {
             repeat(times = 2) {
                 spyInteractor.updateSignal(valueArray)
                 intConverter.toInt(valueArray)
-                preferenceRepo.signal = value
+                preferences.signal = value
                 spyInteractor.getSignalSummary(valueArray)
             }
         }
     }
 
 
-    @Test fun getVolume() = FastTest.getVolume(preferenceRepo) { interactor.volume }
+    @Test fun getVolume() = FastTest.getVolume(preferences) { interactor.volume }
 
     @Test fun getVolumeSummary() {
         val value = Random.nextInt()
@@ -154,13 +154,13 @@ class AlarmPreferenceInteractorTest : ParentInteractorTest() {
         val value = Random.nextInt()
         val summary = nextString()
 
-        every { preferenceRepo.volume = value } returns Unit
+        every { preferences.volume = value } returns Unit
         every { spyInteractor.getVolumeSummary() } returns summary
         assertEquals(summary, spyInteractor.updateVolume(value))
 
         verifySequence {
             spyInteractor.updateVolume(value)
-            preferenceRepo.volume = value
+            preferences.volume = value
             spyInteractor.getVolumeSummary()
         }
     }

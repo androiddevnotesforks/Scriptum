@@ -13,35 +13,35 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.INot
  */
 class NotePreferenceInteractor(
     private val summaryProvider: SummaryProvider,
-    private val preferenceRepo: Preferences
+    private val preferences: Preferences
 ) : INotePreferenceInteractor {
 
-    @Sort override val sort: Int get() = preferenceRepo.sort
+    @Sort override val sort: Int get() = preferences.sort
 
     override fun getSortSummary(): String? = summaryProvider.sort.getOrNull(sort)
 
     override fun updateSort(@Sort value: Int): String? {
-        preferenceRepo.sort = value
+        preferences.sort = value
         return getSortSummary()
     }
 
 
-    @Color override val defaultColor: Int get() = preferenceRepo.defaultColor
+    @Color override val defaultColor: Int get() = preferences.defaultColor
 
     override fun getDefaultColorSummary(): String? = summaryProvider.color.getOrNull(defaultColor)
 
     override fun updateDefaultColor(@Color value: Int): String? {
-        preferenceRepo.defaultColor = value
+        preferences.defaultColor = value
         return getDefaultColorSummary()
     }
 
 
-    @SavePeriod override val savePeriod: Int get() = preferenceRepo.savePeriod
+    @SavePeriod override val savePeriod: Int get() = preferences.savePeriod
 
     override fun getSavePeriodSummary(): String? = summaryProvider.savePeriod.getOrNull(savePeriod)
 
     override fun updateSavePeriod(@SavePeriod value: Int): String? {
-        preferenceRepo.savePeriod = value
+        preferences.savePeriod = value
         return getSavePeriodSummary()
     }
 

@@ -23,7 +23,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IBac
  * Interactor for import/export backup files (for [IBackupPreferenceViewModel]).
  */
 class BackupPreferenceInteractor(
-    private val preferenceRepo: Preferences,
+    private val preferences: Preferences,
     private val alarmRepo: IAlarmRepo,
     private val rankRepo: IRankRepo,
     private val noteRepo: INoteRepo,
@@ -73,7 +73,7 @@ class BackupPreferenceInteractor(
         val data = cipherControl.decrypt(encryptData)
 
         val parserResult = backupParser.parse(data) ?: return ImportResult.Error
-        val isSkipImports = preferenceRepo.isBackupSkipImports
+        val isSkipImports = preferences.isBackupSkipImports
 
         // TODO move isBackupSkipImports inside backupRepo
         return backupRepo.insertData(BackupRepo.Model[parserResult], isSkipImports)
