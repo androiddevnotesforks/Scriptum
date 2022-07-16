@@ -23,15 +23,15 @@ class PreferencesImplTest : ParentTest() {
     @MockK lateinit var keyProvider: PreferencesKeyProvider
     @MockK lateinit var defProvider: PreferencesDefProvider
 
-    @MockK lateinit var preferences: SharedPreferences
+    @MockK lateinit var sharedPreferences: SharedPreferences
     @MockK lateinit var preferencesEditor: SharedPreferences.Editor
 
-    private val appPreferences by lazy { PreferencesImpl(keyProvider, defProvider, preferences) }
+    private val preferences by lazy { PreferencesImpl(keyProvider, defProvider, sharedPreferences) }
 
     @Before override fun setup() {
         super.setup()
 
-        every { preferences.edit() } returns preferencesEditor
+        every { sharedPreferences.edit() } returns preferencesEditor
 
         every { preferencesEditor.putBoolean(any(), any()) } returns preferencesEditor
         every { preferencesEditor.putInt(any(), any()) } returns preferencesEditor
@@ -41,69 +41,69 @@ class PreferencesImplTest : ParentTest() {
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(keyProvider, defProvider, preferences, preferencesEditor)
+        confirmVerified(keyProvider, defProvider, sharedPreferences, preferencesEditor)
     }
 
-    @Test fun getFirstStart() {
+    @Test fun `get isFirstStart`() {
         val keyValue = nextString()
         val defValue = Random.nextBoolean()
         val value = Random.nextBoolean()
 
         every { keyProvider.isFirstStart } returns keyValue
         every { defProvider.isFirstStart } returns defValue
-        every { preferences.getBoolean(keyValue, defValue) } returns value
-        assertEquals(value, appPreferences.isFirstStart)
+        every { sharedPreferences.getBoolean(keyValue, defValue) } returns value
+        assertEquals(preferences.isFirstStart, value)
 
         verifySequence {
             keyProvider.isFirstStart
             defProvider.isFirstStart
 
-            preferences.getBoolean(keyValue, defValue)
+            sharedPreferences.getBoolean(keyValue, defValue)
         }
     }
 
-    @Test fun setFirstStart() {
+    @Test fun `set isFirstStart`() {
         val keyValue = nextString()
         val value = Random.nextBoolean()
 
         every { keyProvider.isFirstStart } returns keyValue
-        appPreferences.isFirstStart = value
+        preferences.isFirstStart = value
 
         verifySequence {
-            preferences.edit()
+            sharedPreferences.edit()
             keyProvider.isFirstStart
             preferencesEditor.putBoolean(keyValue, value)
             preferencesEditor.apply()
         }
     }
 
-    @Test fun getTheme() {
+    @Test fun `get theme`() {
         val keyValue = nextString()
         val defValue = Random.nextInt()
         val value = Random.nextInt()
 
         every { keyProvider.theme } returns keyValue
         every { defProvider.theme } returns defValue
-        every { preferences.getInt(keyValue, defValue) } returns value
-        assertEquals(value, appPreferences.theme)
+        every { sharedPreferences.getInt(keyValue, defValue) } returns value
+        assertEquals(preferences.theme, value)
 
         verifySequence {
             keyProvider.theme
             defProvider.theme
 
-            preferences.getInt(keyValue, defValue)
+            sharedPreferences.getInt(keyValue, defValue)
         }
     }
 
-    @Test fun setTheme() {
+    @Test fun `set theme`() {
         val keyValue = nextString()
         val value = Random.nextInt()
 
         every { keyProvider.theme } returns keyValue
-        appPreferences.theme = value
+        preferences.theme = value
 
         verifySequence {
-            preferences.edit()
+            sharedPreferences.edit()
             keyProvider.theme
             preferencesEditor.putInt(keyValue, value)
             preferencesEditor.apply()
@@ -111,33 +111,33 @@ class PreferencesImplTest : ParentTest() {
     }
 
 
-    @Test fun getImportSkip() {
+    @Test fun `get isBackupSkipImports`() {
         val keyValue = nextString()
         val defValue = Random.nextBoolean()
         val value = Random.nextBoolean()
 
         every { keyProvider.isBackupSkipImports } returns keyValue
         every { defProvider.isBackupSkipImports } returns defValue
-        every { preferences.getBoolean(keyValue, defValue) } returns value
-        assertEquals(value, appPreferences.isBackupSkipImports)
+        every { sharedPreferences.getBoolean(keyValue, defValue) } returns value
+        assertEquals(preferences.isBackupSkipImports, value)
 
         verifySequence {
             keyProvider.isBackupSkipImports
             defProvider.isBackupSkipImports
 
-            preferences.getBoolean(keyValue, defValue)
+            sharedPreferences.getBoolean(keyValue, defValue)
         }
     }
 
-    @Test fun setImportSkip() {
+    @Test fun `set isBackupSkipImports`() {
         val keyValue = nextString()
         val value = Random.nextBoolean()
 
         every { keyProvider.isBackupSkipImports } returns keyValue
-        appPreferences.isBackupSkipImports = value
+        preferences.isBackupSkipImports = value
 
         verifySequence {
-            preferences.edit()
+            sharedPreferences.edit()
             keyProvider.isBackupSkipImports
             preferencesEditor.putBoolean(keyValue, value)
             preferencesEditor.apply()
@@ -145,165 +145,165 @@ class PreferencesImplTest : ParentTest() {
     }
 
 
-    @Test fun getSort() {
+    @Test fun `get sort`() {
         val keyValue = nextString()
         val defValue = Random.nextInt()
         val value = Random.nextInt()
 
         every { keyProvider.sort } returns keyValue
         every { defProvider.sort } returns defValue
-        every { preferences.getInt(keyValue, defValue) } returns value
-        assertEquals(value, appPreferences.sort)
+        every { sharedPreferences.getInt(keyValue, defValue) } returns value
+        assertEquals(preferences.sort, value)
 
         verifySequence {
             keyProvider.sort
             defProvider.sort
 
-            preferences.getInt(keyValue, defValue)
+            sharedPreferences.getInt(keyValue, defValue)
         }
     }
 
-    @Test fun setSort() {
+    @Test fun `set sort`() {
         val keyValue = nextString()
         val value = Random.nextInt()
 
         every { keyProvider.sort } returns keyValue
-        appPreferences.sort = value
+        preferences.sort = value
 
         verifySequence {
-            preferences.edit()
+            sharedPreferences.edit()
             keyProvider.sort
             preferencesEditor.putInt(keyValue, value)
             preferencesEditor.apply()
         }
     }
 
-    @Test fun getDefaultColor() {
+    @Test fun `get defaultColor`() {
         val keyValue = nextString()
         val defValue = Random.nextInt()
         val value = Random.nextInt()
 
         every { keyProvider.defaultColor } returns keyValue
         every { defProvider.defaultColor } returns defValue
-        every { preferences.getInt(keyValue, defValue) } returns value
-        assertEquals(value, appPreferences.defaultColor)
+        every { sharedPreferences.getInt(keyValue, defValue) } returns value
+        assertEquals(preferences.defaultColor, value)
 
         verifySequence {
             keyProvider.defaultColor
             defProvider.defaultColor
 
-            preferences.getInt(keyValue, defValue)
+            sharedPreferences.getInt(keyValue, defValue)
         }
     }
 
-    @Test fun setDefaultColor() {
+    @Test fun `set defaultColor`() {
         val keyValue = nextString()
         val value = Random.nextInt()
 
         every { keyProvider.defaultColor } returns keyValue
-        appPreferences.defaultColor = value
+        preferences.defaultColor = value
 
         verifySequence {
-            preferences.edit()
+            sharedPreferences.edit()
             keyProvider.defaultColor
             preferencesEditor.putInt(keyValue, value)
             preferencesEditor.apply()
         }
     }
 
-    @Test fun getPauseSaveOn() {
+    @Test fun `get isPauseSaveOn`() {
         val keyValue = nextString()
         val defValue = Random.nextBoolean()
         val value = Random.nextBoolean()
 
         every { keyProvider.isPauseSaveOn } returns keyValue
         every { defProvider.isPauseSaveOn } returns defValue
-        every { preferences.getBoolean(keyValue, defValue) } returns value
-        assertEquals(value, appPreferences.isPauseSaveOn)
+        every { sharedPreferences.getBoolean(keyValue, defValue) } returns value
+        assertEquals(preferences.isPauseSaveOn, value)
 
         verifySequence {
             keyProvider.isPauseSaveOn
             defProvider.isPauseSaveOn
 
-            preferences.getBoolean(keyValue, defValue)
+            sharedPreferences.getBoolean(keyValue, defValue)
         }
     }
 
-    @Test fun setPauseSaveOn() {
+    @Test fun `set isPauseSaveOn`() {
         val keyValue = nextString()
         val value = Random.nextBoolean()
 
         every { keyProvider.isPauseSaveOn } returns keyValue
-        appPreferences.isPauseSaveOn = value
+        preferences.isPauseSaveOn = value
 
         verifySequence {
-            preferences.edit()
+            sharedPreferences.edit()
             keyProvider.isPauseSaveOn
             preferencesEditor.putBoolean(keyValue, value)
             preferencesEditor.apply()
         }
     }
 
-    @Test fun getAutoSaveOn() {
+    @Test fun `get isAutoSaveOn`() {
         val keyValue = nextString()
         val defValue = Random.nextBoolean()
         val value = Random.nextBoolean()
 
         every { keyProvider.isAutoSaveOn } returns keyValue
         every { defProvider.isAutoSaveOn } returns defValue
-        every { preferences.getBoolean(keyValue, defValue) } returns value
-        assertEquals(value, appPreferences.isAutoSaveOn)
+        every { sharedPreferences.getBoolean(keyValue, defValue) } returns value
+        assertEquals(preferences.isAutoSaveOn, value)
 
         verifySequence {
             keyProvider.isAutoSaveOn
             defProvider.isAutoSaveOn
 
-            preferences.getBoolean(keyValue, defValue)
+            sharedPreferences.getBoolean(keyValue, defValue)
         }
     }
 
-    @Test fun setAutoSaveOn() {
+    @Test fun `set isAutoSaveOn`() {
         val keyValue = nextString()
         val value = Random.nextBoolean()
 
         every { keyProvider.isAutoSaveOn } returns keyValue
-        appPreferences.isAutoSaveOn = value
+        preferences.isAutoSaveOn = value
 
         verifySequence {
-            preferences.edit()
+            sharedPreferences.edit()
             keyProvider.isAutoSaveOn
             preferencesEditor.putBoolean(keyValue, value)
             preferencesEditor.apply()
         }
     }
 
-    @Test fun getSavePeriod() {
+    @Test fun `get savePeriod`() {
         val keyValue = nextString()
         val defValue = Random.nextInt()
         val value = Random.nextInt()
 
         every { keyProvider.savePeriod } returns keyValue
         every { defProvider.savePeriod } returns defValue
-        every { preferences.getInt(keyValue, defValue) } returns value
-        assertEquals(value, appPreferences.savePeriod)
+        every { sharedPreferences.getInt(keyValue, defValue) } returns value
+        assertEquals(preferences.savePeriod, value)
 
         verifySequence {
             keyProvider.savePeriod
             defProvider.savePeriod
 
-            preferences.getInt(keyValue, defValue)
+            sharedPreferences.getInt(keyValue, defValue)
         }
     }
 
-    @Test fun setSavePeriod() {
+    @Test fun `set savePeriod`() {
         val keyValue = nextString()
         val value = Random.nextInt()
 
         every { keyProvider.savePeriod } returns keyValue
-        appPreferences.savePeriod = value
+        preferences.savePeriod = value
 
         verifySequence {
-            preferences.edit()
+            sharedPreferences.edit()
             keyProvider.savePeriod
             preferencesEditor.putInt(keyValue, value)
             preferencesEditor.apply()
@@ -311,172 +311,172 @@ class PreferencesImplTest : ParentTest() {
     }
 
 
-    @Test fun getRepeat() {
+    @Test fun `get repeat`() {
         val keyValue = nextString()
         val defValue = Random.nextInt()
         val value = Random.nextInt()
 
         every { keyProvider.repeat } returns keyValue
         every { defProvider.repeat } returns defValue
-        every { preferences.getInt(keyValue, defValue) } returns value
-        assertEquals(value, appPreferences.repeat)
+        every { sharedPreferences.getInt(keyValue, defValue) } returns value
+        assertEquals(preferences.repeat, value)
 
         verifySequence {
             keyProvider.repeat
             defProvider.repeat
 
-            preferences.getInt(keyValue, defValue)
+            sharedPreferences.getInt(keyValue, defValue)
         }
     }
 
-    @Test fun setRepeat() {
+    @Test fun `set repeat`() {
         val keyValue = nextString()
         val value = Random.nextInt()
 
         every { keyProvider.repeat } returns keyValue
-        appPreferences.repeat = value
+        preferences.repeat = value
 
         verifySequence {
-            preferences.edit()
+            sharedPreferences.edit()
             keyProvider.repeat
             preferencesEditor.putInt(keyValue, value)
             preferencesEditor.apply()
         }
     }
 
-    @Test fun getSignal() {
+    @Test fun `get signal`() {
         val keyValue = nextString()
         val defValue = Random.nextInt()
         val value = Random.nextInt()
 
         every { keyProvider.signal } returns keyValue
         every { defProvider.signal } returns defValue
-        every { preferences.getInt(keyValue, defValue) } returns value
-        assertEquals(value, appPreferences.signal)
+        every { sharedPreferences.getInt(keyValue, defValue) } returns value
+        assertEquals(preferences.signal, value)
 
         verifySequence {
             keyProvider.signal
             defProvider.signal
 
-            preferences.getInt(keyValue, defValue)
+            sharedPreferences.getInt(keyValue, defValue)
         }
     }
 
-    @Test fun setSignal() {
+    @Test fun `set signal`() {
         val keyValue = nextString()
         val value = Random.nextInt()
 
         every { keyProvider.signal } returns keyValue
-        appPreferences.signal = value
+        preferences.signal = value
 
         verifySequence {
-            preferences.edit()
+            sharedPreferences.edit()
             keyProvider.signal
             preferencesEditor.putInt(keyValue, value)
             preferencesEditor.apply()
         }
     }
 
-    @Test fun getMelodyUri() {
+    @Test fun `get melodyUri`() {
         val keyValue = nextString()
         val defValue = nextString()
         val value = nextString()
 
         every { keyProvider.melodyUri } returns keyValue
         every { defProvider.melodyUri } returns defValue
-        every { preferences.getString(keyValue, defValue) } returns null
-        assertEquals(defValue, appPreferences.melodyUri)
+        every { sharedPreferences.getString(keyValue, defValue) } returns null
+        assertEquals(defValue, preferences.melodyUri)
 
-        every { preferences.getString(keyValue, defValue) } returns value
-        assertEquals(value, appPreferences.melodyUri)
+        every { sharedPreferences.getString(keyValue, defValue) } returns value
+        assertEquals(preferences.melodyUri, value)
 
         verifySequence {
             keyProvider.melodyUri
             defProvider.melodyUri
-            preferences.getString(keyValue, defValue)
+            sharedPreferences.getString(keyValue, defValue)
             defProvider.melodyUri
 
             keyProvider.melodyUri
             defProvider.melodyUri
-            preferences.getString(keyValue, defValue)
+            sharedPreferences.getString(keyValue, defValue)
         }
     }
 
-    @Test fun setMelodyUri() {
+    @Test fun `set melodyUri`() {
         val keyValue = nextString()
         val value = nextString()
 
         every { keyProvider.melodyUri } returns keyValue
-        appPreferences.melodyUri = value
+        preferences.melodyUri = value
 
         verifySequence {
-            preferences.edit()
+            sharedPreferences.edit()
             keyProvider.melodyUri
             preferencesEditor.putString(keyValue, value)
             preferencesEditor.apply()
         }
     }
 
-    @Test fun getVolume() {
+    @Test fun `get volume`() {
         val keyValue = nextString()
         val defValue = Random.nextInt()
         val value = Random.nextInt()
 
         every { keyProvider.volume } returns keyValue
         every { defProvider.volume } returns defValue
-        every { preferences.getInt(keyValue, defValue) } returns value
-        assertEquals(value, appPreferences.volume)
+        every { sharedPreferences.getInt(keyValue, defValue) } returns value
+        assertEquals(preferences.volume, value)
 
         verifySequence {
             keyProvider.volume
             defProvider.volume
 
-            preferences.getInt(keyValue, defValue)
+            sharedPreferences.getInt(keyValue, defValue)
         }
     }
 
-    @Test fun setVolume() {
+    @Test fun `set volume`() {
         val keyValue = nextString()
         val value = Random.nextInt()
 
         every { keyProvider.volume } returns keyValue
-        appPreferences.volume = value
+        preferences.volume = value
 
         verifySequence {
-            preferences.edit()
+            sharedPreferences.edit()
             keyProvider.volume
             preferencesEditor.putInt(keyValue, value)
             preferencesEditor.apply()
         }
     }
 
-    @Test fun getVolumeIncrease() {
+    @Test fun `get isVolumeIncrease`() {
         val keyValue = nextString()
         val defValue = Random.nextBoolean()
         val value = Random.nextBoolean()
 
         every { keyProvider.isVolumeIncrease } returns keyValue
         every { defProvider.isVolumeIncrease } returns defValue
-        every { preferences.getBoolean(keyValue, defValue) } returns value
-        assertEquals(value, appPreferences.isVolumeIncrease)
+        every { sharedPreferences.getBoolean(keyValue, defValue) } returns value
+        assertEquals(preferences.isVolumeIncrease, value)
 
         verifySequence {
             keyProvider.isVolumeIncrease
             defProvider.isVolumeIncrease
 
-            preferences.getBoolean(keyValue, defValue)
+            sharedPreferences.getBoolean(keyValue, defValue)
         }
     }
 
-    @Test fun setVolumeIncrease() {
+    @Test fun `set isVolumeIncrease`() {
         val keyValue = nextString()
         val value = Random.nextBoolean()
 
         every { keyProvider.isVolumeIncrease } returns keyValue
-        appPreferences.isVolumeIncrease = value
+        preferences.isVolumeIncrease = value
 
         verifySequence {
-            preferences.edit()
+            sharedPreferences.edit()
             keyProvider.isVolumeIncrease
             preferencesEditor.putBoolean(keyValue, value)
             preferencesEditor.apply()
@@ -484,33 +484,33 @@ class PreferencesImplTest : ParentTest() {
     }
 
 
-    @Test fun getIsDeveloper() {
+    @Test fun `get isDeveloper`() {
         val keyValue = nextString()
         val defValue = Random.nextBoolean()
         val value = Random.nextBoolean()
 
         every { keyProvider.isDeveloper } returns keyValue
         every { defProvider.isDeveloper } returns defValue
-        every { preferences.getBoolean(keyValue, defValue) } returns value
-        assertEquals(value, appPreferences.isDeveloper)
+        every { sharedPreferences.getBoolean(keyValue, defValue) } returns value
+        assertEquals(preferences.isDeveloper, value)
 
         verifySequence {
             keyProvider.isDeveloper
             defProvider.isDeveloper
 
-            preferences.getBoolean(keyValue, defValue)
+            sharedPreferences.getBoolean(keyValue, defValue)
         }
     }
 
-    @Test fun setIsDeveloper() {
+    @Test fun `set isDeveloper`() {
         val keyValue = nextString()
         val value = Random.nextBoolean()
 
         every { keyProvider.isDeveloper } returns keyValue
-        appPreferences.isDeveloper = value
+        preferences.isDeveloper = value
 
         verifySequence {
-            preferences.edit()
+            sharedPreferences.edit()
             keyProvider.isDeveloper
             preferencesEditor.putBoolean(keyValue, value)
             preferencesEditor.apply()
@@ -518,10 +518,10 @@ class PreferencesImplTest : ParentTest() {
     }
 
     @Test fun clear() {
-        appPreferences.clear()
+        preferences.clear()
 
         verifySequence {
-            preferences.edit()
+            sharedPreferences.edit()
             preferencesEditor.clear()
             preferencesEditor.apply()
         }

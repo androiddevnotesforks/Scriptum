@@ -7,7 +7,7 @@ import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesKeyProvi
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvider
 
 /**
- * Repository for work with [SharedPreferences]
+ * Application settings (keys) must be stored via this class.
  */
 class PreferencesImpl(
     private val key: PreferencesKeyProvider,
@@ -19,15 +19,19 @@ class PreferencesImpl(
         get() = preferences.getBoolean(key.isFirstStart, def.isFirstStart)
         set(value) = edit { putBoolean(key.isFirstStart, value) }
 
+    // App settings
+
     @Theme override var theme: Int
         get() = preferences.getInt(key.theme, def.theme)
         set(value) = edit { putInt(key.theme, value) }
 
+    // Backup settings
 
     override var isBackupSkipImports: Boolean
         get() = preferences.getBoolean(key.isBackupSkipImports, def.isBackupSkipImports)
         set(value) = edit { putBoolean(key.isBackupSkipImports, value) }
 
+    // Note settings
 
     @Sort override var sort: Int
         get() = preferences.getInt(key.sort, def.sort)
@@ -49,6 +53,7 @@ class PreferencesImpl(
         get() = preferences.getInt(key.savePeriod, def.savePeriod)
         set(value) = edit { putInt(key.savePeriod, value) }
 
+    // Alarm settings
 
     @Repeat override var repeat: Int
         get() = preferences.getInt(key.repeat, def.repeat)
@@ -73,6 +78,7 @@ class PreferencesImpl(
         get() = preferences.getBoolean(key.isVolumeIncrease, def.isVolumeIncrease)
         set(value) = edit { putBoolean(key.isVolumeIncrease, value) }
 
+    // Developer settings
 
     override var isDeveloper: Boolean
         get() = preferences.getBoolean(key.isDeveloper, def.isDeveloper)
@@ -81,7 +87,7 @@ class PreferencesImpl(
     override fun clear() = edit { clear() }
 
 
-    private fun edit(func: SharedPreferences.Editor.() -> Unit) {
+    private inline fun edit(func: SharedPreferences.Editor.() -> Unit) {
         preferences.edit().apply(func).apply()
     }
 }

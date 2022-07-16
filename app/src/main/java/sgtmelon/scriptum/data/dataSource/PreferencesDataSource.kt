@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.infrastructure.preferences
+package sgtmelon.scriptum.data.dataSource
 
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Repeat
@@ -6,7 +6,7 @@ import sgtmelon.scriptum.cleanup.domain.model.annotation.SavePeriod
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Sort
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
 
-interface Preferences {
+interface PreferencesDataSource {
 
     var isFirstStart: Boolean
 
