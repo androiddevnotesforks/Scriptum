@@ -45,13 +45,13 @@ class BackupRepoTest : ParentRoomRepoTest() {
         coEvery { spyBackupRepo.insertRankList(model, roomDb) } returns Unit
         coEvery { spyBackupRepo.insertAlarmList(model, roomDb) } returns Unit
 
-        assertEquals(ImportResult.Simple, spyBackupRepo.insertData(model, importSkip = false))
+        assertEquals(ImportResult.Simple, spyBackupRepo.insertData(model, isSkipImports = false))
 
         val skipResult = ImportResult.Skip(skipCount = 0)
-        assertEquals(skipResult, spyBackupRepo.insertData(model, importSkip = true))
+        assertEquals(skipResult, spyBackupRepo.insertData(model, isSkipImports = true))
 
         coVerifyOrder {
-            spyBackupRepo.insertData(model, importSkip = false)
+            spyBackupRepo.insertData(model, isSkipImports = false)
             roomProvider.openRoom()
             model.noteList
             noteList.size
@@ -63,7 +63,7 @@ class BackupRepoTest : ParentRoomRepoTest() {
             spyBackupRepo.insertRankList(model, roomDb)
             spyBackupRepo.insertAlarmList(model, roomDb)
 
-            spyBackupRepo.insertData(model, importSkip = true)
+            spyBackupRepo.insertData(model, isSkipImports = true)
             roomProvider.openRoom()
             model.noteList
             noteList.size

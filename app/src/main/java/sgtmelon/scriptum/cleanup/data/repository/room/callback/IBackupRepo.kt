@@ -7,5 +7,5 @@ import sgtmelon.scriptum.cleanup.domain.model.result.ImportResult
  * Interface for [BackupRepo].
  */
 interface IBackupRepo {
-    suspend fun insertData(model: BackupRepo.Model, importSkip: Boolean): ImportResult
+    suspend fun insertData(model: BackupRepo.Model, isSkipImports: Boolean): ImportResult
 }

@@ -154,7 +154,7 @@ class BackupPreferenceInteractorTest : ParentInteractorTest() {
         val encryptData = nextString()
         val data = nextString()
         val parserResult = mockk<ParserResult>()
-        val importSkip = Random.nextBoolean()
+        val isSkipImports = Random.nextBoolean()
         val backupModel = mockk<BackupRepo.Model>()
 
         val skipResult = ImportResult.Skip(Random.nextInt())
@@ -177,12 +177,12 @@ class BackupPreferenceInteractorTest : ParentInteractorTest() {
         every { BackupRepo.Model[parserResult] } returns backupModel
 
         every { backupParser.parse(data) } returns parserResult
-        every { preferenceRepo.importSkip } returns importSkip
-        coEvery { backupRepo.insertData(backupModel, importSkip) } returns ImportResult.Simple
+        every { preferenceRepo.isBackupSkipImports } returns isSkipImports
+        coEvery { backupRepo.insertData(backupModel, isSkipImports) } returns ImportResult.Simple
 
         assertEquals(ImportResult.Simple, spyInteractor.import(item.name))
 
-        coEvery { backupRepo.insertData(backupModel, importSkip) } returns skipResult
+        coEvery { backupRepo.insertData(backupModel, isSkipImports) } returns skipResult
 
         assertEquals(skipResult, spyInteractor.import(item.name))
 
@@ -206,9 +206,9 @@ class BackupPreferenceInteractorTest : ParentInteractorTest() {
                 fileControl.readFile(item.path)
                 cipherControl.decrypt(encryptData)
                 backupParser.parse(data)
-                preferenceRepo.importSkip
+                preferenceRepo.isBackupSkipImports
                 BackupRepo.Model[parserResult]
-                backupRepo.insertData(backupModel, importSkip)
+                backupRepo.insertData(backupModel, isSkipImports)
             }
         }
     }

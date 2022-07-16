@@ -29,7 +29,7 @@ class PreferencesKeyProviderTest : ParentTest() {
     @Test fun `correct links`() {
         val isFirstStart = nextString()
         val theme = nextString()
-        val importSkip = nextString()
+        val isBackupSkipImports = nextString()
         val sort = nextString()
         val defaultColor = nextString()
         val pauseSaveOn = nextString()
@@ -44,7 +44,7 @@ class PreferencesKeyProviderTest : ParentTest() {
 
         every { resources.getString(R.string.pref_key_first_start) } returns isFirstStart
         every { resources.getString(R.string.pref_key_app_theme) } returns theme
-        every { resources.getString(R.string.pref_key_backup_skip) } returns importSkip
+        every { resources.getString(R.string.pref_key_backup_skip) } returns isBackupSkipImports
         every { resources.getString(R.string.pref_key_note_sort) } returns sort
         every { resources.getString(R.string.pref_key_note_color) } returns defaultColor
         every { resources.getString(R.string.pref_key_note_pause) } returns pauseSaveOn
@@ -59,7 +59,7 @@ class PreferencesKeyProviderTest : ParentTest() {
 
         assertEquals(isFirstStart, providerKey.isFirstStart)
         assertEquals(theme, providerKey.theme)
-        assertEquals(importSkip, providerKey.importSkip)
+        assertEquals(isBackupSkipImports, providerKey.isBackupSkipImports)
         assertEquals(sort, providerKey.sort)
         assertEquals(defaultColor, providerKey.defaultColor)
         assertEquals(pauseSaveOn, providerKey.pauseSaveOn)

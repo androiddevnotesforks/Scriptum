@@ -23,7 +23,7 @@ class BackupPreferenceLogic : ParentPreferenceLogic() {
         list.add(Switch(
             R.string.pref_title_backup_skip,
             R.string.pref_summary_backup_skip,
-            preferences.importSkip
+            preferences.isBackupSkipImports
         ))
 
         return emptyList()

@@ -116,14 +116,14 @@ class PreferencesImplTest : ParentTest() {
         val defValue = Random.nextBoolean()
         val value = Random.nextBoolean()
 
-        every { keyProvider.importSkip } returns keyValue
-        every { defProvider.importSkip } returns defValue
+        every { keyProvider.isBackupSkipImports } returns keyValue
+        every { defProvider.isBackupSkipImports } returns defValue
         every { preferences.getBoolean(keyValue, defValue) } returns value
-        assertEquals(value, appPreferences.importSkip)
+        assertEquals(value, appPreferences.isBackupSkipImports)
 
         verifySequence {
-            keyProvider.importSkip
-            defProvider.importSkip
+            keyProvider.isBackupSkipImports
+            defProvider.isBackupSkipImports
 
             preferences.getBoolean(keyValue, defValue)
         }
@@ -133,12 +133,12 @@ class PreferencesImplTest : ParentTest() {
         val keyValue = nextString()
         val value = Random.nextBoolean()
 
-        every { keyProvider.importSkip } returns keyValue
-        appPreferences.importSkip = value
+        every { keyProvider.isBackupSkipImports } returns keyValue
+        appPreferences.isBackupSkipImports = value
 
         verifySequence {
             preferences.edit()
-            keyProvider.importSkip
+            keyProvider.isBackupSkipImports
             preferencesEditor.putBoolean(keyValue, value)
             preferencesEditor.apply()
         }

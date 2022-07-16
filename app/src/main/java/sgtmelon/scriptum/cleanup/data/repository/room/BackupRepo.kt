@@ -27,11 +27,11 @@ import java.util.*
 class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
     IRoomWork {
 
-    override suspend fun insertData(model: Model, importSkip: Boolean): ImportResult {
+    override suspend fun insertData(model: Model, isSkipImports: Boolean): ImportResult {
         return fromRoom {
             val startSize = model.noteList.size
 
-            if (importSkip) clearList(getRemoveNoteList(model, roomDb = this), model)
+            if (isSkipImports) clearList(getRemoveNoteList(model, roomDb = this), model)
 
             clearRankList(model, roomDb = this)
             clearAlarmList(model, roomDb = this)
@@ -42,7 +42,7 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
             insertRankList(model, roomDb = this)
             insertAlarmList(model, roomDb = this)
 
-            return@fromRoom if (importSkip) {
+            return@fromRoom if (isSkipImports) {
                 ImportResult.Skip(skipCount = startSize - model.noteList.size)
             } else {
                 ImportResult.Simple

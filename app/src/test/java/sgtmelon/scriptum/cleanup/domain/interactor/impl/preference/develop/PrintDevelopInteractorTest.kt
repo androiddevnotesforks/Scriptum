@@ -182,9 +182,9 @@ class PrintDevelopInteractorTest : ParentInteractorTest() {
         every { def.theme } returns pairTheme.second
         every { preferenceRepo.theme } returns valTheme
 
-        every { key.importSkip } returns pairImportSkip.first
-        every { def.importSkip } returns pairImportSkip.second
-        every { preferenceRepo.importSkip } returns valImportSkip
+        every { key.isBackupSkipImports } returns pairImportSkip.first
+        every { def.isBackupSkipImports } returns pairImportSkip.second
+        every { preferenceRepo.isBackupSkipImports } returns valImportSkip
 
         every { key.sort } returns pairSort.first
         every { def.sort } returns pairSort.second
@@ -261,9 +261,9 @@ class PrintDevelopInteractorTest : ParentInteractorTest() {
             key.theme
             def.theme
             preferenceRepo.theme
-            key.importSkip
-            def.importSkip
-            preferenceRepo.importSkip
+            key.isBackupSkipImports
+            def.isBackupSkipImports
+            preferenceRepo.isBackupSkipImports
             key.sort
             def.sort
             preferenceRepo.sort

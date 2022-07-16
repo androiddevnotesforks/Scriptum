@@ -24,9 +24,9 @@ class PreferencesImpl(
         set(value) = edit { putInt(key.theme, value) }
 
 
-    override var importSkip: Boolean
-        get() = preferences.getBoolean(key.importSkip, def.importSkip)
-        set(value) = edit { putBoolean(key.importSkip, value) }
+    override var isBackupSkipImports: Boolean
+        get() = preferences.getBoolean(key.isBackupSkipImports, def.isBackupSkipImports)
+        set(value) = edit { putBoolean(key.isBackupSkipImports, value) }
 
 
     @Sort override var sort: Int

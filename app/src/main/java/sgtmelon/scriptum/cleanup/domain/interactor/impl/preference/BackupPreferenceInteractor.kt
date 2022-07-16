@@ -73,8 +73,9 @@ class BackupPreferenceInteractor(
         val data = cipherControl.decrypt(encryptData)
 
         val parserResult = backupParser.parse(data) ?: return ImportResult.Error
-        val importSkip = preferenceRepo.importSkip
+        val isSkipImports = preferenceRepo.isBackupSkipImports
 
-        return backupRepo.insertData(BackupRepo.Model[parserResult], importSkip)
+        // TODO move isBackupSkipImports inside backupRepo
+        return backupRepo.insertData(BackupRepo.Model[parserResult], isSkipImports)
     }
 }

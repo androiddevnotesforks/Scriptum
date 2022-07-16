@@ -12,7 +12,7 @@ interface Preferences {
     @Theme var theme: Int
 
 
-    var importSkip: Boolean
+    var isBackupSkipImports: Boolean
 
 
     @Sort var sort: Int

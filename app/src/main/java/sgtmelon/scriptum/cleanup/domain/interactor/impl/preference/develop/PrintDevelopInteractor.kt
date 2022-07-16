@@ -44,7 +44,7 @@ class PrintDevelopInteractor(
             Preference.Key(key.isFirstStart, def.isFirstStart, preferenceRepo.isFirstStart),
             Preference.Key(key.theme, def.theme, preferenceRepo.theme),
             Preference.Title(R.string.pref_title_backup),
-            Preference.Key(key.importSkip, def.importSkip, preferenceRepo.importSkip),
+            Preference.Key(key.isBackupSkipImports, def.isBackupSkipImports, preferenceRepo.isBackupSkipImports),
             Preference.Title(R.string.pref_title_note),
             Preference.Key(key.sort, def.sort, preferenceRepo.sort),
             Preference.Key(key.defaultColor, def.defaultColor, preferenceRepo.defaultColor),

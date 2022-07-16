@@ -64,6 +64,7 @@ class BackupSelector(
 
         for (i in 0 until jsonArray.length()) {
             (jsonArray.get(i) as? JSONObject)?.apply {
+                // TODO may be use not return (continue)?
                 val type = typeConverter.toEnum(getInt(Note.TYPE)) ?: return null
 
                 list.add(NoteEntity(

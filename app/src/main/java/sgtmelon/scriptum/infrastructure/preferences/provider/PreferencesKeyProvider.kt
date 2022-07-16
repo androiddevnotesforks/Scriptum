@@ -13,7 +13,7 @@ class PreferencesKeyProvider(resources: Resources) {
     val isFirstStart: String = resources.getString(R.string.pref_key_first_start)
     val theme: String = resources.getString(R.string.pref_key_app_theme)
 
-    val importSkip: String = resources.getString(R.string.pref_key_backup_skip)
+    val isBackupSkipImports: String = resources.getString(R.string.pref_key_backup_skip)
 
     val sort: String = resources.getString(R.string.pref_key_note_sort)
     val defaultColor: String = resources.getString(R.string.pref_key_note_color)
