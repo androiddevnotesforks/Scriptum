@@ -23,7 +23,7 @@ class NotePreferenceTest : ParentUiTest(), INotePreferenceTest {
         preferences.sort = Sort.list.random()
         preferences.defaultColor = Color.list.random()
         preferences.isPauseSaveOn = Random.nextBoolean()
-        preferences.autoSaveOn = Random.nextBoolean()
+        preferences.isAutoSaveOn = Random.nextBoolean()
         preferences.savePeriod = SavePeriod.list.random()
     }) {
         assert()
@@ -40,8 +40,8 @@ class NotePreferenceTest : ParentUiTest(), INotePreferenceTest {
     @Test fun autoSaveWork() {
         val value = Random.nextBoolean()
 
-        runTest({ preferences.autoSaveOn = value }) { onAutoSaveClick() }
+        runTest({ preferences.isAutoSaveOn = value }) { onAutoSaveClick() }
 
-        assertEquals(!value, preferences.autoSaveOn)
+        assertEquals(!value, preferences.isAutoSaveOn)
     }
 }

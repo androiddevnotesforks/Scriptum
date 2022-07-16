@@ -23,7 +23,7 @@ class NotePreferenceRotationTest : ParentRotationTest(), INotePreferenceTest {
         preferences.sort = Sort.list.random()
         preferences.defaultColor = Color.list.random()
         preferences.isPauseSaveOn = Random.nextBoolean()
-        preferences.autoSaveOn = Random.nextBoolean()
+        preferences.isAutoSaveOn = Random.nextBoolean()
         preferences.savePeriod = SavePeriod.list.random()
     }) {
         automator.rotateSide()
@@ -85,7 +85,7 @@ class NotePreferenceRotationTest : ParentRotationTest(), INotePreferenceTest {
         assertNotEquals(initValue, value)
 
         runTest({
-            preferences.autoSaveOn = true
+            preferences.isAutoSaveOn = true
             preferences.savePeriod = initValue
         }) {
             openSavePeriodDialog {

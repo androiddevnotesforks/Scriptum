@@ -21,7 +21,7 @@ interface Preferences {
 
     var isPauseSaveOn: Boolean
 
-    var autoSaveOn: Boolean
+    var isAutoSaveOn: Boolean
 
     @SavePeriod var savePeriod: Int
 

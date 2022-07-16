@@ -30,7 +30,7 @@ class SaveControlTest : ParentTest() {
     @Before override fun setup() {
         super.setup()
 
-        every { model.autoSaveOn } returns false
+        every { model.isAutoSaveOn } returns false
     }
 
     @Test fun periodTime() {
@@ -39,12 +39,12 @@ class SaveControlTest : ParentTest() {
 
         every { resources.getIntArray(R.array.pref_note_save_time_array) } returns array
 
-        every { model.autoSaveOn } returns false
+        every { model.isAutoSaveOn } returns false
 
         var saveControl = SaveControl(resources, model, callback)
         assertNull(saveControl.periodTime)
 
-        every { model.autoSaveOn } returns true
+        every { model.isAutoSaveOn } returns true
         every { model.savePeriod } returns -1
 
         saveControl = SaveControl(resources, model, callback)
@@ -56,10 +56,10 @@ class SaveControlTest : ParentTest() {
         assertEquals(array[index], saveControl.periodTime)
 
         verifySequence {
-            model.autoSaveOn
+            model.isAutoSaveOn
 
             repeat(times = 2) {
-                model.autoSaveOn
+                model.isAutoSaveOn
                 resources.getIntArray(R.array.pref_note_save_time_array)
                 model.savePeriod
             }
@@ -76,7 +76,7 @@ class SaveControlTest : ParentTest() {
         assertTrue(saveControl.needSave)
 
         verifySequence {
-            model.autoSaveOn
+            model.isAutoSaveOn
         }
     }
 
@@ -85,13 +85,13 @@ class SaveControlTest : ParentTest() {
         val index = array.indices.random()
         val handler = mockk<Handler>(relaxUnitFun = true)
 
-        every { model.autoSaveOn } returns false
+        every { model.isAutoSaveOn } returns false
 
         val saveControl = SaveControl(resources, model, callback)
 
         saveControl.setSaveEvent(Random.nextBoolean())
 
-        every { model.autoSaveOn } returns true
+        every { model.isAutoSaveOn } returns true
         every { resources.getIntArray(R.array.pref_note_save_time_array) } returns array
         every { model.savePeriod } returns -1
 
@@ -111,33 +111,33 @@ class SaveControlTest : ParentTest() {
         secondSpySaveControl.setSaveEvent(isWork = true)
 
         verifySequence {
-            model.autoSaveOn
-            model.autoSaveOn
+            model.isAutoSaveOn
+            model.isAutoSaveOn
 
 
-            model.autoSaveOn
+            model.isAutoSaveOn
             model.savePeriod
             firstSpySaveControl.saveHandler = handler
 
             firstSpySaveControl.setSaveEvent(isWork = false)
-            model.autoSaveOn
+            model.isAutoSaveOn
             handler.removeCallbacksAndMessages(null)
 
             firstSpySaveControl.setSaveEvent(isWork = true)
-            model.autoSaveOn
+            model.isAutoSaveOn
             handler.removeCallbacksAndMessages(null)
 
 
-            model.autoSaveOn
+            model.isAutoSaveOn
             model.savePeriod
             secondSpySaveControl.saveHandler = handler
 
             secondSpySaveControl.setSaveEvent(isWork = false)
-            model.autoSaveOn
+            model.isAutoSaveOn
             handler.removeCallbacksAndMessages(null)
 
             secondSpySaveControl.setSaveEvent(isWork = true)
-            model.autoSaveOn
+            model.isAutoSaveOn
             handler.removeCallbacksAndMessages(null)
             handler.postDelayed(any(), array[index].toLong())
         }
@@ -155,7 +155,7 @@ class SaveControlTest : ParentTest() {
         saveControl.onPauseSave()
 
         verifySequence {
-            model.autoSaveOn
+            model.isAutoSaveOn
 
             repeat(times = 2) { model.isPauseSaveOn }
 

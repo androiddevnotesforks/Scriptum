@@ -18,7 +18,7 @@ class PreferencesKeyProvider(resources: Resources) {
     val sort: String = resources.getString(R.string.pref_key_note_sort)
     val defaultColor: String = resources.getString(R.string.pref_key_note_color)
     val isPauseSaveOn: String = resources.getString(R.string.pref_key_note_pause)
-    val autoSaveOn: String = resources.getString(R.string.pref_key_note_auto)
+    val isAutoSaveOn: String = resources.getString(R.string.pref_key_note_auto)
     val savePeriod: String = resources.getString(R.string.pref_key_note_time)
 
     val repeat: String = resources.getString(R.string.pref_key_alarm_repeat)

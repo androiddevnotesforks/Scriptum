@@ -198,9 +198,9 @@ class PrintDevelopInteractorTest : ParentInteractorTest() {
         every { def.isPauseSaveOn } returns pairPauseSaveOn.second
         every { preferenceRepo.isPauseSaveOn } returns valPauseSaveOn
 
-        every { key.autoSaveOn } returns pairAutoSaveOn.first
-        every { def.autoSaveOn } returns pairAutoSaveOn.second
-        every { preferenceRepo.autoSaveOn } returns valAutoSaveOn
+        every { key.isAutoSaveOn } returns pairAutoSaveOn.first
+        every { def.isAutoSaveOn } returns pairAutoSaveOn.second
+        every { preferenceRepo.isAutoSaveOn } returns valAutoSaveOn
 
         every { key.savePeriod } returns pairSavePeriod.first
         every { def.savePeriod } returns pairSavePeriod.second
@@ -273,9 +273,9 @@ class PrintDevelopInteractorTest : ParentInteractorTest() {
             key.isPauseSaveOn
             def.isPauseSaveOn
             preferenceRepo.isPauseSaveOn
-            key.autoSaveOn
-            def.autoSaveOn
-            preferenceRepo.autoSaveOn
+            key.isAutoSaveOn
+            def.isAutoSaveOn
+            preferenceRepo.isAutoSaveOn
             key.savePeriod
             def.savePeriod
             preferenceRepo.savePeriod

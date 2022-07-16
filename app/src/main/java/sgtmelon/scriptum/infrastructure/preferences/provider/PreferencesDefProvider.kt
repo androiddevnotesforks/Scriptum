@@ -17,7 +17,7 @@ class PreferencesDefProvider(resources: Resources) {
     val sort: Int = resources.getInteger(R.integer.pref_note_sort)
     val defaultColor: Int = resources.getInteger(R.integer.pref_note_color)
     val isPauseSaveOn: Boolean = resources.getBoolean(R.bool.pref_note_save_pause)
-    val autoSaveOn: Boolean = resources.getBoolean(R.bool.pref_note_save_auto)
+    val isAutoSaveOn: Boolean = resources.getBoolean(R.bool.pref_note_save_auto)
     val savePeriod: Int = resources.getInteger(R.integer.pref_note_save_time)
 
     val repeat: Int = resources.getInteger(R.integer.pref_alarm_repeat)

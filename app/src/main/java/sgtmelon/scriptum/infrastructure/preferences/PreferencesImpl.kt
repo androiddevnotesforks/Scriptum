@@ -41,9 +41,9 @@ class PreferencesImpl(
         get() = preferences.getBoolean(key.isPauseSaveOn, def.isPauseSaveOn)
         set(value) = edit { putBoolean(key.isPauseSaveOn, value) }
 
-    override var autoSaveOn: Boolean
-        get() = preferences.getBoolean(key.autoSaveOn, def.autoSaveOn)
-        set(value) = edit { putBoolean(key.autoSaveOn, value) }
+    override var isAutoSaveOn: Boolean
+        get() = preferences.getBoolean(key.isAutoSaveOn, def.isAutoSaveOn)
+        set(value) = edit { putBoolean(key.isAutoSaveOn, value) }
 
     @SavePeriod override var savePeriod: Int
         get() = preferences.getInt(key.savePeriod, def.savePeriod)

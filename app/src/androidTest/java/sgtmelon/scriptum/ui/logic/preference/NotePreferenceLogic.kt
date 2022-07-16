@@ -30,12 +30,12 @@ class NotePreferenceLogic : ParentPreferenceLogic() {
             PreferenceItem.Switch(
                 R.string.pref_title_note_save_auto,
                 R.string.pref_summary_note_save_auto,
-                preferences.autoSaveOn
+                preferences.isAutoSaveOn
             ),
             PreferenceItem.Summary.Text(
                 R.string.pref_title_note_save_period,
                 provider.savePeriod[preferences.savePeriod],
-                preferences.autoSaveOn
+                preferences.isAutoSaveOn
             )
         )
     }

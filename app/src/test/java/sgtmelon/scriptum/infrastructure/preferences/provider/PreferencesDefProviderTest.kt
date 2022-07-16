@@ -34,7 +34,7 @@ class PreferencesDefProviderTest : ParentTest() {
         val sort = Random.nextInt()
         val defaultColor = Random.nextInt()
         val isPauseSaveOn = Random.nextBoolean()
-        val autoSaveOn = Random.nextBoolean()
+        val isAutoSaveOn = Random.nextBoolean()
         val savePeriod = Random.nextInt()
         val repeat = Random.nextInt()
         val signal = Random.nextInt()
@@ -49,7 +49,7 @@ class PreferencesDefProviderTest : ParentTest() {
         every { resources.getInteger(R.integer.pref_note_sort) } returns sort
         every { resources.getInteger(R.integer.pref_note_color) } returns defaultColor
         every { resources.getBoolean(R.bool.pref_note_save_pause) } returns isPauseSaveOn
-        every { resources.getBoolean(R.bool.pref_note_save_auto) } returns autoSaveOn
+        every { resources.getBoolean(R.bool.pref_note_save_auto) } returns isAutoSaveOn
         every { resources.getInteger(R.integer.pref_note_save_time) } returns savePeriod
         every { resources.getInteger(R.integer.pref_alarm_repeat) } returns repeat
         every { resources.getInteger(R.integer.pref_alarm_signal) } returns signal
@@ -64,7 +64,7 @@ class PreferencesDefProviderTest : ParentTest() {
         assertEquals(sort, providerDef.sort)
         assertEquals(defaultColor, providerDef.defaultColor)
         assertEquals(isPauseSaveOn, providerDef.isPauseSaveOn)
-        assertEquals(autoSaveOn, providerDef.autoSaveOn)
+        assertEquals(isAutoSaveOn, providerDef.isAutoSaveOn)
         assertEquals(savePeriod, providerDef.savePeriod)
         assertEquals(repeat, providerDef.repeat)
         assertEquals(signal, providerDef.signal)

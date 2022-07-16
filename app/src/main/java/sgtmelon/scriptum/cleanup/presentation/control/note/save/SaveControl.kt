@@ -16,7 +16,7 @@ class SaveControl(
 
     @RunPrivate var saveHandler = Handler()
 
-    @RunPrivate val periodTime: Int? = if (model.autoSaveOn) {
+    @RunPrivate val periodTime: Int? = if (model.isAutoSaveOn) {
         resources.getIntArray(R.array.pref_note_save_time_array).getOrNull(model.savePeriod)
     } else {
         null
@@ -28,7 +28,7 @@ class SaveControl(
     override var needSave = true
 
     override fun setSaveEvent(isWork: Boolean) {
-        if (!model.autoSaveOn) return
+        if (!model.isAutoSaveOn) return
 
         saveHandler.removeCallbacksAndMessages(null)
 
@@ -51,7 +51,7 @@ class SaveControl(
         }
     }
 
-    data class Model(val isPauseSaveOn: Boolean, val autoSaveOn: Boolean, val savePeriod: Int)
+    data class Model(val isPauseSaveOn: Boolean, val isAutoSaveOn: Boolean, val savePeriod: Int)
 
     interface Callback {
         fun onResultSaveControl()

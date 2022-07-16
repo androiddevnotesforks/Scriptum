@@ -19,7 +19,7 @@ class NotePreferenceSavePeriodTest : ParentUiTest(),
     INotePreferenceTest,
     ISavePeriodTest {
 
-    @Test fun dialogClose() = runTest({ preferences.autoSaveOn = true }) {
+    @Test fun dialogClose() = runTest({ preferences.isAutoSaveOn = true }) {
         openSavePeriodDialog { onClickCancel() }
         assert()
         openSavePeriodDialog { onCloseSoft() }
@@ -37,7 +37,7 @@ class NotePreferenceSavePeriodTest : ParentUiTest(),
 
         assertNotEquals(initValue, value)
 
-        runTest({ preferences.autoSaveOn = true }) {
+        runTest({ preferences.isAutoSaveOn = true }) {
             openSavePeriodDialog { onClickItem(value).onClickApply() }
             assert()
         }
