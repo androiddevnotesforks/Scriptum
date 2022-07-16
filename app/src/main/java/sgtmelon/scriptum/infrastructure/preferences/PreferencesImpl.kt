@@ -2,9 +2,13 @@ package sgtmelon.scriptum.infrastructure.preferences
 
 import android.content.SharedPreferences
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.notification.SignalInteractor
-import sgtmelon.scriptum.cleanup.domain.model.annotation.*
-import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesKeyProvider
+import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
+import sgtmelon.scriptum.cleanup.domain.model.annotation.Repeat
+import sgtmelon.scriptum.cleanup.domain.model.annotation.SavePeriod
+import sgtmelon.scriptum.cleanup.domain.model.annotation.Sort
+import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvider
+import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesKeyProvider
 
 /**
  * Application settings (keys) must be stored via this class.
@@ -27,6 +31,9 @@ class PreferencesImpl(
 
     // Backup settings
 
+    /**
+     * Change of this variable happen inside preference.xml screen (or inside UI tests).
+     */
     override var isBackupSkipImports: Boolean
         get() = preferences.getBoolean(key.isBackupSkipImports, def.isBackupSkipImports)
         set(value) = edit { putBoolean(key.isBackupSkipImports, value) }
@@ -41,10 +48,16 @@ class PreferencesImpl(
         get() = preferences.getInt(key.defaultColor, def.defaultColor)
         set(value) = edit { putInt(key.defaultColor, value) }
 
+    /**
+     * Change of this variable happen inside preference.xml screen (or inside UI tests).
+     */
     override var isPauseSaveOn: Boolean
         get() = preferences.getBoolean(key.isPauseSaveOn, def.isPauseSaveOn)
         set(value) = edit { putBoolean(key.isPauseSaveOn, value) }
 
+    /**
+     * Change of this variable happen inside preference.xml screen (or inside UI tests).
+     */
     override var isAutoSaveOn: Boolean
         get() = preferences.getBoolean(key.isAutoSaveOn, def.isAutoSaveOn)
         set(value) = edit { putBoolean(key.isAutoSaveOn, value) }
@@ -66,6 +79,7 @@ class PreferencesImpl(
     /**
      * Access only from [SignalInteractor.getMelodyUri]/[SignalInteractor.setMelodyUri].
      */
+    // TODO refactor
     override var melodyUri: String
         get() = preferences.getString(key.melodyUri, def.melodyUri) ?: def.melodyUri
         set(value) = edit { putString(key.melodyUri, value) }
@@ -74,6 +88,9 @@ class PreferencesImpl(
         get() = preferences.getInt(key.volume, def.volume)
         set(value) = edit { putInt(key.volume, value) }
 
+    /**
+     * Change of this variable happen inside preference.xml screen (or inside UI tests).
+     */
     override var isVolumeIncrease: Boolean
         get() = preferences.getBoolean(key.isVolumeIncrease, def.isVolumeIncrease)
         set(value) = edit { putBoolean(key.isVolumeIncrease, value) }

@@ -16,7 +16,7 @@ interface PreferencesDataSource {
 
     // Backup settings
 
-    var isBackupSkipImports: Boolean
+    val isBackupSkipImports: Boolean
 
     // Note settings
 
@@ -24,9 +24,9 @@ interface PreferencesDataSource {
 
     @Color var defaultColor: Int
 
-    var isPauseSaveOn: Boolean
+    val isPauseSaveOn: Boolean
 
-    var isAutoSaveOn: Boolean
+    val isAutoSaveOn: Boolean
 
     @SavePeriod var savePeriod: Int
 
@@ -40,7 +40,7 @@ interface PreferencesDataSource {
 
     var volume: Int
 
-    var isVolumeIncrease: Boolean
+    val isVolumeIncrease: Boolean
 
     // Developer settings
 

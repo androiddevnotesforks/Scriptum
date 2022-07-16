@@ -2,8 +2,9 @@ package sgtmelon.scriptum.cleanup.presentation.control.note.save
 
 import android.content.res.Resources
 import android.os.Handler
-import sgtmelon.scriptum.R
 import sgtmelon.common.test.annotation.RunPrivate
+import sgtmelon.scriptum.R
+import sgtmelon.scriptum.cleanup.domain.model.annotation.SavePeriod
 
 /**
  * Class for help control note pause/auto save.
@@ -51,7 +52,7 @@ class SaveControl(
         }
     }
 
-    data class Model(val isPauseSaveOn: Boolean, val isAutoSaveOn: Boolean, val savePeriod: Int)
+    data class Model(val isPauseSaveOn: Boolean, val isAutoSaveOn: Boolean, @SavePeriod val savePeriod: Int)
 
     interface Callback {
         fun onResultSaveControl()

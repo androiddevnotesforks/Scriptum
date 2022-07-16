@@ -24,9 +24,7 @@ class PreferencesDataSourceImpl(
 
     // Backup settings
 
-    override var isBackupSkipImports: Boolean
-        get() = preferences.isBackupSkipImports
-        set(value) = run { preferences.isBackupSkipImports = value }
+    override val isBackupSkipImports: Boolean get() = preferences.isBackupSkipImports
 
     // Note settings
 
@@ -38,13 +36,9 @@ class PreferencesDataSourceImpl(
         get() = preferences.defaultColor
         set(value) = run { preferences.defaultColor = value }
 
-    override var isPauseSaveOn: Boolean
-        get() = preferences.isPauseSaveOn
-        set(value) = run { preferences.isPauseSaveOn = value }
+    override val isPauseSaveOn: Boolean get() = preferences.isPauseSaveOn
 
-    override var isAutoSaveOn: Boolean
-        get() = preferences.isAutoSaveOn
-        set(value) = run { preferences.isAutoSaveOn = value }
+    override val isAutoSaveOn: Boolean get() = preferences.isAutoSaveOn
 
     @SavePeriod override var savePeriod: Int
         get() = preferences.savePeriod
@@ -68,9 +62,7 @@ class PreferencesDataSourceImpl(
         get() = preferences.volume
         set(value) = run { preferences.volume = value }
 
-    override var isVolumeIncrease: Boolean
-        get() = preferences.isVolumeIncrease
-        set(value) = run { preferences.isVolumeIncrease = value }
+    override val isVolumeIncrease: Boolean get() = preferences.isVolumeIncrease
 
     // Developer
 

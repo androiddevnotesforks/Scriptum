@@ -16,6 +16,9 @@ interface Preferences {
 
     // Backup settings
 
+    /**
+     * Change of this variable happen inside preference.xml screen (or inside UI tests).
+     */
     var isBackupSkipImports: Boolean
 
     // Note settings
@@ -24,8 +27,14 @@ interface Preferences {
 
     @Color var defaultColor: Int
 
+    /**
+     * Change of this variable happen inside preference.xml screen (or inside UI tests).
+     */
     var isPauseSaveOn: Boolean
 
+    /**
+     * Change of this variable happen inside preference.xml screen (or inside UI tests).
+     */
     var isAutoSaveOn: Boolean
 
     @SavePeriod var savePeriod: Int
@@ -40,6 +49,9 @@ interface Preferences {
 
     var volume: Int
 
+    /**
+     * Change of this variable happen inside preference.xml screen (or inside UI tests).
+     */
     var isVolumeIncrease: Boolean
 
     // Developer settings

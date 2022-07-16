@@ -70,12 +70,6 @@ class PreferencesDataSourceImplTest : ParentTest() {
 
     @Test fun `get theme`() = getTest(Random.nextInt(), { preferences.theme }, { dataSource.theme })
 
-    @Test fun `set isBackupSkipImports`() = setTest(
-        Random.nextBoolean(),
-        { preferences.isBackupSkipImports = it },
-        { dataSource.isBackupSkipImports = it }
-    )
-
     @Test fun `get isBackupSkipImports`() = getTest(
         Random.nextBoolean(),
         { preferences.isBackupSkipImports },
@@ -106,22 +100,10 @@ class PreferencesDataSourceImplTest : ParentTest() {
         { dataSource.defaultColor }
     )
 
-    @Test fun `set isPauseSaveOn`() = setTest(
-        Random.nextBoolean(),
-        { preferences.isPauseSaveOn = it },
-        { dataSource.isPauseSaveOn = it }
-    )
-
     @Test fun `get isPauseSaveOn`() = getTest(
         Random.nextBoolean(),
         { preferences.isPauseSaveOn },
         { dataSource.isPauseSaveOn }
-    )
-
-    @Test fun `set isAutoSaveOn`() = setTest(
-        Random.nextBoolean(),
-        { preferences.isAutoSaveOn = it },
-        { dataSource.isAutoSaveOn = it }
     )
 
     @Test fun `get isAutoSaveOn`() = getTest(
@@ -188,12 +170,6 @@ class PreferencesDataSourceImplTest : ParentTest() {
         Random.nextInt(),
         { preferences.volume },
         { dataSource.volume }
-    )
-
-    @Test fun `set isVolumeIncrease`() = setTest(
-        Random.nextBoolean(),
-        { preferences.isVolumeIncrease = it },
-        { dataSource.isVolumeIncrease = it }
     )
 
     @Test fun `get isVolumeIncrease`() = getTest(

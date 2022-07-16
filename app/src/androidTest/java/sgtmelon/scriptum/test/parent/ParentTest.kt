@@ -1,13 +1,14 @@
 package sgtmelon.scriptum.test.parent
 
+import android.app.Instrumentation
 import android.content.Context
 import androidx.annotation.CallSuper
 import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.After
 import org.junit.Before
 import sgtmelon.scriptum.cleanup.dagger.module.base.ProviderModule
-import sgtmelon.scriptum.data.TestData
 import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
+import sgtmelon.scriptum.data.TestData
 import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.infrastructure.preferences.PreferencesImpl
 
@@ -16,7 +17,7 @@ import sgtmelon.scriptum.infrastructure.preferences.PreferencesImpl
  */
 abstract class ParentTest {
 
-    protected val instrumentation = InstrumentationRegistry.getInstrumentation()
+    protected val instrumentation: Instrumentation = InstrumentationRegistry.getInstrumentation()
     protected val context: Context = instrumentation.targetContext
 
     protected val preferences: Preferences = PreferencesImpl(
