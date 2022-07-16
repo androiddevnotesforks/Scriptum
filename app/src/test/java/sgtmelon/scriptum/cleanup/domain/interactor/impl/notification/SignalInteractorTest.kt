@@ -10,14 +10,13 @@ import org.junit.Test
 import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.infrastructure.preferences.Preferences
-import sgtmelon.scriptum.cleanup.data.room.converter.type.IntConverter
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Signal
 import sgtmelon.scriptum.cleanup.domain.model.item.MelodyItem
-import sgtmelon.scriptum.cleanup.domain.model.state.SignalState
 import sgtmelon.scriptum.getRandomSize
 import sgtmelon.scriptum.parent.ParentInteractorTest
 import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IRingtoneControl
 import kotlin.random.Random
+import sgtmelon.scriptum.infrastructure.preferences.converter.SignalConverter
+import sgtmelon.scriptum.infrastructure.preferences.model.state.SignalState
 
 /**
  * Test for [SignalInteractor].
@@ -27,12 +26,12 @@ class SignalInteractorTest : ParentInteractorTest() {
 
     @MockK lateinit var ringtoneControl: IRingtoneControl
     @MockK lateinit var preferences: Preferences
-    @MockK lateinit var intConverter: IntConverter
+    @MockK lateinit var signalConverter: SignalConverter
 
     private val melodyList = TestData.Melody.melodyList
 
     private val interactor by lazy {
-        SignalInteractor(ringtoneControl, preferences, intConverter)
+        SignalInteractor(ringtoneControl, preferences, signalConverter)
     }
     private val spyInteractor by lazy { spyk(interactor) }
 
@@ -43,36 +42,37 @@ class SignalInteractorTest : ParentInteractorTest() {
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(ringtoneControl, preferences, intConverter)
+        confirmVerified(ringtoneControl, preferences, signalConverter)
     }
 
 
     @Test fun getTypeCheck() {
-        val signal = Random.nextInt()
+        val value = nextString()
         val size = getRandomSize()
         val typeCheck = BooleanArray(size) { Random.nextBoolean() }
 
-        every { preferences.signal } returns signal
-        every { intConverter.toArray(signal, Signal.digitCount) } returns typeCheck
+        every { preferences.signal } returns value
+        every { signalConverter.toArray(value) } returns typeCheck
 
-        assertArrayEquals(typeCheck, interactor.typeCheck)
+        assertArrayEquals(interactor.typeCheck, typeCheck)
 
         verifySequence {
             preferences.signal
-            intConverter.toArray(signal, Signal.digitCount)
+            signalConverter.toArray(value)
         }
     }
 
     @Test fun getState() {
-        val typeCheck = booleanArrayOf(Random.nextBoolean(), Random.nextBoolean())
-        val state = SignalState[typeCheck]
+        val value = nextString()
+        val state = mockk<SignalState>()
 
-        every { spyInteractor.typeCheck } returns typeCheck
-        assertEquals(state, spyInteractor.state)
+        every { preferences.signal } returns value
+        every { signalConverter.toState(value) } returns state
+        assertEquals(interactor.state, state)
 
         verifySequence {
-            spyInteractor.state
-            spyInteractor.typeCheck
+            preferences.signal
+            signalConverter.toState(value)
         }
     }
 

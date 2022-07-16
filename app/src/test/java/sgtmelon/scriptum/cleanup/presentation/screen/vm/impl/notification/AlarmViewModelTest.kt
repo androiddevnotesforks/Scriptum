@@ -3,9 +3,9 @@ package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.notification
 import android.os.Bundle
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
+import java.util.Calendar
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
-import org.junit.Assert.*
 import org.junit.Test
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.TestData
@@ -14,13 +14,16 @@ import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.ISignal
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Repeat
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.domain.model.state.SignalState
 import sgtmelon.scriptum.getRandomSize
 import sgtmelon.scriptum.isDivideTwoEntirely
 import sgtmelon.scriptum.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.notification.IAlarmActivity
-import java.util.*
 import kotlin.random.Random
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
+import sgtmelon.scriptum.infrastructure.preferences.model.state.SignalState
 
 /**
  * Test for [AlarmViewModel].

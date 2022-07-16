@@ -51,6 +51,7 @@ import sgtmelon.scriptum.cleanup.presentation.control.file.IFileControl
 import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IRingtoneControl
 import sgtmelon.scriptum.cleanup.presentation.provider.SummaryProvider
 import sgtmelon.scriptum.cleanup.presentation.screen.system.SystemLogic
+import sgtmelon.scriptum.infrastructure.preferences.converter.SignalConverter
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesKeyProvider
 
 /**
@@ -66,9 +67,9 @@ class InteractorModule {
     fun provideSignalInteractor(
         ringtoneControl: IRingtoneControl,
         preferences: Preferences,
-        intConverter: IntConverter
+        signalConverter: SignalConverter
     ): ISignalInteractor {
-        return SignalInteractor(ringtoneControl, preferences, intConverter)
+        return SignalInteractor(ringtoneControl, preferences, signalConverter)
     }
 
     //endregion
@@ -215,9 +216,9 @@ class InteractorModule {
     fun provideAlarmPreferenceInteractor(
         summaryProvider: SummaryProvider,
         preferences: Preferences,
-        intConverter: IntConverter
+        signalConverter: SignalConverter
     ): IAlarmPreferenceInteractor {
-        return AlarmPreferenceInteractor(summaryProvider, preferences, intConverter)
+        return AlarmPreferenceInteractor(summaryProvider, preferences, signalConverter)
     }
 
     @Provides

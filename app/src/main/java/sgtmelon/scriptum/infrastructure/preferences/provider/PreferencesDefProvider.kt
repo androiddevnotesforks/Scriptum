@@ -21,7 +21,7 @@ class PreferencesDefProvider(resources: Resources) {
     val savePeriod: Int = resources.getInteger(R.integer.pref_note_save_time)
 
     val repeat: Int = resources.getInteger(R.integer.pref_alarm_repeat)
-    val signal: Int = resources.getInteger(R.integer.pref_alarm_signal)
+    val signal: String = resources.getString(R.string.pref_alarm_signal)
     val melodyUri: String = resources.getString(R.string.pref_alarm_melody)
     val volume: Int = resources.getInteger(R.integer.pref_alarm_volume)
     val isVolumeIncrease: Boolean = resources.getBoolean(R.bool.pref_alarm_increase)

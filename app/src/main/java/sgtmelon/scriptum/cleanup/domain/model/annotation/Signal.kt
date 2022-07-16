@@ -6,6 +6,7 @@ import sgtmelon.scriptum.infrastructure.preferences.PreferencesImpl
 /**
  * Describes signals in [PreferencesImpl.signal]
  */
+@Deprecated("")
 @IntDef(Signal.MELODY, Signal.VIBRATION)
 annotation class Signal {
     companion object {

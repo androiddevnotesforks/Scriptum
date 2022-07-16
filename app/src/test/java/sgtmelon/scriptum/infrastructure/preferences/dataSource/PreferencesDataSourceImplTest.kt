@@ -155,13 +155,13 @@ class PreferencesDataSourceImplTest : ParentTest() {
     )
 
     @Test fun `set signal`() = setTest(
-        Random.nextInt(),
+        nextString(),
         { preferences.signal = it },
         { dataSource.signal = it }
     )
 
     @Test fun `get signal`() = getTest(
-        Random.nextInt(),
+        nextString(),
         { preferences.signal },
         { dataSource.signal }
     )

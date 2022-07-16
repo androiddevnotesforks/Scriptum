@@ -16,6 +16,7 @@ import sgtmelon.scriptum.parent.ParentInteractorTest
 import sgtmelon.scriptum.cleanup.presentation.provider.SummaryProvider
 import java.util.*
 import kotlin.random.Random
+import sgtmelon.scriptum.infrastructure.preferences.converter.SignalConverter
 
 /**
  * Test for [AlarmPreferenceInteractor].
@@ -27,16 +28,16 @@ class AlarmPreferenceInteractorTest : ParentInteractorTest() {
 
     @MockK lateinit var summaryProvider: SummaryProvider
     @MockK lateinit var preferences: Preferences
-    @MockK lateinit var intConverter: IntConverter
+    @MockK lateinit var signalConverter: SignalConverter
 
     private val interactor by lazy {
-        AlarmPreferenceInteractor(summaryProvider, preferences, intConverter)
+        AlarmPreferenceInteractor(summaryProvider, preferences, signalConverter)
     }
     private val spyInteractor by lazy { spyk(interactor) }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(summaryProvider, preferences)
+        confirmVerified(summaryProvider, preferences, signalConverter)
     }
 
     //endregion
@@ -111,10 +112,10 @@ class AlarmPreferenceInteractorTest : ParentInteractorTest() {
     @Test fun updateSignal() {
         val size = getRandomSize()
         val valueArray = BooleanArray(size) { Random.nextBoolean() }
-        val value = Random.nextInt()
+        val value = nextString()
         val summary = nextString()
 
-        every { intConverter.toInt(valueArray) } returns value
+        every { signalConverter.toString(valueArray) } returns value
         every { preferences.signal = value } returns Unit
         every { spyInteractor.getSignalSummary(valueArray) } returns null
         assertNull(spyInteractor.updateSignal(valueArray))
@@ -125,7 +126,7 @@ class AlarmPreferenceInteractorTest : ParentInteractorTest() {
         verifySequence {
             repeat(times = 2) {
                 spyInteractor.updateSignal(valueArray)
-                intConverter.toInt(valueArray)
+                signalConverter.toString(valueArray)
                 preferences.signal = value
                 spyInteractor.getSignalSummary(valueArray)
             }

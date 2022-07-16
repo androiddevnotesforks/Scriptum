@@ -30,7 +30,7 @@
         <item>1440</item>   <!-- 1 day -->
     </integer-array>
 
-    <integer name="pref_alarm_signal">1</integer>
+    <string name="pref_alarm_signal" translatable="false">0, 1</string>
     <string name="pref_alarm_melody" translatable="false"/>
     <integer name="pref_alarm_volume">75</integer>
     <bool name="pref_alarm_increase">false</bool>

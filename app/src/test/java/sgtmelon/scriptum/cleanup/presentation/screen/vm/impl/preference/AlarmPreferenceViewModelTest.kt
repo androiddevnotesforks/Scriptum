@@ -1,7 +1,13 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference
 
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.coVerifyOrder
+import io.mockk.coVerifySequence
+import io.mockk.confirmVerified
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.spyk
+import io.mockk.verifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Assert.assertNotNull
@@ -14,10 +20,10 @@ import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IAlarmPreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.model.key.PermissionResult
-import sgtmelon.scriptum.cleanup.domain.model.state.SignalState
 import sgtmelon.scriptum.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IAlarmPreferenceFragment
 import kotlin.random.Random
+import sgtmelon.scriptum.infrastructure.preferences.model.state.SignalState
 
 /**
  * Test for [AlarmPreferenceViewModel].

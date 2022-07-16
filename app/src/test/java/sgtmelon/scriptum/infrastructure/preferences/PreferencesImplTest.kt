@@ -346,25 +346,25 @@ class PreferencesImplTest : ParentTest() {
 
     @Test fun `get signal`() {
         val keyValue = nextString()
-        val defValue = Random.nextInt()
-        val value = Random.nextInt()
+        val defValue = nextString()
+        val value = nextString()
 
         every { keyProvider.signal } returns keyValue
         every { defProvider.signal } returns defValue
-        every { sharedPreferences.getInt(keyValue, defValue) } returns value
+        every { sharedPreferences.getString(keyValue, defValue) } returns value
         assertEquals(preferences.signal, value)
 
         verifySequence {
             keyProvider.signal
             defProvider.signal
 
-            sharedPreferences.getInt(keyValue, defValue)
+            sharedPreferences.getString(keyValue, defValue)
         }
     }
 
     @Test fun `set signal`() {
         val keyValue = nextString()
-        val value = Random.nextInt()
+        val value = nextString()
 
         every { keyProvider.signal } returns keyValue
         preferences.signal = value
@@ -372,7 +372,7 @@ class PreferencesImplTest : ParentTest() {
         verifySequence {
             sharedPreferences.edit()
             keyProvider.signal
-            preferencesEditor.putInt(keyValue, value)
+            preferencesEditor.putString(keyValue, value)
             preferencesEditor.apply()
         }
     }

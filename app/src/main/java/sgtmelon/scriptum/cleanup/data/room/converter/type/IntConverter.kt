@@ -6,6 +6,7 @@ import kotlin.math.pow
 /**
  * Converter from number to boolean array and vice versa
  */
+@Deprecated("")
 class IntConverter {
 
     fun toInt(array: BooleanArray): Int {

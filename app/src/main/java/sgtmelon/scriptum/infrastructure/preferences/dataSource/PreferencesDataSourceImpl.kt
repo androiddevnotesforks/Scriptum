@@ -1,5 +1,9 @@
 package sgtmelon.scriptum.infrastructure.preferences.dataSource
 
+import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
+import sgtmelon.scriptum.cleanup.domain.model.annotation.Repeat
+import sgtmelon.scriptum.cleanup.domain.model.annotation.SavePeriod
+import sgtmelon.scriptum.cleanup.domain.model.annotation.Sort
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
 import sgtmelon.scriptum.data.dataSource.PreferencesDataSource
 import sgtmelon.scriptum.infrastructure.preferences.Preferences
@@ -26,11 +30,11 @@ class PreferencesDataSourceImpl(
 
     // Note settings
 
-    override var sort: Int
+    @Sort override var sort: Int
         get() = preferences.sort
         set(value) = run { preferences.sort = value }
 
-    override var defaultColor: Int
+    @Color override var defaultColor: Int
         get() = preferences.defaultColor
         set(value) = run { preferences.defaultColor = value }
 
@@ -42,17 +46,17 @@ class PreferencesDataSourceImpl(
         get() = preferences.isAutoSaveOn
         set(value) = run { preferences.isAutoSaveOn = value }
 
-    override var savePeriod: Int
+    @SavePeriod override var savePeriod: Int
         get() = preferences.savePeriod
         set(value) = run { preferences.savePeriod = value }
 
     // Alarm settings
 
-    override var repeat: Int
+    @Repeat override var repeat: Int
         get() = preferences.repeat
         set(value) = run { preferences.repeat = value }
 
-    override var signal: Int
+    override var signal: String
         get() = preferences.signal
         set(value) = run { preferences.signal = value }
 

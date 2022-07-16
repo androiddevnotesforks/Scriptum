@@ -37,7 +37,7 @@ class PreferencesDefProviderTest : ParentTest() {
         val isAutoSaveOn = Random.nextBoolean()
         val savePeriod = Random.nextInt()
         val repeat = Random.nextInt()
-        val signal = Random.nextInt()
+        val signal = nextString()
         val melodyUri = nextString()
         val volume = Random.nextInt()
         val isVolumeIncrease = Random.nextBoolean()
@@ -52,7 +52,7 @@ class PreferencesDefProviderTest : ParentTest() {
         every { resources.getBoolean(R.bool.pref_note_save_auto) } returns isAutoSaveOn
         every { resources.getInteger(R.integer.pref_note_save_time) } returns savePeriod
         every { resources.getInteger(R.integer.pref_alarm_repeat) } returns repeat
-        every { resources.getInteger(R.integer.pref_alarm_signal) } returns signal
+        every { resources.getString(R.string.pref_alarm_signal) } returns signal
         every { resources.getString(R.string.pref_alarm_melody) } returns melodyUri
         every { resources.getInteger(R.integer.pref_alarm_volume) } returns volume
         every { resources.getBoolean(R.bool.pref_alarm_increase) } returns isVolumeIncrease
@@ -83,7 +83,7 @@ class PreferencesDefProviderTest : ParentTest() {
             resources.getBoolean(R.bool.pref_note_save_auto)
             resources.getInteger(R.integer.pref_note_save_time)
             resources.getInteger(R.integer.pref_alarm_repeat)
-            resources.getInteger(R.integer.pref_alarm_signal)
+            resources.getString(R.string.pref_alarm_signal)
             resources.getString(R.string.pref_alarm_melody)
             resources.getInteger(R.integer.pref_alarm_volume)
             resources.getBoolean(R.bool.pref_alarm_increase)

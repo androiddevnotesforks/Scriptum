@@ -145,111 +145,97 @@ class PrintDevelopInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun getPreferenceKeyList() {
-        val pairFirstStart = Pair(nextString(), Random.nextBoolean())
-        val valFirstStart = Random.nextBoolean()
-        val pairTheme = Pair(nextString(), Random.nextInt())
-        val valTheme = Random.nextInt()
-        val pairImportSkip = Pair(nextString(), Random.nextBoolean())
-        val valImportSkip = Random.nextBoolean()
-        val pairSort = Pair(nextString(), Random.nextInt())
-        val valSort = Random.nextInt()
-        val pairDefaultColor = Pair(nextString(), Random.nextInt())
-        val valDefaultColor = Random.nextInt()
-        val pairPauseSaveOn = Pair(nextString(), Random.nextBoolean())
-        val valPauseSaveOn = Random.nextBoolean()
-        val pairAutoSaveOn = Pair(nextString(), Random.nextBoolean())
-        val valAutoSaveOn = Random.nextBoolean()
-        val pairSavePeriod = Pair(nextString(), Random.nextInt())
-        val valSavePeriod = Random.nextInt()
-        val pairRepeat = Pair(nextString(), Random.nextInt())
-        val valRepeat = Random.nextInt()
-        val pairSignal = Pair(nextString(), Random.nextInt())
-        val valSignal = Random.nextInt()
-        val pairMelodyUri = Pair(nextString(), nextString())
-        val valMelodyUri = nextString()
-        val pairVolume = Pair(nextString(), Random.nextInt())
-        val valVolume = Random.nextInt()
-        val pairVolumeIncrease = Pair(nextString(), Random.nextBoolean())
-        val valVolumeIncrease = Random.nextBoolean()
-        val pairIsDeveloper = Pair(nextString(), Random.nextBoolean())
-        val valIsDeveloper = Random.nextBoolean()
+        val firstStart = Triple(nextString(), Random.nextBoolean(), Random.nextBoolean())
+        val theme = Triple(nextString(), Random.nextInt(), Random.nextInt())
+        val importSkip = Triple(nextString(), Random.nextBoolean(), Random.nextBoolean())
+        val sort = Triple(nextString(), Random.nextInt(), Random.nextInt())
+        val defaultColor = Triple(nextString(), Random.nextInt(), Random.nextInt())
+        val pauseSaveOn = Triple(nextString(), Random.nextBoolean(), Random.nextBoolean())
+        val autoSaveOn = Triple(nextString(), Random.nextBoolean(), Random.nextBoolean())
+        val savePeriod = Triple(nextString(), Random.nextInt(), Random.nextInt())
+        val repeat = Triple(nextString(), Random.nextInt(), Random.nextInt())
+        val signal = Triple(nextString(), nextString(), nextString())
+        val melodyUri = Triple(nextString(), nextString(), nextString())
+        val volume = Triple(nextString(), Random.nextInt(), Random.nextInt())
+        val volumeIncrease = Triple(nextString(), Random.nextBoolean(), Random.nextBoolean())
+        val isDeveloper = Triple(nextString(), Random.nextBoolean(), Random.nextBoolean())
 
-        every { key.isFirstStart } returns pairFirstStart.first
-        every { def.isFirstStart } returns pairFirstStart.second
-        every { preferences.isFirstStart } returns valFirstStart
+        every { key.isFirstStart } returns firstStart.first
+        every { def.isFirstStart } returns firstStart.second
+        every { preferences.isFirstStart } returns firstStart.third
 
-        every { key.theme } returns pairTheme.first
-        every { def.theme } returns pairTheme.second
-        every { preferences.theme } returns valTheme
+        every { key.theme } returns theme.first
+        every { def.theme } returns theme.second
+        every { preferences.theme } returns theme.third
 
-        every { key.isBackupSkipImports } returns pairImportSkip.first
-        every { def.isBackupSkipImports } returns pairImportSkip.second
-        every { preferences.isBackupSkipImports } returns valImportSkip
+        every { key.isBackupSkipImports } returns importSkip.first
+        every { def.isBackupSkipImports } returns importSkip.second
+        every { preferences.isBackupSkipImports } returns importSkip.third
 
-        every { key.sort } returns pairSort.first
-        every { def.sort } returns pairSort.second
-        every { preferences.sort } returns valSort
+        every { key.sort } returns sort.first
+        every { def.sort } returns sort.second
+        every { preferences.sort } returns sort.third
 
-        every { key.defaultColor } returns pairDefaultColor.first
-        every { def.defaultColor } returns pairDefaultColor.second
-        every { preferences.defaultColor } returns valDefaultColor
+        every { key.defaultColor } returns defaultColor.first
+        every { def.defaultColor } returns defaultColor.second
+        every { preferences.defaultColor } returns defaultColor.third
 
-        every { key.isPauseSaveOn } returns pairPauseSaveOn.first
-        every { def.isPauseSaveOn } returns pairPauseSaveOn.second
-        every { preferences.isPauseSaveOn } returns valPauseSaveOn
+        every { key.isPauseSaveOn } returns pauseSaveOn.first
+        every { def.isPauseSaveOn } returns pauseSaveOn.second
+        every { preferences.isPauseSaveOn } returns pauseSaveOn.third
 
-        every { key.isAutoSaveOn } returns pairAutoSaveOn.first
-        every { def.isAutoSaveOn } returns pairAutoSaveOn.second
-        every { preferences.isAutoSaveOn } returns valAutoSaveOn
+        every { key.isAutoSaveOn } returns autoSaveOn.first
+        every { def.isAutoSaveOn } returns autoSaveOn.second
+        every { preferences.isAutoSaveOn } returns autoSaveOn.third
 
-        every { key.savePeriod } returns pairSavePeriod.first
-        every { def.savePeriod } returns pairSavePeriod.second
-        every { preferences.savePeriod } returns valSavePeriod
+        every { key.savePeriod } returns savePeriod.first
+        every { def.savePeriod } returns savePeriod.second
+        every { preferences.savePeriod } returns savePeriod.third
 
-        every { key.repeat } returns pairRepeat.first
-        every { def.repeat } returns pairRepeat.second
-        every { preferences.repeat } returns valRepeat
+        every { key.repeat } returns repeat.first
+        every { def.repeat } returns repeat.second
+        every { preferences.repeat } returns repeat.third
 
-        every { key.signal } returns pairSignal.first
-        every { def.signal } returns pairSignal.second
-        every { preferences.signal } returns valSignal
+        every { key.signal } returns signal.first
+        every { def.signal } returns signal.second
+        every { preferences.signal } returns signal.third
 
-        every { key.melodyUri } returns pairMelodyUri.first
-        every { def.melodyUri } returns pairMelodyUri.second
-        every { preferences.melodyUri } returns valMelodyUri
+        every { key.melodyUri } returns melodyUri.first
+        every { def.melodyUri } returns melodyUri.second
+        every { preferences.melodyUri } returns melodyUri.third
 
-        every { key.volume } returns pairVolume.first
-        every { def.volume } returns pairVolume.second
-        every { preferences.volume } returns valVolume
+        every { key.volume } returns volume.first
+        every { def.volume } returns volume.second
+        every { preferences.volume } returns volume.third
 
-        every { key.isVolumeIncrease } returns pairVolumeIncrease.first
-        every { def.isVolumeIncrease } returns pairVolumeIncrease.second
-        every { preferences.isVolumeIncrease } returns valVolumeIncrease
+        every { key.isVolumeIncrease } returns volumeIncrease.first
+        every { def.isVolumeIncrease } returns volumeIncrease.second
+        every { preferences.isVolumeIncrease } returns volumeIncrease.third
 
-        every { key.isDeveloper } returns pairIsDeveloper.first
-        every { def.isDeveloper } returns pairIsDeveloper.second
-        every { preferences.isDeveloper } returns valIsDeveloper
+        every { key.isDeveloper } returns isDeveloper.first
+        every { def.isDeveloper } returns isDeveloper.second
+        every { preferences.isDeveloper } returns isDeveloper.third
 
         val list = listOf(
             Preference.Title(R.string.pref_header_app),
-            Preference.Key(pairFirstStart.first, pairFirstStart.second, valFirstStart),
-            Preference.Key(pairTheme.first, pairTheme.second, valTheme),
+            Preference.Key(firstStart.first, firstStart.second, firstStart.third),
+            Preference.Key(theme.first, theme.second, theme.third),
             Preference.Title(R.string.pref_title_backup),
-            Preference.Key(pairImportSkip.first, pairImportSkip.second, valImportSkip),
+            Preference.Key(importSkip.first, importSkip.second, importSkip.third),
             Preference.Title(R.string.pref_title_note),
-            Preference.Key(pairSort.first, pairSort.second, valSort),
-            Preference.Key(pairDefaultColor.first, pairDefaultColor.second, valDefaultColor),
-            Preference.Key(pairPauseSaveOn.first, pairPauseSaveOn.second, valPauseSaveOn),
-            Preference.Key(pairAutoSaveOn.first, pairAutoSaveOn.second, valAutoSaveOn),
-            Preference.Key(pairSavePeriod.first, pairSavePeriod.second, valSavePeriod),
+            Preference.Key(sort.first, sort.second, sort.third),
+            Preference.Key(defaultColor.first, defaultColor.second, defaultColor.third),
+            Preference.Key(pauseSaveOn.first, pauseSaveOn.second, pauseSaveOn.third),
+            Preference.Key(autoSaveOn.first, autoSaveOn.second, autoSaveOn.third),
+            Preference.Key(savePeriod.first, savePeriod.second, savePeriod.third),
             Preference.Title(R.string.pref_title_alarm),
-            Preference.Key(pairRepeat.first, pairRepeat.second, valRepeat),
-            Preference.Key(pairSignal.first, pairSignal.second, valSignal),
-            Preference.Key(pairMelodyUri.first, pairMelodyUri.second, valMelodyUri),
-            Preference.Key(pairVolume.first, pairVolume.second, valVolume),
-            Preference.Key(pairVolumeIncrease.first, pairVolumeIncrease.second, valVolumeIncrease),
+            Preference.Key(repeat.first, repeat.second, repeat.third),
+            Preference.Key(signal.first, signal.second, signal.third),
+            Preference.Key(melodyUri.first, melodyUri.second, melodyUri.third),
+            Preference.Key(volume.first, volume.second, volume.third),
+            Preference.Key(volumeIncrease.first, volumeIncrease.second, volumeIncrease.third),
             Preference.Title(R.string.pref_header_other),
-            Preference.Key(pairIsDeveloper.first, pairIsDeveloper.second, valIsDeveloper)
+            Preference.Key(isDeveloper.first, isDeveloper.second, isDeveloper.third)
         )
 
         assertEquals(list, interactor.getPreferenceKeyList())

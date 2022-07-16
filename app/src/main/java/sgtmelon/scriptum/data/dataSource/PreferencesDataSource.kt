@@ -34,7 +34,7 @@ interface PreferencesDataSource {
 
     @Repeat var repeat: Int
 
-    var signal: Int
+    var signal: String
 
     var melodyUri: String
 

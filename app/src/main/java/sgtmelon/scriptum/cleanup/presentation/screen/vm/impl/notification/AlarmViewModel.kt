@@ -12,13 +12,13 @@ import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note.Default
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note.Intent
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.domain.model.state.SignalState
 import sgtmelon.common.utils.runBack
 import sgtmelon.common.test.idling.impl.AppIdlingResource
 import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.notification.IAlarmActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.IAlarmViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
+import sgtmelon.scriptum.infrastructure.preferences.model.state.SignalState
 
 /**
  * ViewModel for [IAlarmActivity].

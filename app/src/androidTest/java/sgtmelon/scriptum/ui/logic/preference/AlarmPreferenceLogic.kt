@@ -4,7 +4,6 @@ import kotlinx.coroutines.runBlocking
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.item.PreferenceItem
 import sgtmelon.scriptum.data.item.PreferenceItem.*
-import sgtmelon.scriptum.cleanup.data.room.converter.type.IntConverter
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IAlarmPreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.notification.SignalInteractor
@@ -13,6 +12,7 @@ import sgtmelon.scriptum.cleanup.presentation.control.system.RingtoneControl
 import sgtmelon.scriptum.ui.logic.parent.ParentPreferenceLogic
 import sgtmelon.scriptum.ui.screen.preference.AlarmPreferenceScreen
 import kotlin.random.Random
+import sgtmelon.scriptum.infrastructure.preferences.converter.SignalConverter
 
 /**
  * Logic for [AlarmPreferenceScreen].
@@ -20,11 +20,11 @@ import kotlin.random.Random
 class AlarmPreferenceLogic : ParentPreferenceLogic() {
 
     val alarmInteractor: IAlarmPreferenceInteractor = AlarmPreferenceInteractor(
-        provider, preferences, IntConverter()
+        provider, preferences, SignalConverter()
     )
 
     val signalInteractor: ISignalInteractor = SignalInteractor(
-        RingtoneControl(context), preferences, IntConverter()
+        RingtoneControl(context), preferences, SignalConverter()
     )
 
     override fun getScreenList(): List<PreferenceItem> {

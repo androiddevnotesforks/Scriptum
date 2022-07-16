@@ -7,6 +7,7 @@ import sgtmelon.scriptum.cleanup.data.room.converter.type.IntConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.type.NoteTypeConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.type.StringConverter
 import javax.inject.Singleton
+import sgtmelon.scriptum.infrastructure.preferences.converter.SignalConverter
 
 /**
  * Module for provide converters
@@ -42,7 +43,7 @@ class ConverterModule {
 
     @Provides
     @Singleton
-    fun provideIntConverter() = IntConverter()
+    fun provideSignalConverter() = SignalConverter()
 
     @Provides
     @Singleton

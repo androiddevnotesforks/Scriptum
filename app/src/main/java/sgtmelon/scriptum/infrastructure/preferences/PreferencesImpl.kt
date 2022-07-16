@@ -59,9 +59,9 @@ class PreferencesImpl(
         get() = preferences.getInt(key.repeat, def.repeat)
         set(value) = edit { putInt(key.repeat, value) }
 
-    override var signal: Int
-        get() = preferences.getInt(key.signal, def.signal)
-        set(value) = edit { putInt(key.signal, value) }
+    override var signal: String
+        get() = preferences.getString(key.signal, def.signal) ?: def.signal
+        set(value) = edit { putString(key.signal, value) }
 
     /**
      * Access only from [SignalInteractor.getMelodyUri]/[SignalInteractor.setMelodyUri].

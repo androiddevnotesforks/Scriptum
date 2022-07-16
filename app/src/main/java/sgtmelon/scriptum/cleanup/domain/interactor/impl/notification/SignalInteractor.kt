@@ -1,16 +1,15 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.impl.notification
 
 import android.media.RingtoneManager
-import sgtmelon.scriptum.infrastructure.preferences.Preferences
-import sgtmelon.scriptum.cleanup.data.room.converter.type.IntConverter
+import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.ParentInteractor
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Signal
-import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.cleanup.domain.model.item.MelodyItem
-import sgtmelon.scriptum.cleanup.domain.model.state.SignalState
 import sgtmelon.scriptum.cleanup.extension.validIndexOfFirst
 import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IRingtoneControl
+import sgtmelon.scriptum.infrastructure.preferences.Preferences
+import sgtmelon.scriptum.infrastructure.preferences.converter.SignalConverter
+import sgtmelon.scriptum.infrastructure.preferences.model.state.SignalState
 
 /**
  * Interactor for work with alarm signal.
@@ -19,17 +18,16 @@ import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IRingtoneC
 class SignalInteractor(
     private val ringtoneControl: IRingtoneControl,
     private val preferences: Preferences,
-    private val intConverter: IntConverter
+    private val signalConverter: SignalConverter
 ) : ParentInteractor(),
     ISignalInteractor {
 
     @RunPrivate val typeList = listOf(RingtoneManager.TYPE_ALARM, RingtoneManager.TYPE_RINGTONE)
 
 
-    override val typeCheck: BooleanArray
-        get() = intConverter.toArray(preferences.signal, Signal.digitCount)
+    override val typeCheck: BooleanArray get() = signalConverter.toArray(preferences.signal)
 
-    override val state: SignalState? get() = SignalState[typeCheck]
+    override val state: SignalState? get() = signalConverter.toState(preferences.signal)
 
 
     @RunPrivate var melodyList: List<MelodyItem>? = null

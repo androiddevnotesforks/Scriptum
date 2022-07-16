@@ -12,7 +12,7 @@
             android:title="@string/pref_title_alarm_repeat"
             app:iconSpaceReserved="false" />
 
-        <Preference android:defaultValue="@integer/pref_alarm_signal"
+        <Preference android:defaultValue="@string/pref_alarm_signal"
             android:key="@string/pref_key_alarm_signal"
             android:summary="@string/pref_summary_alarm_signal"
             android:title="@string/pref_title_alarm_signal"
