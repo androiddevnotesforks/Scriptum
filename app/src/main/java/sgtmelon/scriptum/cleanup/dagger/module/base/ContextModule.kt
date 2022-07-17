@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.res.Resources
 import dagger.Module
 import dagger.Provides
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import javax.inject.Singleton
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 
 /**
  * Module for provide applicationContext.
@@ -20,5 +20,4 @@ class ContextModule {
     @Provides
     @Singleton
     fun provideResources(context: Context): Resources = context.resources
-
 }

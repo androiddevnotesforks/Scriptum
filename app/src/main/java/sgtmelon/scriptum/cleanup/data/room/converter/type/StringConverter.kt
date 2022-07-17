@@ -1,11 +1,11 @@
 package sgtmelon.scriptum.cleanup.data.room.converter.type
 
 import androidx.room.TypeConverter
-import java.util.*
 
 /**
  * Converter from string to long array and vice versa
  */
+// TODO #ROOM rename
 class StringConverter {
 
     @TypeConverter fun toList(string: String): MutableList<Long> = ArrayList<Long>().apply {
@@ -21,8 +21,9 @@ class StringConverter {
     }
 
     companion object {
+        // TODO rename -> DIVIDER
         const val SPLIT = ", "
+        // TODO rename -> EMPTY
         const val NONE = "NONE"
     }
-
 }

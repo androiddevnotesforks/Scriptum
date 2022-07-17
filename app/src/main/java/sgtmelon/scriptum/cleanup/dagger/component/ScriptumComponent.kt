@@ -24,6 +24,8 @@ import sgtmelon.scriptum.cleanup.dagger.module.base.ConverterModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.PreferencesModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.ProviderModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.RepoModule
+import sgtmelon.scriptum.cleanup.dagger.module.base.data.DataSourceModule
+import sgtmelon.scriptum.cleanup.dagger.module.base.data.RepositoryModule
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 
 /**
@@ -33,6 +35,9 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 @Component(modules = [
     ContextModule::class,
     PreferencesModule::class,
+    DataSourceModule::class,
+    RepositoryModule::class,
+
     RepoModule::class,
     ProviderModule::class,
     ConverterModule::class
