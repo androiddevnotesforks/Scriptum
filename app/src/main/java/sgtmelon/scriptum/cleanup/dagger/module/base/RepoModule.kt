@@ -1,20 +1,25 @@
 package sgtmelon.scriptum.cleanup.dagger.module.base
 
-import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
-import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvider
+import javax.inject.Singleton
 import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
-import sgtmelon.scriptum.infrastructure.preferences.Preferences
-import sgtmelon.scriptum.infrastructure.preferences.PreferencesImpl
-import sgtmelon.scriptum.cleanup.data.repository.room.*
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.*
+import sgtmelon.scriptum.cleanup.data.repository.room.AlarmRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.BackupRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.BindRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.DevelopRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.NoteRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.RankRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.IBackupRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.IBindRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.IDevelopRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
+import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.cleanup.data.room.converter.model.AlarmConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.model.NoteConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.model.RankConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.model.RollConverter
-import javax.inject.Singleton
-import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesKeyProvider
 
 /**
  * Module for provide repo's
@@ -23,15 +28,7 @@ import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesKeyProvi
 class RepoModule {
 
     // TODO #PREF move into another place
-    @Provides
-    @Singleton
-    fun providePreferences(
-        keyProvider: PreferencesKeyProvider,
-        defProvider: PreferencesDefProvider,
-        preferences: SharedPreferences
-    ): Preferences {
-        return PreferencesImpl(keyProvider, defProvider, preferences)
-    }
+
 
 
     @Provides

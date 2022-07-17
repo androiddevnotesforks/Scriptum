@@ -2,6 +2,7 @@ package sgtmelon.scriptum.cleanup.dagger.component
 
 import dagger.BindsInstance
 import dagger.Component
+import javax.inject.Singleton
 import sgtmelon.scriptum.cleanup.dagger.component.main.BinComponent
 import sgtmelon.scriptum.cleanup.dagger.component.main.MainComponent
 import sgtmelon.scriptum.cleanup.dagger.component.main.NotesComponent
@@ -9,17 +10,21 @@ import sgtmelon.scriptum.cleanup.dagger.component.main.RankComponent
 import sgtmelon.scriptum.cleanup.dagger.component.note.NoteComponent
 import sgtmelon.scriptum.cleanup.dagger.component.note.RollNoteComponent
 import sgtmelon.scriptum.cleanup.dagger.component.note.TextNoteComponent
-import sgtmelon.scriptum.cleanup.dagger.component.preference.*
+import sgtmelon.scriptum.cleanup.dagger.component.preference.AlarmPreferenceComponent
+import sgtmelon.scriptum.cleanup.dagger.component.preference.BackupPreferenceComponent
+import sgtmelon.scriptum.cleanup.dagger.component.preference.HelpDescriptionComponent
+import sgtmelon.scriptum.cleanup.dagger.component.preference.NotePreferenceComponent
+import sgtmelon.scriptum.cleanup.dagger.component.preference.PreferenceComponent
 import sgtmelon.scriptum.cleanup.dagger.component.preference.develop.DevelopPreferenceComponent
 import sgtmelon.scriptum.cleanup.dagger.component.preference.develop.PrintDevelopComponent
 import sgtmelon.scriptum.cleanup.dagger.component.preference.develop.ServiceDevelopComponent
 import sgtmelon.scriptum.cleanup.dagger.component.service.SystemComponent
 import sgtmelon.scriptum.cleanup.dagger.module.base.ContextModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.ConverterModule
+import sgtmelon.scriptum.cleanup.dagger.module.base.PreferencesModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.ProviderModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.RepoModule
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
-import javax.inject.Singleton
 
 /**
  * Parent component for application.
@@ -27,6 +32,7 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [
     ContextModule::class,
+    PreferencesModule::class,
     RepoModule::class,
     ProviderModule::class,
     ConverterModule::class
