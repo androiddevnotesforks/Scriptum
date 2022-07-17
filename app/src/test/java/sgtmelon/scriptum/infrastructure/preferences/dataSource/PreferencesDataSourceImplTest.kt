@@ -13,7 +13,7 @@ import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.parent.ParentTest
 
 /**
- * Test for [PreferencesDataSourceImpl]
+ * Test for [PreferencesDataSourceImpl].
  */
 class PreferencesDataSourceImplTest : ParentTest() {
 
@@ -28,16 +28,6 @@ class PreferencesDataSourceImplTest : ParentTest() {
 
     // region Help functions
 
-    private fun <T> setTest(value: T, setFunc: (value: T) -> Unit, runFunc: (value: T) -> Unit) {
-        every { setFunc(value) } returns Unit
-
-        runFunc(value)
-
-        verifySequence {
-            setFunc(value)
-        }
-    }
-
     private fun <T> getTest(value: T, getFunc: () -> T, runFunc: () -> T) {
         every { getFunc() } returns value
 
@@ -48,151 +38,167 @@ class PreferencesDataSourceImplTest : ParentTest() {
         }
     }
 
+    private fun <T> setTest(value: T, setFunc: (value: T) -> Unit, runFunc: (value: T) -> Unit) {
+        runFunc(value)
+
+        verifySequence {
+            setFunc(value)
+        }
+    }
+
     //endregion
 
-    @Test fun `set isFirstStart`() = setTest(
-        Random.nextBoolean(),
-        { preferences.isFirstStart = it },
-        { dataSource.isFirstStart = it }
-    )
-
-    @Test fun `get isFirstStart`() = getTest(
+    @Test fun isFirstStart() = getTest(
         Random.nextBoolean(),
         { preferences.isFirstStart },
         { dataSource.isFirstStart }
     )
 
-    @Test fun `set theme`() = setTest(
+    @Test fun setFirstStart() = setTest(
+        Random.nextBoolean(),
+        { preferences.isFirstStart = it },
+        { dataSource.isFirstStart = it }
+    )
+
+    // App settings
+
+    @Test fun getTheme() = getTest(Random.nextInt(), { preferences.theme }, { dataSource.theme })
+
+    @Test fun setTheme() = setTest(
         Random.nextInt(),
         { preferences.theme = it },
         { dataSource.theme = it }
     )
 
-    @Test fun `get theme`() = getTest(Random.nextInt(), { preferences.theme }, { dataSource.theme })
+    // Backup settings
 
-    @Test fun `get isBackupSkipImports`() = getTest(
+    @Test fun isBackupSkipImports() = getTest(
         Random.nextBoolean(),
         { preferences.isBackupSkipImports },
         { dataSource.isBackupSkipImports }
     )
 
-    @Test fun `set sort`() = setTest(
-        Random.nextInt(),
-        { preferences.sort = it },
-        { dataSource.sort = it }
-    )
+    // Note settings
 
-    @Test fun `get sort`() = getTest(
+    @Test fun getSort() = getTest(
         Random.nextInt(),
         { preferences.sort },
         { dataSource.sort }
     )
 
-    @Test fun `set defaultColor`() = setTest(
+    @Test fun setSort() = setTest(
         Random.nextInt(),
-        { preferences.defaultColor = it },
-        { dataSource.defaultColor = it }
+        { preferences.sort = it },
+        { dataSource.sort = it }
     )
 
-    @Test fun `get defaultColor`() = getTest(
+    @Test fun getDefaultColor() = getTest(
         Random.nextInt(),
         { preferences.defaultColor },
         { dataSource.defaultColor }
     )
 
-    @Test fun `get isPauseSaveOn`() = getTest(
+    @Test fun setDefaultColor() = setTest(
+        Random.nextInt(),
+        { preferences.defaultColor = it },
+        { dataSource.defaultColor = it }
+    )
+
+    @Test fun isPauseSaveOn() = getTest(
         Random.nextBoolean(),
         { preferences.isPauseSaveOn },
         { dataSource.isPauseSaveOn }
     )
 
-    @Test fun `get isAutoSaveOn`() = getTest(
+    @Test fun isAutoSaveOn() = getTest(
         Random.nextBoolean(),
         { preferences.isAutoSaveOn },
         { dataSource.isAutoSaveOn }
     )
 
-    @Test fun `set savePeriod`() = setTest(
-        Random.nextInt(),
-        { preferences.savePeriod = it },
-        { dataSource.savePeriod = it }
-    )
-
-    @Test fun `get savePeriod`() = getTest(
+    @Test fun getSavePeriod() = getTest(
         Random.nextInt(),
         { preferences.savePeriod },
         { dataSource.savePeriod }
     )
 
-    @Test fun `set repeat`() = setTest(
+    @Test fun setSavePeriod() = setTest(
         Random.nextInt(),
-        { preferences.repeat = it },
-        { dataSource.repeat = it }
+        { preferences.savePeriod = it },
+        { dataSource.savePeriod = it }
     )
 
-    @Test fun `get repeat`() = getTest(
+    // Alarm settings
+
+    @Test fun getRepeat() = getTest(
         Random.nextInt(),
         { preferences.repeat },
         { dataSource.repeat }
     )
 
-    @Test fun `set signal`() = setTest(
-        nextString(),
-        { preferences.signal = it },
-        { dataSource.signal = it }
+    @Test fun setRepeat() = setTest(
+        Random.nextInt(),
+        { preferences.repeat = it },
+        { dataSource.repeat = it }
     )
 
-    @Test fun `get signal`() = getTest(
+    @Test fun getSignal() = getTest(
         nextString(),
         { preferences.signal },
         { dataSource.signal }
     )
 
-    @Test fun `set melodyUri`() = setTest(
+    @Test fun setSignal() = setTest(
         nextString(),
-        { preferences.melodyUri = it },
-        { dataSource.melodyUri = it }
+        { preferences.signal = it },
+        { dataSource.signal = it }
     )
 
-    @Test fun `get melodyUri`() = getTest(
+    @Test fun getMelodyUri() = getTest(
         nextString(),
         { preferences.melodyUri },
         { dataSource.melodyUri }
     )
 
-    @Test fun `set volume`() = setTest(
-        Random.nextInt(),
-        { preferences.volume = it },
-        { dataSource.volume = it }
+    @Test fun setMelodyUri() = setTest(
+        nextString(),
+        { preferences.melodyUri = it },
+        { dataSource.melodyUri = it }
     )
 
-    @Test fun `get volume`() = getTest(
+    @Test fun getVolume() = getTest(
         Random.nextInt(),
         { preferences.volume },
         { dataSource.volume }
     )
 
-    @Test fun `get isVolumeIncrease`() = getTest(
+    @Test fun setVolume() = setTest(
+        Random.nextInt(),
+        { preferences.volume = it },
+        { dataSource.volume = it }
+    )
+
+    @Test fun isVolumeIncrease() = getTest(
         Random.nextBoolean(),
         { preferences.isVolumeIncrease },
         { dataSource.isVolumeIncrease }
     )
 
-    @Test fun `set isDeveloper`() = setTest(
-        Random.nextBoolean(),
-        { preferences.isDeveloper = it },
-        { dataSource.isDeveloper = it }
-    )
+    // Developer settings
 
-    @Test fun `get isDeveloper`() = getTest(
+    @Test fun isDeveloper() = getTest(
         Random.nextBoolean(),
         { preferences.isDeveloper },
         { dataSource.isDeveloper }
     )
 
-    @Test fun clear() {
-        every { preferences.clear() } returns Unit
+    @Test fun setDeveloper() = setTest(
+        Random.nextBoolean(),
+        { preferences.isDeveloper = it },
+        { dataSource.isDeveloper = it }
+    )
 
+    @Test fun clear() {
         dataSource.clear()
 
         verifySequence {

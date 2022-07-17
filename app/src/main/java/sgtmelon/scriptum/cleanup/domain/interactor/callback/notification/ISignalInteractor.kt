@@ -1,8 +1,8 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.callback.notification
 
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.notification.SignalInteractor
-import sgtmelon.scriptum.cleanup.domain.model.item.MelodyItem
-import sgtmelon.scriptum.infrastructure.preferences.model.state.SignalState
+import sgtmelon.scriptum.infrastructure.model.MelodyItem
+import sgtmelon.scriptum.infrastructure.model.state.SignalState
 
 /**
  * Interface for communicate with [SignalInteractor].

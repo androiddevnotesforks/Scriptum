@@ -17,8 +17,8 @@ import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.FastTest
 import sgtmelon.scriptum.cleanup.presentation.provider.SummaryProvider
 import sgtmelon.scriptum.getRandomSize
+import sgtmelon.scriptum.infrastructure.converter.SignalConverter
 import sgtmelon.scriptum.infrastructure.preferences.Preferences
-import sgtmelon.scriptum.infrastructure.preferences.converter.SignalConverter
 import sgtmelon.scriptum.parent.ParentInteractorTest
 
 /**

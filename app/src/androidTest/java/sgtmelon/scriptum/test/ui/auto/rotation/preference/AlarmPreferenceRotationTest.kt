@@ -1,17 +1,20 @@
 package sgtmelon.scriptum.test.ui.auto.rotation.preference
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import kotlin.random.Random
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Repeat
-import sgtmelon.scriptum.cleanup.domain.model.item.MelodyItem
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.AlarmPreferenceFragment
-import sgtmelon.scriptum.test.ui.auto.screen.preference.alarm.IAlarmPreferenceTest
+import sgtmelon.scriptum.infrastructure.model.MelodyItem
 import sgtmelon.scriptum.test.parent.ParentRotationTest
+import sgtmelon.scriptum.test.ui.auto.screen.preference.alarm.IAlarmPreferenceTest
 import sgtmelon.scriptum.ui.dialog.preference.VolumeDialogUi
-import kotlin.random.Random
 
 /**
  * Test of [AlarmPreferenceFragment] work with phone rotation.

@@ -9,7 +9,7 @@ import sgtmelon.scriptum.cleanup.data.room.converter.model.RankConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.model.RollConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.type.NoteTypeConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.type.StringConverter
-import sgtmelon.scriptum.infrastructure.preferences.converter.SignalConverter
+import sgtmelon.scriptum.infrastructure.converter.SignalConverter
 
 /**
  * Module for provide converters

@@ -4,12 +4,12 @@ import android.media.RingtoneManager
 import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.ParentInteractor
-import sgtmelon.scriptum.cleanup.domain.model.item.MelodyItem
 import sgtmelon.scriptum.cleanup.extension.validIndexOfFirst
 import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IRingtoneControl
+import sgtmelon.scriptum.infrastructure.converter.SignalConverter
+import sgtmelon.scriptum.infrastructure.model.MelodyItem
+import sgtmelon.scriptum.infrastructure.model.state.SignalState
 import sgtmelon.scriptum.infrastructure.preferences.Preferences
-import sgtmelon.scriptum.infrastructure.preferences.converter.SignalConverter
-import sgtmelon.scriptum.infrastructure.preferences.model.state.SignalState
 
 /**
  * Interactor for work with alarm signal.
@@ -25,11 +25,16 @@ class SignalInteractor(
     @RunPrivate val typeList = listOf(RingtoneManager.TYPE_ALARM, RingtoneManager.TYPE_RINGTONE)
 
 
+    // TODO rename: signalTypeCheck
+    // TODO move into repo
     override val typeCheck: BooleanArray get() = signalConverter.toArray(preferences.signal)
 
+    // TODO rename: signalState
+    // TODO move into repo
     override val state: SignalState? get() = signalConverter.toState(preferences.signal)
 
 
+    // TODO move into useCase (getMelodyList)
     @RunPrivate var melodyList: List<MelodyItem>? = null
 
     override suspend fun getMelodyList(): List<MelodyItem> {
@@ -46,6 +51,7 @@ class SignalInteractor(
      *
      * return null if [getMelodyList] is empty.
      */
+    // TODO move into repo
     override suspend fun getMelodyUri(): String? {
         val list = getMelodyList()
 
@@ -67,6 +73,7 @@ class SignalInteractor(
      *
      * return null if [getMelodyList] is empty.
      */
+    // TODO move into repo
     override suspend fun setMelodyUri(title: String): String? {
         val list = getMelodyList()
 
@@ -84,6 +91,7 @@ class SignalInteractor(
      *
      * return null if [getMelodyList] is empty.
      */
+    // TODO move into repo
     override suspend fun getMelodyCheck(): Int? {
         val list = getMelodyList()
         val uri = getMelodyUri()

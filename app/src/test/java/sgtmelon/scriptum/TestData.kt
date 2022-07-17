@@ -1,12 +1,17 @@
 package sgtmelon.scriptum
 
+import kotlin.random.Random
 import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Sort
-import sgtmelon.scriptum.cleanup.domain.model.item.*
+import sgtmelon.scriptum.cleanup.domain.model.item.FileItem
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem.Alarm
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem.Note
+import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
+import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
-import kotlin.random.Random
+import sgtmelon.scriptum.infrastructure.model.MelodyItem
 
 /**
  * Class which provide data for tests.

@@ -6,6 +6,7 @@ import sgtmelon.scriptum.cleanup.domain.model.annotation.SavePeriod
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Sort
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
 
+// TODO remove annotations
 interface Preferences {
 
     var isFirstStart: Boolean

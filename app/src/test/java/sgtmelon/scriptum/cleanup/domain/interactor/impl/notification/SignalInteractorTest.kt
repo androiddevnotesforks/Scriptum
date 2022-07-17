@@ -1,22 +1,31 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.impl.notification
 
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.coVerifySequence
+import io.mockk.confirmVerified
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
+import io.mockk.spyk
+import io.mockk.verifySequence
+import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
-import org.junit.Assert.*
+import org.junit.Assert.assertArrayEquals
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.TestData
-import sgtmelon.scriptum.infrastructure.preferences.Preferences
-import sgtmelon.scriptum.cleanup.domain.model.item.MelodyItem
-import sgtmelon.scriptum.getRandomSize
-import sgtmelon.scriptum.parent.ParentInteractorTest
 import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IRingtoneControl
-import kotlin.random.Random
-import sgtmelon.scriptum.infrastructure.preferences.converter.SignalConverter
-import sgtmelon.scriptum.infrastructure.preferences.model.state.SignalState
+import sgtmelon.scriptum.getRandomSize
+import sgtmelon.scriptum.infrastructure.converter.SignalConverter
+import sgtmelon.scriptum.infrastructure.model.MelodyItem
+import sgtmelon.scriptum.infrastructure.model.state.SignalState
+import sgtmelon.scriptum.infrastructure.preferences.Preferences
+import sgtmelon.scriptum.parent.ParentInteractorTest
 
 /**
  * Test for [SignalInteractor].

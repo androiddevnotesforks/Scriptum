@@ -1,18 +1,20 @@
 package sgtmelon.scriptum.ui.logic.preference
 
+import kotlin.random.Random
 import kotlinx.coroutines.runBlocking
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.data.item.PreferenceItem
-import sgtmelon.scriptum.data.item.PreferenceItem.*
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IAlarmPreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.notification.SignalInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.preference.AlarmPreferenceInteractor
 import sgtmelon.scriptum.cleanup.presentation.control.system.RingtoneControl
+import sgtmelon.scriptum.data.item.PreferenceItem
+import sgtmelon.scriptum.data.item.PreferenceItem.Header
+import sgtmelon.scriptum.data.item.PreferenceItem.Summary
+import sgtmelon.scriptum.data.item.PreferenceItem.Switch
+import sgtmelon.scriptum.infrastructure.converter.SignalConverter
 import sgtmelon.scriptum.ui.logic.parent.ParentPreferenceLogic
 import sgtmelon.scriptum.ui.screen.preference.AlarmPreferenceScreen
-import kotlin.random.Random
-import sgtmelon.scriptum.infrastructure.preferences.converter.SignalConverter
 
 /**
  * Logic for [AlarmPreferenceScreen].

@@ -1,16 +1,16 @@
 package sgtmelon.scriptum.test.ui.auto.screen.preference.alarm
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import kotlin.random.Random
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.domain.model.item.MelodyItem
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.AlarmPreferenceFragment
+import sgtmelon.scriptum.infrastructure.model.MelodyItem
 import sgtmelon.scriptum.test.parent.ParentUiTest
 import sgtmelon.scriptum.ui.dialog.preference.MelodyDialogUi
-import kotlin.random.Random
 
 /**
  * Test for [AlarmPreferenceFragment] and [MelodyDialogUi].

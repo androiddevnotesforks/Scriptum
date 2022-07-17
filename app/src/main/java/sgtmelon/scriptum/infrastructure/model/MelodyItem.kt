@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.domain.model.item
+package sgtmelon.scriptum.infrastructure.model
 
 import android.media.RingtoneManager
 
@@ -8,5 +8,4 @@ import android.media.RingtoneManager
 data class MelodyItem(val title: String, val uri: String) {
 
     constructor(title: String, uri: String, id: String) : this(title, uri = "$uri/$id")
-
 }

@@ -2,8 +2,8 @@ package sgtmelon.scriptum.cleanup.presentation.control.system
 
 import android.content.Context
 import android.media.RingtoneManager
-import sgtmelon.scriptum.cleanup.domain.model.item.MelodyItem
 import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IRingtoneControl
+import sgtmelon.scriptum.infrastructure.model.MelodyItem
 
 /**
  * Class for help control [RingtoneManager].

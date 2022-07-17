@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.cleanup.presentation.control.system.callback
 
-import sgtmelon.scriptum.cleanup.domain.model.item.MelodyItem
 import sgtmelon.scriptum.cleanup.presentation.control.system.RingtoneControl
+import sgtmelon.scriptum.infrastructure.model.MelodyItem
 
 /**
  * Interface for [RingtoneControl].

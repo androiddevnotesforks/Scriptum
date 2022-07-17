@@ -1,13 +1,13 @@
-package sgtmelon.scriptum.infrastructure.preferences.converter
+package sgtmelon.scriptum.infrastructure.converter
 
 import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-import sgtmelon.scriptum.infrastructure.preferences.model.state.SignalState
+import sgtmelon.scriptum.infrastructure.model.state.SignalState
 
 /**
- * Test for [SignalConverter]
+ * Test for [SignalConverter].
  */
 class SignalConverterTest {
 

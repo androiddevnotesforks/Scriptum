@@ -1,7 +1,7 @@
-package sgtmelon.scriptum.infrastructure.preferences.converter
+package sgtmelon.scriptum.infrastructure.converter
 
-import sgtmelon.scriptum.infrastructure.preferences.model.Signal
-import sgtmelon.scriptum.infrastructure.preferences.model.state.SignalState
+import sgtmelon.scriptum.infrastructure.model.key.Signal
+import sgtmelon.scriptum.infrastructure.model.state.SignalState
 
 class SignalConverter {
 

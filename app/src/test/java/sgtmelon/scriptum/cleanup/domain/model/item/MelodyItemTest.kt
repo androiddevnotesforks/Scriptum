@@ -3,6 +3,7 @@ package sgtmelon.scriptum.cleanup.domain.model.item
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.common.utils.nextString
+import sgtmelon.scriptum.infrastructure.model.MelodyItem
 import sgtmelon.scriptum.parent.ParentTest
 
 /**
