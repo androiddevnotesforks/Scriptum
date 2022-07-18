@@ -6,18 +6,18 @@ import androidx.test.uiautomator.UiDevice
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Sort
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
-import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.common.test.idling.impl.AppIdlingResource
 import sgtmelon.common.test.idling.impl.WaitIdlingResource
+import sgtmelon.scriptum.cleanup.domain.model.annotation.Sort
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.control.system.AlarmControl
 import sgtmelon.scriptum.cleanup.presentation.control.system.BindControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.AlarmActivity
+import sgtmelon.scriptum.infrastructure.model.key.Theme
+import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.screen.SplashScreen
-import kotlin.random.Random
 
 /**
  * Parent class for UI tests.
@@ -44,9 +44,12 @@ abstract class ParentUiTest : ParentTest() {
      * Call theme setup only with that function. Otherwise you get plenty assertion errors
      * related with theme. It's because need set [ParentUi.appTheme].
      */
-    protected fun setupTheme(@Theme theme: Int) {
+    protected fun setupTheme(theme: ThemeDisplayed) {
         ParentUi.theme = theme
-        preferences.theme = theme
+        preferences.theme = when (theme) {
+            ThemeDisplayed.LIGHT -> Theme.LIGHT
+            ThemeDisplayed.DARK -> Theme.DARK
+        }.ordinal
     }
 
     private fun setupIdling() {
@@ -69,7 +72,7 @@ abstract class ParentUiTest : ParentTest() {
         /**
          * Prepare preferences.
          */
-        setupTheme(if (Random.nextBoolean()) Theme.LIGHT else Theme.DARK)
+        setupTheme(ThemeDisplayed.values().random())
         preferences.apply {
             isFirstStart = false
 

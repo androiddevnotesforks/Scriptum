@@ -9,19 +9,27 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
+import javax.inject.Inject
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.databinding.ActivityDevelopPrintBinding
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData
 import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem
 import sgtmelon.scriptum.cleanup.domain.model.key.PrintType
-import sgtmelon.scriptum.cleanup.extension.*
+import sgtmelon.scriptum.cleanup.extension.InsetsDir
+import sgtmelon.scriptum.cleanup.extension.animateAlpha
+import sgtmelon.scriptum.cleanup.extension.doOnApplyWindowInsets
+import sgtmelon.scriptum.cleanup.extension.getColorAttr
+import sgtmelon.scriptum.cleanup.extension.getTintDrawable
+import sgtmelon.scriptum.cleanup.extension.inflateBinding
+import sgtmelon.scriptum.cleanup.extension.isPortraitMode
+import sgtmelon.scriptum.cleanup.extension.updateMargin
+import sgtmelon.scriptum.cleanup.extension.updatePadding
 import sgtmelon.scriptum.cleanup.presentation.adapter.PrintAdapter
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.develop.IPrintDevelopActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.AppActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IPrintDevelopViewModel
-import javax.inject.Inject
+import sgtmelon.scriptum.databinding.ActivityDevelopPrintBinding
+import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 
 /**
  * Screen for print data of data base and preference.
@@ -69,7 +77,7 @@ class PrintDevelopActivity : AppActivity(), IPrintDevelopActivity {
     /**
      * Make navigation translucent in portrait orientation.
      */
-    override fun setNavigationColor(@Theme theme: Int) {
+    override fun setNavigationColor(theme: ThemeDisplayed) {
         if (isPortraitMode()) {
             window.navigationBarColor = getColorAttr(R.attr.clNavigationBar)
         } else {
@@ -81,7 +89,7 @@ class PrintDevelopActivity : AppActivity(), IPrintDevelopActivity {
      * Make navigation translucent in portrait orientation.
      */
     @RequiresApi(Build.VERSION_CODES.P)
-    override fun setNavigationDividerColor(@Theme theme: Int) {
+    override fun setNavigationDividerColor(theme: ThemeDisplayed) {
         if (isPortraitMode()) {
             window.navigationBarDividerColor = getColorAttr(R.attr.clNavigationBarDivider)
         } else {

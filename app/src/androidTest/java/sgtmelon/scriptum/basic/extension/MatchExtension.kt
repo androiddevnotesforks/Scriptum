@@ -1,7 +1,12 @@
 package sgtmelon.scriptum.basic.extension
 
 import android.view.View
-import androidx.annotation.*
+import androidx.annotation.AttrRes
+import androidx.annotation.ColorRes
+import androidx.annotation.DimenRes
+import androidx.annotation.DrawableRes
+import androidx.annotation.IdRes
+import androidx.annotation.StringRes
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
@@ -9,18 +14,28 @@ import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.matcher.*
+import sgtmelon.scriptum.basic.matcher.ContentDescriptionMatcher
+import sgtmelon.scriptum.basic.matcher.CursorMatcher
+import sgtmelon.scriptum.basic.matcher.FocusMather
+import sgtmelon.scriptum.basic.matcher.ProgressMatcher
+import sgtmelon.scriptum.basic.matcher.TagMatcher
 import sgtmelon.scriptum.basic.matcher.card.CardBackgroundAttrMatcher
 import sgtmelon.scriptum.basic.matcher.card.CardBackgroundColorMatcher
 import sgtmelon.scriptum.basic.matcher.card.CardElevationMatcher
 import sgtmelon.scriptum.basic.matcher.card.CardRadiusMatcher
-import sgtmelon.scriptum.basic.matcher.drawable.*
+import sgtmelon.scriptum.basic.matcher.drawable.BackgroundAppColorMatcher
+import sgtmelon.scriptum.basic.matcher.drawable.BackgroundColorMatcher
+import sgtmelon.scriptum.basic.matcher.drawable.BackgroundMatcher
+import sgtmelon.scriptum.basic.matcher.drawable.ColorIndicatorMatcher
+import sgtmelon.scriptum.basic.matcher.drawable.DrawableMatcher
+import sgtmelon.scriptum.basic.matcher.drawable.MenuItemDrawableMatcher
+import sgtmelon.scriptum.basic.matcher.drawable.NavigationDrawableMatcher
 import sgtmelon.scriptum.basic.matcher.text.HintAttrColorMatcher
 import sgtmelon.scriptum.basic.matcher.text.MenuItemTitleMatcher
 import sgtmelon.scriptum.basic.matcher.text.TextAttrColorMatcher
 import sgtmelon.scriptum.basic.matcher.text.TextSizeMatcher
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
+import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 
 fun matchOnView(viewMatcher: Matcher<View>, checkMatcher: Matcher<in View>) {
     onView(viewMatcher).check(matches(checkMatcher))
@@ -134,7 +149,7 @@ fun Matcher<View>.withBackgroundColor(@ColorRes colorId: Int) = also {
 }
 
 fun Matcher<View>.withBackgroundAppColor(
-    @Theme theme: Int,
+    theme: ThemeDisplayed,
     @Color color: Int,
     needDark: Boolean
 ) = also {
@@ -184,14 +199,14 @@ fun Matcher<View>.withMenuDrawable(
 
 fun Matcher<View>.withColorIndicator(
     resourceId: Int? = null,
-    @Theme theme: Int,
+    theme: ThemeDisplayed,
     @Color color: Int
 ) = also {
     matchOnView(it, ColorIndicatorMatcher(resourceId, theme, color))
 }
 
 fun Matcher<View>.withCardBackground(
-    @Theme theme: Int,
+    theme: ThemeDisplayed,
     @Color color: Int,
     @DimenRes radiusId: Int,
     @DimenRes elevationId: Int

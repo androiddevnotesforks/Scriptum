@@ -48,8 +48,8 @@ abstract class ParentDialogUi(
 
     private val titleText = getViewByText(titleId).excludeParent(preferenceList)
 
-    private val cancelButton = getViewByText(R.string.dialog_button_cancel)
-    protected val applyButton = getViewByText(R.string.dialog_button_apply)
+    private val cancelButton = getViewByText(sgtmelon.safedialog.R.string.dialog_button_cancel)
+    protected val applyButton = getViewByText(sgtmelon.safedialog.R.string.dialog_button_apply)
 
     protected val itemArray: Array<String> = when {
         textArrayId != null -> context.resources.getStringArray(textArrayId)

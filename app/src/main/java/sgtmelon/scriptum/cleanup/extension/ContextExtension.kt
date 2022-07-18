@@ -13,23 +13,25 @@ import android.os.Vibrator
 import android.provider.Settings
 import android.util.TypedValue
 import android.view.inputmethod.InputMethodManager
-import androidx.annotation.*
+import androidx.annotation.AttrRes
+import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
+import androidx.annotation.DimenRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
 import sgtmelon.scriptum.cleanup.domain.model.data.ReceiverData
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
+import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 
 fun Context.getCompatColor(@ColorRes id: Int) = let { ContextCompat.getColor(it, id) }
 
-@Theme
-fun Context.getAppTheme(): Int? {
+fun Context.geDisplayedTheme(): ThemeDisplayed? {
     return when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
-        Configuration.UI_MODE_NIGHT_NO -> Theme.LIGHT
-        Configuration.UI_MODE_NIGHT_YES -> Theme.DARK
+        Configuration.UI_MODE_NIGHT_NO -> ThemeDisplayed.LIGHT
+        Configuration.UI_MODE_NIGHT_YES -> ThemeDisplayed.DARK
         else -> null
     }
 }

@@ -6,12 +6,12 @@ import android.view.View
 import android.view.Window
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
 import sgtmelon.scriptum.cleanup.domain.model.key.ColorShade
 import sgtmelon.scriptum.cleanup.domain.model.state.MenuColorState
+import sgtmelon.scriptum.cleanup.extension.geDisplayedTheme
 import sgtmelon.scriptum.cleanup.extension.getAppSimpleColor
-import sgtmelon.scriptum.cleanup.extension.getAppTheme
 import sgtmelon.scriptum.cleanup.extension.getNoteToolbarColor
+import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 
 /**
  * Control note toolbar tint.
@@ -25,7 +25,7 @@ class ToolbarTintControl(
 ) : ParentTintControl(context),
     IToolbarTintControl {
 
-    @Theme private val theme: Int? = context.getAppTheme()
+    private val theme: ThemeDisplayed? = context.geDisplayedTheme()
 
     private val colorAnimator: ValueAnimator = ValueAnimator.ofFloat(0F, 1F)
 
@@ -45,16 +45,16 @@ class ToolbarTintControl(
             val ratio = it.animatedFraction
             var blended: Int
 
-            if (theme != Theme.DARK) {
+            if (theme != ThemeDisplayed.DARK) {
                 blended = statusState.blend(ratio)
                 window.statusBarColor = blended
             }
 
             blended = toolbarState.blend(ratio)
-            if (theme != Theme.DARK) toolbar?.setBackgroundColor(blended)
+            if (theme != ThemeDisplayed.DARK) toolbar?.setBackgroundColor(blended)
 
             blended = indicatorState.blend(ratio)
-            if (theme == Theme.DARK) indicator?.setBackgroundColor(blended)
+            if (theme == ThemeDisplayed.DARK) indicator?.setBackgroundColor(blended)
         }
 
         colorAnimator.removeAllUpdateListeners()
@@ -66,7 +66,7 @@ class ToolbarTintControl(
     private fun setupColor(@Color color: Int) {
         if (theme == null) return
 
-        if (theme != Theme.DARK) {
+        if (theme != ThemeDisplayed.DARK) {
             window.statusBarColor = getStatusBarColor(theme, color)
 
             toolbar?.setBackgroundColor(getToolbarColor(theme, color))

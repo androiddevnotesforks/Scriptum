@@ -4,8 +4,8 @@ import android.content.Context
 import android.view.View
 import android.view.Window
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
-import sgtmelon.scriptum.cleanup.extension.getAppTheme
+import sgtmelon.scriptum.cleanup.extension.geDisplayedTheme
+import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 
 /**
  * Control note toolbar holder color.
@@ -17,10 +17,10 @@ class HolderTintControl(
 ) : ParentTintControl(context),
         IHolderTintControl {
 
-    @Theme private val theme: Int? = context.getAppTheme()
+    private val theme: ThemeDisplayed? = context.geDisplayedTheme()
 
     override fun setupColor(@Color color: Int) {
-        if (theme == null || theme == Theme.DARK) return
+        if (theme == null || theme == ThemeDisplayed.DARK) return
 
         window.statusBarColor = getStatusBarColor(theme, color)
 

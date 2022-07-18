@@ -3,14 +3,14 @@ package sgtmelon.scriptum.test.ui.auto.screen.note.toolbar
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
+import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 
 /**
- * Test for [NoteActivity] toolbar color with [Theme.DARK].
+ * Test for [NoteActivity] toolbar color with [ThemeDisplayed.DARK].
  */
 @RunWith(AndroidJUnit4::class)
-class ToolbarColorDarkTest : ParentToolbarColorTest(Theme.DARK) {
+class ToolbarColorDarkTest : ParentToolbarColorTest(ThemeDisplayed.DARK) {
 
     @Test override fun colorRed() = super.colorRed()
 

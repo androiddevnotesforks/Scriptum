@@ -6,19 +6,18 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.annotation.StringRes
 import androidx.preference.Preference
+import javax.inject.Inject
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.model.annotation.*
 import sgtmelon.scriptum.cleanup.domain.model.key.PreferenceScreen
 import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
-import sgtmelon.scriptum.cleanup.extension.*
+import sgtmelon.scriptum.cleanup.extension.toUri
 import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IPreferenceViewModel
-import javax.inject.Inject
 
 /**
  * Fragment of preference.
@@ -180,12 +179,11 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
         }
     }
 
-    override fun updateThemeSummary(summary: String?) {
+    override fun updateThemeSummary(summary: String) {
         themePreference?.summary = summary
     }
 
-    override fun showThemeDialog(@Theme value: Int) = openState.tryInvoke {
+    override fun showThemeDialog(value: Int) = openState.tryInvoke {
         themeDialog.setArguments(value).safeShow(fm, DialogFactory.Preference.Main.THEME)
     }
-
 }

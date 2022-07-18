@@ -5,10 +5,11 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceFragment
-import sgtmelon.scriptum.test.ui.auto.screen.preference.main.IPreferenceTest
+import sgtmelon.scriptum.infrastructure.converter.ThemeConverter
+import sgtmelon.scriptum.infrastructure.model.key.Theme
 import sgtmelon.scriptum.test.parent.ParentRotationTest
+import sgtmelon.scriptum.test.ui.auto.screen.preference.main.IPreferenceTest
 
 /**
  * Test of [PreferenceFragment] work with phone rotation.
@@ -22,12 +23,12 @@ class PreferenceRotationTest : ParentRotationTest(), IPreferenceTest {
     }
 
     @Test fun themeDialog() {
-        val initValue = Theme.list.random()
+        val initValue = Theme.values().random()
         val value = getThemeClick(initValue)
 
         assertNotEquals(initValue, value)
 
-        runTest({ preferences.theme = initValue }) {
+        runTest({ preferences.theme = ThemeConverter().toInt(initValue) }) {
             openThemeDialog {
                 onClickItem(value)
                 automator.rotateSide()
@@ -40,8 +41,8 @@ class PreferenceRotationTest : ParentRotationTest(), IPreferenceTest {
         assertEquals(value, preferences.theme)
     }
 
-    @Theme private fun getThemeClick(@Theme initValue: Int): Int {
-        val newValue = Theme.list.random()
+    private fun getThemeClick(initValue: Theme): Theme {
+        val newValue = Theme.values().random()
         return if (newValue == initValue) getThemeClick(initValue) else newValue
     }
 

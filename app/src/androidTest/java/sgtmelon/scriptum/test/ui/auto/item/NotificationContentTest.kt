@@ -6,8 +6,8 @@ import org.junit.runner.RunWith
 import sgtmelon.common.utils.getCalendarWithAdd
 import sgtmelon.common.utils.getText
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.test.parent.ParentUiTest
 import sgtmelon.scriptum.ui.item.NotificationItemUi
 
@@ -25,11 +25,11 @@ class NotificationContentTest : ParentUiTest() {
         }
     })
 
-    @Test fun colorLight() = startColorTest(Theme.LIGHT)
+    @Test fun colorLight() = startColorTest(ThemeDisplayed.LIGHT)
 
-    @Test fun colorDark() = startColorTest(Theme.DARK)
+    @Test fun colorDark() = startColorTest(ThemeDisplayed.DARK)
 
-    private fun startColorTest(@Theme theme: Int) {
+    private fun startColorTest(theme: ThemeDisplayed) {
         setupTheme(theme)
 
         onAssertList(ArrayList<NoteItem>().also { list ->

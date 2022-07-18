@@ -77,6 +77,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.Preferen
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.DevelopViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.PrintDevelopViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.ServiceDevelopViewModel
+import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 
 /**
  * Module for provide viewModel's.
@@ -208,9 +209,10 @@ class ViewModelModule {
     @ActivityScope
     fun providePreferenceViewModel(
         fragment: PreferenceFragment,
-        interactor: IPreferenceInteractor
+        interactor: IPreferenceInteractor,
+        preferencesRepo: PreferencesRepo
     ): IPreferenceViewModel {
-        val factory = ViewModelFactory.Preference.Main(fragment, interactor)
+        val factory = ViewModelFactory.Preference.Main(fragment, interactor, preferencesRepo)
         return ViewModelProvider(fragment, factory)[PreferenceViewModel::class.java]
     }
 

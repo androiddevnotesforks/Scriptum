@@ -4,16 +4,19 @@ import android.content.Context
 import android.view.View
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withParent
+import androidx.test.espresso.matcher.ViewMatchers.withResourceName
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.not
 import sgtmelon.scriptum.basic.exception.ThemeException
-import sgtmelon.scriptum.cleanup.dagger.module.base.ProviderModule
+import sgtmelon.scriptum.cleanup.dagger.module.base.PreferencesModule
+import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.infrastructure.preferences.PreferencesImpl
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
 
 /**
  * Parent class for access standard UI functions.
@@ -25,12 +28,12 @@ abstract class ParentUi {
     protected val context: Context = getInstrumentation().targetContext
 
     protected val preferences: Preferences = PreferencesImpl(
-        ProviderModule().providePreferenceKeyProvider(context.resources),
-        ProviderModule().providePreferenceDefProvider(context.resources),
-        ProviderModule().provideSharedPreferences(context)
+        PreferencesModule().providePreferenceKeyProvider(context.resources),
+        PreferencesModule().providePreferenceDefProvider(context.resources),
+        PreferencesModule().provideSharedPreferences(context)
     )
 
-    protected val appTheme: Int get() = theme ?: throw ThemeException()
+    protected val appTheme: ThemeDisplayed get() = theme ?: throw ThemeException()
 
     //region getView func
 
@@ -61,6 +64,6 @@ abstract class ParentUi {
     //endregion
 
     companion object {
-        @Theme var theme: Int? = null
+        var theme: ThemeDisplayed? = null
     }
 }

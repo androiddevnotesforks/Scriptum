@@ -8,15 +8,20 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Preference
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Preference.Default
 import sgtmelon.scriptum.cleanup.domain.model.key.PreferenceScreen
-import sgtmelon.scriptum.cleanup.extension.*
+import sgtmelon.scriptum.cleanup.extension.InsetsDir
+import sgtmelon.scriptum.cleanup.extension.doOnApplyWindowInsets
+import sgtmelon.scriptum.cleanup.extension.getColorAttr
+import sgtmelon.scriptum.cleanup.extension.getTintDrawable
+import sgtmelon.scriptum.cleanup.extension.isPortraitMode
+import sgtmelon.scriptum.cleanup.extension.updateMargin
 import sgtmelon.scriptum.cleanup.presentation.factory.FragmentFactory
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.AppActivity
+import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 
 /**
  * Screen for display [PreferenceFragment].
@@ -105,7 +110,7 @@ class PreferenceActivity : AppActivity() {
     /**
      * Make navigation translucent in portrait orientation.
      */
-    override fun setNavigationColor(@Theme theme: Int) {
+    override fun setNavigationColor(theme: ThemeDisplayed) {
         if (isPortraitMode()) {
             window.navigationBarColor = getColorAttr(R.attr.clNavigationBar)
         } else {
@@ -117,7 +122,7 @@ class PreferenceActivity : AppActivity() {
      * Make navigation translucent in portrait orientation.
      */
     @RequiresApi(Build.VERSION_CODES.P)
-    override fun setNavigationDividerColor(@Theme theme: Int) {
+    override fun setNavigationDividerColor(theme: ThemeDisplayed) {
         if (isPortraitMode()) {
             window.navigationBarDividerColor = getColorAttr(R.attr.clNavigationBarDivider)
         } else {

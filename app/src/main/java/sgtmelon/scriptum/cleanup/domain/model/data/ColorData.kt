@@ -2,8 +2,8 @@ package sgtmelon.scriptum.cleanup.domain.model.data
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
 import sgtmelon.scriptum.cleanup.domain.model.item.ColorItem
+import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 
 /**
  * Data of note colors
@@ -42,7 +42,7 @@ object ColorData {
     }
 
 
-    fun getColorItem(@Theme theme: Int, @Color color: Int) = if (theme == Theme.LIGHT) {
+    fun getColorItem(theme: ThemeDisplayed, @Color color: Int) = if (theme == ThemeDisplayed.LIGHT) {
         ColorItem(dark[color], light[color], dark[color])
     } else {
         ColorItem(dark[color], dark[color], light[color])

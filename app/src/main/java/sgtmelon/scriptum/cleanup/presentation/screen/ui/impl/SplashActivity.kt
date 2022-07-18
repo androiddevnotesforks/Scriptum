@@ -6,20 +6,19 @@ import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import javax.inject.Inject
+import sgtmelon.common.test.annotation.RunPrivate
+import sgtmelon.common.test.idling.impl.WaitIdlingResource
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.domain.model.annotation.OpenFrom
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
-import sgtmelon.scriptum.cleanup.domain.model.annotation.firebase.FireKey
-import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.key.PreferenceScreen
 import sgtmelon.scriptum.cleanup.domain.model.key.firebase.RunType
 import sgtmelon.scriptum.cleanup.extension.beforeFinish
 import sgtmelon.scriptum.cleanup.extension.hideKeyboard
-import sgtmelon.common.test.idling.impl.WaitIdlingResource
 import sgtmelon.scriptum.cleanup.presentation.control.broadcast.BroadcastControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
@@ -32,12 +31,14 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.Notifi
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.help.HelpDisappearActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.ISplashViewModel
-import javax.inject.Inject
+import sgtmelon.scriptum.infrastructure.model.firebase.FireKey
+import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import android.graphics.Color as AndroidColor
 
 /**
  * Start screen of application.
  */
+// TODO lint
 class SplashActivity : ParentActivity(),
     ISplashActivity {
 
@@ -84,11 +85,11 @@ class SplashActivity : ParentActivity(),
         window.statusBarColor = AndroidColor.TRANSPARENT
     }
 
-    override fun setNavigationColor(@Theme theme: Int) {
+    override fun setNavigationColor(theme: ThemeDisplayed) {
         window.navigationBarColor = AndroidColor.TRANSPARENT
     }
 
-    override fun setNavigationDividerColor(@Theme theme: Int) {
+    override fun setNavigationDividerColor(theme: ThemeDisplayed) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             window.navigationBarDividerColor = AndroidColor.TRANSPARENT
         }

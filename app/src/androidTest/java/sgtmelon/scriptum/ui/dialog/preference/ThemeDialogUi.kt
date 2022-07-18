@@ -3,8 +3,9 @@ package sgtmelon.scriptum.ui.dialog.preference
 import sgtmelon.safedialog.dialog.SingleDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceFragment
+import sgtmelon.scriptum.infrastructure.converter.ThemeConverter
+import sgtmelon.scriptum.infrastructure.model.key.Theme
 import sgtmelon.scriptum.ui.dialog.parent.ParentSelectDialogUi
 
 /**
@@ -15,13 +16,16 @@ class ThemeDialogUi : ParentSelectDialogUi(
     R.array.pref_text_app_theme
 ) {
 
+    private val converter = ThemeConverter()
+
     override val initCheck: Int = preferences.theme
     override var check: Int = initCheck
 
-    fun onClickItem(@Theme position: Int) = apply {
-        check = position
+    fun onClickItem(theme: Theme) = apply {
+        val newCheck = converter.toInt(theme)
 
-        getItem(position).click()
+        check = newCheck
+        getItem(newCheck).click()
         assert()
     }
 

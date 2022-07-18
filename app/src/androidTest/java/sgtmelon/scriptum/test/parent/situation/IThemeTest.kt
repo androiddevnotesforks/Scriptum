@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.test.parent.situation
 
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
+import sgtmelon.scriptum.infrastructure.model.key.Theme
+
 
 /**
  * Interface describes [Theme] tests.
@@ -13,6 +14,6 @@ interface IThemeTest {
 
     fun themeSystem() = startTest(Theme.SYSTEM)
 
-    fun startTest(@Theme value: Int)
+    fun startTest(value: Theme)
 
 }

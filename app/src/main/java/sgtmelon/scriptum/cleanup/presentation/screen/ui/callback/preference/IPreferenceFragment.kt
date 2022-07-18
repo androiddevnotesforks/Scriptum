@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference
 
 import androidx.annotation.StringRes
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IPreferenceViewModel
 
@@ -18,8 +17,7 @@ interface IPreferenceFragment {
 
     fun setupDeveloper()
 
-    fun updateThemeSummary(summary: String?)
+    fun updateThemeSummary(summary: String)
 
-    fun showThemeDialog(@Theme value: Int)
-
+    fun showThemeDialog(value: Int)
 }

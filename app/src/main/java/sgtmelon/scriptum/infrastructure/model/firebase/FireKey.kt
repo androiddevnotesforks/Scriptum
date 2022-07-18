@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.domain.model.annotation.firebase
+package sgtmelon.scriptum.infrastructure.model.firebase
 
 import androidx.annotation.StringDef
 
@@ -7,9 +7,14 @@ import androidx.annotation.StringDef
  *
  * Don't change keys after release.
  */
-@StringDef(FireKey.RUN_TYPE)
+@StringDef(
+    FireKey.RUN_TYPE,
+    FireKey.IN_PREFERENCES
+)
 annotation class FireKey {
     companion object {
         const val RUN_TYPE = "RUN_TYPE"
+
+        const val IN_PREFERENCES = "IN_PREFERENCES"
     }
 }

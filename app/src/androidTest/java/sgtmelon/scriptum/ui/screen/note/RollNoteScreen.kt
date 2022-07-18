@@ -1,8 +1,20 @@
 package sgtmelon.scriptum.ui.screen.note
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.extension.*
-import sgtmelon.scriptum.data.State
+import sgtmelon.scriptum.basic.extension.click
+import sgtmelon.scriptum.basic.extension.imeOption
+import sgtmelon.scriptum.basic.extension.isDisplayed
+import sgtmelon.scriptum.basic.extension.longClick
+import sgtmelon.scriptum.basic.extension.swipeItem
+import sgtmelon.scriptum.basic.extension.typeText
+import sgtmelon.scriptum.basic.extension.waitAfter
+import sgtmelon.scriptum.basic.extension.withBackgroundAppColor
+import sgtmelon.scriptum.basic.extension.withBackgroundAttr
+import sgtmelon.scriptum.basic.extension.withMenuDrawable
+import sgtmelon.scriptum.basic.extension.withMenuTitle
+import sgtmelon.scriptum.basic.extension.withProgress
+import sgtmelon.scriptum.basic.extension.withSize
+import sgtmelon.scriptum.basic.extension.withSizeAttr
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.hide
@@ -10,6 +22,7 @@ import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.RollNoteViewModel
+import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.ui.IKeyboardClose
 import sgtmelon.scriptum.ui.IPressBack
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
@@ -246,7 +259,12 @@ class RollNoteScreen(
 
         toolbar {
             val value = item.isVisible
-            val itemIcon = if (value) R.drawable.ic_visible_enter else R.drawable.ic_visible_exit
+            // TODO do something with ic name (and search in all test ui classes)
+            val itemIcon = if (value) {
+                sgtmelon.iconanim.R.drawable.ic_visible_enter
+            } else {
+                sgtmelon.iconanim.R.drawable.ic_visible_exit
+            }
             val itemTint = if (value) R.attr.clContent else R.attr.clIndicator
             val itemTitle = if (value) R.string.menu_roll_visible else R.string.menu_roll_invisible
 

@@ -5,11 +5,11 @@ import sgtmelon.common.utils.getText
 import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Sort
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.key.MainPage
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.cleanup.presentation.adapter.NoteAdapter
+import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.test.parent.ParentUiTest
 
 /**
@@ -19,15 +19,15 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
 
     private val lastArray = arrayListOf(LAST_HOUR, LAST_DAY, LAST_MONTH, LAST_YEAR)
 
-    open fun colorTextLight() = startColorTest(Theme.LIGHT, NoteType.TEXT)
+    open fun colorTextLight() = startColorTest(ThemeDisplayed.LIGHT, NoteType.TEXT)
 
-    open fun colorTextDark() = startColorTest(Theme.DARK, NoteType.TEXT)
+    open fun colorTextDark() = startColorTest(ThemeDisplayed.DARK, NoteType.TEXT)
 
-    open fun colorRollLight() = startColorTest(Theme.LIGHT, NoteType.ROLL)
+    open fun colorRollLight() = startColorTest(ThemeDisplayed.LIGHT, NoteType.ROLL)
 
-    open fun colorRollDark() = startColorTest(Theme.DARK, NoteType.ROLL)
+    open fun colorRollDark() = startColorTest(ThemeDisplayed.DARK, NoteType.ROLL)
 
-    private fun startColorTest(@Theme theme: Int, type: NoteType) {
+    private fun startColorTest(theme: ThemeDisplayed, type: NoteType) {
         setupTheme(theme)
         preferences.sort = Sort.COLOR
 
@@ -162,15 +162,15 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
     }
 
 
-    open fun rankTextLight() = startRankTest(Theme.LIGHT, NoteType.TEXT)
+    open fun rankTextLight() = startRankTest(ThemeDisplayed.LIGHT, NoteType.TEXT)
 
-    open fun rankTextDark() = startRankTest(Theme.DARK, NoteType.TEXT)
+    open fun rankTextDark() = startRankTest(ThemeDisplayed.DARK, NoteType.TEXT)
 
-    open fun rankRollLight() = startRankTest(Theme.LIGHT, NoteType.ROLL)
+    open fun rankRollLight() = startRankTest(ThemeDisplayed.LIGHT, NoteType.ROLL)
 
-    open fun rankRollDark() = startRankTest(Theme.DARK, NoteType.ROLL)
+    open fun rankRollDark() = startRankTest(ThemeDisplayed.DARK, NoteType.ROLL)
 
-    private fun startRankTest(@Theme theme: Int, type: NoteType) {
+    private fun startRankTest(theme: ThemeDisplayed, type: NoteType) {
         setupTheme(theme)
         preferences.sort = Sort.RANK
 

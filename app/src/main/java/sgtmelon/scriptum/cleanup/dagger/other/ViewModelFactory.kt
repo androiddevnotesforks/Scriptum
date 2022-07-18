@@ -2,7 +2,7 @@ package sgtmelon.scriptum.cleanup.dagger.other
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.IAppInteractor
+import kotlin.reflect.KClass
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.IIntroInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.ISplashInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IBinInteractor
@@ -59,7 +59,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.Preferen
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.DevelopViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.PrintDevelopViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.ServiceDevelopViewModel
-import kotlin.reflect.KClass
+import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 
 /**
  * ViewModel factory for create ViewModels with constructor parameters.
@@ -79,11 +79,11 @@ object ViewModelFactory {
 
     class App(
         private val activity: IAppActivity,
-        private val interactor: IAppInteractor
+        private val preferencesRepo: PreferencesRepo
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return modelClass.create(AppViewModel::class) {
-                AppViewModel(activity, interactor)
+                AppViewModel(activity, preferencesRepo)
             }
         }
     }
@@ -221,11 +221,12 @@ object ViewModelFactory {
 
         class Main(
             private val fragment: PreferenceFragment,
-            private val interactor: IPreferenceInteractor
+            private val interactor: IPreferenceInteractor,
+            private val preferencesRepo: PreferencesRepo
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(PreferenceViewModel::class) {
-                    PreferenceViewModel(fragment, interactor)
+                    PreferenceViewModel(fragment, interactor, preferencesRepo)
                 }
             }
         }

@@ -1,32 +1,36 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.impl.preference
 
-import sgtmelon.scriptum.infrastructure.preferences.Preferences
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IPreferenceInteractor
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
 import sgtmelon.scriptum.cleanup.presentation.provider.SummaryProvider
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IPreferenceViewModel
+import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.infrastructure.converter.ThemeConverter
+import sgtmelon.scriptum.infrastructure.model.key.Theme
 
 /**
  * Interactor for [IPreferenceViewModel].
  */
 class PreferenceInteractor(
     private val summaryProvider: SummaryProvider,
-    private val preferences: Preferences
+    private val preferencesRepo: PreferencesRepo,
+    private val themeConverter: ThemeConverter
 ) : IPreferenceInteractor {
 
-    @Theme override val theme: Int get() = preferences.theme
+    override fun getThemeSummary(): String = summaryProvider.getTheme(preferencesRepo.theme)
 
-    override fun getThemeSummary(): String? = summaryProvider.theme.getOrNull(theme)
+    // TODO test crashlytics send not fatal error
+    override fun updateTheme(value: Int): String {
+        val theme = themeConverter.toEnum(value)
+        if (theme != null) {
+            preferencesRepo.theme = theme
+        } else {
+            val crashlytics = FirebaseCrashlytics.getInstance()
+            crashlytics.setCustomKey("${Theme::class.simpleName}", value)
+            crashlytics.setCustomKey("inPreferences", preferencesRepo.theme.name)
+            crashlytics.recordException(Throwable())
+        }
 
-    override fun updateTheme(@Theme value: Int): String? {
-        preferences.theme = value
         return getThemeSummary()
     }
-
-
-    override var isDeveloper: Boolean
-        get() = preferences.isDeveloper
-        set(value) {
-            preferences.isDeveloper = value
-        }
 }

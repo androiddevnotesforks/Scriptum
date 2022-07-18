@@ -5,18 +5,17 @@ import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verifySequence
+import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
-import org.junit.Before
 import org.junit.Test
 import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IPreferenceInteractor
-import sgtmelon.scriptum.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IPreferenceFragment
-import kotlin.random.Random
+import sgtmelon.scriptum.parent.ParentViewModelTest
 
 /**
  * Test for [PreferenceViewModel].

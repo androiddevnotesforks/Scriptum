@@ -13,11 +13,10 @@ import android.widget.RelativeLayout
 import androidx.annotation.StringDef
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
 import sgtmelon.scriptum.cleanup.domain.model.key.ColorShade
+import sgtmelon.scriptum.cleanup.extension.geDisplayedTheme
 import sgtmelon.scriptum.cleanup.extension.getAppSimpleColor
-import sgtmelon.scriptum.cleanup.extension.getAppTheme
-import java.util.*
+import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 
 /**
  * ViewGroup element for create ripple animation.
@@ -50,7 +49,7 @@ class RippleContainer @JvmOverloads constructor(
     fun setupAnimation(@Color noteColor: Int, hookView: View) = apply {
         if (isConfigure) return@apply
 
-        val theme = context.getAppTheme() ?: return@apply
+        val theme = context.geDisplayedTheme() ?: return@apply
         val shade = getRippleShade(theme)
         val fillColor = context.getAppSimpleColor(noteColor, shade)
 
@@ -91,12 +90,14 @@ class RippleContainer @JvmOverloads constructor(
         isConfigure = true
     }
 
-    private fun getRippleShade(@Theme theme: Int): ColorShade {
-        return if (theme == Theme.LIGHT) ColorShade.ACCENT else ColorShade.DARK
+    // TODO add converter and apply it for ui test AlarmScreen
+    private fun getRippleShade(theme: ThemeDisplayed): ColorShade {
+        return if (theme == ThemeDisplayed.LIGHT) ColorShade.ACCENT else ColorShade.DARK
     }
 
-    private fun getPaintStyle(@Theme theme: Int): Paint.Style {
-        return if (theme == Theme.LIGHT) Paint.Style.STROKE else Paint.Style.FILL
+    // TODO add converter
+    private fun getPaintStyle(theme: ThemeDisplayed): Paint.Style {
+        return if (theme == ThemeDisplayed.LIGHT) Paint.Style.STROKE else Paint.Style.FILL
     }
 
     fun startAnimation() {

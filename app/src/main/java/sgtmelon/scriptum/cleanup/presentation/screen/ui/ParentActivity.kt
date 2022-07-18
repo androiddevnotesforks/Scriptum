@@ -8,11 +8,12 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
-import sgtmelon.scriptum.cleanup.extension.getAppTheme
+import sgtmelon.scriptum.cleanup.extension.geDisplayedTheme
 import sgtmelon.scriptum.cleanup.extension.getColorAttr
 import sgtmelon.scriptum.cleanup.presentation.control.toast.ToastControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.IAppActivity
+import sgtmelon.scriptum.infrastructure.model.key.Theme
+import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 
 /**
  * Parent class for all activities.
@@ -37,12 +38,11 @@ abstract class ParentActivity : AppCompatActivity(), IAppActivity {
         toastControl.onDestroy()
     }
 
-    override fun setupTheme(@Theme theme: Int) {
+    override fun setupTheme(theme: Theme) {
         val mode = when (theme) {
             Theme.LIGHT -> AppCompatDelegate.MODE_NIGHT_NO
             Theme.DARK -> AppCompatDelegate.MODE_NIGHT_YES
             Theme.SYSTEM -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-            else -> AppCompatDelegate.MODE_NIGHT_UNSPECIFIED
         }
 
         AppCompatDelegate.setDefaultNightMode(mode)
@@ -52,8 +52,8 @@ abstract class ParentActivity : AppCompatActivity(), IAppActivity {
      * Set light statusBar and navigationBar from xml not working.
      */
     override fun changeControlColor() {
-        val theme = getAppTheme() ?: return
-        val onLight = theme == Theme.LIGHT
+        val theme = geDisplayedTheme() ?: return
+        val onLight = theme == ThemeDisplayed.LIGHT
 
         changeStatusControl(onLight)
         changeNavigationControl(onLight)
@@ -87,7 +87,7 @@ abstract class ParentActivity : AppCompatActivity(), IAppActivity {
      * Set system colors from xml not working.
      */
     override fun changeSystemColor() {
-        val theme = getAppTheme() ?: return
+        val theme = geDisplayedTheme() ?: return
 
         setWindowBackground()
         setStatusBarColor()
@@ -106,20 +106,20 @@ abstract class ParentActivity : AppCompatActivity(), IAppActivity {
         window.statusBarColor = getColorAttr(R.attr.colorPrimaryDark)
     }
 
-    protected open fun setNavigationColor(@Theme theme: Int) {
+    protected open fun setNavigationColor(theme: ThemeDisplayed) {
         when {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1 -> {
                 window.navigationBarColor = getColorAttr(R.attr.colorPrimary)
             }
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.M -> {
-                if (theme == Theme.LIGHT) {
+                if (theme == ThemeDisplayed.LIGHT) {
                     window.navigationBarColor = getColorAttr(R.attr.clContentSecond)
                 } else {
                     window.navigationBarColor = getColorAttr(R.attr.colorPrimary)
                 }
             }
             else -> {
-                if (theme == Theme.LIGHT) {
+                if (theme == ThemeDisplayed.LIGHT) {
                     window.navigationBarColor = getColorAttr(R.attr.colorPrimaryDark)
                 } else {
                     window.navigationBarColor = getColorAttr(R.attr.colorPrimary)
@@ -129,7 +129,7 @@ abstract class ParentActivity : AppCompatActivity(), IAppActivity {
     }
 
     @RequiresApi(Build.VERSION_CODES.P)
-    protected open fun setNavigationDividerColor(@Theme theme: Int) {
+    protected open fun setNavigationDividerColor(theme: ThemeDisplayed) {
         window.navigationBarDividerColor = getColorAttr(R.attr.clDivider)
     }
 }

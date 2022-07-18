@@ -1,26 +1,34 @@
 package sgtmelon.scriptum.ui.screen
 
+import java.util.Calendar
 import sgtmelon.common.utils.getCalendarWithAdd
 import sgtmelon.common.utils.getNewCalendar
 import sgtmelon.common.utils.getText
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.exception.NoteCastException
-import sgtmelon.scriptum.basic.extension.*
-import sgtmelon.scriptum.data.State
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
+import sgtmelon.scriptum.basic.extension.click
+import sgtmelon.scriptum.basic.extension.isDisplayed
+import sgtmelon.scriptum.basic.extension.waitBefore
+import sgtmelon.scriptum.basic.extension.withContentDescription
+import sgtmelon.scriptum.basic.extension.withDrawableAttr
+import sgtmelon.scriptum.basic.extension.withDrawableColor
+import sgtmelon.scriptum.basic.extension.withSize
+import sgtmelon.scriptum.basic.extension.withTag
+import sgtmelon.scriptum.basic.extension.withText
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.key.ColorShade
 import sgtmelon.scriptum.cleanup.extension.getAppSimpleColor
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.AlarmActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.notification.AlarmViewModel
 import sgtmelon.scriptum.cleanup.presentation.view.RippleContainer
+import sgtmelon.scriptum.data.State
+import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.ui.IPressBack
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.dialog.sheet.RepeatSheetDialogUi
 import sgtmelon.scriptum.ui.item.NoteItemUi
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
-import java.util.*
 
 /**
  * Class for UI control of [AlarmActivity].
@@ -136,7 +144,11 @@ class AlarmScreen(
     /**
      * @Test - duplicate of original function in [RippleContainer].
      */
-    private fun getRippleShade(@Theme theme: Int): ColorShade {
-        return if (theme == Theme.LIGHT) ColorShade.ACCENT else ColorShade.DARK
+    // TODO add converter and apply it for RippleContainer
+    private fun getRippleShade(theme: ThemeDisplayed): ColorShade {
+        return when (theme) {
+            ThemeDisplayed.LIGHT -> ColorShade.ACCENT
+            ThemeDisplayed.DARK -> ColorShade.DARK
+        }
     }
 }

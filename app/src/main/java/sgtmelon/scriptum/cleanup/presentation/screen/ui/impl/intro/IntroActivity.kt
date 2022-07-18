@@ -9,19 +9,24 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager2.widget.ViewPager2
+import javax.inject.Inject
 import ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator
-import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
-import sgtmelon.scriptum.cleanup.extension.*
 import sgtmelon.common.test.idling.impl.AppIdlingResource
+import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
+import sgtmelon.scriptum.cleanup.extension.InsetsDir
+import sgtmelon.scriptum.cleanup.extension.beforeFinish
+import sgtmelon.scriptum.cleanup.extension.doOnApplyWindowInsets
+import sgtmelon.scriptum.cleanup.extension.getColorAttr
+import sgtmelon.scriptum.cleanup.extension.updateMargin
+import sgtmelon.scriptum.cleanup.extension.updatePadding
 import sgtmelon.scriptum.cleanup.presentation.adapter.IntroPageAdapter
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.IIntroActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.MainActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IIntroViewModel
-import javax.inject.Inject
+import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 
 /**
  * Activity with start intro.
@@ -93,11 +98,11 @@ class IntroActivity : ParentActivity(), IIntroActivity {
         window.statusBarColor = Color.TRANSPARENT
     }
 
-    override fun setNavigationColor(@Theme theme: Int) {
+    override fun setNavigationColor(theme: ThemeDisplayed) {
         window.navigationBarColor = Color.TRANSPARENT
     }
 
-    override fun setNavigationDividerColor(@Theme theme: Int) {
+    override fun setNavigationDividerColor(theme: ThemeDisplayed) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             window.navigationBarDividerColor = Color.TRANSPARENT
         }

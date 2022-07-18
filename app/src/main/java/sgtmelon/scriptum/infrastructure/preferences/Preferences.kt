@@ -4,7 +4,6 @@ import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Repeat
 import sgtmelon.scriptum.cleanup.domain.model.annotation.SavePeriod
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Sort
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
 
 // TODO remove annotations
 interface Preferences {
@@ -13,7 +12,7 @@ interface Preferences {
 
     // App settings
 
-    @Theme var theme: Int
+    var theme: Int
 
     // Backup settings
 

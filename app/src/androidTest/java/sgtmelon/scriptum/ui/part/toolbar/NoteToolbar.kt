@@ -2,11 +2,22 @@ package sgtmelon.scriptum.ui.part.toolbar
 
 import android.view.inputmethod.EditorInfo
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.extension.*
-import sgtmelon.scriptum.data.State
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
+import sgtmelon.scriptum.basic.extension.click
+import sgtmelon.scriptum.basic.extension.imeOption
+import sgtmelon.scriptum.basic.extension.isDisplayed
+import sgtmelon.scriptum.basic.extension.isFocused
+import sgtmelon.scriptum.basic.extension.typeText
+import sgtmelon.scriptum.basic.extension.withBackgroundAppColor
+import sgtmelon.scriptum.basic.extension.withBackgroundColor
+import sgtmelon.scriptum.basic.extension.withCursor
+import sgtmelon.scriptum.basic.extension.withHint
+import sgtmelon.scriptum.basic.extension.withImeAction
+import sgtmelon.scriptum.basic.extension.withNavigationDrawable
+import sgtmelon.scriptum.basic.extension.withText
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.data.State
+import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
@@ -86,13 +97,13 @@ class NoteToolbar<T : ParentUi, N : NoteItem>(
         contentContainer.isDisplayed()
             .withBackgroundAppColor(appTheme, color, needDark = false)
             .withNavigationDrawable(when (callback.state) {
-                State.READ, State.BIN, State.NEW -> R.drawable.ic_cancel_exit
-                State.EDIT -> R.drawable.ic_cancel_enter
+                State.READ, State.BIN, State.NEW -> sgtmelon.iconanim.R.drawable.ic_cancel_exit
+                State.EDIT -> sgtmelon.iconanim.R.drawable.ic_cancel_enter
             }, R.attr.clContent)
 
         nameScroll.isDisplayed()
 
-        colorView.isDisplayed(isVisible = appTheme == Theme.DARK) {
+        colorView.isDisplayed(isVisible = appTheme == ThemeDisplayed.DARK) {
             withBackgroundAppColor(appTheme, color, needDark = true)
         }
 

@@ -27,10 +27,6 @@ import sgtmelon.scriptum.cleanup.data.room.converter.model.RollConverter
 @Module
 class RepoModule {
 
-    // TODO #PREF move into another place
-
-
-
     @Provides
     @Singleton
     fun provideAlarmRepo(roomProvider: RoomProvider, converter: AlarmConverter): IAlarmRepo {

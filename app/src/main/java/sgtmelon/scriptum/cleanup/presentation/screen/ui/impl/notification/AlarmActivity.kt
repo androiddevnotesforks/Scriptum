@@ -21,22 +21,34 @@ import androidx.transition.Transition
 import androidx.transition.TransitionListenerAdapter
 import androidx.transition.TransitionManager
 import com.google.android.material.navigation.NavigationView
+import java.util.Calendar
+import javax.inject.Inject
+import sgtmelon.common.test.annotation.RunPrivate
+import sgtmelon.common.test.idling.impl.AppIdlingResource
+import sgtmelon.safedialog.utils.safeDismiss
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
-import sgtmelon.common.test.annotation.RunPrivate
+import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.cleanup.domain.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
-import sgtmelon.scriptum.cleanup.extension.*
-import sgtmelon.common.test.idling.impl.AppIdlingResource
-import sgtmelon.safedialog.utils.safeDismiss
-import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
+import sgtmelon.scriptum.cleanup.extension.InsetsDir
+import sgtmelon.scriptum.cleanup.extension.addIdlingListener
+import sgtmelon.scriptum.cleanup.extension.afterLayoutConfiguration
+import sgtmelon.scriptum.cleanup.extension.doOnApplyWindowInsets
+import sgtmelon.scriptum.cleanup.extension.getAlphaAnimator
+import sgtmelon.scriptum.cleanup.extension.getAlphaInterpolator
+import sgtmelon.scriptum.cleanup.extension.getColorAttr
+import sgtmelon.scriptum.cleanup.extension.initLazy
+import sgtmelon.scriptum.cleanup.extension.toUri
+import sgtmelon.scriptum.cleanup.extension.updateMargin
 import sgtmelon.scriptum.cleanup.presentation.adapter.NoteAdapter
 import sgtmelon.scriptum.cleanup.presentation.control.broadcast.BroadcastControl
-import sgtmelon.scriptum.cleanup.presentation.control.system.*
+import sgtmelon.scriptum.cleanup.presentation.control.system.MelodyControl
+import sgtmelon.scriptum.cleanup.presentation.control.system.PowerControl
+import sgtmelon.scriptum.cleanup.presentation.control.system.VibratorControl
 import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IMelodyControl
 import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IPowerControl
 import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IVibratorControl
@@ -49,8 +61,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.AppActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.IAlarmViewModel
 import sgtmelon.scriptum.cleanup.presentation.view.RippleContainer
-import java.util.*
-import javax.inject.Inject
+import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import android.graphics.Color as AndroidColor
 
 /**
@@ -165,12 +176,12 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         window.statusBarColor = AndroidColor.TRANSPARENT
     }
 
-    override fun setNavigationColor(@Theme theme: Int) {
+    override fun setNavigationColor(theme: ThemeDisplayed) {
         window.navigationBarColor = getColorAttr(R.attr.clNavigationBar)
     }
 
     @RequiresApi(Build.VERSION_CODES.P)
-    override fun setNavigationDividerColor(@Theme theme: Int) {
+    override fun setNavigationDividerColor(theme: ThemeDisplayed) {
         window.navigationBarDividerColor = getColorAttr(R.attr.clNavigationBarDivider)
     }
 

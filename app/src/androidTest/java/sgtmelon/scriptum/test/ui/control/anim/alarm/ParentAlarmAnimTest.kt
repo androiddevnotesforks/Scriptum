@@ -1,23 +1,24 @@
 package sgtmelon.scriptum.test.ui.control.anim.alarm
 
+import kotlin.random.Random
 import sgtmelon.scriptum.basic.extension.waitAfter
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.AlarmActivity
+import sgtmelon.scriptum.infrastructure.converter.SignalConverter
+import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.test.parent.ParentUiTest
 import sgtmelon.scriptum.test.parent.situation.IColorTest
-import kotlin.random.Random
 
 /**
  * Parent class for tests of [AlarmActivity] with different themes.
  */
-abstract class ParentAlarmAnimTest(@Theme private val theme: Int) : ParentUiTest(), IColorTest {
+abstract class ParentAlarmAnimTest(private val theme: ThemeDisplayed) : ParentUiTest(), IColorTest {
 
     override fun startTest(@Color value: Int) {
         setupTheme(theme)
 
         with(preferences) {
-            signal = Random.nextInt(from = 1, until = 3)
+            signal = SignalConverter().toString(BooleanArray(size = 2) { Random.nextBoolean() })
             volume = Random.nextInt(from = 50, until = 100)
             isVolumeIncrease = Random.nextBoolean()
         }

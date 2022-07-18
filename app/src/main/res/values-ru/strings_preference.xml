@@ -85,11 +85,9 @@
 
     <!-- Preference arrays -->
 
-    <string-array name="pref_text_app_theme">
-        <item>Светлая</item>
-        <item>Тёмная</item>
-        <item>Системная</item>
-    </string-array>
+    <string name="pref_text_app_theme_light">Light</string>
+    <string name="pref_text_app_theme_dark">Dark</string>
+    <string name="pref_text_app_theme_system">System</string>
 
     <string-array name="pref_text_note_sort">
         <item>По времени изменения</item>

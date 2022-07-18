@@ -10,7 +10,6 @@ import sgtmelon.scriptum.cleanup.data.repository.room.callback.IDevelopRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.cleanup.data.room.backup.IBackupParser
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.IAppInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.IIntroInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.ISplashInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IBinInteractor
@@ -29,7 +28,6 @@ import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IPreferen
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IDevelopInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IPrintDevelopInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.system.ISystemInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.impl.AppInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.IntroInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.SplashInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.main.BinInteractor
@@ -53,7 +51,9 @@ import sgtmelon.scriptum.cleanup.presentation.control.file.IFileControl
 import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IRingtoneControl
 import sgtmelon.scriptum.cleanup.presentation.provider.SummaryProvider
 import sgtmelon.scriptum.cleanup.presentation.screen.system.SystemLogic
+import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.converter.SignalConverter
+import sgtmelon.scriptum.infrastructure.converter.ThemeConverter
 import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvider
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesKeyProvider
@@ -77,12 +77,6 @@ class InteractorModule {
     }
 
     //endregion
-
-    @Provides
-    @ActivityScope
-    fun provideAppInteractor(preferences: Preferences): IAppInteractor {
-        return AppInteractor(preferences)
-    }
 
     @Provides
     @ActivityScope
@@ -183,9 +177,10 @@ class InteractorModule {
     @ActivityScope
     fun providePreferenceInteractor(
         summaryProvider: SummaryProvider,
-        preferences: Preferences
+        preferencesRepo: PreferencesRepo,
+        themeConverter: ThemeConverter
     ): IPreferenceInteractor {
-        return PreferenceInteractor(summaryProvider, preferences)
+        return PreferenceInteractor(summaryProvider, preferencesRepo, themeConverter)
     }
 
     @Provides

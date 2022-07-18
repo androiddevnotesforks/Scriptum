@@ -7,13 +7,18 @@ import org.hamcrest.Matcher
 import sgtmelon.common.utils.formatPast
 import sgtmelon.common.utils.getCalendar
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.extension.*
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
+import sgtmelon.scriptum.basic.extension.isDisplayed
+import sgtmelon.scriptum.basic.extension.withCardBackground
+import sgtmelon.scriptum.basic.extension.withColorIndicator
+import sgtmelon.scriptum.basic.extension.withDrawableAttr
+import sgtmelon.scriptum.basic.extension.withSize
+import sgtmelon.scriptum.basic.extension.withText
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.cleanup.extension.hide
 import sgtmelon.scriptum.cleanup.presentation.adapter.NoteAdapter
+import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.ui.ParentRecyclerItem
 
 /**
@@ -104,7 +109,7 @@ class NoteItemUi(
 
                 visibleImage.isDisplayed(!item.isVisible) {
                     withSize(R.dimen.icon_16dp, R.dimen.icon_16dp)
-                }.withDrawableAttr(R.drawable.ic_visible_exit, R.attr.clIndicator)
+                }.withDrawableAttr(sgtmelon.iconanim.R.drawable.ic_visible_exit, R.attr.clIndicator)
 
                 progressText.isDisplayed()
                     .withText(item.text, R.attr.clContentSecond, R.dimen.text_12sp)
@@ -151,7 +156,7 @@ class NoteItemUi(
 
             infoLayout.assert(item)
 
-            colorView.isDisplayed(isVisible = appTheme == Theme.DARK) {
+            colorView.isDisplayed(isVisible = appTheme == ThemeDisplayed.DARK) {
                 withSize(widthId = R.dimen.layout_8dp)
                 withColorIndicator(R.drawable.ic_color_indicator, appTheme, item.color)
             }

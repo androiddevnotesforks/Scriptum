@@ -3,10 +3,10 @@ package sgtmelon.scriptum.test.ui.auto.screen.note.text
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.infrastructure.preferences.PreferencesImpl
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
+import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
+import sgtmelon.scriptum.infrastructure.preferences.PreferencesImpl
 import sgtmelon.scriptum.test.parent.ParentUiTest
 import sgtmelon.scriptum.test.parent.situation.IColorTest
 
@@ -30,11 +30,11 @@ class TextNoteColorDialogTest : ParentUiTest(), IColorTest {
         }
     }
 
-    @Test fun lightTheme() = startThemeTest(Theme.LIGHT)
+    @Test fun lightTheme() = startThemeTest(ThemeDisplayed.LIGHT)
 
-    @Test fun darkTheme() = startThemeTest(Theme.DARK)
+    @Test fun darkTheme() = startThemeTest(ThemeDisplayed.DARK)
 
-    private fun startThemeTest(@Theme theme: Int) = data.createText().let {
+    private fun startThemeTest(theme: ThemeDisplayed) = data.createText().let {
         setupTheme(theme)
 
         launch {

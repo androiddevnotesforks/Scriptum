@@ -1,13 +1,26 @@
 package sgtmelon.scriptum
 
 import android.os.Bundle
-import io.mockk.*
-import org.junit.Assert.*
+import io.mockk.MockKVerificationScope
+import io.mockk.coEvery
+import io.mockk.coVerifyOrder
+import io.mockk.coVerifySequence
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.mockkObject
+import io.mockk.verifyOrder
+import io.mockk.verifySequence
+import java.util.Calendar
+import kotlin.random.Random
+import org.junit.Assert.assertArrayEquals
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import sgtmelon.common.utils.beforeNow
 import sgtmelon.common.utils.getCalendar
 import sgtmelon.common.utils.getText
 import sgtmelon.common.utils.nextString
-import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
@@ -15,7 +28,6 @@ import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IParentNoteInte
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Repeat
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Sort
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem.Cursor.Companion.get
@@ -29,8 +41,8 @@ import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.IParentNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.ParentNoteViewModel
-import java.util.*
-import kotlin.random.Random
+import sgtmelon.scriptum.infrastructure.model.key.Theme
+import sgtmelon.scriptum.infrastructure.preferences.Preferences
 
 /**
  * Object for describe common and fast tests.
@@ -55,13 +67,14 @@ object FastTest {
         }
     }
 
+    @Deprecated("Use preferencesRepo")
     fun getTheme(preferences: Preferences, callFunc: () -> Int) {
         fun checkRequestGet(value: Int) {
             every { preferences.theme } returns value
             assertEquals(callFunc(), value)
         }
 
-        val valueList = listOf(Theme.LIGHT, Theme.DARK, Random.nextInt())
+        val valueList = listOf(Theme.LIGHT.ordinal, Theme.DARK.ordinal, Random.nextInt())
         for (it in valueList) {
             checkRequestGet(it)
         }

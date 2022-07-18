@@ -6,7 +6,6 @@ import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Repeat
 import sgtmelon.scriptum.cleanup.domain.model.annotation.SavePeriod
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Sort
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Theme
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvider
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesKeyProvider
 
@@ -25,7 +24,7 @@ class PreferencesImpl(
 
     // App settings
 
-    @Theme override var theme: Int
+    override var theme: Int
         get() = preferences.getInt(key.theme, def.theme)
         set(value) = edit { putInt(key.theme, value) }
 
