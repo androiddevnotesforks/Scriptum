@@ -17,7 +17,6 @@ import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.ISignal
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IAlarmPreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IBackupPreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.INotePreferenceInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IPreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IDevelopInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IPrintDevelopInteractor
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.IAppActivity
@@ -60,6 +59,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.PrintDevelopViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.ServiceDevelopViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.domain.useCase.preferences.GetSummaryUseCase
 
 /**
  * ViewModel factory for create ViewModels with constructor parameters.
@@ -221,12 +221,12 @@ object ViewModelFactory {
 
         class Main(
             private val fragment: PreferenceFragment,
-            private val interactor: IPreferenceInteractor,
-            private val preferencesRepo: PreferencesRepo
+            private val preferencesRepo: PreferencesRepo,
+            private val getSummary: GetSummaryUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(PreferenceViewModel::class) {
-                    PreferenceViewModel(fragment, interactor, preferencesRepo)
+                    PreferenceViewModel(fragment, preferencesRepo, getSummary)
                 }
             }
         }

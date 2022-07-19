@@ -3,6 +3,7 @@ package sgtmelon.scriptum.cleanup.dagger.module.base
 import androidx.lifecycle.ViewModelProvider
 import dagger.Module
 import dagger.Provides
+import javax.inject.Named
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.cleanup.dagger.other.ViewModelFactory
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.IIntroInteractor
@@ -19,7 +20,6 @@ import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.ISignal
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IAlarmPreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IBackupPreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.INotePreferenceInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IPreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IDevelopInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IPrintDevelopInteractor
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControl
@@ -78,6 +78,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.PrintDevelopViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.ServiceDevelopViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.domain.useCase.preferences.GetSummaryUseCase
 
 /**
  * Module for provide viewModel's.
@@ -209,10 +210,10 @@ class ViewModelModule {
     @ActivityScope
     fun providePreferenceViewModel(
         fragment: PreferenceFragment,
-        interactor: IPreferenceInteractor,
-        preferencesRepo: PreferencesRepo
+        preferencesRepo: PreferencesRepo,
+        @Named("Theme") getSummary: GetSummaryUseCase
     ): IPreferenceViewModel {
-        val factory = ViewModelFactory.Preference.Main(fragment, interactor, preferencesRepo)
+        val factory = ViewModelFactory.Preference.Main(fragment, preferencesRepo, getSummary)
         return ViewModelProvider(fragment, factory)[PreferenceViewModel::class.java]
     }
 

@@ -18,6 +18,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IPreferenceViewModel
+import sgtmelon.scriptum.infrastructure.model.key.Theme
 
 /**
  * Fragment of preference.
@@ -183,7 +184,7 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
         themePreference?.summary = summary
     }
 
-    override fun showThemeDialog(value: Int) = openState.tryInvoke {
-        themeDialog.setArguments(value).safeShow(fm, DialogFactory.Preference.Main.THEME)
+    override fun showThemeDialog(value: Theme) = openState.tryInvoke {
+        themeDialog.setArguments(value.ordinal).safeShow(fm, DialogFactory.Preference.Main.THEME)
     }
 }

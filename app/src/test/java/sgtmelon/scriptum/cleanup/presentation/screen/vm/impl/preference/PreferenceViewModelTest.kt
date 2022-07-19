@@ -4,6 +4,7 @@ import io.mockk.coVerifySequence
 import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import io.mockk.verifySequence
 import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -13,8 +14,10 @@ import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IPreferenceInteractor
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IPreferenceFragment
+import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.domain.useCase.preferences.GetSummaryUseCase
+import sgtmelon.scriptum.infrastructure.model.key.Theme
 import sgtmelon.scriptum.parent.ParentViewModelTest
 
 /**
@@ -26,13 +29,14 @@ class PreferenceViewModelTest : ParentViewModelTest() {
     //region Setup
 
     @MockK lateinit var callback: IPreferenceFragment
-    @MockK lateinit var interactor: IPreferenceInteractor
+    @MockK lateinit var preferencesRepo: PreferencesRepo
+    @MockK lateinit var getSummary: GetSummaryUseCase
 
-    private val viewModel by lazy { PreferenceViewModel(callback, interactor) }
+    private val viewModel by lazy { PreferenceViewModel(callback, preferencesRepo, getSummary) }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(callback, interactor)
+        confirmVerified(callback, preferencesRepo, getSummary)
     }
 
     @Test override fun onDestroy() {
@@ -46,39 +50,39 @@ class PreferenceViewModelTest : ParentViewModelTest() {
     @Test fun onSetup() {
         val themeSummary = nextString()
 
-        every { interactor.isDeveloper } returns false
-        every { interactor.getThemeSummary() } returns themeSummary
+        every { preferencesRepo.isDeveloper } returns false
+        every { getSummary() } returns themeSummary
         viewModel.onSetup()
 
-        every { interactor.isDeveloper } returns true
+        every { preferencesRepo.isDeveloper } returns true
         viewModel.onSetup()
 
         coVerifySequence {
             callback.setupApp()
             callback.setupOther()
-            interactor.isDeveloper
-            interactor.getThemeSummary()
+            preferencesRepo.isDeveloper
+            getSummary()
             callback.updateThemeSummary(themeSummary)
 
             callback.setupApp()
             callback.setupOther()
-            interactor.isDeveloper
+            preferencesRepo.isDeveloper
             callback.setupDeveloper()
-            interactor.getThemeSummary()
+            getSummary()
             callback.updateThemeSummary(themeSummary)
         }
     }
 
 
     @Test fun onClickTheme() {
-        val value = Random.nextInt()
+        val value = mockk<Theme>()
 
-        every { interactor.theme } returns value
+        every { preferencesRepo.theme } returns value
 
         viewModel.onClickTheme()
 
         verifySequence {
-            interactor.theme
+            preferencesRepo.theme
             callback.showThemeDialog(value)
         }
     }
@@ -87,32 +91,31 @@ class PreferenceViewModelTest : ParentViewModelTest() {
         val value = Random.nextInt()
         val summary = nextString()
 
-        every { interactor.updateTheme(value) } returns summary
+        every { getSummary(value) } returns summary
 
         viewModel.onResultTheme(value)
 
         verifySequence {
-            interactor.updateTheme(value)
+            getSummary(value)
             callback.updateThemeSummary(summary)
         }
     }
 
 
     @Test fun onUnlockDeveloper() {
-        every { interactor.isDeveloper } returns false
-        every { interactor.isDeveloper = true } returns Unit
+        every { preferencesRepo.isDeveloper } returns false
         viewModel.onUnlockDeveloper()
 
-        every { interactor.isDeveloper } returns true
+        every { preferencesRepo.isDeveloper } returns true
         viewModel.onUnlockDeveloper()
 
         verifySequence {
-            interactor.isDeveloper
-            interactor.isDeveloper = true
+            preferencesRepo.isDeveloper
+            preferencesRepo.isDeveloper = true
             callback.setupDeveloper()
             callback.showToast(R.string.pref_toast_develop_unlock)
 
-            interactor.isDeveloper
+            preferencesRepo.isDeveloper
             callback.showToast(R.string.pref_toast_develop_already)
         }
     }

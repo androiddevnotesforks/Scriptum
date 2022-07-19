@@ -3,6 +3,7 @@ package sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference
 import androidx.annotation.StringRes
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IPreferenceViewModel
+import sgtmelon.scriptum.infrastructure.model.key.Theme
 
 /**
  * Interface for communication [IPreferenceViewModel] with [PreferenceFragment].
@@ -19,5 +20,5 @@ interface IPreferenceFragment {
 
     fun updateThemeSummary(summary: String)
 
-    fun showThemeDialog(value: Int)
+    fun showThemeDialog(value: Theme)
 }

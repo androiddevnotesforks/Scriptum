@@ -24,7 +24,6 @@ import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.ISignal
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IAlarmPreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IBackupPreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.INotePreferenceInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IPreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IDevelopInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IPrintDevelopInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.system.ISystemInteractor
@@ -42,7 +41,6 @@ import sgtmelon.scriptum.cleanup.domain.interactor.impl.notification.SignalInter
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.preference.AlarmPreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.preference.BackupPreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.preference.NotePreferenceInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.impl.preference.PreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.preference.develop.DevelopInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.preference.develop.PrintDevelopInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.system.SystemInteractor
@@ -51,9 +49,7 @@ import sgtmelon.scriptum.cleanup.presentation.control.file.IFileControl
 import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IRingtoneControl
 import sgtmelon.scriptum.cleanup.presentation.provider.SummaryProvider
 import sgtmelon.scriptum.cleanup.presentation.screen.system.SystemLogic
-import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.converter.SignalConverter
-import sgtmelon.scriptum.infrastructure.converter.ThemeConverter
 import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvider
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesKeyProvider
@@ -172,16 +168,6 @@ class InteractorModule {
     }
 
     //region Preference
-
-    @Provides
-    @ActivityScope
-    fun providePreferenceInteractor(
-        summaryProvider: SummaryProvider,
-        preferencesRepo: PreferencesRepo,
-        themeConverter: ThemeConverter
-    ): IPreferenceInteractor {
-        return PreferenceInteractor(summaryProvider, preferencesRepo, themeConverter)
-    }
 
     @Provides
     @ActivityScope

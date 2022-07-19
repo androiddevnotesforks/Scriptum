@@ -1,8 +1,13 @@
 package sgtmelon.scriptum.infrastructure.converter
 
+import sgtmelon.scriptum.infrastructure.model.exception.EnumConverterException
 import sgtmelon.scriptum.infrastructure.model.key.Sort
 
 class SortConverter : ParentEnumConverter<Sort>() {
 
-    override fun toEnum(value: Int): Sort? = Sort.values().getOrNull(value)
+    override val values: Array<Sort> get() = Sort.values()
+
+    override fun getOrdinalException(ordinal: Int): EnumConverterException {
+        return EnumConverterException(ordinal, Sort::class, SortConverter::class)
+    }
 }

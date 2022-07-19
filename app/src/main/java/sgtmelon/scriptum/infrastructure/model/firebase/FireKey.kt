@@ -8,13 +8,10 @@ import androidx.annotation.StringDef
  * Don't change keys after release.
  */
 @StringDef(
-    FireKey.RUN_TYPE,
-    FireKey.IN_PREFERENCES
+    FireKey.RUN_TYPE
 )
 annotation class FireKey {
     companion object {
         const val RUN_TYPE = "RUN_TYPE"
-
-        const val IN_PREFERENCES = "IN_PREFERENCES"
     }
 }
