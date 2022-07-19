@@ -12,6 +12,9 @@ import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.scriptum.infrastructure.model.exception.EnumConverterException
 
+/**
+ * Parent class for testing child of [ParentEnumConverter].
+ */
 abstract class ParentEnumConverterTest<E: Enum<E>> {
 
     abstract val converter: ParentEnumConverter<E>
