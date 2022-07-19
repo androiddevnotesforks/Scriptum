@@ -83,52 +83,6 @@
 
     <string name="pref_summary_help_notification_disappear">И как исправить это</string>
 
-    <!-- Preference arrays -->
-
-    <string name="pref_text_app_theme_light">Light</string>
-    <string name="pref_text_app_theme_dark">Dark</string>
-    <string name="pref_text_app_theme_system">System</string>
-
-    <string-array name="pref_text_note_sort">
-        <item>По времени изменения</item>
-        <item>По времени создания</item>
-        <item>По категориям</item>
-        <item>По цвету</item>
-    </string-array>
-
-    <string-array name="pref_text_note_color">
-        <item>Красный</item>
-        <item>Фиолетовый</item>
-        <item>Индиго</item>
-        <item>Синий</item>
-        <item>Бирюзовый</item>
-        <item>Зелёный</item>
-        <item>Желтый</item>
-        <item>Оранжевый</item>
-        <item>Коричневый</item>
-        <item>Сине-серый</item>
-        <item>Белый</item>
-    </string-array>
-
-    <string-array name="pref_text_note_save_period">
-        <item>1 минута</item>
-        <item>3 минуты</item>
-        <item>7 минут</item>
-    </string-array>
-
-    <string-array name="pref_text_alarm_repeat">
-        <item>@string/dialog_repeat_0</item>
-        <item>@string/dialog_repeat_1</item>
-        <item>@string/dialog_repeat_2</item>
-        <item>@string/dialog_repeat_3</item>
-        <item>@string/dialog_repeat_4</item>
-    </string-array>
-
-    <string-array name="pref_text_alarm_signal">
-        <item>Мелодия</item>
-        <item>Вибрация</item>
-    </string-array>
-
     <!-- Preference toast text -->
 
     <string name="pref_toast_import_error">Извините, но файл повреждён! :(</string>

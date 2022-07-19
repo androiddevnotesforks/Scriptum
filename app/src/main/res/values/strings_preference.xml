@@ -120,58 +120,6 @@
 
     <string name="pref_summary_other_reset" translatable="false">Keys will be set by default</string>
 
-    <!-- Preference arrays -->
-
-    <string name="pref_text_app_theme_light">Light</string>
-    <string name="pref_text_app_theme_dark">Dark</string>
-    <string name="pref_text_app_theme_system">System</string>
-
-    <string-array name="pref_text_app_theme">
-        <item>@string/pref_text_app_theme_light</item>
-        <item>@string/pref_text_app_theme_dark</item>
-        <item>@string/pref_text_app_theme_system</item>
-    </string-array>
-
-    <string-array name="pref_text_note_sort">
-        <item>By time of change</item>
-        <item>By time of creation</item>
-        <item>By categories</item>
-        <item>By color</item>
-    </string-array>
-
-    <string-array name="pref_text_note_color">
-        <item>Red</item>
-        <item>Purple</item>
-        <item>Indigo</item>
-        <item>Blue</item>
-        <item>Turquoise</item>
-        <item>Green</item>
-        <item>Yellow</item>
-        <item>Orange</item>
-        <item>Brown</item>
-        <item>Blue-gray</item>
-        <item>White</item>
-    </string-array>
-
-    <string-array name="pref_text_note_save_period">
-        <item>1 minute</item>
-        <item>3 minutes</item>
-        <item>7 minutes</item>
-    </string-array>
-
-    <string-array name="pref_text_alarm_repeat">
-        <item>@string/dialog_repeat_0</item>
-        <item>@string/dialog_repeat_1</item>
-        <item>@string/dialog_repeat_2</item>
-        <item>@string/dialog_repeat_3</item>
-        <item>@string/dialog_repeat_4</item>
-    </string-array>
-
-    <string-array name="pref_text_alarm_signal">
-        <item>Melody</item>
-        <item>Vibration</item>
-    </string-array>
-
     <!-- Preference toast text -->
 
     <string name="pref_toast_import_error">Sorry, but file is damaged! :(</string>
