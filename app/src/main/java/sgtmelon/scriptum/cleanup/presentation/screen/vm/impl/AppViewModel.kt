@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl
 
 import android.os.Bundle
-import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.IAppActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IAppViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
@@ -16,12 +15,9 @@ class AppViewModel(
 ) : ParentViewModel<IAppActivity>(callback),
         IAppViewModel {
 
-    @RunPrivate
-    lateinit var theme: Theme
+    private val theme: Theme = preferencesRepo.theme
 
     override fun onSetup(bundle: Bundle?) {
-        theme = preferencesRepo.theme
-
         callback?.setupTheme(theme)
         callback?.changeControlColor()
         callback?.changeSystemColor()

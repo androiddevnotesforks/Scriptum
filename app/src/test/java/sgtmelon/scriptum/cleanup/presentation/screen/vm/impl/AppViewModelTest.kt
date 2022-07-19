@@ -1,14 +1,20 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl
 
 import io.mockk.confirmVerified
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
+import io.mockk.verifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.IAppActivity
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.infrastructure.model.key.Theme
 import sgtmelon.scriptum.parent.ParentViewModelTest
 
 /**
@@ -30,58 +36,48 @@ class AppViewModelTest : ParentViewModelTest() {
     }
 
     @Test override fun onDestroy() {
+        every { preferencesRepo.theme } returns mockk()
+
         assertNotNull(viewModel.callback)
         viewModel.onDestroy()
         assertNull(viewModel.callback)
+
+        verifySequence {
+            preferencesRepo.theme
+        }
     }
 
     //endregion
 
     @Test fun onSetup() {
-        TODO()
-//        every { interactor.theme } returns Theme.LIGHT
-//        viewModel.onSetup()
-//        assertEquals(Theme.LIGHT, viewModel.theme)
-//
-//        every { interactor.theme } returns Theme.DARK
-//        viewModel.onSetup()
-//        assertEquals(Theme.DARK, viewModel.theme)
-//
-//        verifySequence {
-//            interactor.theme
-//            callback.setupTheme(Theme.LIGHT)
-//            callback.changeControlColor()
-//            callback.changeSystemColor()
-//
-//            interactor.theme
-//            callback.setupTheme(Theme.DARK)
-//            callback.changeControlColor()
-//            callback.changeSystemColor()
-//        }
+        val theme = mockk<Theme>()
+
+        every { preferencesRepo.theme } returns theme
+        viewModel.onSetup()
+
+        verifySequence {
+            preferencesRepo.theme
+            callback.setupTheme(theme)
+            callback.changeControlColor()
+            callback.changeSystemColor()
+        }
     }
 
     @Test fun isThemeChange() {
-        TODO()
-//        every { interactor.theme } returns Theme.UNDEFINED
-//        assertFalse(viewModel.isThemeChange())
-//
-//        every { interactor.theme } returns Theme.LIGHT
-//        viewModel.onSetup()
-//        assertFalse(viewModel.isThemeChange())
-//
-//        every { interactor.theme } returns Theme.DARK
-//        assertTrue(viewModel.isThemeChange())
-//
-//        verifySequence {
-//            interactor.theme
-//
-//            interactor.theme
-//            callback.setupTheme(Theme.LIGHT)
-//            callback.changeControlColor()
-//            callback.changeSystemColor()
-//
-//            interactor.theme
-//            interactor.theme
-//        }
+        val firstTheme = mockk<Theme>()
+        val secondTheme = mockk<Theme>()
+
+        every { preferencesRepo.theme } returns firstTheme
+        assertFalse(viewModel.isThemeChange())
+
+        every { preferencesRepo.theme } returns secondTheme
+        assertTrue(viewModel.isThemeChange())
+
+        verifySequence {
+            preferencesRepo.theme
+            preferencesRepo.theme
+
+            preferencesRepo.theme
+        }
     }
 }
