@@ -2,7 +2,7 @@ package sgtmelon.scriptum.domain.useCase.preferences
 
 import sgtmelon.scriptum.cleanup.presentation.provider.SummaryProvider
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
-import sgtmelon.scriptum.infrastructure.converter.ThemeConverter
+import sgtmelon.scriptum.infrastructure.converter.key.ThemeConverter
 
 class GetThemeSummaryUseCaseImpl(
     private val summaryProvider: SummaryProvider,

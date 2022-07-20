@@ -7,7 +7,7 @@ import sgtmelon.scriptum.cleanup.presentation.provider.SummaryProvider
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.GetSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.GetThemeSummaryUseCaseImpl
-import sgtmelon.scriptum.infrastructure.converter.ThemeConverter
+import sgtmelon.scriptum.infrastructure.converter.key.ThemeConverter
 
 @Module
 class GetSummaryUseCaseModule {

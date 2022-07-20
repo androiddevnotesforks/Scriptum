@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.infrastructure.converter
+package sgtmelon.scriptum.infrastructure.converter.key
 
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import io.mockk.every

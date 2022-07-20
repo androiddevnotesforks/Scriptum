@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.infrastructure.converter
+package sgtmelon.scriptum.infrastructure.converter.key
 
 import sgtmelon.scriptum.infrastructure.model.key.Sort
 

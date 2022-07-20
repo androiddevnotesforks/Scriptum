@@ -2,12 +2,12 @@ package sgtmelon.scriptum.data.repository.preferences
 
 import sgtmelon.scriptum.cleanup.extension.validIndexOfFirst
 import sgtmelon.scriptum.data.dataSource.PreferencesDataSource
-import sgtmelon.scriptum.infrastructure.converter.ColorConverter
-import sgtmelon.scriptum.infrastructure.converter.RepeatConverter
-import sgtmelon.scriptum.infrastructure.converter.SavePeriodConverter
 import sgtmelon.scriptum.infrastructure.converter.SignalConverter
-import sgtmelon.scriptum.infrastructure.converter.SortConverter
-import sgtmelon.scriptum.infrastructure.converter.ThemeConverter
+import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
+import sgtmelon.scriptum.infrastructure.converter.key.RepeatConverter
+import sgtmelon.scriptum.infrastructure.converter.key.SavePeriodConverter
+import sgtmelon.scriptum.infrastructure.converter.key.SortConverter
+import sgtmelon.scriptum.infrastructure.converter.key.ThemeConverter
 import sgtmelon.scriptum.infrastructure.model.MelodyItem
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.Repeat

@@ -6,12 +6,12 @@ import javax.inject.Singleton
 import sgtmelon.scriptum.data.dataSource.PreferencesDataSource
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepoImpl
-import sgtmelon.scriptum.infrastructure.converter.ColorConverter
-import sgtmelon.scriptum.infrastructure.converter.RepeatConverter
-import sgtmelon.scriptum.infrastructure.converter.SavePeriodConverter
 import sgtmelon.scriptum.infrastructure.converter.SignalConverter
-import sgtmelon.scriptum.infrastructure.converter.SortConverter
-import sgtmelon.scriptum.infrastructure.converter.ThemeConverter
+import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
+import sgtmelon.scriptum.infrastructure.converter.key.RepeatConverter
+import sgtmelon.scriptum.infrastructure.converter.key.SavePeriodConverter
+import sgtmelon.scriptum.infrastructure.converter.key.SortConverter
+import sgtmelon.scriptum.infrastructure.converter.key.ThemeConverter
 
 @Module
 class RepositoryModule {
