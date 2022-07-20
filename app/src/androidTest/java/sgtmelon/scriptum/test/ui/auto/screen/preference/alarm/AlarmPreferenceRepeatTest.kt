@@ -5,8 +5,8 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Repeat
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.AlarmPreferenceFragment
+import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.test.parent.ParentUiTest
 import sgtmelon.scriptum.test.parent.situation.IRepeatTest
 import sgtmelon.scriptum.ui.dialog.preference.RepeatDialogUi
@@ -36,32 +36,32 @@ class AlarmPreferenceRepeatTest : ParentUiTest(),
 
     @Test override fun repeatMin1440() = super.repeatMin1440()
 
-    override fun startTest(@Repeat value: Int) {
-        val initValue = switchValue(value)
+    override fun startTest(repeat: Repeat) {
+        val initValue = switchValue(repeat)
 
-        assertNotEquals(initValue, value)
+        assertNotEquals(initValue, repeat)
 
         runTest {
             openRepeatDialog {
-                onClickItem(value).onClickItem(initValue).onClickItem(value).onClickApply()
+                onClickItem(repeat).onClickItem(initValue).onClickItem(repeat).onClickApply()
             }
             assert()
         }
 
-        assertEquals(value, preferences.repeat)
+        assertEquals(repeat, preferences.repeat)
     }
 
     /**
      * Switch [Repeat] to another one.
      */
-    @Repeat private fun switchValue(@Repeat repeat: Int): Int {
-        val list = Repeat.list
-        var initValue: Int
+    private fun switchValue(repeat: Repeat): Repeat {
+        val list = Repeat.values()
+        var initValue: Repeat
 
         do {
             initValue = list.random()
-            preferences.repeat = initValue
-        } while (preferences.repeat == repeat)
+            preferencesRepo.repeat = initValue
+        } while (initValue == repeat)
 
         return initValue
     }

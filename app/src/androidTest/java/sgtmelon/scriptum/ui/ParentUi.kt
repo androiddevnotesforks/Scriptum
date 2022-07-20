@@ -13,10 +13,13 @@ import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.not
 import sgtmelon.scriptum.basic.exception.ThemeException
+import sgtmelon.scriptum.cleanup.dagger.module.base.ConverterModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.PreferencesModule
+import sgtmelon.scriptum.cleanup.dagger.module.base.data.DataSourceModule
+import sgtmelon.scriptum.cleanup.dagger.module.base.data.RepositoryModule
+import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.preferences.Preferences
-import sgtmelon.scriptum.infrastructure.preferences.PreferencesImpl
 
 /**
  * Parent class for access standard UI functions.
@@ -27,10 +30,23 @@ abstract class ParentUi {
 
     protected val context: Context = getInstrumentation().targetContext
 
-    protected val preferences: Preferences = PreferencesImpl(
+    protected val preferences: Preferences = PreferencesModule().providePreferences(
         PreferencesModule().providePreferenceKeyProvider(context.resources),
         PreferencesModule().providePreferenceDefProvider(context.resources),
         PreferencesModule().provideSharedPreferences(context)
+    )
+
+    /**
+     * It's needed for get enum values (already converted from [preferences]).
+     */
+    protected val preferencesRepo: PreferencesRepo = RepositoryModule().providePreferencesRepo(
+        DataSourceModule().providePreferencesDataSource(preferences),
+        ConverterModule().provideThemeConverter(),
+        ConverterModule().provideSortConverter(),
+        ConverterModule().provideColorConverter(),
+        ConverterModule().provideSavePeriodConverter(),
+        ConverterModule().provideRepeatConverter(),
+        ConverterModule().provideSignalConverter()
     )
 
     protected val appTheme: ThemeDisplayed get() = theme ?: throw ThemeException()

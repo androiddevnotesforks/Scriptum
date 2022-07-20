@@ -6,9 +6,9 @@ import org.junit.runner.RunWith
 import sgtmelon.common.utils.getCalendarWithAdd
 import sgtmelon.common.utils.getNewCalendar
 import sgtmelon.common.utils.getText
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Repeat
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Sort
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.AlarmActivity
+import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.test.parent.ParentUiTest
 import sgtmelon.scriptum.test.parent.situation.IRepeatTest
 
@@ -28,8 +28,8 @@ class AlarmClickRepeatTest : ParentUiTest(), IRepeatTest {
 
     @Test override fun repeatMin1440() = super.repeatMin1440()
 
-    override fun startTest(@Repeat value: Int) {
-        preferences.repeat = value
+    override fun startTest(repeat: Repeat) {
+        preferencesRepo.repeat = repeat
 
         data.insertNote().let {
             launchAlarm(it) { openAlarm(it) { onClickRepeat() }.mainScreen() }
@@ -37,7 +37,7 @@ class AlarmClickRepeatTest : ParentUiTest(), IRepeatTest {
     }
 
     @Test fun dateExist() = data.insertText().let {
-        preferences.repeat = Repeat.MIN_10
+        preferencesRepo.repeat = Repeat.MIN_10
 
         launchAlarm(it) {
             val existDate = getCalendarWithAdd(min = 10).getText()
@@ -53,7 +53,7 @@ class AlarmClickRepeatTest : ParentUiTest(), IRepeatTest {
      */
     @Test fun correctSeconds() = data.insertText(data.textNote.copy(color = 1)).let {
         preferences.sort = Sort.COLOR
-        preferences.repeat = listOf(
+        preferencesRepo.repeat = listOf(
             Repeat.MIN_10, Repeat.MIN_30, Repeat.MIN_60,
             Repeat.MIN_180, Repeat.MIN_1440
         ).random()

@@ -3,8 +3,8 @@ package sgtmelon.scriptum.ui.dialog.preference
 import sgtmelon.safedialog.dialog.SingleDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Repeat
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.NotePreferenceFragment
+import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.ui.dialog.parent.ParentSelectDialogUi
 
 /**
@@ -19,9 +19,10 @@ class RepeatDialogUi : ParentSelectDialogUi(
     override val initCheck: Int = preferences.repeat
     override var check: Int = initCheck
 
-    fun onClickItem(@Repeat position: Int) = apply {
-        check = position
+    fun onClickItem(repeat: Repeat) = apply {
+        val position = repeat.ordinal
 
+        check = position
         getItem(position).click()
         assert()
     }

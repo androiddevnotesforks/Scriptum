@@ -61,6 +61,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.AppActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.IAlarmViewModel
 import sgtmelon.scriptum.cleanup.presentation.view.RippleContainer
+import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import android.graphics.Color as AndroidColor
 
@@ -321,9 +322,9 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     override fun vibrateCancel() = vibratorControl.cancel()
 
 
-    override fun showRepeatToast(select: Int) {
+    override fun showRepeatToast(repeat: Repeat) {
         val repeatArray = resources.getStringArray(R.array.pref_alarm_repeat)
-        val repeatText = repeatArray.getOrNull(select) ?: return
+        val repeatText = repeatArray.getOrNull(repeat.ordinal) ?: return
 
         toastControl.show(getString(R.string.toast_alarm_repeat, repeatText))
     }

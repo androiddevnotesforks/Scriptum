@@ -10,7 +10,6 @@ import sgtmelon.common.utils.runBack
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.ISignalInteractor
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Repeat
 import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note.Default
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note.Intent
@@ -18,6 +17,8 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.notification.IAlarmActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.IAlarmViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
+import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.model.state.SignalState
 
 /**
@@ -25,6 +26,7 @@ import sgtmelon.scriptum.infrastructure.model.state.SignalState
  */
 class AlarmViewModel(
     callback: IAlarmActivity,
+    private val preferencesRepo: PreferencesRepo,
     private val interactor: IAlarmInteractor,
     private val signalInteractor: ISignalInteractor
 ) : ParentViewModel<IAlarmActivity>(callback),
@@ -36,7 +38,7 @@ class AlarmViewModel(
 
     @RunPrivate var signalState: SignalState? = null
 
-    private val longWaitRunnable = Runnable { repeatFinish(interactor.repeat) }
+    private val longWaitRunnable = Runnable { repeatFinish(preferencesRepo.repeat) }
     private val vibratorRunnable = object : Runnable {
         override fun run() {
             callback.vibrateStart(vibratorPattern)
@@ -128,13 +130,13 @@ class AlarmViewModel(
         callback?.finish()
     }
 
-    override fun onClickRepeat() = repeatFinish(interactor.repeat)
+    override fun onClickRepeat() = repeatFinish(preferencesRepo.repeat)
 
     override fun onResultRepeatDialog(@IdRes itemId: Int) {
-        repeatFinish(repeat = getRepeatById(itemId) ?: interactor.repeat)
+        repeatFinish(repeat = getRepeatById(itemId) ?: preferencesRepo.repeat)
     }
 
-    @RunPrivate fun getRepeatById(@IdRes itemId: Int): Int? = when (itemId) {
+    @RunPrivate fun getRepeatById(@IdRes itemId: Int): Repeat? = when (itemId) {
         R.id.item_repeat_0 -> Repeat.MIN_10
         R.id.item_repeat_1 -> Repeat.MIN_30
         R.id.item_repeat_2 -> Repeat.MIN_60
@@ -146,7 +148,7 @@ class AlarmViewModel(
     /**
      * Call this when need set alarm repeat with screen finish.
      */
-    @RunPrivate fun repeatFinish(@Repeat repeat: Int) {
+    @RunPrivate fun repeatFinish(repeat: Repeat) {
         val valueArray = callback?.getIntArray(R.array.pref_alarm_repeat_array) ?: return
 
         viewModelScope.launch {

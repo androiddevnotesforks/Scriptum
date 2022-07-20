@@ -186,10 +186,14 @@ class ViewModelModule {
     @ActivityScope
     fun provideAlarmViewModel(
         activity: AlarmActivity,
+        preferencesRepo: PreferencesRepo,
         interactor: IAlarmInteractor,
         signalInteractor: ISignalInteractor
     ): IAlarmViewModel {
-        val factory = ViewModelFactory.Alarm(activity, interactor, signalInteractor)
+        val factory = ViewModelFactory.Alarm(
+            activity, preferencesRepo, interactor, signalInteractor
+        )
+
         return ViewModelProvider(activity, factory)[AlarmViewModel::class.java]
     }
 

@@ -6,6 +6,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.receiver.SystemReceiver
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.AlarmActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.IAlarmViewModel
+import sgtmelon.scriptum.infrastructure.model.key.Repeat
 
 /**
  * Interface for communication [IAlarmViewModel] with [AlarmActivity].
@@ -56,7 +57,7 @@ interface IAlarmActivity : SystemReceiver.Bridge.Alarm,
     fun vibrateCancel()
 
 
-    fun showRepeatToast(select: Int)
+    fun showRepeatToast(repeat: Repeat)
 
     fun getIntArray(@ArrayRes arrayId: Int): IntArray
 

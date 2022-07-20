@@ -6,11 +6,14 @@ import androidx.annotation.CallSuper
 import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.After
 import org.junit.Before
-import sgtmelon.scriptum.cleanup.dagger.module.base.ProviderModule
+import sgtmelon.scriptum.cleanup.dagger.module.base.ConverterModule
+import sgtmelon.scriptum.cleanup.dagger.module.base.PreferencesModule
+import sgtmelon.scriptum.cleanup.dagger.module.base.data.DataSourceModule
+import sgtmelon.scriptum.cleanup.dagger.module.base.data.RepositoryModule
 import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
 import sgtmelon.scriptum.data.TestData
+import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.preferences.Preferences
-import sgtmelon.scriptum.infrastructure.preferences.PreferencesImpl
 
 /**
  * Parent class for tests
@@ -20,10 +23,25 @@ abstract class ParentTest {
     protected val instrumentation: Instrumentation = InstrumentationRegistry.getInstrumentation()
     protected val context: Context = instrumentation.targetContext
 
-    protected val preferences: Preferences = PreferencesImpl(
-        ProviderModule().providePreferenceKeyProvider(context.resources),
-        ProviderModule().providePreferenceDefProvider(context.resources),
-        ProviderModule().provideSharedPreferences(context)
+    // TODO make common injection
+    protected val preferences: Preferences = PreferencesModule().providePreferences(
+        PreferencesModule().providePreferenceKeyProvider(context.resources),
+        PreferencesModule().providePreferenceDefProvider(context.resources),
+        PreferencesModule().provideSharedPreferences(context)
+    )
+
+    /**
+     * It's needed for get enum values (already converted from [preferences]).
+     */
+    // TODO make common injection
+    protected val preferencesRepo: PreferencesRepo = RepositoryModule().providePreferencesRepo(
+        DataSourceModule().providePreferencesDataSource(preferences),
+        ConverterModule().provideThemeConverter(),
+        ConverterModule().provideSortConverter(),
+        ConverterModule().provideColorConverter(),
+        ConverterModule().provideSavePeriodConverter(),
+        ConverterModule().provideRepeatConverter(),
+        ConverterModule().provideSignalConverter()
     )
 
     protected val data = TestData(RoomProvider(context), preferences)

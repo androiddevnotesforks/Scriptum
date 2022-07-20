@@ -1,17 +1,17 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.impl.notification
 
+import java.util.Calendar
+import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.common.utils.getCalendarWithAdd
 import sgtmelon.common.utils.getText
-import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.ParentInteractor
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Repeat
-import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.IAlarmViewModel
-import java.util.*
+import sgtmelon.scriptum.infrastructure.model.key.Repeat
+import sgtmelon.scriptum.infrastructure.preferences.Preferences
 
 /**
  * Interactor for [IAlarmViewModel].
@@ -22,8 +22,6 @@ class AlarmInteractor(
     private val noteRepo: INoteRepo
 ) : ParentInteractor(),
     IAlarmInteractor {
-
-    @Repeat override val repeat: Int get() = preferences.repeat
 
     override val volume: Int get() = preferences.volume
 
@@ -43,9 +41,9 @@ class AlarmInteractor(
     override suspend fun setupRepeat(
         item: NoteItem,
         valueArray: IntArray,
-        @Repeat repeat: Int
+        repeat: Repeat
     ): Calendar? {
-        val minute = valueArray.getOrNull(repeat) ?: return null
+        val minute = valueArray.getOrNull(repeat.ordinal) ?: return null
         val calendar = getCalendarWithAdd(minute)
 
         checkDateExist(calendar)

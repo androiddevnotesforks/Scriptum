@@ -3,7 +3,6 @@ package sgtmelon.scriptum.infrastructure.preferences
 import android.content.SharedPreferences
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.notification.SignalInteractor
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Repeat
 import sgtmelon.scriptum.cleanup.domain.model.annotation.SavePeriod
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Sort
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvider
@@ -67,7 +66,7 @@ class PreferencesImpl(
 
     // Alarm settings
 
-    @Repeat override var repeat: Int
+    override var repeat: Int
         get() = preferences.getInt(key.repeat, def.repeat)
         set(value) = edit { putInt(key.repeat, value) }
 

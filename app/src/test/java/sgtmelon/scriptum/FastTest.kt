@@ -26,7 +26,6 @@ import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IParentNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Repeat
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Sort
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
@@ -114,22 +113,6 @@ object FastTest {
 
         verifySequence {
             repeat(valueList.size) { preferences.defaultColor }
-        }
-    }
-
-    fun getRepeat(preferences: Preferences, callFunc: () -> Int) {
-        fun checkRequestGet(value: Int) {
-            every { preferences.repeat } returns value
-            assertEquals(callFunc(), value)
-        }
-
-        val valueList = listOf(Repeat.MIN_10, Repeat.MIN_180, Random.nextInt())
-        for (it in valueList) {
-            checkRequestGet(it)
-        }
-
-        verifySequence {
-            repeat(valueList.size) { preferences.repeat }
         }
     }
 

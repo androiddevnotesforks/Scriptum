@@ -9,9 +9,9 @@ import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Repeat
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.AlarmPreferenceFragment
 import sgtmelon.scriptum.infrastructure.model.MelodyItem
+import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.test.parent.ParentRotationTest
 import sgtmelon.scriptum.test.ui.auto.screen.preference.alarm.IAlarmPreferenceTest
 import sgtmelon.scriptum.ui.dialog.preference.VolumeDialogUi
@@ -23,7 +23,7 @@ import sgtmelon.scriptum.ui.dialog.preference.VolumeDialogUi
 class AlarmPreferenceRotationTest : ParentRotationTest(), IAlarmPreferenceTest {
 
     @Test fun content() = runTest({
-        preferences.repeat = Repeat.list.random()
+        preferencesRepo.repeat = Repeat.values().random()
 
         val signalArray = getLogic().getRandomSignal()
         getLogic().alarmInteractor.updateSignal(signalArray)
@@ -39,12 +39,12 @@ class AlarmPreferenceRotationTest : ParentRotationTest(), IAlarmPreferenceTest {
     }
 
     @Test fun repeatDialog() {
-        val initValue = Repeat.list.random()
+        val initValue = Repeat.values().random()
         val value = getRepeatClick(initValue)
 
         assertNotEquals(initValue, value)
 
-        runTest({ preferences.repeat = initValue }) {
+        runTest({ preferencesRepo.repeat = initValue }) {
             openRepeatDialog {
                 onClickItem(value)
                 automator.rotateSide()
@@ -57,8 +57,8 @@ class AlarmPreferenceRotationTest : ParentRotationTest(), IAlarmPreferenceTest {
         assertEquals(value, preferences.repeat)
     }
 
-    @Repeat private fun getRepeatClick(@Repeat initValue: Int): Int {
-        val newValue = Repeat.list.random()
+    private fun getRepeatClick(initValue: Repeat): Repeat {
+        val newValue = Repeat.values().random()
         return if (newValue == initValue) getRepeatClick(initValue) else newValue
     }
 

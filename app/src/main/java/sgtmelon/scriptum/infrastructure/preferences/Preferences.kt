@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.infrastructure.preferences
 
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Repeat
 import sgtmelon.scriptum.cleanup.domain.model.annotation.SavePeriod
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Sort
 
@@ -41,7 +40,7 @@ interface Preferences {
 
     // Alarm settings
 
-    @Repeat var repeat: Int
+    var repeat: Int
 
     var signal: String
 

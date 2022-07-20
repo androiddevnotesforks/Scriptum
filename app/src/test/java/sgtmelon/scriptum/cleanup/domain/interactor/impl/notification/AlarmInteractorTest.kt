@@ -1,14 +1,27 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.impl.notification
 
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.coVerifySequence
+import io.mockk.confirmVerified
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
+import io.mockk.spyk
+import io.mockk.verifySequence
+import java.util.Calendar
+import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Test
-import sgtmelon.common.utils.*
-import sgtmelon.scriptum.*
-import sgtmelon.scriptum.infrastructure.preferences.Preferences
+import sgtmelon.common.utils.clearSeconds
+import sgtmelon.common.utils.getCalendarWithAdd
+import sgtmelon.common.utils.getNewCalendar
+import sgtmelon.common.utils.getText
+import sgtmelon.common.utils.nextString
+import sgtmelon.scriptum.FastMock
+import sgtmelon.scriptum.FastTest
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
@@ -16,9 +29,9 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem.Alarm
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem.Note
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
+import sgtmelon.scriptum.infrastructure.model.key.Repeat
+import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.parent.ParentInteractorTest
-import java.util.*
-import kotlin.random.Random
 
 /**
  * Test for [AlarmInteractor].
@@ -40,8 +53,6 @@ class AlarmInteractorTest : ParentInteractorTest() {
         confirmVerified(preferences, alarmRepo, noteRepo)
     }
 
-
-    @Test fun getRepeat() = FastTest.getRepeat(preferences) { interactor.repeat }
 
     @Test fun getVolume() = FastTest.getVolume(preferences) { interactor.volume }
 
@@ -78,10 +89,9 @@ class AlarmInteractorTest : ParentInteractorTest() {
 
     @Test fun setupRepeat() = startCoTest {
         val item = mockk<NoteItem>()
-        val size = getRandomSize()
-        val valueArray = IntArray(size) { Random.nextInt() }
-        val repeat = valueArray.indices.random()
-        val minute = valueArray[repeat]
+        val valueArray = IntArray(Repeat.values().size) { Random.nextInt() }
+        val repeat = Repeat.values().random()
+        val minute = valueArray[repeat.ordinal]
 
         val calendar = mockk<Calendar>()
         val calendarText = nextString()

@@ -3,8 +3,8 @@ package sgtmelon.scriptum.test.ui.auto.screen.alarm
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Repeat
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.AlarmActivity
+import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.test.parent.ParentUiTest
 import sgtmelon.scriptum.test.parent.situation.IRepeatTest
 
@@ -34,7 +34,7 @@ class AlarmMoreDialogTest : ParentUiTest(), IRepeatTest {
 
     @Test override fun repeatMin1440() = super.repeatMin1440()
 
-    override fun startTest(@Repeat value: Int) = data.insertNote().let {
-        launchAlarm(it) { openAlarm(it) { openMoreDialog { onClickRepeat(value) } }.mainScreen() }
+    override fun startTest(repeat: Repeat) = data.insertNote().let {
+        launchAlarm(it) { openAlarm(it) { openMoreDialog { onClickRepeat(repeat) } }.mainScreen() }
     }
 }

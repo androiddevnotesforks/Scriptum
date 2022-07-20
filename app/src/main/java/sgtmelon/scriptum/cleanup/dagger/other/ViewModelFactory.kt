@@ -195,12 +195,13 @@ object ViewModelFactory {
 
     class Alarm(
         private val activity: AlarmActivity,
+        private val preferencesRepo: PreferencesRepo,
         private val interactor: IAlarmInteractor,
         private val signalInteractor: ISignalInteractor
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return modelClass.create(AlarmViewModel::class) {
-                AlarmViewModel(activity, interactor, signalInteractor)
+                AlarmViewModel(activity, preferencesRepo, interactor, signalInteractor)
             }
         }
     }

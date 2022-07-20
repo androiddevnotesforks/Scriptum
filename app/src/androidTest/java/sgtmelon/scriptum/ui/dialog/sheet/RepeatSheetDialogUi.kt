@@ -5,8 +5,8 @@ import sgtmelon.scriptum.basic.extension.click
 import sgtmelon.scriptum.basic.extension.isDisplayed
 import sgtmelon.scriptum.basic.extension.isEnabled
 import sgtmelon.scriptum.basic.extension.withTextColor
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Repeat
 import sgtmelon.scriptum.cleanup.presentation.dialog.sheet.RepeatSheetDialog
+import sgtmelon.scriptum.infrastructure.model.key.Repeat
 
 /**
  * Class for UI control [RepeatSheetDialog].
@@ -24,7 +24,7 @@ class RepeatSheetDialogUi : ParentSheetDialogUi(R.id.repeat_container, R.id.repe
 
     //endregion
 
-    fun onClickRepeat(@Repeat repeat: Int) {
+    fun onClickRepeat(repeat: Repeat) {
         when(repeat) {
             Repeat.MIN_10 -> repeat0Button.click()
             Repeat.MIN_30 -> repeat1Button.click()

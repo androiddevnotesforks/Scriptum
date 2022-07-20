@@ -23,11 +23,12 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.ISignalInteractor
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Repeat
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.notification.IAlarmActivity
+import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.getRandomSize
+import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.model.state.SignalState
 import sgtmelon.scriptum.isDivideTwoEntirely
 import sgtmelon.scriptum.parent.ParentViewModelTest
@@ -50,12 +51,15 @@ class AlarmViewModelTest : ParentViewModelTest() {
     private val data = TestData.Note
 
     @MockK lateinit var callback: IAlarmActivity
+    @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var interactor: IAlarmInteractor
     @MockK lateinit var signalInteractor: ISignalInteractor
 
     @MockK lateinit var bundle: Bundle
 
-    private val viewModel by lazy { AlarmViewModel(callback, interactor, signalInteractor) }
+    private val viewModel by lazy {
+        AlarmViewModel(callback, preferencesRepo, interactor, signalInteractor)
+    }
     private val spyViewModel by lazy { spyk(viewModel) }
 
     @After override fun tearDown() {
@@ -314,27 +318,27 @@ class AlarmViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onClickRepeat() = startCoTest {
-        val repeat = Random.nextInt()
+        val repeat = mockk<Repeat>()
 
-        every { interactor.repeat } returns repeat
+        every { preferencesRepo.repeat } returns repeat
         every { spyViewModel.repeatFinish(repeat) } returns Unit
 
         spyViewModel.onClickRepeat()
 
         verifySequence {
             spyViewModel.onClickRepeat()
-            interactor.repeat
+            preferencesRepo.repeat
             spyViewModel.repeatFinish(repeat)
         }
     }
 
     @Test fun onResultRepeatDialog() = startCoTest {
         val itemId = Random.nextInt()
-        val repeatFirst = Random.nextInt()
-        val repeatSecond = Random.nextInt()
+        val repeatFirst = mockk<Repeat>()
+        val repeatSecond = mockk<Repeat>()
 
         every { spyViewModel.getRepeatById(itemId) } returns null
-        every { interactor.repeat } returns repeatFirst
+        every { preferencesRepo.repeat } returns repeatFirst
         every { spyViewModel.repeatFinish(repeatFirst) } returns Unit
 
         spyViewModel.onResultRepeatDialog(itemId)
@@ -347,7 +351,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
         verifySequence {
             spyViewModel.onResultRepeatDialog(itemId)
             spyViewModel.getRepeatById(itemId)
-            interactor.repeat
+            preferencesRepo.repeat
             spyViewModel.repeatFinish(repeatFirst)
 
             spyViewModel.onResultRepeatDialog(itemId)
@@ -368,7 +372,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
     @Test fun repeatFinish() {
         val id = Random.nextLong()
         val item = mockk<NoteItem>()
-        val repeat = Random.nextInt()
+        val repeat = mockk<Repeat>()
         val repeatArray = IntArray(getRandomSize()) { Random.nextInt() }
         val calendar = mockk<Calendar>()
 

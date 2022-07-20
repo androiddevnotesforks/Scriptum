@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.test.parent.situation
 
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Repeat
+import sgtmelon.scriptum.infrastructure.model.key.Repeat
+
 
 /**
  * Interface describes [Repeat] tests.
@@ -17,6 +18,6 @@ interface IRepeatTest {
 
     fun repeatMin1440() = startTest(Repeat.MIN_1440)
 
-    fun startTest(@Repeat value: Int)
+    fun startTest(repeat: Repeat)
 
 }
