@@ -61,11 +61,6 @@
     <string name="dialog_title_import">Choose file</string>
 
     <string name="dialog_title_repeat">Select repeat</string>
-    <string name="dialog_repeat_0">10 minutes</string>
-    <string name="dialog_repeat_1">30 minutes</string>
-    <string name="dialog_repeat_2">1 hour</string>
-    <string name="dialog_repeat_3">3 hours</string>
-    <string name="dialog_repeat_4">1 day</string>
 
     <!-- Dialog menu buttons -->
     <string name="dialog_menu_delete">Delete</string>

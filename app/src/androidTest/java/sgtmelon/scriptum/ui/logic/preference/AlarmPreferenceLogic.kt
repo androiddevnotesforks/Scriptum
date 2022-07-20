@@ -32,7 +32,10 @@ class AlarmPreferenceLogic : ParentPreferenceLogic() {
     override fun getScreenList(): List<PreferenceItem> {
         val list = mutableListOf(
             Header(R.string.pref_header_common),
-            Summary.Text(R.string.pref_title_alarm_repeat, provider.repeat[preferences.repeat])
+            Summary.Text(
+                R.string.pref_title_alarm_repeat,
+                provider.getRepeat(preferencesRepo.repeat)
+            )
         )
 
         val signalSummary = alarmInteractor.getSignalSummary(signalInteractor.typeCheck)

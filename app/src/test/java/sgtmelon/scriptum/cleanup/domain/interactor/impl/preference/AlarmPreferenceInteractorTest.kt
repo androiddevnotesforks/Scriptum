@@ -45,50 +45,6 @@ class AlarmPreferenceInteractorTest : ParentInteractorTest() {
 
     //endregion
 
-    @Test fun getRepeat() = FastTest.getRepeat(preferences) { interactor.repeat }
-
-    @Test fun getRepeatSummary() {
-        val size = getRandomSize()
-        val valueArray = Array(size) { nextString() }
-        val index = valueArray.indices.random()
-        val value = valueArray[index]
-
-        every { summaryProvider.repeat } returns valueArray
-        every { spyInteractor.repeat } returns -1
-        assertNull(spyInteractor.getRepeatSummary())
-
-        every { spyInteractor.repeat } returns index
-        assertEquals(value, spyInteractor.getRepeatSummary())
-
-        verifySequence {
-            repeat(times = 2) {
-                spyInteractor.getRepeatSummary()
-                summaryProvider.repeat
-                spyInteractor.repeat
-            }
-        }
-    }
-
-    @Test fun updateRepeat() {
-        val value = Random.nextInt()
-        val summary = nextString()
-
-        every { preferences.repeat = value } returns Unit
-        every { spyInteractor.getRepeatSummary() } returns null
-        assertNull(spyInteractor.updateRepeat(value))
-
-        every { spyInteractor.getRepeatSummary() } returns summary
-        assertEquals(summary, spyInteractor.updateRepeat(value))
-
-        verifySequence {
-            repeat(times = 2) {
-                spyInteractor.updateRepeat(value)
-                preferences.repeat = value
-                spyInteractor.getRepeatSummary()
-            }
-        }
-    }
-
 
     @Test fun getSignalSummaryArray() {
         val summaryArray = Array(size = 3) { nextString() }

@@ -4,6 +4,7 @@ package sgtmelon.scriptum.cleanup.presentation.provider
 import android.content.res.Resources
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.model.key.SavePeriod
 import sgtmelon.scriptum.infrastructure.model.key.Sort
 import sgtmelon.scriptum.infrastructure.model.key.Theme
@@ -63,7 +64,18 @@ class SummaryProvider(private val resources: Resources) {
         return resources.getString(id)
     }
 
-    val repeat: Array<String> = resources.getStringArray(R.array.pref_alarm_repeat)
+    fun getRepeat(repeat: Repeat): String {
+        val id = when (repeat) {
+            Repeat.MIN_10 -> R.string.pref_alarm_repeat_0
+            Repeat.MIN_30 -> R.string.pref_alarm_repeat_1
+            Repeat.MIN_60 -> R.string.pref_alarm_repeat_2
+            Repeat.MIN_180 -> R.string.pref_alarm_repeat_3
+            Repeat.MIN_1440 -> R.string.pref_alarm_repeat_4
+        }
+
+        return resources.getString(id)
+    }
+
     val signal: Array<String> = resources.getStringArray(R.array.pref_alarm_signal)
 
     fun getVolume(value: Int): String {

@@ -28,13 +28,11 @@
     <string name="pref_note_save_period_3">3 минуты</string>
     <string name="pref_note_save_period_7">7 минут</string>
 
-    <string-array name="pref_alarm_repeat">
-        <item>@string/dialog_repeat_0</item>
-        <item>@string/dialog_repeat_1</item>
-        <item>@string/dialog_repeat_2</item>
-        <item>@string/dialog_repeat_3</item>
-        <item>@string/dialog_repeat_4</item>
-    </string-array>
+    <string name="pref_alarm_repeat_0">10 минут</string>
+    <string name="pref_alarm_repeat_1">30 минут</string>
+    <string name="pref_alarm_repeat_2">1 час</string>
+    <string name="pref_alarm_repeat_3">3 часа</string>
+    <string name="pref_alarm_repeat_4">1 день</string>
 
     <string-array name="pref_alarm_signal">
         <item>Мелодия</item>

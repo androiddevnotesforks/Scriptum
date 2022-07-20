@@ -6,6 +6,7 @@ import io.mockk.coVerifySequence
 import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import io.mockk.spyk
 import io.mockk.verifySequence
 import kotlin.random.Random
@@ -21,6 +22,9 @@ import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.ISignal
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IAlarmPreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.model.key.PermissionResult
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IAlarmPreferenceFragment
+import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.domain.useCase.preferences.GetSummaryUseCase
+import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.model.state.SignalState
 import sgtmelon.scriptum.parent.ParentViewModelTest
 
@@ -33,19 +37,25 @@ class AlarmPreferenceViewModelTest : ParentViewModelTest() {
     //region Setup
 
     @MockK lateinit var callback: IAlarmPreferenceFragment
+    @MockK lateinit var preferencesRepo: PreferencesRepo
+    @MockK lateinit var getRepeatSummary: GetSummaryUseCase
     @MockK lateinit var interactor: IAlarmPreferenceInteractor
     @MockK lateinit var signalInteractor: ISignalInteractor
 
     private val melodyList = TestData.Melody.melodyList
 
     private val viewModel by lazy {
-        AlarmPreferenceViewModel(callback, interactor, signalInteractor)
+        AlarmPreferenceViewModel(
+            callback,
+            preferencesRepo, getRepeatSummary,
+            interactor, signalInteractor
+        )
     }
     private val spyViewModel by lazy { spyk(viewModel) }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(callback, interactor, signalInteractor)
+        confirmVerified(callback, preferencesRepo, getRepeatSummary, interactor, signalInteractor)
     }
 
     @Test override fun onDestroy() {
@@ -62,7 +72,7 @@ class AlarmPreferenceViewModelTest : ParentViewModelTest() {
         val signalSummary = nextString()
         val volumeSummary = nextString()
 
-        every { interactor.getRepeatSummary() } returns repeatSummary
+        every { getRepeatSummary() } returns repeatSummary
         every { signalInteractor.typeCheck } returns typeCheck
         every { interactor.getSignalSummary(typeCheck) } returns signalSummary
         every { interactor.getVolumeSummary() } returns volumeSummary
@@ -77,7 +87,7 @@ class AlarmPreferenceViewModelTest : ParentViewModelTest() {
             callback.setup()
 
             spyViewModel.callback
-            interactor.getRepeatSummary()
+            getRepeatSummary()
             callback.updateRepeatSummary(repeatSummary)
 
             spyViewModel.callback
@@ -213,14 +223,14 @@ class AlarmPreferenceViewModelTest : ParentViewModelTest() {
 
 
     @Test fun onClickRepeat() {
-        val value = Random.nextInt()
+        val value = mockk<Repeat>()
 
-        every { interactor.repeat } returns value
+        every { preferencesRepo.repeat } returns value
 
         viewModel.onClickRepeat()
 
         verifySequence {
-            interactor.repeat
+            preferencesRepo.repeat
             callback.showRepeatDialog(value)
         }
     }
@@ -229,12 +239,12 @@ class AlarmPreferenceViewModelTest : ParentViewModelTest() {
         val value = Random.nextInt()
         val summary = nextString()
 
-        every { interactor.updateRepeat(value) } returns summary
+        every { getRepeatSummary(value) } returns summary
 
         viewModel.onResultRepeat(value)
 
         verifySequence {
-            interactor.updateRepeat(value)
+            getRepeatSummary(value)
             callback.updateRepeatSummary(summary)
         }
     }

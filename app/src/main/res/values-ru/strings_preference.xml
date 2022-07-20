@@ -23,13 +23,13 @@
 
     <string name="pref_title_note">Заметки</string>
     <string name="pref_title_note_sort">Сортировка заметок</string>
-    <string name="pref_title_note_color">Цвет заметки по умолчанию</string>
+    <string name="pref_title_note_color">Цвет заметки по-умолчанию</string>
     <string name="pref_title_note_save_pause">При остановке</string>
     <string name="pref_title_note_save_auto">Автоматическое сохранение</string>
     <string name="pref_title_note_save_period">Период автосохранения</string>
 
     <string name="pref_title_alarm">Уведомления</string>
-    <string name="pref_title_alarm_repeat">Время повтора</string>
+    <string name="pref_title_alarm_repeat">Время повтора по-умолчанию</string>
     <string name="pref_title_alarm_signal">Тип сигнала</string>
     <string name="pref_title_alarm_melody">Мелодия</string>
     <string name="pref_title_alarm_volume">Громкость</string>

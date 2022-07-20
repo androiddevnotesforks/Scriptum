@@ -1,9 +1,9 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference
 
 import androidx.annotation.StringRes
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Repeat
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.AlarmPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IAlarmPreferenceViewModel
+import sgtmelon.scriptum.infrastructure.model.key.Repeat
 
 /**
  * Interface for communication [IAlarmPreferenceViewModel] with [AlarmPreferenceFragment].
@@ -14,9 +14,9 @@ interface IAlarmPreferenceFragment {
 
     fun setup()
 
-    fun updateRepeatSummary(summary: String?)
+    fun updateRepeatSummary(summary: String)
 
-    fun showRepeatDialog(@Repeat value: Int)
+    fun showRepeatDialog(repeat: Repeat)
 
     fun updateSignalSummary(summary: String?)
 

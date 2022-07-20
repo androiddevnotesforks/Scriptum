@@ -18,6 +18,7 @@ import sgtmelon.scriptum.cleanup.extension.addIdlingListener
 /**
  * Class for help animate [TextView] ending with loading dots.
  */
+// TODO move into another library
 class DotAnimControl(private val type: DotAnimType, private val callback: Callback) {
 
     private var animator: ValueAnimator? = null

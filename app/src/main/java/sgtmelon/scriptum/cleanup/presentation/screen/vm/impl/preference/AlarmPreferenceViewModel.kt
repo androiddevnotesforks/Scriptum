@@ -3,22 +3,25 @@ package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import sgtmelon.common.test.annotation.RunPrivate
+import sgtmelon.common.utils.runBack
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IAlarmPreferenceInteractor
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Repeat
-import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.cleanup.domain.model.key.PermissionResult
-import sgtmelon.common.utils.runBack
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IAlarmPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IAlarmPreferenceViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
+import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.domain.useCase.preferences.GetSummaryUseCase
 
 /**
  * ViewModel for [IAlarmPreferenceFragment].
  */
 class AlarmPreferenceViewModel(
     callback: IAlarmPreferenceFragment,
+    private val preferencesRepo: PreferencesRepo,
+    private val getRepeatSummary: GetSummaryUseCase,
     private val interactor: IAlarmPreferenceInteractor,
     private val signalInteractor: ISignalInteractor
 ) : ParentViewModel<IAlarmPreferenceFragment>(callback),
@@ -27,7 +30,7 @@ class AlarmPreferenceViewModel(
     override fun onSetup(bundle: Bundle?) {
         callback?.setup()
 
-        callback?.updateRepeatSummary(interactor.getRepeatSummary())
+        callback?.updateRepeatSummary(getRepeatSummary())
         callback?.updateSignalSummary(interactor.getSignalSummary(signalInteractor.typeCheck))
         callback?.updateVolumeSummary(interactor.getVolumeSummary())
 
@@ -74,11 +77,11 @@ class AlarmPreferenceViewModel(
     }
 
     override fun onClickRepeat() {
-        callback?.showRepeatDialog(interactor.repeat)
+        callback?.showRepeatDialog(preferencesRepo.repeat)
     }
 
-    override fun onResultRepeat(@Repeat value: Int) {
-        callback?.updateRepeatSummary(interactor.updateRepeat(value))
+    override fun onResultRepeat(value: Int) {
+        callback?.updateRepeatSummary(getRepeatSummary(value))
     }
 
     override fun onClickSignal() {

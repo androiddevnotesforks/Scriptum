@@ -6,11 +6,11 @@ import android.os.Build
 import android.os.Bundle
 import androidx.annotation.StringRes
 import androidx.preference.Preference
+import javax.inject.Inject
 import sgtmelon.safedialog.utils.safeDismiss
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.annotation.PermissionRequest
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Repeat
 import sgtmelon.scriptum.cleanup.domain.model.key.DotAnimType
 import sgtmelon.scriptum.cleanup.domain.model.key.PermissionResult
 import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
@@ -26,7 +26,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IAlarmPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IAlarmPreferenceViewModel
-import javax.inject.Inject
+import sgtmelon.scriptum.infrastructure.model.key.Repeat
 
 /**
  * Fragment of notification (alarm) preferences.
@@ -190,12 +190,13 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
         volumeDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }
 
-    override fun updateRepeatSummary(summary: String?) {
+    override fun updateRepeatSummary(summary: String) {
         repeatPreference?.summary = summary
     }
 
-    override fun showRepeatDialog(@Repeat value: Int) = openState.tryInvoke {
-        repeatDialog.setArguments(value).safeShow(fm, DialogFactory.Preference.Alarm.REPEAT)
+    override fun showRepeatDialog(repeat: Repeat) = openState.tryInvoke {
+        repeatDialog.setArguments(repeat.ordinal)
+            .safeShow(fm, DialogFactory.Preference.Alarm.REPEAT)
     }
 
     override fun updateSignalSummary(summary: String?) {

@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference
 
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Repeat
 import sgtmelon.scriptum.cleanup.domain.model.key.PermissionResult
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IAlarmPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IParentViewModel
@@ -16,7 +15,7 @@ interface IAlarmPreferenceViewModel : IParentViewModel {
 
     fun onClickRepeat()
 
-    fun onResultRepeat(@Repeat value: Int)
+    fun onResultRepeat(value: Int)
 
     fun onClickSignal()
 

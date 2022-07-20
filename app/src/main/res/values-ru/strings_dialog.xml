@@ -61,11 +61,6 @@
     <string name="dialog_title_import">Выберите файл</string>
 
     <string name="dialog_title_repeat">Выбрать повтор</string>
-    <string name="dialog_repeat_0">10 минут</string>
-    <string name="dialog_repeat_1">30 минут</string>
-    <string name="dialog_repeat_2">1 час</string>
-    <string name="dialog_repeat_3">3 часа</string>
-    <string name="dialog_repeat_4">1 день</string>
 
     <!-- Dialog menu buttons -->
     <string name="dialog_menu_delete">Удалить</string>

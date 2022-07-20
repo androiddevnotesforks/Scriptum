@@ -260,12 +260,18 @@ object ViewModelFactory {
 
         class Alarm(
             private val fragment: AlarmPreferenceFragment,
+            private val preferencesRepo: PreferencesRepo,
+            private val getRepeatSummary: GetSummaryUseCase,
             private val interactor: IAlarmPreferenceInteractor,
             private val signalInteractor: ISignalInteractor
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(AlarmPreferenceViewModel::class) {
-                    AlarmPreferenceViewModel(fragment, interactor, signalInteractor)
+                    AlarmPreferenceViewModel(
+                        fragment,
+                        preferencesRepo, getRepeatSummary,
+                        interactor, signalInteractor
+                    )
                 }
             }
         }

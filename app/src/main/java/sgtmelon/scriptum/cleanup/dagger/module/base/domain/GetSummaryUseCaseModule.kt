@@ -6,11 +6,13 @@ import javax.inject.Named
 import sgtmelon.scriptum.cleanup.presentation.provider.SummaryProvider
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.GetDefaultColorSummaryUseCaseImpl
+import sgtmelon.scriptum.domain.useCase.preferences.GetRepeatSummaryUseCaseImpl
 import sgtmelon.scriptum.domain.useCase.preferences.GetSavePeriodSummaryUseCaseImpl
 import sgtmelon.scriptum.domain.useCase.preferences.GetSortSummaryUseCaseImpl
 import sgtmelon.scriptum.domain.useCase.preferences.GetSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.GetThemeSummaryUseCaseImpl
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
+import sgtmelon.scriptum.infrastructure.converter.key.RepeatConverter
 import sgtmelon.scriptum.infrastructure.converter.key.SavePeriodConverter
 import sgtmelon.scriptum.infrastructure.converter.key.SortConverter
 import sgtmelon.scriptum.infrastructure.converter.key.ThemeConverter
@@ -56,5 +58,15 @@ class GetSummaryUseCaseModule {
         converter: SavePeriodConverter
     ): GetSummaryUseCase {
         return GetSavePeriodSummaryUseCaseImpl(summaryProvider, preferencesRepo, converter)
+    }
+
+    @Provides
+    @Named("Repeat")
+    fun provideGetRepeatSummaryUseCase(
+        summaryProvider: SummaryProvider,
+        preferencesRepo: PreferencesRepo,
+        converter: RepeatConverter
+    ): GetSummaryUseCase {
+        return GetRepeatSummaryUseCaseImpl(summaryProvider, preferencesRepo, converter)
     }
 }
