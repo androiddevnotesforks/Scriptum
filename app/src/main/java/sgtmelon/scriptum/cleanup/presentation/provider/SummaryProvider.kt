@@ -8,6 +8,7 @@ import sgtmelon.scriptum.infrastructure.model.key.Theme
 /**
  * Provide summary/description for preference keys.
  */
+// TODO tests
 class SummaryProvider(private val resources: Resources) {
 
     fun getTheme(theme: Theme) = resources.getString(when (theme) {

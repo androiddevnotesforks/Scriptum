@@ -28,6 +28,7 @@ class AlarmPreferenceInteractor(
     }
 
 
+    // TODO move inside summaryProvider
     override fun getSignalSummary(valueArray: BooleanArray): String? {
         val summaryArray = summaryProvider.signal
 

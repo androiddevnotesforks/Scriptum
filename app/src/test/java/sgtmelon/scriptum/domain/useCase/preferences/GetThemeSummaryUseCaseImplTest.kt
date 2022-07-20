@@ -14,7 +14,7 @@ import sgtmelon.scriptum.infrastructure.model.key.Theme
 /**
  * Test for [GetThemeSummaryUseCaseImpl].
  */
-class GetThemeSummaryUseCaseImplTest : GetSummaryUseCaseTest<ThemeConverter>() {
+class GetThemeSummaryUseCaseImplTest : ParentEnumSummaryUseCaseTest<ThemeConverter>() {
 
     @MockK override lateinit var converter: ThemeConverter
 
@@ -37,7 +37,7 @@ class GetThemeSummaryUseCaseImplTest : GetSummaryUseCaseTest<ThemeConverter>() {
         }
     }
 
-    @Test override fun `summary get with data set`() {
+    @Test override fun `get summary with data set`() {
         val value = Random.nextInt()
         val theme = mockk<Theme>()
         val summary = nextString()
