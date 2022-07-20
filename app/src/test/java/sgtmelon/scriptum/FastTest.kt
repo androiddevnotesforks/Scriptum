@@ -47,6 +47,7 @@ import sgtmelon.scriptum.infrastructure.preferences.Preferences
 /**
  * Object for describe common and fast tests.
  */
+@Deprecated("Repeat yourself - it's bad thing in you!")
 object FastTest {
 
     // TODO create common interactor or anything else for remove some fast test functions (like date)

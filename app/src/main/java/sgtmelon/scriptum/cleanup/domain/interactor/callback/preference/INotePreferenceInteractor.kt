@@ -3,20 +3,12 @@ package sgtmelon.scriptum.cleanup.domain.interactor.callback.preference
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.preference.NotePreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.domain.model.annotation.SavePeriod
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Sort
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.INotePreferenceViewModel
 
 /**
  * Interface for communication [INotePreferenceViewModel] with [NotePreferenceInteractor].
  */
 interface INotePreferenceInteractor {
-
-    @Sort val sort: Int
-
-    fun getSortSummary(): String?
-
-    fun updateSort(@Sort value: Int): String?
-
 
     @Color val defaultColor: Int
 

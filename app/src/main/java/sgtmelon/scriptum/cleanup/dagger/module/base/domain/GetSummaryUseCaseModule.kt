@@ -5,8 +5,10 @@ import dagger.Provides
 import javax.inject.Named
 import sgtmelon.scriptum.cleanup.presentation.provider.SummaryProvider
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.domain.useCase.preferences.GetSortSummaryUseCaseImpl
 import sgtmelon.scriptum.domain.useCase.preferences.GetSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.GetThemeSummaryUseCaseImpl
+import sgtmelon.scriptum.infrastructure.converter.key.SortConverter
 import sgtmelon.scriptum.infrastructure.converter.key.ThemeConverter
 
 @Module
@@ -20,5 +22,15 @@ class GetSummaryUseCaseModule {
         themeConverter: ThemeConverter
     ): GetSummaryUseCase {
         return GetThemeSummaryUseCaseImpl(summaryProvider, preferencesRepo, themeConverter)
+    }
+
+    @Provides
+    @Named("Sort")
+    fun provideGetSortSummaryUseCase(
+        summaryProvider: SummaryProvider,
+        preferencesRepo: PreferencesRepo,
+        sortConverter: SortConverter
+    ): GetSummaryUseCase {
+        return GetSortSummaryUseCaseImpl(summaryProvider, preferencesRepo, sortConverter)
     }
 }

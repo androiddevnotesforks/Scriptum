@@ -4,18 +4,21 @@ import io.mockk.coVerifySequence
 import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import io.mockk.verifySequence
+import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
-import org.junit.Before
 import org.junit.Test
 import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.INotePreferenceInteractor
-import sgtmelon.scriptum.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.INotePreferenceFragment
-import kotlin.random.Random
+import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.domain.useCase.preferences.GetSummaryUseCase
+import sgtmelon.scriptum.infrastructure.model.key.Sort
+import sgtmelon.scriptum.parent.ParentViewModelTest
 
 /**
  * ViewModel for [NotePreferenceViewModel].
@@ -26,13 +29,17 @@ class NotePreferenceViewModelTest : ParentViewModelTest() {
     //region Setup
 
     @MockK lateinit var callback: INotePreferenceFragment
+    @MockK lateinit var preferencesRepo: PreferencesRepo
+    @MockK lateinit var getSortSummary: GetSummaryUseCase
     @MockK lateinit var interactor: INotePreferenceInteractor
 
-    private val viewModel by lazy { NotePreferenceViewModel(callback, interactor) }
+    private val viewModel by lazy {
+        NotePreferenceViewModel(callback, preferencesRepo, getSortSummary, interactor)
+    }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(callback, interactor)
+        confirmVerified(callback, preferencesRepo, getSortSummary, interactor)
     }
 
     @Test override fun onDestroy() {
@@ -48,7 +55,7 @@ class NotePreferenceViewModelTest : ParentViewModelTest() {
         val defaultColorSummary = nextString()
         val savePeriodSummary = nextString()
 
-        every { interactor.getSortSummary() } returns sortSummary
+        every { getSortSummary() } returns sortSummary
         every { interactor.getDefaultColorSummary() } returns defaultColorSummary
         every { interactor.getSavePeriodSummary() } returns savePeriodSummary
 
@@ -57,7 +64,7 @@ class NotePreferenceViewModelTest : ParentViewModelTest() {
         coVerifySequence {
             callback.setup()
 
-            interactor.getSortSummary()
+            getSortSummary()
             callback.updateSortSummary(sortSummary)
             interactor.getDefaultColorSummary()
             callback.updateColorSummary(defaultColorSummary)
@@ -67,14 +74,14 @@ class NotePreferenceViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onClickSort() {
-        val value = Random.nextInt()
+        val value = mockk<Sort>()
 
-        every { interactor.sort } returns value
+        every { preferencesRepo.sort } returns value
 
         viewModel.onClickSort()
 
         verifySequence {
-            interactor.sort
+            preferencesRepo.sort
             callback.showSortDialog(value)
         }
     }
@@ -83,12 +90,12 @@ class NotePreferenceViewModelTest : ParentViewModelTest() {
         val value = Random.nextInt()
         val summary = nextString()
 
-        every { interactor.updateSort(value) } returns summary
+        every { getSortSummary(value) } returns summary
 
         viewModel.onResultNoteSort(value)
 
         verifySequence {
-            interactor.updateSort(value)
+            getSortSummary(value)
             callback.updateSortSummary(summary)
             callback.sendNotifyNotesBroadcast()
         }

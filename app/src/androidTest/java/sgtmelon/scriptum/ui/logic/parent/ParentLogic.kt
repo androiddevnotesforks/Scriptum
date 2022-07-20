@@ -2,9 +2,12 @@ package sgtmelon.scriptum.ui.logic.parent
 
 import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
-import sgtmelon.scriptum.cleanup.dagger.module.base.ProviderModule
+import sgtmelon.scriptum.cleanup.dagger.module.base.ConverterModule
+import sgtmelon.scriptum.cleanup.dagger.module.base.PreferencesModule
+import sgtmelon.scriptum.cleanup.dagger.module.base.data.DataSourceModule
+import sgtmelon.scriptum.cleanup.dagger.module.base.data.RepositoryModule
+import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.preferences.Preferences
-import sgtmelon.scriptum.infrastructure.preferences.PreferencesImpl
 
 /**
  * Parent class for UI tests simple logic.
@@ -13,10 +16,22 @@ abstract class ParentLogic {
 
     protected val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
 
-    protected val preferences: Preferences = PreferencesImpl(
-        ProviderModule().providePreferenceKeyProvider(context.resources),
-        ProviderModule().providePreferenceDefProvider(context.resources),
-        ProviderModule().provideSharedPreferences(context)
+    protected val preferences: Preferences = PreferencesModule().providePreferences(
+        PreferencesModule().providePreferenceKeyProvider(context.resources),
+        PreferencesModule().providePreferenceDefProvider(context.resources),
+        PreferencesModule().provideSharedPreferences(context)
     )
 
+    /**
+     * It's needed for get enum values (already converted from [preferences]).
+     */
+    protected val preferencesRepo: PreferencesRepo = RepositoryModule().providePreferencesRepo(
+        DataSourceModule().providePreferencesDataSource(preferences),
+        ConverterModule().provideThemeConverter(),
+        ConverterModule().provideSortConverter(),
+        ConverterModule().provideColorConverter(),
+        ConverterModule().provideSavePeriodConverter(),
+        ConverterModule().provideRepeatConverter(),
+        ConverterModule().provideSignalConverter()
+    )
 }

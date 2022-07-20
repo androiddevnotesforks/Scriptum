@@ -8,12 +8,16 @@ import sgtmelon.scriptum.cleanup.domain.model.annotation.Sort
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.INotePreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.INotePreferenceViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
+import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.domain.useCase.preferences.GetSummaryUseCase
 
 /**
  * ViewModel for [INotePreferenceFragment].
  */
 class NotePreferenceViewModel(
     callback: INotePreferenceFragment,
+    private val preferencesRepo: PreferencesRepo,
+    private val getSortSummary: GetSummaryUseCase,
     private val interactor: INotePreferenceInteractor
 ) : ParentViewModel<INotePreferenceFragment>(callback),
     INotePreferenceViewModel {
@@ -21,17 +25,17 @@ class NotePreferenceViewModel(
     override fun onSetup(bundle: Bundle?) {
         callback?.setup()
 
-        callback?.updateSortSummary(interactor.getSortSummary())
+        callback?.updateSortSummary(getSortSummary())
         callback?.updateColorSummary(interactor.getDefaultColorSummary())
         callback?.updateSavePeriodSummary(interactor.getSavePeriodSummary())
     }
 
     override fun onClickSort() {
-        callback?.showSortDialog(interactor.sort)
+        callback?.showSortDialog(preferencesRepo.sort)
     }
 
     override fun onResultNoteSort(@Sort value: Int) {
-        callback?.updateSortSummary(interactor.updateSort(value))
+        callback?.updateSortSummary(getSortSummary(value))
         callback?.sendNotifyNotesBroadcast()
     }
 

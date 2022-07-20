@@ -3,10 +3,10 @@ package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference
 import android.content.DialogInterface
 import android.os.Bundle
 import androidx.preference.Preference
+import javax.inject.Inject
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Sort
 import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
 import sgtmelon.scriptum.cleanup.extension.initLazy
 import sgtmelon.scriptum.cleanup.presentation.control.broadcast.BroadcastControl
@@ -15,7 +15,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.INotePreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.INotePreferenceViewModel
-import javax.inject.Inject
+import sgtmelon.scriptum.infrastructure.model.key.Sort
 
 /**
  * Fragment of note preferences.
@@ -112,12 +112,12 @@ class NotePreferenceFragment : ParentPreferenceFragment(), INotePreferenceFragme
         savePeriodDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }
 
-    override fun updateSortSummary(summary: String?) {
+    override fun updateSortSummary(summary: String) {
         sortPreference?.summary = summary
     }
 
-    override fun showSortDialog(@Sort value: Int) = openState.tryInvoke {
-        sortDialog.setArguments(value).safeShow(fm, DialogFactory.Preference.Notes.SORT)
+    override fun showSortDialog(value: Sort) = openState.tryInvoke {
+        sortDialog.setArguments(value.ordinal).safeShow(fm, DialogFactory.Preference.Notes.SORT)
     }
 
     override fun updateColorSummary(summary: String?) {

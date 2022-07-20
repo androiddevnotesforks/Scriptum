@@ -27,6 +27,7 @@ abstract class ParentCoTest : ParentTest() {
     }
 
     // TODO deprecated
+    @Deprecated("Use simple runBlocking {...}")
     protected fun startCoTest(func: suspend TestCoroutineScope.() -> Unit) {
         coTestRule.dispatcher.runBlockingTest { func() }
     }

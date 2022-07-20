@@ -13,11 +13,16 @@
         <item>@string/pref_text_app_theme_system</item>
     </string-array>
 
+    <string name="pref_text_note_sort_change">By time of change</string>
+    <string name="pref_text_note_sort_create">By time of creation</string>
+    <string name="pref_text_note_sort_rank">By categories</string>
+    <string name="pref_text_note_sort_color">By color</string>
+
     <string-array name="pref_text_note_sort">
-        <item>By time of change</item>
-        <item>By time of creation</item>
-        <item>By categories</item>
-        <item>By color</item>
+        <item>@string/pref_text_note_sort_change</item>
+        <item>@string/pref_text_note_sort_create</item>
+        <item>@string/pref_text_note_sort_rank</item>
+        <item>@string/pref_text_note_sort_color</item>
     </string-array>
 
     <string-array name="pref_text_note_color">

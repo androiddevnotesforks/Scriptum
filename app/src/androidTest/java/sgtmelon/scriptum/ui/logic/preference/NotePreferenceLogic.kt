@@ -15,7 +15,7 @@ class NotePreferenceLogic : ParentPreferenceLogic() {
             PreferenceItem.Header(R.string.pref_header_common),
             PreferenceItem.Summary.Text(
                 R.string.pref_title_note_sort,
-                provider.sort[preferences.sort]
+                provider.getSort(preferencesRepo.sort)
             ),
             PreferenceItem.Summary.Text(
                 R.string.pref_title_note_color,

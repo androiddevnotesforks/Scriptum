@@ -5,6 +5,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.spyk
 import io.mockk.verifySequence
+import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -12,11 +13,10 @@ import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.FastTest
-import sgtmelon.scriptum.infrastructure.preferences.Preferences
-import sgtmelon.scriptum.getRandomSize
-import sgtmelon.scriptum.parent.ParentInteractorTest
 import sgtmelon.scriptum.cleanup.presentation.provider.SummaryProvider
-import kotlin.random.Random
+import sgtmelon.scriptum.getRandomSize
+import sgtmelon.scriptum.infrastructure.preferences.Preferences
+import sgtmelon.scriptum.parent.ParentInteractorTest
 
 /**
  * Test for [NotePreferenceInteractor].
@@ -33,51 +33,6 @@ class NotePreferenceInteractorTest : ParentInteractorTest() {
     @After override fun tearDown() {
         super.tearDown()
         confirmVerified(summaryProvider, preferences)
-    }
-
-
-    @Test fun getSort() = FastTest.getSort(preferences) { interactor.sort }
-
-    @Test fun getSortSummary() {
-        val size = getRandomSize()
-        val valueArray = Array(size) { nextString() }
-        val index = valueArray.indices.random()
-        val value = valueArray[index]
-
-        every { summaryProvider.sort } returns valueArray
-        every { spyInteractor.sort } returns -1
-        assertNull(spyInteractor.getSortSummary())
-
-        every { spyInteractor.sort } returns index
-        assertEquals(value, spyInteractor.getSortSummary())
-
-        verifySequence {
-            repeat(times = 2) {
-                spyInteractor.getSortSummary()
-                summaryProvider.sort
-                spyInteractor.sort
-            }
-        }
-    }
-
-    @Test fun updateSort() {
-        val value = Random.nextInt()
-        val summary = nextString()
-
-        every { preferences.sort = value } returns Unit
-        every { spyInteractor.getSortSummary() } returns null
-        assertNull(spyInteractor.updateSort(value))
-
-        every { spyInteractor.getSortSummary() } returns summary
-        assertEquals(summary, spyInteractor.updateSort(value))
-
-        verifySequence {
-            repeat(times = 2) {
-                spyInteractor.updateSort(value)
-                preferences.sort = value
-                spyInteractor.getSortSummary()
-            }
-        }
     }
 
 

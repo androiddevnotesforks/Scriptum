@@ -244,11 +244,13 @@ object ViewModelFactory {
 
         class Note(
             private val fragment: NotePreferenceFragment,
+            private val preferencesRepo: PreferencesRepo,
+            private val getSortSummary: GetSummaryUseCase,
             private val interactor: INotePreferenceInteractor
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(NotePreferenceViewModel::class) {
-                    NotePreferenceViewModel(fragment, interactor)
+                    NotePreferenceViewModel(fragment, preferencesRepo, getSortSummary, interactor)
                 }
             }
         }

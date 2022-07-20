@@ -231,9 +231,16 @@ class ViewModelModule {
     @ActivityScope
     fun provideNotePreferenceViewModel(
         fragment: NotePreferenceFragment,
+        preferencesRepo: PreferencesRepo,
+        @Named("Sort") getSortSummary: GetSummaryUseCase,
         interactor: INotePreferenceInteractor
     ): INotePreferenceViewModel {
-        val factory = ViewModelFactory.Preference.Note(fragment, interactor)
+        val factory = ViewModelFactory.Preference.Note(
+            fragment,
+            preferencesRepo,
+            getSortSummary,
+            interactor
+        )
         return ViewModelProvider(fragment, factory)[NotePreferenceViewModel::class.java]
     }
 
