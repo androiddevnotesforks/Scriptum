@@ -4,6 +4,7 @@ package sgtmelon.scriptum.cleanup.presentation.provider
 import android.content.res.Resources
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.scriptum.infrastructure.model.key.SavePeriod
 import sgtmelon.scriptum.infrastructure.model.key.Sort
 import sgtmelon.scriptum.infrastructure.model.key.Theme
 
@@ -52,7 +53,15 @@ class SummaryProvider(private val resources: Resources) {
         return resources.getString(id)
     }
 
-    val savePeriod: Array<String> = resources.getStringArray(R.array.pref_note_save_period)
+    fun getSavePeriod(savePeriod: SavePeriod): String {
+        val id = when (savePeriod) {
+            SavePeriod.MIN_1 -> R.string.pref_note_save_period_1
+            SavePeriod.MIN_3 -> R.string.pref_note_save_period_3
+            SavePeriod.MIN_7 -> R.string.pref_note_save_period_7
+        }
+
+        return resources.getString(id)
+    }
 
     val repeat: Array<String> = resources.getStringArray(R.array.pref_alarm_repeat)
     val signal: Array<String> = resources.getStringArray(R.array.pref_alarm_signal)

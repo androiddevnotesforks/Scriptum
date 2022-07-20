@@ -6,10 +6,12 @@ import javax.inject.Named
 import sgtmelon.scriptum.cleanup.presentation.provider.SummaryProvider
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.GetDefaultColorSummaryUseCaseImpl
+import sgtmelon.scriptum.domain.useCase.preferences.GetSavePeriodSummaryUseCaseImpl
 import sgtmelon.scriptum.domain.useCase.preferences.GetSortSummaryUseCaseImpl
 import sgtmelon.scriptum.domain.useCase.preferences.GetSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.GetThemeSummaryUseCaseImpl
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
+import sgtmelon.scriptum.infrastructure.converter.key.SavePeriodConverter
 import sgtmelon.scriptum.infrastructure.converter.key.SortConverter
 import sgtmelon.scriptum.infrastructure.converter.key.ThemeConverter
 
@@ -21,9 +23,9 @@ class GetSummaryUseCaseModule {
     fun provideGetThemeSummaryUseCase(
         summaryProvider: SummaryProvider,
         preferencesRepo: PreferencesRepo,
-        themeConverter: ThemeConverter
+        converter: ThemeConverter
     ): GetSummaryUseCase {
-        return GetThemeSummaryUseCaseImpl(summaryProvider, preferencesRepo, themeConverter)
+        return GetThemeSummaryUseCaseImpl(summaryProvider, preferencesRepo, converter)
     }
 
     @Provides
@@ -31,9 +33,9 @@ class GetSummaryUseCaseModule {
     fun provideGetSortSummaryUseCase(
         summaryProvider: SummaryProvider,
         preferencesRepo: PreferencesRepo,
-        sortConverter: SortConverter
+        converter: SortConverter
     ): GetSummaryUseCase {
-        return GetSortSummaryUseCaseImpl(summaryProvider, preferencesRepo, sortConverter)
+        return GetSortSummaryUseCaseImpl(summaryProvider, preferencesRepo, converter)
     }
 
     @Provides
@@ -41,8 +43,18 @@ class GetSummaryUseCaseModule {
     fun provideGetDefaultColorSummaryUseCase(
         summaryProvider: SummaryProvider,
         preferencesRepo: PreferencesRepo,
-        colorConverter: ColorConverter
+        converter: ColorConverter
     ): GetSummaryUseCase {
-        return GetDefaultColorSummaryUseCaseImpl(summaryProvider, preferencesRepo, colorConverter)
+        return GetDefaultColorSummaryUseCaseImpl(summaryProvider, preferencesRepo, converter)
+    }
+
+    @Provides
+    @Named("SavePeriod")
+    fun provideGetSavePeriodSummaryUseCase(
+        summaryProvider: SummaryProvider,
+        preferencesRepo: PreferencesRepo,
+        converter: SavePeriodConverter
+    ): GetSummaryUseCase {
+        return GetSavePeriodSummaryUseCaseImpl(summaryProvider, preferencesRepo, converter)
     }
 }

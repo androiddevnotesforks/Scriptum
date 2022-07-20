@@ -23,7 +23,6 @@ import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.INotifi
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IAlarmPreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IBackupPreferenceInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.INotePreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IDevelopInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IPrintDevelopInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.system.ISystemInteractor
@@ -40,7 +39,6 @@ import sgtmelon.scriptum.cleanup.domain.interactor.impl.notification.Notificatio
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.notification.SignalInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.preference.AlarmPreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.preference.BackupPreferenceInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.impl.preference.NotePreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.preference.develop.DevelopInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.preference.develop.PrintDevelopInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.system.SystemInteractor
@@ -185,15 +183,6 @@ class InteractorModule {
             preferences, alarmRepo, rankRepo, noteRepo, backupRepo,
             backupParser, fileControl, cipherControl
         )
-    }
-
-    @Provides
-    @ActivityScope
-    fun provideNotePreferenceInteractor(
-        summaryProvider: SummaryProvider,
-        preferences: Preferences
-    ): INotePreferenceInteractor {
-        return NotePreferenceInteractor(summaryProvider, preferences)
     }
 
     @Provides

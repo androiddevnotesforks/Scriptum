@@ -13,7 +13,6 @@ import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.common.utils.nextString
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.INotePreferenceInteractor
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.INotePreferenceFragment
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.GetSummaryUseCase
@@ -34,13 +33,12 @@ class NotePreferenceViewModelTest : ParentViewModelTest() {
     @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var getSortSummary: GetSummaryUseCase
     @MockK lateinit var getDefaultColorSummary: GetSummaryUseCase
-    @MockK lateinit var interactor: INotePreferenceInteractor
+    @MockK lateinit var getSavePeriodSummary: GetSummaryUseCase
 
     private val viewModel by lazy {
         NotePreferenceViewModel(
             callback, preferencesRepo,
-            getSortSummary, getDefaultColorSummary,
-            interactor
+            getSortSummary, getDefaultColorSummary, getSavePeriodSummary
         )
     }
 
@@ -48,8 +46,7 @@ class NotePreferenceViewModelTest : ParentViewModelTest() {
         super.tearDown()
         confirmVerified(
             callback, preferencesRepo,
-            getSortSummary, getDefaultColorSummary,
-            interactor
+            getSortSummary, getDefaultColorSummary, getSavePeriodSummary
         )
     }
 
@@ -68,7 +65,7 @@ class NotePreferenceViewModelTest : ParentViewModelTest() {
 
         every { getSortSummary() } returns sortSummary
         every { getDefaultColorSummary() } returns defaultColorSummary
-        every { interactor.getSavePeriodSummary() } returns savePeriodSummary
+        every { getSavePeriodSummary() } returns savePeriodSummary
 
         viewModel.onSetup()
 
@@ -79,7 +76,7 @@ class NotePreferenceViewModelTest : ParentViewModelTest() {
             callback.updateSortSummary(sortSummary)
             getDefaultColorSummary()
             callback.updateColorSummary(defaultColorSummary)
-            interactor.getSavePeriodSummary()
+            getSavePeriodSummary()
             callback.updateSavePeriodSummary(savePeriodSummary)
         }
     }
@@ -156,12 +153,12 @@ class NotePreferenceViewModelTest : ParentViewModelTest() {
         val value = Random.nextInt()
         val summary = nextString()
 
-        every { interactor.updateSavePeriod(value) } returns summary
+        every { getSavePeriodSummary(value) } returns summary
 
         viewModel.onResultSaveTime(value)
 
         verifySequence {
-            interactor.updateSavePeriod(value)
+            getSavePeriodSummary(value)
             callback.updateSavePeriodSummary(summary)
         }
     }

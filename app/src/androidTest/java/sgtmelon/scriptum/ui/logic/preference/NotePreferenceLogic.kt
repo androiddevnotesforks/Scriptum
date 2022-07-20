@@ -34,7 +34,7 @@ class NotePreferenceLogic : ParentPreferenceLogic() {
             ),
             PreferenceItem.Summary.Text(
                 R.string.pref_title_note_save_period,
-                provider.savePeriod[preferences.savePeriod],
+                provider.getSavePeriod(preferencesRepo.savePeriod),
                 preferences.isAutoSaveOn
             )
         )

@@ -51,10 +51,14 @@
         <item>@string/pref_note_color_white</item>
     </string-array>
 
+    <string name="pref_note_save_period_1">1 minute</string>
+    <string name="pref_note_save_period_3">3 minutes</string>
+    <string name="pref_note_save_period_7">7 minutes</string>
+
     <string-array name="pref_note_save_period">
-        <item>1 minute</item>
-        <item>3 minutes</item>
-        <item>7 minutes</item>
+        <item>@string/pref_note_save_period_1</item>
+        <item>@string/pref_note_save_period_3</item>
+        <item>@string/pref_note_save_period_7</item>
     </string-array>
 
     <string-array name="pref_alarm_repeat">

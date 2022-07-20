@@ -16,7 +16,6 @@ import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.INotifi
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IAlarmPreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IBackupPreferenceInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.INotePreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IDevelopInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IPrintDevelopInteractor
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.IAppActivity
@@ -247,14 +246,13 @@ object ViewModelFactory {
             private val preferencesRepo: PreferencesRepo,
             private val getSortSummary: GetSummaryUseCase,
             private val getDefaultColorSummary: GetSummaryUseCase,
-            private val interactor: INotePreferenceInteractor
+            private val getSavePeriodSummary: GetSummaryUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(NotePreferenceViewModel::class) {
                     NotePreferenceViewModel(
                         fragment, preferencesRepo,
-                        getSortSummary, getDefaultColorSummary,
-                        interactor
+                        getSortSummary, getDefaultColorSummary, getSavePeriodSummary
                     )
                 }
             }

@@ -24,11 +24,9 @@
     <string name="pref_note_color_blue_gray">Сине-серый</string>
     <string name="pref_note_color_white">Белый</string>
 
-    <string-array name="pref_note_save_period">
-        <item>1 минута</item>
-        <item>3 минуты</item>
-        <item>7 минут</item>
-    </string-array>
+    <string name="pref_note_save_period_1">1 минута</string>
+    <string name="pref_note_save_period_3">3 минуты</string>
+    <string name="pref_note_save_period_7">7 минут</string>
 
     <string-array name="pref_alarm_repeat">
         <item>@string/dialog_repeat_0</item>
