@@ -19,7 +19,7 @@ class NotePreferenceLogic : ParentPreferenceLogic() {
             ),
             PreferenceItem.Summary.Text(
                 R.string.pref_title_note_color,
-                provider.color[preferences.defaultColor]
+                provider.getColor(preferencesRepo.defaultColor)
             ),
             PreferenceItem.Header(R.string.pref_header_save),
             PreferenceItem.Switch(

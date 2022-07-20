@@ -17,6 +17,8 @@ import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.INotePref
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.INotePreferenceFragment
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.GetSummaryUseCase
+import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.scriptum.infrastructure.model.key.SavePeriod
 import sgtmelon.scriptum.infrastructure.model.key.Sort
 import sgtmelon.scriptum.parent.ParentViewModelTest
 
@@ -31,15 +33,24 @@ class NotePreferenceViewModelTest : ParentViewModelTest() {
     @MockK lateinit var callback: INotePreferenceFragment
     @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var getSortSummary: GetSummaryUseCase
+    @MockK lateinit var getDefaultColorSummary: GetSummaryUseCase
     @MockK lateinit var interactor: INotePreferenceInteractor
 
     private val viewModel by lazy {
-        NotePreferenceViewModel(callback, preferencesRepo, getSortSummary, interactor)
+        NotePreferenceViewModel(
+            callback, preferencesRepo,
+            getSortSummary, getDefaultColorSummary,
+            interactor
+        )
     }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(callback, preferencesRepo, getSortSummary, interactor)
+        confirmVerified(
+            callback, preferencesRepo,
+            getSortSummary, getDefaultColorSummary,
+            interactor
+        )
     }
 
     @Test override fun onDestroy() {
@@ -56,7 +67,7 @@ class NotePreferenceViewModelTest : ParentViewModelTest() {
         val savePeriodSummary = nextString()
 
         every { getSortSummary() } returns sortSummary
-        every { interactor.getDefaultColorSummary() } returns defaultColorSummary
+        every { getDefaultColorSummary() } returns defaultColorSummary
         every { interactor.getSavePeriodSummary() } returns savePeriodSummary
 
         viewModel.onSetup()
@@ -66,7 +77,7 @@ class NotePreferenceViewModelTest : ParentViewModelTest() {
 
             getSortSummary()
             callback.updateSortSummary(sortSummary)
-            interactor.getDefaultColorSummary()
+            getDefaultColorSummary()
             callback.updateColorSummary(defaultColorSummary)
             interactor.getSavePeriodSummary()
             callback.updateSavePeriodSummary(savePeriodSummary)
@@ -102,14 +113,14 @@ class NotePreferenceViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onClickNoteColor() {
-        val color = Random.nextInt()
+        val color = mockk<Color>()
 
-        every { interactor.defaultColor } returns color
+        every { preferencesRepo.defaultColor } returns color
 
         viewModel.onClickNoteColor()
 
         verifySequence {
-            interactor.defaultColor
+            preferencesRepo.defaultColor
             callback.showColorDialog(color)
         }
     }
@@ -118,25 +129,25 @@ class NotePreferenceViewModelTest : ParentViewModelTest() {
         val value = Random.nextInt()
         val summary = nextString()
 
-        every { interactor.updateDefaultColor(value) } returns summary
+        every { getDefaultColorSummary(value) } returns summary
 
         viewModel.onResultNoteColor(value)
 
         verifySequence {
-            interactor.updateDefaultColor(value)
+            getDefaultColorSummary(value)
             callback.updateColorSummary(summary)
         }
     }
 
     @Test fun onClickSaveTime() {
-        val value = Random.nextInt()
+        val value = mockk<SavePeriod>()
 
-        every { interactor.savePeriod } returns value
+        every { preferencesRepo.savePeriod } returns value
 
         viewModel.onClickSaveTime()
 
         verifySequence {
-            interactor.savePeriod
+            preferencesRepo.savePeriod
             callback.showSaveTimeDialog(value)
         }
     }
@@ -154,5 +165,4 @@ class NotePreferenceViewModelTest : ParentViewModelTest() {
             callback.updateSavePeriodSummary(summary)
         }
     }
-
 }

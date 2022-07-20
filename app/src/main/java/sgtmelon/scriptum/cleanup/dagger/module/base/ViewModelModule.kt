@@ -233,14 +233,15 @@ class ViewModelModule {
         fragment: NotePreferenceFragment,
         preferencesRepo: PreferencesRepo,
         @Named("Sort") getSortSummary: GetSummaryUseCase,
+        @Named("DefaultColor") getDefaultColorSummary: GetSummaryUseCase,
         interactor: INotePreferenceInteractor
     ): INotePreferenceViewModel {
         val factory = ViewModelFactory.Preference.Note(
-            fragment,
-            preferencesRepo,
-            getSortSummary,
+            fragment, preferencesRepo,
+            getSortSummary, getDefaultColorSummary,
             interactor
         )
+
         return ViewModelProvider(fragment, factory)[NotePreferenceViewModel::class.java]
     }
 

@@ -32,7 +32,7 @@ class ColorHolder(itemView: View) : ParentHolder(itemView) {
         }
 
         val context = itemView.context ?: return
-        val colorName = context.resources.getStringArray(R.array.pref_text_note_color)[color]
+        val colorName = context.resources.getStringArray(R.array.pref_note_color)[color]
 
         clickView.contentDescription = context.getString(R.string.description_item_color, colorName)
     }

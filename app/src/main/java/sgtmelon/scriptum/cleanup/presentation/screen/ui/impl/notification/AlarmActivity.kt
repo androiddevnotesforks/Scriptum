@@ -322,7 +322,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
 
     override fun showRepeatToast(select: Int) {
-        val repeatArray = resources.getStringArray(R.array.pref_text_alarm_repeat)
+        val repeatArray = resources.getStringArray(R.array.pref_alarm_repeat)
         val repeatText = repeatArray.getOrNull(select) ?: return
 
         toastControl.show(getString(R.string.toast_alarm_repeat, repeatText))

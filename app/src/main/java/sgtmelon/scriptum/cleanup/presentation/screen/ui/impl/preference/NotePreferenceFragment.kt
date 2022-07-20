@@ -6,7 +6,6 @@ import androidx.preference.Preference
 import javax.inject.Inject
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
 import sgtmelon.scriptum.cleanup.extension.initLazy
 import sgtmelon.scriptum.cleanup.presentation.control.broadcast.BroadcastControl
@@ -15,6 +14,8 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.INotePreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.INotePreferenceViewModel
+import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.scriptum.infrastructure.model.key.SavePeriod
 import sgtmelon.scriptum.infrastructure.model.key.Sort
 
 /**
@@ -116,24 +117,24 @@ class NotePreferenceFragment : ParentPreferenceFragment(), INotePreferenceFragme
         sortPreference?.summary = summary
     }
 
-    override fun showSortDialog(value: Sort) = openState.tryInvoke {
-        sortDialog.setArguments(value.ordinal).safeShow(fm, DialogFactory.Preference.Notes.SORT)
+    override fun showSortDialog(sort: Sort) = openState.tryInvoke {
+        sortDialog.setArguments(sort.ordinal).safeShow(fm, DialogFactory.Preference.Notes.SORT)
     }
 
-    override fun updateColorSummary(summary: String?) {
+    override fun updateColorSummary(summary: String) {
         colorPreference?.summary = summary
     }
 
-    override fun showColorDialog(@Color color: Int) = openState.tryInvoke {
-        colorDialog.setArguments(color).safeShow(fm, DialogFactory.Preference.Notes.COLOR)
+    override fun showColorDialog(color: Color) = openState.tryInvoke {
+        colorDialog.setArguments(color.ordinal).safeShow(fm, DialogFactory.Preference.Notes.COLOR)
     }
 
     override fun updateSavePeriodSummary(summary: String?) {
         savePeriodPreference?.summary = summary
     }
 
-    override fun showSaveTimeDialog(value: Int) = openState.tryInvoke {
-        savePeriodDialog.setArguments(value)
+    override fun showSaveTimeDialog(savePeriod: SavePeriod) = openState.tryInvoke {
+        savePeriodDialog.setArguments(savePeriod.ordinal)
             .safeShow(fm, DialogFactory.Preference.Notes.SAVE_PERIOD)
     }
 

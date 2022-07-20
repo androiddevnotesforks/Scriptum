@@ -1,9 +1,10 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference
 
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.presentation.receiver.SystemReceiver
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.NotePreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.INotePreferenceViewModel
+import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.scriptum.infrastructure.model.key.SavePeriod
 import sgtmelon.scriptum.infrastructure.model.key.Sort
 
 /**
@@ -15,14 +16,14 @@ interface INotePreferenceFragment : SystemReceiver.Bridge.Bind {
 
     fun updateSortSummary(summary: String)
 
-    fun showSortDialog(value: Sort)
+    fun showSortDialog(sort: Sort)
 
-    fun updateColorSummary(summary: String?)
+    fun updateColorSummary(summary: String)
 
-    fun showColorDialog(@Color color: Int)
+    fun showColorDialog(color: Color)
 
     fun updateSavePeriodSummary(summary: String?)
 
-    fun showSaveTimeDialog(value: Int)
+    fun showSaveTimeDialog(savePeriod: SavePeriod)
 
 }

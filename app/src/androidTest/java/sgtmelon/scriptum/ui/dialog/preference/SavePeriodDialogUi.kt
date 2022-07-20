@@ -13,7 +13,7 @@ import sgtmelon.scriptum.ui.dialog.parent.ParentSelectDialogUi
  */
 class SavePeriodDialogUi : ParentSelectDialogUi(
     R.string.pref_title_note_save_period,
-    R.array.pref_text_note_save_period
+    R.array.pref_note_save_period
 ) {
 
     override val initCheck: Int = preferences.savePeriod

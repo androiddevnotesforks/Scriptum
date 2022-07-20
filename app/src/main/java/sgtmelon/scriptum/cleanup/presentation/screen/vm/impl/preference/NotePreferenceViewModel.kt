@@ -2,9 +2,6 @@ package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference
 
 import android.os.Bundle
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.INotePreferenceInteractor
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
-import sgtmelon.scriptum.cleanup.domain.model.annotation.SavePeriod
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Sort
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.INotePreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.INotePreferenceViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
@@ -18,6 +15,7 @@ class NotePreferenceViewModel(
     callback: INotePreferenceFragment,
     private val preferencesRepo: PreferencesRepo,
     private val getSortSummary: GetSummaryUseCase,
+    private val getDefaultColorSummary: GetSummaryUseCase,
     private val interactor: INotePreferenceInteractor
 ) : ParentViewModel<INotePreferenceFragment>(callback),
     INotePreferenceViewModel {
@@ -26,7 +24,7 @@ class NotePreferenceViewModel(
         callback?.setup()
 
         callback?.updateSortSummary(getSortSummary())
-        callback?.updateColorSummary(interactor.getDefaultColorSummary())
+        callback?.updateColorSummary(getDefaultColorSummary())
         callback?.updateSavePeriodSummary(interactor.getSavePeriodSummary())
     }
 
@@ -34,24 +32,24 @@ class NotePreferenceViewModel(
         callback?.showSortDialog(preferencesRepo.sort)
     }
 
-    override fun onResultNoteSort(@Sort value: Int) {
+    override fun onResultNoteSort(value: Int) {
         callback?.updateSortSummary(getSortSummary(value))
         callback?.sendNotifyNotesBroadcast()
     }
 
     override fun onClickNoteColor() {
-        callback?.showColorDialog(interactor.defaultColor)
+        callback?.showColorDialog(preferencesRepo.defaultColor)
     }
 
-    override fun onResultNoteColor(@Color value: Int) {
-        callback?.updateColorSummary(interactor.updateDefaultColor(value))
+    override fun onResultNoteColor(value: Int) {
+        callback?.updateColorSummary(getDefaultColorSummary(value))
     }
 
     override fun onClickSaveTime() {
-        callback?.showSaveTimeDialog(interactor.savePeriod)
+        callback?.showSaveTimeDialog(preferencesRepo.savePeriod)
     }
 
-    override fun onResultSaveTime(@SavePeriod value: Int) {
+    override fun onResultSaveTime(value: Int) {
         callback?.updateSavePeriodSummary(interactor.updateSavePeriod(value))
     }
 }

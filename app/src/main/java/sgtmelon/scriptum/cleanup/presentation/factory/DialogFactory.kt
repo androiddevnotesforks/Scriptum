@@ -2,17 +2,21 @@ package sgtmelon.scriptum.cleanup.presentation.factory
 
 import android.content.Context
 import androidx.fragment.app.FragmentManager
+import sgtmelon.safedialog.annotation.MessageType
 import sgtmelon.safedialog.dialog.MessageDialog
 import sgtmelon.safedialog.dialog.MultipleDialog
 import sgtmelon.safedialog.dialog.OptionsDialog
 import sgtmelon.safedialog.dialog.SingleDialog
-import sgtmelon.safedialog.annotation.MessageType
 import sgtmelon.safedialog.dialog.time.DateDialog
 import sgtmelon.safedialog.dialog.time.TimeDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.cleanup.extension.getFragmentByTag
-import sgtmelon.scriptum.cleanup.presentation.dialog.*
+import sgtmelon.scriptum.cleanup.presentation.dialog.AboutDialog
+import sgtmelon.scriptum.cleanup.presentation.dialog.ColorDialog
+import sgtmelon.scriptum.cleanup.presentation.dialog.LoadingDialog
+import sgtmelon.scriptum.cleanup.presentation.dialog.RenameDialog
+import sgtmelon.scriptum.cleanup.presentation.dialog.VolumeDialog
 import sgtmelon.scriptum.cleanup.presentation.dialog.sheet.AddSheetDialog
 import sgtmelon.scriptum.cleanup.presentation.dialog.sheet.RepeatSheetDialog
 
@@ -135,7 +139,7 @@ object DialogFactory {
                 if (context == null) return dialog
 
                 dialog.title = context.getString(R.string.pref_title_app_theme)
-                dialog.itemArray = context.resources.getStringArray(R.array.pref_text_app_theme)
+                dialog.itemArray = context.resources.getStringArray(R.array.pref_app_theme)
 
                 return dialog
             }
@@ -235,7 +239,7 @@ object DialogFactory {
                 if (context == null) return dialog
 
                 dialog.title = context.getString(R.string.pref_title_note_sort)
-                dialog.itemArray = context.resources.getStringArray(R.array.pref_text_note_sort)
+                dialog.itemArray = context.resources.getStringArray(R.array.pref_note_sort)
 
                 return dialog
             }
@@ -256,7 +260,7 @@ object DialogFactory {
                 if (context == null) return dialog
 
                 dialog.title = context.getString(R.string.pref_title_note_save_period)
-                dialog.itemArray = context.resources.getStringArray(R.array.pref_text_note_save_period)
+                dialog.itemArray = context.resources.getStringArray(R.array.pref_note_save_period)
 
                 return dialog
             }
@@ -278,7 +282,7 @@ object DialogFactory {
                 if (context == null) return dialog
 
                 dialog.title = context.getString(R.string.pref_title_alarm_repeat)
-                dialog.itemArray = context.resources.getStringArray(R.array.pref_text_alarm_repeat)
+                dialog.itemArray = context.resources.getStringArray(R.array.pref_alarm_repeat)
 
                 return dialog
             }
@@ -290,7 +294,7 @@ object DialogFactory {
 
                 dialog.atLeastOne = true
                 dialog.title = context.getString(R.string.pref_title_alarm_signal)
-                dialog.itemArray = context.resources.getStringArray(R.array.pref_text_alarm_signal)
+                dialog.itemArray = context.resources.getStringArray(R.array.pref_alarm_signal)
 
                 return dialog
             }

@@ -5,9 +5,11 @@ import dagger.Provides
 import javax.inject.Named
 import sgtmelon.scriptum.cleanup.presentation.provider.SummaryProvider
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.domain.useCase.preferences.GetDefaultColorSummaryUseCaseImpl
 import sgtmelon.scriptum.domain.useCase.preferences.GetSortSummaryUseCaseImpl
 import sgtmelon.scriptum.domain.useCase.preferences.GetSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.GetThemeSummaryUseCaseImpl
+import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.converter.key.SortConverter
 import sgtmelon.scriptum.infrastructure.converter.key.ThemeConverter
 
@@ -32,5 +34,15 @@ class GetSummaryUseCaseModule {
         sortConverter: SortConverter
     ): GetSummaryUseCase {
         return GetSortSummaryUseCaseImpl(summaryProvider, preferencesRepo, sortConverter)
+    }
+
+    @Provides
+    @Named("DefaultColor")
+    fun provideGetDefaultColorSummaryUseCase(
+        summaryProvider: SummaryProvider,
+        preferencesRepo: PreferencesRepo,
+        colorConverter: ColorConverter
+    ): GetSummaryUseCase {
+        return GetDefaultColorSummaryUseCaseImpl(summaryProvider, preferencesRepo, colorConverter)
     }
 }

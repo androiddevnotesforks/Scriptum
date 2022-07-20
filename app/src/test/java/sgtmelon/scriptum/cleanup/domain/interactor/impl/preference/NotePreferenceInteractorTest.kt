@@ -12,7 +12,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.common.utils.nextString
-import sgtmelon.scriptum.FastTest
 import sgtmelon.scriptum.cleanup.presentation.provider.SummaryProvider
 import sgtmelon.scriptum.getRandomSize
 import sgtmelon.scriptum.infrastructure.preferences.Preferences
@@ -34,54 +33,6 @@ class NotePreferenceInteractorTest : ParentInteractorTest() {
         super.tearDown()
         confirmVerified(summaryProvider, preferences)
     }
-
-
-    @Test fun getDefaultColor() = FastTest.getDefaultColor(preferences) {
-        interactor.defaultColor
-    }
-
-    @Test fun getDefaultColorSummary() {
-        val size = getRandomSize()
-        val valueArray = Array(size) { nextString() }
-        val index = valueArray.indices.random()
-        val value = valueArray[index]
-
-        every { summaryProvider.color } returns valueArray
-        every { spyInteractor.defaultColor } returns -1
-        assertNull(spyInteractor.getDefaultColorSummary())
-
-        every { spyInteractor.defaultColor } returns index
-        assertEquals(value, spyInteractor.getDefaultColorSummary())
-
-        verifySequence {
-            repeat(times = 2) {
-                spyInteractor.getDefaultColorSummary()
-                summaryProvider.color
-                spyInteractor.defaultColor
-            }
-        }
-    }
-
-    @Test fun updateDefaultColor() {
-        val value = Random.nextInt()
-        val summary = nextString()
-
-        every { preferences.defaultColor = value } returns Unit
-        every { spyInteractor.getDefaultColorSummary() } returns null
-        assertNull(spyInteractor.updateDefaultColor(value))
-
-        every { spyInteractor.getDefaultColorSummary() } returns summary
-        assertEquals(summary, spyInteractor.updateDefaultColor(value))
-
-        verifySequence {
-            repeat(times = 2) {
-                spyInteractor.updateDefaultColor(value)
-                preferences.defaultColor = value
-                spyInteractor.getDefaultColorSummary()
-            }
-        }
-    }
-
 
     @Test fun getSavePeriod() {
         val value = Random.nextInt()

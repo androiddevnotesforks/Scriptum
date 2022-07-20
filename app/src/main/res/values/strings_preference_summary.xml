@@ -3,49 +3,61 @@
 
     <!-- Preference summaries and arrays for dialogs -->
 
-    <string name="pref_text_app_theme_light">Light</string>
-    <string name="pref_text_app_theme_dark">Dark</string>
-    <string name="pref_text_app_theme_system">System</string>
+    <string name="pref_app_theme_light">Light</string>
+    <string name="pref_app_theme_dark">Dark</string>
+    <string name="pref_app_theme_system">System</string>
 
-    <string-array name="pref_text_app_theme">
-        <item>@string/pref_text_app_theme_light</item>
-        <item>@string/pref_text_app_theme_dark</item>
-        <item>@string/pref_text_app_theme_system</item>
+    <string-array name="pref_app_theme">
+        <item>@string/pref_app_theme_light</item>
+        <item>@string/pref_app_theme_dark</item>
+        <item>@string/pref_app_theme_system</item>
     </string-array>
 
-    <string name="pref_text_note_sort_change">By time of change</string>
-    <string name="pref_text_note_sort_create">By time of creation</string>
-    <string name="pref_text_note_sort_rank">By categories</string>
-    <string name="pref_text_note_sort_color">By color</string>
+    <string name="pref_note_sort_change">By time of change</string>
+    <string name="pref_note_sort_create">By time of creation</string>
+    <string name="pref_note_sort_rank">By categories</string>
+    <string name="pref_note_sort_color">By color</string>
 
-    <string-array name="pref_text_note_sort">
-        <item>@string/pref_text_note_sort_change</item>
-        <item>@string/pref_text_note_sort_create</item>
-        <item>@string/pref_text_note_sort_rank</item>
-        <item>@string/pref_text_note_sort_color</item>
+    <string-array name="pref_note_sort">
+        <item>@string/pref_note_sort_change</item>
+        <item>@string/pref_note_sort_create</item>
+        <item>@string/pref_note_sort_rank</item>
+        <item>@string/pref_note_sort_color</item>
     </string-array>
 
-    <string-array name="pref_text_note_color">
-        <item>Red</item>
-        <item>Purple</item>
-        <item>Indigo</item>
-        <item>Blue</item>
-        <item>Turquoise</item>
-        <item>Green</item>
-        <item>Yellow</item>
-        <item>Orange</item>
-        <item>Brown</item>
-        <item>Blue-gray</item>
-        <item>White</item>
+    <string name="pref_note_color_red">Red</string>
+    <string name="pref_note_color_purple">Purple</string>
+    <string name="pref_note_color_indigo">Indigo</string>
+    <string name="pref_note_color_blue">Blue</string>
+    <string name="pref_note_color_turquoise">Turquoise</string>
+    <string name="pref_note_color_green">Green</string>
+    <string name="pref_note_color_yellow">Yellow</string>
+    <string name="pref_note_color_orange">Orange</string>
+    <string name="pref_note_color_brown">Brown</string>
+    <string name="pref_note_color_blue_gray">Blue</string>
+    <string name="pref_note_color_white">White</string>
+
+    <string-array name="pref_note_color">
+        <item>@string/pref_note_color_red</item>
+        <item>@string/pref_note_color_purple</item>
+        <item>@string/pref_note_color_indigo</item>
+        <item>@string/pref_note_color_blue</item>
+        <item>@string/pref_note_color_turquoise</item>
+        <item>@string/pref_note_color_green</item>
+        <item>@string/pref_note_color_yellow</item>
+        <item>@string/pref_note_color_orange</item>
+        <item>@string/pref_note_color_brown</item>
+        <item>@string/pref_note_color_blue_gray</item>
+        <item>@string/pref_note_color_white</item>
     </string-array>
 
-    <string-array name="pref_text_note_save_period">
+    <string-array name="pref_note_save_period">
         <item>1 minute</item>
         <item>3 minutes</item>
         <item>7 minutes</item>
     </string-array>
 
-    <string-array name="pref_text_alarm_repeat">
+    <string-array name="pref_alarm_repeat">
         <item>@string/dialog_repeat_0</item>
         <item>@string/dialog_repeat_1</item>
         <item>@string/dialog_repeat_2</item>
@@ -53,7 +65,7 @@
         <item>@string/dialog_repeat_4</item>
     </string-array>
 
-    <string-array name="pref_text_alarm_signal">
+    <string-array name="pref_alarm_signal">
         <item>Melody</item>
         <item>Vibration</item>
     </string-array>

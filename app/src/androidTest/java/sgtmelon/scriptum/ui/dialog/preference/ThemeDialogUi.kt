@@ -13,7 +13,7 @@ import sgtmelon.scriptum.ui.dialog.parent.ParentSelectDialogUi
  */
 class ThemeDialogUi : ParentSelectDialogUi(
     R.string.pref_title_app_theme,
-    R.array.pref_text_app_theme
+    R.array.pref_app_theme
 ) {
 
     private val converter = ThemeConverter()

@@ -3,36 +3,34 @@
 
     <!-- Preference summaries and arrays for dialogs -->
 
-    <string name="pref_text_app_theme_light">Светлая</string>
-    <string name="pref_text_app_theme_dark">Тёмная</string>
-    <string name="pref_text_app_theme_system">Системная</string>
+    <string name="pref_app_theme_light">Светлая</string>
+    <string name="pref_app_theme_dark">Тёмная</string>
+    <string name="pref_app_theme_system">Системная</string>
 
-    <string name="pref_text_note_sort_change">По времени изменения</string>
-    <string name="pref_text_note_sort_create">По времени создания</string>
-    <string name="pref_text_note_sort_rank">По категориям</string>
-    <string name="pref_text_note_sort_color">По цвету</string>
+    <string name="pref_note_sort_change">По времени изменения</string>
+    <string name="pref_note_sort_create">По времени создания</string>
+    <string name="pref_note_sort_rank">По категориям</string>
+    <string name="pref_note_sort_color">По цвету</string>
 
-    <string-array name="pref_text_note_color">
-        <item>Красный</item>
-        <item>Фиолетовый</item>
-        <item>Индиго</item>
-        <item>Синий</item>
-        <item>Бирюзовый</item>
-        <item>Зелёный</item>
-        <item>Желтый</item>
-        <item>Оранжевый</item>
-        <item>Коричневый</item>
-        <item>Сине-серый</item>
-        <item>Белый</item>
-    </string-array>
+    <string name="pref_note_color_red">Красный</string>
+    <string name="pref_note_color_purple">Фиолетовый</string>
+    <string name="pref_note_color_indigo">Индиго</string>
+    <string name="pref_note_color_blue">Синий</string>
+    <string name="pref_note_color_turquoise">Бирюзовый</string>
+    <string name="pref_note_color_green">Зелёный</string>
+    <string name="pref_note_color_yellow">Желтый</string>
+    <string name="pref_note_color_orange">Оранжевый</string>
+    <string name="pref_note_color_brown">Коричневый</string>
+    <string name="pref_note_color_blue_gray">Сине-серый</string>
+    <string name="pref_note_color_white">Белый</string>
 
-    <string-array name="pref_text_note_save_period">
+    <string-array name="pref_note_save_period">
         <item>1 минута</item>
         <item>3 минуты</item>
         <item>7 минут</item>
     </string-array>
 
-    <string-array name="pref_text_alarm_repeat">
+    <string-array name="pref_alarm_repeat">
         <item>@string/dialog_repeat_0</item>
         <item>@string/dialog_repeat_1</item>
         <item>@string/dialog_repeat_2</item>
@@ -40,7 +38,7 @@
         <item>@string/dialog_repeat_4</item>
     </string-array>
 
-    <string-array name="pref_text_alarm_signal">
+    <string-array name="pref_alarm_signal">
         <item>Мелодия</item>
         <item>Вибрация</item>
     </string-array>
