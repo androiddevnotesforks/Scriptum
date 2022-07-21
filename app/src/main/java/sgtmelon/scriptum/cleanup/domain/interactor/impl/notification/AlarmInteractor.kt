@@ -11,22 +11,15 @@ import sgtmelon.scriptum.cleanup.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.IAlarmViewModel
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
-import sgtmelon.scriptum.infrastructure.preferences.Preferences
 
 /**
  * Interactor for [IAlarmViewModel].
  */
 class AlarmInteractor(
-    private val preferences: Preferences,
     private val alarmRepo: IAlarmRepo,
     private val noteRepo: INoteRepo
 ) : ParentInteractor(),
     IAlarmInteractor {
-
-    override val volume: Int get() = preferences.volume
-
-    override val isVolumeIncrease: Boolean get() = preferences.isVolumeIncrease
-
 
     override suspend fun getModel(id: Long): NoteItem? {
         /**

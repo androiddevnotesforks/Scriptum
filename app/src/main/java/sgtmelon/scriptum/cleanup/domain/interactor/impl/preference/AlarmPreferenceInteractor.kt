@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.impl.preference
 
-import androidx.annotation.IntRange
 import java.util.Locale
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IAlarmPreferenceInteractor
 import sgtmelon.scriptum.cleanup.presentation.provider.SummaryProvider
@@ -43,15 +42,4 @@ class AlarmPreferenceInteractor(
         preferences.signal = signalConverter.toString(valueArray)
         return getSignalSummary(valueArray)
     }
-
-
-    override val volume: Int get() = preferences.volume
-
-    override fun getVolumeSummary(): String = summaryProvider.getVolume(volume)
-
-    override fun updateVolume(@IntRange(from = 10, to = 100) value: Int): String {
-        preferences.volume = value
-        return getVolumeSummary()
-    }
-
 }

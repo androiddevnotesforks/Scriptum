@@ -7,7 +7,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.spyk
-import io.mockk.verifySequence
 import java.util.Calendar
 import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -21,7 +20,6 @@ import sgtmelon.common.utils.getNewCalendar
 import sgtmelon.common.utils.getText
 import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.FastMock
-import sgtmelon.scriptum.FastTest
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
@@ -30,7 +28,6 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem.Alarm
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem.Note
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
-import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.parent.ParentInteractorTest
 
 /**
@@ -39,34 +36,18 @@ import sgtmelon.scriptum.parent.ParentInteractorTest
 @ExperimentalCoroutinesApi
 class AlarmInteractorTest : ParentInteractorTest() {
 
-    @MockK lateinit var preferences: Preferences
     @MockK lateinit var alarmRepo: IAlarmRepo
     @MockK lateinit var noteRepo: INoteRepo
 
     private val interactor by lazy {
-        AlarmInteractor(preferences, alarmRepo, noteRepo)
+        AlarmInteractor(alarmRepo, noteRepo)
     }
     private val spyInteractor by lazy { spyk(interactor) }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(preferences, alarmRepo, noteRepo)
+        confirmVerified(alarmRepo, noteRepo)
     }
-
-
-    @Test fun getVolume() = FastTest.getVolume(preferences) { interactor.volume }
-
-    @Test fun getVolumeIncrease() {
-        val value = Random.nextBoolean()
-
-        every { preferences.isVolumeIncrease } returns value
-        assertEquals(value, interactor.isVolumeIncrease)
-
-        verifySequence {
-            preferences.isVolumeIncrease
-        }
-    }
-
 
     @Test fun getModel() = startCoTest {
         val noteId = Random.nextLong()

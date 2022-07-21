@@ -39,6 +39,7 @@ class AlarmPreferenceViewModelTest : ParentViewModelTest() {
     @MockK lateinit var callback: IAlarmPreferenceFragment
     @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var getRepeatSummary: GetSummaryUseCase
+    @MockK lateinit var getVolumeSummary: GetSummaryUseCase
     @MockK lateinit var interactor: IAlarmPreferenceInteractor
     @MockK lateinit var signalInteractor: ISignalInteractor
 
@@ -47,7 +48,7 @@ class AlarmPreferenceViewModelTest : ParentViewModelTest() {
     private val viewModel by lazy {
         AlarmPreferenceViewModel(
             callback,
-            preferencesRepo, getRepeatSummary,
+            preferencesRepo, getRepeatSummary, getVolumeSummary,
             interactor, signalInteractor
         )
     }
@@ -55,7 +56,11 @@ class AlarmPreferenceViewModelTest : ParentViewModelTest() {
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(callback, preferencesRepo, getRepeatSummary, interactor, signalInteractor)
+        confirmVerified(
+            callback,
+            preferencesRepo, getRepeatSummary, getVolumeSummary,
+            interactor, signalInteractor
+        )
     }
 
     @Test override fun onDestroy() {
@@ -75,7 +80,7 @@ class AlarmPreferenceViewModelTest : ParentViewModelTest() {
         every { getRepeatSummary() } returns repeatSummary
         every { signalInteractor.typeCheck } returns typeCheck
         every { interactor.getSignalSummary(typeCheck) } returns signalSummary
-        every { interactor.getVolumeSummary() } returns volumeSummary
+        every { getVolumeSummary() } returns volumeSummary
         coEvery { spyViewModel.setupBackground() } returns Unit
 
         spyViewModel.onSetup()
@@ -96,7 +101,7 @@ class AlarmPreferenceViewModelTest : ParentViewModelTest() {
             callback.updateSignalSummary(signalSummary)
 
             spyViewModel.callback
-            interactor.getVolumeSummary()
+            getVolumeSummary()
             callback.updateVolumeSummary(volumeSummary)
 
             spyViewModel.setupBackground()
@@ -465,12 +470,12 @@ class AlarmPreferenceViewModelTest : ParentViewModelTest() {
     @Test fun onClickVolume() {
         val value = Random.nextInt()
 
-        every { interactor.volume } returns value
+        every { preferencesRepo.volume } returns value
 
         viewModel.onClickVolume()
 
         verifySequence {
-            interactor.volume
+            preferencesRepo.volume
             callback.showVolumeDialog(value)
         }
     }
@@ -479,12 +484,12 @@ class AlarmPreferenceViewModelTest : ParentViewModelTest() {
         val value = Random.nextInt()
         val summary = nextString()
 
-        every { interactor.updateVolume(value) } returns summary
+        every { getVolumeSummary(value) } returns summary
 
         viewModel.onResultVolume(value)
 
         verifySequence {
-            interactor.updateVolume(value)
+            getVolumeSummary(value)
             callback.updateVolumeSummary(summary)
         }
     }

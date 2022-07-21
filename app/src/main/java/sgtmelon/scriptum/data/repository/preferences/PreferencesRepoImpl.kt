@@ -1,5 +1,7 @@
 package sgtmelon.scriptum.data.repository.preferences
 
+import java.lang.Integer.max
+import java.lang.Integer.min
 import sgtmelon.scriptum.cleanup.extension.validIndexOfFirst
 import sgtmelon.scriptum.data.dataSource.PreferencesDataSource
 import sgtmelon.scriptum.infrastructure.converter.SignalConverter
@@ -140,7 +142,8 @@ class PreferencesRepoImpl(
     override var volume: Int
         get() = dataSource.volume
         set(value) {
-            dataSource.volume = value
+            /** @IntRange(from = 10, to = 100) */
+            dataSource.volume = min(max(value, 10), 100)
         }
 
     override val isVolumeIncrease: Boolean get() = dataSource.isVolumeIncrease

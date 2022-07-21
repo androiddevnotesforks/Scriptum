@@ -12,11 +12,6 @@ import sgtmelon.scriptum.infrastructure.model.key.Repeat
  */
 interface IAlarmInteractor : IParentInteractor {
 
-    val volume: Int
-
-    val isVolumeIncrease: Boolean
-
-
     suspend fun getModel(id: Long): NoteItem?
 
     suspend fun setupRepeat(item: NoteItem, valueArray: IntArray, repeat: Repeat): Calendar?

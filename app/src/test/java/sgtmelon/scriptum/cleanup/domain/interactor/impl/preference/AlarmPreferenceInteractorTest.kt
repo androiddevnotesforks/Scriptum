@@ -14,7 +14,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.common.utils.nextString
-import sgtmelon.scriptum.FastTest
 import sgtmelon.scriptum.cleanup.presentation.provider.SummaryProvider
 import sgtmelon.scriptum.getRandomSize
 import sgtmelon.scriptum.infrastructure.converter.SignalConverter
@@ -91,38 +90,4 @@ class AlarmPreferenceInteractorTest : ParentInteractorTest() {
             }
         }
     }
-
-
-    @Test fun getVolume() = FastTest.getVolume(preferences) { interactor.volume }
-
-    @Test fun getVolumeSummary() {
-        val value = Random.nextInt()
-        val summary = nextString()
-
-        every { spyInteractor.volume } returns value
-        every { summaryProvider.getVolume(value) } returns summary
-        assertEquals(summary, spyInteractor.getVolumeSummary())
-
-        verifySequence {
-            spyInteractor.getVolumeSummary()
-            spyInteractor.volume
-            summaryProvider.getVolume(value)
-        }
-    }
-
-    @Test fun updateVolume() {
-        val value = Random.nextInt()
-        val summary = nextString()
-
-        every { preferences.volume = value } returns Unit
-        every { spyInteractor.getVolumeSummary() } returns summary
-        assertEquals(summary, spyInteractor.updateVolume(value))
-
-        verifySequence {
-            spyInteractor.updateVolume(value)
-            preferences.volume = value
-            spyInteractor.getVolumeSummary()
-        }
-    }
-
 }

@@ -263,6 +263,7 @@ object ViewModelFactory {
             private val fragment: AlarmPreferenceFragment,
             private val preferencesRepo: PreferencesRepo,
             private val getRepeatSummary: GetSummaryUseCase,
+            private val getVolumeSummary: GetSummaryUseCase,
             private val interactor: IAlarmPreferenceInteractor,
             private val signalInteractor: ISignalInteractor
         ) : ViewModelProvider.Factory {
@@ -270,7 +271,7 @@ object ViewModelFactory {
                 return modelClass.create(AlarmPreferenceViewModel::class) {
                     AlarmPreferenceViewModel(
                         fragment,
-                        preferencesRepo, getRepeatSummary,
+                        preferencesRepo, getRepeatSummary, getVolumeSummary,
                         interactor, signalInteractor
                     )
                 }

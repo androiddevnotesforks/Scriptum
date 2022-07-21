@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference
 
 import android.os.Bundle
+import androidx.annotation.IntRange
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.common.test.annotation.RunPrivate
@@ -22,6 +23,7 @@ class AlarmPreferenceViewModel(
     callback: IAlarmPreferenceFragment,
     private val preferencesRepo: PreferencesRepo,
     private val getRepeatSummary: GetSummaryUseCase,
+    private val getVolumeSummary: GetSummaryUseCase,
     private val interactor: IAlarmPreferenceInteractor,
     private val signalInteractor: ISignalInteractor
 ) : ParentViewModel<IAlarmPreferenceFragment>(callback),
@@ -32,7 +34,7 @@ class AlarmPreferenceViewModel(
 
         callback?.updateRepeatSummary(getRepeatSummary())
         callback?.updateSignalSummary(interactor.getSignalSummary(signalInteractor.typeCheck))
-        callback?.updateVolumeSummary(interactor.getVolumeSummary())
+        callback?.updateVolumeSummary(getVolumeSummary())
 
         viewModelScope.launch { setupBackground() }
     }
@@ -163,10 +165,10 @@ class AlarmPreferenceViewModel(
     }
 
     override fun onClickVolume() {
-        callback?.showVolumeDialog(interactor.volume)
+        callback?.showVolumeDialog(preferencesRepo.volume)
     }
 
-    override fun onResultVolume(value: Int) {
-        callback?.updateVolumeSummary(interactor.updateVolume(value))
+    override fun onResultVolume(@IntRange(from = 10, to = 100) value: Int) {
+        callback?.updateVolumeSummary(getVolumeSummary(value))
     }
 }

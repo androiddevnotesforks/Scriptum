@@ -103,8 +103,8 @@ class AlarmViewModelTest : ParentViewModelTest() {
         every { bundle.getLong(Note.Intent.ID, Note.Default.ID) } returns id
         coEvery { signalInteractor.getMelodyUri() } returns URI
 
-        every { interactor.volume } returns volume
-        every { interactor.isVolumeIncrease } returns isVolumeIncrease
+        every { preferencesRepo.volume } returns volume
+        every { preferencesRepo.isVolumeIncrease } returns isVolumeIncrease
         every { signalInteractor.state } returns null
         viewModel.onSetup(bundle)
 
@@ -120,8 +120,8 @@ class AlarmViewModelTest : ParentViewModelTest() {
                 setupInsets()
 
                 signalInteractor.getMelodyUri()
-                interactor.volume
-                interactor.isVolumeIncrease
+                preferencesRepo.volume
+                preferencesRepo.isVolumeIncrease
                 setupPlayer(URI, volume, isVolumeIncrease)
             }
             signalInteractor.state
@@ -133,8 +133,8 @@ class AlarmViewModelTest : ParentViewModelTest() {
                 setupInsets()
 
                 signalInteractor.getMelodyUri()
-                interactor.volume
-                interactor.isVolumeIncrease
+                preferencesRepo.volume
+                preferencesRepo.isVolumeIncrease
                 setupPlayer(URI, volume, isVolumeIncrease)
             }
             signalInteractor.state
@@ -163,8 +163,8 @@ class AlarmViewModelTest : ParentViewModelTest() {
             viewModel.onSetup(bundle)
         }
 
-        every { interactor.volume } returns volume
-        every { interactor.isVolumeIncrease } returns isVolumeIncrease
+        every { preferencesRepo.volume } returns volume
+        every { preferencesRepo.isVolumeIncrease } returns isVolumeIncrease
         every { signalInteractor.state } returns null
         callOnSetup()
 
@@ -184,8 +184,8 @@ class AlarmViewModelTest : ParentViewModelTest() {
                     setupInsets()
 
                     signalInteractor.getMelodyUri()
-                    interactor.volume
-                    interactor.isVolumeIncrease
+                    preferencesRepo.volume
+                    preferencesRepo.isVolumeIncrease
                     setupPlayer(URI, volume, isVolumeIncrease)
                 }
                 signalInteractor.state
@@ -200,8 +200,8 @@ class AlarmViewModelTest : ParentViewModelTest() {
                     setupInsets()
 
                     signalInteractor.getMelodyUri()
-                    interactor.volume
-                    interactor.isVolumeIncrease
+                    preferencesRepo.volume
+                    preferencesRepo.isVolumeIncrease
                     setupPlayer(URI, volume, isVolumeIncrease)
                 }
                 signalInteractor.state
@@ -224,8 +224,8 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
         viewModel.noteItem = noteItem
 
-        every { interactor.volume } returns 1
-        every { interactor.isVolumeIncrease } returns true
+        every { preferencesRepo.volume } returns 1
+        every { preferencesRepo.isVolumeIncrease } returns true
 
         viewModel.onSetup(bundle)
         viewModel.onSetup()

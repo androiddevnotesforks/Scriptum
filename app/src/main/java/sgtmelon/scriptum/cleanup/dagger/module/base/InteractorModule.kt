@@ -148,11 +148,10 @@ class InteractorModule {
     @Provides
     @ActivityScope
     fun provideAlarmInteractor(
-        preferences: Preferences,
         alarmRepo: IAlarmRepo,
         noteRepo: INoteRepo
     ): IAlarmInteractor {
-        return AlarmInteractor(preferences, alarmRepo, noteRepo)
+        return AlarmInteractor(alarmRepo, noteRepo)
     }
 
     @Provides

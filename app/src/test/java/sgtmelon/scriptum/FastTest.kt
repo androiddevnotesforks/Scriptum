@@ -116,22 +116,6 @@ object FastTest {
         }
     }
 
-    fun getVolume(preferences: Preferences, callFunc: () -> Int) {
-        fun checkRequestGet(value: Int) {
-            every { preferences.volume } returns value
-            assertEquals(callFunc(), value)
-        }
-
-        val valueList = listOf(Random.nextInt(), Random.nextInt(), Random.nextInt())
-        for (it in valueList) {
-            checkRequestGet(it)
-        }
-
-        verifySequence {
-            repeat(valueList.size) { preferences.volume }
-        }
-    }
-
     class ViewModel<N : NoteItem, C : IParentNoteFragment<N>, I : IParentNoteInteractor<N>>(
         private val callback: IParentNoteFragment<N>,
         private val parentCallback: INoteConnector,

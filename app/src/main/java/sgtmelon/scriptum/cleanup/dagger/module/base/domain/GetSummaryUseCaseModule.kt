@@ -11,6 +11,7 @@ import sgtmelon.scriptum.domain.useCase.preferences.GetSavePeriodSummaryUseCaseI
 import sgtmelon.scriptum.domain.useCase.preferences.GetSortSummaryUseCaseImpl
 import sgtmelon.scriptum.domain.useCase.preferences.GetSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.GetThemeSummaryUseCaseImpl
+import sgtmelon.scriptum.domain.useCase.preferences.GetVolumeSummaryUseCaseImpl
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.converter.key.RepeatConverter
 import sgtmelon.scriptum.infrastructure.converter.key.SavePeriodConverter
@@ -68,5 +69,14 @@ class GetSummaryUseCaseModule {
         converter: RepeatConverter
     ): GetSummaryUseCase {
         return GetRepeatSummaryUseCaseImpl(summaryProvider, preferencesRepo, converter)
+    }
+
+    @Provides
+    @Named("Volume")
+    fun provideGetVolumeSummaryUseCase(
+        summaryProvider: SummaryProvider,
+        preferencesRepo: PreferencesRepo
+    ): GetSummaryUseCase {
+        return GetVolumeSummaryUseCaseImpl(summaryProvider, preferencesRepo)
     }
 }

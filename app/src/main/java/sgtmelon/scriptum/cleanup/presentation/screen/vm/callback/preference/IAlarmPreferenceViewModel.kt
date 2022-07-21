@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference
 
+import androidx.annotation.IntRange
 import sgtmelon.scriptum.cleanup.domain.model.key.PermissionResult
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IAlarmPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IParentViewModel
@@ -29,6 +30,6 @@ interface IAlarmPreferenceViewModel : IParentViewModel {
 
     fun onClickVolume()
 
-    fun onResultVolume(value: Int)
+    fun onResultVolume(@IntRange(from = 10, to = 100) value: Int)
 
 }

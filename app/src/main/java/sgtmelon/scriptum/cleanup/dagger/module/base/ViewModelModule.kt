@@ -253,12 +253,13 @@ class ViewModelModule {
         fragment: AlarmPreferenceFragment,
         preferencesRepo: PreferencesRepo,
         @Named("Repeat") getRepeatSummary: GetSummaryUseCase,
+        @Named("Volume") getVolumeSummary: GetSummaryUseCase,
         interactor: IAlarmPreferenceInteractor,
         signalInteractor: ISignalInteractor
     ): IAlarmPreferenceViewModel {
         val factory = ViewModelFactory.Preference.Alarm(
             fragment,
-            preferencesRepo, getRepeatSummary,
+            preferencesRepo, getRepeatSummary, getVolumeSummary,
             interactor, signalInteractor
         )
         return ViewModelProvider(fragment, factory)[AlarmPreferenceViewModel::class.java]

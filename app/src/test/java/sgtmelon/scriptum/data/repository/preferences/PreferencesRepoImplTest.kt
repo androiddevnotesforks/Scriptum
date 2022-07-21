@@ -366,10 +366,30 @@ class PreferencesRepoImplTest : ParentTest() {
     )
 
     @Test fun setVolume() = setTest(
-        Random.nextInt(),
+        (10..100).random(),
         { dataSource.volume = it },
         { repo.volume = it }
     )
+
+    @Test fun `setVolume min value`() {
+        val value = (-100..9).random()
+
+        repo.volume = value
+
+        verifySequence {
+            dataSource.volume = 10
+        }
+    }
+
+    @Test fun `setVolume max value`() {
+        val value = (101..1000).random()
+
+        repo.volume = value
+
+        verifySequence {
+            dataSource.volume = 100
+        }
+    }
 
     @Test fun isVolumeIncrease() = getTest(
         Random.nextBoolean(),
