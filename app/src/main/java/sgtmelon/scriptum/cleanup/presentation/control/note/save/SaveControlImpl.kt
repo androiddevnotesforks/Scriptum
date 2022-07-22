@@ -18,7 +18,7 @@ class SaveControlImpl(
     resources: Resources,
     private val saveState: NoteSaveState,
     private val callback: Callback
-) : ISaveControl {
+) : SaveControl {
 
     private val ioScope = CoroutineScope(Dispatchers.IO)
     private var job: Job? = null

@@ -32,7 +32,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.state.NoteState
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
-import sgtmelon.scriptum.cleanup.presentation.control.note.save.ISaveControl
+import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.ITextNoteFragment
 import sgtmelon.scriptum.parent.ParentViewModelTest
@@ -51,7 +51,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
 
     @MockK lateinit var interactor: ITextNoteInteractor
 
-    @MockK lateinit var saveControl: ISaveControl
+    @MockK lateinit var saveControl: SaveControl
     @MockK lateinit var inputControl: IInputControl
 
     private val viewModel by lazy { TextNoteViewModel(callback, parentCallback, interactor) }

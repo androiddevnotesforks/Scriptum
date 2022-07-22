@@ -22,7 +22,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.state.NoteState
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
-import sgtmelon.scriptum.cleanup.presentation.control.note.save.ISaveControl
+import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.IParentNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.IParentNoteViewModel
@@ -43,13 +43,13 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
     /**
      * Abstract because need setup callback but this class not final.
      */
-    @RunProtected lateinit var saveControl: ISaveControl
+    @RunProtected lateinit var saveControl: SaveControl
         private set
 
     /**
      * Need call after [interactor] initialization.
      */
-    fun setSaveControl(saveControl: ISaveControl) {
+    fun setSaveControl(saveControl: SaveControl) {
         this.saveControl = saveControl
     }
 

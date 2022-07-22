@@ -35,7 +35,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.domain.model.state.NoteState
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
-import sgtmelon.scriptum.cleanup.presentation.control.note.save.ISaveControl
+import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.IParentNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.ParentNoteViewModel
@@ -119,7 +119,7 @@ object FastTest {
         private val callback: IParentNoteFragment<N>,
         private val parentCallback: INoteConnector,
         private val interactor: IParentNoteInteractor<N>,
-        private val saveControl: ISaveControl,
+        private val saveControl: SaveControl,
         private val inputControl: IInputControl,
         private val viewModel: ParentNoteViewModel<N, C, I>,
         private val spyViewModel: ParentNoteViewModel<N, C, I>,

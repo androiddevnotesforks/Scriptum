@@ -40,7 +40,7 @@ import sgtmelon.scriptum.cleanup.extension.validIndexOfFirst
 import sgtmelon.scriptum.cleanup.extension.validRemoveAt
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
-import sgtmelon.scriptum.cleanup.presentation.control.note.save.ISaveControl
+import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.IRollNoteFragment
 import sgtmelon.scriptum.getRandomSize
@@ -60,7 +60,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
     @MockK lateinit var interactor: IRollNoteInteractor
 
-    @MockK lateinit var saveControl: ISaveControl
+    @MockK lateinit var saveControl: SaveControl
     @MockK lateinit var inputControl: IInputControl
 
     private val viewModel by lazy { RollNoteViewModel(callback, parentCallback, interactor) }
