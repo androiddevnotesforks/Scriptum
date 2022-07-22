@@ -2,12 +2,15 @@ package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note
 
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
+import java.util.Calendar
 import kotlinx.coroutines.launch
 import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.common.test.annotation.RunProtected
 import sgtmelon.common.test.idling.impl.AppIdlingResource
 import sgtmelon.common.utils.beforeNow
 import sgtmelon.common.utils.getCalendar
+import sgtmelon.common.utils.launchBack
+import sgtmelon.common.utils.runBack
 import sgtmelon.scriptum.cleanup.data.room.converter.type.StringConverter
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IParentNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
@@ -17,8 +20,6 @@ import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.state.NoteState
-import sgtmelon.common.utils.launchBack
-import sgtmelon.common.utils.runBack
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.ISaveControl
@@ -26,7 +27,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConne
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.IParentNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.IParentNoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
-import java.util.*
 
 /**
  * Parent viewModel for [TextNoteViewModel] and [RollNoteViewModel].
@@ -129,7 +129,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
     override fun onDestroy(func: () -> Unit) = super.onDestroy {
         interactor.onDestroy()
         parentCallback = null
-        saveControl.setSaveEvent(isWork = false)
+        saveControl.changeAutoSaveWork(isWork = false)
     }
 
 
@@ -142,7 +142,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
 
     override fun onResume() {
         if (noteState.isEdit) {
-            saveControl.setSaveEvent(isWork = true)
+            saveControl.changeAutoSaveWork(isWork = true)
         }
     }
 
@@ -151,7 +151,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
 
         if (noteState.isEdit) {
             saveControl.onPauseSave()
-            saveControl.setSaveEvent(isWork = false)
+            saveControl.changeAutoSaveWork(isWork = false)
         }
     }
 
@@ -161,7 +161,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
             callback?.hideKeyboard()
             onRestoreData()
         } else {
-            saveControl.needSave = false
+            saveControl.isNeedSave = false
             parentCallback?.finish()
         }
     }
@@ -175,7 +175,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
         /**
          * If note can't be saved and activity will be closed.
          */
-        saveControl.needSave = false
+        saveControl.isNeedSave = false
 
         return if (!onMenuSave(changeMode = true)) {
             if (!noteState.isCreate) onRestoreData() else false

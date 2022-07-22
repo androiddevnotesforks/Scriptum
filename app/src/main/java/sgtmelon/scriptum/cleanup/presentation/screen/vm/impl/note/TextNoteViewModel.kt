@@ -2,16 +2,16 @@ package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note
 
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import sgtmelon.common.test.annotation.RunPrivate
+import sgtmelon.common.utils.runBack
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
-import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note.Default
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.state.NoteState
-import sgtmelon.common.utils.runBack
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.ITextNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.ITextNoteViewModel
@@ -174,8 +174,8 @@ class TextNoteViewModel(
             if (isEdit) focusOnEdit(noteState.isCreate)
         }
 
-        saveControl.needSave = true
-        saveControl.setSaveEvent(isEdit)
+        saveControl.isNeedSave = true
+        saveControl.changeAutoSaveWork(isEdit)
 
         inputControl.isEnabled = true
     }

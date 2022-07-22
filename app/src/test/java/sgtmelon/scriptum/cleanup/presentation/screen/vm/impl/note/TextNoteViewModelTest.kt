@@ -1,10 +1,22 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note
 
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.coVerifyOrder
+import io.mockk.coVerifySequence
+import io.mockk.confirmVerified
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
+import io.mockk.mockkObject
+import io.mockk.spyk
+import io.mockk.verifySequence
+import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import sgtmelon.common.utils.nextString
@@ -18,14 +30,13 @@ import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.state.NoteState
-import sgtmelon.scriptum.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.ISaveControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.ITextNoteFragment
+import sgtmelon.scriptum.parent.ParentViewModelTest
 import sgtmelon.scriptum.verifyDeepCopy
-import kotlin.random.Random
 
 /**
  * Test for [TextNoteViewModel].
@@ -642,8 +653,8 @@ class TextNoteViewModelTest : ParentViewModelTest() {
             callback.onBindingEdit(noteItem, isEditMode = false)
             inputControl.access
             callback.onBindingInput(noteItem, access)
-            saveControl.needSave = true
-            saveControl.setSaveEvent(isWork = false)
+            saveControl.isNeedSave = true
+            saveControl.changeAutoSaveWork(isWork = false)
             inputControl.isEnabled = true
 
             inputControl.isEnabled = false
@@ -659,8 +670,8 @@ class TextNoteViewModelTest : ParentViewModelTest() {
             callback.onBindingInput(noteItem, access)
             noteState.isCreate
             callback.focusOnEdit(isCreate)
-            saveControl.needSave = true
-            saveControl.setSaveEvent(isWork = true)
+            saveControl.isNeedSave = true
+            saveControl.changeAutoSaveWork(isWork = true)
             inputControl.isEnabled = true
         }
     }

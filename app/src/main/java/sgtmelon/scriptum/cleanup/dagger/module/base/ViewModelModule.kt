@@ -21,7 +21,7 @@ import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IAlarmPre
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IBackupPreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IDevelopInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IPrintDevelopInteractor
-import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControl
+import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControlImpl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.SplashActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.intro.IntroActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.BinFragment
@@ -156,11 +156,12 @@ class ViewModelModule {
     @ActivityScope
     fun provideTextNoteViewModel(
         fragment: TextNoteFragment,
+        preferencesRepo: PreferencesRepo,
         interactor: ITextNoteInteractor
     ): ITextNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.TextNote(fragment, interactor)
         val viewModel = ViewModelProvider(fragment, factory)[TextNoteViewModel::class.java]
-        val saveControl = SaveControl(fragment.resources, interactor.getSaveModel(), viewModel)
+        val saveControl = SaveControlImpl(fragment.resources, preferencesRepo.saveState, viewModel)
         viewModel.setSaveControl(saveControl)
 
         return viewModel
@@ -170,11 +171,12 @@ class ViewModelModule {
     @ActivityScope
     fun provideRollNoteViewModel(
         fragment: RollNoteFragment,
+        preferencesRepo: PreferencesRepo,
         interactor: IRollNoteInteractor
     ): IRollNoteViewModel {
         val factory = ViewModelFactory.NoteScreen.RollNote(fragment, interactor)
         val viewModel = ViewModelProvider(fragment, factory)[RollNoteViewModel::class.java]
-        val saveControl = SaveControl(fragment.resources, interactor.getSaveModel(), viewModel)
+        val saveControl = SaveControlImpl(fragment.resources, preferencesRepo.saveState, viewModel)
         viewModel.setSaveControl(saveControl)
 
         return viewModel

@@ -1,15 +1,31 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note
 
 import android.view.inputmethod.EditorInfo
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.coVerifyOrder
+import io.mockk.coVerifySequence
+import io.mockk.confirmVerified
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
+import io.mockk.mockkObject
+import io.mockk.spyk
+import io.mockk.verifyOrder
+import io.mockk.verifySequence
+import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import sgtmelon.common.utils.nextString
-import sgtmelon.scriptum.*
+import sgtmelon.scriptum.FastMock
+import sgtmelon.scriptum.FastTest
+import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note
@@ -22,13 +38,14 @@ import sgtmelon.scriptum.cleanup.extension.hide
 import sgtmelon.scriptum.cleanup.extension.move
 import sgtmelon.scriptum.cleanup.extension.validIndexOfFirst
 import sgtmelon.scriptum.cleanup.extension.validRemoveAt
-import sgtmelon.scriptum.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.ISaveControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.IRollNoteFragment
-import kotlin.random.Random
+import sgtmelon.scriptum.getRandomSize
+import sgtmelon.scriptum.parent.ParentViewModelTest
+import sgtmelon.scriptum.verifyDeepCopy
 
 /**
  * Test for [RollNoteViewModel].
@@ -1781,8 +1798,8 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             noteItem.list
             list.size
             callback.updateProgress(check, size)
-            saveControl.needSave = true
-            saveControl.setSaveEvent(isWork = false)
+            saveControl.isNeedSave = true
+            saveControl.changeAutoSaveWork(isWork = false)
             inputControl.isEnabled = true
 
             inputControl.isEnabled = false
@@ -1799,8 +1816,8 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             callback.updateNoteState(noteState)
             noteState.isCreate
             callback.focusOnEdit(isCreate)
-            saveControl.needSave = true
-            saveControl.setSaveEvent(isWork = true)
+            saveControl.isNeedSave = true
+            saveControl.changeAutoSaveWork(isWork = true)
             inputControl.isEnabled = true
         }
     }

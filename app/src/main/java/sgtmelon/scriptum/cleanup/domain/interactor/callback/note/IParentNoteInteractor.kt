@@ -1,15 +1,14 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.callback.note
 
+import java.util.Calendar
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.IParentInteractor
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControl
-import java.util.*
 
 /**
  * Parent interface for [ITextNoteInteractor] and [IRollNoteInteractor].
  */
-interface IParentNoteInteractor<N : NoteItem> : IParentInteractor, SaveControl.Setup {
+interface IParentNoteInteractor<N : NoteItem> : IParentInteractor {
 
     @Color val defaultColor: Int
 

@@ -14,5 +14,4 @@ abstract class ParentInteractor {
     @CallSuper open fun onDestroy(func: () -> Unit = {}) {
         func()
     }
-
 }

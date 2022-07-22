@@ -5,19 +5,19 @@ import io.mockk.coVerifySequence
 import io.mockk.confirmVerified
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
+import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.scriptum.FastTest
-import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.parent.ParentInteractorTest
-import kotlin.random.Random
 
 /**
  * Test for [RollNoteInteractor].
@@ -39,11 +39,6 @@ class RollNoteInteractorTest : ParentInteractorTest() {
     @After override fun tearDown() {
         super.tearDown()
         confirmVerified(preferences, alarmRepo, rankRepo, noteRepo)
-    }
-
-
-    @Test fun getSaveModel() = FastTest.Interactor.getSaveModel(preferences) {
-        interactor.getSaveModel()
     }
 
     @Test fun getDefaultColor() = FastTest.getDefaultColor(preferences) {

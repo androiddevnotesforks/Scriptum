@@ -1,14 +1,10 @@
 package sgtmelon.scriptum.cleanup.presentation.control.note.save
 
-/**
- * Interface for [SaveControl].
- */
 interface ISaveControl {
 
-    var needSave: Boolean
+    var isNeedSave: Boolean
 
-    fun setSaveEvent(isWork: Boolean)
+    fun changeAutoSaveWork(isWork: Boolean)
 
     fun onPauseSave()
-
 }

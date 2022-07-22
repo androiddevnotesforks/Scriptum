@@ -3,19 +3,23 @@ package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note
 import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IRollNoteInteractor
-import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
 import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.common.utils.launchBack
 import sgtmelon.common.utils.runBack
+import sgtmelon.scriptum.R
+import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IRollNoteInteractor
+import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note.Default
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.domain.model.state.NoteState
-import sgtmelon.scriptum.cleanup.extension.*
+import sgtmelon.scriptum.cleanup.extension.clearSpace
+import sgtmelon.scriptum.cleanup.extension.hide
+import sgtmelon.scriptum.cleanup.extension.move
+import sgtmelon.scriptum.cleanup.extension.validIndexOfFirst
+import sgtmelon.scriptum.cleanup.extension.validRemoveAt
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.IRollNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.IRollNoteViewModel
@@ -439,8 +443,8 @@ class RollNoteViewModel(
             }
         }
 
-        saveControl.needSave = true
-        saveControl.setSaveEvent(isEdit)
+        saveControl.isNeedSave = true
+        saveControl.changeAutoSaveWork(isEdit)
 
         inputControl.isEnabled = true
     }

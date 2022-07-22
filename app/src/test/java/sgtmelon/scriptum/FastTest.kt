@@ -36,7 +36,6 @@ import sgtmelon.scriptum.cleanup.domain.model.state.NoteState
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.ISaveControl
-import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.IParentNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note.ParentNoteViewModel
@@ -215,7 +214,7 @@ object FastTest {
 
             verifySequence {
                 interactor.onDestroy()
-                saveControl.setSaveEvent(isWork = false)
+                saveControl.changeAutoSaveWork(isWork = false)
             }
         }
 
@@ -249,7 +248,7 @@ object FastTest {
                 noteState.isEdit
 
                 noteState.isEdit
-                saveControl.setSaveEvent(isWork = true)
+                saveControl.changeAutoSaveWork(isWork = true)
             }
         }
 
@@ -276,7 +275,7 @@ object FastTest {
                 parentCallback.isOrientationChanging()
                 noteState.isEdit
                 saveControl.onPauseSave()
-                saveControl.setSaveEvent(isWork = false)
+                saveControl.changeAutoSaveWork(isWork = false)
             }
         }
 
@@ -305,19 +304,19 @@ object FastTest {
 
                 spyViewModel.onClickBackArrow()
                 noteState.isCreate
-                saveControl.needSave = false
+                saveControl.isNeedSave = false
                 parentCallback.finish()
 
                 spyViewModel.onClickBackArrow()
                 noteState.isCreate
                 noteState.isEdit
-                saveControl.needSave = false
+                saveControl.isNeedSave = false
                 parentCallback.finish()
 
                 spyViewModel.onClickBackArrow()
                 noteState.isCreate
                 noteState.isEdit
-                saveControl.needSave = false
+                saveControl.isNeedSave = false
                 parentCallback.finish()
 
                 spyViewModel.id = id
@@ -359,20 +358,20 @@ object FastTest {
 
                 spyViewModel.onPressBack()
                 noteState.isEdit
-                saveControl.needSave = false
+                saveControl.isNeedSave = false
                 spyViewModel.onMenuSave(changeMode = true)
                 noteState.isCreate
                 spyViewModel.onRestoreData()
 
                 spyViewModel.onPressBack()
                 noteState.isEdit
-                saveControl.needSave = false
+                saveControl.isNeedSave = false
                 spyViewModel.onMenuSave(changeMode = true)
                 noteState.isCreate
 
                 spyViewModel.onPressBack()
                 noteState.isEdit
-                saveControl.needSave = false
+                saveControl.isNeedSave = false
                 spyViewModel.onMenuSave(changeMode = true)
             }
         }
@@ -1056,21 +1055,6 @@ object FastTest {
     object Interactor {
 
         //region Note
-
-        fun getSaveModel(preferences: Preferences, callFunc: () -> SaveControl.Model) {
-            val model = with(Random) { SaveControl.Model(nextBoolean(), nextBoolean(), nextInt()) }
-
-            every { preferences.isPauseSaveOn } returns model.isPauseSaveOn
-            every { preferences.isAutoSaveOn } returns model.isAutoSaveOn
-            every { preferences.savePeriod } returns model.savePeriod
-            assertEquals(model, callFunc())
-
-            verifySequence {
-                preferences.isPauseSaveOn
-                preferences.isAutoSaveOn
-                preferences.savePeriod
-            }
-        }
 
         /**
          * Can't mockk Arrays. Don't try.

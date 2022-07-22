@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.impl.note
 
+import java.util.Calendar
 import sgtmelon.common.utils.getText
-import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
@@ -9,9 +9,8 @@ import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteIntera
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.ITextNoteViewModel
-import java.util.*
+import sgtmelon.scriptum.infrastructure.preferences.Preferences
 
 /**
  * Interactor for [ITextNoteViewModel].
@@ -23,10 +22,6 @@ class TextNoteInteractor(
     private val noteRepo: INoteRepo
 ) : ParentInteractor(),
     ITextNoteInteractor {
-
-    override fun getSaveModel(): SaveControl.Model = with(preferences) {
-        return@with SaveControl.Model(isPauseSaveOn, isAutoSaveOn, savePeriod)
-    }
 
     @Color override val defaultColor: Int get() = preferences.defaultColor
 
