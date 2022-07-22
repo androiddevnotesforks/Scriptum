@@ -3,12 +3,14 @@ package sgtmelon.scriptum
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
+import kotlin.random.Random
 import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
-import kotlin.random.Random
 
 object FastMock {
+
+    fun extensions() = mockkStatic("sgtmelon.scriptum.infrastructure.utils.ExtensionUtils")
 
     fun timeExtension() = mockkStatic("sgtmelon.common.utils.TimeExtensionUtils")
 

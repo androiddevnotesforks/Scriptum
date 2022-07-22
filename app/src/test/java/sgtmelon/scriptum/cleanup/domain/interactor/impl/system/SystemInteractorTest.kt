@@ -1,27 +1,34 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.impl.system
 
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.coVerifySequence
+import io.mockk.confirmVerified
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
+import io.mockk.spyk
+import java.util.Calendar
+import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.Assert.*
+import org.junit.After
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.common.utils.beforeNow
 import sgtmelon.common.utils.getCalendar
 import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.FastMock
-import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IBindRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
-import sgtmelon.scriptum.getRandomSize
-import sgtmelon.scriptum.parent.ParentInteractorTest
 import sgtmelon.scriptum.cleanup.presentation.screen.system.ISystemBridge
-import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.random.Random
+import sgtmelon.scriptum.getRandomSize
+import sgtmelon.scriptum.infrastructure.preferences.Preferences
+import sgtmelon.scriptum.parent.ParentInteractorTest
 
 /**
  * Test for [SystemInteractor]
@@ -42,7 +49,7 @@ class SystemInteractorTest : ParentInteractorTest() {
     }
     private val spyInteractor by lazy { spyk(interactor) }
 
-    override fun tearDown() {
+    @After override fun tearDown() {
         super.tearDown()
         confirmVerified(preferences, bindRepo, alarmRepo, rankRepo, noteRepo, callback)
     }

@@ -2,14 +2,15 @@ package sgtmelon.scriptum.test.ui.auto.screen.preference.alarm
 
 import androidx.annotation.IntRange
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import kotlin.random.Random
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.AlarmPreferenceFragment
 import sgtmelon.scriptum.test.parent.ParentUiTest
 import sgtmelon.scriptum.ui.dialog.preference.VolumeDialogUi
-import kotlin.random.Random
 
 /**
  * Test for [AlarmPreferenceFragment] and [VolumeDialogUi].
@@ -17,8 +18,8 @@ import kotlin.random.Random
 @RunWith(AndroidJUnit4::class)
 class AlarmPreferenceVolumeTest : ParentUiTest(), IAlarmPreferenceTest {
 
-    override fun setup() {
-        super.setup()
+    @Before override fun setUp() {
+        super.setUp()
         getLogic().alarmInteractor.updateSignal(booleanArrayOf(true, Random.nextBoolean()))
     }
 

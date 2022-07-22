@@ -1,7 +1,14 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.presenter.system
 
-import io.mockk.*
+import io.mockk.coVerifySequence
+import io.mockk.confirmVerified
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
+import io.mockk.spyk
+import io.mockk.verifySequence
+import java.util.Calendar
+import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Assert.assertNotNull
@@ -9,10 +16,8 @@ import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.system.ISystemInteractor
-import sgtmelon.scriptum.parent.ParentPresenterTest
 import sgtmelon.scriptum.cleanup.presentation.screen.system.ISystemLogic
-import java.util.*
-import kotlin.random.Random
+import sgtmelon.scriptum.parent.ParentPresenterTest
 
 /**
  * Test for [SystemPresenter]
@@ -28,8 +33,8 @@ class SystemPresenterTest : ParentPresenterTest() {
     private val presenter by lazy { SystemPresenter(interactor) }
     private val spyPresenter by lazy { spyk(presenter) }
 
-    @Before override fun setup() {
-        super.setup()
+    @Before override fun setUp() {
+        super.setUp()
 
         presenter.setCallback(callback)
     }

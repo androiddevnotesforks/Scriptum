@@ -6,6 +6,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.spyk
 import io.mockk.verifySequence
 import kotlin.random.Random
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.common.utils.nextString
@@ -28,7 +29,7 @@ abstract class ParentEnumSummaryUseCaseTest<T: ParentEnumConverter<*>> : ParentT
 
     protected val spyGetSummary by lazy { spyk(getSummary) }
 
-    override fun tearDown() {
+    @After override fun tearDown() {
         super.tearDown()
         confirmVerified(summaryProvider, preferencesRepo, converter)
     }

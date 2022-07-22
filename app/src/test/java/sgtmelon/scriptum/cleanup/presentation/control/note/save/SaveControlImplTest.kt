@@ -1,24 +1,33 @@
 package sgtmelon.scriptum.cleanup.presentation.control.note.save
 
 import android.content.res.Resources
-import android.os.Handler
+import com.google.firebase.crashlytics.FirebaseCrashlytics
+import io.mockk.Ordering
+import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import io.mockk.spyk
+import io.mockk.verify
 import io.mockk.verifySequence
 import kotlin.random.Random
-import org.junit.Assert.*
-import org.junit.Before
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.junit.After
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Test
+import sgtmelon.scriptum.FastMock
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.cleanup.extension.initLazy
+import sgtmelon.scriptum.infrastructure.model.key.SavePeriod
 import sgtmelon.scriptum.infrastructure.model.state.NoteSaveState
-import sgtmelon.scriptum.parent.ParentTest
+import sgtmelon.scriptum.infrastructure.utils.getCrashlytics
+import sgtmelon.scriptum.parent.ParentCoTest
 
 /**
  * Test for [SaveControlImpl].
  */
-class SaveControlImplTest : ParentTest() {
+@ExperimentalCoroutinesApi
+class SaveControlImplTest : ParentCoTest() {
 
     @MockK lateinit var resources: Resources
 
@@ -26,48 +35,69 @@ class SaveControlImplTest : ParentTest() {
     @MockK lateinit var callback: SaveControlImpl.Callback
 
     private val saveControl by lazy { SaveControlImpl(resources, saveState, callback) }
-    private val spySaveControl by lazy { spyk(saveControl) }
 
-    @Before override fun setup() {
-        super.setup()
-
-        every { saveState.isAutoSaveOn } returns false
+    @After override fun tearDown() {
+        super.tearDown()
+        confirmVerified(resources, saveState, callback)
     }
 
-    @Test fun periodTime() {
-        val array = IntArray(size = 5) { Random.nextInt() }
-        val index = array.indices.random()
+    //region Help functions
+
+    private fun mockkPeriodTime(): Pair<SavePeriod, Long> {
+        val array = IntArray(SavePeriod.values().size) { (100..200).random() }
+        val savePeriod = mockk<SavePeriod>()
+        val ordinal = array.indices.random()
 
         every { resources.getIntArray(R.array.pref_note_save_time_array) } returns array
+        every { saveState.savePeriod } returns savePeriod
+        every { savePeriod.ordinal } returns ordinal
 
-        every { saveState.isAutoSaveOn } returns false
+        return savePeriod to array[ordinal].toLong()
+    }
 
-        var saveControl = SaveControlImpl(resources, saveState, callback)
-        assertNull(saveControl.periodTime)
+    private fun verifyPeriodTime(period: SavePeriod) {
+        resources.getIntArray(R.array.pref_note_save_time_array)
+        saveState.savePeriod
+        period.ordinal
+    }
 
-        every { saveState.isAutoSaveOn } returns true
-        every { saveState.savePeriod } returns -1
+    //endregion
 
-        saveControl = SaveControlImpl(resources, saveState, callback)
-        assertNull(saveControl.periodTime)
+    @Test fun `not comparable intArray size and enum ordinal`() {
+        val savePeriod = mockk<SavePeriod>()
+        val ordinal = Random.nextInt()
+        val crashlytics = mockk<FirebaseCrashlytics>()
 
-        every { saveState.savePeriod } returns index
+        every { resources.getIntArray(R.array.pref_note_save_time_array) } returns intArrayOf()
+        every { saveState.savePeriod } returns savePeriod
+        every { savePeriod.ordinal } returns ordinal
 
-        saveControl = SaveControlImpl(resources, saveState, callback)
-        assertEquals(array[index], saveControl.periodTime)
+        FastMock.extensions()
+        every { getCrashlytics() } returns crashlytics
+        every { crashlytics.recordException(any<ArrayIndexOutOfBoundsException>()) } returns Unit
+
+        saveControl.initLazy()
 
         verifySequence {
-            saveState.isAutoSaveOn
-
-            repeat(times = 2) {
-                saveState.isAutoSaveOn
-                resources.getIntArray(R.array.pref_note_save_time_array)
-                saveState.savePeriod
-            }
+            resources.getIntArray(R.array.pref_note_save_time_array)
+            saveState.savePeriod
+            savePeriod.ordinal
         }
     }
 
-    @Test fun needSave() {
+    @Test fun `normal setup situation with intArray and repeat enum`() {
+        val (period, _) = mockkPeriodTime()
+
+        saveControl.initLazy()
+
+        verifySequence {
+            verifyPeriodTime(period)
+        }
+    }
+
+    @Test fun isNeedSave() {
+        val (period, _) = mockkPeriodTime()
+
         assertTrue(saveControl.isNeedSave)
 
         saveControl.isNeedSave = false
@@ -77,78 +107,69 @@ class SaveControlImplTest : ParentTest() {
         assertTrue(saveControl.isNeedSave)
 
         verifySequence {
+            verifyPeriodTime(period)
+        }
+    }
+
+    @Test fun `changeAutoSaveWork looping`() {
+        val times = (2..5).random()
+        val (period, time) = mockkPeriodTime()
+        every { saveState.isAutoSaveOn } returns true
+
+        saveControl.changeAutoSaveWork(isWork = true)
+
+        verify(Ordering.SEQUENCE, timeout = (time + LAG_TIME) * times) {
+            verifyPeriodTime(period)
+
+            repeat(times) {
+                saveState.isAutoSaveOn
+                callback.onResultSaveControl()
+            }
+
             saveState.isAutoSaveOn
         }
     }
 
-    @Test fun setSaveEvent() {
-        val array = IntArray(size = 5) { Random.nextInt() }
-        val index = array.indices.random()
-        val handler = mockk<Handler>(relaxUnitFun = true)
+    /**
+     * Check that second function call will finish first autosave coroutine.
+     */
+    @Test fun `changeAutoSaveWork double call`() {
+        val (period, time) = mockkPeriodTime()
+        every { saveState.isAutoSaveOn } returns true
 
+        saveControl.changeAutoSaveWork(isWork = true)
+        saveControl.changeAutoSaveWork(isWork = true)
+
+        verify(Ordering.SEQUENCE, timeout = time + LAG_TIME) {
+            verifyPeriodTime(period)
+
+            // From first function
+            saveState.isAutoSaveOn
+            // From second function
+            saveState.isAutoSaveOn
+            callback.onResultSaveControl()
+            // From second function but next loop iteration
+            saveState.isAutoSaveOn
+        }
+    }
+
+    @Test fun `changeAutoSaveWork without autoSave option`() {
+        val (period, _) = mockkPeriodTime()
         every { saveState.isAutoSaveOn } returns false
-
-        val saveControl = SaveControlImpl(resources, saveState, callback)
 
         saveControl.changeAutoSaveWork(Random.nextBoolean())
 
-        every { saveState.isAutoSaveOn } returns true
-        every { resources.getIntArray(R.array.pref_note_save_time_array) } returns array
-        every { saveState.savePeriod } returns -1
-
-        val firstSpySaveControl = spyk(SaveControlImpl(resources, saveState, callback))
-        firstSpySaveControl.saveHandler = handler
-
-        firstSpySaveControl.changeAutoSaveWork(isWork = false)
-        firstSpySaveControl.changeAutoSaveWork(isWork = true)
-
-        every { saveState.savePeriod } returns index
-        every { handler.postDelayed(any(), array[index].toLong()) } returns true
-
-        val secondSpySaveControl = spyk(SaveControlImpl(resources, saveState, callback))
-        secondSpySaveControl.saveHandler = handler
-
-        secondSpySaveControl.changeAutoSaveWork(isWork = false)
-        secondSpySaveControl.changeAutoSaveWork(isWork = true)
-
         verifySequence {
-            saveState.isAutoSaveOn
-            saveState.isAutoSaveOn
-
+            verifyPeriodTime(period)
 
             saveState.isAutoSaveOn
-            saveState.savePeriod
-            firstSpySaveControl.saveHandler = handler
-
-            firstSpySaveControl.changeAutoSaveWork(isWork = false)
-            saveState.isAutoSaveOn
-            handler.removeCallbacksAndMessages(null)
-
-            firstSpySaveControl.changeAutoSaveWork(isWork = true)
-            saveState.isAutoSaveOn
-            handler.removeCallbacksAndMessages(null)
-
-
-            saveState.isAutoSaveOn
-            saveState.savePeriod
-            secondSpySaveControl.saveHandler = handler
-
-            secondSpySaveControl.changeAutoSaveWork(isWork = false)
-            saveState.isAutoSaveOn
-            handler.removeCallbacksAndMessages(null)
-
-            secondSpySaveControl.changeAutoSaveWork(isWork = true)
-            saveState.isAutoSaveOn
-            handler.removeCallbacksAndMessages(null)
-            handler.postDelayed(any(), array[index].toLong())
         }
     }
 
     @Test fun onPauseSave() {
-        every { saveState.isPauseSaveOn } returns false
-        saveControl.onPauseSave()
-
+        val (period, _) = mockkPeriodTime()
         every { saveState.isPauseSaveOn } returns true
+
         saveControl.isNeedSave = false
         saveControl.onPauseSave()
 
@@ -156,13 +177,28 @@ class SaveControlImplTest : ParentTest() {
         saveControl.onPauseSave()
 
         verifySequence {
-            saveState.isAutoSaveOn
+            verifyPeriodTime(period)
 
-            repeat(times = 2) { saveState.isPauseSaveOn }
+            saveState.isPauseSaveOn
 
             saveState.isPauseSaveOn
             callback.onResultSaveControl()
         }
     }
 
+    @Test fun `onPauseSave without pauseSave option`() {
+        val (period, _) = mockkPeriodTime()
+        every { saveState.isPauseSaveOn } returns false
+
+        saveControl.onPauseSave()
+
+        verifySequence {
+            verifyPeriodTime(period)
+            saveState.isPauseSaveOn
+        }
+    }
+
+    companion object {
+        private const val LAG_TIME = 30
+    }
 }

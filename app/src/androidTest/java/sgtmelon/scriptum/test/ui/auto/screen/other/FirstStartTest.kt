@@ -17,7 +17,7 @@ import sgtmelon.scriptum.test.parent.ParentUiTest
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class FirstStartTest : ParentUiTest() {
 
-    @Before override fun setup() = Unit
+    @Before override fun setUp() = Unit
 
     @Test fun order0NotFinishIntro() = launch({ preferences.isFirstStart = true }) {
         introScreen()

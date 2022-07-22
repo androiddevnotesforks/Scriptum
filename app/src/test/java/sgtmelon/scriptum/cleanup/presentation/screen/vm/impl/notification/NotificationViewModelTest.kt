@@ -1,11 +1,24 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.notification
 
 import android.os.Bundle
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.coVerifyOrder
+import io.mockk.coVerifySequence
+import io.mockk.confirmVerified
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
+import io.mockk.mockkObject
+import io.mockk.spyk
+import io.mockk.verifySequence
+import java.util.Calendar
+import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import sgtmelon.common.utils.getCalendar
@@ -17,13 +30,10 @@ import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Snackbar
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.extension.clearAdd
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.notification.INotificationActivity
 import sgtmelon.scriptum.getRandomSize
 import sgtmelon.scriptum.isDivideTwoEntirely
 import sgtmelon.scriptum.parent.ParentViewModelTest
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.notification.INotificationActivity
-import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.random.Random
 
 /**
  * Test for [NotificationViewModel].
@@ -41,8 +51,8 @@ class NotificationViewModelTest : ParentViewModelTest() {
     private val viewModel by lazy { NotificationViewModel(callback, interactor) }
     private val spyViewModel by lazy { spyk(viewModel) }
 
-    @Before override fun setup() {
-        super.setup()
+    @Before override fun setUp() {
+        super.setUp()
 
         assertTrue(viewModel.cancelList.isEmpty())
         assertTrue(viewModel.itemList.isEmpty())

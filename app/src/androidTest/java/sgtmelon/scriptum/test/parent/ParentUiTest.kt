@@ -32,8 +32,8 @@ abstract class ParentUiTest : ParentTest() {
 
     //region Setup
 
-    @Before override fun setup() {
-        super.setup()
+    @Before override fun setUp() {
+        super.setUp()
 
         setupIdling()
         setupDevice()

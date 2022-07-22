@@ -1,15 +1,22 @@
 package sgtmelon.scriptum.cleanup.presentation.control.note.input
 
-import io.mockk.*
-import org.junit.Assert.*
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.mockkObject
+import io.mockk.spyk
+import io.mockk.verifySequence
+import kotlin.random.Random
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
-import sgtmelon.scriptum.parent.ParentTest
 import sgtmelon.scriptum.cleanup.presentation.provider.BuildProvider
-import kotlin.random.Random
+import sgtmelon.scriptum.parent.ParentTest
 
 /**
  * Test for [InputControl].
@@ -19,8 +26,8 @@ class InputControlTest : ParentTest() {
     private val inputControl by lazy { InputControl() }
     private val spyInputControl by lazy { spyk(inputControl) }
 
-    @Before override fun setup() {
-        super.setup()
+    @Before override fun setUp() {
+        super.setUp()
 
         assertTrue(inputControl.list.isEmpty())
         assertEquals(InputControl.ND_POSITION, inputControl.position)

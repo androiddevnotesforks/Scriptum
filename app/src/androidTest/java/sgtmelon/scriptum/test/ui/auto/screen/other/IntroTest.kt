@@ -4,8 +4,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.intro.IntroActivity
+import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.test.parent.ParentUiTest
 
 /**
@@ -14,8 +14,8 @@ import sgtmelon.scriptum.test.parent.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class IntroTest : ParentUiTest() {
 
-    @Before override fun setup() {
-        super.setup()
+    @Before override fun setUp() {
+        super.setUp()
         preferences.isFirstStart = true
     }
 

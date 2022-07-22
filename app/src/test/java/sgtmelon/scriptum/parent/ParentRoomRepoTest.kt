@@ -8,7 +8,11 @@ import org.junit.After
 import org.junit.Before
 import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
 import sgtmelon.scriptum.cleanup.data.room.RoomDb
-import sgtmelon.scriptum.cleanup.data.room.dao.*
+import sgtmelon.scriptum.cleanup.data.room.dao.IAlarmDao
+import sgtmelon.scriptum.cleanup.data.room.dao.INoteDao
+import sgtmelon.scriptum.cleanup.data.room.dao.IRankDao
+import sgtmelon.scriptum.cleanup.data.room.dao.IRollDao
+import sgtmelon.scriptum.cleanup.data.room.dao.IRollVisibleDao
 
 /**
  * Parent class for RoomRepo tests.
@@ -26,8 +30,8 @@ abstract class ParentRoomRepoTest : ParentCoTest() {
     @MockK lateinit var rankDao: IRankDao
     @MockK lateinit var alarmDao: IAlarmDao
 
-    @Before override fun setup() {
-        super.setup()
+    @Before override fun setUp() {
+        super.setUp()
 
         every { roomProvider.openRoom() } returns roomDb
 

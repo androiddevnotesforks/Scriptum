@@ -1,11 +1,19 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop
 
 import android.os.Bundle
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.coVerifySequence
+import io.mockk.confirmVerified
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
+import io.mockk.verifySequence
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IPrintDevelopInteractor
@@ -14,9 +22,9 @@ import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Print.Intent
 import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem
 import sgtmelon.scriptum.cleanup.domain.model.key.PrintType
 import sgtmelon.scriptum.cleanup.extension.clearAdd
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.develop.IPrintDevelopActivity
 import sgtmelon.scriptum.getRandomSize
 import sgtmelon.scriptum.parent.ParentViewModelTest
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.develop.IPrintDevelopActivity
 
 /**
  * Test for [PrintDevelopViewModel].
@@ -33,8 +41,8 @@ class PrintDevelopViewModelTest : ParentViewModelTest() {
 
     private val viewModel by lazy { PrintDevelopViewModel(callback, interactor) }
 
-    @Before override fun setup() {
-        super.setup()
+    @Before override fun setUp() {
+        super.setUp()
 
         assertTrue(viewModel.itemList.isEmpty())
         assertNull(viewModel.type)

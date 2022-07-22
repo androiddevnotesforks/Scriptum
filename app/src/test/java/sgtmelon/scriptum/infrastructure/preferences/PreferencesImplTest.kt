@@ -30,8 +30,8 @@ class PreferencesImplTest : ParentTest() {
 
     private val preferences by lazy { PreferencesImpl(keyProvider, defProvider, sharedPreferences) }
 
-    @Before override fun setup() {
-        super.setup()
+    @Before override fun setUp() {
+        super.setUp()
 
         every { sharedPreferences.edit() } returns preferencesEditor
 

@@ -6,12 +6,15 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.spyk
 import io.mockk.verifySequence
-import org.junit.Assert.*
+import kotlin.random.Random
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.parent.ParentTest
-import kotlin.random.Random
 
 /**
  * Test for [OpenState].
@@ -21,8 +24,8 @@ class OpenStateTest : ParentTest() {
     private val openState by lazy { OpenState() }
     private val spyOpenState by lazy { spyk(openState) }
 
-    @Before override fun setup() {
-        super.setup()
+    @Before override fun setUp() {
+        super.setUp()
 
         assertFalse(openState.value)
         assertTrue(openState.changeEnabled)

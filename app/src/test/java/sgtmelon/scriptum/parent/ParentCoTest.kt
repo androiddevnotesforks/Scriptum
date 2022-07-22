@@ -16,8 +16,8 @@ abstract class ParentCoTest : ParentTest() {
 
     @get:Rule val coTestRule = CoroutinesTestRule()
 
-    @Before override fun setup() {
-        super.setup()
+    @Before override fun setUp() {
+        super.setUp()
         isTesting = true
     }
 

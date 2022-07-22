@@ -14,8 +14,8 @@ abstract class ParentRoomTest : ParentTest(), IRoomWork {
 
     protected val crowdList get() = List(QUESTION_LIMIT) { it.toLong() }
 
-    @Before override fun setup() {
-        super.setup()
+    @Before override fun setUp() {
+        super.setUp()
         inRoomTest { clearAllTables() }
     }
 

@@ -54,6 +54,7 @@ class SaveControlImpl(
     }
 
     private fun makeSave() {
+        job = null
         callback.onResultSaveControl()
         changeAutoSaveWork(isWork = true)
     }

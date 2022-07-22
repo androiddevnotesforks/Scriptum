@@ -5,6 +5,7 @@ import kotlin.random.Random
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.AlarmPreferenceFragment
@@ -18,8 +19,8 @@ import sgtmelon.scriptum.ui.dialog.preference.MelodyDialogUi
 @RunWith(AndroidJUnit4::class)
 class AlarmPreferenceMelodyTest : ParentUiTest(), IAlarmPreferenceTest {
 
-    override fun setup() {
-        super.setup()
+    @Before override fun setUp() {
+        super.setUp()
         getLogic().alarmInteractor.updateSignal(booleanArrayOf(true, Random.nextBoolean()))
     }
 

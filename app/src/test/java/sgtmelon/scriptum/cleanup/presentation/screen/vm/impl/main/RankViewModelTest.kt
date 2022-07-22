@@ -2,11 +2,28 @@ package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main
 
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.coVerifyAll
+import io.mockk.coVerifyOrder
+import io.mockk.coVerifySequence
+import io.mockk.confirmVerified
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
+import io.mockk.mockkObject
+import io.mockk.spyk
+import io.mockk.verifyOrder
+import io.mockk.verifySequence
+import kotlin.math.max
+import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
-import org.junit.Assert.*
+import org.junit.Assert.assertArrayEquals
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import sgtmelon.common.utils.nextString
@@ -19,12 +36,10 @@ import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
 import sgtmelon.scriptum.cleanup.extension.clearAdd
 import sgtmelon.scriptum.cleanup.extension.move
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IRankFragment
 import sgtmelon.scriptum.getRandomSize
 import sgtmelon.scriptum.isDivideTwoEntirely
 import sgtmelon.scriptum.parent.ParentViewModelTest
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IRankFragment
-import kotlin.math.max
-import kotlin.random.Random
 
 /**
  * Test for [RankViewModel].
@@ -44,8 +59,8 @@ class RankViewModelTest : ParentViewModelTest() {
     private val viewModel by lazy { RankViewModel(callback, interactor) }
     private val spyViewModel by lazy { spyk(viewModel) }
 
-    @Before override fun setup() {
-        super.setup()
+    @Before override fun setUp() {
+        super.setUp()
 
         every { callback.openState } returns openState
 

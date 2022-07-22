@@ -44,8 +44,8 @@ class SignalInteractorTest : ParentInteractorTest() {
     }
     private val spyInteractor by lazy { spyk(interactor) }
 
-    @Before override fun setup() {
-        super.setup()
+    @Before override fun setUp() {
+        super.setUp()
         assertNull(interactor.melodyList)
     }
 

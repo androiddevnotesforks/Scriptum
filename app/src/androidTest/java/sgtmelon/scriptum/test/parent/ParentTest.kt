@@ -48,7 +48,7 @@ abstract class ParentTest {
 
     protected val dateList = listOf(DATE_1, DATE_2, DATE_3, DATE_4, DATE_5)
 
-    @Before @CallSuper open fun setup() = Unit
+    @Before @CallSuper open fun setUp() = Unit
 
     @After @CallSuper open fun tearDown() = Unit
 

@@ -65,8 +65,8 @@ class TextNoteViewModelTest : ParentViewModelTest() {
         )
     }
 
-    @Before override fun setup() {
-        super.setup()
+    @Before override fun setUp() {
+        super.setUp()
 
         viewModel.inputControl = inputControl
         viewModel.setSaveControl(saveControl)
