@@ -5,9 +5,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
+import sgtmelon.common.test.addIdlingListener
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
-import sgtmelon.scriptum.cleanup.extension.addIdlingListener
 import sgtmelon.scriptum.cleanup.extension.bindIndicatorColor
 import sgtmelon.scriptum.cleanup.extension.getCompatColor
 import sgtmelon.scriptum.cleanup.presentation.adapter.ColorAdapter

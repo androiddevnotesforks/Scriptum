@@ -1,3 +1,4 @@
 include ':app', ':common'
 include ':libraries:safeDialog'
 include ':libraries:iconAnim'
+include ':libraries:textDotAnim'

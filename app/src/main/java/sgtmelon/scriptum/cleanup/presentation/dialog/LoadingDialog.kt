@@ -8,14 +8,14 @@ import androidx.appcompat.app.AlertDialog
 import sgtmelon.safedialog.dialog.parent.BlankEmptyDialog
 import sgtmelon.safedialog.utils.applyAnimation
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.model.key.DotAnimType
-import sgtmelon.scriptum.cleanup.presentation.control.DotAnimControl
+import sgtmelon.text.dotanim.DotAnimControl
+import sgtmelon.text.dotanim.DotAnimType
 
 /**
  * Dialog with endless progress bar and loading text.
  */
-class LoadingDialog : BlankEmptyDialog(),
-    DotAnimControl.Callback {
+// TODO move into safedialogs
+class LoadingDialog : BlankEmptyDialog(), DotAnimControl.Callback {
 
     private val loadingText get() = dialog?.findViewById<TextView?>(R.id.loading_text)
 

@@ -10,11 +10,8 @@ import android.view.animation.DecelerateInterpolator
 import android.view.animation.Interpolator
 import androidx.annotation.DimenRes
 import androidx.cardview.widget.CardView
-import androidx.transition.Transition
-import androidx.transition.TransitionListenerAdapter
+import sgtmelon.common.test.addIdlingListener
 import sgtmelon.scriptum.R
-import sgtmelon.common.test.idling.impl.AppIdlingResource
-import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
 
 fun getAlphaAnimator(view: View, alphaTo: Float): Animator {
     return ObjectAnimator.ofFloat(view, View.ALPHA, view.alpha, alphaTo)
@@ -61,53 +58,4 @@ inline fun View.animateAlpha(
             override fun onAnimationEnd(animation: Animator?) = onEnd()
         })
     }.start()
-}
-
-fun Transition.addIdlingListener(): Transition = apply {
-    addListener(object : TransitionListenerAdapter() {
-        override fun onTransitionStart(transition: Transition) {
-            AppIdlingResource.getInstance().startWork(IdlingTag.Anim.TRANSITION)
-        }
-
-        override fun onTransitionEnd(transition: Transition) {
-            AppIdlingResource.getInstance().stopWork(IdlingTag.Anim.TRANSITION)
-        }
-
-        override fun onTransitionCancel(transition: Transition) {
-            AppIdlingResource.getInstance().stopWork(IdlingTag.Anim.TRANSITION)
-        }
-
-        override fun onTransitionPause(transition: Transition) {
-            AppIdlingResource.getInstance().stopWork(IdlingTag.Anim.TRANSITION)
-        }
-
-        override fun onTransitionResume(transition: Transition) {
-            AppIdlingResource.getInstance().startWork(IdlingTag.Anim.TRANSITION)
-        }
-    })
-}
-
-fun Animator.addIdlingListener(): Animator = apply {
-    addListener(object : AnimatorListenerAdapter() {
-        override fun onAnimationStart(animation: Animator?) {
-            AppIdlingResource.getInstance().startWork(IdlingTag.Anim.TRANSITION)
-        }
-
-        override fun onAnimationEnd(animation: Animator?) {
-            AppIdlingResource.getInstance().stopWork(IdlingTag.Anim.TRANSITION)
-        }
-
-        override fun onAnimationCancel(animation: Animator?) {
-            AppIdlingResource.getInstance().stopWork(IdlingTag.Anim.TRANSITION)
-        }
-
-        override fun onAnimationPause(animation: Animator?) {
-            AppIdlingResource.getInstance().stopWork(IdlingTag.Anim.TRANSITION)
-
-        }
-
-        override fun onAnimationResume(animation: Animator?) {
-            AppIdlingResource.getInstance().startWork(IdlingTag.Anim.TRANSITION)
-        }
-    })
 }

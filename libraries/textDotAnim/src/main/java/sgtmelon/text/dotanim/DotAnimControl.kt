@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.control
+package sgtmelon.text.dotanim
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
@@ -11,14 +11,11 @@ import android.view.animation.LinearInterpolator
 import android.widget.TextView
 import androidx.annotation.Size
 import androidx.annotation.StringRes
-import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.model.key.DotAnimType
-import sgtmelon.scriptum.cleanup.extension.addIdlingListener
+import sgtmelon.common.test.addIdlingListener
 
 /**
  * Class for help animate [TextView] ending with loading dots.
  */
-// TODO move into another library
 class DotAnimControl(private val type: DotAnimType, private val callback: Callback) {
 
     private var animator: ValueAnimator? = null
@@ -87,7 +84,6 @@ class DotAnimControl(private val type: DotAnimType, private val callback: Callba
             addIdlingListener()
             addUpdateListener {
                 val value = it.animatedValue as? Int
-
 
                 /**
                  * Sometimes [ValueAnimator] give a corner value which equals valueTo.

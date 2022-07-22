@@ -11,14 +11,12 @@ import sgtmelon.safedialog.utils.safeDismiss
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.annotation.PermissionRequest
-import sgtmelon.scriptum.cleanup.domain.model.key.DotAnimType
 import sgtmelon.scriptum.cleanup.domain.model.key.PermissionResult
 import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
 import sgtmelon.scriptum.cleanup.domain.model.state.PermissionState
 import sgtmelon.scriptum.cleanup.extension.initLazy
 import sgtmelon.scriptum.cleanup.extension.isGranted
 import sgtmelon.scriptum.cleanup.extension.toUri
-import sgtmelon.scriptum.cleanup.presentation.control.DotAnimControl
 import sgtmelon.scriptum.cleanup.presentation.control.system.MelodyControl
 import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IMelodyControl
 import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
@@ -27,6 +25,8 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IAlarmPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IAlarmPreferenceViewModel
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
+import sgtmelon.text.dotanim.DotAnimControl
+import sgtmelon.text.dotanim.DotAnimType
 
 /**
  * Fragment of notification (alarm) preferences.

@@ -1,14 +1,14 @@
 plugins {
     id "com.android.library"
-    id "kotlin-android"
+    id 'org.jetbrains.kotlin.android'
 }
 
 android {
-    compileSdkVersion 31
+    compileSdk 32
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 31
+        minSdk 21
+        targetSdk 32
 
         buildConfigField "String", "DATE_FORMAT_DB", '"yyyy-MM-dd HH:mm:ss"'
         buildConfigField "String", "DATE_FORMAT_DATE_MEDIUM", '"d MMM"'
@@ -28,11 +28,12 @@ android {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.10"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0"
 
     implementation "androidx.core:core-ktx:1.7.0"
     implementation "androidx.appcompat:appcompat:1.4.1"
+    implementation "androidx.transition:transition-ktx:1.4.1"
 
     // TODO make only for androidTestImplementation
     implementation "androidx.test.espresso:espresso-idling-resource:3.4.0"

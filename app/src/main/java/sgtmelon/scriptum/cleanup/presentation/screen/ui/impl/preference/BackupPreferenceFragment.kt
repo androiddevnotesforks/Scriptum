@@ -7,24 +7,24 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.preference.Preference
+import javax.inject.Inject
 import sgtmelon.safedialog.utils.safeDismiss
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.annotation.PermissionRequest
-import sgtmelon.scriptum.cleanup.domain.model.key.DotAnimType
 import sgtmelon.scriptum.cleanup.domain.model.key.PermissionResult
 import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
 import sgtmelon.scriptum.cleanup.domain.model.state.PermissionState
 import sgtmelon.scriptum.cleanup.extension.initLazy
 import sgtmelon.scriptum.cleanup.extension.isGranted
-import sgtmelon.scriptum.cleanup.presentation.control.DotAnimControl
 import sgtmelon.scriptum.cleanup.presentation.control.broadcast.BroadcastControl
 import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IBackupPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IBackupPreferenceViewModel
-import javax.inject.Inject
+import sgtmelon.text.dotanim.DotAnimControl
+import sgtmelon.text.dotanim.DotAnimType
 
 /**
  * Fragment of backup preferences.

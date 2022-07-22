@@ -8,6 +8,7 @@ import android.view.animation.DecelerateInterpolator
 import androidx.core.graphics.Insets
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import sgtmelon.common.test.addIdlingListener
 
 fun View.addSystemInsetsPadding(
     dir: InsetsDir,

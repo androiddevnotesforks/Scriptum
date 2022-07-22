@@ -9,20 +9,27 @@ import android.widget.EditText
 import androidx.appcompat.widget.Toolbar
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
+import java.util.Calendar
+import javax.inject.Inject
+import sgtmelon.common.test.addIdlingListener
+import sgtmelon.common.test.idling.impl.AppIdlingResource
 import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.iconanim.callback.IconChangeCallback
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
+import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
-import sgtmelon.scriptum.cleanup.extension.*
-import sgtmelon.common.test.idling.impl.AppIdlingResource
-import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
+import sgtmelon.scriptum.cleanup.extension.addOnNextAction
+import sgtmelon.scriptum.cleanup.extension.hideKeyboard
+import sgtmelon.scriptum.cleanup.extension.inflateBinding
+import sgtmelon.scriptum.cleanup.extension.initLazy
+import sgtmelon.scriptum.cleanup.extension.requestFocusOnVisible
+import sgtmelon.scriptum.cleanup.extension.requestSelectionFocus
 import sgtmelon.scriptum.cleanup.presentation.control.broadcast.BroadcastControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
@@ -36,8 +43,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.ITextNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.ITextNoteViewModel
-import java.util.*
-import javax.inject.Inject
+import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
 
 /**
  * Fragment for display text note.

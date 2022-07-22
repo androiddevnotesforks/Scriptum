@@ -4,7 +4,7 @@ import androidx.annotation.StringDef
 
 annotation class IdlingTag {
 
-    @StringDef(Anim.TRANSITION)
+    @StringDef(Anim.TRANSITION, Anim.ICON)
     annotation class Anim {
         companion object {
             private const val PREFIX = "ANIM"

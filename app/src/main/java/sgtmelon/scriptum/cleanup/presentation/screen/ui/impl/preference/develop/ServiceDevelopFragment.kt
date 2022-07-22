@@ -4,10 +4,9 @@ import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
 import androidx.preference.Preference
+import javax.inject.Inject
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.data.ReceiverData
-import sgtmelon.scriptum.cleanup.domain.model.key.DotAnimType
-import sgtmelon.scriptum.cleanup.presentation.control.DotAnimControl
 import sgtmelon.scriptum.cleanup.presentation.control.broadcast.BroadcastControl
 import sgtmelon.scriptum.cleanup.presentation.receiver.screen.DevelopScreenReceiver
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
@@ -15,7 +14,8 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.develop.IServiceDevelopFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IServiceDevelopViewModel
 import sgtmelon.scriptum.cleanup.presentation.service.EternalService
-import javax.inject.Inject
+import sgtmelon.text.dotanim.DotAnimControl
+import sgtmelon.text.dotanim.DotAnimType
 
 /**
  * Fragment of service preferences.

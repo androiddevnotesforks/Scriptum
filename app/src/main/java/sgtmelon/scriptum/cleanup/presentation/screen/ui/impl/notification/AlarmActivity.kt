@@ -23,6 +23,7 @@ import androidx.transition.TransitionManager
 import com.google.android.material.navigation.NavigationView
 import java.util.Calendar
 import javax.inject.Inject
+import sgtmelon.common.test.addIdlingListener
 import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.common.test.idling.impl.AppIdlingResource
 import sgtmelon.safedialog.utils.safeDismiss
@@ -35,7 +36,6 @@ import sgtmelon.scriptum.cleanup.domain.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
 import sgtmelon.scriptum.cleanup.extension.InsetsDir
-import sgtmelon.scriptum.cleanup.extension.addIdlingListener
 import sgtmelon.scriptum.cleanup.extension.afterLayoutConfiguration
 import sgtmelon.scriptum.cleanup.extension.doOnApplyWindowInsets
 import sgtmelon.scriptum.cleanup.extension.getAlphaAnimator

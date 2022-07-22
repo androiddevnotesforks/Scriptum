@@ -1,8 +1,7 @@
-package sgtmelon.scriptum.cleanup.domain.model.key
+package sgtmelon.text.dotanim
 
-import sgtmelon.scriptum.cleanup.domain.model.key.DotAnimType.COUNT
-import sgtmelon.scriptum.cleanup.domain.model.key.DotAnimType.SPAN
-import sgtmelon.scriptum.cleanup.presentation.control.DotAnimControl
+import sgtmelon.text.dotanim.DotAnimType.COUNT
+import sgtmelon.text.dotanim.DotAnimType.SPAN
 
 /**
  * Class identifying type of animation for [DotAnimControl].

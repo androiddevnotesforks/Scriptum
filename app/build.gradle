@@ -1,6 +1,6 @@
 plugins {
     id "com.android.application"
-    id "kotlin-android"
+    id 'org.jetbrains.kotlin.android'
     id "kotlin-kapt"
     id "com.google.gms.google-services"
     id "com.google.firebase.crashlytics"
@@ -9,7 +9,7 @@ plugins {
 apply from: '../values.gradle'
 
 android {
-    compileSdkVersion 31
+    compileSdk 32
 
     defaultConfig {
         applicationId "sgtmelon.scriptum"
@@ -73,11 +73,12 @@ android {
 dependencies {
     implementation project(':libraries:iconAnim')
     implementation project(':libraries:safeDialog')
+    implementation project(':libraries:textDotAnim')
     implementation project(':common')
 
     //region Kotlin
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.10"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0"
 
