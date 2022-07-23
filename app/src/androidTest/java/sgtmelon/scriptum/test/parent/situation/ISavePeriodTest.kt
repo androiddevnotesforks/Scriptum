@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.test.parent.situation
 
-import sgtmelon.scriptum.cleanup.domain.model.annotation.SavePeriod
+import sgtmelon.scriptum.infrastructure.model.key.SavePeriod
 
 /**
  * Interface describes [SavePeriod] tests.
@@ -13,6 +13,5 @@ interface ISavePeriodTest {
 
     fun savePeriodMin7() = startText(SavePeriod.MIN_7)
 
-    fun startText(@SavePeriod value: Int)
-
+    fun startText(value: SavePeriod)
 }

@@ -34,7 +34,7 @@ class AlarmMoreDialogTest : ParentUiTest(), IRepeatTest {
 
     @Test override fun repeatMin1440() = super.repeatMin1440()
 
-    override fun startTest(repeat: Repeat) = data.insertNote().let {
-        launchAlarm(it) { openAlarm(it) { openMoreDialog { onClickRepeat(repeat) } }.mainScreen() }
+    override fun startTest(value: Repeat) = data.insertNote().let {
+        launchAlarm(it) { openAlarm(it) { openMoreDialog { onClickRepeat(value) } }.mainScreen() }
     }
 }

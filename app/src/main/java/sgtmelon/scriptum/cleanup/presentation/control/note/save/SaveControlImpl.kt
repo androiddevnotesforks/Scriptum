@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.cleanup.presentation.control.note.save
 
 import android.content.res.Resources
+import androidx.annotation.MainThread
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -53,6 +54,7 @@ class SaveControlImpl(
         }
     }
 
+    @MainThread
     private fun makeSave() {
         job = null
         callback.onResultSaveControl()

@@ -64,7 +64,7 @@ class AlarmPreferenceMelodyTest : ParentUiTest(), IAlarmPreferenceTest {
         do {
             initValue = list.random()
             preferences.melodyUri = initValue.uri
-        } while (preferences.melodyUri == value.uri)
+        } while (initValue.uri == value.uri)
 
         return Pair(initValue, value)
     }

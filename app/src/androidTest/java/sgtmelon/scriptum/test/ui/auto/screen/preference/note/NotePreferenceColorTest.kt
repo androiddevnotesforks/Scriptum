@@ -5,9 +5,9 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.infrastructure.preferences.PreferencesImpl
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceFragment
+import sgtmelon.scriptum.infrastructure.preferences.PreferencesImpl
 import sgtmelon.scriptum.test.parent.ParentUiTest
 import sgtmelon.scriptum.test.parent.situation.IColorTest
 
@@ -73,7 +73,7 @@ class NotePreferenceColorTest : ParentUiTest(),
         do {
             initValue = list.random()
             preferences.defaultColor = initValue
-        } while (preferences.defaultColor == value)
+        } while (initValue == value)
 
         return initValue
     }

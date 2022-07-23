@@ -9,6 +9,7 @@ import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.scriptum.basic.extension.getDifferentValues
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.AlarmPreferenceFragment
 import sgtmelon.scriptum.infrastructure.model.MelodyItem
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
@@ -31,7 +32,7 @@ class AlarmPreferenceRotationTest : ParentRotationTest(), IAlarmPreferenceTest {
         val melodyList = runBlocking { getLogic().signalInteractor.getMelodyList() }
         preferences.melodyUri = melodyList.random().uri
 
-        preferences.volume = VolumeDialogUi.random()
+        preferences.volume = VolumeDialogUi.list.random()
         preferences.isVolumeIncrease = Random.nextBoolean()
     }) {
         automator.rotateSide()
@@ -39,10 +40,7 @@ class AlarmPreferenceRotationTest : ParentRotationTest(), IAlarmPreferenceTest {
     }
 
     @Test fun repeatDialog() {
-        val initValue = Repeat.values().random()
-        val value = getRepeatClick(initValue)
-
-        assertNotEquals(initValue, value)
+        val (initValue, value) = Repeat.values().getDifferentValues()
 
         runTest({ preferencesRepo.repeat = initValue }) {
             openRepeatDialog {
@@ -55,11 +53,6 @@ class AlarmPreferenceRotationTest : ParentRotationTest(), IAlarmPreferenceTest {
         }
 
         assertEquals(value, preferences.repeat)
-    }
-
-    private fun getRepeatClick(initValue: Repeat): Repeat {
-        val newValue = Repeat.values().random()
-        return if (newValue == initValue) getRepeatClick(initValue) else newValue
     }
 
     @Test fun signalDialog() {
@@ -108,16 +101,14 @@ class AlarmPreferenceRotationTest : ParentRotationTest(), IAlarmPreferenceTest {
         assertEquals(initValue.uri, preferences.melodyUri)
     }
 
+    // TODO use getRandomValue
     private fun getMelodyClick(list: List<MelodyItem>, initValue: MelodyItem): MelodyItem {
         val newValue = list.random()
         return if (newValue == initValue) getMelodyClick(list, initValue) else newValue
     }
 
     @Test fun volumeDialog() {
-        val initValue = VolumeDialogUi.random()
-        val value = getVolumeClick(initValue)
-
-        assertNotEquals(initValue, value)
+        val (initValue, value) = VolumeDialogUi.list.toList().getDifferentValues()
 
         runTest({
             getLogic().alarmInteractor.updateSignal(booleanArrayOf(true, Random.nextBoolean()))
@@ -133,10 +124,5 @@ class AlarmPreferenceRotationTest : ParentRotationTest(), IAlarmPreferenceTest {
         }
 
         assertEquals(value, preferences.volume)
-    }
-
-    private fun getVolumeClick(initValue: Int): Int {
-        val newValue = VolumeDialogUi.random()
-        return if (newValue == initValue) getVolumeClick(initValue) else newValue
     }
 }

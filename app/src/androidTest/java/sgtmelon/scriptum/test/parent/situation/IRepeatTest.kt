@@ -18,6 +18,6 @@ interface IRepeatTest {
 
     fun repeatMin1440() = startTest(Repeat.MIN_1440)
 
-    fun startTest(repeat: Repeat)
+    fun startTest(value: Repeat)
 
 }

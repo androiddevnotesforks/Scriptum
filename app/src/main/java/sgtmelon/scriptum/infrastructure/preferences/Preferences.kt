@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.infrastructure.preferences
 
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
-import sgtmelon.scriptum.cleanup.domain.model.annotation.SavePeriod
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Sort
 
 // TODO remove annotations
@@ -36,7 +35,7 @@ interface Preferences {
      */
     var isAutoSaveOn: Boolean
 
-    @SavePeriod var savePeriod: Int
+    var savePeriod: Int
 
     // Alarm settings
 

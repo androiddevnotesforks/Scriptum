@@ -31,7 +31,7 @@ class AlarmPreferenceVolumeTest : ParentUiTest(), IAlarmPreferenceTest {
     }
 
     @Test fun dialogWork() {
-        val value = VolumeDialogUi.random()
+        val value = VolumeDialogUi.list.random()
         val initValue = switchValue(value)
 
         assertNotEquals(initValue, value)
@@ -51,9 +51,9 @@ class AlarmPreferenceVolumeTest : ParentUiTest(), IAlarmPreferenceTest {
         var initValue: Int
 
         do {
-            initValue = VolumeDialogUi.random()
+            initValue = VolumeDialogUi.list.random()
             preferences.volume = initValue
-        } while (preferences.volume == value)
+        } while (initValue == value)
 
         return initValue
     }

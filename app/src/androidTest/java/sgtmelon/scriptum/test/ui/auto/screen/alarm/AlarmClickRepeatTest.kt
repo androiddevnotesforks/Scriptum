@@ -28,8 +28,8 @@ class AlarmClickRepeatTest : ParentUiTest(), IRepeatTest {
 
     @Test override fun repeatMin1440() = super.repeatMin1440()
 
-    override fun startTest(repeat: Repeat) {
-        preferencesRepo.repeat = repeat
+    override fun startTest(value: Repeat) {
+        preferencesRepo.repeat = value
 
         data.insertNote().let {
             launchAlarm(it) { openAlarm(it) { onClickRepeat() }.mainScreen() }

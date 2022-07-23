@@ -2,9 +2,9 @@ package sgtmelon.scriptum.test.ui.auto.rotation.preference
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.scriptum.basic.extension.getDifferentValues
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceFragment
 import sgtmelon.scriptum.infrastructure.converter.key.ThemeConverter
 import sgtmelon.scriptum.infrastructure.model.key.Theme
@@ -23,10 +23,7 @@ class PreferenceRotationTest : ParentRotationTest(), IPreferenceTest {
     }
 
     @Test fun themeDialog() {
-        val initValue = Theme.values().random()
-        val value = getThemeClick(initValue)
-
-        assertNotEquals(initValue, value)
+        val (initValue, value) = Theme.values().getDifferentValues()
 
         runTest({ preferences.theme = ThemeConverter().toInt(initValue) }) {
             openThemeDialog {
@@ -39,11 +36,6 @@ class PreferenceRotationTest : ParentRotationTest(), IPreferenceTest {
         }
 
         assertEquals(value, preferences.theme)
-    }
-
-    private fun getThemeClick(initValue: Theme): Theme {
-        val newValue = Theme.values().random()
-        return if (newValue == initValue) getThemeClick(initValue) else newValue
     }
 
     @Test fun aboutDialog() = runTest({ preferences.isDeveloper = false }) {

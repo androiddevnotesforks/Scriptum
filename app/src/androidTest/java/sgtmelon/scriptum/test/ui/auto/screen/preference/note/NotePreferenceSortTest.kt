@@ -59,7 +59,7 @@ class NotePreferenceSortTest : ParentUiTest(),
         do {
             initValue = list.random()
             preferences.sort = initValue
-        } while (preferences.sort == value)
+        } while (initValue == value)
 
         return initValue
     }

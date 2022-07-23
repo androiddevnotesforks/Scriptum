@@ -59,8 +59,8 @@ class PreferenceThemeTest : ParentUiTest(),
 
         do {
             initValue = list.random()
-            preferences.theme = converter.toInt(initValue)
-        } while (value == initValue)
+            preferencesRepo.theme = initValue
+        } while (initValue == value)
 
         return initValue
     }

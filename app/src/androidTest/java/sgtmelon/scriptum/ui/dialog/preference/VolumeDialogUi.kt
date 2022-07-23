@@ -2,7 +2,13 @@ package sgtmelon.scriptum.ui.dialog.preference
 
 import androidx.annotation.IntRange
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.extension.*
+import sgtmelon.scriptum.basic.extension.click
+import sgtmelon.scriptum.basic.extension.isDisplayed
+import sgtmelon.scriptum.basic.extension.isEnabled
+import sgtmelon.scriptum.basic.extension.setProgress
+import sgtmelon.scriptum.basic.extension.withProgress
+import sgtmelon.scriptum.basic.extension.withText
+import sgtmelon.scriptum.basic.extension.withTextColor
 import sgtmelon.scriptum.cleanup.presentation.dialog.VolumeDialog
 import sgtmelon.scriptum.ui.IDialogUi
 import sgtmelon.scriptum.ui.ParentUi
@@ -23,8 +29,8 @@ class VolumeDialogUi : ParentUi(),
     private val progressText = getViewById(R.id.volume_progress_text)
     private val seekBar = getViewById(R.id.volume_seek_bar)
 
-    private val cancelButton = getViewByText(R.string.dialog_button_cancel)
-    private val applyButton = getViewByText(R.string.dialog_button_apply)
+    private val cancelButton = getViewByText(sgtmelon.safedialog.R.string.dialog_button_cancel)
+    private val applyButton = getViewByText(sgtmelon.safedialog.R.string.dialog_button_apply)
 
 
     //endregion
@@ -63,6 +69,7 @@ class VolumeDialogUi : ParentUi(),
             return VolumeDialogUi().apply { waitOpen { assert() } }.apply(func)
         }
 
-        fun random() = (10..100).random()
+        /** Int array with values from 10 up to 100 */
+        val list = IntArray(size = 90) { it + 10 }
     }
 }

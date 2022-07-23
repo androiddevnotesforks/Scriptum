@@ -36,32 +36,32 @@ class AlarmPreferenceRepeatTest : ParentUiTest(),
 
     @Test override fun repeatMin1440() = super.repeatMin1440()
 
-    override fun startTest(repeat: Repeat) {
-        val initValue = switchValue(repeat)
+    override fun startTest(value: Repeat) {
+        val initValue = switchValue(value)
 
-        assertNotEquals(initValue, repeat)
+        assertNotEquals(initValue, value)
 
         runTest {
             openRepeatDialog {
-                onClickItem(repeat).onClickItem(initValue).onClickItem(repeat).onClickApply()
+                onClickItem(value).onClickItem(initValue).onClickItem(value).onClickApply()
             }
             assert()
         }
 
-        assertEquals(repeat, preferences.repeat)
+        assertEquals(value, preferences.repeat)
     }
 
     /**
      * Switch [Repeat] to another one.
      */
-    private fun switchValue(repeat: Repeat): Repeat {
+    private fun switchValue(value: Repeat): Repeat {
         val list = Repeat.values()
         var initValue: Repeat
 
         do {
             initValue = list.random()
             preferencesRepo.repeat = initValue
-        } while (initValue == repeat)
+        } while (initValue == value)
 
         return initValue
     }

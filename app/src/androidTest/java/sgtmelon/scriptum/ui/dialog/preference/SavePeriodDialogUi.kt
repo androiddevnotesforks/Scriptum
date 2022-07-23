@@ -3,8 +3,8 @@ package sgtmelon.scriptum.ui.dialog.preference
 import sgtmelon.safedialog.dialog.SingleDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
-import sgtmelon.scriptum.cleanup.domain.model.annotation.SavePeriod
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.NotePreferenceFragment
+import sgtmelon.scriptum.infrastructure.model.key.SavePeriod
 import sgtmelon.scriptum.ui.dialog.parent.ParentSelectDialogUi
 
 /**
@@ -19,9 +19,10 @@ class SavePeriodDialogUi : ParentSelectDialogUi(
     override val initCheck: Int = preferences.savePeriod
     override var check: Int = initCheck
 
-    fun onClickItem(@SavePeriod position: Int) = apply {
-        check = position
+    fun onClickItem(period: SavePeriod) = apply {
+        val position = period.ordinal
 
+        check = position
         getItem(position).click()
         assert()
     }

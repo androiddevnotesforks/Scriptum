@@ -1,17 +1,18 @@
 package sgtmelon.scriptum.test.ui.auto.rotation.preference
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import kotlin.random.Random
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.scriptum.basic.extension.getDifferentValues
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
-import sgtmelon.scriptum.cleanup.domain.model.annotation.SavePeriod
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Sort
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.NotePreferenceFragment
-import sgtmelon.scriptum.test.ui.auto.screen.preference.note.INotePreferenceTest
+import sgtmelon.scriptum.infrastructure.model.key.SavePeriod
 import sgtmelon.scriptum.test.parent.ParentRotationTest
-import kotlin.random.Random
+import sgtmelon.scriptum.test.ui.auto.screen.preference.note.INotePreferenceTest
 
 /**
  * Test of [NotePreferenceFragment] work with phone rotation.
@@ -24,7 +25,7 @@ class NotePreferenceRotationTest : ParentRotationTest(), INotePreferenceTest {
         preferences.defaultColor = Color.list.random()
         preferences.isPauseSaveOn = Random.nextBoolean()
         preferences.isAutoSaveOn = Random.nextBoolean()
-        preferences.savePeriod = SavePeriod.list.random()
+        preferencesRepo.savePeriod = SavePeriod.values().random()
     }) {
         automator.rotateSide()
         assert()
@@ -49,6 +50,7 @@ class NotePreferenceRotationTest : ParentRotationTest(), INotePreferenceTest {
         assertEquals(value, preferences.sort)
     }
 
+    // TODO use getRandomValue
     @Sort private fun getSortClick(@Sort initValue: Int): Int {
         val newValue = Sort.list.random()
         return if (newValue == initValue) getSortClick(initValue) else newValue
@@ -73,20 +75,18 @@ class NotePreferenceRotationTest : ParentRotationTest(), INotePreferenceTest {
         assertEquals(value, preferences.defaultColor)
     }
 
+    // TODO use getRandomValue
     @Color private fun getColorClick(@Color initValue: Int): Int {
         val newValue = Color.list.random()
         return if (newValue == initValue) getColorClick(initValue) else newValue
     }
 
     @Test fun savePeriodDialog() {
-        val initValue = SavePeriod.list.random()
-        val value = getSavePeriodClick(initValue)
-
-        assertNotEquals(initValue, value)
+        val (initValue, value) = SavePeriod.values().getDifferentValues()
 
         runTest({
             preferences.isAutoSaveOn = true
-            preferences.savePeriod = initValue
+            preferencesRepo.savePeriod = initValue
         }) {
             openSavePeriodDialog {
                 onClickItem(value)
@@ -99,10 +99,5 @@ class NotePreferenceRotationTest : ParentRotationTest(), INotePreferenceTest {
 
         assertEquals(value, preferences.savePeriod)
 
-    }
-
-    @SavePeriod private fun getSavePeriodClick(@SavePeriod initValue: Int): Int {
-        val newValue = SavePeriod.list.random()
-        return if (newValue == initValue) getSavePeriodClick(initValue) else newValue
     }
 }
