@@ -6,9 +6,9 @@ import org.junit.runner.RunWith
 import sgtmelon.common.utils.getCalendarWithAdd
 import sgtmelon.common.utils.getNewCalendar
 import sgtmelon.common.utils.getText
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Sort
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.AlarmActivity
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
+import sgtmelon.scriptum.infrastructure.model.key.Sort
 import sgtmelon.scriptum.test.parent.ParentUiTest
 import sgtmelon.scriptum.test.parent.situation.IRepeatTest
 
@@ -52,11 +52,8 @@ class AlarmClickRepeatTest : ParentUiTest(), IRepeatTest {
      * Check reset seconds on click repeat button. And check alarm receiver work with notes screen.
      */
     @Test fun correctSeconds() = data.insertText(data.textNote.copy(color = 1)).let {
-        preferences.sort = Sort.COLOR
-        preferencesRepo.repeat = listOf(
-            Repeat.MIN_10, Repeat.MIN_30, Repeat.MIN_60,
-            Repeat.MIN_180, Repeat.MIN_1440
-        ).random()
+        preferencesRepo.sort = Sort.COLOR
+        preferencesRepo.repeat = Repeat.values().random()
 
         val note = data.insertRoll(data.rollNote.copy(color = 0))
 

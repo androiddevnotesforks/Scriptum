@@ -3,7 +3,6 @@ package sgtmelon.scriptum.infrastructure.preferences
 import android.content.SharedPreferences
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.notification.SignalInteractor
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Sort
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvider
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesKeyProvider
 
@@ -37,7 +36,7 @@ class PreferencesImpl(
 
     // Note settings
 
-    @Sort override var sort: Int
+    override var sort: Int
         get() = preferences.getInt(key.sort, def.sort)
         set(value) = edit { putInt(key.sort, value) }
 

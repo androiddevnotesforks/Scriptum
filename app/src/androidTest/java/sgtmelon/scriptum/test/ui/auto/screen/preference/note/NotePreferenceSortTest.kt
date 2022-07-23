@@ -5,8 +5,8 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Sort
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.NotePreferenceFragment
+import sgtmelon.scriptum.infrastructure.model.key.Sort
 import sgtmelon.scriptum.test.parent.ParentUiTest
 import sgtmelon.scriptum.test.parent.situation.ISortTest
 import sgtmelon.scriptum.ui.dialog.preference.SortDialogUi
@@ -34,7 +34,7 @@ class NotePreferenceSortTest : ParentUiTest(),
 
     @Test override fun sortColor() = super.sortColor()
 
-    override fun startTest(@Sort value: Int) {
+    override fun startTest(value: Sort) {
         val initValue = switchValue(value)
 
         assertNotEquals(initValue, value)
@@ -50,15 +50,15 @@ class NotePreferenceSortTest : ParentUiTest(),
     }
 
     /**
-     * Switch [Sort] to another one.
+     * Switch [Sort] to another one. Setup sort for application which not equals [value].
      */
-    @Sort private fun switchValue(@Sort value: Int): Int {
-        val list = Sort.list
-        var initValue: Int
+    private fun switchValue(value: Sort): Sort {
+        val list = Sort.values()
+        var initValue: Sort
 
         do {
             initValue = list.random()
-            preferences.sort = initValue
+            preferencesRepo.sort = initValue
         } while (initValue == value)
 
         return initValue

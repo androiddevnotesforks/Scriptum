@@ -134,11 +134,12 @@ object ViewModelFactory {
 
         class Notes(
             private val fragment: NotesFragment,
+            private val preferencesRepo: PreferencesRepo,
             private val interactor: INotesInteractor
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(NotesViewModel::class) {
-                    NotesViewModel(fragment, interactor)
+                    NotesViewModel(fragment, preferencesRepo, interactor)
                 }
             }
         }

@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.infrastructure.preferences
 
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Sort
 
 // TODO remove annotations
 interface Preferences {
@@ -21,7 +20,7 @@ interface Preferences {
 
     // Note settings
 
-    @Sort var sort: Int
+    var sort: Int
 
     @Color var defaultColor: Int
 

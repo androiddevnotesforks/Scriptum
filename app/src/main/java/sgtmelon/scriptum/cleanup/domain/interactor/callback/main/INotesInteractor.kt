@@ -1,20 +1,16 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.callback.main
 
+import java.util.Calendar
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.IParentInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.main.NotesInteractor
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Sort
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.INotesViewModel
-import java.util.*
 
 /**
  * Interface for communication [INotesViewModel] with [NotesInteractor].
  */
 interface INotesInteractor : IParentInteractor {
-
-    @Sort val sort: Int
-
 
     suspend fun getCount(): Int
 

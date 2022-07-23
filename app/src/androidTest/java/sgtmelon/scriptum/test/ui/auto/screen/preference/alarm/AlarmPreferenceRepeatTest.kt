@@ -52,7 +52,7 @@ class AlarmPreferenceRepeatTest : ParentUiTest(),
     }
 
     /**
-     * Switch [Repeat] to another one.
+     * Switch [Repeat] to another one. Setup repeat for application which not equals [value].
      */
     private fun switchValue(value: Repeat): Repeat {
         val list = Repeat.values()

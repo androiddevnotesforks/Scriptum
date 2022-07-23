@@ -128,9 +128,10 @@ class ViewModelModule {
     @ActivityScope
     fun provideNotesViewModel(
         fragment: NotesFragment,
+        preferencesRepo: PreferencesRepo,
         interactor: INotesInteractor
     ): INotesViewModel {
-        val factory = ViewModelFactory.MainScreen.Notes(fragment, interactor)
+        val factory = ViewModelFactory.MainScreen.Notes(fragment, preferencesRepo, interactor)
         return ViewModelProvider(fragment, factory)[NotesViewModel::class.java]
     }
 

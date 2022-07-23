@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.cleanup.data.repository.room
 
+import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.data.room.IRoomWork
@@ -15,12 +16,11 @@ import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.cleanup.data.room.extension.fromRoom
 import sgtmelon.scriptum.cleanup.data.room.extension.inRoom
 import sgtmelon.scriptum.cleanup.data.room.extension.safeDelete
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Sort
-import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.getText
 import sgtmelon.scriptum.cleanup.extension.move
+import sgtmelon.scriptum.infrastructure.model.key.Sort
 
 /**
  * Repository of [RoomDb] which work with notes.
@@ -50,7 +50,7 @@ class NoteRepo(
      *                   get all items even if rank not visible.
      */
     override suspend fun getList(
-        @Sort sort: Int,
+        sort: Sort,
         isBin: Boolean,
         isOptimal: Boolean,
         filterVisible: Boolean
@@ -67,12 +67,11 @@ class NoteRepo(
     }
 
     @RunPrivate
-    suspend fun getSortBy(isBin: Boolean, @Sort sort: Int, noteDao: INoteDao) = when (sort) {
+    suspend fun getSortBy(isBin: Boolean, sort: Sort, noteDao: INoteDao) = when (sort) {
         Sort.CHANGE -> noteDao.getByChange(isBin)
         Sort.CREATE -> noteDao.getByCreate(isBin)
         Sort.RANK -> noteDao.getByRank(isBin)
         Sort.COLOR -> noteDao.getByColor(isBin)
-        else -> listOf()
     }
 
     /**
@@ -89,7 +88,7 @@ class NoteRepo(
      * Correcting rank sort, because notes without rank stay first in list.
      */
     @RunPrivate
-    fun correctRankSort(list: MutableList<NoteItem>, @Sort sort: Int) = list.apply {
+    fun correctRankSort(list: MutableList<NoteItem>, sort: Sort) = list.apply {
         if (sort != Sort.RANK) return@apply
 
         /**

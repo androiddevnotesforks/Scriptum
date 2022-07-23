@@ -6,9 +6,9 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Sort
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.NotePreferenceFragment
 import sgtmelon.scriptum.infrastructure.model.key.SavePeriod
+import sgtmelon.scriptum.infrastructure.model.key.Sort
 import sgtmelon.scriptum.test.parent.ParentUiTest
 
 /**
@@ -20,7 +20,7 @@ class NotePreferenceTest : ParentUiTest(), INotePreferenceTest {
     @Test fun close() = runTest { onClickClose() }
 
     @Test fun assertAll() = runTest({
-        preferences.sort = Sort.list.random()
+        preferencesRepo.sort = Sort.values().random()
         preferences.defaultColor = Color.list.random()
         preferences.isPauseSaveOn = Random.nextBoolean()
         preferences.isAutoSaveOn = Random.nextBoolean()

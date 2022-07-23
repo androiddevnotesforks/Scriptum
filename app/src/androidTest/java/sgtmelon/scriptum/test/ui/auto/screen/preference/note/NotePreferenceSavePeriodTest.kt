@@ -46,7 +46,8 @@ class NotePreferenceSavePeriodTest : ParentUiTest(),
     }
 
     /**
-     * Switch [SavePeriod] to another one.
+     * Switch [SavePeriod] to another one. Setup savePeriod for application which not
+     * equals [value].
      */
     private fun switchValue(value: SavePeriod): SavePeriod {
         val list = SavePeriod.values()

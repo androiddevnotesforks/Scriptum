@@ -8,9 +8,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.basic.extension.getDifferentValues
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Sort
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.NotePreferenceFragment
 import sgtmelon.scriptum.infrastructure.model.key.SavePeriod
+import sgtmelon.scriptum.infrastructure.model.key.Sort
 import sgtmelon.scriptum.test.parent.ParentRotationTest
 import sgtmelon.scriptum.test.ui.auto.screen.preference.note.INotePreferenceTest
 
@@ -21,7 +21,7 @@ import sgtmelon.scriptum.test.ui.auto.screen.preference.note.INotePreferenceTest
 class NotePreferenceRotationTest : ParentRotationTest(), INotePreferenceTest {
 
     @Test fun content() = runTest({
-        preferences.sort = Sort.list.random()
+        preferencesRepo.sort = Sort.values().random()
         preferences.defaultColor = Color.list.random()
         preferences.isPauseSaveOn = Random.nextBoolean()
         preferences.isAutoSaveOn = Random.nextBoolean()
@@ -32,12 +32,9 @@ class NotePreferenceRotationTest : ParentRotationTest(), INotePreferenceTest {
     }
 
     @Test fun sortDialog() {
-        val initValue = Sort.list.random()
-        val value = getSortClick(initValue)
+        val (initValue, value) = Sort.values().getDifferentValues()
 
-        assertNotEquals(initValue, value)
-
-        runTest({ preferences.sort = initValue }) {
+        runTest({ preferencesRepo.sort = initValue }) {
             openSortDialog {
                 onClickItem(value)
                 automator.rotateSide()
@@ -48,12 +45,6 @@ class NotePreferenceRotationTest : ParentRotationTest(), INotePreferenceTest {
         }
 
         assertEquals(value, preferences.sort)
-    }
-
-    // TODO use getRandomValue
-    @Sort private fun getSortClick(@Sort initValue: Int): Int {
-        val newValue = Sort.list.random()
-        return if (newValue == initValue) getSortClick(initValue) else newValue
     }
 
     @Test fun colorDialog() {

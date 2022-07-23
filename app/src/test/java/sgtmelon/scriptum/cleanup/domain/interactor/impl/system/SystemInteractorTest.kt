@@ -26,8 +26,9 @@ import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.presentation.screen.system.ISystemBridge
+import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.getRandomSize
-import sgtmelon.scriptum.infrastructure.preferences.Preferences
+import sgtmelon.scriptum.infrastructure.model.key.Sort
 import sgtmelon.scriptum.parent.ParentInteractorTest
 
 /**
@@ -36,7 +37,7 @@ import sgtmelon.scriptum.parent.ParentInteractorTest
 @ExperimentalCoroutinesApi
 class SystemInteractorTest : ParentInteractorTest() {
 
-    @MockK lateinit var preferences: Preferences
+    @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var bindRepo: IBindRepo
     @MockK lateinit var alarmRepo: IAlarmRepo
     @MockK lateinit var rankRepo: IRankRepo
@@ -45,13 +46,13 @@ class SystemInteractorTest : ParentInteractorTest() {
     @MockK lateinit var callback: ISystemBridge
 
     private val interactor by lazy {
-        SystemInteractor(preferences, bindRepo, alarmRepo, rankRepo, noteRepo, callback)
+        SystemInteractor(preferencesRepo, bindRepo, alarmRepo, rankRepo, noteRepo, callback)
     }
     private val spyInteractor by lazy { spyk(interactor) }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(preferences, bindRepo, alarmRepo, rankRepo, noteRepo, callback)
+        confirmVerified(preferencesRepo, bindRepo, alarmRepo, rankRepo, noteRepo, callback)
     }
 
     @Test override fun onDestroy() {
@@ -108,12 +109,12 @@ class SystemInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun notifyNotesBind() = startCoTest {
-        val sort = Random.nextInt()
+        val sort = mockk<Sort>()
         val itemList = mockk<MutableList<NoteItem>>()
         val rankIdVisibleList = mockk<List<Long>>()
         val filterList = mockk<List<NoteItem>>()
 
-        every { preferences.sort } returns sort
+        every { preferencesRepo.sort } returns sort
         coEvery { rankRepo.getIdVisibleList() } returns rankIdVisibleList
         coEvery {
             noteRepo.getList(sort, isBin = false, isOptimal = false, filterVisible = false)
@@ -125,7 +126,7 @@ class SystemInteractorTest : ParentInteractorTest() {
         coVerifySequence {
             spyInteractor.notifyNotesBind()
 
-            preferences.sort
+            preferencesRepo.sort
             noteRepo.getList(sort, isBin = false, isOptimal = false, filterVisible = false)
             rankRepo.getIdVisibleList()
             spyInteractor.getFilterList(itemList, rankIdVisibleList)

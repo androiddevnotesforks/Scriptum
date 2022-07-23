@@ -2,23 +2,24 @@ package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main
 
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
+import java.util.Calendar
 import kotlinx.coroutines.launch
+import sgtmelon.common.test.annotation.RunPrivate
+import sgtmelon.common.test.idling.impl.AppIdlingResource
 import sgtmelon.common.utils.beforeNow
 import sgtmelon.common.utils.getCalendar
+import sgtmelon.common.utils.runBack
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
-import sgtmelon.common.test.annotation.RunPrivate
-import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.extension.*
-import sgtmelon.common.test.idling.impl.AppIdlingResource
-import sgtmelon.common.utils.runBack
 import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.cleanup.extension.clearAdd
+import sgtmelon.scriptum.cleanup.extension.validRemoveAt
 import sgtmelon.scriptum.cleanup.presentation.control.SortControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.INotesFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.INotesViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
-import java.util.*
-import kotlin.collections.ArrayList
+import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Options.Notes as Options
 
 /**
@@ -26,6 +27,7 @@ import sgtmelon.scriptum.cleanup.domain.model.annotation.Options.Notes as Option
  */
 class NotesViewModel(
     callback: INotesFragment,
+    private val preferencesRepo: PreferencesRepo,
     private val interactor: INotesInteractor
 ) : ParentViewModel<INotesFragment>(callback),
     INotesViewModel {
@@ -89,11 +91,7 @@ class NotesViewModel(
         val callback = callback ?: return
         val item = itemList.getOrNull(p) ?: return
 
-        val title = if (item.name.isNotEmpty()) {
-            item.name
-        } else {
-            callback.getString(R.string.hint_text_name)
-        }
+        val title = item.name.ifEmpty { callback.getString(R.string.hint_text_name) }
 
         val itemArray: Array<String> = callback.getStringArray(when (item) {
             is NoteItem.Text -> R.array.dialog_menu_text
@@ -150,7 +148,7 @@ class NotesViewModel(
         viewModelScope.launch {
             itemList[p] = runBack { interactor.convertNote(item) }
 
-            val sortList = runBack { SortControl.sortList(itemList, interactor.sort) }
+            val sortList = runBack { SortControl.sortList(itemList, preferencesRepo.sort) }
             callback?.notifyList(itemList.clearAdd(sortList))
 
             callback?.sendNotifyNotesBroadcast()

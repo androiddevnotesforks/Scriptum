@@ -1,17 +1,17 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.impl.main
 
-import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.ParentInteractor
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IBinViewModel
+import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 
 /**
  * Interactor for [IBinViewModel].
  */
 class BinInteractor(
-    private val preferences: Preferences,
+    private val preferencesRepo: PreferencesRepo,
     private val noteRepo: INoteRepo
 ) : ParentInteractor(),
     IBinInteractor {
@@ -19,7 +19,7 @@ class BinInteractor(
     override suspend fun getCount(): Int = noteRepo.getCount(isBin = true)
 
     override suspend fun getList(): MutableList<NoteItem> {
-        val sort = preferences.sort
+        val sort = preferencesRepo.sort
         return noteRepo.getList(sort, isBin = true, isOptimal = true, filterVisible = false)
     }
 

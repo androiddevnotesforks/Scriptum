@@ -5,6 +5,7 @@ import io.mockk.coVerifySequence
 import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -12,11 +13,11 @@ import org.junit.Test
 import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.FastTest
 import sgtmelon.scriptum.TestData
-import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.infrastructure.model.key.Sort
 import sgtmelon.scriptum.parent.ParentInteractorTest
-import kotlin.random.Random
 
 /**
  * Test for [BinInteractor].
@@ -26,14 +27,14 @@ class BinInteractorTest : ParentInteractorTest() {
 
     private val data = TestData.Note
 
-    @MockK lateinit var preferences: Preferences
+    @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var noteRepo: INoteRepo
 
-    private val interactor by lazy { BinInteractor(preferences, noteRepo) }
+    private val interactor by lazy { BinInteractor(preferencesRepo, noteRepo) }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(preferences, noteRepo)
+        confirmVerified(preferencesRepo, noteRepo)
     }
 
 
@@ -57,19 +58,19 @@ class BinInteractorTest : ParentInteractorTest() {
             noteRepo.getList(any(), isBin = true, isOptimal = true, filterVisible = false)
         } returns itemList
 
-        val firstSort = TestData.sort
-        every { preferences.sort } returns firstSort
+        val firstSort = Sort.values().random()
+        every { preferencesRepo.sort } returns firstSort
         interactor.getList()
 
-        val secondSort = TestData.sort
-        every { preferences.sort } returns secondSort
+        val secondSort = Sort.values().random()
+        every { preferencesRepo.sort } returns secondSort
         interactor.getList()
 
         coVerifySequence {
-            preferences.sort
+            preferencesRepo.sort
             noteRepo.getList(firstSort, isBin = true, isOptimal = true, filterVisible = false)
 
-            preferences.sort
+            preferencesRepo.sort
             noteRepo.getList(secondSort, isBin = true, isOptimal = true, filterVisible = false)
         }
     }

@@ -1,32 +1,26 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.impl.main
 
+import java.util.Calendar
+import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.common.utils.getText
-import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
-import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.ParentInteractor
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Sort
-import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.INotesViewModel
-import java.util.*
+import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 
 /**
  * Interactor for [INotesViewModel].
  */
 class NotesInteractor(
-    private val preferenceRepo: Preferences,
+    private val preferenceRepo: PreferencesRepo,
     private val alarmRepo: IAlarmRepo,
-    private val rankRepo: IRankRepo,
     private val noteRepo: INoteRepo
 ) : ParentInteractor(),
     INotesInteractor {
-
-    @Sort override val sort: Int get() = preferenceRepo.sort
-
 
     override suspend fun getCount(): Int = noteRepo.getCount(isBin = false)
 

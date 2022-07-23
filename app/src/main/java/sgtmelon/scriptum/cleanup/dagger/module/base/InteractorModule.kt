@@ -47,6 +47,7 @@ import sgtmelon.scriptum.cleanup.presentation.control.file.IFileControl
 import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IRingtoneControl
 import sgtmelon.scriptum.cleanup.presentation.provider.SummaryProvider
 import sgtmelon.scriptum.cleanup.presentation.screen.system.SystemLogic
+import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.converter.SignalConverter
 import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvider
@@ -94,21 +95,20 @@ class InteractorModule {
     @Provides
     @ActivityScope
     fun provideNotesInteractor(
-        preferences: Preferences,
+        preferencesRepo: PreferencesRepo,
         noteRepo: INoteRepo,
         alarmRepo: IAlarmRepo,
-        rankRepo: IRankRepo
     ): INotesInteractor {
-        return NotesInteractor(preferences, alarmRepo, rankRepo, noteRepo)
+        return NotesInteractor(preferencesRepo, alarmRepo, noteRepo)
     }
 
     @Provides
     @ActivityScope
     fun provideBinInteractor(
-        preferences: Preferences,
+        preferencesRepo: PreferencesRepo,
         noteRepo: INoteRepo
     ): IBinInteractor {
-        return BinInteractor(preferences, noteRepo)
+        return BinInteractor(preferencesRepo, noteRepo)
     }
 
     //endregion
@@ -221,12 +221,12 @@ class InteractorModule {
     @ActivityScope
     fun provideSystemInteractor(
         logic: SystemLogic,
-        preferences: Preferences,
+        preferencesRepo: PreferencesRepo,
         bindRepo: IBindRepo,
         alarmRepo: IAlarmRepo,
         rankRepo: IRankRepo,
         noteRepo: INoteRepo
     ): ISystemInteractor {
-        return SystemInteractor(preferences, bindRepo, alarmRepo, rankRepo, noteRepo, logic)
+        return SystemInteractor(preferencesRepo, bindRepo, alarmRepo, rankRepo, noteRepo, logic)
     }
 }

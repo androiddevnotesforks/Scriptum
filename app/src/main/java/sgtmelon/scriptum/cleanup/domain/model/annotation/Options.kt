@@ -11,7 +11,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main.NotesViewModel
  */
 annotation class Options {
 
-    @IntDef(Notes.BIND, Notes.CONVERT, Notes.COPY, Notes.DELETE)
+    @IntDef(Notes.NOTIFICATION, Notes.BIND, Notes.CONVERT, Notes.COPY, Notes.DELETE)
     annotation class Notes {
         companion object {
             const val NOTIFICATION = 0

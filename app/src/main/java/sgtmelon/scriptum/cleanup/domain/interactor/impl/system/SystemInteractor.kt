@@ -1,25 +1,25 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.impl.system
 
+import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.common.utils.beforeNow
 import sgtmelon.common.utils.getCalendar
-import sgtmelon.scriptum.infrastructure.preferences.Preferences
+import sgtmelon.common.utils.runMain
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IBindRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.system.ISystemInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.ParentInteractor
-import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.common.utils.runMain
 import sgtmelon.scriptum.cleanup.presentation.screen.presenter.system.ISystemPresenter
 import sgtmelon.scriptum.cleanup.presentation.screen.system.ISystemBridge
+import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 
 /**
  * Interactor for [ISystemPresenter]
  */
 class SystemInteractor(
-    private val preferenceRepo: Preferences,
+    private val preferenceRepo: PreferencesRepo,
     private val bindRepo: IBindRepo,
     private val alarmRepo: IAlarmRepo,
     private val rankRepo: IRankRepo,

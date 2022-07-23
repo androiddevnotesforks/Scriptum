@@ -4,11 +4,11 @@ import sgtmelon.common.utils.getCalendarWithAdd
 import sgtmelon.common.utils.getText
 import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Sort
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.key.MainPage
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.cleanup.presentation.adapter.NoteAdapter
+import sgtmelon.scriptum.infrastructure.model.key.Sort
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.test.parent.ParentUiTest
 
@@ -29,7 +29,7 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
 
     private fun startColorTest(theme: ThemeDisplayed, type: NoteType) {
         setupTheme(theme)
-        preferences.sort = Sort.COLOR
+        preferencesRepo.sort = Sort.COLOR
 
         onAssertList(ArrayList<NoteItem>().also { list ->
             for (it in Color.list) {
@@ -62,8 +62,8 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
 
     open fun timeChangeRoll() = startTimeTest(NoteType.ROLL, Sort.CHANGE)
 
-    private fun startTimeTest(type: NoteType, @Sort sort: Int) {
-        preferences.sort = sort
+    private fun startTimeTest(type: NoteType, sort: Sort) {
+        preferencesRepo.sort = sort
 
         onAssertList(ArrayList<NoteItem>().also { list ->
             for (it in lastArray) {
@@ -172,7 +172,7 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
 
     private fun startRankTest(theme: ThemeDisplayed, type: NoteType) {
         setupTheme(theme)
-        preferences.sort = Sort.RANK
+        preferencesRepo.sort = Sort.RANK
 
         onAssertList(ArrayList<NoteItem>().also { list ->
             for (i in 10 downTo 0) {

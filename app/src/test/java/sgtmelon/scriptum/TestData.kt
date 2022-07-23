@@ -2,7 +2,6 @@ package sgtmelon.scriptum
 
 import kotlin.random.Random
 import sgtmelon.common.utils.nextString
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Sort
 import sgtmelon.scriptum.cleanup.domain.model.item.FileItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
@@ -19,8 +18,6 @@ import sgtmelon.scriptum.infrastructure.model.MelodyItem
 object TestData {
 
     // TODO replace item manipulations with mockkObject calls
-
-    val sort get() = listOf(Sort.CHANGE, Sort.CREATE, Sort.RANK, Sort.COLOR).random()
 
     object Rank {
         val firstRank get() = RankItem(

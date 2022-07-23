@@ -4,7 +4,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.TestData
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Sort
+import sgtmelon.scriptum.infrastructure.model.key.Sort
 import sgtmelon.scriptum.parent.ParentCoTest
 
 /**
@@ -17,11 +17,10 @@ class SortControlTest : ParentCoTest() {
 
     @Test fun sortList() = startCoTest {
         with(data) {
-            assertEquals(changeList, SortControl.sortList(itemList, Sort.CHANGE))
-            assertEquals(createList, SortControl.sortList(itemList, Sort.CREATE))
-            assertEquals(rankList, SortControl.sortList(itemList, Sort.RANK))
-            assertEquals(colorList, SortControl.sortList(itemList, Sort.COLOR))
+            assertEquals(changeList, SortControl.sortList(changeList.shuffled(), Sort.CHANGE))
+            assertEquals(createList, SortControl.sortList(createList.shuffled(), Sort.CREATE))
+            assertEquals(rankList, SortControl.sortList(rankList.shuffled(), Sort.RANK))
+            assertEquals(colorList, SortControl.sortList(colorList.shuffled(), Sort.COLOR))
         }
     }
-
 }

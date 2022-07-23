@@ -1,9 +1,20 @@
 package sgtmelon.scriptum.cleanup.data.repository.room
 
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.coVerifyOrder
+import io.mockk.coVerifySequence
+import io.mockk.confirmVerified
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.spyk
+import io.mockk.verifySequence
+import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
+import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.FastMock
@@ -11,18 +22,21 @@ import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.cleanup.data.room.IRoomWork
 import sgtmelon.scriptum.cleanup.data.room.converter.model.NoteConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.model.RollConverter
-import sgtmelon.scriptum.cleanup.data.room.entity.*
+import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
+import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
+import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
+import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
+import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.cleanup.data.room.extension.fromRoom
 import sgtmelon.scriptum.cleanup.data.room.extension.safeDelete
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Sort
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.getText
 import sgtmelon.scriptum.cleanup.extension.move
 import sgtmelon.scriptum.getRandomSize
+import sgtmelon.scriptum.infrastructure.model.key.Sort
 import sgtmelon.scriptum.isDivideTwoEntirely
 import sgtmelon.scriptum.parent.ParentRoomRepoTest
-import kotlin.random.Random
 
 /**
  * Test for [NoteRepo].
@@ -70,7 +84,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
     }
 
     @Test fun getList() = startCoTest {
-        val sort = Random.nextInt()
+        val sort = mockk<Sort>()
         val isBin = Random.nextBoolean()
         val isOptimal = Random.nextBoolean()
 
@@ -135,8 +149,6 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
         coEvery { noteDao.getByColor(isBin) } returns colorList
         assertEquals(colorList, noteRepo.getSortBy(isBin, Sort.COLOR, noteDao))
-
-        assertEquals(listOf<NoteEntity>(), noteRepo.getSortBy(isBin, -1, noteDao))
 
         coVerifySequence {
             noteDao.getByChange(isBin)

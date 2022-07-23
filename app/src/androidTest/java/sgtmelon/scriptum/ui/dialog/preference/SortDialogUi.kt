@@ -3,8 +3,8 @@ package sgtmelon.scriptum.ui.dialog.preference
 import sgtmelon.safedialog.dialog.SingleDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Sort
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.NotePreferenceFragment
+import sgtmelon.scriptum.infrastructure.model.key.Sort
 import sgtmelon.scriptum.ui.dialog.parent.ParentSelectDialogUi
 
 /**
@@ -18,9 +18,10 @@ class SortDialogUi : ParentSelectDialogUi(
     override val initCheck: Int = preferences.sort
     override var check: Int = initCheck
 
-    fun onClickItem(@Sort position: Int) = apply {
-        check = position
+    fun onClickItem(sort: Sort) = apply {
+        val position = sort.ordinal
 
+        check = position
         getItem(position).click()
         assert()
     }

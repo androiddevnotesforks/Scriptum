@@ -4,9 +4,9 @@ import sgtmelon.scriptum.cleanup.data.repository.room.NoteRepo
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Sort
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
+import sgtmelon.scriptum.infrastructure.model.key.Sort
 
 /**
  * Interface for communicate with [NoteRepo]
@@ -16,7 +16,7 @@ interface INoteRepo {
     suspend fun getCount(isBin: Boolean): Int
 
     suspend fun getList(
-        @Sort sort: Int,
+        sort: Sort,
         isBin: Boolean,
         isOptimal: Boolean,
         filterVisible: Boolean

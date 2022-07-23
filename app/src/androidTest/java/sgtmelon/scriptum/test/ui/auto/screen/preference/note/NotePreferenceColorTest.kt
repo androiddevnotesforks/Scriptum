@@ -64,7 +64,7 @@ class NotePreferenceColorTest : ParentUiTest(),
     }
 
     /**
-     * Switch [Color] to another one.
+     * Switch [Color] to another one. Setup defaultColor for application which not equals [value].
      */
     private fun switchValue(@Color value: Int): Int {
         val list = Color.list

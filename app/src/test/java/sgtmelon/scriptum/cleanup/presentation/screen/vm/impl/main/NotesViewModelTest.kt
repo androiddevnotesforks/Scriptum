@@ -1,11 +1,21 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main
 
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.coVerifySequence
+import io.mockk.confirmVerified
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
+import io.mockk.mockkObject
+import io.mockk.spyk
+import io.mockk.verifySequence
+import java.util.Calendar
+import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
-import org.junit.Assert.*
-import org.junit.Before
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.common.utils.beforeNow
 import sgtmelon.common.utils.getCalendar
@@ -17,13 +27,12 @@ import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteracto
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Options
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.clearAdd
-import sgtmelon.scriptum.getRandomSize
-import sgtmelon.scriptum.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.control.SortControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.INotesFragment
-import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.random.Random
+import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.getRandomSize
+import sgtmelon.scriptum.infrastructure.model.key.Sort
+import sgtmelon.scriptum.parent.ParentViewModelTest
 
 /**
  * Test for [NotesViewModel].
@@ -36,16 +45,17 @@ class NotesViewModelTest : ParentViewModelTest() {
     private val data = TestData.Note
 
     @MockK lateinit var callback: INotesFragment
+    @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var interactor: INotesInteractor
 
     @MockK lateinit var calendar: Calendar
 
-    private val viewModel by lazy { NotesViewModel(callback, interactor) }
+    private val viewModel by lazy { NotesViewModel(callback, preferencesRepo, interactor) }
     private val spyViewModel by lazy { spyk(viewModel) }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(callback, interactor, calendar)
+        confirmVerified(callback, preferencesRepo, interactor, calendar)
     }
 
     @Test override fun onDestroy() {
@@ -385,10 +395,10 @@ class NotesViewModelTest : ParentViewModelTest() {
         val item = itemList[index]
         val convertItem = mockk<NoteItem>()
         val resultList = List<NoteItem>(getRandomSize()) { mockk() }
-        val sort = Random.nextInt()
+        val sort = mockk<Sort>()
 
         coEvery { interactor.convertNote(item) } returns convertItem
-        every { interactor.sort } returns sort
+        every { preferencesRepo.sort } returns sort
         mockkObject(SortControl)
         coEvery { SortControl.sortList(any(), sort) } returns resultList
 
@@ -399,7 +409,7 @@ class NotesViewModelTest : ParentViewModelTest() {
 
         coVerifySequence {
             interactor.convertNote(item)
-            interactor.sort
+            preferencesRepo.sort
             SortControl.sortList(any(), sort)
 
             callback.notifyList(resultList)

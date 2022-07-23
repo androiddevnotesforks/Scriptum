@@ -1,7 +1,14 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.impl.main
 
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.coVerifySequence
+import io.mockk.confirmVerified
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
+import io.mockk.spyk
+import io.mockk.verifySequence
+import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -9,16 +16,16 @@ import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.FastTest
-import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
+import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.getRandomSize
+import sgtmelon.scriptum.infrastructure.model.key.Sort
 import sgtmelon.scriptum.parent.ParentInteractorTest
-import kotlin.random.Random
 
 /**
  * Test for [NotesInteractor].
@@ -26,24 +33,20 @@ import kotlin.random.Random
 @ExperimentalCoroutinesApi
 class NotesInteractorTest : ParentInteractorTest() {
 
-    @MockK lateinit var preferences: Preferences
+    @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var noteRepo: INoteRepo
     @MockK lateinit var alarmRepo: IAlarmRepo
     @MockK lateinit var rankRepo: IRankRepo
 
     private val interactor by lazy {
-        NotesInteractor(preferences, alarmRepo, rankRepo, noteRepo)
+        NotesInteractor(preferencesRepo, alarmRepo, noteRepo)
     }
     private val spyInteractor by lazy { spyk(interactor) }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(preferences, noteRepo, alarmRepo, rankRepo)
+        confirmVerified(preferencesRepo, noteRepo, alarmRepo, rankRepo)
     }
-
-
-    @Test fun getSort() = FastTest.getSort(preferences) { interactor.sort }
-
 
     @Test fun getCount() = startCoTest {
         val count = Random.nextInt()
@@ -57,10 +60,10 @@ class NotesInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun getList() = startCoTest {
-        val sort = Random.nextInt()
+        val sort = mockk<Sort>()
         val list = mockk<MutableList<NoteItem>>()
 
-        every { preferences.sort } returns sort
+        every { preferencesRepo.sort } returns sort
         coEvery {
             noteRepo.getList(sort, isBin = false, isOptimal = true, filterVisible = true)
         } returns list
@@ -68,7 +71,7 @@ class NotesInteractorTest : ParentInteractorTest() {
         interactor.getList()
 
         coVerifySequence {
-            preferences.sort
+            preferencesRepo.sort
             noteRepo.getList(sort, isBin = false, isOptimal = true, filterVisible = true)
         }
     }
