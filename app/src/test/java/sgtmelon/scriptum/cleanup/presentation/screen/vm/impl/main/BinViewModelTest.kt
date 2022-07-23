@@ -1,11 +1,20 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main
 
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.coVerifySequence
+import io.mockk.confirmVerified
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
+import io.mockk.spyk
+import io.mockk.verifySequence
+import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
-import org.junit.Assert.*
-import org.junit.Before
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.R
@@ -13,10 +22,9 @@ import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Options
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.clearAdd
+import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IBinFragment
 import sgtmelon.scriptum.getRandomSize
 import sgtmelon.scriptum.parent.ParentViewModelTest
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IBinFragment
-import kotlin.random.Random
 
 /**
  * Test for [BinViewModel].
@@ -197,7 +205,6 @@ class BinViewModelTest : ParentViewModelTest() {
             callback.getStringArray(R.array.dialog_menu_bin)
             callback.showOptionsDialog(untitledName, itemArray, p)
 
-            item.name
             item.name
             callback.getStringArray(R.array.dialog_menu_bin)
             callback.showOptionsDialog(name, itemArray, p)

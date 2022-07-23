@@ -257,7 +257,6 @@ class NotesViewModelTest : ParentViewModelTest() {
             }, p = 0)
 
             textItem.name
-            textItem.name
             callback.getStringArray(R.array.dialog_menu_text)
             textItem.haveAlarm()
             callback.getString(R.string.dialog_menu_notification_update)
@@ -280,7 +279,6 @@ class NotesViewModelTest : ParentViewModelTest() {
                 set(Options.Notes.BIND, bindString)
             }, p = 1)
 
-            rollItem.name
             rollItem.name
             callback.getStringArray(R.array.dialog_menu_roll)
             rollItem.haveAlarm()

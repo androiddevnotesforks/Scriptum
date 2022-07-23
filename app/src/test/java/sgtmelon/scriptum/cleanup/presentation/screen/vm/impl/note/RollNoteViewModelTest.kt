@@ -2125,8 +2125,8 @@ class RollNoteViewModelTest : ParentViewModelTest() {
 
             spyViewModel.onTouchClear(position)
             spyViewModel.getAbsolutePosition(position)
-            spyViewModel.getAdapterList()
             spyViewModel.callback
+            spyViewModel.getAdapterList()
             callback.notifyItemChanged(list, absolute)
         }
     }

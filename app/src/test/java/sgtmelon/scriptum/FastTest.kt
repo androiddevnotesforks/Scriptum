@@ -287,18 +287,21 @@ object FastTest {
 
                 spyViewModel.onClickBackArrow()
                 noteState.isCreate
+                spyViewModel.saveControl
                 saveControl.isNeedSave = false
                 parentCallback.finish()
 
                 spyViewModel.onClickBackArrow()
                 noteState.isCreate
                 noteState.isEdit
+                spyViewModel.saveControl
                 saveControl.isNeedSave = false
                 parentCallback.finish()
 
                 spyViewModel.onClickBackArrow()
                 noteState.isCreate
                 noteState.isEdit
+                spyViewModel.saveControl
                 saveControl.isNeedSave = false
                 parentCallback.finish()
 
@@ -341,6 +344,7 @@ object FastTest {
 
                 spyViewModel.onPressBack()
                 noteState.isEdit
+                spyViewModel.saveControl
                 saveControl.isNeedSave = false
                 spyViewModel.onMenuSave(changeMode = true)
                 noteState.isCreate
@@ -348,12 +352,14 @@ object FastTest {
 
                 spyViewModel.onPressBack()
                 noteState.isEdit
+                spyViewModel.saveControl
                 saveControl.isNeedSave = false
                 spyViewModel.onMenuSave(changeMode = true)
                 noteState.isCreate
 
                 spyViewModel.onPressBack()
                 noteState.isEdit
+                spyViewModel.saveControl
                 saveControl.isNeedSave = false
                 spyViewModel.onMenuSave(changeMode = true)
             }
@@ -1028,6 +1034,7 @@ object FastTest {
                 spyViewModel.onInputTextChange()
                 spyViewModel.isNoteInitialized()
                 spyViewModel.callback
+                spyViewModel.noteItem
                 inputControl.access
                 callback.onBindingInput(noteItem, access)
             }
