@@ -7,24 +7,18 @@ import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.ParentInteractor
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.ITextNoteViewModel
-import sgtmelon.scriptum.infrastructure.preferences.Preferences
 
 /**
  * Interactor for [ITextNoteViewModel].
  */
 class TextNoteInteractor(
-    private val preferences: Preferences,
     private val alarmRepo: IAlarmRepo,
     private val rankRepo: IRankRepo,
     private val noteRepo: INoteRepo
 ) : ParentInteractor(),
     ITextNoteInteractor {
-
-    @Color override val defaultColor: Int get() = preferences.defaultColor
-
 
     override suspend fun getItem(id: Long): NoteItem.Text? {
         val noteItem = noteRepo.getItem(id, isOptimal = false)

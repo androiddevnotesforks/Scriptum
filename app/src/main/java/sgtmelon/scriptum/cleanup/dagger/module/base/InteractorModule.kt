@@ -15,7 +15,6 @@ import sgtmelon.scriptum.cleanup.domain.interactor.callback.ISplashInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IRankInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.INoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.IAlarmInteractor
@@ -31,7 +30,6 @@ import sgtmelon.scriptum.cleanup.domain.interactor.impl.SplashInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.main.BinInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.main.NotesInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.main.RankInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.impl.note.NoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.note.RollNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.note.TextNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.notification.AlarmInteractor

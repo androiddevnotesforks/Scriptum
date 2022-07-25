@@ -6,7 +6,6 @@ import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import sgtmelon.scriptum.cleanup.data.room.converter.type.BoolConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.type.NoteTypeConverter
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Note
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Note.Default
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Note.Room
@@ -35,7 +34,7 @@ data class NoteEntity(
     var text: String = Default.TEXT,
 
     @ColumnInfo(name = Note.COLOR, defaultValue = Room.COLOR)
-    @Color var color: Int = Default.COLOR,
+    var color: Int = Default.COLOR,
 
     @ColumnInfo(name = Note.TYPE, defaultValue = Room.TYPE)
     var type: NoteType = Default.TYPE,

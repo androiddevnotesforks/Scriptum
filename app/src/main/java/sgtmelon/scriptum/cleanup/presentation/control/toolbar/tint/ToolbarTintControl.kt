@@ -5,12 +5,12 @@ import android.content.Context
 import android.view.View
 import android.view.Window
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.domain.model.key.ColorShade
 import sgtmelon.scriptum.cleanup.domain.model.state.MenuColorState
 import sgtmelon.scriptum.cleanup.extension.geDisplayedTheme
 import sgtmelon.scriptum.cleanup.extension.getAppSimpleColor
 import sgtmelon.scriptum.cleanup.extension.getNoteToolbarColor
+import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 
 /**
@@ -21,7 +21,7 @@ class ToolbarTintControl(
     private val window: Window,
     private val toolbar: View?,
     private val indicator: View?,
-    @Color startColor: Int
+    startColor: Color
 ) : ParentTintControl(context),
     IToolbarTintControl {
 
@@ -63,7 +63,7 @@ class ToolbarTintControl(
             .toLong()
     }
 
-    private fun setupColor(@Color color: Int) {
+    private fun setupColor(color: Color) {
         if (theme == null) return
 
         if (theme != ThemeDisplayed.DARK) {
@@ -78,7 +78,7 @@ class ToolbarTintControl(
     }
 
 
-    override fun setColorFrom(@Color color: Int) = apply {
+    override fun setColorFrom(color: Color) = apply {
         if (theme == null) return@apply
 
         statusState.from = context.getNoteToolbarColor(theme, color, statusOnDark)
@@ -86,7 +86,7 @@ class ToolbarTintControl(
         indicatorState.from = context.getAppSimpleColor(color, ColorShade.DARK)
     }
 
-    override fun startTint(@Color color: Int) {
+    override fun startTint(color: Color) {
         if (theme == null) return
 
         statusState.to = context.getNoteToolbarColor(theme, color, statusOnDark)

@@ -2,24 +2,24 @@ package sgtmelon.scriptum.cleanup.presentation.adapter
 
 import android.view.ViewGroup
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.extension.inflateView
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.ColorHolder
 import sgtmelon.scriptum.cleanup.presentation.dialog.ColorDialog
 import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
+import sgtmelon.scriptum.infrastructure.model.key.Color
 
 /**
  * Adapter which displays list of application colors for [ColorDialog].
  */
 class ColorAdapter(
     private val clickListener: ItemListener.Click
-) : ParentAdapter<Int, ColorHolder>() {
+) : ParentAdapter<Color, ColorHolder>() {
 
     private val visibleArray: BooleanArray
     private var check: Int = 0
 
     init {
-        setList(Color.list)
+        setList(Color.values().toList())
         visibleArray = BooleanArray(itemCount)
     }
 

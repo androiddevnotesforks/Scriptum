@@ -1,11 +1,12 @@
 package sgtmelon.scriptum.cleanup.presentation.control.note.input
 
 import android.util.Log
-import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
 import sgtmelon.common.test.annotation.RunPrivate
+import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.extension.validRemoveAt
 import sgtmelon.scriptum.cleanup.presentation.provider.BuildProvider
+import sgtmelon.scriptum.infrastructure.model.key.Color
 
 /**
  * Class for control input data inside note and work with undo/redo.
@@ -94,8 +95,8 @@ class InputControl : IInputControl {
         add(InputItem(InputAction.RANK, valueFrom, valueTo))
     }
 
-    override fun onColorChange(valueFrom: Int, valueTo: Int) {
-        add(InputItem(InputAction.COLOR, valueFrom.toString(), valueTo.toString()))
+    override fun onColorChange(valueFrom: Color, valueTo: Color) {
+        add(InputItem(InputAction.COLOR, valueFrom.ordinal.toString(), valueTo.ordinal.toString()))
     }
 
     override fun onNameChange(valueFrom: String, valueTo: String, cursor: InputItem.Cursor) {

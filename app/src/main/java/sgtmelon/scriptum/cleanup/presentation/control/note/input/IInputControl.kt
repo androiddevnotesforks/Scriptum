@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.cleanup.presentation.control.note.input
 
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
+import sgtmelon.scriptum.infrastructure.model.key.Color
 
 /**
  * Interface for communicate with [InputControl].
@@ -19,7 +20,7 @@ interface IInputControl {
 
     fun onRankChange(idFrom: Long, psFrom: Int, idTo: Long, psTo: Int)
 
-    fun onColorChange(valueFrom: Int, valueTo: Int)
+    fun onColorChange(valueFrom: Color, valueTo: Color)
 
     fun onNameChange(valueFrom: String, valueTo: String, cursor: InputItem.Cursor)
 

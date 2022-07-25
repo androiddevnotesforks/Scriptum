@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import sgtmelon.common.utils.runMain
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.model.state.NoteSaveState
-import sgtmelon.scriptum.infrastructure.utils.getCrashlytics
+import sgtmelon.scriptum.infrastructure.utils.record
 
 /**
  * Class for help control note pause/auto save.
@@ -28,7 +28,7 @@ class SaveControlImpl(
         val timeArray = resources.getIntArray(R.array.pref_note_save_time_array)
         timeArray[saveState.savePeriod.ordinal].toLong()
     } catch (e: Throwable) {
-        getCrashlytics().recordException(e)
+        e.record()
         null
     }
 

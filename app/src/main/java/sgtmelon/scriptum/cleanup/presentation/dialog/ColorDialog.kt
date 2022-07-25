@@ -7,13 +7,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
-import sgtmelon.safedialog.dialog.parent.BlankDialog
 import sgtmelon.safedialog.annotation.SavedTag
+import sgtmelon.safedialog.dialog.parent.BlankDialog
 import sgtmelon.safedialog.utils.applyAnimation
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.presentation.adapter.ColorAdapter
 import sgtmelon.scriptum.cleanup.presentation.listener.ItemListener
+import sgtmelon.scriptum.infrastructure.model.key.Color
 
 /**
  * Dialog for display application available colors for notes.
@@ -25,7 +25,9 @@ class ColorDialog : BlankDialog(),
     var check: Int = DEF_CHECK
         private set
 
-    fun setArguments(@Color check: Int) = apply {
+    fun setArguments(color: Color) = apply {
+        val check = color.ordinal
+
         arguments = Bundle().apply {
             putInt(SavedTag.Common.VALUE_INIT, check)
             putInt(SavedTag.Common.VALUE, check)

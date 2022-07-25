@@ -1,10 +1,10 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note
 
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
+import java.util.Calendar
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.cleanup.presentation.receiver.SystemReceiver
-import java.util.*
+import sgtmelon.scriptum.infrastructure.model.key.Color
 
 /**
  * Parent interface for [ITextNoteFragment] and [IRollNoteFragment].
@@ -24,9 +24,9 @@ interface IParentNoteFragment<N : NoteItem> : SystemReceiver.Bridge.Alarm,
     fun onBindingInput(item: N, inputAccess: InputControl.Access)
 
 
-    fun tintToolbar(@Color from: Int, @Color to: Int)
+    fun tintToolbar(from: Color, to: Color)
 
-    fun tintToolbar(@Color color: Int)
+    fun tintToolbar(color: Color)
 
 
     fun changeName(text: String, cursor: Int)
@@ -34,7 +34,7 @@ interface IParentNoteFragment<N : NoteItem> : SystemReceiver.Bridge.Alarm,
 
     fun showRankDialog(check: Int)
 
-    fun showColorDialog(@Color color: Int)
+    fun showColorDialog(color: Color)
 
     fun showDateDialog(calendar: Calendar, resetVisible: Boolean)
 

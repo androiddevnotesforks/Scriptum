@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.cleanup.domain.model.data
 
 import androidx.annotation.StringDef
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 
 /**
  * Object for store information between screens and save it
@@ -49,7 +48,7 @@ object IntentData {
         annotation class Default {
             companion object {
                 const val ID = -1L
-                const val COLOR = Color.UNDEFINED
+                const val COLOR = -1
                 const val TYPE = -1
             }
         }

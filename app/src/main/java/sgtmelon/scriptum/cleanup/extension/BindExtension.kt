@@ -12,19 +12,19 @@ import androidx.databinding.BindingAdapter
 import sgtmelon.common.utils.formatFuture
 import sgtmelon.common.utils.formatPast
 import sgtmelon.common.utils.getCalendar
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.domain.model.data.ColorData
 import sgtmelon.scriptum.cleanup.domain.model.item.ColorItem
+import sgtmelon.scriptum.infrastructure.model.key.Color
 
 //region Color and Theme
 
 @BindingAdapter(value = ["noteColor"])
-fun CardView.bindNoteColor(@Color color: Int) {
+fun CardView.bindNoteColor(color: Color) {
     setCardBackgroundColor(context.getNoteCardColor(color))
 }
 
 @BindingAdapter(value = ["indicatorColor"])
-fun View.bindIndicatorColor(@Color color: Int): ColorItem? {
+fun View.bindIndicatorColor(color: Color): ColorItem? {
     val theme = context.geDisplayedTheme() ?: return null
     val colorItem = ColorData.getColorItem(theme, color)
 

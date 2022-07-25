@@ -3,8 +3,8 @@ package sgtmelon.scriptum.cleanup.presentation.control.toolbar.tint
 import android.content.Context
 import android.view.View
 import android.view.Window
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.extension.geDisplayedTheme
+import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 
 /**
@@ -19,7 +19,7 @@ class HolderTintControl(
 
     private val theme: ThemeDisplayed? = context.geDisplayedTheme()
 
-    override fun setupColor(@Color color: Int) {
+    override fun setupColor(color: Color) {
         if (theme == null || theme == ThemeDisplayed.DARK) return
 
         window.statusBarColor = getStatusBarColor(theme, color)

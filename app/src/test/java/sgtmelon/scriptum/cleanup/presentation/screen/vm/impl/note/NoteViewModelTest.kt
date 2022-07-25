@@ -5,18 +5,16 @@ import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verifySequence
+import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Assert.*
-import org.junit.Before
 import org.junit.Test
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.INoteInteractor
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note.Default
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note.Intent
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
-import sgtmelon.scriptum.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteActivity
-import kotlin.random.Random
+import sgtmelon.scriptum.parent.ParentViewModelTest
 
 /**
  * Test for [NoteViewModel].

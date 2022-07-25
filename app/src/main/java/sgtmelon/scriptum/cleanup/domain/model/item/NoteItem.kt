@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.cleanup.domain.model.item
 
+import kotlin.math.min
 import sgtmelon.common.utils.getTime
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Alarm
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Note
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.RollVisible
@@ -12,7 +12,7 @@ import sgtmelon.scriptum.cleanup.extension.copy
 import sgtmelon.scriptum.cleanup.extension.getText
 import sgtmelon.scriptum.cleanup.presentation.adapter.NoteAdapter
 import sgtmelon.scriptum.cleanup.presentation.adapter.RollAdapter
-import kotlin.math.min
+import sgtmelon.scriptum.infrastructure.model.key.Color
 
 /**
  * Model for store short information about note, use in [NoteAdapter]/[RollAdapter].
@@ -23,7 +23,7 @@ sealed class NoteItem(
     var change: String,
     var name: String,
     var text: String,
-    @Color var color: Int,
+    var color: Color,
     var rankId: Long,
     var rankPs: Int,
     var isBin: Boolean,
@@ -128,7 +128,7 @@ sealed class NoteItem(
         change: String = Note.Default.CHANGE,
         name: String = Note.Default.NAME,
         text: String = Note.Default.TEXT,
-        @Color color: Int,
+        color: Color,
         rankId: Long = Note.Default.RANK_ID,
         rankPs: Int = Note.Default.RANK_PS,
         isBin: Boolean = Note.Default.BIN,
@@ -150,7 +150,7 @@ sealed class NoteItem(
             change: String = this.change,
             name: String = this.name,
             text: String = this.text,
-            color: Int = this.color,
+            color: Color = this.color,
             rankId: Long = this.rankId,
             rankPs: Int = this.rankPs,
             isBin: Boolean = this.isBin,
@@ -190,7 +190,7 @@ sealed class NoteItem(
         //endregion
 
         companion object {
-            fun getCreate(@Color color: Int): Text = Text(color = color)
+            fun getCreate(color: Color): Text = Text(color = color)
         }
 
     }
@@ -201,7 +201,7 @@ sealed class NoteItem(
         change: String = Note.Default.CHANGE,
         name: String = Note.Default.NAME,
         text: String = Note.Default.TEXT,
-        @Color color: Int,
+        color: Color,
         rankId: Long = Note.Default.RANK_ID,
         rankPs: Int = Note.Default.RANK_PS,
         isBin: Boolean = Note.Default.BIN,
@@ -225,7 +225,7 @@ sealed class NoteItem(
             change: String = this.change,
             name: String = this.name,
             text: String = this.text,
-            color: Int = this.color,
+            color: Color = this.color,
             rankId: Long = this.rankId,
             rankPs: Int = this.rankPs,
             isBin: Boolean = this.isBin,
@@ -342,9 +342,7 @@ sealed class NoteItem(
             const val PREVIEW_SIZE = 4
             const val INDICATOR_MAX_COUNT = 99
 
-            fun getCreate(@Color color: Int): Roll = Roll(color = color)
+            fun getCreate(color: Color): Roll = Roll(color = color)
         }
-
     }
-
 }

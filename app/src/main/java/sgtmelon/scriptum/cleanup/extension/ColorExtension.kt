@@ -10,12 +10,12 @@ import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.core.graphics.drawable.DrawableCompat
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.domain.model.data.ColorData.accent
 import sgtmelon.scriptum.cleanup.domain.model.data.ColorData.dark
 import sgtmelon.scriptum.cleanup.domain.model.data.ColorData.light
 import sgtmelon.scriptum.cleanup.domain.model.item.ColorItem
 import sgtmelon.scriptum.cleanup.domain.model.key.ColorShade
+import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 
 /**
@@ -23,12 +23,14 @@ import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
  * [needDark] - If element place on dark background (e.g. note color indicator)
  */
 @ColorInt
-fun Context.getNoteToolbarColor(theme: ThemeDisplayed, @Color color: Int, needDark: Boolean): Int {
+fun Context.getNoteToolbarColor(theme: ThemeDisplayed, color: Color, needDark: Boolean): Int {
+    val ordinal = color.ordinal
+
     return if (theme == ThemeDisplayed.LIGHT) {
-        if (needDark) getCompatColor(dark[color])
-        else getCompatColor(light[color])
+        if (needDark) getCompatColor(dark[ordinal])
+        else getCompatColor(light[ordinal])
     } else {
-        if (needDark) getCompatColor(dark[color])
+        if (needDark) getCompatColor(dark[ordinal])
         else getColorAttr(R.attr.clPrimary)
     }
 }
@@ -37,14 +39,16 @@ fun Context.getNoteToolbarColor(theme: ThemeDisplayed, @Color color: Int, needDa
  * Get note color for cards
  */
 @ColorInt
-fun Context.getNoteCardColor(@Color color: Int): Int = getCompatColor(light[color])
+fun Context.getNoteCardColor(color: Color): Int = getCompatColor(light[color.ordinal])
 
 @ColorInt
-fun Context.getAppSimpleColor(@Color color: Int, shade: ColorShade): Int {
+fun Context.getAppSimpleColor(color: Color, shade: ColorShade): Int {
+    val ordinal = color.ordinal
+
     return getCompatColor(when (shade) {
-        ColorShade.LIGHT -> light[color]
-        ColorShade.ACCENT -> accent[color]
-        ColorShade.DARK -> dark[color]
+        ColorShade.LIGHT -> light[ordinal]
+        ColorShade.ACCENT -> accent[ordinal]
+        ColorShade.DARK -> dark[ordinal]
     })
 }
 

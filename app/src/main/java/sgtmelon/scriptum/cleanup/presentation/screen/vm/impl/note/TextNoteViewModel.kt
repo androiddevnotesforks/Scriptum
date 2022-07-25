@@ -15,6 +15,8 @@ import sgtmelon.scriptum.cleanup.domain.model.state.NoteState
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.ITextNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.ITextNoteViewModel
+import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 
 /**
  * ViewModel for [ITextNoteFragment].
@@ -22,9 +24,11 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.ITextNoteV
 class TextNoteViewModel(
     callback: ITextNoteFragment,
     parentCallback: INoteConnector?,
+    colorConverter: ColorConverter,
+    preferencesRepo: PreferencesRepo,
     interactor: ITextNoteInteractor
 ) : ParentNoteViewModel<NoteItem.Text, ITextNoteFragment, ITextNoteInteractor>(
-    callback, parentCallback, interactor
+    callback, parentCallback, colorConverter, preferencesRepo, interactor
 ), ITextNoteViewModel {
 
     override fun cacheData() {
@@ -46,7 +50,7 @@ class TextNoteViewModel(
             rankDialogItemArray = runBack { interactor.getRankDialogItemArray(name) }
 
             if (id == Default.ID) {
-                noteItem = NoteItem.Text.getCreate(interactor.defaultColor)
+                noteItem = NoteItem.Text.getCreate(preferencesRepo.defaultColor)
                 cacheData()
 
                 noteState = NoteState(isCreate = true)
@@ -99,6 +103,7 @@ class TextNoteViewModel(
 
     //region Menu click
 
+    // TODO move undo/redo staff inside use case or something like this
     override fun onMenuUndoRedoSelect(item: InputItem, isUndo: Boolean) {
         inputControl.isEnabled = false
 

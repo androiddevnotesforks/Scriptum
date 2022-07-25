@@ -27,6 +27,9 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConne
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.IParentNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.IParentNoteViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
+import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
+import sgtmelon.scriptum.infrastructure.model.key.Color
 
 /**
  * Parent viewModel for [TextNoteViewModel] and [RollNoteViewModel].
@@ -34,6 +37,8 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I : IParentNoteInteractor<N>>(
     callback: C,
     @RunProtected var parentCallback: INoteConnector?,
+    @RunProtected val colorConverter: ColorConverter,
+    @RunProtected val preferencesRepo: PreferencesRepo,
     @RunProtected val interactor: I
 ) : ParentViewModel<C>(callback),
     IParentNoteViewModel {
@@ -56,7 +61,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
     @RunProtected var inputControl: IInputControl = InputControl()
 
     @RunProtected var id: Long = Default.ID
-    @RunProtected var color: Int = Default.COLOR
+    @RunProtected var color: Color = preferencesRepo.defaultColor
 
     @RunProtected lateinit var noteItem: N
 
@@ -104,10 +109,11 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
 
     @RunPrivate fun getBundleData(bundle: Bundle?) {
         id = bundle?.getLong(Intent.ID, Default.ID) ?: Default.ID
-        color = bundle?.getInt(Intent.COLOR, Default.COLOR) ?: Default.COLOR
 
-        if (color == Default.COLOR) {
-            color = interactor.defaultColor
+        val colorOrdinal = bundle?.getInt(Intent.COLOR, Default.COLOR) ?: Default.COLOR
+        val bundleColor = colorConverter.toEnum(colorOrdinal)
+        if (bundleColor != null) {
+            color = bundleColor
         }
     }
 
@@ -136,7 +142,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
     override fun onSaveData(bundle: Bundle) {
         bundle.apply {
             putLong(Intent.ID, id)
-            putInt(Intent.COLOR, color)
+            putInt(Intent.COLOR, colorConverter.toInt(color))
         }
     }
 
@@ -193,12 +199,14 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
     //region Results of dialogs
 
     override fun onResultColorDialog(check: Int) {
-        inputControl.onColorChange(noteItem.color, check)
-        noteItem.color = check
+        val newColor = colorConverter.toEnum(check) ?: return
+
+        inputControl.onColorChange(noteItem.color, newColor)
+        noteItem.color = newColor
 
         callback?.apply {
             onBindingInput(noteItem, inputControl.access)
-            tintToolbar(check)
+            tintToolbar(newColor)
         }
     }
 
@@ -330,6 +338,7 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
 
         if (list.size != 2) return
 
+        // TODO assertSize and record exception in bad case
         noteItem.apply {
             rankId = list.firstOrNull() ?: return
             rankPs = list.lastOrNull()?.toInt() ?: return
@@ -338,7 +347,10 @@ abstract class ParentNoteViewModel<N : NoteItem, C : IParentNoteFragment<N>, I :
 
     @RunProtected fun onMenuUndoRedoColor(item: InputItem, isUndo: Boolean) {
         val colorFrom = noteItem.color
-        val colorTo = item[isUndo].toIntOrNull() ?: return
+
+        // TODO record exception
+        val colorOrdinalTo = item[isUndo].toIntOrNull() ?: return
+        val colorTo = colorConverter.toEnum(colorOrdinalTo) ?: return
 
         noteItem.color = colorTo
 

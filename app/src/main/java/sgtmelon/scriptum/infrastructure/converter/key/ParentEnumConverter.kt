@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.infrastructure.converter.key
 
 import sgtmelon.scriptum.infrastructure.model.exception.EnumConverterException
-import sgtmelon.scriptum.infrastructure.utils.getCrashlytics
+import sgtmelon.scriptum.infrastructure.utils.record
 
 /**
  * Parent class for all enum converters:
@@ -22,7 +22,7 @@ abstract class ParentEnumConverter<E : Enum<E>> {
         val enum = values.getOrNull(value)
 
         if (enum == null) {
-            getCrashlytics().recordException(getOrdinalException(value))
+            getOrdinalException(value).record()
         }
 
         return enum

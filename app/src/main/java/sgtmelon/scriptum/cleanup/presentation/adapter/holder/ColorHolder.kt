@@ -7,13 +7,13 @@ import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import sgtmelon.common.test.addIdlingListener
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.extension.bindIndicatorColor
 import sgtmelon.scriptum.cleanup.extension.getCompatColor
 import sgtmelon.scriptum.cleanup.presentation.adapter.ColorAdapter
+import sgtmelon.scriptum.infrastructure.model.key.Color
 
 /**
- * Holder for app color, use in [ColorAdapter]
+ * Holder for app color, use in [ColorAdapter].
  */
 class ColorHolder(itemView: View) : ParentHolder(itemView) {
 
@@ -25,14 +25,15 @@ class ColorHolder(itemView: View) : ParentHolder(itemView) {
     private val checkImage: ImageView = itemView.findViewById(R.id.color_check_image)
     val clickView: View = itemView.findViewById(R.id.color_click_view)
 
-    fun bindColor(@Color color: Int) {
+    fun bindColor(color: Color) {
         val colorItem = backgroundView.bindIndicatorColor(color)
         if (colorItem != null) {
             checkImage.setColorFilter(context.getCompatColor(colorItem.content))
         }
 
+        // TODO record exception
         val context = itemView.context ?: return
-        val colorName = context.resources.getStringArray(R.array.pref_note_color)[color]
+        val colorName = context.resources.getStringArray(R.array.pref_note_color)[color.ordinal]
 
         clickView.contentDescription = context.getString(R.string.description_item_color, colorName)
     }
@@ -59,5 +60,4 @@ class ColorHolder(itemView: View) : ParentHolder(itemView) {
 
         func()
     }
-
 }

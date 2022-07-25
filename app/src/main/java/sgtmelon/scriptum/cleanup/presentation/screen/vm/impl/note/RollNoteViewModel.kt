@@ -23,6 +23,8 @@ import sgtmelon.scriptum.cleanup.extension.validRemoveAt
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.IRollNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.IRollNoteViewModel
+import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 
 /**
  * ViewModel for [IRollNoteFragment].
@@ -30,9 +32,11 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.IRollNoteV
 class RollNoteViewModel(
     callback: IRollNoteFragment,
     parentCallback: INoteConnector?,
+    colorConverter: ColorConverter,
+    preferencesRepo: PreferencesRepo,
     interactor: IRollNoteInteractor
 ) : ParentNoteViewModel<NoteItem.Roll, IRollNoteFragment, IRollNoteInteractor>(
-    callback, parentCallback, interactor
+    callback, parentCallback, colorConverter, preferencesRepo, interactor
 ), IRollNoteViewModel {
 
     /**
@@ -66,7 +70,7 @@ class RollNoteViewModel(
             rankDialogItemArray = runBack { interactor.getRankDialogItemArray(name) }
 
             if (id == Default.ID) {
-                val defaultColor = interactor.defaultColor
+                val defaultColor = preferencesRepo.defaultColor
 
                 noteItem = NoteItem.Roll.getCreate(defaultColor)
                 cacheData()
@@ -259,6 +263,7 @@ class RollNoteViewModel(
 
     //region Menu click
 
+    // TODO move undo/redo staff inside use case or something like this
     override fun onMenuUndoRedoSelect(item: InputItem, isUndo: Boolean) {
         inputControl.isEnabled = false
 
@@ -350,6 +355,7 @@ class RollNoteViewModel(
         else -> null
     }
 
+    // TODO record exception
     @RunPrivate fun onMenuUndoRedoMove(item: InputItem, isUndo: Boolean) {
         val from = item[!isUndo].toIntOrNull() ?: return
         val to = item[isUndo].toIntOrNull() ?: return

@@ -17,7 +17,6 @@ import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.iconanim.callback.IconChangeCallback
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
 import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note
@@ -44,6 +43,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.ITextNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.ITextNoteViewModel
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
+import sgtmelon.scriptum.infrastructure.model.key.Color
 
 /**
  * Fragment for display text note.
@@ -151,7 +151,7 @@ class TextNoteFragment : ParentFragment(),
         binding?.apply { this.menuCallback = viewModel }
     }
 
-    override fun setupToolbar(@Color color: Int) {
+    override fun setupToolbar(color: Color) {
         val toolbar: Toolbar? = view?.findViewById(R.id.toolbar_note_content_container)
         val indicator: View? = view?.findViewById(R.id.toolbar_note_color_view)
 
@@ -270,11 +270,11 @@ class TextNoteFragment : ParentFragment(),
 
     override fun onPressBack() = viewModel.onPressBack()
 
-    override fun tintToolbar(from: Int, to: Int) {
+    override fun tintToolbar(from: Color, to: Color) {
         toolbarTintControl?.setColorFrom(from)?.startTint(to)
     }
 
-    override fun tintToolbar(@Color color: Int) {
+    override fun tintToolbar(color: Color) {
         toolbarTintControl?.startTint(color)
     }
 
@@ -312,7 +312,7 @@ class TextNoteFragment : ParentFragment(),
         rankDialog.setArguments(check).safeShow(fm, DialogFactory.Note.RANK)
     }
 
-    override fun showColorDialog(@Color color: Int) = openState.tryInvoke {
+    override fun showColorDialog(color: Color) = openState.tryInvoke {
         toolbarTintControl?.setColorFrom(color)
 
         hideKeyboard()
@@ -362,10 +362,10 @@ class TextNoteFragment : ParentFragment(),
     //endregion
 
     companion object {
-        operator fun get(id: Long, @Color color: Int) = TextNoteFragment().apply {
+        operator fun get(id: Long, color: Color) = TextNoteFragment().apply {
             arguments = Bundle().apply {
                 putLong(Note.Intent.ID, id)
-                putInt(Note.Intent.COLOR, color)
+                putInt(Note.Intent.COLOR, color.ordinal)
             }
         }
     }

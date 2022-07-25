@@ -6,8 +6,8 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import javax.inject.Inject
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.cleanup.domain.model.data.ReceiverData
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
@@ -25,7 +25,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteActiv
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.AppActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.INoteViewModel
-import javax.inject.Inject
+import sgtmelon.scriptum.infrastructure.model.key.Color
 
 /**
  * Screen which display note - [TextNoteFragment], [RollNoteFragment].
@@ -90,7 +90,7 @@ class NoteActivity : AppActivity(), INoteActivity, INoteConnector, NoteScreenRec
 
     //endregion
 
-    override fun updateHolder(@Color color: Int) = holderTintControl.setupColor(color)
+    override fun updateHolder(color: Color) = holderTintControl.setupColor(color)
 
     override fun setupInsets() {
         parentContainer?.doOnApplyWindowInsets { view, insets, isFirstTime, _, margin ->
@@ -102,7 +102,7 @@ class NoteActivity : AppActivity(), INoteActivity, INoteConnector, NoteScreenRec
         }
     }
 
-    override fun showTextFragment(id: Long, @Color color: Int, checkCache: Boolean) {
+    override fun showTextFragment(id: Long, color: Color, checkCache: Boolean) {
         showFragment(FragmentFactory.Note.Tag.TEXT, if (checkCache) {
             textNoteFragment ?: TextNoteFragment[id, color]
         } else {
@@ -110,7 +110,7 @@ class NoteActivity : AppActivity(), INoteActivity, INoteConnector, NoteScreenRec
         })
     }
 
-    override fun showRollFragment(id: Long, @Color color: Int, checkCache: Boolean) {
+    override fun showRollFragment(id: Long, color: Color, checkCache: Boolean) {
         showFragment(FragmentFactory.Note.Tag.ROLL, if (checkCache) {
             rollNoteFragment ?: RollNoteFragment[id, color]
         } else {
@@ -131,7 +131,7 @@ class NoteActivity : AppActivity(), INoteActivity, INoteConnector, NoteScreenRec
 
     override fun onUpdateNoteId(id: Long) = viewModel.onUpdateNoteId(id)
 
-    override fun onUpdateNoteColor(@Color color: Int) = viewModel.onUpdateNoteColor(color)
+    override fun onUpdateNoteColor(color: Color) = viewModel.onUpdateNoteColor(color)
 
     override fun onConvertNote() = viewModel.onConvertNote()
 
@@ -162,7 +162,7 @@ class NoteActivity : AppActivity(), INoteActivity, INoteConnector, NoteScreenRec
             context: Context,
             type: Int,
             id: Long = Note.Default.ID,
-            @Color color: Int = Note.Default.COLOR
+            color: Int = Note.Default.COLOR
         ): Intent {
             return Intent(context, NoteActivity::class.java)
                 .putExtra(Note.Intent.ID, id)

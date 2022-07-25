@@ -1,8 +1,8 @@
 package sgtmelon.scriptum.cleanup.domain.model.data
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.domain.model.item.ColorItem
+import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 
 /**
@@ -42,9 +42,13 @@ object ColorData {
     }
 
 
-    fun getColorItem(theme: ThemeDisplayed, @Color color: Int) = if (theme == ThemeDisplayed.LIGHT) {
-        ColorItem(dark[color], light[color], dark[color])
-    } else {
-        ColorItem(dark[color], dark[color], light[color])
+    fun getColorItem(theme: ThemeDisplayed, color: Color): ColorItem {
+        val ordinal = color.ordinal
+
+        return if (theme == ThemeDisplayed.LIGHT) {
+            ColorItem(dark[ordinal], light[ordinal], dark[ordinal])
+        } else {
+            ColorItem(dark[ordinal], dark[ordinal], light[ordinal])
+        }
     }
 }
