@@ -3,8 +3,8 @@ package sgtmelon.scriptum.test.ui.auto.screen.note.roll
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
+import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.infrastructure.preferences.PreferencesImpl
 import sgtmelon.scriptum.test.parent.ParentUiTest
@@ -69,8 +69,8 @@ class RollNoteColorDialogTest : ParentUiTest(), IColorTest {
     /**
      * Check [PreferencesImpl.defaultColor] work.
      */
-    override fun startTest(@Color value: Int) {
-        preferences.defaultColor = value
+    override fun startTest(value: Color) {
+        preferencesRepo.defaultColor = value
 
         val item = data.createRoll()
         launch {

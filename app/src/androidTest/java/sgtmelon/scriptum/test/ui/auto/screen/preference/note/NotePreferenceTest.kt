@@ -5,8 +5,8 @@ import kotlin.random.Random
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.NotePreferenceFragment
+import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.SavePeriod
 import sgtmelon.scriptum.infrastructure.model.key.Sort
 import sgtmelon.scriptum.test.parent.ParentUiTest
@@ -21,7 +21,7 @@ class NotePreferenceTest : ParentUiTest(), INotePreferenceTest {
 
     @Test fun assertAll() = runTest({
         preferencesRepo.sort = Sort.values().random()
-        preferences.defaultColor = Color.list.random()
+        preferencesRepo.defaultColor = Color.values().random()
         preferences.isPauseSaveOn = Random.nextBoolean()
         preferences.isAutoSaveOn = Random.nextBoolean()
         preferencesRepo.savePeriod = SavePeriod.values().random()

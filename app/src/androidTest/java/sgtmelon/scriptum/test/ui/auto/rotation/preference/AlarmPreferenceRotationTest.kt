@@ -52,7 +52,7 @@ class AlarmPreferenceRotationTest : ParentRotationTest(), IAlarmPreferenceTest {
             assert()
         }
 
-        assertEquals(value, preferences.repeat)
+        assertEquals(value, preferencesRepo.repeat)
     }
 
     @Test fun signalDialog() {

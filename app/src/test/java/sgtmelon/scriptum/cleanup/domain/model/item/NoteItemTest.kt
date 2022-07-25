@@ -1,14 +1,16 @@
 package sgtmelon.scriptum.cleanup.domain.model.item
 
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import sgtmelon.common.utils.getTime
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Alarm
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Note
 import sgtmelon.scriptum.cleanup.domain.model.key.Complete
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.cleanup.extension.getText
+import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.parent.ParentTest
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem.Roll.Companion.INDICATOR_MAX_COUNT as MAX_COUNT
 
@@ -25,8 +27,8 @@ class NoteItemTest : ParentTest() {
         RollItem(position = 2, text = "3", isCheck = true)
     )
 
-    private val textItem = NoteItem.Text(create = "12345", color = 0)
-    private val rollItem = NoteItem.Roll(create = "12345", color = 0, list = rollList)
+    private val textItem = NoteItem.Text(create = "12345", color = Color.WHITE)
+    private val rollItem = NoteItem.Roll(create = "12345", color = Color.WHITE, list = rollList)
 
     private val splitList = listOf("1", "2", "34")
 

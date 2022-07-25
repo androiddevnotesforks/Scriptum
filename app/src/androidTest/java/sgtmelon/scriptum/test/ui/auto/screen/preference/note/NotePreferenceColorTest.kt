@@ -5,8 +5,8 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceFragment
+import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.preferences.PreferencesImpl
 import sgtmelon.scriptum.test.parent.ParentUiTest
 import sgtmelon.scriptum.test.parent.situation.IColorTest
@@ -20,11 +20,11 @@ class NotePreferenceColorTest : ParentUiTest(),
     IColorTest {
 
     @Test fun dialogClose() = runTest {
-        val check = preferences.defaultColor
+        val color = preferencesRepo.defaultColor
 
-        openColorDialog(check) { onClickCancel() }
+        openColorDialog(color) { onClickCancel() }
         assert()
-        openColorDialog(check) { onCloseSoft() }
+        openColorDialog(color) { onCloseSoft() }
         assert()
     }
 
@@ -50,7 +50,7 @@ class NotePreferenceColorTest : ParentUiTest(),
 
     @Test override fun colorWhite() = super.colorWhite()
 
-    override fun startTest(@Color value: Int) {
+    override fun startTest(value: Color) {
         val initValue = switchValue(value)
 
         assertNotEquals(initValue, value)
@@ -60,19 +60,19 @@ class NotePreferenceColorTest : ParentUiTest(),
             assert()
         }
 
-        assertEquals(value, preferences.defaultColor)
+        assertEquals(value, preferencesRepo.defaultColor)
     }
 
     /**
      * Switch [Color] to another one. Setup defaultColor for application which not equals [value].
      */
-    private fun switchValue(@Color value: Int): Int {
-        val list = Color.list
-        var initValue: Int
+    private fun switchValue(value: Color): Color {
+        val list = Color.values()
+        var initValue: Color
 
         do {
             initValue = list.random()
-            preferences.defaultColor = initValue
+            preferencesRepo.defaultColor = initValue
         } while (initValue == value)
 
         return initValue

@@ -46,7 +46,7 @@ class NotePreferenceSortTest : ParentUiTest(),
             assert()
         }
 
-        assertEquals(value, preferences.sort)
+        assertEquals(value, preferencesRepo.sort)
     }
 
     /**

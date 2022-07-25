@@ -1,8 +1,12 @@
 package sgtmelon.scriptum.data
 
-import sgtmelon.common.utils.*
+import kotlin.random.Random
+import sgtmelon.common.utils.getCalendarWithAdd
+import sgtmelon.common.utils.getRandomFutureTime
+import sgtmelon.common.utils.getText
+import sgtmelon.common.utils.getTime
+import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
-import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.cleanup.data.room.IRoomWork
 import sgtmelon.scriptum.cleanup.data.room.converter.model.AlarmConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.model.NoteConverter
@@ -14,21 +18,20 @@ import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.cleanup.data.room.extension.inRoomTest
 import sgtmelon.scriptum.cleanup.data.room.extension.safeInsert
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.domain.model.data.ColorData
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
+import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.test.ui.auto.screen.main.bin.BinNoteDialogTest
 import sgtmelon.scriptum.test.ui.auto.screen.main.notes.NotesNoteDialogTest
-import kotlin.random.Random
 
 /**
  * Class which fill db and provide data for tests.
  */
 class TestData(
     override val roomProvider: RoomProvider,
-    private val preferenceRepo: Preferences
+    private val preferencesRepo: PreferencesRepo
 ) : IRoomWork {
 
     private val noteConverter = NoteConverter()
@@ -84,15 +87,9 @@ class TestData(
 
     fun createNote(): NoteItem = if (Random.nextBoolean()) createText() else createRoll()
 
-    fun createText(): NoteItem.Text {
-        val color = preferenceRepo.defaultColor
-        return NoteItem.Text.getCreate(color)
-    }
+    fun createText(): NoteItem.Text = NoteItem.Text.getCreate(preferencesRepo.defaultColor)
 
-    fun createRoll(): NoteItem.Roll {
-        val color = preferenceRepo.defaultColor
-        return NoteItem.Roll.getCreate(color)
-    }
+    fun createRoll(): NoteItem.Roll = NoteItem.Roll.getCreate(preferencesRepo.defaultColor)
 
 
     fun insertRank(entity: RankEntity = rankEntity): RankItem {
@@ -293,9 +290,6 @@ class TestData(
     fun fillNotification(count: Int = 10) = repeat(count) {
         insertNotification(date = getRandomFutureTime())
     }
-
-
-    val randomColor get() = (Color.RED..Color.WHITE).random()
 
     fun clear() = apply { inRoomTest { clearAllTables() } }
 

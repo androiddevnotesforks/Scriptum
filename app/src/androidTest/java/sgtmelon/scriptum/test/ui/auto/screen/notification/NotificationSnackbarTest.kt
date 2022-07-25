@@ -3,9 +3,10 @@ package sgtmelon.scriptum.test.ui.auto.screen.notification
 import org.junit.Test
 import sgtmelon.common.utils.getCalendarWithAdd
 import sgtmelon.common.utils.getText
-import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.NotificationActivity
+import sgtmelon.scriptum.data.Scroll
+import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.test.parent.ParentUiTest
 import sgtmelon.scriptum.ui.ParentRecyclerItem
 
@@ -216,7 +217,8 @@ class NotificationSnackbarTest : ParentUiTest() {
     private fun fillScreen(count: Int): MutableList<NoteItem> = ArrayList<NoteItem>().apply {
         repeat(count) {
             val date = getCalendarWithAdd(min = NEXT_HOUR + it * NEXT_HOUR).getText()
-            val item = with(data) { insertText(textNote.copy(name = "", color = randomColor)) }
+            val color = Color.values().random()
+            val item = with(data) { insertText(textNote.copy(name = "", color = color.ordinal)) }
 
             add(data.insertNotification(item, date))
         }

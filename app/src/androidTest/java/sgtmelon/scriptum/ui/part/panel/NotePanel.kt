@@ -1,15 +1,25 @@
 package sgtmelon.scriptum.ui.part.panel
 
 import androidx.annotation.AttrRes
+import java.util.Calendar
 import sgtmelon.common.utils.getText
 import sgtmelon.common.utils.getTime
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.extension.*
-import sgtmelon.scriptum.data.State
+import sgtmelon.scriptum.basic.extension.click
+import sgtmelon.scriptum.basic.extension.isDisplayed
+import sgtmelon.scriptum.basic.extension.isEnabled
+import sgtmelon.scriptum.basic.extension.longClick
+import sgtmelon.scriptum.basic.extension.withBackgroundAttr
+import sgtmelon.scriptum.basic.extension.withContentDescription
+import sgtmelon.scriptum.basic.extension.withDrawableAttr
+import sgtmelon.scriptum.basic.extension.withSize
+import sgtmelon.scriptum.basic.extension.withText
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
+import sgtmelon.scriptum.data.State
+import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.dialog.ColorDialogUi
 import sgtmelon.scriptum.ui.dialog.ConvertDialogUi
@@ -21,7 +31,6 @@ import sgtmelon.scriptum.ui.screen.note.INoteAfterConvert
 import sgtmelon.scriptum.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
-import java.util.*
 
 /**
  * Part of UI abstraction for [TextNoteScreen] or [RollNoteScreen].
@@ -225,10 +234,10 @@ class NotePanel<T : ParentUi, N : NoteItem>(
         }
     }
 
-    override fun onColorDialogResult(check: Int) {
+    override fun onColorDialogResult(color: Color) {
         callback.apply {
-            inputControl.onColorChange(shadowItem.color, check)
-            shadowItem.color = check
+            inputControl.onColorChange(shadowItem.color, color)
+            shadowItem.color = color
 
             fullAssert()
         }

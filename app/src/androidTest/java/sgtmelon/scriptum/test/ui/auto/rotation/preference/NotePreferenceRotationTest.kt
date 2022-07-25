@@ -3,12 +3,11 @@ package sgtmelon.scriptum.test.ui.auto.rotation.preference
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import kotlin.random.Random
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.basic.extension.getDifferentValues
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.NotePreferenceFragment
+import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.SavePeriod
 import sgtmelon.scriptum.infrastructure.model.key.Sort
 import sgtmelon.scriptum.test.parent.ParentRotationTest
@@ -22,7 +21,7 @@ class NotePreferenceRotationTest : ParentRotationTest(), INotePreferenceTest {
 
     @Test fun content() = runTest({
         preferencesRepo.sort = Sort.values().random()
-        preferences.defaultColor = Color.list.random()
+        preferencesRepo.defaultColor = Color.values().random()
         preferences.isPauseSaveOn = Random.nextBoolean()
         preferences.isAutoSaveOn = Random.nextBoolean()
         preferencesRepo.savePeriod = SavePeriod.values().random()
@@ -44,16 +43,13 @@ class NotePreferenceRotationTest : ParentRotationTest(), INotePreferenceTest {
             assert()
         }
 
-        assertEquals(value, preferences.sort)
+        assertEquals(value, preferencesRepo.sort)
     }
 
     @Test fun colorDialog() {
-        val initValue = Color.list.random()
-        val value = getColorClick(initValue)
+        val (initValue, value) = Color.values().getDifferentValues()
 
-        assertNotEquals(initValue, value)
-
-        runTest({ preferences.defaultColor = initValue }) {
+        runTest({ preferencesRepo.defaultColor = initValue }) {
             openColorDialog(initValue) {
                 onClickItem(value)
                 automator.rotateSide()
@@ -63,13 +59,7 @@ class NotePreferenceRotationTest : ParentRotationTest(), INotePreferenceTest {
             assert()
         }
 
-        assertEquals(value, preferences.defaultColor)
-    }
-
-    // TODO use getRandomValue
-    @Color private fun getColorClick(@Color initValue: Int): Int {
-        val newValue = Color.list.random()
-        return if (newValue == initValue) getColorClick(initValue) else newValue
+        assertEquals(value, preferencesRepo.defaultColor)
     }
 
     @Test fun savePeriodDialog() {
@@ -88,7 +78,7 @@ class NotePreferenceRotationTest : ParentRotationTest(), INotePreferenceTest {
             assert()
         }
 
-        assertEquals(value, preferences.savePeriod)
+        assertEquals(value, preferencesRepo.savePeriod)
 
     }
 }

@@ -5,8 +5,8 @@ import android.view.View
 import androidx.annotation.ColorInt
 import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.extension.getNoteToolbarColor
+import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 
 /**
@@ -14,7 +14,7 @@ import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
  */
 class BackgroundAppColorMatcher(
     private val theme: ThemeDisplayed,
-    @Color private val color: Int,
+    private val color: Color,
     private val needDark: Boolean
 ) : TypeSafeMatcher<View>() {
 

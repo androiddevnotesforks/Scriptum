@@ -3,9 +3,9 @@ package sgtmelon.scriptum.basic.matcher.drawable
 import android.view.View
 import androidx.annotation.IdRes
 import org.hamcrest.Description
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.domain.model.data.ColorData
 import sgtmelon.scriptum.cleanup.extension.setColor
+import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 
 /**
@@ -16,7 +16,7 @@ import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 class ColorIndicatorMatcher(
     @IdRes resourceId: Int?,
     theme: ThemeDisplayed,
-    @Color color: Int
+    color: Color
 ) : ParentImageMatcher(resourceId) {
 
     private val colorItem = ColorData.getColorItem(theme, color)

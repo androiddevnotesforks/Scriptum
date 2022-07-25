@@ -6,7 +6,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.basic.extension.getDifferentValues
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceFragment
-import sgtmelon.scriptum.infrastructure.converter.key.ThemeConverter
 import sgtmelon.scriptum.infrastructure.model.key.Theme
 import sgtmelon.scriptum.test.parent.ParentRotationTest
 import sgtmelon.scriptum.test.ui.auto.screen.preference.main.IPreferenceTest
@@ -25,7 +24,7 @@ class PreferenceRotationTest : ParentRotationTest(), IPreferenceTest {
     @Test fun themeDialog() {
         val (initValue, value) = Theme.values().getDifferentValues()
 
-        runTest({ preferences.theme = ThemeConverter().toInt(initValue) }) {
+        runTest({ preferencesRepo.theme = initValue }) {
             openThemeDialog {
                 onClickItem(value)
                 automator.rotateSide()
@@ -35,7 +34,7 @@ class PreferenceRotationTest : ParentRotationTest(), IPreferenceTest {
             assert()
         }
 
-        assertEquals(value, preferences.theme)
+        assertEquals(value, preferencesRepo.theme)
     }
 
     @Test fun aboutDialog() = runTest({ preferences.isDeveloper = false }) {

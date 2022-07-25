@@ -3,11 +3,11 @@ package sgtmelon.scriptum.test.ui.auto.screen.main
 import sgtmelon.common.utils.getCalendarWithAdd
 import sgtmelon.common.utils.getText
 import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.key.MainPage
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.cleanup.presentation.adapter.NoteAdapter
+import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.Sort
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.test.parent.ParentUiTest
@@ -32,10 +32,10 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
         preferencesRepo.sort = Sort.COLOR
 
         onAssertList(ArrayList<NoteItem>().also { list ->
-            for (it in Color.list) {
+            for (it in Color.values()) {
                 val note = when (type) {
-                    NoteType.TEXT -> data.textNote.copy(color = it)
-                    NoteType.ROLL -> data.rollNote.copy(color = it)
+                    NoteType.TEXT -> data.textNote.copy(color = it.ordinal)
+                    NoteType.ROLL -> data.rollNote.copy(color = it.ordinal)
                 }
 
                 list.add(when (page) {

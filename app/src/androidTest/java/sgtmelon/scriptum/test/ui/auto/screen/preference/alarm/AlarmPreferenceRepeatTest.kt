@@ -48,7 +48,7 @@ class AlarmPreferenceRepeatTest : ParentUiTest(),
             assert()
         }
 
-        assertEquals(value, preferences.repeat)
+        assertEquals(value, preferencesRepo.repeat)
     }
 
     /**

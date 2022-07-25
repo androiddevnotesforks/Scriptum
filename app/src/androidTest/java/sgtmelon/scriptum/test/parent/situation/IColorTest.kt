@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.test.parent.situation
 
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
+import sgtmelon.scriptum.infrastructure.model.key.Color
 
 /**
  * Interface describes [Color] tests.
@@ -30,6 +30,5 @@ interface IColorTest {
     fun colorWhite() = startTest(Color.WHITE)
 
 
-    fun startTest(@Color value: Int)
-
+    fun startTest(value: Color)
 }

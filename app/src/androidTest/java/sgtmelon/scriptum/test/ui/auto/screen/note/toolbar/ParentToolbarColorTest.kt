@@ -1,9 +1,9 @@
 package sgtmelon.scriptum.test.ui.auto.screen.note.toolbar
 
 import sgtmelon.common.utils.nextString
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
+import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.test.parent.ParentUiTest
 import sgtmelon.scriptum.test.parent.situation.IColorTest
@@ -11,11 +11,12 @@ import sgtmelon.scriptum.test.parent.situation.IColorTest
 /**
  * Parent class for tests of [NoteActivity] toolbar color with different themes
  */
-abstract class ParentToolbarColorTest(private val theme: ThemeDisplayed) : ParentUiTest(), IColorTest {
+abstract class ParentToolbarColorTest(private val theme: ThemeDisplayed) : ParentUiTest(),
+    IColorTest {
 
-    override fun startTest(@Color value: Int) {
+    override fun startTest(value: Color) {
         setupTheme(theme)
-        preferences.defaultColor = Color.list.filter { it != value }.random()
+        preferencesRepo.defaultColor = Color.values().filter { it != value }.random()
 
         launch {
             mainScreen {

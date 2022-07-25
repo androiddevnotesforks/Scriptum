@@ -5,8 +5,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.common.utils.getCalendarWithAdd
 import sgtmelon.common.utils.getText
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import sgtmelon.scriptum.test.parent.ParentUiTest
 import sgtmelon.scriptum.ui.item.NotificationItemUi
@@ -33,9 +33,9 @@ class NotificationContentTest : ParentUiTest() {
         setupTheme(theme)
 
         onAssertList(ArrayList<NoteItem>().also { list ->
-            for ((i, it) in Color.list.withIndex()) {
+            for ((i, it) in Color.values().withIndex()) {
                 val date = getCalendarWithAdd(min = NEXT_HOUR + i * NEXT_HOUR).getText()
-                val noteItem = data.insertText(data.textNote.copy(name = "", color = it))
+                val noteItem = data.insertText(data.textNote.copy(name = "", color = it.ordinal))
 
                 list.add(data.insertNotification(noteItem, date))
             }

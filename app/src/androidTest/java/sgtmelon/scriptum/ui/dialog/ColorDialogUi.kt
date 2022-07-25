@@ -3,11 +3,19 @@ package sgtmelon.scriptum.ui.dialog
 import android.view.View
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.extension.*
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
+import sgtmelon.scriptum.basic.extension.click
+import sgtmelon.scriptum.basic.extension.getCount
+import sgtmelon.scriptum.basic.extension.isDisplayed
+import sgtmelon.scriptum.basic.extension.isEnabled
+import sgtmelon.scriptum.basic.extension.withColorIndicator
+import sgtmelon.scriptum.basic.extension.withContentDescription
+import sgtmelon.scriptum.basic.extension.withDrawableColor
+import sgtmelon.scriptum.basic.extension.withSize
+import sgtmelon.scriptum.basic.extension.withTextColor
 import sgtmelon.scriptum.cleanup.domain.model.data.ColorData
 import sgtmelon.scriptum.cleanup.presentation.adapter.ColorAdapter
 import sgtmelon.scriptum.cleanup.presentation.dialog.ColorDialog
+import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.ui.IDialogUi
 import sgtmelon.scriptum.ui.ParentRecyclerItem
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
@@ -15,8 +23,11 @@ import sgtmelon.scriptum.ui.ParentRecyclerScreen
 /**
  * Class for UI control of [ColorDialog].
  */
-class ColorDialogUi(place: Place, @Color private var check: Int, private val callback: Callback) :
-        ParentRecyclerScreen(R.id.color_recycler_view), IDialogUi {
+class ColorDialogUi(
+    place: Place,
+    private var color: Color,
+    private val callback: Callback
+) : ParentRecyclerScreen(R.id.color_recycler_view), IDialogUi {
 
     //region Views
 
@@ -25,39 +36,41 @@ class ColorDialogUi(place: Place, @Color private var check: Int, private val cal
         Place.PREF -> R.string.pref_title_note_color
     })
 
-    private val cancelButton = getViewByText(R.string.dialog_button_cancel)
-    private val applyButton = getViewByText(R.string.dialog_button_apply)
+    private val cancelButton = getViewByText(sgtmelon.safedialog.R.string.dialog_button_cancel)
+    private val applyButton = getViewByText(sgtmelon.safedialog.R.string.dialog_button_apply)
 
     private fun getItem(p: Int) = Item(recyclerView, p)
 
     //endregion
 
-    @Color private var initCheck: Int = check
+    private var initColor: Color = color
 
-    fun onClickItem(p: Int? = recyclerView.getRandomPosition()) = apply {
-        check = getNewPosition(p)
+    fun onClickItem(setColor: Color = Color.values().random()) = apply {
+        val newColor = getNewColor(setColor)
+        color = newColor
 
-        recyclerView.click(check)
+        recyclerView.click(newColor.ordinal)
 
         assert()
     }
 
-    fun onClickAll() = apply { 
-        for (i in 0 until recyclerView.getCount()) onClickItem(i)
+    fun onClickAll() = apply {
+        val values = Color.values()
+        for (i in 0 until recyclerView.getCount()) onClickItem(values[i])
     }
 
     fun onClickCancel() = waitClose { cancelButton.click() }
 
     fun onClickApply() = waitClose {
-        if (check == initCheck) throw IllegalAccessException("Apply button not enabled")
+        if (color == initColor) throw IllegalAccessException("Apply button not enabled")
 
         applyButton.click()
-        callback.onColorDialogResult(check)
+        callback.onColorDialogResult(color)
     }
 
 
-    fun onAssertItem(p: Int = check) = apply {
-        getItem(p).assert(ColorItem(p, isCheck = p == check))
+    fun onAssertItem(check: Color = color) = apply {
+        getItem(check.ordinal).assert(ColorItem(check, isCheck = check == color))
     }
 
     fun onAssertAll() {
@@ -65,10 +78,11 @@ class ColorDialogUi(place: Place, @Color private var check: Int, private val cal
         
         for (p1 in 0 until count) {
             for (p2 in 0 until count) {
-                onAssertItem(p2)
+                onAssertItem(Color.values()[p2])
             }
-            
-            onClickItem(p1).onAssertItem(p1)
+
+            val p1Color = Color.values()[p1]
+            onClickItem(p1Color).onAssertItem(p1Color)
         }
     }
 
@@ -77,16 +91,16 @@ class ColorDialogUi(place: Place, @Color private var check: Int, private val cal
         recyclerView.isDisplayed()
 
         cancelButton.isDisplayed().isEnabled().withTextColor(R.attr.clAccent)
-        applyButton.isDisplayed().isEnabled(isEnabled = check != initCheck) {
+        applyButton.isDisplayed().isEnabled(isEnabled = color != initColor) {
             withTextColor(R.attr.clAccent)
         }
     }
 
     /**
-     * Return position different from [check] and [initCheck]
+     * Return position different from [color] and [initColor]
      */
-    private fun getNewPosition(p: Int? = recyclerView.getRandomPosition()): Int {
-        return if (p == null || p == check || p == initCheck) getNewPosition() else p
+    private fun getNewColor(color: Color = Color.values().random()): Color {
+        return if (color == this.color || color == initColor) getNewColor() else color
     }
 
     /**
@@ -112,7 +126,8 @@ class ColorDialogUi(place: Place, @Color private var check: Int, private val cal
             val colorId = ColorData.getColorItem(appTheme, item.color).content
             checkImage.isDisplayed(item.isCheck).withDrawableColor(R.drawable.ic_check, colorId)
 
-            val colorName = context.resources.getStringArray(R.array.pref_note_color)[item.color]
+            // TODO record exception in real code
+            val colorName = context.resources.getStringArray(R.array.pref_note_color)[item.color.ordinal]
             val description = context.getString(R.string.description_item_color, colorName)
             clickView.isDisplayed()
                     .withSize(R.dimen.icon_48dp, R.dimen.icon_48dp)
@@ -124,7 +139,7 @@ class ColorDialogUi(place: Place, @Color private var check: Int, private val cal
     /**
      * Model for [Item.assert]
      */
-    private data class ColorItem(val color: Int, val isCheck: Boolean)
+    private data class ColorItem(val color: Color, val isCheck: Boolean)
 
     /**
      * Describes [Place] of [ColorDialog] for decide title
@@ -132,17 +147,17 @@ class ColorDialogUi(place: Place, @Color private var check: Int, private val cal
     enum class Place { NOTE, PREF }
 
     interface Callback {
-        fun onColorDialogResult(@Color check: Int)
+        fun onColorDialogResult(color: Color)
     }
 
     companion object {
         operator fun invoke(
             func: ColorDialogUi.() -> Unit,
             place: Place,
-            @Color check: Int,
+            color: Color,
             callback: Callback
         ): ColorDialogUi {
-            return ColorDialogUi(place, check, callback).apply { waitOpen { assert() } }.apply(func)
+            return ColorDialogUi(place, color, callback).apply { waitOpen { assert() } }.apply(func)
         }
     }
 }

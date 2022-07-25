@@ -41,10 +41,6 @@ class RollNoteInteractorTest : ParentInteractorTest() {
         confirmVerified(preferences, alarmRepo, rankRepo, noteRepo)
     }
 
-    @Test fun getDefaultColor() = FastTest.getDefaultColor(preferences) {
-        interactor.defaultColor
-    }
-
 
     @Test fun getItem() = startCoTest {
         val id = Random.nextLong()
