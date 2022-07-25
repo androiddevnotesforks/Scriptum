@@ -58,5 +58,4 @@ class SplashViewModel(
 
         callback?.openNoteScreen(id, color, type)
     }
-
 }

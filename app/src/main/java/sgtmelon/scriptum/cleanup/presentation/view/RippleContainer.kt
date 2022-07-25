@@ -12,10 +12,10 @@ import android.view.animation.DecelerateInterpolator
 import android.widget.RelativeLayout
 import androidx.annotation.StringDef
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.domain.model.key.ColorShade
 import sgtmelon.scriptum.cleanup.extension.geDisplayedTheme
 import sgtmelon.scriptum.cleanup.extension.getAppSimpleColor
+import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 
 /**
@@ -46,7 +46,7 @@ class RippleContainer @JvmOverloads constructor(
      *
      * Element, which center will be start position for ripple, pass throw [hookView].
      */
-    fun setupAnimation(@Color noteColor: Int, hookView: View) = apply {
+    fun setupAnimation(noteColor: Color, hookView: View) = apply {
         if (isConfigure) return@apply
 
         val theme = context.geDisplayedTheme() ?: return@apply

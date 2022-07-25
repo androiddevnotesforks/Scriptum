@@ -1,11 +1,11 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.notification
 
 import androidx.annotation.ArrayRes
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.receiver.SystemReceiver
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.AlarmActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.IAlarmViewModel
+import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
 
 /**
@@ -36,7 +36,7 @@ interface IAlarmActivity : SystemReceiver.Bridge.Alarm,
     fun notifyList(item: NoteItem)
 
 
-    fun startRippleAnimation(@Color color: Int)
+    fun startRippleAnimation(color: Color)
 
     fun startButtonFadeInAnimation()
 

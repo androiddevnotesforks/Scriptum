@@ -1,8 +1,5 @@
 package sgtmelon.scriptum.infrastructure.preferences
 
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
-
-// TODO remove annotations
 interface Preferences {
 
     var isFirstStart: Boolean
@@ -22,7 +19,7 @@ interface Preferences {
 
     var sort: Int
 
-    @Color var defaultColor: Int
+    var defaultColor: Int
 
     /**
      * Change of this variable happen inside preference.xml screen (or inside UI tests).

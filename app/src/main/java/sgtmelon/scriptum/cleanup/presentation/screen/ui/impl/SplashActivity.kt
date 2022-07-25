@@ -11,7 +11,6 @@ import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.common.test.idling.impl.WaitIdlingResource
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.domain.model.annotation.OpenFrom
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
@@ -113,7 +112,7 @@ class SplashActivity : ParentActivity(),
         startActivities(arrayOf(MainActivity[this], AlarmActivity[this, id]))
     }
 
-    override fun openNoteScreen(id: Long, @Color color: Int, type: Int) = beforeFinish {
+    override fun openNoteScreen(id: Long, color: Int, type: Int) = beforeFinish {
         WaitIdlingResource.getInstance().startWork(waitMillis = 3000)
         startActivities(arrayOf(MainActivity[this], NoteActivity[this, type, id, color]))
     }

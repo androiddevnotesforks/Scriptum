@@ -29,7 +29,6 @@ import sgtmelon.common.test.idling.impl.AppIdlingResource
 import sgtmelon.safedialog.utils.safeDismiss
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.model.annotation.Color
 import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.cleanup.domain.model.data.ReceiverData.Filter
@@ -61,6 +60,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.AppActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.IAlarmViewModel
 import sgtmelon.scriptum.cleanup.presentation.view.RippleContainer
+import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
 import android.graphics.Color as AndroidColor
@@ -277,7 +277,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
     override fun notifyList(item: NoteItem) = adapter.notifyList(arrayListOf(item))
 
-    override fun startRippleAnimation(@Color color: Int) {
+    override fun startRippleAnimation(color: Color) {
         val logoView = logoView ?: return
 
         rippleContainer?.setupAnimation(color, logoView)?.startAnimation()
