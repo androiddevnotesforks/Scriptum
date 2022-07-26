@@ -3,16 +3,21 @@ package sgtmelon.scriptum.cleanup.data.room.backup
 import android.util.Log
 import org.json.JSONArray
 import org.json.JSONObject
+import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.cleanup.data.room.converter.type.NoteTypeConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.type.StringConverter
-import sgtmelon.scriptum.cleanup.data.room.entity.*
-import sgtmelon.common.test.annotation.RunPrivate
+import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
+import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
+import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
+import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
+import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Alarm
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Note
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Rank
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Roll
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.RollVisible
 import sgtmelon.scriptum.cleanup.domain.model.result.ParserResult
+import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 
 /**
  * Class for parsing different versions of backup files.
@@ -22,8 +27,9 @@ import sgtmelon.scriptum.cleanup.domain.model.result.ParserResult
  * like in [IBackupParser.collect].
  */
 class BackupSelector(
-        private val typeConverter: NoteTypeConverter,
-        private val stringConverter: StringConverter
+    private val colorConverter: ColorConverter,
+    private val typeConverter: NoteTypeConverter,
+    private val stringConverter: StringConverter
 ) : IBackupSelector {
 
     override fun parseByVersion(roomData: String, version: Int): ParserResult? {
@@ -66,6 +72,8 @@ class BackupSelector(
             (jsonArray.get(i) as? JSONObject)?.apply {
                 // TODO may be use not return (continue)?
                 val type = typeConverter.toEnum(getInt(Note.TYPE)) ?: return null
+                // TODO may be use not return (continue)?
+                val color = colorConverter.toEnum(getInt(Note.COLOR)) ?: return null
 
                 list.add(NoteEntity(
                         getLong(Note.ID),
@@ -73,7 +81,7 @@ class BackupSelector(
                         getString(Note.CHANGE),
                         getString(Note.NAME),
                         getString(Note.TEXT),
-                        getInt(Note.COLOR),
+                        color,
                         type,
                         getLong(Note.RANK_ID),
                         getInt(Note.RANK_PS),

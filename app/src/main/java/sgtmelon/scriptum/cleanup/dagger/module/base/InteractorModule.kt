@@ -115,30 +115,22 @@ class InteractorModule {
 
     @Provides
     @ActivityScope
-    fun provideNoteInteractor(preferences: Preferences): INoteInteractor {
-        return NoteInteractor(preferences)
-    }
-
-    @Provides
-    @ActivityScope
     fun provideTextNoteInteractor(
-        preferences: Preferences,
         alarmRepo: IAlarmRepo,
         rankRepo: IRankRepo,
         noteRepo: INoteRepo
     ): ITextNoteInteractor {
-        return TextNoteInteractor(preferences, alarmRepo, rankRepo, noteRepo)
+        return TextNoteInteractor(alarmRepo, rankRepo, noteRepo)
     }
 
     @Provides
     @ActivityScope
     fun provideRollNoteInteractor(
-        preferences: Preferences,
         alarmRepo: IAlarmRepo,
         rankRepo: IRankRepo,
         noteRepo: INoteRepo
     ): IRollNoteInteractor {
-        return RollNoteInteractor(preferences, alarmRepo, rankRepo, noteRepo)
+        return RollNoteInteractor(alarmRepo, rankRepo, noteRepo)
     }
 
     //endregion

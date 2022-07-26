@@ -22,6 +22,7 @@ data class RollItem(
     /**
      * Replace [id] null value to -1 for [get] function
      */
+    // TODO add converter toJson and back
     fun toJson(): String = JSONObject().apply {
         put(Roll.ID, if (id != null) id else -1L)
         put(Roll.POSITION, position)
@@ -30,6 +31,8 @@ data class RollItem(
     }.toString()
 
     companion object {
+
+        // TODO add converter toJson and back
         operator fun get(data: String): RollItem? = try {
             JSONObject(data).let {
                 val id = it.getLong(Roll.ID)

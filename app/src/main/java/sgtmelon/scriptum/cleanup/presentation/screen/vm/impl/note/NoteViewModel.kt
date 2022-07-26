@@ -20,7 +20,7 @@ class NoteViewModel(
     callback: INoteActivity,
     private val typeConverter: NoteTypeConverter,
     private val colorConverter: ColorConverter,
-    private val preferencesRepo: PreferencesRepo
+    preferencesRepo: PreferencesRepo
 ) : ParentViewModel<INoteActivity>(callback),
         INoteViewModel {
 

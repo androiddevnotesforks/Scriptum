@@ -16,9 +16,9 @@ abstract class ParentEnumConverter<E : Enum<E>> {
 
     abstract fun getOrdinalException(ordinal: Int): EnumConverterException
 
-    fun toInt(value: E): Int = value.ordinal
+    open fun toInt(value: E): Int = value.ordinal
 
-    fun toEnum(value: Int): E? {
+    open fun toEnum(value: Int): E? {
         val enum = values.getOrNull(value)
 
         if (enum == null) {

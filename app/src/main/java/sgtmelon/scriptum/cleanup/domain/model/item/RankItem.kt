@@ -26,6 +26,7 @@ data class RankItem(
 
     fun switchVisible() = apply { isVisible = !isVisible }
 
+    // TODO add converter toJson and back
     fun toJson(): String = JSONObject().apply {
         put(Rank.ID, id)
         put(Rank.NOTE_ID, JSONArray().apply { for (item in noteId) put(item) })
@@ -37,6 +38,7 @@ data class RankItem(
     }.toString()
 
     companion object {
+        // TODO add converter toJson and back
         operator fun get(data: String): RankItem? = try {
             JSONObject(data).let {
                 val noteIdArray = it.getJSONArray(Rank.NOTE_ID)

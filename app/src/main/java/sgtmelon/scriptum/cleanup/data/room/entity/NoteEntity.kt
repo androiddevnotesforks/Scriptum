@@ -10,12 +10,14 @@ import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Note
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Note.Default
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Note.Room
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
+import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
+import sgtmelon.scriptum.infrastructure.model.key.Color
 
 /**
  * Entity with common information about note.
  */
 @Entity(tableName = Note.TABLE)
-@TypeConverters(BoolConverter::class, NoteTypeConverter::class)
+@TypeConverters(BoolConverter::class, ColorConverter::class, NoteTypeConverter::class)
 data class NoteEntity(
     @ColumnInfo(name = Note.ID, defaultValue = Room.ID)
     @PrimaryKey(autoGenerate = true)
@@ -34,7 +36,7 @@ data class NoteEntity(
     var text: String = Default.TEXT,
 
     @ColumnInfo(name = Note.COLOR, defaultValue = Room.COLOR)
-    var color: Int = Default.COLOR,
+    var color: Color = Default.COLOR,
 
     @ColumnInfo(name = Note.TYPE, defaultValue = Room.TYPE)
     var type: NoteType = Default.TYPE,

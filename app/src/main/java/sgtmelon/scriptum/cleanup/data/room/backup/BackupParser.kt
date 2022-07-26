@@ -2,20 +2,25 @@ package sgtmelon.scriptum.cleanup.data.room.backup
 
 import android.content.Context
 import android.util.Log
+import java.security.MessageDigest
 import org.json.JSONArray
 import org.json.JSONObject
+import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.data.room.converter.type.NoteTypeConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.type.StringConverter
-import sgtmelon.scriptum.cleanup.data.room.entity.*
-import sgtmelon.common.test.annotation.RunPrivate
+import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
+import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
+import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
+import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
+import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Alarm
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Note
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Rank
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Roll
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.RollVisible
 import sgtmelon.scriptum.cleanup.domain.model.result.ParserResult
-import java.security.MessageDigest
+import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 
 /**
  * Class for help control backup file parsing.
@@ -23,6 +28,7 @@ import java.security.MessageDigest
 class BackupParser(
     private val context: Context,
     private val selector: IBackupSelector,
+    private val colorConverter: ColorConverter,
     private val typeConverter: NoteTypeConverter,
     private val stringConverter: StringConverter
 ) : IBackupParser {
@@ -52,7 +58,7 @@ class BackupParser(
                     put(Note.CHANGE, it.change)
                     put(Note.NAME, it.name)
                     put(Note.TEXT, it.text)
-                    put(Note.COLOR, it.color)
+                    put(Note.COLOR, colorConverter.toInt(it.color))
                     put(Note.TYPE, typeConverter.toInt(it.type))
                     put(Note.RANK_ID, it.rankId)
                     put(Note.RANK_PS, it.rankPs)

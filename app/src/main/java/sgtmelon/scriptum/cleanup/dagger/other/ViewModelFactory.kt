@@ -3,6 +3,7 @@ package sgtmelon.scriptum.cleanup.dagger.other
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import kotlin.reflect.KClass
+import sgtmelon.scriptum.cleanup.data.room.converter.type.NoteTypeConverter
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.IIntroInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.ISplashInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IBinInteractor
@@ -58,6 +59,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.ServiceDevelopViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.GetSummaryUseCase
+import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 
 /**
  * ViewModel factory for create ViewModels with constructor parameters.
@@ -159,35 +161,45 @@ object ViewModelFactory {
 
         class Note(
             private val activity: NoteActivity,
-            private val interactor: INoteInteractor
+            private val typeConverter: NoteTypeConverter,
+            private val colorConverter: ColorConverter,
+            private val preferencesRepo: PreferencesRepo
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(NoteViewModel::class) {
-                    NoteViewModel(activity, interactor)
+                    NoteViewModel(activity, typeConverter, colorConverter, preferencesRepo)
                 }
             }
         }
 
         class TextNote(
             private val fragment: TextNoteFragment,
+            private val colorConverter: ColorConverter,
+            private val preferencesRepo: PreferencesRepo,
             private val interactor: ITextNoteInteractor
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(TextNoteViewModel::class) {
                     val parentCallback = fragment.context as? INoteConnector
-                    TextNoteViewModel(fragment, parentCallback, interactor)
+                    TextNoteViewModel(
+                        fragment, parentCallback, colorConverter, preferencesRepo, interactor
+                    )
                 }
             }
         }
 
         class RollNote(
             private val fragment: RollNoteFragment,
+            private val colorConverter: ColorConverter,
+            private val preferencesRepo: PreferencesRepo,
             private val interactor: IRollNoteInteractor
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(RollNoteViewModel::class) {
                     val parentCallback = fragment.context as? INoteConnector
-                    RollNoteViewModel(fragment, parentCallback, interactor)
+                    RollNoteViewModel(
+                        fragment, parentCallback, colorConverter, preferencesRepo, interactor
+                    )
                 }
             }
         }

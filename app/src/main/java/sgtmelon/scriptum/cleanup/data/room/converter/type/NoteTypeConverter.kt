@@ -6,6 +6,7 @@ import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 /**
  * Converter from number to [NoteType] and vice versa
  */
+// TODO add parentEnumConverter
 class NoteTypeConverter {
 
     @TypeConverter fun toInt(noteType: NoteType) = noteType.ordinal

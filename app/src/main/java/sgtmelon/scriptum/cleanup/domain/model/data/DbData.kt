@@ -3,6 +3,7 @@ package sgtmelon.scriptum.cleanup.domain.model.data
 import sgtmelon.scriptum.cleanup.data.room.converter.type.StringConverter
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
+import sgtmelon.scriptum.infrastructure.model.key.Color
 
 /**
  * Constants for DataBase
@@ -33,7 +34,7 @@ object DbData {
             const val CHANGE = ""
             const val NAME = ""
             const val TEXT = ""
-            const val COLOR = 0
+            val COLOR = Color.WHITE
             val TYPE = NoteType.TEXT
             const val RANK_ID = -1L
             const val RANK_PS = -1

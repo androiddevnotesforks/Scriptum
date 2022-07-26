@@ -150,10 +150,10 @@ class NoteActivity : AppActivity(), INoteActivity, INoteConnector, NoteScreenRec
 
     companion object {
         operator fun get(context: Context, item: NotificationItem) =
-                get(context, item.note.type.ordinal, item.note.id, item.note.color)
+                get(context, item.note.type.ordinal, item.note.id, item.note.color.ordinal)
 
         operator fun get(context: Context, item: NoteItem) =
-                get(context, item.type.ordinal, item.id, item.color)
+                get(context, item.type.ordinal, item.id, item.color.ordinal)
 
         /**
          * If [id] and [color] isDefault - it means that note will be create, not open.

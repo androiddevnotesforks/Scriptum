@@ -126,7 +126,7 @@ class NotePreferenceFragment : ParentPreferenceFragment(), INotePreferenceFragme
     }
 
     override fun showColorDialog(color: Color) = openState.tryInvoke {
-        colorDialog.setArguments(color.ordinal).safeShow(fm, DialogFactory.Preference.Notes.COLOR)
+        colorDialog.setArguments(color).safeShow(fm, DialogFactory.Preference.Notes.COLOR)
     }
 
     override fun updateSavePeriodSummary(summary: String?) {

@@ -8,8 +8,9 @@ import sgtmelon.scriptum.cleanup.data.room.backup.BackupParser
 import sgtmelon.scriptum.cleanup.data.room.backup.BackupSelector
 import sgtmelon.scriptum.cleanup.data.room.backup.IBackupParser
 import sgtmelon.scriptum.cleanup.data.room.backup.IBackupSelector
-import sgtmelon.scriptum.cleanup.data.room.converter.type.StringConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.type.NoteTypeConverter
+import sgtmelon.scriptum.cleanup.data.room.converter.type.StringConverter
+import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 
 /**
  * Module for provide parser classes.
@@ -20,10 +21,11 @@ class ParserModule {
     @Provides
     @ActivityScope
     fun provideBackupSelector(
+        colorConverter: ColorConverter,
         typeConverter: NoteTypeConverter,
         stringConverter: StringConverter
     ): IBackupSelector {
-        return BackupSelector(typeConverter, stringConverter)
+        return BackupSelector(colorConverter, typeConverter, stringConverter)
     }
 
     @Provides
@@ -31,10 +33,11 @@ class ParserModule {
     fun provideBackupParser(
         context: Context,
         selector: IBackupSelector,
+        colorConverter: ColorConverter,
         typeConverter: NoteTypeConverter,
         stringConverter: StringConverter
     ): IBackupParser {
-        return BackupParser(context, selector, typeConverter, stringConverter)
+        return BackupParser(context, selector, colorConverter, typeConverter, stringConverter)
     }
 
 }
