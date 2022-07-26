@@ -143,7 +143,7 @@ class InteractorModule {
     @Provides
     @ActivityScope
     fun provideBackupPreferenceInteractor(
-        preferences: Preferences,
+        preferencesRepo: PreferencesRepo,
         alarmRepo: IAlarmRepo,
         rankRepo: IRankRepo,
         noteRepo: INoteRepo,
@@ -153,7 +153,7 @@ class InteractorModule {
         cipherControl: ICipherControl
     ): IBackupPreferenceInteractor {
         return BackupPreferenceInteractor(
-            preferences, alarmRepo, rankRepo, noteRepo, backupRepo,
+            preferencesRepo, alarmRepo, rankRepo, noteRepo, backupRepo,
             backupParser, fileControl, cipherControl
         )
     }

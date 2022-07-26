@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.impl.preference
 
-import sgtmelon.scriptum.infrastructure.preferences.Preferences
+import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.cleanup.data.repository.room.BackupRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IBackupRepo
@@ -9,7 +9,6 @@ import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.cleanup.data.room.backup.IBackupParser
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IBackupPreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.model.annotation.FileType
-import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.cleanup.domain.model.item.FileItem
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.cleanup.domain.model.result.ExportResult
@@ -18,12 +17,13 @@ import sgtmelon.scriptum.cleanup.domain.model.result.ParserResult
 import sgtmelon.scriptum.cleanup.presentation.control.cipher.ICipherControl
 import sgtmelon.scriptum.cleanup.presentation.control.file.IFileControl
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IBackupPreferenceViewModel
+import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 
 /**
  * Interactor for import/export backup files (for [IBackupPreferenceViewModel]).
  */
 class BackupPreferenceInteractor(
-    private val preferences: Preferences,
+    private val preferencesRepo: PreferencesRepo,
     private val alarmRepo: IAlarmRepo,
     private val rankRepo: IRankRepo,
     private val noteRepo: INoteRepo,
@@ -73,9 +73,8 @@ class BackupPreferenceInteractor(
         val data = cipherControl.decrypt(encryptData)
 
         val parserResult = backupParser.parse(data) ?: return ImportResult.Error
-        val isSkipImports = preferences.isBackupSkipImports
+        val isSkipImports = preferencesRepo.isBackupSkipImports
 
-        // TODO move isBackupSkipImports inside backupRepo
         return backupRepo.insertData(BackupRepo.Model[parserResult], isSkipImports)
     }
 }

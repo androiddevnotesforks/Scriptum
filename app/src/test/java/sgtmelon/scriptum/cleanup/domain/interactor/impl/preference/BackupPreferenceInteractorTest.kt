@@ -37,7 +37,7 @@ import sgtmelon.scriptum.cleanup.domain.model.result.ImportResult
 import sgtmelon.scriptum.cleanup.domain.model.result.ParserResult
 import sgtmelon.scriptum.cleanup.presentation.control.cipher.ICipherControl
 import sgtmelon.scriptum.cleanup.presentation.control.file.IFileControl
-import sgtmelon.scriptum.infrastructure.preferences.Preferences
+import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.parent.ParentInteractorTest
 
 /**
@@ -46,7 +46,7 @@ import sgtmelon.scriptum.parent.ParentInteractorTest
 @ExperimentalCoroutinesApi
 class BackupPreferenceInteractorTest : ParentInteractorTest() {
 
-    @MockK lateinit var preferences: Preferences
+    @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var alarmRepo: IAlarmRepo
     @MockK lateinit var rankRepo: IRankRepo
     @MockK lateinit var noteRepo: INoteRepo
@@ -58,7 +58,7 @@ class BackupPreferenceInteractorTest : ParentInteractorTest() {
 
     private val interactor by lazy {
         BackupPreferenceInteractor(
-            preferences, alarmRepo, rankRepo, noteRepo, backupRepo,
+            preferencesRepo, alarmRepo, rankRepo, noteRepo, backupRepo,
             backupParser, fileControl, cipherControl
         )
     }
@@ -73,7 +73,7 @@ class BackupPreferenceInteractorTest : ParentInteractorTest() {
         super.tearDown()
 
         confirmVerified(
-            preferences, alarmRepo, rankRepo, noteRepo, backupRepo,
+            preferencesRepo, alarmRepo, rankRepo, noteRepo, backupRepo,
             backupParser, fileControl, cipherControl
         )
     }
@@ -189,7 +189,7 @@ class BackupPreferenceInteractorTest : ParentInteractorTest() {
         every { BackupRepo.Model[parserResult] } returns backupModel
 
         every { backupParser.parse(data) } returns parserResult
-        every { preferences.isBackupSkipImports } returns isSkipImports
+        every { preferencesRepo.isBackupSkipImports } returns isSkipImports
         coEvery { backupRepo.insertData(backupModel, isSkipImports) } returns ImportResult.Simple
 
         assertEquals(ImportResult.Simple, spyInteractor.import(item.name))
@@ -218,7 +218,7 @@ class BackupPreferenceInteractorTest : ParentInteractorTest() {
                 fileControl.readFile(item.path)
                 cipherControl.decrypt(encryptData)
                 backupParser.parse(data)
-                preferences.isBackupSkipImports
+                preferencesRepo.isBackupSkipImports
                 BackupRepo.Model[parserResult]
                 backupRepo.insertData(backupModel, isSkipImports)
             }
