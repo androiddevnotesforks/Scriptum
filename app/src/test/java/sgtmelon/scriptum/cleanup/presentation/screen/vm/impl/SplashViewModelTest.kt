@@ -10,11 +10,11 @@ import org.junit.After
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Test
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.ISplashInteractor
 import sgtmelon.scriptum.cleanup.domain.model.annotation.OpenFrom
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note
-import sgtmelon.scriptum.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.ISplashActivity
+import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.parent.ParentViewModelTest
 
 /**
  * Test for [SplashViewModel].
@@ -25,15 +25,15 @@ class SplashViewModelTest : ParentViewModelTest() {
     //region Setup
 
     @MockK lateinit var callback: ISplashActivity
-    @MockK lateinit var interactor: ISplashInteractor
+    @MockK lateinit var preferencesRepo: PreferencesRepo
 
     @MockK lateinit var bundle: Bundle
 
-    private val viewModel by lazy { SplashViewModel(callback, interactor) }
+    private val viewModel by lazy { SplashViewModel(callback, preferencesRepo) }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(callback, interactor, bundle)
+        confirmVerified(callback, preferencesRepo, bundle)
     }
 
     @Test override fun onDestroy() {
@@ -46,7 +46,7 @@ class SplashViewModelTest : ParentViewModelTest() {
 
     @Test fun onSetup_introStart() {
         every { bundle.getString(OpenFrom.INTENT_KEY) } returns null
-        every { interactor.isFirstStart } returns true
+        every { preferencesRepo.isFirstStart } returns true
 
         viewModel.onSetup(bundle = null)
         viewModel.onSetup(bundle)
@@ -56,7 +56,7 @@ class SplashViewModelTest : ParentViewModelTest() {
             callback.sendNotifyNotesBroadcast()
             callback.sendNotifyInfoBroadcast()
 
-            interactor.isFirstStart
+            preferencesRepo.isFirstStart
             callback.openIntroScreen()
 
             callback.sendTidyUpAlarmBroadcast()
@@ -64,14 +64,14 @@ class SplashViewModelTest : ParentViewModelTest() {
             callback.sendNotifyInfoBroadcast()
 
             bundle.getString(OpenFrom.INTENT_KEY)
-            interactor.isFirstStart
+            preferencesRepo.isFirstStart
             callback.openIntroScreen()
         }
     }
 
     @Test fun onSetup_mainStart() {
         every { bundle.getString(OpenFrom.INTENT_KEY) } returns null
-        every { interactor.isFirstStart } returns false
+        every { preferencesRepo.isFirstStart } returns false
 
         viewModel.onSetup(bundle = null)
         viewModel.onSetup(bundle)
@@ -81,7 +81,7 @@ class SplashViewModelTest : ParentViewModelTest() {
             callback.sendNotifyNotesBroadcast()
             callback.sendNotifyInfoBroadcast()
 
-            interactor.isFirstStart
+            preferencesRepo.isFirstStart
             callback.openMainScreen()
 
             callback.sendTidyUpAlarmBroadcast()
@@ -89,7 +89,7 @@ class SplashViewModelTest : ParentViewModelTest() {
             callback.sendNotifyInfoBroadcast()
 
             bundle.getString(OpenFrom.INTENT_KEY)
-            interactor.isFirstStart
+            preferencesRepo.isFirstStart
             callback.openMainScreen()
         }
     }

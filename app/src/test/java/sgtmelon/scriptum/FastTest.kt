@@ -48,22 +48,6 @@ object FastTest {
 
     // TODO create common interactor or anything else for remove some fast test functions (like date)
 
-    fun getFirstStart(preferences: Preferences, callFunc: () -> Boolean) {
-        fun checkRequestGet(value: Boolean) {
-            every { preferences.isFirstStart } returns value
-            assertEquals(callFunc(), value)
-        }
-
-        val valueList = listOf(Random.nextBoolean(), Random.nextBoolean())
-        for (it in valueList) {
-            checkRequestGet(it)
-        }
-
-        verifySequence {
-            repeat(valueList.size) { preferences.isFirstStart }
-        }
-    }
-
     @Deprecated("Use preferencesRepo")
     fun getTheme(preferences: Preferences, callFunc: () -> Int) {
         fun checkRequestGet(value: Int) {

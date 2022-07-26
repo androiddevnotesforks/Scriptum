@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModelProvider
 import kotlin.reflect.KClass
 import sgtmelon.scriptum.cleanup.data.room.converter.type.NoteTypeConverter
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.IIntroInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.ISplashInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IRankInteractor
@@ -90,11 +89,11 @@ object ViewModelFactory {
 
     class Splash(
         private val activity: SplashActivity,
-        private val interactor: ISplashInteractor
+        private val preferencesRepo: PreferencesRepo,
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return modelClass.create(SplashViewModel::class) {
-                SplashViewModel(activity, interactor)
+                SplashViewModel(activity, preferencesRepo)
             }
         }
     }

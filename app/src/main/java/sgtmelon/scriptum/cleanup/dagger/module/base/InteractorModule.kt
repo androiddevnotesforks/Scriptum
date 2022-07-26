@@ -11,7 +11,6 @@ import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.cleanup.data.room.backup.IBackupParser
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.IIntroInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.ISplashInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IRankInteractor
@@ -26,7 +25,6 @@ import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.I
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IPrintDevelopInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.system.ISystemInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.IntroInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.impl.SplashInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.main.BinInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.main.NotesInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.main.RankInteractor
@@ -70,12 +68,6 @@ class InteractorModule {
     }
 
     //endregion
-
-    @Provides
-    @ActivityScope
-    fun provideSplashInteractor(preferences: Preferences): ISplashInteractor {
-        return SplashInteractor(preferences)
-    }
 
     @Provides
     @ActivityScope

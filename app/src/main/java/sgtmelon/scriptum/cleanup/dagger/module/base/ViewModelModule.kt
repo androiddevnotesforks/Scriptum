@@ -8,7 +8,6 @@ import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.cleanup.dagger.other.ViewModelFactory
 import sgtmelon.scriptum.cleanup.data.room.converter.type.NoteTypeConverter
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.IIntroInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.ISplashInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IRankInteractor
@@ -90,9 +89,9 @@ class ViewModelModule {
     @ActivityScope
     fun provideSplashViewModel(
         activity: SplashActivity,
-        interactor: ISplashInteractor
+        preferencesRepo: PreferencesRepo
     ): ISplashViewModel {
-        val factory = ViewModelFactory.Splash(activity, interactor)
+        val factory = ViewModelFactory.Splash(activity, preferencesRepo)
         return ViewModelProvider(activity, factory)[SplashViewModel::class.java]
     }
 

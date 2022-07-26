@@ -1,18 +1,18 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl
 
 import android.os.Bundle
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.ISplashInteractor
 import sgtmelon.scriptum.cleanup.domain.model.annotation.OpenFrom
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.ISplashActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.ISplashViewModel
+import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 
 /**
  * ViewModel for [ISplashActivity].
  */
 class SplashViewModel(
     callback: ISplashActivity?,
-    private val interactor: ISplashInteractor
+    private val preferencesRepo: PreferencesRepo
 ) : ParentViewModel<ISplashActivity>(callback),
     ISplashViewModel {
 
@@ -38,7 +38,7 @@ class SplashViewModel(
     }
 
     private fun onSimpleStart() {
-        if (interactor.isFirstStart) {
+        if (preferencesRepo.isFirstStart) {
             callback?.openIntroScreen()
         } else {
             callback?.openMainScreen()
