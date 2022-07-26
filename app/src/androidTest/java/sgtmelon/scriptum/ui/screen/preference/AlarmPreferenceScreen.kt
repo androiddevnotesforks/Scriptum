@@ -23,7 +23,7 @@ class AlarmPreferenceScreen :
 
     fun openSignalDialog(func: SignalDialogUi.() -> Unit = {}) {
         getItem(p = 2).Summary().onItemClick()
-        SignalDialogUi(screenLogic.signalInteractor.typeCheck, func)
+        SignalDialogUi(screenLogic.preferencesRepo.signalTypeCheck, func)
     }
 
     fun openMelodyDialog(func: MelodyDialogUi.() -> Unit = {}) {

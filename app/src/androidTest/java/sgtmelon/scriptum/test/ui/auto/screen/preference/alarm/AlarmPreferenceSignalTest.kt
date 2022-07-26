@@ -1,7 +1,9 @@
 package sgtmelon.scriptum.test.ui.auto.screen.preference.alarm
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.AlarmPreferenceFragment
@@ -36,7 +38,7 @@ class AlarmPreferenceSignalTest : ParentUiTest(), IAlarmPreferenceTest {
             assert()
         }
 
-        assertTrue(getLogic().signalInteractor.typeCheck.contentEquals(value))
+        assertTrue(getLogic().preferencesRepo.signalTypeCheck.contentEquals(value))
     }
 
     /**
@@ -48,7 +50,7 @@ class AlarmPreferenceSignalTest : ParentUiTest(), IAlarmPreferenceTest {
         do {
             initValue = getLogic().getRandomSignal()
             getLogic().alarmInteractor.updateSignal(initValue)
-        } while (getLogic().signalInteractor.typeCheck.contentEquals(value))
+        } while (getLogic().preferencesRepo.signalTypeCheck.contentEquals(value))
 
         return initValue
     }

@@ -57,12 +57,8 @@ class InteractorModule {
 
     @Provides
     @ActivityScope
-    fun provideSignalInteractor(
-        ringtoneControl: IRingtoneControl,
-        preferences: Preferences,
-        signalConverter: SignalConverter
-    ): ISignalInteractor {
-        return SignalInteractor(ringtoneControl, preferences, signalConverter)
+    fun provideSignalInteractor(ringtoneControl: IRingtoneControl): ISignalInteractor {
+        return SignalInteractor(ringtoneControl)
     }
 
     //endregion

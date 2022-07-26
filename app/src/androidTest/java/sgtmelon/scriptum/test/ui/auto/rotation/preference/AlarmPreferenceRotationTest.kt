@@ -72,7 +72,7 @@ class AlarmPreferenceRotationTest : ParentRotationTest(), IAlarmPreferenceTest {
             assert()
         }
 
-        assertTrue(getLogic().signalInteractor.typeCheck.contentEquals(value))
+        assertTrue(getLogic().preferencesRepo.signalTypeCheck.contentEquals(value))
     }
 
     private fun getSignalClick(initArray: BooleanArray): BooleanArray {

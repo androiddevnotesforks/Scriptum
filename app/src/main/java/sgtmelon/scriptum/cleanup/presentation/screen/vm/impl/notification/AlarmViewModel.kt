@@ -19,7 +19,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.IA
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
-import sgtmelon.scriptum.infrastructure.model.state.SignalState
 
 /**
  * ViewModel for [IAlarmActivity].
@@ -35,8 +34,6 @@ class AlarmViewModel(
     @RunPrivate var id: Long = Default.ID
 
     @RunPrivate lateinit var noteItem: NoteItem
-
-    @RunPrivate var signalState: SignalState? = null
 
     private val longWaitRunnable = Runnable { repeatFinish(preferencesRepo.repeat) }
     private val vibratorRunnable = object : Runnable {
@@ -56,7 +53,11 @@ class AlarmViewModel(
         }
 
         viewModelScope.launch {
-            val melodyUri = runBack { signalInteractor.getMelodyUri() }
+            val melodyUri = runBack {
+                val list = signalInteractor.getMelodyList()
+                return@runBack preferencesRepo.getMelodyUri(list)
+            }
+
             if (melodyUri != null) {
                 val volume = preferencesRepo.volume
                 val isVolumeIncrease = preferencesRepo.isVolumeIncrease
@@ -67,8 +68,6 @@ class AlarmViewModel(
              * If first open.
              */
             if (!::noteItem.isInitialized) {
-                signalState = signalInteractor.state ?: return@launch
-
                 runBack { interactor.getModel(id) }?.let {
                     noteItem = it
                 } ?: run {
@@ -87,11 +86,13 @@ class AlarmViewModel(
     }
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy {
-        if (signalState?.isMelody == true) {
+        val signalState = preferencesRepo.signalState
+
+        if (signalState.isMelody) {
             callback?.melodyStop()
         }
 
-        if (signalState?.isVibration == true) {
+        if (signalState.isVibration) {
             callback?.vibrateCancel()
         }
 
@@ -103,17 +104,19 @@ class AlarmViewModel(
     override fun onSaveData(bundle: Bundle) = with(bundle) { putLong(Intent.ID, id) }
 
     override fun onStart() {
+        val signalState = preferencesRepo.signalState
+
         AppIdlingResource.getInstance().startWork(IdlingTag.Alarm.START)
 
         callback?.apply {
             startRippleAnimation(noteItem.color)
             startButtonFadeInAnimation()
 
-            if (signalState?.isMelody == true) {
+            if (signalState.isMelody) {
                 melodyStart()
             }
 
-            if (signalState?.isVibration == true) {
+            if (signalState.isVibration) {
                 startVibratorHandler(START_DELAY, vibratorRunnable)
             }
 

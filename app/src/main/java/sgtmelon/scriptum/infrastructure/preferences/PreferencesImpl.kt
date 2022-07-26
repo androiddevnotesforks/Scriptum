@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.infrastructure.preferences
 
 import android.content.SharedPreferences
-import sgtmelon.scriptum.cleanup.domain.interactor.impl.notification.SignalInteractor
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvider
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesKeyProvider
 
@@ -71,10 +70,6 @@ class PreferencesImpl(
         get() = preferences.getString(key.signal, def.signal) ?: def.signal
         set(value) = edit { putString(key.signal, value) }
 
-    /**
-     * Access only from [SignalInteractor.getMelodyUri]/[SignalInteractor.setMelodyUri].
-     */
-    // TODO refactor
     override var melodyUri: String
         get() = preferences.getString(key.melodyUri, def.melodyUri) ?: def.melodyUri
         set(value) = edit { putString(key.melodyUri, value) }

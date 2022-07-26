@@ -25,7 +25,7 @@ abstract class ParentLogic {
     /**
      * It's needed for get enum values (already converted from [preferences]).
      */
-    protected val preferencesRepo: PreferencesRepo = RepositoryModule().providePreferencesRepo(
+    val preferencesRepo: PreferencesRepo = RepositoryModule().providePreferencesRepo(
         DataSourceModule().providePreferencesDataSource(preferences),
         ConverterModule().provideThemeConverter(),
         ConverterModule().provideSortConverter(),

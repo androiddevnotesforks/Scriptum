@@ -28,6 +28,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.notification.IAlarmActivity
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.getRandomSize
+import sgtmelon.scriptum.infrastructure.model.MelodyItem
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.model.state.SignalState
 import sgtmelon.scriptum.isDivideTwoEntirely
@@ -71,12 +72,15 @@ class AlarmViewModelTest : ParentViewModelTest() {
         assertNotNull(viewModel.callback)
 
         val state = listOf(firstSignal, secondSignal).random()
-        viewModel.signalState = state
+        every { preferencesRepo.signalState } returns state
+
         viewModel.onDestroy()
 
         assertNull(viewModel.callback)
 
         verifySequence {
+            preferencesRepo.signalState
+
             if (state.isMelody) {
                 callback.melodyStop()
             }
@@ -92,24 +96,21 @@ class AlarmViewModelTest : ParentViewModelTest() {
 
     //endregion
 
-
     @Test fun onSetup_onFirstStart_withGoodModel() = startCoTest {
         val id = Random.nextLong()
         val noteItem = data.thirdNote
 
+        val melodyList = mockk<List<MelodyItem>>()
         val volume = Random.nextInt()
         val isVolumeIncrease = Random.nextBoolean()
 
         every { bundle.getLong(Note.Intent.ID, Note.Default.ID) } returns id
-        coEvery { signalInteractor.getMelodyUri() } returns URI
-
+        coEvery { signalInteractor.getMelodyList() } returns melodyList
+        coEvery { preferencesRepo.getMelodyUri(melodyList) } returns URI
         every { preferencesRepo.volume } returns volume
         every { preferencesRepo.isVolumeIncrease } returns isVolumeIncrease
-        every { signalInteractor.state } returns null
-        viewModel.onSetup(bundle)
-
-        every { signalInteractor.state } returns firstSignal
         coEvery { interactor.getModel(id) } returns noteItem
+
         viewModel.onSetup(bundle)
 
         coVerifySequence {
@@ -119,25 +120,13 @@ class AlarmViewModelTest : ParentViewModelTest() {
                 setupView()
                 setupInsets()
 
-                signalInteractor.getMelodyUri()
+                signalInteractor.getMelodyList()
+                preferencesRepo.getMelodyUri(melodyList)
                 preferencesRepo.volume
                 preferencesRepo.isVolumeIncrease
                 setupPlayer(URI, volume, isVolumeIncrease)
             }
-            signalInteractor.state
 
-            bundle.getLong(Note.Intent.ID, Note.Default.ID)
-            callback.apply {
-                acquirePhone(AlarmViewModel.CANCEL_DELAY)
-                setupView()
-                setupInsets()
-
-                signalInteractor.getMelodyUri()
-                preferencesRepo.volume
-                preferencesRepo.isVolumeIncrease
-                setupPlayer(URI, volume, isVolumeIncrease)
-            }
-            signalInteractor.state
             interactor.getModel(id)
             callback.sendNotifyInfoBroadcast()
             callback.apply {
@@ -150,47 +139,23 @@ class AlarmViewModelTest : ParentViewModelTest() {
     @Test fun onSetup_onFirstStart_withBadModel() = startCoTest {
         val id = Random.nextLong()
 
+        val melodyList = mockk<List<MelodyItem>>()
         val volume = Random.nextInt()
         val isVolumeIncrease = Random.nextBoolean()
 
         every { bundle.getLong(Note.Intent.ID, Note.Default.ID) } returns id
-        coEvery { signalInteractor.getMelodyUri() } returns URI
-
-        fun callOnSetup() {
-            viewModel.id = Note.Default.ID
-            viewModel.onSetup()
-            viewModel.id = Note.Default.ID
-            viewModel.onSetup(bundle)
-        }
-
+        coEvery { signalInteractor.getMelodyList() } returns melodyList
+        coEvery { preferencesRepo.getMelodyUri(melodyList) } returns URI
         every { preferencesRepo.volume } returns volume
         every { preferencesRepo.isVolumeIncrease } returns isVolumeIncrease
-        every { signalInteractor.state } returns null
-        callOnSetup()
-
-        every { signalInteractor.state } returns firstSignal
         coEvery { interactor.getModel(any()) } returns null
-        callOnSetup()
+
+        viewModel.id = Note.Default.ID
+        viewModel.onSetup()
+        viewModel.id = Note.Default.ID
+        viewModel.onSetup(bundle)
 
         coVerifySequence {
-            repeat(times = 2) {
-                if (!it.isDivideTwoEntirely()) {
-                    bundle.getLong(Note.Intent.ID, Note.Default.ID)
-                }
-
-                callback.apply {
-                    acquirePhone(AlarmViewModel.CANCEL_DELAY)
-                    setupView()
-                    setupInsets()
-
-                    signalInteractor.getMelodyUri()
-                    preferencesRepo.volume
-                    preferencesRepo.isVolumeIncrease
-                    setupPlayer(URI, volume, isVolumeIncrease)
-                }
-                signalInteractor.state
-            }
-
             repeat(times = 2) {
                 if (!it.isDivideTwoEntirely()) bundle.getLong(Note.Intent.ID, Note.Default.ID)
 
@@ -199,12 +164,13 @@ class AlarmViewModelTest : ParentViewModelTest() {
                     setupView()
                     setupInsets()
 
-                    signalInteractor.getMelodyUri()
+                    signalInteractor.getMelodyList()
+                    preferencesRepo.getMelodyUri(melodyList)
                     preferencesRepo.volume
                     preferencesRepo.isVolumeIncrease
                     setupPlayer(URI, volume, isVolumeIncrease)
                 }
-                signalInteractor.state
+
                 if (it.isDivideTwoEntirely()) {
                     interactor.getModel(Note.Default.ID)
                 } else {
@@ -219,14 +185,17 @@ class AlarmViewModelTest : ParentViewModelTest() {
         val id = Random.nextLong()
         val noteItem = data.firstNote.deepCopy()
 
+        val melodyList = mockk<List<MelodyItem>>()
+        val volume = Random.nextInt()
+        val isVolumeIncrease = Random.nextBoolean()
+
         every { bundle.getLong(Note.Intent.ID, Note.Default.ID) } returns id
-        coEvery { signalInteractor.getMelodyUri() } returns null
+        coEvery { signalInteractor.getMelodyList() } returns melodyList
+        coEvery { preferencesRepo.getMelodyUri(melodyList) } returns URI
+        every { preferencesRepo.volume } returns volume
+        every { preferencesRepo.isVolumeIncrease } returns isVolumeIncrease
 
         viewModel.noteItem = noteItem
-
-        every { preferencesRepo.volume } returns 1
-        every { preferencesRepo.isVolumeIncrease } returns true
-
         viewModel.onSetup(bundle)
         viewModel.onSetup()
 
@@ -237,7 +206,13 @@ class AlarmViewModelTest : ParentViewModelTest() {
                 setupView()
                 setupInsets()
 
-                signalInteractor.getMelodyUri()
+                signalInteractor.getMelodyList()
+                preferencesRepo.getMelodyUri(melodyList)
+
+                preferencesRepo.volume
+                preferencesRepo.isVolumeIncrease
+                setupPlayer(URI, volume, isVolumeIncrease)
+
                 prepareLogoAnimation()
                 notifyList(noteItem)
             }
@@ -247,7 +222,12 @@ class AlarmViewModelTest : ParentViewModelTest() {
                 setupView()
                 setupInsets()
 
-                signalInteractor.getMelodyUri()
+                signalInteractor.getMelodyList()
+                preferencesRepo.getMelodyUri(melodyList)
+                preferencesRepo.volume
+                preferencesRepo.isVolumeIncrease
+                setupPlayer(URI, volume, isVolumeIncrease)
+
                 prepareLogoAnimation()
                 notifyList(noteItem)
             }
@@ -265,25 +245,35 @@ class AlarmViewModelTest : ParentViewModelTest() {
         verifySequence { bundle.putLong(Note.Intent.ID, id) }
     }
 
-    @Test fun onStart() {
+    @Test fun `onStart first signal`() {
         val firstNote = data.firstNote.deepCopy()
-        val secondNote = data.secondNote.deepCopy()
+
+        every { preferencesRepo.signalState } returns firstSignal
 
         viewModel.noteItem = firstNote
-        viewModel.signalState = firstSignal
-        viewModel.onStart()
-
-        viewModel.noteItem = secondNote
-        viewModel.signalState = secondSignal
         viewModel.onStart()
 
         verifySequence {
             verifyOnStart(firstNote, firstSignal)
+        }
+    }
+
+    @Test fun `onStart second signal`() {
+        val secondNote = data.secondNote.deepCopy()
+
+        every { preferencesRepo.signalState } returns secondSignal
+
+        viewModel.noteItem = secondNote
+        viewModel.onStart()
+
+        verifySequence {
             verifyOnStart(secondNote, secondSignal)
         }
     }
 
     private fun MockKVerificationScope.verifyOnStart(noteItem: NoteItem, state: SignalState) {
+        preferencesRepo.signalState
+
         callback.apply {
             startRippleAnimation(noteItem.color)
             startButtonFadeInAnimation()
@@ -418,6 +408,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
     }
 
     companion object {
+        @Deprecated("use nextString()")
         private const val URI = "testUri"
     }
 }

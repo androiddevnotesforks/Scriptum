@@ -38,15 +38,16 @@ class AlarmPreferenceLogic : ParentPreferenceLogic() {
             )
         )
 
-        val signalSummary = alarmInteractor.getSignalSummary(signalInteractor.typeCheck)
+        val signalSummary = alarmInteractor.getSignalSummary(preferencesRepo.signalTypeCheck)
         list.add(Summary.Text(R.string.pref_title_alarm_signal, signalSummary!!))
 
         list.add(Header(R.string.pref_header_melody_options))
 
-        val isMelody = signalInteractor.state!!.isMelody
+        val isMelody = preferencesRepo.signalState.isMelody
+        val melodyList = runBlocking { signalInteractor.getMelodyList() }
         val melodyItem = runBlocking {
-            val check = signalInteractor.getMelodyCheck()!!
-            return@runBlocking signalInteractor.getMelodyList()[check]
+            val check = preferencesRepo.getMelodyCheck(melodyList)
+            return@runBlocking melodyList[check!!]
         }
 
         list.add(Summary.Text(R.string.pref_title_alarm_melody, melodyItem.title, isMelody))
@@ -66,10 +67,9 @@ class AlarmPreferenceLogic : ParentPreferenceLogic() {
     }
 
     fun getMelodyDialogPair(): Pair<Array<String>, Int> {
-        val textArray = runBlocking {
-            signalInteractor.getMelodyList().map { it.title }.toTypedArray()
-        }
-        val initCheck = runBlocking { signalInteractor.getMelodyCheck() }
+        val melodyList = runBlocking { signalInteractor.getMelodyList() }
+        val textArray = melodyList.map { it.title }.toTypedArray()
+        val initCheck = runBlocking { preferencesRepo.getMelodyCheck(melodyList) }
 
         return Pair(textArray, initCheck!!)
     }

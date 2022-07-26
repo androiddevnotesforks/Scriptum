@@ -33,14 +33,14 @@ class AlarmPreferenceViewModel(
         callback?.setup()
 
         callback?.updateRepeatSummary(getRepeatSummary())
-        callback?.updateSignalSummary(interactor.getSignalSummary(signalInteractor.typeCheck))
+        callback?.updateSignalSummary(interactor.getSignalSummary(preferencesRepo.signalTypeCheck))
         callback?.updateVolumeSummary(getVolumeSummary())
 
         viewModelScope.launch { setupBackground() }
     }
 
     @RunPrivate suspend fun setupBackground() {
-        val state = signalInteractor.state ?: return
+        val state = preferencesRepo.signalState
 
         /**
          * Make melody preference not enabled in every way, before we load data
@@ -50,8 +50,8 @@ class AlarmPreferenceViewModel(
 
         callback?.startMelodySummarySearch()
         val melodyItem = runBack {
-            val check = signalInteractor.getMelodyCheck() ?: return@runBack null
             val list = signalInteractor.getMelodyList()
+            val check = preferencesRepo.getMelodyCheck(list) ?: return@runBack null
 
             return@runBack list.getOrNull(check)
         }
@@ -87,13 +87,13 @@ class AlarmPreferenceViewModel(
     }
 
     override fun onClickSignal() {
-        callback?.showSignalDialog(signalInteractor.typeCheck)
+        callback?.showSignalDialog(preferencesRepo.signalTypeCheck)
     }
 
     override fun onResultSignal(valueArray: BooleanArray) {
         callback?.updateSignalSummary(interactor.updateSignal(valueArray))
 
-        val state = signalInteractor.state ?: return
+        val state = preferencesRepo.signalState
 
         if (!state.isMelody) {
             callback?.updateMelodyGroupEnabled(isEnabled = false)
@@ -126,7 +126,7 @@ class AlarmPreferenceViewModel(
 
     @RunPrivate suspend fun prepareMelodyDialog() {
         val melodyList = runBack { signalInteractor.getMelodyList() }
-        val melodyCheck = runBack { signalInteractor.getMelodyCheck() }
+        val melodyCheck = runBack { preferencesRepo.getMelodyCheck(melodyList) }
 
         val titleArray = melodyList.map { it.title }.toTypedArray()
 
@@ -148,7 +148,10 @@ class AlarmPreferenceViewModel(
 
     override fun onResultMelody(title: String) {
         viewModelScope.launch {
-            val resultTitle = runBack { signalInteractor.setMelodyUri(title) }
+            val resultTitle = runBack {
+                val list = signalInteractor.getMelodyList()
+                return@runBack preferencesRepo.setMelodyUri(list, title)
+            }
 
             when {
                 title == resultTitle -> callback?.updateMelodySummary(title)
