@@ -18,6 +18,7 @@ import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Rank
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Roll
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.RollVisible
 import sgtmelon.scriptum.cleanup.domain.model.result.ParserResult
+import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.parent.ParentBackupTest
 
 /**
@@ -25,10 +26,13 @@ import sgtmelon.scriptum.parent.ParentBackupTest
  */
 class BackupSelectorTest : ParentBackupTest() {
 
+    private val colorConverter = ColorConverter()
     private val typeConverter = NoteTypeConverter()
     private val stringConverter = StringConverter()
 
-    private val backupSelector by lazy { BackupSelector(typeConverter, stringConverter) }
+    private val backupSelector by lazy {
+        BackupSelector(colorConverter, typeConverter, stringConverter)
+    }
     private val spyBackupSelector by lazy { spyk(backupSelector) }
 
     @Test fun parseByVersion() {
@@ -124,6 +128,7 @@ class BackupSelectorTest : ParentBackupTest() {
         }
     }
 
+    // TODO add skip test (if converter return null)
     @Test fun getNoteTableV1() {
         val jsonArray = JSONArray(noteListJson)
         assertEquals(noteList, backupSelector.getNoteTableV1(jsonArray))

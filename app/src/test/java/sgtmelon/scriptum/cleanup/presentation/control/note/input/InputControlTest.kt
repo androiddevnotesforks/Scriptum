@@ -16,6 +16,7 @@ import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.presentation.provider.BuildProvider
+import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.parent.ParentTest
 
 /**
@@ -277,17 +278,27 @@ class InputControlTest : ParentTest() {
     }
 
     @Test fun onColorChange() {
-        val valueFrom = Random.nextInt()
-        val valueTo = Random.nextInt()
+        val valueFrom = mockk<Color>()
+        val valueTo = mockk<Color>()
+        val valueFromOrdinal = Random.nextInt()
+        val valueToOrdinal = Random.nextInt()
 
-        val inputItem = InputItem(InputAction.COLOR, valueFrom.toString(), valueTo.toString())
+        val inputItem = InputItem(
+            InputAction.COLOR,
+            valueFromOrdinal.toString(),
+            valueToOrdinal.toString()
+        )
 
+        every { valueFrom.ordinal } returns valueFromOrdinal
+        every { valueTo.ordinal } returns valueToOrdinal
         every { spyInputControl.add(inputItem) } returns Unit
 
         spyInputControl.onColorChange(valueFrom, valueTo)
 
         verifySequence {
             spyInputControl.onColorChange(valueFrom, valueTo)
+            valueFrom.ordinal
+            valueTo.ordinal
             spyInputControl.add(inputItem)
         }
     }

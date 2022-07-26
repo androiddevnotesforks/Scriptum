@@ -7,10 +7,11 @@ import kotlin.random.Random
 import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
+import sgtmelon.scriptum.infrastructure.model.key.Color
 
 object FastMock {
 
-    fun extensions() = mockkStatic("sgtmelon.scriptum.infrastructure.utils.ExtensionUtils")
+    fun fireExtensions() = mockkStatic("sgtmelon.scriptum.infrastructure.utils.FireExtensionUtils")
 
     fun timeExtension() = mockkStatic("sgtmelon.common.utils.TimeExtensionUtils")
 
@@ -29,7 +30,7 @@ object FastMock {
             change: String = nextString(),
             name: String = nextString(),
             text: String = nextString(),
-            color: Int = Random.nextInt(),
+            color: Color = Color.values().random(),
             rankId: Long = Random.nextLong(),
             rankPs: Int = Random.nextInt(),
             isBin: Boolean = Random.nextBoolean(),
@@ -65,7 +66,7 @@ object FastMock {
             change: String = nextString(),
             name: String = nextString(),
             text: String = nextString(),
-            color: Int = Random.nextInt(),
+            color: Color = Color.values().random(),
             rankId: Long = Random.nextLong(),
             rankPs: Int = Random.nextInt(),
             isBin: Boolean = Random.nextBoolean(),

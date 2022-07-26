@@ -37,10 +37,11 @@ object ColorData {
         R.color.note_white_dark
     )
 
-    val size = if (light.size == accent.size && accent.size == dark.size) light.size else {
-        throw IndexOutOfBoundsException("Arrays have different size")
+    init {
+        if (light.size != accent.size && accent.size != dark.size) {
+            throw IndexOutOfBoundsException("Color arrays with different sizes")
+        }
     }
-
 
     fun getColorItem(theme: ThemeDisplayed, color: Color): ColorItem {
         val ordinal = color.ordinal

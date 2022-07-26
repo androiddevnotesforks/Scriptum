@@ -16,7 +16,6 @@ import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.parent.ParentInteractorTest
 
 /**
@@ -27,18 +26,17 @@ class RollNoteInteractorTest : ParentInteractorTest() {
 
     // TODO many items are common with [TextNoteInteractor]
 
-    @MockK lateinit var preferences: Preferences
     @MockK lateinit var alarmRepo: IAlarmRepo
     @MockK lateinit var rankRepo: IRankRepo
     @MockK lateinit var noteRepo: INoteRepo
 
     private val interactor by lazy {
-        RollNoteInteractor(preferences, alarmRepo, rankRepo, noteRepo)
+        RollNoteInteractor(alarmRepo, rankRepo, noteRepo)
     }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(preferences, alarmRepo, rankRepo, noteRepo)
+        confirmVerified(alarmRepo, rankRepo, noteRepo)
     }
 
 

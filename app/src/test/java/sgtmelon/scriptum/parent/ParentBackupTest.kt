@@ -2,8 +2,13 @@ package sgtmelon.scriptum.parent
 
 import sgtmelon.scriptum.cleanup.data.room.backup.BackupParserTest
 import sgtmelon.scriptum.cleanup.data.room.backup.BackupSelectorTest
-import sgtmelon.scriptum.cleanup.data.room.entity.*
+import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
+import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
+import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
+import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
+import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
+import sgtmelon.scriptum.infrastructure.model.key.Color
 
 /**
  * Parent test for [BackupParserTest] and [BackupSelectorTest].
@@ -12,23 +17,23 @@ abstract class ParentBackupTest : ParentTest() {
 
     protected val noteList = listOf(
             NoteEntity(
-                    id = 11, create = "0", change = "3", name = "6", text = "9", color = 1,
+                    id = 11, create = "0", change = "3", name = "6", text = "9", color = Color.RED,
                     type = NoteType.TEXT, rankId = 10, rankPs = 0, isBin = false, isStatus = true
             ),
             NoteEntity(
-                    id = 42, create = "1", change = "4", name = "7", text = "0", color = 2,
+                    id = 42, create = "1", change = "4", name = "7", text = "0", color = Color.GREEN,
                     type = NoteType.ROLL, rankId = 23, rankPs = 10, isBin = true, isStatus = false
             ),
             NoteEntity(
-                    id = 98, create = "2", change = "5", name = "8", text = "1", color = 32,
+                    id = 98, create = "2", change = "5", name = "8", text = "1", color = Color.YELLOW,
                     type = NoteType.TEXT, rankId = 0, rankPs = 2, isBin = false, isStatus = true
             )
     )
 
     protected val noteListJson = """[
-        {"NT_CREATE":"0","NT_RANK_PS":0,"NT_COLOR":1,"NT_ID":11,"NT_STATUS":true,"NT_NAME":"6","NT_RANK_ID":10,"NT_TEXT":"9","NT_BIN":false,"NT_TYPE":0,"NT_CHANGE":"3"},
-        {"NT_CREATE":"1","NT_RANK_PS":10,"NT_COLOR":2,"NT_ID":42,"NT_STATUS":false,"NT_NAME":"7","NT_RANK_ID":23,"NT_TEXT":"0","NT_BIN":true,"NT_TYPE":1,"NT_CHANGE":"4"},
-        {"NT_CREATE":"2","NT_RANK_PS":2,"NT_COLOR":32,"NT_ID":98,"NT_STATUS":true,"NT_NAME":"8","NT_RANK_ID":0,"NT_TEXT":"1","NT_BIN":false,"NT_TYPE":0,"NT_CHANGE":"5"}
+        {"NT_CREATE":"0","NT_RANK_PS":0,"NT_COLOR":0,"NT_ID":11,"NT_STATUS":true,"NT_NAME":"6","NT_RANK_ID":10,"NT_TEXT":"9","NT_BIN":false,"NT_TYPE":0,"NT_CHANGE":"3"},
+        {"NT_CREATE":"1","NT_RANK_PS":10,"NT_COLOR":5,"NT_ID":42,"NT_STATUS":false,"NT_NAME":"7","NT_RANK_ID":23,"NT_TEXT":"0","NT_BIN":true,"NT_TYPE":1,"NT_CHANGE":"4"},
+        {"NT_CREATE":"2","NT_RANK_PS":2,"NT_COLOR":6,"NT_ID":98,"NT_STATUS":true,"NT_NAME":"8","NT_RANK_ID":0,"NT_TEXT":"1","NT_BIN":false,"NT_TYPE":0,"NT_CHANGE":"5"}
     ]""".clearAllSpace()
 
     protected val rollList = listOf(

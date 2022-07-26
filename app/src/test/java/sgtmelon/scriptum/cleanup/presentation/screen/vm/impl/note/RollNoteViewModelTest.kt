@@ -43,7 +43,10 @@ import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.IRollNoteFragment
+import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.getRandomSize
+import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
+import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.parent.ParentViewModelTest
 import sgtmelon.scriptum.verifyDeepCopy
 
@@ -58,21 +61,40 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     @MockK lateinit var callback: IRollNoteFragment
     @MockK lateinit var parentCallback: INoteConnector
 
+    @MockK lateinit var colorConverter: ColorConverter
+    @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var interactor: IRollNoteInteractor
 
     @MockK lateinit var saveControl: SaveControl
     @MockK lateinit var inputControl: IInputControl
 
-    private val viewModel by lazy { RollNoteViewModel(callback, parentCallback, interactor) }
+    private val viewModel by lazy {
+        RollNoteViewModel(callback, parentCallback, colorConverter, preferencesRepo, interactor)
+    }
     private val spyViewModel by lazy { spyk(viewModel, recordPrivateCalls = true) }
 
     private val fastTest by lazy {
         FastTest.ViewModel(
-            callback, parentCallback, interactor,
+            callback, parentCallback, colorConverter, interactor,
             saveControl, inputControl, viewModel, spyViewModel, { FastMock.Note.deepCopy(it) },
-            { verifyDeepCopy(it) }
+            { verifyDeepCopy(it) }, { mockkInit() }, { verifyInit() }
         )
     }
+
+    //region Help staff
+
+    private fun mockkInit(): Color {
+        val color = mockk<Color>()
+        every { preferencesRepo.defaultColor } returns color
+        assertEquals(viewModel.color, color)
+        return color
+    }
+
+    private fun verifyInit() {
+        preferencesRepo.defaultColor
+    }
+
+    //endregion
 
     @Before override fun setUp() {
         super.setUp()
@@ -92,7 +114,11 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     @After override fun tearDown() {
         super.tearDown()
 
-        confirmVerified(callback, parentCallback, interactor, inputControl, saveControl)
+        confirmVerified(
+            callback, parentCallback,
+            colorConverter, preferencesRepo, interactor,
+            inputControl, saveControl
+        )
     }
 
     @Test override fun onDestroy() = fastTest.onDestroy()
@@ -106,7 +132,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     @Test fun getBundleData() = fastTest.getBundleData()
 
     @Test fun setupBeforeInitialize() {
-        val color = Random.nextInt()
+        val color = mockk<Color>()
 
         viewModel.color = color
         viewModel.setupBeforeInitialize()
@@ -128,7 +154,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     @Test fun tryInitializeNote() = startCoTest {
         val name = nextString()
         val itemArray = Array(size = 10) { nextString() }
-        val defaultColor = Random.nextInt()
+        val defaultColor = mockk<Color>()
         val noteItem = mockk<NoteItem.Roll>()
         val id = Random.nextLong()
         val isBin = Random.nextBoolean()
@@ -140,7 +166,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         every { spyViewModel.isNoteInitialized() } returns false
         every { parentCallback.getString(R.string.dialog_item_rank) } returns name
         coEvery { interactor.getRankDialogItemArray(name) } returns itemArray
-        every { interactor.defaultColor } returns defaultColor
+        every { preferencesRepo.defaultColor } returns defaultColor
         mockkObject(NoteItem.Roll)
         every { NoteItem.Roll.getCreate(defaultColor) } returns noteItem
         every { spyViewModel.cacheData() } returns Unit
@@ -171,7 +197,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
             spyViewModel.rankDialogItemArray = itemArray
             spyViewModel.id
             spyViewModel.interactor
-            interactor.defaultColor
+            preferencesRepo.defaultColor
             NoteItem.Roll.getCreate(defaultColor)
             spyViewModel.noteItem = noteItem
             spyViewModel.cacheData()
@@ -296,9 +322,9 @@ class RollNoteViewModelTest : ParentViewModelTest() {
         val rollList = mockk<MutableList<RollItem>>()
 
         val id = Random.nextLong()
-        val colorFrom = Random.nextInt()
+        val colorFrom = mockk<Color>()
         val isVisible = Random.nextBoolean()
-        val colorTo = Random.nextInt()
+        val colorTo = mockk<Color>()
 
         every { noteItem.color } returns colorFrom
         every { noteItem.isVisible } returns isVisible
@@ -1574,7 +1600,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     @Test fun onMenuSave_notChangeMode() {
         val noteItem = mockk<NoteItem.Roll>()
         val noteState = mockk<NoteState>(relaxUnitFun = true)
-        val color = Random.nextInt()
+        val color = mockk<Color>()
         val list = mockk<MutableList<RollItem>>()
 
         viewModel.noteState = noteState
@@ -1636,7 +1662,7 @@ class RollNoteViewModelTest : ParentViewModelTest() {
     @Test fun onMenuSave_changeMode() {
         val noteItem = mockk<NoteItem.Roll>()
         val noteState = mockk<NoteState>(relaxUnitFun = true)
-        val color = Random.nextInt()
+        val color = mockk<Color>()
         val list = mockk<MutableList<RollItem>>()
 
         viewModel.noteState = noteState

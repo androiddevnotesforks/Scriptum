@@ -1,21 +1,39 @@
 package sgtmelon.scriptum.cleanup.data.repository.room
 
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.coVerifyOrder
+import io.mockk.coVerifySequence
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.spyk
+import java.util.Calendar
+import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
-import sgtmelon.common.utils.*
-import sgtmelon.scriptum.cleanup.data.room.entity.*
+import sgtmelon.common.utils.getCalendarWithAdd
+import sgtmelon.common.utils.getRandomFutureTime
+import sgtmelon.common.utils.getRandomPastTime
+import sgtmelon.common.utils.getText
+import sgtmelon.common.utils.nextShortString
+import sgtmelon.common.utils.nextString
+import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
+import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
+import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
+import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
+import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Alarm
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Roll
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.RollVisible
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.cleanup.domain.model.result.ImportResult
+import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.isDivideTwoEntirely
 import sgtmelon.scriptum.parent.ParentRoomRepoTest
-import java.util.*
-import kotlin.random.Random
 
 /**
  * Test for [BackupRepo].
@@ -256,8 +274,9 @@ class BackupRepoTest : ParentRoomRepoTest() {
     @Test fun moveNotificationTime() {
         val list = List(size = 5) {
             val type = NoteType.values().random()
+            val color = Color.values().random()
             return@List NotificationItem(
-                NotificationItem.Note(Random.nextLong(), nextString(), Random.nextInt(), type),
+                NotificationItem.Note(Random.nextLong(), nextString(), color, type),
                 NotificationItem.Alarm(Random.nextLong(), getCalendarWithAdd(it).getText())
             )
         }

@@ -27,6 +27,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem.Alarm
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem.Note
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
+import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.parent.ParentInteractorTest
 
@@ -104,10 +105,11 @@ class AlarmInteractorTest : ParentInteractorTest() {
 
         val itemList = MutableList(dateList.size) {
             val id = it.toLong()
-            val type = if (Random.nextBoolean()) NoteType.TEXT else NoteType.ROLL
+            val color = Color.values().random()
+            val type = NoteType.values().random()
 
             return@MutableList NotificationItem(
-                    Note(id, name = "name_$it", color = it, type = type), Alarm(id, dateList[it])
+                    Note(id, name = "name_$it", color = color, type = type), Alarm(id, dateList[it])
             )
         }
 

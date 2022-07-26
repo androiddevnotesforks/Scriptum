@@ -1,8 +1,13 @@
 package sgtmelon.scriptum.cleanup.data.room.backup
 
 import android.content.Context
-import io.mockk.*
+import io.mockk.confirmVerified
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
+import io.mockk.spyk
+import io.mockk.verifySequence
+import kotlin.random.Random
 import org.json.JSONObject
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -12,15 +17,19 @@ import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.data.room.converter.type.NoteTypeConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.type.StringConverter
-import sgtmelon.scriptum.cleanup.data.room.entity.*
+import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
+import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
+import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
+import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
+import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Alarm
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Note
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Rank
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Roll
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.RollVisible
 import sgtmelon.scriptum.cleanup.domain.model.result.ParserResult
+import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.parent.ParentBackupTest
-import kotlin.random.Random
 
 /**
  * Test for [BackupParser].
@@ -30,11 +39,12 @@ class BackupParserTest : ParentBackupTest() {
     @MockK lateinit var context: Context
     @MockK lateinit var selector: BackupSelector
 
+    private val colorConverter = ColorConverter()
     private val typeConverter = NoteTypeConverter()
     private val stringConverter = StringConverter()
 
     private val backupParser by lazy {
-        BackupParser(context, selector, typeConverter, stringConverter)
+        BackupParser(context, selector, colorConverter, typeConverter, stringConverter)
     }
 
     private val spyBackupParser by lazy { spyk(backupParser) }

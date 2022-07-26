@@ -53,8 +53,8 @@ abstract class ParentEnumConverterTest<E: Enum<E>> {
         verifySequence {
             spyConverter.toEnum(ordinal)
             spyConverter.values
-            FirebaseCrashlytics.getInstance()
             spyConverter.getOrdinalException(ordinal)
+            FirebaseCrashlytics.getInstance()
             crashlytics.recordException(exception)
         }
     }

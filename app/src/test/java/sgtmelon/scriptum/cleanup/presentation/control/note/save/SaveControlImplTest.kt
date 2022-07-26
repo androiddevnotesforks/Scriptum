@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.cleanup.presentation.control.note.save
 
 import android.content.res.Resources
-import com.google.firebase.crashlytics.FirebaseCrashlytics
 import io.mockk.Ordering
 import io.mockk.confirmVerified
 import io.mockk.every
@@ -20,7 +19,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.extension.initLazy
 import sgtmelon.scriptum.infrastructure.model.key.SavePeriod
 import sgtmelon.scriptum.infrastructure.model.state.NoteSaveState
-import sgtmelon.scriptum.infrastructure.utils.getCrashlytics
+import sgtmelon.scriptum.infrastructure.utils.record
 import sgtmelon.scriptum.parent.ParentCoTest
 
 /**
@@ -66,15 +65,13 @@ class SaveControlImplTest : ParentCoTest() {
     @Test fun `not comparable intArray size and enum ordinal`() {
         val savePeriod = mockk<SavePeriod>()
         val ordinal = Random.nextInt()
-        val crashlytics = mockk<FirebaseCrashlytics>()
 
         every { resources.getIntArray(R.array.pref_note_save_time_array) } returns intArrayOf()
         every { saveState.savePeriod } returns savePeriod
         every { savePeriod.ordinal } returns ordinal
 
-        FastMock.extensions()
-        every { getCrashlytics() } returns crashlytics
-        every { crashlytics.recordException(any<ArrayIndexOutOfBoundsException>()) } returns Unit
+        FastMock.fireExtensions()
+        every { any<ArrayIndexOutOfBoundsException>().record() } returns Unit
 
         saveControl.initLazy()
 
@@ -82,6 +79,7 @@ class SaveControlImplTest : ParentCoTest() {
             resources.getIntArray(R.array.pref_note_save_time_array)
             saveState.savePeriod
             savePeriod.ordinal
+            any<ArrayIndexOutOfBoundsException>().record()
         }
     }
 

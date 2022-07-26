@@ -11,6 +11,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.infrastructure.model.MelodyItem
+import sgtmelon.scriptum.infrastructure.model.key.Color
 
 /**
  * Class which provide data for tests.
@@ -49,23 +50,23 @@ object TestData {
         const val DATE_3 = "1567-04-05 06:07:08"
 
         val firstNote get() = NoteItem.Text(
-                id = 0, create = DATE_1, change = DATE_2, color = 0,
+                id = 0, create = DATE_1, change = DATE_2, color = Color.RED,
                 rankId = -1, rankPs = -1, alarmId = 1, alarmDate = DATE_3
         )
 
         val secondNote get() = NoteItem.Roll(
-                id = 1, create = DATE_0, change = DATE_3, color = 2,
+                id = 1, create = DATE_0, change = DATE_3, color = Color.INDIGO,
                 rankId = 1, rankPs = 1, isStatus = true
         )
 
         val thirdNote get() = NoteItem.Text(
-            id = 2, create = DATE_3, change = DATE_0, color = 4,
+            id = 2, create = DATE_3, change = DATE_0, color = Color.TEAL,
             rankId = 1, rankPs = 1, alarmId = 2, alarmDate = DATE_2
         )
 
         val fourthNote
             get() = NoteItem.Roll(
-                id = 3, create = DATE_2, change = DATE_1, color = 2,
+                id = 3, create = DATE_2, change = DATE_1, color = Color.INDIGO,
                 rankId = 2, rankPs = 2, isStatus = true
             )
 
@@ -93,17 +94,17 @@ object TestData {
 
     object Notification {
         val firstNotification = NotificationItem(
-                Note(id = 0, name = "testName1", color = 5, type = NoteType.TEXT),
+                Note(id = 0, name = "testName1", color = Color.GREEN, type = NoteType.TEXT),
                 Alarm(id = 0, date = "123")
         )
 
         val secondNotification = NotificationItem(
-                Note(id = 1, name = "testName2", color = 3, type = NoteType.ROLL),
+                Note(id = 1, name = "testName2", color = Color.BLUE, type = NoteType.ROLL),
                 Alarm(id = 1, date = "456")
         )
 
         val thirdNotification = NotificationItem(
-                Note(id = 2, name = "testName3", color = 8, type = NoteType.TEXT),
+                Note(id = 2, name = "testName3", color = Color.BROWN, type = NoteType.TEXT),
                 Alarm(id = 2, date = "789")
         )
 

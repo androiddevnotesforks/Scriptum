@@ -18,11 +18,11 @@ import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.cleanup.data.room.extension.inRoomTest
 import sgtmelon.scriptum.cleanup.data.room.extension.safeInsert
-import sgtmelon.scriptum.cleanup.domain.model.data.ColorData
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.test.ui.auto.screen.main.bin.BinNoteDialogTest
 import sgtmelon.scriptum.test.ui.auto.screen.main.notes.NotesNoteDialogTest
 
@@ -48,7 +48,7 @@ class TestData(
             change = getTime()
             name = nextString()
             text = nextString().repeat(n = (1 until 10).random())
-            color = (0 until ColorData.size).random()
+            color = Color.values().random()
             type = NoteType.TEXT
         }
 
@@ -60,7 +60,7 @@ class TestData(
             create = getTime()
             change = getTime()
             name = nextString()
-            color = (0 until ColorData.size).random()
+            color = Color.values().random()
             type = NoteType.ROLL
         }
 

@@ -12,6 +12,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.scriptum.infrastructure.utils.record
 
 /**
  * ViewModel for [INoteActivity].
@@ -31,14 +32,21 @@ class NoteViewModel(
     override fun onSetup(bundle: Bundle?) {
         id = bundle?.getLong(Intent.ID, Default.ID) ?: Default.ID
 
+        val typeOrdinal = bundle?.getInt(Intent.TYPE, Default.TYPE) ?: Default.TYPE
+        val bundleType = typeConverter.toEnum(typeOrdinal)
+        if (bundleType != null) {
+            type = bundleType
+        } else {
+            IllegalAccessException("Passed wrong type via bundle: $typeOrdinal").record()
+            callback?.finish()
+            return
+        }
+
         val colorOrdinal = bundle?.getInt(Intent.COLOR, Default.COLOR) ?: Default.COLOR
         val bundleColor = colorConverter.toEnum(colorOrdinal)
         if (bundleColor != null) {
             color = bundleColor
         }
-
-        val typeOrdinal = bundle?.getInt(Intent.TYPE, Default.TYPE) ?: Default.TYPE
-        type = typeConverter.toEnum(typeOrdinal)
 
         callback?.updateHolder(color)
         callback?.setupInsets()

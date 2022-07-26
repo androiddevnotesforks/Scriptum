@@ -1,19 +1,31 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.note
 
 import android.os.Bundle
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import io.mockk.verifySequence
 import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Test
+import sgtmelon.scriptum.FastMock
+import sgtmelon.scriptum.cleanup.data.room.converter.type.NoteTypeConverter
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note.Default
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note.Intent
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteActivity
+import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
+import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.scriptum.infrastructure.utils.record
 import sgtmelon.scriptum.parent.ParentViewModelTest
 
 /**
@@ -25,15 +37,19 @@ class NoteViewModelTest : ParentViewModelTest() {
     //region Setup
 
     @MockK lateinit var callback: INoteActivity
-    @MockK lateinit var interactor: INoteInteractor
+    @MockK lateinit var typeConverter: NoteTypeConverter
+    @MockK lateinit var colorConverter: ColorConverter
+    @MockK lateinit var preferencesRepo: PreferencesRepo
 
     @MockK lateinit var bundle: Bundle
 
-    private val viewModel by lazy { NoteViewModel(callback, interactor) }
+    private val viewModel by lazy {
+        NoteViewModel(callback, typeConverter, colorConverter, preferencesRepo)
+    }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(callback, interactor, bundle)
+        confirmVerified(callback, typeConverter, colorConverter, preferencesRepo, bundle)
     }
 
     override fun onDestroy() {
@@ -44,113 +60,163 @@ class NoteViewModelTest : ParentViewModelTest() {
 
     //endregion
 
-    @Test fun onSetup_nullBundle() {
-        val color = Random.nextInt()
+    //region Help functions
 
-        every { interactor.defaultColor } returns color
+    private fun mockkInit(): Color {
+        val color = mockk<Color>()
 
-        assertEquals(Default.ID, viewModel.id)
-        assertEquals(Default.COLOR, viewModel.color)
-        assertEquals(null, viewModel.type)
+        every { preferencesRepo.defaultColor } returns color
+
+        assertEquals(viewModel.color, color)
+
+        return color
+    }
+
+    private fun verifyInit() {
+        preferencesRepo.defaultColor
+    }
+
+    //endregion
+
+    @Test fun `onSetup with null bundle`() {
+        val initColor = mockkInit()
+        val crashlytics = mockk<FirebaseCrashlytics>()
+
+        assertEquals(viewModel.id, Default.ID)
+        assertNull(viewModel.type)
+        assertEquals(viewModel.color, initColor)
+
+        every { typeConverter.toEnum(Default.TYPE) } returns null
+        FastMock.fireExtensions()
+        every { any<IllegalAccessException>().record() } returns Unit
 
         viewModel.onSetup()
 
-        assertEquals(Default.ID, viewModel.id)
-        assertEquals(color, viewModel.color)
-        assertEquals(null, viewModel.type)
+        assertEquals(viewModel.id, Default.ID)
+        assertNull(viewModel.type)
+        assertEquals(viewModel.color, initColor)
 
         verifySequence {
-            interactor.defaultColor
-            callback.updateHolder(color)
-            callback.setupInsets()
+            verifyInit()
+
+            typeConverter.toEnum(Default.TYPE)
+            any<IllegalAccessException>().record()
+            callback.finish()
         }
     }
 
-    @Test fun onSetup_fillBundle_badData() {
-        val color = Random.nextInt()
+    @Test fun `onSetup with fill bundle but bad data`() {
+        val initColor = mockkInit()
+        val crashlytics = mockk<FirebaseCrashlytics>()
 
         every { bundle.getLong(Intent.ID, Default.ID) } returns Default.ID
-        every { bundle.getInt(Intent.COLOR, Default.COLOR) } returns Default.COLOR
         every { bundle.getInt(Intent.TYPE, Default.TYPE) } returns Default.TYPE
 
-        every { interactor.defaultColor } returns color
+        every { typeConverter.toEnum(Default.TYPE) } returns null
+        FastMock.fireExtensions()
+        every { any<IllegalAccessException>().record() } returns Unit
 
-        assertEquals(Default.ID, viewModel.id)
-        assertEquals(Default.COLOR, viewModel.color)
-        assertEquals(null, viewModel.type)
+        assertEquals(viewModel.id, Default.ID)
+        assertNull(viewModel.type)
+        assertEquals(viewModel.color, initColor)
 
         viewModel.onSetup(bundle)
 
-        assertEquals(Default.ID, viewModel.id)
-        assertEquals(color, viewModel.color)
-        assertEquals(null, viewModel.type)
+        assertEquals(viewModel.id, Default.ID)
+        assertNull(viewModel.type)
+        assertEquals(viewModel.color, initColor)
 
         verifySequence {
+            verifyInit()
+
             bundle.getLong(Intent.ID, Default.ID)
-            bundle.getInt(Intent.COLOR, Default.COLOR)
+
             bundle.getInt(Intent.TYPE, Default.TYPE)
-            interactor.defaultColor
-            callback.updateHolder(color)
-            callback.setupInsets()
+            typeConverter.toEnum(Default.TYPE)
+
+            any<IllegalAccessException>().record()
+            callback.finish()
         }
     }
 
-    @Test fun onSetup_fillBundle_goodData() {
+    @Test fun `onSetup with fill bundle and good data`() {
+        val initColor = mockkInit()
+
         val id = Random.nextLong()
-        val color = Random.nextInt()
-        val type = NoteType.TEXT
+        val type = mockk<NoteType>()
+        val typeOrdinal = Random.nextInt()
+        val color = mockk<Color>()
+        val colorOrdinal = Random.nextInt()
 
         every { bundle.getLong(Intent.ID, Default.ID) } returns id
-        every { bundle.getInt(Intent.COLOR, Default.COLOR) } returns color
-        every { bundle.getInt(Intent.TYPE, Default.TYPE) } returns type.ordinal
+        every { bundle.getInt(Intent.TYPE, Default.TYPE) } returns typeOrdinal
+        every { typeConverter.toEnum(typeOrdinal) } returns type
+        every { bundle.getInt(Intent.COLOR, Default.COLOR) } returns colorOrdinal
+        every { colorConverter.toEnum(colorOrdinal) } returns color
 
-        assertEquals(Default.ID, viewModel.id)
-        assertEquals(Default.COLOR, viewModel.color)
+        assertEquals(viewModel.id, Default.ID)
         assertNull(viewModel.type)
+        assertEquals(viewModel.color, initColor)
 
         viewModel.onSetup(bundle)
 
-        assertEquals(id, viewModel.id)
-        assertEquals(color, viewModel.color)
-        assertEquals(type, viewModel.type)
+        assertEquals(viewModel.id, id)
+        assertEquals(viewModel.type, type)
+        assertEquals(viewModel.color, color)
 
         verifySequence {
+            verifyInit()
+
             bundle.getLong(Intent.ID, Default.ID)
-            bundle.getInt(Intent.COLOR, Default.COLOR)
             bundle.getInt(Intent.TYPE, Default.TYPE)
+            typeConverter.toEnum(typeOrdinal)
+            bundle.getInt(Intent.COLOR, Default.COLOR)
+            colorConverter.toEnum(colorOrdinal)
             callback.updateHolder(color)
             callback.setupInsets()
         }
     }
 
-
     @Test fun onSaveData() {
+        val initColor = mockkInit()
+        val initColorOrdinal = Random.nextInt()
+        val color = mockk<Color>()
+        val colorOrdinal = Random.nextInt()
+
         val id = Random.nextLong()
-        val color = Random.nextInt()
-        val type = NoteType.TEXT
+        val type = NoteType.values().random()
+
+        every { colorConverter.toInt(initColor) } returns initColorOrdinal
 
         viewModel.id = id
-        viewModel.color = color
-
         viewModel.onSaveData(bundle)
 
+        every { colorConverter.toInt(color) } returns colorOrdinal
+
         viewModel.type = type
+        viewModel.color = color
         viewModel.onSaveData(bundle)
 
         verifySequence {
-            bundle.putLong(Intent.ID, id)
-            bundle.putInt(Intent.COLOR, color)
-            bundle.putInt(Intent.TYPE, Default.TYPE)
+            verifyInit()
 
             bundle.putLong(Intent.ID, id)
-            bundle.putInt(Intent.COLOR, color)
+            bundle.putInt(Intent.TYPE, Default.TYPE)
+            colorConverter.toInt(initColor)
+            bundle.putInt(Intent.COLOR, initColorOrdinal)
+
+            bundle.putLong(Intent.ID, id)
             bundle.putInt(Intent.TYPE, type.ordinal)
+            colorConverter.toInt(color)
+            bundle.putInt(Intent.COLOR, colorOrdinal)
         }
     }
 
     @Test fun onSetupFragment() {
+        mockkInit()
+
         val id = Random.nextLong()
-        val color = Random.nextInt()
+        val color = mockk<Color>()
 
         viewModel.id = id
         viewModel.color = color
@@ -164,6 +230,8 @@ class NoteViewModelTest : ParentViewModelTest() {
         viewModel.onSetupFragment(checkCache = false)
 
         verifySequence {
+            verifyInit()
+
             callback.finish()
             callback.showTextFragment(id, color, checkCache = true)
             callback.showRollFragment(id, color, checkCache = false)
@@ -171,7 +239,9 @@ class NoteViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun onPressBack() {
-        assertEquals(null, viewModel.type)
+        mockkInit()
+
+        assertNull(viewModel.type)
         assertFalse(viewModel.onPressBack())
 
         every { callback.onPressBackText() } returns true
@@ -185,33 +255,47 @@ class NoteViewModelTest : ParentViewModelTest() {
         assertTrue(viewModel.onPressBack())
 
         verifySequence {
+            verifyInit()
+
             callback.onPressBackText()
             callback.onPressBackRoll()
         }
     }
 
     @Test fun onUpdateNoteId() {
+        mockkInit()
+
         val id = Random.nextLong()
 
-        assertEquals(Default.ID, viewModel.id)
+        assertEquals(viewModel.id, Default.ID)
         viewModel.onUpdateNoteId(id)
-        assertEquals(id, viewModel.id)
+        assertEquals(viewModel.id, id)
+
+        verifySequence {
+            verifyInit()
+        }
     }
 
     @Test fun onUpdateNoteColor() {
-        val color = Random.nextInt()
+        mockkInit()
+
+        val color = mockk<Color>()
 
         viewModel.onUpdateNoteColor(color)
-        assertEquals(color, viewModel.color)
+        assertEquals(viewModel.color, color)
 
         verifySequence {
+            verifyInit()
+
             callback.updateHolder(color)
         }
     }
 
     @Test fun onConvertNote() {
+        mockkInit()
+
         val id = Random.nextLong()
-        val color = Random.nextInt()
+        val color = mockk<Color>()
 
         viewModel.id = id
         viewModel.color = color
@@ -221,18 +305,19 @@ class NoteViewModelTest : ParentViewModelTest() {
         viewModel.type = NoteType.TEXT
         viewModel.onConvertNote()
 
-        assertEquals(NoteType.ROLL, viewModel.type)
+        assertEquals(viewModel.type, NoteType.ROLL)
 
         viewModel.type = NoteType.ROLL
         viewModel.onConvertNote()
 
-        assertEquals(NoteType.TEXT, viewModel.type)
+        assertEquals(viewModel.type, NoteType.TEXT)
 
         verifySequence {
+            verifyInit()
+
             callback.finish()
             callback.showRollFragment(id, color, checkCache = true)
             callback.showTextFragment(id, color, checkCache = true)
         }
     }
-
 }
