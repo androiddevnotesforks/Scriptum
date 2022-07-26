@@ -10,7 +10,6 @@ import sgtmelon.scriptum.cleanup.data.repository.room.callback.IDevelopRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.cleanup.data.room.backup.IBackupParser
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.IIntroInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IRankInteractor
@@ -24,7 +23,6 @@ import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IBackupPr
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IDevelopInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IPrintDevelopInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.system.ISystemInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.impl.IntroInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.main.BinInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.main.NotesInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.main.RankInteractor
@@ -68,12 +66,6 @@ class InteractorModule {
     }
 
     //endregion
-
-    @Provides
-    @ActivityScope
-    fun provideIntroInteractor(preferences: Preferences): IIntroInteractor {
-        return IntroInteractor(preferences)
-    }
 
     //region Main
 

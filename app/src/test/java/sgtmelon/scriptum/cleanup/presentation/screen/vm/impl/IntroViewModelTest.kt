@@ -5,17 +5,17 @@ import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verifySequence
+import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Test
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.IIntroInteractor
-import sgtmelon.scriptum.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.IIntroActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.IntroViewModel.Companion.IS_LAST_PAGE
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.IntroViewModel.Companion.ND_LAST_PAGE
-import kotlin.random.Random
+import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.parent.ParentViewModelTest
 
 /**
  * Test for [IntroViewModel].
@@ -26,15 +26,15 @@ class IntroViewModelTest : ParentViewModelTest() {
     //region Setup
 
     @MockK lateinit var callback: IIntroActivity
-    @MockK lateinit var interactor: IIntroInteractor
+    @MockK lateinit var preferencesRepo: PreferencesRepo
 
     @MockK lateinit var bundle: Bundle
 
-    private val viewModel by lazy { IntroViewModel(callback, interactor) }
+    private val viewModel by lazy { IntroViewModel(callback, preferencesRepo) }
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(callback, interactor, bundle)
+        confirmVerified(callback, preferencesRepo, bundle)
     }
 
     @Test override fun onDestroy() {
@@ -82,8 +82,9 @@ class IntroViewModelTest : ParentViewModelTest() {
 
     @Test fun onClickEnd() {
         viewModel.onClickEnd()
+
         verifySequence {
-            interactor.onIntroFinish()
+            preferencesRepo.isFirstStart = false
             callback.openMainScreen()
         }
     }

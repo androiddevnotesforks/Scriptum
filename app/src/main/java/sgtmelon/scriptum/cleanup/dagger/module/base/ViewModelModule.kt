@@ -7,7 +7,6 @@ import javax.inject.Named
 import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.cleanup.dagger.other.ViewModelFactory
 import sgtmelon.scriptum.cleanup.data.room.converter.type.NoteTypeConverter
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.IIntroInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IRankInteractor
@@ -99,9 +98,9 @@ class ViewModelModule {
     @ActivityScope
     fun provideIntroViewModel(
         activity: IntroActivity,
-        interactor: IIntroInteractor
+        preferencesRepo: PreferencesRepo
     ): IIntroViewModel {
-        val factory = ViewModelFactory.Intro(activity, interactor)
+        val factory = ViewModelFactory.Intro(activity, preferencesRepo)
         return ViewModelProvider(activity, factory)[IntroViewModel::class.java]
     }
 

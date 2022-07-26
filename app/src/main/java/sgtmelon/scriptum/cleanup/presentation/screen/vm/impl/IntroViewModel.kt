@@ -1,17 +1,17 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl
 
 import android.os.Bundle
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.IIntroInteractor
 import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.IIntroActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.IIntroViewModel
+import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 
 /**
  * ViewModel for [IIntroActivity].
  */
 class IntroViewModel(
     callback: IIntroActivity,
-    private val interactor: IIntroInteractor
+    private val preferencesRepo: PreferencesRepo
 ) : ParentViewModel<IIntroActivity>(callback),
         IIntroViewModel {
 
@@ -30,7 +30,7 @@ class IntroViewModel(
     }
 
     override fun onClickEnd() {
-        interactor.onIntroFinish()
+        preferencesRepo.isFirstStart = false
         callback?.openMainScreen()
     }
 
