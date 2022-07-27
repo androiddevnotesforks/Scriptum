@@ -18,7 +18,7 @@ interface IAlarmPreferenceFragment {
 
     fun showRepeatDialog(repeat: Repeat)
 
-    fun updateSignalSummary(summary: String?)
+    fun updateSignalSummary(summary: String)
 
     fun showSignalDialog(valueArray: BooleanArray)
 

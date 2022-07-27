@@ -13,6 +13,6 @@ data class EnumConverterException(
     private val converterClass: KClass<*>
 ) : Throwable(
     "Ordinal value passed inside converter is invalid for this enum type!\n" +
-    "Can't convert value=$ordinal into '${enumClass.simpleName}' " +
+            "Can't convert value=$ordinal into '${enumClass.simpleName}' " +
             "(via '${converterClass.simpleName}')"
 )

@@ -199,7 +199,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
             .safeShow(fm, DialogFactory.Preference.Alarm.REPEAT)
     }
 
-    override fun updateSignalSummary(summary: String?) {
+    override fun updateSignalSummary(summary: String) {
         signalPreference?.summary = summary
     }
 

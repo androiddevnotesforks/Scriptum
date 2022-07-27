@@ -19,10 +19,10 @@ import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.ISignalInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IAlarmPreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.model.key.PermissionResult
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IAlarmPreferenceFragment
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.domain.useCase.preferences.GetSignalSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.GetSummaryUseCase
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.model.state.SignalState
@@ -40,7 +40,7 @@ class AlarmPreferenceViewModelTest : ParentViewModelTest() {
     @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var getRepeatSummary: GetSummaryUseCase
     @MockK lateinit var getVolumeSummary: GetSummaryUseCase
-    @MockK lateinit var interactor: IAlarmPreferenceInteractor
+    @MockK lateinit var getSignalSummary: GetSignalSummaryUseCase
     @MockK lateinit var signalInteractor: ISignalInteractor
 
     private val melodyList = TestData.Melody.melodyList
@@ -48,8 +48,8 @@ class AlarmPreferenceViewModelTest : ParentViewModelTest() {
     private val viewModel by lazy {
         AlarmPreferenceViewModel(
             callback,
-            preferencesRepo, getRepeatSummary, getVolumeSummary,
-            interactor, signalInteractor
+            preferencesRepo, getRepeatSummary, getVolumeSummary, getSignalSummary,
+            signalInteractor
         )
     }
     private val spyViewModel by lazy { spyk(viewModel) }
@@ -58,8 +58,8 @@ class AlarmPreferenceViewModelTest : ParentViewModelTest() {
         super.tearDown()
         confirmVerified(
             callback,
-            preferencesRepo, getRepeatSummary, getVolumeSummary,
-            interactor, signalInteractor
+            preferencesRepo, getRepeatSummary, getVolumeSummary, getSignalSummary,
+            signalInteractor
         )
     }
 
@@ -73,13 +73,11 @@ class AlarmPreferenceViewModelTest : ParentViewModelTest() {
 
     @Test fun onSetup() {
         val repeatSummary = nextString()
-        val typeCheck = BooleanArray(size = 3) { Random.nextBoolean() }
         val signalSummary = nextString()
         val volumeSummary = nextString()
 
         every { getRepeatSummary() } returns repeatSummary
-        every { preferencesRepo.signalTypeCheck } returns typeCheck
-        every { interactor.getSignalSummary(typeCheck) } returns signalSummary
+        every { getSignalSummary() } returns signalSummary
         every { getVolumeSummary() } returns volumeSummary
         coEvery { spyViewModel.setupBackground() } returns Unit
 
@@ -96,8 +94,7 @@ class AlarmPreferenceViewModelTest : ParentViewModelTest() {
             callback.updateRepeatSummary(repeatSummary)
 
             spyViewModel.callback
-            preferencesRepo.signalTypeCheck
-            interactor.getSignalSummary(typeCheck)
+            getSignalSummary()
             callback.updateSignalSummary(signalSummary)
 
             spyViewModel.callback
@@ -197,11 +194,11 @@ class AlarmPreferenceViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun `onResultSignal and it's a melody`() {
-        val valueArray = BooleanArray(size = 3) { Random.nextBoolean() }
+        val valueArray = BooleanArray(getRandomSize()) { Random.nextBoolean() }
         val state = SignalState(isMelody = true, isVibration = Random.nextBoolean())
         val summary = nextString()
 
-        every { interactor.updateSignal(valueArray) } returns summary
+        every { getSignalSummary(valueArray) } returns summary
         every { preferencesRepo.signalState } returns state
         coEvery { signalInteractor.getMelodyList() } returns emptyList()
         viewModel.onResultSignal(valueArray)
@@ -210,7 +207,7 @@ class AlarmPreferenceViewModelTest : ParentViewModelTest() {
         viewModel.onResultSignal(valueArray)
 
         coVerifySequence {
-            interactor.updateSignal(valueArray)
+            getSignalSummary(valueArray)
             callback.updateSignalSummary(summary)
             preferencesRepo.signalState
             signalInteractor.getMelodyList()
@@ -218,7 +215,7 @@ class AlarmPreferenceViewModelTest : ParentViewModelTest() {
             callback.updateMelodyEnabled(isEnabled = false)
             callback.updateMelodySummary(R.string.pref_summary_alarm_melody_empty)
 
-            interactor.updateSignal(valueArray)
+            getSignalSummary(valueArray)
             callback.updateSignalSummary(summary)
             preferencesRepo.signalState
             signalInteractor.getMelodyList()
@@ -227,17 +224,17 @@ class AlarmPreferenceViewModelTest : ParentViewModelTest() {
     }
 
     @Test fun `onResultSignal and it's not a melody`() {
-        val valueArray = BooleanArray(size = 3) { Random.nextBoolean() }
+        val valueArray = BooleanArray(getRandomSize()) { Random.nextBoolean() }
         val state = SignalState(isMelody = false, isVibration = Random.nextBoolean())
         val summary = nextString()
 
-        every { interactor.updateSignal(valueArray) } returns summary
+        every { getSignalSummary(valueArray) } returns summary
 
         every { preferencesRepo.signalState } returns state
         viewModel.onResultSignal(valueArray)
 
         coVerifySequence {
-            interactor.updateSignal(valueArray)
+            getSignalSummary(valueArray)
             callback.updateSignalSummary(summary)
             preferencesRepo.signalState
             callback.updateMelodyGroupEnabled(isEnabled = false)

@@ -273,6 +273,21 @@ class PreferencesRepoImplTest : ParentTest() {
         }
     }
 
+    @Test fun setSignalTypeCheck() {
+        val value = nextString()
+        val size = getRandomSize()
+        val typeCheck = BooleanArray(size) { Random.nextBoolean() }
+
+        every { signalConverter.toString(typeCheck) } returns value
+
+        repo.signalTypeCheck = typeCheck
+
+        verifySequence {
+            signalConverter.toString(typeCheck)
+            dataSource.signal = value
+        }
+    }
+
     @Test fun getSignalState() {
         val value = nextString()
         val state = mockk<SignalState>()

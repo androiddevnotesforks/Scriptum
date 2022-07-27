@@ -35,7 +35,7 @@ interface PreferencesRepo {
 
     var repeat: Repeat
 
-    val signalTypeCheck: BooleanArray
+    var signalTypeCheck: BooleanArray
 
     val signalState: SignalState
 

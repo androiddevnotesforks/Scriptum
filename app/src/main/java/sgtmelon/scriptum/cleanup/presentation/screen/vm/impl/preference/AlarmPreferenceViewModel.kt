@@ -8,12 +8,12 @@ import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.common.utils.runBack
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.ISignalInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IAlarmPreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.model.key.PermissionResult
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IAlarmPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IAlarmPreferenceViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.domain.useCase.preferences.GetSignalSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.GetSummaryUseCase
 
 /**
@@ -24,7 +24,7 @@ class AlarmPreferenceViewModel(
     private val preferencesRepo: PreferencesRepo,
     private val getRepeatSummary: GetSummaryUseCase,
     private val getVolumeSummary: GetSummaryUseCase,
-    private val interactor: IAlarmPreferenceInteractor,
+    private val getSignalSummary: GetSignalSummaryUseCase,
     private val signalInteractor: ISignalInteractor
 ) : ParentViewModel<IAlarmPreferenceFragment>(callback),
     IAlarmPreferenceViewModel {
@@ -33,7 +33,7 @@ class AlarmPreferenceViewModel(
         callback?.setup()
 
         callback?.updateRepeatSummary(getRepeatSummary())
-        callback?.updateSignalSummary(interactor.getSignalSummary(preferencesRepo.signalTypeCheck))
+        callback?.updateSignalSummary(getSignalSummary())
         callback?.updateVolumeSummary(getVolumeSummary())
 
         viewModelScope.launch { setupBackground() }
@@ -69,10 +69,8 @@ class AlarmPreferenceViewModel(
     }
 
     /**
-     * Need reset list, because user can change permission or
-     * delete some files or remove sd card.
-     *
-     * It calls even after permission dialog.
+     * Need reset list, because user can change permission or delete some files or
+     * remove sd card. It calls even after permission dialog.
      */
     override fun onPause() {
         signalInteractor.resetMelodyList()
@@ -91,7 +89,7 @@ class AlarmPreferenceViewModel(
     }
 
     override fun onResultSignal(valueArray: BooleanArray) {
-        callback?.updateSignalSummary(interactor.updateSignal(valueArray))
+        callback?.updateSignalSummary(getSignalSummary(valueArray))
 
         val state = preferencesRepo.signalState
 

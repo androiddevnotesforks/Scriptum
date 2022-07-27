@@ -4,15 +4,13 @@ import kotlin.random.Random
 import kotlinx.coroutines.runBlocking
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.ISignalInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IAlarmPreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.notification.SignalInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.impl.preference.AlarmPreferenceInteractor
 import sgtmelon.scriptum.cleanup.presentation.control.system.RingtoneControl
+import sgtmelon.scriptum.cleanup.presentation.provider.SummaryProvider
 import sgtmelon.scriptum.data.item.PreferenceItem
 import sgtmelon.scriptum.data.item.PreferenceItem.Header
 import sgtmelon.scriptum.data.item.PreferenceItem.Summary
 import sgtmelon.scriptum.data.item.PreferenceItem.Switch
-import sgtmelon.scriptum.infrastructure.converter.SignalConverter
 import sgtmelon.scriptum.ui.logic.parent.ParentPreferenceLogic
 import sgtmelon.scriptum.ui.screen.preference.AlarmPreferenceScreen
 
@@ -21,13 +19,8 @@ import sgtmelon.scriptum.ui.screen.preference.AlarmPreferenceScreen
  */
 class AlarmPreferenceLogic : ParentPreferenceLogic() {
 
-    val alarmInteractor: IAlarmPreferenceInteractor = AlarmPreferenceInteractor(
-        provider, preferences, SignalConverter()
-    )
-
-    val signalInteractor: ISignalInteractor = SignalInteractor(
-        RingtoneControl(context), preferences, SignalConverter()
-    )
+    private val summaryProvider = SummaryProvider(context.resources)
+    val signalInteractor: ISignalInteractor = SignalInteractor(RingtoneControl(context))
 
     override fun getScreenList(): List<PreferenceItem> {
         val list = mutableListOf(
@@ -38,8 +31,8 @@ class AlarmPreferenceLogic : ParentPreferenceLogic() {
             )
         )
 
-        val signalSummary = alarmInteractor.getSignalSummary(preferencesRepo.signalTypeCheck)
-        list.add(Summary.Text(R.string.pref_title_alarm_signal, signalSummary!!))
+        val signalSummary = summaryProvider.getSignal(preferencesRepo.signalTypeCheck)
+        list.add(Summary.Text(R.string.pref_title_alarm_signal, signalSummary))
 
         list.add(Header(R.string.pref_header_melody_options))
 

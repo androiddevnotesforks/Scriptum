@@ -87,8 +87,6 @@ class NoteViewModelTest : ParentViewModelTest() {
         assertEquals(viewModel.color, initColor)
 
         every { typeConverter.toEnum(Default.TYPE) } returns null
-        FastMock.fireExtensions()
-        every { any<IllegalAccessException>().record() } returns Unit
 
         viewModel.onSetup()
 
@@ -100,7 +98,6 @@ class NoteViewModelTest : ParentViewModelTest() {
             verifyInit()
 
             typeConverter.toEnum(Default.TYPE)
-            any<IllegalAccessException>().record()
             callback.finish()
         }
     }
@@ -134,7 +131,6 @@ class NoteViewModelTest : ParentViewModelTest() {
             bundle.getInt(Intent.TYPE, Default.TYPE)
             typeConverter.toEnum(Default.TYPE)
 
-            any<IllegalAccessException>().record()
             callback.finish()
         }
     }

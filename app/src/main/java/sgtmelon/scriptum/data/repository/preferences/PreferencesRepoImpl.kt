@@ -88,7 +88,11 @@ class PreferencesRepoImpl(
             dataSource.repeat = repeatConverter.toInt(value)
         }
 
-    override val signalTypeCheck: BooleanArray get() = signalConverter.toArray(dataSource.signal)
+    override var signalTypeCheck: BooleanArray
+        get() = signalConverter.toArray(dataSource.signal)
+        set(value) {
+            dataSource.signal = signalConverter.toString(value)
+        }
 
     override val signalState: SignalState
         get() = signalConverter.toState(dataSource.signal) ?: run {

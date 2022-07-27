@@ -18,7 +18,6 @@ import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteIntera
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.INotificationInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.ISignalInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IAlarmPreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IBackupPreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IDevelopInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IPrintDevelopInteractor
@@ -31,7 +30,6 @@ import sgtmelon.scriptum.cleanup.domain.interactor.impl.note.TextNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.notification.AlarmInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.notification.NotificationInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.notification.SignalInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.impl.preference.AlarmPreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.preference.BackupPreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.preference.develop.DevelopInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.preference.develop.PrintDevelopInteractor
@@ -39,10 +37,8 @@ import sgtmelon.scriptum.cleanup.domain.interactor.impl.system.SystemInteractor
 import sgtmelon.scriptum.cleanup.presentation.control.cipher.ICipherControl
 import sgtmelon.scriptum.cleanup.presentation.control.file.IFileControl
 import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IRingtoneControl
-import sgtmelon.scriptum.cleanup.presentation.provider.SummaryProvider
 import sgtmelon.scriptum.cleanup.presentation.screen.system.SystemLogic
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
-import sgtmelon.scriptum.infrastructure.converter.SignalConverter
 import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvider
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesKeyProvider
@@ -152,16 +148,6 @@ class InteractorModule {
             preferencesRepo, alarmRepo, rankRepo, noteRepo, backupRepo,
             backupParser, fileControl, cipherControl
         )
-    }
-
-    @Provides
-    @ActivityScope
-    fun provideAlarmPreferenceInteractor(
-        summaryProvider: SummaryProvider,
-        preferences: Preferences,
-        signalConverter: SignalConverter
-    ): IAlarmPreferenceInteractor {
-        return AlarmPreferenceInteractor(summaryProvider, preferences, signalConverter)
     }
 
     @Provides

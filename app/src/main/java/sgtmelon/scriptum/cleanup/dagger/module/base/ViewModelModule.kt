@@ -15,7 +15,6 @@ import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteIntera
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.INotificationInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.ISignalInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IAlarmPreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IBackupPreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IDevelopInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IPrintDevelopInteractor
@@ -75,6 +74,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.PrintDevelopViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.ServiceDevelopViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.domain.useCase.preferences.GetSignalSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.GetSummaryUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 
@@ -269,13 +269,13 @@ class ViewModelModule {
         preferencesRepo: PreferencesRepo,
         @Named("Repeat") getRepeatSummary: GetSummaryUseCase,
         @Named("Volume") getVolumeSummary: GetSummaryUseCase,
-        interactor: IAlarmPreferenceInteractor,
+        getSignalSummary: GetSignalSummaryUseCase,
         signalInteractor: ISignalInteractor
     ): IAlarmPreferenceViewModel {
         val factory = ViewModelFactory.Preference.Alarm(
             fragment,
-            preferencesRepo, getRepeatSummary, getVolumeSummary,
-            interactor, signalInteractor
+            preferencesRepo, getRepeatSummary, getVolumeSummary, getSignalSummary,
+            signalInteractor
         )
         return ViewModelProvider(fragment, factory)[AlarmPreferenceViewModel::class.java]
     }

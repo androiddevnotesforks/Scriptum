@@ -12,7 +12,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.key.Color
-import sgtmelon.scriptum.infrastructure.utils.record
 
 /**
  * ViewModel for [INoteActivity].
@@ -37,7 +36,6 @@ class NoteViewModel(
         if (bundleType != null) {
             type = bundleType
         } else {
-            IllegalAccessException("Passed wrong type via bundle: $typeOrdinal").record()
             callback?.finish()
             return
         }

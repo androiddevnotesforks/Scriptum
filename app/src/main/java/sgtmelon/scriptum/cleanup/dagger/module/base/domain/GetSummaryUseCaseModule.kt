@@ -8,6 +8,8 @@ import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.GetDefaultColorSummaryUseCaseImpl
 import sgtmelon.scriptum.domain.useCase.preferences.GetRepeatSummaryUseCaseImpl
 import sgtmelon.scriptum.domain.useCase.preferences.GetSavePeriodSummaryUseCaseImpl
+import sgtmelon.scriptum.domain.useCase.preferences.GetSignalSummaryUseCase
+import sgtmelon.scriptum.domain.useCase.preferences.GetSignalSummaryUseCaseImpl
 import sgtmelon.scriptum.domain.useCase.preferences.GetSortSummaryUseCaseImpl
 import sgtmelon.scriptum.domain.useCase.preferences.GetSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.GetThemeSummaryUseCaseImpl
@@ -78,5 +80,13 @@ class GetSummaryUseCaseModule {
         preferencesRepo: PreferencesRepo
     ): GetSummaryUseCase {
         return GetVolumeSummaryUseCaseImpl(summaryProvider, preferencesRepo)
+    }
+
+    @Provides
+    fun provideGetSignalSummaryUseCase(
+        summaryProvider: SummaryProvider,
+        preferencesRepo: PreferencesRepo
+    ) : GetSignalSummaryUseCase {
+        return GetSignalSummaryUseCaseImpl(summaryProvider, preferencesRepo)
     }
 }

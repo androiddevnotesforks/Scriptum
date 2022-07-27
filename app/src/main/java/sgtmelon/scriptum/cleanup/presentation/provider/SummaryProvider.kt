@@ -2,17 +2,19 @@ package sgtmelon.scriptum.cleanup.presentation.provider
 
 
 import android.content.res.Resources
+import java.util.Locale
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.infrastructure.model.exception.DifferentSizeException
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.model.key.SavePeriod
 import sgtmelon.scriptum.infrastructure.model.key.Sort
 import sgtmelon.scriptum.infrastructure.model.key.Theme
+import sgtmelon.scriptum.infrastructure.utils.record
 
 /**
  * Provide summary/description for preference keys.
  */
-// TODO tests
 class SummaryProvider(private val resources: Resources) {
 
     fun getTheme(theme: Theme): String {
@@ -76,9 +78,37 @@ class SummaryProvider(private val resources: Resources) {
         return resources.getString(id)
     }
 
-    val signal: Array<String> = resources.getStringArray(R.array.pref_alarm_signal)
+    fun getSignal(valueArray: BooleanArray): String {
+        val summaryArray = resources.getStringArray(R.array.pref_alarm_signal)
+
+        if (summaryArray.size != valueArray.size) {
+            DifferentSizeException(valueArray.size, summaryArray.size).record()
+            return ""
+        }
+
+        return StringBuilder().apply {
+            var firstAppend = true
+
+            for ((i, checked) in valueArray.withIndex()) {
+                if (!checked) continue
+
+                val text = if (firstAppend) {
+                    firstAppend = false
+                    summaryArray[i]
+                } else {
+                    SIGNAL_DIVIDER.plus(summaryArray[i].lowercase(Locale.getDefault()))
+                }
+
+                append(text)
+            }
+        }.toString()
+    }
 
     fun getVolume(value: Int): String {
         return resources.getString(R.string.pref_summary_alarm_volume, value)
+    }
+
+    companion object {
+        private const val SIGNAL_DIVIDER = ", "
     }
 }

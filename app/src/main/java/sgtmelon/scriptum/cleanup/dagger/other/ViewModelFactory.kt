@@ -12,7 +12,6 @@ import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteIntera
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.INotificationInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.ISignalInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IAlarmPreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IBackupPreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IDevelopInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IPrintDevelopInteractor
@@ -56,6 +55,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.PrintDevelopViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference.develop.ServiceDevelopViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.scriptum.domain.useCase.preferences.GetSignalSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.GetSummaryUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 
@@ -274,15 +274,15 @@ object ViewModelFactory {
             private val preferencesRepo: PreferencesRepo,
             private val getRepeatSummary: GetSummaryUseCase,
             private val getVolumeSummary: GetSummaryUseCase,
-            private val interactor: IAlarmPreferenceInteractor,
+            private val getSignalSummary: GetSignalSummaryUseCase,
             private val signalInteractor: ISignalInteractor
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(AlarmPreferenceViewModel::class) {
                     AlarmPreferenceViewModel(
                         fragment,
-                        preferencesRepo, getRepeatSummary, getVolumeSummary,
-                        interactor, signalInteractor
+                        preferencesRepo, getRepeatSummary, getVolumeSummary, getSignalSummary,
+                        signalInteractor
                     )
                 }
             }

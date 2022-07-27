@@ -3,12 +3,12 @@ package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.preference
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import sgtmelon.common.test.annotation.RunPrivate
+import sgtmelon.common.utils.runBack
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IBackupPreferenceInteractor
-import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.cleanup.domain.model.result.ExportResult
 import sgtmelon.scriptum.cleanup.domain.model.result.ImportResult
-import sgtmelon.common.utils.runBack
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IBackupPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IBackupPreferenceViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
@@ -66,10 +66,8 @@ class BackupPreferenceViewModel(
     }
 
     /**
-     * Need reset list, because user can change permission or
-     * delete some files or remove sd card.
-     *
-     * It calls even after permission dialog.
+     * Need reset list, because user can change permission or delete some files or
+     * remove sd card. It calls even after permission dialog.
      */
     override fun onPause() {
         interactor.resetFileList()
