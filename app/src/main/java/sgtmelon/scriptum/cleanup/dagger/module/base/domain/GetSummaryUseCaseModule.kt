@@ -3,7 +3,6 @@ package sgtmelon.scriptum.cleanup.dagger.module.base.domain
 import dagger.Module
 import dagger.Provides
 import javax.inject.Named
-import sgtmelon.scriptum.cleanup.presentation.provider.SummaryProvider
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.GetDefaultColorSummaryUseCaseImpl
 import sgtmelon.scriptum.domain.useCase.preferences.GetRepeatSummaryUseCaseImpl
@@ -19,6 +18,7 @@ import sgtmelon.scriptum.infrastructure.converter.key.RepeatConverter
 import sgtmelon.scriptum.infrastructure.converter.key.SavePeriodConverter
 import sgtmelon.scriptum.infrastructure.converter.key.SortConverter
 import sgtmelon.scriptum.infrastructure.converter.key.ThemeConverter
+import sgtmelon.scriptum.infrastructure.provider.SummaryProvider
 
 @Module
 class GetSummaryUseCaseModule {

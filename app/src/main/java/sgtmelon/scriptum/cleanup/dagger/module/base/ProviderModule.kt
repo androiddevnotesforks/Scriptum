@@ -6,7 +6,7 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
-import sgtmelon.scriptum.cleanup.presentation.provider.SummaryProvider
+import sgtmelon.scriptum.infrastructure.provider.SummaryProvider
 
 /**
  * Module for provide providers classes.

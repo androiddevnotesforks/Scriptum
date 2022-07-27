@@ -1,8 +1,8 @@
 package sgtmelon.scriptum.domain.useCase.preferences
 
-import sgtmelon.scriptum.cleanup.presentation.provider.SummaryProvider
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
+import sgtmelon.scriptum.infrastructure.provider.SummaryProvider
 
 class GetDefaultColorSummaryUseCaseImpl(
     private val summaryProvider: SummaryProvider,

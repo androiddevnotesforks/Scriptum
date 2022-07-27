@@ -1,8 +1,8 @@
 package sgtmelon.scriptum.domain.useCase.preferences
 
-import sgtmelon.scriptum.cleanup.presentation.provider.SummaryProvider
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.converter.key.RepeatConverter
+import sgtmelon.scriptum.infrastructure.provider.SummaryProvider
 
 class GetRepeatSummaryUseCaseImpl(
     private val summaryProvider: SummaryProvider,

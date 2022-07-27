@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.presentation.provider
+package sgtmelon.scriptum.infrastructure.provider
 
 
 import android.content.res.Resources

@@ -9,9 +9,9 @@ import kotlin.random.Random
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.common.utils.nextString
-import sgtmelon.scriptum.cleanup.presentation.provider.SummaryProvider
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.getRandomSize
+import sgtmelon.scriptum.infrastructure.provider.SummaryProvider
 import sgtmelon.scriptum.parent.ParentTest
 
 /**

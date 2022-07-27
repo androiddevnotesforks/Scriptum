@@ -1,7 +1,10 @@
-package sgtmelon.scriptum.cleanup.presentation.provider
+package sgtmelon.scriptum.infrastructure.provider
 
 import org.junit.Test
 
+/**
+ * Test for [SummaryProvider].
+ */
 class SummaryProviderTest {
 
     @Test fun getTheme() {

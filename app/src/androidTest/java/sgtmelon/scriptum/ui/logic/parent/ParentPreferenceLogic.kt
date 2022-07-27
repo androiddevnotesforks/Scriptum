@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.ui.logic.parent
 
-import sgtmelon.scriptum.cleanup.presentation.provider.SummaryProvider
 import sgtmelon.scriptum.data.item.PreferenceItem
+import sgtmelon.scriptum.infrastructure.provider.SummaryProvider
 
 /**
  * Parent class for preference screen/test logic.

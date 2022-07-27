@@ -10,9 +10,9 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.common.utils.nextString
-import sgtmelon.scriptum.cleanup.presentation.provider.SummaryProvider
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.converter.key.ParentEnumConverter
+import sgtmelon.scriptum.infrastructure.provider.SummaryProvider
 import sgtmelon.scriptum.parent.ParentTest
 
 /**
