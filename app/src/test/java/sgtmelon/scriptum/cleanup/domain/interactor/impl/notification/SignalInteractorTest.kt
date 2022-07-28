@@ -47,17 +47,17 @@ class SignalInteractorTest : ParentInteractorTest() {
     @Test fun getMelodyList() = startCoTest {
         val list = mockk<List<MelodyItem>>()
 
-        coEvery { ringtoneProvider.getByType(any()) } returns list
+        coEvery { ringtoneProvider.getAlarmList() } returns list
 
         assertEquals(list, interactor.getMelodyList())
         assertEquals(list, interactor.melodyList)
 
-        coEvery { ringtoneProvider.getByType(any()) } returns emptyList()
+        coEvery { ringtoneProvider.getAlarmList() } returns emptyList()
 
         assertEquals(list, interactor.getMelodyList())
 
         coVerifySequence {
-            ringtoneProvider.getByType(interactor.typeList)
+            ringtoneProvider.getAlarmList()
         }
     }
 

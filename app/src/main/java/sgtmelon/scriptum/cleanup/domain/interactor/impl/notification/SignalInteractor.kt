@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.impl.notification
 
-import android.media.RingtoneManager
 import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.ParentInteractor
@@ -16,14 +15,11 @@ class SignalInteractor(
 ) : ParentInteractor(),
     ISignalInteractor {
 
-    // TODO move from here android. - package (move it inside ringtoneProvider)
-    @RunPrivate val typeList = listOf(RingtoneManager.TYPE_ALARM, RingtoneManager.TYPE_RINGTONE)
-
     // TODO move into useCase (getMelodyList)
     @RunPrivate var melodyList: List<MelodyItem>? = null
 
     override suspend fun getMelodyList(): List<MelodyItem> {
-        return melodyList ?: ringtoneProvider.getByType(typeList).also { melodyList = it }
+        return melodyList ?: ringtoneProvider.getAlarmList().also { melodyList = it }
     }
 
     override fun resetMelodyList() {

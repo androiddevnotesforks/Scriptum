@@ -11,13 +11,15 @@ class RingtoneProviderImpl(private val context: Context) : RingtoneProvider {
 
     private val ringtoneManager get() = RingtoneManager(context)
 
+    private val alarmTypeList = listOf(RingtoneManager.TYPE_ALARM, RingtoneManager.TYPE_RINGTONE)
+
     /**
      * Func which fill list with all [MelodyItem] for different [RingtoneManager] types.
      */
-    override suspend fun getByType(typeList: List<Int>): List<MelodyItem> {
+    override suspend fun getAlarmList(): List<MelodyItem> {
         val list = ArrayList<MelodyItem>()
 
-        for (it in typeList) {
+        for (it in alarmTypeList) {
             val manager = ringtoneManager
 
             manager.setType(it)
