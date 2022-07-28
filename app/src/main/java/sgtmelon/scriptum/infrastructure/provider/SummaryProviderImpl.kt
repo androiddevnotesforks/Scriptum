@@ -15,9 +15,9 @@ import sgtmelon.scriptum.infrastructure.utils.record
 /**
  * Provide summary/description for preference keys.
  */
-class SummaryProviderImpl(private val resources: Resources) {
+class SummaryProviderImpl(private val resources: Resources): SummaryProvider {
 
-    fun getTheme(theme: Theme): String {
+    override fun getTheme(theme: Theme): String {
         val id = when (theme) {
             Theme.LIGHT -> R.string.pref_app_theme_light
             Theme.DARK -> R.string.pref_app_theme_dark
@@ -27,7 +27,7 @@ class SummaryProviderImpl(private val resources: Resources) {
         return resources.getString(id)
     }
 
-    fun getSort(sort: Sort): String {
+    override fun getSort(sort: Sort): String {
         val id = when (sort) {
             Sort.CHANGE -> R.string.pref_note_sort_change
             Sort.CREATE -> R.string.pref_note_sort_create
@@ -38,7 +38,7 @@ class SummaryProviderImpl(private val resources: Resources) {
         return resources.getString(id)
     }
 
-    fun getColor(color: Color): String {
+    override fun getColor(color: Color): String {
         val id = when (color) {
             Color.RED -> R.string.pref_note_color_red
             Color.PURPLE -> R.string.pref_note_color_purple
@@ -56,7 +56,7 @@ class SummaryProviderImpl(private val resources: Resources) {
         return resources.getString(id)
     }
 
-    fun getSavePeriod(savePeriod: SavePeriod): String {
+    override fun getSavePeriod(savePeriod: SavePeriod): String {
         val id = when (savePeriod) {
             SavePeriod.MIN_1 -> R.string.pref_note_save_period_1
             SavePeriod.MIN_3 -> R.string.pref_note_save_period_3
@@ -66,7 +66,7 @@ class SummaryProviderImpl(private val resources: Resources) {
         return resources.getString(id)
     }
 
-    fun getRepeat(repeat: Repeat): String {
+    override fun getRepeat(repeat: Repeat): String {
         val id = when (repeat) {
             Repeat.MIN_10 -> R.string.pref_alarm_repeat_0
             Repeat.MIN_30 -> R.string.pref_alarm_repeat_1
@@ -78,7 +78,7 @@ class SummaryProviderImpl(private val resources: Resources) {
         return resources.getString(id)
     }
 
-    fun getSignal(valueArray: BooleanArray): String {
+    override fun getSignal(valueArray: BooleanArray): String {
         val summaryArray = resources.getStringArray(R.array.pref_alarm_signal)
 
         if (summaryArray.size != valueArray.size) {
@@ -104,7 +104,7 @@ class SummaryProviderImpl(private val resources: Resources) {
         }.toString()
     }
 
-    fun getVolume(value: Int): String {
+    override fun getVolume(value: Int): String {
         return resources.getString(R.string.pref_summary_alarm_volume, value)
     }
 

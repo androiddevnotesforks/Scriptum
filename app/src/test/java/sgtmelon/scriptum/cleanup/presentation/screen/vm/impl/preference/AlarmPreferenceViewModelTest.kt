@@ -24,6 +24,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IAla
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
+import sgtmelon.scriptum.getRandomSize
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.model.state.SignalState
 import sgtmelon.scriptum.parent.ParentViewModelTest

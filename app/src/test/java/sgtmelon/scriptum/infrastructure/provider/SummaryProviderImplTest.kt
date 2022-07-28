@@ -5,7 +5,7 @@ import org.junit.Test
 /**
  * Test for [SummaryProviderImpl].
  */
-class SummaryProviderTest {
+class SummaryProviderImplTest {
 
     @Test fun getTheme() {
         TODO()

@@ -13,7 +13,7 @@ import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.ParentEnumConverter
-import sgtmelon.scriptum.infrastructure.provider.SummaryProviderImpl
+import sgtmelon.scriptum.infrastructure.provider.SummaryProvider
 import sgtmelon.scriptum.parent.ParentTest
 
 /**
@@ -22,7 +22,7 @@ import sgtmelon.scriptum.parent.ParentTest
 abstract class ParentEnumSummaryUseCaseTest<T: ParentEnumConverter<*>> : ParentTest(),
     GetSummaryUseCaseTest {
 
-    @MockK lateinit var summaryProvider: SummaryProviderImpl
+    @MockK lateinit var summaryProvider: SummaryProvider
     @MockK lateinit var preferencesRepo: PreferencesRepo
     abstract var converter: T
 

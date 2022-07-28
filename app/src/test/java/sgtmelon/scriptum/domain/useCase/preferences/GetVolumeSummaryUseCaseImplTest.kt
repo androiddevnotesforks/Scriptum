@@ -13,7 +13,7 @@ import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetVolumeSummaryUseCaseImpl
-import sgtmelon.scriptum.infrastructure.provider.SummaryProviderImpl
+import sgtmelon.scriptum.infrastructure.provider.SummaryProvider
 import sgtmelon.scriptum.parent.ParentTest
 
 /**
@@ -21,7 +21,7 @@ import sgtmelon.scriptum.parent.ParentTest
  */
 class GetVolumeSummaryUseCaseImplTest : ParentTest() {
 
-    @MockK lateinit var summaryProvider: SummaryProviderImpl
+    @MockK lateinit var summaryProvider: SummaryProvider
     @MockK lateinit var preferencesRepo: PreferencesRepo
 
     private val getSummary: GetSummaryUseCase by lazy {

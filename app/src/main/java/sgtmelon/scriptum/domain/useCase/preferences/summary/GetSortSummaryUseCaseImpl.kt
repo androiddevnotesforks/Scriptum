@@ -2,10 +2,10 @@ package sgtmelon.scriptum.domain.useCase.preferences.summary
 
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.converter.key.SortConverter
-import sgtmelon.scriptum.infrastructure.provider.SummaryProviderImpl
+import sgtmelon.scriptum.infrastructure.provider.SummaryProvider
 
 class GetSortSummaryUseCaseImpl(
-    private val summaryProvider: SummaryProviderImpl,
+    private val summaryProvider: SummaryProvider,
     private val preferencesRepo: PreferencesRepo,
     private val converter: SortConverter
 ) : GetSummaryUseCase {

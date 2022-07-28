@@ -2,10 +2,10 @@ package sgtmelon.scriptum.domain.useCase.preferences.summary
 
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.converter.key.RepeatConverter
-import sgtmelon.scriptum.infrastructure.provider.SummaryProviderImpl
+import sgtmelon.scriptum.infrastructure.provider.SummaryProvider
 
 class GetRepeatSummaryUseCaseImpl(
-    private val summaryProvider: SummaryProviderImpl,
+    private val summaryProvider: SummaryProvider,
     private val preferencesRepo: PreferencesRepo,
     private val converter: RepeatConverter
 ) : GetSummaryUseCase {

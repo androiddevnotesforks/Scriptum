@@ -18,7 +18,7 @@ import sgtmelon.scriptum.infrastructure.converter.key.RepeatConverter
 import sgtmelon.scriptum.infrastructure.converter.key.SavePeriodConverter
 import sgtmelon.scriptum.infrastructure.converter.key.SortConverter
 import sgtmelon.scriptum.infrastructure.converter.key.ThemeConverter
-import sgtmelon.scriptum.infrastructure.provider.SummaryProviderImpl
+import sgtmelon.scriptum.infrastructure.provider.SummaryProvider
 
 @Module
 class GetSummaryUseCaseModule {
@@ -26,7 +26,7 @@ class GetSummaryUseCaseModule {
     @Provides
     @Named("Theme")
     fun provideGetThemeSummaryUseCase(
-        summaryProvider: SummaryProviderImpl,
+        summaryProvider: SummaryProvider,
         preferencesRepo: PreferencesRepo,
         converter: ThemeConverter
     ): GetSummaryUseCase {
@@ -36,7 +36,7 @@ class GetSummaryUseCaseModule {
     @Provides
     @Named("Sort")
     fun provideGetSortSummaryUseCase(
-        summaryProvider: SummaryProviderImpl,
+        summaryProvider: SummaryProvider,
         preferencesRepo: PreferencesRepo,
         converter: SortConverter
     ): GetSummaryUseCase {
@@ -46,7 +46,7 @@ class GetSummaryUseCaseModule {
     @Provides
     @Named("DefaultColor")
     fun provideGetDefaultColorSummaryUseCase(
-        summaryProvider: SummaryProviderImpl,
+        summaryProvider: SummaryProvider,
         preferencesRepo: PreferencesRepo,
         converter: ColorConverter
     ): GetSummaryUseCase {
@@ -56,7 +56,7 @@ class GetSummaryUseCaseModule {
     @Provides
     @Named("SavePeriod")
     fun provideGetSavePeriodSummaryUseCase(
-        summaryProvider: SummaryProviderImpl,
+        summaryProvider: SummaryProvider,
         preferencesRepo: PreferencesRepo,
         converter: SavePeriodConverter
     ): GetSummaryUseCase {
@@ -66,7 +66,7 @@ class GetSummaryUseCaseModule {
     @Provides
     @Named("Repeat")
     fun provideGetRepeatSummaryUseCase(
-        summaryProvider: SummaryProviderImpl,
+        summaryProvider: SummaryProvider,
         preferencesRepo: PreferencesRepo,
         converter: RepeatConverter
     ): GetSummaryUseCase {
@@ -76,7 +76,7 @@ class GetSummaryUseCaseModule {
     @Provides
     @Named("Volume")
     fun provideGetVolumeSummaryUseCase(
-        summaryProvider: SummaryProviderImpl,
+        summaryProvider: SummaryProvider,
         preferencesRepo: PreferencesRepo
     ): GetSummaryUseCase {
         return GetVolumeSummaryUseCaseImpl(summaryProvider, preferencesRepo)
@@ -84,7 +84,7 @@ class GetSummaryUseCaseModule {
 
     @Provides
     fun provideGetSignalSummaryUseCase(
-        summaryProvider: SummaryProviderImpl,
+        summaryProvider: SummaryProvider,
         preferencesRepo: PreferencesRepo
     ) : GetSignalSummaryUseCase {
         return GetSignalSummaryUseCaseImpl(summaryProvider, preferencesRepo)
