@@ -3,12 +3,12 @@ package sgtmelon.scriptum.ui.logic.preference
 import kotlin.random.Random
 import kotlinx.coroutines.runBlocking
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.GetMelodyListUseCase
-import sgtmelon.scriptum.cleanup.domain.interactor.impl.notification.GetMelodyListUseCaseImpl
 import sgtmelon.scriptum.data.item.PreferenceItem
 import sgtmelon.scriptum.data.item.PreferenceItem.Header
 import sgtmelon.scriptum.data.item.PreferenceItem.Summary
 import sgtmelon.scriptum.data.item.PreferenceItem.Switch
+import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
+import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCaseImpl
 import sgtmelon.scriptum.infrastructure.provider.RingtoneProviderImpl
 import sgtmelon.scriptum.infrastructure.provider.SummaryProviderImpl
 import sgtmelon.scriptum.ui.logic.parent.ParentPreferenceLogic

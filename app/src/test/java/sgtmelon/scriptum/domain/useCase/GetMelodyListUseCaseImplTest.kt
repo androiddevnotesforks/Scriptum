@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.domain.interactor.impl.notification
+package sgtmelon.scriptum.domain.useCase
 
 import io.mockk.coEvery
 import io.mockk.coVerifySequence
@@ -14,6 +14,7 @@ import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import sgtmelon.scriptum.TestData
+import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCaseImpl
 import sgtmelon.scriptum.infrastructure.model.MelodyItem
 import sgtmelon.scriptum.infrastructure.provider.RingtoneProvider
 import sgtmelon.scriptum.parent.ParentInteractorTest

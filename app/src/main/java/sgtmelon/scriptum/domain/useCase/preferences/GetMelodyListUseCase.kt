@@ -1,6 +1,5 @@
-package sgtmelon.scriptum.cleanup.domain.interactor.callback.notification
+package sgtmelon.scriptum.domain.useCase.preferences
 
-import sgtmelon.scriptum.cleanup.domain.interactor.impl.notification.GetMelodyListUseCaseImpl
 import sgtmelon.scriptum.infrastructure.model.MelodyItem
 
 /**
