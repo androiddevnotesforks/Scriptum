@@ -10,7 +10,7 @@ import sgtmelon.scriptum.data.item.PreferenceItem.Header
 import sgtmelon.scriptum.data.item.PreferenceItem.Summary
 import sgtmelon.scriptum.data.item.PreferenceItem.Switch
 import sgtmelon.scriptum.infrastructure.provider.RingtoneProviderImpl
-import sgtmelon.scriptum.infrastructure.provider.SummaryProvider
+import sgtmelon.scriptum.infrastructure.provider.SummaryProviderImpl
 import sgtmelon.scriptum.ui.logic.parent.ParentPreferenceLogic
 import sgtmelon.scriptum.ui.screen.preference.AlarmPreferenceScreen
 
@@ -19,7 +19,7 @@ import sgtmelon.scriptum.ui.screen.preference.AlarmPreferenceScreen
  */
 class AlarmPreferenceLogic : ParentPreferenceLogic() {
 
-    private val summaryProvider = SummaryProvider(context.resources)
+    private val summaryProvider = SummaryProviderImpl(context.resources)
     val signalInteractor: ISignalInteractor = SignalInteractor(RingtoneProviderImpl(context))
 
     override fun getScreenList(): List<PreferenceItem> {

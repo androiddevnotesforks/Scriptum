@@ -12,7 +12,7 @@ import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseCaseImpl
 import sgtmelon.scriptum.getRandomSize
-import sgtmelon.scriptum.infrastructure.provider.SummaryProvider
+import sgtmelon.scriptum.infrastructure.provider.SummaryProviderImpl
 import sgtmelon.scriptum.parent.ParentTest
 
 /**
@@ -21,7 +21,7 @@ import sgtmelon.scriptum.parent.ParentTest
 class GetSignalSummaryUseCaseImplTest : ParentTest(),
     GetSummaryUseCaseTest {
 
-    @MockK lateinit var summaryProvider: SummaryProvider
+    @MockK lateinit var summaryProvider: SummaryProviderImpl
     @MockK lateinit var preferencesRepo: PreferencesRepo
 
     private val getSummary by lazy {

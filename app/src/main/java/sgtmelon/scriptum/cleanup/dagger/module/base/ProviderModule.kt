@@ -6,7 +6,7 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
-import sgtmelon.scriptum.infrastructure.provider.SummaryProvider
+import sgtmelon.scriptum.infrastructure.provider.SummaryProviderImpl
 
 /**
  * Module for provide providers classes.
@@ -20,7 +20,7 @@ class ProviderModule {
 
     @Provides
     @Singleton
-    fun provideSummaryProvider(resources: Resources): SummaryProvider {
-        return SummaryProvider(resources)
+    fun provideSummaryProvider(resources: Resources): SummaryProviderImpl {
+        return SummaryProviderImpl(resources)
     }
 }

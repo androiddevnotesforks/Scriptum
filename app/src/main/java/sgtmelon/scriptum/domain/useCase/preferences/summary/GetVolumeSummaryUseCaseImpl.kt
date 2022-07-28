@@ -2,10 +2,10 @@ package sgtmelon.scriptum.domain.useCase.preferences.summary
 
 import androidx.annotation.IntRange
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
-import sgtmelon.scriptum.infrastructure.provider.SummaryProvider
+import sgtmelon.scriptum.infrastructure.provider.SummaryProviderImpl
 
 class GetVolumeSummaryUseCaseImpl(
-    private val summaryProvider: SummaryProvider,
+    private val summaryProvider: SummaryProviderImpl,
     private val preferencesRepo: PreferencesRepo
 ) : GetSummaryUseCase {
 

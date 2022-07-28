@@ -36,5 +36,4 @@ class RingtoneProviderImpl(private val context: Context) : RingtoneProvider {
 
         return list.distinctBy { it.title }.sortedBy { it.title }
     }
-
 }

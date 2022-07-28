@@ -3,7 +3,7 @@ package sgtmelon.scriptum.infrastructure.provider
 import org.junit.Test
 
 /**
- * Test for [SummaryProvider].
+ * Test for [SummaryProviderImpl].
  */
 class SummaryProviderTest {
 
