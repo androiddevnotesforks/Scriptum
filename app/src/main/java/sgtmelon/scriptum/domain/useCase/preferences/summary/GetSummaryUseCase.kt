@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.domain.useCase.preferences
+package sgtmelon.scriptum.domain.useCase.preferences.summary
 
 interface GetSummaryUseCase {
 

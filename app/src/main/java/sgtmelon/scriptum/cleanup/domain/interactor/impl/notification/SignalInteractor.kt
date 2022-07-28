@@ -10,11 +10,13 @@ import sgtmelon.scriptum.infrastructure.model.MelodyItem
 /**
  * Interactor for work with alarm signal.
  */
+// TODO rename it and use like useCase for providing singletone melodyList
 class SignalInteractor(
     private val ringtoneControl: IRingtoneControl
 ) : ParentInteractor(),
     ISignalInteractor {
 
+    // TODO move from here android. - package (move it inside ringtoneControl)
     @RunPrivate val typeList = listOf(RingtoneManager.TYPE_ALARM, RingtoneManager.TYPE_RINGTONE)
 
     // TODO move into useCase (getMelodyList)

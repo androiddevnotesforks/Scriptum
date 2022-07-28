@@ -8,6 +8,8 @@ import kotlin.random.Random
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.common.utils.nextString
+import sgtmelon.scriptum.domain.useCase.preferences.summary.GetRepeatSummaryUseCaseImpl
+import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.RepeatConverter
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
 

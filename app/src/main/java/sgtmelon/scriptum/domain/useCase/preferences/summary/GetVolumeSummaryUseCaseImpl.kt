@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.domain.useCase.preferences
+package sgtmelon.scriptum.domain.useCase.preferences.summary
 
 import androidx.annotation.IntRange
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo

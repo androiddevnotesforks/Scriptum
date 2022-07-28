@@ -6,7 +6,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IPre
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IPreferenceViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
-import sgtmelon.scriptum.domain.useCase.preferences.GetSummaryUseCase
+import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
 
 /**
  * ViewModel for [IPreferenceFragment].

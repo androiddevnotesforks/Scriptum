@@ -13,8 +13,8 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IAla
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IAlarmPreferenceViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
-import sgtmelon.scriptum.domain.useCase.preferences.GetSignalSummaryUseCase
-import sgtmelon.scriptum.domain.useCase.preferences.GetSummaryUseCase
+import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseCase
+import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
 
 /**
  * ViewModel for [IAlarmPreferenceFragment].

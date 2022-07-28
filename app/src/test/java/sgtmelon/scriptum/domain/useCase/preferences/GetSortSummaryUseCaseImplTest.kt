@@ -9,6 +9,8 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 
 import sgtmelon.common.utils.nextString
+import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSortSummaryUseCaseImpl
+import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
 import sgtmelon.scriptum.infrastructure.converter.key.SortConverter
 import sgtmelon.scriptum.infrastructure.model.key.Sort
 

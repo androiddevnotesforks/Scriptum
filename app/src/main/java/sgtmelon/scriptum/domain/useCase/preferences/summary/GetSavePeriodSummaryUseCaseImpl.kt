@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.domain.useCase.preferences
+package sgtmelon.scriptum.domain.useCase.preferences.summary
 
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.converter.key.SavePeriodConverter
