@@ -1,6 +1,5 @@
-package sgtmelon.scriptum.cleanup.presentation.control.system.callback
+package sgtmelon.scriptum.infrastructure.provider
 
-import sgtmelon.scriptum.cleanup.presentation.control.system.RingtoneControl
 import sgtmelon.scriptum.infrastructure.model.MelodyItem
 
 /**

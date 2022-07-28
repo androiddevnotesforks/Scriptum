@@ -1,8 +1,7 @@
-package sgtmelon.scriptum.cleanup.presentation.control.system
+package sgtmelon.scriptum.infrastructure.provider
 
 import android.content.Context
 import android.media.RingtoneManager
-import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IRingtoneControl
 import sgtmelon.scriptum.infrastructure.model.MelodyItem
 
 /**

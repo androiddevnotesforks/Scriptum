@@ -5,11 +5,11 @@ import kotlinx.coroutines.runBlocking
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.notification.SignalInteractor
-import sgtmelon.scriptum.cleanup.presentation.control.system.RingtoneControl
 import sgtmelon.scriptum.data.item.PreferenceItem
 import sgtmelon.scriptum.data.item.PreferenceItem.Header
 import sgtmelon.scriptum.data.item.PreferenceItem.Summary
 import sgtmelon.scriptum.data.item.PreferenceItem.Switch
+import sgtmelon.scriptum.infrastructure.provider.RingtoneControl
 import sgtmelon.scriptum.infrastructure.provider.SummaryProvider
 import sgtmelon.scriptum.ui.logic.parent.ParentPreferenceLogic
 import sgtmelon.scriptum.ui.screen.preference.AlarmPreferenceScreen

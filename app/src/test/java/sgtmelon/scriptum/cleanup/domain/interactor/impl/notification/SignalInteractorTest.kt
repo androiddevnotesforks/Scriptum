@@ -14,8 +14,8 @@ import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import sgtmelon.scriptum.TestData
-import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IRingtoneControl
 import sgtmelon.scriptum.infrastructure.model.MelodyItem
+import sgtmelon.scriptum.infrastructure.provider.IRingtoneControl
 import sgtmelon.scriptum.parent.ParentInteractorTest
 
 /**

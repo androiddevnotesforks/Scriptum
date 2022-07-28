@@ -8,8 +8,8 @@ import sgtmelon.scriptum.cleanup.presentation.control.cipher.CipherControl
 import sgtmelon.scriptum.cleanup.presentation.control.cipher.ICipherControl
 import sgtmelon.scriptum.cleanup.presentation.control.file.FileControl
 import sgtmelon.scriptum.cleanup.presentation.control.file.IFileControl
-import sgtmelon.scriptum.cleanup.presentation.control.system.RingtoneControl
-import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IRingtoneControl
+import sgtmelon.scriptum.infrastructure.provider.IRingtoneControl
+import sgtmelon.scriptum.infrastructure.provider.RingtoneControl
 
 /**
  * Module for provide control classes.
