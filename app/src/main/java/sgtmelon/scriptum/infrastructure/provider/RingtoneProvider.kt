@@ -3,8 +3,8 @@ package sgtmelon.scriptum.infrastructure.provider
 import sgtmelon.scriptum.infrastructure.model.MelodyItem
 
 /**
- * Interface for [RingtoneControl].
+ * Interface for [RingtoneProviderImpl].
  */
-interface IRingtoneControl {
+interface RingtoneProvider {
     suspend fun getByType(typeList: List<Int>): List<MelodyItem>
 }

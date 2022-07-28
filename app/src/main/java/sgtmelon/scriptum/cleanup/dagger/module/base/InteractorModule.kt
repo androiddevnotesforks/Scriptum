@@ -41,7 +41,7 @@ import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvider
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesKeyProvider
-import sgtmelon.scriptum.infrastructure.provider.IRingtoneControl
+import sgtmelon.scriptum.infrastructure.provider.RingtoneProvider
 
 /**
  * Module for provide interactor's
@@ -53,8 +53,8 @@ class InteractorModule {
 
     @Provides
     @ActivityScope
-    fun provideSignalInteractor(ringtoneControl: IRingtoneControl): ISignalInteractor {
-        return SignalInteractor(ringtoneControl)
+    fun provideSignalInteractor(ringtoneProvider: RingtoneProvider): ISignalInteractor {
+        return SignalInteractor(ringtoneProvider)
     }
 
     //endregion

@@ -15,7 +15,7 @@ import org.junit.Before
 import org.junit.Test
 import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.infrastructure.model.MelodyItem
-import sgtmelon.scriptum.infrastructure.provider.IRingtoneControl
+import sgtmelon.scriptum.infrastructure.provider.RingtoneProvider
 import sgtmelon.scriptum.parent.ParentInteractorTest
 
 /**
@@ -24,12 +24,12 @@ import sgtmelon.scriptum.parent.ParentInteractorTest
 @ExperimentalCoroutinesApi
 class SignalInteractorTest : ParentInteractorTest() {
 
-    @MockK lateinit var ringtoneControl: IRingtoneControl
+    @MockK lateinit var ringtoneProvider: RingtoneProvider
 
     private val melodyList = TestData.Melody.melodyList
 
     private val interactor by lazy {
-        SignalInteractor(ringtoneControl)
+        SignalInteractor(ringtoneProvider)
     }
     private val spyInteractor by lazy { spyk(interactor) }
 
@@ -40,24 +40,24 @@ class SignalInteractorTest : ParentInteractorTest() {
 
     @After override fun tearDown() {
         super.tearDown()
-        confirmVerified(ringtoneControl)
+        confirmVerified(ringtoneProvider)
     }
 
 
     @Test fun getMelodyList() = startCoTest {
         val list = mockk<List<MelodyItem>>()
 
-        coEvery { ringtoneControl.getByType(any()) } returns list
+        coEvery { ringtoneProvider.getByType(any()) } returns list
 
         assertEquals(list, interactor.getMelodyList())
         assertEquals(list, interactor.melodyList)
 
-        coEvery { ringtoneControl.getByType(any()) } returns emptyList()
+        coEvery { ringtoneProvider.getByType(any()) } returns emptyList()
 
         assertEquals(list, interactor.getMelodyList())
 
         coVerifySequence {
-            ringtoneControl.getByType(interactor.typeList)
+            ringtoneProvider.getByType(interactor.typeList)
         }
     }
 

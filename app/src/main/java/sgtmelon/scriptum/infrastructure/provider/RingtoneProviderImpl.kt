@@ -7,7 +7,7 @@ import sgtmelon.scriptum.infrastructure.model.MelodyItem
 /**
  * Class for help control [RingtoneManager].
  */
-class RingtoneControl(private val context: Context) : IRingtoneControl {
+class RingtoneProviderImpl(private val context: Context) : RingtoneProvider {
 
     private val ringtoneManager get() = RingtoneManager(context)
 
