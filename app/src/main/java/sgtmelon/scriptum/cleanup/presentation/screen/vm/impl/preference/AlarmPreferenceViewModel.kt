@@ -7,7 +7,7 @@ import kotlinx.coroutines.launch
 import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.common.utils.runBack
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.ISignalInteractor
+import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.GetMelodyListUseCase
 import sgtmelon.scriptum.cleanup.domain.model.key.PermissionResult
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IAlarmPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.IAlarmPreferenceViewModel
@@ -25,7 +25,7 @@ class AlarmPreferenceViewModel(
     private val getRepeatSummary: GetSummaryUseCase,
     private val getVolumeSummary: GetSummaryUseCase,
     private val getSignalSummary: GetSignalSummaryUseCase,
-    private val signalInteractor: ISignalInteractor
+    private val signalInteractor: GetMelodyListUseCase
 ) : ParentViewModel<IAlarmPreferenceFragment>(callback),
     IAlarmPreferenceViewModel {
 

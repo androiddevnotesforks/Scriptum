@@ -19,17 +19,17 @@ import sgtmelon.scriptum.infrastructure.provider.RingtoneProvider
 import sgtmelon.scriptum.parent.ParentInteractorTest
 
 /**
- * Test for [SignalInteractor].
+ * Test for [GetMelodyListUseCaseImpl].
  */
 @ExperimentalCoroutinesApi
-class SignalInteractorTest : ParentInteractorTest() {
+class GetMelodyListUseCaseImplTest : ParentInteractorTest() {
 
     @MockK lateinit var ringtoneProvider: RingtoneProvider
 
     private val melodyList = TestData.Melody.melodyList
 
     private val interactor by lazy {
-        SignalInteractor(ringtoneProvider)
+        GetMelodyListUseCaseImpl(ringtoneProvider)
     }
     private val spyInteractor by lazy { spyk(interactor) }
 

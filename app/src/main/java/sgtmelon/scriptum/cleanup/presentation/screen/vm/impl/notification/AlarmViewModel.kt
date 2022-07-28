@@ -8,8 +8,8 @@ import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.common.test.idling.impl.AppIdlingResource
 import sgtmelon.common.utils.runBack
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.GetMelodyListUseCase
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.IAlarmInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note.Default
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note.Intent
@@ -27,7 +27,7 @@ class AlarmViewModel(
     callback: IAlarmActivity,
     private val preferencesRepo: PreferencesRepo,
     private val interactor: IAlarmInteractor,
-    private val signalInteractor: ISignalInteractor
+    private val signalInteractor: GetMelodyListUseCase
 ) : ParentViewModel<IAlarmActivity>(callback),
         IAlarmViewModel {
 

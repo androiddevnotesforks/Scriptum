@@ -9,9 +9,9 @@ import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteracto
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteInteractor
+import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.GetMelodyListUseCase
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.INotificationInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IBackupPreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IDevelopInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IPrintDevelopInteractor
@@ -207,7 +207,7 @@ object ViewModelFactory {
         private val activity: AlarmActivity,
         private val preferencesRepo: PreferencesRepo,
         private val interactor: IAlarmInteractor,
-        private val signalInteractor: ISignalInteractor
+        private val signalInteractor: GetMelodyListUseCase
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return modelClass.create(AlarmViewModel::class) {
@@ -275,7 +275,7 @@ object ViewModelFactory {
             private val getRepeatSummary: GetSummaryUseCase,
             private val getVolumeSummary: GetSummaryUseCase,
             private val getSignalSummary: GetSignalSummaryUseCase,
-            private val signalInteractor: ISignalInteractor
+            private val signalInteractor: GetMelodyListUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(AlarmPreferenceViewModel::class) {

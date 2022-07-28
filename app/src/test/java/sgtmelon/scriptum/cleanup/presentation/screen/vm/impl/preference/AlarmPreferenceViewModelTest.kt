@@ -18,7 +18,7 @@ import org.junit.Test
 import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.TestData
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.ISignalInteractor
+import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.GetMelodyListUseCase
 import sgtmelon.scriptum.cleanup.domain.model.key.PermissionResult
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IAlarmPreferenceFragment
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
@@ -42,7 +42,7 @@ class AlarmPreferenceViewModelTest : ParentViewModelTest() {
     @MockK lateinit var getRepeatSummary: GetSummaryUseCase
     @MockK lateinit var getVolumeSummary: GetSummaryUseCase
     @MockK lateinit var getSignalSummary: GetSignalSummaryUseCase
-    @MockK lateinit var signalInteractor: ISignalInteractor
+    @MockK lateinit var signalInteractor: GetMelodyListUseCase
 
     private val melodyList = TestData.Melody.melodyList
 

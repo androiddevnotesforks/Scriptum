@@ -21,8 +21,8 @@ import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.TestData
+import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.GetMelodyListUseCase
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.IAlarmInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.notification.IAlarmActivity
@@ -54,7 +54,7 @@ class AlarmViewModelTest : ParentViewModelTest() {
     @MockK lateinit var callback: IAlarmActivity
     @MockK lateinit var preferencesRepo: PreferencesRepo
     @MockK lateinit var interactor: IAlarmInteractor
-    @MockK lateinit var signalInteractor: ISignalInteractor
+    @MockK lateinit var signalInteractor: GetMelodyListUseCase
 
     @MockK lateinit var bundle: Bundle
 

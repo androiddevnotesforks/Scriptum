@@ -3,8 +3,8 @@ package sgtmelon.scriptum.ui.logic.preference
 import kotlin.random.Random
 import kotlinx.coroutines.runBlocking
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.ISignalInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.impl.notification.SignalInteractor
+import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.GetMelodyListUseCase
+import sgtmelon.scriptum.cleanup.domain.interactor.impl.notification.GetMelodyListUseCaseImpl
 import sgtmelon.scriptum.data.item.PreferenceItem
 import sgtmelon.scriptum.data.item.PreferenceItem.Header
 import sgtmelon.scriptum.data.item.PreferenceItem.Summary
@@ -20,7 +20,7 @@ import sgtmelon.scriptum.ui.screen.preference.AlarmPreferenceScreen
 class AlarmPreferenceLogic : ParentPreferenceLogic() {
 
     private val summaryProvider = SummaryProviderImpl(context.resources)
-    val signalInteractor: ISignalInteractor = SignalInteractor(RingtoneProviderImpl(context))
+    val signalInteractor: GetMelodyListUseCase = GetMelodyListUseCaseImpl(RingtoneProviderImpl(context))
 
     override fun getScreenList(): List<PreferenceItem> {
         val list = mutableListOf(

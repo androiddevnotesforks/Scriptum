@@ -1,12 +1,12 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.callback.notification
 
-import sgtmelon.scriptum.cleanup.domain.interactor.impl.notification.SignalInteractor
+import sgtmelon.scriptum.cleanup.domain.interactor.impl.notification.GetMelodyListUseCaseImpl
 import sgtmelon.scriptum.infrastructure.model.MelodyItem
 
 /**
- * Interface for communicate with [SignalInteractor].
+ * Interface for communicate with [GetMelodyListUseCaseImpl].
  */
-interface ISignalInteractor {
+interface GetMelodyListUseCase {
 
     suspend fun getMelodyList(): List<MelodyItem>
 

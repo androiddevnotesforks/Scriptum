@@ -12,9 +12,9 @@ import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteracto
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteInteractor
+import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.GetMelodyListUseCase
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.INotificationInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IBackupPreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IDevelopInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IPrintDevelopInteractor
@@ -203,7 +203,7 @@ class ViewModelModule {
         activity: AlarmActivity,
         preferencesRepo: PreferencesRepo,
         interactor: IAlarmInteractor,
-        signalInteractor: ISignalInteractor
+        signalInteractor: GetMelodyListUseCase
     ): IAlarmViewModel {
         val factory = ViewModelFactory.Alarm(
             activity, preferencesRepo, interactor, signalInteractor
@@ -270,7 +270,7 @@ class ViewModelModule {
         @Named("Repeat") getRepeatSummary: GetSummaryUseCase,
         @Named("Volume") getVolumeSummary: GetSummaryUseCase,
         getSignalSummary: GetSignalSummaryUseCase,
-        signalInteractor: ISignalInteractor
+        signalInteractor: GetMelodyListUseCase
     ): IAlarmPreferenceViewModel {
         val factory = ViewModelFactory.Preference.Alarm(
             fragment,

@@ -15,9 +15,9 @@ import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteracto
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteInteractor
+import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.GetMelodyListUseCase
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.INotificationInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.IBackupPreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IDevelopInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IPrintDevelopInteractor
@@ -28,8 +28,8 @@ import sgtmelon.scriptum.cleanup.domain.interactor.impl.main.RankInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.note.RollNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.note.TextNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.notification.AlarmInteractor
+import sgtmelon.scriptum.cleanup.domain.interactor.impl.notification.GetMelodyListUseCaseImpl
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.notification.NotificationInteractor
-import sgtmelon.scriptum.cleanup.domain.interactor.impl.notification.SignalInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.preference.BackupPreferenceInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.preference.develop.DevelopInteractor
 import sgtmelon.scriptum.cleanup.domain.interactor.impl.preference.develop.PrintDevelopInteractor
@@ -53,8 +53,8 @@ class InteractorModule {
 
     @Provides
     @ActivityScope
-    fun provideSignalInteractor(ringtoneProvider: RingtoneProvider): ISignalInteractor {
-        return SignalInteractor(ringtoneProvider)
+    fun provideSignalInteractor(ringtoneProvider: RingtoneProvider): GetMelodyListUseCase {
+        return GetMelodyListUseCaseImpl(ringtoneProvider)
     }
 
     //endregion
