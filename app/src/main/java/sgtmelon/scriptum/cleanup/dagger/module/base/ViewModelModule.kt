@@ -203,10 +203,10 @@ class ViewModelModule {
         activity: AlarmActivity,
         preferencesRepo: PreferencesRepo,
         interactor: IAlarmInteractor,
-        signalInteractor: GetMelodyListUseCase
+        getMelodyList: GetMelodyListUseCase
     ): IAlarmViewModel {
         val factory = ViewModelFactory.Alarm(
-            activity, preferencesRepo, interactor, signalInteractor
+            activity, preferencesRepo, interactor, getMelodyList
         )
 
         return ViewModelProvider(activity, factory)[AlarmViewModel::class.java]
@@ -270,12 +270,12 @@ class ViewModelModule {
         @Named("Repeat") getRepeatSummary: GetSummaryUseCase,
         @Named("Volume") getVolumeSummary: GetSummaryUseCase,
         getSignalSummary: GetSignalSummaryUseCase,
-        signalInteractor: GetMelodyListUseCase
+        getMelodyList: GetMelodyListUseCase
     ): IAlarmPreferenceViewModel {
         val factory = ViewModelFactory.Preference.Alarm(
             fragment,
             preferencesRepo, getRepeatSummary, getVolumeSummary, getSignalSummary,
-            signalInteractor
+            getMelodyList
         )
         return ViewModelProvider(fragment, factory)[AlarmPreferenceViewModel::class.java]
     }

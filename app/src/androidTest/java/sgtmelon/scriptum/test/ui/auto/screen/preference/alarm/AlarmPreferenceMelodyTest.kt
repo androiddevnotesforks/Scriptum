@@ -21,7 +21,7 @@ class AlarmPreferenceMelodyTest : ParentUiTest(), IAlarmPreferenceTest {
 
     @Before override fun setUp() {
         super.setUp()
-        getLogic().alarmInteractor.updateSignal(booleanArrayOf(true, Random.nextBoolean()))
+        getLogic().preferencesRepo.signalTypeCheck = booleanArrayOf(true, Random.nextBoolean())
     }
 
     @Test fun dialogClose() = runTest {
@@ -32,7 +32,7 @@ class AlarmPreferenceMelodyTest : ParentUiTest(), IAlarmPreferenceTest {
     }
 
     @Test fun dialogWork() {
-        val list = runBlocking { getLogic().signalInteractor.getMelodyList() }
+        val list = runBlocking { getLogic().getMelodyList() }
 
         val pair = switchValue(list)
         val initIndex = list.indexOf(pair.first)

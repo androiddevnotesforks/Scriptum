@@ -5,7 +5,6 @@ import android.content.res.Resources
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
-import sgtmelon.scriptum.cleanup.dagger.other.ActivityScope
 import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
 import sgtmelon.scriptum.infrastructure.provider.RingtoneProvider
 import sgtmelon.scriptum.infrastructure.provider.RingtoneProviderImpl
@@ -23,13 +22,13 @@ class ProviderModule {
     fun provideRoomProvider(context: Context): RoomProvider = RoomProvider(context)
 
     @Provides
-    @ActivityScope
+    @Singleton
     fun provideSummaryProvider(resources: Resources): SummaryProvider {
         return SummaryProviderImpl(resources)
     }
 
     @Provides
-    @ActivityScope
+    @Singleton
     fun provideRingtoneProvider(context: Context): RingtoneProvider {
         return RingtoneProviderImpl(context)
     }

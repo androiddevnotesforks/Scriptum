@@ -20,7 +20,7 @@ class AlarmPreferenceVolumeTest : ParentUiTest(), IAlarmPreferenceTest {
 
     @Before override fun setUp() {
         super.setUp()
-        getLogic().alarmInteractor.updateSignal(booleanArrayOf(true, Random.nextBoolean()))
+        getLogic().preferencesRepo.signalTypeCheck = booleanArrayOf(true, Random.nextBoolean())
     }
 
     @Test fun dialogClose() = runTest {

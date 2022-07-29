@@ -49,8 +49,8 @@ class AlarmPreferenceSignalTest : ParentUiTest(), IAlarmPreferenceTest {
 
         do {
             initValue = getLogic().getRandomSignal()
-            getLogic().alarmInteractor.updateSignal(initValue)
-        } while (getLogic().preferencesRepo.signalTypeCheck.contentEquals(value))
+            getLogic().preferencesRepo.signalTypeCheck = initValue
+        } while (initValue.contentEquals(value))
 
         return initValue
     }

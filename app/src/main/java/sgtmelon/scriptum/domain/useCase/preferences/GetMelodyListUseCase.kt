@@ -7,7 +7,7 @@ import sgtmelon.scriptum.infrastructure.model.MelodyItem
  */
 interface GetMelodyListUseCase {
 
-    suspend fun getMelodyList(): List<MelodyItem>
+    suspend operator fun invoke(): List<MelodyItem>
 
-    fun resetMelodyList()
+    fun reset()
 }

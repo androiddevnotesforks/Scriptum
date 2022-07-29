@@ -27,9 +27,9 @@ class AlarmPreferenceRotationTest : ParentRotationTest(), IAlarmPreferenceTest {
         preferencesRepo.repeat = Repeat.values().random()
 
         val signalArray = getLogic().getRandomSignal()
-        getLogic().alarmInteractor.updateSignal(signalArray)
+        getLogic().preferencesRepo.signalTypeCheck = signalArray
 
-        val melodyList = runBlocking { getLogic().signalInteractor.getMelodyList() }
+        val melodyList = runBlocking { getLogic().getMelodyList() }
         preferences.melodyUri = melodyList.random().uri
 
         preferences.volume = VolumeDialogUi.list.random()
@@ -62,7 +62,7 @@ class AlarmPreferenceRotationTest : ParentRotationTest(), IAlarmPreferenceTest {
         assertFalse(initValue.contentEquals(value))
         assertEquals(initValue.size, value.size)
 
-        runTest({ getLogic().alarmInteractor.updateSignal(initValue) }) {
+        runTest({ getLogic().preferencesRepo.signalTypeCheck = initValue }) {
             openSignalDialog {
                 onClickItem(value)
                 automator.rotateSide()
@@ -81,14 +81,14 @@ class AlarmPreferenceRotationTest : ParentRotationTest(), IAlarmPreferenceTest {
     }
 
     @Test fun melodyDialog() {
-        val list = runBlocking { getLogic().signalInteractor.getMelodyList() }
+        val list = runBlocking { getLogic().getMelodyList() }
         val initValue = list.random()
         val value = getMelodyClick(list, initValue)
 
         assertNotEquals(initValue, value)
 
         runTest({
-            getLogic().alarmInteractor.updateSignal(booleanArrayOf(true, Random.nextBoolean()))
+            getLogic().preferencesRepo.signalTypeCheck = booleanArrayOf(true, Random.nextBoolean())
             preferences.melodyUri = initValue.uri
         }) {
             openMelodyDialog {
@@ -111,7 +111,7 @@ class AlarmPreferenceRotationTest : ParentRotationTest(), IAlarmPreferenceTest {
         val (initValue, value) = VolumeDialogUi.list.toList().getDifferentValues()
 
         runTest({
-            getLogic().alarmInteractor.updateSignal(booleanArrayOf(true, Random.nextBoolean()))
+            getLogic().preferencesRepo.signalTypeCheck = booleanArrayOf(true, Random.nextBoolean())
             preferences.volume = initValue
         }) {
             openVolumeDialog {

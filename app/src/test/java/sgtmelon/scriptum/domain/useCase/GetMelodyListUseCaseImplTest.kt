@@ -5,39 +5,25 @@ import io.mockk.coVerifySequence
 import io.mockk.confirmVerified
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import io.mockk.spyk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertNull
-import org.junit.Before
 import org.junit.Test
-import sgtmelon.scriptum.TestData
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCaseImpl
 import sgtmelon.scriptum.infrastructure.model.MelodyItem
 import sgtmelon.scriptum.infrastructure.provider.RingtoneProvider
-import sgtmelon.scriptum.parent.ParentInteractorTest
+import sgtmelon.scriptum.parent.ParentTest
 
 /**
  * Test for [GetMelodyListUseCaseImpl].
  */
 @ExperimentalCoroutinesApi
-class GetMelodyListUseCaseImplTest : ParentInteractorTest() {
+class GetMelodyListUseCaseImplTest : ParentTest() {
 
     @MockK lateinit var ringtoneProvider: RingtoneProvider
 
-    private val melodyList = TestData.Melody.melodyList
-
-    private val interactor by lazy {
-        GetMelodyListUseCaseImpl(ringtoneProvider)
-    }
-    private val spyInteractor by lazy { spyk(interactor) }
-
-    @Before override fun setUp() {
-        super.setUp()
-        assertNull(interactor.melodyList)
-    }
+    private val getMelodyList by lazy { GetMelodyListUseCaseImpl(ringtoneProvider) }
 
     @After override fun tearDown() {
         super.tearDown()
@@ -45,28 +31,36 @@ class GetMelodyListUseCaseImplTest : ParentInteractorTest() {
     }
 
 
-    @Test fun getMelodyList() = startCoTest {
+    @Test fun `get list`() {
         val list = mockk<List<MelodyItem>>()
 
         coEvery { ringtoneProvider.getAlarmList() } returns list
+        runBlocking { assertEquals(getMelodyList(), list) }
 
-        assertEquals(list, interactor.getMelodyList())
-        assertEquals(list, interactor.melodyList)
-
-        coEvery { ringtoneProvider.getAlarmList() } returns emptyList()
-
-        assertEquals(list, interactor.getMelodyList())
+        coEvery { ringtoneProvider.getAlarmList() } returns mockk()
+        runBlocking { assertEquals(getMelodyList(), list) }
 
         coVerifySequence {
             ringtoneProvider.getAlarmList()
         }
     }
 
-    @Test fun resetMelodyList() {
-        interactor.melodyList = mockk()
+    @Test fun reset() {
+        val firstList = mockk<List<MelodyItem>>()
+        val secondList = mockk<List<MelodyItem>>()
 
-        assertNotNull(interactor.melodyList)
-        interactor.resetMelodyList()
-        assertNull(interactor.melodyList)
+        coEvery { ringtoneProvider.getAlarmList() } returns firstList
+        runBlocking { assertEquals(getMelodyList(), firstList) }
+
+        coEvery { ringtoneProvider.getAlarmList() } returns secondList
+        runBlocking { assertEquals(getMelodyList(), firstList) }
+
+        getMelodyList.reset()
+        runBlocking { assertEquals(getMelodyList(), secondList) }
+
+        coVerifySequence {
+            ringtoneProvider.getAlarmList()
+            ringtoneProvider.getAlarmList()
+        }
     }
 }

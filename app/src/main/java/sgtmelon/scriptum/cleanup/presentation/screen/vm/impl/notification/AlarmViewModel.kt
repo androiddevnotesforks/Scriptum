@@ -27,7 +27,7 @@ class AlarmViewModel(
     callback: IAlarmActivity,
     private val preferencesRepo: PreferencesRepo,
     private val interactor: IAlarmInteractor,
-    private val signalInteractor: GetMelodyListUseCase
+    private val getMelodyList: GetMelodyListUseCase
 ) : ParentViewModel<IAlarmActivity>(callback),
         IAlarmViewModel {
 
@@ -53,10 +53,7 @@ class AlarmViewModel(
         }
 
         viewModelScope.launch {
-            val melodyUri = runBack {
-                val list = signalInteractor.getMelodyList()
-                return@runBack preferencesRepo.getMelodyUri(list)
-            }
+            val melodyUri = runBack { preferencesRepo.getMelodyUri(getMelodyList()) }
 
             if (melodyUri != null) {
                 val volume = preferencesRepo.volume

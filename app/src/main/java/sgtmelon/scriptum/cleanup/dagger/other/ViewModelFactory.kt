@@ -207,11 +207,11 @@ object ViewModelFactory {
         private val activity: AlarmActivity,
         private val preferencesRepo: PreferencesRepo,
         private val interactor: IAlarmInteractor,
-        private val signalInteractor: GetMelodyListUseCase
+        private val getMelodyList: GetMelodyListUseCase
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return modelClass.create(AlarmViewModel::class) {
-                AlarmViewModel(activity, preferencesRepo, interactor, signalInteractor)
+                AlarmViewModel(activity, preferencesRepo, interactor, getMelodyList)
             }
         }
     }
@@ -275,14 +275,14 @@ object ViewModelFactory {
             private val getRepeatSummary: GetSummaryUseCase,
             private val getVolumeSummary: GetSummaryUseCase,
             private val getSignalSummary: GetSignalSummaryUseCase,
-            private val signalInteractor: GetMelodyListUseCase
+            private val getMelodyList: GetMelodyListUseCase
         ) : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return modelClass.create(AlarmPreferenceViewModel::class) {
                     AlarmPreferenceViewModel(
                         fragment,
                         preferencesRepo, getRepeatSummary, getVolumeSummary, getSignalSummary,
-                        signalInteractor
+                        getMelodyList
                     )
                 }
             }

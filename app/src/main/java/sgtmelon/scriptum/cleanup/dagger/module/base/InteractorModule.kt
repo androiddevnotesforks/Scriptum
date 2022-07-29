@@ -36,28 +36,15 @@ import sgtmelon.scriptum.cleanup.presentation.control.cipher.ICipherControl
 import sgtmelon.scriptum.cleanup.presentation.control.file.IFileControl
 import sgtmelon.scriptum.cleanup.presentation.screen.system.SystemLogic
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
-import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
-import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCaseImpl
 import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvider
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesKeyProvider
-import sgtmelon.scriptum.infrastructure.provider.RingtoneProvider
 
 /**
  * Module for provide interactor's
  */
 @Module
 class InteractorModule {
-
-    //region Common
-
-    @Provides
-    @ActivityScope
-    fun provideSignalInteractor(ringtoneProvider: RingtoneProvider): GetMelodyListUseCase {
-        return GetMelodyListUseCaseImpl(ringtoneProvider)
-    }
-
-    //endregion
 
     //region Main
 

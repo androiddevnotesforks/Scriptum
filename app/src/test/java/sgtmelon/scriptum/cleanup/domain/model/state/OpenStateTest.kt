@@ -36,7 +36,7 @@ class OpenStateTest : ParentTest() {
     @Test fun tryInvoke() {
         val func = mockk<() -> Unit>(relaxUnitFun = true)
 
-        every { func.invoke() } returns Unit
+        every { func() } returns Unit
 
         openState.changeEnabled = false
         openState.tryInvoke(func)
@@ -67,7 +67,7 @@ class OpenStateTest : ParentTest() {
         val func = mockk<() -> Unit>(relaxUnitFun = true)
         val tag = nextString()
 
-        every { func.invoke() } returns Unit
+        every { func() } returns Unit
 
         openState.tag = tag
         openState.changeEnabled = false
@@ -106,7 +106,7 @@ class OpenStateTest : ParentTest() {
         val func = mockk<() -> Boolean>(relaxUnitFun = true)
         val value = Random.nextBoolean()
 
-        every { func.invoke() } returns value
+        every { func() } returns value
 
         openState.changeEnabled = false
         assertNull(openState.tryReturnInvoke(func))
@@ -136,7 +136,7 @@ class OpenStateTest : ParentTest() {
     @Test fun tryCall() {
         val func = mockk<() -> Unit>(relaxUnitFun = true)
 
-        every { func.invoke() } returns Unit
+        every { func() } returns Unit
 
         openState.changeEnabled = false
         openState.tryCall(func)

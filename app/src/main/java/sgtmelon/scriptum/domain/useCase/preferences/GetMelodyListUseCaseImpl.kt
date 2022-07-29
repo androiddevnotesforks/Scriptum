@@ -14,11 +14,11 @@ class GetMelodyListUseCaseImpl(
 
     private var list: List<MelodyItem>? = null
 
-    override suspend fun getMelodyList(): List<MelodyItem> {
+    override suspend fun invoke(): List<MelodyItem> {
         return list ?: ringtoneProvider.getAlarmList().also { list = it }
     }
 
-    override fun resetMelodyList() {
+    override fun reset() {
         list = null
     }
 }

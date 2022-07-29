@@ -1,12 +1,12 @@
 package sgtmelon.scriptum.test.ui.auto.screen.preference.alarm
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import kotlin.random.Random
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.AlarmPreferenceFragment
 import sgtmelon.scriptum.test.parent.ParentUiTest
-import kotlin.random.Random
 
 /**
  * Test for [AlarmPreferenceFragment].
@@ -23,14 +23,14 @@ class AlarmPreferenceTest : ParentUiTest(), IAlarmPreferenceTest {
     @Test fun assertBoth() = startAssertTest(isMelody = true, isVibration = true)
 
     private fun startAssertTest(isMelody: Boolean, isVibration: Boolean) = runTest({
-        getLogic().alarmInteractor.updateSignal(booleanArrayOf(isMelody, isVibration))
+        getLogic().preferencesRepo.signalTypeCheck = booleanArrayOf(isMelody, isVibration)
     }) { assert() }
 
     @Test fun volumeIncreaseWork() {
         val value = Random.nextBoolean()
 
         runTest({
-            getLogic().alarmInteractor.updateSignal(booleanArrayOf(true, Random.nextBoolean()))
+            getLogic().preferencesRepo.signalTypeCheck = booleanArrayOf(true, Random.nextBoolean())
             preferences.isVolumeIncrease = value
         }) { onVolumeIncreaseClick() }
 
