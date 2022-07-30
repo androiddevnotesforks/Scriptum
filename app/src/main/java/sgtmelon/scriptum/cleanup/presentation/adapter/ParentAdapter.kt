@@ -2,7 +2,6 @@ package sgtmelon.scriptum.cleanup.presentation.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.cleanup.extension.clearAdd
-import java.util.*
 
 /**
  * Parent abstract class for adapters with common functions

@@ -6,7 +6,11 @@ import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem
 import sgtmelon.scriptum.cleanup.extension.inflateView
-import sgtmelon.scriptum.cleanup.presentation.adapter.holder.print.entity.*
+import sgtmelon.scriptum.cleanup.presentation.adapter.holder.print.entity.PrintAlarmHolder
+import sgtmelon.scriptum.cleanup.presentation.adapter.holder.print.entity.PrintNoteHolder
+import sgtmelon.scriptum.cleanup.presentation.adapter.holder.print.entity.PrintRankHolder
+import sgtmelon.scriptum.cleanup.presentation.adapter.holder.print.entity.PrintRollHolder
+import sgtmelon.scriptum.cleanup.presentation.adapter.holder.print.entity.PrintVisibleHolder
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.print.preference.PrintPrefFileHolder
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.print.preference.PrintPrefKeyHolder
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.print.preference.PrintPrefPathHolder
@@ -31,7 +35,7 @@ class PrintAdapter : ParentAdapter<PrintItem, RecyclerView.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (val item = list.getOrNull(position)) {
+        when (val item = list.getOrNull(position) ?: return) {
             is PrintItem.Note -> (holder as? PrintNoteHolder)?.bind(item)
             is PrintItem.Roll -> (holder as? PrintRollHolder)?.bind(item)
             is PrintItem.Visible -> (holder as? PrintVisibleHolder)?.bind(item)

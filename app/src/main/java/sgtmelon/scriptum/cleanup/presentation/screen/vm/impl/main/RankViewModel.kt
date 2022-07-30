@@ -3,21 +3,24 @@ package sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.main
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.viewModelScope
+import kotlin.math.max
 import kotlinx.coroutines.launch
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IRankInteractor
 import sgtmelon.common.test.annotation.RunPrivate
-import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Snackbar
-import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
-import sgtmelon.scriptum.cleanup.extension.*
 import sgtmelon.common.test.idling.impl.AppIdlingResource
 import sgtmelon.common.utils.launchBack
 import sgtmelon.common.utils.runBack
+import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
+import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Snackbar
+import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
+import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
+import sgtmelon.scriptum.cleanup.extension.clearAdd
+import sgtmelon.scriptum.cleanup.extension.clearSpace
+import sgtmelon.scriptum.cleanup.extension.move
+import sgtmelon.scriptum.cleanup.extension.validRemoveAt
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IRankFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IRankViewModel
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.ParentViewModel
-import kotlin.math.max
 
 /**
  * ViewModel for [IRankFragment].

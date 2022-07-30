@@ -3,6 +3,7 @@ package sgtmelon.scriptum.cleanup.presentation.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import java.util.Calendar
 import sgtmelon.common.utils.getCalendarOrNull
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Eternal
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note
@@ -10,7 +11,6 @@ import sgtmelon.scriptum.cleanup.domain.model.data.ReceiverData.Command
 import sgtmelon.scriptum.cleanup.domain.model.data.ReceiverData.Values
 import sgtmelon.scriptum.cleanup.presentation.control.broadcast.BroadcastControl
 import sgtmelon.scriptum.cleanup.presentation.screen.system.SystemLogic
-import java.util.*
 
 /**
  * Receiver for [SystemLogic] commands.

@@ -2,6 +2,8 @@ package sgtmelon.scriptum.cleanup.presentation.screen.system
 
 import android.content.Context
 import android.content.IntentFilter
+import java.util.Calendar
+import javax.inject.Inject
 import sgtmelon.scriptum.cleanup.domain.model.data.ReceiverData
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.control.system.AlarmControl
@@ -12,8 +14,6 @@ import sgtmelon.scriptum.cleanup.presentation.control.toast.ToastControl
 import sgtmelon.scriptum.cleanup.presentation.receiver.SystemReceiver
 import sgtmelon.scriptum.cleanup.presentation.screen.presenter.system.ISystemPresenter
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
-import java.util.*
-import javax.inject.Inject
 
 /**
  * Class with logic for alarm/notification setup/cancel.

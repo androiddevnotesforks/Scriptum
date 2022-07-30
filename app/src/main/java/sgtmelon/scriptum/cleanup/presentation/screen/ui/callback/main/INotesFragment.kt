@@ -3,12 +3,12 @@ package sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main
 
 import androidx.annotation.ArrayRes
 import androidx.annotation.StringRes
+import java.util.Calendar
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.control.system.ClipboardControl
 import sgtmelon.scriptum.cleanup.presentation.receiver.SystemReceiver
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.NotesFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.INotesViewModel
-import java.util.*
 
 /**
  * Interface for communication [INotesViewModel] with [NotesFragment].

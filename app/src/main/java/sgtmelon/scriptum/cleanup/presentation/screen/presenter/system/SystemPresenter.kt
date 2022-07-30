@@ -1,10 +1,10 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.presenter.system
 
-import sgtmelon.scriptum.cleanup.domain.interactor.callback.system.ISystemInteractor
+import java.util.Calendar
 import sgtmelon.common.utils.launchBack
+import sgtmelon.scriptum.cleanup.domain.interactor.callback.system.ISystemInteractor
 import sgtmelon.scriptum.cleanup.presentation.screen.presenter.ParentPresenter
 import sgtmelon.scriptum.cleanup.presentation.screen.system.ISystemLogic
-import java.util.*
 
 /**
  * Presenter for [ISystemLogic].

@@ -4,7 +4,6 @@ import androidx.annotation.CallSuper
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.cleanup.presentation.adapter.diff.ParentDiff
-import java.util.*
 
 /**
  * Parent abstract class for adapters with common functions

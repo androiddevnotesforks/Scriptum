@@ -1,6 +1,10 @@
 package sgtmelon.scriptum.cleanup.data.room.dao
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.TypeConverters
 import sgtmelon.scriptum.cleanup.data.room.RoomDb
 import sgtmelon.scriptum.cleanup.data.room.annotation.DaoDeprecated
 import sgtmelon.scriptum.cleanup.data.room.converter.type.BoolConverter

@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.cleanup.presentation.control.system.callback
 
+import java.util.Calendar
 import sgtmelon.scriptum.cleanup.presentation.control.system.AlarmControl
-import java.util.*
 
 /**
  * Interface for communicate with [AlarmControl]

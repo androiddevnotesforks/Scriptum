@@ -1,9 +1,9 @@
 package sgtmelon.scriptum.cleanup.presentation.screen.system
 
 import androidx.annotation.MainThread
+import java.util.Calendar
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.system.ISystemInteractor
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import java.util.*
 
 /**
  * Interface for communication [ISystemInteractor] with [EternalService]
