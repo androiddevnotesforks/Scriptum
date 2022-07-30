@@ -13,7 +13,6 @@ import io.mockk.verifySequence
 import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
-import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
@@ -78,7 +77,7 @@ class TextNoteViewModelTest : ParentViewModelTest() {
     private fun mockkInit(): Color {
         val color = mockk<Color>()
         every { preferencesRepo.defaultColor } returns color
-        Assert.assertEquals(viewModel.color, color)
+        assertEquals(viewModel.color, color)
         return color
     }
 

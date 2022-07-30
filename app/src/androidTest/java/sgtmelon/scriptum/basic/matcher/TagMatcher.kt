@@ -6,7 +6,7 @@ import org.hamcrest.TypeSafeMatcher
 
 class TagMatcher(private val tag: Any) : TypeSafeMatcher<View>() {
 
-    var actualTag: Any? = null
+    private var actualTag: Any? = null
 
     override fun matchesSafely(item: View?) = tag == item?.tag?.also { actualTag = it }
 

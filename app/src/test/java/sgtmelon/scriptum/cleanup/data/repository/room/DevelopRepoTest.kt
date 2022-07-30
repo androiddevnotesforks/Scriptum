@@ -1,14 +1,21 @@
 package sgtmelon.scriptum.cleanup.data.repository.room
 
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.coVerifySequence
+import io.mockk.every
+import io.mockk.mockk
+import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.scriptum.cleanup.data.room.entity.*
+import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
+import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
+import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
+import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
+import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem
 import sgtmelon.scriptum.getRandomSize
 import sgtmelon.scriptum.parent.ParentRoomRepoTest
-import kotlin.random.Random
 
 /**
  * Test for [DevelopRepo].
@@ -17,7 +24,6 @@ import kotlin.random.Random
 class DevelopRepoTest : ParentRoomRepoTest() {
 
     private val developRepo by lazy { DevelopRepo(roomProvider) }
-    private val spyDevelopRepo by lazy { spyk(developRepo) }
 
     @Test fun getPrintNoteList() = startCoTest {
         val isBin = Random.nextBoolean()

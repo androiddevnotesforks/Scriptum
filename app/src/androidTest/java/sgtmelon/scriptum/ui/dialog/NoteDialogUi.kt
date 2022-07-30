@@ -21,9 +21,7 @@ class NoteDialogUi(private val item: NoteItem) : ParentUi(), IDialogUi, DateTime
 
     //region Views
 
-    private val titleText = getViewByText(if (item.name.isNotEmpty()) {
-        item.name
-    } else {
+    private val titleText = getViewByText(item.name.ifEmpty {
         context.getString(R.string.hint_text_name)
     })
 

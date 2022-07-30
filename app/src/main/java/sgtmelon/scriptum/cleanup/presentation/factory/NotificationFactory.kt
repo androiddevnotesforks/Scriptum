@@ -9,8 +9,8 @@ import android.os.Build.VERSION_CODES
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.TaskStackBuilder
-import sgtmelon.scriptum.R
 import sgtmelon.common.test.annotation.RunPrivate
+import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.domain.model.key.ColorShade
@@ -108,7 +108,7 @@ object NotificationFactory {
         @RunPrivate fun getStatusTitle(context: Context, item: NoteItem): String = with(item) {
             val titleStart = if (type == NoteType.ROLL) "$text | " else ""
 
-            return titleStart.plus(if (name.isEmpty()) context.getString(R.string.hint_text_name) else name)
+            return titleStart.plus(name.ifEmpty { context.getString(R.string.hint_text_name) })
         }
 
         @RunPrivate fun getStatusText(context: Context, item: NoteItem): String {

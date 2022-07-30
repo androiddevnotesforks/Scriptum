@@ -15,8 +15,8 @@ class MenuItemTitleMatcher(
         @StringRes private val stringId: Int
 ) : TypeSafeMatcher<View>() {
 
-    var title: String? = null
-    var actualTitle: String? = null
+    private var title: String? = null
+    private var actualTitle: String? = null
 
     override fun matchesSafely(item: View?): Boolean {
         if (item !is Toolbar) return false

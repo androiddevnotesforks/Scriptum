@@ -3,7 +3,6 @@ package sgtmelon.scriptum.infrastructure.preferences.provider
 import android.content.SharedPreferences
 import android.content.res.Resources
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.infrastructure.preferences.PreferencesImpl
 
 /**
  * Provide keys for getting data from [SharedPreferences].
