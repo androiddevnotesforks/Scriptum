@@ -22,9 +22,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.data.ReceiverData
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentActivity
-import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
+import sgtmelon.scriptum.cleanup.presentation.control.toast.ToastControl
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
+import sgtmelon.scriptum.infrastructure.utils.record
 
 fun Context.getCompatColor(@ColorRes id: Int) = let { ContextCompat.getColor(it, id) }
 
@@ -114,8 +114,8 @@ inline fun <reified F : Fragment> FragmentManager.getFragmentByTag(tag: String):
 
 //region Intent functions
 
-fun getUrlIntent(url: String): Intent? {
-    val uri = url.toUri() ?: return null
+fun getSiteIntent(url: String): Intent? {
+    val uri = url.toUriOrNull() ?: return null
 
     val intent = Intent(Intent.ACTION_VIEW)
     intent.data = uri
@@ -133,20 +133,22 @@ fun Context.getSettingsIntent(): Intent {
     return intent
 }
 
-fun ParentActivity.startActivitySafe(intent: Intent) {
-    try {
+internal fun Context.startActivitySafe(intent: Intent): Boolean {
+    return try {
         startActivity(intent)
+        true
     } catch (e: Throwable) {
-        // TODO send to firebase
-        toastControl.show(R.string.error_something_wrong)
+        e.record()
+        false
     }
 }
 
-fun ParentPreferenceFragment.startActivitySafe(intent: Intent) {
-    try {
-        startActivity(intent)
-    } catch (e: Throwable) {
-        // TODO send to firebase
+internal fun Context.startActivitySafe(intent: Intent?, toastControl: ToastControl) {
+    if (intent != null) {
+        if (!startActivitySafe(intent)) {
+            toastControl.show(R.string.error_start_activity)
+        }
+    } else {
         toastControl.show(R.string.error_something_wrong)
     }
 }

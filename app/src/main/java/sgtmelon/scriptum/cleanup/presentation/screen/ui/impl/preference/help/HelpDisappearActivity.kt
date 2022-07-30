@@ -7,7 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.extension.*
+import sgtmelon.scriptum.cleanup.extension.InsetsDir
+import sgtmelon.scriptum.cleanup.extension.doOnApplyWindowInsets
+import sgtmelon.scriptum.cleanup.extension.getSettingsIntent
+import sgtmelon.scriptum.cleanup.extension.getSiteIntent
+import sgtmelon.scriptum.cleanup.extension.getTintDrawable
+import sgtmelon.scriptum.cleanup.extension.startActivitySafe
+import sgtmelon.scriptum.cleanup.extension.tintIcon
+import sgtmelon.scriptum.cleanup.extension.updateMargin
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.AppActivity
 
@@ -39,19 +46,25 @@ class HelpDisappearActivity : AppActivity() {
 
             inflateMenu(R.menu.activity_help_disappear)
             setOnMenuItemClickListener {
-                val url = getString(R.string.help_notification_disappear_video_url)
-                val intent = getUrlIntent(url)
-                if (intent != null) {
-                    startActivitySafe(intent)
-                }
-
+                onVideoClick()
                 return@setOnMenuItemClickListener true
             }
 
             menu?.findItem(R.id.item_video_lesson)?.tintIcon(context = this@HelpDisappearActivity)
         }
 
-        settingsButton.setOnClickListener { startActivitySafe(getSettingsIntent()) }
+        settingsButton.setOnClickListener { onSettingsClick() }
+    }
+
+    private fun onVideoClick() {
+        val intent = getSiteIntent(getString(R.string.help_notification_disappear_video_url))
+        startActivitySafe(intent, toastControl)
+    }
+
+    private fun onSettingsClick() {
+        if (!startActivitySafe(getSettingsIntent())) {
+            toastControl.show(R.string.error_start_activity)
+        }
     }
 
     private fun setupInsets() {

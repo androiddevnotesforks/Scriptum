@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.preference.Preference
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.cleanup.extension.getUrlIntent
+import sgtmelon.scriptum.cleanup.extension.getSiteIntent
 import sgtmelon.scriptum.cleanup.extension.startActivitySafe
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
 
@@ -35,12 +35,15 @@ class HelpPreferenceFragment : ParentPreferenceFragment() {
             return@setOnPreferenceClickListener true
         }
         policyPreference?.setOnPreferenceClickListener {
-            val intent = getUrlIntent(BuildConfig.PRIVACY_POLICY_URL)
-            if (intent != null) {
-                startActivitySafe(intent)
-            }
-
+            onPolicyClick()
             return@setOnPreferenceClickListener true
         }
+    }
+
+    private fun onPolicyClick() {
+        val context = context ?: return
+
+        val intent = getSiteIntent(BuildConfig.PRIVACY_POLICY_URL)
+        context.startActivitySafe(intent, toastControl)
     }
 }

@@ -88,8 +88,10 @@
     <string name="snackbar_action_cancel">Отмена</string>
 
     <!--  Error text  -->
-    <string name="error_something_wrong">
-        Что-то пошло не так :( Пожалуйста, напишите об этом разработчику на email
+    <string name="error_something_wrong">Что-то пошло не так… Но мы обязательно это исправим!</string>
+
+    <string name="error_start_activity">
+        Извините, мы не смогли найти приложения для совершения данного действия :(
     </string>
 
 </resources>

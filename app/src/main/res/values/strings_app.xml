@@ -105,8 +105,10 @@
     <string name="snackbar_action_cancel">Cancel</string>
 
     <!--  Error text  -->
-    <string name="error_something_wrong">
-        Something went wrong :( Please, write about it to developer on email
+    <string name="error_something_wrong">Something went wrong… But we will fix it!</string>
+
+    <string name="error_start_activity">
+        Sorry, we didn\'t find any application to do this action :(
     </string>
 
 </resources>

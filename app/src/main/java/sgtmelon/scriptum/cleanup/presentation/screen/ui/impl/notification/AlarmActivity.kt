@@ -41,7 +41,7 @@ import sgtmelon.scriptum.cleanup.extension.getAlphaAnimator
 import sgtmelon.scriptum.cleanup.extension.getAlphaInterpolator
 import sgtmelon.scriptum.cleanup.extension.getColorAttr
 import sgtmelon.scriptum.cleanup.extension.initLazy
-import sgtmelon.scriptum.cleanup.extension.toUri
+import sgtmelon.scriptum.cleanup.extension.toUriOrNull
 import sgtmelon.scriptum.cleanup.extension.updateMargin
 import sgtmelon.scriptum.cleanup.presentation.adapter.NoteAdapter
 import sgtmelon.scriptum.cleanup.presentation.control.broadcast.BroadcastControl
@@ -234,7 +234,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     }
 
     override fun setupPlayer(stringUri: String, volume: Int, increase: Boolean){
-        val uri = stringUri.toUri() ?: return
+        val uri = stringUri.toUriOrNull() ?: return
 
         with(melodyControl) {
             setupVolume(volume, increase)

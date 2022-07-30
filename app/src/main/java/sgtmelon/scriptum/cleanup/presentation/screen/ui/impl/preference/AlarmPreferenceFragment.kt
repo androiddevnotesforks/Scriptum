@@ -16,7 +16,7 @@ import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
 import sgtmelon.scriptum.cleanup.domain.model.state.PermissionState
 import sgtmelon.scriptum.cleanup.extension.initLazy
 import sgtmelon.scriptum.cleanup.extension.isGranted
-import sgtmelon.scriptum.cleanup.extension.toUri
+import sgtmelon.scriptum.cleanup.extension.toUriOrNull
 import sgtmelon.scriptum.cleanup.presentation.control.system.MelodyControl
 import sgtmelon.scriptum.cleanup.presentation.control.system.callback.IMelodyControl
 import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
@@ -249,7 +249,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
     }
 
     override fun playMelody(stringUri: String) {
-        val uri = stringUri.toUri() ?: return
+        val uri = stringUri.toUriOrNull() ?: return
 
         with(melodyControl) {
             stop()

@@ -2,7 +2,6 @@ package sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference
 
 import android.content.ActivityNotFoundException
 import android.content.DialogInterface
-import android.content.Intent
 import android.os.Bundle
 import androidx.annotation.StringRes
 import androidx.preference.Preference
@@ -12,7 +11,8 @@ import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.key.PreferenceScreen
 import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
-import sgtmelon.scriptum.cleanup.extension.toUri
+import sgtmelon.scriptum.cleanup.extension.getSiteIntent
+import sgtmelon.scriptum.cleanup.extension.startActivitySafe
 import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
@@ -125,21 +125,7 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
 
     override fun setupOther() {
         findPreference<Preference>(getString(R.string.pref_key_other_rate))?.setOnPreferenceClickListener {
-            val intent = Intent(Intent.ACTION_VIEW)
-            val packageName = context?.packageName
-
-            if (packageName != null) {
-                try {
-                    startActivity(intent.apply {
-                        data = BuildConfig.MARKET_URL.plus(packageName).toUri()
-                    })
-                } catch (e: ActivityNotFoundException) {
-                    startActivity(intent.apply {
-                        data = BuildConfig.BROWSER_URL.plus(packageName).toUri()
-                    })
-                }
-            }
-
+            onRateClick()
             return@setOnPreferenceClickListener true
         }
 
@@ -167,6 +153,26 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
             }
 
             aboutDialog.clear()
+        }
+    }
+
+    private fun onRateClick() {
+        val context = context
+        val packageName = context?.packageName ?: return
+
+        /**
+         * If marketUrl is not available -> open it via browser -> if can't - show error to user.
+         */
+        try {
+            val intent = getSiteIntent(BuildConfig.MARKET_URL.plus(packageName))
+            if (intent != null) {
+                startActivity(intent)
+            } else {
+                toastControl.show(R.string.error_something_wrong)
+            }
+        } catch (e: ActivityNotFoundException) {
+            val intent = getSiteIntent(BuildConfig.BROWSER_URL.plus(packageName))
+            context.startActivitySafe(intent, toastControl)
         }
     }
 
