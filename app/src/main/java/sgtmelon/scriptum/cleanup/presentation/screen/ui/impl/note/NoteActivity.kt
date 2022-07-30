@@ -6,6 +6,7 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import javax.inject.Inject
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note
@@ -142,10 +143,12 @@ class NoteActivity : AppActivity(), INoteActivity, INoteConnector, NoteScreenRec
     private fun showFragment(@FragmentFactory.Note.Tag key: String, fragment: Fragment) {
         holderShowControl.show()
 
-        fm.beginTransaction()
-            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-            .replace(R.id.note_fragment_container, fragment, key)
-            .commit()
+        lifecycleScope.launchWhenResumed {
+            fm.beginTransaction()
+                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                .replace(R.id.note_fragment_container, fragment, key)
+                .commit()
+        }
     }
 
     companion object {

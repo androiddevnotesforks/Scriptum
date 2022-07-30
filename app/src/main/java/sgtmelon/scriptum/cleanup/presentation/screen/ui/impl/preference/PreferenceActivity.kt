@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.lifecycleScope
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Preference
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Preference.Default
@@ -102,9 +103,11 @@ class PreferenceActivity : AppActivity() {
         val tag = tag ?: return
         val fragment = fragment ?: return
 
-        fm.beginTransaction()
-            .replace(R.id.preference_fragment_container, fragment, tag)
-            .commit()
+        lifecycleScope.launchWhenResumed {
+            fm.beginTransaction()
+                .replace(R.id.preference_fragment_container, fragment, tag)
+                .commit()
+        }
     }
 
     /**
