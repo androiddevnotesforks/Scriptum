@@ -18,5 +18,4 @@ abstract class ParentTest {
     @After @CallSuper open fun tearDown() {
         unmockkAll()
     }
-
 }

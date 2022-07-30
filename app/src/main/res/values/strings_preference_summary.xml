@@ -29,12 +29,12 @@
     <string name="pref_note_color_purple">Purple</string>
     <string name="pref_note_color_indigo">Indigo</string>
     <string name="pref_note_color_blue">Blue</string>
-    <string name="pref_note_color_turquoise">Turquoise</string>
+    <string name="pref_note_color_teal">Turquoise</string>
     <string name="pref_note_color_green">Green</string>
     <string name="pref_note_color_yellow">Yellow</string>
     <string name="pref_note_color_orange">Orange</string>
     <string name="pref_note_color_brown">Brown</string>
-    <string name="pref_note_color_blue_gray">Blue</string>
+    <string name="pref_note_color_blue_gray">Blue gray</string>
     <string name="pref_note_color_white">White</string>
 
     <string-array name="pref_note_color">
@@ -42,7 +42,7 @@
         <item>@string/pref_note_color_purple</item>
         <item>@string/pref_note_color_indigo</item>
         <item>@string/pref_note_color_blue</item>
-        <item>@string/pref_note_color_turquoise</item>
+        <item>@string/pref_note_color_teal</item>
         <item>@string/pref_note_color_green</item>
         <item>@string/pref_note_color_yellow</item>
         <item>@string/pref_note_color_orange</item>

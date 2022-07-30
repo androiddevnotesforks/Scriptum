@@ -3,6 +3,7 @@ package sgtmelon.scriptum.infrastructure.provider
 
 import android.content.res.Resources
 import java.util.Locale
+import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.infrastructure.model.exception.DifferentSizeException
 import sgtmelon.scriptum.infrastructure.model.key.Color
@@ -44,7 +45,7 @@ class SummaryProviderImpl(private val resources: Resources): SummaryProvider {
             Color.PURPLE -> R.string.pref_note_color_purple
             Color.INDIGO -> R.string.pref_note_color_indigo
             Color.BLUE -> R.string.pref_note_color_blue
-            Color.TEAL -> R.string.pref_note_color_turquoise
+            Color.TEAL -> R.string.pref_note_color_teal
             Color.GREEN -> R.string.pref_note_color_green
             Color.YELLOW -> R.string.pref_note_color_yellow
             Color.ORANGE -> R.string.pref_note_color_orange
@@ -109,6 +110,6 @@ class SummaryProviderImpl(private val resources: Resources): SummaryProvider {
     }
 
     companion object {
-        private const val SIGNAL_DIVIDER = ", "
+        @RunPrivate const val SIGNAL_DIVIDER = ", "
     }
 }
