@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.ui.dialog.time
 
+import java.util.Calendar
 import sgtmelon.safedialog.dialog.time.TimeDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
@@ -8,7 +9,6 @@ import sgtmelon.scriptum.basic.extension.isEnabled
 import sgtmelon.scriptum.basic.extension.withTextColor
 import sgtmelon.scriptum.ui.IDialogUi
 import sgtmelon.scriptum.ui.ParentUi
-import java.util.*
 
 /**
  * Class for UI control [TimeDialog]
@@ -21,8 +21,8 @@ class TimeDialogUi(
 
     //region Views
 
-    private val cancelButton = getViewByText(R.string.dialog_button_cancel)
-    private val applyButton = getViewByText(R.string.dialog_button_apply)
+    private val cancelButton = getViewByText(sgtmelon.safedialog.R.string.dialog_button_cancel)
+    private val applyButton = getViewByText(sgtmelon.safedialog.R.string.dialog_button_apply)
 
     //endregion
 

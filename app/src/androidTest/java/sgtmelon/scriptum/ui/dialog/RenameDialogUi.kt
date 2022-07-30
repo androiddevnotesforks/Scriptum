@@ -2,7 +2,16 @@ package sgtmelon.scriptum.ui.dialog
 
 import android.view.inputmethod.EditorInfo
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.extension.*
+import sgtmelon.scriptum.basic.extension.click
+import sgtmelon.scriptum.basic.extension.imeOption
+import sgtmelon.scriptum.basic.extension.isDisplayed
+import sgtmelon.scriptum.basic.extension.isEnabled
+import sgtmelon.scriptum.basic.extension.typeText
+import sgtmelon.scriptum.basic.extension.withBackgroundColor
+import sgtmelon.scriptum.basic.extension.withHint
+import sgtmelon.scriptum.basic.extension.withImeAction
+import sgtmelon.scriptum.basic.extension.withText
+import sgtmelon.scriptum.basic.extension.withTextColor
 import sgtmelon.scriptum.cleanup.presentation.dialog.RenameDialog
 import sgtmelon.scriptum.ui.IDialogUi
 import sgtmelon.scriptum.ui.IKeyboardOption
@@ -22,8 +31,8 @@ class RenameDialogUi(title: String) : ParentUi(), IDialogUi, IKeyboardOption {
     private val titleText = getViewByText(title).excludeParent(parentContainer)
     private val renameEnter = getViewById(R.id.rename_enter)
 
-    private val cancelButton = getViewByText(R.string.dialog_button_cancel)
-    private val applyButton = getViewByText(R.string.dialog_button_apply)
+    private val cancelButton = getViewByText(sgtmelon.safedialog.R.string.dialog_button_cancel)
+    private val applyButton = getViewByText(sgtmelon.safedialog.R.string.dialog_button_apply)
 
     //endregion
 

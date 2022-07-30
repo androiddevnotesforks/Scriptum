@@ -2,7 +2,11 @@ package sgtmelon.scriptum.ui.dialog
 
 import sgtmelon.safedialog.dialog.SingleDialog
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.extension.*
+import sgtmelon.scriptum.basic.extension.click
+import sgtmelon.scriptum.basic.extension.isChecked
+import sgtmelon.scriptum.basic.extension.isDisplayed
+import sgtmelon.scriptum.basic.extension.isEnabled
+import sgtmelon.scriptum.basic.extension.withTextColor
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.ui.IDialogUi
@@ -28,8 +32,8 @@ class RankDialogUi(
 
     private val noCategoryButton = getViewByText(R.string.dialog_item_rank)
 
-    private val cancelButton = getViewByText(R.string.dialog_button_cancel)
-    private val applyButton = getViewByText(R.string.dialog_button_apply)
+    private val cancelButton = getViewByText(sgtmelon.safedialog.R.string.dialog_button_cancel)
+    private val applyButton = getViewByText(sgtmelon.safedialog.R.string.dialog_button_apply)
 
     fun getItem(name: String) = getViewByText(name)
 

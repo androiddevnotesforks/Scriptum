@@ -3,9 +3,13 @@ package sgtmelon.scriptum.ui.item
 import android.view.View
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.extension.*
-import sgtmelon.scriptum.data.item.PreferenceItem
+import sgtmelon.scriptum.basic.extension.click
+import sgtmelon.scriptum.basic.extension.isChecked
+import sgtmelon.scriptum.basic.extension.isDisplayed
+import sgtmelon.scriptum.basic.extension.isEnabled
+import sgtmelon.scriptum.basic.extension.withText
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.ParentPreferenceFragment
+import sgtmelon.scriptum.data.item.PreferenceItem
 import sgtmelon.scriptum.ui.ParentRecyclerItem
 
 /**

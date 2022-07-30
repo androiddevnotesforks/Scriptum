@@ -2,7 +2,11 @@ package sgtmelon.scriptum.ui.dialog.preference
 
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.extension.*
+import sgtmelon.scriptum.basic.extension.click
+import sgtmelon.scriptum.basic.extension.isDisplayed
+import sgtmelon.scriptum.basic.extension.withDrawable
+import sgtmelon.scriptum.basic.extension.withSize
+import sgtmelon.scriptum.basic.extension.withText
 import sgtmelon.scriptum.cleanup.presentation.dialog.AboutDialog
 import sgtmelon.scriptum.ui.IDialogUi
 import sgtmelon.scriptum.ui.ParentUi

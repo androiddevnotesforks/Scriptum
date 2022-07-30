@@ -1,7 +1,10 @@
 package sgtmelon.scriptum.test.integration.dao
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import org.junit.Assert.*
+import kotlin.random.Random
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.data.room.RoomDb
@@ -10,7 +13,6 @@ import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
 import sgtmelon.scriptum.cleanup.data.room.extension.inRoomTest
 import sgtmelon.scriptum.cleanup.data.room.extension.safeInsert
 import sgtmelon.scriptum.test.parent.ParentRoomTest
-import kotlin.random.Random
 
 /**
  * Integration test for [IRankDao]

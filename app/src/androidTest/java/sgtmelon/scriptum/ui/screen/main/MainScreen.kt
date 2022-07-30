@@ -1,7 +1,15 @@
 package sgtmelon.scriptum.ui.screen.main
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.extension.*
+import sgtmelon.scriptum.basic.extension.click
+import sgtmelon.scriptum.basic.extension.isDisplayed
+import sgtmelon.scriptum.basic.extension.isSelected
+import sgtmelon.scriptum.basic.extension.longClick
+import sgtmelon.scriptum.basic.extension.waitAfter
+import sgtmelon.scriptum.basic.extension.withBackgroundAttr
+import sgtmelon.scriptum.basic.extension.withContentDescription
+import sgtmelon.scriptum.basic.extension.withSize
+import sgtmelon.scriptum.basic.extension.withSizeAttr
 import sgtmelon.scriptum.cleanup.domain.model.key.MainPage
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.MainActivity
 import sgtmelon.scriptum.ui.ParentUi
@@ -98,7 +106,7 @@ class MainScreen : ParentUi() {
 
         menuNavigation.isDisplayed().withBackgroundAttr(R.attr.clPrimary)
 
-        when (page) {
+        if (page != null) when (page) {
             MainPage.RANK -> rankMenuItem.isSelected()
             MainPage.NOTES -> notesMenuItem.isSelected()
             MainPage.BIN -> binMenuItem.isSelected()

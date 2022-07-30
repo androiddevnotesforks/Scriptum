@@ -1,11 +1,16 @@
 package sgtmelon.scriptum.ui.screen
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.extension.*
-import sgtmelon.scriptum.data.Scroll
+import sgtmelon.scriptum.basic.extension.click
+import sgtmelon.scriptum.basic.extension.isDisplayed
+import sgtmelon.scriptum.basic.extension.isEnabled
+import sgtmelon.scriptum.basic.extension.swipeLeft
+import sgtmelon.scriptum.basic.extension.swipeRight
+import sgtmelon.scriptum.basic.extension.waitAfter
 import sgtmelon.scriptum.cleanup.domain.model.data.IntroData
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.intro.IntroActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.intro.IntroFragment
+import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.screen.main.MainScreen
 

@@ -2,10 +2,13 @@ package sgtmelon.scriptum.ui.screen.main
 
 import org.junit.Assert.assertTrue
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.extension.*
-import sgtmelon.scriptum.data.SimpleInfoPage
+import sgtmelon.scriptum.basic.extension.click
+import sgtmelon.scriptum.basic.extension.isDisplayed
+import sgtmelon.scriptum.basic.extension.longClick
+import sgtmelon.scriptum.basic.extension.waitAfter
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.RankFragment
+import sgtmelon.scriptum.data.SimpleInfoPage
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.dialog.RenameDialogUi
 import sgtmelon.scriptum.ui.item.RankItemUi

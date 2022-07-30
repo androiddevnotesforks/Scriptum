@@ -1,7 +1,9 @@
 package sgtmelon.scriptum.test.integration.dao
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.data.room.RoomDb
@@ -10,6 +12,7 @@ import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.cleanup.data.room.extension.inRoomTest
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
+import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.test.parent.ParentRoomTest
 
 /**
@@ -25,7 +28,7 @@ class RollVisibleDaoTest : ParentRoomTest() {
     private val firstModel = Model(
         NoteEntity(
             id = 1,
-            create = DATE_5, change = DATE_3, name = "NAME 1", text = "TEXT 1", color = 0,
+            create = DATE_5, change = DATE_3, name = "NAME 1", text = "TEXT 1", color = Color.RED,
             type = NoteType.TEXT, rankId = -1, rankPs = -1, isBin = false, isStatus = true
         ), RollVisibleEntity(id = 1, noteId = 1, value = false)
     )
@@ -33,7 +36,7 @@ class RollVisibleDaoTest : ParentRoomTest() {
     private val secondModel = Model(
         NoteEntity(
             id = 2,
-            create = DATE_1, change = DATE_2, name = "NAME 2", text = "3/5", color = 1,
+            create = DATE_1, change = DATE_2, name = "NAME 2", text = "3/5", color = Color.PURPLE,
             type = NoteType.ROLL, rankId = 10, rankPs = 1, isBin = true, isStatus = false
         ), RollVisibleEntity(id = 2, noteId = 2, value = false)
     )

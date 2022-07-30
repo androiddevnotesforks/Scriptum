@@ -4,7 +4,11 @@ import android.view.View
 import androidx.annotation.IdRes
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.extension.*
+import sgtmelon.scriptum.basic.extension.isDisplayed
+import sgtmelon.scriptum.basic.extension.withDrawableAttr
+import sgtmelon.scriptum.basic.extension.withSize
+import sgtmelon.scriptum.basic.extension.withTextColor
+import sgtmelon.scriptum.basic.extension.withTextSize
 import sgtmelon.scriptum.ui.ParentUi
 
 /**
@@ -30,8 +34,8 @@ abstract class ParentInfoContainer(@IdRes private val iconId: Int? = null) : Par
             .withTextSize(R.dimen.text_18sp)
 
         detailsText.isDisplayed(isVisible)
-                .withTextColor(R.attr.clContentSecond)
-                .withTextSize(R.dimen.text_14sp)
+            .withTextColor(R.attr.clContentSecond)
+            .withTextSize(R.dimen.text_14sp)
     }
 
 }

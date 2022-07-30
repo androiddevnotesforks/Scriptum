@@ -1,13 +1,25 @@
 package sgtmelon.scriptum.ui.screen.note
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.extension.*
-import sgtmelon.scriptum.data.State
+import sgtmelon.scriptum.basic.extension.imeOption
+import sgtmelon.scriptum.basic.extension.isDisplayed
+import sgtmelon.scriptum.basic.extension.isFocused
+import sgtmelon.scriptum.basic.extension.typeText
+import sgtmelon.scriptum.basic.extension.withBackgroundAppColor
+import sgtmelon.scriptum.basic.extension.withBackgroundAttr
+import sgtmelon.scriptum.basic.extension.withBackgroundColor
+import sgtmelon.scriptum.basic.extension.withCardBackground
+import sgtmelon.scriptum.basic.extension.withCursor
+import sgtmelon.scriptum.basic.extension.withHint
+import sgtmelon.scriptum.basic.extension.withSize
+import sgtmelon.scriptum.basic.extension.withSizeAttr
+import sgtmelon.scriptum.basic.extension.withText
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
+import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.ui.IKeyboardClose
 import sgtmelon.scriptum.ui.IPressBack
 import sgtmelon.scriptum.ui.ParentUi

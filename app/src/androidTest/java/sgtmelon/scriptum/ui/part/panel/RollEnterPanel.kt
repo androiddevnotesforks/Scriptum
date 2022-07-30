@@ -1,16 +1,31 @@
 package sgtmelon.scriptum.ui.part.panel
 
 import android.view.inputmethod.EditorInfo
+import kotlin.random.Random
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.extension.*
-import sgtmelon.scriptum.data.State
+import sgtmelon.scriptum.basic.extension.click
+import sgtmelon.scriptum.basic.extension.imeOption
+import sgtmelon.scriptum.basic.extension.isDisplayed
+import sgtmelon.scriptum.basic.extension.isEnabled
+import sgtmelon.scriptum.basic.extension.isFocused
+import sgtmelon.scriptum.basic.extension.longClick
+import sgtmelon.scriptum.basic.extension.typeText
+import sgtmelon.scriptum.basic.extension.withBackgroundAttr
+import sgtmelon.scriptum.basic.extension.withBackgroundColor
+import sgtmelon.scriptum.basic.extension.withContentDescription
+import sgtmelon.scriptum.basic.extension.withCursor
+import sgtmelon.scriptum.basic.extension.withDrawableAttr
+import sgtmelon.scriptum.basic.extension.withHint
+import sgtmelon.scriptum.basic.extension.withImeAction
+import sgtmelon.scriptum.basic.extension.withSize
+import sgtmelon.scriptum.basic.extension.withText
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.clearSpace
+import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
-import kotlin.random.Random
 
 /**
  * Part of UI abstraction for [RollNoteScreen]

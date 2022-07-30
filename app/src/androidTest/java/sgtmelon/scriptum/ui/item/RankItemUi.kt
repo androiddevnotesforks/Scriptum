@@ -1,14 +1,19 @@
 package sgtmelon.scriptum.ui.item
 
 import android.view.View
+import kotlin.math.min
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.extension.*
+import sgtmelon.scriptum.basic.extension.isDisplayed
+import sgtmelon.scriptum.basic.extension.withCardBackground
+import sgtmelon.scriptum.basic.extension.withContentDescription
+import sgtmelon.scriptum.basic.extension.withDrawableAttr
+import sgtmelon.scriptum.basic.extension.withSize
+import sgtmelon.scriptum.basic.extension.withText
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.presentation.adapter.RankAdapter
 import sgtmelon.scriptum.cleanup.presentation.adapter.holder.RankHolder
 import sgtmelon.scriptum.ui.ParentRecyclerItem
-import kotlin.math.min
 
 /**
  * Class for UI control of [RankAdapter].
@@ -39,10 +44,14 @@ class RankItemUi(
             R.dimen.item_card_elevation
         )
 
-        val visible = item.isVisible
-        val drawable = if (visible) R.drawable.ic_visible_enter else R.drawable.ic_visible_exit
-        val tint = if (visible) R.attr.clAccent else R.attr.clContent
-        val visibleDescription = if (visible) {
+        val isVisible = item.isVisible
+        val drawable = if (isVisible) {
+            sgtmelon.iconanim.R.drawable.ic_visible_enter
+        } else {
+            sgtmelon.iconanim.R.drawable.ic_visible_exit
+        }
+        val tint = if (isVisible) R.attr.clAccent else R.attr.clContent
+        val visibleDescription = if (isVisible) {
             context.getString(R.string.description_item_rank_hide, item.name)
         } else {
             context.getString(R.string.description_item_rank_show, item.name)
@@ -57,7 +66,7 @@ class RankItemUi(
 
         val cancelDescription = context.getString(R.string.description_item_rank_cancel, item.name)
         cancelButton.isDisplayed()
-            .withDrawableAttr(R.drawable.ic_cancel_enter, R.attr.clContent)
+            .withDrawableAttr(sgtmelon.iconanim.R.drawable.ic_cancel_enter, R.attr.clContent)
             .withContentDescription(cancelDescription)
     }
 

@@ -1,7 +1,12 @@
 package sgtmelon.scriptum.ui.screen.preference.help
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.extension.*
+import sgtmelon.scriptum.basic.extension.click
+import sgtmelon.scriptum.basic.extension.isDisplayed
+import sgtmelon.scriptum.basic.extension.withCardBackground
+import sgtmelon.scriptum.basic.extension.withMenuDrawable
+import sgtmelon.scriptum.basic.extension.withMenuTitle
+import sgtmelon.scriptum.basic.extension.withText
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.help.HelpDisappearActivity
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.part.toolbar.SimpleToolbar

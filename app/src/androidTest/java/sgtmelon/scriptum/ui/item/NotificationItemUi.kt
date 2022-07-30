@@ -5,7 +5,13 @@ import org.hamcrest.Matcher
 import sgtmelon.common.utils.formatFuture
 import sgtmelon.common.utils.getCalendar
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.extension.*
+import sgtmelon.scriptum.basic.extension.isDisplayed
+import sgtmelon.scriptum.basic.extension.withCardBackground
+import sgtmelon.scriptum.basic.extension.withColorIndicator
+import sgtmelon.scriptum.basic.extension.withContentDescription
+import sgtmelon.scriptum.basic.extension.withDrawableAttr
+import sgtmelon.scriptum.basic.extension.withSize
+import sgtmelon.scriptum.basic.extension.withText
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.adapter.NotificationAdapter
 import sgtmelon.scriptum.ui.ParentRecyclerItem
@@ -34,7 +40,7 @@ class NotificationItemUi(
             R.dimen.item_card_elevation
         )
 
-        val name = if (item.name.isEmpty()) context.getString(R.string.hint_text_name) else item.name
+        val name = item.name.ifEmpty { context.getString(R.string.hint_text_name) }
 
         nameText.isDisplayed().withText(name, R.attr.clContent, R.dimen.text_16sp)
 
@@ -53,7 +59,7 @@ class NotificationItemUi(
             .plus(item.alarmDate)
 
         cancelButton.isDisplayed()
-            .withDrawableAttr(R.drawable.ic_cancel_enter, R.attr.clContent)
+            .withDrawableAttr(sgtmelon.iconanim.R.drawable.ic_cancel_enter, R.attr.clContent)
             .withContentDescription(description)
     }
 

@@ -7,7 +7,9 @@ import androidx.appcompat.widget.Toolbar
 import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.espresso.matcher.ViewMatchers.withParent
 import org.hamcrest.Matcher
-import org.hamcrest.Matchers.*
+import org.hamcrest.Matchers.`is`
+import org.hamcrest.Matchers.allOf
+import org.hamcrest.Matchers.anyOf
 import sgtmelon.scriptum.ui.ParentUi
 
 /**
@@ -16,11 +18,13 @@ import sgtmelon.scriptum.ui.ParentUi
 abstract class ParentToolbar : ParentUi() {
 
     fun getToolbarButton(): Matcher<View> = allOf(
-            withParent(withClassName(`is`(Toolbar::class.java.name))),
-            withClassName(anyOf(
-                    `is`(ImageButton::class.java.name),
-                    `is`(AppCompatImageButton::class.java.name)
-            ))
+        withParent(withClassName(`is`(Toolbar::class.java.name))),
+        withClassName(
+            anyOf(
+                `is`(ImageButton::class.java.name),
+                `is`(AppCompatImageButton::class.java.name)
+            )
+        )
     )
 
 }

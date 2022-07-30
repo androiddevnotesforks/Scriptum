@@ -3,7 +3,11 @@ package sgtmelon.scriptum.ui.part.info
 import android.view.View
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.extension.*
+import sgtmelon.scriptum.basic.extension.isDisplayed
+import sgtmelon.scriptum.basic.extension.waitBefore
+import sgtmelon.scriptum.basic.extension.withDrawableAttr
+import sgtmelon.scriptum.basic.extension.withTextColor
+import sgtmelon.scriptum.basic.extension.withTextSize
 import sgtmelon.scriptum.ui.ParentUi
 
 /**
@@ -39,6 +43,6 @@ class RollNoteInfoContainer(isListEmpty: Boolean, isListHide: Boolean) : ParentU
 
         detailsText?.isDisplayed(isVisible)
             ?.withTextColor(R.attr.clContentSecond)
-                ?.withTextSize(R.dimen.text_14sp)
+            ?.withTextSize(R.dimen.text_14sp)
     }
 }

@@ -2,7 +2,11 @@ package sgtmelon.scriptum.ui
 
 import androidx.annotation.IdRes
 import androidx.recyclerview.widget.RecyclerView
-import sgtmelon.scriptum.basic.extension.*
+import sgtmelon.scriptum.basic.extension.getCount
+import sgtmelon.scriptum.basic.extension.getRandomPosition
+import sgtmelon.scriptum.basic.extension.swipeDown
+import sgtmelon.scriptum.basic.extension.swipeUp
+import sgtmelon.scriptum.basic.extension.waitAfter
 import sgtmelon.scriptum.data.Scroll
 
 /**

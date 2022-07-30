@@ -1,7 +1,10 @@
 package sgtmelon.scriptum.test.integration.dao
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import org.junit.Assert.*
+import kotlin.random.Random
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.data.room.RoomDb
@@ -9,8 +12,8 @@ import sgtmelon.scriptum.cleanup.data.room.dao.INoteDao
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.extension.inRoomTest
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
+import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.test.parent.ParentRoomTest
-import kotlin.random.Random
 
 /**
  * Integration test for [INoteDao]
@@ -22,25 +25,25 @@ class NoteDaoTest : ParentRoomTest() {
 
     private val firstNote = NoteEntity(
         id = 1, create = DATE_1, change = DATE_2, text = "123", name = "456",
-        color = 1, type = NoteType.TEXT, rankId = -1, rankPs = -1, isBin = false,
+        color = Color.PURPLE, type = NoteType.TEXT, rankId = -1, rankPs = -1, isBin = false,
         isStatus = Random.nextBoolean()
     )
 
     private val secondNote = NoteEntity(
         id = 2, create = DATE_2, change = DATE_3, text = "654", name = "321",
-        color = 1, type = NoteType.TEXT, rankId = 1, rankPs = 1, isBin = true,
+        color = Color.PURPLE, type = NoteType.TEXT, rankId = 1, rankPs = 1, isBin = true,
         isStatus = Random.nextBoolean()
     )
 
     private val thirdNote = NoteEntity(
         id = 3, create = DATE_3, change = DATE_4, text = "123", name = "",
-        color = 3, type = NoteType.TEXT, rankId = 2, rankPs = 2, isBin = false,
+        color = Color.BLUE, type = NoteType.TEXT, rankId = 2, rankPs = 2, isBin = false,
         isStatus = Random.nextBoolean()
     )
 
     private val fourthNote = NoteEntity(
         id = 4, create = DATE_4, change = DATE_5, text = "789", name = "",
-        color = 4, type = NoteType.TEXT, rankId = 2, rankPs = 2, isBin = false,
+        color = Color.BLUE, type = NoteType.TEXT, rankId = 2, rankPs = 2, isBin = false,
         isStatus = Random.nextBoolean()
     )
 
@@ -99,7 +102,7 @@ class NoteDaoTest : ParentRoomTest() {
         insert(firstNote)
         assertEquals(firstNote, get(firstNote.id))
 
-        firstNote.copy(color = 10, isBin = true).let {
+        firstNote.copy(color = Color.WHITE, isBin = true).let {
             update(it)
             assertEquals(it, get(firstNote.id))
         }
@@ -110,8 +113,8 @@ class NoteDaoTest : ParentRoomTest() {
         insert(thirdNote)
         assertEquals(arrayListOf(firstNote, thirdNote), getByColor(bin = false))
 
-        firstNote.copy(color = 3).let { first ->
-            thirdNote.copy(color = 2).let { third ->
+        firstNote.copy(color = Color.BLUE).let { first ->
+            thirdNote.copy(color = Color.INDIGO).let { third ->
                 update(arrayListOf(first, third))
                 assertEquals(arrayListOf(third, first), getByColor(bin = false))
             }

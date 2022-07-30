@@ -1,11 +1,15 @@
 package sgtmelon.scriptum.ui.screen.main
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.extension.*
-import sgtmelon.scriptum.data.SimpleInfoPage
-import sgtmelon.scriptum.data.State
+import sgtmelon.scriptum.basic.extension.click
+import sgtmelon.scriptum.basic.extension.isDisplayed
+import sgtmelon.scriptum.basic.extension.longClick
+import sgtmelon.scriptum.basic.extension.withMenuDrawable
+import sgtmelon.scriptum.basic.extension.withMenuTitle
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.BinFragment
+import sgtmelon.scriptum.data.SimpleInfoPage
+import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.dialog.ClearDialogUi
 import sgtmelon.scriptum.ui.dialog.NoteDialogUi

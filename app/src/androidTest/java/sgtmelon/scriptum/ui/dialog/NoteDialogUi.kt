@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.ui.dialog
 
+import java.util.Calendar
 import sgtmelon.common.utils.getText
 import sgtmelon.safedialog.dialog.MultipleDialog
 import sgtmelon.scriptum.R
@@ -12,7 +13,6 @@ import sgtmelon.scriptum.ui.IDialogUi
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.dialog.time.DateDialogUi
 import sgtmelon.scriptum.ui.dialog.time.DateTimeCallback
-import java.util.*
 
 /**
  * Class for UI control of [MultipleDialog] when cause long click on note.

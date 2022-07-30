@@ -3,7 +3,21 @@ package sgtmelon.scriptum.ui.part.toolbar
 import android.view.inputmethod.EditorInfo
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.extension.*
+import sgtmelon.scriptum.basic.extension.click
+import sgtmelon.scriptum.basic.extension.imeOption
+import sgtmelon.scriptum.basic.extension.isDisplayed
+import sgtmelon.scriptum.basic.extension.isEnabled
+import sgtmelon.scriptum.basic.extension.longClick
+import sgtmelon.scriptum.basic.extension.typeText
+import sgtmelon.scriptum.basic.extension.withBackgroundAttr
+import sgtmelon.scriptum.basic.extension.withBackgroundColor
+import sgtmelon.scriptum.basic.extension.withCardBackground
+import sgtmelon.scriptum.basic.extension.withContentDescription
+import sgtmelon.scriptum.basic.extension.withDrawableAttr
+import sgtmelon.scriptum.basic.extension.withHint
+import sgtmelon.scriptum.basic.extension.withImeAction
+import sgtmelon.scriptum.basic.extension.withNavigationDrawable
+import sgtmelon.scriptum.basic.extension.withText
 import sgtmelon.scriptum.ui.IKeyboardOption
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.screen.main.RankScreen
@@ -88,13 +102,13 @@ class RankToolbar : ParentUi(), IKeyboardOption {
                 if (!enterEmpty) {
                     withText(enter, R.attr.clContent, R.dimen.text_18sp)
                 } else {
-                        withHint(R.string.hint_enter_rank_new, R.attr.clDisable, R.dimen.text_18sp)
-                    }
+                    withHint(R.string.hint_enter_rank_new, R.attr.clDisable, R.dimen.text_18sp)
                 }
+            }
 
         val clearTint = if (!enterEmpty) R.attr.clContent else R.attr.clDisable
         clearButton.isDisplayed().isEnabled(!enterEmpty)
-                .withDrawableAttr(R.drawable.ic_cancel_enter, clearTint)
+            .withDrawableAttr(sgtmelon.iconanim.R.drawable.ic_cancel_enter, clearTint)
                 .withContentDescription(R.string.description_enter_rank_clear)
 
         val addTint = if (isAddEnabled) R.attr.clAccent else R.attr.clDisable

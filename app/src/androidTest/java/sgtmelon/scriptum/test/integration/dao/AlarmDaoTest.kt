@@ -1,7 +1,10 @@
 package sgtmelon.scriptum.test.integration.dao
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import org.junit.Assert.*
+import kotlin.random.Random
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.data.room.RoomDb
@@ -11,8 +14,8 @@ import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.extension.inRoomTest
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
+import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.test.parent.ParentRoomTest
-import kotlin.random.Random
 
 /**
  * Integration test for [IAlarmDao]
@@ -24,12 +27,12 @@ class AlarmDaoTest : ParentRoomTest() {
 
     private val firstNote = NoteEntity(
         id = 1, create = DATE_1, change = DATE_1, text = "123", name = "456",
-        color = 1, type = NoteType.TEXT
+        color = Color.PURPLE, type = NoteType.TEXT
     )
 
     private val secondNote = NoteEntity(
         id = 2, create = DATE_2, change = DATE_2, text = "654", name = "321",
-        color = 2, type = NoteType.TEXT
+        color = Color.INDIGO, type = NoteType.TEXT
     )
 
     private val firstAlarm = AlarmEntity(id = 1, noteId = 1, date = DATE_1)
