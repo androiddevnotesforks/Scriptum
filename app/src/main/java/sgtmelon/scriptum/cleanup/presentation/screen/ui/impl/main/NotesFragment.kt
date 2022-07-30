@@ -9,14 +9,20 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import java.util.Calendar
+import javax.inject.Inject
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.databinding.FragmentNotesBinding
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Options
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.key.PreferenceScreen
 import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
-import sgtmelon.scriptum.cleanup.extension.*
+import sgtmelon.scriptum.cleanup.extension.animateAlpha
+import sgtmelon.scriptum.cleanup.extension.hideKeyboard
+import sgtmelon.scriptum.cleanup.extension.inflateBinding
+import sgtmelon.scriptum.cleanup.extension.initLazy
+import sgtmelon.scriptum.cleanup.extension.setDefaultAnimator
+import sgtmelon.scriptum.cleanup.extension.tintIcon
 import sgtmelon.scriptum.cleanup.presentation.adapter.NoteAdapter
 import sgtmelon.scriptum.cleanup.presentation.control.broadcast.BroadcastControl
 import sgtmelon.scriptum.cleanup.presentation.control.system.ClipboardControl
@@ -31,8 +37,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.NotificationActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.INotesViewModel
-import java.util.*
-import javax.inject.Inject
+import sgtmelon.scriptum.databinding.FragmentNotesBinding
 
 /**
  * Fragment which displays list of notes - [NoteItem].
@@ -282,20 +287,23 @@ class NotesFragment : ParentFragment(),
             openState?.tag = OpenState.Tag.DIALOG
 
             optionsDialog.title = title
-            optionsDialog.setArguments(itemArray, p).safeShow(fm, DialogFactory.Main.OPTIONS)
+            optionsDialog.setArguments(itemArray, p)
+                .safeShow(fm, DialogFactory.Main.OPTIONS, owner = this)
         }
     }
 
     override fun showDateDialog(calendar: Calendar, resetVisible: Boolean, p: Int) {
         openState?.tryInvoke(OpenState.Tag.DIALOG) {
-            dateDialog.setArguments(calendar, resetVisible, p).safeShow(fm, DialogFactory.Main.DATE)
+            dateDialog.setArguments(calendar, resetVisible, p)
+                .safeShow(fm, DialogFactory.Main.DATE, owner = this)
         }
     }
 
     override fun showTimeDialog(calendar: Calendar, dateList: List<String>, p: Int) {
         openState?.tryInvoke(OpenState.Tag.DIALOG) {
             activity?.hideKeyboard()
-            timeDialog.setArguments(calendar, dateList, p).safeShow(fm, DialogFactory.Main.TIME)
+            timeDialog.setArguments(calendar, dateList, p)
+                .safeShow(fm, DialogFactory.Main.TIME, owner = this)
         }
     }
 

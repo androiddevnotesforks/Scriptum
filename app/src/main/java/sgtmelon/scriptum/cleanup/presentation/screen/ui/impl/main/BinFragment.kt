@@ -10,11 +10,15 @@ import androidx.annotation.ArrayRes
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import javax.inject.Inject
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.databinding.FragmentBinBinding
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.cleanup.extension.*
+import sgtmelon.scriptum.cleanup.extension.animateAlpha
+import sgtmelon.scriptum.cleanup.extension.inflateBinding
+import sgtmelon.scriptum.cleanup.extension.initLazy
+import sgtmelon.scriptum.cleanup.extension.setDefaultAnimator
+import sgtmelon.scriptum.cleanup.extension.tintIcon
 import sgtmelon.scriptum.cleanup.presentation.adapter.NoteAdapter
 import sgtmelon.scriptum.cleanup.presentation.control.system.ClipboardControl
 import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
@@ -25,7 +29,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IBinFragme
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IBinViewModel
-import javax.inject.Inject
+import sgtmelon.scriptum.databinding.FragmentBinBinding
 
 /**
  * Fragment which displays list of deleted notes - [NoteItem].
@@ -111,7 +115,9 @@ class BinFragment : ParentFragment(), IBinFragment {
             title = getString(R.string.title_bin)
             inflateMenu(R.menu.fragment_bin)
             setOnMenuItemClickListener {
-                openState?.tryInvoke { clearBinDialog.safeShow(fm, DialogFactory.Main.CLEAR_BIN) }
+                openState?.tryInvoke {
+                    clearBinDialog.safeShow(fm, DialogFactory.Main.CLEAR_BIN, owner = this@BinFragment)
+                }
                 return@setOnMenuItemClickListener true
             }
         }
@@ -208,7 +214,8 @@ class BinFragment : ParentFragment(), IBinFragment {
     override fun showOptionsDialog(title: String, itemArray: Array<String>, p: Int) {
         openState?.tryInvoke {
             optionsDialog.title = title
-            optionsDialog.setArguments(itemArray, p).safeShow(fm, DialogFactory.Main.OPTIONS)
+            optionsDialog.setArguments(itemArray, p)
+                .safeShow(fm, DialogFactory.Main.OPTIONS, owner = this)
         }
     }
 

@@ -11,15 +11,20 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import javax.inject.Inject
+import sgtmelon.common.test.idling.impl.AppIdlingResource
 import sgtmelon.iconanim.callback.IconBlockCallback
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.databinding.FragmentRankBinding
+import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
-import sgtmelon.scriptum.cleanup.extension.*
-import sgtmelon.common.test.idling.impl.AppIdlingResource
-import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
+import sgtmelon.scriptum.cleanup.extension.addTextChangedListener
+import sgtmelon.scriptum.cleanup.extension.animateAlpha
+import sgtmelon.scriptum.cleanup.extension.hideKeyboard
+import sgtmelon.scriptum.cleanup.extension.inflateBinding
+import sgtmelon.scriptum.cleanup.extension.initLazy
+import sgtmelon.scriptum.cleanup.extension.setDefaultAnimator
 import sgtmelon.scriptum.cleanup.presentation.adapter.RankAdapter
 import sgtmelon.scriptum.cleanup.presentation.control.broadcast.BroadcastControl
 import sgtmelon.scriptum.cleanup.presentation.control.snackbar.SnackbarCallback
@@ -33,7 +38,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.ScriptumApplication
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IRankFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IRankViewModel
-import javax.inject.Inject
+import sgtmelon.scriptum.databinding.FragmentRankBinding
 
 /**
  * Fragment which displays list of categories - [RankItem].
@@ -360,7 +365,8 @@ class RankFragment : ParentFragment(), IRankFragment, MainScreenReceiver.BindCal
     }
 
     override fun showRenameDialog(p: Int, name: String, nameList: List<String>) {
-        renameDialog.setArguments(p, name, nameList).safeShow(fm, DialogFactory.Main.RENAME)
+        renameDialog.setArguments(p, name, nameList)
+            .safeShow(fm, DialogFactory.Main.RENAME, owner = this)
     }
 
 

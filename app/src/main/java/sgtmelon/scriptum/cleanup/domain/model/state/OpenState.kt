@@ -10,6 +10,7 @@ import sgtmelon.common.test.annotation.RunPrivate
 /**
  * State for dialogs which give us know open them or not.
  */
+@Deprecated("Remove this, don't block user")
 class OpenState {
 
     /**

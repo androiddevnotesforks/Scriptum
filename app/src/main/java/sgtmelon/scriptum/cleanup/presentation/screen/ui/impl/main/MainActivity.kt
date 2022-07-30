@@ -14,15 +14,20 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
+import javax.inject.Inject
+import sgtmelon.common.test.idling.impl.AppIdlingResource
 import sgtmelon.safedialog.utils.safeShow
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
 import sgtmelon.scriptum.cleanup.domain.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.cleanup.domain.model.key.MainPage
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
-import sgtmelon.scriptum.cleanup.extension.*
-import sgtmelon.common.test.idling.impl.AppIdlingResource
-import sgtmelon.scriptum.cleanup.domain.model.annotation.test.IdlingTag
+import sgtmelon.scriptum.cleanup.extension.InsetsDir
+import sgtmelon.scriptum.cleanup.extension.addSystemInsetsMargin
+import sgtmelon.scriptum.cleanup.extension.doOnApplyWindowInsets
+import sgtmelon.scriptum.cleanup.extension.hideKeyboard
+import sgtmelon.scriptum.cleanup.extension.updateMargin
 import sgtmelon.scriptum.cleanup.presentation.control.toolbar.show.HolderShowControl
 import sgtmelon.scriptum.cleanup.presentation.factory.DialogFactory
 import sgtmelon.scriptum.cleanup.presentation.factory.FragmentFactory
@@ -32,7 +37,6 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IMainActiv
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.AppActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IMainViewModel
-import javax.inject.Inject
 
 /**
  * Screen which displays main menu and fragments: [RankFragment], [NotesFragment], [BinFragment].
@@ -121,7 +125,7 @@ class MainActivity : AppActivity(), IMainActivity {
 
     override fun setupNavigation(@IdRes itemId: Int) {
         fab?.setOnClickListener {
-            openState.tryInvoke { addDialog.safeShow(fm, DialogFactory.Main.ADD) }
+            openState.tryInvoke { addDialog.safeShow(fm, DialogFactory.Main.ADD, owner = this) }
         }
 
         val animTime = resources.getInteger(R.integer.fade_anim_time).toLong()

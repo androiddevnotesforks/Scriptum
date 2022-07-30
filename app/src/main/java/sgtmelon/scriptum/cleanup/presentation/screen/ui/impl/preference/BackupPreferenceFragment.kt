@@ -89,7 +89,7 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
         /**
          * After call [IBackupPreferenceViewModel.onPause] this dialog will not have any items.
          */
-        importDialog.safeDismiss()
+        importDialog.safeDismiss(owner = this)
     }
 
     override fun onDestroy() {
@@ -208,18 +208,18 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
     }
 
     override fun showExportPermissionDialog() {
-        exportPermissionDialog.safeShow(fm, DialogFactory.Preference.Backup.EXPORT_PERMISSION)
+        exportPermissionDialog.safeShow(fm, DialogFactory.Preference.Backup.EXPORT_PERMISSION, owner = this)
     }
 
     override fun showExportDenyDialog() {
-        exportDenyDialog.safeShow(fm, DialogFactory.Preference.Backup.EXPORT_DENY)
+        exportDenyDialog.safeShow(fm, DialogFactory.Preference.Backup.EXPORT_DENY, owner = this)
     }
 
     override fun showExportLoadingDialog() = openState.tryInvoke {
-        loadingDialog.safeShow(fm, DialogFactory.Preference.Backup.LOADING)
+        loadingDialog.safeShow(fm, DialogFactory.Preference.Backup.LOADING, owner = this)
     }
 
-    override fun hideExportLoadingDialog() = loadingDialog.safeDismiss()
+    override fun hideExportLoadingDialog() = loadingDialog.safeDismiss(owner = this)
 
     //endregion
 
@@ -250,25 +250,25 @@ class BackupPreferenceFragment : ParentPreferenceFragment(),
     }
 
     override fun showImportPermissionDialog() = openState.tryInvoke {
-        importPermissionDialog.safeShow(fm, DialogFactory.Preference.Backup.IMPORT_PERMISSION)
+        importPermissionDialog.safeShow(fm, DialogFactory.Preference.Backup.IMPORT_PERMISSION, owner = this)
     }
 
     override fun showImportDenyDialog() {
-        importDenyDialog.safeShow(fm, DialogFactory.Preference.Backup.IMPORT_DENY)
+        importDenyDialog.safeShow(fm, DialogFactory.Preference.Backup.IMPORT_DENY, owner = this)
     }
 
     override fun showImportDialog(titleArray: Array<String>) = openState.tryInvoke {
         openState.tag = OpenState.Tag.DIALOG
 
         importDialog.itemArray = titleArray
-        importDialog.safeShow(fm, DialogFactory.Preference.Backup.IMPORT)
+        importDialog.safeShow(fm, DialogFactory.Preference.Backup.IMPORT, owner = this)
     }
 
     override fun showImportLoadingDialog() = openState.tryInvoke(OpenState.Tag.DIALOG) {
-        loadingDialog.safeShow(fm, DialogFactory.Preference.Backup.LOADING)
+        loadingDialog.safeShow(fm, DialogFactory.Preference.Backup.LOADING, owner = this)
     }
 
-    override fun hideImportLoadingDialog() = loadingDialog.safeDismiss()
+    override fun hideImportLoadingDialog() = loadingDialog.safeDismiss(owner = this)
 
     //endregion
 

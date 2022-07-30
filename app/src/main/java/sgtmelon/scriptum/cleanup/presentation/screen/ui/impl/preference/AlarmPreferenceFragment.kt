@@ -97,7 +97,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
         /**
          * After call [IAlarmPreferenceViewModel.onPause] this dialog will not have any items.
          */
-        melodyDialog.safeDismiss()
+        melodyDialog.safeDismiss(owner = this)
     }
 
     override fun onDestroy() {
@@ -196,7 +196,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
 
     override fun showRepeatDialog(repeat: Repeat) = openState.tryInvoke {
         repeatDialog.setArguments(repeat.ordinal)
-            .safeShow(fm, DialogFactory.Preference.Alarm.REPEAT)
+            .safeShow(fm, DialogFactory.Preference.Alarm.REPEAT, owner = this)
     }
 
     override fun updateSignalSummary(summary: String) {
@@ -204,11 +204,12 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
     }
 
     override fun showSignalDialog(valueArray: BooleanArray) = openState.tryInvoke {
-        signalDialog.setArguments(valueArray).safeShow(fm, DialogFactory.Preference.Alarm.SIGNAL)
+        signalDialog.setArguments(valueArray)
+            .safeShow(fm, DialogFactory.Preference.Alarm.SIGNAL, owner = this)
     }
 
     override fun showMelodyPermissionDialog() = openState.tryInvoke {
-        melodyPermissionDialog.safeShow(fm, DialogFactory.Preference.Alarm.MELODY_PERMISSION)
+        melodyPermissionDialog.safeShow(fm, DialogFactory.Preference.Alarm.MELODY_PERMISSION, owner = this)
     }
 
     override fun updateMelodyEnabled(isEnabled: Boolean) {
@@ -243,7 +244,8 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
 
     override fun showMelodyDialog(titleArray: Array<String>, value: Int) = openState.tryInvoke {
         melodyDialog.itemArray = titleArray
-        melodyDialog.setArguments(value).safeShow(fm, DialogFactory.Preference.Alarm.MELODY)
+        melodyDialog.setArguments(value)
+            .safeShow(fm, DialogFactory.Preference.Alarm.MELODY, owner = this)
     }
 
     override fun playMelody(stringUri: String) {
@@ -261,6 +263,7 @@ class AlarmPreferenceFragment : ParentPreferenceFragment(),
     }
 
     override fun showVolumeDialog(value: Int) = openState.tryInvoke {
-        volumeDialog.setArguments(value).safeShow(fm, DialogFactory.Preference.Alarm.VOLUME)
+        volumeDialog.setArguments(value)
+            .safeShow(fm, DialogFactory.Preference.Alarm.VOLUME, owner = this)
     }
 }

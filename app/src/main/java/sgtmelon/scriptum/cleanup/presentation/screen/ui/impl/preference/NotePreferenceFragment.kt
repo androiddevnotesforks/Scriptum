@@ -118,7 +118,8 @@ class NotePreferenceFragment : ParentPreferenceFragment(), INotePreferenceFragme
     }
 
     override fun showSortDialog(sort: Sort) = openState.tryInvoke {
-        sortDialog.setArguments(sort.ordinal).safeShow(fm, DialogFactory.Preference.Notes.SORT)
+        sortDialog.setArguments(sort.ordinal)
+            .safeShow(fm, DialogFactory.Preference.Notes.SORT, owner = this)
     }
 
     override fun updateColorSummary(summary: String) {
@@ -126,7 +127,8 @@ class NotePreferenceFragment : ParentPreferenceFragment(), INotePreferenceFragme
     }
 
     override fun showColorDialog(color: Color) = openState.tryInvoke {
-        colorDialog.setArguments(color).safeShow(fm, DialogFactory.Preference.Notes.COLOR)
+        colorDialog.setArguments(color)
+            .safeShow(fm, DialogFactory.Preference.Notes.COLOR, owner = this)
     }
 
     override fun updateSavePeriodSummary(summary: String?) {
@@ -135,7 +137,7 @@ class NotePreferenceFragment : ParentPreferenceFragment(), INotePreferenceFragme
 
     override fun showSaveTimeDialog(savePeriod: SavePeriod) = openState.tryInvoke {
         savePeriodDialog.setArguments(savePeriod.ordinal)
-            .safeShow(fm, DialogFactory.Preference.Notes.SAVE_PERIOD)
+            .safeShow(fm, DialogFactory.Preference.Notes.SAVE_PERIOD, owner = this)
     }
 
     //region Broadcast functions

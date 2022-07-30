@@ -203,12 +203,14 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         disableButton?.setOnClickListener { openState.tryInvoke { viewModel.onClickDisable() } }
         repeatButton?.setOnClickListener { openState.tryInvoke { viewModel.onClickRepeat() } }
         moreButton?.setOnClickListener {
-            openState.tryInvoke { repeatDialog.safeShow(fm, DialogFactory.Alarm.REPEAT) }
+            openState.tryInvoke {
+                repeatDialog.safeShow(fm, DialogFactory.Alarm.REPEAT, owner = this)
+            }
         }
 
         repeatDialog.apply {
             itemSelectedListener = NavigationView.OnNavigationItemSelectedListener {
-                safeDismiss()
+                safeDismiss(owner = this@AlarmActivity)
                 viewModel.onResultRepeatDialog(it.itemId)
                 return@OnNavigationItemSelectedListener true
             }

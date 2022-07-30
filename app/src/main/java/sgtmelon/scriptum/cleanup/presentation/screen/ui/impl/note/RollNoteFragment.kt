@@ -542,33 +542,35 @@ class RollNoteFragment : ParentFragment(),
 
     override fun showRankDialog(check: Int) = openState.tryInvoke {
         hideKeyboard()
-        rankDialog.setArguments(check).safeShow(fm, DialogFactory.Note.RANK)
+        rankDialog.setArguments(check).safeShow(fm, DialogFactory.Note.RANK, owner = this)
     }
 
     override fun showColorDialog(color: Color) = openState.tryInvoke {
         toolbarTintControl?.setColorFrom(color)
 
         hideKeyboard()
-        colorDialog.setArguments(color).safeShow(fm, DialogFactory.Note.COLOR)
+        colorDialog.setArguments(color).safeShow(fm, DialogFactory.Note.COLOR, owner = this)
     }
 
     override fun showDateDialog(calendar: Calendar, resetVisible: Boolean) = openState.tryInvoke {
         openState.tag = OpenState.Tag.DIALOG
 
         hideKeyboard()
-        dateDialog.setArguments(calendar, resetVisible).safeShow(fm, DialogFactory.Note.DATE)
+        dateDialog.setArguments(calendar, resetVisible)
+            .safeShow(fm, DialogFactory.Note.DATE, owner = this)
     }
 
     override fun showTimeDialog(calendar: Calendar, dateList: List<String>) {
         openState.tryInvoke(OpenState.Tag.DIALOG) {
             hideKeyboard()
-            timeDialog.setArguments(calendar, dateList).safeShow(fm, DialogFactory.Note.TIME)
+            timeDialog.setArguments(calendar, dateList)
+                .safeShow(fm, DialogFactory.Note.TIME, owner = this)
         }
     }
 
     override fun showConvertDialog() = openState.tryInvoke {
         hideKeyboard()
-        convertDialog.safeShow(fm, DialogFactory.Note.CONVERT)
+        convertDialog.safeShow(fm, DialogFactory.Note.CONVERT, owner = this)
     }
 
 

@@ -153,7 +153,9 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
         }
 
         findPreference<Preference>(getString(R.string.pref_key_other_about))?.setOnPreferenceClickListener {
-            openState.tryInvoke { aboutDialog.safeShow(fm, DialogFactory.Preference.Main.ABOUT) }
+            openState.tryInvoke {
+                aboutDialog.safeShow(fm, DialogFactory.Preference.Main.ABOUT, owner = this)
+            }
             return@setOnPreferenceClickListener true
         }
 
@@ -185,6 +187,7 @@ class PreferenceFragment : ParentPreferenceFragment(), IPreferenceFragment {
     }
 
     override fun showThemeDialog(value: Theme) = openState.tryInvoke {
-        themeDialog.setArguments(value.ordinal).safeShow(fm, DialogFactory.Preference.Main.THEME)
+        themeDialog.setArguments(value.ordinal)
+            .safeShow(fm, DialogFactory.Preference.Main.THEME, owner = this)
     }
 }
