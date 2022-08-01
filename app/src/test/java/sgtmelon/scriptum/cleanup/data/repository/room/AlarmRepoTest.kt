@@ -1,7 +1,12 @@
 package sgtmelon.scriptum.cleanup.data.repository.room
 
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.coVerifySequence
+import io.mockk.confirmVerified
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
+import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -13,7 +18,6 @@ import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.parent.ParentRoomRepoTest
-import kotlin.random.Random
 
 /**
  * Test for [AlarmRepo].
@@ -97,10 +101,10 @@ class AlarmRepoTest : ParentRoomRepoTest() {
     }
 
     @Test fun getList() = startCoTest {
-        val itemList = mockk<MutableList<NotificationItem>>()
+        val itemList = mockk<List<NotificationItem>>()
 
         coEvery { alarmDao.getList() } returns itemList
-        assertEquals(itemList, alarmRepo.getList())
+        assertEquals(alarmRepo.getList(), itemList)
 
         coVerifySequence {
             roomProvider.openRoom()

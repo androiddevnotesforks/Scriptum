@@ -20,7 +20,7 @@ class NotificationInteractor(
 
     override suspend fun getCount(): Int = bindRepo.getNotificationCount()
 
-    override suspend fun getList(): MutableList<NotificationItem> = alarmRepo.getList()
+    override suspend fun getList(): List<NotificationItem> = alarmRepo.getList()
 
 
     override suspend fun setNotification(item: NotificationItem): NotificationItem? {

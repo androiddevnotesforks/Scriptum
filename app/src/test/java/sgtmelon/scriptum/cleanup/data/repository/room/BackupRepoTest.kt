@@ -237,7 +237,7 @@ class BackupRepoTest : ParentRoomRepoTest() {
     }
 
     @Test fun clearAlarmList() = startCoTest {
-        val existList = mockk<MutableList<NotificationItem>>()
+        val existList = mockk<List<NotificationItem>>()
 
         coEvery { alarmDao.getList() } returns existList
         every { spyBackupRepo.moveNotificationTime(any(), any(), existList) } returns Unit

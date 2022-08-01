@@ -7,10 +7,10 @@ import androidx.room.Query
 import androidx.room.TypeConverters
 import androidx.room.Update
 import sgtmelon.scriptum.cleanup.data.room.RoomDb
-import sgtmelon.scriptum.cleanup.data.room.annotation.DaoDeprecated
 import sgtmelon.scriptum.cleanup.data.room.converter.type.BoolConverter
 import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData
+import sgtmelon.scriptum.infrastructure.database.annotation.DaoDeprecated
 
 /**
  * Interface for communication [DbData.Rank.TABLE] with [RoomDb].

@@ -63,7 +63,7 @@ class SystemInteractorTest : ParentInteractorTest() {
 
     @Test fun tidyUpAlarm() = startCoTest {
         val size = getRandomSize()
-        val list = MutableList<NotificationItem>(size) { mockk() }
+        val list = List<NotificationItem>(size) { mockk() }
         val noteList = List<NotificationItem.Note>(size) { mockk() }
         val idList = List(size) { Random.nextLong() }
         val alarmList = List<NotificationItem.Alarm>(size) { mockk() }

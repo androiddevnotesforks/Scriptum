@@ -6,11 +6,11 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.TypeConverters
 import sgtmelon.scriptum.cleanup.data.room.RoomDb
-import sgtmelon.scriptum.cleanup.data.room.annotation.DaoDeprecated
 import sgtmelon.scriptum.cleanup.data.room.converter.type.BoolConverter
 import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem.Roll.Companion.PREVIEW_SIZE
+import sgtmelon.scriptum.infrastructure.database.annotation.DaoDeprecated
 
 /**
  * Interface for communication [DbData.Roll.TABLE] with [RoomDb].
@@ -35,14 +35,14 @@ interface IRollDao {
     /**
      * [saveList] - list of roll id's which don't need delete.
      */
-    @Deprecated(DaoDeprecated.LIST)
+    @Deprecated(DaoDeprecated.LIST_OVERFLOW)
     @Query(value = "DELETE FROM ROLL_TABLE WHERE RL_NOTE_ID = :noteId AND RL_ID NOT IN (:saveList)")
     suspend fun delete(noteId: Long, saveList: List<Long>)
 
     /**
      * [deleteList] - list of roll id's which need delete.
      */
-    @Deprecated(DaoDeprecated.LIST)
+    @Deprecated(DaoDeprecated.LIST_OVERFLOW)
     @Query(value = "DELETE FROM ROLL_TABLE WHERE RL_NOTE_ID = :noteId AND RL_ID IN (:deleteList)")
     suspend fun deleteByList(noteId: Long, deleteList: List<Long>)
 
@@ -59,7 +59,7 @@ interface IRollDao {
     @Query(value = "SELECT * FROM ROLL_TABLE WHERE RL_NOTE_ID = :noteId ORDER BY RL_POSITION")
     suspend fun get(noteId: Long): MutableList<RollEntity>
 
-    @Deprecated(DaoDeprecated.LIST)
+    @Deprecated(DaoDeprecated.LIST_OVERFLOW)
     @Query(value = "SELECT * FROM ROLL_TABLE WHERE RL_NOTE_ID IN (:noteIdList)")
     suspend fun get(noteIdList: List<Long>): List<RollEntity>
 

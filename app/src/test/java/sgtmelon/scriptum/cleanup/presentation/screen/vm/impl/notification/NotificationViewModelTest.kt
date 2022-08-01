@@ -367,7 +367,7 @@ class NotificationViewModelTest : ParentViewModelTest() {
     @Test fun snackbarActionBackground() = startCoTest {
         val item = mockk<NotificationItem>()
         val newItem = mockk<NotificationItem>()
-        val itemList = MutableList<NotificationItem>(getRandomSize()) { mockk() }
+        val itemList = List<NotificationItem>(getRandomSize()) { mockk() }
         val position = itemList.indices.random()
 
         val resultList = ArrayList(itemList).toMutableList()

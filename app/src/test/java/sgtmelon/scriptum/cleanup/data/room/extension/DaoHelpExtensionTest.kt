@@ -1,12 +1,12 @@
 package sgtmelon.scriptum.cleanup.data.room.extension
 
+import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
-import sgtmelon.scriptum.cleanup.data.room.RoomDb
+import sgtmelon.scriptum.infrastructure.database.annotation.DaoConst
 import sgtmelon.scriptum.parent.ParentRoomRepoTest
-import kotlin.random.Random
 
 /**
  * Tests for [DaoHelpExtension].
@@ -18,7 +18,7 @@ class DaoHelpExtensionTest : ParentRoomRepoTest() {
         val long = Random.nextLong()
 
         assertEquals(long, long.checkSafe())
-        assertNull(RoomDb.UNIQUE_ERROR_ID.checkSafe())
+        assertNull(DaoConst.UNIQUE_ERROR_ID.checkSafe())
     }
 
     @Test fun safeOverflow() {

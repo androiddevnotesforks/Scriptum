@@ -7,11 +7,11 @@ import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.data.room.RoomDb
 import sgtmelon.scriptum.cleanup.data.room.dao.IRankDao
 import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
 import sgtmelon.scriptum.cleanup.data.room.extension.inRoomTest
 import sgtmelon.scriptum.cleanup.data.room.extension.safeInsert
+import sgtmelon.scriptum.infrastructure.database.annotation.DaoConst
 import sgtmelon.scriptum.test.parent.ParentRoomTest
 
 /**
@@ -49,12 +49,12 @@ class RankDaoTest : ParentRoomTest() {
 
         val sameId = secondRank.copy(id = firstRank.id)
 
-        assertEquals(RoomDb.UNIQUE_ERROR_ID, insert(sameId))
+        assertEquals(DaoConst.UNIQUE_ERROR_ID, insert(sameId))
         assertNull(safeInsert(sameId))
 
         val sameName = secondRank.copy(name = firstRank.name)
 
-        assertEquals(RoomDb.UNIQUE_ERROR_ID, insert(sameName))
+        assertEquals(DaoConst.UNIQUE_ERROR_ID, insert(sameName))
     }
 
     @Test fun delete() = inRankDao {

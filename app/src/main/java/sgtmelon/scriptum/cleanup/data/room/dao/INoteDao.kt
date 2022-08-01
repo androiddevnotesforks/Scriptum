@@ -8,11 +8,11 @@ import androidx.room.Query
 import androidx.room.TypeConverters
 import androidx.room.Update
 import sgtmelon.scriptum.cleanup.data.room.RoomDb
-import sgtmelon.scriptum.cleanup.data.room.annotation.DaoDeprecated
 import sgtmelon.scriptum.cleanup.data.room.converter.type.BoolConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.type.NoteTypeConverter
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData
+import sgtmelon.scriptum.infrastructure.database.annotation.DaoDeprecated
 
 /**
  * Interface for communication [DbData.Note.TABLE] with [RoomDb].
@@ -37,7 +37,7 @@ interface INoteDao {
     @Update
     suspend fun update(list: List<NoteEntity>)
 
-    @Deprecated(DaoDeprecated.LIST)
+    @Deprecated(DaoDeprecated.LIST_OVERFLOW)
     @Query(
         value = """
             SELECT COUNT(NT_ID) FROM NOTE_TABLE
@@ -46,7 +46,7 @@ interface INoteDao {
     )
     suspend fun getCount(isBin: Boolean, rankIdList: List<Long>): Int
 
-    @Deprecated(DaoDeprecated.LIST)
+    @Deprecated(DaoDeprecated.LIST_OVERFLOW)
     @Query(
         value = """
             SELECT COUNT(NT_ID) FROM NOTE_TABLE
@@ -58,7 +58,7 @@ interface INoteDao {
     @Query(value = "SELECT * FROM NOTE_TABLE WHERE NT_ID = :id")
     suspend fun get(id: Long): NoteEntity?
 
-    @Deprecated(DaoDeprecated.LIST)
+    @Deprecated(DaoDeprecated.LIST_OVERFLOW)
     @Query(value = "SELECT * FROM NOTE_TABLE WHERE NT_ID IN (:idList)")
     suspend fun get(idList: List<Long>): List<NoteEntity>
 

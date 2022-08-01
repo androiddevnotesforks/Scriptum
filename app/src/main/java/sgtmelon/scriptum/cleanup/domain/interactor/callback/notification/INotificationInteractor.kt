@@ -12,7 +12,7 @@ interface INotificationInteractor : IParentInteractor {
 
     suspend fun getCount(): Int
 
-    suspend fun getList(): MutableList<NotificationItem>
+    suspend fun getList(): List<NotificationItem>
 
 
     suspend fun setNotification(item: NotificationItem): NotificationItem?

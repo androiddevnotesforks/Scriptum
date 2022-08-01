@@ -6,12 +6,12 @@ import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.data.room.RoomDb
 import sgtmelon.scriptum.cleanup.data.room.dao.IRollVisibleDao
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.cleanup.data.room.extension.inRoomTest
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
+import sgtmelon.scriptum.infrastructure.database.annotation.DaoConst
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.test.parent.ParentRoomTest
 
@@ -50,7 +50,7 @@ class RollVisibleDaoTest : ParentRoomTest() {
             noteDao.insert(it.noteEntity)
 
             assertEquals(1, rollVisibleDao.insert(it.entity))
-            assertEquals(RoomDb.UNIQUE_ERROR_ID, rollVisibleDao.insert(it.entity))
+            assertEquals(DaoConst.UNIQUE_ERROR_ID, rollVisibleDao.insert(it.entity))
         }
     }
 

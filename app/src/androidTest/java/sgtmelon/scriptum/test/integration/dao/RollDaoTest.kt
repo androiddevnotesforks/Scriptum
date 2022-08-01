@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.test.integration.dao
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import kotlin.random.Random
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -15,8 +16,8 @@ import sgtmelon.scriptum.cleanup.data.room.extension.safeDelete
 import sgtmelon.scriptum.cleanup.data.room.extension.safeDeleteByList
 import sgtmelon.scriptum.cleanup.data.room.extension.safeGet
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
+import sgtmelon.scriptum.infrastructure.database.annotation.DaoConst
 import sgtmelon.scriptum.test.parent.ParentRoomTest
-import kotlin.random.Random
 
 /**
  * Integration test for [IRollDao]
@@ -58,7 +59,7 @@ class RollDaoTest : ParentRoomTest() {
 
         with(firstModel) {
             for (it in rollList) {
-                assertEquals(RoomDb.UNIQUE_ERROR_ID, rollDao.insert(it))
+                assertEquals(DaoConst.UNIQUE_ERROR_ID, rollDao.insert(it))
             }
 
             assertEquals(rollList, rollDao.get(entity.id))

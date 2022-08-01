@@ -2,11 +2,11 @@
 
 package sgtmelon.scriptum.cleanup.data.room.extension
 
-import sgtmelon.scriptum.cleanup.data.room.RoomDb
 import sgtmelon.scriptum.cleanup.data.room.dao.IRankDao
 import sgtmelon.scriptum.cleanup.data.room.dao.IRollDao
 import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
+import sgtmelon.scriptum.infrastructure.database.annotation.DaoConst
 
 //region Insert
 
@@ -20,7 +20,7 @@ suspend fun IRankDao.safeInsert(entity: RankEntity): Long? = insert(entity).chec
  * [saveList] - list of roll id's which need save in db when delete others.
  */
 suspend fun IRollDao.safeDelete(noteId: Long, saveList: List<Long>) {
-    if (saveList.size <= RoomDb.OVERFLOW_COUNT) {
+    if (saveList.size <= DaoConst.OVERFLOW_COUNT) {
         delete(noteId, saveList)
     } else {
         /**
@@ -38,7 +38,7 @@ suspend fun IRollDao.safeDelete(noteId: Long, saveList: List<Long>) {
  * [deleteList] - list of roll id's which need delete from db.
  */
 suspend fun IRollDao.safeDeleteByList(noteId: Long, deleteList: List<Long>) {
-    if (deleteList.size <= RoomDb.OVERFLOW_COUNT) {
+    if (deleteList.size <= DaoConst.OVERFLOW_COUNT) {
         deleteByList(noteId, deleteList)
     } else {
         safeOverflow(deleteList) { deleteByList(noteId, it) }
@@ -46,7 +46,7 @@ suspend fun IRollDao.safeDeleteByList(noteId: Long, deleteList: List<Long>) {
 }
 
 suspend fun IRollDao.safeGet(noteIdList: List<Long>): List<RollEntity> {
-    return if (noteIdList.size <= RoomDb.OVERFLOW_COUNT) {
+    return if (noteIdList.size <= DaoConst.OVERFLOW_COUNT) {
         get(noteIdList)
     } else {
         val resultList = mutableListOf<RollEntity>()

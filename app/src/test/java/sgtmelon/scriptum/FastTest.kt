@@ -1311,7 +1311,7 @@ object FastTest {
             callFunc: () -> List<String>
         ) {
             val size = getRandomSize()
-            val itemList = MutableList<NotificationItem>(size) { mockk() }
+            val itemList = List<NotificationItem>(size) { mockk() }
             val alarmList = List<NotificationItem.Alarm>(size) { mockk() }
             val dateList = List(size) { nextString() }
 

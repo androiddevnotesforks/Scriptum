@@ -1,7 +1,12 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.impl.notification
 
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.coVerifySequence
+import io.mockk.confirmVerified
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
+import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -14,7 +19,6 @@ import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.parent.ParentInteractorTest
-import kotlin.random.Random
 
 /**
  * Test for [NotificationInteractor].
@@ -48,10 +52,10 @@ class NotificationInteractorTest : ParentInteractorTest() {
     }
 
     @Test fun getList() = startCoTest {
-        val list = mockk<MutableList<NotificationItem>>()
+        val list = mockk<List<NotificationItem>>()
 
         coEvery { alarmRepo.getList() } returns list
-        assertEquals(list, interactor.getList())
+        assertEquals(interactor.getList(), list)
 
         coVerifySequence {
             alarmRepo.getList()

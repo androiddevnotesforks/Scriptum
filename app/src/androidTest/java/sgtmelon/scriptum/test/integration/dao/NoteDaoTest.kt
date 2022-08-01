@@ -7,11 +7,11 @@ import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.data.room.RoomDb
 import sgtmelon.scriptum.cleanup.data.room.dao.INoteDao
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.extension.inRoomTest
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
+import sgtmelon.scriptum.infrastructure.database.annotation.DaoConst
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.test.parent.ParentRoomTest
 
@@ -76,7 +76,7 @@ class NoteDaoTest : ParentRoomTest() {
 
     @Test fun insertWithUnique() = inNoteDao {
         assertEquals(1, insert(firstNote))
-        assertEquals(RoomDb.UNIQUE_ERROR_ID, insert(firstNote))
+        assertEquals(DaoConst.UNIQUE_ERROR_ID, insert(firstNote))
     }
 
     @Test fun delete() = inNoteDao {

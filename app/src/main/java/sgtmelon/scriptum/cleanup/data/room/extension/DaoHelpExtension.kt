@@ -2,10 +2,10 @@
 
 package sgtmelon.scriptum.cleanup.data.room.extension
 
-import sgtmelon.scriptum.cleanup.data.room.RoomDb
 import sgtmelon.common.test.annotation.RunPrivate
+import sgtmelon.scriptum.infrastructure.database.annotation.DaoConst
 
-@RunPrivate fun Long.checkSafe(): Long? = this.takeIf { it != RoomDb.UNIQUE_ERROR_ID }
+@RunPrivate fun Long.checkSafe(): Long? = this.takeIf { it != DaoConst.UNIQUE_ERROR_ID }
 
 @RunPrivate inline fun <T> safeOverflow(list: List<T>, func: (subList: List<T>) -> Unit) {
     /**
@@ -17,8 +17,8 @@ import sgtmelon.common.test.annotation.RunPrivate
         /**
          * Last index exclude for subList.
          */
-        val lastIndex = if (startIndex + RoomDb.OVERFLOW_COUNT < list.size) {
-            startIndex + RoomDb.OVERFLOW_COUNT
+        val lastIndex = if (startIndex + DaoConst.OVERFLOW_COUNT < list.size) {
+            startIndex + DaoConst.OVERFLOW_COUNT
         } else {
             list.size
         }
