@@ -8,11 +8,11 @@ import org.junit.After
 import org.junit.Before
 import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
 import sgtmelon.scriptum.cleanup.data.room.RoomDb
-import sgtmelon.scriptum.cleanup.data.room.dao.AlarmDao
 import sgtmelon.scriptum.cleanup.data.room.dao.INoteDao
 import sgtmelon.scriptum.cleanup.data.room.dao.IRankDao
 import sgtmelon.scriptum.cleanup.data.room.dao.IRollDao
 import sgtmelon.scriptum.cleanup.data.room.dao.IRollVisibleDao
+import sgtmelon.scriptum.infrastructure.database.dao.AlarmDao
 
 /**
  * Parent class for RoomRepo tests.

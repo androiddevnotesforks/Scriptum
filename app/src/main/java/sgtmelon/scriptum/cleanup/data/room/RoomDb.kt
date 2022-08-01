@@ -6,7 +6,6 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.cleanup.data.room.backup.IBackupParser
-import sgtmelon.scriptum.cleanup.data.room.dao.AlarmDao
 import sgtmelon.scriptum.cleanup.data.room.dao.INoteDao
 import sgtmelon.scriptum.cleanup.data.room.dao.IRankDao
 import sgtmelon.scriptum.cleanup.data.room.dao.IRollDao
@@ -16,6 +15,7 @@ import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
+import sgtmelon.scriptum.infrastructure.database.dao.AlarmDao
 
 /**
  * Class for communication with [RoomDatabase].
