@@ -12,7 +12,7 @@ abstract class ParentRoomTest : ParentTest(), IRoomWork {
 
     override val roomProvider = RoomProvider(context)
 
-    protected val crowdList get() = List(QUESTION_LIMIT) { it.toLong() }
+    protected val crowdList get() = List(QUESTION_LIMIT * (10..50).random()) { it.toLong() }
 
     @Before override fun setUp() {
         super.setUp()

@@ -5,9 +5,15 @@ import sgtmelon.scriptum.infrastructure.database.annotation.DaoConst
 
 interface ParentDaoSafe {
 
-    fun Long.checkSafe(): Long? = this.takeIf { it != DaoConst.UNIQUE_ERROR_ID }
+    /**
+     * See description of error in [DaoConst.UNIQUE_ERROR_ID].
+     */
+    suspend fun Long.checkSafe(): Long? = this.takeIf { it != DaoConst.UNIQUE_ERROR_ID }
 
-    fun <T> safeOverflow(list: List<T>, func: (subList: List<T>) -> Unit) {
+    /**
+     * See description of error in [DaoConst.OVERFLOW_COUNT].
+     */
+    suspend fun <T> safeOverflow(list: List<T>, func: suspend (subList: List<T>) -> Unit) {
         if (list.size <= DaoConst.OVERFLOW_COUNT) {
             func(list)
             return

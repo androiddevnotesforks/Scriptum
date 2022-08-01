@@ -1,9 +1,11 @@
 package sgtmelon.scriptum.infrastructure.database.annotation
 
+import androidx.room.OnConflictStrategy
+
 annotation class DaoConst {
     companion object {
         /**
-         * Dao return this id when insert error happen.
+         * Dao return this id when insert error happen (when use [OnConflictStrategy.IGNORE]).
          */
         const val UNIQUE_ERROR_ID = -1L
 

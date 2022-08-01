@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.infrastructure.database.dao.safe
 
+import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.infrastructure.database.dao.AlarmDao
 
 /**
@@ -7,4 +8,15 @@ import sgtmelon.scriptum.infrastructure.database.dao.AlarmDao
  */
 interface AlarmDaoSafe : ParentDaoSafe {
 
+    suspend fun AlarmDao.getSafe(noteIdList: List<Long>): List<AlarmEntity> {
+        val list = mutableListOf<AlarmEntity>()
+        safeOverflow(noteIdList) { list.addAll(get(noteIdList)) }
+        return list
+    }
+
+    suspend fun AlarmDao.getCountSafe(noteIdList: List<Long>): Int {
+        var count = 0
+        safeOverflow(noteIdList) { count += getCount(it) }
+        return count
+    }
 }
