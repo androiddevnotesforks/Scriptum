@@ -5,8 +5,10 @@ package sgtmelon.scriptum.cleanup.data.room.extension
 import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.infrastructure.database.annotation.DaoConst
 
+@Deprecated("Use ParentSafeDao")
 @RunPrivate fun Long.checkSafe(): Long? = this.takeIf { it != DaoConst.UNIQUE_ERROR_ID }
 
+@Deprecated("Use ParentSafeDao")
 @RunPrivate inline fun <T> safeOverflow(list: List<T>, func: (subList: List<T>) -> Unit) {
     /**
      * Start index include for subList.

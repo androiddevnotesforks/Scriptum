@@ -21,7 +21,7 @@ interface IRankDao {
 
     // TODO use rankItem not entity
 
-    @Deprecated(DaoDeprecated.INSERT)
+    @Deprecated(DaoDeprecated.INSERT_IGNORE)
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(entity: RankEntity): Long
 

@@ -21,7 +21,7 @@ import sgtmelon.scriptum.infrastructure.database.annotation.DaoDeprecated
 @TypeConverters(BoolConverter::class, NoteTypeConverter::class)
 interface INoteDao {
 
-    @Deprecated(DaoDeprecated.INSERT)
+    @Deprecated(DaoDeprecated.INSERT_IGNORE)
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(noteEntity: NoteEntity): Long
 

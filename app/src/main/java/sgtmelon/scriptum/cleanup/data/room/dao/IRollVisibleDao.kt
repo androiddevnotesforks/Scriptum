@@ -18,7 +18,7 @@ import sgtmelon.scriptum.infrastructure.database.annotation.DaoDeprecated
 @TypeConverters(BoolConverter::class)
 interface IRollVisibleDao {
 
-    @Deprecated(DaoDeprecated.INSERT)
+    @Deprecated(DaoDeprecated.INSERT_IGNORE)
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(entity: RollVisibleEntity): Long
 
