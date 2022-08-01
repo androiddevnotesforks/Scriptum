@@ -23,9 +23,9 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import sgtmelon.common.utils.nextString
-import sgtmelon.scriptum.FastMock
-import sgtmelon.scriptum.FastTest
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.cleanup.FastMock
+import sgtmelon.scriptum.cleanup.FastTest
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.IRollNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note
@@ -38,17 +38,17 @@ import sgtmelon.scriptum.cleanup.extension.hide
 import sgtmelon.scriptum.cleanup.extension.move
 import sgtmelon.scriptum.cleanup.extension.validIndexOfFirst
 import sgtmelon.scriptum.cleanup.extension.validRemoveAt
+import sgtmelon.scriptum.cleanup.getRandomSize
+import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.IRollNoteFragment
+import sgtmelon.scriptum.cleanup.verifyDeepCopy
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
-import sgtmelon.scriptum.getRandomSize
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.key.Color
-import sgtmelon.scriptum.parent.ParentViewModelTest
-import sgtmelon.scriptum.verifyDeepCopy
 
 /**
  * Test for [RollNoteViewModel].

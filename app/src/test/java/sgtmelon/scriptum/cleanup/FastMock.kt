@@ -1,4 +1,4 @@
-package sgtmelon.scriptum
+package sgtmelon.scriptum.cleanup
 
 import io.mockk.every
 import io.mockk.mockk

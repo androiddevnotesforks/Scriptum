@@ -10,10 +10,10 @@ import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCaseImpl
 import sgtmelon.scriptum.infrastructure.model.MelodyItem
 import sgtmelon.scriptum.infrastructure.provider.RingtoneProvider
-import sgtmelon.scriptum.parent.ParentTest
 
 /**
  * Test for [GetMelodyListUseCaseImpl].

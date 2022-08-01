@@ -5,6 +5,7 @@ import io.mockk.coVerifySequence
 import io.mockk.confirmVerified
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
+import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -13,8 +14,7 @@ import org.junit.Test
 import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
-import sgtmelon.scriptum.parent.ParentInteractorTest
-import kotlin.random.Random
+import sgtmelon.scriptum.cleanup.parent.ParentInteractorTest
 
 /**
  * Test for [RankInteractor].

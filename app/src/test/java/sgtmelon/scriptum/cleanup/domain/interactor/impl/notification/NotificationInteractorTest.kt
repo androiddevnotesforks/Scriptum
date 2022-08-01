@@ -18,7 +18,7 @@ import sgtmelon.scriptum.cleanup.data.repository.room.callback.IBindRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
-import sgtmelon.scriptum.parent.ParentInteractorTest
+import sgtmelon.scriptum.cleanup.parent.ParentInteractorTest
 
 /**
  * Test for [NotificationInteractor].

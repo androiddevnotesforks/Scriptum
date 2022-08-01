@@ -4,7 +4,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem.Cursor.Companion.get
-import sgtmelon.scriptum.parent.ParentTest
+import sgtmelon.scriptum.cleanup.parent.ParentTest
 
 /**
  * Test for [InputItem].

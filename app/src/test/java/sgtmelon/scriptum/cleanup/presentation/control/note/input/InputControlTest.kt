@@ -15,9 +15,9 @@ import org.junit.Test
 import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
+import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.scriptum.cleanup.presentation.provider.BuildProvider
 import sgtmelon.scriptum.infrastructure.model.key.Color
-import sgtmelon.scriptum.parent.ParentTest
 
 /**
  * Test for [InputControl].

@@ -4,12 +4,12 @@ import io.mockk.coEvery
 import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.mockk
+import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
-import sgtmelon.scriptum.parent.ParentRoomRepoTest
-import kotlin.random.Random
+import sgtmelon.scriptum.cleanup.parent.ParentRoomRepoTest
 
 /**
  * Test for [BindRepo].

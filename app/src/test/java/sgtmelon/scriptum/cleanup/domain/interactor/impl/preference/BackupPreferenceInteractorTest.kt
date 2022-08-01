@@ -35,10 +35,10 @@ import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.cleanup.domain.model.result.ExportResult
 import sgtmelon.scriptum.cleanup.domain.model.result.ImportResult
 import sgtmelon.scriptum.cleanup.domain.model.result.ParserResult
+import sgtmelon.scriptum.cleanup.parent.ParentInteractorTest
 import sgtmelon.scriptum.cleanup.presentation.control.cipher.ICipherControl
 import sgtmelon.scriptum.cleanup.presentation.control.file.IFileControl
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
-import sgtmelon.scriptum.parent.ParentInteractorTest
 
 /**
  * Test for [BackupPreferenceInteractor].

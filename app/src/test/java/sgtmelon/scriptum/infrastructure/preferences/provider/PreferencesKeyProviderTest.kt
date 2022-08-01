@@ -10,7 +10,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.parent.ParentTest
+import sgtmelon.scriptum.cleanup.parent.ParentTest
 
 /**
  * Test of [PreferencesKeyProvider].

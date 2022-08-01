@@ -20,19 +20,19 @@ import org.junit.Test
 import sgtmelon.common.utils.beforeNow
 import sgtmelon.common.utils.getCalendar
 import sgtmelon.common.utils.nextString
-import sgtmelon.scriptum.FastMock
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.TestData
+import sgtmelon.scriptum.cleanup.FastMock
+import sgtmelon.scriptum.cleanup.TestData
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.cleanup.domain.model.annotation.Options
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.extension.clearAdd
+import sgtmelon.scriptum.cleanup.getRandomSize
+import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.control.SortControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.INotesFragment
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
-import sgtmelon.scriptum.getRandomSize
 import sgtmelon.scriptum.infrastructure.model.key.Sort
-import sgtmelon.scriptum.parent.ParentViewModelTest
 
 /**
  * Test for [NotesViewModel].

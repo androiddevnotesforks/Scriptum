@@ -1,4 +1,4 @@
-package sgtmelon.scriptum
+package sgtmelon.scriptum.cleanup
 
 import android.os.Bundle
 import io.mockk.MockKVerificationScope

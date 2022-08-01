@@ -5,14 +5,14 @@ import io.mockk.coVerifySequence
 import io.mockk.confirmVerified
 import io.mockk.impl.annotations.MockK
 import io.mockk.verifySequence
+import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IDevelopRepo
-import sgtmelon.scriptum.parent.ParentInteractorTest
-import kotlin.random.Random
+import sgtmelon.scriptum.cleanup.parent.ParentInteractorTest
+import sgtmelon.scriptum.infrastructure.preferences.Preferences
 
 /**
  * Test for [DevelopInteractor]

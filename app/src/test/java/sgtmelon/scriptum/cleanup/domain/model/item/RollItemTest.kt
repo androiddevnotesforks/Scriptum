@@ -1,12 +1,12 @@
 package sgtmelon.scriptum.cleanup.domain.model.item
 
+import kotlin.random.Random
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Roll.Default
-import sgtmelon.scriptum.parent.ParentTest
-import kotlin.random.Random
+import sgtmelon.scriptum.cleanup.parent.ParentTest
 
 /**
  * Test for [RollItem].

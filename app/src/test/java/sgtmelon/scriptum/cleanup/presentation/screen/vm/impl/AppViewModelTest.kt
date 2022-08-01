@@ -12,10 +12,10 @@ import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.IAppActivity
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.model.key.Theme
-import sgtmelon.scriptum.parent.ParentViewModelTest
 
 /**
  * Test for [AppViewModel].

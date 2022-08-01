@@ -3,7 +3,7 @@ package sgtmelon.scriptum.cleanup.data.room.entity
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Note.Default
-import sgtmelon.scriptum.parent.ParentTest
+import sgtmelon.scriptum.cleanup.parent.ParentTest
 
 /**
  * Test for [NoteEntity].

@@ -3,9 +3,9 @@ package sgtmelon.scriptum.cleanup.presentation.control
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.scriptum.TestData
+import sgtmelon.scriptum.cleanup.TestData
+import sgtmelon.scriptum.cleanup.parent.ParentCoTest
 import sgtmelon.scriptum.infrastructure.model.key.Sort
-import sgtmelon.scriptum.parent.ParentCoTest
 
 /**
  * Test for [SortControl].

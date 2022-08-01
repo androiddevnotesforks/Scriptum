@@ -7,8 +7,8 @@ import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem.Alarm
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem.Note
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
+import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.scriptum.infrastructure.model.key.Color
-import sgtmelon.scriptum.parent.ParentTest
 
 /**
  * Test for [NotificationItem]

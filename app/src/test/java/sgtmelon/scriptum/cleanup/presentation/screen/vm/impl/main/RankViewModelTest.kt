@@ -27,8 +27,8 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import sgtmelon.common.utils.nextString
-import sgtmelon.scriptum.FastMock
-import sgtmelon.scriptum.TestData
+import sgtmelon.scriptum.cleanup.FastMock
+import sgtmelon.scriptum.cleanup.TestData
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Snackbar
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
@@ -36,10 +36,10 @@ import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.domain.model.state.OpenState
 import sgtmelon.scriptum.cleanup.extension.clearAdd
 import sgtmelon.scriptum.cleanup.extension.move
+import sgtmelon.scriptum.cleanup.getRandomSize
+import sgtmelon.scriptum.cleanup.isDivideTwoEntirely
+import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IRankFragment
-import sgtmelon.scriptum.getRandomSize
-import sgtmelon.scriptum.isDivideTwoEntirely
-import sgtmelon.scriptum.parent.ParentViewModelTest
 
 /**
  * Test for [RankViewModel].

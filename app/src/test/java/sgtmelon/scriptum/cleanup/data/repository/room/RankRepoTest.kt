@@ -17,8 +17,8 @@ import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import sgtmelon.common.utils.nextString
-import sgtmelon.scriptum.FastMock
-import sgtmelon.scriptum.TestData
+import sgtmelon.scriptum.cleanup.FastMock
+import sgtmelon.scriptum.cleanup.TestData
 import sgtmelon.scriptum.cleanup.data.room.converter.model.RankConverter
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
@@ -26,9 +26,9 @@ import sgtmelon.scriptum.cleanup.data.room.extension.safeInsert
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Note
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
-import sgtmelon.scriptum.getRandomSize
-import sgtmelon.scriptum.isDivideTwoEntirely
-import sgtmelon.scriptum.parent.ParentRoomRepoTest
+import sgtmelon.scriptum.cleanup.getRandomSize
+import sgtmelon.scriptum.cleanup.isDivideTwoEntirely
+import sgtmelon.scriptum.cleanup.parent.ParentRoomRepoTest
 
 /**
  * Test for [RankRepo].

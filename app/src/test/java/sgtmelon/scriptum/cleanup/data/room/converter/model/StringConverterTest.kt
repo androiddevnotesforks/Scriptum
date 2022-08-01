@@ -5,7 +5,7 @@ import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.cleanup.data.room.converter.type.StringConverter
-import sgtmelon.scriptum.parent.ParentTest
+import sgtmelon.scriptum.cleanup.parent.ParentTest
 
 /**
  * Test for [StringConverter].

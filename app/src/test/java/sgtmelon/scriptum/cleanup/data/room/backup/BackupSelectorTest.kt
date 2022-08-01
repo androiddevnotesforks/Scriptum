@@ -18,8 +18,8 @@ import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Rank
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Roll
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.RollVisible
 import sgtmelon.scriptum.cleanup.domain.model.result.ParserResult
+import sgtmelon.scriptum.cleanup.parent.ParentBackupTest
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
-import sgtmelon.scriptum.parent.ParentBackupTest
 
 /**
  * Test for [BackupSelector].

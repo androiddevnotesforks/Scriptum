@@ -14,8 +14,8 @@ import org.junit.Test
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.preference.develop.IDevelopInteractor
 import sgtmelon.scriptum.cleanup.domain.model.key.PrintType
+import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.develop.IDevelopFragment
-import sgtmelon.scriptum.parent.ParentViewModelTest
 
 /**
  * Test for [DevelopViewModel].

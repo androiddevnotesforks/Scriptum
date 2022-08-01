@@ -17,7 +17,7 @@ import sgtmelon.scriptum.cleanup.data.room.converter.model.AlarmConverter
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
-import sgtmelon.scriptum.parent.ParentRoomRepoTest
+import sgtmelon.scriptum.cleanup.parent.ParentRoomRepoTest
 
 /**
  * Test for [AlarmRepo].

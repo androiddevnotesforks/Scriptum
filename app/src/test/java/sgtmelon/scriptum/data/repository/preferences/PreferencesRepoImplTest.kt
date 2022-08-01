@@ -17,9 +17,10 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.common.utils.nextString
-import sgtmelon.scriptum.TestData
+import sgtmelon.scriptum.cleanup.TestData
+import sgtmelon.scriptum.cleanup.getRandomSize
+import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.scriptum.data.dataSource.PreferencesDataSource
-import sgtmelon.scriptum.getRandomSize
 import sgtmelon.scriptum.infrastructure.converter.SignalConverter
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.converter.key.ParentEnumConverter
@@ -35,7 +36,6 @@ import sgtmelon.scriptum.infrastructure.model.key.Sort
 import sgtmelon.scriptum.infrastructure.model.key.Theme
 import sgtmelon.scriptum.infrastructure.model.state.NoteSaveState
 import sgtmelon.scriptum.infrastructure.model.state.SignalState
-import sgtmelon.scriptum.parent.ParentTest
 
 /**
  * Test for [PreferencesRepoImpl].

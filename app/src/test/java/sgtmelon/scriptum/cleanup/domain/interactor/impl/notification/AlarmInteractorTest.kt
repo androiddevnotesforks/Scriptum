@@ -19,7 +19,7 @@ import sgtmelon.common.utils.getCalendarWithAdd
 import sgtmelon.common.utils.getNewCalendar
 import sgtmelon.common.utils.getText
 import sgtmelon.common.utils.nextString
-import sgtmelon.scriptum.FastMock
+import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
@@ -27,9 +27,9 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem.Alarm
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem.Note
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
+import sgtmelon.scriptum.cleanup.parent.ParentInteractorTest
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
-import sgtmelon.scriptum.parent.ParentInteractorTest
 
 /**
  * Test for [AlarmInteractor].

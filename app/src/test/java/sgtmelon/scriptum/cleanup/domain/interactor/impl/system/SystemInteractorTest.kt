@@ -18,18 +18,18 @@ import org.junit.Test
 import sgtmelon.common.utils.beforeNow
 import sgtmelon.common.utils.getCalendar
 import sgtmelon.common.utils.nextString
-import sgtmelon.scriptum.FastMock
+import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IBindRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
+import sgtmelon.scriptum.cleanup.getRandomSize
+import sgtmelon.scriptum.cleanup.parent.ParentInteractorTest
 import sgtmelon.scriptum.cleanup.presentation.screen.system.ISystemBridge
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
-import sgtmelon.scriptum.getRandomSize
 import sgtmelon.scriptum.infrastructure.model.key.Sort
-import sgtmelon.scriptum.parent.ParentInteractorTest
 
 /**
  * Test for [SystemInteractor]

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum
+package sgtmelon.scriptum.cleanup
 
 import kotlin.random.Random
 import sgtmelon.common.utils.nextString

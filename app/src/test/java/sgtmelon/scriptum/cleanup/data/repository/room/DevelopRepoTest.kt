@@ -14,8 +14,8 @@ import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem
-import sgtmelon.scriptum.getRandomSize
-import sgtmelon.scriptum.parent.ParentRoomRepoTest
+import sgtmelon.scriptum.cleanup.getRandomSize
+import sgtmelon.scriptum.cleanup.parent.ParentRoomRepoTest
 
 /**
  * Test for [DevelopRepo].

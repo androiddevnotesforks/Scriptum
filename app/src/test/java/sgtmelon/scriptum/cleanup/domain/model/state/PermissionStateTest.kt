@@ -10,7 +10,7 @@ import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.cleanup.domain.model.key.PermissionResult
-import sgtmelon.scriptum.parent.ParentTest
+import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.scriptum.cleanup.presentation.provider.BuildProvider.Version
 
 /**

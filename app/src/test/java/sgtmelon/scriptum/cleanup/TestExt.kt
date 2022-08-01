@@ -1,4 +1,4 @@
-package sgtmelon.scriptum
+package sgtmelon.scriptum.cleanup
 
 import io.mockk.MockKVerificationScope
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem

@@ -17,8 +17,8 @@ import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.common.utils.nextString
-import sgtmelon.scriptum.FastMock
-import sgtmelon.scriptum.TestData
+import sgtmelon.scriptum.cleanup.FastMock
+import sgtmelon.scriptum.cleanup.TestData
 import sgtmelon.scriptum.cleanup.data.room.IRoomWork
 import sgtmelon.scriptum.cleanup.data.room.converter.model.NoteConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.model.RollConverter
@@ -33,10 +33,10 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.extension.getText
 import sgtmelon.scriptum.cleanup.extension.move
-import sgtmelon.scriptum.getRandomSize
+import sgtmelon.scriptum.cleanup.getRandomSize
+import sgtmelon.scriptum.cleanup.isDivideTwoEntirely
+import sgtmelon.scriptum.cleanup.parent.ParentRoomRepoTest
 import sgtmelon.scriptum.infrastructure.model.key.Sort
-import sgtmelon.scriptum.isDivideTwoEntirely
-import sgtmelon.scriptum.parent.ParentRoomRepoTest
 
 /**
  * Test for [NoteRepo].

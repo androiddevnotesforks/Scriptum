@@ -11,11 +11,11 @@ import org.junit.After
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Test
+import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.IIntroActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.IntroViewModel.Companion.IS_LAST_PAGE
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.impl.IntroViewModel.Companion.ND_LAST_PAGE
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
-import sgtmelon.scriptum.parent.ParentViewModelTest
 
 /**
  * Test for [IntroViewModel].

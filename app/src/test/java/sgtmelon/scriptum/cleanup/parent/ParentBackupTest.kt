@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.parent
+package sgtmelon.scriptum.cleanup.parent
 
 import sgtmelon.scriptum.cleanup.data.room.backup.BackupParserTest
 import sgtmelon.scriptum.cleanup.data.room.backup.BackupSelectorTest

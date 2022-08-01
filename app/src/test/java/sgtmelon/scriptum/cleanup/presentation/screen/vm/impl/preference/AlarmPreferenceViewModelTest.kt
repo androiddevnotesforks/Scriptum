@@ -18,17 +18,17 @@ import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.TestData
+import sgtmelon.scriptum.cleanup.TestData
 import sgtmelon.scriptum.cleanup.domain.model.key.PermissionResult
+import sgtmelon.scriptum.cleanup.getRandomSize
+import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IAlarmPreferenceFragment
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.GetMelodyListUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSignalSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
-import sgtmelon.scriptum.getRandomSize
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.model.state.SignalState
-import sgtmelon.scriptum.parent.ParentViewModelTest
 
 /**
  * Test for [AlarmPreferenceViewModel].

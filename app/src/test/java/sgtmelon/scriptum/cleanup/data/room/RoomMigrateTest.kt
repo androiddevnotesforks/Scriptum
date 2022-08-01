@@ -2,7 +2,7 @@ package sgtmelon.scriptum.cleanup.data.room
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.scriptum.parent.ParentTest
+import sgtmelon.scriptum.cleanup.parent.ParentTest
 
 /**
  * Test for [RoomMigrate].

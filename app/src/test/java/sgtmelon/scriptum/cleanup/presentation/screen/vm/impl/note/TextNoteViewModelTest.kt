@@ -20,9 +20,9 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import sgtmelon.common.utils.nextString
-import sgtmelon.scriptum.FastMock
-import sgtmelon.scriptum.FastTest
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.cleanup.FastMock
+import sgtmelon.scriptum.cleanup.FastTest
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.cleanup.domain.model.annotation.InputAction
 import sgtmelon.scriptum.cleanup.domain.model.data.IntentData.Note.Default
@@ -30,16 +30,16 @@ import sgtmelon.scriptum.cleanup.domain.model.item.InputItem
 import sgtmelon.scriptum.cleanup.domain.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.state.NoteState
+import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.IInputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.input.InputControl
 import sgtmelon.scriptum.cleanup.presentation.control.note.save.SaveControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.INoteConnector
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.ITextNoteFragment
+import sgtmelon.scriptum.cleanup.verifyDeepCopy
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 import sgtmelon.scriptum.infrastructure.model.key.Color
-import sgtmelon.scriptum.parent.ParentViewModelTest
-import sgtmelon.scriptum.verifyDeepCopy
 
 /**
  * Test for [TextNoteViewModel].

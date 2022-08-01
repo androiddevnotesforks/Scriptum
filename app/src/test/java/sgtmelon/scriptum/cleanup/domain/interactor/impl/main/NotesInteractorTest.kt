@@ -15,17 +15,17 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.common.utils.nextString
-import sgtmelon.scriptum.FastTest
+import sgtmelon.scriptum.cleanup.FastTest
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
+import sgtmelon.scriptum.cleanup.getRandomSize
+import sgtmelon.scriptum.cleanup.parent.ParentInteractorTest
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
-import sgtmelon.scriptum.getRandomSize
 import sgtmelon.scriptum.infrastructure.model.key.Sort
-import sgtmelon.scriptum.parent.ParentInteractorTest
 
 /**
  * Test for [NotesInteractor].

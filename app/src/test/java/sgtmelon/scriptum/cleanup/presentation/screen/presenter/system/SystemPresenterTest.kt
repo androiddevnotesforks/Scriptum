@@ -16,8 +16,8 @@ import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.system.ISystemInteractor
+import sgtmelon.scriptum.cleanup.parent.ParentPresenterTest
 import sgtmelon.scriptum.cleanup.presentation.screen.system.ISystemLogic
-import sgtmelon.scriptum.parent.ParentPresenterTest
 
 /**
  * Test for [SystemPresenter]

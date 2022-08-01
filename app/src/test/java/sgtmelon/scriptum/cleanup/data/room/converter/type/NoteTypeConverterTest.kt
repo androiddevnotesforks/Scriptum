@@ -4,7 +4,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
-import sgtmelon.scriptum.parent.ParentTest
+import sgtmelon.scriptum.cleanup.parent.ParentTest
 
 /**
  * Test for [NoteTypeConverter].

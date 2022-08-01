@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.parent
+package sgtmelon.scriptum.cleanup.parent
 
 import io.mockk.confirmVerified
 import io.mockk.every

@@ -1,8 +1,10 @@
 package sgtmelon.scriptum.cleanup.data.room.converter.type
 
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Test
-import sgtmelon.scriptum.parent.ParentTest
+import sgtmelon.scriptum.cleanup.parent.ParentTest
 
 /**
  * Test for [BoolConverter].

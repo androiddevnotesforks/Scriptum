@@ -13,13 +13,13 @@ import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.common.utils.nextString
+import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.INotePreferenceFragment
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.SavePeriod
 import sgtmelon.scriptum.infrastructure.model.key.Sort
-import sgtmelon.scriptum.parent.ParentViewModelTest
 
 /**
  * ViewModel for [NotePreferenceViewModel].

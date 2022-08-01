@@ -4,7 +4,7 @@ import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.infrastructure.database.dao.AlarmDao
 
 /**
- * Help interface for communicate with [AlarmDao] via safe way preventing errors.
+ * Help interface for communicate with [AlarmDao] via safe way, preventing errors.
  */
 interface AlarmDaoSafe : ParentDaoSafe {
 

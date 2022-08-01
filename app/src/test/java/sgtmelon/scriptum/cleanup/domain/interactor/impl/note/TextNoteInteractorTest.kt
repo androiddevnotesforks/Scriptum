@@ -12,12 +12,12 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
-import sgtmelon.scriptum.FastTest
+import sgtmelon.scriptum.cleanup.FastTest
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
-import sgtmelon.scriptum.parent.ParentInteractorTest
+import sgtmelon.scriptum.cleanup.parent.ParentInteractorTest
 
 /**
  * Test for [TextNoteInteractor].

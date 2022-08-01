@@ -5,13 +5,13 @@ import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verifySequence
+import kotlin.random.Random
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.parent.ParentTest
-import kotlin.random.Random
+import sgtmelon.scriptum.cleanup.parent.ParentTest
 
 /**
  * Test of [PreferencesDefProvider].
