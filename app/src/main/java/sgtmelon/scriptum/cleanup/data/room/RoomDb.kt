@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.cleanup.data.room.backup.IBackupParser
-import sgtmelon.scriptum.cleanup.data.room.dao.IAlarmDao
+import sgtmelon.scriptum.cleanup.data.room.dao.AlarmDao
 import sgtmelon.scriptum.cleanup.data.room.dao.INoteDao
 import sgtmelon.scriptum.cleanup.data.room.dao.IRankDao
 import sgtmelon.scriptum.cleanup.data.room.dao.IRollDao
@@ -37,7 +37,7 @@ abstract class RoomDb : RoomDatabase() {
 
     abstract val rankDao: IRankDao
 
-    abstract val alarmDao: IAlarmDao
+    abstract val alarmDao: AlarmDao
 
     companion object {
         /**

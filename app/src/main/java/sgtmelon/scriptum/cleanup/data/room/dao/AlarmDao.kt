@@ -16,7 +16,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
  * Interface for communication [DbData.Alarm.TABLE] with [RoomDb].
  */
 @Dao
-interface IAlarmDao {
+interface AlarmDao {
 
     @Deprecated(DaoDeprecated.INSERT)
     @Insert(onConflict = OnConflictStrategy.REPLACE)

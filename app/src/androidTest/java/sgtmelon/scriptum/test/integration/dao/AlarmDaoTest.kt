@@ -8,7 +8,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.data.room.RoomDb
-import sgtmelon.scriptum.cleanup.data.room.dao.IAlarmDao
+import sgtmelon.scriptum.cleanup.data.room.dao.AlarmDao
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.extension.inRoomTest
@@ -18,7 +18,7 @@ import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.test.parent.ParentRoomTest
 
 /**
- * Integration test for [IAlarmDao]
+ * Integration test for [AlarmDao]
  */
 @RunWith(AndroidJUnit4::class)
 class AlarmDaoTest : ParentRoomTest() {
