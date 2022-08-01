@@ -482,7 +482,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
     // Repo save and update functions
 
-    @Test fun convertNote_text() = startCoTest {
+    @Test fun `convertNote from text to roll`() = startCoTest {
         val startItem = mockk<NoteItem.Text>()
         val finishItem = mockk<NoteItem.Roll>()
         val finishEntity = mockk<NoteEntity>()
@@ -526,7 +526,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
     }
 
-    @Test fun convertNote_roll() = startCoTest {
+    @Test fun `convertNote from roll to text`() = startCoTest {
         val startItem = mockk<NoteItem.Roll>()
         val finishItem = mockk<NoteItem.Text>()
         val finishEntity = mockk<NoteEntity>()
@@ -568,7 +568,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
         }
     }
 
-    @Test fun getCopyText_text() = startCoTest {
+    @Test fun `getCopyText for text note`() = startCoTest {
         val item = mockk<NoteItem.Text>()
 
         val name = nextString()
@@ -591,7 +591,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
         }
     }
 
-    @Test fun getCopyText_roll() = startCoTest {
+    @Test fun `getCopyText for roll note`() = startCoTest {
         val item = mockk<NoteItem.Roll>()
 
         val id = Random.nextLong()
@@ -626,7 +626,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
         }
     }
 
-    @Test fun saveNote_text() = startCoTest {
+    @Test fun `saveNote text`() = startCoTest {
         val item = mockk<NoteItem.Text>()
         val entity = mockk<NoteEntity>()
         val id = Random.nextLong()
@@ -650,7 +650,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
         }
     }
 
-    @Test fun saveNote_roll_onCreate() = startCoTest {
+    @Test fun `saveNote roll onCreate`() = startCoTest {
         val item = mockk<NoteItem.Roll>()
         val entity = mockk<NoteEntity>()
 
@@ -693,7 +693,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
         }
     }
 
-    @Test fun saveNote_roll_onUpdate() = startCoTest {
+    @Test fun `saveNote roll onUpdate`() = startCoTest {
         val item = mockk<NoteItem.Roll>()
         val entity = mockk<NoteEntity>()
 
@@ -765,7 +765,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
         }
     }
 
-    @Test fun updateRollCheck_item() = startCoTest {
+    @Test fun `updateRollCheck for item`() = startCoTest {
         val item = mockk<NoteItem.Roll>()
         val p = (0..10).random()
         val list = mockk<MutableList<RollItem>>()
@@ -811,7 +811,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
         }
     }
 
-    @Test fun updateRollCheck_list() = startCoTest {
+    @Test fun `updateRollCheck for list`() = startCoTest {
         val item = mockk<NoteItem.Roll>()
         val id = Random.nextLong()
         val entity = mockk<NoteEntity>()

@@ -119,7 +119,7 @@ class NoteItemTest : ParentTest() {
 
     //region TextNote
 
-    @Test fun defaultValues_forText() {
+    @Test fun `default values for text`() {
         NoteItem.Text(color = Color.BLUE).apply {
             assertEquals(Note.Default.ID, id)
             assertEquals(getTime(), create)
@@ -135,7 +135,7 @@ class NoteItemTest : ParentTest() {
         }
     }
 
-    @Test fun isSaveEnabled_forText() {
+    @Test fun `isSaveEnabled for text`() {
         textItem.deepCopy().apply {
             assertFalse(isSaveEnabled())
             text = "123"
@@ -144,7 +144,7 @@ class NoteItemTest : ParentTest() {
     }
 
 
-    @Test fun deepCopy_forText() {
+    @Test fun `deepCopy for text`() {
         val firstItem = textItem.deepCopy(text = realText)
         val secondItem = firstItem.deepCopy()
 
@@ -159,7 +159,7 @@ class NoteItemTest : ParentTest() {
     }
 
 
-    @Test fun onSave_forText() {
+    @Test fun `onSave for text`() {
         textItem.deepCopy(change = changeText, name = nameSpace).apply {
             onSave()
 
@@ -168,7 +168,7 @@ class NoteItemTest : ParentTest() {
         }
     }
 
-    @Test fun onConvert_forText() {
+    @Test fun `onConvert for text`() {
         textItem.deepCopy(change = changeText, text = splitText).onConvert().apply {
             assertEquals(NoteType.ROLL, type)
 
@@ -188,7 +188,7 @@ class NoteItemTest : ParentTest() {
 
     //region RollNote
 
-    @Test fun defaultValues_forRoll() {
+    @Test fun `defaultValues for roll`() {
         NoteItem.Roll(color = Color.BLUE).apply {
             assertEquals(Note.Default.ID, id)
             assertEquals(getTime(), create)
@@ -205,7 +205,7 @@ class NoteItemTest : ParentTest() {
         }
     }
 
-    @Test fun isSaveEnabled_forRoll() {
+    @Test fun `isSaveEnabled for roll`() {
         rollItem.deepCopy().apply {
             assertTrue(isSaveEnabled())
 
@@ -214,7 +214,7 @@ class NoteItemTest : ParentTest() {
         }
     }
 
-    @Test fun deepCopy_forRoll() {
+    @Test fun `deepCopy for roll`() {
         val firstItem = rollItem.deepCopy(name = realText)
         val secondItem = firstItem.deepCopy()
 
@@ -311,7 +311,7 @@ class NoteItemTest : ParentTest() {
     }
 
 
-    @Test fun onSave_forRoll() {
+    @Test fun `onSave for roll`() {
         rollItem.deepCopy(change = changeText, name = nameSpace).apply {
             list.add(RollItem(position = 6, text = "   "))
             list.add(RollItem(position = 10, text = "   4  "))
@@ -335,7 +335,7 @@ class NoteItemTest : ParentTest() {
         }
     }
 
-    @Test fun onConvert_forRoll() {
+    @Test fun `onConvert for roll`() {
         rollItem.deepCopy(change = changeText).onConvert().apply {
             assertEquals(NoteType.TEXT, type)
 

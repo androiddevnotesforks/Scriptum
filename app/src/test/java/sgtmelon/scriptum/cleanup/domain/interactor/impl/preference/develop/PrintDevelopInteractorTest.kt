@@ -1,26 +1,31 @@
 package sgtmelon.scriptum.cleanup.domain.interactor.impl.preference.develop
 
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.coVerifySequence
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
+import io.mockk.spyk
+import io.mockk.verifySequence
+import java.io.File
+import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvider
-import sgtmelon.scriptum.infrastructure.preferences.Preferences
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IDevelopRepo
 import sgtmelon.scriptum.cleanup.domain.model.annotation.FileType
 import sgtmelon.scriptum.cleanup.domain.model.item.FileItem
 import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem
 import sgtmelon.scriptum.cleanup.domain.model.item.PrintItem.Preference
 import sgtmelon.scriptum.cleanup.domain.model.key.PrintType
-import sgtmelon.scriptum.getRandomSize
-import sgtmelon.scriptum.parent.ParentInteractorTest
 import sgtmelon.scriptum.cleanup.presentation.control.file.IFileControl
-import java.io.File
-import kotlin.random.Random
+import sgtmelon.scriptum.getRandomSize
+import sgtmelon.scriptum.infrastructure.preferences.Preferences
+import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesDefProvider
 import sgtmelon.scriptum.infrastructure.preferences.provider.PreferencesKeyProvider
+import sgtmelon.scriptum.parent.ParentInteractorTest
 
 /**
  * Test for [PrintDevelopInteractor]
@@ -39,7 +44,7 @@ class PrintDevelopInteractorTest : ParentInteractorTest() {
     }
     private val spyInteractor by lazy { spyk(interactor) }
 
-    @Test fun getList_forNote() = startCoTest {
+    @Test fun `getList for note`() = startCoTest {
         val type = PrintType.NOTE
         val list = mockk<List<PrintItem.Note>>()
 
@@ -52,7 +57,7 @@ class PrintDevelopInteractorTest : ParentInteractorTest() {
         }
     }
 
-    @Test fun getList_forBin() = startCoTest {
+    @Test fun `getList for bin`() = startCoTest {
         val type = PrintType.BIN
         val list = mockk<List<PrintItem.Note>>()
 
@@ -64,7 +69,7 @@ class PrintDevelopInteractorTest : ParentInteractorTest() {
         }
     }
 
-    @Test fun getList_forRoll() = startCoTest {
+    @Test fun `getList for roll`() = startCoTest {
         val type = PrintType.ROLL
         val list = mockk<List<PrintItem.Roll>>()
 
@@ -77,7 +82,7 @@ class PrintDevelopInteractorTest : ParentInteractorTest() {
         }
     }
 
-    @Test fun getList_forVisible() = startCoTest {
+    @Test fun `getList for visible`() = startCoTest {
         val type = PrintType.VISIBLE
         val list = mockk<List<PrintItem.Visible>>()
 
@@ -90,7 +95,7 @@ class PrintDevelopInteractorTest : ParentInteractorTest() {
         }
     }
 
-    @Test fun getList_forRank() = startCoTest {
+    @Test fun `getList for rank`() = startCoTest {
         val type = PrintType.RANK
         val list = mockk<List<PrintItem.Rank>>()
 
@@ -103,7 +108,7 @@ class PrintDevelopInteractorTest : ParentInteractorTest() {
         }
     }
 
-    @Test fun getList_forAlarm() = startCoTest {
+    @Test fun `getList for alarm`() = startCoTest {
         val type = PrintType.ALARM
         val list = mockk<List<PrintItem.Alarm>>()
 
@@ -116,7 +121,7 @@ class PrintDevelopInteractorTest : ParentInteractorTest() {
         }
     }
 
-    @Test fun getList_forKey() = startCoTest {
+    @Test fun `getList for key`() = startCoTest {
         val type = PrintType.KEY
         val list = mockk<List<Preference>>()
 
@@ -130,7 +135,7 @@ class PrintDevelopInteractorTest : ParentInteractorTest() {
         }
     }
 
-    @Test fun getList_forFile() = startCoTest {
+    @Test fun `getList for file`() = startCoTest {
         val type = PrintType.FILE
         val list = mockk<List<Preference>>()
 

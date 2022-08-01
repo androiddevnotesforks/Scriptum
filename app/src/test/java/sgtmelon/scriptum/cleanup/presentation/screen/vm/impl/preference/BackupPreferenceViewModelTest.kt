@@ -188,7 +188,7 @@ class BackupPreferenceViewModelTest : ParentViewModelTest() {
         }
     }
 
-    @Test fun onClickExport_withResult() {
+    @Test fun `onClickExport with result`() {
         coEvery { spyViewModel.startExport() } returns Unit
 
         for (it in PermissionResult.values()) {
@@ -276,7 +276,7 @@ class BackupPreferenceViewModelTest : ParentViewModelTest() {
         }
     }
 
-    @Test fun onClickImport_withResult() {
+    @Test fun `onClickImport with result`() {
         coEvery { spyViewModel.prepareImportDialog() } returns Unit
 
         for (it in PermissionResult.values()) {

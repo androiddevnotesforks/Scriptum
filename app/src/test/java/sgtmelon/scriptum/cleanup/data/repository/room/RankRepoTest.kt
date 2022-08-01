@@ -113,7 +113,7 @@ class RankRepoTest : ParentRoomRepoTest() {
     }
 
 
-    @Test fun insert_byName() = startCoTest {
+    @Test fun `insert by name`() = startCoTest {
         val id = Random.nextLong()
         val name = nextString()
         val entity = mockk<RankEntity>()
@@ -140,7 +140,7 @@ class RankRepoTest : ParentRoomRepoTest() {
         }
     }
 
-    @Test fun insert_byItem() = startCoTest {
+    @Test fun `insert by item`() = startCoTest {
         val rankItem = mockk<RankItem>()
         val rankEntity = mockk<RankEntity>()
 
