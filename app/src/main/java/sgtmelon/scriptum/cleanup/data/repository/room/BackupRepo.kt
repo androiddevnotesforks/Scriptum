@@ -184,7 +184,7 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
     @RunPrivate
     suspend fun clearAlarmList(model: Model, roomDb: RoomDb) {
         val removeList = mutableListOf<AlarmEntity>()
-        val notificationList = roomDb.alarmDao.getList()
+        val notificationList = roomDb.alarmDao.getItemList()
 
         for (item in model.alarmList) {
             val calendar = item.date.getCalendarOrNull() ?: continue

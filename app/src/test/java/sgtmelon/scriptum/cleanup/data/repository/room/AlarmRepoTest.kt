@@ -103,12 +103,12 @@ class AlarmRepoTest : ParentRoomRepoTest() {
     @Test fun getList() = startCoTest {
         val itemList = mockk<List<NotificationItem>>()
 
-        coEvery { alarmDao.getList() } returns itemList
+        coEvery { alarmDao.getItemList() } returns itemList
         assertEquals(alarmRepo.getList(), itemList)
 
         coVerifySequence {
             roomProvider.openRoom()
-            alarmDao.getList()
+            alarmDao.getItemList()
         }
     }
 

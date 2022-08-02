@@ -27,11 +27,23 @@ interface AlarmDao {
     @Update
     suspend fun update(entity: AlarmEntity)
 
-    @Transaction
-    @Query(value = """SELECT NT_ID, NT_NAME, NT_COLOR, NT_TYPE, AL_ID, AL_DATE
+    @Query(value = "SELECT * FROM ALARM_TABLE WHERE AL_NOTE_ID = :noteId")
+    suspend fun get(noteId: Long): AlarmEntity?
+
+    @Query(value = "SELECT * FROM ALARM_TABLE ORDER BY AL_NOTE_ID")
+    suspend fun get(): List<AlarmEntity>
+
+    // TODO remove from use (see AlarmDaoSafe)
+    @Deprecated(DaoDeprecated.LIST_OVERFLOW)
+    @Query(value = "SELECT * FROM ALARM_TABLE WHERE AL_NOTE_ID IN (:noteIdList)")
+    suspend fun get(noteIdList: List<Long>): List<AlarmEntity>
+
+    @Query(
+        value = """SELECT NT_ID, NT_NAME, NT_COLOR, NT_TYPE, AL_ID, AL_DATE
         FROM NOTE_TABLE, ALARM_TABLE 
         WHERE NT_ID = AL_NOTE_ID AND NT_ID = :noteId
-        ORDER BY DATE(AL_DATE) ASC, TIME(AL_DATE) ASC""")
+        ORDER BY DATE(AL_DATE) ASC, TIME(AL_DATE) ASC"""
+    )
     suspend fun getItem(noteId: Long): NotificationItem?
 
     @Query(
@@ -40,21 +52,23 @@ interface AlarmDao {
         WHERE NT_ID = AL_NOTE_ID
         ORDER BY DATE(AL_DATE) ASC, TIME(AL_DATE) ASC"""
     )
-    suspend fun getList(): List<NotificationItem>
+    suspend fun getItemList(): List<NotificationItem>
 
-    @Query(value = "SELECT * FROM ALARM_TABLE ORDER BY AL_NOTE_ID")
-    suspend fun get(): List<AlarmEntity>
-
-    @Query(value = "SELECT * FROM ALARM_TABLE WHERE AL_NOTE_ID = :noteId")
-    suspend fun get(noteId: Long): AlarmEntity?
-
-    @Deprecated(DaoDeprecated.LIST_OVERFLOW)
-    @Query(value = "SELECT * FROM ALARM_TABLE WHERE AL_NOTE_ID IN (:noteIdList)")
-    suspend fun get(noteIdList: List<Long>): List<AlarmEntity>
+    /**
+     * Optimized query from [getItemList].
+     */
+    @Query(
+        value = """SELECT AL_DATE
+        FROM NOTE_TABLE, ALARM_TABLE 
+        WHERE NT_ID = AL_NOTE_ID
+        ORDER BY DATE(AL_DATE) ASC, TIME(AL_DATE) ASC"""
+    )
+    suspend fun getDateList(): List<String>
 
     @Query(value = """SELECT COUNT(AL_ID) FROM ALARM_TABLE""")
     suspend fun getCount(): Int
 
+    @Transaction
     @Deprecated(DaoDeprecated.LIST_OVERFLOW)
     @Query(value = "SELECT COUNT(AL_ID) FROM ALARM_TABLE WHERE AL_NOTE_ID IN (:noteIdList)")
     suspend fun getCount(noteIdList: List<Long>): Int

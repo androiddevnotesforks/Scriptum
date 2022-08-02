@@ -85,19 +85,19 @@ class AlarmDaoTest : ParentRoomTest() {
         }
     }
 
-    @Test fun get() = inRoomTest {
-        insertAlarmRelation(secondNote, secondAlarm)
-        insertAlarmRelation(firstNote, firstAlarm)
-
-        assertEquals(listOf(firstAlarm, secondAlarm), alarmDao.get())
-    }
-
     @Test fun getOnWrongId() = inRoomTest { assertNull(alarmDao.get(Random.nextLong())) }
 
     @Test fun getOnCorrectId() = inRoomTest {
         insertAlarmRelation(firstNote, firstAlarm)
 
         assertEquals(firstAlarm, alarmDao.get(firstAlarm.noteId))
+    }
+
+    @Test fun get() = inRoomTest {
+        insertAlarmRelation(secondNote, secondAlarm)
+        insertAlarmRelation(firstNote, firstAlarm)
+
+        assertEquals(listOf(firstAlarm, secondAlarm), alarmDao.get())
     }
 
     @Test fun getListById() = inRoomTest {
@@ -122,13 +122,17 @@ class AlarmDaoTest : ParentRoomTest() {
         assertEquals(secondNotification, alarmDao.getItem(secondNote.id))
     }
 
-    @Test fun getList() = inRoomTest {
-        assertTrue(alarmDao.getList().isEmpty())
+    @Test fun getItemList() = inRoomTest {
+        assertTrue(alarmDao.getItemList().isEmpty())
 
         insertAlarmRelation(firstNote, firstAlarm)
         insertAlarmRelation(secondNote, secondAlarm)
 
-        assertEquals(notificationList, alarmDao.getList())
+        assertEquals(notificationList, alarmDao.getItemList())
+    }
+
+    @Test fun getDateList() {
+        TODO()
     }
 
     @Test fun getCount() = inRoomTest {

@@ -39,7 +39,7 @@ class AlarmRepo(
     }
 
     override suspend fun getList(): List<NotificationItem> = fromRoom {
-        alarmDao.getList()
+        alarmDao.getItemList()
     }
 
 
