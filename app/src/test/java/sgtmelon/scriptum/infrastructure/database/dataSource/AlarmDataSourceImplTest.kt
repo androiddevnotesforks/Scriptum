@@ -10,16 +10,18 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
+import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.scriptum.infrastructure.database.dao.AlarmDao
-import sgtmelon.scriptum.infrastructure.database.dao.safe.AlarmDaoSafe
+import sgtmelon.scriptum.infrastructure.database.dao.safe.getCountSafe
+import sgtmelon.scriptum.infrastructure.database.dao.safe.getSafe
 
 /**
  * Test for [AlarmDataSourceImpl].
  */
-class AlarmDataSourceImplTest : ParentTest(), AlarmDaoSafe {
+class AlarmDataSourceImplTest : ParentTest() {
 
     @MockK lateinit var dao: AlarmDao
 
@@ -106,19 +108,19 @@ class AlarmDataSourceImplTest : ParentTest(), AlarmDaoSafe {
     }
 
     @Test fun `get by noteIdList`() {
-        TODO()
-        //        val noteIdList = mockk<List<Long>>()
-        //        val list = mockk<List<AlarmEntity>>()
-        //
-        //        coEvery { dao.getSafe(noteIdList) } returns list
-        //
-        //        runBlocking {
-        //            assertEquals(dataSource.get(noteIdList), list)
-        //        }
-        //
-        //        coVerifySequence {
-        //            dao.getSafe(noteIdList)
-        //        }
+        val noteIdList = mockk<List<Long>>()
+        val list = mockk<List<AlarmEntity>>()
+
+        FastMock.Dao.alarmDaoSafe()
+        coEvery { dao.getSafe(noteIdList) } returns list
+
+        runBlocking {
+            assertEquals(dataSource.get(noteIdList), list)
+        }
+
+        coVerifySequence {
+            dao.getSafe(noteIdList)
+        }
     }
 
     @Test fun getItem() {
@@ -172,18 +174,18 @@ class AlarmDataSourceImplTest : ParentTest(), AlarmDaoSafe {
     }
 
     @Test fun `getCount by noteIdList`() {
-        TODO()
-        //        val noteIdList = mockk<List<Long>>()
-        //        val count = Random.nextInt()
-        //
-        //        coEvery { dao.getCountSafe(noteIdList) } returns count
-        //
-        //        runBlocking {
-        //            assertEquals(dataSource.getCount(noteIdList), count)
-        //        }
-        //
-        //        coVerifySequence {
-        //            dao.getCountSafe(noteIdList)
-        //        }
+        val noteIdList = mockk<List<Long>>()
+        val count = Random.nextInt()
+
+        FastMock.Dao.alarmDaoSafe()
+        coEvery { dao.getCountSafe(noteIdList) } returns count
+
+        runBlocking {
+            assertEquals(dataSource.getCount(noteIdList), count)
+        }
+
+        coVerifySequence {
+            dao.getCountSafe(noteIdList)
+        }
     }
 }

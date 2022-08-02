@@ -4,10 +4,10 @@ import sgtmelon.scriptum.cleanup.data.dataSource.database.AlarmDataSource
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.infrastructure.database.dao.AlarmDao
-import sgtmelon.scriptum.infrastructure.database.dao.safe.AlarmDaoSafe
+import sgtmelon.scriptum.infrastructure.database.dao.safe.getCountSafe
+import sgtmelon.scriptum.infrastructure.database.dao.safe.getSafe
 
-class AlarmDataSourceImpl(private val dao: AlarmDao) : AlarmDataSource,
-    AlarmDaoSafe {
+class AlarmDataSourceImpl(private val dao: AlarmDao) : AlarmDataSource {
 
     override suspend fun insert(entity: AlarmEntity): Long = dao.insert(entity)
 

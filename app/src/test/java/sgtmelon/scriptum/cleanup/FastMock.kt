@@ -11,15 +11,23 @@ import sgtmelon.scriptum.infrastructure.model.key.Color
 
 object FastMock {
 
+    object Dao {
+
+        fun alarmDaoSafe() =
+            mockkStatic("sgtmelon.scriptum.infrastructure.database.dao.safe.AlarmDaoSafeExt")
+    }
+
     fun fireExtensions() = mockkStatic("sgtmelon.scriptum.infrastructure.utils.FireExtensionUtils")
 
     fun timeExtension() = mockkStatic("sgtmelon.common.utils.TimeExtensionUtils")
 
     fun listExtension() = mockkStatic("sgtmelon.scriptum.cleanup.extension.ListExtensionUtils")
 
-    fun daoExtension() = mockkStatic("sgtmelon.scriptum.cleanup.data.room.extension.DaoExtensionUtils")
+    fun daoExtension() =
+        mockkStatic("sgtmelon.scriptum.cleanup.data.room.extension.DaoExtensionUtils")
 
-    fun daoHelpExtension() = mockkStatic("sgtmelon.scriptum.cleanup.data.room.extension.DaoHelpExtensionUtils")
+    fun daoHelpExtension() =
+        mockkStatic("sgtmelon.scriptum.cleanup.data.room.extension.DaoHelpExtensionUtils")
 
     object Note {
 
