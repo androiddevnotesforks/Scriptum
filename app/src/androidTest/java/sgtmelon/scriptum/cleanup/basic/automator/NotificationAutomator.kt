@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.basic.notifications
+package sgtmelon.scriptum.cleanup.basic.automator
 
 import android.content.Context
 import androidx.test.uiautomator.By

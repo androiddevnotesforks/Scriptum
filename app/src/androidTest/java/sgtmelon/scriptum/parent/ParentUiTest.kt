@@ -31,12 +31,10 @@ abstract class ParentUiTest : ParentTest() {
     protected val context = ParentInjector.provideContext()
     protected val preferences = ParentInjector.providePreferences()
     protected val preferencesRepo = ParentInjector.providePreferencesRepo()
-
     protected val db = ParentInjector.provideTestDbDelegator()
+    protected val uiDevice = ParentInjector.provideUiDevice()
 
-    protected val uiDevice get() = ParentInjector.provideUiDevice()
-
-    //region Setup
+    //region SetUp functions
 
     @Before override fun setUp() {
         super.setUp()
@@ -44,18 +42,6 @@ abstract class ParentUiTest : ParentTest() {
         setupIdling()
         setupDevice()
         setupCompanionData()
-    }
-
-    /**
-     * Call theme setup only with that function. Otherwise you get plenty assertion errors
-     * related with theme. It's because need set [ParentUi.appTheme].
-     */
-    protected fun setupTheme(theme: ThemeDisplayed) {
-        ParentUi.theme = theme
-        preferences.theme = when (theme) {
-            ThemeDisplayed.LIGHT -> Theme.LIGHT
-            ThemeDisplayed.DARK -> Theme.DARK
-        }.ordinal
     }
 
     private fun setupIdling() {
@@ -93,6 +79,18 @@ abstract class ParentUiTest : ParentTest() {
         db.clear()
     }
 
+    /**
+     * Call theme setup only with that function. Otherwise you get plenty assertion errors
+     * related with theme. It's because need set [ParentUi.appTheme].
+     */
+    protected fun setupTheme(theme: ThemeDisplayed) {
+        ParentUi.theme = theme
+        preferences.theme = when (theme) {
+            ThemeDisplayed.LIGHT -> Theme.LIGHT
+            ThemeDisplayed.DARK -> Theme.DARK
+        }.ordinal
+    }
+
     private fun setupCompanionData() {
         SplashActivity.isTesting = true
         AlarmActivity.isFinishOnStop = false
@@ -105,16 +103,16 @@ abstract class ParentUiTest : ParentTest() {
     @After override fun tearDown() {
         super.tearDown()
 
-        tearDownIdling()
-        tearDownCompanionData()
+        teardownIdling()
+        teardownCompanionData()
     }
 
-    private fun tearDownIdling() {
+    private fun teardownIdling() {
         WaitIdlingResource.getInstance().unregister()
         AppIdlingResource.getInstance().unregister()
     }
 
-    private fun tearDownCompanionData() {
+    private fun teardownCompanionData() {
         ParentUi.theme = null
 
         SplashActivity.isTesting = false
@@ -128,44 +126,52 @@ abstract class ParentUiTest : ParentTest() {
 
     //region Launch functions
 
-    fun launch(before: () -> Unit = {}, after: SplashScreen.() -> Unit) {
+    protected inline fun launch(
+        before: () -> Unit = {},
+        noinline after: SplashScreen.() -> Unit
+    ) {
         before()
         testRule.launchActivity(Intent())
         SplashScreen(after)
     }
 
-    protected fun launchAlarm(
+    protected inline fun launchAlarm(
         item: NoteItem,
         before: () -> Unit = {},
-        after: SplashScreen.() -> Unit
+        noinline after: SplashScreen.() -> Unit
     ) {
         before()
         testRule.launchActivity(SplashActivity.getAlarmInstance(context, item.id))
         SplashScreen(after)
     }
 
-    protected fun launchBind(
+    protected inline fun launchBind(
         item: NoteItem,
         before: () -> Unit = {},
-        after: SplashScreen.() -> Unit
+        noinline after: SplashScreen.() -> Unit
     ) {
         before()
         testRule.launchActivity(SplashActivity.getBindInstance(context, item))
         SplashScreen(after)
     }
 
-    protected fun launchNotifications(before: () -> Unit = {}, after: SplashScreen.() -> Unit) {
+    protected inline fun launchNotifications(
+        before: () -> Unit = {},
+        noinline after: SplashScreen.() -> Unit
+    ) {
         before()
         testRule.launchActivity(SplashActivity.getNotificationInstance(context))
         SplashScreen(after)
     }
 
-    protected fun launchHelpDisappear(before: () -> Unit = {}, after: SplashScreen.() -> Unit) {
+    protected inline fun launchHelpDisappear(
+        before: () -> Unit = {},
+        noinline after: SplashScreen.() -> Unit
+    ) {
         before()
         testRule.launchActivity(SplashActivity.getHelpDisappearInstance(context))
         SplashScreen(after)
     }
 
     //endregion
-
 }

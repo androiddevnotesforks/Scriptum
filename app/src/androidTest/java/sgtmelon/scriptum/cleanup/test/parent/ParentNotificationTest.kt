@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.cleanup.test.parent
 
-import sgtmelon.scriptum.cleanup.basic.notifications.NotificationAutomator
+import sgtmelon.scriptum.cleanup.basic.automator.NotificationAutomator
 import sgtmelon.scriptum.parent.ParentUiTest
 
 /**

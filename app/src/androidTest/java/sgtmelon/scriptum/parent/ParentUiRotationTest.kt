@@ -1,12 +1,12 @@
 package sgtmelon.scriptum.parent
 
 import org.junit.After
-import sgtmelon.scriptum.cleanup.basic.automator.RotateAutomator
+import sgtmelon.scriptum.parent.automator.RotateAutomator
 
 /**
  * Parent class for automatic Rotation tests.
  *
- * For rotate screen use: ctrl + left/rightArrow.
+ * For rotate screen use: ctrl + leftArrow/rightArrow.
  */
 abstract class ParentUiRotationTest : ParentUiTest() {
 
