@@ -15,7 +15,7 @@ class AlarmRotationTest : ParentUiRotationTest() {
     @Test fun contentText() = db.insertText().let {
         launchAlarm(it) {
             openAlarm(it) {
-                automator.rotateSide()
+                rotate.toSide()
                 assert()
                 onAssertItem(it)
             }
@@ -25,7 +25,7 @@ class AlarmRotationTest : ParentUiRotationTest() {
     @Test fun contentRoll() = db.insertRoll().let {
         launchAlarm(it) {
             openAlarm(it) {
-                automator.rotateSide()
+                rotate.toSide()
                 assert()
                 onAssertItem(it)
             }

@@ -6,7 +6,7 @@ import sgtmelon.scriptum.cleanup.data.room.extension.inRoomTest
 import sgtmelon.scriptum.parent.di.ParentInjector
 
 /**
- * Parent class for Integration tests
+ * Parent class for Integration tests.
  */
 abstract class ParentRoomTest : ParentTest(),
     IRoomWork {

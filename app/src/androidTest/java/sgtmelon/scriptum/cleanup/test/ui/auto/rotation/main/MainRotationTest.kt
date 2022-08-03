@@ -15,7 +15,7 @@ class MainRotationTest : ParentUiRotationTest() {
     @Test fun rankPage() = launch {
         mainScreen {
             rankScreen(isEmpty = true) {
-                automator.rotateSide()
+                rotate.toSide()
                 assert(isEmpty = true)
             }
             assert()
@@ -25,7 +25,7 @@ class MainRotationTest : ParentUiRotationTest() {
     @Test fun notesPage() = launch {
         mainScreen {
             notesScreen(isEmpty = true) {
-                automator.rotateSide()
+                rotate.toSide()
                 assert(isEmpty = true)
             }
             assert()
@@ -35,7 +35,7 @@ class MainRotationTest : ParentUiRotationTest() {
     @Test fun binPage() = launch {
         mainScreen {
             binScreen(isEmpty = true) {
-                automator.rotateSide()
+                rotate.toSide()
                 assert(isEmpty = true)
             }
             assert()
@@ -45,7 +45,7 @@ class MainRotationTest : ParentUiRotationTest() {
     @Test fun addDialog() = launch {
         mainScreen {
             openAddDialog {
-                automator.rotateSide()
+                rotate.toSide()
                 assert()
             }
         }

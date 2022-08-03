@@ -35,7 +35,7 @@ class AlarmPreferenceRotationTest : ParentUiRotationTest(), IAlarmPreferenceTest
         preferences.volume = VolumeDialogUi.list.random()
         preferences.isVolumeIncrease = Random.nextBoolean()
     }) {
-        automator.rotateSide()
+        rotate.toSide()
         assert()
     }
 
@@ -45,7 +45,7 @@ class AlarmPreferenceRotationTest : ParentUiRotationTest(), IAlarmPreferenceTest
         runTest({ preferencesRepo.repeat = initValue }) {
             openRepeatDialog {
                 onClickItem(value)
-                automator.rotateSide()
+                rotate.toSide()
                 assert()
                 onClickApply()
             }
@@ -65,7 +65,7 @@ class AlarmPreferenceRotationTest : ParentUiRotationTest(), IAlarmPreferenceTest
         runTest({ getLogic().preferencesRepo.signalTypeCheck = initValue }) {
             openSignalDialog {
                 onClickItem(value)
-                automator.rotateSide()
+                rotate.toSide()
                 assert()
                 onClickApply()
             }
@@ -93,7 +93,7 @@ class AlarmPreferenceRotationTest : ParentUiRotationTest(), IAlarmPreferenceTest
         }) {
             openMelodyDialog {
                 onClickItem(list.indexOf(value))
-                automator.rotateSide()
+                rotate.toSide()
             }
             assert()
         }
@@ -116,7 +116,7 @@ class AlarmPreferenceRotationTest : ParentUiRotationTest(), IAlarmPreferenceTest
         }) {
             openVolumeDialog {
                 seekTo(value)
-                automator.rotateSide()
+                rotate.toSide()
                 assert()
                 onClickApply()
             }

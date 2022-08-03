@@ -26,7 +26,7 @@ class NotePreferenceRotationTest : ParentUiRotationTest(), INotePreferenceTest {
         preferences.isAutoSaveOn = Random.nextBoolean()
         preferencesRepo.savePeriod = SavePeriod.values().random()
     }) {
-        automator.rotateSide()
+        rotate.toSide()
         assert()
     }
 
@@ -36,7 +36,7 @@ class NotePreferenceRotationTest : ParentUiRotationTest(), INotePreferenceTest {
         runTest({ preferencesRepo.sort = initValue }) {
             openSortDialog {
                 onClickItem(value)
-                automator.rotateSide()
+                rotate.toSide()
                 assert()
                 onClickApply()
             }
@@ -52,7 +52,7 @@ class NotePreferenceRotationTest : ParentUiRotationTest(), INotePreferenceTest {
         runTest({ preferencesRepo.defaultColor = initValue }) {
             openColorDialog(initValue) {
                 onClickItem(value)
-                automator.rotateSide()
+                rotate.toSide()
                 assert()
                 onClickApply()
             }
@@ -71,7 +71,7 @@ class NotePreferenceRotationTest : ParentUiRotationTest(), INotePreferenceTest {
         }) {
             openSavePeriodDialog {
                 onClickItem(value)
-                automator.rotateSide()
+                rotate.toSide()
                 assert()
                 onClickApply()
             }

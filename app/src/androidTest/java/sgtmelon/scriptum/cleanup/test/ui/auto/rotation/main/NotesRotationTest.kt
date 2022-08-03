@@ -16,7 +16,7 @@ class NotesRotationTest : ParentUiRotationTest() {
     @Test fun contentEmpty() = launch {
         mainScreen {
             notesScreen(isEmpty = true) {
-                automator.rotateSide()
+                rotate.toSide()
                 assert(isEmpty = true)
             }
             assert(isFabVisible = true)
@@ -26,7 +26,7 @@ class NotesRotationTest : ParentUiRotationTest() {
     @Test fun contentList() = launch({ db.fillNotes() }) {
         mainScreen {
             notesScreen {
-                automator.rotateSide()
+                rotate.toSide()
                 assert(isEmpty = false)
             }
             assert(isFabVisible = true)
@@ -38,7 +38,7 @@ class NotesRotationTest : ParentUiRotationTest() {
             mainScreen {
                 notesScreen {
                     openNoteDialog(it) {
-                        automator.rotateSide()
+                        rotate.toSide()
                         assert()
                     }
                 }
@@ -51,7 +51,7 @@ class NotesRotationTest : ParentUiRotationTest() {
             mainScreen {
                 notesScreen {
                     openNoteDialog(it) {
-                        automator.rotateSide()
+                        rotate.toSide()
                         assert()
                     }
                 }
@@ -71,7 +71,7 @@ class NotesRotationTest : ParentUiRotationTest() {
                 notesScreen {
                     openNoteDialog(item) {
                         onNotification {
-                            automator.rotateSide()
+                            rotate.toSide()
                             assert()
                         }
                     }
@@ -87,7 +87,7 @@ class NotesRotationTest : ParentUiRotationTest() {
                     openNoteDialog(it) {
                         onNotification {
                             onClickApply {
-                                automator.rotateSide()
+                                rotate.toSide()
                                 assert()
                             }
                         }

@@ -14,7 +14,7 @@ import sgtmelon.scriptum.parent.ParentUiRotationTest
 class HelpDisappearRotationTest : ParentUiRotationTest(), IHelpDisappearTest {
 
     @Test fun content() = runTest {
-        automator.rotateSide()
+        rotate.toSide()
         assert()
     }
 }

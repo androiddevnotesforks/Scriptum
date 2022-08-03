@@ -2,7 +2,6 @@ package sgtmelon.scriptum.parent
 
 import android.content.Intent
 import androidx.test.rule.ActivityTestRule
-import androidx.test.uiautomator.UiDevice
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -29,9 +28,13 @@ abstract class ParentUiTest : ParentTest() {
         SplashActivity::class.java, true, false
     )
 
+    protected val context = ParentInjector.provideContext()
+    protected val preferences = ParentInjector.providePreferences()
+    protected val preferencesRepo = ParentInjector.providePreferencesRepo()
+
     protected val db = ParentInjector.provideTestDbDelegator()
 
-    protected val uiDevice: UiDevice get() = UiDevice.getInstance(instrumentation)
+    protected val uiDevice get() = ParentInjector.provideUiDevice()
 
     //region Setup
 

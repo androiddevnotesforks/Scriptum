@@ -6,7 +6,7 @@ import sgtmelon.scriptum.cleanup.basic.extension.sleep
 
 class RotateAutomator(private val uiDevice: UiDevice) {
 
-    fun rotateSide() {
+    fun toSide() {
         if (Random.nextBoolean()) {
             uiDevice.setOrientationLeft()
         } else {
@@ -16,7 +16,7 @@ class RotateAutomator(private val uiDevice: UiDevice) {
         sleep(time = 2000)
     }
 
-    fun rotateNatural() {
+    fun toNormal() {
         uiDevice.setOrientationNatural()
 
         sleep(time = 2000)

@@ -19,10 +19,10 @@ class IntroRotationTest : ParentUiRotationTest() {
     @Test fun endButton() = launch({ preferences.isFirstStart = true }) {
         introScreen {
             onPassThrough(Scroll.END)
-            automator.rotateSide()
+            rotate.toSide()
             onSwipe(Scroll.START)
             onSwipe(Scroll.END)
-            automator.rotateNatural()
+            rotate.toNormal()
             onClickEndButton()
         }
     }

@@ -3,6 +3,7 @@ package sgtmelon.scriptum.parent.di
 import android.app.Instrumentation
 import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.uiautomator.UiDevice
 import sgtmelon.scriptum.cleanup.dagger.module.base.ConverterModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.PreferencesModule
 import sgtmelon.scriptum.cleanup.dagger.module.base.ProviderModule
@@ -51,4 +52,6 @@ object ParentInjector {
     fun provideRoomProvider(): RoomProvider {
         return ProviderModule().provideRoomProvider(provideContext())
     }
+
+    fun provideUiDevice(): UiDevice = UiDevice.getInstance(provideInstrumentation())
 }

@@ -23,7 +23,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
             mainScreen {
                 binScreen {
                     openTextNote(it) {
-                        automator.rotateSide()
+                        rotate.toSide()
                         fullAssert()
                     }
                 }
@@ -37,7 +37,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
                 binScreen {
                     openTextNote(it) {
                         controlPanel { onRestoreOpen() }
-                        automator.rotateSide()
+                        rotate.toSide()
                         fullAssert()
                     }
                 }
@@ -50,7 +50,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
             mainScreen {
                 openAddDialog {
                     createText(it) {
-                        automator.rotateSide()
+                        rotate.toSide()
                         fullAssert()
                     }
                 }
@@ -63,7 +63,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
             mainScreen {
                 notesScreen {
                     openTextNote(it) {
-                        automator.rotateSide()
+                        rotate.toSide()
                         fullAssert()
                     }
                 }
@@ -77,7 +77,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
                 notesScreen {
                     openTextNote(it) {
                         controlPanel { onEdit() }
-                        automator.rotateSide()
+                        rotate.toSide()
                         fullAssert()
                     }
                 }
@@ -106,7 +106,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
                     openTextNote(item) {
                         controlPanel {
                             onNotification(isUpdateDate) {
-                                automator.rotateSide()
+                                rotate.toSide()
                                 assert()
                             }
                         }
@@ -124,7 +124,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
                         controlPanel {
                             onNotification {
                                 onClickApply {
-                                    automator.rotateSide()
+                                    rotate.toSide()
                                     assert()
                                 }
                             }
@@ -143,7 +143,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
                     openTextNote(it) {
                         controlPanel {
                             onConvert {
-                                automator.rotateSide()
+                                rotate.toSide()
                                 assert()
                             }
                         }
@@ -160,7 +160,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
                     openTextNote(it) {
                         controlPanel {
                             onConvert { onClickYes() }
-                            automator.rotateSide()
+                            rotate.toSide()
                             afterConvert()
                         }
                     }
@@ -177,7 +177,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
                         controlPanel {
                             onColor {
                                 onClickItem()
-                                automator.rotateSide()
+                                rotate.toSide()
                                 assert()
                             }
                         }
@@ -195,7 +195,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
                         controlPanel {
                             onRank(it) {
                                 onClickItem()
-                                automator.rotateSide()
+                                rotate.toSide()
                                 assert()
                             }
                         }

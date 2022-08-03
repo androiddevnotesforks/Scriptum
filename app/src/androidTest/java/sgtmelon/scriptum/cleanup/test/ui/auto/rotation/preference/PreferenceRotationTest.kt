@@ -17,7 +17,7 @@ import sgtmelon.scriptum.parent.ParentUiRotationTest
 class PreferenceRotationTest : ParentUiRotationTest(), IPreferenceTest {
 
     @Test fun content() = runTest {
-        automator.rotateSide()
+        rotate.toSide()
         assert()
     }
 
@@ -27,7 +27,7 @@ class PreferenceRotationTest : ParentUiRotationTest(), IPreferenceTest {
         runTest({ preferencesRepo.theme = initValue }) {
             openThemeDialog {
                 onClickItem(value)
-                automator.rotateSide()
+                rotate.toSide()
                 assert()
                 onClickApply()
             }
@@ -42,7 +42,7 @@ class PreferenceRotationTest : ParentUiRotationTest(), IPreferenceTest {
 
         openAboutDialog {
             repeat(clickTimes) { clickLogo() }
-            automator.rotateSide()
+            rotate.toSide()
             assertEquals(clickTimes, clickCount)
             unlockDeveloper()
         }

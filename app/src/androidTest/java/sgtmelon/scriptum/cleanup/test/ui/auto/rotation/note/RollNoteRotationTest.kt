@@ -23,7 +23,7 @@ class RollNoteRotationTest : ParentUiRotationTest() {
             mainScreen {
                 binScreen {
                     openRollNote(it) {
-                        automator.rotateSide()
+                        rotate.toSide()
                         fullAssert()
                     }
                 }
@@ -37,7 +37,7 @@ class RollNoteRotationTest : ParentUiRotationTest() {
                 binScreen {
                     openRollNote(it) {
                         controlPanel { onRestoreOpen() }
-                        automator.rotateSide()
+                        rotate.toSide()
                         fullAssert()
                     }
                 }
@@ -50,7 +50,7 @@ class RollNoteRotationTest : ParentUiRotationTest() {
             mainScreen {
                 openAddDialog {
                     createRoll(it) {
-                        automator.rotateSide()
+                        rotate.toSide()
                         fullAssert()
                     }
                 }
@@ -63,7 +63,7 @@ class RollNoteRotationTest : ParentUiRotationTest() {
             mainScreen {
                 notesScreen {
                     openRollNote(it) {
-                        automator.rotateSide()
+                        rotate.toSide()
                         fullAssert()
                     }
                 }
@@ -77,7 +77,7 @@ class RollNoteRotationTest : ParentUiRotationTest() {
                 notesScreen {
                     openRollNote(it) {
                         controlPanel { onEdit() }
-                        automator.rotateSide()
+                        rotate.toSide()
                         fullAssert()
                     }
                 }
@@ -106,7 +106,7 @@ class RollNoteRotationTest : ParentUiRotationTest() {
                     openRollNote(item) {
                         controlPanel {
                             onNotification(isUpdateDate) {
-                                automator.rotateSide()
+                                rotate.toSide()
                                 assert()
                             }
                         }
@@ -124,7 +124,7 @@ class RollNoteRotationTest : ParentUiRotationTest() {
                         controlPanel {
                             onNotification {
                                 onClickApply {
-                                    automator.rotateSide()
+                                    rotate.toSide()
                                     assert()
                                 }
                             }
@@ -143,7 +143,7 @@ class RollNoteRotationTest : ParentUiRotationTest() {
                     openRollNote(it) {
                         controlPanel {
                             onConvert {
-                                automator.rotateSide()
+                                rotate.toSide()
                                 assert()
                             }
                         }
@@ -159,7 +159,7 @@ class RollNoteRotationTest : ParentUiRotationTest() {
                 notesScreen {
                     openRollNote(it) {
                         controlPanel { onConvert { onClickYes() } }
-                        automator.rotateSide()
+                        rotate.toSide()
                         afterConvert()
                     }
                 }
@@ -175,7 +175,7 @@ class RollNoteRotationTest : ParentUiRotationTest() {
                         controlPanel {
                             onColor {
                                 onClickItem()
-                                automator.rotateSide()
+                                rotate.toSide()
                                 assert()
                             }
                         }
@@ -193,7 +193,7 @@ class RollNoteRotationTest : ParentUiRotationTest() {
                         controlPanel {
                             onRank(it) {
                                 onClickItem()
-                                automator.rotateSide()
+                                rotate.toSide()
                                 assert()
                             }
                         }
