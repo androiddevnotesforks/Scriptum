@@ -19,9 +19,9 @@ class BindMainTest : ParentNotificationTest() {
      * Notify on start is implied
      */
 
-    @Test fun notesTextBindUnbind() = startNotesBindUnbindTest(data.insertText())
+    @Test fun notesTextBindUnbind() = startNotesBindUnbindTest(db.insertText())
 
-    @Test fun notesRollBindUnbind() = startNotesBindUnbindTest(data.insertRoll())
+    @Test fun notesRollBindUnbind() = startNotesBindUnbindTest(db.insertRoll())
 
     private fun startNotesBindUnbindTest(item: NoteItem) = launch {
         TODO()
@@ -35,11 +35,11 @@ class BindMainTest : ParentNotificationTest() {
     }
 
 
-    @Test fun notesTextUpdateOnConvert() = startNotesUpdateOnConvertText(with(data) {
+    @Test fun notesTextUpdateOnConvert() = startNotesUpdateOnConvertText(with(db) {
         insertText(textNote.copy(isStatus = true))
     })
 
-    @Test fun notesRollUpdateOnConvert() = startNotesUpdateOnConvertText(with(data) {
+    @Test fun notesRollUpdateOnConvert() = startNotesUpdateOnConvertText(with(db) {
         insertRoll(rollNote.copy(isStatus = true))
     })
 
@@ -55,11 +55,11 @@ class BindMainTest : ParentNotificationTest() {
     }
 
 
-    @Test fun notesTextUnbindOnDelete() = startNotesUnbindOnDeleteTest(with(data) {
+    @Test fun notesTextUnbindOnDelete() = startNotesUnbindOnDeleteTest(with(db) {
         insertText(textNote.copy(isStatus = true))
     })
 
-    @Test fun notesRollUnbindOnDelete() = startNotesUnbindOnDeleteTest(with(data) {
+    @Test fun notesRollUnbindOnDelete() = startNotesUnbindOnDeleteTest(with(db) {
         insertRoll(rollNote.copy(isStatus = true))
     })
 
@@ -118,7 +118,7 @@ class BindMainTest : ParentNotificationTest() {
     private fun insertRankWithStatusNote(): NoteItem {
         TODO()
 
-        val noteItem = with(data) {
+        val noteItem = with(db) {
             return@with if (Random.nextBoolean()) {
                 insertText(textNote.copy(isStatus = true))
             } else {
@@ -126,12 +126,12 @@ class BindMainTest : ParentNotificationTest() {
             }
         }
 
-        val rankEntity = with(data) {
+        val rankEntity = with(db) {
             insertRank(rankEntity.copy(noteId = arrayListOf(noteItem.id)))
         }
 
         val converter = NoteConverter()
-        data.inRoomTest {
+        db.inRoomTest {
             noteDao.update(converter.toEntity(noteItem.apply {
                 rankId = rankEntity.id
                 rankPs = rankEntity.position

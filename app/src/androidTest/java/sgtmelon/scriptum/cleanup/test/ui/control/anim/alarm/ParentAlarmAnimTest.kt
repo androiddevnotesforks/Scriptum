@@ -26,11 +26,11 @@ abstract class ParentAlarmAnimTest(
             isVolumeIncrease = Random.nextBoolean()
         }
 
-        val noteItem = data.clear().let {
+        val noteItem = db.clear().let {
             return@let if (Random.nextBoolean()) {
-                it.insertText(it.textNote.apply { this.color = value.ordinal })
+                it.insertText(it.textNote.apply { this.color = value })
             } else {
-                it.insertRoll(it.rollNote.apply { this.color = value.ordinal })
+                it.insertRoll(it.rollNote.apply { this.color = value })
             }
         }
 

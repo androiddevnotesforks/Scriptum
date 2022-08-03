@@ -34,19 +34,19 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
         onAssertList(ArrayList<NoteItem>().also { list ->
             for (it in Color.values()) {
                 val note = when (type) {
-                    NoteType.TEXT -> data.textNote.copy(color = it.ordinal)
-                    NoteType.ROLL -> data.rollNote.copy(color = it.ordinal)
+                    NoteType.TEXT -> db.textNote.copy(color = it)
+                    NoteType.ROLL -> db.rollNote.copy(color = it)
                 }
 
                 list.add(when (page) {
                     MainPage.RANK -> throwPageError()
                     MainPage.NOTES -> when (type) {
-                        NoteType.TEXT -> data.insertText(note)
-                        NoteType.ROLL -> data.insertRoll(note)
+                        NoteType.TEXT -> db.insertText(note)
+                        NoteType.ROLL -> db.insertRoll(note)
                     }
                     MainPage.BIN -> when (type) {
-                        NoteType.TEXT -> data.insertTextToBin(note)
-                        NoteType.ROLL -> data.insertRollToBin(note)
+                        NoteType.TEXT -> db.insertTextToBin(note)
+                        NoteType.ROLL -> db.insertRollToBin(note)
                     }
                 })
             }
@@ -71,13 +71,13 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
 
                 val note = when (type) {
                     NoteType.TEXT -> when (sort) {
-                        Sort.CREATE -> data.textNote.copy(create = time)
-                        Sort.CHANGE -> data.textNote.copy(change = time)
+                        Sort.CREATE -> db.textNote.copy(create = time)
+                        Sort.CHANGE -> db.textNote.copy(change = time)
                         else -> throw IllegalAccessException(SORT_ERROR_TEXT)
                     }
                     NoteType.ROLL -> when (sort) {
-                        Sort.CREATE -> data.rollNote.copy(create = time)
-                        Sort.CHANGE -> data.rollNote.copy(change = time)
+                        Sort.CREATE -> db.rollNote.copy(create = time)
+                        Sort.CHANGE -> db.rollNote.copy(change = time)
                         else -> throw IllegalAccessException(SORT_ERROR_TEXT)
                     }
                 }
@@ -85,12 +85,12 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
                 list.add(when (page) {
                     MainPage.RANK -> throwPageError()
                     MainPage.NOTES -> when (type) {
-                        NoteType.TEXT -> data.insertText(note)
-                        NoteType.ROLL -> data.insertRoll(note)
+                        NoteType.TEXT -> db.insertText(note)
+                        NoteType.ROLL -> db.insertRoll(note)
                     }
                     MainPage.BIN -> when (type) {
-                        NoteType.TEXT -> data.insertTextToBin(note)
-                        NoteType.ROLL -> data.insertRollToBin(note)
+                        NoteType.TEXT -> db.insertTextToBin(note)
+                        NoteType.ROLL -> db.insertRollToBin(note)
                     }
                 })
             }
@@ -110,18 +110,20 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
         val rollList = ArrayList<RollEntity>()
 
         for (i in 0 until count) {
-            rollList.add(data.rollEntity.apply {
+            rollList.add(db.rollEntity.apply {
                 position = i
                 text = "$i | $text"
             })
         }
 
         onAssertList(ArrayList<NoteItem>().apply {
-            add(when (page) {
-                MainPage.RANK -> throwPageError()
-                MainPage.NOTES -> data.insertRoll(list = rollList)
-                MainPage.BIN -> data.insertRollToBin(list = rollList)
-            })
+            add(
+                when (page) {
+                    MainPage.RANK -> throwPageError()
+                    MainPage.NOTES -> db.insertRoll(list = rollList)
+                    MainPage.BIN -> db.insertRollToBin(list = rollList)
+                }
+            )
         })
     }
 
@@ -140,7 +142,7 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
         val rollList = ArrayList<RollEntity>()
 
         for (i in 0 until size) {
-            rollList.add(data.rollEntity.apply {
+            rollList.add(db.rollEntity.apply {
                 position = i
                 text = "$i | $text"
             })
@@ -153,11 +155,13 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
         }
 
         onAssertList(ArrayList<NoteItem>().apply {
-            add(when (page) {
-                MainPage.RANK -> throwPageError()
-                MainPage.NOTES -> data.insertRoll(list = rollList)
-                MainPage.BIN -> data.insertRollToBin(list = rollList)
-            })
+            add(
+                when (page) {
+                    MainPage.RANK -> throwPageError()
+                    MainPage.NOTES -> db.insertRoll(list = rollList)
+                    MainPage.BIN -> db.insertRollToBin(list = rollList)
+                }
+            )
         })
     }
 
@@ -176,13 +180,15 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
 
         onAssertList(ArrayList<NoteItem>().also { list ->
             for (i in 10 downTo 0) {
-                val rankEntity = data.rankEntity.apply { position = i }
+                val rankEntity = db.rankEntity.apply { position = i }
 
-                list.add(when (page) {
-                    MainPage.RANK -> throwPageError()
-                    MainPage.NOTES -> data.insertRankForNotes(rankEntity, type).second
-                    MainPage.BIN -> data.insertRankForBin(rankEntity, type).second
-                })
+                list.add(
+                    when (page) {
+                        MainPage.RANK -> throwPageError()
+                        MainPage.NOTES -> db.insertRankForNotes(rankEntity, type).second
+                        MainPage.BIN -> db.insertRankForBin(rankEntity, type).second
+                    }
+                )
             }
         }.reversed())
     }
@@ -194,8 +200,8 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
     private fun startRankCancelTest(type: NoteType) {
         val pair = when (page) {
             MainPage.RANK -> throw IllegalAccessError(PAGE_ERROR_TEXT)
-            MainPage.NOTES -> data.insertRankForNotes(type = type)
-            MainPage.BIN -> data.insertRankForBin(type = type)
+            MainPage.NOTES -> db.insertRankForNotes(type = type)
+            MainPage.BIN -> db.insertRankForBin(type = type)
         }
 
         launch {

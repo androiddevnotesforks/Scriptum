@@ -24,33 +24,33 @@ class ListTest : ParentUiTest() {
 
 
     @Test fun mainPageSelect() = launch(before = {
-        data.fillRank(RANK_COUNT)
-        data.fillNotes(NOTES_COUNT)
-        data.fillBin(BIN_COUNT)
+        db.fillRank(RANK_COUNT)
+        db.fillNotes(NOTES_COUNT)
+        db.fillBin(BIN_COUNT)
     }) {
         mainScreen { repeat(REPEAT_COUNT) { for (page in pageList) openPage(page) } }
     }
 
-    @Test fun rankScroll() = launch({ data.fillRank(RANK_COUNT) }) {
+    @Test fun rankScroll() = launch({ db.fillRank(RANK_COUNT) }) {
         mainScreen { rankScreen { onScroll(Scroll.END, SCROLL_COUNT) } }
     }
 
-    @Test fun notesScroll() = launch({ data.fillNotes(NOTES_COUNT) }) {
+    @Test fun notesScroll() = launch({ db.fillNotes(NOTES_COUNT) }) {
         mainScreen { notesScreen { onScroll(Scroll.END, SCROLL_COUNT) } }
     }
 
-    @Test fun binScroll() = launch({ data.fillBin(BIN_COUNT) }) {
+    @Test fun binScroll() = launch({ db.fillBin(BIN_COUNT) }) {
         mainScreen { binScreen { onScroll(Scroll.END, SCROLL_COUNT) } }
     }
 
 
-    @Test fun notificationOpen() = launch({ data.fillNotification(NOTIFICATION_COUNT) }) {
+    @Test fun notificationOpen() = launch({ db.fillNotification(NOTIFICATION_COUNT) }) {
         mainScreen {
             notesScreen { repeat(REPEAT_COUNT) { openNotification { onClickClose() } } }
         }
     }
 
-    @Test fun notificationScroll() = launch({ data.fillNotification(NOTIFICATION_COUNT) }) {
+    @Test fun notificationScroll() = launch({ db.fillNotification(NOTIFICATION_COUNT) }) {
         mainScreen { notesScreen { openNotification { onScroll(Scroll.END, SCROLL_COUNT) } } }
     }
 
@@ -60,7 +60,7 @@ class ListTest : ParentUiTest() {
      * Simple = 19.780s
      * Coroutine = 21.930s
      */
-    @Test fun textNoteOpen() = data.insertText(weightData.textNote).let { model ->
+    @Test fun textNoteOpen() = db.insertText(weightData.textNote).let { model ->
         launch {
             mainScreen {
                 notesScreen {
@@ -70,7 +70,7 @@ class ListTest : ParentUiTest() {
         }
     }
 
-    @Test fun rollNoteOpen() = data.insertRoll(
+    @Test fun rollNoteOpen() = db.insertRoll(
         isVisible = true,
         list = weightData.rollList
     ).let { model ->
@@ -83,7 +83,7 @@ class ListTest : ParentUiTest() {
         }
     }
 
-    @Test fun rollNoteScroll() = data.insertRoll(
+    @Test fun rollNoteScroll() = db.insertRoll(
         isVisible = true,
         list = weightData.rollList
     ).let {

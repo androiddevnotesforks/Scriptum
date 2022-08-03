@@ -21,7 +21,7 @@ class NotificationContentTest : ParentUiTest() {
 
     @Test fun time() = onAssertList(ArrayList<NoteItem>().also { list ->
         for (it in nextArray) {
-            list.add(data.insertNotification(date = getCalendarWithAdd(it).getText()))
+            list.add(db.insertNotification(date = getCalendarWithAdd(it).getText()))
         }
     })
 
@@ -35,9 +35,9 @@ class NotificationContentTest : ParentUiTest() {
         onAssertList(ArrayList<NoteItem>().also { list ->
             for ((i, it) in Color.values().withIndex()) {
                 val date = getCalendarWithAdd(min = NEXT_HOUR + i * NEXT_HOUR).getText()
-                val noteItem = data.insertText(data.textNote.copy(name = "", color = it.ordinal))
+                val noteItem = db.insertText(db.textNote.copy(name = "", color = it))
 
-                list.add(data.insertNotification(noteItem, date))
+                list.add(db.insertNotification(noteItem, date))
             }
         })
     }

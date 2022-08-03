@@ -32,8 +32,8 @@ class NotifyTest : ParentNotificationTest() {
     @Test fun alarmNotify() {
         TODO()
 
-        val item = data.insertNotification()
-        data.insertNotification()
+        val item = db.insertNotification()
+        db.insertNotification()
 
         launchAlarm(item) { openAlarm(item) { onSee { onClickRepeat() } } }
     }
@@ -41,7 +41,7 @@ class NotifyTest : ParentNotificationTest() {
     /**
      * Update info count on item cancel
      */
-    @Test fun notificationNotifyOnCancel() = data.fillNotification(NOTIFICATION_COUNT).let {
+    @Test fun notificationNotifyOnCancel() = db.fillNotification(NOTIFICATION_COUNT).let {
         TODO()
         launch {
             mainScreen {
@@ -60,7 +60,7 @@ class NotifyTest : ParentNotificationTest() {
     }
 
 
-    @Test fun notesNotifyOnDate() = data.insertNote().let {
+    @Test fun notesNotifyOnDate() = db.insertNote().let {
         TODO()
         launch {
             mainScreen {
@@ -76,14 +76,14 @@ class NotifyTest : ParentNotificationTest() {
         }
     }
 
-    @Test fun notesNotifyOnDelete() = data.insertNotification().let {
+    @Test fun notesNotifyOnDelete() = db.insertNotification().let {
         TODO()
         launch { mainScreen { notesScreen { openNoteDialog(it) { onDelete() } } } }
         onSee()
     }
 
 
-    @Test fun textNoteNotifyOnDate() = data.insertText().let {
+    @Test fun textNoteNotifyOnDate() = db.insertText().let {
         TODO()
         launch {
             mainScreen {
@@ -101,7 +101,7 @@ class NotifyTest : ParentNotificationTest() {
         }
     }
 
-    @Test fun textNoteNotifyOnDelete() = with(data) { insertNotification(insertText()) }.let {
+    @Test fun textNoteNotifyOnDelete() = with(db) { insertNotification(insertText()) }.let {
         if (it !is NoteItem.Text) throw NoteCastException()
 
         TODO()
@@ -109,7 +109,7 @@ class NotifyTest : ParentNotificationTest() {
         onSee()
     }
 
-    @Test fun rollNoteNotifyOnDate() = data.insertRoll().let {
+    @Test fun rollNoteNotifyOnDate() = db.insertRoll().let {
         TODO()
         launch {
             mainScreen {
@@ -127,7 +127,7 @@ class NotifyTest : ParentNotificationTest() {
         }
     }
 
-    @Test fun rollNoteNotifyOnDelete() = with(data) { insertNotification(insertRoll()) }.let {
+    @Test fun rollNoteNotifyOnDelete() = with(db) { insertNotification(insertRoll()) }.let {
         if (it !is NoteItem.Roll) throw NoteCastException()
 
         TODO()

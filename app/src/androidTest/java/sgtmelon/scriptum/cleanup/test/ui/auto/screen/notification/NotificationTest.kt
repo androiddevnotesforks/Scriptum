@@ -26,35 +26,35 @@ class NotificationTest : ParentUiTest() {
         mainScreen { notesScreen(isEmpty = true) { openNotification(isEmpty = true) } }
     }
 
-    @Test fun contentList() = launch({ data.fillNotification() }) {
+    @Test fun contentList() = launch({ db.fillNotification() }) {
         mainScreen { notesScreen { openNotification() } }
     }
 
-    @Test fun listScroll() = launch({ data.fillNotification() }) {
+    @Test fun listScroll() = launch({ db.fillNotification() }) {
         mainScreen { notesScreen { openNotification { onScrollThrough() } } }
     }
 
 
-    @Test fun textNoteOpen() = data.insertText().let {
-        launch({ data.insertNotification(it) }) {
+    @Test fun textNoteOpen() = db.insertText().let {
+        launch({ db.insertNotification(it) }) {
             mainScreen { notesScreen { openNotification { openText(it) } } }
         }
     }
 
-    @Test fun rollNoteOpen() = data.insertRoll().let {
-        launch({ data.insertNotification(it) }) {
+    @Test fun rollNoteOpen() = db.insertRoll().let {
+        launch({ db.insertNotification(it) }) {
             mainScreen { notesScreen { openNotification { openRoll(it) } } }
         }
     }
 
 
-    @Test fun itemCancel() = data.insertNotification().let {
+    @Test fun itemCancel() = db.insertNotification().let {
         launch {
             mainScreen { notesScreen { openNotification { onClickCancel().assert(isEmpty = true) } } }
         }
     }
 
-    @Test fun itemCancelOnDelete() = data.insertNotification().let {
+    @Test fun itemCancelOnDelete() = db.insertNotification().let {
         launch {
             mainScreen {
                 notesScreen {
@@ -64,7 +64,7 @@ class NotificationTest : ParentUiTest() {
         }
     }
 
-    @Test fun itemCancelFromPast() = data.insertNotification(date = DATE_5).let {
+    @Test fun itemCancelFromPast() = db.insertNotification(date = DATE_5).let {
         launch { mainScreen { notesScreen { openNotification(isEmpty = true) } } }
     }
 }

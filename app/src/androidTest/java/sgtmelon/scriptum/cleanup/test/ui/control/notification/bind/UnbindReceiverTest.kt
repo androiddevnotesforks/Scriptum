@@ -15,7 +15,7 @@ class UnbindReceiverTest : ParentNotificationTest() {
      * Notify on start is implied
      */
 
-    @Test fun rankUnbindReceiver() = data.insertRankForNotes().let {
+    @Test fun rankUnbindReceiver() = db.insertRankForNotes().let {
         TODO()
         launch {
             mainScreen {
@@ -27,7 +27,7 @@ class UnbindReceiverTest : ParentNotificationTest() {
         }
     }
 
-    @Test fun notesUnbindReceiver() = with(data) {
+    @Test fun notesUnbindReceiver() = with(db) {
         insertText(textNote.copy(isStatus = true))
     }.let {
         TODO()
@@ -40,7 +40,7 @@ class UnbindReceiverTest : ParentNotificationTest() {
         }
     }
 
-    @Test fun textNoteUnbindReceiver() = with(data) {
+    @Test fun textNoteUnbindReceiver() = with(db) {
         insertText(textNote.copy(isStatus = true))
     }.let {
         TODO()
@@ -55,7 +55,7 @@ class UnbindReceiverTest : ParentNotificationTest() {
         }
     }
 
-    @Test fun rollNoteUnbindReceiver() = with(data) {
+    @Test fun rollNoteUnbindReceiver() = with(db) {
         insertRoll(rollNote.copy(isStatus = true))
     }.let {
         TODO()
@@ -70,7 +70,7 @@ class UnbindReceiverTest : ParentNotificationTest() {
         }
     }
 
-    @Test fun alarmUnbindReceiver() = with(data) {
+    @Test fun alarmUnbindReceiver() = with(db) {
         insertText(textNote.copy(isStatus = true))
     }.let {
         TODO()

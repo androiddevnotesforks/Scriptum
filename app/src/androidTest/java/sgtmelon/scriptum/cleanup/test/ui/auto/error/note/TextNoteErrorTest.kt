@@ -16,7 +16,7 @@ class TextNoteErrorTest : ParentUiTest() {
     /**
      * [Description.Note.RestoreChanges]
      */
-    @Test fun restoreChanges() = data.insertText().let {
+    @Test fun restoreChanges() = db.insertText().let {
         launch {
             mainScreen {
                 notesScreen {

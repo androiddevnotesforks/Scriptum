@@ -18,25 +18,25 @@ class MainDateTimeDialogTest : ParentUiTest(), IDateTimeDialogTest {
         mainScreen { notesScreen(func = func) }
     }
 
-    @Test override fun dateReset() = data.insertNotification(data.insertNote()).let {
+    @Test override fun dateReset() = db.insertNotification(db.insertNote()).let {
         runTest { openNoteDialog(it) { onNotification { runDateReset() } } }
     }
 
-    @Test override fun toastToday() = data.insertNote().let {
+    @Test override fun toastToday() = db.insertNote().let {
         runTest { openNoteDialog(it) { onNotification { runToastToday() } } }
     }
 
-    @Test override fun toastOther() = data.insertNote().let {
+    @Test override fun toastOther() = db.insertNote().let {
         runTest { openNoteDialog(it) { onNotification { runToastOther() } } }
     }
 
-    @Test override fun timeApplyEnablePast() = data.insertNote().let {
+    @Test override fun timeApplyEnablePast() = db.insertNote().let {
         runTest { openNoteDialog(it) { onNotification { runTimeApplyEnablePast() } } }
     }
 
-    @Test override fun timeApplyEnableList() = data.insertNote().let {
+    @Test override fun timeApplyEnableList() = db.insertNote().let {
         runTest {
-            val date = data.insertNotification().alarmDate
+            val date = db.insertNotification().alarmDate
             openNoteDialog(it) { onNotification { runTimeApplyEnableList(date) } }
         }
     }

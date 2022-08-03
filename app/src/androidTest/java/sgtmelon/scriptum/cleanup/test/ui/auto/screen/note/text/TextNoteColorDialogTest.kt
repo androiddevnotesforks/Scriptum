@@ -16,7 +16,7 @@ import sgtmelon.scriptum.parent.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class TextNoteColorDialogTest : ParentUiTest(), IColorTest {
 
-    @Test fun closeAndWork() = data.createText().let {
+    @Test fun closeAndWork() = db.createText().let {
         launch {
             mainScreen {
                 openAddDialog {
@@ -34,7 +34,7 @@ class TextNoteColorDialogTest : ParentUiTest(), IColorTest {
 
     @Test fun darkTheme() = startThemeTest(ThemeDisplayed.DARK)
 
-    private fun startThemeTest(theme: ThemeDisplayed) = data.createText().let {
+    private fun startThemeTest(theme: ThemeDisplayed) = db.createText().let {
         setupTheme(theme)
 
         launch {
@@ -72,7 +72,7 @@ class TextNoteColorDialogTest : ParentUiTest(), IColorTest {
     override fun startTest(value: Color) {
         preferencesRepo.defaultColor = value
 
-        val item = data.createText()
+        val item = db.createText()
         launch {
             mainScreen {
                 openAddDialog { createText(item) { controlPanel { onColor { onAssertItem() } } } }

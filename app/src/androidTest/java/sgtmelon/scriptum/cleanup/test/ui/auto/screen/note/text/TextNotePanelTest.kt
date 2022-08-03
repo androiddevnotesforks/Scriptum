@@ -13,7 +13,7 @@ import sgtmelon.scriptum.parent.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class TextNotePanelTest : ParentUiTest() {
 
-    @Test fun actionOnBinRestore()  = data.insertTextToBin().let {
+    @Test fun actionOnBinRestore() = db.insertTextToBin().let {
         launch {
             mainScreen {
                 notesScreen(isEmpty = true)
@@ -23,7 +23,7 @@ class TextNotePanelTest : ParentUiTest() {
         }
     }
 
-    @Test fun actionOnBinRestoreOpen()  = data.insertTextToBin().let {
+    @Test fun actionOnBinRestoreOpen() = db.insertTextToBin().let {
         launch {
             mainScreen {
                 notesScreen(isEmpty = true)
@@ -38,7 +38,7 @@ class TextNotePanelTest : ParentUiTest() {
         }
     }
 
-    @Test fun actionOnBinClear() = data.insertTextToBin().let {
+    @Test fun actionOnBinClear() = db.insertTextToBin().let {
         launch {
             mainScreen {
                 notesScreen(isEmpty = true)
@@ -49,7 +49,7 @@ class TextNotePanelTest : ParentUiTest() {
     }
 
 
-    @Test fun actionOnReadNotification() = data.insertText().let {
+    @Test fun actionOnReadNotification() = db.insertText().let {
         launch {
             mainScreen { notesScreen { openTextNote(it) { controlPanel { onNotification() } } } }
         }
@@ -60,7 +60,7 @@ class TextNotePanelTest : ParentUiTest() {
     @Test fun actionOnReadUnbind() = startBindTest(isStatus = true)
 
     private fun startBindTest(isStatus: Boolean) {
-        val model = data.insertText(data.textNote.copy(isStatus = isStatus))
+        val model = db.insertText(db.textNote.copy(isStatus = isStatus))
 
         launch {
             mainScreen {
@@ -72,11 +72,11 @@ class TextNotePanelTest : ParentUiTest() {
         }
     }
 
-    @Test fun actionOnReadConvert() = data.insertText().let {
+    @Test fun actionOnReadConvert() = db.insertText().let {
         launch { mainScreen { notesScreen { openTextNote(it) { controlPanel { onConvert() } } } } }
     }
 
-    @Test fun actionOnReadDelete() = data.insertText().let {
+    @Test fun actionOnReadDelete() = db.insertText().let {
         launch {
             mainScreen {
                 binScreen(isEmpty = true)
@@ -90,7 +90,7 @@ class TextNotePanelTest : ParentUiTest() {
         }
     }
 
-    @Test fun actionOnReadEdit() = data.insertText().let {
+    @Test fun actionOnReadEdit() = db.insertText().let {
         launch { mainScreen { notesScreen { openTextNote(it) { controlPanel { onEdit() } } } } }
     }
 
@@ -100,8 +100,8 @@ class TextNotePanelTest : ParentUiTest() {
         TODO(reason = "#TEST write test")
     }
 
-    @Test fun actionOnCreateRank() = data.fillRank(count = 3).let {
-        val item = data.createText()
+    @Test fun actionOnCreateRank() = db.fillRank(count = 3).let {
+        val item = db.createText()
         launch {
             mainScreen {
                 openAddDialog {
@@ -111,8 +111,8 @@ class TextNotePanelTest : ParentUiTest() {
         }
     }
 
-    @Test fun actionOnEditRank() = data.fillRank(count = 3).let {
-        val item = data.insertText()
+    @Test fun actionOnEditRank() = db.fillRank(count = 3).let {
+        val item = db.insertText()
         launch {
             mainScreen {
                 notesScreen {
@@ -124,26 +124,26 @@ class TextNotePanelTest : ParentUiTest() {
         }
     }
 
-    @Test fun actionOnCreateColor() = data.createText().let {
+    @Test fun actionOnCreateColor() = db.createText().let {
         launch { mainScreen { openAddDialog { createText(it) { controlPanel { onColor() } } } } }
     }
 
-    @Test fun actionOnEditColor() = data.insertText().let {
+    @Test fun actionOnEditColor() = db.insertText().let {
         launch {
             mainScreen { notesScreen { openTextNote(it) { controlPanel { onEdit().onColor() } } } }
         }
     }
 
 
-    @Test fun actionOnCreateSave() = data.createText().let {
+    @Test fun actionOnCreateSave() = db.createText().let {
         launch {
             mainScreen {
                 openAddDialog {
                     createText(it) {
                         toolbar { onEnterName(nextString()) }
                         onEnterText(nextString())
-                                .onEnterText()
-                                .onEnterText(nextString())
+                            .onEnterText()
+                            .onEnterText(nextString())
 
                         controlPanel { onSave() }
                     }
@@ -152,7 +152,7 @@ class TextNotePanelTest : ParentUiTest() {
         }
     }
 
-    @Test fun actionOnEditSave() = data.insertText().let {
+    @Test fun actionOnEditSave() = db.insertText().let {
         launch {
             mainScreen {
                 notesScreen {
@@ -170,15 +170,15 @@ class TextNotePanelTest : ParentUiTest() {
         }
     }
 
-    @Test fun actionOnCreateLongSave() = data.createText().let {
+    @Test fun actionOnCreateLongSave() = db.createText().let {
         launch {
             mainScreen {
                 openAddDialog {
                     createText(it) {
                         toolbar { onEnterName(nextString()) }
                         onEnterText(nextString())
-                                .onEnterText()
-                                .onEnterText(nextString())
+                            .onEnterText()
+                            .onEnterText(nextString())
 
                         controlPanel { onLongSave() }
                         toolbar { onClickBack() }
@@ -188,7 +188,7 @@ class TextNotePanelTest : ParentUiTest() {
         }
     }
 
-    @Test fun actionOnEditLongSave() = data.insertText().let {
+    @Test fun actionOnEditLongSave() = db.insertText().let {
         launch {
             mainScreen {
                 notesScreen {

@@ -13,7 +13,7 @@ import sgtmelon.scriptum.parent.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class RollNoteImeTest : ParentUiTest() {
 
-    @Test fun toolbarImeNext() = data.createRoll().let {
+    @Test fun toolbarImeNext() = db.createRoll().let {
         launch {
             mainScreen {
                 notesScreen(isEmpty = true) {
@@ -30,7 +30,7 @@ class RollNoteImeTest : ParentUiTest() {
         }
     }
 
-    @Test fun itemImeNext() = data.createRoll().let {
+    @Test fun itemImeNext() = db.createRoll().let {
         launch {
             mainScreen {
                 notesScreen(isEmpty = true) {
@@ -48,7 +48,7 @@ class RollNoteImeTest : ParentUiTest() {
         }
     }
 
-    @Test fun enterPanelImeDone() = data.createRoll().let {
+    @Test fun enterPanelImeDone() = db.createRoll().let {
         launch {
             mainScreen {
                 notesScreen(isEmpty = true) {

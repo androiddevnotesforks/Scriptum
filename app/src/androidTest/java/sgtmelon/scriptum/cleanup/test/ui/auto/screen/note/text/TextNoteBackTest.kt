@@ -13,7 +13,7 @@ import sgtmelon.scriptum.parent.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class TextNoteBackTest : ParentUiTest() {
 
-    @Test fun closeOnBin()  = data.insertTextToBin().let {
+    @Test fun closeOnBin() = db.insertTextToBin().let {
         launch {
             mainScreen {
                 binScreen { openTextNote(it) { toolbar { onClickBack() } } }.assert()
@@ -22,7 +22,7 @@ class TextNoteBackTest : ParentUiTest() {
         }
     }
 
-    @Test fun closeOnCreate() = data.createText().let {
+    @Test fun closeOnCreate() = db.createText().let {
         launch {
             mainScreen {
                 openAddDialog { createText(it) { toolbar { onClickBack() } } }.assert()
@@ -31,7 +31,7 @@ class TextNoteBackTest : ParentUiTest() {
         }
     }
 
-    @Test fun closeOnRead() = data.insertText().let {
+    @Test fun closeOnRead() = db.insertText().let {
         launch {
             mainScreen {
                 notesScreen { openTextNote(it) { toolbar { onClickBack() } } }.assert()
@@ -41,7 +41,7 @@ class TextNoteBackTest : ParentUiTest() {
     }
 
 
-    @Test fun saveOnCreate() = data.createText().let {
+    @Test fun saveOnCreate() = db.createText().let {
         launch {
             mainScreen {
                 openAddDialog {
@@ -55,7 +55,7 @@ class TextNoteBackTest : ParentUiTest() {
         }
     }
 
-    @Test fun saveOnEdit() = data.insertText().let {
+    @Test fun saveOnEdit() = db.insertText().let {
         launch {
             mainScreen {
                 notesScreen {
@@ -71,7 +71,7 @@ class TextNoteBackTest : ParentUiTest() {
     }
 
 
-    @Test fun cancelOnEdit() = data.insertText().let {
+    @Test fun cancelOnEdit() = db.insertText().let {
         launch {
             mainScreen {
                 notesScreen {

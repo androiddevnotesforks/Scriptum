@@ -15,7 +15,7 @@ import sgtmelon.scriptum.parent.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class NoteKeyboardAnimTest : ParentUiTest() {
 
-    @Test fun insetsOnHideKeyboardInTextNote() = data.createText().let { note ->
+    @Test fun insetsOnHideKeyboardInTextNote() = db.createText().let { note ->
         launch {
             mainScreen {
                 openAddDialog {
@@ -27,7 +27,7 @@ class NoteKeyboardAnimTest : ParentUiTest() {
         }
     }
 
-    @Test fun insetsOnHideKeyboardInRollNote() = data.createRoll().let { note ->
+    @Test fun insetsOnHideKeyboardInRollNote() = db.createRoll().let { note ->
         launch {
             mainScreen {
                 openAddDialog {
@@ -41,7 +41,7 @@ class NoteKeyboardAnimTest : ParentUiTest() {
         }
     }
 
-    @Test fun insetsOnChangeModeInTextNote() = data.createText().let {
+    @Test fun insetsOnChangeModeInTextNote() = db.createText().let {
         launch {
             mainScreen {
                 openAddDialog {
@@ -54,7 +54,7 @@ class NoteKeyboardAnimTest : ParentUiTest() {
         }
     }
 
-    @Test fun insetsOnChangeModeInRollNote() = data.createRoll().let {
+    @Test fun insetsOnChangeModeInRollNote() = db.createRoll().let {
         launch {
             mainScreen {
                 openAddDialog {
@@ -70,7 +70,7 @@ class NoteKeyboardAnimTest : ParentUiTest() {
     /**
      * Test of change note mode with opened/closed keyboard.
      */
-    @Test fun differentChangeModeInTextNote() = data.createText().let { note ->
+    @Test fun differentChangeModeInTextNote() = db.createText().let { note ->
         launch {
             mainScreen {
                 openAddDialog {
@@ -91,7 +91,7 @@ class NoteKeyboardAnimTest : ParentUiTest() {
     /**
      * Test of change note mode with opened/closed keyboard.
      */
-    @Test fun differentChangeModeInRollNote() = data.createRoll().let { note ->
+    @Test fun differentChangeModeInRollNote() = db.createRoll().let { note ->
         launch {
             mainScreen {
                 openAddDialog {

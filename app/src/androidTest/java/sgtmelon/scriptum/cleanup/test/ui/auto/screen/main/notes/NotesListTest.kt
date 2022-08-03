@@ -14,14 +14,14 @@ class NotesListTest : ParentUiTest() {
 
     @Test fun contentEmpty() = launch { mainScreen { notesScreen(isEmpty = true) } }
 
-    @Test fun contentList() = launch({ data.fillNotes() }) { mainScreen { notesScreen() } }
+    @Test fun contentList() = launch({ db.fillNotes() }) { mainScreen { notesScreen() } }
 
-    @Test fun listScroll() = launch({ data.fillNotes() }) {
+    @Test fun listScroll() = launch({ db.fillNotes() }) {
         mainScreen { notesScreen { onScrollThrough() } }
     }
 
 
-    @Test fun textNoteOpen() = data.insertText().let {
+    @Test fun textNoteOpen() = db.insertText().let {
         launch {
             mainScreen {
                 notesScreen { openTextNote(it) { onPressBack() }.assert(isEmpty = false) }
@@ -29,7 +29,7 @@ class NotesListTest : ParentUiTest() {
         }
     }
 
-    @Test fun rollNoteOpen() = data.insertRoll().let {
+    @Test fun rollNoteOpen() = db.insertRoll().let {
         launch {
             mainScreen {
                 notesScreen { openRollNote(it) { onPressBack() }.assert(isEmpty = false) }
@@ -38,7 +38,7 @@ class NotesListTest : ParentUiTest() {
     }
 
 
-    @Test fun textCreateAndReturn() = data.createText().let {
+    @Test fun textCreateAndReturn() = db.createText().let {
         launch {
             mainScreen {
                 notesScreen(isEmpty = true)
@@ -48,7 +48,7 @@ class NotesListTest : ParentUiTest() {
         }
     }
 
-    @Test fun rollCreateAndReturn() = data.createRoll().let {
+    @Test fun rollCreateAndReturn() = db.createRoll().let {
         launch {
             mainScreen {
                 notesScreen(isEmpty = true)
@@ -58,14 +58,14 @@ class NotesListTest : ParentUiTest() {
         }
     }
 
-    @Test fun textCreateAndReturnWithSave() = data.createText().let {
+    @Test fun textCreateAndReturnWithSave() = db.createText().let {
         launch {
             mainScreen {
                 notesScreen(isEmpty = true)
 
                 openAddDialog {
                     createText(it) {
-                        data.insertText()
+                        db.insertText()
                         toolbar { onClickBack() }
                     }
                 }
@@ -75,14 +75,14 @@ class NotesListTest : ParentUiTest() {
         }
     }
 
-    @Test fun rollCreateAndReturnWithSave() = data.createRoll().let {
+    @Test fun rollCreateAndReturnWithSave() = db.createRoll().let {
         launch {
             mainScreen {
                 notesScreen(isEmpty = true)
 
                 openAddDialog {
                     createRoll(it) {
-                        data.insertRoll()
+                        db.insertRoll()
                         toolbar { onClickBack() }
                     }
                 }

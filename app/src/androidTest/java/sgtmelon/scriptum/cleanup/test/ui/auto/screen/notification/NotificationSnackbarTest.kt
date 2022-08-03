@@ -218,9 +218,9 @@ class NotificationSnackbarTest : ParentUiTest() {
         repeat(count) {
             val date = getCalendarWithAdd(min = NEXT_HOUR + it * NEXT_HOUR).getText()
             val color = Color.values().random()
-            val item = with(data) { insertText(textNote.copy(name = "", color = color.ordinal)) }
+            val item = with(db) { insertText(textNote.copy(name = "", color = color)) }
 
-            add(data.insertNotification(item, date))
+            add(db.insertNotification(item, date))
         }
     }
 

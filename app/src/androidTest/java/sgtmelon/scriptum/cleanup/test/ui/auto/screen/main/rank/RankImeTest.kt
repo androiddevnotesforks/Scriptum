@@ -13,7 +13,7 @@ import sgtmelon.scriptum.parent.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class RankImeTest : ParentUiTest() {
 
-    @Test fun toolbarImeAdd() = launch({ data.fillRank() }) {
+    @Test fun toolbarImeAdd() = launch({ db.fillRank() }) {
         val name = nextString()
 
         mainScreen {
@@ -43,7 +43,7 @@ class RankImeTest : ParentUiTest() {
         }
     }
 
-    @Test fun renameImeResult() = data.insertRank().let {
+    @Test fun renameImeResult() = db.insertRank().let {
         val newName = nextString()
 
         launch {

@@ -29,7 +29,7 @@ abstract class ParentUiTest : ParentTest() {
         SplashActivity::class.java, true, false
     )
 
-    protected val data = ParentInjector.provideTestDbDelegator()
+    protected val db = ParentInjector.provideTestDbDelegator()
 
     protected val uiDevice: UiDevice get() = UiDevice.getInstance(instrumentation)
 
@@ -87,7 +87,7 @@ abstract class ParentUiTest : ParentTest() {
         /**
          * Prepare database.
          */
-        data.clear()
+        db.clear()
     }
 
     private fun setupCompanionData() {

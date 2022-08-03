@@ -22,7 +22,7 @@ class BinRotationTest : ParentUiRotationTest() {
         }
     }
 
-    @Test fun contentList() = launch({ data.fillBin() }) {
+    @Test fun contentList() = launch({ db.fillBin() }) {
         mainScreen {
             binScreen {
                 automator.rotateSide()
@@ -32,7 +32,7 @@ class BinRotationTest : ParentUiRotationTest() {
         }
     }
 
-    @Test fun clearDialog() = launch({ data.fillBin() }) {
+    @Test fun clearDialog() = launch({ db.fillBin() }) {
         mainScreen {
             binScreen {
                 clearDialog {
@@ -43,7 +43,7 @@ class BinRotationTest : ParentUiRotationTest() {
         }
     }
 
-    @Test fun textNoteDialog() = data.insertTextToBin().let {
+    @Test fun textNoteDialog() = db.insertTextToBin().let {
         launch {
             mainScreen {
                 binScreen {
@@ -56,7 +56,7 @@ class BinRotationTest : ParentUiRotationTest() {
         }
     }
 
-    @Test fun rollNoteDialog() = data.insertRollToBin().let {
+    @Test fun rollNoteDialog() = db.insertRollToBin().let {
         launch {
             mainScreen {
                 binScreen {

@@ -30,7 +30,7 @@ class DisplayTest : ParentNotificationTest() {
     private fun startDisplayTest(count: Int) {
         TODO()
 
-        repeat(count) { data.insertNotification() }
+        repeat(count) { db.insertNotification() }
 
         launch { onSee { mainScreen() } }
     }

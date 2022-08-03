@@ -18,7 +18,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
      * Content
      */
 
-    @Test fun contentOnBin() = data.insertTextToBin().let {
+    @Test fun contentOnBin() = db.insertTextToBin().let {
         launch {
             mainScreen {
                 binScreen {
@@ -31,7 +31,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
         }
     }
 
-    @Test fun contentOnRestoreOpen() = data.insertTextToBin().let {
+    @Test fun contentOnRestoreOpen() = db.insertTextToBin().let {
         launch {
             mainScreen {
                 binScreen {
@@ -45,7 +45,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
         }
     }
 
-    @Test fun contentOnCreate() = data.createText().let {
+    @Test fun contentOnCreate() = db.createText().let {
         launch {
             mainScreen {
                 openAddDialog {
@@ -58,7 +58,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
         }
     }
 
-    @Test fun contentOnRead() = data.insertText().let {
+    @Test fun contentOnRead() = db.insertText().let {
         launch {
             mainScreen {
                 notesScreen {
@@ -71,7 +71,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
         }
     }
 
-    @Test fun contentOnEdit() = data.insertText().let {
+    @Test fun contentOnEdit() = db.insertText().let {
         launch {
             mainScreen {
                 notesScreen {
@@ -89,11 +89,11 @@ class TextNoteRotationTest : ParentUiRotationTest() {
      * Dialogs
      */
 
-    @Test fun dateDialog() = data.insertText().let {
+    @Test fun dateDialog() = db.insertText().let {
         startDateDialogTest(it, isUpdateDate = false)
     }
 
-    @Test fun dateDialogReset() = data.insertNotification(data.insertText()).let {
+    @Test fun dateDialogReset() = db.insertNotification(db.insertText()).let {
         if (it !is NoteItem.Text) throw NoteCastException()
 
         startDateDialogTest(it, isUpdateDate = true)
@@ -116,7 +116,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
         }
     }
 
-    @Test fun timeDialog() = data.insertText().let {
+    @Test fun timeDialog() = db.insertText().let {
         launch {
             mainScreen {
                 notesScreen {
@@ -136,7 +136,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
     }
 
 
-    @Test fun convertDialog() = data.insertText().let {
+    @Test fun convertDialog() = db.insertText().let {
         launch {
             mainScreen {
                 notesScreen {
@@ -153,7 +153,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
         }
     }
 
-    @Test fun convertDialogResult() = data.insertText().let {
+    @Test fun convertDialogResult() = db.insertText().let {
         launch {
             mainScreen {
                 notesScreen {
@@ -169,7 +169,7 @@ class TextNoteRotationTest : ParentUiRotationTest() {
         }
     }
 
-    @Test fun colorDialog() = data.createText().let {
+    @Test fun colorDialog() = db.createText().let {
         launch {
             mainScreen {
                 openAddDialog {
@@ -187,11 +187,11 @@ class TextNoteRotationTest : ParentUiRotationTest() {
         }
     }
 
-    @Test fun rankDialog() = data.fillRank(count = 3).let {
+    @Test fun rankDialog() = db.fillRank(count = 3).let {
         launch {
             mainScreen {
                 openAddDialog {
-                    createText(data.createText(), isRankEmpty = false) {
+                    createText(db.createText(), isRankEmpty = false) {
                         controlPanel {
                             onRank(it) {
                                 onClickItem()

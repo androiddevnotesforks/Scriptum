@@ -13,7 +13,7 @@ import sgtmelon.scriptum.parent.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class RollNotePanelTest : ParentUiTest() {
 
-    @Test fun actionOnBinRestore() = data.insertRollToBin().let {
+    @Test fun actionOnBinRestore() = db.insertRollToBin().let {
         launch {
             mainScreen {
                 notesScreen(isEmpty = true)
@@ -23,7 +23,7 @@ class RollNotePanelTest : ParentUiTest() {
         }
     }
 
-    @Test fun actionOnBinRestoreOpen() = data.insertRollToBin().let {
+    @Test fun actionOnBinRestoreOpen() = db.insertRollToBin().let {
         launch {
             mainScreen {
                 notesScreen(isEmpty = true)
@@ -41,7 +41,7 @@ class RollNotePanelTest : ParentUiTest() {
         }
     }
 
-    @Test fun actionOnBinClear() = data.insertRollToBin().let {
+    @Test fun actionOnBinClear() = db.insertRollToBin().let {
         launch {
             mainScreen {
                 notesScreen(isEmpty = true)
@@ -52,7 +52,7 @@ class RollNotePanelTest : ParentUiTest() {
     }
 
 
-    @Test fun actionOnReadNotification() = data.insertRoll().let {
+    @Test fun actionOnReadNotification() = db.insertRoll().let {
         launch {
             mainScreen { notesScreen { openRollNote(it) { controlPanel { onNotification() } } } }
         }
@@ -63,7 +63,7 @@ class RollNotePanelTest : ParentUiTest() {
     @Test fun actionOnReadUnbind() = startBindTest(isStatus = true)
 
     private fun startBindTest(isStatus: Boolean) {
-        val model = data.insertRoll(data.rollNote.copy(isStatus = isStatus))
+        val model = db.insertRoll(db.rollNote.copy(isStatus = isStatus))
 
         launch {
             mainScreen {
@@ -79,13 +79,13 @@ class RollNotePanelTest : ParentUiTest() {
         }
     }
 
-    @Test fun actionOnReadConvert() = data.insertRoll().let {
+    @Test fun actionOnReadConvert() = db.insertRoll().let {
         launch {
             mainScreen { notesScreen { openRollNote(it) { controlPanel { onConvert() } } } }
         }
     }
 
-    @Test fun actionOnReadDelete() = data.insertRoll().let {
+    @Test fun actionOnReadDelete() = db.insertRoll().let {
         launch {
             mainScreen {
                 binScreen(isEmpty = true)
@@ -99,7 +99,7 @@ class RollNotePanelTest : ParentUiTest() {
         }
     }
 
-    @Test fun actionOnReadEdit() = data.insertRoll().let {
+    @Test fun actionOnReadEdit() = db.insertRoll().let {
         launch { mainScreen { notesScreen { openRollNote(it) { controlPanel { onEdit() } } } } }
     }
 
@@ -109,8 +109,8 @@ class RollNotePanelTest : ParentUiTest() {
         TODO(reason = "#TEST write test")
     }
 
-    @Test fun actionOnCreateRank() = data.fillRank(count = 3).let {
-        val item = data.createRoll()
+    @Test fun actionOnCreateRank() = db.fillRank(count = 3).let {
+        val item = db.createRoll()
         launch {
             mainScreen {
                 openAddDialog {
@@ -120,8 +120,8 @@ class RollNotePanelTest : ParentUiTest() {
         }
     }
 
-    @Test fun actionOnEditRank() = data.fillRank(count = 3).let {
-        val item = data.insertRoll()
+    @Test fun actionOnEditRank() = db.fillRank(count = 3).let {
+        val item = db.insertRoll()
         launch {
             mainScreen {
                 notesScreen {
@@ -133,11 +133,11 @@ class RollNotePanelTest : ParentUiTest() {
         }
     }
 
-    @Test fun actionOnCreateColor() = data.createRoll().let {
+    @Test fun actionOnCreateColor() = db.createRoll().let {
         launch { mainScreen { openAddDialog { createRoll(it) { controlPanel { onColor() } } } } }
     }
 
-    @Test fun actionOnEditColor() = data.insertRoll().let {
+    @Test fun actionOnEditColor() = db.insertRoll().let {
         launch {
             mainScreen {
                 notesScreen { openRollNote(it) { controlPanel { onEdit().onColor() } } }
@@ -146,7 +146,7 @@ class RollNotePanelTest : ParentUiTest() {
     }
 
 
-    @Test fun actionOnCreateSave() = data.createRoll().let {
+    @Test fun actionOnCreateSave() = db.createRoll().let {
         launch {
             mainScreen {
                 openAddDialog {
@@ -162,7 +162,7 @@ class RollNotePanelTest : ParentUiTest() {
         }
     }
 
-    @Test fun actionOnEditSave() = data.insertRoll().let {
+    @Test fun actionOnEditSave() = db.insertRoll().let {
         launch {
             mainScreen {
                 notesScreen {
@@ -180,7 +180,7 @@ class RollNotePanelTest : ParentUiTest() {
         }
     }
 
-    @Test fun actionOnCreateLongSave() = data.createRoll().let {
+    @Test fun actionOnCreateLongSave() = db.createRoll().let {
         launch {
             mainScreen {
                 openAddDialog {
@@ -197,7 +197,7 @@ class RollNotePanelTest : ParentUiTest() {
         }
     }
 
-    @Test fun actionOnEditLongSave() = data.insertRoll().let {
+    @Test fun actionOnEditLongSave() = db.insertRoll().let {
         launch {
             mainScreen {
                 notesScreen {

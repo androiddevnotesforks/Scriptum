@@ -23,7 +23,7 @@ class NotificationRotationTest : ParentUiRotationTest() {
         }
     }
 
-    @Test fun contentList() = launch({ data.fillNotification() }) {
+    @Test fun contentList() = launch({ db.fillNotification() }) {
         mainScreen {
             notesScreen {
                 openNotification {
@@ -34,7 +34,7 @@ class NotificationRotationTest : ParentUiRotationTest() {
         }
     }
 
-    @Test fun snackbar() = launch({ data.insertNotification() }) {
+    @Test fun snackbar() = launch({ db.insertNotification() }) {
         mainScreen {
             notesScreen {
                 openNotification {

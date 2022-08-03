@@ -13,7 +13,7 @@ import sgtmelon.scriptum.parent.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class RankRenameDialogTest : ParentUiTest() {
 
-    @Test fun dialogClose() = data.insertRank().let {
+    @Test fun dialogClose() = db.insertRank().let {
         launch {
             mainScreen {
                 rankScreen {
@@ -24,7 +24,7 @@ class RankRenameDialogTest : ParentUiTest() {
         }
     }
 
-    @Test fun dialogApplySameName() = data.insertRank().let {
+    @Test fun dialogApplySameName() = db.insertRank().let {
         launch {
             mainScreen {
                 rankScreen { openRenameDialog(it.name) { onEnter(it.name, isEnabled = false) } }
@@ -32,7 +32,7 @@ class RankRenameDialogTest : ParentUiTest() {
         }
     }
 
-    @Test fun dialogApplyFromList() = data.fillRank().let {
+    @Test fun dialogApplyFromList() = db.fillRank().let {
         launch {
             mainScreen {
                 rankScreen {
@@ -42,7 +42,7 @@ class RankRenameDialogTest : ParentUiTest() {
         }
     }
 
-    @Test fun dialogApplyRegister()  = data.insertRank().let {
+    @Test fun dialogApplyRegister() = db.insertRank().let {
         launch {
             mainScreen {
                 rankScreen { openRenameDialog(it.name) { onEnter(it.name.uppercase()) } }
@@ -50,7 +50,7 @@ class RankRenameDialogTest : ParentUiTest() {
         }
     }
 
-    @Test fun dialogResult() = data.insertRank().let {
+    @Test fun dialogResult() = db.insertRank().let {
         val newName = nextString()
 
         launch {

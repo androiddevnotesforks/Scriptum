@@ -22,7 +22,7 @@ abstract class ParentToolbarColorTest(private val theme: ThemeDisplayed) : Paren
             mainScreen {
                 notesScreen(isEmpty = true) {
                     openAddDialog {
-                        when (val noteItem = data.createNote()) {
+                        when (val noteItem = db.createNote()) {
                             is NoteItem.Text -> {
                                 createText(noteItem) {
                                     controlPanel {

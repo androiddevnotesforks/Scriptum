@@ -16,7 +16,7 @@ import sgtmelon.scriptum.parent.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class RollNoteColorDialogTest : ParentUiTest(), IColorTest {
 
-    @Test fun closeAndWork() = data.createRoll().let {
+    @Test fun closeAndWork() = db.createRoll().let {
         launch {
             mainScreen {
                 openAddDialog {
@@ -34,7 +34,7 @@ class RollNoteColorDialogTest : ParentUiTest(), IColorTest {
 
     @Test fun darkTheme() = startThemeTest(ThemeDisplayed.DARK)
 
-    private fun startThemeTest(theme: ThemeDisplayed) = data.createRoll().let {
+    private fun startThemeTest(theme: ThemeDisplayed) = db.createRoll().let {
         setupTheme(theme)
 
         launch {
@@ -72,7 +72,7 @@ class RollNoteColorDialogTest : ParentUiTest(), IColorTest {
     override fun startTest(value: Color) {
         preferencesRepo.defaultColor = value
 
-        val item = data.createRoll()
+        val item = db.createRoll()
         launch {
             mainScreen {
                 openAddDialog { createRoll(item) { controlPanel { onColor { onAssertItem() } } } }

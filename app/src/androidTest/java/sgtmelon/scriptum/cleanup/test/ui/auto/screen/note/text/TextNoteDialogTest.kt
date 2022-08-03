@@ -12,7 +12,7 @@ import sgtmelon.scriptum.parent.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class TextNoteDialogTest : ParentUiTest() {
 
-    @Test fun dateDialogCloseAndWork() = data.insertText().let {
+    @Test fun dateDialogCloseAndWork() = db.insertText().let {
         launch {
             mainScreen {
                 notesScreen {
@@ -26,7 +26,7 @@ class TextNoteDialogTest : ParentUiTest() {
         }
     }
 
-    @Test fun convertDialogCloseAndWork() = data.insertText().let {
+    @Test fun convertDialogCloseAndWork() = db.insertText().let {
         launch {
             mainScreen {
                 notesScreen {
@@ -40,11 +40,11 @@ class TextNoteDialogTest : ParentUiTest() {
         }
     }
 
-    @Test fun rankDialogCloseAndWork() = data.fillRank(count = 3).let {
+    @Test fun rankDialogCloseAndWork() = db.fillRank(count = 3).let {
         launch {
             mainScreen {
                 openAddDialog {
-                    createText(data.createText(), isRankEmpty = false) {
+                    createText(db.createText(), isRankEmpty = false) {
                         controlPanel { onRank(it) { onCloseSoft() } }.assert()
                         controlPanel { onRank(it) { onClickCancel() } }.assert()
                         controlPanel { onRank(it) { onClickItem(p = 1).onClickApply() } }.assert()

@@ -15,11 +15,11 @@ import sgtmelon.scriptum.parent.provider.DateProvider.DATE_2
 @RunWith(AndroidJUnit4::class)
 class NotesNoteDialogTest : ParentUiTest() {
 
-    @Test fun textDialogUntitled() = data.insertText(data.textNote.apply { name = "" }).let {
+    @Test fun textDialogUntitled() = db.insertText(db.textNote.apply { name = "" }).let {
         launch { mainScreen { notesScreen { openNoteDialog(it) } } }
     }
 
-    @Test fun textDialogClose() = data.insertText().let {
+    @Test fun textDialogClose() = db.insertText().let {
         launch {
             mainScreen {
                 notesScreen { openNoteDialog(it) { onCloseSoft() }.assert(isEmpty = false) }
@@ -27,19 +27,19 @@ class NotesNoteDialogTest : ParentUiTest() {
         }
     }
 
-    @Test fun textDialogBind() = data.insertText().let {
+    @Test fun textDialogBind() = db.insertText().let {
         launch {
             mainScreen { notesScreen { openNoteDialog(it) { onBind() }.onAssertItem(it) } }
         }
     }
 
-    @Test fun textDialogUnbind() = data.insertText(data.textNote.copy(isStatus = true)).let {
+    @Test fun textDialogUnbind() = db.insertText(db.textNote.copy(isStatus = true)).let {
         launch {
             mainScreen { notesScreen { openNoteDialog(it) { onBind() }.onAssertItem(it) } }
         }
     }
 
-    @Test fun textDialogUnbindOnDelete() = with(data) {
+    @Test fun textDialogUnbindOnDelete() = with(db) {
         insertText(textNote.copy(isStatus = true))
     }.let {
         launch {
@@ -51,7 +51,7 @@ class NotesNoteDialogTest : ParentUiTest() {
         }
     }
 
-    @Test fun textDialogConvert() = with(data) {
+    @Test fun textDialogConvert() = with(db) {
         insertRoll(rollNote.copy(change = DATE_2))
         return@with insertText(textNote.copy(change = DATE_1))
     }.let {
@@ -66,7 +66,7 @@ class NotesNoteDialogTest : ParentUiTest() {
         }
     }
 
-    @Test fun textDialogDelete() = data.insertText().let {
+    @Test fun textDialogDelete() = db.insertText().let {
         launch {
             mainScreen {
                 notesScreen { openNoteDialog(it) { onDelete() }.assert(isEmpty = true) }
@@ -76,11 +76,11 @@ class NotesNoteDialogTest : ParentUiTest() {
     }
 
 
-    @Test fun rollDialogUntitled() = data.insertRoll(data.rollNote.apply { name = "" }).let {
+    @Test fun rollDialogUntitled() = db.insertRoll(db.rollNote.apply { name = "" }).let {
         launch { mainScreen { notesScreen { openNoteDialog(it) } } }
     }
 
-    @Test fun rollDialogClose() = data.insertRoll().let {
+    @Test fun rollDialogClose() = db.insertRoll().let {
         launch {
             mainScreen {
                 notesScreen { openNoteDialog(it) { onCloseSoft() }.assert(isEmpty = false) }
@@ -88,19 +88,19 @@ class NotesNoteDialogTest : ParentUiTest() {
         }
     }
 
-    @Test fun rollDialogBind() = data.insertRoll().let {
+    @Test fun rollDialogBind() = db.insertRoll().let {
         launch {
             mainScreen { notesScreen { openNoteDialog(it) { onBind() }.onAssertItem(it) } }
         }
     }
 
-    @Test fun rollDialogUnbind() = data.insertRoll(data.rollNote.copy(isStatus = true)).let {
+    @Test fun rollDialogUnbind() = db.insertRoll(db.rollNote.copy(isStatus = true)).let {
         launch {
             mainScreen { notesScreen { openNoteDialog(it) { onBind() }.onAssertItem(it) } }
         }
     }
 
-    @Test fun rollDialogUnbindOnDelete() = with(data) {
+    @Test fun rollDialogUnbindOnDelete() = with(db) {
         insertRoll(rollNote.copy(isStatus = true))
     }.let {
         launch {
@@ -112,7 +112,7 @@ class NotesNoteDialogTest : ParentUiTest() {
         }
     }
 
-    @Test fun rollDialogConvert() = with(data) {
+    @Test fun rollDialogConvert() = with(db) {
         insertText(textNote.copy(change = DATE_2))
         return@with insertRoll(rollNote.copy(change = DATE_1))
     }.let {
@@ -127,7 +127,7 @@ class NotesNoteDialogTest : ParentUiTest() {
         }
     }
 
-    @Test fun rollDialogDelete() = data.insertRoll().let {
+    @Test fun rollDialogDelete() = db.insertRoll().let {
         launch {
             mainScreen {
                 notesScreen { openNoteDialog(it) { onDelete() }.assert(isEmpty = true) }

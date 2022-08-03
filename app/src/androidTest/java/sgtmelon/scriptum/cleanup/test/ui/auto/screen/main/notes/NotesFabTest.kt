@@ -15,7 +15,7 @@ import sgtmelon.scriptum.parent.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class NotesFabTest : ParentUiTest() {
 
-    @Test fun onScrollAndPageChange() = launch({ data.fillNotes(count = 45) }) {
+    @Test fun onScrollAndPageChange() = launch({ db.fillNotes(count = 45) }) {
         mainScreen {
             for (it in listOf(MainPage.RANK, MainPage.BIN)) {
                 notesScreen { onScroll(Scroll.END, time = 5) }
@@ -30,7 +30,7 @@ class NotesFabTest : ParentUiTest() {
         }
     }
 
-    @Test fun onResume() = launch({ data.fillNotes() }) {
+    @Test fun onResume() = launch({ db.fillNotes() }) {
         mainScreen {
             notesScreen { onScroll(Scroll.END, time = 1) }
             assert(isFabVisible = false)
@@ -39,7 +39,7 @@ class NotesFabTest : ParentUiTest() {
         }
     }
 
-    @Test fun standstill() = launch({ data.fillNotes() }) {
+    @Test fun standstill() = launch({ db.fillNotes() }) {
         mainScreen {
             notesScreen { onScroll(Scroll.END, time = 1) }
             assert(isFabVisible = false)

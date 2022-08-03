@@ -12,7 +12,7 @@ import sgtmelon.scriptum.parent.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class BinClearDialogTest : ParentUiTest() {
 
-    @Test fun closeAndWork() = launch({ data.fillBin() }) {
+    @Test fun closeAndWork() = launch({ db.fillBin() }) {
         mainScreen {
             binScreen {
                 clearDialog { onCloseSoft() }.assert(isEmpty = false)
@@ -22,8 +22,8 @@ class BinClearDialogTest : ParentUiTest() {
         }
     }
 
-    @Test fun workWithHideNotes() = data.insertRankForBin().let {
-        launch({ data.fillBin(count = 5) }) {
+    @Test fun workWithHideNotes() = db.insertRankForBin().let {
+        launch({ db.fillBin(count = 5) }) {
             mainScreen {
                 binScreen()
 

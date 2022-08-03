@@ -14,7 +14,7 @@ import sgtmelon.scriptum.parent.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class NoteTrimTest : ParentUiTest() {
 
-    @Test fun textNote() = data.createText().let {
+    @Test fun textNote() = db.createText().let {
         launch {
             mainScreen {
                 notesScreen(isEmpty = true) {
@@ -30,7 +30,7 @@ class NoteTrimTest : ParentUiTest() {
         }
     }
 
-    @Test fun rollNote() = data.createRoll().let {
+    @Test fun rollNote() = db.createRoll().let {
         launch {
             mainScreen {
                 notesScreen(isEmpty = true) {

@@ -13,7 +13,7 @@ import sgtmelon.scriptum.parent.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class RollNoteFocusTest : ParentUiTest() {
 
-    @Test fun focusOnCreate() = data.createRoll().let {
+    @Test fun focusOnCreate() = db.createRoll().let {
         launch {
             mainScreen {
                 notesScreen(isEmpty = true) {
@@ -23,7 +23,7 @@ class RollNoteFocusTest : ParentUiTest() {
         }
     }
 
-    @Test fun focusOnEdit() = data.insertRoll().let {
+    @Test fun focusOnEdit() = db.insertRoll().let {
         launch {
             mainScreen {
                 notesScreen {

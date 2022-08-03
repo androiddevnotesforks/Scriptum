@@ -12,7 +12,7 @@ import sgtmelon.scriptum.parent.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class RankItemTest : ParentUiTest() {
 
-    @Test fun visibleForNotes() = data.insertRankForNotes().let {
+    @Test fun visibleForNotes() = db.insertRankForNotes().let {
         launch {
             mainScreen {
                 notesScreen()
@@ -24,7 +24,7 @@ class RankItemTest : ParentUiTest() {
         }
     }
 
-    @Test fun visibleForBin() = data.insertRankForBin().let {
+    @Test fun visibleForBin() = db.insertRankForBin().let {
         launch {
             mainScreen {
                 binScreen()
@@ -36,11 +36,11 @@ class RankItemTest : ParentUiTest() {
         }
     }
 
-    @Test fun clearFromList() = data.insertRank().let {
+    @Test fun clearFromList() = db.insertRank().let {
         launch { mainScreen { rankScreen { onClickCancel().assert(isEmpty = true) } } }
     }
 
-    @Test fun clearForNote() = data.insertRankForNotes().let {
+    @Test fun clearForNote() = db.insertRankForNotes().let {
         launch {
             mainScreen {
                 rankScreen { onClickVisible() }
@@ -51,7 +51,7 @@ class RankItemTest : ParentUiTest() {
         }
     }
 
-    @Test fun clearForBin() = data.insertRankForBin().let {
+    @Test fun clearForBin() = db.insertRankForBin().let {
         launch {
             mainScreen {
                 binScreen()

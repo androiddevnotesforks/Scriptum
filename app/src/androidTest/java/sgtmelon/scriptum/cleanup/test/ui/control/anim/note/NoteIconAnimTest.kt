@@ -16,16 +16,16 @@ import sgtmelon.scriptum.parent.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class NoteIconAnimTest : ParentUiTest() {
 
-    @Test fun arrowBackOnCreateTextNote() = data.createText().let {
+    @Test fun arrowBackOnCreateTextNote() = db.createText().let {
         launch { mainScreen { openAddDialog { createText(it) } } }
     }
 
-    @Test fun arrowBackOnCreateRollNote() = data.createRoll().let {
+    @Test fun arrowBackOnCreateRollNote() = db.createRoll().let {
         launch { mainScreen { openAddDialog { createRoll(it) } } }
     }
 
 
-    @Test fun notAnimateOnSaveCreateTextNote() = data.createText().let {
+    @Test fun notAnimateOnSaveCreateTextNote() = db.createText().let {
         launch {
             mainScreen {
                 openAddDialog {
@@ -35,12 +35,12 @@ class NoteIconAnimTest : ParentUiTest() {
         }
     }
 
-    @Test fun notAnimateOnSaveCreateRollNote() = data.createRoll().let {
+    @Test fun notAnimateOnSaveCreateRollNote() = db.createRoll().let {
         launch {
             mainScreen {
                 openAddDialog {
                     createRoll(it) {
-                        enterPanel { onAdd(data.rollList.first().text) }
+                        enterPanel { onAdd(db.rollList.first().text) }
                         controlPanel { onSave() }
                     }
                 }
@@ -48,20 +48,20 @@ class NoteIconAnimTest : ParentUiTest() {
         }
     }
 
-    @Test fun notAnimateOnRestoreOpenTextNote() = data.insertTextToBin().let {
+    @Test fun notAnimateOnRestoreOpenTextNote() = db.insertTextToBin().let {
         launch {
             mainScreen { binScreen { openTextNote(it) { controlPanel { onRestoreOpen() } } } }
         }
     }
 
-    @Test fun notAnimateOnRestoreOpenRollNote() = data.insertRollToBin().let {
+    @Test fun notAnimateOnRestoreOpenRollNote() = db.insertRollToBin().let {
         launch {
             mainScreen { binScreen { openRollNote(it) { controlPanel { onRestoreOpen() } } } }
         }
     }
 
 
-    @Test fun animateOnEditToSaveTextNote() = data.insertText().let {
+    @Test fun animateOnEditToSaveTextNote() = db.insertText().let {
         launch {
             mainScreen {
                 notesScreen {
@@ -71,7 +71,7 @@ class NoteIconAnimTest : ParentUiTest() {
         }
     }
 
-    @Test fun animateOnEditToSaveRollNote() = data.insertRoll().let {
+    @Test fun animateOnEditToSaveRollNote() = db.insertRoll().let {
         launch {
             mainScreen {
                 notesScreen {
@@ -81,7 +81,7 @@ class NoteIconAnimTest : ParentUiTest() {
         }
     }
 
-    @Test fun animateOnEditToCancelTextNote() = data.insertText().let {
+    @Test fun animateOnEditToCancelTextNote() = db.insertText().let {
         launch {
             mainScreen {
                 notesScreen {
@@ -96,7 +96,7 @@ class NoteIconAnimTest : ParentUiTest() {
         }
     }
 
-    @Test fun animateOnEditToCancelRollNote() = data.insertRoll().let {
+    @Test fun animateOnEditToCancelRollNote() = db.insertRoll().let {
         launch {
             mainScreen {
                 notesScreen {
@@ -111,7 +111,7 @@ class NoteIconAnimTest : ParentUiTest() {
         }
     }
 
-    @Test fun visibleClick() = data.insertRoll().let {
+    @Test fun visibleClick() = db.insertRoll().let {
         launch {
             mainScreen {
                 notesScreen { openRollNote(it) { repeat(REPEAT_COUNT) { onClickVisible() } } }

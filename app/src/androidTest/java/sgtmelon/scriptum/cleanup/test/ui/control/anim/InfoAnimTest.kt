@@ -11,7 +11,7 @@ import sgtmelon.scriptum.parent.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class InfoAnimTest : ParentUiTest() {
 
-    @Test fun rankInfoShowAndHide() = data.rankEntity.let { entity ->
+    @Test fun rankInfoShowAndHide() = db.rankEntity.let { entity ->
         launch {
             mainScreen {
                 rankScreen(isEmpty = true) {
@@ -34,7 +34,7 @@ class InfoAnimTest : ParentUiTest() {
     }
 
 
-    @Test fun notesInfoShow() = data.insertText().let {
+    @Test fun notesInfoShow() = db.insertText().let {
         launch {
             mainScreen {
                 notesScreen {
@@ -45,7 +45,7 @@ class InfoAnimTest : ParentUiTest() {
         }
     }
 
-    @Test fun notesInfoHide() = data.insertTextToBin().let {
+    @Test fun notesInfoHide() = db.insertTextToBin().let {
         launch {
             mainScreen {
                 notesScreen(isEmpty = true)
@@ -56,7 +56,7 @@ class InfoAnimTest : ParentUiTest() {
     }
 
 
-    @Test fun binInfoShow() = data.insertTextToBin().let {
+    @Test fun binInfoShow() = db.insertTextToBin().let {
         launch {
             mainScreen {
                 binScreen {
@@ -67,7 +67,7 @@ class InfoAnimTest : ParentUiTest() {
         }
     }
 
-    @Test fun binInfoHide() = data.insertText().let {
+    @Test fun binInfoHide() = db.insertText().let {
         launch {
             mainScreen {
                 binScreen(isEmpty = true)
@@ -78,7 +78,7 @@ class InfoAnimTest : ParentUiTest() {
     }
 
 
-    @Test fun notificationInfoShowAndHide() = launch({ data.insertNotification() }) {
+    @Test fun notificationInfoShowAndHide() = launch({ db.insertNotification() }) {
         mainScreen {
             notesScreen {
                 openNotification {

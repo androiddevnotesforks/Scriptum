@@ -16,27 +16,27 @@ class RollNoteDateTimeDialogTest : ParentUiTest(), IDateTimeDialogTest {
         mainScreen { notesScreen { openRollNote(item, func = func) } }
     }
 
-    @Test override fun dateReset() = data.insertNotification(data.insertRoll()).let {
+    @Test override fun dateReset() = db.insertNotification(db.insertRoll()).let {
         if (it !is NoteItem.Roll) throw NoteCastException()
 
         runTest(it) { controlPanel { onNotification(isUpdateDate = true) { runDateReset() } } }
     }
 
-    @Test override fun toastToday() = data.insertRoll().let {
+    @Test override fun toastToday() = db.insertRoll().let {
         runTest(it) { controlPanel { onNotification { runToastToday() } } }
     }
 
-    @Test override fun toastOther() = data.insertRoll().let {
+    @Test override fun toastOther() = db.insertRoll().let {
         runTest(it) { controlPanel { onNotification { runToastOther() } } }
     }
 
-    @Test override fun timeApplyEnablePast() = data.insertRoll().let {
+    @Test override fun timeApplyEnablePast() = db.insertRoll().let {
         runTest(it) { controlPanel { onNotification { runTimeApplyEnablePast() } } }
     }
 
-    @Test override fun timeApplyEnableList() = data.insertRoll().let {
+    @Test override fun timeApplyEnableList() = db.insertRoll().let {
         runTest(it) {
-            val date = data.insertNotification().alarmDate
+            val date = db.insertNotification().alarmDate
             controlPanel { onNotification { runTimeApplyEnableList(date) } }
         }
     }

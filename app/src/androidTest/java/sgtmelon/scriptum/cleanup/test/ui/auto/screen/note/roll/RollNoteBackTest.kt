@@ -13,7 +13,7 @@ import sgtmelon.scriptum.parent.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class RollNoteBackTest : ParentUiTest() {
 
-    @Test fun closeOnBin() = data.insertRollToBin().let {
+    @Test fun closeOnBin() = db.insertRollToBin().let {
         launch {
             mainScreen {
                 binScreen { openRollNote(it) { toolbar { onClickBack() } } }.assert()
@@ -22,7 +22,7 @@ class RollNoteBackTest : ParentUiTest() {
         }
     }
 
-    @Test fun closeOnCreate() = data.createRoll().let {
+    @Test fun closeOnCreate() = db.createRoll().let {
         launch {
             mainScreen {
                 openAddDialog { createRoll(it) { toolbar { onClickBack() } } }.assert()
@@ -31,7 +31,7 @@ class RollNoteBackTest : ParentUiTest() {
         }
     }
 
-    @Test fun closeOnRead() = data.insertRoll().let {
+    @Test fun closeOnRead() = db.insertRoll().let {
         launch {
             mainScreen {
                 notesScreen { openRollNote(it) { toolbar { onClickBack() } } }.assert()
@@ -40,7 +40,7 @@ class RollNoteBackTest : ParentUiTest() {
         }
     }
 
-    @Test fun saveOnCreate() = data.createRoll().let {
+    @Test fun saveOnCreate() = db.createRoll().let {
         launch {
             mainScreen {
                 openAddDialog {
@@ -54,7 +54,7 @@ class RollNoteBackTest : ParentUiTest() {
         }
     }
 
-    @Test fun saveOnEdit() = data.insertRoll().let {
+    @Test fun saveOnEdit() = db.insertRoll().let {
         launch {
             mainScreen {
                 notesScreen {
@@ -69,7 +69,7 @@ class RollNoteBackTest : ParentUiTest() {
         }
     }
 
-    @Test fun cancelOnEdit() = data.insertRoll().let {
+    @Test fun cancelOnEdit() = db.insertRoll().let {
         launch {
             mainScreen {
                 notesScreen {

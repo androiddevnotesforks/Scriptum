@@ -15,7 +15,7 @@ class RankSnackbarTest : ParentUiTest() {
     /**
      * Check snackbar container display correct
      */
-    @Test fun containerBottomDisplay() = data.fillRank(count = 15).let {
+    @Test fun containerBottomDisplay() = db.fillRank(count = 15).let {
         launch {
             mainScreen {
                 rankScreen {
@@ -29,7 +29,7 @@ class RankSnackbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun actionClickSingle() = data.fillRank(count = 5).let {
+    @Test fun actionClickSingle() = db.fillRank(count = 5).let {
         val p = it.indices.random()
 
         launch {
@@ -44,7 +44,7 @@ class RankSnackbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun actionClickMany() = data.fillRank(count = 3).let { list ->
+    @Test fun actionClickMany() = db.fillRank(count = 3).let { list ->
         launch {
             mainScreen {
                 rankScreen {
@@ -66,7 +66,7 @@ class RankSnackbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun actionClickDismiss() = data.fillRank(count = 3).let {
+    @Test fun actionClickDismiss() = db.fillRank(count = 3).let {
         val removePosition = 1
 
         launch {
@@ -95,7 +95,7 @@ class RankSnackbarTest : ParentUiTest() {
     }
 
 
-    @Test fun dismissOnPause() = data.fillRank(count = 3).let { list ->
+    @Test fun dismissOnPause() = db.fillRank(count = 3).let { list ->
         launch {
             mainScreen {
                 rankScreen {
@@ -124,7 +124,7 @@ class RankSnackbarTest : ParentUiTest() {
         TODO()
     }
 
-    @Test fun dismissOnRename() = data.fillRank(count = 2).let { list ->
+    @Test fun dismissOnRename() = db.fillRank(count = 2).let { list ->
         launch {
             mainScreen {
                 rankScreen {
@@ -134,7 +134,7 @@ class RankSnackbarTest : ParentUiTest() {
                     openRenameDialog(list[0].name, p = 0) { onClickCancel() }
 
                     assertSnackbarDismiss()
-                    for ((i , item) in list.withIndex()) {
+                    for ((i, item) in list.withIndex()) {
                         onAssertItem(item, i)
                     }
                 }
@@ -142,7 +142,7 @@ class RankSnackbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun dismissOnAddStart() = data.fillRank(count = 2).let { list ->
+    @Test fun dismissOnAddStart() = db.fillRank(count = 2).let { list ->
         val name = nextShortString()
 
         launch {
@@ -163,7 +163,7 @@ class RankSnackbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun dismissOnAddEnd() = data.fillRank(count = 2).let { list ->
+    @Test fun dismissOnAddEnd() = db.fillRank(count = 2).let { list ->
         val name = nextShortString()
 
         launch {
@@ -184,7 +184,7 @@ class RankSnackbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun dismissOnAddIme() = data.fillRank(count = 2).let { list ->
+    @Test fun dismissOnAddIme() = db.fillRank(count = 2).let { list ->
         val name = nextShortString()
 
         launch {
@@ -206,7 +206,7 @@ class RankSnackbarTest : ParentUiTest() {
     }
 
 
-    @Test fun scrollToUndoItem_onTop() = data.fillRank(count = 15).let {
+    @Test fun scrollToUndoItem_onTop() = db.fillRank(count = 15).let {
         val p = it.indices.first()
 
         launch {
@@ -225,7 +225,7 @@ class RankSnackbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun scrollToUndoItem_onBottom() = data.fillRank(count = 15).let {
+    @Test fun scrollToUndoItem_onBottom() = db.fillRank(count = 15).let {
         val p = it.lastIndex
 
         launch {

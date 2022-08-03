@@ -20,7 +20,7 @@ class RankToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun enterAddFromList() = data.insertRank().let {
+    @Test fun enterAddFromList() = db.insertRank().let {
         launch {
             mainScreen { rankScreen { toolbar { onEnterName(it.name, isEnabled = false) } } }
         }
@@ -62,7 +62,7 @@ class RankToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun enterAddStart() = launch({ data.fillRank() }) {
+    @Test fun enterAddStart() = launch({ db.fillRank() }) {
         val name = nextString()
 
         mainScreen {
@@ -80,7 +80,7 @@ class RankToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun enterAddEnd() = launch({ data.fillRank() }) {
+    @Test fun enterAddEnd() = launch({ db.fillRank() }) {
         val name = nextString()
 
         mainScreen {
@@ -97,7 +97,7 @@ class RankToolbarTest : ParentUiTest() {
     }
 
 
-    @Test fun updateOnRename() = data.insertRank().let {
+    @Test fun updateOnRename() = db.insertRank().let {
         val newName = nextString()
 
         launch {

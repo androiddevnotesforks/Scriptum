@@ -12,7 +12,7 @@ import sgtmelon.scriptum.parent.ParentUiRotationTest
 @RunWith(AndroidJUnit4::class)
 class AlarmRotationTest : ParentUiRotationTest() {
 
-    @Test fun contentText() = data.insertText().let {
+    @Test fun contentText() = db.insertText().let {
         launchAlarm(it) {
             openAlarm(it) {
                 automator.rotateSide()
@@ -22,7 +22,7 @@ class AlarmRotationTest : ParentUiRotationTest() {
         }
     }
 
-    @Test fun contentRoll() = data.insertRoll().let {
+    @Test fun contentRoll() = db.insertRoll().let {
         launchAlarm(it) {
             openAlarm(it) {
                 automator.rotateSide()

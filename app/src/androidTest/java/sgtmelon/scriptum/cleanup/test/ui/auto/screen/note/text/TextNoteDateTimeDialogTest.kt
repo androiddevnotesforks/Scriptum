@@ -16,27 +16,27 @@ class TextNoteDateTimeDialogTest : ParentUiTest(), IDateTimeDialogTest {
         mainScreen { notesScreen { openTextNote(item, func = func) } }
     }
 
-    @Test override fun dateReset() = data.insertNotification(data.insertText()).let {
+    @Test override fun dateReset() = db.insertNotification(db.insertText()).let {
         if (it !is NoteItem.Text) throw NoteCastException()
 
         runTest(it) { controlPanel { onNotification(isUpdateDate = true) { runDateReset() } } }
     }
 
-    @Test override fun toastToday() = data.insertText().let {
+    @Test override fun toastToday() = db.insertText().let {
         runTest(it) { controlPanel { onNotification { runToastToday() } } }
     }
 
-    @Test override fun toastOther() = data.insertText().let {
+    @Test override fun toastOther() = db.insertText().let {
         runTest(it) { controlPanel { onNotification { runToastOther() } } }
     }
 
-    @Test override fun timeApplyEnablePast() = data.insertText().let {
+    @Test override fun timeApplyEnablePast() = db.insertText().let {
         runTest(it) { controlPanel { onNotification { runTimeApplyEnablePast() } } }
     }
 
-    @Test override fun timeApplyEnableList() = data.insertText().let {
+    @Test override fun timeApplyEnableList() = db.insertText().let {
         runTest(it) {
-            val date = data.insertNotification().alarmDate
+            val date = db.insertNotification().alarmDate
             controlPanel { onNotification { runTimeApplyEnableList(date) } }
         }
     }

@@ -19,7 +19,7 @@ class BindNoteTest : ParentNotificationTest() {
      * Notify on start is implied
      */
 
-    @Test fun textNoteBindUnbind() = data.insertText().let {
+    @Test fun textNoteBindUnbind() = db.insertText().let {
         TODO()
 
         launch {
@@ -35,7 +35,7 @@ class BindNoteTest : ParentNotificationTest() {
         }
     }
 
-    @Test fun rollNoteBindUnbind() = data.insertRoll().let {
+    @Test fun rollNoteBindUnbind() = db.insertRoll().let {
         TODO()
         launch {
             mainScreen {
@@ -50,7 +50,7 @@ class BindNoteTest : ParentNotificationTest() {
         }
     }
 
-    @Test fun textNoteUpdateOnConvert() = with(data) {
+    @Test fun textNoteUpdateOnConvert() = with(db) {
         insertText(textNote.copy(isStatus = true))
     }.let {
         TODO()
@@ -68,7 +68,7 @@ class BindNoteTest : ParentNotificationTest() {
         }
     }
 
-    @Test fun rollNoteUpdateOnConvert() = with(data) {
+    @Test fun rollNoteUpdateOnConvert() = with(db) {
         insertRoll(rollNote.copy(isStatus = true))
     }.let {
         TODO()
@@ -86,7 +86,7 @@ class BindNoteTest : ParentNotificationTest() {
         }
     }
 
-    @Test fun textNoteUnbindOnDelete() = with(data) {
+    @Test fun textNoteUnbindOnDelete() = with(db) {
         insertText(textNote.copy(isStatus = true))
     }.let {
         TODO()
@@ -100,7 +100,7 @@ class BindNoteTest : ParentNotificationTest() {
         }
     }
 
-    @Test fun rollNoteUnbindOnDelete() = with(data) {
+    @Test fun rollNoteUnbindOnDelete() = with(db) {
         insertRoll(rollNote.copy(isStatus = true))
     }.let {
         TODO()

@@ -15,7 +15,7 @@ import sgtmelon.scriptum.parent.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class AlarmMoreDialogTest : ParentUiTest(), IRepeatTest {
 
-    @Test fun dialogClose() = data.insertNote().let {
+    @Test fun dialogClose() = db.insertNote().let {
         launchAlarm(it) {
             openAlarm(it) {
                 openMoreDialog { onCloseSoft() }.assert()
@@ -34,7 +34,7 @@ class AlarmMoreDialogTest : ParentUiTest(), IRepeatTest {
 
     @Test override fun repeatMin1440() = super.repeatMin1440()
 
-    override fun startTest(value: Repeat) = data.insertNote().let {
+    override fun startTest(value: Repeat) = db.insertNote().let {
         launchAlarm(it) { openAlarm(it) { openMoreDialog { onClickRepeat(value) } }.mainScreen() }
     }
 }

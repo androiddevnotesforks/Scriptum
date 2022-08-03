@@ -8,6 +8,7 @@ import sgtmelon.common.utils.getNewCalendar
 import sgtmelon.common.utils.getText
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.AlarmActivity
 import sgtmelon.scriptum.cleanup.test.parent.situation.IRepeatTest
+import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.model.key.Sort
 import sgtmelon.scriptum.parent.ParentUiTest
@@ -31,17 +32,17 @@ class AlarmClickRepeatTest : ParentUiTest(), IRepeatTest {
     override fun startTest(value: Repeat) {
         preferencesRepo.repeat = value
 
-        data.insertNote().let {
+        db.insertNote().let {
             launchAlarm(it) { openAlarm(it) { onClickRepeat() }.mainScreen() }
         }
     }
 
-    @Test fun dateExist() = data.insertText().let {
+    @Test fun dateExist() = db.insertText().let {
         preferencesRepo.repeat = Repeat.MIN_10
 
         launchAlarm(it) {
             val existDate = getCalendarWithAdd(min = 10).getText()
-            data.insertNotification(date = existDate)
+            db.insertNotification(date = existDate)
 
             openAlarm(it, listOf(existDate)) { onClickRepeat() }
             mainScreen { notesScreen { openNotification { onAssertItem(1, it) } } }
@@ -51,11 +52,11 @@ class AlarmClickRepeatTest : ParentUiTest(), IRepeatTest {
     /**
      * Check reset seconds on click repeat button. And check alarm receiver work with notes screen.
      */
-    @Test fun correctSeconds() = data.insertText(data.textNote.copy(color = 1)).let {
+    @Test fun correctSeconds() = db.insertText(db.textNote.copy(color = Color.PURPLE)).let {
         preferencesRepo.sort = Sort.COLOR
         preferencesRepo.repeat = Repeat.values().random()
 
-        val note = data.insertRoll(data.rollNote.copy(color = 0))
+        val note = db.insertRoll(db.rollNote.copy(color = Color.RED))
 
         launchAlarm(it) {
             var repeatCalendar = getNewCalendar()

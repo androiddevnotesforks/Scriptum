@@ -14,7 +14,7 @@ import sgtmelon.scriptum.parent.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class MainScrollTopTest : ParentUiTest() {
 
-    @Test fun onRank() = data.fillRank(count = 20).let {
+    @Test fun onRank() = db.fillRank(count = 20).let {
         launch {
             mainScreen {
                 rankScreen { onScroll(Scroll.END) }.onScrollTop()
@@ -24,7 +24,7 @@ class MainScrollTopTest : ParentUiTest() {
         }
     }
 
-    @Test fun onNotes() = data.fillNotes().let {
+    @Test fun onNotes() = db.fillNotes().let {
         launch {
             mainScreen {
                 notesScreen { onScroll(Scroll.END) }.onScrollTop()
@@ -34,7 +34,7 @@ class MainScrollTopTest : ParentUiTest() {
         }
     }
 
-    @Test fun onBin() = data.fillBin().let {
+    @Test fun onBin() = db.fillBin().let {
         launch {
             mainScreen {
                 binScreen { onScroll(Scroll.END) }.onScrollTop()

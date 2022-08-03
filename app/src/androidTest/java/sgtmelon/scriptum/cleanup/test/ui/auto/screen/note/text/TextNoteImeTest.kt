@@ -13,7 +13,7 @@ import sgtmelon.scriptum.parent.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class TextNoteImeTest : ParentUiTest() {
 
-    @Test fun toolbarImeNext() = data.createText().let {
+    @Test fun toolbarImeNext() = db.createText().let {
         launch {
             mainScreen {
                 notesScreen(isEmpty = true) {
@@ -31,7 +31,7 @@ class TextNoteImeTest : ParentUiTest() {
     /**
      * TODO improve ime option test
      */
-    @Test fun enterImeAction() = data.createText().let {
+    @Test fun enterImeAction() = db.createText().let {
         launch {
             mainScreen {
                 notesScreen(isEmpty = true) {

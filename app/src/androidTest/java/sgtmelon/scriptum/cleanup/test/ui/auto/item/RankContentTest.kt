@@ -13,13 +13,13 @@ import sgtmelon.scriptum.parent.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class RankContentTest : ParentUiTest() {
 
-    @Test fun itemList() = data.fillRankRelation(ITEM_COUNT).let { list ->
+    @Test fun itemList() = db.fillRankRelation(ITEM_COUNT).let { list ->
         launch {
             mainScreen { rankScreen { for ((i, it) in list.withIndex()) onAssertItem(it, i) } }
         }
     }
 
-    @Test fun visibleClick() = data.insertRank().let { item ->
+    @Test fun visibleClick() = db.insertRank().let { item ->
         launch {
             mainScreen {
                 rankScreen {
@@ -34,7 +34,7 @@ class RankContentTest : ParentUiTest() {
         }
     }
 
-    @Test fun visibleLongClick() = data.fillRank(ITEM_COUNT).let { list ->
+    @Test fun visibleLongClick() = db.fillRank(ITEM_COUNT).let { list ->
         launch {
             mainScreen {
                 rankScreen {
@@ -52,7 +52,7 @@ class RankContentTest : ParentUiTest() {
     }
 
 
-    @Test fun itemBind() = data.insertRankForNotes().let {
+    @Test fun itemBind() = db.insertRankForNotes().let {
         launch {
             mainScreen {
                 rankScreen { onAssertItem(it.first) }
@@ -62,7 +62,7 @@ class RankContentTest : ParentUiTest() {
         }
     }
 
-    @Test fun itemNotification() = data.insertRankForNotes().let {
+    @Test fun itemNotification() = db.insertRankForNotes().let {
         launch {
             mainScreen {
                 rankScreen { onAssertItem(it.first) }
@@ -76,7 +76,7 @@ class RankContentTest : ParentUiTest() {
         }
     }
 
-    @Test fun itemMaxIndicator() = data.insertRank().let {
+    @Test fun itemMaxIndicator() = db.insertRank().let {
         launch({ RankHolder.isMaxTest = true }) {
             mainScreen { rankScreen { onAssertItem(it) } }
         }

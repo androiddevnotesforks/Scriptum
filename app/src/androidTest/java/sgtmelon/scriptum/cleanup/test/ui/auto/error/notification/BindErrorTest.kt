@@ -16,7 +16,7 @@ class BindErrorTest : ParentNotificationTest() {
     /**
      * [Description.Note.RestoreChanges]
      */
-    @Test fun textNoteUnbindOnRestore() = with(data) {
+    @Test fun textNoteUnbindOnRestore() = with(db) {
         insertText(textNote.copy(isStatus = true))
     }.let {
         launch {
@@ -36,7 +36,7 @@ class BindErrorTest : ParentNotificationTest() {
     /**
      * [Description.Note.RestoreChanges]
      */
-    @Test fun rollNoteUnbindOnRestore() = with(data) {
+    @Test fun rollNoteUnbindOnRestore() = with(db) {
         insertRoll(rollNote.copy(isStatus = true))
     }.let {
         launch {

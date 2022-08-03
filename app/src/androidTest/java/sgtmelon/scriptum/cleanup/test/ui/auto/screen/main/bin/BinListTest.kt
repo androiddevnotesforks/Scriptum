@@ -15,20 +15,20 @@ class BinListTest : ParentUiTest() {
 
     @Test fun contentEmpty() = launch { mainScreen { binScreen(isEmpty = true) } }
 
-    @Test fun contentList() = launch({ data.fillBin() }) { mainScreen { binScreen() } }
+    @Test fun contentList() = launch({ db.fillBin() }) { mainScreen { binScreen() } }
 
-    @Test fun listScroll() = launch({ data.fillBin() }) {
+    @Test fun listScroll() = launch({ db.fillBin() }) {
         mainScreen { binScreen { onScrollThrough() } }
     }
 
 
-    @Test fun textNoteOpen() = data.insertTextToBin().let {
+    @Test fun textNoteOpen() = db.insertTextToBin().let {
         launch {
             mainScreen { binScreen { openTextNote(it) { onPressBack() }.assert(isEmpty = false) } }
         }
     }
 
-    @Test fun rollNoteOpen() = data.insertRollToBin().let {
+    @Test fun rollNoteOpen() = db.insertRollToBin().let {
         launch {
             mainScreen { binScreen { openRollNote(it) { onPressBack() }.assert(isEmpty = false) } }
         }

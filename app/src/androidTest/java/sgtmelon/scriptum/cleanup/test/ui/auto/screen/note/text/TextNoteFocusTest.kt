@@ -12,7 +12,7 @@ import sgtmelon.scriptum.parent.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class TextNoteFocusTest : ParentUiTest() {
 
-    @Test fun focusOnCreate() = data.createText().let {
+    @Test fun focusOnCreate() = db.createText().let {
         launch {
             mainScreen {
                 notesScreen(isEmpty = true) {
@@ -22,7 +22,7 @@ class TextNoteFocusTest : ParentUiTest() {
         }
     }
 
-    @Test fun focusOnEdit() = data.insertText().let {
+    @Test fun focusOnEdit() = db.insertText().let {
         launch {
             mainScreen {
                 notesScreen { openTextNote(it) { controlPanel { onEdit() }.assertFocus() } }

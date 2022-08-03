@@ -23,7 +23,7 @@ class RankRotationTest : ParentUiRotationTest() {
         }
     }
 
-    @Test fun contentList() = launch({ data.fillRank() }) {
+    @Test fun contentList() = launch({ db.fillRank() }) {
         mainScreen {
             rankScreen {
                 automator.rotateSide()
@@ -33,7 +33,7 @@ class RankRotationTest : ParentUiRotationTest() {
         }
     }
 
-    @Test fun renameDialog() = data.insertRank().let {
+    @Test fun renameDialog() = db.insertRank().let {
         val newName = nextString()
 
         launch {
@@ -49,7 +49,7 @@ class RankRotationTest : ParentUiRotationTest() {
         }
     }
 
-    @Test fun snackbar() = data.insertRank().let {
+    @Test fun snackbar() = db.insertRank().let {
         launch {
             mainScreen {
                 rankScreen {

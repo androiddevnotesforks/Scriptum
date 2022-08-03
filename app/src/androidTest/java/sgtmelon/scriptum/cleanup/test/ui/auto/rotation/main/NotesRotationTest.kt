@@ -23,7 +23,7 @@ class NotesRotationTest : ParentUiRotationTest() {
         }
     }
 
-    @Test fun contentList() = launch({ data.fillNotes() }) {
+    @Test fun contentList() = launch({ db.fillNotes() }) {
         mainScreen {
             notesScreen {
                 automator.rotateSide()
@@ -33,7 +33,7 @@ class NotesRotationTest : ParentUiRotationTest() {
         }
     }
 
-    @Test fun textNoteDialog() = data.insertText().let {
+    @Test fun textNoteDialog() = db.insertText().let {
         launch {
             mainScreen {
                 notesScreen {
@@ -46,7 +46,7 @@ class NotesRotationTest : ParentUiRotationTest() {
         }
     }
 
-    @Test fun rollNoteDialog() = data.insertRoll().let {
+    @Test fun rollNoteDialog() = db.insertRoll().let {
         launch {
             mainScreen {
                 notesScreen {
@@ -59,9 +59,9 @@ class NotesRotationTest : ParentUiRotationTest() {
         }
     }
 
-    @Test fun dateDialog() = data.insertNote().let { startDateDialogTest(it) }
+    @Test fun dateDialog() = db.insertNote().let { startDateDialogTest(it) }
 
-    @Test fun dateDialogReset() = data.insertNotification(data.insertNote()).let {
+    @Test fun dateDialogReset() = db.insertNotification(db.insertNote()).let {
         startDateDialogTest(it)
     }
 
@@ -80,7 +80,7 @@ class NotesRotationTest : ParentUiRotationTest() {
         }
     }
 
-    @Test fun timeDialog() = data.insertNote().let {
+    @Test fun timeDialog() = db.insertNote().let {
         launch {
             mainScreen {
                 notesScreen {

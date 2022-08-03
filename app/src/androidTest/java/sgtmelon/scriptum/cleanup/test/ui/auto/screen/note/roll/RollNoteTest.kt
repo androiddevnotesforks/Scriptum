@@ -12,23 +12,23 @@ import sgtmelon.scriptum.parent.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class RollNoteTest : ParentUiTest() {
 
-    @Test fun contentOnBinWithoutName() = data.insertRollToBin(data.rollNote.copy(name = "")).let {
+    @Test fun contentOnBinWithoutName() = db.insertRollToBin(db.rollNote.copy(name = "")).let {
         launch { mainScreen { binScreen { openRollNote(it) } } }
     }
 
-    @Test fun contentOnBinWithName() = data.insertRollToBin().let {
+    @Test fun contentOnBinWithName() = db.insertRollToBin().let {
         launch { mainScreen { binScreen { openRollNote(it) } } }
     }
 
-    @Test fun contentOnCreate() = data.createRoll().let {
+    @Test fun contentOnCreate() = db.createRoll().let {
         launch { mainScreen { openAddDialog { createRoll(it) } } }
     }
 
-    @Test fun contentOnReadWithoutName() = data.insertRoll(data.rollNote.copy(name = "")).let {
+    @Test fun contentOnReadWithoutName() = db.insertRoll(db.rollNote.copy(name = "")).let {
         launch { mainScreen { notesScreen { openRollNote(it) } } }
     }
 
-    @Test fun contentOnReadWithName() = data.insertRoll().let {
+    @Test fun contentOnReadWithName() = db.insertRoll().let {
         launch { mainScreen { notesScreen { openRollNote(it) } } }
     }
 

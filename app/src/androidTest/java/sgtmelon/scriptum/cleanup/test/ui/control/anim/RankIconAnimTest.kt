@@ -13,11 +13,11 @@ import sgtmelon.scriptum.parent.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class RankIconAnimTest : ParentUiTest() {
 
-    @Test fun visibleClick() = data.insertRank().let {
+    @Test fun visibleClick() = db.insertRank().let {
         launch { mainScreen { rankScreen { repeat(REPEAT_COUNT) { onClickVisible() } } } }
     }
 
-    @Test fun visibleLongClick() = data.fillRank(REPEAT_COUNT).let {
+    @Test fun visibleLongClick() = db.fillRank(REPEAT_COUNT).let {
         launch { mainScreen { rankScreen { for (i in it.indices) onLongClickVisible(i) } } }
     }
 
