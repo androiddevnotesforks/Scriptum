@@ -9,5 +9,4 @@ import sgtmelon.scriptum.cleanup.data.room.RoomDb
 class RoomProvider(private val context: Context) {
 
     fun openRoom() = RoomDb[context]
-
 }

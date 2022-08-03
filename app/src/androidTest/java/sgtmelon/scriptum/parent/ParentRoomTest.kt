@@ -1,9 +1,9 @@
 package sgtmelon.scriptum.parent
 
 import org.junit.Before
-import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
 import sgtmelon.scriptum.cleanup.data.room.IRoomWork
 import sgtmelon.scriptum.cleanup.data.room.extension.inRoomTest
+import sgtmelon.scriptum.parent.di.ParentInjector
 
 /**
  * Parent class for Integration tests
@@ -11,9 +11,10 @@ import sgtmelon.scriptum.cleanup.data.room.extension.inRoomTest
 abstract class ParentRoomTest : ParentTest(),
     IRoomWork {
 
-    override val roomProvider = RoomProvider(context)
+    override val roomProvider = ParentInjector.provideRoomProvider()
 
-    protected val crowdList get() = List(QUESTION_LIMIT * (10..50).random()) { it.toLong() }
+    protected val crowdLongList
+        get() = List(OVERFLOW_LIMIT * (10..50).random()) { it.toLong() }
 
     @Before override fun setUp() {
         super.setUp()
@@ -21,7 +22,7 @@ abstract class ParentRoomTest : ParentTest(),
     }
 
     companion object {
-        const val QUESTION_LIMIT = 1000
+        const val OVERFLOW_LIMIT = 1000
         const val CROWD_SIZE = 5000
     }
 }

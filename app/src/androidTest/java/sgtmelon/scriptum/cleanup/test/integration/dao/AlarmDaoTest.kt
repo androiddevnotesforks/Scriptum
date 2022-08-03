@@ -16,6 +16,8 @@ import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.infrastructure.database.dao.AlarmDao
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.parent.ParentRoomTest
+import sgtmelon.scriptum.parent.provider.DateProvider.DATE_1
+import sgtmelon.scriptum.parent.provider.DateProvider.DATE_2
 
 /**
  * Integration test for [AlarmDao]
@@ -110,7 +112,7 @@ class AlarmDaoTest : ParentRoomTest() {
         assertEquals(alarmList, alarmDao.get(noteIdList))
     }
 
-    @Test fun getListByIdCrowd() = inRoomTest { alarmDao.get(crowdList) }
+    @Test fun getListByIdCrowd() = inRoomTest { alarmDao.get(crowdLongList) }
 
     @Test fun getItem() = inRoomTest {
         assertNull(alarmDao.getItem(Random.nextLong()))
@@ -159,5 +161,5 @@ class AlarmDaoTest : ParentRoomTest() {
         assertEquals(++size, alarmDao.getCount(listOf(firstNote.id, secondNote.id)))
     }
 
-    @Test fun getCountByIdListCrowd() = inRoomTest { alarmDao.getCount(crowdList) }
+    @Test fun getCountByIdListCrowd() = inRoomTest { alarmDao.getCount(crowdLongList) }
 }

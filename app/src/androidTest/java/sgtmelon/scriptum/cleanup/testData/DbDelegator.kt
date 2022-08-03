@@ -29,7 +29,7 @@ import sgtmelon.scriptum.infrastructure.model.key.Color
 /**
  * Class which fill db and provide data for tests.
  */
-class TestData(
+class DbDelegator(
     override val roomProvider: RoomProvider,
     private val preferencesRepo: PreferencesRepo
 ) : IRoomWork {

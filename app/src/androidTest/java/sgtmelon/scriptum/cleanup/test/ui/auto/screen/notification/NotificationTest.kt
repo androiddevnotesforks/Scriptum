@@ -5,6 +5,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.NotificationActivity
 import sgtmelon.scriptum.parent.ParentUiTest
+import sgtmelon.scriptum.parent.provider.DateProvider.DATE_5
 
 /**
  * Test for [NotificationActivity].
@@ -66,5 +67,4 @@ class NotificationTest : ParentUiTest() {
     @Test fun itemCancelFromPast() = data.insertNotification(date = DATE_5).let {
         launch { mainScreen { notesScreen { openNotification(isEmpty = true) } } }
     }
-
 }

@@ -14,6 +14,11 @@ import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.infrastructure.database.annotation.DaoConst
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.parent.ParentRoomTest
+import sgtmelon.scriptum.parent.provider.DateProvider.DATE_1
+import sgtmelon.scriptum.parent.provider.DateProvider.DATE_2
+import sgtmelon.scriptum.parent.provider.DateProvider.DATE_3
+import sgtmelon.scriptum.parent.provider.DateProvider.DATE_4
+import sgtmelon.scriptum.parent.provider.DateProvider.DATE_5
 
 /**
  * Integration test for [INoteDao]
@@ -136,7 +141,7 @@ class NoteDaoTest : ParentRoomTest() {
         assertEquals(1, getCount(isBin = true, rankIdList = listOf(1)))
     }
 
-    @Test fun getCountCrowd() = inNoteDao { getCount(Random.nextBoolean(), crowdList) }
+    @Test fun getCountCrowd() = inNoteDao { getCount(Random.nextBoolean(), crowdLongList) }
 
     @Test fun getBindCount() = inNoteDao {
         assertEquals(0, getBindCount(listOf()))
@@ -149,7 +154,7 @@ class NoteDaoTest : ParentRoomTest() {
         assertEquals(bindCount, getBindCount(listOf(firstNote.id, secondNote.id, thirdNote.id)))
     }
 
-    @Test fun getBindCountCrowd() = inNoteDao { getBindCount(crowdList) }
+    @Test fun getBindCountCrowd() = inNoteDao { getBindCount(crowdLongList) }
 
     @Test fun getByWrongId() = inNoteDao { assertNull(get(Random.nextLong())) }
 
@@ -178,7 +183,7 @@ class NoteDaoTest : ParentRoomTest() {
         )
     }
 
-    @Test fun getByIdListCrowd() = inNoteDao { get(crowdList) }
+    @Test fun getByIdListCrowd() = inNoteDao { get(crowdLongList) }
 
     @Test fun getByBin() = inNoteDao {
         insert(firstNote)

@@ -14,6 +14,10 @@ import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.infrastructure.database.annotation.DaoConst
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.parent.ParentRoomTest
+import sgtmelon.scriptum.parent.provider.DateProvider.DATE_1
+import sgtmelon.scriptum.parent.provider.DateProvider.DATE_2
+import sgtmelon.scriptum.parent.provider.DateProvider.DATE_3
+import sgtmelon.scriptum.parent.provider.DateProvider.DATE_5
 
 /**
  * Integration test for [IRollVisibleDao].
@@ -102,6 +106,6 @@ class RollVisibleDaoTest : ParentRoomTest() {
         assertTrue(resultList.contains(secondModel.entity))
     }
 
-    @Test fun getByIdListCrowd() = inRoomTest { rollVisibleDao.get(crowdList) }
+    @Test fun getByIdListCrowd() = inRoomTest { rollVisibleDao.get(crowdLongList) }
 
 }

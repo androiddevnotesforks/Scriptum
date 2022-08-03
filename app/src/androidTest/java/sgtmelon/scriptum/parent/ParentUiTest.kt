@@ -18,6 +18,7 @@ import sgtmelon.scriptum.cleanup.ui.screen.SplashScreen
 import sgtmelon.scriptum.infrastructure.model.key.Sort
 import sgtmelon.scriptum.infrastructure.model.key.Theme
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
+import sgtmelon.scriptum.parent.di.ParentInjector
 
 /**
  * Parent class for UI tests.
@@ -27,6 +28,8 @@ abstract class ParentUiTest : ParentTest() {
     @get:Rule val testRule = ActivityTestRule(
         SplashActivity::class.java, true, false
     )
+
+    protected val data = ParentInjector.provideTestDbDelegator()
 
     protected val uiDevice: UiDevice get() = UiDevice.getInstance(instrumentation)
 

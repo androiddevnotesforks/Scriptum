@@ -18,6 +18,11 @@ import sgtmelon.scriptum.cleanup.data.room.extension.safeGet
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.infrastructure.database.annotation.DaoConst
 import sgtmelon.scriptum.parent.ParentRoomTest
+import sgtmelon.scriptum.parent.provider.DateProvider.DATE_1
+import sgtmelon.scriptum.parent.provider.DateProvider.DATE_2
+import sgtmelon.scriptum.parent.provider.DateProvider.DATE_3
+import sgtmelon.scriptum.parent.provider.DateProvider.DATE_4
+import sgtmelon.scriptum.parent.provider.DateProvider.nextDate
 
 /**
  * Integration test for [IRollDao]
@@ -206,7 +211,7 @@ class RollDaoTest : ParentRoomTest() {
             }
 
             return@List Model(
-                NoteEntity(noteId, dateList.random(), dateList.random(), type = NoteType.ROLL),
+                NoteEntity(noteId, nextDate(), nextDate(), type = NoteType.ROLL),
                 list
             )
         }

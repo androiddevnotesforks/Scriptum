@@ -8,8 +8,8 @@ import sgtmelon.scriptum.cleanup.basic.extension.isEnabled
 import sgtmelon.scriptum.cleanup.basic.extension.withTextColor
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.dialog.sheet.AddSheetDialog
+import sgtmelon.scriptum.cleanup.testData.DbDelegator
 import sgtmelon.scriptum.cleanup.testData.State
-import sgtmelon.scriptum.cleanup.testData.TestData
 import sgtmelon.scriptum.cleanup.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.cleanup.ui.screen.note.TextNoteScreen
 
@@ -33,8 +33,8 @@ class AddSheetDialogUi : ParentSheetDialogUi(R.id.add_container, R.id.add_naviga
     ) {
         /**
          * Was assertion error in tests where time difference was 1 minute. I think it was
-         * happened when calendar time was ~00:59 on note create inside [TestData]. But time
-         * of actual note creation was ~01:.. (after [TestData] note was created).
+         * happened when calendar time was ~00:59 on note create inside [DbDelegator]. But time
+         * of actual note creation was ~01:.. (after [DbDelegator] note was created).
          */
         item.create = getTime()
 
@@ -49,8 +49,8 @@ class AddSheetDialogUi : ParentSheetDialogUi(R.id.add_container, R.id.add_naviga
     ) {
         /**
          * Was assertion error in tests where time difference was 1 minute. I think it was
-         * happened when calendar time was ~00:59 on note create inside [TestData]. But time
-         * of actual note creation was ~01:.. (after [TestData] note was created).
+         * happened when calendar time was ~00:59 on note create inside [DbDelegator]. But time
+         * of actual note creation was ~01:.. (after [DbDelegator] note was created).
          */
         item.create = getTime()
 
