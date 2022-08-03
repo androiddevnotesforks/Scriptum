@@ -4,6 +4,8 @@ import org.junit.Assert.assertNotEquals
 
 // TODO remove
 
+fun sleep(time: Long) = Thread.sleep(time)
+
 fun waitBefore(time: Long, func: () -> Unit = {}) {
     Thread.sleep(time)
     func()

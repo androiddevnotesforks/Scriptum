@@ -2,7 +2,7 @@ package sgtmelon.scriptum.cleanup.basic.automator
 
 import androidx.test.uiautomator.UiDevice
 import kotlin.random.Random
-import sgtmelon.scriptum.cleanup.basic.extension.waitBefore
+import sgtmelon.scriptum.cleanup.basic.extension.sleep
 
 class RotateAutomator(private val uiDevice: UiDevice) {
 
@@ -13,13 +13,13 @@ class RotateAutomator(private val uiDevice: UiDevice) {
             uiDevice.setOrientationRight()
         }
 
-        waitBefore(time = 2000)
+        sleep(time = 2000)
     }
 
     fun rotateNatural() {
         uiDevice.setOrientationNatural()
 
-        waitBefore(time = 2000)
+        sleep(time = 2000)
     }
 
 }

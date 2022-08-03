@@ -6,9 +6,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
 import sgtmelon.scriptum.cleanup.domain.model.key.MainPage
-import sgtmelon.scriptum.cleanup.test.parent.ParentUiTest
 import sgtmelon.scriptum.cleanup.testData.Scroll
 import sgtmelon.scriptum.cleanup.testData.WeightData
+import sgtmelon.scriptum.parent.ParentUiTest
 
 /**
  * Test recyclerView lists for lags

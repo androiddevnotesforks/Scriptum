@@ -11,17 +11,17 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.basic.extension.getDifferentValues
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.AlarmPreferenceFragment
-import sgtmelon.scriptum.cleanup.test.parent.ParentRotationTest
 import sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.alarm.IAlarmPreferenceTest
 import sgtmelon.scriptum.cleanup.ui.dialog.preference.VolumeDialogUi
 import sgtmelon.scriptum.infrastructure.model.MelodyItem
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
+import sgtmelon.scriptum.parent.ParentUiRotationTest
 
 /**
  * Test of [AlarmPreferenceFragment] work with phone rotation.
  */
 @RunWith(AndroidJUnit4::class)
-class AlarmPreferenceRotationTest : ParentRotationTest(), IAlarmPreferenceTest {
+class AlarmPreferenceRotationTest : ParentUiRotationTest(), IAlarmPreferenceTest {
 
     @Test fun content() = runTest({
         preferencesRepo.repeat = Repeat.values().random()

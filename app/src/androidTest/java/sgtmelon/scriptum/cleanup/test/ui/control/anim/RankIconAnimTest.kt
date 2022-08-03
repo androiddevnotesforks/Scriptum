@@ -5,7 +5,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.iconanim.control.IconAnimControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.RankFragment
-import sgtmelon.scriptum.cleanup.test.parent.ParentUiTest
+import sgtmelon.scriptum.parent.ParentUiTest
 
 /**
  * Test of [IconAnimControl] animations for [RankFragment]

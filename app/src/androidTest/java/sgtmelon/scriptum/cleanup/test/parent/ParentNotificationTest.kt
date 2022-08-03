@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.cleanup.test.parent
 
 import sgtmelon.scriptum.cleanup.basic.notifications.NotificationAutomator
+import sgtmelon.scriptum.parent.ParentUiTest
 
 /**
  * Parent class for tests with bindings notifications in status bar

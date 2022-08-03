@@ -7,10 +7,10 @@ import sgtmelon.common.utils.getCalendarWithAdd
 import sgtmelon.common.utils.getNewCalendar
 import sgtmelon.common.utils.getText
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.AlarmActivity
-import sgtmelon.scriptum.cleanup.test.parent.ParentUiTest
 import sgtmelon.scriptum.cleanup.test.parent.situation.IRepeatTest
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
 import sgtmelon.scriptum.infrastructure.model.key.Sort
+import sgtmelon.scriptum.parent.ParentUiTest
 
 /**
  * Test for [AlarmActivity].

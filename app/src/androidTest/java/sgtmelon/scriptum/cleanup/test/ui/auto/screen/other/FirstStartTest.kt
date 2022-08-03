@@ -6,9 +6,9 @@ import org.junit.FixMethodOrder
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
-import sgtmelon.scriptum.cleanup.test.parent.ParentUiTest
 import sgtmelon.scriptum.cleanup.testData.Scroll
 import sgtmelon.scriptum.infrastructure.preferences.PreferencesImpl
+import sgtmelon.scriptum.parent.ParentUiTest
 
 /**
  * Test for [PreferencesImpl.isFirstStart] logic

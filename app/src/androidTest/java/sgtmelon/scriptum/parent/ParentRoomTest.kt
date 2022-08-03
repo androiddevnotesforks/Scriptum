@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.test.parent
+package sgtmelon.scriptum.parent
 
 import org.junit.Before
 import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
@@ -8,7 +8,8 @@ import sgtmelon.scriptum.cleanup.data.room.extension.inRoomTest
 /**
  * Parent class for Integration tests
  */
-abstract class ParentRoomTest : ParentTest(), IRoomWork {
+abstract class ParentRoomTest : ParentTest(),
+    IRoomWork {
 
     override val roomProvider = RoomProvider(context)
 

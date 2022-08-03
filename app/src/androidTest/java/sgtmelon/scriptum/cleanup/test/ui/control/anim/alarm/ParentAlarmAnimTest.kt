@@ -3,11 +3,11 @@ package sgtmelon.scriptum.cleanup.test.ui.control.anim.alarm
 import kotlin.random.Random
 import sgtmelon.scriptum.cleanup.basic.extension.waitAfter
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.AlarmActivity
-import sgtmelon.scriptum.cleanup.test.parent.ParentUiTest
 import sgtmelon.scriptum.cleanup.test.parent.situation.IColorTest
 import sgtmelon.scriptum.infrastructure.converter.SignalConverter
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
+import sgtmelon.scriptum.parent.ParentUiTest
 
 /**
  * Parent class for tests of [AlarmActivity] with different themes.

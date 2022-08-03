@@ -5,13 +5,13 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.RankFragment
-import sgtmelon.scriptum.cleanup.test.parent.ParentRotationTest
+import sgtmelon.scriptum.parent.ParentUiRotationTest
 
 /**
  * Test of [RankFragment] work with phone rotation.
  */
 @RunWith(AndroidJUnit4::class)
-class RankRotationTest : ParentRotationTest() {
+class RankRotationTest : ParentUiRotationTest() {
 
     @Test fun contentEmpty() = launch {
         mainScreen {

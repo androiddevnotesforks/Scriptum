@@ -6,10 +6,10 @@ import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.NotePreferenceFragment
-import sgtmelon.scriptum.cleanup.test.parent.ParentUiTest
 import sgtmelon.scriptum.cleanup.test.parent.situation.ISavePeriodTest
 import sgtmelon.scriptum.cleanup.ui.dialog.preference.SavePeriodDialogUi
 import sgtmelon.scriptum.infrastructure.model.key.SavePeriod
+import sgtmelon.scriptum.parent.ParentUiTest
 
 /**
  * Test for [NotePreferenceFragment] and [SavePeriodDialogUi].

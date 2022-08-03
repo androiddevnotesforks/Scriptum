@@ -7,17 +7,17 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.basic.extension.getDifferentValues
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.NotePreferenceFragment
-import sgtmelon.scriptum.cleanup.test.parent.ParentRotationTest
 import sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.note.INotePreferenceTest
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.SavePeriod
 import sgtmelon.scriptum.infrastructure.model.key.Sort
+import sgtmelon.scriptum.parent.ParentUiRotationTest
 
 /**
  * Test of [NotePreferenceFragment] work with phone rotation.
  */
 @RunWith(AndroidJUnit4::class)
-class NotePreferenceRotationTest : ParentRotationTest(), INotePreferenceTest {
+class NotePreferenceRotationTest : ParentUiRotationTest(), INotePreferenceTest {
 
     @Test fun content() = runTest({
         preferencesRepo.sort = Sort.values().random()

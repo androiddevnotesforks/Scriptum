@@ -5,7 +5,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.NotesFragment
-import sgtmelon.scriptum.cleanup.test.parent.ParentUiTest
+import sgtmelon.scriptum.parent.ParentUiTest
 
 /**
  * Test note dialog for [NotesFragment].

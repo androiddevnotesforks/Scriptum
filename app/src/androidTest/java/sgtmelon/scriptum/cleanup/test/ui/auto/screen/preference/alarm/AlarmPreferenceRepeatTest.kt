@@ -6,10 +6,10 @@ import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.AlarmPreferenceFragment
-import sgtmelon.scriptum.cleanup.test.parent.ParentUiTest
 import sgtmelon.scriptum.cleanup.test.parent.situation.IRepeatTest
 import sgtmelon.scriptum.cleanup.ui.dialog.preference.RepeatDialogUi
 import sgtmelon.scriptum.infrastructure.model.key.Repeat
+import sgtmelon.scriptum.parent.ParentUiTest
 
 /**
  * Test for [AlarmPreferenceFragment] and [RepeatDialogUi].

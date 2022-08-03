@@ -5,8 +5,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.RankFragment
-import sgtmelon.scriptum.cleanup.test.parent.ParentUiTest
 import sgtmelon.scriptum.cleanup.testData.Scroll
+import sgtmelon.scriptum.parent.ParentUiTest
 
 /**
  * Test toolbar for [RankFragment].

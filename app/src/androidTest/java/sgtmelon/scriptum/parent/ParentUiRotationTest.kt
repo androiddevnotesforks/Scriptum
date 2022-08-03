@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.test.parent
+package sgtmelon.scriptum.parent
 
 import org.junit.After
 import sgtmelon.scriptum.cleanup.basic.automator.RotateAutomator
@@ -8,7 +8,7 @@ import sgtmelon.scriptum.cleanup.basic.automator.RotateAutomator
  *
  * For rotate screen use: ctrl + left/rightArrow
  */
-abstract class ParentRotationTest : ParentUiTest() {
+abstract class ParentUiRotationTest : ParentUiTest() {
 
     protected val automator by lazy { RotateAutomator(uiDevice) }
 

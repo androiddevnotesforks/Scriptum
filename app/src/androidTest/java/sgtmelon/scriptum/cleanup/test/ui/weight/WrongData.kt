@@ -6,7 +6,7 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.data.room.converter.model.NoteConverter
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
-import sgtmelon.scriptum.cleanup.test.parent.ParentUiTest
+import sgtmelon.scriptum.parent.ParentUiTest
 
 /**
  * Test open screens with wrong intent data, check error handling.

@@ -3,10 +3,10 @@ package sgtmelon.scriptum.cleanup.test.ui.auto.screen.note.toolbar
 import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
-import sgtmelon.scriptum.cleanup.test.parent.ParentUiTest
 import sgtmelon.scriptum.cleanup.test.parent.situation.IColorTest
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
+import sgtmelon.scriptum.parent.ParentUiTest
 
 /**
  * Parent class for tests of [NoteActivity] toolbar color with different themes

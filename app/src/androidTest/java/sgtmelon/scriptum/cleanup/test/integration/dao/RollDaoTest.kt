@@ -16,8 +16,8 @@ import sgtmelon.scriptum.cleanup.data.room.extension.safeDelete
 import sgtmelon.scriptum.cleanup.data.room.extension.safeDeleteByList
 import sgtmelon.scriptum.cleanup.data.room.extension.safeGet
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
-import sgtmelon.scriptum.cleanup.test.parent.ParentRoomTest
 import sgtmelon.scriptum.infrastructure.database.annotation.DaoConst
+import sgtmelon.scriptum.parent.ParentRoomTest
 
 /**
  * Integration test for [IRollDao]

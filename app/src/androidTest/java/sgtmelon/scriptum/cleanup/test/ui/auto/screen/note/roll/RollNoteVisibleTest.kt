@@ -5,7 +5,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
-import sgtmelon.scriptum.cleanup.test.parent.ParentUiTest
+import sgtmelon.scriptum.parent.ParentUiTest
 
 /**
  * Test visible button and list for [RollNoteFragment].

@@ -4,13 +4,13 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.NotificationActivity
-import sgtmelon.scriptum.cleanup.test.parent.ParentRotationTest
+import sgtmelon.scriptum.parent.ParentUiRotationTest
 
 /**
  * Test of [NotificationActivity] work with phone rotation.
  */
 @RunWith(AndroidJUnit4::class)
-class NotificationRotationTest : ParentRotationTest() {
+class NotificationRotationTest : ParentUiRotationTest() {
 
     @Test fun contentEmpty() = launch {
         mainScreen {

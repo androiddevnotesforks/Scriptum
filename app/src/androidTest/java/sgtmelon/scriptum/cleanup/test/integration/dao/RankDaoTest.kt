@@ -11,8 +11,8 @@ import sgtmelon.scriptum.cleanup.data.room.dao.IRankDao
 import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
 import sgtmelon.scriptum.cleanup.data.room.extension.inRoomTest
 import sgtmelon.scriptum.cleanup.data.room.extension.safeInsert
-import sgtmelon.scriptum.cleanup.test.parent.ParentRoomTest
 import sgtmelon.scriptum.infrastructure.database.annotation.DaoConst
+import sgtmelon.scriptum.parent.ParentRoomTest
 
 /**
  * Integration test for [IRankDao]

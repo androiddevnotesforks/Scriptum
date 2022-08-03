@@ -5,13 +5,13 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.NotesFragment
-import sgtmelon.scriptum.cleanup.test.parent.ParentRotationTest
+import sgtmelon.scriptum.parent.ParentUiRotationTest
 
 /**
  * Test of [NotesFragment] work with phone rotation.
  */
 @RunWith(AndroidJUnit4::class)
-class NotesRotationTest : ParentRotationTest() {
+class NotesRotationTest : ParentUiRotationTest() {
 
     @Test fun contentEmpty() = launch {
         mainScreen {

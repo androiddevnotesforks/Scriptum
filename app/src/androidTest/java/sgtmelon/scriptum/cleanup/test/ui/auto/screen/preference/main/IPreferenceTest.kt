@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.cleanup.test.ui.auto.screen.preference.main
 
-import sgtmelon.scriptum.cleanup.test.parent.ParentUiTest
 import sgtmelon.scriptum.cleanup.ui.screen.preference.PreferenceScreen
+import sgtmelon.scriptum.parent.ParentUiTest
 
 /**
  * Interface for all [PreferenceScreen] tests.

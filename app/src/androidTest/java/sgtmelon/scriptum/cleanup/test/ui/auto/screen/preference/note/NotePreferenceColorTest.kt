@@ -6,10 +6,10 @@ import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceFragment
-import sgtmelon.scriptum.cleanup.test.parent.ParentUiTest
 import sgtmelon.scriptum.cleanup.test.parent.situation.IColorTest
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.infrastructure.preferences.PreferencesImpl
+import sgtmelon.scriptum.parent.ParentUiTest
 
 /**
  * Test of [PreferencesImpl.defaultColor] setup for [PreferenceFragment]

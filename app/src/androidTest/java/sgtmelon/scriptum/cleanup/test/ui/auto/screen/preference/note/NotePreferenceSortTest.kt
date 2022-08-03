@@ -6,10 +6,10 @@ import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.NotePreferenceFragment
-import sgtmelon.scriptum.cleanup.test.parent.ParentUiTest
 import sgtmelon.scriptum.cleanup.test.parent.situation.ISortTest
 import sgtmelon.scriptum.cleanup.ui.dialog.preference.SortDialogUi
 import sgtmelon.scriptum.infrastructure.model.key.Sort
+import sgtmelon.scriptum.parent.ParentUiTest
 
 /**
  * Test for [NotePreferenceFragment] and [SortDialogUi].
