@@ -107,10 +107,10 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
     kapt "androidx.lifecycle:lifecycle-compiler:2.4.1"
 
-    implementation "androidx.room:room-runtime:2.4.1"
-    implementation "androidx.room:room-ktx:2.4.1"
-    kapt "androidx.room:room-compiler:2.4.1"
-    testImplementation "androidx.room:room-testing:2.4.1"
+    implementation "androidx.room:room-runtime:2.4.3"
+    implementation "androidx.room:room-ktx:2.4.3"
+    kapt "androidx.room:room-compiler:2.4.3"
+    testImplementation "androidx.room:room-testing:2.4.3"
 
     implementation "androidx.preference:preference-ktx:1.2.0"
     implementation "androidx.appcompat:appcompat:1.4.1"
