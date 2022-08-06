@@ -126,7 +126,11 @@ abstract class ParentUiTest : ParentTest() {
 
     //region Launch functions
 
-    protected inline fun launch(
+    /**
+     * This function not protected because used inside [ParentUiTest] extensions for
+     * fast test run.
+     */
+    inline fun launch(
         before: () -> Unit = {},
         noinline after: SplashScreen.() -> Unit
     ) {
