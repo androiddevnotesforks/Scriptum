@@ -5,7 +5,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 
 interface AlarmDataSource {
 
-    suspend fun insert(entity: AlarmEntity): Long
+    suspend fun insert(entity: AlarmEntity): Long?
 
     suspend fun delete(noteId: Long)
 

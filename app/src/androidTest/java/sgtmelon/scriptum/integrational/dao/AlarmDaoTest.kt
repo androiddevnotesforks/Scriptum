@@ -1,7 +1,9 @@
 package sgtmelon.scriptum.integrational.dao
 
+import android.database.sqlite.SQLiteConstraintException
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.data.room.RoomDb
@@ -11,10 +13,12 @@ import sgtmelon.scriptum.cleanup.data.room.extension.inRoomTest
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.infrastructure.database.dao.AlarmDao
+import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.parent.ParentRoomTest
 import sgtmelon.scriptum.parent.provider.DateProvider.DATE_1
 import sgtmelon.scriptum.parent.provider.DateProvider.DATE_2
+
 
 /**
  * Integration test for [AlarmDao].
@@ -63,15 +67,21 @@ class AlarmDaoTest : ParentRoomTest() {
         assertEquals(alarmDao.get(firstNote.id), firstAlarm)
     }
 
-    @Test fun insertWithConflict() = inRoomTest {
+    /**
+     * Check OnConflictStrategy.REPLACE on inserting with same [AlarmEntity.id].
+     */
+    @Test fun insertWithConflict_replace() = inRoomTest {
         insertAlarmRelation(firstNote, firstAlarm)
 
-        val conflictAlarm = secondAlarm.copy(id = firstAlarm.id)
-        alarmDao.insert(conflictAlarm)
+        val conflictAlarm = secondAlarm.copy(id = firstAlarm.id, noteId = firstAlarm.noteId)
+        assertEquals(alarmDao.insert(conflictAlarm), firstAlarm.id)
 
         assertEquals(alarmDao.get(firstNote.id), conflictAlarm)
     }
 
+    /**
+     * Check what only one [AlarmEntity] may be attached to one [NoteEntity].
+     */
     @Test fun insertWithNoteIdUnique() = inRoomTest {
         insertAlarmRelation(firstNote, firstAlarm)
 
@@ -81,5 +91,112 @@ class AlarmDaoTest : ParentRoomTest() {
         assertEquals(alarmDao.get(firstNote.id), uniqueAlarm)
     }
 
-    @Test fun getCountByIdListCrowd() = inRoomTest { alarmDao.getCount(crowdLongList) }
+    /**
+     * If insert [AlarmEntity] not attached to [NoteEntity] you will receive error:
+     * - android.database.sqlite.SQLiteConstraintException: FOREIGN KEY constraint failed (code 787)
+     *
+     * This test check
+     */
+    @Test fun insertSafe_throwsCheck() = inRoomTest {
+        exceptionRule.expect(SQLiteConstraintException::class.java)
+        alarmDao.insert(firstAlarm)
+    }
+
+    @Test fun insertSafe() = inRoomTest { assertNull(alarmDao.insertSafe(firstAlarm)) }
+
+    //region clean up
+
+    //    @Test fun delete() = inRoomTest {
+    //        insertAlarmRelation(firstNote, firstAlarm)
+    //
+    //        alarmDao.delete(firstAlarm.noteId)
+    //        assertNull(alarmDao.get(firstAlarm.noteId))
+    //    }
+    //
+    //    @Test fun update() = inRoomTest {
+    //        insertAlarmRelation(firstNote, firstAlarm)
+    //
+    //        firstAlarm.copy(date = DATE_2).let {
+    //            alarmDao.update(it)
+    //            assertEquals(it, alarmDao.get(firstAlarm.noteId))
+    //        }
+    //    }
+    //
+    //    @Test fun getOnWrongId() = inRoomTest { assertNull(alarmDao.get(Random.nextLong())) }
+    //
+    //    @Test fun getOnCorrectId() = inRoomTest {
+    //        insertAlarmRelation(firstNote, firstAlarm)
+    //
+    //        assertEquals(firstAlarm, alarmDao.get(firstAlarm.noteId))
+    //    }
+    //
+    //    @Test fun get() = inRoomTest {
+    //        insertAlarmRelation(secondNote, secondAlarm)
+    //        insertAlarmRelation(firstNote, firstAlarm)
+    //
+    //        assertEquals(listOf(firstAlarm, secondAlarm), alarmDao.get())
+    //    }
+    //
+    //    @Test fun getListById() = inRoomTest {
+    //        insertAlarmRelation(firstNote, firstAlarm)
+    //        insertAlarmRelation(secondNote, secondAlarm)
+    //
+    //        val alarmList = listOf(firstAlarm, secondAlarm)
+    //        val noteIdList = listOf(firstNote.id, secondNote.id)
+    //
+    //        assertEquals(alarmList, alarmDao.get(noteIdList))
+    //    }
+    //
+    //    @Test fun getListByIdCrowd() = inRoomTest { alarmDao.get(crowdLongList) }
+    //
+    //    @Test fun getItem() = inRoomTest {
+    //        assertNull(alarmDao.getItem(Random.nextLong()))
+    //
+    //        insertAlarmRelation(firstNote, firstAlarm)
+    //        insertAlarmRelation(secondNote, secondAlarm)
+    //
+    //        assertEquals(firstNotification, alarmDao.getItem(firstNote.id))
+    //        assertEquals(secondNotification, alarmDao.getItem(secondNote.id))
+    //    }
+    //
+    //    @Test fun getItemList() = inRoomTest {
+    //        assertTrue(alarmDao.getItemList().isEmpty())
+    //
+    //        insertAlarmRelation(firstNote, firstAlarm)
+    //        insertAlarmRelation(secondNote, secondAlarm)
+    //
+    //        assertEquals(notificationList, alarmDao.getItemList())
+    //    }
+    //
+    //    @Test fun getDateList() {
+    //        TODO()
+    //    }
+    //
+    //    @Test fun getCount() = inRoomTest {
+    //        var size = 0
+    //
+    //        assertEquals(size, alarmDao.getCount())
+    //
+    //        insertAlarmRelation(firstNote, firstAlarm)
+    //        assertEquals(++size, alarmDao.getCount())
+    //
+    //        insertAlarmRelation(secondNote, secondAlarm)
+    //        assertEquals(++size, alarmDao.getCount())
+    //    }
+    //
+    //    @Test fun getCountByIdList() = inRoomTest {
+    //        var size = 0
+    //
+    //        assertEquals(size, alarmDao.getCount(listOf()))
+    //
+    //        insertAlarmRelation(firstNote, firstAlarm)
+    //        assertEquals(++size, alarmDao.getCount(listOf(firstNote.id)))
+    //
+    //        insertAlarmRelation(secondNote, secondAlarm)
+    //        assertEquals(++size, alarmDao.getCount(listOf(firstNote.id, secondNote.id)))
+    //    }
+    //
+    //    @Test fun getCountByIdListCrowd() = inRoomTest { alarmDao.getCount(crowdLongList) }
+
+    //endregion
 }

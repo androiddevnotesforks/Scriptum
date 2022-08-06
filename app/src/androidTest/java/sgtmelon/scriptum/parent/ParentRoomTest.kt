@@ -1,6 +1,8 @@
 package sgtmelon.scriptum.parent
 
 import org.junit.Before
+import org.junit.Rule
+import org.junit.rules.ExpectedException
 import sgtmelon.scriptum.cleanup.data.room.IRoomWork
 import sgtmelon.scriptum.cleanup.data.room.extension.inRoomTest
 import sgtmelon.scriptum.parent.di.ParentInjector
@@ -10,6 +12,8 @@ import sgtmelon.scriptum.parent.di.ParentInjector
  */
 abstract class ParentRoomTest : ParentTest(),
     IRoomWork {
+
+    @get:Rule val exceptionRule: ExpectedException = ExpectedException.none()
 
     override val roomProvider = ParentInjector.provideRoomProvider()
 

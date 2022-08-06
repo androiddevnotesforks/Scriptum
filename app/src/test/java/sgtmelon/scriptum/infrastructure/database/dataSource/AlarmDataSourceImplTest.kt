@@ -10,7 +10,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
-import org.junit.Assert.assertTrue
 import org.junit.Test
 import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
@@ -19,6 +18,7 @@ import sgtmelon.scriptum.cleanup.parent.ParentCoTest
 import sgtmelon.scriptum.infrastructure.database.dao.AlarmDao
 import sgtmelon.scriptum.infrastructure.database.dao.safe.getCountSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.getSafe
+import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe
 
 /**
  * Test for [AlarmDataSourceImpl].
@@ -39,14 +39,22 @@ class AlarmDataSourceImplTest : ParentCoTest() {
         val entity = mockk<AlarmEntity>()
         val id = Random.nextLong()
 
-        coEvery { dao.insert(entity) } returns id
+        FastMock.Dao.alarmDaoSafe()
+        coEvery { dao.insertSafe(entity) } returns null
+
+        runBlocking {
+            assertNull(dataSource.insert(entity))
+        }
+
+        coEvery { dao.insertSafe(entity) } returns id
 
         runBlocking {
             assertEquals(dataSource.insert(entity), id)
         }
 
         coVerifySequence {
-            dao.insert(entity)
+            dao.insertSafe(entity)
+            dao.insertSafe(entity)
         }
     }
 
@@ -127,25 +135,24 @@ class AlarmDataSourceImplTest : ParentCoTest() {
     }
 
     @Test fun getItem() {
-        assertTrue(false)
         val id = mockk<Long>()
-        val entity = mockk<AlarmEntity>()
+        val item = mockk<NotificationItem>()
 
-        coEvery { dao.get(id) } returns null
+        coEvery { dao.getItem(id) } returns null
 
         runBlocking {
-            assertNull(dataSource.get(id))
+            assertNull(dataSource.getItem(id))
         }
 
-        coEvery { dao.get(id) } returns entity
+        coEvery { dao.getItem(id) } returns item
 
         runBlocking {
-            assertEquals(dataSource.get(id), entity)
+            assertEquals(dataSource.getItem(id), item)
         }
 
         coVerifySequence {
-            dao.get(id)
-            dao.get(id)
+            dao.getItem(id)
+            dao.getItem(id)
         }
     }
 

@@ -6,10 +6,11 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.infrastructure.database.dao.AlarmDao
 import sgtmelon.scriptum.infrastructure.database.dao.safe.getCountSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.getSafe
+import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe
 
 class AlarmDataSourceImpl(private val dao: AlarmDao) : AlarmDataSource {
 
-    override suspend fun insert(entity: AlarmEntity): Long = dao.insert(entity)
+    override suspend fun insert(entity: AlarmEntity): Long? = dao.insertSafe(entity)
 
     override suspend fun delete(noteId: Long) = dao.delete(noteId)
 

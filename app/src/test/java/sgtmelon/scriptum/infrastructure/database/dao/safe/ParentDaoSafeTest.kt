@@ -1,7 +1,5 @@
 package sgtmelon.scriptum.infrastructure.database.dao.safe
 
-import kotlin.math.ceil
-import kotlin.math.min
 import kotlin.random.Random
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -47,23 +45,14 @@ class ParentDaoSafeTest : ParentTest() {
     }
 
     @Test fun `safeOverflow greater overflow`() {
-        val randomStart = DaoConst.OVERFLOW_COUNT + (1 until DaoConst.OVERFLOW_COUNT).random()
-        val randomEnd = DaoConst.OVERFLOW_COUNT * (3..100).random()
-        val list = List((randomStart..randomEnd).random()) { Random.nextBoolean() }
-
-        val sublistCount = ceil(x = list.size.toDouble() / DaoConst.OVERFLOW_COUNT).toInt()
-        val sublistList = List(sublistCount) {
-            val startIndex = it * DaoConst.OVERFLOW_COUNT
-            val endIndex = min(a = startIndex + DaoConst.OVERFLOW_COUNT, list.size)
-            return@List list.subList(startIndex, endIndex)
-        }
+        val (list, dividedList) = OverflowDelegator.getListPair { Random.nextBoolean() }
 
         var repeat = 0
         safeOverflow(list) {
-            assertEquals(sublistList[repeat], it)
+            assertEquals(dividedList[repeat], it)
             repeat++
         }
 
-        assertEquals(repeat, sublistList.size)
+        assertEquals(repeat, dividedList.size)
     }
 }

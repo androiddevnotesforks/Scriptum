@@ -18,6 +18,7 @@ import sgtmelon.scriptum.infrastructure.database.annotation.DaoDeprecated
 @Dao
 interface AlarmDao {
 
+    @Deprecated(DaoDeprecated.INSERT_FOREIGN_KEY)
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(entity: AlarmEntity): Long
 
