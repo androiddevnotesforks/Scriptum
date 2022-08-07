@@ -36,8 +36,9 @@ interface AlarmDao {
 
     @Deprecated(DaoDeprecated.LIST_OVERFLOW)
     @Query(value = "SELECT * FROM ALARM_TABLE WHERE AL_NOTE_ID IN (:noteIdList)")
-    suspend fun get(noteIdList: List<Long>): List<AlarmEntity>
+    suspend fun getList(noteIdList: List<Long>): List<AlarmEntity>
 
+    // TODO order is needed?
     @Query(
         value = """SELECT NT_ID, NT_NAME, NT_COLOR, NT_TYPE, AL_ID, AL_DATE
         FROM NOTE_TABLE, ALARM_TABLE 

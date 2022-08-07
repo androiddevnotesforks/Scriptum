@@ -141,7 +141,7 @@ class NoteDaoTest : ParentRoomTest() {
         assertEquals(1, getCount(isBin = true, rankIdList = listOf(1)))
     }
 
-    @Test fun getCountCrowd() = inNoteDao { getCount(Random.nextBoolean(), crowdLongList) }
+    @Test fun getCountCrowd() = inNoteDao { getCount(Random.nextBoolean(), overflowLongList) }
 
     @Test fun getBindCount() = inNoteDao {
         assertEquals(0, getBindCount(listOf()))
@@ -154,7 +154,7 @@ class NoteDaoTest : ParentRoomTest() {
         assertEquals(bindCount, getBindCount(listOf(firstNote.id, secondNote.id, thirdNote.id)))
     }
 
-    @Test fun getBindCountCrowd() = inNoteDao { getBindCount(crowdLongList) }
+    @Test fun getBindCountCrowd() = inNoteDao { getBindCount(overflowLongList) }
 
     @Test fun getByWrongId() = inNoteDao { assertNull(get(Random.nextLong())) }
 
@@ -183,7 +183,7 @@ class NoteDaoTest : ParentRoomTest() {
         )
     }
 
-    @Test fun getByIdListCrowd() = inNoteDao { get(crowdLongList) }
+    @Test fun getByIdListCrowd() = inNoteDao { get(overflowLongList) }
 
     @Test fun getByBin() = inNoteDao {
         insert(firstNote)

@@ -15,8 +15,10 @@ import org.junit.Test
 import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.parent.ParentTest
+import sgtmelon.scriptum.infrastructure.database.annotation.DaoConst
 import sgtmelon.scriptum.infrastructure.database.dao.AlarmDao
 import sgtmelon.scriptum.infrastructure.utils.record
+import sgtmelon.test.common.OverflowDelegator
 
 /**
  * Test for AlarmDaoSafe.
@@ -25,6 +27,8 @@ import sgtmelon.scriptum.infrastructure.utils.record
 class AlarmDaoSafeTest : ParentTest() {
 
     @MockK lateinit var alarmDao: AlarmDao
+
+    private val overflowDelegator = OverflowDelegator(DaoConst.OVERFLOW_COUNT)
 
     override fun tearDown() {
         super.tearDown()
@@ -63,29 +67,29 @@ class AlarmDaoSafeTest : ParentTest() {
         }
     }
 
-    @Test fun getSafe() {
-        val (list, dividedList) = OverflowDelegator.getListPair { Random.nextLong() }
-        val (alarmList, alarmDividedList) = OverflowDelegator.getListPair(list.size) { mockk<AlarmEntity>() }
+    @Test fun getListSafe() {
+        val (list, dividedList) = overflowDelegator.getListPair { Random.nextLong() }
+        val (alarmList, alarmDividedList) = overflowDelegator.getListPair(list.size) { mockk<AlarmEntity>() }
 
         assertEquals(list.size, alarmList.size)
 
         for ((i, divided) in dividedList.withIndex()) {
-            coEvery { alarmDao.get(divided) } returns alarmDividedList[i]
+            coEvery { alarmDao.getList(divided) } returns alarmDividedList[i]
         }
 
         runBlocking {
-            assertEquals(alarmDao.getSafe(list), alarmList)
+            assertEquals(alarmDao.getListSafe(list), alarmList)
         }
 
         coVerifySequence {
             for (divided in dividedList) {
-                alarmDao.get(divided)
+                alarmDao.getList(divided)
             }
         }
     }
 
     @Test fun getCountSafe() {
-        val (list, dividedList) = OverflowDelegator.getListPair { Random.nextLong() }
+        val (list, dividedList) = overflowDelegator.getListPair { Random.nextLong() }
         val countList = List(size = dividedList.size) { abs(Random.nextInt()) }
 
         for ((i, divided) in dividedList.withIndex()) {

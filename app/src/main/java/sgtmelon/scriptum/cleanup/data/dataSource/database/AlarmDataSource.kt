@@ -15,7 +15,7 @@ interface AlarmDataSource {
 
     suspend fun getList(): List<AlarmEntity>
 
-    suspend fun get(noteIdList: List<Long>): List<AlarmEntity>
+    suspend fun getList(noteIdList: List<Long>): List<AlarmEntity>
 
     suspend fun getItem(noteId: Long): NotificationItem?
 

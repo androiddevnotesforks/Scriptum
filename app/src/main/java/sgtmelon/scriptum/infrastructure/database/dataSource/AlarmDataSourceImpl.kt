@@ -5,7 +5,7 @@ import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.infrastructure.database.dao.AlarmDao
 import sgtmelon.scriptum.infrastructure.database.dao.safe.getCountSafe
-import sgtmelon.scriptum.infrastructure.database.dao.safe.getSafe
+import sgtmelon.scriptum.infrastructure.database.dao.safe.getListSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe
 
 class AlarmDataSourceImpl(private val dao: AlarmDao) : AlarmDataSource {
@@ -20,7 +20,9 @@ class AlarmDataSourceImpl(private val dao: AlarmDao) : AlarmDataSource {
 
     override suspend fun getList(): List<AlarmEntity> = dao.getList()
 
-    override suspend fun get(noteIdList: List<Long>): List<AlarmEntity> = dao.getSafe(noteIdList)
+    override suspend fun getList(noteIdList: List<Long>): List<AlarmEntity> {
+        return dao.getListSafe(noteIdList)
+    }
 
     override suspend fun getItem(noteId: Long): NotificationItem? = dao.getItem(noteId)
 
@@ -29,5 +31,4 @@ class AlarmDataSourceImpl(private val dao: AlarmDao) : AlarmDataSource {
     override suspend fun getCount(): Int = dao.getCount()
 
     override suspend fun getCount(noteIdList: List<Long>): Int = dao.getCountSafe(noteIdList)
-
 }

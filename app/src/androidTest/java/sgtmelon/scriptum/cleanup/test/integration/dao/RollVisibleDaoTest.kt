@@ -106,6 +106,6 @@ class RollVisibleDaoTest : ParentRoomTest() {
         assertTrue(resultList.contains(secondModel.entity))
     }
 
-    @Test fun getByIdListCrowd() = inRoomTest { rollVisibleDao.get(crowdLongList) }
+    @Test fun getByIdListCrowd() = inRoomTest { rollVisibleDao.get(overflowLongList) }
 
 }

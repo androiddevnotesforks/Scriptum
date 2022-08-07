@@ -117,13 +117,13 @@ class AlarmRepoTest : ParentRoomRepoTest() {
         val alarmList = mockk<List<AlarmEntity>>()
         val noteIdList = mockk<List<Long>>()
 
-        coEvery { alarmDao.get(noteIdList) } returns alarmList
+        coEvery { alarmDao.getList(noteIdList) } returns alarmList
 
         assertEquals(alarmList, alarmRepo.getAlarmBackup(noteIdList))
 
         coVerifySequence {
             roomProvider.openRoom()
-            alarmDao.get(noteIdList)
+            alarmDao.getList(noteIdList)
         }
     }
 }

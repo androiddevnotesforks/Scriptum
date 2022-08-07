@@ -44,7 +44,7 @@ class AlarmRepo(
 
 
     override suspend fun getAlarmBackup(noteIdList: List<Long>): List<AlarmEntity> = fromRoom {
-        alarmDao.get(noteIdList)
+        alarmDao.getList(noteIdList)
     }
 
 }

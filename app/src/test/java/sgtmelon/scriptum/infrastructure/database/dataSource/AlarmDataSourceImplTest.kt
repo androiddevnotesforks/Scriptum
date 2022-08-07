@@ -17,7 +17,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.parent.ParentCoTest
 import sgtmelon.scriptum.infrastructure.database.dao.AlarmDao
 import sgtmelon.scriptum.infrastructure.database.dao.safe.getCountSafe
-import sgtmelon.scriptum.infrastructure.database.dao.safe.getSafe
+import sgtmelon.scriptum.infrastructure.database.dao.safe.getListSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe
 
 /**
@@ -118,19 +118,19 @@ class AlarmDataSourceImplTest : ParentCoTest() {
         }
     }
 
-    @Test fun `get by noteIdList`() {
+    @Test fun `getList by noteIdList`() {
         val noteIdList = mockk<List<Long>>()
         val list = mockk<List<AlarmEntity>>()
 
         FastMock.Dao.alarmDaoSafe()
-        coEvery { dao.getSafe(noteIdList) } returns list
+        coEvery { dao.getListSafe(noteIdList) } returns list
 
         runBlocking {
-            assertEquals(dataSource.get(noteIdList), list)
+            assertEquals(dataSource.getList(noteIdList), list)
         }
 
         coVerifySequence {
-            dao.getSafe(noteIdList)
+            dao.getListSafe(noteIdList)
         }
     }
 

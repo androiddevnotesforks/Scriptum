@@ -1,11 +1,15 @@
 package sgtmelon.scriptum.integrational.dao
 
 import android.database.sqlite.SQLiteConstraintException
+import android.database.sqlite.SQLiteException
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import kotlin.random.Random
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.cleanup.data.room.RoomDb
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
@@ -13,11 +17,13 @@ import sgtmelon.scriptum.cleanup.data.room.extension.inRoomTest
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.infrastructure.database.dao.AlarmDao
+import sgtmelon.scriptum.infrastructure.database.dao.safe.getListSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.parent.ParentRoomTest
 import sgtmelon.scriptum.parent.provider.DateProvider.DATE_1
 import sgtmelon.scriptum.parent.provider.DateProvider.DATE_2
+import sgtmelon.scriptum.parent.provider.DateProvider.nextDate
 
 
 /**
@@ -29,13 +35,13 @@ class AlarmDaoTest : ParentRoomTest() {
     //region Variables
 
     private val firstNote = NoteEntity(
-        id = 1, create = DATE_1, change = DATE_1, text = "123", name = "456",
-        color = Color.PURPLE, type = NoteType.TEXT
+        id = 1, create = DATE_1, change = DATE_1, text = nextString(), name = nextString(),
+        color = Color.values().random(), type = NoteType.values().random()
     )
 
     private val secondNote = NoteEntity(
-        id = 2, create = DATE_2, change = DATE_2, text = "654", name = "321",
-        color = Color.INDIGO, type = NoteType.TEXT
+        id = 2, create = DATE_2, change = DATE_2, text = nextString(), name = nextString(),
+        color = Color.values().random(), type = NoteType.values().random()
     )
 
     private val firstAlarm = AlarmEntity(id = 1, noteId = firstNote.id, date = DATE_1)
@@ -57,7 +63,9 @@ class AlarmDaoTest : ParentRoomTest() {
 
     private suspend fun RoomDb.insertAlarmRelation(note: NoteEntity, alarm: AlarmEntity) {
         noteDao.insert(note)
+        assertEquals(noteDao.get(note.id), note)
         alarmDao.insert(alarm)
+        assertEquals(alarmDao.get(alarm.noteId), alarm)
     }
 
     // Dao tests
@@ -102,67 +110,85 @@ class AlarmDaoTest : ParentRoomTest() {
         alarmDao.insert(firstAlarm)
     }
 
-    @Test fun insertSafe() = inRoomTest { assertNull(alarmDao.insertSafe(firstAlarm)) }
+    @Test fun insertSafe() = inRoomTest {
+        assertNull(alarmDao.insertSafe(firstAlarm))
+
+        noteDao.insert(firstNote)
+        assertEquals(alarmDao.insertSafe(firstAlarm), firstAlarm.id)
+    }
 
     @Test fun delete() = inRoomTest {
         assertNull(alarmDao.get(firstAlarm.noteId))
         alarmDao.delete(firstAlarm.noteId)
 
         insertAlarmRelation(firstNote, firstAlarm)
-        assertEquals(alarmDao.get(firstAlarm.noteId), firstAlarm)
 
         alarmDao.delete(firstAlarm.noteId)
         assertNull(alarmDao.get(firstAlarm.noteId))
     }
 
+    @Test fun update() = inRoomTest {
+        insertAlarmRelation(firstNote, firstAlarm)
+
+        val updateAlarm = firstAlarm.copy(date = DATE_2)
+        alarmDao.update(updateAlarm)
+        assertEquals(alarmDao.get(firstAlarm.noteId), updateAlarm)
+    }
+
+    @Test fun get_withWrongId() = inRoomTest { assertNull(alarmDao.get(Random.nextLong())) }
+
+    @Test fun get_withCorrectId() = inRoomTest {
+        insertAlarmRelation(firstNote, firstAlarm)
+        assertEquals(alarmDao.get(firstAlarm.noteId), firstAlarm)
+    }
+
+    @Test fun getList() = inRoomTest {
+        insertAlarmRelation(secondNote, secondAlarm)
+        insertAlarmRelation(firstNote, firstAlarm)
+
+        assertEquals(alarmDao.getList(), listOf(firstAlarm, secondAlarm))
+    }
+
+    @Test fun getList_byId_overflowCheck() = inRoomTest {
+        exceptionRule.expect(SQLiteException::class.java)
+        alarmDao.getList(overflowDelegator.getList { Random.nextLong() })
+    }
+
+    @Test fun getListSafe() = inRoomTest {
+        assertTrue(alarmDao.getListSafe(overflowDelegator.getList { Random.nextLong() }).isEmpty())
+
+        val noteList = overflowDelegator.getList {
+            NoteEntity(
+                id = (it + 1).toLong(), create = nextDate(), change = nextDate(),
+                text = nextString(), name = nextString(),
+                color = Color.values().random(), type = NoteType.values().random()
+            )
+        }
+        val alarmList = overflowDelegator.getList(noteList.size) {
+            AlarmEntity(id = (it + 1).toLong(), noteId = noteList[it].id, date = nextDate())
+        }
+
+        for (i in noteList.indices) {
+            insertAlarmRelation(noteList[i], alarmList[i])
+        }
+
+        assertEquals(alarmDao.getListSafe(noteList.map { it.id }).size, noteList.size)
+    }
+
     //region clean up
 
+
     //
-    //    @Test fun update() = inRoomTest {
-    //        insertAlarmRelation(firstNote, firstAlarm)
     //
-    //        firstAlarm.copy(date = DATE_2).let {
-    //            alarmDao.update(it)
-    //            assertEquals(it, alarmDao.get(firstAlarm.noteId))
-    //        }
-    //    }
     //
-    //    @Test fun getOnWrongId() = inRoomTest { assertNull(alarmDao.get(Random.nextLong())) }
     //
-    //    @Test fun getOnCorrectId() = inRoomTest {
-    //        insertAlarmRelation(firstNote, firstAlarm)
     //
-    //        assertEquals(firstAlarm, alarmDao.get(firstAlarm.noteId))
-    //    }
     //
-    //    @Test fun get() = inRoomTest {
-    //        insertAlarmRelation(secondNote, secondAlarm)
-    //        insertAlarmRelation(firstNote, firstAlarm)
     //
-    //        assertEquals(listOf(firstAlarm, secondAlarm), alarmDao.get())
-    //    }
     //
-    //    @Test fun getListById() = inRoomTest {
-    //        insertAlarmRelation(firstNote, firstAlarm)
-    //        insertAlarmRelation(secondNote, secondAlarm)
     //
-    //        val alarmList = listOf(firstAlarm, secondAlarm)
-    //        val noteIdList = listOf(firstNote.id, secondNote.id)
     //
-    //        assertEquals(alarmList, alarmDao.get(noteIdList))
-    //    }
     //
-    //    @Test fun getListByIdCrowd() = inRoomTest { alarmDao.get(crowdLongList) }
-    //
-    //    @Test fun getItem() = inRoomTest {
-    //        assertNull(alarmDao.getItem(Random.nextLong()))
-    //
-    //        insertAlarmRelation(firstNote, firstAlarm)
-    //        insertAlarmRelation(secondNote, secondAlarm)
-    //
-    //        assertEquals(firstNotification, alarmDao.getItem(firstNote.id))
-    //        assertEquals(secondNotification, alarmDao.getItem(secondNote.id))
-    //    }
     //
     //    @Test fun getItemList() = inRoomTest {
     //        assertTrue(alarmDao.getItemList().isEmpty())

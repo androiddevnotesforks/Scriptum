@@ -1,5 +1,5 @@
 plugins {
-    id "com.android.library"
+    id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
 }
 
@@ -9,12 +9,15 @@ android {
     defaultConfig {
         minSdk 21
         targetSdk 32
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
         release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
@@ -29,10 +32,9 @@ android {
 }
 
 dependencies {
-    implementation project(':common')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0"
 
-    implementation "androidx.appcompat:appcompat:1.4.1"
+    implementation "androidx.test:core-ktx:1.4.0"
+    implementation "androidx.test.ext:junit:1.1.3"
 }

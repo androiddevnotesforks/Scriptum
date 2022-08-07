@@ -76,6 +76,9 @@ dependencies {
     implementation project(':libraries:textDotAnim')
     implementation project(':common')
 
+    testImplementation project(path: ':tests:common')
+    androidTestImplementation project(path: ':tests:common')
+
     //region Kotlin
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21"
