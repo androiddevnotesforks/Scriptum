@@ -18,7 +18,7 @@ class AlarmDataSourceImpl(private val dao: AlarmDao) : AlarmDataSource {
 
     override suspend fun get(noteId: Long): AlarmEntity? = dao.get(noteId)
 
-    override suspend fun get(): List<AlarmEntity> = dao.get()
+    override suspend fun getList(): List<AlarmEntity> = dao.getList()
 
     override suspend fun get(noteIdList: List<Long>): List<AlarmEntity> = dao.getSafe(noteIdList)
 

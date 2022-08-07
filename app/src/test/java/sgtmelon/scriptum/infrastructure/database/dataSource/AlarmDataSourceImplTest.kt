@@ -83,7 +83,7 @@ class AlarmDataSourceImplTest : ParentCoTest() {
     }
 
     @Test fun `get by noteId`() {
-        val id = mockk<Long>()
+        val id = Random.nextLong()
         val entity = mockk<AlarmEntity>()
 
         coEvery { dao.get(id) } returns null
@@ -104,17 +104,17 @@ class AlarmDataSourceImplTest : ParentCoTest() {
         }
     }
 
-    @Test fun `get list`() {
+    @Test fun getList() {
         val list = mockk<List<AlarmEntity>>()
 
-        coEvery { dao.get() } returns list
+        coEvery { dao.getList() } returns list
 
         runBlocking {
-            assertEquals(dataSource.get(), list)
+            assertEquals(dataSource.getList(), list)
         }
 
         coVerifySequence {
-            dao.get()
+            dao.getList()
         }
     }
 
@@ -135,7 +135,7 @@ class AlarmDataSourceImplTest : ParentCoTest() {
     }
 
     @Test fun getItem() {
-        val id = mockk<Long>()
+        val id = Random.nextLong()
         val item = mockk<NotificationItem>()
 
         coEvery { dao.getItem(id) } returns null

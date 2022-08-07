@@ -32,7 +32,7 @@ class DevelopRepo(
     }
 
     override suspend fun getPrintAlarmList(): List<PrintItem.Alarm> {
-        return fromRoom { alarmDao.get().map { PrintItem.Alarm(it) } }
+        return fromRoom { alarmDao.getList().map { PrintItem.Alarm(it) } }
     }
 
     override suspend fun getRandomNoteId(): Long = fromRoom {

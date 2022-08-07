@@ -104,14 +104,19 @@ class AlarmDaoTest : ParentRoomTest() {
 
     @Test fun insertSafe() = inRoomTest { assertNull(alarmDao.insertSafe(firstAlarm)) }
 
+    @Test fun delete() = inRoomTest {
+        assertNull(alarmDao.get(firstAlarm.noteId))
+        alarmDao.delete(firstAlarm.noteId)
+
+        insertAlarmRelation(firstNote, firstAlarm)
+        assertEquals(alarmDao.get(firstAlarm.noteId), firstAlarm)
+
+        alarmDao.delete(firstAlarm.noteId)
+        assertNull(alarmDao.get(firstAlarm.noteId))
+    }
+
     //region clean up
 
-    //    @Test fun delete() = inRoomTest {
-    //        insertAlarmRelation(firstNote, firstAlarm)
-    //
-    //        alarmDao.delete(firstAlarm.noteId)
-    //        assertNull(alarmDao.get(firstAlarm.noteId))
-    //    }
     //
     //    @Test fun update() = inRoomTest {
     //        insertAlarmRelation(firstNote, firstAlarm)

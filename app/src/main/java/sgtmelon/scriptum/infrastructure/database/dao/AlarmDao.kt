@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Transaction
 import androidx.room.Update
 import sgtmelon.scriptum.cleanup.data.room.RoomDb
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
@@ -15,6 +14,7 @@ import sgtmelon.scriptum.infrastructure.database.annotation.DaoDeprecated
 /**
  * Interface for communication [DbData.Alarm.TABLE] with [RoomDb].
  */
+// TODO remove from use deprecated staff (and use AlarmDataSource/AlarmDaoSafe)
 @Dao
 interface AlarmDao {
 
@@ -32,9 +32,8 @@ interface AlarmDao {
     suspend fun get(noteId: Long): AlarmEntity?
 
     @Query(value = "SELECT * FROM ALARM_TABLE ORDER BY AL_NOTE_ID")
-    suspend fun get(): List<AlarmEntity>
+    suspend fun getList(): List<AlarmEntity>
 
-    // TODO remove from use (see AlarmDaoSafe)
     @Deprecated(DaoDeprecated.LIST_OVERFLOW)
     @Query(value = "SELECT * FROM ALARM_TABLE WHERE AL_NOTE_ID IN (:noteIdList)")
     suspend fun get(noteIdList: List<Long>): List<AlarmEntity>
@@ -69,7 +68,6 @@ interface AlarmDao {
     @Query(value = """SELECT COUNT(AL_ID) FROM ALARM_TABLE""")
     suspend fun getCount(): Int
 
-    @Transaction
     @Deprecated(DaoDeprecated.LIST_OVERFLOW)
     @Query(value = "SELECT COUNT(AL_ID) FROM ALARM_TABLE WHERE AL_NOTE_ID IN (:noteIdList)")
     suspend fun getCount(noteIdList: List<Long>): Int
