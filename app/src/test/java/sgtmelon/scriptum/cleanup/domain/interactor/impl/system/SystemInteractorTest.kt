@@ -17,7 +17,6 @@ import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.common.utils.beforeNow
 import sgtmelon.common.utils.getCalendar
-import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IBindRepo
@@ -30,6 +29,7 @@ import sgtmelon.scriptum.cleanup.parent.ParentInteractorTest
 import sgtmelon.scriptum.cleanup.presentation.screen.system.ISystemBridge
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.model.key.Sort
+import sgtmelon.test.common.nextString
 
 /**
  * Test for [SystemInteractor]

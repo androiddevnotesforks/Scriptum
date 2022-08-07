@@ -18,8 +18,6 @@ import sgtmelon.common.utils.getCalendarWithAdd
 import sgtmelon.common.utils.getRandomFutureTime
 import sgtmelon.common.utils.getRandomPastTime
 import sgtmelon.common.utils.getText
-import sgtmelon.common.utils.nextShortString
-import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
@@ -34,6 +32,8 @@ import sgtmelon.scriptum.cleanup.domain.model.result.ImportResult
 import sgtmelon.scriptum.cleanup.isDivideTwoEntirely
 import sgtmelon.scriptum.cleanup.parent.ParentRoomRepoTest
 import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.test.common.nextShortString
+import sgtmelon.test.common.nextString
 
 /**
  * Test for [BackupRepo].

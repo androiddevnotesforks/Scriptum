@@ -12,13 +12,13 @@ import org.junit.After
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Test
-import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.preference.IPreferenceFragment
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
 import sgtmelon.scriptum.infrastructure.model.key.Theme
+import sgtmelon.test.common.nextString
 
 /**
  * Test for [PreferenceViewModel].

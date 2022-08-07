@@ -7,11 +7,11 @@ import io.mockk.verifySequence
 import kotlin.random.Random
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetSummaryUseCase
 import sgtmelon.scriptum.domain.useCase.preferences.summary.GetThemeSummaryUseCaseImpl
 import sgtmelon.scriptum.infrastructure.converter.key.ThemeConverter
 import sgtmelon.scriptum.infrastructure.model.key.Theme
+import sgtmelon.test.common.nextString
 
 /**
  * Test for [GetThemeSummaryUseCaseImpl].

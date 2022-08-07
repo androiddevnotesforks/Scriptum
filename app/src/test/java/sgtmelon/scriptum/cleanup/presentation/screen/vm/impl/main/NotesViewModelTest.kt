@@ -19,7 +19,6 @@ import org.junit.Assert.assertNull
 import org.junit.Test
 import sgtmelon.common.utils.beforeNow
 import sgtmelon.common.utils.getCalendar
-import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.TestData
@@ -33,6 +32,7 @@ import sgtmelon.scriptum.cleanup.presentation.control.SortControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.INotesFragment
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.model.key.Sort
+import sgtmelon.test.common.nextString
 
 /**
  * Test for [NotesViewModel].

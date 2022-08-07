@@ -2,11 +2,11 @@ package sgtmelon.scriptum.cleanup.data.room.converter.model
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.test.common.nextString
 
 /**
  * Test for [AlarmConverter].

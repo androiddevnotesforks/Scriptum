@@ -6,7 +6,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.cleanup.data.room.RoomDb
 import sgtmelon.scriptum.cleanup.data.room.dao.IRollDao
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
@@ -23,6 +22,7 @@ import sgtmelon.scriptum.parent.provider.DateProvider.DATE_2
 import sgtmelon.scriptum.parent.provider.DateProvider.DATE_3
 import sgtmelon.scriptum.parent.provider.DateProvider.DATE_4
 import sgtmelon.scriptum.parent.provider.DateProvider.nextDate
+import sgtmelon.test.common.nextString
 
 /**
  * Integration test for [IRollDao]

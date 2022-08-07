@@ -30,6 +30,7 @@ android {
 
 dependencies {
     implementation project(':common')
+    testImplementation project(path: ':tests:common')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21"
 

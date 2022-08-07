@@ -1,11 +1,11 @@
 package sgtmelon.scriptum.cleanup.test.ui.auto.screen.main.rank
 
 import org.junit.Test
-import sgtmelon.common.utils.nextShortString
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.RankFragment
 import sgtmelon.scriptum.cleanup.testData.Scroll
 import sgtmelon.scriptum.cleanup.ui.ParentRecyclerItem
 import sgtmelon.scriptum.parent.ParentUiTest
+import sgtmelon.test.common.nextShortString
 
 /**
  * Test for Snackbar in [RankFragment].

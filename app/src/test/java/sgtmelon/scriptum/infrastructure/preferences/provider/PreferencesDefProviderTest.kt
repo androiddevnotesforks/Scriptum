@@ -9,9 +9,9 @@ import kotlin.random.Random
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.parent.ParentTest
+import sgtmelon.test.common.nextString
 
 /**
  * Test of [PreferencesDefProvider].

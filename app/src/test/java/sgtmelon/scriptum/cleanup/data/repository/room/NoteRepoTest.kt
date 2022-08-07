@@ -16,7 +16,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
-import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.TestData
 import sgtmelon.scriptum.cleanup.data.room.IRoomWork
@@ -37,6 +36,7 @@ import sgtmelon.scriptum.cleanup.getRandomSize
 import sgtmelon.scriptum.cleanup.isDivideTwoEntirely
 import sgtmelon.scriptum.cleanup.parent.ParentRoomRepoTest
 import sgtmelon.scriptum.infrastructure.model.key.Sort
+import sgtmelon.test.common.nextString
 
 /**
  * Test for [NoteRepo].

@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.cleanup
 
 import kotlin.random.Random
-import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.cleanup.domain.model.item.FileItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
@@ -12,6 +11,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.RollItem
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.infrastructure.model.MelodyItem
 import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.test.common.nextString
 
 /**
  * Class which provide data for tests.

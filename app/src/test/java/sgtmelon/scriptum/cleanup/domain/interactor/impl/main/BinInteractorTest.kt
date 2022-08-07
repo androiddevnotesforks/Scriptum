@@ -10,7 +10,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.cleanup.FastTest
 import sgtmelon.scriptum.cleanup.TestData
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.INoteRepo
@@ -18,6 +17,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.parent.ParentInteractorTest
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.model.key.Sort
+import sgtmelon.test.common.nextString
 
 /**
  * Test for [BinInteractor].

@@ -8,7 +8,6 @@ import java.util.Locale
 import kotlin.random.Random
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.getRandomSize
@@ -20,6 +19,7 @@ import sgtmelon.scriptum.infrastructure.model.key.SavePeriod
 import sgtmelon.scriptum.infrastructure.model.key.Sort
 import sgtmelon.scriptum.infrastructure.model.key.Theme
 import sgtmelon.scriptum.infrastructure.utils.record
+import sgtmelon.test.common.nextString
 
 /**
  * Test for [SummaryProviderImpl].

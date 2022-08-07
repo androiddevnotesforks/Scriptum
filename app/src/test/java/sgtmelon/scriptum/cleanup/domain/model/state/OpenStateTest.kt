@@ -13,8 +13,8 @@ import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
-import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.cleanup.parent.ParentTest
+import sgtmelon.test.common.nextString
 
 /**
  * Test for [OpenState].

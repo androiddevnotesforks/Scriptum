@@ -16,8 +16,6 @@ import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
-import sgtmelon.common.utils.nextShortString
-import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.cleanup.data.repository.room.BackupRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IAlarmRepo
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IBackupRepo
@@ -39,6 +37,8 @@ import sgtmelon.scriptum.cleanup.parent.ParentInteractorTest
 import sgtmelon.scriptum.cleanup.presentation.control.cipher.ICipherControl
 import sgtmelon.scriptum.cleanup.presentation.control.file.IFileControl
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
+import sgtmelon.test.common.nextShortString
+import sgtmelon.test.common.nextString
 
 /**
  * Test for [BackupPreferenceInteractor].

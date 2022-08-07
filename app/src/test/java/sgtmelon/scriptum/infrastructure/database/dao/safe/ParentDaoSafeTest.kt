@@ -4,14 +4,17 @@ import kotlin.random.Random
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
-import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.scriptum.infrastructure.database.annotation.DaoConst
+import sgtmelon.test.common.OverflowDelegator
+import sgtmelon.test.common.nextString
 
 /**
  * Tests for ParentDaoSafe.
  */
 class ParentDaoSafeTest : ParentTest() {
+
+    private val overflowDelegator = OverflowDelegator(DaoConst.OVERFLOW_COUNT)
 
     @Test fun checkSafe() {
         val long = Random.nextLong()
@@ -45,7 +48,7 @@ class ParentDaoSafeTest : ParentTest() {
     }
 
     @Test fun `safeOverflow greater overflow`() {
-        val (list, dividedList) = OverflowDelegator.getListPair { Random.nextBoolean() }
+        val (list, dividedList) = overflowDelegator.getListPair { Random.nextBoolean() }
 
         var repeat = 0
         safeOverflow(list) {

@@ -5,7 +5,6 @@ import sgtmelon.common.utils.getCalendarWithAdd
 import sgtmelon.common.utils.getRandomFutureTime
 import sgtmelon.common.utils.getText
 import sgtmelon.common.utils.getTime
-import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
 import sgtmelon.scriptum.cleanup.data.room.IRoomWork
 import sgtmelon.scriptum.cleanup.data.room.converter.model.AlarmConverter
@@ -25,6 +24,7 @@ import sgtmelon.scriptum.cleanup.test.ui.auto.screen.main.bin.BinNoteDialogTest
 import sgtmelon.scriptum.cleanup.test.ui.auto.screen.main.notes.NotesNoteDialogTest
 import sgtmelon.scriptum.data.repository.preferences.PreferencesRepo
 import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.test.common.nextString
 
 /**
  * Class which fill db and provide data for tests.

@@ -5,9 +5,9 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Rank.Default
 import sgtmelon.scriptum.cleanup.parent.ParentTest
+import sgtmelon.test.common.nextString
 
 /**
  * Test for [RankItem].

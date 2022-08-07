@@ -3,9 +3,9 @@ package sgtmelon.scriptum.cleanup.test.ui.auto.screen.note.roll
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.parent.ParentUiTest
+import sgtmelon.test.common.nextString
 
 /**
  * Test enter focus for [RollNoteFragment].

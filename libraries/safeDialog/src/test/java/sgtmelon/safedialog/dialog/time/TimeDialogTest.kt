@@ -10,8 +10,8 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import sgtmelon.common.utils.afterNow
 import sgtmelon.common.utils.getText
-import sgtmelon.common.utils.nextString
 import sgtmelon.safedialog.ParentTest
+import sgtmelon.test.common.nextString
 
 /**
  * Test for [TimeDialog].

@@ -3,12 +3,12 @@ package sgtmelon.scriptum.cleanup.domain.model.item
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
-import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem.Alarm
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem.Note
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.test.common.nextString
 
 /**
  * Test for [NotificationItem]

@@ -26,7 +26,6 @@ import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
-import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.TestData
 import sgtmelon.scriptum.cleanup.domain.interactor.callback.main.IRankInteractor
@@ -40,6 +39,7 @@ import sgtmelon.scriptum.cleanup.getRandomSize
 import sgtmelon.scriptum.cleanup.isDivideTwoEntirely
 import sgtmelon.scriptum.cleanup.parent.ParentViewModelTest
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IRankFragment
+import sgtmelon.test.common.nextString
 
 /**
  * Test for [RankViewModel].

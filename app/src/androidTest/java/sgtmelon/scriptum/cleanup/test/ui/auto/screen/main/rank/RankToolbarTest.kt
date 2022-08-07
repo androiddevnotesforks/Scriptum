@@ -3,10 +3,10 @@ package sgtmelon.scriptum.cleanup.test.ui.auto.screen.main.rank
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.main.RankFragment
 import sgtmelon.scriptum.cleanup.testData.Scroll
 import sgtmelon.scriptum.parent.ParentUiTest
+import sgtmelon.test.common.nextString
 
 /**
  * Test toolbar for [RankFragment].

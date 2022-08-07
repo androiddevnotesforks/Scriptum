@@ -4,9 +4,9 @@ import kotlin.random.Random
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
-import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Roll.Default
 import sgtmelon.scriptum.cleanup.parent.ParentTest
+import sgtmelon.test.common.nextString
 
 /**
  * Test for [RollItem].

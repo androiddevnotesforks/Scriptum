@@ -3,11 +3,11 @@ package sgtmelon.scriptum.cleanup.test.ui.control.anim.note
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.cleanup.presentation.control.toolbar.icon.NavigationIconControl
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.RollNoteFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.TextNoteFragment
 import sgtmelon.scriptum.parent.ParentUiTest
+import sgtmelon.test.common.nextString
 
 /**
  * Test of [NavigationIconControl] and visibleRollIcon animations for [TextNoteFragment],

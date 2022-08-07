@@ -3,9 +3,9 @@ package sgtmelon.scriptum.cleanup.test.ui.auto.error.notification
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.cleanup.test.parent.ParentNotificationTest
 import sgtmelon.scriptum.cleanup.test.ui.auto.error.Description
+import sgtmelon.test.common.nextString
 
 /**
  * Test fix of old errors for bind in status bar.

@@ -16,7 +16,6 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.TestData
 import sgtmelon.scriptum.cleanup.data.room.converter.model.RankConverter
@@ -29,6 +28,7 @@ import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
 import sgtmelon.scriptum.cleanup.getRandomSize
 import sgtmelon.scriptum.cleanup.isDivideTwoEntirely
 import sgtmelon.scriptum.cleanup.parent.ParentRoomRepoTest
+import sgtmelon.test.common.nextString
 
 /**
  * Test for [RankRepo].

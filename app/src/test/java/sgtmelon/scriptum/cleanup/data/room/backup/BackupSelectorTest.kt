@@ -9,7 +9,6 @@ import org.json.JSONObject
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
-import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.cleanup.data.room.converter.type.NoteTypeConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.type.StringConverter
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Alarm
@@ -20,6 +19,7 @@ import sgtmelon.scriptum.cleanup.domain.model.data.DbData.RollVisible
 import sgtmelon.scriptum.cleanup.domain.model.result.ParserResult
 import sgtmelon.scriptum.cleanup.parent.ParentBackupTest
 import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
+import sgtmelon.test.common.nextString
 
 /**
  * Test for [BackupSelector].

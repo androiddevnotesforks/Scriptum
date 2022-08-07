@@ -8,9 +8,9 @@ import kotlin.random.Random
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import sgtmelon.common.utils.nextString
 import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.scriptum.infrastructure.preferences.Preferences
+import sgtmelon.test.common.nextString
 
 /**
  * Test for [PreferencesDataSourceImpl].
