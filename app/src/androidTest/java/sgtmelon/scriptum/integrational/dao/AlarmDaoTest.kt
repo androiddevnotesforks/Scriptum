@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteException
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import kotlin.random.Random
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -70,7 +71,6 @@ class AlarmDaoTest : ParentRoomTest() {
         assertEquals(alarmDao.get(alarm.noteId), alarm)
     }
 
-    // TODO check for unique ids in alarmList noteId's
     private fun getListsPair(): Pair<List<NoteEntity>, List<AlarmEntity>> {
         val noteList = overflowDelegator.getList {
             NoteEntity(
@@ -83,12 +83,28 @@ class AlarmDaoTest : ParentRoomTest() {
             AlarmEntity(id = (it + 1).toLong(), noteId = noteList[it].id, date = nextDate())
         }
 
+        assertEquals(noteList.size, alarmList.size)
+
         return noteList to alarmList
     }
 
-    //endregion
+    private fun insertAlarmBigData(): Pair<List<NoteEntity>, List<AlarmEntity>> {
+        val pair = getListsPair()
+        val (noteList, alarmList) = pair
 
-    // Dao tests
+        inRoomTest {
+            for (i in noteList.indices) {
+                insertAlarmRelation(noteList[i], alarmList[i])
+
+                assertNotNull(noteDao.get(noteList[i].id))
+                assertNotNull(alarmDao.get(alarmList[i].noteId))
+            }
+        }
+
+        return pair
+    }
+
+    //endregion
 
     @Test fun insert() = inRoomTest {
         insertAlarmRelation(firstNote, firstAlarm)
@@ -188,10 +204,7 @@ class AlarmDaoTest : ParentRoomTest() {
     @Test fun getListSafe() = inRoomTest {
         assertTrue(alarmDao.getListSafe(overflowDelegator.getList { Random.nextLong() }).isEmpty())
 
-        val (noteList, alarmList) = getListsPair()
-        for (i in noteList.indices) {
-            insertAlarmRelation(noteList[i], alarmList[i])
-        }
+        val (noteList, _) = insertAlarmBigData()
 
         assertEquals(alarmDao.getListSafe(noteList.map { it.id }).size, noteList.size)
     }
@@ -235,11 +248,7 @@ class AlarmDaoTest : ParentRoomTest() {
     }
 
     @Test fun getCount_withBigData() = inRoomTest {
-        val (noteList, alarmList) = getListsPair()
-        for (i in noteList.indices) {
-            insertAlarmRelation(noteList[i], alarmList[i])
-        }
-
+        val (noteList, _) = insertAlarmBigData()
         assertEquals(alarmDao.getCount(), noteList.size)
     }
 
@@ -269,20 +278,13 @@ class AlarmDaoTest : ParentRoomTest() {
     @Test fun getCountSafe() = inRoomTest {
         assertEquals(alarmDao.getCountSafe(overflowDelegator.getList { Random.nextLong() }), 0)
 
-        val (noteList, alarmList) = getListsPair()
-        for (i in noteList.indices) {
-            insertAlarmRelation(noteList[i], alarmList[i])
-        }
+        val (noteList, _) = insertAlarmBigData()
 
-        for (item in noteList) {
-            assertTrue(noteDao.get(item.id) != null)
-            assertTrue(alarmDao.get(item.id) != null)
-        }
+        val filteredIdList = noteList.asSequence()
+            .filter { it.id % 2 != 0L }
+            .map { it.id }
+            .toList()
 
-        val idList = noteList.take(10).map { it.id }
-        assertEquals(alarmDao.getCountSafe(idList), idList.size)
-
-        val filteredIdList = idList.filter { it % 2 == 0L }
         assertEquals(alarmDao.getCountSafe(filteredIdList), filteredIdList.size)
     }
 }
