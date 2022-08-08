@@ -16,6 +16,7 @@ import sgtmelon.scriptum.cleanup.data.room.extension.inRoomTest
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.infrastructure.database.dao.AlarmDao
+import sgtmelon.scriptum.infrastructure.database.dao.safe.getCountSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.getListSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe
 import sgtmelon.scriptum.infrastructure.model.key.Color
@@ -29,6 +30,7 @@ import sgtmelon.test.common.nextString
 /**
  * Integration test for [AlarmDao].
  */
+@Suppress("DEPRECATION")
 @RunWith(AndroidJUnit4::class)
 class AlarmDaoTest : ParentRoomTest() {
 
@@ -57,9 +59,9 @@ class AlarmDaoTest : ParentRoomTest() {
         with(secondAlarm) { NotificationItem.Alarm(id, date) }
     )
 
-    private val notificationList = arrayListOf(firstNotification, secondNotification)
-
     //endregion
+
+    //region Help functions
 
     private suspend fun RoomDb.insertAlarmRelation(note: NoteEntity, alarm: AlarmEntity) {
         noteDao.insert(note)
@@ -67,6 +69,24 @@ class AlarmDaoTest : ParentRoomTest() {
         alarmDao.insert(alarm)
         assertEquals(alarmDao.get(alarm.noteId), alarm)
     }
+
+    // TODO check for unique ids in alarmList noteId's
+    private fun getListsPair(): Pair<List<NoteEntity>, List<AlarmEntity>> {
+        val noteList = overflowDelegator.getList {
+            NoteEntity(
+                id = (it + 1).toLong(), create = nextDate(), change = nextDate(),
+                text = nextString(), name = nextString(),
+                color = Color.values().random(), type = NoteType.values().random()
+            )
+        }
+        val alarmList = overflowDelegator.getList(noteList.size) {
+            AlarmEntity(id = (it + 1).toLong(), noteId = noteList[it].id, date = nextDate())
+        }
+
+        return noteList to alarmList
+    }
+
+    //endregion
 
     // Dao tests
 
@@ -154,20 +174,21 @@ class AlarmDaoTest : ParentRoomTest() {
         alarmDao.getList(overflowDelegator.getList { Random.nextLong() })
     }
 
+    @Test fun getList_byId() = inRoomTest {
+        val resultList = listOf(firstAlarm, secondAlarm)
+        val idList = resultList.map { it.noteId }
+
+        assertTrue(alarmDao.getListSafe(idList).isEmpty())
+
+        insertAlarmRelation(firstNote, firstAlarm)
+        insertAlarmRelation(secondNote, secondAlarm)
+        assertEquals(alarmDao.getListSafe(idList), resultList)
+    }
+
     @Test fun getListSafe() = inRoomTest {
         assertTrue(alarmDao.getListSafe(overflowDelegator.getList { Random.nextLong() }).isEmpty())
 
-        val noteList = overflowDelegator.getList {
-            NoteEntity(
-                id = (it + 1).toLong(), create = nextDate(), change = nextDate(),
-                text = nextString(), name = nextString(),
-                color = Color.values().random(), type = NoteType.values().random()
-            )
-        }
-        val alarmList = overflowDelegator.getList(noteList.size) {
-            AlarmEntity(id = (it + 1).toLong(), noteId = noteList[it].id, date = nextDate())
-        }
-
+        val (noteList, alarmList) = getListsPair()
         for (i in noteList.indices) {
             insertAlarmRelation(noteList[i], alarmList[i])
         }
@@ -175,59 +196,93 @@ class AlarmDaoTest : ParentRoomTest() {
         assertEquals(alarmDao.getListSafe(noteList.map { it.id }).size, noteList.size)
     }
 
-    //region clean up
+    @Test fun getItem() = inRoomTest {
+        assertNull(alarmDao.getItem(Random.nextLong()))
 
+        insertAlarmRelation(firstNote, firstAlarm)
+        assertEquals(alarmDao.getItem(firstAlarm.noteId), firstNotification)
 
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //    @Test fun getItemList() = inRoomTest {
-    //        assertTrue(alarmDao.getItemList().isEmpty())
-    //
-    //        insertAlarmRelation(firstNote, firstAlarm)
-    //        insertAlarmRelation(secondNote, secondAlarm)
-    //
-    //        assertEquals(notificationList, alarmDao.getItemList())
-    //    }
-    //
-    //    @Test fun getDateList() {
-    //        TODO()
-    //    }
-    //
-    //    @Test fun getCount() = inRoomTest {
-    //        var size = 0
-    //
-    //        assertEquals(size, alarmDao.getCount())
-    //
-    //        insertAlarmRelation(firstNote, firstAlarm)
-    //        assertEquals(++size, alarmDao.getCount())
-    //
-    //        insertAlarmRelation(secondNote, secondAlarm)
-    //        assertEquals(++size, alarmDao.getCount())
-    //    }
-    //
-    //    @Test fun getCountByIdList() = inRoomTest {
-    //        var size = 0
-    //
-    //        assertEquals(size, alarmDao.getCount(listOf()))
-    //
-    //        insertAlarmRelation(firstNote, firstAlarm)
-    //        assertEquals(++size, alarmDao.getCount(listOf(firstNote.id)))
-    //
-    //        insertAlarmRelation(secondNote, secondAlarm)
-    //        assertEquals(++size, alarmDao.getCount(listOf(firstNote.id, secondNote.id)))
-    //    }
-    //
-    //    @Test fun getCountByIdListCrowd() = inRoomTest { alarmDao.getCount(crowdLongList) }
+        insertAlarmRelation(secondNote, secondAlarm)
+        assertEquals(alarmDao.getItem(secondAlarm.noteId), secondNotification)
+    }
 
-    //endregion
+    @Test fun getItemList() = inRoomTest {
+        assertTrue(alarmDao.getItemList().isEmpty())
+
+        insertAlarmRelation(firstNote, firstAlarm)
+        insertAlarmRelation(secondNote, secondAlarm)
+        assertEquals(alarmDao.getItemList(), listOf(firstNotification, secondNotification))
+    }
+
+    @Test fun getDateList() = inRoomTest {
+        assertTrue(alarmDao.getDateList().isEmpty())
+
+        insertAlarmRelation(firstNote, firstAlarm)
+        insertAlarmRelation(secondNote, secondAlarm)
+
+        val dateList = listOf(firstNotification, secondNotification).map { it.alarm.date }
+        assertEquals(alarmDao.getDateList(), dateList)
+    }
+
+    @Test fun getCount() = inRoomTest {
+        assertEquals(alarmDao.getCount(), 0)
+
+        insertAlarmRelation(firstNote, firstAlarm)
+        assertEquals(alarmDao.getCount(), 1)
+
+        insertAlarmRelation(secondNote, secondAlarm)
+        assertEquals(alarmDao.getCount(), 2)
+    }
+
+    @Test fun getCount_withBigData() = inRoomTest {
+        val (noteList, alarmList) = getListsPair()
+        for (i in noteList.indices) {
+            insertAlarmRelation(noteList[i], alarmList[i])
+        }
+
+        assertEquals(alarmDao.getCount(), noteList.size)
+    }
+
+    @Test fun getCount_byIdList_overflowCheck() = inRoomTest {
+        exceptionRule.expect(SQLiteException::class.java)
+        alarmDao.getCount(overflowDelegator.getList { Random.nextLong() })
+    }
+
+    @Test fun getCount_byIdList() = inRoomTest {
+        val maxSize = (10..100).random()
+
+        val (noteList, alarmList) = getListsPair()
+        for (i in noteList.indices) {
+            if (i >= maxSize) break
+            insertAlarmRelation(noteList[i], alarmList[i])
+        }
+
+        val filteredIdList = noteList.asSequence()
+            .take(maxSize)
+            .filter { it.id % 2 != 0L }
+            .map { it.id }
+            .toList()
+
+        assertEquals(alarmDao.getCountSafe(filteredIdList), filteredIdList.size)
+    }
+
+    @Test fun getCountSafe() = inRoomTest {
+        assertEquals(alarmDao.getCountSafe(overflowDelegator.getList { Random.nextLong() }), 0)
+
+        val (noteList, alarmList) = getListsPair()
+        for (i in noteList.indices) {
+            insertAlarmRelation(noteList[i], alarmList[i])
+        }
+
+        for (item in noteList) {
+            assertTrue(noteDao.get(item.id) != null)
+            assertTrue(alarmDao.get(item.id) != null)
+        }
+
+        val idList = noteList.take(10).map { it.id }
+        assertEquals(alarmDao.getCountSafe(idList), idList.size)
+
+        val filteredIdList = idList.filter { it % 2 == 0L }
+        assertEquals(alarmDao.getCountSafe(filteredIdList), filteredIdList.size)
+    }
 }

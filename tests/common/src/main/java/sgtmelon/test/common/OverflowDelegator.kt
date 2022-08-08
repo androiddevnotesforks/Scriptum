@@ -44,7 +44,7 @@ class OverflowDelegator(private val overflowCount: Int) {
     ): List<T> {
         val size = expectedSize ?: run {
             val randomStart = overflowCount + (1 until overflowCount).random()
-            val randomEnd = overflowCount * (3..25).random()
+            val randomEnd = overflowCount * (3..10).random()
 
             return@run (randomStart..randomEnd).random()
         }
