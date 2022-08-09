@@ -11,8 +11,8 @@ import sgtmelon.scriptum.cleanup.data.room.RoomDb
 import sgtmelon.scriptum.cleanup.data.room.dao.INoteDao
 import sgtmelon.scriptum.cleanup.data.room.dao.IRankDao
 import sgtmelon.scriptum.cleanup.data.room.dao.IRollDao
-import sgtmelon.scriptum.cleanup.data.room.dao.IRollVisibleDao
 import sgtmelon.scriptum.infrastructure.database.dao.AlarmDao
+import sgtmelon.scriptum.infrastructure.database.dao.IRollVisibleDao
 
 /**
  * Parent class for RoomRepo tests.
