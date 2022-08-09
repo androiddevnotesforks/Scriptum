@@ -15,7 +15,7 @@ import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.infrastructure.database.dao.AlarmDao
-import sgtmelon.scriptum.infrastructure.database.dao.IRollVisibleDao
+import sgtmelon.scriptum.infrastructure.database.dao.RollVisibleDao
 
 /**
  * Class for communication with [RoomDatabase].
@@ -33,7 +33,7 @@ abstract class RoomDb : RoomDatabase() {
 
     abstract val rollDao: IRollDao
 
-    abstract val rollVisibleDao: IRollVisibleDao
+    abstract val rollVisibleDao: RollVisibleDao
 
     abstract val rankDao: IRankDao
 

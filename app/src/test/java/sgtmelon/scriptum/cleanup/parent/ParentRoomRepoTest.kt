@@ -12,7 +12,7 @@ import sgtmelon.scriptum.cleanup.data.room.dao.INoteDao
 import sgtmelon.scriptum.cleanup.data.room.dao.IRankDao
 import sgtmelon.scriptum.cleanup.data.room.dao.IRollDao
 import sgtmelon.scriptum.infrastructure.database.dao.AlarmDao
-import sgtmelon.scriptum.infrastructure.database.dao.IRollVisibleDao
+import sgtmelon.scriptum.infrastructure.database.dao.RollVisibleDao
 
 /**
  * Parent class for RoomRepo tests.
@@ -26,7 +26,7 @@ abstract class ParentRoomRepoTest : ParentCoTest() {
 
     @MockK lateinit var noteDao: INoteDao
     @MockK lateinit var rollDao: IRollDao
-    @MockK lateinit var rollVisibleDao: IRollVisibleDao
+    @MockK lateinit var rollVisibleDao: RollVisibleDao
     @MockK lateinit var rankDao: IRankDao
     @MockK lateinit var alarmDao: AlarmDao
 

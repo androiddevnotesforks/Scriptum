@@ -6,7 +6,7 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
-import sgtmelon.scriptum.infrastructure.database.dao.IRollVisibleDao
+import sgtmelon.scriptum.infrastructure.database.dao.RollVisibleDao
 import sgtmelon.scriptum.infrastructure.model.key.Color
 import sgtmelon.scriptum.parent.ParentRoomTest
 import sgtmelon.scriptum.parent.provider.DateProvider.DATE_1
@@ -15,7 +15,7 @@ import sgtmelon.scriptum.parent.provider.DateProvider.DATE_3
 import sgtmelon.scriptum.parent.provider.DateProvider.DATE_5
 
 /**
- * Integration test for [IRollVisibleDao].
+ * Integration test for [RollVisibleDao].
  */
 @RunWith(AndroidJUnit4::class)
 class RollVisibleDaoTest : ParentRoomTest() {
