@@ -24,7 +24,7 @@ class DevelopRepo(
     }
 
     override suspend fun getPrintVisibleList(): List<PrintItem.Visible> {
-        return fromRoom { rollVisibleDao.get().map { PrintItem.Visible(it) } }
+        return fromRoom { rollVisibleDao.getList().map { PrintItem.Visible(it) } }
     }
 
     override suspend fun getPrintRankList(): List<PrintItem.Rank> {

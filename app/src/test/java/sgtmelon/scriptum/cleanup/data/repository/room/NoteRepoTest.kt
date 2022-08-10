@@ -237,7 +237,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
         val item = mockk<NoteItem>()
 
         every { entity.id } returns id
-        coEvery { rollVisibleDao.get(id) } returns isVisible
+        coEvery { rollVisibleDao.getVisible(id) } returns isVisible
         coEvery { spyNoteRepo.getPreview(id, isVisible, isOptimal, roomDb) } returns previewList
         every { rollConverter.toItem(previewList) } returns rollList
         coEvery { alarmDao.get(id) } returns alarmEntity
@@ -249,7 +249,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
             spyNoteRepo.transformNoteEntity(entity, isOptimal, roomDb)
 
             entity.id
-            rollVisibleDao.get(id)
+            rollVisibleDao.getVisible(id)
             entity.id
             spyNoteRepo.getPreview(id, isVisible, isOptimal, roomDb)
             rollConverter.toItem(previewList)
@@ -854,12 +854,12 @@ class NoteRepoTest : ParentRoomRepoTest() {
         val entity = RollVisibleEntity(noteId = id, value = !isVisible)
 
         every { item.id } returns id
-        coEvery { rollVisibleDao.get(id) } returns null
+        coEvery { rollVisibleDao.getVisible(id) } returns null
         every { item.isVisible } returns !isVisible
         coEvery { rollVisibleDao.insert(entity) } returns Random.nextLong()
         noteRepo.setRollVisible(item)
 
-        coEvery { rollVisibleDao.get(id) } returns isVisible
+        coEvery { rollVisibleDao.getVisible(id) } returns isVisible
         noteRepo.setRollVisible(item)
 
         every { item.isVisible } returns isVisible
@@ -868,14 +868,14 @@ class NoteRepoTest : ParentRoomRepoTest() {
         coVerifySequence {
             roomProvider.openRoom()
             item.id
-            rollVisibleDao.get(id)
+            rollVisibleDao.getVisible(id)
             item.id
             item.isVisible
             rollVisibleDao.insert(entity)
 
             roomProvider.openRoom()
             item.id
-            rollVisibleDao.get(id)
+            rollVisibleDao.getVisible(id)
             item.isVisible
             item.id
             item.isVisible
@@ -883,7 +883,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
             roomProvider.openRoom()
             item.id
-            rollVisibleDao.get(id)
+            rollVisibleDao.getVisible(id)
             item.isVisible
         }
     }
@@ -921,13 +921,13 @@ class NoteRepoTest : ParentRoomRepoTest() {
         val rollVisibleList = mockk<List<RollVisibleEntity>>()
         val noteIdList = mockk<List<Long>>()
 
-        coEvery { rollVisibleDao.get(noteIdList) } returns rollVisibleList
+        coEvery { rollVisibleDao.getList(noteIdList) } returns rollVisibleList
 
         assertEquals(rollVisibleList, noteRepo.getRollVisibleBackup(noteIdList))
 
         coVerifySequence {
             roomProvider.openRoom()
-            rollVisibleDao.get(noteIdList)
+            rollVisibleDao.getList(noteIdList)
         }
     }
 }

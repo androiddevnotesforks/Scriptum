@@ -123,7 +123,7 @@ class NoteRepo(
         isOptimal: Boolean,
         db: RoomDb
     ): NoteItem = with(db) {
-        val isVisible = rollVisibleDao.get(entity.id)
+        val isVisible = rollVisibleDao.getVisible(entity.id)
         val rollList = rollConverter.toItem(getPreview(entity.id, isVisible, isOptimal, db))
         val alarmEntity = alarmDao.get(entity.id)
 
@@ -318,7 +318,7 @@ class NoteRepo(
     }
 
     override suspend fun setRollVisible(item: NoteItem.Roll) = inRoom {
-        val value = rollVisibleDao.get(item.id)
+        val value = rollVisibleDao.getVisible(item.id)
 
         if (value == null) {
             val entity = RollVisibleEntity(noteId = item.id, value = item.isVisible)
@@ -339,7 +339,7 @@ class NoteRepo(
     }
 
     override suspend fun getRollVisibleBackup(noteIdList: List<Long>): List<RollVisibleEntity> {
-        return fromRoom { rollVisibleDao.get(noteIdList) }
+        return fromRoom { rollVisibleDao.getList(noteIdList) }
     }
 
 }

@@ -26,13 +26,12 @@ interface RollVisibleDao {
     suspend fun update(noteId: Long, value: Boolean)
 
     @Query(value = "SELECT * FROM ROLL_VISIBLE_TABLE ORDER BY RL_VS_NOTE_ID")
-    suspend fun get(): List<RollVisibleEntity>
-
-    @Query(value = "SELECT RL_VS_VALUE FROM ROLL_VISIBLE_TABLE WHERE RL_VS_NOTE_ID = :noteId")
-    suspend fun get(noteId: Long): Boolean?
+    suspend fun getList(): List<RollVisibleEntity>
 
     @Deprecated(DaoDeprecated.LIST_OVERFLOW)
     @Query(value = "SELECT * FROM ROLL_VISIBLE_TABLE WHERE RL_VS_NOTE_ID IN (:noteIdList)")
-    suspend fun get(noteIdList: List<Long>): List<RollVisibleEntity>
+    suspend fun getList(noteIdList: List<Long>): List<RollVisibleEntity>
 
+    @Query(value = "SELECT RL_VS_VALUE FROM ROLL_VISIBLE_TABLE WHERE RL_VS_NOTE_ID = :noteId")
+    suspend fun getVisible(noteId: Long): Boolean?
 }
