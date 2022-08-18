@@ -1,5 +1,3 @@
-package sgtmelon.scriptum.infrastructure.database.dataSource;
+package sgtmelon.scriptum.infrastructure.database.dataSource
 
-public class RollVisibleDataSourceImplTest {
-
-}
+class RollVisibleDataSourceImplTest 

@@ -14,11 +14,18 @@ import sgtmelon.scriptum.infrastructure.database.annotation.DaoDeprecated
 /**
  * Interface for communication [DbData.RollVisible.TABLE] with [RoomDb].
  */
+// TODO remove from use deprecated staff (and use RollVisibleDataSource/RollVisibleDaoSafe)
 @Dao
 @TypeConverters(BoolConverter::class)
 interface RollVisibleDao {
 
-    @Deprecated(DaoDeprecated.INSERT_IGNORE)
+    @Deprecated(
+        DaoDeprecated.COMBINATION
+            .plus(other = "\n")
+            .plus(DaoDeprecated.INSERT_FOREIGN_KEY)
+            .plus(other = "\n")
+            .plus(DaoDeprecated.INSERT_IGNORE)
+    )
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(entity: RollVisibleEntity): Long
 

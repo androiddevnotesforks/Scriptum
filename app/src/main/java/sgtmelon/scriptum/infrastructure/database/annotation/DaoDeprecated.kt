@@ -5,6 +5,7 @@ package sgtmelon.scriptum.infrastructure.database.annotation
  */
 annotation class DaoDeprecated {
     companion object {
+        const val COMBINATION = "Here a combination of possible errors:"
 
         const val INSERT_IGNORE =
             "Use a safe function for insert with OnConflictStrategy.IGNORE.\n" +
