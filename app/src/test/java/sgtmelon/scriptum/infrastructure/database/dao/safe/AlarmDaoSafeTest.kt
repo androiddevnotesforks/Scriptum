@@ -54,7 +54,7 @@ class AlarmDaoSafeTest : ParentTest() {
 
     @Test fun `insertSafe with normal result`() {
         val entity = mockk<AlarmEntity>()
-        val id = Random.nextLong()
+        val id = abs(Random.nextLong())
 
         coEvery { alarmDao.insert(entity) } returns id
 
@@ -69,16 +69,16 @@ class AlarmDaoSafeTest : ParentTest() {
 
     @Test fun getListSafe() {
         val (list, dividedList) = overflowDelegator.getListPair { Random.nextLong() }
-        val (alarmList, alarmDividedList) = overflowDelegator.getListPair(list.size) { mockk<AlarmEntity>() }
+        val (entityList, entityDividedList) = overflowDelegator.getListPair(list.size) { mockk<AlarmEntity>() }
 
-        assertEquals(list.size, alarmList.size)
+        assertEquals(list.size, entityList.size)
 
         for ((i, divided) in dividedList.withIndex()) {
-            coEvery { alarmDao.getList(divided) } returns alarmDividedList[i]
+            coEvery { alarmDao.getList(divided) } returns entityDividedList[i]
         }
 
         runBlocking {
-            assertEquals(alarmDao.getListSafe(list), alarmList)
+            assertEquals(alarmDao.getListSafe(list), entityList)
         }
 
         coVerifySequence {
