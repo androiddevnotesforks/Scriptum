@@ -13,8 +13,13 @@ object FastMock {
 
     object Dao {
 
-        fun alarmDaoSafe() =
+        fun alarmDaoSafe() {
             mockkStatic("sgtmelon.scriptum.infrastructure.database.dao.safe.AlarmDaoSafeExt")
+        }
+
+        fun rollVisibleDaoSafe() {
+            mockkStatic("sgtmelon.scriptum.infrastructure.database.dao.safe.RollVisibleDaoSafeExt")
+        }
     }
 
     fun fireExtensions() = mockkStatic("sgtmelon.scriptum.infrastructure.utils.FireExtensionUtils")

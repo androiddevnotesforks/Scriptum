@@ -6,7 +6,6 @@ import io.mockk.confirmVerified
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlin.random.Random
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -14,7 +13,7 @@ import org.junit.Test
 import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
-import sgtmelon.scriptum.cleanup.parent.ParentCoTest
+import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.scriptum.infrastructure.database.dao.AlarmDao
 import sgtmelon.scriptum.infrastructure.database.dao.safe.getCountSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.getListSafe
@@ -23,8 +22,7 @@ import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe
 /**
  * Test for [AlarmDataSourceImpl].
  */
-@ExperimentalCoroutinesApi
-class AlarmDataSourceImplTest : ParentCoTest() {
+class AlarmDataSourceImplTest : ParentTest() {
 
     @MockK lateinit var dao: AlarmDao
 
