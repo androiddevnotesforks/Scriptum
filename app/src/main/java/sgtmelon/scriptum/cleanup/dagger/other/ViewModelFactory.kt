@@ -65,7 +65,7 @@ import sgtmelon.scriptum.infrastructure.converter.key.ColorConverter
 @Suppress("UNCHECKED_CAST")
 object ViewModelFactory {
 
-    // region Help func
+    //region Help func
 
     private fun onNotFound() = IllegalArgumentException("ViewModel Not Found")
 

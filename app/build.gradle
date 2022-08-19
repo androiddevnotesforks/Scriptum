@@ -41,9 +41,10 @@ android {
         }
 
         debug {
-            /**
-             * Turn off for tests correct work!
-             */
+
+            applicationIdSuffix = ".debug"
+
+            /** Turn off for tests correct work! */
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             testProguardFile 'proguard-test-rules.pro'

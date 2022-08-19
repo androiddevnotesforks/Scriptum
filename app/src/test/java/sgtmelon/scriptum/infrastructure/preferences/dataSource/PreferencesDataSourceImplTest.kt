@@ -26,7 +26,7 @@ class PreferencesDataSourceImplTest : ParentTest() {
         confirmVerified(preferences)
     }
 
-    // region Help functions
+    //region Help functions
 
     private fun <T> getTest(value: T, getFunc: () -> T, runFunc: () -> T) {
         every { getFunc() } returns value
