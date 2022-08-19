@@ -56,7 +56,7 @@ class TimeDialogUi(
 
 
     fun assert() {
-        cancelButton.isDisplayed().isEnabled().withTextColor(R.attr.clContent)
+        cancelButton.isDisplayed().isEnabled().withTextColor(R.attr.clContentSecond)
         applyButton.isDisplayed().isEnabled(applyEnabled) { withTextColor(R.attr.clAccent) }
     }
 

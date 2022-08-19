@@ -23,7 +23,7 @@
     </style>
 
     <style name="App.Alert.NegativeButton" parent="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog">
-        <item name="android:textColor">?attr/clContent</item>
+        <item name="android:textColor">?attr/clContentSecond</item>
     </style>
 
     <style name="App.Style.BottomSheet" parent="Widget.Design.BottomSheet.Modal">

@@ -33,7 +33,7 @@ class ClearDialogUi : ParentUi(), IDialogUi {
         titleText.isDisplayed().withTextColor(R.attr.clContent)
         messageText.isDisplayed().withTextColor(R.attr.clContent)
 
-        noButton.isDisplayed().isEnabled().withTextColor(R.attr.clContent)
+        noButton.isDisplayed().isEnabled().withTextColor(R.attr.clContentSecond)
         yesButton.isDisplayed().isEnabled().withTextColor(R.attr.clAccent)
     }
 

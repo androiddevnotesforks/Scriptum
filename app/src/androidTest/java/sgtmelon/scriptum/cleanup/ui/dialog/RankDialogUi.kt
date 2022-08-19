@@ -77,7 +77,7 @@ class RankDialogUi(
                 .withTextColor(R.attr.clContent)
         }
 
-        cancelButton.isDisplayed().isEnabled().withTextColor(R.attr.clContent)
+        cancelButton.isDisplayed().isEnabled().withTextColor(R.attr.clContentSecond)
         applyButton.isDisplayed().isEnabled(isEnabled = item.rankPs != check) {
             withTextColor(R.attr.clAccent)
         }

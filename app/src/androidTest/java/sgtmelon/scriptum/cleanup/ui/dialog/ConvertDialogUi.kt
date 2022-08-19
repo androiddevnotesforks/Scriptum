@@ -44,7 +44,7 @@ class ConvertDialogUi(item: NoteItem, private val callback: Callback) : ParentUi
         titleText.isDisplayed().withTextColor(R.attr.clContent)
         messageText.isDisplayed().withTextColor(R.attr.clContent)
 
-        noButton.isDisplayed().isEnabled().withTextColor(R.attr.clContent)
+        noButton.isDisplayed().isEnabled().withTextColor(R.attr.clContentSecond)
         yesButton.isDisplayed().isEnabled().withTextColor(R.attr.clAccent)
     }
 

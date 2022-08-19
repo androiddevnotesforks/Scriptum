@@ -76,7 +76,7 @@ class RenameDialogUi(title: String) : ParentUi(), IDialogUi, IKeyboardOption {
                     }
                 }
 
-        cancelButton.isDisplayed().isEnabled().withTextColor(R.attr.clContent)
+        cancelButton.isDisplayed().isEnabled().withTextColor(R.attr.clContentSecond)
         applyButton.isDisplayed().isEnabled(applyEnabled) {
             withTextColor(R.attr.clAccent)
         }
