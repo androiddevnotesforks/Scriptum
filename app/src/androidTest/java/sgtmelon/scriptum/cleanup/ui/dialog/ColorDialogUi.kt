@@ -87,10 +87,10 @@ class ColorDialogUi(
     }
 
     fun assert() {
-        titleText.isDisplayed()
+        titleText.isDisplayed().withTextColor(R.attr.clContent)
         recyclerView.isDisplayed()
 
-        cancelButton.isDisplayed().isEnabled().withTextColor(R.attr.clAccent)
+        cancelButton.isDisplayed().isEnabled().withTextColor(R.attr.clContent)
         applyButton.isDisplayed().isEnabled(isEnabled = color != initColor) {
             withTextColor(R.attr.clAccent)
         }

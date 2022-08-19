@@ -76,9 +76,9 @@ abstract class ParentDialogUi(
 
     @CallSuper open fun assert() {
         listView.isDisplayed()
-        titleText.isDisplayed()
+        titleText.isDisplayed().withTextColor(R.attr.clContent)
 
-        cancelButton.isDisplayed().isEnabled().withTextColor(R.attr.clAccent)
+        cancelButton.isDisplayed().isEnabled().withTextColor(R.attr.clContent)
     }
 
 }

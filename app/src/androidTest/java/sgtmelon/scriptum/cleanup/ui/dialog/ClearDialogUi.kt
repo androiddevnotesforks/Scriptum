@@ -19,8 +19,8 @@ class ClearDialogUi : ParentUi(), IDialogUi {
     private val titleText = getViewByText(R.string.dialog_title_clear_bin)
     private val messageText = getViewByText(R.string.dialog_text_clear_bin)
 
-    private val noButton = getViewByText(R.string.dialog_button_no)
-    private val yesButton = getViewByText(R.string.dialog_button_yes)
+    private val noButton = getViewByText(sgtmelon.safedialog.R.string.dialog_button_no)
+    private val yesButton = getViewByText(sgtmelon.safedialog.R.string.dialog_button_yes)
 
     //endregion
 
@@ -30,10 +30,10 @@ class ClearDialogUi : ParentUi(), IDialogUi {
 
 
     fun assert() {
-        titleText.isDisplayed()
-        messageText.isDisplayed()
+        titleText.isDisplayed().withTextColor(R.attr.clContent)
+        messageText.isDisplayed().withTextColor(R.attr.clContent)
 
-        noButton.isDisplayed().isEnabled().withTextColor(R.attr.clAccent)
+        noButton.isDisplayed().isEnabled().withTextColor(R.attr.clContent)
         yesButton.isDisplayed().isEnabled().withTextColor(R.attr.clAccent)
     }
 

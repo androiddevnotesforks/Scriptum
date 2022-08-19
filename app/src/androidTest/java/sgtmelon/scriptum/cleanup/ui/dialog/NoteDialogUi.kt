@@ -7,6 +7,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.cleanup.basic.extension.click
 import sgtmelon.scriptum.cleanup.basic.extension.isDisplayed
 import sgtmelon.scriptum.cleanup.basic.extension.isEnabled
+import sgtmelon.scriptum.cleanup.basic.extension.withTextColor
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.ui.IDialogUi
@@ -97,7 +98,7 @@ class NoteDialogUi(private val item: NoteItem) : ParentUi(), IDialogUi, DateTime
     }
 
     fun assert() {
-        titleText.isDisplayed()
+        titleText.isDisplayed().withTextColor(R.attr.clContent)
 
         if (item.isBin) {
             restoreButton.isDisplayed().isEnabled()

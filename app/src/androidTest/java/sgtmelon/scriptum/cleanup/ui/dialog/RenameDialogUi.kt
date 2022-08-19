@@ -60,23 +60,23 @@ class RenameDialogUi(title: String) : ParentUi(), IDialogUi, IKeyboardOption {
     fun assert(enter: String = "") {
         parentContainer.isDisplayed()
 
-        titleText.isDisplayed()
+        titleText.isDisplayed().withTextColor(R.attr.clContent)
         renameEnter.isDisplayed()
-                .withImeAction(EditorInfo.IME_ACTION_DONE)
-                .withBackgroundColor(android.R.color.transparent)
-                .apply {
-                    if (enter.isNotEmpty()) {
-                        withText(enter, R.attr.clContent, R.dimen.text_18sp)
-                    } else {
-                        withHint(
-                            R.string.hint_enter_rank_rename,
-                            R.attr.clDisable,
+            .withImeAction(EditorInfo.IME_ACTION_DONE)
+            .withBackgroundColor(android.R.color.transparent)
+            .apply {
+                if (enter.isNotEmpty()) {
+                    withText(enter, R.attr.clContent, R.dimen.text_18sp)
+                } else {
+                    withHint(
+                        R.string.hint_enter_rank_rename,
+                        R.attr.clDisable,
                             R.dimen.text_18sp
                         )
                     }
                 }
 
-        cancelButton.isDisplayed().isEnabled().withTextColor(R.attr.clAccent)
+        cancelButton.isDisplayed().isEnabled().withTextColor(R.attr.clContent)
         applyButton.isDisplayed().isEnabled(applyEnabled) {
             withTextColor(R.attr.clAccent)
         }

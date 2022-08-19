@@ -20,13 +20,15 @@ class ConvertDialogUi(item: NoteItem, private val callback: Callback) : ParentUi
     //region Views
 
     private val titleText = getViewByText(R.string.dialog_title_convert)
-    private val messageText = getViewByText(when (item.type) {
-        NoteType.TEXT -> R.string.dialog_text_convert_text
-        NoteType.ROLL -> R.string.dialog_roll_convert_roll
-    })
+    private val messageText = getViewByText(
+        when (item.type) {
+            NoteType.TEXT -> R.string.dialog_text_convert_text
+            NoteType.ROLL -> R.string.dialog_roll_convert_roll
+        }
+    )
 
-    private val noButton = getViewByText(R.string.dialog_button_no)
-    private val yesButton = getViewByText(R.string.dialog_button_yes)
+    private val noButton = getViewByText(sgtmelon.safedialog.R.string.dialog_button_no)
+    private val yesButton = getViewByText(sgtmelon.safedialog.R.string.dialog_button_yes)
 
     //endregion
 
@@ -39,10 +41,10 @@ class ConvertDialogUi(item: NoteItem, private val callback: Callback) : ParentUi
 
 
     fun assert() {
-        titleText.isDisplayed()
-        messageText.isDisplayed()
+        titleText.isDisplayed().withTextColor(R.attr.clContent)
+        messageText.isDisplayed().withTextColor(R.attr.clContent)
 
-        noButton.isDisplayed().isEnabled().withTextColor(R.attr.clAccent)
+        noButton.isDisplayed().isEnabled().withTextColor(R.attr.clContent)
         yesButton.isDisplayed().isEnabled().withTextColor(R.attr.clAccent)
     }
 

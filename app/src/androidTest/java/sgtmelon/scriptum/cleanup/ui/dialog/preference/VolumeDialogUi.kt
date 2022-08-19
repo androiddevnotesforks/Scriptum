@@ -51,14 +51,14 @@ class VolumeDialogUi : ParentUi(),
     }
 
     fun assert() {
-        titleText.isDisplayed()
+        titleText.isDisplayed().withTextColor(R.attr.clContent)
 
         val text = context.getString(R.string.dialog_text_volume, value)
         progressText.isDisplayed().withText(text, R.attr.clContentSecond, R.dimen.text_16sp)
 
         seekBar.isDisplayed().withProgress(value, max = 100)
 
-        cancelButton.isDisplayed().isEnabled().withTextColor(R.attr.clAccent)
+        cancelButton.isDisplayed().isEnabled().withTextColor(R.attr.clContent)
         applyButton.isDisplayed().isEnabled(isEnabled = value != initValue) {
             withTextColor(R.attr.clAccent)
         }

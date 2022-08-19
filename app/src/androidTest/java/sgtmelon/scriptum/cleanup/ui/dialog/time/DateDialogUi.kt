@@ -68,7 +68,7 @@ class DateDialogUi(
     fun assert() {
         resetButton.isDisplayed(isUpdateDate).isEnabled().withTextColor(R.attr.clAccent)
 
-        cancelButton.isDisplayed().isEnabled().withTextColor(R.attr.clAccent)
+        cancelButton.isDisplayed().isEnabled().withTextColor(R.attr.clContent)
         applyButton.isDisplayed().isEnabled().withTextColor(R.attr.clAccent)
     }
 

@@ -65,14 +65,19 @@ class RankDialogUi(
 
     fun assert() {
         recyclerView.isDisplayed()
-        titleText.isDisplayed()
+        titleText.isDisplayed().withTextColor(R.attr.clContent)
 
-        noCategoryButton.isDisplayed().isChecked(isChecked = check == -1)
+        noCategoryButton.isDisplayed()
+            .isChecked(isChecked = check == -1)
+            .withTextColor(R.attr.clContent)
+
         for (it in rankList) {
-            getItem(it.name).isDisplayed().isChecked(isChecked = check == it.position)
+            getItem(it.name).isDisplayed()
+                .isChecked(isChecked = check == it.position)
+                .withTextColor(R.attr.clContent)
         }
 
-        cancelButton.isDisplayed().isEnabled().withTextColor(R.attr.clAccent)
+        cancelButton.isDisplayed().isEnabled().withTextColor(R.attr.clContent)
         applyButton.isDisplayed().isEnabled(isEnabled = item.rankPs != check) {
             withTextColor(R.attr.clAccent)
         }

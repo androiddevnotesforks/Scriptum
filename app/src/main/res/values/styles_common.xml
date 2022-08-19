@@ -14,6 +14,11 @@
     <style name="App.Alert" parent="Theme.AppCompat.DayNight.Dialog.Alert">
         <item name="colorAccent">?attr/clAccent</item>
         <item name="android:background">?attr/clPrimary</item>
+        <item name="buttonBarNegativeButtonStyle">@style/App.Alert.NegativeButton</item>
+    </style>
+
+    <style name="App.Alert.NegativeButton" parent="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">?attr/clContent</item>
     </style>
 
     <style name="App.Style.BottomSheet" parent="Widget.Design.BottomSheet.Modal">
