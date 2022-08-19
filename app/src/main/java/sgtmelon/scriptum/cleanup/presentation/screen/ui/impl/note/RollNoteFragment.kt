@@ -63,6 +63,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.note.IRollNoteF
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.note.IRollNoteViewModel
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
 import sgtmelon.scriptum.infrastructure.model.key.Color
+import sgtmelon.scriptum.infrastructure.widgets.RecyclerOverScrollListener
 
 /**
  * Fragment for display roll note.
@@ -335,6 +336,7 @@ class RollNoteFragment : ParentFragment(),
                 isFirstRun, R.anim.layout_item_roll, supportsChangeAnimations = false
             ) { viewModel.onUpdateInfo() }
 
+            it.addOnScrollListener(RecyclerOverScrollListener(showFooter = false))
             it.setHasFixedSize(true)
             it.layoutManager = layoutManager
             it.adapter = adapter

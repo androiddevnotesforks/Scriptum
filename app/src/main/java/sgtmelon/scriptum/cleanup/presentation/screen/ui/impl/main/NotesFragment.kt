@@ -38,6 +38,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.notification.Notifi
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.preference.PreferenceActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.INotesViewModel
 import sgtmelon.scriptum.databinding.FragmentNotesBinding
+import sgtmelon.scriptum.infrastructure.widgets.RecyclerOverScrollListener
 
 /**
  * Fragment which displays list of notes - [NoteItem].
@@ -169,6 +170,8 @@ class NotesFragment : ParentFragment(),
         recyclerView = view?.findViewById(R.id.notes_recycler)
         recyclerView?.let {
             it.setDefaultAnimator { onBindingList() }
+
+            it.addOnScrollListener(RecyclerOverScrollListener())
             it.setHasFixedSize(true)
             it.layoutManager = LinearLayoutManager(context)
             it.adapter = adapter

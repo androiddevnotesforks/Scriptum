@@ -34,6 +34,7 @@
         android:layout_height="wrap_content"
         android:alpha="0"
         android:visibility="gone"
+        android:overScrollMode="never"
         app:layout_constraintBottom_toTopOf="@id/alarm_button_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -82,8 +83,8 @@
             android:layout_height="match_parent"
             android:layout_weight="0.12"
             android:contentDescription="@string/description_button_alarm_more"
-            android:tint="?attr/clAccent"
-            app:srcCompat="@drawable/ic_more" />
+            app:srcCompat="@drawable/ic_more"
+            app:tint="?attr/clAccent" />
 
     </LinearLayout>
 

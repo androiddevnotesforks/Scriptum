@@ -39,6 +39,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IMainActiv
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IRankFragment
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IRankViewModel
 import sgtmelon.scriptum.databinding.FragmentRankBinding
+import sgtmelon.scriptum.infrastructure.widgets.RecyclerOverScrollListener
 
 /**
  * Fragment which displays list of categories - [RankItem].
@@ -235,6 +236,8 @@ class RankFragment : ParentFragment(), IRankFragment, MainScreenReceiver.BindCal
         recyclerView = view?.findViewById(R.id.rank_recycler)
         recyclerView?.let {
             it.setDefaultAnimator { viewModel.onItemAnimationFinished() }
+
+            it.addOnScrollListener(RecyclerOverScrollListener())
             it.setHasFixedSize(true)
             it.layoutManager = layoutManager
             it.adapter = adapter

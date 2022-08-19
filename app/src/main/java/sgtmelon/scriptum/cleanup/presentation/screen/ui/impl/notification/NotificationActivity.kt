@@ -38,6 +38,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.notification.INotificationViewModel
 import sgtmelon.scriptum.databinding.ActivityNotificationBinding
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
+import sgtmelon.scriptum.infrastructure.widgets.RecyclerOverScrollListener
 
 /**
  * Screen with list of notifications.
@@ -177,6 +178,8 @@ class NotificationActivity : AppActivity(), INotificationActivity, SnackbarCallb
                  */
                 openState.clear()
             }
+
+            it.addOnScrollListener(RecyclerOverScrollListener(showFooter = false))
             it.setHasFixedSize(true)
             it.layoutManager = layoutManager
             it.adapter = adapter

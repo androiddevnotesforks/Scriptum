@@ -40,6 +40,11 @@
         <item name="alertDialogTheme">@style/App.Alert</item>
         <item name="bottomSheetDialogTheme">@style/App.Theme.BottomSheet</item>
         <item name="snackbarStyle">@style/App.Theme.Snackbar</item>
+
+        <!--  For overScrollMode  -->
+        <item name="android:colorEdgeEffect">?attr/clAccentRipple</item>
+        <!--  This flag not works good with recyclerView (use a custom listener for fix it)  -->
+        <item name="android:overScrollMode">ifContentScrolls</item>
     </style>
 
     <!--  Set colors of system UI not work from XML. This is for best understanding.  -->
@@ -88,6 +93,11 @@
         <item name="alertDialogTheme">@style/App.Alert</item>
         <item name="bottomSheetDialogTheme">@style/App.Theme.BottomSheet</item>
         <item name="snackbarStyle">@style/App.Theme.Snackbar</item>
+
+        <!--  For overScrollMode  -->
+        <item name="android:colorEdgeEffect">?attr/clAccentRipple</item>
+        <!--  This flag not works good with recyclerView (use a custom listener for fix it)  -->
+        <item name="android:overScrollMode">ifContentScrolls</item>
     </style>
 
     <!--  Set colors of system UI not work from XML. This is for best understanding.  -->

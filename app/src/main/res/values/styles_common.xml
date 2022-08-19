@@ -15,6 +15,11 @@
         <item name="colorAccent">?attr/clAccent</item>
         <item name="android:background">?attr/clPrimary</item>
         <item name="buttonBarNegativeButtonStyle">@style/App.Alert.NegativeButton</item>
+
+        <!--  For overScrollMode  -->
+        <item name="android:colorEdgeEffect">?attr/clAccentRipple</item>
+        <!--  This flag works good with alert dialogs  -->
+        <item name="android:overScrollMode">ifContentScrolls</item>
     </style>
 
     <style name="App.Alert.NegativeButton" parent="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog">

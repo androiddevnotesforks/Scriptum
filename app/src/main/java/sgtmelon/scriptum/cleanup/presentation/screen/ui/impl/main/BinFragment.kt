@@ -30,6 +30,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.callback.main.IMainActiv
 import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.note.NoteActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.main.IBinViewModel
 import sgtmelon.scriptum.databinding.FragmentBinBinding
+import sgtmelon.scriptum.infrastructure.widgets.RecyclerOverScrollListener
 
 /**
  * Fragment which displays list of deleted notes - [NoteItem].
@@ -139,6 +140,8 @@ class BinFragment : ParentFragment(), IBinFragment {
         recyclerView = view?.findViewById(R.id.bin_recycler)
         recyclerView?.let {
             it.setDefaultAnimator { onBindingList() }
+
+            it.addOnScrollListener(RecyclerOverScrollListener())
             it.setHasFixedSize(true)
             it.layoutManager = LinearLayoutManager(context)
             it.adapter = adapter

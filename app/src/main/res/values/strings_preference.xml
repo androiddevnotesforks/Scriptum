@@ -163,6 +163,7 @@
           Deprecated:
           * key_alarm_signal - it was Int inside Preferences and converting into SignalState via
                                digit converter.
+                               For example (0 - false, 1 - true): 0 - 00, 1 - 01, 2 - 10, ...
     -->
     <string name="pref_key_alarm_signal" translatable="false">key_alarm_signal_1</string>
     <string name="pref_key_alarm_melody" translatable="false">key_alarm_melody</string>

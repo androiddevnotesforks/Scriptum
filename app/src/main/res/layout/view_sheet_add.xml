@@ -12,9 +12,7 @@
 
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/add_navigation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/NavigationView"
+            style="@style/App.Style.SheetNavigation"
             app:elevation="@dimen/elevation_0dp"
             app:itemTextColor="?attr/clContent"
             app:menu="@menu/sheet_add" />

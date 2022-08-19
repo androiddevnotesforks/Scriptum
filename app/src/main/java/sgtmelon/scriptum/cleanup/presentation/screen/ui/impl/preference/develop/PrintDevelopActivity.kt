@@ -30,6 +30,7 @@ import sgtmelon.scriptum.cleanup.presentation.screen.ui.impl.AppActivity
 import sgtmelon.scriptum.cleanup.presentation.screen.vm.callback.preference.develop.IPrintDevelopViewModel
 import sgtmelon.scriptum.databinding.ActivityDevelopPrintBinding
 import sgtmelon.scriptum.infrastructure.model.key.ThemeDisplayed
+import sgtmelon.scriptum.infrastructure.widgets.RecyclerOverScrollListener
 
 /**
  * Screen for print data of data base and preference.
@@ -123,6 +124,7 @@ class PrintDevelopActivity : AppActivity(), IPrintDevelopActivity {
         toolbar.navigationIcon = getTintDrawable(R.drawable.ic_cancel_exit)
         toolbar.setNavigationOnClickListener { finish() }
 
+        recyclerView.addOnScrollListener(RecyclerOverScrollListener(showFooter = false))
         recyclerView.setHasFixedSize(true)
         recyclerView.adapter = adapter
     }
