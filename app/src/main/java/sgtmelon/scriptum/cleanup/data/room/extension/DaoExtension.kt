@@ -3,10 +3,10 @@
 package sgtmelon.scriptum.cleanup.data.room.extension
 
 import sgtmelon.scriptum.cleanup.data.room.dao.IRollDao
-import sgtmelon.scriptum.cleanup.data.room.dao.RankDao
 import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
 import sgtmelon.scriptum.infrastructure.database.annotation.DaoConst
+import sgtmelon.scriptum.infrastructure.database.dao.RankDao
 
 //region Insert
 

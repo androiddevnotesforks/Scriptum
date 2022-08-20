@@ -13,13 +13,13 @@ object FastMock {
 
     object Dao {
 
-        fun alarmDaoSafe() {
-            mockkStatic("sgtmelon.scriptum.infrastructure.database.dao.safe.AlarmDaoSafeExt")
-        }
+        private const val PATH = "sgtmelon.scriptum.infrastructure.database.dao.safe"
 
-        fun rollVisibleDaoSafe() {
-            mockkStatic("sgtmelon.scriptum.infrastructure.database.dao.safe.RollVisibleDaoSafeExt")
-        }
+        fun alarmDaoSafe() = mockkStatic("$PATH.AlarmDaoSafeExt")
+
+        fun rollVisibleDaoSafe() = mockkStatic("$PATH.RollVisibleDaoSafeExt")
+
+        fun rankVisibleDaoSafe() = mockkStatic("$PATH.RankDaoSafeExt")
     }
 
     fun fireExtensions() = mockkStatic("sgtmelon.scriptum.infrastructure.utils.FireExtensionUtils")
