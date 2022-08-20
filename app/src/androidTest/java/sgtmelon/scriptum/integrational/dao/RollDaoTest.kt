@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.test.integration.dao
+package sgtmelon.scriptum.integrational.dao
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import kotlin.random.Random
@@ -7,7 +7,6 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.data.room.RoomDb
-import sgtmelon.scriptum.cleanup.data.room.dao.RollDao
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
 import sgtmelon.scriptum.cleanup.data.room.extension.inRoomTest
@@ -16,6 +15,7 @@ import sgtmelon.scriptum.cleanup.data.room.extension.safeDeleteByList
 import sgtmelon.scriptum.cleanup.data.room.extension.safeGet
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.infrastructure.database.annotation.DaoConst
+import sgtmelon.scriptum.infrastructure.database.dao.RollDao
 import sgtmelon.scriptum.parent.ParentRoomTest
 import sgtmelon.scriptum.parent.provider.DateProvider.DATE_1
 import sgtmelon.scriptum.parent.provider.DateProvider.DATE_2
@@ -58,6 +58,10 @@ class RollDaoTest : ParentRoomTest() {
     }
 
     // Dao common functions
+
+    @Test fun todo() {
+        TODO()
+    }
 
     @Test fun insertWithUnique() = inRoomTest {
         insertRollRelation(firstModel)

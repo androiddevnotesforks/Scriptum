@@ -19,6 +19,8 @@ object FastMock {
 
         fun rollVisibleDaoSafe() = mockkStatic("$PATH.RollVisibleDaoSafeExt")
 
+        fun rollDaoSafe() = mockkStatic("$PATH.RollDaoSafeExt")
+
         fun rankDaoSafe() = mockkStatic("$PATH.RankDaoSafeExt")
     }
 
