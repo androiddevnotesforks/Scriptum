@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteException
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import kotlin.random.Random
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
@@ -77,15 +78,18 @@ class RollVisibleDaoTest : ParentRoomTest() {
 
     //endregion
 
-    @Test fun insert() = inRoomTest {
-        insertRelation(firstNote, firstVisible)
-        assertEquals(rollVisibleDao.getVisible(firstVisible.noteId), firstVisible.value)
+    override fun setUp() {
+        super.setUp()
+
+        assertNotEquals(firstVisible.noteId, secondVisible.noteId)
     }
+
+    @Test fun insert() = inRoomTest { insertRelation(firstNote, firstVisible) }
 
     /**
      * Check OnConflictStrategy.IGNORE on inserting with same [RollVisibleEntity.id].
      */
-    @Test fun insertWithConflict_ignore() = inRoomTest {
+    @Test fun insertWithSameId() = inRoomTest {
         insertRelation(firstNote, firstVisible)
 
         val conflict = firstVisible.copy(value = !firstVisible.value)

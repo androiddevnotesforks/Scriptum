@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteException
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import kotlin.random.Random
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
@@ -91,10 +92,13 @@ class AlarmDaoTest : ParentRoomTest() {
 
     //endregion
 
-    @Test fun insert() = inRoomTest {
-        insertRelation(firstNote, firstAlarm)
-        assertEquals(alarmDao.get(firstAlarm.noteId), firstAlarm)
+    override fun setUp() {
+        super.setUp()
+
+        assertNotEquals(firstAlarm.noteId, secondAlarm.noteId)
     }
+
+    @Test fun insert() = inRoomTest { insertRelation(firstNote, firstAlarm) }
 
     /**
      * Check OnConflictStrategy.REPLACE on inserting with same [AlarmEntity.id].

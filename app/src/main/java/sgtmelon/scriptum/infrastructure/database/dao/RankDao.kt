@@ -20,7 +20,7 @@ import sgtmelon.scriptum.infrastructure.database.annotation.DaoDeprecated
 @TypeConverters(BoolConverter::class)
 interface RankDao {
 
-    // TODO use rankItem not entity
+    // TODO use rankItem not entity (check, it's actual for now?)
 
     @Deprecated(DaoDeprecated.INSERT_IGNORE)
     @Insert(onConflict = OnConflictStrategy.IGNORE)
@@ -34,8 +34,6 @@ interface RankDao {
 
     @Update(onConflict = OnConflictStrategy.IGNORE)
     suspend fun update(list: List<RankEntity>)
-
-
 
     @Query(value = "SELECT COUNT(RK_ID) FROM RANK_TABLE")
     suspend fun getCount(): Int
