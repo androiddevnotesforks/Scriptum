@@ -68,7 +68,7 @@ class RankRepoTest : ParentRoomRepoTest() {
         val bindCountList = List(size) { Random.nextInt() }
         val notificationCountList = List(size) { Random.nextInt() }
 
-        coEvery { rankDao.get() } returns entityList
+        coEvery { rankDao.getList() } returns entityList
         every { converter.toItem(entityList) } returns itemList
 
         for ((i, item) in itemList.withIndex()) {
@@ -84,7 +84,7 @@ class RankRepoTest : ParentRoomRepoTest() {
 
         coVerifySequence {
             roomProvider.openRoom()
-            rankDao.get()
+            rankDao.getList()
             converter.toItem(entityList)
 
             for ((i, item) in itemList.withIndex()) {
@@ -355,7 +355,7 @@ class RankRepoTest : ParentRoomRepoTest() {
 
         every { noteItem.id } returns id
         every { noteItem.rankId } returns rankId
-        coEvery { rankDao.get() } returns getList
+        coEvery { rankDao.getList() } returns getList
         every { spyRankRepo.calculateCheckArray(getList, rankId) } returns checkArray
         every { spyRankRepo.updateNoteId(getList, checkArray, id) } returns updateList
 
@@ -366,7 +366,7 @@ class RankRepoTest : ParentRoomRepoTest() {
             spyRankRepo.roomProvider
 
             roomProvider.openRoom()
-            rankDao.get()
+            rankDao.getList()
             noteItem.rankId
             spyRankRepo.calculateCheckArray(getList, rankId)
             noteItem.id
@@ -519,13 +519,13 @@ class RankRepoTest : ParentRoomRepoTest() {
     @Test fun getRankBackup() = startCoTest {
         val rankList = mockk<List<RankEntity>>()
 
-        coEvery { rankDao.get() } returns rankList
+        coEvery { rankDao.getList() } returns rankList
 
         assertEquals(rankList, rankRepo.getRankBackup())
 
         coVerifySequence {
             roomProvider.openRoom()
-            rankDao.get()
+            rankDao.getList()
         }
     }
 }

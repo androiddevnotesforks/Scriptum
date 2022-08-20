@@ -28,7 +28,7 @@ class DevelopRepo(
     }
 
     override suspend fun getPrintRankList(): List<PrintItem.Rank> {
-        return fromRoom { rankDao.get().map { PrintItem.Rank(it) } }
+        return fromRoom { rankDao.getList().map { PrintItem.Rank(it) } }
     }
 
     override suspend fun getPrintAlarmList(): List<PrintItem.Alarm> {

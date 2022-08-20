@@ -158,7 +158,7 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
     @RunPrivate
     suspend fun clearRankList(model: Model, roomDb: RoomDb) {
         val removeList = mutableListOf<RankEntity>()
-        val existRankList = roomDb.rankDao.get()
+        val existRankList = roomDb.rankDao.getList()
 
         for (item in model.rankList) {
             val index = existRankList.indexOfFirst { it.name == item.name }
@@ -301,7 +301,7 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
      */
     @RunPrivate
     suspend fun insertRankList(model: Model, roomDb: RoomDb) {
-        val existRankList = roomDb.rankDao.get().toMutableList()
+        val existRankList = roomDb.rankDao.getList().toMutableList()
 
         /**
          * Need for prevent overriding already updated notes.

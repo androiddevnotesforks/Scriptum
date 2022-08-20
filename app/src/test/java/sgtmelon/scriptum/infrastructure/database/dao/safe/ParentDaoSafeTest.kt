@@ -1,11 +1,15 @@
 package sgtmelon.scriptum.infrastructure.database.dao.safe
 
+import io.mockk.every
 import kotlin.random.Random
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
+import sgtmelon.scriptum.cleanup.FastMock
 import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.scriptum.infrastructure.database.annotation.DaoConst
+import sgtmelon.scriptum.infrastructure.model.exception.DaoIdConflictException
+import sgtmelon.scriptum.infrastructure.utils.record
 import sgtmelon.test.common.OverflowDelegator
 import sgtmelon.test.common.nextString
 
@@ -18,6 +22,9 @@ class ParentDaoSafeTest : ParentTest() {
 
     @Test fun checkSafe() {
         val long = Random.nextLong()
+
+        FastMock.fireExtensions()
+        every { any<DaoIdConflictException>().record() } returns Unit
 
         assertEquals(long, long.checkSafe())
         assertNull(DaoConst.UNIQUE_ERROR_ID.checkSafe())

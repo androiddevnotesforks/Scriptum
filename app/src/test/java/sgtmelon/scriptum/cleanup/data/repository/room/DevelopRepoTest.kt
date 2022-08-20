@@ -72,13 +72,13 @@ class DevelopRepoTest : ParentRoomRepoTest() {
         val list = List(getRandomSize()) { mockk<RankEntity>() }
         val resultList = list.map { PrintItem.Rank(it) }
 
-        coEvery { rankDao.get() } returns list
+        coEvery { rankDao.getList() } returns list
 
         assertEquals(resultList, developRepo.getPrintRankList())
 
         coVerifySequence {
             roomProvider.openRoom()
-            rankDao.get()
+            rankDao.getList()
         }
     }
 

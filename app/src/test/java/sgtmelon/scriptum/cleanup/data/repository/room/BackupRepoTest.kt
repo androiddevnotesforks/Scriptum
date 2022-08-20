@@ -189,7 +189,7 @@ class BackupRepoTest : ParentRoomRepoTest() {
     @Test fun clearRankList() = startCoTest {
         val existList = List(size = 5) { RankEntity(id = Random.nextLong(), name = nextString()) }
 
-        coEvery { rankDao.get() } returns existList
+        coEvery { rankDao.getList() } returns existList
 
         val existFirstItem = existList.first()
         val existSecondItem = existList.last()
@@ -232,7 +232,7 @@ class BackupRepoTest : ParentRoomRepoTest() {
 
         coVerifySequence {
             roomDb.rankDao
-            rankDao.get()
+            rankDao.getList()
         }
     }
 

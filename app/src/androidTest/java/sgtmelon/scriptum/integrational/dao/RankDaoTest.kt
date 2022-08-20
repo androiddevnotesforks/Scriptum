@@ -7,8 +7,9 @@ import sgtmelon.scriptum.infrastructure.database.dao.RankDao
 import sgtmelon.scriptum.parent.ParentRoomTest
 
 /**
- * Integration test for [RankDao]
+ * Integration test for [RankDao] and safe functions.
  */
+@Suppress("DEPRECATION")
 @RunWith(AndroidJUnit4::class)
 class RankDaoTest : ParentRoomTest() {
 

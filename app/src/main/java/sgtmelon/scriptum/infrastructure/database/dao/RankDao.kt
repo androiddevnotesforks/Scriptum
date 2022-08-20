@@ -15,6 +15,7 @@ import sgtmelon.scriptum.infrastructure.database.annotation.DaoDeprecated
 /**
  * Interface for communication [DbData.Rank.TABLE] with [RoomDb].
  */
+// TODO remove from use deprecated staff (and use RankDataSource/RankDaoSafe)
 @Dao
 @TypeConverters(BoolConverter::class)
 interface RankDao {
@@ -43,7 +44,7 @@ interface RankDao {
     suspend fun get(id: Long): RankEntity?
 
     @Query(value = "SELECT * FROM RANK_TABLE ORDER BY RK_POSITION ASC")
-    suspend fun get(): List<RankEntity>
+    suspend fun getList(): List<RankEntity>
 
     @Query(value = "SELECT RK_ID FROM RANK_TABLE WHERE RK_VISIBLE = 1 ORDER BY RK_POSITION")
     suspend fun getIdVisibleList(): List<Long>
@@ -56,5 +57,4 @@ interface RankDao {
 
     @Query(value = "SELECT RK_ID FROM RANK_TABLE WHERE RK_POSITION = :position")
     suspend fun getId(position: Int): Long?
-
 }

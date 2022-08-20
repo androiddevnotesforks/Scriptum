@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.cleanup.data.repository.room
 
+import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
 import sgtmelon.scriptum.cleanup.data.repository.room.callback.IRankRepo
 import sgtmelon.scriptum.cleanup.data.room.IRoomWork
@@ -11,7 +12,6 @@ import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
 import sgtmelon.scriptum.cleanup.data.room.extension.fromRoom
 import sgtmelon.scriptum.cleanup.data.room.extension.inRoom
 import sgtmelon.scriptum.cleanup.data.room.extension.safeInsert
-import sgtmelon.common.test.annotation.RunPrivate
 import sgtmelon.scriptum.cleanup.domain.model.data.DbData.Note
 import sgtmelon.scriptum.cleanup.domain.model.item.NoteItem
 import sgtmelon.scriptum.cleanup.domain.model.item.RankItem
@@ -28,7 +28,7 @@ class RankRepo(
     override suspend fun getCount(): Int = fromRoom { rankDao.getCount() }
 
     override suspend fun getList(): MutableList<RankItem> = fromRoom {
-        val list = converter.toItem(rankDao.get())
+        val list = converter.toItem(rankDao.getList())
 
         for (item in list) {
             item.bindCount = noteDao.getBindCount(item.noteId)
@@ -120,7 +120,7 @@ class RankRepo(
      * Add [NoteEntity.id] to [RankEntity.noteId] or remove after some changes.
      */
     override suspend fun updateConnection(item: NoteItem) = inRoom {
-        val list = rankDao.get()
+        val list = rankDao.getList()
         val checkArray = calculateCheckArray(list, item.rankId)
 
         rankDao.update(updateNoteId(list, checkArray, item.id))
@@ -178,6 +178,6 @@ class RankRepo(
     }
 
 
-    override suspend fun getRankBackup(): List<RankEntity> = fromRoom { rankDao.get() }
+    override suspend fun getRankBackup(): List<RankEntity> = fromRoom { rankDao.getList() }
 
 }

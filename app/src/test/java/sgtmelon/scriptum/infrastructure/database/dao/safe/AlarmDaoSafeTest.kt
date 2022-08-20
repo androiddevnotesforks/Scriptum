@@ -26,29 +26,29 @@ import sgtmelon.test.common.OverflowDelegator
 @Suppress("DEPRECATION")
 class AlarmDaoSafeTest : ParentTest() {
 
-    @MockK lateinit var alarmDao: AlarmDao
+    @MockK lateinit var dao: AlarmDao
 
     private val overflowDelegator = OverflowDelegator(DaoConst.OVERFLOW_COUNT)
 
     override fun tearDown() {
         super.tearDown()
-        confirmVerified(alarmDao)
+        confirmVerified(dao)
     }
 
     @Test fun `insertSafe with throw`() {
         val entity = mockk<AlarmEntity>()
         val throwable = mockk<Throwable>()
 
-        coEvery { alarmDao.insert(entity) } throws throwable
+        coEvery { dao.insert(entity) } throws throwable
         FastMock.fireExtensions()
         every { throwable.record() } returns Unit
 
         runBlocking {
-            assertNull(alarmDao.insertSafe(entity))
+            assertNull(dao.insertSafe(entity))
         }
 
         coVerifySequence {
-            alarmDao.insert(entity)
+            dao.insert(entity)
         }
     }
 
@@ -56,14 +56,14 @@ class AlarmDaoSafeTest : ParentTest() {
         val entity = mockk<AlarmEntity>()
         val id = abs(Random.nextLong())
 
-        coEvery { alarmDao.insert(entity) } returns id
+        coEvery { dao.insert(entity) } returns id
 
         runBlocking {
-            assertEquals(alarmDao.insertSafe(entity), id)
+            assertEquals(dao.insertSafe(entity), id)
         }
 
         coVerifySequence {
-            alarmDao.insert(entity)
+            dao.insert(entity)
         }
     }
 
@@ -74,16 +74,16 @@ class AlarmDaoSafeTest : ParentTest() {
         assertEquals(list.size, entityList.size)
 
         for ((i, divided) in dividedList.withIndex()) {
-            coEvery { alarmDao.getList(divided) } returns entityDividedList[i]
+            coEvery { dao.getList(divided) } returns entityDividedList[i]
         }
 
         runBlocking {
-            assertEquals(alarmDao.getListSafe(list), entityList)
+            assertEquals(dao.getListSafe(list), entityList)
         }
 
         coVerifySequence {
             for (divided in dividedList) {
-                alarmDao.getList(divided)
+                dao.getList(divided)
             }
         }
     }
@@ -93,16 +93,16 @@ class AlarmDaoSafeTest : ParentTest() {
         val countList = List(size = dividedList.size) { abs(Random.nextInt()) }
 
         for ((i, divided) in dividedList.withIndex()) {
-            coEvery { alarmDao.getCount(divided) } returns countList[i]
+            coEvery { dao.getCount(divided) } returns countList[i]
         }
 
         runBlocking {
-            assertEquals(alarmDao.getCountSafe(list), countList.sum())
+            assertEquals(dao.getCountSafe(list), countList.sum())
         }
 
         coVerifySequence {
             for (divided in dividedList) {
-                alarmDao.getCount(divided)
+                dao.getCount(divided)
             }
         }
     }

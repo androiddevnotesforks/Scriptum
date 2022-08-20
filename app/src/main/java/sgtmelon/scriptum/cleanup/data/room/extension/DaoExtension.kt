@@ -10,6 +10,7 @@ import sgtmelon.scriptum.infrastructure.database.dao.RankDao
 
 //region Insert
 
+@Deprecated("Use dataSource")
 suspend fun RankDao.safeInsert(entity: RankEntity): Long? = insert(entity).checkSafe()
 
 //endregion

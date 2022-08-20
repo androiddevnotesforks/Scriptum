@@ -17,6 +17,7 @@ import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.cleanup.parent.ParentTest
 import sgtmelon.scriptum.infrastructure.database.annotation.DaoConst
 import sgtmelon.scriptum.infrastructure.database.dao.RollVisibleDao
+import sgtmelon.scriptum.infrastructure.model.exception.DaoIdConflictException
 import sgtmelon.scriptum.infrastructure.utils.record
 import sgtmelon.test.common.OverflowDelegator
 
@@ -26,26 +27,28 @@ import sgtmelon.test.common.OverflowDelegator
 @Suppress("DEPRECATION")
 class RollVisibleDaoSafeTest : ParentTest() {
 
-    @MockK lateinit var rollVisibleDao: RollVisibleDao
+    @MockK lateinit var dao: RollVisibleDao
 
     private val overflowDelegator = OverflowDelegator(DaoConst.OVERFLOW_COUNT)
 
     override fun tearDown() {
         super.tearDown()
-        confirmVerified(rollVisibleDao)
+        confirmVerified(dao)
     }
 
     @Test fun `insertSafe with conflict`() {
         val entity = mockk<RollVisibleEntity>()
 
-        coEvery { rollVisibleDao.insert(entity) } returns DaoConst.UNIQUE_ERROR_ID
+        coEvery { dao.insert(entity) } returns DaoConst.UNIQUE_ERROR_ID
+        FastMock.fireExtensions()
+        every { any<DaoIdConflictException>().record() } returns Unit
 
         runBlocking {
-            assertNull(rollVisibleDao.insertSafe(entity))
+            assertNull(dao.insertSafe(entity))
         }
 
         coVerifySequence {
-            rollVisibleDao.insert(entity)
+            dao.insert(entity)
         }
     }
 
@@ -53,16 +56,16 @@ class RollVisibleDaoSafeTest : ParentTest() {
         val entity = mockk<RollVisibleEntity>()
         val throwable = mockk<Throwable>()
 
-        coEvery { rollVisibleDao.insert(entity) } throws throwable
+        coEvery { dao.insert(entity) } throws throwable
         FastMock.fireExtensions()
         every { throwable.record() } returns Unit
 
         runBlocking {
-            assertNull(rollVisibleDao.insertSafe(entity))
+            assertNull(dao.insertSafe(entity))
         }
 
         coVerifySequence {
-            rollVisibleDao.insert(entity)
+            dao.insert(entity)
         }
     }
 
@@ -70,14 +73,14 @@ class RollVisibleDaoSafeTest : ParentTest() {
         val entity = mockk<RollVisibleEntity>()
         val id = abs(Random.nextLong())
 
-        coEvery { rollVisibleDao.insert(entity) } returns id
+        coEvery { dao.insert(entity) } returns id
 
         runBlocking {
-            assertEquals(rollVisibleDao.insertSafe(entity), id)
+            assertEquals(dao.insertSafe(entity), id)
         }
 
         coVerifySequence {
-            rollVisibleDao.insert(entity)
+            dao.insert(entity)
         }
     }
 
@@ -88,16 +91,16 @@ class RollVisibleDaoSafeTest : ParentTest() {
         assertEquals(list.size, entityList.size)
 
         for ((i, divided) in dividedList.withIndex()) {
-            coEvery { rollVisibleDao.getList(divided) } returns entityDividedList[i]
+            coEvery { dao.getList(divided) } returns entityDividedList[i]
         }
 
         runBlocking {
-            assertEquals(rollVisibleDao.getListSafe(list), entityList)
+            assertEquals(dao.getListSafe(list), entityList)
         }
 
         coVerifySequence {
             for (divided in dividedList) {
-                rollVisibleDao.getList(divided)
+                dao.getList(divided)
             }
         }
     }
