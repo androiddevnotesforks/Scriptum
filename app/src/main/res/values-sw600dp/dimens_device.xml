@@ -56,6 +56,7 @@
     <!--  Item roll dimens  -->
 
     <dimen name="item_roll_text">20sp</dimen> <!--2sp-->
+    <dimen name="item_roll_start_space">6dp</dimen> <!--2dp-->
     <dimen name="item_roll_space">10dp</dimen> <!--2dp-->
     <dimen name="item_roll_icon_horizontal_space">6dp</dimen> <!--6dp-->
 

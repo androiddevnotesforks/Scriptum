@@ -56,6 +56,7 @@
     <!--  Item roll dimens  -->
 
     <dimen name="item_roll_text">18sp</dimen>
+    <dimen name="item_roll_start_space">4dp</dimen>
     <dimen name="item_roll_space">8dp</dimen>
     <dimen name="item_roll_icon_horizontal_space">0dp</dimen>
 
