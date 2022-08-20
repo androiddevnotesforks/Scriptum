@@ -7,7 +7,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.cleanup.data.room.RoomDb
-import sgtmelon.scriptum.cleanup.data.room.dao.IRollDao
+import sgtmelon.scriptum.cleanup.data.room.dao.RollDao
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
 import sgtmelon.scriptum.cleanup.data.room.extension.inRoomTest
@@ -25,7 +25,7 @@ import sgtmelon.scriptum.parent.provider.DateProvider.nextDate
 import sgtmelon.test.common.nextString
 
 /**
- * Integration test for [IRollDao]
+ * Integration test for [RollDao]
  */
 @RunWith(AndroidJUnit4::class)
 class RollDaoTest : ParentRoomTest() {

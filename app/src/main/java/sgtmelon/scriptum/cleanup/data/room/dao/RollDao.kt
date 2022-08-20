@@ -17,7 +17,7 @@ import sgtmelon.scriptum.infrastructure.database.annotation.DaoDeprecated
  */
 @Dao
 @TypeConverters(BoolConverter::class)
-interface IRollDao {
+interface RollDao {
 
     @Deprecated(DaoDeprecated.INSERT_IGNORE)
     @Insert(onConflict = OnConflictStrategy.IGNORE)
