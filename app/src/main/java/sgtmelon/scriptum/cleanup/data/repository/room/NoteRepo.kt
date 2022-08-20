@@ -8,7 +8,7 @@ import sgtmelon.scriptum.cleanup.data.room.RoomDb
 import sgtmelon.scriptum.cleanup.data.room.converter.model.NoteConverter
 import sgtmelon.scriptum.cleanup.data.room.converter.model.RollConverter
 import sgtmelon.scriptum.cleanup.data.room.dao.INoteDao
-import sgtmelon.scriptum.cleanup.data.room.dao.IRankDao
+import sgtmelon.scriptum.cleanup.data.room.dao.RankDao
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
@@ -78,7 +78,7 @@ class NoteRepo(
      * List must contains only item which isVisible.
      */
     @RunPrivate
-    suspend fun filterVisible(list: List<NoteEntity>, rankDao: IRankDao): List<NoteEntity> {
+    suspend fun filterVisible(list: List<NoteEntity>, rankDao: RankDao): List<NoteEntity> {
         val idVisibleList = rankDao.getIdVisibleList()
 
         return list.filter { noteConverter.toItem(it).isRankVisible(idVisibleList) }
@@ -207,7 +207,7 @@ class NoteRepo(
      * Remove relation between [RankEntity] and [NoteItem] which will be delete
      */
     @RunPrivate
-    suspend fun clearConnection(noteId: Long, rankId: Long, rankDao: IRankDao) {
+    suspend fun clearConnection(noteId: Long, rankId: Long, rankDao: RankDao) {
         val entity = rankDao.get(rankId) ?: return
         entity.noteId.remove(noteId)
         rankDao.update(entity)

@@ -17,7 +17,7 @@ import sgtmelon.scriptum.infrastructure.database.annotation.DaoDeprecated
  */
 @Dao
 @TypeConverters(BoolConverter::class)
-interface IRankDao {
+interface RankDao {
 
     // TODO use rankItem not entity
 

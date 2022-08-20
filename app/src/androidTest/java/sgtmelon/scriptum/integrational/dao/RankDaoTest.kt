@@ -1,21 +1,13 @@
 package sgtmelon.scriptum.cleanup.test.integration.dao
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import kotlin.random.Random
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertNull
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.cleanup.data.room.dao.IRankDao
-import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
-import sgtmelon.scriptum.cleanup.data.room.extension.inRoomTest
-import sgtmelon.scriptum.cleanup.data.room.extension.safeInsert
-import sgtmelon.scriptum.infrastructure.database.annotation.DaoConst
+import sgtmelon.scriptum.cleanup.data.room.dao.RankDao
 import sgtmelon.scriptum.parent.ParentRoomTest
 
 /**
- * Integration test for [IRankDao]
+ * Integration test for [RankDao]
  */
 @RunWith(AndroidJUnit4::class)
 class RankDaoTest : ParentRoomTest() {

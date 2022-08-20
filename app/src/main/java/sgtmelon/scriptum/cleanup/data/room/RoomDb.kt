@@ -7,8 +7,8 @@ import androidx.room.RoomDatabase
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.cleanup.data.room.backup.IBackupParser
 import sgtmelon.scriptum.cleanup.data.room.dao.INoteDao
-import sgtmelon.scriptum.cleanup.data.room.dao.IRankDao
 import sgtmelon.scriptum.cleanup.data.room.dao.IRollDao
+import sgtmelon.scriptum.cleanup.data.room.dao.RankDao
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
@@ -35,7 +35,7 @@ abstract class RoomDb : RoomDatabase() {
 
     abstract val rollVisibleDao: RollVisibleDao
 
-    abstract val rankDao: IRankDao
+    abstract val rankDao: RankDao
 
     abstract val alarmDao: AlarmDao
 

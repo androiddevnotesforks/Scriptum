@@ -2,15 +2,15 @@
 
 package sgtmelon.scriptum.cleanup.data.room.extension
 
-import sgtmelon.scriptum.cleanup.data.room.dao.IRankDao
 import sgtmelon.scriptum.cleanup.data.room.dao.IRollDao
+import sgtmelon.scriptum.cleanup.data.room.dao.RankDao
 import sgtmelon.scriptum.cleanup.data.room.entity.RankEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
 import sgtmelon.scriptum.infrastructure.database.annotation.DaoConst
 
 //region Insert
 
-suspend fun IRankDao.safeInsert(entity: RankEntity): Long? = insert(entity).checkSafe()
+suspend fun RankDao.safeInsert(entity: RankEntity): Long? = insert(entity).checkSafe()
 
 //endregion
 

@@ -9,8 +9,8 @@ import org.junit.Before
 import sgtmelon.scriptum.cleanup.data.provider.RoomProvider
 import sgtmelon.scriptum.cleanup.data.room.RoomDb
 import sgtmelon.scriptum.cleanup.data.room.dao.INoteDao
-import sgtmelon.scriptum.cleanup.data.room.dao.IRankDao
 import sgtmelon.scriptum.cleanup.data.room.dao.IRollDao
+import sgtmelon.scriptum.cleanup.data.room.dao.RankDao
 import sgtmelon.scriptum.infrastructure.database.dao.AlarmDao
 import sgtmelon.scriptum.infrastructure.database.dao.RollVisibleDao
 
@@ -27,7 +27,7 @@ abstract class ParentRoomRepoTest : ParentCoTest() {
     @MockK lateinit var noteDao: INoteDao
     @MockK lateinit var rollDao: IRollDao
     @MockK lateinit var rollVisibleDao: RollVisibleDao
-    @MockK lateinit var rankDao: IRankDao
+    @MockK lateinit var rankDao: RankDao
     @MockK lateinit var alarmDao: AlarmDao
 
     @Before override fun setUp() {
