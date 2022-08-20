@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="App.Dialog" />
+
+    <style name="App.Dialog.Alert" parent="Theme.AppCompat.DayNight.Dialog.Alert">
+        <item name="colorAccent">?attr/clAccent</item>
+        <item name="android:windowBackground">?attr/clPrimary</item>
+        <item name="buttonBarNegativeButtonStyle">@style/App.Dialog.NegativeButton</item>
+
+        <!--  For overScrollMode  -->
+        <item name="android:colorEdgeEffect">?attr/clAccentRipple</item>
+        <!--  This flag works good with alert dialogs  -->
+        <item name="android:overScrollMode">ifContentScrolls</item>
+    </style>
+
+    <style name="App.Dialog.DateTime" parent="Theme.AppCompat.DayNight.Dialog">
+        <item name="colorAccent">?attr/clAccent</item>
+        <item name="android:windowBackground">?attr/clPrimary</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/App.Dialog.NegativeButton</item>
+
+        <!--  For overScrollMode  -->
+        <item name="android:colorEdgeEffect">?attr/clAccentRipple</item>
+        <!--  This flag works good with alert dialogs  -->
+        <item name="android:overScrollMode">ifContentScrolls</item>
+    </style>
+
+    <style name="App.Dialog.NegativeButton" parent="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">?attr/clContentSecond</item>
+    </style>
+
+</resources>

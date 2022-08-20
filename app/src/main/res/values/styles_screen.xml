@@ -36,8 +36,10 @@
         <item name="styleSheet">@style/App.Style.SheetDialog</item>
         <item name="styleProgressHorizontal">@style/App.Style.Progress.Horizontal</item>
 
-        <item name="alertDialogStyle">@style/App.Alert</item>
-        <item name="alertDialogTheme">@style/App.Alert</item>
+        <item name="android:datePickerDialogTheme">@style/App.Dialog.DateTime</item>
+        <item name="android:timePickerDialogTheme">@style/App.Dialog.DateTime</item>
+        <item name="alertDialogStyle">@style/App.Dialog.Alert</item>
+        <item name="alertDialogTheme">@style/App.Dialog.Alert</item>
         <item name="bottomSheetDialogTheme">@style/App.Theme.BottomSheet</item>
         <item name="snackbarStyle">@style/App.Theme.Snackbar</item>
 
@@ -89,8 +91,10 @@
         <item name="styleSheet">@style/App.Style.SheetDialog</item>
         <item name="styleProgressHorizontal">@style/App.Style.Progress.Horizontal</item>
 
-        <item name="alertDialogStyle">@style/App.Alert</item>
-        <item name="alertDialogTheme">@style/App.Alert</item>
+        <item name="android:datePickerDialogTheme">@style/App.Dialog.DateTime</item>
+        <item name="android:timePickerDialogTheme">@style/App.Dialog.DateTime</item>
+        <item name="alertDialogStyle">@style/App.Dialog.Alert</item>
+        <item name="alertDialogTheme">@style/App.Dialog.Alert</item>
         <item name="bottomSheetDialogTheme">@style/App.Theme.BottomSheet</item>
         <item name="snackbarStyle">@style/App.Theme.Snackbar</item>
 
