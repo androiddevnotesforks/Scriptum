@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.infrastructure.database.dataSource
 
-import sgtmelon.scriptum.cleanup.data.dataSource.database.RollVisibleDataSource
 import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
+import sgtmelon.scriptum.data.dataSource.database.RollVisibleDataSource
 import sgtmelon.scriptum.infrastructure.database.dao.RollVisibleDao
 import sgtmelon.scriptum.infrastructure.database.dao.safe.getListSafe
 import sgtmelon.scriptum.infrastructure.database.dao.safe.insertSafe

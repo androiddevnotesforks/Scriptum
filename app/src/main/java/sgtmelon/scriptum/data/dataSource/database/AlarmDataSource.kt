@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.cleanup.data.dataSource.database
+package sgtmelon.scriptum.data.dataSource.database
 
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.domain.model.item.NotificationItem
