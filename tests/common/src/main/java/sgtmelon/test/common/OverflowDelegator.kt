@@ -19,21 +19,7 @@ class OverflowDelegator(private val overflowCount: Int) {
         getRandom: (iteration: Int) -> T
     ): Pair<List<T>, List<List<T>>> {
         val list = getList(expectedSize, getRandom)
-
-        val sublistCount = ceil(x = list.size.toDouble() / overflowCount).toInt()
-        val dividedList = List(sublistCount) {
-            val startIndex = it * overflowCount
-            val endIndex = min(a = startIndex + overflowCount, list.size)
-            return@List list.subList(startIndex, endIndex)
-        }
-
-        /**
-         * Some assertions for make sure about list sizes.
-         */
-        for (divided in dividedList) {
-            assertTrue(divided.size <= overflowCount)
-        }
-        assertEquals(list.size, dividedList.sumOf { it.size })
+        val dividedList = getDividedList(list)
 
         return list to dividedList
     }
@@ -50,5 +36,24 @@ class OverflowDelegator(private val overflowCount: Int) {
         }
 
         return List(size) { getRandom(it) }
+    }
+
+    fun <T> getDividedList(list: List<T>): List<List<T>> {
+        val sublistCount = ceil(x = list.size.toDouble() / overflowCount).toInt()
+        val dividedList = List(sublistCount) {
+            val startIndex = it * overflowCount
+            val endIndex = min(a = startIndex + overflowCount, list.size)
+            return@List list.subList(startIndex, endIndex)
+        }
+
+        /**
+         * Some assertions for make sure about list sizes.
+         */
+        for (divided in dividedList) {
+            assertTrue(divided.size <= overflowCount)
+        }
+        assertEquals(list.size, dividedList.sumOf { it.size })
+
+        return dividedList
     }
 }
