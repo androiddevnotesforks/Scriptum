@@ -65,4 +65,46 @@ class ParentDaoSafeTest : ParentTest() {
 
         assertEquals(repeat, dividedList.size)
     }
+
+    @Test fun `getSafeOverflowList lower overflow`() {
+        val list = List((1 until DaoConst.OVERFLOW_COUNT).random()) { Random.nextInt() }
+
+        var repeat = 0
+        val resultList = getSafeOverflowList(list) {
+            repeat++
+            assertEquals(list, it)
+            return@getSafeOverflowList it.filter { item -> item > 0 }
+        }
+
+        assertEquals(list.filter { it > 0 }, resultList)
+        assertEquals(repeat, 1)
+    }
+
+    @Test fun `getSafeOverflowList equals overflow`() {
+        val list = List(DaoConst.OVERFLOW_COUNT) { nextString() }
+
+        var repeat = 0
+        val resultList = getSafeOverflowList(list) {
+            repeat++
+            assertEquals(list, it)
+            return@getSafeOverflowList it.map { item -> item.substring(0, 6) }
+        }
+
+        assertEquals(list.map { it.substring(0, 6) }, resultList)
+        assertEquals(repeat, 1)
+    }
+
+    @Test fun `getSafeOverflowList greater overflow`() {
+        val (list, dividedList) = overflowDelegator.getListPair { Random.nextBoolean() }
+
+        var repeat = 0
+        val resultList = getSafeOverflowList(list) {
+            assertEquals(dividedList[repeat], it)
+            repeat++
+            return@getSafeOverflowList it.filter { item -> item }
+        }
+
+        assertEquals(list.filter { it }, resultList)
+        assertEquals(repeat, dividedList.size)
+    }
 }

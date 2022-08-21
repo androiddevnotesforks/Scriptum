@@ -31,11 +31,11 @@ interface RollDao {
     )
     suspend fun update(id: Long, position: Int, text: String)
 
-    @Query(value = "UPDATE ROLL_TABLE SET RL_CHECK = :check WHERE RL_ID = :id")
-    suspend fun updateCheck(id: Long, check: Boolean)
+    @Query(value = "UPDATE ROLL_TABLE SET RL_CHECK = :isCheck WHERE RL_ID = :id")
+    suspend fun updateCheck(id: Long, isCheck: Boolean)
 
-    @Query(value = "UPDATE ROLL_TABLE SET RL_CHECK = :check WHERE RL_NOTE_ID = :noteId")
-    suspend fun updateAllCheck(noteId: Long, check: Boolean)
+    @Query(value = "UPDATE ROLL_TABLE SET RL_CHECK = :isCheck WHERE RL_NOTE_ID = :noteId")
+    suspend fun updateAllCheck(noteId: Long, isCheck: Boolean)
 
     /**
      * Delete all items from note.
@@ -63,15 +63,18 @@ interface RollDao {
     @Query(value = "SELECT * FROM ROLL_TABLE ORDER BY RL_NOTE_ID, RL_POSITION")
     suspend fun getList(): List<RollEntity>
 
-    // TODO make list not mutable
+    // TODO make list not mutable?
     @Query(value = "SELECT * FROM ROLL_TABLE WHERE RL_NOTE_ID = :noteId ORDER BY RL_POSITION")
     suspend fun getList(noteId: Long): MutableList<RollEntity>
+
+    @Query(value = "SELECT RL_ID FROM ROLL_TABLE WHERE RL_NOTE_ID = :noteId")
+    suspend fun getIdList(noteId: Long): List<Long>
 
     @Deprecated(DaoDeprecated.LIST_OVERFLOW)
     @Query(value = "SELECT * FROM ROLL_TABLE WHERE RL_NOTE_ID IN (:noteIdList)")
     suspend fun getList(noteIdList: List<Long>): List<RollEntity>
 
-    // TODO make list not mutable
+    // TODO make list not mutable?
     /**
      * Get only first 4 items for preview.
      */
@@ -83,7 +86,7 @@ interface RollDao {
     )
     suspend fun getPreviewList(noteId: Long): MutableList<RollEntity>
 
-    // TODO make list not mutable
+    // TODO make list not mutable?
     /**
      * Get only first 4 visible items (not hide) for preview.
      */

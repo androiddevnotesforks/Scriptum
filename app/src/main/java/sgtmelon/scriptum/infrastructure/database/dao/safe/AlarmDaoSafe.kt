@@ -22,9 +22,7 @@ suspend fun AlarmDao.insertSafe(entity: AlarmEntity): Long? {
 }
 
 suspend fun AlarmDao.getListSafe(noteIdList: List<Long>): List<AlarmEntity> {
-    val list = mutableListOf<AlarmEntity>()
-    safeOverflow(noteIdList) { list.addAll(getList(it)) }
-    return list
+    return getSafeOverflowList(noteIdList) { getList(it) }
 }
 
 suspend fun AlarmDao.getCountSafe(noteIdList: List<Long>): Int {

@@ -91,7 +91,7 @@ class RollDaoTest : ParentRoomTest() {
         insertRollRelation(secondModel)
 
         with(secondModel) {
-            rollDao.updateAllCheck(entity.id, check = true)
+            rollDao.updateAllCheck(entity.id, isCheck = true)
 
             val newList = copy().rollList.apply { for (it in this) it.isCheck = true }
             assertEquals(newList, rollDao.getList(entity.id))

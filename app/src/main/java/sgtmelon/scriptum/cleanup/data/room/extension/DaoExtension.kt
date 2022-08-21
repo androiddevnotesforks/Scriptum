@@ -20,13 +20,14 @@ suspend fun RankDao.safeInsert(entity: RankEntity): Long? = insert(entity).check
 /**
  * [excludeIdList] - list of roll id's which need save in db when delete others.
  */
+@Deprecated("Use dataSource")
 suspend fun RollDao.safeDelete(noteId: Long, excludeIdList: List<Long>) {
     if (excludeIdList.size <= DaoConst.OVERFLOW_COUNT) {
         delete(noteId, excludeIdList)
     } else {
         /**
          * Need replace [excludeIdList] with list which contains only delete id's. Because if we will
-         * use [excludeIdList] in circle it cause situation, when delete needed items.
+         * use [excludeIdList] in circle it cause situation, when we delete needed items.
          */
         val deleteIdList = getList(noteId).mapNotNull { it.id }.toMutableList()
         deleteIdList.removeAll(excludeIdList)
@@ -38,6 +39,7 @@ suspend fun RollDao.safeDelete(noteId: Long, excludeIdList: List<Long>) {
 /**
  * [idList] - list of roll id's which need delete from db.
  */
+@Deprecated("Use dataSource")
 suspend fun RollDao.safeDelete(idList: List<Long>) {
     if (idList.size <= DaoConst.OVERFLOW_COUNT) {
         delete(idList)
@@ -46,6 +48,7 @@ suspend fun RollDao.safeDelete(idList: List<Long>) {
     }
 }
 
+@Deprecated("Use dataSource")
 suspend fun RollDao.safeGet(noteIdList: List<Long>): List<RollEntity> {
     return if (noteIdList.size <= DaoConst.OVERFLOW_COUNT) {
         getList(noteIdList)

@@ -33,9 +33,18 @@ inline fun <T> safeOverflow(list: List<T>, func: (subList: List<T>) -> Unit) {
     while (startIndex < list.size) {
         /** Last index EXCLUDED for subList. */
         val lastIndex = min(a = startIndex + DaoConst.OVERFLOW_COUNT, list.size)
+        val subList = list.subList(startIndex, lastIndex)
 
-        func(list.subList(startIndex, lastIndex))
-
+        func(subList)
         startIndex = lastIndex
     }
+}
+
+inline fun <T, E> getSafeOverflowList(
+    list: List<T>,
+    func: (subList: List<T>) -> List<E>
+): List<E> {
+    val resultList = mutableListOf<E>()
+    safeOverflow(list) { resultList.addAll(func(it)) }
+    return resultList
 }

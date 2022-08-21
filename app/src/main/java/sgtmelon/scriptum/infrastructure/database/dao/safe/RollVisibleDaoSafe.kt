@@ -22,7 +22,5 @@ suspend fun RollVisibleDao.insertSafe(entity: RollVisibleEntity): Long? {
 }
 
 suspend fun RollVisibleDao.getListSafe(noteIdList: List<Long>): List<RollVisibleEntity> {
-    val list = mutableListOf<RollVisibleEntity>()
-    safeOverflow(noteIdList) { list.addAll(getList(it)) }
-    return list
+    return getSafeOverflowList(noteIdList) { getList(it) }
 }
