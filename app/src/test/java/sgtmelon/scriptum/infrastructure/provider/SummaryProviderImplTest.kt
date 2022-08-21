@@ -166,13 +166,12 @@ class SummaryProviderImplTest : ParentTest() {
             .mapIndexed { i, b ->
                 if (!b) return@mapIndexed null
 
-                return@mapIndexed if (i == valueArray.indices.first) {
-                    summaryArray[i]
-                } else {
-                    val summary = summaryArray[i].lowercase(Locale.getDefault())
-                    SummaryProviderImpl.SIGNAL_DIVIDER.plus(summary)
-                }
-            }.filterNotNull().joinToString(separator = "")
+                val summary = summaryArray[i].lowercase(Locale.getDefault())
+                return@mapIndexed SummaryProviderImpl.SIGNAL_DIVIDER.plus(summary)
+            }
+            .filterNotNull()
+            .joinToString(separator = "")
+            .replaceFirst(SummaryProviderImpl.SIGNAL_DIVIDER, "")
 
         assertEquals(provider.getSignal(valueArray), result)
 
