@@ -11,7 +11,6 @@ import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
 import sgtmelon.scriptum.cleanup.data.room.extension.inRoomTest
 import sgtmelon.scriptum.cleanup.data.room.extension.safeDelete
-import sgtmelon.scriptum.cleanup.data.room.extension.safeDeleteByList
 import sgtmelon.scriptum.cleanup.data.room.extension.safeGet
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.infrastructure.database.annotation.DaoConst
@@ -71,7 +70,7 @@ class RollDaoTest : ParentRoomTest() {
                 assertEquals(DaoConst.UNIQUE_ERROR_ID, rollDao.insert(it))
             }
 
-            assertEquals(rollList, rollDao.get(entity.id))
+            assertEquals(rollList, rollDao.getList(entity.id))
         }
     }
 
@@ -81,9 +80,9 @@ class RollDaoTest : ParentRoomTest() {
         with(secondModel) {
             rollList[0].copy(position = 4, isCheck = true, text = "00000").let {
                 rollDao.update(it.id!!, it.position, it.text)
-                rollDao.update(it.id!!, it.isCheck)
+                rollDao.updateCheck(it.id!!, it.isCheck)
 
-                assertTrue(rollDao.get(entity.id).contains(it))
+                assertTrue(rollDao.getList(entity.id).contains(it))
             }
         }
     }
@@ -95,7 +94,7 @@ class RollDaoTest : ParentRoomTest() {
             rollDao.updateAllCheck(entity.id, check = true)
 
             val newList = copy().rollList.apply { for (it in this) it.isCheck = true }
-            assertEquals(newList, rollDao.get(entity.id))
+            assertEquals(newList, rollDao.getList(entity.id))
         }
     }
 
@@ -106,7 +105,7 @@ class RollDaoTest : ParentRoomTest() {
         val id = firstModel.entity.id
 
         rollDao.delete(id, saveList.map { it.id!! })
-        assertEquals(saveList, rollDao.get(id))
+        assertEquals(saveList, rollDao.getList(id))
     }
 
     @Test fun deleteByList() = inRoomTest {
@@ -119,8 +118,8 @@ class RollDaoTest : ParentRoomTest() {
         val deleteList = ArrayList(rollList.filter { it.isCheck == filterValue })
         val saveList = ArrayList(rollList).apply { removeAll(deleteList) }
 
-        rollDao.deleteByList(id, deleteList.map { it.id!! })
-        assertEquals(saveList, rollDao.get(id))
+        rollDao.delete(id, deleteList.map { it.id!! })
+        assertEquals(saveList, rollDao.getList(id))
     }
 
     @Test fun deleteAll() = inRoomTest {
@@ -128,7 +127,7 @@ class RollDaoTest : ParentRoomTest() {
 
         val id = firstModel.entity.id
         rollDao.delete(id)
-        assertTrue(rollDao.get(id).isEmpty())
+        assertTrue(rollDao.getList(id).isEmpty())
     }
 
     @Test fun deleteCrowd() = inRoomTest {
@@ -142,7 +141,7 @@ class RollDaoTest : ParentRoomTest() {
 
         rollDao.safeDelete(noteId, saveList.map { it.id!! })
 
-        assertEquals(saveList, rollDao.get(noteId))
+        assertEquals(saveList, rollDao.getList(noteId))
     }
 
     @Test fun deleteByListCrowd() = inRoomTest {
@@ -156,9 +155,9 @@ class RollDaoTest : ParentRoomTest() {
         val deleteList = ArrayList(rollList.filter { it.isCheck == filterValue })
         val saveList = ArrayList(rollList).apply { removeAll(deleteList.toSet()) }
 
-        rollDao.safeDeleteByList(noteId, deleteList.map { it.id!! })
+        rollDao.safeDelete(deleteList.map { it.id!! })
 
-        assertEquals(saveList, rollDao.get(noteId))
+        assertEquals(saveList, rollDao.getList(noteId))
     }
 
     // Dao get functions
@@ -171,18 +170,18 @@ class RollDaoTest : ParentRoomTest() {
         expectedList.addAll(firstModel.rollList)
         expectedList.addAll(secondModel.rollList)
 
-        assertEquals(expectedList, rollDao.get())
+        assertEquals(expectedList, rollDao.getList())
     }
 
     @Test fun getById() = inRoomTest {
         firstModel.let {
             insertRollRelation(it)
-            assertEquals(it.rollList, rollDao.get(it.entity.id))
+            assertEquals(it.rollList, rollDao.getList(it.entity.id))
         }
 
         secondModel.let {
             insertRollRelation(it)
-            assertEquals(it.rollList, rollDao.get(it.entity.id))
+            assertEquals(it.rollList, rollDao.getList(it.entity.id))
         }
     }
 
@@ -191,7 +190,7 @@ class RollDaoTest : ParentRoomTest() {
         insertRollRelation(secondModel)
 
         val noteIdList = listOf(firstModel.entity.id, secondModel.entity.id)
-        val resultList = rollDao.get(noteIdList)
+        val resultList = rollDao.getList(noteIdList)
 
         val insertList = mutableListOf<RollEntity>()
         insertList.addAll(firstModel.rollList)
@@ -242,7 +241,7 @@ class RollDaoTest : ParentRoomTest() {
             insertRollRelation(it)
             assertEquals(
                 it.rollList.filter { roll -> roll.position < 4 },
-                rollDao.getView(it.entity.id)
+                rollDao.getPreviewList(it.entity.id)
             )
         }
 
@@ -250,7 +249,7 @@ class RollDaoTest : ParentRoomTest() {
             insertRollRelation(it)
             assertEquals(
                 it.rollList.filter { roll -> roll.position < 4 },
-                rollDao.getView(it.entity.id)
+                rollDao.getPreviewList(it.entity.id)
             )
         }
     }
@@ -260,7 +259,7 @@ class RollDaoTest : ParentRoomTest() {
             insertRollRelation(it)
             assertEquals(
                 it.rollList.filter { roll -> !roll.isCheck }.take(n = 4),
-                rollDao.getViewHide(it.entity.id)
+                rollDao.getPreviewHideList(it.entity.id)
             )
         }
 
@@ -268,7 +267,7 @@ class RollDaoTest : ParentRoomTest() {
             insertRollRelation(it)
             assertEquals(
                 it.rollList.filter { roll -> !roll.isCheck }.take(n = 4),
-                rollDao.getViewHide(it.entity.id)
+                rollDao.getPreviewHideList(it.entity.id)
             )
         }
     }

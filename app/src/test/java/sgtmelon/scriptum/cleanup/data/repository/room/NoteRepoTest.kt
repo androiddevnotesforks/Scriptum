@@ -266,12 +266,12 @@ class NoteRepoTest : ParentRoomRepoTest() {
         val secondList = mockk<MutableList<RollEntity>>()
         val thirdList = mockk<MutableList<RollEntity>>()
 
-        coEvery { rollDao.get(id) } returns firstList
+        coEvery { rollDao.getList(id) } returns firstList
         assertEquals(firstList, noteRepo.getPreview(
             id, isVisible = Random.nextBoolean(), isOptimal = false, db = roomDb
         ))
 
-        coEvery { rollDao.getView(id) } returns secondList
+        coEvery { rollDao.getPreviewList(id) } returns secondList
         assertEquals(secondList, noteRepo.getPreview(
             id, isVisible = null, isOptimal = true, db = roomDb
         ))
@@ -280,28 +280,28 @@ class NoteRepoTest : ParentRoomRepoTest() {
             id, isVisible = true, isOptimal = true, db = roomDb
         ))
 
-        coEvery { rollDao.getViewHide(id) } returns thirdList
+        coEvery { rollDao.getPreviewHideList(id) } returns thirdList
         every { thirdList.isEmpty() } returns false
         assertEquals(thirdList, noteRepo.getPreview(
             id, isVisible = false, isOptimal = true, db = roomDb
         ))
 
-        coEvery { rollDao.getViewHide(id) } returns thirdList
+        coEvery { rollDao.getPreviewHideList(id) } returns thirdList
         every { thirdList.isEmpty() } returns true
         assertEquals(secondList, noteRepo.getPreview(
             id, isVisible = false, isOptimal = true, db = roomDb
         ))
 
         coVerifySequence {
-            rollDao.get(id)
-            rollDao.getView(id)
-            rollDao.getView(id)
-            rollDao.getViewHide(id)
+            rollDao.getList(id)
+            rollDao.getPreviewList(id)
+            rollDao.getPreviewList(id)
+            rollDao.getPreviewHideList(id)
             thirdList.isEmpty()
             thirdList == thirdList
-            rollDao.getViewHide(id)
+            rollDao.getPreviewHideList(id)
             thirdList.isEmpty()
-            rollDao.getView(id)
+            rollDao.getPreviewList(id)
         }
     }
 
@@ -310,14 +310,14 @@ class NoteRepoTest : ParentRoomRepoTest() {
         val entityList = mockk<MutableList<RollEntity>>()
         val itemList = mockk<MutableList<RollItem>>()
 
-        coEvery { rollDao.get(noteId) } returns entityList
+        coEvery { rollDao.getList(noteId) } returns entityList
         every { rollConverter.toItem(entityList) } returns itemList
 
         assertEquals(itemList, noteRepo.getRollList(noteId))
 
         coVerifySequence {
             roomProvider.openRoom()
-            rollDao.get(noteId)
+            rollDao.getList(noteId)
             rollConverter.toItem(entityList)
         }
     }
@@ -541,7 +541,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
         assertEquals(finishItem, noteRepo.convertNote(startItem, useCache = true))
 
         every { startItem.id } returns id
-        coEvery { rollDao.get(id) } returns entityList
+        coEvery { rollDao.getList(id) } returns entityList
         every { rollConverter.toItem(entityList) } returns itemList
         every { startItem.onConvert(itemList) } returns finishItem
         assertEquals(finishItem, noteRepo.convertNote(startItem, useCache = false))
@@ -557,7 +557,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
 
             roomProvider.openRoom()
             startItem.id
-            rollDao.get(id)
+            rollDao.getList(id)
             rollConverter.toItem(entityList)
             startItem.onConvert(itemList)
             noteConverter.toEntity(finishItem)
@@ -805,7 +805,7 @@ class NoteRepoTest : ParentRoomRepoTest() {
             list[p]
             rollItem.id
             rollItem.isCheck
-            rollDao.update(rollId, isCheck)
+            rollDao.updateCheck(rollId, isCheck)
             noteConverter.toEntity(item)
             noteDao.update(entity)
         }
@@ -907,13 +907,13 @@ class NoteRepoTest : ParentRoomRepoTest() {
         val rollList = mockk<List<RollEntity>>()
         val noteIdList = mockk<List<Long>>()
 
-        coEvery { rollDao.get(noteIdList) } returns rollList
+        coEvery { rollDao.getList(noteIdList) } returns rollList
 
         assertEquals(rollList, noteRepo.getRollBackup(noteIdList))
 
         coVerifySequence {
             roomProvider.openRoom()
-            rollDao.get(noteIdList)
+            rollDao.getList(noteIdList)
         }
     }
 

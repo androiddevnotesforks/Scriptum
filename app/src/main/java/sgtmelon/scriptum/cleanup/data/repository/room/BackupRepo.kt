@@ -104,7 +104,7 @@ class BackupRepo(override val roomProvider: RoomProvider) : IBackupRepo,
         roomDb: RoomDb
     ): Boolean {
         for (existItem in existNoteList.filter { it.name == item.name }) {
-            val existRollList = roomDb.rollDao.get(existItem.id)
+            val existRollList = roomDb.rollDao.getList(existItem.id)
 
             if (rollList.size != existRollList.size) continue
 

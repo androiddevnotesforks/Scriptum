@@ -145,12 +145,14 @@ class NoteRepo(
              *  3. is hide and all done -> get simple view
              */
             if (isVisible != false) {
-                rollDao.getView(id)
+                rollDao.getPreviewList(id)
             } else {
-                rollDao.getViewHide(id).takeIf { it.isNotEmpty() } ?: rollDao.getView(id)
+                rollDao.getPreviewHideList(id).takeIf { it.isNotEmpty() } ?: rollDao.getPreviewList(
+                    id
+                )
             }
         } else {
-            rollDao.get(id)
+            rollDao.getList(id)
         }
     }
 
@@ -158,7 +160,7 @@ class NoteRepo(
      * Return empty list if don't have [RollEntity] for this [noteId]
      */
     override suspend fun getRollList(noteId: Long): MutableList<RollItem> = fromRoom {
-        rollConverter.toItem(rollDao.get(noteId))
+        rollConverter.toItem(rollDao.getList(noteId))
     }
 
     // Repo other functions
@@ -234,7 +236,7 @@ class NoteRepo(
         val newItem = if (useCache) {
             item.onConvert()
         } else {
-            item.onConvert(rollConverter.toItem(rollDao.get(item.id)))
+            item.onConvert(rollConverter.toItem(rollDao.getList(item.id)))
         }
 
         noteDao.update(noteConverter.toEntity(newItem))
@@ -279,7 +281,7 @@ class NoteRepo(
             /**
              * List of roll id's, which wasn't swiped.
              */
-            val idSaveList = ArrayList<Long>()
+            val excludeIdList = ArrayList<Long>()
 
             for (rollItem in item.list) {
                 val id = rollItem.id
@@ -290,13 +292,13 @@ class NoteRepo(
                     rollDao.update(id, rollItem.position, rollItem.text)
                 }
 
-                rollItem.id?.let { idSaveList.add(it) }
+                rollItem.id?.let { excludeIdList.add(it) }
             }
 
             /**
              * Remove swiped rolls.
              */
-            rollDao.safeDelete(item.id, idSaveList)
+            rollDao.safeDelete(item.id, excludeIdList)
         }
     }
 
@@ -304,7 +306,7 @@ class NoteRepo(
         val rollItem = item.list.getOrNull(p) ?: return@inRoom
         val rollId = rollItem.id ?: return@inRoom
 
-        rollDao.update(rollId, rollItem.isCheck)
+        rollDao.updateCheck(rollId, rollItem.isCheck)
         noteDao.update(noteConverter.toEntity(item))
     }
 
@@ -335,7 +337,7 @@ class NoteRepo(
     }
 
     override suspend fun getRollBackup(noteIdList: List<Long>): List<RollEntity> {
-        return fromRoom { rollDao.get(noteIdList) }
+        return fromRoom { rollDao.getList(noteIdList) }
     }
 
     override suspend fun getRollVisibleBackup(noteIdList: List<Long>): List<RollVisibleEntity> {

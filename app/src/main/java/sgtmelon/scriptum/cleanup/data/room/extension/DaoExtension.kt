@@ -18,40 +18,40 @@ suspend fun RankDao.safeInsert(entity: RankEntity): Long? = insert(entity).check
 //region Overflow
 
 /**
- * [saveList] - list of roll id's which need save in db when delete others.
+ * [excludeIdList] - list of roll id's which need save in db when delete others.
  */
-suspend fun RollDao.safeDelete(noteId: Long, saveList: List<Long>) {
-    if (saveList.size <= DaoConst.OVERFLOW_COUNT) {
-        delete(noteId, saveList)
+suspend fun RollDao.safeDelete(noteId: Long, excludeIdList: List<Long>) {
+    if (excludeIdList.size <= DaoConst.OVERFLOW_COUNT) {
+        delete(noteId, excludeIdList)
     } else {
         /**
-         * Need replace [saveList] with list which contains only delete id's. Because if we will
-         * use [saveList] in circle it cause situation, when delete needed items.
+         * Need replace [excludeIdList] with list which contains only delete id's. Because if we will
+         * use [excludeIdList] in circle it cause situation, when delete needed items.
          */
-        val deleteList = get(noteId).mapNotNull { it.id }.toMutableList()
-        deleteList.removeAll(saveList)
+        val deleteIdList = getList(noteId).mapNotNull { it.id }.toMutableList()
+        deleteIdList.removeAll(excludeIdList)
 
-        safeDeleteByList(noteId, deleteList)
+        safeDelete(deleteIdList)
     }
 }
 
 /**
- * [deleteList] - list of roll id's which need delete from db.
+ * [idList] - list of roll id's which need delete from db.
  */
-suspend fun RollDao.safeDeleteByList(noteId: Long, deleteList: List<Long>) {
-    if (deleteList.size <= DaoConst.OVERFLOW_COUNT) {
-        deleteByList(noteId, deleteList)
+suspend fun RollDao.safeDelete(idList: List<Long>) {
+    if (idList.size <= DaoConst.OVERFLOW_COUNT) {
+        delete(idList)
     } else {
-        safeOverflow(deleteList) { deleteByList(noteId, it) }
+        safeOverflow(idList) { delete(it) }
     }
 }
 
 suspend fun RollDao.safeGet(noteIdList: List<Long>): List<RollEntity> {
     return if (noteIdList.size <= DaoConst.OVERFLOW_COUNT) {
-        get(noteIdList)
+        getList(noteIdList)
     } else {
         val resultList = mutableListOf<RollEntity>()
-        safeOverflow(noteIdList) { resultList.addAll(get(it)) }
+        safeOverflow(noteIdList) { resultList.addAll(getList(it)) }
         resultList
     }
 }

@@ -20,7 +20,7 @@ class DevelopRepo(
     }
 
     override suspend fun getPrintRollList(): List<PrintItem.Roll> {
-        return fromRoom { rollDao.get().map { PrintItem.Roll(it) } }
+        return fromRoom { rollDao.getList().map { PrintItem.Roll(it) } }
     }
 
     override suspend fun getPrintVisibleList(): List<PrintItem.Visible> {

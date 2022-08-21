@@ -44,13 +44,13 @@ class DevelopRepoTest : ParentRoomRepoTest() {
         val list = List(getRandomSize()) { mockk<RollEntity>() }
         val resultList = list.map { PrintItem.Roll(it) }
 
-        coEvery { rollDao.get() } returns list
+        coEvery { rollDao.getList() } returns list
 
         assertEquals(resultList, developRepo.getPrintRollList())
 
         coVerifySequence {
             roomProvider.openRoom()
-            rollDao.get()
+            rollDao.getList()
         }
     }
 
