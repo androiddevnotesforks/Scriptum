@@ -3,6 +3,7 @@ package sgtmelon.scriptum.parent.provider
 import kotlin.random.Random
 import sgtmelon.scriptum.cleanup.data.room.entity.AlarmEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.NoteEntity
+import sgtmelon.scriptum.cleanup.data.room.entity.RollEntity
 import sgtmelon.scriptum.cleanup.data.room.entity.RollVisibleEntity
 import sgtmelon.scriptum.cleanup.domain.model.key.NoteType
 import sgtmelon.scriptum.infrastructure.model.key.Color
@@ -36,5 +37,15 @@ object EntityProvider {
         value: Boolean = Random.nextBoolean()
     ): RollVisibleEntity {
         return RollVisibleEntity(id, noteId, value)
+    }
+
+    fun nextRollEntity(
+        id: Long,
+        noteId: Long,
+        position: Int,
+        isCheck: Boolean = Random.nextBoolean(),
+        text: String = nextString()
+    ): RollEntity {
+        return RollEntity(id, noteId, position, isCheck, text)
     }
 }
